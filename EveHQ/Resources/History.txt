@@ -1,0 +1,751 @@
+EveHQ - Version History
+-----------------------
+
+1.7.0.0 (??/??/????)
+-------
+New Features:
+- API Relay Server: Use EveHQ as a cache and secondary API server for other instances of EveHQ and other applications
+- New Updater: Can deliver new libraries and plug-ins without the need for further installers/zip files
+
+Features and Improvements (Core):
+- Fixed multiple redraws of the skill list in the training form when changing pilots
+- Fixed multiple redraws of the training summary in the training form when changing pilots
+- API cache now works correctly with the CharacterID.xml.aspx and CharacterName.xml.aspx APIs
+- API cache now works for Starbase, Wallet Journal and Wallet Transaction APIs
+- Location of the CCP API server can now be modified (for future use)
+- EveHQ can now be configured to use a third party API server (including an API Relay Server)
+- EveAPI Status Form now reports which server it is using to get the API
+- Mineral Prices section removed from Settings (obsolete due to Market Prices section)
+- Fixed issue with optimal queues adding skills at the end instead of in the right pre-req place, therefore increasing training times
+- Fixed issue with being able to select "Add to skill queue" context menu option when the active queue is blank
+- Fixed the location of the "AppDataFolder" when using the /local switch
+- Fixed an issue in the API Cache that prevented a proper XML being returned if there was no cached file
+- Skill list in the Pilot Form can now be sorted by the various columns
+- Percentage complete figure for the skill list in the Pilot Form is now updated when currently training
+- Skill queues can now omit the current training skill via a new option in the Training Queue settings
+
+Features and Improvements (Assets Plug-in):
+- Added rig builder functionality to display what you can build from the available salvage found in assets
+- Fixed issue with the plug-in crashing if it doesn't recognise an itemID
+- Blank XML now handled correctly if due to a server failure
+- Fixed error caused by having no assets for an owner
+- Clearing investments will now prompt the user instead of just clearing
+- Clearing investments will now also clear the transactions
+- Fixed plug-in crashing when trying to read XMLs of pilots not linked to an account
+- Fixed issue with date formats when creating a new investment
+- Editing a transaction is now properly reflected in the transactions of the investment (as well as the transaction history)
+- An investment can now be closed
+- Added a checkbox to enable the display of closed investments
+
+Features and Improvements (Creation):
+- Goal seek now contains a context menu so a manual character can be imported into the pilots
+- Character lists can now be exported to CSV format
+- Tooltips for queue skills added to the items in the Goal Seek section
+- Removed "Allow attribute variations" checkbox and replaced with combo box with multiple options
+- New option added for the Goal Seek method to allow attribute variations by looking at skill points in the queue
+
+Features and Improvements (Item Browser):
+- Added Wanted List to the Item Browser
+- Added Market and Custom Prices into the attributes of each item
+- Added Market and Custom Prices into the Variations/Comparisons section
+- Attributes now formatted if numeric (using separators)
+- Numerical values Variations/Comparisons section now formatted with separators
+- Column alignment in Variations/Comparisons changed to right-align for newly added columns
+
+Features and Improvements (Gunnery):
+- Fixed an error in the weapon attribute loop that missed off the last attribute, leading to null attributes
+
+
+1.6.7.0 (01/05/2008)
+-------
+Fixes and Improvements:
+- Fixed an issue with the Map plug-in crashing on generating jump routes
+- Fixed issue with training queues refreshing multiple times on certain occasions
+- Fixed issue with tooltray context menu appearing at the wrong location due to hiding certain menu items
+- All the subitems for the current skill in training in the skills list is now in bold text (as it used to be)
+- Additional column added to lvSkills for showing the percentage complete
+- Partially trained skills now shown in a separate colour (configured in General Settings)
+- Info panel colours can now be configured (via General Settings)
+- Pilot skill colours can now be configured (via General Settings)
+- Eve Folders now contain a "Friendly Name" used to identify the location
+- Eve Launch menu now specifies the friendly name if one is available
+- Goal Seek page in Creation plug-in now contains a "Cancel" button to cancel the current search
+- Context menus added to the Creation Goal Seek for directly adding and editing skill levels of skills
+- Error Message added to the Creation Goal Seek when trying to start a search with no skills selected
+- Added tooltip to the description attribute in the Item Browser
+- ME Levels in the Materials/Manufacturing tab in the Item Browser can now show -ve ME of up to -100
+- Market Prices now contain a search option (3 chars min to invoke)
+- Typo corrected in the name of the InEve plug-in
+- Additional functionality added for downloading additional Eve APIs
+
+
+1.6.6.0 (17/04/2008)
+-------
+Fixes and Improvements:
+- Added mapDenormalize to the standard EveHQ database
+- Added a ArrayComparer to the Report class for handling "Double" types
+- Updated the skill list in the Pilot Data form to show skill level graphics instead of text
+- Level 5 skills in the Pilot Data skill list now highlighted
+- Fixed issue with Creation plug-in crashing on closing and re-opening
+- Shopping List report now ordered in the same way as the skill queue to which it relates
+- Added sub-menu items for the "Add Skill To Queue" menu option to directly select a starting skill
+- Added main and sub-menu items for a "Change Level" context menu option for the skill queue listview
+- Added background colours to systems in the route table in frmMap to represent Ssecurity status
+- Slight alteration of system security colours in frmMap to match those in Eve
+- Faction price server changed to new URL (http://www.eve-prices.net)
+- Fixed "Last market price update" date not saving correctly to the settings file
+- Fixed market price stats not updating after updating market prices
+- Faction price lists are now correctly parsed and included in the market price data and stats
+- Added price matrix to the market prices settings to show the 3 separate prices
+- Added context menu for adding/editing/deleting custom prices
+
+
+1.6.5.0 (09/04/2008)
+-------
+Fixes and Improvements:
+- Fixed issue with accessing folders over a network via the UNC name
+- Created new "Market Prices" option in settings
+- Fixed error trying to expand a skill training group node that is no longer in the list
+- Training Queue names are now HTMLEncoded and HTMLDecoded to prevent whitespace errors with & characters in queue names
+- Fixed issue with isk value multiplying by 100 when forcing skill training in non-English cultures
+- Resolved issue with the closing transport connection on the reading of the TQ/Sisi server status data
+- Internal changes to plug-in handling that permit one plug-in to trigger the running of another
+
+
+1.6.4.0 (23/03/2008)
+-------
+Fixes and Improvements:
+- The skill details sections now contain the skill price based on Eve "market" price
+- Wording of header on Pilot Summary report in IGB now corrected
+- Added new "Shopping List" HTML and text reports, giving details of the skills to purchase for a particular skill queue
+- Added "Time To Level 5" report to the IGB Server
+- Added "Skills Not Trained" report to the IGB Server
+- Added "Shopping List" report to the IGB Server
+- Training Queue report in the IGB now shows an additional menu where a training queue or shopping list report can be selected for any queue
+- Fixed Settings Backup location to agree to settings folders post Trinity 1.1
+- Settings Backup will now write the correct source folder to the backup.txt file
+- Using the /LUA:Off option for Settings Backup will now save the correct settings folder
+- The Restore Settings procedure now correctly takes into account the /LUA:off option
+- New graphics added for Splash screen, About screen and IGB pages
+
+
+1.6.3.0 (12/03/2008)
+-------
+Fixes and Improvements:
+- Fixed an issue with import of EveMon plans
+
+
+1.6.2.0 (04/03/2008)
+-------
+Fixes and Improvements:
+- Fixed layout of controls in the Eve Folders groupbox in Settings
+- Added Jump Freighters (separately) into the list of ships for the Map plug-in
+- Added controls for modifying Jump Freighter skill in the Map plug-in
+- Now possible to exclude Systems, Constellations and Regions from the path taken by the Map routes
+- Fixed formatting of column data for JumpRadius and GateRadius in the Map plug-in
+- Controls in the Map View are now correctly anchored to the bottom of the tab
+
+
+1.6.1.0 (15/02/2008)
+-------
+Fixes and Improvements:
+- Tracking Speed accuracy in the Gunnery Plug-in extended to 4dp
+- Changed attributes for Optimal Range and Tracking Speed in the Gunnery Plug-in
+- Modified the calcualtions for Optimal Range and Tracking Speed in the Gunnery Plug-in to take account of the new attribute types
+- Fixed an error in a Gunnery loop calculation that would cause it to miss out the last attribute in the list
+- Fixed several issues in the Gunnery plug-in with crashes if selecting Mods before selecting a weapon
+- Added "published" attribute and "marketGroupID" attribute into the Item Browser
+- Added a filter in the Item Browser so non-published items can be omitted
+- Fixed an issue with the Eve Training Overlay crashing due to invalid pilot reference
+- Fixed an issue with the Eve Launcher giving an error in certain circumstances
+- Non-active pilots will now not appear in the training status panel on frmEveHQ
+- Fixed an exception caused by adding skills from Item Browser when the Training Form has been previously opened and closed
+- Fixed an error in the G15 LCD code if using a non-English language
+- Fixed a G15 LCD routine which could have locked EveHQ under certain conditions
+- Added an option in Settings to "Tidy" the Plugins (remove those which are unavailable)
+
+
+1.6.0.0 (25/01/2008)
+-------
+New Features:
+- G15 LCD Monitor - view characters on the Logitech G15 Keyboard LCD
+- Eve Full Screen Window - launch Eve from EveHQ in normal window or "full screen" window mode
+
+Fixes and Improvements:
+- Fixed parsing of isk values from Eve-Central used in the Minerals section of EveHQSettings (due to culture differences)
+- Eve Folder Locations in Settings now contain a "LUA:off" option
+
+
+1.5.0.0 (30/12/2007)
+-------
+Fixes and Improvements:
+- Training status labels in the Info panel now wrap text properly
+- Double-clicking the tray icon will now always bring EveHQ to the front, irrespective of whether the app is minimised or not
+- When using the search skill option, double-clicking a skill in the Training Form will now open the training details screen
+- When using the search skill option, clicking a skill in the Training Form will now display that skills details
+- Added additional categories to the skill dependencies section in various places
+- Consistent formatting applied to the attributes section of the Pilot Info form
+- "Add Group To Training Queue" menu option now works as planned
+- Fixed the mapping of the Eve-Central data in the Item Browser and added new fields
+- Gunnery Plug-in now correctly interprets the FalloffBonus for ammo
+- Various cosmetic changes made to the Gunnery Plug-in
+- Re-organised Report menu items into HTML, XML, Text and Charts
+- All character reports now available in standard text format
+- Selecting the Character XML report from the menu now reports on the correct pilot, not the active one
+- Selecting the Training XML report from the menu now reports on the correct pilot, not the active one
+- Created a new report for Skills Not Trained - indicating the time taken before a particular skill is trained
+- Added a new graphics class to the installer for creating charts and graphs
+- Created a new Skill Group Chart
+- Training Queue report in the IGB Server no longer crashes and now displays the Primary Queue in the report
+- Updated text in the IGB Server to correctly refer to "Pilot" on certain pages/reports
+- Fixed the character portrait size in the IGB Server reports
+- An option has been added to allow automatic update of character information on expiry of the cache
+- Columns for Constellation and Region now provided separately for the Map Tool
+- Added the facility to copy the contents of the Map Route table to the clipboard via the context menu (in tabbed column format)
+- EveHQ now checks for a command line parameter to determine if EveHQ will run entirely in a single directory
+
+
+1.4.3.0 (05/12/2007)
+-------
+Fixes and Improvements:
+- Fixed an issue in the Data Converter that would cause the MDB conversion to end prematurely
+- Fixed data access with accessing MS SQL files
+- Fixed an issue with EveHQ failing to recognise a valid database once it had failed during the initial load procedure
+- Groupboxes in Database settings now expanded to allow full viewing of all fields
+- Clicking the SQL Security button under MSSQL Database Settings will now hide the username and password boxes
+- Training Status will now correctly refresh on startup, even if no pilots are configured to be displayed on startup
+- Settings will no longer refresh all the training queues on exiting, unless changes have been made to the training queue options
+- EveHQ will no longer attempt to write cache file information if it doesn't have valid character XML for a pilot
+- Users will no longer be able to select the Pilot Data form or Skill Training form if a character has no valid character XML file
+- The Pilot Data form or Skill Training form will not display at startup if the startup pilot has no valid character XML file
+- Improved the formatting of the Training Status panel if an account is not training
+- Gunnery Plugin now takes into account tracking modifiers on ammo
+- Removed standard (non-varying) columns in the ammo list of the Gunnery Plug-in and placed them in their own groupbox
+
+
+1.4.2.0 (02/12/2007)
+-------
+Fixes and Improvements:
+- EveHQ should now close correctly if the user is shutting down Windows with EveHQ still active
+- EveHQ will now remember the location and position of the main screen after minimising then restoring
+- EveHQ will now remember the location and position of the main screen after closing then restarting
+- Added search functionality into the Training form
+
+
+1.4.1.0 (28/11/2007)
+-------
+Fixes and Improvements:
+- Fixed an issue with the Character Creation plugin that would not work if no pilots were entered
+- Fixed a bug with the skill suggestion routines that could miss certain learning skills if pre-reqs for the advanced skills were already met
+- Goal Seek in the Character Creation plug-in now put on a separate thread to stop hogging the app until the search is complete
+- Additional option in the Character Creation plug-in to check variations of attributes
+- Renamed columns in the Goal Seek Results in the Character Creation plug-in
+
+
+1.4.0.0 (23/11/2007)
+-------
+New Features:
+- Skill Suggestions: Allows EveHQ to optimise your training queue
+- InEve Plugin: Upload your characters to the excellent InEve skills showroom website
+- Gunnery Plugin: Provides details of various guns with ammo, including optimal range, falloff, ROF and damage
+- Character Creation Goal Seek: Enter your final skills and EveHQ will choose the best starting character
+
+Fixes and Improvements:
+
+Application and Core:
+- Added training rate to the Pilot Data, Skill Details and Skill Training forms (in SP/Hr)
+- Various number formatting added to the Pilot Data, Skill Details and Skill Training forms
+- Custom lists added to the Pilot Data, Skill Details and Skill Training forms to eliminate flickers when updating
+- Invalid databases detected on startup will now cause EveHQ to ask for a valid database before loading the main screen
+- Added the ability to multi-select skills in the training queue, and delete and split those multiple skill selections
+- Fixed various control docking positions in the Skill Details form
+- Queue naming now restricted to characters a-Z, A-Z and 0-9 preventing invalid characters from appearing in XML files
+- Fixed a bug with the tab style not changing to the correct setting on opening EveHQ
+- Fixed a bug in the IGB which was placing a restriction on the number of times the IGB can be accessed in one session
+- Fixed a bug in the IGBHeaders page in the IGB when accessing through a normal web browser
+- Added settings for external database names (still defaults to EveHQ but can be changed)
+- Database names and fields will now be resolved as lowercase (allows compatability with Unix/Linux systems running MySQL)
+- New EveHQ.mdb database fixing the descriptions of all items
+- Item data now loaded as part of the main EveHQ startup procedure
+- "Dependancies" tabs in the Skill Details and Skill Training forms now shows all items that require the selected skill, not just dependent skills
+- Dependancy list now colour-coded to indicate whether an item is usable/trainable or not
+- Item Browser can now be triggered by selecting an item under the Dependancies tab in the Skill Training and Skill Details forms
+- Changed the layout slightly of the Pilot Data form
+- EveHQ Patcher should now properly wait until EveHQ is closed before continuing to download updates
+
+Plug-ins:
+- Altered the ability for all plug-ins to receive data from the main application and/or other plug-ins
+- "Eve-Central" tab added to the Item Browser, allowing item price data to be retrieved
+- "Usable Time" text in the Item Browser now changed to a link which can be clicked to add the required skills to a skill queue
+- Renamed the "Duplicating" tab under Materials in the Item Browser to "Recycling"
+- Added a "Dependencies" tab to the Item Browser which is triggered when displaying a skill
+- Changed the default folder location of the Source and Destination Folders in the Data Converter to "Desktop"
+- Changed the Data Converter conversion routines to now leave in CrLf characters in descriptions
+- Changed the layout of the InEve plugin to better fit/scale on smaller screens
+- Fixed the inEve website link in the InEve plugin
+
+
+1.3.7.0 (06/11/2007)
+-------
+Fixes and Improvements:
+- Fixed a critical issue from 1.3.6.0 where new pilots could not be added via the API
+- Fixed a crash with EveHQ on exiting settings with no pilot selected
+
+
+1.3.6.0 (02/11/2007)
+-------
+Fixes and Improvements:
+- Removed the "Skills ready to train to Level x" filters (x4) and replaced with a single filter 
+- Removed the filters referencing skill queues
+- Added a checkbox to toggle whether the list of skills includes skills in the queue
+- "Total Queue Time" box added to the Queue Summary tab (updated with the current queue time)
+- Force skill training now uses the existing XML cache times when creating the new XML files
+- List of skills in Training form is now refreshed properly after updating the queue ("open node" state is also remembered now)
+- If 2 or more Queues selected on the Queue Summary, "Queue Time" shows the merged queue time to completion
+- You can now add a full skill group to a training queue at a desired level
+
+
+1.3.5.0 (30/10/2007)
+-------
+Fixes and Improvements:
+- Fixed crashes with "Force Skill Training" trying to access non-existent queues
+- ECM Export no longer gives an exception when the files already exist - will now force an overwrite
+- "Skills Queued" filter in the training form now picks up skills from all queues
+- Added a "Skills not trained and not queued" filter to the skill list in the training form
+- Added a "Partially Trained" filter to the skill list in the training form
+- "Skills ready to train" filter has been renamed to "New skills ready to train"
+- Added "Skills ready to train to Level x" filters for skill levels 2 to 5
+- Added a new custom colour to the Training Queue highlights for partially trained skills
+- Certain formatted dates/times will no longer leave trailing spaces
+- Fixed various flickering listboxes on the Pilot Info screen
+- Changed the "Skill End Points" info on the pilot info screen to show "XML Expiration" information
+- XML Data can now only be retrieved once the cache expiry time has passed
+
+
+1.3.4.0 (28/10/2007)
+-------
+Fixes and Improvements:
+- Fixed "Training Times" report not working
+- "Add to Training Queue" context menu now disabled if a skill queue is not selected from the tabs
+- There is now an option to have a sound notification for skill completions
+- Notifications can now be raised on completion of a skill and/or a period of up to 15 minutes beforehand.
+- Added an option in settings to automatically delete completed skills from Skill Queues
+- Copying a Skill Queue to another pilot now correctly copies the Primary Queue status
+- Added a report to display the old style training xml
+- Added an option to export old style character and training files to a specific folder (called ECM Export)
+- Altered the calculation and precision of some attributes in the Attributes and Comparatives section of the Item Browser
+
+
+1.3.3.0 (25/10/2007)
+-------
+Fixes and Improvements:
+- Fixed error generated when accessing an item in the Item Browser that was a component of a T2 item (MS Access only)
+- Solved issue with menus duplicating pilot names when entering and exiting settings
+- Fixed training queue report menu item that disabled when changing the index of the Queues tab in the Training screen
+
+
+1.3.2.0 (22/10/2007)
+-------
+Fixes and Improvements:
+- Fixed an issue with the Isk value generating errors in certain cases
+- Fixed an error with copying a Queue - would "link" the copied Queue until EveHQ was restarted
+- Added an option to copy a Queue to another pilot
+- Fixed an error in the Item Browser that was being caused when a null raceID was being encountered
+- "Time to Level 5" report now shows the correct time and grouping for the current training skill
+- "Reports" menu altered to now include all pilots and queues on the menu - saves having to switch pilots/queues to get a report
+
+
+1.3.1.0 (19/10/2007)
+-------
+Fixes and Improvements:
+- Fixed issues with the "Continue Skill Training" options and multiple skill queues
+- Added an option to select the "Primary" skill queue - the queue which will contain the next skill if continuing skill training
+- "Primary" skill queue shown in bold in the Queue Summary
+- Fixed EveMon import routine where there was more than one API account
+- Various Queue dialog forms now contain default accept and cancel buttons (i.e. can press "Enter" or "Esc" for function)
+
+
+1.3.0.0 (18/10/2007)
+-------
+New Feature - Multiple Skill Queues:
+- Maintain multiple skill queues for all pilots
+- Add, Edit, Delete, Copy and Merge skill queues
+- Queue summary screen for each pilot
+- Import EveMon skill plans to EveHQ
+- Adding skills to a queue in the Item Browser now asks for a new or an existing queue to add them to
+
+Fixes and Improvements:
+
+Application and Core:
+- Removed flicker from list boxes that are updated periodically
+- Pilot Bloodline now shown alongside Race
+- Skill filter in the Training Form now includes filters for both primary and secondary attributes of skills
+- MDI Tab style can be changed via options in Settings > General
+- Right-clicking an MDI Tab now brings up a menu item to close that particular screen
+- Fixed a bug in parsing the skills in the XML files for certain "unpublished" skills (i.e. Salvage Drone Operation)
+- Fixed an issue with the Proxy not saving the server details
+- Colours used in the skill queue to highlight certain skills can now be configured in Settings > Skill Queue
+- Skill text can now be configured to show in another colour if it clashes with Eve downtime
+- "Proxy not connected" errors from TQ and Sisi now reported in server status
+- New "Minimise on exit" option preventing accidental shutdown of EveHQ (exit via icon in tool tray)
+- Fixed errors with colours defaulting to black after cancelling the colour dialog box
+
+Plugins:
+- Limited the number of selectable starting skills in the Creation Tool to 10
+- Altered the method used to create new characterIDs in the Creation Tool (should now be in the Int32 range)
+- Skill buttons in the skill section of the IB are now disabled if skills aren't applicable or are already trained
+
+
+1.2.1.0 (04/10/2007)
+-------
+Fixes and Improvements:
+- Plugin version added to the details in the Plugins settings
+- Skill filter in Training Form now has Ranks 1-16 as filters
+- Added an option to make the Training Overlay "invisible" to mouse clicks
+
+
+1.2.0.0 (01/10/2007)
+-------
+New Features:
+- Map Plugin: Help route planning for gate or jump drive travel
+- Character Creation Plugin: Return of the tool to help choose starting attributes/skills
+- New Training Overlay form for showing training info on top of other forms/applications
+
+Fixes and Improvements:
+
+Application and Core:
+- Plugin status now added to the plugins settings screen
+- EveHQ no longer whines when trying to start a second instance, the first is brought to the front
+- "Training Times" report now has completed skills at the end of the report, not the start
+- Included a new "Time to Level 5" report.
+- "Reports" and "Backups" folders now moved to "My Documents" for easier access
+- Rewritten the form display code in frmEveHQ to use "MDI tabs" for child forms
+- Reports are now created in instances of the Report Viewer so mulitple reports can be open at the same time
+- Various forms now correctly contain the title
+- Fixed an issue with the application folders/files being at the root of a drive
+- New options in skill training queue menu for separating skills with mulitple levels
+- Added a filter in the Skill Training tool for displaying different types of skill
+- Added option in the skill queue to delete all skills in the queue that have already been trained
+- Added various components into the Skill Training tool to view skill information (as opposed to a separate screen)
+- Fixed an overflow error that could occur if the "from" and "to" levels in the skill queue were the same
+- EveAPI Status Form now shows the reason for the error if clicking on the error
+- Server status now disabled by default - work-safe option
+- Server status display now handles number of players > 32768
+- Plug-In architecture changed slightly, now passes a HTTPListenerContext to the IGBServer routines rather than a string address
+- Made 3 functions in Core.IGB public and shared for use in plug-ins: GetImage, IGBHTMLHeader, IGBHTMLFooter
+- Core.IGB handling of headers and footers is removed - now the responsibility of the plug-ins
+- Fixed an issue with the IGB that wouldn't process headers if there is no default folder/page selected (must be an Eve-MiniBrowser change) - no does a redirect to "home"
+- IGB Server is now closed correctly when switched off
+- Added some toolbar icons for retrieving data/accessing various screens
+- The Panel on frmEveHQ can now be toggled with a toolbar button
+- Database upgraded to Revelations 2.2 and now includes several additional tables for the map plug-in
+
+Plugins:
+- Fixed an error in the Data Converter which had the filename of the TL2 file incorrect
+- Removed mapDenormalize from the "Basic" and "Standard" conversion lists
+- Added navigation buttons to the Item Browser for navigating back and forth between viewed items
+- Item Browser now contains an "Attribute Search" option on the left of the form
+- Changed docking position on the materials tabs in the Item Browser so they didn't obstruct the ME Level control in certain cases
+- Item Browser now contains a Comparison Tool for all items that have Metatype Variations
+
+
+1.1.0.0 (13/07/2007)
+-------
+Fixes and Improvements:
+- Item ID displayed in the Item Browser now also shows Category ID and Group ID
+- "Component Of" tab in the Item Browser now shows the correct quantities for different levels of ME and for the pilot
+- Double-clicking an item in the "Component Of" tab in the Item Browser now browses to that item
+- Capital Construction Components and Station Components now added to the list of items affected by ME Level in the Item Browser
+- A Proxy Server can now be used for accessing API data (new options in Settings)
+- Updated the Data Converter to use the new Revelations 2 CCP Data Export
+- EveHQ.mdb in installer updated for Revelations 2
+- Version History now in reverse chronological order :)
+
+
+1.0.3.0 (07/07/2007)
+-------
+Fixes and Improvements:
+- Fixed an issue with the server status display when TQ was online but not accepting connections
+- Added the new style XML as a report (in addition to the old for any compatability issues)
+- "Force skill training" and "Continue skill training" now correctly uses the updated new style XML report
+- Training Queue no longer causes an error if there is no data loaded for a character
+
+
+1.0.2.0 (03/07/2007)
+-------
+Fixes and Improvements:
+- Fixed an issue with EveHQ reporting no training in progress for any pilots
+- Skill training details in the InfoPanel now shows the skill level of the skill being trained
+- Corrected a few spelling errors
+
+
+1.0.1.0 (27/06/2007)
+-------
+Fixes and Improvements:
+- Fixed several errors relating to the Salvage Drone Operation skill not being published correctly
+- The skilltree in the Training Form now loads skills under their appropriate groups
+- It is now possible to delete an Account in Settings
+- Manual pilot import now works with new character sheet formats only
+
+
+1.0.0.0 (26/06/2007)
+-------
+New Features:
+- Character XML is now downloaded via the EveAPI - Eve-Online username and password are no longer required
+
+Fixes and Improvements:
+- Improved Plug-In system for exteral plug-in development
+- Plug-in status in Settings now shows as Enabled, Disabled or Unavailable
+- Fixed an issue when using plug-ins for the first time (were stated as unavailable)
+- All plug-ins will now load concurrently, avoiding the need to wait for long loading modules to finish
+- Slight change to the wording of the shutdown notification when an account is not training
+- Added a new collapsable panel to hold the list of available pilots
+- Text in the training status panel has been made clearer when an account has no training character
+- Added EveHQ icon to all forms in the application and plugins
+- Changed the default folder for storing EveHQ files into the ApplicationData directory
+- EveHQPatcher will now update all available plug-ins as well as the main code
+- Fixed the server status patch level display
+- Downloading character skill data now remembers correctly the last pilot used
+- If there skills in the character XML missing from the database, EveHQ silently downloads an updated skill list from the Eve-Online server
+- Skills not in the updated skill lsit  are now added correctly to the pilot's list of skills
+
+
+0.9.0.0 (23/05/2007)
+-------
+New Features:
+- Changed EveHQ to a plug-in system, moving the Data Converter and Item Browser to plug-in mode
+- Left hand panel finally has a function!! Now shows Plug-in status and character training times in collapsable boxes
+- Characters can be removed from the active view by using the Pilots section in Settings
+- The Server Status can now be disabled
+- Skill completion notifications now implemented via tooltips, dialog boxes and email
+- Force skill training!! Allows EveHQ to pretend to train a particular skill while waiting for new updates from CCP
+- A Continuous Skill Training option allows EveHQ to move onto the next skill in the training queue without user intervention
+- Access database upgraded to Kali 1.4
+
+Fixes and Improvements:
+- Context menu added to the pilot image for loading images from the Eve local cache or the Eve Server
+- The pilot image retrieved from the server is now a higher resolution
+- Fixed a bug in the skill requirements of the Item Browser
+- Fixed an error adding skills to the training queue from the Item Browser when the skills were already queued to Level 5
+- Fixed a crash in the Item Browser caused by incorrect parsing of the ' character
+- Added a "Component Of" tab in the Item Browser showing what products contain the selected item
+- The EveHQSettings.xml file can now be encrypted using an option under General Settings
+- "Skill Levels" report now shows the time taken to clear a particular group within the report
+- "Training Times" report now shows the time taken to clear a particular group within the report
+- Mineral Costs can now be imported direct from eve-central.com
+- Fixed an issue in the Data Converter which caused incorrect tables to be created when using the "Items & Map" option
+- Fetching the character data from Eve-Online now checks for disabled charactersheets
+- Added a "Server Offset" option to correct the time difference between the Eve Servers and the client PC
+- On closing, EveHQ can notify the user of upcoming skill completions (within a variable time period)
+- Added a new report "Current Pilot XML" which creates a new character XML file based on the current position
+- Titles have been added to all reports (on the Report Form title bar)
+- Settings form now uses a treeview to select settings categories as opposed to tabs
+
+
+0.8.3.0 (21/01/2007)
+-------
+Fixes & Improvements:
+- Item variations (metaTypes) now available as an option for items viewed via the IGB Server
+- Item images for variations/materials/main image in the IGB Server are now displayed correctly when not using the Eve IGB to view them
+- Added new Report - "Skills Available To Train" - shows which skills are able to be trained but don't have the skill books for
+- Added "Skills Available" report to the IGB Server
+- Amended precision of values of attributes displayed in the Item Browser
+- Reading of the server status now occurs after EveHQ is started (this makes EveHQ usable more quickly)
+- Loading status displayed on the splash screen
+- Fixed a bug in the skill queue when adding skills that were already in the queue
+- Character portrait is loaded first from the local Eve folders but goes to the Eve-Online site if it isn't present
+
+
+0.8.2.0 (10/01/2007)
+-------
+Fixes & Improvements:
+- Fixed a crash in the Item Browser due to incorrect skill calculations
+- Item Browser "Browse" feature can now be properly navigated using the keyboard
+- Item Browser now scales up correctly when maximising the form
+- Material groups in the Item Browser are now sorted alphabetically by Category (then Group)
+- Double-clicking the "ID:" text in the bottom right of the Item Browser brings up a "Jump to ID" dialog box
+- Status bar in the Item Browser now contains the category/group location of the item in the database
+- Double-clicking the "Location:" text in the Item Browser status bar jumps to the location of the item in the "Browse" tree
+
+
+0.8.1.0 (08/01/2007)
+-------
+Fixes & Improvements:
+- Fixed error in the IGB Server causing an error from the search function when using MSSQL
+- Fixed error in the IGB Server causing an error when viewing attributes/materials in Access
+- Fixed error in the IGB Server which caused an incorrect link in the "Database Location" navigation bar
+- Added new "Browse" option into the Item Browser
+- Moved the Item Browser "Search" feature from the main item view and grouped with the "Browse" feature
+
+
+0.8.0.0 (02/01/2007)
+-------
+New Features:
+- Skillpoint table added to the Skill Details form
+- Skill level reports added to the main EveHQ Menu and to the IGB Server
+- Data Converter to convert the CCP Revelations Data Export to either CSV, MDB, MSSQL, MSSQL Express or MySQL
+- EveHQ can now use Access, MSSQL, MSSQL Express or MySQL as a data source
+- Item Browser to display item data including attributes, fitting, materials, variations and skill requirements
+- Pilots can now be created or updated via an XML file already saved
+- Standard Access database now contains Revelations data including Rigs & Invention
+
+Fixes & Improvements:
+- Day of the week added to the Training Complete in the Pilot Information screen
+- Number formatting done in various places
+- EveHQ should no longer crash if a pilot has skills that don't exist in the EveHQ database
+- No warning is generated if the training XML file is not present in the EveHQ cache directory
+- Image removed from the left-hand panel bar - was tiling on certain resolutions
+- Added some keyboard shortcuts for menu items
+- IGB Server now shows Invention materials for relevant items
+- Skill requirements tree in the Skill Details screen now contains tooltips and colour coding depending on the current training and queue status of each particular skill
+- Fixed error in displaying the Skill Details screen if no pilots are available/selected
+- Fixed an error that would cause no skills to show in the Skill Details screen if the database had no primary skill but had a secondary or tertiary skill
+- Fixed a bug in the skill queue that could cause a crash on first displaying the queue
+- Right clicking a blank part of the skill queue no longer brings up the context menu
+- Skillpoints earned for each skill in the queue are now correct (could be incorrectly calculated if queued to multiple levels
+- Skill treeview in the Training screen is now sorted properly in all cases
+
+
+0.7.1.0 (04/09/2006)
+-------
+Fixes:
+- Added splash screen and new About screen
+- Added a tooltip bubble to indicate when network connectivity has been lost (just in case there weren't enough pop-up boxes telling you :P)
+- Fixed a bug in the backup settings routine that caused the browser settings not to be backed up (and caused EveHQ to crash)
+- Fixed a couple of controls in the backup form that didn't pick up correct values from the Settings file
+- New columns added to the skill queue which can be customised (partially at present) from the Settings screen. Columns include: Skill rank, Primary and secondary attributes, Rate of skillpoint earning (various rates), Skillpoints earned while training a skill, Expected skillpoints on completion of a skill
+- Altered the way EveHQ logs in to the myeve.eve-online server for obtaining character information - much more reliable
+- Fixed a bug in the skill queue where completed skills didn't always show 100%
+- The list of pilots in the Settings screen is now refreshed immediately after retrieving account information
+- A messagebox now pops up if the user attempts to start another instance of EveHQ.
+
+
+0.7.0.0 (26/08/2006)
+-------
+New Features
+- Added a character creation tool which can be used to show results of choosing particular races/schools etc. Also shows all available combinations of starting characters
+- Added the facility to include implants as part of each characters info (added due to a bug in the XML files from CCP!). Extra options are given on the Pilot Info form
+
+Fixes: Skill Queue
+- Fixed a bug in the skill queue that allowed a pre-requisite skill to be further in the queue than its dependant skill
+- "Show Skill Details" button now disabled if a skill in the queue is not selected
+- Fixed a bug in the skill queue which allowed training to lvl6 when using the right-click context menu
+- Percentage trained in the skill queue is now reported correctly for skills that have multiple instances
+- Training queue now shows correct end times (was not adjusted for timezone differences)
+- Training end time now specifies the day of the week
+- Fixed issue with the skill queue where %age of skill completion exceeded 100% if a skill in the queue was trained higher than the target
+- Fixed a bug in the skill queue that caused a crash when decreasing a skill training level
+- Fixed a bug in the skill queue where if the current skill training is a learning skill, the remainder of the skill queue was showing incorrect values
+- Skill queue now disregards already completed skills when calculating attribute modifying skills
+- Fixed bug in skill queue that double counted the time of the current training skill if training multiple levels of that skill
+
+Fixes: Pilot Info
+- Removed a couple of non-important lines of detail from the character information
+- The list of skills in the Pilot Info can now be shown in groups as well as a simple list(grouped as default)
+
+Fixes: Backup
+- Eve Settings backup now backs up and restores the browser directory in the cache folder
+- Corrected error message if an error occurs in the restoration process
+- Settings backup result in status bar now indicates if there are no folders to backup
+
+Fixes: IGB Server
+- Re-introduced the original IGB server - now requires XP SP2 or Windows 2003 for the IGB Server to work. This is needed as a platform for future development
+- Fixed the IGB database search routine (was giving incorrect results for multiple word searches)
+- IGB database search results are now displayed in alphabetical order
+- Corrected the units on certain blueprint attributes when displayed in the IGB
+- Modified text on IGB Headers screen to give better explanation of what they are
+- Character report selection screen now correctly defaults to current pilot if viewed through IGB
+- Redesigned the IBG HTML Header code to include the EveHQ logo as used on the web, and general reorganisation
+- The IGBHeaders page in the IGB now refreshes on an Eve session change
+- Fixed the non-Eve-browser version of the IGB code to display missing text
+- Mulitple forms on an IGB web page now work correctly 
+- Redesigned the IGB code so the IGB Server pages show correctly on a PDA
+- Altered email address on IGB Home page depending on whether viewing through the Eve IGB or otherwise
+
+Fixes: General
+- Various amendments to notifications to be more informative
+- EveHQPatcher updated to download from evehq.net
+- EveHQPatcher now deletes the downloaded update after updating
+- Added new system tray icons to indicate status of TQ
+- Added responses from the TQ server to include "Full cluster" and "Shutting down"
+- Changed location of Sisi to 87.237.38.50
+
+
+0.6.15.0 (05/04/2006)
+--------
+- Changed code that checks for updates to not check cached info and to get a new response
+- Now possible to delete a pre-requisite skill that has been trained
+- Dropping skills into the training queue from the list now puts the skill in the desired location
+- Retrieving account information now resets pilots to manual if they do not appear in the account
+- Skills in the skill list on the training form now contain indicator images for the current skill level
+- Skills in the training queue that span multiple levels are now updated if one of the levels is already trained
+- Massive re-write of the IGB Server code - uses a TCPListener instead of a HTTPListener so should work on all .Net compatable operating systems
+- "Base Price" attribute added to the item attributes in the item database
+- Added a "Version History" item to the Help menu
+
+
+0.6.14.0 (22/03/2006)
+--------
+- Fixed crash when trying to add an account in Settings
+
+
+0.6.13.0 (20/03/2006)
+--------
+- Messages that there are no updates will not display at start-up
+- Fixed a problem where the patch file was being cached, resulting in the update information being incorrect
+- Added a custom Listview class for the skill queue that allows more accurate moving of skills around the queue
+- Fixed error with loading the user settings
+- Skill groups now display correctly in the Skill Training form and the Skill Details form. This also fixes a couple of exception errors.
+- No longer possible to add a skill to the queue that is already trained to level 5
+- Fixed wrong location of EveServer.log (location hadn't been set by the time the first server check was made!)
+- Controls in the Backup/Restore form are now anchored to the edges of the form. Minimum size imposed to stop the controls overlapping
+- Escape Key now closes the Settings form, as does the Enter Key
+- Wording changed on the "Accept" button for adding and editing accounts
+- Double-clicking an account name in settings opens up the Edit Account dialog
+- Tab order of "General" and "Mineral Cost" settings now corrected
+- "Run IGB" menu option is disabled if the system is not compatible to run it
+- Settings now include options to specify a default starting pilot and a default starting screen
+- The various windows now load with their default settings, rather than being maximised
+- Option to get account information now added to the Accounts section of Settings
+- Toolbar now added to the skill training form that has all available options on
+- Moving skills up and down the queue now places them in the appropriate place after disregarding pre-requisites.
+- Skill details now update a pilot's skillpoints if they are training the skill being viewed
+
+
+0.6.11.0 (15/03/2006)
+--------
+- Updated build number for autopatch testing
+
+
+0.6.10.0 (15/03/2006)
+--------
+- Trace dialog boxes from manual XML import now removed
+- Character Summary report now displays on loading the Reports form, not just when EveHQ starts
+- Isk in pilot info screen now displays correctly irrespective of regional settings
+- "Tools > Options" menu changed to "Tools > Settings"
+- Unused checkboxes removed from the list of pilots in the Settings form
+- Slight wording change in confirmation dialog when deleting an account
+- "View > Reports" menu item deleted. Reports can be viewed via the "Report" menu
+- Numbers and dates in reports should now display properly in most languages and in their country-specific settings
+- Backup routine now indicates if there are no valid backup locations and diverts the user to the relevant page in Settings if required
+- Implemented a routine to check if there are any EveHQ updates on the website
+- Produced an EveHQ Update program, that will perform autoupdating of EveHQ
+- Added new setting - "Check for Updates When EveHQ Starts"
+
+
+0.6.9.0 (14/03/2006)
+-------
+- Fixed import that would not work in regional settings other than UK
+- Changed shortcut on desktop to read "EveHQ", not "Shortcut to EveHQ"
+- All forms now have proper titles, rather than just the form name
+- Unused toolbar icons have been deleted
+- "Delete skill and pre-reqs" in training queue context menu has now been deleted - was just a placeholder
+- New report added to the Report menu - Character Summary - shows name, corp, isk, skillpoints and current training status
+- Character Summary report added into the IGB
+- Character Summary report now displays on loading EveHQ, instead of a particular pilot's info
+- Double clicking a skill in the Pilot Info form displays the skill details
+
+
+0.6.8.0 (13/03/2006)
+-------
+- First "Public" release of EveHQ!

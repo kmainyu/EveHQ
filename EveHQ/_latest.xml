@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<eveHQUpdate>
+	<lastUpdated>15/05/2008 22:00:00</lastUpdated>
+	<files>
+		<file>
+			<name>EveHQ.exe</name>
+			<type>Required</type>
+			<version>1.6.8.27</version>
+			<requires></requires>
+			<description>EveHQ Executable</description>
+		</file>
+		<file>
+			<name>EveHQ.Core.dll</name>
+			<type>Required</type>
+			<version>1.6.8.27</version>
+			<requires></requires>
+			<description>EveHQ Core Library</description>
+		</file>
+		<file>
+			<name>EveHQ.CoreControls.dll</name>
+			<type>Required</type>
+			<version>1.6.8.10</version>
+			<requires></requires>
+			<description>EveHQ Controls Library</description>
+		</file>
+		<file>
+			<name>LgLcd.NET.dll</name>
+			<type>Required</type>
+			<version>1.0.2182.20042</version>
+			<requires></requires>
+			<description>G15 LCD .Net Wrapper Library</description>
+		</file>
+		<file>
+			<name>LgLcd.dll</name>
+			<type>Required</type>
+			<version>Any</version>
+			<requires></requires>
+			<description>G15 LCD Library</description>
+		</file>
+		<file>
+			<name>MySql.Data.dll</name>
+			<type>Required</type>
+			<version>1.0.7.30072</version>
+			<requires></requires>
+			<description>MySQL .Net Library</description>
+		</file>
+		<file>
+			<name>EveHQ.Assets.dll</name>
+			<type>Plug-in</type>
+			<version>1.6.8.27</version>
+			<requires>1.6.8.1</requires>
+			<description>Assets Plug-in</description>
+		</file>
+		<file>
+			<name>EveHQ.Creation.dll</name>
+			<type>Plug-in</type>
+			<version>1.6.8.10</version>
+			<requires>1.6.8.0</requires>
+			<description>Character Creation Plug-in</description>
+		</file>
+		<file>
+			<name>EveHQ.DataConverter.dll</name>
+			<type>Plug-in</type>
+			<version>1.6.8.0</version>
+			<requires>1.6.8.0</requires>
+			<description>Data Converter Plug-in</description>
+		</file>
+		<file>
+			<name>EveHQ.Gunnery.dll</name>
+			<type>Plug-in</type>
+			<version>1.6.8.10</version>
+			<requires>1.6.8.0</requires>
+			<description>Gunnery Plug-in</description>
+		</file>
+		<file>
+			<name>EveHQ.InEveUploader.dll</name>
+			<type>Plug-in</type>
+			<version>1.6.8.0</version>
+			<requires>1.6.8.0</requires>
+			<description>InEve Skills Uploader Plug-in</description>
+		</file>
+		<file>
+			<name>EveHQ.ItemBrowser.dll</name>
+			<type>Plug-in</type>
+			<version>1.6.8.27</version>
+			<requires>1.6.8.0</requires>
+			<description>Item Browser Plug-in</description>
+		</file>
+		<file>
+			<name>EveHQ.Map.dll</name>
+			<type>Plug-in</type>
+			<version>1.6.8.27</version>
+			<requires>1.6.8.0</requires>
+			<description>Map and Routing Plug-in</description>
+		</file>
+		<file>
+			<name>EveHQ.HQF.dll</name>
+			<type>Plug-in</type>
+			<version>1.6.8.27</version>
+			<requires>1.6.8.14</requires>
+			<description>Ship Fitting Plug-in</description>
+		</file>
+	</files>
+</eveHQUpdate>

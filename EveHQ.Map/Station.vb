@@ -1,0 +1,26 @@
+﻿<Serializable()> Public Class Station
+    Public stationID As Integer
+    Public security As String
+    Public dockingCostPerVolume As Integer
+    Public maxShipVolumeDockable As Integer
+    Public officeRentalCost As Integer
+    Public operationID As String
+    Public stationTypeID As String
+    Public corporationID As String
+    Public corporationName As String
+    Public solarSystemID As Integer
+    Public constellationID As String
+    Public regionID As String
+    Public stationName As String
+    Public x As String
+    Public y As String
+    Public z As String
+    Public reprocessingEfficiency As Integer
+    Public reprocessingStationsTake As Integer
+    Public reprocessingHangarFlag As Integer
+    Public capitalStation As String
+    Public ownershipDateTime As String
+    Public upgradeLevel As String
+    Public customServiceMask As String
+    Public Flag As Boolean
+End Class

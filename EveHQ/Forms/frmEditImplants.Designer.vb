@@ -1,0 +1,190 @@
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class frmEditImplants
+    Inherits System.Windows.Forms.Form
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing AndAlso components IsNot Nothing Then
+            components.Dispose()
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEditImplants))
+        Me.lblDescription = New System.Windows.Forms.Label
+        Me.lblC = New System.Windows.Forms.Label
+        Me.nudC = New System.Windows.Forms.NumericUpDown
+        Me.nudI = New System.Windows.Forms.NumericUpDown
+        Me.lblI = New System.Windows.Forms.Label
+        Me.nudM = New System.Windows.Forms.NumericUpDown
+        Me.lblM = New System.Windows.Forms.Label
+        Me.nudP = New System.Windows.Forms.NumericUpDown
+        Me.lblP = New System.Windows.Forms.Label
+        Me.nudW = New System.Windows.Forms.NumericUpDown
+        Me.lblW = New System.Windows.Forms.Label
+        Me.btnClose = New System.Windows.Forms.Button
+        CType(Me.nudC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudI, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudW, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'lblDescription
+        '
+        Me.lblDescription.Location = New System.Drawing.Point(13, 13)
+        Me.lblDescription.Name = "lblDescription"
+        Me.lblDescription.Size = New System.Drawing.Size(204, 56)
+        Me.lblDescription.TabIndex = 0
+        Me.lblDescription.Text = "Please enter the value of your implants in the boxes below. They will automatical" & _
+            "ly be saved when you exit this screen."
+        '
+        'lblC
+        '
+        Me.lblC.AutoSize = True
+        Me.lblC.Location = New System.Drawing.Point(26, 73)
+        Me.lblC.Name = "lblC"
+        Me.lblC.Size = New System.Drawing.Size(53, 13)
+        Me.lblC.TabIndex = 1
+        Me.lblC.Text = "Charisma:"
+        '
+        'nudC
+        '
+        Me.nudC.Location = New System.Drawing.Point(113, 71)
+        Me.nudC.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudC.Name = "nudC"
+        Me.nudC.Size = New System.Drawing.Size(67, 20)
+        Me.nudC.TabIndex = 2
+        '
+        'nudI
+        '
+        Me.nudI.Location = New System.Drawing.Point(113, 97)
+        Me.nudI.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudI.Name = "nudI"
+        Me.nudI.Size = New System.Drawing.Size(67, 20)
+        Me.nudI.TabIndex = 4
+        '
+        'lblI
+        '
+        Me.lblI.AutoSize = True
+        Me.lblI.Location = New System.Drawing.Point(26, 99)
+        Me.lblI.Name = "lblI"
+        Me.lblI.Size = New System.Drawing.Size(64, 13)
+        Me.lblI.TabIndex = 3
+        Me.lblI.Text = "Intelligence:"
+        '
+        'nudM
+        '
+        Me.nudM.Location = New System.Drawing.Point(113, 123)
+        Me.nudM.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudM.Name = "nudM"
+        Me.nudM.Size = New System.Drawing.Size(67, 20)
+        Me.nudM.TabIndex = 6
+        '
+        'lblM
+        '
+        Me.lblM.AutoSize = True
+        Me.lblM.Location = New System.Drawing.Point(26, 125)
+        Me.lblM.Name = "lblM"
+        Me.lblM.Size = New System.Drawing.Size(47, 13)
+        Me.lblM.TabIndex = 5
+        Me.lblM.Text = "Memory:"
+        '
+        'nudP
+        '
+        Me.nudP.Location = New System.Drawing.Point(113, 149)
+        Me.nudP.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudP.Name = "nudP"
+        Me.nudP.Size = New System.Drawing.Size(67, 20)
+        Me.nudP.TabIndex = 8
+        '
+        'lblP
+        '
+        Me.lblP.AutoSize = True
+        Me.lblP.Location = New System.Drawing.Point(26, 151)
+        Me.lblP.Name = "lblP"
+        Me.lblP.Size = New System.Drawing.Size(61, 13)
+        Me.lblP.TabIndex = 7
+        Me.lblP.Text = "Perception:"
+        '
+        'nudW
+        '
+        Me.nudW.Location = New System.Drawing.Point(113, 175)
+        Me.nudW.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudW.Name = "nudW"
+        Me.nudW.Size = New System.Drawing.Size(67, 20)
+        Me.nudW.TabIndex = 10
+        '
+        'lblW
+        '
+        Me.lblW.AutoSize = True
+        Me.lblW.Location = New System.Drawing.Point(26, 177)
+        Me.lblW.Name = "lblW"
+        Me.lblW.Size = New System.Drawing.Size(56, 13)
+        Me.lblW.TabIndex = 9
+        Me.lblW.Text = "Willpower:"
+        '
+        'btnClose
+        '
+        Me.btnClose.Location = New System.Drawing.Point(146, 211)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(75, 23)
+        Me.btnClose.TabIndex = 11
+        Me.btnClose.Text = "&Close"
+        Me.btnClose.UseVisualStyleBackColor = True
+        '
+        'frmEditImplants
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(233, 246)
+        Me.Controls.Add(Me.btnClose)
+        Me.Controls.Add(Me.nudW)
+        Me.Controls.Add(Me.lblW)
+        Me.Controls.Add(Me.nudP)
+        Me.Controls.Add(Me.lblP)
+        Me.Controls.Add(Me.nudM)
+        Me.Controls.Add(Me.lblM)
+        Me.Controls.Add(Me.nudI)
+        Me.Controls.Add(Me.lblI)
+        Me.Controls.Add(Me.nudC)
+        Me.Controls.Add(Me.lblC)
+        Me.Controls.Add(Me.lblDescription)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.Name = "frmEditImplants"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.Text = "Edit Manual Implants"
+        CType(Me.nudC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudI, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudW, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+    End Sub
+    Friend WithEvents lblDescription As System.Windows.Forms.Label
+    Friend WithEvents lblC As System.Windows.Forms.Label
+    Friend WithEvents nudC As System.Windows.Forms.NumericUpDown
+    Friend WithEvents nudI As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblI As System.Windows.Forms.Label
+    Friend WithEvents nudM As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblM As System.Windows.Forms.Label
+    Friend WithEvents nudP As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblP As System.Windows.Forms.Label
+    Friend WithEvents nudW As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblW As System.Windows.Forms.Label
+    Friend WithEvents btnClose As System.Windows.Forms.Button
+End Class
