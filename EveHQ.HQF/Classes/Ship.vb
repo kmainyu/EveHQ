@@ -1,0 +1,1358 @@
+' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2008  Lee Vessey
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Imports System.Windows.Forms
+Imports System.IO
+Imports System.Runtime.Serialization.Formatters.Binary
+Imports System.Runtime.Serialization
+
+<Serializable()> Public Class Ship
+
+#Region "Property Variables"
+
+    ' Name and Classification
+    Private cName As String
+    Private cID As String
+    Private cMarketGroup As String
+    Private cDatabaseGroup As String
+    Private cDescription As String
+    Private cBasePrice As Double
+    Private cMarketPrice As Double
+    Private cIcon As String
+    Private cFittingBasePrice As Double
+    Private cFittingMarketPrice As Double
+
+    ' Max Fitting Layout
+    Private cHiSlots As Integer
+    Private cMidSlots As Integer
+    Private cLowSlots As Integer
+    Private cRigSlots As Integer
+    Private cTurretSlots As Integer
+    Private cLauncherSlots As Integer
+    Private cCalibration As Integer
+
+    ' CPU, Power & Capacitor
+    Private cCPU As Double
+    Private cPG As Double
+    Private cCapCapacity As Double
+    Private cCapRecharge As Double
+
+    ' Shield
+    Private cShieldCapacity As Double
+    Private cShieldRecharge As Double
+    Private cShieldEMResist As Double
+    Private cShieldExResist As Double
+    Private cShieldKiResist As Double
+    Private cShieldThResist As Double
+
+    ' Armor
+    Private cArmorCapacity As Double
+    Private cArmorEMResist As Double
+    Private cArmorExResist As Double
+    Private cArmorKiResist As Double
+    Private cArmorThResist As Double
+
+    ' Structure
+    Private cStructureCapacity As Double
+    Private cStructureEMResist As Double
+    Private cStructureExResist As Double
+    Private cStructureKiResist As Double
+    Private cStructureThResist As Double
+
+    ' Space & Volume
+    Private cCargoBay As Double
+    Private cMass As Double
+    Private cVolume As Double
+    Private cRadius As Double
+
+    ' Drones
+    Private cDroneBay As Double
+    Private cDroneBandwidth As Double
+    Private cDrones As Integer
+
+    ' Targeting
+    Private cMaxLockedTargets As Double
+    Private cMaxTargetRange As Double
+    Private cTargetingSpeed As Double
+    Private cScanResolution As Double
+    Private cSigRadius As Double
+    Private cGravSensorStrenth As Double
+    Private cLadarSensorStrenth As Double
+    Private cMagSensorStrenth As Double
+    Private cRadarSensorStrenth As Double
+
+    ' Propulsion
+    Private cMaxVelocity As Double
+    Private cInertia As Double
+    Private cFusionPropStrength As Double
+    Private cIonPropStrength As Double
+    Private cMagpulsePropStrength As Double
+    Private cPlasmaPropStrength As Double
+    Private cWarpSpeed As Double
+    Private cWarpCapNeed As Double
+
+    ' Module Slots
+    Private cHiSlot(8) As ShipModule
+    Private cMidSlot(8) As ShipModule
+    Private cLowSlot(8) As ShipModule
+    Private cRigSlot(8) As ShipModule
+
+    ' Skills
+    Private cRequiredSkills As New SortedList
+    Private cRequiredSkillList As New SortedList
+
+    ' Attributes
+    Private cAttributes As New SortedList
+
+    ' Bonuses/Roles
+    Private cShipBonuses As New ArrayList
+
+    ' "Used" Attributes
+    Private cHiSlots_Used As Integer
+    Private cMidSlots_Used As Integer
+    Private cLowSlots_Used As Integer
+    Private cRigSlots_Used As Integer
+    Private cTurretSlots_Used As Integer
+    Private cLauncherSlots_Used As Integer
+    Private cCalibration_Used As Integer
+    Private cCPU_Used As Double
+    Private cPG_Used As Double
+    Private cCargoBay_Used As Double
+    Private cDroneBay_Used As Double
+    Private cDroneBandwidth_Used As Double
+    Private cCargoBayItems As New SortedList
+    Private cDroneBayItems As New SortedList
+
+    ' Effective Resists
+    Private cEffectiveShieldHP As Double
+    Private cEffectiveArmorHP As Double
+    Private cEffectiveStructureHP As Double
+    Private cEffectiveHP As Double
+
+    ' Damage
+    Private cTurretVolley As Double
+    Private cMissileVolley As Double
+    Private cSBVolley As Double
+    Private cBombVolley As Double
+    Private cDroneVolley As Double
+    Private cTurretDPS As Double
+    Private cMissileDPS As Double
+    Private cSBDPS As Double
+    Private cBombDPS As Double
+    Private cDroneDPS As Double
+
+    ' Audit Log
+    Private cAuditLog As New ArrayList
+
+#End Region
+
+#Region "Properties"
+    ' Name and Classification
+    Public Property Name() As String
+        Get
+            Return cName
+        End Get
+        Set(ByVal value As String)
+            cName = value
+        End Set
+    End Property
+    Public Property ID() As String
+        Get
+            Return cID
+        End Get
+        Set(ByVal value As String)
+            cID = value
+        End Set
+    End Property
+    Public Property MarketGroup() As String
+        Get
+            Return cMarketGroup
+        End Get
+        Set(ByVal value As String)
+            cMarketGroup = value
+        End Set
+    End Property
+    Public Property DatabaseGroup() As String
+        Get
+            Return cDatabaseGroup
+        End Get
+        Set(ByVal value As String)
+            cDatabaseGroup = value
+        End Set
+    End Property
+    Public Property Description() As String
+        Get
+            Return cDescription
+        End Get
+        Set(ByVal value As String)
+            cDescription = value
+        End Set
+    End Property
+    Public Property BasePrice() As Double
+        Get
+            Return cBasePrice
+        End Get
+        Set(ByVal value As Double)
+            cBasePrice = value
+        End Set
+    End Property
+    Public Property MarketPrice() As Double
+        Get
+            Return cMarketPrice
+        End Get
+        Set(ByVal value As Double)
+            cMarketPrice = value
+        End Set
+    End Property
+    Public Property Icon() As String
+        Get
+            Return cIcon
+        End Get
+        Set(ByVal value As String)
+            cIcon = value
+        End Set
+    End Property
+    Public Property FittingBasePrice() As Double
+        Get
+            Return cFittingBasePrice
+        End Get
+        Set(ByVal value As Double)
+            cFittingBasePrice = value
+        End Set
+    End Property
+    Public Property FittingMarketPrice() As Double
+        Get
+            Return cFittingMarketPrice
+        End Get
+        Set(ByVal value As Double)
+            cFittingMarketPrice = value
+        End Set
+    End Property
+
+    ' Max Fitting Layout
+    Public Property HiSlots() As Integer
+        Get
+            Return cHiSlots
+        End Get
+        Set(ByVal value As Integer)
+            cHiSlots = value
+        End Set
+    End Property
+    Public Property MidSlots() As Integer
+        Get
+            Return cMidSlots
+        End Get
+        Set(ByVal value As Integer)
+            cMidSlots = value
+        End Set
+    End Property
+    Public Property LowSlots() As Integer
+        Get
+            Return cLowSlots
+        End Get
+        Set(ByVal value As Integer)
+            cLowSlots = value
+        End Set
+    End Property
+    Public Property RigSlots() As Integer
+        Get
+            Return cRigSlots
+        End Get
+        Set(ByVal value As Integer)
+            cRigSlots = value
+        End Set
+    End Property
+    Public Property TurretSlots() As Integer
+        Get
+            Return cTurretSlots
+        End Get
+        Set(ByVal value As Integer)
+            cTurretSlots = value
+        End Set
+    End Property
+    Public Property LauncherSlots() As Integer
+        Get
+            Return cLauncherSlots
+        End Get
+        Set(ByVal value As Integer)
+            cLauncherSlots = value
+        End Set
+    End Property
+    Public Property Calibration() As Integer
+        Get
+            Return cCalibration
+        End Get
+        Set(ByVal value As Integer)
+            cCalibration = value
+        End Set
+    End Property
+
+    ' CPU, Power & Capacitor
+    Public Property CPU() As Double
+        Get
+            Return cCPU
+        End Get
+        Set(ByVal value As Double)
+            cCPU = value
+        End Set
+    End Property
+    Public Property PG() As Double
+        Get
+            Return cPG
+        End Get
+        Set(ByVal value As Double)
+            cPG = value
+        End Set
+    End Property
+    Public Property CapCapacity() As Double
+        Get
+            Return cCapCapacity
+        End Get
+        Set(ByVal value As Double)
+            cCapCapacity = value
+        End Set
+    End Property
+    Public Property CapRecharge() As Double
+        Get
+            Return cCapRecharge
+        End Get
+        Set(ByVal value As Double)
+            cCapRecharge = value
+        End Set
+    End Property
+
+    ' Shield
+    Public Property ShieldCapacity() As Double
+        Get
+            Return cShieldCapacity
+        End Get
+        Set(ByVal value As Double)
+            cShieldCapacity = value
+            Call CalculateEffectiveShieldHP()
+        End Set
+    End Property
+    Public Property ShieldRecharge() As Double
+        Get
+            Return cShieldRecharge
+        End Get
+        Set(ByVal value As Double)
+            cShieldRecharge = value
+        End Set
+    End Property
+    Public Property ShieldEMResist() As Double
+        Get
+            Return cShieldEMResist
+        End Get
+        Set(ByVal value As Double)
+            cShieldEMResist = value
+            Call CalculateEffectiveShieldHP()
+        End Set
+    End Property
+    Public Property ShieldExResist() As Double
+        Get
+            Return cShieldExResist
+        End Get
+        Set(ByVal value As Double)
+            cShieldExResist = value
+            Call CalculateEffectiveShieldHP()
+        End Set
+    End Property
+    Public Property ShieldKiResist() As Double
+        Get
+            Return cShieldKiResist
+        End Get
+        Set(ByVal value As Double)
+            cShieldKiResist = value
+            Call CalculateEffectiveShieldHP()
+        End Set
+    End Property
+    Public Property ShieldThResist() As Double
+        Get
+            Return cShieldThResist
+        End Get
+        Set(ByVal value As Double)
+            cShieldThResist = value
+            Call CalculateEffectiveShieldHP()
+        End Set
+    End Property
+
+    ' Armor
+    Public Property ArmorCapacity() As Double
+        Get
+            Return cArmorCapacity
+        End Get
+        Set(ByVal value As Double)
+            cArmorCapacity = value
+            Call CalculateEffectiveArmorHP()
+        End Set
+    End Property
+    Public Property ArmorEMResist() As Double
+        Get
+            Return cArmorEMResist
+        End Get
+        Set(ByVal value As Double)
+            cArmorEMResist = value
+            Call CalculateEffectiveArmorHP()
+        End Set
+    End Property
+    Public Property ArmorExResist() As Double
+        Get
+            Return cArmorExResist
+        End Get
+        Set(ByVal value As Double)
+            cArmorExResist = value
+            Call CalculateEffectiveArmorHP()
+        End Set
+    End Property
+    Public Property ArmorKiResist() As Double
+        Get
+            Return cArmorKiResist
+        End Get
+        Set(ByVal value As Double)
+            cArmorKiResist = value
+            Call CalculateEffectiveArmorHP()
+        End Set
+    End Property
+    Public Property ArmorThResist() As Double
+        Get
+            Return cArmorThResist
+        End Get
+        Set(ByVal value As Double)
+            cArmorThResist = value
+            Call CalculateEffectiveArmorHP()
+        End Set
+    End Property
+
+    ' Structure
+    Public Property StructureCapacity() As Double
+        Get
+            Return cStructureCapacity
+        End Get
+        Set(ByVal value As Double)
+            cStructureCapacity = value
+            Call CalculateEffectiveStructureHP()
+        End Set
+    End Property
+    Public Property StructureEMResist() As Double
+        Get
+            Return cStructureEMResist
+        End Get
+        Set(ByVal value As Double)
+            cStructureEMResist = value
+            Call CalculateEffectiveStructureHP()
+        End Set
+    End Property
+    Public Property StructureExResist() As Double
+        Get
+            Return cStructureExResist
+        End Get
+        Set(ByVal value As Double)
+            cStructureExResist = value
+            Call CalculateEffectiveStructureHP()
+        End Set
+    End Property
+    Public Property StructureKiResist() As Double
+        Get
+            Return cStructureKiResist
+        End Get
+        Set(ByVal value As Double)
+            cStructureKiResist = value
+            Call CalculateEffectiveStructureHP()
+        End Set
+    End Property
+    Public Property StructureThResist() As Double
+        Get
+            Return cStructureThResist
+        End Get
+        Set(ByVal value As Double)
+            cStructureThResist = value
+            Call CalculateEffectiveStructureHP()
+        End Set
+    End Property
+
+    ' Space & Volume
+    Public Property CargoBay() As Double
+        Get
+            Return cCargoBay
+        End Get
+        Set(ByVal value As Double)
+            cCargoBay = value
+        End Set
+    End Property
+    Public Property Mass() As Double
+        Get
+            Return cMass
+        End Get
+        Set(ByVal value As Double)
+            cMass = value
+        End Set
+    End Property
+    Public Property Volume() As Double
+        Get
+            Return cVolume
+        End Get
+        Set(ByVal value As Double)
+            cVolume = value
+        End Set
+    End Property
+    Public Property Radius() As Double
+        Get
+            Return cRadius
+        End Get
+        Set(ByVal value As Double)
+            cRadius = value
+        End Set
+    End Property
+
+    ' Drones
+    Public Property DroneBay() As Double
+        Get
+            Return cDroneBay
+        End Get
+        Set(ByVal value As Double)
+            cDroneBay = value
+        End Set
+    End Property
+    Public Property DroneBandwidth() As Double
+        Get
+            Return cDroneBandwidth
+        End Get
+        Set(ByVal value As Double)
+            cDroneBandwidth = value
+        End Set
+    End Property
+    Public Property Drones() As Integer
+        Get
+            Return cDrones
+        End Get
+        Set(ByVal value As Integer)
+            cDrones = value
+        End Set
+    End Property
+
+    ' Targeting
+    Public Property MaxLockedTargets() As Double
+        Get
+            Return cMaxLockedTargets
+        End Get
+        Set(ByVal value As Double)
+            cMaxLockedTargets = value
+        End Set
+    End Property
+    Public Property MaxTargetRange() As Double
+        Get
+            Return cMaxTargetRange
+        End Get
+        Set(ByVal value As Double)
+            cMaxTargetRange = value
+        End Set
+    End Property
+    Public Property TargetingSpeed() As Double
+        Get
+            Return cTargetingSpeed
+        End Get
+        Set(ByVal value As Double)
+            cTargetingSpeed = value
+        End Set
+    End Property
+    Public Property ScanResolution() As Double
+        Get
+            Return cScanResolution
+        End Get
+        Set(ByVal value As Double)
+            cScanResolution = value
+        End Set
+    End Property
+    Public Property SigRadius() As Double
+        Get
+            Return cSigRadius
+        End Get
+        Set(ByVal value As Double)
+            cSigRadius = value
+        End Set
+    End Property
+    Public Property GravSensorStrenth() As Double
+        Get
+            Return cGravSensorStrenth
+        End Get
+        Set(ByVal value As Double)
+            cGravSensorStrenth = value
+        End Set
+    End Property
+    Public Property LadarSensorStrenth() As Double
+        Get
+            Return cLadarSensorStrenth
+        End Get
+        Set(ByVal value As Double)
+            cLadarSensorStrenth = value
+        End Set
+    End Property
+    Public Property MagSensorStrenth() As Double
+        Get
+            Return cMagSensorStrenth
+        End Get
+        Set(ByVal value As Double)
+            cMagSensorStrenth = value
+        End Set
+    End Property
+    Public Property RadarSensorStrenth() As Double
+        Get
+            Return cRadarSensorStrenth
+        End Get
+        Set(ByVal value As Double)
+            cRadarSensorStrenth = value
+        End Set
+    End Property
+
+    ' Propulsion
+    Public Property MaxVelocity() As Double
+        Get
+            Return cMaxVelocity
+        End Get
+        Set(ByVal value As Double)
+            cMaxVelocity = value
+        End Set
+    End Property
+    Public Property Inertia() As Double
+        Get
+            Return cInertia
+        End Get
+        Set(ByVal value As Double)
+            cInertia = value
+        End Set
+    End Property
+    Public Property FusionPropStrength() As Double
+        Get
+            Return cFusionPropStrength
+        End Get
+        Set(ByVal value As Double)
+            cFusionPropStrength = value
+        End Set
+    End Property
+    Public Property IonPropStrength() As Double
+        Get
+            Return cIonPropStrength
+        End Get
+        Set(ByVal value As Double)
+            cIonPropStrength = value
+        End Set
+    End Property
+    Public Property MagpulsePropStrength() As Double
+        Get
+            Return cMagpulsePropStrength
+        End Get
+        Set(ByVal value As Double)
+            cMagpulsePropStrength = value
+        End Set
+    End Property
+    Public Property PlasmaPropStrength() As Double
+        Get
+            Return cPlasmaPropStrength
+        End Get
+        Set(ByVal value As Double)
+            cPlasmaPropStrength = value
+        End Set
+    End Property
+    Public Property WarpSpeed() As Double
+        Get
+            Return cWarpSpeed
+        End Get
+        Set(ByVal value As Double)
+            cWarpSpeed = value
+        End Set
+    End Property
+    Public Property WarpCapNeed() As Double
+        Get
+            Return cWarpCapNeed
+        End Get
+        Set(ByVal value As Double)
+            cWarpCapNeed = value
+        End Set
+    End Property
+
+    ' Module Slots
+    Public Property HiSlot(ByVal index As Integer) As ShipModule
+        Get
+            If index < 1 Or index > cHiSlots Then
+                MessageBox.Show("High Slot index must be in the range 1 to " & cHiSlots & " for " & cName, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return Nothing
+            Else
+                Return cHiSlot(index)
+            End If
+        End Get
+        Set(ByVal value As ShipModule)
+            If index < 1 Or index > cHiSlots Then
+                MessageBox.Show("High Slot index must be in the range 1 to " & cHiSlots & " for " & cName, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                If value Is Nothing Then
+                    If cHiSlot(index) IsNot Nothing Then
+                        cHiSlots_Used -= 1
+                        If cHiSlot(index).IsLauncher Then
+                            cLauncherSlots_Used -= 1
+                        ElseIf cHiSlot(index).IsTurret Then
+                            cTurretSlots_Used -= 1
+                        End If
+                        cFittingBasePrice -= cHiSlot(index).BasePrice
+                        If cHiSlot(index).MarketPrice > 0 Then
+                            cFittingMarketPrice -= cHiSlot(index).MarketPrice
+                        Else
+                            cFittingMarketPrice -= cHiSlot(index).BasePrice
+                        End If
+                    End If
+                Else
+                    cHiSlots_Used += 1
+                    If value.IsLauncher Then
+                        cLauncherSlots_Used += 1
+                    ElseIf value.IsTurret Then
+                        cTurretSlots_Used += 1
+                    End If
+                    cFittingBasePrice += value.BasePrice
+                    If value.MarketPrice > 0 Then
+                        cFittingMarketPrice += value.MarketPrice
+                    Else
+                        cFittingMarketPrice += value.BasePrice
+                    End If
+                End If
+                cHiSlot(index) = value
+            End If
+        End Set
+    End Property
+    Public Property MidSlot(ByVal index As Integer) As ShipModule
+        Get
+            If index < 1 Or index > cMidSlots Then
+                MessageBox.Show("Mid Slot index must be in the range 1 to " & cMidSlots & " for " & cName, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return Nothing
+            Else
+                Return cMidSlot(index)
+            End If
+        End Get
+        Set(ByVal value As ShipModule)
+            If index < 1 Or index > cMidSlots Then
+                MessageBox.Show("Mid Slot index must be in the range 1 to " & cMidSlots & " for " & cName, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                If value Is Nothing Then
+                    If cMidSlot(index) IsNot Nothing Then
+                        cMidSlots_Used -= 1
+                        cFittingBasePrice -= cMidSlot(index).BasePrice
+                        If cMidSlot(index).MarketPrice > 0 Then
+                            cFittingMarketPrice -= cMidSlot(index).MarketPrice
+                        Else
+                            cFittingMarketPrice -= cMidSlot(index).BasePrice
+                        End If
+                    End If
+                Else
+                    cMidSlots_Used += 1
+                    cFittingBasePrice += value.BasePrice
+                    If value.MarketPrice > 0 Then
+                        cFittingMarketPrice += value.MarketPrice
+                    Else
+                        cFittingMarketPrice += value.BasePrice
+                    End If
+                End If
+                cMidSlot(index) = value
+            End If
+        End Set
+    End Property
+    Public Property LowSlot(ByVal index As Integer) As ShipModule
+        Get
+            If index < 1 Or index > cLowSlots Then
+                MessageBox.Show("Low Slot index must be in the range 1 to " & cLowSlots & " for " & cName, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return Nothing
+            Else
+                Return cLowSlot(index)
+            End If
+        End Get
+        Set(ByVal value As ShipModule)
+            If index < 1 Or index > cLowSlots Then
+                MessageBox.Show("Low Slot index must be in the range 1 to " & cLowSlots & " for " & cName, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                If value Is Nothing Then
+                    If cLowSlot(index) IsNot Nothing Then
+                        cLowSlots_Used -= 1
+                        cFittingBasePrice -= cLowSlot(index).BasePrice
+                        If cLowSlot(index).MarketPrice > 0 Then
+                            cFittingMarketPrice -= cLowSlot(index).MarketPrice
+                        Else
+                            cFittingMarketPrice -= cLowSlot(index).BasePrice
+                        End If
+                    End If
+                Else
+                    cLowSlots_Used += 1
+                    cFittingBasePrice += value.BasePrice
+                    If value.MarketPrice > 0 Then
+                        cFittingMarketPrice += value.MarketPrice
+                    Else
+                        cFittingMarketPrice += value.BasePrice
+                    End If
+                End If
+                cLowSlot(index) = value
+            End If
+        End Set
+    End Property
+    Public Property RigSlot(ByVal index As Integer) As ShipModule
+        Get
+            If index < 1 Or index > cRigSlots Then
+                MessageBox.Show("Rig Slot index must be in the range 1 to " & cRigSlots & " for " & cName, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return Nothing
+            Else
+                Return cRigSlot(index)
+            End If
+        End Get
+        Set(ByVal value As ShipModule)
+            If index < 1 Or index > cRigSlots Then
+                MessageBox.Show("Rig Slot index must be in the range 1 to " & cRigSlots & " for " & cName, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                If value Is Nothing Then
+                    If cRigSlot(index) IsNot Nothing Then
+                        cRigSlots_Used -= 1
+                        cFittingBasePrice -= cRigSlot(index).BasePrice
+                        If cRigSlot(index).MarketPrice > 0 Then
+                            cFittingMarketPrice -= cRigSlot(index).MarketPrice
+                        Else
+                            cFittingMarketPrice -= cRigSlot(index).BasePrice
+                        End If
+                    End If
+                Else
+                    cRigSlots_Used += 1
+                    cFittingBasePrice += value.BasePrice
+                    If value.MarketPrice > 0 Then
+                        cFittingMarketPrice += value.MarketPrice
+                    Else
+                        cFittingMarketPrice += value.BasePrice
+                    End If
+                End If
+                cRigSlot(index) = value
+            End If
+        End Set
+    End Property
+
+    ' Skills
+    Public Property RequiredSkills() As SortedList
+        Get
+            Return cRequiredSkills
+        End Get
+        Set(ByVal value As SortedList)
+            cRequiredSkills = value
+        End Set
+    End Property
+    Public Property RequiredSkillList() As SortedList
+        Get
+            Return cRequiredSkillList
+        End Get
+        Set(ByVal value As SortedList)
+            cRequiredSkillList = value
+        End Set
+    End Property
+
+    ' Attributes
+    Public Property Attributes() As SortedList
+        Get
+            Return cAttributes
+        End Get
+        Set(ByVal value As SortedList)
+            cAttributes = value
+        End Set
+    End Property
+
+    ' Bonuses/Roles
+    Public Property Bonuses() As ArrayList
+        Get
+            Return cShipBonuses
+        End Get
+        Set(ByVal value As ArrayList)
+            cShipBonuses = value
+        End Set
+    End Property
+
+    ' "Used" Attributes
+    Public Property HiSlots_Used() As Integer
+        Get
+            Return cHiSlots_Used
+        End Get
+        Set(ByVal value As Integer)
+            cHiSlots_Used = value
+        End Set
+    End Property
+    Public Property MidSlots_Used() As Integer
+        Get
+            Return cMidSlots_Used
+        End Get
+        Set(ByVal value As Integer)
+            cMidSlots_Used = value
+        End Set
+    End Property
+    Public Property LowSlots_Used() As Integer
+        Get
+            Return cLowSlots_Used
+        End Get
+        Set(ByVal value As Integer)
+            cLowSlots_Used = value
+        End Set
+    End Property
+    Public Property RigSlots_Used() As Integer
+        Get
+            Return cRigSlots_Used
+        End Get
+        Set(ByVal value As Integer)
+            cRigSlots_Used = value
+        End Set
+    End Property
+    Public Property TurretSlots_Used() As Integer
+        Get
+            Return cTurretSlots_Used
+        End Get
+        Set(ByVal value As Integer)
+            cTurretSlots_Used = value
+        End Set
+    End Property
+    Public Property LauncherSlots_Used() As Integer
+        Get
+            Return cLauncherSlots_Used
+        End Get
+        Set(ByVal value As Integer)
+            cLauncherSlots_Used = value
+        End Set
+    End Property
+    Public Property Calibration_Used() As Integer
+        Get
+            Return cCalibration_Used
+        End Get
+        Set(ByVal value As Integer)
+            cCalibration_Used = value
+        End Set
+    End Property
+    Public Property CPU_Used() As Double
+        Get
+            Return cCPU_Used
+        End Get
+        Set(ByVal value As Double)
+            cCPU_Used = value
+        End Set
+    End Property
+    Public Property PG_Used() As Double
+        Get
+            Return cPG_Used
+        End Get
+        Set(ByVal value As Double)
+            cPG_Used = value
+        End Set
+    End Property
+    Public Property CargoBay_Used() As Double
+        Get
+            Return cCargoBay_Used
+        End Get
+        Set(ByVal value As Double)
+            cCargoBay_Used = value
+        End Set
+    End Property
+    Public Property DroneBay_Used() As Double
+        Get
+            Return cDroneBay_Used
+        End Get
+        Set(ByVal value As Double)
+            cDroneBay_Used = value
+        End Set
+    End Property
+    Public Property DroneBandwidth_Used() As Double
+        Get
+            Return cDroneBandwidth_Used
+        End Get
+        Set(ByVal value As Double)
+            cDroneBandwidth_Used = value
+        End Set
+    End Property
+    Public Property CargoBayItems() As SortedList
+        Get
+            Return cCargoBayItems
+        End Get
+        Set(ByVal value As SortedList)
+            cCargoBayItems = value
+        End Set
+    End Property
+    Public Property DroneBayItems() As SortedList
+        Get
+            Return cDroneBayItems
+        End Get
+        Set(ByVal value As SortedList)
+            cDroneBayItems = value
+        End Set
+    End Property
+
+    ' Effective Resists (Read Only!)
+    Public ReadOnly Property EffectiveShieldHP() As Double
+        Get
+            Return cEffectiveShieldHP
+        End Get
+    End Property
+    Public ReadOnly Property EffectiveArmorHP() As Double
+        Get
+            Return cEffectiveArmorHP
+        End Get
+    End Property
+    Public ReadOnly Property EffectiveStructureHP() As Double
+        Get
+            Return cEffectiveStructureHP
+        End Get
+    End Property
+    Public ReadOnly Property EffectiveHP() As Double
+        Get
+            Return cEffectiveHP
+        End Get
+    End Property
+
+    'Damage
+    Public Property TurretVolley() As Double
+        Get
+            Return cTurretVolley
+        End Get
+        Set(ByVal value As Double)
+            cTurretVolley = value
+        End Set
+    End Property
+    Public Property MissileVolley() As Double
+        Get
+            Return cMissileVolley
+        End Get
+        Set(ByVal value As Double)
+            cMissileVolley = value
+        End Set
+    End Property
+    Public Property SBVolley() As Double
+        Get
+            Return cSBVolley
+        End Get
+        Set(ByVal value As Double)
+            cSBVolley = value
+        End Set
+    End Property
+    Public Property BombVolley() As Double
+        Get
+            Return cBombVolley
+        End Get
+        Set(ByVal value As Double)
+            cBombVolley = value
+        End Set
+    End Property
+    Public Property DroneVolley() As Double
+        Get
+            Return cDroneVolley
+        End Get
+        Set(ByVal value As Double)
+            cDroneVolley = value
+        End Set
+    End Property
+    Public Property TurretDPS() As Double
+        Get
+            Return cTurretDPS
+        End Get
+        Set(ByVal value As Double)
+            cTurretDPS = value
+        End Set
+    End Property
+    Public Property MissileDPS() As Double
+        Get
+            Return cMissileDPS
+        End Get
+        Set(ByVal value As Double)
+            cMissileDPS = value
+        End Set
+    End Property
+    Public Property SBDPS() As Double
+        Get
+            Return cSBDPS
+        End Get
+        Set(ByVal value As Double)
+            cSBDPS = value
+        End Set
+    End Property
+    Public Property BombDPS() As Double
+        Get
+            Return cBombDPS
+        End Get
+        Set(ByVal value As Double)
+            cBombDPS = value
+        End Set
+    End Property
+    Public Property DroneDPS() As Double
+        Get
+            Return cDroneDPS
+        End Get
+        Set(ByVal value As Double)
+            cDroneDPS = value
+        End Set
+    End Property
+
+    'Audit Log
+    Public Property AuditLog() As ArrayList
+        Get
+            Return cAuditLog
+        End Get
+        Set(ByVal value As ArrayList)
+            cAuditLog = value
+        End Set
+    End Property
+
+
+#End Region
+
+#Region "Cloning"
+    Public Function Clone() As Ship
+        Dim ShipMemoryStream As New MemoryStream(10000)
+        Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
+        objBinaryFormatter.Serialize(ShipMemoryStream, Me)
+        ShipMemoryStream.Seek(0, SeekOrigin.Begin)
+        Dim newShip As Ship = CType(objBinaryFormatter.Deserialize(ShipMemoryStream), Ship)
+        ShipMemoryStream.Close()
+        Return newShip
+    End Function
+#End Region
+
+#Region "Effective HP Calculations"
+
+    Private Sub CalculateEffectiveShieldHP()
+        cEffectiveShieldHP = cShieldCapacity * 100 / (100 - ((cShieldEMResist + cShieldExResist + cShieldKiResist + cShieldThResist) / 4))
+        Call CalculateEffectiveHP()
+    End Sub
+    Private Sub CalculateEffectiveArmorHP()
+        cEffectiveArmorHP = cArmorCapacity * 100 / (100 - ((cArmorEMResist + cArmorExResist + cArmorKiResist + cArmorThResist) / 4))
+        Call CalculateEffectiveHP()
+    End Sub
+    Private Sub CalculateEffectiveStructureHP()
+        cEffectiveStructureHP = cStructureCapacity * 100 / (100 - ((cStructureEMResist + cStructureExResist + cStructureKiResist + cStructureThResist) / 4))
+        Call CalculateEffectiveHP()
+    End Sub
+    Private Sub CalculateEffectiveHP()
+        cEffectiveHP = cEffectiveShieldHP + cEffectiveArmorHP + cEffectiveStructureHP
+    End Sub
+
+#End Region
+
+#Region "Full Skill List Builder"
+    Public Sub GenerateSkillList()
+
+        Dim ItemUsable As Boolean = True
+        cRequiredSkillList.Clear()
+
+        For Each genSkill As ItemSkills In cRequiredSkills.Values
+            Dim skillID As String = genSkill.ID
+
+            Dim level As Integer = 1
+            Dim pointer(20) As Integer
+            Dim parent(20) As Integer
+            pointer(level) = 1
+            parent(level) = CInt(skillID)
+
+            Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+            Dim curSkill As Integer = CInt(skillID)
+            Dim curLevel As Integer = genSkill.Level
+
+            If cRequiredSkillList.Contains(cSkill.Name) = False Then
+                cRequiredSkillList.Add(cSkill.Name, curLevel)
+            Else
+                Dim maxLevel As Integer = CInt(cRequiredSkillList.Item(cSkill.Name))
+                If curLevel > maxLevel Then
+                    cRequiredSkillList.Item(cSkill.Name) = curLevel
+                End If
+            End If
+
+            Do Until level = 0
+                ' Start @ root!
+                cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+
+                ' Read pointer @ level
+                Select Case pointer(level)
+                    Case 1
+                        If CDbl(cSkill.PS) = curSkill Then Exit Do
+                        pointer(level) = 2
+                        curSkill = CInt(cSkill.PS)
+                        curLevel = cSkill.PSL
+                    Case 2
+                        If CDbl(cSkill.SS) = curSkill Then Exit Do
+                        pointer(level) = 3
+                        curSkill = CInt(cSkill.SS)
+                        curLevel = cSkill.SSL
+                    Case 3
+                        If CDbl(cSkill.TS) = curSkill Then Exit Do
+                        pointer(level) = 4
+                        curSkill = CInt(cSkill.TS)
+                        curLevel = cSkill.TSL
+                    Case 4
+                        curSkill = 0
+                End Select
+                If curSkill = 0 Then
+                    level -= 1
+                    curSkill = parent(level)
+                Else
+                    level += 1
+                    parent(level) = curSkill
+                    pointer(level) = 1
+                    Dim newSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
+                    newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+                    If cRequiredSkillList.Contains(newSkill.Name) = False Then
+                        cRequiredSkillList.Add(newSkill.Name, curLevel)
+                    Else
+                        Dim maxLevel As Integer = CInt(cRequiredSkillList.Item(newSkill.Name))
+                        If curLevel > maxLevel Then
+                            cRequiredSkillList.Item(newSkill.Name) = curLevel
+                        End If
+                    End If
+                End If
+            Loop
+        Next
+
+        'For Each skill As String In cRequiredSkillList.Keys
+        '    MessageBox.Show(skill & " - Level " & cRequiredSkillList.Item(skill).ToString)
+        'Next
+
+    End Sub
+#End Region
+
+#Region "Map Attributes to Properties"
+    Public Shared Sub MapShipAttributes(ByVal newShip As Ship)
+        Dim attValue As Double = 0
+        For Each att As String In newShip.Attributes.Keys
+            attValue = CDbl(newShip.Attributes(att))
+            Select Case CInt(CInt(att))
+                Case 12
+                    newShip.LowSlots = CInt(attValue)
+                Case 13
+                    newShip.MidSlots = CInt(attValue)
+                Case 14
+                    newShip.HiSlots = CInt(attValue)
+                Case 15
+                    newShip.PG_Used = attValue
+                Case 1137
+                    newShip.RigSlots = CInt(attValue)
+                Case 1132
+                    newShip.Calibration = CInt(attValue)
+                Case 11
+                    newShip.PG = attValue
+                Case 48
+                    newShip.CPU = attValue
+                Case 49
+                    newShip.CPU_Used = attValue
+                Case 101
+                    newShip.LauncherSlots = CInt(attValue)
+                Case 102
+                    newShip.TurretSlots = CInt(attValue)
+                Case 55
+                    newShip.CapRecharge = attValue
+                Case 482
+                    newShip.CapCapacity = attValue
+                Case 9
+                    newShip.StructureCapacity = attValue
+                Case 113
+                    newShip.StructureEMResist = attValue
+                Case 111
+                    newShip.StructureExResist = attValue
+                Case 109
+                    newShip.StructureKiResist = attValue
+                Case 110
+                    newShip.StructureThResist = attValue
+                Case 265
+                    newShip.ArmorCapacity = attValue
+                Case 267
+                    newShip.ArmorEMResist = attValue
+                Case 268
+                    newShip.ArmorExResist = attValue
+                Case 269
+                    newShip.ArmorKiResist = attValue
+                Case 270
+                    newShip.ArmorThResist = attValue
+                Case 263
+                    newShip.ShieldCapacity = attValue
+                Case 479
+                    newShip.ShieldRecharge = attValue
+                Case 271
+                    newShip.ShieldEMResist = attValue
+                Case 272
+                    newShip.ShieldExResist = attValue
+                Case 273
+                    newShip.ShieldKiResist = attValue
+                Case 274
+                    newShip.ShieldThResist = attValue
+                Case 76
+                    newShip.MaxTargetRange = attValue
+                Case 79
+                    newShip.TargetingSpeed = attValue
+                Case 192
+                    newShip.MaxLockedTargets = attValue
+                Case 552
+                    newShip.SigRadius = attValue
+                Case 564
+                    newShip.ScanResolution = attValue
+                Case 211
+                    newShip.GravSensorStrenth = attValue
+                Case 209
+                    newShip.LadarSensorStrenth = attValue
+                Case 210
+                    newShip.MagSensorStrenth = attValue
+                Case 208
+                    newShip.RadarSensorStrenth = attValue
+                Case 37
+                    newShip.MaxVelocity = attValue
+                Case 819
+                    newShip.FusionPropStrength = attValue
+                Case 820
+                    newShip.IonPropStrength = attValue
+                Case 821
+                    newShip.MagpulsePropStrength = attValue
+                Case 822
+                    newShip.PlasmaPropStrength = attValue
+                Case 70
+                    newShip.Inertia = attValue
+                Case 153
+                    newShip.WarpCapNeed = attValue
+                Case 600
+                    newShip.WarpSpeed = attValue
+                Case 283
+                    newShip.DroneBay = attValue
+                Case 1271
+                    newShip.DroneBandwidth = attValue
+            End Select
+        Next
+    End Sub
+#End Region
+
+End Class
+
+<Serializable()> Public Class ShipLists
+
+    Public Shared shipListKeyName As New SortedList
+    Public Shared shipListKeyID As New SortedList
+    Public Shared shipList As New SortedList   ' Key = ship name
+    Public Shared fittedShipList As New SortedList   ' Key = fitting key
+
+End Class
+
+<Serializable()> Public Class DroneBayItem
+    Public DroneType As ShipModule
+    Public Quantity As Integer
+    Public IsActive As Boolean
+End Class
+
+<Serializable()> Public Class CargoBayItem
+    Public ItemType As ShipModule
+    Public Quantity As Integer
+End Class
+
+
+
+
+

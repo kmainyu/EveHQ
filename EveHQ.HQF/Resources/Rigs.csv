@@ -1,0 +1,11 @@
+Armor,MAX_VELOCITY
+Astronautic,ARMOR_HP_PERCENT
+Drone,CPU
+Electronics,NO
+Electronics Superiority,SHIELD_HP_PERCENT
+Energy Grid,NO
+Energy Weapon,ENERGY_TURRET_POWER_NEED
+Hybrid Weapon,HYBRID_TURRET_POWER_NEED
+Missile Launcher,MISSILE_LAUNCHER_CPU_NEED
+Projectile Weapon,PROJECTILE_TURRET_POWER_NEED
+Shield,SIGNATURE_RADIUS

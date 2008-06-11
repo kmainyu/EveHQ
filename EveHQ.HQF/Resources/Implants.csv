@@ -1,0 +1,402 @@
+Akemon's Modified 'Noble' ZET5000,ARMOR_HP_PERCENT,8,Armor
+Armored Warfare Mindlink,ARMOR_HP_PERCENT,15,Armor
+Armored Warfare Mindlink,MINDLINK,50,Gang
+Crystal Alpha,SHIELD_BOOSTER_BOOST,1,Shield
+Crystal Beta,SHIELD_BOOSTER_BOOST,2,Shield
+Crystal Delta,SHIELD_BOOSTER_BOOST,4,Shield
+Crystal Epsilon,SHIELD_BOOSTER_BOOST,5,Shield
+Crystal Gamma,SHIELD_BOOSTER_BOOST,3,Shield
+Crystal Omega,IMPLANT_SET,50,Science
+Cybernetic Subprocessor - Advanced,INTELLIGENCE,6,Learning
+Cybernetic Subprocessor - Basic,INTELLIGENCE,3,Learning
+Cybernetic Subprocessor - Elite,INTELLIGENCE,7,Learning
+Cybernetic Subprocessor - Improved,INTELLIGENCE,5,Learning
+Cybernetic Subprocessor - Standard,INTELLIGENCE,4,Learning
+Halo Alpha,SIGNATURE_RADIUS,1,Electronics
+Halo Beta,SIGNATURE_RADIUS,1.25,Electronics
+Halo Delta,SIGNATURE_RADIUS,1.5,Electronics
+Halo Epsilon,SIGNATURE_RADIUS,2,Electronics
+Halo Gamma,SIGNATURE_RADIUS,1.75,Electronics
+Halo Omega,IMPLANT_SET,50,Science
+Hardwiring - Eifyr and Co 'Gunslinger' AX-0,TURRET_TRACKING_SPEED,1,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' AX-1,TURRET_TRACKING_SPEED,3,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' AX-2,TURRET_TRACKING_SPEED,5,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' CX-0,TURRET_DAMAGE,1,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' CX-1,TURRET_DAMAGE,3,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' CX-2,TURRET_DAMAGE,5,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' LX-0,LARGE_PROJECTILE_TURRET_DAMAGE,1,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' LX-1,LARGE_PROJECTILE_TURRET_DAMAGE,3,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' LX-2,LARGE_PROJECTILE_TURRET_DAMAGE,5,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' MX-0,MEDIUM_PROJECTILE_TURRET_DAMAGE,1,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' MX-1,MEDIUM_PROJECTILE_TURRET_DAMAGE,3,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' MX-2,MEDIUM_PROJECTILE_TURRET_DAMAGE,5,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' SX-0,SMALL_PROJECTILE_TURRET_DAMAGE,1,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' SX-1,SMALL_PROJECTILE_TURRET_DAMAGE,3,Gunnery
+Hardwiring - Eifyr and Co 'Gunslinger' SX-2,SMALL_PROJECTILE_TURRET_DAMAGE,5,Gunnery
+Hardwiring - Eifyr and Co. 'Alchemist' WA-1,BOOSTER_DURATION,5,Shield
+Hardwiring - Eifyr and Co. 'Alchemist' WA-2,BOOSTER_DURATION,10,Shield
+Hardwiring - Eifyr and Co. 'Alchemist' XA-1,BOOSTER_SIDE_EFFECT_CHANCE,3,Science
+Hardwiring - Eifyr and Co. 'Alchemist' XA-2,BOOSTER_SIDE_EFFECT_CHANCE,5,Science
+Hardwiring - Eifyr and Co. 'Alchemist' YA-1,BOOSTER_SIDE_EFFECT,3,Science
+Hardwiring - Eifyr and Co. 'Alchemist' YA-2,BOOSTER_SIDE_EFFECT,5,Science
+Hardwiring - Eifyr and Co. 'Alchemist' ZA-0,GAS_CLOUD_HARVESTER_CYCLE_TIME,1,Industry
+Hardwiring - Eifyr and Co. 'Alchemist' ZA-1,GAS_CLOUD_HARVESTER_CYCLE_TIME,3,Industry
+Hardwiring - Eifyr and Co. 'Alchemist' ZA-2,GAS_CLOUD_HARVESTER_CYCLE_TIME,5,Industry
+Hardwiring - Eifyr and Co. 'Rogue' AY-0,AGILITY,1,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' AY-1,AGILITY,3,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' AY-2,AGILITY,5,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' CY-0,MAX_VELOCITY,1,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' CY-1,MAX_VELOCITY,3,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' CY-2,MAX_VELOCITY,5,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' DY-0,AFTERBURNER_CAPACITOR,1,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' DY-1,AFTERBURNER_CAPACITOR,3,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' DY-2,AFTERBURNER_CAPACITOR,5,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' EY-0,AFTERBURNER_DURATION,1,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' EY-1,AFTERBURNER_DURATION,3,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' EY-2,AFTERBURNER_DURATION,5,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' FY-0,WARP_CAPACITOR,2,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' FY-1,WARP_CAPACITOR,6,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' FY-2,WARP_CAPACITOR,10,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' GY-0,MICROWARPDRIVE_CAPACITOR,1,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' GY-1,MICROWARPDRIVE_CAPACITOR,3,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' GY-2,MICROWARPDRIVE_CAPACITOR,5,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' HY-0,WARP_SPEED,5,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' HY-1,WARP_SPEED,10,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' HY-2,WARP_SPEED,15,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' MY-0,AFTERBURNER_SPEED,1,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' MY-0,MICROWARPDRIVE_SPEED,1,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' MY-1,AFTERBURNER_SPEED,3,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' MY-1,MICROWARPDRIVE_SPEED,3,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' MY-2,AFTERBURNER_SPEED,5,Navigation
+Hardwiring - Eifyr and Co. 'Rogue' MY-2,MICROWARPDRIVE_SPEED,5,Navigation
+Hardwiring - Inherent Implants 'Gentry' ZEX10,CAPITAL_ARMOR_TRANSFER_DURATION,1,Armor
+Hardwiring - Inherent Implants 'Gentry' ZEX100,CAPITAL_ARMOR_TRANSFER_DURATION,3,Armor
+Hardwiring - Inherent Implants 'Gentry' ZEX1000,CAPITAL_ARMOR_TRANSFER_DURATION,5,Armor
+Hardwiring - Inherent Implants 'Gentry' ZEX20,CAPITAL_ARMOR_TRANSFER_CAPACITOR,1,Armor
+Hardwiring - Inherent Implants 'Gentry' ZEX200,CAPITAL_ARMOR_TRANSFER_CAPACITOR,3,Armor
+Hardwiring - Inherent Implants 'Gentry' ZEX2000,CAPITAL_ARMOR_TRANSFER_CAPACITOR,5,Armor
+Hardwiring - Inherent Implants 'Highwall' HX-0,MINING_AMOUNT,1,Industry
+Hardwiring - Inherent Implants 'Highwall' HX-1,MINING_AMOUNT,3,Industry
+Hardwiring - Inherent Implants 'Highwall' HX-2,MINING_AMOUNT,5,Industry
+Hardwiring - Inherent Implants 'Highwall' HY-0,MINING_UPGRADE_CPU_PENALTY,1,Industry
+Hardwiring - Inherent Implants 'Highwall' HY-1,MINING_UPGRADE_CPU_PENALTY,3,Industry
+Hardwiring - Inherent Implants 'Highwall' HY-2,MINING_UPGRADE_CPU_PENALTY,5,Industry
+Hardwiring - Inherent Implants 'Lancer' G0-Alpha,SMALL_ENERGY_TURRET_DAMAGE,1,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G0-Beta,TURRET_CAPACITOR,1,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G0-Delta,TURRET_ROF,1,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G0-Epsilon,LARGE_ENERGY_TURRET_DAMAGE,1,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G0-Gamma,MEDIUM_ENERGY_TURRET_DAMAGE,1,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G1-Alpha,SMALL_ENERGY_TURRET_DAMAGE,3,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G1-Beta,TURRET_CAPACITOR,3,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G1-Delta,TURRET_ROF,3,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G1-Epsilon,LARGE_ENERGY_TURRET_DAMAGE,3,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G1-Gamma,MEDIUM_ENERGY_TURRET_DAMAGE,3,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G2-Alpha,SMALL_ENERGY_TURRET_DAMAGE,5,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G2-Beta,TURRET_CAPACITOR,5,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G2-Delta,TURRET_ROF,5,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G2-Epsilon,LARGE_ENERGY_TURRET_DAMAGE,5,Gunnery
+Hardwiring - Inherent Implants 'Lancer' G2-Gamma,MEDIUM_ENERGY_TURRET_DAMAGE,5,Gunnery
+Hardwiring - Inherent Implants 'Noble' ZET10,ARMOR_REPAIR_DURATION,1,Armor
+Hardwiring - Inherent Implants 'Noble' ZET10,HULL_REPAIR_DURATION,1,Hull
+Hardwiring - Inherent Implants 'Noble' ZET100,ARMOR_REPAIR_DURATION,3,Armor
+Hardwiring - Inherent Implants 'Noble' ZET100,HULL_REPAIR_DURATION,3,Hull
+Hardwiring - Inherent Implants 'Noble' ZET1000,ARMOR_REPAIR_DURATION,5,Armor
+Hardwiring - Inherent Implants 'Noble' ZET1000,HULL_REPAIR_DURATION,5,Hull
+Hardwiring - Inherent Implants 'Noble' ZET20,ARMOR_TRANSFER_CAPACITOR,1,Armor
+Hardwiring - Inherent Implants 'Noble' ZET200,ARMOR_TRANSFER_CAPACITOR,3,Armor
+Hardwiring - Inherent Implants 'Noble' ZET2000,ARMOR_TRANSFER_CAPACITOR,5,Armor
+Hardwiring - Inherent Implants 'Noble' ZET30,HULL_HP,1,Hull
+Hardwiring - Inherent Implants 'Noble' ZET300,HULL_HP,3,Hull
+Hardwiring - Inherent Implants 'Noble' ZET3000,HULL_HP,5,Hull
+Hardwiring - Inherent Implants 'Noble' ZET40,ARMOR_REPAIR_AMOUNT,1,Armor
+Hardwiring - Inherent Implants 'Noble' ZET400,ARMOR_REPAIR_AMOUNT,3,Armor
+Hardwiring - Inherent Implants 'Noble' ZET4000,ARMOR_REPAIR_AMOUNT,5,Armor
+Hardwiring - Inherent Implants 'Noble' ZET50,ARMOR_HP_PERCENT,1,Armor
+Hardwiring - Inherent Implants 'Noble' ZET500,ARMOR_HP_PERCENT,3,Armor
+Hardwiring - Inherent Implants 'Noble' ZET5000,ARMOR_HP_PERCENT,5,Armor
+Hardwiring - Inherent Implants 'Squire' CC2,CAPACITOR_CAPACITY_PERCENT,1,Engineering
+Hardwiring - Inherent Implants 'Squire' CC4,CAPACITOR_CAPACITY_PERCENT,3,Engineering
+Hardwiring - Inherent Implants 'Squire' CC8,CAPACITOR_CAPACITY_PERCENT,5,Engineering
+Hardwiring - Inherent Implants 'Squire' CR2,CAPACITOR_RECHARGE,1,Engineering
+Hardwiring - Inherent Implants 'Squire' CR4,CAPACITOR_RECHARGE,3,Engineering
+Hardwiring - Inherent Implants 'Squire' CR8,CAPACITOR_RECHARGE,5,Engineering
+Hardwiring - Inherent Implants 'Squire' EE2,ENERGY_TRANSFER_CAPACITOR,1,Engineering
+Hardwiring - Inherent Implants 'Squire' EE4,ENERGY_TRANSFER_CAPACITOR,3,Engineering
+Hardwiring - Inherent Implants 'Squire' EE8,ENERGY_TRANSFER_CAPACITOR,5,Engineering
+Hardwiring - Inherent Implants 'Squire' EP2,ENERGY_PULSE_WEAPON_DURATION,1,Engineering
+Hardwiring - Inherent Implants 'Squire' EP4,ENERGY_PULSE_WEAPON_DURATION,3,Engineering
+Hardwiring - Inherent Implants 'Squire' EP8,ENERGY_PULSE_WEAPON_DURATION,5,Engineering
+Hardwiring - Inherent Implants 'Squire' GU2,ENERGY_MODULE_CPU_NEED,1,Engineering
+Hardwiring - Inherent Implants 'Squire' GU4,ENERGY_MODULE_CPU_NEED,3,Engineering
+Hardwiring - Inherent Implants 'Squire' GU8,ENERGY_MODULE_CPU_NEED,5,Engineering
+Hardwiring - Inherent Implants 'Squire' PG2,POWERGRID_PERCENT,1,Engineering
+Hardwiring - Inherent Implants 'Squire' PG4,POWERGRID_PERCENT,3,Engineering
+Hardwiring - Inherent Implants 'Squire' PG8,POWERGRID_PERCENT,5,Engineering
+Hardwiring - Inherent Implants 'Yeti' BX-0,ICE_HARVESTER_DURATION,1,Industry
+Hardwiring - Inherent Implants 'Yeti' BX-1,ICE_HARVESTER_DURATION,3,Industry
+Hardwiring - Inherent Implants 'Yeti' BX-2,ICE_HARVESTER_DURATION,5,Industry
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-0,SCAN_DEVIATION,2,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-1,SCAN_DEVIATION,6,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-2,SCAN_DEVIATION,10,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-0,SCAN_STRENGTH,1,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-1,SCAN_STRENGTH,3,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-2,SCAN_STRENGTH,5,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-0,SCAN_DURATION,2,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-1,SCAN_DURATION,6,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-2,SCAN_DURATION,10,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPW-1,ARCHAEOLOGICAL_FIND,5,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPX-1,DATA_RETRIEVAL,5,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPY-1,SALVAGE_RETRIEVAL,5,Science
+Hardwiring - Poteque Pharmaceuticals 'Prospector' PPZ-1,DATAMINER_CYCLE_TIME,5,Science
+Hardwiring - Zainou 'Beancounter' F40,BLUEPRINT_MANUFACTURE_TIME,1,Industry
+Hardwiring - Zainou 'Beancounter' F50,BLUEPRINT_MANUFACTURE_TIME,2,Industry
+Hardwiring - Zainou 'Beancounter' F60,BLUEPRINT_MANUFACTURE_TIME,4,Industry
+Hardwiring - Zainou 'Beancounter' H40,REFINING_WASTE,1,Industry
+Hardwiring - Zainou 'Beancounter' H50,REFINING_WASTE,2,Industry
+Hardwiring - Zainou 'Beancounter' H60,REFINING_WASTE,4,Industry
+Hardwiring - Zainou 'Beancounter' I40,BLUEPRINT_PRODUCTION_EFFICIENCY_RESEARCH_SPEED,1,Industry
+Hardwiring - Zainou 'Beancounter' I50,BLUEPRINT_PRODUCTION_EFFICIENCY_RESEARCH_SPEED,3,Industry
+Hardwiring - Zainou 'Beancounter' I60,BLUEPRINT_PRODUCTION_EFFICIENCY_RESEARCH_SPEED,5,Industry
+Hardwiring - Zainou 'Beancounter' J40,BLUEPRINT_MINERAL_EFFICIENCY_RESEARCH_SPEED,1,Industry
+Hardwiring - Zainou 'Beancounter' J50,BLUEPRINT_MINERAL_EFFICIENCY_RESEARCH_SPEED,3,Industry
+Hardwiring - Zainou 'Beancounter' J60,BLUEPRINT_MINERAL_EFFICIENCY_RESEARCH_SPEED,5,Industry
+Hardwiring - Zainou 'Beancounter' K40,BLUEPRINT_COPY_SPEED,1,Industry
+Hardwiring - Zainou 'Beancounter' K50,BLUEPRINT_COPY_SPEED,3,Industry
+Hardwiring - Zainou 'Beancounter' K60,BLUEPRINT_COPY_SPEED,5,Industry
+Hardwiring - Zainou 'Deadeye' ZGA10,TURRET_OPTIMAL_RANGE,1,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGA100,TURRET_OPTIMAL_RANGE,3,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGA1000,TURRET_OPTIMAL_RANGE,5,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGC10,TURRET_FALLOFF,1,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGC100,TURRET_FALLOFF,3,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGC1000,TURRET_FALLOFF,5,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGL10,LARGE_HYBRID_TURRET_DAMAGE,1,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGL100,LARGE_HYBRID_TURRET_DAMAGE,3,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGL1000,LARGE_HYBRID_TURRET_DAMAGE,5,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGM10,MEDIUM_HYBRID_TURRET_DAMAGE,1,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGM100,MEDIUM_HYBRID_TURRET_DAMAGE,3,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGM1000,MEDIUM_HYBRID_TURRET_DAMAGE,5,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGS10,SMALL_HYBRID_TURRET_DAMAGE,1,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGS100,SMALL_HYBRID_TURRET_DAMAGE,3,Gunnery
+Hardwiring - Zainou 'Deadeye' ZGS1000,SMALL_HYBRID_TURRET_DAMAGE,5,Gunnery
+Hardwiring - Zainou 'Deadeye' ZMA10,LIGHT_MISSILE_EXPLOSION_RADIUS,1,Missiles
+Hardwiring - Zainou 'Deadeye' ZMA10,HEAVY_MISSILE_EXPLOSION_RADIUS,1,Missiles
+Hardwiring - Zainou 'Deadeye' ZMA10,CRUISE_MISSILE_EXPLOSION_RADIUS,1,Missiles
+Hardwiring - Zainou 'Deadeye' ZMA100,LIGHT_MISSILE_EXPLOSION_RADIUS,3,Missiles
+Hardwiring - Zainou 'Deadeye' ZMA100,HEAVY_MISSILE_EXPLOSION_RADIUS,3,Missiles
+Hardwiring - Zainou 'Deadeye' ZMA100,CRUISE_MISSILE_EXPLOSION_RADIUS,3,Missiles
+Hardwiring - Zainou 'Deadeye' ZMA1000,LIGHT_MISSILE_EXPLOSION_RADIUS,5,Missiles
+Hardwiring - Zainou 'Deadeye' ZMA1000,HEAVY_MISSILE_EXPLOSION_RADIUS,5,Missiles
+Hardwiring - Zainou 'Deadeye' ZMA1000,CRUISE_MISSILE_EXPLOSION_RADIUS,5,Missiles
+Hardwiring - Zainou 'Deadeye' ZMC10,MISSILE_FLIGHT_TIME,1,Missiles
+Hardwiring - Zainou 'Deadeye' ZMC100,MISSILE_FLIGHT_TIME,3,Missiles
+Hardwiring - Zainou 'Deadeye' ZMC1000,MISSILE_FLIGHT_TIME,5,Missiles
+Hardwiring - Zainou 'Deadeye' ZML10,MISSILE_VELOCITY,1,Missiles
+Hardwiring - Zainou 'Deadeye' ZML100,MISSILE_VELOCITY,3,Missiles
+Hardwiring - Zainou 'Deadeye' ZML1000,MISSILE_VELOCITY,5,Missiles
+Hardwiring - Zainou 'Deadeye' ZMM10,MISSILE_LAUNCHER_ROF,1,Missiles
+Hardwiring - Zainou 'Deadeye' ZMM100,MISSILE_LAUNCHER_ROF,3,Missiles
+Hardwiring - Zainou 'Deadeye' ZMM1000,MISSILE_LAUNCHER_ROF,5,Missiles
+Hardwiring - Zainou 'Deadeye' ZMS10,MISSILE_EXPLOSION_VELOCITY,1,Missiles
+Hardwiring - Zainou 'Deadeye' ZMS100,MISSILE_EXPLOSION_VELOCITY,3,Missiles
+Hardwiring - Zainou 'Deadeye' ZMS1000,MISSILE_EXPLOSION_VELOCITY,5,Missiles
+Hardwiring - Zainou 'Gnome' KTA10,MISSILE_LAUNCHER_CPU_NEED,1,Missiles
+Hardwiring - Zainou 'Gnome' KTA100,MISSILE_LAUNCHER_CPU_NEED,3,Missiles
+Hardwiring - Zainou 'Gnome' KTA1000,MISSILE_LAUNCHER_CPU_NEED,5,Missiles
+Hardwiring - Zainou 'Gnome' KUA1000,SHIELD_MODULE_POWER_NEED,3,Shield
+Hardwiring - Zainou 'Gnome' KUA2000,SHIELD_MODULE_POWER_NEED,5,Shield
+Hardwiring - Zainou 'Gnome' KUA500,SHIELD_MODULE_POWER_NEED,1,Shield
+Hardwiring - Zainou 'Gnome' KVA1000,SHIELD_HP_PERCENT,3,Shield
+Hardwiring - Zainou 'Gnome' KVA2000,SHIELD_HP_PERCENT,5,Shield
+Hardwiring - Zainou 'Gnome' KVA500,SHIELD_HP_PERCENT,1,Shield
+Hardwiring - Zainou 'Gnome' KXA1000,SHIELD_TRANSPORTER_CAPACITOR,3,Shield
+Hardwiring - Zainou 'Gnome' KXA2000,SHIELD_TRANSPORTER_CAPACITOR,5,Shield
+Hardwiring - Zainou 'Gnome' KXA500,SHIELD_TRANSPORTER_CAPACITOR,1,Shield
+Hardwiring - Zainou 'Gnome' KYA1000,SHIELD_RECHARGE,3,Shield
+Hardwiring - Zainou 'Gnome' KYA2000,SHIELD_RECHARGE,5,Shield
+Hardwiring - Zainou 'Gnome' KYA500,SHIELD_RECHARGE,1,Shield
+Hardwiring - Zainou 'Gnome' KZA1000,TURRET_CPU_NEED,3,Gunnery
+Hardwiring - Zainou 'Gnome' KZA2000,TURRET_CPU_NEED,5,Gunnery
+Hardwiring - Zainou 'Gnome' KZA500,TURRET_CPU_NEED,1,Gunnery
+Hardwiring - Zainou 'Gypsy' KLB-25,ECM_CPU_NEED,1,Electronics
+Hardwiring - Zainou 'Gypsy' KLB-50,ECM_CPU_NEED,3,Electronics
+Hardwiring - Zainou 'Gypsy' KLB-75,ECM_CPU_NEED,5,Electronics
+Hardwiring - Zainou 'Gypsy' KMB-25,CPU,1,Electronics
+Hardwiring - Zainou 'Gypsy' KMB-50,CPU,3,Electronics
+Hardwiring - Zainou 'Gypsy' KMB-75,CPU,5,Electronics
+Hardwiring - Zainou 'Gypsy' KNB-25,SCAN_RESOLUTION,1,Electronics
+Hardwiring - Zainou 'Gypsy' KNB-50,SCAN_RESOLUTION,3,Electronics
+Hardwiring - Zainou 'Gypsy' KNB-75,SCAN_RESOLUTION,5,Electronics
+Hardwiring - Zainou 'Gypsy' KOB-25,EW_MODULE_CAPACITOR,1,Electronics
+Hardwiring - Zainou 'Gypsy' KOB-50,EW_MODULE_CAPACITOR,3,Electronics
+Hardwiring - Zainou 'Gypsy' KOB-75,EW_MODULE_CAPACITOR,5,Electronics
+Hardwiring - Zainou 'Gypsy' KPB-25,MAX_TARGETING_RANGE,1,Electronics
+Hardwiring - Zainou 'Gypsy' KPB-50,MAX_TARGETING_RANGE,3,Electronics
+Hardwiring - Zainou 'Gypsy' KPB-75,MAX_TARGETING_RANGE,5,Electronics
+Hardwiring - Zainou 'Gypsy' KQB-25,PROPULSION_JAMMING_CAPACITOR,1,Electronics
+Hardwiring - Zainou 'Gypsy' KQB-50,PROPULSION_JAMMING_CAPACITOR,3,Electronics
+Hardwiring - Zainou 'Gypsy' KQB-75,PROPULSION_JAMMING_CAPACITOR,5,Electronics
+Hardwiring - Zainou 'Gypsy' KRB-25,SENSOR_LINK_CAPACITOR,1,Electronics
+Hardwiring - Zainou 'Gypsy' KRB-50,SENSOR_LINK_CAPACITOR,3,Electronics
+Hardwiring - Zainou 'Gypsy' KRB-75,SENSOR_LINK_CAPACITOR,5,Electronics
+Hardwiring - Zainou 'Gypsy' KSB-25,TRACKING_DISRUPTOR_CAPACITOR,1,Electronics
+Hardwiring - Zainou 'Gypsy' KSB-50,TRACKING_DISRUPTOR_CAPACITOR,3,Electronics
+Hardwiring - Zainou 'Gypsy' KSB-75,TRACKING_DISRUPTOR_CAPACITOR,5,Electronics
+Hardwiring - Zainou 'Gypsy' KTB-25,TARGET_PAINTER_CAPACITOR,1,Electronics
+Hardwiring - Zainou 'Gypsy' KTB-50,TARGET_PAINTER_CAPACITOR,3,Electronics
+Hardwiring - Zainou 'Gypsy' KTB-75,TARGET_PAINTER_CAPACITOR,5,Electronics
+Hardwiring - Zainou 'Sharpshooter' ZMX10,CITADEL_TORPEDO_DAMAGE,1,Missiles
+Hardwiring - Zainou 'Sharpshooter' ZMX100,CITADEL_TORPEDO_DAMAGE,3,Missiles
+Hardwiring - Zainou 'Sharpshooter' ZMX1000,CITADEL_TORPEDO_DAMAGE,5,Missiles
+Hardwiring - Zainou 'Snapshot' ZMD1000,DEFENDER_MISSILE_VELOCITY,3,Missiles
+Hardwiring - Zainou 'Snapshot' ZMD2000,DEFENDER_MISSILE_VELOCITY,5,Missiles
+Hardwiring - Zainou 'Snapshot' ZMD500,DEFENDER_MISSILE_VELOCITY,1,Missiles
+Hardwiring - Zainou 'Snapshot' ZME1000,HEAVY_ASSAULT_MISSILE_DAMAGE,3,Missiles
+Hardwiring - Zainou 'Snapshot' ZME2000,HEAVY_ASSAULT_MISSILE_DAMAGE,5,Missiles
+Hardwiring - Zainou 'Snapshot' ZME500,HEAVY_ASSAULT_MISSILE_DAMAGE,1,Missiles
+Hardwiring - Zainou 'Snapshot' ZMF1000,FOF_MISSILE_EXPLOSION_RADIUS,3,Missiles
+Hardwiring - Zainou 'Snapshot' ZMF2000,FOF_MISSILE_EXPLOSION_RADIUS,5,Missiles
+Hardwiring - Zainou 'Snapshot' ZMF500,FOF_MISSILE_EXPLOSION_RADIUS,1,Missiles
+Hardwiring - Zainou 'Snapshot' ZMH1000,HEAVY_MISSILE_DAMAGE,3,Missiles
+Hardwiring - Zainou 'Snapshot' ZMH2000,HEAVY_MISSILE_DAMAGE,5,Missiles
+Hardwiring - Zainou 'Snapshot' ZMH500,HEAVY_MISSILE_DAMAGE,1,Missiles
+Hardwiring - Zainou 'Snapshot' ZMN1000,LIGHT_MISSILE_DAMAGE,3,Missiles
+Hardwiring - Zainou 'Snapshot' ZMN2000,LIGHT_MISSILE_DAMAGE,5,Missiles
+Hardwiring - Zainou 'Snapshot' ZMN500,LIGHT_MISSILE_DAMAGE,1,Missiles
+Hardwiring - Zainou 'Snapshot' ZMR1000,ROCKET_DAMAGE,3,Missiles
+Hardwiring - Zainou 'Snapshot' ZMR2000,ROCKET_DAMAGE,5,Missiles
+Hardwiring - Zainou 'Snapshot' ZMR500,ROCKET_DAMAGE,1,Missiles
+Hardwiring - Zainou 'Snapshot' ZMT1000,TORPEDO_DAMAGE,3,Missiles
+Hardwiring - Zainou 'Snapshot' ZMT2000,TORPEDO_DAMAGE,5,Missiles
+Hardwiring - Zainou 'Snapshot' ZMT500,TORPEDO_DAMAGE,1,Missiles
+Hardwiring - Zainou 'Snapshot' ZMU1000,CRUISE_MISSILE_DAMAGE,3,Missiles
+Hardwiring - Zainou 'Snapshot' ZMU2000,CRUISE_MISSILE_DAMAGE,5,Missiles
+Hardwiring - Zainou 'Snapshot' ZMU500,CRUISE_MISSILE_DAMAGE,1,Missiles
+Hardwiring - Zainou 'Sprite' KXX1000,CAPITAL_SHIELD_TRANSPORTER_CAPACITOR,3,Shield
+Hardwiring - Zainou 'Sprite' KXX2000,CAPITAL_SHIELD_TRANSPORTER_CAPACITOR,5,Shield
+Hardwiring - Zainou 'Sprite' KXX500,CAPITAL_SHIELD_TRANSPORTER_CAPACITOR,1,Shield
+Imperial Special Ops Field Enhancer - Standard,ARMOR_HP_PERCENT,5,Armor
+Information Warfare Mindlink,MAX_TARGETING_RANGE,15,Electronics
+Information Warfare Mindlink,MINDLINK,50,Gang
+Limited Cybernetic Subprocessor,INTELLIGENCE,1,Learning
+Limited Cybernetic Subprocessor - Beta,INTELLIGENCE,2,Learning
+Limited Memory Augmentation,MEMORY,1,Learning
+Limited Memory Augmentation - Beta,MEMORY,2,Learning
+Limited Neural Boost,WILLPOWER,1,Learning
+Limited Neural Boost - Beta,WILLPOWER,2,Learning
+Limited Ocular Filter,PERCEPTION,1,Learning
+Limited Ocular Filter - Beta,PERCEPTION,2,Learning
+Limited Social Adaptation Chip,CHARISMA,1,Learning
+Limited Social Adaptation Chip - Beta,CHARISMA,2,Learning
+Low-grade Centurion Alpha,EW_MODULE_OPTIMAL_RANGE,1,Electronics
+Low-grade Centurion Beta,EW_MODULE_OPTIMAL_RANGE,2,Electronics
+Low-grade Centurion Delta,EW_MODULE_OPTIMAL_RANGE,4,Electronics
+Low-grade Centurion Epsilon,EW_MODULE_OPTIMAL_RANGE,5,Electronics
+Low-grade Centurion Gamma,EW_MODULE_OPTIMAL_RANGE,3,Electronics
+Low-grade Centurion Omega,IMPLANT_SET,25,Science
+Low-grade Crystal Alpha,SHIELD_BOOSTER_BOOST,1,Shield
+Low-grade Crystal Beta,SHIELD_BOOSTER_BOOST,2,Shield
+Low-grade Crystal Delta,SHIELD_BOOSTER_BOOST,4,Shield
+Low-grade Crystal Epsilon,SHIELD_BOOSTER_BOOST,5,Shield
+Low-grade Crystal Gamma,SHIELD_BOOSTER_BOOST,3,Shield
+Low-grade Crystal Omega,IMPLANT_SET,25,Science
+Low-grade Edge Alpha,BOOSTER_SIDE_EFFECT,1,Science
+Low-grade Edge Beta,BOOSTER_SIDE_EFFECT,2,Science
+Low-grade Edge Delta,BOOSTER_SIDE_EFFECT,4,Science
+Low-grade Edge Epsilon,BOOSTER_SIDE_EFFECT,5,Science
+Low-grade Edge Gamma,BOOSTER_SIDE_EFFECT,3,Science
+Low-grade Edge Omega,IMPLANT_SET,25,Science
+Low-grade Halo Alpha,SIGNATURE_RADIUS,1,Electronics
+Low-grade Halo Beta,SIGNATURE_RADIUS,1.25,Electronics
+Low-grade Halo Delta,SIGNATURE_RADIUS,1.5,Electronics
+Low-grade Halo Epsilon,SIGNATURE_RADIUS,2,Electronics
+Low-grade Halo Gamma,SIGNATURE_RADIUS,1.75,Electronics
+Low-grade Halo Omega,IMPLANT_SET,25,Science
+Low-grade Harvest Alpha,MINING_LASER_RANGE,1,Industry
+Low-grade Harvest Beta,MINING_LASER_RANGE,2,Industry
+Low-grade Harvest Delta,MINING_LASER_RANGE,4,Industry
+Low-grade Harvest Epsilon,MINING_LASER_RANGE,5,Industry
+Low-grade Harvest Gamma,MINING_LASER_RANGE,3,Industry
+Low-grade Harvest Omega,IMPLANT_SET,25,Science
+Low-grade Nomad Alpha,AGILITY,1,Navigation
+Low-grade Nomad Beta,AGILITY,2,Navigation
+Low-grade Nomad Delta,AGILITY,4,Navigation
+Low-grade Nomad Epsilon,AGILITY,5,Navigation
+Low-grade Nomad Gamma,AGILITY,3,Navigation
+Low-grade Nomad Omega,IMPLANT_SET,25,Science
+Low-grade Slave Alpha,ARMOR_HP_PERCENT,1,Armor
+Low-grade Slave Beta,ARMOR_HP_PERCENT,2,Armor
+Low-grade Slave Delta,ARMOR_HP_PERCENT,4,Armor
+Low-grade Slave Epsilon,ARMOR_HP_PERCENT,5,Armor
+Low-grade Slave Gamma,ARMOR_HP_PERCENT,3,Armor
+Low-grade Slave Omega,IMPLANT_SET,25,Science
+Low-grade Snake Alpha,MAX_VELOCITY,1,Navigation
+Low-grade Snake Beta,MAX_VELOCITY,2,Navigation
+Low-grade Snake Delta,MAX_VELOCITY,4,Navigation
+Low-grade Snake Epsilon,MAX_VELOCITY,5,Navigation
+Low-grade Snake Gamma,MAX_VELOCITY,3,Navigation
+Low-grade Snake Omega,IMPLANT_SET,25,Science
+Low-grade Talisman Alpha,ENERGY_TRANSFER_DURATION,1,Engineering
+Low-grade Talisman Beta,ENERGY_TRANSFER_DURATION,2,Engineering
+Low-grade Talisman Delta,ENERGY_TRANSFER_DURATION,4,Engineering
+Low-grade Talisman Epsilon,ENERGY_TRANSFER_DURATION,5,Engineering
+Low-grade Talisman Gamma,ENERGY_TRANSFER_DURATION,3,Engineering
+Low-grade Talisman Omega,IMPLANT_SET,25,Science
+Low-grade Virtue Alpha,SCAN_STRENGTH,1,Science
+Low-grade Virtue Beta,SCAN_STRENGTH,2,Science
+Low-grade Virtue Delta,SCAN_STRENGTH,4,Science
+Low-grade Virtue Epsilon,SCAN_STRENGTH,5,Science
+Low-grade Virtue Gamma,SCAN_STRENGTH,3,Science
+Low-grade Virtue Omega,IMPLANT_SET,25,Science
+Memory Augmentation - Advanced,MEMORY,6,Learning
+Memory Augmentation - Basic,MEMORY,3,Learning
+Memory Augmentation - Elite,MEMORY,7,Learning
+Memory Augmentation - Improved,MEMORY,5,Learning
+Memory Augmentation - Standard,MEMORY,4,Learning
+Michi's Excavation Augmentor,MINING_AMOUNT,5,Industry
+Mining Foreman Mindlink,MINING_AMOUNT,15,Industry
+Mining Foreman Mindlink,MINDLINK,50,Gang
+Neural Boost - Advanced,WILLPOWER,6,Learning
+Neural Boost - Basic,WILLPOWER,3,Learning
+Neural Boost - Elite,WILLPOWER,7,Learning
+Neural Boost - Improved,WILLPOWER,5,Learning
+Neural Boost - Standard,WILLPOWER,4,Learning
+Ocular Filter - Advanced,PERCEPTION,6,Learning
+Ocular Filter - Basic,PERCEPTION,3,Learning
+Ocular Filter - Elite,PERCEPTION,7,Learning
+Ocular Filter - Improved,PERCEPTION,5,Learning
+Ocular Filter - Standard,PERCEPTION,4,Learning
+Ogdin's Eye Coordination Enhancer,TURRET_TRACKING_SPEED,6,Gunnery
+Pashan's Turret Customization Mindlink,TURRET_ROF,7,Gunnery
+Pashan's Turret Handling Mindlink,LARGE_ENERGY_TURRET_DAMAGE,7,Gunnery
+Republic Special Ops Field Enhancer - Gamma,MAX_VELOCITY,5,Navigation
+Shaqil's Speed Enhancer,MAX_VELOCITY,8,Navigation
+Siege Warfare Mindlink,SHIELD_HP_PERCENT,15,Shield
+Siege Warfare Mindlink,MINDLINK,50,Gang
+Skirmish Warfare Mindlink,MAX_VELOCITY,15,Navigation
+Skirmish Warfare Mindlink,MINDLINK,50,Gang
+Slave Alpha,ARMOR_HP_PERCENT,1,Armor
+Slave Beta,ARMOR_HP_PERCENT,2,Armor
+Slave Delta,ARMOR_HP_PERCENT,4,Armor
+Slave Epsilon,ARMOR_HP_PERCENT,5,Armor
+Slave Gamma,ARMOR_HP_PERCENT,3,Armor
+Slave Omega,IMPLANT_SET,50,Science
+Snake Alpha,MAX_VELOCITY,1,Navigation
+Snake Beta,MAX_VELOCITY,2,Navigation
+Snake Delta,MAX_VELOCITY,4,Navigation
+Snake Epsilon,MAX_VELOCITY,5,Navigation
+Snake Gamma,MAX_VELOCITY,3,Navigation
+Snake Omega,IMPLANT_SET,50,Science
+Social Adaptation Chip - Advanced,CHARISMA,6,Learning
+Social Adaptation Chip - Basic,CHARISMA,3,Learning
+Social Adaptation Chip - Improved,CHARISMA,5,Learning
+Social Adaptation Chip - Standard,CHARISMA,4,Learning
+Talisman Alpha,ENERGY_TRANSFER_DURATION,1,Engineering
+Talisman Beta,ENERGY_TRANSFER_DURATION,2,Engineering
+Talisman Delta,ENERGY_TRANSFER_DURATION,4,Engineering
+Talisman Epsilon,ENERGY_TRANSFER_DURATION,5,Engineering
+Talisman Gamma,ENERGY_TRANSFER_DURATION,3,Engineering
+Talisman Omega,IMPLANT_SET,50,Science
+Whelan Machorin's Ballistic Smartlink,MISSILE_LAUNCHER_ROF,5,Missiles
+Zor's Custom Navigation Hyper-Link,AFTERBURNER_SPEED,5,Navigation
+Zor's Custom Navigation Hyper-Link,MICROWARPDRIVE_SPEED,5,Navigation
+Zor's Custom Navigation Link,AFTERBURNER_DURATION,10,Navigation

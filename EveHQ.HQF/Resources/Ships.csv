@@ -1,0 +1,1082 @@
+Abaddon,LARGE_ENERGY_TURRET_DAMAGE,5,1,Amarr Battleship
+Abaddon,EM_ARMOR_RESIST,5,1,Amarr Battleship
+Abaddon,EXPLOSIVE_ARMOR_RESIST,5,1,Amarr Battleship
+Abaddon,KINETIC_ARMOR_RESIST,5,1,Amarr Battleship
+Abaddon,THERMAL_ARMOR_RESIST,5,1,Amarr Battleship
+Absolution,MEDIUM_ENERGY_TURRET_CAPACITOR,-10,1,Battlecruisers
+Absolution,EM_ARMOR_RESIST,5,1,Battlecruisers
+Absolution,EXPLOSIVE_ARMOR_RESIST,5,1,Battlecruisers
+Absolution,KINETIC_ARMOR_RESIST,5,1,Battlecruisers
+Absolution,THERMAL_ARMOR_RESIST,5,1,Battlecruisers
+Absolution,MEDIUM_ENERGY_TURRET_DAMAGE,5,1,Command Ships
+Absolution,MEDIUM_ENERGY_TURRET_ROF,-5,1,Command Ships
+Absolution,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Aeon,CAPITAL_ENERGY_TRANSFER_RANGE,50,1,Amarr Carrier
+Aeon,CAPITAL_ARMOR_TRANSFER_RANGE,50,1,Amarr Carrier
+Aeon,EM_ARMOR_RESIST,5,1,Amarr Carrier
+Aeon,EXPLOSIVE_ARMOR_RESIST,5,1,Amarr Carrier
+Aeon,KINETIC_ARMOR_RESIST,5,1,Amarr Carrier
+Aeon,THERMAL_ARMOR_RESIST,5,1,Amarr Carrier
+Aeon,CLONE_VAT_BAY_CPU_NEED,-99,0,0
+Aeon,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Aeon,PROJECTED_ECM_CPU_NEED,-99,0,0
+Aeon,TRAIGE_CPU_NEED,-99,0,0
+Aeon,FIGHTER_CONTROL,3,1,Amarr Carrier
+Aeon,GANG_WARFARE_LINK,1,1,Amarr Carrier
+Aeon,FIGHTER_CONTROL_RANGE,200,0,0
+Aeon,EW_IMMUNIT,1,0,0
+Amarr Navy Slicer,SMALL_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Frigate
+Amarr Navy Slicer,SMALL_ENERGY_TURRET_DAMAGE,5,1,Amarr Frigate
+Amarr Shuttle,NO,0,0,0
+Anathema,ROCKET_DAMAGE,5,1,Amarr Frigate
+Anathema,CAPACITOR_RECHARGE,-5,1,Amarr Frigate
+Anathema,CLOAKING_DEVICE_CPU_NEED,-97.5,0,0
+Anathema,CLOAKING_DEVICE_CPU_NEED,-0.5,1,Covert Ops
+Anathema,ASTROMETRICS_MODULE_DURATION,-10,1,Covert Ops
+Anshar,CARGO_CAPACITY,5,1,Gallente Freighter
+Anshar,MAX_VELOCITY,5,1,Gallente Freighter
+Anshar,HULL_HP,10,1,Jump Freighters
+Anshar,JUMP_FUEL,-5,1,Jump Freighters
+Apocalypse,LARGE_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Battleship
+Apocalypse,CAPACITOR_CAPACITY_PERCENT,5,1,Amarr Battleship
+Apocalypse Imperial Issue,LARGE_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Battleship
+Apocalypse Imperial Issue,CAPACITOR_CAPACITY_PERCENT,5,1,Amarr Battleship
+Apocalypse Navy Issue,LARGE_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Battleship
+Apocalypse Navy Issue,CAPACITOR_CAPACITY_PERCENT,5,1,Amarr Battleship
+Arazu,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Gallente Cruiser
+Arazu,REMOTE_TARGETING_RANGE,5,1,Gallente Cruiser
+Arazu,REMOTE_SCAN_RESOLUTION,5,1,Gallente Cruiser
+Arazu,WARP_SCRAMBLER_RANGE,20,1,Recon Ships
+Arazu,CLOAKING_DEVICE_CPU_NEED,-95,0,0
+Arazu,CLOAKING_DEVICE_CPU_NEED,-1,1,Recon Ships
+Arazu,CYNOSURAL_FUEL_NEED,-80,0,0
+Arazu,CYNOSURAL_FIELD_DURATION,-50,0,0
+Arbitrator,TRACKING_DISRUPTOR_OPTIMAL_RANGE,5,1,Amarr Cruiser
+Arbitrator,TRACKING_DISRUPTOR_TRACKING_SPEED,5,1,Amarr Cruiser
+Arbitrator,DRONE_SHIELD_HP,10,1,Amarr Cruiser
+Arbitrator,DRONE_ARMOR_HP,10,1,Amarr Cruiser
+Arbitrator,DRONE_HULL_HP,10,1,Amarr Cruiser
+Arbitrator,DRONE_DAMAGE,10,1,Amarr Cruiser
+Arbitrator,DRONE_MINING_YIELD,10,1,Amarr Cruiser
+Archon,CAPITAL_ENERGY_TRANSFER_RANGE,50,1,Amarr Carrier
+Archon,CAPITAL_ARMOR_TRANSFER_RANGE,50,1,Amarr Carrier
+Archon,EM_ARMOR_RESIST,5,1,Amarr Carrier
+Archon,EXPLOSIVE_ARMOR_RESIST,5,1,Amarr Carrier
+Archon,KINETIC_ARMOR_RESIST,5,1,Amarr Carrier
+Archon,THERMAL_ARMOR_RESIST,5,1,Amarr Carrier
+Archon,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Archon,TRAIGE_CPU_NEED,-99,0,0
+Archon,FIGHTER_CONTROL,1,1,Amarr Carrier
+Archon,FIGHTER_CONTROL_RANGE,200,0,0
+Ares,SMALL_HYBRID_TURRET_DAMAGE,5,1,Gallente Frigate
+Ares,SMALL_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Gallente Frigate
+Ares,SIGNATURE_RADIUS,-5,1,Interceptors
+Ares,WARP_SCRAMBLER_RANGE,5,1,Interceptors
+Ares,PROPULSION_JAMMING_CAPACITOR,-80,0,0
+Ark,CARGO_CAPACITY,5,1,Amarr Freighter
+Ark,MAX_VELOCITY,5,1,Amarr Freighter
+Ark,HULL_HP,10,1,Jump Freighters
+Ark,JUMP_FUEL,-5,1,Jump Freighters
+Armageddon,LARGE_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Battleship
+Armageddon,LARGE_ENERGY_TURRET_ROF,5,1,Amarr Battleship
+Armageddon Imperial Issue,LARGE_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Battleship
+Armageddon Imperial Issue,LARGE_ENERGY_TURRET_ROF,5,1,Amarr Battleship
+Ashimmu,ENERGY_VAMPIRE_DRAIN,10,1,Amarr Cruiser
+Ashimmu,ENERGY_NEUTRALIZER_DRAIN,10,1,Amarr Cruiser
+Ashimmu,STASIS_WEBIFIER_RANGE,10,1,Minmatar Cruiser
+Astarte,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Battlecruisers
+Astarte,ARMOR_REPAIR_AMOUNT,7.5,1,Battlecruisers
+Astarte,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Command Ships
+Astarte,MEDIUM_HYBRID_TURRET_FALLOFF,10,1,Command Ships
+Astarte,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Atron,SMALL_HYBRID_TURRET_FALLOFF,10,1,Gallente Frigate
+Atron,SMALL_HYBRID_TURRET_DAMAGE,5,1,Gallente Frigate
+Augoror,ARMOR_HP_PERCENT,10,1,Amarr Cruiser
+Augoror,ENERGY_TRANSFER_CAPACITOR,-10,1,Amarr Cruiser
+Augoror,ENERGY_TRANSFER_RANGE,500,0,0
+Augoror Navy Issue,MEDIUM_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Cruiser
+Augoror Navy Issue,ARMOR_HP_PERCENT,10,1,Amarr Cruiser
+Avatar,CAPITAL_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Titan
+Avatar,CAPITAL_ENERGY_TURRET_DAMAGE,5,1,Amarr Titan
+Avatar,GANG_CAPACITOR_RECHARGE_RATE,-7.5,1,Amarr Titan
+Avatar,CLONE_VAT_BAY_CPU_NEED,-99,0,0
+Avatar,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Avatar,JUDGEMENT_CPU_NEED,-99,0,0
+Avatar,JUMP_PORTAL_CPU_NEED,-99,0,0
+Avatar,GANG_WARFARE_LINK,1,1,Amarr Titan
+Avatar,EW_IMMUNIT,1,0,0
+Badger,CARGO_CAPACITY,5,1,Caldari Industrial
+Badger,MAX_VELOCITY,5,1,Caldari Industrial
+Badger Mark II,CARGO_CAPACITY,5,1,Caldari Industrial
+Badger Mark II,MAX_VELOCITY,5,1,Caldari Industrial
+Bantam,CARGO_CAPACITY,5,1,Caldari Frigate
+Bantam,MINING_LASER_YIELD,20,1,Caldari Frigate
+Bantam,MINING_LASER_CAPACITOR,-60,0,0
+Basilisk,SHIELD_TRANSPORTER_RANGE,150,1,Caldari Cruiser
+Basilisk,ENERGY_TRANSFER_RANGE,150,1,Caldari Cruiser
+Basilisk,SHIELD_MAINTENANCE_BOT_TRANSFER,20,1,Caldari Cruiser
+Basilisk,SHIELD_TRANSPORTER_CAPACITOR,-15,1,Logistics
+Basilisk,ENERGY_TRANSFER_CAPACITOR,-15,1,Logistics
+Basilisk,SHIELD_TRANSPORTER_CPU_NEED,-50,0,0
+Basilisk,ENERGY_TRANSFER_POWER_NEED,-50,0,0
+Bellicose,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Minmatar Cruiser
+Bellicose,TARGET_PAINTER_SIGNATURE_RADIUS,7.5,1,Minmatar Cruiser
+Bestower,CARGO_CAPACITY,5,1,Amarr Industrial
+Bestower,MAX_VELOCITY,5,1,Amarr Industrial
+Bhaalgorn,LARGE_ENERGY_TURRET_CAPACITOR,-50,0,0
+Bhaalgorn,ENERGY_VAMPIRE_DRAIN,10,1,Amarr Battleship
+Bhaalgorn,ENERGY_NEUTRALIZER_DRAIN,10,1,Amarr Battleship
+Bhaalgorn,STASIS_WEBIFIER_RANGE,10,1,Minmatar Battleship
+Blackbird,ECM_TARGET_JAMMER_STRENGTH,15,1,Caldari Cruiser
+Blackbird,ECM_OPTIMAL_RANGE,20,1,Caldari Cruiser
+Breacher,EM_MISSILE_DAMAGE,5,1,Minmatar Frigate
+Breacher,EXPLOSIVE_MISSILE_DAMAGE,10,1,Minmatar Frigate
+Breacher,KINETIC_MISSILE_DAMAGE,5,1,Minmatar Frigate
+Breacher,THERMAL_MISSILE_DAMAGE,5,1,Minmatar Frigate
+Broadsword,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Minmatar Cruiser
+Broadsword,EM_SHIELD_RESIST,5,1,Minmatar Cruiser
+Broadsword,EXPLOSIVE_SHIELD_RESIST,5,1,Minmatar Cruiser
+Broadsword,KINETIC_SHIELD_RESIST,5,1,Minmatar Cruiser
+Broadsword,THERMAL_SHIELD_RESIST,5,1,Minmatar Cruiser
+Broadsword,MEDIUM_PROJECTILE_TURRET_FALLOFF,10,1,Heavy Interdictors
+Broadsword,WARP_DISRUPTION_FIELD_RANGE,5,1,Heavy Interdictors
+Brutix,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Battlecruisers
+Brutix,ARMOR_REPAIR_AMOUNT,7.5,1,Battlecruisers
+Brutix,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Burst,CARGO_CAPACITY,5,1,Minmatar Frigate
+Burst,MINING_LASER_YIELD,20,1,Minmatar Frigate
+Burst,MINING_LASER_CAPACITOR,-60,0,0
+Bustard,CARGO_CAPACITY,5,1,Caldari Industrial
+Bustard,MAX_VELOCITY,5,1,Caldari Industrial
+Bustard,THERMAL_SHIELD_RESIST,15,1,Caldari Industrial
+Bustard,THERMAL_ARMOR_RESIST,15,1,Caldari Industrial
+Bustard,KINETIC_SHIELD_RESIST,10,1,Caldari Industrial
+Bustard,KINETIC_ARMOR_RESIST,10,1,Caldari Industrial
+Bustard,SHIELD_BOOSTER_BOOST,10,1,Transport Ships
+Buzzard,KINETIC_MISSILE_DAMAGE,5,1,Caldari Frigate
+Buzzard,MISSILE_LAUNCHER_ROF,5,1,Caldari Frigate
+Buzzard,CLOAKING_DEVICE_CPU_NEED,-97.5,0,0
+Buzzard,CLOAKING_DEVICE_CPU_NEED,-0.5,1,Covert Ops
+Buzzard,ASTROMETRICS_MODULE_DURATION,-10,1,Covert Ops
+Caldari Navy Hookbill,SHIELD_HP_PERCENT,10,1,Caldari Frigate
+Caldari Navy Hookbill,SMALL_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Caldari Frigate
+Caldari Shuttle,NO,0,0,0
+Caracal,KINETIC_MISSILE_DAMAGE,5,1,Caldari Cruiser
+Caracal,MISSILE_VELOCITY,10,1,Caldari Cruiser
+Caracal Navy Issue,KINETIC_MISSILE_DAMAGE,5,1,Caldari Cruiser
+Caracal Navy Issue,MISSILE_VELOCITY,10,1,Caldari Cruiser
+Catalyst,SMALL_HYBRID_TURRET_TRACKING_SPEED,10,1,Destroyers
+Catalyst,SMALL_HYBRID_TURRET_FALLOFF,10,1,Destroyers
+Catalyst,TURRET_ROF,-25,0,0
+Catalyst,SMALL_HYBRID_TURRET_OPTIMAL_RANGE,50,0,0
+Celestis,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Gallente Cruiser
+Celestis,REMOTE_SCAN_RESOLUTION,5,1,Gallente Cruiser
+Celestis,REMOTE_TARGETING_RANGE,5,1,Gallente Cruiser
+Cerberus,KINETIC_MISSILE_DAMAGE,5,1,Caldari Cruiser
+Cerberus,MISSILE_VELOCITY,10,1,Caldari Cruiser
+Cerberus,LIGHT_MISSILE_FLIGHT_TIME,10,1,Heavy Assault Ships
+Cerberus,HEAVY_MISSILE_FLIGHT_TIME,10,1,Heavy Assault Ships
+Cerberus,HEAVY_ASSAULT_MISSILE_FLIGHT_TIME,10,1,Heavy Assault Ships
+Cerberus,MISSILE_LAUNCHER_ROF,5,1,Heavy Assault Ships
+Charon,CARGO_CAPACITY,5,1,Caldari Freighter
+Charon,MAX_VELOCITY,5,1,Caldari Freighter
+Cheetah,SMALL_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Frigate
+Cheetah,SMALL_PROJECTILE_TURRET_OPTIMAL_RANGE,5,1,Minmatar Frigate
+Cheetah,CLOAKING_DEVICE_CPU_NEED,-97.5,0,0
+Cheetah,CLOAKING_DEVICE_CPU_NEED,-0.5,1,Covert Ops
+Cheetah,ASTROMETRICS_MODULE_DURATION,-10,1,Covert Ops
+Chimera,CAPITAL_ENERGY_TRANSFER_RANGE,50,1,Caldari Carrier
+Chimera,CAPITAL_SHIELD_TRANSPORTER_RANGE,50,1,Caldari Carrier
+Chimera,EM_SHIELD_RESIST,5,1,Caldari Carrier
+Chimera,EXPLOSIVE_SHIELD_RESIST,5,1,Caldari Carrier
+Chimera,KINETIC_SHIELD_RESIST,5,1,Caldari Carrier
+Chimera,THERMAL_SHIELD_RESIST,5,1,Caldari Carrier
+Chimera,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Chimera,TRAIGE_CPU_NEED,-99,0,0
+Chimera,FIGHTER_CONTROL,1,1,Caldari Carrier
+Chimera,FIGHTER_CONTROL_RANGE,200,0,0
+Claw,SMALL_PROJECTILE_TURRET_DAMAGE,10,1,Minmatar Frigate
+Claw,SIGNATURE_RADIUS,-5,1,Interceptors
+Claw,SMALL_PROJECTILE_TURRET_TRACKING_SPEED,7.5,1,Interceptors
+Claw,PROPULSION_JAMMING_CAPACITOR,-80,0,0
+Claymore,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Battlecruisers
+Claymore,SHIELD_BOOSTER_BOOST,7.5,1,Battlecruisers
+Claymore,MEDIUM_PROJECTILE_TURRET_TRACKING_SPEED,7.5,1,Command Ships
+Claymore,SKIRMISH_WARFARE_LINK,3,1,Command Ships
+Claymore,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Claymore,GANG_WARFARE_LINK,2,0,0
+Coercer,SMALL_ENERGY_TURRET_TRACKING_SPEED,10,1,Destroyers
+Coercer,SMALL_ENERGY_TURRET_CAPACITOR,-10,1,Destroyers
+Coercer,TURRET_ROF,-25,0,0
+Coercer,SMALL_ENERGY_TURRET_OPTIMAL_RANGE,50,0,0
+Condor,KINETIC_ROCKET_DAMAGE,5,1,Caldari Frigate
+Condor,KINETIC_LIGHT_MISSILE_DAMAGE,5,1,Caldari Frigate
+Condor,LIGHT_MISSILE_VELOCITY,10,1,Caldari Frigate
+Condor,ROCKET_VELOCITY,10,1,Caldari Frigate
+Cormorant,SMALL_HYBRID_TURRET_TRACKING_SPEED,10,1,Destroyers
+Cormorant,SMALL_HYBRID_TURRET_OPTIMAL_RANGE,-10,1,Destroyers
+Cormorant,TURRET_ROF,-25,0,0
+Cormorant,SMALL_HYBRID_TURRET_OPTIMAL_RANGE,50,0,0
+Covetor,ICE_HARVESTER_CPU_NEED,-99.5,0,0
+Covetor,STRIP_MINER_CPU_NEED,-99.5,0,0
+Covetor,STRIP_MINER_YIELD,3,1,Mining Barge
+Crane,CARGO_CAPACITY,5,1,Caldari Industrial
+Crane,MAX_VELOCITY,5,1,Caldari Industrial
+Crane,THERMAL_SHIELD_RESIST,10,1,Caldari Industrial
+Crane,THERMAL_ARMOR_RESIST,10,1,Caldari Industrial
+Crane,KINETIC_SHIELD_RESIST,5,1,Caldari Industrial
+Crane,KINETIC_ARMOR_RESIST,5,1,Caldari Industrial
+Crane,SHIELD_BOOSTER_BOOST,10,1,Transport Ships
+Crane,WARP_CORE_STRENGTH,2,0,0
+Crow,KINETIC_MISSILE_DAMAGE,10,1,Caldari Frigate
+Crow,SIGNATURE_RADIUS,-5,1,Interceptors
+Crow,MISSILE_VELOCITY,10,1,Interceptors
+Crow,PROPULSION_JAMMING_CAPACITOR,-80,0,0
+Crucifier,SMALL_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Frigate
+Crucifier,TRACKING_DISRUPTOR_OPTIMAL_RANGE,5,1,Amarr Frigate
+Crucifier,TRACKING_DISRUPTOR_TRACKING_SPEED,5,1,Amarr Frigate
+Cruor,SMALL_ENERGY_TURRET_CAPACITOR,-50,0,0
+Cruor,ENERGY_VAMPIRE_DRAIN,10,1,Amarr Frigate
+Cruor,ENERGY_NEUTRALIZER_DRAIN,10,1,Amarr Frigate
+Cruor,STASIS_WEBIFIER_RANGE,10,1,Minmatar Frigate
+Crusader,SMALL_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Frigate
+Crusader,SMALL_ENERGY_TURRET_DAMAGE,5,1,Amarr Frigate
+Crusader,SIGNATURE_RADIUS,-5,1,Interceptors
+Crusader,SMALL_ENERGY_TURRET_TRACKING_SPEED,7.5,1,Interceptors
+Crusader,PROPULSION_JAMMING_CAPACITOR,-80,0,0
+Curse,TRACKING_DISRUPTOR_OPTIMAL_RANGE,5,1,Amarr Cruiser
+Curse,TRACKING_DISRUPTOR_TRACKING_SPEED,5,1,Amarr Cruiser
+Curse,DRONE_SHIELD_HP,10,1,Amarr Cruiser
+Curse,DRONE_ARMOR_HP,10,1,Amarr Cruiser
+Curse,DRONE_HULL_HP,10,1,Amarr Cruiser
+Curse,DRONE_DAMAGE,10,1,Amarr Cruiser
+Curse,ENERGY_VAMPIRE_DRAIN,20,1,Recon Ships
+Curse,ENERGY_NEUTRALIZER_DRAIN,20,1,Recon Ships
+Curse,ENERGY_VAMPIRE_RANGE,40,1,Recon Ships
+Curse,ENERGY_NEUTRALIZER_RANGE,40,1,Recon Ships
+Cyclone,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Battlecruisers
+Cyclone,SHIELD_BOOSTER_BOOST,7.5,1,Battlecruisers
+Cyclone,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Cynabal,MEDIUM_PROJECTILE_TURRET_ROF,25,0,0
+Cynabal,MEDIUM_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Cruiser
+Cynabal,MEDIUM_PROJECTILE_TURRET_TRACKING_SPEED,7.5,1,Gallente Cruiser
+Damnation,HEAVY_MISSILE_VELOCITY,10,1,Battlecruisers
+Damnation,HEAVY_ASSAULT_MISSILE_VELOCITY,10,1,Battlecruisers
+Damnation,EM_ARMOR_RESIST,5,1,Battlecruisers
+Damnation,EXPLOSIVE_ARMOR_RESIST,5,1,Battlecruisers
+Damnation,KINETIC_ARMOR_RESIST,5,1,Battlecruisers
+Damnation,THERMAL_ARMOR_RESIST,5,1,Battlecruisers
+Damnation,ARMOR_HP_PERCENT,10,1,Command Ships
+Damnation,ARMORED_WARFARE_LINK,3,1,Command Ships
+Damnation,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Damnation,GANG_WARFARE_LINK,2,0,0
+Daredevil,SMALL_HYBRID_TURRET_DAMAGE,25,0,0
+Daredevil,MICROWARPDRIVE_CAPACITOR_PENALTY,-5,1,Minmatar Cruiser
+Daredevil,SMALL_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Gallente Cruiser
+Deimos,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Gallente Cruiser
+Deimos,MICROWARPDRIVE_CAPACITOR_PENALTY,-5,1,Gallente Cruiser
+Deimos,MEDIUM_HYBRID_TURRET_FALLOFF,10,1,Heavy Assault Ships
+Deimos,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Heavy Assault Ships
+Devoter,MEDIUM_ENERGY_TURRET_CAPACITOR,10,1,Amarr Cruiser
+Devoter,EM_ARMOR_RESIST,5,1,Amarr Cruiser
+Devoter,EXPLOSIVE_ARMOR_RESIST,5,1,Amarr Cruiser
+Devoter,KINETIC_ARMOR_RESIST,5,1,Amarr Cruiser
+Devoter,THERMAL_ARMOR_RESIST,5,1,Amarr Cruiser
+Devoter,MEDIUM_ENERGY_TURRET_ROF,5,1,Heavy Interdictors
+Devoter,WARP_DISRUPTION_FIELD_RANGE,5,1,Heavy Interdictors
+Dominix,LARGE_HYBRID_TURRET_DAMAGE,5,1,Gallente Battleship
+Dominix,DRONE_SHIELD_HP,10,1,Gallente Battleship
+Dominix,DRONE_ARMOR_HP,10,1,Gallente Battleship
+Dominix,DRONE_HULL_HP,10,1,Gallente Battleship
+Dominix,DRONE_DAMAGE,10,1,Gallente Battleship
+Drake,KINETIC_HEAVY_MISSILE_DAMAGE,5,1,Battlecruisers
+Drake,KINETIC_HEAVY_ASSAULT_MISSILE_DAMAGE,5,1,Battlecruisers
+Drake,EM_SHIELD_RESIST,5,1,Battlecruisers
+Drake,EXPLOSIVE_SHIELD_RESIST,5,1,Battlecruisers
+Drake,KINETIC_SHIELD_RESIST,5,1,Battlecruisers
+Drake,THERMAL_SHIELD_RESIST,5,1,Battlecruisers
+Drake,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Dramiel,SMALL_PROJECTILE_TURRET_DAMAGE,25,0,0
+Dramiel,SMALL_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Frigate
+Dramiel,SMALL_PROJECTILE_TURRET_TRACKING_SPEED,7.5,1,Gallente Frigate
+Eagle,MEDIUM_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Caldari Cruiser
+Eagle,EM_SHIELD_RESIST,5,1,Caldari Cruiser
+Eagle,EXPLOSIVE_SHIELD_RESIST,5,1,Caldari Cruiser
+Eagle,KINETIC_SHIELD_RESIST,5,1,Caldari Cruiser
+Eagle,THERMAL_SHIELD_RESIST,5,1,Caldari Cruiser
+Eagle,MEDIUM_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Heavy Assault Ships
+Eagle,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Heavy Assault Ships
+Enyo,SMALL_HYBRID_TURRET_DAMAGE,5,1,Gallente Frigate
+Enyo,KINETIC_ARMOR_RESIST,15,1,Gallente Frigate
+Enyo,KINETIC_SHIELD_RESIST,15,1,Gallente Frigate
+Enyo,THERMAL_ARMOR_RESIST,10,1,Gallente Frigate
+Enyo,THERMAL_SHIELD_RESIST,10,1,Gallente Frigate
+Enyo,SMALL_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Assault Ships
+Enyo,SMALL_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Assault Ships
+Eos,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Battlecruisers
+Eos,ARMOR_REPAIR_AMOUNT,7.5,1,Battlecruisers
+Eos,DRONE_BAY,15,1,Command Ships
+Eos,ARMORED_WARFARE_LINK,3,1,Command Ships
+Eos,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Eos,GANG_WARFARE_LINK,2,0,0
+Erebus,CAPITAL_HYBRID_TURRET_DAMAGE,10,1,Gallente Titan
+Erebus,GANG_ARMOR_HP,7.5,1,Gallente Titan
+Erebus,CLONE_VAT_BAY_CPU_NEED,-99,0,0
+Erebus,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Erebus,AURORA_OMINAE_CPU_NEED,-99,0,0
+Erebus,JUMP_PORTAL_CPU_NEED,-99,0,0
+Erebus,GANG_WARFARE_LINK,1,1,Gallente Titan
+Erebus,EW_IMMUNIT,1,0,0
+Eris,SMALL_HYBRID_TURRET_FALLOFF,10,1,Destroyers
+Eris,SMALL_HYBRID_TURRET_TRACKING_SPEED,10,1,Destroyers
+Eris,THERMAL_ROCKET_DAMAGE,5,1,Interdictors
+Eris,THERMAL_LIGHT_MISSILE_DAMAGE,5,1,Interdictors
+Eris,INTERDICTOR_SPHERE_LAUNCHER_ROF,10,1,Interdictors
+Eris,INTERDICTOR_SPHERE_LAUNCHER_CPU_NEED,-99,0,0
+Executioner,SMALL_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Frigate
+Executioner,SMALL_ENERGY_TURRET_DAMAGE,5,1,Amarr Frigate
+Exequror,CARGO_CAPACITY,10,1,Gallente Cruiser
+Exequror,ARMOR_TRANSFER_CAPACITOR,-10,1,Gallente Cruiser
+Exequror,ARMOR_TRANSFER_RANGE,500,0,0
+Falcon,ECM_CAPACITOR,-10,1,Caldari Cruiser
+Falcon,ECM_OPTIMAL_RANGE,20,1,Caldari Cruiser
+Falcon,ECM_TARGET_JAMMER_STRENGTH,20,1,Recon Ships
+Falcon,CLOAKING_DEVICE_CPU_NEED,-95,0,0
+Falcon,CLOAKING_DEVICE_CPU_NEED,-1,1,Recon Ships
+Falcon,CYNOSURAL_FUEL_NEED,-80,0,0
+Falcon,CYNOSURAL_FIELD_DURATION,-50,0,0
+Fenrir,CARGO_CAPACITY,5,1,Minmatar Freighter
+Fenrir,MAX_VELOCITY,5,1,Minmatar Freighter
+Ferox,MEDIUM_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Battlecruisers
+Ferox,EM_SHIELD_RESIST,5,1,Battlecruisers
+Ferox,EXPLOSIVE_SHIELD_RESIST,5,1,Battlecruisers
+Ferox,KINETIC_SHIELD_RESIST,5,1,Battlecruisers
+Ferox,THERMAL_SHIELD_RESIST,5,1,Battlecruisers
+Ferox,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Flycatcher,ROCKET_VELOCITY,10,1,Destroyers
+Flycatcher,LIGHT_MISSILE_VELOCITY,10,1,Destroyers
+Flycatcher,LIGHT_MISSILE_PRECISION,5,1,Destroyers
+Flycatcher,KINETIC_ROCKET_DAMAGE,5,1,Interdictors
+Flycatcher,KINETIC_LIGHT_MISSILE_DAMAGE,5,1,Interdictors
+Flycatcher,INTERDICTOR_SPHERE_LAUNCHER_ROF,10,1,Interdictors
+Flycatcher,INTERDICTOR_SPHERE_LAUNCHER_CPU_NEED,-99,0,0
+Gallente Navy Comet,SMALL_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Gallente Frigate
+Gallente Navy Comet,SMALL_HYBRID_TURRET_DAMAGE,5,1,Gallente Frigate
+Gallente Shuttle,NO,0,0,0
+Gila,LIGHT_MISSILE_VELOCITY,50,0,0
+Gila,HEAVY_MISSILE_VELOCITY,50,0,0
+Gila,HEAVY_ASSAULT_MISSILE_VELOCITY,50,0,0
+Gila,KINETIC_MISSILE_DAMAGE,5,1,Caldari Cruiser
+Gila,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Gallente Cruiser
+Gold Magnate,SMALL_ENERGY_TURRET_CAPACITOR,5,1,Amarr Frigate
+Gold Magnate,SMALL_ENERGY_TURRET_DAMAGE,5,1,Amarr Frigate
+Golem,CRUISE_MISSILE_VELOCITY,10,1,Caldari Battleship
+Golem,TORPEDO_VELOCITY,10,1,Caldari Battleship
+Golem,CRUISE_MISSILE_EXPLOSION_VELOCITY,10,1,Caldari Battleship
+Golem,TORPEDO_EXPLOSION_VELOCITY,10,1,Caldari Battleship
+Golem,SHIELD_BOOSTER_BOOST,7.5,1,Marauders
+Golem,TARGET_PAINTER_SIGNATURE_RADIUS,7.5,1,Marauders
+Golem,CRUISE_MISSILE_DAMAGE,100,0,0
+Golem,TORPEDO_DAMAGE,100,0,0
+Golem,TRACTOR_BEAM_RANGE,100,0,0
+Golem,TRACTOR_BEAM_VELOCITY,100,0,0
+Goru's Shuttle,NO,0,0,0
+Griffin,ECM_TARGET_JAMMER_STRENGTH,15,1,Caldari Frigate
+Griffin,ECM_CAPACITOR,10,1,Caldari Frigate
+Guardian,ARMOR_TRANSFER_RANGE,150,1,Amarr Cruiser
+Guardian,ENERGY_TRANSFER_RANGE,150,1,Amarr Cruiser
+Guardian,ARMOR_MAINTENANCE_BOT_TRANSFER,20,1,Amarr Cruiser
+Guardian,ARMOR_TRANSFER_CAPACITOR,-15,1,Logistics
+Guardian,ENERGY_TRANSFER_CAPACITOR,-15,1,Logistics
+Guardian,ARMOR_TRANSFER_POWER_NEED,-65,0,0
+Guardian,ENERGY_TRANSFER_POWER_NEED,-50,0,0
+Guardian-Vexor,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Gallente Cruiser
+Guardian-Vexor,DRONE_CONTROL,1,1,Gallente Cruiser
+Harbinger,MEDIUM_ENERGY_TURRET_CAPACITOR,-10,1,Battlecruisers
+Harbinger,MEDIUM_ENERGY_TURRET_DAMAGE,5,1,Battlecruisers
+Harbinger,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Harpy,SMALL_HYBRID_TURRET_OPTIMAL_RANGE,5,1,Caldari Frigate
+Harpy,KINETIC_ARMOR_RESIST,10,1,Caldari Frigate
+Harpy,KINETIC_SHIELD_RESIST,10,1,Caldari Frigate
+Harpy,THERMAL_ARMOR_RESIST,15,1,Caldari Frigate
+Harpy,THERMAL_SHIELD_RESIST,15,1,Caldari Frigate
+Harpy,SMALL_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Assault Ships
+Harpy,SMALL_HYBRID_TURRET_DAMAGE,5,1,Assault Ships
+Hawk,KINETIC_MISSILE_DAMAGE,5,1,Caldari Frigate
+Hawk,KINETIC_ARMOR_RESIST,10,1,Caldari Frigate
+Hawk,KINETIC_SHIELD_RESIST,10,1,Caldari Frigate
+Hawk,THERMAL_ARMOR_RESIST,15,1,Caldari Frigate
+Hawk,THERMAL_SHIELD_RESIST,15,1,Caldari Frigate
+Hawk,MISSILE_VELOCITY,10,1,Assault Ships
+Hawk,SHIELD_BOOSTER_BOOST,7.5,1,Assault Ships
+Hel,CAPITAL_SHIELD_TRANSPORTER_RANGE,50,1,Minmatar Carrier
+Hel,CAPITAL_ARMOR_TRANSFER_RANGE,50,1,Minmatar Carrier
+Hel,ARMOR_TRANSFER_AMOUNT,5,1,Minmatar Carrier
+Hel,SHIELD_TRANSPORTER_AMOUNT,5,1,Minmatar Carrier
+Hel,CLONE_VAT_BAY_CPU_NEED,-99,0,0
+Hel,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Hel,PROJECTED_ECM_CPU_NEED,-99,0,0
+Hel,TRAIGE_CPU_NEED,-99,0,0
+Hel,FIGHTER_CONTROL,3,1,Minmatar Carrier
+Hel,GANG_WARFARE_LINK,1,1,Minmatar Carrier
+Hel,FIGHTER_CONTROL_RANGE,200,0,0
+Hel,EW_IMMUNIT,1,0,0
+Helios,SMALL_HYBRID_TURRET_DAMAGE,5,1,Gallente Frigate
+Helios,SCOUT_DRONE_THERMAL_DAMAGE,10,1,Gallente Frigate
+Helios,CLOAKING_DEVICE_CPU_NEED,-97.5,0,0
+Helios,CLOAKING_DEVICE_CPU_NEED,-0.5,1,Covert Ops
+Helios,ASTROMETRICS_MODULE_DURATION,-10,1,Covert Ops
+Heretic,ROCKET_DAMAGE,5,1,Destroyers
+Heretic,ROCKET_EXPLOSION_VELOCITY,10,1,Destroyers
+Heretic,LIGHT_MISSILE_EXPLOSION_VELOCITY,10,1,Destroyers
+Heretic,MISSILE_VELOCITY,10,1,Interdictors
+Heretic,INTERDICTOR_SPHERE_LAUNCHER_ROF,10,1,Interdictors
+Heretic,INTERDICTOR_SPHERE_LAUNCHER_CPU_NEED,-99,0,0
+Heron,KINETIC_MISSILE_DAMAGE,5,1,Caldari Frigate
+Heron,ASTROMETRICS_MODULE_DURATION,-5,1,Caldari Frigate
+Hoarder,CARGO_CAPACITY,5,1,Minmatar Industrial
+Hoarder,MAX_VELOCITY,5,1,Minmatar Industrial
+Hound,CRUISE_MISSILE_DAMAGE,5,1,Minmatar Frigate
+Hound,CRUISE_MISSILE_EXPLOSION_RADIUS,-16.66,1,Minmatar Frigate
+Hound,EXPLOSIVE_CRUISE_MISSILE_DAMAGE,5,1,Covert Ops
+Hound,EXPLOSIVE_BOMB_DAMAGE,5,1,Covert Ops
+Hound,CLOAKED_VELOCITY,125,1,Covert Ops
+Hound,CRUISE_MISSILE_LAUNCHER_POWER_NEED,-99,0,0
+Hound,BOMB_LAUNCHER_CPU_NEED,-99,0,0
+Hound,TARGETING_DELAY,-100,0,0
+Huginn,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Minmatar Cruiser
+Huginn,TARGET_PAINTER_SIGNATURE_RADIUS,7.5,1,Minmatar Cruiser
+Huginn,STASIS_WEBIFIER_RANGE,60,1,Recon Ships
+Huginn,ASSAULT_MISSILE_LAUNCHER_ROF,5,1,Recon Ships
+Huginn,HEAVY_MISSILE_LAUNCHER_ROF,5,1,Recon Ships
+Huginn,HEAVY_ASSAULT_MISSILE_LAUNCHER_ROF,5,1,Recon Ships
+Hulk,ICE_HARVESTER_CPU_NEED,-99.5,0,0
+Hulk,STRIP_MINER_CPU_NEED,-99.5,0,0
+Hulk,STRIP_MINER_YIELD,3,1,Mining Barge
+Hulk,EM_SHIELD_RESIST,7.5,1,Mining Barge
+Hulk,EXPLOSIVE_SHIELD_RESIST,7.5,1,Mining Barge
+Hulk,KINETIC_SHIELD_RESIST,7.5,1,Mining Barge
+Hulk,THERMAL_SHIELD_RESIST,7.5,1,Mining Barge
+Hulk,STRIP_MINER_YIELD,3,1,Exhumers
+Hulk,ICE_HARVESTER_DURATION,3,1,Exhumers
+Hurricane,MEDIUM_PROJECTILE_TURRET_DAMAGE,5,1,Battlecruisers
+Hurricane,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Battlecruisers
+Hurricane,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Hyena,MICROWARPDRIVE_CAPACITOR_PENALTY,-5,1,Minmatar Frigate
+Hyena,TARGET_PAINTER_SIGNATURE_RADIUS,7.5,1,Minmatar Frigate
+Hyena,STASIS_WEBIFIER_RANGE,20,1,Electronic Attack Ships
+Hyena,SIGNATURE_RADIUS,-3,1,Electronic Attack Ships
+Hyperion,LARGE_HYBRID_TURRET_DAMAGE,5,1,Gallente Battleship
+Hyperion,ARMOR_REPAIR_AMOUNT,7.5,1,Gallente Battleship
+Imicus,DRONE_RANGE,5,1,Gallente Frigate
+Imicus,ASTROMETRICS_MODULE_DURATION,-5,1,Gallente Frigate
+Impel,CARGO_CAPACITY,5,1,Amarr Industrial
+Impel,MAX_VELOCITY,5,1,Amarr Industrial
+Impel,EXPLOSIVE_SHIELD_RESIST,15,1,Amarr Industrial
+Impel,EXPLOSIVE_ARMOR_RESIST,15,1,Amarr Industrial
+Impel,KINETIC_SHIELD_RESIST,10,1,Amarr Industrial
+Impel,KINETIC_ARMOR_RESIST,10,1,Amarr Industrial
+Impel,ARMOR_REPAIR_AMOUNT,5,1,Transport Ships
+Impel,ARMOR_REPAIR_DURATION,-5,1,Transport Ships
+Incursus,SMALL_HYBRID_TURRET_FALLOFF,10,1,Gallente Frigate
+Incursus,SMALL_HYBRID_TURRET_DAMAGE,5,1,Gallente Frigate
+Inquisitor,EM_MISSILE_DAMAGE,10,1,Amarr Frigate
+Inquisitor,EXPLOSIVE_MISSILE_DAMAGE,5,1,Amarr Frigate
+Inquisitor,KINETIC_MISSILE_DAMAGE,5,1,Amarr Frigate
+Inquisitor,THERMAL_MISSILE_DAMAGE,5,1,Amarr Frigate
+Ishkur,SMALL_HYBRID_TURRET_DAMAGE,5,1,Gallente Frigate
+Ishkur,KINETIC_ARMOR_RESIST,15,1,Gallente Frigate
+Ishkur,KINETIC_SHIELD_RESIST,15,1,Gallente Frigate
+Ishkur,THERMAL_ARMOR_RESIST,10,1,Gallente Frigate
+Ishkur,THERMAL_SHIELD_RESIST,10,1,Gallente Frigate
+Ishkur,SMALL_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Assault Ships
+Ishkur,DRONE_BAY,5,1,Assault Ships
+Ishtar,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Gallente Cruiser
+Ishtar,DRONE_SHIELD_HP,10,1,Gallente Cruiser
+Ishtar,DRONE_ARMOR_HP,10,1,Gallente Cruiser
+Ishtar,DRONE_HULL_HP,10,1,Gallente Cruiser
+Ishtar,DRONE_DAMAGE,10,1,Gallente Cruiser
+Ishtar,HEAVY_DRONE_RANGE,5,1,Heavy Assault Ships
+Ishtar,SCOUT_DRONE_RANGE,5,1,Heavy Assault Ships
+Ishtar,DRONE_BAY,50,1,Heavy Assault Ships
+Iteron,CARGO_CAPACITY,5,1,Gallente Industrial
+Iteron,MAX_VELOCITY,5,1,Gallente Industrial
+Iteron Mark II,CARGO_CAPACITY,5,1,Gallente Industrial
+Iteron Mark II,MAX_VELOCITY,5,1,Gallente Industrial
+Iteron Mark III,CARGO_CAPACITY,5,1,Gallente Industrial
+Iteron Mark III,MAX_VELOCITY,5,1,Gallente Industrial
+Iteron Mark IV,CARGO_CAPACITY,5,1,Gallente Industrial
+Iteron Mark IV,MAX_VELOCITY,5,1,Gallente Industrial
+Iteron Mark V,CARGO_CAPACITY,5,1,Gallente Industrial
+Iteron Mark V,MAX_VELOCITY,5,1,Gallente Industrial
+Jaguar,SMALL_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Frigate
+Jaguar,EM_ARMOR_RESIST,15,1,Minmatar Frigate
+Jaguar,EM_SHIELD_RESIST,15,1,Minmatar Frigate
+Jaguar,THERMAL_ARMOR_RESIST,10,1,Minmatar Frigate
+Jaguar,THERMAL_SHIELD_RESIST,10,1,Minmatar Frigate
+Jaguar,SMALL_PROJECTILE_TURRET_OPTIMAL_RANGE,10,1,Assault Ships
+Jaguar,SMALL_PROJECTILE_TURRET_DAMAGE,5,1,Assault Ships
+Keres,REMOTE_SCAN_RESOLUTION,5,1,Gallente Frigate
+Keres,REMOTE_TARGETING_RANGE,5,1,Gallente Frigate
+Keres,REMOTE_SENSOR_DAMPENER_CAPACITOR,-10,1,Gallente Frigate
+Keres,WARP_SCRAMBLER_RANGE,10,1,Electronic Attack Ships
+Keres,WARP_SCRAMBLER_CAPACITOR,-10,1,Electronic Attack Ships
+Kestrel,EM_MISSILE_DAMAGE,5,1,Caldari Frigate
+Kestrel,EXPLOSIVE_MISSILE_DAMAGE,5,1,Caldari Frigate
+Kestrel,KINETIC_MISSILE_DAMAGE,10,1,Caldari Frigate
+Kestrel,THERMAL_MISSILE_DAMAGE,5,1,Caldari Frigate
+Kitsune,ECM_TARGET_JAMMER_STRENGTH,20,1,Caldari Frigate
+Kitsune,ECM_CAPACITOR,-10,1,Caldari Frigate
+Kitsune,ECM_OPTIMAL_RANGE,10,1,Electronic Attack Ships
+Kitsune,CAPACITOR_CAPACITY_PERCENT,5,1,Electronic Attack Ships
+Kronos,LARGE_HYBRID_TURRET_DAMAGE,5,1,Gallente Battleship
+Kronos,STASIS_WEBIFIER_VELOCITY,2,1,Gallente Battleship
+Kronos,ARMOR_REPAIR_AMOUNT,7.5,1,Marauders
+Kronos,LARGE_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Marauders
+Kronos,LARGE_HYBRID_TURRET_DAMAGE,100,0,0
+Kronos,TRACTOR_BEAM_RANGE,100,0,0
+Kronos,TRACTOR_BEAM_VELOCITY,100,0,0
+Lachesis,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Gallente Cruiser
+Lachesis,REMOTE_SCAN_RESOLUTION,5,1,Gallente Cruiser
+Lachesis,REMOTE_TARGETING_RANGE,5,1,Gallente Cruiser
+Lachesis,WARP_SCRAMBLER_RANGE,20,1,Recon Ships
+Lachesis,HEAVY_MISSILE_LAUNCHER_ROF,5,0,Recon Ships
+Lachesis,HEAVY_ASSAULT_MISSILE_LAUNCHER_ROF,5,1,Recon Ships
+Leviathan,KINETIC_CITADEL_TORPEDO_DAMAGE,5,1,Caldari Titan
+Leviathan,CITADEL_TORPEDO_LAUNCHER_ROF,5,1,Caldari Titan
+Leviathan,GANG_SHIELD_HP,-7.5,1,Caldari Titan
+Leviathan,CLONE_VAT_BAY_CPU_NEED,-99,0,0
+Leviathan,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Leviathan,OBLIVION_CPU_NEED,-99,0,0
+Leviathan,JUMP_PORTAL_CPU_NEED,-99,0,0
+Leviathan,GANG_WARFARE_LINK,1,1,Caldari Titan
+Leviathan,EW_IMMUNIT,1,0,0
+Machariel,LARGE_PROJECTILE_TURRET_ROF,25,0,0
+Machariel,LARGE_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Battleship
+Machariel,LARGE_PROJECTILE_TURRET_TRACKING_SPEED,7.5,1,Gallente Battleship
+Mackinaw,ICE_HARVESTER_CPU_NEED,-99.5,0,0
+Mackinaw,STRIP_MINER_CPU_NEED,-99.5,0,0
+Mackinaw,STRIP_MINER_YIELD,3,1,Mining Barge
+Mackinaw,EM_SHIELD_RESIST,7.5,1,Mining Barge
+Mackinaw,EXPLOSIVE_SHIELD_RESIST,7.5,1,Mining Barge
+Mackinaw,KINETIC_SHIELD_RESIST,7.5,1,Mining Barge
+Mackinaw,THERMAL_SHIELD_RESIST,7.5,1,Mining Barge
+Mackinaw,ICE_HARVESTER_YIELD,100,0,0
+Mackinaw,ICE_HARVESTER_DURATION,25,0,0
+Mackinaw,ICE_HARVESTER_DURATION,-5,1,Exhumers
+Maelstrom,LARGE_PROJECTILE_TURRET_ROF,5,1,Minmatar Battleship
+Maelstrom,SHIELD_BOOSTER_BOOST,7.5,1,Minmatar Battleship
+Malediction,ROCKET_DAMAGE,5,1,Amarr Frigate
+Malediction,EM_ARMOR_RESIST,5,1,Amarr Frigate
+Malediction,EXPLOSIVE_ARMOR_RESIST,5,1,Amarr Frigate
+Malediction,KINETIC_ARMOR_RESIST,5,1,Amarr Frigate
+Malediction,THERMAL_ARMOR_RESIST,5,1,Amarr Frigate
+Malediction,SIGNATURE_RADIUS,-5,1,Interceptors
+Malediction,WARP_SCRAMBLER_RANGE,5,1,Interceptors
+Malediction,PROPULSION_JAMMING_CAPACITOR,-80,0,0
+Maller,MEDIUM_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Cruiser
+Maller,EM_ARMOR_RESIST,5,1,Amarr Cruiser
+Maller,EXPLOSIVE_ARMOR_RESIST,5,1,Amarr Cruiser
+Maller,KINETIC_ARMOR_RESIST,5,1,Amarr Cruiser
+Maller,THERMAL_ARMOR_RESIST,5,1,Amarr Cruiser
+Mammoth,CARGO_CAPACITY,5,1,Minmatar Industrial
+Mammoth,MAX_VELOCITY,5,1,Minmatar Industrial
+Manticore,CRUISE_MISSILE_DAMAGE,5,1,Caldari Frigate
+Manticore,CRUISE_MISSILE_EXPLOSION_RADIUS,-16.66,1,Caldari Frigate
+Manticore,KINETIC_CRUISE_MISSILE_DAMAGE,5,1,Covert Ops
+Manticore,KINETIC_BOMB_DAMAGE,5,1,Covert Ops
+Manticore,CLOAKED_VELOCITY,125,1,Covert Ops
+Manticore,CRUISE_MISSILE_LAUNCHER_POWER_NEED,-99,0,0
+Manticore,BOMB_LAUNCHER_CPU_NEED,-99,0,0
+Manticore,TARGETING_DELAY,-100,0,0
+Mastodon,CARGO_CAPACITY,5,1,Minmatar Industrial
+Mastodon,MAX_VELOCITY,5,1,Minmatar Industrial
+Mastodon,EM_SHIELD_RESIST,15,1,Minmatar Industrial
+Mastodon,EM_ARMOR_RESIST,15,1,Minmatar Industrial
+Mastodon,THERMAL_SHIELD_RESIST,10,1,Minmatar Industrial
+Mastodon,THERMAL_ARMOR_RESIST,10,1,Minmatar Industrial
+Mastodon,SHIELD_BOOSTER_BOOST,5,1,Transport Ships
+Mastodon,SHIELD_BOOSTER_CAPACITOR,-5,1,Transport Ships
+Maulus,SMALL_HYBRID_TURRET_DAMAGE,5,1,Gallente Frigate
+Maulus,REMOTE_SCAN_RESOLUTION,5,1,Gallente Frigate
+Maulus,REMOTE_TARGETING_RANGE,5,1,Gallente Frigate
+Megathron,LARGE_HYBRID_TURRET_DAMAGE,5,1,Gallente Battleship
+Megathron,LARGE_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Gallente Battleship
+Megathron Federate Issue,LARGE_HYBRID_TURRET_DAMAGE,5,1,Gallente Battleship
+Megathron Federate Issue,LARGE_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Gallente Battleship
+Megathron Navy Issue,LARGE_HYBRID_TURRET_DAMAGE,5,1,Gallente Battleship
+Megathron Navy Issue,LARGE_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Gallente Battleship
+Merlin,SMALL_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Caldari Frigate
+Merlin,EM_SHIELD_RESIST,5,1,Caldari Frigate
+Merlin,EXPLOSIVE_SHIELD_RESIST,5,1,Caldari Frigate
+Merlin,KINETIC_SHIELD_RESIST,5,1,Caldari Frigate
+Merlin,THERMAL_SHIELD_RESIST,5,1,Caldari Frigate
+Minmatar Shuttle,NO,0,0,0
+Moa,MEDIUM_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Caldari Cruiser
+Moa,EM_SHIELD_RESIST,5,1,Caldari Cruiser
+Moa,EXPLOSIVE_SHIELD_RESIST,5,1,Caldari Cruiser
+Moa,KINETIC_SHIELD_RESIST,5,1,Caldari Cruiser
+Moa,THERMAL_SHIELD_RESIST,5,1,Caldari Cruiser
+Moros,CAPITAL_HYBRID_TURRET_DAMAGE,5,1,Gallente Dreadnought
+Moros,DRONE_SHIELD_HP,50,1,Gallente Dreadnought
+Moros,DRONE_ARMOR_HP,50,1,Gallente Dreadnought
+Moros,DRONE_HULL_HP,50,1,Gallente Dreadnought
+Moros,DRONE_DAMAGE,50,1,Gallente Dreadnought
+Moros,SIEGE_MODULE_CPU_NEED,-99,0,0
+Muninn,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Minmatar Cruiser
+Muninn,MEDIUM_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Cruiser
+Muninn,MEDIUM_PROJECTILE_TURRET_OPTIMAL_RANGE,10,1,Heavy Assault Ships
+Muninn,MEDIUM_PROJECTILE_TURRET_TRACKING_SPEED,7.5,1,Heavy Assault Ships
+Myrmidon,DRONE_SHIELD_HP,10,1,Battlecruisers
+Myrmidon,DRONE_ARMOR_HP,10,1,Battlecruisers
+Myrmidon,DRONE_HULL_HP,10,1,Battlecruisers
+Myrmidon,DRONE_DAMAGE,10,1,Battlecruisers
+Myrmidon,ARMOR_REPAIR_AMOUNT,7.5,1,Battlecruisers
+Naglfar,CAPITAL_PROJECTILE_TURRET_ROF,7.5,1,Minmatar Dreadnought
+Naglfar,CITADEL_TORPEDO_LAUNCHER_ROF,5,1,Minmatar Dreadnought
+Naglfar,SIEGE_MODULE_CPU_NEED,-99,0,0
+Navitas,CARGO_CAPACITY,5,1,Gallente Frigate
+Navitas,MINING_LASER_YIELD,20,1,Gallente Frigate
+Navitas,MINING_LASER_CAPACITOR,-60,0,0
+Nemesis,CRUISE_MISSILE_DAMAGE,5,1,Gallente Frigate
+Nemesis,CRUISE_MISSILE_EXPLOSION_RADIUS,-16.66,1,Gallente Frigate
+Nemesis,THERMAL_CRUISE_MISSILE_DAMAGE,5,1,Covert Ops
+Nemesis,THERMAL_BOMB_DAMAGE,5,1,Covert Ops
+Nemesis,CLOAKED_VELOCITY,125,1,Covert Ops
+Nemesis,CRUISE_MISSILE_LAUNCHER_POWER_NEED,-99,0,0
+Nemesis,BOMB_LAUNCHER_CPU_NEED,-99,0,0
+Nemesis,TARGETING_DELAY,-100,0,0
+Nidhoggur,CAPITAL_SHIELD_TRANSPORTER_RANGE,50,1,Minmatar Carrier
+Nidhoggur,CAPITAL_ARMOR_TRANSFER_RANGE,50,1,Minmatar Carrier
+Nidhoggur,ARMOR_REPAIR_AMOUNT,5,1,Minmatar Carrier
+Nidhoggur,SHIELD_TRANSPORTER_AMOUNT,5,1,Minmatar Carrier
+Nidhoggur,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Nidhoggur,TRAIGE_CPU_NEED,-99,0,0
+Nidhoggur,FIGHTER_CONTROL,1,1,Minmatar Carrier
+Nidhoggur,FIGHTER_CONTROL_RANGE,200,0,0
+Nighthawk,ASSAULT_MISSILE_LAUNCHER_ROF,5,1,Battlecruisers
+Nighthawk,HEAVY_ASSAULT_MISSILE_LAUNCHER_ROF,5,1,Battlecruisers
+Nighthawk,HEAVY_MISSILE_LAUNCHER_ROF,5,1,Battlecruisers
+Nighthawk,EM_SHIELD_RESIST,5,1,Battlecruisers
+Nighthawk,EXPLOSIVE_SHIELD_RESIST,5,1,Battlecruisers
+Nighthawk,KINETIC_SHIELD_RESIST,5,1,Battlecruisers
+Nighthawk,THERMAL_SHIELD_RESIST,5,1,Battlecruisers
+Nighthawk,KINETIC_HEAVY_MISSILE_DAMAGE,5,1,Command Ships
+Nighthawk,HEAVY_MISSILE_PRECISION,5,1,Command Ships
+Nightmare,LARGE_ENERGY_TURRET_DAMAGE,100,0,0
+Nightmare,LARGE_ENERGY_TURRET_TRACKING_SPEED,7.5,1,Amarr Battleship
+Nightmare,LARGE_ENERGY_TURRET_DAMAGE,5,1,Caldari Battleship
+Nomad,CARGO_CAPACITY,5,1,Minmatar Freighter
+Nomad,MAX_VELOCITY,5,1,Minmatar Freighter
+Nomad,HULL_HP,10,1,Jump Freighters
+Nomad,JUMP_FUEL,-5,1,Jump Freighters
+Nyx,CAPITAL_SHIELD_TRANSPORTER_RANGE,50,1,Gallente Carrier
+Nyx,CAPITAL_ARMOR_TRANSFER_RANGE,50,1,Gallente Carrier
+Nyx,FIGHTER_DAMAGE,5,1,Gallente Carrier
+Nyx,CLONE_VAT_BAY_CPU_NEED,-99,0,0
+Nyx,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Nyx,PROJECTED_ECM_CPU_NEED,-99,0,0
+Nyx,TRAIGE_CPU_NEED,-99,0,0
+Nyx,FIGHTER_CONTROL,3,1,Gallente Carrier
+Nyx,GANG_WARFARE_LINK,1,1,Gallente Carrier
+Nyx,FIGHTER_CONTROL_RANGE,200,0,0
+Nyx,EW_IMMUNIT,1,0,0
+Obelisk,CARGO_CAPACITY,5,1,Gallente Freighter
+Obelisk,MAX_VELOCITY,5,1,Gallente Freighter
+Occator,CARGO_CAPACITY,5,1,Gallente Industrial
+Occator,MAX_VELOCITY,5,1,Gallente Industrial
+Occator,THERMAL_SHIELD_RESIST,10,1,Gallente Industrial
+Occator,THERMAL_ARMOR_RESIST,10,1,Gallente Industrial
+Occator,KINETIC_SHIELD_RESIST,15,1,Gallente Industrial
+Occator,KINETIC_ARMOR_RESIST,15,1,Gallente Industrial
+Occator,ARMOR_REPAIR_AMOUNT,5,1,Transport Ships
+Occator,ARMOR_REPAIR_DURATION,-5,1,Transport Ships
+Omen,MEDIUM_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Cruiser
+Omen,MEDIUM_ENERGY_TURRET_ROF,5,1,Amarr Cruiser
+Oneiros,ARMOR_TRANSFER_RANGE,150,1,Gallente Cruiser
+Oneiros,TRACKING_LINK_RANGE,150,1,Gallente Cruiser
+Oneiros,ARMOR_MAINTENANCE_BOT_TRANSFER,20,1,Gallente Cruiser
+Oneiros,ARMOR_TRANSFER_CAPACITOR,-15,1,Logistics
+Oneiros,TRACKING_LINK_OPTIMAL_RANGE,15,1,Logistics
+Oneiros,TRACKING_LINK_TRACKING_SPEED,15,1,Logistics
+Oneiros,ARMOR_TRANSFER_POWER_NEED,-65,0,0
+Onyx,KINETIC_MISSILE_DAMAGE,5,1,Caldari Cruiser
+Onyx,EM_SHIELD_RESIST,5,1,Caldari Cruiser
+Onyx,EXPLOSIVE_SHIELD_RESIST,5,1,Caldari Cruiser
+Onyx,KINETIC_SHIELD_RESIST,5,1,Caldari Cruiser
+Onyx,THERMAL_SHIELD_RESIST,5,1,Caldari Cruiser
+Onyx,HEAVY_MISSILE_VELOCITY,10,1,Heavy Interdictors
+Onyx,HEAVY_ASSAULT_MISSILE_VELOCITY,10,1,Heavy Interdictors
+Onyx,WARP_DISRUPTION_FIELD_RANGE,5,1,Heavy Interdictors
+Osprey,MINING_LASER_YIELD,20,1,Caldari Cruiser
+Osprey,SHIELD_TRANSPORTER_CAPACITOR,-10,1,Caldari Cruiser
+Osprey,SHIELD_TRANSPORTER_RANGE,500,0,0
+Paladin,CAPACITOR_CAPACITY_PERCENT,5,1,Amarr Battleship
+Paladin,STASIS_WEBIFIER_VELOCITY,2,1,Amarr Battleship
+Paladin,ARMOR_REPAIR_AMOUNT,7.5,1,Marauders
+Paladin,LARGE_HYBRID_TURRET_DAMAGE,5,1,Marauders
+Paladin,LARGE_ENERGY_TURRET_DAMAGE,100,0,0
+Paladin,TRACTOR_BEAM_RANGE,100,0,0
+Paladin,TRACTOR_BEAM_VELOCITY,100,0,0
+Panther,LARGE_PROJECTILE_TURRET_ROF,5,1,Minmatar Battleship
+Panther,LARGE_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Battleship
+Panther,MAX_VELOCITY,5,1,Black Ops
+Panther,CLOAKED_VELOCITY,125,1,Black Ops
+Panther,TARGETING_DELAY,-100,0,0
+Phantasm,MEDIUM_ENERGY_TURRET_DAMAGE,100,0,0
+Phantasm,MEDIUM_ENERGY_TURRET_TRACKING_SPEED,5,1,Amarr Cruiser
+Phantasm,MEDIUM_ENERGY_TURRET_DAMAGE,5,1,Caldari Cruiser
+Phobos,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Gallente Cruiser
+Phobos,EM_ARMOR_RESIST,5,1,Gallente Cruiser
+Phobos,EXPLOSIVE_ARMOR_RESIST,5,1,Gallente Cruiser
+Phobos,KINETIC_ARMOR_RESIST,5,1,Gallente Cruiser
+Phobos,THERMAL_ARMOR_RESIST,5,1,Gallente Cruiser
+Phobos,MEDIUM_HYBRID_TURRET_FALLOFF,10,1,Heavy Interdictors
+Phobos,WARP_DISRUPTION_FIELD_RANGE,5,1,Heavy Interdictors
+Phoenix,KINETIC_MISSILE_DAMAGE,5,1,Caldari Dreadnought
+Phoenix,CITADEL_TORPEDO_LAUNCHER_ROF,5,1,Caldari Dreadnought
+Phoenix,SIEGE_MODULE_CPU_NEED,-99,0,0
+Pilgrim,TRACKING_DISRUPTOR_OPTIMAL_RANGE,5,1,Amarr Cruiser
+Pilgrim,TRACKING_DISRUPTOR_TRACKING_SPEED,5,1,Amarr Cruiser
+Pilgrim,DRONE_SHIELD_HP,10,1,Amarr Cruiser
+Pilgrim,DRONE_ARMOR_HP,10,1,Amarr Cruiser
+Pilgrim,DRONE_HULL_HP,10,1,Amarr Cruiser
+Pilgrim,DRONE_DAMAGE,10,1,Amarr Cruiser
+Pilgrim,ENERGY_VAMPIRE_DRAIN,20,1,Recon Ships
+Pilgrim,ENERGY_NEUTRALIZER_DRAIN,20,1,Recon Ships
+Pilgrim,CLOAKING_DEVICE_CPU_NEED,-95,0,0
+Pilgrim,CLOAKING_DEVICE_CPU_NEED,-1,1,Recon Ships
+Pilgrim,CYNOSURAL_FUEL_NEED,-80,0,0
+Pilgrim,CYNOSURAL_FIELD_DURATION,-50,0,0
+Probe,CARGO_CAPACITY,5,1,Minmatar Frigate
+Probe,ASTROMETRICS_MODULE_DURATION,-5,1,Minmatar Frigate
+Procurer,ICE_HARVESTER_CPU_NEED,-99.5,0,0
+Procurer,STRIP_MINER_CPU_NEED,-99.5,0,0
+Procurer,STRIP_MINER_YIELD,3,1,Mining Barge
+Prophecy,MEDIUM_ENERGY_TURRET_CAPACITOR,-10,1,Battlecruisers
+Prophecy,EM_ARMOR_RESIST,5,1,Battlecruisers
+Prophecy,EXPLOSIVE_ARMOR_RESIST,5,1,Battlecruisers
+Prophecy,KINETIC_ARMOR_RESIST,5,1,Battlecruisers
+Prophecy,THERMAL_ARMOR_RESIST,5,1,Battlecruisers
+Prophecy,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Prorator,CARGO_CAPACITY,5,1,Amarr Industrial
+Prorator,MAX_VELOCITY,5,1,Amarr Industrial
+Prorator,EXPLOSIVE_SHIELD_RESIST,10,1,Amarr Industrial
+Prorator,EXPLOSIVE_ARMOR_RESIST,10,1,Amarr Industrial
+Prorator,KINETIC_SHIELD_RESIST,5,1,Amarr Industrial
+Prorator,KINETIC_ARMOR_RESIST,5,1,Amarr Industrial
+Prorator,ARMOR_REPAIR_DURATION,-5,1,Transport Ships
+Prorator,ARMOR_REPAIR_AMOUNT,5,1,Transport Ships
+Prorator,WARP_CORE_STRENGTH,2,0,0
+Providence,CARGO_CAPACITY,5,1,Amarr Freighter
+Providence,MAX_VELOCITY,5,1,Amarr Freighter
+Prowler,CARGO_CAPACITY,5,1,Minmatar Industrial
+Prowler,MAX_VELOCITY,5,1,Minmatar Industrial
+Prowler,EM_SHIELD_RESIST,10,1,Minmatar Industrial
+Prowler,EM_ARMOR_RESIST,10,1,Minmatar Industrial
+Prowler,THERMAL_SHIELD_RESIST,5,1,Minmatar Industrial
+Prowler,THERMAL_ARMOR_RESIST,5,1,Minmatar Industrial
+Prowler,SHIELD_BOOSTER_BOOST,5,1,Transport Ships
+Prowler,SHIELD_BOOSTER_CAPACITOR,-5,1,Transport Ships
+Prowler,WARP_CORE_STRENGTH,2,0,0
+Punisher,SMALL_ENERGY_TURRET_CAPACITOR,10,1,Amarr Frigate
+Punisher,EM_ARMOR_RESIST,5,1,Amarr Frigate
+Punisher,EXPLOSIVE_ARMOR_RESIST,5,1,Amarr Frigate
+Punisher,KINETIC_ARMOR_RESIST,5,1,Amarr Frigate
+Punisher,THERMAL_ARMOR_RESIST,5,1,Amarr Frigate
+Purifier,CRUISE_MISSILE_DAMAGE,5,1,Amarr Frigate
+Purifier,CRUISE_MISSILE_EXPLOSION_RADIUS,-16.66,1,Amarr Frigate
+Purifier,EM_CRUISE_MISSILE_DAMAGE,5,1,Covert Ops
+Purifier,EM_BOMB_DAMAGE,5,1,Covert Ops
+Purifier,CLOAKED_VELOCITY,125,1,Covert Ops
+Purifier,CRUISE_MISSILE_LAUNCHER_POWER_NEED,-99,0,0
+Purifier,BOMB_LAUNCHER_CPU_NEED,-99,0,0
+Purifier,TARGETING_DELAY,-100,0,0
+Ragnarok,CAPITAL_PROJECTILE_TURRET_ROF,5,1,Minmatar Titan
+Ragnarok,CAPITAL_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Titan
+Ragnarok,GANG_SIGNATURE_RADIUS,7.5,1,Minmatar Titan
+Ragnarok,CLONE_VAT_BAY_CPU_NEED,-99,0,0
+Ragnarok,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Ragnarok,GJALLARHORN_CPU_NEED,-99,0,0
+Ragnarok,JUMP_PORTAL_CPU_NEED,-99,0,0
+Ragnarok,GANG_WARFARE_LINK,1,1,Minmatar Titan
+Ragnarok,EW_IMMUNIT,1,0,0
+Rapier,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Minmatar Cruiser
+Rapier,TARGET_PAINTER_SIGNATURE_RADIUS,7.5,1,Minmatar Cruiser
+Rapier,STASIS_WEBIFIER_RANGE,60,1,Recon Ships
+Rapier,CLOAKING_DEVICE_CPU_NEED,-95,0,0
+Rapier,CLOAKING_DEVICE_CPU_NEED,-1,1,Recon Ships
+Rapier,CYNOSURAL_FUEL_NEED,-80,0,0
+Rapier,CYNOSURAL_FIELD_DURATION,-50,0,0
+Raptor,SMALL_HYBRID_TURRET_DAMAGE,5,1,Caldari Frigate
+Raptor,SMALL_PROJECTILE_TURRET_OPTIMAL_RANGE,10,1,Caldari Frigate
+Raptor,SIGNATURE_RADIUS,-5,1,Interceptors
+Raptor,WARP_SCRAMBLER_RANGE,5,1,Interceptors
+Raptor,PROPULSION_JAMMING_CAPACITOR,-80,0,0
+Rattlesnake,CRUISE_MISSILE_VELOCITY,50,0,0
+Rattlesnake,TORPEDO_VELOCITY,50,0,0
+Rattlesnake,CRUISE_MISSILE_LAUNCHER_ROF,5,1,Caldari Battleship
+Rattlesnake,TORPEDO_LAUNCHER_ROF,5,1,Caldari Battleship
+Rattlesnake,LARGE_HYBRID_TURRET_DAMAGE,5,1,Gallente Battleship
+Raven,CRUISE_MISSILE_VELOCITY,10,1,Caldari Battleship
+Raven,TORPEDO_VELOCITY,10,1,Caldari Battleship
+Raven,CRUISE_MISSILE_LAUNCHER_ROF,5,1,Caldari Battleship
+Raven,TORPEDO_LAUNCHER_ROF,5,1,Caldari Battleship
+Raven Navy Issue,CRUISE_MISSILE_VELOCITY,10,1,Caldari Battleship
+Raven Navy Issue,TORPEDO_VELOCITY,10,1,Caldari Battleship
+Raven Navy Issue,CRUISE_MISSILE_LAUNCHER_ROF,5,1,Caldari Battleship
+Raven Navy Issue,TORPEDO_LAUNCHER_ROF,5,1,Caldari Battleship
+Raven State Issue,CRUISE_MISSILE_VELOCITY,10,1,Caldari Battleship
+Raven State Issue,TORPEDO_VELOCITY,10,1,Caldari Battleship
+Raven State Issue,CRUISE_MISSILE_LAUNCHER_ROF,5,1,Caldari Battleship
+Raven State Issue,TORPEDO_LAUNCHER_ROF,5,1,Caldari Battleship
+Redeemer,LARGE_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Battleship
+Redeemer,LARGE_ENERGY_TURRET_ROF,5,1,Amarr Battleship
+Redeemer,LARGE_ENERGY_TURRET_TRACKING_SPEED,7.5,1,Black Ops
+Redeemer,CLOAKED_VELOCITY,125,1,Black Ops
+Redeemer,TARGETING_DELAY,-100,0,0
+Republic Fleet Firetail,MAX_VELOCITY,5,1,Minmatar Frigate
+Republic Fleet Firetail,SMALL_PROJECTILE_TURRET_TRACKING_SPEED,7.5,1,Minmatar Frigate
+Retribution,SMALL_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Frigate
+Retribution,KINETIC_ARMOR_RESIST,10,1,Amarr Frigate
+Retribution,KINETIC_SHIELD_RESIST,10,1,Amarr Frigate
+Retribution,EXPLOSIVE_ARMOR_RESIST,15,1,Amarr Frigate
+Retribution,THERMAL_SHIELD_RESIST,15,1,Amarr Frigate
+Retribution,SMALL_ENERGY_TURRET_OPTIMAL_RANGE,10,1,Assault Ships
+Retribution,SMALL_ENERGY_TURRET_DAMAGE,5,1,Assault Ships
+Retriever,ICE_HARVESTER_CPU_NEED,-99.5,0,0
+Retriever,STRIP_MINER_CPU_NEED,-99.5,0,0
+Retriever,STRIP_MINER_YIELD,3,1,Mining Barge
+Revelation,CAPITAL_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Dreadnought
+Revelation,CAPITAL_ENERGY_TURRET_ROF,5,1,Amarr Dreadnought
+Revelation,SIEGE_MODULE_CPU_NEED,-99,0,0
+Rhea,CARGO_CAPACITY,5,1,Caldari Freighter
+Rhea,MAX_VELOCITY,5,1,Caldari Freighter
+Rhea,HULL_HP,10,1,Jump Freighters
+Rhea,JUMP_FUEL,-5,1,Jump Freighters
+Rifter,SMALL_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Frigate
+Rifter,SMALL_PROJECTILE_TURRET_TRACKING_SPEED,7.5,1,Minmatar Frigate
+Rokh,LARGE_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Caldari Battleship
+Rokh,EM_SHIELD_RESIST,5,1,Caldari Battleship
+Rokh,EXPLOSIVE_SHIELD_RESIST,5,1,Caldari Battleship
+Rokh,KINETIC_SHIELD_RESIST,5,1,Caldari Battleship
+Rokh,THERMAL_SHIELD_RESIST,5,1,Caldari Battleship
+Rook,ECM_CAPACITOR,-10,1,Caldari Cruiser
+Rook,ECM_OPTIMAL_RANGE,20,1,Caldari Cruiser
+Rook,ECM_TARGET_JAMMER_STRENGTH,20,1,Recon Ships
+Rook,KINETIC_LIGHT_MISSILE_DAMAGE,5,1,Recon Ships
+Rook,KINETIC_HEAVY_MISSILE_DAMAGE,5,1,Recon Ships
+Rorqual,INDUSTRIAL_CORE_FUEL_CONSUMPTION,-5,1,Capital Industrial Ships
+Rorqual,MINING_FOREMAN_GANGLINKS,5,1,Capital Industrial Ships
+Rorqual,CAPITAL_SHIELD_TRANSPORTER_RANGE,50,1,Capital Industrial Ships
+Rorqual,DRONE_SHIELD_HP,20,1,Capital Industrial Ships
+Rorqual,DRONE_ARMOR_HP,20,1,Capital Industrial Ships
+Rorqual,DRONE_HULL_HP,20,1,Capital Industrial Ships
+Rorqual,DRONE_DAMAGE,20,1,Capital Industrial Ships
+Rorqual,CARGO_SCANNER_RANGE,900,0,0
+Rorqual,SURVEY_SCANNER_RANGE,200,0,0
+Rorqual,CLONE_VAT_BAY_CPU_NEED,-99,0,0
+Rorqual,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Rupture,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Minmatar Cruiser
+Rupture,MEDIUM_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Cruiser
+Sabre,SMALL_PROJECTILE_TURRET_DAMAGE,5,1,Destroyers
+Sabre,SMALL_PROJECTILE_TURRET_TRACKING_SPEED,10,1,Destroyers
+Sabre,SMALL_PROJECTILE_TURRET_FALLOFF,10,1,Interdictors
+Sabre,INTERDICTOR_SPHERE_LAUNCHER_ROF,10,1,Interdictors
+Sabre,INTERDICTOR_SPHERE_LAUNCHER_CPU_NEED,-99,0,0
+Sacrilege,HEAVY_ASSAULT_MISSILE_DAMAGE,5,1,Amarr Cruiser
+Sacrilege,EM_ARMOR_RESIST,5,1,Amarr Cruiser
+Sacrilege,EXPLOSIVE_ARMOR_RESIST,5,1,Amarr Cruiser
+Sacrilege,KINETIC_ARMOR_RESIST,5,1,Amarr Cruiser
+Sacrilege,THERMAL_ARMOR_RESIST,5,1,Amarr Cruiser
+Sacrilege,CAPACITOR_RECHARGE,5,1,Heavy Assault Ships
+Sacrilege,MISSILE_LAUNCHER_ROF,5,1,Heavy Assault Ships
+Scimitar,SHIELD_TRANSPORTER_RANGE,150,1,Minmatar Cruiser
+Scimitar,TRACKING_LINK_RANGE,150,1,Minmatar Cruiser
+Scimitar,SHIELD_MAINTENANCE_BOT_TRANSFER,20,1,Minmatar Cruiser
+Scimitar,SHIELD_TRANSPORTER_CAPACITOR,-15,1,Logistics
+Scimitar,TRACKING_LINK_OPTIMAL_RANGE,10,1,Logistics
+Scimitar,TRACKING_LINK_TRACKING_SPEED,10,1,Logistics
+Scimitar,SHIELD_TRANSPORTER_CPU_NEED,-50,0,0
+Scorpion,ECM_TARGET_JAMMER_STRENGTH,15,1,Caldari Battleship
+Scorpion,ECM_OPTIMAL_RANGE,20,1,Caldari Battleship
+Scythe,MINING_LASER_YIELD,20,1,Minmatar Cruiser
+Scythe,TRACKING_LINK_OPTIMAL_RANGE,3.5,1,Minmatar Cruiser
+Scythe,TRACKING_LINK_TRACKING_SPEED,3.5,1,Minmatar Cruiser
+Scythe,TRACKING_LINK_RANGE,500,0,0
+Sentinel,ENERGY_NEUTRALIZER_DRAIN,20,1,Amarr Frigate
+Sentinel,ENERGY_VAMPIRE_DRAIN,20,1,Amarr Frigate
+Sentinel,TRACKING_DISRUPTOR_OPTIMAL_RANGE,5,1,Amarr Frigate
+Sentinel,TRACKING_DISRUPTOR_TRACKING_SPEED,5,1,Amarr Frigate
+Sentinel,ENERGY_NEUTRALIZER_RANGE,40,1,Electronic Attack Ships
+Sentinel,ENERGY_VAMPIRE_RANGE,40,1,Electronic Attack Ships
+Sentinel,CAPACITOR_RECHARGE,-10,1,Electronic Attack Ships
+Sigil,CARGO_CAPACITY,5,1,Amarr Industrial
+Sigil,MAX_VELOCITY,5,1,Amarr Industrial
+Silver Magnate,SMALL_ENERGY_TURRET_CAPACITOR,-5,1,Amarr Frigate
+Silver Magnate,SMALL_ENERGY_TURRET_DAMAGE,5,1,Amarr Frigate
+Sin,LARGE_HYBRID_TURRET_DAMAGE,5,1,Gallente Battleship
+Sin,DRONE_SHIELD_HP,10,1,Gallente Battleship
+Sin,DRONE_ARMOR_HP,10,1,Gallente Battleship
+Sin,DRONE_HULL_HP,10,1,Gallente Battleship
+Sin,DRONE_DAMAGE,10,1,Gallente Battleship
+Sin,AGILITY,5,1,Black Ops
+Sin,CLOAKED_VELOCITY,125,1,Black Ops
+Sin,TARGETING_DELAY,-100,0,0
+Skiff,ICE_HARVESTER_CPU_NEED,-99.5,0,0
+Skiff,STRIP_MINER_CPU_NEED,-99.5,0,0
+Skiff,STRIP_MINER_YIELD,3,1,Mining Barge
+Skiff,EM_SHIELD_RESIST,7.5,1,Mining Barge
+Skiff,EXPLOSIVE_SHIELD_RESIST,7.5,1,Mining Barge
+Skiff,KINETIC_SHIELD_RESIST,7.5,1,Mining Barge
+Skiff,THERMAL_SHIELD_RESIST,7.5,1,Mining Barge
+Skiff,MERCOXIT_CLOUD_FORMING_CHANCE,-20,1,Exhumers
+Skiff,MERCOXIT_CLOUD_FORMING_CHANCE,60,1,Exhumers
+Slasher,SMALL_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Frigate
+Slasher,SMALL_PROJECTILE_TURRET_TRACKING_SPEED,7.5,1,Minmatar Frigate
+Sleipnir,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Battlecruisers
+Sleipnir,SHIELD_BOOSTER_BOOST,7.5,1,Battlecruisers
+Sleipnir,MEDIUM_PROJECTILE_TURRET_DAMAGE,5,1,Command Ships
+Sleipnir,MEDIUM_PROJECTILE_TURRET_FALLOFF,10,1,Command Ships
+Sleipnir,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Stabber,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Minmatar Cruiser
+Stabber,MAX_VELOCITY,5,1,Minmatar Cruiser
+Stabber Fleet Issue,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Minmatar Cruiser
+Stabber Fleet Issue,MAX_VELOCITY,5,1,Minmatar Cruiser
+Stiletto,SMALL_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Frigate
+Stiletto,SMALL_PROJECTILE_TURRET_TRACKING_SPEED,7.5,1,Minmatar Frigate
+Stiletto,SIGNATURE_RADIUS,-5,1,Interceptors
+Stiletto,WARP_SCRAMBLER_RANGE,5,1,Interceptors
+Stiletto,PROPULSION_JAMMING_CAPACITOR,-80,0,0
+Succubus,SMALL_ENERGY_TURRET_DAMAGE,100,0,0
+Succubus,SMALL_ENERGY_TURRET_TRACKING_SPEED,5,1,Amarr Frigate
+Succubus,SMALL_ENERGY_TURRET_DAMAGE,5,1,Caldari Frigate
+Taranis,SMALL_HYBRID_TURRET_DAMAGE,10,1,Gallente Frigate
+Taranis,SIGNATURE_RADIUS,-5,1,Interceptors
+Taranis,SMALL_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Interceptors
+Taranis,PROPULSION_JAMMING_CAPACITOR,-80,0,0
+Tempest,LARGE_PROJECTILE_TURRET_ROF,5,1,Minmatar Battleship
+Tempest,LARGE_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Battleship
+Tempest Fleet Issue,LARGE_PROJECTILE_TURRET_ROF,5,1,Minmatar Battleship
+Tempest Fleet Issue,LARGE_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Battleship
+Tempest Tribal Issue,LARGE_PROJECTILE_TURRET_ROF,5,1,Minmatar Battleship
+Tempest Tribal Issue,LARGE_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Battleship
+Thanatos,CAPITAL_SHIELD_TRANSPORTER_RANGE,50,1,Gallente Carrier
+Thanatos,CAPITAL_ARMOR_TRANSFER_RANGE,50,1,Gallente Carrier
+Thanatos,FIGHTER_DAMAGE,5,1,Gallente Carrier
+Thanatos,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Thanatos,TRAIGE_CPU_NEED,-99,0,0
+Thanatos,FIGHTER_CONTROL,1,1,Gallente Carrier
+Thanatos,FIGHTER_CONTROL_RANGE,200,0,0
+Thorax,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Gallente Cruiser
+Thorax,MICROWARPDRIVE_CAPACITOR_PENALTY,-5,1,Gallente Cruiser
+Thrasher,SMALL_PROJECTILE_TURRET_TRACKING_SPEED,10,1,Destroyers
+Thrasher,SMALL_PROJECTILE_TURRET_DAMAGE,5,1,Destroyers
+Thrasher,TURRET_ROF,-25,0,0
+Thrasher,SMALL_PROJECTILE_TURRET_OPTIMAL_RANGE,50,0,0
+Tormentor,CARGO_CAPACITY,5,1,Amarr Frigate
+Tormentor,MINING_LASER_YIELD,20,1,Amarr Frigate
+Tormentor,MINING_LASER_CAPACITOR,-60,0,0
+Tristan,SMALL_HYBRID_TURRET_DAMAGE,5,1,Gallente Frigate
+Tristan,SMALL_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Gallente Frigate
+Typhoon,LARGE_PROJECTILE_TURRET_ROF,5,1,Minmatar Battleship
+Typhoon,CRUISE_MISSILE_LAUNCHER_ROF,5,1,Minmatar Battleship
+Typhoon,TORPEDO_LAUNCHER_ROF,5,1,Minmatar Battleship
+Vagabond,MEDIUM_PROJECTILE_TURRET_ROF,5,1,Minmatar Cruiser
+Vagabond,MAX_VELOCITY,5,1,Minmatar Cruiser
+Vagabond,MEDIUM_PROJECTILE_TURRET_FALLOFF,10,1,Heavy Assault Ships
+Vagabond,MEDIUM_PROJECTILE_TURRET_DAMAGE,5,1,Heavy Assault Ships
+Vargur,LARGE_PROJECTILE_TURRET_ROF,5,1,Minmatar Battleship
+Vargur,LARGE_PROJECTILE_TURRET_FALLOFF,10,1,Minmatar Battleship
+Vargur,SHIELD_BOOSTER_BOOST,7.5,1,Marauders
+Vargur,LARGE_PROJECTILE_TURRET_FALLOFF,7.5,1,Marauders
+Vargur,LARGE_PROJECTILE_TURRET_DAMAGE,100,0,0
+Vargur,TRACTOR_BEAM_RANGE,100,0,0
+Vargur,TRACTOR_BEAM_VELOCITY,100,0,0
+Vengeance,ROCKET_DAMAGE,5,1,Amarr Frigate
+Vengeance,KINETIC_ARMOR_RESIST,10,1,Amarr Frigate
+Vengeance,KINETIC_SHIELD_RESIST,10,1,Amarr Frigate
+Vengeance,EXPLOSIVE_ARMOR_RESIST,15,1,Amarr Frigate
+Vengeance,EXPLOSIVE_SHIELD_RESIST,15,1,Amarr Frigate
+Vengeance,EM_ARMOR_RESIST,5,1,Assault Ships
+Vengeance,EXPLOSIVE_ARMOR_RESIST,5,1,Assault Ships
+Vengeance,KINETIC_ARMOR_RESIST,5,1,Assault Ships
+Vengeance,THERMAL_ARMOR_RESIST,5,1,Assault Ships
+Vengeance,CAPACITOR_RECHARGE,5,1,Assault Ships
+Vexor,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Gallente Cruiser
+Vexor,DRONE_SHIELD_HP,10,1,Gallente Cruiser
+Vexor,DRONE_ARMOR_HP,10,1,Gallente Cruiser
+Vexor,DRONE_HULL_HP,10,1,Gallente Cruiser
+Vexor,DRONE_DAMAGE,10,1,Gallente Cruiser
+Vexor,DRONE_MINING_YIELD,10,1,Gallente Cruiser
+Vexor Navy Issue,MEDIUM_HYBRID_TURRET_DAMAGE,5,1,Gallente Cruiser
+Vexor Navy Issue,DRONE_SHIELD_HP,10,1,Gallente Cruiser
+Vexor Navy Issue,DRONE_ARMOR_HP,10,1,Gallente Cruiser
+Vexor Navy Issue,DRONE_HULL_HP,10,1,Gallente Cruiser
+Vexor Navy Issue,DRONE_DAMAGE,10,1,Gallente Cruiser
+Vexor Navy Issue,DRONE_MINING_YIELD,10,1,Gallente Cruiser
+Viator,CARGO_CAPACITY,5,1,Gallente Industrial
+Viator,MAX_VELOCITY,5,1,Gallente Industrial
+Viator,THERMAL_SHIELD_RESIST,5,1,Gallente Industrial
+Viator,THERMAL_ARMOR_RESIST,5,1,Gallente Industrial
+Viator,KINETIC_SHIELD_RESIST,10,1,Gallente Industrial
+Viator,KINETIC_ARMOR_RESIST,10,1,Gallente Industrial
+Viator,ARMOR_REPAIR_DURATION,-5,1,Transport Ships
+Viator,ARMOR_REPAIR_CAPACITOR,-5,1,Transport Ships
+Viator,WARP_CORE_STRENGTH,2,0,0
+Vigil,MAX_VELOCITY,5,1,Minmatar Frigate
+Vigil,TARGET_PAINTER_SIGNATURE_RADIUS,5,1,Minmatar Frigate
+Vigilant,MEDIUM_HYBRID_TURRET_DAMAGE,25,0,0
+Vigilant,MEDIUM_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Gallente Cruiser
+Vigilant,MICROWARPDRIVE_CAPACITOR_PENALTY,5,1,Minmatar Cruiser
+Vindicator,LARGE_HYBRID_TURRET_DAMAGE,25,0,0
+Vindicator,LARGE_HYBRID_TURRET_TRACKING_SPEED,7.5,1,Gallente Battleship
+Vindicator,MICROWARPDRIVE_CAPACITOR_PENALTY,5,1,Minmatar Battleship
+Vulture,MEDIUM_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Battlecruisers
+Vulture,EM_SHIELD_RESIST,5,1,Battlecruisers
+Vulture,EXPLOSIVE_SHIELD_RESIST,5,1,Battlecruisers
+Vulture,KINETIC_SHIELD_RESIST,5,1,Battlecruisers
+Vulture,THERMAL_SHIELD_RESIST,5,1,Battlecruisers
+Vulture,MEDIUM_HYBRID_TURRET_OPTIMAL_RANGE,10,1,Command Ships
+Vulture,SIEGE_WARFARE_LINK,3,1,Command Ships
+Vulture,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Vulture,GANG_WARFARE_LINK,2,0,0
+Widow,CRUISE_MISSILE_VELOCITY,10,1,Caldari Battleship
+Widow,TORPEDO_VELOCITY,10,1,Caldari Battleship
+Widow,CRUISE_MISSILE_LAUNCHER_ROF,5,1,Caldari Battleship
+Widow,TORPEDO_LAUNCHER_ROF,5,1,Caldari Battleship
+Widow,ECM_TARGET_JAMMER_STRENGTH,20,1,Black Ops
+Widow,CLOAKED_VELOCITY,125,1,Black Ops
+Widow,TARGETING_DELAY,-100,0,0
+Wolf,SMALL_PROJECTILE_TURRET_DAMAGE,5,1,Minmatar Frigate
+Wolf,THERMAL_ARMOR_RESIST,10,1,Minmatar Frigate
+Wolf,THERMAL_SHIELD_RESIST,10,1,Minmatar Frigate
+Wolf,EM_ARMOR_RESIST,15,1,Minmatar Frigate
+Wolf,EM_SHIELD_RESIST,15,1,Minmatar Frigate
+Wolf,SMALL_PROJECTILE_TURRET_DAMAGE,5,1,Assault Ships
+Wolf,SMALL_PROJECTILE_TURRET_FALLOFF,5,1,Assault Ships
+Worm,ROCKET_VELOCITY,50,0,0
+Worm,LIGHT_MISSILE_VELOCITY,50,0,0
+Worm,KINETIC_ROCKET_DAMAGE,5,1,Caldari Frigate
+Worm,KINETIC_LIGHT_MISSILE_DAMAGE,5,1,Caldari Frigate
+Worm,SMALL_HYBRID_TURRET_DAMAGE,5,1,Gallente Frigate
+Wreathe,CARGO_CAPACITY,5,1,Minmatar Industrial
+Wreathe,MAX_VELOCITY,5,1,Minmatar Industrial
+Wyvern,CAPITAL_ENERGY_TRANSFER_RANGE,50,1,Caldari Carrier
+Wyvern,CAPITAL_SHIELD_TRANSPORTER_RANGE,50,1,Caldari Carrier
+Wyvern,EM_SHIELD_RESIST,5,1,Caldari Carrier
+Wyvern,EXPLOSIVE_SHIELD_RESIST,5,1,Caldari Carrier
+Wyvern,KINETIC_SHIELD_RESIST,5,1,Caldari Carrier
+Wyvern,THERMAL_SHIELD_RESIST,5,1,Caldari Carrier
+Wyvern,CLONE_VAT_BAY_CPU_NEED,-99,0,0
+Wyvern,GANG_WARFARE_LINK_CPU_NEED,-99,0,0
+Wyvern,PROJECTED_ECM_CPU_NEED,-99,0,0
+Wyvern,TRAIGE_CPU_NEED,-99,0,0
+Wyvern,FIGHTER_CONTROL,3,1,Caldari Carrier
+Wyvern,GANG_WARFARE_LINK,1,1,Caldari Carrier
+Wyvern,FIGHTER_CONTROL_RANGE,200,0,0
+Wyvern,EW_IMMUNIT,1,0,0
+Zealot,MEDIUM_ENERGY_TURRET_CAPACITOR,-10,1,Amarr Cruiser
+Zealot,MEDIUM_ENERGY_TURRET_ROF,5,1,Amarr Cruiser
+Zealot,MEDIUM_ENERGY_TURRET_OPTIMAL_RANGE,10,1,Heavy Assault Ships
+Zealot,MEDIUM_ENERGY_TURRET_DAMAGE,5,1,Heavy Assault Ships

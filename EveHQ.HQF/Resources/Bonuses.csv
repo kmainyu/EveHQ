@@ -1,0 +1,623 @@
+ACCESS_DIFFICULTY,Access Difficulty,Electronics
+AFTERBURNER_CAPACITOR,Afterburner Capacitor,Navigation
+AFTERBURNER_DURATION,Afterburner Duration,Navigation
+AFTERBURNER_SPEED,Afterburner Speed,Navigation
+AFTERBURNER_THRUST,Afterburner Thrust,Navigation
+AGILITY,Agility,Navigation
+AGILITY_ASC,Agility Asc,Navigation
+AGILITY_CAP,Agility Cap,Navigation
+ARCHAEOLOGICAL_FIND,Archaeological Find,Electronics
+ARMOR_HARDENER_ACTIVE_EM_RESIST,Armor Hardener Active EM Resist,Armor
+ARMOR_HARDENER_ACTIVE_EXPLOSIVE_RESIST,Armor Hardener Active Explosive Resist,Armor
+ARMOR_HARDENER_ACTIVE_KINETIC_RESIST,Armor Hardener Active Kinetic Resist,Armor
+ARMOR_HARDENER_ACTIVE_THERMAL_RESIST,Armor Hardener Active Thermal Resist,Armor
+ARMOR_HARDENER_INACTIVE_EM_RESIST,Armor Hardener Inactive EM Resist,Armor
+ARMOR_HARDENER_INACTIVE_EXPLOSIVE_RESIST,Armor Hardener Inactive Explosive Resist,Armor
+ARMOR_HARDENER_INACTIVE_KINETIC_RESIST,Armor Hardener Inactive Kinetic Resist,Armor
+ARMOR_HARDENER_INACTIVE_THERMAL_RESIST,Armor Hardener Inactive Thermal Resist,Armor
+ARMOR_HARDENER_PASSIVE_EM_RESIST,Armor Hardener Passive EM Resist,Armor
+ARMOR_HARDENER_PASSIVE_EXPLOSIVE_RESIST,Armor Hardener Passive Explosive Resist,Armor
+ARMOR_HARDENER_PASSIVE_KINETIC_RESIST,Armor Hardener Passive Kinetic Resist,Armor
+ARMOR_HARDENER_PASSIVE_THERMAL_RESIST,Armor Hardener Passive Thermal Resist,Armor
+ARMOR_HP_FIXED,Armor HP Fixed,Armor
+ARMOR_HP_PERCENT,Armor HP Percent,Armor
+ARMOR_MAINTENANCE_BOT_TRANSFER,Armor Maintenance Bot Transfer,Drones
+ARMOR_REPAIR_AMOUNT,Armor Repair Amount,Armor
+ARMOR_REPAIR_CAPACITOR,Armor Repair Capacitor,Armor
+ARMOR_REPAIR_DURATION,Armor Repair Duration,Armor
+ARMOR_RIG_DRAWBACK_REDUCTION,Armor Rig Drawback Reduction,Armor
+ARMOR_TRANSFER_AMOUNT,Armor Transfer Amount,Armor
+ARMOR_TRANSFER_CAPACITOR,Armor Transfer Capacitor,Armor
+ARMOR_TRANSFER_DURATION,Armor Transfer Duration,Armor
+ARMOR_TRANSFER_POWER_NEED,Armor Transfer Power Need,Armor
+ARMOR_TRANSFER_RANGE,Armor Transfer Range,Armor
+ARMOR_UNIFORMITY,Armor Uniformity,Armor
+ARMORED_WARFARE_LINK,Armored Warfare Link,Leadership
+ASSAULT_MISSILE_LAUNCHER_ROF,Assault Missile Launcher ROF,Missiles
+ASTROMETRICS_MODULE_DURATION,Astrometrics Module Duration,Electronics
+ASTRONAUTICS_RIG_DRAWBACK_REDUCTION,Astronautics Rig Drawback Reduction,Electronics
+AURORA_OMINAE_CPU_NEED,Aurora Ominae CPU Need,Smartbombs
+AUTO_TARGETING_RANGE,Auto Targeting Range,Electronics
+BLUEPRINT_COPY_SPEED,Blueprint Copy Speed,Industry
+BLUEPRINT_MANUFACTURE_TIME,Blueprint Manufacture Time,Industry
+BLUEPRINT_MINERAL_EFFICIENCY_RESEARCH_SPEED,Blueprint Mineral Efficiency Research Speed,Industry
+BLUEPRINT_PRODUCTION_EFFICIENCY_RESEARCH_SPEED,Blueprint Production Efficiency Research Speed,Industry
+BOMB_DAMAGE,Bomb Damage,Missiles
+BOMB_EXPLOSION_RADIUS,Bomb Explosion Radius,Missiles
+BOMB_EXPLOSION_VELOCITY,Bomb Explosion Velocity,Missiles
+BOMB_FLIGHT_TIME,Bomb Flight Time,Missiles
+BOMB_LAUNCHER_CPU_NEED,Bomb Launcher CPU Need,Missiles
+BOMB_LAUNCHER_POWER_NEED,Bomb Launcher Power Need,Missiles
+BOMB_LAUNCHER_REACTIVATION_DELAY,Bomb Launcher Reactivation Delay,Missiles
+BOMB_LAUNCHER_ROF,Bomb Launcher ROF,Missiles
+BOMB_PRECISION,Bomb Precision,Missiles
+BOMB_VELOCITY,Bomb Velocity,Missiles
+BOOSTER_DURATION,Booster Duration,Science
+BOOSTER_SIDE_EFFECT,Booster Side Effect,Science
+BOOSTER_SIDE_EFFECT_CHANCE,Booster Side Effect Chance,Science
+CALIBRATION,Calibration,Engineering
+CAPACITOR_CAPACITY_FIXED,Capacitor Capacity Fixed,Engineering
+CAPACITOR_CAPACITY_PERCENT,Capacitor Capacity Percent,Engineering
+CAPACITOR_RECHARGE,Capacitor Recharge,Engineering
+CAPITAL_ARMOR_REPAIRER_AMOUNT,Capital Armor Repairer Amount,Armor
+CAPITAL_ARMOR_REPAIRER_CAPACITOR,Capital Armor Repairer Capacitor,Armor
+CAPITAL_ARMOR_REPAIRER_DURATION,Capital Armor Repairer Duration,Armor
+CAPITAL_ARMOR_TRANSFER_AMOUNT,Capital Armor Transfer Amount,Armor
+CAPITAL_ARMOR_TRANSFER_CAPACITOR,Capital Armor Transfer Capacitor,Armor
+CAPITAL_ARMOR_TRANSFER_DURATION,Capital Armor Transfer Duration,Armor
+CAPITAL_ARMOR_TRANSFER_RANGE,Capital Armor Transfer Range,Armor
+CAPITAL_ENERGY_TRANSFER_AMOUNT,Capital Energy Transfer Amount,Engineering
+CAPITAL_ENERGY_TRANSFER_CAPACITOR,Capital Energy Transfer Capacitor,Engineering
+CAPITAL_ENERGY_TRANSFER_DURATION,Capital Energy Transfer Duration,Engineering
+CAPITAL_ENERGY_TRANSFER_RANGE,Capital Energy Transfer Range,Engineering
+CAPITAL_ENERGY_TURRET_CAPACITOR,Capital Energy Turret Capacitor,Turrets
+CAPITAL_ENERGY_TURRET_DAMAGE,Capital Energy Turret Damage,Turrets
+CAPITAL_ENERGY_TURRET_FALLOFF,Capital Energy Turret Falloff,Turrets
+CAPITAL_ENERGY_TURRET_OPTIMAL_RANGE,Capital Energy Turret Optimal Range,Turrets
+CAPITAL_ENERGY_TURRET_ROF,Capital Energy Turret ROF,Turrets
+CAPITAL_ENERGY_TURRET_TRACKING_SPEED,Capital Energy Turret Tracking Speed,Turrets
+CAPITAL_HULL_TRANSFER_AMOUNT,Capital Hull Transfer Amount,Hull
+CAPITAL_HULL_TRANSFER_CAPACITOR,Capital Hull Transfer Capacitor,Hull
+CAPITAL_HULL_TRANSFER_DURATION,Capital Hull Transfer Duration,Hull
+CAPITAL_HULL_TRANSFER_RANGE,Capital Hull Transfer Range,Hull
+CAPITAL_HYBRID_TURRET_CAPACITOR,Capital Hybrid Turret Capacitor,Turrets
+CAPITAL_HYBRID_TURRET_DAMAGE,Capital Hybrid Turret Damage,Turrets
+CAPITAL_HYBRID_TURRET_FALLOFF,Capital Hybrid Turret Falloff,Turrets
+CAPITAL_HYBRID_TURRET_OPTIMAL_RANGE,Capital Hybrid Turret Optimal Range,Turrets
+CAPITAL_HYBRID_TURRET_ROF,Capital Hybrid Turret ROF,Turrets
+CAPITAL_HYBRID_TURRET_TRACKING_SPEED,Capital Hybrid Turret Tracking Speed,Turrets
+CAPITAL_PROJECTILE_TURRET_CAPACITOR,Capital Projectile Turret Capacitor,Turrets
+CAPITAL_PROJECTILE_TURRET_DAMAGE,Capital Projectile Turret Damage,Turrets
+CAPITAL_PROJECTILE_TURRET_FALLOFF,Capital Projectile Turret Falloff,Turrets
+CAPITAL_PROJECTILE_TURRET_OPTIMAL_RANGE,Capital Projectile Turret Optimal Range,Turrets
+CAPITAL_PROJECTILE_TURRET_ROF,Capital Projectile Turret ROF,Turrets
+CAPITAL_PROJECTILE_TURRET_TRACKING_SPEED,Capital Projectile Turret Tracking Speed,Turrets
+CAPITAL_SHIELD_BOOSTER_CAPACITOR,Capital Shield Booster Capacitor,Shield
+CAPITAL_SHIELD_TRANSPORTER_AMOUNT,Capital Shield Transporter Amount,Shield
+CAPITAL_SHIELD_TRANSPORTER_CAPACITOR,Capital Shield Transporter Capacitor,Shield
+CAPITAL_SHIELD_TRANSPORTER_DURATION,Capital Shield Transporter Duration,Shield
+CAPITAL_SHIELD_TRANSPORTER_RANGE,Capital Shield Transporter Range,Shield
+CARGO_CAPACITY,Cargo Capacity,Hull
+CARGO_SCANNER_RANGE,Cargo Scanner Range,Electronics
+CHARISMA,Charisma,Learning
+CITADEL_TORPEDO_DAMAGE,Citadel Torpedo Damage,Missiles
+CITADEL_TORPEDO_EXPLOSION_RADIUS,Citadel Torpedo Explosion Radius,Missiles
+CITADEL_TORPEDO_EXPLOSION_VELOCITY,Citadel Torpedo Explosion Velocity,Missiles
+CITADEL_TORPEDO_FLIGHT_TIME,Citadel Torpedo Flight Time,Missiles
+CITADEL_TORPEDO_LAUNCHER_CPU_NEED,Citadel Torpedo Launcher CPU Need,Missiles
+CITADEL_TORPEDO_LAUNCHER_POWER_NEED,Citadel Torpedo Launcher Power Need,Missiles
+CITADEL_TORPEDO_LAUNCHER_ROF,Citadel Torpedo Launcher ROF,Missiles
+CITADEL_TORPEDO_PRECISION,Citadel Torpedo Precision,Missiles
+CITADEL_TORPEDO_VELOCITY,Citadel Torpedo Velocity,Missiles
+CLOAKED_VELOCITY,Cloaked Velocity,Electronics
+CLOAKING_DEVICE_CPU_NEED,Cloaking Device CPU Need,Electronics
+CLONE_VAT_BAY_CLONE_CAPACITY,Clone Vat Bay Clone Capacity,Leadership
+CLONE_VAT_BAY_CPU_NEED,Clone Vat Bay CPU Need,Leadership
+CORP_MEMBER,Corp Member,Leadership
+CORP_MEMBER_NON_RACE,Corp Member Non Race,Leadership
+CPU,CPU,Electronics
+CRUISE_MISSILE_DAMAGE,Cruise Missile Damage,Missiles
+CRUISE_MISSILE_EXPLOSION_RADIUS,Cruise Missile Explosion Radius,Missiles
+CRUISE_MISSILE_EXPLOSION_VELOCITY,Cruise Missile Explosion Velocity,Missiles
+CRUISE_MISSILE_FLIGHT_TIME,Cruise Missile Flight Time,Missiles
+CRUISE_MISSILE_LAUNCHER_CPU_NEED,Cruise Missile Launcher CPU Need,Missiles
+CRUISE_MISSILE_LAUNCHER_POWER_NEED,Cruise Missile Launcher Power Need,Missiles
+CRUISE_MISSILE_LAUNCHER_ROF,Cruise Missile Launcher ROF,Missiles
+CRUISE_MISSILE_PRECISION,Cruise Missile Precision,Missiles
+CRUISE_MISSILE_SPEC_DAMAGE,Cruise Missile Spec Damage,Missiles
+CRUISE_MISSILE_SPEC_ROF,Cruise Missile Spec ROF,Missiles
+CRUISE_MISSILE_VELOCITY,Cruise Missile Velocity,Missiles
+CYNOSURAL_FIELD_DURATION,Cynosural Field Duration,Leadership
+CYNOSURAL_FUEL_NEED,Cynosural Fuel Need,Leadership
+DATA_RETRIEVAL,Data Retrieval,Electronics
+DATAMINER_CYCLE_TIME,Dataminer Cycle Time,Electronics
+DEFENDER_MISSILE_DAMAGE,Defender Missile Damage,Missiles
+DEFENDER_MISSILE_EXPLOSION_RADIUS,Defender Missile Explosion Radius,Missiles
+DEFENDER_MISSILE_EXPLOSION_VELOCITY,Defender Missile Explosion Velocity,Missiles
+DEFENDER_MISSILE_FLIGHT_TIME,Defender Missile Flight Time,Missiles
+DEFENDER_MISSILE_PRECISION,Defender Missile Precision,Missiles
+DEFENDER_MISSILE_VELOCITY,Defender Missile Velocity,Missiles
+DOOMSDAY_DAMAGE,Doomsday Damage,Smartbombs
+DRONE_ARMOR_HP,Drone Armor HP,Drones
+DRONE_BANDWIDTH,Drone Bandwidth,Drones
+DRONE_BAY,Drone Bay,Drones
+DRONE_CONTROL,Drone Control,Drones
+DRONE_CONTROL_UNIT,Drone Control Unit,Drones
+DRONE_DAMAGE,Drone Damage,Drones
+DRONE_EM_ARMOR_RESIST,Drone EM Armor Resist,Drones
+DRONE_EM_DAMAGE,Drone EM Damage,Drones
+DRONE_EM_HULL_RESIST,Drone EM Hull Resist,Drones
+DRONE_EM_SHIELD_RESIST,Drone EM Shield Resist,Drones
+DRONE_EXPLOSIVE_ARMOR_RESIST,Drone Explosive Armor Resist,Drones
+DRONE_EXPLOSIVE_DAMAGE,Drone Explosive Damage,Drones
+DRONE_EXPLOSIVE_HULL_RESIST,Drone Explosive Hull Resist,Drones
+DRONE_EXPLOSIVE_SHIELD_RESIST,Drone Explosive Shield Resist,Drones
+DRONE_HP,Drone HP,Drones
+DRONE_HULL_HP,Drone Hull HP,Drones
+DRONE_KINETIC_ARMOR_RESIST,Drone Kinetic Armor Resist,Drones
+DRONE_KINETIC_DAMAGE,Drone Kinetic Damage,Drones
+DRONE_KINETIC_HULL_RESIST,Drone Kinetic Hull Resist,Drones
+DRONE_KINETIC_SHIELD_RESIST,Drone Kinetic Shield Resist,Drones
+DRONE_MINING_YIELD,Drone Mining Yield,Drones
+DRONE_OPTIMAL_RANGE,Drone Optimal Range,Drones
+DRONE_RANGE,Drone Range,Drones
+DRONE_REPAIR_AMOUNT,Drone Repair Amount,Drones
+DRONE_RIG_DRAWBACK_REDUCTION,Drone Rig Drawback Reduction,Drones
+DRONE_SHIELD_HP,Drone Shield HP,Drones
+DRONE_THERMAL_ARMOR_RESIST,Drone Thermal Armor Resist,Drones
+DRONE_THERMAL_DAMAGE,Drone Thermal Damage,Drones
+DRONE_THERMAL_HULL_RESIST,Drone Thermal Hull Resist,Drones
+DRONE_THERMAL_SHIELD_RESIST,Drone Thermal Shield Resist,Drones
+DRONE_VELOCITY,Drone Velocity,Drones
+ECM_BURST_DELAY,ECM Burst Delay,Electronics
+ECM_BURST_RADIUS,ECM Burst Radius,Electronics
+ECM_CAPACITOR,ECM Capacitor,Electronics
+ECM_CPU_NEED,ECM CPU Need,Electronics
+ECM_FALLOFF,ECM Falloff,Electronics
+ECM_OPTIMAL_RANGE,ECM Optimal Range,Electronics
+ECM_TARGET_JAMMER_STRENGTH,ECM Target Jammer Strength,Electronics
+ELECTRONIC_SUPERIORITY_RIG_DRAWBACK_REDUCTION,Electronic Superiority Rig Drawback Reduction,Electronics
+EM_ARMOR_RESIST,EM Armor Resist,Armor
+EM_BOMB_DAMAGE,EM Bomb Damage,Missiles
+EM_CITADEL_TORPEDO_DAMAGE,EM Citadel Torpedo Damage,Missiles
+EM_CRUISE_MISSILE_DAMAGE,EM Cruise Missile Damage,Missiles
+EM_DAMAGE,EM Damage,Weapons
+EM_DRONE_DAMAGE,EM Drone Damage,Drones
+EM_HEAVY_ASSAULT_MISSILE_DAMAGE,EM Heavy Assault Missile Damage,Missiles
+EM_HEAVY_MISSILE_DAMAGE,EM Heavy Missile Damage,Missiles
+EM_HULL_RESIST,EM Hull Resist,Hull
+EM_LIGHT_MISSILE_DAMAGE,EM Light Missile Damage,Missiles
+EM_MISSILE_DAMAGE,EM Missile Damage,Missiles
+EM_ROCKET_DAMAGE,EM Rocket Damage,Missiles
+EM_SHIELD_RESIST,EM Shield Resist,Shield
+EM_SMARTBOMB_DAMAGE,EM Smartbomb Damage,Smartbombs
+EM_TORPEDO_DAMAGE,EM Torpedo Damage,Missiles
+EM_TURRET_DAMAGE,EM Turret Damage,Turrets
+ENERGY_MODULE_CPU_NEED,Energy Module CPU Need,Engineering
+ENERGY_NEUTRALIZER_CAPACITOR,Energy Neutralizer Capacitor,Engineering
+ENERGY_NEUTRALIZER_DRAIN,Energy Neutralizer Drain,Engineering
+ENERGY_NEUTRALIZER_RANGE,Energy Neutralizer Range,Engineering
+ENERGY_PULSE_WEAPON_CAPACITOR_NEED,Energy Pulse Weapon Capacitor Need,Smartbombs
+ENERGY_PULSE_WEAPON_CPU_NEED,Energy Pulse Weapon CPU Need,Smartbombs
+ENERGY_PULSE_WEAPON_DAMAGE,Energy Pulse Weapon Damage,Smartbombs
+ENERGY_PULSE_WEAPON_DURATION,Energy Pulse Weapon Duration,Smartbombs
+ENERGY_PULSE_WEAPON_POWER_NEED,Energy Pulse Weapon Power Need,Smartbombs
+ENERGY_PULSE_WEAPON_RANGE,Energy Pulse Weapon Range,Smartbombs
+ENERGY_TRANSFER_AMOUNT,Energy Transfer Amount,Engineering
+ENERGY_TRANSFER_CAPACITOR,Energy Transfer Capacitor,Engineering
+ENERGY_TRANSFER_DURATION,Energy Transfer Duration,Engineering
+ENERGY_TRANSFER_POWER_NEED,Energy Transfer Power Need,Engineering
+ENERGY_TRANSFER_RANGE,Energy Transfer Range,Engineering
+ENERGY_TURRET_CPU_NEED,Energy Turret CPU Need,Turrets
+ENERGY_TURRET_DAMAGE,Energy Turret Damage,Turrets
+ENERGY_TURRET_POWER_NEED,Energy Turret Power Need,Turrets
+ENERGY_TURRET_ROF,Energy Turret ROF,Turrets
+ENERGY_VAMPIRE_DRAIN,Energy Vampire Drain,Engineering
+ENERGY_VAMPIRE_RANGE,Energy Vampire Range,Engineering
+ENERGY_WEAPON_RIG_DRAWBACK_REDUCTION,Energy Weapon Rig Drawback Reduction,Turrets
+EW_IMMUNIT,EW Immunit,Electronics
+EW_MODULE_CAPACITOR,EW Module Capacitor,Electronics
+EW_MODULE_FALLOFF,EW Module Falloff,Electronics
+EW_MODULE_OPTIMAL_RANGE,EW Module Optimal Range,Electronics
+EXPLOSIVE_ARMOR_RESIST,Explosive Armor Resist,Armor
+EXPLOSIVE_BOMB_DAMAGE,Explosive Bomb Damage,Missiles
+EXPLOSIVE_CITADEL_TORPEDO_DAMAGE,Explosive Citadel Torpedo Damage,Missiles
+EXPLOSIVE_CRUISE_MISSILE_DAMAGE,Explosive Cruise Missile Damage,Missiles
+EXPLOSIVE_DAMAGE,Explosive Damage,Weapons
+EXPLOSIVE_DRONE_DAMAGE,Explosive Drone Damage,Drones
+EXPLOSIVE_HEAVY_ASSAULT_MISSILE_DAMAGE,Explosive Heavy Assault Missile Damage,Missiles
+EXPLOSIVE_HEAVY_MISSILE_DAMAGE,Explosive Heavy Missile Damage,Missiles
+EXPLOSIVE_HULL_RESIST,Explosive Hull Resist,Hull
+EXPLOSIVE_LIGHT_MISSILE_DAMAGE,Explosive Light Missile Damage,Missiles
+EXPLOSIVE_MISSILE_DAMAGE,Explosive Missile Damage,Missiles
+EXPLOSIVE_ROCKET_DAMAGE,Explosive Rocket Damage,Missiles
+EXPLOSIVE_SHIELD_RESIST,Explosive Shield Resist,Shield
+EXPLOSIVE_SMARTBOMB_DAMAGE,Explosive Smartbomb Damage,Smartbombs
+EXPLOSIVE_TORPEDO_DAMAGE,Explosive Torpedo Damage,Missiles
+EXPLOSIVE_TURRET_DAMAGE,Explosive Turret Damage,Turrets
+FIGHTER_CONTROL,Fighter Control,Drones
+FIGHTER_CONTROL_RANGE,Fighter Control Range,Drones
+FIGHTER_DAMAGE,Fighter Damage,Drones
+FOF_MISSILE_DAMAGE,Fof Missile Damage,Missiles
+FOF_MISSILE_EXPLOSION_RADIUS,Fof Missile Explosion Radius,Missiles
+FOF_MISSILE_EXPLOSION_VELOCITY,Fof Missile Explosion Velocity,Missiles
+FOF_MISSILE_FLIGHT_TIME,Fof Missile Flight Time,Missiles
+FOF_MISSILE_LAUNCHER_CPU_NEED,Fof Missile Launcher CPU Need,Missiles
+FOF_MISSILE_LAUNCHER_POWER_NEED,Fof Missile Launcher Power Need,Missiles
+FOF_MISSILE_LAUNCHER_ROF,Fof Missile Launcher ROF,Missiles
+FOF_MISSILE_PRECISION,Fof Missile Precision,Missiles
+FOF_MISSILE_VELOCITY,Fof Missile Velocity,Missiles
+GANG_ARMOR_HP,Gang Armor HP,Leadership
+GANG_ARMORED_WARFARE_LINK,Gang Armored Warfare Link,Leadership
+GANG_CAPACITOR_RECHARGE_RATE,Gang Capacitor Recharge Rate,Leadership
+GANG_INFORMATION_WARFARE_LINK,Gang Information Warfare Link,Leadership
+GANG_MAX_TARGETING_RANGE,Gang Max Targeting Range,Leadership
+GANG_MAX_VELOCITY,Gang Max Velocity,Leadership
+GANG_MINING_WARFARE_LINK,Gang Mining Warfare Link,Leadership
+GANG_MINING_YIELD,Gang Mining Yield,Leadership
+GANG_SCAN_RESOLUTION,Gang Scan Resolution,Leadership
+GANG_SHIELD_HP,Gang Shield HP,Leadership
+GANG_SIEGE_WARFARE_LINK,Gang Siege Warfare Link,Leadership
+GANG_SIGNATURE_RADIUS,Gang Signature Radius,Leadership
+GANG_SKIRMISH_WARFARE_LINK,Gang Skirmish Warfare Link,Leadership
+GANG_WARFARE_LINK,Gang Warfare Link,Leadership
+GANG_WARFARE_LINK_CPU_NEED,Gang Warfare Link CPU Need,Leadership
+GAS_CLOUD_HARVESTER_CONTROL,Gas Cloud Harvester Control,Mining
+GAS_CLOUD_HARVESTER_CYCLE_TIME,Gas Cloud Harvester Cycle Time,Mining
+GJALLARHORN_CPU_NEED,Gjallarhorn CPU Need,Smartbombs
+GRAVIMETRIC_SENSOR_STRENGTH,Gravimetric Sensor Strength,Electronics
+HEAT_DAMAGE,Heat Damage,Engineering
+HEAVY_ASSAULT_MISSILE_DAMAGE,Heavy Assault Missile Damage,Missiles
+HEAVY_ASSAULT_MISSILE_EXPLOSION_RADIUS,Heavy Assault Missile Explosion Radius,Missiles
+HEAVY_ASSAULT_MISSILE_EXPLOSION_VELOCITY,Heavy Assault Missile Explosion Velocity,Missiles
+HEAVY_ASSAULT_MISSILE_FLIGHT_TIME,Heavy Assault Missile Flight Time,Missiles
+HEAVY_ASSAULT_MISSILE_LAUNCHER_CPU_NEED,Heavy Assault Missile Launcher CPU Need,Missiles
+HEAVY_ASSAULT_MISSILE_LAUNCHER_POWER_NEED,Heavy Assault Missile Launcher Power Need,Missiles
+HEAVY_ASSAULT_MISSILE_LAUNCHER_ROF,Heavy Assault Missile Launcher ROF,Missiles
+HEAVY_ASSAULT_MISSILE_PRECISION,Heavy Assault Missile Precision,Missiles
+HEAVY_ASSAULT_MISSILE_SPEC_DAMAGE,Heavy Assault Missile Spec Damage,Missiles
+HEAVY_ASSAULT_MISSILE_SPEC_ROF,Heavy Assault Missile Spec ROF,Missiles
+HEAVY_ASSAULT_MISSILE_VELOCITY,Heavy Assault Missile Velocity,Missiles
+HEAVY_DRONE_DAMAGE,Heavy Drone Damage,Drones
+HEAVY_DRONE_EM_DAMAGE,Heavy Drone EM Damage,Drones
+HEAVY_DRONE_EXPLOSIVE_DAMAGE,Heavy Drone Explosive Damage,Drones
+HEAVY_DRONE_KINETIC_DAMAGE,Heavy Drone Kinetic Damage,Drones
+HEAVY_DRONE_RANGE,Heavy Drone Range,Drones
+HEAVY_DRONE_THERMAL_DAMAGE,Heavy Drone Thermal Damage,Drones
+HEAVY_MISSILE_DAMAGE,Heavy Missile Damage,Missiles
+HEAVY_MISSILE_EXPLOSION_RADIUS,Heavy Missile Explosion Radius,Missiles
+HEAVY_MISSILE_EXPLOSION_VELOCITY,Heavy Missile Explosion Velocity,Missiles
+HEAVY_MISSILE_FLIGHT_TIME,Heavy Missile Flight Time,Missiles
+HEAVY_MISSILE_LAUNCHER_CPU_NEED,Heavy Missile Launcher CPU Need,Missiles
+HEAVY_MISSILE_LAUNCHER_POWER_NEED,Heavy Missile Launcher Power Need,Missiles
+HEAVY_MISSILE_LAUNCHER_ROF,Heavy Missile Launcher ROF,Missiles
+HEAVY_MISSILE_PRECISION,Heavy Missile Precision,Missiles
+HEAVY_MISSILE_SPEC_DAMAGE,Heavy Missile Spec Damage,Missiles
+HEAVY_MISSILE_SPEC_ROF,Heavy Missile Spec ROF,Missiles
+HEAVY_MISSILE_VELOCITY,Heavy Missile Velocity,Missiles
+HULL_HARDENER_ACTIVE_EM_RESIST,Hull Hardener Active EM Resist,Hull
+HULL_HARDENER_ACTIVE_EXPLOSIVE_RESIST,Hull Hardener Active Explosive Resist,Hull
+HULL_HARDENER_ACTIVE_KINETIC_RESIST,Hull Hardener Active Kinetic Resist,Hull
+HULL_HARDENER_ACTIVE_THERMAL_RESIST,Hull Hardener Active Thermal Resist,Hull
+HULL_HARDENER_INACTIVE_EM_RESIST,Hull Hardener Inactive EM Resist,Hull
+HULL_HARDENER_INACTIVE_EXPLOSIVE_RESIST,Hull Hardener Inactive Explosive Resist,Hull
+HULL_HARDENER_INACTIVE_KINETIC_RESIST,Hull Hardener Inactive Kinetic Resist,Hull
+HULL_HARDENER_INACTIVE_THERMAL_RESIST,Hull Hardener Inactive Thermal Resist,Hull
+HULL_HARDENER_PASSIVE_EM_RESIST,Hull Hardener Passive EM Resist,Hull
+HULL_HARDENER_PASSIVE_EXPLOSIVE_RESIST,Hull Hardener Passive Explosive Resist,Hull
+HULL_HARDENER_PASSIVE_KINETIC_RESIST,Hull Hardener Passive Kinetic Resist,Hull
+HULL_HARDENER_PASSIVE_THERMAL_RESIST,Hull Hardener Passive Thermal Resist,Hull
+HULL_HP,Hull HP,Hull
+HULL_REPAIR_AMOUNT,Hull Repair Amount,Hull
+HULL_REPAIR_CAPACITOR,Hull Repair Capacitor,Hull
+HULL_REPAIR_DURATION,Hull Repair Duration,Hull
+HULL_TRANSFER_AMOUNT,Hull Transfer Amount,Hull
+HULL_TRANSFER_CAPACITOR,Hull Transfer Capacitor,Hull
+HULL_TRANSFER_DURATION,Hull Transfer Duration,Hull
+HULL_TRANSFER_POWER_NEED,Hull Transfer Power Need,Hull
+HULL_TRANSFER_RANGE,Hull Transfer Range,Hull
+HYBRID_TURRET_CPU_NEED,Hybrid Turret CPU Need,Turrets
+HYBRID_TURRET_DAMAGE,Hybrid Turret Damage,Turrets
+HYBRID_TURRET_POWER_NEED,Hybrid Turret Power Need,Turrets
+HYBRID_TURRET_ROF,Hybrid Turret ROF,Turrets
+HYBRID_WEAPON_RIG_DRAWBACK_REDUCTION,Hybrid Weapon Rig Drawback Reduction,Turrets
+ICE_HARVESTER_CPU_NEED,Ice Harvester CPU Need,Mining
+ICE_HARVESTER_DURATION,Ice Harvester Duration,Mining
+ICE_HARVESTER_YIELD,Ice Harvester Yield,Mining
+IMPLANT_SET,Implant Set,Science
+INDUSTRIAL_CORE_FUEL_CONSUMPTION,Industrial Core Fuel Consumption,Engineering
+INTELLIGENCE,Intelligence,Learning
+INTERDICTOR_SPHERE_LAUNCHER_CPU_NEED,Interdictor Sphere Launcher CPU Need,Electronics
+INTERDICTOR_SPHERE_LAUNCHER_ROF,Interdictor Sphere Launcher ROF,Electronics
+JUDGEMENT_CPU_NEED,Judgement CPU Need,Smartbombs
+JUMP_CAPACITOR,Jump Capacitor,Navigation
+JUMP_CLONE,Jump Clone,Navigation
+JUMP_FUEL,Jump Fuel,Navigation
+JUMP_PORTAL_CPU_NEED,Jump Portal CPU Need,Navigation
+JUMP_PORTAL_FUEL_NEED,Jump Portal Fuel Need,Navigation
+JUMP_RANGE,Jump Range,Navigation
+KINETIC_ARMOR_RESIST,Kinetic Armor Resist,Armor
+KINETIC_BOMB_DAMAGE,Kinetic Bomb Damage,Missiles
+KINETIC_CITADEL_TORPEDO_DAMAGE,Kinetic Citadel Torpedo Damage,Missiles
+KINETIC_CRUISE_MISSILE_DAMAGE,Kinetic Cruise Missile Damage,Missiles
+KINETIC_DAMAGE,Kinetic Damage,Weapons
+KINETIC_DRONE_DAMAGE,Kinetic Drone Damage,Drones
+KINETIC_HEAVY_ASSAULT_MISSILE_DAMAGE,Kinetic Heavy Assault Missile Damage,Missiles
+KINETIC_HEAVY_MISSILE_DAMAGE,Kinetic Heavy Missile Damage,Missiles
+KINETIC_HULL_RESIST,Kinetic Hull Resist,Hull
+KINETIC_LIGHT_MISSILE_DAMAGE,Kinetic Light Missile Damage,Missiles
+KINETIC_MISSILE_DAMAGE,Kinetic Missile Damage,Missiles
+KINETIC_ROCKET_DAMAGE,Kinetic Rocket Damage,Missiles
+KINETIC_SHIELD_RESIST,Kinetic Shield Resist,Shield
+KINETIC_SMARTBOMB_DAMAGE,Kinetic Smartbomb Damage,Smartbombs
+KINETIC_TORPEDO_DAMAGE,Kinetic Torpedo Damage,Missiles
+KINETIC_TURRET_DAMAGE,Kinetic Turret Damage,Turrets
+LADAR_SENSOR_STRENGTH,Ladar Sensor Strength,Electronics
+LARGE_ARTILLERY_DAMAGE,Large Artillery Damage,Turrets
+LARGE_AUTOCANNON_DAMAGE,Large Autocannon Damage,Turrets
+LARGE_BEAM_LASER_DAMAGE,Large Beam Laser Damage,Turrets
+LARGE_BLASTER_DAMAGE,Large Blaster Damage,Turrets
+LARGE_ENERGY_TURRET_CAPACITOR,Large Energy Turret Capacitor,Turrets
+LARGE_ENERGY_TURRET_DAMAGE,Large Energy Turret Damage,Turrets
+LARGE_ENERGY_TURRET_FALLOFF,Large Energy Turret Falloff,Turrets
+LARGE_ENERGY_TURRET_OPTIMAL_RANGE,Large Energy Turret Optimal Range,Turrets
+LARGE_ENERGY_TURRET_ROF,Large Energy Turret ROF,Turrets
+LARGE_ENERGY_TURRET_TRACKING_SPEED,Large Energy Turret Tracking Speed,Turrets
+LARGE_HYBRID_TURRET_CAPACITOR,Large Hybrid Turret Capacitor,Turrets
+LARGE_HYBRID_TURRET_DAMAGE,Large Hybrid Turret Damage,Turrets
+LARGE_HYBRID_TURRET_FALLOFF,Large Hybrid Turret Falloff,Turrets
+LARGE_HYBRID_TURRET_OPTIMAL_RANGE,Large Hybrid Turret Optimal Range,Turrets
+LARGE_HYBRID_TURRET_ROF,Large Hybrid Turret ROF,Turrets
+LARGE_HYBRID_TURRET_TRACKING_SPEED,Large Hybrid Turret Tracking Speed,Turrets
+LARGE_PROJECTILE_TURRET_CAPACITOR,Large Projectile Turret Capacitor,Turrets
+LARGE_PROJECTILE_TURRET_DAMAGE,Large Projectile Turret Damage,Turrets
+LARGE_PROJECTILE_TURRET_FALLOFF,Large Projectile Turret Falloff,Turrets
+LARGE_PROJECTILE_TURRET_OPTIMAL_RANGE,Large Projectile Turret Optimal Range,Turrets
+LARGE_PROJECTILE_TURRET_ROF,Large Projectile Turret ROF,Turrets
+LARGE_PROJECTILE_TURRET_TRACKING_SPEED,Large Projectile Turret Tracking Speed,Turrets
+LARGE_PULSE_LASER_DAMAGE,Large Pulse Laser Damage,Turrets
+LARGE_RAILGUN_DAMAGE,Large Railgun Damage,Turrets
+LAUNCHER_RIG_DRAWBACK_REDUCTION,Launcher Rig Drawback Reduction,Missiles
+LIGHT_MISSILE_DAMAGE,Light Missile Damage,Missiles
+LIGHT_MISSILE_EXPLOSION_RADIUS,Light Missile Explosion Radius,Missiles
+LIGHT_MISSILE_EXPLOSION_VELOCITY,Light Missile Explosion Velocity,Missiles
+LIGHT_MISSILE_FLIGHT_TIME,Light Missile Flight Time,Missiles
+LIGHT_MISSILE_LAUNCHER_CPU_NEED,Light Missile Launcher CPU Need,Missiles
+LIGHT_MISSILE_LAUNCHER_POWER_NEED,Light Missile Launcher Power Need,Missiles
+LIGHT_MISSILE_LAUNCHER_ROF,Light Missile Launcher ROF,Missiles
+LIGHT_MISSILE_PRECISION,Light Missile Precision,Missiles
+LIGHT_MISSILE_SPEC_DAMAGE,Light Missile Spec Damage,Missiles
+LIGHT_MISSILE_SPEC_ROF,Light Missile Spec ROF,Missiles
+LIGHT_MISSILE_VELOCITY,Light Missile Velocity,Missiles
+MAGNETOMETRIC_SENSOR_STRENGTH,Magnetometric Sensor Strength,Electronics
+MASS,Mass,Hull
+MAX_TARGETING_RANGE,Max Targeting Range,Electronics
+MAX_TARGETS_ABSOLUTE,Max Targets Absolute,Electronics
+MAX_TARGETS_FIXED,Max Targets Fixed,Electronics
+MAX_VELOCITY,Max Velocity,Navigation
+MEDIUM_ARTILLERY_DAMAGE,Medium Artillery Damage,Turrets
+MEDIUM_AUTOCANNON_DAMAGE,Medium Autocannon Damage,Turrets
+MEDIUM_BEAM_LASER_DAMAGE,Medium Beam Laser Damage,Turrets
+MEDIUM_BLASTER_DAMAGE,Medium Blaster Damage,Turrets
+MEDIUM_ENERGY_TURRET_CAPACITOR,Medium Energy Turret Capacitor,Turrets
+MEDIUM_ENERGY_TURRET_DAMAGE,Medium Energy Turret Damage,Turrets
+MEDIUM_ENERGY_TURRET_FALLOFF,Medium Energy Turret Falloff,Turrets
+MEDIUM_ENERGY_TURRET_OPTIMAL_RANGE,Medium Energy Turret Optimal Range,Turrets
+MEDIUM_ENERGY_TURRET_ROF,Medium Energy Turret ROF,Turrets
+MEDIUM_ENERGY_TURRET_TRACKING_SPEED,Medium Energy Turret Tracking Speed,Turrets
+MEDIUM_HYBRID_TURRET_CAPACITOR,Medium Hybrid Turret Capacitor,Turrets
+MEDIUM_HYBRID_TURRET_DAMAGE,Medium Hybrid Turret Damage,Turrets
+MEDIUM_HYBRID_TURRET_FALLOFF,Medium Hybrid Turret Falloff,Turrets
+MEDIUM_HYBRID_TURRET_OPTIMAL_RANGE,Medium Hybrid Turret Optimal Range,Turrets
+MEDIUM_HYBRID_TURRET_ROF,Medium Hybrid Turret ROF,Turrets
+MEDIUM_HYBRID_TURRET_TRACKING_SPEED,Medium Hybrid Turret Tracking Speed,Turrets
+MEDIUM_PROJECTILE_TURRET_CAPACITOR,Medium Projectile Turret Capacitor,Turrets
+MEDIUM_PROJECTILE_TURRET_DAMAGE,Medium Projectile Turret Damage,Turrets
+MEDIUM_PROJECTILE_TURRET_FALLOFF,Medium Projectile Turret Falloff,Turrets
+MEDIUM_PROJECTILE_TURRET_OPTIMAL_RANGE,Medium Projectile Turret Optimal Range,Turrets
+MEDIUM_PROJECTILE_TURRET_ROF,Medium Projectile Turret ROF,Turrets
+MEDIUM_PROJECTILE_TURRET_TRACKING_SPEED,Medium Projectile Turret Tracking Speed,Turrets
+MEDIUM_PULSE_LASER_DAMAGE,Medium Pulse Laser Damage,Turrets
+MEDIUM_RAILGUN_DAMAGE,Medium Railgun Damage,Turrets
+MEMORY,Memory,Learning
+MERCOXIT_CLOUD_FORMING_CHANCE,Mercoxit Cloud Forming Chance,Mining
+MERCOXIT_MINING_CRYSTAL_YIELD,Mercoxit Mining Crystal Yield,Mining
+MICROWARPDRIVE_CAPACITOR,Microwarpdrive Capacitor,Navigation
+MICROWARPDRIVE_CAPACITOR_PENALTY,Microwarpdrive Capacitor Penalty,Navigation
+MICROWARPDRIVE_DURATION,Microwarpdrive Duration,Navigation
+MICROWARPDRIVE_SPEED,Microwarpdrive Speed,Navigation
+MICROWARPDRIVE_THRUST,Microwarpdrive Thrust,Navigation
+MINDLINK,Mindlink,Leadership
+MINING_AMOUNT,Mining Amount,Mining
+MINING_FOREMAN_GANGLINKS,Mining Foreman Ganglinks,Leadership
+MINING_LASER_CAPACITOR,Mining Laser Capacitor,Mining
+MINING_LASER_RANGE,Mining Laser Range,Mining
+MINING_LASER_YIELD,Mining Laser Yield,Mining
+MINING_UPGRADE_CPU_PENALTY,Mining Upgrade CPU Penalty,Mining
+MISSILE_DAMAGE,Missile Damage,Missiles
+MISSILE_EXPLOSION_RADIUS,Missile Explosion Radius,Missiles
+MISSILE_EXPLOSION_VELOCITY,Missile Explosion Velocity,Missiles
+MISSILE_FLIGHT_TIME,Missile Flight Time,Missiles
+MISSILE_LAUNCHER_CPU_NEED,Missile Launcher CPU Need,Missiles
+MISSILE_LAUNCHER_POWER_NEED,Missile Launcher Power Need,Missiles
+MISSILE_LAUNCHER_ROF,Missile Launcher ROF,Missiles
+MISSILE_PRECISION,Missile Precision,Missiles
+MISSILE_VELOCITY,Missile Velocity,Missiles
+NANITE_REPAIR_AMOUNT,Nanite Repair Amount,Engineering
+NANITE_REPAIR_CONSUMPTION,Nanite Repair Consumption,Engineering
+NANITE_REPAIR_DURATION,Nanite Repair Duration,Engineering
+NO,No,Electronics
+OBLIVION_CPU_NEED,Oblivion CPU Need,Smartbombs
+PERCEPTION,Perception,Learning
+POWERGRID_FIXED,Powergrid Fixed,Engineering
+POWERGRID_PERCENT,Powergrid Percent,Engineering
+PROJECTED_ECM_CPU_NEED,Projected ECM CPU Need,Electronics
+PROJECTILE_TURRET_CPU_NEED,Projectile Turret CPU Need,Turrets
+PROJECTILE_TURRET_DAMAGE,Projectile Turret Damage,Turrets
+PROJECTILE_TURRET_POWER_NEED,Projectile Turret Power Need,Turrets
+PROJECTILE_TURRET_ROF,Projectile Turret ROF,Turrets
+PROJECTILE_WEAPON_RIG_DRAWBACK_REDUCTION,Projectile Weapon Rig Drawback Reduction,Turrets
+PROPULSION_JAMMING_CAPACITOR,Propulsion Jamming Capacitor,Electronics
+RADAR_SENSOR_STRENGTH,Radar Sensor Strength,Electronics
+REACTIVATION_DELAY,Reactivation Delay,Electronics
+REFINING_WASTE,Refining Waste,Industry
+REMOTE_SCAN_RESOLUTION,Remote Scan Resolution,Electronics
+REMOTE_SENSOR_DAMPENER_CAPACITOR,Remote Sensor Dampener Capacitor,Electronics
+REMOTE_TARGETING_RANGE,Remote Targeting Range,Electronics
+REMOTE_TURRET_OPTIMAL_RANGE,Remote Turret Optimal Range,Electronics
+REMOTE_TURRET_TRACKING_SPEED,Remote Turret Tracking Speed,Electronics
+ROCKET_DAMAGE,Rocket Damage,Missiles
+ROCKET_EXPLOSION_RADIUS,Rocket Explosion Radius,Missiles
+ROCKET_EXPLOSION_VELOCITY,Rocket Explosion Velocity,Missiles
+ROCKET_FLIGHT_TIME,Rocket Flight Time,Missiles
+ROCKET_LAUNCHER_CPU_NEED,Rocket Launcher CPU Need,Missiles
+ROCKET_LAUNCHER_POWER_NEED,Rocket Launcher Power Need,Missiles
+ROCKET_LAUNCHER_ROF,Rocket Launcher ROF,Missiles
+ROCKET_PRECISION,Rocket Precision,Missiles
+ROCKET_SPEC_DAMAGE,Rocket Spec Damage,Missiles
+ROCKET_SPEC_ROF,Rocket Spec ROF,Missiles
+ROCKET_VELOCITY,Rocket Velocity,Missiles
+SALVAGE_RETRIEVAL,Salvage Retrieval,Electronics
+SCAN_DEVIATION,Scan Deviation,Electronics
+SCAN_DURATION,Scan Duration,Electronics
+SCAN_GROUP,Scan Group,Electronics
+SCAN_PROBE_LAUNCHER_ROF,Scan Probe Launcher ROF,Science
+SCAN_RESOLUTION,Scan Resolution,Electronics
+SCAN_STRENGTH,Scan Strength,Electronics
+SCOUT_DRONE_DAMAGE,Scout Drone Damage,Drones
+SCOUT_DRONE_EM_DAMAGE,Scout Drone EM Damage,Drones
+SCOUT_DRONE_EXPLOSIVE_DAMAGE,Scout Drone Explosive Damage,Drones
+SCOUT_DRONE_KINETIC_DAMAGE,Scout Drone Kinetic Damage,Drones
+SCOUT_DRONE_RANGE,Scout Drone Range,Drones
+SCOUT_DRONE_THERMAL_DAMAGE,Scout Drone Thermal Damage,Drones
+SENSOR_LINK_CAPACITOR,Sensor Link Capacitor,Electronics
+SENSOR_RECALIBRATION_TIME,Sensor Recalibration Time,Electronics
+SENSOR_STRENGTH,Sensor Strength,Electronics
+SENTRY_DRONE_DAMAGE,Sentry Drone Damage,Drones
+SENTRY_DRONE_EM_DAMAGE,Sentry Drone EM Damage,Drones
+SENTRY_DRONE_EXPLOSIVE_DAMAGE,Sentry Drone Explosive Damage,Drones
+SENTRY_DRONE_KINETIC_DAMAGE,Sentry Drone Kinetic Damage,Drones
+SENTRY_DRONE_RANGE,Sentry Drone Range,Drones
+SENTRY_DRONE_THERMAL_DAMAGE,Sentry Drone Thermal Damage,Drones
+SHIELD_BOOSTER_BOOST,Shield Booster Boost,Shield
+SHIELD_BOOSTER_CAPACITOR,Shield Booster Capacitor,Shield
+SHIELD_BOOSTER_DURATION,Shield Booster Duration,Shield
+SHIELD_HARDENER_ACTIVE_EM_RESIST,Shield Hardener Active EM Resist,Shield
+SHIELD_HARDENER_ACTIVE_EXPLOSIVE_RESIST,Shield Hardener Active Explosive Resist,Shield
+SHIELD_HARDENER_ACTIVE_KINETIC_RESIST,Shield Hardener Active Kinetic Resist,Shield
+SHIELD_HARDENER_ACTIVE_THERMAL_RESIST,Shield Hardener Active Thermal Resist,Shield
+SHIELD_HARDENER_INACTIVE_EM_RESIST,Shield Hardener Inactive EM Resist,Shield
+SHIELD_HARDENER_INACTIVE_EXPLOSIVE_RESIST,Shield Hardener Inactive Explosive Resist,Shield
+SHIELD_HARDENER_INACTIVE_KINETIC_RESIST,Shield Hardener Inactive Kinetic Resist,Shield
+SHIELD_HARDENER_INACTIVE_THERMAL_RESIST,Shield Hardener Inactive Thermal Resist,Shield
+SHIELD_HARDENER_PASSIVE_EM_RESIST,Shield Hardener Passive EM Resist,Shield
+SHIELD_HARDENER_PASSIVE_EXPLOSIVE_RESIST,Shield Hardener Passive Explosive Resist,Shield
+SHIELD_HARDENER_PASSIVE_KINETIC_RESIST,Shield Hardener Passive Kinetic Resist,Shield
+SHIELD_HARDENER_PASSIVE_THERMAL_RESIST,Shield Hardener Passive Thermal Resist,Shield
+SHIELD_HP_FIXED,Shield HP Fixed,Shield
+SHIELD_HP_PERCENT,Shield HP Percent,Shield
+SHIELD_MAINTENANCE_BOT_TRANSFER,Shield Maintenance Bot Transfer,Drones
+SHIELD_MODULE_POWER_NEED,Shield Module Power Need,Shield
+SHIELD_RECHARGE,Shield Recharge,Shield
+SHIELD_RIG_DRAWBACK_REDUCTION,Shield Rig Drawback Reduction,Shield
+SHIELD_TRANSPORTER_AMOUNT,Shield Transporter Amount,Shield
+SHIELD_TRANSPORTER_CAPACITOR,Shield Transporter Capacitor,Shield
+SHIELD_TRANSPORTER_CPU_NEED,Shield Transporter CPU Need,Shield
+SHIELD_TRANSPORTER_DURATION,Shield Transporter Duration,Shield
+SHIELD_TRANSPORTER_RANGE,Shield Transporter Range,Shield
+SHIELD_UNIFORMITY,Shield Uniformity,Shield
+SHIP_SCANNER_RANGE,Ship Scanner Range,Electronics
+SIEGE_MODULE_CPU_NEED,Siege Module CPU Need,Engineering
+SIEGE_MODULE_FUEL_NEED,Siege Module Fuel Need,Engineering
+SIEGE_WARFARE_LINK,Siege Warfare Link,Leadership
+SIGNATURE_RADIUS,Signature Radius,Electronics
+SIGNATURE_RADIUS_FIXED,Signature Radius Fixed,Electronics
+SKIRMISH_WARFARE_LINK,Skirmish Warfare Link,Leadership
+SMALL_ARTILLERY_DAMAGE,Small Artillery Damage,Turrets
+SMALL_AUTOCANNON_DAMAGE,Small Autocannon Damage,Turrets
+SMALL_BEAM_LASER_DAMAGE,Small Beam Laser Damage,Turrets
+SMALL_BLASTER_DAMAGE,Small Blaster Damage,Turrets
+SMALL_ENERGY_TURRET_CAPACITOR,Small Energy Turret Capacitor,Turrets
+SMALL_ENERGY_TURRET_DAMAGE,Small Energy Turret Damage,Turrets
+SMALL_ENERGY_TURRET_FALLOFF,Small Energy Turret Falloff,Turrets
+SMALL_ENERGY_TURRET_OPTIMAL_RANGE,Small Energy Turret Optimal Range,Turrets
+SMALL_ENERGY_TURRET_ROF,Small Energy Turret ROF,Turrets
+SMALL_ENERGY_TURRET_TRACKING_SPEED,Small Energy Turret Tracking Speed,Turrets
+SMALL_HYBRID_TURRET_CAPACITOR,Small Hybrid Turret Capacitor,Turrets
+SMALL_HYBRID_TURRET_DAMAGE,Small Hybrid Turret Damage,Turrets
+SMALL_HYBRID_TURRET_FALLOFF,Small Hybrid Turret Falloff,Turrets
+SMALL_HYBRID_TURRET_OPTIMAL_RANGE,Small Hybrid Turret Optimal Range,Turrets
+SMALL_HYBRID_TURRET_ROF,Small Hybrid Turret ROF,Turrets
+SMALL_HYBRID_TURRET_TRACKING_SPEED,Small Hybrid Turret Tracking Speed,Turrets
+SMALL_PROJECTILE_TURRET_CAPACITOR,Small Projectile Turret Capacitor,Turrets
+SMALL_PROJECTILE_TURRET_DAMAGE,Small Projectile Turret Damage,Turrets
+SMALL_PROJECTILE_TURRET_FALLOFF,Small Projectile Turret Falloff,Turrets
+SMALL_PROJECTILE_TURRET_OPTIMAL_RANGE,Small Projectile Turret Optimal Range,Turrets
+SMALL_PROJECTILE_TURRET_ROF,Small Projectile Turret ROF,Turrets
+SMALL_PROJECTILE_TURRET_TRACKING_SPEED,Small Projectile Turret Tracking Speed,Turrets
+SMALL_PULSE_LASER_DAMAGE,Small Pulse Laser Damage,Turrets
+SMALL_RAILGUN_DAMAGE,Small Railgun Damage,Turrets
+STARBASE_ARRAY_CONTROL,Starbase Array Control,Engineering
+STASIS_WEBIFIER_RANGE,Stasis Webifier Range,Electronics
+STASIS_WEBIFIER_VELOCITY,Stasis Webifier Velocity,Electronics
+STRIP_MINER_CPU_NEED,Strip Miner CPU Need,Mining
+STRIP_MINER_YIELD,Strip Miner Yield,Mining
+SURVEY_SCANNER_RANGE,Survey Scanner Range,Electronics
+TARGET_PAINTER_CAPACITOR,Target Painter Capacitor,Electronics
+TARGET_PAINTER_SIGNATURE_RADIUS,Target Painter Signature Radius,Electronics
+TARGETING_DELAY,Targeting Delay,Electronics
+TARGETING_SPEED,Targeting Speed,Electronics
+THERMAL_ARMOR_RESIST,Thermal Armor Resist,Armor
+THERMAL_BOMB_DAMAGE,Thermal Bomb Damage,Missiles
+THERMAL_CITADEL_TORPEDO_DAMAGE,Thermal Citadel Torpedo Damage,Missiles
+THERMAL_CRUISE_MISSILE_DAMAGE,Thermal Cruise Missile Damage,Missiles
+THERMAL_DAMAGE,Thermal Damage,Weapons
+THERMAL_DRONE_DAMAGE,Thermal Drone Damage,Drones
+THERMAL_HEAVY_ASSAULT_MISSILE_DAMAGE,Thermal Heavy Assault Missile Damage,Missiles
+THERMAL_HEAVY_MISSILE_DAMAGE,Thermal Heavy Missile Damage,Missiles
+THERMAL_HULL_RESIST,Thermal Hull Resist,Hull
+THERMAL_LIGHT_MISSILE_DAMAGE,Thermal Light Missile Damage,Missiles
+THERMAL_MISSILE_DAMAGE,Thermal Missile Damage,Missiles
+THERMAL_ROCKET_DAMAGE,Thermal Rocket Damage,Missiles
+THERMAL_SHIELD_RESIST,Thermal Shield Resist,Shield
+THERMAL_SMARTBOMB_DAMAGE,Thermal Smartbomb Damage,Smartbombs
+THERMAL_TORPEDO_DAMAGE,Thermal Torpedo Damage,Missiles
+THERMAL_TURRET_DAMAGE,Thermal Turret Damage,Turrets
+TORPEDO_DAMAGE,Torpedo Damage,Missiles
+TORPEDO_EXPLOSION_RADIUS,Torpedo Explosion Radius,Missiles
+TORPEDO_EXPLOSION_VELOCITY,Torpedo Explosion Velocity,Missiles
+TORPEDO_FLIGHT_TIME,Torpedo Flight Time,Missiles
+TORPEDO_LAUNCHER_CPU_NEED,Torpedo Launcher CPU Need,Missiles
+TORPEDO_LAUNCHER_POWER_NEED,Torpedo Launcher Power Need,Missiles
+TORPEDO_LAUNCHER_ROF,Torpedo Launcher ROF,Missiles
+TORPEDO_PRECISION,Torpedo Precision,Missiles
+TORPEDO_SPEC_DAMAGE,Torpedo Spec Damage,Missiles
+TORPEDO_SPEC_ROF,Torpedo Spec ROF,Missiles
+TORPEDO_VELOCITY,Torpedo Velocity,Missiles
+TRACKING_DISRUPTOR_CAPACITOR,Tracking Disruptor Capacitor,Electronics
+TRACKING_DISRUPTOR_OPTIMAL_RANGE,Tracking Disruptor Optimal Range,Electronics
+TRACKING_DISRUPTOR_TRACKING_SPEED,Tracking Disruptor Tracking Speed,Electronics
+TRACKING_LINK_OPTIMAL_RANGE,Tracking Link Optimal Range,Electronics
+TRACKING_LINK_RANGE,Tracking Link Range,Electronics
+TRACKING_LINK_TRACKING_SPEED,Tracking Link Tracking Speed,Electronics
+TRACKING_SPEED,Tracking Speed,Electronics
+TRACTOR_BEAM_RANGE,Tractor Beam Range,Electronics
+TRACTOR_BEAM_VELOCITY,Tractor Beam Velocity,Electronics
+TRIAGE_CPU_NEED,Triage CPU Need,Engineering
+TRIAGE_FUEL_NEED,Triage Fuel Need,Engineering
+TURRET_CAPACITOR,Turret Capacitor,Turrets
+TURRET_CPU_NEED,Turret CPU Need,Turrets
+TURRET_DAMAGE,Turret Damage,Turrets
+TURRET_FALLOFF,Turret Falloff,Turrets
+TURRET_OPTIMAL_RANGE,Turret Optimal Range,Turrets
+TURRET_POWER_NEED,Turret Power Need,Turrets
+TURRET_ROF,Turret ROF,Turrets
+TURRET_TRACKING_SPEED,Turret Tracking Speed,Turrets
+WARP_CAPACITOR,Warp Capacitor,Navigation
+WARP_CORE_STRENGTH,Warp Core Strength,Navigation
+WARP_DISRUPTION_FIELD_RANGE,Warp Disruption Field Range,Electronics
+WARP_SCRAMBLER_CAPACITOR,Warp Scrambler Capacitor,Electronics
+WARP_SCRAMBLER_RANGE,Warp Scrambler Range,Electronics
+WARP_SCRAMBLER_STRENGTH,Warp Scrambler Strength,Electronics
+WARP_SPEED,Warp Speed,Navigation
+WILLPOWER,Willpower,Learning

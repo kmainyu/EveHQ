@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{59CBD1C7-EB1B-4DC9-B063-A9889F6FAE41}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>EveHQ.HQF</RootNamespace>
+    <AssemblyName>EveHQ.HQF</AssemblyName>
+    <MyType>Windows</MyType>
+    <OptionStrict>On</OptionStrict>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\EveHQ\bin\Debug\</OutputPath>
+    <DocumentationFile>EveHQ.HQF.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>EveHQ.HQF.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Attributes.vb" />
+    <Compile Include="Classes\Bonuses.vb" />
+    <Compile Include="Classes\Charges.vb" />
+    <Compile Include="Classes\HQFPilot.vb" />
+    <Compile Include="Classes\Market.vb" />
+    <Compile Include="Classes\Settings.vb" />
+    <Compile Include="Classes\Fittings.vb" />
+    <Compile Include="Forms\frmModifyFittingName.Designer.vb">
+      <DependentUpon>frmModifyFittingName.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmModifyFittingName.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmModifyImplantGroups.Designer.vb">
+      <DependentUpon>frmModifyImplantGroups.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmModifyImplantGroups.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmHQFSettings.Designer.vb">
+      <DependentUpon>frmHQFSettings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmHQFSettings.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmPilotManager.Designer.vb">
+      <DependentUpon>frmPilotManager.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPilotManager.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmRequiredSkills.Designer.vb">
+      <DependentUpon>frmRequiredSkills.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmRequiredSkills.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSelectQueue.Designer.vb">
+      <DependentUpon>frmSelectQueue.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSelectQueue.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmShowInfo.designer.vb">
+      <DependentUpon>frmShowInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmShowInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Implant.vb" />
+    <Compile Include="Forms\frmTargetSpeed.Designer.vb">
+      <DependentUpon>frmTargetSpeed.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmTargetSpeed.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Engine.vb" />
+    <Compile Include="Forms\frmHQF.Designer.vb">
+      <DependentUpon>frmHQF.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmHQF.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDoomsday.Designer.vb">
+      <DependentUpon>frmDoomsday.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDoomsday.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ListViewNoFlicker.Designer.vb">
+      <DependentUpon>ListViewNoFlicker.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListViewNoFlicker.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Classes\ScreenGrab.vb" />
+    <Compile Include="Classes\Ship.vb" />
+    <Compile Include="Controls\ShipInfoControl.Designer.vb">
+      <DependentUpon>ShipInfoControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ShipInfoControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\ShipModule.vb" />
+    <Compile Include="Controls\ShipSlotControl.designer.vb">
+      <DependentUpon>ShipSlotControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ShipSlotControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Classes\Skills.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\frmModifyFittingName.resx">
+      <DependentUpon>frmModifyFittingName.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmModifyImplantGroups.resx">
+      <DependentUpon>frmModifyImplantGroups.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmHQFSettings.resx">
+      <DependentUpon>frmHQFSettings.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPilotManager.resx">
+      <DependentUpon>frmPilotManager.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmRequiredSkills.resx">
+      <DependentUpon>frmRequiredSkills.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSelectQueue.resx">
+      <DependentUpon>frmSelectQueue.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmShowInfo.RESX">
+      <DependentUpon>frmShowInfo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmTargetSpeed.resx">
+      <DependentUpon>frmTargetSpeed.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmHQF.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmHQF.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDoomsday.resx">
+      <DependentUpon>frmDoomsday.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ShipInfoControl.resx">
+      <DependentUpon>ShipInfoControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ShipSlotControl.resx">
+      <DependentUpon>ShipSlotControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
+      <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
+      <Name>EveHQ.CoreControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.Core\EveHQ.Core.vbproj">
+      <Project>{AD4AA9C0-F258-44D8-9D71-07493198B580}</Project>
+      <Name>EveHQ.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon17_04.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\newItemMarketGroup.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Attributes.csv" />
+    <None Include="Resources\Bonuses.csv" />
+    <None Include="Resources\Boosters.csv" />
+    <None Include="Resources\Affections.csv" />
+    <None Include="Resources\icon02_07.png" />
+    <None Include="Resources\icon08_09.png" />
+    <None Include="Resources\icon08_10.png" />
+    <None Include="Resources\icon08_11.png" />
+    <None Include="Resources\icon10_10.png" />
+    <None Include="Resources\icon12_07.png" />
+    <None Include="Resources\icon12_09.png" />
+    <None Include="Resources\icon12_12.png" />
+    <None Include="Resources\icon68_01.png" />
+    <None Include="Resources\icon22_06.png" />
+    <None Include="Resources\icon22_07.png" />
+    <None Include="Resources\icon22_14.png" />
+    <None Include="Resources\icon22_15.png" />
+    <None Include="Resources\icon22_17.png" />
+    <None Include="Resources\icon22_18.png" />
+    <None Include="Resources\icon22_19.png" />
+    <None Include="Resources\icon22_20.png" />
+    <None Include="Resources\icon22_24.png" />
+    <None Include="Resources\icon22_25.png" />
+    <None Include="Resources\icon22_26.png" />
+    <None Include="Resources\icon22_27.png" />
+    <None Include="Resources\icon22_28.png" />
+    <None Include="Resources\icon01_01.png" />
+    <None Include="Resources\icon02_12.png" />
+    <None Include="Resources\icon03_01.png" />
+    <None Include="Resources\icon03_09.png" />
+    <None Include="Resources\icon03_13.png" />
+    <None Include="Resources\icon04_12.png" />
+    <None Include="Resources\icon07_12.png" />
+    <None Include="Resources\icon56_05.png" />
+    <None Include="Resources\icon22_16.png" />
+    <None Include="Resources\icon03_06.png" />
+    <None Include="Resources\icon03_07.png" />
+    <None Include="Resources\icon11_16.png" />
+    <None Include="Resources\icon26_06.png" />
+    <None Include="Resources\icon26_09.png" />
+    <None Include="Resources\icon56_02.png" />
+    <None Include="Resources\Implants.csv" />
+    <None Include="Resources\Rigs.csv" />
+    <None Include="Resources\Ships.csv" />
+    <None Include="Resources\Skills.csv" />
+    <None Include="Resources\Status_green.gif" />
+    <None Include="Resources\Status_red.gif" />
+    <None Include="Resources\Status_yellow.gif" />
+    <None Include="Resources\noitem.jpg" />
+    <None Include="Resources\Skills0.png" />
+    <None Include="Resources\Skills1.png" />
+    <None Include="Resources\icon53_11.png" />
+    <None Include="Resources\icon09_07.png" />
+    <Content Include="_Changelog.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,386 @@
+Acceleration Control,AFTERBURNER_SPEED,318
+Acceleration Control,MICROWARPDRIVE_SPEED,318
+Accounting,,
+Advanced Drone Interfacing,DRONE_CONTROL_UNIT,0
+Advanced Laboratory Operation,,
+Advanced Mass Production,,
+Advanced Spaceship Command,AGILITY_ASC,151
+Advanced Weapon Upgrades,MISSILE_LAUNCHER_POWER_NEED,323
+Advanced Weapon Upgrades,TURRET_POWER_NEED,323
+Afterburner,AFTERBURNER_DURATION,66
+Amarr Battleship,,
+Amarr Carrier,,
+Amarr Cruiser,,
+Amarr Dreadnought,,
+Amarr Drone Specialization,DRONE_EM_DAMAGE,292
+Amarr Encryption Methods,,
+Amarr Freighter,,
+Amarr Frigate,,
+Amarr Industrial,,
+Amarr Titan,,
+Amarrian Starship Engineering,,
+Analytical Mind,,
+Anchoring,,
+Archaeology,ARCHAEOLOGICAL_FIND,0
+Arkonor Processing,,
+Armor Rigging,ARMOR_RIG_DRAWBACK_REDUCTION,1139
+Armored Warfare,GANG_ARMOR_HP,335
+Armored Warfare Specialist,GANG_ARMORED_WARFARE_LINK,0
+Assault Ships,,
+Astrogeology,MINING_LASER_YIELD,434
+Astrometric Pinpointing,SCAN_DEVIATION,1156
+Astrometric Triangulation,SCAN_STRENGTH,846
+Astrometrics,SCAN_GROUP,0
+Astronautic Engineering,,
+Astronautics Rigging,ASTRONAUTICS_RIG_DRAWBACK_REDUCTION,1139
+Battlecruisers,,
+Battleship Construction,,
+Biology,BOOSTER_DURATION,66
+Bistot Processing,,
+Black Ops,,
+Bomb Deployment,BOMB_LAUNCHER_REACTIVATION_DELAY,293
+Broker Relations,,
+Bureaucratic Connections,,
+Caldari Battleship,,
+Caldari Carrier,,
+Caldari Cruiser,,
+Caldari Dreadnought,,
+Caldari Drone Specialization,DRONE_KINETIC_DAMAGE,292
+Caldari Encryption Methods,,
+Caldari Freighter,,
+Caldari Frigate,,
+Caldari Industrial,,
+Caldari Starship Engineering,,
+Caldari Titan,,
+Capital Energy Emission Systems,CAPITAL_ENERGY_TRANSFER_CAPACITOR,317
+Capital Energy Turret,CAPITAL_ENERGY_TURRET_DAMAGE,292
+Capital Hybrid Turret,CAPITAL_HYBRID_TURRET_DAMAGE,292
+Capital Industrial Ships,,
+Capital Projectile Turret,CAPITAL_PROJECTILE_TURRET_DAMAGE,292
+Capital Remote Armor Repair Systems,CAPITAL_ARMOR_TRANSFER_CAPACITOR,317
+Capital Remote Hull Repair Systems,CAPITAL_HULL_TRANSFER_CAPACITOR,317
+Capital Repair Systems,CAPITAL_ARMOR_REPAIRER_DURATION,312
+Capital Shield Emission Systems,CAPITAL_SHIELD_TRANSPORTER_CAPACITOR,317
+Capital Shield Operation,CAPITAL_SHIELD_BOOSTER_CAPACITOR,851
+Capital Ship Construction,,
+Capital Ships,AGILITY_CAP,151
+CFO Training,,
+Citadel Torpedoes,CITADEL_TORPEDO_DAMAGE,292
+Clarity,,
+Cloaking,TARGETING_DELAY,619
+Cloning Facility Operation,CLONE_VAT_BAY_CLONE_CAPACITY,1073
+Combat Drone Operation,SCOUT_DRONE_DAMAGE,292
+Command Ships,,
+Connections,,
+Contracting,,
+Controlled Bursts,TURRET_CAPACITOR,317
+Corporation Contracting,,
+Corporation Management,CORP_MEMBER,191
+Covert Ops,,
+Criminal Connections,,
+Crokite Processing,,
+Cruise Missile Specialization,CRUISE_MISSILE_SPEC_ROF,293
+Cruise Missiles,CRUISE_MISSILE_DAMAGE,292
+Cruiser Construction,,
+Cybernetics,,
+Cynosural Field Theory,CYNOSURAL_FUEL_NEED,1296
+Dark Ochre Processing,,
+Daytrading,,
+DED Connections,,
+Deep Core Mining,,
+Defender Missiles,DEFENDER_MISSILE_VELOCITY,547
+Destroyers,,
+Diagnostics Interfaces,,
+Diplomacy,,
+Doomsday Operation,DOOMSDAY_DAMAGE,292
+Drone Durability,DRONE_ARMOR_HP,327
+Drone Durability,DRONE_SHIELD_HP,335
+Drone Durability,DRONE_HULL_HP,337
+Drone Interfacing,DRONE_DAMAGE,292
+Drone Interfacing,DRONE_MINING_YIELD,434
+Drone Navigation,DRONE_VELOCITY,591
+Drone Sharpshooting,DRONE_OPTIMAL_RANGE,294
+Drones,DRONE_CONTROL,353
+Drones Rigging,DRONE_RIG_DRAWBACK_REDUCTION,1139
+Drug Manufacturing,,
+Duplicating,,
+Eidetic Memory,,
+Electromagnetic Physics,,
+Electronic Attack Ships,,
+Electronic Engineering,,
+Electronic Superiority Rigging,ELECTRONIC_SUPERIORITY_RIG_DRAWBACK_REDUCTION,1139
+Electronic Warfare,EW_MODULE_CAPACITOR,317
+Electronic Warfare Drone Interfacing,DRONE_RANGE,459
+Electronics,CPU,424
+Electronics Upgrades,ECM_CPU_NEED,310
+EM Armor Compensation,ARMOR_HARDENER_INACTIVE_EM_RESIST,988
+EM Armor Compensation,ARMOR_HARDENER_PASSIVE_EM_RESIST,958
+EM Shield Compensation,SHIELD_HARDENER_INACTIVE_EM_RESIST,988
+EM Shield Compensation,SHIELD_HARDENER_PASSIVE_EM_RESIST,958
+Empathy,,
+Empire Control,CORP_MEMBER,191
+Energy Emission Systems,ENERGY_TRANSFER_CAPACITOR,317
+Energy Emission Systems,ENERGY_NEUTRALIZER_CAPACITOR,317
+Energy Grid Upgrades,ENERGY_MODULE_CPU_NEED,310
+Energy Management,CAPACITOR_CAPACITY_PERCENT,1079
+Energy Pulse Weapons,ENERGY_PULSE_WEAPON_DURATION,66
+Energy Systems Operation,CAPACITOR_RECHARGE,314
+Energy Weapon Rigging,ENERGY_WEAPON_RIG_DRAWBACK_REDUCTION,1139
+Engineering,POWERGRID_PERCENT,313
+Ethnic Relations,CORP_MEMBER_NON_RACE,418
+Evasive Maneuvering,AGILITY,151
+Exhumers,,
+Explosive Armor Compensation,ARMOR_HARDENER_INACTIVE_EXPLOSIVE_RESIST,988
+Explosive Armor Compensation,ARMOR_HARDENER_PASSIVE_EXPLOSIVE_RESIST,958
+Explosive Shield Compensation,SHIELD_HARDENER_INACTIVE_EXPLOSIVE_RESIST,988
+Explosive Shield Compensation,SHIELD_HARDENER_PASSIVE_EXPLOSIVE_RESIST,958
+Fast talk,,
+Fighters,FIGHTER_DAMAGE,292
+Financial Connections,,
+Fleet Command,,
+Focus,,
+FoF Missiles,FOF_MISSILE_DAMAGE,292
+Frequency Modulation,EW_MODULE_FALLOFF,349
+Frigate Construction,,
+Fuel Conservation,AFTERBURNER_CAPACITOR,317
+Gallente Battleship,,
+Gallente Carrier,,
+Gallente Cruiser,,
+Gallente Dreadnought,,
+Gallente Drone Specialization,DRONE_THERMAL_DAMAGE,292
+Gallente Encryption Methods,,
+Gallente Freighter,,
+Gallente Frigate,,
+Gallente Industrial,,
+Gallente Titan,,
+Gallentean Starship Engineering,,
+Gas Cloud Harvesting,GAS_CLOUD_HARVESTER_CONTROL,0
+Genetic Engineering,,
+Gneiss Processing,,
+Graviton Physics,,
+Guided Missile Precision,HEAVY_MISSILE_EXPLOSION_RADIUS,848
+Guided Missile Precision,LIGHT_MISSILE_EXPLOSION_RADIUS,848
+Guided Missile Precision,CRUISE_MISSILE_EXPLOSION_RADIUS,848
+Gunnery,TURRET_ROF,441
+Gunnery Interfaces,,
+Hacking,DATA_RETRIEVAL,0
+Heavy Assault Missile Specialization,HEAVY_ASSAULT_MISSILE_SPEC_ROF,293
+Heavy Assault Missiles,HEAVY_ASSAULT_MISSILE_DAMAGE,292
+Heavy Assault Ships,,
+Heavy Drone Operation,HEAVY_DRONE_DAMAGE,292
+Heavy Interdictors,,
+Heavy Missile Specialization,HEAVY_MISSILE_SPEC_ROF,293
+Heavy Missiles,HEAVY_MISSILE_DAMAGE,292
+Hedbergite Processing,,
+Hemorphite Processing,,
+High Energy Physics,,
+High Speed Maneuvering,MICROWARPDRIVE_CAPACITOR,216
+High Tech Connections,,
+Hull Upgrades,ARMOR_HP_PERCENT,335
+Hybrid Weapon Rigging,HYBRID_WEAPON_RIG_DRAWBACK_REDUCTION,1139
+Hydromagnetic Physics,,
+Hypernet Science,,
+Ice Harvesting,ICE_HARVESTER_DURATION,780
+Ice Processing,,
+Industrial Construction,,
+Industrial Reconfiguration,INDUSTRIAL_CORE_FUEL_CONSUMPTION,885
+Industry,,
+Infomorph Psychology,JUMP_CLONE,0
+Information Warfare,GANG_MAX_TARGETING_RANGE,309
+Information Warfare Specialist,GANG_INFORMATION_WARFARE_LINK,0
+Instant Recall,,
+Interceptors,,
+Interdictors,,
+Iron Will,,
+Jaspet Processing,,
+Jump Drive Calibration,JUMP_RANGE,870
+Jump Drive Operation,JUMP_CAPACITOR,899
+Jump Freighters,,
+Jump Fuel Conservation,JUMP_FUEL,1296
+Jump Portal Generation,JUMP_PORTAL_FUEL_NEED,885
+Jury Rigging,,
+Kernite Processing,,
+Kinetic Armor Compensation,ARMOR_HARDENER_INACTIVE_KINETIC_RESIST,988
+Kinetic Armor Compensation,ARMOR_HARDENER_PASSIVE_KINETIC_RESIST,958
+Kinetic Shield Compensation,SHIELD_HARDENER_INACTIVE_KINETIC_RESIST,988
+Kinetic Shield Compensation,SHIELD_HARDENER_PASSIVE_KINETIC_RESIST,958
+Labor Connections,,
+Laboratory Operation,,
+Large Artillery Specialization,LARGE_ARTILLERY_DAMAGE,292
+Large Autocannon Specialization,LARGE_AUTOCANNON_DAMAGE,292
+Large Beam Laser Specialization,LARGE_BEAM_LASER_DAMAGE,292
+Large Blaster Specialization,LARGE_BLASTER_DAMAGE,292
+Large Energy Turret,LARGE_ENERGY_TURRET_DAMAGE,292
+Large Hybrid Turret,LARGE_HYBRID_TURRET_DAMAGE,292
+Large Projectile Turret,LARGE_PROJECTILE_TURRET_DAMAGE,292
+Large Pulse Laser Specialization,LARGE_PULSE_LASER_DAMAGE,292
+Large Railgun Specialization,LARGE_RAILGUN_DAMAGE,292
+Laser Physics,,
+Launcher Rigging,LAUNCHER_RIG_DRAWBACK_REDUCTION,1139
+Leadership,GANG_SCAN_RESOLUTION,566
+Learning,,
+Logic,,
+Logistics,,
+Long Distance Jamming,EW_MODULE_OPTIMAL_RANGE,294
+Long Range Targeting,MAX_TARGETING_RANGE,309
+Marauders,,
+Margin Trading,,
+Marketing,,
+Mass Production,,
+Mechanic,HULL_HP,327
+Mechanical Engineering,,
+Medium Artillery Specialization,MEDIUM_ARTILLERY_DAMAGE,292
+Medium Autocannon Specialization,MEDIUM_AUTOCANNON_DAMAGE,292
+Medium Beam Laser Specialization,MEDIUM_BEAM_LASER_DAMAGE,292
+Medium Blaster Specialization,MEDIUM_BLASTER_DAMAGE,292
+Medium Energy Turret,MEDIUM_ENERGY_TURRET_DAMAGE,292
+Medium Hybrid Turret,MEDIUM_HYBRID_TURRET_DAMAGE,292
+Medium Projectile Turret,MEDIUM_PROJECTILE_TURRET_DAMAGE,292
+Medium Pulse Laser Specialization,MEDIUM_PULSE_LASER_DAMAGE,292
+Medium Railgun Specialization,MEDIUM_RAILGUN_DAMAGE,292
+Megacorp Management,CORP_MEMBER,191
+Mercoxit Processing,,
+Metallurgy,,
+Military Connections,,
+Mining,MINING_LASER_YIELD,434
+Mining Barge,,
+Mining Director,GANG_MINING_WARFARE_LINK,0
+Mining Drone Operation,DRONE_MINING_YIELD,434
+Mining Foreman,GANG_MINING_YIELD,434
+Mining Upgrades,MINING_UPGRADE_CPU_PENALTY,927
+Minmatar Battleship,,
+Minmatar Carrier,,
+Minmatar Cruiser,,
+Minmatar Dreadnought,,
+Minmatar Drone Specialization,DRONE_EXPLOSIVE_DAMAGE,292
+Minmatar Encryption Methods,,
+Minmatar Freighter,,
+Minmatar Frigate,,
+Minmatar Industrial,,
+Minmatar Starship Engineering,,
+Minmatar Titan,,
+Missile Bombardment,MISSILE_FLIGHT_TIME,557
+Missile Launcher Operation,MISSILE_LAUNCHER_ROF,293
+Missile Projection,MISSILE_VELOCITY,20
+Mnemonics,,
+Molecular Engineering,,
+Motion Prediction,TURRET_TRACKING_SPEED,767
+Multitasking,MAX_TARGETS_FIXED,311
+Nanite Control,BOOSTER_SIDE_EFFECT,1126
+Nanite Engineering,,
+Nanite Interfacing,NANITE_REPAIR_AMOUNT,1295
+Nanite Operation,NANITE_REPAIR_CONSUMPTION,1294
+Navigation,MAX_VELOCITY,315
+Negotiation,,
+Neurotoxin Recovery,BOOSTER_SIDE_EFFECT_CHANCE,1125
+Nuclear Physics,,
+Omber Processing,,
+Outpost Construction,,
+Plagioclase Processing,,
+Plasma Physics,,
+Political Connections,,
+Presence,,
+Procurement,,
+Production Efficiency,,
+Projected Electronic Counter Measures,ECM_BURST_DELAY,1193
+Projectile Weapon Rigging,PROJECTILE_WEAPON_RIG_DRAWBACK_REDUCTION,1139
+Propulsion Jamming,PROPULSION_JAMMING_CAPACITOR,317
+Pyroxeres Processing,,
+Quantum Physics,,
+Rapid Firing,TURRET_ROF,293
+Rapid Launch,MISSILE_LAUNCHER_ROF,293
+Recon Ships,,
+Refinery Efficiency,,
+Refining,,
+Remote Armor Repair Systems,ARMOR_TRANSFER_CAPACITOR,317
+Remote Hull Repair Systems,HULL_TRANSFER_CAPACITOR,317
+Remote Interfaces,,
+Repair Drone Operation,DRONE_REPAIR_AMOUNT,39
+Repair Systems,ARMOR_REPAIR_DURATION,312
+Research,,
+Research Project Management,,
+Retail,,
+Reverse Engineering,,
+Rocket Science,,
+Rocket Specialization,ROCKET_SPEC_ROF,293
+Rockets,ROCKET_DAMAGE,292
+Salvaging,SALVAGE_RETRIEVAL,
+Science,,
+Scientific Networking,,
+Scordite Processing,,
+Scout Drone Operation,DRONE_RANGE,459
+Scrapmetal Processing,,
+Sensor Linking,SENSOR_LINK_CAPACITOR,317
+Sentry Drone Interfacing,SENTRY_DRONE_DAMAGE,292
+Sharpshooter,TURRET_OPTIMAL_RANGE,294
+Shield Compensation,SHIELD_BOOSTER_CAPACITOR,851
+Shield Emission Systems,SHIELD_TRANSPORTER_CAPACITOR,317
+Shield Management,SHIELD_HP_PERCENT,337
+Shield Operation,SHIELD_RECHARGE,338
+Shield Rigging,SHIELD_RIG_DRAWBACK_REDUCTION,1139
+Shield Upgrades,SHIELD_MODULE_POWER_NEED,323
+Siege Warfare,GANG_SHIELD_HP,337
+Siege Warfare Specialist,GANG_SIEGE_WARFARE_LINK,0
+Signal Acquisition,SCAN_DURATION,66
+Signal Dispersion,ECM_TARGET_JAMMER_STRENGTH,828
+Signal Suppression,REMOTE_TARGETING_RANGE,828
+Signal Suppression,REMOTE_SCAN_RESOLUTION,828
+Signature Analysis,SCAN_RESOLUTION,566
+Signature Focusing,TARGET_PAINTER_SIGNATURE_RADIUS,832
+Skirmish Warfare,GANG_MAX_VELOCITY,315
+Skirmish Warfare Specialist,GANG_SKIRMISH_WARFARE_LINK,0
+Sleeper Technology,,
+Small Artillery Specialization,SMALL_ARTILLERY_DAMAGE,292
+Small Autocannon Specialization,SMALL_AUTOCANNON_DAMAGE,292
+Small Beam Laser Specialization,SMALL_BEAM_LASER_DAMAGE,292
+Small Blaster Specialization,SMALL_BLASTER_DAMAGE,292
+Small Energy Turret,SMALL_ENERGY_TURRET_DAMAGE,292
+Small Hybrid Turret,SMALL_HYBRID_TURRET_DAMAGE,292
+Small Projectile Turret,SMALL_PROJECTILE_TURRET_DAMAGE,292
+Small Pulse Laser Specialization,SMALL_PULSE_LASER_DAMAGE,292
+Small Railgun Specialization,SMALL_RAILGUN_DAMAGE,292
+Social,,
+Sovereignty,CORP_MEMBER,191
+Spaceship Command,AGILITY,151
+Spatial Awareness,,
+Spodumain Processing,,
+Standard Missile Specialization,LIGHT_MISSILE_SPEC_ROF,293
+Standard Missiles,LIGHT_MISSILE_DAMAGE,292
+Starbase Defense Management,STARBASE_ARRAY_CONTROL,1174
+Supply Chain Management,,
+Surgical Strike,TURRET_DAMAGE,292
+Survey,SCAN_DURATION,308
+Tactical Logistics Reconfiguration,TRIAGE_FUEL_NEED,885
+Tactical Shield Manipulation,SHIELD_UNIFORMITY,336
+Tactical Weapon Reconfiguration,SIEGE_MODULE_FUEL_NEED,885
+Takmahl Technology,,
+Talocan Technology,,
+Target Navigation Prediction,MISSILE_PRECISION,847
+Target Painting,TARGET_PAINTER_CAPACITOR,317
+Targeting,MAX_TARGETS_FIXED,311
+Thermic Armor Compensation,ARMOR_HARDENER_INACTIVE_THERMAL_RESIST,988
+Thermic Armor Compensation,ARMOR_HARDENER_PASSIVE_THERMAL_RESIST,958
+Thermic Shield Compensation,SHIELD_HARDENER_INACTIVE_KINETIC_RESIST,988
+Thermic Shield Compensation,SHIELD_HARDENER_PASSIVE_KINETIC_RESIST,958
+Thermodynamics,HEAT_DAMAGE,1229
+Torpedo Specialization,TORPEDO_SPEC_ROF,293
+Torpedoes,TORPEDO_DAMAGE,292
+Trade,,
+Trade Connections,,
+Trajectory Analysis,TURRET_FALLOFF,349
+Transport Ships,,
+Turret Destabilization,TRACKING_DISRUPTOR_OPTIMAL_RANGE,828
+Turret Destabilization,TRACKING_DISRUPTOR_TRACKING_SPEED,828
+Tycoon,,
+Veldspar Processing,,
+Visibility,,
+Warfare Link Specialist,GANG_WARFARE_LINK,850
+Warhead Upgrades,MISSILE_DAMAGE,292
+Warp Drive Operation,WARP_CAPACITOR,319
+Weapon Disruption,TRACKING_DISRUPTOR_CAPACITOR,317
+Weapon Upgrades,ENERGY_PULSE_WEAPON_CPU_NEED,310
+Weapon Upgrades,MISSILE_LAUNCHER_CPU_NEED,310
+Weapon Upgrades,TURRET_CPU_NEED,310
+Wholesale,,
+Wing Command,
+Yan Jung Technology,

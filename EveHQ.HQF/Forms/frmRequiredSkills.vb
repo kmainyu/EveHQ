@@ -1,0 +1,151 @@
+﻿' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2008  Lee Vessey
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Imports DotNetLib.Windows.Forms
+
+Public Class frmRequiredSkills
+
+#Region "Property Variables"
+    Private reqSkills As New SortedList
+    Private reqPilot As EveHQ.Core.Pilot
+#End Region
+
+#Region "Properties"
+
+    Public Property Skills() As SortedList
+        Get
+            Return reqSkills
+        End Get
+        Set(ByVal value As SortedList)
+            reqSkills = value
+            Call Me.DrawSkillsTable()
+        End Set
+    End Property
+
+    Public Property Pilot() As EveHQ.Core.Pilot
+        Get
+            Return reqPilot
+        End Get
+        Set(ByVal value As EveHQ.Core.Pilot)
+            reqPilot = value
+        End Set
+    End Property
+
+#End Region
+
+#Region "Skill Display Routines"
+
+    Private Sub DrawSkillsTable()
+        Dim aSkill As EveHQ.Core.Skills
+        Dim aLevel As Integer = 0
+
+        ' Compress the list of required skills into the smallest possible list
+        Dim newSkills As New SortedList
+        For Each rSkill As ReqSkill In reqSkills.Values
+            If newSkills.Contains(rSkill.Name & " (Lvl " & rSkill.ReqLevel & ") - " & rSkill.NeededFor) = False Then
+                newSkills.Add(rSkill.Name & " (Lvl " & rSkill.ReqLevel & ") - " & rSkill.NeededFor, rSkill)
+            End If
+        Next
+
+        ' Draw the list
+        clvSkills.BeginUpdate()
+        clvSkills.Items.Clear()
+        For Each rSkill As ReqSkill In newSkills.Values
+            Dim newSkill As New ContainerListViewItem
+            clvSkills.Items.Add(newSkill)
+            newSkill.Text = rSkill.Name
+            newSkill.SubItems(1).Text = rSkill.ReqLevel.ToString
+            If reqPilot.PilotSkills.Contains(rSkill.Name) = True Then
+                aSkill = CType(reqPilot.PilotSkills(rSkill.Name), Core.Skills)
+                newSkill.SubItems(2).Text = aSkill.Level.ToString
+            Else
+                newSkill.SubItems(2).Text = "0"
+            End If
+            newSkill.SubItems(3).Text = rSkill.CurLevel.ToString
+            newSkill.SubItems(4).Text = rSkill.NeededFor
+            ' Check for sub skills
+            Call Me.DisplaySubSkills(newSkill, rSkill.ID)
+        Next
+        clvSkills.EndUpdate()
+
+    End Sub
+
+    Private Sub DisplaySubSkills(ByVal parentSkill As ContainerListViewItem, ByVal pSkillID As String)
+        Dim aSkill As EveHQ.Core.Skills
+        Dim pSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(pSkillID), Core.SkillList)
+        If pSkill.PS <> "" Then
+            Dim newSkill As New ContainerListViewItem
+            parentSkill.Items.Add(newSkill)
+            newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.PS)
+            newSkill.SubItems(1).Text = pSkill.PSL.ToString
+            If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
+                aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
+                newSkill.SubItems(2).Text = aSkill.Level.ToString
+            Else
+                newSkill.SubItems(2).Text = "0"
+            End If
+            Call Me.DisplaySubSkills(newSkill, pSkill.PS)
+        End If
+        If pSkill.SS <> "" Then
+            Dim newSkill As New ContainerListViewItem
+            parentSkill.Items.Add(newSkill)
+            newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.SS)
+            newSkill.SubItems(1).Text = pSkill.SSL.ToString
+            If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
+                aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
+                newSkill.SubItems(2).Text = aSkill.Level.ToString
+            Else
+                newSkill.SubItems(2).Text = "0"
+            End If
+            Call Me.DisplaySubSkills(newSkill, pSkill.SS)
+        End If
+        If pSkill.TS <> "" Then
+            Dim newSkill As New ContainerListViewItem
+            parentSkill.Items.Add(newSkill)
+            newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.TS)
+            newSkill.SubItems(1).Text = pSkill.TSL.ToString
+            If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
+                aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
+                newSkill.SubItems(2).Text = aSkill.Level.ToString
+            Else
+                newSkill.SubItems(2).Text = "0"
+            End If
+            Call Me.DisplaySubSkills(newSkill, pSkill.TS)
+        End If
+    End Sub
+
+#End Region
+
+#Region "Button Routines"
+    Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
+        Me.Close()
+    End Sub
+    Private Sub btnAddToQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddToQueue.Click
+        Call Me.AddNeededSkillsToQueue()
+    End Sub
+    Private Sub AddNeededSkillsToQueue()
+        Dim selQ As New frmSelectQueue
+        selQ.rPilot = reqPilot
+        selQ.skillsNeeded = reqSkills
+        selQ.ShowDialog()
+        EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
+    End Sub
+#End Region
+
+End Class

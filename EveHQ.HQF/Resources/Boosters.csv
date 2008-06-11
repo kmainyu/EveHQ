@@ -1,0 +1,128 @@
+Improved Blue Pill Booster,SHIELD_BOOSTER_BOOST,25,1
+Improved Blue Pill Booster,SHIELD_HP_PERCENT,-25,-1
+Improved Blue Pill Booster,TURRET_OPTIMAL_RANGE,-25,-1
+Improved Blue Pill Booster,MISSILE_EXPLOSION_VELOCITY,-25,-1
+Improved Blue Pill Booster,CAPACITOR_CAPACITY_PERCENT,-25,-1
+Improved Crash Booster,MISSILE_EXPLOSION_RADIUS,-25,1
+Improved Crash Booster,SHIELD_BOOSTER_BOOST,-25,-1
+Improved Crash Booster,MAX_VELOCITY,-25,-1
+Improved Crash Booster,MISSILE_VELOCITY,-25,-1
+Improved Crash Booster,ARMOR_HP_PERCENT,-25,-1
+Improved Drop Booster,TURRET_TRACKING_SPEED,31.25,1
+Improved Drop Booster,SHIELD_HP_PERCENT,-25,-1
+Improved Drop Booster,TURRET_FALLOFF,-25,-1
+Improved Drop Booster,MAX_VELOCITY,-25,-1
+Improved Drop Booster,ARMOR_REPAIR_AMOUNT,-25,-1
+Improved Exile Booster,ARMOR_REPAIR_AMOUNT,25,1
+Improved Exile Booster,TURRET_TRACKING_SPEED,-25,-1
+Improved Exile Booster,ARMOR_HP_PERCENT,-25,-1
+Improved Exile Booster,CAPACITOR_CAPACITY_PERCENT,-25,-1
+Improved Exile Booster,MISSILE_EXPLOSION_VELOCITY,25,-1
+Improved Frentix Booster,TURRET_OPTIMAL_RANGE,15,1
+Improved Frentix Booster,SHIELD_BOOSTER_BOOST,-25,-1
+Improved Frentix Booster,TURRET_TRACKING_SPEED,-25,-1
+Improved Frentix Booster,MAX_VELOCITY,-25,-1
+Improved Frentix Booster,ARMOR_HP_PERCENT,-25,-1
+Improved Mindflood Booster,CAPACITOR_CAPACITY_PERCENT,15,1
+Improved Mindflood Booster,MISSILE_EXPLOSION_VELOCITY,25,-1
+Improved Mindflood Booster,SHIELD_BOOSTER_BOOST,-25,-1
+Improved Mindflood Booster,TURRET_OPTIMAL_RANGE,-25,-1
+Improved Mindflood Booster,ARMOR_REPAIR_AMOUNT,-25,-1
+Improved Sooth Sayer Booster,TURRET_FALLOFF,15,1
+Improved Sooth Sayer Booster,SHIELD_BOOSTER_BOOST,-25,-1
+Improved Sooth Sayer Booster,TURRET_OPTIMAL_RANGE,-25,-1
+Improved Sooth Sayer Booster,ARMOR_REPAIR_AMOUNT,-25,-1
+Improved Sooth Sayer Booster,MAX_VELOCITY,-25,-1
+Improved X-Instinct Booster,MAX_VELOCITY,15,1
+Improved X-Instinct Booster,SHIELD_HP_PERCENT,-25,-1
+Improved X-Instinct Booster,TURRET_FALLOFF,-25,-1
+Improved X-Instinct Booster,MISSILE_VELOCITY,-25,-1
+Improved X-Instinct Booster,ARMOR_HP_PERCENT,-25,-1
+Standard Blue Pill Booster,SHIELD_BOOSTER_BOOST,20,1
+Standard Blue Pill Booster,SHIELD_HP_PERCENT,-20,-1
+Standard Blue Pill Booster,TURRET_OPTIMAL_RANGE,-20,-1
+Standard Blue Pill Booster,MISSILE_EXPLOSION_VELOCITY,-20,-1
+Standard Blue Pill Booster,CAPACITOR_CAPACITY_PERCENT,-20,-1
+Standard Crash Booster,MISSILE_EXPLOSION_RADIUS,-20,1
+Standard Crash Booster,SHIELD_BOOSTER_BOOST,-20,-1
+Standard Crash Booster,MAX_VELOCITY,-20,-1
+Standard Crash Booster,MISSILE_VELOCITY,-20,-1
+Standard Crash Booster,ARMOR_HP_PERCENT,-20,-1
+Standard Drop Booster,TURRET_TRACKING_SPEED,25,1
+Standard Drop Booster,SHIELD_HP_PERCENT,-20,-1
+Standard Drop Booster,TURRET_FALLOFF,-20,-1
+Standard Drop Booster,MAX_VELOCITY,-20,-1
+Standard Drop Booster,ARMOR_REPAIR_AMOUNT,-20,-1
+Standard Exile Booster,ARMOR_REPAIR_AMOUNT,20,1
+Standard Exile Booster,TURRET_TRACKING_SPEED,-20,-1
+Standard Exile Booster,ARMOR_HP_PERCENT,-20,-1
+Standard Exile Booster,CAPACITOR_CAPACITY_PERCENT,-20,-1
+Standard Exile Booster,MISSILE_EXPLOSION_VELOCITY,20,-1
+Standard Frentix Booster,TURRET_OPTIMAL_RANGE,10,1
+Standard Frentix Booster,SHIELD_BOOSTER_BOOST,-20,-1
+Standard Frentix Booster,TURRET_TRACKING_SPEED,-20,-1
+Standard Frentix Booster,MAX_VELOCITY,-20,-1
+Standard Frentix Booster,ARMOR_HP_PERCENT,-20,-1
+Standard Mindflood Booster,CAPACITOR_CAPACITY_PERCENT,10,1
+Standard Mindflood Booster,MISSILE_EXPLOSION_VELOCITY,20,-1
+Standard Mindflood Booster,SHIELD_BOOSTER_BOOST,-20,-1
+Standard Mindflood Booster,TURRET_OPTIMAL_RANGE,-20,-1
+Standard Mindflood Booster,ARMOR_REPAIR_AMOUNT,-20,-1
+Standard Sooth Sayer Booster,TURRET_FALLOFF,10,1
+Standard Sooth Sayer Booster,SHIELD_BOOSTER_BOOST,-20,-1
+Standard Sooth Sayer Booster,TURRET_OPTIMAL_RANGE,-20,-1
+Standard Sooth Sayer Booster,ARMOR_REPAIR_AMOUNT,-20,-1
+Standard Sooth Sayer Booster,MAX_VELOCITY,-20,-1
+Standard X-Instinct Booster,MAX_VELOCITY,10,1
+Standard X-Instinct Booster,SHIELD_HP_PERCENT,-20,-1
+Standard X-Instinct Booster,TURRET_FALLOFF,-20,-1
+Standard X-Instinct Booster,MISSILE_VELOCITY,-20,-1
+Standard X-Instinct Booster,ARMOR_HP_PERCENT,-20,-1
+Strong Blue Pill Booster,SHIELD_BOOSTER_BOOST,30,1
+Strong Blue Pill Booster,SHIELD_HP_PERCENT,-30,-1
+Strong Blue Pill Booster,TURRET_OPTIMAL_RANGE,-30,-1
+Strong Blue Pill Booster,MISSILE_EXPLOSION_VELOCITY,-30,-1
+Strong Blue Pill Booster,CAPACITOR_CAPACITY_PERCENT,-30,-1
+Strong Crash Booster,MISSILE_EXPLOSION_RADIUS,-30,1
+Strong Crash Booster,SHIELD_BOOSTER_BOOST,-30,-1
+Strong Crash Booster,MAX_VELOCITY,-30,-1
+Strong Crash Booster,MISSILE_VELOCITY,-30,-1
+Strong Crash Booster,ARMOR_HP_PERCENT,-30,-1
+Strong Drop Booster,TURRET_TRACKING_SPEED,37.5,1
+Strong Drop Booster,SHIELD_HP_PERCENT,-30,-1
+Strong Drop Booster,TURRET_FALLOFF,-30,-1
+Strong Drop Booster,MAX_VELOCITY,-30,-1
+Strong Drop Booster,ARMOR_REPAIR_AMOUNT,-30,-1
+Strong Exile Booster,ARMOR_REPAIR_AMOUNT,30,1
+Strong Exile Booster,TURRET_TRACKING_SPEED,-30,-1
+Strong Exile Booster,ARMOR_HP_PERCENT,-30,-1
+Strong Exile Booster,CAPACITOR_CAPACITY_PERCENT,-30,-1
+Strong Exile Booster,MISSILE_EXPLOSION_VELOCITY,30,-1
+Strong Frentix Booster,TURRET_OPTIMAL_RANGE,20,1
+Strong Frentix Booster,SHIELD_BOOSTER_BOOST,-30,-1
+Strong Frentix Booster,TURRET_TRACKING_SPEED,-30,-1
+Strong Frentix Booster,MAX_VELOCITY,-30,-1
+Strong Frentix Booster,ARMOR_HP_PERCENT,-30,-1
+Strong Mindflood Booster,CAPACITOR_CAPACITY_PERCENT,20,1
+Strong Mindflood Booster,MISSILE_EXPLOSION_VELOCITY,30,-1
+Strong Mindflood Booster,SHIELD_BOOSTER_BOOST,-30,-1
+Strong Mindflood Booster,TURRET_OPTIMAL_RANGE,-30,-1
+Strong Mindflood Booster,ARMOR_REPAIR_AMOUNT,-30,-1
+Strong Sooth Sayer Booster,TURRET_FALLOFF,20,1
+Strong Sooth Sayer Booster,SHIELD_BOOSTER_BOOST,-30,-1
+Strong Sooth Sayer Booster,TURRET_OPTIMAL_RANGE,-30,-1
+Strong Sooth Sayer Booster,ARMOR_REPAIR_AMOUNT,-30,-1
+Strong Sooth Sayer Booster,MAX_VELOCITY,-30,-1
+Strong X-Instinct Booster,MAX_VELOCITY,20,1
+Strong X-Instinct Booster,SHIELD_HP_PERCENT,-30,-1
+Strong X-Instinct Booster,TURRET_FALLOFF,-30,-1
+Strong X-Instinct Booster,MISSILE_VELOCITY,-30,-1
+Strong X-Instinct Booster,ARMOR_HP_PERCENT,-30,-1
+Synth Blue Pill Booster,SHIELD_BOOSTER_BOOST,3,1
+Synth Crash Booster,MISSILE_EXPLOSION_VELOCITY,-3,1
+Synth Drop Booster,TURRET_TRACKING_SPEED,3,1
+Synth Exile Booster,ARMOR_REPAIR_AMOUNT,3,1
+Synth Frentix Booster,TURRET_OPTIMAL_RANGE,3,1
+Synth Mindflood Booster,CAPACITOR_CAPACITY_PERCENT,3,1
+Synth Sooth Sayer Booster,TURRET_FALLOFF,3,1
+Synth X-Instinct Booster,MAX_VELOCITY,3,1

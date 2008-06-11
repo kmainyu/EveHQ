@@ -1,0 +1,418 @@
+' ========================================================================
+' EveHQ - An Eve-Online™ character assistance application
+' Copyright © 2005-2008  Lee Vessey
+' 
+' This file is part of EveHQ.
+'
+' EveHQ is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' EveHQ is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+'=========================================================================
+Imports System
+Imports System.Net
+Imports System.Text
+Imports System.Xml
+Imports System.IO
+
+Public Class EveAPI
+    Private Shared cLastAPIResult As Integer
+    Public ReadOnly Property LastAPIResult() As Integer
+        Get
+            Return cLastAPIResult
+        End Get
+    End Property
+
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, Optional ByVal UseTimeStamp As Boolean = False) As XmlDocument
+        ' Accepts API features that do not have an explicit post request
+        Dim remoteURL As String = ""
+        Dim postdata As String = ""
+        Select Case Feature
+            Case EveHQ.Core.EveAPI.APIRequest.AllianceList
+                remoteURL = "/eve/AllianceList.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.RefTypes
+                remoteURL = "/eve/RefTypes.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.SkillTree
+                remoteURL = "/eve/SkillTree.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.Sovereignty
+                remoteURL = "/map/Sovereignty.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.MapJumps
+                remoteURL = "/map/Jumps.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.MapKills
+                remoteURL = "/map/Kills.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.Conquerables
+                remoteURL = "/eve/ConquerableStationList.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.ErrorList
+                remoteURL = "/eve/ErrorList.xml.aspx"
+            Case Else
+                cLastAPIResult = APIResults.InvalidFeature
+                Return Nothing
+                Exit Function
+        End Select
+        ' Determine filename of cache
+        Dim fileName As String = "EVEHQAPI_" & Feature.ToString
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, UseTimeStamp)
+    End Function
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal charData As String, Optional ByVal UseTimeStamp As Boolean = False) As XmlDocument
+        ' Accepts API features that do not have an explicit post request
+        Dim remoteURL As String = ""
+        Dim postdata As String = ""
+        Select Case Feature
+            Case EveHQ.Core.EveAPI.APIRequest.NameToID
+                postdata = "names=" & charData
+                remoteURL = "/eve/CharacterID.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.IDToName
+                postdata = "ids=" & charData
+                remoteURL = "/eve/CharacterName.xml.aspx"
+            Case Else
+                cLastAPIResult = APIResults.InvalidFeature
+                Return Nothing
+                Exit Function
+        End Select
+        ' Determine filename of cache
+        Dim fileName As String = "EVEHQAPI_" & Feature.ToString
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, UseTimeStamp)
+    End Function
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, Optional ByVal UseTimeStamp As Boolean = False) As XmlDocument
+        Dim remoteURL As String = ""
+        Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey
+        Select Case Feature
+            Case EveHQ.Core.EveAPI.APIRequest.Characters
+
+                remoteURL = "/account/characters.xml.aspx"
+            Case Else
+                cLastAPIResult = APIResults.InvalidFeature
+                Return Nothing
+                Exit Function
+        End Select
+        ' Determine filename of cache
+        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, UseTimeStamp)
+    End Function
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, Optional ByVal UseTimeStamp As Boolean = False) As XmlDocument
+        Dim remoteURL As String = ""
+        Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & charID
+        Select Case Feature
+            Case EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar
+                remoteURL = "/char/AccountBalance.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp
+                remoteURL = "/corp/AccountBalance.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.CharacterSheet
+                remoteURL = "/char/CharacterSheet.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.CorpSheet
+                remoteURL = "/corp/CorporationSheet.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.CorpMemberTracking
+                remoteURL = "/corp/MemberTracking.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.SkillTraining
+                remoteURL = "/char/SkillInTraining.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.AssetsChar
+                remoteURL = "/char/AssetList.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.AssetsCorp
+                remoteURL = "/corp/AssetList.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.KillLogChar
+                remoteURL = "/char/Killlog.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.KillLogCorp
+                remoteURL = "/corp/Killlog.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.IndustryChar
+                remoteURL = "/char/IndustryJobs.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.IndustryCorp
+                remoteURL = "/corp/IndustryJobs.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.OrdersChar
+                remoteURL = "/char/MarketOrders.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.OrdersCorp
+                remoteURL = "/corp/MarketOrders.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.POSList
+                remoteURL = "/corp/StarbaseList.xml.aspx"
+            Case Else
+                cLastAPIResult = APIResults.InvalidFeature
+                Return Nothing
+                Exit Function
+        End Select
+        ' Determine filename of cache
+        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, UseTimeStamp)
+    End Function
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal itemID As Integer, Optional ByVal UseTimeStamp As Boolean = False) As XmlDocument
+        Dim remoteURL As String = ""
+        Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
+        Select Case Feature
+            Case EveHQ.Core.EveAPI.APIRequest.POSDetails
+                remoteURL = "/corp/StarbaseDetail.xml.aspx"
+            Case Else
+                cLastAPIResult = APIResults.InvalidFeature
+                Return Nothing
+                Exit Function
+        End Select
+        ' Determine filename of cache
+        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID & "_" & itemID
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, UseTimeStamp)
+    End Function
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal BeforeRefID As String, Optional ByVal UseTimeStamp As Boolean = False) As XmlDocument
+        Dim remoteURL As String = ""
+        Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
+        If BeforeRefID <> "" Then
+            postData &= "&beforeRefID=" & BeforeRefID
+        End If
+        Select Case Feature
+            Case EveHQ.Core.EveAPI.APIRequest.WalletJournalChar
+                remoteURL = "/char/WalletJournal.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp
+                remoteURL = "/corp/WalletJournal.xml.aspx"
+            Case Else
+                cLastAPIResult = APIResults.InvalidFeature
+                Return Nothing
+                Exit Function
+        End Select
+        ' Determine filename of cache
+        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID & "_" & accountKey
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, UseTimeStamp)
+    End Function
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal BeforeTransID As String, Optional ByVal UseTimeStamp As Boolean = False) As XmlDocument
+        Dim remoteURL As String = ""
+        Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & charID
+        If BeforeTransID <> "" Then
+            postData &= "&beforeTransID=" & BeforeTransID
+        End If
+        Select Case Feature
+            Case EveHQ.Core.EveAPI.APIRequest.WalletTransChar
+                remoteURL = "/char/WalletTransactions.xml.aspx"
+            Case EveHQ.Core.EveAPI.APIRequest.WalletTransCorp
+                remoteURL = "/corp/WalletTransactions.xml.aspx"
+            Case Else
+                cLastAPIResult = APIResults.InvalidFeature
+                Return Nothing
+                Exit Function
+        End Select
+        ' Determine filename of cache
+        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, UseTimeStamp)
+    End Function
+
+    Private Shared Function GetXML(ByVal remoteURL As String, ByVal postData As String, ByVal fileName As String, ByVal UseTimeStamp As Boolean) As XmlDocument
+        Dim fileDate As String = ""
+        If UseTimeStamp = True Then
+            fileDate = "_[" & Format(Now, "yyyyMMddhhmmss") & "]"
+        End If
+        ' Check if the file already exists
+        Dim fileLoc As String = EveHQ.Core.HQ.cacheFolder & "\" & fileName & fileDate & ".xml"
+        Dim APIXML As New XmlDocument
+        Dim tmpAPIXML As New XmlDocument
+        Dim errlist As XmlNodeList
+        If My.Computer.FileSystem.FileExists(fileLoc) = True Then
+            ' Check cache time of file
+            APIXML.Load(fileLoc)
+            ' Get Cache time details
+            Dim cacheDetails As XmlNodeList = APIXML.SelectNodes("/eveapi")
+            Dim cacheTime As DateTime = CDate(cacheDetails(0).ChildNodes(2).InnerText)
+            Dim localCacheTime As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cacheTime)
+            ' Has Cache expired?
+            If localCacheTime > Now Then
+                '  Cache has not expired - return existing XML
+                cLastAPIResult = APIResults.ReturnedCached
+                Return APIXML
+            Else
+                ' Cache has expired - get a new XML
+                tmpAPIXML = FetchXMLFromWeb(remoteURL, postData)
+                ' Check for null document (can happen if APIRS) isn't active and no backup is used
+                If tmpAPIXML.InnerXml = "" Then
+                    ' Do not save and return the old API file
+                    cLastAPIResult = APIResults.APIServerDownReturnedCached
+                    Return APIXML
+                End If
+                ' Check for error codes
+                errlist = tmpAPIXML.SelectNodes("/eveapi/error")
+                If errlist.Count <> 0 Then
+                    Dim errNode As XmlNode = errlist(0)
+                    ' Get error code
+                    Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                    Dim errMsg As String = errNode.InnerText
+                    ' Return the old XML file
+                    cLastAPIResult = APIResults.CCPError
+                    Return APIXML
+                Else
+                    ' No error codes so save, then return new XML file
+                    cLastAPIResult = APIResults.ReturnedNew
+                    tmpAPIXML.Save(fileLoc)
+                    Return tmpAPIXML
+                End If
+            End If
+        Else
+            ' Fetch the XML from the EveAPI
+            APIXML = FetchXMLFromWeb(remoteURL, postData)
+            ' Check for null document (can happen if APIRS) isn't active and no backup is used
+            If APIXML.InnerXml = "" Then
+                ' Do not save and return nothing
+                cLastAPIResult = APIResults.APIServerDownReturnedNull
+                Return Nothing
+            Else
+                ' Save the XML to disk
+                APIXML.Save(fileLoc)
+                Return APIXML
+            End If
+        End If
+    End Function
+    Private Shared Function FetchXMLFromWeb(ByVal remoteURL As String, ByVal postData As String) As XmlDocument
+        ' Determine if we use the APIRS or CCP API Server
+        Dim APIServer As String = ""
+        If EveHQ.Core.HQ.EveHQSettings.UseAPIRS = True Then
+            APIServer = EveHQ.Core.HQ.EveHQSettings.APIRSAddress
+            ' Check for APIRS heartbeart
+            If EveHQ.Core.EveAPI.APIRSHasHeartbeat() = False Then
+                If EveHQ.Core.HQ.EveHQSettings.UseCCPAPIBackup = True Then
+                    APIServer = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
+                End If
+            End If
+        Else
+            APIServer = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
+        End If
+        remoteURL = APIServer & remoteURL
+        Dim webdata As String = ""
+        Dim APIXML As New XmlDocument
+        Try
+            ' Create the requester
+            Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
+            ' Setup proxy server (if required)
+            If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
+                Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
+                If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
+                    EveHQProxy.UseDefaultCredentials = True
+                Else
+                    EveHQProxy.UseDefaultCredentials = True
+                    EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
+                End If
+                request.Proxy = EveHQProxy
+            End If
+            ' Setup request parameters
+            request.Method = "POST"
+            request.ContentLength = postData.Length
+            request.ContentType = "application/x-www-form-urlencoded"
+            request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
+            ' Setup a stream to write the HTTP "POST" data
+            Dim WebEncoding As New ASCIIEncoding()
+            Dim byte1 As Byte() = WebEncoding.GetBytes(postData)
+            Dim newStream As Stream = request.GetRequestStream()
+            newStream.Write(byte1, 0, byte1.Length)
+            newStream.Close()
+            ' Prepare for a response from the server
+            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+            ' Get the stream associated with the response.
+            Dim receiveStream As Stream = response.GetResponseStream()
+            ' Pipes the stream to a higher level stream reader with the required encoding format. 
+            Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
+            webdata = readStream.ReadToEnd()
+            ' Check response string for any error codes?
+            APIXML.LoadXml(webdata)
+            Dim errlist As XmlNodeList = APIXML.SelectNodes("/eveapi/error")
+            If errlist.Count <> 0 Then
+                Dim errNode As XmlNode = errlist(0)
+                ' Get error code
+                Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                Dim errMsg As String = errNode.InnerText
+                EveHQ.Core.HQ.logonStatus = CInt(errCode)
+                EveHQ.Core.HQ.logonStatusText = errMsg
+            Else
+                EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.Successful
+                EveHQ.Core.HQ.logonStatusText = "Logon Successful"
+            End If
+        Catch e As Exception
+            If e.Message.Contains("timed out") = True Then
+                EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.TimedOut
+                EveHQ.Core.HQ.logonStatusText = "Logon Timed Out"
+            Else
+                EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.Invalid
+                EveHQ.Core.HQ.logonStatusText = "Invalid Logon"
+            End If
+        End Try
+        Return APIXML
+    End Function
+
+    Public Shared Function APIRSHasHeartbeat() As Boolean
+        Dim webdata As String = ""
+        Try
+            ' Create the requester
+            Dim request As HttpWebRequest = CType(WebRequest.Create(EveHQ.Core.HQ.EveHQSettings.APIRSAddress), HttpWebRequest)
+            ' Setup proxy server (if required)
+            If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
+                Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
+                If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
+                    EveHQProxy.UseDefaultCredentials = True
+                Else
+                    EveHQProxy.UseDefaultCredentials = True
+                    EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
+                End If
+                request.Proxy = EveHQProxy
+            End If
+            ' Setup request parameters
+            request.Method = "POST"
+            request.ContentType = "application/x-www-form-urlencoded"
+            request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
+            ' Prepare for a response from the server
+            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+            ' Get the stream associated with the response.
+            Dim receiveStream As Stream = response.GetResponseStream()
+            ' Pipes the stream to a higher level stream reader with the required encoding format. 
+            Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
+            webdata = readStream.ReadToEnd()
+            If webdata = "ACTIVE" Then
+                Return True
+            Else
+                Return False
+            End If
+        Catch e As Exception
+            Return False
+        End Try
+    End Function
+
+    Public Enum APIRequest As Integer
+        SkillTree = 0
+        RefTypes = 1
+        AllianceList = 2
+        Sovereignty = 3
+        Characters = 4
+        CharacterSheet = 5
+        SkillTraining = 6
+        WalletJournalChar = 7
+        WalletJournalCorp = 8
+        WalletTransChar = 9
+        WalletTransCorp = 10
+        AccountBalancesChar = 11
+        AccountBalancesCorp = 12
+        CorpMemberTracking = 13
+        AssetsChar = 14
+        AssetsCorp = 15
+        KillLogChar = 16
+        KillLogCorp = 17
+        Conquerables = 18
+        CorpSheet = 19
+        ErrorList = 20
+        IndustryChar = 21
+        IndustryCorp = 22
+        OrdersChar = 23
+        OrdersCorp = 24
+        MapJumps = 25
+        MapKills = 26
+        NameToID = 27
+        IDToName = 28
+        POSList = 29
+        POSDetails = 30
+    End Enum
+
+    Public Enum APIResults As Integer
+        ReturnedNew = 0
+        ReturnedCached = 1
+        PageNotFound = 2
+        CCPError = 3
+        InvalidFeature = 4
+        APIServerDownReturnedNull = 5
+        APIServerDownReturnedCached = 6
+    End Enum
+
+End Class
