@@ -330,6 +330,27 @@ Imports System.Runtime.Serialization
     End Function
 #End Region
 
+#Region "Map Attributes to Properties"
+    Public Shared Sub MapModuleAttributes(ByVal newModule As ShipModule)
+        Dim attValue As Double = 0
+        For Each att As String In newModule.Attributes.Keys
+            attValue = CDbl(newModule.Attributes(att))
+            Select Case CInt(att)
+                Case 6
+                    newModule.CapUsage = attValue
+                Case 30
+                    newModule.PG = attValue
+                Case 50
+                    newModule.CPU = attValue
+                Case 73
+                    newModule.ActivationTime = attValue
+                Case 1153
+                    newModule.Calibration = CInt(attValue)
+            End Select
+        Next
+    End Sub
+#End Region
+
 End Class
 
 <Serializable()> Public Class ModuleLists

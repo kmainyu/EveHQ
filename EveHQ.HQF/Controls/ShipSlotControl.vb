@@ -22,15 +22,16 @@ Imports System.Drawing
 Imports System.Text
 
 Public Class ShipSlotControl
-
     Dim UpdateAll As Boolean = False
 
 #Region "Property Variables"
 
     Private cShipFit As String
     Private currentShip As Ship
+    Private fittedShip As Ship
     Private currentFit As ArrayList
     Private currentInfo As ShipInfoControl
+    Private cUpdateAllSlots As Boolean
 
 #End Region
 
@@ -59,10 +60,34 @@ Public Class ShipSlotControl
         End Set
     End Property
 
-    Public ReadOnly Property ShipType() As Ship
+    Public Property ShipType() As Ship
         Get
             Return currentShip
         End Get
+        Set(ByVal value As Ship)
+            currentShip = value
+        End Set
+    End Property
+
+    Public Property ShipFitted() As Ship
+        Get
+            Return fittedShip
+        End Get
+        Set(ByVal value As Ship)
+            fittedShip = value
+            If UpdateAllSlots = True Then
+                Call Me.UpdateAllSlotLocations()
+            End If
+        End Set
+    End Property
+
+    Public Property UpdateAllSlots() As Boolean
+        Get
+            Return cUpdateAllSlots
+        End Get
+        Set(ByVal value As Boolean)
+            cUpdateAllSlots = value
+        End Set
     End Property
 
 #End Region
@@ -89,42 +114,14 @@ Public Class ShipSlotControl
         Me.RedrawDroneBay()
         Me.RedrawCargoBay()
     End Sub
-
-#End Region
-
-    Private Sub ClearShipSlots()
-        For slot As Integer = 1 To currentShip.HiSlots
-            currentShip.HiSlot(slot) = Nothing
-        Next
-        For slot As Integer = 1 To currentShip.MidSlots
-            currentShip.MidSlot(slot) = Nothing
-        Next
-        For slot As Integer = 1 To currentShip.LowSlots
-            currentShip.LowSlot(slot) = Nothing
-        Next
-        For slot As Integer = 1 To currentShip.RigSlots
-            currentShip.RigSlot(slot) = Nothing
-        Next
-        'currentShip.HiSlots_Used = 0
-        'currentShip.MidSlots_Used = 0
-        'currentShip.LowSlots_Used = 0
-        'currentShip.RigSlots_Used = 0
-        'currentShip.LauncherSlots_Used = 0
-        'currentShip.TurretSlots_Used = 0
-        'currentShip.FittingBasePrice = 0
-        'currentShip.FittingMarketPrice = 0
+    Private Sub UpdateShipDetails()
+        If UpdateAll = False Then
+            Call UpdateSlotNumbers()
+            Call UpdatePrices()
+            Call UpdateFittingListFromShipData()
+            'currentInfo.ShipType = currentShip
+        End If
     End Sub
-    Private Sub ClearDroneBay()
-        currentShip.DroneBayItems.Clear()
-        currentShip.DroneBay_Used = 0
-        'Me.RedrawDroneBay()
-    End Sub
-    Private Sub ClearCargoBay()
-        currentShip.CargoBayItems.Clear()
-        currentShip.CargoBay_Used = 0
-        'Me.RedrawCargoBay()
-    End Sub
-
     Private Sub UpdateSlotLayout()
         lvwSlots.BeginUpdate()
         lvwSlots.Items.Clear()
@@ -281,11 +278,166 @@ Public Class ShipSlotControl
         lblFittingBasePrice.Text = "Fitting Base Price: " & FormatNumber(currentShip.BasePrice + currentShip.FittingBasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblFittingMarketPrice.Text = "Fitting Market Price: " & FormatNumber(currentShip.MarketPrice + currentShip.FittingMarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
     End Sub
+    Private Sub UpdateAllSlotLocations()
+        For slot As Integer = 1 To fittedShip.HiSlots
+            If fittedShip.HiSlot(slot) IsNot Nothing Then
+                UpdateSlotLocation(fittedShip.HiSlot(slot), slot)
+            End If
+        Next
+        For slot As Integer = 1 To fittedShip.MidSlots
+            If fittedShip.MidSlot(slot) IsNot Nothing Then
+                UpdateSlotLocation(fittedShip.MidSlot(slot), slot)
+            End If
+        Next
+        For slot As Integer = 1 To fittedShip.LowSlots
+            If fittedShip.LowSlot(slot) IsNot Nothing Then
+                UpdateSlotLocation(fittedShip.LowSlot(slot), slot)
+            End If
+        Next
+        For slot As Integer = 1 To fittedShip.RigSlots
+            If fittedShip.RigSlot(slot) IsNot Nothing Then
+                UpdateSlotLocation(fittedShip.RigSlot(slot), slot)
+            End If
+        Next
+    End Sub
+    Private Sub UpdateSlotLocation(ByVal oldMod As ShipModule, ByVal slotNo As Integer)
+        Dim shipMod As New ShipModule
+        Select Case oldMod.Slot
+            Case 1 ' Rig
+                shipMod = fittedShip.RigSlot(slotNo)
+            Case 2 ' Low
+                shipMod = fittedShip.LowSlot(slotNo)
+            Case 4 ' Mid
+                shipMod = fittedShip.MidSlot(slotNo)
+            Case 8 ' High
+                shipMod = fittedShip.HiSlot(slotNo)
+        End Select
+        Dim slotName As ListViewItem = lvwSlots.Items(shipMod.Slot & "_" & slotNo)
+        slotName.Text = shipMod.Name
+        If shipMod.LoadedCharge IsNot Nothing Then
+            slotName.SubItems(1).Text = shipMod.LoadedCharge.Name
+        Else
+            slotName.SubItems(1).Text = ""
+        End If
+        slotName.SubItems(2).Text = shipMod.CPU.ToString
+        slotName.SubItems(3).Text = shipMod.PG.ToString
+        slotName.SubItems(4).Text = shipMod.CapUsage.ToString
+        slotName.SubItems(5).Text = shipMod.ActivationTime.ToString
+        shipMod.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(shipMod.ID)
+        slotName.SubItems(6).Text = FormatNumber(shipMod.MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        Call UpdateShipDetails()
+    End Sub
+    Private Sub UpdateShipDataFromFittingList()
+        Dim currentFitList As ArrayList = CType(currentFit.Clone, ArrayList)
+        For Each shipMod As String In currentFitList
+            If shipMod IsNot Nothing Then
+                ' Check for installed charges
+                Dim modData() As String = shipMod.Split(",".ToCharArray)
+                If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
+                    Dim modID As String = ModuleLists.moduleListName(modData(0).Trim).ToString
+                    Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule)
+                    If modData.GetUpperBound(0) > 0 Then
+                        ' Check if a charge (will be a valid item)
+                        If ModuleLists.moduleListName.Contains(modData(1).Trim) = True Then
+                            Dim chgID As String = ModuleLists.moduleListName(modData(1).Trim).ToString
+                            sMod.LoadedCharge = CType(ModuleLists.moduleList(chgID), ShipModule)
+                        End If
+                    End If
+                    ' Check if module is nothing
+                    If sMod IsNot Nothing Then
+                        ' Check if module is a drone
+                        If sMod.IsDrone = True Then
+                            Dim active As Boolean = False
+                            If modData(1).EndsWith("a") = True Then
+                                active = True
+                            End If
+                            Call Me.AddDrone(sMod, CInt(modData(1).Substring(0, Len(modData(1)) - 1)), active)
+                        Else
+                            ' Check if module is a charge
+                            If sMod.IsCharge = True Then
+                                Call Me.AddItem(sMod, CInt(modData(1)))
+                            Else
+                                ' Must be a proper module then!
+                                Call AddModule(sMod)
+                            End If
+                        End If
+                    Else
+                        ' Unrecognised module
+                        MessageBox.Show("Ship Module is unrecognised.", "Add Ship Module Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End If
+                Else
+                    currentFit.Remove(modData(0))
+                End If
+            End If
+        Next
+    End Sub
+    Private Sub UpdateFittingListFromShipData()
+        currentFit.Clear()
+        For Each shipMod As ListViewItem In lvwSlots.Items
+            If shipMod.Text <> "<Empty>" Then
+                If shipMod.SubItems(1).Text <> "" Then
+                    currentFit.Add(shipMod.Text & ", " & shipMod.SubItems(1).Text)
+                Else
+                    currentFit.Add(shipMod.Text)
+                End If
+            End If
+        Next
+        For Each DBI As DroneBayItem In currentShip.DroneBayItems.Values
+            If DBI.IsActive = True Then
+                currentFit.Add(DBI.DroneType.Name & ", " & DBI.Quantity & "a")
+            Else
+                currentFit.Add(DBI.DroneType.Name & ", " & DBI.Quantity & "i")
+            End If
+        Next
+        For Each CBI As CargoBayItem In currentShip.CargoBayItems.Values
+            currentFit.Add(CBI.ItemType.Name & ", " & CBI.Quantity)
+        Next
+    End Sub
+
+#End Region
+
+#Region "Clearing routines"
+    Private Sub ClearShipSlots()
+        For slot As Integer = 1 To currentShip.HiSlots
+            currentShip.HiSlot(slot) = Nothing
+        Next
+        For slot As Integer = 1 To currentShip.MidSlots
+            currentShip.MidSlot(slot) = Nothing
+        Next
+        For slot As Integer = 1 To currentShip.LowSlots
+            currentShip.LowSlot(slot) = Nothing
+        Next
+        For slot As Integer = 1 To currentShip.RigSlots
+            currentShip.RigSlot(slot) = Nothing
+        Next
+        'currentShip.HiSlots_Used = 0
+        'currentShip.MidSlots_Used = 0
+        'currentShip.LowSlots_Used = 0
+        'currentShip.RigSlots_Used = 0
+        'currentShip.LauncherSlots_Used = 0
+        'currentShip.TurretSlots_Used = 0
+        'currentShip.FittingBasePrice = 0
+        'currentShip.FittingMarketPrice = 0
+    End Sub
+    Private Sub ClearDroneBay()
+        currentShip.DroneBayItems.Clear()
+        currentShip.DroneBay_Used = 0
+        'Me.RedrawDroneBay()
+    End Sub
+    Private Sub ClearCargoBay()
+        currentShip.CargoBayItems.Clear()
+        currentShip.CargoBay_Used = 0
+        'Me.RedrawCargoBay()
+    End Sub
+#End Region
+
+#Region "Adding Mods/Drones/Items"
     Public Sub AddModule(ByVal shipMod As ShipModule)
         ' Check slot availability
         If IsSlotAvailable(shipMod) = True Then
             ' Add Module to the next slot
             Dim slotNo As Integer = AddModuleInNextSlot(CType(shipMod.Clone, ShipModule))
+            currentInfo.ShipType = currentShip
             Call UpdateSlotLocation(shipMod, slotNo)
         End If
     End Sub
@@ -354,7 +506,6 @@ Public Class ShipSlotControl
             MessageBox.Show("There is not enough space in the Cargo Bay to hold 1 unit of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
-
     Private Function IsSlotAvailable(ByVal shipMod As ShipModule) As Boolean
 
         ' First, check slot layout
@@ -436,23 +587,9 @@ Public Class ShipSlotControl
         End Select
         Return 0
     End Function
-    Private Sub UpdateSlotLocation(ByVal shipMod As ShipModule, ByVal slotNo As Integer)
-        Dim slotName As ListViewItem = lvwSlots.Items(shipMod.Slot & "_" & slotNo)
-        slotName.Text = shipMod.Name
-        If shipMod.LoadedCharge IsNot Nothing Then
-            slotName.SubItems(1).Text = shipMod.LoadedCharge.Name
-        Else
-            slotName.SubItems(1).Text = ""
-        End If
-        slotName.SubItems(2).Text = shipMod.CPU.ToString
-        slotName.SubItems(3).Text = shipMod.PG.ToString
-        slotName.SubItems(4).Text = shipMod.CapUsage.ToString
-        slotName.SubItems(5).Text = shipMod.ActivationTime.ToString
-        shipMod.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(shipMod.ID)
-        slotName.SubItems(6).Text = FormatNumber(shipMod.MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        Call UpdateShipDetails()
-    End Sub
+#End Region
 
+#Region "Removing Mods/Drones/Items"
     Private Sub lvwSlots_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwSlots.DoubleClick
         ' Check if the "slot" is not empty
         If lvwSlots.SelectedItems(0).Text <> "<Empty>" Then
@@ -482,76 +619,12 @@ Public Class ShipSlotControl
         slot.SubItems(5).Text = ""
         slot.SubItems(6).Text = ""
         lvwSlots.EndUpdate()
+        currentInfo.ShipType = currentShip
         Call UpdateShipDetails()
     End Sub
+#End Region
 
-    Private Sub UpdateShipDataFromFittingList()
-        Dim currentFitList As ArrayList = CType(currentFit.Clone, ArrayList)
-        For Each shipMod As String In currentFitList
-            If shipMod IsNot Nothing Then
-                ' Check for installed charges
-                Dim modData() As String = shipMod.Split(",".ToCharArray)
-                If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
-                    Dim modID As String = ModuleLists.moduleListName(modData(0).Trim).ToString
-                    Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule)
-                    If modData.GetUpperBound(0) > 0 Then
-                        ' Check if a charge (will be a valid item)
-                        If ModuleLists.moduleListName.Contains(modData(1).Trim) = True Then
-                            Dim chgID As String = ModuleLists.moduleListName(modData(1).Trim).ToString
-                            sMod.LoadedCharge = CType(ModuleLists.moduleList(chgID), ShipModule)
-                        End If
-                    End If
-                    ' Check if module is nothing
-                    If sMod IsNot Nothing Then
-                        ' Check if module is a drone
-                        If sMod.IsDrone = True Then
-                            Dim active As Boolean = False
-                            If modData(1).EndsWith("a") = True Then
-                                active = True
-                            End If
-                            Call Me.AddDrone(sMod, CInt(modData(1).Substring(0, Len(modData(1)) - 1)), active)
-                        Else
-                            ' Check if module is a charge
-                            If sMod.IsCharge = True Then
-                                Call Me.AddItem(sMod, CInt(modData(1)))
-                            Else
-                                ' Must be a proper module then!
-                                Call AddModule(sMod)
-                            End If
-                        End If
-                    Else
-                        ' Unrecognised module
-                        MessageBox.Show("Ship Module is unrecognised.", "Add Ship Module Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    End If
-                Else
-                    currentFit.Remove(modData(0))
-                End If
-            End If
-        Next
-    End Sub
-    Private Sub UpdateFittingListFromShipData()
-        currentFit.Clear()
-        For Each shipMod As ListViewItem In lvwSlots.Items
-            If shipMod.Text <> "<Empty>" Then
-                If shipMod.SubItems(1).Text <> "" Then
-                    currentFit.Add(shipMod.Text & ", " & shipMod.SubItems(1).Text)
-                Else
-                    currentFit.Add(shipMod.Text)
-                End If
-            End If
-        Next
-        For Each DBI As DroneBayItem In currentShip.DroneBayItems.Values
-            If DBI.IsActive = True Then
-                currentFit.Add(DBI.DroneType.Name & ", " & DBI.Quantity & "a")
-            Else
-                currentFit.Add(DBI.DroneType.Name & ", " & DBI.Quantity & "i")
-            End If
-        Next
-        For Each CBI As CargoBayItem In currentShip.CargoBayItems.Values
-            currentFit.Add(CBI.ItemType.Name & ", " & CBI.Quantity)
-        Next
-    End Sub
-
+#Region "UI Routines"
     Private Sub btnToggleStorage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnToggleStorage.Click
         If SplitContainer1.Panel2Collapsed = True Then
             SplitContainer1.Panel2Collapsed = False
@@ -559,7 +632,6 @@ Public Class ShipSlotControl
             SplitContainer1.Panel2Collapsed = True
         End If
     End Sub
-
     Private Sub ctxSlots_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxSlots.Opening
         ' Get the module details
         Dim modID As String = CStr(ModuleLists.moduleListName.Item(lvwSlots.SelectedItems(0).Text))
@@ -647,7 +719,6 @@ Public Class ShipSlotControl
             End If
         End If
     End Sub
-
     Private Sub ShowInfo(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim ShowInfoMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim moduleName As String = ShowInfoMenu.Name
@@ -657,7 +728,6 @@ Public Class ShipSlotControl
         showInfo.ShowItemDetails(cModule)
         showInfo = Nothing
     End Sub
-
     Private Sub ShowModuleMarketGroup(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim ShowMarketMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim moduleName As String = ShowMarketMenu.Name
@@ -666,7 +736,9 @@ Public Class ShipSlotControl
         Dim pathLine As String = CStr(Market.MarketGroupPath(cModule.MarketGroup))
         ShipModule.DisplayedMarketGroup = pathLine
     End Sub
+#End Region
 
+#Region "Load/Remove Charges"
     Private Sub RemoveChargeFromModule(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim slotType As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(0, 1))
         Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
@@ -682,10 +754,9 @@ Public Class ShipSlotControl
                 LoadedModule = currentShip.HiSlot(slotNo)
         End Select
         LoadedModule.LoadedCharge = Nothing
+        currentInfo.ShipType = currentShip
         Call UpdateSlotLocation(LoadedModule, slotNo)
-        Call UpdateShipDetails()
     End Sub
-
     Private Sub LoadChargeIntoModule(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim ChargeMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim moduleID As String = ChargeMenu.Name
@@ -705,18 +776,10 @@ Public Class ShipSlotControl
                 LoadedModule = currentShip.HiSlot(slotNo)
         End Select
         LoadedModule.LoadedCharge = Charge
+        currentInfo.ShipType = currentShip
         Call UpdateSlotLocation(LoadedModule, slotNo)
-        Call UpdateShipDetails()
     End Sub
-
-    Private Sub UpdateShipDetails()
-        If UpdateAll = False Then
-            Call UpdateSlotNumbers()
-            Call UpdatePrices()
-            Call UpdateFittingListFromShipData()
-            currentInfo.ShipType = currentShip
-        End If
-    End Sub
+#End Region
 
 #Region "Cargo & Drone Bay Routines"
     Private Sub RedrawCargoBay()
@@ -864,7 +927,7 @@ Public Class ShipSlotControl
         Next
         fitting.AppendLine("")
         For Each drone As DroneBayItem In currentShip.DroneBayItems.Values
-            If EFTcompatible = True Then
+            If EFTCompatible = True Then
                 fitting.AppendLine(drone.DroneType.Name & " x" & drone.Quantity)
             Else
                 fitting.AppendLine(drone.DroneType.Name & " x" & drone.Quantity & ", " & drone.IsActive)

@@ -28,6 +28,7 @@ Public Class ShipInfoControl
 
 #Region "Property Variables"
     Private currentShip As Ship ' Should be the base ship only
+    Private currentSlot As ShipSlotControl
 #End Region
 
 #Region "Properties"
@@ -41,12 +42,24 @@ Public Class ShipInfoControl
                 currentShip = value
                 If cboPilots.SelectedItem IsNot Nothing Then
                     Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
-                    fittedShip = Engine.ApplyFitting2(CType(currentShip.Clone, Ship), shipPilot)
+                    fittedShip = Engine.ApplyFitting(CType(currentShip.Clone, Ship), shipPilot)
                     Call UpdateInfoDisplay()
+                    currentSlot.ShipFitted = fittedShip
                 End If
             End If
         End Set
     End Property
+
+    Public Property ShipSlot() As ShipSlotControl
+        Get
+            Return currentSlot
+        End Get
+        Set(ByVal value As ShipSlotControl)
+            currentSlot = value
+        End Set
+    End Property
+
+
 
 #End Region
 
@@ -55,17 +68,17 @@ Public Class ShipInfoControl
 
         ' CPU
         progCPU.Maximum = CInt(fittedShip.CPU)
-        progCPU.Value = CInt(fittedShip.CPU_Used)
+        progCPU.Value = Math.Min(CInt(fittedShip.CPU_Used), CInt(fittedShip.CPU))
         lblCPU.Text = FormatNumber(fittedShip.CPU_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Powergrid
         progPG.Maximum = CInt(fittedShip.PG)
-        progPG.Value = CInt(fittedShip.PG_Used)
+        progPG.Value = Math.Min(CInt(fittedShip.PG_Used), CInt(fittedShip.PG))
         lblPG.Text = FormatNumber(fittedShip.PG_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Calibration
         progCalibration.Maximum = CInt(fittedShip.Calibration)
-        progCalibration.Value = CInt(fittedShip.Calibration_Used)
+        progCalibration.Value = Math.Min(CInt(fittedShip.Calibration_Used), CInt(fittedShip.Calibration))
         lblCalibration.Text = FormatNumber(fittedShip.Calibration_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.Calibration, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Shield
@@ -181,8 +194,14 @@ Public Class ShipInfoControl
         Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
         Engine.BuildSkillAffections(shipPilot)
 
-        ' Call the property modifier again which will trigger the fitting routines
+        ' Call the property modifier again which will trigger the fitting routines and update all slots for the new pilot
+        If currentSlot IsNot Nothing Then
+            currentSlot.UpdateAllSlots = True
+        End If
         ShipType = currentShip
+        If currentSlot IsNot Nothing Then
+            currentSlot.UpdateAllSlots = False
+        End If
     End Sub
 
     Private Sub btnTargetSpeed_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTargetSpeed.Click

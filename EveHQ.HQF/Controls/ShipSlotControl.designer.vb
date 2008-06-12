@@ -538,4 +538,12 @@ Partial Class ShipSlotControl
     Friend WithEvents ctxSplitBatch As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents btnClipboardCopy As System.Windows.Forms.Button
 
+    Public Sub New()
+
+        ' This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        SplitContainer1.Panel2Collapsed = True
+    End Sub
 End Class

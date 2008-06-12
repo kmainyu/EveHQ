@@ -1917,9 +1917,11 @@ Public Class frmHQF
         shipInfo.Dock = DockStyle.Fill
         pSI.Controls.Add(shipInfo)
 
+        shipInfo.ShipSlot = shipSlot
         shipSlot.ShipInfo = shipInfo
         shipSlot.ShipFit = shipFit
         shipInfo.ShipType = curShip
+
 
         FittingTabList.Add(shipFit)
     End Sub
