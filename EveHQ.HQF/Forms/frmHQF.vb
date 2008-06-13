@@ -413,6 +413,8 @@ Public Class frmHQF
                                 attValue = (1 - attValue) * 100
                             Case 600
                                 attValue = attValue * 3
+                            Case 1154 ' Reset this field to be used as Calibration_Used
+                                attValue = 0
                         End Select
 
                         ' Add the attribute to the ship.attributes list

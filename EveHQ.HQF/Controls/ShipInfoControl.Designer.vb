@@ -25,11 +25,9 @@ Partial Class ShipInfoControl
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipInfoControl))
         Me.Panel1 = New System.Windows.Forms.Panel
+        Me.Label1 = New System.Windows.Forms.Label
         Me.btnLog = New System.Windows.Forms.Button
         Me.btnSkills = New System.Windows.Forms.Button
-        Me.gbDamage = New System.Windows.Forms.GroupBox
-        Me.lblMissileVolley = New System.Windows.Forms.Label
-        Me.lblTurretVolley = New System.Windows.Forms.Label
         Me.btnTargetSpeed = New System.Windows.Forms.Button
         Me.cboPilots = New System.Windows.Forms.ComboBox
         Me.lblPilot = New System.Windows.Forms.Label
@@ -130,9 +128,7 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.Label1 = New System.Windows.Forms.Label
         Me.Panel1.SuspendLayout()
-        Me.gbDamage.SuspendLayout()
         Me.gbCargo.SuspendLayout()
         CType(Me.pbDroneBandwidth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbDroneBay, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -184,7 +180,6 @@ Partial Class ShipInfoControl
         Me.Panel1.Controls.Add(Me.Label1)
         Me.Panel1.Controls.Add(Me.btnLog)
         Me.Panel1.Controls.Add(Me.btnSkills)
-        Me.Panel1.Controls.Add(Me.gbDamage)
         Me.Panel1.Controls.Add(Me.btnTargetSpeed)
         Me.Panel1.Controls.Add(Me.cboPilots)
         Me.Panel1.Controls.Add(Me.lblPilot)
@@ -213,6 +208,14 @@ Partial Class ShipInfoControl
         Me.Panel1.Size = New System.Drawing.Size(248, 750)
         Me.Panel1.TabIndex = 0
         '
+        'Label1
+        '
+        Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label1.Location = New System.Drawing.Point(7, 88)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(238, 2)
+        Me.Label1.TabIndex = 29
+        '
         'btnLog
         '
         Me.btnLog.Image = Global.EveHQ.HQF.My.Resources.Resources.imgLog
@@ -232,35 +235,6 @@ Partial Class ShipInfoControl
         Me.btnSkills.TabIndex = 27
         Me.ToolTip1.SetToolTip(Me.btnSkills, "Skills")
         Me.btnSkills.UseVisualStyleBackColor = True
-        '
-        'gbDamage
-        '
-        Me.gbDamage.Controls.Add(Me.lblMissileVolley)
-        Me.gbDamage.Controls.Add(Me.lblTurretVolley)
-        Me.gbDamage.Location = New System.Drawing.Point(155, 101)
-        Me.gbDamage.Name = "gbDamage"
-        Me.gbDamage.Size = New System.Drawing.Size(88, 64)
-        Me.gbDamage.TabIndex = 26
-        Me.gbDamage.TabStop = False
-        Me.gbDamage.Text = "Damage"
-        '
-        'lblMissileVolley
-        '
-        Me.lblMissileVolley.AutoSize = True
-        Me.lblMissileVolley.Location = New System.Drawing.Point(7, 35)
-        Me.lblMissileVolley.Name = "lblMissileVolley"
-        Me.lblMissileVolley.Size = New System.Drawing.Size(26, 13)
-        Me.lblMissileVolley.TabIndex = 1
-        Me.lblMissileVolley.Text = "MV:"
-        '
-        'lblTurretVolley
-        '
-        Me.lblTurretVolley.AutoSize = True
-        Me.lblTurretVolley.Location = New System.Drawing.Point(7, 20)
-        Me.lblTurretVolley.Name = "lblTurretVolley"
-        Me.lblTurretVolley.Size = New System.Drawing.Size(24, 13)
-        Me.lblTurretVolley.TabIndex = 0
-        Me.lblTurretVolley.Text = "TV:"
         '
         'btnTargetSpeed
         '
@@ -312,7 +286,7 @@ Partial Class ShipInfoControl
         '
         Me.progCalibration.Location = New System.Drawing.Point(35, 155)
         Me.progCalibration.Name = "progCalibration"
-        Me.progCalibration.Size = New System.Drawing.Size(101, 10)
+        Me.progCalibration.Size = New System.Drawing.Size(200, 10)
         Me.progCalibration.TabIndex = 12
         Me.ToolTip1.SetToolTip(Me.progCalibration, "Calibration")
         Me.progCalibration.Value = 75
@@ -321,7 +295,7 @@ Partial Class ShipInfoControl
         '
         Me.progCPU.Location = New System.Drawing.Point(35, 107)
         Me.progCPU.Name = "progCPU"
-        Me.progCPU.Size = New System.Drawing.Size(100, 10)
+        Me.progCPU.Size = New System.Drawing.Size(201, 10)
         Me.progCPU.TabIndex = 5
         Me.ToolTip1.SetToolTip(Me.progCPU, "CPU")
         Me.progCPU.Value = 25
@@ -330,7 +304,7 @@ Partial Class ShipInfoControl
         '
         Me.progPG.Location = New System.Drawing.Point(35, 131)
         Me.progPG.Name = "progPG"
-        Me.progPG.Size = New System.Drawing.Size(101, 10)
+        Me.progPG.Size = New System.Drawing.Size(200, 10)
         Me.progPG.TabIndex = 4
         Me.ToolTip1.SetToolTip(Me.progPG, "Powergrid")
         Me.progPG.Value = 50
@@ -1354,14 +1328,6 @@ Partial Class ShipInfoControl
         Me.pbCPU.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbCPU, "CPU")
         '
-        'Label1
-        '
-        Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Label1.Location = New System.Drawing.Point(7, 88)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(238, 2)
-        Me.Label1.TabIndex = 29
-        '
         'ShipInfoControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1372,8 +1338,6 @@ Partial Class ShipInfoControl
         Me.Size = New System.Drawing.Size(248, 750)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        Me.gbDamage.ResumeLayout(False)
-        Me.gbDamage.PerformLayout()
         Me.gbCargo.ResumeLayout(False)
         Me.gbCargo.PerformLayout()
         CType(Me.pbDroneBandwidth, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1527,9 +1491,6 @@ Partial Class ShipInfoControl
     Friend WithEvents lblSigRadius As System.Windows.Forms.Label
     Friend WithEvents pbSigRadius As System.Windows.Forms.PictureBox
     Friend WithEvents btnTargetSpeed As System.Windows.Forms.Button
-    Friend WithEvents gbDamage As System.Windows.Forms.GroupBox
-    Friend WithEvents lblMissileVolley As System.Windows.Forms.Label
-    Friend WithEvents lblTurretVolley As System.Windows.Forms.Label
     Friend WithEvents btnSkills As System.Windows.Forms.Button
     Friend WithEvents btnLog As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label

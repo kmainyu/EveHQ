@@ -364,7 +364,7 @@ Public Class Engine
                     End Select
                     If processAtt = True Then
                         Select Case CInt(att)
-                            Case 49
+                            Case 49, 15, 1154
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fAffection.AffectedValue
                             Case Else
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
@@ -409,6 +409,7 @@ Public Enum AffectionType
     Group = 2
     Category = 3
     MarketGroup = 4
+    Skill = 5
 End Enum
 
 

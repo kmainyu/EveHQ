@@ -1241,6 +1241,8 @@ Imports System.Runtime.Serialization
                     newShip.RigSlots = CInt(attValue)
                 Case 1132
                     newShip.Calibration = CInt(attValue)
+                Case 1154 ' This is a changed attribute as it duplicates 1132 in the database!!
+                    newShip.Calibration_Used = CInt(attValue)
                 Case 11
                     newShip.PG = attValue
                 Case 48

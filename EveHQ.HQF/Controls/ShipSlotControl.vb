@@ -110,6 +110,8 @@ Public Class ShipSlotControl
         lvwDroneBay.EndUpdate()
         lvwSlots.EndUpdate()
         UpdateAll = False
+        currentInfo.ShipType = currentShip
+        Me.UpdateAllSlotLocations()
         Me.UpdateShipDetails()
         Me.RedrawDroneBay()
         Me.RedrawCargoBay()
@@ -119,7 +121,6 @@ Public Class ShipSlotControl
             Call UpdateSlotNumbers()
             Call UpdatePrices()
             Call UpdateFittingListFromShipData()
-            'currentInfo.ShipType = currentShip
         End If
     End Sub
     Private Sub UpdateSlotLayout()
@@ -437,8 +438,10 @@ Public Class ShipSlotControl
         If IsSlotAvailable(shipMod) = True Then
             ' Add Module to the next slot
             Dim slotNo As Integer = AddModuleInNextSlot(CType(shipMod.Clone, ShipModule))
-            currentInfo.ShipType = currentShip
-            Call UpdateSlotLocation(shipMod, slotNo)
+            If UpdateAll = False Then
+                currentInfo.ShipType = currentShip
+                Call UpdateSlotLocation(shipMod, slotNo)
+            End If
         End If
     End Sub
     Public Sub AddDrone(ByVal Drone As ShipModule, ByVal Qty As Integer, ByVal Active As Boolean)
