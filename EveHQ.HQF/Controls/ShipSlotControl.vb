@@ -336,12 +336,12 @@ Public Class ShipSlotControl
                 Dim modData() As String = shipMod.Split(",".ToCharArray)
                 If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
                     Dim modID As String = ModuleLists.moduleListName(modData(0).Trim).ToString
-                    Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule)
+                    Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
                     If modData.GetUpperBound(0) > 0 Then
                         ' Check if a charge (will be a valid item)
                         If ModuleLists.moduleListName.Contains(modData(1).Trim) = True Then
                             Dim chgID As String = ModuleLists.moduleListName(modData(1).Trim).ToString
-                            sMod.LoadedCharge = CType(ModuleLists.moduleList(chgID), ShipModule)
+                            sMod.LoadedCharge = CType(ModuleLists.moduleList(chgID), ShipModule).Clone
                         End If
                     End If
                     ' Check if module is nothing
@@ -638,89 +638,121 @@ Public Class ShipSlotControl
     Private Sub ctxSlots_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxSlots.Opening
         ' Get the module details
         Dim modID As String = CStr(ModuleLists.moduleListName.Item(lvwSlots.SelectedItems(0).Text))
+        Dim currentMod As New ShipModule
         If modID Is Nothing Then
             e.Cancel = True
         Else
+            currentmod = CType(ModuleLists.moduleList(modID), ShipModule)
             Dim chargeName As String = lvwSlots.SelectedItems(0).SubItems(1).Text
-            Dim currentMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule)
             ' Clear the context menu
             ctxSlots.Items.Clear()
             ' Add the Show Info menu item
-            Dim showInfoMenuItem As New ToolStripMenuItem
-            showInfoMenuItem.Name = currentMod.Name
-            showInfoMenuItem.Text = "Show Info"
-            AddHandler showInfoMenuItem.Click, AddressOf Me.ShowInfo
-            ctxSlots.Items.Add(showInfoMenuItem)
-            ' Add the Show Info menu item
-            Dim showMarketGroupMenuItem As New ToolStripMenuItem
-            showMarketGroupMenuItem.Name = currentMod.Name
-            showMarketGroupMenuItem.Text = "Show Module Market Group"
-            AddHandler showMarketGroupMenuItem.Click, AddressOf Me.ShowModuleMarketGroup
-            ctxSlots.Items.Add(showMarketGroupMenuItem)
+            If lvwSlots.SelectedItems.Count = 1 Then
+                Dim showInfoMenuItem As New ToolStripMenuItem
+                showInfoMenuItem.Name = currentMod.Name
+                showInfoMenuItem.Text = "Show Info"
+                AddHandler showInfoMenuItem.Click, AddressOf Me.ShowInfo
+                ctxSlots.Items.Add(showInfoMenuItem)
+                ' Add the Show Info menu item
+                Dim showMarketGroupMenuItem As New ToolStripMenuItem
+                showMarketGroupMenuItem.Name = currentMod.Name
+                showMarketGroupMenuItem.Text = "Show Module Market Group"
+                AddHandler showMarketGroupMenuItem.Click, AddressOf Me.ShowModuleMarketGroup
+                ctxSlots.Items.Add(showMarketGroupMenuItem)
+            End If
 
-            ' Get the charge group and item data
-            Dim chargeGroupData() As String
-            Dim chargeGroups As New ArrayList
-            Dim chargeItems As New SortedList
-            Dim groupName As String = ""
-            For Each chargeGroup As String In Charges.ChargeGroups
-                chargeGroupData = chargeGroup.Split("_".ToCharArray)
-                If currentMod.Charges.Contains(chargeGroupData(1)) = True Then
-                    Select Case Market.MarketGroupList.Item(chargeGroupData(0)).ToString
-                        Case "Small", "Medium", "Large", "Extra Large"
-                            Dim pathLine As String = CStr(Market.MarketGroupPath(chargeGroupData(0)))
-                            Dim paths() As String = pathLine.Split("\".ToCharArray)
-                            groupName = paths(paths.GetUpperBound(0) - 1)
-                        Case Else
-                            groupName = Market.MarketGroupList.Item(chargeGroupData(0)).ToString
-                    End Select
-                    If chargeGroups.Contains(groupName) = False Then
-                        chargeGroups.Add(groupName)
+            ' Check if we have the same collection of modules and therefore can accept the same charges
+            Dim ShowCharges As Boolean = True
+            Dim cMod As New ShipModule
+            If lvwSlots.SelectedItems.Count > 1 Then
+                Dim marketGroup As String = currentMod.MarketGroup
+                For Each selItems As ListViewItem In lvwSlots.SelectedItems
+                    cMod = CType(ModuleLists.moduleList(CStr(ModuleLists.moduleListName.Item(selItems.Text))), ShipModule)
+                    If cMod.MarketGroup <> marketGroup Then
+                        ShowCharges = False
+                        Exit For
                     End If
-                    If currentMod.IsTurret Then
-                        If currentMod.ChargeSize = CInt(chargeGroupData(3)) Then
-                            chargeItems.Add(chargeGroupData(2), groupName)
-                        End If
-                    Else
-                        chargeItems.Add(chargeGroupData(2), groupName)
-                    End If
-                End If
-            Next
-
-            ' Create the menu items if appropriate
-            If chargeGroups.Count > 0 Then
-                ctxSlots.Items.Add("-")
-                ' Add the Remove Charge option and Show Charge Info options
-                If chargeName <> "" Then
-                    Dim ShowChargeInfo As New ToolStripMenuItem
-                    ShowChargeInfo.Name = chargeName
-                    ShowChargeInfo.Text = "Show Charge Info"
-                    AddHandler ShowChargeInfo.Click, AddressOf Me.ShowInfo
-                    ctxSlots.Items.Add(ShowChargeInfo)
-                    Dim RemoveCharge As New ToolStripMenuItem
-                    RemoveCharge.Name = currentMod.Name
-                    RemoveCharge.Text = "Remove " & chargeName
-                    AddHandler RemoveCharge.Click, AddressOf Me.RemoveChargeFromModule
-                    ctxSlots.Items.Add(RemoveCharge)
-                End If
-                ' Add the Groups
-                For Each group As String In chargeGroups
-                    Dim newGroup As New ToolStripMenuItem()
-                    newGroup.Name = group
-                    newGroup.Text = group
-                    For Each charge As String In chargeItems.Keys
-                        If chargeItems(charge).ToString = group Then
-                            Dim newCharge As New ToolStripMenuItem
-                            newCharge.Name = CStr(ModuleLists.moduleListName(charge))
-                            newCharge.Text = charge
-                            AddHandler newCharge.Click, AddressOf Me.LoadChargeIntoModule
-                            newGroup.DropDownItems.Add(newCharge)
-                        End If
-                    Next
-                    ctxSlots.Items.Add(newGroup)
                 Next
             End If
-        End If
+
+            If ShowCharges = True Then
+                ' Get the charge group and item data
+                Dim chargeGroups As New ArrayList
+                Dim chargeGroupData() As String
+                Dim chargeItems As New SortedList
+                Dim groupName As String = ""
+                For Each chargeGroup As String In Charges.ChargeGroups
+                    chargeGroupData = chargeGroup.Split("_".ToCharArray)
+                    If currentMod.Charges.Contains(chargeGroupData(1)) = True Then
+                        Select Case Market.MarketGroupList.Item(chargeGroupData(0)).ToString
+                            Case "Small", "Medium", "Large", "Extra Large"
+                                Dim pathLine As String = CStr(Market.MarketGroupPath(chargeGroupData(0)))
+                                Dim paths() As String = pathLine.Split("\".ToCharArray)
+                                groupName = paths(paths.GetUpperBound(0) - 1)
+                            Case Else
+                                groupName = Market.MarketGroupList.Item(chargeGroupData(0)).ToString
+                        End Select
+                        If chargeGroups.Contains(groupName) = False Then
+                            chargeGroups.Add(groupName)
+                        End If
+                        If currentMod.IsTurret Then
+                            If currentMod.ChargeSize = CInt(chargeGroupData(3)) Then
+                                chargeItems.Add(chargeGroupData(2), groupName)
+                            End If
+                        Else
+                            chargeItems.Add(chargeGroupData(2), groupName)
+                        End If
+                    End If
+                Next
+
+                ' Create the menu items if appropriate
+                If chargeGroups.Count > 0 Then
+                    If ctxSlots.Items.Count > 0 Then
+                        ctxSlots.Items.Add("-")
+                    End If
+                    ' Add the Remove Charge option and Show Charge Info options
+                    If chargeName <> "" Then
+                        Dim ShowChargeInfo As New ToolStripMenuItem
+                        ShowChargeInfo.Name = chargeName
+                        ShowChargeInfo.Text = "Show Charge Info"
+                        AddHandler ShowChargeInfo.Click, AddressOf Me.ShowInfo
+                        ctxSlots.Items.Add(ShowChargeInfo)
+                        Dim RemoveCharge As New ToolStripMenuItem
+                        RemoveCharge.Name = currentMod.Name
+                        If lvwSlots.SelectedItems.Count > 1 Then
+                            RemoveCharge.Text = "Remove Charges"
+                        Else
+                            RemoveCharge.Text = "Remove " & chargeName
+                        End If
+                        AddHandler RemoveCharge.Click, AddressOf Me.RemoveChargeFromModule
+                        ctxSlots.Items.Add(RemoveCharge)
+                        ctxSlots.Items.Add("-")
+                    End If
+                    ' Add the Groups
+                    For Each group As String In chargeGroups
+                        Dim newGroup As New ToolStripMenuItem()
+                        newGroup.Name = group
+                        newGroup.Text = group
+                        For Each charge As String In chargeItems.Keys
+                            If chargeItems(charge).ToString = group Then
+                                Dim newCharge As New ToolStripMenuItem
+                                newCharge.Name = CStr(ModuleLists.moduleListName(charge))
+                                newCharge.Text = charge
+                                AddHandler newCharge.Click, AddressOf Me.LoadChargeIntoModule
+                                newGroup.DropDownItems.Add(newCharge)
+                            End If
+                        Next
+                        ctxSlots.Items.Add(newGroup)
+                    Next
+                End If
+            End If
+            End If
+
+            ' Cancel the menu if there is nothing to display
+            If ctxSlots.Items.Count = 0 Then
+                e.Cancel = True
+            End If
+
     End Sub
     Private Sub ShowInfo(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim selectedSlot As ListViewItem = lvwSlots.SelectedItems(0)
@@ -752,44 +784,48 @@ Public Class ShipSlotControl
 
 #Region "Load/Remove Charges"
     Private Sub RemoveChargeFromModule(ByVal sender As Object, ByVal e As System.EventArgs)
-        Dim slotType As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(0, 1))
-        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
-        Dim LoadedModule As New ShipModule
-        Select Case slotType
-            Case 1 ' Rig
-                LoadedModule = currentShip.RigSlot(slotNo)
-            Case 2 ' Low
-                LoadedModule = currentShip.LowSlot(slotNo)
-            Case 4 ' Mid
-                LoadedModule = currentShip.MidSlot(slotNo)
-            Case 8 ' High
-                LoadedModule = currentShip.HiSlot(slotNo)
-        End Select
-        LoadedModule.LoadedCharge = Nothing
+        For Each selItem As ListViewItem In lvwSlots.SelectedItems
+            Dim slotType As Integer = CInt(selItem.Name.Substring(0, 1))
+            Dim slotNo As Integer = CInt(selItem.Name.Substring(2, 1))
+            Dim LoadedModule As New ShipModule
+            Select Case slotType
+                Case 1 ' Rig
+                    LoadedModule = currentShip.RigSlot(slotNo)
+                Case 2 ' Low
+                    LoadedModule = currentShip.LowSlot(slotNo)
+                Case 4 ' Mid
+                    LoadedModule = currentShip.MidSlot(slotNo)
+                Case 8 ' High
+                    LoadedModule = currentShip.HiSlot(slotNo)
+            End Select
+            LoadedModule.LoadedCharge = Nothing
+        Next
         currentInfo.ShipType = currentShip
-        Call UpdateSlotLocation(LoadedModule, slotNo)
+        Call UpdateAllSlotLocations()
     End Sub
     Private Sub LoadChargeIntoModule(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim ChargeMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim moduleID As String = ChargeMenu.Name
-        Dim Charge As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim Charge As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule).Clone
         ' Get name of the "slot" which has slot type and number
-        Dim slotType As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(0, 1))
-        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
-        Dim LoadedModule As New ShipModule
-        Select Case slotType
-            Case 1 ' Rig
-                LoadedModule = currentShip.RigSlot(slotNo)
-            Case 2 ' Low
-                LoadedModule = currentShip.LowSlot(slotNo)
-            Case 4 ' Mid
-                LoadedModule = currentShip.MidSlot(slotNo)
-            Case 8 ' High
-                LoadedModule = currentShip.HiSlot(slotNo)
-        End Select
-        LoadedModule.LoadedCharge = Charge
+        For Each selItem As ListViewItem In lvwSlots.SelectedItems
+            Dim slotType As Integer = CInt(selItem.Name.Substring(0, 1))
+            Dim slotNo As Integer = CInt(selItem.Name.Substring(2, 1))
+            Dim LoadedModule As New ShipModule
+            Select Case slotType
+                Case 1 ' Rig
+                    LoadedModule = currentShip.RigSlot(slotNo)
+                Case 2 ' Low
+                    LoadedModule = currentShip.LowSlot(slotNo)
+                Case 4 ' Mid
+                    LoadedModule = currentShip.MidSlot(slotNo)
+                Case 8 ' High
+                    LoadedModule = currentShip.HiSlot(slotNo)
+            End Select
+            LoadedModule.LoadedCharge = Charge
+        Next
         currentInfo.ShipType = currentShip
-        Call UpdateSlotLocation(LoadedModule, slotNo)
+        Call UpdateAllSlotLocations()
     End Sub
 #End Region
 
@@ -954,4 +990,5 @@ Public Class ShipSlotControl
         Return fitting.ToString
     End Function
 #End Region
+
 End Class
