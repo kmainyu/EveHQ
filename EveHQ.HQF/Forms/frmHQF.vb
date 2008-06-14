@@ -389,6 +389,7 @@ Public Class frmHQF
                             newShip.ID = shipRow.Item("typeID").ToString
                             newShip.Description = shipRow.Item("description").ToString
                             newShip.DatabaseGroup = shipRow.Item("groupID").ToString
+                            newShip.DatabaseCategory = shipRow.Item("categoryID").ToString
                             newShip.MarketGroup = shipRow.Item("marketGroupID").ToString
                             newShip.BasePrice = CDbl(shipRow.Item("basePrice"))
                             newShip.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newShip.ID)
@@ -640,6 +641,7 @@ Public Class frmHQF
                 newModule.Name = row.Item("typeName").ToString
                 newModule.Description = row.Item("description").ToString
                 newModule.DatabaseGroup = row.Item("groupID").ToString
+                newModule.DatabaseCategory = row.Item("categoryID").ToString
                 newModule.BasePrice = CDbl(row.Item("baseprice"))
                 newModule.Volume = CDbl(row.Item("volume"))
                 newModule.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newModule.ID)

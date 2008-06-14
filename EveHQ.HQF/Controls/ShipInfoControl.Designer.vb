@@ -33,9 +33,6 @@ Partial Class ShipInfoControl
         Me.lblPilot = New System.Windows.Forms.Label
         Me.line1 = New System.Windows.Forms.Label
         Me.lblEffectiveHP = New System.Windows.Forms.Label
-        Me.progCalibration = New System.Windows.Forms.ProgressBar
-        Me.progCPU = New System.Windows.Forms.ProgressBar
-        Me.progPG = New System.Windows.Forms.ProgressBar
         Me.btnDoomsdayCheck = New System.Windows.Forms.Button
         Me.gbCargo = New System.Windows.Forms.GroupBox
         Me.lblDroneBandwidth = New System.Windows.Forms.Label
@@ -128,6 +125,9 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.progCPU = New VistaStyleProgressBar.ProgressBar
+        Me.progPG = New VistaStyleProgressBar.ProgressBar
+        Me.progCalibration = New VistaStyleProgressBar.ProgressBar
         Me.Panel1.SuspendLayout()
         Me.gbCargo.SuspendLayout()
         CType(Me.pbDroneBandwidth, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -177,6 +177,9 @@ Partial Class ShipInfoControl
         '
         Me.Panel1.AutoScroll = True
         Me.Panel1.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.Panel1.Controls.Add(Me.progCalibration)
+        Me.Panel1.Controls.Add(Me.progPG)
+        Me.Panel1.Controls.Add(Me.progCPU)
         Me.Panel1.Controls.Add(Me.Label1)
         Me.Panel1.Controls.Add(Me.btnLog)
         Me.Panel1.Controls.Add(Me.btnSkills)
@@ -185,9 +188,6 @@ Partial Class ShipInfoControl
         Me.Panel1.Controls.Add(Me.lblPilot)
         Me.Panel1.Controls.Add(Me.line1)
         Me.Panel1.Controls.Add(Me.lblEffectiveHP)
-        Me.Panel1.Controls.Add(Me.progCalibration)
-        Me.Panel1.Controls.Add(Me.progCPU)
-        Me.Panel1.Controls.Add(Me.progPG)
         Me.Panel1.Controls.Add(Me.btnDoomsdayCheck)
         Me.Panel1.Controls.Add(Me.gbCargo)
         Me.Panel1.Controls.Add(Me.gbPropulsion)
@@ -281,33 +281,6 @@ Partial Class ShipInfoControl
         Me.lblEffectiveHP.Size = New System.Drawing.Size(112, 13)
         Me.lblEffectiveHP.TabIndex = 21
         Me.lblEffectiveHP.Text = "Effective HP: 000,000"
-        '
-        'progCalibration
-        '
-        Me.progCalibration.Location = New System.Drawing.Point(35, 155)
-        Me.progCalibration.Name = "progCalibration"
-        Me.progCalibration.Size = New System.Drawing.Size(200, 10)
-        Me.progCalibration.TabIndex = 12
-        Me.ToolTip1.SetToolTip(Me.progCalibration, "Calibration")
-        Me.progCalibration.Value = 75
-        '
-        'progCPU
-        '
-        Me.progCPU.Location = New System.Drawing.Point(35, 107)
-        Me.progCPU.Name = "progCPU"
-        Me.progCPU.Size = New System.Drawing.Size(201, 10)
-        Me.progCPU.TabIndex = 5
-        Me.ToolTip1.SetToolTip(Me.progCPU, "CPU")
-        Me.progCPU.Value = 25
-        '
-        'progPG
-        '
-        Me.progPG.Location = New System.Drawing.Point(35, 131)
-        Me.progPG.Name = "progPG"
-        Me.progPG.Size = New System.Drawing.Size(200, 10)
-        Me.progPG.TabIndex = 4
-        Me.ToolTip1.SetToolTip(Me.progPG, "Powergrid")
-        Me.progPG.Value = 50
         '
         'btnDoomsdayCheck
         '
@@ -1328,6 +1301,42 @@ Partial Class ShipInfoControl
         Me.pbCPU.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbCPU, "CPU")
         '
+        'progCPU
+        '
+        Me.progCPU.BackColor = System.Drawing.Color.Transparent
+        Me.progCPU.EndColor = System.Drawing.Color.LimeGreen
+        Me.progCPU.GlowColor = System.Drawing.Color.LightGreen
+        Me.progCPU.Location = New System.Drawing.Point(35, 107)
+        Me.progCPU.Name = "progCPU"
+        Me.progCPU.Size = New System.Drawing.Size(200, 10)
+        Me.progCPU.StartColor = System.Drawing.Color.LimeGreen
+        Me.progCPU.TabIndex = 30
+        Me.progCPU.Value = 50
+        '
+        'progPG
+        '
+        Me.progPG.BackColor = System.Drawing.Color.Transparent
+        Me.progPG.EndColor = System.Drawing.Color.LimeGreen
+        Me.progPG.GlowColor = System.Drawing.Color.LightGreen
+        Me.progPG.Location = New System.Drawing.Point(35, 131)
+        Me.progPG.Name = "progPG"
+        Me.progPG.Size = New System.Drawing.Size(200, 10)
+        Me.progPG.StartColor = System.Drawing.Color.LimeGreen
+        Me.progPG.TabIndex = 31
+        Me.progPG.Value = 50
+        '
+        'progCalibration
+        '
+        Me.progCalibration.BackColor = System.Drawing.Color.Transparent
+        Me.progCalibration.EndColor = System.Drawing.Color.LimeGreen
+        Me.progCalibration.GlowColor = System.Drawing.Color.LightGreen
+        Me.progCalibration.Location = New System.Drawing.Point(35, 155)
+        Me.progCalibration.Name = "progCalibration"
+        Me.progCalibration.Size = New System.Drawing.Size(200, 10)
+        Me.progCalibration.StartColor = System.Drawing.Color.LimeGreen
+        Me.progCalibration.TabIndex = 32
+        Me.progCalibration.Value = 50
+        '
         'ShipInfoControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1393,8 +1402,6 @@ Partial Class ShipInfoControl
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents pbCPU As System.Windows.Forms.PictureBox
     Friend WithEvents pbPG As System.Windows.Forms.PictureBox
-    Friend WithEvents progCPU As System.Windows.Forms.ProgressBar
-    Friend WithEvents progPG As System.Windows.Forms.ProgressBar
     Friend WithEvents lblPG As System.Windows.Forms.Label
     Friend WithEvents lblCPU As System.Windows.Forms.Label
     Friend WithEvents gbShield As System.Windows.Forms.GroupBox
@@ -1445,7 +1452,6 @@ Partial Class ShipInfoControl
     Friend WithEvents progArmorEM As System.Windows.Forms.ProgressBar
     Friend WithEvents pbArmorEM As System.Windows.Forms.PictureBox
     Friend WithEvents lblCalibration As System.Windows.Forms.Label
-    Friend WithEvents progCalibration As System.Windows.Forms.ProgressBar
     Friend WithEvents pbCalibration As System.Windows.Forms.PictureBox
     Friend WithEvents gbTargeting As System.Windows.Forms.GroupBox
     Friend WithEvents lblSensorStrength As System.Windows.Forms.Label
@@ -1494,5 +1500,8 @@ Partial Class ShipInfoControl
     Friend WithEvents btnSkills As System.Windows.Forms.Button
     Friend WithEvents btnLog As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents progCPU As VistaStyleProgressBar.ProgressBar
+    Friend WithEvents progCalibration As VistaStyleProgressBar.ProgressBar
+    Friend WithEvents progPG As VistaStyleProgressBar.ProgressBar
 
 End Class

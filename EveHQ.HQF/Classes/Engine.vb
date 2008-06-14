@@ -114,6 +114,7 @@ Public Class Engine
         Dim attData As New ArrayList
         Dim fAffection As New FinalAffection
         Dim fAffectionList As New ArrayList
+        Dim processData As Boolean = False
         For slotType As Integer = 1 To 4
             Select Case slotType
                 Case 1
@@ -140,71 +141,46 @@ Public Class Engine
                     For Each att As String In aModule.Attributes.Keys
                         If AffectionsMap.Contains(att) = True Then
                             For Each chkAffection As Affection In CType(AffectionsMap(att), ArrayList)
+                                processData = False
                                 Select Case chkAffection.AffectingType
                                     Case AffectionType.All
-                                        fAffection = New FinalAffection
-                                        fAffection.AffectedAtt = chkAffection.AffectedAtt
-                                        fAffection.AffectedType = chkAffection.AffectedType
-                                        fAffection.AffectedID = chkAffection.AffectedID
-                                        fAffection.AffectedValue = CDbl(aModule.Attributes(att))
-                                        fAffection.StackNerf = chkAffection.StackNerf
-                                        If ModuleAffectionsTable.Contains(fAffection.AffectedAtt.ToString) = False Then
-                                            fAffectionList = New ArrayList
-                                            ModuleAffectionsTable.Add(fAffection.AffectedAtt.ToString, fAffectionList)
-                                        Else
-                                            fAffectionList = CType(ModuleAffectionsTable(fAffection.AffectedAtt.ToString), Collections.ArrayList)
-                                        End If
-                                        fAffectionList.Add(fAffection)
+                                        processData = True
                                     Case AffectionType.Item
                                         If chkAffection.AffectingID.ToString = aModule.ID Then
-                                            fAffection = New FinalAffection
-                                            fAffection.AffectedAtt = chkAffection.AffectedAtt
-                                            fAffection.AffectedType = chkAffection.AffectedType
-                                            fAffection.AffectedID = chkAffection.AffectedID
-                                            fAffection.AffectedValue = CDbl(aModule.Attributes(att))
-                                            fAffection.StackNerf = chkAffection.StackNerf
-                                            If ModuleAffectionsTable.Contains(fAffection.AffectedAtt.ToString) = False Then
-                                                fAffectionList = New ArrayList
-                                                ModuleAffectionsTable.Add(fAffection.AffectedAtt.ToString, fAffectionList)
-                                            Else
-                                                fAffectionList = CType(ModuleAffectionsTable(fAffection.AffectedAtt.ToString), Collections.ArrayList)
-                                            End If
-                                            fAffectionList.Add(fAffection)
+                                            processData = True
                                         End If
                                     Case AffectionType.Group
                                         If chkAffection.AffectingID.ToString = aModule.DatabaseGroup Then
-                                            fAffection = New FinalAffection
-                                            fAffection.AffectedAtt = chkAffection.AffectedAtt
-                                            fAffection.AffectedType = chkAffection.AffectedType
-                                            fAffection.AffectedID = chkAffection.AffectedID
-                                            fAffection.AffectedValue = CDbl(aModule.Attributes(att))
-                                            fAffection.StackNerf = chkAffection.StackNerf
-                                            If ModuleAffectionsTable.Contains(fAffection.AffectedAtt.ToString) = False Then
-                                                fAffectionList = New ArrayList
-                                                ModuleAffectionsTable.Add(fAffection.AffectedAtt.ToString, fAffectionList)
-                                            Else
-                                                fAffectionList = CType(ModuleAffectionsTable(fAffection.AffectedAtt.ToString), Collections.ArrayList)
-                                            End If
-                                            fAffectionList.Add(fAffection)
+                                            processData = True
                                         End If
                                     Case AffectionType.Category
+                                        If chkAffection.AffectingID.ToString = aModule.DatabaseCategory Then
+                                            processData = True
+                                        End If
                                     Case AffectionType.MarketGroup
                                         If chkAffection.AffectingID.ToString = aModule.MarketGroup Then
-                                            fAffection = New FinalAffection
-                                            fAffection.AffectedAtt = chkAffection.AffectedAtt
-                                            fAffection.AffectedType = chkAffection.AffectedType
-                                            fAffection.AffectedID = chkAffection.AffectedID
-                                            fAffection.AffectedValue = CDbl(aModule.Attributes(fAffection.AffectedID.ToString))
-                                            fAffection.StackNerf = chkAffection.StackNerf
-                                            If ModuleAffectionsTable.Contains(fAffection.AffectedAtt.ToString) = False Then
-                                                fAffectionList = New ArrayList
-                                                ModuleAffectionsTable.Add(fAffection.AffectedAtt.ToString, fAffectionList)
-                                            Else
-                                                fAffectionList = CType(ModuleAffectionsTable(fAffection.AffectedAtt.ToString), Collections.ArrayList)
-                                            End If
-                                            fAffectionList.Add(fAffection)
+                                            processData = True
+                                        End If
+                                    Case AffectionType.Skill
+                                        If aModule.RequiredSkills.Contains(chkAffection.AffectingID.ToString) Then
+                                            processData = True
                                         End If
                                 End Select
+                                If processData = True Then
+                                    fAffection = New FinalAffection
+                                    fAffection.AffectedAtt = chkAffection.AffectedAtt
+                                    fAffection.AffectedType = chkAffection.AffectedType
+                                    fAffection.AffectedID = chkAffection.AffectedID
+                                    fAffection.AffectedValue = CDbl(aModule.Attributes(att))
+                                    fAffection.StackNerf = chkAffection.StackNerf
+                                    If ModuleAffectionsTable.Contains(fAffection.AffectedAtt.ToString) = False Then
+                                        fAffectionList = New ArrayList
+                                        ModuleAffectionsTable.Add(fAffection.AffectedAtt.ToString, fAffectionList)
+                                    Else
+                                        fAffectionList = CType(ModuleAffectionsTable(fAffection.AffectedAtt.ToString), Collections.ArrayList)
+                                    End If
+                                    fAffectionList.Add(fAffection)
+                                End If
                             Next
                         End If
                     Next
@@ -254,8 +230,16 @@ Public Class Engine
                             If newShip.DatabaseGroup = fAffection.AffectedID.ToString Then
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
                             End If
+                        Case AffectionType.Category
+                            If newShip.DatabaseCategory = fAffection.AffectedID.ToString Then
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
+                            End If
                         Case AffectionType.MarketGroup
                             If newShip.MarketGroup = fAffection.AffectedID.ToString Then
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
+                            End If
+                        Case AffectionType.Skill
+                            If newShip.RequiredSkills.Contains(fAffection.AffectedID.ToString) Then
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
                             End If
                     End Select
@@ -315,9 +299,17 @@ Public Class Engine
                                         If aModule.DatabaseGroup = fAffection.AffectedID.ToString Then
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
                                         End If
+                                    Case AffectionType.Category
+                                        If aModule.DatabaseCategory = fAffection.AffectedID.ToString Then
+                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
+                                        End If
                                     Case AffectionType.MarketGroup
                                         If aModule.MarketGroup = fAffection.AffectedID.ToString Then
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
+                                        End If
+                                    Case AffectionType.Skill
+                                        If aModule.RequiredSkills.Contains(fAffection.AffectedID.ToString) Then
+                                            newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
                                         End If
                                 End Select
                             Next
@@ -357,8 +349,16 @@ Public Class Engine
                             If newShip.DatabaseGroup = fAffection.AffectedID.ToString Then
                                 processAtt = True
                             End If
+                        Case AffectionType.Category
+                            If newShip.DatabaseCategory = fAffection.AffectedID.ToString Then
+                                processAtt = True
+                            End If
                         Case AffectionType.MarketGroup
                             If newShip.MarketGroup = fAffection.AffectedID.ToString Then
+                                processAtt = True
+                            End If
+                        Case AffectionType.Skill
+                            If newShip.RequiredSkills.Contains(fAffection.AffectedID.ToString) Then
                                 processAtt = True
                             End If
                     End Select

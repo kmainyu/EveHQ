@@ -37,6 +37,7 @@ Imports System.Runtime.Serialization
     Private cID As String
     Private cMarketGroup As String
     Private cDatabaseGroup As String
+    Private cDatabaseCategory As String
     Private cDescription As String
     Private cBasePrice As Double
     Private cMarketPrice As Double
@@ -109,6 +110,14 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As String)
             cDatabaseGroup = value
+        End Set
+    End Property
+    Public Property DatabaseCategory() As String
+        Get
+            Return cDatabaseCategory
+        End Get
+        Set(ByVal value As String)
+            cDatabaseCategory = value
         End Set
     End Property
     Public Property Description() As String

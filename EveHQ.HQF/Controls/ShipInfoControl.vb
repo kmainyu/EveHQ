@@ -67,18 +67,54 @@ Public Class ShipInfoControl
         ' Update the display with the information about the (fitted) ship
 
         ' CPU
-        progCPU.Maximum = CInt(fittedShip.CPU)
+        progCPU.MaxValue = CInt(fittedShip.CPU)
         progCPU.Value = Math.Min(CInt(fittedShip.CPU_Used), CInt(fittedShip.CPU))
+        If fittedShip.CPU_Used > fittedShip.CPU Then
+            progCPU.StartColor = Drawing.Color.Red
+            progCPU.EndColor = Drawing.Color.Red
+            progCPU.HighlightColor = Drawing.Color.White
+            progCPU.GlowColor = Drawing.Color.LightPink
+        Else
+            progCPU.StartColor = Drawing.Color.LimeGreen
+            progCPU.EndColor = Drawing.Color.LimeGreen
+            progCPU.HighlightColor = Drawing.Color.White
+            progCPU.GlowColor = Drawing.Color.LightGreen
+        End If
+        progCPU.Refresh()
         lblCPU.Text = FormatNumber(fittedShip.CPU_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Powergrid
-        progPG.Maximum = CInt(fittedShip.PG)
+        progPG.MaxValue = CInt(fittedShip.PG)
         progPG.Value = Math.Min(CInt(fittedShip.PG_Used), CInt(fittedShip.PG))
+        If fittedShip.PG_Used > fittedShip.PG Then
+            progPG.StartColor = Drawing.Color.Red
+            progPG.EndColor = Drawing.Color.Red
+            progPG.HighlightColor = Drawing.Color.White
+            progPG.GlowColor = Drawing.Color.LightPink
+        Else
+            progPG.StartColor = Drawing.Color.LimeGreen
+            progPG.EndColor = Drawing.Color.LimeGreen
+            progPG.HighlightColor = Drawing.Color.White
+            progPG.GlowColor = Drawing.Color.LightGreen
+        End If
+        progPG.Refresh()
         lblPG.Text = FormatNumber(fittedShip.PG_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Calibration
-        progCalibration.Maximum = CInt(fittedShip.Calibration)
+        progCalibration.MaxValue = CInt(fittedShip.Calibration)
         progCalibration.Value = Math.Min(CInt(fittedShip.Calibration_Used), CInt(fittedShip.Calibration))
+        If fittedShip.Calibration_Used > fittedShip.Calibration Then
+            progCalibration.StartColor = Drawing.Color.Red
+            progCalibration.EndColor = Drawing.Color.Red
+            progCalibration.HighlightColor = Drawing.Color.White
+            progCalibration.GlowColor = Drawing.Color.LightPink
+        Else
+            progCalibration.StartColor = Drawing.Color.LimeGreen
+            progCalibration.EndColor = Drawing.Color.LimeGreen
+            progCalibration.HighlightColor = Drawing.Color.White
+            progCalibration.GlowColor = Drawing.Color.LightGreen
+        End If
+        progCalibration.Refresh()
         lblCalibration.Text = FormatNumber(fittedShip.Calibration_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.Calibration, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Shield

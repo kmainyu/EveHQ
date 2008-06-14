@@ -723,12 +723,21 @@ Public Class ShipSlotControl
         End If
     End Sub
     Private Sub ShowInfo(ByVal sender As Object, ByVal e As System.EventArgs)
-        Dim ShowInfoMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
-        Dim moduleName As String = ShowInfoMenu.Name
-        Dim moduleID As String = CStr(ModuleLists.moduleListName(moduleName))
-        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim selectedSlot As ListViewItem = lvwSlots.SelectedItems(0)
+        Dim slotInfo() As String = selectedSlot.Name.Split("_".ToCharArray)
+        Dim sModule As New ShipModule
+        Select Case CInt(slotInfo(0))
+            Case 1 ' Rig
+                sModule = fittedShip.RigSlot(CInt(slotInfo(1)))
+            Case 2 ' Low
+                sModule = fittedShip.LowSlot(CInt(slotInfo(1)))
+            Case 4 ' Mid
+                sModule = fittedShip.MidSlot(CInt(slotInfo(1)))
+            Case 8 ' High
+                sModule = fittedShip.HiSlot(CInt(slotInfo(1)))
+        End Select
         Dim showInfo As New frmShowInfo
-        showInfo.ShowItemDetails(cModule)
+        showInfo.ShowItemDetails(sModule)
         showInfo = Nothing
     End Sub
     Private Sub ShowModuleMarketGroup(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -945,5 +954,4 @@ Public Class ShipSlotControl
         Return fitting.ToString
     End Function
 #End Region
-
 End Class
