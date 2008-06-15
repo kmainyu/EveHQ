@@ -3393,6 +3393,32 @@ Public Class frmMap
                 newAgent.SubItems.Add(agsystem.Constellation) 'cont
                 newAgent.SubItems.Add(agsystem.Name) 'systm
                 newAgent.SubItems.Add(eveNames(agstat.stationID).itemname) 'station
+                Select Case CInt(cAgent.Type)
+                    Case 1
+                        ' Non Agent
+                        newAgent.SubItems.Add(" ")
+                    Case 2
+                        'Basic Agent
+                        newAgent.SubItems.Add("Basic Agent")
+                    Case 3
+                        ' TutorialAgent
+                        newAgent.SubItems.Add("Tutorial Agent")
+                    Case 4
+                        ' ResearchAgent
+                        newAgent.SubItems.Add("Research Agent")
+                    Case 5
+                        ' CONCORDAgent
+                        newAgent.SubItems.Add("Concord Agent")
+                    Case 6
+                        ' GenericStorylineMissionAgent
+                        newAgent.SubItems.Add("Storyline Agent")
+                    Case 7
+                        ' StorylineMissionAgent
+                        newAgent.SubItems.Add("Storyline Agent")
+                    Case 8
+                        ' EventMissionAgent
+                        newAgent.SubItems.Add("Event Agent")
+                End Select
                 lvwAgents.Items.Add(newAgent)
             End If
         Next
@@ -3680,4 +3706,5 @@ Public Class frmMap
 #End Region
 
 End Class
+
 

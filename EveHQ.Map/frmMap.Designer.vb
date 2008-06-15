@@ -24,6 +24,16 @@ Partial Class frmMap
         Me.lblSystemMain = New System.Windows.Forms.Label
         Me.cboSystem = New System.Windows.Forms.ComboBox
         Me.gbSystemInfo = New System.Windows.Forms.GroupBox
+        Me.lblStations = New System.Windows.Forms.Label
+        Me.lblIBelts = New System.Windows.Forms.Label
+        Me.lblABelts = New System.Windows.Forms.Label
+        Me.lblMoons = New System.Windows.Forms.Label
+        Me.lblPlanets = New System.Windows.Forms.Label
+        Me.lblStationsLbl = New System.Windows.Forms.Label
+        Me.lblIBeltsLbl = New System.Windows.Forms.Label
+        Me.lblABeltsLbl = New System.Windows.Forms.Label
+        Me.lblMoonsLbl = New System.Windows.Forms.Label
+        Me.lblPlanetsLbl = New System.Windows.Forms.Label
         Me.lblFactionID = New System.Windows.Forms.Label
         Me.lblsovereigntyLevel = New System.Windows.Forms.Label
         Me.lblFactionIDlbl = New System.Windows.Forms.Label
@@ -205,17 +215,8 @@ Partial Class frmMap
         Me.lblRegionMain = New System.Windows.Forms.Label
         Me.cboConst = New System.Windows.Forms.ComboBox
         Me.cboRegion = New System.Windows.Forms.ComboBox
-        Me.lblPlanetsLbl = New System.Windows.Forms.Label
-        Me.lblMoonsLbl = New System.Windows.Forms.Label
-        Me.lblABeltsLbl = New System.Windows.Forms.Label
-        Me.lblIBeltsLbl = New System.Windows.Forms.Label
-        Me.lblStationsLbl = New System.Windows.Forms.Label
-        Me.lblPlanets = New System.Windows.Forms.Label
-        Me.lblMoons = New System.Windows.Forms.Label
-        Me.lblABelts = New System.Windows.Forms.Label
-        Me.lblIBelts = New System.Windows.Forms.Label
-        Me.lblStations = New System.Windows.Forms.Label
         Me.btnExclude = New EveHQ.Map.SplitButton
+        Me.lgagstype = New System.Windows.Forms.ColumnHeader
         Me.gbSystemInfo.SuspendLayout()
         Me.tabMap.SuspendLayout()
         CType(Me.pbMap, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -297,6 +298,96 @@ Partial Class frmMap
         Me.gbSystemInfo.TabIndex = 2
         Me.gbSystemInfo.TabStop = False
         Me.gbSystemInfo.Text = "System Information"
+        '
+        'lblStations
+        '
+        Me.lblStations.AutoSize = True
+        Me.lblStations.Location = New System.Drawing.Point(82, 154)
+        Me.lblStations.Name = "lblStations"
+        Me.lblStations.Size = New System.Drawing.Size(63, 13)
+        Me.lblStations.TabIndex = 52
+        Me.lblStations.Text = "Placeholder"
+        '
+        'lblIBelts
+        '
+        Me.lblIBelts.AutoSize = True
+        Me.lblIBelts.Location = New System.Drawing.Point(82, 141)
+        Me.lblIBelts.Name = "lblIBelts"
+        Me.lblIBelts.Size = New System.Drawing.Size(63, 13)
+        Me.lblIBelts.TabIndex = 51
+        Me.lblIBelts.Text = "Placeholder"
+        '
+        'lblABelts
+        '
+        Me.lblABelts.AutoSize = True
+        Me.lblABelts.Location = New System.Drawing.Point(82, 128)
+        Me.lblABelts.Name = "lblABelts"
+        Me.lblABelts.Size = New System.Drawing.Size(63, 13)
+        Me.lblABelts.TabIndex = 50
+        Me.lblABelts.Text = "Placeholder"
+        '
+        'lblMoons
+        '
+        Me.lblMoons.AutoSize = True
+        Me.lblMoons.Location = New System.Drawing.Point(82, 115)
+        Me.lblMoons.Name = "lblMoons"
+        Me.lblMoons.Size = New System.Drawing.Size(63, 13)
+        Me.lblMoons.TabIndex = 49
+        Me.lblMoons.Text = "Placeholder"
+        '
+        'lblPlanets
+        '
+        Me.lblPlanets.AutoSize = True
+        Me.lblPlanets.Location = New System.Drawing.Point(82, 102)
+        Me.lblPlanets.Name = "lblPlanets"
+        Me.lblPlanets.Size = New System.Drawing.Size(63, 13)
+        Me.lblPlanets.TabIndex = 48
+        Me.lblPlanets.Text = "Placeholder"
+        '
+        'lblStationsLbl
+        '
+        Me.lblStationsLbl.AutoSize = True
+        Me.lblStationsLbl.Location = New System.Drawing.Point(10, 154)
+        Me.lblStationsLbl.Name = "lblStationsLbl"
+        Me.lblStationsLbl.Size = New System.Drawing.Size(48, 13)
+        Me.lblStationsLbl.TabIndex = 47
+        Me.lblStationsLbl.Text = "Stations:"
+        '
+        'lblIBeltsLbl
+        '
+        Me.lblIBeltsLbl.AutoSize = True
+        Me.lblIBeltsLbl.Location = New System.Drawing.Point(10, 141)
+        Me.lblIBeltsLbl.Name = "lblIBeltsLbl"
+        Me.lblIBeltsLbl.Size = New System.Drawing.Size(51, 13)
+        Me.lblIBeltsLbl.TabIndex = 46
+        Me.lblIBeltsLbl.Text = "Ice Belts:"
+        '
+        'lblABeltsLbl
+        '
+        Me.lblABeltsLbl.AutoSize = True
+        Me.lblABeltsLbl.Location = New System.Drawing.Point(10, 128)
+        Me.lblABeltsLbl.Name = "lblABeltsLbl"
+        Me.lblABeltsLbl.Size = New System.Drawing.Size(33, 13)
+        Me.lblABeltsLbl.TabIndex = 45
+        Me.lblABeltsLbl.Text = "Belts:"
+        '
+        'lblMoonsLbl
+        '
+        Me.lblMoonsLbl.AutoSize = True
+        Me.lblMoonsLbl.Location = New System.Drawing.Point(10, 115)
+        Me.lblMoonsLbl.Name = "lblMoonsLbl"
+        Me.lblMoonsLbl.Size = New System.Drawing.Size(42, 13)
+        Me.lblMoonsLbl.TabIndex = 44
+        Me.lblMoonsLbl.Text = "Moons:"
+        '
+        'lblPlanetsLbl
+        '
+        Me.lblPlanetsLbl.AutoSize = True
+        Me.lblPlanetsLbl.Location = New System.Drawing.Point(10, 102)
+        Me.lblPlanetsLbl.Name = "lblPlanetsLbl"
+        Me.lblPlanetsLbl.Size = New System.Drawing.Size(45, 13)
+        Me.lblPlanetsLbl.TabIndex = 43
+        Me.lblPlanetsLbl.Text = "Planets:"
         '
         'lblFactionID
         '
@@ -929,12 +1020,12 @@ Partial Class frmMap
         '
         Me.ctxRoute.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyToClipboard})
         Me.ctxRoute.Name = "ctxRoute"
-        Me.ctxRoute.Size = New System.Drawing.Size(175, 26)
+        Me.ctxRoute.Size = New System.Drawing.Size(174, 26)
         '
         'mnuCopyToClipboard
         '
         Me.mnuCopyToClipboard.Name = "mnuCopyToClipboard"
-        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(174, 22)
+        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(173, 22)
         Me.mnuCopyToClipboard.Text = "Copy To Clipboard"
         '
         'lblTimeTaken
@@ -1746,7 +1837,7 @@ Partial Class frmMap
         Me.lvwAgents.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwAgents.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.coagsname, Me.lgagscorp, Me.lgagsfact, Me.lgagslev, Me.lgagsqual, Me.lgagsdist, Me.lgagssec, Me.lgagsreg, Me.lgagsconst, Me.lgagssys, Me.lgagsstat})
+        Me.lvwAgents.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.coagsname, Me.lgagscorp, Me.lgagsfact, Me.lgagslev, Me.lgagsqual, Me.lgagsdist, Me.lgagssec, Me.lgagsreg, Me.lgagsconst, Me.lgagssys, Me.lgagsstat, Me.lgagstype})
         Me.lvwAgents.FullRowSelect = True
         Me.lvwAgents.GridLines = True
         Me.lvwAgents.ImeMode = System.Windows.Forms.ImeMode.NoControl
@@ -1850,24 +1941,24 @@ Partial Class frmMap
         '
         Me.ctxExclude.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExcludeSystem, Me.mnuExcludeConstellation, Me.mnuExcludeRegion})
         Me.ctxExclude.Name = "ctxExclude"
-        Me.ctxExclude.Size = New System.Drawing.Size(145, 70)
+        Me.ctxExclude.Size = New System.Drawing.Size(148, 70)
         '
         'mnuExcludeSystem
         '
         Me.mnuExcludeSystem.Name = "mnuExcludeSystem"
-        Me.mnuExcludeSystem.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeSystem.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeSystem.Text = "Solar System"
         '
         'mnuExcludeConstellation
         '
         Me.mnuExcludeConstellation.Name = "mnuExcludeConstellation"
-        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeConstellation.Text = "Constellation"
         '
         'mnuExcludeRegion
         '
         Me.mnuExcludeRegion.Name = "mnuExcludeRegion"
-        Me.mnuExcludeRegion.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeRegion.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeRegion.Text = "Region"
         '
         'btnRemoveExclusion
@@ -1974,96 +2065,6 @@ Partial Class frmMap
         Me.cboRegion.Size = New System.Drawing.Size(176, 21)
         Me.cboRegion.TabIndex = 77
         '
-        'lblPlanetsLbl
-        '
-        Me.lblPlanetsLbl.AutoSize = True
-        Me.lblPlanetsLbl.Location = New System.Drawing.Point(10, 102)
-        Me.lblPlanetsLbl.Name = "lblPlanetsLbl"
-        Me.lblPlanetsLbl.Size = New System.Drawing.Size(45, 13)
-        Me.lblPlanetsLbl.TabIndex = 43
-        Me.lblPlanetsLbl.Text = "Planets:"
-        '
-        'lblMoonsLbl
-        '
-        Me.lblMoonsLbl.AutoSize = True
-        Me.lblMoonsLbl.Location = New System.Drawing.Point(10, 115)
-        Me.lblMoonsLbl.Name = "lblMoonsLbl"
-        Me.lblMoonsLbl.Size = New System.Drawing.Size(42, 13)
-        Me.lblMoonsLbl.TabIndex = 44
-        Me.lblMoonsLbl.Text = "Moons:"
-        '
-        'lblABeltsLbl
-        '
-        Me.lblABeltsLbl.AutoSize = True
-        Me.lblABeltsLbl.Location = New System.Drawing.Point(10, 128)
-        Me.lblABeltsLbl.Name = "lblABeltsLbl"
-        Me.lblABeltsLbl.Size = New System.Drawing.Size(33, 13)
-        Me.lblABeltsLbl.TabIndex = 45
-        Me.lblABeltsLbl.Text = "Belts:"
-        '
-        'lblIBeltsLbl
-        '
-        Me.lblIBeltsLbl.AutoSize = True
-        Me.lblIBeltsLbl.Location = New System.Drawing.Point(10, 141)
-        Me.lblIBeltsLbl.Name = "lblIBeltsLbl"
-        Me.lblIBeltsLbl.Size = New System.Drawing.Size(51, 13)
-        Me.lblIBeltsLbl.TabIndex = 46
-        Me.lblIBeltsLbl.Text = "Ice Belts:"
-        '
-        'lblStationsLbl
-        '
-        Me.lblStationsLbl.AutoSize = True
-        Me.lblStationsLbl.Location = New System.Drawing.Point(10, 154)
-        Me.lblStationsLbl.Name = "lblStationsLbl"
-        Me.lblStationsLbl.Size = New System.Drawing.Size(48, 13)
-        Me.lblStationsLbl.TabIndex = 47
-        Me.lblStationsLbl.Text = "Stations:"
-        '
-        'lblPlanets
-        '
-        Me.lblPlanets.AutoSize = True
-        Me.lblPlanets.Location = New System.Drawing.Point(82, 102)
-        Me.lblPlanets.Name = "lblPlanets"
-        Me.lblPlanets.Size = New System.Drawing.Size(63, 13)
-        Me.lblPlanets.TabIndex = 48
-        Me.lblPlanets.Text = "Placeholder"
-        '
-        'lblMoons
-        '
-        Me.lblMoons.AutoSize = True
-        Me.lblMoons.Location = New System.Drawing.Point(82, 115)
-        Me.lblMoons.Name = "lblMoons"
-        Me.lblMoons.Size = New System.Drawing.Size(63, 13)
-        Me.lblMoons.TabIndex = 49
-        Me.lblMoons.Text = "Placeholder"
-        '
-        'lblABelts
-        '
-        Me.lblABelts.AutoSize = True
-        Me.lblABelts.Location = New System.Drawing.Point(82, 128)
-        Me.lblABelts.Name = "lblABelts"
-        Me.lblABelts.Size = New System.Drawing.Size(63, 13)
-        Me.lblABelts.TabIndex = 50
-        Me.lblABelts.Text = "Placeholder"
-        '
-        'lblIBelts
-        '
-        Me.lblIBelts.AutoSize = True
-        Me.lblIBelts.Location = New System.Drawing.Point(82, 141)
-        Me.lblIBelts.Name = "lblIBelts"
-        Me.lblIBelts.Size = New System.Drawing.Size(63, 13)
-        Me.lblIBelts.TabIndex = 51
-        Me.lblIBelts.Text = "Placeholder"
-        '
-        'lblStations
-        '
-        Me.lblStations.AutoSize = True
-        Me.lblStations.Location = New System.Drawing.Point(82, 154)
-        Me.lblStations.Name = "lblStations"
-        Me.lblStations.Size = New System.Drawing.Size(63, 13)
-        Me.lblStations.TabIndex = 52
-        Me.lblStations.Text = "Placeholder"
-        '
         'btnExclude
         '
         Me.btnExclude.AutoSize = True
@@ -2076,6 +2077,10 @@ Partial Class frmMap
         Me.btnExclude.Text = "Exclude"
         Me.btnExclude.UseCompatibleTextRendering = True
         Me.btnExclude.UseVisualStyleBackColor = True
+        '
+        'lgagstype
+        '
+        Me.lgagstype.Text = "Agent Type"
         '
         'frmMap
         '
@@ -2329,4 +2334,5 @@ Partial Class frmMap
     Friend WithEvents lblABeltsLbl As System.Windows.Forms.Label
     Friend WithEvents lblMoonsLbl As System.Windows.Forms.Label
     Friend WithEvents lblPlanetsLbl As System.Windows.Forms.Label
+    Friend WithEvents lgagstype As System.Windows.Forms.ColumnHeader
 End Class
