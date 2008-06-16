@@ -500,33 +500,38 @@ Public Class Engine
     Private Shared Sub ApplyStackingPenalties()
         Dim baseAffectionList As New ArrayList
         Dim finalAffectionList As New ArrayList
-        Dim tempAffectionList As New SortedList
+        Dim tempPAffectionList As New SortedList
+        Dim tempNAffectionList As New SortedList
         Dim attOrder(,) As Double
         Dim att As String
         For attNumber As Integer = 0 To ModuleAffectionsTable.Keys.Count - 1
             att = CStr(ModuleAffectionsTable.GetKey(attNumber))
             baseAffectionList = CType(ModuleAffectionsTable(att), ArrayList)
-            tempAffectionList.Clear()
-            finalAffectionList.Clear()
+            tempPAffectionList.Clear()
+            tempNAffectionList.Clear()
+            finalAffectionList = New ArrayList
             For Each fAffection As FinalAffection In baseAffectionList
                 If fAffection.StackNerf = True Then
-                    tempAffectionList.Add(tempAffectionList.Count.ToString, fAffection)
+                    If fAffection.AffectedValue >= 0 Then
+                        tempPAffectionList.Add(tempPAffectionList.Count.ToString, fAffection)
+                    Else
+                        tempNAffectionList.Add(tempNAffectionList.Count.ToString, fAffection)
+                    End If
                 Else
                     finalAffectionList.Add(fAffection)
                 End If
             Next
-            If tempAffectionList.Count > 1 Then
-
-                ReDim attOrder(tempAffectionList.Count - 1, 1)
+            If tempPAffectionList.Count > 0 Then
+                ReDim attOrder(tempPAffectionList.Count - 1, 1)
                 Dim sAffection As FinalAffection
-                For Each attNo As String In tempAffectionList.Keys
-                    sAffection = CType(tempAffectionList(attNo), FinalAffection)
+                For Each attNo As String In tempPAffectionList.Keys
+                    sAffection = CType(tempPAffectionList(attNo), FinalAffection)
                     attOrder(CInt(attNo), 0) = CDbl(attNo)
                     attOrder(CInt(attNo), 1) = sAffection.AffectedValue
                 Next
                 ' Create a tag array ready to sort the skill times
-                Dim tagArray(tempAffectionList.Count - 1) As Integer
-                For a As Integer = 0 To tempAffectionList.Count - 1
+                Dim tagArray(tempPAffectionList.Count - 1) As Integer
+                For a As Integer = 0 To tempPAffectionList.Count - 1
                     tagArray(a) = a
                 Next
                 ' Initialize the comparer and sort
@@ -538,14 +543,43 @@ Public Class Engine
                 Dim penalty As Double = 0
                 For i As Integer = 0 To tagArray.Length - 1
                     idx = tagArray(i)
-                    sAffection = CType(tempAffectionList(idx.ToString), FinalAffection)
+                    sAffection = CType(tempPAffectionList(idx.ToString), FinalAffection)
                     penalty = Math.Exp(-(i ^ 2 / 7.1289))
                     sAffection.AffectedValue = sAffection.AffectedValue * penalty
                     sAffection.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
                     finalAffectionList.Add(sAffection)
                 Next
-                ModuleAffectionsTable(att) = finalAffectionList
             End If
+            If tempNAffectionList.Count > 0 Then
+                ReDim attOrder(tempNAffectionList.Count - 1, 1)
+                Dim sAffection As FinalAffection
+                For Each attNo As String In tempNAffectionList.Keys
+                    sAffection = CType(tempNAffectionList(attNo), FinalAffection)
+                    attOrder(CInt(attNo), 0) = CDbl(attNo)
+                    attOrder(CInt(attNo), 1) = sAffection.AffectedValue
+                Next
+                ' Create a tag array ready to sort the skill times
+                Dim tagArray(tempNAffectionList.Count - 1) As Integer
+                For a As Integer = 0 To tempNAffectionList.Count - 1
+                    tagArray(a) = a
+                Next
+                ' Initialize the comparer and sort
+                Dim myComparer As New EveHQ.Core.Reports.ArrayComparerDouble(attOrder)
+                Array.Sort(tagArray, myComparer)
+                Array.Reverse(tagArray)
+                ' Go through the data and apply the stacking penalty
+                Dim idx As Integer = 0
+                Dim penalty As Double = 0
+                For i As Integer = 0 To tagArray.Length - 1
+                    idx = tagArray(i)
+                    sAffection = CType(tempNAffectionList(idx.ToString), FinalAffection)
+                    penalty = Math.Exp(-(i ^ 2 / 7.1289))
+                    sAffection.AffectedValue = sAffection.AffectedValue * penalty
+                    sAffection.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+                    finalAffectionList.Add(sAffection)
+                Next
+            End If
+            ModuleAffectionsTable(att) = finalAffectionList
         Next
     End Sub
 
