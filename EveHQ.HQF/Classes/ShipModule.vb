@@ -75,6 +75,9 @@ Imports System.Runtime.Serialization
     Private cCharges As New ArrayList
     Private cLoadedCharge As ShipModule
 
+    ' Audit Log
+    Private cAuditLog As New ArrayList
+
 #End Region
 
 #Region "Properties"
@@ -324,6 +327,17 @@ Imports System.Runtime.Serialization
             cLoadedCharge = value
         End Set
     End Property
+
+    'Audit Log
+    Public Property AuditLog() As ArrayList
+        Get
+            Return cAuditLog
+        End Get
+        Set(ByVal value As ArrayList)
+            cAuditLog = value
+        End Set
+    End Property
+
 
 #End Region
 

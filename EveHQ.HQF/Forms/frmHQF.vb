@@ -79,14 +79,16 @@ Public Class frmHQF
                 UseSerializableData = False
             End If
 
-            ' TODO: Remove this temporary line while we are testing and rebuilding stuff
-            'UseSerializableData = False
-
-            Me.LoadAttributes()
-            Me.LoadBonuses()
+            'Me.LoadBonuses()
             Engine.BuildAffectionsMap()
             ' Check for the existence of the binary data
             If UseSerializableData = True Then
+                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\attributes.txt") = True Then
+                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.txt", FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    Attributes.AttributeList = CType(f.Deserialize(s), SortedList)
+                    s.Close()
+                End If
                 If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\ships.txt") = True Then
                     Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\ships.txt", FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
@@ -112,7 +114,7 @@ Public Class frmHQF
                     Next
                 End If
                 If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\implants.txt") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFcacheFolder & "\implants.txt", FileMode.Open)
+                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\implants.txt", FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     Implants.implantList = CType(f.Deserialize(s), SortedList)
                     s.Close()
@@ -123,22 +125,28 @@ Public Class frmHQF
                     SkillLists.SkillList = CType(f.Deserialize(s), SortedList)
                     s.Close()
                 End If
+                Call Me.BuildAttributeQuickList()
                 Return True
             Else
                 ' Populate the Ship data
-                If Me.LoadSkillData = True Then
-                    If Me.LoadShipGroupData = True Then
-                        If Me.LoadMarketGroupData = True Then
-                            If Me.LoadShipNameData = True Then
-                                If Me.LoadShipAttributeData = True Then
-                                    If Me.BuildShipBonuses = True Then
-                                        Call Me.PopulateShipLists()
-                                        If Me.LoadModuleData = True Then
-                                            If Me.LoadModuleEffectData = True Then
-                                                If Me.LoadModuleAttributeData = True Then
-                                                    If Me.LoadModuleMetaTypes = True Then
-                                                        If Me.BuildModuleData = True Then
-                                                            Return True
+                If Me.LoadAttributes = True Then
+                    If Me.LoadSkillData = True Then
+                        If Me.LoadShipGroupData = True Then
+                            If Me.LoadMarketGroupData = True Then
+                                If Me.LoadShipNameData = True Then
+                                    If Me.LoadShipAttributeData = True Then
+                                        If Me.BuildShipBonuses = True Then
+                                            Call Me.PopulateShipLists()
+                                            If Me.LoadModuleData = True Then
+                                                If Me.LoadModuleEffectData = True Then
+                                                    If Me.LoadModuleAttributeData = True Then
+                                                        If Me.LoadModuleMetaTypes = True Then
+                                                            If Me.BuildModuleData = True Then
+                                                                Call Me.BuildAttributeQuickList()
+                                                                Return True
+                                                            Else
+                                                                Return False
+                                                            End If
                                                         Else
                                                             Return False
                                                         End If
@@ -234,19 +242,34 @@ Public Class frmHQF
     End Function
     Private Function LoadAttributes() As Boolean
         Try
-            ' Clear the Attributes Lists
-            Attributes.AttributeList.Clear()
-            ' Extract the Attributes from the included resource file
-            Dim AttList() As String = My.Resources.Attributes.Split(ControlChars.CrLf.ToCharArray)
-            Dim AttData() As String
-            For Each Attribute As String In AttList
-                If Attribute.Trim <> "" Then
-                    AttData = Attribute.Split(",".ToCharArray)
-                    ' Add the data to a sorted list using attributeID/marketgroupID as the key e.g. 20_542, value is the bonus
-                    Attributes.AttributeList.Add(AttData(0) & "_" & AttData(2), AttData(3))
+            Dim strSQL As String = ""
+            strSQL &= "SELECT dgmAttributeTypes.attributeID, dgmAttributeTypes.attributeName, dgmAttributeTypes.graphicID, dgmAttributeTypes.displayName AS dgmAttributeTypes_displayName, dgmAttributeTypes.unitID AS dgmAttributeTypes_unitID, dgmAttributeTypes.attributeGroup, eveUnits.unitName, eveUnits.displayName AS eveUnits_displayName"
+            strSQL &= " FROM eveUnits INNER JOIN dgmAttributeTypes ON eveUnits.unitID = dgmAttributeTypes.unitID"
+            strSQL &= " ORDER BY dgmAttributeTypes.attributeID;"
+            Dim attributeData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If attributeData IsNot Nothing Then
+                If attributeData.Tables(0).Rows.Count <> 0 Then
+                    Attributes.AttributeList.Clear()
+                    Dim attData As New Attribute
+                    For Each row As DataRow In attributeData.Tables(0).Rows
+                        attData = New Attribute
+                        attData.ID = row.Item("attributeID").ToString
+                        attData.Name = row.Item("attributeName").ToString
+                        attData.DisplayName = row.Item("dgmAttributeTypes_displayName").ToString
+                        attData.GraphicID = row.Item("graphicID").ToString
+                        attData.UnitName = row.Item("eveUnits_displayName").ToString
+                        attData.AttributeGroup = row.Item("attributeGroup").ToString
+                        Attributes.AttributeList.Add(attData.ID, attData)
+                    Next
+                    Return True
+                Else
+                    MessageBox.Show("Attribute Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Return False
                 End If
-            Next
-            Return True
+            Else
+                MessageBox.Show("Attribute Data returned a null dataset", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return False
+            End If
         Catch e As Exception
             MessageBox.Show("Error loading Attribute Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -922,6 +945,19 @@ Public Class frmHQF
             MessageBox.Show("Error building Implant Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
+    End Function
+    Private Function BuildAttributeQuickList() As Boolean
+        Attributes.AttributeQuickList.Clear()
+        Dim attData As New Attribute
+        For Each att As String In Attributes.AttributeList.Keys
+            attData = CType(Attributes.AttributeList(att), Attribute)
+            If attData.DisplayName <> "" Then
+                Attributes.AttributeQuickList.Add(attData.ID, attData.DisplayName)
+            Else
+                Attributes.AttributeQuickList.Add(attData.ID, attData.Name)
+            End If
+        Next
+        Return True
     End Function
 
 #End Region
@@ -2162,6 +2198,11 @@ Public Class frmHQF
         s = New FileStream(HQF.Settings.HQFCacheFolder & "\skills.txt", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, SkillLists.SkillList)
+        s.Close()
+        ' Save attributes
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.txt", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, Attributes.AttributeList)
         s.Close()
         ' Write Ship Tree 
         Call Me.WriteShipGroups()

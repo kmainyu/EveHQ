@@ -61,7 +61,7 @@ Public Class frmShowInfo
         Call Me.PrepareDescription(itemType)
         Call Me.GenerateSkills(itemType)
         Call Me.ShowAttributes(itemType)
-        Call Me.ShowBonuses(itemType)
+        Call Me.ShowAudit(itemType)
 
         Me.ShowDialog()
 
@@ -481,25 +481,70 @@ Public Class frmShowInfo
 
     End Sub
     Private Sub ShowAttributes(ByVal itemObject As Object)
+        Dim attGroups(15) As String
+        attGroups(0) = "Miscellaneous" : attGroups(1) = "Structure" : attGroups(2) = "Armor" : attGroups(3) = "Shield"
+        attGroups(4) = "Capacitor" : attGroups(5) = "Targetting" : attGroups(6) = "Propulsion" : attGroups(7) = "Required Skills"
+        attGroups(8) = "Fitting Requirements" : attGroups(9) = "Damage" : attGroups(10) = "Entity Targetting" : attGroups(11) = "Entity Kill"
+        attGroups(12) = "Entity EWar" : attGroups(13) = "Usage" : attGroups(14) = "Skill Information" : attGroups(15) = "Blueprint Information"
+        For attGroup As Integer = 0 To 15
+            Dim lvGroup As New ListViewGroup
+            lvGroup.Name = attGroups(attGroup)
+            lvGroup.Header = attGroups(attGroup)
+            lvwAttributes.Groups.Add(lvGroup)
+        Next
+        Dim stdItem As New ShipModule
+        If TypeOf itemObject Is ShipModule Then
+            stdItem = CType(ModuleLists.moduleList(itemObject.ID), ShipModule)
+        End If
         lvwAttributes.BeginUpdate()
         lvwAttributes.Items.Clear()
+        Dim attData As New Attribute
+        Dim idx As Integer
         For Each att As String In itemObject.Attributes.Keys
             Dim newItem As New ListViewItem
-            newItem.Text = att
-            newItem.SubItems.Add(itemObject.Attributes.Item(att))
+            attData = Attributes.AttributeList(att)
+            If attData.DisplayName <> "" Then
+                newItem.Text = attData.DisplayName
+            Else
+                newItem.Text = attData.Name
+            End If
+            newItem.Group = lvwAttributes.Groups(CInt(attData.AttributeGroup))
+            Select Case attData.UnitName
+                Case "typeID"
+                    idx = EveHQ.Core.HQ.itemList.IndexOfValue(stdItem.Attributes.Item(att).ToString)
+                    newItem.SubItems.Add(EveHQ.Core.HQ.itemList.GetKey(idx))
+                Case "groupID"
+                    idx = EveHQ.Core.HQ.groupList.IndexOfValue(stdItem.Attributes.Item(att).ToString)
+                    newItem.SubItems.Add(EveHQ.Core.HQ.groupList.GetKey(idx))
+                Case Else
+                    newItem.SubItems.Add(stdItem.Attributes.Item(att) & " " & attData.UnitName)
+            End Select
+            Select Case attData.UnitName
+                Case "typeID"
+                    idx = EveHQ.Core.HQ.itemList.IndexOfValue(itemObject.Attributes.Item(att).ToString)
+                    newItem.SubItems.Add(EveHQ.Core.HQ.itemList.GetKey(idx))
+                Case "groupID"
+                    idx = EveHQ.Core.HQ.groupList.IndexOfValue(itemObject.Attributes.Item(att).ToString)
+                    newItem.SubItems.Add(EveHQ.Core.HQ.groupList.GetKey(idx))
+                Case Else
+                    newItem.SubItems.Add(itemObject.Attributes.Item(att) & " " & attData.UnitName)
+            End Select
             lvwAttributes.Items.Add(newItem)
         Next
         lvwAttributes.EndUpdate()
     End Sub
-    Private Sub ShowBonuses(ByVal itemObject As Object)
-        lvwBonuses.BeginUpdate()
-        lvwBonuses.Items.Clear()
-        For Each bonus As ItemBonus In itemObject.Bonuses
-            Dim newItem As New ListViewItem
-            newItem.Text = bonus.BonusName
-            newItem.SubItems.Add(bonus.BonusValue)
-            lvwBonuses.Items.Add(newItem)
-        Next
-        lvwBonuses.EndUpdate()
+
+    Private Sub ShowAudit(ByVal itemObject As Object)
+        If itemObject.AuditLog.Count = 0 Then
+            tabShowInfo.TabPages.Remove(tabAudit)
+        Else
+            lvwAudit.BeginUpdate()
+            lvwAudit.Items.Clear()
+            For Each log As String In itemObject.AuditLog
+                lvwAudit.Items.Add(log)
+            Next
+            lvwAudit.EndUpdate()
+        End If
     End Sub
+
 End Class

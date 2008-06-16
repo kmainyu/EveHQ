@@ -30,20 +30,20 @@ Partial Class frmShowInfo
         Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuViewItemDetails = New System.Windows.Forms.ToolStripMenuItem
-        Me.TabControl1 = New System.Windows.Forms.TabControl
+        Me.tabShowInfo = New System.Windows.Forms.TabControl
         Me.tabSIDescription = New System.Windows.Forms.TabPage
         Me.lblDescription = New System.Windows.Forms.Label
         Me.tabSIAttributes = New System.Windows.Forms.TabPage
         Me.lvwAttributes = New System.Windows.Forms.ListView
         Me.colAttribute = New System.Windows.Forms.ColumnHeader
-        Me.colData = New System.Windows.Forms.ColumnHeader
+        Me.colStandardValue = New System.Windows.Forms.ColumnHeader
+        Me.colPilotValue = New System.Windows.Forms.ColumnHeader
         Me.tabSISkills = New System.Windows.Forms.TabPage
         Me.btnViewSkills = New System.Windows.Forms.Button
         Me.btnAddSkills = New System.Windows.Forms.Button
-        Me.tabSIBonuses = New System.Windows.Forms.TabPage
-        Me.lvwBonuses = New System.Windows.Forms.ListView
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.tabAudit = New System.Windows.Forms.TabPage
+        Me.lvwAudit = New System.Windows.Forms.ListView
+        Me.colAudit = New System.Windows.Forms.ColumnHeader
         Me.SkillToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.lblUsableTime = New System.Windows.Forms.LinkLabel
         Me.lblUsable = New System.Windows.Forms.Label
@@ -52,11 +52,11 @@ Partial Class frmShowInfo
         Me.pbPilot = New System.Windows.Forms.PictureBox
         Me.ctxReqs.SuspendLayout()
         Me.ctxDepend.SuspendLayout()
-        Me.TabControl1.SuspendLayout()
+        Me.tabShowInfo.SuspendLayout()
         Me.tabSIDescription.SuspendLayout()
         Me.tabSIAttributes.SuspendLayout()
         Me.tabSISkills.SuspendLayout()
-        Me.tabSIBonuses.SuspendLayout()
+        Me.tabAudit.SuspendLayout()
         CType(Me.picItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPilot, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -72,7 +72,7 @@ Partial Class frmShowInfo
         Me.tvwReqs.Location = New System.Drawing.Point(3, 3)
         Me.tvwReqs.Name = "tvwReqs"
         Me.tvwReqs.ShowPlusMinus = False
-        Me.tvwReqs.Size = New System.Drawing.Size(362, 316)
+        Me.tvwReqs.Size = New System.Drawing.Size(456, 319)
         Me.tvwReqs.TabIndex = 0
         '
         'ctxReqs
@@ -125,24 +125,27 @@ Partial Class frmShowInfo
         Me.mnuViewItemDetails.Size = New System.Drawing.Size(137, 22)
         Me.mnuViewItemDetails.Text = "View Details"
         '
-        'TabControl1
+        'tabShowInfo
         '
-        Me.TabControl1.Controls.Add(Me.tabSIDescription)
-        Me.TabControl1.Controls.Add(Me.tabSIAttributes)
-        Me.TabControl1.Controls.Add(Me.tabSISkills)
-        Me.TabControl1.Controls.Add(Me.tabSIBonuses)
-        Me.TabControl1.Location = New System.Drawing.Point(12, 146)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(379, 376)
-        Me.TabControl1.TabIndex = 2
+        Me.tabShowInfo.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tabShowInfo.Controls.Add(Me.tabSIDescription)
+        Me.tabShowInfo.Controls.Add(Me.tabSIAttributes)
+        Me.tabShowInfo.Controls.Add(Me.tabSISkills)
+        Me.tabShowInfo.Controls.Add(Me.tabAudit)
+        Me.tabShowInfo.Location = New System.Drawing.Point(12, 146)
+        Me.tabShowInfo.Name = "tabShowInfo"
+        Me.tabShowInfo.SelectedIndex = 0
+        Me.tabShowInfo.Size = New System.Drawing.Size(573, 419)
+        Me.tabShowInfo.TabIndex = 2
         '
         'tabSIDescription
         '
         Me.tabSIDescription.Controls.Add(Me.lblDescription)
         Me.tabSIDescription.Location = New System.Drawing.Point(4, 22)
         Me.tabSIDescription.Name = "tabSIDescription"
-        Me.tabSIDescription.Size = New System.Drawing.Size(371, 350)
+        Me.tabSIDescription.Size = New System.Drawing.Size(465, 353)
         Me.tabSIDescription.TabIndex = 2
         Me.tabSIDescription.Text = "Description"
         Me.tabSIDescription.UseVisualStyleBackColor = True
@@ -156,7 +159,7 @@ Partial Class frmShowInfo
         Me.lblDescription.Margin = New System.Windows.Forms.Padding(5)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Padding = New System.Windows.Forms.Padding(5)
-        Me.lblDescription.Size = New System.Drawing.Size(371, 350)
+        Me.lblDescription.Size = New System.Drawing.Size(465, 353)
         Me.lblDescription.TabIndex = 0
         '
         'tabSIAttributes
@@ -164,20 +167,20 @@ Partial Class frmShowInfo
         Me.tabSIAttributes.Controls.Add(Me.lvwAttributes)
         Me.tabSIAttributes.Location = New System.Drawing.Point(4, 22)
         Me.tabSIAttributes.Name = "tabSIAttributes"
-        Me.tabSIAttributes.Size = New System.Drawing.Size(371, 350)
+        Me.tabSIAttributes.Size = New System.Drawing.Size(565, 393)
         Me.tabSIAttributes.TabIndex = 3
         Me.tabSIAttributes.Text = "Attributes"
         Me.tabSIAttributes.UseVisualStyleBackColor = True
         '
         'lvwAttributes
         '
-        Me.lvwAttributes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colAttribute, Me.colData})
+        Me.lvwAttributes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colAttribute, Me.colStandardValue, Me.colPilotValue})
         Me.lvwAttributes.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvwAttributes.FullRowSelect = True
         Me.lvwAttributes.GridLines = True
         Me.lvwAttributes.Location = New System.Drawing.Point(0, 0)
         Me.lvwAttributes.Name = "lvwAttributes"
-        Me.lvwAttributes.Size = New System.Drawing.Size(371, 350)
+        Me.lvwAttributes.Size = New System.Drawing.Size(565, 393)
         Me.lvwAttributes.TabIndex = 1
         Me.lvwAttributes.UseCompatibleStateImageBehavior = False
         Me.lvwAttributes.View = System.Windows.Forms.View.Details
@@ -185,13 +188,19 @@ Partial Class frmShowInfo
         'colAttribute
         '
         Me.colAttribute.Text = "Attribute"
-        Me.colAttribute.Width = 210
+        Me.colAttribute.Width = 240
         '
-        'colData
+        'colStandardValue
         '
-        Me.colData.Text = "Data"
-        Me.colData.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colData.Width = 135
+        Me.colStandardValue.Text = "Base Value"
+        Me.colStandardValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colStandardValue.Width = 150
+        '
+        'colPilotValue
+        '
+        Me.colPilotValue.Text = "Actual Value"
+        Me.colPilotValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colPilotValue.Width = 150
         '
         'tabSISkills
         '
@@ -201,7 +210,7 @@ Partial Class frmShowInfo
         Me.tabSISkills.Location = New System.Drawing.Point(4, 22)
         Me.tabSISkills.Name = "tabSISkills"
         Me.tabSISkills.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabSISkills.Size = New System.Drawing.Size(371, 350)
+        Me.tabSISkills.Size = New System.Drawing.Size(465, 353)
         Me.tabSISkills.TabIndex = 0
         Me.tabSISkills.Text = "Req Skills"
         Me.tabSISkills.UseVisualStyleBackColor = True
@@ -209,7 +218,7 @@ Partial Class frmShowInfo
         'btnViewSkills
         '
         Me.btnViewSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnViewSkills.Location = New System.Drawing.Point(3, 321)
+        Me.btnViewSkills.Location = New System.Drawing.Point(3, 324)
         Me.btnViewSkills.Name = "btnViewSkills"
         Me.btnViewSkills.Size = New System.Drawing.Size(121, 23)
         Me.btnViewSkills.TabIndex = 5
@@ -219,47 +228,40 @@ Partial Class frmShowInfo
         'btnAddSkills
         '
         Me.btnAddSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAddSkills.Location = New System.Drawing.Point(210, 321)
+        Me.btnAddSkills.Location = New System.Drawing.Point(304, 324)
         Me.btnAddSkills.Name = "btnAddSkills"
         Me.btnAddSkills.Size = New System.Drawing.Size(155, 23)
         Me.btnAddSkills.TabIndex = 4
         Me.btnAddSkills.Text = "Add Needed Skills to Queue"
         Me.btnAddSkills.UseVisualStyleBackColor = True
         '
-        'tabSIBonuses
+        'tabAudit
         '
-        Me.tabSIBonuses.Controls.Add(Me.lvwBonuses)
-        Me.tabSIBonuses.Location = New System.Drawing.Point(4, 22)
-        Me.tabSIBonuses.Name = "tabSIBonuses"
-        Me.tabSIBonuses.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabSIBonuses.Size = New System.Drawing.Size(371, 350)
-        Me.tabSIBonuses.TabIndex = 1
-        Me.tabSIBonuses.Text = "Bonuses"
-        Me.tabSIBonuses.UseVisualStyleBackColor = True
+        Me.tabAudit.Controls.Add(Me.lvwAudit)
+        Me.tabAudit.Location = New System.Drawing.Point(4, 22)
+        Me.tabAudit.Name = "tabAudit"
+        Me.tabAudit.Size = New System.Drawing.Size(565, 393)
+        Me.tabAudit.TabIndex = 4
+        Me.tabAudit.Text = "Audit"
+        Me.tabAudit.UseVisualStyleBackColor = True
         '
-        'lvwBonuses
+        'lvwAudit
         '
-        Me.lvwBonuses.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
-        Me.lvwBonuses.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwBonuses.FullRowSelect = True
-        Me.lvwBonuses.GridLines = True
-        Me.lvwBonuses.Location = New System.Drawing.Point(3, 3)
-        Me.lvwBonuses.Name = "lvwBonuses"
-        Me.lvwBonuses.Size = New System.Drawing.Size(365, 344)
-        Me.lvwBonuses.TabIndex = 2
-        Me.lvwBonuses.UseCompatibleStateImageBehavior = False
-        Me.lvwBonuses.View = System.Windows.Forms.View.Details
+        Me.lvwAudit.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colAudit})
+        Me.lvwAudit.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwAudit.FullRowSelect = True
+        Me.lvwAudit.GridLines = True
+        Me.lvwAudit.Location = New System.Drawing.Point(0, 0)
+        Me.lvwAudit.Name = "lvwAudit"
+        Me.lvwAudit.Size = New System.Drawing.Size(565, 393)
+        Me.lvwAudit.TabIndex = 3
+        Me.lvwAudit.UseCompatibleStateImageBehavior = False
+        Me.lvwAudit.View = System.Windows.Forms.View.Details
         '
-        'ColumnHeader1
+        'colAudit
         '
-        Me.ColumnHeader1.Text = "Bonuses"
-        Me.ColumnHeader1.Width = 210
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.Text = "Data"
-        Me.ColumnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader2.Width = 135
+        Me.colAudit.Text = "Details"
+        Me.colAudit.Width = 540
         '
         'lblUsableTime
         '
@@ -316,13 +318,13 @@ Partial Class frmShowInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(396, 527)
+        Me.ClientSize = New System.Drawing.Size(590, 570)
         Me.Controls.Add(Me.pbPilot)
         Me.Controls.Add(Me.lblItemName)
         Me.Controls.Add(Me.lblUsableTime)
         Me.Controls.Add(Me.lblUsable)
         Me.Controls.Add(Me.picItem)
-        Me.Controls.Add(Me.TabControl1)
+        Me.Controls.Add(Me.tabShowInfo)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -334,11 +336,11 @@ Partial Class frmShowInfo
         Me.Text = "Show Info"
         Me.ctxReqs.ResumeLayout(False)
         Me.ctxDepend.ResumeLayout(False)
-        Me.TabControl1.ResumeLayout(False)
+        Me.tabShowInfo.ResumeLayout(False)
         Me.tabSIDescription.ResumeLayout(False)
         Me.tabSIAttributes.ResumeLayout(False)
         Me.tabSISkills.ResumeLayout(False)
-        Me.tabSIBonuses.ResumeLayout(False)
+        Me.tabAudit.ResumeLayout(False)
         CType(Me.picItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPilot, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -346,9 +348,8 @@ Partial Class frmShowInfo
 
     End Sub
     Friend WithEvents tvwReqs As System.Windows.Forms.TreeView
-    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents tabShowInfo As System.Windows.Forms.TabControl
     Friend WithEvents tabSISkills As System.Windows.Forms.TabPage
-    Friend WithEvents tabSIBonuses As System.Windows.Forms.TabPage
     Friend WithEvents ctxDepend As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuItemName As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
@@ -368,10 +369,11 @@ Partial Class frmShowInfo
     Friend WithEvents tabSIAttributes As System.Windows.Forms.TabPage
     Friend WithEvents lvwAttributes As System.Windows.Forms.ListView
     Friend WithEvents colAttribute As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colData As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lvwBonuses As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colStandardValue As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblItemName As System.Windows.Forms.Label
     Friend WithEvents pbPilot As System.Windows.Forms.PictureBox
+    Friend WithEvents tabAudit As System.Windows.Forms.TabPage
+    Friend WithEvents lvwAudit As System.Windows.Forms.ListView
+    Friend WithEvents colAudit As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colPilotValue As System.Windows.Forms.ColumnHeader
 End Class

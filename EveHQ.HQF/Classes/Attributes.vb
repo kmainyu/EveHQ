@@ -20,5 +20,15 @@
 <Serializable()> Public Class Attributes
 
     Public Shared AttributeList As New SortedList
+    Public Shared AttributeQuickList As New SortedList
 
+End Class
+
+<Serializable()> Public Class Attribute
+    Public ID As String
+    Public Name As String
+    Public GraphicID As String
+    Public DisplayName As String
+    Public UnitName As String
+    Public AttributeGroup As String
 End Class
