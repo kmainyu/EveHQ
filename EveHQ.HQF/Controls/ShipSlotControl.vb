@@ -715,7 +715,7 @@ Public Class ShipSlotControl
                         Dim ShowChargeInfo As New ToolStripMenuItem
                         ShowChargeInfo.Name = chargeName
                         ShowChargeInfo.Text = "Show Charge Info"
-                        AddHandler ShowChargeInfo.Click, AddressOf Me.ShowInfo
+                        AddHandler ShowChargeInfo.Click, AddressOf Me.ShowChargeInfo
                         ctxSlots.Items.Add(ShowChargeInfo)
                         Dim RemoveCharge As New ToolStripMenuItem
                         RemoveCharge.Name = currentMod.Name
@@ -767,6 +767,24 @@ Public Class ShipSlotControl
                 sModule = fittedShip.MidSlot(CInt(slotInfo(1)))
             Case 8 ' High
                 sModule = fittedShip.HiSlot(CInt(slotInfo(1)))
+        End Select
+        Dim showInfo As New frmShowInfo
+        showInfo.ShowItemDetails(sModule)
+        showInfo = Nothing
+    End Sub
+    Private Sub ShowChargeInfo(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim selectedSlot As ListViewItem = lvwSlots.SelectedItems(0)
+        Dim slotInfo() As String = selectedSlot.Name.Split("_".ToCharArray)
+        Dim sModule As New ShipModule
+        Select Case CInt(slotInfo(0))
+            Case 1 ' Rig
+                sModule = fittedShip.RigSlot(CInt(slotInfo(1))).LoadedCharge
+            Case 2 ' Low
+                sModule = fittedShip.LowSlot(CInt(slotInfo(1))).LoadedCharge
+            Case 4 ' Mid
+                sModule = fittedShip.MidSlot(CInt(slotInfo(1))).LoadedCharge
+            Case 8 ' High
+                sModule = fittedShip.HiSlot(CInt(slotInfo(1))).LoadedCharge
         End Select
         Dim showInfo As New frmShowInfo
         showInfo.ShowItemDetails(sModule)

@@ -37,6 +37,7 @@ Public Class Engine
         AffectionsMap.Clear()
         Dim AffectionClassList As New ArrayList
         Dim newAffection As New Affection
+        Dim IDs() As String
         For Each AffectionLine As String In AffectionLines
             If AffectionLine.Trim <> "" And AffectionLine.StartsWith("#") = False Then
                 AffectionData = AffectionLine.Split(",".ToCharArray)
@@ -52,7 +53,14 @@ Public Class Engine
                 newAffection.AffectingID = CInt(AffectionData(2))
                 newAffection.AffectedAtt = CInt(AffectionData(3))
                 newAffection.AffectedType = CInt(AffectionData(4))
-                newAffection.AffectedID = CInt(AffectionData(5))
+                If AffectionData(5).Contains(";") = True Then
+                    IDs = AffectionData(5).Split(";".ToCharArray)
+                    For Each ID As String In IDs
+                        newAffection.AffectedID.Add(ID)
+                    Next
+                Else
+                    newAffection.AffectedID.Add(AffectionData(5))
+                End If
                 newAffection.StackNerf = CBool(AffectionData(6))
                 newAffection.IsPerLevel = CBool(AffectionData(7))
                 newAffection.CalcType = CInt(AffectionData(8))
@@ -232,23 +240,23 @@ Public Class Engine
                         Case AffectionType.All
                             processAtt = True
                         Case AffectionType.Item
-                            If newShip.ID = fAffection.AffectedID.ToString Then
+                            If fAffection.AffectedID.Contains(newShip.ID) Then
                                 processAtt = True
                             End If
                         Case AffectionType.Group
-                            If newShip.DatabaseGroup = fAffection.AffectedID.ToString Then
+                            If fAffection.AffectedID.Contains(newShip.DatabaseGroup) Then
                                 processAtt = True
                             End If
                         Case AffectionType.Category
-                            If newShip.DatabaseCategory = fAffection.AffectedID.ToString Then
+                            If fAffection.AffectedID.Contains(newShip.DatabaseCategory) Then
                                 processAtt = True
                             End If
                         Case AffectionType.MarketGroup
-                            If newShip.MarketGroup = fAffection.AffectedID.ToString Then
+                            If fAffection.AffectedID.Contains(newShip.MarketGroup) Then
                                 processAtt = True
                             End If
                         Case AffectionType.Skill
-                            If newShip.RequiredSkills.Contains(fAffection.AffectedID.ToString) Then
+                            If newShip.RequiredSkills.Contains(fAffection.AffectedID(0)) Then
                                 processAtt = True
                             End If
                     End Select
@@ -311,23 +319,23 @@ Public Class Engine
                                     Case AffectionType.All
                                         processAtt = True
                                     Case AffectionType.Item
-                                        If aModule.ID = fAffection.AffectedID.ToString Then
+                                        If fAffection.AffectedID.Contains(aModule.ID) Then
                                             processAtt = True
                                         End If
                                     Case AffectionType.Group
-                                        If aModule.DatabaseGroup = fAffection.AffectedID.ToString Then
+                                        If fAffection.AffectedID.Contains(aModule.DatabaseGroup) Then
                                             processAtt = True
                                         End If
                                     Case AffectionType.Category
-                                        If aModule.DatabaseCategory = fAffection.AffectedID.ToString Then
+                                        If fAffection.AffectedID.Contains(aModule.DatabaseCategory) Then
                                             processAtt = True
                                         End If
                                     Case AffectionType.MarketGroup
-                                        If aModule.MarketGroup = fAffection.AffectedID.ToString Then
+                                        If fAffection.AffectedID.Contains(aModule.MarketGroup) Then
                                             processAtt = True
                                         End If
                                     Case AffectionType.Skill
-                                        If aModule.RequiredSkills.Contains(fAffection.AffectedID.ToString) Then
+                                        If aModule.RequiredSkills.Contains(fAffection.AffectedID(0)) Then
                                             processAtt = True
                                         End If
                                 End Select
@@ -394,23 +402,23 @@ Public Class Engine
                                     Case AffectionType.All
                                         processAtt = True
                                     Case AffectionType.Item
-                                        If aModule.ID = fAffection.AffectedID.ToString Then
+                                        If fAffection.AffectedID.Contains(aModule.ID) Then
                                             processAtt = True
                                         End If
                                     Case AffectionType.Group
-                                        If aModule.DatabaseGroup = fAffection.AffectedID.ToString Then
+                                        If fAffection.AffectedID.Contains(aModule.DatabaseGroup) Then
                                             processAtt = True
                                         End If
                                     Case AffectionType.Category
-                                        If aModule.DatabaseCategory = fAffection.AffectedID.ToString Then
+                                        If fAffection.AffectedID.Contains(aModule.DatabaseCategory) Then
                                             processAtt = True
                                         End If
                                     Case AffectionType.MarketGroup
-                                        If aModule.MarketGroup = fAffection.AffectedID.ToString Then
+                                        If fAffection.AffectedID.Contains(aModule.MarketGroup) Then
                                             processAtt = True
                                         End If
                                     Case AffectionType.Skill
-                                        If aModule.RequiredSkills.Contains(fAffection.AffectedID.ToString) Then
+                                        If aModule.RequiredSkills.Contains(fAffection.AffectedID(0)) Then
                                             processAtt = True
                                         End If
                                 End Select
@@ -457,23 +465,23 @@ Public Class Engine
                         Case AffectionType.All
                             processAtt = True
                         Case AffectionType.Item
-                            If newShip.ID = fAffection.AffectedID.ToString Then
+                            If fAffection.AffectedID.Contains(newShip.ID) Then
                                 processAtt = True
                             End If
                         Case AffectionType.Group
-                            If newShip.DatabaseGroup = fAffection.AffectedID.ToString Then
+                            If fAffection.AffectedID.Contains(newShip.DatabaseGroup) Then
                                 processAtt = True
                             End If
                         Case AffectionType.Category
-                            If newShip.DatabaseCategory = fAffection.AffectedID.ToString Then
+                            If fAffection.AffectedID.Contains(newShip.DatabaseCategory) Then
                                 processAtt = True
                             End If
                         Case AffectionType.MarketGroup
-                            If newShip.MarketGroup = fAffection.AffectedID.ToString Then
+                            If fAffection.AffectedID.Contains(newShip.MarketGroup) Then
                                 processAtt = True
                             End If
                         Case AffectionType.Skill
-                            If newShip.RequiredSkills.Contains(fAffection.AffectedID.ToString) Then
+                            If newShip.RequiredSkills.Contains(fAffection.AffectedID(0)) Then
                                 processAtt = True
                             End If
                     End Select
@@ -566,7 +574,6 @@ Public Class Engine
                 ' Initialize the comparer and sort
                 Dim myComparer As New EveHQ.Core.Reports.ArrayComparerDouble(attOrder)
                 Array.Sort(tagArray, myComparer)
-                Array.Reverse(tagArray)
                 ' Go through the data and apply the stacking penalty
                 Dim idx As Integer = 0
                 Dim penalty As Double = 0
@@ -593,7 +600,7 @@ Public Class Affection
     Public AffectingID As Integer
     Public AffectedAtt As Integer
     Public AffectedType As Integer
-    Public AffectedID As Integer
+    Public AffectedID As New ArrayList
     Public StackNerf As Boolean
     Public IsPerLevel As Boolean
     Public CalcType As Integer
@@ -602,7 +609,7 @@ End Class
 Public Class FinalAffection
     Public AffectedAtt As Integer
     Public AffectedType As Integer
-    Public AffectedID As Integer
+    Public AffectedID As New ArrayList
     Public AffectedValue As Double
     Public StackNerf As Boolean
     Public Cause As String

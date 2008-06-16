@@ -523,11 +523,37 @@
 #,1,19719,0,0,0,0,1,0,Transport Ships
 
 # MODULE TO MODULE ATTRIBUTE MAPPING,,,,,,,,,
-# SHIELD,,,,,,,,,
 # Shield Boost Amplifiers,,,,,,,,,
 548,2,338,68,2,40,1,0,0,Shield Boost Bonus
 # Cap Power Relays,,,,,,,,,
 548,2,767,68,2,40,1,0,0,Shield Boost Bonus
+# Ballistic Control Systems,,,,,,,,,
+204,2,367,51,2,511;524;506;510;771;507;508;501;509,1,0,0,ROF Bonus
+213,2,367,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,Damage Bonus - EM
+213,2,367,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,Damage Bonus - Explosive
+213,2,367,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,Damage Bonus - Kinetic
+213,2,367,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,Damage Bonus - Thermal
+# Gyrostabilizers,,,,,,,,,
+204,2,59,51,2,55,1,0,0,ROF
+64,2,59,64,2,55,1,0,0,Damage Bpnus
+# Heat Sinks,,,,,,,,,
+204,2,205,51,2,53,1,0,0,ROF
+64,2,205,64,2,53,1,0,0,Damage Bpnus
+# Magnetic Field Stabilizers,,,,,,,,,
+204,2,302,51,2,74,1,0,0,ROF
+64,2,302,64,2,74,1,0,0,Damage Bpnus
+# Tracking Computers,,,,,,,,,
+351,2,213,54,2,55;53;74,1,0,0,Optimal Range
+767,2,213,160,2,55;53;74,1,0,0,Tracking Speed
+# Tracking Computers,,,,,,,,,
+351,2,211,54,2,55;53;74,1,0,0,Optimal Range
+767,2,211,160,2,55;53;74,1,0,0,Tracking Speed
+# Mining Upgrade,,,,,,,,,
+434,2,546,77,4,1039;1040,0,0,0,Mining Amount
+1082,2,546,50,4,1039;1040,0,0,0,CPU Penalty
+# Ice Harvester Upgrade,,,,,,,,,
+434,2,546,77,4,1038,0,0,0,Mining Amount
+1082,2,546,50,4,1038,0,0,0,CPU Penalty
 
 # MODULE TO SHIP ATTRIBUTE MAPPING,,,,,,,,,
 # FITTING,,,,,,,,,
