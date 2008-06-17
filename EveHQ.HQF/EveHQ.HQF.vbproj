@@ -252,7 +252,8 @@
     <None Include="Resources\Attributes.csv" />
     <None Include="Resources\Bonuses.csv" />
     <None Include="Resources\Boosters.csv" />
-    <None Include="Resources\Affections.csv" />
+    <None Include="Resources\ShipEffects.csv" />
+    <None Include="Resources\Effects.csv" />
     <None Include="Resources\icon02_07.png" />
     <None Include="Resources\icon08_09.png" />
     <None Include="Resources\icon08_10.png" />

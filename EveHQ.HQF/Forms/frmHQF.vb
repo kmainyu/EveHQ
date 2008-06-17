@@ -80,7 +80,8 @@ Public Class frmHQF
             End If
 
             'Me.LoadBonuses()
-            Engine.BuildAffectionsMap()
+            Engine.BuildEffectsMap()
+            Engine.BuildShipEffectsMap()
             ' Check for the existence of the binary data
             If UseSerializableData = True Then
                 If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\attributes.txt") = True Then
@@ -1960,8 +1961,6 @@ Public Class frmHQF
         shipInfo.ShipSlot = shipSlot
         shipSlot.ShipInfo = shipInfo
         shipSlot.ShipFit = shipFit
-        shipInfo.ShipType = curShip
-
 
         FittingTabList.Add(shipFit)
     End Sub

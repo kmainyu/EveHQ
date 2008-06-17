@@ -61,31 +61,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to #Affecting Attribute, Affecting Group, Affected Attribute, Affected Group, Per Level
-        '''424,-3426,48,0,1
-        '''309,-3428,76,0,1
-        '''566,-3431,564,0,1
-        '''1079,-3418,482,0,1
-        '''314,-3417,55,0,1
-        '''313,-3413,11,0,1
-        '''337,-3419,263,0,1
-        '''338,-3416,479,0,1
-        '''335,-3394,265,0,1
-        '''327,-3392,9,0,1
-        '''151,-3452,70,0,1
-        '''315,-3449,37,0,1
-        '''151,-20342,70,547,1
-        '''151,-20533,70,547,1
-        '''151,-3327,70,0,1
-        '''.
-        '''</summary>
-        Friend ReadOnly Property Affections() As String
-            Get
-                Return ResourceManager.GetString("Affections", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to 20,Max Velocity,131,MICROWARPDRIVE_SPEED
         '''20,Max Velocity,542,AFTERBURNER_SPEED
         '''20,Max Velocity,683,MAX_VELOCITY
@@ -147,6 +122,24 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("Clipboard1", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to #HQF Attribute Mapping Table,,,,,,,,,
+        '''#Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Description
+        '''
+        '''# SKILL ATTRIBUTE MAPPING,,,,,,,,,
+        '''# DRONES,,,,,,,,,
+        '''#,1,24613,,,,0,1,0,Advanced Drone Interfacing
+        '''292,1,12484,114,5,12484,0,1,0,Amarr Drone Specialization - EM
+        '''292,1,12484,116,5,12484,0,1,0,Amarr Drone Specialization - Explosive
+        '''292,1,12484,117,5,12484,0,1,0,Amarr Drone Specialization - Kinetic
+        '''292,1,12484,118,5,12484,0,1,0, [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property Effects() As String
+            Get
+                Return ResourceManager.GetString("Effects", resourceCulture)
             End Get
         End Property
         
@@ -516,6 +509,21 @@ Namespace My.Resources
         Friend ReadOnly Property Rigs() As String
             Get
                 Return ResourceManager.GetString("Rigs", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to #HQF Ship Bonus Mapping Table,,,,,,,,,,
+        '''#Ship ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Description
+        '''
+        '''# Raven,,,,,,,,,,
+        '''638,1,3338,51,2,506;508,0,1,0,-5,Cruise &amp; Siege ROF
+        '''638,1,3338,37,2,656;657;386;89,0,1,0,10,Cruise &amp; Torpedo Velocity
+        '''.
+        '''</summary>
+        Friend ReadOnly Property ShipEffects() As String
+            Get
+                Return ResourceManager.GetString("ShipEffects", resourceCulture)
             End Get
         End Property
         

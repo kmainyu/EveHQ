@@ -1,0 +1,6 @@
+#HQF Ship Bonus Mapping Table,,,,,,,,,,
+#Ship ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Description
+
+# Raven,,,,,,,,,,
+638,1,3338,51,2,506;508,0,1,0,-5,Cruise & Siege ROF
+638,1,3338,37,2,656;657;386;89,0,1,0,10,Cruise & Torpedo Velocity

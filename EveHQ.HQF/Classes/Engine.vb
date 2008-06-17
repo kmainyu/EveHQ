@@ -21,85 +21,129 @@ Imports System.Windows.Forms
 
 Public Class Engine
 
-    Public Shared AffectionsMap As New SortedList
-    Public Shared SkillAffectionsTable As New SortedList
-    Public Shared ModuleAffectionsTable As New SortedList
+    Public Shared EffectsMap As New SortedList
+    Public Shared ShipEffectsMap As New SortedList
+    Public Shared SkillEffectsTable As New SortedList
+    Public Shared ModuleEffectsTable As New SortedList
 
 #Region "New Routines"
-    Public Shared Sub BuildAffectionsMap()
-        ' Fetch the affections list
-        Dim AffectionFile As String = My.Resources.Affections.ToString
-        ' Break the affections down into separate lines
-        Dim AffectionLines() As String = AffectionFile.Split(ControlChars.CrLf.ToCharArray)
+    Public Shared Sub BuildEffectsMap()
+        ' Fetch the Effects list
+        Dim EffectFile As String = My.Resources.Effects.ToString
+        ' Break the Effects down into separate lines
+        Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
         ' Go through lines and break each one down
-        Dim AffectionData() As String
+        Dim EffectData() As String
         ' Build the map
-        AffectionsMap.Clear()
-        Dim AffectionClassList As New ArrayList
-        Dim newAffection As New Affection
+        EffectsMap.Clear()
+        Dim EffectClassList As New ArrayList
+        Dim newEffect As New Effect
         Dim IDs() As String
-        For Each AffectionLine As String In AffectionLines
-            If AffectionLine.Trim <> "" And AffectionLine.StartsWith("#") = False Then
-                AffectionData = AffectionLine.Split(",".ToCharArray)
-                newAffection = New Affection
-                If AffectionsMap.Contains((AffectionData(0))) = True Then
-                    AffectionClassList = CType(AffectionsMap(AffectionData(0)), ArrayList)
+        For Each EffectLine As String In EffectLines
+            If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
+                EffectData = EffectLine.Split(",".ToCharArray)
+                newEffect = New Effect
+                If EffectsMap.Contains((EffectData(0))) = True Then
+                    EffectClassList = CType(EffectsMap(EffectData(0)), ArrayList)
                 Else
-                    AffectionClassList = New ArrayList
-                    AffectionsMap.Add(AffectionData(0), AffectionClassList)
+                    EffectClassList = New ArrayList
+                    EffectsMap.Add(EffectData(0), EffectClassList)
                 End If
-                newAffection.AffectingAtt = CInt(AffectionData(0))
-                newAffection.AffectingType = CInt(AffectionData(1))
-                newAffection.AffectingID = CInt(AffectionData(2))
-                newAffection.AffectedAtt = CInt(AffectionData(3))
-                newAffection.AffectedType = CInt(AffectionData(4))
-                If AffectionData(5).Contains(";") = True Then
-                    IDs = AffectionData(5).Split(";".ToCharArray)
+                newEffect.AffectingAtt = CInt(EffectData(0))
+                newEffect.AffectingType = CInt(EffectData(1))
+                newEffect.AffectingID = CInt(EffectData(2))
+                newEffect.AffectedAtt = CInt(EffectData(3))
+                newEffect.AffectedType = CInt(EffectData(4))
+                If EffectData(5).Contains(";") = True Then
+                    IDs = EffectData(5).Split(";".ToCharArray)
                     For Each ID As String In IDs
-                        newAffection.AffectedID.Add(ID)
+                        newEffect.AffectedID.Add(ID)
                     Next
                 Else
-                    newAffection.AffectedID.Add(AffectionData(5))
+                    newEffect.AffectedID.Add(EffectData(5))
                 End If
-                newAffection.StackNerf = CBool(AffectionData(6))
-                newAffection.IsPerLevel = CBool(AffectionData(7))
-                newAffection.CalcType = CInt(AffectionData(8))
-                AffectionClassList.Add(newAffection)
+                newEffect.StackNerf = CBool(EffectData(6))
+                newEffect.IsPerLevel = CBool(EffectData(7))
+                newEffect.CalcType = CInt(EffectData(8))
+                EffectClassList.Add(newEffect)
             End If
         Next
     End Sub
-    Public Shared Sub BuildSkillAffections(ByVal hPilot As HQFPilot)
+    Public Shared Sub BuildShipEffectsMap()
+        ' Fetch the Effects list
+        Dim EffectFile As String = My.Resources.ShipEffects.ToString
+        ' Break the Effects down into separate lines
+        Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
+        ' Go through lines and break each one down
+        Dim EffectData() As String
+        ' Build the map
+        ShipEffectsMap.Clear()
+        Dim shipEffectClassList As New ArrayList
+        Dim newEffect As New ShipEffect
+        Dim IDs() As String
+        For Each EffectLine As String In EffectLines
+            If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
+                EffectData = EffectLine.Split(",".ToCharArray)
+                newEffect = New ShipEffect
+                If ShipEffectsMap.Contains((EffectData(0))) = True Then
+                    shipEffectClassList = CType(ShipEffectsMap(EffectData(0)), ArrayList)
+                Else
+                    shipEffectClassList = New ArrayList
+                    ShipEffectsMap.Add(EffectData(0), shipEffectClassList)
+                End If
+                newEffect.ShipID = CInt(EffectData(0))
+                newEffect.AffectingType = CInt(EffectData(1))
+                newEffect.AffectingID = CInt(EffectData(2))
+                newEffect.AffectedAtt = CInt(EffectData(3))
+                newEffect.AffectedType = CInt(EffectData(4))
+                If EffectData(5).Contains(";") = True Then
+                    IDs = EffectData(5).Split(";".ToCharArray)
+                    For Each ID As String In IDs
+                        newEffect.AffectedID.Add(ID)
+                    Next
+                Else
+                    newEffect.AffectedID.Add(EffectData(5))
+                End If
+                newEffect.StackNerf = CBool(EffectData(6))
+                newEffect.IsPerLevel = CBool(EffectData(7))
+                newEffect.CalcType = CInt(EffectData(8))
+                newEffect.Value = CDbl(EffectData(9))
+                shipEffectClassList.Add(newEffect)
+            End If
+        Next
+    End Sub
+    Public Shared Sub BuildSkillEffects(ByVal hPilot As HQFPilot)
         Dim sTime, eTime As Date
         sTime = Now
-        ' Clear the Affections Table
-        SkillAffectionsTable.Clear()
+        ' Clear the Effects Table
+        SkillEffectsTable.Clear()
         ' Go through all the skills and see what needs to be mapped
         Dim aSkill As New Skill
-        Dim fAffection As New FinalAffection
-        Dim fAffectionList As New ArrayList
+        Dim fEffect As New FinalEffect
+        Dim fEffectList As New ArrayList
         For Each hSkill As HQFSkill In hPilot.SkillSet
             If hSkill.Level <> 0 Then
                 ' Go through the attributes
                 aSkill = CType(SkillLists.SkillList(hSkill.ID), Skill)
                 For Each att As String In aSkill.Attributes.Keys
-                    If AffectionsMap.Contains(att) = True Then
-                        For Each chkAffection As Affection In CType(AffectionsMap(att), ArrayList)
-                            If chkAffection.AffectingType = AffectionType.Item And chkAffection.AffectingID = CInt(aSkill.ID) Then
-                                fAffection = New FinalAffection
-                                fAffection.AffectedAtt = chkAffection.AffectedAtt
-                                fAffection.AffectedType = chkAffection.AffectedType
-                                fAffection.AffectedID = chkAffection.AffectedID
-                                fAffection.AffectedValue = CDbl(aSkill.Attributes(CInt(att))) * hSkill.Level
-                                fAffection.StackNerf = chkAffection.StackNerf
-                                fAffection.Cause = hSkill.Name & " (Level " & hSkill.Level & ")"
-                                fAffection.CalcType = chkAffection.CalcType
-                                If SkillAffectionsTable.Contains(fAffection.AffectedAtt.ToString) = False Then
-                                    fAffectionList = New ArrayList
-                                    SkillAffectionsTable.Add(fAffection.AffectedAtt.ToString, fAffectionList)
+                    If EffectsMap.Contains(att) = True Then
+                        For Each chkEffect As Effect In CType(EffectsMap(att), ArrayList)
+                            If chkEffect.AffectingType = EffectType.Item And chkEffect.AffectingID = CInt(aSkill.ID) Then
+                                fEffect = New FinalEffect
+                                fEffect.AffectedAtt = chkEffect.AffectedAtt
+                                fEffect.AffectedType = chkEffect.AffectedType
+                                fEffect.AffectedID = chkEffect.AffectedID
+                                fEffect.AffectedValue = CDbl(aSkill.Attributes(CInt(att))) * hSkill.Level
+                                fEffect.StackNerf = chkEffect.StackNerf
+                                fEffect.Cause = hSkill.Name & " (Level " & hSkill.Level & ")"
+                                fEffect.CalcType = chkEffect.CalcType
+                                If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                    fEffectList = New ArrayList
+                                    SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
                                 Else
-                                    fAffectionList = CType(SkillAffectionsTable(fAffection.AffectedAtt.ToString), Collections.ArrayList)
+                                    fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
                                 End If
-                                fAffectionList.Add(fAffection)
+                                fEffectList.Add(fEffect)
                             End If
                         Next
                     End If
@@ -108,21 +152,66 @@ Public Class Engine
         Next
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
-        'MessageBox.Show("Building Skill Affections took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        'MessageBox.Show("Building Skill Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
     End Sub
-    Public Shared Function BuildModuleAffections(ByVal baseShip As Ship) As Ship
+    Public Shared Sub BuildShipEffects(ByVal hPilot As HQFPilot, ByVal hShip As Ship)
+        If hShip IsNot Nothing Then
+            Dim sTime, eTime As Date
+            sTime = Now
+            ' Go through all the skills and see what needs to be mapped
+            Dim shipRoles As New ArrayList
+            Dim hSkill As New HQFSkill
+            Dim fEffect As New FinalEffect
+            Dim fEffectList As New ArrayList
+            shipRoles = CType(ShipEffectsMap(hShip.ID), ArrayList)
+            If shipRoles IsNot Nothing Then
+                For Each chkEffect As ShipEffect In shipRoles
+                    fEffect = New FinalEffect
+                    If hPilot.SkillSet.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))) = True Then
+                        hSkill = CType(hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), HQFSkill)
+                        If chkEffect.IsPerLevel = True Then
+                            fEffect.AffectedValue = chkEffect.Value * hSkill.Level
+                            fEffect.Cause = "Ship Bonus: " & hSkill.Name & " (Level " & hSkill.Level & ")"
+                        Else
+                            fEffect.AffectedValue = chkEffect.Value
+                            fEffect.Cause = "Ship Role: "
+                        End If
+                    Else
+                        fEffect.AffectedValue = chkEffect.Value
+                        fEffect.Cause = "Ship Role: "
+                    End If
+                    fEffect.AffectedAtt = chkEffect.AffectedAtt
+                    fEffect.AffectedType = chkEffect.AffectedType
+                    fEffect.AffectedID = chkEffect.AffectedID
+                    fEffect.StackNerf = chkEffect.StackNerf
+                    fEffect.CalcType = chkEffect.CalcType
+                    If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                        fEffectList = New ArrayList
+                        SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                    Else
+                        fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                    End If
+                    fEffectList.Add(fEffect)
+                Next
+            End If
+            eTime = Now
+            Dim dTime As TimeSpan = eTime - sTime
+            'MessageBox.Show("Building Skill Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        End If
+    End Sub
+    Public Shared Function BuildModuleEffects(ByVal baseShip As Ship) As Ship
         Dim sTime, eTime As Date
         sTime = Now
         ' Define a new ship
         Dim newShip As Ship = CType(baseShip.Clone, Ship)
-        ' Clear the Affections Table
-        ModuleAffectionsTable.Clear()
+        ' Clear the Effects Table
+        ModuleEffectsTable.Clear()
         ' Go through all the skills and see what needs to be mapped
         Dim maxSlots As Integer = 0
         Dim aModule As New ShipModule
         Dim attData As New ArrayList
-        Dim fAffection As New FinalAffection
-        Dim fAffectionList As New ArrayList
+        Dim fEffect As New FinalEffect
+        Dim fEffectList As New ArrayList
         Dim processData As Boolean = False
         For slotType As Integer = 1 To 4
             Select Case slotType
@@ -148,49 +237,49 @@ Public Class Engine
                 End Select
                 If aModule IsNot Nothing Then
                     For Each att As String In aModule.Attributes.Keys
-                        If AffectionsMap.Contains(att) = True Then
-                            For Each chkAffection As Affection In CType(AffectionsMap(att), ArrayList)
+                        If EffectsMap.Contains(att) = True Then
+                            For Each chkEffect As Effect In CType(EffectsMap(att), ArrayList)
                                 processData = False
-                                Select Case chkAffection.AffectingType
-                                    Case AffectionType.All
+                                Select Case chkEffect.AffectingType
+                                    Case EffectType.All
                                         processData = True
-                                    Case AffectionType.Item
-                                        If chkAffection.AffectingID.ToString = aModule.ID Then
+                                    Case EffectType.Item
+                                        If chkEffect.AffectingID.ToString = aModule.ID Then
                                             processData = True
                                         End If
-                                    Case AffectionType.Group
-                                        If chkAffection.AffectingID.ToString = aModule.DatabaseGroup Then
+                                    Case EffectType.Group
+                                        If chkEffect.AffectingID.ToString = aModule.DatabaseGroup Then
                                             processData = True
                                         End If
-                                    Case AffectionType.Category
-                                        If chkAffection.AffectingID.ToString = aModule.DatabaseCategory Then
+                                    Case EffectType.Category
+                                        If chkEffect.AffectingID.ToString = aModule.DatabaseCategory Then
                                             processData = True
                                         End If
-                                    Case AffectionType.MarketGroup
-                                        If chkAffection.AffectingID.ToString = aModule.MarketGroup Then
+                                    Case EffectType.MarketGroup
+                                        If chkEffect.AffectingID.ToString = aModule.MarketGroup Then
                                             processData = True
                                         End If
-                                    Case AffectionType.Skill
-                                        If aModule.RequiredSkills.Contains(chkAffection.AffectingID.ToString) Then
+                                    Case EffectType.Skill
+                                        If aModule.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
                                             processData = True
                                         End If
                                 End Select
                                 If processData = True Then
-                                    fAffection = New FinalAffection
-                                    fAffection.AffectedAtt = chkAffection.AffectedAtt
-                                    fAffection.AffectedType = chkAffection.AffectedType
-                                    fAffection.AffectedID = chkAffection.AffectedID
-                                    fAffection.AffectedValue = CDbl(aModule.Attributes(att))
-                                    fAffection.StackNerf = chkAffection.StackNerf
-                                    fAffection.Cause = aModule.Name
-                                    fAffection.CalcType = chkAffection.CalcType
-                                    If ModuleAffectionsTable.Contains(fAffection.AffectedAtt.ToString) = False Then
-                                        fAffectionList = New ArrayList
-                                        ModuleAffectionsTable.Add(fAffection.AffectedAtt.ToString, fAffectionList)
+                                    fEffect = New FinalEffect
+                                    fEffect.AffectedAtt = chkEffect.AffectedAtt
+                                    fEffect.AffectedType = chkEffect.AffectedType
+                                    fEffect.AffectedID = chkEffect.AffectedID
+                                    fEffect.AffectedValue = CDbl(aModule.Attributes(att))
+                                    fEffect.StackNerf = chkEffect.StackNerf
+                                    fEffect.Cause = aModule.Name
+                                    fEffect.CalcType = chkEffect.CalcType
+                                    If ModuleEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                        fEffectList = New ArrayList
+                                        ModuleEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
                                     Else
-                                        fAffectionList = CType(ModuleAffectionsTable(fAffection.AffectedAtt.ToString), Collections.ArrayList)
+                                        fEffectList = CType(ModuleEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
                                     End If
-                                    fAffectionList.Add(fAffection)
+                                    fEffectList.Add(fEffect)
                                 End If
                             Next
                         End If
@@ -200,7 +289,7 @@ Public Class Engine
         Next
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
-        'MessageBox.Show("Building Module Affections took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        'MessageBox.Show("Building Module Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         Return newShip
     End Function
 
@@ -209,22 +298,23 @@ Public Class Engine
         Dim sTime, eTime As Date
         sTime = Now
         Dim newShip As Ship
-        newShip = ApplySkillAffectionsToShip(CType(baseShip.Clone, Ship))
-        newShip = ApplySkillAffectionsToModules(newShip)
-        newShip = Engine.BuildModuleAffections(newShip)
+        Engine.BuildShipEffects(shipPilot, baseShip)
+        newShip = ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
+        newShip = ApplySkillEffectsToModules(newShip)
+        newShip = Engine.BuildModuleEffects(newShip)
         Call Engine.ApplyStackingPenalties()
-        newShip = Engine.ApplyModuleAffectionsToModules(newShip)
-        newShip = Engine.ApplyModuleAffectionsToShip(newShip)
+        newShip = Engine.ApplyModuleEffectsToModules(newShip)
+        newShip = Engine.ApplyModuleEffectsToShip(newShip)
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
-        'MessageBox.Show("Applying the whole fitting took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        MessageBox.Show("Applying the whole fitting took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         Return newShip
     End Function
 
-    Private Shared Function ApplySkillAffectionsToShip(ByVal baseShip As Ship) As Ship
+    Private Shared Function ApplySkillEffectsToShip(ByVal baseShip As Ship) As Ship
         Dim sTime, eTime As Date
         sTime = Now
-        Dim thisAffection As New FinalAffection
+        Dim thisEffect As New FinalEffect
         Dim att As String = ""
         Dim processAtt As Boolean = False
         Dim log As String = ""
@@ -232,37 +322,37 @@ Public Class Engine
         Dim newShip As Ship = CType(baseShip.Clone, Ship)
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = CStr(newShip.Attributes.GetKey(attNo))
-            If SkillAffectionsTable.Contains(att) = True Then
-                For Each fAffection As FinalAffection In CType(SkillAffectionsTable(att), ArrayList)
+            If SkillEffectsTable.Contains(att) = True Then
+                For Each fEffect As FinalEffect In CType(SkillEffectsTable(att), ArrayList)
                     processAtt = False
                     log = ""
-                    Select Case fAffection.AffectedType
-                        Case AffectionType.All
+                    Select Case fEffect.AffectedType
+                        Case EffectType.All
                             processAtt = True
-                        Case AffectionType.Item
-                            If fAffection.AffectedID.Contains(newShip.ID) Then
+                        Case EffectType.Item
+                            If fEffect.AffectedID.Contains(newShip.ID) Then
                                 processAtt = True
                             End If
-                        Case AffectionType.Group
-                            If fAffection.AffectedID.Contains(newShip.DatabaseGroup) Then
+                        Case EffectType.Group
+                            If fEffect.AffectedID.Contains(newShip.DatabaseGroup) Then
                                 processAtt = True
                             End If
-                        Case AffectionType.Category
-                            If fAffection.AffectedID.Contains(newShip.DatabaseCategory) Then
+                        Case EffectType.Category
+                            If fEffect.AffectedID.Contains(newShip.DatabaseCategory) Then
                                 processAtt = True
                             End If
-                        Case AffectionType.MarketGroup
-                            If fAffection.AffectedID.Contains(newShip.MarketGroup) Then
+                        Case EffectType.MarketGroup
+                            If fEffect.AffectedID.Contains(newShip.MarketGroup) Then
                                 processAtt = True
                             End If
-                        Case AffectionType.Skill
-                            If newShip.RequiredSkills.Contains(fAffection.AffectedID(0)) Then
+                        Case EffectType.Skill
+                            If newShip.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
                                 processAtt = True
                             End If
                     End Select
                     If processAtt = True Then
-                        log &= Attributes.AttributeQuickList(att).ToString & ": " & fAffection.Cause & ": " & newShip.Attributes(att).ToString
-                        newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
+                        log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & newShip.Attributes(att).ToString
+                        newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
                         log &= " --> " & newShip.Attributes(att).ToString
                         newShip.AuditLog.Add(log)
                     End If
@@ -272,11 +362,11 @@ Public Class Engine
         Ship.MapShipAttributes(newShip)
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
-        'MessageBox.Show("Applying Skill Affections to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        'MessageBox.Show("Applying Skill Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         Return newShip
     End Function
 
-    Private Shared Function ApplySkillAffectionsToModules(ByVal baseShip As Ship) As Ship
+    Private Shared Function ApplySkillEffectsToModules(ByVal baseShip As Ship) As Ship
         Dim sTime, eTime As Date
         sTime = Now
         Dim aModule As New ShipModule
@@ -311,37 +401,37 @@ Public Class Engine
                 If aModule IsNot Nothing Then
                     For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
                         att = CStr(aModule.Attributes.GetKey(attNo))
-                        If SkillAffectionsTable.Contains(att) = True Then
-                            For Each fAffection As FinalAffection In CType(SkillAffectionsTable(att), ArrayList)
+                        If SkillEffectsTable.Contains(att) = True Then
+                            For Each fEffect As FinalEffect In CType(SkillEffectsTable(att), ArrayList)
                                 processAtt = False
                                 log = ""
-                                Select Case fAffection.AffectedType
-                                    Case AffectionType.All
+                                Select Case fEffect.AffectedType
+                                    Case EffectType.All
                                         processAtt = True
-                                    Case AffectionType.Item
-                                        If fAffection.AffectedID.Contains(aModule.ID) Then
+                                    Case EffectType.Item
+                                        If fEffect.AffectedID.Contains(aModule.ID) Then
                                             processAtt = True
                                         End If
-                                    Case AffectionType.Group
-                                        If fAffection.AffectedID.Contains(aModule.DatabaseGroup) Then
+                                    Case EffectType.Group
+                                        If fEffect.AffectedID.Contains(aModule.DatabaseGroup) Then
                                             processAtt = True
                                         End If
-                                    Case AffectionType.Category
-                                        If fAffection.AffectedID.Contains(aModule.DatabaseCategory) Then
+                                    Case EffectType.Category
+                                        If fEffect.AffectedID.Contains(aModule.DatabaseCategory) Then
                                             processAtt = True
                                         End If
-                                    Case AffectionType.MarketGroup
-                                        If fAffection.AffectedID.Contains(aModule.MarketGroup) Then
+                                    Case EffectType.MarketGroup
+                                        If fEffect.AffectedID.Contains(aModule.MarketGroup) Then
                                             processAtt = True
                                         End If
-                                    Case AffectionType.Skill
-                                        If aModule.RequiredSkills.Contains(fAffection.AffectedID(0)) Then
+                                    Case EffectType.Skill
+                                        If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
                                             processAtt = True
                                         End If
                                 End Select
                                 If processAtt = True Then
-                                    log &= Attributes.AttributeQuickList(att).ToString & ": " & fAffection.Cause & ": " & aModule.Attributes(att).ToString
-                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
+                                    log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & aModule.Attributes(att).ToString
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
                                     log &= " --> " & aModule.Attributes(att).ToString
                                     aModule.AuditLog.Add(log)
                                 End If
@@ -354,12 +444,12 @@ Public Class Engine
         Next
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
-        'MessageBox.Show("Applying Skill Affections to Modules took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        'MessageBox.Show("Applying Skill Effects to Modules took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         Return newShip
 
     End Function
 
-    Private Shared Function ApplyModuleAffectionsToModules(ByVal baseShip As Ship) As Ship
+    Private Shared Function ApplyModuleEffectsToModules(ByVal baseShip As Ship) As Ship
         Dim sTime, eTime As Date
         sTime = Now
         Dim aModule As New ShipModule
@@ -394,43 +484,43 @@ Public Class Engine
                 If aModule IsNot Nothing Then
                     For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
                         att = CStr(aModule.Attributes.GetKey(attNo))
-                        If ModuleAffectionsTable.Contains(att) = True Then
-                            For Each fAffection As FinalAffection In CType(ModuleAffectionsTable(att), ArrayList)
+                        If ModuleEffectsTable.Contains(att) = True Then
+                            For Each fEffect As FinalEffect In CType(ModuleEffectsTable(att), ArrayList)
                                 processAtt = False
                                 log = ""
-                                Select Case fAffection.AffectedType
-                                    Case AffectionType.All
+                                Select Case fEffect.AffectedType
+                                    Case EffectType.All
                                         processAtt = True
-                                    Case AffectionType.Item
-                                        If fAffection.AffectedID.Contains(aModule.ID) Then
+                                    Case EffectType.Item
+                                        If fEffect.AffectedID.Contains(aModule.ID) Then
                                             processAtt = True
                                         End If
-                                    Case AffectionType.Group
-                                        If fAffection.AffectedID.Contains(aModule.DatabaseGroup) Then
+                                    Case EffectType.Group
+                                        If fEffect.AffectedID.Contains(aModule.DatabaseGroup) Then
                                             processAtt = True
                                         End If
-                                    Case AffectionType.Category
-                                        If fAffection.AffectedID.Contains(aModule.DatabaseCategory) Then
+                                    Case EffectType.Category
+                                        If fEffect.AffectedID.Contains(aModule.DatabaseCategory) Then
                                             processAtt = True
                                         End If
-                                    Case AffectionType.MarketGroup
-                                        If fAffection.AffectedID.Contains(aModule.MarketGroup) Then
+                                    Case EffectType.MarketGroup
+                                        If fEffect.AffectedID.Contains(aModule.MarketGroup) Then
                                             processAtt = True
                                         End If
-                                    Case AffectionType.Skill
-                                        If aModule.RequiredSkills.Contains(fAffection.AffectedID(0)) Then
+                                    Case EffectType.Skill
+                                        If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
                                             processAtt = True
                                         End If
                                 End Select
                                 If processAtt = True Then
-                                    log &= Attributes.AttributeQuickList(att).ToString & ": " & fAffection.Cause & ": " & aModule.Attributes(att).ToString
-                                    Select Case fAffection.CalcType
-                                        Case AffectionCalcType.Percentage
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
-                                        Case AffectionCalcType.Addition
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fAffection.AffectedValue
-                                        Case AffectionCalcType.Difference ' Used for resistances
-                                            aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * fAffection.AffectedValue) + CDbl(aModule.Attributes(att))
+                                    log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & aModule.Attributes(att).ToString
+                                    Select Case fEffect.CalcType
+                                        Case EffectCalcType.Percentage
+                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                                        Case EffectCalcType.Addition
+                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                        Case EffectCalcType.Difference ' Used for resistances
+                                            aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * fEffect.AffectedValue) + CDbl(aModule.Attributes(att))
                                     End Select
                                     log &= " --> " & aModule.Attributes(att).ToString
                                     aModule.AuditLog.Add(log)
@@ -444,12 +534,12 @@ Public Class Engine
         Next
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
-        'MessageBox.Show("Applying Module Affections to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        'MessageBox.Show("Applying Module Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         Return newShip
     End Function
 
 
-    Private Shared Function ApplyModuleAffectionsToShip(ByVal baseShip As Ship) As Ship
+    Private Shared Function ApplyModuleEffectsToShip(ByVal baseShip As Ship) As Ship
         Dim sTime, eTime As Date
         sTime = Now
         Dim att As String = ""
@@ -458,41 +548,41 @@ Public Class Engine
         Dim newShip As Ship = CType(baseShip.Clone, Ship)
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = CStr(newShip.Attributes.GetKey(attNo))
-            If ModuleAffectionsTable.Contains(att) = True Then
-                For Each fAffection As FinalAffection In CType(ModuleAffectionsTable(att), ArrayList)
+            If ModuleEffectsTable.Contains(att) = True Then
+                For Each fEffect As FinalEffect In CType(ModuleEffectsTable(att), ArrayList)
                     processAtt = False
-                    Select Case fAffection.AffectedType
-                        Case AffectionType.All
+                    Select Case fEffect.AffectedType
+                        Case EffectType.All
                             processAtt = True
-                        Case AffectionType.Item
-                            If fAffection.AffectedID.Contains(newShip.ID) Then
+                        Case EffectType.Item
+                            If fEffect.AffectedID.Contains(newShip.ID) Then
                                 processAtt = True
                             End If
-                        Case AffectionType.Group
-                            If fAffection.AffectedID.Contains(newShip.DatabaseGroup) Then
+                        Case EffectType.Group
+                            If fEffect.AffectedID.Contains(newShip.DatabaseGroup) Then
                                 processAtt = True
                             End If
-                        Case AffectionType.Category
-                            If fAffection.AffectedID.Contains(newShip.DatabaseCategory) Then
+                        Case EffectType.Category
+                            If fEffect.AffectedID.Contains(newShip.DatabaseCategory) Then
                                 processAtt = True
                             End If
-                        Case AffectionType.MarketGroup
-                            If fAffection.AffectedID.Contains(newShip.MarketGroup) Then
+                        Case EffectType.MarketGroup
+                            If fEffect.AffectedID.Contains(newShip.MarketGroup) Then
                                 processAtt = True
                             End If
-                        Case AffectionType.Skill
-                            If newShip.RequiredSkills.Contains(fAffection.AffectedID(0)) Then
+                        Case EffectType.Skill
+                            If newShip.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
                                 processAtt = True
                             End If
                     End Select
                     If processAtt = True Then
-                        Select Case fAffection.CalcType
-                            Case AffectionCalcType.Percentage
-                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fAffection.AffectedValue / 100))
-                            Case AffectionCalcType.Addition
-                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fAffection.AffectedValue
-                            Case AffectionCalcType.Difference ' Used for resistances
-                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * fAffection.AffectedValue) + CDbl(newShip.Attributes(att))
+                        Select Case fEffect.CalcType
+                            Case EffectCalcType.Percentage
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                            Case EffectCalcType.Addition
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
+                            Case EffectCalcType.Difference ' Used for resistances
+                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * fEffect.AffectedValue) + CDbl(newShip.Attributes(att))
                         End Select
                     End If
                 Next
@@ -501,45 +591,45 @@ Public Class Engine
         Ship.MapShipAttributes(newShip)
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
-        'MessageBox.Show("Applying Module Affections to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        'MessageBox.Show("Applying Module Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         Return newShip
     End Function
 
     Private Shared Sub ApplyStackingPenalties()
-        Dim baseAffectionList As New ArrayList
-        Dim finalAffectionList As New ArrayList
-        Dim tempPAffectionList As New SortedList
-        Dim tempNAffectionList As New SortedList
+        Dim baseEffectList As New ArrayList
+        Dim finalEffectList As New ArrayList
+        Dim tempPEffectList As New SortedList
+        Dim tempNEffectList As New SortedList
         Dim attOrder(,) As Double
         Dim att As String
-        For attNumber As Integer = 0 To ModuleAffectionsTable.Keys.Count - 1
-            att = CStr(ModuleAffectionsTable.GetKey(attNumber))
-            baseAffectionList = CType(ModuleAffectionsTable(att), ArrayList)
-            tempPAffectionList.Clear()
-            tempNAffectionList.Clear()
-            finalAffectionList = New ArrayList
-            For Each fAffection As FinalAffection In baseAffectionList
-                If fAffection.StackNerf = True Then
-                    If fAffection.AffectedValue >= 0 Then
-                        tempPAffectionList.Add(tempPAffectionList.Count.ToString, fAffection)
+        For attNumber As Integer = 0 To ModuleEffectsTable.Keys.Count - 1
+            att = CStr(ModuleEffectsTable.GetKey(attNumber))
+            baseEffectList = CType(ModuleEffectsTable(att), ArrayList)
+            tempPEffectList.Clear()
+            tempNEffectList.Clear()
+            finalEffectList = New ArrayList
+            For Each fEffect As FinalEffect In baseEffectList
+                If fEffect.StackNerf = True Then
+                    If fEffect.AffectedValue >= 0 Then
+                        tempPEffectList.Add(tempPEffectList.Count.ToString, fEffect)
                     Else
-                        tempNAffectionList.Add(tempNAffectionList.Count.ToString, fAffection)
+                        tempNEffectList.Add(tempNEffectList.Count.ToString, fEffect)
                     End If
                 Else
-                    finalAffectionList.Add(fAffection)
+                    finalEffectList.Add(fEffect)
                 End If
             Next
-            If tempPAffectionList.Count > 0 Then
-                ReDim attOrder(tempPAffectionList.Count - 1, 1)
-                Dim sAffection As FinalAffection
-                For Each attNo As String In tempPAffectionList.Keys
-                    sAffection = CType(tempPAffectionList(attNo), FinalAffection)
+            If tempPEffectList.Count > 0 Then
+                ReDim attOrder(tempPEffectList.Count - 1, 1)
+                Dim sEffect As FinalEffect
+                For Each attNo As String In tempPEffectList.Keys
+                    sEffect = CType(tempPEffectList(attNo), FinalEffect)
                     attOrder(CInt(attNo), 0) = CDbl(attNo)
-                    attOrder(CInt(attNo), 1) = sAffection.AffectedValue
+                    attOrder(CInt(attNo), 1) = sEffect.AffectedValue
                 Next
                 ' Create a tag array ready to sort the skill times
-                Dim tagArray(tempPAffectionList.Count - 1) As Integer
-                For a As Integer = 0 To tempPAffectionList.Count - 1
+                Dim tagArray(tempPEffectList.Count - 1) As Integer
+                For a As Integer = 0 To tempPEffectList.Count - 1
                     tagArray(a) = a
                 Next
                 ' Initialize the comparer and sort
@@ -551,24 +641,24 @@ Public Class Engine
                 Dim penalty As Double = 0
                 For i As Integer = 0 To tagArray.Length - 1
                     idx = tagArray(i)
-                    sAffection = CType(tempPAffectionList(idx.ToString), FinalAffection)
+                    sEffect = CType(tempPEffectList(idx.ToString), FinalEffect)
                     penalty = Math.Exp(-(i ^ 2 / 7.1289))
-                    sAffection.AffectedValue = sAffection.AffectedValue * penalty
-                    sAffection.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
-                    finalAffectionList.Add(sAffection)
+                    sEffect.AffectedValue = sEffect.AffectedValue * penalty
+                    sEffect.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+                    finalEffectList.Add(sEffect)
                 Next
             End If
-            If tempNAffectionList.Count > 0 Then
-                ReDim attOrder(tempNAffectionList.Count - 1, 1)
-                Dim sAffection As FinalAffection
-                For Each attNo As String In tempNAffectionList.Keys
-                    sAffection = CType(tempNAffectionList(attNo), FinalAffection)
+            If tempNEffectList.Count > 0 Then
+                ReDim attOrder(tempNEffectList.Count - 1, 1)
+                Dim sEffect As FinalEffect
+                For Each attNo As String In tempNEffectList.Keys
+                    sEffect = CType(tempNEffectList(attNo), FinalEffect)
                     attOrder(CInt(attNo), 0) = CDbl(attNo)
-                    attOrder(CInt(attNo), 1) = sAffection.AffectedValue
+                    attOrder(CInt(attNo), 1) = sEffect.AffectedValue
                 Next
                 ' Create a tag array ready to sort the skill times
-                Dim tagArray(tempNAffectionList.Count - 1) As Integer
-                For a As Integer = 0 To tempNAffectionList.Count - 1
+                Dim tagArray(tempNEffectList.Count - 1) As Integer
+                For a As Integer = 0 To tempNEffectList.Count - 1
                     tagArray(a) = a
                 Next
                 ' Initialize the comparer and sort
@@ -579,14 +669,14 @@ Public Class Engine
                 Dim penalty As Double = 0
                 For i As Integer = 0 To tagArray.Length - 1
                     idx = tagArray(i)
-                    sAffection = CType(tempNAffectionList(idx.ToString), FinalAffection)
+                    sEffect = CType(tempNEffectList(idx.ToString), FinalEffect)
                     penalty = Math.Exp(-(i ^ 2 / 7.1289))
-                    sAffection.AffectedValue = sAffection.AffectedValue * penalty
-                    sAffection.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
-                    finalAffectionList.Add(sAffection)
+                    sEffect.AffectedValue = sEffect.AffectedValue * penalty
+                    sEffect.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+                    finalEffectList.Add(sEffect)
                 Next
             End If
-            ModuleAffectionsTable(att) = finalAffectionList
+            ModuleEffectsTable(att) = finalEffectList
         Next
     End Sub
 
@@ -594,7 +684,7 @@ Public Class Engine
 
 End Class
 
-Public Class Affection
+Public Class Effect
     Public AffectingAtt As Integer
     Public AffectingType As Integer
     Public AffectingID As Integer
@@ -606,7 +696,20 @@ Public Class Affection
     Public CalcType As Integer
 End Class
 
-Public Class FinalAffection
+Public Class ShipEffect
+    Public ShipID As Integer
+    Public AffectingType As Integer
+    Public AffectingID As Integer
+    Public AffectedAtt As Integer
+    Public AffectedType As Integer
+    Public AffectedID As New ArrayList
+    Public StackNerf As Boolean
+    Public IsPerLevel As Boolean
+    Public CalcType As Integer
+    Public Value As Double
+End Class
+
+Public Class FinalEffect
     Public AffectedAtt As Integer
     Public AffectedType As Integer
     Public AffectedID As New ArrayList
@@ -616,7 +719,7 @@ Public Class FinalAffection
     Public CalcType As Integer
 End Class
 
-Public Enum AffectionType
+Public Enum EffectType
     All = 0
     Item = 1
     Group = 2
@@ -625,7 +728,7 @@ Public Enum AffectionType
     Skill = 5
 End Enum
 
-Public Enum AffectionCalcType
+Public Enum EffectCalcType
     Percentage = 0
     Addition = 1
     Difference = 2
