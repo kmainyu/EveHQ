@@ -23,6 +23,7 @@ Public Class Engine
 
     Public Shared EffectsMap As New SortedList
     Public Shared ShipEffectsMap As New SortedList
+    Public Shared ImplantEffectsMap As New SortedList
     Public Shared SkillEffectsTable As New SortedList
     Public Shared ModuleEffectsTable As New SortedList
 
@@ -112,6 +113,68 @@ Public Class Engine
             End If
         Next
     End Sub
+    Public Shared Sub BuildImplantEffectsMap()
+        ' Fetch the Effects list
+        Dim EffectFile As String = My.Resources.ImplantEffects.ToString
+        ' Break the Effects down into separate lines
+        Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
+        ' Go through lines and break each one down
+        Dim EffectData() As String
+        ' Build the map
+        ImplantEffectsMap.Clear()
+        Dim ImplantEffectClassList As New ArrayList
+        Dim newEffect As New ImplantEffect
+        Dim IDs() As String
+        Dim AttIDs() As String
+        Dim Atts As New ArrayList
+        For Each EffectLine As String In EffectLines
+            If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
+                EffectData = EffectLine.Split(",".ToCharArray)
+                Atts.Clear()
+                If EffectData(2).Contains(";") Then
+                    AttIDs = EffectData(2).Split(";".ToCharArray)
+                    For Each AttID As String In AttIDs
+                        Atts.Add(AttID)
+                    Next
+                Else
+                    Atts.Add(EffectData(2))
+                End If
+                For Each att As String In Atts
+                    newEffect = New ImplantEffect
+                    If ImplantEffectsMap.Contains((EffectData(0))) = True Then
+                        ImplantEffectClassList = CType(ImplantEffectsMap(EffectData(0)), ArrayList)
+                    Else
+                        ImplantEffectClassList = New ArrayList
+                        ImplantEffectsMap.Add(EffectData(0), ImplantEffectClassList)
+                    End If
+                    newEffect.ImplantName = CStr(EffectData(0))
+                    newEffect.AffectingAtt = CInt(EffectData(1))
+                    newEffect.AffectedAtt = CInt(att)
+                    newEffect.AffectedType = CInt(EffectData(3))
+                    If EffectData(4).Contains(";") = True Then
+                        IDs = EffectData(4).Split(";".ToCharArray)
+                        For Each ID As String In IDs
+                            newEffect.AffectedID.Add(ID)
+                        Next
+                    Else
+                        newEffect.AffectedID.Add(EffectData(4))
+                    End If
+                    newEffect.CalcType = CInt(EffectData(5))
+                    newEffect.Value = CDbl(EffectData(6))
+                    newEffect.IsGang = CBool(EffectData(7))
+                    If EffectData(8).Contains(";") = True Then
+                        IDs = EffectData(8).Split(";".ToCharArray)
+                        For Each ID As String In IDs
+                            newEffect.Groups.Add(ID)
+                        Next
+                    Else
+                        newEffect.Groups.Add(EffectData(8))
+                    End If
+                    ImplantEffectClassList.Add(newEffect)
+                Next
+            End If
+        Next
+    End Sub
     Public Shared Sub BuildSkillEffects(ByVal hPilot As HQFPilot)
         Dim sTime, eTime As Date
         sTime = Now
@@ -148,6 +211,47 @@ Public Class Engine
                         Next
                     End If
                 Next
+            End If
+        Next
+        eTime = Now
+        Dim dTime As TimeSpan = eTime - sTime
+        'MessageBox.Show("Building Skill Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+    End Sub
+    Public Shared Sub BuildImplantEffects(ByVal hPilot As HQFPilot)
+        Dim sTime, eTime As Date
+        sTime = Now
+        ' Go through all the implants and see what needs to be mapped
+        Dim fEffect As New FinalEffect
+        Dim fEffectList As New ArrayList
+        Dim hImplant As String = ""
+        Dim aImplant As ShipModule
+        For slotNo As Integer = 1 To 10
+            hImplant = hPilot.ImplantName(slotNo)
+            If hImplant <> "" Then
+                ' Go through the attributes
+                aImplant = CType(ModuleLists.moduleList(ModuleLists.moduleListName(hImplant)), ShipModule)
+                If ImplantEffectsMap.Contains(hImplant) = True Then
+                    For Each chkEffect As ImplantEffect In CType(ImplantEffectsMap(hImplant), ArrayList)
+                        If aImplant.Attributes.Contains(chkEffect.AffectingAtt.ToString) = True Then
+                            fEffect = New FinalEffect
+                            fEffect.AffectedAtt = chkEffect.AffectedAtt
+                            fEffect.AffectedType = chkEffect.AffectedType
+                            fEffect.AffectedID = chkEffect.AffectedID
+                            fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString))
+                            fEffect.StackNerf = False
+                            fEffect.Cause = aImplant.Name
+                            fEffect.CalcType = chkEffect.CalcType
+                            If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                fEffectList = New ArrayList
+                                SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                            Else
+                                fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                            End If
+                            fEffectList.Add(fEffect)
+                        End If
+                    Next
+
+                End If
             End If
         Next
         eTime = Now
@@ -707,6 +811,18 @@ Public Class ShipEffect
     Public IsPerLevel As Boolean
     Public CalcType As Integer
     Public Value As Double
+End Class
+
+Public Class ImplantEffect
+    Public ImplantName As String
+    Public AffectingAtt As Integer
+    Public AffectedAtt As Integer
+    Public AffectedType As Integer
+    Public AffectedID As New ArrayList
+    Public CalcType As Integer
+    Public Value As Double
+    Public IsGang As Boolean
+    Public Groups As New ArrayList
 End Class
 
 Public Class FinalEffect

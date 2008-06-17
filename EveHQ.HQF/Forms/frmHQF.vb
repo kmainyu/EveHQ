@@ -82,6 +82,7 @@ Public Class frmHQF
             'Me.LoadBonuses()
             Engine.BuildEffectsMap()
             Engine.BuildShipEffectsMap()
+            Engine.BuildImplantEffectsMap()
             ' Check for the existence of the binary data
             If UseSerializableData = True Then
                 If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\attributes.txt") = True Then

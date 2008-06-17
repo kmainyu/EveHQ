@@ -410,6 +410,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to #HQF Implant Mapping Table,,,,,,,,
+        '''# Implant Name,Affected Attribute,Affected Attribute,Affected Type,Affected ID,Calc Type,Value,IsGang,Group
+        '''
+        '''Akemon&apos;s Modified &apos;Noble&apos; ZET5000,1083,265,3,6,0,8,0,Armor
+        '''Armored Warfare Mindlink,1083,265,3,6,0,15,1,Armor
+        '''Armored Warfare Mindlink,884,833,1,20069;20409;22227,0,50,1,Gang
+        '''Crystal Alpha,548,68,2,40,0,1,0,Shield;Learning
+        '''Crystal Beta,548,68,2,40,0,2,0,Shield;Learning
+        '''Crystal Delta,548,68,2,40,0,4,0,Shield;Learning
+        '''Crystal Epsilon,548,68,2,40,0,5,0,Shield; [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property ImplantEffects() As String
+            Get
+                Return ResourceManager.GetString("ImplantEffects", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Akemon&apos;s Modified &apos;Noble&apos; ZET5000,ARMOR_HP_PERCENT,8,Armor
         '''Armored Warfare Mindlink,ARMOR_HP_PERCENT,15,Armor
         '''Armored Warfare Mindlink,MINDLINK,50,Gang

@@ -227,6 +227,7 @@ Public Class ShipInfoControl
         ' Build the Affections data for this pilot
         Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
         Engine.BuildSkillEffects(shipPilot)
+        Engine.BuildImplantEffects(shipPilot)
         ' Call the property modifier again which will trigger the fitting routines and update all slots for the new pilot
         If currentSlot IsNot Nothing Then
             currentSlot.UpdateAllSlots = True

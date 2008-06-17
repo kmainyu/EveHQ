@@ -286,4 +286,7 @@
   <data name="ShipEffects" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\shipeffects.csv;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="ImplantEffects" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\implanteffects.csv;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>
