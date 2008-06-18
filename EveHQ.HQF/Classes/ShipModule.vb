@@ -78,6 +78,9 @@ Imports System.Runtime.Serialization
     ' Audit Log
     Private cAuditLog As New ArrayList
 
+    ' Module State
+    Private cModuleState As Integer
+
 #End Region
 
 #Region "Properties"
@@ -338,6 +341,16 @@ Imports System.Runtime.Serialization
         End Set
     End Property
 
+    ' Module State
+    Public Property ModuleState() As Integer
+        Get
+            Return cModuleState
+        End Get
+        Set(ByVal value As Integer)
+            cModuleState = value
+        End Set
+    End Property
+
 
 #End Region
 
@@ -382,4 +395,11 @@ End Class
     Public Shared moduleList As New SortedList   ' Key = module ID
     Public Shared moduleListName As New SortedList ' Key = moduleName (for quick name to ID conversions)
 End Class
+
+Public Enum ModuleStates
+    Active = 0
+    Inactive = 1
+    Offline = 2
+    Overloaded = 3
+End Enum
 

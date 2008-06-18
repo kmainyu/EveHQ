@@ -184,10 +184,12 @@ Partial Class frmItemBrowser
         Me.lblAttSearchCount = New System.Windows.Forms.Label
         Me.lblAttSearch = New System.Windows.Forms.Label
         Me.tabWantedList = New System.Windows.Forms.TabPage
+        Me.btnRefreshWantedList = New System.Windows.Forms.Button
         Me.btnClearWantedList = New System.Windows.Forms.Button
         Me.btnRemoveWantedItem = New System.Windows.Forms.Button
         Me.lvwWanted = New System.Windows.Forms.ListView
         Me.colWantedName = New System.Windows.Forms.ColumnHeader
+        Me.colWantedPrice = New System.Windows.Forms.ColumnHeader
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage2 = New System.Windows.Forms.TabPage
         Me.Label1 = New System.Windows.Forms.Label
@@ -233,10 +235,8 @@ Partial Class frmItemBrowser
         Me.ctxForward = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.lblUsableTime = New System.Windows.Forms.LinkLabel
         Me.btnWantedAdd = New System.Windows.Forms.Button
-        Me.colWantedPrice = New System.Windows.Forms.ColumnHeader
         Me.sbtnBack = New EveHQ.ItemBrowser.SplitButton
         Me.sbtnForward = New EveHQ.ItemBrowser.SplitButton
-        Me.btnRefreshWantedList = New System.Windows.Forms.Button
         Me.ctxSkills.SuspendLayout()
         Me.ssData.SuspendLayout()
         CType(Me.picRefresh, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -845,7 +845,7 @@ Partial Class frmItemBrowser
         Me.lstComparisons.GridLines = True
         Me.lstComparisons.Location = New System.Drawing.Point(3, 3)
         Me.lstComparisons.Name = "lstComparisons"
-        Me.lstComparisons.Size = New System.Drawing.Size(445, 264)
+        Me.lstComparisons.Size = New System.Drawing.Size(553, 264)
         Me.lstComparisons.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstComparisons.TabIndex = 1
         Me.lstComparisons.UseCompatibleStateImageBehavior = False
@@ -1701,6 +1701,16 @@ Partial Class frmItemBrowser
         Me.tabWantedList.Text = "Wanted List"
         Me.tabWantedList.UseVisualStyleBackColor = True
         '
+        'btnRefreshWantedList
+        '
+        Me.btnRefreshWantedList.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRefreshWantedList.Location = New System.Drawing.Point(220, 463)
+        Me.btnRefreshWantedList.Name = "btnRefreshWantedList"
+        Me.btnRefreshWantedList.Size = New System.Drawing.Size(100, 23)
+        Me.btnRefreshWantedList.TabIndex = 15
+        Me.btnRefreshWantedList.Text = "Refresh List"
+        Me.btnRefreshWantedList.UseVisualStyleBackColor = True
+        '
         'btnClearWantedList
         '
         Me.btnClearWantedList.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1742,6 +1752,12 @@ Partial Class frmItemBrowser
         '
         Me.colWantedName.Text = "Item Name"
         Me.colWantedName.Width = 210
+        '
+        'colWantedPrice
+        '
+        Me.colWantedPrice.Text = "Price"
+        Me.colWantedPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colWantedPrice.Width = 120
         '
         'TabControl1
         '
@@ -2153,12 +2169,6 @@ Partial Class frmItemBrowser
         Me.btnWantedAdd.Text = "Add to Wanted"
         Me.btnWantedAdd.UseVisualStyleBackColor = True
         '
-        'colWantedPrice
-        '
-        Me.colWantedPrice.Text = "Price"
-        Me.colWantedPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colWantedPrice.Width = 120
-        '
         'sbtnBack
         '
         Me.sbtnBack.AutoSize = True
@@ -2184,16 +2194,6 @@ Partial Class frmItemBrowser
         Me.sbtnForward.TabIndex = 11
         Me.sbtnForward.Text = "Forward"
         Me.sbtnForward.UseVisualStyleBackColor = True
-        '
-        'btnRefreshWantedList
-        '
-        Me.btnRefreshWantedList.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnRefreshWantedList.Location = New System.Drawing.Point(220, 463)
-        Me.btnRefreshWantedList.Name = "btnRefreshWantedList"
-        Me.btnRefreshWantedList.Size = New System.Drawing.Size(100, 23)
-        Me.btnRefreshWantedList.TabIndex = 15
-        Me.btnRefreshWantedList.Text = "Refresh List"
-        Me.btnRefreshWantedList.UseVisualStyleBackColor = True
         '
         'frmItemBrowser
         '

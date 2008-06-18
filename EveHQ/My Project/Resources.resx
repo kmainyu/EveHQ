@@ -184,9 +184,6 @@
   <data name="info_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon09_09.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Splashv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Splashv3.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="level0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level0.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -219,5 +216,8 @@
   </data>
   <data name="level5_act" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level5_act.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Splashv5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\splashv5.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

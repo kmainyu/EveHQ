@@ -411,7 +411,7 @@ Public Class Engine
         newShip = Engine.ApplyModuleEffectsToShip(newShip)
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
-        MessageBox.Show("Applying the whole fitting took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        'MessageBox.Show("Applying the whole fitting took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         Return newShip
     End Function
 
@@ -456,7 +456,14 @@ Public Class Engine
                     End Select
                     If processAtt = True Then
                         log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & newShip.Attributes(att).ToString
-                        newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                        Select Case fEffect.CalcType
+                            Case EffectCalcType.Percentage
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                            Case EffectCalcType.Addition
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
+                            Case EffectCalcType.Difference ' Used for resistances
+                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                        End Select
                         log &= " --> " & newShip.Attributes(att).ToString
                         newShip.AuditLog.Add(log)
                     End If
@@ -535,7 +542,14 @@ Public Class Engine
                                 End Select
                                 If processAtt = True Then
                                     log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & aModule.Attributes(att).ToString
-                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                                    Select Case fEffect.CalcType
+                                        Case EffectCalcType.Percentage
+                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                                        Case EffectCalcType.Addition
+                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                        Case EffectCalcType.Difference ' Used for resistances
+                                            aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                    End Select
                                     log &= " --> " & aModule.Attributes(att).ToString
                                     aModule.AuditLog.Add(log)
                                 End If
@@ -624,7 +638,7 @@ Public Class Engine
                                         Case EffectCalcType.Addition
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                         Case EffectCalcType.Difference ' Used for resistances
-                                            aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * fEffect.AffectedValue) + CDbl(aModule.Attributes(att))
+                                            aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
                                     End Select
                                     log &= " --> " & aModule.Attributes(att).ToString
                                     aModule.AuditLog.Add(log)
@@ -686,7 +700,7 @@ Public Class Engine
                             Case EffectCalcType.Addition
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
-                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * fEffect.AffectedValue) + CDbl(newShip.Attributes(att))
+                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
                         End Select
                     End If
                 Next

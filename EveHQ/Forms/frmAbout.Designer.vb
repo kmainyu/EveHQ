@@ -20,15 +20,15 @@ Partial Class frmAbout
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel
+        Me.lblInfo2 = New System.Windows.Forms.Label
         Me.lblInfo1 = New System.Windows.Forms.Label
         Me.lblVersion = New System.Windows.Forms.Label
-        Me.lblInfo2 = New System.Windows.Forms.Label
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
         '
-        Me.Panel1.BackgroundImage = Global.EveHQ.My.Resources.Resources.Splashv3
+        Me.Panel1.BackgroundImage = Global.EveHQ.My.Resources.Resources.Splashv5
         Me.Panel1.Controls.Add(Me.lblInfo2)
         Me.Panel1.Controls.Add(Me.lblInfo1)
         Me.Panel1.Controls.Add(Me.lblVersion)
@@ -36,30 +36,6 @@ Partial Class frmAbout
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(600, 400)
         Me.Panel1.TabIndex = 0
-        '
-        'lblInfo1
-        '
-        Me.lblInfo1.AutoSize = True
-        Me.lblInfo1.BackColor = System.Drawing.Color.Transparent
-        Me.lblInfo1.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblInfo1.ForeColor = System.Drawing.Color.PaleTurquoise
-        Me.lblInfo1.Location = New System.Drawing.Point(12, 323)
-        Me.lblInfo1.Name = "lblInfo1"
-        Me.lblInfo1.Size = New System.Drawing.Size(222, 19)
-        Me.lblInfo1.TabIndex = 2
-        Me.lblInfo1.Text = "Designed && Coded by Vessper" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
-        '
-        'lblVersion
-        '
-        Me.lblVersion.AutoSize = True
-        Me.lblVersion.BackColor = System.Drawing.Color.Transparent
-        Me.lblVersion.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVersion.ForeColor = System.Drawing.Color.PaleTurquoise
-        Me.lblVersion.Location = New System.Drawing.Point(261, 198)
-        Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(47, 14)
-        Me.lblVersion.TabIndex = 1
-        Me.lblVersion.Text = "Version"
         '
         'lblInfo2
         '
@@ -72,6 +48,30 @@ Partial Class frmAbout
         Me.lblInfo2.Size = New System.Drawing.Size(336, 13)
         Me.lblInfo2.TabIndex = 3
         Me.lblInfo2.Text = "Visit the forums at www.evehq.net for bug reporting and comments."
+        '
+        'lblInfo1
+        '
+        Me.lblInfo1.AutoSize = True
+        Me.lblInfo1.BackColor = System.Drawing.Color.Transparent
+        Me.lblInfo1.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblInfo1.ForeColor = System.Drawing.Color.PaleTurquoise
+        Me.lblInfo1.Location = New System.Drawing.Point(366, 325)
+        Me.lblInfo1.Name = "lblInfo1"
+        Me.lblInfo1.Size = New System.Drawing.Size(222, 19)
+        Me.lblInfo1.TabIndex = 2
+        Me.lblInfo1.Text = "Designed && Coded by Vessper" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        '
+        'lblVersion
+        '
+        Me.lblVersion.AutoSize = True
+        Me.lblVersion.BackColor = System.Drawing.Color.Transparent
+        Me.lblVersion.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVersion.ForeColor = System.Drawing.Color.PaleTurquoise
+        Me.lblVersion.Location = New System.Drawing.Point(140, 197)
+        Me.lblVersion.Name = "lblVersion"
+        Me.lblVersion.Size = New System.Drawing.Size(47, 14)
+        Me.lblVersion.TabIndex = 1
+        Me.lblVersion.Text = "Version"
         '
         'frmAbout
         '

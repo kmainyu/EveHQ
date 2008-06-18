@@ -148,14 +148,15 @@ Namespace My.Resources
         '''  Looks up a localized string similar to EveHQ - Version History
         '''-----------------------
         '''
-        '''1.6.5.0 (09/04/2008)
+        '''1.7.0.0 (??/??/????)
         '''-------
-        '''Fixes and Improvements:
-        '''- Fixed issue with accessing folders over a network via the UNC name
-        '''- Created new &quot;Market Prices&quot; option in settings
-        '''- Fixed error trying to expand a skill training group node that is no longer in the list
-        '''- Training Queue names are now HTMLEncoded and HTMLDecoded to prevent whitespace errors with &amp; characters in queue names
-        '''- Fixed issue with isk value multiplying by 100 when forcing skill train [rest of string was truncated]&quot;;.
+        '''New Features:
+        '''- API Relay Server: Use EveHQ as a cache and secondary API server for other instances of EveHQ and other applications
+        '''- New Updater: Can deliver new libraries and plug-ins without the need for further installers/zip files
+        '''
+        '''Features and Improvements (Core):
+        '''- Fixed multiple redraws of the skill list in the training form when changing pilots
+        '''- Fixed multiple redraws of the training summary in the training fo [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property History() As String
             Get
@@ -282,9 +283,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property Splashv3() As System.Drawing.Bitmap
+        Friend ReadOnly Property Splashv5() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("Splashv3", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("Splashv5", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

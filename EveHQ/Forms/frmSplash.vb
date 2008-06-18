@@ -27,6 +27,10 @@ Public Class frmSplash
 
         ' Insert the version number to the splash screen
         lblVersion.Text = "Version " & My.Application.Info.Version.ToString
+
+        ' Set the image for the splash screen
+        Panel1.BackgroundImage = My.Resources.Splashv5
+
         Me.Show()
 
         ' Check for any commandline parameters that we need to account for

@@ -27,7 +27,7 @@ Partial Class frmSplash
         '
         'Panel1
         '
-        Me.Panel1.BackgroundImage = Global.EveHQ.My.Resources.Resources.Splashv3
+        Me.Panel1.BackgroundImage = Global.EveHQ.My.Resources.Resources.Splashv5
         Me.Panel1.Controls.Add(Me.lblStatus)
         Me.Panel1.Controls.Add(Me.lblVersion)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
