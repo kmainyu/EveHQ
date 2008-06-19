@@ -316,7 +316,7 @@ Public Class ShipSlotControl
         End Select
         shipMod.ModuleState = oldMod.ModuleState
         Dim slotName As ListViewItem = lvwSlots.Items(shipMod.Slot & "_" & slotNo)
-        slotName.ImageIndex = shipMod.ModuleState
+        slotName.ImageIndex = CInt(Math.Log(shipMod.ModuleState) / Math.Log(2))
         slotName.Text = shipMod.Name
         If shipMod.LoadedCharge IsNot Nothing Then
             slotName.SubItems(1).Text = shipMod.LoadedCharge.Name
@@ -653,7 +653,18 @@ Public Class ShipSlotControl
             If modID Is Nothing Then
                 e.Cancel = True
             Else
-                currentMod = CType(ModuleLists.moduleList(modID), ShipModule)
+                Dim slotType As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(0, 1))
+                Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
+                Select Case slotType
+                    Case 1 ' Rig
+                        currentMod = currentShip.RigSlot(slotNo)
+                    Case 2 ' Low
+                        currentMod = currentShip.LowSlot(slotNo)
+                    Case 4 ' Mid
+                        currentMod = currentShip.MidSlot(slotNo)
+                    Case 8 ' High
+                        currentMod = currentShip.HiSlot(slotNo)
+                End Select
                 Dim chargeName As String = lvwSlots.SelectedItems(0).SubItems(1).Text
                 ' Clear the context menu
                 ctxSlots.Items.Clear()

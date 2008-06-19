@@ -1126,6 +1126,7 @@ Public Class frmHQF
         Dim rootRows() As DataRow = marketTable.Select("ISNULL(parentGroupID, 0) = 0")
         For Each rootRow As DataRow In rootRows
             Dim rootNode As New TreeNode(CStr(rootRow.Item("marketGroupName")))
+            rootNode.Name = rootNode.Text
             Call PopulateModuleGroups(CInt(rootRow.Item("marketGroupID")), rootNode, marketTable)
             Select Case rootNode.Text
                 Case "Ship Equipment", "Ammunition & Charges", "Drones", "Ship Modifications" ', "Implants & Boosters"
@@ -1141,14 +1142,11 @@ Public Class frmHQF
         For Each ParentRow As DataRow In ParentRows
             Dim parentnode As TreeNode
             parentnode = New TreeNode(CStr(ParentRow.Item("marketGroupName")))
+            parentnode.Name = parentnode.Text
             inTreeNode.Nodes.Add(parentnode)
             parentnode.Tag = ParentRow.Item("marketGroupID")
             PopulateModuleGroups(CInt(parentnode.Tag), parentnode, marketTable)
         Next ParentRow
-        'Dim groupRows() As DataRow = moduleData.Tables(0).Select("marketGroupID=" & inParentID)
-        'For Each moduleRow As DataRow In groupRows
-        '    inTreeNode.Nodes.Add(moduleRow.Item("typeName").ToString)
-        'Next
     End Sub
     Private Sub BuildTreePathData()
         For Each rootNode As TreeNode In tvwItems.Nodes
@@ -1603,7 +1601,7 @@ Public Class frmHQF
     Private Sub lvwItems_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwItems.DoubleClick
         If currentShipSlot IsNot Nothing Then
             Dim moduleID As String = lvwItems.SelectedItems(0).Name
-            Dim shipMod As ShipModule = CType(ModuleLists.moduleList(moduleID), ShipModule)
+            Dim shipMod As ShipModule = CType(ModuleLists.moduleList(moduleID), ShipModule).Clone
             If shipMod.IsDrone = True Then
                 Dim active As Boolean = False
                 Call currentShipSlot.AddDrone(shipMod, 1, False)

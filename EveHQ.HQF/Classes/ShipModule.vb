@@ -79,7 +79,7 @@ Imports System.Runtime.Serialization
     Private cAuditLog As New ArrayList
 
     ' Module State
-    Private cModuleState As Integer
+    Private cModuleState As Integer = 1 ' Default to 1 = Active
 
 #End Region
 
@@ -397,9 +397,9 @@ End Class
 End Class
 
 Public Enum ModuleStates
-    Active = 0
-    Inactive = 1
-    Offline = 2
-    Overloaded = 3
+    Active = 1
+    Inactive = 2
+    Offline = 4
+    Overloaded = 8
 End Enum
 
