@@ -1,6 +1,5 @@
 #HQF Attribute Mapping Table,,,,,,,,,,
 #Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,State,Description
-
 # SKILL ATTRIBUTE MAPPING,,,,,,,,,,
 # DRONES,,,,,,,,,,
 #,1,24613,,,,0,1,0,0,Advanced Drone Interfacing
@@ -521,7 +520,6 @@
 #,1,22761,0,0,0,0,1,0,0,Recon Ship
 151,1,3327,70,0,0,0,1,0,0,Spaceship Command
 #,1,19719,0,0,0,0,1,0,0,Transport Ships
-
 # MODULE TO MODULE ATTRIBUTE MAPPING,,,,,,,,,,
 # Shield Boost Amplifiers,,,,,,,,,,
 548,2,338,68,2,40,1,0,0,14,Shield Boost Bonus
@@ -554,9 +552,8 @@
 # Ice Harvester Upgrade,,,,,,,,,,
 780,2,546,73,4,1038,0,0,0,14,Cycle Time
 1082,2,546,50,4,1038,0,0,0,14,CPU Penalty
-
 # OVERLOADING ATTRIBUTE MAPPING,,,,,,,,,,
-1223,2,46,20,2,46,1,0,0,8,AB/MWD Speed Bonus
+1223,2,46,10010,3,6,1,0,0,8,AB/MWD Speed Bonus
 1208,2,328,984,2,328,1,0,0,8,Armor Hardener - EM
 1208,2,328,985,2,328,1,0,0,8,Armor Hardener - Exp
 1208,2,328,986,2,328,1,0,0,8,Armor Hardener - Kin
@@ -597,47 +594,68 @@
 1206,2,41,73,2,41,1,0,0,8,Shield Transporter Duration
 1222,2,65,54,2,65,1,0,0,8,Stasis Web Range Bonus
 1222,2,52,54,2,52,1,0,0,8,Warp Scrambler Range Bonus
-
 # MODULE TO SHIP ATTRIBUTE MAPPING,,,,,,,,,,
 # FITTING,,,,,,,,,,
-50,0,0,49,0,0,0,0,1,14,CPU -> CPU_Used
-30,0,0,15,0,0,0,0,1,14,PG -> PG_Used
-1153,0,0,1154,0,0,0,0,1,14,Cal -> Cal-Used
+50,0,0,49,3,6,0,0,1,14,CPU -> CPU_Used
+30,0,0,15,3,6,0,0,1,14,PG -> PG_Used
+1153,0,0,1154,3,6,0,0,1,14,Cal -> Cal-Used
 # SHIELD,,,,,,,,,,
-72,2,38,263,0,0,0,0,1,14,Shield Extenders - Shield HP
-983,2,38,552,0,0,0,0,1,14,Shield Extenders - Signature Radius
-146,2,770,263,0,0,0,0,0,14,Shield Flux Coil - Shield HP
-134,2,770,479,0,0,0,0,0,14,Shield Flux Coil - Shield Recharge Rate
-134,2,57,479,0,0,0,0,0,14,Shield Power Relay - Shield Recharge Rate
-144,2,57,55,0,0,0,0,0,14,Shield Power Relay - Capacitor Recharge Rate
-134,2,39,479,0,0,0,0,0,14,Shield Recharger - Shield Recharge Rate
+72,2,38,263,3,6,0,0,1,14,Shield Extenders - Shield HP
+983,2,38,552,3,6,0,0,1,14,Shield Extenders - Signature Radius
+146,2,770,263,3,6,0,0,0,14,Shield Flux Coil - Shield HP
+134,2,770,479,3,6,0,0,0,14,Shield Flux Coil - Shield Recharge Rate
+134,2,57,479,3,6,0,0,0,14,Shield Power Relay - Shield Recharge Rate
+144,2,57,55,3,6,0,0,0,14,Shield Power Relay - Capacitor Recharge Rate
+134,2,39,479,3,6,0,0,0,14,Shield Recharger - Shield Recharge Rate
 # ENGINEERING,,,,,,,,,,
-549,2,339,11,0,0,0,0,1,14,Auxiliary Power Core - PG
-67,2,61,482,0,0,0,0,1,14,Capacitor Battery - Capacitor Capacity
-144,2,768,55,0,0,0,0,0,14,Cap Flux Coil - Cap Recharge Rate
-147,2,768,482,0,0,0,0,0,14,Cap Flux Coil - Cap Capacity
-144,2,767,55,0,0,0,0,0,14,Cap Power Relay - Cap Recharge Rate
-144,2,43,55,0,0,0,0,0,14,Cap Recharger - Cap Recharge Rate
-134,2,766,479,0,0,0,0,0,14,Power Diagnostic - Shield Recharge Rate
-144,2,766,55,0,0,0,0,0,14,Power Diagnostic - Cap Recharge Rate
-145,2,766,11,0,0,0,0,0,14,Power Diagnostic - PG
-146,2,766,263,0,0,0,0,0,14,Power Diagnostic - Shield HP
-147,2,766,482,0,0,0,0,0,14,Power Diagnostic - Cap Capacity
-145,2,769,11,0,0,0,0,0,14,Reactor Control - PG
+549,2,339,11,3,6,0,0,1,14,Auxiliary Power Core - PG
+67,2,61,482,3,6,0,0,1,14,Capacitor Battery - Capacitor Capacity
+144,2,768,55,3,0,0,0,0,14,Cap Flux Coil - Cap Recharge Rate
+147,2,768,482,3,6,0,0,0,14,Cap Flux Coil - Cap Capacity
+144,2,767,55,3,6,0,0,0,14,Cap Power Relay - Cap Recharge Rate
+144,2,43,55,3,6,0,0,0,14,Cap Recharger - Cap Recharge Rate
+134,2,766,479,3,6,0,0,0,14,Power Diagnostic - Shield Recharge Rate
+144,2,766,55,3,6,0,0,0,14,Power Diagnostic - Cap Recharge Rate
+145,2,766,11,3,6,0,0,0,14,Power Diagnostic - PG
+146,2,766,263,3,6,0,0,0,14,Power Diagnostic - Shield HP
+147,2,766,482,3,6,0,0,0,14,Power Diagnostic - Cap Capacity
+145,2,769,11,3,6,0,0,0,14,Reactor Control - PG
 # ELECTRONICS,,,,,,,,,,
-235,2,96,192,0,0,0,0,1,14,Auto Targeter - Max Locked Targets
-306,2,330,37,0,0,0,0,0,4,Cloaking Device - Max Velocity Penalty
-565,2,330,564,0,0,0,0,0,14,Cloaking Device - Scan Resolution
-202,2,285,48,0,0,0,0,0,14,Co-Processor - CPU Output
-309,2,212,76,0,0,1,0,0,4,Sensor Booster - Max Targeting Range
-566,2,212,564,0,0,1,0,0,4,Sensor Booster - Scan Resolution
-235,2,210,192,0,0,0,0,1,14,Signal Amplifier - Max Locked Targets
-309,2,210,76,0,0,1,0,0,14,Signal Amplifier - Max Targeting Range
-566,2,210,564,0,0,1,0,0,14,Signal Amplifier - Scan Resolution
-
+235,2,96,192,3,6,0,0,1,14,Auto Targeter - Max Locked Targets
+306,2,330,37,3,6,0,0,0,4,Cloaking Device - Max Velocity Penalty
+565,2,330,564,3,6,0,0,0,14,Cloaking Device - Scan Resolution
+202,2,285,48,3,6,0,0,0,14,Co-Processor - CPU Output
+309,2,212,76,3,6,1,0,0,4,Sensor Booster - Max Targeting Range
+566,2,212,564,3,6,1,0,0,4,Sensor Booster - Scan Resolution
+235,2,210,192,3,6,0,0,1,14,Signal Amplifier - Max Locked Targets
+309,2,210,76,3,6,1,0,0,14,Signal Amplifier - Max Targeting Range
+566,2,210,564,3,6,1,0,0,14,Signal Amplifier - Scan Resolution
 # NAVIGATION,,,,,,,,,,
-567,2,46,10010,0,0,0,0,1,14,AB/MWD Thrust
-796,2,46,10002,0,0,0,0,1,14,AB/MWD Mass addition
-554,2,46,552,0,0,0,0,0,4,AB/MWD Sig Radius Penalty
-147,2,46,482,0,0,0,0,0,14,AB/MWD Cap Penalty
-20,2,46,37,0,0,0,0,3,12,AB/MWD Velocity Bonus
+# Afterburners/MWD,,,,,,,,,,
+567,2,46,10010,3,6,0,0,1,12,AB/MWD Thrust
+796,2,46,10002,3,6,0,0,1,12,AB/MWD Mass addition
+554,2,46,552,3,6,0,0,0,12,AB/MWD Sig Radius Penalty
+147,2,46,482,3,6,0,0,0,14,AB/MWD Cap Penalty
+20,2,46,37,3,6,0,0,3,12,AB/MWD Velocity Bonus
+# Overdrive Injectors,,,,,,,,,,
+1076,2,764,37,3,6,1,0,0,14,Max Velocity Bonus
+149,2,764,10004,3,6,1,0,0,14,Cargo Capacity Penalty
+# Inertia Stabilizers,,,,,,,,,,
+169,2,762,70,3,6,1,0,0,14,Inertia Modifier
+554,2,762,552,3,6,1,0,0,14,Sig Radius Penalty
+# Warp Core Stabilizers,,,,,,,,,,
+105,2,315,10009,3,6,0,0,0,14,Warp Core Strength
+309,2,315,76,3,6,0,0,0,14,Targeting Range Penalty
+565,2,315,564,3,6,0,0,0,14,Scan Resolution Penalty
+# HULL & ARMOR,,,,,,,,,,
+# Cargo Expander,,,,,,,,,,
+149,2,765,10004,3,6,0,0,0,14,Cargo Capacity Bonus
+150,2,765,9,3,6,0,0,0,14,Structure HP Penalty
+306,2,765,37,3,6,0,0,0,14,Max Velocity Penalty
+# Nanofiber Internal Structure,,,,,,,,,,
+150,2,763,9,3,6,1,0,0,14,Structure HP Bonus
+1131,2,763,10002,3,6,1,0,0,14,Mass Reduction
+# Reinforced Bulkheads,,,,,,,,,,
+150,2,78,9,3,6,0,0,0,14,Structure HP Bonus
+169,2,78,70,3,6,0,0,0,14,Inertia Penalty
+306,2,78,37,3,6,0,0,0,14,Max Velocity Penalty

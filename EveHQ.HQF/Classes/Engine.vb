@@ -420,7 +420,7 @@ Public Class Engine
         newShip = Engine.ApplyModuleEffectsToShip(newShip)
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
-        'MessageBox.Show("Applying the whole fitting took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        MessageBox.Show("Applying the whole fitting took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         Return newShip
     End Function
 
