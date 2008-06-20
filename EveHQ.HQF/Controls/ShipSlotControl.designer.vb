@@ -260,9 +260,9 @@ Partial Class ShipSlotControl
         '
         Me.imgState.ImageStream = CType(resources.GetObject("imgState.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.imgState.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgState.Images.SetKeyName(0, "Status_green.gif")
+        Me.imgState.Images.SetKeyName(0, "Status_red.gif")
         Me.imgState.Images.SetKeyName(1, "Status_yellow.gif")
-        Me.imgState.Images.SetKeyName(2, "Status_red.gif")
+        Me.imgState.Images.SetKeyName(2, "Status_green.gif")
         Me.imgState.Images.SetKeyName(3, "icon22_10.png")
         '
         'tabStorage

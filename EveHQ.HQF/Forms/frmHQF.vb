@@ -137,18 +137,14 @@ Public Class frmHQF
                             If Me.LoadMarketGroupData = True Then
                                 If Me.LoadShipNameData = True Then
                                     If Me.LoadShipAttributeData = True Then
-                                        If Me.BuildShipBonuses = True Then
-                                            Call Me.PopulateShipLists()
-                                            If Me.LoadModuleData = True Then
-                                                If Me.LoadModuleEffectData = True Then
-                                                    If Me.LoadModuleAttributeData = True Then
-                                                        If Me.LoadModuleMetaTypes = True Then
-                                                            If Me.BuildModuleData = True Then
-                                                                Call Me.BuildAttributeQuickList()
-                                                                Return True
-                                                            Else
-                                                                Return False
-                                                            End If
+                                        Call Me.PopulateShipLists()
+                                        If Me.LoadModuleData = True Then
+                                            If Me.LoadModuleEffectData = True Then
+                                                If Me.LoadModuleAttributeData = True Then
+                                                    If Me.LoadModuleMetaTypes = True Then
+                                                        If Me.BuildModuleData = True Then
+                                                            Call Me.BuildAttributeQuickList()
+                                                            Return True
                                                         Else
                                                             Return False
                                                         End If
@@ -218,7 +214,6 @@ Public Class frmHQF
     Private Function LoadMarketGroupData() As Boolean
         Try
             Call Me.LoadAttributes()
-            Call Me.LoadBonuses()
             Dim strSQL As String = ""
             strSQL &= "SELECT * FROM invMarketGroups ORDER BY parentGroupID;"
             MarketGroupData = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -263,7 +258,7 @@ Public Class frmHQF
                         attData.AttributeGroup = row.Item("attributeGroup").ToString
                         Attributes.AttributeList.Add(attData.ID, attData)
                     Next
-                    Return True
+                    Return Me.LoadCustomAttributes()
                 Else
                     MessageBox.Show("Attribute Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Return False
@@ -277,26 +272,25 @@ Public Class frmHQF
             Return False
         End Try
     End Function
-    Private Function LoadBonuses() As Boolean
-        Try
-            ' Clear the Bonuses Lists
-            Bonuses.BonusGroups.Clear()
-            Bonuses.BonusNames.Clear()
-            ' Extract the bonuses from the included resource file
-            Dim BonusList() As String = My.Resources.Bonuses.Split(ControlChars.CrLf.ToCharArray)
-            Dim BonusData() As String
-            For Each Bonus As String In BonusList
-                If Bonus.Trim <> "" Then
-                    BonusData = Bonus.Split(",".ToCharArray)
-                    Bonuses.BonusNames.Add(BonusData(0), BonusData(1))
-                    Bonuses.BonusGroups.Add(BonusData(0), BonusData(2))
-                End If
-            Next
-            Return True
-        Catch e As Exception
-            MessageBox.Show("Error loading Bonus Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
+    Private Function LoadCustomAttributes() As Boolean
+        Dim attributeData As String = My.Resources.Attributes.ToString
+        Dim attributeLines() As String = attributeData.Split(ControlChars.CrLf.ToCharArray)
+        Dim att() As String
+        Dim attData As New Attribute
+        For Each line As String In attributeLines
+            If line.Trim <> "" Then
+                att = line.Split(",".ToCharArray)
+                attData = New Attribute
+                attData.ID = att(0)
+                attData.Name = att(1)
+                attData.DisplayName = att(2)
+                attData.GraphicID = att(3)
+                attData.UnitName = att(4)
+                attData.AttributeGroup = att(5)
+                attributes.AttributeList.Add(attData.ID, attData)
+            End If
+        Next
+        Return True
     End Function
 
     ' Skill Loading Routines
@@ -403,6 +397,17 @@ Public Class frmHQF
                         If lastShipName <> shipRow.Item("typeName").ToString Then
                             ' Add the current ship to the list then reset the ship data
                             If lastShipName <> "" Then
+                                ' Add the custom attributes to the list
+                                newShip.Attributes.Add("10001", newShip.Radius)
+                                newShip.Attributes.Add("10002", newShip.Mass)
+                                newShip.Attributes.Add("10003", newShip.Volume)
+                                newShip.Attributes.Add("10004", newShip.CargoBay)
+                                newShip.Attributes.Add("10005", 0)
+                                newShip.Attributes.Add("10006", 0)
+                                newShip.Attributes.Add("10007", 20000)
+                                newShip.Attributes.Add("10008", 20000)
+                                newShip.Attributes.Add("10009", 1)
+                                newShip.Attributes.Add("10010", 0)
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -481,6 +486,17 @@ Public Class frmHQF
                         End Select
                         lastShipName = shipRow.Item("typeName").ToString
                     Next
+                    ' Add the custom attributes to the list
+                    newShip.Attributes.Add("10001", newShip.Radius)
+                    newShip.Attributes.Add("10002", newShip.Mass)
+                    newShip.Attributes.Add("10003", newShip.Volume)
+                    newShip.Attributes.Add("10004", newShip.CargoBay)
+                    newShip.Attributes.Add("10005", 0)
+                    newShip.Attributes.Add("10006", 0)
+                    newShip.Attributes.Add("10007", 20000)
+                    newShip.Attributes.Add("10008", 20000)
+                    newShip.Attributes.Add("10009", 1)
+                    newShip.Attributes.Add("10010", 0)
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
                     ' Perform the last addition for the last ship type
@@ -496,44 +512,6 @@ Public Class frmHQF
             End If
         Catch e As Exception
             MessageBox.Show("Error loading Ship Attribute Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-    End Function
-    Private Function BuildShipBonuses() As Boolean
-        ' Get the bonuses from the resources
-        Try
-            Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-            Dim Bonuses As String = My.Resources.Ships.ToString
-            Dim bonusLines As String() = Bonuses.Split(ControlChars.CrLf.ToCharArray)
-            Dim BonusData() As String
-            Dim shipName As String = ""
-            Dim bonusName As String = ""
-            Dim bonusValue As Double = 0
-            Dim bonusIsPerLevel As Boolean = False
-            Dim bonusSkillName As String = ""
-            For Each Bonus As String In bonusLines
-                If Bonus.Trim <> "" Then
-                    BonusData = Bonus.Split(",".ToCharArray)
-                    shipName = BonusData(0)
-                    bonusName = BonusData(1)
-                    bonusValue = Double.Parse(BonusData(2), Globalization.NumberStyles.Number, culture)
-                    'bonusValue = CDbl(BonusData(2))
-                    bonusIsPerLevel = CBool(BonusData(3))
-                    bonusSkillName = BonusData(4)
-                    If ShipLists.shipList.ContainsKey(shipName) = True Then
-                        Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship)
-                        Dim newBonus As New ItemBonus
-                        newBonus.BonusName = bonusName
-                        newBonus.BonusValue = bonusValue
-                        newBonus.BonusIsPerLevel = bonusIsPerLevel
-                        newBonus.BonusSkillName = bonusSkillName
-                        bShip.Bonuses.Add(newBonus)
-                    End If
-                End If
-            Next
-            Return True
-        Catch e As Exception
-            MessageBox.Show("Error building Ship Bonuses", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -879,23 +857,6 @@ Public Class frmHQF
                         attMod.MetaLevel = CInt(attValue)
                     Case Else
                 End Select
-                ' Now check to see if this is a bonus (by reference to the attributes file)
-                ' Need 2 checks: One for specific market group bonuses and one for all market groups
-                If Attributes.AttributeList.ContainsKey(modRow.Item("attributeID").ToString & "_" & attMod.MarketGroup) Then
-                    Dim newBonus As New ItemBonus
-                    newBonus.BonusName = CStr(Attributes.AttributeList.Item(modRow.Item("attributeID").ToString & "_" & attMod.MarketGroup))
-                    newBonus.BonusValue = attValue
-                    attMod.Bonuses.Add(newBonus)
-                Else
-                    If Attributes.AttributeList.ContainsKey(modRow.Item("attributeID").ToString & "_0") Then
-                        Dim newBonus As New ItemBonus
-                        newBonus.BonusName = CStr(Attributes.AttributeList.Item(modRow.Item("attributeID").ToString & "_0"))
-                        newBonus.BonusValue = attValue
-                        newBonus.BonusIsPerLevel = False
-                        newBonus.BonusSkillName = ""
-                        attMod.Bonuses.Add(newBonus)
-                    End If
-                End If
                 lastModName = modRow.Item("typeName").ToString
                 ' Add to the ChargeGroups if it doesn't exist
                 If attMod.IsCharge = True And Charges.ChargeGroups.Contains(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize) = False Then
@@ -1375,24 +1336,6 @@ Public Class frmHQF
         lblLauncherSlots.Text = "Launcher Slots: " & FormatNumber(selShip.LauncherSlots, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         lblWarpSpeed.Text = "Warp Speed: " & FormatNumber(selShip.WarpSpeed * 3, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " au/s"
-
-        ' Add Bonuses to Description
-        txtShipDescription.Text &= ControlChars.CrLf & ControlChars.CrLf & "EveHQ HQF Bonuses" & ControlChars.CrLf
-        For Each Bonus As ItemBonus In selShip.Bonuses
-            Dim strBonus As String = ""
-            Dim bonusType As String = ""
-            If Bonus.BonusValue < 0 Then
-                bonusType = "penalty"
-            Else
-                bonusType = "bonus"
-            End If
-            If Bonus.BonusIsPerLevel = True Then
-                strBonus = Bonus.BonusValue & " " & bonusType & " to " & Bonuses.BonusNames(Bonus.BonusName).ToString & " per " & Bonus.BonusSkillName & " level."
-            Else
-                strBonus = "Role Bonus: " & Bonus.BonusValue & " " & bonusType & " to " & Bonuses.BonusNames(Bonus.BonusName).ToString & "."
-            End If
-            txtShipDescription.Text &= strBonus & ControlChars.CrLf
-        Next
 
         ' Add Required Skill into the Description
         txtShipDescription.Text &= ControlChars.CrLf & ControlChars.CrLf & "Required Skills" & ControlChars.CrLf

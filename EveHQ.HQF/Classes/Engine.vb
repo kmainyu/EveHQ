@@ -18,6 +18,9 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Windows.Forms
+Imports System.IO
+Imports System.Runtime.Serialization.Formatters.Binary
+Imports System.Runtime.Serialization
 
 Public Class Engine
 
@@ -25,6 +28,7 @@ Public Class Engine
     Public Shared ShipEffectsMap As New SortedList
     Public Shared ImplantEffectsMap As New SortedList
     Public Shared SkillEffectsTable As New SortedList
+    Public Shared BaseSkillEffectsTable As New SortedList
     Public Shared ModuleEffectsTable As New SortedList
 
 #Region "New Routines"
@@ -66,6 +70,7 @@ Public Class Engine
                 newEffect.StackNerf = CBool(EffectData(6))
                 newEffect.IsPerLevel = CBool(EffectData(7))
                 newEffect.CalcType = CInt(EffectData(8))
+                newEffect.Status = CInt(EffectData(9))
                 EffectClassList.Add(newEffect)
             End If
         Next
@@ -200,6 +205,7 @@ Public Class Engine
                                 fEffect.StackNerf = chkEffect.StackNerf
                                 fEffect.Cause = hSkill.Name & " (Level " & hSkill.Level & ")"
                                 fEffect.CalcType = chkEffect.CalcType
+                                fEffect.Status = chkEffect.Status
                                 If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
                                     fEffectList = New ArrayList
                                     SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
@@ -254,6 +260,7 @@ Public Class Engine
                 End If
             End If
         Next
+        BaseSkillEffectsTable = Engine.CloneSortedList(SkillEffectsTable)
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Building Skill Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
@@ -263,6 +270,8 @@ Public Class Engine
             Dim sTime, eTime As Date
             sTime = Now
             ' Go through all the skills and see what needs to be mapped
+            ' Reset the SkillEffectsTable
+            SkillEffectsTable = Engine.CloneSortedList(BaseSkillEffectsTable)
             Dim shipRoles As New ArrayList
             Dim hSkill As New HQFSkill
             Dim fEffect As New FinalEffect
@@ -368,7 +377,7 @@ Public Class Engine
                                             processData = True
                                         End If
                                 End Select
-                                If processData = True Then
+                                If processData = True And (aModule.ModuleState And chkEffect.Status) = aModule.ModuleState Then
                                     fEffect = New FinalEffect
                                     fEffect.AffectedAtt = chkEffect.AffectedAtt
                                     fEffect.AffectedType = chkEffect.AffectedType
@@ -631,7 +640,11 @@ Public Class Engine
                                         End If
                                 End Select
                                 If processAtt = True Then
-                                    log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & aModule.Attributes(att).ToString
+                                    log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
+                                    If aModule.Name = fEffect.Cause Then
+                                        log &= " (Overloading)"
+                                    End If
+                                    log &= ": " & aModule.Attributes(att).ToString()
                                     Select Case fEffect.CalcType
                                         Case EffectCalcType.Percentage
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
@@ -655,7 +668,6 @@ Public Class Engine
         'MessageBox.Show("Applying Module Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         Return newShip
     End Function
-
 
     Private Shared Function ApplyModuleEffectsToShip(ByVal baseShip As Ship) As Ship
         Dim sTime, eTime As Date
@@ -701,6 +713,8 @@ Public Class Engine
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
                                 newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                            Case EffectCalcType.Velocity
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + (CDbl(newShip.Attributes(att)) * (CDbl(newShip.Attributes("10010")) / CDbl(newShip.Attributes("10002")) * (fEffect.AffectedValue / 100)))
                         End Select
                     End If
                 Next
@@ -800,6 +814,18 @@ Public Class Engine
 
 #End Region
 
+#Region "Cloning"
+    Public Shared Function CloneSortedList(ByVal oldSortedList As SortedList) As SortedList
+        Dim myMemoryStream As New MemoryStream(10000)
+        Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
+        objBinaryFormatter.Serialize(myMemoryStream, oldSortedList)
+        myMemoryStream.Seek(0, SeekOrigin.Begin)
+        Dim newSortedList As SortedList = CType(objBinaryFormatter.Deserialize(myMemoryStream), SortedList)
+        myMemoryStream.Close()
+        Return newSortedList
+    End Function
+#End Region
+
 End Class
 
 Public Class Effect
@@ -812,6 +838,7 @@ Public Class Effect
     Public StackNerf As Boolean
     Public IsPerLevel As Boolean
     Public CalcType As Integer
+    Public Status As Integer
 End Class
 
 Public Class ShipEffect
@@ -824,6 +851,7 @@ Public Class ShipEffect
     Public StackNerf As Boolean
     Public IsPerLevel As Boolean
     Public CalcType As Integer
+    Public Status As Integer
     Public Value As Double
 End Class
 
@@ -834,12 +862,13 @@ Public Class ImplantEffect
     Public AffectedType As Integer
     Public AffectedID As New ArrayList
     Public CalcType As Integer
+    Public Status As Integer
     Public Value As Double
     Public IsGang As Boolean
     Public Groups As New ArrayList
 End Class
 
-Public Class FinalEffect
+<Serializable()> Public Class FinalEffect
     Public AffectedAtt As Integer
     Public AffectedType As Integer
     Public AffectedID As New ArrayList
@@ -847,6 +876,7 @@ Public Class FinalEffect
     Public StackNerf As Boolean
     Public Cause As String
     Public CalcType As Integer
+    Public Status As Integer
 End Class
 
 Public Enum EffectType
@@ -861,7 +891,8 @@ End Enum
 Public Enum EffectCalcType
     Percentage = 0
     Addition = 1
-    Difference = 2
+    Difference = 2 ' For resistances
+    Velocity = 3 ' For AB/MWD calculations
 End Enum
 
 

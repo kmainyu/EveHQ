@@ -121,9 +121,6 @@ Imports System.Runtime.Serialization
     ' Attributes
     Private cAttributes As New SortedList
 
-    ' Bonuses/Roles
-    Private cShipBonuses As New ArrayList
-
     ' "Used" Attributes
     Private cHiSlots_Used As Integer
     Private cMidSlots_Used As Integer
@@ -876,16 +873,6 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As SortedList)
             cAttributes = value
-        End Set
-    End Property
-
-    ' Bonuses/Roles
-    Public Property Bonuses() As ArrayList
-        Get
-            Return cShipBonuses
-        End Get
-        Set(ByVal value As ArrayList)
-            cShipBonuses = value
         End Set
     End Property
 

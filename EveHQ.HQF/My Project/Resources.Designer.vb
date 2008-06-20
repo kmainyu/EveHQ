@@ -61,42 +61,21 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to 20,Max Velocity,131,MICROWARPDRIVE_SPEED
-        '''20,Max Velocity,542,AFTERBURNER_SPEED
-        '''20,Max Velocity,683,MAX_VELOCITY
-        '''20,Max Velocity,801,MAX_VELOCITY
-        '''64,Damage Modifier,646,PROJECTILE_TURRET_DAMAGE
-        '''64,Damage Modifier,647,ENERGY_TURRET_DAMAGE
-        '''64,Damage Modifier,648,HYBRID_TURRET_DAMAGE
-        '''67,Capacitor,0,CAPACITOR_CAPACITY_FIXED
-        '''68,Shield Bonus,0,SHIELD_BOOSTER_BOOST
-        '''72,Shield HP,0,SHIELD_HP_FIXED
-        '''77,Mining Amount,0,MINING_AMOUNT
-        '''83,Hull HP Repaired,0,HULL_TRANSFER_AMOUNT
-        '''84,Armor HP Repaired,0,ARMOR_TRAN [rest of string was truncated]&quot;;.
+        '''  Looks up a localized string similar to 10001,Radius,Radius,0,m,1
+        '''10002,Mass,Mass,0,kg,1
+        '''10003,Volume,Volume,0,m3,1
+        '''10004,Capacity,Capacity,0,m3,1
+        '''10005,Drone Control,Drone Control,0,,0
+        '''10006,Fighter Control,Fighter Control,0,,0
+        '''10007,Drone Control Range,Drone Control Range,0,,0
+        '''10008,Fighter Control Range,Fighter Control Range,0,,0
+        '''10009,Warp Core Strength,Warp Core Strength,0,,6
+        '''10010,Thrust Addition,Thrust Addition,0,,6
+        '''.
         '''</summary>
         Friend ReadOnly Property Attributes() As String
             Get
                 Return ResourceManager.GetString("Attributes", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to ACCESS_DIFFICULTY,Access Difficulty,Electronics
-        '''AFTERBURNER_CAPACITOR,Afterburner Capacitor,Navigation
-        '''AFTERBURNER_DURATION,Afterburner Duration,Navigation
-        '''AFTERBURNER_SPEED,Afterburner Speed,Navigation
-        '''AFTERBURNER_THRUST,Afterburner Thrust,Navigation
-        '''AGILITY,Agility,Navigation
-        '''AGILITY_ASC,Agility Asc,Navigation
-        '''AGILITY_CAP,Agility Cap,Navigation
-        '''ARCHAEOLOGICAL_FIND,Archaeological Find,Electronics
-        '''ARMOR_HARDENER_ACTIVE_EM_RESIST,Armor Hardener Active EM Resist,Armor
-        '''ARMOR_HARDENER_ACTIVE_EXPLOSIVE [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property Bonuses() As String
-            Get
-                Return ResourceManager.GetString("Bonuses", resourceCulture)
             End Get
         End Property
         
@@ -126,16 +105,16 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to #HQF Attribute Mapping Table,,,,,,,,,
-        '''#Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Description
+        '''  Looks up a localized string similar to #HQF Attribute Mapping Table,,,,,,,,,,
+        '''#Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,State,Description
         '''
-        '''# SKILL ATTRIBUTE MAPPING,,,,,,,,,
-        '''# DRONES,,,,,,,,,
-        '''#,1,24613,,,,0,1,0,Advanced Drone Interfacing
-        '''292,1,12484,114,5,12484,0,1,0,Amarr Drone Specialization - EM
-        '''292,1,12484,116,5,12484,0,1,0,Amarr Drone Specialization - Explosive
-        '''292,1,12484,117,5,12484,0,1,0,Amarr Drone Specialization - Kinetic
-        '''292,1,12484,118,5,12484,0,1,0, [rest of string was truncated]&quot;;.
+        '''# SKILL ATTRIBUTE MAPPING,,,,,,,,,,
+        '''# DRONES,,,,,,,,,,
+        '''#,1,24613,,,,0,1,0,0,Advanced Drone Interfacing
+        '''292,1,12484,114,5,12484,0,1,0,0,Amarr Drone Specialization - EM
+        '''292,1,12484,116,5,12484,0,1,0,0,Amarr Drone Specialization - Explosive
+        '''292,1,12484,117,5,12484,0,1,0,0,Amarr Drone Specialization - Kinetic
+        '''292,1,12484,1 [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property Effects() As String
             Get
@@ -531,13 +510,16 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to #HQF Ship Bonus Mapping Table,,,,,,,,,,
-        '''#Ship ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Description
+        '''  Looks up a localized string similar to #HQF Ship Bonus Mapping Table,,,,,,,,,,,
+        '''#Ship ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Status,Description
         '''
-        '''# Raven,,,,,,,,,,
-        '''638,1,3338,51,2,506;508,0,1,0,-5,Cruise &amp; Siege ROF
-        '''638,1,3338,37,2,656;657;386;89,0,1,0,10,Cruise &amp; Torpedo Velocity
-        '''.
+        '''# Raven,,,,,,,,,,,
+        '''638,1,3338,51,2,506;508,0,1,0,-5,14,Cruise &amp; Siege ROF
+        '''638,1,3338,37,2,656;657;386;89,0,1,0,10,14,Cruise &amp; Torpedo Velocity
+        '''# Abaddon,,,,,,,,,,,
+        '''24692,1,3339,64,4,569;573,0,1,0,5,14,Large Energy Turret Damage
+        '''24692,1,3339,267,1,24692,0,1,2,5,15,Armor EM Resistance
+        '''24692,1,3339,268,1,24692,0,1,2,5,15,Arm [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ShipEffects() As String
             Get
@@ -560,29 +542,6 @@ Namespace My.Resources
         Friend ReadOnly Property Ships() As String
             Get
                 Return ResourceManager.GetString("Ships", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Acceleration Control,AFTERBURNER_SPEED,318
-        '''Acceleration Control,MICROWARPDRIVE_SPEED,318
-        '''Accounting,,
-        '''Advanced Drone Interfacing,DRONE_CONTROL_UNIT,0
-        '''Advanced Laboratory Operation,,
-        '''Advanced Mass Production,,
-        '''Advanced Spaceship Command,AGILITY_ASC,151
-        '''Advanced Weapon Upgrades,MISSILE_LAUNCHER_POWER_NEED,323
-        '''Advanced Weapon Upgrades,TURRET_POWER_NEED,323
-        '''Afterburner,AFTERBURNER_DURATION,66
-        '''Amarr Battleship,,
-        '''Amarr Carrier,,
-        '''Amarr Cruiser,,
-        '''Amarr Dreadnought,,
-        '''Amarr Drone Specialization,DRONE_EM [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property Skills() As String
-            Get
-                Return ResourceManager.GetString("Skills", resourceCulture)
             End Get
         End Property
         

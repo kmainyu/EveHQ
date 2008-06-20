@@ -68,9 +68,6 @@ Imports System.Runtime.Serialization
     ' Attributes
     Private cAttributes As New SortedList
 
-    ' Bonuses
-    Private cBonuses As New ArrayList
-
     ' Charges
     Private cCharges As New ArrayList
     Private cLoadedCharge As ShipModule
@@ -79,7 +76,7 @@ Imports System.Runtime.Serialization
     Private cAuditLog As New ArrayList
 
     ' Module State
-    Private cModuleState As Integer = 1 ' Default to 1 = Active
+    Private cModuleState As Integer = 4 ' Default to 4 = Active
 
 #End Region
 
@@ -303,16 +300,6 @@ Imports System.Runtime.Serialization
         End Set
     End Property
 
-    ' Bonuses/Roles
-    Public Property Bonuses() As ArrayList
-        Get
-            Return cBonuses
-        End Get
-        Set(ByVal value As ArrayList)
-            cBonuses = value
-        End Set
-    End Property
-
     ' Charges
     Public Property Charges() As ArrayList
         Get
@@ -397,9 +384,9 @@ End Class
 End Class
 
 Public Enum ModuleStates
-    Active = 1
+    Offline = 1
     Inactive = 2
-    Offline = 4
+    Active = 4
     Overloaded = 8
 End Enum
 

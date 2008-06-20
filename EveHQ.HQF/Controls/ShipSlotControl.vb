@@ -325,7 +325,7 @@ Public Class ShipSlotControl
         End If
         slotName.SubItems(2).Text = shipMod.CPU.ToString
         slotName.SubItems(3).Text = shipMod.PG.ToString
-        If shipMod.ModuleState = ModuleStates.Active Then
+        If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
             slotName.SubItems(4).Text = shipMod.CapUsage.ToString
         Else
             slotName.SubItems(4).Text = "0"
@@ -682,7 +682,7 @@ Public Class ShipSlotControl
                     AddHandler showMarketGroupMenuItem.Click, AddressOf Me.ShowModuleMarketGroup
                     ctxSlots.Items.Add(showMarketGroupMenuItem)
                     ' Add the Status menu item
-                    If rigGroups.Contains(currentMod.DatabaseGroup) = False Then
+                    If rigGroups.Contains(CInt(currentMod.DatabaseGroup)) = False Then
                         Dim canDeactivate As Boolean = False
                         Dim canOverload As Boolean = False
                         ctxSlots.Items.Add("-")

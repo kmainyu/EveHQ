@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Attributes.vb" />
-    <Compile Include="Classes\Bonuses.vb" />
     <Compile Include="Classes\Charges.vb" />
     <Compile Include="Classes\HQFPilot.vb" />
     <Compile Include="Classes\Market.vb" />
@@ -208,9 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ShipInfoControl.resx">
       <DependentUpon>ShipInfoControl.vb</DependentUpon>
@@ -250,7 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Attributes.csv" />
-    <None Include="Resources\Bonuses.csv" />
     <None Include="Resources\Boosters.csv" />
     <None Include="Resources\ImplantEffects.csv" />
     <None Include="Resources\ShipEffects.csv" />
@@ -295,7 +293,6 @@
     <None Include="Resources\Implants.csv" />
     <None Include="Resources\Rigs.csv" />
     <None Include="Resources\Ships.csv" />
-    <None Include="Resources\Skills.csv" />
     <None Include="Resources\Status_green.gif" />
     <None Include="Resources\Status_red.gif" />
     <None Include="Resources\Status_yellow.gif" />
