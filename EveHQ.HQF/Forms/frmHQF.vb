@@ -783,7 +783,6 @@ Public Class frmHQF
                     attValue = CDbl(modRow.Item("valueInt"))
                 End If
 
-                'TODO: Need to look at doing attribute (unit) modifier calculations here before applying them!
                 Select Case modRow.Item("unitID").ToString
                     Case "108"
                         attValue = Math.Round(100 - (attValue * 100), 2)
@@ -796,6 +795,14 @@ Public Class frmHQF
                             attValue = Math.Round(attValue / 1000, 2)
                         End If
                 End Select
+
+                ' Modify the attribute value if we using damage controls - this is to stack up later on
+                If CInt(attMod.DatabaseGroup) = 60 Then
+                    Select Case CInt(modRow.Item("attributeID"))
+                        Case 267, 268, 269, 270, 271, 272, 273, 274, 974, 975, 976, 977
+                            attValue = -attValue
+                    End Select
+                End If
 
                 attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
 

@@ -248,7 +248,6 @@
     <None Include="Resources\newItemMarketGroup.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Classes\ShipEffects.csv" />
     <None Include="Resources\Attributes.csv" />
     <None Include="Resources\Boosters.csv" />
     <None Include="Resources\ImplantEffects.csv" />

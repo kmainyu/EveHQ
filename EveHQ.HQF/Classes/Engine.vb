@@ -309,7 +309,7 @@ Public Class Engine
             End If
             eTime = Now
             Dim dTime As TimeSpan = eTime - sTime
-            'MessageBox.Show("Building Skill Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+            'MessageBox.Show("Building Ship Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         End If
     End Sub
     Public Shared Function BuildModuleEffects(ByVal baseShip As Ship) As Ship
@@ -417,10 +417,12 @@ Public Class Engine
         newShip = Engine.BuildModuleEffects(newShip)
         Call Engine.ApplyStackingPenalties()
         newShip = Engine.ApplyModuleEffectsToModules(newShip)
+        newShip = Engine.BuildModuleEffects(newShip)
+        Call Engine.ApplyStackingPenalties()
         newShip = Engine.ApplyModuleEffectsToShip(newShip)
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
-        MessageBox.Show("Applying the whole fitting took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        'MessageBox.Show("Applying the whole fitting took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         Return newShip
     End Function
 
@@ -472,6 +474,8 @@ Public Class Engine
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
                                 newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                            Case EffectCalcType.Absolute
+                                newShip.Attributes(att) = fEffect.AffectedValue
                         End Select
                         log &= " --> " & newShip.Attributes(att).ToString
                         newShip.AuditLog.Add(log)
@@ -558,6 +562,8 @@ Public Class Engine
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                         Case EffectCalcType.Difference ' Used for resistances
                                             aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                        Case EffectCalcType.Absolute
+                                            aModule.Attributes(att) = fEffect.AffectedValue
                                     End Select
                                     log &= " --> " & aModule.Attributes(att).ToString
                                     aModule.AuditLog.Add(log)
@@ -652,6 +658,8 @@ Public Class Engine
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
                                         Case EffectCalcType.Difference ' Used for resistances
                                             aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                        Case EffectCalcType.Absolute
+                                            aModule.Attributes(att) = fEffect.AffectedValue
                                     End Select
                                     log &= " --> " & aModule.Attributes(att).ToString
                                     aModule.AuditLog.Add(log)
@@ -712,9 +720,11 @@ Public Class Engine
                             Case EffectCalcType.Addition
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
                             Case EffectCalcType.Difference ' Used for resistances
-                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
                             Case EffectCalcType.Velocity
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + (CDbl(newShip.Attributes(att)) * (CDbl(newShip.Attributes("10010")) / CDbl(newShip.Attributes("10002")) * (fEffect.AffectedValue / 100)))
+                            Case EffectCalcType.Absolute
+                                newShip.Attributes(att) = fEffect.AffectedValue
                         End Select
                     End If
                 Next
@@ -728,6 +738,8 @@ Public Class Engine
     End Function
 
     Private Shared Sub ApplyStackingPenalties()
+        Dim sTime, eTime As Date
+        sTime = Now
         Dim baseEffectList As New ArrayList
         Dim finalEffectList As New ArrayList
         Dim tempPEffectList As New SortedList
@@ -810,6 +822,9 @@ Public Class Engine
             End If
             ModuleEffectsTable(att) = finalEffectList
         Next
+        eTime = Now
+        Dim dTime As TimeSpan = eTime - sTime
+        'MessageBox.Show("Applying Stacking Penalties took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
     End Sub
 
 #End Region
@@ -890,9 +905,10 @@ End Enum
 
 Public Enum EffectCalcType
     Percentage = 0
-    Addition = 1
+    Addition = 1 ' For adding values
     Difference = 2 ' For resistances
     Velocity = 3 ' For AB/MWD calculations
+    Absolute = 4 ' For setting values
 End Enum
 
 

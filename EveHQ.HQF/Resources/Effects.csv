@@ -60,7 +60,7 @@
 1296,1,21603,714,2,658,0,1,0,0,Cynosural Field Theory
 317,1,3427,6,2,80,0,1,0,0,Electronic Warfare - ECM Burst
 317,1,3427,6,2,201,0,1,0,0,Electronic Warfare - ECM
-424,1,3426,48,0,0,0,1,0,0,Electronics
+424,1,3426,48,3,6,0,1,0,0,Electronics
 310,1,3432,50,5,3432,0,1,0,0,Electronics Upgrades
 349,1,19760,158,2,201,0,1,0,0,Frequency Modulation - ECM
 349,1,19760,158,2,208,0,1,0,0,Frequency Modulation - RSD
@@ -70,7 +70,7 @@
 294,1,19759,54,2,208,0,1,0,0,Long Distance Jamming - RSD
 294,1,19759,54,2,291,0,1,0,0,Long Distance Jamming - TD
 294,1,19759,54,2,379,0,1,0,0,Long Distance Jamming - TP
-309,1,3428,76,0,0,0,1,0,0,Long Range Targeting
+309,1,3428,76,3,6,0,1,0,0,Long Range Targeting
 #,1,3430,,,,0,1,0,0,Multitasking
 1193,1,27911,669,2,842,0,1,0,0,Projected Electronic Counter Measures
 317,1,3435,6,2,52,0,1,0,0,Propulsion Jamming - Warp Scrambler
@@ -83,7 +83,7 @@
 828,1,19761,241,2,201,0,1,0,0,Signal Dispersion - Radar ECM
 828,1,19766,566,2,208,0,1,0,0,Signal Suppression - RSD Resolution
 828,1,19766,54,2,208,0,1,0,0,Signal Suppression - RSD Range
-566,1,3431,564,0,0,0,1,0,0,Signature Analysis
+566,1,3431,564,3,6,0,1,0,0,Signature Analysis
 832,1,19922,554,2,379,0,1,0,0,Signature Focusing
 #,1,3551,,,,0,1,0,0,Survey
 317,1,19921,6,2,379,0,1,0,0,Target Painting
@@ -95,27 +95,32 @@
 317,1,24572,6,4,910,0,1,0,0,Capital Energy Emission Systems
 317,1,24571,6,4,600,0,1,0,0,Capital Shield Emission Systems
 851,1,21802,6,4,778,0,1,0,0,Capital Shield Operation
-#,1,12365,,,,0,1,0,0,EM Shield Compensation
+958,1,12365,984,2,295,0,1,0,0,EM Shield Compensation - Passive
+988,1,12365,994,2,77,0,1,4,0,EM Shield Compensation - Active
 317,1,3423,6,4,695,0,1,0,0,Energy Emission Systems - Small
 317,1,3423,6,4,696,0,1,0,0,Energy Emission Systems - Medium
 317,1,3423,6,4,697,0,1,0,0,Energy Emission Systems - Large
 310,1,3424,50,5,3424,0,1,0,0,Energy Grid Upgrades
-1079,1,3418,482,0,0,0,1,0,0,Energy Management
+1079,1,3418,482,3,6,0,1,0,0,Energy Management
 66,1,3421,73,2,72,0,1,0,0,Energy Pulse Weapons
-314,1,3417,55,0,0,0,1,0,0,Energy Systems Operation
-313,1,3413,11,0,0,0,1,0,0,Engineering
-#,1,12367,,,,0,1,0,0,Explosive Shield Compensation
-#,1,12366,,,,0,1,0,0,Kinetic Shield Compensation
+314,1,3417,55,3,6,0,1,0,0,Energy Systems Operation
+313,1,3413,11,3,6,0,1,0,0,Engineering
+958,1,12367,985,2,295,0,1,0,0,Explosive Shield Compensation - Passive
+988,1,12367,995,2,77,0,1,4,0,Explosive Shield Compensation - Acitve
+958,1,12366,986,2,295,0,1,0,0,Kinetic Shield Compensation - Passive
+988,1,12366,996,2,77,0,1,4,0,Kinetic Shield Compensation - Active
 851,1,21059,6,2,40,0,1,0,0,Shield Compensation
 317,1,3422,6,4,604,0,1,0,0,Shield Emission Systems - Micro
 317,1,3422,6,4,603,0,1,0,0,Shield Emission Systems - Small
 317,1,3422,6,4,602,0,1,0,0,Shield Emission Systems - Medium
 317,1,3422,6,4,601,0,1,0,0,Shield Emission Systems - Large
-337,1,3419,263,0,0,0,1,0,0,Shield Management
-338,1,3416,479,0,0,0,1,0,0,Shield Operation
+337,1,3419,263,3,6,0,1,0,0,Shield Management - Shields
+337,1,3419,72,2,38,0,1,0,0,Shield Management - Shield Extenders
+338,1,3416,479,3,6,0,1,0,0,Shield Operation
 323,1,3425,30,5,3425,0,1,0,0,Shield Upgrades
-336,1,3420,484,0,0,0,1,0,0,Tactical Shield Manipulation
-#,1,11566,,,,0,1,0,0,Thermic Shield Compensation
+336,1,3420,484,3,6,0,1,0,0,Tactical Shield Manipulation
+958,1,11566,987,2,295,0,1,0,0,Thermic Shield Compensation - Passive
+988,1,11566,997,2,77,0,1,4,0,Thermic Shield Compensation - Active
 # GUNNERY,,,,,,,,,,
 323,1,11207,30,2,74,0,1,0,0,Advanced Weapon Upgrades - Hybrid
 323,1,11207,30,2,53,0,1,0,0,Advanced Weapon Upgrades - Energy
@@ -239,13 +244,17 @@
 312,1,21803,73,4,1052,0,1,0,0,Capital Repair Systems
 1139,1,26255,1138,2,778,0,1,0,0,Drones Rigging
 1139,1,26256,1138,2,786,0,1,0,0,Electronic Superiority Rigging
-#,1,22806,,,,0,1,0,0,EM Armor Compensation
+958,1,22806,984,2,326,0,1,0,0,EM Armor Compensation - Passive
+988,1,22806,994,2,994,0,1,4,0,EM Armor Compensation - Active
 1139,1,26258,1138,2,775,0,1,0,0,Energy Weapon Rigging
-#,1,22807,,,,0,1,0,0,Explosive Armor Compensation
-335,1,3394,265,0,0,0,1,0,0,Hull Upgrades
+958,1,22807,985,2,326,0,1,0,0,Explosive Armor Compensation
+988,1,22807,995,2,994,0,1,4,0,Explosive Armor Compensation
+335,1,3394,265,3,6,0,1,0,0,Hull Upgrades - Armor HP
+335,1,3394,1159,2,329,0,1,0,0,Hull Upgrades - Armor Plate HP
 1139,1,26259,1138,2,776,0,1,0,0,Hybrid Weapon Rigging
 #,1,26252,,,,0,1,0,0,Jury Rigging
-#,1,22808,,,,0,1,0,0,Kinetic Armor Compensation
+958,1,22808,986,2,326,0,1,0,0,Kinetic Armor Compensation
+988,1,22808,996,2,994,0,1,4,0,Kinetic Armor Compensation
 1139,1,26260,1138,2,779,0,1,0,0,Launcher Rigging
 327,1,3392,9,3,6,0,1,0,0,Mechanic
 #,1,28880,,,,0,1,0,0,Nanite Interfacing
@@ -263,7 +272,8 @@
 #,1,25863,,,,0,1,0,0,Salvaging
 1139,1,26261,1138,2,774,0,1,0,0,Shield Rigging
 #,1,27906,,,,0,1,0,0,Tactical Logistics Reconfiguration
-#,1,22809,,,,0,1,0,0,Thermic Armor Compensation
+958,1,22809,987,2,326,0,1,0,0,Thermic Armor Compensation
+988,1,22809,997,2,994,0,1,4,0,Thermic Armor Compensation
 # MISSILE LAUNCHER OPERATION,,,,,,,,,,
 293,1,28073,669,2,862,0,1,0,0,Bomb Deployment
 292,1,21668,114,2,476,0,1,0,0,Citadel Torpedoes - EM
@@ -439,14 +449,14 @@
 # NAVIGATION,,,,,,,,,,
 318,1,3452,20,2,46,0,1,0,0,Acceleration Control - AB/MWD
 66,1,3450,73,4,542,0,1,0,0,Afterburner
-151,1,3453,70,0,0,0,1,0,0,Evasive Maneuvering
+151,1,3453,70,3,6,0,1,0,0,Evasive Maneuvering
 317,1,3451,6,4,542,0,1,0,0,Fuel Conservation
 216,1,3454,6,4,131,0,1,0,0,High Speed Maneuvering
-870,1,21611,867,0,0,0,1,0,0,Jump Drive Calibration
-899,1,3456,898,0,0,0,1,0,0,Jump Drive Operation
-1296,1,21610,868,0,0,0,1,0,0,Jump Fuel Conservation
-315,1,3449,37,0,0,0,1,0,0,Navigation
-319,1,3455,153,0,0,0,1,0,0,Warp Drive Operation
+870,1,21611,867,3,6,0,1,0,0,Jump Drive Calibration
+899,1,3456,898,3,6,0,1,0,0,Jump Drive Operation
+1296,1,21610,868,3,6,0,1,0,0,Jump Fuel Conservation
+315,1,3449,37,3,6,0,1,0,0,Navigation
+319,1,3455,153,3,6,0,1,0,0,Warp Drive Operation
 # SCIENCE,,,,,,,,,,
 434,1,3410,77,2,54,0,1,0,0,Astrogeology - Mining Laser
 434,1,3410,77,4,1040,0,1,0,0,Astrogeology - Strip Miner
@@ -553,7 +563,7 @@
 780,2,546,73,4,1038,0,0,0,14,Cycle Time
 1082,2,546,50,4,1038,0,0,0,14,CPU Penalty
 # OVERLOADING ATTRIBUTE MAPPING,,,,,,,,,,
-1223,2,46,10010,3,6,1,0,0,8,AB/MWD Speed Bonus
+1223,2,46,20,2,46,1,0,0,8,AB/MWD Speed Bonus
 1208,2,328,984,2,328,1,0,0,8,Armor Hardener - EM
 1208,2,328,985,2,328,1,0,0,8,Armor Hardener - Exp
 1208,2,328,986,2,328,1,0,0,8,Armor Hardener - Kin
@@ -594,7 +604,7 @@
 1206,2,41,73,2,41,1,0,0,8,Shield Transporter Duration
 1222,2,65,54,2,65,1,0,0,8,Stasis Web Range Bonus
 1222,2,52,54,2,52,1,0,0,8,Warp Scrambler Range Bonus
-# MODULE TO SHIP ATTRIBUTE MAPPING,,,,,,,,,,
+# MODULE ATTRIBUTE MAPPING,,,,,,,,,,
 # FITTING,,,,,,,,,,
 50,0,0,49,3,6,0,0,1,14,CPU -> CPU_Used
 30,0,0,15,3,6,0,0,1,14,PG -> PG_Used
@@ -607,10 +617,22 @@
 134,2,57,479,3,6,0,0,0,14,Shield Power Relay - Shield Recharge Rate
 144,2,57,55,3,6,0,0,0,14,Shield Power Relay - Capacitor Recharge Rate
 134,2,39,479,3,6,0,0,0,14,Shield Recharger - Shield Recharge Rate
+994,2,77,271,3,6,1,0,2,2,Shield Hardeners - Passive EM Resist
+995,2,77,272,3,6,1,0,2,2,Shield Hardeners - Passive Exp Resist
+996,2,77,273,3,6,1,0,2,2,Shield Hardeners - Passive Kin Resist
+997,2,77,274,3,6,1,0,2,2,Shield Hardeners - Passive Therm Resist
+984,2,77,271,3,6,1,0,2,12,Shield Hardeners - Active EM Resist
+985,2,77,272,3,6,1,0,2,12,Shield Hardeners - Active Exp Resist
+986,2,77,273,3,6,1,0,2,12,Shield Hardeners - Active Kin Resist
+987,2,77,274,3,6,1,0,2,12,Shield Hardeners - Active Therm Resist
+984,2,295,271,3,6,1,0,2,14,Shield Amplifiers - Passive EM Resist
+985,2,295,272,3,6,1,0,2,14,Shield Amplifiers - Passive Exp Resist
+986,2,295,273,3,6,1,0,2,14,Shield Amplifiers - Passive Kin Resist
+987,2,295,274,3,6,1,0,2,14,Shield Amplifiers - Passive Therm Resist
 # ENGINEERING,,,,,,,,,,
 549,2,339,11,3,6,0,0,1,14,Auxiliary Power Core - PG
 67,2,61,482,3,6,0,0,1,14,Capacitor Battery - Capacitor Capacity
-144,2,768,55,3,0,0,0,0,14,Cap Flux Coil - Cap Recharge Rate
+144,2,768,55,3,6,0,0,0,14,Cap Flux Coil - Cap Recharge Rate
 147,2,768,482,3,6,0,0,0,14,Cap Flux Coil - Cap Capacity
 144,2,767,55,3,6,0,0,0,14,Cap Power Relay - Cap Recharge Rate
 144,2,43,55,3,6,0,0,0,14,Cap Recharger - Cap Recharge Rate
@@ -659,3 +681,138 @@
 150,2,78,9,3,6,0,0,0,14,Structure HP Bonus
 169,2,78,70,3,6,0,0,0,14,Inertia Penalty
 306,2,78,37,3,6,0,0,0,14,Max Velocity Penalty
+# Armor Hardeners,,,,,,,,,,
+994,2,328,267,3,6,1,0,2,2,Armor Hardeners - Passive EM Resist
+995,2,328,268,3,6,1,0,2,2,Armor Hardeners - Passive Exp Resist
+996,2,328,269,3,6,1,0,2,2,Armor Hardeners - Passive Kin Resist
+997,2,328,270,3,6,1,0,2,2,Armor Hardeners - Passive Therm Resist
+984,2,328,267,3,6,1,0,2,12,Armor Hardeners - Active EM Resist
+985,2,328,268,3,6,1,0,2,12,Armor Hardeners - Active Exp Resist
+986,2,328,269,3,6,1,0,2,12,Armor Hardeners - Active Kin Resist
+987,2,328,270,3,6,1,0,2,12,Armor Hardeners - Active Therm Resist
+# Armor Amplifiers,,,,,,,,,,
+984,2,326,267,3,6,1,0,2,14,Armor Amplifiers - Passive EM Resist
+985,2,326,268,3,6,1,0,2,14,Armor Amplifiers - Passive Exp Resist
+986,2,326,269,3,6,1,0,2,14,Armor Amplifiers - Passive Kin Resist
+987,2,326,270,3,6,1,0,2,14,Armor Amplifiers - Passive Therm Resist
+# Armor Reinforcer,,,,,,,,,,
+796,2,329,10002,3,6,0,0,1,14,Armor Plates - Mass Addition
+1159,2,329,265,3,6,0,0,1,14,Armor Plates - Armor HP
+# Damage Controls,,,,,,,,,,
+267,2,60,267,3,6,0,0,2,12,Armor EM Resistance Bonus
+268,2,60,268,3,6,0,0,2,12,Armor Exp Resistance Bonus
+269,2,60,269,3,6,0,0,2,12,Armor Kin Resistance Bonus
+270,2,60,270,3,6,0,0,2,12,Armor Therm Resistance Bonus
+271,2,60,271,3,6,0,0,2,12,Shield EM Resistance Bonus
+272,2,60,272,3,6,0,0,2,12,Shield Exp Resistance Bonus
+273,2,60,273,3,6,0,0,2,12,Shield Kin Resistance Bonus
+274,2,60,274,3,6,0,0,2,12,Shield Therm Resistance Bonus
+974,2,60,113,3,6,0,0,2,12,Hull EM Resistance Bonus
+975,2,60,111,3,6,0,0,2,12,Hull Exp Resistance Bonus
+976,2,60,109,3,6,0,0,2,12,Hull Kin Resistance Bonus
+977,2,60,110,3,6,0,0,2,12,Hull Therm Resistance Bonus
+# RIGS - ARMOR,,,,,,,,,,
+1138,2,773,37,3,6,0,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+984,2,773,267,3,6,1,0,2,15,Anti-EM Pump
+985,2,773,268,3,6,1,0,2,15,Anti-Explosive Pump
+986,2,773,269,3,6,1,0,2,15,Anti-Kinetic Pump
+987,2,773,270,3,6,1,0,2,15,Anti-Thermal Pump
+806,2,773,84,4,1049;1050;1051,1,0,0,15,Auxiliary Nano Pump
+312,2,773,73,4,1049;1050;1051,1,0,0,15,Nanobot Accelerator
+317,2,773,6,4,1059;1058;1057,1,0,0,15,Remote Repair Augmentor
+335,2,773,265,3,6,1,0,0,15,Trimark Armor Pump
+# RIGS - ASTRONAUTIC,,,,,,,,,,
+1138,2,782,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+315,2,782,37,3,6,1,0,0,15,Auxiliary Thrusters
+614,2,782,10004,3,6,0,0,0,15,Cargohold Optimization
+317,2,782,6,2,46,0,0,0,15,Dynamic Fuel Valve
+66,2,782,73,2,46,0,0,0,15,Engine Thermal Shielding
+624,2,782,600,3,6,0,0,0,15,Hyperspatial Velocity Optimizer
+151,2,782,70,3,6,1,0,0,15,Low Friction Nozzle Joints
+1131,2,782,10002,3,6,1,0,0,15,Polycarbon Engine Housing
+319,2,782,153,3,6,0,0,0,15,Warp Core Optimizer
+# RIGS - DRONE,,,,,,,,,,
+1138,2,778,48,3,6,0,0,0,15,Drone Rig Drawback - CPU Output
+459,2,778,10005,3,6,0,0,0,15,Drone Control Range Augmentor
+327,2,778,9,3,18,0,0,0,15,Drone Durability Enhancer
+434,2,778,77,3,18,0,0,0,15,Drone Mining Augmentor
+39,2,778,68,3,18,0,0,0,15,Drone Repair Augmentor - Shield
+39,2,778,84,3,18,0,0,0,15,Drone Repair Augmentor - Armor
+294,2,778,54,3,18,0,0,0,15,Drone Scope Chip
+591,2,778,37,3,18,1,0,0,15,Drone Speed Augmentor
+459,2,778,10005,2,639,0,0,0,15,EW Drone Range Augmentor
+292,2,778,64,4,911,1,0,0,15,Sentry Damage Augmentor
+1164,2,778,20,3,18,0,0,0,15,Stasis Drone Augmentor
+# RIGS - ELECTRONIC,,,,,,,,,,
+#66,2,780,0,0,0,0,0,0,15,Gravity Capacitor Upgrade
+310,2,780,50,5,3432,0,0,0,15,Liquid Cooled Electronics
+317,2,780,6,2,201;80,0,0,0,15,Signal Disruption Amplifier
+# RIGS - ELECTRONIC SUPERIORITY,,,,,,,,,,
+1138,2,786,263,3,6,0,0,0,15,Electronic Superiority Rig Drawback - Shield HP
+828,2,786,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
+828,2,786,566,2,208,1,0,0,15,Inverted Signal Field Projector - Scan Res
+237,2,786,76,3,6,1,0,0,15,Ionic Field Projector
+828,2,786,238,2,201,1,0,0,15,Particle Dispersion Augmentor - Grav
+828,2,786,239,2,201,1,0,0,15,Particle Dispersion Augmentor - Ladar
+828,2,786,240,2,201,1,0,0,15,Particle Dispersion Augmentor - Mag
+828,2,786,241,2,201,1,0,0,15,Particle Dispersion Augmentor - Radar
+294,2,786,54,2,201;208;291;379,1,0,0,15,Particle Dispersion Projector
+308,2,786,73,2,47;48;49,0,0,0,15,Signal Focusing Kit
+565,2,786,564,3,6,1,0,0,15,Targeting System Subcontroller
+619,2,786,669,2,330,0,0,0,15,Targeting Systems Stabiizer
+828,2,786,351,2,291,0,0,0,15,Tracking Diagnostic Subroutines
+828,2,786,767,2,291,0,0,0,15,Tracking Diagnostic Subroutines
+# RIGS - ENERGY GRID,,,,,,,,,,
+313,2,781,11,3,6,0,0,0,15,Ancilliary Current Router
+314,2,781,55,3,6,0,0,0,15,Capacitor Control Circuit
+317,2,781,6,5,3423,0,0,0,15,Egress Port Maximizer
+310,2,781,50,5,3413,0,0,0,15,Powergrid Subroutine Maximizer
+1079,2,781,482,3,6,0,0,0,15,Semiconductor Memory Cell
+# RIGS - ENERGY WEAPON,,,,,,,,,,
+1138,2,775,30,2,53,0,0,0,15,Energy Weapon Rig Drawback - PG Penalty
+310,2,775,50,2,53,0,0,0,15,Algid Energy Administrations Unit
+349,2,775,158,2,53,0,0,0,15,Energy Ambit Extension
+204,2,775,51,2,53,0,0,0,15,Energy Burst Aerator
+64,2,775,64,2,53,0,0,0,15,Energy Collision Accelerator
+317,2,775,6,2,53,0,0,0,15,Energy Discharge Elutriation
+243,2,775,54,2,53,0,0,0,15,Energy Locus Coordinator
+244,2,775,160,2,53,0,0,0,15,Energy Metastasis Adjuster
+# RIGS - HYBRID WEAPON,,,,,,,,,,
+1138,2,776,30,2,74,0,0,0,15,Hybrid Weapon Rig Drawback - PG Penalty
+310,2,776,50,2,74,0,0,0,15,Algid Hybrid Administrations Unit
+349,2,776,158,2,74,0,0,0,15,Hybrid Ambit Extension
+204,2,776,51,2,74,0,0,0,15,Hybrid Burst Aerator
+64,2,776,64,2,74,0,0,0,15,Hybrid Collision Accelerator
+317,2,776,6,2,74,0,0,0,15,Hybrid Discharge Elutriation
+243,2,776,54,2,74,0,0,0,15,Hybrid Locus Coordinator
+244,2,776,160,2,74,0,0,0,15,Hybrid Metastasis Adjuster
+# RIGS - LAUNCHER,,,,,,,,,,
+1138,2,779,50,2,511;524;506;510;771;507;508;509,0,0,0,15,Launcher Rig Drawback - CPU Penalty
+204,2,779,51,2,511;524;506;510;771;507;508;509,1,0,0,15,Bay Loading Accelerator
+20,2,779,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Hydraulic Bay Thrusters
+557,2,779,281,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Rocket Fuel Cache Partition
+213,2,779,114,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
+213,2,779,116,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
+213,2,779,117,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
+213,2,779,118,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
+847,2,779,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Flare Catalyst
+848,2,779,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Rigot Catalyst
+# RIGS - PROJECTILE WEAPON,,,,,,,,,,
+1138,2,777,30,2,55,0,0,0,15,Projectile Weapon Rig Drawback - PG Penalty
+349,2,777,158,2,55,0,0,0,15,Projectile Ambit Extension
+204,2,777,51,2,55,0,0,0,15,Projectile Burst Aerator
+64,2,777,64,2,55,0,0,0,15,Projectile Collision Accelerator
+317,2,777,6,2,55,0,0,0,15,Projectile Discharge Elutriation
+243,2,777,54,2,55,0,0,0,15,Projectile Locus Coordinator
+244,2,777,160,2,55,0,0,0,15,Projectile Metastasis Adjuster
+# RIGS - SHIELD,,,,,,,,,,
+1138,2,774,552,3,6,1,0,0,15,Shield Rig Drawback - Sig Radius Penalty
+984,2,774,271,3,6,1,0,2,15,Anti-EM Screen Reinforcer
+985,2,774,272,3,6,1,0,2,15,Anti-Explosive Screen Reinforcer
+986,2,774,273,3,6,1,0,2,15,Anti-Kinetic Screen Reinforcer
+987,2,774,274,3,6,1,0,2,15,Anti-Thermal Screen Reinforcer
+851,2,774,6,5,3416,0,0,0,15,Core Defence Capacitor Safeguard
+323,2,774,30,5,3425,0,0,0,15,Core Deence Charge Economizer
+337,2,774,263,3,6,0,0,0,15,Core Defence Field Extender
+338,2,774,479,3,6,0,0,0,15,Core Defence Field Purger
+312,2,774,73,2,40,0,0,0,15,Core Defence Operational Solidifer
