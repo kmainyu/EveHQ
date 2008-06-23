@@ -376,12 +376,18 @@ Public Class Engine
                                         If aModule.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
                                             processData = True
                                         End If
+                                    Case EffectType.Slot
+                                        processData = True
                                 End Select
                                 If processData = True And (aModule.ModuleState And chkEffect.Status) = aModule.ModuleState Then
                                     fEffect = New FinalEffect
                                     fEffect.AffectedAtt = chkEffect.AffectedAtt
                                     fEffect.AffectedType = chkEffect.AffectedType
-                                    fEffect.AffectedID = chkEffect.AffectedID
+                                    If chkEffect.AffectedType = EffectType.Slot Then
+                                        fEffect.AffectedID.Add(aModule.SlotNo)
+                                    Else
+                                        fEffect.AffectedID = chkEffect.AffectedID
+                                    End If
                                     fEffect.AffectedValue = CDbl(aModule.Attributes(att))
                                     fEffect.StackNerf = chkEffect.StackNerf
                                     fEffect.Cause = aModule.Name
@@ -397,7 +403,63 @@ Public Class Engine
                             Next
                         End If
                     Next
-                End If
+                    If aModule.LoadedCharge IsNot Nothing Then
+                        For Each att As String In aModule.LoadedCharge.Attributes.Keys
+                            If EffectsMap.Contains(att) = True Then
+                                For Each chkEffect As Effect In CType(EffectsMap(att), ArrayList)
+                                    processData = False
+                                    Select Case chkEffect.AffectingType
+                                        Case EffectType.All
+                                            processData = True
+                                        Case EffectType.Item
+                                            If chkEffect.AffectingID.ToString = aModule.LoadedCharge.ID Then
+                                                processData = True
+                                            End If
+                                        Case EffectType.Group
+                                            If chkEffect.AffectingID.ToString = aModule.LoadedCharge.DatabaseGroup Then
+                                                processData = True
+                                            End If
+                                        Case EffectType.Category
+                                            If chkEffect.AffectingID.ToString = aModule.LoadedCharge.DatabaseCategory Then
+                                                processData = True
+                                            End If
+                                        Case EffectType.MarketGroup
+                                            If chkEffect.AffectingID.ToString = aModule.LoadedCharge.MarketGroup Then
+                                                processData = True
+                                            End If
+                                        Case EffectType.Skill
+                                            If aModule.LoadedCharge.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
+                                                processData = True
+                                            End If
+                                        Case EffectType.Slot
+                                            processData = True
+                                    End Select
+                                    If processData = True And (aModule.LoadedCharge.ModuleState And chkEffect.Status) = aModule.LoadedCharge.ModuleState Then
+                                        fEffect = New FinalEffect
+                                        fEffect.AffectedAtt = chkEffect.AffectedAtt
+                                        fEffect.AffectedType = chkEffect.AffectedType
+                                        If chkEffect.AffectedType = EffectType.Slot Then
+                                            fEffect.AffectedID.Add(aModule.SlotNo)
+                                        Else
+                                            fEffect.AffectedID = chkEffect.AffectedID
+                                        End If
+                                        fEffect.AffectedValue = CDbl(aModule.LoadedCharge.Attributes(att))
+                                        fEffect.StackNerf = chkEffect.StackNerf
+                                        fEffect.Cause = aModule.LoadedCharge.Name
+                                        fEffect.CalcType = chkEffect.CalcType
+                                        If ModuleEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                            fEffectList = New ArrayList
+                                            ModuleEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                        Else
+                                            fEffectList = CType(ModuleEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                                        End If
+                                        fEffectList.Add(fEffect)
+                                    End If
+                                Next
+                            End If
+                        Next
+                    End If ' End of LoadedCharge checking
+                End If ' End of Module checking
             Next
         Next
         eTime = Now
@@ -552,6 +614,10 @@ Public Class Engine
                                         If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
                                             processAtt = True
                                         End If
+                                    Case EffectType.Slot
+                                        If fEffect.AffectedID.Contains(aModule.SlotNo) Then
+                                            processAtt = True
+                                        End If
                                 End Select
                                 If processAtt = True Then
                                     log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & aModule.Attributes(att).ToString
@@ -642,6 +708,10 @@ Public Class Engine
                                         End If
                                     Case EffectType.Skill
                                         If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                            processAtt = True
+                                        End If
+                                    Case EffectType.Slot
+                                        If fEffect.AffectedID.Contains(aModule.SlotNo) Then
                                             processAtt = True
                                         End If
                                 End Select
@@ -901,6 +971,7 @@ Public Enum EffectType
     Category = 3
     MarketGroup = 4
     Skill = 5
+    Slot = 6
 End Enum
 
 Public Enum EffectCalcType

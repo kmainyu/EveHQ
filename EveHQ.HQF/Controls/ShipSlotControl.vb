@@ -304,7 +304,7 @@ Public Class ShipSlotControl
     End Sub
     Private Sub UpdateSlotLocation(ByVal oldMod As ShipModule, ByVal slotNo As Integer)
         Dim shipMod As New ShipModule
-        Select Case oldMod.Slot
+        Select Case oldMod.SlotType
             Case 1 ' Rig
                 shipMod = fittedShip.RigSlot(slotNo)
             Case 2 ' Low
@@ -315,7 +315,7 @@ Public Class ShipSlotControl
                 shipMod = fittedShip.HiSlot(slotNo)
         End Select
         shipMod.ModuleState = oldMod.ModuleState
-        Dim slotName As ListViewItem = lvwSlots.Items(shipMod.Slot & "_" & slotNo)
+        Dim slotName As ListViewItem = lvwSlots.Items(shipMod.SlotType & "_" & slotNo)
         slotName.ImageIndex = CInt(Math.Log(shipMod.ModuleState) / Math.Log(2))
         slotName.Text = shipMod.Name
         If shipMod.LoadedCharge IsNot Nothing Then
@@ -519,7 +519,7 @@ Public Class ShipSlotControl
     Private Function IsSlotAvailable(ByVal shipMod As ShipModule) As Boolean
 
         ' First, check slot layout
-        Select Case shipMod.Slot
+        Select Case shipMod.SlotType
             Case 1 ' Rig
                 If currentShip.RigSlots_Used = currentShip.RigSlots Then
                     MessageBox.Show("There are no available rig slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -561,11 +561,12 @@ Public Class ShipSlotControl
         Return True
     End Function
     Private Function AddModuleInNextSlot(ByVal shipMod As ShipModule) As Integer
-        Select Case shipMod.Slot
+        Select Case shipMod.SlotType
             Case 1 ' Rig
                 For slotNo As Integer = 1 To 8
                     If currentShip.RigSlot(slotNo) Is Nothing Then
                         currentShip.RigSlot(slotNo) = shipMod
+                        shipMod.SlotNo = slotNo
                         Return slotNo
                     End If
                 Next
@@ -574,6 +575,7 @@ Public Class ShipSlotControl
                 For slotNo As Integer = 1 To 8
                     If currentShip.LowSlot(slotNo) Is Nothing Then
                         currentShip.LowSlot(slotNo) = shipMod
+                        shipMod.SlotNo = slotNo
                         Return slotNo
                     End If
                 Next
@@ -582,6 +584,7 @@ Public Class ShipSlotControl
                 For slotNo As Integer = 1 To 8
                     If currentShip.MidSlot(slotNo) Is Nothing Then
                         currentShip.MidSlot(slotNo) = shipMod
+                        shipMod.SlotNo = slotNo
                         Return slotNo
                     End If
                 Next
@@ -590,6 +593,7 @@ Public Class ShipSlotControl
                 For slotNo As Integer = 1 To 8
                     If currentShip.HiSlot(slotNo) Is Nothing Then
                         currentShip.HiSlot(slotNo) = shipMod
+                        shipMod.SlotNo = slotNo
                         Return slotNo
                     End If
                 Next

@@ -32,7 +32,7 @@ Public Class frmHQF
     Dim currentShipInfo As ShipInfoControl
     Dim FittingTabList As New ArrayList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.6.9.22"
+    Shared LastCacheRefresh As String = "1.6.9.23"
 
 #Region "Class Wide Variables"
 
@@ -79,6 +79,7 @@ Public Class frmHQF
                 If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\version.txt") = True Then
                     Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\version.txt")
                     Dim cacheVersion As String = sr.ReadToEnd
+                    sr.Close()
                     If IsUpdateAvailable(cacheVersion, LastCacheRefresh) = True Then
                         ' Delete the existing cache folder and force a rebuild
                         My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
@@ -780,13 +781,13 @@ Public Class frmHQF
                 Dim effMod As ShipModule = CType(ModuleLists.moduleList.Item(modRow.Item("typeID").ToString), ShipModule)
                 Select Case CInt(modRow.Item("effectID"))
                     Case 11 ' Low slot
-                        effMod.Slot = 2
+                        effMod.SlotType = 2
                     Case 12 ' High slot
-                        effMod.Slot = 8
+                        effMod.SlotType = 8
                     Case 13 ' Mid slot
-                        effMod.Slot = 4
+                        effMod.SlotType = 4
                     Case 2663 ' Rig slot
-                        effMod.Slot = 1
+                        effMod.SlotType = 1
                     Case 40
                         effMod.IsLauncher = True
                     Case 42
@@ -1474,7 +1475,7 @@ Public Class frmHQF
                     newModule.SubItems.Add(shipMod.MetaLevel.ToString)
                     newModule.SubItems.Add(shipMod.CPU.ToString)
                     newModule.SubItems.Add(shipMod.PG.ToString)
-                    Select Case shipMod.Slot
+                    Select Case shipMod.SlotType
                         Case 8 ' High
                             newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
                             newModule.ImageKey = "hiSlot"
@@ -1539,7 +1540,7 @@ Public Class frmHQF
                         newModule.SubItems.Add(shipMod.MetaLevel.ToString)
                         newModule.SubItems.Add(shipMod.CPU.ToString)
                         newModule.SubItems.Add(shipMod.PG.ToString)
-                        Select Case shipMod.Slot
+                        Select Case shipMod.SlotType
                             Case 8 ' High
                                 newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
                                 newModule.ImageKey = "hiSlot"

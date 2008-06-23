@@ -46,7 +46,8 @@ Imports System.Runtime.Serialization
     Private cIcon As String
 
     ' Fitting Details
-    Private cSlot As Integer ' 1=Rig, 2=Low, 4=Mid, 8=High
+    Private cSlotType As Integer ' 1=Rig, 2=Low, 4=Mid, 8=High
+    Private cSlotNo As Integer
     Private cVolume As Double
     Private cCPU As Double
     Private cPG As Double
@@ -173,12 +174,20 @@ Imports System.Runtime.Serialization
     End Property
 
     ' Fitting Details
-    Public Property Slot() As Integer
+    Public Property SlotType() As Integer
         Get
-            Return cSlot
+            Return cSlotType
         End Get
         Set(ByVal value As Integer)
-            cSlot = value
+            cSlotType = value
+        End Set
+    End Property
+    Public Property SlotNo() As Integer
+        Get
+            Return cSlotNo
+        End Get
+        Set(ByVal value As Integer)
+            cSlotNo = value
         End Set
     End Property
     Public Property Volume() As Double

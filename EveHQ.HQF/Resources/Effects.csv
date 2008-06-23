@@ -577,6 +577,16 @@
 50,0,0,49,3,6,0,0,1,14,CPU -> CPU_Used
 30,0,0,15,3,6,0,0,1,14,PG -> PG_Used
 1153,0,0,1154,3,6,0,0,1,14,Cal -> Cal-Used
+# AMMUNITION & CHARGES,,,,,,,,,,
+# SCRIPTS,,,,,,,,,,
+1313,2,910,309,6,0,0,0,0,15,Sensor Booster - Max Target Range
+1314,2,910,566,6,0,0,0,0,15,Sensor Booster - Scan Resolution
+1313,2,911,309,6,0,0,0,0,15,Sensor Dampener - Max Target Range
+1314,2,911,566,6,0,0,0,0,15,Sensor Dampener - Scan Resolution
+1315,2,909,351,6,0,0,0,0,15,Tracking Disruptor - Optimal Range
+1316,2,909,767,6,0,0,0,0,15,Tracking Disruptor - Tracking Speed
+1315,2,907,351,6,0,0,0,0,15,Tracking Computer - Optimal Range
+1316,2,907,767,6,0,0,0,0,15,Tracking Computer - Tracking Speed
 # ELECTRONIC WARFARE,,,,,,,,,,
 # ECCM,,,,,,,,,,
 1027,2,202,211,3,6,1,0,0,14,Grav Strength
