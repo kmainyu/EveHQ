@@ -41,6 +41,12 @@ Public Class frmSplash
             End If
         Next
 
+        ' Delete any .old files left over from the last update
+        For Each newFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath, FileIO.SearchOption.SearchTopLevelOnly, "*.old")
+            Dim nfi As New IO.FileInfo(newFile)
+            My.Computer.FileSystem.DeleteFile(nfi.FullName)
+        Next
+
         ' Set the application folder
         lblStatus.Text = "Setting application directory..."
         Me.Refresh()

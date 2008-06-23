@@ -369,16 +369,9 @@ Public Class frmUpdater
             Dim oldFile As String = ""
             For Each newFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath, FileIO.SearchOption.SearchTopLevelOnly, "*.upd")
                 oldFile = newFile.TrimEnd(".upd".ToCharArray)
-                ' Check if old file exists and back it up!
                 Dim ofi As New IO.FileInfo(oldFile)
-                'If My.Computer.FileSystem.FileExists(ofi.FullName) Then
-                ' Delete the old backup if it exists
-                'If My.Computer.FileSystem.FileExists(ofi.FullName & ".bak") = True Then
-                'My.Computer.FileSystem.DeleteFile(ofi.FullName & ".bak")
-                'End If
-                'My.Computer.FileSystem.RenameFile(ofi.FullName, ofi.Name & ".bak")
-                'End If
                 Dim nfi As New IO.FileInfo(newFile)
+                My.Computer.FileSystem.RenameFile(ofi.FullName, ofi.Name & ".old")
                 ' Copy the new file as the old one
                 My.Computer.FileSystem.CopyFile(nfi.FullName, ofi.FullName, True)
                 ' If no errors, then delete the update file
