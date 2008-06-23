@@ -530,38 +530,6 @@
 #,1,22761,0,0,0,0,1,0,0,Recon Ship
 151,1,3327,70,0,0,0,1,0,0,Spaceship Command
 #,1,19719,0,0,0,0,1,0,0,Transport Ships
-# MODULE TO MODULE ATTRIBUTE MAPPING,,,,,,,,,,
-# Shield Boost Amplifiers,,,,,,,,,,
-548,2,338,68,2,40,1,0,0,14,Shield Boost Bonus
-# Cap Power Relays,,,,,,,,,,
-548,2,767,68,2,40,1,0,0,14,Shield Boost Bonus
-# Ballistic Control Systems,,,,,,,,,,
-204,2,367,51,2,511;524;506;510;771;507;508;501;509,1,0,0,14,ROF Bonus
-213,2,367,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,14,Damage Bonus - EM
-213,2,367,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,14,Damage Bonus - Explosive
-213,2,367,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,14,Damage Bonus - Kinetic
-213,2,367,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,14,Damage Bonus - Thermal
-# Gyrostabilizers,,,,,,,,,,
-204,2,59,51,2,55,1,0,0,14,ROF
-64,2,59,64,2,55,1,0,0,14,Damage Bonus
-# Heat Sinks,,,,,,,,,,
-204,2,205,51,2,53,1,0,0,14,ROF
-64,2,205,64,2,53,1,0,0,14,Damage Bonus
-# Magnetic Field Stabilizers,,,,,,,,,,
-204,2,302,51,2,74,1,0,0,14,ROF
-64,2,302,64,2,74,1,0,0,14,Damage Bonus
-# Tracking Computers,,,,,,,,,,
-351,2,213,54,2,55;53;74,1,0,0,4,Optimal Range
-767,2,213,160,2,55;53;74,1,0,0,4,Tracking Speed
-# Tracking Enhancers,,,,,,,,,,
-351,2,211,54,2,55;53;74,1,0,0,14,Optimal Range
-767,2,211,160,2,55;53;74,1,0,0,14,Tracking Speed
-# Mining Upgrade,,,,,,,,,,
-434,2,546,77,4,1039;1040,0,0,0,14,Mining Amount
-1082,2,546,50,4,1039;1040,0,0,0,14,CPU Penalty
-# Ice Harvester Upgrade,,,,,,,,,,
-780,2,546,73,4,1038,0,0,0,14,Cycle Time
-1082,2,546,50,4,1038,0,0,0,14,CPU Penalty
 # OVERLOADING ATTRIBUTE MAPPING,,,,,,,,,,
 1223,2,46,20,2,46,1,0,0,8,AB/MWD Speed Bonus
 1208,2,328,984,2,328,1,0,0,8,Armor Hardener - EM
@@ -609,78 +577,100 @@
 50,0,0,49,3,6,0,0,1,14,CPU -> CPU_Used
 30,0,0,15,3,6,0,0,1,14,PG -> PG_Used
 1153,0,0,1154,3,6,0,0,1,14,Cal -> Cal-Used
-# SHIELD,,,,,,,,,,
-72,2,38,263,3,6,0,0,1,14,Shield Extenders - Shield HP
-983,2,38,552,3,6,0,0,1,14,Shield Extenders - Signature Radius
-146,2,770,263,3,6,0,0,0,14,Shield Flux Coil - Shield HP
-134,2,770,479,3,6,0,0,0,14,Shield Flux Coil - Shield Recharge Rate
-134,2,57,479,3,6,0,0,0,14,Shield Power Relay - Shield Recharge Rate
-144,2,57,55,3,6,0,0,0,14,Shield Power Relay - Capacitor Recharge Rate
-134,2,39,479,3,6,0,0,0,14,Shield Recharger - Shield Recharge Rate
-994,2,77,271,3,6,1,0,2,2,Shield Hardeners - Passive EM Resist
-995,2,77,272,3,6,1,0,2,2,Shield Hardeners - Passive Exp Resist
-996,2,77,273,3,6,1,0,2,2,Shield Hardeners - Passive Kin Resist
-997,2,77,274,3,6,1,0,2,2,Shield Hardeners - Passive Therm Resist
-984,2,77,271,3,6,1,0,2,12,Shield Hardeners - Active EM Resist
-985,2,77,272,3,6,1,0,2,12,Shield Hardeners - Active Exp Resist
-986,2,77,273,3,6,1,0,2,12,Shield Hardeners - Active Kin Resist
-987,2,77,274,3,6,1,0,2,12,Shield Hardeners - Active Therm Resist
-984,2,295,271,3,6,1,0,2,14,Shield Amplifiers - Passive EM Resist
-985,2,295,272,3,6,1,0,2,14,Shield Amplifiers - Passive Exp Resist
-986,2,295,273,3,6,1,0,2,14,Shield Amplifiers - Passive Kin Resist
-987,2,295,274,3,6,1,0,2,14,Shield Amplifiers - Passive Therm Resist
-# ENGINEERING,,,,,,,,,,
-549,2,339,11,3,6,0,0,1,14,Auxiliary Power Core - PG
+# ELECTRONIC WARFARE,,,,,,,,,,
+# ECCM,,,,,,,,,,
+1027,2,202,211,3,6,1,0,0,14,Grav Strength
+1028,2,202,209,3,6,1,0,0,14,Ladar Strength
+1029,2,202,210,3,6,1,0,0,14,Mag Strength
+1030,2,202,208,3,6,1,0,0,14,Radar Strength
+# ECM,,,,,,,,,,
+#238,2,201,,3,6,0,0,0,14,Grav Strength
+#239,2,201,,3,6,0,0,0,14,Ladar Strength
+#240,2,201,,3,6,0,0,0,14,Mag Strength
+#241,2,201,,3,6,0,0,0,14,Radar Strength
+# Signal Distortion Amps,,,,,,,,,,
+846,2,514,238,2,201,1,0,0,15,Grav Strength
+846,2,514,239,2,201,1,0,0,15,Ladar Strength
+846,2,514,240,2,201,1,0,0,15,Mag Strength
+846,2,514,241,2,201,1,0,0,15,Radar Strength
+# Sensor Backup Arrays,,,,,,,,,,
+1027,2,203,211,3,6,1,0,0,14,Grav Strength
+1028,2,203,209,3,6,1,0,0,14,Ladar Strength
+1029,2,203,210,3,6,1,0,0,14,Mag Strength
+1030,2,203,208,3,6,1,0,0,14,Radar Strength
+# ECM Burst,,,,,,,,,,
+#238,2,80,,3,6,0,0,0,14,Grav Strength
+#239,2,80,,3,6,0,0,0,14,Ladar Strength
+#240,2,80,,3,6,0,0,0,14,Mag Strength
+#241,2,80,,3,6,0,0,0,14,Radar Strength
+# Projected ECCM,,,,,,,,,,
+#1027,2,289,211,3,6,1,0,0,14,Grav Strength
+#1028,2,289,209,3,6,1,0,0,14,Ladar Strength
+#1029,2,289,210,3,6,1,0,0,14,Mag Strength
+#1030,2,289,208,3,6,1,0,0,14,Radar Strength
+# Remote Sensor Dampeners,,,,,,,,,,
+#309,2,208,76,3,6,1,0,0,14,Max Targeting Range
+#566,2,208,564,3,6,1,0,0,14,Scan Resolution
+# Stasis Webifiers,,,,,,,,,,
+#20,2,65,37,3,6,0,0,0,14,Max Velocity Penalty
+# Target Painters,,,,,,,,,,
+#554,2,379,552,3,6,0,0,0,14,Signature Radius Penalty
+# Tracking Disruptors,,,,,,,,,,
+#351,2,291,54,2,55;53;74,1,0,0,14,Optimal Range
+#767,2,291,160,2,55;53;74,1,0,0,14,Tracking Speed
+# Warp Disruption Field Generators,,,,,,,,,,
+554,2,899,552,3,6,0,0,0,14,Signature Radius Penalty
+1131,2,899,10002,3,6,0,0,0,14,Mass Reduction
+1164,2,899,20,2,46,0,0,0,14,AB/MWD Max Velocity Penalty
+1270,2,899,567,2,46,0,0,0,14,AB/MWD Thrust Penalty
+# Warp Scramblers,,,,,,,,,,
+105,2,52,10009,3,6,0,0,0,14,Warp Core Strength
+# ELECTRONICS AND SENSOR UPGRADES,,,,,,,,,,
+# Auto Targeting Systems,,,,,,,,,,
+235,2,96,192,3,6,0,0,1,14,Auto Targeter - Max Locked Targets
+# Cloaking Devices,,,,,,,,,,
+306,2,330,37,3,6,0,0,0,4,Cloaking Device - Max Velocity Penalty
+565,2,330,564,3,6,0,0,0,14,Cloaking Device - Scan Resolution
+# CPU Upgrades,,,,,,,,,,
+202,2,285,48,3,6,0,0,0,14,Co-Processor - CPU Output
+# Remote Sensor Boosters,,,,,,,,,,
+#309,2,212,76,3,6,1,0,0,4,Sensor Booster - Max Targeting Range
+#566,2,212,564,3,6,1,0,0,4,Sensor Booster - Scan Resolution
+# Sensor Boosters,,,,,,,,,,
+309,2,212,76,3,6,1,0,0,4,Sensor Booster - Max Targeting Range
+566,2,212,564,3,6,1,0,0,4,Sensor Booster - Scan Resolution
+# Signal Amplifiers,,,,,,,,,,
+235,2,210,192,3,6,0,0,1,14,Signal Amplifier - Max Locked Targets
+309,2,210,76,3,6,1,0,0,14,Signal Amplifier - Max Targeting Range
+566,2,210,564,3,6,1,0,0,14,Signal Amplifier - Scan Resolution
+# ENGINEERING EQUIPMENT,,,,,,,,,,
+# Capacitor Batteries,,,,,,,,,,
 67,2,61,482,3,6,0,0,1,14,Capacitor Battery - Capacitor Capacity
+# Energy Destablilizers,,,,,,,,,,
+#97,2,71,,,,0,0,0,14,Energy Neutralized
+# Energy Transfer Arrays,,,,,,,,,,
+#90,2,67,,,,0,0,0,14,Energy Transferred
+# Energy Vampires,,,,,,,,,,
+#97,2,68,,,,0,0,0,14,Energy Transferred
+# Auxiliary Power Cores,,,,,,,,,,
+549,2,339,11,3,6,0,0,1,14,Auxiliary Power Core - PG
+# Capacitor Flux Coils,,,,,,,,,,
 144,2,768,55,3,6,0,0,0,14,Cap Flux Coil - Cap Recharge Rate
 147,2,768,482,3,6,0,0,0,14,Cap Flux Coil - Cap Capacity
+# Capacitor Power Relays,,,,,,,,,,
 144,2,767,55,3,6,0,0,0,14,Cap Power Relay - Cap Recharge Rate
+548,2,767,68,2,40,1,0,0,14,Shield Boost Bonus
+# Capacitor Rechargers,,,,,,,,,,
 144,2,43,55,3,6,0,0,0,14,Cap Recharger - Cap Recharge Rate
+# Power Diagnostic Systems,,,,,,,,,,
 134,2,766,479,3,6,0,0,0,14,Power Diagnostic - Shield Recharge Rate
 144,2,766,55,3,6,0,0,0,14,Power Diagnostic - Cap Recharge Rate
 145,2,766,11,3,6,0,0,0,14,Power Diagnostic - PG
 146,2,766,263,3,6,0,0,0,14,Power Diagnostic - Shield HP
 147,2,766,482,3,6,0,0,0,14,Power Diagnostic - Cap Capacity
+# Reactor Control Units,,,,,,,,,,
 145,2,769,11,3,6,0,0,0,14,Reactor Control - PG
-# ELECTRONICS,,,,,,,,,,
-235,2,96,192,3,6,0,0,1,14,Auto Targeter - Max Locked Targets
-306,2,330,37,3,6,0,0,0,4,Cloaking Device - Max Velocity Penalty
-565,2,330,564,3,6,0,0,0,14,Cloaking Device - Scan Resolution
-202,2,285,48,3,6,0,0,0,14,Co-Processor - CPU Output
-309,2,212,76,3,6,1,0,0,4,Sensor Booster - Max Targeting Range
-566,2,212,564,3,6,1,0,0,4,Sensor Booster - Scan Resolution
-235,2,210,192,3,6,0,0,1,14,Signal Amplifier - Max Locked Targets
-309,2,210,76,3,6,1,0,0,14,Signal Amplifier - Max Targeting Range
-566,2,210,564,3,6,1,0,0,14,Signal Amplifier - Scan Resolution
-# NAVIGATION,,,,,,,,,,
-# Afterburners/MWD,,,,,,,,,,
-567,2,46,10010,3,6,0,0,1,12,AB/MWD Thrust
-796,2,46,10002,3,6,0,0,1,12,AB/MWD Mass addition
-554,2,46,552,3,6,0,0,0,12,AB/MWD Sig Radius Penalty
-147,2,46,482,3,6,0,0,0,14,AB/MWD Cap Penalty
-20,2,46,37,3,6,0,0,3,12,AB/MWD Velocity Bonus
-# Overdrive Injectors,,,,,,,,,,
-1076,2,764,37,3,6,1,0,0,14,Max Velocity Bonus
-149,2,764,10004,3,6,1,0,0,14,Cargo Capacity Penalty
-# Inertia Stabilizers,,,,,,,,,,
-169,2,762,70,3,6,1,0,0,14,Inertia Modifier
-554,2,762,552,3,6,1,0,0,14,Sig Radius Penalty
-# Warp Core Stabilizers,,,,,,,,,,
-105,2,315,10009,3,6,0,0,0,14,Warp Core Strength
-309,2,315,76,3,6,0,0,0,14,Targeting Range Penalty
-565,2,315,564,3,6,0,0,0,14,Scan Resolution Penalty
 # HULL & ARMOR,,,,,,,,,,
-# Cargo Expander,,,,,,,,,,
-149,2,765,10004,3,6,0,0,0,14,Cargo Capacity Bonus
-150,2,765,9,3,6,0,0,0,14,Structure HP Penalty
-306,2,765,37,3,6,0,0,0,14,Max Velocity Penalty
-# Nanofiber Internal Structure,,,,,,,,,,
-150,2,763,9,3,6,1,0,0,14,Structure HP Bonus
-1131,2,763,10002,3,6,1,0,0,14,Mass Reduction
-# Reinforced Bulkheads,,,,,,,,,,
-150,2,78,9,3,6,0,0,0,14,Structure HP Bonus
-169,2,78,70,3,6,0,0,0,14,Inertia Penalty
-306,2,78,37,3,6,0,0,0,14,Max Velocity Penalty
 # Armor Hardeners,,,,,,,,,,
 994,2,328,267,3,6,1,0,2,2,Armor Hardeners - Passive EM Resist
 995,2,328,268,3,6,1,0,2,2,Armor Hardeners - Passive Exp Resist
@@ -690,12 +680,7 @@
 985,2,328,268,3,6,1,0,2,12,Armor Hardeners - Active Exp Resist
 986,2,328,269,3,6,1,0,2,12,Armor Hardeners - Active Kin Resist
 987,2,328,270,3,6,1,0,2,12,Armor Hardeners - Active Therm Resist
-# Armor Amplifiers,,,,,,,,,,
-984,2,326,267,3,6,1,0,2,14,Armor Amplifiers - Passive EM Resist
-985,2,326,268,3,6,1,0,2,14,Armor Amplifiers - Passive Exp Resist
-986,2,326,269,3,6,1,0,2,14,Armor Amplifiers - Passive Kin Resist
-987,2,326,270,3,6,1,0,2,14,Armor Amplifiers - Passive Therm Resist
-# Armor Reinforcer,,,,,,,,,,
+# Armor Plates,,,,,,,,,,
 796,2,329,10002,3,6,0,0,1,14,Armor Plates - Mass Addition
 1159,2,329,265,3,6,0,0,1,14,Armor Plates - Armor HP
 # Damage Controls,,,,,,,,,,
@@ -711,6 +696,100 @@
 975,2,60,111,3,6,0,0,2,12,Hull Exp Resistance Bonus
 976,2,60,109,3,6,0,0,2,12,Hull Kin Resistance Bonus
 977,2,60,110,3,6,0,0,2,12,Hull Therm Resistance Bonus
+# Armor Energized Plating,,,,,,,,,,
+984,2,326,267,3,6,1,0,2,14,Armor Amplifiers - Passive EM Resist
+985,2,326,268,3,6,1,0,2,14,Armor Amplifiers - Passive Exp Resist
+986,2,326,269,3,6,1,0,2,14,Armor Amplifiers - Passive Kin Resist
+987,2,326,270,3,6,1,0,2,14,Armor Amplifiers - Passive Therm Resist
+# Cargo Expander,,,,,,,,,,
+149,2,765,10004,3,6,0,0,0,14,Cargo Capacity Bonus
+150,2,765,9,3,6,0,0,0,14,Structure HP Penalty
+306,2,765,37,3,6,0,0,0,14,Max Velocity Penalty
+# Nanofiber Internal Structure,,,,,,,,,,
+150,2,763,9,3,6,1,0,0,14,Structure HP Bonus
+1131,2,763,10002,3,6,1,0,0,14,Mass Reduction
+# Reinforced Bulkheads,,,,,,,,,,
+150,2,78,9,3,6,0,0,0,14,Structure HP Bonus
+169,2,78,70,3,6,0,0,0,14,Inertia Penalty
+306,2,78,37,3,6,0,0,0,14,Max Velocity Penalty
+# Armor Resistence Plating,,,,,,,,,,
+984,2,326,267,3,6,1,0,2,14,Armor Plating - Passive EM Resist
+985,2,326,268,3,6,1,0,2,14,Armor Plating - Passive Exp Resist
+986,2,326,269,3,6,1,0,2,14,Armor Plating - Passive Kin Resist
+987,2,326,270,3,6,1,0,2,14,Armor Plating - Passive Therm Resist
+# PROPULSION,,,,,,,,,,
+# Afterburners/MWD,,,,,,,,,,
+567,2,46,10010,3,6,0,0,1,12,AB/MWD Thrust
+796,2,46,10002,3,6,0,0,1,12,AB/MWD Mass addition
+554,2,46,552,3,6,0,0,0,12,AB/MWD Sig Radius Penalty
+147,2,46,482,3,6,0,0,0,14,AB/MWD Cap Penalty
+20,2,46,37,3,6,0,0,3,12,AB/MWD Velocity Bonus
+# Inertia Stabilizers,,,,,,,,,,
+169,2,762,70,3,6,1,0,0,14,Inertia Modifier
+554,2,762,552,3,6,1,0,0,14,Sig Radius Penalty
+# Overdrive Injectors,,,,,,,,,,
+1076,2,764,37,3,6,1,0,0,14,Max Velocity Bonus
+149,2,764,10004,3,6,1,0,0,14,Cargo Capacity Penalty
+# Warp Core Stabilizers,,,,,,,,,,
+105,2,315,10009,3,6,0,0,0,14,Warp Core Strength
+309,2,315,76,3,6,0,0,0,14,Targeting Range Penalty
+565,2,315,564,3,6,0,0,0,14,Scan Resolution Penalty
+# SHIELD,,,,,,,,,,
+# Shield Boost Amplifiers,,,,,,,,,,
+548,2,338,68,2,40,1,0,0,14,Shield Boost Bonus
+# Shield Extenders,,,,,,,,,,
+72,2,38,263,3,6,0,0,1,14,Shield Extenders - Shield HP
+983,2,38,552,3,6,0,0,1,14,Shield Extenders - Signature Radius
+# Shield Flux Coils,,,,,,,,,,
+146,2,770,263,3,6,0,0,0,14,Shield Flux Coil - Shield HP
+134,2,770,479,3,6,0,0,0,14,Shield Flux Coil - Shield Recharge Rate
+# Shield Hardeners,,,,,,,,,,
+994,2,77,271,3,6,1,0,2,2,Shield Hardeners - Passive EM Resist
+995,2,77,272,3,6,1,0,2,2,Shield Hardeners - Passive Exp Resist
+996,2,77,273,3,6,1,0,2,2,Shield Hardeners - Passive Kin Resist
+997,2,77,274,3,6,1,0,2,2,Shield Hardeners - Passive Therm Resist
+984,2,77,271,3,6,1,0,2,12,Shield Hardeners - Active EM Resist
+985,2,77,272,3,6,1,0,2,12,Shield Hardeners - Active Exp Resist
+986,2,77,273,3,6,1,0,2,12,Shield Hardeners - Active Kin Resist
+987,2,77,274,3,6,1,0,2,12,Shield Hardeners - Active Therm Resist
+# Shield Power Relays,,,,,,,,,,
+134,2,57,479,3,6,0,0,0,14,Shield Power Relay - Shield Recharge Rate
+144,2,57,55,3,6,0,0,0,14,Shield Power Relay - Capacitor Recharge Rate
+# Shield Rechargers,,,,,,,,,,
+134,2,39,479,3,6,0,0,0,14,Shield Recharger - Shield Recharge Rate
+# Shield Resistance Amplifiers,,,,,,,,,,
+984,2,295,271,3,6,1,0,2,14,Shield Amplifiers - Passive EM Resist
+985,2,295,272,3,6,1,0,2,14,Shield Amplifiers - Passive Exp Resist
+986,2,295,273,3,6,1,0,2,14,Shield Amplifiers - Passive Kin Resist
+987,2,295,274,3,6,1,0,2,14,Shield Amplifiers - Passive Therm Resist
+# TURRETS & BAYS,,,,,,,,,,
+# Ballistic Control Systems,,,,,,,,,,
+204,2,367,51,2,511;524;506;510;771;507;508;501;509,1,0,0,14,ROF Bonus
+213,2,367,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,14,Damage Bonus - EM
+213,2,367,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,14,Damage Bonus - Explosive
+213,2,367,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,14,Damage Bonus - Kinetic
+213,2,367,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,1,0,0,14,Damage Bonus - Thermal
+# Gyrostabilizers,,,,,,,,,,
+204,2,59,51,2,55,1,0,0,14,ROF
+64,2,59,64,2,55,1,0,0,14,Damage Bonus
+# Heat Sinks,,,,,,,,,,
+204,2,205,51,2,53,1,0,0,14,ROF
+64,2,205,64,2,53,1,0,0,14,Damage Bonus
+# Magnetic Field Stabilizers,,,,,,,,,,
+204,2,302,51,2,74,1,0,0,14,ROF
+64,2,302,64,2,74,1,0,0,14,Damage Bonus
+# Tracking Computers,,,,,,,,,,
+351,2,213,54,2,55;53;74,1,0,0,4,Optimal Range
+767,2,213,160,2,55;53;74,1,0,0,4,Tracking Speed
+# Tracking Enhancers,,,,,,,,,,
+351,2,211,54,2,55;53;74,1,0,0,14,Optimal Range
+767,2,211,160,2,55;53;74,1,0,0,14,Tracking Speed
+# Mining Upgrade,,,,,,,,,,
+434,2,546,77,4,1039;1040,0,0,0,14,Mining Amount
+1082,2,546,50,4,1039;1040,0,0,0,14,CPU Penalty
+# Ice Harvester Upgrade,,,,,,,,,,
+780,2,546,73,4,1038,0,0,0,14,Cycle Time
+1082,2,546,50,4,1038,0,0,0,14,CPU Penalty
 # RIGS - ARMOR,,,,,,,,,,
 1138,2,773,37,3,6,0,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 984,2,773,267,3,6,1,0,2,15,Anti-EM Pump

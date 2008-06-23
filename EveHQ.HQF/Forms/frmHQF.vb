@@ -32,6 +32,7 @@ Public Class frmHQF
     Dim currentShipInfo As ShipInfoControl
     Dim FittingTabList As New ArrayList
     Shared UseSerializableData As Boolean = False
+    Shared LastCacheRefresh As String = "1.6.9.22"
 
 #Region "Class Wide Variables"
 
@@ -74,7 +75,22 @@ Public Class frmHQF
             ' Check for cache folder
             Settings.HQFCacheFolder = Settings.HQFFolder & "\Cache"
             If My.Computer.FileSystem.DirectoryExists(Settings.HQFCacheFolder) = True Then
-                UseSerializableData = True
+                ' Check for last cache version file
+                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\version.txt") = True Then
+                    Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\version.txt")
+                    Dim cacheVersion As String = sr.ReadToEnd
+                    If IsUpdateAvailable(cacheVersion, LastCacheRefresh) = True Then
+                        ' Delete the existing cache folder and force a rebuild
+                        My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                        UseSerializableData = False
+                    Else
+                        UseSerializableData = True
+                    End If
+                Else
+                    ' Delete the existing cache folder and force a rebuild
+                    My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    UseSerializableData = False
+                End If
             Else
                 UseSerializableData = False
             End If
@@ -183,6 +199,28 @@ Public Class frmHQF
             Windows.Forms.MessageBox.Show(ex.Message)
             Return False
         End Try
+    End Function
+
+    Private Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
+        If localVer = remoteVer Then
+            Return False
+        Else
+            Dim localVers() As String = localVer.Split(CChar("."))
+            Dim remoteVers() As String = remoteVer.Split(CChar("."))
+            Dim requiresUpdate As Boolean = False
+            For ver As Integer = 0 To 3
+                If CInt(remoteVers(ver)) <> CInt(localVers(ver)) Then
+                    If CInt(remoteVers(ver)) > CInt(localVers(ver)) Then
+                        requiresUpdate = True
+                        Exit For
+                    Else
+                        requiresUpdate = False
+                        Exit For
+                    End If
+                End If
+            Next
+            Return requiresUpdate
+        End If
     End Function
 
     Public Function GetEveHQPlugInInfo() As Core.PlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
@@ -2155,6 +2193,11 @@ Public Class frmHQF
         ' Write Ship Tree 
         Call Me.WriteShipGroups()
         Call Me.WriteItemGroups()
+        ' Write the current version
+        Dim sw As New StreamWriter(HQF.Settings.HQFCacheFolder & "\version.txt")
+        sw.Write(LastCacheRefresh)
+        sw.Flush()
+        sw.Close()
     End Sub
     Private Sub WriteShipGroups()
         Dim sw As New IO.StreamWriter(HQF.Settings.HQFCacheFolder & "\ShipGroups.txt")
