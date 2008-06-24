@@ -32,7 +32,7 @@ Public Class frmHQF
     Dim currentShipInfo As ShipInfoControl
     Dim FittingTabList As New ArrayList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.6.9.23"
+    Shared LastCacheRefresh As String = "1.6.9.24"
 
 #Region "Class Wide Variables"
 
@@ -843,7 +843,33 @@ Public Class frmHQF
                     End Select
                 End If
 
-                attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
+                ' Do custom attribute changes here!
+                Select Case modRow.Item("attributeID").ToString
+                    Case "51" ' ROF
+                        Select Case attMod.DatabaseGroup
+                            Case "53" ' Energy Turret 
+                                attMod.Attributes.Add("10011", attValue)
+                            Case "74" ' Hybrid Turret
+                                attMod.Attributes.Add("10012", attValue)
+                            Case "55" ' Projectile Turret
+                                attMod.Attributes.Add("10013", attValue)
+                            Case Else
+                                attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
+                        End Select
+                    Case "64" ' Damage Modifier
+                        Select Case attMod.DatabaseGroup
+                            Case "53" ' Energy Turret 
+                                attMod.Attributes.Add("10014", attValue)
+                            Case "74" ' Hybrid Turret
+                                attMod.Attributes.Add("10015", attValue)
+                            Case "55" ' Projectile Turret
+                                attMod.Attributes.Add("10016", attValue)
+                            Case Else
+                                attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
+                        End Select
+                    Case Else
+                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
+                End Select
 
                 Select Case CInt(modRow.Item("attributeID"))
                     Case 30

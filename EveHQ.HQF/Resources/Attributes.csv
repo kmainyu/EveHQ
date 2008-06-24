@@ -8,3 +8,9 @@
 10008,Fighter Control Range,Fighter Control Range,0,,0
 10009,Warp Core Strength,Warp Core Strength,0,,6
 10010,Thrust Addition,Thrust Addition,0,,6
+10011,energyTurretROF,Rate Of Fire,0,s,9
+10012,hybridTurretROF,Rate Of Fire,0,s,9
+10013,projectileTurretROF,Rate Of Fire,0,s,9
+10014,energyTurretDamage,Damage Modifier,0,x,9
+10015,hybridTurretDamage,Damage Modifier,0,x,9
+10016,projectileTurretDamage,Damage Modifier,0,x,9

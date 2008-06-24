@@ -145,7 +145,7 @@ Partial Class frmShowInfo
         Me.tabSIDescription.Controls.Add(Me.lblDescription)
         Me.tabSIDescription.Location = New System.Drawing.Point(4, 22)
         Me.tabSIDescription.Name = "tabSIDescription"
-        Me.tabSIDescription.Size = New System.Drawing.Size(465, 353)
+        Me.tabSIDescription.Size = New System.Drawing.Size(565, 393)
         Me.tabSIDescription.TabIndex = 2
         Me.tabSIDescription.Text = "Description"
         Me.tabSIDescription.UseVisualStyleBackColor = True
@@ -159,7 +159,7 @@ Partial Class frmShowInfo
         Me.lblDescription.Margin = New System.Windows.Forms.Padding(5)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Padding = New System.Windows.Forms.Padding(5)
-        Me.lblDescription.Size = New System.Drawing.Size(465, 353)
+        Me.lblDescription.Size = New System.Drawing.Size(565, 393)
         Me.lblDescription.TabIndex = 0
         '
         'tabSIAttributes
@@ -210,7 +210,7 @@ Partial Class frmShowInfo
         Me.tabSISkills.Location = New System.Drawing.Point(4, 22)
         Me.tabSISkills.Name = "tabSISkills"
         Me.tabSISkills.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabSISkills.Size = New System.Drawing.Size(465, 353)
+        Me.tabSISkills.Size = New System.Drawing.Size(565, 393)
         Me.tabSISkills.TabIndex = 0
         Me.tabSISkills.Text = "Req Skills"
         Me.tabSISkills.UseVisualStyleBackColor = True
@@ -297,10 +297,12 @@ Partial Class frmShowInfo
         '
         'lblItemName
         '
+        Me.lblItemName.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblItemName.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblItemName.Location = New System.Drawing.Point(147, 13)
         Me.lblItemName.Name = "lblItemName"
-        Me.lblItemName.Size = New System.Drawing.Size(244, 35)
+        Me.lblItemName.Size = New System.Drawing.Size(434, 35)
         Me.lblItemName.TabIndex = 16
         Me.lblItemName.Text = "Item Label That Spans At Least 2 Lines"
         '

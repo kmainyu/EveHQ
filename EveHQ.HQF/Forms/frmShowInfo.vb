@@ -480,6 +480,7 @@ Public Class frmShowInfo
         End If
 
     End Sub
+
     Private Sub ShowAttributes(ByVal itemObject As Object)
         Dim attGroups(15) As String
         attGroups(0) = "Miscellaneous" : attGroups(1) = "Structure" : attGroups(2) = "Armor" : attGroups(3) = "Shield"
@@ -527,7 +528,12 @@ Public Class frmShowInfo
                     idx = EveHQ.Core.HQ.groupList.IndexOfValue(itemObject.Attributes.Item(att).ToString)
                     newItem.SubItems.Add(EveHQ.Core.HQ.groupList.GetKey(idx))
                 Case Else
-                    newItem.SubItems.Add(itemObject.Attributes.Item(att) & " " & attData.UnitName)
+                    If itemObject.Attributes.item(att) = stdItem.Attributes.Item(att) Then
+                        newItem.SubItems.Add(itemObject.Attributes.Item(att) & " " & attData.UnitName)
+                    Else
+                        newItem.UseItemStyleForSubItems = False
+                        newItem.SubItems.Add(itemObject.Attributes.Item(att) & " " & attData.UnitName, Color.Black, Color.LightSteelBlue, lvwAttributes.Font)
+                    End If
             End Select
             lvwAttributes.Items.Add(newItem)
         Next
