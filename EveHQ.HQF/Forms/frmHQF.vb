@@ -32,7 +32,7 @@ Public Class frmHQF
     Dim currentShipInfo As ShipInfoControl
     Dim FittingTabList As New ArrayList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.6.9.24"
+    Shared LastCacheRefresh As String = "1.6.9.25"
 
 #Region "Class Wide Variables"
 
@@ -867,6 +867,22 @@ Public Class frmHQF
                             Case Else
                                 attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
                         End Select
+                    Case "306" ' Max Velocity Penalty
+                        Select Case attMod.DatabaseGroup
+                            Case "653", "654", "655", "656", "657", "648" ' T2 Missiles
+                                If attValue = -100 Then
+                                    attValue = 0
+                                End If
+                        End Select
+                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
+                    Case "144" ' Cap Recharge Rate
+                        Select Case attMod.DatabaseGroup
+                            Case "653", "654", "655", "656", "657", "648" ' T2 Missiles
+                                If attValue = -100 Then
+                                    attValue = 0
+                                End If
+                        End Select
+                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
                     Case Else
                         attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
                 End Select
