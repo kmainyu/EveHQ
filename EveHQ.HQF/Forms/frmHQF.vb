@@ -32,7 +32,7 @@ Public Class frmHQF
     Dim currentShipInfo As ShipInfoControl
     Dim FittingTabList As New ArrayList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.6.9.25"
+    Shared LastCacheRefresh As String = "1.6.9.26"
 
 #Region "Class Wide Variables"
 
@@ -447,6 +447,16 @@ Public Class frmHQF
                                 newShip.Attributes.Add("10008", 20000)
                                 newShip.Attributes.Add("10009", 1)
                                 newShip.Attributes.Add("10010", 0)
+                                newShip.Attributes.Add("10020", 0)
+                                newShip.Attributes.Add("10021", 0)
+                                newShip.Attributes.Add("10022", 0)
+                                newShip.Attributes.Add("10023", 0)
+                                newShip.Attributes.Add("10024", 0)
+                                newShip.Attributes.Add("10025", 0)
+                                newShip.Attributes.Add("10026", 0)
+                                newShip.Attributes.Add("10027", 0)
+                                newShip.Attributes.Add("10028", 0)
+                                newShip.Attributes.Add("10029", 0)
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -535,7 +545,17 @@ Public Class frmHQF
                     newShip.Attributes.Add("10007", 20000)
                     newShip.Attributes.Add("10008", 20000)
                     newShip.Attributes.Add("10009", 1)
-                    newShip.Attributes.Add("10010", 0)
+                    newShip.Attributes.Add("10020", 0)
+                    newShip.Attributes.Add("10021", 0)
+                    newShip.Attributes.Add("10022", 0)
+                    newShip.Attributes.Add("10023", 0)
+                    newShip.Attributes.Add("10024", 0)
+                    newShip.Attributes.Add("10025", 0)
+                    newShip.Attributes.Add("10026", 0)
+                    newShip.Attributes.Add("10027", 0)
+                    newShip.Attributes.Add("10028", 0)
+                    newShip.Attributes.Add("10029", 0)
+
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
                     ' Perform the last addition for the last ship type
@@ -793,6 +813,15 @@ Public Class frmHQF
                     Case 42
                         effMod.IsTurret = True
                 End Select
+                ' Add custom attributes
+                If effMod.IsDrone = True Or effMod.IsLauncher = True Or effMod.IsTurret = True Or effMod.DatabaseGroup = "72" Then
+                    If effMod.Attributes.Contains("10017") = False Then
+                        effMod.Attributes.Add("10017", 0)
+                        effMod.Attributes.Add("10018", 0)
+                        effMod.Attributes.Add("10019", 0)
+                        effMod.Attributes.Add("10030", 0)
+                    End If
+                End If
             Next
             If BuildModuleAttributeData() = True Then
                 Return True

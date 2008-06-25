@@ -14,3 +14,17 @@
 10014,energyTurretDamage,Damage Modifier,0,x,9
 10015,hybridTurretDamage,Damage Modifier,0,x,9
 10016,projectileTurretDamage,Damage Modifier,0,x,9
+10017,weaponBaseDamage,Weapon Base Damage,0,HP,9
+10018,weaponVolleyDamage,Weapon Volley Damage,0,HP,9
+10019,weaponDPS,Weapon DPS,0,HP,9
+10020,allTurretVolleyDamage,Turret Volley Damage,0,HP,9
+10021,allMissileVolleyDamage,Missile Volley Damage,0,HP,9
+10022,allSBDamage,Smartbomb Volley Damage,0,HP,9
+10023,allDroneVolleyDamage,Drone Volley Damage,0,HP,9
+10024,allTurretDPS,Turret DPS,0,HP,9
+10025,allMissileDPS,Missile DPS,0,HP,9
+10026,allSBDPS,Smartbomb DPS,0,HP,9
+10027,allDroneDPS,Drone DPS,0,HP,9
+10028,totalVolleyDamage,Total Volley Damage,0,HP,9
+10029,totalDPS,Total DPS,0,HP,9
+10030,loadedCharge,Loaded Charge,0,typeID,9

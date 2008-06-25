@@ -323,7 +323,7 @@
 17720,1,3333,64,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage,
 17720,1,3332,160,4,575;578,0,1,0,7.5,15,Medium Projectile Turret Tracking,
 # Damnation,,,,,,,,,,,,
-22474,1,12099,37,4,385;655;772;654,0,1,0,10,15,"Heavy, Assault Missile ROF",
+22474,1,12099,37,2,385;655;772;654,0,1,0,10,15,"Heavy, Assault Missile Velocity",
 22474,1,12099,267,1,22474,0,1,2,5,15,Armor EM Resistance,
 22474,1,12099,268,1,22474,0,1,2,5,15,Armor Explosive Resistance,
 22474,1,12099,269,1,22474,0,1,2,5,15,Armor Kinetic Resistance,
@@ -357,7 +357,7 @@
 645,1,3336,9,3,18,0,1,0,10,15,Drone Hull HP
 645,1,3336,64,3,18,0,1,0,10,15,Drone Damage
 # Drake,,,,,,,,,,,
-24698,1,12099,117,4,385;655;772;654,0,1,0,10,15,"Heavy, Assault Missile Damage"
+24698,1,12099,117,2,385;655;772;654,0,1,0,5,15,"Heavy, Assault Missile Damage"
 24698,1,12099,271,1,24698,0,1,2,5,15,Shield EM Resistance
 24698,1,12099,272,1,24698,0,1,2,5,15,Shield Explosive Resistance
 24698,1,12099,273,1,24698,0,1,2,5,15,Shield Kinetic Resistance

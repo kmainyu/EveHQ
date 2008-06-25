@@ -154,6 +154,8 @@ Imports System.Runtime.Serialization
     Private cSBDPS As Double
     Private cBombDPS As Double
     Private cDroneDPS As Double
+    Private cTotalVolley As Double
+    Private cTotalDPS As Double
 
     ' Audit Log
     Private cAuditLog As New ArrayList
@@ -1093,6 +1095,22 @@ Imports System.Runtime.Serialization
             cDroneDPS = value
         End Set
     End Property
+    Public Property TotalVolley() As Double
+        Get
+            Return cTotalVolley
+        End Get
+        Set(ByVal value As Double)
+            cTotalVolley = value
+        End Set
+    End Property
+    Public Property TotalDPS() As Double
+        Get
+            Return cTotalDPS
+        End Get
+        Set(ByVal value As Double)
+            cTotalDPS = value
+        End Set
+    End Property
 
     'Audit Log
     Public Property AuditLog() As ArrayList
@@ -1323,6 +1341,26 @@ Imports System.Runtime.Serialization
                     newShip.DroneBay = attValue
                 Case 1271
                     newShip.DroneBandwidth = attValue
+                Case 10020
+                    newShip.TurretVolley = attValue
+                Case 10021
+                    newShip.MissileVolley = attValue
+                Case 10022
+                    newShip.SBVolley = attValue
+                Case 10023
+                    newShip.DroneVolley = attValue
+                Case 10024
+                    newShip.TurretDPS = attValue
+                Case 10025
+                    newShip.MissileDPS = attValue
+                Case 10026
+                    newShip.SBDPS = attValue
+                Case 10027
+                    newShip.DroneDPS = attValue
+                Case 10028
+                    newShip.TotalVolley = attValue
+                Case 10029
+                    newShip.TotalDPS = attValue
             End Select
         Next
     End Sub

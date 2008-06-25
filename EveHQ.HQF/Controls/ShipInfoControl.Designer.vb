@@ -25,6 +25,9 @@ Partial Class ShipInfoControl
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipInfoControl))
         Me.Panel1 = New System.Windows.Forms.Panel
+        Me.progCalibration = New VistaStyleProgressBar.ProgressBar
+        Me.progPG = New VistaStyleProgressBar.ProgressBar
+        Me.progCPU = New VistaStyleProgressBar.ProgressBar
         Me.Label1 = New System.Windows.Forms.Label
         Me.btnLog = New System.Windows.Forms.Button
         Me.btnSkills = New System.Windows.Forms.Button
@@ -125,9 +128,15 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.progCPU = New VistaStyleProgressBar.ProgressBar
-        Me.progPG = New VistaStyleProgressBar.ProgressBar
-        Me.progCalibration = New VistaStyleProgressBar.ProgressBar
+        Me.gbDamage = New System.Windows.Forms.GroupBox
+        Me.lblTurretVolleyDamage = New System.Windows.Forms.Label
+        Me.pbMissileDamage = New System.Windows.Forms.PictureBox
+        Me.pbSmartbombDamage = New System.Windows.Forms.PictureBox
+        Me.pbTurretDamage = New System.Windows.Forms.PictureBox
+        Me.pbDroneDamage = New System.Windows.Forms.PictureBox
+        Me.lblMissileVolleyDamage = New System.Windows.Forms.Label
+        Me.lblSmartbombVolleyDamage = New System.Windows.Forms.Label
+        Me.lblDroneVolleyDamage = New System.Windows.Forms.Label
         Me.Panel1.SuspendLayout()
         Me.gbCargo.SuspendLayout()
         CType(Me.pbDroneBandwidth, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -171,12 +180,18 @@ Partial Class ShipInfoControl
         CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbDamage.SuspendLayout()
+        CType(Me.pbMissileDamage, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbSmartbombDamage, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbTurretDamage, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbDroneDamage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
         '
         Me.Panel1.AutoScroll = True
         Me.Panel1.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.Panel1.Controls.Add(Me.gbDamage)
         Me.Panel1.Controls.Add(Me.progCalibration)
         Me.Panel1.Controls.Add(Me.progPG)
         Me.Panel1.Controls.Add(Me.progCPU)
@@ -205,8 +220,44 @@ Partial Class ShipInfoControl
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(248, 750)
+        Me.Panel1.Size = New System.Drawing.Size(248, 774)
         Me.Panel1.TabIndex = 0
+        '
+        'progCalibration
+        '
+        Me.progCalibration.BackColor = System.Drawing.Color.Transparent
+        Me.progCalibration.EndColor = System.Drawing.Color.LimeGreen
+        Me.progCalibration.GlowColor = System.Drawing.Color.LightGreen
+        Me.progCalibration.Location = New System.Drawing.Point(35, 155)
+        Me.progCalibration.Name = "progCalibration"
+        Me.progCalibration.Size = New System.Drawing.Size(200, 10)
+        Me.progCalibration.StartColor = System.Drawing.Color.LimeGreen
+        Me.progCalibration.TabIndex = 32
+        Me.progCalibration.Value = 50
+        '
+        'progPG
+        '
+        Me.progPG.BackColor = System.Drawing.Color.Transparent
+        Me.progPG.EndColor = System.Drawing.Color.LimeGreen
+        Me.progPG.GlowColor = System.Drawing.Color.LightGreen
+        Me.progPG.Location = New System.Drawing.Point(35, 131)
+        Me.progPG.Name = "progPG"
+        Me.progPG.Size = New System.Drawing.Size(200, 10)
+        Me.progPG.StartColor = System.Drawing.Color.LimeGreen
+        Me.progPG.TabIndex = 31
+        Me.progPG.Value = 50
+        '
+        'progCPU
+        '
+        Me.progCPU.BackColor = System.Drawing.Color.Transparent
+        Me.progCPU.EndColor = System.Drawing.Color.LimeGreen
+        Me.progCPU.GlowColor = System.Drawing.Color.LightGreen
+        Me.progCPU.Location = New System.Drawing.Point(35, 107)
+        Me.progCPU.Name = "progCPU"
+        Me.progCPU.Size = New System.Drawing.Size(200, 10)
+        Me.progCPU.StartColor = System.Drawing.Color.LimeGreen
+        Me.progCPU.TabIndex = 30
+        Me.progCPU.Value = 50
         '
         'Label1
         '
@@ -302,7 +353,7 @@ Partial Class ShipInfoControl
         Me.gbCargo.Controls.Add(Me.lblCargoBay)
         Me.gbCargo.Controls.Add(Me.pbCargoBay)
         Me.gbCargo.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCargo.Location = New System.Drawing.Point(3, 427)
+        Me.gbCargo.Location = New System.Drawing.Point(3, 687)
         Me.gbCargo.Name = "gbCargo"
         Me.gbCargo.Size = New System.Drawing.Size(240, 75)
         Me.gbCargo.TabIndex = 19
@@ -393,9 +444,9 @@ Partial Class ShipInfoControl
         Me.gbPropulsion.Controls.Add(Me.lblSpeed)
         Me.gbPropulsion.Controls.Add(Me.pbSpeed)
         Me.gbPropulsion.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbPropulsion.Location = New System.Drawing.Point(3, 586)
+        Me.gbPropulsion.Location = New System.Drawing.Point(3, 543)
         Me.gbPropulsion.Name = "gbPropulsion"
-        Me.gbPropulsion.Size = New System.Drawing.Size(240, 75)
+        Me.gbPropulsion.Size = New System.Drawing.Size(240, 73)
         Me.gbPropulsion.TabIndex = 18
         Me.gbPropulsion.TabStop = False
         Me.gbPropulsion.Text = "Propulsion"
@@ -496,7 +547,7 @@ Partial Class ShipInfoControl
         Me.gbCapacitor.Controls.Add(Me.lblCapacitor)
         Me.gbCapacitor.Controls.Add(Me.pbCapacitor)
         Me.gbCapacitor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCapacitor.Location = New System.Drawing.Point(3, 508)
+        Me.gbCapacitor.Location = New System.Drawing.Point(3, 398)
         Me.gbCapacitor.Name = "gbCapacitor"
         Me.gbCapacitor.Size = New System.Drawing.Size(240, 75)
         Me.gbCapacitor.TabIndex = 17
@@ -599,7 +650,7 @@ Partial Class ShipInfoControl
         Me.gbTargeting.Controls.Add(Me.lblTargetRange)
         Me.gbTargeting.Controls.Add(Me.pbTargetRange)
         Me.gbTargeting.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbTargeting.Location = New System.Drawing.Point(3, 667)
+        Me.gbTargeting.Location = New System.Drawing.Point(3, 615)
         Me.gbTargeting.Name = "gbTargeting"
         Me.gbTargeting.Size = New System.Drawing.Size(240, 75)
         Me.gbTargeting.TabIndex = 14
@@ -732,7 +783,7 @@ Partial Class ShipInfoControl
         Me.gbStructure.Controls.Add(Me.lblStructureEM)
         Me.gbStructure.Controls.Add(Me.pbStructureEM)
         Me.gbStructure.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbStructure.Location = New System.Drawing.Point(3, 346)
+        Me.gbStructure.Location = New System.Drawing.Point(3, 325)
         Me.gbStructure.Name = "gbStructure"
         Me.gbStructure.Size = New System.Drawing.Size(240, 75)
         Me.gbStructure.TabIndex = 10
@@ -919,7 +970,7 @@ Partial Class ShipInfoControl
         Me.gbArmor.Controls.Add(Me.lblArmorEM)
         Me.gbArmor.Controls.Add(Me.pbArmorEM)
         Me.gbArmor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbArmor.Location = New System.Drawing.Point(3, 265)
+        Me.gbArmor.Location = New System.Drawing.Point(3, 255)
         Me.gbArmor.Name = "gbArmor"
         Me.gbArmor.Size = New System.Drawing.Size(240, 75)
         Me.gbArmor.TabIndex = 9
@@ -1086,6 +1137,7 @@ Partial Class ShipInfoControl
         Me.gbShield.Controls.Add(Me.pbShieldKinetic)
         Me.gbShield.Controls.Add(Me.lblShieldEM)
         Me.gbShield.Controls.Add(Me.pbShieldEM)
+        Me.gbShield.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbShield.ForeColor = System.Drawing.SystemColors.ControlText
         Me.gbShield.Location = New System.Drawing.Point(3, 184)
         Me.gbShield.Name = "gbShield"
@@ -1301,41 +1353,108 @@ Partial Class ShipInfoControl
         Me.pbCPU.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbCPU, "CPU")
         '
-        'progCPU
+        'gbDamage
         '
-        Me.progCPU.BackColor = System.Drawing.Color.Transparent
-        Me.progCPU.EndColor = System.Drawing.Color.LimeGreen
-        Me.progCPU.GlowColor = System.Drawing.Color.LightGreen
-        Me.progCPU.Location = New System.Drawing.Point(35, 107)
-        Me.progCPU.Name = "progCPU"
-        Me.progCPU.Size = New System.Drawing.Size(200, 10)
-        Me.progCPU.StartColor = System.Drawing.Color.LimeGreen
-        Me.progCPU.TabIndex = 30
-        Me.progCPU.Value = 50
+        Me.gbDamage.Controls.Add(Me.lblDroneVolleyDamage)
+        Me.gbDamage.Controls.Add(Me.lblSmartbombVolleyDamage)
+        Me.gbDamage.Controls.Add(Me.lblMissileVolleyDamage)
+        Me.gbDamage.Controls.Add(Me.pbDroneDamage)
+        Me.gbDamage.Controls.Add(Me.lblTurretVolleyDamage)
+        Me.gbDamage.Controls.Add(Me.pbMissileDamage)
+        Me.gbDamage.Controls.Add(Me.pbSmartbombDamage)
+        Me.gbDamage.Controls.Add(Me.pbTurretDamage)
+        Me.gbDamage.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.gbDamage.Location = New System.Drawing.Point(3, 470)
+        Me.gbDamage.Name = "gbDamage"
+        Me.gbDamage.Size = New System.Drawing.Size(240, 73)
+        Me.gbDamage.TabIndex = 33
+        Me.gbDamage.TabStop = False
+        Me.gbDamage.Text = "Damage"
+        Me.ToolTip1.SetToolTip(Me.gbDamage, "Damage Information")
         '
-        'progPG
+        'lblTurretVolleyDamage
         '
-        Me.progPG.BackColor = System.Drawing.Color.Transparent
-        Me.progPG.EndColor = System.Drawing.Color.LimeGreen
-        Me.progPG.GlowColor = System.Drawing.Color.LightGreen
-        Me.progPG.Location = New System.Drawing.Point(35, 131)
-        Me.progPG.Name = "progPG"
-        Me.progPG.Size = New System.Drawing.Size(200, 10)
-        Me.progPG.StartColor = System.Drawing.Color.LimeGreen
-        Me.progPG.TabIndex = 31
-        Me.progPG.Value = 50
+        Me.lblTurretVolleyDamage.AutoSize = True
+        Me.lblTurretVolleyDamage.Location = New System.Drawing.Point(30, 24)
+        Me.lblTurretVolleyDamage.Name = "lblTurretVolleyDamage"
+        Me.lblTurretVolleyDamage.Size = New System.Drawing.Size(54, 13)
+        Me.lblTurretVolleyDamage.TabIndex = 10
+        Me.lblTurretVolleyDamage.Text = "000 / 000"
+        Me.ToolTip1.SetToolTip(Me.lblTurretVolleyDamage, "Turret Damage")
         '
-        'progCalibration
+        'pbMissileDamage
         '
-        Me.progCalibration.BackColor = System.Drawing.Color.Transparent
-        Me.progCalibration.EndColor = System.Drawing.Color.LimeGreen
-        Me.progCalibration.GlowColor = System.Drawing.Color.LightGreen
-        Me.progCalibration.Location = New System.Drawing.Point(35, 155)
-        Me.progCalibration.Name = "progCalibration"
-        Me.progCalibration.Size = New System.Drawing.Size(200, 10)
-        Me.progCalibration.StartColor = System.Drawing.Color.LimeGreen
-        Me.progCalibration.TabIndex = 32
-        Me.progCalibration.Value = 50
+        Me.pbMissileDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgLauncherSlots
+        Me.pbMissileDamage.Location = New System.Drawing.Point(109, 19)
+        Me.pbMissileDamage.Name = "pbMissileDamage"
+        Me.pbMissileDamage.Size = New System.Drawing.Size(24, 24)
+        Me.pbMissileDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbMissileDamage.TabIndex = 6
+        Me.pbMissileDamage.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbMissileDamage, "Missile Damage")
+        '
+        'pbSmartbombDamage
+        '
+        Me.pbSmartbombDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgSmartbomb
+        Me.pbSmartbombDamage.Location = New System.Drawing.Point(6, 43)
+        Me.pbSmartbombDamage.Name = "pbSmartbombDamage"
+        Me.pbSmartbombDamage.Size = New System.Drawing.Size(24, 24)
+        Me.pbSmartbombDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbSmartbombDamage.TabIndex = 3
+        Me.pbSmartbombDamage.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbSmartbombDamage, "Smartbomb Damage")
+        '
+        'pbTurretDamage
+        '
+        Me.pbTurretDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgTurretSlots
+        Me.pbTurretDamage.Location = New System.Drawing.Point(6, 19)
+        Me.pbTurretDamage.Name = "pbTurretDamage"
+        Me.pbTurretDamage.Size = New System.Drawing.Size(24, 24)
+        Me.pbTurretDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.pbTurretDamage.TabIndex = 0
+        Me.pbTurretDamage.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbTurretDamage, "Turret Damage")
+        '
+        'pbDroneDamage
+        '
+        Me.pbDroneDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgDrone
+        Me.pbDroneDamage.Location = New System.Drawing.Point(109, 43)
+        Me.pbDroneDamage.Name = "pbDroneDamage"
+        Me.pbDroneDamage.Size = New System.Drawing.Size(24, 24)
+        Me.pbDroneDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbDroneDamage.TabIndex = 11
+        Me.pbDroneDamage.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbDroneDamage, "Drone Damage")
+        '
+        'lblMissileVolleyDamage
+        '
+        Me.lblMissileVolleyDamage.AutoSize = True
+        Me.lblMissileVolleyDamage.Location = New System.Drawing.Point(133, 24)
+        Me.lblMissileVolleyDamage.Name = "lblMissileVolleyDamage"
+        Me.lblMissileVolleyDamage.Size = New System.Drawing.Size(54, 13)
+        Me.lblMissileVolleyDamage.TabIndex = 12
+        Me.lblMissileVolleyDamage.Text = "000 / 000"
+        Me.ToolTip1.SetToolTip(Me.lblMissileVolleyDamage, "Missile Damage")
+        '
+        'lblSmartbombVolleyDamage
+        '
+        Me.lblSmartbombVolleyDamage.AutoSize = True
+        Me.lblSmartbombVolleyDamage.Location = New System.Drawing.Point(30, 48)
+        Me.lblSmartbombVolleyDamage.Name = "lblSmartbombVolleyDamage"
+        Me.lblSmartbombVolleyDamage.Size = New System.Drawing.Size(54, 13)
+        Me.lblSmartbombVolleyDamage.TabIndex = 13
+        Me.lblSmartbombVolleyDamage.Text = "000 / 000"
+        Me.ToolTip1.SetToolTip(Me.lblSmartbombVolleyDamage, "Smartbomb Damage")
+        '
+        'lblDroneVolleyDamage
+        '
+        Me.lblDroneVolleyDamage.AutoSize = True
+        Me.lblDroneVolleyDamage.Location = New System.Drawing.Point(133, 48)
+        Me.lblDroneVolleyDamage.Name = "lblDroneVolleyDamage"
+        Me.lblDroneVolleyDamage.Size = New System.Drawing.Size(54, 13)
+        Me.lblDroneVolleyDamage.TabIndex = 14
+        Me.lblDroneVolleyDamage.Text = "000 / 000"
+        Me.ToolTip1.SetToolTip(Me.lblDroneVolleyDamage, "Drone Damage")
         '
         'ShipInfoControl
         '
@@ -1344,7 +1463,7 @@ Partial Class ShipInfoControl
         Me.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Controls.Add(Me.Panel1)
         Me.Name = "ShipInfoControl"
-        Me.Size = New System.Drawing.Size(248, 750)
+        Me.Size = New System.Drawing.Size(248, 774)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.gbCargo.ResumeLayout(False)
@@ -1396,6 +1515,12 @@ Partial Class ShipInfoControl
         CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbDamage.ResumeLayout(False)
+        Me.gbDamage.PerformLayout()
+        CType(Me.pbMissileDamage, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbSmartbombDamage, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbTurretDamage, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbDroneDamage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1503,5 +1628,14 @@ Partial Class ShipInfoControl
     Friend WithEvents progCPU As VistaStyleProgressBar.ProgressBar
     Friend WithEvents progCalibration As VistaStyleProgressBar.ProgressBar
     Friend WithEvents progPG As VistaStyleProgressBar.ProgressBar
+    Friend WithEvents gbDamage As System.Windows.Forms.GroupBox
+    Friend WithEvents lblTurretVolleyDamage As System.Windows.Forms.Label
+    Friend WithEvents pbMissileDamage As System.Windows.Forms.PictureBox
+    Friend WithEvents pbSmartbombDamage As System.Windows.Forms.PictureBox
+    Friend WithEvents pbTurretDamage As System.Windows.Forms.PictureBox
+    Friend WithEvents pbDroneDamage As System.Windows.Forms.PictureBox
+    Friend WithEvents lblDroneVolleyDamage As System.Windows.Forms.Label
+    Friend WithEvents lblSmartbombVolleyDamage As System.Windows.Forms.Label
+    Friend WithEvents lblMissileVolleyDamage As System.Windows.Forms.Label
 
 End Class

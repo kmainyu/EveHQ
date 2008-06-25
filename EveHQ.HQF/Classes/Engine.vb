@@ -482,9 +482,11 @@ Public Class Engine
         newShip = Engine.BuildModuleEffects(newShip)
         Call Engine.ApplyStackingPenalties()
         newShip = Engine.ApplyModuleEffectsToShip(newShip)
+        newShip = Engine.CalculateDamageStatistics(newShip)
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Applying the whole fitting took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        Ship.MapShipAttributes(newShip)
         Return newShip
     End Function
 
@@ -938,7 +940,6 @@ Public Class Engine
                 Next
             End If
         Next
-        Ship.MapShipAttributes(newShip)
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Applying Module Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
@@ -1044,6 +1045,61 @@ Public Class Engine
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Applying Stacking Penalties took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
     End Sub
+
+    Private Shared Function CalculateDamageStatistics(ByVal baseShip As Ship) As Ship
+        Dim sTime, eTime As Date
+        sTime = Now
+        ' Define a new ship
+        Dim newShip As Ship = CType(baseShip.Clone, Ship)
+        Dim cModule As New ShipModule
+        Dim dgmMod As Double = 1
+        Dim ROF As Double = 1
+        For slot As Integer = 1 To 8
+            cModule = newShip.HiSlot(slot)
+            If cModule IsNot Nothing Then
+                If cModule.IsTurret Or cModule.IsLauncher Then
+                    If cModule.LoadedCharge IsNot Nothing Then
+                        cModule.Attributes("10030") = CInt(cModule.LoadedCharge.ID)
+                        cModule.Attributes("10017") = CDbl(cModule.LoadedCharge.Attributes("114")) + CDbl(cModule.LoadedCharge.Attributes("116")) + CDbl(cModule.LoadedCharge.Attributes("117")) + CDbl(cModule.LoadedCharge.Attributes("118"))
+                        If cModule.IsTurret = True Then
+                            dgmMod = CDbl(cModule.Attributes("10014")) + CDbl(cModule.Attributes("10015")) + CDbl(cModule.Attributes("10016"))
+                            ROF = CDbl(cModule.Attributes("10011")) + CDbl(cModule.Attributes("10012")) + CDbl(cModule.Attributes("10013"))
+                            cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
+                            cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
+                            newShip.Attributes("10020") = CDbl(newShip.Attributes("10020")) + CDbl(cModule.Attributes("10018"))
+                            newShip.Attributes("10024") = CDbl(newShip.Attributes("10024")) + CDbl(cModule.Attributes("10019"))
+                            newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
+                            newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
+                        Else
+                            dgmMod = 1
+                            ROF = CDbl(cModule.Attributes("51"))
+                            cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
+                            cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
+                            newShip.Attributes("10021") = CDbl(newShip.Attributes("10021")) + CDbl(cModule.Attributes("10018"))
+                            newShip.Attributes("10025") = CDbl(newShip.Attributes("10025")) + CDbl(cModule.Attributes("10019"))
+                            newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
+                            newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
+                        End If
+                    End If
+                Else
+                    If cModule.DatabaseGroup = "72" Then
+                        ' Do smartbomb code
+                        cModule.Attributes("10017") = CDbl(cModule.Attributes("114")) + CDbl(cModule.Attributes("116")) + CDbl(cModule.Attributes("117")) + CDbl(cModule.Attributes("118"))
+                        cModule.Attributes("10018") = CDbl(cModule.Attributes("10017"))
+                        cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / CDbl(cModule.Attributes("73"))
+                        newShip.Attributes("10022") = CDbl(newShip.Attributes("10022")) + CDbl(cModule.Attributes("10018"))
+                        newShip.Attributes("10026") = CDbl(newShip.Attributes("10026")) + CDbl(cModule.Attributes("10019"))
+                        newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
+                        newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
+                    End If
+                End If
+            End If
+        Next
+        eTime = Now
+        Dim dTime As TimeSpan = eTime - sTime
+        'MessageBox.Show("Calculating Damage Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        Return newShip
+    End Function
 
 #End Region
 

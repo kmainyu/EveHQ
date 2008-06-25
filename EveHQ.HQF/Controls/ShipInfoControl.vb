@@ -184,8 +184,11 @@ Public Class ShipInfoControl
         lblDroneBandwidth.Text = FormatNumber(fittedShip.DroneBandwidth_Used, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBandwidth, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Damage
-        'lblTurretVolley.Text = FormatNumber(fittedShip.TurretVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        'lblMissileVolley.Text = FormatNumber(fittedShip.MissileVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblTurretVolleyDamage.Text = FormatNumber(fittedShip.TurretVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.TurretDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblMissileVolleyDamage.Text = FormatNumber(fittedShip.MissileVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.MissileDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblSmartbombVolleyDamage.Text = FormatNumber(fittedShip.SBVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.SBDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblDroneVolleyDamage.Text = FormatNumber(fittedShip.DroneVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        gbDamage.Text = "Damage (" & FormatNumber(fittedShip.TotalVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.TotalDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS)"
 
         ' Collect List of Needed Skills
         reqSkills = NeededSkills()

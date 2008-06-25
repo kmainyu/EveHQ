@@ -421,8 +421,6 @@ Public Class frmShowInfo
                 If ItemUsable = True Then
                     lblUsable.Text = EveHQ.Core.HQ.myPilot.Name & " has the skills to use this item."
                     lblUsableTime.Text = ""
-                    btnAddSkills.Enabled = False
-                    btnViewSkills.Enabled = False
                 Else
                     Dim usableTime As Long = 0
                     Dim skillNo As Integer = 0
@@ -463,20 +461,14 @@ Public Class frmShowInfo
                     Next
                     lblUsable.Text = EveHQ.Core.HQ.myPilot.Name & " doesn't have the skills to use this item."
                     lblUsableTime.Text = "Training Time: " & EveHQ.Core.SkillFunctions.TimeToString(usableTime)
-                    btnAddSkills.Enabled = True
-                    btnViewSkills.Enabled = True
                 End If
             Else
                 lblUsable.Text = "No pilot selected to calculate skill time."
                 lblUsableTime.Text = ""
-                btnAddSkills.Enabled = False
-                btnViewSkills.Enabled = False
             End If
         Else
             lblUsable.Text = "No skills required for this item."
             lblUsableTime.Text = ""
-            btnAddSkills.Enabled = False
-            btnViewSkills.Enabled = False
         End If
 
     End Sub
@@ -501,6 +493,7 @@ Public Class frmShowInfo
         lvwAttributes.Items.Clear()
         Dim attData As New Attribute
         Dim idx As Integer
+        Dim itemData As String = ""
         For Each att As String In itemObject.Attributes.Keys
             Dim newItem As New ListViewItem
             attData = Attributes.AttributeList(att)
@@ -512,8 +505,12 @@ Public Class frmShowInfo
             newItem.Group = lvwAttributes.Groups(CInt(attData.AttributeGroup))
             Select Case attData.UnitName
                 Case "typeID"
-                    idx = EveHQ.Core.HQ.itemList.IndexOfValue(stdItem.Attributes.Item(att).ToString)
-                    newItem.SubItems.Add(EveHQ.Core.HQ.itemList.GetKey(idx))
+                    If stdItem.Attributes.Item(att).ToString <> "0" Then
+                        idx = EveHQ.Core.HQ.itemList.IndexOfValue(stdItem.Attributes.Item(att).ToString)
+                        newItem.SubItems.Add(EveHQ.Core.HQ.itemList.GetKey(idx))
+                    Else
+                        newItem.SubItems.Add("n/a")
+                    End If
                 Case "groupID"
                     idx = EveHQ.Core.HQ.groupList.IndexOfValue(stdItem.Attributes.Item(att).ToString)
                     newItem.SubItems.Add(EveHQ.Core.HQ.groupList.GetKey(idx))
@@ -522,19 +519,26 @@ Public Class frmShowInfo
             End Select
             Select Case attData.UnitName
                 Case "typeID"
-                    idx = EveHQ.Core.HQ.itemList.IndexOfValue(itemObject.Attributes.Item(att).ToString)
-                    newItem.SubItems.Add(EveHQ.Core.HQ.itemList.GetKey(idx))
+                    If itemObject.Attributes.Item(att).ToString <> "0" Then
+                        newItem.UseItemStyleForSubItems = False
+                        idx = EveHQ.Core.HQ.itemList.IndexOfValue(itemObject.Attributes.Item(att).ToString)
+                        itemData = EveHQ.Core.HQ.itemList.GetKey(idx)
+                    Else
+                        itemData = "n/a"
+                        newItem.SubItems.Add("n/a")
+                    End If
                 Case "groupID"
                     idx = EveHQ.Core.HQ.groupList.IndexOfValue(itemObject.Attributes.Item(att).ToString)
-                    newItem.SubItems.Add(EveHQ.Core.HQ.groupList.GetKey(idx))
+                    itemData = EveHQ.Core.HQ.groupList.GetKey(idx)
                 Case Else
-                    If itemObject.Attributes.item(att) = stdItem.Attributes.Item(att) Then
-                        newItem.SubItems.Add(itemObject.Attributes.Item(att) & " " & attData.UnitName)
-                    Else
-                        newItem.UseItemStyleForSubItems = False
-                        newItem.SubItems.Add(itemObject.Attributes.Item(att) & " " & attData.UnitName, Color.Black, Color.LightSteelBlue, lvwAttributes.Font)
-                    End If
+                    itemData = itemObject.Attributes.Item(att) & " " & attData.UnitName
             End Select
+            If itemData.Trim = newItem.SubItems(1).Text.Trim Then
+                newItem.SubItems.Add(itemData)
+            Else
+                newItem.UseItemStyleForSubItems = False
+                newItem.SubItems.Add(itemData, Color.Black, Color.LightSteelBlue, lvwAttributes.Font)
+            End If
             lvwAttributes.Items.Add(newItem)
         Next
         lvwAttributes.EndUpdate()

@@ -39,8 +39,6 @@ Partial Class frmShowInfo
         Me.colStandardValue = New System.Windows.Forms.ColumnHeader
         Me.colPilotValue = New System.Windows.Forms.ColumnHeader
         Me.tabSISkills = New System.Windows.Forms.TabPage
-        Me.btnViewSkills = New System.Windows.Forms.Button
-        Me.btnAddSkills = New System.Windows.Forms.Button
         Me.tabAudit = New System.Windows.Forms.TabPage
         Me.lvwAudit = New System.Windows.Forms.ListView
         Me.colAudit = New System.Windows.Forms.ColumnHeader
@@ -63,16 +61,14 @@ Partial Class frmShowInfo
         '
         'tvwReqs
         '
-        Me.tvwReqs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwReqs.ContextMenuStrip = Me.ctxReqs
+        Me.tvwReqs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tvwReqs.Indent = 25
         Me.tvwReqs.ItemHeight = 20
         Me.tvwReqs.Location = New System.Drawing.Point(3, 3)
         Me.tvwReqs.Name = "tvwReqs"
         Me.tvwReqs.ShowPlusMinus = False
-        Me.tvwReqs.Size = New System.Drawing.Size(456, 319)
+        Me.tvwReqs.Size = New System.Drawing.Size(559, 387)
         Me.tvwReqs.TabIndex = 0
         '
         'ctxReqs
@@ -204,8 +200,6 @@ Partial Class frmShowInfo
         '
         'tabSISkills
         '
-        Me.tabSISkills.Controls.Add(Me.btnViewSkills)
-        Me.tabSISkills.Controls.Add(Me.btnAddSkills)
         Me.tabSISkills.Controls.Add(Me.tvwReqs)
         Me.tabSISkills.Location = New System.Drawing.Point(4, 22)
         Me.tabSISkills.Name = "tabSISkills"
@@ -214,26 +208,6 @@ Partial Class frmShowInfo
         Me.tabSISkills.TabIndex = 0
         Me.tabSISkills.Text = "Req Skills"
         Me.tabSISkills.UseVisualStyleBackColor = True
-        '
-        'btnViewSkills
-        '
-        Me.btnViewSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnViewSkills.Location = New System.Drawing.Point(3, 324)
-        Me.btnViewSkills.Name = "btnViewSkills"
-        Me.btnViewSkills.Size = New System.Drawing.Size(121, 23)
-        Me.btnViewSkills.TabIndex = 5
-        Me.btnViewSkills.Text = "Show Needed Skills"
-        Me.btnViewSkills.UseVisualStyleBackColor = True
-        '
-        'btnAddSkills
-        '
-        Me.btnAddSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAddSkills.Location = New System.Drawing.Point(304, 324)
-        Me.btnAddSkills.Name = "btnAddSkills"
-        Me.btnAddSkills.Size = New System.Drawing.Size(155, 23)
-        Me.btnAddSkills.TabIndex = 4
-        Me.btnAddSkills.Text = "Add Needed Skills to Queue"
-        Me.btnAddSkills.UseVisualStyleBackColor = True
         '
         'tabAudit
         '
@@ -366,8 +340,6 @@ Partial Class frmShowInfo
     Friend WithEvents lblUsableTime As System.Windows.Forms.LinkLabel
     Friend WithEvents lblUsable As System.Windows.Forms.Label
     Friend WithEvents picItem As System.Windows.Forms.PictureBox
-    Friend WithEvents btnViewSkills As System.Windows.Forms.Button
-    Friend WithEvents btnAddSkills As System.Windows.Forms.Button
     Friend WithEvents tabSIAttributes As System.Windows.Forms.TabPage
     Friend WithEvents lvwAttributes As System.Windows.Forms.ListView
     Friend WithEvents colAttribute As System.Windows.Forms.ColumnHeader
