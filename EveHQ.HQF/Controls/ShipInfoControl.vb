@@ -65,7 +65,11 @@ Public Class ShipInfoControl
         ' Update the display with the information about the (fitted) ship
 
         ' CPU
-        progCPU.MaxValue = CInt(fittedShip.CPU)
+        If fittedShip.CPU > 0 Then
+            progCPU.MaxValue = CInt(fittedShip.CPU)
+        Else
+            progCPU.MaxValue = 1
+        End If
         progCPU.Value = Math.Min(CInt(fittedShip.CPU_Used), CInt(fittedShip.CPU))
         If fittedShip.CPU_Used > fittedShip.CPU Then
             progCPU.StartColor = Drawing.Color.Red
@@ -82,7 +86,11 @@ Public Class ShipInfoControl
         lblCPU.Text = FormatNumber(fittedShip.CPU_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Powergrid
-        progPG.MaxValue = CInt(fittedShip.PG)
+        If fittedShip.PG > 0 Then
+            progPG.MaxValue = CInt(fittedShip.PG)
+        Else
+            progPG.MaxValue = 1
+        End If
         progPG.Value = Math.Min(CInt(fittedShip.PG_Used), CInt(fittedShip.PG))
         If fittedShip.PG_Used > fittedShip.PG Then
             progPG.StartColor = Drawing.Color.Red
@@ -99,7 +107,11 @@ Public Class ShipInfoControl
         lblPG.Text = FormatNumber(fittedShip.PG_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Calibration
-        progCalibration.MaxValue = CInt(fittedShip.Calibration)
+        If fittedShip.Calibration > 0 Then
+            progCalibration.MaxValue = CInt(fittedShip.Calibration)
+        Else
+            progCalibration.MaxValue = 1
+        End If
         progCalibration.Value = Math.Min(CInt(fittedShip.Calibration_Used), CInt(fittedShip.Calibration))
         If fittedShip.Calibration_Used > fittedShip.Calibration Then
             progCalibration.StartColor = Drawing.Color.Red

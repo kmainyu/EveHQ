@@ -1054,7 +1054,7 @@ Public Class Engine
         Dim cModule As New ShipModule
         Dim dgmMod As Double = 1
         Dim ROF As Double = 1
-        For slot As Integer = 1 To 8
+        For slot As Integer = 1 To newShip.HiSlots
             cModule = newShip.HiSlot(slot)
             If cModule IsNot Nothing Then
                 If cModule.IsTurret Or cModule.IsLauncher Then
