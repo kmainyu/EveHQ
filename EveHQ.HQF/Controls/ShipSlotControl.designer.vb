@@ -72,6 +72,8 @@ Partial Class ShipSlotControl
         Me.colActivationCost = New System.Windows.Forms.ColumnHeader
         Me.colActivationTime = New System.Windows.Forms.ColumnHeader
         Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
+        Me.ctxShowBayInfoItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelSlotInfo.SuspendLayout()
         Me.ctxSlots.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -321,31 +323,31 @@ Partial Class ShipSlotControl
         '
         'ctxBays
         '
-        Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch})
+        Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(149, 76)
+        Me.ctxBays.Size = New System.Drawing.Size(153, 126)
         '
         'ctxRemoveItem
         '
         Me.ctxRemoveItem.Name = "ctxRemoveItem"
-        Me.ctxRemoveItem.Size = New System.Drawing.Size(148, 22)
+        Me.ctxRemoveItem.Size = New System.Drawing.Size(152, 22)
         Me.ctxRemoveItem.Text = "Remove Item"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(145, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(149, 6)
         '
         'ctxAlterQuantity
         '
         Me.ctxAlterQuantity.Name = "ctxAlterQuantity"
-        Me.ctxAlterQuantity.Size = New System.Drawing.Size(148, 22)
+        Me.ctxAlterQuantity.Size = New System.Drawing.Size(152, 22)
         Me.ctxAlterQuantity.Text = "Alter Quantity"
         '
         'ctxSplitBatch
         '
         Me.ctxSplitBatch.Name = "ctxSplitBatch"
-        Me.ctxSplitBatch.Size = New System.Drawing.Size(148, 22)
+        Me.ctxSplitBatch.Size = New System.Drawing.Size(152, 22)
         Me.ctxSplitBatch.Text = "Split Batch"
         '
         'pbDroneBay
@@ -483,6 +485,17 @@ Partial Class ShipSlotControl
         Me.colMarketPrice.Text = "Market Price"
         Me.colMarketPrice.Width = 125
         '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
+        '
+        'ctxShowBayInfoItem
+        '
+        Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
+        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(152, 22)
+        Me.ctxShowBayInfoItem.Text = "ShowInfo"
+        '
         'ShipSlotControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -572,4 +585,6 @@ Partial Class ShipSlotControl
         rigGroups.Add(774)
     End Sub
     Friend WithEvents imgState As System.Windows.Forms.ImageList
+    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ctxShowBayInfoItem As System.Windows.Forms.ToolStripMenuItem
 End Class

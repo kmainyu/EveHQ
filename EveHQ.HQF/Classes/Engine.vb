@@ -474,13 +474,15 @@ Public Class Engine
         sTime = Now
         Dim newShip As Ship
         Engine.BuildShipEffects(shipPilot, baseShip)
-        newShip = ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
-        newShip = ApplySkillEffectsToModules(newShip)
+        newShip = Engine.ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
+        newShip = Engine.ApplySkillEffectsToModules(newShip)
+        newShip = Engine.ApplySkillEffectsToDrones(newShip)
         newShip = Engine.BuildModuleEffects(newShip)
         Call Engine.ApplyStackingPenalties()
         newShip = Engine.ApplyModuleEffectsToModules(newShip)
         newShip = Engine.BuildModuleEffects(newShip)
         Call Engine.ApplyStackingPenalties()
+        newShip = Engine.ApplyModuleEffectsToDrones(newShip)
         newShip = Engine.ApplyModuleEffectsToShip(newShip)
         newShip = Engine.CalculateDamageStatistics(newShip)
         eTime = Now
@@ -717,6 +719,84 @@ Public Class Engine
 
     End Function
 
+    Private Shared Function ApplySkillEffectsToDrones(ByVal baseShip As Ship) As Ship
+        Dim sTime, eTime As Date
+        sTime = Now
+        Dim aModule As New ShipModule
+        Dim maxSlots As Integer = 0
+        Dim att As String = ""
+        Dim oldAtt As String = ""
+        ' Define a new ship
+        Dim newShip As Ship = CType(baseShip.Clone, Ship)
+        Dim processAtt As Boolean = False
+        Dim log As String = ""
+        For Each DBI As DroneBayItem In newShip.DroneBayItems.Values
+            aModule = DBI.DroneType
+            For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
+                att = CStr(aModule.Attributes.GetKey(attNo))
+                If SkillEffectsTable.Contains(att) = True Then
+                    For Each fEffect As FinalEffect In CType(SkillEffectsTable(att), ArrayList)
+                        processAtt = False
+                        log = ""
+                        Select Case fEffect.AffectedType
+                            Case EffectType.All
+                                processAtt = True
+                            Case EffectType.Item
+                                If fEffect.AffectedID.Contains(aModule.ID) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Group
+                                If fEffect.AffectedID.Contains(aModule.DatabaseGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Category
+                                If fEffect.AffectedID.Contains(aModule.DatabaseCategory) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.MarketGroup
+                                If fEffect.AffectedID.Contains(aModule.MarketGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Skill
+                                If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Slot
+                                If fEffect.AffectedID.Contains(aModule.SlotNo) Then
+                                    processAtt = True
+                                End If
+                        End Select
+                        If processAtt = True Then
+                            oldAtt = aModule.Attributes(att).ToString
+                            log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & oldAtt
+                            Select Case fEffect.CalcType
+                                Case EffectCalcType.Percentage
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                                Case EffectCalcType.Addition
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                Case EffectCalcType.Difference ' Used for resistances
+                                    aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                Case EffectCalcType.Absolute
+                                    aModule.Attributes(att) = fEffect.AffectedValue
+                                Case EffectCalcType.Multiplier
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * fEffect.AffectedValue
+                            End Select
+                            log &= " --> " & aModule.Attributes(att).ToString
+                            If oldAtt <> aModule.Attributes(att).ToString Then
+                                aModule.AuditLog.Add(log)
+                            End If
+                        End If
+                    Next
+                End If
+            Next
+        Next
+        eTime = Now
+        Dim dTime As TimeSpan = eTime - sTime
+        'MessageBox.Show("Applying Skill Effects to Modules took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        Return newShip
+
+    End Function
+
     Private Shared Function ApplyModuleEffectsToModules(ByVal baseShip As Ship) As Ship
         Dim sTime, eTime As Date
         sTime = Now
@@ -876,6 +956,87 @@ Public Class Engine
                         Next
                     End If
                     ShipModule.MapModuleAttributes(aModule)
+                End If
+            Next
+        Next
+        eTime = Now
+        Dim dTime As TimeSpan = eTime - sTime
+        'MessageBox.Show("Applying Module Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        Return newShip
+    End Function
+
+    Private Shared Function ApplyModuleEffectsToDrones(ByVal baseShip As Ship) As Ship
+        Dim sTime, eTime As Date
+        sTime = Now
+        Dim aModule As New ShipModule
+        Dim maxSlots As Integer = 0
+        Dim att As String = ""
+        Dim oldAtt As String = ""
+        Dim log As String = ""
+        Dim processAtt As Boolean = False
+        ' Define a new ship
+        Dim newShip As Ship = CType(baseShip.Clone, Ship)
+        For Each DBI As DroneBayItem In newShip.DroneBayItems.Values
+            aModule = DBI.DroneType
+            For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
+                att = CStr(aModule.Attributes.GetKey(attNo))
+                If ModuleEffectsTable.Contains(att) = True Then
+                    For Each fEffect As FinalEffect In CType(ModuleEffectsTable(att), ArrayList)
+                        processAtt = False
+                        log = ""
+                        Select Case fEffect.AffectedType
+                            Case EffectType.All
+                                processAtt = True
+                            Case EffectType.Item
+                                If fEffect.AffectedID.Contains(aModule.ID) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Group
+                                If fEffect.AffectedID.Contains(aModule.DatabaseGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Category
+                                If fEffect.AffectedID.Contains(aModule.DatabaseCategory) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.MarketGroup
+                                If fEffect.AffectedID.Contains(aModule.MarketGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Skill
+                                If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Slot
+                                If fEffect.AffectedID.Contains(aModule.SlotNo) Then
+                                    processAtt = True
+                                End If
+                        End Select
+                        If processAtt = True Then
+                            log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
+                            If aModule.Name = fEffect.Cause Then
+                                log &= " (Overloading)"
+                            End If
+                            oldAtt = aModule.Attributes(att).ToString()
+                            log &= ": " & oldAtt
+                            Select Case fEffect.CalcType
+                                Case EffectCalcType.Percentage
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                                Case EffectCalcType.Addition
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                Case EffectCalcType.Difference ' Used for resistances
+                                    aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                Case EffectCalcType.Absolute
+                                    aModule.Attributes(att) = fEffect.AffectedValue
+                                Case EffectCalcType.Multiplier
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * fEffect.AffectedValue
+                            End Select
+                            log &= " --> " & aModule.Attributes(att).ToString
+                            If oldAtt <> aModule.Attributes(att).ToString Then
+                                aModule.AuditLog.Add(log)
+                            End If
+                        End If
+                    Next
                 End If
             Next
         Next
@@ -1054,6 +1215,25 @@ Public Class Engine
         Dim cModule As New ShipModule
         Dim dgmMod As Double = 1
         Dim ROF As Double = 1
+        For Each DBI As DroneBayItem In newShip.DroneBayItems.Values
+            If DBI.IsActive = True Then
+                cModule = DBI.DroneType
+                cModule.Attributes("10017") = CDbl(cModule.Attributes("114")) + CDbl(cModule.Attributes("116")) + CDbl(cModule.Attributes("117")) + CDbl(cModule.Attributes("118"))
+                If cModule.Attributes.Contains("51") = True Then
+                    ROF = CDbl(cModule.Attributes("51"))
+                    dgmMod = CDbl(cModule.Attributes("64"))
+                Else
+                    dgmMod = 0
+                    ROF = 1
+                End If
+                cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
+                cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
+                newShip.Attributes("10023") = CDbl(newShip.Attributes("10023")) + CDbl(cModule.Attributes("10018")) * DBI.Quantity
+                newShip.Attributes("10027") = CDbl(newShip.Attributes("10027")) + CDbl(cModule.Attributes("10019")) * DBI.Quantity
+                newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018")) * DBI.Quantity
+                newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019")) * DBI.Quantity
+            End If
+        Next
         For slot As Integer = 1 To newShip.HiSlots
             cModule = newShip.HiSlot(slot)
             If cModule IsNot Nothing Then

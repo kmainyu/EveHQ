@@ -476,6 +476,7 @@ Public Class ShipSlotControl
             End If
             ' Update stuff
             If UpdateAll = False Then
+                currentInfo.ShipType = currentShip
                 Call Me.RedrawDroneBay()
                 Call UpdatePrices()
                 Call UpdateFittingListFromShipData()
@@ -485,35 +486,38 @@ Public Class ShipSlotControl
         End If
     End Sub
     Public Sub AddItem(ByVal Item As ShipModule, ByVal Qty As Integer)
-        ' Set grouping flag
-        Dim grouped As Boolean = False
-        ' See if there is sufficient space
-        Dim vol As Double = Item.Volume
-        If currentShip.CargoBay - currentShip.CargoBay_Used >= vol Then
-            ' Scan through existing items and see if we can group this new one
-            For Each itemGroup As CargoBayItem In currentShip.CargoBayItems.Values
-                If Item.Name = itemGroup.ItemType.Name Then
-                    ' Add to existing drone group
-                    itemGroup.Quantity += Qty
-                    grouped = True
-                    Exit For
+        If currentShip IsNot Nothing Then
+            ' Set grouping flag
+            Dim grouped As Boolean = False
+            ' See if there is sufficient space
+            Dim vol As Double = Item.Volume
+            If currentShip.CargoBay - currentShip.CargoBay_Used >= vol Then
+                ' Scan through existing items and see if we can group this new one
+                For Each itemGroup As CargoBayItem In currentShip.CargoBayItems.Values
+                    If Item.Name = itemGroup.ItemType.Name Then
+                        ' Add to existing drone group
+                        itemGroup.Quantity += Qty
+                        grouped = True
+                        Exit For
+                    End If
+                Next
+                ' Put the item into the cargo bay if not grouped
+                If grouped = False Then
+                    Dim CBI As New CargoBayItem
+                    CBI.ItemType = Item
+                    CBI.Quantity = Qty
+                    currentShip.CargoBayItems.Add(currentShip.CargoBayItems.Count, CBI)
                 End If
-            Next
-            ' Put the drone into the cargo bay if not grouped
-            If grouped = False Then
-                Dim CBI As New CargoBayItem
-                CBI.ItemType = Item
-                CBI.Quantity = Qty
-                currentShip.CargoBayItems.Add(currentShip.CargoBayItems.Count, CBI)
+                ' Update stuff
+                If UpdateAll = False Then
+                    currentInfo.ShipType = currentShip
+                    Call Me.RedrawCargoBay()
+                    Call UpdatePrices()
+                    Call UpdateFittingListFromShipData()
+                End If
+            Else
+                MessageBox.Show("There is not enough space in the Cargo Bay to hold 1 unit of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-            ' Update stuff
-            If UpdateAll = False Then
-                Call Me.RedrawCargoBay()
-                Call UpdatePrices()
-                Call UpdateFittingListFromShipData()
-            End If
-        Else
-            MessageBox.Show("There is not enough space in the Cargo Bay to hold 1 unit of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
     Private Function IsSlotAvailable(ByVal shipMod As ShipModule) As Boolean
@@ -1018,10 +1022,14 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub lvwDroneBay_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwDroneBay.ItemChecked
-        Dim idx As Integer = e.Item.Index
-        Dim DBI As DroneBayItem = CType(currentShip.DroneBayItems.Item(idx), DroneBayItem)
+        Dim idx As Integer = CInt(e.Item.Name)
+        Dim DBI As DroneBayItem = CType(fittedShip.DroneBayItems.Item(idx), DroneBayItem)
         DBI.IsActive = e.Item.Checked
+        If UpdateAll = False Then
+            currentInfo.ShipType = currentShip
+        End If
         Call Me.UpdateFittingListFromShipData()
+        Call currentInfo.UpdateDroneBandWidthUsed(currentShip.DroneBayItems)
     End Sub
 
     Private Sub ctxBays_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxBays.Opening
@@ -1045,7 +1053,7 @@ Public Class ShipSlotControl
             Case "lvwCargoBay"
                 ' Removes the item from the cargo bay
                 For Each remItem As ListViewItem In lvwCargoBay.SelectedItems
-                    currentShip.CargoBayItems.Remove(CInt(remItem.Name))
+                    fittedShip.CargoBayItems.Remove(CInt(remItem.Name))
                     lvwCargoBay.Items.RemoveByKey(remItem.Name)
                 Next
                 Call Me.UpdateFittingListFromShipData()
@@ -1053,12 +1061,24 @@ Public Class ShipSlotControl
             Case "lvwDroneBay"
                 ' Removes the item from the drone bay
                 For Each remItem As ListViewItem In lvwDroneBay.SelectedItems
-                    currentShip.DroneBayItems.Remove(CInt(remItem.Name))
+                    fittedShip.DroneBayItems.Remove(CInt(remItem.Name))
                     lvwDroneBay.Items.RemoveByKey(remItem.Name)
                 Next
+                currentInfo.ShipType = currentShip
                 Call Me.UpdateFittingListFromShipData()
                 Call RedrawDroneBay()
         End Select
+        currentShip = fittedShip
+    End Sub
+
+    Private Sub ctxShowBayInfoItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxShowBayInfoItem.Click
+        Dim selItem As ListViewItem = lvwDroneBay.SelectedItems(0)
+        Dim idx As Integer = CInt(selItem.Name)
+        Dim DBI As DroneBayItem = CType(fittedShip.DroneBayItems.Item(idx), DroneBayItem)
+        Dim sModule As ShipModule = DBI.DroneType
+        Dim showInfo As New frmShowInfo
+        showInfo.ShowItemDetails(sModule)
+        showInfo = Nothing
     End Sub
 #End Region
 
@@ -1127,4 +1147,5 @@ Public Class ShipSlotControl
     End Function
 #End Region
 
+    
 End Class
