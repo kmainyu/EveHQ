@@ -73,12 +73,12 @@ Partial Class ShipInfoControl
         Me.lblCapacitor = New System.Windows.Forms.Label
         Me.pbCapacitor = New System.Windows.Forms.PictureBox
         Me.gbTargeting = New System.Windows.Forms.GroupBox
+        Me.lblSigRadius = New System.Windows.Forms.Label
+        Me.pbSigRadius = New System.Windows.Forms.PictureBox
         Me.lblSensorStrength = New System.Windows.Forms.Label
         Me.pbSensorStrength = New System.Windows.Forms.PictureBox
         Me.lblScanResolution = New System.Windows.Forms.Label
         Me.pbScanResolution = New System.Windows.Forms.PictureBox
-        Me.lblMaxTargets = New System.Windows.Forms.Label
-        Me.pbMaxTargets = New System.Windows.Forms.PictureBox
         Me.lblTargetRange = New System.Windows.Forms.Label
         Me.pbTargetRange = New System.Windows.Forms.PictureBox
         Me.lblCalibration = New System.Windows.Forms.Label
@@ -114,6 +114,10 @@ Partial Class ShipInfoControl
         Me.lblArmorEM = New System.Windows.Forms.Label
         Me.pbArmorEM = New System.Windows.Forms.PictureBox
         Me.gbShield = New System.Windows.Forms.GroupBox
+        Me.lblShieldPeak = New System.Windows.Forms.Label
+        Me.pbShieldPeak = New System.Windows.Forms.PictureBox
+        Me.lblShieldAverage = New System.Windows.Forms.Label
+        Me.pbShieldAverage = New System.Windows.Forms.PictureBox
         Me.progShieldThermal = New System.Windows.Forms.ProgressBar
         Me.progShieldExp = New System.Windows.Forms.ProgressBar
         Me.progShieldKinetic = New System.Windows.Forms.ProgressBar
@@ -135,12 +139,6 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lblSigRadius = New System.Windows.Forms.Label
-        Me.pbSigRadius = New System.Windows.Forms.PictureBox
-        Me.lblShieldPeak = New System.Windows.Forms.Label
-        Me.pbShieldPeak = New System.Windows.Forms.PictureBox
-        Me.lblShieldAverage = New System.Windows.Forms.Label
-        Me.pbShieldAverage = New System.Windows.Forms.PictureBox
         Me.Panel1.SuspendLayout()
         Me.gbDamage.SuspendLayout()
         CType(Me.pbDroneDamage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -162,9 +160,9 @@ Partial Class ShipInfoControl
         CType(Me.pbCapAverage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCapacitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbTargeting.SuspendLayout()
+        CType(Me.pbSigRadius, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbSensorStrength, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbScanResolution, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbMaxTargets, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbTargetRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCalibration, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbStructure.SuspendLayout()
@@ -180,6 +178,8 @@ Partial Class ShipInfoControl
         CType(Me.pbArmorKinetic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbArmorEM, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbShield.SuspendLayout()
+        CType(Me.pbShieldPeak, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbShieldAverage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbShieldRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbShieldHP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbShieldThermal, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -188,9 +188,6 @@ Partial Class ShipInfoControl
         CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbSigRadius, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldPeak, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldAverage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
@@ -226,7 +223,7 @@ Partial Class ShipInfoControl
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(400, 774)
+        Me.Panel1.Size = New System.Drawing.Size(250, 805)
         Me.Panel1.TabIndex = 0
         '
         'gbDamage
@@ -240,9 +237,9 @@ Partial Class ShipInfoControl
         Me.gbDamage.Controls.Add(Me.pbSmartbombDamage)
         Me.gbDamage.Controls.Add(Me.pbTurretDamage)
         Me.gbDamage.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbDamage.Location = New System.Drawing.Point(3, 370)
+        Me.gbDamage.Location = New System.Drawing.Point(5, 501)
         Me.gbDamage.Name = "gbDamage"
-        Me.gbDamage.Size = New System.Drawing.Size(394, 79)
+        Me.gbDamage.Size = New System.Drawing.Size(240, 70)
         Me.gbDamage.TabIndex = 33
         Me.gbDamage.TabStop = False
         Me.gbDamage.Text = "Damage"
@@ -251,7 +248,7 @@ Partial Class ShipInfoControl
         'lblDroneVolleyDamage
         '
         Me.lblDroneVolleyDamage.AutoSize = True
-        Me.lblDroneVolleyDamage.Location = New System.Drawing.Point(219, 54)
+        Me.lblDroneVolleyDamage.Location = New System.Drawing.Point(148, 47)
         Me.lblDroneVolleyDamage.Name = "lblDroneVolleyDamage"
         Me.lblDroneVolleyDamage.Size = New System.Drawing.Size(54, 13)
         Me.lblDroneVolleyDamage.TabIndex = 14
@@ -261,7 +258,7 @@ Partial Class ShipInfoControl
         'lblSmartbombVolleyDamage
         '
         Me.lblSmartbombVolleyDamage.AutoSize = True
-        Me.lblSmartbombVolleyDamage.Location = New System.Drawing.Point(29, 54)
+        Me.lblSmartbombVolleyDamage.Location = New System.Drawing.Point(29, 47)
         Me.lblSmartbombVolleyDamage.Name = "lblSmartbombVolleyDamage"
         Me.lblSmartbombVolleyDamage.Size = New System.Drawing.Size(54, 13)
         Me.lblSmartbombVolleyDamage.TabIndex = 13
@@ -271,7 +268,7 @@ Partial Class ShipInfoControl
         'lblMissileVolleyDamage
         '
         Me.lblMissileVolleyDamage.AutoSize = True
-        Me.lblMissileVolleyDamage.Location = New System.Drawing.Point(219, 24)
+        Me.lblMissileVolleyDamage.Location = New System.Drawing.Point(148, 24)
         Me.lblMissileVolleyDamage.Name = "lblMissileVolleyDamage"
         Me.lblMissileVolleyDamage.Size = New System.Drawing.Size(54, 13)
         Me.lblMissileVolleyDamage.TabIndex = 12
@@ -281,7 +278,7 @@ Partial Class ShipInfoControl
         'pbDroneDamage
         '
         Me.pbDroneDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgDrone
-        Me.pbDroneDamage.Location = New System.Drawing.Point(195, 49)
+        Me.pbDroneDamage.Location = New System.Drawing.Point(124, 42)
         Me.pbDroneDamage.Name = "pbDroneDamage"
         Me.pbDroneDamage.Size = New System.Drawing.Size(24, 24)
         Me.pbDroneDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -302,7 +299,7 @@ Partial Class ShipInfoControl
         'pbMissileDamage
         '
         Me.pbMissileDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgLauncherSlots
-        Me.pbMissileDamage.Location = New System.Drawing.Point(195, 19)
+        Me.pbMissileDamage.Location = New System.Drawing.Point(124, 19)
         Me.pbMissileDamage.Name = "pbMissileDamage"
         Me.pbMissileDamage.Size = New System.Drawing.Size(24, 24)
         Me.pbMissileDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -313,7 +310,7 @@ Partial Class ShipInfoControl
         'pbSmartbombDamage
         '
         Me.pbSmartbombDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgSmartbomb
-        Me.pbSmartbombDamage.Location = New System.Drawing.Point(5, 49)
+        Me.pbSmartbombDamage.Location = New System.Drawing.Point(5, 42)
         Me.pbSmartbombDamage.Name = "pbSmartbombDamage"
         Me.pbSmartbombDamage.Size = New System.Drawing.Size(24, 24)
         Me.pbSmartbombDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -371,9 +368,9 @@ Partial Class ShipInfoControl
         'Label1
         '
         Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Label1.Location = New System.Drawing.Point(7, 88)
+        Me.Label1.Location = New System.Drawing.Point(4, 88)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(386, 2)
+        Me.Label1.Size = New System.Drawing.Size(242, 2)
         Me.Label1.TabIndex = 29
         '
         'btnLog
@@ -389,7 +386,7 @@ Partial Class ShipInfoControl
         'btnSkills
         '
         Me.btnSkills.Image = CType(resources.GetObject("btnSkills.Image"), System.Drawing.Image)
-        Me.btnSkills.Location = New System.Drawing.Point(242, 8)
+        Me.btnSkills.Location = New System.Drawing.Point(213, 8)
         Me.btnSkills.Name = "btnSkills"
         Me.btnSkills.Size = New System.Drawing.Size(32, 32)
         Me.btnSkills.TabIndex = 27
@@ -412,7 +409,7 @@ Partial Class ShipInfoControl
         Me.cboPilots.FormattingEnabled = True
         Me.cboPilots.Location = New System.Drawing.Point(42, 15)
         Me.cboPilots.Name = "cboPilots"
-        Me.cboPilots.Size = New System.Drawing.Size(194, 21)
+        Me.cboPilots.Size = New System.Drawing.Size(165, 21)
         Me.cboPilots.Sorted = True
         Me.cboPilots.TabIndex = 24
         '
@@ -428,9 +425,9 @@ Partial Class ShipInfoControl
         'line1
         '
         Me.line1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.line1.Location = New System.Drawing.Point(7, 48)
+        Me.line1.Location = New System.Drawing.Point(4, 48)
         Me.line1.Name = "line1"
-        Me.line1.Size = New System.Drawing.Size(386, 2)
+        Me.line1.Size = New System.Drawing.Size(242, 2)
         Me.line1.TabIndex = 22
         '
         'lblEffectiveHP
@@ -462,9 +459,9 @@ Partial Class ShipInfoControl
         Me.gbCargo.Controls.Add(Me.lblCargoBay)
         Me.gbCargo.Controls.Add(Me.pbCargoBay)
         Me.gbCargo.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCargo.Location = New System.Drawing.Point(3, 590)
+        Me.gbCargo.Location = New System.Drawing.Point(4, 717)
         Me.gbCargo.Name = "gbCargo"
-        Me.gbCargo.Size = New System.Drawing.Size(394, 51)
+        Me.gbCargo.Size = New System.Drawing.Size(240, 70)
         Me.gbCargo.TabIndex = 19
         Me.gbCargo.TabStop = False
         Me.gbCargo.Text = "Cargo and Drones"
@@ -473,7 +470,7 @@ Partial Class ShipInfoControl
         'lblDroneBandwidth
         '
         Me.lblDroneBandwidth.AutoSize = True
-        Me.lblDroneBandwidth.Location = New System.Drawing.Point(226, 22)
+        Me.lblDroneBandwidth.Location = New System.Drawing.Point(37, 43)
         Me.lblDroneBandwidth.Name = "lblDroneBandwidth"
         Me.lblDroneBandwidth.Size = New System.Drawing.Size(54, 13)
         Me.lblDroneBandwidth.TabIndex = 10
@@ -482,7 +479,7 @@ Partial Class ShipInfoControl
         '
         'progDroneBandwidth
         '
-        Me.progDroneBandwidth.Location = New System.Drawing.Point(216, 35)
+        Me.progDroneBandwidth.Location = New System.Drawing.Point(27, 56)
         Me.progDroneBandwidth.Name = "progDroneBandwidth"
         Me.progDroneBandwidth.Size = New System.Drawing.Size(170, 10)
         Me.progDroneBandwidth.TabIndex = 9
@@ -492,7 +489,7 @@ Partial Class ShipInfoControl
         'pbDroneBandwidth
         '
         Me.pbDroneBandwidth.Image = Global.EveHQ.HQF.My.Resources.Resources.imgDrone
-        Me.pbDroneBandwidth.Location = New System.Drawing.Point(195, 19)
+        Me.pbDroneBandwidth.Location = New System.Drawing.Point(6, 42)
         Me.pbDroneBandwidth.Name = "pbDroneBandwidth"
         Me.pbDroneBandwidth.Size = New System.Drawing.Size(24, 24)
         Me.pbDroneBandwidth.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -553,9 +550,9 @@ Partial Class ShipInfoControl
         Me.gbPropulsion.Controls.Add(Me.lblSpeed)
         Me.gbPropulsion.Controls.Add(Me.pbSpeed)
         Me.gbPropulsion.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbPropulsion.Location = New System.Drawing.Point(3, 455)
+        Me.gbPropulsion.Location = New System.Drawing.Point(5, 645)
         Me.gbPropulsion.Name = "gbPropulsion"
-        Me.gbPropulsion.Size = New System.Drawing.Size(394, 48)
+        Me.gbPropulsion.Size = New System.Drawing.Size(240, 70)
         Me.gbPropulsion.TabIndex = 18
         Me.gbPropulsion.TabStop = False
         Me.gbPropulsion.Text = "Propulsion"
@@ -564,7 +561,7 @@ Partial Class ShipInfoControl
         'lblAlignTime
         '
         Me.lblAlignTime.AutoSize = True
-        Me.lblAlignTime.Location = New System.Drawing.Point(314, 22)
+        Me.lblAlignTime.Location = New System.Drawing.Point(124, 45)
         Me.lblAlignTime.Name = "lblAlignTime"
         Me.lblAlignTime.Size = New System.Drawing.Size(42, 13)
         Me.lblAlignTime.TabIndex = 11
@@ -574,7 +571,7 @@ Partial Class ShipInfoControl
         'pbAlignTime
         '
         Me.pbAlignTime.Image = Global.EveHQ.HQF.My.Resources.Resources.imgWarpAlign
-        Me.pbAlignTime.Location = New System.Drawing.Point(290, 19)
+        Me.pbAlignTime.Location = New System.Drawing.Point(100, 42)
         Me.pbAlignTime.Name = "pbAlignTime"
         Me.pbAlignTime.Size = New System.Drawing.Size(24, 24)
         Me.pbAlignTime.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -585,7 +582,7 @@ Partial Class ShipInfoControl
         'lblInertia
         '
         Me.lblInertia.AutoSize = True
-        Me.lblInertia.Location = New System.Drawing.Point(219, 22)
+        Me.lblInertia.Location = New System.Drawing.Point(28, 45)
         Me.lblInertia.Name = "lblInertia"
         Me.lblInertia.Size = New System.Drawing.Size(40, 13)
         Me.lblInertia.TabIndex = 8
@@ -595,7 +592,7 @@ Partial Class ShipInfoControl
         'pbInertia
         '
         Me.pbInertia.Image = Global.EveHQ.HQF.My.Resources.Resources.imgInertia
-        Me.pbInertia.Location = New System.Drawing.Point(195, 19)
+        Me.pbInertia.Location = New System.Drawing.Point(4, 42)
         Me.pbInertia.Name = "pbInertia"
         Me.pbInertia.Size = New System.Drawing.Size(24, 24)
         Me.pbInertia.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -656,9 +653,9 @@ Partial Class ShipInfoControl
         Me.gbCapacitor.Controls.Add(Me.lblCapacitor)
         Me.gbCapacitor.Controls.Add(Me.pbCapacitor)
         Me.gbCapacitor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCapacitor.Location = New System.Drawing.Point(183, 95)
+        Me.gbCapacitor.Location = New System.Drawing.Point(6, 427)
         Me.gbCapacitor.Name = "gbCapacitor"
-        Me.gbCapacitor.Size = New System.Drawing.Size(208, 75)
+        Me.gbCapacitor.Size = New System.Drawing.Size(240, 72)
         Me.gbCapacitor.TabIndex = 17
         Me.gbCapacitor.TabStop = False
         Me.gbCapacitor.Text = "Capacitor"
@@ -756,23 +753,42 @@ Partial Class ShipInfoControl
         Me.gbTargeting.Controls.Add(Me.pbSensorStrength)
         Me.gbTargeting.Controls.Add(Me.lblScanResolution)
         Me.gbTargeting.Controls.Add(Me.pbScanResolution)
-        Me.gbTargeting.Controls.Add(Me.lblMaxTargets)
-        Me.gbTargeting.Controls.Add(Me.pbMaxTargets)
         Me.gbTargeting.Controls.Add(Me.lblTargetRange)
         Me.gbTargeting.Controls.Add(Me.pbTargetRange)
         Me.gbTargeting.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbTargeting.Location = New System.Drawing.Point(3, 509)
+        Me.gbTargeting.Location = New System.Drawing.Point(5, 573)
         Me.gbTargeting.Name = "gbTargeting"
-        Me.gbTargeting.Size = New System.Drawing.Size(394, 75)
+        Me.gbTargeting.Size = New System.Drawing.Size(240, 70)
         Me.gbTargeting.TabIndex = 14
         Me.gbTargeting.TabStop = False
         Me.gbTargeting.Text = "Targeting"
         Me.ToolTip1.SetToolTip(Me.gbTargeting, "Targeting Information")
         '
+        'lblSigRadius
+        '
+        Me.lblSigRadius.AutoSize = True
+        Me.lblSigRadius.Location = New System.Drawing.Point(128, 48)
+        Me.lblSigRadius.Name = "lblSigRadius"
+        Me.lblSigRadius.Size = New System.Drawing.Size(45, 13)
+        Me.lblSigRadius.TabIndex = 18
+        Me.lblSigRadius.Text = "0,000 m"
+        Me.ToolTip1.SetToolTip(Me.lblSigRadius, "Signature Radius")
+        '
+        'pbSigRadius
+        '
+        Me.pbSigRadius.Image = Global.EveHQ.HQF.My.Resources.Resources.imgSigRadius
+        Me.pbSigRadius.Location = New System.Drawing.Point(107, 42)
+        Me.pbSigRadius.Name = "pbSigRadius"
+        Me.pbSigRadius.Size = New System.Drawing.Size(24, 24)
+        Me.pbSigRadius.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbSigRadius.TabIndex = 17
+        Me.pbSigRadius.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbSigRadius, "Signature Radius")
+        '
         'lblSensorStrength
         '
         Me.lblSensorStrength.AutoSize = True
-        Me.lblSensorStrength.Location = New System.Drawing.Point(139, 45)
+        Me.lblSensorStrength.Location = New System.Drawing.Point(137, 22)
         Me.lblSensorStrength.Name = "lblSensorStrength"
         Me.lblSensorStrength.Size = New System.Drawing.Size(19, 13)
         Me.lblSensorStrength.TabIndex = 11
@@ -782,7 +798,7 @@ Partial Class ShipInfoControl
         'pbSensorStrength
         '
         Me.pbSensorStrength.Image = Global.EveHQ.HQF.My.Resources.Resources.imgSensorStregthL
-        Me.pbSensorStrength.Location = New System.Drawing.Point(109, 42)
+        Me.pbSensorStrength.Location = New System.Drawing.Point(107, 19)
         Me.pbSensorStrength.Name = "pbSensorStrength"
         Me.pbSensorStrength.Size = New System.Drawing.Size(24, 24)
         Me.pbSensorStrength.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -810,27 +826,6 @@ Partial Class ShipInfoControl
         Me.pbScanResolution.TabIndex = 6
         Me.pbScanResolution.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbScanResolution, "Scan Resolution")
-        '
-        'lblMaxTargets
-        '
-        Me.lblMaxTargets.AutoSize = True
-        Me.lblMaxTargets.Location = New System.Drawing.Point(139, 22)
-        Me.lblMaxTargets.Name = "lblMaxTargets"
-        Me.lblMaxTargets.Size = New System.Drawing.Size(19, 13)
-        Me.lblMaxTargets.TabIndex = 5
-        Me.lblMaxTargets.Text = "00"
-        Me.ToolTip1.SetToolTip(Me.lblMaxTargets, "Max Locked Targets")
-        '
-        'pbMaxTargets
-        '
-        Me.pbMaxTargets.Image = Global.EveHQ.HQF.My.Resources.Resources.imgMaxTargets
-        Me.pbMaxTargets.Location = New System.Drawing.Point(109, 19)
-        Me.pbMaxTargets.Name = "pbMaxTargets"
-        Me.pbMaxTargets.Size = New System.Drawing.Size(24, 24)
-        Me.pbMaxTargets.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbMaxTargets.TabIndex = 3
-        Me.pbMaxTargets.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbMaxTargets, "Max Locked Targets")
         '
         'lblTargetRange
         '
@@ -892,9 +887,9 @@ Partial Class ShipInfoControl
         Me.gbStructure.Controls.Add(Me.lblStructureEM)
         Me.gbStructure.Controls.Add(Me.pbStructureEM)
         Me.gbStructure.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbStructure.Location = New System.Drawing.Point(3, 317)
+        Me.gbStructure.Location = New System.Drawing.Point(5, 357)
         Me.gbStructure.Name = "gbStructure"
-        Me.gbStructure.Size = New System.Drawing.Size(394, 47)
+        Me.gbStructure.Size = New System.Drawing.Size(240, 68)
         Me.gbStructure.TabIndex = 10
         Me.gbStructure.TabStop = False
         Me.gbStructure.Text = "Structure"
@@ -902,7 +897,7 @@ Partial Class ShipInfoControl
         '
         'progStructureThermal
         '
-        Me.progStructureThermal.Location = New System.Drawing.Point(335, 31)
+        Me.progStructureThermal.Location = New System.Drawing.Point(183, 54)
         Me.progStructureThermal.Name = "progStructureThermal"
         Me.progStructureThermal.Size = New System.Drawing.Size(50, 10)
         Me.progStructureThermal.TabIndex = 10
@@ -911,7 +906,7 @@ Partial Class ShipInfoControl
         '
         'progStructureExplosive
         '
-        Me.progStructureExplosive.Location = New System.Drawing.Point(259, 31)
+        Me.progStructureExplosive.Location = New System.Drawing.Point(107, 54)
         Me.progStructureExplosive.Name = "progStructureExplosive"
         Me.progStructureExplosive.Size = New System.Drawing.Size(50, 10)
         Me.progStructureExplosive.TabIndex = 7
@@ -960,7 +955,7 @@ Partial Class ShipInfoControl
         'lblStructureThermal
         '
         Me.lblStructureThermal.AutoSize = True
-        Me.lblStructureThermal.Location = New System.Drawing.Point(339, 19)
+        Me.lblStructureThermal.Location = New System.Drawing.Point(187, 42)
         Me.lblStructureThermal.Name = "lblStructureThermal"
         Me.lblStructureThermal.Size = New System.Drawing.Size(21, 13)
         Me.lblStructureThermal.TabIndex = 11
@@ -970,7 +965,7 @@ Partial Class ShipInfoControl
         'pbStructureThermal
         '
         Me.pbStructureThermal.Image = Global.EveHQ.HQF.My.Resources.Resources.imgThermalResist
-        Me.pbStructureThermal.Location = New System.Drawing.Point(315, 17)
+        Me.pbStructureThermal.Location = New System.Drawing.Point(163, 40)
         Me.pbStructureThermal.Name = "pbStructureThermal"
         Me.pbStructureThermal.Size = New System.Drawing.Size(24, 24)
         Me.pbStructureThermal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -981,7 +976,7 @@ Partial Class ShipInfoControl
         'lblStructureExplosive
         '
         Me.lblStructureExplosive.AutoSize = True
-        Me.lblStructureExplosive.Location = New System.Drawing.Point(263, 19)
+        Me.lblStructureExplosive.Location = New System.Drawing.Point(111, 42)
         Me.lblStructureExplosive.Name = "lblStructureExplosive"
         Me.lblStructureExplosive.Size = New System.Drawing.Size(21, 13)
         Me.lblStructureExplosive.TabIndex = 8
@@ -991,7 +986,7 @@ Partial Class ShipInfoControl
         'pbStructureExplosive
         '
         Me.pbStructureExplosive.Image = Global.EveHQ.HQF.My.Resources.Resources.imgExplosiveResist
-        Me.pbStructureExplosive.Location = New System.Drawing.Point(239, 17)
+        Me.pbStructureExplosive.Location = New System.Drawing.Point(87, 40)
         Me.pbStructureExplosive.Name = "pbStructureExplosive"
         Me.pbStructureExplosive.Size = New System.Drawing.Size(24, 24)
         Me.pbStructureExplosive.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -1058,9 +1053,9 @@ Partial Class ShipInfoControl
         Me.gbArmor.Controls.Add(Me.lblArmorEM)
         Me.gbArmor.Controls.Add(Me.pbArmorEM)
         Me.gbArmor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbArmor.Location = New System.Drawing.Point(3, 265)
+        Me.gbArmor.Location = New System.Drawing.Point(5, 287)
         Me.gbArmor.Name = "gbArmor"
-        Me.gbArmor.Size = New System.Drawing.Size(394, 46)
+        Me.gbArmor.Size = New System.Drawing.Size(240, 68)
         Me.gbArmor.TabIndex = 9
         Me.gbArmor.TabStop = False
         Me.gbArmor.Text = "Armor"
@@ -1068,7 +1063,7 @@ Partial Class ShipInfoControl
         '
         'progArmorThermal
         '
-        Me.progArmorThermal.Location = New System.Drawing.Point(335, 31)
+        Me.progArmorThermal.Location = New System.Drawing.Point(183, 54)
         Me.progArmorThermal.Name = "progArmorThermal"
         Me.progArmorThermal.Size = New System.Drawing.Size(50, 10)
         Me.progArmorThermal.TabIndex = 10
@@ -1077,7 +1072,7 @@ Partial Class ShipInfoControl
         '
         'progArmorExplosive
         '
-        Me.progArmorExplosive.Location = New System.Drawing.Point(259, 31)
+        Me.progArmorExplosive.Location = New System.Drawing.Point(107, 54)
         Me.progArmorExplosive.Name = "progArmorExplosive"
         Me.progArmorExplosive.Size = New System.Drawing.Size(50, 10)
         Me.progArmorExplosive.TabIndex = 7
@@ -1126,7 +1121,7 @@ Partial Class ShipInfoControl
         'lblArmorThermal
         '
         Me.lblArmorThermal.AutoSize = True
-        Me.lblArmorThermal.Location = New System.Drawing.Point(339, 19)
+        Me.lblArmorThermal.Location = New System.Drawing.Point(187, 42)
         Me.lblArmorThermal.Name = "lblArmorThermal"
         Me.lblArmorThermal.Size = New System.Drawing.Size(21, 13)
         Me.lblArmorThermal.TabIndex = 11
@@ -1136,7 +1131,7 @@ Partial Class ShipInfoControl
         'pbArmorThermal
         '
         Me.pbArmorThermal.Image = Global.EveHQ.HQF.My.Resources.Resources.imgThermalResist
-        Me.pbArmorThermal.Location = New System.Drawing.Point(315, 17)
+        Me.pbArmorThermal.Location = New System.Drawing.Point(163, 40)
         Me.pbArmorThermal.Name = "pbArmorThermal"
         Me.pbArmorThermal.Size = New System.Drawing.Size(24, 24)
         Me.pbArmorThermal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -1147,7 +1142,7 @@ Partial Class ShipInfoControl
         'lblArmorExplosive
         '
         Me.lblArmorExplosive.AutoSize = True
-        Me.lblArmorExplosive.Location = New System.Drawing.Point(263, 19)
+        Me.lblArmorExplosive.Location = New System.Drawing.Point(111, 42)
         Me.lblArmorExplosive.Name = "lblArmorExplosive"
         Me.lblArmorExplosive.Size = New System.Drawing.Size(21, 13)
         Me.lblArmorExplosive.TabIndex = 8
@@ -1157,7 +1152,7 @@ Partial Class ShipInfoControl
         'pbArmorExplosive
         '
         Me.pbArmorExplosive.Image = Global.EveHQ.HQF.My.Resources.Resources.imgExplosiveResist
-        Me.pbArmorExplosive.Location = New System.Drawing.Point(239, 17)
+        Me.pbArmorExplosive.Location = New System.Drawing.Point(87, 40)
         Me.pbArmorExplosive.Name = "pbArmorExplosive"
         Me.pbArmorExplosive.Size = New System.Drawing.Size(24, 24)
         Me.pbArmorExplosive.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -1231,17 +1226,59 @@ Partial Class ShipInfoControl
         Me.gbShield.Controls.Add(Me.pbShieldEM)
         Me.gbShield.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbShield.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbShield.Location = New System.Drawing.Point(3, 184)
+        Me.gbShield.Location = New System.Drawing.Point(5, 184)
         Me.gbShield.Name = "gbShield"
-        Me.gbShield.Size = New System.Drawing.Size(394, 75)
+        Me.gbShield.Size = New System.Drawing.Size(240, 102)
         Me.gbShield.TabIndex = 8
         Me.gbShield.TabStop = False
         Me.gbShield.Text = "Shield"
         Me.ToolTip1.SetToolTip(Me.gbShield, "Shield Information")
         '
+        'lblShieldPeak
+        '
+        Me.lblShieldPeak.AutoSize = True
+        Me.lblShieldPeak.Location = New System.Drawing.Point(126, 79)
+        Me.lblShieldPeak.Name = "lblShieldPeak"
+        Me.lblShieldPeak.Size = New System.Drawing.Size(40, 13)
+        Me.lblShieldPeak.TabIndex = 19
+        Me.lblShieldPeak.Text = "000.00"
+        Me.ToolTip1.SetToolTip(Me.lblShieldPeak, "Peak Recharge Rate")
+        '
+        'pbShieldPeak
+        '
+        Me.pbShieldPeak.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapPeak
+        Me.pbShieldPeak.Location = New System.Drawing.Point(102, 73)
+        Me.pbShieldPeak.Name = "pbShieldPeak"
+        Me.pbShieldPeak.Size = New System.Drawing.Size(24, 24)
+        Me.pbShieldPeak.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbShieldPeak.TabIndex = 18
+        Me.pbShieldPeak.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbShieldPeak, "Peak Recharge Rate")
+        '
+        'lblShieldAverage
+        '
+        Me.lblShieldAverage.AutoSize = True
+        Me.lblShieldAverage.Location = New System.Drawing.Point(31, 79)
+        Me.lblShieldAverage.Name = "lblShieldAverage"
+        Me.lblShieldAverage.Size = New System.Drawing.Size(40, 13)
+        Me.lblShieldAverage.TabIndex = 17
+        Me.lblShieldAverage.Text = "000.00"
+        Me.ToolTip1.SetToolTip(Me.lblShieldAverage, "Average Recharge Rate")
+        '
+        'pbShieldAverage
+        '
+        Me.pbShieldAverage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapAverage
+        Me.pbShieldAverage.Location = New System.Drawing.Point(7, 74)
+        Me.pbShieldAverage.Name = "pbShieldAverage"
+        Me.pbShieldAverage.Size = New System.Drawing.Size(24, 24)
+        Me.pbShieldAverage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbShieldAverage.TabIndex = 16
+        Me.pbShieldAverage.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbShieldAverage, "Average Recharge Rate")
+        '
         'progShieldThermal
         '
-        Me.progShieldThermal.Location = New System.Drawing.Point(335, 31)
+        Me.progShieldThermal.Location = New System.Drawing.Point(183, 58)
         Me.progShieldThermal.Name = "progShieldThermal"
         Me.progShieldThermal.Size = New System.Drawing.Size(50, 10)
         Me.progShieldThermal.TabIndex = 10
@@ -1250,7 +1287,7 @@ Partial Class ShipInfoControl
         '
         'progShieldExp
         '
-        Me.progShieldExp.Location = New System.Drawing.Point(259, 31)
+        Me.progShieldExp.Location = New System.Drawing.Point(107, 58)
         Me.progShieldExp.Name = "progShieldExp"
         Me.progShieldExp.Size = New System.Drawing.Size(50, 10)
         Me.progShieldExp.TabIndex = 7
@@ -1320,7 +1357,7 @@ Partial Class ShipInfoControl
         'lblShieldThermal
         '
         Me.lblShieldThermal.AutoSize = True
-        Me.lblShieldThermal.Location = New System.Drawing.Point(339, 19)
+        Me.lblShieldThermal.Location = New System.Drawing.Point(187, 46)
         Me.lblShieldThermal.Name = "lblShieldThermal"
         Me.lblShieldThermal.Size = New System.Drawing.Size(21, 13)
         Me.lblShieldThermal.TabIndex = 11
@@ -1330,7 +1367,7 @@ Partial Class ShipInfoControl
         'pbShieldThermal
         '
         Me.pbShieldThermal.Image = Global.EveHQ.HQF.My.Resources.Resources.imgThermalResist
-        Me.pbShieldThermal.Location = New System.Drawing.Point(315, 17)
+        Me.pbShieldThermal.Location = New System.Drawing.Point(163, 44)
         Me.pbShieldThermal.Name = "pbShieldThermal"
         Me.pbShieldThermal.Size = New System.Drawing.Size(24, 24)
         Me.pbShieldThermal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -1341,7 +1378,7 @@ Partial Class ShipInfoControl
         'lblShieldExplosive
         '
         Me.lblShieldExplosive.AutoSize = True
-        Me.lblShieldExplosive.Location = New System.Drawing.Point(263, 19)
+        Me.lblShieldExplosive.Location = New System.Drawing.Point(111, 46)
         Me.lblShieldExplosive.Name = "lblShieldExplosive"
         Me.lblShieldExplosive.Size = New System.Drawing.Size(21, 13)
         Me.lblShieldExplosive.TabIndex = 8
@@ -1351,7 +1388,7 @@ Partial Class ShipInfoControl
         'pbShieldExplosive
         '
         Me.pbShieldExplosive.Image = Global.EveHQ.HQF.My.Resources.Resources.imgExplosiveResist
-        Me.pbShieldExplosive.Location = New System.Drawing.Point(239, 17)
+        Me.pbShieldExplosive.Location = New System.Drawing.Point(87, 44)
         Me.pbShieldExplosive.Name = "pbShieldExplosive"
         Me.pbShieldExplosive.Size = New System.Drawing.Size(24, 24)
         Me.pbShieldExplosive.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -1445,69 +1482,6 @@ Partial Class ShipInfoControl
         Me.pbCPU.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbCPU, "CPU")
         '
-        'lblSigRadius
-        '
-        Me.lblSigRadius.AutoSize = True
-        Me.lblSigRadius.Location = New System.Drawing.Point(216, 25)
-        Me.lblSigRadius.Name = "lblSigRadius"
-        Me.lblSigRadius.Size = New System.Drawing.Size(45, 13)
-        Me.lblSigRadius.TabIndex = 18
-        Me.lblSigRadius.Text = "0,000 m"
-        Me.ToolTip1.SetToolTip(Me.lblSigRadius, "Signature Radius")
-        '
-        'pbSigRadius
-        '
-        Me.pbSigRadius.Image = Global.EveHQ.HQF.My.Resources.Resources.imgSigRadius
-        Me.pbSigRadius.Location = New System.Drawing.Point(195, 19)
-        Me.pbSigRadius.Name = "pbSigRadius"
-        Me.pbSigRadius.Size = New System.Drawing.Size(24, 24)
-        Me.pbSigRadius.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbSigRadius.TabIndex = 17
-        Me.pbSigRadius.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbSigRadius, "Signature Radius")
-        '
-        'lblShieldPeak
-        '
-        Me.lblShieldPeak.AutoSize = True
-        Me.lblShieldPeak.Location = New System.Drawing.Point(219, 50)
-        Me.lblShieldPeak.Name = "lblShieldPeak"
-        Me.lblShieldPeak.Size = New System.Drawing.Size(40, 13)
-        Me.lblShieldPeak.TabIndex = 19
-        Me.lblShieldPeak.Text = "000.00"
-        Me.ToolTip1.SetToolTip(Me.lblShieldPeak, "Peak Recharge Rate")
-        '
-        'pbShieldPeak
-        '
-        Me.pbShieldPeak.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapPeak
-        Me.pbShieldPeak.Location = New System.Drawing.Point(195, 44)
-        Me.pbShieldPeak.Name = "pbShieldPeak"
-        Me.pbShieldPeak.Size = New System.Drawing.Size(24, 24)
-        Me.pbShieldPeak.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbShieldPeak.TabIndex = 18
-        Me.pbShieldPeak.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbShieldPeak, "Peak Recharge Rate")
-        '
-        'lblShieldAverage
-        '
-        Me.lblShieldAverage.AutoSize = True
-        Me.lblShieldAverage.Location = New System.Drawing.Point(124, 50)
-        Me.lblShieldAverage.Name = "lblShieldAverage"
-        Me.lblShieldAverage.Size = New System.Drawing.Size(40, 13)
-        Me.lblShieldAverage.TabIndex = 17
-        Me.lblShieldAverage.Text = "000.00"
-        Me.ToolTip1.SetToolTip(Me.lblShieldAverage, "Average Recharge Rate")
-        '
-        'pbShieldAverage
-        '
-        Me.pbShieldAverage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapAverage
-        Me.pbShieldAverage.Location = New System.Drawing.Point(100, 45)
-        Me.pbShieldAverage.Name = "pbShieldAverage"
-        Me.pbShieldAverage.Size = New System.Drawing.Size(24, 24)
-        Me.pbShieldAverage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbShieldAverage.TabIndex = 16
-        Me.pbShieldAverage.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbShieldAverage, "Average Recharge Rate")
-        '
         'ShipInfoControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1515,7 +1489,7 @@ Partial Class ShipInfoControl
         Me.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Controls.Add(Me.Panel1)
         Me.Name = "ShipInfoControl"
-        Me.Size = New System.Drawing.Size(400, 774)
+        Me.Size = New System.Drawing.Size(250, 805)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.gbDamage.ResumeLayout(False)
@@ -1543,9 +1517,9 @@ Partial Class ShipInfoControl
         CType(Me.pbCapacitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbTargeting.ResumeLayout(False)
         Me.gbTargeting.PerformLayout()
+        CType(Me.pbSigRadius, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbSensorStrength, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbScanResolution, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbMaxTargets, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbTargetRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCalibration, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbStructure.ResumeLayout(False)
@@ -1564,6 +1538,8 @@ Partial Class ShipInfoControl
         CType(Me.pbArmorEM, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbShield.ResumeLayout(False)
         Me.gbShield.PerformLayout()
+        CType(Me.pbShieldPeak, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbShieldAverage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbShieldRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbShieldHP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbShieldThermal, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1572,9 +1548,6 @@ Partial Class ShipInfoControl
         CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbSigRadius, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldPeak, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldAverage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1637,8 +1610,6 @@ Partial Class ShipInfoControl
     Friend WithEvents pbSensorStrength As System.Windows.Forms.PictureBox
     Friend WithEvents lblScanResolution As System.Windows.Forms.Label
     Friend WithEvents pbScanResolution As System.Windows.Forms.PictureBox
-    Friend WithEvents lblMaxTargets As System.Windows.Forms.Label
-    Friend WithEvents pbMaxTargets As System.Windows.Forms.PictureBox
     Friend WithEvents lblTargetRange As System.Windows.Forms.Label
     Friend WithEvents pbTargetRange As System.Windows.Forms.PictureBox
     Friend WithEvents gbCapacitor As System.Windows.Forms.GroupBox

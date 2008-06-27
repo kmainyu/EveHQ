@@ -23,6 +23,7 @@ Imports System.Text
 
 Public Class ShipSlotControl
     Dim UpdateAll As Boolean = False
+    Dim UpdateDrones As Boolean = False
     Dim rigGroups As New ArrayList
 
 #Region "Property Variables"
@@ -477,7 +478,9 @@ Public Class ShipSlotControl
             ' Update stuff
             If UpdateAll = False Then
                 currentInfo.ShipType = currentShip
+                UpdateDrones = True
                 Call Me.RedrawDroneBay()
+                UpdateDrones = False
                 Call UpdatePrices()
                 Call UpdateFittingListFromShipData()
             End If
@@ -649,6 +652,7 @@ Public Class ShipSlotControl
     Private Sub btnToggleStorage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnToggleStorage.Click
         If SplitContainer1.Panel2Collapsed = True Then
             SplitContainer1.Panel2Collapsed = False
+            SplitContainer1.SplitterDistance = SplitContainer1.Width - 252
         Else
             SplitContainer1.Panel2Collapsed = True
         End If
@@ -1023,13 +1027,13 @@ Public Class ShipSlotControl
 
     Private Sub lvwDroneBay_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwDroneBay.ItemChecked
         Dim idx As Integer = CInt(e.Item.Name)
-        Dim DBI As DroneBayItem = CType(fittedShip.DroneBayItems.Item(idx), DroneBayItem)
+        Dim DBI As DroneBayItem = CType(currentShip.DroneBayItems.Item(idx), DroneBayItem)
         DBI.IsActive = e.Item.Checked
-        If UpdateAll = False Then
+        If UpdateDrones = False Then
             currentInfo.ShipType = currentShip
         End If
         Call Me.UpdateFittingListFromShipData()
-        Call currentInfo.UpdateDroneBandWidthUsed(currentShip.DroneBayItems)
+        Call currentInfo.UpdateDroneBandWidthUsed()
     End Sub
 
     Private Sub ctxBays_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxBays.Opening
@@ -1053,7 +1057,7 @@ Public Class ShipSlotControl
             Case "lvwCargoBay"
                 ' Removes the item from the cargo bay
                 For Each remItem As ListViewItem In lvwCargoBay.SelectedItems
-                    fittedShip.CargoBayItems.Remove(CInt(remItem.Name))
+                    currentShip.CargoBayItems.Remove(CInt(remItem.Name))
                     lvwCargoBay.Items.RemoveByKey(remItem.Name)
                 Next
                 Call Me.UpdateFittingListFromShipData()
@@ -1061,14 +1065,15 @@ Public Class ShipSlotControl
             Case "lvwDroneBay"
                 ' Removes the item from the drone bay
                 For Each remItem As ListViewItem In lvwDroneBay.SelectedItems
-                    fittedShip.DroneBayItems.Remove(CInt(remItem.Name))
+                    currentShip.DroneBayItems.Remove(CInt(remItem.Name))
                     lvwDroneBay.Items.RemoveByKey(remItem.Name)
                 Next
                 currentInfo.ShipType = currentShip
                 Call Me.UpdateFittingListFromShipData()
+                UpdateDrones = True
                 Call RedrawDroneBay()
+                UpdateDrones = False
         End Select
-        currentShip = fittedShip
     End Sub
 
     Private Sub ctxShowBayInfoItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxShowBayInfoItem.Click

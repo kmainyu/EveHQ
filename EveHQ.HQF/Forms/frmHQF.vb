@@ -1996,7 +1996,7 @@ Public Class frmHQF
         pSI.Dock = System.Windows.Forms.DockStyle.Left
         pSI.Location = New System.Drawing.Point(0, 384)
         pSI.Name = "panelShipInfo"
-        pSI.Size = New System.Drawing.Size(402, 600)
+        pSI.Size = New System.Drawing.Size(252, 600)
         pSI.TabIndex = 0
 
         tp.Controls.Add(pSS)

@@ -55,6 +55,8 @@ Partial Class ShipSlotControl
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.ctxAlterQuantity = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxSplitBatch = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
+        Me.ctxShowBayInfoItem = New System.Windows.Forms.ToolStripMenuItem
         Me.pbDroneBay = New System.Windows.Forms.ProgressBar
         Me.lblDroneBay = New System.Windows.Forms.Label
         Me.tabCargoBay = New System.Windows.Forms.TabPage
@@ -72,8 +74,6 @@ Partial Class ShipSlotControl
         Me.colActivationCost = New System.Windows.Forms.ColumnHeader
         Me.colActivationTime = New System.Windows.Forms.ColumnHeader
         Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
-        Me.ctxShowBayInfoItem = New System.Windows.Forms.ToolStripMenuItem
         Me.panelSlotInfo.SuspendLayout()
         Me.ctxSlots.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -233,12 +233,12 @@ Partial Class ShipSlotControl
         '
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(128, 26)
+        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
         '
         'SplitContainer1
@@ -254,8 +254,9 @@ Partial Class ShipSlotControl
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.tabStorage)
+        Me.SplitContainer1.Panel2MinSize = 10
         Me.SplitContainer1.Size = New System.Drawing.Size(888, 424)
-        Me.SplitContainer1.SplitterDistance = 632
+        Me.SplitContainer1.SplitterDistance = 639
         Me.SplitContainer1.TabIndex = 1
         '
         'imgState
@@ -276,7 +277,7 @@ Partial Class ShipSlotControl
         Me.tabStorage.Multiline = True
         Me.tabStorage.Name = "tabStorage"
         Me.tabStorage.SelectedIndex = 0
-        Me.tabStorage.Size = New System.Drawing.Size(252, 424)
+        Me.tabStorage.Size = New System.Drawing.Size(245, 424)
         Me.tabStorage.TabIndex = 0
         '
         'tabDroneBay
@@ -287,7 +288,7 @@ Partial Class ShipSlotControl
         Me.tabDroneBay.Location = New System.Drawing.Point(4, 22)
         Me.tabDroneBay.Name = "tabDroneBay"
         Me.tabDroneBay.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabDroneBay.Size = New System.Drawing.Size(244, 398)
+        Me.tabDroneBay.Size = New System.Drawing.Size(237, 398)
         Me.tabDroneBay.TabIndex = 0
         Me.tabDroneBay.Text = "Drone Bay"
         Me.tabDroneBay.UseVisualStyleBackColor = True
@@ -305,7 +306,7 @@ Partial Class ShipSlotControl
         Me.lvwDroneBay.GridLines = True
         Me.lvwDroneBay.Location = New System.Drawing.Point(7, 33)
         Me.lvwDroneBay.Name = "lvwDroneBay"
-        Me.lvwDroneBay.Size = New System.Drawing.Size(231, 359)
+        Me.lvwDroneBay.Size = New System.Drawing.Size(224, 359)
         Me.lvwDroneBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwDroneBay.TabIndex = 2
         Me.lvwDroneBay.UseCompatibleStateImageBehavior = False
@@ -314,41 +315,52 @@ Partial Class ShipSlotControl
         'colDroneBayType
         '
         Me.colDroneBayType.Text = "Drone Type"
-        Me.colDroneBayType.Width = 150
+        Me.colDroneBayType.Width = 165
         '
         'colDroneBayQty
         '
         Me.colDroneBayQty.Text = "Qty"
-        Me.colDroneBayQty.Width = 30
+        Me.colDroneBayQty.Width = 35
         '
         'ctxBays
         '
         Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(153, 126)
+        Me.ctxBays.Size = New System.Drawing.Size(154, 104)
         '
         'ctxRemoveItem
         '
         Me.ctxRemoveItem.Name = "ctxRemoveItem"
-        Me.ctxRemoveItem.Size = New System.Drawing.Size(152, 22)
+        Me.ctxRemoveItem.Size = New System.Drawing.Size(153, 22)
         Me.ctxRemoveItem.Text = "Remove Item"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(150, 6)
         '
         'ctxAlterQuantity
         '
         Me.ctxAlterQuantity.Name = "ctxAlterQuantity"
-        Me.ctxAlterQuantity.Size = New System.Drawing.Size(152, 22)
+        Me.ctxAlterQuantity.Size = New System.Drawing.Size(153, 22)
         Me.ctxAlterQuantity.Text = "Alter Quantity"
         '
         'ctxSplitBatch
         '
         Me.ctxSplitBatch.Name = "ctxSplitBatch"
-        Me.ctxSplitBatch.Size = New System.Drawing.Size(152, 22)
+        Me.ctxSplitBatch.Size = New System.Drawing.Size(153, 22)
         Me.ctxSplitBatch.Text = "Split Batch"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(150, 6)
+        '
+        'ctxShowBayInfoItem
+        '
+        Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
+        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(153, 22)
+        Me.ctxShowBayInfoItem.Text = "ShowInfo"
         '
         'pbDroneBay
         '
@@ -356,14 +368,14 @@ Partial Class ShipSlotControl
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pbDroneBay.Location = New System.Drawing.Point(7, 16)
         Me.pbDroneBay.Name = "pbDroneBay"
-        Me.pbDroneBay.Size = New System.Drawing.Size(231, 10)
+        Me.pbDroneBay.Size = New System.Drawing.Size(224, 10)
         Me.pbDroneBay.TabIndex = 1
         '
         'lblDroneBay
         '
         Me.lblDroneBay.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDroneBay.AutoSize = True
-        Me.lblDroneBay.Location = New System.Drawing.Point(152, 3)
+        Me.lblDroneBay.Location = New System.Drawing.Point(145, 3)
         Me.lblDroneBay.Name = "lblDroneBay"
         Me.lblDroneBay.Size = New System.Drawing.Size(86, 13)
         Me.lblDroneBay.TabIndex = 0
@@ -377,7 +389,7 @@ Partial Class ShipSlotControl
         Me.tabCargoBay.Location = New System.Drawing.Point(4, 22)
         Me.tabCargoBay.Name = "tabCargoBay"
         Me.tabCargoBay.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabCargoBay.Size = New System.Drawing.Size(244, 398)
+        Me.tabCargoBay.Size = New System.Drawing.Size(237, 398)
         Me.tabCargoBay.TabIndex = 1
         Me.tabCargoBay.Text = "CargoBay"
         Me.tabCargoBay.UseVisualStyleBackColor = True
@@ -394,7 +406,7 @@ Partial Class ShipSlotControl
         Me.lvwCargoBay.GridLines = True
         Me.lvwCargoBay.Location = New System.Drawing.Point(7, 33)
         Me.lvwCargoBay.Name = "lvwCargoBay"
-        Me.lvwCargoBay.Size = New System.Drawing.Size(231, 359)
+        Me.lvwCargoBay.Size = New System.Drawing.Size(224, 359)
         Me.lvwCargoBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwCargoBay.TabIndex = 5
         Me.lvwCargoBay.UseCompatibleStateImageBehavior = False
@@ -403,12 +415,12 @@ Partial Class ShipSlotControl
         'colCargoBayType
         '
         Me.colCargoBayType.Text = "Item Type"
-        Me.colCargoBayType.Width = 150
+        Me.colCargoBayType.Width = 165
         '
         'colCargoBayQty
         '
         Me.colCargoBayQty.Text = "Qty"
-        Me.colCargoBayQty.Width = 30
+        Me.colCargoBayQty.Width = 35
         '
         'pbCargoBay
         '
@@ -416,14 +428,14 @@ Partial Class ShipSlotControl
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pbCargoBay.Location = New System.Drawing.Point(7, 16)
         Me.pbCargoBay.Name = "pbCargoBay"
-        Me.pbCargoBay.Size = New System.Drawing.Size(231, 10)
+        Me.pbCargoBay.Size = New System.Drawing.Size(224, 10)
         Me.pbCargoBay.TabIndex = 4
         '
         'lblCargoBay
         '
         Me.lblCargoBay.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblCargoBay.AutoSize = True
-        Me.lblCargoBay.Location = New System.Drawing.Point(152, 3)
+        Me.lblCargoBay.Location = New System.Drawing.Point(145, 3)
         Me.lblCargoBay.Name = "lblCargoBay"
         Me.lblCargoBay.Size = New System.Drawing.Size(86, 13)
         Me.lblCargoBay.TabIndex = 3
@@ -446,7 +458,7 @@ Partial Class ShipSlotControl
         Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
         Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
         Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.Size = New System.Drawing.Size(632, 424)
+        Me.lvwSlots.Size = New System.Drawing.Size(639, 424)
         Me.lvwSlots.SmallImageList = Me.imgState
         Me.lvwSlots.TabIndex = 0
         Me.lvwSlots.UseCompatibleStateImageBehavior = False
@@ -484,17 +496,6 @@ Partial Class ShipSlotControl
         '
         Me.colMarketPrice.Text = "Market Price"
         Me.colMarketPrice.Width = 125
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
-        '
-        'ctxShowBayInfoItem
-        '
-        Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
-        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(152, 22)
-        Me.ctxShowBayInfoItem.Text = "ShowInfo"
         '
         'ShipSlotControl
         '

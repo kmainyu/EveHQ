@@ -185,7 +185,7 @@ Public Class ShipInfoControl
 
         ' Targeting
         lblTargetRange.Text = FormatNumber(fittedShip.MaxTargetRange, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m"
-        lblMaxTargets.Text = FormatNumber(fittedShip.MaxLockedTargets, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        'lblMaxTargets.Text = FormatNumber(fittedShip.MaxLockedTargets, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblScanResolution.Text = FormatNumber(fittedShip.ScanResolution, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " mm"
         lblSensorStrength.Text = FormatNumber(Math.Max(Math.Max(Math.Max(fittedShip.GravSensorStrenth, fittedShip.LadarSensorStrenth), fittedShip.MagSensorStrenth), fittedShip.RadarSensorStrenth), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblSigRadius.Text = FormatNumber(fittedShip.SigRadius, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m"
@@ -196,7 +196,7 @@ Public Class ShipInfoControl
         progDroneBandwidth.Maximum = CInt(fittedShip.DroneBandwidth)
         progDroneBandwidth.Value = CInt(fittedShip.DroneBandwidth_Used)
         lblDroneBandwidth.Text = FormatNumber(fittedShip.DroneBandwidth_Used, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBandwidth, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        UpdateDroneBandWidthUsed(fittedShip.DroneBayItems)
+        UpdateDroneBandWidthUsed()
 
         ' Damage
         lblTurretVolleyDamage.Text = FormatNumber(fittedShip.TurretVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.TurretDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -445,8 +445,7 @@ Public Class ShipInfoControl
         End If
     End Sub
 
-    Public Sub UpdateDroneBandWidthUsed(ByVal DroneBayItems As SortedList)
-        fittedShip.DroneBayItems = DroneBayItems
+    Public Sub UpdateDroneBandWidthUsed()
         fittedShip.DroneBandwidth_Used = 0
         For Each DBI As DroneBayItem In fittedShip.DroneBayItems.Values
             If DBI.IsActive = True Then
