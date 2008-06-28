@@ -469,25 +469,62 @@ Public Class Engine
     End Function
 
     Public Shared Function ApplyFitting(ByVal baseShip As Ship, ByVal shipPilot As HQFPilot) As Ship
+        ' Setup performance info - just in case!
+        Dim pStages(12) As String
+        Dim pStageTime(12) As DateTime
+        pStages(0) = "Start Timing: "
+        pStages(1) = "Building Ship Effects: "
+        pStages(2) = "Applying Skill Effects to Ship: "
+        pStages(3) = "Aplpying Skill Effects to Modules: "
+        pStages(4) = "Applying Skill Effects to Drones: "
+        pStages(5) = "Building Module Effects: "
+        pStages(6) = "Applying Stacking Penalties: "
+        pStages(7) = "Applying Module Effects to Modules: "
+        pStages(8) = "Rebuilding Module Effects: "
+        pStages(9) = "Recalculating Stacking Penalties: "
+        pStages(10) = "Applying Module Effects to Drones: "
+        pStages(11) = "Aplpying Module Effects to Ship: "
+        pStages(12) = "Calculating Damage Statistics: "
         ' Apply the pilot skills to the ship
-        Dim sTime, eTime As Date
-        sTime = Now
+        Dim sTime As Date
+        pStageTime(0) = Now
         Dim newShip As Ship
         Engine.BuildShipEffects(shipPilot, baseShip)
+        pStageTime(1) = Now
         newShip = Engine.ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
+        pStageTime(2) = Now
         newShip = Engine.ApplySkillEffectsToModules(newShip)
+        pStageTime(3) = Now
         newShip = Engine.ApplySkillEffectsToDrones(newShip)
+        pStageTime(4) = Now
         newShip = Engine.BuildModuleEffects(newShip)
+        pStageTime(5) = Now
         Call Engine.ApplyStackingPenalties()
+        pStageTime(6) = Now
         newShip = Engine.ApplyModuleEffectsToModules(newShip)
+        pStageTime(7) = Now
         newShip = Engine.BuildModuleEffects(newShip)
+        pStageTime(8) = Now
         Call Engine.ApplyStackingPenalties()
+        pStageTime(9) = Now
         newShip = Engine.ApplyModuleEffectsToDrones(newShip)
+        pStageTime(10) = Now
         newShip = Engine.ApplyModuleEffectsToShip(newShip)
+        pStageTime(11) = Now
         newShip = Engine.CalculateDamageStatistics(newShip)
-        eTime = Now
-        Dim dTime As TimeSpan = eTime - sTime
-        'MessageBox.Show("Applying the whole fitting took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        pStageTime(12) = Now
+        If Settings.HQFSettings.ShowPerformanceData = True Then
+            Dim dTime As TimeSpan
+            Dim perfMsg As String = ""
+            For stage As Integer = 1 To 12
+                perfMsg &= pStages(stage)
+                dTime = pStageTime(stage) - pStageTime(stage - 1)
+                perfMsg &= FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms" & ControlChars.CrLf
+            Next
+            dTime = pStageTime(12) - pStageTime(0)
+            perfMsg &= "Total Time: " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms" & ControlChars.CrLf
+            MessageBox.Show(perfMsg, "Performance Data Results", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
         Ship.MapShipAttributes(newShip)
         Return newShip
     End Function

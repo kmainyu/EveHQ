@@ -32,7 +32,7 @@ Public Class frmHQF
     Dim currentShipInfo As ShipInfoControl
     Dim FittingTabList As New ArrayList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.6.9.26"
+    Shared LastCacheRefresh As String = "1.6.9.31"
 
 #Region "Class Wide Variables"
 
@@ -874,7 +874,11 @@ Public Class frmHQF
 
                 ' Do custom attribute changes here!
                 Select Case modRow.Item("attributeID").ToString
+                    Case "204"
+                        If attValue = -100 Then Exit Select
+                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
                     Case "51" ' ROF
+                        If attValue = -100 Then Exit Select
                         Select Case attMod.DatabaseGroup
                             Case "53" ' Energy Turret 
                                 attMod.Attributes.Add("10011", attValue)
@@ -886,6 +890,7 @@ Public Class frmHQF
                                 attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
                         End Select
                     Case "64" ' Damage Modifier
+                        If attValue = 0 Then Exit Select
                         Select Case attMod.DatabaseGroup
                             Case "53" ' Energy Turret 
                                 attMod.Attributes.Add("10014", attValue)

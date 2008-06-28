@@ -42,7 +42,16 @@ Public Class Settings
     Private cModuleFilter As Integer = 63
     Private cAutoUpdateHQFSkills As Boolean = False
     Private cOpenFittingList As New ArrayList
+    Private cShowPerformanceData As Boolean = False
 
+    Public Property ShowPerformanceData() As Boolean
+        Get
+            Return cShowPerformanceData
+        End Get
+        Set(ByVal value As Boolean)
+            cShowPerformanceData = value
+        End Set
+    End Property
     Public Property OpenFittingList() As ArrayList
         Get
             Return cOpenFittingList
@@ -143,6 +152,7 @@ Public Class Settings
         XMLS &= Chr(9) & Chr(9) & "<lastPriceUpdate>" & HQFSettings.LastPriceUpdate & "</lastPriceUpdate>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<moduleFilter>" & HQFSettings.ModuleFilter & "</moduleFilter>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<updateHQFSkills>" & HQFSettings.AutoUpdateHQFSkills & "</updateHQFSkills>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<showPerformance>" & HQFSettings.ShowPerformanceData & "</showPerformance>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the open fittings
@@ -190,7 +200,6 @@ Public Class Settings
                     ' Get the relevant node!
                     settingSettings = settingDetails(0)       ' This is zero because there is only 1 occurence of the EveHQSettings/pilots node in each XML doc
                     If settingSettings.HasChildNodes Then
-
                         HQFSettings.HiSlotColour = CLng(settingSettings.ChildNodes(0).InnerText)
                         HQFSettings.MidSlotColour = CLng(settingSettings.ChildNodes(1).InnerText)
                         HQFSettings.LowSlotColour = CLng(settingSettings.ChildNodes(2).InnerText)
@@ -200,7 +209,7 @@ Public Class Settings
                         HQFSettings.LastPriceUpdate = CDate(settingSettings.ChildNodes(6).InnerText)
                         HQFSettings.ModuleFilter = CInt(settingSettings.ChildNodes(7).InnerText)
                         HQFSettings.AutoUpdateHQFSkills = CBool(settingSettings.ChildNodes(8).InnerText)
-
+                        HQFSettings.ShowPerformanceData = CBool(settingSettings.ChildNodes(9).InnerText)
                     End If
                 End If
             Catch

@@ -66,6 +66,7 @@ Public Class frmHQFSettings
         End If
         chkRestoreLastSession.Checked = Settings.HQFSettings.RestoreLastSession
         chkAutoUpdateHQFSkills.Checked = Settings.HQFSettings.AutoUpdateHQFSkills
+        chkShowPerformance.Checked = Settings.HQFSettings.ShowPerformanceData
     End Sub
     Private Sub cboStartupPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboStartupPilot.SelectedIndexChanged
         Settings.HQFSettings.DefaultPilot = CStr(cboStartupPilot.SelectedItem)
@@ -75,6 +76,9 @@ Public Class frmHQFSettings
     End Sub
     Private Sub chkAutoUpdateHQFSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoUpdateHQFSkills.CheckedChanged
         Settings.HQFSettings.AutoUpdateHQFSkills = chkAutoUpdateHQFSkills.Checked
+    End Sub
+    Private Sub chkShowPerformance_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowPerformance.CheckedChanged
+        Settings.HQFSettings.ShowPerformanceData = chkShowPerformance.Checked
     End Sub
 #End Region
 
@@ -184,6 +188,7 @@ Public Class frmHQFSettings
 #End Region
 
 
+    
     
     
 End Class

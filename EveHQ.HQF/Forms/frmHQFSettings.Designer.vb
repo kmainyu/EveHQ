@@ -24,6 +24,7 @@ Partial Public Class frmHQFSettings
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Colours")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHQFSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
+        Me.chkAutoUpdateHQFSkills = New System.Windows.Forms.CheckBox
         Me.chkRestoreLastSession = New System.Windows.Forms.CheckBox
         Me.cboStartupPilot = New System.Windows.Forms.ComboBox
         Me.lblDefaultPilot = New System.Windows.Forms.Label
@@ -43,7 +44,7 @@ Partial Public Class frmHQFSettings
         Me.gbSlotColours = New System.Windows.Forms.GroupBox
         Me.gbCache = New System.Windows.Forms.GroupBox
         Me.btnDeleteCache = New System.Windows.Forms.Button
-        Me.chkAutoUpdateHQFSkills = New System.Windows.Forms.CheckBox
+        Me.chkShowPerformance = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -55,6 +56,7 @@ Partial Public Class frmHQFSettings
         '
         'gbGeneral
         '
+        Me.gbGeneral.Controls.Add(Me.chkShowPerformance)
         Me.gbGeneral.Controls.Add(Me.chkAutoUpdateHQFSkills)
         Me.gbGeneral.Controls.Add(Me.chkRestoreLastSession)
         Me.gbGeneral.Controls.Add(Me.cboStartupPilot)
@@ -66,6 +68,16 @@ Partial Public Class frmHQFSettings
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
         Me.gbGeneral.Visible = False
+        '
+        'chkAutoUpdateHQFSkills
+        '
+        Me.chkAutoUpdateHQFSkills.AutoSize = True
+        Me.chkAutoUpdateHQFSkills.Location = New System.Drawing.Point(25, 119)
+        Me.chkAutoUpdateHQFSkills.Name = "chkAutoUpdateHQFSkills"
+        Me.chkAutoUpdateHQFSkills.Size = New System.Drawing.Size(240, 17)
+        Me.chkAutoUpdateHQFSkills.TabIndex = 9
+        Me.chkAutoUpdateHQFSkills.Text = "Update HQF Skills to Actual Skills on Start-up"
+        Me.chkAutoUpdateHQFSkills.UseVisualStyleBackColor = True
         '
         'chkRestoreLastSession
         '
@@ -237,15 +249,15 @@ Partial Public Class frmHQFSettings
         Me.btnDeleteCache.Text = "Delete Cache"
         Me.btnDeleteCache.UseVisualStyleBackColor = True
         '
-        'chkAutoUpdateHQFSkills
+        'chkShowPerformance
         '
-        Me.chkAutoUpdateHQFSkills.AutoSize = True
-        Me.chkAutoUpdateHQFSkills.Location = New System.Drawing.Point(25, 119)
-        Me.chkAutoUpdateHQFSkills.Name = "chkAutoUpdateHQFSkills"
-        Me.chkAutoUpdateHQFSkills.Size = New System.Drawing.Size(240, 17)
-        Me.chkAutoUpdateHQFSkills.TabIndex = 9
-        Me.chkAutoUpdateHQFSkills.Text = "Update HQF Skills to Actual Skills on Start-up"
-        Me.chkAutoUpdateHQFSkills.UseVisualStyleBackColor = True
+        Me.chkShowPerformance.AutoSize = True
+        Me.chkShowPerformance.Location = New System.Drawing.Point(25, 187)
+        Me.chkShowPerformance.Name = "chkShowPerformance"
+        Me.chkShowPerformance.Size = New System.Drawing.Size(142, 17)
+        Me.chkShowPerformance.TabIndex = 10
+        Me.chkShowPerformance.Text = "Show Performance Data"
+        Me.chkShowPerformance.UseVisualStyleBackColor = True
         '
         'frmHQFSettings
         '
@@ -298,4 +310,5 @@ Partial Public Class frmHQFSettings
     Friend WithEvents gbCache As System.Windows.Forms.GroupBox
     Friend WithEvents btnDeleteCache As System.Windows.Forms.Button
     Friend WithEvents chkAutoUpdateHQFSkills As System.Windows.Forms.CheckBox
+    Friend WithEvents chkShowPerformance As System.Windows.Forms.CheckBox
 End Class
