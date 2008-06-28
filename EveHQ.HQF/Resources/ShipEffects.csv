@@ -47,7 +47,7 @@
 11188,1,12093,50,2,330,0,1,0,-0.5,15,Cloaking Device CPU
 11188,1,12093,73,5,3412,0,1,0,-10,15,Astrometrics Module Duration
 # Anshar,,,,,,,,,,,
-28848,1,20527,0,1,28848,0,1,0,5,15,Cargo Capacity
+28848,1,20527,10004,1,28848,0,1,0,5,15,Cargo Capacity
 28848,1,20527,37,1,28848,0,1,0,5,15,Max Velocity
 28848,1,29029,9,1,28848,0,1,0,10,15,Hull HP
 28848,1,29029,868,1,28848,0,1,0,-5,15,Jump Fuel Need
@@ -95,7 +95,7 @@
 11202,1,12092,54,2,52,0,1,0,20,15,Warp Scrambler Range
 11202,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Ark,,,,,,,,,,,
-28850,1,20524,0,1,28850,0,1,0,5,15,Cargo Capacity
+28850,1,20524,10004,1,28850,0,1,0,5,15,Cargo Capacity
 28850,1,20524,37,1,28850,0,1,0,5,15,Max Velocity
 28850,1,29029,9,1,28850,0,1,0,10,15,Hull HP
 28850,1,29029,868,1,28850,0,1,0,-5,15,Jump Fuel Need
@@ -133,13 +133,13 @@
 11567,1,3347,0,1,23919,0,1,1,1,15,Warfare Link Bonus
 11567,0,0,0,1,23919,0,0,0,1,15,EW Immunity
 # Badger,,,,,,,,,,,
-648,1,3342,0,0,0,0,1,0,5,15,Cargo Capacity
+648,1,3342,10004,1,648,0,1,0,5,15,Cargo Capacity
 648,1,3342,37,1,648,0,1,0,5,15,Max Velocity
 # Badger Mark II,,,,,,,,,,,
-649,1,3342,0,0,0,0,1,0,5,15,Cargo Capacity
+649,1,3342,10004,1,649,0,1,0,5,15,Cargo Capacity
 649,1,3342,37,1,649,0,1,0,5,15,Max Velocity
 # Bantam,,,,,,,,,,,
-582,1,3330,0,0,0,0,1,0,5,15,Cargo Capacity
+582,1,3330,10004,1,582,0,1,0,5,15,Cargo Capacity
 582,1,3330,77,2,54,0,1,0,20,15,Mining Laser Yield
 582,0,0,6,2,54,0,0,0,-60,15,Mining Laser Cap Use
 # Basilisk,,,,,,,,,,,
@@ -154,7 +154,7 @@
 630,1,3333,51,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 630,1,3333,554,2,379,0,1,0,7.5,15,Target Painter Sig Radius
 # Bestower,,,,,,,,,,,
-1944,1,3343,0,0,0,0,1,0,5,15,Cargo Capacity
+1944,1,3343,10004,1,1944,0,1,0,5,15,Cargo Capacity
 1944,1,3343,37,1,1944,0,1,0,5,15,Max Velocity
 # Bhaalgorn,,,,,,,,,,,
 17920,0,0,6,4,569;573,0,0,0,-50,15,Large Energy Turret Cap Use
@@ -185,11 +185,11 @@
 16229,1,12099,84,2,62,0,1,0,7.5,15,Armor Repair Amount
 16229,0,0,50,2,316,0,0,0,-99,15,Warfare Link Module CPU Use
 # Burst,,,,,,,,,,,
-599,1,3329,0,0,0,0,1,0,5,15,Cargo Capacity
+599,1,3329,10004,1,599,0,1,0,5,15,Cargo Capacity
 599,1,3329,77,2,54,0,1,0,20,15,Mining Laser Yield
 599,0,0,6,2,54,0,0,0,-60,15,Mining Laser Cap Use
 # Bustard,,,,,,,,,,,
-12731,1,3342,0,0,0,0,1,0,5,15,Cargo Capacity
+12731,1,3342,10004,1,12731,0,1,0,5,15,Cargo Capacity
 12731,1,3342,37,1,12731,0,1,0,5,15,Max Velocity
 12731,1,3342,274,1,12731,0,1,2,15,15,Therm Shield Resist
 12731,1,3342,270,1,12731,0,1,2,15,15,Therm Armor Resist
@@ -226,7 +226,7 @@
 11993,1,16591,281,2,653;384;655;385;654;772,0,1,0,10,15,"Light, Heavy, Assualt Missile Flight Time"
 11993,1,16591,51,2,511;862;524;506;510;771;507;508;501;509,0,1,0,5,15,Missile ROF
 # Charon,,,,,,,,,,,
-648,1,20526,0,0,0,0,1,0,5,15,Cargo Capacity
+648,1,20526,10004,1,648,0,1,0,5,15,Cargo Capacity
 648,1,20526,37,1,648,0,1,0,5,15,Max Velocity
 # Cheetah,,,,,,,,,,,
 11182,1,3329,64,4,574;577,0,1,0,5,15,Small Projectile Turrret Damage
@@ -276,7 +276,7 @@
 17476,0,0,50,4,1038;1040,0,0,0,-99.5,15,Ice Harvester/Strip Miner CPU Need
 17476,0,0,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
 # Crane,,,,,,,,,,,
-12729,1,3342,0,0,0,0,1,0,5,15,Cargo Capacity
+12729,1,3342,10004,1,12729,0,1,0,5,15,Cargo Capacity
 12729,1,3342,37,1,12729,0,1,0,5,15,Max Velocity
 12729,1,3342,274,1,12729,0,1,2,10,15,Therm Shield Resist
 12729,1,3342,270,1,12729,0,1,2,10,15,Therm Armor Resist
@@ -367,13 +367,69 @@
 17932,0,0,64,4,574;577,0,0,0,25,15,Small Projectile Turrret Damage
 17932,1,3329,64,4,574;577,0,1,0,5,15,Small Projectile Turrret Damage
 17932,1,3328,160,4,574;577,0,1,0,7.5,15,Small Projectile Turrret Tracking
+# Eagle,,,,,,,,,,,
+12011,1,3334,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Range
+12011,1,3334,271,1,12011,0,1,2,5,15,Shield EM Resistance
+12011,1,3334,272,1,12011,0,1,2,5,15,Shield Explosive Resistance
+12011,1,3334,273,1,12011,0,1,2,5,15,Shield Kinetic Resistance
+12011,1,3334,274,1,12011,0,1,2,5,15,Shield Thermal Resistance
+12011,1,16591,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Range
+12011,1,16591,64,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
+# Enyo,,,,,,,,,,,
+12044,1,3328,64,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
+12044,1,3328,273,1,12044,0,1,2,15,15,Shield Kinetic Resistance
+12044,1,3328,274,1,12044,0,1,2,10,15,Shield Thermal Resistance
+12044,1,3328,269,1,12044,0,1,2,15,15,Armor Kinetic Resistance
+12044,1,3328,270,1,12044,0,1,2,10,15,Armor Thermal Resistance
+12044,1,12095,54,4,564;561,0,1,0,10,15,Small Hybrid Turret Range
+12044,1,12095,160,4,564;561,0,1,0,7.5,15,Small Hybrid Turret Tracking
+# Eos,,,,,,,,,,,
+22442,1,12099,64,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
+22442,1,12099,84,2,62,0,1,0,7.5,15,Armor Repair Amount
+22442,1,23950,283,1,22442,0,1,1,15,15,Drone Bay Capacity
+22442,1,23950,833,4,779,0,1,0,3,15,Information Warfare Link Bonus
+22442,0,0,50,2,316,0,0,0,-99,15,Warfare Link Module CPU Use
+22442,0,0,0,0,0,0,0,0,2,15,Warfare Link Use
+# Erebus,,,,,,,,,,,
+671,1,3344,64,4,771;772,0,1,0,10,15,Capital Hybrid Turret Damage
+671,1,3344,0,0,0,0,1,0,7.5,15,Gang Armor Amount
+671,0,0,50,2,815,0,0,0,-99,15,Clone VAT Bay CPU Use
+671,0,0,50,2,316,0,0,0,-99,15,Warfare Link Module CPU Use
+671,0,0,50,1,24554,0,0,0,-99,15,Judgement CPU Need
+671,0,0,50,2,590,0,0,0,-99,15,Jump Portal CPU Need
+671,1,3344,0,1,23919,0,1,1,1,15,Warfare Link Bonus
+671,0,0,0,1,23919,0,0,0,1,15,EW Immunity
+# Eris,,,,,,,,,,,
+22460,1,12097,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
+22460,1,12097,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
+22460,1,12098,118,2,387;648,0,1,0,5,15,Rocket Thermal Damage
+22460,1,12098,118,2,384;653,0,1,0,5,15,Light Missile Thermal Damage
+22460,1,12098,51,1,22782,0,1,0,10,15,Sphere Launcher ROF
+22460,0,0,50,1,22782,0,0,0,-99,15,Sphere Launcher CPU
+# Executioner,,,,,,,,,,,
+589,1,3331,64,4,567;570,0,1,0,5,15,Small Energy Turret Damage
+589,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
+# Exequror,,,,,,,,,,,
+634,1,3332,10004,1,634,0,1,0,10,15,Cargo Capacity
+634,1,3332,6,2,325,0,1,0,-10,15,Armor Transfer Capacitor
+634,0,0,54,2,325,0,0,0,500,15,Armor Transfer Range
+# Nighthawk,,,,,,,,,,,
+22470,1,12099,51,2,511;510;771,0,1,0,5,15,"Assault, Heavy, Heavy Assault Launcher ROF"
+22470,1,12099,271,1,22470,0,1,2,5,15,Shield EM Resistance
+22470,1,12099,272,1,22470,0,1,2,5,15,Shield Explosive Resistance
+22470,1,12099,273,1,22470,0,1,2,5,15,Shield Kinetic Resistance
+22470,1,12099,274,1,22470,0,1,2,5,15,Shield Thermal Resistance
+22470,1,23950,117,2,385,0,1,0,5,15,Heavy Missile Kinetic Damage
+22470,1,23950,654,2,385,0,1,0,5,15,Heavy Missile Precision
+22470,0,0,50,2,316,0,0,0,-99,15,Warfare Link Module CPU Use
+22470,0,0,0,0,0,0,0,0,2,15,Warfare Link Use
 # Vulture,,,,,,,,,,,
-22446,1,12099,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Damage
+22446,1,12099,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Range
 22446,1,12099,271,1,22446,0,1,2,5,15,Shield EM Resistance
 22446,1,12099,272,1,22446,0,1,2,5,15,Shield Explosive Resistance
 22446,1,12099,273,1,22446,0,1,2,5,15,Shield Kinetic Resistance
 22446,1,12099,274,1,22446,0,1,2,5,15,Shield Thermal Resistance
-22446,1,23950,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Damage
+22446,1,23950,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Range
 22446,1,23950,833,4,779,0,1,0,3,15,Skirmish Warfare Link Bonus
 22446,0,0,50,2,316,0,0,0,-99,15,Warfare Link Module CPU Use
 22446,0,0,0,0,0,0,0,0,2,15,Warfare Link Use
