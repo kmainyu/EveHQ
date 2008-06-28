@@ -37,7 +37,7 @@ Partial Class ShipInfoControl
         Me.progCalibration = New VistaStyleProgressBar.ProgressBar
         Me.progPG = New VistaStyleProgressBar.ProgressBar
         Me.progCPU = New VistaStyleProgressBar.ProgressBar
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.line2 = New System.Windows.Forms.Label
         Me.btnLog = New System.Windows.Forms.Button
         Me.btnSkills = New System.Windows.Forms.Button
         Me.btnTargetSpeed = New System.Windows.Forms.Button
@@ -47,6 +47,8 @@ Partial Class ShipInfoControl
         Me.lblEffectiveHP = New System.Windows.Forms.Label
         Me.btnDoomsdayCheck = New System.Windows.Forms.Button
         Me.gbCargo = New System.Windows.Forms.GroupBox
+        Me.lblDroneControl = New System.Windows.Forms.Label
+        Me.pbDroneControl = New System.Windows.Forms.PictureBox
         Me.lblDroneBandwidth = New System.Windows.Forms.Label
         Me.progDroneBandwidth = New System.Windows.Forms.ProgressBar
         Me.pbDroneBandwidth = New System.Windows.Forms.PictureBox
@@ -146,6 +148,7 @@ Partial Class ShipInfoControl
         CType(Me.pbSmartbombDamage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbTurretDamage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbCargo.SuspendLayout()
+        CType(Me.pbDroneControl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbDroneBandwidth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbDroneBay, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCargoBay, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -198,7 +201,7 @@ Partial Class ShipInfoControl
         Me.Panel1.Controls.Add(Me.progCalibration)
         Me.Panel1.Controls.Add(Me.progPG)
         Me.Panel1.Controls.Add(Me.progCPU)
-        Me.Panel1.Controls.Add(Me.Label1)
+        Me.Panel1.Controls.Add(Me.line2)
         Me.Panel1.Controls.Add(Me.btnLog)
         Me.Panel1.Controls.Add(Me.btnSkills)
         Me.Panel1.Controls.Add(Me.btnTargetSpeed)
@@ -365,13 +368,13 @@ Partial Class ShipInfoControl
         Me.progCPU.TabIndex = 30
         Me.progCPU.Value = 50
         '
-        'Label1
+        'line2
         '
-        Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Label1.Location = New System.Drawing.Point(4, 88)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(242, 2)
-        Me.Label1.TabIndex = 29
+        Me.line2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.line2.Location = New System.Drawing.Point(4, 88)
+        Me.line2.Name = "line2"
+        Me.line2.Size = New System.Drawing.Size(242, 2)
+        Me.line2.TabIndex = 29
         '
         'btnLog
         '
@@ -451,6 +454,8 @@ Partial Class ShipInfoControl
         '
         'gbCargo
         '
+        Me.gbCargo.Controls.Add(Me.lblDroneControl)
+        Me.gbCargo.Controls.Add(Me.pbDroneControl)
         Me.gbCargo.Controls.Add(Me.lblDroneBandwidth)
         Me.gbCargo.Controls.Add(Me.progDroneBandwidth)
         Me.gbCargo.Controls.Add(Me.pbDroneBandwidth)
@@ -467,6 +472,27 @@ Partial Class ShipInfoControl
         Me.gbCargo.Text = "Cargo and Drones"
         Me.ToolTip1.SetToolTip(Me.gbCargo, "Cargo and Drone Information")
         '
+        'lblDroneControl
+        '
+        Me.lblDroneControl.AutoSize = True
+        Me.lblDroneControl.Location = New System.Drawing.Point(138, 45)
+        Me.lblDroneControl.Name = "lblDroneControl"
+        Me.lblDroneControl.Size = New System.Drawing.Size(30, 13)
+        Me.lblDroneControl.TabIndex = 12
+        Me.lblDroneControl.Text = "0 / 0"
+        Me.ToolTip1.SetToolTip(Me.lblDroneControl, "Drone Control")
+        '
+        'pbDroneControl
+        '
+        Me.pbDroneControl.Image = Global.EveHQ.HQF.My.Resources.Resources.imgDroneControl
+        Me.pbDroneControl.Location = New System.Drawing.Point(108, 42)
+        Me.pbDroneControl.Name = "pbDroneControl"
+        Me.pbDroneControl.Size = New System.Drawing.Size(24, 24)
+        Me.pbDroneControl.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.pbDroneControl.TabIndex = 11
+        Me.pbDroneControl.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbDroneControl, "Drone Control")
+        '
         'lblDroneBandwidth
         '
         Me.lblDroneBandwidth.AutoSize = True
@@ -481,7 +507,7 @@ Partial Class ShipInfoControl
         '
         Me.progDroneBandwidth.Location = New System.Drawing.Point(27, 56)
         Me.progDroneBandwidth.Name = "progDroneBandwidth"
-        Me.progDroneBandwidth.Size = New System.Drawing.Size(170, 10)
+        Me.progDroneBandwidth.Size = New System.Drawing.Size(72, 10)
         Me.progDroneBandwidth.TabIndex = 9
         Me.ToolTip1.SetToolTip(Me.progDroneBandwidth, "Drone Bandwidth")
         Me.progDroneBandwidth.Value = 50
@@ -1500,6 +1526,7 @@ Partial Class ShipInfoControl
         CType(Me.pbTurretDamage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbCargo.ResumeLayout(False)
         Me.gbCargo.PerformLayout()
+        CType(Me.pbDroneControl, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbDroneBandwidth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbDroneBay, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCargoBay, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1647,7 +1674,7 @@ Partial Class ShipInfoControl
     Friend WithEvents btnTargetSpeed As System.Windows.Forms.Button
     Friend WithEvents btnSkills As System.Windows.Forms.Button
     Friend WithEvents btnLog As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents line2 As System.Windows.Forms.Label
     Friend WithEvents progCPU As VistaStyleProgressBar.ProgressBar
     Friend WithEvents progCalibration As VistaStyleProgressBar.ProgressBar
     Friend WithEvents progPG As VistaStyleProgressBar.ProgressBar
@@ -1666,5 +1693,7 @@ Partial Class ShipInfoControl
     Friend WithEvents pbShieldPeak As System.Windows.Forms.PictureBox
     Friend WithEvents lblShieldAverage As System.Windows.Forms.Label
     Friend WithEvents pbShieldAverage As System.Windows.Forms.PictureBox
+    Friend WithEvents lblDroneControl As System.Windows.Forms.Label
+    Friend WithEvents pbDroneControl As System.Windows.Forms.PictureBox
 
 End Class

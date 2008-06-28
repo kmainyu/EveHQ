@@ -457,6 +457,7 @@ Public Class frmHQF
                                 newShip.Attributes.Add("10027", 0)
                                 newShip.Attributes.Add("10028", 0)
                                 newShip.Attributes.Add("10029", 0)
+                                newShip.Attributes.Add("10031", 0)
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -555,7 +556,7 @@ Public Class frmHQF
                     newShip.Attributes.Add("10027", 0)
                     newShip.Attributes.Add("10028", 0)
                     newShip.Attributes.Add("10029", 0)
-
+                    newShip.Attributes.Add("10031", 0)
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
                     ' Perform the last addition for the last ship type

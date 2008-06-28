@@ -195,8 +195,7 @@ Public Class ShipInfoControl
         lblDroneBay.Text = FormatNumber(fittedShip.DroneBay, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3"
         progDroneBandwidth.Maximum = CInt(fittedShip.DroneBandwidth)
         progDroneBandwidth.Value = CInt(fittedShip.DroneBandwidth_Used)
-        lblDroneBandwidth.Text = FormatNumber(fittedShip.DroneBandwidth_Used, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBandwidth, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        UpdateDroneBandWidthUsed()
+        UpdateDroneUsage()
 
         ' Damage
         lblTurretVolleyDamage.Text = FormatNumber(fittedShip.TurretVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.TurretDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -445,7 +444,7 @@ Public Class ShipInfoControl
         End If
     End Sub
 
-    Public Sub UpdateDroneBandWidthUsed()
+    Public Sub UpdateDroneUsage()
         fittedShip.DroneBandwidth_Used = 0
         For Each DBI As DroneBayItem In fittedShip.DroneBayItems.Values
             If DBI.IsActive = True Then
@@ -454,6 +453,7 @@ Public Class ShipInfoControl
         Next
         progDroneBandwidth.Value = CInt(fittedShip.DroneBandwidth_Used)
         lblDroneBandwidth.Text = FormatNumber(fittedShip.DroneBandwidth_Used, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBandwidth, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblDroneControl.Text = fittedShip.UsedDrones & " / " & fittedShip.MaxDrones
     End Sub
 
 #Region "Audit Log Routines"

@@ -28,3 +28,4 @@
 10028,totalVolleyDamage,Total Volley Damage,0,HP,9
 10029,totalDPS,Total DPS,0,HP,9
 10030,loadedCharge,Loaded Charge,0,typeID,9
+10031,maxDroneControlUnits,Drone Control Units,0,,0

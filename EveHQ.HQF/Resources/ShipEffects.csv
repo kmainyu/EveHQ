@@ -30,10 +30,11 @@
 23919,0,0,50,2,316,0,0,0,-99,15,Warfare Link Module CPU Use
 23919,0,0,50,2,842,0,0,0,-99,15,Remote ECM CPU Use
 23919,0,0,50,1,27951,0,0,0,-99,15,Triage Module CPU Use
-23919,1,24311,0,1,23919,0,1,1,3,15,Fighter Control Bonus
+23919,1,24311,10005,1,23919,0,1,1,3,15,Fighter Control Bonus
 23919,1,24311,0,1,23919,0,1,1,1,15,Warfare Link Bonus
-23919,0,0,0,1,23919,0,0,0,200,15,Fighter Control Range 
+23919,0,0,10007,1,23919,0,0,0,200,15,Fighter Control Range 
 23919,0,0,0,1,23919,0,0,0,1,15,EW Immunity
+23919,0,0,50,1,24283,0,0,0,-99,15,Drone Control Unit CPU
 # Amarr Navy Slicer,,,,,,,,,,,
 17703,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Cap Use
 17703,1,3331,64,4,567;570,0,1,0,5,15,Small Energy Turret Damage
@@ -44,7 +45,7 @@
 11188,1,3331,118,2,387;648,0,1,0,5,15,Rocket Damage - Therm
 11188,1,3331,55,1,11188,0,1,0,-5,15,Capacitor Recharge Rate
 11188,0,0,50,2,330,0,0,0,-97.5,15,Cloaking Device CPU
-11188,1,12093,50,2,330,0,1,0,-0.5,15,Cloaking Device CPU
+11188,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11188,1,12093,73,5,3412,0,1,0,-10,15,Astrometrics Module Duration
 # Anshar,,,,,,,,,,,
 28848,1,20527,10004,1,28848,0,1,0,5,15,Cargo Capacity
@@ -66,7 +67,7 @@
 11969,1,3332,64,2,208,0,1,0,5,15,Remote Sensor Damp Res
 11969,1,22761,54,2,52,0,1,0,20,15,Warp Scrambler Range
 11969,0,0,50,2,330,0,0,0,-95,15,Cloaking Device CPU
-11969,1,22761,50,2,330,0,1,0,-1,15,Cloaking Device CPU
+11969,1,22761,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11969,0,0,714,2,658,0,0,0,-80,15,Cyno Field Fuel
 11969,0,0,73,2,658,0,0,0,-50,15,Cyno Field Duration
 # Arbitrator,,,,,,,,,,,
@@ -86,8 +87,9 @@
 23757,1,24311,270,1,23757,0,1,2,5,15,Armor Thermal Resistance
 23757,0,0,50,2,316,0,0,0,-99,15,Warfare Link Module CPU Use
 23757,0,0,50,1,27951,0,0,0,-99,15,Triage Module CPU Use
-23757,1,24311,0,1,23757,0,1,1,1,15,Fighter Control Bonus
-23757,0,0,0,1,23757,0,0,0,200,15,Fighter Control Range 
+23757,1,24311,10005,1,23757,0,1,1,1,15,Fighter Control Bonus
+23757,0,0,10007,1,23757,0,0,0,200,15,Fighter Control Range 
+23757,0,0,50,1,24283,0,0,0,-99,15,Drone Control Unit CPU
 # Ares,,,,,,,,,,,
 11202,1,3328,64,4,561;564,0,1,0,5,15,Small Hybrid Damage
 11202,1,3328,160,4,561;564,0,1,0,7.5,15,Small Hybrid Tracking Speed
@@ -200,7 +202,7 @@
 11192,1,3330,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,5,15,Missile Kinetic Damage
 11192,1,3330,51,2,511;862;524;506;510;771;507;508;501;509,0,1,0,-5,15,Missile ROF
 11192,0,0,50,2,330,0,0,0,-97.5,15,Cloaking Device CPU
-11192,1,12093,50,2,330,0,1,0,-0.5,15,Cloaking Device CPU
+11192,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11192,1,12093,73,5,3412,0,1,0,-10,15,Astrometrics Module Duration
 # Caldari Navy Hookbill,,,,,,,,,,,
 17619,1,3330,263,1,17619,0,1,0,10,15,Shield HP
@@ -232,7 +234,7 @@
 11182,1,3329,64,4,574;577,0,1,0,5,15,Small Projectile Turrret Damage
 11182,1,3329,54,4,574;577,0,1,0,-5,15,Small Projectile Turrret Optimal Range
 11182,0,0,50,2,330,0,0,0,-97.5,15,Cloaking Device CPU
-11182,1,12093,50,2,330,0,1,0,-0.5,15,Cloaking Device CPU
+11182,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11182,1,12093,73,5,3412,0,1,0,-10,15,Astrometrics Module Duration
 # Chimera,,,,,,,,,,,
 23915,1,24312,91,4,910,0,1,0,50,15,Capital Energy Transfer Range
@@ -243,8 +245,9 @@
 23915,1,24312,274,1,23915,0,1,2,5,15,Shield Thermal Resistance
 23915,0,0,50,2,316,0,0,0,-99,15,Warfare Link Module CPU Use
 23915,0,0,50,1,27951,0,0,0,-99,15,Triage Module CPU Use
-23915,1,24312,0,1,23915,0,1,1,1,15,Fighter Control Bonus
-23915,0,0,0,1,23915,0,0,0,200,15,Fighter Control Range 
+23915,1,24312,10005,1,23915,0,1,1,1,15,Fighter Control Bonus
+23915,0,0,10007,1,23915,0,0,0,200,15,Fighter Control Range 
+23915,0,0,50,1,24283,0,0,0,-99,15,Drone Control Unit CPU
 # Claw,,,,,,,,,,,
 11196,1,3329,64,4,574;577,0,1,0,5,15,Small Projectile Turrret Damage
 11196,1,12092,552,1,11202,0,1,0,-5,15,Signature Radius
@@ -318,35 +321,35 @@
 16231,1,12099,51,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 16231,1,12099,68,2,10838,0,1,0,7.5,15,Shield Booster Boost
 16231,0,0,50,2,316,0,0,0,-99,15,Warfare Link Module CPU Use
-# Cynabal,,,,,,,,,,,,
-17720,0,0,51,4,575;578,0,0,0,-25,15,Medium Projectile Turret ROF,
-17720,1,3333,64,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage,
-17720,1,3332,160,4,575;578,0,1,0,7.5,15,Medium Projectile Turret Tracking,
-# Damnation,,,,,,,,,,,,
-22474,1,12099,37,2,385;655;772;654,0,1,0,10,15,"Heavy, Assault Missile Velocity",
-22474,1,12099,267,1,22474,0,1,2,5,15,Armor EM Resistance,
-22474,1,12099,268,1,22474,0,1,2,5,15,Armor Explosive Resistance,
-22474,1,12099,269,1,22474,0,1,2,5,15,Armor Kinetic Resistance,
-22474,1,12099,270,1,22474,0,1,2,5,15,Armor Thermal Resistance,
-22474,1,23950,265,1,22474,0,1,0,10,15,Armor HP,
-22474,1,23950,1159,2,329,0,1,0,10,15,Armor HP - Plates,
-22474,1,23950,833,4,779,0,1,0,3,15,Skirmish Warfare Link Bonus,
+# Cynabal,,,,,,,,,,,
+17720,0,0,51,4,575;578,0,0,0,-25,15,Medium Projectile Turret ROF
+17720,1,3333,64,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage
+17720,1,3332,160,4,575;578,0,1,0,7.5,15,Medium Projectile Turret Tracking
+# Damnation,,,,,,,,,,,
+22474,1,12099,37,2,385;655;772;654,0,1,0,10,15,"Heavy, Assault Missile Velocity"
+22474,1,12099,267,1,22474,0,1,2,5,15,Armor EM Resistance
+22474,1,12099,268,1,22474,0,1,2,5,15,Armor Explosive Resistance
+22474,1,12099,269,1,22474,0,1,2,5,15,Armor Kinetic Resistance
+22474,1,12099,270,1,22474,0,1,2,5,15,Armor Thermal Resistance
+22474,1,23950,265,1,22474,0,1,0,10,15,Armor HP
+22474,1,23950,1159,2,329,0,1,0,10,15,Armor HP - Plates
+22474,1,23950,833,4,779,0,1,0,3,15,Skirmish Warfare Link Bonus
 22474,0,0,50,2,316,0,0,0,-99,15,Warfare Link Module CPU Use,
 22474,0,0,0,0,0,0,0,0,2,15,Warfare Link Use,
 # Daredevil,,,,,,,,,,,,
-17928,0,0,64,4,561;564,0,0,0,25,15,Small Hybrid Damage
-17928,1,3329,147,4,131,1,1,0,-5,15,MWD Capacitor Penalty Bonus
-17928,1,3328,160,4,561;564,0,1,0,7.5,15,Small Hybrid Tracking Speed
-# Deimos,,,,,,,,,,,
-12023,1,3332,64,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
-12023,1,3332,147,4,131,1,1,0,-5,15,MWD Capacitor Penalty Bonus
-12023,1,16591,158,4,562;565,0,1,0,10,15,Medium Hybrid Turret Falloff
-12023,1,16591,64,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
-# Devoter,,,,,,,,,,,
-12017,1,3335,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
-12017,1,3335,267,1,12017,0,1,2,5,15,Armor EM Resistance
-12017,1,3335,268,1,12017,0,1,2,5,15,Armor Explosive Resistance
-12017,1,3335,269,1,12017,0,1,2,5,15,Armor Kinetic Resistance
+17928,0,0,64,4,561;564,0,0,0,25,15,Small Hybrid Damage,
+17928,1,3329,147,4,131,1,1,0,-5,15,MWD Capacitor Penalty Bonus,
+17928,1,3328,160,4,561;564,0,1,0,7.5,15,Small Hybrid Tracking Speed,
+# Deimos,,,,,,,,,,,,
+12023,1,3332,64,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage,
+12023,1,3332,147,4,131,1,1,0,-5,15,MWD Capacitor Penalty Bonus,
+12023,1,16591,158,4,562;565,0,1,0,10,15,Medium Hybrid Turret Falloff,
+12023,1,16591,64,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage,
+# Devoter,,,,,,,,,,,,
+12017,1,3335,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use,
+12017,1,3335,267,1,12017,0,1,2,5,15,Armor EM Resistance,
+12017,1,3335,268,1,12017,0,1,2,5,15,Armor Explosive Resistance,
+12017,1,3335,269,1,12017,0,1,2,5,15,Armor Kinetic Resistance,
 12017,1,3335,270,1,12017,0,1,2,5,15,Armor Thermal Resistance
 12017,1,28609,51,4,568;572,0,1,0,10,15,Medium Energy Turret ROF
 12017,1,28609,103,2,899,0,1,0,5,15,Warp Disruption Field Range

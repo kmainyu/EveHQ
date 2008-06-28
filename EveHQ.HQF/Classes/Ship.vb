@@ -85,7 +85,8 @@ Imports System.Runtime.Serialization
     ' Drones
     Private cDroneBay As Double
     Private cDroneBandwidth As Double
-    Private cDrones As Integer
+    Private cUsedDrones As Integer
+    Private cMaxDrones As Integer
 
     ' Targeting
     Private cMaxLockedTargets As Double
@@ -545,12 +546,20 @@ Imports System.Runtime.Serialization
             cDroneBandwidth = value
         End Set
     End Property
-    Public Property Drones() As Integer
+    Public Property UsedDrones() As Integer
         Get
-            Return cDrones
+            Return cUsedDrones
         End Get
         Set(ByVal value As Integer)
-            cDrones = value
+            cUsedDrones = value
+        End Set
+    End Property
+    Public Property MaxDrones() As Integer
+        Get
+            Return cMaxDrones
+        End Get
+        Set(ByVal value As Integer)
+            cMaxDrones = value
         End Set
     End Property
 
@@ -1341,6 +1350,10 @@ Imports System.Runtime.Serialization
                     newShip.DroneBay = attValue
                 Case 1271
                     newShip.DroneBandwidth = attValue
+                Case 10005
+                    newShip.MaxDrones = CInt(attValue)
+                Case 10006
+                    newShip.UsedDrones = CInt(attValue)
                 Case 10020
                     newShip.TurretVolley = attValue
                 Case 10021

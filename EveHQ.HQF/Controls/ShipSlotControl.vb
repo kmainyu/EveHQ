@@ -24,6 +24,7 @@ Imports System.Text
 Public Class ShipSlotControl
     Dim UpdateAll As Boolean = False
     Dim UpdateDrones As Boolean = False
+    Dim cancelDroneActivation As Boolean = False
     Dim rigGroups As New ArrayList
 
 #Region "Property Variables"
@@ -476,7 +477,7 @@ Public Class ShipSlotControl
                 currentShip.DroneBayItems.Add(currentShip.DroneBayItems.Count, DBI)
             End If
             ' Update stuff
-            If UpdateAll = False Then
+            If UpdateAll = False And Active = True Then
                 currentInfo.ShipType = currentShip
                 UpdateDrones = True
                 Call Me.RedrawDroneBay()
@@ -653,6 +654,9 @@ Public Class ShipSlotControl
         If SplitContainer1.Panel2Collapsed = True Then
             SplitContainer1.Panel2Collapsed = False
             SplitContainer1.SplitterDistance = SplitContainer1.Width - 252
+            UpdateDrones = True
+            Me.RedrawDroneBay()
+            UpdateDrones = False
         Else
             SplitContainer1.Panel2Collapsed = True
         End If
@@ -1025,15 +1029,45 @@ Public Class ShipSlotControl
         pbDroneBay.Value = CInt(currentShip.DroneBay_Used)
     End Sub
 
+    Private Sub lvwDroneBay_ItemCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles lvwDroneBay.ItemCheck
+       
+    End Sub
+
     Private Sub lvwDroneBay_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwDroneBay.ItemChecked
-        Dim idx As Integer = CInt(e.Item.Name)
-        Dim DBI As DroneBayItem = CType(currentShip.DroneBayItems.Item(idx), DroneBayItem)
-        DBI.IsActive = e.Item.Checked
-        If UpdateDrones = False Then
-            currentInfo.ShipType = currentShip
+        If cancelDroneActivation = False Then
+            Dim idx As Integer = CInt(e.Item.Name)
+            Dim DBI As DroneBayItem = CType(currentShip.DroneBayItems.Item(idx), DroneBayItem)
+            ' Check we have the bandwidth and/or control ability for this item
+            If UpdateDrones = False Then
+                Dim reqQ As Integer = DBI.Quantity
+                If e.Item.Checked = True Then
+                    If fittedShip.UsedDrones + reqQ > fittedShip.MaxDrones Then
+                        ' Cannot do this because our drone control skill in insufficient
+                        MessageBox.Show("You do not have the ability to control this many drones. Please split the group and try again.", "Drone Control Limit Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        cancelDroneActivation = True
+                        e.Item.Checked = False
+                        Exit Sub
+                    End If
+                    If fittedShip.DroneBandwidth_Used + (reqQ * CDbl(DBI.DroneType.Attributes("1272"))) > fittedShip.DroneBandwidth Then
+                        ' Cannot do this because we don't have enough bandwidth
+                        MessageBox.Show("You do not have the spare bandwidth to control this many drones. Please split the group and try again.", "Drone Bandwidth Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        cancelDroneActivation = True
+                        e.Item.Checked = False
+                        Exit Sub
+                    End If
+                End If
+                DBI.IsActive = e.Item.Checked
+                currentInfo.ShipType = currentShip
+                If DBI.IsActive = True Then
+                    currentShip.Attributes("10006") = CDbl(currentShip.Attributes("10006")) + reqQ
+                Else
+                    currentShip.Attributes("10006") = Math.Max(CDbl(currentShip.Attributes("10006")) - reqQ, 0)
+                End If
+            End If
+            Call Me.UpdateFittingListFromShipData()
+            Call currentInfo.UpdateDroneUsage()
         End If
-        Call Me.UpdateFittingListFromShipData()
-        Call currentInfo.UpdateDroneBandWidthUsed()
+        cancelDroneActivation = False
     End Sub
 
     Private Sub ctxBays_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxBays.Opening

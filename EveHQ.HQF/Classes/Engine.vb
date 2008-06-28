@@ -486,7 +486,6 @@ Public Class Engine
         pStages(11) = "Aplpying Module Effects to Ship: "
         pStages(12) = "Calculating Damage Statistics: "
         ' Apply the pilot skills to the ship
-        Dim sTime As Date
         pStageTime(0) = Now
         Dim newShip As Ship
         Engine.BuildShipEffects(shipPilot, baseShip)
@@ -1252,6 +1251,7 @@ Public Class Engine
         Dim cModule As New ShipModule
         Dim dgmMod As Double = 1
         Dim ROF As Double = 1
+        newShip.Attributes("10006") = 0
         For Each DBI As DroneBayItem In newShip.DroneBayItems.Values
             If DBI.IsActive = True Then
                 cModule = DBI.DroneType
@@ -1263,6 +1263,7 @@ Public Class Engine
                     dgmMod = 0
                     ROF = 1
                 End If
+                newShip.Attributes("10006") = CInt(newShip.Attributes("10006")) + DBI.Quantity
                 cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
                 cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
                 newShip.Attributes("10023") = CDbl(newShip.Attributes("10023")) + CDbl(cModule.Attributes("10018")) * DBI.Quantity

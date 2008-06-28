@@ -29,8 +29,8 @@
 434,1,3442,77,3,18,0,1,0,0,Drone Interfacing - Mining
 591,1,12305,37,3,18,0,1,0,0,Drone Navigation
 294,1,23606,54,3,18,0,1,0,0,Drone Sharpshooting
-#,1,3436,,,,0,1,0,0,Drones
-#,1,23566,,,,0,1,0,0,Electronic Warfare Drone Interfacing
+353,1,3436,10005,3,6,0,1,1,0,Drones
+459,1,23566,10007,3,6,0,1,1,0,Electronic Warfare Drone Interfacing
 292,1,23069,114,2,549,0,1,0,0,Fighters - EM
 292,1,23069,116,2,549,0,1,0,0,Fighters - Explosive
 292,1,23069,117,2,549,0,1,0,0,Fighters - Kinetic
@@ -50,7 +50,7 @@
 292,1,12485,118,5,12485,0,1,0,0,Minmatar Drone Specialization
 39,1,3439,68,2,640,0,1,0,0,Repair Drone Operation - Shield
 39,1,3439,84,4,640,0,1,0,0,Repair Drone Operation - Armor
-#,1,3437,,,,0,1,0,0,Scout Drone Operation
+459,1,3437,10007,3,6,0,1,1,0,Scout Drone Operation
 292,1,23594,114,4,911,0,1,0,0,Sentry Drone Interfacing - EM
 292,1,23594,116,4,911,0,1,0,0,Sentry Drone Interfacing - Explosive
 292,1,23594,117,4,911,0,1,0,0,Sentry Drone Interfacing - Kinetic
@@ -658,6 +658,13 @@
 1316,2,909,767,6,0,0,0,0,15,Tracking Disruptor - Tracking Speed
 1315,2,907,351,6,0,0,0,0,15,Tracking Computer - Optimal Range
 1316,2,907,767,6,0,0,0,0,15,Tracking Computer - Tracking Speed
+# DRONES,,,,,,,,,,
+# DRONE UPGRADES,,,,,,,,,,
+353,2,407,10005,3,6,0,0,1,4,Drone Control Unit - Drone Bonus
+459,2,647,10007,3,6,0,0,1,15,Drone Link Augmenter - Drone Control Range Bonus
+567,2,644,37,3,18,0,0,0,15,Drone Navigation Computer - Drone Velocity
+243,2,646,54,3,18,0,0,0,15,Omni Tracking Link - Max Range
+244,2,646,160,3,18,0,0,0,15,Omni Tracking Link - Tracking Speed
 # ELECTRONIC WARFARE,,,,,,,,,,
 # ECCM,,,,,,,,,,
 1027,2,202,211,3,6,1,0,0,14,Grav Strength

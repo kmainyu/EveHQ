@@ -302,6 +302,7 @@
     <None Include="Resources\icon53_11.png" />
     <None Include="Resources\icon09_07.png" />
     <None Include="Resources\icon03_04.png" />
+    <None Include="Resources\icon56_06.png" />
     <Content Include="_Changelog.txt" />
   </ItemGroup>
   <ItemGroup>

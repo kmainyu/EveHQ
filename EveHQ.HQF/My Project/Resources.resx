@@ -286,4 +286,7 @@
   <data name="imgSmartbomb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon03_04.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="imgDroneControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon56_06.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
