@@ -40,6 +40,7 @@ Public Class frmEveHQ
     Private Declare Auto Function MoveWindow Lib "user32.dll" (ByVal hwnd As IntPtr, ByVal x As Int32, ByVal y As Int32, ByVal nWidth As Int32, ByVal nHeight As Int32, ByVal bRepaint As Boolean) As Int32
     Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hwnd As Int32, ByRef lpRect As RECT) As Boolean
     Private Declare Function GetClientRect Lib "user32.dll" (ByVal hwnd As Int32, ByRef lpRect As RECT) As Int32
+    Private Delegate Sub QueryMyEveServerDelegate()
     Private m_ChildFormNumber As Integer = 0
     Private childFormCount As Integer = 0
     Friend Structure RECT
@@ -304,6 +305,7 @@ Public Class frmEveHQ
 
         ' Add the pilot refresh handler
         AddHandler EveHQ.Core.PilotParseFunctions.RefreshPilots, AddressOf Me.RemoteRefreshPilots
+        AddHandler EveHQ.Core.G15LCDB.UpdateAPI, AddressOf Me.RemoteUpdate
 
         ' Check if "Hide When Minimised" is active
         HideWhenMinimisedToolStripMenuItem.Checked = EveHQ.Core.HQ.EveHQSettings.AutoHide
@@ -762,6 +764,10 @@ Public Class frmEveHQ
     End Sub
 #End Region
 
+    Private Sub RemoteUpdate()
+        Me.Invoke(New QueryMyEveServerDelegate(AddressOf QueryMyEveServer))
+    End Sub
+
     Public Sub QueryMyEveServer()
 
         Dim curSelPilot As String = ""
@@ -775,7 +781,16 @@ Public Class frmEveHQ
             tsLogonStatus.Text = "Logon Status: No accounts!! (" & Now.ToString & ")"
             Exit Sub
         Else
-            EveHQ.Core.HQ.APIRequestForm.ShowDialog()
+            ' Do we show the APIStatusForm or not?
+            If EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm = True Then
+                EveHQ.Core.HQ.APIRequestForm.ShowDialog()
+            Else
+                tsLogonStatus.Text = "Fetching Character Data..."
+                StatusStrip1.Refresh()
+                Me.Cursor = Cursors.WaitCursor
+                Call EveHQ.Core.PilotParseFunctions.GetCharacterData()
+                Me.Cursor = Cursors.Default
+            End If
         End If
 
         ' Determine response from server and display appropriate message
@@ -1652,7 +1667,7 @@ Public Class frmEveHQ
         tmrEveWindow.Tag = EveFolder
         tmrEveWindow.Enabled = True
     End Sub
-    
+
     Private Sub tmrEveWindow_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrEveWindow.Tick
         Dim processes() As Process = Process.GetProcesses()
         Dim windowHandles As New ArrayList
@@ -1688,7 +1703,7 @@ Public Class frmEveHQ
         Next
     End Sub
     Private Sub ResizeEveWindow(ByVal eveProcess As Process)
-        
+
         Dim screenW As Integer = My.Computer.Screen.Bounds.Width
         Dim screenH As Integer = My.Computer.Screen.Bounds.Height
         Dim windowRect, clientRect As RECT
@@ -1706,7 +1721,7 @@ Public Class frmEveHQ
         Dim eveTitleBarHeight As Integer = eveWindowHeight - eveClientHeight - (2 * eveBorderWidth)
         Dim BorderWidth As Integer = CInt((Me.Width - Me.ClientSize.Width) / 2)
         Dim TitlebarHeight As Integer = Me.Height - Me.ClientSize.Height - 2 * BorderWidth
-        
+
         MoveWindow(eveProcess.MainWindowHandle, 0 - eveBorderWidth, 0 - eveTitleBarHeight - eveBorderWidth, screenW + (eveBorderWidth * 2), screenH + eveTitleBarHeight + (eveBorderWidth * 2), True)
 
     End Sub
@@ -1717,6 +1732,6 @@ Public Class frmEveHQ
     End Sub
 #End Region
 
-    
-    
+
+
 End Class

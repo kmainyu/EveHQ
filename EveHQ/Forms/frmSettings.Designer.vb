@@ -141,6 +141,7 @@ Partial Public Class frmSettings
         Me.btnEveDir1 = New System.Windows.Forms.Button
         Me.btnClear1 = New System.Windows.Forms.Button
         Me.gbTrainingQueue = New System.Windows.Forms.GroupBox
+        Me.chkOmitCurrentSkill = New System.Windows.Forms.CheckBox
         Me.pbPartiallyTrainedColour = New System.Windows.Forms.PictureBox
         Me.lblPartiallyTrainedColour = New System.Windows.Forms.Label
         Me.chkDeleteCompletedSkills = New System.Windows.Forms.CheckBox
@@ -296,6 +297,11 @@ Partial Public Class frmSettings
         Me.lblSearchPrices = New System.Windows.Forms.Label
         Me.lblUpdatePrice = New System.Windows.Forms.Label
         Me.txtUpdatePrice = New System.Windows.Forms.TextBox
+        Me.lvwPrices = New EveHQ.ListViewNoFlicker
+        Me.colPriceName = New System.Windows.Forms.ColumnHeader
+        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
+        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
+        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
         Me.ctxPrices = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
@@ -308,12 +314,7 @@ Partial Public Class frmSettings
         Me.lblLastUpdateTime = New System.Windows.Forms.Label
         Me.lblLastUpdate = New System.Windows.Forms.Label
         Me.btnUpdatePrices = New System.Windows.Forms.Button
-        Me.lvwPrices = New EveHQ.ListViewNoFlicker
-        Me.colPriceName = New System.Windows.Forms.ColumnHeader
-        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
-        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
-        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
-        Me.chkOmitCurrentSkill = New System.Windows.Forms.CheckBox
+        Me.chkShowAPIStatusForm = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotLevel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1467,13 +1468,23 @@ Partial Public Class frmSettings
         Me.gbTrainingQueue.Controls.Add(Me.chkContinueTraining)
         Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
         Me.gbTrainingQueue.Controls.Add(Me.clbColumns)
-        Me.gbTrainingQueue.Location = New System.Drawing.Point(193, 12)
+        Me.gbTrainingQueue.Location = New System.Drawing.Point(762, 332)
         Me.gbTrainingQueue.Name = "gbTrainingQueue"
-        Me.gbTrainingQueue.Size = New System.Drawing.Size(695, 493)
+        Me.gbTrainingQueue.Size = New System.Drawing.Size(70, 51)
         Me.gbTrainingQueue.TabIndex = 3
         Me.gbTrainingQueue.TabStop = False
         Me.gbTrainingQueue.Text = "Training Queue"
         Me.gbTrainingQueue.Visible = False
+        '
+        'chkOmitCurrentSkill
+        '
+        Me.chkOmitCurrentSkill.AutoSize = True
+        Me.chkOmitCurrentSkill.Location = New System.Drawing.Point(9, 406)
+        Me.chkOmitCurrentSkill.Name = "chkOmitCurrentSkill"
+        Me.chkOmitCurrentSkill.Size = New System.Drawing.Size(196, 17)
+        Me.chkOmitCurrentSkill.TabIndex = 33
+        Me.chkOmitCurrentSkill.Text = "Omit current skill from training queue"
+        Me.chkOmitCurrentSkill.UseVisualStyleBackColor = True
         '
         'pbPartiallyTrainedColour
         '
@@ -2070,15 +2081,16 @@ Partial Public Class frmSettings
         '
         'gbEveServer
         '
+        Me.gbEveServer.Controls.Add(Me.chkShowAPIStatusForm)
         Me.gbEveServer.Controls.Add(Me.gbAPIServer)
         Me.gbEveServer.Controls.Add(Me.gbAPIRelayServer)
         Me.gbEveServer.Controls.Add(Me.chkEnableEveStatus)
         Me.gbEveServer.Controls.Add(Me.lblCurrentOffset)
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.trackServerOffset)
-        Me.gbEveServer.Location = New System.Drawing.Point(697, 130)
+        Me.gbEveServer.Location = New System.Drawing.Point(194, 12)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(91, 38)
+        Me.gbEveServer.Size = New System.Drawing.Size(701, 483)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
@@ -2093,7 +2105,7 @@ Partial Public Class frmSettings
         Me.gbAPIServer.Controls.Add(Me.txtCCPAPIServer)
         Me.gbAPIServer.Controls.Add(Me.lblCCPAPIServer)
         Me.gbAPIServer.Controls.Add(Me.chkAutoAPI)
-        Me.gbAPIServer.Location = New System.Drawing.Point(7, 169)
+        Me.gbAPIServer.Location = New System.Drawing.Point(6, 210)
         Me.gbAPIServer.Name = "gbAPIServer"
         Me.gbAPIServer.Size = New System.Drawing.Size(668, 132)
         Me.gbAPIServer.TabIndex = 20
@@ -2168,7 +2180,7 @@ Partial Public Class frmSettings
         Me.gbAPIRelayServer.Controls.Add(Me.nudAPIRSPort)
         Me.gbAPIRelayServer.Controls.Add(Me.lblAPIRSPort)
         Me.gbAPIRelayServer.Controls.Add(Me.chkActivateAPIRS)
-        Me.gbAPIRelayServer.Location = New System.Drawing.Point(7, 307)
+        Me.gbAPIRelayServer.Location = New System.Drawing.Point(6, 348)
         Me.gbAPIRelayServer.Name = "gbAPIRelayServer"
         Me.gbAPIRelayServer.Size = New System.Drawing.Size(668, 114)
         Me.gbAPIRelayServer.TabIndex = 15
@@ -3030,6 +3042,48 @@ Partial Public Class frmSettings
         Me.txtUpdatePrice.TabIndex = 8
         Me.txtUpdatePrice.Visible = False
         '
+        'lvwPrices
+        '
+        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
+        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
+        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwPrices.FullRowSelect = True
+        Me.lvwPrices.GridLines = True
+        Me.lvwPrices.HideSelection = False
+        Me.lvwPrices.Location = New System.Drawing.Point(6, 110)
+        Me.lvwPrices.MultiSelect = False
+        Me.lvwPrices.Name = "lvwPrices"
+        Me.lvwPrices.Size = New System.Drawing.Size(82, 0)
+        Me.lvwPrices.TabIndex = 7
+        Me.lvwPrices.UseCompatibleStateImageBehavior = False
+        Me.lvwPrices.View = System.Windows.Forms.View.Details
+        '
+        'colPriceName
+        '
+        Me.colPriceName.Text = "Item Name"
+        Me.colPriceName.Width = 300
+        '
+        'colBasePrice
+        '
+        Me.colBasePrice.Text = "Base Price"
+        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colBasePrice.Width = 120
+        '
+        'colMarketPrice
+        '
+        Me.colMarketPrice.Text = "Market Price"
+        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colMarketPrice.Width = 120
+        '
+        'colCustomPrice
+        '
+        Me.colCustomPrice.Text = "Custom Price"
+        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colCustomPrice.Width = 120
+        '
         'ctxPrices
         '
         Me.ctxPrices.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuPriceItemName, Me.ToolStripMenuItem1, Me.mnuPriceAdd, Me.mnuPriceEdit, Me.mnuPriceDelete})
@@ -3119,67 +3173,25 @@ Partial Public Class frmSettings
         Me.btnUpdatePrices.Text = "Update Market Prices"
         Me.btnUpdatePrices.UseVisualStyleBackColor = True
         '
-        'lvwPrices
+        'chkShowAPIStatusForm
         '
-        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
-        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
-        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwPrices.FullRowSelect = True
-        Me.lvwPrices.GridLines = True
-        Me.lvwPrices.HideSelection = False
-        Me.lvwPrices.Location = New System.Drawing.Point(6, 110)
-        Me.lvwPrices.MultiSelect = False
-        Me.lvwPrices.Name = "lvwPrices"
-        Me.lvwPrices.Size = New System.Drawing.Size(82, 0)
-        Me.lvwPrices.TabIndex = 7
-        Me.lvwPrices.UseCompatibleStateImageBehavior = False
-        Me.lvwPrices.View = System.Windows.Forms.View.Details
-        '
-        'colPriceName
-        '
-        Me.colPriceName.Text = "Item Name"
-        Me.colPriceName.Width = 300
-        '
-        'colBasePrice
-        '
-        Me.colBasePrice.Text = "Base Price"
-        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colBasePrice.Width = 120
-        '
-        'colMarketPrice
-        '
-        Me.colMarketPrice.Text = "Market Price"
-        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colMarketPrice.Width = 120
-        '
-        'colCustomPrice
-        '
-        Me.colCustomPrice.Text = "Custom Price"
-        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colCustomPrice.Width = 120
-        '
-        'chkOmitCurrentSkill
-        '
-        Me.chkOmitCurrentSkill.AutoSize = True
-        Me.chkOmitCurrentSkill.Location = New System.Drawing.Point(9, 406)
-        Me.chkOmitCurrentSkill.Name = "chkOmitCurrentSkill"
-        Me.chkOmitCurrentSkill.Size = New System.Drawing.Size(196, 17)
-        Me.chkOmitCurrentSkill.TabIndex = 33
-        Me.chkOmitCurrentSkill.Text = "Omit current skill from training queue"
-        Me.chkOmitCurrentSkill.UseVisualStyleBackColor = True
+        Me.chkShowAPIStatusForm.AutoSize = True
+        Me.chkShowAPIStatusForm.Location = New System.Drawing.Point(19, 171)
+        Me.chkShowAPIStatusForm.Name = "chkShowAPIStatusForm"
+        Me.chkShowAPIStatusForm.Size = New System.Drawing.Size(277, 17)
+        Me.chkShowAPIStatusForm.TabIndex = 21
+        Me.chkShowAPIStatusForm.Text = "Show API Status Form When Fetching Character API"
+        Me.chkShowAPIStatusForm.UseVisualStyleBackColor = True
         '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbTrainingQueue)
-        Me.Controls.Add(Me.gbMarketPrices)
-        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbEveServer)
+        Me.Controls.Add(Me.gbMarketPrices)
+        Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbPilots)
         Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbEveFolders)
@@ -3569,4 +3581,5 @@ Partial Public Class frmSettings
     Friend WithEvents lblUpdateLocation As System.Windows.Forms.Label
     Friend WithEvents txtUpdateLocation As System.Windows.Forms.TextBox
     Friend WithEvents chkOmitCurrentSkill As System.Windows.Forms.CheckBox
+    Friend WithEvents chkShowAPIStatusForm As System.Windows.Forms.CheckBox
 End Class

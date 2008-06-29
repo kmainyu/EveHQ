@@ -35,7 +35,7 @@ Public Class G15LCD
     Private LCDButtonPress As Butpress
     Private LCDConfigPress As ConfigPress
     Public WithEvents tmrLCDChar As New System.Windows.Forms.Timer
-
+   
     Public Sub New(ByVal ButtonPressSubroutine As Butpress, ByVal ConfigSubroutine As ConfigPress)
         'When an instance of the class is created, the delegates are passed the routines to return to.
         LCDButtonPress = ButtonPressSubroutine
@@ -172,6 +172,9 @@ Public Class G15LCD
             If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
                 screen.DrawImage(My.Resources.refresh, 144, 27, 16, 16)
             End If
+            If EveHQ.Core.HQ.UpdateAvailable = True Then
+                screen.DrawString("(U)", lcdFont, Brushes.White, 128, 32, strformat)
+            End If
             'Draw to the LCD bitmap
             EveHQ.Core.HQ.EveHQLCD.DrawLCD(img)
             'Update the LCD
@@ -202,6 +205,9 @@ Public Class G15LCD
             screen.DrawString(strLCD, lcdFont, Brushes.White, New RectangleF(0, 0, 160, 43), strformat)
             If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
                 screen.DrawImage(My.Resources.refresh, 144, 27, 16, 16)
+            End If
+            If EveHQ.Core.HQ.UpdateAvailable = True Then
+                screen.DrawString("(U)", lcdFont, Brushes.White, 128, 32, strformat)
             End If
             'Draw to the LCD bitmap
             EveHQ.Core.HQ.EveHQLCD.DrawLCD(img)

@@ -1197,6 +1197,7 @@ Public Class frmSettings
             chkUseCCPBackup.Enabled = True
             txtAPIRSServer.Enabled = True
         End If
+        chkShowAPIStatusForm.Checked = EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm
     End Sub
     Private Sub trackServerOffset_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles trackServerOffset.ValueChanged
         EveHQ.Core.HQ.EveHQSettings.ServerOffset = trackServerOffset.Value
@@ -1296,6 +1297,9 @@ Public Class frmSettings
     End Sub
     Private Sub txtAPIRSServer_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtAPIRSServer.TextChanged
         EveHQ.Core.HQ.EveHQSettings.APIRSAddress = txtAPIRSServer.Text
+    End Sub
+    Private Sub chkShowAPIStatusForm_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowAPIStatusForm.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm = chkShowAPIStatusForm.Checked
     End Sub
 #End Region
 
@@ -2185,5 +2189,6 @@ Public Class frmSettings
     End Sub
 
 #End Region
+    
     
 End Class

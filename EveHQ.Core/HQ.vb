@@ -77,6 +77,7 @@ Public Class HQ
     Public Shared BasePriceList As New SortedList
     Public Shared MarketPriceList As New SortedList
     Public Shared CustomPriceList As New SortedList
+    Public Shared UpdateAvailable As Boolean = False
 
     Public Enum LogonState As Integer
         Successful = -1

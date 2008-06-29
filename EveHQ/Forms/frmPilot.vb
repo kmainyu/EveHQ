@@ -204,8 +204,10 @@ Public Class frmPilot
                 cacheItem.Text = (Format(cacheDate, "ddd") & " " & cacheDate)
                 If cacheDate < Now Then
                     lvTraining.Items(4).ForeColor = Color.Green
+                    EveHQ.Core.HQ.UpdateAvailable = True
                 Else
                     lvTraining.Items(4).ForeColor = Color.Red
+                    EveHQ.Core.HQ.UpdateAvailable = False
                 End If
                 lvTraining.Items(4).SubItems.Add(cacheItem)
             Catch e As Exception
@@ -388,8 +390,10 @@ Public Class frmPilot
             Dim cacheText As String = (Format(cacheDate, "ddd") & " " & cacheDate & " (" & EveHQ.Core.SkillFunctions.CacheTimeToString(cacheTimeLeft.TotalSeconds) & ")")
             If cacheDate < Now Then
                 lvTraining.Items(4).ForeColor = Color.Green
+                EveHQ.Core.HQ.UpdateAvailable = True
             Else
                 lvTraining.Items(4).ForeColor = Color.Red
+                EveHQ.Core.HQ.UpdateAvailable = False
             End If
             lvTraining.Items(4).SubItems(1).Text = cacheText
         End If
