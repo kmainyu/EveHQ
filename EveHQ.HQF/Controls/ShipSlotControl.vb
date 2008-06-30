@@ -1119,6 +1119,90 @@ Public Class ShipSlotControl
         showInfo.ShowItemDetails(sModule)
         showInfo = Nothing
     End Sub
+
+    Private Sub ctxAlterQuantity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxAlterQuantity.Click
+        Dim lvwBay As ListView = CType(ctxBays.SourceControl, ListView)
+        Select Case lvwBay.Name
+            Case "lvwCargoBay"
+                Dim selItem As ListViewItem = lvwCargoBay.SelectedItems(0)
+                Dim idx As Integer = CInt(selItem.Name)
+                Dim CBI As CargoBayItem = CType(currentShip.CargoBayItems.Item(idx), CargoBayItem)
+                Dim newSelectForm As New frmSelectQuantity
+                newSelectForm.fittedShip = fittedShip
+                newSelectForm.CBI = CBI
+                newSelectForm.IsDroneBay = True
+                newSelectForm.IsSplit = False
+                newSelectForm.nudQuantity.Minimum = 1
+                newSelectForm.nudQuantity.Maximum = CBI.Quantity + CInt(Int((fittedShip.CargoBay - fittedShip.CargoBay_Used) / CBI.ItemType.Volume))
+                newSelectForm.nudQuantity.Value = CBI.Quantity
+                newSelectForm.ShowDialog()
+                newSelectForm.Dispose()
+                Call Me.UpdateFittingListFromShipData()
+                Call RedrawCargoBay()
+            Case "lvwDroneBay"
+                Dim selItem As ListViewItem = lvwDroneBay.SelectedItems(0)
+                Dim idx As Integer = CInt(selItem.Name)
+                Dim DBI As DroneBayItem = CType(currentShip.DroneBayItems.Item(idx), DroneBayItem)
+                Dim newSelectForm As New frmSelectQuantity
+                newSelectForm.fittedShip = fittedShip
+                newSelectForm.DBI = DBI
+                newSelectForm.IsDroneBay = True
+                newSelectForm.IsSplit = False
+                newSelectForm.nudQuantity.Minimum = 1
+                newSelectForm.nudQuantity.Maximum = DBI.Quantity + CInt(Int((fittedShip.DroneBay - fittedShip.DroneBay_Used) / DBI.DroneType.Volume))
+                newSelectForm.nudQuantity.Value = DBI.Quantity
+                newSelectForm.ShowDialog()
+                currentInfo.ShipType = currentShip
+                Call Me.UpdateFittingListFromShipData()
+                UpdateDrones = True
+                Call RedrawDroneBay()
+                UpdateDrones = False
+                newSelectForm.Dispose()
+        End Select
+    End Sub
+
+    Private Sub ctxSplitBatch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxSplitBatch.Click
+        Dim lvwBay As ListView = CType(ctxBays.SourceControl, ListView)
+        Select Case lvwBay.Name
+            Case "lvwCargoBay"
+                Dim selItem As ListViewItem = lvwCargoBay.SelectedItems(0)
+                Dim idx As Integer = CInt(selItem.Name)
+                Dim CBI As CargoBayItem = CType(currentShip.CargoBayItems.Item(idx), CargoBayItem)
+                Dim newSelectForm As New frmSelectQuantity
+                newSelectForm.fittedShip = fittedShip
+                newSelectForm.currentShip = currentShip
+                newSelectForm.CBI = CBI
+                newSelectForm.IsDroneBay = True
+                newSelectForm.IsSplit = True
+                newSelectForm.nudQuantity.Value = 1
+                newSelectForm.nudQuantity.Minimum = 1
+                newSelectForm.nudQuantity.Maximum = CBI.Quantity - 1
+                newSelectForm.ShowDialog()
+                newSelectForm.Dispose()
+                Call Me.UpdateFittingListFromShipData()
+                Call RedrawCargoBay()
+            Case "lvwDroneBay"
+                Dim selItem As ListViewItem = lvwDroneBay.SelectedItems(0)
+                Dim idx As Integer = CInt(selItem.Name)
+                Dim DBI As DroneBayItem = CType(currentShip.DroneBayItems.Item(idx), DroneBayItem)
+                Dim newSelectForm As New frmSelectQuantity
+                newSelectForm.fittedShip = fittedShip
+                newSelectForm.currentShip = currentShip
+                newSelectForm.DBI = DBI
+                newSelectForm.IsDroneBay = True
+                newSelectForm.IsSplit = True
+                newSelectForm.nudQuantity.Value = 1
+                newSelectForm.nudQuantity.Minimum = 1
+                newSelectForm.nudQuantity.Maximum = DBI.Quantity - 1
+                newSelectForm.ShowDialog()
+                currentInfo.ShipType = currentShip
+                Call Me.UpdateFittingListFromShipData()
+                UpdateDrones = True
+                Call RedrawDroneBay()
+                UpdateDrones = False
+                newSelectForm.Dispose()
+        End Select
+    End Sub
 #End Region
 
 #Region "Clipboard Copy Routines"
@@ -1186,5 +1270,4 @@ Public Class ShipSlotControl
     End Function
 #End Region
 
-    
 End Class

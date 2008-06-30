@@ -23,11 +23,11 @@ Partial Class ShipSlotControl
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
         Me.panelSlotInfo = New System.Windows.Forms.Panel
         Me.btnClipboardCopy = New System.Windows.Forms.Button
         Me.btnToggleStorage = New System.Windows.Forms.Button
@@ -44,14 +44,6 @@ Partial Class ShipSlotControl
         Me.ctxSlots = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
-        Me.colModuleName = New System.Windows.Forms.ColumnHeader
-        Me.colCharge = New System.Windows.Forms.ColumnHeader
-        Me.colCPU = New System.Windows.Forms.ColumnHeader
-        Me.colPG = New System.Windows.Forms.ColumnHeader
-        Me.colActivationCost = New System.Windows.Forms.ColumnHeader
-        Me.colActivationTime = New System.Windows.Forms.ColumnHeader
-        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
         Me.imgState = New System.Windows.Forms.ImageList(Me.components)
         Me.tabStorage = New System.Windows.Forms.TabControl
         Me.tabDroneBay = New System.Windows.Forms.TabPage
@@ -74,6 +66,14 @@ Partial Class ShipSlotControl
         Me.pbCargoBay = New System.Windows.Forms.ProgressBar
         Me.lblCargoBay = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
+        Me.colModuleName = New System.Windows.Forms.ColumnHeader
+        Me.colCharge = New System.Windows.Forms.ColumnHeader
+        Me.colCPU = New System.Windows.Forms.ColumnHeader
+        Me.colPG = New System.Windows.Forms.ColumnHeader
+        Me.colActivationCost = New System.Windows.Forms.ColumnHeader
+        Me.colActivationTime = New System.Windows.Forms.ColumnHeader
+        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
         Me.panelSlotInfo.SuspendLayout()
         Me.ctxSlots.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -259,62 +259,6 @@ Partial Class ShipSlotControl
         Me.SplitContainer1.SplitterDistance = 639
         Me.SplitContainer1.TabIndex = 1
         '
-        'lvwSlots
-        '
-        Me.lvwSlots.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colCharge, Me.colCPU, Me.colPG, Me.colActivationCost, Me.colActivationTime, Me.colMarketPrice})
-        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
-        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwSlots.FullRowSelect = True
-        ListViewGroup1.Header = "High Slots"
-        ListViewGroup1.Name = "lvwgHighSlots"
-        ListViewGroup2.Header = "Mid Slots"
-        ListViewGroup2.Name = "lvwgMidSlots"
-        ListViewGroup3.Header = "Low Slots"
-        ListViewGroup3.Name = "lvwgLowSlots"
-        ListViewGroup4.Header = "Rig Slots"
-        ListViewGroup4.Name = "lvwgRigSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
-        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
-        Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.Size = New System.Drawing.Size(639, 424)
-        Me.lvwSlots.SmallImageList = Me.imgState
-        Me.lvwSlots.TabIndex = 0
-        Me.lvwSlots.UseCompatibleStateImageBehavior = False
-        Me.lvwSlots.View = System.Windows.Forms.View.Details
-        '
-        'colModuleName
-        '
-        Me.colModuleName.Text = "Module Name"
-        Me.colModuleName.Width = 150
-        '
-        'colCharge
-        '
-        Me.colCharge.Text = "Charge"
-        Me.colCharge.Width = 125
-        '
-        'colCPU
-        '
-        Me.colCPU.Text = "CPU"
-        Me.colCPU.Width = 40
-        '
-        'colPG
-        '
-        Me.colPG.Text = "PG"
-        Me.colPG.Width = 40
-        '
-        'colActivationCost
-        '
-        Me.colActivationCost.Text = "Cap Cost"
-        '
-        'colActivationTime
-        '
-        Me.colActivationTime.Text = "Cap Time"
-        '
-        'colMarketPrice
-        '
-        Me.colMarketPrice.Text = "Market Price"
-        Me.colMarketPrice.Width = 125
-        '
         'imgState
         '
         Me.imgState.ImageStream = CType(resources.GetObject("imgState.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -494,6 +438,62 @@ Partial Class ShipSlotControl
         Me.lblCargoBay.Size = New System.Drawing.Size(86, 13)
         Me.lblCargoBay.TabIndex = 3
         Me.lblCargoBay.Text = "0.00 / 000.00 m³"
+        '
+        'lvwSlots
+        '
+        Me.lvwSlots.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colCharge, Me.colCPU, Me.colPG, Me.colActivationCost, Me.colActivationTime, Me.colMarketPrice})
+        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
+        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwSlots.FullRowSelect = True
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
+        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
+        Me.lvwSlots.Name = "lvwSlots"
+        Me.lvwSlots.Size = New System.Drawing.Size(639, 424)
+        Me.lvwSlots.SmallImageList = Me.imgState
+        Me.lvwSlots.TabIndex = 0
+        Me.lvwSlots.UseCompatibleStateImageBehavior = False
+        Me.lvwSlots.View = System.Windows.Forms.View.Details
+        '
+        'colModuleName
+        '
+        Me.colModuleName.Text = "Module Name"
+        Me.colModuleName.Width = 150
+        '
+        'colCharge
+        '
+        Me.colCharge.Text = "Charge"
+        Me.colCharge.Width = 125
+        '
+        'colCPU
+        '
+        Me.colCPU.Text = "CPU"
+        Me.colCPU.Width = 40
+        '
+        'colPG
+        '
+        Me.colPG.Text = "PG"
+        Me.colPG.Width = 40
+        '
+        'colActivationCost
+        '
+        Me.colActivationCost.Text = "Cap Cost"
+        '
+        'colActivationTime
+        '
+        Me.colActivationTime.Text = "Cap Time"
+        '
+        'colMarketPrice
+        '
+        Me.colMarketPrice.Text = "Market Price"
+        Me.colMarketPrice.Width = 125
         '
         'ShipSlotControl
         '
