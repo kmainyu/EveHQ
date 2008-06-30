@@ -32,6 +32,9 @@ Partial Class frmDoomsday
         Me.colDDEffStructure = New System.Windows.Forms.ColumnHeader
         Me.colDDEffTotal = New System.Windows.Forms.ColumnHeader
         Me.colDDDifference = New System.Windows.Forms.ColumnHeader
+        Me.lblDoomsdayLevel = New System.Windows.Forms.Label
+        Me.nudDoomsdayLevel = New System.Windows.Forms.NumericUpDown
+        CType(Me.nudDoomsdayLevel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnClose
@@ -96,11 +99,32 @@ Partial Class frmDoomsday
         Me.colDDDifference.Text = "Residual"
         Me.colDDDifference.Width = 75
         '
+        'lblDoomsdayLevel
+        '
+        Me.lblDoomsdayLevel.AutoSize = True
+        Me.lblDoomsdayLevel.Location = New System.Drawing.Point(12, 136)
+        Me.lblDoomsdayLevel.Name = "lblDoomsdayLevel"
+        Me.lblDoomsdayLevel.Size = New System.Drawing.Size(160, 13)
+        Me.lblDoomsdayLevel.TabIndex = 14
+        Me.lblDoomsdayLevel.Text = "Doomsday Operation Skill Level:"
+        '
+        'nudDoomsdayLevel
+        '
+        Me.nudDoomsdayLevel.Location = New System.Drawing.Point(178, 134)
+        Me.nudDoomsdayLevel.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudDoomsdayLevel.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudDoomsdayLevel.Name = "nudDoomsdayLevel"
+        Me.nudDoomsdayLevel.Size = New System.Drawing.Size(49, 20)
+        Me.nudDoomsdayLevel.TabIndex = 15
+        Me.nudDoomsdayLevel.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
         'frmDoomsday
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(630, 161)
+        Me.Controls.Add(Me.nudDoomsdayLevel)
+        Me.Controls.Add(Me.lblDoomsdayLevel)
         Me.Controls.Add(Me.lvwDoomsday)
         Me.Controls.Add(Me.btnClose)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -109,7 +133,9 @@ Partial Class frmDoomsday
         Me.Name = "frmDoomsday"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Doomsday Device Resistance Check"
+        CType(Me.nudDoomsdayLevel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents btnClose As System.Windows.Forms.Button
@@ -122,4 +148,6 @@ Partial Class frmDoomsday
     Friend WithEvents colDDEffStructure As System.Windows.Forms.ColumnHeader
     Friend WithEvents colDDEffTotal As System.Windows.Forms.ColumnHeader
     Friend WithEvents colDDDifference As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lblDoomsdayLevel As System.Windows.Forms.Label
+    Friend WithEvents nudDoomsdayLevel As System.Windows.Forms.NumericUpDown
 End Class

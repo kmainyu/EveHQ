@@ -22,6 +22,7 @@ Imports System.Windows.Forms
 Public Class frmDoomsday
 
     Private cShipType As Ship
+    Private DDLevel As Integer = 1
 
     Public Property ShipType() As Ship
         Get
@@ -49,10 +50,13 @@ Public Class frmDoomsday
         Dim residual As Double = 0
 
         ' Clear the list
+        lvwDoomsday.BeginUpdate()
         lvwDoomsday.Items.Clear()
-        
+
+        ' Set damage
+        damage = 46875 * (1 + (0.1 * DDLevel))
+
         ' EM Resists
-        damage = 46875
         effShield = cShipType.ShieldCapacity * (100 / (100 - cShipType.ShieldEMResist))
         effArmor = cShipType.ShieldCapacity * (100 / (100 - cShipType.ArmorEMResist))
         effStructure = cShipType.ShieldCapacity * (100 / (100 - cShipType.StructureEMResist))
@@ -61,7 +65,7 @@ Public Class frmDoomsday
         newDD = New ListViewItem
         newDD.Text = "Amarr"
         newDD.SubItems.Add("EM")
-        newDD.SubItems.Add(FormatNumber(damage,2,TriState.UseDefault,TriState.UseDefault,TriState.UseDefault))
+        newDD.SubItems.Add(FormatNumber(damage, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
         newDD.SubItems.Add(FormatNumber(effShield, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
         newDD.SubItems.Add(FormatNumber(effArmor, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
         newDD.SubItems.Add(FormatNumber(effStructure, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
@@ -75,7 +79,6 @@ Public Class frmDoomsday
         lvwDoomsday.Items.Add(newDD)
 
         ' Explosive Resists
-        damage = 46875
         effShield = cShipType.ShieldCapacity * (100 / (100 - cShipType.ShieldExResist))
         effArmor = cShipType.ShieldCapacity * (100 / (100 - cShipType.ArmorExResist))
         effStructure = cShipType.ShieldCapacity * (100 / (100 - cShipType.StructureExResist))
@@ -98,7 +101,6 @@ Public Class frmDoomsday
         lvwDoomsday.Items.Add(newDD)
 
         ' Kinetic Resists
-        damage = 46875
         effShield = cShipType.ShieldCapacity * (100 / (100 - cShipType.ShieldKiResist))
         effArmor = cShipType.ShieldCapacity * (100 / (100 - cShipType.ArmorKiResist))
         effStructure = cShipType.ShieldCapacity * (100 / (100 - cShipType.StructureKiResist))
@@ -121,7 +123,6 @@ Public Class frmDoomsday
         lvwDoomsday.Items.Add(newDD)
 
         ' Thermal Resists
-        damage = 46875
         effShield = cShipType.ShieldCapacity * (100 / (100 - cShipType.ShieldThResist))
         effArmor = cShipType.ShieldCapacity * (100 / (100 - cShipType.ArmorThResist))
         effStructure = cShipType.ShieldCapacity * (100 / (100 - cShipType.StructureThResist))
@@ -142,7 +143,14 @@ Public Class frmDoomsday
             newDD.BackColor = Drawing.Color.LightGreen
         End If
         lvwDoomsday.Items.Add(newDD)
-        Me.ShowDialog()
+        lvwDoomsday.EndUpdate()
 
+    End Sub
+
+    Private Sub nudDoomsdayLevel_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudDoomsdayLevel.ValueChanged
+        DDLevel = CInt(nudDoomsdayLevel.Value)
+        If cShipType IsNot Nothing Then
+            Call Me.DisplayDoomsdayData()
+        End If
     End Sub
 End Class

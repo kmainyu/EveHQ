@@ -306,6 +306,7 @@ Public Class frmEveHQ
         ' Add the pilot refresh handler
         AddHandler EveHQ.Core.PilotParseFunctions.RefreshPilots, AddressOf Me.RemoteRefreshPilots
         AddHandler EveHQ.Core.G15LCDB.UpdateAPI, AddressOf Me.RemoteUpdate
+        AddHandler EveHQ.Core.HQ.CloseInfoPanel, AddressOf Me.CloseInfoPanel
 
         ' Check if "Hide When Minimised" is active
         HideWhenMinimisedToolStripMenuItem.Checked = EveHQ.Core.HQ.EveHQSettings.AutoHide
@@ -1584,6 +1585,12 @@ Public Class frmEveHQ
             btnTogglePanel.Image = My.Resources.panel_open
             XPanderList1.Visible = False
         End If
+    End Sub
+
+    Private Sub CloseInfoPanel()
+        btnTogglePanel.Image = My.Resources.panel_open
+        XPanderList1.Visible = False
+        btnTogglePanel.Checked = False
     End Sub
 
     Private Sub mnuECMExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuECMExport.Click

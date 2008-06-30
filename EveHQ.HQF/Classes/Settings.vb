@@ -43,7 +43,16 @@ Public Class Settings
     Private cAutoUpdateHQFSkills As Boolean = False
     Private cOpenFittingList As New ArrayList
     Private cShowPerformanceData As Boolean = False
+    Private cCloseInfoPanel As Boolean = False
 
+    Public Property CloseInfoPanel() As Boolean
+        Get
+            Return cCloseInfoPanel
+        End Get
+        Set(ByVal value As Boolean)
+            cCloseInfoPanel = value
+        End Set
+    End Property
     Public Property ShowPerformanceData() As Boolean
         Get
             Return cShowPerformanceData
@@ -153,6 +162,7 @@ Public Class Settings
         XMLS &= Chr(9) & Chr(9) & "<moduleFilter>" & HQFSettings.ModuleFilter & "</moduleFilter>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<updateHQFSkills>" & HQFSettings.AutoUpdateHQFSkills & "</updateHQFSkills>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<showPerformance>" & HQFSettings.ShowPerformanceData & "</showPerformance>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<closeInfoPanel>" & HQFSettings.CloseInfoPanel & "</closeInfoPanel>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the open fittings
@@ -210,6 +220,7 @@ Public Class Settings
                         HQFSettings.ModuleFilter = CInt(settingSettings.ChildNodes(7).InnerText)
                         HQFSettings.AutoUpdateHQFSkills = CBool(settingSettings.ChildNodes(8).InnerText)
                         HQFSettings.ShowPerformanceData = CBool(settingSettings.ChildNodes(9).InnerText)
+                        HQFSettings.CloseInfoPanel = CBool(settingSettings.ChildNodes(10).InnerText)
                     End If
                 End If
             Catch

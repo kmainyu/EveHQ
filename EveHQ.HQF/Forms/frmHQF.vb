@@ -1073,6 +1073,12 @@ Public Class frmHQF
         ' Load the settings!
         Call Settings.HQFSettings.LoadHQFSettings()
 
+        ' Close the EveHQ InfoPanel if opted to
+        If Settings.HQFSettings.CloseInfoPanel = True Then
+            EveHQ.Core.HQ.StartCloseInfoPanel = True
+            Me.WindowState = FormWindowState.Maximized
+        End If
+
         ' Load up a collection of pilots from the EveHQ Core
         Call Me.LoadPilots()
 

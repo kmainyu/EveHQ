@@ -80,6 +80,9 @@ Public Class frmHQFSettings
     Private Sub chkShowPerformance_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowPerformance.CheckedChanged
         Settings.HQFSettings.ShowPerformanceData = chkShowPerformance.Checked
     End Sub
+    Private Sub chkCloseInfoPanel_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCloseInfoPanel.CheckedChanged
+        Settings.HQFSettings.CloseInfoPanel = chkCloseInfoPanel.Checked
+    End Sub
 #End Region
 
 #Region "Slot Colour Options"
@@ -187,8 +190,4 @@ Public Class frmHQFSettings
     End Sub
 #End Region
 
-
-    
-    
-    
 End Class

@@ -217,6 +217,7 @@ Public Class ShipInfoControl
     Private Sub btnDoomsdayCheck_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDoomsdayCheck.Click
         Dim DDCheck As New frmDoomsday
         DDCheck.ShipType = fittedShip
+        DDCheck.ShowDialog()
         DDCheck = Nothing
     End Sub
 

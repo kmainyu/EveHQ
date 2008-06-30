@@ -24,6 +24,7 @@ Partial Public Class frmHQFSettings
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Colours")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHQFSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
+        Me.chkShowPerformance = New System.Windows.Forms.CheckBox
         Me.chkAutoUpdateHQFSkills = New System.Windows.Forms.CheckBox
         Me.chkRestoreLastSession = New System.Windows.Forms.CheckBox
         Me.cboStartupPilot = New System.Windows.Forms.ComboBox
@@ -44,7 +45,7 @@ Partial Public Class frmHQFSettings
         Me.gbSlotColours = New System.Windows.Forms.GroupBox
         Me.gbCache = New System.Windows.Forms.GroupBox
         Me.btnDeleteCache = New System.Windows.Forms.Button
-        Me.chkShowPerformance = New System.Windows.Forms.CheckBox
+        Me.chkCloseInfoPanel = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -56,6 +57,7 @@ Partial Public Class frmHQFSettings
         '
         'gbGeneral
         '
+        Me.gbGeneral.Controls.Add(Me.chkCloseInfoPanel)
         Me.gbGeneral.Controls.Add(Me.chkShowPerformance)
         Me.gbGeneral.Controls.Add(Me.chkAutoUpdateHQFSkills)
         Me.gbGeneral.Controls.Add(Me.chkRestoreLastSession)
@@ -68,6 +70,16 @@ Partial Public Class frmHQFSettings
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
         Me.gbGeneral.Visible = False
+        '
+        'chkShowPerformance
+        '
+        Me.chkShowPerformance.AutoSize = True
+        Me.chkShowPerformance.Location = New System.Drawing.Point(25, 187)
+        Me.chkShowPerformance.Name = "chkShowPerformance"
+        Me.chkShowPerformance.Size = New System.Drawing.Size(142, 17)
+        Me.chkShowPerformance.TabIndex = 10
+        Me.chkShowPerformance.Text = "Show Performance Data"
+        Me.chkShowPerformance.UseVisualStyleBackColor = True
         '
         'chkAutoUpdateHQFSkills
         '
@@ -249,15 +261,15 @@ Partial Public Class frmHQFSettings
         Me.btnDeleteCache.Text = "Delete Cache"
         Me.btnDeleteCache.UseVisualStyleBackColor = True
         '
-        'chkShowPerformance
+        'chkCloseInfoPanel
         '
-        Me.chkShowPerformance.AutoSize = True
-        Me.chkShowPerformance.Location = New System.Drawing.Point(25, 187)
-        Me.chkShowPerformance.Name = "chkShowPerformance"
-        Me.chkShowPerformance.Size = New System.Drawing.Size(142, 17)
-        Me.chkShowPerformance.TabIndex = 10
-        Me.chkShowPerformance.Text = "Show Performance Data"
-        Me.chkShowPerformance.UseVisualStyleBackColor = True
+        Me.chkCloseInfoPanel.AutoSize = True
+        Me.chkCloseInfoPanel.Location = New System.Drawing.Point(25, 142)
+        Me.chkCloseInfoPanel.Name = "chkCloseInfoPanel"
+        Me.chkCloseInfoPanel.Size = New System.Drawing.Size(246, 17)
+        Me.chkCloseInfoPanel.TabIndex = 11
+        Me.chkCloseInfoPanel.Text = "Close EveHQ ""Info Panel"" when opening HQF"
+        Me.chkCloseInfoPanel.UseVisualStyleBackColor = True
         '
         'frmHQFSettings
         '
@@ -311,4 +323,5 @@ Partial Public Class frmHQFSettings
     Friend WithEvents btnDeleteCache As System.Windows.Forms.Button
     Friend WithEvents chkAutoUpdateHQFSkills As System.Windows.Forms.CheckBox
     Friend WithEvents chkShowPerformance As System.Windows.Forms.CheckBox
+    Friend WithEvents chkCloseInfoPanel As System.Windows.Forms.CheckBox
 End Class
