@@ -326,7 +326,7 @@ Public Class frmHQF
                 attData.GraphicID = att(3)
                 attData.UnitName = att(4)
                 attData.AttributeGroup = att(5)
-                attributes.AttributeList.Add(attData.ID, attData)
+                Attributes.AttributeList.Add(attData.ID, attData)
             End If
         Next
         Return True
@@ -1069,6 +1069,7 @@ Public Class frmHQF
         startUp = True
 
         AddHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
+        AddHandler HQFEvents.FindModule, AddressOf Me.ShowModulesThatWillFit
 
         ' Load the settings!
         Call Settings.HQFSettings.LoadHQFSettings()
@@ -1649,6 +1650,86 @@ Public Class frmHQF
             lvwItems.EndUpdate()
             tvwItems.Tag = "Search"
         End If
+    End Sub
+    Public Sub ShowModulesThatWillFit(ByVal modData As ArrayList)
+        Dim slotType As Integer = CInt(modData(0))
+        Dim CPU As Double = CDbl(modData(1))
+        Dim PG As Double = CDbl(modData(2))
+        Dim Calibration As Double = CDbl(modData(3))
+        Dim LauncherSlots As Integer = CInt(modData(4))
+        Dim TurretSlots As Integer = CInt(modData(5))
+        Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
+        Dim results As New SortedList(Of String, ShipModule)
+        For Each cMod As ShipModule In HQF.ModuleLists.moduleList.Values
+            If cMod.SlotType = slotType Then
+                Select Case slotType
+                    Case 1 ' Rig Slot
+                        If cMod.Calibration <= Calibration Then
+                            results.Add(cMod.Name, cMod)
+                        End If
+                    Case 2, 4 ' Low & Mid Slot
+                        If cMod.CPU <= CPU Then
+                            If cMod.PG <= CPU Then
+                                results.Add(cMod.Name, cMod)
+                            End If
+                        End If
+                    Case 8 ' Hi Slot
+                        If cMod.CPU <= CPU Then
+                            If cMod.PG <= CPU Then
+                                If LauncherSlots >= Math.Abs(CInt(cMod.IsLauncher)) Then
+                                    If TurretSlots >= Math.Abs(CInt(cMod.IsTurret)) Then
+                                        results.Add(cMod.Name, cMod)
+                                    End If
+                                End If
+                            End If
+                        End If
+                End Select
+            End If
+        Next
+        ' Reset checkbox colours
+        chkFilter1.ForeColor = Color.Red
+        chkFilter2.ForeColor = Color.Red
+        chkFilter4.ForeColor = Color.Red
+        chkFilter8.ForeColor = Color.Red
+        chkFilter16.ForeColor = Color.Red
+        chkFilter32.ForeColor = Color.Red
+
+        lvwItems.BeginUpdate()
+        lvwItems.Items.Clear()
+        For Each item As String In results.Keys
+            Dim shipMod As ShipModule = results(item)
+            If (shipMod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipMod.MetaType Then
+                Dim newModule As New ListViewItem
+                newModule.Name = shipMod.ID
+                newModule.Text = shipMod.Name
+                newModule.ToolTipText = shipMod.Name
+                newModule.SubItems.Add(shipMod.MetaLevel.ToString)
+                newModule.SubItems.Add(shipMod.CPU.ToString)
+                newModule.SubItems.Add(shipMod.PG.ToString)
+                Select Case shipMod.SlotType
+                    Case 8 ' High
+                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
+                        newModule.ImageKey = "hiSlot"
+                    Case 4 ' Mid
+                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
+                        newModule.ImageKey = "midSlot"
+                    Case 2 ' Low
+                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
+                        newModule.ImageKey = "lowSlot"
+                    Case 1 ' Rig
+                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
+                        newModule.ImageKey = "rigSlot"
+                End Select
+                Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
+                chkFilter.ForeColor = Color.Black
+                lvwItems.Items.Add(newModule)
+            Else
+                Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
+                chkFilter.ForeColor = Color.LimeGreen
+            End If
+        Next
+        lvwItems.EndUpdate()
+        tvwItems.Tag = "Fitted"
     End Sub
     Private Sub txtSearchModules_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchModules.GotFocus
         Call ShowSearchedModules()

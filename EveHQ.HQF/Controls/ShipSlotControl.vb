@@ -666,21 +666,27 @@ Public Class ShipSlotControl
             ' Get the module details
             Dim modID As String = CStr(ModuleLists.moduleListName.Item(lvwSlots.SelectedItems(0).Text))
             Dim currentMod As New ShipModule
-            If modID Is Nothing Then
-                e.Cancel = True
+            Dim slotType As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(0, 1))
+            Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
+            Select Case slotType
+                Case 1 ' Rig
+                    currentMod = currentShip.RigSlot(slotNo)
+                Case 2 ' Low
+                    currentMod = currentShip.LowSlot(slotNo)
+                Case 4 ' Mid
+                    currentMod = currentShip.MidSlot(slotNo)
+                Case 8 ' High
+                    currentMod = currentShip.HiSlot(slotNo)
+            End Select
+            If currentMod Is Nothing Then
+                ' Clear the context menu
+                ctxSlots.Items.Clear()
+                Dim FindModuleMenuItem As New ToolStripMenuItem
+                FindModuleMenuItem.Name = lvwSlots.SelectedItems(0).Name.Substring(0, 1)
+                FindModuleMenuItem.Text = "Find Module To Fit"
+                AddHandler FindModuleMenuItem.Click, AddressOf Me.FindModuleToFit
+                ctxSlots.Items.Add(FindModuleMenuItem)
             Else
-                Dim slotType As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(0, 1))
-                Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
-                Select Case slotType
-                    Case 1 ' Rig
-                        currentMod = currentShip.RigSlot(slotNo)
-                    Case 2 ' Low
-                        currentMod = currentShip.LowSlot(slotNo)
-                    Case 4 ' Mid
-                        currentMod = currentShip.MidSlot(slotNo)
-                    Case 8 ' High
-                        currentMod = currentShip.HiSlot(slotNo)
-                End Select
                 Dim chargeName As String = lvwSlots.SelectedItems(0).SubItems(1).Text
                 ' Clear the context menu
                 ctxSlots.Items.Clear()
@@ -848,6 +854,18 @@ Public Class ShipSlotControl
             e.Cancel = True
         End If
 
+    End Sub
+    Private Sub FindModuleToFit(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim selectedSlot As ListViewItem = lvwSlots.SelectedItems(0)
+        Dim slotInfo() As String = selectedSlot.Name.Split("_".ToCharArray)
+        Dim modData As New ArrayList
+        modData.Add(slotInfo(0))
+        modData.Add(fittedShip.CPU - fittedShip.CPU_Used)
+        modData.Add(fittedShip.PG - fittedShip.PG_Used)
+        modData.Add(fittedShip.Calibration - fittedShip.Calibration_Used)
+        modData.Add(fittedShip.LauncherSlots - fittedShip.LauncherSlots_Used)
+        modData.Add(fittedShip.TurretSlots - fittedShip.TurretSlots_Used)
+        HQF.HQFEvents.StartFindModule = modData
     End Sub
     Private Sub ShowInfo(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim selectedSlot As ListViewItem = lvwSlots.SelectedItems(0)
