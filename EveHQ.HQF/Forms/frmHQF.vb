@@ -31,6 +31,7 @@ Public Class frmHQF
     Dim currentShipSlot As ShipSlotControl
     Dim currentShipInfo As ShipInfoControl
     Dim FittingTabList As New ArrayList
+    Dim LastSlotFitting As New ArrayList
     Shared UseSerializableData As Boolean = False
     Shared LastCacheRefresh As String = "1.6.9.31"
 
@@ -1069,7 +1070,7 @@ Public Class frmHQF
         startUp = True
 
         AddHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
-        AddHandler HQFEvents.FindModule, AddressOf Me.ShowModulesThatWillFit
+        AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
 
         ' Load the settings!
         Call Settings.HQFSettings.LoadHQFSettings()
@@ -1523,11 +1524,14 @@ Public Class frmHQF
             Dim changedFilter As Integer = CInt(chkBox.Tag)
             HQF.Settings.HQFSettings.ModuleFilter = HQF.Settings.HQFSettings.ModuleFilter Xor changedFilter
             If tvwItems.Tag IsNot Nothing Then
-                If tvwItems.Tag.ToString = "Search" Then
-                    Call ShowSearchedModules()
-                Else
-                    Call ShowFilteredModules(tvwItems.SelectedNode)
-                End If
+                Select Case tvwItems.Tag.ToString
+                    Case "Search"
+                        Call ShowSearchedModules()
+                    Case "Fitted"
+                        Call ShowModulesThatWillFit()
+                    Case Else
+                        Call ShowFilteredModules(tvwItems.SelectedNode)
+                End Select
             End If
         End If
     End Sub
@@ -1589,7 +1593,7 @@ Public Class frmHQF
             lvwItems.Enabled = True
         End If
         lvwItems.EndUpdate()
-        tvwItems.Tag = "Search"
+        tvwItems.Tag = ""
         tvwItems.Tag = groupID
     End Sub
     Private Sub ShowSearchedModules()
@@ -1651,13 +1655,17 @@ Public Class frmHQF
             tvwItems.Tag = "Search"
         End If
     End Sub
-    Public Sub ShowModulesThatWillFit(ByVal modData As ArrayList)
-        Dim slotType As Integer = CInt(modData(0))
-        Dim CPU As Double = CDbl(modData(1))
-        Dim PG As Double = CDbl(modData(2))
-        Dim Calibration As Double = CDbl(modData(3))
-        Dim LauncherSlots As Integer = CInt(modData(4))
-        Dim TurretSlots As Integer = CInt(modData(5))
+    Private Sub UpdateModulesThatWillFit(ByVal modData As ArrayList)
+        LastSlotFitting = modData
+        Call ShowModulesThatWillFit()
+    End Sub
+    Private Sub ShowModulesThatWillFit()
+        Dim slotType As Integer = CInt(LastSlotFitting(0))
+        Dim CPU As Double = CDbl(LastSlotFitting(1))
+        Dim PG As Double = CDbl(LastSlotFitting(2))
+        Dim Calibration As Double = CDbl(LastSlotFitting(3))
+        Dim LauncherSlots As Integer = CInt(LastSlotFitting(4))
+        Dim TurretSlots As Integer = CInt(LastSlotFitting(5))
         Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
         Dim results As New SortedList(Of String, ShipModule)
         For Each cMod As ShipModule In HQF.ModuleLists.moduleList.Values
