@@ -21,9 +21,11 @@ Partial Public Class frmHQFSettings
     Private Sub InitializeComponent()
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("General")
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data Cache")
-        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Colours")
+        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Recharge Rates")
+        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Colours")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHQFSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
+        Me.chkCloseInfoPanel = New System.Windows.Forms.CheckBox
         Me.chkShowPerformance = New System.Windows.Forms.CheckBox
         Me.chkAutoUpdateHQFSkills = New System.Windows.Forms.CheckBox
         Me.chkRestoreLastSession = New System.Windows.Forms.CheckBox
@@ -45,7 +47,11 @@ Partial Public Class frmHQFSettings
         Me.gbSlotColours = New System.Windows.Forms.GroupBox
         Me.gbCache = New System.Windows.Forms.GroupBox
         Me.btnDeleteCache = New System.Windows.Forms.Button
-        Me.chkCloseInfoPanel = New System.Windows.Forms.CheckBox
+        Me.gbRechargeRates = New System.Windows.Forms.GroupBox
+        Me.lblCapRecharge = New System.Windows.Forms.Label
+        Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
+        Me.nudShieldRecharge = New System.Windows.Forms.NumericUpDown
+        Me.lblShieldRecharge = New System.Windows.Forms.Label
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -53,6 +59,9 @@ Partial Public Class frmHQFSettings
         CType(Me.pbRigSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbSlotColours.SuspendLayout()
         Me.gbCache.SuspendLayout()
+        Me.gbRechargeRates.SuspendLayout()
+        CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -63,13 +72,23 @@ Partial Public Class frmHQFSettings
         Me.gbGeneral.Controls.Add(Me.chkRestoreLastSession)
         Me.gbGeneral.Controls.Add(Me.cboStartupPilot)
         Me.gbGeneral.Controls.Add(Me.lblDefaultPilot)
-        Me.gbGeneral.Location = New System.Drawing.Point(194, 12)
+        Me.gbGeneral.Location = New System.Drawing.Point(444, 373)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(498, 473)
+        Me.gbGeneral.Size = New System.Drawing.Size(128, 50)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
         Me.gbGeneral.Visible = False
+        '
+        'chkCloseInfoPanel
+        '
+        Me.chkCloseInfoPanel.AutoSize = True
+        Me.chkCloseInfoPanel.Location = New System.Drawing.Point(25, 142)
+        Me.chkCloseInfoPanel.Name = "chkCloseInfoPanel"
+        Me.chkCloseInfoPanel.Size = New System.Drawing.Size(246, 17)
+        Me.chkCloseInfoPanel.TabIndex = 11
+        Me.chkCloseInfoPanel.Text = "Close EveHQ ""Info Panel"" when opening HQF"
+        Me.chkCloseInfoPanel.UseVisualStyleBackColor = True
         '
         'chkShowPerformance
         '
@@ -141,9 +160,11 @@ Partial Public Class frmHQFSettings
         TreeNode1.Text = "General"
         TreeNode2.Name = "nodeCache"
         TreeNode2.Text = "Data Cache"
-        TreeNode3.Name = "nodeSlotColours"
-        TreeNode3.Text = "Slot Colours"
-        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3})
+        TreeNode3.Name = "nodeRechargeRates"
+        TreeNode3.Text = "Recharge Rates"
+        TreeNode4.Name = "nodeSlotColours"
+        TreeNode4.Text = "Slot Colours"
+        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4})
         Me.tvwSettings.Size = New System.Drawing.Size(176, 473)
         Me.tvwSettings.TabIndex = 27
         '
@@ -261,21 +282,70 @@ Partial Public Class frmHQFSettings
         Me.btnDeleteCache.Text = "Delete Cache"
         Me.btnDeleteCache.UseVisualStyleBackColor = True
         '
-        'chkCloseInfoPanel
+        'gbRechargeRates
         '
-        Me.chkCloseInfoPanel.AutoSize = True
-        Me.chkCloseInfoPanel.Location = New System.Drawing.Point(25, 142)
-        Me.chkCloseInfoPanel.Name = "chkCloseInfoPanel"
-        Me.chkCloseInfoPanel.Size = New System.Drawing.Size(246, 17)
-        Me.chkCloseInfoPanel.TabIndex = 11
-        Me.chkCloseInfoPanel.Text = "Close EveHQ ""Info Panel"" when opening HQF"
-        Me.chkCloseInfoPanel.UseVisualStyleBackColor = True
+        Me.gbRechargeRates.Controls.Add(Me.nudShieldRecharge)
+        Me.gbRechargeRates.Controls.Add(Me.lblShieldRecharge)
+        Me.gbRechargeRates.Controls.Add(Me.nudCapRecharge)
+        Me.gbRechargeRates.Controls.Add(Me.lblCapRecharge)
+        Me.gbRechargeRates.Location = New System.Drawing.Point(194, 12)
+        Me.gbRechargeRates.Name = "gbRechargeRates"
+        Me.gbRechargeRates.Size = New System.Drawing.Size(498, 473)
+        Me.gbRechargeRates.TabIndex = 30
+        Me.gbRechargeRates.TabStop = False
+        Me.gbRechargeRates.Text = "Recharge Rates"
+        Me.gbRechargeRates.Visible = False
+        '
+        'lblCapRecharge
+        '
+        Me.lblCapRecharge.AutoSize = True
+        Me.lblCapRecharge.Location = New System.Drawing.Point(15, 47)
+        Me.lblCapRecharge.Name = "lblCapRecharge"
+        Me.lblCapRecharge.Size = New System.Drawing.Size(150, 13)
+        Me.lblCapRecharge.TabIndex = 0
+        Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
+        '
+        'nudCapRecharge
+        '
+        Me.nudCapRecharge.DecimalPlaces = 2
+        Me.nudCapRecharge.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
+        Me.nudCapRecharge.Location = New System.Drawing.Point(180, 45)
+        Me.nudCapRecharge.Maximum = New Decimal(New Integer() {25, 0, 0, 65536})
+        Me.nudCapRecharge.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.nudCapRecharge.Name = "nudCapRecharge"
+        Me.nudCapRecharge.Size = New System.Drawing.Size(72, 20)
+        Me.nudCapRecharge.TabIndex = 1
+        Me.nudCapRecharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.nudCapRecharge.Value = New Decimal(New Integer() {25, 0, 0, 65536})
+        '
+        'nudShieldRecharge
+        '
+        Me.nudShieldRecharge.DecimalPlaces = 2
+        Me.nudShieldRecharge.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
+        Me.nudShieldRecharge.Location = New System.Drawing.Point(180, 73)
+        Me.nudShieldRecharge.Maximum = New Decimal(New Integer() {25, 0, 0, 65536})
+        Me.nudShieldRecharge.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.nudShieldRecharge.Name = "nudShieldRecharge"
+        Me.nudShieldRecharge.Size = New System.Drawing.Size(72, 20)
+        Me.nudShieldRecharge.TabIndex = 3
+        Me.nudShieldRecharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.nudShieldRecharge.Value = New Decimal(New Integer() {25, 0, 0, 65536})
+        '
+        'lblShieldRecharge
+        '
+        Me.lblShieldRecharge.AutoSize = True
+        Me.lblShieldRecharge.Location = New System.Drawing.Point(15, 75)
+        Me.lblShieldRecharge.Name = "lblShieldRecharge"
+        Me.lblShieldRecharge.Size = New System.Drawing.Size(134, 13)
+        Me.lblShieldRecharge.TabIndex = 2
+        Me.lblShieldRecharge.Text = "Shield Recharge Constant:"
         '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
+        Me.Controls.Add(Me.gbRechargeRates)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbCache)
         Me.Controls.Add(Me.gbSlotColours)
@@ -298,6 +368,10 @@ Partial Public Class frmHQFSettings
         Me.gbSlotColours.ResumeLayout(False)
         Me.gbSlotColours.PerformLayout()
         Me.gbCache.ResumeLayout(False)
+        Me.gbRechargeRates.ResumeLayout(False)
+        Me.gbRechargeRates.PerformLayout()
+        CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -324,4 +398,9 @@ Partial Public Class frmHQFSettings
     Friend WithEvents chkAutoUpdateHQFSkills As System.Windows.Forms.CheckBox
     Friend WithEvents chkShowPerformance As System.Windows.Forms.CheckBox
     Friend WithEvents chkCloseInfoPanel As System.Windows.Forms.CheckBox
+    Friend WithEvents gbRechargeRates As System.Windows.Forms.GroupBox
+    Friend WithEvents nudShieldRecharge As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblShieldRecharge As System.Windows.Forms.Label
+    Friend WithEvents nudCapRecharge As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblCapRecharge As System.Windows.Forms.Label
 End Class

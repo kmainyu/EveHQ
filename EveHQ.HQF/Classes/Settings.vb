@@ -44,7 +44,25 @@ Public Class Settings
     Private cOpenFittingList As New ArrayList
     Private cShowPerformanceData As Boolean = False
     Private cCloseInfoPanel As Boolean = False
+    Private cCapRechargeConstant As Double = 2.5
+    Private cShieldRechargeConstant As Double = 2.5
 
+    Public Property ShieldRechargeConstant() As Double
+        Get
+            Return cShieldRechargeConstant
+        End Get
+        Set(ByVal value As Double)
+            cShieldRechargeConstant = value
+        End Set
+    End Property
+    Public Property CapRechargeConstant() As Double
+        Get
+            Return cCapRechargeConstant
+        End Get
+        Set(ByVal value As Double)
+            cCapRechargeConstant = value
+        End Set
+    End Property
     Public Property CloseInfoPanel() As Boolean
         Get
             Return cCloseInfoPanel
@@ -163,6 +181,8 @@ Public Class Settings
         XMLS &= Chr(9) & Chr(9) & "<updateHQFSkills>" & HQFSettings.AutoUpdateHQFSkills & "</updateHQFSkills>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<showPerformance>" & HQFSettings.ShowPerformanceData & "</showPerformance>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<closeInfoPanel>" & HQFSettings.CloseInfoPanel & "</closeInfoPanel>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<capRechargeConst>" & HQFSettings.CapRechargeConstant & "</capRechargeConst>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<shieldRechargeConst>" & HQFSettings.ShieldRechargeConstant & "</shieldRechargeConst>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the open fittings
@@ -221,6 +241,8 @@ Public Class Settings
                         HQFSettings.AutoUpdateHQFSkills = CBool(settingSettings.ChildNodes(8).InnerText)
                         HQFSettings.ShowPerformanceData = CBool(settingSettings.ChildNodes(9).InnerText)
                         HQFSettings.CloseInfoPanel = CBool(settingSettings.ChildNodes(10).InnerText)
+                        HQFSettings.CapRechargeConstant = CDbl(settingSettings.ChildNodes(11).InnerText)
+                        HQFSettings.ShieldRechargeConstant = CDbl(settingSettings.ChildNodes(12).InnerText)
                     End If
                 End If
             Catch

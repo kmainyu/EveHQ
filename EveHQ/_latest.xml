@@ -5,14 +5,14 @@
 		<file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-			<version>1.6.9.34</version>
+			<version>1.6.9.38</version>
 			<requires></requires>
 			<description>EveHQ Executable</description>
 		</file>
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-			<version>1.6.9.34</version>
+			<version>1.6.9.38</version>
 			<requires></requires>
 			<description>EveHQ Core Library</description>
 		</file>
@@ -96,7 +96,7 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.6.9.34</version>
+			<version>1.6.9.38</version>
 			<requires>1.6.9.21</requires>
 			<description>Ship Fitting Plug-in</description>
 		</file>

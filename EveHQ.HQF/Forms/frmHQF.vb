@@ -1071,6 +1071,7 @@ Public Class frmHQF
 
         AddHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
         AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
+        AddHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFitting
 
         ' Load the settings!
         Call Settings.HQFSettings.LoadHQFSettings()
@@ -1784,6 +1785,10 @@ Public Class frmHQF
         Dim mySettings As New frmHQFSettings
         mySettings.ShowDialog()
         mySettings = Nothing
+    End Sub
+
+    Public Sub UpdateFitting()
+        currentShipSlot.UpdateEverything()
     End Sub
 
     Private Sub ToolStripButton3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton3.Click

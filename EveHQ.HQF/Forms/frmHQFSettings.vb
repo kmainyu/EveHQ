@@ -25,16 +25,20 @@ Imports System.Net
 Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class frmHQFSettings
-    Dim redrawColumns As Boolean = False
+    Dim forceUpdate As Boolean = False
 
 #Region "Form Opening & Closing"
     Private Sub frmSettings_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Call Settings.HQFSettings.SaveHQFSettings()
+        If forceUpdate = True Then
+            HQFEvents.StartUpdateFitting = True
+        End If
     End Sub
 
     Private Sub frmSettings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Call Me.UpdateGeneralOptions()
         Call Me.UpdateSlotColourOptions()
+        Call Me.UpdateRechargeRateOptions()
 
         If Me.Tag IsNot Nothing Then
             If Me.Tag.ToString = "" Then
@@ -187,6 +191,27 @@ Public Class frmHQFSettings
 #Region "Data Cache Options"
     Private Sub btnDeleteCache_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteCache.Click
         My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+    End Sub
+#End Region
+
+#Region "Recharge Rate Options"
+    Private Sub UpdateRechargeRateOptions()
+        nudCapRecharge.Value = CDec(HQF.Settings.HQFSettings.CapRechargeConstant)
+        nudShieldRecharge.Value = CDec(HQF.Settings.HQFSettings.ShieldRechargeConstant)
+    End Sub
+    Private Sub nudCapRecharge_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudCapRecharge.Click
+        HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Value
+        forceUpdate = True
+    End Sub
+    Private Sub nudCapRecharge_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudCapRecharge.HandleDestroyed
+        HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Value
+    End Sub
+    Private Sub nudShieldRecharge_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudShieldRecharge.Click
+        HQF.Settings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Value
+        forceUpdate = True
+    End Sub
+    Private Sub nudShieldRecharge_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudShieldRecharge.HandleDestroyed
+        HQF.Settings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Value
     End Sub
 #End Region
 

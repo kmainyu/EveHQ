@@ -24,11 +24,15 @@ Public Class frmPilotManager
     Dim currentPilotName As String = ""
     Dim currentPilot As HQFPilot
     Dim currentGroup As ImplantGroup
+    Dim forceUpdate As Boolean = False
 
 #Region "Form Loading & Closing Routines"
 
     Private Sub frmPilotManager_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Call HQFPilotCollection.SaveHQFPilotData()
+        If forceUpdate = True Then
+            HQFEvents.StartUpdateFitting = True
+        End If
     End Sub
     Private Sub frmPilotManager_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
@@ -292,11 +296,13 @@ Public Class frmPilotManager
     Private Sub btnResetAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetAll.Click
         Call HQFPilotCollection.ResetSkillsToDefault(currentPilot)
         Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
+        forceUpdate = True
     End Sub
 
     Private Sub btnSetAllToLevel5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetAllToLevel5.Click
         Call HQFPilotCollection.SetAllSkillsToLevel5(currentPilot)
         Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
+        forceUpdate = True
     End Sub
 
     Private Sub chkShowModifiedSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowModifiedSkills.CheckedChanged
@@ -306,6 +312,7 @@ Public Class frmPilotManager
     Private Sub btnUpdateSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateSkills.Click
         Call HQFPilotCollection.UpdateHQFSkillsToActual(currentPilot)
         Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
+        forceUpdate = True
     End Sub
 
 #End Region
@@ -324,6 +331,7 @@ Public Class frmPilotManager
             Next
         End If
         Call DrawImplantTree()
+        forceUpdate = True
     End Sub
     Private Sub DrawImplantTree()
         tvwImplants.BeginUpdate()
@@ -408,6 +416,7 @@ Public Class frmPilotManager
         End If
         ' Switch to the custom group
         cboImplantGroup.SelectedIndex = 0
+        forceUpdate = True
     End Sub
     Private Sub btnCollapseAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCollapseAll.Click
         tvwImplants.CollapseAll()

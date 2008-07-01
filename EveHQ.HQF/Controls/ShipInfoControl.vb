@@ -140,7 +140,7 @@ Public Class ShipInfoControl
         progShieldThermal.Value = CInt(fittedShip.ShieldThResist)
         gbShield.Text = "Shield  (Effective HP: " & FormatNumber(fittedShip.EffectiveShieldHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")"
         lblShieldAverage.Text = FormatNumber(fittedShip.ShieldCapacity / fittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP/s"
-        lblShieldPeak.Text = FormatNumber(2.5 * fittedShip.ShieldCapacity / fittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP/s"
+        lblShieldPeak.Text = FormatNumber(HQF.Settings.HQFSettings.ShieldRechargeConstant * fittedShip.ShieldCapacity / fittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP/s"
 
         ' Armor
         lblArmorHP.Text = FormatNumber(fittedShip.ArmorCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -173,7 +173,7 @@ Public Class ShipInfoControl
         lblCapacitor.Text = FormatNumber(fittedShip.CapCapacity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " F"
         lblCapRecharge.Text = FormatNumber(fittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
         lblCapAverage.Text = FormatNumber(fittedShip.CapCapacity / fittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " F/s"
-        lblCapPeak.Text = FormatNumber(2.5 * fittedShip.CapCapacity / fittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " F/s"
+        lblCapPeak.Text = FormatNumber(HQF.Settings.HQFSettings.CapRechargeConstant * fittedShip.CapCapacity / fittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " F/s"
 
         ' Propulsion
         lblSpeed.Text = FormatNumber(fittedShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
