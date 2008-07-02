@@ -254,6 +254,7 @@ Public Class ShipInfoControl
         If currentSlot IsNot Nothing Then
             currentSlot.UpdateAllSlots = False
         End If
+        HQFEvents.StartUpdateModuleList = True
     End Sub
 
     Private Sub btnTargetSpeed_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTargetSpeed.Click

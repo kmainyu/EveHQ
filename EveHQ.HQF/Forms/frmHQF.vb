@@ -32,6 +32,7 @@ Public Class frmHQF
     Dim currentShipInfo As ShipInfoControl
     Dim FittingTabList As New ArrayList
     Dim LastSlotFitting As New ArrayList
+    Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
     Shared LastCacheRefresh As String = "1.6.9.39"
 
@@ -1074,6 +1075,7 @@ Public Class frmHQF
         AddHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
         AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
         AddHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFitting
+        AddHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
 
         ' Load the settings!
         Call Settings.HQFSettings.LoadHQFSettings()
@@ -1518,7 +1520,7 @@ Public Class frmHQF
     End Sub
     Private Sub tvwItems_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwItems.AfterSelect
         If e.Node.Nodes.Count = 0 Then
-            Call Me.ShowFilteredModules(e.Node)
+            Call Me.CalculateFilteredModules(e.Node)
         End If
     End Sub
     Private Sub MetaFilterChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFilter1.CheckedChanged, chkFilter2.CheckedChanged, chkFilter4.CheckedChanged, chkFilter8.CheckedChanged, chkFilter16.CheckedChanged, chkFilter32.CheckedChanged
@@ -1533,12 +1535,148 @@ Public Class frmHQF
                     Case "Fitted"
                         Call ShowModulesThatWillFit()
                     Case Else
-                        Call ShowFilteredModules(tvwItems.SelectedNode)
+                        Call ShowFilteredModules()
                 End Select
             End If
         End If
     End Sub
-    Private Sub ShowFilteredModules(ByVal groupNode As TreeNode)
+    Private Sub chkApplySkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkApplySkills.CheckedChanged
+        Call Me.UpdateModuleList()
+    End Sub
+    Private Sub chkOnlyShowUsable_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOnlyShowUsable.CheckedChanged
+        Call Me.UpdateModuleList()
+    End Sub
+    Private Sub UpdateModuleList()
+        If startUp = False Then
+            If tvwItems.Tag IsNot Nothing Then
+                Select Case tvwItems.Tag.ToString
+                    Case "Search"
+                        Call CalculateSearchedModules()
+                    Case "Fitted"
+                        Call CalculateModulesThatWillFit()
+                    Case Else
+                        Call CalculateFilteredModules(tvwItems.SelectedNode)
+                End Select
+            End If
+        End If
+    End Sub
+
+    Private Sub CalculateFilteredModules(ByVal groupNode As TreeNode)
+        Me.Cursor = Cursors.WaitCursor
+        Dim cMod, sMod As New ShipModule
+        Dim groupID As String
+        If groupNode.Nodes.Count = 0 Then
+            groupID = groupNode.Tag.ToString
+        Else
+            groupID = tvwItems.Tag.ToString
+        End If
+        Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
+        Dim results As New SortedList
+        For Each shipMod As ShipModule In HQF.ModuleLists.moduleList.Values
+            If shipMod.MarketGroup = groupID Then
+                ' Add results in by name, module
+                If chkApplySkills.Checked = True Then
+                    sMod = Engine.ApplySkillEffectsToModule(shipMod)
+                Else
+                    sMod = shipMod.Clone
+                End If
+                If chkOnlyShowUsable.Checked = True Then
+                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                        results.Add(sMod.Name, sMod)
+                    End If
+                Else
+                    results.Add(sMod.Name, sMod)
+                End If
+            End If
+        Next
+        Me.LastModuleResults = results
+        Call Me.ShowFilteredModules()
+        Me.Cursor = Cursors.Default
+    End Sub
+    Private Sub ShowFilteredModules()
+
+        Dim groupID As String = ""
+        ' Reset checkbox colours
+        chkFilter1.ForeColor = Color.Red
+        chkFilter2.ForeColor = Color.Red
+        chkFilter4.ForeColor = Color.Red
+        chkFilter8.ForeColor = Color.Red
+        chkFilter16.ForeColor = Color.Red
+        chkFilter32.ForeColor = Color.Red
+
+        lvwItems.BeginUpdate()
+        lvwItems.Items.Clear()
+        For Each shipMod As ShipModule In LastModuleResults.Values
+            If (shipMod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipMod.MetaType Then
+                Dim newModule As New ListViewItem
+                newModule.Name = shipMod.ID
+                groupID = shipMod.MarketGroup
+                newModule.Text = shipMod.Name
+                newModule.ToolTipText = shipMod.Name
+                newModule.SubItems.Add(shipMod.MetaLevel.ToString)
+                newModule.SubItems.Add(shipMod.CPU.ToString)
+                newModule.SubItems.Add(shipMod.PG.ToString)
+                Select Case shipMod.SlotType
+                    Case 8 ' High
+                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
+                        newModule.ImageKey = "hiSlot"
+                    Case 4 ' Mid
+                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
+                        newModule.ImageKey = "midSlot"
+                    Case 2 ' Low
+                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
+                        newModule.ImageKey = "lowSlot"
+                    Case 1 ' Rig
+                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
+                        newModule.ImageKey = "rigSlot"
+                End Select
+                Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
+                chkFilter.ForeColor = Color.Black
+                lvwItems.Items.Add(newModule)
+            Else
+                Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
+                chkFilter.ForeColor = Color.LimeGreen
+            End If
+        Next
+        If lvwItems.Items.Count = 0 Then
+            lvwItems.Items.Add("<Empty - Please check filters>")
+            lvwItems.Enabled = False
+        Else
+            lvwItems.Enabled = True
+        End If
+        lvwItems.EndUpdate()
+        tvwItems.Tag = groupID
+    End Sub
+    Private Sub CalculateSearchedModules()
+        Me.Cursor = Cursors.WaitCursor
+        Dim cMod, sMod As New ShipModule
+        If Len(txtSearchModules.Text) > 2 Then
+            Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
+            Dim results As New SortedList
+            For Each item As String In HQF.ModuleLists.moduleListName.Keys
+                If item.ToLower.Contains(strSearch) Then
+                    ' Add results in by name, module
+                    cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(item)), ShipModule)
+                    If chkApplySkills.Checked = True Then
+                        sMod = Engine.ApplySkillEffectsToModule(cMod)
+                    Else
+                        sMod = cMod.Clone
+                    End If
+                    If chkOnlyShowUsable.Checked = True Then
+                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                            results.Add(sMod.Name, sMod)
+                        End If
+                    Else
+                        results.Add(sMod.Name, sMod)
+                    End If
+                End If
+            Next
+            Me.LastModuleResults = results
+            Call Me.ShowSearchedModules()
+        End If
+        Me.Cursor = Cursors.Default
+    End Sub
+    Private Sub ShowSearchedModules()
 
         ' Reset checkbox colours
         chkFilter1.ForeColor = Color.Red
@@ -1548,16 +1686,10 @@ Public Class frmHQF
         chkFilter16.ForeColor = Color.Red
         chkFilter32.ForeColor = Color.Red
 
-        Dim groupID As String
-        If groupNode.Nodes.Count = 0 Then
-            groupID = groupNode.Tag.ToString
-        Else
-            groupID = tvwItems.Tag.ToString
-        End If
         lvwItems.BeginUpdate()
         lvwItems.Items.Clear()
-        For Each shipMod As ShipModule In ModuleLists.moduleList.Values
-            If shipMod.MarketGroup = groupID Then
+        For Each shipMod As ShipModule In LastModuleResults.Values
+            If ModuleLists.moduleList.Contains(shipMod.ID) = True And Implants.implantList.ContainsKey(shipMod.ID) = False Then
                 If (shipMod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipMod.MetaType Then
                     Dim newModule As New ListViewItem
                     newModule.Name = shipMod.ID
@@ -1589,80 +1721,15 @@ Public Class frmHQF
                 End If
             End If
         Next
-        If lvwItems.Items.Count = 0 Then
-            lvwItems.Items.Add("<Empty - Please check filters>")
-            lvwItems.Enabled = False
-        Else
-            lvwItems.Enabled = True
-        End If
         lvwItems.EndUpdate()
-        tvwItems.Tag = ""
-        tvwItems.Tag = groupID
-    End Sub
-    Private Sub ShowSearchedModules()
-        If Len(txtSearchModules.Text) > 2 Then
-            Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
-            Dim results As New SortedList(Of String, String)
-            For Each item As String In EveHQ.Core.HQ.itemList.GetKeyList
-                If item.ToLower.Contains(strSearch) Then
-                    ' Add results in by ID, type
-                    results.Add(CStr(EveHQ.Core.HQ.itemList(item)), item)
-                End If
-            Next
-
-            ' Reset checkbox colours
-            chkFilter1.ForeColor = Color.Red
-            chkFilter2.ForeColor = Color.Red
-            chkFilter4.ForeColor = Color.Red
-            chkFilter8.ForeColor = Color.Red
-            chkFilter16.ForeColor = Color.Red
-            chkFilter32.ForeColor = Color.Red
-
-            lvwItems.BeginUpdate()
-            lvwItems.Items.Clear()
-            For Each item As String In results.Keys
-                If ModuleLists.moduleList.Contains(item) = True And Implants.implantList.ContainsKey(item) = False Then
-                    Dim shipMod As ShipModule = CType(ModuleLists.moduleList(item), ShipModule)
-                    If (shipMod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipMod.MetaType Then
-                        Dim newModule As New ListViewItem
-                        newModule.Name = shipMod.ID
-                        newModule.Text = shipMod.Name
-                        newModule.ToolTipText = shipMod.Name
-                        newModule.SubItems.Add(shipMod.MetaLevel.ToString)
-                        newModule.SubItems.Add(shipMod.CPU.ToString)
-                        newModule.SubItems.Add(shipMod.PG.ToString)
-                        Select Case shipMod.SlotType
-                            Case 8 ' High
-                                newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
-                                newModule.ImageKey = "hiSlot"
-                            Case 4 ' Mid
-                                newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
-                                newModule.ImageKey = "midSlot"
-                            Case 2 ' Low
-                                newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
-                                newModule.ImageKey = "lowSlot"
-                            Case 1 ' Rig
-                                newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
-                                newModule.ImageKey = "rigSlot"
-                        End Select
-                        Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                        chkFilter.ForeColor = Color.Black
-                        lvwItems.Items.Add(newModule)
-                    Else
-                        Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                        chkFilter.ForeColor = Color.LimeGreen
-                    End If
-                End If
-            Next
-            lvwItems.EndUpdate()
-            tvwItems.Tag = "Search"
-        End If
+        tvwItems.Tag = "Search"
     End Sub
     Private Sub UpdateModulesThatWillFit(ByVal modData As ArrayList)
         LastSlotFitting = modData
-        Call ShowModulesThatWillFit()
+        Call CalculateModulesThatWillFit()
     End Sub
-    Private Sub ShowModulesThatWillFit()
+    Private Sub CalculateModulesThatWillFit()
+        Me.Cursor = Cursors.WaitCursor
         Dim slotType As Integer = CInt(LastSlotFitting(0))
         Dim CPU As Double = CDbl(LastSlotFitting(1))
         Dim PG As Double = CDbl(LastSlotFitting(2))
@@ -1670,26 +1737,50 @@ Public Class frmHQF
         Dim LauncherSlots As Integer = CInt(LastSlotFitting(4))
         Dim TurretSlots As Integer = CInt(LastSlotFitting(5))
         Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
-        Dim results As New SortedList(Of String, ShipModule)
+        Dim results As New SortedList
+        Dim sMod As New ShipModule
         For Each cMod As ShipModule In HQF.ModuleLists.moduleList.Values
-            If cMod.SlotType = slotType Then
+            If chkApplySkills.Checked = True Then
+                sMod = Engine.ApplySkillEffectsToModule(cMod)
+            Else
+                sMod = cMod.Clone
+            End If
+            If sMod.SlotType = slotType Then
                 Select Case slotType
                     Case 1 ' Rig Slot
-                        If cMod.Calibration <= Calibration Then
-                            results.Add(cMod.Name, cMod)
+                        If sMod.Calibration <= Calibration Then
+                            If chkOnlyShowUsable.Checked = True Then
+                                If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                    results.Add(sMod.Name, sMod)
+                                End If
+                            Else
+                                results.Add(sMod.Name, sMod)
+                            End If
                         End If
                     Case 2, 4 ' Low & Mid Slot
-                        If cMod.CPU <= CPU Then
-                            If cMod.PG <= CPU Then
-                                results.Add(cMod.Name, cMod)
+                        If sMod.CPU <= CPU Then
+                            If sMod.PG <= PG Then
+                                If chkOnlyShowUsable.Checked = True Then
+                                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                        results.Add(sMod.Name, sMod)
+                                    End If
+                                Else
+                                    results.Add(sMod.Name, sMod)
+                                End If
                             End If
                         End If
                     Case 8 ' Hi Slot
-                        If cMod.CPU <= CPU Then
-                            If cMod.PG <= CPU Then
-                                If LauncherSlots >= Math.Abs(CInt(cMod.IsLauncher)) Then
-                                    If TurretSlots >= Math.Abs(CInt(cMod.IsTurret)) Then
-                                        results.Add(cMod.Name, cMod)
+                        If sMod.CPU <= CPU Then
+                            If sMod.PG <= PG Then
+                                If LauncherSlots >= Math.Abs(CInt(sMod.IsLauncher)) Then
+                                    If TurretSlots >= Math.Abs(CInt(sMod.IsTurret)) Then
+                                        If chkOnlyShowUsable.Checked = True Then
+                                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                                results.Add(sMod.Name, sMod)
+                                            End If
+                                        Else
+                                            results.Add(sMod.Name, sMod)
+                                        End If
                                     End If
                                 End If
                             End If
@@ -1697,6 +1788,12 @@ Public Class frmHQF
                 End Select
             End If
         Next
+        Me.LastModuleResults = results
+        Call Me.ShowModulesThatWillFit()
+        Me.Cursor = Cursors.Default
+    End Sub
+    Private Sub ShowModulesThatWillFit()
+
         ' Reset checkbox colours
         chkFilter1.ForeColor = Color.Red
         chkFilter2.ForeColor = Color.Red
@@ -1707,8 +1804,7 @@ Public Class frmHQF
 
         lvwItems.BeginUpdate()
         lvwItems.Items.Clear()
-        For Each item As String In results.Keys
-            Dim shipMod As ShipModule = results(item)
+        For Each shipMod As ShipModule In LastModuleResults.Values
             If (shipMod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipMod.MetaType Then
                 Dim newModule As New ListViewItem
                 newModule.Name = shipMod.ID
@@ -1743,10 +1839,10 @@ Public Class frmHQF
         tvwItems.Tag = "Fitted"
     End Sub
     Private Sub txtSearchModules_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchModules.GotFocus
-        Call ShowSearchedModules()
+        Call CalculateSearchedModules()
     End Sub
     Private Sub txtSearchModules_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchModules.TextChanged
-        Call ShowSearchedModules()
+        Call CalculateSearchedModules()
     End Sub
 #End Region
 
@@ -2422,4 +2518,7 @@ Public Class frmHQF
         myPilotManager.ShowDialog()
         myPilotManager = Nothing
     End Sub
+
+    
+    
 End Class

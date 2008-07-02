@@ -1,6 +1,7 @@
 ﻿Public Class HQFEvents
     Public Shared Event FindModule(ByVal modData As ArrayList)
     Public Shared Event UpdateFitting()
+    Public Shared Event UpdateModuleList()
 
     Shared WriteOnly Property StartFindModule() As ArrayList
         Set(ByVal value As ArrayList)
@@ -13,6 +14,13 @@
         Set(ByVal value As Boolean)
             If value = True Then
                 RaiseEvent UpdateFitting()
+            End If
+        End Set
+    End Property
+    Shared WriteOnly Property StartUpdateModuleList() As Boolean
+        Set(ByVal value As Boolean)
+            If value = True Then
+                RaiseEvent UpdateModuleList()
             End If
         End Set
     End Property

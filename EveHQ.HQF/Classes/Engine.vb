@@ -1333,6 +1333,101 @@ Public Class Engine
     End Function
 #End Region
 
+#Region "Supplemental Routines"
+    Public Shared Function ApplySkillEffectsToModule(ByVal baseModule As ShipModule) As ShipModule
+        Dim sTime, eTime As Date
+        sTime = Now
+        'Dim maxSlots As Integer = 0
+        Dim att As String = ""
+        'Dim oldAtt As String = ""
+        ' Define a new module
+        Dim aModule As ShipModule = CType(baseModule.Clone, ShipModule)
+        Dim processAtt As Boolean = False
+        'Dim log As String = ""
+        If aModule IsNot Nothing Then
+            For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
+                att = CStr(aModule.Attributes.GetKey(attNo))
+                If SkillEffectsTable.Contains(att) = True Then
+                    For Each fEffect As FinalEffect In CType(SkillEffectsTable(att), ArrayList)
+                        processAtt = False
+                        'log = ""
+                        Select Case fEffect.AffectedType
+                            Case EffectType.All
+                                processAtt = True
+                            Case EffectType.Item
+                                If fEffect.AffectedID.Contains(aModule.ID) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Group
+                                If fEffect.AffectedID.Contains(aModule.DatabaseGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Category
+                                If fEffect.AffectedID.Contains(aModule.DatabaseCategory) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.MarketGroup
+                                If fEffect.AffectedID.Contains(aModule.MarketGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Skill
+                                If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Slot
+                                If fEffect.AffectedID.Contains(aModule.SlotNo) Then
+                                    processAtt = True
+                                End If
+                        End Select
+                        If processAtt = True Then
+                            'oldAtt = aModule.Attributes(att).ToString
+                            'log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & oldAtt
+                            Select Case fEffect.CalcType
+                                Case EffectCalcType.Percentage
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                                Case EffectCalcType.Addition
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                Case EffectCalcType.Difference ' Used for resistances
+                                    aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                Case EffectCalcType.Absolute
+                                    aModule.Attributes(att) = fEffect.AffectedValue
+                                Case EffectCalcType.Multiplier
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * fEffect.AffectedValue
+                            End Select
+                            'log &= " --> " & aModule.Attributes(att).ToString
+                            'If oldAtt <> aModule.Attributes(att).ToString Then
+                            'aModule.AuditLog.Add(log)
+                            'End If
+                        End If
+                    Next
+                End If
+            Next
+            ShipModule.MapModuleAttributes(aModule)
+        End If
+        eTime = Now
+        Dim dTime As TimeSpan = eTime - sTime
+        'MessageBox.Show("Applying Skill Effects to Modules took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        Return aModule
+    End Function
+    Public Shared Function IsUsable(ByVal hPilot As HQFPilot, ByVal shipMod As ShipModule) As Boolean
+        Dim usable As Boolean = True
+        Dim rSkill As HQFSkill
+        For Each reqSkill As ItemSkills In shipMod.RequiredSkills.Values
+            If hPilot.SkillSet.Contains(reqSkill.Name) = True Then
+                rSkill = CType(hPilot.SkillSet.Item(reqSkill.Name), HQFSkill)
+                If rSkill.Level < reqSkill.Level Then
+                    usable = False
+                    Exit For
+                End If
+            Else
+                usable = False
+                Exit For
+            End If
+        Next
+        Return usable
+    End Function
+#End Region
+
 End Class
 
 Public Class Effect

@@ -403,8 +403,8 @@ End Class
 <Serializable()> Public Class ModuleLists
     Public Shared moduleMetaTypes As New SortedList
     Public Shared moduleMetaGroups As New SortedList
-    Public Shared moduleList As New SortedList   ' Key = module ID
-    Public Shared moduleListName As New SortedList ' Key = moduleName (for quick name to ID conversions)
+    Public Shared moduleList As New SortedList   ' Key = module ID, Value = ShipModule
+    Public Shared moduleListName As New SortedList ' Key = moduleName, Value = ID (for quick name to ID conversions)
 End Class
 
 Public Enum ModuleStates
