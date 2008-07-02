@@ -53,6 +53,7 @@ Imports System.Runtime.Serialization
     Private cPG As Double
     Private cCalibration As Integer
     Private cCapUsage As Double
+    Private cCapUsageRate As Double
     Private cActivationTime As Double
     Private cIsLauncher As Boolean
     Private cIsTurret As Boolean
@@ -230,6 +231,14 @@ Imports System.Runtime.Serialization
             cCapUsage = value
         End Set
     End Property
+    Public Property CapUsageRate() As Double
+        Get
+            Return cCapUsageRate
+        End Get
+        Set(ByVal value As Double)
+            cCapUsageRate = value
+        End Set
+    End Property
     Public Property ActivationTime() As Double
         Get
             Return cActivationTime
@@ -364,8 +373,10 @@ Imports System.Runtime.Serialization
 
 #Region "Map Attributes to Properties"
     Public Shared Sub MapModuleAttributes(ByVal newModule As ShipModule)
+        Dim att As String
         Dim attValue As Double = 0
-        For Each att As String In newModule.Attributes.Keys
+        For attNo As Integer = 0 To newModule.Attributes.Keys.Count - 1
+            att = CStr(newModule.Attributes.GetKey(attNo))
             attValue = CDbl(newModule.Attributes(att))
             Select Case CInt(att)
                 Case 6
@@ -379,6 +390,10 @@ Imports System.Runtime.Serialization
                 Case 1153
                     newModule.Calibration = CInt(attValue)
             End Select
+            If newModule.Attributes.Contains("10032") = True Then
+                newModule.Attributes("10032") = newModule.CapUsage / newModule.ActivationTime
+                newModule.CapUsageRate = CDbl(newModule.Attributes("10032"))
+            End If
         Next
     End Sub
 #End Region

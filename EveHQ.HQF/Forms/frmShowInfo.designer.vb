@@ -76,24 +76,24 @@ Partial Class frmShowInfo
         Me.ctxReqs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxReqs.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator2, Me.mnuViewSkillDetails})
         Me.ctxReqs.Name = "ctxDepend"
-        Me.ctxReqs.Size = New System.Drawing.Size(133, 54)
+        Me.ctxReqs.Size = New System.Drawing.Size(144, 54)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(132, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(143, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(129, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(140, 6)
         '
         'mnuViewSkillDetails
         '
         Me.mnuViewSkillDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewSkillDetails.Name = "mnuViewSkillDetails"
-        Me.mnuViewSkillDetails.Size = New System.Drawing.Size(132, 22)
+        Me.mnuViewSkillDetails.Size = New System.Drawing.Size(143, 22)
         Me.mnuViewSkillDetails.Text = "View Details"
         '
         'ctxDepend
@@ -101,24 +101,24 @@ Partial Class frmShowInfo
         Me.ctxDepend.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxDepend.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripSeparator1, Me.mnuViewItemDetails})
         Me.ctxDepend.Name = "ctxDepend"
-        Me.ctxDepend.Size = New System.Drawing.Size(138, 54)
+        Me.ctxDepend.Size = New System.Drawing.Size(149, 54)
         '
         'mnuItemName
         '
         Me.mnuItemName.Name = "mnuItemName"
-        Me.mnuItemName.Size = New System.Drawing.Size(137, 22)
+        Me.mnuItemName.Size = New System.Drawing.Size(148, 22)
         Me.mnuItemName.Text = "Item Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(134, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(145, 6)
         '
         'mnuViewItemDetails
         '
         Me.mnuViewItemDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewItemDetails.Name = "mnuViewItemDetails"
-        Me.mnuViewItemDetails.Size = New System.Drawing.Size(137, 22)
+        Me.mnuViewItemDetails.Size = New System.Drawing.Size(148, 22)
         Me.mnuViewItemDetails.Text = "View Details"
         '
         'tabShowInfo

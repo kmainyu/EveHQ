@@ -33,7 +33,7 @@ Public Class frmHQF
     Dim FittingTabList As New ArrayList
     Dim LastSlotFitting As New ArrayList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.6.9.31"
+    Shared LastCacheRefresh As String = "1.6.9.39"
 
 #Region "Class Wide Variables"
 
@@ -931,7 +931,9 @@ Public Class frmHQF
                     Case 6
                         attMod.CapUsage = attValue
                     Case 73
-                        attMod.ActivationTime = attValue / 1000
+                        attMod.ActivationTime = attValue
+                        attMod.CapUsageRate = attMod.CapUsage / attMod.ActivationTime
+                        attMod.Attributes.Add("10032", attMod.CapUsageRate)
                     Case 128
                         attMod.ChargeSize = CInt(attValue)
                     Case 1153
