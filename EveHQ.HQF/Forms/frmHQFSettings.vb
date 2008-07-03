@@ -37,7 +37,7 @@ Public Class frmHQFSettings
 
     Private Sub frmSettings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Call Me.UpdateGeneralOptions()
-        Call Me.UpdateSlotColourOptions()
+        Call Me.UpdateSlotFormatOptions()
         Call Me.UpdateRechargeRateOptions()
 
         If Me.Tag IsNot Nothing Then
@@ -89,9 +89,9 @@ Public Class frmHQFSettings
     End Sub
 #End Region
 
-#Region "Slot Colour Options"
+#Region "Slot Format Options"
 
-    Private Sub UpdateSlotColourOptions()
+    Private Sub UpdateSlotFormatOptions()
         Dim HColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.HiSlotColour))
         Me.pbHiSlotColour.BackColor = HColor
         Dim MColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.MidSlotColour))
@@ -100,6 +100,24 @@ Public Class frmHQFSettings
         Me.pbLowSlotColour.BackColor = LColor
         Dim RColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.RigSlotColour))
         Me.pbRigSlotColour.BackColor = RColor
+        ' Setup the listview
+        Dim newCol As New ListViewItem
+        lvwColumns.BeginUpdate()
+        lvwColumns.Items.Clear()
+        For Each slot As String In Settings.HQFSettings.UserSlotColumns
+            For Each stdSlot As ListViewItem In Settings.HQFSettings.StandardSlotColumns
+                If slot.Substring(0, Len(slot) - 1) = stdSlot.Name Then
+                    newCol = CType(stdSlot.Clone, ListViewItem)
+                    If slot.EndsWith("0") = True Then
+                        newCol.Checked = False
+                    Else
+                        newCol.Checked = True
+                    End If
+                    lvwColumns.Items.Add(newCol)
+                End If
+            Next
+        Next
+        lvwColumns.EndUpdate()
     End Sub
 
     Private Sub pbHiSlotColour_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbHiSlotColour.Click

@@ -44,24 +44,29 @@ Partial Public Class frmHQFSettings
         Me.pbLowSlotColour = New System.Windows.Forms.PictureBox
         Me.lblRigSlotColour = New System.Windows.Forms.Label
         Me.pbRigSlotColour = New System.Windows.Forms.PictureBox
-        Me.gbSlotColours = New System.Windows.Forms.GroupBox
+        Me.gbSlotFormat = New System.Windows.Forms.GroupBox
         Me.gbCache = New System.Windows.Forms.GroupBox
         Me.btnDeleteCache = New System.Windows.Forms.Button
         Me.gbRechargeRates = New System.Windows.Forms.GroupBox
-        Me.lblCapRecharge = New System.Windows.Forms.Label
-        Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.nudShieldRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblShieldRecharge = New System.Windows.Forms.Label
+        Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
+        Me.lblCapRecharge = New System.Windows.Forms.Label
+        Me.lblSlotColumns = New System.Windows.Forms.Label
+        Me.lvwColumns = New System.Windows.Forms.ListView
+        Me.colSlotColumns = New System.Windows.Forms.ColumnHeader
+        Me.btnMoveDown = New System.Windows.Forms.Button
+        Me.btnMoveUp = New System.Windows.Forms.Button
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbLowSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbRigSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbSlotColours.SuspendLayout()
+        Me.gbSlotFormat.SuspendLayout()
         Me.gbCache.SuspendLayout()
         Me.gbRechargeRates.SuspendLayout()
-        CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -162,7 +167,7 @@ Partial Public Class frmHQFSettings
         TreeNode2.Text = "Data Cache"
         TreeNode3.Name = "nodeRechargeRates"
         TreeNode3.Text = "Recharge Rates"
-        TreeNode4.Name = "nodeSlotColours"
+        TreeNode4.Name = "nodeSlotFormat"
         TreeNode4.Text = "Slot Colours"
         Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4})
         Me.tvwSettings.Size = New System.Drawing.Size(176, 473)
@@ -171,7 +176,7 @@ Partial Public Class frmHQFSettings
         'lblHiSlotColour
         '
         Me.lblHiSlotColour.AutoSize = True
-        Me.lblHiSlotColour.Location = New System.Drawing.Point(32, 40)
+        Me.lblHiSlotColour.Location = New System.Drawing.Point(284, 101)
         Me.lblHiSlotColour.Name = "lblHiSlotColour"
         Me.lblHiSlotColour.Size = New System.Drawing.Size(71, 13)
         Me.lblHiSlotColour.TabIndex = 20
@@ -180,7 +185,7 @@ Partial Public Class frmHQFSettings
         'lblMidSlotColour
         '
         Me.lblMidSlotColour.AutoSize = True
-        Me.lblMidSlotColour.Location = New System.Drawing.Point(32, 70)
+        Me.lblMidSlotColour.Location = New System.Drawing.Point(284, 131)
         Me.lblMidSlotColour.Name = "lblMidSlotColour"
         Me.lblMidSlotColour.Size = New System.Drawing.Size(78, 13)
         Me.lblMidSlotColour.TabIndex = 21
@@ -190,7 +195,7 @@ Partial Public Class frmHQFSettings
         '
         Me.pbHiSlotColour.BackColor = System.Drawing.Color.LightSteelBlue
         Me.pbHiSlotColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbHiSlotColour.Location = New System.Drawing.Point(159, 33)
+        Me.pbHiSlotColour.Location = New System.Drawing.Point(411, 94)
         Me.pbHiSlotColour.Name = "pbHiSlotColour"
         Me.pbHiSlotColour.Size = New System.Drawing.Size(24, 24)
         Me.pbHiSlotColour.TabIndex = 22
@@ -200,7 +205,7 @@ Partial Public Class frmHQFSettings
         '
         Me.pbMidSlotColour.BackColor = System.Drawing.Color.Plum
         Me.pbMidSlotColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbMidSlotColour.Location = New System.Drawing.Point(159, 63)
+        Me.pbMidSlotColour.Location = New System.Drawing.Point(411, 124)
         Me.pbMidSlotColour.Name = "pbMidSlotColour"
         Me.pbMidSlotColour.Size = New System.Drawing.Size(24, 24)
         Me.pbMidSlotColour.TabIndex = 23
@@ -209,7 +214,7 @@ Partial Public Class frmHQFSettings
         'lblLowSlotColour
         '
         Me.lblLowSlotColour.AutoSize = True
-        Me.lblLowSlotColour.Location = New System.Drawing.Point(32, 100)
+        Me.lblLowSlotColour.Location = New System.Drawing.Point(284, 161)
         Me.lblLowSlotColour.Name = "lblLowSlotColour"
         Me.lblLowSlotColour.Size = New System.Drawing.Size(81, 13)
         Me.lblLowSlotColour.TabIndex = 24
@@ -219,7 +224,7 @@ Partial Public Class frmHQFSettings
         '
         Me.pbLowSlotColour.BackColor = System.Drawing.Color.Gold
         Me.pbLowSlotColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbLowSlotColour.Location = New System.Drawing.Point(159, 93)
+        Me.pbLowSlotColour.Location = New System.Drawing.Point(411, 154)
         Me.pbLowSlotColour.Name = "pbLowSlotColour"
         Me.pbLowSlotColour.Size = New System.Drawing.Size(24, 24)
         Me.pbLowSlotColour.TabIndex = 25
@@ -228,7 +233,7 @@ Partial Public Class frmHQFSettings
         'lblRigSlotColour
         '
         Me.lblRigSlotColour.AutoSize = True
-        Me.lblRigSlotColour.Location = New System.Drawing.Point(32, 130)
+        Me.lblRigSlotColour.Location = New System.Drawing.Point(284, 191)
         Me.lblRigSlotColour.Name = "lblRigSlotColour"
         Me.lblRigSlotColour.Size = New System.Drawing.Size(77, 13)
         Me.lblRigSlotColour.TabIndex = 26
@@ -238,29 +243,33 @@ Partial Public Class frmHQFSettings
         '
         Me.pbRigSlotColour.BackColor = System.Drawing.Color.Red
         Me.pbRigSlotColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbRigSlotColour.Location = New System.Drawing.Point(159, 123)
+        Me.pbRigSlotColour.Location = New System.Drawing.Point(411, 184)
         Me.pbRigSlotColour.Name = "pbRigSlotColour"
         Me.pbRigSlotColour.Size = New System.Drawing.Size(24, 24)
         Me.pbRigSlotColour.TabIndex = 27
         Me.pbRigSlotColour.TabStop = False
         '
-        'gbSlotColours
+        'gbSlotFormat
         '
-        Me.gbSlotColours.Controls.Add(Me.pbRigSlotColour)
-        Me.gbSlotColours.Controls.Add(Me.lblRigSlotColour)
-        Me.gbSlotColours.Controls.Add(Me.pbLowSlotColour)
-        Me.gbSlotColours.Controls.Add(Me.lblLowSlotColour)
-        Me.gbSlotColours.Controls.Add(Me.pbMidSlotColour)
-        Me.gbSlotColours.Controls.Add(Me.pbHiSlotColour)
-        Me.gbSlotColours.Controls.Add(Me.lblMidSlotColour)
-        Me.gbSlotColours.Controls.Add(Me.lblHiSlotColour)
-        Me.gbSlotColours.Location = New System.Drawing.Point(479, 146)
-        Me.gbSlotColours.Name = "gbSlotColours"
-        Me.gbSlotColours.Size = New System.Drawing.Size(135, 96)
-        Me.gbSlotColours.TabIndex = 3
-        Me.gbSlotColours.TabStop = False
-        Me.gbSlotColours.Text = "Slot Colours"
-        Me.gbSlotColours.Visible = False
+        Me.gbSlotFormat.Controls.Add(Me.btnMoveDown)
+        Me.gbSlotFormat.Controls.Add(Me.btnMoveUp)
+        Me.gbSlotFormat.Controls.Add(Me.lvwColumns)
+        Me.gbSlotFormat.Controls.Add(Me.lblSlotColumns)
+        Me.gbSlotFormat.Controls.Add(Me.pbRigSlotColour)
+        Me.gbSlotFormat.Controls.Add(Me.lblRigSlotColour)
+        Me.gbSlotFormat.Controls.Add(Me.pbLowSlotColour)
+        Me.gbSlotFormat.Controls.Add(Me.lblLowSlotColour)
+        Me.gbSlotFormat.Controls.Add(Me.pbMidSlotColour)
+        Me.gbSlotFormat.Controls.Add(Me.pbHiSlotColour)
+        Me.gbSlotFormat.Controls.Add(Me.lblMidSlotColour)
+        Me.gbSlotFormat.Controls.Add(Me.lblHiSlotColour)
+        Me.gbSlotFormat.Location = New System.Drawing.Point(194, 12)
+        Me.gbSlotFormat.Name = "gbSlotFormat"
+        Me.gbSlotFormat.Size = New System.Drawing.Size(498, 497)
+        Me.gbSlotFormat.TabIndex = 3
+        Me.gbSlotFormat.TabStop = False
+        Me.gbSlotFormat.Text = "Slot Format"
+        Me.gbSlotFormat.Visible = False
         '
         'gbCache
         '
@@ -288,35 +297,13 @@ Partial Public Class frmHQFSettings
         Me.gbRechargeRates.Controls.Add(Me.lblShieldRecharge)
         Me.gbRechargeRates.Controls.Add(Me.nudCapRecharge)
         Me.gbRechargeRates.Controls.Add(Me.lblCapRecharge)
-        Me.gbRechargeRates.Location = New System.Drawing.Point(194, 12)
+        Me.gbRechargeRates.Location = New System.Drawing.Point(285, 330)
         Me.gbRechargeRates.Name = "gbRechargeRates"
-        Me.gbRechargeRates.Size = New System.Drawing.Size(498, 473)
+        Me.gbRechargeRates.Size = New System.Drawing.Size(122, 30)
         Me.gbRechargeRates.TabIndex = 30
         Me.gbRechargeRates.TabStop = False
         Me.gbRechargeRates.Text = "Recharge Rates"
         Me.gbRechargeRates.Visible = False
-        '
-        'lblCapRecharge
-        '
-        Me.lblCapRecharge.AutoSize = True
-        Me.lblCapRecharge.Location = New System.Drawing.Point(15, 47)
-        Me.lblCapRecharge.Name = "lblCapRecharge"
-        Me.lblCapRecharge.Size = New System.Drawing.Size(150, 13)
-        Me.lblCapRecharge.TabIndex = 0
-        Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
-        '
-        'nudCapRecharge
-        '
-        Me.nudCapRecharge.DecimalPlaces = 2
-        Me.nudCapRecharge.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
-        Me.nudCapRecharge.Location = New System.Drawing.Point(180, 45)
-        Me.nudCapRecharge.Maximum = New Decimal(New Integer() {25, 0, 0, 65536})
-        Me.nudCapRecharge.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
-        Me.nudCapRecharge.Name = "nudCapRecharge"
-        Me.nudCapRecharge.Size = New System.Drawing.Size(72, 20)
-        Me.nudCapRecharge.TabIndex = 1
-        Me.nudCapRecharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.nudCapRecharge.Value = New Decimal(New Integer() {25, 0, 0, 65536})
         '
         'nudShieldRecharge
         '
@@ -340,15 +327,80 @@ Partial Public Class frmHQFSettings
         Me.lblShieldRecharge.TabIndex = 2
         Me.lblShieldRecharge.Text = "Shield Recharge Constant:"
         '
+        'nudCapRecharge
+        '
+        Me.nudCapRecharge.DecimalPlaces = 2
+        Me.nudCapRecharge.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
+        Me.nudCapRecharge.Location = New System.Drawing.Point(180, 45)
+        Me.nudCapRecharge.Maximum = New Decimal(New Integer() {25, 0, 0, 65536})
+        Me.nudCapRecharge.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.nudCapRecharge.Name = "nudCapRecharge"
+        Me.nudCapRecharge.Size = New System.Drawing.Size(72, 20)
+        Me.nudCapRecharge.TabIndex = 1
+        Me.nudCapRecharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.nudCapRecharge.Value = New Decimal(New Integer() {25, 0, 0, 65536})
+        '
+        'lblCapRecharge
+        '
+        Me.lblCapRecharge.AutoSize = True
+        Me.lblCapRecharge.Location = New System.Drawing.Point(15, 47)
+        Me.lblCapRecharge.Name = "lblCapRecharge"
+        Me.lblCapRecharge.Size = New System.Drawing.Size(150, 13)
+        Me.lblCapRecharge.TabIndex = 0
+        Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
+        '
+        'lblSlotColumns
+        '
+        Me.lblSlotColumns.AutoSize = True
+        Me.lblSlotColumns.Location = New System.Drawing.Point(15, 38)
+        Me.lblSlotColumns.Name = "lblSlotColumns"
+        Me.lblSlotColumns.Size = New System.Drawing.Size(113, 13)
+        Me.lblSlotColumns.TabIndex = 28
+        Me.lblSlotColumns.Text = "Slot Column Selection:"
+        '
+        'lvwColumns
+        '
+        Me.lvwColumns.CheckBoxes = True
+        Me.lvwColumns.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colSlotColumns})
+        Me.lvwColumns.Location = New System.Drawing.Point(18, 54)
+        Me.lvwColumns.Name = "lvwColumns"
+        Me.lvwColumns.Size = New System.Drawing.Size(222, 324)
+        Me.lvwColumns.TabIndex = 29
+        Me.lvwColumns.UseCompatibleStateImageBehavior = False
+        Me.lvwColumns.View = System.Windows.Forms.View.Details
+        '
+        'colSlotColumns
+        '
+        Me.colSlotColumns.Text = "Slot Columns"
+        Me.colSlotColumns.Width = 200
+        '
+        'btnMoveDown
+        '
+        Me.btnMoveDown.Location = New System.Drawing.Point(104, 384)
+        Me.btnMoveDown.Name = "btnMoveDown"
+        Me.btnMoveDown.Size = New System.Drawing.Size(80, 23)
+        Me.btnMoveDown.TabIndex = 31
+        Me.btnMoveDown.Text = "Move Down"
+        Me.btnMoveDown.UseVisualStyleBackColor = True
+        '
+        'btnMoveUp
+        '
+        Me.btnMoveUp.Location = New System.Drawing.Point(18, 384)
+        Me.btnMoveUp.Name = "btnMoveUp"
+        Me.btnMoveUp.Size = New System.Drawing.Size(80, 23)
+        Me.btnMoveUp.TabIndex = 30
+        Me.btnMoveUp.Text = "Move Up"
+        Me.btnMoveUp.UseVisualStyleBackColor = True
+        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
+        Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.gbRechargeRates)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbCache)
-        Me.Controls.Add(Me.gbSlotColours)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
@@ -365,13 +417,13 @@ Partial Public Class frmHQFSettings
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbLowSlotColour, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbRigSlotColour, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbSlotColours.ResumeLayout(False)
-        Me.gbSlotColours.PerformLayout()
+        Me.gbSlotFormat.ResumeLayout(False)
+        Me.gbSlotFormat.PerformLayout()
         Me.gbCache.ResumeLayout(False)
         Me.gbRechargeRates.ResumeLayout(False)
         Me.gbRechargeRates.PerformLayout()
-        CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -391,7 +443,7 @@ Partial Public Class frmHQFSettings
     Friend WithEvents pbLowSlotColour As System.Windows.Forms.PictureBox
     Friend WithEvents lblRigSlotColour As System.Windows.Forms.Label
     Friend WithEvents pbRigSlotColour As System.Windows.Forms.PictureBox
-    Friend WithEvents gbSlotColours As System.Windows.Forms.GroupBox
+    Friend WithEvents gbSlotFormat As System.Windows.Forms.GroupBox
     Friend WithEvents chkRestoreLastSession As System.Windows.Forms.CheckBox
     Friend WithEvents gbCache As System.Windows.Forms.GroupBox
     Friend WithEvents btnDeleteCache As System.Windows.Forms.Button
@@ -403,4 +455,9 @@ Partial Public Class frmHQFSettings
     Friend WithEvents lblShieldRecharge As System.Windows.Forms.Label
     Friend WithEvents nudCapRecharge As System.Windows.Forms.NumericUpDown
     Friend WithEvents lblCapRecharge As System.Windows.Forms.Label
+    Friend WithEvents lblSlotColumns As System.Windows.Forms.Label
+    Friend WithEvents lvwColumns As System.Windows.Forms.ListView
+    Friend WithEvents colSlotColumns As System.Windows.Forms.ColumnHeader
+    Friend WithEvents btnMoveDown As System.Windows.Forms.Button
+    Friend WithEvents btnMoveUp As System.Windows.Forms.Button
 End Class

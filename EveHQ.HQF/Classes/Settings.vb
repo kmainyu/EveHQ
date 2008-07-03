@@ -46,7 +46,25 @@ Public Class Settings
     Private cCloseInfoPanel As Boolean = False
     Private cCapRechargeConstant As Double = 2.5
     Private cShieldRechargeConstant As Double = 2.5
+    Private cStandardSlotColumns As New ArrayList
+    Private cUserSlotColumns As New ArrayList
 
+    Public Property UserSlotColumns() As ArrayList
+        Get
+            Return cUserSlotColumns
+        End Get
+        Set(ByVal value As ArrayList)
+            cUserSlotColumns = value
+        End Set
+    End Property
+    Public Property StandardSlotColumns() As ArrayList
+        Get
+            Return cStandardSlotColumns
+        End Get
+        Set(ByVal value As ArrayList)
+            cStandardSlotColumns = value
+        End Set
+    End Property
     Public Property ShieldRechargeConstant() As Double
         Get
             Return cShieldRechargeConstant
@@ -185,6 +203,15 @@ Public Class Settings
         XMLS &= Chr(9) & Chr(9) & "<shieldRechargeConst>" & HQFSettings.ShieldRechargeConstant & "</shieldRechargeConst>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
+        ' Save the slot layout
+        XMLS &= Chr(9) & "<slotLayout>" & vbCrLf
+        Dim slotName As String = ""
+        Dim slotActive As String = ""
+        For Each slot As String In HQFSettings.UserSlotColumns
+            XMLS &= Chr(9) & Chr(9) & "<slot>" & slot & "</slot>" & vbCrLf
+        Next
+        XMLS &= Chr(9) & "</slotLayout>" & vbCrLf
+
         ' Save the open fittings
         XMLS &= Chr(9) & "<openFittings>" & vbCrLf
         For Each fitting As String In ShipLists.fittedShipList.Keys
@@ -218,6 +245,9 @@ Public Class Settings
     Public Function LoadHQFSettings() As Boolean
         Dim XMLdoc As XmlDocument = New XmlDocument
 
+        ' Initialise the standard slot columns
+        Call Me.InitialiseSlotColumns()
+
         If My.Computer.FileSystem.FileExists(HQFFolder & "\HQFSettings.xml") = True Then
             XMLdoc.Load(HQFFolder & "\HQFSettings.xml")
             Dim settingDetails As XmlNodeList
@@ -244,6 +274,20 @@ Public Class Settings
                         HQFSettings.CapRechargeConstant = CDbl(settingSettings.ChildNodes(11).InnerText)
                         HQFSettings.ShieldRechargeConstant = CDbl(settingSettings.ChildNodes(12).InnerText)
                     End If
+                End If
+            Catch
+            End Try
+
+            ' Get the slot columns layout
+            HQFSettings.UserSlotColumns.Clear()
+            Try
+                settingDetails = XMLdoc.SelectNodes("/HQFSettings/slotColumns")
+                ' Get the relevant node!
+                settingSettings = settingDetails(0)       ' This is zero because there is only 1 occurence of the EveHQSettings/accounts node in each XML doc
+                If settingSettings.HasChildNodes Then
+                    For group As Integer = 0 To settingSettings.ChildNodes.Count - 1
+                        HQFSettings.UserSlotColumns.Add(settingSettings.ChildNodes(group).InnerText)
+                    Next
                 End If
             Catch
             End Try
@@ -283,8 +327,88 @@ Public Class Settings
             End Try
 
         End If
+
+        ' Check if the columns are blank and we need to setup the default
+        If HQFSettings.UserSlotColumns.Count <> HQFSettings.StandardSlotColumns.Count Then
+            For Each slotItem As ListViewItem In cStandardSlotColumns
+                If slotItem.Checked = False Then
+                    HQFSettings.UserSlotColumns.Add(slotItem.Name & "0")
+                Else
+                    HQFSettings.UserSlotColumns.Add(slotItem.Name & "1")
+                End If
+            Next
+        End If
         Return True
 
     End Function
+    Public Sub InitialiseSlotColumns()
+        Dim newItem As New ListViewItem
+        ' Setup Charge Item
+        newItem = New ListViewItem
+        newItem.Name = "Charge"
+        newItem.Text = "Charge"
+        newItem.Checked = True
+        cStandardSlotColumns.Add(newItem)
+        ' Setup CPU Item
+        newItem = New ListViewItem
+        newItem.Name = "CPU"
+        newItem.Text = "CPU"
+        newItem.Checked = True
+        cStandardSlotColumns.Add(newItem)
+        ' Setup PG Item
+        newItem = New ListViewItem
+        newItem.Name = "PG"
+        newItem.Text = "PG"
+        newItem.Checked = True
+        cStandardSlotColumns.Add(newItem)
+        ' Setup Calibration Item
+        newItem = New ListViewItem
+        newItem.Name = "Calibration"
+        newItem.Text = "Calibration"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+        ' Setup Activation Cost Item
+        newItem = New ListViewItem
+        newItem.Name = "ActCost"
+        newItem.Text = "Activation Cost"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+        ' Setup Activation Time Item
+        newItem = New ListViewItem
+        newItem.Name = "ActTime"
+        newItem.Text = "Activation Time"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+        ' Setup Cap Usage Rate Item
+        newItem = New ListViewItem
+        newItem.Name = "CapUsageRate"
+        newItem.Text = "Cap Usage Rate"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+        ' Setup Optimal Range Item
+        newItem = New ListViewItem
+        newItem.Name = "OptRange"
+        newItem.Text = "Optimal Range"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+        ' Setup ROF Item
+        newItem = New ListViewItem
+        newItem.Name = "ROF"
+        newItem.Text = "Rate Of Fire"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+        ' Setup Damage Item
+        newItem = New ListViewItem
+        newItem.Name = "Damage"
+        newItem.Text = "Damage"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+        ' Setup DPS Item
+        newItem = New ListViewItem
+        newItem.Name = "DPS"
+        newItem.Text = "DPS"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+    End Sub
 
 End Class
