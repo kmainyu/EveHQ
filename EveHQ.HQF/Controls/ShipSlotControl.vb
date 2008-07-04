@@ -101,6 +101,7 @@ Public Class ShipSlotControl
         ' Update the slot layout
         currentShip = CType(ShipLists.fittedShipList(cShipFit), Ship)
         UpdateAll = True
+        Call Me.UpdateSlotColumns()
         lvwCargoBay.BeginUpdate()
         lvwDroneBay.BeginUpdate()
         lvwSlots.BeginUpdate()
@@ -136,31 +137,7 @@ Public Class ShipSlotControl
             newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
             newSlot.ForeColor = Color.Black
             newSlot.Group = lvwSlots.Groups.Item("lvwgHighSlots")
-            If currentShip.HiSlot(slot) IsNot Nothing Then
-                newSlot.Text = currentShip.HiSlot(slot).Name
-                If currentShip.HiSlot(slot).LoadedCharge IsNot Nothing Then
-                    newSlot.SubItems.Add(currentShip.HiSlot(slot).LoadedCharge.Name)
-                Else
-                    newSlot.SubItems.Add("")
-                End If
-                newSlot.SubItems.Add(currentShip.HiSlot(slot).CPU.ToString)
-                newSlot.SubItems.Add(currentShip.HiSlot(slot).PG.ToString)
-                newSlot.SubItems.Add(currentShip.HiSlot(slot).CapUsage.ToString)
-                newSlot.SubItems.Add(currentShip.HiSlot(slot).ActivationTime.ToString)
-                If currentShip.HiSlot(slot).MarketPrice > 0 Then
-                    newSlot.SubItems.Add(FormatNumber(currentShip.HiSlot(slot).MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                Else
-                    newSlot.SubItems.Add(FormatNumber(currentShip.HiSlot(slot).BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " *")
-                End If
-            Else
-                newSlot.Text = "<Empty>"
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-            End If
+            Call Me.AddUserColumns(currentShip.HiSlot(slot), newSlot)
             lvwSlots.Items.Add(newSlot)
         Next
         For slot As Integer = 1 To currentShip.MidSlots
@@ -169,32 +146,7 @@ Public Class ShipSlotControl
             newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
             newSlot.ForeColor = Color.Black
             newSlot.Group = lvwSlots.Groups.Item("lvwgMidSlots")
-            If currentShip.MidSlot(slot) IsNot Nothing Then
-                newSlot.Text = currentShip.MidSlot(slot).Name
-                If currentShip.MidSlot(slot).LoadedCharge IsNot Nothing Then
-                    newSlot.SubItems.Add(currentShip.MidSlot(slot).LoadedCharge.Name)
-                Else
-                    newSlot.SubItems.Add("")
-                End If
-                newSlot.SubItems.Add(currentShip.MidSlot(slot).CPU.ToString)
-                newSlot.SubItems.Add(currentShip.MidSlot(slot).PG.ToString)
-                newSlot.SubItems.Add(currentShip.MidSlot(slot).CapUsage.ToString)
-                newSlot.SubItems.Add(currentShip.MidSlot(slot).ActivationTime.ToString)
-                If currentShip.MidSlot(slot).MarketPrice > 0 Then
-                    newSlot.SubItems.Add(FormatNumber(currentShip.MidSlot(slot).MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                Else
-                    newSlot.SubItems.Add(FormatNumber(currentShip.MidSlot(slot).BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " *")
-                End If
-
-            Else
-                newSlot.Text = "<Empty>"
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-            End If
+            Call Me.AddUserColumns(currentShip.MidSlot(slot), newSlot)
             lvwSlots.Items.Add(newSlot)
         Next
         For slot As Integer = 1 To currentShip.LowSlots
@@ -203,31 +155,7 @@ Public Class ShipSlotControl
             newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
             newSlot.ForeColor = Color.Black
             newSlot.Group = lvwSlots.Groups.Item("lvwgLowSlots")
-            If currentShip.LowSlot(slot) IsNot Nothing Then
-                newSlot.Text = currentShip.LowSlot(slot).Name
-                If currentShip.LowSlot(slot).LoadedCharge IsNot Nothing Then
-                    newSlot.SubItems.Add(currentShip.LowSlot(slot).LoadedCharge.Name)
-                Else
-                    newSlot.SubItems.Add("")
-                End If
-                newSlot.SubItems.Add(currentShip.LowSlot(slot).CPU.ToString)
-                newSlot.SubItems.Add(currentShip.LowSlot(slot).PG.ToString)
-                newSlot.SubItems.Add(currentShip.LowSlot(slot).CapUsage.ToString)
-                newSlot.SubItems.Add(currentShip.LowSlot(slot).ActivationTime.ToString)
-                If currentShip.LowSlot(slot).MarketPrice > 0 Then
-                    newSlot.SubItems.Add(FormatNumber(currentShip.LowSlot(slot).MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                Else
-                    newSlot.SubItems.Add(FormatNumber(currentShip.LowSlot(slot).BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " *")
-                End If
-            Else
-                newSlot.Text = "<Empty>"
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-            End If
+            Call Me.AddUserColumns(currentShip.LowSlot(slot), newSlot)
             lvwSlots.Items.Add(newSlot)
         Next
         For slot As Integer = 1 To currentShip.RigSlots
@@ -236,31 +164,7 @@ Public Class ShipSlotControl
             newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
             newSlot.ForeColor = Color.Black
             newSlot.Group = lvwSlots.Groups.Item("lvwgRigSlots")
-            If currentShip.RigSlot(slot) IsNot Nothing Then
-                newSlot.Text = currentShip.RigSlot(slot).Name
-                If currentShip.RigSlot(slot).LoadedCharge IsNot Nothing Then
-                    newSlot.SubItems.Add(currentShip.RigSlot(slot).LoadedCharge.Name)
-                Else
-                    newSlot.SubItems.Add("")
-                End If
-                newSlot.SubItems.Add(currentShip.RigSlot(slot).CPU.ToString)
-                newSlot.SubItems.Add(currentShip.RigSlot(slot).PG.ToString)
-                newSlot.SubItems.Add(currentShip.RigSlot(slot).CapUsage.ToString)
-                newSlot.SubItems.Add(currentShip.RigSlot(slot).ActivationTime.ToString)
-                If currentShip.RigSlot(slot).MarketPrice > 0 Then
-                    newSlot.SubItems.Add(FormatNumber(currentShip.RigSlot(slot).MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                Else
-                    newSlot.SubItems.Add(FormatNumber(currentShip.RigSlot(slot).BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " *")
-                End If
-            Else
-                newSlot.Text = "<Empty>"
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-                newSlot.SubItems.Add("")
-            End If
+            Call Me.AddUserColumns(currentShip.RigSlot(slot), newSlot)
             lvwSlots.Items.Add(newSlot)
         Next
         lvwSlots.EndUpdate()
@@ -281,6 +185,20 @@ Public Class ShipSlotControl
         lblShipMarketPrice.Text = "Ship Market Price: " & FormatNumber(currentShip.MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblFittingBasePrice.Text = "Fitting Base Price: " & FormatNumber(currentShip.BasePrice + currentShip.FittingBasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblFittingMarketPrice.Text = "Fitting Market Price: " & FormatNumber(currentShip.MarketPrice + currentShip.FittingMarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+    End Sub
+    Private Sub UpdateSlotColumns()
+        ' Clear the columns
+        lvwSlots.Columns.Clear()
+        ' Add the module name column
+        lvwSlots.Columns.Add("colName", "Module Name", 175, HorizontalAlignment.Left, "")
+        ' Iterate through the user selected columns and add them in
+        Dim colName As String = ""
+        For Each col As String In HQF.Settings.HQFSettings.UserSlotColumns
+            If col.EndsWith("1") = True Then
+                colName = col.Substring(0, col.Length - 1)
+                lvwSlots.Columns.Add(colName, colName, 75, HorizontalAlignment.Left, "")
+            End If
+        Next
     End Sub
     Private Sub UpdateAllSlotLocations()
         For slot As Integer = 1 To fittedShip.HiSlots
@@ -319,23 +237,195 @@ Public Class ShipSlotControl
         shipMod.ModuleState = oldMod.ModuleState
         Dim slotName As ListViewItem = lvwSlots.Items(shipMod.SlotType & "_" & slotNo)
         slotName.ImageIndex = CInt(Math.Log(shipMod.ModuleState) / Math.Log(2))
-        slotName.Text = shipMod.Name
-        If shipMod.LoadedCharge IsNot Nothing Then
-            slotName.SubItems(1).Text = shipMod.LoadedCharge.Name
-        Else
-            slotName.SubItems(1).Text = ""
-        End If
-        slotName.SubItems(2).Text = shipMod.CPU.ToString
-        slotName.SubItems(3).Text = shipMod.PG.ToString
-        If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
-            slotName.SubItems(4).Text = shipMod.CapUsage.ToString
-        Else
-            slotName.SubItems(4).Text = "0"
-        End If
-        slotName.SubItems(5).Text = shipMod.ActivationTime.ToString
-        shipMod.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(shipMod.ID)
-        slotName.SubItems(6).Text = FormatNumber(shipMod.MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        slotName.UseItemStyleForSubItems = True
+        Call Me.UpdateUserColumns(shipMod, slotName)
         Call UpdateShipDetails()
+    End Sub
+    Private Sub AddUserColumns(ByVal shipMod As ShipModule, ByVal slotName As ListViewItem)
+        ' Add subitems based on the user selected columns
+        If shipMod IsNot Nothing Then
+            Dim colName As String = ""
+            ' Add in the module name
+            slotName.Text = shipMod.Name
+            ' Add the additional columns
+            For Each col As String In Settings.HQFSettings.UserSlotColumns
+                If col.EndsWith("1") = True Then
+                    colName = col.Substring(0, col.Length - 1)
+                    Select Case colName
+                        Case "Charge"
+                            If shipMod.LoadedCharge IsNot Nothing Then
+                                slotName.SubItems.Add(shipMod.LoadedCharge.Name)
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
+                        Case "CPU"
+                            slotName.SubItems.Add(FormatNumber(shipMod.CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                        Case "PG"
+                            slotName.SubItems.Add(FormatNumber(shipMod.PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                        Case "Calibration"
+                            slotName.SubItems.Add(FormatNumber(shipMod.Calibration, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                        Case "Price"
+                            shipMod.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(shipMod.ID)
+                            slotName.SubItems.Add(FormatNumber(shipMod.MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                        Case "ActCost"
+                            If shipMod.Attributes.Contains("6") Then
+                                If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
+                                    slotName.SubItems.Add(FormatNumber(shipMod.CapUsage, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                Else
+                                    slotName.SubItems.Add("")
+                                End If
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
+                        Case "ActTime"
+                            If shipMod.Attributes.Contains("73") Then
+                                If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
+                                    slotName.SubItems.Add(FormatNumber(shipMod.ActivationTime, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                Else
+                                    slotName.SubItems.Add("")
+                                End If
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
+                        Case "CapUsageRate"
+                            If shipMod.Attributes.Contains("10032") Then
+                                If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
+                                    slotName.SubItems.Add(FormatNumber(shipMod.CapUsageRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                Else
+                                    slotName.SubItems.Add("")
+                                End If
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
+                        Case "OptRange"
+                            If shipMod.Attributes.Contains("54") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("54"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
+                        Case "ROF"
+                            If shipMod.Attributes.Contains("51") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("51"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
+                        Case "Damage"
+                            If shipMod.Attributes.Contains("10018") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("10018"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
+                        Case "DPS"
+                            If shipMod.Attributes.Contains("10019") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("10019"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
+                    End Select
+                End If
+            Next
+        Else
+            slotName.Text = "<Empty>"
+            For Each col As String In Settings.HQFSettings.UserSlotColumns
+                slotName.SubItems.Add("")
+            Next
+        End If
+    End Sub
+    Private Sub UpdateUserColumns(ByVal shipMod As ShipModule, ByVal slotName As ListViewItem)
+        ' Add subitems based on the user selected columns
+        Dim colName As String = ""
+        Dim idx As Integer = 1
+        ' Add in the module name
+        slotName.Text = shipMod.Name
+        ' Add the additional columns
+        For Each col As String In Settings.HQFSettings.UserSlotColumns
+            If col.EndsWith("1") = True Then
+                colName = col.Substring(0, col.Length - 1)
+                Select Case colName
+                    Case "Charge"
+                        If shipMod.LoadedCharge IsNot Nothing Then
+                            slotName.SubItems(idx).Text = shipMod.LoadedCharge.Name
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
+                    Case "CPU"
+                        slotName.SubItems(idx).Text = FormatNumber(shipMod.CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        idx += 1
+                    Case "PG"
+                        slotName.SubItems(idx).Text = FormatNumber(shipMod.PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        idx += 1
+                    Case "Calibration"
+                        slotName.SubItems(idx).Text = FormatNumber(shipMod.Calibration, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        idx += 1
+                    Case "Price"
+                        shipMod.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(shipMod.ID)
+                        slotName.SubItems(idx).Text = FormatNumber(shipMod.MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        idx += 1
+                    Case "ActCost"
+                        If shipMod.Attributes.Contains("6") Then
+                            If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
+                                slotName.SubItems(idx).Text = FormatNumber(shipMod.CapUsage, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            Else
+                                slotName.SubItems(idx).Text = ""
+                            End If
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
+                    Case "ActTime"
+                        If shipMod.Attributes.Contains("73") Then
+                            If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
+                                slotName.SubItems(idx).Text = FormatNumber(shipMod.ActivationTime, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            Else
+                                slotName.SubItems(idx).Text = ""
+                            End If
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
+                    Case "CapUsageRate"
+                        If shipMod.Attributes.Contains("10032") Then
+                            If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
+                                slotName.SubItems(idx).Text = FormatNumber(shipMod.CapUsageRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            Else
+                                slotName.SubItems(idx).Text = ""
+                            End If
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
+                    Case "OptRange"
+                        If shipMod.Attributes.Contains("54") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("54"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
+                    Case "ROF"
+                        If shipMod.Attributes.Contains("51") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("51"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
+                    Case "Damage"
+                        If shipMod.Attributes.Contains("10018") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("10018"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
+                    Case "DPS"
+                        If shipMod.Attributes.Contains("10019") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("10019"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
+                End Select
+            End If
+        Next
     End Sub
     Private Sub UpdateShipDataFromFittingList()
         Dim currentFitList As ArrayList = CType(currentFit.Clone, ArrayList)
@@ -612,6 +702,10 @@ Public Class ShipSlotControl
 #End Region
 
 #Region "Removing Mods/Drones/Items"
+
+    Private Sub lvwSlots_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwSlots.ColumnClick
+        lvwSlots.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize)
+    End Sub
     Private Sub lvwSlots_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwSlots.DoubleClick
         If lvwSlots.SelectedItems.Count > 0 Then
             ' Check if the "slot" is not empty
@@ -1287,5 +1381,4 @@ Public Class ShipSlotControl
         Return fitting.ToString
     End Function
 #End Region
-
 End Class

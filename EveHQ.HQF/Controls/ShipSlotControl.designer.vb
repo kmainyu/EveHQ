@@ -23,11 +23,11 @@ Partial Class ShipSlotControl
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
         Me.panelSlotInfo = New System.Windows.Forms.Panel
         Me.btnClipboardCopy = New System.Windows.Forms.Button
         Me.btnToggleStorage = New System.Windows.Forms.Button
@@ -44,6 +44,7 @@ Partial Class ShipSlotControl
         Me.ctxSlots = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.imgState = New System.Windows.Forms.ImageList(Me.components)
         Me.tabStorage = New System.Windows.Forms.TabControl
         Me.tabDroneBay = New System.Windows.Forms.TabPage
@@ -66,14 +67,6 @@ Partial Class ShipSlotControl
         Me.pbCargoBay = New System.Windows.Forms.ProgressBar
         Me.lblCargoBay = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
-        Me.colModuleName = New System.Windows.Forms.ColumnHeader
-        Me.colCharge = New System.Windows.Forms.ColumnHeader
-        Me.colCPU = New System.Windows.Forms.ColumnHeader
-        Me.colPG = New System.Windows.Forms.ColumnHeader
-        Me.colActivationCost = New System.Windows.Forms.ColumnHeader
-        Me.colActivationTime = New System.Windows.Forms.ColumnHeader
-        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
         Me.panelSlotInfo.SuspendLayout()
         Me.ctxSlots.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -259,6 +252,28 @@ Partial Class ShipSlotControl
         Me.SplitContainer1.SplitterDistance = 639
         Me.SplitContainer1.TabIndex = 1
         '
+        'lvwSlots
+        '
+        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
+        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwSlots.FullRowSelect = True
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
+        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
+        Me.lvwSlots.Name = "lvwSlots"
+        Me.lvwSlots.Size = New System.Drawing.Size(639, 424)
+        Me.lvwSlots.SmallImageList = Me.imgState
+        Me.lvwSlots.TabIndex = 0
+        Me.lvwSlots.UseCompatibleStateImageBehavior = False
+        Me.lvwSlots.View = System.Windows.Forms.View.Details
+        '
         'imgState
         '
         Me.imgState.ImageStream = CType(resources.GetObject("imgState.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -326,7 +341,7 @@ Partial Class ShipSlotControl
         '
         Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(163, 126)
+        Me.ctxBays.Size = New System.Drawing.Size(163, 104)
         '
         'ctxRemoveItem
         '
@@ -439,62 +454,6 @@ Partial Class ShipSlotControl
         Me.lblCargoBay.TabIndex = 3
         Me.lblCargoBay.Text = "0.00 / 000.00 m³"
         '
-        'lvwSlots
-        '
-        Me.lvwSlots.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colCharge, Me.colCPU, Me.colPG, Me.colActivationCost, Me.colActivationTime, Me.colMarketPrice})
-        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
-        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwSlots.FullRowSelect = True
-        ListViewGroup1.Header = "High Slots"
-        ListViewGroup1.Name = "lvwgHighSlots"
-        ListViewGroup2.Header = "Mid Slots"
-        ListViewGroup2.Name = "lvwgMidSlots"
-        ListViewGroup3.Header = "Low Slots"
-        ListViewGroup3.Name = "lvwgLowSlots"
-        ListViewGroup4.Header = "Rig Slots"
-        ListViewGroup4.Name = "lvwgRigSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
-        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
-        Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.Size = New System.Drawing.Size(639, 424)
-        Me.lvwSlots.SmallImageList = Me.imgState
-        Me.lvwSlots.TabIndex = 0
-        Me.lvwSlots.UseCompatibleStateImageBehavior = False
-        Me.lvwSlots.View = System.Windows.Forms.View.Details
-        '
-        'colModuleName
-        '
-        Me.colModuleName.Text = "Module Name"
-        Me.colModuleName.Width = 150
-        '
-        'colCharge
-        '
-        Me.colCharge.Text = "Charge"
-        Me.colCharge.Width = 125
-        '
-        'colCPU
-        '
-        Me.colCPU.Text = "CPU"
-        Me.colCPU.Width = 40
-        '
-        'colPG
-        '
-        Me.colPG.Text = "PG"
-        Me.colPG.Width = 40
-        '
-        'colActivationCost
-        '
-        Me.colActivationCost.Text = "Cap Cost"
-        '
-        'colActivationTime
-        '
-        Me.colActivationTime.Text = "Cap Time"
-        '
-        'colMarketPrice
-        '
-        Me.colMarketPrice.Text = "Market Price"
-        Me.colMarketPrice.Width = 125
-        '
         'ShipSlotControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -520,11 +479,6 @@ Partial Class ShipSlotControl
     End Sub
     Friend WithEvents panelSlotInfo As System.Windows.Forms.Panel
     Friend WithEvents lvwSlots As EveHQ.HQF.ListViewNoFlicker
-    Friend WithEvents colModuleName As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colCPU As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colPG As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colActivationCost As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colActivationTime As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblMidSlots As System.Windows.Forms.Label
     Friend WithEvents lblHighSlots As System.Windows.Forms.Label
     Friend WithEvents lblRigSlots As System.Windows.Forms.Label
@@ -535,7 +489,6 @@ Partial Class ShipSlotControl
     Friend WithEvents lblFittingMarketPrice As System.Windows.Forms.Label
     Friend WithEvents lblFittingBasePrice As System.Windows.Forms.Label
     Friend WithEvents lblShipMarketPrice As System.Windows.Forms.Label
-    Friend WithEvents colMarketPrice As System.Windows.Forms.ColumnHeader
     Friend WithEvents ctxSlots As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ShowInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
@@ -554,7 +507,6 @@ Partial Class ShipSlotControl
     Friend WithEvents colCargoBayQty As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnToggleStorage As System.Windows.Forms.Button
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-    Friend WithEvents colCharge As System.Windows.Forms.ColumnHeader
     Friend WithEvents ctxBays As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ctxRemoveItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator

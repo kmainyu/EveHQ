@@ -1074,7 +1074,7 @@ Public Class frmHQF
 
         AddHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
         AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
-        AddHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFitting
+        AddHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFittings
         AddHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
 
         ' Load the settings!
@@ -1885,8 +1885,16 @@ Public Class frmHQF
         mySettings = Nothing
     End Sub
 
-    Public Sub UpdateFitting()
-        currentShipSlot.UpdateEverything()
+    Public Sub UpdateFittings()
+        Me.Cursor = Cursors.WaitCursor
+        ' Updates all the open fittings
+        For Each openTab As String In FittingTabList
+            Dim thisTab As TabPage = tabHQF.TabPages(openTab)
+            Dim thisShipSlotControl As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
+            Dim thisShipInfoControl As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
+            thisShipSlotControl.UpdateEverything()
+        Next
+        Me.Cursor = Cursors.Default
     End Sub
 
     Private Sub ToolStripButton3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton3.Click

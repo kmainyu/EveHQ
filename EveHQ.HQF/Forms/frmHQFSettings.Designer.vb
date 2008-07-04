@@ -22,7 +22,7 @@ Partial Public Class frmHQFSettings
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("General")
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data Cache")
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Recharge Rates")
-        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Colours")
+        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Layout")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHQFSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
         Me.chkCloseInfoPanel = New System.Windows.Forms.CheckBox
@@ -45,6 +45,11 @@ Partial Public Class frmHQFSettings
         Me.lblRigSlotColour = New System.Windows.Forms.Label
         Me.pbRigSlotColour = New System.Windows.Forms.PictureBox
         Me.gbSlotFormat = New System.Windows.Forms.GroupBox
+        Me.btnMoveDown = New System.Windows.Forms.Button
+        Me.btnMoveUp = New System.Windows.Forms.Button
+        Me.lvwColumns = New System.Windows.Forms.ListView
+        Me.colSlotColumns = New System.Windows.Forms.ColumnHeader
+        Me.lblSlotColumns = New System.Windows.Forms.Label
         Me.gbCache = New System.Windows.Forms.GroupBox
         Me.btnDeleteCache = New System.Windows.Forms.Button
         Me.gbRechargeRates = New System.Windows.Forms.GroupBox
@@ -52,11 +57,6 @@ Partial Public Class frmHQFSettings
         Me.lblShieldRecharge = New System.Windows.Forms.Label
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
-        Me.lblSlotColumns = New System.Windows.Forms.Label
-        Me.lvwColumns = New System.Windows.Forms.ListView
-        Me.colSlotColumns = New System.Windows.Forms.ColumnHeader
-        Me.btnMoveDown = New System.Windows.Forms.Button
-        Me.btnMoveUp = New System.Windows.Forms.Button
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -168,7 +168,7 @@ Partial Public Class frmHQFSettings
         TreeNode3.Name = "nodeRechargeRates"
         TreeNode3.Text = "Recharge Rates"
         TreeNode4.Name = "nodeSlotFormat"
-        TreeNode4.Text = "Slot Colours"
+        TreeNode4.Text = "Slot Layout"
         Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4})
         Me.tvwSettings.Size = New System.Drawing.Size(176, 473)
         Me.tvwSettings.TabIndex = 27
@@ -268,8 +268,53 @@ Partial Public Class frmHQFSettings
         Me.gbSlotFormat.Size = New System.Drawing.Size(498, 497)
         Me.gbSlotFormat.TabIndex = 3
         Me.gbSlotFormat.TabStop = False
-        Me.gbSlotFormat.Text = "Slot Format"
+        Me.gbSlotFormat.Text = "Slot Layout"
         Me.gbSlotFormat.Visible = False
+        '
+        'btnMoveDown
+        '
+        Me.btnMoveDown.Location = New System.Drawing.Point(104, 384)
+        Me.btnMoveDown.Name = "btnMoveDown"
+        Me.btnMoveDown.Size = New System.Drawing.Size(80, 23)
+        Me.btnMoveDown.TabIndex = 31
+        Me.btnMoveDown.Text = "Move Down"
+        Me.btnMoveDown.UseVisualStyleBackColor = True
+        '
+        'btnMoveUp
+        '
+        Me.btnMoveUp.Location = New System.Drawing.Point(18, 384)
+        Me.btnMoveUp.Name = "btnMoveUp"
+        Me.btnMoveUp.Size = New System.Drawing.Size(80, 23)
+        Me.btnMoveUp.TabIndex = 30
+        Me.btnMoveUp.Text = "Move Up"
+        Me.btnMoveUp.UseVisualStyleBackColor = True
+        '
+        'lvwColumns
+        '
+        Me.lvwColumns.CheckBoxes = True
+        Me.lvwColumns.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colSlotColumns})
+        Me.lvwColumns.FullRowSelect = True
+        Me.lvwColumns.HideSelection = False
+        Me.lvwColumns.Location = New System.Drawing.Point(18, 54)
+        Me.lvwColumns.Name = "lvwColumns"
+        Me.lvwColumns.Size = New System.Drawing.Size(222, 324)
+        Me.lvwColumns.TabIndex = 29
+        Me.lvwColumns.UseCompatibleStateImageBehavior = False
+        Me.lvwColumns.View = System.Windows.Forms.View.Details
+        '
+        'colSlotColumns
+        '
+        Me.colSlotColumns.Text = "Slot Columns"
+        Me.colSlotColumns.Width = 200
+        '
+        'lblSlotColumns
+        '
+        Me.lblSlotColumns.AutoSize = True
+        Me.lblSlotColumns.Location = New System.Drawing.Point(15, 38)
+        Me.lblSlotColumns.Name = "lblSlotColumns"
+        Me.lblSlotColumns.Size = New System.Drawing.Size(113, 13)
+        Me.lblSlotColumns.TabIndex = 28
+        Me.lblSlotColumns.Text = "Slot Column Selection:"
         '
         'gbCache
         '
@@ -348,49 +393,6 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.Size = New System.Drawing.Size(150, 13)
         Me.lblCapRecharge.TabIndex = 0
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
-        '
-        'lblSlotColumns
-        '
-        Me.lblSlotColumns.AutoSize = True
-        Me.lblSlotColumns.Location = New System.Drawing.Point(15, 38)
-        Me.lblSlotColumns.Name = "lblSlotColumns"
-        Me.lblSlotColumns.Size = New System.Drawing.Size(113, 13)
-        Me.lblSlotColumns.TabIndex = 28
-        Me.lblSlotColumns.Text = "Slot Column Selection:"
-        '
-        'lvwColumns
-        '
-        Me.lvwColumns.CheckBoxes = True
-        Me.lvwColumns.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colSlotColumns})
-        Me.lvwColumns.Location = New System.Drawing.Point(18, 54)
-        Me.lvwColumns.Name = "lvwColumns"
-        Me.lvwColumns.Size = New System.Drawing.Size(222, 324)
-        Me.lvwColumns.TabIndex = 29
-        Me.lvwColumns.UseCompatibleStateImageBehavior = False
-        Me.lvwColumns.View = System.Windows.Forms.View.Details
-        '
-        'colSlotColumns
-        '
-        Me.colSlotColumns.Text = "Slot Columns"
-        Me.colSlotColumns.Width = 200
-        '
-        'btnMoveDown
-        '
-        Me.btnMoveDown.Location = New System.Drawing.Point(104, 384)
-        Me.btnMoveDown.Name = "btnMoveDown"
-        Me.btnMoveDown.Size = New System.Drawing.Size(80, 23)
-        Me.btnMoveDown.TabIndex = 31
-        Me.btnMoveDown.Text = "Move Down"
-        Me.btnMoveDown.UseVisualStyleBackColor = True
-        '
-        'btnMoveUp
-        '
-        Me.btnMoveUp.Location = New System.Drawing.Point(18, 384)
-        Me.btnMoveUp.Name = "btnMoveUp"
-        Me.btnMoveUp.Size = New System.Drawing.Size(80, 23)
-        Me.btnMoveUp.TabIndex = 30
-        Me.btnMoveUp.Text = "Move Up"
-        Me.btnMoveUp.UseVisualStyleBackColor = True
         '
         'frmHQFSettings
         '

@@ -26,9 +26,20 @@ Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class frmHQFSettings
     Dim forceUpdate As Boolean = False
+    Dim redrawColumns As Boolean = True
 
 #Region "Form Opening & Closing"
     Private Sub frmSettings_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        ' Process the slot selection
+        Settings.HQFSettings.UserSlotColumns.Clear()
+        For Each slotItem As ListViewItem In lvwColumns.Items
+            If slotItem.Checked = False Then
+                Settings.HQFSettings.UserSlotColumns.Add(slotItem.Name & "0")
+            Else
+                Settings.HQFSettings.UserSlotColumns.Add(slotItem.Name & "1")
+            End If
+        Next
+        ' Save the settings
         Call Settings.HQFSettings.SaveHQFSettings()
         If forceUpdate = True Then
             HQFEvents.StartUpdateFitting = True
@@ -45,6 +56,8 @@ Public Class frmHQFSettings
                 Me.Tag = "tabGeneral"
             End If
         End If
+        forceUpdate = False
+        redrawColumns = True
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -100,6 +113,11 @@ Public Class frmHQFSettings
         Me.pbLowSlotColour.BackColor = LColor
         Dim RColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.RigSlotColour))
         Me.pbRigSlotColour.BackColor = RColor
+        redrawColumns = True
+        Call Me.RedrawSlotColumnList()
+        redrawColumns = False
+    End Sub
+    Private Sub RedrawSlotColumnList()
         ' Setup the listview
         Dim newCol As New ListViewItem
         lvwColumns.BeginUpdate()
@@ -108,6 +126,7 @@ Public Class frmHQFSettings
             For Each stdSlot As ListViewItem In Settings.HQFSettings.StandardSlotColumns
                 If slot.Substring(0, Len(slot) - 1) = stdSlot.Name Then
                     newCol = CType(stdSlot.Clone, ListViewItem)
+                    newCol.Name = stdSlot.Name
                     If slot.EndsWith("0") = True Then
                         newCol.Checked = False
                     Else
@@ -118,6 +137,80 @@ Public Class frmHQFSettings
             Next
         Next
         lvwColumns.EndUpdate()
+    End Sub
+    Private Sub btnMoveUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMoveUp.Click
+        ' Check we have something selected
+        If lvwColumns.SelectedItems.Count = 0 Then
+            MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+        ' Save the selected item
+        ' Get the slot name of the item selected
+        Dim slotName As String = lvwColumns.SelectedItems(0).Name
+        Dim selName As String = slotName
+        ' Find the index in the user column list
+        Dim idx As Integer = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "0")
+        If idx = -1 Then
+            idx = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "1")
+        End If
+        ' Switch with the one above if the index is not zero
+        If idx <> 0 Then
+            slotName = CStr(Settings.HQFSettings.UserSlotColumns(idx - 1))
+            Settings.HQFSettings.UserSlotColumns(idx - 1) = Settings.HQFSettings.UserSlotColumns(idx)
+            Settings.HQFSettings.UserSlotColumns(idx) = slotName
+            ' Redraw the list
+            redrawColumns = True
+            Call Me.RedrawSlotColumnList()
+            redrawColumns = False
+            lvwColumns.Items(selName).Selected = True
+            lvwColumns.Select()
+            forceUpdate = True
+        End If
+    End Sub
+    Private Sub btnMoveDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMoveDown.Click
+        ' Check we have something selected
+        If lvwColumns.SelectedItems.Count = 0 Then
+            MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+        ' Get the slot name of the item selected
+        Dim slotName As String = lvwColumns.SelectedItems(0).Name
+        Dim selName As String = slotName
+        ' Find the index in the user column list
+        Dim idx As Integer = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "0")
+        If idx = -1 Then
+            idx = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "1")
+        End If
+        ' Switch with the one above if the index is not the last
+        If idx <> Settings.HQFSettings.UserSlotColumns.Count - 1 Then
+            slotName = CStr(Settings.HQFSettings.UserSlotColumns(idx + 1))
+            Settings.HQFSettings.UserSlotColumns(idx + 1) = Settings.HQFSettings.UserSlotColumns(idx)
+            Settings.HQFSettings.UserSlotColumns(idx) = slotName
+            ' Redraw the list
+            redrawColumns = True
+            Call Me.RedrawSlotColumnList()
+            redrawColumns = False
+            lvwColumns.Items(selName).Selected = True
+            lvwColumns.Select()
+            forceUpdate = True
+        End If
+    End Sub
+    Private Sub lvwColumns_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwColumns.ItemChecked
+        If redrawColumns = False Then
+            ' Get the slot name of the ticked item
+            Dim slotName As String = e.Item.Name
+            ' Find the index in the user column list
+            Dim idx As Integer = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "0")
+            If idx = -1 Then
+                idx = Settings.HQFSettings.UserSlotColumns.IndexOf(slotName & "1")
+            End If
+            If e.Item.Checked = False Then
+                Settings.HQFSettings.UserSlotColumns(idx) = slotName & "0"
+            Else
+                Settings.HQFSettings.UserSlotColumns(idx) = slotName & "1"
+            End If
+            forceUpdate = True
+        End If
     End Sub
 
     Private Sub pbHiSlotColour_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbHiSlotColour.Click

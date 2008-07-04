@@ -281,7 +281,7 @@ Public Class Settings
             ' Get the slot columns layout
             HQFSettings.UserSlotColumns.Clear()
             Try
-                settingDetails = XMLdoc.SelectNodes("/HQFSettings/slotColumns")
+                settingDetails = XMLdoc.SelectNodes("/HQFSettings/slotLayout")
                 ' Get the relevant node!
                 settingSettings = settingDetails(0)       ' This is zero because there is only 1 occurence of the EveHQSettings/accounts node in each XML doc
                 If settingSettings.HasChildNodes Then
@@ -330,6 +330,7 @@ Public Class Settings
 
         ' Check if the columns are blank and we need to setup the default
         If HQFSettings.UserSlotColumns.Count <> HQFSettings.StandardSlotColumns.Count Then
+            HQFSettings.UserSlotColumns.Clear()
             For Each slotItem As ListViewItem In cStandardSlotColumns
                 If slotItem.Checked = False Then
                     HQFSettings.UserSlotColumns.Add(slotItem.Name & "0")
@@ -365,6 +366,12 @@ Public Class Settings
         newItem = New ListViewItem
         newItem.Name = "Calibration"
         newItem.Text = "Calibration"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+        ' Setup Price Item
+        newItem = New ListViewItem
+        newItem.Name = "Price"
+        newItem.Text = "Price"
         newItem.Checked = False
         cStandardSlotColumns.Add(newItem)
         ' Setup Activation Cost Item
