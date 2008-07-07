@@ -30,3 +30,10 @@
 10030,loadedCharge,Loaded Charge,0,typeID,9
 10031,maxDroneControlUnits,Drone Control Units,0,,0
 10032,capUsageRate,Capacitor Usage Rate,0,F/s,13
+10033,totalOreMiningAmount,Mining Amount,0,m3,0
+10034,turretOreMiningAmount,Turret Mining Amount,0,m3,0
+10035,droneOreMiningAmount,Drone Mining Amount,0,m3,0
+10036,totalIceMiningAmount,Mining Amount,0,m3,0
+10037,turretIceMiningAmount,Turret Mining Amount,0,m3,0
+10038,droneIceMiningAmount,Drone Mining Amount,0,m3,0
+

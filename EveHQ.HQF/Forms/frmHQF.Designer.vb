@@ -54,6 +54,8 @@ Partial Class frmHQF
         Me.mnuPreviewShip = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuCreateNewFitting = New System.Windows.Forms.ToolStripMenuItem
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
+        Me.chkOnlyShowUsable = New System.Windows.Forms.CheckBox
+        Me.chkApplySkills = New System.Windows.Forms.CheckBox
         Me.chkFilter32 = New System.Windows.Forms.CheckBox
         Me.chkFilter16 = New System.Windows.Forms.CheckBox
         Me.chkFilter8 = New System.Windows.Forms.CheckBox
@@ -61,10 +63,14 @@ Partial Class frmHQF
         Me.chkFilter2 = New System.Windows.Forms.CheckBox
         Me.chkFilter1 = New System.Windows.Forms.CheckBox
         Me.tvwItems = New System.Windows.Forms.TreeView
+        Me.lblModuleDisplayType = New System.Windows.Forms.Label
         Me.txtSearchModules = New System.Windows.Forms.TextBox
         Me.lblSearchModules = New System.Windows.Forms.Label
         Me.ctxModuleList = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuShowModuleInfo = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuSep1 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuAddToFavourites_List = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuRemoveFromFavourites = New System.Windows.Forms.ToolStripMenuItem
         Me.imgAttributes = New System.Windows.Forms.ImageList(Me.components)
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.tabHQF = New System.Windows.Forms.TabControl
@@ -154,13 +160,13 @@ Partial Class frmHQF
         Me.ImplantManagerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripSeparator
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.chkApplySkills = New System.Windows.Forms.CheckBox
-        Me.chkOnlyShowUsable = New System.Windows.Forms.CheckBox
         Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
         Me.colModuleName = New System.Windows.Forms.ColumnHeader
         Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
         Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
         Me.colModulePG = New System.Windows.Forms.ColumnHeader
+        Me.mnuSep2 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuShowModuleMarketGroup = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStrip1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -463,6 +469,7 @@ Partial Class frmHQF
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.lblModuleDisplayType)
         Me.SplitContainer2.Panel2.Controls.Add(Me.txtSearchModules)
         Me.SplitContainer2.Panel2.Controls.Add(Me.lblSearchModules)
         Me.SplitContainer2.Panel2.Controls.Add(Me.lvwItems)
@@ -470,6 +477,30 @@ Partial Class frmHQF
         Me.SplitContainer2.SplitterDistance = 317
         Me.SplitContainer2.SplitterWidth = 2
         Me.SplitContainer2.TabIndex = 4
+        '
+        'chkOnlyShowUsable
+        '
+        Me.chkOnlyShowUsable.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.chkOnlyShowUsable.AutoSize = True
+        Me.chkOnlyShowUsable.Location = New System.Drawing.Point(103, 293)
+        Me.chkOnlyShowUsable.Name = "chkOnlyShowUsable"
+        Me.chkOnlyShowUsable.Size = New System.Drawing.Size(141, 17)
+        Me.chkOnlyShowUsable.TabIndex = 16
+        Me.chkOnlyShowUsable.Tag = "1"
+        Me.chkOnlyShowUsable.Text = "Only Show Usable Items"
+        Me.chkOnlyShowUsable.UseVisualStyleBackColor = True
+        '
+        'chkApplySkills
+        '
+        Me.chkApplySkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.chkApplySkills.AutoSize = True
+        Me.chkApplySkills.Location = New System.Drawing.Point(6, 293)
+        Me.chkApplySkills.Name = "chkApplySkills"
+        Me.chkApplySkills.Size = New System.Drawing.Size(79, 17)
+        Me.chkApplySkills.TabIndex = 15
+        Me.chkApplySkills.Tag = "1"
+        Me.chkApplySkills.Text = "Apply Skills"
+        Me.chkApplySkills.UseVisualStyleBackColor = True
         '
         'chkFilter32
         '
@@ -569,6 +600,16 @@ Partial Class frmHQF
         Me.tvwItems.Size = New System.Drawing.Size(287, 257)
         Me.tvwItems.TabIndex = 1
         '
+        'lblModuleDisplayType
+        '
+        Me.lblModuleDisplayType.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblModuleDisplayType.AutoSize = True
+        Me.lblModuleDisplayType.Location = New System.Drawing.Point(3, 356)
+        Me.lblModuleDisplayType.Name = "lblModuleDisplayType"
+        Me.lblModuleDisplayType.Size = New System.Drawing.Size(87, 13)
+        Me.lblModuleDisplayType.TabIndex = 20
+        Me.lblModuleDisplayType.Text = "Displaying: None"
+        '
         'txtSearchModules
         '
         Me.txtSearchModules.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -589,15 +630,32 @@ Partial Class frmHQF
         '
         'ctxModuleList
         '
-        Me.ctxModuleList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowModuleInfo})
+        Me.ctxModuleList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowModuleInfo, Me.mnuSep1, Me.mnuAddToFavourites_List, Me.mnuRemoveFromFavourites, Me.mnuSep2, Me.mnuShowModuleMarketGroup})
         Me.ctxModuleList.Name = "ctxModuleList"
-        Me.ctxModuleList.Size = New System.Drawing.Size(128, 26)
+        Me.ctxModuleList.Size = New System.Drawing.Size(224, 126)
         '
         'mnuShowModuleInfo
         '
         Me.mnuShowModuleInfo.Name = "mnuShowModuleInfo"
-        Me.mnuShowModuleInfo.Size = New System.Drawing.Size(127, 22)
+        Me.mnuShowModuleInfo.Size = New System.Drawing.Size(223, 22)
         Me.mnuShowModuleInfo.Text = "Show Info"
+        '
+        'mnuSep1
+        '
+        Me.mnuSep1.Name = "mnuSep1"
+        Me.mnuSep1.Size = New System.Drawing.Size(220, 6)
+        '
+        'mnuAddToFavourites_List
+        '
+        Me.mnuAddToFavourites_List.Name = "mnuAddToFavourites_List"
+        Me.mnuAddToFavourites_List.Size = New System.Drawing.Size(223, 22)
+        Me.mnuAddToFavourites_List.Text = "Add To Favourites"
+        '
+        'mnuRemoveFromFavourites
+        '
+        Me.mnuRemoveFromFavourites.Name = "mnuRemoveFromFavourites"
+        Me.mnuRemoveFromFavourites.Size = New System.Drawing.Size(223, 22)
+        Me.mnuRemoveFromFavourites.Text = "Remove From Favourites"
         '
         'imgAttributes
         '
@@ -1515,30 +1573,6 @@ Partial Class frmHQF
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
-        'chkApplySkills
-        '
-        Me.chkApplySkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.chkApplySkills.AutoSize = True
-        Me.chkApplySkills.Location = New System.Drawing.Point(6, 293)
-        Me.chkApplySkills.Name = "chkApplySkills"
-        Me.chkApplySkills.Size = New System.Drawing.Size(79, 17)
-        Me.chkApplySkills.TabIndex = 15
-        Me.chkApplySkills.Tag = "1"
-        Me.chkApplySkills.Text = "Apply Skills"
-        Me.chkApplySkills.UseVisualStyleBackColor = True
-        '
-        'chkOnlyShowUsable
-        '
-        Me.chkOnlyShowUsable.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.chkOnlyShowUsable.AutoSize = True
-        Me.chkOnlyShowUsable.Location = New System.Drawing.Point(103, 293)
-        Me.chkOnlyShowUsable.Name = "chkOnlyShowUsable"
-        Me.chkOnlyShowUsable.Size = New System.Drawing.Size(141, 17)
-        Me.chkOnlyShowUsable.TabIndex = 16
-        Me.chkOnlyShowUsable.Tag = "1"
-        Me.chkOnlyShowUsable.Text = "Only Show Usable Items"
-        Me.chkOnlyShowUsable.UseVisualStyleBackColor = True
-        '
         'lvwItems
         '
         Me.lvwItems.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1547,10 +1581,10 @@ Partial Class frmHQF
         Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
         Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvwItems.FullRowSelect = True
-        Me.lvwItems.Location = New System.Drawing.Point(0, 28)
+        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
         Me.lvwItems.Name = "lvwItems"
         Me.lvwItems.ShowItemToolTips = True
-        Me.lvwItems.Size = New System.Drawing.Size(287, 345)
+        Me.lvwItems.Size = New System.Drawing.Size(287, 324)
         Me.lvwItems.SmallImageList = Me.imgAttributes
         Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwItems.TabIndex = 0
@@ -1576,6 +1610,17 @@ Partial Class frmHQF
         '
         Me.colModulePG.Text = "PG"
         Me.colModulePG.Width = 40
+        '
+        'mnuSep2
+        '
+        Me.mnuSep2.Name = "mnuSep2"
+        Me.mnuSep2.Size = New System.Drawing.Size(220, 6)
+        '
+        'mnuShowModuleMarketGroup
+        '
+        Me.mnuShowModuleMarketGroup.Name = "mnuShowModuleMarketGroup"
+        Me.mnuShowModuleMarketGroup.Size = New System.Drawing.Size(223, 22)
+        Me.mnuShowModuleMarketGroup.Text = "Show Module Market Group"
         '
         'frmHQF
         '
@@ -1796,4 +1841,10 @@ Partial Class frmHQF
     Friend WithEvents OptionsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents chkOnlyShowUsable As System.Windows.Forms.CheckBox
     Friend WithEvents chkApplySkills As System.Windows.Forms.CheckBox
+    Friend WithEvents mnuSep1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuAddToFavourites_List As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lblModuleDisplayType As System.Windows.Forms.Label
+    Friend WithEvents mnuRemoveFromFavourites As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuSep2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuShowModuleMarketGroup As System.Windows.Forms.ToolStripMenuItem
 End Class

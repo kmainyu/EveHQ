@@ -460,6 +460,12 @@ Public Class frmHQF
                                 newShip.Attributes.Add("10028", 0)
                                 newShip.Attributes.Add("10029", 0)
                                 newShip.Attributes.Add("10031", 0)
+                                newShip.Attributes.Add("10033", 0)
+                                newShip.Attributes.Add("10034", 0)
+                                newShip.Attributes.Add("10035", 0)
+                                newShip.Attributes.Add("10036", 0)
+                                newShip.Attributes.Add("10037", 0)
+                                newShip.Attributes.Add("10038", 0)
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -559,6 +565,12 @@ Public Class frmHQF
                     newShip.Attributes.Add("10028", 0)
                     newShip.Attributes.Add("10029", 0)
                     newShip.Attributes.Add("10031", 0)
+                    newShip.Attributes.Add("10033", 0)
+                    newShip.Attributes.Add("10034", 0)
+                    newShip.Attributes.Add("10035", 0)
+                    newShip.Attributes.Add("10036", 0)
+                    newShip.Attributes.Add("10037", 0)
+                    newShip.Attributes.Add("10038", 0)
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
                     ' Perform the last addition for the last ship type
@@ -1231,6 +1243,12 @@ Public Class frmHQF
             End Select
         Next
         tvwItems.Sorted = True
+        tvwItems.Sorted = False
+        ' Add the Favourties Node
+        Dim FavNode As New TreeNode("Favourites")
+        FavNode.Name = "Favourites"
+        FavNode.Tag = "Favourites"
+        tvwItems.Nodes.Add(FavNode)
         tvwItems.EndUpdate()
         Call BuildTreePathData()
     End Sub
@@ -1322,7 +1340,6 @@ Public Class frmHQF
                 End If
             End If
         Next
-        tvwItems.Sorted = True
         tvwItems.EndUpdate()
     End Sub
     Private Sub UpdateMarketGroup(ByVal path As String)
@@ -1554,31 +1571,28 @@ Public Class frmHQF
                         Call CalculateSearchedModules()
                     Case "Fitted"
                         Call CalculateModulesThatWillFit()
+                    Case "Favourites"
+                        Call CalculateFilteredModules(tvwItems.SelectedNode)
                     Case Else
                         Call CalculateFilteredModules(tvwItems.SelectedNode)
                 End Select
             End If
         End If
     End Sub
-
     Private Sub CalculateFilteredModules(ByVal groupNode As TreeNode)
         Me.Cursor = Cursors.WaitCursor
         Dim cMod, sMod As New ShipModule
         Dim groupID As String
-        If groupNode.Nodes.Count = 0 Then
-            groupID = groupNode.Tag.ToString
-        Else
-            groupID = tvwItems.Tag.ToString
-        End If
-        Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
         Dim results As New SortedList
-        For Each shipMod As ShipModule In HQF.ModuleLists.moduleList.Values
-            If shipMod.MarketGroup = groupID Then
+        If groupNode.Name = "Favourites" Then
+            tvwItems.Tag = "Favourites"
+            For Each modName As String In Settings.HQFSettings.Favourites
+                cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
                 ' Add results in by name, module
                 If chkApplySkills.Checked = True Then
-                    sMod = Engine.ApplySkillEffectsToModule(shipMod)
+                    sMod = Engine.ApplySkillEffectsToModule(cMod)
                 Else
-                    sMod = shipMod.Clone
+                    sMod = cMod.Clone
                 End If
                 If chkOnlyShowUsable.Checked = True Then
                     If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
@@ -1587,8 +1601,35 @@ Public Class frmHQF
                 Else
                     results.Add(sMod.Name, sMod)
                 End If
+            Next
+            lblModuleDisplayType.Text = "Displaying: Favourites"
+        Else
+            If groupNode.Nodes.Count = 0 Then
+                groupID = groupNode.Tag.ToString
+            Else
+                groupID = tvwItems.Tag.ToString
             End If
-        Next
+            tvwItems.Tag = groupID
+            lblModuleDisplayType.Tag = Market.MarketGroupList(groupID).ToString
+            For Each shipMod As ShipModule In HQF.ModuleLists.moduleList.Values
+                If shipMod.MarketGroup = groupID Then
+                    ' Add results in by name, module
+                    If chkApplySkills.Checked = True Then
+                        sMod = Engine.ApplySkillEffectsToModule(shipMod)
+                    Else
+                        sMod = shipMod.Clone
+                    End If
+                    If chkOnlyShowUsable.Checked = True Then
+                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                            results.Add(sMod.Name, sMod)
+                        End If
+                    Else
+                        results.Add(sMod.Name, sMod)
+                    End If
+                End If
+            Next
+            lblModuleDisplayType.Text = "Displaying: " & lblModuleDisplayType.Tag.ToString
+        End If
         Me.LastModuleResults = results
         Call Me.ShowFilteredModules()
         Me.Cursor = Cursors.Default
@@ -1645,7 +1686,7 @@ Public Class frmHQF
             lvwItems.Enabled = True
         End If
         lvwItems.EndUpdate()
-        tvwItems.Tag = groupID
+
     End Sub
     Private Sub CalculateSearchedModules()
         Me.Cursor = Cursors.WaitCursor
@@ -1672,6 +1713,7 @@ Public Class frmHQF
                 End If
             Next
             Me.LastModuleResults = results
+            lblModuleDisplayType.Text = "Displaying: Modules Matching *" & txtSearchModules.Text & "*"
             Call Me.ShowSearchedModules()
         End If
         Me.Cursor = Cursors.Default
@@ -1789,6 +1831,7 @@ Public Class frmHQF
             End If
         Next
         Me.LastModuleResults = results
+        lblModuleDisplayType.Text = "Displaying: Modules That Will Fit"
         Call Me.ShowModulesThatWillFit()
         Me.Cursor = Cursors.Default
     End Sub
@@ -1844,6 +1887,7 @@ Public Class frmHQF
     Private Sub txtSearchModules_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchModules.TextChanged
         Call CalculateSearchedModules()
     End Sub
+    
 #End Region
 
 #Region "Module List Routines"
@@ -2008,17 +2052,12 @@ Public Class frmHQF
             End If
         Next
     End Sub
-
-    Private Sub mnuShowModuleInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowModuleInfo.Click
-        Dim moduleID As String = lvwItems.SelectedItems(0).Name
-        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
-        Dim showInfo As New frmShowInfo
-        showInfo.ShowItemDetails(cModule)
-        showInfo = Nothing
-    End Sub
-
+  
 #Region "TabHQF Selection and Context Menu Routines"
     Private Sub tabHQF_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabHQF.SelectedIndexChanged
+        Call Me.UpdateSelectedTab()
+    End Sub
+    Private Sub UpdateSelectedTab()
         If tabHQF.SelectedTab IsNot Nothing Then
             If FittingTabList.Contains(tabHQF.SelectedTab.Text) Then
                 ' Get the controls on the existing tab
@@ -2194,6 +2233,7 @@ Public Class frmHQF
         Dim tp As New TabPage(shipFit)
         tp.Tag = shipFit
         tp.Name = shipFit
+
         tp.Parent = Me.tabHQF
 
         Dim pSS As New Panel
@@ -2413,6 +2453,7 @@ Public Class frmHQF
                 Call Me.CreateFittingTabPage(shipFit)
             End If
             tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+            If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
             currentShipSlot.UpdateEverything()
         End If
     End Sub
@@ -2521,12 +2562,72 @@ Public Class frmHQF
     End Sub
 #End Region
 
+#Region "Module List Context Menu Routines"
+
+    Private Sub ctxModuleList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxModuleList.Opening
+        Dim moduleID As String = lvwItems.SelectedItems(0).Name
+        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        If tvwItems.Tag.ToString = "Favourites" Then
+            mnuAddToFavourites_List.Visible = False
+            mnuRemoveFromFavourites.Visible = True
+        Else
+            mnuAddToFavourites_List.Visible = True
+            mnuRemoveFromFavourites.Visible = False
+            If Settings.HQFSettings.Favourites.Contains(cModule.Name) = True Then
+                mnuAddToFavourites_List.Enabled = False
+            Else
+                mnuAddToFavourites_List.Enabled = True
+            End If
+        End If
+        If IsNumeric(tvwItems.Tag.ToString) = True Then
+            mnuSep2.Visible = False
+            mnuShowModuleMarketGroup.Visible = False
+        Else
+            mnuSep2.Visible = True
+            mnuShowModuleMarketGroup.Visible = True
+        End If
+    End Sub
+
+    Private Sub mnuShowModuleInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowModuleInfo.Click
+        Dim moduleID As String = lvwItems.SelectedItems(0).Name
+        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim showInfo As New frmShowInfo
+        showInfo.ShowItemDetails(cModule)
+        showInfo = Nothing
+    End Sub
+
+    Private Sub mnuAddToFavourites_List_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToFavourites_List.Click
+        Dim moduleID As String = lvwItems.SelectedItems(0).Name
+        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        If Settings.HQFSettings.Favourites.Contains(cModule.Name) = False Then
+            Settings.HQFSettings.Favourites.Add(cModule.Name)
+        End If
+    End Sub
+
+    Private Sub mnuRemoveFromFavourites_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveFromFavourites.Click
+        Dim moduleID As String = lvwItems.SelectedItems(0).Name
+        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        If Settings.HQFSettings.Favourites.Contains(cModule.Name) = True Then
+            Settings.HQFSettings.Favourites.Remove(cModule.Name)
+        End If
+        Call CalculateFilteredModules(tvwItems.SelectedNode)
+    End Sub
+
+    Private Sub mnuShowModuleMarketGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowModuleMarketGroup.Click
+        Dim moduleID As String = lvwItems.SelectedItems(0).Name
+        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim pathLine As String = CStr(Market.MarketGroupPath(cModule.MarketGroup))
+        ShipModule.DisplayedMarketGroup = pathLine
+    End Sub
+
+#End Region
+
     Private Sub btnPilotManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPilotManager.Click
         Dim myPilotManager As New frmPilotManager
         myPilotManager.ShowDialog()
         myPilotManager = Nothing
     End Sub
 
-    
-    
+   
+   
 End Class

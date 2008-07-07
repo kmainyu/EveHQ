@@ -158,6 +158,14 @@ Imports System.Runtime.Serialization
     Private cTotalVolley As Double
     Private cTotalDPS As Double
 
+    ' Mining
+    Private cOreTurretAmount As Double
+    Private cOreDroneAmount As Double
+    Private cOreTotalAmount As Double
+    Private cIceTurretAmount As Double
+    Private cIceDroneAmount As Double
+    Private cIceTotalAmount As Double
+
     ' Audit Log
     Private cAuditLog As New ArrayList
 
@@ -726,11 +734,7 @@ Imports System.Runtime.Serialization
                             cTurretSlots_Used -= 1
                         End If
                         cFittingBasePrice -= cHiSlot(index).BasePrice
-                        If cHiSlot(index).MarketPrice > 0 Then
-                            cFittingMarketPrice -= cHiSlot(index).MarketPrice
-                        Else
-                            cFittingMarketPrice -= cHiSlot(index).BasePrice
-                        End If
+                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cHiSlot(index).ID)
                     End If
                 Else
                     cHiSlots_Used += 1
@@ -740,11 +744,7 @@ Imports System.Runtime.Serialization
                         cTurretSlots_Used += 1
                     End If
                     cFittingBasePrice += value.BasePrice
-                    If value.MarketPrice > 0 Then
-                        cFittingMarketPrice += value.MarketPrice
-                    Else
-                        cFittingMarketPrice += value.BasePrice
-                    End If
+                    cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
                 End If
                 cHiSlot(index) = value
             End If
@@ -767,20 +767,12 @@ Imports System.Runtime.Serialization
                     If cMidSlot(index) IsNot Nothing Then
                         cMidSlots_Used -= 1
                         cFittingBasePrice -= cMidSlot(index).BasePrice
-                        If cMidSlot(index).MarketPrice > 0 Then
-                            cFittingMarketPrice -= cMidSlot(index).MarketPrice
-                        Else
-                            cFittingMarketPrice -= cMidSlot(index).BasePrice
-                        End If
+                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cMidSlot(index).ID)
                     End If
                 Else
                     cMidSlots_Used += 1
                     cFittingBasePrice += value.BasePrice
-                    If value.MarketPrice > 0 Then
-                        cFittingMarketPrice += value.MarketPrice
-                    Else
-                        cFittingMarketPrice += value.BasePrice
-                    End If
+                    cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
                 End If
                 cMidSlot(index) = value
             End If
@@ -803,20 +795,12 @@ Imports System.Runtime.Serialization
                     If cLowSlot(index) IsNot Nothing Then
                         cLowSlots_Used -= 1
                         cFittingBasePrice -= cLowSlot(index).BasePrice
-                        If cLowSlot(index).MarketPrice > 0 Then
-                            cFittingMarketPrice -= cLowSlot(index).MarketPrice
-                        Else
-                            cFittingMarketPrice -= cLowSlot(index).BasePrice
-                        End If
+                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cLowSlot(index).ID)
                     End If
                 Else
                     cLowSlots_Used += 1
                     cFittingBasePrice += value.BasePrice
-                    If value.MarketPrice > 0 Then
-                        cFittingMarketPrice += value.MarketPrice
-                    Else
-                        cFittingMarketPrice += value.BasePrice
-                    End If
+                    cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
                 End If
                 cLowSlot(index) = value
             End If
@@ -839,20 +823,12 @@ Imports System.Runtime.Serialization
                     If cRigSlot(index) IsNot Nothing Then
                         cRigSlots_Used -= 1
                         cFittingBasePrice -= cRigSlot(index).BasePrice
-                        If cRigSlot(index).MarketPrice > 0 Then
-                            cFittingMarketPrice -= cRigSlot(index).MarketPrice
-                        Else
-                            cFittingMarketPrice -= cRigSlot(index).BasePrice
-                        End If
+                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cRigSlot(index).ID)
                     End If
                 Else
                     cRigSlots_Used += 1
                     cFittingBasePrice += value.BasePrice
-                    If value.MarketPrice > 0 Then
-                        cFittingMarketPrice += value.MarketPrice
-                    Else
-                        cFittingMarketPrice += value.BasePrice
-                    End If
+                    cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
                 End If
                 cRigSlot(index) = value
             End If
@@ -1121,6 +1097,56 @@ Imports System.Runtime.Serialization
         End Set
     End Property
 
+    ' Mining
+    Public Property OreTurretAmount() As Double
+        Get
+            Return cOreTurretAmount
+        End Get
+        Set(ByVal value As Double)
+            cOreTurretAmount = value
+        End Set
+    End Property
+    Public Property OreDroneAmount() As Double
+        Get
+            Return cOreDroneAmount
+        End Get
+        Set(ByVal value As Double)
+            cOreDroneAmount = value
+        End Set
+    End Property
+    Public Property OreTotalAmount() As Double
+        Get
+            Return cOreTotalAmount
+        End Get
+        Set(ByVal value As Double)
+            cOreTotalAmount = value
+        End Set
+    End Property
+    Public Property IceTurretAmount() As Double
+        Get
+            Return cIceTurretAmount
+        End Get
+        Set(ByVal value As Double)
+            cIceTurretAmount = value
+        End Set
+    End Property
+    Public Property IceDroneAmount() As Double
+        Get
+            Return cIceDroneAmount
+        End Get
+        Set(ByVal value As Double)
+            cIceDroneAmount = value
+        End Set
+    End Property
+    Public Property IceTotalAmount() As Double
+        Get
+            Return cIceTotalAmount
+        End Get
+        Set(ByVal value As Double)
+            cIceTotalAmount = value
+        End Set
+    End Property
+
     'Audit Log
     Public Property AuditLog() As ArrayList
         Get
@@ -1130,7 +1156,6 @@ Imports System.Runtime.Serialization
             cAuditLog = value
         End Set
     End Property
-
 
 #End Region
 
@@ -1350,6 +1375,8 @@ Imports System.Runtime.Serialization
                     newShip.DroneBay = attValue
                 Case 1271
                     newShip.DroneBandwidth = attValue
+                Case 10004
+                    newShip.CargoBay = CInt(attValue)
                 Case 10005
                     newShip.MaxDrones = CInt(attValue)
                 Case 10006
@@ -1374,6 +1401,18 @@ Imports System.Runtime.Serialization
                     newShip.TotalVolley = attValue
                 Case 10029
                     newShip.TotalDPS = attValue
+                Case 10033
+                    newShip.OreTotalAmount = attValue
+                Case 10034
+                    newShip.OreTurretAmount = attValue
+                Case 10035
+                    newShip.OreDroneAmount = attValue
+                Case 10036
+                    newShip.IceTotalAmount = attValue
+                Case 10037
+                    newShip.IceTurretAmount = attValue
+                Case 10038
+                    newShip.IceDroneAmount = attValue
             End Select
         Next
     End Sub

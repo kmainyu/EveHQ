@@ -29,6 +29,7 @@ Public Class frmHQFSettings
     Dim redrawColumns As Boolean = True
 
 #Region "Form Opening & Closing"
+
     Private Sub frmSettings_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         ' Process the slot selection
         Settings.HQFSettings.UserSlotColumns.Clear()
@@ -63,6 +64,11 @@ Public Class frmHQFSettings
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
+
+    Private Sub gbSlotFormat_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles gbSlotFormat.Paint
+        redrawColumns = False
+    End Sub
+
 #End Region
 
 #Region "General Options"
@@ -326,4 +332,6 @@ Public Class frmHQFSettings
     End Sub
 #End Region
 
+
+    
 End Class

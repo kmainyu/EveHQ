@@ -786,17 +786,29 @@ Public Class ShipSlotControl
                 ctxSlots.Items.Clear()
                 ' Add the Show Info menu item
                 If lvwSlots.SelectedItems.Count = 1 Then
+                    ' Add the Show Info menu item
                     Dim showInfoMenuItem As New ToolStripMenuItem
                     showInfoMenuItem.Name = currentMod.Name
                     showInfoMenuItem.Text = "Show Info"
                     AddHandler showInfoMenuItem.Click, AddressOf Me.ShowInfo
                     ctxSlots.Items.Add(showInfoMenuItem)
-                    ' Add the Show Info menu item
+                    ' Add the Show Market Group menu item
                     Dim showMarketGroupMenuItem As New ToolStripMenuItem
                     showMarketGroupMenuItem.Name = currentMod.Name
                     showMarketGroupMenuItem.Text = "Show Module Market Group"
                     AddHandler showMarketGroupMenuItem.Click, AddressOf Me.ShowModuleMarketGroup
                     ctxSlots.Items.Add(showMarketGroupMenuItem)
+                    ' Add the Add to Favourites menu item
+                    Dim AddToFavourtiesMenuItem As New ToolStripMenuItem
+                    AddToFavourtiesMenuItem.Name = currentMod.Name
+                    AddToFavourtiesMenuItem.Text = "Add To Favourites"
+                    If Settings.HQFSettings.Favourites.Contains(currentMod.Name) = True Then
+                        AddToFavourtiesMenuItem.Enabled = False
+                    Else
+                        AddToFavourtiesMenuItem.Enabled = True
+                    End If
+                    AddHandler AddToFavourtiesMenuItem.Click, AddressOf Me.AddModuleToFavourites
+                    ctxSlots.Items.Add(AddToFavourtiesMenuItem)
                     ' Add the Status menu item
                     If rigGroups.Contains(CInt(currentMod.DatabaseGroup)) = False Then
                         Dim canDeactivate As Boolean = False
@@ -1004,6 +1016,19 @@ Public Class ShipSlotControl
         Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
         Dim pathLine As String = CStr(Market.MarketGroupPath(cModule.MarketGroup))
         ShipModule.DisplayedMarketGroup = pathLine
+    End Sub
+    Private Sub AddModuleToFavourites(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim ShowMarketMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim moduleName As String = ShowMarketMenu.Name
+        Dim moduleID As String = CStr(ModuleLists.moduleListName(moduleName))
+        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        If Settings.HQFSettings.Favourites.Contains(cModule.Name) = False Then
+            Settings.HQFSettings.Favourites.Add(cModule.Name)
+            HQFEvents.StartUpdateModuleList = True
+        End If
+    End Sub
+    Private Sub pbShipInfo_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles pbShipInfo.MouseHover
+        ToolTip1.SetToolTip(pbShipInfo, currentShip.Description)
     End Sub
 #End Region
 
@@ -1381,4 +1406,5 @@ Public Class ShipSlotControl
         Return fitting.ToString
     End Function
 #End Region
+
 End Class

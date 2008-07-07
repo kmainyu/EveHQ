@@ -48,7 +48,16 @@ Public Class Settings
     Private cShieldRechargeConstant As Double = 2.5
     Private cStandardSlotColumns As New ArrayList
     Private cUserSlotColumns As New ArrayList
+    Private cFavourites As New ArrayList
 
+    Public Property Favourites() As ArrayList
+        Get
+            Return cFavourites
+        End Get
+        Set(ByVal value As ArrayList)
+            cFavourites = value
+        End Set
+    End Property
     Public Property UserSlotColumns() As ArrayList
         Get
             Return cUserSlotColumns
@@ -205,12 +214,18 @@ Public Class Settings
 
         ' Save the slot layout
         XMLS &= Chr(9) & "<slotLayout>" & vbCrLf
-        Dim slotName As String = ""
-        Dim slotActive As String = ""
         For Each slot As String In HQFSettings.UserSlotColumns
             XMLS &= Chr(9) & Chr(9) & "<slot>" & slot & "</slot>" & vbCrLf
         Next
         XMLS &= Chr(9) & "</slotLayout>" & vbCrLf
+
+        ' Save favourites
+        HQFSettings.Favourites.Sort()
+        XMLS &= Chr(9) & "<favourites>" & vbCrLf
+        For Each favMod As String In HQFSettings.Favourites
+            XMLS &= Chr(9) & Chr(9) & "<item>" & favMod & "</item>" & vbCrLf
+        Next
+        XMLS &= Chr(9) & "</favourites>" & vbCrLf
 
         ' Save the open fittings
         XMLS &= Chr(9) & "<openFittings>" & vbCrLf
@@ -289,6 +304,21 @@ Public Class Settings
                         HQFSettings.UserSlotColumns.Add(settingSettings.ChildNodes(group).InnerText)
                     Next
                 End If
+            Catch
+            End Try
+
+            ' Get the favourites
+            HQFSettings.Favourites.Clear()
+            Try
+                settingDetails = XMLdoc.SelectNodes("/HQFSettings/favourites")
+                ' Get the relevant node!
+                settingSettings = settingDetails(0)       ' This is zero because there is only 1 occurence of the EveHQSettings/accounts node in each XML doc
+                If settingSettings.HasChildNodes Then
+                    For item As Integer = 0 To settingSettings.ChildNodes.Count - 1
+                        HQFSettings.Favourites.Add(settingSettings.ChildNodes(item).InnerText)
+                    Next
+                End If
+                HQFSettings.Favourites.Sort()
             Catch
             End Try
 
