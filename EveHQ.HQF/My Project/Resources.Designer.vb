@@ -277,6 +277,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property imgMining() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("imgMining", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property imgPG() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("imgPG", resourceCulture)
@@ -532,16 +539,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to #HQF Ship Bonus Mapping Table,,,,,,,,,,,
-        '''#Ship ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Status,Description
-        '''
-        '''# Raven,,,,,,,,,,,
-        '''638,1,3338,51,2,506;508,0,1,0,-5,15,Cruise &amp; Siege ROF
-        '''638,1,3338,37,2,656;657;386;89,0,1,0,10,15,Cruise &amp; Torpedo Velocity
-        '''# Abaddon,,,,,,,,,,,
-        '''24692,1,3339,64,4,569;573,0,1,0,5,15,Large Energy Turret Damage
-        '''24692,1,3339,267,1,24692,0,1,2,5,15,Armor EM Resistance
-        '''24692,1,3339,268,1,24692,0,1,2,5,15,Arm [rest of string was truncated]&quot;;.
+        '''  Looks up a localized string similar to #HQF Ship Bonus Mapping Table,,,,,,,,,,,,
+        '''#Ship ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Status,Description,
+        '''# Raven,,,,,,,,,,,,
+        '''638,1,3338,51,2,506;508,0,1,0,-5,15,Cruise &amp; Siege ROF,
+        '''638,1,3338,37,2,656;657;386;89,0,1,0,10,15,Cruise &amp; Torpedo Velocity,
+        '''# Abaddon,,,,,,,,,,,,
+        '''24692,1,3339,64,4,569;573,0,1,0,5,15,Large Energy Turret Damage,
+        '''24692,1,3339,267,1,24692,0,1,2,5,15,Armor EM Resistance,
+        '''24692,1,3339,268,1,24692,0,1,2,5, [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ShipEffects() As String
             Get

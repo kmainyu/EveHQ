@@ -26,14 +26,8 @@ Partial Class ShipInfoControl
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipInfoControl))
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.gbDamage = New System.Windows.Forms.GroupBox
-        Me.lblDroneVolleyDamage = New System.Windows.Forms.Label
-        Me.lblSmartbombVolleyDamage = New System.Windows.Forms.Label
-        Me.lblMissileVolleyDamage = New System.Windows.Forms.Label
-        Me.pbDroneDamage = New System.Windows.Forms.PictureBox
-        Me.lblTurretVolleyDamage = New System.Windows.Forms.Label
-        Me.pbMissileDamage = New System.Windows.Forms.PictureBox
-        Me.pbSmartbombDamage = New System.Windows.Forms.PictureBox
-        Me.pbTurretDamage = New System.Windows.Forms.PictureBox
+        Me.lblDamage = New System.Windows.Forms.Label
+        Me.pbDamage = New System.Windows.Forms.PictureBox
         Me.progCalibration = New VistaStyleProgressBar.ProgressBar
         Me.progPG = New VistaStyleProgressBar.ProgressBar
         Me.progCPU = New VistaStyleProgressBar.ProgressBar
@@ -141,12 +135,11 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.lblMining = New System.Windows.Forms.Label
+        Me.pbMining = New System.Windows.Forms.PictureBox
         Me.Panel1.SuspendLayout()
         Me.gbDamage.SuspendLayout()
-        CType(Me.pbDroneDamage, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbMissileDamage, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbSmartbombDamage, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbTurretDamage, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbDamage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbCargo.SuspendLayout()
         CType(Me.pbDroneControl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbDroneBandwidth, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -191,6 +184,7 @@ Partial Class ShipInfoControl
         CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbMining, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
@@ -231,106 +225,39 @@ Partial Class ShipInfoControl
         '
         'gbDamage
         '
-        Me.gbDamage.Controls.Add(Me.lblDroneVolleyDamage)
-        Me.gbDamage.Controls.Add(Me.lblSmartbombVolleyDamage)
-        Me.gbDamage.Controls.Add(Me.lblMissileVolleyDamage)
-        Me.gbDamage.Controls.Add(Me.pbDroneDamage)
-        Me.gbDamage.Controls.Add(Me.lblTurretVolleyDamage)
-        Me.gbDamage.Controls.Add(Me.pbMissileDamage)
-        Me.gbDamage.Controls.Add(Me.pbSmartbombDamage)
-        Me.gbDamage.Controls.Add(Me.pbTurretDamage)
+        Me.gbDamage.Controls.Add(Me.lblMining)
+        Me.gbDamage.Controls.Add(Me.pbMining)
+        Me.gbDamage.Controls.Add(Me.lblDamage)
+        Me.gbDamage.Controls.Add(Me.pbDamage)
         Me.gbDamage.ForeColor = System.Drawing.SystemColors.ControlText
         Me.gbDamage.Location = New System.Drawing.Point(5, 501)
         Me.gbDamage.Name = "gbDamage"
         Me.gbDamage.Size = New System.Drawing.Size(240, 70)
         Me.gbDamage.TabIndex = 33
         Me.gbDamage.TabStop = False
-        Me.gbDamage.Text = "Damage"
+        Me.gbDamage.Text = "Damage / Mining"
         Me.ToolTip1.SetToolTip(Me.gbDamage, "Damage Information")
         '
-        'lblDroneVolleyDamage
+        'lblDamage
         '
-        Me.lblDroneVolleyDamage.AutoSize = True
-        Me.lblDroneVolleyDamage.Location = New System.Drawing.Point(148, 47)
-        Me.lblDroneVolleyDamage.Name = "lblDroneVolleyDamage"
-        Me.lblDroneVolleyDamage.Size = New System.Drawing.Size(54, 13)
-        Me.lblDroneVolleyDamage.TabIndex = 14
-        Me.lblDroneVolleyDamage.Text = "000 / 000"
-        Me.ToolTip1.SetToolTip(Me.lblDroneVolleyDamage, "Drone Damage")
+        Me.lblDamage.AutoSize = True
+        Me.lblDamage.Location = New System.Drawing.Point(29, 24)
+        Me.lblDamage.Name = "lblDamage"
+        Me.lblDamage.Size = New System.Drawing.Size(54, 13)
+        Me.lblDamage.TabIndex = 10
+        Me.lblDamage.Text = "000 / 000"
+        Me.ToolTip1.SetToolTip(Me.lblDamage, "Damage (Volley / DPS)")
         '
-        'lblSmartbombVolleyDamage
+        'pbDamage
         '
-        Me.lblSmartbombVolleyDamage.AutoSize = True
-        Me.lblSmartbombVolleyDamage.Location = New System.Drawing.Point(29, 47)
-        Me.lblSmartbombVolleyDamage.Name = "lblSmartbombVolleyDamage"
-        Me.lblSmartbombVolleyDamage.Size = New System.Drawing.Size(54, 13)
-        Me.lblSmartbombVolleyDamage.TabIndex = 13
-        Me.lblSmartbombVolleyDamage.Text = "000 / 000"
-        Me.ToolTip1.SetToolTip(Me.lblSmartbombVolleyDamage, "Smartbomb Damage")
-        '
-        'lblMissileVolleyDamage
-        '
-        Me.lblMissileVolleyDamage.AutoSize = True
-        Me.lblMissileVolleyDamage.Location = New System.Drawing.Point(148, 24)
-        Me.lblMissileVolleyDamage.Name = "lblMissileVolleyDamage"
-        Me.lblMissileVolleyDamage.Size = New System.Drawing.Size(54, 13)
-        Me.lblMissileVolleyDamage.TabIndex = 12
-        Me.lblMissileVolleyDamage.Text = "000 / 000"
-        Me.ToolTip1.SetToolTip(Me.lblMissileVolleyDamage, "Missile Damage")
-        '
-        'pbDroneDamage
-        '
-        Me.pbDroneDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgDrone
-        Me.pbDroneDamage.Location = New System.Drawing.Point(124, 42)
-        Me.pbDroneDamage.Name = "pbDroneDamage"
-        Me.pbDroneDamage.Size = New System.Drawing.Size(24, 24)
-        Me.pbDroneDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbDroneDamage.TabIndex = 11
-        Me.pbDroneDamage.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbDroneDamage, "Drone Damage")
-        '
-        'lblTurretVolleyDamage
-        '
-        Me.lblTurretVolleyDamage.AutoSize = True
-        Me.lblTurretVolleyDamage.Location = New System.Drawing.Point(29, 24)
-        Me.lblTurretVolleyDamage.Name = "lblTurretVolleyDamage"
-        Me.lblTurretVolleyDamage.Size = New System.Drawing.Size(54, 13)
-        Me.lblTurretVolleyDamage.TabIndex = 10
-        Me.lblTurretVolleyDamage.Text = "000 / 000"
-        Me.ToolTip1.SetToolTip(Me.lblTurretVolleyDamage, "Turret Damage")
-        '
-        'pbMissileDamage
-        '
-        Me.pbMissileDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgLauncherSlots
-        Me.pbMissileDamage.Location = New System.Drawing.Point(124, 19)
-        Me.pbMissileDamage.Name = "pbMissileDamage"
-        Me.pbMissileDamage.Size = New System.Drawing.Size(24, 24)
-        Me.pbMissileDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbMissileDamage.TabIndex = 6
-        Me.pbMissileDamage.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbMissileDamage, "Missile Damage")
-        '
-        'pbSmartbombDamage
-        '
-        Me.pbSmartbombDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgSmartbomb
-        Me.pbSmartbombDamage.Location = New System.Drawing.Point(5, 42)
-        Me.pbSmartbombDamage.Name = "pbSmartbombDamage"
-        Me.pbSmartbombDamage.Size = New System.Drawing.Size(24, 24)
-        Me.pbSmartbombDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbSmartbombDamage.TabIndex = 3
-        Me.pbSmartbombDamage.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbSmartbombDamage, "Smartbomb Damage")
-        '
-        'pbTurretDamage
-        '
-        Me.pbTurretDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgTurretSlots
-        Me.pbTurretDamage.Location = New System.Drawing.Point(5, 19)
-        Me.pbTurretDamage.Name = "pbTurretDamage"
-        Me.pbTurretDamage.Size = New System.Drawing.Size(24, 24)
-        Me.pbTurretDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbTurretDamage.TabIndex = 0
-        Me.pbTurretDamage.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbTurretDamage, "Turret Damage")
+        Me.pbDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgTurretSlots
+        Me.pbDamage.Location = New System.Drawing.Point(5, 19)
+        Me.pbDamage.Name = "pbDamage"
+        Me.pbDamage.Size = New System.Drawing.Size(24, 24)
+        Me.pbDamage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbDamage.TabIndex = 0
+        Me.pbDamage.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbDamage, "Damage (Volley / DPS)")
         '
         'progCalibration
         '
@@ -1508,6 +1435,27 @@ Partial Class ShipInfoControl
         Me.pbCPU.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbCPU, "CPU")
         '
+        'lblMining
+        '
+        Me.lblMining.AutoSize = True
+        Me.lblMining.Location = New System.Drawing.Point(29, 47)
+        Me.lblMining.Name = "lblMining"
+        Me.lblMining.Size = New System.Drawing.Size(54, 13)
+        Me.lblMining.TabIndex = 12
+        Me.lblMining.Text = "000 / 000"
+        Me.ToolTip1.SetToolTip(Me.lblMining, "Mining (Cycle / Rate)")
+        '
+        'pbMining
+        '
+        Me.pbMining.Image = Global.EveHQ.HQF.My.Resources.Resources.imgMining
+        Me.pbMining.Location = New System.Drawing.Point(5, 42)
+        Me.pbMining.Name = "pbMining"
+        Me.pbMining.Size = New System.Drawing.Size(24, 24)
+        Me.pbMining.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbMining.TabIndex = 11
+        Me.pbMining.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbMining, "Mining (Cycle / Rate)")
+        '
         'ShipInfoControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1520,10 +1468,7 @@ Partial Class ShipInfoControl
         Me.Panel1.PerformLayout()
         Me.gbDamage.ResumeLayout(False)
         Me.gbDamage.PerformLayout()
-        CType(Me.pbDroneDamage, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbMissileDamage, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbSmartbombDamage, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbTurretDamage, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbDamage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbCargo.ResumeLayout(False)
         Me.gbCargo.PerformLayout()
         CType(Me.pbDroneControl, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1575,6 +1520,7 @@ Partial Class ShipInfoControl
         CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbMining, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1679,14 +1625,8 @@ Partial Class ShipInfoControl
     Friend WithEvents progCalibration As VistaStyleProgressBar.ProgressBar
     Friend WithEvents progPG As VistaStyleProgressBar.ProgressBar
     Friend WithEvents gbDamage As System.Windows.Forms.GroupBox
-    Friend WithEvents lblTurretVolleyDamage As System.Windows.Forms.Label
-    Friend WithEvents pbMissileDamage As System.Windows.Forms.PictureBox
-    Friend WithEvents pbSmartbombDamage As System.Windows.Forms.PictureBox
-    Friend WithEvents pbTurretDamage As System.Windows.Forms.PictureBox
-    Friend WithEvents pbDroneDamage As System.Windows.Forms.PictureBox
-    Friend WithEvents lblDroneVolleyDamage As System.Windows.Forms.Label
-    Friend WithEvents lblSmartbombVolleyDamage As System.Windows.Forms.Label
-    Friend WithEvents lblMissileVolleyDamage As System.Windows.Forms.Label
+    Friend WithEvents lblDamage As System.Windows.Forms.Label
+    Friend WithEvents pbDamage As System.Windows.Forms.PictureBox
     Friend WithEvents lblSigRadius As System.Windows.Forms.Label
     Friend WithEvents pbSigRadius As System.Windows.Forms.PictureBox
     Friend WithEvents lblShieldPeak As System.Windows.Forms.Label
@@ -1695,5 +1635,7 @@ Partial Class ShipInfoControl
     Friend WithEvents pbShieldAverage As System.Windows.Forms.PictureBox
     Friend WithEvents lblDroneControl As System.Windows.Forms.Label
     Friend WithEvents pbDroneControl As System.Windows.Forms.PictureBox
+    Friend WithEvents lblMining As System.Windows.Forms.Label
+    Friend WithEvents pbMining As System.Windows.Forms.PictureBox
 
 End Class

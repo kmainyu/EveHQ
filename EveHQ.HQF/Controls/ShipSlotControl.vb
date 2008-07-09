@@ -1091,9 +1091,9 @@ Public Class ShipSlotControl
     Private Sub LoadChargeIntoModule(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim ChargeMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim moduleID As String = ChargeMenu.Name
-        Dim Charge As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule).Clone
         ' Get name of the "slot" which has slot type and number
         For Each selItem As ListViewItem In lvwSlots.SelectedItems
+            Dim Charge As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule).Clone
             Dim slotType As Integer = CInt(selItem.Name.Substring(0, 1))
             Dim slotNo As Integer = CInt(selItem.Name.Substring(2, 1))
             Dim LoadedModule As New ShipModule

@@ -394,6 +394,16 @@ Imports System.Runtime.Serialization
                 newModule.Attributes("10032") = newModule.CapUsage / newModule.ActivationTime
                 newModule.CapUsageRate = CDbl(newModule.Attributes("10032"))
             End If
+            If newModule.Attributes.Contains("77") = True Then
+                Select Case CInt(newModule.MarketGroup)
+                    Case 1038 ' Ice Mining
+                        newModule.Attributes("10041") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
+                    Case 1039, 1040 ' Ore Mining
+                        newModule.Attributes("10039") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
+                    Case 158 ' Mining Drone
+                        newModule.Attributes("10040") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
+                End Select
+            End If
         Next
     End Sub
 #End Region

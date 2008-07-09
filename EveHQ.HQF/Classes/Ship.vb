@@ -165,6 +165,12 @@ Imports System.Runtime.Serialization
     Private cIceTurretAmount As Double
     Private cIceDroneAmount As Double
     Private cIceTotalAmount As Double
+    Private cOreTurretRate As Double
+    Private cOreDroneRate As Double
+    Private cOreTotalRate As Double
+    Private cIceTurretRate As Double
+    Private cIceDroneRate As Double
+    Private cIceTotalRate As Double
 
     ' Audit Log
     Private cAuditLog As New ArrayList
@@ -1146,6 +1152,54 @@ Imports System.Runtime.Serialization
             cIceTotalAmount = value
         End Set
     End Property
+    Public Property OreTurretRate() As Double
+        Get
+            Return cOreTurretRate
+        End Get
+        Set(ByVal value As Double)
+            cOreTurretRate = value
+        End Set
+    End Property
+    Public Property OreDroneRate() As Double
+        Get
+            Return cOreDroneRate
+        End Get
+        Set(ByVal value As Double)
+            cOreDroneRate = value
+        End Set
+    End Property
+    Public Property OreTotalRate() As Double
+        Get
+            Return cOreTotalRate
+        End Get
+        Set(ByVal value As Double)
+            cOreTotalRate = value
+        End Set
+    End Property
+    Public Property IceTurretRate() As Double
+        Get
+            Return cIceTurretRate
+        End Get
+        Set(ByVal value As Double)
+            cIceTurretRate = value
+        End Set
+    End Property
+    Public Property IceDroneRate() As Double
+        Get
+            Return cIceDroneRate
+        End Get
+        Set(ByVal value As Double)
+            cIceDroneRate = value
+        End Set
+    End Property
+    Public Property IceTotalRate() As Double
+        Get
+            Return cIceTotalRate
+        End Get
+        Set(ByVal value As Double)
+            cIceTotalRate = value
+        End Set
+    End Property
 
     'Audit Log
     Public Property AuditLog() As ArrayList
@@ -1413,6 +1467,18 @@ Imports System.Runtime.Serialization
                     newShip.IceTurretAmount = attValue
                 Case 10038
                     newShip.IceDroneAmount = attValue
+                Case 10043
+                    newShip.OreTurretRate = attValue
+                Case 10044
+                    newShip.OreDroneRate = attValue
+                Case 10045
+                    newShip.IceTurretRate = attValue
+                Case 10046
+                    newShip.IceDroneRate = attValue
+                Case 10047
+                    newShip.OreTotalRate = attValue
+                Case 10048
+                    newShip.IceTotalRate = attValue
             End Select
         Next
     End Sub

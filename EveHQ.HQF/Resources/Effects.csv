@@ -215,11 +215,10 @@
 310,1,3318,50,2,509,0,1,0,0,Weapon Upgrades - Standard
 # INDUSTRY,,,,,,,,,,
 #,1,25544,,,,0,1,0,0,Gas Cloud Harvesting
-780,1,16281,73,4,1040,0,1,0,0,Ice Harvesting
+780,1,16281,73,4,1038,0,1,0,0,Ice Harvesting
 885,1,28585,714,1,28583,0,1,0,0,Industrial Reconfiguration
-434,1,3386,77,2,54,0,1,0,0,Mining - Mining Laser
+434,1,3386,77,4,1039,0,1,0,0,Mining - Mining Laser
 434,1,3386,77,4,1040,0,1,0,0,Mining - Strip Miner
-434,1,3386,77,2,483,0,1,0,0,Mining - Frequency Strip Miner
 927,1,22578,1082,2,546,0,1,0,0,Mining Upgrades
 # LEADERSHIP,,,,,,,,,,
 #,1,20494,,,,0,1,0,0,Armored Warfare
@@ -458,9 +457,8 @@
 315,1,3449,37,3,6,0,1,0,0,Navigation
 319,1,3455,153,3,6,0,1,0,0,Warp Drive Operation
 # SCIENCE,,,,,,,,,,
-434,1,3410,77,2,54,0,1,0,0,Astrogeology - Mining Laser
+434,1,3410,77,4,1039,0,1,0,0,Astrogeology - Mining Laser
 434,1,3410,77,4,1040,0,1,0,0,Astrogeology - Strip Miner
-434,1,3410,77,2,483,0,1,0,0,Astrogeology - Frequency Strip Minet
 1156,1,25810,788,2,479,0,1,0,0,Astrometric Pinpointing
 846,1,25811,208,2,479,0,1,0,0,Astrometric Triangulation - Radar Strength
 846,1,25811,209,2,479,0,1,0,0,Astrometric Triangulation - Ladar Strength
@@ -658,6 +656,9 @@
 1316,2,909,767,6,0,0,0,0,15,Tracking Disruptor - Tracking Speed
 1315,2,907,351,6,0,0,0,0,15,Tracking Computer - Optimal Range
 1316,2,907,767,6,0,0,0,0,15,Tracking Computer - Tracking Speed
+# MINING CRYSTALS,,,,,,,,,,
+782,2,482,77,6,483,0,0,5,15,Mining Crystal - Mining Amount
+317,2,482,6,6,483,0,0,0,15,Mining Crystal - Capacitor Penalty
 # DRONES,,,,,,,,,,
 # DRONE UPGRADES,,,,,,,,,,
 353,2,407,10005,3,6,0,0,1,4,Drone Control Unit - Drone Bonus

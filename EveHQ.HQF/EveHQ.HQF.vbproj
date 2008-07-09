@@ -259,7 +259,6 @@
     <None Include="Resources\newItemMarketGroup.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\Attributes.csv" />
     <None Include="Resources\Boosters.csv" />
     <None Include="Resources\ImplantEffects.csv" />
@@ -316,6 +315,7 @@
     <None Include="Resources\icon03_04.png" />
     <None Include="Resources\icon56_06.png" />
     <None Include="Resources\icon74_14.png" />
+    <None Include="Resources\icon12_08.png" />
     <Content Include="_Changelog.txt" />
   </ItemGroup>
   <ItemGroup>

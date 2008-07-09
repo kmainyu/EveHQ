@@ -1255,62 +1255,88 @@ Public Class Engine
         For Each DBI As DroneBayItem In newShip.DroneBayItems.Values
             If DBI.IsActive = True Then
                 cModule = DBI.DroneType
-                cModule.Attributes("10017") = CDbl(cModule.Attributes("114")) + CDbl(cModule.Attributes("116")) + CDbl(cModule.Attributes("117")) + CDbl(cModule.Attributes("118"))
-                If cModule.Attributes.Contains("51") = True Then
-                    ROF = CDbl(cModule.Attributes("51"))
-                    dgmMod = CDbl(cModule.Attributes("64"))
+                If CInt(cModule.DatabaseGroup) <> 101 Then
+                    ' Not mining drone
+                    cModule.Attributes("10017") = CDbl(cModule.Attributes("114")) + CDbl(cModule.Attributes("116")) + CDbl(cModule.Attributes("117")) + CDbl(cModule.Attributes("118"))
+                    If cModule.Attributes.Contains("51") = True Then
+                        ROF = CDbl(cModule.Attributes("51"))
+                        dgmMod = CDbl(cModule.Attributes("64"))
+                    Else
+                        dgmMod = 0
+                        ROF = 1
+                    End If
+                    newShip.Attributes("10006") = CInt(newShip.Attributes("10006")) + DBI.Quantity
+                    cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
+                    cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
+                    newShip.Attributes("10023") = CDbl(newShip.Attributes("10023")) + CDbl(cModule.Attributes("10018")) * DBI.Quantity
+                    newShip.Attributes("10027") = CDbl(newShip.Attributes("10027")) + CDbl(cModule.Attributes("10019")) * DBI.Quantity
+                    newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018")) * DBI.Quantity
+                    newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019")) * DBI.Quantity
                 Else
-                    dgmMod = 0
-                    ROF = 1
+                    ' Mining drone
+                    newShip.Attributes("10006") = CInt(newShip.Attributes("10006")) + DBI.Quantity
+                    cModule.Attributes("10040") = CDbl(cModule.Attributes("77")) / CDbl(cModule.Attributes("73"))
+                    newShip.Attributes("10033") = CDbl(newShip.Attributes("10033")) + CDbl(cModule.Attributes("77")) * DBI.Quantity
+                    newShip.Attributes("10035") = CDbl(newShip.Attributes("10035")) + CDbl(cModule.Attributes("77")) * DBI.Quantity
+                    newShip.Attributes("10044") = CDbl(newShip.Attributes("10044")) + CDbl(cModule.Attributes("10040")) * DBI.Quantity
+                    newShip.Attributes("10047") = CDbl(newShip.Attributes("10047")) + CDbl(cModule.Attributes("10040")) * DBI.Quantity
                 End If
-                newShip.Attributes("10006") = CInt(newShip.Attributes("10006")) + DBI.Quantity
-                cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
-                cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
-                newShip.Attributes("10023") = CDbl(newShip.Attributes("10023")) + CDbl(cModule.Attributes("10018")) * DBI.Quantity
-                newShip.Attributes("10027") = CDbl(newShip.Attributes("10027")) + CDbl(cModule.Attributes("10019")) * DBI.Quantity
-                newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018")) * DBI.Quantity
-                newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019")) * DBI.Quantity
             End If
         Next
         For slot As Integer = 1 To newShip.HiSlots
             cModule = newShip.HiSlot(slot)
             If cModule IsNot Nothing Then
-                If cModule.IsTurret Or cModule.IsLauncher Then
-                    If cModule.LoadedCharge IsNot Nothing Then
-                        cModule.Attributes("10030") = CInt(cModule.LoadedCharge.ID)
-                        cModule.Attributes("10017") = CDbl(cModule.LoadedCharge.Attributes("114")) + CDbl(cModule.LoadedCharge.Attributes("116")) + CDbl(cModule.LoadedCharge.Attributes("117")) + CDbl(cModule.LoadedCharge.Attributes("118"))
-                        If cModule.IsTurret = True Then
-                            dgmMod = CDbl(cModule.Attributes("10014")) + CDbl(cModule.Attributes("10015")) + CDbl(cModule.Attributes("10016"))
-                            ROF = CDbl(cModule.Attributes("10011")) + CDbl(cModule.Attributes("10012")) + CDbl(cModule.Attributes("10013"))
-                            cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
-                            cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
-                            newShip.Attributes("10020") = CDbl(newShip.Attributes("10020")) + CDbl(cModule.Attributes("10018"))
-                            newShip.Attributes("10024") = CDbl(newShip.Attributes("10024")) + CDbl(cModule.Attributes("10019"))
-                            newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
-                            newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
+                Select Case CInt(cModule.MarketGroup)
+                    Case 1039, 1040 ' Ore Mining Turret
+                        newShip.Attributes("10034") = CDbl(newShip.Attributes("10034")) + CDbl(cModule.Attributes("77"))
+                        newShip.Attributes("10033") = CDbl(newShip.Attributes("10033")) + CDbl(cModule.Attributes("77"))
+                        cModule.Attributes("10039") = CDbl(cModule.Attributes("77")) / CDbl(cModule.Attributes("73"))
+                        newShip.Attributes("10043") = CDbl(newShip.Attributes("10043")) + CDbl(cModule.Attributes("10039"))
+                        newShip.Attributes("10047") = CDbl(newShip.Attributes("10047")) + CDbl(cModule.Attributes("10039"))
+                    Case 1038 ' Ice Mining Turret
+                        newShip.Attributes("10037") = CDbl(newShip.Attributes("10037")) + CDbl(cModule.Attributes("77"))
+                        newShip.Attributes("10036") = CDbl(newShip.Attributes("10036")) + CDbl(cModule.Attributes("77"))
+                        cModule.Attributes("10041") = CDbl(cModule.Attributes("77")) / CDbl(cModule.Attributes("73"))
+                        newShip.Attributes("10045") = CDbl(newShip.Attributes("10045")) + CDbl(cModule.Attributes("10041"))
+                        newShip.Attributes("10048") = CDbl(newShip.Attributes("10048")) + CDbl(cModule.Attributes("10041"))
+                    Case Else
+                        If cModule.IsTurret Or cModule.IsLauncher Then
+                            If cModule.LoadedCharge IsNot Nothing Then
+                                cModule.Attributes("10030") = CInt(cModule.LoadedCharge.ID)
+                                cModule.Attributes("10017") = CDbl(cModule.LoadedCharge.Attributes("114")) + CDbl(cModule.LoadedCharge.Attributes("116")) + CDbl(cModule.LoadedCharge.Attributes("117")) + CDbl(cModule.LoadedCharge.Attributes("118"))
+                                If cModule.IsTurret = True Then
+                                    dgmMod = CDbl(cModule.Attributes("10014")) + CDbl(cModule.Attributes("10015")) + CDbl(cModule.Attributes("10016"))
+                                    ROF = CDbl(cModule.Attributes("10011")) + CDbl(cModule.Attributes("10012")) + CDbl(cModule.Attributes("10013"))
+                                    cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
+                                    cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
+                                    newShip.Attributes("10020") = CDbl(newShip.Attributes("10020")) + CDbl(cModule.Attributes("10018"))
+                                    newShip.Attributes("10024") = CDbl(newShip.Attributes("10024")) + CDbl(cModule.Attributes("10019"))
+                                    newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
+                                    newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
+                                Else
+                                    dgmMod = 1
+                                    ROF = CDbl(cModule.Attributes("51"))
+                                    cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
+                                    cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
+                                    newShip.Attributes("10021") = CDbl(newShip.Attributes("10021")) + CDbl(cModule.Attributes("10018"))
+                                    newShip.Attributes("10025") = CDbl(newShip.Attributes("10025")) + CDbl(cModule.Attributes("10019"))
+                                    newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
+                                    newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
+                                End If
+                            End If
                         Else
-                            dgmMod = 1
-                            ROF = CDbl(cModule.Attributes("51"))
-                            cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
-                            cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
-                            newShip.Attributes("10021") = CDbl(newShip.Attributes("10021")) + CDbl(cModule.Attributes("10018"))
-                            newShip.Attributes("10025") = CDbl(newShip.Attributes("10025")) + CDbl(cModule.Attributes("10019"))
-                            newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
-                            newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
+                            If cModule.DatabaseGroup = "72" Then
+                                ' Do smartbomb code
+                                cModule.Attributes("10017") = CDbl(cModule.Attributes("114")) + CDbl(cModule.Attributes("116")) + CDbl(cModule.Attributes("117")) + CDbl(cModule.Attributes("118"))
+                                cModule.Attributes("10018") = CDbl(cModule.Attributes("10017"))
+                                cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / CDbl(cModule.Attributes("73"))
+                                newShip.Attributes("10022") = CDbl(newShip.Attributes("10022")) + CDbl(cModule.Attributes("10018"))
+                                newShip.Attributes("10026") = CDbl(newShip.Attributes("10026")) + CDbl(cModule.Attributes("10019"))
+                                newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
+                                newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
+                            End If
                         End If
-                    End If
-                Else
-                    If cModule.DatabaseGroup = "72" Then
-                        ' Do smartbomb code
-                        cModule.Attributes("10017") = CDbl(cModule.Attributes("114")) + CDbl(cModule.Attributes("116")) + CDbl(cModule.Attributes("117")) + CDbl(cModule.Attributes("118"))
-                        cModule.Attributes("10018") = CDbl(cModule.Attributes("10017"))
-                        cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / CDbl(cModule.Attributes("73"))
-                        newShip.Attributes("10022") = CDbl(newShip.Attributes("10022")) + CDbl(cModule.Attributes("10018"))
-                        newShip.Attributes("10026") = CDbl(newShip.Attributes("10026")) + CDbl(cModule.Attributes("10019"))
-                        newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
-                        newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
-                    End If
-                End If
+                End Select
             End If
         Next
         eTime = Now

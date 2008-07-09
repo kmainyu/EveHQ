@@ -34,7 +34,7 @@ Public Class frmHQF
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.6.9.39"
+    Shared LastCacheRefresh As String = "1.6.9.43"
 
 #Region "Class Wide Variables"
 
@@ -319,7 +319,7 @@ Public Class frmHQF
         Dim att() As String
         Dim attData As New Attribute
         For Each line As String In attributeLines
-            If line.Trim <> "" Then
+            If line.Trim <> "" And line.StartsWith("#") = False Then
                 att = line.Split(",".ToCharArray)
                 attData = New Attribute
                 attData.ID = att(0)
@@ -466,6 +466,12 @@ Public Class frmHQF
                                 newShip.Attributes.Add("10036", 0)
                                 newShip.Attributes.Add("10037", 0)
                                 newShip.Attributes.Add("10038", 0)
+                                newShip.Attributes.Add("10043", 0)
+                                newShip.Attributes.Add("10044", 0)
+                                newShip.Attributes.Add("10045", 0)
+                                newShip.Attributes.Add("10046", 0)
+                                newShip.Attributes.Add("10047", 0)
+                                newShip.Attributes.Add("10048", 0)
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -571,6 +577,12 @@ Public Class frmHQF
                     newShip.Attributes.Add("10036", 0)
                     newShip.Attributes.Add("10037", 0)
                     newShip.Attributes.Add("10038", 0)
+                    newShip.Attributes.Add("10043", 0)
+                    newShip.Attributes.Add("10044", 0)
+                    newShip.Attributes.Add("10045", 0)
+                    newShip.Attributes.Add("10046", 0)
+                    newShip.Attributes.Add("10047", 0)
+                    newShip.Attributes.Add("10048", 0)
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
                     ' Perform the last addition for the last ship type
@@ -837,6 +849,20 @@ Public Class frmHQF
                         effMod.Attributes.Add("10030", 0)
                     End If
                 End If
+                Select Case CInt(effMod.MarketGroup)
+                    Case 1038 ' Ice Miners
+                        If effMod.Attributes.Contains("10041") = False Then
+                            effMod.Attributes.Add("10041", 0)
+                        End If
+                    Case 1039, 1040 ' Ore Miners
+                        If effMod.Attributes.Contains("10039") = False Then
+                            effMod.Attributes.Add("10039", 0)
+                        End If
+                    Case 158 ' Mining Drones
+                        If effMod.Attributes.Contains("10040") = False Then
+                            effMod.Attributes.Add("10040", 0)
+                        End If
+                End Select
             Next
             If BuildModuleAttributeData() = True Then
                 Return True
@@ -947,6 +973,15 @@ Public Class frmHQF
                         attMod.ActivationTime = attValue
                         attMod.CapUsageRate = attMod.CapUsage / attMod.ActivationTime
                         attMod.Attributes.Add("10032", attMod.CapUsageRate)
+                    Case 77
+                        Select Case CInt(attMod.MarketGroup)
+                            Case 1038 ' Ice Mining
+                                attMod.Attributes("10041") = CDbl(attMod.Attributes("77")) / CDbl(attMod.Attributes("73"))
+                            Case 1039, 1040 ' Ore Mining
+                                attMod.Attributes("10039") = CDbl(attMod.Attributes("77")) / CDbl(attMod.Attributes("73"))
+                            Case 158 ' Mining Drone
+                                attMod.Attributes("10040") = CDbl(attMod.Attributes("77")) / CDbl(attMod.Attributes("73"))
+                        End Select
                     Case 128
                         attMod.ChargeSize = CInt(attValue)
                     Case 1153
@@ -997,8 +1032,8 @@ Public Class frmHQF
                     Case Else
                 End Select
                 lastModName = modRow.Item("typeName").ToString
-                ' Add to the ChargeGroups if it doesn't exist
-                If attMod.IsCharge = True And Charges.ChargeGroups.Contains(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize) = False Then
+                ' Add to the ChargeGroups if it doesn't exist and chargesize <> 0
+                If attMod.IsCharge = True And attMod.ChargeSize <> 0 And Charges.ChargeGroups.Contains(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize) = False Then
                     Charges.ChargeGroups.Add(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize)
                 End If
             Next
