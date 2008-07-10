@@ -575,7 +575,11 @@
 50,0,0,49,3,6,0,0,1,14,CPU -> CPU_Used
 30,0,0,15,3,6,0,0,1,14,PG -> PG_Used
 1153,0,0,1154,3,6,0,0,1,14,Cal -> Cal-Used
+10032,0,0,10049,3,6,0,0,6,12,Cap Rate (+ve)
+10032,0,0,10050,3,6,0,0,7,12,Cap Rate (-ve)
 # AMMUNITION & CHARGES,,,,,,,,,,
+# CAP BOOSTERS
+67,2,87,6,6,0,0,0,8,15,Cap Booster Charges
 # T1 AMMO,,,,,,,,,,
 120,2,86,54,6,0,0,0,0,15,Freq Crystals - Optimal Range
 317,2,86,6,6,0,0,0,0,15,Freq Crystals - Activation Cost
@@ -740,7 +744,7 @@
 # Energy Transfer Arrays,,,,,,,,,,
 #90,2,67,,,,0,0,0,14,Energy Transferred
 # Energy Vampires,,,,,,,,,,
-#97,2,68,,,,0,0,0,14,Energy Transferred
+90,2,68,6,6,0,0,0,8,14,Energy Transferred
 # Auxiliary Power Cores,,,,,,,,,,
 549,2,339,11,3,6,0,0,1,14,Auxiliary Power Core - PG
 # Capacitor Flux Coils,,,,,,,,,,

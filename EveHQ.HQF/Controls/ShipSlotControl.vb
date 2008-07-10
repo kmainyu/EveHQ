@@ -290,7 +290,7 @@ Public Class ShipSlotControl
                         Case "CapUsageRate"
                             If shipMod.Attributes.Contains("10032") Then
                                 If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
-                                    slotName.SubItems.Add(FormatNumber(shipMod.CapUsageRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                    slotName.SubItems.Add(FormatNumber(shipMod.CapUsageRate * -1, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                                 Else
                                     slotName.SubItems.Add("")
                                 End If
@@ -387,7 +387,7 @@ Public Class ShipSlotControl
                     Case "CapUsageRate"
                         If shipMod.Attributes.Contains("10032") Then
                             If shipMod.ModuleState = ModuleStates.Active Or shipMod.ModuleState = ModuleStates.Overloaded Then
-                                slotName.SubItems(idx).Text = FormatNumber(shipMod.CapUsageRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                slotName.SubItems(idx).Text = FormatNumber(shipMod.CapUsageRate * -1, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                             Else
                                 slotName.SubItems(idx).Text = ""
                             End If

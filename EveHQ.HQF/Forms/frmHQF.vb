@@ -472,6 +472,8 @@ Public Class frmHQF
                                 newShip.Attributes.Add("10046", 0)
                                 newShip.Attributes.Add("10047", 0)
                                 newShip.Attributes.Add("10048", 0)
+                                newShip.Attributes.Add("10049", 0)
+                                newShip.Attributes.Add("10050", 0)
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -583,6 +585,8 @@ Public Class frmHQF
                     newShip.Attributes.Add("10046", 0)
                     newShip.Attributes.Add("10047", 0)
                     newShip.Attributes.Add("10048", 0)
+                    newShip.Attributes.Add("10049", 0)
+                    newShip.Attributes.Add("10050", 0)
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
                     ' Perform the last addition for the last ship type
@@ -861,6 +865,12 @@ Public Class frmHQF
                     Case 158 ' Mining Drones
                         If effMod.Attributes.Contains("10040") = False Then
                             effMod.Attributes.Add("10040", 0)
+                        End If
+                End Select
+                Select Case CInt(effMod.DatabaseGroup)
+                    Case 76
+                        If effMod.Attributes.Contains("6") = False Then
+                            effMod.Attributes.Add("6", 0)
                         End If
                 End Select
             Next

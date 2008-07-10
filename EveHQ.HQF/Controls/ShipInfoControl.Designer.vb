@@ -26,6 +26,8 @@ Partial Class ShipInfoControl
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipInfoControl))
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.gbDamage = New System.Windows.Forms.GroupBox
+        Me.lblMining = New System.Windows.Forms.Label
+        Me.pbMining = New System.Windows.Forms.PictureBox
         Me.lblDamage = New System.Windows.Forms.Label
         Me.pbDamage = New System.Windows.Forms.PictureBox
         Me.progCalibration = New VistaStyleProgressBar.ProgressBar
@@ -64,8 +66,6 @@ Partial Class ShipInfoControl
         Me.pbCapPeak = New System.Windows.Forms.PictureBox
         Me.lblCapRecharge = New System.Windows.Forms.Label
         Me.pbCapRecharge = New System.Windows.Forms.PictureBox
-        Me.lblCapAverage = New System.Windows.Forms.Label
-        Me.pbCapAverage = New System.Windows.Forms.PictureBox
         Me.lblCapacitor = New System.Windows.Forms.Label
         Me.pbCapacitor = New System.Windows.Forms.PictureBox
         Me.gbTargeting = New System.Windows.Forms.GroupBox
@@ -135,10 +135,12 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lblMining = New System.Windows.Forms.Label
-        Me.pbMining = New System.Windows.Forms.PictureBox
+        Me.lblCapBalP = New System.Windows.Forms.Label
+        Me.pbCapBal = New System.Windows.Forms.PictureBox
+        Me.lblCapBalN = New System.Windows.Forms.Label
         Me.Panel1.SuspendLayout()
         Me.gbDamage.SuspendLayout()
+        CType(Me.pbMining, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbDamage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbCargo.SuspendLayout()
         CType(Me.pbDroneControl, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -153,7 +155,6 @@ Partial Class ShipInfoControl
         Me.gbCapacitor.SuspendLayout()
         CType(Me.pbCapPeak, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCapRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbCapAverage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCapacitor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbTargeting.SuspendLayout()
         CType(Me.pbSigRadius, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -184,7 +185,7 @@ Partial Class ShipInfoControl
         CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbMining, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbCapBal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
@@ -237,6 +238,27 @@ Partial Class ShipInfoControl
         Me.gbDamage.TabStop = False
         Me.gbDamage.Text = "Damage / Mining"
         Me.ToolTip1.SetToolTip(Me.gbDamage, "Damage Information")
+        '
+        'lblMining
+        '
+        Me.lblMining.AutoSize = True
+        Me.lblMining.Location = New System.Drawing.Point(29, 47)
+        Me.lblMining.Name = "lblMining"
+        Me.lblMining.Size = New System.Drawing.Size(54, 13)
+        Me.lblMining.TabIndex = 12
+        Me.lblMining.Text = "000 / 000"
+        Me.ToolTip1.SetToolTip(Me.lblMining, "Mining (Cycle / Rate)")
+        '
+        'pbMining
+        '
+        Me.pbMining.Image = Global.EveHQ.HQF.My.Resources.Resources.imgMining
+        Me.pbMining.Location = New System.Drawing.Point(5, 42)
+        Me.pbMining.Name = "pbMining"
+        Me.pbMining.Size = New System.Drawing.Size(24, 24)
+        Me.pbMining.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbMining.TabIndex = 11
+        Me.pbMining.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbMining, "Mining (Cycle / Rate)")
         '
         'lblDamage
         '
@@ -597,12 +619,13 @@ Partial Class ShipInfoControl
         '
         'gbCapacitor
         '
+        Me.gbCapacitor.Controls.Add(Me.lblCapBalN)
+        Me.gbCapacitor.Controls.Add(Me.lblCapBalP)
+        Me.gbCapacitor.Controls.Add(Me.pbCapBal)
         Me.gbCapacitor.Controls.Add(Me.lblCapPeak)
         Me.gbCapacitor.Controls.Add(Me.pbCapPeak)
         Me.gbCapacitor.Controls.Add(Me.lblCapRecharge)
         Me.gbCapacitor.Controls.Add(Me.pbCapRecharge)
-        Me.gbCapacitor.Controls.Add(Me.lblCapAverage)
-        Me.gbCapacitor.Controls.Add(Me.pbCapAverage)
         Me.gbCapacitor.Controls.Add(Me.lblCapacitor)
         Me.gbCapacitor.Controls.Add(Me.pbCapacitor)
         Me.gbCapacitor.ForeColor = System.Drawing.SystemColors.ControlText
@@ -655,27 +678,6 @@ Partial Class ShipInfoControl
         Me.pbCapRecharge.TabIndex = 6
         Me.pbCapRecharge.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbCapRecharge, "Recharge Time")
-        '
-        'lblCapAverage
-        '
-        Me.lblCapAverage.AutoSize = True
-        Me.lblCapAverage.Location = New System.Drawing.Point(29, 47)
-        Me.lblCapAverage.Name = "lblCapAverage"
-        Me.lblCapAverage.Size = New System.Drawing.Size(40, 13)
-        Me.lblCapAverage.TabIndex = 5
-        Me.lblCapAverage.Text = "000.00"
-        Me.ToolTip1.SetToolTip(Me.lblCapAverage, "Average Recharge Rate")
-        '
-        'pbCapAverage
-        '
-        Me.pbCapAverage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapAverage
-        Me.pbCapAverage.Location = New System.Drawing.Point(5, 44)
-        Me.pbCapAverage.Name = "pbCapAverage"
-        Me.pbCapAverage.Size = New System.Drawing.Size(24, 24)
-        Me.pbCapAverage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbCapAverage.TabIndex = 3
-        Me.pbCapAverage.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbCapAverage, "Average Recharge Rate")
         '
         'lblCapacitor
         '
@@ -1435,26 +1437,36 @@ Partial Class ShipInfoControl
         Me.pbCPU.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbCPU, "CPU")
         '
-        'lblMining
+        'lblCapBalP
         '
-        Me.lblMining.AutoSize = True
-        Me.lblMining.Location = New System.Drawing.Point(29, 47)
-        Me.lblMining.Name = "lblMining"
-        Me.lblMining.Size = New System.Drawing.Size(54, 13)
-        Me.lblMining.TabIndex = 12
-        Me.lblMining.Text = "000 / 000"
-        Me.ToolTip1.SetToolTip(Me.lblMining, "Mining (Cycle / Rate)")
+        Me.lblCapBalP.AutoSize = True
+        Me.lblCapBalP.Location = New System.Drawing.Point(29, 44)
+        Me.lblCapBalP.Name = "lblCapBalP"
+        Me.lblCapBalP.Size = New System.Drawing.Size(39, 13)
+        Me.lblCapBalP.TabIndex = 13
+        Me.lblCapBalP.Text = "+0 / -0"
+        Me.ToolTip1.SetToolTip(Me.lblCapBalP, "Peak Recharge Rate")
         '
-        'pbMining
+        'pbCapBal
         '
-        Me.pbMining.Image = Global.EveHQ.HQF.My.Resources.Resources.imgMining
-        Me.pbMining.Location = New System.Drawing.Point(5, 42)
-        Me.pbMining.Name = "pbMining"
-        Me.pbMining.Size = New System.Drawing.Size(24, 24)
-        Me.pbMining.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbMining.TabIndex = 11
-        Me.pbMining.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbMining, "Mining (Cycle / Rate)")
+        Me.pbCapBal.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapBal
+        Me.pbCapBal.Location = New System.Drawing.Point(5, 44)
+        Me.pbCapBal.Name = "pbCapBal"
+        Me.pbCapBal.Size = New System.Drawing.Size(24, 24)
+        Me.pbCapBal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.pbCapBal.TabIndex = 12
+        Me.pbCapBal.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbCapBal, "Peak Recharge Rate")
+        '
+        'lblCapBalN
+        '
+        Me.lblCapBalN.AutoSize = True
+        Me.lblCapBalN.Location = New System.Drawing.Point(29, 56)
+        Me.lblCapBalN.Name = "lblCapBalN"
+        Me.lblCapBalN.Size = New System.Drawing.Size(39, 13)
+        Me.lblCapBalN.TabIndex = 14
+        Me.lblCapBalN.Text = "+0 / -0"
+        Me.ToolTip1.SetToolTip(Me.lblCapBalN, "Peak Recharge Rate")
         '
         'ShipInfoControl
         '
@@ -1468,6 +1480,7 @@ Partial Class ShipInfoControl
         Me.Panel1.PerformLayout()
         Me.gbDamage.ResumeLayout(False)
         Me.gbDamage.PerformLayout()
+        CType(Me.pbMining, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbDamage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbCargo.ResumeLayout(False)
         Me.gbCargo.PerformLayout()
@@ -1485,7 +1498,6 @@ Partial Class ShipInfoControl
         Me.gbCapacitor.PerformLayout()
         CType(Me.pbCapPeak, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCapRecharge, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbCapAverage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCapacitor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbTargeting.ResumeLayout(False)
         Me.gbTargeting.PerformLayout()
@@ -1520,7 +1532,7 @@ Partial Class ShipInfoControl
         CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbMining, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbCapBal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1590,8 +1602,6 @@ Partial Class ShipInfoControl
     Friend WithEvents pbCapPeak As System.Windows.Forms.PictureBox
     Friend WithEvents lblCapRecharge As System.Windows.Forms.Label
     Friend WithEvents pbCapRecharge As System.Windows.Forms.PictureBox
-    Friend WithEvents lblCapAverage As System.Windows.Forms.Label
-    Friend WithEvents pbCapAverage As System.Windows.Forms.PictureBox
     Friend WithEvents lblCapacitor As System.Windows.Forms.Label
     Friend WithEvents pbCapacitor As System.Windows.Forms.PictureBox
     Friend WithEvents gbPropulsion As System.Windows.Forms.GroupBox
@@ -1637,5 +1647,8 @@ Partial Class ShipInfoControl
     Friend WithEvents pbDroneControl As System.Windows.Forms.PictureBox
     Friend WithEvents lblMining As System.Windows.Forms.Label
     Friend WithEvents pbMining As System.Windows.Forms.PictureBox
+    Friend WithEvents lblCapBalP As System.Windows.Forms.Label
+    Friend WithEvents pbCapBal As System.Windows.Forms.PictureBox
+    Friend WithEvents lblCapBalN As System.Windows.Forms.Label
 
 End Class
