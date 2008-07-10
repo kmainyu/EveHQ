@@ -62,6 +62,9 @@ Partial Class ShipInfoControl
         Me.lblSpeed = New System.Windows.Forms.Label
         Me.pbSpeed = New System.Windows.Forms.PictureBox
         Me.gbCapacitor = New System.Windows.Forms.GroupBox
+        Me.lblCapBalN = New System.Windows.Forms.Label
+        Me.lblCapBalP = New System.Windows.Forms.Label
+        Me.pbCapBal = New System.Windows.Forms.PictureBox
         Me.lblCapPeak = New System.Windows.Forms.Label
         Me.pbCapPeak = New System.Windows.Forms.PictureBox
         Me.lblCapRecharge = New System.Windows.Forms.Label
@@ -135,9 +138,6 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lblCapBalP = New System.Windows.Forms.Label
-        Me.pbCapBal = New System.Windows.Forms.PictureBox
-        Me.lblCapBalN = New System.Windows.Forms.Label
         Me.Panel1.SuspendLayout()
         Me.gbDamage.SuspendLayout()
         CType(Me.pbMining, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -153,6 +153,7 @@ Partial Class ShipInfoControl
         CType(Me.pbWarpSpeed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbSpeed, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbCapacitor.SuspendLayout()
+        CType(Me.pbCapBal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCapPeak, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCapRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCapacitor, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -185,7 +186,6 @@ Partial Class ShipInfoControl
         CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbCapBal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
@@ -636,6 +636,37 @@ Partial Class ShipInfoControl
         Me.gbCapacitor.TabStop = False
         Me.gbCapacitor.Text = "Capacitor"
         Me.ToolTip1.SetToolTip(Me.gbCapacitor, "Capacitor Information")
+        '
+        'lblCapBalN
+        '
+        Me.lblCapBalN.AutoSize = True
+        Me.lblCapBalN.Location = New System.Drawing.Point(29, 56)
+        Me.lblCapBalN.Name = "lblCapBalN"
+        Me.lblCapBalN.Size = New System.Drawing.Size(16, 13)
+        Me.lblCapBalN.TabIndex = 14
+        Me.lblCapBalN.Text = "-0"
+        Me.ToolTip1.SetToolTip(Me.lblCapBalN, "Total Consumption Rate (F/s)")
+        '
+        'lblCapBalP
+        '
+        Me.lblCapBalP.AutoSize = True
+        Me.lblCapBalP.Location = New System.Drawing.Point(29, 44)
+        Me.lblCapBalP.Name = "lblCapBalP"
+        Me.lblCapBalP.Size = New System.Drawing.Size(19, 13)
+        Me.lblCapBalP.TabIndex = 13
+        Me.lblCapBalP.Text = "+0"
+        Me.ToolTip1.SetToolTip(Me.lblCapBalP, "Peak Injection Rate (F/s)")
+        '
+        'pbCapBal
+        '
+        Me.pbCapBal.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapBal
+        Me.pbCapBal.Location = New System.Drawing.Point(5, 44)
+        Me.pbCapBal.Name = "pbCapBal"
+        Me.pbCapBal.Size = New System.Drawing.Size(24, 24)
+        Me.pbCapBal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.pbCapBal.TabIndex = 12
+        Me.pbCapBal.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbCapBal, "Usage/Injection Rates")
         '
         'lblCapPeak
         '
@@ -1437,37 +1468,6 @@ Partial Class ShipInfoControl
         Me.pbCPU.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbCPU, "CPU")
         '
-        'lblCapBalP
-        '
-        Me.lblCapBalP.AutoSize = True
-        Me.lblCapBalP.Location = New System.Drawing.Point(29, 44)
-        Me.lblCapBalP.Name = "lblCapBalP"
-        Me.lblCapBalP.Size = New System.Drawing.Size(39, 13)
-        Me.lblCapBalP.TabIndex = 13
-        Me.lblCapBalP.Text = "+0 / -0"
-        Me.ToolTip1.SetToolTip(Me.lblCapBalP, "Peak Recharge Rate")
-        '
-        'pbCapBal
-        '
-        Me.pbCapBal.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapBal
-        Me.pbCapBal.Location = New System.Drawing.Point(5, 44)
-        Me.pbCapBal.Name = "pbCapBal"
-        Me.pbCapBal.Size = New System.Drawing.Size(24, 24)
-        Me.pbCapBal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbCapBal.TabIndex = 12
-        Me.pbCapBal.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbCapBal, "Peak Recharge Rate")
-        '
-        'lblCapBalN
-        '
-        Me.lblCapBalN.AutoSize = True
-        Me.lblCapBalN.Location = New System.Drawing.Point(29, 56)
-        Me.lblCapBalN.Name = "lblCapBalN"
-        Me.lblCapBalN.Size = New System.Drawing.Size(39, 13)
-        Me.lblCapBalN.TabIndex = 14
-        Me.lblCapBalN.Text = "+0 / -0"
-        Me.ToolTip1.SetToolTip(Me.lblCapBalN, "Peak Recharge Rate")
-        '
         'ShipInfoControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1496,6 +1496,7 @@ Partial Class ShipInfoControl
         CType(Me.pbSpeed, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbCapacitor.ResumeLayout(False)
         Me.gbCapacitor.PerformLayout()
+        CType(Me.pbCapBal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCapPeak, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCapRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCapacitor, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1532,7 +1533,6 @@ Partial Class ShipInfoControl
         CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbCapBal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
