@@ -939,8 +939,21 @@ Public Class frmAssets
                                     locNode.Tag = newSystem.ID
                                 Else
                                     newLocation = CType(stations(locID), Assets.Location)
-                                    locNode.Text = newLocation.locationName
-                                    locNode.Tag = newLocation.locationID
+                                    If newLocation IsNot Nothing Then
+                                        locNode.Text = newLocation.locationName
+                                        locNode.Tag = newLocation.locationID
+                                    Else
+                                        ' Unknown system/station!
+                                        newLocation = New Assets.Location
+                                        newLocation.locationID = locID
+                                        newLocation.locationName = "Unknown Location"
+                                        newLocation.systemID = "?"
+                                        newLocation.constID = "?"
+                                        newLocation.regionID = "?"
+                                        newLocation.systemSec = "0.0"
+                                        locNode.Text = newLocation.locationName
+                                        locNode.Tag = newLocation.locationID
+                                    End If
                                 End If
                             End If
                             tlvAssets.Items.Add(locNode)
