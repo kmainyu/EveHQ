@@ -325,6 +325,7 @@ Public Class SkillFunctions
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
 
         ' Add data to the skillitem lists
+        Dim attValue As Double = 0
         For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
             ' Check if the typeID already exists
             Dim newSkill As EveHQ.Core.SkillList
@@ -349,9 +350,14 @@ Public Class SkillFunctions
             Else
                 newSkill = CType(EveHQ.Core.HQ.SkillListID(eveData.Tables(0).Rows(row).Item("typeID").ToString), SkillList)
             End If
+            If IsDBNull(eveData.Tables(0).Rows(row).Item("valueInt")) = False Then
+                attValue = CDbl(eveData.Tables(0).Rows(row).Item("valueInt"))
+            Else
+                attValue = CDbl(eveData.Tables(0).Rows(row).Item("valueFloat"))
+            End If
             Select Case CInt(eveData.Tables(0).Rows(row).Item("attributeID"))
                 Case 180
-                    Select Case CInt(eveData.Tables(0).Rows(row).Item("valueInt"))
+                    Select Case CInt(attValue)
                         Case 164
                             newSkill.PA = "Charisma"
                         Case 165
@@ -364,7 +370,7 @@ Public Class SkillFunctions
                             newSkill.PA = "Willpower"
                     End Select
                 Case 181
-                    Select Case CInt(eveData.Tables(0).Rows(row).Item("valueInt"))
+                    Select Case CInt(attValue)
                         Case 164
                             newSkill.SA = "Charisma"
                         Case 165
@@ -377,19 +383,19 @@ Public Class SkillFunctions
                             newSkill.SA = "Willpower"
                     End Select
                 Case 182
-                    newSkill.PS = CStr(eveData.Tables(0).Rows(row).Item("valueInt"))
+                    newSkill.PS = CStr(attValue)
                 Case 183
-                    newSkill.SS = CStr(eveData.Tables(0).Rows(row).Item("valueInt"))
+                    newSkill.SS = CStr(attValue)
                 Case 184
-                    newSkill.TS = CStr(eveData.Tables(0).Rows(row).Item("valueInt"))
+                    newSkill.TS = CStr(attValue)
                 Case 275
-                    newSkill.Rank = CInt(eveData.Tables(0).Rows(row).Item("valueFloat"))
+                    newSkill.Rank = CInt(attValue)
                 Case 277
-                    newSkill.PSL = CInt(eveData.Tables(0).Rows(row).Item("valueInt"))
+                    newSkill.PSL = CInt(attValue)
                 Case 278
-                    newSkill.SSL = CInt(eveData.Tables(0).Rows(row).Item("valueInt"))
+                    newSkill.SSL = CInt(attValue)
                 Case 279
-                    newSkill.TSL = CInt(eveData.Tables(0).Rows(row).Item("valueInt"))
+                    newSkill.TSL = CInt(attValue)
             End Select
         Next
         Dim currentSkill As EveHQ.Core.SkillList

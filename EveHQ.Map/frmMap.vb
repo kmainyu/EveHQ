@@ -440,7 +440,7 @@ Public Class frmMap
                     Dim cDist As Double = frmMap.Distance(solar1, solar3)
                     'If (((cDist <= 14.625) AndAlso (Not solar1 Is solar3)) AndAlso ((solar3.EveSec <= 0.4) AndAlso solar3.Flag)) Then
                     If (((cDist <= 14.625) AndAlso (Not solar1 Is solar3)) AndAlso solar3.Flag) Then
-                        sList.Add(cDist, solar3)
+                        sList.Add(solar3.ID, solar3)
                     End If
                 Next
                 If ((sList.Count > 0) AndAlso (Not solar1 Is solar0)) Then
