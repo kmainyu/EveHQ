@@ -31,7 +31,12 @@ Public Class DataFunctions
 
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0
-                EveHQ.Core.HQ.dataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBFilename
+                If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
+                    EveHQ.Core.HQ.dataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBFilename
+                Else
+                    Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                    EveHQ.Core.HQ.dataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
+                End If
             Case 1
                 EveHQ.Core.HQ.dataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
                 If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then

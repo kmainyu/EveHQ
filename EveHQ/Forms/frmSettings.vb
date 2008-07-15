@@ -945,6 +945,7 @@ Public Class frmSettings
 
     Private Sub UpdateDatabaseSettings()
         Me.cboFormat.SelectedIndex = EveHQ.Core.HQ.EveHQSettings.DBFormat
+        Me.chkUseAppDirForDB.Checked = EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB
     End Sub
 
     Private Sub cboFormat_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFormat.SelectedIndexChanged
@@ -1109,6 +1110,10 @@ Public Class frmSettings
                     MessageBox.Show(ex.Message, "Error Opening MySQL Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
         End Select
+    End Sub
+
+    Private Sub chkUseAppDirForDB_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseAppDirForDB.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = Me.chkUseAppDirForDB.Checked
     End Sub
 
 #End Region
@@ -2189,6 +2194,7 @@ Public Class frmSettings
     End Sub
 
 #End Region
+    
     
     
 End Class

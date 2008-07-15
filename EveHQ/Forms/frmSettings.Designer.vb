@@ -204,6 +204,7 @@ Partial Public Class frmSettings
         Me.radUseDefaultCreds = New System.Windows.Forms.RadioButton
         Me.chkUseProxy = New System.Windows.Forms.CheckBox
         Me.gbEveServer = New System.Windows.Forms.GroupBox
+        Me.chkShowAPIStatusForm = New System.Windows.Forms.CheckBox
         Me.gbAPIServer = New System.Windows.Forms.GroupBox
         Me.chkUseCCPBackup = New System.Windows.Forms.CheckBox
         Me.chkUseAPIRSServer = New System.Windows.Forms.CheckBox
@@ -314,7 +315,7 @@ Partial Public Class frmSettings
         Me.lblLastUpdateTime = New System.Windows.Forms.Label
         Me.lblLastUpdate = New System.Windows.Forms.Label
         Me.btnUpdatePrices = New System.Windows.Forms.Button
-        Me.chkShowAPIStatusForm = New System.Windows.Forms.CheckBox
+        Me.chkUseAppDirForDB = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotLevel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1650,15 +1651,15 @@ Partial Public Class frmSettings
         '
         'gbDatabaseFormat
         '
+        Me.gbDatabaseFormat.Controls.Add(Me.gbAccess)
         Me.gbDatabaseFormat.Controls.Add(Me.gbMySQL)
         Me.gbDatabaseFormat.Controls.Add(Me.btnTestDB)
-        Me.gbDatabaseFormat.Controls.Add(Me.gbAccess)
         Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
         Me.gbDatabaseFormat.Controls.Add(Me.cboFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(541, 225)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(194, 12)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(129, 43)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(694, 494)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
@@ -1758,6 +1759,7 @@ Partial Public Class frmSettings
         '
         'gbAccess
         '
+        Me.gbAccess.Controls.Add(Me.chkUseAppDirForDB)
         Me.gbAccess.Controls.Add(Me.btnBrowseMDB)
         Me.gbAccess.Controls.Add(Me.txtMDBPassword)
         Me.gbAccess.Controls.Add(Me.txtMDBUsername)
@@ -1767,7 +1769,7 @@ Partial Public Class frmSettings
         Me.gbAccess.Controls.Add(Me.lblMDBFilename)
         Me.gbAccess.Location = New System.Drawing.Point(6, 80)
         Me.gbAccess.Name = "gbAccess"
-        Me.gbAccess.Size = New System.Drawing.Size(403, 65)
+        Me.gbAccess.Size = New System.Drawing.Size(513, 170)
         Me.gbAccess.TabIndex = 37
         Me.gbAccess.TabStop = False
         Me.gbAccess.Text = "Access (MDB) Options"
@@ -2088,13 +2090,23 @@ Partial Public Class frmSettings
         Me.gbEveServer.Controls.Add(Me.lblCurrentOffset)
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.trackServerOffset)
-        Me.gbEveServer.Location = New System.Drawing.Point(194, 12)
+        Me.gbEveServer.Location = New System.Drawing.Point(262, 316)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(701, 483)
+        Me.gbEveServer.Size = New System.Drawing.Size(100, 35)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
         Me.gbEveServer.Visible = False
+        '
+        'chkShowAPIStatusForm
+        '
+        Me.chkShowAPIStatusForm.AutoSize = True
+        Me.chkShowAPIStatusForm.Location = New System.Drawing.Point(19, 171)
+        Me.chkShowAPIStatusForm.Name = "chkShowAPIStatusForm"
+        Me.chkShowAPIStatusForm.Size = New System.Drawing.Size(277, 17)
+        Me.chkShowAPIStatusForm.TabIndex = 21
+        Me.chkShowAPIStatusForm.Text = "Show API Status Form When Fetching Character API"
+        Me.chkShowAPIStatusForm.UseVisualStyleBackColor = True
         '
         'gbAPIServer
         '
@@ -3173,23 +3185,24 @@ Partial Public Class frmSettings
         Me.btnUpdatePrices.Text = "Update Market Prices"
         Me.btnUpdatePrices.UseVisualStyleBackColor = True
         '
-        'chkShowAPIStatusForm
+        'chkUseAppDirForDB
         '
-        Me.chkShowAPIStatusForm.AutoSize = True
-        Me.chkShowAPIStatusForm.Location = New System.Drawing.Point(19, 171)
-        Me.chkShowAPIStatusForm.Name = "chkShowAPIStatusForm"
-        Me.chkShowAPIStatusForm.Size = New System.Drawing.Size(277, 17)
-        Me.chkShowAPIStatusForm.TabIndex = 21
-        Me.chkShowAPIStatusForm.Text = "Show API Status Form When Fetching Character API"
-        Me.chkShowAPIStatusForm.UseVisualStyleBackColor = True
+        Me.chkUseAppDirForDB.AutoSize = True
+        Me.chkUseAppDirForDB.Location = New System.Drawing.Point(73, 142)
+        Me.chkUseAppDirForDB.Name = "chkUseAppDirForDB"
+        Me.chkUseAppDirForDB.Size = New System.Drawing.Size(247, 17)
+        Me.chkUseAppDirForDB.TabIndex = 7
+        Me.chkUseAppDirForDB.Text = "Use EveHQ Application Directory for Database"
+        Me.chkUseAppDirForDB.UseVisualStyleBackColor = True
         '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbEveServer)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbMarketPrices)
+        Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbPilots)
@@ -3199,7 +3212,6 @@ Partial Public Class frmSettings
         Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbProxyServer)
-        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbIGB)
         Me.Controls.Add(Me.gbColours)
@@ -3582,4 +3594,5 @@ Partial Public Class frmSettings
     Friend WithEvents txtUpdateLocation As System.Windows.Forms.TextBox
     Friend WithEvents chkOmitCurrentSkill As System.Windows.Forms.CheckBox
     Friend WithEvents chkShowAPIStatusForm As System.Windows.Forms.CheckBox
+    Friend WithEvents chkUseAppDirForDB As System.Windows.Forms.CheckBox
 End Class
