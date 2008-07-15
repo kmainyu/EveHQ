@@ -34,7 +34,7 @@ Public Class frmHQF
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.6.9.43"
+    Shared LastCacheRefresh As String = "1.6.9.50"
 
 #Region "Class Wide Variables"
 
