@@ -197,6 +197,7 @@ Partial Class frmMap
         Me.lgagsconst = New System.Windows.Forms.ColumnHeader
         Me.lgagssys = New System.Windows.Forms.ColumnHeader
         Me.lgagsstat = New System.Windows.Forms.ColumnHeader
+        Me.lgagstype = New System.Windows.Forms.ColumnHeader
         Me.pbInfo = New System.Windows.Forms.PictureBox
         Me.lvwExclusions = New System.Windows.Forms.ListView
         Me.colExcludedName = New System.Windows.Forms.ColumnHeader
@@ -216,7 +217,6 @@ Partial Class frmMap
         Me.cboConst = New System.Windows.Forms.ComboBox
         Me.cboRegion = New System.Windows.Forms.ComboBox
         Me.btnExclude = New EveHQ.Map.SplitButton
-        Me.lgagstype = New System.Windows.Forms.ColumnHeader
         Me.gbSystemInfo.SuspendLayout()
         Me.tabMap.SuspendLayout()
         CType(Me.pbMap, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1020,12 +1020,12 @@ Partial Class frmMap
         '
         Me.ctxRoute.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyToClipboard})
         Me.ctxRoute.Name = "ctxRoute"
-        Me.ctxRoute.Size = New System.Drawing.Size(174, 26)
+        Me.ctxRoute.Size = New System.Drawing.Size(175, 26)
         '
         'mnuCopyToClipboard
         '
         Me.mnuCopyToClipboard.Name = "mnuCopyToClipboard"
-        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(173, 22)
+        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(174, 22)
         Me.mnuCopyToClipboard.Text = "Copy To Clipboard"
         '
         'lblTimeTaken
@@ -1901,6 +1901,10 @@ Partial Class frmMap
         '
         Me.lgagsstat.Text = "Station"
         '
+        'lgagstype
+        '
+        Me.lgagstype.Text = "Agent Type"
+        '
         'pbInfo
         '
         Me.pbInfo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1921,7 +1925,7 @@ Partial Class frmMap
         Me.lvwExclusions.GridLines = True
         Me.lvwExclusions.Location = New System.Drawing.Point(3, 6)
         Me.lvwExclusions.Name = "lvwExclusions"
-        Me.lvwExclusions.Size = New System.Drawing.Size(231, 173)
+        Me.lvwExclusions.Size = New System.Drawing.Size(231, 372)
         Me.lvwExclusions.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwExclusions.TabIndex = 68
         Me.lvwExclusions.UseCompatibleStateImageBehavior = False
@@ -1941,30 +1945,30 @@ Partial Class frmMap
         '
         Me.ctxExclude.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExcludeSystem, Me.mnuExcludeConstellation, Me.mnuExcludeRegion})
         Me.ctxExclude.Name = "ctxExclude"
-        Me.ctxExclude.Size = New System.Drawing.Size(148, 70)
+        Me.ctxExclude.Size = New System.Drawing.Size(145, 70)
         '
         'mnuExcludeSystem
         '
         Me.mnuExcludeSystem.Name = "mnuExcludeSystem"
-        Me.mnuExcludeSystem.Size = New System.Drawing.Size(147, 22)
+        Me.mnuExcludeSystem.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeSystem.Text = "Solar System"
         '
         'mnuExcludeConstellation
         '
         Me.mnuExcludeConstellation.Name = "mnuExcludeConstellation"
-        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(147, 22)
+        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeConstellation.Text = "Constellation"
         '
         'mnuExcludeRegion
         '
         Me.mnuExcludeRegion.Name = "mnuExcludeRegion"
-        Me.mnuExcludeRegion.Size = New System.Drawing.Size(147, 22)
+        Me.mnuExcludeRegion.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeRegion.Text = "Region"
         '
         'btnRemoveExclusion
         '
         Me.btnRemoveExclusion.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRemoveExclusion.Location = New System.Drawing.Point(127, 182)
+        Me.btnRemoveExclusion.Location = New System.Drawing.Point(127, 384)
         Me.btnRemoveExclusion.Name = "btnRemoveExclusion"
         Me.btnRemoveExclusion.Size = New System.Drawing.Size(106, 23)
         Me.btnRemoveExclusion.TabIndex = 69
@@ -2077,10 +2081,6 @@ Partial Class frmMap
         Me.btnExclude.Text = "Exclude"
         Me.btnExclude.UseCompatibleTextRendering = True
         Me.btnExclude.UseVisualStyleBackColor = True
-        '
-        'lgagstype
-        '
-        Me.lgagstype.Text = "Agent Type"
         '
         'frmMap
         '

@@ -1207,6 +1207,7 @@ Public Class frmMap
     Private Sub frmMap_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Temp remove the waypoints tab
         Me.tabWaypointExclusions.TabPages.Remove(Me.tabWaypoints)
+        Me.tabMapTool.TabPages.Remove(Me.tabStationSearch)
         Me.Visible = True
         Me.Refresh()
 

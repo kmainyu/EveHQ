@@ -1,11 +1,12 @@
 EveHQ - Version History
 -----------------------
 
-1.7.0.0 (??/??/????)
+1.7.0.51 (16/07/2008)
 -------
 New Features:
 - API Relay Server: Use EveHQ as a cache and secondary API server for other instances of EveHQ and other applications
 - New Updater: Can deliver new libraries and plug-ins without the need for further installers/zip files
+- Empyrean Age database upgrade
 
 Features and Improvements (Core):
 - Fixed multiple redraws of the skill list in the training form when changing pilots
@@ -23,6 +24,14 @@ Features and Improvements (Core):
 - Skill list in the Pilot Form can now be sorted by the various columns
 - Percentage complete figure for the skill list in the Pilot Form is now updated when currently training
 - Skill queues can now omit the current training skill via a new option in the Training Queue settings
+- Modified the plug-in loading system to either "enabled" or "on-demand" (meaning disabled plug-ins can be loaded later if required)
+- Update routines should no longer fetch cached XML from the server
+- Fixed a bug in skill queue ordering that would prevent multiple pre-req skills of the same type from being moved if a dependant skill was moved higher up the queue
+- Added a setting to disable the display of the API Status Form when getting character API
+- The 4th button of the G15 can now be used to update the character APIs
+- The G15 LCD will display "(U)" when there is an API update available
+- Added a new setting for toggling whether EveHQ should use the app directory for the database (for use with the /local switch)
+- Build numbers now follow those on the version control system
 
 Features and Improvements (Assets Plug-in):
 - Added rig builder functionality to display what you can build from the available salvage found in assets
@@ -36,6 +45,8 @@ Features and Improvements (Assets Plug-in):
 - Editing a transaction is now properly reflected in the transactions of the investment (as well as the transaction history)
 - An investment can now be closed
 - Added a checkbox to enable the display of closed investments
+- Added a "Min System Value" checkbox filter and textbox onto the main form, allowing a specified minimum value of all assets in a system
+- Fixed a crash caused by having assets in a location not provided by the data export
 
 Features and Improvements (Creation):
 - Goal seek now contains a context menu so a manual character can be imported into the pilots
@@ -51,10 +62,20 @@ Features and Improvements (Item Browser):
 - Attributes now formatted if numeric (using separators)
 - Numerical values Variations/Comparisons section now formatted with separators
 - Column alignment in Variations/Comparisons changed to right-align for newly added columns
+- Images for drones and structure types are now referenced correctly
+- Fixed formatting of various controls
 
 Features and Improvements (Gunnery):
 - Fixed an error in the weapon attribute loop that missed off the last attribute, leading to null attributes
 
+Features and Improvements (Map):
+- Plug-in will now load alliance, sovereignty and outpost information from the API
+- New details added to System Information: Planets, Moons, Belts, Ice Belts, Stations, FactionID, AllianceID and Sovereingty Level
+- Celestial tab showing details of planets, moons and belts within a system, constellation or region
+- Stations tab showing details of all stations in the system, giving details of faction, owner corporation, services and agents
+- Agents tab allowing searching of agents within particular factions, corps and divisions.
+- Modified the routing procedures to return a null route if a target system is not reachable
+- Fixed a crash in the routing code that could be caused if 2 destination systems were equal distance from the source
 
 1.6.7.0 (01/05/2008)
 -------
