@@ -3479,10 +3479,19 @@ namespace DotNetLib.Windows.Forms
 			// Aulofee customization - end
 			else
 			{
-				Image img = Image.FromStream(System.Reflection.Assembly.GetExecutingAssembly()
-					.GetManifestResourceStream("DotNetLib.Windows.Forms.Resources.tv_" + (expanded ? "minus" : "plus") + ".bmp"));
-
-				g.DrawImage(img, rectangle);
+                if (expanded==false)
+                {
+                    Image img = EveHQ.CoreControls.Properties.Resources.tv_plus;
+                     g.DrawImage(img, rectangle);
+                }
+                    else
+                {
+                    Image img = EveHQ.CoreControls.Properties.Resources.tv_minus;
+                    g.DrawImage(img, rectangle);
+                }
+                //Image img = Image.FromStream(System.Reflection.Assembly.GetExecutingAssembly()
+					//.GetManifestResourceStream("EveHQ.CoreControls.Properties.Resources.tv_" + (expanded ? "minus" : "plus") + ".bmp"));
+               	//g.DrawImage(img, rectangle);
 			}
 		}
 
