@@ -5,14 +5,14 @@
 		<file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-			<version>1.7.0.51</version>
+			<version>1.7.1.54</version>
 			<requires></requires>
 			<description>EveHQ Executable</description>
 		</file>
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-			<version>1.7.0.51</version>
+			<version>1.7.1.54</version>
 			<requires></requires>
 			<description>EveHQ Core Library</description>
 		</file>

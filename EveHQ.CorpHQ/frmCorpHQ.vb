@@ -1,4 +1,8 @@
-﻿' ========================================================================
+﻿Imports System.Windows.Forms
+Imports System.IO
+Imports System.Text.RegularExpressions
+
+' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
 ' Copyright © 2005-2008  Lee Vessey
 ' 
@@ -21,10 +25,12 @@ Public Class frmCorpHQ
     Implements EveHQ.Core.IEveHQPlugIn
     Dim mSetPlugInData As Object
 
+    Dim AllStandings As New SortedList
+
+#Region "Plug-in Initialisation Routines"
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
         Return True
     End Function
-
     Public Function GetEveHQPlugInInfo() As Core.PlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
         ' Returns data to EveHQ to identify it as a plugin
         Dim EveHQPlugIn As New EveHQ.Core.PlugIn
@@ -52,4 +58,241 @@ Public Class frmCorpHQ
             mSetPlugInData = value
         End Set
     End Property
+#End Region
+
+#Region "Standings Parser"
+    Private Sub btnGetStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetStandings.Click
+        ' First, let's check out the cache location based on the value of the settings
+        Dim cacheFileList As New ArrayList
+        Dim baseCacheDir As String = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\")
+        Dim cacheDir As String = ""
+        Dim folder As String = ""
+        Dim cacheFileData As String = ""
+        Dim CharStandingsRegex As New System.Text.RegularExpressions.Regex("GetCharStandings.*", (RegexOptions.Compiled Or RegexOptions.IgnoreCase))
+        Dim CorpStandingsRegex As New System.Text.RegularExpressions.Regex("GetCorpStandings.*", (RegexOptions.Compiled Or RegexOptions.IgnoreCase))
+        Dim MyStandings As New StandingsData
+
+        Dim startTime, endTime As Date
+        Dim timeTaken As TimeSpan
+
+        startTime = Now
+
+        For folderNo As Integer = 1 To 4
+            If EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo) <> "" Then
+                ' Check the location
+                folder = EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo)
+                folder = folder.Replace(":", "")
+                folder = folder.Replace(" ", "_")
+                folder = folder.Replace("\", "_")
+                cacheDir = baseCacheDir & folder & "_tranquility\cache\machonet\87.237.38.200\"
+                ' Search the cache dir for files containing the text "GetCharStandings"
+                If My.Computer.FileSystem.DirectoryExists(cacheDir) = True Then
+                    For Each cacheFile As String In My.Computer.FileSystem.GetFiles(cacheDir, FileIO.SearchOption.SearchAllSubDirectories, "*.cache")
+                        ' Load the contents of the cachefile to check for text
+                        Dim sr As New StreamReader(cacheFile)
+                        cacheFileData = sr.ReadToEnd
+                        sr.Close()
+                        Dim cacheMatch As MatchCollection = CharStandingsRegex.Matches(cacheFileData)
+                        If cacheMatch.Count > 0 And cacheFile.Contains("CachedObjects") = True Then
+                            cacheFileList.Add(cacheFile)
+                        End If
+                        cacheMatch = CorpStandingsRegex.Matches(cacheFileData)
+                        If cacheMatch.Count > 0 And cacheFile.Contains("CachedObjects") = True Then
+                            cacheFileList.Add(cacheFile)
+                        End If
+                    Next
+                Else
+                    MessageBox.Show("Unable to locate cache folder, please check the location of your Eve Client and/or log in to Eve to create it.", "Missing Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                End If
+            End If
+        Next
+
+        Dim StandingsDecoder As New StandingsCacheDecoder
+        AllStandings.Clear()
+        For Each cachefile As String In cacheFileList
+            MyStandings = StandingsDecoder.FetchStandings(cachefile)
+            If AllStandings.ContainsKey(MyStandings.OwnerID) = False Then
+                AllStandings.Add(MyStandings.OwnerID, MyStandings)
+            End If
+        Next
+
+        cboOwner.Items.Clear()
+        lvwStandings.Items.Clear()
+
+        If AllStandings.Count > 0 Then
+            ' Create the list of owners in the combobox
+            cboOwner.BeginUpdate()
+            For Each MyStandings In AllStandings.Values
+                ' Get Either Pilot or Corp Name
+                Dim ownerID As String = MyStandings.OwnerID
+                ' Cycle through the pilots to see if we have a match
+                For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+                    Select Case MyStandings.CacheType
+                        Case "GetCharStandings"
+                            If ownerID = cPilot.ID Then
+                                cboOwner.Items.Add(cPilot.Name)
+                                MyStandings.OwnerName = cPilot.Name
+                            End If
+                        Case "GetCorpStandings"
+                            If ownerID = cPilot.CorpID Then
+                                cboOwner.Items.Add(cPilot.Corp)
+                                MyStandings.OwnerName = cPilot.Corp
+                            End If
+                    End Select
+                Next
+            Next
+            cboOwner.EndUpdate()
+            ' Enable everything
+            cboOwner.Enabled = True
+            lblSelectOwner.Enabled = True
+            lvwStandings.Enabled = True
+        Else
+            ' Disable everything
+            cboOwner.Enabled = False
+            lblSelectOwner.Enabled = False
+            lvwStandings.Enabled = False
+            MessageBox.Show("Unable to find any valid cache files!", "No Cache Files Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+
+        endTime = Now
+        timeTaken = endTime - startTime
+        'MessageBox.Show("Finished retrieving standings in " & timeTaken.TotalMilliseconds.ToString & "ms", "Completed!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+    End Sub
+    Private Sub cboOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboOwner.SelectedIndexChanged
+        Dim ownerName As String = cboOwner.SelectedItem.ToString
+        Dim DiplomacyLevel As Integer = 0
+        Dim ConnectionsLevel As Integer = 0
+        Dim standing As Double = 0
+        ' Iterate through the list and find the rightID
+        For Each MyStandings As StandingsData In AllStandings.Values
+            If ownerName = MyStandings.OwnerName Then
+                ' Check if this is a character and whether we need to get the Connections and Diplomacy skills
+                If MyStandings.CacheType = "GetCharStandings" Then
+                    Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(ownerName), Core.Pilot)
+                    For Each cSkill As EveHQ.Core.Skills In cPilot.PilotSkills
+                        If cSkill.Name = "Diplomacy" Then
+                            DiplomacyLevel = cSkill.Level
+                        End If
+                        If cSkill.Name = "Connections" Then
+                            ConnectionsLevel = cSkill.Level
+                        End If
+                    Next
+                Else
+                    DiplomacyLevel = 0
+                    ConnectionsLevel = 0
+                End If
+                ' Populate the standings list
+                lvwStandings.BeginUpdate()
+                lvwStandings.Items.Clear()
+                For Each iStanding As String In MyStandings.StandingValues.Keys
+                    Dim newStanding As New ListViewItem
+                    newStanding.Text = MyStandings.StandingNames(iStanding).ToString
+                    newStanding.SubItems.Add(iStanding.ToString)
+                    standing = CDbl(MyStandings.StandingValues(iStanding))
+                    newStanding.SubItems.Add(standing.ToString)
+                    If CLng(iStanding) < 70000000 Then
+                        If standing < 0 Then
+                            standing = standing + ((10 - standing) * (DiplomacyLevel * 4 / 100))
+                        Else
+                            standing = standing + ((10 - standing) * (ConnectionsLevel * 4 / 100))
+                        End If
+                    End If
+                    newStanding.SubItems.Add(standing.ToString)
+                    lvwStandings.Items.Add(newStanding)
+                Next
+                lvwStandings.EndUpdate()
+            End If
+        Next
+    End Sub
+    Private Sub lvwStandings_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwStandings.ColumnClick
+        If CInt(lvwStandings.Tag) = e.Column Then
+            Me.lvwStandings.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
+            lvwStandings.Tag = -1
+        Else
+            Me.lvwStandings.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Descending)
+            lvwStandings.Tag = e.Column
+        End If
+        ' Call the sort method to manually sort.
+        lvwStandings.Sort()
+    End Sub
+    Private Sub btExportStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btExportStandings.Click
+        Try
+            ' Export the current list of standings
+            Dim sw As New StreamWriter(EveHQ.Core.HQ.reportFolder & "\Standings (" & cboOwner.SelectedItem.ToString & ").csv")
+            sw.WriteLine("Standings Export for " & cboOwner.SelectedItem.ToString & " (dated: " & FormatDateTime(Now, DateFormat.GeneralDate) & ")")
+            sw.WriteLine("Entity Name,Entity ID,Raw Standing Value,Actual Standing Value")
+            For Each iStanding As ListViewItem In lvwStandings.Items
+                sw.WriteLine(iStanding.Text & "," & iStanding.SubItems(1).Text & "," & iStanding.SubItems(2).Text & "," & iStanding.SubItems(3).Text)
+            Next
+            sw.Flush()
+            sw.Close()
+            MessageBox.Show("CSV Standings file for " & cboOwner.SelectedItem.ToString & " successfully written to the EveHQ report folder!", "Export Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("Export of CSV Standings file for " & cboOwner.SelectedItem.ToString & " failed:" & ControlChars.CrLf & ex.Message, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+    Private Sub btnClearStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearStandings.Click
+        Dim msg As String = "This will clear your cache of all files." & ControlChars.CrLf & ControlChars.CrLf
+        msg &= "Are you sure you wish to proceed?"
+        Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Standings Files", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If reply = Windows.Forms.DialogResult.No Then
+            Exit Sub
+        Else
+            Dim cacheFileList As New ArrayList
+            Dim baseCacheDir As String = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\")
+            Dim cacheDir As String = ""
+            Dim folder As String = ""
+            Dim cacheFileData As String = ""
+            Dim CharStandingsRegex As New System.Text.RegularExpressions.Regex("GetCharStandings.*", (RegexOptions.Compiled Or RegexOptions.IgnoreCase))
+            Dim CorpStandingsRegex As New System.Text.RegularExpressions.Regex("GetCorpStandings.*", (RegexOptions.Compiled Or RegexOptions.IgnoreCase))
+            Dim MyStandings As New StandingsData
+            Dim fail As Boolean = False
+
+            For folderNo As Integer = 1 To 4
+                If EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo) <> "" Then
+                    ' Check the location
+                    folder = EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo)
+                    folder = folder.Replace(":", "")
+                    folder = folder.Replace(" ", "_")
+                    folder = folder.Replace("\", "_")
+                    cacheDir = baseCacheDir & folder & "_tranquility\cache\machonet"
+                    ' Search the cache dir for files containing the text "GetCharStandings"
+                    If My.Computer.FileSystem.DirectoryExists(cacheDir) = True Then
+                        Try
+                            My.Computer.FileSystem.DeleteDirectory(cacheDir, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+                        Catch ex As Exception
+                            fail = True
+                        End Try
+                        'For Each cacheFile As String In My.Computer.FileSystem.GetFiles(cacheDir, FileIO.SearchOption.SearchAllSubDirectories, "*.cache")
+                        '    'Load the contents of the cachefile to check for text
+                        '    Dim sr As New StreamReader(cacheFile)
+                        '    cacheFileData = sr.ReadToEnd
+                        '    sr.Close()
+                        '    Dim cacheMatch As MatchCollection = CharStandingsRegex.Matches(cacheFileData)
+                        '    If cacheMatch.Count > 0 And cacheFile.Contains("CachedObjects") = True Then
+                        '        My.Computer.FileSystem.DeleteFile(cacheFile)
+                        '    End If
+                        '    cacheMatch = CorpStandingsRegex.Matches(cacheFileData)
+                        '    If cacheMatch.Count > 0 And cacheFile.Contains("CachedObjects") = True Then
+                        '        My.Computer.FileSystem.DeleteFile(cacheFile)
+                        '    End If
+                        'Next
+                    End If
+                Else
+                    ' Do nothing if we can't find a folder! Assume complete!
+                End If
+            Next
+            If fail = False Then
+                MessageBox.Show("All Cache files deleted from the cache folders!", "Delete Cache Files Completed!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                MessageBox.Show("Unable to delete all Cache folders. Please check that you have the required access, the folder isn't being used and that Eve is not running.", "Delete Cache Failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
+        End If
+    End Sub
+#End Region
+
+   
+   
+   
 End Class

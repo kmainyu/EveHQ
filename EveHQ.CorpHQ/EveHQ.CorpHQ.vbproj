@@ -55,6 +55,7 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StandingsCacheDecoder.vb" />
     <Compile Include="frmCorpHQ.Designer.vb">
       <DependentUpon>frmCorpHQ.vb</DependentUpon>
     </Compile>
@@ -108,6 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CorpIcon2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Strings.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

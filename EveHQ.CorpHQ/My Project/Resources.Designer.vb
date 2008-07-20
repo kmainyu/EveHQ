@@ -66,5 +66,60 @@ Namespace My.Resources
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to *corpid
+        '''*locationid
+        '''age
+        '''Asteroid
+        '''authentication
+        '''ballID
+        '''beyonce
+        '''bloodlineID
+        '''capacity
+        '''categoryID
+        '''character
+        '''characterID
+        '''characterName
+        '''characterType
+        '''charID
+        '''chatx
+        '''clientID
+        '''config
+        '''contraband
+        '''corporationDateTime
+        '''corporationID
+        '''createDateTime
+        '''customInfo
+        '''description
+        '''divisionID
+        '''DoDestinyUpdate
+        '''dogmaIM
+        '''EVE System
+        '''flag
+        '''foo.SlimItem
+        '''gangID
+        '''Gemini
+        '''gender
+        '''graphicID
+        '''groupID
+        '''header
+        '''idName
+        '''invbroker
+        '''itemID
+        '''items
+        '''jumps
+        '''line
+        '''lines
+        '''locationID
+        '''locationName
+        '''macho.CallReq
+        '''macho.CallRsp        ''' [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property Strings() As String
+            Get
+                Return ResourceManager.GetString("Strings", resourceCulture)
+            End Get
+        End Property
     End Module
 End Namespace
