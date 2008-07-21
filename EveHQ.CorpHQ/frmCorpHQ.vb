@@ -164,7 +164,7 @@ Public Class frmCorpHQ
 
     End Sub
     Private Sub cboOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboOwner.SelectedIndexChanged
-        cboFilter.SelectedIndex = 0
+        Call UpdateStandingsList()
     End Sub
     Private Sub lvwStandings_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwStandings.ColumnClick
         If CInt(lvwStandings.Tag) = e.Column Then
@@ -252,6 +252,15 @@ Public Class frmCorpHQ
         End If
     End Sub
     Private Sub cboFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFilter.SelectedIndexChanged
+        If cboFilter.Tag.ToString <> "0" Then
+            Call Me.UpdateStandingsList()
+        End If
+        cboFilter.Tag = "1"
+    End Sub
+    Private Sub UpdateStandingsList()
+        If cboFilter.SelectedItem Is Nothing Then
+            cboFilter.SelectedIndex = 0
+        End If
         If cboOwner.SelectedItem IsNot Nothing Then
             Dim ownerName As String = cboOwner.SelectedItem.ToString
             Dim DiplomacyLevel As Integer = 0

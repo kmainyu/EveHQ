@@ -948,7 +948,12 @@ Public Class StandingsCacheDecoder
                     For i As Integer = 0 To itemData.Count - 1
                         If TypeOf itemData(i) Is ArrayList Then
                             item = CType(itemData(i), ArrayList)
-                            StandingsValues.Add(CStr(item(0)), CStr(item(1)))
+                            ' Check if it has been added before and change it if it has!
+                            If StandingsValues.Contains(CStr(item(0))) = True Then
+                                StandingsValues(CStr(item(0))) = CStr(item(1))
+                            Else
+                                StandingsValues.Add(CStr(item(0)), CStr(item(1)))
+                            End If
                             NPCList.Append(CStr(item(0)) & ",")
                             'newNPCType = New Standing
                             'newNPCType.ID = CStr(item(0))

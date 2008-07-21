@@ -150,6 +150,7 @@ Partial Class frmCorpHQ
         Me.cboFilter.Size = New System.Drawing.Size(103, 21)
         Me.cboFilter.Sorted = True
         Me.cboFilter.TabIndex = 6
+        Me.cboFilter.Tag = "0"
         '
         'frmCorpHQ
         '
