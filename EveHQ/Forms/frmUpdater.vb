@@ -371,7 +371,9 @@ Public Class frmUpdater
                 oldFile = newFile.TrimEnd(".upd".ToCharArray)
                 Dim ofi As New IO.FileInfo(oldFile)
                 Dim nfi As New IO.FileInfo(newFile)
-                My.Computer.FileSystem.RenameFile(ofi.FullName, ofi.Name & ".old")
+                If ofi.Exists = True Then
+                    My.Computer.FileSystem.RenameFile(ofi.FullName, ofi.Name & ".old")
+                End If
                 ' Copy the new file as the old one
                 My.Computer.FileSystem.CopyFile(nfi.FullName, ofi.FullName, True)
                 ' If no errors, then delete the update file

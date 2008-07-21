@@ -146,11 +146,15 @@ Public Class frmCorpHQ
             cboOwner.Enabled = True
             lblSelectOwner.Enabled = True
             lvwStandings.Enabled = True
+            lblTypeFilter.Enabled = True
+            cboFilter.Enabled = True
         Else
             ' Disable everything
             cboOwner.Enabled = False
             lblSelectOwner.Enabled = False
             lvwStandings.Enabled = False
+            lblTypeFilter.Enabled = False
+            cboFilter.Enabled = False
             MessageBox.Show("Unable to find any valid cache files!", "No Cache Files Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
 
@@ -160,50 +164,7 @@ Public Class frmCorpHQ
 
     End Sub
     Private Sub cboOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboOwner.SelectedIndexChanged
-        Dim ownerName As String = cboOwner.SelectedItem.ToString
-        Dim DiplomacyLevel As Integer = 0
-        Dim ConnectionsLevel As Integer = 0
-        Dim standing As Double = 0
-        ' Iterate through the list and find the rightID
-        For Each MyStandings As StandingsData In AllStandings.Values
-            If ownerName = MyStandings.OwnerName Then
-                ' Check if this is a character and whether we need to get the Connections and Diplomacy skills
-                If MyStandings.CacheType = "GetCharStandings" Then
-                    Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(ownerName), Core.Pilot)
-                    For Each cSkill As EveHQ.Core.Skills In cPilot.PilotSkills
-                        If cSkill.Name = "Diplomacy" Then
-                            DiplomacyLevel = cSkill.Level
-                        End If
-                        If cSkill.Name = "Connections" Then
-                            ConnectionsLevel = cSkill.Level
-                        End If
-                    Next
-                Else
-                    DiplomacyLevel = 0
-                    ConnectionsLevel = 0
-                End If
-                ' Populate the standings list
-                lvwStandings.BeginUpdate()
-                lvwStandings.Items.Clear()
-                For Each iStanding As String In MyStandings.StandingValues.Keys
-                    Dim newStanding As New ListViewItem
-                    newStanding.Text = MyStandings.StandingNames(iStanding).ToString
-                    newStanding.SubItems.Add(iStanding.ToString)
-                    standing = CDbl(MyStandings.StandingValues(iStanding))
-                    newStanding.SubItems.Add(standing.ToString)
-                    If CLng(iStanding) < 70000000 Then
-                        If standing < 0 Then
-                            standing = standing + ((10 - standing) * (DiplomacyLevel * 4 / 100))
-                        Else
-                            standing = standing + ((10 - standing) * (ConnectionsLevel * 4 / 100))
-                        End If
-                    End If
-                    newStanding.SubItems.Add(standing.ToString)
-                    lvwStandings.Items.Add(newStanding)
-                Next
-                lvwStandings.EndUpdate()
-            End If
-        Next
+        cboFilter.SelectedIndex = 0
     End Sub
     Private Sub lvwStandings_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwStandings.ColumnClick
         If CInt(lvwStandings.Tag) = e.Column Then
@@ -221,9 +182,9 @@ Public Class frmCorpHQ
             ' Export the current list of standings
             Dim sw As New StreamWriter(EveHQ.Core.HQ.reportFolder & "\Standings (" & cboOwner.SelectedItem.ToString & ").csv")
             sw.WriteLine("Standings Export for " & cboOwner.SelectedItem.ToString & " (dated: " & FormatDateTime(Now, DateFormat.GeneralDate) & ")")
-            sw.WriteLine("Entity Name,Entity ID,Raw Standing Value,Actual Standing Value")
+            sw.WriteLine("Entity Name,Entity ID,Entity Type,Raw Standing Value,Actual Standing Value")
             For Each iStanding As ListViewItem In lvwStandings.Items
-                sw.WriteLine(iStanding.Text & "," & iStanding.SubItems(1).Text & "," & iStanding.SubItems(2).Text & "," & iStanding.SubItems(3).Text)
+                sw.WriteLine(iStanding.Text & "," & iStanding.SubItems(1).Text & "," & iStanding.SubItems(2).Text & "," & iStanding.SubItems(3).Text & "," & iStanding.SubItems(4).Text)
             Next
             sw.Flush()
             sw.Close()
@@ -232,8 +193,8 @@ Public Class frmCorpHQ
             MessageBox.Show("Export of CSV Standings file for " & cboOwner.SelectedItem.ToString & " failed:" & ControlChars.CrLf & ex.Message, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
-    Private Sub btnClearStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearStandings.Click
-        Dim msg As String = "This will clear your cache of all files." & ControlChars.CrLf & ControlChars.CrLf
+    Private Sub btnClearCache_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearCache.Click
+        Dim msg As String = "This will clear your cache of all files. Please make sure the cache folders are not in use and you are not logged into Eve." & ControlChars.CrLf & ControlChars.CrLf
         msg &= "Are you sure you wish to proceed?"
         Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Standings Files", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If reply = Windows.Forms.DialogResult.No Then
@@ -290,9 +251,89 @@ Public Class frmCorpHQ
             End If
         End If
     End Sub
+    Private Sub cboFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFilter.SelectedIndexChanged
+        If cboOwner.SelectedItem IsNot Nothing Then
+            Dim ownerName As String = cboOwner.SelectedItem.ToString
+            Dim DiplomacyLevel As Integer = 0
+            Dim ConnectionsLevel As Integer = 0
+            Dim standing As Double = 0
+            ' Iterate through the list and find the rightID
+            For Each MyStandings As StandingsData In AllStandings.Values
+                If ownerName = MyStandings.OwnerName Then
+                    ' Check if this is a character and whether we need to get the Connections and Diplomacy skills
+                    If MyStandings.CacheType = "GetCharStandings" Then
+                        Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(ownerName), Core.Pilot)
+                        For Each cSkill As EveHQ.Core.Skills In cPilot.PilotSkills
+                            If cSkill.Name = "Diplomacy" Then
+                                DiplomacyLevel = cSkill.Level
+                            End If
+                            If cSkill.Name = "Connections" Then
+                                ConnectionsLevel = cSkill.Level
+                            End If
+                        Next
+                    Else
+                        DiplomacyLevel = 0
+                        ConnectionsLevel = 0
+                    End If
+                    ' Populate the standings list
+                    lvwStandings.BeginUpdate()
+                    lvwStandings.Items.Clear()
+                    For Each iStanding As String In MyStandings.StandingValues.Keys
+                        ' Determine if we need to filter
+                        Dim show As Boolean = False
+                        Select Case cboFilter.SelectedItem.ToString
+                            Case "<All>"
+                                show = True
+                            Case "Agent"
+                                If CLng(iStanding) >= 3000000 And CLng(iStanding) <= 3099999 Then
+                                    show = True
+                                End If
+                            Case "Corporation"
+                                If CLng(iStanding) >= 1000000 And CLng(iStanding) <= 1099999 Then
+                                    show = True
+                                End If
+                            Case "Faction"
+                                If CLng(iStanding) >= 500000 And CLng(iStanding) <= 599999 Then
+                                    show = True
+                                End If
+                            Case "Player/Corp"
+                                If CLng(iStanding) >= 4000000 Then
+                                    show = True
+                                End If
+                        End Select
+                        If show = True Then
+                            Dim newStanding As New ListViewItem
+                            newStanding.Text = MyStandings.StandingNames(iStanding).ToString
+                            newStanding.SubItems.Add(iStanding.ToString)
+                            Select Case CLng(iStanding)
+                                Case 500000 To 599999
+                                    newStanding.SubItems.Add("Faction")
+                                Case 1000000 To 1099999
+                                    newStanding.SubItems.Add("Corporation")
+                                Case 3000000 To 3099999
+                                    newStanding.SubItems.Add("Agent")
+                                Case Else
+                                    newStanding.SubItems.Add("Player/Corp")
+                            End Select
+                            standing = CDbl(MyStandings.StandingValues(iStanding))
+                            newStanding.SubItems.Add(standing.ToString)
+                            If CLng(iStanding) < 70000000 Then
+                                If standing < 0 Then
+                                    standing = standing + ((10 - standing) * (DiplomacyLevel * 4 / 100))
+                                Else
+                                    standing = standing + ((10 - standing) * (ConnectionsLevel * 4 / 100))
+                                End If
+                            End If
+                            newStanding.SubItems.Add(standing.ToString)
+                            lvwStandings.Items.Add(newStanding)
+                        End If
+                    Next
+                    lvwStandings.EndUpdate()
+                End If
+            Next
+        End If
+    End Sub
 #End Region
 
-   
-   
-   
+  
 End Class
