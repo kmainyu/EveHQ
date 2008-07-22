@@ -567,7 +567,7 @@ Public Class ShipSlotControl
                 currentShip.DroneBayItems.Add(currentShip.DroneBayItems.Count, DBI)
             End If
             ' Update stuff
-            If UpdateAll = False And Active = True Then
+            If UpdateAll = False Then
                 currentInfo.ShipType = currentShip
                 UpdateDrones = True
                 Call Me.RedrawDroneBay()

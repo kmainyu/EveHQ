@@ -2672,7 +2672,4 @@ Public Class frmHQF
         myPilotManager.ShowDialog()
         myPilotManager = Nothing
     End Sub
-
-   
-   
 End Class
