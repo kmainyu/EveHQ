@@ -1,8 +1,4 @@
-﻿Imports System.Windows.Forms
-Imports System.IO
-Imports System.Text.RegularExpressions
-
-' ========================================================================
+﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
 ' Copyright © 2005-2008  Lee Vessey
 ' 
@@ -21,6 +17,10 @@ Imports System.Text.RegularExpressions
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Windows.Forms
+Imports System.IO
+Imports System.Text.RegularExpressions
+
 Public Class frmCorpHQ
     Implements EveHQ.Core.IEveHQPlugIn
     Dim mSetPlugInData As Object
@@ -64,7 +64,8 @@ Public Class frmCorpHQ
     Private Sub btnGetStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetStandings.Click
         ' First, let's check out the cache location based on the value of the settings
         Dim cacheFileList As New ArrayList
-        Dim baseCacheDir As String = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\")
+        Dim baseCacheDir As String = ""
+        Dim EveClient As DirectoryInfo
         Dim cacheDir As String = ""
         Dim folder As String = ""
         Dim cacheFileData As String = ""
@@ -79,12 +80,20 @@ Public Class frmCorpHQ
 
         For folderNo As Integer = 1 To 4
             If EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo) <> "" Then
-                ' Check the location
-                folder = EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo)
-                folder = folder.Replace(":", "")
-                folder = folder.Replace(" ", "_")
-                folder = folder.Replace("\", "_")
-                cacheDir = baseCacheDir & folder & "_tranquility\cache\machonet\87.237.38.200\"
+                ' Define the base cache dir depending on the /LUA switch
+                If EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folderNo) = True Then
+                    EveClient = New DirectoryInfo(EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo))
+                    baseCacheDir = EveClient.FullName
+                    cacheDir = baseCacheDir & "\cache\machonet\87.237.38.200\"
+                Else
+                    baseCacheDir = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\")
+                    ' Check the location
+                    folder = EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo)
+                    folder = folder.Replace(":", "")
+                    folder = folder.Replace(" ", "_")
+                    folder = folder.Replace("\", "_")
+                    cacheDir = baseCacheDir & folder & "_tranquility\cache\machonet\87.237.38.200\"
+                End If
                 ' Search the cache dir for files containing the text "GetCharStandings"
                 If My.Computer.FileSystem.DirectoryExists(cacheDir) = True Then
                     For Each cacheFile As String In My.Computer.FileSystem.GetFiles(cacheDir, FileIO.SearchOption.SearchAllSubDirectories, "*.cache")
@@ -201,23 +210,27 @@ Public Class frmCorpHQ
             Exit Sub
         Else
             Dim cacheFileList As New ArrayList
-            Dim baseCacheDir As String = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\")
+            Dim baseCacheDir As String = ""
+            Dim EveClient As DirectoryInfo
             Dim cacheDir As String = ""
             Dim folder As String = ""
-            Dim cacheFileData As String = ""
-            Dim CharStandingsRegex As New System.Text.RegularExpressions.Regex("GetCharStandings.*", (RegexOptions.Compiled Or RegexOptions.IgnoreCase))
-            Dim CorpStandingsRegex As New System.Text.RegularExpressions.Regex("GetCorpStandings.*", (RegexOptions.Compiled Or RegexOptions.IgnoreCase))
-            Dim MyStandings As New StandingsData
             Dim fail As Boolean = False
-
             For folderNo As Integer = 1 To 4
                 If EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo) <> "" Then
-                    ' Check the location
-                    folder = EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo)
-                    folder = folder.Replace(":", "")
-                    folder = folder.Replace(" ", "_")
-                    folder = folder.Replace("\", "_")
-                    cacheDir = baseCacheDir & folder & "_tranquility\cache\machonet"
+                    ' Define the base cache dir depending on the /LUA switch
+                    If EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folderNo) = True Then
+                        EveClient = New DirectoryInfo(EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo))
+                        baseCacheDir = EveClient.FullName
+                        cacheDir = baseCacheDir & "\cache\machonet\87.237.38.200\"
+                    Else
+                        baseCacheDir = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\")
+                        ' Check the location
+                        folder = EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo)
+                        folder = folder.Replace(":", "")
+                        folder = folder.Replace(" ", "_")
+                        folder = folder.Replace("\", "_")
+                        cacheDir = baseCacheDir & folder & "_tranquility\cache\machonet\87.237.38.200\"
+                    End If
                     ' Search the cache dir for files containing the text "GetCharStandings"
                     If My.Computer.FileSystem.DirectoryExists(cacheDir) = True Then
                         Try
@@ -225,20 +238,6 @@ Public Class frmCorpHQ
                         Catch ex As Exception
                             fail = True
                         End Try
-                        'For Each cacheFile As String In My.Computer.FileSystem.GetFiles(cacheDir, FileIO.SearchOption.SearchAllSubDirectories, "*.cache")
-                        '    'Load the contents of the cachefile to check for text
-                        '    Dim sr As New StreamReader(cacheFile)
-                        '    cacheFileData = sr.ReadToEnd
-                        '    sr.Close()
-                        '    Dim cacheMatch As MatchCollection = CharStandingsRegex.Matches(cacheFileData)
-                        '    If cacheMatch.Count > 0 And cacheFile.Contains("CachedObjects") = True Then
-                        '        My.Computer.FileSystem.DeleteFile(cacheFile)
-                        '    End If
-                        '    cacheMatch = CorpStandingsRegex.Matches(cacheFileData)
-                        '    If cacheMatch.Count > 0 And cacheFile.Contains("CachedObjects") = True Then
-                        '        My.Computer.FileSystem.DeleteFile(cacheFile)
-                        '    End If
-                        'Next
                     End If
                 Else
                     ' Do nothing if we can't find a folder! Assume complete!

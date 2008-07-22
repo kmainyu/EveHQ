@@ -54,8 +54,8 @@
 		<file>
 			<name>EveHQ.CorpHQ.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.1.57</version>
-			<requires>1.7.1.57</requires>
+			<version>1.7.1.58</version>
+			<requires>1.7.1.58</requires>
 			<description>Map and Routing Plug-in</description>
 		</file>
 		<file>
