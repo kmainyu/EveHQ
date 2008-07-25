@@ -31,6 +31,9 @@ Public Class Engine
     Public Shared BaseSkillEffectsTable As New SortedList
     Public Shared ModuleEffectsTable As New SortedList
 
+    Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+    'Dim isk As Double = Double.Parse(toon.ChildNodes.Item(7).InnerText, Globalization.NumberStyles.Number, culture)
+
 #Region "New Routines"
     Public Shared Sub BuildEffectsMap()
         ' Fetch the Effects list
@@ -113,7 +116,7 @@ Public Class Engine
                 newEffect.StackNerf = CBool(EffectData(6))
                 newEffect.IsPerLevel = CBool(EffectData(7))
                 newEffect.CalcType = CInt(EffectData(8))
-                newEffect.Value = CDbl(EffectData(9))
+                newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
                 shipEffectClassList.Add(newEffect)
             End If
         Next
@@ -165,7 +168,7 @@ Public Class Engine
                         newEffect.AffectedID.Add(EffectData(4))
                     End If
                     newEffect.CalcType = CInt(EffectData(5))
-                    newEffect.Value = CDbl(EffectData(6))
+                    newEffect.Value = Double.Parse(EffectData(6), Globalization.NumberStyles.Number, culture)
                     newEffect.IsGang = CBool(EffectData(7))
                     If EffectData(8).Contains(";") = True Then
                         IDs = EffectData(8).Split(";".ToCharArray)
