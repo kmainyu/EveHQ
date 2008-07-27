@@ -35,11 +35,9 @@
     Public Stations As SortedList = New SortedList
     Public ABelts As SortedList = New SortedList
     Public IBelts As SortedList = New SortedList
+    Public SovereigntyName As String
+    Public SovereigntyID As String
     Public RegionId As String
-    Public FactionID As String
-    Public FactionName As String
-    Public AllianceID As String
-    Public AllianceName As String
     Public SecClass As String
     Public constellationSovereignty As Integer
     Public csID As String

@@ -34,12 +34,10 @@ Partial Class frmMap
         Me.lblABeltsLbl = New System.Windows.Forms.Label
         Me.lblMoonsLbl = New System.Windows.Forms.Label
         Me.lblPlanetsLbl = New System.Windows.Forms.Label
-        Me.lblFactionID = New System.Windows.Forms.Label
-        Me.lblsovereigntyLevel = New System.Windows.Forms.Label
-        Me.lblFactionIDlbl = New System.Windows.Forms.Label
-        Me.lblsovereigntyLevellbl = New System.Windows.Forms.Label
-        Me.lblAllianceID = New System.Windows.Forms.Label
-        Me.lblAllianceIDlbl = New System.Windows.Forms.Label
+        Me.lblSovereigntyLevel = New System.Windows.Forms.Label
+        Me.lblSovereigntyLevellbl = New System.Windows.Forms.Label
+        Me.lblSovHolder = New System.Windows.Forms.Label
+        Me.lblSovHolderLbl = New System.Windows.Forms.Label
         Me.lblRegion = New System.Windows.Forms.Label
         Me.lblRegionlbl = New System.Windows.Forms.Label
         Me.lblConst = New System.Windows.Forms.Label
@@ -100,6 +98,7 @@ Partial Class frmMap
         Me.colDistance = New System.Windows.Forms.ColumnHeader
         Me.colFuel = New System.Windows.Forms.ColumnHeader
         Me.colCargo = New System.Windows.Forms.ColumnHeader
+        Me.colSov = New System.Windows.Forms.ColumnHeader
         Me.ctxRoute = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuCopyToClipboard = New System.Windows.Forms.ToolStripMenuItem
         Me.lblTimeTaken = New System.Windows.Forms.Label
@@ -270,12 +269,10 @@ Partial Class frmMap
         Me.gbSystemInfo.Controls.Add(Me.lblABeltsLbl)
         Me.gbSystemInfo.Controls.Add(Me.lblMoonsLbl)
         Me.gbSystemInfo.Controls.Add(Me.lblPlanetsLbl)
-        Me.gbSystemInfo.Controls.Add(Me.lblFactionID)
-        Me.gbSystemInfo.Controls.Add(Me.lblsovereigntyLevel)
-        Me.gbSystemInfo.Controls.Add(Me.lblFactionIDlbl)
-        Me.gbSystemInfo.Controls.Add(Me.lblsovereigntyLevellbl)
-        Me.gbSystemInfo.Controls.Add(Me.lblAllianceID)
-        Me.gbSystemInfo.Controls.Add(Me.lblAllianceIDlbl)
+        Me.gbSystemInfo.Controls.Add(Me.lblSovereigntyLevel)
+        Me.gbSystemInfo.Controls.Add(Me.lblSovereigntyLevellbl)
+        Me.gbSystemInfo.Controls.Add(Me.lblSovHolder)
+        Me.gbSystemInfo.Controls.Add(Me.lblSovHolderLbl)
         Me.gbSystemInfo.Controls.Add(Me.lblRegion)
         Me.gbSystemInfo.Controls.Add(Me.lblRegionlbl)
         Me.gbSystemInfo.Controls.Add(Me.lblConst)
@@ -389,59 +386,41 @@ Partial Class frmMap
         Me.lblPlanetsLbl.TabIndex = 43
         Me.lblPlanetsLbl.Text = "Planets:"
         '
-        'lblFactionID
+        'lblSovereigntyLevel
         '
-        Me.lblFactionID.AutoSize = True
-        Me.lblFactionID.Location = New System.Drawing.Point(82, 167)
-        Me.lblFactionID.Name = "lblFactionID"
-        Me.lblFactionID.Size = New System.Drawing.Size(63, 13)
-        Me.lblFactionID.TabIndex = 42
-        Me.lblFactionID.Text = "Placeholder"
+        Me.lblSovereigntyLevel.AutoSize = True
+        Me.lblSovereigntyLevel.Location = New System.Drawing.Point(82, 180)
+        Me.lblSovereigntyLevel.Name = "lblSovereigntyLevel"
+        Me.lblSovereigntyLevel.Size = New System.Drawing.Size(63, 13)
+        Me.lblSovereigntyLevel.TabIndex = 41
+        Me.lblSovereigntyLevel.Text = "Placeholder"
         '
-        'lblsovereigntyLevel
+        'lblSovereigntyLevellbl
         '
-        Me.lblsovereigntyLevel.AutoSize = True
-        Me.lblsovereigntyLevel.Location = New System.Drawing.Point(82, 192)
-        Me.lblsovereigntyLevel.Name = "lblsovereigntyLevel"
-        Me.lblsovereigntyLevel.Size = New System.Drawing.Size(63, 13)
-        Me.lblsovereigntyLevel.TabIndex = 41
-        Me.lblsovereigntyLevel.Text = "Placeholder"
+        Me.lblSovereigntyLevellbl.AutoSize = True
+        Me.lblSovereigntyLevellbl.Location = New System.Drawing.Point(10, 181)
+        Me.lblSovereigntyLevellbl.Name = "lblSovereigntyLevellbl"
+        Me.lblSovereigntyLevellbl.Size = New System.Drawing.Size(58, 13)
+        Me.lblSovereigntyLevellbl.TabIndex = 39
+        Me.lblSovereigntyLevellbl.Text = "Sov Level:"
         '
-        'lblFactionIDlbl
+        'lblSovHolder
         '
-        Me.lblFactionIDlbl.AutoSize = True
-        Me.lblFactionIDlbl.Location = New System.Drawing.Point(10, 167)
-        Me.lblFactionIDlbl.Name = "lblFactionIDlbl"
-        Me.lblFactionIDlbl.Size = New System.Drawing.Size(59, 13)
-        Me.lblFactionIDlbl.TabIndex = 40
-        Me.lblFactionIDlbl.Text = "Faction ID:"
+        Me.lblSovHolder.AutoSize = True
+        Me.lblSovHolder.Location = New System.Drawing.Point(82, 167)
+        Me.lblSovHolder.Name = "lblSovHolder"
+        Me.lblSovHolder.Size = New System.Drawing.Size(63, 13)
+        Me.lblSovHolder.TabIndex = 38
+        Me.lblSovHolder.Text = "Placeholder"
         '
-        'lblsovereigntyLevellbl
+        'lblSovHolderLbl
         '
-        Me.lblsovereigntyLevellbl.AutoSize = True
-        Me.lblsovereigntyLevellbl.Location = New System.Drawing.Point(10, 193)
-        Me.lblsovereigntyLevellbl.Name = "lblsovereigntyLevellbl"
-        Me.lblsovereigntyLevellbl.Size = New System.Drawing.Size(58, 13)
-        Me.lblsovereigntyLevellbl.TabIndex = 39
-        Me.lblsovereigntyLevellbl.Text = "Sov Level:"
-        '
-        'lblAllianceID
-        '
-        Me.lblAllianceID.AutoSize = True
-        Me.lblAllianceID.Location = New System.Drawing.Point(82, 179)
-        Me.lblAllianceID.Name = "lblAllianceID"
-        Me.lblAllianceID.Size = New System.Drawing.Size(63, 13)
-        Me.lblAllianceID.TabIndex = 38
-        Me.lblAllianceID.Text = "Placeholder"
-        '
-        'lblAllianceIDlbl
-        '
-        Me.lblAllianceIDlbl.AutoSize = True
-        Me.lblAllianceIDlbl.Location = New System.Drawing.Point(10, 180)
-        Me.lblAllianceIDlbl.Name = "lblAllianceIDlbl"
-        Me.lblAllianceIDlbl.Size = New System.Drawing.Size(61, 13)
-        Me.lblAllianceIDlbl.TabIndex = 37
-        Me.lblAllianceIDlbl.Text = "Alliance ID:"
+        Me.lblSovHolderLbl.AutoSize = True
+        Me.lblSovHolderLbl.Location = New System.Drawing.Point(10, 168)
+        Me.lblSovHolderLbl.Name = "lblSovHolderLbl"
+        Me.lblSovHolderLbl.Size = New System.Drawing.Size(63, 13)
+        Me.lblSovHolderLbl.TabIndex = 37
+        Me.lblSovHolderLbl.Text = "Sov Holder:"
         '
         'lblRegion
         '
@@ -482,7 +461,7 @@ Partial Class frmMap
         'lblGates
         '
         Me.lblGates.AutoSize = True
-        Me.lblGates.Location = New System.Drawing.Point(82, 219)
+        Me.lblGates.Location = New System.Drawing.Point(82, 207)
         Me.lblGates.Name = "lblGates"
         Me.lblGates.Size = New System.Drawing.Size(63, 13)
         Me.lblGates.TabIndex = 18
@@ -491,7 +470,7 @@ Partial Class frmMap
         'lblNoGates
         '
         Me.lblNoGates.AutoSize = True
-        Me.lblNoGates.Location = New System.Drawing.Point(82, 206)
+        Me.lblNoGates.Location = New System.Drawing.Point(82, 194)
         Me.lblNoGates.Name = "lblNoGates"
         Me.lblNoGates.Size = New System.Drawing.Size(63, 13)
         Me.lblNoGates.TabIndex = 17
@@ -500,7 +479,7 @@ Partial Class frmMap
         'lblNoGateslbl
         '
         Me.lblNoGateslbl.AutoSize = True
-        Me.lblNoGateslbl.Location = New System.Drawing.Point(10, 206)
+        Me.lblNoGateslbl.Location = New System.Drawing.Point(10, 194)
         Me.lblNoGateslbl.Name = "lblNoGateslbl"
         Me.lblNoGateslbl.Size = New System.Drawing.Size(38, 13)
         Me.lblNoGateslbl.TabIndex = 16
@@ -966,7 +945,7 @@ Partial Class frmMap
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lvwRoute.BackColor = System.Drawing.SystemColors.Window
-        Me.lvwRoute.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colNo, Me.colSystem, Me.colConstellation, Me.colRegion, Me.colSecurity, Me.colDistance, Me.colFuel, Me.colCargo})
+        Me.lvwRoute.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colNo, Me.colSystem, Me.colConstellation, Me.colRegion, Me.colSecurity, Me.colDistance, Me.colFuel, Me.colCargo, Me.colSov})
         Me.lvwRoute.ContextMenuStrip = Me.ctxRoute
         Me.lvwRoute.FullRowSelect = True
         Me.lvwRoute.GridLines = True
@@ -1015,6 +994,11 @@ Partial Class frmMap
         '
         Me.colCargo.Text = "Cargo (m3)"
         Me.colCargo.Width = 75
+        '
+        'colSov
+        '
+        Me.colSov.Text = "Sovereignty"
+        Me.colSov.Width = 180
         '
         'ctxRoute
         '
@@ -2318,12 +2302,10 @@ Partial Class frmMap
     Friend WithEvents cboConst As System.Windows.Forms.ComboBox
     Friend WithEvents cboRegion As System.Windows.Forms.ComboBox
     Friend WithEvents tabSystem As System.Windows.Forms.TabPage
-    Friend WithEvents lblFactionID As System.Windows.Forms.Label
-    Friend WithEvents lblsovereigntyLevel As System.Windows.Forms.Label
-    Friend WithEvents lblFactionIDlbl As System.Windows.Forms.Label
-    Friend WithEvents lblsovereigntyLevellbl As System.Windows.Forms.Label
-    Friend WithEvents lblAllianceID As System.Windows.Forms.Label
-    Friend WithEvents lblAllianceIDlbl As System.Windows.Forms.Label
+    Friend WithEvents lblSovereigntyLevel As System.Windows.Forms.Label
+    Friend WithEvents lblSovereigntyLevellbl As System.Windows.Forms.Label
+    Friend WithEvents lblSovHolder As System.Windows.Forms.Label
+    Friend WithEvents lblSovHolderLbl As System.Windows.Forms.Label
     Friend WithEvents lblStations As System.Windows.Forms.Label
     Friend WithEvents lblIBelts As System.Windows.Forms.Label
     Friend WithEvents lblABelts As System.Windows.Forms.Label
@@ -2335,4 +2317,5 @@ Partial Class frmMap
     Friend WithEvents lblMoonsLbl As System.Windows.Forms.Label
     Friend WithEvents lblPlanetsLbl As System.Windows.Forms.Label
     Friend WithEvents lgagstype As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colSov As System.Windows.Forms.ColumnHeader
 End Class

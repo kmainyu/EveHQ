@@ -87,12 +87,8 @@ Public Class frmMap
     Public Shared AgentName As SortedList = New SortedList
     Public Shared ServiceList As SortedList = New SortedList
     Public Shared OperationList As SortedList = New SortedList
-    Public Shared sovSystemsName As SortedList = New SortedList
-    Public Shared sovSystemsID As SortedList = New SortedList
     Public Shared FactionList As SortedList = New SortedList
-    Public Shared FactionName As SortedList = New SortedList
-    Public Shared AllianceName As SortedList = New SortedList
-    Public Shared AllianceID As SortedList = New SortedList
+    Public Shared AllianceList As SortedList = New SortedList
     Public Shared StationList As SortedList = New SortedList
     Public Shared StationName As SortedList = New SortedList
     Public Shared CSStationList As SortedList = New SortedList
@@ -179,11 +175,6 @@ Public Class frmMap
             Return False
             Exit Function
         End If
-        If Me.LoadSov() = False Then
-            ReportError("LoadSov failed", "Problem Loading Data")
-            Return False
-            Exit Function
-        End If
         If Me.LoadFactions() = False Then
             ReportError("LoadFactions failed", "Problem Loading Data")
             Return False
@@ -196,6 +187,11 @@ Public Class frmMap
         End If
         If Me.LoadStations() = False Then
             ReportError("LoadStations failed", "Problem Loading Data")
+            Return False
+            Exit Function
+        End If
+        If Me.LoadSov() = False Then
+            ReportError("LoadSov failed", "Problem Loading Data")
             Return False
             Exit Function
         End If
@@ -279,29 +275,15 @@ Public Class frmMap
         NPCCorpList = CType(f.Deserialize(s), SortedList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Sovereignty.txt", FileMode.Open)
-        f = New BinaryFormatter
-        sovSystemsID = CType(f.Deserialize(s), SortedList)
-        s.Close()
-        For Each cSystem As SolarSystem In sovSystemsID.Values
-            sovSystemsName.Add(cSystem.Name, cSystem)
-        Next
-
         s = New FileStream(mapCacheFolder & "\Factions.txt", FileMode.Open)
         f = New BinaryFormatter
         FactionList = CType(f.Deserialize(s), SortedList)
         s.Close()
-        For Each cFaction As Faction In FactionList.Values
-            FactionName.Add(cFaction.factionName, cFaction)
-        Next
 
         s = New FileStream(mapCacheFolder & "\Alliances.txt", FileMode.Open)
         f = New BinaryFormatter
-        AllianceID = CType(f.Deserialize(s), SortedList)
+        AllianceList = CType(f.Deserialize(s), SortedList)
         s.Close()
-        For Each cAlliance As Alliance In AllianceID.Values
-            AllianceName.Add(cAlliance.name, cAlliance)
-        Next
 
         s = New FileStream(mapCacheFolder & "\Stations.txt", FileMode.Open)
         f = New BinaryFormatter
@@ -374,7 +356,7 @@ Public Class frmMap
                         cSystem.Security = systemData.Tables(0).Rows(solar).Item("security")
                         cSystem.EveSec = Math.Max(Int((cSystem.Security * 10) + 0.5) / 10, 0)
                         cSystem.Flag = False
-                        EveHQ.Core.HQ.SystemsID.Add(cSystem.ID, cSystem)
+                        EveHQ.Core.HQ.SystemsID.Add(cSystem.ID.ToString, cSystem)
                         EveHQ.Core.HQ.SystemsName.Add(cSystem.Name, cSystem)
                     Next
                 Else
@@ -402,8 +384,8 @@ Public Class frmMap
                         Dim cSystem As SolarSystem = New SolarSystem
                         fromSystem = CInt(systemData.Tables(0).Rows(solar).Item("fromsolarSystemID")) - 30000000
                         toSystem = CInt(systemData.Tables(0).Rows(solar).Item("tosolarSystemID")) - 30000000
-                        cSystem = EveHQ.Core.HQ.SystemsID(CInt(fromSystem))
-                        cSystem.Gates.Add(EveHQ.Core.HQ.SystemsID(toSystem))
+                        cSystem = EveHQ.Core.HQ.SystemsID(fromSystem.ToString)
+                        cSystem.Gates.Add(EveHQ.Core.HQ.SystemsID(toSystem.ToString))
                     Next
                 Else
                     Return False
@@ -426,21 +408,21 @@ Public Class frmMap
         frmMap.maxgate = 1
         Try
             Dim solar1 As SolarSystem
-            For Each solar1 In EveHQ.Core.HQ.SystemsName.Values
+            For Each solar1 In EveHQ.Core.HQ.SystemsID.Values
                 If Not solar1.Flag Then
                     Dim solar2 As SolarSystem
-                    For Each solar2 In EveHQ.Core.HQ.SystemsName.Values
+                    For Each solar2 In EveHQ.Core.HQ.SystemsID.Values
                         solar2.Flag = False
                     Next
                     frmMap.SetFlags(solar1)
                 End If
                 Dim sList As New SortedList
                 Dim solar3 As SolarSystem
-                For Each solar3 In EveHQ.Core.HQ.SystemsName.Values
+                For Each solar3 In EveHQ.Core.HQ.SystemsID.Values
                     Dim cDist As Double = frmMap.Distance(solar1, solar3)
                     'If (((cDist <= 14.625) AndAlso (Not solar1 Is solar3)) AndAlso ((solar3.EveSec <= 0.4) AndAlso solar3.Flag)) Then
                     If (((cDist <= 14.625) AndAlso (Not solar1 Is solar3)) AndAlso solar3.Flag) Then
-                        sList.Add(solar3.ID, solar3)
+                        sList.Add(cDist, solar3)
                     End If
                 Next
                 If ((sList.Count > 0) AndAlso (Not solar1 Is solar0)) Then
@@ -518,20 +500,35 @@ Public Class frmMap
             ' Dimension variables
             Dim SystemDetails As XmlNodeList
             Dim SysNode As XmlNode
+            Dim id As String = ""
+            Dim nFaction As New Faction
+            Dim nAlliance As New Alliance
             ' Get the Sovereignty data
             Dim XMLDoc As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Sovereignty)
             SystemDetails = XMLDoc.SelectNodes("/eveapi/result/rowset/row")
             For Each SysNode In SystemDetails
-                Dim solar As New SolarSystem
-                solar.ID = SysNode.Attributes.GetNamedItem("solarSystemID").Value
-                solar.AllianceID = SysNode.Attributes.GetNamedItem("allianceID").Value
-                solar.constellationSovereignty = SysNode.Attributes.GetNamedItem("constellationSovereignty").Value
-                solar.sovereigntyLevel = SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value
-                solar.FactionID = SysNode.Attributes.GetNamedItem("factionID").Value
-                solar.Name = SysNode.Attributes.GetNamedItem("solarSystemName").Value
-                solar.Flag = False
-                sovSystemsName.Add(solar.Name, solar)
-                sovSystemsID.Add(solar.ID, solar)
+                id = CLng(SysNode.Attributes.GetNamedItem("solarSystemID").Value) - 30000000
+                Dim solar As SolarSystem = EveHQ.Core.HQ.SystemsID(id)
+                If SysNode.Attributes.GetNamedItem("factionID").Value <> "0" Then
+                    ' This is a faction
+                    solar.SovereigntyID = SysNode.Attributes.GetNamedItem("factionID").Value
+                    nFaction = FactionList(solar.SovereigntyID)
+                    solar.SovereigntyName = nFaction.factionName
+                Else
+                    If SysNode.Attributes.GetNamedItem("allianceID").Value Then
+                        ' This is an alliance
+                        solar.SovereigntyID = SysNode.Attributes.GetNamedItem("allianceID").Value
+                        nAlliance = AllianceList(solar.SovereigntyID)
+                        solar.SovereigntyName = nAlliance.name
+                        solar.sovereigntyLevel = SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value
+                        solar.constellationSovereignty = SysNode.Attributes.GetNamedItem("constellationSovereignty").Value
+                    Else
+                        solar.SovereigntyID = ""
+                        solar.SovereigntyName = ""
+                        solar.sovereigntyLevel = ""
+                        solar.constellationSovereignty = 0
+                    End If
+                End If
             Next
             Return True
         Catch e As Exception
@@ -559,7 +556,6 @@ Public Class frmMap
                             cFaction.sizeFactor = FactionData.Tables(0).Rows(solar).Item("sizeFactor")
                             cFaction.stationCount = FactionData.Tables(0).Rows(solar).Item("stationCount")
                             cFaction.StationSystemCount = FactionData.Tables(0).Rows(solar).Item("stationSystemCount")
-
                         Else
                             cFaction = New Faction
                             cFaction.factionID = FactionData.Tables(0).Rows(solar).Item("factionID")
@@ -573,7 +569,6 @@ Public Class frmMap
                             cFaction.StationSystemCount = "Unknown"
                         End If
                         cFaction.Flag = False
-                        FactionName.Add(cFaction.factionName, cFaction)
                         FactionList.Add(cFaction.factionID, cFaction)
                     Next
                 Else
@@ -595,8 +590,7 @@ Public Class frmMap
             ' Dimension variables
             Dim AllyDetails As XmlNodeList
             Dim AllyNode As XmlNode
-            AllianceID.Clear()
-            AllianceName.Clear()
+            AllianceList.Clear()
             ' Get the alliance data
             Dim XMLDoc As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AllianceList)
             AllyDetails = XMLDoc.SelectNodes("/eveapi/result/rowset/row")
@@ -610,8 +604,7 @@ Public Class frmMap
                 Ally.memberCount = AllyNode.Attributes.GetNamedItem("memberCount").Value
                 Ally.startDate = AllyNode.Attributes.GetNamedItem("startDate").Value
                 Ally.Flag = False
-                AllianceName.Add(Ally.name, Ally)
-                AllianceID.Add(ind, Ally)
+                AllianceList.Add(Ally.ID, Ally)
                 ind = ind + 1
             Next
             ind = 0
@@ -1160,7 +1153,7 @@ Public Class frmMap
                         If IsDBNull(mapRow.Item("solarSystemID")) = False Then
                             If lastSystemNo <> CInt(mapRow.Item("solarSystemID") - 30000000) Then
                                 lastSystemNo = CInt(mapRow.Item("solarSystemID") - 30000000)
-                                lastSystem = EveHQ.Core.HQ.SystemsID(lastSystemNo)
+                                lastSystem = EveHQ.Core.HQ.SystemsID(lastSystemNo.ToString)
                             End If
                             Select Case CInt(mapRow.Item("groupID"))
                                 Case 6
@@ -1274,7 +1267,7 @@ Public Class frmMap
         cboAgentFaction.BeginUpdate()
         cboAgentFaction.AutoCompleteCustomSource.Add("All")
         Me.cboAgentFaction.Items.Add("All")
-        For Each cFaction As Faction In FactionName.Values
+        For Each cFaction As Faction In FactionList.Values
             cboAgentFaction.AutoCompleteCustomSource.Add(cFaction.factionName)
             Me.cboAgentFaction.Items.Add(cFaction.factionName)
         Next
@@ -1531,10 +1524,10 @@ Public Class frmMap
     End Sub
     Private Sub lvwRoute_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwRoute.ColumnClick
         If lvwRoute.Tag = e.Column Then
-            Me.lvwRoute.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
+            Me.lvwRoute.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Name(e.Column, SortOrder.Ascending)
             lvwRoute.Tag = -1
         Else
-            Me.lvwRoute.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Descending)
+            Me.lvwRoute.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Name(e.Column, SortOrder.Descending)
             lvwRoute.Tag = e.Column
         End If
         ' Call the sort method to manually sort.
@@ -1946,7 +1939,7 @@ Public Class frmMap
             lvwRoute.Items(0).SubItems.Add("No valid results found.")
             lvwRoute.Items(0).Name = "Invalid"
         Else
-            'Dim obj1 As Object
+            Dim nsi As New ListViewItem.ListViewSubItem
             Select Case algotype1
                 Case RouteType.GateRadius, RouteType.JumpRadius
                     maxJumps = 1
@@ -1960,17 +1953,24 @@ Public Class frmMap
                             Dim newItem As ListViewItem = New ListViewItem
                             newItem.Name = route1.Sys.Name
                             newItem.Text = count
-                            newItem.SubItems.Add(route1.Sys.Name)
-                            newItem.SubItems.Add(route1.Sys.Constellation)
-                            newItem.SubItems.Add(route1.Sys.Region)
+                            nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Name : nsi.Name = route1.Sys.Name : newItem.SubItems.Add(nsi)
+                            nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
+                            nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Region : nsi.Name = route1.Sys.Region : newItem.SubItems.Add(nsi)
                             newItem.BackColor = Me.SystemColour(route1.Sys.EveSec)
                             newItem.SubItems.Add(FormatNumber(route1.Sys.EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             If (algotype1 = RouteType.JumpRadius) Then
                                 Dim dd As Double = Math.Round(frmMap.Distance(startSys, route1.Sys), 8, MidpointRounding.AwayFromZero)
-                                newItem.SubItems.Add(FormatNumber(dd, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly")
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(dd, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = dd : newItem.SubItems.Add(nsi)
                                 Dim fuel As Integer = Int(dd * fuelMultiplier)
-                                newItem.SubItems.Add(FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                                newItem.SubItems.Add(FormatNumber(fuel * 0.15, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel : newItem.SubItems.Add(nsi)
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel * 0.15, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel * 0.15 : newItem.SubItems.Add(nsi)
+                            Else
+                                newItem.SubItems.Add("-") : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
+                            End If
+                            If route1.Sys.SovereigntyName <> "" Then
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.SovereigntyName : nsi.Name = route1.Sys.SovereigntyName : newItem.SubItems.Add(nsi)
+                            Else
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = "<Unclaimed>" : nsi.Name = "<Unclaimed>" : newItem.SubItems.Add(nsi)
                             End If
                             lvwRoute.Items.Add(newItem)
                         End If
@@ -1994,18 +1994,26 @@ Public Class frmMap
                             count += 1
                             newItem.Name = route1.Sys.Name
                             newItem.Text = count
-                            newItem.SubItems.Add(route1.Sys.Name)
-                            newItem.SubItems.Add(route1.Sys.Constellation)
-                            newItem.SubItems.Add(route1.Sys.Region)
+                            nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Name : nsi.Name = route1.Sys.Name : newItem.SubItems.Add(nsi)
+                            nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
+                            nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Region : nsi.Name = route1.Sys.Region : newItem.SubItems.Add(nsi)
                             newItem.BackColor = Me.SystemColour(route1.Sys.EveSec)
                             newItem.SubItems.Add(FormatNumber(route1.Sys.EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             If (algotype1 = RouteType.Jumps) Then
-                                newItem.SubItems.Add(FormatNumber(Math.Round(jumpDist, 8, MidpointRounding.AwayFromZero), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(Math.Round(jumpDist, 8, MidpointRounding.AwayFromZero), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = jumpDist : newItem.SubItems.Add(nsi)
                                 fuel = Int(jumpDist * fuelMultiplier)
                                 totalFuel += fuel
-                                newItem.SubItems.Add(FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                                newItem.SubItems.Add(FormatNumber(fuel * 0.15, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel : newItem.SubItems.Add(nsi)
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel * 0.15, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel * 0.15 : newItem.SubItems.Add(nsi)
+                            Else
+                                newItem.SubItems.Add("-") : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
                             End If
+                            If route1.Sys.SovereigntyName <> "" Then
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.SovereigntyName : nsi.Name = route1.Sys.SovereigntyName : newItem.SubItems.Add(nsi)
+                            Else
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = "<Unclaimed>" : nsi.Name = "<Unclaimed>" : newItem.SubItems.Add(nsi)
+                            End If
+
                             lvwRoute.Items.Add(newItem)
                         End If
                         jumpDist = accDist
@@ -2024,7 +2032,7 @@ Public Class frmMap
         End If
         lvwRoute.EndUpdate()
         Me.btnCalculate.Enabled = True
-        lblTimeTaken.Text = "Time Taken: " & timeTaken.TotalSeconds
+        lblTimeTaken.Text = "Time Taken: " & FormatNumber(timeTaken.TotalSeconds, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "s"
     End Sub
     Private Function SystemColour(ByVal secStatus As Double) As Color
         Select Case secStatus
@@ -2428,9 +2436,12 @@ Public Class frmMap
             lblEveSec.Text = FormatNumber(cSystem.EveSec, 1, TriState.True)
             lblNoGates.Text = cSystem.Gates.Count
             lblGates.Text = ""
-            lblAllianceID.Text = SetAlliance(solarname)
-            lblsovereigntyLevel.Text = SetSov(solarname)
-            lblFactionID.Text = SetFaction(solarname)
+            lblSovereigntyLevel.Text = cSystem.sovereigntyLevel
+            If cSystem.SovereigntyName <> "" Then
+                lblSovHolder.Text = cSystem.SovereigntyName
+            Else
+                lblSovHolder.Text = "<Unclaimed>"
+            End If
             lblPlanets.Text = cSystem.Planets.Count
             lblMoons.Text = cSystem.Moons.Count
             lblABelts.Text = cSystem.ABelts.Count
@@ -2493,8 +2504,8 @@ Public Class frmMap
 
         End If
 
-        myPen.Dispose()
-        formGraphics.Dispose()
+            myPen.Dispose()
+            formGraphics.Dispose()
 
     End Sub
     Private Sub CreateEveMap(ByVal FullMap As Boolean)
@@ -2742,66 +2753,62 @@ Public Class frmMap
             Call CreateEveMap(False)
         End If
     End Sub
-    Public Function SetSov(ByVal sovname As String) As String
-        Dim svSystem As SolarSystem
-        Dim SovLvl As String
-        Dim Tfact As String = Setfaction(sovname)
-        svSystem = sovSystemsName(sovname)
-        If Tfact = "Non-Empire System" Then
-            SovLvl = "Not Claimed"
-            Select Case svSystem.sovereigntyLevel
-                Case 1
-                    SovLvl = "Territory (Sovereignty 1)"
-                Case 2
-                    SovLvl = "Protectorate (Sovereignty 2)"
-                Case 3
-                    SovLvl = "Province (Sovereignty 3)"
-                Case 4
-                    SovLvl = "Capital (Sovereignty 4)"
-                Case Else
-            End Select
-        Else
-            SovLvl = "Cannot Be Claimed"
-        End If
-        Return SovLvl
-    End Function
-    Public Function SetFaction(ByVal SolName As String) As String
-        Dim sfSystem As SolarSystem
-        Dim Facname As String = "Non-Empire System"
-        sfSystem = sovSystemsName(SolName)
-        Dim FacID As String = sfSystem.FactionID
-        Try
-            For Each TFAction As Faction In FactionList.Values
-                Dim Tid As String = TFAction.factionID
-                If Tid = FacID Then
-                    Facname = TFAction.factionName
-                End If
-            Next
-        Catch ex As Exception
-            Windows.Forms.MessageBox.Show(ex.Message)
-        End Try
+    'Public Function SetSov(ByVal sovname As String) As String
+    '    Dim svSystem As SolarSystem
+    '    Dim SovLvl As String
+    '    Dim Tfact As String = Setfaction(sovname)
+    '    svSystem = sovSystemsName(sovname)
+    '    If Tfact = "Non-Empire System" Then
+    '        SovLvl = "Not Claimed"
+    '        Select Case svSystem.sovereigntyLevel
+    '            Case 1
+    '                SovLvl = "Territory (Sovereignty 1)"
+    '            Case 2
+    '                SovLvl = "Protectorate (Sovereignty 2)"
+    '            Case 3
+    '                SovLvl = "Province (Sovereignty 3)"
+    '            Case 4
+    '                SovLvl = "Capital (Sovereignty 4)"
+    '            Case Else
+    '        End Select
+    '    Else
+    '        SovLvl = "Cannot Be Claimed"
+    '    End If
+    '    Return SovLvl
+    'End Function
+    'Public Function SetFaction(ByVal SolName As String) As String
+    '    Dim sfSystem As SolarSystem
+    '    Dim Facname As String = "Non-Empire System"
+    '    sfSystem = sovSystemsName(SolName)
+    '    Dim FacID As String = sfSystem.FactionID
+    '    Try
+    '        For Each TFAction As Faction In FactionList.Values
+    '            Dim Tid As String = TFAction.factionID
+    '            If Tid = FacID Then
+    '                Facname = TFAction.factionName
+    '            End If
+    '        Next
+    '    Catch ex As Exception
+    '        Windows.Forms.MessageBox.Show(ex.Message)
+    '    End Try
 
-        Return Facname
-    End Function
+    '    Return Facname
+    'End Function
     Public Function SetAlliance(ByVal SolName As String) As String
-        Dim saSystem As SolarSystem
-        Dim TAlly As Alliance
+        Dim saSystem As SolarSystem = EveHQ.Core.HQ.SystemsName(SolName)
+        Dim TAlliance As Alliance
+        Dim TFaction As Alliance
         Dim Allyname As String = "Unknown"
-        saSystem = sovSystemsName(SolName)
-        Dim AlID As String = saSystem.AllianceID
-        Try
-            For a As Integer = 0 To AllianceID.Count - 1
-                TAlly = AllianceID(a)
-                Dim Tid As String = TAlly.ID
-                If Tid = AlID Then
-                    Allyname = TAlly.name
-                End If
-            Next
-            If Allyname = "Unknown" And SetFaction(SolName) = "Non-Empire System" Then Allyname = "Not Claimed"
-            If Allyname = "Unknown" And SetFaction(SolName) <> "Unknown" Then Allyname = "Cannot Be Claimed"
-        Catch ex As Exception
-            Windows.Forms.MessageBox.Show(ex.Message)
-        End Try
+        Dim AlID As String = saSystem.SovereigntyID
+        If AllianceList.Contains(AlID) = True Then
+            TAlliance = AllianceList(AlID)
+            Allyname = TAlliance.name
+        Else
+            If FactionList.Contains(AlID) = True Then
+                TFaction = FactionList(AlID)
+                Allyname = TFaction.name
+            End If
+        End If
         Return Allyname
     End Function
 #End Region
