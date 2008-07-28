@@ -1159,6 +1159,8 @@ Public Class Engine
         Dim sTime, eTime As Date
         sTime = Now
         Dim att As String = ""
+        Dim log As String = ""
+        Dim oldAtt As String = ""
         Dim processAtt As Boolean = False
         ' Define a new ship
         Dim newShip As Ship = CType(baseShip.Clone, Ship)
@@ -1167,6 +1169,7 @@ Public Class Engine
             If ModuleEffectsTable.Contains(att) = True Then
                 For Each fEffect As FinalEffect In CType(ModuleEffectsTable(att), ArrayList)
                     processAtt = False
+                    log = ""
                     Select Case fEffect.AffectedType
                         Case EffectType.All
                             processAtt = True
@@ -1192,6 +1195,9 @@ Public Class Engine
                             End If
                     End Select
                     If processAtt = True Then
+                        log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
+                        oldAtt = newShip.Attributes(att).ToString()
+                        log &= ": " & oldAtt
                         Select Case fEffect.CalcType
                             Case EffectCalcType.Percentage
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
@@ -1216,6 +1222,8 @@ Public Class Engine
                             Case EffectCalcType.Subtraction
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) - fEffect.AffectedValue
                         End Select
+                        log &= " --> " & newShip.Attributes(att).ToString
+                        newShip.AuditLog.Add(log)
                     End If
                 Next
             End If

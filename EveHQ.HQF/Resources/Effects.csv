@@ -806,10 +806,10 @@
 169,2,78,70,3,6,0,0,0,14,Inertia Penalty
 306,2,78,37,3,6,0,0,0,14,Max Velocity Penalty
 # Armor Resistence Plating,,,,,,,,,,
-984,2,326,267,3,6,1,0,2,14,Armor Plating - Passive EM Resist
-985,2,326,268,3,6,1,0,2,14,Armor Plating - Passive Exp Resist
-986,2,326,269,3,6,1,0,2,14,Armor Plating - Passive Kin Resist
-987,2,326,270,3,6,1,0,2,14,Armor Plating - Passive Therm Resist
+984,2,98,267,3,6,1,0,2,14,Armor Plating - Passive EM Resist
+985,2,98,268,3,6,1,0,2,14,Armor Plating - Passive Exp Resist
+986,2,98,269,3,6,1,0,2,14,Armor Plating - Passive Kin Resist
+987,2,98,270,3,6,1,0,2,14,Armor Plating - Passive Therm Resist
 # PROPULSION,,,,,,,,,,
 # Afterburners/MWD,,,,,,,,,,
 567,2,46,10010,3,6,0,0,1,12,AB/MWD Thrust
