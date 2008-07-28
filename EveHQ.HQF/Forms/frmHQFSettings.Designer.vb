@@ -57,6 +57,7 @@ Partial Public Class frmHQFSettings
         Me.lblShieldRecharge = New System.Windows.Forms.Label
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
+        Me.btnCheckData = New System.Windows.Forms.Button
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -263,9 +264,9 @@ Partial Public Class frmHQFSettings
         Me.gbSlotFormat.Controls.Add(Me.pbHiSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblMidSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblHiSlotColour)
-        Me.gbSlotFormat.Location = New System.Drawing.Point(194, 12)
+        Me.gbSlotFormat.Location = New System.Drawing.Point(481, 157)
         Me.gbSlotFormat.Name = "gbSlotFormat"
-        Me.gbSlotFormat.Size = New System.Drawing.Size(498, 497)
+        Me.gbSlotFormat.Size = New System.Drawing.Size(82, 43)
         Me.gbSlotFormat.TabIndex = 3
         Me.gbSlotFormat.TabStop = False
         Me.gbSlotFormat.Text = "Slot Layout"
@@ -318,10 +319,11 @@ Partial Public Class frmHQFSettings
         '
         'gbCache
         '
+        Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
-        Me.gbCache.Location = New System.Drawing.Point(285, 254)
+        Me.gbCache.Location = New System.Drawing.Point(194, 12)
         Me.gbCache.Name = "gbCache"
-        Me.gbCache.Size = New System.Drawing.Size(138, 45)
+        Me.gbCache.Size = New System.Drawing.Size(498, 497)
         Me.gbCache.TabIndex = 29
         Me.gbCache.TabStop = False
         Me.gbCache.Text = "Data Cache Settings"
@@ -394,15 +396,24 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.TabIndex = 0
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         '
+        'btnCheckData
+        '
+        Me.btnCheckData.Location = New System.Drawing.Point(36, 76)
+        Me.btnCheckData.Name = "btnCheckData"
+        Me.btnCheckData.Size = New System.Drawing.Size(102, 23)
+        Me.btnCheckData.TabIndex = 2
+        Me.btnCheckData.Text = "Check Data"
+        Me.btnCheckData.UseVisualStyleBackColor = True
+        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
+        Me.Controls.Add(Me.gbCache)
         Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.gbRechargeRates)
         Me.Controls.Add(Me.gbGeneral)
-        Me.Controls.Add(Me.gbCache)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
@@ -462,4 +473,5 @@ Partial Public Class frmHQFSettings
     Friend WithEvents colSlotColumns As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnMoveDown As System.Windows.Forms.Button
     Friend WithEvents btnMoveUp As System.Windows.Forms.Button
+    Friend WithEvents btnCheckData As System.Windows.Forms.Button
 End Class

@@ -34,7 +34,7 @@ Public Class frmHQF
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.6.9.50"
+    Shared LastCacheRefresh As String = "1.7.1.63"
 
 #Region "Class Wide Variables"
 
@@ -1043,7 +1043,7 @@ Public Class frmHQF
                 End Select
                 lastModName = modRow.Item("typeName").ToString
                 ' Add to the ChargeGroups if it doesn't exist and chargesize <> 0
-                If attMod.IsCharge = True And attMod.ChargeSize <> 0 And Charges.ChargeGroups.Contains(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize) = False Then
+                If attMod.IsCharge = True And Charges.ChargeGroups.Contains(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize) = False Then
                     Charges.ChargeGroups.Add(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize)
                 End If
             Next
@@ -1295,6 +1295,7 @@ Public Class frmHQF
         FavNode.Tag = "Favourites"
         tvwItems.Nodes.Add(FavNode)
         tvwItems.EndUpdate()
+        Market.MarketGroupPath.Clear()
         Call BuildTreePathData()
     End Sub
     Private Sub PopulateModuleGroups(ByVal inParentID As Integer, ByRef inTreeNode As TreeNode, ByVal marketTable As DataTable)
@@ -1997,7 +1998,7 @@ Public Class frmHQF
                 'MessageBox.Show(item.Name)
             End If
         Next
-        ' Check MarketGroups
+        ' Check MetaGroups
         Dim metaError As Integer = 0
         For Each item As ShipModule In ModuleLists.moduleList.Values
             If ModuleLists.moduleMetaGroups.ContainsKey(item.ID) = False Then
@@ -2013,8 +2014,8 @@ Public Class frmHQF
         MessageBox.Show(msg)
 
         ' Traverse the tree, looking for goodies!
-
         itemCount = 0
+        dataCheckList.Clear()
         For Each rootNode As TreeNode In tvwItems.Nodes
             SearchChildNodes(rootNode)
         Next

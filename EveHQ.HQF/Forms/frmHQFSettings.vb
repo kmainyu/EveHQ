@@ -307,7 +307,14 @@ Public Class frmHQFSettings
 
 #Region "Data Cache Options"
     Private Sub btnDeleteCache_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteCache.Click
-        My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+        If My.Computer.FileSystem.DirectoryExists(Settings.HQFFolder) = True Then
+            Try
+                My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                MessageBox.Show("HQF Cache Directory successfully deleted. Please restart EveHQ to reload the latest data.", "Cache Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Catch ex As Exception
+                MessageBox.Show("Unable to delete Cache Directory: " & ex.Message, "Unable to Delete Cache", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
     End Sub
 #End Region
 
@@ -332,6 +339,53 @@ Public Class frmHQFSettings
     End Sub
 #End Region
 
+    Private Sub btnCheckData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCheckData.Click
+        Dim dataCheckList As New SortedList
+        Dim itemcount As Integer = 0
+        ' Count number of items
+        Dim items As Integer = ModuleLists.moduleList.Count
+        ' Check MarketGroups
+        Dim marketError As Integer = 0
+        For Each item As ShipModule In ModuleLists.moduleList.Values
+            If Market.MarketGroupList.ContainsKey(item.MarketGroup) = False Then
+                marketError += 1
+                'MessageBox.Show(item.Name)
+            End If
+        Next
+        ' Check MarketGroups
+        Dim metaError As Integer = 0
+        For Each item As ShipModule In ModuleLists.moduleList.Values
+            If ModuleLists.moduleMetaGroups.ContainsKey(item.ID) = False Then
+                metaError += 1
+                'MessageBox.Show(item.Name)
+            End If
+        Next
 
-    
+        Dim msg As String = ""
+        msg &= "Total items: " & items & ControlChars.CrLf
+        msg &= "Orphaned market items: " & marketError & ControlChars.CrLf
+        msg &= "Orphaned meta items: " & metaError & ControlChars.CrLf
+        MessageBox.Show(msg)
+
+        ' Traverse the tree, looking for goodies!
+
+        'itemCount = 0
+        'For Each rootNode As TreeNode In tvwItems.Nodes
+        '    SearchChildNodes(rootNode)
+        'Next
+
+        ' Write missing items to a file
+        Dim sw As New IO.StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\missingItems.csv")
+        For Each shipMod As ShipModule In ModuleLists.moduleList.Values
+            If dataCheckList.Contains(shipMod.ID) = False Then
+                sw.WriteLine(shipMod.ID & "," & shipMod.Name)
+                dataCheckList.Add(shipMod.ID, shipMod.Name)
+            End If
+        Next
+        sw.Flush()
+        sw.Close()
+
+        MessageBox.Show("Total traversed items: " & itemCount, "Tree Walk Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+    End Sub
 End Class
