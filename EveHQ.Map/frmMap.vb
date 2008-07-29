@@ -519,9 +519,15 @@ Public Class frmMap
                         ' This is an alliance
                         solar.SovereigntyID = SysNode.Attributes.GetNamedItem("allianceID").Value
                         nAlliance = AllianceList(solar.SovereigntyID)
-                        solar.SovereigntyName = nAlliance.name
-                        solar.sovereigntyLevel = SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value
-                        solar.constellationSovereignty = SysNode.Attributes.GetNamedItem("constellationSovereignty").Value
+                        If nAlliance IsNot Nothing Then
+                            solar.SovereigntyName = nAlliance.name
+                            solar.sovereigntyLevel = SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value
+                            solar.constellationSovereignty = SysNode.Attributes.GetNamedItem("constellationSovereignty").Value
+                        Else
+                            solar.SovereigntyName = "<Alliance " & solar.SovereigntyID & ">"
+                            solar.sovereigntyLevel = SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value
+                            solar.constellationSovereignty = SysNode.Attributes.GetNamedItem("constellationSovereignty").Value
+                        End If
                     Else
                         solar.SovereigntyID = ""
                         solar.SovereigntyName = ""
@@ -615,7 +621,6 @@ Public Class frmMap
         End Try
     End Function
     Public Function LoadStations()
-
         Dim strSQL As String = "SELECT * FROM staStations ORDER BY stationID;"
         Dim StationData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
 
@@ -623,6 +628,7 @@ Public Class frmMap
             If StationData IsNot Nothing Then
                 If StationData.Tables(0).Rows.Count > 0 Then
                     StationList.Clear()
+                    StationName.Clear()
                     For stat As Integer = 0 To StationData.Tables(0).Rows.Count - 1
                         Dim cstation As Station = New Station
                         Dim skip As Boolean = False
@@ -731,7 +737,6 @@ Public Class frmMap
                 If RegionData.Tables(0).Rows.Count > 0 Then
                     RegionID.Clear()
                     RegionName.Clear()
-
                     For Rstat As Integer = 0 To RegionData.Tables(0).Rows.Count - 1
                         Dim cRegion As Region = New Region
                         cRegion.RegionID = CInt(RegionData.Tables(0).Rows(Rstat).Item("regionID"))
