@@ -498,8 +498,8 @@ Public Class frmMap
     Public Function LoadSov() As Boolean
         Try
             ' Dimension variables
-            Dim SystemDetails As XmlNodeList
-            Dim SysNode As XmlNode
+            Dim SystemDetails, AllianceDetails As XmlNodeList
+            Dim SysNode, AllianceNode As XmlNode
             Dim id As String = ""
             Dim nFaction As New Faction
             Dim nAlliance As New Alliance
@@ -524,7 +524,18 @@ Public Class frmMap
                             solar.sovereigntyLevel = SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value
                             solar.constellationSovereignty = SysNode.Attributes.GetNamedItem("constellationSovereignty").Value
                         Else
-                            solar.SovereigntyName = "<Alliance " & solar.SovereigntyID & ">"
+                            ' Try to get the name from the IDToName API
+                            Try
+                                Dim NameXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IDToName, solar.SovereigntyID)
+                                If NameXML IsNot Nothing Then
+                                    AllianceDetails = NameXML.SelectNodes("/eveapi/result/rowset/row")
+                                    solar.SovereigntyName = AllianceDetails(0).Attributes.GetNamedItem("name").Value
+                                Else
+                                    solar.SovereigntyName = "<Alliance " & solar.SovereigntyID & ">"
+                                End If
+                            Catch e As Exception
+                                solar.SovereigntyName = "<Alliance " & solar.SovereigntyID & ">"
+                            End Try
                             solar.sovereigntyLevel = SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value
                             solar.constellationSovereignty = SysNode.Attributes.GetNamedItem("constellationSovereignty").Value
                         End If
