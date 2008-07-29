@@ -65,13 +65,13 @@
 			<requires>1.7.0.51</requires>
 			<description>Character Creation Plug-in</description>
 		</file>
-		<file_temp>
+		<file_t>
 			<name>EveHQ.DataConverter.dll</name>
 			<type>Plug-in</type>
 			<version>1.7.0.51</version>
 			<requires>1.7.0.51</requires>
 			<description>Data Converter Plug-in</description>
-		</file_temp>
+		</file_t>
 		<file>
 			<name>EveHQ.Gunnery.dll</name>
 			<type>Plug-in</type>
@@ -100,12 +100,12 @@
 			<requires>1.7.1.61</requires>
 			<description>Map and Routing Plug-in</description>
 		</file>
-		<file_temp>
+		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.0.51</version>
-			<requires>1.7.0.51</requires>
+			<version>1.7.1.64</version>
+			<requires>1.7.1.64</requires>
 			<description>Ship Fitting Plug-in</description>
-		</file_temp>
+		</file>
 	</files>
 </eveHQUpdate>

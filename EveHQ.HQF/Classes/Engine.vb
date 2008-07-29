@@ -594,7 +594,7 @@ Public Class Engine
                             Case EffectCalcType.Subtraction
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) - fEffect.AffectedValue
                         End Select
-                        log &= " --> " & newShip.Attributes(att).ToString
+                        log &= ": " & newShip.Attributes(att).ToString
                         newShip.AuditLog.Add(log)
                     End If
                 Next
@@ -1222,7 +1222,7 @@ Public Class Engine
                             Case EffectCalcType.Subtraction
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) - fEffect.AffectedValue
                         End Select
-                        log &= " --> " & newShip.Attributes(att).ToString
+                        log &= ": " & newShip.Attributes(att).ToString
                         newShip.AuditLog.Add(log)
                     End If
                 Next
