@@ -99,8 +99,10 @@ Public Class frmDataConvert
                 Dim sr As StreamReader = New StreamReader(inputFile)
                 Do
                     Dim file As String = sr.ReadLine
-                    Dim lineMatches As MatchCollection = lineMatch.Matches(file)
-                    totalLines += lineMatches.Count
+                    If file IsNot Nothing Then
+                        Dim lineMatches As MatchCollection = lineMatch.Matches(file)
+                        totalLines += lineMatches.Count
+                    End If
                 Loop Until sr.EndOfStream
                 sr.Close()
             End If
@@ -122,7 +124,7 @@ Public Class frmDataConvert
                 fileList.Add("dbo_invMetaGroups.sql")
                 fileList.Add("dbo_invMetaTypes.sql")
                 fileList.Add("dbo_invTypes.sql")
-                fileList.Add("TL2MaterialsForTypeWithActivity.sql")
+                fileList.Add("typeActivityMaterials.sql")
             Case 2
                 fileList.Add("dbo_chrAncestries.sql")
                 fileList.Add("dbo_chrBloodlines.sql")
@@ -142,7 +144,7 @@ Public Class frmDataConvert
                 fileList.Add("dbo_invMetaGroups.sql")
                 fileList.Add("dbo_invMetaTypes.sql")
                 fileList.Add("dbo_invTypes.sql")
-                fileList.Add("TL2MaterialsForTypeWithActivity.sql")
+                fileList.Add("typeActivityMaterials.sql")
                 fileList.Add("dbo_mapConstellations.sql")
                 fileList.Add("dbo_mapRegions.sql")
                 fileList.Add("dbo_mapSolarSystemJumps.sql")
@@ -488,7 +490,7 @@ Public Class frmDataConvert
         ' Read the first line which is a header line
         For Each line In lines
             If line.StartsWith("typeID") = False And line <> "" Then
-                Dim strSQL As String = "INSERT INTO TL2MaterialsForTypeWithActivity (typeID,activity,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
+                Dim strSQL As String = "INSERT INTO typeActivityMaterials (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
                 Dim keyCommand As New SqlCommand(strSQL, connection)
                 keyCommand.ExecuteNonQuery()
             End If
@@ -518,7 +520,7 @@ Public Class frmDataConvert
         Dim keyCommand As New SqlCommand(strSQL, connection)
         keyCommand.ExecuteNonQuery()
     End Sub
-    
+
 #End Region
 #Region "Create CSV Data"
     Private Sub ConvertToCSV(ByVal totalLines As Long, ByVal worker As System.ComponentModel.BackgroundWorker, ByVal e As System.ComponentModel.DoWorkEventArgs)
@@ -598,7 +600,7 @@ Public Class frmDataConvert
     Private Sub AddCSVRefiningData()
         Dim line As String = My.Resources.materialsForRefining.Replace(ControlChars.CrLf, Chr(13))
         Dim lines() As String = line.Split(Chr(13))
-        Dim sw As StreamWriter = New StreamWriter(txtTarget.Text & "\dbo_TL2MaterialsForTypeWithActivity.sql.csv", True)
+        Dim sw As StreamWriter = New StreamWriter(txtTarget.Text & "\dbo_typeActivityMaterials.sql.csv", True)
         ' Read each line and write if not header
         For Each line In lines
             If line.StartsWith("typeID") = False And line <> "" Then
@@ -772,7 +774,7 @@ Public Class frmDataConvert
         ' Read the first line which is a header line
         For Each line In lines
             If line.StartsWith("typeID") = False And line <> "" Then
-                Dim strSQL As String = "INSERT INTO TL2MaterialsForTypeWithActivity (typeID,activity,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
+                Dim strSQL As String = "INSERT INTO typeActivityMaterials (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
                 Dim keyCommand As New OleDbCommand(strSQL, connection)
                 keyCommand.ExecuteNonQuery()
             End If
@@ -811,7 +813,7 @@ Public Class frmDataConvert
         keyCommand.ExecuteNonQuery()
         connection.Close()
     End Sub
-    
+
 #End Region
 #Region "Create MySQL Data"
     Private Sub ConvertToMySQL(ByVal totallines As Long, ByVal worker As System.ComponentModel.BackgroundWorker, ByVal e As System.ComponentModel.DoWorkEventArgs)
@@ -979,7 +981,7 @@ Public Class frmDataConvert
         ' Read the first line which is a header line
         For Each line In lines
             If line.StartsWith("typeID") = False And line <> "" Then
-                Dim strSQL As String = "INSERT INTO TL2MaterialsForTypeWithActivity (typeID,activity,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
+                Dim strSQL As String = "INSERT INTO typeActivityMaterials (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
                 Dim keyCommand As New MySqlCommand(strSQL, connection)
                 keyCommand.ExecuteNonQuery()
             End If
@@ -1009,7 +1011,7 @@ Public Class frmDataConvert
         Dim keyCommand As New MySqlCommand(strSQL, connection)
         keyCommand.ExecuteNonQuery()
     End Sub
-    
+
 #End Region
 
     Private Sub btnMap_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMap.Click
@@ -1058,7 +1060,7 @@ Public Class frmDataConvert
         Dim newData As New DataSet
         Dim sysID As String = ""
         'Dim strSQL As String = "SELECT * FROM mapSolarSystems"
-        Dim strSQL As String = "SELECT mapSolarSystems.regionID AS mapSolarSystems_regionID, mapSolarSystems.constellationID AS mapSolarSystems_constellationID, mapSolarSystems.solarSystemID, mapSolarSystems.solarSystemName, mapSolarSystems.x, mapSolarSystems.y, mapSolarSystems.z, mapSolarSystems.xMin, mapSolarSystems.xMax, mapSolarSystems.yMin, mapSolarSystems.yMax, mapSolarSystems.zMin, mapSolarSystems.zMax, mapSolarSystems.luminosity, mapSolarSystems.border, mapSolarSystems.fringe, mapSolarSystems.corridor, mapSolarSystems.hub, mapSolarSystems.international, mapSolarSystems.regional, mapSolarSystems.constellation, mapSolarSystems.security, mapSolarSystems.factionID, mapSolarSystems.radius, mapSolarSystems.sunTypeID, mapSolarSystems.securityClass, mapSolarSystems.allianceID, mapRegions.regionID AS mapRegions_regionID, mapRegions.regionName, mapConstellations.constellationID AS mapConstellations_constellationID, mapConstellations.constellationName"
+        Dim strSQL As String = "SELECT mapSolarSystems.regionID AS mapSolarSystems_regionID, mapSolarSystems.constellationID AS mapSolarSystems_constellationID, mapSolarSystems.solarSystemID, mapSolarSystems.solarSystemName, mapSolarSystems.x, mapSolarSystems.y, mapSolarSystems.z, mapSolarSystems.xMin, mapSolarSystems.xMax, mapSolarSystems.yMin, mapSolarSystems.yMax, mapSolarSystems.zMin, mapSolarSystems.zMax, mapSolarSystems.luminosity, mapSolarSystems.border, mapSolarSystems.fringe, mapSolarSystems.corridor, mapSolarSystems.hub, mapSolarSystems.international, mapSolarSystems.regional, mapSolarSystems.constellation, mapSolarSystems.security, mapSolarSystems.factionID, mapSolarSystems.radius, mapSolarSystems.sunTypeID, mapSolarSystems.securityClass, mapRegions.regionID AS mapRegions_regionID, mapRegions.regionName, mapConstellations.constellationID AS mapConstellations_constellationID, mapConstellations.constellationName"
         strSQL &= " FROM (mapRegions INNER JOIN mapConstellations ON mapRegions.regionID = mapConstellations.regionID) INNER JOIN mapSolarSystems ON mapConstellations.constellationID = mapSolarSystems.constellationID;"
         Dim sysSQL As String = ""
         Dim newSQL As String = ""
@@ -1139,8 +1141,8 @@ Public Class frmDataConvert
             strBPS &= newData.Tables(0).Rows(row).Item("wasteFactor") & ","
             strBPS &= newData.Tables(0).Rows(row).Item("maxProductionLimit")
             Dim strSQL As String = "SELECT *"
-            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN TL2MaterialsForTypeWithActivity ON invTypes.typeID = TL2MaterialsForTypeWithActivity.requiredTypeID"
-            strSQL &= " WHERE (TL2MaterialsForTypeWithActivity.typeID=" & bpTypeID & " OR TL2MaterialsForTypeWithActivity.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
+            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.requiredTypeID"
+            strSQL &= " WHERE (typeActivityMaterials.typeID=" & bpTypeID & " OR typeActivityMaterials.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
             materialData = EveHQ.Core.DataFunctions.GetData(strSQL)
             For row2 As Integer = 0 To materialData.Tables(0).Rows.Count - 1
                 Dim strMats As String = ""

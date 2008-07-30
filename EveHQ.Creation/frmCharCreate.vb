@@ -477,42 +477,42 @@ Public Class frmCharCreate
     End Sub
 
     Private Function LoadData() As Boolean
-        raceData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrraces")
+        raceData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrRaces")
         If raceData Is Nothing Or raceData.Tables(0).Rows.Count = 0 Then
             Return False
             Exit Function
         End If
-        bloodData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrbloodlines")
+        bloodData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrBloodlines")
         If bloodData Is Nothing Or bloodData.Tables(0).Rows.Count = 0 Then
             Return False
             Exit Function
         End If
-        ancestryData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrancestries")
+        ancestryData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrAncestries")
         If ancestryData Is Nothing Or ancestryData.Tables(0).Rows.Count = 0 Then
             Return False
             Exit Function
         End If
-        careerData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrcareers")
+        careerData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareers")
         If careerData Is Nothing Or careerData.Tables(0).Rows.Count = 0 Then
             Return False
             Exit Function
         End If
-        specData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrcareerspecialities")
+        specData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSpecialities")
         If specData Is Nothing Or specData.Tables(0).Rows.Count = 0 Then
             Return False
             Exit Function
         End If
-        raceSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrraceskills")
+        raceSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrRaceSkills")
         If raceSkillData Is Nothing Or raceSkillData.Tables(0).Rows.Count = 0 Then
             Return False
             Exit Function
         End If
-        careerSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrcareerskills")
+        careerSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSkills")
         If careerSkillData Is Nothing Or careerSkillData.Tables(0).Rows.Count = 0 Then
             Return False
             Exit Function
         End If
-        specSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrcareerspecialityskills")
+        specSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSpecialitySkills")
         If specSkillData Is Nothing Or specSkillData.Tables(0).Rows.Count = 0 Then
             Return False
             Exit Function

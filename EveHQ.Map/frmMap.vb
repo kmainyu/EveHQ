@@ -335,7 +335,7 @@ Public Class frmMap
         MessageBox.Show(Note, Title, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
     Public Function LoadSystems() As Boolean
-        Dim strSQL As String = "SELECT mapSolarSystems.regionID AS mapSolarSystems_regionID, mapSolarSystems.constellationID AS mapSolarSystems_constellationID, mapSolarSystems.solarSystemID, mapSolarSystems.solarSystemName, mapSolarSystems.x, mapSolarSystems.y, mapSolarSystems.z, mapSolarSystems.xMin, mapSolarSystems.xMax, mapSolarSystems.yMin, mapSolarSystems.yMax, mapSolarSystems.zMin, mapSolarSystems.zMax, mapSolarSystems.luminosity, mapSolarSystems.border, mapSolarSystems.fringe, mapSolarSystems.corridor, mapSolarSystems.hub, mapSolarSystems.international, mapSolarSystems.regional, mapSolarSystems.constellation, mapSolarSystems.security, mapSolarSystems.factionID, mapSolarSystems.radius, mapSolarSystems.sunTypeID, mapSolarSystems.securityClass, mapSolarSystems.allianceID, mapRegions.regionID AS mapRegions_regionID, mapRegions.regionName, mapConstellations.constellationID AS mapConstellations_constellationID, mapConstellations.constellationName"
+        Dim strSQL As String = "SELECT mapSolarSystems.regionID AS mapSolarSystems_regionID, mapSolarSystems.constellationID AS mapSolarSystems_constellationID, mapSolarSystems.solarSystemID, mapSolarSystems.solarSystemName, mapSolarSystems.x, mapSolarSystems.y, mapSolarSystems.z, mapSolarSystems.xMin, mapSolarSystems.xMax, mapSolarSystems.yMin, mapSolarSystems.yMax, mapSolarSystems.zMin, mapSolarSystems.zMax, mapSolarSystems.luminosity, mapSolarSystems.border, mapSolarSystems.fringe, mapSolarSystems.corridor, mapSolarSystems.hub, mapSolarSystems.international, mapSolarSystems.regional, mapSolarSystems.constellation, mapSolarSystems.security, mapSolarSystems.factionID, mapSolarSystems.radius, mapSolarSystems.sunTypeID, mapSolarSystems.securityClass, mapRegions.regionID AS mapRegions_regionID, mapRegions.regionName, mapConstellations.constellationID AS mapConstellations_constellationID, mapConstellations.constellationName"
         strSQL &= " FROM (mapRegions INNER JOIN mapConstellations ON mapRegions.regionID = mapConstellations.regionID) INNER JOIN mapSolarSystems ON mapConstellations.constellationID = mapSolarSystems.constellationID;"
         Dim systemData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Try
@@ -499,7 +499,7 @@ Public Class frmMap
         Try
             ' Dimension variables
             Dim SystemDetails, AllianceDetails As XmlNodeList
-            Dim SysNode, AllianceNode As XmlNode
+            Dim SysNode As XmlNode
             Dim id As String = ""
             Dim nFaction As New Faction
             Dim nAlliance As New Alliance
@@ -554,7 +554,7 @@ Public Class frmMap
         End Try
     End Function
     Public Function LoadFactions() As Boolean
-        Dim strSQL As String = "SELECT * FROM chrFactions ORDER BY FactionID;"
+        Dim strSQL As String = "SELECT * FROM chrFactions ORDER BY factionID;"
         Dim FactionData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Try
             If FactionData IsNot Nothing Then

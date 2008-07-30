@@ -640,7 +640,7 @@ CREATE TABLE dbo.crpNPCCorporationResearchFields
 (
   skillID                       smallint        NOT NULL,
   corporationID                 int             NOT NULL,
-  supplierType                  tinyint         NOT NULL,
+  supplierTypes                 tinyint         NOT NULL,
   CONSTRAINT pk_crpNPCCorporationResearchFields PRIMARY KEY CLUSTERED (skillID, corporationID)
 )
 
@@ -710,9 +710,6 @@ CREATE TABLE dbo.chrBloodlines
   charisma                tinyint         NOT NULL DEFAULT 0,
   memory                  tinyint         NOT NULL DEFAULT 0,
   intelligence            tinyint         NOT NULL DEFAULT 0,
-  bonusTypeID             smallint        NOT NULL,
-  skillTypeID1            smallint        NULL,
-  skillTypeID2            smallint        NULL,
   graphicID               smallint        NULL,
   shortDescription        nvarchar(500)   NOT NULL DEFAULT '',
   shortMaleDescription    nvarchar(500)   NOT NULL DEFAULT '',
@@ -832,6 +829,13 @@ CREATE TABLE dbo.agtAgentTypes
   CONSTRAINT pk_agtAgentTypes PRIMARY KEY CLUSTERED (agentTypeID)
 )
 
+CREATE TABLE dbo.agtResearchAgents
+(
+	agentID				int				NOT NULL,
+	typeID				smallint		NOT NULL,
+    CONSTRAINT agtResearchAgents_PK PRIMARY KEY CLUSTERED (agentID, typeID)
+ )
+
 CREATE TABLE dbo.chrFactions
 (
   factionID  		int			NOT NULL,
@@ -843,6 +847,7 @@ CREATE TABLE dbo.chrFactions
   sizeFactor  		float			NOT NULL,
   stationCount  		int			NOT NULL,
   stationSystemCount  	int			NOT NULL,
+  militiaCorporationID	int			NULL,
   CONSTRAINT pk_chrFactions PRIMARY KEY CLUSTERED (factionID)
 )
 

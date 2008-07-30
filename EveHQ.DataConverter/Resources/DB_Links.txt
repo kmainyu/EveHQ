@@ -6,9 +6,6 @@ agtConfig, agentID, agtAgents, agentID
 chrBloodlines, raceID, chrRaces, raceID
 chrBloodlines, shipTypeID, invTypes, typeID
 chrBloodlines, corporationID, crpNPCCorporations, corporationID
-chrBloodlines, bonusTypeID, invTypes, typeID
-chrBloodlines, skillTypeID1, invTypes, typeID
-chrBloodlines, skillTypeID2, invTypes, typeID
 chrBloodlines, graphicID, eveGraphics, graphicID
 chrFactions, solarSystemID, mapSolarSystems, solarSystemID
 chrFactions, corporationID, crpNPCCorporations, corporationID
@@ -118,5 +115,5 @@ staStations, regionID, mapRegions, regionID
 staStationTypes, dockingBayGraphicID, eveGraphics, graphicID
 staStationTypes, hangarGraphicID, eveGraphics, graphicID
 staStationTypes, operationID, staOperations, operationID
-TL2MaterialsForTypeWithActivity, typeID, invTypes, typeID
-TL2MaterialsForTypeWithActivity, requiredTypeID, invTypes, typeID
+typeActivityMaterials, typeID, invTypes, typeID
+typeActivityMaterials, requiredTypeID, invTypes, typeID

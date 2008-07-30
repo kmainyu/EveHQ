@@ -512,28 +512,37 @@ CREATE TABLE dbo.eveNames
 CREATE TABLE dbo.dgmAttributeTypes
 (
   attributeID                   integer             NOT NULL,
-  attributeName                 text(100)    NOT NULL,
-  attributeCategory             integer        NOT NULL,
-  description                   memo   NOT NULL,
+  attributeName                 text(100)			NOT NULL,
+  attributeCategory             integer				NOT NULL,
+  description                   memo				NOT NULL,
   maxAttributeID                integer             NULL,
   attributeIdx                  integer             NULL,
-  graphicID                     integer        NULL,
+  graphicID                     integer				NULL,
   chargeRechargeTimeID          integer             NULL,
   defaultValue                  integer             NOT NULL DEFAULT 0,
   published                     integer             NOT NULL DEFAULT 1,
-  displayName                   text(100)    NOT NULL,
-  unitID                        integer         NULL,
+  displayName                   text(100)			NOT NULL,
+  unitID                        integer				NULL,
   stackable                     integer             NOT NULL DEFAULT 1,
   highIsGood                    integer             NOT NULL DEFAULT 1,
+  categoryID					integer				NULL,
   CONSTRAINT pk_dgmAttributeTypes PRIMARY KEY  (attributeID)
+);
+
+CREATE TABLE dbo.dgmAttributeCategories
+(
+	categoryID					integer			NOT NULL,
+	categoryName				text(50)		NULL,
+	categoryDescription			text(200)		NULL,
+	CONSTRAINT dgmAttributeCategories_PK PRIMARY KEY  (categoryID)
 );
 
 CREATE TABLE dbo.dgmTypeAttributes
 (
-  typeID                        integer        NOT NULL,
-  attributeID                   integer             NOT NULL,
-  valueInt                      integer             NULL,
-  valueFloat					double           NULL
+	typeID                      integer			NOT NULL,
+	attributeID                 integer			NOT NULL,
+	valueInt			        integer			NULL,
+	valueFloat					double			NULL
 );
 
 CREATE TABLE dbo.dgmEffects
@@ -620,7 +629,7 @@ CREATE TABLE dbo.crpNPCCorporationResearchFields
 (
   skillID                       integer        NOT NULL,
   corporationID                 integer        NOT NULL,
-  supplierType                  integer        NOT NULL 
+  supplierTypes                 integer        NOT NULL 
 );
 
 CREATE TABLE dbo.crpNPCCorporationTrades
@@ -687,9 +696,6 @@ CREATE TABLE dbo.chrBloodlines
   charisma                integer         NOT NULL DEFAULT 0,
   memory                  integer         NOT NULL DEFAULT 0,
   intelligence            integer         NOT NULL DEFAULT 0,
-  bonusTypeID             integer        NOT NULL,
-  skillTypeID1            integer        NULL,
-  skillTypeID2            integer        NULL,
   graphicID               integer        NULL,
   shortDescription        memo   NOT NULL,
   shortMaleDescription    memo   NOT NULL,
@@ -804,6 +810,12 @@ CREATE TABLE dbo.agtAgentTypes
   CONSTRAINT pk_agtAgentTypes PRIMARY KEY  (agentTypeID)
 );
 
+CREATE TABLE dbo.agtResearchAgents
+(
+	agentID				integer				NOT NULL,
+	typeID				integer				NOT NULL
+ );
+
 CREATE TABLE dbo.chrFactions
 (
   factionID  		integer			NOT NULL,
@@ -815,6 +827,7 @@ CREATE TABLE dbo.chrFactions
   sizeFactor  		double			NOT NULL,
   stationCount  		integer			NOT NULL,
   stationSystemCount  	integer			NOT NULL,
+  militiaCorporationID	integer			NULL,
   CONSTRAINT pk_chrFactions PRIMARY KEY  (factionID)
 );
 
@@ -870,12 +883,12 @@ CREATE TABLE dbo.invTypeReactions
   quantity			integer			NOT NULL
 );
 
-CREATE TABLE dbo.TL2MaterialsForTypeWithActivity
+CREATE TABLE dbo.typeActivityMaterials
 (
   typeID  			integer			NOT NULL,
-  activity  		integer			NOT NULL,
-  requiredTypeID		integer			NOT NULL,
+  activityID  		integer			NOT NULL,
+  requiredTypeID	integer			NOT NULL,
   quantity			integer			NOT NULL,
   damagePerJob		double			NOT NULL
- );
+);
 
