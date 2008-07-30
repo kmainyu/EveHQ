@@ -100,12 +100,12 @@
 			<requires>1.7.1.66</requires>
 			<description>Map and Routing Plug-in</description>
 		</file>
-		<file_t>
+		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.1.64</version>
-			<requires>1.7.1.64</requires>
+			<version>1.7.1.67</version>
+			<requires>1.7.1.67</requires>
 			<description>Ship Fitting Plug-in</description>
-		</file_t>
+		</file>
 	</files>
 </eveHQUpdate>

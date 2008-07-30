@@ -148,29 +148,29 @@
 441,1,3300,10012,2,74,0,1,0,0,Gunnery - Hybrid
 441,1,3300,10013,2,55,0,1,0,0,Gunnery - Projectile
 292,1,12203,10016,5,12203,0,1,0,0,Large Artillery Specialization
-292,1,12203,10016,5,12203,0,1,0,0,Large Autocannon Specialization
-292,1,12203,10014,5,12203,0,1,0,0,Large Beam Laser Specialization
-292,1,12203,10015,5,12203,0,1,0,0,Large Blaster Specialization
+292,1,12209,10016,5,12209,0,1,0,0,Large Autocannon Specialization
+292,1,12205,10014,5,12205,0,1,0,0,Large Beam Laser Specialization
+292,1,12212,10015,5,12212,0,1,0,0,Large Blaster Specialization
 292,1,3309,10014,4,569,0,1,0,0,Large Energy Turret - Beam
 292,1,3309,10014,4,573,0,1,0,0,Large Energy Turret - Pulse
 292,1,3307,10015,4,563,0,1,0,0,Large Hybrid Turret - Blaster
 292,1,3307,10015,4,566,0,1,0,0,Large Hybrid Turret - Railgun
 292,1,3308,10016,4,576,0,1,0,0,Large Projectile Turret - Artillery
 292,1,3308,10016,4,579,0,1,0,0,Large Projectile Turret - Autocannon
-292,1,12203,10014,5,12203,0,1,0,0,Large Pulse Laser Specialization
-292,1,12203,10015,5,12203,0,1,0,0,Large Railgun Specialization
-292,1,12203,10016,5,12203,0,1,0,0,Medium Artillery Specialization
-292,1,12203,10016,5,12203,0,1,0,0,Medium Autocannon Specialization
-292,1,12203,10014,5,12203,0,1,0,0,Medium Beam Laser Specialization
-292,1,12203,10015,5,12203,0,1,0,0,Medium Blaster Specialization
+292,1,12215,10014,5,12215,0,1,0,0,Large Pulse Laser Specialization
+292,1,12207,10015,5,12207,0,1,0,0,Large Railgun Specialization
+292,1,12202,10016,5,12202,0,1,0,0,Medium Artillery Specialization
+292,1,12208,10016,5,12208,0,1,0,0,Medium Autocannon Specialization
+292,1,12204,10014,5,12204,0,1,0,0,Medium Beam Laser Specialization
+292,1,12211,10015,5,12211,0,1,0,0,Medium Blaster Specialization
 292,1,3306,10014,4,568,0,1,0,0,Medium Energy Turret - Beam
 292,1,3306,10014,4,572,0,1,0,0,Medium Energy Turret - Pulse
 292,1,3304,10015,4,562,0,1,0,0,Medium Hybrid Turret - Blaster
 292,1,3304,10015,4,565,0,1,0,0,Medium Hybrid Turret - Railgun
 292,1,3305,10016,4,578,0,1,0,0,Medium Projectile Turret - Artillery
 292,1,3305,10016,4,575,0,1,0,0,Medium Projectile Turret - Autocannon
-292,1,12203,10014,5,12203,0,1,0,0,Medium Pulse Laser Specialization
-292,1,12203,10015,5,12203,0,1,0,0,Medium Railgun Specialization
+292,1,12214,10014,5,12214,0,1,0,0,Medium Pulse Laser Specialization
+292,1,12206,10015,5,12206,0,1,0,0,Medium Railgun Specialization
 767,1,3312,160,2,53,0,1,0,0,Motion Prediction - Energy
 767,1,3312,160,2,74,0,1,0,0,Motion Prediction - Hybrid
 767,1,3312,160,2,55,0,1,0,0,Motion Prediction - Projectile
@@ -180,18 +180,18 @@
 294,1,3311,54,2,53,0,1,0,0,Sharpshooter - Energy
 294,1,3311,54,2,74,0,1,0,0,Sharpshooter - Hybrid
 294,1,3311,54,2,55,0,1,0,0,Sharpshooter - Projectile
-292,1,12203,10016,5,12203,0,1,0,0,Small Artillery Specialization
-292,1,12203,10016,5,12203,0,1,0,0,Small Autocannon Specialization
-292,1,12203,10014,5,12203,0,1,0,0,Small Beam Laser Specialization
-292,1,12203,10015,5,12203,0,1,0,0,Small Blaster Specialization
+292,1,12201,10016,5,12201,0,1,0,0,Small Artillery Specialization
+292,1,11084,10016,5,11084,0,1,0,0,Small Autocannon Specialization
+292,1,11083,10014,5,11083,0,1,0,0,Small Beam Laser Specialization
+292,1,12210,10015,5,12210,0,1,0,0,Small Blaster Specialization
 292,1,3303,10014,4,567,0,1,0,0,Small Energy Turret - Beam
 292,1,3303,10014,4,570,0,1,0,0,Small Energy Turret - Pulse
 292,1,3301,10015,4,561,0,1,0,0,Small Hybrid Turret - Blaster
 292,1,3301,10015,4,564,0,1,0,0,Small Hybrid Turret - Railgun
 292,1,3302,10016,4,577,0,1,0,0,Small Projectile Turret - Artillery
 292,1,3302,10016,4,574,0,1,0,0,Small Projectile Turret - Autocannon
-292,1,12203,10014,5,12203,0,1,0,0,Small Pulse Laser Specialization
-292,1,12203,10015,5,12203,0,1,0,0,Small Railgun Specialization
+292,1,12213,10014,5,12213,0,1,0,0,Small Pulse Laser Specialization
+292,1,11082,10015,5,11082,0,1,0,0,Small Railgun Specialization
 292,1,3315,10014,2,53,0,1,0,0,Surgical Strike - Energy
 292,1,3315,10015,2,74,0,1,0,0,Surgical Strike - Hybrid
 292,1,3315,10016,2,55,0,1,0,0,Surgical Strike - Projectile
@@ -575,10 +575,10 @@
 50,0,0,49,3,6,0,0,1,14,CPU -> CPU_Used
 30,0,0,15,3,6,0,0,1,14,PG -> PG_Used
 1153,0,0,1154,3,6,0,0,1,14,Cal -> Cal-Used
-10032,0,0,10049,3,6,0,0,6,12,Cap Rate (+ve)
-10032,0,0,10050,3,6,0,0,7,12,Cap Rate (-ve)
+10032,0,0,10049,0,6,0,0,6,12,Cap rate (+ve)
+10032,0,0,10050,0,6,0,0,7,12,Cap rate (+ve)
 # AMMUNITION & CHARGES,,,,,,,,,,
-# CAP BOOSTERS
+# CAP BOOSTER,,,,,,,,,,
 67,2,87,6,6,0,0,0,8,15,Cap Booster Charges
 # T1 AMMO,,,,,,,,,,
 120,2,86,54,6,0,0,0,0,15,Freq Crystals - Optimal Range

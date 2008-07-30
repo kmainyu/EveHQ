@@ -34,7 +34,7 @@ Public Class frmHQF
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.7.1.63"
+    Shared LastCacheRefresh As String = "1.7.1.67"
 
 #Region "Class Wide Variables"
 
@@ -979,6 +979,11 @@ Public Class frmHQF
                         attMod.CPU = attValue
                     Case 6
                         attMod.CapUsage = attValue
+                    Case 51
+                        If attMod.Attributes.Contains("6") = True Then
+                            attMod.CapUsageRate = attMod.CapUsage / attValue
+                            attMod.Attributes.Add("10032", attMod.CapUsageRate)
+                        End If
                     Case 73
                         attMod.ActivationTime = attValue
                         attMod.CapUsageRate = attMod.CapUsage / attMod.ActivationTime

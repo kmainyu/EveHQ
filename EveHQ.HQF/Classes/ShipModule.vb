@@ -391,7 +391,17 @@ Imports System.Runtime.Serialization
                     newModule.Calibration = CInt(attValue)
             End Select
             If newModule.Attributes.Contains("10032") = True Then
-                newModule.Attributes("10032") = newModule.CapUsage / newModule.ActivationTime
+                If newModule.Attributes.Contains("51") = True Then
+                    newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("51"))
+                ElseIf newModule.Attributes.Contains("10011") = True Then
+                    newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10011"))
+                ElseIf newModule.Attributes.Contains("10012") = True Then
+                    newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10012"))
+                ElseIf newModule.Attributes.Contains("10013") = True Then
+                    newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10013"))
+                Else
+                    newModule.Attributes("10032") = newModule.CapUsage / newModule.ActivationTime
+                End If
                 newModule.CapUsageRate = CDbl(newModule.Attributes("10032"))
             End If
             If newModule.Attributes.Contains("77") = True Then

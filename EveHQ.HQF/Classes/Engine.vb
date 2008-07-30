@@ -442,7 +442,7 @@ Public Class Engine
                                         fEffect.AffectedAtt = chkEffect.AffectedAtt
                                         fEffect.AffectedType = chkEffect.AffectedType
                                         If chkEffect.AffectedType = EffectType.Slot Then
-                                            fEffect.AffectedID.Add(aModule.SlotNo)
+                                            fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
                                         Else
                                             fEffect.AffectedID = chkEffect.AffectedID
                                         End If
@@ -671,7 +671,7 @@ Public Class Engine
                                             processAtt = True
                                         End If
                                     Case EffectType.Slot
-                                        If fEffect.AffectedID.Contains(aModule.SlotNo) Then
+                                        If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
                                             processAtt = True
                                         End If
                                 End Select
@@ -739,7 +739,7 @@ Public Class Engine
                                                 processAtt = True
                                             End If
                                         Case EffectType.Slot
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.SlotNo) Then
+                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.SlotType & aModule.LoadedCharge.SlotNo) Then
                                                 processAtt = True
                                             End If
                                     End Select
@@ -831,7 +831,7 @@ Public Class Engine
                                     processAtt = True
                                 End If
                             Case EffectType.Slot
-                                If fEffect.AffectedID.Contains(aModule.SlotNo) Then
+                                If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
                                     processAtt = True
                                 End If
                         End Select
@@ -940,7 +940,7 @@ Public Class Engine
                                             processAtt = True
                                         End If
                                     Case EffectType.Slot
-                                        If fEffect.AffectedID.Contains(aModule.SlotNo) Then
+                                        If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
                                             processAtt = True
                                         End If
                                 End Select
@@ -1012,7 +1012,7 @@ Public Class Engine
                                                 processAtt = True
                                             End If
                                         Case EffectType.Slot
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.SlotNo) Then
+                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.SlotType & aModule.LoadedCharge.SlotNo) Then
                                                 processAtt = True
                                             End If
                                     End Select
@@ -1107,7 +1107,7 @@ Public Class Engine
                                     processAtt = True
                                 End If
                             Case EffectType.Slot
-                                If fEffect.AffectedID.Contains(aModule.SlotNo) Then
+                                If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
                                     processAtt = True
                                 End If
                         End Select

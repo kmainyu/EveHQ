@@ -306,6 +306,12 @@ Public Class ShipSlotControl
                         Case "ROF"
                             If shipMod.Attributes.Contains("51") Then
                                 slotName.SubItems.Add(FormatNumber(shipMod.Attributes("51"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            ElseIf shipMod.Attributes.Contains("10011") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("10011"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            ElseIf shipMod.Attributes.Contains("10012") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("10012"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            ElseIf shipMod.Attributes.Contains("10013") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("10013"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             Else
                                 slotName.SubItems.Add("")
                             End If
@@ -405,6 +411,12 @@ Public Class ShipSlotControl
                     Case "ROF"
                         If shipMod.Attributes.Contains("51") Then
                             slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("51"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        ElseIf shipMod.Attributes.Contains("10011") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("10011"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        ElseIf shipMod.Attributes.Contains("10012") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("10012"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        ElseIf shipMod.Attributes.Contains("10013") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("10013"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                         Else
                             slotName.SubItems(idx).Text = ""
                         End If
