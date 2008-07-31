@@ -69,10 +69,6 @@ CREATE TABLE dbo.staStations
   reprocessingEfficiency    double          NOT NULL DEFAULT 0.5,
   reprocessingStationsTake  double          NOT NULL DEFAULT 0.025,
   reprocessingHangarFlag    integer        NOT NULL DEFAULT 4,
-  capitalStation			date			NULL,
-  ownershipDateTime			date			NULL,
-  upgradeLevel				integer			NULL,
-  customServiceMask			integer			NULL,
   CONSTRAINT pk_staStations PRIMARY KEY (stationID)
 );
 
@@ -151,8 +147,6 @@ CREATE TABLE dbo.ramAssemblyLines
   maximumCharSecurity           double          NOT NULL,
   maximumCorpSecurity           double          NOT NULL,
   ownerID                       integer            NULL,
-  oldContainerID                integer            NULL,
-  oldOwnerID                    integer            NULL,
   activityID                    integer        NULL,
   CONSTRAINT pk_ramAssemblyLines PRIMARY KEY  (assemblyLineID)
 );
@@ -243,9 +237,6 @@ CREATE TABLE dbo.mapConstellations
   zMax                          double           NOT NULL DEFAULT 0.0,
   factionID                     integer             NULL,
   radius                        double           NOT NULL DEFAULT 0.0,
-  sovereigntyDateTime			date				NULL,
-  allianceID					integer				NULL,
-  graceDateTime					date				NULL,
   CONSTRAINT pk_mapConstellations PRIMARY KEY  (constellationID)
 );
 
@@ -287,9 +278,6 @@ CREATE TABLE dbo.mapSolarSystems
   radius                        double           NOT NULL DEFAULT 0.0,
   sunTypeID                     integer        NULL,
   securityClass                 text(2)	      NULL,
-  allianceID                    integer             NULL,
-  sovereigntyLevel				integer				NULL,
-  sovereigntyDateTime			date				NULL,
   CONSTRAINT pk_mapSolarSystems PRIMARY KEY  (solarSystemID)
 );
 
@@ -673,9 +661,6 @@ CREATE TABLE dbo.chrRaces
   raceID             integer         NOT NULL,
   raceName           text(100)	   NOT NULL,
   description        memo  NOT NULL,
-  skillTypeID1       integer        NULL,
-  typeID             integer        NULL,
-  typeQuantity       integer         NULL,
   graphicID          integer        NULL,
   shortDescription   memo   NOT NULL,
   CONSTRAINT pk_chrRaces PRIMARY KEY  (raceID)
@@ -714,12 +699,6 @@ CREATE TABLE dbo.chrAncestries
   charisma          integer         NOT NULL DEFAULT 0,
   memory            integer         NOT NULL DEFAULT 0,
   intelligence      integer         NOT NULL DEFAULT 0,
-  skillTypeID1      integer        NULL,
-  skillTypeID2      integer        NULL,
-  typeID            integer        NULL,
-  typeQuantity      integer         NULL,
-  typeID2           integer        NULL,
-  typeQuantity2     integer         NULL,
   graphicID         integer        NULL,
   shortDescription  memo   NOT NULL,
   CONSTRAINT pk_chrAncestries PRIMARY KEY  (ancestryID)
@@ -739,8 +718,8 @@ CREATE TABLE dbo.chrCareers
 
 CREATE TABLE dbo.chrCareerSpecialities
 (
-  careerID          integer         NOT NULL,
   specialityID      integer         NOT NULL,
+  careerID          integer         NOT NULL,
   specialityName    text(100)   NOT NULL,
   description       memo   NOT NULL,
   shortDescription  memo   NOT NULL,
