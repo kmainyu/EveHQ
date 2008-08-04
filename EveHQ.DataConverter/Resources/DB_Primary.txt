@@ -40,4 +40,4 @@ staOperationServices, <none>
 staServices, serviceID
 staStations, stationID
 staStationTypes, stationTypeID
-TL2MaterialsForTypeWithActivity, <none>
+typeActivityMaterials, <none>

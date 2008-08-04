@@ -250,7 +250,7 @@ Public Class frmItemBrowser
         Next
 
         ' Get all other attributes
-        strSQL = "SELECT dgmTypeAttributes.typeID, dgmAttributetypes.attributeGroup, eveUnits.unitID, eveUnits.displayName as unitDisplayName, eveUnits.unitName, dgmTypeAttributes.attributeID, dgmAttributeTypes.attributeID, dgmAttributeTypes.displayName as attributeDisplayName, dgmAttributeTypes.attributeName, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
+        strSQL = "SELECT dgmTypeAttributes.typeID, dgmAttributeTypes.attributeGroup, eveUnits.unitID, eveUnits.displayName as unitDisplayName, eveUnits.unitName, dgmTypeAttributes.attributeID, dgmAttributeTypes.attributeID, dgmAttributeTypes.displayName as attributeDisplayName, dgmAttributeTypes.attributeName, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
         strSQL &= " FROM (eveUnits INNER JOIN dgmAttributeTypes ON eveUnits.unitID=dgmAttributeTypes.unitID) INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID=dgmTypeAttributes.attributeID"
         strSQL &= " WHERE typeID IN (" & strIn & ") ORDER BY dgmTypeAttributes.attributeID;"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -734,7 +734,7 @@ Public Class frmItemBrowser
             attributes(18, 3) = EveHQ.Core.SkillFunctions.TimeToString(attributes(18, 3))
             attributes(19, 3) = EveHQ.Core.SkillFunctions.TimeToString(attributes(19, 3))
         Else                            ' If not in the blueprint category
-            strSQL = "SELECT dgmAttributetypes.attributeGroup, eveUnits.unitID, eveUnits.displayName as unitDisplayName, eveUnits.unitName, dgmTypeAttributes.attributeID, dgmAttributeTypes.attributeID, dgmAttributeTypes.displayName as attributeDisplayName, dgmAttributeTypes.attributeName, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
+            strSQL = "SELECT dgmAttributeTypes.attributeGroup, eveUnits.unitID, eveUnits.displayName as unitDisplayName, eveUnits.unitName, dgmTypeAttributes.attributeID, dgmAttributeTypes.attributeID, dgmAttributeTypes.displayName as attributeDisplayName, dgmAttributeTypes.attributeName, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
             strSQL &= " FROM (eveUnits INNER JOIN dgmAttributeTypes ON eveUnits.unitID=dgmAttributeTypes.unitID) INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID=dgmTypeAttributes.attributeID"
             strSQL &= " WHERE typeID=" & typeID & " ORDER BY dgmTypeAttributes.attributeID;"
             eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -858,7 +858,7 @@ Public Class frmItemBrowser
                         Else
                             lstItem.Tag = ""
                             If IsNumeric(attributes(item, 3)) = True Then
-                                lstItem.SubItems.Add(Format(CDbl(attributes(item, 3)), "#,###,##0.#") & attributes(item, 4))
+                                lstItem.SubItems.Add(Format(CDbl(attributes(item, 3)), "#,###,##0.###") & attributes(item, 4))
                             Else
                                 lstItem.SubItems.Add(attributes(item, 3) & attributes(item, 4))
                             End If
@@ -880,8 +880,8 @@ Public Class frmItemBrowser
 
         ' Select only the building activity (at the minute!)
         Dim strSQL As String = "SELECT *"
-        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN TL2MaterialsForTypeWithActivity ON invTypes.typeID = TL2MaterialsForTypeWithActivity.requiredTypeID"
-        strSQL &= " WHERE (TL2MaterialsForTypeWithActivity.typeID=" & bpTypeID & " OR TL2MaterialsForTypeWithActivity.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
+        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.requiredTypeID"
+        strSQL &= " WHERE (typeActivityMaterials.typeID=" & bpTypeID & " OR typeActivityMaterials.typeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
         If eveData.Tables(0).Rows.Count > 0 Then
 
@@ -889,7 +889,7 @@ Public Class frmItemBrowser
             Dim activities(ActivityCount) As Boolean
             Dim strActivity As String = ""
             For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                activities(Val(eveData.Tables(0).Rows(row).Item("activity"))) = True
+                activities(Val(eveData.Tables(0).Rows(row).Item("activityID"))) = True
             Next
             ' Then create sub tabs :)
             Me.tabMaterial.TabPages.Clear()
@@ -918,7 +918,7 @@ Public Class frmItemBrowser
                         End Select
                         materials(row, 6) = .Rows(row).Item("categoryName").ToString.Trim
                         materials(row, 8) = .Rows(row).Item("groupName").ToString.Trim
-                        materials(row, 9) = .Rows(row).Item("activity").ToString.Trim
+                        materials(row, 9) = .Rows(row).Item("activityID").ToString.Trim
                     End If
                 Next
             End With
@@ -1008,8 +1008,8 @@ Public Class frmItemBrowser
 
         ' Select only the building activity (at the minute!)
         Dim strSQL As String = "SELECT *"
-        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN TL2MaterialsForTypeWithActivity ON invTypes.typeID = TL2MaterialsForTypeWithActivity.typeID"
-        strSQL &= " WHERE (TL2MaterialsForTypeWithActivity.requiredTypeID=" & bpTypeID & " OR TL2MaterialsForTypeWithActivity.requiredTypeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
+        strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.typeID"
+        strSQL &= " WHERE (typeActivityMaterials.requiredTypeID=" & bpTypeID & " OR typeActivityMaterials.requiredTypeID=" & typeID & ") ORDER BY invCategories.categoryName, invGroups.groupName"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
         If eveData.Tables(0).Rows.Count > 0 Then
 
@@ -1017,7 +1017,7 @@ Public Class frmItemBrowser
             Dim activities(ActivityCount) As Boolean
             Dim strActivity As String = ""
             For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                activities(Val(eveData.Tables(0).Rows(row).Item("activity"))) = True
+                activities(Val(eveData.Tables(0).Rows(row).Item("activityID"))) = True
             Next
             ' Then create sub tabs :)
             Me.tabComponents.TabPages.Clear()
@@ -1047,7 +1047,7 @@ Public Class frmItemBrowser
                         End Select
                         materials(row, 6) = .Rows(row).Item("categoryName").ToString.Trim
                         materials(row, 8) = .Rows(row).Item("groupName").ToString.Trim
-                        materials(row, 9) = .Rows(row).Item("activity").ToString.Trim
+                        materials(row, 9) = .Rows(row).Item("activityID").ToString.Trim
                     End If
                 Next
             End With

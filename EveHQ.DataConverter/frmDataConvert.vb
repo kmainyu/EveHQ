@@ -1146,9 +1146,9 @@ Public Class frmDataConvert
             materialData = EveHQ.Core.DataFunctions.GetData(strSQL)
             For row2 As Integer = 0 To materialData.Tables(0).Rows.Count - 1
                 Dim strMats As String = ""
-                If materialData.Tables(0).Rows(row2).Item("activity") = 1 Then
+                If materialData.Tables(0).Rows(row2).Item("activityID") = 1 Then
                     strMats &= newData.Tables(0).Rows(row).Item("typeName") & ","
-                    strMats &= materialData.Tables(0).Rows(row2).Item("activity") & ","
+                    strMats &= materialData.Tables(0).Rows(row2).Item("activityID") & ","
                     strMats &= materialData.Tables(0).Rows(row2).Item("typeName") & ","
                     strMats &= materialData.Tables(0).Rows(row2).Item("quantity") & ","
                     strMats &= materialData.Tables(0).Rows(row2).Item("damagePerJob")

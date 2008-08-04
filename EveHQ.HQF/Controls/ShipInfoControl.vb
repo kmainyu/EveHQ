@@ -63,6 +63,7 @@ Public Class ShipInfoControl
 
     Private Sub UpdateInfoDisplay()
         ' Update the display with the information about the (fitted) ship
+        Dim ttt As String = "" ' Fot tool tip text!
 
         ' CPU
         If fittedShip.CPU > 0 Then
@@ -129,18 +130,21 @@ Public Class ShipInfoControl
 
         ' Shield
         lblShieldHP.Text = FormatNumber(fittedShip.ShieldCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblShieldRecharge.Text = FormatNumber(fittedShip.ShieldRecharge, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
+        'lblShieldRecharge.Text = FormatNumber(fittedShip.ShieldRecharge, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
         lblShieldEM.Text = FormatNumber(fittedShip.ShieldEMResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         lblShieldExplosive.Text = FormatNumber(fittedShip.ShieldExResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         lblShieldKinetic.Text = FormatNumber(fittedShip.ShieldKiResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         lblShieldThermal.Text = FormatNumber(fittedShip.ShieldThResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        progShieldEM.Value = CInt(fittedShip.ShieldEMResist)
-        progShieldExp.Value = CInt(fittedShip.ShieldExResist)
-        progShieldKinetic.Value = CInt(fittedShip.ShieldKiResist)
-        progShieldThermal.Value = CInt(fittedShip.ShieldThResist)
-        gbShield.Text = "Shield  (Effective HP: " & FormatNumber(fittedShip.EffectiveShieldHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")"
-        lblShieldAverage.Text = FormatNumber(fittedShip.ShieldCapacity / fittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP/s"
-        lblShieldPeak.Text = FormatNumber(HQF.Settings.HQFSettings.ShieldRechargeConstant * fittedShip.ShieldCapacity / fittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP/s"
+        'gbShield.Text = "Shield  (Effective HP: " & FormatNumber(fittedShip.EffectiveShieldHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")"
+        'lblShieldAverage.Text = FormatNumber(fittedShip.ShieldCapacity / fittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP/s"
+        'lblShieldPeak.Text = FormatNumber(HQF.Settings.HQFSettings.ShieldRechargeConstant * fittedShip.ShieldCapacity / fittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP/s"
+        ttt = "Shield Hitpoints: " & lblShieldHP.Text & ControlChars.CrLf
+        ttt &= "Effective Hitpoints: " & FormatNumber(fittedShip.EffectiveShieldHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf
+        ttt &= "Recharge Time: " & FormatNumber(fittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s" & ControlChars.CrLf
+        ttt &= "Average Recharge Rate: " & FormatNumber(fittedShip.ShieldCapacity / fittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP/s" & ControlChars.CrLf
+        ttt &= "Peak Recharge Rate: " & FormatNumber(HQF.Settings.HQFSettings.ShieldRechargeConstant * fittedShip.ShieldCapacity / fittedShip.ShieldRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP/s"
+        ToolTip1.SetToolTip(pbShieldHP, ttt)
+        ToolTip1.SetToolTip(lblShieldHP, ttt)
 
         ' Armor
         lblArmorHP.Text = FormatNumber(fittedShip.ArmorCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -148,11 +152,10 @@ Public Class ShipInfoControl
         lblArmorExplosive.Text = FormatNumber(fittedShip.ArmorExResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         lblArmorKinetic.Text = FormatNumber(fittedShip.ArmorKiResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         lblArmorThermal.Text = FormatNumber(fittedShip.ArmorThResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        progArmorEM.Value = CInt(fittedShip.ArmorEMResist)
-        progArmorExplosive.Value = CInt(fittedShip.ArmorExResist)
-        progArmorKinetic.Value = CInt(fittedShip.ArmorKiResist)
-        progArmorThermal.Value = CInt(fittedShip.ArmorThResist)
-        gbArmor.Text = "Armor  (Effective HP: " & FormatNumber(fittedShip.EffectiveArmorHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")"
+        ttt = "Armor Hitpoints: " & lblArmorHP.Text & ControlChars.CrLf
+        ttt &= "Effective Hitpoints: " & FormatNumber(fittedShip.EffectiveArmorHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        ToolTip1.SetToolTip(pbArmorHP, ttt)
+        ToolTip1.SetToolTip(lblArmorHP, ttt)
 
         ' Structure
         lblStructureHP.Text = FormatNumber(fittedShip.StructureCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -160,11 +163,10 @@ Public Class ShipInfoControl
         lblStructureExplosive.Text = FormatNumber(fittedShip.StructureExResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         lblStructureKinetic.Text = FormatNumber(fittedShip.StructureKiResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         lblStructureThermal.Text = FormatNumber(fittedShip.StructureThResist, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        progStructureEM.Value = CInt(fittedShip.StructureEMResist)
-        progStructureExplosive.Value = CInt(fittedShip.StructureExResist)
-        progStructureKinetic.Value = CInt(fittedShip.StructureKiResist)
-        progStructureThermal.Value = CInt(fittedShip.StructureThResist)
-        gbStructure.Text = "Structure  (Effective HP: " & FormatNumber(fittedShip.EffectiveStructureHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")"
+        ttt = "Structure Hitpoints: " & lblStructureHP.Text & ControlChars.CrLf
+        ttt &= "Effective Hitpoints: " & FormatNumber(fittedShip.EffectiveStructureHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        ToolTip1.SetToolTip(pbStructureHP, ttt)
+        ToolTip1.SetToolTip(lblStructureHP, ttt)
 
         ' EffectiveHP
         lblEffectiveHP.Text = "Effective HP: " & FormatNumber(fittedShip.EffectiveHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -173,10 +175,9 @@ Public Class ShipInfoControl
         lblCapacitor.Text = FormatNumber(fittedShip.CapCapacity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " F"
         lblCapRecharge.Text = FormatNumber(fittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
         'lblCapAverage.Text = FormatNumber(fittedShip.CapCapacity / fittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " F/s"
-
         lblCapPeak.Text = FormatNumber(HQF.Settings.HQFSettings.CapRechargeConstant * fittedShip.CapCapacity / fittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " F/s"
         lblCapBalP.Text = "+" & FormatNumber((CDbl(fittedShip.Attributes("10050")) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * fittedShip.CapCapacity / fittedShip.CapRecharge), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblCapBalN.Text = "-" & FormatNumber(fittedShip.Attributes("10049"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblCapBalN.Text = "- " & FormatNumber(fittedShip.Attributes("10049"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Propulsion
         lblSpeed.Text = FormatNumber(fittedShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
@@ -231,10 +232,12 @@ Public Class ShipInfoControl
         InitializeComponent()
 
         ' Add the current list of pilots to the combobox
+        cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
             cboPilots.Items.Add(cPilot.Name)
         Next
+        cboPilots.EndUpdate()
         ' Look at the settings for default pilot
         If cboPilots.Items.Count > 0 Then
             If HQF.Settings.HQFSettings.DefaultPilot <> "" Then
@@ -243,13 +246,15 @@ Public Class ShipInfoControl
                 cboPilots.SelectedIndex = 0
             End If
         End If
+
+        Call Me.LoadProfiles()
+        ' Set the default damage profile
+        cboDamageProfiles.SelectedItem = "<Omni-Damage>"
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
         ' Build the Affections data for this pilot
         Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
-        Engine.BuildSkillEffects(shipPilot)
-        Engine.BuildImplantEffects(shipPilot)
         ' Call the property modifier again which will trigger the fitting routines and update all slots for the new pilot
         If currentSlot IsNot Nothing Then
             currentSlot.UpdateAllSlots = True
@@ -483,4 +488,39 @@ Public Class ShipInfoControl
     End Sub
 #End Region
 
+#Region "Profile Routines"
+
+    Private Sub cboDamageProfiles_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDamageProfiles.SelectedIndexChanged
+        If cboDamageProfiles.SelectedItem IsNot Nothing Then
+            If currentShip IsNot Nothing Then
+                currentShip.DamageProfile = CType(DamageProfiles.ProfileList.Item(cboDamageProfiles.SelectedItem), DamageProfile)
+            End If
+        End If
+        ' Kick off a rebuild
+        ShipType = currentShip
+    End Sub
+
+    Private Sub btnEditProfiles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditProfiles.Click
+        Dim profiles As New frmDamageProfiles
+        profiles.ShowDialog()
+        Dim oldProfile As String = cboDamageProfiles.SelectedItem.ToString
+        Call Me.LoadProfiles()
+        If cboDamageProfiles.Items.Contains(oldProfile) = True Then
+            cboDamageProfiles.SelectedItem = oldProfile
+        Else
+            cboDamageProfiles.SelectedItem = "<Omni-Damage>"
+        End If
+    End Sub
+
+    Private Sub LoadProfiles()
+        ' Add the list of profiles to the combo box
+        cboDamageProfiles.BeginUpdate()
+        cboDamageProfiles.Items.Clear()
+        For Each cProfile As String In DamageProfiles.ProfileList.Keys
+            cboDamageProfiles.Items.Add(cProfile)
+        Next
+        cboDamageProfiles.EndUpdate()
+    End Sub
+
+#End Region
 End Class

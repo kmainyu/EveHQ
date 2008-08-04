@@ -53,7 +53,8 @@
 # Ship Cap Usage Rates
 10049,shipCapUsageRate,Total Cap Usage Rate,0,F/s,0
 10050,shipCapInjRate,Total Cap Injection Rate,0,F/s,0
-
-
-
-
+# Weapon Damage Split
+10051,EMWeaponDamage,EM Weapon Damage,0,HP,0
+10052,ExplosiveWeaponDamage,Explosive Weapon Damage,0,HP,0
+10053,KineticWeaponDamage,KineticWeapon Damage,0,HP,0
+10054,ThermalWeaponDamage,Thermal Weapon Damage,0,HP,0

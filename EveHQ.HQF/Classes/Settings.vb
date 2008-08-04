@@ -25,6 +25,7 @@ Imports System.Net.Sockets
 Imports System.Threading
 Imports System.Xml
 Imports System.Windows.Forms
+Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class Settings
 
@@ -446,6 +447,38 @@ Public Class Settings
         newItem.Text = "DPS"
         newItem.Checked = False
         cStandardSlotColumns.Add(newItem)
+    End Sub
+    Public Sub LoadProfiles()
+        ' Check for the profiles file so we can load it
+        If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFProfiles.txt") = True Then
+            Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFProfiles.txt", FileMode.Open)
+            Dim f As BinaryFormatter = New BinaryFormatter
+            DamageProfiles.ProfileList = CType(f.Deserialize(s), SortedList)
+            s.Close()
+        Else
+            ' Need to create the profiles file and the standard custom profile (omni-damage)
+            DamageProfiles.ProfileList.Clear()
+            Dim newProfile As New DamageProfile
+            newProfile.Name = "<Omni-Damage>"
+            newProfile.Type = 0
+            newProfile.EM = 25
+            newProfile.Explosive = 25
+            newProfile.Kinetic = 25
+            newProfile.Thermal = 25
+            newProfile.DPS = 0
+            newProfile.Fitting = ""
+            newProfile.Pilot = ""
+            newProfile.NPCs.Clear()
+            DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
+            Call SaveProfiles()
+        End If
+    End Sub
+    Public Sub SaveProfiles()
+        ' Save the Profiles
+        Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFProfiles.txt", FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, DamageProfiles.ProfileList)
+        s.Close()
     End Sub
 
 End Class

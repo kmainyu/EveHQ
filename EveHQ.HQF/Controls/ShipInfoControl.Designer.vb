@@ -25,6 +25,32 @@ Partial Class ShipInfoControl
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipInfoControl))
         Me.Panel1 = New System.Windows.Forms.Panel
+        Me.gbDefence = New System.Windows.Forms.GroupBox
+        Me.btnEditProfiles = New System.Windows.Forms.Button
+        Me.cboDamageProfiles = New System.Windows.Forms.ComboBox
+        Me.lblEffectiveHP = New System.Windows.Forms.Label
+        Me.lblStructureHP = New System.Windows.Forms.Label
+        Me.pbStructureHP = New System.Windows.Forms.PictureBox
+        Me.lblStructureThermal = New System.Windows.Forms.Label
+        Me.lblStructureExplosive = New System.Windows.Forms.Label
+        Me.lblArmorHP = New System.Windows.Forms.Label
+        Me.lblStructureKinetic = New System.Windows.Forms.Label
+        Me.pbArmorHP = New System.Windows.Forms.PictureBox
+        Me.lblStructureEM = New System.Windows.Forms.Label
+        Me.lblArmorThermal = New System.Windows.Forms.Label
+        Me.lblShieldEM = New System.Windows.Forms.Label
+        Me.lblArmorExplosive = New System.Windows.Forms.Label
+        Me.lblArmorKinetic = New System.Windows.Forms.Label
+        Me.lblShieldKinetic = New System.Windows.Forms.Label
+        Me.lblArmorEM = New System.Windows.Forms.Label
+        Me.lblShieldExplosive = New System.Windows.Forms.Label
+        Me.lblShieldThermal = New System.Windows.Forms.Label
+        Me.lblShieldHP = New System.Windows.Forms.Label
+        Me.pbShieldHP = New System.Windows.Forms.PictureBox
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox
+        Me.PictureBox2 = New System.Windows.Forms.PictureBox
+        Me.PictureBox3 = New System.Windows.Forms.PictureBox
+        Me.PictureBox4 = New System.Windows.Forms.PictureBox
         Me.gbDamage = New System.Windows.Forms.GroupBox
         Me.lblMining = New System.Windows.Forms.Label
         Me.pbMining = New System.Windows.Forms.PictureBox
@@ -40,7 +66,6 @@ Partial Class ShipInfoControl
         Me.cboPilots = New System.Windows.Forms.ComboBox
         Me.lblPilot = New System.Windows.Forms.Label
         Me.line1 = New System.Windows.Forms.Label
-        Me.lblEffectiveHP = New System.Windows.Forms.Label
         Me.btnDoomsdayCheck = New System.Windows.Forms.Button
         Me.gbCargo = New System.Windows.Forms.GroupBox
         Me.lblDroneControl = New System.Windows.Forms.Label
@@ -82,63 +107,20 @@ Partial Class ShipInfoControl
         Me.pbTargetRange = New System.Windows.Forms.PictureBox
         Me.lblCalibration = New System.Windows.Forms.Label
         Me.pbCalibration = New System.Windows.Forms.PictureBox
-        Me.gbStructure = New System.Windows.Forms.GroupBox
-        Me.progStructureThermal = New System.Windows.Forms.ProgressBar
-        Me.progStructureExplosive = New System.Windows.Forms.ProgressBar
-        Me.progStructureKinetic = New System.Windows.Forms.ProgressBar
-        Me.progStructureEM = New System.Windows.Forms.ProgressBar
-        Me.lblStructureHP = New System.Windows.Forms.Label
-        Me.pbStructureHP = New System.Windows.Forms.PictureBox
-        Me.lblStructureThermal = New System.Windows.Forms.Label
-        Me.pbStructureThermal = New System.Windows.Forms.PictureBox
-        Me.lblStructureExplosive = New System.Windows.Forms.Label
-        Me.pbStructureExplosive = New System.Windows.Forms.PictureBox
-        Me.lblStructureKinetic = New System.Windows.Forms.Label
-        Me.pbStructureKinetic = New System.Windows.Forms.PictureBox
-        Me.lblStructureEM = New System.Windows.Forms.Label
-        Me.pbStructureEM = New System.Windows.Forms.PictureBox
-        Me.gbArmor = New System.Windows.Forms.GroupBox
-        Me.progArmorThermal = New System.Windows.Forms.ProgressBar
-        Me.progArmorExplosive = New System.Windows.Forms.ProgressBar
-        Me.progArmorKinetic = New System.Windows.Forms.ProgressBar
-        Me.progArmorEM = New System.Windows.Forms.ProgressBar
-        Me.lblArmorHP = New System.Windows.Forms.Label
-        Me.pbArmorHP = New System.Windows.Forms.PictureBox
-        Me.lblArmorThermal = New System.Windows.Forms.Label
-        Me.pbArmorThermal = New System.Windows.Forms.PictureBox
-        Me.lblArmorExplosive = New System.Windows.Forms.Label
-        Me.pbArmorExplosive = New System.Windows.Forms.PictureBox
-        Me.lblArmorKinetic = New System.Windows.Forms.Label
-        Me.pbArmorKinetic = New System.Windows.Forms.PictureBox
-        Me.lblArmorEM = New System.Windows.Forms.Label
-        Me.pbArmorEM = New System.Windows.Forms.PictureBox
-        Me.gbShield = New System.Windows.Forms.GroupBox
-        Me.lblShieldPeak = New System.Windows.Forms.Label
-        Me.pbShieldPeak = New System.Windows.Forms.PictureBox
-        Me.lblShieldAverage = New System.Windows.Forms.Label
-        Me.pbShieldAverage = New System.Windows.Forms.PictureBox
-        Me.progShieldThermal = New System.Windows.Forms.ProgressBar
-        Me.progShieldExp = New System.Windows.Forms.ProgressBar
-        Me.progShieldKinetic = New System.Windows.Forms.ProgressBar
-        Me.progShieldEM = New System.Windows.Forms.ProgressBar
-        Me.lblShieldRecharge = New System.Windows.Forms.Label
-        Me.lblShieldHP = New System.Windows.Forms.Label
-        Me.pbShieldRecharge = New System.Windows.Forms.PictureBox
-        Me.pbShieldHP = New System.Windows.Forms.PictureBox
-        Me.lblShieldThermal = New System.Windows.Forms.Label
-        Me.pbShieldThermal = New System.Windows.Forms.PictureBox
-        Me.lblShieldExplosive = New System.Windows.Forms.Label
-        Me.pbShieldExplosive = New System.Windows.Forms.PictureBox
-        Me.lblShieldKinetic = New System.Windows.Forms.Label
-        Me.pbShieldKinetic = New System.Windows.Forms.PictureBox
-        Me.lblShieldEM = New System.Windows.Forms.Label
-        Me.pbShieldEM = New System.Windows.Forms.PictureBox
         Me.lblPG = New System.Windows.Forms.Label
         Me.lblCPU = New System.Windows.Forms.Label
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.Panel1.SuspendLayout()
+        Me.gbDefence.SuspendLayout()
+        CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbArmorHP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbShieldHP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbDamage.SuspendLayout()
         CType(Me.pbMining, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbDamage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -163,27 +145,6 @@ Partial Class ShipInfoControl
         CType(Me.pbScanResolution, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbTargetRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCalibration, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbStructure.SuspendLayout()
-        CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbStructureThermal, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbStructureExplosive, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbStructureKinetic, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbStructureEM, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbArmor.SuspendLayout()
-        CType(Me.pbArmorHP, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbArmorThermal, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbArmorExplosive, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbArmorKinetic, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbArmorEM, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbShield.SuspendLayout()
-        CType(Me.pbShieldPeak, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldAverage, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldHP, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldThermal, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldExplosive, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldKinetic, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -192,6 +153,7 @@ Partial Class ShipInfoControl
         '
         Me.Panel1.AutoScroll = True
         Me.Panel1.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.Panel1.Controls.Add(Me.gbDefence)
         Me.Panel1.Controls.Add(Me.gbDamage)
         Me.Panel1.Controls.Add(Me.progCalibration)
         Me.Panel1.Controls.Add(Me.progPG)
@@ -203,7 +165,6 @@ Partial Class ShipInfoControl
         Me.Panel1.Controls.Add(Me.cboPilots)
         Me.Panel1.Controls.Add(Me.lblPilot)
         Me.Panel1.Controls.Add(Me.line1)
-        Me.Panel1.Controls.Add(Me.lblEffectiveHP)
         Me.Panel1.Controls.Add(Me.btnDoomsdayCheck)
         Me.Panel1.Controls.Add(Me.gbCargo)
         Me.Panel1.Controls.Add(Me.gbPropulsion)
@@ -211,9 +172,6 @@ Partial Class ShipInfoControl
         Me.Panel1.Controls.Add(Me.gbTargeting)
         Me.Panel1.Controls.Add(Me.lblCalibration)
         Me.Panel1.Controls.Add(Me.pbCalibration)
-        Me.Panel1.Controls.Add(Me.gbStructure)
-        Me.Panel1.Controls.Add(Me.gbArmor)
-        Me.Panel1.Controls.Add(Me.gbShield)
         Me.Panel1.Controls.Add(Me.lblPG)
         Me.Panel1.Controls.Add(Me.lblCPU)
         Me.Panel1.Controls.Add(Me.pbPG)
@@ -221,8 +179,313 @@ Partial Class ShipInfoControl
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(250, 805)
+        Me.Panel1.Size = New System.Drawing.Size(250, 688)
         Me.Panel1.TabIndex = 0
+        '
+        'gbDefence
+        '
+        Me.gbDefence.Controls.Add(Me.btnEditProfiles)
+        Me.gbDefence.Controls.Add(Me.cboDamageProfiles)
+        Me.gbDefence.Controls.Add(Me.lblEffectiveHP)
+        Me.gbDefence.Controls.Add(Me.lblStructureHP)
+        Me.gbDefence.Controls.Add(Me.pbStructureHP)
+        Me.gbDefence.Controls.Add(Me.lblStructureThermal)
+        Me.gbDefence.Controls.Add(Me.lblStructureExplosive)
+        Me.gbDefence.Controls.Add(Me.lblArmorHP)
+        Me.gbDefence.Controls.Add(Me.lblStructureKinetic)
+        Me.gbDefence.Controls.Add(Me.pbArmorHP)
+        Me.gbDefence.Controls.Add(Me.lblStructureEM)
+        Me.gbDefence.Controls.Add(Me.lblArmorThermal)
+        Me.gbDefence.Controls.Add(Me.lblShieldEM)
+        Me.gbDefence.Controls.Add(Me.lblArmorExplosive)
+        Me.gbDefence.Controls.Add(Me.lblArmorKinetic)
+        Me.gbDefence.Controls.Add(Me.lblShieldKinetic)
+        Me.gbDefence.Controls.Add(Me.lblArmorEM)
+        Me.gbDefence.Controls.Add(Me.lblShieldExplosive)
+        Me.gbDefence.Controls.Add(Me.lblShieldThermal)
+        Me.gbDefence.Controls.Add(Me.lblShieldHP)
+        Me.gbDefence.Controls.Add(Me.pbShieldHP)
+        Me.gbDefence.Controls.Add(Me.PictureBox1)
+        Me.gbDefence.Controls.Add(Me.PictureBox2)
+        Me.gbDefence.Controls.Add(Me.PictureBox3)
+        Me.gbDefence.Controls.Add(Me.PictureBox4)
+        Me.gbDefence.Location = New System.Drawing.Point(5, 171)
+        Me.gbDefence.Name = "gbDefence"
+        Me.gbDefence.Size = New System.Drawing.Size(240, 150)
+        Me.gbDefence.TabIndex = 34
+        Me.gbDefence.TabStop = False
+        Me.gbDefence.Text = "Ship Defence"
+        '
+        'btnEditProfiles
+        '
+        Me.btnEditProfiles.Location = New System.Drawing.Point(202, 17)
+        Me.btnEditProfiles.Margin = New System.Windows.Forms.Padding(1)
+        Me.btnEditProfiles.Name = "btnEditProfiles"
+        Me.btnEditProfiles.Size = New System.Drawing.Size(34, 21)
+        Me.btnEditProfiles.TabIndex = 28
+        Me.btnEditProfiles.Text = "Edit"
+        Me.btnEditProfiles.UseVisualStyleBackColor = True
+        '
+        'cboDamageProfiles
+        '
+        Me.cboDamageProfiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboDamageProfiles.FormattingEnabled = True
+        Me.cboDamageProfiles.Location = New System.Drawing.Point(7, 17)
+        Me.cboDamageProfiles.Name = "cboDamageProfiles"
+        Me.cboDamageProfiles.Size = New System.Drawing.Size(195, 21)
+        Me.cboDamageProfiles.TabIndex = 27
+        '
+        'lblEffectiveHP
+        '
+        Me.lblEffectiveHP.AutoSize = True
+        Me.lblEffectiveHP.Location = New System.Drawing.Point(11, 133)
+        Me.lblEffectiveHP.Name = "lblEffectiveHP"
+        Me.lblEffectiveHP.Size = New System.Drawing.Size(112, 13)
+        Me.lblEffectiveHP.TabIndex = 21
+        Me.lblEffectiveHP.Text = "Effective HP: 000,000"
+        Me.ToolTip1.SetToolTip(Me.lblEffectiveHP, "Effective Hitpoints")
+        '
+        'lblStructureHP
+        '
+        Me.lblStructureHP.AutoSize = True
+        Me.lblStructureHP.ForeColor = System.Drawing.Color.Maroon
+        Me.lblStructureHP.Location = New System.Drawing.Point(28, 112)
+        Me.lblStructureHP.Name = "lblStructureHP"
+        Me.lblStructureHP.Size = New System.Drawing.Size(46, 13)
+        Me.lblStructureHP.TabIndex = 14
+        Me.lblStructureHP.Text = "000,000"
+        Me.ToolTip1.SetToolTip(Me.lblStructureHP, "Structure Hitpoints")
+        '
+        'pbStructureHP
+        '
+        Me.pbStructureHP.Image = Global.EveHQ.HQF.My.Resources.Resources.imgStructure
+        Me.pbStructureHP.Location = New System.Drawing.Point(7, 106)
+        Me.pbStructureHP.Name = "pbStructureHP"
+        Me.pbStructureHP.Size = New System.Drawing.Size(24, 24)
+        Me.pbStructureHP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.pbStructureHP.TabIndex = 12
+        Me.pbStructureHP.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbStructureHP, "Structure Hitpoints")
+        '
+        'lblStructureThermal
+        '
+        Me.lblStructureThermal.AutoSize = True
+        Me.lblStructureThermal.ForeColor = System.Drawing.Color.Maroon
+        Me.lblStructureThermal.Location = New System.Drawing.Point(185, 116)
+        Me.lblStructureThermal.Name = "lblStructureThermal"
+        Me.lblStructureThermal.Size = New System.Drawing.Size(21, 13)
+        Me.lblStructureThermal.TabIndex = 11
+        Me.lblStructureThermal.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblStructureThermal, "Structure Thermal Resistance")
+        '
+        'lblStructureExplosive
+        '
+        Me.lblStructureExplosive.AutoSize = True
+        Me.lblStructureExplosive.ForeColor = System.Drawing.Color.Maroon
+        Me.lblStructureExplosive.Location = New System.Drawing.Point(107, 117)
+        Me.lblStructureExplosive.Name = "lblStructureExplosive"
+        Me.lblStructureExplosive.Size = New System.Drawing.Size(21, 13)
+        Me.lblStructureExplosive.TabIndex = 8
+        Me.lblStructureExplosive.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblStructureExplosive, "Structure Explosive Resistance")
+        '
+        'lblArmorHP
+        '
+        Me.lblArmorHP.AutoSize = True
+        Me.lblArmorHP.ForeColor = System.Drawing.Color.DarkGreen
+        Me.lblArmorHP.Location = New System.Drawing.Point(28, 82)
+        Me.lblArmorHP.Name = "lblArmorHP"
+        Me.lblArmorHP.Size = New System.Drawing.Size(46, 13)
+        Me.lblArmorHP.TabIndex = 14
+        Me.lblArmorHP.Text = "000,000"
+        Me.ToolTip1.SetToolTip(Me.lblArmorHP, "Armor Hitpoints")
+        '
+        'lblStructureKinetic
+        '
+        Me.lblStructureKinetic.AutoSize = True
+        Me.lblStructureKinetic.ForeColor = System.Drawing.Color.Maroon
+        Me.lblStructureKinetic.Location = New System.Drawing.Point(185, 71)
+        Me.lblStructureKinetic.Name = "lblStructureKinetic"
+        Me.lblStructureKinetic.Size = New System.Drawing.Size(21, 13)
+        Me.lblStructureKinetic.TabIndex = 5
+        Me.lblStructureKinetic.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblStructureKinetic, "Structure Kinetic Resistance")
+        '
+        'pbArmorHP
+        '
+        Me.pbArmorHP.Image = Global.EveHQ.HQF.My.Resources.Resources.imgArmor
+        Me.pbArmorHP.Location = New System.Drawing.Point(7, 76)
+        Me.pbArmorHP.Name = "pbArmorHP"
+        Me.pbArmorHP.Size = New System.Drawing.Size(24, 24)
+        Me.pbArmorHP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.pbArmorHP.TabIndex = 12
+        Me.pbArmorHP.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbArmorHP, "Armor Hitpoints")
+        '
+        'lblStructureEM
+        '
+        Me.lblStructureEM.AutoSize = True
+        Me.lblStructureEM.ForeColor = System.Drawing.Color.Maroon
+        Me.lblStructureEM.Location = New System.Drawing.Point(107, 71)
+        Me.lblStructureEM.Name = "lblStructureEM"
+        Me.lblStructureEM.Size = New System.Drawing.Size(21, 13)
+        Me.lblStructureEM.TabIndex = 2
+        Me.lblStructureEM.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblStructureEM, "Structure EM Resistance")
+        '
+        'lblArmorThermal
+        '
+        Me.lblArmorThermal.AutoSize = True
+        Me.lblArmorThermal.ForeColor = System.Drawing.Color.DarkGreen
+        Me.lblArmorThermal.Location = New System.Drawing.Point(185, 103)
+        Me.lblArmorThermal.Name = "lblArmorThermal"
+        Me.lblArmorThermal.Size = New System.Drawing.Size(21, 13)
+        Me.lblArmorThermal.TabIndex = 11
+        Me.lblArmorThermal.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblArmorThermal, "Armor Thermal Resistance")
+        '
+        'lblShieldEM
+        '
+        Me.lblShieldEM.AutoSize = True
+        Me.lblShieldEM.ForeColor = System.Drawing.Color.DarkBlue
+        Me.lblShieldEM.Location = New System.Drawing.Point(107, 45)
+        Me.lblShieldEM.Name = "lblShieldEM"
+        Me.lblShieldEM.Size = New System.Drawing.Size(21, 13)
+        Me.lblShieldEM.TabIndex = 2
+        Me.lblShieldEM.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblShieldEM, "Shield EM Resistance")
+        '
+        'lblArmorExplosive
+        '
+        Me.lblArmorExplosive.AutoSize = True
+        Me.lblArmorExplosive.ForeColor = System.Drawing.Color.DarkGreen
+        Me.lblArmorExplosive.Location = New System.Drawing.Point(107, 103)
+        Me.lblArmorExplosive.Name = "lblArmorExplosive"
+        Me.lblArmorExplosive.Size = New System.Drawing.Size(21, 13)
+        Me.lblArmorExplosive.TabIndex = 8
+        Me.lblArmorExplosive.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblArmorExplosive, "Armor Explosive Resistance")
+        '
+        'lblArmorKinetic
+        '
+        Me.lblArmorKinetic.AutoSize = True
+        Me.lblArmorKinetic.ForeColor = System.Drawing.Color.DarkGreen
+        Me.lblArmorKinetic.Location = New System.Drawing.Point(185, 58)
+        Me.lblArmorKinetic.Name = "lblArmorKinetic"
+        Me.lblArmorKinetic.Size = New System.Drawing.Size(21, 13)
+        Me.lblArmorKinetic.TabIndex = 5
+        Me.lblArmorKinetic.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblArmorKinetic, "Armor Kinetic Resistance")
+        '
+        'lblShieldKinetic
+        '
+        Me.lblShieldKinetic.AutoSize = True
+        Me.lblShieldKinetic.ForeColor = System.Drawing.Color.DarkBlue
+        Me.lblShieldKinetic.Location = New System.Drawing.Point(185, 44)
+        Me.lblShieldKinetic.Name = "lblShieldKinetic"
+        Me.lblShieldKinetic.Size = New System.Drawing.Size(21, 13)
+        Me.lblShieldKinetic.TabIndex = 5
+        Me.lblShieldKinetic.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblShieldKinetic, "Shield Kinetic Resistance")
+        '
+        'lblArmorEM
+        '
+        Me.lblArmorEM.AutoSize = True
+        Me.lblArmorEM.ForeColor = System.Drawing.Color.DarkGreen
+        Me.lblArmorEM.Location = New System.Drawing.Point(107, 58)
+        Me.lblArmorEM.Name = "lblArmorEM"
+        Me.lblArmorEM.Size = New System.Drawing.Size(21, 13)
+        Me.lblArmorEM.TabIndex = 2
+        Me.lblArmorEM.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblArmorEM, "Armor EM Resistance")
+        '
+        'lblShieldExplosive
+        '
+        Me.lblShieldExplosive.AutoSize = True
+        Me.lblShieldExplosive.ForeColor = System.Drawing.Color.DarkBlue
+        Me.lblShieldExplosive.Location = New System.Drawing.Point(107, 90)
+        Me.lblShieldExplosive.Name = "lblShieldExplosive"
+        Me.lblShieldExplosive.Size = New System.Drawing.Size(21, 13)
+        Me.lblShieldExplosive.TabIndex = 8
+        Me.lblShieldExplosive.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblShieldExplosive, "Shield Explosive Resistance")
+        '
+        'lblShieldThermal
+        '
+        Me.lblShieldThermal.AutoSize = True
+        Me.lblShieldThermal.ForeColor = System.Drawing.Color.DarkBlue
+        Me.lblShieldThermal.Location = New System.Drawing.Point(185, 90)
+        Me.lblShieldThermal.Name = "lblShieldThermal"
+        Me.lblShieldThermal.Size = New System.Drawing.Size(21, 13)
+        Me.lblShieldThermal.TabIndex = 11
+        Me.lblShieldThermal.Text = "0%"
+        Me.ToolTip1.SetToolTip(Me.lblShieldThermal, "Shield Thermal Resistance")
+        '
+        'lblShieldHP
+        '
+        Me.lblShieldHP.AutoSize = True
+        Me.lblShieldHP.ForeColor = System.Drawing.Color.DarkBlue
+        Me.lblShieldHP.Location = New System.Drawing.Point(28, 51)
+        Me.lblShieldHP.Name = "lblShieldHP"
+        Me.lblShieldHP.Size = New System.Drawing.Size(46, 13)
+        Me.lblShieldHP.TabIndex = 14
+        Me.lblShieldHP.Text = "000,000"
+        Me.ToolTip1.SetToolTip(Me.lblShieldHP, "Shield Hitpoints")
+        '
+        'pbShieldHP
+        '
+        Me.pbShieldHP.Image = Global.EveHQ.HQF.My.Resources.Resources.imgShield
+        Me.pbShieldHP.Location = New System.Drawing.Point(7, 45)
+        Me.pbShieldHP.Name = "pbShieldHP"
+        Me.pbShieldHP.Size = New System.Drawing.Size(24, 24)
+        Me.pbShieldHP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.pbShieldHP.TabIndex = 12
+        Me.pbShieldHP.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbShieldHP, "Shield Hitpoints")
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = Global.EveHQ.HQF.My.Resources.Resources.imgEMResist
+        Me.PictureBox1.Location = New System.Drawing.Point(85, 45)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(32, 40)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1.TabIndex = 22
+        Me.PictureBox1.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox1, "EM Resistance")
+        '
+        'PictureBox2
+        '
+        Me.PictureBox2.Image = Global.EveHQ.HQF.My.Resources.Resources.imgKineticResist
+        Me.PictureBox2.Location = New System.Drawing.Point(161, 44)
+        Me.PictureBox2.Name = "PictureBox2"
+        Me.PictureBox2.Size = New System.Drawing.Size(32, 40)
+        Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox2.TabIndex = 23
+        Me.PictureBox2.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox2, "Kinetic Resistance")
+        '
+        'PictureBox3
+        '
+        Me.PictureBox3.Image = Global.EveHQ.HQF.My.Resources.Resources.imgExplosiveResist
+        Me.PictureBox3.Location = New System.Drawing.Point(85, 90)
+        Me.PictureBox3.Name = "PictureBox3"
+        Me.PictureBox3.Size = New System.Drawing.Size(32, 40)
+        Me.PictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox3.TabIndex = 24
+        Me.PictureBox3.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox3, "Explosive Resistance")
+        '
+        'PictureBox4
+        '
+        Me.PictureBox4.Image = Global.EveHQ.HQF.My.Resources.Resources.imgThermalResist
+        Me.PictureBox4.Location = New System.Drawing.Point(161, 90)
+        Me.PictureBox4.Name = "PictureBox4"
+        Me.PictureBox4.Size = New System.Drawing.Size(32, 40)
+        Me.PictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox4.TabIndex = 25
+        Me.PictureBox4.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.PictureBox4, "Thermal Resistance")
         '
         'gbDamage
         '
@@ -231,7 +494,7 @@ Partial Class ShipInfoControl
         Me.gbDamage.Controls.Add(Me.lblDamage)
         Me.gbDamage.Controls.Add(Me.pbDamage)
         Me.gbDamage.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbDamage.Location = New System.Drawing.Point(5, 501)
+        Me.gbDamage.Location = New System.Drawing.Point(5, 394)
         Me.gbDamage.Name = "gbDamage"
         Me.gbDamage.Size = New System.Drawing.Size(240, 70)
         Me.gbDamage.TabIndex = 33
@@ -382,15 +645,6 @@ Partial Class ShipInfoControl
         Me.line1.Size = New System.Drawing.Size(242, 2)
         Me.line1.TabIndex = 22
         '
-        'lblEffectiveHP
-        '
-        Me.lblEffectiveHP.AutoSize = True
-        Me.lblEffectiveHP.Location = New System.Drawing.Point(6, 168)
-        Me.lblEffectiveHP.Name = "lblEffectiveHP"
-        Me.lblEffectiveHP.Size = New System.Drawing.Size(112, 13)
-        Me.lblEffectiveHP.TabIndex = 21
-        Me.lblEffectiveHP.Text = "Effective HP: 000,000"
-        '
         'btnDoomsdayCheck
         '
         Me.btnDoomsdayCheck.Image = CType(resources.GetObject("btnDoomsdayCheck.Image"), System.Drawing.Image)
@@ -413,7 +667,7 @@ Partial Class ShipInfoControl
         Me.gbCargo.Controls.Add(Me.lblCargoBay)
         Me.gbCargo.Controls.Add(Me.pbCargoBay)
         Me.gbCargo.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCargo.Location = New System.Drawing.Point(4, 717)
+        Me.gbCargo.Location = New System.Drawing.Point(4, 610)
         Me.gbCargo.Name = "gbCargo"
         Me.gbCargo.Size = New System.Drawing.Size(240, 70)
         Me.gbCargo.TabIndex = 19
@@ -525,7 +779,7 @@ Partial Class ShipInfoControl
         Me.gbPropulsion.Controls.Add(Me.lblSpeed)
         Me.gbPropulsion.Controls.Add(Me.pbSpeed)
         Me.gbPropulsion.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbPropulsion.Location = New System.Drawing.Point(5, 645)
+        Me.gbPropulsion.Location = New System.Drawing.Point(5, 538)
         Me.gbPropulsion.Name = "gbPropulsion"
         Me.gbPropulsion.Size = New System.Drawing.Size(240, 70)
         Me.gbPropulsion.TabIndex = 18
@@ -629,7 +883,7 @@ Partial Class ShipInfoControl
         Me.gbCapacitor.Controls.Add(Me.lblCapacitor)
         Me.gbCapacitor.Controls.Add(Me.pbCapacitor)
         Me.gbCapacitor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCapacitor.Location = New System.Drawing.Point(6, 427)
+        Me.gbCapacitor.Location = New System.Drawing.Point(5, 320)
         Me.gbCapacitor.Name = "gbCapacitor"
         Me.gbCapacitor.Size = New System.Drawing.Size(240, 72)
         Me.gbCapacitor.TabIndex = 17
@@ -742,7 +996,7 @@ Partial Class ShipInfoControl
         Me.gbTargeting.Controls.Add(Me.lblTargetRange)
         Me.gbTargeting.Controls.Add(Me.pbTargetRange)
         Me.gbTargeting.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbTargeting.Location = New System.Drawing.Point(5, 573)
+        Me.gbTargeting.Location = New System.Drawing.Point(5, 466)
         Me.gbTargeting.Name = "gbTargeting"
         Me.gbTargeting.Size = New System.Drawing.Size(240, 70)
         Me.gbTargeting.TabIndex = 14
@@ -856,574 +1110,6 @@ Partial Class ShipInfoControl
         Me.pbCalibration.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbCalibration, "Calibration")
         '
-        'gbStructure
-        '
-        Me.gbStructure.Controls.Add(Me.progStructureThermal)
-        Me.gbStructure.Controls.Add(Me.progStructureExplosive)
-        Me.gbStructure.Controls.Add(Me.progStructureKinetic)
-        Me.gbStructure.Controls.Add(Me.progStructureEM)
-        Me.gbStructure.Controls.Add(Me.lblStructureHP)
-        Me.gbStructure.Controls.Add(Me.pbStructureHP)
-        Me.gbStructure.Controls.Add(Me.lblStructureThermal)
-        Me.gbStructure.Controls.Add(Me.pbStructureThermal)
-        Me.gbStructure.Controls.Add(Me.lblStructureExplosive)
-        Me.gbStructure.Controls.Add(Me.pbStructureExplosive)
-        Me.gbStructure.Controls.Add(Me.lblStructureKinetic)
-        Me.gbStructure.Controls.Add(Me.pbStructureKinetic)
-        Me.gbStructure.Controls.Add(Me.lblStructureEM)
-        Me.gbStructure.Controls.Add(Me.pbStructureEM)
-        Me.gbStructure.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbStructure.Location = New System.Drawing.Point(5, 357)
-        Me.gbStructure.Name = "gbStructure"
-        Me.gbStructure.Size = New System.Drawing.Size(240, 68)
-        Me.gbStructure.TabIndex = 10
-        Me.gbStructure.TabStop = False
-        Me.gbStructure.Text = "Structure"
-        Me.ToolTip1.SetToolTip(Me.gbStructure, "Structure Information")
-        '
-        'progStructureThermal
-        '
-        Me.progStructureThermal.Location = New System.Drawing.Point(183, 54)
-        Me.progStructureThermal.Name = "progStructureThermal"
-        Me.progStructureThermal.Size = New System.Drawing.Size(50, 10)
-        Me.progStructureThermal.TabIndex = 10
-        Me.ToolTip1.SetToolTip(Me.progStructureThermal, "Thermal Resistance")
-        Me.progStructureThermal.Value = 50
-        '
-        'progStructureExplosive
-        '
-        Me.progStructureExplosive.Location = New System.Drawing.Point(107, 54)
-        Me.progStructureExplosive.Name = "progStructureExplosive"
-        Me.progStructureExplosive.Size = New System.Drawing.Size(50, 10)
-        Me.progStructureExplosive.TabIndex = 7
-        Me.ToolTip1.SetToolTip(Me.progStructureExplosive, "Explosive Resistance")
-        Me.progStructureExplosive.Value = 50
-        '
-        'progStructureKinetic
-        '
-        Me.progStructureKinetic.Location = New System.Drawing.Point(183, 31)
-        Me.progStructureKinetic.Name = "progStructureKinetic"
-        Me.progStructureKinetic.Size = New System.Drawing.Size(50, 10)
-        Me.progStructureKinetic.TabIndex = 4
-        Me.ToolTip1.SetToolTip(Me.progStructureKinetic, "Kinetic Resistance")
-        Me.progStructureKinetic.Value = 50
-        '
-        'progStructureEM
-        '
-        Me.progStructureEM.Location = New System.Drawing.Point(107, 31)
-        Me.progStructureEM.Name = "progStructureEM"
-        Me.progStructureEM.Size = New System.Drawing.Size(50, 10)
-        Me.progStructureEM.TabIndex = 1
-        Me.ToolTip1.SetToolTip(Me.progStructureEM, "EM Resistance")
-        Me.progStructureEM.Value = 50
-        '
-        'lblStructureHP
-        '
-        Me.lblStructureHP.AutoSize = True
-        Me.lblStructureHP.Location = New System.Drawing.Point(27, 23)
-        Me.lblStructureHP.Name = "lblStructureHP"
-        Me.lblStructureHP.Size = New System.Drawing.Size(46, 13)
-        Me.lblStructureHP.TabIndex = 14
-        Me.lblStructureHP.Text = "000,000"
-        Me.ToolTip1.SetToolTip(Me.lblStructureHP, "Hitpoints")
-        '
-        'pbStructureHP
-        '
-        Me.pbStructureHP.Image = Global.EveHQ.HQF.My.Resources.Resources.imgStructure
-        Me.pbStructureHP.Location = New System.Drawing.Point(6, 17)
-        Me.pbStructureHP.Name = "pbStructureHP"
-        Me.pbStructureHP.Size = New System.Drawing.Size(24, 24)
-        Me.pbStructureHP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbStructureHP.TabIndex = 12
-        Me.pbStructureHP.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbStructureHP, "Hitpoints")
-        '
-        'lblStructureThermal
-        '
-        Me.lblStructureThermal.AutoSize = True
-        Me.lblStructureThermal.Location = New System.Drawing.Point(187, 42)
-        Me.lblStructureThermal.Name = "lblStructureThermal"
-        Me.lblStructureThermal.Size = New System.Drawing.Size(21, 13)
-        Me.lblStructureThermal.TabIndex = 11
-        Me.lblStructureThermal.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblStructureThermal, "Thermal Resistance")
-        '
-        'pbStructureThermal
-        '
-        Me.pbStructureThermal.Image = Global.EveHQ.HQF.My.Resources.Resources.imgThermalResist
-        Me.pbStructureThermal.Location = New System.Drawing.Point(163, 40)
-        Me.pbStructureThermal.Name = "pbStructureThermal"
-        Me.pbStructureThermal.Size = New System.Drawing.Size(24, 24)
-        Me.pbStructureThermal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbStructureThermal.TabIndex = 9
-        Me.pbStructureThermal.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbStructureThermal, "Thermal Resistance")
-        '
-        'lblStructureExplosive
-        '
-        Me.lblStructureExplosive.AutoSize = True
-        Me.lblStructureExplosive.Location = New System.Drawing.Point(111, 42)
-        Me.lblStructureExplosive.Name = "lblStructureExplosive"
-        Me.lblStructureExplosive.Size = New System.Drawing.Size(21, 13)
-        Me.lblStructureExplosive.TabIndex = 8
-        Me.lblStructureExplosive.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblStructureExplosive, "Explosive Resistance")
-        '
-        'pbStructureExplosive
-        '
-        Me.pbStructureExplosive.Image = Global.EveHQ.HQF.My.Resources.Resources.imgExplosiveResist
-        Me.pbStructureExplosive.Location = New System.Drawing.Point(87, 40)
-        Me.pbStructureExplosive.Name = "pbStructureExplosive"
-        Me.pbStructureExplosive.Size = New System.Drawing.Size(24, 24)
-        Me.pbStructureExplosive.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbStructureExplosive.TabIndex = 6
-        Me.pbStructureExplosive.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbStructureExplosive, "Explosive Resistance")
-        '
-        'lblStructureKinetic
-        '
-        Me.lblStructureKinetic.AutoSize = True
-        Me.lblStructureKinetic.Location = New System.Drawing.Point(187, 19)
-        Me.lblStructureKinetic.Name = "lblStructureKinetic"
-        Me.lblStructureKinetic.Size = New System.Drawing.Size(21, 13)
-        Me.lblStructureKinetic.TabIndex = 5
-        Me.lblStructureKinetic.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblStructureKinetic, "Kinetic Resistance")
-        '
-        'pbStructureKinetic
-        '
-        Me.pbStructureKinetic.Image = Global.EveHQ.HQF.My.Resources.Resources.imgKineticResist
-        Me.pbStructureKinetic.Location = New System.Drawing.Point(163, 17)
-        Me.pbStructureKinetic.Name = "pbStructureKinetic"
-        Me.pbStructureKinetic.Size = New System.Drawing.Size(24, 24)
-        Me.pbStructureKinetic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbStructureKinetic.TabIndex = 3
-        Me.pbStructureKinetic.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbStructureKinetic, "Kinetic Resistance")
-        '
-        'lblStructureEM
-        '
-        Me.lblStructureEM.AutoSize = True
-        Me.lblStructureEM.Location = New System.Drawing.Point(111, 19)
-        Me.lblStructureEM.Name = "lblStructureEM"
-        Me.lblStructureEM.Size = New System.Drawing.Size(21, 13)
-        Me.lblStructureEM.TabIndex = 2
-        Me.lblStructureEM.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblStructureEM, "EM Resistance")
-        '
-        'pbStructureEM
-        '
-        Me.pbStructureEM.Image = Global.EveHQ.HQF.My.Resources.Resources.imgEMResist
-        Me.pbStructureEM.Location = New System.Drawing.Point(87, 17)
-        Me.pbStructureEM.Name = "pbStructureEM"
-        Me.pbStructureEM.Size = New System.Drawing.Size(24, 24)
-        Me.pbStructureEM.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbStructureEM.TabIndex = 0
-        Me.pbStructureEM.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbStructureEM, "EM Resistance")
-        '
-        'gbArmor
-        '
-        Me.gbArmor.Controls.Add(Me.progArmorThermal)
-        Me.gbArmor.Controls.Add(Me.progArmorExplosive)
-        Me.gbArmor.Controls.Add(Me.progArmorKinetic)
-        Me.gbArmor.Controls.Add(Me.progArmorEM)
-        Me.gbArmor.Controls.Add(Me.lblArmorHP)
-        Me.gbArmor.Controls.Add(Me.pbArmorHP)
-        Me.gbArmor.Controls.Add(Me.lblArmorThermal)
-        Me.gbArmor.Controls.Add(Me.pbArmorThermal)
-        Me.gbArmor.Controls.Add(Me.lblArmorExplosive)
-        Me.gbArmor.Controls.Add(Me.pbArmorExplosive)
-        Me.gbArmor.Controls.Add(Me.lblArmorKinetic)
-        Me.gbArmor.Controls.Add(Me.pbArmorKinetic)
-        Me.gbArmor.Controls.Add(Me.lblArmorEM)
-        Me.gbArmor.Controls.Add(Me.pbArmorEM)
-        Me.gbArmor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbArmor.Location = New System.Drawing.Point(5, 287)
-        Me.gbArmor.Name = "gbArmor"
-        Me.gbArmor.Size = New System.Drawing.Size(240, 68)
-        Me.gbArmor.TabIndex = 9
-        Me.gbArmor.TabStop = False
-        Me.gbArmor.Text = "Armor"
-        Me.ToolTip1.SetToolTip(Me.gbArmor, "Armor Information")
-        '
-        'progArmorThermal
-        '
-        Me.progArmorThermal.Location = New System.Drawing.Point(183, 54)
-        Me.progArmorThermal.Name = "progArmorThermal"
-        Me.progArmorThermal.Size = New System.Drawing.Size(50, 10)
-        Me.progArmorThermal.TabIndex = 10
-        Me.ToolTip1.SetToolTip(Me.progArmorThermal, "Thermal Resistance")
-        Me.progArmorThermal.Value = 50
-        '
-        'progArmorExplosive
-        '
-        Me.progArmorExplosive.Location = New System.Drawing.Point(107, 54)
-        Me.progArmorExplosive.Name = "progArmorExplosive"
-        Me.progArmorExplosive.Size = New System.Drawing.Size(50, 10)
-        Me.progArmorExplosive.TabIndex = 7
-        Me.ToolTip1.SetToolTip(Me.progArmorExplosive, "Explosive Resistance")
-        Me.progArmorExplosive.Value = 50
-        '
-        'progArmorKinetic
-        '
-        Me.progArmorKinetic.Location = New System.Drawing.Point(183, 31)
-        Me.progArmorKinetic.Name = "progArmorKinetic"
-        Me.progArmorKinetic.Size = New System.Drawing.Size(50, 10)
-        Me.progArmorKinetic.TabIndex = 4
-        Me.ToolTip1.SetToolTip(Me.progArmorKinetic, "Kinetic Resistance")
-        Me.progArmorKinetic.Value = 50
-        '
-        'progArmorEM
-        '
-        Me.progArmorEM.Location = New System.Drawing.Point(107, 31)
-        Me.progArmorEM.Name = "progArmorEM"
-        Me.progArmorEM.Size = New System.Drawing.Size(50, 10)
-        Me.progArmorEM.TabIndex = 1
-        Me.ToolTip1.SetToolTip(Me.progArmorEM, "EM Resistance")
-        Me.progArmorEM.Value = 50
-        '
-        'lblArmorHP
-        '
-        Me.lblArmorHP.AutoSize = True
-        Me.lblArmorHP.Location = New System.Drawing.Point(27, 23)
-        Me.lblArmorHP.Name = "lblArmorHP"
-        Me.lblArmorHP.Size = New System.Drawing.Size(46, 13)
-        Me.lblArmorHP.TabIndex = 14
-        Me.lblArmorHP.Text = "000,000"
-        Me.ToolTip1.SetToolTip(Me.lblArmorHP, "Hitpoints")
-        '
-        'pbArmorHP
-        '
-        Me.pbArmorHP.Image = Global.EveHQ.HQF.My.Resources.Resources.imgArmor
-        Me.pbArmorHP.Location = New System.Drawing.Point(6, 17)
-        Me.pbArmorHP.Name = "pbArmorHP"
-        Me.pbArmorHP.Size = New System.Drawing.Size(24, 24)
-        Me.pbArmorHP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbArmorHP.TabIndex = 12
-        Me.pbArmorHP.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbArmorHP, "Hitpoints")
-        '
-        'lblArmorThermal
-        '
-        Me.lblArmorThermal.AutoSize = True
-        Me.lblArmorThermal.Location = New System.Drawing.Point(187, 42)
-        Me.lblArmorThermal.Name = "lblArmorThermal"
-        Me.lblArmorThermal.Size = New System.Drawing.Size(21, 13)
-        Me.lblArmorThermal.TabIndex = 11
-        Me.lblArmorThermal.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblArmorThermal, "Thermal Resistance")
-        '
-        'pbArmorThermal
-        '
-        Me.pbArmorThermal.Image = Global.EveHQ.HQF.My.Resources.Resources.imgThermalResist
-        Me.pbArmorThermal.Location = New System.Drawing.Point(163, 40)
-        Me.pbArmorThermal.Name = "pbArmorThermal"
-        Me.pbArmorThermal.Size = New System.Drawing.Size(24, 24)
-        Me.pbArmorThermal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbArmorThermal.TabIndex = 9
-        Me.pbArmorThermal.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbArmorThermal, "Thermal Resistance")
-        '
-        'lblArmorExplosive
-        '
-        Me.lblArmorExplosive.AutoSize = True
-        Me.lblArmorExplosive.Location = New System.Drawing.Point(111, 42)
-        Me.lblArmorExplosive.Name = "lblArmorExplosive"
-        Me.lblArmorExplosive.Size = New System.Drawing.Size(21, 13)
-        Me.lblArmorExplosive.TabIndex = 8
-        Me.lblArmorExplosive.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblArmorExplosive, "Explosive Resistance")
-        '
-        'pbArmorExplosive
-        '
-        Me.pbArmorExplosive.Image = Global.EveHQ.HQF.My.Resources.Resources.imgExplosiveResist
-        Me.pbArmorExplosive.Location = New System.Drawing.Point(87, 40)
-        Me.pbArmorExplosive.Name = "pbArmorExplosive"
-        Me.pbArmorExplosive.Size = New System.Drawing.Size(24, 24)
-        Me.pbArmorExplosive.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbArmorExplosive.TabIndex = 6
-        Me.pbArmorExplosive.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbArmorExplosive, "Explosive Resistance")
-        '
-        'lblArmorKinetic
-        '
-        Me.lblArmorKinetic.AutoSize = True
-        Me.lblArmorKinetic.Location = New System.Drawing.Point(187, 19)
-        Me.lblArmorKinetic.Name = "lblArmorKinetic"
-        Me.lblArmorKinetic.Size = New System.Drawing.Size(21, 13)
-        Me.lblArmorKinetic.TabIndex = 5
-        Me.lblArmorKinetic.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblArmorKinetic, "Kinetic Resistance")
-        '
-        'pbArmorKinetic
-        '
-        Me.pbArmorKinetic.Image = Global.EveHQ.HQF.My.Resources.Resources.imgKineticResist
-        Me.pbArmorKinetic.Location = New System.Drawing.Point(163, 17)
-        Me.pbArmorKinetic.Name = "pbArmorKinetic"
-        Me.pbArmorKinetic.Size = New System.Drawing.Size(24, 24)
-        Me.pbArmorKinetic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbArmorKinetic.TabIndex = 3
-        Me.pbArmorKinetic.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbArmorKinetic, "Kinetic Resistance")
-        '
-        'lblArmorEM
-        '
-        Me.lblArmorEM.AutoSize = True
-        Me.lblArmorEM.Location = New System.Drawing.Point(111, 19)
-        Me.lblArmorEM.Name = "lblArmorEM"
-        Me.lblArmorEM.Size = New System.Drawing.Size(21, 13)
-        Me.lblArmorEM.TabIndex = 2
-        Me.lblArmorEM.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblArmorEM, "EM Resistance")
-        '
-        'pbArmorEM
-        '
-        Me.pbArmorEM.Image = Global.EveHQ.HQF.My.Resources.Resources.imgEMResist
-        Me.pbArmorEM.Location = New System.Drawing.Point(87, 17)
-        Me.pbArmorEM.Name = "pbArmorEM"
-        Me.pbArmorEM.Size = New System.Drawing.Size(24, 24)
-        Me.pbArmorEM.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbArmorEM.TabIndex = 0
-        Me.pbArmorEM.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbArmorEM, "EM Resistance")
-        '
-        'gbShield
-        '
-        Me.gbShield.Controls.Add(Me.lblShieldPeak)
-        Me.gbShield.Controls.Add(Me.pbShieldPeak)
-        Me.gbShield.Controls.Add(Me.lblShieldAverage)
-        Me.gbShield.Controls.Add(Me.pbShieldAverage)
-        Me.gbShield.Controls.Add(Me.progShieldThermal)
-        Me.gbShield.Controls.Add(Me.progShieldExp)
-        Me.gbShield.Controls.Add(Me.progShieldKinetic)
-        Me.gbShield.Controls.Add(Me.progShieldEM)
-        Me.gbShield.Controls.Add(Me.lblShieldRecharge)
-        Me.gbShield.Controls.Add(Me.lblShieldHP)
-        Me.gbShield.Controls.Add(Me.pbShieldRecharge)
-        Me.gbShield.Controls.Add(Me.pbShieldHP)
-        Me.gbShield.Controls.Add(Me.lblShieldThermal)
-        Me.gbShield.Controls.Add(Me.pbShieldThermal)
-        Me.gbShield.Controls.Add(Me.lblShieldExplosive)
-        Me.gbShield.Controls.Add(Me.pbShieldExplosive)
-        Me.gbShield.Controls.Add(Me.lblShieldKinetic)
-        Me.gbShield.Controls.Add(Me.pbShieldKinetic)
-        Me.gbShield.Controls.Add(Me.lblShieldEM)
-        Me.gbShield.Controls.Add(Me.pbShieldEM)
-        Me.gbShield.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbShield.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbShield.Location = New System.Drawing.Point(5, 184)
-        Me.gbShield.Name = "gbShield"
-        Me.gbShield.Size = New System.Drawing.Size(240, 102)
-        Me.gbShield.TabIndex = 8
-        Me.gbShield.TabStop = False
-        Me.gbShield.Text = "Shield"
-        Me.ToolTip1.SetToolTip(Me.gbShield, "Shield Information")
-        '
-        'lblShieldPeak
-        '
-        Me.lblShieldPeak.AutoSize = True
-        Me.lblShieldPeak.Location = New System.Drawing.Point(126, 79)
-        Me.lblShieldPeak.Name = "lblShieldPeak"
-        Me.lblShieldPeak.Size = New System.Drawing.Size(40, 13)
-        Me.lblShieldPeak.TabIndex = 19
-        Me.lblShieldPeak.Text = "000.00"
-        Me.ToolTip1.SetToolTip(Me.lblShieldPeak, "Peak Recharge Rate")
-        '
-        'pbShieldPeak
-        '
-        Me.pbShieldPeak.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapPeak
-        Me.pbShieldPeak.Location = New System.Drawing.Point(102, 73)
-        Me.pbShieldPeak.Name = "pbShieldPeak"
-        Me.pbShieldPeak.Size = New System.Drawing.Size(24, 24)
-        Me.pbShieldPeak.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbShieldPeak.TabIndex = 18
-        Me.pbShieldPeak.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbShieldPeak, "Peak Recharge Rate")
-        '
-        'lblShieldAverage
-        '
-        Me.lblShieldAverage.AutoSize = True
-        Me.lblShieldAverage.Location = New System.Drawing.Point(31, 79)
-        Me.lblShieldAverage.Name = "lblShieldAverage"
-        Me.lblShieldAverage.Size = New System.Drawing.Size(40, 13)
-        Me.lblShieldAverage.TabIndex = 17
-        Me.lblShieldAverage.Text = "000.00"
-        Me.ToolTip1.SetToolTip(Me.lblShieldAverage, "Average Recharge Rate")
-        '
-        'pbShieldAverage
-        '
-        Me.pbShieldAverage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapAverage
-        Me.pbShieldAverage.Location = New System.Drawing.Point(7, 74)
-        Me.pbShieldAverage.Name = "pbShieldAverage"
-        Me.pbShieldAverage.Size = New System.Drawing.Size(24, 24)
-        Me.pbShieldAverage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.pbShieldAverage.TabIndex = 16
-        Me.pbShieldAverage.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbShieldAverage, "Average Recharge Rate")
-        '
-        'progShieldThermal
-        '
-        Me.progShieldThermal.Location = New System.Drawing.Point(183, 58)
-        Me.progShieldThermal.Name = "progShieldThermal"
-        Me.progShieldThermal.Size = New System.Drawing.Size(50, 10)
-        Me.progShieldThermal.TabIndex = 10
-        Me.ToolTip1.SetToolTip(Me.progShieldThermal, "Thermal Resistance")
-        Me.progShieldThermal.Value = 50
-        '
-        'progShieldExp
-        '
-        Me.progShieldExp.Location = New System.Drawing.Point(107, 58)
-        Me.progShieldExp.Name = "progShieldExp"
-        Me.progShieldExp.Size = New System.Drawing.Size(50, 10)
-        Me.progShieldExp.TabIndex = 7
-        Me.ToolTip1.SetToolTip(Me.progShieldExp, "Explosive Resistance")
-        Me.progShieldExp.Value = 50
-        '
-        'progShieldKinetic
-        '
-        Me.progShieldKinetic.Location = New System.Drawing.Point(183, 31)
-        Me.progShieldKinetic.Name = "progShieldKinetic"
-        Me.progShieldKinetic.Size = New System.Drawing.Size(50, 10)
-        Me.progShieldKinetic.TabIndex = 4
-        Me.ToolTip1.SetToolTip(Me.progShieldKinetic, "Kinetic Resistance")
-        Me.progShieldKinetic.Value = 50
-        '
-        'progShieldEM
-        '
-        Me.progShieldEM.Location = New System.Drawing.Point(107, 31)
-        Me.progShieldEM.Name = "progShieldEM"
-        Me.progShieldEM.Size = New System.Drawing.Size(50, 10)
-        Me.progShieldEM.TabIndex = 1
-        Me.ToolTip1.SetToolTip(Me.progShieldEM, "EM Resistance")
-        Me.progShieldEM.Value = 50
-        '
-        'lblShieldRecharge
-        '
-        Me.lblShieldRecharge.AutoSize = True
-        Me.lblShieldRecharge.Location = New System.Drawing.Point(32, 50)
-        Me.lblShieldRecharge.Name = "lblShieldRecharge"
-        Me.lblShieldRecharge.Size = New System.Drawing.Size(21, 13)
-        Me.lblShieldRecharge.TabIndex = 15
-        Me.lblShieldRecharge.Text = "0 s"
-        Me.ToolTip1.SetToolTip(Me.lblShieldRecharge, "Recharge Time")
-        '
-        'lblShieldHP
-        '
-        Me.lblShieldHP.AutoSize = True
-        Me.lblShieldHP.Location = New System.Drawing.Point(28, 23)
-        Me.lblShieldHP.Name = "lblShieldHP"
-        Me.lblShieldHP.Size = New System.Drawing.Size(46, 13)
-        Me.lblShieldHP.TabIndex = 14
-        Me.lblShieldHP.Text = "000,000"
-        Me.ToolTip1.SetToolTip(Me.lblShieldHP, "Hitpoints")
-        '
-        'pbShieldRecharge
-        '
-        Me.pbShieldRecharge.Image = Global.EveHQ.HQF.My.Resources.Resources.imgTimer
-        Me.pbShieldRecharge.Location = New System.Drawing.Point(7, 44)
-        Me.pbShieldRecharge.Name = "pbShieldRecharge"
-        Me.pbShieldRecharge.Size = New System.Drawing.Size(24, 24)
-        Me.pbShieldRecharge.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbShieldRecharge.TabIndex = 13
-        Me.pbShieldRecharge.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbShieldRecharge, "Recharge Time")
-        '
-        'pbShieldHP
-        '
-        Me.pbShieldHP.Image = Global.EveHQ.HQF.My.Resources.Resources.imgShield
-        Me.pbShieldHP.Location = New System.Drawing.Point(7, 17)
-        Me.pbShieldHP.Name = "pbShieldHP"
-        Me.pbShieldHP.Size = New System.Drawing.Size(24, 24)
-        Me.pbShieldHP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbShieldHP.TabIndex = 12
-        Me.pbShieldHP.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbShieldHP, "Hitpoints")
-        '
-        'lblShieldThermal
-        '
-        Me.lblShieldThermal.AutoSize = True
-        Me.lblShieldThermal.Location = New System.Drawing.Point(187, 46)
-        Me.lblShieldThermal.Name = "lblShieldThermal"
-        Me.lblShieldThermal.Size = New System.Drawing.Size(21, 13)
-        Me.lblShieldThermal.TabIndex = 11
-        Me.lblShieldThermal.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblShieldThermal, "Thermal Resistance")
-        '
-        'pbShieldThermal
-        '
-        Me.pbShieldThermal.Image = Global.EveHQ.HQF.My.Resources.Resources.imgThermalResist
-        Me.pbShieldThermal.Location = New System.Drawing.Point(163, 44)
-        Me.pbShieldThermal.Name = "pbShieldThermal"
-        Me.pbShieldThermal.Size = New System.Drawing.Size(24, 24)
-        Me.pbShieldThermal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbShieldThermal.TabIndex = 9
-        Me.pbShieldThermal.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbShieldThermal, "Thermal Resistance")
-        '
-        'lblShieldExplosive
-        '
-        Me.lblShieldExplosive.AutoSize = True
-        Me.lblShieldExplosive.Location = New System.Drawing.Point(111, 46)
-        Me.lblShieldExplosive.Name = "lblShieldExplosive"
-        Me.lblShieldExplosive.Size = New System.Drawing.Size(21, 13)
-        Me.lblShieldExplosive.TabIndex = 8
-        Me.lblShieldExplosive.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblShieldExplosive, "Explosive Resistance")
-        '
-        'pbShieldExplosive
-        '
-        Me.pbShieldExplosive.Image = Global.EveHQ.HQF.My.Resources.Resources.imgExplosiveResist
-        Me.pbShieldExplosive.Location = New System.Drawing.Point(87, 44)
-        Me.pbShieldExplosive.Name = "pbShieldExplosive"
-        Me.pbShieldExplosive.Size = New System.Drawing.Size(24, 24)
-        Me.pbShieldExplosive.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbShieldExplosive.TabIndex = 6
-        Me.pbShieldExplosive.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbShieldExplosive, "Explosive Resistance")
-        '
-        'lblShieldKinetic
-        '
-        Me.lblShieldKinetic.AutoSize = True
-        Me.lblShieldKinetic.Location = New System.Drawing.Point(187, 19)
-        Me.lblShieldKinetic.Name = "lblShieldKinetic"
-        Me.lblShieldKinetic.Size = New System.Drawing.Size(21, 13)
-        Me.lblShieldKinetic.TabIndex = 5
-        Me.lblShieldKinetic.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblShieldKinetic, "Kinetic Resistance")
-        '
-        'pbShieldKinetic
-        '
-        Me.pbShieldKinetic.Image = Global.EveHQ.HQF.My.Resources.Resources.imgKineticResist
-        Me.pbShieldKinetic.Location = New System.Drawing.Point(163, 17)
-        Me.pbShieldKinetic.Name = "pbShieldKinetic"
-        Me.pbShieldKinetic.Size = New System.Drawing.Size(24, 24)
-        Me.pbShieldKinetic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbShieldKinetic.TabIndex = 3
-        Me.pbShieldKinetic.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbShieldKinetic, "Kinetic Resistance")
-        '
-        'lblShieldEM
-        '
-        Me.lblShieldEM.AutoSize = True
-        Me.lblShieldEM.Location = New System.Drawing.Point(111, 19)
-        Me.lblShieldEM.Name = "lblShieldEM"
-        Me.lblShieldEM.Size = New System.Drawing.Size(21, 13)
-        Me.lblShieldEM.TabIndex = 2
-        Me.lblShieldEM.Text = "0%"
-        Me.ToolTip1.SetToolTip(Me.lblShieldEM, "EM Resistance")
-        '
-        'pbShieldEM
-        '
-        Me.pbShieldEM.Image = Global.EveHQ.HQF.My.Resources.Resources.imgEMResist
-        Me.pbShieldEM.Location = New System.Drawing.Point(87, 17)
-        Me.pbShieldEM.Name = "pbShieldEM"
-        Me.pbShieldEM.Size = New System.Drawing.Size(24, 24)
-        Me.pbShieldEM.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbShieldEM.TabIndex = 0
-        Me.pbShieldEM.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbShieldEM, "EM Resistance")
-        '
         'lblPG
         '
         Me.lblPG.AutoSize = True
@@ -1468,6 +1154,14 @@ Partial Class ShipInfoControl
         Me.pbCPU.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbCPU, "CPU")
         '
+        'ToolTip1
+        '
+        Me.ToolTip1.AutoPopDelay = 20000
+        Me.ToolTip1.InitialDelay = 500
+        Me.ToolTip1.IsBalloon = True
+        Me.ToolTip1.ReshowDelay = 100
+        Me.ToolTip1.ShowAlways = True
+        '
         'ShipInfoControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1475,9 +1169,18 @@ Partial Class ShipInfoControl
         Me.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Controls.Add(Me.Panel1)
         Me.Name = "ShipInfoControl"
-        Me.Size = New System.Drawing.Size(250, 805)
+        Me.Size = New System.Drawing.Size(250, 688)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.gbDefence.ResumeLayout(False)
+        Me.gbDefence.PerformLayout()
+        CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbArmorHP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbShieldHP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbDamage.ResumeLayout(False)
         Me.gbDamage.PerformLayout()
         CType(Me.pbMining, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1507,30 +1210,6 @@ Partial Class ShipInfoControl
         CType(Me.pbScanResolution, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbTargetRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCalibration, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbStructure.ResumeLayout(False)
-        Me.gbStructure.PerformLayout()
-        CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbStructureThermal, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbStructureExplosive, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbStructureKinetic, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbStructureEM, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbArmor.ResumeLayout(False)
-        Me.gbArmor.PerformLayout()
-        CType(Me.pbArmorHP, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbArmorThermal, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbArmorExplosive, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbArmorKinetic, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbArmorEM, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbShield.ResumeLayout(False)
-        Me.gbShield.PerformLayout()
-        CType(Me.pbShieldPeak, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldAverage, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldRecharge, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldHP, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldThermal, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldExplosive, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldKinetic, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbShieldEM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbCPU, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -1541,53 +1220,24 @@ Partial Class ShipInfoControl
     Friend WithEvents pbPG As System.Windows.Forms.PictureBox
     Friend WithEvents lblPG As System.Windows.Forms.Label
     Friend WithEvents lblCPU As System.Windows.Forms.Label
-    Friend WithEvents gbShield As System.Windows.Forms.GroupBox
-    Friend WithEvents pbShieldEM As System.Windows.Forms.PictureBox
     Friend WithEvents lblShieldEM As System.Windows.Forms.Label
-    Friend WithEvents progShieldEM As System.Windows.Forms.ProgressBar
     Friend WithEvents pbShieldHP As System.Windows.Forms.PictureBox
     Friend WithEvents lblShieldThermal As System.Windows.Forms.Label
-    Friend WithEvents progShieldThermal As System.Windows.Forms.ProgressBar
-    Friend WithEvents pbShieldThermal As System.Windows.Forms.PictureBox
     Friend WithEvents lblShieldExplosive As System.Windows.Forms.Label
-    Friend WithEvents progShieldExp As System.Windows.Forms.ProgressBar
-    Friend WithEvents pbShieldExplosive As System.Windows.Forms.PictureBox
     Friend WithEvents lblShieldKinetic As System.Windows.Forms.Label
-    Friend WithEvents progShieldKinetic As System.Windows.Forms.ProgressBar
-    Friend WithEvents pbShieldKinetic As System.Windows.Forms.PictureBox
-    Friend WithEvents pbShieldRecharge As System.Windows.Forms.PictureBox
-    Friend WithEvents lblShieldRecharge As System.Windows.Forms.Label
     Friend WithEvents lblShieldHP As System.Windows.Forms.Label
-    Friend WithEvents gbStructure As System.Windows.Forms.GroupBox
     Friend WithEvents lblStructureHP As System.Windows.Forms.Label
     Friend WithEvents pbStructureHP As System.Windows.Forms.PictureBox
     Friend WithEvents lblStructureThermal As System.Windows.Forms.Label
-    Friend WithEvents progStructureThermal As System.Windows.Forms.ProgressBar
-    Friend WithEvents pbStructureThermal As System.Windows.Forms.PictureBox
     Friend WithEvents lblStructureExplosive As System.Windows.Forms.Label
-    Friend WithEvents progStructureExplosive As System.Windows.Forms.ProgressBar
-    Friend WithEvents pbStructureExplosive As System.Windows.Forms.PictureBox
     Friend WithEvents lblStructureKinetic As System.Windows.Forms.Label
-    Friend WithEvents progStructureKinetic As System.Windows.Forms.ProgressBar
-    Friend WithEvents pbStructureKinetic As System.Windows.Forms.PictureBox
     Friend WithEvents lblStructureEM As System.Windows.Forms.Label
-    Friend WithEvents progStructureEM As System.Windows.Forms.ProgressBar
-    Friend WithEvents pbStructureEM As System.Windows.Forms.PictureBox
-    Friend WithEvents gbArmor As System.Windows.Forms.GroupBox
     Friend WithEvents lblArmorHP As System.Windows.Forms.Label
     Friend WithEvents pbArmorHP As System.Windows.Forms.PictureBox
     Friend WithEvents lblArmorThermal As System.Windows.Forms.Label
-    Friend WithEvents progArmorThermal As System.Windows.Forms.ProgressBar
-    Friend WithEvents pbArmorThermal As System.Windows.Forms.PictureBox
     Friend WithEvents lblArmorExplosive As System.Windows.Forms.Label
-    Friend WithEvents progArmorExplosive As System.Windows.Forms.ProgressBar
-    Friend WithEvents pbArmorExplosive As System.Windows.Forms.PictureBox
     Friend WithEvents lblArmorKinetic As System.Windows.Forms.Label
-    Friend WithEvents progArmorKinetic As System.Windows.Forms.ProgressBar
-    Friend WithEvents pbArmorKinetic As System.Windows.Forms.PictureBox
     Friend WithEvents lblArmorEM As System.Windows.Forms.Label
-    Friend WithEvents progArmorEM As System.Windows.Forms.ProgressBar
-    Friend WithEvents pbArmorEM As System.Windows.Forms.PictureBox
     Friend WithEvents lblCalibration As System.Windows.Forms.Label
     Friend WithEvents pbCalibration As System.Windows.Forms.PictureBox
     Friend WithEvents gbTargeting As System.Windows.Forms.GroupBox
@@ -1623,7 +1273,6 @@ Partial Class ShipInfoControl
     Friend WithEvents progDroneBandwidth As System.Windows.Forms.ProgressBar
     Friend WithEvents btnDoomsdayCheck As System.Windows.Forms.Button
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-    Friend WithEvents lblEffectiveHP As System.Windows.Forms.Label
     Friend WithEvents line1 As System.Windows.Forms.Label
     Friend WithEvents cboPilots As System.Windows.Forms.ComboBox
     Friend WithEvents lblPilot As System.Windows.Forms.Label
@@ -1639,10 +1288,6 @@ Partial Class ShipInfoControl
     Friend WithEvents pbDamage As System.Windows.Forms.PictureBox
     Friend WithEvents lblSigRadius As System.Windows.Forms.Label
     Friend WithEvents pbSigRadius As System.Windows.Forms.PictureBox
-    Friend WithEvents lblShieldPeak As System.Windows.Forms.Label
-    Friend WithEvents pbShieldPeak As System.Windows.Forms.PictureBox
-    Friend WithEvents lblShieldAverage As System.Windows.Forms.Label
-    Friend WithEvents pbShieldAverage As System.Windows.Forms.PictureBox
     Friend WithEvents lblDroneControl As System.Windows.Forms.Label
     Friend WithEvents pbDroneControl As System.Windows.Forms.PictureBox
     Friend WithEvents lblMining As System.Windows.Forms.Label
@@ -1650,5 +1295,13 @@ Partial Class ShipInfoControl
     Friend WithEvents lblCapBalP As System.Windows.Forms.Label
     Friend WithEvents pbCapBal As System.Windows.Forms.PictureBox
     Friend WithEvents lblCapBalN As System.Windows.Forms.Label
+    Friend WithEvents gbDefence As System.Windows.Forms.GroupBox
+    Friend WithEvents lblEffectiveHP As System.Windows.Forms.Label
+    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
+    Friend WithEvents PictureBox3 As System.Windows.Forms.PictureBox
+    Friend WithEvents PictureBox4 As System.Windows.Forms.PictureBox
+    Friend WithEvents cboDamageProfiles As System.Windows.Forms.ComboBox
+    Friend WithEvents btnEditProfiles As System.Windows.Forms.Button
 
 End Class

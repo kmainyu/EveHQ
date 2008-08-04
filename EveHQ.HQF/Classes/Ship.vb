@@ -175,6 +175,14 @@ Imports System.Runtime.Serialization
     ' Audit Log
     Private cAuditLog As New ArrayList
 
+    ' Damage Profile
+    Private cDamageProfile As DamageProfile
+    Private cEM As Double
+    Private cEx As Double
+    Private cKi As Double
+    Private cTh As Double
+    Private cEMExKiTh As Double
+
 #End Region
 
 #Region "Properties"
@@ -1211,6 +1219,21 @@ Imports System.Runtime.Serialization
         End Set
     End Property
 
+    ' Damage Profile
+    Public Property DamageProfile() As DamageProfile
+        Get
+            Return cDamageProfile
+        End Get
+        Set(ByVal value As DamageProfile)
+            cDamageProfile = value
+            cEMExKiTh = cDamageProfile.EM + cDamageProfile.Explosive + cDamageProfile.Kinetic + cDamageProfile.Thermal
+            cEM = cDamageProfile.EM / cEMExKiTh
+            cEx = cDamageProfile.Explosive / cEMExKiTh
+            cKi = cDamageProfile.Kinetic / cEMExKiTh
+            cTh = cDamageProfile.Thermal / cEMExKiTh
+        End Set
+    End Property
+
 #End Region
 
 #Region "Cloning"
@@ -1228,15 +1251,15 @@ Imports System.Runtime.Serialization
 #Region "Effective HP Calculations"
 
     Private Sub CalculateEffectiveShieldHP()
-        cEffectiveShieldHP = cShieldCapacity * 100 / (100 - ((cShieldEMResist + cShieldExResist + cShieldKiResist + cShieldThResist) / 4))
+        cEffectiveShieldHP = cShieldCapacity * 100 / (cEM * (100 - cShieldEMResist) + cEx * (100 - cShieldExResist) + cKi * (100 - cShieldKiResist) + cTh * (100 - cShieldThResist))
         Call CalculateEffectiveHP()
     End Sub
     Private Sub CalculateEffectiveArmorHP()
-        cEffectiveArmorHP = cArmorCapacity * 100 / (100 - ((cArmorEMResist + cArmorExResist + cArmorKiResist + cArmorThResist) / 4))
+        cEffectiveArmorHP = cArmorCapacity * 100 / (cEM * (100 - cArmorEMResist) + cEx * (100 - cArmorExResist) + cKi * (100 - cArmorKiResist) + cTh * (100 - cArmorThResist))
         Call CalculateEffectiveHP()
     End Sub
     Private Sub CalculateEffectiveStructureHP()
-        cEffectiveStructureHP = cStructureCapacity * 100 / (100 - ((cStructureEMResist + cStructureExResist + cStructureKiResist + cStructureThResist) / 4))
+        cEffectiveStructureHP = cStructureCapacity * 100 / (cEM * (100 - cStructureEMResist) + cEx * (100 - cStructureExResist) + cKi * (100 - cStructureKiResist) + cTh * (100 - cStructureThResist))
         Call CalculateEffectiveHP()
     End Sub
     Private Sub CalculateEffectiveHP()

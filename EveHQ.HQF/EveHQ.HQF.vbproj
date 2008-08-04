@@ -60,11 +60,25 @@
   <ItemGroup>
     <Compile Include="Classes\Attributes.vb" />
     <Compile Include="Classes\Charges.vb" />
+    <Compile Include="Classes\DamageProfiles.vb" />
     <Compile Include="Classes\HQFEvents.vb" />
     <Compile Include="Classes\HQFPilot.vb" />
     <Compile Include="Classes\Market.vb" />
+    <Compile Include="Classes\NPCs.vb" />
     <Compile Include="Classes\Settings.vb" />
     <Compile Include="Classes\Fittings.vb" />
+    <Compile Include="Forms\frmAddDamageProfile.Designer.vb">
+      <DependentUpon>frmAddDamageProfile.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAddDamageProfile.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDamageProfiles.Designer.vb">
+      <DependentUpon>frmDamageProfiles.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDamageProfiles.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmModifyFittingName.Designer.vb">
       <DependentUpon>frmModifyFittingName.vb</DependentUpon>
     </Compile>
@@ -178,6 +192,14 @@
     <Compile Include="Classes\Skills.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\frmAddDamageProfile.resx">
+      <DependentUpon>frmAddDamageProfile.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDamageProfiles.resx">
+      <DependentUpon>frmDamageProfiles.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmModifyFittingName.resx">
       <DependentUpon>frmModifyFittingName.vb</DependentUpon>
       <SubType>Designer</SubType>

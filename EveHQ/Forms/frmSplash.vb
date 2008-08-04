@@ -175,6 +175,29 @@ Public Class frmSplash
             frmSettings.ShowDialog()
         Loop
 
+        ' If we get this far we have loaded a DB so check for SQL format and check the custom data
+        lblStatus.Text = "Checking database..."
+        Me.Refresh()
+        If EveHQ.Core.HQ.EveHQSettings.DBFormat = 1 Or EveHQ.Core.HQ.EveHQSettings.DBFormat = 2 Then
+            Dim strSQL As String = "SELECT attributeGroup FROM dgmAttributeTypes"
+            Dim testData As Data.DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If testData Is Nothing Then
+                ' We seem to be missing the data so lets add it in!
+                lblStatus.Text = "Customising MSSQL database..."
+                Me.Refresh()
+                Dim conn As New Data.SqlClient.SqlConnection
+                conn.ConnectionString = EveHQ.Core.HQ.dataConnectionString
+                conn.Open()
+                Call EveHQ.Core.DataFunctions.AddSQLRefiningData(conn)
+                Call EveHQ.Core.DataFunctions.AddSQLAttributeGroupColumn(conn)
+                Call EveHQ.Core.DataFunctions.CorrectSQLEveUnits(conn)
+                If conn.State = Data.ConnectionState.Open Then
+                    conn.Close()
+                End If
+            End If
+        End If
+
+
         ' Check for modules
         lblStatus.Text = "Loading modules..."
         Me.Refresh()

@@ -34,7 +34,7 @@ Public Class frmHQF
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.7.1.67"
+    Shared LastCacheRefresh As String = "1.7.1.70"
 
 #Region "Class Wide Variables"
 
@@ -146,6 +146,12 @@ Public Class frmHQF
                     SkillLists.SkillList = CType(f.Deserialize(s), SortedList)
                     s.Close()
                 End If
+                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\NPCs.txt") = True Then
+                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\NPCs.txt", FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    NPCs.NPCList = CType(f.Deserialize(s), SortedList)
+                    s.Close()
+                End If
                 Call Me.BuildAttributeQuickList()
                 Return True
             Else
@@ -162,8 +168,12 @@ Public Class frmHQF
                                                 If Me.LoadModuleAttributeData = True Then
                                                     If Me.LoadModuleMetaTypes = True Then
                                                         If Me.BuildModuleData = True Then
-                                                            Call Me.BuildAttributeQuickList()
-                                                            Return True
+                                                            If Me.LoadNPCData = True Then
+                                                                Call Me.BuildAttributeQuickList()
+                                                                Return True
+                                                            Else
+                                                                Return False
+                                                            End If
                                                         Else
                                                             Return False
                                                         End If
@@ -474,6 +484,10 @@ Public Class frmHQF
                                 newShip.Attributes.Add("10048", 0)
                                 newShip.Attributes.Add("10049", 0)
                                 newShip.Attributes.Add("10050", 0)
+                                newShip.Attributes.Add("10055", 0)
+                                newShip.Attributes.Add("10056", 0)
+                                newShip.Attributes.Add("10057", 0)
+                                newShip.Attributes.Add("10058", 0)
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -587,6 +601,10 @@ Public Class frmHQF
                     newShip.Attributes.Add("10048", 0)
                     newShip.Attributes.Add("10049", 0)
                     newShip.Attributes.Add("10050", 0)
+                    newShip.Attributes.Add("10055", 0)
+                    newShip.Attributes.Add("10056", 0)
+                    newShip.Attributes.Add("10057", 0)
+                    newShip.Attributes.Add("10058", 0)
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
                     ' Perform the last addition for the last ship type
@@ -620,7 +638,7 @@ Public Class frmHQF
             Dim strSQL As String = ""
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.marketGroupID, eveGraphics.icon"
             strSQL &= " FROM eveGraphics INNER JOIN (invCategories INNER JOIN (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) ON invCategories.categoryID = invGroups.categoryID) ON (eveGraphics.graphicID = invTypes.graphicID)"
-            strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20)) AND ((invTypes.published)=True))"
+            strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20)) AND ((invTypes.published)=1))"
             strSQL &= " ORDER BY invTypes.typeName;"
             moduleData = EveHQ.Core.DataFunctions.GetData(strSQL)
             If moduleData IsNot Nothing Then
@@ -668,7 +686,7 @@ Public Class frmHQF
             Dim strSQL As String = ""
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.marketGroupID, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, dgmAttributeTypes.attributeName, dgmAttributeTypes.displayName, dgmAttributeTypes.unitID, eveUnits.unitName, eveUnits.displayName"
             strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN (eveUnits INNER JOIN (dgmAttributeTypes INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID = dgmTypeAttributes.attributeID) ON eveUnits.unitID = dgmAttributeTypes.unitID) ON invTypes.typeID = dgmTypeAttributes.typeID) ON invCategories.categoryID = invGroups.categoryID"
-            strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20)) AND ((invTypes.published)=True))"
+            strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20)) AND ((invTypes.published)=1))"
             strSQL &= " ORDER BY invTypes.typeName, dgmTypeAttributes.attributeID;"
 
             moduleAttributeData = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -851,6 +869,10 @@ Public Class frmHQF
                         effMod.Attributes.Add("10018", 0)
                         effMod.Attributes.Add("10019", 0)
                         effMod.Attributes.Add("10030", 0)
+                        effMod.Attributes.Add("10051", 0)
+                        effMod.Attributes.Add("10052", 0)
+                        effMod.Attributes.Add("10053", 0)
+                        effMod.Attributes.Add("10054", 0)
                     End If
                 End If
                 Select Case CInt(effMod.MarketGroup)
@@ -1112,6 +1134,89 @@ Public Class frmHQF
         Return True
     End Function
 
+    ' NPC Loading Routines
+    Private Function LoadNPCData() As Boolean
+        Try
+            Dim strSQL As String = ""
+            strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
+            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeAttributes ON invTypes.typeID=dgmTypeAttributes.typeID"
+            strSQL &= " WHERE (invCategories.categoryID=11) ORDER BY typeName, attributeID;"
+            Dim NPCData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If NPCData IsNot Nothing Then
+                If NPCData.Tables(0).Rows.Count <> 0 Then
+                    Dim lastNPC As String = ""
+                    Dim newNPC As New EveHQ.HQF.NPC
+
+                    Dim attValue As Double = 0
+                    For Each NPCRow As DataRow In NPCData.Tables(0).Rows
+                        ' If the shipName has changed, we need to start a new ship type
+                        If lastNPC <> NPCRow.Item("typeName").ToString Then
+                            ' Add the current ship to the list then reset the ship data
+                            If lastNPC <> "" Then
+                                NPCs.NPCList.Add(newNPC.Name, newNPC)
+                                newNPC = New EveHQ.HQF.NPC
+                            End If
+                            ' Create new ship type & non "attribute" data
+                            newNPC.Name = NPCRow.Item("typeName").ToString
+                        End If
+
+                        ' Now get, modify (if applicable) and add the "attribute"
+                        If IsDBNull(NPCRow.Item("valueInt")) = True Then
+                            attValue = CDbl(NPCRow.Item("valueFloat"))
+                        Else
+                            attValue = CDbl(NPCRow.Item("valueInt"))
+                        End If
+
+                        ' Map only the skill attributes
+                        Select Case CInt(NPCRow.Item("attributeID"))
+                            Case 51
+                                newNPC.ROF = attValue / 1000
+                            Case 64
+                                newNPC.DamageMod = attValue
+                            Case 114
+                                newNPC.EM = attValue * newNPC.DamageMod
+                            Case 116
+                                newNPC.Explosive = attValue * newNPC.DamageMod
+                            Case 117
+                                newNPC.Kinetic = attValue * newNPC.DamageMod
+                            Case 118
+                                newNPC.Thermal = attValue * newNPC.DamageMod
+                                newNPC.DPS = (newNPC.EM + newNPC.Explosive + newNPC.Kinetic + newNPC.Thermal) / newNPC.ROF
+                            Case 506
+                                newNPC.MissileROF = attValue / 1000
+                            Case 507
+                                newNPC.MissileType = attValue.ToString
+                                ' Get the details of the missile from the modules
+                                Dim missile As ShipModule = CType(ModuleLists.moduleList(newNPC.MissileType), ShipModule)
+                                If missile IsNot Nothing Then
+                                    newNPC.EM = newNPC.EM + CDbl(missile.Attributes("114"))
+                                    newNPC.Explosive = newNPC.Explosive + CDbl(missile.Attributes("116"))
+                                    newNPC.Kinetic = newNPC.Kinetic + CDbl(missile.Attributes("117"))
+                                    newNPC.Thermal = newNPC.Thermal + CDbl(missile.Attributes("118"))
+                                    newNPC.DPS += (CDbl(missile.Attributes("114")) + CDbl(missile.Attributes("116")) + CDbl(missile.Attributes("117")) + CDbl(missile.Attributes("118"))) / newNPC.MissileROF
+
+                                End If
+                        End Select
+                        lastNPC = NPCRow.Item("typeName").ToString
+                    Next
+
+                    ' Perform the last addition for the last ship type
+                    NPCs.NPCList.Add(newNPC.Name, newNPC)
+                    Return True
+                Else
+                    MessageBox.Show("NPC Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Return False
+                End If
+            Else
+                MessageBox.Show("NPC Data returned a null dataset", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return False
+            End If
+        Catch e As Exception
+            MessageBox.Show("Error loading NPC Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End Try
+    End Function
+
 #End Region
 
 #Region "Form Initialisation & Closing Routines"
@@ -1141,6 +1246,9 @@ Public Class frmHQF
 
         ' Load the settings!
         Call Settings.HQFSettings.LoadHQFSettings()
+
+        ' Load the Profiles - stored separately from settings for distibution!
+        Call Settings.HQFSettings.LoadProfiles()
 
         ' Close the EveHQ InfoPanel if opted to
         If Settings.HQFSettings.CloseInfoPanel = True Then
@@ -1403,6 +1511,7 @@ Public Class frmHQF
         tvwItems.SelectedNode = cNode
         tvwItems.Select()
     End Sub
+   
     Private Sub LoadPilots()
         ' Loads the skills for the selected pilots
         ' Check for a valid HQFPilotSettings.xml file
@@ -2279,6 +2388,7 @@ Public Class frmHQF
         Dim shipName As String = shipFit.Substring(0, fittingSep)
         Dim fittingName As String = shipFit.Substring(fittingSep + 2)
         Dim curShip As Ship = CType(CType(ShipLists.shipList(shipName), Ship).Clone, Ship)
+        curShip.DamageProfile = CType(DamageProfiles.ProfileList.Item("<Omni-Damage>"), DamageProfile)
         ShipLists.fittedShipList.Add(shipFit, curShip)
 
         Dim tp As New TabPage(shipFit)
@@ -2565,6 +2675,11 @@ Public Class frmHQF
         s = New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.txt", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, Attributes.AttributeList)
+        s.Close()
+        ' Save NPCs
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\NPCs.txt", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, NPCs.NPCList)
         s.Close()
         ' Write Ship Tree 
         Call Me.WriteShipGroups()

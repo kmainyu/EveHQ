@@ -473,57 +473,63 @@ Public Class Engine
 
     Public Shared Function ApplyFitting(ByVal baseShip As Ship, ByVal shipPilot As HQFPilot) As Ship
         ' Setup performance info - just in case!
-        Dim pStages(12) As String
-        Dim pStageTime(12) As DateTime
+        Dim pStages(14) As String
+        Dim pStageTime(14) As DateTime
         pStages(0) = "Start Timing: "
-        pStages(1) = "Building Ship Effects: "
-        pStages(2) = "Applying Skill Effects to Ship: "
-        pStages(3) = "Aplpying Skill Effects to Modules: "
-        pStages(4) = "Applying Skill Effects to Drones: "
-        pStages(5) = "Building Module Effects: "
-        pStages(6) = "Applying Stacking Penalties: "
-        pStages(7) = "Applying Module Effects to Modules: "
-        pStages(8) = "Rebuilding Module Effects: "
-        pStages(9) = "Recalculating Stacking Penalties: "
-        pStages(10) = "Applying Module Effects to Drones: "
-        pStages(11) = "Aplpying Module Effects to Ship: "
-        pStages(12) = "Calculating Damage Statistics: "
+        pStages(1) = "Building Skill Effects: "
+        pStages(2) = "Building Implant Effects: "
+        pStages(3) = "Building Ship Effects: "
+        pStages(4) = "Applying Skill Effects to Ship: "
+        pStages(5) = "Aplpying Skill Effects to Modules: "
+        pStages(6) = "Applying Skill Effects to Drones: "
+        pStages(7) = "Building Module Effects: "
+        pStages(8) = "Applying Stacking Penalties: "
+        pStages(9) = "Applying Module Effects to Modules: "
+        pStages(10) = "Rebuilding Module Effects: "
+        pStages(11) = "Recalculating Stacking Penalties: "
+        pStages(12) = "Applying Module Effects to Drones: "
+        pStages(13) = "Aplpying Module Effects to Ship: "
+        pStages(14) = "Calculating Damage Statistics: "
         ' Apply the pilot skills to the ship
         pStageTime(0) = Now
         Dim newShip As Ship
-        Engine.BuildShipEffects(shipPilot, baseShip)
+        Engine.BuildSkillEffects(shipPilot)
         pStageTime(1) = Now
-        newShip = Engine.ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
+        Engine.BuildImplantEffects(shipPilot)
         pStageTime(2) = Now
-        newShip = Engine.ApplySkillEffectsToModules(newShip)
+        Engine.BuildShipEffects(shipPilot, baseShip)
         pStageTime(3) = Now
-        newShip = Engine.ApplySkillEffectsToDrones(newShip)
+        newShip = Engine.ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
         pStageTime(4) = Now
-        newShip = Engine.BuildModuleEffects(newShip)
+        newShip = Engine.ApplySkillEffectsToModules(newShip)
         pStageTime(5) = Now
-        Call Engine.ApplyStackingPenalties()
+        newShip = Engine.ApplySkillEffectsToDrones(newShip)
         pStageTime(6) = Now
-        newShip = Engine.ApplyModuleEffectsToModules(newShip)
-        pStageTime(7) = Now
         newShip = Engine.BuildModuleEffects(newShip)
-        pStageTime(8) = Now
+        pStageTime(7) = Now
         Call Engine.ApplyStackingPenalties()
+        pStageTime(8) = Now
+        newShip = Engine.ApplyModuleEffectsToModules(newShip)
         pStageTime(9) = Now
-        newShip = Engine.ApplyModuleEffectsToDrones(newShip)
+        newShip = Engine.BuildModuleEffects(newShip)
         pStageTime(10) = Now
-        newShip = Engine.ApplyModuleEffectsToShip(newShip)
+        Call Engine.ApplyStackingPenalties()
         pStageTime(11) = Now
-        newShip = Engine.CalculateDamageStatistics(newShip)
+        newShip = Engine.ApplyModuleEffectsToDrones(newShip)
         pStageTime(12) = Now
+        newShip = Engine.ApplyModuleEffectsToShip(newShip)
+        pStageTime(13) = Now
+        newShip = Engine.CalculateDamageStatistics(newShip)
+        pStageTime(14) = Now
         If Settings.HQFSettings.ShowPerformanceData = True Then
             Dim dTime As TimeSpan
             Dim perfMsg As String = ""
-            For stage As Integer = 1 To 12
+            For stage As Integer = 1 To 14
                 perfMsg &= pStages(stage)
                 dTime = pStageTime(stage) - pStageTime(stage - 1)
                 perfMsg &= FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms" & ControlChars.CrLf
             Next
-            dTime = pStageTime(12) - pStageTime(0)
+            dTime = pStageTime(14) - pStageTime(0)
             perfMsg &= "Total Time: " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms" & ControlChars.CrLf
             MessageBox.Show(perfMsg, "Performance Data Results", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -1356,6 +1362,10 @@ Public Class Engine
                         dgmMod = 0
                         ROF = 1
                     End If
+                    cModule.Attributes("10051") = CDbl(cModule.Attributes("114")) * dgmMod
+                    cModule.Attributes("10052") = CDbl(cModule.Attributes("116")) * dgmMod
+                    cModule.Attributes("10053") = CDbl(cModule.Attributes("117")) * dgmMod
+                    cModule.Attributes("10054") = CDbl(cModule.Attributes("118")) * dgmMod
                     newShip.Attributes("10006") = CInt(newShip.Attributes("10006")) + DBI.Quantity
                     cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
                     cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
@@ -1363,6 +1373,10 @@ Public Class Engine
                     newShip.Attributes("10027") = CDbl(newShip.Attributes("10027")) + CDbl(cModule.Attributes("10019")) * DBI.Quantity
                     newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018")) * DBI.Quantity
                     newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019")) * DBI.Quantity
+                    newShip.Attributes("10055") = CDbl(newShip.Attributes("10055")) + CDbl(cModule.Attributes("10051")) * DBI.Quantity
+                    newShip.Attributes("10056") = CDbl(newShip.Attributes("10056")) + CDbl(cModule.Attributes("10052")) * DBI.Quantity
+                    newShip.Attributes("10057") = CDbl(newShip.Attributes("10057")) + CDbl(cModule.Attributes("10053")) * DBI.Quantity
+                    newShip.Attributes("10058") = CDbl(newShip.Attributes("10058")) + CDbl(cModule.Attributes("10054")) * DBI.Quantity
                 Else
                     ' Mining drone
                     newShip.Attributes("10006") = CInt(newShip.Attributes("10006")) + DBI.Quantity
@@ -1414,6 +1428,14 @@ Public Class Engine
                                     newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
                                     newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
                                 End If
+                                cModule.Attributes("10051") = CDbl(cModule.LoadedCharge.Attributes("114")) * dgmMod
+                                cModule.Attributes("10052") = CDbl(cModule.LoadedCharge.Attributes("116")) * dgmMod
+                                cModule.Attributes("10053") = CDbl(cModule.LoadedCharge.Attributes("117")) * dgmMod
+                                cModule.Attributes("10054") = CDbl(cModule.LoadedCharge.Attributes("118")) * dgmMod
+                                newShip.Attributes("10055") = CDbl(newShip.Attributes("10055")) + CDbl(cModule.Attributes("10051"))
+                                newShip.Attributes("10056") = CDbl(newShip.Attributes("10056")) + CDbl(cModule.Attributes("10052"))
+                                newShip.Attributes("10057") = CDbl(newShip.Attributes("10057")) + CDbl(cModule.Attributes("10053"))
+                                newShip.Attributes("10058") = CDbl(newShip.Attributes("10058")) + CDbl(cModule.Attributes("10054"))
                             End If
                         Else
                             If cModule.DatabaseGroup = "72" Then
@@ -1425,6 +1447,14 @@ Public Class Engine
                                 newShip.Attributes("10026") = CDbl(newShip.Attributes("10026")) + CDbl(cModule.Attributes("10019"))
                                 newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
                                 newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
+                                cModule.Attributes("10051") = CDbl(cModule.Attributes("114"))
+                                cModule.Attributes("10052") = CDbl(cModule.Attributes("116"))
+                                cModule.Attributes("10053") = CDbl(cModule.Attributes("117"))
+                                cModule.Attributes("10054") = CDbl(cModule.Attributes("118"))
+                                newShip.Attributes("10055") = CDbl(newShip.Attributes("10055")) + CDbl(cModule.Attributes("10051"))
+                                newShip.Attributes("10056") = CDbl(newShip.Attributes("10056")) + CDbl(cModule.Attributes("10052"))
+                                newShip.Attributes("10057") = CDbl(newShip.Attributes("10057")) + CDbl(cModule.Attributes("10053"))
+                                newShip.Attributes("10058") = CDbl(newShip.Attributes("10058")) + CDbl(cModule.Attributes("10054"))
                             End If
                         End If
                 End Select
@@ -1542,6 +1572,201 @@ Public Class Engine
             End If
         Next
         Return usable
+    End Function
+#End Region
+
+#Region "Fitting Routines"
+    Public Shared Function UpdateShipDataFromFittingList(ByVal currentship As Ship, ByVal currentFit As ArrayList) As Ship
+        Dim currentFitList As ArrayList = CType(currentFit.Clone, ArrayList)
+        For Each shipMod As String In currentFitList
+            If shipMod IsNot Nothing Then
+                ' Check for installed charges
+                Dim modData() As String = shipMod.Split(",".ToCharArray)
+                If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
+                    Dim modID As String = ModuleLists.moduleListName(modData(0).Trim).ToString
+                    Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                    If modData.GetUpperBound(0) > 0 Then
+                        ' Check if a charge (will be a valid item)
+                        If ModuleLists.moduleListName.Contains(modData(1).Trim) = True Then
+                            Dim chgID As String = ModuleLists.moduleListName(modData(1).Trim).ToString
+                            sMod.LoadedCharge = CType(ModuleLists.moduleList(chgID), ShipModule).Clone
+                        End If
+                    End If
+                    ' Check if module is nothing
+                    If sMod IsNot Nothing Then
+                        ' Check if module is a drone
+                        If sMod.IsDrone = True Then
+                            Dim active As Boolean = False
+                            If modData(1).EndsWith("a") = True Then
+                                active = True
+                            End If
+                            Call Engine.AddDrone(currentship, sMod, CInt(modData(1).Substring(0, Len(modData(1)) - 1)), active)
+                        Else
+                            ' Check if module is a charge
+                            If sMod.IsCharge = True Then
+                                Call Engine.AddItem(currentship, sMod, CInt(modData(1)))
+                            Else
+                                ' Must be a proper module then!
+                                Call Engine.AddModule(currentship, sMod)
+                            End If
+                        End If
+                    Else
+                        ' Unrecognised module
+                        MessageBox.Show("Ship Module is unrecognised.", "Add Ship Module Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End If
+                Else
+                    currentFit.Remove(modData(0))
+                End If
+            End If
+        Next
+        Return currentship
+    End Function
+    Public Shared Sub AddModule(ByVal currentship As Ship, ByVal shipMod As ShipModule)
+        ' Check slot availability
+        If IsSlotAvailable(currentship, shipMod) = True Then
+            ' Add Module to the next slot
+            Dim slotNo As Integer = AddModuleInNextSlot(currentship, CType(shipMod.Clone, ShipModule))
+        End If
+    End Sub
+    Public Shared Sub AddDrone(ByVal currentShip As Ship, ByVal Drone As ShipModule, ByVal Qty As Integer, ByVal Active As Boolean)
+        ' Set grouping flag
+        Dim grouped As Boolean = False
+        ' See if there is sufficient space
+        Dim vol As Double = Drone.Volume
+        If currentShip.DroneBay - currentShip.DroneBay_Used >= vol Then
+            ' Scan through existing items and see if we can group this new one
+            For Each droneGroup As DroneBayItem In currentShip.DroneBayItems.Values
+                If Drone.Name = droneGroup.DroneType.Name And Active = droneGroup.IsActive Then
+                    ' Add to existing drone group
+                    droneGroup.Quantity += Qty
+                    grouped = True
+                    Exit For
+                End If
+            Next
+            ' Put the drone into the drone bay if not grouped
+            If grouped = False Then
+                Dim DBI As New DroneBayItem
+                DBI.DroneType = Drone
+                DBI.Quantity = Qty
+                DBI.IsActive = Active
+                currentShip.DroneBayItems.Add(currentShip.DroneBayItems.Count, DBI)
+            End If
+        Else
+            MessageBox.Show("There is not enough space in the Drone Bay to hold 1 unit of " & Drone.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+    Public Shared Sub AddItem(ByVal currentShip As Ship, ByVal Item As ShipModule, ByVal Qty As Integer)
+        If currentShip IsNot Nothing Then
+            ' Set grouping flag
+            Dim grouped As Boolean = False
+            ' See if there is sufficient space
+            Dim vol As Double = Item.Volume
+            If currentShip.CargoBay - currentShip.CargoBay_Used >= vol Then
+                ' Scan through existing items and see if we can group this new one
+                For Each itemGroup As CargoBayItem In currentShip.CargoBayItems.Values
+                    If Item.Name = itemGroup.ItemType.Name Then
+                        ' Add to existing drone group
+                        itemGroup.Quantity += Qty
+                        grouped = True
+                        Exit For
+                    End If
+                Next
+                ' Put the item into the cargo bay if not grouped
+                If grouped = False Then
+                    Dim CBI As New CargoBayItem
+                    CBI.ItemType = Item
+                    CBI.Quantity = Qty
+                    currentShip.CargoBayItems.Add(currentShip.CargoBayItems.Count, CBI)
+                End If
+            Else
+                MessageBox.Show("There is not enough space in the Cargo Bay to hold 1 unit of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End If
+    End Sub
+    Private Shared Function IsSlotAvailable(ByVal currentship As Ship, ByVal shipMod As ShipModule) As Boolean
+
+        ' First, check slot layout
+        Select Case shipMod.SlotType
+            Case 1 ' Rig
+                If currentship.RigSlots_Used = currentship.RigSlots Then
+                    MessageBox.Show("There are no available rig slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Return False
+                End If
+            Case 2 ' Low
+                If currentship.LowSlots_Used = currentship.LowSlots Then
+                    MessageBox.Show("There are no available low slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Return False
+                End If
+            Case 4 ' Mid
+                If currentship.MidSlots_Used = currentship.MidSlots Then
+                    MessageBox.Show("There are no available mid slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Return False
+                End If
+            Case 8 ' High
+                If currentship.HiSlots_Used = currentship.HiSlots Then
+                    MessageBox.Show("There are no available high slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Return False
+                End If
+        End Select
+
+        ' Now check launcher slots
+        If shipMod.IsLauncher Then
+            If currentship.LauncherSlots_Used = currentship.LauncherSlots Then
+                MessageBox.Show("There are no available launcher slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return False
+            End If
+        End If
+
+        ' Now check turret slots
+        If shipMod.IsTurret Then
+            If currentship.TurretSlots_Used = currentship.TurretSlots Then
+                MessageBox.Show("There are no available turret slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return False
+            End If
+        End If
+
+        Return True
+    End Function
+    Private Shared Function AddModuleInNextSlot(ByVal currentShip As Ship, ByVal shipMod As ShipModule) As Integer
+        Select Case shipMod.SlotType
+            Case 1 ' Rig
+                For slotNo As Integer = 1 To 8
+                    If currentShip.RigSlot(slotNo) Is Nothing Then
+                        currentShip.RigSlot(slotNo) = shipMod
+                        shipMod.SlotNo = slotNo
+                        Return slotNo
+                    End If
+                Next
+                MessageBox.Show("There was an error finding the next available rig slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Case 2 ' Low
+                For slotNo As Integer = 1 To 8
+                    If currentShip.LowSlot(slotNo) Is Nothing Then
+                        currentShip.LowSlot(slotNo) = shipMod
+                        shipMod.SlotNo = slotNo
+                        Return slotNo
+                    End If
+                Next
+                MessageBox.Show("There was an error finding the next available low slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Case 4 ' Mid
+                For slotNo As Integer = 1 To 8
+                    If currentShip.MidSlot(slotNo) Is Nothing Then
+                        currentShip.MidSlot(slotNo) = shipMod
+                        shipMod.SlotNo = slotNo
+                        Return slotNo
+                    End If
+                Next
+                MessageBox.Show("There was an error finding the next available mid slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Case 8 ' High
+                For slotNo As Integer = 1 To 8
+                    If currentShip.HiSlot(slotNo) Is Nothing Then
+                        currentShip.HiSlot(slotNo) = shipMod
+                        shipMod.SlotNo = slotNo
+                        Return slotNo
+                    End If
+                Next
+                MessageBox.Show("There was an error finding the next available high slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Select
+        Return 0
     End Function
 #End Region
 

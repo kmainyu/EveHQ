@@ -801,6 +801,7 @@ Public Class frmTraining
         ' Cancel the menu opening if there are no skills selected
         If activeLVW.SelectedItems.Count = 0 Then
             e.Cancel = True
+            Exit Sub
         End If
         ' Determine enabled menu items of adding to queue
         Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text

@@ -60,6 +60,85 @@ Namespace My.Resources
             End Set
         End Property
         
+        '''<summary>
+        '''  Looks up a localized string similar to attributeID,attributeGroup
+        '''9,1
+        '''70,1
+        '''283,1
+        '''265,2
+        '''267,2
+        '''268,2
+        '''269,2
+        '''270,2
+        '''263,3
+        '''479,3
+        '''271,3
+        '''272,3
+        '''273,3
+        '''274,3
+        '''482,4
+        '''55,4
+        '''76,5
+        '''79,5
+        '''192,5
+        '''208,5
+        '''209,5
+        '''210,5
+        '''211,5
+        '''552,5
+        '''564,5
+        '''37,6
+        '''819,6
+        '''820,6
+        '''821,6
+        '''822,6
+        '''182,7
+        '''183,7
+        '''184,7
+        '''277,7
+        '''278,7
+        '''279,7
+        '''11,8
+        '''12,8
+        '''13,8
+        '''14,8
+        '''48,8
+        '''101,8
+        '''102,8
+        '''114,9
+        '''116,9
+        '''117,9
+        '''118,9
+        '''51,9
+        '''64,9
+        '''506,9
+        '''507,9
+        '''54,10
+        '''158,10
+        '''193,10
+        '''247,10
+        '''481,11
+        '''252,11
+        '''562,11
+        '''504,12
+        '''103,12
+        '''105,12
+        '''20,12
+        '''6,13
+        '''30,13
+        '''50,13
+        '''73,13
+        '''180,14
+        '''181,14
+        '''275,14
+        '''.
+        '''</summary>
+        Friend ReadOnly Property attributeGroups() As String
+            Get
+                Return ResourceManager.GetString("attributeGroups", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property EveHQ_IGBLogo() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("EveHQ_IGBLogo", resourceCulture)
@@ -71,6 +150,42 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("EveHQ_LCDLogo", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to typeID,activity,requiredTypeID,quantity,damagePerJob
+        '''22,9,34,300,1
+        '''22,9,39,166,1
+        '''22,9,40,333,1
+        '''17455,9,34,269,1
+        '''17455,9,35,538,1
+        '''17455,9,36,269,1
+        '''1223,9,35,170,1
+        '''1223,9,39,341,1
+        '''1223,9,40,170,1
+        '''17466,9,34,735,1
+        '''17466,9,35,147,1
+        '''17466,9,40,147,1
+        '''17470,9,34,1050,1
+        '''17463,9,34,875,1
+        '''17463,9,35,437,1
+        '''17425,9,34,315,1
+        '''17425,9,39,174,1
+        '''17425,9,40,350,1
+        '''1225,9,34,331,1
+        '''1225,9,38,331,1
+        '''1225,9,39,663,1
+        '''17433,9,34,364,1
+        '''17433,9,38,364,1
+        '''17433,9,39,729,1
+        '''1232,9,34,250,1
+        '''1232,9,38,500,1
+        '''1232,9 [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property materialsForRefining() As String
+            Get
+                Return ResourceManager.GetString("materialsForRefining", resourceCulture)
             End Get
         End Property
         

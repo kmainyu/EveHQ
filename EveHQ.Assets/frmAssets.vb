@@ -2880,9 +2880,9 @@ Public Class frmAssets
         End If
 
         ' Get the BP Details and build requirements
-        Dim strSQL As String = "SELECT TL2MaterialsForTypeWithActivity.typeID AS TL2MaterialsForTypeWithActivity_typeID, TL2MaterialsForTypeWithActivity.activity, TL2MaterialsForTypeWithActivity.requiredTypeID, TL2MaterialsForTypeWithActivity.quantity, TL2MaterialsForTypeWithActivity.damagePerJob, invTypes.typeID AS invTypes_typeID, invTypes.groupID, invTypes.published"
-        strSQL &= " FROM invTypes INNER JOIN TL2MaterialsForTypeWithActivity ON invTypes.typeID = TL2MaterialsForTypeWithActivity.typeID"
-        strSQL &= " WHERE (((TL2MaterialsForTypeWithActivity.activity)=1) AND ((invTypes.groupID)=787) AND ((invTypes.published)=True));"
+        Dim strSQL As String = "SELECT typeActivityMaterials.typeID AS typeActivityMaterials_typeID, typeActivityMaterials.activityID, typeActivityMaterials.requiredTypeID, typeActivityMaterials.quantity, typeActivityMaterials.damagePerJob, invTypes.typeID AS invTypes_typeID, invTypes.groupID, invTypes.published"
+        strSQL &= " FROM invTypes INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.typeID"
+        strSQL &= " WHERE (((typeActivityMaterials.activityID)=1) AND ((invTypes.groupID)=787) AND ((invTypes.published)=True));"
         Dim rigData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Dim BPData As New SortedList
         Dim BuildData As New SortedList

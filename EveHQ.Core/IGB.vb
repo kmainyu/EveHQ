@@ -82,7 +82,7 @@ Public Class IGB
             listener.Start()
 
             ' Set the number of requests this application will handle.
-            Dim numRequestsToBeHandled As Integer = 10
+            'Dim numRequestsToBeHandled As Integer = 10
 
             Do
                 response = Nothing
@@ -537,7 +537,7 @@ Public Class IGB
                     strHTML &= "<p><a href=/itemDB/?view=t&id=" & typeID & "&s=a>ATTRIBUTES</a>"
                     strHTML &= "  |  "
                     Dim bpTypeID As String = EveHQ.Core.DataFunctions.GetBPTypeID(typeID)
-                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * from TL2MaterialsForTypeWithActivity WHERE (typeID=" & bpTypeID & " OR typeID=" & typeID & ")")
+                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * from typeActivityMaterials WHERE (typeID=" & bpTypeID & " OR typeID=" & typeID & ")")
                     If eveData.Tables(0).Rows.Count > 0 Then
                         strHTML &= "<a href=/itemDB/?view=t&id=" & typeID & "&s=m>MATERIALS</a>"
                         strHTML &= "  |  "
@@ -786,16 +786,16 @@ Public Class IGB
                         Case "m"
                             bpTypeID = EveHQ.Core.DataFunctions.GetBPTypeID(typeID)
                             ' Select only the building activity (at the minute!)
-                            strSQL = "SELECT TL2MaterialsForTypeWithActivity.requiredTypeID, invTypes.typeName, TL2MaterialsForTypeWithActivity.quantity, TL2MaterialsForTypeWithActivity.damagePerJob, invCategories.categoryID as categoryTypeID, invCategories.categoryName, invGroups.groupID as groupTypeID, invGroups.groupName, TL2MaterialsForTypeWithActivity.activity"
-                            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN TL2MaterialsForTypeWithActivity ON invTypes.typeID = TL2MaterialsForTypeWithActivity.requiredTypeID"
-                            strSQL &= " WHERE (TL2MaterialsForTypeWithActivity.typeID=" & bpTypeID & " OR TL2MaterialsForTypeWithActivity.typeID=" & typeID & ")"
+                            strSQL = "SELECT typeActivityMaterials.requiredTypeID, invTypes.typeName, typeActivityMaterials.quantity, typeActivityMaterials.damagePerJob, invCategories.categoryID as categoryTypeID, invCategories.categoryName, invGroups.groupID as groupTypeID, invGroups.groupName, typeActivityMaterials.activityID"
+                            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.requiredTypeID"
+                            strSQL &= " WHERE (typeActivityMaterials.typeID=" & bpTypeID & " OR typeActivityMaterials.typeID=" & typeID & ")"
                             eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
 
                             ' Work out what activities we have in the list
                             Dim activities(maxActivities) As Boolean
                             Dim strActivity As String = ""
                             For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                                activities(CInt(Val(eveData.Tables(0).Rows(row).Item("activity")))) = True
+                                activities(CInt(Val(eveData.Tables(0).Rows(row).Item("activityID")))) = True
                             Next
                             ' Then create sub-headings :)
                             strHTML &= "|"
@@ -840,7 +840,7 @@ Public Class IGB
                                         materials(row, 6) = .Rows(row).Item("categoryName").ToString.Trim
                                         materials(row, 7) = .Rows(row).Item("groupTypeID").ToString.Trim
                                         materials(row, 8) = .Rows(row).Item("groupName").ToString.Trim
-                                        materials(row, 9) = .Rows(row).Item("activity").ToString.Trim
+                                        materials(row, 9) = .Rows(row).Item("activityID").ToString.Trim
                                     End If
                                 Next
                             End With

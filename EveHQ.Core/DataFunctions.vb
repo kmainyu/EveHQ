@@ -345,4 +345,44 @@ Public Class DataFunctions
         End If
     End Function
 
+#Region "MSSQL Data Conversion Routines"
+    Public Shared Sub AddSQLRefiningData(ByVal connection As SqlConnection)
+        Dim line As String = My.Resources.materialsForRefining.Replace(ControlChars.CrLf, Chr(13))
+        Dim lines() As String = line.Split(Chr(13))
+        ' Read the first line which is a header line
+        For Each line In lines
+            If line.StartsWith("typeID") = False And line <> "" Then
+                Dim strSQL As String = "INSERT INTO typeActivityMaterials (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
+                Dim keyCommand As New SqlCommand(strSQL, connection)
+                keyCommand.ExecuteNonQuery()
+            End If
+        Next
+    End Sub
+    Public Shared Sub AddSQLAttributeGroupColumn(ByVal connection As SqlConnection)
+        Dim strSQL As String = "ALTER TABLE dgmAttributeTypes ADD attributeGroup INTEGER DEFAULT 0;"
+        Dim keyCommand As New SqlCommand(strSQL, connection)
+        keyCommand.ExecuteNonQuery()
+        strSQL = "UPDATE dgmAttributeTypes SET attributeGroup=0;"
+        keyCommand = New SqlCommand(strSQL, connection)
+        keyCommand.ExecuteNonQuery()
+        Dim line As String = My.Resources.attributeGroups.Replace(ControlChars.CrLf, Chr(13))
+        Dim lines() As String = line.Split(Chr(13))
+        ' Read the first line which is a header line
+        For Each line In lines
+            If line.StartsWith("attributeID") = False And line <> "" Then
+                Dim fields() As String = line.Split(",".ToCharArray)
+                Dim strSQL2 As String = "UPDATE dgmAttributeTypes SET attributeGroup=" & fields(1) & " WHERE attributeID=" & fields(0) & ";"
+                Dim keyCommand2 As New SqlCommand(strSQL2, connection)
+                keyCommand2.ExecuteNonQuery()
+            End If
+        Next
+    End Sub
+    Public Shared Sub CorrectSQLEveUnits(ByVal connection As SqlConnection)
+        Dim strSQL As String = "UPDATE dgmAttributeTypes SET unitID=122 WHERE unitID IS NULL;"
+        Dim keyCommand As New SqlCommand(strSQL, connection)
+        keyCommand.ExecuteNonQuery()
+    End Sub
+#End Region ' Converts the Base CCP Data Export into something EveHQ can use
+
+
 End Class
