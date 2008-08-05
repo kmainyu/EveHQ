@@ -66,6 +66,11 @@ Partial Class frmHQF
         Me.lblModuleDisplayType = New System.Windows.Forms.Label
         Me.txtSearchModules = New System.Windows.Forms.TextBox
         Me.lblSearchModules = New System.Windows.Forms.Label
+        Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
+        Me.colModuleName = New System.Windows.Forms.ColumnHeader
+        Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
+        Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
+        Me.colModulePG = New System.Windows.Forms.ColumnHeader
         Me.ctxModuleList = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuShowModuleInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuSep1 = New System.Windows.Forms.ToolStripSeparator
@@ -78,7 +83,6 @@ Partial Class frmHQF
         Me.tabHQF = New System.Windows.Forms.TabControl
         Me.ctxTabHQF = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuCloseHQFTab = New System.Windows.Forms.ToolStripMenuItem
-        Me.tabDockingStation = New System.Windows.Forms.TabPage
         Me.tabShipPreview = New System.Windows.Forms.TabPage
         Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
@@ -162,11 +166,6 @@ Partial Class frmHQF
         Me.ImplantManagerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripSeparator
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
-        Me.colModuleName = New System.Windows.Forms.ColumnHeader
-        Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
-        Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
-        Me.colModulePG = New System.Windows.Forms.ColumnHeader
         Me.ToolStrip1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -627,6 +626,44 @@ Partial Class frmHQF
         Me.lblSearchModules.TabIndex = 18
         Me.lblSearchModules.Text = "Search:"
         '
+        'lvwItems
+        '
+        Me.lvwItems.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG})
+        Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
+        Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwItems.FullRowSelect = True
+        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
+        Me.lvwItems.Name = "lvwItems"
+        Me.lvwItems.ShowItemToolTips = True
+        Me.lvwItems.Size = New System.Drawing.Size(287, 324)
+        Me.lvwItems.SmallImageList = Me.imgAttributes
+        Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwItems.TabIndex = 0
+        Me.lvwItems.UseCompatibleStateImageBehavior = False
+        Me.lvwItems.View = System.Windows.Forms.View.Details
+        '
+        'colModuleName
+        '
+        Me.colModuleName.Text = "Module"
+        Me.colModuleName.Width = 150
+        '
+        'colModuleMetaType
+        '
+        Me.colModuleMetaType.Text = "Meta"
+        Me.colModuleMetaType.Width = 40
+        '
+        'colModuleCPU
+        '
+        Me.colModuleCPU.Text = "CPU"
+        Me.colModuleCPU.Width = 40
+        '
+        'colModulePG
+        '
+        Me.colModulePG.Text = "PG"
+        Me.colModulePG.Width = 40
+        '
         'ctxModuleList
         '
         Me.ctxModuleList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowModuleInfo, Me.mnuSep1, Me.mnuAddToFavourites_List, Me.mnuRemoveFromFavourites, Me.mnuSep2, Me.mnuShowModuleMarketGroup})
@@ -689,7 +726,6 @@ Partial Class frmHQF
         'tabHQF
         '
         Me.tabHQF.ContextMenuStrip = Me.ctxTabHQF
-        Me.tabHQF.Controls.Add(Me.tabDockingStation)
         Me.tabHQF.Controls.Add(Me.tabShipPreview)
         Me.tabHQF.Controls.Add(Me.tabFit)
         Me.tabHQF.Dock = System.Windows.Forms.DockStyle.Fill
@@ -710,15 +746,6 @@ Partial Class frmHQF
         Me.mnuCloseHQFTab.Name = "mnuCloseHQFTab"
         Me.mnuCloseHQFTab.Size = New System.Drawing.Size(123, 22)
         Me.mnuCloseHQFTab.Text = "Not Valid"
-        '
-        'tabDockingStation
-        '
-        Me.tabDockingStation.Location = New System.Drawing.Point(4, 22)
-        Me.tabDockingStation.Name = "tabDockingStation"
-        Me.tabDockingStation.Size = New System.Drawing.Size(464, 666)
-        Me.tabDockingStation.TabIndex = 1
-        Me.tabDockingStation.Text = "Docking Station"
-        Me.tabDockingStation.UseVisualStyleBackColor = True
         '
         'tabShipPreview
         '
@@ -1583,44 +1610,6 @@ Partial Class frmHQF
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
-        'lvwItems
-        '
-        Me.lvwItems.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG})
-        Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
-        Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwItems.FullRowSelect = True
-        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
-        Me.lvwItems.Name = "lvwItems"
-        Me.lvwItems.ShowItemToolTips = True
-        Me.lvwItems.Size = New System.Drawing.Size(287, 324)
-        Me.lvwItems.SmallImageList = Me.imgAttributes
-        Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvwItems.TabIndex = 0
-        Me.lvwItems.UseCompatibleStateImageBehavior = False
-        Me.lvwItems.View = System.Windows.Forms.View.Details
-        '
-        'colModuleName
-        '
-        Me.colModuleName.Text = "Module"
-        Me.colModuleName.Width = 150
-        '
-        'colModuleMetaType
-        '
-        Me.colModuleMetaType.Text = "Meta"
-        Me.colModuleMetaType.Width = 40
-        '
-        'colModuleCPU
-        '
-        Me.colModuleCPU.Text = "CPU"
-        Me.colModuleCPU.Width = 40
-        '
-        'colModulePG
-        '
-        Me.colModulePG.Text = "PG"
-        Me.colModulePG.Width = 40
-        '
         'frmHQF
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1796,7 +1785,6 @@ Partial Class frmHQF
     Friend WithEvents colModulePG As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblSearchModules As System.Windows.Forms.Label
     Friend WithEvents txtSearchModules As System.Windows.Forms.TextBox
-    Friend WithEvents tabDockingStation As System.Windows.Forms.TabPage
     Friend WithEvents ctxShipBrowser As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuCreateNewFitting As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tabFit As System.Windows.Forms.TabPage

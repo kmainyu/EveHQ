@@ -76,10 +76,10 @@ Public Class frmDamageProfiles
             lblTHDamageAmount.Text = FormatNumber(selProfile.Thermal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             Dim total As Double = selProfile.EM + selProfile.Explosive + selProfile.Kinetic + selProfile.Thermal
             lblTotalDamageAmount.Text = FormatNumber(total, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            lblEMDamagePercentage.Text = FormatNumber(selProfile.EM / total * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            lblEXDamagePercentage.Text = FormatNumber(selProfile.Explosive / total * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            lblKIDamagePercentage.Text = FormatNumber(selProfile.Kinetic / total * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            lblTHDamagePercentage.Text = FormatNumber(selProfile.Thermal / total * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            lblEMDamagePercentage.Text = "= " & FormatNumber(selProfile.EM / total * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            lblEXDamagePercentage.Text = "= " & FormatNumber(selProfile.Explosive / total * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            lblKIDamagePercentage.Text = "= " & FormatNumber(selProfile.Kinetic / total * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            lblTHDamagePercentage.Text = "= " & FormatNumber(selProfile.Thermal / total * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
             lblDPS.Text = FormatNumber(selProfile.DPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             If gbProfileInfo.Visible = False Then
                 gbProfileInfo.Visible = True
@@ -110,8 +110,32 @@ Public Class frmDamageProfiles
     End Sub
 
     Private Sub btnAddProfile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddProfile.Click
-        Dim newProfile As New frmAddDamageProfile
-        newProfile.ShowDialog()
+        Dim ProfileForm As New frmAddDamageProfile
+        ProfileForm.Tag = "Add"
+        ProfileForm.btnAccept.Text = "Add Profile"
+        ProfileForm.ShowDialog()
         Call Me.UpdateProfileList()
+    End Sub
+
+    Private Sub btnEditProfile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditProfile.Click
+        If lvwProfiles.SelectedItems.Count > 0 Then
+            Dim profileName As String = lvwProfiles.SelectedItems(0).Name
+            If profileName = "<Omni-Damage>" Then
+                MessageBox.Show("You cannot edit this profile!", "Error Editing Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                Dim editProfile As DamageProfile = CType(DamageProfiles.ProfileList(profileName), DamageProfile)
+                Dim ProfileForm As New frmAddDamageProfile
+                ProfileForm.Tag = editProfile
+                ProfileForm.btnAccept.Text = "Edit Profile"
+                ProfileForm.ShowDialog()
+                Call Me.UpdateProfileList()
+            End If
+        Else
+            MessageBox.Show("Please select a profile before trying to delete.", "Error Deleting Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
+    Private Sub lblEMDamageAmount_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblEMDamageAmount.TextChanged
+
     End Sub
 End Class

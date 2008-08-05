@@ -21,6 +21,8 @@ Imports System.Windows.Forms
 
 Public Class frmAddDamageProfile
 
+    Dim startUp As Boolean = True
+
     Private Sub cboProfileType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboProfileType.SelectedIndexChanged
         Select Case cboProfileType.SelectedIndex
             Case 0 ' Manual
@@ -69,7 +71,7 @@ Public Class frmAddDamageProfile
             Exit Sub
         Else
             ' Check the name isn't in use
-            If DamageProfiles.ProfileList.Contains(txtProfileName.Text.Trim) = True Then
+            If DamageProfiles.ProfileList.Contains(txtProfileName.Text.Trim) And txtProfileName.Text.Trim <> txtProfileName.Tag.ToString.Trim Then
                 MessageBox.Show("This Profile name is in use. Please select another.", "Duplicate Profile Name Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             Else
@@ -119,6 +121,11 @@ Public Class frmAddDamageProfile
                             newProfile.NPCs.Add(NPCItem.Text)
                         Next
                 End Select
+                ' If Editing, delete the old profile
+                If Me.Tag.ToString <> "Add" Then
+                    DamageProfiles.ProfileList.Remove(txtProfileName.Tag.ToString)
+                End If
+                ' Add the profile
                 DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
                 Call Settings.HQFSettings.SaveProfiles()
                 Me.Close()
@@ -153,7 +160,36 @@ Public Class frmAddDamageProfile
         Next
         Me.cboNPC.EndUpdate()
 
-        cboProfileType.SelectedIndex = 0
+        If Me.Tag.ToString = "Add" Then
+            cboProfileType.SelectedIndex = 0
+        Else
+            Dim editProfile As DamageProfile = CType(Me.Tag, DamageProfile)
+            Me.txtProfileName.Tag = editProfile.Name
+            ' Populate the bits and pieces with the relevant data
+            Me.txtProfileName.Text = editProfile.Name
+            Select Case editProfile.Type
+                Case 0 ' Manual
+                    Me.txtEMDamage.Text = FormatNumber(editProfile.EM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    Me.txtEXDamage.Text = FormatNumber(editProfile.Explosive, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    Me.txtKIDamage.Text = FormatNumber(editProfile.Kinetic, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    Me.txtTHDamage.Text = FormatNumber(editProfile.Thermal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    Me.txtDPS.Text = FormatNumber(editProfile.DPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                Case 1 ' Fitting
+                    Me.cboFittingName.SelectedItem = editProfile.Fitting
+                    Me.cboPilotName.SelectedItem = editProfile.Pilot
+                Case 2 ' NPCs
+                    Me.lvwNPCs.BeginUpdate()
+                    Me.lvwNPCs.Items.Clear()
+                    For Each newNPC As String In editProfile.NPCs
+                        Me.lvwNPCs.Items.Add(newNPC)
+                    Next
+                    Me.lvwNPCs.EndUpdate()
+            End Select
+            ' End the startup and select the right combo index to trigger an update to the form visibility
+            startUp = False
+            Me.cboProfileType.SelectedIndex = editProfile.Type
+        End If
+
     End Sub
 
     Private Sub cboFittingName_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFittingName.SelectedIndexChanged
@@ -166,28 +202,30 @@ Public Class frmAddDamageProfile
 
     Private Sub GetFittingDetails()
         ' Check if we have a fitting and a pilot and if so, generate some data
-        If cboFittingName.SelectedItem IsNot Nothing And cboPilotName.SelectedItem IsNot Nothing Then
-            ' Let's try and generate a fitting and get some damage info
-            Dim shipFit As String = cboFittingName.SelectedItem.ToString
-            Dim fittingSep As Integer = shipFit.IndexOf(", ")
-            Dim shipName As String = shipFit.Substring(0, fittingSep)
-            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-            Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
-            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilotName.SelectedItem.ToString), HQFPilot)
-            Dim profileShip As Ship = Engine.ApplyFitting(pShip, pPilot)
-            ' Place details of ship damage and DPS into text boxes
-            txtEMDamage.Text = FormatNumber(profileShip.Attributes("10055").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtEXDamage.Text = FormatNumber(profileShip.Attributes("10056").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtKIDamage.Text = FormatNumber(profileShip.Attributes("10057").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtTHDamage.Text = FormatNumber(profileShip.Attributes("10058").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtDPS.Text = FormatNumber(profileShip.Attributes("10029").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        Else
-            txtEMDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtEXDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtKIDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtTHDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            txtDPS.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        If startUp = False Then
+            If cboFittingName.SelectedItem IsNot Nothing And cboPilotName.SelectedItem IsNot Nothing Then
+                ' Let's try and generate a fitting and get some damage info
+                Dim shipFit As String = cboFittingName.SelectedItem.ToString
+                Dim fittingSep As Integer = shipFit.IndexOf(", ")
+                Dim shipName As String = shipFit.Substring(0, fittingSep)
+                Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+                Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+                pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
+                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilotName.SelectedItem.ToString), HQFPilot)
+                Dim profileShip As Ship = Engine.ApplyFitting(pShip, pPilot)
+                ' Place details of ship damage and DPS into text boxes
+                txtEMDamage.Text = FormatNumber(profileShip.Attributes("10055").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                txtEXDamage.Text = FormatNumber(profileShip.Attributes("10056").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                txtKIDamage.Text = FormatNumber(profileShip.Attributes("10057").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                txtTHDamage.Text = FormatNumber(profileShip.Attributes("10058").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                txtDPS.Text = FormatNumber(profileShip.Attributes("10029").ToString, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Else
+                txtEMDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                txtEXDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                txtKIDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                txtTHDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                txtDPS.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            End If
         End If
     End Sub
 
@@ -203,21 +241,23 @@ Public Class frmAddDamageProfile
         End If
     End Sub
     Private Sub GetNPCDetails()
-        ' Go through the list and get some estimation of the damage profile
-        Dim NPCData As NPC
-        Dim EM, EX, KI, TH, DPS As Double
-        For Each NPCItem As ListViewItem In lvwNPCs.Items
-            NPCData = CType(NPCs.NPCList(NPCItem.Text), NPC)
-            EM += NPCData.EM
-            EX += NPCData.Explosive
-            KI += NPCData.Kinetic
-            TH += NPCData.Thermal
-            DPS += NPCData.DPS
-        Next
-        txtEMDamage.Text = FormatNumber(EM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        txtEXDamage.Text = FormatNumber(EX, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        txtKIDamage.Text = FormatNumber(KI, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        txtTHDamage.Text = FormatNumber(TH, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        txtDPS.Text = FormatNumber(DPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        If startUp = False Then
+            ' Go through the list and get some estimation of the damage profile
+            Dim NPCData As NPC
+            Dim EM, EX, KI, TH, DPS As Double
+            For Each NPCItem As ListViewItem In lvwNPCs.Items
+                NPCData = CType(NPCs.NPCList(NPCItem.Text), NPC)
+                EM += NPCData.EM
+                EX += NPCData.Explosive
+                KI += NPCData.Kinetic
+                TH += NPCData.Thermal
+                DPS += NPCData.DPS
+            Next
+            txtEMDamage.Text = FormatNumber(EM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            txtEXDamage.Text = FormatNumber(EX, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            txtKIDamage.Text = FormatNumber(KI, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            txtTHDamage.Text = FormatNumber(TH, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            txtDPS.Text = FormatNumber(DPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        End If
     End Sub
 End Class

@@ -442,7 +442,7 @@
 22464,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF
 22464,0,0,50,1,22782,0,0,0,-99,15,Sphere Launcher CPU
 # Nighthawk,,,,,,,,,,,
-22470,1,12099,51,2,511;510;771,0,1,0,5,15,"Assault, Heavy, Heavy Assault Launcher ROF"
+22470,1,12099,51,2,511;510;771,0,1,0,-5,15,"Assault, Heavy, Heavy Assault Launcher ROF"
 22470,1,12099,271,1,22470,0,1,2,5,15,Shield EM Resistance
 22470,1,12099,272,1,22470,0,1,2,5,15,Shield Explosive Resistance
 22470,1,12099,273,1,22470,0,1,2,5,15,Shield Kinetic Resistance

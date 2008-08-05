@@ -1268,7 +1268,7 @@ Public Class frmHQF
         ' Clear tabs and fitted ship list
         ShipLists.fittedShipList.Clear()
         tabHQF.TabPages.Clear()
-        tabHQF.TabPages.Add(tabDockingStation)
+
 
         If UseSerializableData = True Then
             Call Me.ShowShipGroups()
@@ -1281,6 +1281,9 @@ Public Class frmHQF
         End If
 
         startUp = False
+        ' Temporarily disable the performance setting
+        Dim performanceSetting As Boolean = HQF.Settings.HQFSettings.ShowPerformanceData
+        HQF.Settings.HQFSettings.ShowPerformanceData = False
 
         ' Check if we need to restore tabs from the previous setup
         If HQF.Settings.HQFSettings.RestoreLastSession = True Then
@@ -1291,10 +1294,13 @@ Public Class frmHQF
                         Call Me.CreateFittingTabPage(shipFit)
                     End If
                     tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+                    Call UpdateSelectedTab()
                     currentShipSlot.UpdateEverything()
                 End If
             Next
         End If
+        HQF.Settings.HQFSettings.ShowPerformanceData = performanceSetting
+
 
     End Sub
     Private Sub LoadFittings()
@@ -2395,6 +2401,7 @@ Public Class frmHQF
         tp.Tag = shipFit
         tp.Name = shipFit
 
+        tabHQF.TabPages.Add(tp)
         tp.Parent = Me.tabHQF
 
         Dim pSS As New Panel
