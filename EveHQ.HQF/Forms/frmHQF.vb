@@ -34,7 +34,7 @@ Public Class frmHQF
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.7.1.70"
+    Shared LastCacheRefresh As String = "1.7.1.73"
 
 #Region "Class Wide Variables"
 
@@ -488,6 +488,10 @@ Public Class frmHQF
                                 newShip.Attributes.Add("10056", 0)
                                 newShip.Attributes.Add("10057", 0)
                                 newShip.Attributes.Add("10058", 0)
+                                newShip.Attributes.Add("10059", 0)
+                                newShip.Attributes.Add("10060", 0)
+                                newShip.Attributes.Add("10061", 0)
+                                newShip.Attributes.Add("10062", 0)
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -605,6 +609,10 @@ Public Class frmHQF
                     newShip.Attributes.Add("10056", 0)
                     newShip.Attributes.Add("10057", 0)
                     newShip.Attributes.Add("10058", 0)
+                    newShip.Attributes.Add("10059", 0)
+                    newShip.Attributes.Add("10060", 0)
+                    newShip.Attributes.Add("10061", 0)
+                    newShip.Attributes.Add("10062", 0)
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
                     ' Perform the last addition for the last ship type

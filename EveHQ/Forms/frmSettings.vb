@@ -453,6 +453,18 @@ Public Class frmSettings
         End If
     End Sub
 
+    Private Sub lvAccounts_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvAccounts.ColumnClick
+        If CInt(lvAccounts.Tag) = e.Column Then
+            Me.lvAccounts.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, Windows.Forms.SortOrder.Ascending)
+            lvAccounts.Tag = -1
+        Else
+            Me.lvAccounts.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, Windows.Forms.SortOrder.Descending)
+            lvAccounts.Tag = e.Column
+        End If
+        ' Call the sort method to manually sort.
+        lvAccounts.Sort()
+    End Sub
+
     Private Sub lvAccounts_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvAccounts.DoubleClick
         Call EditAccount()
     End Sub
@@ -594,6 +606,18 @@ Public Class frmSettings
                 Exit Sub
             End If
         End If
+    End Sub
+
+    Private Sub lvwPilots_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwPilots.ColumnClick
+        If CInt(lvwPilots.Tag) = e.Column Then
+            Me.lvwPilots.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, Windows.Forms.SortOrder.Ascending)
+            lvwPilots.Tag = -1
+        Else
+            Me.lvwPilots.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, Windows.Forms.SortOrder.Descending)
+            lvwPilots.Tag = e.Column
+        End If
+        ' Call the sort method to manually sort.
+        lvwPilots.Sort()
     End Sub
 
     Private Sub lvwPilots_ItemCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles lvwPilots.ItemCheck
@@ -2194,7 +2218,5 @@ Public Class frmSettings
     End Sub
 
 #End Region
-    
-    
     
 End Class

@@ -139,6 +139,7 @@ Public Class frmTraining
             AddHandler newLVQueue.DragDrop, AddressOf activeLVW_DragDrop
             AddHandler newLVQueue.DragEnter, AddressOf activeLVW_DragEnter
             AddHandler newLVQueue.ItemDrag, AddressOf activeLVW_ItemDrag
+            AddHandler newLVQueue.ColumnClick, AddressOf activeLVW_ColumnClick
             AddHandler newLVQueue.SelectedIndexChanged, AddressOf activeLVW_SelectedIndexChanged
             newQTab.Controls.Add(newLVQueue)
 
@@ -469,6 +470,18 @@ Public Class frmTraining
         DoDragDrop(e.Item, DragDropEffects.Copy)
     End Sub
 
+    Private Sub activeLVW_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs)
+        If CInt(activeLVW.SortColumn) = e.Column Then
+            Me.activeLVW.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Name(e.Column, Windows.Forms.SortOrder.Ascending)
+            activeLVW.SortColumn = -1
+        Else
+            Me.activeLVW.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Name(e.Column, Windows.Forms.SortOrder.Descending)
+            activeLVW.SortColumn = e.Column
+        End If
+        ' Call the sort method to manually sort.
+        activeLVW.Sort()
+    End Sub
+
     Private Sub DrawColumns(ByVal lv As EveHQ.DragAndDropListView)
 
         lv.Columns.Clear()
@@ -542,6 +555,7 @@ Public Class frmTraining
 
             For Each qItem In arrQueue
                 Dim newskill As ListViewItem = New ListViewItem
+                newskill.Name = qItem.Key
                 If qItem.Done = True Then newskill.Font = doneFont
                 If qItem.IsPrereq = True Then
                     newskill.ToolTipText = qItem.Prereq
@@ -565,6 +579,8 @@ Public Class frmTraining
                 End If
                 If qItem.IsTraining = True Then
                     newskill.BackColor = Color.LimeGreen
+                    ' Set a flag in the listview of the listviewitem name for later checking
+                    lvwQueue.Tag = newskill.Name
                 End If
                 Dim clashTime As DateTime = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(qItem.DateFinished)
                 If clashTime.Hour = 11 Then
@@ -579,41 +595,57 @@ Public Class frmTraining
                 totalTime += CLng(qItem.TrainTime)
                 ' Add the first 6 standard items
                 newskill.Text = qItem.Name
-                newskill.Name = qItem.Key
                 newskill.Tag = qItem.ID
-                newskill.SubItems.Add(qItem.CurLevel)
-                newskill.SubItems.Add(qItem.FromLevel)
-                newskill.SubItems.Add(qItem.ToLevel)
-                newskill.SubItems.Add(qItem.Percent)
-                newskill.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(CDbl(qItem.TrainTime)))
-                newskill.SubItems(5).Tag = qItem.TrainTime
+                Dim newSI As New ListViewItem.ListViewSubItem
+                newSI.Name = qItem.CurLevel : newSI.Text = qItem.CurLevel : newskill.SubItems.Add(newSI)
+                newSI = New ListViewItem.ListViewSubItem
+                newSI.Name = qItem.FromLevel : newSI.Text = qItem.FromLevel : newskill.SubItems.Add(newSI)
+                newSI = New ListViewItem.ListViewSubItem
+                newSI.Name = qItem.ToLevel : newSI.Text = qItem.ToLevel : newskill.SubItems.Add(newSI)
+                newSI = New ListViewItem.ListViewSubItem
+                newSI.Name = qItem.Percent : newSI.Text = qItem.Percent : newskill.SubItems.Add(newSI)
+                newSI = New ListViewItem.ListViewSubItem
+                newSI.Name = qItem.TrainTime : newSI.Tag = qItem.TrainTime : newSI.Text = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qItem.TrainTime)) : newskill.SubItems.Add(newSI)
                 ' Now add the others as required
                 For a As Integer = 6 To 16
                     If CBool(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1)) = True Then
+                        newSI = New ListViewItem.ListViewSubItem
                         Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
                             Case "Date"
-                                newskill.SubItems.Add(Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate))
+                                newSI.Name = qItem.DateFinished.ToBinary.ToString
+                                newSI.Text = Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate)
                             Case "Rank"
-                                newskill.SubItems.Add(qItem.Rank)
+                                newSI.Name = qItem.Rank
+                                newSI.Text = qItem.Rank
                             Case "PAtt"
-                                newskill.SubItems.Add(qItem.PAtt)
+                                newSI.Name = qItem.PAtt
+                                newSI.Text = qItem.PAtt
                             Case "SAtt"
-                                newskill.SubItems.Add(qItem.SAtt)
+                                newSI.Name = qItem.SAtt
+                                newSI.Text = qItem.SAtt
                             Case "SPRH"
-                                newskill.SubItems.Add(FormatNumber(qItem.SPRate, 0, , , TriState.True))
+                                newSI.Name = qItem.SPRate
+                                newSI.Text = FormatNumber(qItem.SPRate, 0, , , TriState.True)
                             Case "SPRD"
-                                newskill.SubItems.Add(FormatNumber(CDbl(qItem.SPRate) * 24, 0, , , TriState.True))
+                                newSI.Name = CStr(CDbl(qItem.SPRate) * 24)
+                                newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24, 0, , , TriState.True)
                             Case "SPRW"
-                                newskill.SubItems.Add(FormatNumber(CDbl(qItem.SPRate) * 24 * 7, 0, , , TriState.True))
+                                newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 7)
+                                newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 7, 0, , , TriState.True)
                             Case "SPRM"
-                                newskill.SubItems.Add(FormatNumber(CDbl(qItem.SPRate) * 24 * 30, 0, , , TriState.True))
+                                newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 30)
+                                newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 30, 0, , , TriState.True)
                             Case "SPRY"
-                                newskill.SubItems.Add(FormatNumber(CDbl(qItem.SPRate) * 24 * 365, 0, , , TriState.True))
+                                newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 365)
+                                newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 365, 0, , , TriState.True)
                             Case "SPAd"
-                                newskill.SubItems.Add(FormatNumber(qItem.SPTrained, 0, , , TriState.True))
+                                newSI.Name = qItem.SPTrained
+                                newSI.Text = FormatNumber(qItem.SPTrained, 0, , , TriState.True)
                             Case "SPTo"
-                                newskill.SubItems.Add(FormatNumber(totalSP, 0, , , TriState.True))
+                                newSI.Name = CStr(totalSP)
+                                newSI.Text = FormatNumber(totalSP, 0, , , TriState.True)
                         End Select
+                        newskill.SubItems.Add(newSI)
                     End If
                 Next
                 lvwQueue.Items.Add(newskill)
@@ -664,9 +696,9 @@ Public Class frmTraining
                             Dim percent As Integer = 0
                             percent = CInt(Int((myCurSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
 
-                            cLVW.Items(0).SubItems(4).Text = CStr(percent)
-                            cLVW.Items(0).SubItems(5).Tag = cTime
-                            cLVW.Items(0).SubItems(5).Text = strTime
+                            cLVW.Items(cLVW.Tag.ToString).SubItems(4).Text = CStr(percent)
+                            cLVW.Items(cLVW.Tag.ToString).SubItems(5).Tag = cTime
+                            cLVW.Items(cLVW.Tag.ToString).SubItems(5).Text = strTime
 
                             ' Calculate total time
                             If cLVW.Items.Count > 0 Then

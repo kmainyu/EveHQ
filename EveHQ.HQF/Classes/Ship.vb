@@ -1233,6 +1233,38 @@ Imports System.Runtime.Serialization
             cTh = cDamageProfile.Thermal / cEMExKiTh
         End Set
     End Property
+    Public Property DamageProfileEM() As Double
+        Get
+            Return cEM
+        End Get
+        Set(ByVal value As Double)
+            cEM = value
+        End Set
+    End Property
+    Public Property DamageProfileEX() As Double
+        Get
+            Return cEx
+        End Get
+        Set(ByVal value As Double)
+            cEx = value
+        End Set
+    End Property
+    Public Property DamageProfileKI() As Double
+        Get
+            Return cKi
+        End Get
+        Set(ByVal value As Double)
+            cKi = value
+        End Set
+    End Property
+    Public Property DamageProfileTH() As Double
+        Get
+            Return cTh
+        End Get
+        Set(ByVal value As Double)
+            cTh = value
+        End Set
+    End Property
 
 #End Region
 

@@ -19,6 +19,7 @@
 '=========================================================================
 Public Class DragAndDropListView
     Inherits ListView
+    Public SortColumn As Integer
 
     ' Methods
     Public Sub New()

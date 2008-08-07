@@ -171,6 +171,22 @@ Public Class ShipInfoControl
         ' EffectiveHP
         lblEffectiveHP.Text = "Effective HP: " & FormatNumber(fittedShip.EffectiveHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
+        ' Tank Ability
+        lblTankAbility.Text = "Tank Ability: " & FormatNumber(fittedShip.Attributes("10062"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS"
+        ttt = "Shield Tank: " & FormatNumber(fittedShip.Attributes("10059"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS" & ControlChars.CrLf
+        ttt &= "Armor Tank: " & FormatNumber(fittedShip.Attributes("10060"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS" & ControlChars.CrLf
+        ttt &= "Structure Tank: " & FormatNumber(fittedShip.Attributes("10061"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS" & ControlChars.CrLf
+        ttt &= ControlChars.CrLf
+        ttt &= "Damage Profile DPS: " & FormatNumber(fittedShip.DamageProfile.DPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS" & ControlChars.CrLf
+        If CDbl(fittedShip.Attributes("10062")) >= fittedShip.DamageProfile.DPS Then
+            ttt &= "Can tank damage profile"
+            lblTankAbility.ForeColor = Drawing.Color.LimeGreen
+        Else
+            ttt &= "Not able to tank damage profile"
+            lblTankAbility.ForeColor = Drawing.Color.Red
+        End If
+        ToolTip1.SetToolTip(lblTankAbility, ttt)
+
         ' Capacitor
         lblCapacitor.Text = FormatNumber(fittedShip.CapCapacity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " F"
         lblCapRecharge.Text = FormatNumber(fittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"

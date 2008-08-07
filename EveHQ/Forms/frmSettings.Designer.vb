@@ -160,6 +160,15 @@ Partial Public Class frmSettings
         Me.lblQueueColumns = New System.Windows.Forms.Label
         Me.clbColumns = New System.Windows.Forms.CheckedListBox
         Me.gbDatabaseFormat = New System.Windows.Forms.GroupBox
+        Me.gbAccess = New System.Windows.Forms.GroupBox
+        Me.chkUseAppDirForDB = New System.Windows.Forms.CheckBox
+        Me.btnBrowseMDB = New System.Windows.Forms.Button
+        Me.txtMDBPassword = New System.Windows.Forms.TextBox
+        Me.txtMDBUsername = New System.Windows.Forms.TextBox
+        Me.txtMDBServer = New System.Windows.Forms.TextBox
+        Me.lblMDBPassword = New System.Windows.Forms.Label
+        Me.lblMDBUser = New System.Windows.Forms.Label
+        Me.lblMDBFilename = New System.Windows.Forms.Label
         Me.gbMySQL = New System.Windows.Forms.GroupBox
         Me.txtMySQLDatabase = New System.Windows.Forms.TextBox
         Me.lblMySQLDatabase = New System.Windows.Forms.Label
@@ -170,14 +179,6 @@ Partial Public Class frmSettings
         Me.lblMySQLUser = New System.Windows.Forms.Label
         Me.lblMySQLServer = New System.Windows.Forms.Label
         Me.btnTestDB = New System.Windows.Forms.Button
-        Me.gbAccess = New System.Windows.Forms.GroupBox
-        Me.btnBrowseMDB = New System.Windows.Forms.Button
-        Me.txtMDBPassword = New System.Windows.Forms.TextBox
-        Me.txtMDBUsername = New System.Windows.Forms.TextBox
-        Me.txtMDBServer = New System.Windows.Forms.TextBox
-        Me.lblMDBPassword = New System.Windows.Forms.Label
-        Me.lblMDBUser = New System.Windows.Forms.Label
-        Me.lblMDBFilename = New System.Windows.Forms.Label
         Me.gbMSSQL = New System.Windows.Forms.GroupBox
         Me.txtMSSQLDatabase = New System.Windows.Forms.TextBox
         Me.lblMSSQLDatabase = New System.Windows.Forms.Label
@@ -315,7 +316,6 @@ Partial Public Class frmSettings
         Me.lblLastUpdateTime = New System.Windows.Forms.Label
         Me.lblLastUpdate = New System.Windows.Forms.Label
         Me.btnUpdatePrices = New System.Windows.Forms.Button
-        Me.chkUseAppDirForDB = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotLevel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -349,8 +349,8 @@ Partial Public Class frmSettings
         CType(Me.pbHasPreReqColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbIsPreReqColour, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbDatabaseFormat.SuspendLayout()
-        Me.gbMySQL.SuspendLayout()
         Me.gbAccess.SuspendLayout()
+        Me.gbMySQL.SuspendLayout()
         Me.gbMSSQL.SuspendLayout()
         Me.gbProxyServer.SuspendLayout()
         Me.gbProxyServerInfo.SuspendLayout()
@@ -838,9 +838,9 @@ Partial Public Class frmSettings
         Me.gbEveAccounts.Controls.Add(Me.btnEditAccount)
         Me.gbEveAccounts.Controls.Add(Me.btnAddAccount)
         Me.gbEveAccounts.Controls.Add(Me.lvAccounts)
-        Me.gbEveAccounts.Location = New System.Drawing.Point(213, 412)
+        Me.gbEveAccounts.Location = New System.Drawing.Point(659, 130)
         Me.gbEveAccounts.Name = "gbEveAccounts"
-        Me.gbEveAccounts.Size = New System.Drawing.Size(50, 35)
+        Me.gbEveAccounts.Size = New System.Drawing.Size(93, 45)
         Me.gbEveAccounts.TabIndex = 16
         Me.gbEveAccounts.TabStop = False
         Me.gbEveAccounts.Text = "Accounts"
@@ -848,7 +848,7 @@ Partial Public Class frmSettings
         '
         'btnGetData
         '
-        Me.btnGetData.Location = New System.Drawing.Point(316, 251)
+        Me.btnGetData.Location = New System.Drawing.Point(403, 127)
         Me.btnGetData.Name = "btnGetData"
         Me.btnGetData.Size = New System.Drawing.Size(90, 35)
         Me.btnGetData.TabIndex = 22
@@ -856,7 +856,7 @@ Partial Public Class frmSettings
         '
         'btnDeleteAccount
         '
-        Me.btnDeleteAccount.Location = New System.Drawing.Point(204, 255)
+        Me.btnDeleteAccount.Location = New System.Drawing.Point(403, 81)
         Me.btnDeleteAccount.Name = "btnDeleteAccount"
         Me.btnDeleteAccount.Size = New System.Drawing.Size(90, 25)
         Me.btnDeleteAccount.TabIndex = 21
@@ -864,7 +864,7 @@ Partial Public Class frmSettings
         '
         'btnEditAccount
         '
-        Me.btnEditAccount.Location = New System.Drawing.Point(108, 255)
+        Me.btnEditAccount.Location = New System.Drawing.Point(403, 50)
         Me.btnEditAccount.Name = "btnEditAccount"
         Me.btnEditAccount.Size = New System.Drawing.Size(90, 25)
         Me.btnEditAccount.TabIndex = 20
@@ -872,7 +872,7 @@ Partial Public Class frmSettings
         '
         'btnAddAccount
         '
-        Me.btnAddAccount.Location = New System.Drawing.Point(12, 255)
+        Me.btnAddAccount.Location = New System.Drawing.Point(403, 19)
         Me.btnAddAccount.Name = "btnAddAccount"
         Me.btnAddAccount.Size = New System.Drawing.Size(90, 25)
         Me.btnAddAccount.TabIndex = 19
@@ -880,12 +880,14 @@ Partial Public Class frmSettings
         '
         'lvAccounts
         '
+        Me.lvAccounts.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvAccounts.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lvAccounts.FullRowSelect = True
         Me.lvAccounts.GridLines = True
         Me.lvAccounts.Location = New System.Drawing.Point(12, 19)
         Me.lvAccounts.Name = "lvAccounts"
-        Me.lvAccounts.Size = New System.Drawing.Size(394, 224)
+        Me.lvAccounts.Size = New System.Drawing.Size(383, 16)
         Me.lvAccounts.TabIndex = 18
         Me.lvAccounts.UseCompatibleStateImageBehavior = False
         Me.lvAccounts.View = System.Windows.Forms.View.Details
@@ -907,9 +909,9 @@ Partial Public Class frmSettings
         Me.gbPilots.Controls.Add(Me.btnDeletePilot)
         Me.gbPilots.Controls.Add(Me.btnAddPilot)
         Me.gbPilots.Controls.Add(Me.lvwPilots)
-        Me.gbPilots.Location = New System.Drawing.Point(519, 58)
+        Me.gbPilots.Location = New System.Drawing.Point(194, 12)
         Me.gbPilots.Name = "gbPilots"
-        Me.gbPilots.Size = New System.Drawing.Size(59, 40)
+        Me.gbPilots.Size = New System.Drawing.Size(701, 498)
         Me.gbPilots.TabIndex = 17
         Me.gbPilots.TabStop = False
         Me.gbPilots.Text = "Pilots"
@@ -917,7 +919,7 @@ Partial Public Class frmSettings
         '
         'btnAddPilotFromXML
         '
-        Me.btnAddPilotFromXML.Location = New System.Drawing.Point(138, 258)
+        Me.btnAddPilotFromXML.Location = New System.Drawing.Point(421, 50)
         Me.btnAddPilotFromXML.Name = "btnAddPilotFromXML"
         Me.btnAddPilotFromXML.Size = New System.Drawing.Size(120, 25)
         Me.btnAddPilotFromXML.TabIndex = 22
@@ -925,7 +927,7 @@ Partial Public Class frmSettings
         '
         'btnDeletePilot
         '
-        Me.btnDeletePilot.Location = New System.Drawing.Point(290, 257)
+        Me.btnDeletePilot.Location = New System.Drawing.Point(421, 81)
         Me.btnDeletePilot.Name = "btnDeletePilot"
         Me.btnDeletePilot.Size = New System.Drawing.Size(120, 25)
         Me.btnDeletePilot.TabIndex = 21
@@ -933,7 +935,7 @@ Partial Public Class frmSettings
         '
         'btnAddPilot
         '
-        Me.btnAddPilot.Location = New System.Drawing.Point(12, 258)
+        Me.btnAddPilot.Location = New System.Drawing.Point(421, 19)
         Me.btnAddPilot.Name = "btnAddPilot"
         Me.btnAddPilot.Size = New System.Drawing.Size(120, 25)
         Me.btnAddPilot.TabIndex = 19
@@ -942,13 +944,15 @@ Partial Public Class frmSettings
         'lvwPilots
         '
         Me.lvwPilots.AllowColumnReorder = True
+        Me.lvwPilots.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwPilots.CheckBoxes = True
         Me.lvwPilots.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPilot, Me.colID, Me.colAccount})
         Me.lvwPilots.FullRowSelect = True
         Me.lvwPilots.GridLines = True
         Me.lvwPilots.Location = New System.Drawing.Point(12, 19)
         Me.lvwPilots.Name = "lvwPilots"
-        Me.lvwPilots.Size = New System.Drawing.Size(398, 224)
+        Me.lvwPilots.Size = New System.Drawing.Size(398, 473)
         Me.lvwPilots.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwPilots.TabIndex = 18
         Me.lvwPilots.UseCompatibleStateImageBehavior = False
@@ -1657,13 +1661,99 @@ Partial Public Class frmSettings
         Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
         Me.gbDatabaseFormat.Controls.Add(Me.cboFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(194, 12)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(619, 234)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(694, 494)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(41, 34)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
         Me.gbDatabaseFormat.Visible = False
+        '
+        'gbAccess
+        '
+        Me.gbAccess.Controls.Add(Me.chkUseAppDirForDB)
+        Me.gbAccess.Controls.Add(Me.btnBrowseMDB)
+        Me.gbAccess.Controls.Add(Me.txtMDBPassword)
+        Me.gbAccess.Controls.Add(Me.txtMDBUsername)
+        Me.gbAccess.Controls.Add(Me.txtMDBServer)
+        Me.gbAccess.Controls.Add(Me.lblMDBPassword)
+        Me.gbAccess.Controls.Add(Me.lblMDBUser)
+        Me.gbAccess.Controls.Add(Me.lblMDBFilename)
+        Me.gbAccess.Location = New System.Drawing.Point(6, 80)
+        Me.gbAccess.Name = "gbAccess"
+        Me.gbAccess.Size = New System.Drawing.Size(513, 170)
+        Me.gbAccess.TabIndex = 37
+        Me.gbAccess.TabStop = False
+        Me.gbAccess.Text = "Access (MDB) Options"
+        '
+        'chkUseAppDirForDB
+        '
+        Me.chkUseAppDirForDB.AutoSize = True
+        Me.chkUseAppDirForDB.Location = New System.Drawing.Point(73, 142)
+        Me.chkUseAppDirForDB.Name = "chkUseAppDirForDB"
+        Me.chkUseAppDirForDB.Size = New System.Drawing.Size(247, 17)
+        Me.chkUseAppDirForDB.TabIndex = 7
+        Me.chkUseAppDirForDB.Text = "Use EveHQ Application Directory for Database"
+        Me.chkUseAppDirForDB.UseVisualStyleBackColor = True
+        '
+        'btnBrowseMDB
+        '
+        Me.btnBrowseMDB.Location = New System.Drawing.Point(7, 46)
+        Me.btnBrowseMDB.Name = "btnBrowseMDB"
+        Me.btnBrowseMDB.Size = New System.Drawing.Size(51, 23)
+        Me.btnBrowseMDB.TabIndex = 6
+        Me.btnBrowseMDB.Text = "Browse"
+        Me.btnBrowseMDB.UseVisualStyleBackColor = True
+        '
+        'txtMDBPassword
+        '
+        Me.txtMDBPassword.Location = New System.Drawing.Point(73, 115)
+        Me.txtMDBPassword.Name = "txtMDBPassword"
+        Me.txtMDBPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
+        Me.txtMDBPassword.Size = New System.Drawing.Size(230, 20)
+        Me.txtMDBPassword.TabIndex = 5
+        '
+        'txtMDBUsername
+        '
+        Me.txtMDBUsername.Location = New System.Drawing.Point(73, 89)
+        Me.txtMDBUsername.Name = "txtMDBUsername"
+        Me.txtMDBUsername.Size = New System.Drawing.Size(230, 20)
+        Me.txtMDBUsername.TabIndex = 4
+        '
+        'txtMDBServer
+        '
+        Me.txtMDBServer.Location = New System.Drawing.Point(73, 27)
+        Me.txtMDBServer.Multiline = True
+        Me.txtMDBServer.Name = "txtMDBServer"
+        Me.txtMDBServer.Size = New System.Drawing.Size(324, 56)
+        Me.txtMDBServer.TabIndex = 3
+        '
+        'lblMDBPassword
+        '
+        Me.lblMDBPassword.AutoSize = True
+        Me.lblMDBPassword.Location = New System.Drawing.Point(6, 118)
+        Me.lblMDBPassword.Name = "lblMDBPassword"
+        Me.lblMDBPassword.Size = New System.Drawing.Size(56, 13)
+        Me.lblMDBPassword.TabIndex = 2
+        Me.lblMDBPassword.Text = "Password:"
+        '
+        'lblMDBUser
+        '
+        Me.lblMDBUser.AutoSize = True
+        Me.lblMDBUser.Location = New System.Drawing.Point(6, 92)
+        Me.lblMDBUser.Name = "lblMDBUser"
+        Me.lblMDBUser.Size = New System.Drawing.Size(32, 13)
+        Me.lblMDBUser.TabIndex = 1
+        Me.lblMDBUser.Text = "User:"
+        '
+        'lblMDBFilename
+        '
+        Me.lblMDBFilename.AutoSize = True
+        Me.lblMDBFilename.Location = New System.Drawing.Point(6, 30)
+        Me.lblMDBFilename.Name = "lblMDBFilename"
+        Me.lblMDBFilename.Size = New System.Drawing.Size(52, 13)
+        Me.lblMDBFilename.TabIndex = 0
+        Me.lblMDBFilename.Text = "Filename:"
         '
         'gbMySQL
         '
@@ -1756,82 +1846,6 @@ Partial Public Class frmSettings
         Me.btnTestDB.TabIndex = 38
         Me.btnTestDB.Text = "Test Database Connection"
         Me.btnTestDB.UseVisualStyleBackColor = True
-        '
-        'gbAccess
-        '
-        Me.gbAccess.Controls.Add(Me.chkUseAppDirForDB)
-        Me.gbAccess.Controls.Add(Me.btnBrowseMDB)
-        Me.gbAccess.Controls.Add(Me.txtMDBPassword)
-        Me.gbAccess.Controls.Add(Me.txtMDBUsername)
-        Me.gbAccess.Controls.Add(Me.txtMDBServer)
-        Me.gbAccess.Controls.Add(Me.lblMDBPassword)
-        Me.gbAccess.Controls.Add(Me.lblMDBUser)
-        Me.gbAccess.Controls.Add(Me.lblMDBFilename)
-        Me.gbAccess.Location = New System.Drawing.Point(6, 80)
-        Me.gbAccess.Name = "gbAccess"
-        Me.gbAccess.Size = New System.Drawing.Size(513, 170)
-        Me.gbAccess.TabIndex = 37
-        Me.gbAccess.TabStop = False
-        Me.gbAccess.Text = "Access (MDB) Options"
-        '
-        'btnBrowseMDB
-        '
-        Me.btnBrowseMDB.Location = New System.Drawing.Point(7, 46)
-        Me.btnBrowseMDB.Name = "btnBrowseMDB"
-        Me.btnBrowseMDB.Size = New System.Drawing.Size(51, 23)
-        Me.btnBrowseMDB.TabIndex = 6
-        Me.btnBrowseMDB.Text = "Browse"
-        Me.btnBrowseMDB.UseVisualStyleBackColor = True
-        '
-        'txtMDBPassword
-        '
-        Me.txtMDBPassword.Location = New System.Drawing.Point(73, 115)
-        Me.txtMDBPassword.Name = "txtMDBPassword"
-        Me.txtMDBPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtMDBPassword.Size = New System.Drawing.Size(230, 20)
-        Me.txtMDBPassword.TabIndex = 5
-        '
-        'txtMDBUsername
-        '
-        Me.txtMDBUsername.Location = New System.Drawing.Point(73, 89)
-        Me.txtMDBUsername.Name = "txtMDBUsername"
-        Me.txtMDBUsername.Size = New System.Drawing.Size(230, 20)
-        Me.txtMDBUsername.TabIndex = 4
-        '
-        'txtMDBServer
-        '
-        Me.txtMDBServer.Location = New System.Drawing.Point(73, 27)
-        Me.txtMDBServer.Multiline = True
-        Me.txtMDBServer.Name = "txtMDBServer"
-        Me.txtMDBServer.Size = New System.Drawing.Size(324, 56)
-        Me.txtMDBServer.TabIndex = 3
-        '
-        'lblMDBPassword
-        '
-        Me.lblMDBPassword.AutoSize = True
-        Me.lblMDBPassword.Location = New System.Drawing.Point(6, 118)
-        Me.lblMDBPassword.Name = "lblMDBPassword"
-        Me.lblMDBPassword.Size = New System.Drawing.Size(56, 13)
-        Me.lblMDBPassword.TabIndex = 2
-        Me.lblMDBPassword.Text = "Password:"
-        '
-        'lblMDBUser
-        '
-        Me.lblMDBUser.AutoSize = True
-        Me.lblMDBUser.Location = New System.Drawing.Point(6, 92)
-        Me.lblMDBUser.Name = "lblMDBUser"
-        Me.lblMDBUser.Size = New System.Drawing.Size(32, 13)
-        Me.lblMDBUser.TabIndex = 1
-        Me.lblMDBUser.Text = "User:"
-        '
-        'lblMDBFilename
-        '
-        Me.lblMDBFilename.AutoSize = True
-        Me.lblMDBFilename.Location = New System.Drawing.Point(6, 30)
-        Me.lblMDBFilename.Name = "lblMDBFilename"
-        Me.lblMDBFilename.Size = New System.Drawing.Size(52, 13)
-        Me.lblMDBFilename.TabIndex = 0
-        Me.lblMDBFilename.Text = "Filename:"
         '
         'gbMSSQL
         '
@@ -3185,28 +3199,18 @@ Partial Public Class frmSettings
         Me.btnUpdatePrices.Text = "Update Market Prices"
         Me.btnUpdatePrices.UseVisualStyleBackColor = True
         '
-        'chkUseAppDirForDB
-        '
-        Me.chkUseAppDirForDB.AutoSize = True
-        Me.chkUseAppDirForDB.Location = New System.Drawing.Point(73, 142)
-        Me.chkUseAppDirForDB.Name = "chkUseAppDirForDB"
-        Me.chkUseAppDirForDB.Size = New System.Drawing.Size(247, 17)
-        Me.chkUseAppDirForDB.TabIndex = 7
-        Me.chkUseAppDirForDB.Text = "Use EveHQ Application Directory for Database"
-        Me.chkUseAppDirForDB.UseVisualStyleBackColor = True
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbDatabaseFormat)
+        Me.Controls.Add(Me.gbPilots)
         Me.Controls.Add(Me.gbMarketPrices)
+        Me.Controls.Add(Me.gbEveAccounts)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbGeneral)
-        Me.Controls.Add(Me.gbPilots)
-        Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbEveFolders)
         Me.Controls.Add(Me.gbPlugIns)
         Me.Controls.Add(Me.gbNotifications)
@@ -3269,10 +3273,10 @@ Partial Public Class frmSettings
         CType(Me.pbIsPreReqColour, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbDatabaseFormat.ResumeLayout(False)
         Me.gbDatabaseFormat.PerformLayout()
-        Me.gbMySQL.ResumeLayout(False)
-        Me.gbMySQL.PerformLayout()
         Me.gbAccess.ResumeLayout(False)
         Me.gbAccess.PerformLayout()
+        Me.gbMySQL.ResumeLayout(False)
+        Me.gbMySQL.PerformLayout()
         Me.gbMSSQL.ResumeLayout(False)
         Me.gbMSSQL.PerformLayout()
         Me.gbProxyServer.ResumeLayout(False)

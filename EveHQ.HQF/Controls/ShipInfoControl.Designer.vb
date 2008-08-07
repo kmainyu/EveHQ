@@ -112,6 +112,7 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.lblTankAbility = New System.Windows.Forms.Label
         Me.Panel1.SuspendLayout()
         Me.gbDefence.SuspendLayout()
         CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -179,11 +180,12 @@ Partial Class ShipInfoControl
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(250, 688)
+        Me.Panel1.Size = New System.Drawing.Size(250, 699)
         Me.Panel1.TabIndex = 0
         '
         'gbDefence
         '
+        Me.gbDefence.Controls.Add(Me.lblTankAbility)
         Me.gbDefence.Controls.Add(Me.btnEditProfiles)
         Me.gbDefence.Controls.Add(Me.cboDamageProfiles)
         Me.gbDefence.Controls.Add(Me.lblEffectiveHP)
@@ -211,7 +213,7 @@ Partial Class ShipInfoControl
         Me.gbDefence.Controls.Add(Me.PictureBox4)
         Me.gbDefence.Location = New System.Drawing.Point(5, 171)
         Me.gbDefence.Name = "gbDefence"
-        Me.gbDefence.Size = New System.Drawing.Size(240, 150)
+        Me.gbDefence.Size = New System.Drawing.Size(240, 164)
         Me.gbDefence.TabIndex = 34
         Me.gbDefence.TabStop = False
         Me.gbDefence.Text = "Ship Defence"
@@ -494,7 +496,7 @@ Partial Class ShipInfoControl
         Me.gbDamage.Controls.Add(Me.lblDamage)
         Me.gbDamage.Controls.Add(Me.pbDamage)
         Me.gbDamage.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbDamage.Location = New System.Drawing.Point(5, 394)
+        Me.gbDamage.Location = New System.Drawing.Point(5, 407)
         Me.gbDamage.Name = "gbDamage"
         Me.gbDamage.Size = New System.Drawing.Size(240, 70)
         Me.gbDamage.TabIndex = 33
@@ -667,7 +669,7 @@ Partial Class ShipInfoControl
         Me.gbCargo.Controls.Add(Me.lblCargoBay)
         Me.gbCargo.Controls.Add(Me.pbCargoBay)
         Me.gbCargo.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCargo.Location = New System.Drawing.Point(4, 610)
+        Me.gbCargo.Location = New System.Drawing.Point(4, 623)
         Me.gbCargo.Name = "gbCargo"
         Me.gbCargo.Size = New System.Drawing.Size(240, 70)
         Me.gbCargo.TabIndex = 19
@@ -779,7 +781,7 @@ Partial Class ShipInfoControl
         Me.gbPropulsion.Controls.Add(Me.lblSpeed)
         Me.gbPropulsion.Controls.Add(Me.pbSpeed)
         Me.gbPropulsion.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbPropulsion.Location = New System.Drawing.Point(5, 538)
+        Me.gbPropulsion.Location = New System.Drawing.Point(5, 551)
         Me.gbPropulsion.Name = "gbPropulsion"
         Me.gbPropulsion.Size = New System.Drawing.Size(240, 70)
         Me.gbPropulsion.TabIndex = 18
@@ -883,7 +885,7 @@ Partial Class ShipInfoControl
         Me.gbCapacitor.Controls.Add(Me.lblCapacitor)
         Me.gbCapacitor.Controls.Add(Me.pbCapacitor)
         Me.gbCapacitor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCapacitor.Location = New System.Drawing.Point(5, 320)
+        Me.gbCapacitor.Location = New System.Drawing.Point(5, 333)
         Me.gbCapacitor.Name = "gbCapacitor"
         Me.gbCapacitor.Size = New System.Drawing.Size(240, 72)
         Me.gbCapacitor.TabIndex = 17
@@ -996,7 +998,7 @@ Partial Class ShipInfoControl
         Me.gbTargeting.Controls.Add(Me.lblTargetRange)
         Me.gbTargeting.Controls.Add(Me.pbTargetRange)
         Me.gbTargeting.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbTargeting.Location = New System.Drawing.Point(5, 466)
+        Me.gbTargeting.Location = New System.Drawing.Point(5, 479)
         Me.gbTargeting.Name = "gbTargeting"
         Me.gbTargeting.Size = New System.Drawing.Size(240, 70)
         Me.gbTargeting.TabIndex = 14
@@ -1162,6 +1164,16 @@ Partial Class ShipInfoControl
         Me.ToolTip1.ReshowDelay = 100
         Me.ToolTip1.ShowAlways = True
         '
+        'lblTankAbility
+        '
+        Me.lblTankAbility.AutoSize = True
+        Me.lblTankAbility.Location = New System.Drawing.Point(11, 146)
+        Me.lblTankAbility.Name = "lblTankAbility"
+        Me.lblTankAbility.Size = New System.Drawing.Size(95, 13)
+        Me.lblTankAbility.TabIndex = 29
+        Me.lblTankAbility.Text = "Tank Ability: 0,000"
+        Me.ToolTip1.SetToolTip(Me.lblTankAbility, "Effective Hitpoints")
+        '
         'ShipInfoControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1169,7 +1181,7 @@ Partial Class ShipInfoControl
         Me.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Controls.Add(Me.Panel1)
         Me.Name = "ShipInfoControl"
-        Me.Size = New System.Drawing.Size(250, 688)
+        Me.Size = New System.Drawing.Size(250, 699)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.gbDefence.ResumeLayout(False)
@@ -1303,5 +1315,6 @@ Partial Class ShipInfoControl
     Friend WithEvents PictureBox4 As System.Windows.Forms.PictureBox
     Friend WithEvents cboDamageProfiles As System.Windows.Forms.ComboBox
     Friend WithEvents btnEditProfiles As System.Windows.Forms.Button
+    Friend WithEvents lblTankAbility As System.Windows.Forms.Label
 
 End Class

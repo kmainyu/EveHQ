@@ -473,8 +473,9 @@ Public Class Engine
 
     Public Shared Function ApplyFitting(ByVal baseShip As Ship, ByVal shipPilot As HQFPilot) As Ship
         ' Setup performance info - just in case!
-        Dim pStages(14) As String
-        Dim pStageTime(14) As DateTime
+        Dim stages As Integer = 15
+        Dim pStages(stages) As String
+        Dim pStageTime(stages) As DateTime
         pStages(0) = "Start Timing: "
         pStages(1) = "Building Skill Effects: "
         pStages(2) = "Building Implant Effects: "
@@ -490,6 +491,7 @@ Public Class Engine
         pStages(12) = "Applying Module Effects to Drones: "
         pStages(13) = "Aplpying Module Effects to Ship: "
         pStages(14) = "Calculating Damage Statistics: "
+        pStages(15) = "Calculating Defence Statistics: "
         ' Apply the pilot skills to the ship
         pStageTime(0) = Now
         Dim newShip As Ship
@@ -521,15 +523,18 @@ Public Class Engine
         pStageTime(13) = Now
         newShip = Engine.CalculateDamageStatistics(newShip)
         pStageTime(14) = Now
+        Ship.MapShipAttributes(newShip)
+        newShip = Engine.CalculateDefenceStatistics(newShip)
+        pStageTime(15) = Now
         If Settings.HQFSettings.ShowPerformanceData = True Then
             Dim dTime As TimeSpan
             Dim perfMsg As String = ""
-            For stage As Integer = 1 To 14
+            For stage As Integer = 1 To stages
                 perfMsg &= pStages(stage)
                 dTime = pStageTime(stage) - pStageTime(stage - 1)
                 perfMsg &= FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms" & ControlChars.CrLf
             Next
-            dTime = pStageTime(14) - pStageTime(0)
+            dTime = pStageTime(stages) - pStageTime(0)
             perfMsg &= "Total Time: " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms" & ControlChars.CrLf
             MessageBox.Show(perfMsg, "Performance Data Results", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -1341,8 +1346,6 @@ Public Class Engine
     End Sub
 
     Private Shared Function CalculateDamageStatistics(ByVal baseShip As Ship) As Ship
-        Dim sTime, eTime As Date
-        sTime = Now
         ' Define a new ship
         Dim newShip As Ship = CType(baseShip.Clone, Ship)
         Dim cModule As New ShipModule
@@ -1460,9 +1463,59 @@ Public Class Engine
                 End Select
             End If
         Next
-        eTime = Now
-        Dim dTime As TimeSpan = eTime - sTime
-        'MessageBox.Show("Calculating Damage Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
+        Return newShip
+    End Function
+
+    Private Shared Function CalculateDefenceStatistics(ByVal baseShip As Ship) As Ship
+        ' Define a new ship
+        Dim newShip As Ship = CType(baseShip.Clone, Ship)
+        Dim sR, aR, hR As Double
+        Dim cModule As New ShipModule
+        Dim maxslots As Integer = 0
+        For slotType As Integer = 1 To 4
+            Select Case slotType
+                Case 1
+                    maxSlots = newShip.HiSlots
+                Case 2
+                    maxSlots = newShip.MidSlots
+                Case 3
+                    maxSlots = newShip.LowSlots
+                Case 4
+                    maxSlots = newShip.RigSlots
+            End Select
+            For slot As Integer = 1 To maxSlots
+                Select Case slotType
+                    Case 1
+                        cModule = newShip.HiSlot(slot)
+                    Case 2
+                        cModule = newShip.MidSlot(slot)
+                    Case 3
+                        cModule = newShip.LowSlot(slot)
+                    Case 4
+                        cModule = newShip.RigSlot(slot)
+                End Select
+                If cModule IsNot Nothing Then
+                    If cModule.DatabaseGroup = "40" Then
+                        sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
+                    End If
+                    If cModule.DatabaseGroup = "62" Then
+                        aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
+                    End If
+                    If cModule.DatabaseGroup = "63" Then
+                        hR = hR + CDbl(cModule.Attributes("83")) / CDbl(cModule.Attributes("73"))
+                    End If
+                End If
+            Next
+        Next
+        sR = sR + (newShip.ShieldCapacity / newShip.ShieldRecharge * HQF.Settings.HQFSettings.ShieldRechargeConstant)
+        ' Calculate the actual tanking ability
+        Dim sT As Double = (sR * newShip.DamageProfileEM / (1 - newShip.ShieldEMResist / 100)) + (sR * newShip.DamageProfileEX / (1 - newShip.ShieldExResist / 100)) + (sR * newShip.DamageProfileKI / (1 - newShip.ShieldKiResist / 100)) + (sR * newShip.DamageProfileTH / (1 - newShip.ShieldThResist / 100))
+        Dim aT As Double = (aR * newShip.DamageProfileEM / (1 - newShip.ArmorEMResist / 100)) + (aR * newShip.DamageProfileEX / (1 - newShip.ArmorExResist / 100)) + (aR * newShip.DamageProfileKI / (1 - newShip.ArmorKiResist / 100)) + (aR * newShip.DamageProfileTH / (1 - newShip.ArmorThResist / 100))
+        Dim hT As Double = (hR * newShip.DamageProfileEM / (1 - newShip.StructureEMResist / 100)) + (hR * newShip.DamageProfileEX / (1 - newShip.StructureExResist / 100)) + (hR * newShip.DamageProfileKI / (1 - newShip.StructureKiResist / 100)) + (hR * newShip.DamageProfileTH / (1 - newShip.StructureThResist / 100))
+        newShip.Attributes("10059") = sT
+        newShip.Attributes("10060") = aT
+        newShip.Attributes("10061") = hT
+        newShip.Attributes("10062") = Math.Max(sT, Math.Max(aT, hT))
         Return newShip
     End Function
 

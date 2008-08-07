@@ -56,5 +56,17 @@
 # Weapon Damage Split
 10051,EMWeaponDamage,EM Weapon Damage,0,HP,0
 10052,ExplosiveWeaponDamage,Explosive Weapon Damage,0,HP,0
-10053,KineticWeaponDamage,KineticWeapon Damage,0,HP,0
+10053,KineticWeaponDamage,Kinetic Weapon Damage,0,HP,0
 10054,ThermalWeaponDamage,Thermal Weapon Damage,0,HP,0
+# Total Damage Split
+10055,EMDamage,EM Damage,0,HP,0
+10056,ExplosiveDamage,Explosive Damage,0,HP,0
+10057,KineticDamage,Kinetic Damage,0,HP,0
+10058,ThermalDamage,Thermal Damage,0,HP,0
+# Defence Values
+10059,ShieldDefence,Shield Defence,0,HP,0
+10060,ArmorDefence,Armor Defence,0,HP,0
+10061,HullDefence,Hull Defence,0,HP,0
+10062,MaxDefence,Max Defence,0,HP,0
+
+

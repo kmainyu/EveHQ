@@ -116,7 +116,7 @@ Public Class Dijkstra
         ' The REAL work!!!
         While q.Count > 0
             Dim c2 As Integer = Choose()
-            Dim u As SolarSystem = EveHQ.Core.HQ.SystemsID(c2)
+            Dim u As SolarSystem = EveHQ.Core.HQ.SystemsID(c2.ToString)
             q.Remove(u.ID)
             s.Add(u.ID, u)
             found(u.ID) = True
@@ -126,7 +126,7 @@ Public Class Dijkstra
                     If u.EveSec >= minSec And u.EveSec <= maxSec Then
                         If dist(gatelink.ID) > dist(u.ID) + 1 Then
                             dist(gatelink.ID) = dist(u.ID) + 1
-                            q.Add(gatelink.ID, EveHQ.Core.HQ.SystemsID(gatelink.ID))
+                            q.Add(gatelink.ID, EveHQ.Core.HQ.SystemsID(gatelink.ID.ToString))
                             prev.Add(gatelink.ID, u.ID)
                         End If
                     End If

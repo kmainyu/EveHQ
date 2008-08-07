@@ -1215,7 +1215,7 @@ Public Class frmMap
 #Region "Form Loading Routines"
     Private Sub frmMap_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Temp remove the waypoints tab
-        Me.tabWaypointExclusions.TabPages.Remove(Me.tabWaypoints)
+        'Me.tabWaypointExclusions.TabPages.Remove(Me.tabWaypoints)
         Me.tabMapTool.TabPages.Remove(Me.tabStationSearch)
         Me.Visible = True
         Me.Refresh()
@@ -1550,7 +1550,7 @@ Public Class frmMap
         lvwRoute.Sort()
     End Sub
     Private Sub lvwRoute_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwRoute.DoubleClick
-        Dim sysName As String = lvwRoute.SelectedItems(0).Name
+        Dim sysName As String = lvwRoute.SelectedItems(0).SubItems(1).Name
         cboSystem.SelectedItem = sysName
     End Sub
     Private Sub btnTestRange_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -1967,7 +1967,7 @@ Public Class frmMap
                         Else
                             count += 1
                             Dim newItem As ListViewItem = New ListViewItem
-                            newItem.Name = route1.Sys.Name
+                            newItem.Name = count
                             newItem.Text = count
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Name : nsi.Name = route1.Sys.Name : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
@@ -2008,7 +2008,7 @@ Public Class frmMap
                         If route1.Sys IsNot startSys Then
                             Dim newItem As ListViewItem = New ListViewItem
                             count += 1
-                            newItem.Name = route1.Sys.Name
+                            newItem.Name = count
                             newItem.Text = count
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Name : nsi.Name = route1.Sys.Name : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
@@ -2641,7 +2641,7 @@ Public Class frmMap
                         locX = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
                         locY = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
                         g.FillEllipse(myBrush, locX - 2, locY - 2, 5, 5)
-                        nSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(0).Name)
+                        nSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(0).SubItems(1).Name)
                         locX2 = (pbMap.Width - 1) / (mapX2 - mapX1) * (nSystem.x - mapX1)
                         locY2 = (pbMap.Height - 1) / (mapY2 - mapY1) * (nSystem.z - mapY1)
                         g.DrawLine(myPen, locX, locY, locX, locY)
@@ -2651,12 +2651,12 @@ Public Class frmMap
 
                         ' Draw the rest of them!
                         For a As Integer = 0 To lvwRoute.Items.Count - 1
-                            cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).Name)
+                            cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Name)
                             locX = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
                             locY = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
                             g.FillEllipse(myBrush, locX - 2, locY - 2, 5, 5)
                             If a <> lvwRoute.Items.Count - 1 Then
-                                nSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a + 1).Name)
+                                nSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a + 1).SubItems(1).Name)
                                 locX2 = (pbMap.Width - 1) / (mapX2 - mapX1) * (nSystem.x - mapX1)
                                 locY2 = (pbMap.Height - 1) / (mapY2 - mapY1) * (nSystem.z - mapY1)
                                 g.DrawLine(myPen, locX, locY, locX, locY)
@@ -2676,7 +2676,7 @@ Public Class frmMap
 
                         ' Draw the lines
                         For a As Integer = 0 To lvwRoute.Items.Count - 1
-                            cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).Name)
+                            cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Name)
                             locX2 = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
                             locY2 = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
                             g.FillEllipse(myBrush, locX2 - 2, locY2 - 2, 5, 5)
@@ -2746,7 +2746,7 @@ Public Class frmMap
             If cSystem.y < miny Then miny = cSystem.y
             If cSystem.z > maxz Then maxz = cSystem.z
             For a As Integer = 0 To lvwRoute.Items.Count - 1
-                cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).Name)
+                cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Name)
                 If cSystem IsNot Nothing Then
                     If cSystem.x > maxx Then maxx = cSystem.x
                     If cSystem.x < minx Then minx = cSystem.x
@@ -3389,7 +3389,7 @@ Public Class frmMap
             agtest = CheckAgent(cAgent)
             If agtest = True Then
                 Dim agstat As Station = StationList(cAgent.stationId)
-                Dim agsystem As SolarSystem = EveHQ.Core.HQ.SystemsID(agstat.solarSystemID)
+                Dim agsystem As SolarSystem = EveHQ.Core.HQ.SystemsID(agstat.solarSystemID.ToString)
                 Dim xsid As Integer = CInt(cAgent.stationId)
                 'lvAgSerAg.Items.Add(agsystem.Security) ' system sec
                 'lvAgSerAg.Items(AgInd).SubItems.Add(cAgent.agentName) 'agent name
@@ -3457,12 +3457,12 @@ Public Class frmMap
         Dim statid As Integer = xAgent.stationId
         Dim agstat As Station = StationList(statid)
         Dim agsysid As Integer = agstat.solarSystemID
-        Dim agsys As SolarSystem = EveHQ.Core.HQ.SystemsID(agsysid)
+        Dim agsys As SolarSystem = EveHQ.Core.HQ.SystemsID(agsysid.ToString)
         Dim agfid As Integer = Int(NPCCorpList(agcid).factionid)
         Dim agfacnam As String = eveNames(agfid).itemName
         Dim agsysnam As String = agsys.Name
-        Dim agreg As String = EveHQ.Core.HQ.SystemsID(agsysid).region
-        Dim agcon As String = EveHQ.Core.HQ.SystemsID(agsysid).constellation
+        Dim agreg As String = EveHQ.Core.HQ.SystemsID(agsysid.ToString).region
+        Dim agcon As String = EveHQ.Core.HQ.SystemsID(agsysid.ToString).constellation
         Dim checsec As Boolean = False
         Dim checqual As Boolean = False
         Dim checlvl As Boolean = False

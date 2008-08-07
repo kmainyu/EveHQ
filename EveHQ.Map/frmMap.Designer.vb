@@ -599,7 +599,7 @@ Partial Class frmMap
         Me.chkAutoCalcRoute.AutoSize = True
         Me.chkAutoCalcRoute.Checked = True
         Me.chkAutoCalcRoute.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkAutoCalcRoute.Location = New System.Drawing.Point(4, 191)
+        Me.chkAutoCalcRoute.Location = New System.Drawing.Point(4, 391)
         Me.chkAutoCalcRoute.Name = "chkAutoCalcRoute"
         Me.chkAutoCalcRoute.Size = New System.Drawing.Size(167, 17)
         Me.chkAutoCalcRoute.TabIndex = 6
@@ -608,8 +608,8 @@ Partial Class frmMap
         '
         'btnOptimalWP
         '
-        Me.btnOptimalWP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnOptimalWP.Location = New System.Drawing.Point(175, 166)
+        Me.btnOptimalWP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnOptimalWP.Location = New System.Drawing.Point(175, 366)
         Me.btnOptimalWP.Name = "btnOptimalWP"
         Me.btnOptimalWP.Size = New System.Drawing.Size(58, 23)
         Me.btnOptimalWP.TabIndex = 5
@@ -620,7 +620,7 @@ Partial Class frmMap
         'btnRemoveWaypoint
         '
         Me.btnRemoveWaypoint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnRemoveWaypoint.Location = New System.Drawing.Point(3, 166)
+        Me.btnRemoveWaypoint.Location = New System.Drawing.Point(3, 366)
         Me.btnRemoveWaypoint.Name = "btnRemoveWaypoint"
         Me.btnRemoveWaypoint.Size = New System.Drawing.Size(80, 23)
         Me.btnRemoveWaypoint.TabIndex = 4
@@ -635,7 +635,7 @@ Partial Class frmMap
         Me.lstWaypoints.FormattingEnabled = True
         Me.lstWaypoints.Location = New System.Drawing.Point(4, 6)
         Me.lstWaypoints.Name = "lstWaypoints"
-        Me.lstWaypoints.Size = New System.Drawing.Size(229, 160)
+        Me.lstWaypoints.Size = New System.Drawing.Size(229, 355)
         Me.lstWaypoints.TabIndex = 3
         '
         'btnAddWaypoint
@@ -646,7 +646,6 @@ Partial Class frmMap
         Me.btnAddWaypoint.TabIndex = 28
         Me.btnAddWaypoint.Text = "Add as WP"
         Me.btnAddWaypoint.UseVisualStyleBackColor = True
-        Me.btnAddWaypoint.Visible = False
         '
         'tabMap
         '
@@ -2012,7 +2011,7 @@ Partial Class frmMap
         'btnClearWP
         '
         Me.btnClearWP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnClearWP.Location = New System.Drawing.Point(89, 166)
+        Me.btnClearWP.Location = New System.Drawing.Point(89, 366)
         Me.btnClearWP.Name = "btnClearWP"
         Me.btnClearWP.Size = New System.Drawing.Size(76, 23)
         Me.btnClearWP.TabIndex = 7
