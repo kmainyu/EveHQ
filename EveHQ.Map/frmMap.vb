@@ -2641,7 +2641,7 @@ Public Class frmMap
                         locX = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
                         locY = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
                         g.FillEllipse(myBrush, locX - 2, locY - 2, 5, 5)
-                        nSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(0).SubItems(1).Name)
+                        nSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(0).SubItems(1).Text)
                         locX2 = (pbMap.Width - 1) / (mapX2 - mapX1) * (nSystem.x - mapX1)
                         locY2 = (pbMap.Height - 1) / (mapY2 - mapY1) * (nSystem.z - mapY1)
                         g.DrawLine(myPen, locX, locY, locX, locY)
@@ -2651,12 +2651,12 @@ Public Class frmMap
 
                         ' Draw the rest of them!
                         For a As Integer = 0 To lvwRoute.Items.Count - 1
-                            cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Name)
+                            cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Text)
                             locX = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
                             locY = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
                             g.FillEllipse(myBrush, locX - 2, locY - 2, 5, 5)
                             If a <> lvwRoute.Items.Count - 1 Then
-                                nSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a + 1).SubItems(1).Name)
+                                nSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a + 1).SubItems(1).Text)
                                 locX2 = (pbMap.Width - 1) / (mapX2 - mapX1) * (nSystem.x - mapX1)
                                 locY2 = (pbMap.Height - 1) / (mapY2 - mapY1) * (nSystem.z - mapY1)
                                 g.DrawLine(myPen, locX, locY, locX, locY)
@@ -2676,7 +2676,7 @@ Public Class frmMap
 
                         ' Draw the lines
                         For a As Integer = 0 To lvwRoute.Items.Count - 1
-                            cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Name)
+                            cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Text)
                             locX2 = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
                             locY2 = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
                             g.FillEllipse(myBrush, locX2 - 2, locY2 - 2, 5, 5)
@@ -2746,7 +2746,7 @@ Public Class frmMap
             If cSystem.y < miny Then miny = cSystem.y
             If cSystem.z > maxz Then maxz = cSystem.z
             For a As Integer = 0 To lvwRoute.Items.Count - 1
-                cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Name)
+                cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Text)
                 If cSystem IsNot Nothing Then
                     If cSystem.x > maxx Then maxx = cSystem.x
                     If cSystem.x < minx Then minx = cSystem.x
@@ -3082,28 +3082,36 @@ Public Class frmMap
             totalDist += route1.RouteDist
             Dim accDist As Double = 0
             Dim jumpDist As Double = 0
-
             Dim fuel As Integer
+            Dim nsi As New ListViewItem.ListViewSubItem
             Do While (route1 IsNot Nothing)
                 accDist = totalDist - route1.RouteDist
                 jumpDist = accDist - jumpDist
                 If route1.Sys IsNot startSys Then
                     Dim newItem As ListViewItem = New ListViewItem
                     count += 1
-                    newItem.Name = route1.Sys.Name
+                    newItem.Name = count
                     newItem.Text = count
-                    newItem.SubItems.Add(route1.Sys.Name)
-                    newItem.SubItems.Add(route1.Sys.Constellation)
-                    newItem.SubItems.Add(route1.Sys.Region)
+                    nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Name : nsi.Name = route1.Sys.Name : newItem.SubItems.Add(nsi)
+                    nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
+                    nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Region : nsi.Name = route1.Sys.Region : newItem.SubItems.Add(nsi)
+                    newItem.BackColor = Me.SystemColour(route1.Sys.EveSec)
                     newItem.SubItems.Add(FormatNumber(route1.Sys.EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                    newItem.BackColor = Me.SystemColour(route1.Sys.Security)
-                    If (cboRouteMode.SelectedItem = "Jump Route") Then
-                        newItem.SubItems.Add(FormatNumber(Math.Round(jumpDist, 8, MidpointRounding.AwayFromZero), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    If (cboRouteMode.SelectedItem = "Route Jumps") Then
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(Math.Round(jumpDist, 8, MidpointRounding.AwayFromZero), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = jumpDist : newItem.SubItems.Add(nsi)
                         fuel = Int(jumpDist * fuelmultiplier)
                         totalFuel += fuel
-                        newItem.SubItems.Add(FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                        newItem.SubItems.Add(FormatNumber(fuel * 0.15, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel : newItem.SubItems.Add(nsi)
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel * 0.15, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel * 0.15 : newItem.SubItems.Add(nsi)
+                    Else
+                        newItem.SubItems.Add("-") : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
                     End If
+                    If route1.Sys.SovereigntyName <> "" Then
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.SovereigntyName : nsi.Name = route1.Sys.SovereigntyName : newItem.SubItems.Add(nsi)
+                    Else
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = "<Unclaimed>" : nsi.Name = "<Unclaimed>" : newItem.SubItems.Add(nsi)
+                    End If
+
                     lvwRoute.Items.Add(newItem)
                 End If
                 jumpDist = accDist
@@ -3700,7 +3708,6 @@ Public Class frmMap
         End If
         xcntr = 0
     End Sub
-
     Public Function SetStationServices(ByVal OID As Integer) As String
         Dim csID As Integer
         Dim csID2 As Integer

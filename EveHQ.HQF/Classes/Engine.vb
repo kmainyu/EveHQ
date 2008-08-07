@@ -204,7 +204,7 @@ Public Class Engine
                                 fEffect.AffectedAtt = chkEffect.AffectedAtt
                                 fEffect.AffectedType = chkEffect.AffectedType
                                 fEffect.AffectedID = chkEffect.AffectedID
-                                fEffect.AffectedValue = CDbl(aSkill.Attributes(CInt(att))) * hSkill.Level
+                                fEffect.AffectedValue = CDbl(aSkill.Attributes(att)) * hSkill.Level
                                 fEffect.StackNerf = chkEffect.StackNerf
                                 fEffect.Cause = hSkill.Name & " (Level " & hSkill.Level & ")"
                                 fEffect.CalcType = chkEffect.CalcType

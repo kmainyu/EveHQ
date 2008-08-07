@@ -363,8 +363,8 @@ Public Class frmDataConvert
                             line = line.Replace(".csv", "")
                             ' Remove the "COMMIT;" bits
                             line = line.Replace("COMMIT;", "")
-                            line = line.Replace(",true", ",1")
-                            line = line.Replace(",false", ",0")
+                            line = line.Replace(",True", ",1")
+                            line = line.Replace(",False", ",0")
                             ' Replace blank entries with "null"
                             Do While line.Contains(",,") = True
                                 line = line.Replace(",,", ",null,")
@@ -682,7 +682,8 @@ Public Class frmDataConvert
                         line = line.Replace(".csv", "")
                         ' Remove the "COMMIT;" bits
                         line = line.Replace("COMMIT;", "")
-
+                        line = line.Replace(",True", ",1")
+                        line = line.Replace(",False", ",0")
                         If line.StartsWith(ControlChars.CrLf & "INSERT INTO") = True Then
                             Dim tbLoc1 As Integer = InStr(line, "(")
                             Dim tbLoc2 As Integer = InStr(line, ")")
@@ -867,8 +868,8 @@ Public Class frmDataConvert
                             line = line.Replace(".csv", "")
                             ' Remove the "COMMIT;" bits
                             line = line.Replace("COMMIT;", "")
-                            line = line.Replace(",true", ",1")
-                            line = line.Replace(",false", ",0")
+                            line = line.Replace(",True", ",1")
+                            line = line.Replace(",False", ",0")
                             ' Replace blank entries with "null"
                             Do While line.Contains(",,") = True
                                 line = line.Replace(",,", ",null,")

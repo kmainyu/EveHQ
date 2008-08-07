@@ -368,9 +368,9 @@ Public Class frmHQF
                             newSkill = CType(HQF.SkillLists.SkillList(skillRow.Item("typeID").ToString), HQF.Skill)
                         End If
                         If IsDBNull(skillRow.Item("valueInt")) = False Then
-                            newSkill.Attributes.Add(skillRow.Item("attributeID"), skillRow.Item("valueInt"))
+                            newSkill.Attributes.Add(skillRow.Item("attributeID").ToString, skillRow.Item("valueInt"))
                         Else
-                            newSkill.Attributes.Add(skillRow.Item("attributeID"), skillRow.Item("valueFloat"))
+                            newSkill.Attributes.Add(skillRow.Item("attributeID").ToString, skillRow.Item("valueFloat"))
                         End If
                     Next
                     Return True
