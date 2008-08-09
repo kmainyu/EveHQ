@@ -22,6 +22,7 @@ Imports System.Reflection
 Public Class frmSplash
 
     Dim isLocal As Boolean = False
+    Dim showSplash As Boolean = True
 
     Private Sub frmSplash_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -31,15 +32,20 @@ Public Class frmSplash
         ' Set the image for the splash screen
         Panel1.BackgroundImage = My.Resources.Splashv5
 
-        Me.Show()
-
         ' Check for any commandline parameters that we need to account for
         For Each param As String In System.Environment.GetCommandLineArgs
             If param = "/local" Then
                 isLocal = True
                 EveHQ.Core.HQ.IsUsingLocalFolders = True
             End If
+            If param = "/nosplash" Then
+                showSplash = False
+            End If
         Next
+
+        If showSplash = True Then
+            Me.Show()
+        End If
 
         ' Delete any .old files left over from the last update
         For Each newFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath, FileIO.SearchOption.SearchTopLevelOnly, "*.old")

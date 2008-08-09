@@ -23,8 +23,8 @@ Partial Class frmAssets
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAssets))
         Me.lblSelectChar = New System.Windows.Forms.Label
         Me.cboPilots = New System.Windows.Forms.ComboBox
@@ -54,6 +54,8 @@ Partial Class frmAssets
         Me.lblSelectedFilters = New System.Windows.Forms.Label
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.tabAssets = New System.Windows.Forms.TabPage
+        Me.txtMinSystemValue = New System.Windows.Forms.TextBox
+        Me.chkMinSystemValue = New System.Windows.Forms.CheckBox
         Me.chkExcludeItems = New System.Windows.Forms.CheckBox
         Me.chkExcludeInvestments = New System.Windows.Forms.CheckBox
         Me.chkExcludeCash = New System.Windows.Forms.CheckBox
@@ -149,8 +151,6 @@ Partial Class frmAssets
         Me.mnuAssetListValue = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueA = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueD = New System.Windows.Forms.ToolStripMenuItem
-        Me.chkMinSystemValue = New System.Windows.Forms.CheckBox
-        Me.txtMinSystemValue = New System.Windows.Forms.TextBox
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -429,6 +429,25 @@ Partial Class frmAssets
         Me.tabAssets.Text = "Assets"
         Me.tabAssets.UseVisualStyleBackColor = True
         '
+        'txtMinSystemValue
+        '
+        Me.txtMinSystemValue.Location = New System.Drawing.Point(572, 57)
+        Me.txtMinSystemValue.Name = "txtMinSystemValue"
+        Me.txtMinSystemValue.Size = New System.Drawing.Size(135, 20)
+        Me.txtMinSystemValue.TabIndex = 26
+        Me.txtMinSystemValue.Text = "0.00"
+        Me.txtMinSystemValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'chkMinSystemValue
+        '
+        Me.chkMinSystemValue.AutoSize = True
+        Me.chkMinSystemValue.Location = New System.Drawing.Point(453, 60)
+        Me.chkMinSystemValue.Name = "chkMinSystemValue"
+        Me.chkMinSystemValue.Size = New System.Drawing.Size(113, 17)
+        Me.chkMinSystemValue.TabIndex = 25
+        Me.chkMinSystemValue.Text = "Min. System Value"
+        Me.chkMinSystemValue.UseVisualStyleBackColor = True
+        '
         'chkExcludeItems
         '
         Me.chkExcludeItems.AutoSize = True
@@ -562,11 +581,11 @@ Partial Class frmAssets
         '
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup5.Header = "Corporation"
-        ListViewGroup5.Name = "grpCorporation"
-        ListViewGroup6.Header = "Personal"
-        ListViewGroup6.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup1.Header = "Corporation"
+        ListViewGroup1.Name = "grpCorporation"
+        ListViewGroup2.Header = "Personal"
+        ListViewGroup2.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -1232,25 +1251,6 @@ Partial Class frmAssets
         Me.mnuAssetListValueD.Name = "mnuAssetListValueD"
         Me.mnuAssetListValueD.Size = New System.Drawing.Size(136, 22)
         Me.mnuAssetListValueD.Text = "Descending"
-        '
-        'chkMinSystemValue
-        '
-        Me.chkMinSystemValue.AutoSize = True
-        Me.chkMinSystemValue.Location = New System.Drawing.Point(453, 60)
-        Me.chkMinSystemValue.Name = "chkMinSystemValue"
-        Me.chkMinSystemValue.Size = New System.Drawing.Size(113, 17)
-        Me.chkMinSystemValue.TabIndex = 25
-        Me.chkMinSystemValue.Text = "Min. System Value"
-        Me.chkMinSystemValue.UseVisualStyleBackColor = True
-        '
-        'txtMinSystemValue
-        '
-        Me.txtMinSystemValue.Location = New System.Drawing.Point(572, 57)
-        Me.txtMinSystemValue.Name = "txtMinSystemValue"
-        Me.txtMinSystemValue.Size = New System.Drawing.Size(135, 20)
-        Me.txtMinSystemValue.TabIndex = 26
-        Me.txtMinSystemValue.Text = "0.00"
-        Me.txtMinSystemValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'frmAssets
         '
