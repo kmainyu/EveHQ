@@ -37,21 +37,21 @@ Public Class EveAPI
         Dim postdata As String = ""
         Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.AllianceList
-                remoteURL = "/eve/AllianceList.xml.aspx"
+                remoteURL = "/eve/AllianceList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.RefTypes
-                remoteURL = "/eve/RefTypes.xml.aspx"
+                remoteURL = "/eve/RefTypes.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.SkillTree
-                remoteURL = "/eve/SkillTree.xml.aspx"
+                remoteURL = "/eve/SkillTree.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.Sovereignty
-                remoteURL = "/map/Sovereignty.xml.aspx"
+                remoteURL = "/map/Sovereignty.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.MapJumps
-                remoteURL = "/map/Jumps.xml.aspx"
+                remoteURL = "/map/Jumps.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.MapKills
-                remoteURL = "/map/Kills.xml.aspx"
+                remoteURL = "/map/Kills.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.Conquerables
-                remoteURL = "/eve/ConquerableStationList.xml.aspx"
+                remoteURL = "/eve/ConquerableStationList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.ErrorList
-                remoteURL = "/eve/ErrorList.xml.aspx"
+                remoteURL = "/eve/ErrorList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -68,10 +68,10 @@ Public Class EveAPI
         Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.NameToID
                 postdata = "names=" & charData
-                remoteURL = "/eve/CharacterID.xml.aspx"
+                remoteURL = "/eve/CharacterID.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.IDToName
                 postdata = "ids=" & charData
-                remoteURL = "/eve/CharacterName.xml.aspx"
+                remoteURL = "/eve/CharacterName.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -87,7 +87,7 @@ Public Class EveAPI
         Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.Characters
 
-                remoteURL = "/account/characters.xml.aspx"
+                remoteURL = "/account/characters.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -102,35 +102,35 @@ Public Class EveAPI
         Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & charID
         Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar
-                remoteURL = "/char/AccountBalance.xml.aspx"
+                remoteURL = "/char/AccountBalance.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp
-                remoteURL = "/corp/AccountBalance.xml.aspx"
+                remoteURL = "/corp/AccountBalance.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.CharacterSheet
-                remoteURL = "/char/CharacterSheet.xml.aspx"
+                remoteURL = "/char/CharacterSheet.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.CorpSheet
-                remoteURL = "/corp/CorporationSheet.xml.aspx"
+                remoteURL = "/corp/CorporationSheet.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.CorpMemberTracking
-                remoteURL = "/corp/MemberTracking.xml.aspx"
+                remoteURL = "/corp/MemberTracking.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.SkillTraining
-                remoteURL = "/char/SkillInTraining.xml.aspx"
+                remoteURL = "/char/SkillInTraining.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.AssetsChar
-                remoteURL = "/char/AssetList.xml.aspx"
+                remoteURL = "/char/AssetList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.AssetsCorp
-                remoteURL = "/corp/AssetList.xml.aspx"
+                remoteURL = "/corp/AssetList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.KillLogChar
-                remoteURL = "/char/Killlog.xml.aspx"
+                remoteURL = "/char/Killlog.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.KillLogCorp
-                remoteURL = "/corp/Killlog.xml.aspx"
+                remoteURL = "/corp/Killlog.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.IndustryChar
-                remoteURL = "/char/IndustryJobs.xml.aspx"
+                remoteURL = "/char/IndustryJobs.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.IndustryCorp
-                remoteURL = "/corp/IndustryJobs.xml.aspx"
+                remoteURL = "/corp/IndustryJobs.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.OrdersChar
-                remoteURL = "/char/MarketOrders.xml.aspx"
+                remoteURL = "/char/MarketOrders.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.OrdersCorp
-                remoteURL = "/corp/MarketOrders.xml.aspx"
+                remoteURL = "/corp/MarketOrders.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.POSList
-                remoteURL = "/corp/StarbaseList.xml.aspx"
+                remoteURL = "/corp/StarbaseList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -145,7 +145,7 @@ Public Class EveAPI
         Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
         Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.POSDetails
-                remoteURL = "/corp/StarbaseDetail.xml.aspx"
+                remoteURL = "/corp/StarbaseDetail.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -163,9 +163,9 @@ Public Class EveAPI
         End If
         Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.WalletJournalChar
-                remoteURL = "/char/WalletJournal.xml.aspx"
+                remoteURL = "/char/WalletJournal.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp
-                remoteURL = "/corp/WalletJournal.xml.aspx"
+                remoteURL = "/corp/WalletJournal.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -183,9 +183,9 @@ Public Class EveAPI
         End If
         Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.WalletTransChar
-                remoteURL = "/char/WalletTransactions.xml.aspx"
+                remoteURL = "/char/WalletTransactions.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.WalletTransCorp
-                remoteURL = "/corp/WalletTransactions.xml.aspx"
+                remoteURL = "/corp/WalletTransactions.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing

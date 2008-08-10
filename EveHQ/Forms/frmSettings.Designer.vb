@@ -316,6 +316,8 @@ Partial Public Class frmSettings
         Me.lblLastUpdateTime = New System.Windows.Forms.Label
         Me.lblLastUpdate = New System.Windows.Forms.Label
         Me.btnUpdatePrices = New System.Windows.Forms.Button
+        Me.txtAPIFileExtension = New System.Windows.Forms.TextBox
+        Me.lblAPIFileExtension = New System.Windows.Forms.Label
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotLevel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -909,9 +911,9 @@ Partial Public Class frmSettings
         Me.gbPilots.Controls.Add(Me.btnDeletePilot)
         Me.gbPilots.Controls.Add(Me.btnAddPilot)
         Me.gbPilots.Controls.Add(Me.lvwPilots)
-        Me.gbPilots.Location = New System.Drawing.Point(194, 12)
+        Me.gbPilots.Location = New System.Drawing.Point(247, 372)
         Me.gbPilots.Name = "gbPilots"
-        Me.gbPilots.Size = New System.Drawing.Size(701, 498)
+        Me.gbPilots.Size = New System.Drawing.Size(115, 48)
         Me.gbPilots.TabIndex = 17
         Me.gbPilots.TabStop = False
         Me.gbPilots.Text = "Pilots"
@@ -952,7 +954,7 @@ Partial Public Class frmSettings
         Me.lvwPilots.GridLines = True
         Me.lvwPilots.Location = New System.Drawing.Point(12, 19)
         Me.lvwPilots.Name = "lvwPilots"
-        Me.lvwPilots.Size = New System.Drawing.Size(398, 473)
+        Me.lvwPilots.Size = New System.Drawing.Size(398, 23)
         Me.lvwPilots.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwPilots.TabIndex = 18
         Me.lvwPilots.UseCompatibleStateImageBehavior = False
@@ -2104,9 +2106,9 @@ Partial Public Class frmSettings
         Me.gbEveServer.Controls.Add(Me.lblCurrentOffset)
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.trackServerOffset)
-        Me.gbEveServer.Location = New System.Drawing.Point(262, 316)
+        Me.gbEveServer.Location = New System.Drawing.Point(194, 12)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(100, 35)
+        Me.gbEveServer.Size = New System.Drawing.Size(694, 489)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
@@ -2115,7 +2117,7 @@ Partial Public Class frmSettings
         'chkShowAPIStatusForm
         '
         Me.chkShowAPIStatusForm.AutoSize = True
-        Me.chkShowAPIStatusForm.Location = New System.Drawing.Point(19, 171)
+        Me.chkShowAPIStatusForm.Location = New System.Drawing.Point(19, 149)
         Me.chkShowAPIStatusForm.Name = "chkShowAPIStatusForm"
         Me.chkShowAPIStatusForm.Size = New System.Drawing.Size(277, 17)
         Me.chkShowAPIStatusForm.TabIndex = 21
@@ -2124,6 +2126,8 @@ Partial Public Class frmSettings
         '
         'gbAPIServer
         '
+        Me.gbAPIServer.Controls.Add(Me.txtAPIFileExtension)
+        Me.gbAPIServer.Controls.Add(Me.lblAPIFileExtension)
         Me.gbAPIServer.Controls.Add(Me.chkUseCCPBackup)
         Me.gbAPIServer.Controls.Add(Me.chkUseAPIRSServer)
         Me.gbAPIServer.Controls.Add(Me.txtAPIRSServer)
@@ -2131,9 +2135,9 @@ Partial Public Class frmSettings
         Me.gbAPIServer.Controls.Add(Me.txtCCPAPIServer)
         Me.gbAPIServer.Controls.Add(Me.lblCCPAPIServer)
         Me.gbAPIServer.Controls.Add(Me.chkAutoAPI)
-        Me.gbAPIServer.Location = New System.Drawing.Point(6, 210)
+        Me.gbAPIServer.Location = New System.Drawing.Point(6, 172)
         Me.gbAPIServer.Name = "gbAPIServer"
-        Me.gbAPIServer.Size = New System.Drawing.Size(668, 132)
+        Me.gbAPIServer.Size = New System.Drawing.Size(668, 161)
         Me.gbAPIServer.TabIndex = 20
         Me.gbAPIServer.TabStop = False
         Me.gbAPIServer.Text = "API Server"
@@ -2193,7 +2197,7 @@ Partial Public Class frmSettings
         'chkAutoAPI
         '
         Me.chkAutoAPI.AutoSize = True
-        Me.chkAutoAPI.Location = New System.Drawing.Point(12, 101)
+        Me.chkAutoAPI.Location = New System.Drawing.Point(12, 130)
         Me.chkAutoAPI.Name = "chkAutoAPI"
         Me.chkAutoAPI.Size = New System.Drawing.Size(309, 17)
         Me.chkAutoAPI.TabIndex = 20
@@ -2206,7 +2210,7 @@ Partial Public Class frmSettings
         Me.gbAPIRelayServer.Controls.Add(Me.nudAPIRSPort)
         Me.gbAPIRelayServer.Controls.Add(Me.lblAPIRSPort)
         Me.gbAPIRelayServer.Controls.Add(Me.chkActivateAPIRS)
-        Me.gbAPIRelayServer.Location = New System.Drawing.Point(6, 348)
+        Me.gbAPIRelayServer.Location = New System.Drawing.Point(6, 342)
         Me.gbAPIRelayServer.Name = "gbAPIRelayServer"
         Me.gbAPIRelayServer.Size = New System.Drawing.Size(668, 114)
         Me.gbAPIRelayServer.TabIndex = 15
@@ -2255,7 +2259,7 @@ Partial Public Class frmSettings
         'chkEnableEveStatus
         '
         Me.chkEnableEveStatus.AutoSize = True
-        Me.chkEnableEveStatus.Location = New System.Drawing.Point(19, 41)
+        Me.chkEnableEveStatus.Location = New System.Drawing.Point(19, 31)
         Me.chkEnableEveStatus.Name = "chkEnableEveStatus"
         Me.chkEnableEveStatus.Size = New System.Drawing.Size(126, 17)
         Me.chkEnableEveStatus.TabIndex = 13
@@ -2265,7 +2269,7 @@ Partial Public Class frmSettings
         'lblCurrentOffset
         '
         Me.lblCurrentOffset.AutoSize = True
-        Me.lblCurrentOffset.Location = New System.Drawing.Point(16, 138)
+        Me.lblCurrentOffset.Location = New System.Drawing.Point(16, 118)
         Me.lblCurrentOffset.Name = "lblCurrentOffset"
         Me.lblCurrentOffset.Size = New System.Drawing.Size(75, 13)
         Me.lblCurrentOffset.TabIndex = 12
@@ -2274,7 +2278,7 @@ Partial Public Class frmSettings
         'lblServerOffset
         '
         Me.lblServerOffset.AutoSize = True
-        Me.lblServerOffset.Location = New System.Drawing.Point(16, 74)
+        Me.lblServerOffset.Location = New System.Drawing.Point(16, 54)
         Me.lblServerOffset.Name = "lblServerOffset"
         Me.lblServerOffset.Size = New System.Drawing.Size(147, 13)
         Me.lblServerOffset.TabIndex = 11
@@ -2283,7 +2287,7 @@ Partial Public Class frmSettings
         'trackServerOffset
         '
         Me.trackServerOffset.BackColor = System.Drawing.SystemColors.Control
-        Me.trackServerOffset.Location = New System.Drawing.Point(19, 90)
+        Me.trackServerOffset.Location = New System.Drawing.Point(19, 70)
         Me.trackServerOffset.Maximum = 600
         Me.trackServerOffset.Minimum = -600
         Me.trackServerOffset.Name = "trackServerOffset"
@@ -3199,16 +3203,32 @@ Partial Public Class frmSettings
         Me.btnUpdatePrices.Text = "Update Market Prices"
         Me.btnUpdatePrices.UseVisualStyleBackColor = True
         '
+        'txtAPIFileExtension
+        '
+        Me.txtAPIFileExtension.Location = New System.Drawing.Point(152, 101)
+        Me.txtAPIFileExtension.Name = "txtAPIFileExtension"
+        Me.txtAPIFileExtension.Size = New System.Drawing.Size(98, 20)
+        Me.txtAPIFileExtension.TabIndex = 28
+        '
+        'lblAPIFileExtension
+        '
+        Me.lblAPIFileExtension.AutoSize = True
+        Me.lblAPIFileExtension.Location = New System.Drawing.Point(9, 104)
+        Me.lblAPIFileExtension.Name = "lblAPIFileExtension"
+        Me.lblAPIFileExtension.Size = New System.Drawing.Size(93, 13)
+        Me.lblAPIFileExtension.TabIndex = 27
+        Me.lblAPIFileExtension.Text = "API File Extention:"
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbPilots)
+        Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbMarketPrices)
+        Me.Controls.Add(Me.gbPilots)
         Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbDatabaseFormat)
-        Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbEveFolders)
@@ -3599,4 +3619,6 @@ Partial Public Class frmSettings
     Friend WithEvents chkOmitCurrentSkill As System.Windows.Forms.CheckBox
     Friend WithEvents chkShowAPIStatusForm As System.Windows.Forms.CheckBox
     Friend WithEvents chkUseAppDirForDB As System.Windows.Forms.CheckBox
+    Friend WithEvents txtAPIFileExtension As System.Windows.Forms.TextBox
+    Friend WithEvents lblAPIFileExtension As System.Windows.Forms.Label
 End Class

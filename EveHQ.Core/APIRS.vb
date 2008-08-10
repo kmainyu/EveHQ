@@ -70,39 +70,39 @@ Public Class APIRS
                             Case "/HEARTBEAT", "/HEARTBEAT/"
                                 responseString = "ACTIVE"
                                 ' Select the API Requested
-                            Case "/EVE/ALLIANCELIST.XML.ASPX"
+                            Case "/EVE/ALLIANCELIST.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 Dim APIXML As New XmlDocument
                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AllianceList, False)
                                 responseString = APIXML.InnerXml
-                            Case "/EVE/SKILLTREE.XML.ASPX"
+                            Case "/EVE/SKILLTREE.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 Dim APIXML As New XmlDocument
                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.SkillTree, False)
                                 responseString = APIXML.InnerXml
-                            Case "/EVE/REFTYPES.XML.ASPX"
+                            Case "/EVE/REFTYPES.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 Dim APIXML As New XmlDocument
                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.RefTypes, False)
                                 responseString = APIXML.InnerXml
-                            Case "/EVE/CONQUERABLESTATIONLIST.XML.ASPX"
+                            Case "/EVE/CONQUERABLESTATIONLIST.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 Dim APIXML As New XmlDocument
                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Conquerables, False)
                                 responseString = APIXML.InnerXml
-                            Case "/EVE/ERRORLIST.XML.ASPX"
+                            Case "/EVE/ERRORLIST.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 Dim APIXML As New XmlDocument
                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.ErrorList, False)
                                 responseString = APIXML.InnerXml
-                            Case "/MAP/SOVEREIGNTY.XML.ASPX"
+                            Case "/MAP/SOVEREIGNTY.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 Dim APIXML As New XmlDocument
                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Sovereignty, False)
                                 responseString = APIXML.InnerXml
-                            Case "/MAP/JUMPS.XML.ASPX"
+                            Case "/MAP/JUMPS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 Dim APIXML As New XmlDocument
                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.MapJumps, False)
                                 responseString = APIXML.InnerXml
-                            Case "/MAP/KILLS.XML.ASPX"
+                            Case "/MAP/KILLS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 Dim APIXML As New XmlDocument
                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.MapKills, False)
                                 responseString = APIXML.InnerXml
-                            Case "EVE/CHARACTERID.XML.ASPX"
+                            Case "EVE/CHARACTERID.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 ' Get the POST data
                                 Dim postData As SortedList = HTTPPOSTData()
                                 If postData.Contains("names") = True Then
@@ -113,7 +113,7 @@ Public Class APIRS
                                 Else
                                     responseString = "The HTTP POST data contained incorrect data."
                                 End If
-                            Case "EVE/CHARACTERNAME.XML.ASPX"
+                            Case "EVE/CHARACTERNAME.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 ' Get the POST data
                                 Dim postData As SortedList = HTTPPOSTData()
                                 If postData.Contains("ids") = True Then
@@ -124,7 +124,7 @@ Public Class APIRS
                                 Else
                                     responseString = "The HTTP POST data contained incorrect data."
                                 End If
-                            Case "/ACCOUNT/CHARACTERS.XML.ASPX"
+                            Case "/ACCOUNT/CHARACTERS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 ' Get the POST data
                                 Dim postData As SortedList = HTTPPOSTData()
                                 ' Check for userID and APIKey headers
@@ -144,7 +144,7 @@ Public Class APIRS
                                     Case APIRSResponseTypes.InvalidAPIKey
                                         responseString = "The APIKey was not valid."
                                 End Select
-                            Case "CHAR/ACCOUNTBALANCE.XML.ASPX", "CORP/ACCOUNTBALANCE.XML.ASPX", "/CHAR/CHARACTERSHEET.XML.ASPX", "/CORP/CORPORATIONSHEET.XML.ASPX", "/CORP/MEMBERTRACKING.XML.ASPX", "/CHAR/SKILLINTRAINING.XML.ASPX", "/CHAR/ASSETLIST.XML.ASPX", "/CORP/ASSETLIST.XML.ASPX", "/CHAR/KILLLOG.XML.ASPX", "/CORP/KILLLOG.XML.ASPX", "/CHAR/INDUSTRYJOBS.XML.ASPX", "/CORP/INDUSTRYJOBS.XML.ASPX", "/CHAR/MARKETORDERS.XML.ASPX", "/CORP/MARKETORDERS.XML.ASPX", "/CORP/STARBASELIST.XML.ASPX", "/CORP/STARBASEDETAIL.XML.ASPX", "/CHAR/WALLETTRANSACTIONS.XML.ASPX", "/CORP/WALLETTRANSACTIONS.XML.ASPX"
+                            Case "CHAR/ACCOUNTBALANCE.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "CORP/ACCOUNTBALANCE.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CHAR/CHARACTERSHEET.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CORP/CORPORATIONSHEET.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CORP/MEMBERTRACKING.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CHAR/SKILLINTRAINING.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CHAR/ASSETLIST.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CORP/ASSETLIST.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CHAR/KILLLOG.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CORP/KILLLOG.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CHAR/INDUSTRYJOBS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CORP/INDUSTRYJOBS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CHAR/MARKETORDERS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CORP/MARKETORDERS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CORP/STARBASELIST.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CORP/STARBASEDETAIL.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CHAR/WALLETTRANSACTIONS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "/CORP/WALLETTRANSACTIONS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 ' Get the POST data
                                 Dim postData As SortedList = HTTPPOSTData()
                                 ' Check for userID and APIKey headers
@@ -161,41 +161,41 @@ Public Class APIRS
                                         Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts(userID), EveAccount)
                                         Dim APIXML As New XmlDocument
                                         Select Case context.Request.Url.AbsolutePath.ToUpper
-                                            Case "CHAR/ACCOUNTBALANCE.XML.ASPX"
+                                            Case "CHAR/ACCOUNTBALANCE.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, aAccount, charID)
-                                            Case "CORP/ACCOUNTBALANCE.XML.ASPX"
+                                            Case "CORP/ACCOUNTBALANCE.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, aAccount, charID)
-                                            Case "/CHAR/CHARACTERSHEET.XML.ASPX"
+                                            Case "/CHAR/CHARACTERSHEET.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CharacterSheet, aAccount, charID)
-                                            Case "/CORP/CORPORATIONSHEET.XML.ASPX"
+                                            Case "/CORP/CORPORATIONSHEET.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, aAccount, charID)
-                                            Case "/CORP/MEMBERTRACKING.XML.ASPX"
+                                            Case "/CORP/MEMBERTRACKING.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpMemberTracking, aAccount, charID)
-                                            Case "/CHAR/SKILLINTRAINING.XML.ASPX"
+                                            Case "/CHAR/SKILLINTRAINING.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.SkillTraining, aAccount, charID)
-                                            Case "/CHAR/ASSETLIST.XML.ASPX"
+                                            Case "/CHAR/ASSETLIST.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, aAccount, charID)
-                                            Case "/CORP/ASSETLIST.XML.ASPX"
+                                            Case "/CORP/ASSETLIST.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, aAccount, charID)
-                                            Case "/CHAR/KILLLOG.XML.ASPX"
+                                            Case "/CHAR/KILLLOG.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.KillLogChar, aAccount, charID)
-                                            Case "/CORP/KILLLOG.XML.ASPX"
+                                            Case "/CORP/KILLLOG.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.KillLogCorp, aAccount, charID)
-                                            Case "/CHAR/INDUSTRYJOBS.XML.ASPX"
+                                            Case "/CHAR/INDUSTRYJOBS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, aAccount, charID)
-                                            Case "/CORP/INDUSTRYJOBS.XML.ASPX"
+                                            Case "/CORP/INDUSTRYJOBS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, aAccount, charID)
-                                            Case "/CHAR/MARKETORDERS.XML.ASPX"
+                                            Case "/CHAR/MARKETORDERS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, aAccount, charID)
-                                            Case "/CORP/MARKETORDERS.XML.ASPX"
+                                            Case "/CORP/MARKETORDERS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, aAccount, charID)
-                                            Case "/CORP/STARBASELIST.XML.ASPX"
+                                            Case "/CORP/STARBASELIST.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.POSList, aAccount, charID)
-                                            Case "/CORP/STARBASEDETAIL.XML.ASPX"
+                                            Case "/CORP/STARBASEDETAIL.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.POSDetails, aAccount, charID)
-                                            Case "/CHAR/WALLETTRANSACTIONS.XML.ASPX"
+                                            Case "/CHAR/WALLETTRANSACTIONS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, aAccount, charID, beforeTransID)
-                                            Case "/CORP/WALLETTRANSACTIONS.XML.ASPX"
+                                            Case "/CORP/WALLETTRANSACTIONS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, aAccount, charID, beforeTransID)
                                         End Select
                                         responseString = APIXML.InnerXml
@@ -208,7 +208,7 @@ Public Class APIRS
                                     Case APIRSResponseTypes.InvalidCharID
                                         responseString = "The charID was not valid."
                                 End Select
-                            Case "/CORP/STARBASEDETAIL.XML.ASPX"
+                            Case "/CORP/STARBASEDETAIL.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 ' Get the POST data
                                 Dim postData As SortedList = HTTPPOSTData()
                                 ' Check for userID and APIKey headers
@@ -234,7 +234,7 @@ Public Class APIRS
                                     Case APIRSResponseTypes.InvalidAccountKey
                                         responseString = "The Account Key was not valid."
                                 End Select
-                            Case "CHAR/WALLETJOURNAL.XML.ASPX", "CORP/WALLETJOURNAL.XML.ASPX"
+                            Case "CHAR/WALLETJOURNAL.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper, "CORP/WALLETJOURNAL.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                 ' Get the POST data
                                 Dim postData As SortedList = HTTPPOSTData()
                                 ' Check for userID and APIKey headers
@@ -252,9 +252,9 @@ Public Class APIRS
                                         Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts(userID), EveAccount)
                                         Dim APIXML As New XmlDocument
                                         Select Case context.Request.Url.AbsolutePath.ToUpper
-                                            Case "CHAR/WALLETJOURNAL.XML.ASPX"
+                                            Case "CHAR/WALLETJOURNAL.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, aAccount, charID, accountKey, beforeRefID)
-                                            Case "CORP/WALLETJOURNAL.XML.ASPX"
+                                            Case "CORP/WALLETJOURNAL.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, aAccount, charID, accountKey, beforeRefID)
                                         End Select
                                         responseString = APIXML.InnerXml

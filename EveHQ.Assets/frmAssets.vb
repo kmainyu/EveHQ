@@ -2959,10 +2959,10 @@ Public Class frmAssets
                 lviBP2.SubItems(2).Text = (FormatNumber(rigCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 lviBP2.SubItems(3).Text = (FormatNumber(buildCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 lviBP2.SubItems(4).Text = (FormatNumber(rigCost - buildCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(5).Text = (FormatNumber(minQuantity * rigCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(6).Text = (FormatNumber(minQuantity * buildCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(7).Text = (FormatNumber(minQuantity * (rigCost - buildCost), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(8).Text = (FormatNumber((minQuantity * (rigCost - buildCost)) / (minQuantity * buildCost) * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                lviBP2.SubItems(5).Text = (FormatNumber(Int(minQuantity) * rigCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                lviBP2.SubItems(6).Text = (FormatNumber(Int(minQuantity) * buildCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                lviBP2.SubItems(7).Text = (FormatNumber(Int(minQuantity) * (rigCost - buildCost), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                lviBP2.SubItems(8).Text = (FormatNumber((Int(minQuantity) * (rigCost - buildCost)) / (Int(minQuantity) * buildCost) * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
             End If
         Next
         lvwRigs.EndUpdate()

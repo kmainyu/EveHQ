@@ -446,7 +446,7 @@ Public Class SkillFunctions
                 APIServer = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
             End If
 
-            Dim RemoteURL As String = APIServer & "/eve/SkillTree.xml.aspx"
+            Dim RemoteURL As String = APIServer & "/eve/SkillTree.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             ' Create the requester
             Dim request As HttpWebRequest = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
             ' Setup proxy server (if required)

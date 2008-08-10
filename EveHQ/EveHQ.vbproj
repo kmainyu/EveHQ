@@ -490,7 +490,6 @@
     <None Include="Resources\level5_act.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="_latesttest.xml" />
     <Content Include="license.txt" />
     <Content Include="_latest.xml" />
   </ItemGroup>

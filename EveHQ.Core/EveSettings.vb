@@ -112,7 +112,16 @@ Public Class EveSettings
     Private cOmitCurrentSkill As Boolean = False
     Private cUseAPIStatusForm As Boolean = True
     Private cUseAppDirectoryForDB As Boolean = False
+    Private cAPIFileExtension As String = "aspx"
 
+    Public Property APIFileExtension() As String
+        Get
+            Return cAPIFileExtension
+        End Get
+        Set(ByVal value As String)
+            cAPIFileExtension = value
+        End Set
+    End Property
     Public Property UseAppDirectoryForDB() As Boolean
         Get
             Return cUseAppDirectoryForDB
@@ -1099,6 +1108,7 @@ Public Class EveSettings
         XMLS &= Chr(9) & Chr(9) & "<omitCurrentSkill>" & EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill & "</omitCurrentSkill>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<useAPIStatusForm>" & EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm & "</useAPIStatusForm>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<useAppDirForDB>" & EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB & "</useAppDirForDB>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<APIFileExtension>" & EveHQ.Core.HQ.EveHQSettings.APIFileExtension & "</APIFileExtension>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the Plug-Ins details
@@ -1443,6 +1453,7 @@ Public Class EveSettings
                         EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = CBool(accountSettings.ChildNodes(119).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm = CBool(accountSettings.ChildNodes(120).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = CBool(accountSettings.ChildNodes(121).InnerText)
+                        EveHQ.Core.HQ.EveHQSettings.APIFileExtension = accountSettings.ChildNodes(122).InnerText
                     End If
                 End If
             Catch

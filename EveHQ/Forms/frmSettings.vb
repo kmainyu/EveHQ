@@ -1227,6 +1227,7 @@ Public Class frmSettings
             txtAPIRSServer.Enabled = True
         End If
         chkShowAPIStatusForm.Checked = EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm
+        txtAPIFileExtension.Text = EveHQ.Core.HQ.EveHQSettings.APIFileExtension
     End Sub
     Private Sub trackServerOffset_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles trackServerOffset.ValueChanged
         EveHQ.Core.HQ.EveHQSettings.ServerOffset = trackServerOffset.Value
@@ -1329,6 +1330,9 @@ Public Class frmSettings
     End Sub
     Private Sub chkShowAPIStatusForm_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowAPIStatusForm.CheckedChanged
         EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm = chkShowAPIStatusForm.Checked
+    End Sub
+    Private Sub txtAPIFileExtension_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtAPIFileExtension.TextChanged
+        EveHQ.Core.HQ.EveHQSettings.APIFileExtension = txtAPIFileExtension.Text
     End Sub
 #End Region
 
@@ -2219,4 +2223,5 @@ Public Class frmSettings
 
 #End Region
     
+   
 End Class

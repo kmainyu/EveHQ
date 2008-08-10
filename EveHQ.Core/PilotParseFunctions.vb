@@ -543,7 +543,7 @@ Public Class PilotParseFunctions
                 APIServer = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
             End If
 
-            Dim RemoteURL As String = APIServer & "/account/characters.xml.aspx"
+            Dim RemoteURL As String = APIServer & "/account/characters.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             ' Set up data for the HTTP "POST" method
             Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey
             ' Create the requester
@@ -697,7 +697,7 @@ Public Class PilotParseFunctions
                 Dim webdata As String = ""
                 Try
 
-                    RemoteURL = APIServer & "/char/charactersheet.xml.aspx"
+                    RemoteURL = APIServer & "/char/charactersheet.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
                     ' Set up data for the HTTP "POST" method
                     Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & cPilot.ID
                     ' Create the requester
@@ -753,7 +753,7 @@ Public Class PilotParseFunctions
             If cPilot.Account = cAccount.userID Then
                 Dim webdata As String = ""
                 Try
-                    RemoteURL = APIServer & "/char/skillintraining.xml.aspx"
+                    RemoteURL = APIServer & "/char/skillintraining.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
                     ' Set up data for the HTTP "POST" method
                     Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & cPilot.ID
                     ' Create the requester
