@@ -830,7 +830,7 @@ Public Class ShipSlotControl
                         statusMenuItem.Name = lvwSlots.SelectedItems(0).Name
                         statusMenuItem.Text = "Set Module Status"
                         ' Check for activation cost
-                        If currentMod.Attributes.Contains("6") = True Then
+                        If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Then
                             canDeactivate = True
                         End If
                         If currentMod.Attributes.Contains("1211") = True Then
