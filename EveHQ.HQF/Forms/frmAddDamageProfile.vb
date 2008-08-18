@@ -150,10 +150,10 @@ Public Class frmAddDamageProfile
         cboPilotName.EndUpdate()
 
         ' Load up the NPC Data
-        Me.cboNPC.Items.Clear()
+        cboNPC.BeginUpdate()
+        cboNPC.Items.Clear()
         cboNPC.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboNPC.AutoCompleteSource = AutoCompleteSource.CustomSource
-        cboNPC.BeginUpdate()
         For Each NPC As String In NPCs.NPCList.Keys
             cboNPC.AutoCompleteCustomSource.Add(NPC)
             Me.cboNPC.Items.Add(NPC)
@@ -162,6 +162,7 @@ Public Class frmAddDamageProfile
 
         If Me.Tag.ToString = "Add" Then
             cboProfileType.SelectedIndex = 0
+            Me.txtProfileName.Tag = ""
         Else
             Dim editProfile As DamageProfile = CType(Me.Tag, DamageProfile)
             Me.txtProfileName.Tag = editProfile.Name

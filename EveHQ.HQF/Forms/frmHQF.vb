@@ -1834,16 +1834,16 @@ Public Class frmHQF
                 Select Case shipMod.SlotType
                     Case 8 ' High
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
-                        newModule.ImageKey = "hiSlot"
+                        'newModule.ImageKey = "hiSlot"
                     Case 4 ' Mid
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
-                        newModule.ImageKey = "midSlot"
+                        'newModule.ImageKey = "midSlot"
                     Case 2 ' Low
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
-                        newModule.ImageKey = "lowSlot"
+                        'newModule.ImageKey = "lowSlot"
                     Case 1 ' Rig
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
-                        newModule.ImageKey = "rigSlot"
+                        'newModule.ImageKey = "rigSlot"
                 End Select
                 Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
                 chkFilter.ForeColor = Color.Black
@@ -1917,16 +1917,16 @@ Public Class frmHQF
                     Select Case shipMod.SlotType
                         Case 8 ' High
                             newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
-                            newModule.ImageKey = "hiSlot"
+                            'newModule.ImageKey = "hiSlot"
                         Case 4 ' Mid
                             newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
-                            newModule.ImageKey = "midSlot"
+                            'newModule.ImageKey = "midSlot"
                         Case 2 ' Low
                             newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
-                            newModule.ImageKey = "lowSlot"
+                            'newModule.ImageKey = "lowSlot"
                         Case 1 ' Rig
                             newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
-                            newModule.ImageKey = "rigSlot"
+                            'newModule.ImageKey = "rigSlot"
                     End Select
                     Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
                     chkFilter.ForeColor = Color.Black
@@ -2033,16 +2033,16 @@ Public Class frmHQF
                 Select Case shipMod.SlotType
                     Case 8 ' High
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
-                        newModule.ImageKey = "hiSlot"
+                        'newModule.ImageKey = "hiSlot"
                     Case 4 ' Mid
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
-                        newModule.ImageKey = "midSlot"
+                        'newModule.ImageKey = "midSlot"
                     Case 2 ' Low
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
-                        newModule.ImageKey = "lowSlot"
+                        'newModule.ImageKey = "lowSlot"
                     Case 1 ' Rig
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
-                        newModule.ImageKey = "rigSlot"
+                        'newModule.ImageKey = "rigSlot"
                 End Select
                 Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
                 chkFilter.ForeColor = Color.Black
