@@ -2241,6 +2241,7 @@ Public Class frmHQF
                 currentShipInfo = thisShipInfoControl
                 currentShipSlot.ShipFit = tabHQF.SelectedTab.Text
                 currentShipSlot.ShipInfo = currentShipInfo
+                currentShipInfo.BuildMethod = BuildType.BuildEffectsMaps
             End If
             tabHQF.Tag = tabHQF.SelectedIndex
         End If

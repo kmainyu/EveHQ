@@ -471,7 +471,7 @@ Public Class Engine
         Return newShip
     End Function
 
-    Public Shared Function ApplyFitting(ByVal baseShip As Ship, ByVal shipPilot As HQFPilot) As Ship
+    Public Shared Function ApplyFitting(ByVal baseShip As Ship, ByVal shipPilot As HQFPilot, Optional ByVal BuildMethod As Integer = 0) As Ship
         ' Setup performance info - just in case!
         Dim stages As Integer = 15
         Dim pStages(stages) As String
@@ -493,39 +493,108 @@ Public Class Engine
         pStages(14) = "Calculating Damage Statistics: "
         pStages(15) = "Calculating Defence Statistics: "
         ' Apply the pilot skills to the ship
-        pStageTime(0) = Now
-        Dim newShip As Ship
-        Engine.BuildSkillEffects(shipPilot)
-        pStageTime(1) = Now
-        Engine.BuildImplantEffects(shipPilot)
-        pStageTime(2) = Now
-        Engine.BuildShipEffects(shipPilot, baseShip)
-        pStageTime(3) = Now
-        newShip = Engine.ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
-        pStageTime(4) = Now
-        newShip = Engine.ApplySkillEffectsToModules(newShip)
-        pStageTime(5) = Now
-        newShip = Engine.ApplySkillEffectsToDrones(newShip)
-        pStageTime(6) = Now
-        newShip = Engine.BuildModuleEffects(newShip)
-        pStageTime(7) = Now
-        Call Engine.ApplyStackingPenalties()
-        pStageTime(8) = Now
-        newShip = Engine.ApplyModuleEffectsToModules(newShip)
-        pStageTime(9) = Now
-        newShip = Engine.BuildModuleEffects(newShip)
-        pStageTime(10) = Now
-        Call Engine.ApplyStackingPenalties()
-        pStageTime(11) = Now
-        newShip = Engine.ApplyModuleEffectsToDrones(newShip)
-        pStageTime(12) = Now
-        newShip = Engine.ApplyModuleEffectsToShip(newShip)
-        pStageTime(13) = Now
-        newShip = Engine.CalculateDamageStatistics(newShip)
-        pStageTime(14) = Now
-        Ship.MapShipAttributes(newShip)
-        newShip = Engine.CalculateDefenceStatistics(newShip)
-        pStageTime(15) = Now
+        Dim newShip As New Ship
+        Select Case BuildMethod
+            Case BuildType.BuildEverything
+                pStageTime(0) = Now
+                Engine.BuildSkillEffects(shipPilot)
+                pStageTime(1) = Now
+                Engine.BuildImplantEffects(shipPilot)
+                pStageTime(2) = Now
+                Engine.BuildShipEffects(shipPilot, baseShip)
+                pStageTime(3) = Now
+                newShip = Engine.ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
+                pStageTime(4) = Now
+                newShip = Engine.ApplySkillEffectsToModules(newShip)
+                pStageTime(5) = Now
+                newShip = Engine.ApplySkillEffectsToDrones(newShip)
+                pStageTime(6) = Now
+                newShip = Engine.BuildModuleEffects(newShip)
+                pStageTime(7) = Now
+                Call Engine.ApplyStackingPenalties()
+                pStageTime(8) = Now
+                newShip = Engine.ApplyModuleEffectsToModules(newShip)
+                pStageTime(9) = Now
+                newShip = Engine.BuildModuleEffects(newShip)
+                pStageTime(10) = Now
+                Call Engine.ApplyStackingPenalties()
+                pStageTime(11) = Now
+                newShip = Engine.ApplyModuleEffectsToDrones(newShip)
+                pStageTime(12) = Now
+                newShip = Engine.ApplyModuleEffectsToShip(newShip)
+                pStageTime(13) = Now
+                newShip = Engine.CalculateDamageStatistics(newShip)
+                pStageTime(14) = Now
+                Ship.MapShipAttributes(newShip)
+                newShip = Engine.CalculateDefenceStatistics(newShip)
+                pStageTime(15) = Now
+            Case BuildType.BuildEffectsMaps
+                pStageTime(0) = Now
+                Engine.BuildSkillEffects(shipPilot)
+                pStageTime(1) = Now
+                Engine.BuildImplantEffects(shipPilot)
+                pStageTime(2) = Now
+                Engine.BuildShipEffects(shipPilot, baseShip)
+                pStageTime(3) = Now
+                'newShip = Engine.ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
+                pStageTime(4) = Now
+                'newShip = Engine.ApplySkillEffectsToModules(newShip)
+                pStageTime(5) = Now
+                'newShip = Engine.ApplySkillEffectsToDrones(newShip)
+                pStageTime(6) = Now
+                'newShip = Engine.BuildModuleEffects(newShip)
+                pStageTime(7) = Now
+                'Call Engine.ApplyStackingPenalties()
+                pStageTime(8) = Now
+                'newShip = Engine.ApplyModuleEffectsToModules(newShip)
+                pStageTime(9) = Now
+                'newShip = Engine.BuildModuleEffects(newShip)
+                pStageTime(10) = Now
+                'Call Engine.ApplyStackingPenalties()
+                pStageTime(11) = Now
+                'newShip = Engine.ApplyModuleEffectsToDrones(newShip)
+                pStageTime(12) = Now
+                'newShip = Engine.ApplyModuleEffectsToShip(newShip)
+                pStageTime(13) = Now
+                'newShip = Engine.CalculateDamageStatistics(newShip)
+                pStageTime(14) = Now
+                'Ship.MapShipAttributes(newShip)
+                'newShip = Engine.CalculateDefenceStatistics(newShip)
+                pStageTime(15) = Now
+            Case BuildType.BuildFromEffectsMaps
+                pStageTime(0) = Now
+                'Engine.BuildSkillEffects(shipPilot)
+                pStageTime(1) = Now
+                'Engine.BuildImplantEffects(shipPilot)
+                pStageTime(2) = Now
+                'Engine.BuildShipEffects(shipPilot, baseShip)
+                pStageTime(3) = Now
+                newShip = Engine.ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
+                pStageTime(4) = Now
+                newShip = Engine.ApplySkillEffectsToModules(newShip)
+                pStageTime(5) = Now
+                newShip = Engine.ApplySkillEffectsToDrones(newShip)
+                pStageTime(6) = Now
+                newShip = Engine.BuildModuleEffects(newShip)
+                pStageTime(7) = Now
+                Call Engine.ApplyStackingPenalties()
+                pStageTime(8) = Now
+                newShip = Engine.ApplyModuleEffectsToModules(newShip)
+                pStageTime(9) = Now
+                newShip = Engine.BuildModuleEffects(newShip)
+                pStageTime(10) = Now
+                Call Engine.ApplyStackingPenalties()
+                pStageTime(11) = Now
+                newShip = Engine.ApplyModuleEffectsToDrones(newShip)
+                pStageTime(12) = Now
+                newShip = Engine.ApplyModuleEffectsToShip(newShip)
+                pStageTime(13) = Now
+                newShip = Engine.CalculateDamageStatistics(newShip)
+                pStageTime(14) = Now
+                Ship.MapShipAttributes(newShip)
+                newShip = Engine.CalculateDefenceStatistics(newShip)
+                pStageTime(15) = Now
+        End Select
         If Settings.HQFSettings.ShowPerformanceData = True Then
             Dim dTime As TimeSpan
             Dim perfMsg As String = ""
@@ -536,7 +605,7 @@ Public Class Engine
             Next
             dTime = pStageTime(stages) - pStageTime(0)
             perfMsg &= "Total Time: " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms" & ControlChars.CrLf
-            MessageBox.Show(perfMsg, "Performance Data Results", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show(perfMsg, "Performance Data Results: Method " & BuildMethod, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
         Ship.MapShipAttributes(newShip)
         Return newShip
@@ -1898,4 +1967,8 @@ Public Enum EffectCalcType
     Subtraction = 8 ' Subtracting positive values
 End Enum
 
-
+Public Enum BuildType
+    BuildEverything = 0
+    BuildEffectsMaps = 1
+    BuildFromEffectsMaps = 2
+End Enum

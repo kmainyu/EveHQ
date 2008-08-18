@@ -29,6 +29,7 @@ Public Class ShipInfoControl
 #Region "Property Variables"
     Private currentShip As Ship ' Should be the base ship only
     Private currentSlot As ShipSlotControl
+    Private cBuildMethod As Integer = 0 ' Engine build method
 #End Region
 
 #Region "Properties"
@@ -40,12 +41,6 @@ Public Class ShipInfoControl
         Set(ByVal value As Ship)
             If value IsNot Nothing Then ' May have been triggered by an initial change in the pilot on form startup
                 currentShip = value
-                If cboPilots.SelectedItem IsNot Nothing Then
-                    Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
-                    fittedShip = Engine.ApplyFitting(CType(currentShip.Clone, Ship), shipPilot)
-                    Call UpdateInfoDisplay()
-                    currentSlot.ShipFitted = fittedShip
-                End If
             End If
         End Set
     End Property
@@ -56,6 +51,34 @@ Public Class ShipInfoControl
         End Get
         Set(ByVal value As ShipSlotControl)
             currentSlot = value
+        End Set
+    End Property
+
+    Public Property BuildMethod() As Integer
+        Get
+            Return cBuildMethod
+        End Get
+        Set(ByVal value As Integer)
+            cBuildMethod = value
+            If currentShip IsNot Nothing Then
+                If cboPilots.SelectedItem IsNot Nothing Then
+                    Select Case cBuildMethod
+                        Case BuildType.BuildEverything
+                            Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+                            fittedShip = Engine.ApplyFitting(CType(currentShip.Clone, Ship), shipPilot, cBuildMethod)
+                            Call UpdateInfoDisplay()
+                            currentSlot.ShipFitted = fittedShip
+                        Case BuildType.BuildFromEffectsMaps
+                            Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+                            fittedShip = Engine.ApplyFitting(CType(currentShip.Clone, Ship), shipPilot, cBuildMethod)
+                            Call UpdateInfoDisplay()
+                            currentSlot.ShipFitted = fittedShip
+                        Case BuildType.BuildEffectsMaps
+                            Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+                            Engine.ApplyFitting(CType(currentShip.Clone, Ship), shipPilot, cBuildMethod)
+                    End Select
+                End If
+            End If
         End Set
     End Property
 
@@ -198,7 +221,7 @@ Public Class ShipInfoControl
         ' Propulsion
         lblSpeed.Text = FormatNumber(fittedShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
         lblWarpSpeed.Text = FormatNumber(fittedShip.WarpSpeed, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " au/s"
-        lblInertia.Text = FormatNumber(fittedShip.Inertia, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblInertia.Text = FormatNumber(fittedShip.Inertia, 6, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         ' Time to warp based on calculation from http://myeve.eve-online.com/ingameboard.asp?a=topic&threadID=502836
         ' Time to warp (in seconds) = Inertial Modifier * (Mass / 1.000.000) * 1.61
         lblAlignTime.Text = FormatNumber(1.61 * fittedShip.Inertia * fittedShip.Mass / 1000000, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
@@ -219,11 +242,41 @@ Public Class ShipInfoControl
 
         ' Damage & Mining
         lblDamage.Text = FormatNumber(fittedShip.TotalVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.TotalDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS"
+        If fittedShip.TotalVolley > 0 Then
+            ttt = ""
+            If fittedShip.TurretVolley > 0 Then
+                ttt &= "Turret Volley: " & FormatNumber(fittedShip.TurretVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ttt &= " (DPS: " & FormatNumber(fittedShip.TurretDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+            End If
+            If fittedShip.MissileVolley > 0 Then
+                ttt &= "Missile Volley: " & FormatNumber(fittedShip.MissileVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ttt &= " (DPS: " & FormatNumber(fittedShip.MissileDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+            End If
+            If fittedShip.SBVolley > 0 Then
+                ttt &= "Smartbomb Volley: " & FormatNumber(fittedShip.SBVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ttt &= " (DPS: " & FormatNumber(fittedShip.SBDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+            End If
+            If fittedShip.DroneVolley > 0 Then
+                ttt &= "Drone Volley: " & FormatNumber(fittedShip.DroneVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ttt &= " (DPS: " & FormatNumber(fittedShip.DroneDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+            End If
+            ToolTip1.SetToolTip(lblDamage, ttt)
+        End If
+
+        ' Mining
         lblMining.Text = FormatNumber(fittedShip.OreTotalAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3 / " & FormatNumber(fittedShip.OreTotalRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3/s"
-        'lblMissileVolleyDamage.Text = FormatNumber(fittedShip.MissileVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.MissileDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        'lblSmartbombVolleyDamage.Text = FormatNumber(fittedShip.SBVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.SBDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        'lblDroneVolleyDamage.Text = FormatNumber(fittedShip.DroneVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        'gbDamage.Text = "Damage (" & FormatNumber(fittedShip.TotalVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.TotalDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS)"
+        If fittedShip.OreTotalAmount > 0 Then
+            ttt = ""
+            If fittedShip.OreTurretAmount > 0 Then
+                ttt &= "Turret Yield: " & FormatNumber(fittedShip.OreTurretAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ttt &= " (m3/s: " & FormatNumber(fittedShip.OreTurretRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+            End If
+            If fittedShip.OreDroneAmount > 0 Then
+                ttt &= "Drone Yield: " & FormatNumber(fittedShip.OreDroneAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ttt &= " (m3/s: " & FormatNumber(fittedShip.OreDroneRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+            End If
+            ToolTip1.SetToolTip(lblMining, ttt)
+        End If
 
         ' Collect List of Needed Skills
         reqSkills = NeededSkills()
@@ -275,7 +328,7 @@ Public Class ShipInfoControl
         If currentSlot IsNot Nothing Then
             currentSlot.UpdateAllSlots = True
         End If
-        ShipType = currentShip
+        BuildMethod = BuildType.BuildEverything
         If currentSlot IsNot Nothing Then
             currentSlot.UpdateAllSlots = False
         End If
@@ -513,7 +566,7 @@ Public Class ShipInfoControl
             End If
         End If
         ' Kick off a rebuild
-        ShipType = currentShip
+        BuildMethod = BuildType.BuildFromEffectsMaps
     End Sub
 
     Private Sub btnEditProfiles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditProfiles.Click

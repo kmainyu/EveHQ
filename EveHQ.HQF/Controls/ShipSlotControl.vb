@@ -115,6 +115,7 @@ Public Class ShipSlotControl
         lvwSlots.EndUpdate()
         UpdateAll = False
         currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildEverything
         Me.UpdateAllSlotLocations()
         Me.UpdateShipDetails()
         Me.RedrawDroneBay()
@@ -551,6 +552,7 @@ Public Class ShipSlotControl
             Dim slotNo As Integer = AddModuleInNextSlot(CType(shipMod.Clone, ShipModule))
             If UpdateAll = False Then
                 currentInfo.ShipType = currentShip
+                currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                 Call UpdateSlotLocation(shipMod, slotNo)
             End If
         End If
@@ -581,6 +583,7 @@ Public Class ShipSlotControl
             ' Update stuff
             If UpdateAll = False Then
                 currentInfo.ShipType = currentShip
+                currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                 UpdateDrones = True
                 Call Me.RedrawDroneBay()
                 UpdateDrones = False
@@ -617,6 +620,7 @@ Public Class ShipSlotControl
                 ' Update stuff
                 If UpdateAll = False Then
                     currentInfo.ShipType = currentShip
+                    currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                     Call Me.RedrawCargoBay()
                     Call UpdatePrices()
                     Call UpdateFittingListFromShipData()
@@ -751,6 +755,7 @@ Public Class ShipSlotControl
         slot.ImageIndex = -1
         lvwSlots.EndUpdate()
         currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
         Call UpdateShipDetails()
     End Sub
 #End Region
@@ -1051,6 +1056,7 @@ Public Class ShipSlotControl
         Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
         sModule.ModuleState = ModuleStates.Offline
         currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
         Call Me.UpdateSlotLocation(sModule, slotNo)
     End Sub
     Private Sub SetModuleInactive(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -1059,6 +1065,7 @@ Public Class ShipSlotControl
         Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
         sModule.ModuleState = ModuleStates.Inactive
         currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
         Call Me.UpdateSlotLocation(sModule, slotNo)
     End Sub
     Private Sub SetModuleActive(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -1067,6 +1074,7 @@ Public Class ShipSlotControl
         Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
         sModule.ModuleState = ModuleStates.Active
         currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
         Call Me.UpdateSlotLocation(sModule, slotNo)
     End Sub
     Private Sub SetModuleOverload(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -1075,6 +1083,7 @@ Public Class ShipSlotControl
         Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
         sModule.ModuleState = ModuleStates.Overloaded
         currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
         Call Me.UpdateSlotLocation(sModule, slotNo)
     End Sub
 #End Region
@@ -1098,6 +1107,7 @@ Public Class ShipSlotControl
             LoadedModule.LoadedCharge = Nothing
         Next
         currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
         Call UpdateAllSlotLocations()
     End Sub
     Private Sub LoadChargeIntoModule(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -1122,6 +1132,7 @@ Public Class ShipSlotControl
             LoadedModule.LoadedCharge = Charge
         Next
         currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
         Call UpdateAllSlotLocations()
     End Sub
 #End Region
@@ -1179,7 +1190,7 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub lvwDroneBay_ItemCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles lvwDroneBay.ItemCheck
-       
+
     End Sub
 
     Private Sub lvwDroneBay_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwDroneBay.ItemChecked
@@ -1207,6 +1218,7 @@ Public Class ShipSlotControl
                 End If
                 DBI.IsActive = e.Item.Checked
                 currentInfo.ShipType = currentShip
+                currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                 If DBI.IsActive = True Then
                     currentShip.Attributes("10006") = CDbl(currentShip.Attributes("10006")) + reqQ
                 Else
@@ -1252,6 +1264,7 @@ Public Class ShipSlotControl
                     lvwDroneBay.Items.RemoveByKey(remItem.Name)
                 Next
                 currentInfo.ShipType = currentShip
+                currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                 Call Me.UpdateFittingListFromShipData()
                 UpdateDrones = True
                 Call RedrawDroneBay()
@@ -1302,6 +1315,7 @@ Public Class ShipSlotControl
                 newSelectForm.nudQuantity.Value = DBI.Quantity
                 newSelectForm.ShowDialog()
                 currentInfo.ShipType = currentShip
+                currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                 Call Me.UpdateFittingListFromShipData()
                 UpdateDrones = True
                 Call RedrawDroneBay()
@@ -1345,6 +1359,7 @@ Public Class ShipSlotControl
                 newSelectForm.nudQuantity.Maximum = DBI.Quantity - 1
                 newSelectForm.ShowDialog()
                 currentInfo.ShipType = currentShip
+                currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                 Call Me.UpdateFittingListFromShipData()
                 UpdateDrones = True
                 Call RedrawDroneBay()
