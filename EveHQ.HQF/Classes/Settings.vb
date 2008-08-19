@@ -450,8 +450,8 @@ Public Class Settings
     End Sub
     Public Sub LoadProfiles()
         ' Check for the profiles file so we can load it
-        If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFProfiles.txt") = True Then
-            Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFProfiles.txt", FileMode.Open)
+        If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFProfiles.bin") = True Then
+            Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFProfiles.bin", FileMode.Open)
             Dim f As BinaryFormatter = New BinaryFormatter
             DamageProfiles.ProfileList = CType(f.Deserialize(s), SortedList)
             s.Close()
@@ -475,7 +475,7 @@ Public Class Settings
     End Sub
     Public Sub SaveProfiles()
         ' Save the Profiles
-        Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFProfiles.txt", FileMode.Create)
+        Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFProfiles.bin", FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, DamageProfiles.ProfileList)
         s.Close()

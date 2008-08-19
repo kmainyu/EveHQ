@@ -104,14 +104,14 @@ Public Class frmHQF
             Engine.BuildImplantEffectsMap()
             ' Check for the existence of the binary data
             If UseSerializableData = True Then
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\attributes.txt") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.txt", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\attributes.bin") = True Then
+                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.bin", FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     Attributes.AttributeList = CType(f.Deserialize(s), SortedList)
                     s.Close()
                 End If
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\ships.txt") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\ships.txt", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\ships.bin") = True Then
+                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\ships.bin", FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     ShipLists.shipList = CType(f.Deserialize(s), SortedList)
                     s.Close()
@@ -120,8 +120,8 @@ Public Class frmHQF
                         ShipLists.shipListKeyID.Add(cShip.Name, cShip.ID)
                     Next
                 End If
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\modules.txt") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\modules.txt", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\modules.bin") = True Then
+                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\modules.bin", FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     ModuleLists.moduleList = CType(f.Deserialize(s), SortedList)
                     s.Close()
@@ -134,20 +134,20 @@ Public Class frmHQF
                         End If
                     Next
                 End If
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\implants.txt") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\implants.txt", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\implants.bin") = True Then
+                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\implants.bin", FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     Implants.implantList = CType(f.Deserialize(s), SortedList)
                     s.Close()
                 End If
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\skills.txt") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\skills.txt", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\skills.bin") = True Then
+                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\skills.bin", FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     SkillLists.SkillList = CType(f.Deserialize(s), SortedList)
                     s.Close()
                 End If
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\NPCs.txt") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\NPCs.txt", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\NPCs.bin") = True Then
+                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\NPCs.bin", FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     NPCs.NPCList = CType(f.Deserialize(s), SortedList)
                     s.Close()
@@ -1230,16 +1230,8 @@ Public Class frmHQF
 #Region "Form Initialisation & Closing Routines"
 
     Private Sub frmHQF_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        ' Save each fit into it's own file
-        For Each fit As String In Fittings.FittingList.Keys
-            Dim sw As New IO.StreamWriter(Settings.HQFFolder & "\" & fit & ".hqf")
-            sw.WriteLine("[" & fit & "]")
-            For Each shipMod As String In CType(Fittings.FittingList.Item(fit), ArrayList)
-                sw.WriteLine(shipMod)
-            Next
-            sw.Flush()
-            sw.Close()
-        Next
+        ' Save fittings
+        Call Me.SaveFittings()
         ' Save the Settings
         Call Settings.HQFSettings.SaveHQFSettings()
     End Sub
@@ -1313,44 +1305,20 @@ Public Class frmHQF
     End Sub
     Private Sub LoadFittings()
         Fittings.FittingList.Clear()
-        Dim fileText As String = ""
-        Dim sr As IO.StreamReader
-        Dim mods() As String
-        For Each filename As String In My.Computer.FileSystem.GetFiles(Settings.HQFFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.hqf")
-            sr = New IO.StreamReader(filename)
-            fileText = sr.ReadToEnd
-            Dim fittingMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(fileText, "\[(?<ShipName>.*),\s?(?<FittingName>.*)\]")
-            If fittingMatch.Success = True Then
-                ' Appears to be a match so lets check the ship type
-                If ShipLists.shipList.Contains(fittingMatch.Groups.Item("ShipName").Value) = True Then
-                    ' Ship type OK, lets see if the fitting exists
-                    If Fittings.FittingList.ContainsKey(fittingMatch.Groups.Item("ShipName").Value & ", " & fittingMatch.Groups.Item("FittingName").Value) = False Then
-                        ' Finally! Seems to be a valid file so lets load it up
-                        mods = fileText.Split(ControlChars.CrLf.ToCharArray)
-                        Dim newFit As New ArrayList
-                        For Each ShipMod As String In mods
-                            If ShipMod.StartsWith("[") = False And ShipMod <> "" Then
-                                newFit.Add(ShipMod)
-                            End If
-                        Next
-                        Fittings.FittingList.Add(fittingMatch.Groups.Item("ShipName").Value & ", " & fittingMatch.Groups.Item("FittingName").Value, newFit)
-                    Else
-                        Dim msg As String = "Duplicated fitting name '" & fittingMatch.Groups.Item("FittingName").Value & "' in file:"
-                        msg &= filename
-                        MessageBox.Show(msg, "Error Importing Fitting", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    End If
-                Else
-                    Dim msg As String = "Unrecognised ship name '" & fittingMatch.Groups.Item("ShipName").Value & "' in file:"
-                    msg &= filename
-                    MessageBox.Show(msg, "Error Importing Fitting", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-
-                End If
-            Else
-                MessageBox.Show(filename & "is not a valid fitting file.", "Error Importing Fitting", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            End If
-            sr.Close()
-        Next
+        If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\fittings.bin") = True Then
+            Dim s As New FileStream(HQF.Settings.HQFFolder & "\fittings.bin", FileMode.Open)
+            Dim f As BinaryFormatter = New BinaryFormatter
+            Fittings.FittingList = CType(f.Deserialize(s), SortedList)
+            s.Close()
+        End If
         Call Me.UpdateFittingsTree()
+    End Sub
+    Private Sub SaveFittings()
+        ' Save ships
+        Dim s As New FileStream(HQF.Settings.HQFFolder & "\fittings.bin", FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, Fittings.FittingList)
+        s.Close()
     End Sub
     Private Sub ShowShipMarketGroups()
         tvwShips.BeginUpdate()
@@ -1451,7 +1419,7 @@ Public Class frmHQF
         Next
     End Sub
     Private Sub ShowShipGroups()
-        Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\ShipGroups.txt")
+        Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\ShipGroups.bin")
         Dim ShipGroups As String = sr.ReadToEnd
         Dim PathLines() As String = ShipGroups.Split(ControlChars.CrLf.ToCharArray)
         Dim nodes() As String
@@ -1477,7 +1445,7 @@ Public Class frmHQF
         tvwShips.EndUpdate()
     End Sub
     Private Sub ShowMarketGroups()
-        Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\ItemGroups.txt")
+        Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\ItemGroups.bin")
         Dim ShipGroups As String = sr.ReadToEnd
         Dim PathLines() As String = ShipGroups.Split(ControlChars.CrLf.ToCharArray)
         Dim nodes() As String
@@ -1529,7 +1497,7 @@ Public Class frmHQF
     Private Sub LoadPilots()
         ' Loads the skills for the selected pilots
         ' Check for a valid HQFPilotSettings.xml file
-        If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFPilotSettings.txt") = True Then
+        If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFPilotSettings.bin") = True Then
             Call HQFPilotCollection.LoadHQFPilotData()
             ' Check we have all the available pilots!
             Dim morePilots As Boolean = False
@@ -1698,6 +1666,9 @@ Public Class frmHQF
             Call Me.CreateFittingTabPage(fittingKeyName)
             Call Me.UpdateFittingsTree()
             tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
+            If currentShipSlot Is Nothing Then
+                Call Me.UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
+            End If
             currentShipSlot.UpdateEverything()
         Else
             MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1793,7 +1764,7 @@ Public Class frmHQF
                     Else
                         sMod = shipMod.Clone
                     End If
-                    If chkOnlyShowUsable.Checked = True Then
+                    If chkOnlyShowUsable.Checked = True And currentShipInfo IsNot Nothing Then
                         If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                             results.Add(sMod.Name, sMod)
                         End If
@@ -2668,32 +2639,32 @@ Public Class frmHQF
         End If
         My.Computer.FileSystem.CreateDirectory(Settings.HQFCacheFolder)
         ' Save ships
-        Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\ships.txt", FileMode.Create)
+        Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\ships.bin", FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, ShipLists.shipList)
         s.Close()
         ' Save modules
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\modules.txt", FileMode.Create)
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\modules.bin", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, ModuleLists.moduleList)
         s.Close()
         ' Save implants
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\implants.txt", FileMode.Create)
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\implants.bin", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, Implants.implantList)
         s.Close()
         ' Save skills
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\skills.txt", FileMode.Create)
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\skills.bin", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, SkillLists.SkillList)
         s.Close()
         ' Save attributes
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.txt", FileMode.Create)
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.bin", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, Attributes.AttributeList)
         s.Close()
         ' Save NPCs
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\NPCs.txt", FileMode.Create)
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\NPCs.bin", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, NPCs.NPCList)
         s.Close()
@@ -2707,7 +2678,7 @@ Public Class frmHQF
         sw.Close()
     End Sub
     Private Sub WriteShipGroups()
-        Dim sw As New IO.StreamWriter(HQF.Settings.HQFCacheFolder & "\ShipGroups.txt")
+        Dim sw As New IO.StreamWriter(HQF.Settings.HQFCacheFolder & "\ShipGroups.bin")
         For Each rootNode As TreeNode In tvwShips.Nodes
             WriteShipNodes(rootNode, sw)
         Next
@@ -2715,7 +2686,7 @@ Public Class frmHQF
         sw.Close()
     End Sub
     Private Sub WriteItemGroups()
-        Dim sw As New IO.StreamWriter(HQF.Settings.HQFCacheFolder & "\ItemGroups.txt")
+        Dim sw As New IO.StreamWriter(HQF.Settings.HQFCacheFolder & "\ItemGroups.bin")
         For Each rootNode As TreeNode In tvwItems.Nodes
             WriteGroupNodes(rootNode, sw)
         Next
@@ -2809,4 +2780,6 @@ Public Class frmHQF
         myPilotManager.ShowDialog()
         myPilotManager = Nothing
     End Sub
+
+   
 End Class
