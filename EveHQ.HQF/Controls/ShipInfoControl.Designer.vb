@@ -26,6 +26,7 @@ Partial Class ShipInfoControl
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipInfoControl))
         Me.Panel1 = New System.Windows.Forms.Panel
         Me.gbDefence = New System.Windows.Forms.GroupBox
+        Me.lblTankAbility = New System.Windows.Forms.Label
         Me.btnEditProfiles = New System.Windows.Forms.Button
         Me.cboDamageProfiles = New System.Windows.Forms.ComboBox
         Me.lblEffectiveHP = New System.Windows.Forms.Label
@@ -71,7 +72,6 @@ Partial Class ShipInfoControl
         Me.lblDroneControl = New System.Windows.Forms.Label
         Me.pbDroneControl = New System.Windows.Forms.PictureBox
         Me.lblDroneBandwidth = New System.Windows.Forms.Label
-        Me.progDroneBandwidth = New System.Windows.Forms.ProgressBar
         Me.pbDroneBandwidth = New System.Windows.Forms.PictureBox
         Me.lblDroneBay = New System.Windows.Forms.Label
         Me.pbDroneBay = New System.Windows.Forms.PictureBox
@@ -112,7 +112,6 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lblTankAbility = New System.Windows.Forms.Label
         Me.Panel1.SuspendLayout()
         Me.gbDefence.SuspendLayout()
         CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -180,7 +179,7 @@ Partial Class ShipInfoControl
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(250, 699)
+        Me.Panel1.Size = New System.Drawing.Size(270, 699)
         Me.Panel1.TabIndex = 0
         '
         'gbDefence
@@ -217,6 +216,16 @@ Partial Class ShipInfoControl
         Me.gbDefence.TabIndex = 34
         Me.gbDefence.TabStop = False
         Me.gbDefence.Text = "Ship Defence"
+        '
+        'lblTankAbility
+        '
+        Me.lblTankAbility.AutoSize = True
+        Me.lblTankAbility.Location = New System.Drawing.Point(11, 146)
+        Me.lblTankAbility.Name = "lblTankAbility"
+        Me.lblTankAbility.Size = New System.Drawing.Size(95, 13)
+        Me.lblTankAbility.TabIndex = 29
+        Me.lblTankAbility.Text = "Tank Ability: 0,000"
+        Me.ToolTip1.SetToolTip(Me.lblTankAbility, "Effective Hitpoints")
         '
         'btnEditProfiles
         '
@@ -662,7 +671,6 @@ Partial Class ShipInfoControl
         Me.gbCargo.Controls.Add(Me.lblDroneControl)
         Me.gbCargo.Controls.Add(Me.pbDroneControl)
         Me.gbCargo.Controls.Add(Me.lblDroneBandwidth)
-        Me.gbCargo.Controls.Add(Me.progDroneBandwidth)
         Me.gbCargo.Controls.Add(Me.pbDroneBandwidth)
         Me.gbCargo.Controls.Add(Me.lblDroneBay)
         Me.gbCargo.Controls.Add(Me.pbDroneBay)
@@ -701,21 +709,12 @@ Partial Class ShipInfoControl
         'lblDroneBandwidth
         '
         Me.lblDroneBandwidth.AutoSize = True
-        Me.lblDroneBandwidth.Location = New System.Drawing.Point(37, 43)
+        Me.lblDroneBandwidth.Location = New System.Drawing.Point(36, 45)
         Me.lblDroneBandwidth.Name = "lblDroneBandwidth"
         Me.lblDroneBandwidth.Size = New System.Drawing.Size(54, 13)
         Me.lblDroneBandwidth.TabIndex = 10
         Me.lblDroneBandwidth.Text = "000 / 000"
         Me.ToolTip1.SetToolTip(Me.lblDroneBandwidth, "Drone Bandwidth")
-        '
-        'progDroneBandwidth
-        '
-        Me.progDroneBandwidth.Location = New System.Drawing.Point(27, 56)
-        Me.progDroneBandwidth.Name = "progDroneBandwidth"
-        Me.progDroneBandwidth.Size = New System.Drawing.Size(72, 10)
-        Me.progDroneBandwidth.TabIndex = 9
-        Me.ToolTip1.SetToolTip(Me.progDroneBandwidth, "Drone Bandwidth")
-        Me.progDroneBandwidth.Value = 50
         '
         'pbDroneBandwidth
         '
@@ -1164,16 +1163,6 @@ Partial Class ShipInfoControl
         Me.ToolTip1.ReshowDelay = 100
         Me.ToolTip1.ShowAlways = True
         '
-        'lblTankAbility
-        '
-        Me.lblTankAbility.AutoSize = True
-        Me.lblTankAbility.Location = New System.Drawing.Point(11, 146)
-        Me.lblTankAbility.Name = "lblTankAbility"
-        Me.lblTankAbility.Size = New System.Drawing.Size(95, 13)
-        Me.lblTankAbility.TabIndex = 29
-        Me.lblTankAbility.Text = "Tank Ability: 0,000"
-        Me.ToolTip1.SetToolTip(Me.lblTankAbility, "Effective Hitpoints")
-        '
         'ShipInfoControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1181,7 +1170,7 @@ Partial Class ShipInfoControl
         Me.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Controls.Add(Me.Panel1)
         Me.Name = "ShipInfoControl"
-        Me.Size = New System.Drawing.Size(250, 699)
+        Me.Size = New System.Drawing.Size(270, 699)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.gbDefence.ResumeLayout(False)
@@ -1282,7 +1271,6 @@ Partial Class ShipInfoControl
     Friend WithEvents lblCargoBay As System.Windows.Forms.Label
     Friend WithEvents pbCargoBay As System.Windows.Forms.PictureBox
     Friend WithEvents lblDroneBandwidth As System.Windows.Forms.Label
-    Friend WithEvents progDroneBandwidth As System.Windows.Forms.ProgressBar
     Friend WithEvents btnDoomsdayCheck As System.Windows.Forms.Button
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents line1 As System.Windows.Forms.Label

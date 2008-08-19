@@ -236,8 +236,6 @@ Public Class ShipInfoControl
         ' Cargo and Drones
         lblCargoBay.Text = FormatNumber(fittedShip.CargoBay, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3"
         lblDroneBay.Text = FormatNumber(fittedShip.DroneBay, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3"
-        progDroneBandwidth.Maximum = CInt(fittedShip.DroneBandwidth)
-        progDroneBandwidth.Value = CInt(fittedShip.DroneBandwidth_Used)
         UpdateDroneUsage()
 
         ' Damage & Mining
@@ -531,7 +529,6 @@ Public Class ShipInfoControl
                 fittedShip.DroneBandwidth_Used += CDbl(DBI.DroneType.Attributes("1272")) * DBI.Quantity
             End If
         Next
-        progDroneBandwidth.Value = CInt(fittedShip.DroneBandwidth_Used)
         lblDroneBandwidth.Text = FormatNumber(fittedShip.DroneBandwidth_Used, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBandwidth, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblDroneControl.Text = fittedShip.UsedDrones & " / " & fittedShip.MaxDrones
     End Sub

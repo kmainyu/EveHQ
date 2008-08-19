@@ -34,7 +34,8 @@ Public Class frmHQF
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.7.1.73"
+    Shared LastCacheRefresh As String = "1.7.1.81"
+    Dim cacheForm As New frmHQFCacheWriter
 
 #Region "Class Wide Variables"
 
@@ -1239,6 +1240,18 @@ Public Class frmHQF
 
         startUp = True
 
+        ' Close the EveHQ InfoPanel if opted to
+        If Settings.HQFSettings.CloseInfoPanel = True Then
+            EveHQ.Core.HQ.StartCloseInfoPanel = True
+            Me.WindowState = FormWindowState.Maximized
+        End If
+
+        ' Clear tabs and fitted ship list
+        ShipLists.fittedShipList.Clear()
+        tabHQF.TabPages.Clear()
+        Me.Show()
+        Me.Refresh()
+
         AddHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
         AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
         AddHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFittings
@@ -1250,12 +1263,6 @@ Public Class frmHQF
         ' Load the Profiles - stored separately from settings for distibution!
         Call Settings.HQFSettings.LoadProfiles()
 
-        ' Close the EveHQ InfoPanel if opted to
-        If Settings.HQFSettings.CloseInfoPanel = True Then
-            EveHQ.Core.HQ.StartCloseInfoPanel = True
-            Me.WindowState = FormWindowState.Maximized
-        End If
-
         ' Load up a collection of pilots from the EveHQ Core
         Call Me.LoadPilots()
 
@@ -1265,11 +1272,6 @@ Public Class frmHQF
         ' Set the MetaType Filter
         Call Me.SetMetaTypeFilters()
 
-        ' Clear tabs and fitted ship list
-        ShipLists.fittedShipList.Clear()
-        tabHQF.TabPages.Clear()
-
-
         If UseSerializableData = True Then
             Call Me.ShowShipGroups()
             Call Me.ShowMarketGroups()
@@ -1278,6 +1280,7 @@ Public Class frmHQF
             Call Me.ShowModuleMarketGroups()
             ' Generate the cache
             Call Me.GenerateHQFCache()
+            UseSerializableData = True
         End If
 
         startUp = False
@@ -1301,12 +1304,11 @@ Public Class frmHQF
         End If
         HQF.Settings.HQFSettings.ShowPerformanceData = performanceSetting
 
-
     End Sub
     Private Sub LoadFittings()
         Fittings.FittingList.Clear()
-        If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\fittings.bin") = True Then
-            Dim s As New FileStream(HQF.Settings.HQFFolder & "\fittings.bin", FileMode.Open)
+        If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFFittings.bin") = True Then
+            Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFFittings.bin", FileMode.Open)
             Dim f As BinaryFormatter = New BinaryFormatter
             Fittings.FittingList = CType(f.Deserialize(s), SortedList)
             s.Close()
@@ -1315,7 +1317,7 @@ Public Class frmHQF
     End Sub
     Private Sub SaveFittings()
         ' Save ships
-        Dim s As New FileStream(HQF.Settings.HQFFolder & "\fittings.bin", FileMode.Create)
+        Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFFittings.bin", FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, Fittings.FittingList)
         s.Close()
@@ -2068,7 +2070,7 @@ Public Class frmHQF
 #End Region
 
     Private Sub tsbOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbOptions.Click
-        ' Test option for counting
+        ' Open options form
         Dim mySettings As New frmHQFSettings
         mySettings.ShowDialog()
         mySettings = Nothing
@@ -2396,7 +2398,7 @@ Public Class frmHQF
         pSI.Dock = System.Windows.Forms.DockStyle.Left
         pSI.Location = New System.Drawing.Point(0, 384)
         pSI.Name = "panelShipInfo"
-        pSI.Size = New System.Drawing.Size(252, 600)
+        pSI.Size = New System.Drawing.Size(270, 600)
         pSI.TabIndex = 0
 
         tp.Controls.Add(pSS)
@@ -2633,41 +2635,7 @@ Public Class frmHQF
 
 #Region "Cache Routines"
     Private Sub GenerateHQFCache()
-        ' Delete the cache folder if it's already there
-        If My.Computer.FileSystem.DirectoryExists(Settings.HQFCacheFolder) = True Then
-            My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
-        End If
-        My.Computer.FileSystem.CreateDirectory(Settings.HQFCacheFolder)
-        ' Save ships
-        Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\ships.bin", FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, ShipLists.shipList)
-        s.Close()
-        ' Save modules
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\modules.bin", FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, ModuleLists.moduleList)
-        s.Close()
-        ' Save implants
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\implants.bin", FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, Implants.implantList)
-        s.Close()
-        ' Save skills
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\skills.bin", FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, SkillLists.SkillList)
-        s.Close()
-        ' Save attributes
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.bin", FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, Attributes.AttributeList)
-        s.Close()
-        ' Save NPCs
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\NPCs.bin", FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, NPCs.NPCList)
-        s.Close()
+        cacheForm.ShowDialog()
         ' Write Ship Tree 
         Call Me.WriteShipGroups()
         Call Me.WriteItemGroups()
@@ -2781,5 +2749,16 @@ Public Class frmHQF
         myPilotManager = Nothing
     End Sub
 
-   
+    Private Sub OptionsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptionsToolStripMenuItem.Click
+        ' Open options form
+        Dim mySettings As New frmHQFSettings
+        mySettings.ShowDialog()
+        mySettings = Nothing
+    End Sub
+
+    Private Sub PilotManagerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PilotManagerToolStripMenuItem.Click
+        Dim myPilotManager As New frmPilotManager
+        myPilotManager.ShowDialog()
+        myPilotManager = Nothing
+    End Sub
 End Class
