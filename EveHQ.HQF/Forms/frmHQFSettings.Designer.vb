@@ -20,7 +20,7 @@ Partial Public Class frmHQFSettings
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("General")
-        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data Cache")
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data and Cache")
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Recharge Rates")
         Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Layout")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHQFSettings))
@@ -58,6 +58,7 @@ Partial Public Class frmHQFSettings
         Me.lblShieldRecharge = New System.Windows.Forms.Label
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
+        Me.btnDeleteAllFittings = New System.Windows.Forms.Button
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -165,7 +166,7 @@ Partial Public Class frmHQFSettings
         TreeNode1.Name = "nodeGeneral"
         TreeNode1.Text = "General"
         TreeNode2.Name = "nodeCache"
-        TreeNode2.Text = "Data Cache"
+        TreeNode2.Text = "Data and Cache"
         TreeNode3.Name = "nodeRechargeRates"
         TreeNode3.Text = "Recharge Rates"
         TreeNode4.Name = "nodeSlotFormat"
@@ -319,6 +320,7 @@ Partial Public Class frmHQFSettings
         '
         'gbCache
         '
+        Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
         Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
         Me.gbCache.Location = New System.Drawing.Point(194, 12)
@@ -326,12 +328,12 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Size = New System.Drawing.Size(498, 497)
         Me.gbCache.TabIndex = 29
         Me.gbCache.TabStop = False
-        Me.gbCache.Text = "Data Cache Settings"
+        Me.gbCache.Text = "Data and Cache Settings"
         Me.gbCache.Visible = False
         '
         'btnCheckData
         '
-        Me.btnCheckData.Location = New System.Drawing.Point(36, 76)
+        Me.btnCheckData.Location = New System.Drawing.Point(36, 145)
         Me.btnCheckData.Name = "btnCheckData"
         Me.btnCheckData.Size = New System.Drawing.Size(102, 23)
         Me.btnCheckData.TabIndex = 2
@@ -406,6 +408,15 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.TabIndex = 0
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         '
+        'btnDeleteAllFittings
+        '
+        Me.btnDeleteAllFittings.Location = New System.Drawing.Point(36, 76)
+        Me.btnDeleteAllFittings.Name = "btnDeleteAllFittings"
+        Me.btnDeleteAllFittings.Size = New System.Drawing.Size(102, 23)
+        Me.btnDeleteAllFittings.TabIndex = 3
+        Me.btnDeleteAllFittings.Text = "Delete All Fittings"
+        Me.btnDeleteAllFittings.UseVisualStyleBackColor = True
+        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -475,4 +486,5 @@ Partial Public Class frmHQFSettings
     Friend WithEvents btnMoveDown As System.Windows.Forms.Button
     Friend WithEvents btnMoveUp As System.Windows.Forms.Button
     Friend WithEvents btnCheckData As System.Windows.Forms.Button
+    Friend WithEvents btnDeleteAllFittings As System.Windows.Forms.Button
 End Class

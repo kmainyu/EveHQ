@@ -316,6 +316,29 @@ Public Class frmHQFSettings
             End Try
         End If
     End Sub
+    Private Sub btnDeleteAllFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteAllFittings.Click
+        Dim response As Integer = MessageBox.Show("This will delete all your existing fittings. Are you sure you wish to proceed?", "Confirm Deletion of ALL fittings", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If response = Windows.Forms.DialogResult.Yes Then
+            Dim cResponse As Integer = MessageBox.Show("Are you really sure you wish to proceed?", "Confirm Deletion of ALL fittings", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If cResponse = Windows.Forms.DialogResult.Yes Then
+                Try
+                    If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFFittings.bin") = True Then
+                        My.Computer.FileSystem.DeleteFile(HQF.Settings.HQFFolder & "\HQFFittings.bin", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+                    End If
+                    Fittings.FittingList.Clear()
+                    Fittings.FittingTabList.Clear()
+                    MessageBox.Show("All fittings successfully deleted", "All Fittings Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show("Unable to delete the fittings file", "Deletion Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            Else
+                Exit Sub
+            End If
+        Else
+            Exit Sub
+        End If
+    End Sub
+
 #End Region
 
 #Region "Recharge Rate Options"
@@ -388,4 +411,6 @@ Public Class frmHQFSettings
         MessageBox.Show("Total traversed items: " & itemCount, "Tree Walk Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
     End Sub
+
+   
 End Class

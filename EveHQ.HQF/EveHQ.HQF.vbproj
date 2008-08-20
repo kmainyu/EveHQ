@@ -79,6 +79,12 @@
     <Compile Include="Forms\frmDamageProfiles.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmEFTImport.Designer.vb">
+      <DependentUpon>frmEFTImport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmEFTImport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmHQFCacheWriter.Designer.vb">
       <DependentUpon>frmHQFCacheWriter.vb</DependentUpon>
     </Compile>
@@ -205,6 +211,9 @@
     <EmbeddedResource Include="Forms\frmDamageProfiles.resx">
       <DependentUpon>frmDamageProfiles.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmEFTImport.resx">
+      <DependentUpon>frmEFTImport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHQFCacheWriter.resx">
       <DependentUpon>frmHQFCacheWriter.vb</DependentUpon>

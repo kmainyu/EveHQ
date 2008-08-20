@@ -30,7 +30,6 @@ Public Class frmHQF
     Dim dataCheckList As New SortedList
     Dim currentShipSlot As ShipSlotControl
     Dim currentShipInfo As ShipInfoControl
-    Dim FittingTabList As New ArrayList
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
@@ -1293,7 +1292,7 @@ Public Class frmHQF
             For Each shipFit As String In HQF.Settings.HQFSettings.OpenFittingList
                 If Fittings.FittingList.ContainsKey(shipFit) = True Then
                     ' Create the tab and display
-                    If FittingTabList.Contains(shipFit) = False Then
+                    If Fittings.FittingTabList.Contains(shipFit) = False Then
                         Call Me.CreateFittingTabPage(shipFit)
                     End If
                     tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
@@ -2070,16 +2069,13 @@ Public Class frmHQF
 #End Region
 
     Private Sub tsbOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbOptions.Click
-        ' Open options form
-        Dim mySettings As New frmHQFSettings
-        mySettings.ShowDialog()
-        mySettings = Nothing
+        Call Me.OpenSettingsForm()
     End Sub
 
     Public Sub UpdateFittings()
         Me.Cursor = Cursors.WaitCursor
         ' Updates all the open fittings
-        For Each openTab As String In FittingTabList
+        For Each openTab As String In Fittings.FittingTabList
             Dim thisTab As TabPage = tabHQF.TabPages(openTab)
             Dim thisShipSlotControl As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
             Dim thisShipInfoControl As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
@@ -2206,7 +2202,7 @@ Public Class frmHQF
     End Sub
     Private Sub UpdateSelectedTab()
         If tabHQF.SelectedTab IsNot Nothing Then
-            If FittingTabList.Contains(tabHQF.SelectedTab.Text) Then
+            If Fittings.FittingTabList.Contains(tabHQF.SelectedTab.Text) Then
                 ' Get the controls on the existing tab
                 Dim thisShipSlotControl As ShipSlotControl = CType(tabHQF.SelectedTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
                 Dim thisShipInfoControl As ShipInfoControl = CType(tabHQF.SelectedTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
@@ -2254,7 +2250,7 @@ Public Class frmHQF
     End Sub
     Private Sub mnuCloseMDITab_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCloseHQFTab.Click
         Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-        FittingTabList.Remove(tp.Text)
+        Fittings.FittingTabList.Remove(tp.Text)
         ShipLists.fittedShipList.Remove(tp.Text)
         tabHQF.TabPages.Remove(tp)
     End Sub
@@ -2364,7 +2360,6 @@ Public Class frmHQF
         Next
         tvwFittings.EndUpdate()
     End Sub
-
     Private Sub tvwFittings_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwFittings.NodeMouseClick
         tvwFittings.SelectedNode = e.Node
     End Sub
@@ -2423,7 +2418,7 @@ Public Class frmHQF
         shipSlot.ShipInfo = shipInfo
         shipSlot.ShipFit = shipFit
 
-        FittingTabList.Add(shipFit)
+        Fittings.FittingTabList.Add(shipFit)
     End Sub
     Private Sub ctxFittings_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxFittings.Opening
         Dim curNode As TreeNode = tvwFittings.SelectedNode
@@ -2487,8 +2482,8 @@ Public Class frmHQF
             ' Amend it in the tabs if it's there!
             Dim tp As TabPage = tabHQF.TabPages(oldKeyName)
             If tp IsNot Nothing Then
-                FittingTabList.Remove(oldKeyName)
-                FittingTabList.Add(fittingKeyName)
+                Fittings.FittingTabList.Remove(oldKeyName)
+                Fittings.FittingTabList.Add(fittingKeyName)
                 tp.Name = fittingKeyName
                 tp.Tag = fittingKeyName
                 tp.Text = fittingKeyName
@@ -2549,7 +2544,7 @@ Public Class frmHQF
             ' Delete it from the tabs if it's there!
             Dim tp As TabPage = tabHQF.TabPages(fittingKeyName)
             If tp IsNot Nothing Then
-                FittingTabList.Remove(tp.Text)
+                Fittings.FittingTabList.Remove(tp.Text)
                 tabHQF.TabPages.Remove(tp)
                 ShipLists.fittedShipList.Remove(tp.Text)
             End If
@@ -2599,7 +2594,7 @@ Public Class frmHQF
             Dim shipName As String = fittingNode.Parent.Text
             Dim shipFit As String = fittingNode.Parent.Text & ", " & fittingNode.Text
             ' Create the tab and display
-            If FittingTabList.Contains(shipFit) = False Then
+            If Fittings.FittingTabList.Contains(shipFit) = False Then
                 Call Me.CreateFittingTabPage(shipFit)
             End If
             tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
@@ -2750,15 +2745,36 @@ Public Class frmHQF
     End Sub
 
     Private Sub OptionsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptionsToolStripMenuItem.Click
-        ' Open options form
-        Dim mySettings As New frmHQFSettings
-        mySettings.ShowDialog()
-        mySettings = Nothing
+        Call Me.OpenSettingsForm()
     End Sub
 
     Private Sub PilotManagerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PilotManagerToolStripMenuItem.Click
         Dim myPilotManager As New frmPilotManager
         myPilotManager.ShowDialog()
         myPilotManager = Nothing
+    End Sub
+
+    Private Sub mnuEFTImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEFTImport.Click
+        Dim myEFTImport As New frmEFTImport
+        myEFTImport.ShowDialog()
+        myEFTImport = Nothing
+        Call Me.UpdateFittingsTree()
+    End Sub
+    Private Sub OpenSettingsForm()
+        ' Open options form
+        Dim mySettings As New frmHQFSettings
+        mySettings.ShowDialog()
+        mySettings = Nothing
+        Call Me.UpdateFittingsTree()
+        Call Me.CheckOpenTabs()
+    End Sub
+    Private Sub CheckOpenTabs()
+        ' Checks whether the open tabs are still valid fittings
+        For Each tp As TabPage In tabHQF.TabPages
+            If Fittings.FittingTabList.Contains(tp.Text) = False Then
+                ShipLists.fittedShipList.Remove(tp.Text)
+                tabHQF.TabPages.Remove(tp)
+            End If
+        Next
     End Sub
 End Class

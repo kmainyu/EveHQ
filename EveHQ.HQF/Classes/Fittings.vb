@@ -21,5 +21,6 @@
 
     ' Key = [ShipName,Fitting], Value = ArrayList
     Public Shared FittingList As New SortedList
+    Public Shared FittingTabList As New ArrayList
 
 End Class
