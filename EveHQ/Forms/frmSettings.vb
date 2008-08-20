@@ -2059,34 +2059,38 @@ Public Class frmSettings
     Private Sub ParseMedianPriceFeed(ByVal FeedName As String)
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim feedXML As New XmlDocument
-        feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
-        Dim Items As XmlNodeList
-        Dim Item As XmlNode
-        Items = feedXML.SelectNodes("/medians_lookup/items/item")
-        lblUpdateStatus.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : lblUpdateStatus.Refresh()
-        For Each Item In Items
-            If EveHQ.Core.HQ.MarketPriceList.ContainsKey(Item.ChildNodes(0).InnerText) = True Then
-                EveHQ.Core.HQ.MarketPriceList(Item.ChildNodes(0).InnerText) = Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture)
-            Else
-                EveHQ.Core.HQ.MarketPriceList.Add(Item.ChildNodes(0).InnerText, Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture))
-            End If
-        Next
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
+            feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+            Dim Items As XmlNodeList
+            Dim Item As XmlNode
+            Items = feedXML.SelectNodes("/medians_lookup/items/item")
+            lblUpdateStatus.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : lblUpdateStatus.Refresh()
+            For Each Item In Items
+                If EveHQ.Core.HQ.MarketPriceList.ContainsKey(Item.ChildNodes(0).InnerText) = True Then
+                    EveHQ.Core.HQ.MarketPriceList(Item.ChildNodes(0).InnerText) = Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture)
+                Else
+                    EveHQ.Core.HQ.MarketPriceList.Add(Item.ChildNodes(0).InnerText, Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture))
+                End If
+            Next
+        End If
     End Sub
     Private Sub ParseFactionPriceFeed(ByVal FeedName As String)
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim feedXML As New XmlDocument
-        feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
-        Dim Items As XmlNodeList
-        Dim Item As XmlNode
-        Items = feedXML.SelectNodes("/factionPriceData/items/item")
-        lblUpdateStatus.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : lblUpdateStatus.Refresh()
-        For Each Item In Items
-            If EveHQ.Core.HQ.MarketPriceList.ContainsKey(Item.ChildNodes(0).InnerText) = True Then
-                EveHQ.Core.HQ.MarketPriceList(Item.ChildNodes(0).InnerText) = Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture)
-            Else
-                EveHQ.Core.HQ.MarketPriceList.Add(Item.ChildNodes(0).InnerText, Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture))
-            End If
-        Next
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
+            feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+            Dim Items As XmlNodeList
+            Dim Item As XmlNode
+            Items = feedXML.SelectNodes("/factionPriceData/items/item")
+            lblUpdateStatus.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : lblUpdateStatus.Refresh()
+            For Each Item In Items
+                If EveHQ.Core.HQ.MarketPriceList.ContainsKey(Item.ChildNodes(0).InnerText) = True Then
+                    EveHQ.Core.HQ.MarketPriceList(Item.ChildNodes(0).InnerText) = Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture)
+                Else
+                    EveHQ.Core.HQ.MarketPriceList.Add(Item.ChildNodes(0).InnerText, Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture))
+                End If
+            Next
+        End If
     End Sub
     Private Sub SaveMarketPrices()
         Dim sw As New StreamWriter(EveHQ.Core.HQ.cacheFolder & "\MarketPrices.txt")

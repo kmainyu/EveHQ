@@ -22,4 +22,8 @@ Public Class frmAbout
     Private Sub frmAbout_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         lblVersion.Text = "Version " & My.Application.Info.Version.ToString
     End Sub
+
+    Private Sub lblEveHQLink_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblEveHQLink.LinkClicked
+        Process.Start("http://www.evehq.net")
+    End Sub
 End Class

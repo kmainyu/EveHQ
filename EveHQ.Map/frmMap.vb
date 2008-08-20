@@ -3000,6 +3000,8 @@ Public Class frmMap
             Else
                 If lblStartSystem.Tag = "" Or lblEndSystem.Tag = "" Then
                     MessageBox.Show("Please enter a Start and End System before entering a Waypoint.", "Start System Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                ElseIf WaypointRoutes.Contains(EveHQ.Core.HQ.SystemsName(cboSystem.Text).Name) Then
+                    MessageBox.Show("System is already set as a waypoint.", "Waypoint Exists", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
                     Dim WPSystem As SolarSystem = EveHQ.Core.HQ.SystemsName(cboSystem.Text)
                     lstWaypoints.Items.Add(WPSystem.Name)
