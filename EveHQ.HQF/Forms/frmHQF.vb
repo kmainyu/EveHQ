@@ -1245,8 +1245,9 @@ Public Class frmHQF
             Me.WindowState = FormWindowState.Maximized
         End If
 
-        ' Clear tabs and fitted ship list
+        ' Clear tabs and fitted ship lists
         ShipLists.fittedShipList.Clear()
+        Fittings.FittingTabList.Clear()
         tabHQF.TabPages.Clear()
         Me.Show()
         Me.Refresh()
