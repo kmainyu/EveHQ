@@ -2532,8 +2532,8 @@ Public Class frmMap
             Dim mapFont As Font = New Font("Tahoma", 7, FontStyle.Regular)
             EveMap = New Bitmap(pbMap.Width, pbMap.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb)
             ReDim Mapdata(mapSize, mapSize)
-            For x As Integer = 0 To pbMap.Width
-                For y As Integer = 0 To pbMap.Height
+            For x As Integer = 0 To mapSize
+                For y As Integer = 0 To mapSize
                     Mapdata(x, y) = ""
                 Next
             Next

@@ -57,6 +57,7 @@ Partial Class frmDamageProfiles
         Me.btnAddProfile = New System.Windows.Forms.Button
         Me.btnEditProfile = New System.Windows.Forms.Button
         Me.btnDeleteProfile = New System.Windows.Forms.Button
+        Me.btnResetProfiles = New System.Windows.Forms.Button
         Me.gbProfileInfo.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -412,11 +413,21 @@ Partial Class frmDamageProfiles
         Me.btnDeleteProfile.Text = "Delete Profile"
         Me.btnDeleteProfile.UseVisualStyleBackColor = True
         '
+        'btnResetProfiles
+        '
+        Me.btnResetProfiles.Location = New System.Drawing.Point(397, 100)
+        Me.btnResetProfiles.Name = "btnResetProfiles"
+        Me.btnResetProfiles.Size = New System.Drawing.Size(88, 23)
+        Me.btnResetProfiles.TabIndex = 5
+        Me.btnResetProfiles.Text = "Reset Profiles"
+        Me.btnResetProfiles.UseVisualStyleBackColor = True
+        '
         'frmDamageProfiles
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(660, 543)
+        Me.Controls.Add(Me.btnResetProfiles)
         Me.Controls.Add(Me.btnDeleteProfile)
         Me.Controls.Add(Me.btnEditProfile)
         Me.Controls.Add(Me.btnAddProfile)
@@ -468,4 +479,5 @@ Partial Class frmDamageProfiles
     Friend WithEvents btnAddProfile As System.Windows.Forms.Button
     Friend WithEvents btnEditProfile As System.Windows.Forms.Button
     Friend WithEvents btnDeleteProfile As System.Windows.Forms.Button
+    Friend WithEvents btnResetProfiles As System.Windows.Forms.Button
 End Class

@@ -33,7 +33,7 @@ Public Class frmHQF
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.7.2.85"
+    Shared LastCacheRefresh As String = "1.7.2.87"
     Dim cacheForm As New frmHQFCacheWriter
 
 #Region "Class Wide Variables"
@@ -1146,7 +1146,7 @@ Public Class frmHQF
     Private Function LoadNPCData() As Boolean
         Try
             Dim strSQL As String = ""
-            strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
+            strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
             strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeAttributes ON invTypes.typeID=dgmTypeAttributes.typeID"
             strSQL &= " WHERE (invCategories.categoryID=11) ORDER BY typeName, attributeID;"
             Dim NPCData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -1166,6 +1166,7 @@ Public Class frmHQF
                             End If
                             ' Create new ship type & non "attribute" data
                             newNPC.Name = NPCRow.Item("typeName").ToString
+                            newNPC.GroupName = NPCRow.Item("groupName").ToString
                         End If
 
                         ' Now get, modify (if applicable) and add the "attribute"
@@ -1234,6 +1235,8 @@ Public Class frmHQF
         Call Me.SaveFittings()
         ' Save the Settings
         Call Settings.HQFSettings.SaveHQFSettings()
+        ' Destroy the tab settings
+        Me.tabHQF.Dispose()
     End Sub
     Private Sub frmHQF_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 

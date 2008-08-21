@@ -96,15 +96,15 @@
 		<file>
 			<name>EveHQ.Map.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.2.85</version>
-			<requires>1.7.2.85</requires>
+			<version>1.7.2.87</version>
+			<requires>1.7.2.87</requires>
 			<description>Map and Routing Plug-in</description>
 		</file>
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.2.85</version>
-			<requires>1.7.2.85</requires>
+			<version>1.7.2.87</version>
+			<requires>1.7.2.87</requires>
 			<description>Ship Fitting Plug-in</description>
 		</file>
 	</files>

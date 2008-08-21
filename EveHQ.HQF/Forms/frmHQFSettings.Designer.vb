@@ -51,6 +51,7 @@ Partial Public Class frmHQFSettings
         Me.colSlotColumns = New System.Windows.Forms.ColumnHeader
         Me.lblSlotColumns = New System.Windows.Forms.Label
         Me.gbCache = New System.Windows.Forms.GroupBox
+        Me.btnDeleteAllFittings = New System.Windows.Forms.Button
         Me.btnCheckData = New System.Windows.Forms.Button
         Me.btnDeleteCache = New System.Windows.Forms.Button
         Me.gbRechargeRates = New System.Windows.Forms.GroupBox
@@ -58,7 +59,6 @@ Partial Public Class frmHQFSettings
         Me.lblShieldRecharge = New System.Windows.Forms.Label
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
-        Me.btnDeleteAllFittings = New System.Windows.Forms.Button
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -331,9 +331,18 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Text = "Data and Cache Settings"
         Me.gbCache.Visible = False
         '
+        'btnDeleteAllFittings
+        '
+        Me.btnDeleteAllFittings.Location = New System.Drawing.Point(36, 76)
+        Me.btnDeleteAllFittings.Name = "btnDeleteAllFittings"
+        Me.btnDeleteAllFittings.Size = New System.Drawing.Size(102, 23)
+        Me.btnDeleteAllFittings.TabIndex = 3
+        Me.btnDeleteAllFittings.Text = "Delete All Fittings"
+        Me.btnDeleteAllFittings.UseVisualStyleBackColor = True
+        '
         'btnCheckData
         '
-        Me.btnCheckData.Location = New System.Drawing.Point(36, 145)
+        Me.btnCheckData.Location = New System.Drawing.Point(36, 173)
         Me.btnCheckData.Name = "btnCheckData"
         Me.btnCheckData.Size = New System.Drawing.Size(102, 23)
         Me.btnCheckData.TabIndex = 2
@@ -407,15 +416,6 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.Size = New System.Drawing.Size(150, 13)
         Me.lblCapRecharge.TabIndex = 0
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
-        '
-        'btnDeleteAllFittings
-        '
-        Me.btnDeleteAllFittings.Location = New System.Drawing.Point(36, 76)
-        Me.btnDeleteAllFittings.Name = "btnDeleteAllFittings"
-        Me.btnDeleteAllFittings.Size = New System.Drawing.Size(102, 23)
-        Me.btnDeleteAllFittings.TabIndex = 3
-        Me.btnDeleteAllFittings.Text = "Delete All Fittings"
-        Me.btnDeleteAllFittings.UseVisualStyleBackColor = True
         '
         'frmHQFSettings
         '

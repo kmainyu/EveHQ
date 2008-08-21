@@ -374,6 +374,7 @@ Public Class Settings
 
     End Function
     Public Sub InitialiseSlotColumns()
+        cStandardSlotColumns.Clear()
         Dim newItem As New ListViewItem
         ' Setup Charge Item
         newItem = New ListViewItem
@@ -457,15 +458,82 @@ Public Class Settings
             s.Close()
         Else
             ' Need to create the profiles file and the standard custom profile (omni-damage)
-            DamageProfiles.ProfileList.Clear()
+            Dim NPCGroups(13) As String
             Dim newProfile As New DamageProfile
+            DamageProfiles.ProfileList.Clear()
+            NPCGroups(0) = "Angel Cartel" : NPCGroups(1) = "Blood Raiders" : NPCGroups(2) = "Guristas" : NPCGroups(3) = "Rogue Drone"
+            NPCGroups(4) = "Sansha's Nation" : NPCGroups(5) = "Serpentis" : NPCGroups(6) = "Amarr Empire" : NPCGroups(7) = "Caldari State"
+            NPCGroups(8) = "CONCORD" : NPCGroups(9) = "Gallente Federation" : NPCGroups(10) = "Khanid" : NPCGroups(11) = "Minmatar Republic"
+            NPCGroups(12) = "Mordu" : NPCGroups(13) = "Thukker"
+            Dim damage(13, 3) As Double
+            For Each newNPC As NPC In NPCs.NPCList.Values
+                For NPCGroup As Integer = 0 To 13
+                    If newNPC.GroupName.Contains(NPCGroups(NPCGroup)) = True Then
+                        damage(NPCGroup, 0) += newNPC.EM
+                        damage(NPCGroup, 1) += newNPC.Explosive
+                        damage(NPCGroup, 2) += newNPC.Kinetic
+                        damage(NPCGroup, 3) += newNPC.Thermal
+                    End If
+                Next
+            Next
+            For NPCGroup As Integer = 0 To 13
+                newProfile = New DamageProfile
+                newProfile.Name = NPCGroups(NPCGroup)
+                Dim damagetotal As Double = 0
+                For damageType As Integer = 0 To 3
+                    damagetotal += damage(NPCGroup, damageType)
+                Next
+                For damageType As Integer = 0 To 3
+                    damage(NPCGroup, damageType) = damage(NPCGroup, damageType) / damagetotal * 100
+                Next
+                newProfile.Type = 0
+                newProfile.EM = damage(NPCGroup, 0)
+                newProfile.Explosive = damage(NPCGroup, 1)
+                newProfile.Kinetic = damage(NPCGroup, 2)
+                newProfile.Thermal = damage(NPCGroup, 3)
+                DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
+            Next
+            ' Save Omni Damage
+            newProfile = New DamageProfile
             newProfile.Name = "<Omni-Damage>"
             newProfile.Type = 0
-            newProfile.EM = 25
-            newProfile.Explosive = 25
-            newProfile.Kinetic = 25
-            newProfile.Thermal = 25
-            newProfile.DPS = 0
+            newProfile.EM = 25 : newProfile.Explosive = 25 : newProfile.Kinetic = 25 : newProfile.Thermal = 25 : newProfile.DPS = 0
+            newProfile.Fitting = ""
+            newProfile.Pilot = ""
+            newProfile.NPCs.Clear()
+            DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
+            ' Save EM Damage
+            newProfile = New DamageProfile
+            newProfile.Name = "Pure EM"
+            newProfile.Type = 0
+            newProfile.EM = 100 : newProfile.Explosive = 0 : newProfile.Kinetic = 0 : newProfile.Thermal = 0 : newProfile.DPS = 0
+            newProfile.Fitting = ""
+            newProfile.Pilot = ""
+            newProfile.NPCs.Clear()
+            DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
+            ' Save Explosive Damage
+            newProfile = New DamageProfile
+            newProfile.Name = "Pure Explosive"
+            newProfile.Type = 0
+            newProfile.EM = 0 : newProfile.Explosive = 100 : newProfile.Kinetic = 0 : newProfile.Thermal = 0 : newProfile.DPS = 0
+            newProfile.Fitting = ""
+            newProfile.Pilot = ""
+            newProfile.NPCs.Clear()
+            DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
+            ' Save Kinetic Damage
+            newProfile = New DamageProfile
+            newProfile.Name = "Pure Kinetic"
+            newProfile.Type = 0
+            newProfile.EM = 0 : newProfile.Explosive = 0 : newProfile.Kinetic = 100 : newProfile.Thermal = 0 : newProfile.DPS = 0
+            newProfile.Fitting = ""
+            newProfile.Pilot = ""
+            newProfile.NPCs.Clear()
+            DamageProfiles.ProfileList.Add(newProfile.Name, newProfile)
+            ' Save Thermal Damage
+            newProfile = New DamageProfile
+            newProfile.Name = "Pure Thermal"
+            newProfile.Type = 0
+            newProfile.EM = 0 : newProfile.Explosive = 0 : newProfile.Kinetic = 0 : newProfile.Thermal = 100 : newProfile.DPS = 0
             newProfile.Fitting = ""
             newProfile.Pilot = ""
             newProfile.NPCs.Clear()

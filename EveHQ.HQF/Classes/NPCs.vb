@@ -23,6 +23,7 @@ End Class
 
 <Serializable()> Public Class NPC
     Public Name As String
+    Public GroupName As String
     Public EM As Double
     Public Explosive As Double
     Public Kinetic As Double

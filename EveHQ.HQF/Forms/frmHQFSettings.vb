@@ -317,9 +317,9 @@ Public Class frmHQFSettings
         End If
     End Sub
     Private Sub btnDeleteAllFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteAllFittings.Click
-        Dim response As Integer = MessageBox.Show("This will delete all your existing fittings. Are you sure you wish to proceed?", "Confirm Deletion of ALL fittings", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        Dim response As Integer = MessageBox.Show("This will delete all your existing fittings. Are you sure you wish to proceed?", "Confirm Delete ALL Fittings", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If response = Windows.Forms.DialogResult.Yes Then
-            Dim cResponse As Integer = MessageBox.Show("Are you really sure you wish to proceed?", "Confirm Deletion of ALL fittings", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            Dim cResponse As Integer = MessageBox.Show("Are you really sure you wish to proceed?", "Confirm Delete ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If cResponse = Windows.Forms.DialogResult.Yes Then
                 Try
                     If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFFittings.bin") = True Then

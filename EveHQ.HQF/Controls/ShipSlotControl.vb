@@ -1233,6 +1233,11 @@ Public Class ShipSlotControl
 
     Private Sub ctxBays_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxBays.Opening
         Dim lvwBay As ListView = CType(ctxBays.SourceControl, ListView)
+        If lvwBay Is lvwCargoBay Then
+            ctxShowBayInfoItem.Text = "Show Item Info"
+        Else
+            ctxShowBayInfoItem.Text = "Show Drone Info"
+        End If
         If lvwBay.SelectedIndices.Count = 0 Then
             e.Cancel = True
         Else
@@ -1273,10 +1278,19 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub ctxShowBayInfoItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxShowBayInfoItem.Click
-        Dim selItem As ListViewItem = lvwDroneBay.SelectedItems(0)
-        Dim idx As Integer = CInt(selItem.Name)
-        Dim DBI As DroneBayItem = CType(fittedShip.DroneBayItems.Item(idx), DroneBayItem)
-        Dim sModule As ShipModule = DBI.DroneType
+        Dim selItem As ListViewItem
+        Dim sModule As ShipModule
+        If ctxShowBayInfoItem.Text = "Show Item Info" Then
+            selItem = lvwCargoBay.SelectedItems(0)
+            Dim idx As Integer = CInt(selItem.Name)
+            Dim DBI As CargoBayItem = CType(fittedShip.CargoBayItems.Item(idx), CargoBayItem)
+            sModule = DBI.ItemType
+        Else
+            selItem = lvwDroneBay.SelectedItems(0)
+            Dim idx As Integer = CInt(selItem.Name)
+            Dim DBI As DroneBayItem = CType(fittedShip.DroneBayItems.Item(idx), DroneBayItem)
+            sModule = DBI.DroneType
+        End If  
         Dim showInfo As New frmShowInfo
         showInfo.ShowItemDetails(sModule)
         showInfo = Nothing
@@ -1292,7 +1306,7 @@ Public Class ShipSlotControl
                 Dim newSelectForm As New frmSelectQuantity
                 newSelectForm.fittedShip = fittedShip
                 newSelectForm.CBI = CBI
-                newSelectForm.IsDroneBay = True
+                newSelectForm.IsDroneBay = False
                 newSelectForm.IsSplit = False
                 newSelectForm.nudQuantity.Minimum = 1
                 newSelectForm.nudQuantity.Maximum = CBI.Quantity + CInt(Int((fittedShip.CargoBay - fittedShip.CargoBay_Used) / CBI.ItemType.Volume))
@@ -1335,7 +1349,7 @@ Public Class ShipSlotControl
                 newSelectForm.fittedShip = fittedShip
                 newSelectForm.currentShip = currentShip
                 newSelectForm.CBI = CBI
-                newSelectForm.IsDroneBay = True
+                newSelectForm.IsDroneBay = False
                 newSelectForm.IsSplit = True
                 newSelectForm.nudQuantity.Value = 1
                 newSelectForm.nudQuantity.Minimum = 1

@@ -114,7 +114,6 @@ Public Class frmDamageProfiles
         ProfileForm.Tag = "Add"
         ProfileForm.btnAccept.Text = "Add Profile"
         ProfileForm.ShowDialog()
-        Call Me.UpdateProfileList()
     End Sub
 
     Private Sub btnEditProfile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditProfile.Click
@@ -135,7 +134,27 @@ Public Class frmDamageProfiles
         End If
     End Sub
 
-    Private Sub lblEMDamageAmount_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblEMDamageAmount.TextChanged
-
+    Private Sub btnResetProfiles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetProfiles.Click
+        Dim response As Integer = MessageBox.Show("This will delete all your existing profiles and re-instate the defaults. Are you sure you wish to proceed?", "Confirm Reset ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If response = Windows.Forms.DialogResult.Yes Then
+            Dim cResponse As Integer = MessageBox.Show("Are you really sure you wish to proceed?", "Confirm Reset ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If cResponse = Windows.Forms.DialogResult.Yes Then
+                Try
+                    If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFProfiles.bin") = True Then
+                        My.Computer.FileSystem.DeleteFile(HQF.Settings.HQFFolder & "\HQFProfiles.bin", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+                    End If
+                    DamageProfiles.ProfileList.Clear()
+                    Settings.HQFSettings.LoadProfiles()
+                    Call Me.UpdateProfileList()
+                    MessageBox.Show("Profiles successfully reset", "Profile Reset Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show("Unable to delete the fittings file", "Deletion Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            Else
+                Exit Sub
+            End If
+        Else
+            Exit Sub
+        End If
     End Sub
 End Class
