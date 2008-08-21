@@ -1,8 +1,40 @@
 EveHQ - Version History
 -----------------------
 
+1.7.2.85 (20/08/2008)
+--------
+Fixes and Improvements:
+- Fixed issue in CorpHQ when standings are set manually towards NPCs (Corps/Factions/Agents)
+- Fixed CorpHQ standings list not updating when changing characters
+- Standings and clear cache routines in CorpHQ now check the /LUA switch in EveHQ settings when determining cache location
+- Fixed issue with not being able to use jump tools when JDC < 5 in the map plug-in
+- Fixed the first column in the Map route display sorting by system name, not jump number
+- Fixed various and numerous issues with the waypoint code in the map plug-in
+- Fixed an issue caused by the API that would cause an alliance not to have info if no executor corp
+- Attributes in the Item Browser will now display up to 3dp if the attribute value contains that precision
+- Fixed rounding error in rig builder (Assets plug-in) giving incorrect total values for rig and build costs (margin was still correct)
+- List of Accounts in EveHQ Settings is now sortable on the various columns
+- List of Pilots in EveHQ Settings is now sortable on the various columns
+- Skill Queues can now be sorted by the various columns
+- Fixed error when right clicking on skill queue with no items selected
+- /NoSplash commandline parameter added to disable display of the splash screen on EveHQ startup
+- Added a new EveHQ setting to modify the API file extension for use with remote API proxies
+- Market prices should no longer crash EveHQ if any of the local files do not exist
+- Added additional credits into the About screen
+- Core and plug-ins updated to directly use the official CCP Data Export (requires MS SQL Server)
+- New database based on the official CCP Data Export
+
+
+1.7.1.56 (21/07/2008)
+--------
+Fixes and Improvements:
+- Fixed Visual Styles issue in the Assets plug-in that resulted in a blank assets screen
+- Fixed an issue with the Updater not correctly handling new files
+- Added CorpHQ plugin Phase I (Standings)
+
+
 1.7.0.51 (16/07/2008)
--------
+--------
 New Features:
 - API Relay Server: Use EveHQ as a cache and secondary API server for other instances of EveHQ and other applications
 - New Updater: Can deliver new libraries and plug-ins without the need for further installers/zip files
@@ -76,6 +108,7 @@ Features and Improvements (Map):
 - Agents tab allowing searching of agents within particular factions, corps and divisions.
 - Modified the routing procedures to return a null route if a target system is not reachable
 - Fixed a crash in the routing code that could be caused if 2 destination systems were equal distance from the source
+
 
 1.6.7.0 (01/05/2008)
 -------

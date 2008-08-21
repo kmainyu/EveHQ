@@ -33,7 +33,7 @@ Public Class frmHQF
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.7.1.81"
+    Shared LastCacheRefresh As String = "1.7.2.85"
     Dim cacheForm As New frmHQFCacheWriter
 
 #Region "Class Wide Variables"
