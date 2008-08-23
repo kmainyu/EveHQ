@@ -797,14 +797,14 @@
 # Cargo Expander,,,,,,,,,,
 149,2,765,10004,3,6,0,0,0,14,Cargo Capacity Bonus
 150,2,765,9,3,6,0,0,0,14,Structure HP Penalty
-306,2,765,37,3,6,0,0,0,14,Max Velocity Penalty
+306,2,765,37,3,6,1,0,0,14,Max Velocity Penalty
 # Nanofiber Internal Structure,,,,,,,,,,
-150,2,763,9,3,6,1,0,0,14,Structure HP Bonus
+150,2,763,9,3,6,0,0,0,14,Structure HP Bonus
 1131,2,763,10002,3,6,1,0,0,14,Mass Reduction
 # Reinforced Bulkheads,,,,,,,,,,
 150,2,78,9,3,6,0,0,0,14,Structure HP Bonus
-169,2,78,70,3,6,0,0,0,14,Inertia Penalty
-306,2,78,37,3,6,0,0,0,14,Max Velocity Penalty
+169,2,78,70,3,6,1,0,0,14,Inertia Penalty
+306,2,78,37,3,6,1,0,0,14,Max Velocity Penalty
 # Armor Resistence Plating,,,,,,,,,,
 984,2,98,267,3,6,1,0,2,14,Armor Plating - Passive EM Resist
 985,2,98,268,3,6,1,0,2,14,Armor Plating - Passive Exp Resist
@@ -822,11 +822,11 @@
 554,2,762,552,3,6,1,0,0,14,Sig Radius Penalty
 # Overdrive Injectors,,,,,,,,,,
 1076,2,764,37,3,6,1,0,0,14,Max Velocity Bonus
-149,2,764,10004,3,6,1,0,0,14,Cargo Capacity Penalty
+149,2,764,10004,3,6,0,0,0,14,Cargo Capacity Penalty
 # Warp Core Stabilizers,,,,,,,,,,
 105,2,315,10009,3,6,0,0,0,14,Warp Core Strength
-309,2,315,76,3,6,0,0,0,14,Targeting Range Penalty
-565,2,315,564,3,6,0,0,0,14,Scan Resolution Penalty
+309,2,315,76,3,6,1,0,0,14,Targeting Range Penalty
+565,2,315,564,3,6,1,0,0,14,Scan Resolution Penalty
 # SHIELD,,,,,,,,,,
 # Shield Boost Amplifiers,,,,,,,,,,
 548,2,338,68,2,40,1,0,0,14,Shield Boost Bonus
