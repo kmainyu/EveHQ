@@ -92,18 +92,20 @@ End Class
 
     Public Shared Sub UpdateHQFSkillsToActual(ByVal hPilot As HQFPilot)
         ' If the HQF skill < Actual, this routine makes HQF = Actual
-        Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(hPilot.PilotName), Core.Pilot)
-        For Each newSkill As EveHQ.Core.SkillList In EveHQ.Core.HQ.SkillListID
-            If hPilot.SkillSet.Contains(newSkill.Name) = True Then
-                Dim MyHQFSkill As HQFSkill = CType(hPilot.SkillSet(newSkill.Name), HQFSkill)
-                If cpilot.PilotSkills.Contains(newSkill.Name) = True Then
-                    Dim mySkill As EveHQ.Core.Skills = CType(cpilot.PilotSkills(newSkill.Name), Core.Skills)
-                    If MyHQFSkill.Level < mySkill.Level Then
-                        MyHQFSkill.Level = mySkill.Level
+        If EveHQ.Core.HQ.Pilots.Contains(hPilot.PilotName) = True Then
+            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(hPilot.PilotName), Core.Pilot)
+            For Each newSkill As EveHQ.Core.SkillList In EveHQ.Core.HQ.SkillListID
+                If hPilot.SkillSet.Contains(newSkill.Name) = True Then
+                    Dim MyHQFSkill As HQFSkill = CType(hPilot.SkillSet(newSkill.Name), HQFSkill)
+                    If cpilot.PilotSkills.Contains(newSkill.Name) = True Then
+                        Dim mySkill As EveHQ.Core.Skills = CType(cpilot.PilotSkills(newSkill.Name), Core.Skills)
+                        If MyHQFSkill.Level < mySkill.Level Then
+                            MyHQFSkill.Level = mySkill.Level
+                        End If
                     End If
                 End If
-            End If
-        Next
+            Next
+        End If
     End Sub
 
     Public Shared Sub SaveHQFPilotData()
