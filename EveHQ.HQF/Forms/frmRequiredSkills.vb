@@ -24,6 +24,7 @@ Public Class frmRequiredSkills
 #Region "Property Variables"
     Private reqSkills As New SortedList
     Private reqPilot As EveHQ.Core.Pilot
+    Private reqHPilot As HQFPilot
 #End Region
 
 #Region "Properties"
@@ -44,6 +45,7 @@ Public Class frmRequiredSkills
         End Get
         Set(ByVal value As EveHQ.Core.Pilot)
             reqPilot = value
+            reqHPilot = CType(HQFPilotCollection.HQFPilots(reqPilot.Name), HQFPilot)
         End Set
     End Property
 
@@ -79,6 +81,11 @@ Public Class frmRequiredSkills
             End If
             newSkill.SubItems(3).Text = rSkill.CurLevel.ToString
             newSkill.SubItems(4).Text = rSkill.NeededFor
+            If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
+                newSkill.ForeColor = Drawing.Color.Red
+            Else
+                newSkill.ForeColor = Drawing.Color.LimeGreen
+            End If
             ' Check for sub skills
             Call Me.DisplaySubSkills(newSkill, rSkill.ID)
         Next
@@ -93,6 +100,7 @@ Public Class frmRequiredSkills
             Dim newSkill As New ContainerListViewItem
             parentSkill.Items.Add(newSkill)
             newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.PS)
+            Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
             newSkill.SubItems(1).Text = pSkill.PSL.ToString
             If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
                 aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
@@ -100,12 +108,19 @@ Public Class frmRequiredSkills
             Else
                 newSkill.SubItems(2).Text = "0"
             End If
+            newSkill.SubItems(3).Text = rSkill.Level.ToString
+            If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
+                newSkill.ForeColor = Drawing.Color.Red
+            Else
+                newSkill.ForeColor = Drawing.Color.LimeGreen
+            End If
             Call Me.DisplaySubSkills(newSkill, pSkill.PS)
         End If
         If pSkill.SS <> "" Then
             Dim newSkill As New ContainerListViewItem
             parentSkill.Items.Add(newSkill)
             newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.SS)
+            Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
             newSkill.SubItems(1).Text = pSkill.SSL.ToString
             If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
                 aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
@@ -113,18 +128,31 @@ Public Class frmRequiredSkills
             Else
                 newSkill.SubItems(2).Text = "0"
             End If
+            newSkill.SubItems(3).Text = rSkill.Level.ToString
+            If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
+                newSkill.ForeColor = Drawing.Color.Red
+            Else
+                newSkill.ForeColor = Drawing.Color.LimeGreen
+            End If
             Call Me.DisplaySubSkills(newSkill, pSkill.SS)
         End If
         If pSkill.TS <> "" Then
             Dim newSkill As New ContainerListViewItem
             parentSkill.Items.Add(newSkill)
             newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.TS)
+            Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
             newSkill.SubItems(1).Text = pSkill.TSL.ToString
             If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
                 aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
                 newSkill.SubItems(2).Text = aSkill.Level.ToString
             Else
                 newSkill.SubItems(2).Text = "0"
+            End If
+            newSkill.SubItems(3).Text = rSkill.Level.ToString
+            If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
+                newSkill.ForeColor = Drawing.Color.Red
+            Else
+                newSkill.ForeColor = Drawing.Color.LimeGreen
             End If
             Call Me.DisplaySubSkills(newSkill, pSkill.TS)
         End If

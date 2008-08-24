@@ -126,7 +126,7 @@ Partial Class frmDamageProfiles
         Me.lblNPCName.AutoSize = True
         Me.lblNPCName.Location = New System.Drawing.Point(82, 290)
         Me.lblNPCName.Name = "lblNPCName"
-        Me.lblNPCName.Size = New System.Drawing.Size(24, 13)
+        Me.lblNPCName.Size = New System.Drawing.Size(23, 13)
         Me.lblNPCName.TabIndex = 42
         Me.lblNPCName.Text = "n/a"
         '
@@ -144,7 +144,7 @@ Partial Class frmDamageProfiles
         Me.lblPilotName.AutoSize = True
         Me.lblPilotName.Location = New System.Drawing.Point(82, 270)
         Me.lblPilotName.Name = "lblPilotName"
-        Me.lblPilotName.Size = New System.Drawing.Size(24, 13)
+        Me.lblPilotName.Size = New System.Drawing.Size(23, 13)
         Me.lblPilotName.TabIndex = 40
         Me.lblPilotName.Text = "n/a"
         '
@@ -162,7 +162,7 @@ Partial Class frmDamageProfiles
         Me.lblFittingName.AutoSize = True
         Me.lblFittingName.Location = New System.Drawing.Point(82, 250)
         Me.lblFittingName.Name = "lblFittingName"
-        Me.lblFittingName.Size = New System.Drawing.Size(24, 13)
+        Me.lblFittingName.Size = New System.Drawing.Size(23, 13)
         Me.lblFittingName.TabIndex = 38
         Me.lblFittingName.Text = "n/a"
         '
@@ -171,7 +171,7 @@ Partial Class frmDamageProfiles
         Me.lblFittingNameLbl.AutoSize = True
         Me.lblFittingNameLbl.Location = New System.Drawing.Point(6, 250)
         Me.lblFittingNameLbl.Name = "lblFittingNameLbl"
-        Me.lblFittingNameLbl.Size = New System.Drawing.Size(69, 13)
+        Me.lblFittingNameLbl.Size = New System.Drawing.Size(71, 13)
         Me.lblFittingNameLbl.TabIndex = 37
         Me.lblFittingNameLbl.Text = "Fitting Name:"
         '
@@ -180,7 +180,7 @@ Partial Class frmDamageProfiles
         Me.lblDPS.AutoSize = True
         Me.lblDPS.Location = New System.Drawing.Point(82, 230)
         Me.lblDPS.Name = "lblDPS"
-        Me.lblDPS.Size = New System.Drawing.Size(46, 13)
+        Me.lblDPS.Size = New System.Drawing.Size(47, 13)
         Me.lblDPS.TabIndex = 36
         Me.lblDPS.Text = "1000.00"
         '
@@ -189,7 +189,7 @@ Partial Class frmDamageProfiles
         Me.lblDPSLbl.AutoSize = True
         Me.lblDPSLbl.Location = New System.Drawing.Point(6, 230)
         Me.lblDPSLbl.Name = "lblDPSLbl"
-        Me.lblDPSLbl.Size = New System.Drawing.Size(32, 13)
+        Me.lblDPSLbl.Size = New System.Drawing.Size(30, 13)
         Me.lblDPSLbl.TabIndex = 35
         Me.lblDPSLbl.Text = "DPS:"
         '
@@ -198,7 +198,7 @@ Partial Class frmDamageProfiles
         Me.lblProfileType.AutoSize = True
         Me.lblProfileType.Location = New System.Drawing.Point(82, 46)
         Me.lblProfileType.Name = "lblProfileType"
-        Me.lblProfileType.Size = New System.Drawing.Size(42, 13)
+        Me.lblProfileType.Size = New System.Drawing.Size(41, 13)
         Me.lblProfileType.TabIndex = 34
         Me.lblProfileType.Text = "Manual"
         '
@@ -207,7 +207,7 @@ Partial Class frmDamageProfiles
         Me.lblProfileName.AutoSize = True
         Me.lblProfileName.Location = New System.Drawing.Point(82, 26)
         Me.lblProfileName.Name = "lblProfileName"
-        Me.lblProfileName.Size = New System.Drawing.Size(86, 13)
+        Me.lblProfileName.Size = New System.Drawing.Size(90, 13)
         Me.lblProfileName.TabIndex = 33
         Me.lblProfileName.Text = "<Omni-Damage>"
         '
@@ -373,7 +373,7 @@ Partial Class frmDamageProfiles
         Me.lblProfileTypeLbl.AutoSize = True
         Me.lblProfileTypeLbl.Location = New System.Drawing.Point(6, 46)
         Me.lblProfileTypeLbl.Name = "lblProfileTypeLbl"
-        Me.lblProfileTypeLbl.Size = New System.Drawing.Size(66, 13)
+        Me.lblProfileTypeLbl.Size = New System.Drawing.Size(68, 13)
         Me.lblProfileTypeLbl.TabIndex = 1
         Me.lblProfileTypeLbl.Text = "Profile Type:"
         '
@@ -382,7 +382,7 @@ Partial Class frmDamageProfiles
         Me.lblProfileNameLbl.AutoSize = True
         Me.lblProfileNameLbl.Location = New System.Drawing.Point(6, 26)
         Me.lblProfileNameLbl.Name = "lblProfileNameLbl"
-        Me.lblProfileNameLbl.Size = New System.Drawing.Size(70, 13)
+        Me.lblProfileNameLbl.Size = New System.Drawing.Size(71, 13)
         Me.lblProfileNameLbl.TabIndex = 0
         Me.lblProfileNameLbl.Text = "Profile Name:"
         '
@@ -433,6 +433,7 @@ Partial Class frmDamageProfiles
         Me.Controls.Add(Me.btnAddProfile)
         Me.Controls.Add(Me.gbProfileInfo)
         Me.Controls.Add(Me.lvwProfiles)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.MaximizeBox = False
         Me.MinimizeBox = False

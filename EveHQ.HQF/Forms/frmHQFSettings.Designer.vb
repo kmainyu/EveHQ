@@ -92,7 +92,7 @@ Partial Public Class frmHQFSettings
         Me.chkCloseInfoPanel.AutoSize = True
         Me.chkCloseInfoPanel.Location = New System.Drawing.Point(25, 142)
         Me.chkCloseInfoPanel.Name = "chkCloseInfoPanel"
-        Me.chkCloseInfoPanel.Size = New System.Drawing.Size(246, 17)
+        Me.chkCloseInfoPanel.Size = New System.Drawing.Size(242, 17)
         Me.chkCloseInfoPanel.TabIndex = 11
         Me.chkCloseInfoPanel.Text = "Close EveHQ ""Info Panel"" when opening HQF"
         Me.chkCloseInfoPanel.UseVisualStyleBackColor = True
@@ -112,7 +112,7 @@ Partial Public Class frmHQFSettings
         Me.chkAutoUpdateHQFSkills.AutoSize = True
         Me.chkAutoUpdateHQFSkills.Location = New System.Drawing.Point(25, 119)
         Me.chkAutoUpdateHQFSkills.Name = "chkAutoUpdateHQFSkills"
-        Me.chkAutoUpdateHQFSkills.Size = New System.Drawing.Size(240, 17)
+        Me.chkAutoUpdateHQFSkills.Size = New System.Drawing.Size(239, 17)
         Me.chkAutoUpdateHQFSkills.TabIndex = 9
         Me.chkAutoUpdateHQFSkills.Text = "Update HQF Skills to Actual Skills on Start-up"
         Me.chkAutoUpdateHQFSkills.UseVisualStyleBackColor = True
@@ -122,7 +122,7 @@ Partial Public Class frmHQFSettings
         Me.chkRestoreLastSession.AutoSize = True
         Me.chkRestoreLastSession.Location = New System.Drawing.Point(25, 96)
         Me.chkRestoreLastSession.Name = "chkRestoreLastSession"
-        Me.chkRestoreLastSession.Size = New System.Drawing.Size(247, 17)
+        Me.chkRestoreLastSession.Size = New System.Drawing.Size(245, 17)
         Me.chkRestoreLastSession.TabIndex = 8
         Me.chkRestoreLastSession.Text = "Restore Previous Session When Opening HQF"
         Me.chkRestoreLastSession.UseVisualStyleBackColor = True
@@ -142,7 +142,7 @@ Partial Public Class frmHQFSettings
         Me.lblDefaultPilot.AutoSize = True
         Me.lblDefaultPilot.Location = New System.Drawing.Point(22, 52)
         Me.lblDefaultPilot.Name = "lblDefaultPilot"
-        Me.lblDefaultPilot.Size = New System.Drawing.Size(118, 13)
+        Me.lblDefaultPilot.Size = New System.Drawing.Size(124, 13)
         Me.lblDefaultPilot.TabIndex = 6
         Me.lblDefaultPilot.Text = "Default Pilot for Fittings:"
         '
@@ -381,7 +381,7 @@ Partial Public Class frmHQFSettings
         Me.nudShieldRecharge.Maximum = New Decimal(New Integer() {25, 0, 0, 65536})
         Me.nudShieldRecharge.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.nudShieldRecharge.Name = "nudShieldRecharge"
-        Me.nudShieldRecharge.Size = New System.Drawing.Size(72, 20)
+        Me.nudShieldRecharge.Size = New System.Drawing.Size(72, 21)
         Me.nudShieldRecharge.TabIndex = 3
         Me.nudShieldRecharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.nudShieldRecharge.Value = New Decimal(New Integer() {25, 0, 0, 65536})
@@ -391,7 +391,7 @@ Partial Public Class frmHQFSettings
         Me.lblShieldRecharge.AutoSize = True
         Me.lblShieldRecharge.Location = New System.Drawing.Point(15, 75)
         Me.lblShieldRecharge.Name = "lblShieldRecharge"
-        Me.lblShieldRecharge.Size = New System.Drawing.Size(134, 13)
+        Me.lblShieldRecharge.Size = New System.Drawing.Size(135, 13)
         Me.lblShieldRecharge.TabIndex = 2
         Me.lblShieldRecharge.Text = "Shield Recharge Constant:"
         '
@@ -403,7 +403,7 @@ Partial Public Class frmHQFSettings
         Me.nudCapRecharge.Maximum = New Decimal(New Integer() {25, 0, 0, 65536})
         Me.nudCapRecharge.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.nudCapRecharge.Name = "nudCapRecharge"
-        Me.nudCapRecharge.Size = New System.Drawing.Size(72, 20)
+        Me.nudCapRecharge.Size = New System.Drawing.Size(72, 21)
         Me.nudCapRecharge.TabIndex = 1
         Me.nudCapRecharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.nudCapRecharge.Value = New Decimal(New Integer() {25, 0, 0, 65536})
@@ -413,7 +413,7 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.AutoSize = True
         Me.lblCapRecharge.Location = New System.Drawing.Point(15, 47)
         Me.lblCapRecharge.Name = "lblCapRecharge"
-        Me.lblCapRecharge.Size = New System.Drawing.Size(150, 13)
+        Me.lblCapRecharge.Size = New System.Drawing.Size(153, 13)
         Me.lblCapRecharge.TabIndex = 0
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         '
@@ -428,6 +428,7 @@ Partial Public Class frmHQFSettings
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False

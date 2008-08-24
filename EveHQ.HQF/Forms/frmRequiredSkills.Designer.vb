@@ -112,6 +112,7 @@ Partial Class frmRequiredSkills
         Me.Controls.Add(Me.btnAddToQueue)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.clvSkills)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.MaximizeBox = False
         Me.MinimizeBox = False

@@ -27,6 +27,7 @@ Partial Class frmAddDamageProfile
         Me.lblProfileType = New System.Windows.Forms.Label
         Me.cboProfileType = New System.Windows.Forms.ComboBox
         Me.gbManualProfile = New System.Windows.Forms.GroupBox
+        Me.cboNPC = New System.Windows.Forms.ComboBox
         Me.btnAddNPC = New System.Windows.Forms.Button
         Me.lblNPCs = New System.Windows.Forms.Label
         Me.lblDamageInfo = New System.Windows.Forms.Label
@@ -48,7 +49,6 @@ Partial Class frmAddDamageProfile
         Me.lblEmDamage = New System.Windows.Forms.Label
         Me.btnCancel = New System.Windows.Forms.Button
         Me.btnAccept = New System.Windows.Forms.Button
-        Me.cboNPC = New System.Windows.Forms.ComboBox
         Me.gbManualProfile.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -57,7 +57,7 @@ Partial Class frmAddDamageProfile
         Me.lblProfileName.AutoSize = True
         Me.lblProfileName.Location = New System.Drawing.Point(13, 13)
         Me.lblProfileName.Name = "lblProfileName"
-        Me.lblProfileName.Size = New System.Drawing.Size(70, 13)
+        Me.lblProfileName.Size = New System.Drawing.Size(71, 13)
         Me.lblProfileName.TabIndex = 0
         Me.lblProfileName.Text = "Profile Name:"
         '
@@ -65,7 +65,7 @@ Partial Class frmAddDamageProfile
         '
         Me.txtProfileName.Location = New System.Drawing.Point(107, 10)
         Me.txtProfileName.Name = "txtProfileName"
-        Me.txtProfileName.Size = New System.Drawing.Size(212, 20)
+        Me.txtProfileName.Size = New System.Drawing.Size(212, 21)
         Me.txtProfileName.TabIndex = 1
         '
         'lblProfileType
@@ -73,7 +73,7 @@ Partial Class frmAddDamageProfile
         Me.lblProfileType.AutoSize = True
         Me.lblProfileType.Location = New System.Drawing.Point(13, 39)
         Me.lblProfileType.Name = "lblProfileType"
-        Me.lblProfileType.Size = New System.Drawing.Size(66, 13)
+        Me.lblProfileType.Size = New System.Drawing.Size(68, 13)
         Me.lblProfileType.TabIndex = 2
         Me.lblProfileType.Text = "Profile Type:"
         '
@@ -115,6 +115,14 @@ Partial Class frmAddDamageProfile
         Me.gbManualProfile.TabStop = False
         Me.gbManualProfile.Text = "Profile Information"
         '
+        'cboNPC
+        '
+        Me.cboNPC.FormattingEnabled = True
+        Me.cboNPC.Location = New System.Drawing.Point(44, 317)
+        Me.cboNPC.Name = "cboNPC"
+        Me.cboNPC.Size = New System.Drawing.Size(263, 21)
+        Me.cboNPC.TabIndex = 19
+        '
         'btnAddNPC
         '
         Me.btnAddNPC.Location = New System.Drawing.Point(310, 317)
@@ -129,7 +137,7 @@ Partial Class frmAddDamageProfile
         Me.lblNPCs.AutoSize = True
         Me.lblNPCs.Location = New System.Drawing.Point(25, 125)
         Me.lblNPCs.Name = "lblNPCs"
-        Me.lblNPCs.Size = New System.Drawing.Size(79, 13)
+        Me.lblNPCs.Size = New System.Drawing.Size(77, 13)
         Me.lblNPCs.TabIndex = 16
         Me.lblNPCs.Text = "NPC Selection:"
         '
@@ -189,7 +197,7 @@ Partial Class frmAddDamageProfile
         Me.lblFittingName.AutoSize = True
         Me.lblFittingName.Location = New System.Drawing.Point(25, 45)
         Me.lblFittingName.Name = "lblFittingName"
-        Me.lblFittingName.Size = New System.Drawing.Size(69, 13)
+        Me.lblFittingName.Size = New System.Drawing.Size(71, 13)
         Me.lblFittingName.TabIndex = 10
         Me.lblFittingName.Text = "Fitting Name:"
         '
@@ -197,7 +205,7 @@ Partial Class frmAddDamageProfile
         '
         Me.txtEXDamage.Location = New System.Drawing.Point(529, 91)
         Me.txtEXDamage.Name = "txtEXDamage"
-        Me.txtEXDamage.Size = New System.Drawing.Size(75, 20)
+        Me.txtEXDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtEXDamage.TabIndex = 9
         Me.txtEXDamage.Text = "0.00"
         Me.txtEXDamage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -215,7 +223,7 @@ Partial Class frmAddDamageProfile
         '
         Me.txtKIDamage.Location = New System.Drawing.Point(529, 117)
         Me.txtKIDamage.Name = "txtKIDamage"
-        Me.txtKIDamage.Size = New System.Drawing.Size(75, 20)
+        Me.txtKIDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtKIDamage.TabIndex = 7
         Me.txtKIDamage.Text = "0.00"
         Me.txtKIDamage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -225,7 +233,7 @@ Partial Class frmAddDamageProfile
         Me.lblKIDamage.AutoSize = True
         Me.lblKIDamage.Location = New System.Drawing.Point(417, 120)
         Me.lblKIDamage.Name = "lblKIDamage"
-        Me.lblKIDamage.Size = New System.Drawing.Size(85, 13)
+        Me.lblKIDamage.Size = New System.Drawing.Size(84, 13)
         Me.lblKIDamage.TabIndex = 6
         Me.lblKIDamage.Text = "Kinetic Damage:"
         '
@@ -233,7 +241,7 @@ Partial Class frmAddDamageProfile
         '
         Me.txtTHDamage.Location = New System.Drawing.Point(529, 143)
         Me.txtTHDamage.Name = "txtTHDamage"
-        Me.txtTHDamage.Size = New System.Drawing.Size(75, 20)
+        Me.txtTHDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtTHDamage.TabIndex = 5
         Me.txtTHDamage.Text = "0.00"
         Me.txtTHDamage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -251,7 +259,7 @@ Partial Class frmAddDamageProfile
         '
         Me.txtDPS.Location = New System.Drawing.Point(529, 169)
         Me.txtDPS.Name = "txtDPS"
-        Me.txtDPS.Size = New System.Drawing.Size(75, 20)
+        Me.txtDPS.Size = New System.Drawing.Size(75, 21)
         Me.txtDPS.TabIndex = 3
         Me.txtDPS.Text = "0.00"
         Me.txtDPS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -261,7 +269,7 @@ Partial Class frmAddDamageProfile
         Me.lblDPS.AutoSize = True
         Me.lblDPS.Location = New System.Drawing.Point(417, 172)
         Me.lblDPS.Name = "lblDPS"
-        Me.lblDPS.Size = New System.Drawing.Size(32, 13)
+        Me.lblDPS.Size = New System.Drawing.Size(30, 13)
         Me.lblDPS.TabIndex = 2
         Me.lblDPS.Text = "DPS:"
         '
@@ -269,7 +277,7 @@ Partial Class frmAddDamageProfile
         '
         Me.txtEMDamage.Location = New System.Drawing.Point(529, 65)
         Me.txtEMDamage.Name = "txtEMDamage"
-        Me.txtEMDamage.Size = New System.Drawing.Size(75, 20)
+        Me.txtEMDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtEMDamage.TabIndex = 1
         Me.txtEMDamage.Text = "0.00"
         Me.txtEMDamage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -279,7 +287,7 @@ Partial Class frmAddDamageProfile
         Me.lblEmDamage.AutoSize = True
         Me.lblEmDamage.Location = New System.Drawing.Point(417, 68)
         Me.lblEmDamage.Name = "lblEmDamage"
-        Me.lblEmDamage.Size = New System.Drawing.Size(69, 13)
+        Me.lblEmDamage.Size = New System.Drawing.Size(67, 13)
         Me.lblEmDamage.TabIndex = 0
         Me.lblEmDamage.Text = "EM Damage:"
         '
@@ -302,14 +310,6 @@ Partial Class frmAddDamageProfile
         Me.btnAccept.Text = "Accept"
         Me.btnAccept.UseVisualStyleBackColor = True
         '
-        'cboNPC
-        '
-        Me.cboNPC.FormattingEnabled = True
-        Me.cboNPC.Location = New System.Drawing.Point(44, 317)
-        Me.cboNPC.Name = "cboNPC"
-        Me.cboNPC.Size = New System.Drawing.Size(263, 21)
-        Me.cboNPC.TabIndex = 19
-        '
         'frmAddDamageProfile
         '
         Me.AcceptButton = Me.btnAccept
@@ -324,6 +324,7 @@ Partial Class frmAddDamageProfile
         Me.Controls.Add(Me.lblProfileType)
         Me.Controls.Add(Me.txtProfileName)
         Me.Controls.Add(Me.lblProfileName)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

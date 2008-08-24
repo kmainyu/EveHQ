@@ -61,7 +61,7 @@ Partial Class frmModifyFittingName
         '
         Me.txtFittingName.Location = New System.Drawing.Point(91, 47)
         Me.txtFittingName.Name = "txtFittingName"
-        Me.txtFittingName.Size = New System.Drawing.Size(188, 20)
+        Me.txtFittingName.Size = New System.Drawing.Size(188, 21)
         Me.txtFittingName.TabIndex = 8
         '
         'lblGroupName
@@ -69,7 +69,7 @@ Partial Class frmModifyFittingName
         Me.lblGroupName.AutoSize = True
         Me.lblGroupName.Location = New System.Drawing.Point(12, 50)
         Me.lblGroupName.Name = "lblGroupName"
-        Me.lblGroupName.Size = New System.Drawing.Size(69, 13)
+        Me.lblGroupName.Size = New System.Drawing.Size(71, 13)
         Me.lblGroupName.TabIndex = 9
         Me.lblGroupName.Text = "Fitting Name:"
         '
@@ -85,6 +85,7 @@ Partial Class frmModifyFittingName
         Me.Controls.Add(Me.btnAccept)
         Me.Controls.Add(Me.txtFittingName)
         Me.Controls.Add(Me.lblGroupName)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

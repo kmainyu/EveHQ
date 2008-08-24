@@ -47,7 +47,7 @@ Partial Class frmEFTImport
         Me.lblScan.AutoSize = True
         Me.lblScan.Location = New System.Drawing.Point(9, 74)
         Me.lblScan.Name = "lblScan"
-        Me.lblScan.Size = New System.Drawing.Size(102, 13)
+        Me.lblScan.Size = New System.Drawing.Size(105, 13)
         Me.lblScan.TabIndex = 1
         Me.lblScan.Text = "Currently Scanning: "
         '
@@ -56,7 +56,7 @@ Partial Class frmEFTImport
         Me.lblStartDir.AutoSize = True
         Me.lblStartDir.Location = New System.Drawing.Point(13, 13)
         Me.lblStartDir.Name = "lblStartDir"
-        Me.lblStartDir.Size = New System.Drawing.Size(77, 13)
+        Me.lblStartDir.Size = New System.Drawing.Size(82, 13)
         Me.lblStartDir.TabIndex = 2
         Me.lblStartDir.Text = "Start Directory:"
         '
@@ -64,7 +64,7 @@ Partial Class frmEFTImport
         '
         Me.txtStartDir.Location = New System.Drawing.Point(96, 10)
         Me.txtStartDir.Name = "txtStartDir"
-        Me.txtStartDir.Size = New System.Drawing.Size(462, 20)
+        Me.txtStartDir.Size = New System.Drawing.Size(462, 21)
         Me.txtStartDir.TabIndex = 3
         '
         'btnBrowse
@@ -109,6 +109,7 @@ Partial Class frmEFTImport
         Me.Controls.Add(Me.lblStartDir)
         Me.Controls.Add(Me.lblScan)
         Me.Controls.Add(Me.btnScan)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

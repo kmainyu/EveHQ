@@ -41,7 +41,7 @@ Partial Class frmSelectQuantity
         '
         Me.nudQuantity.Location = New System.Drawing.Point(82, 52)
         Me.nudQuantity.Name = "nudQuantity"
-        Me.nudQuantity.Size = New System.Drawing.Size(92, 20)
+        Me.nudQuantity.Size = New System.Drawing.Size(92, 21)
         Me.nudQuantity.TabIndex = 1
         '
         'btnAccept
@@ -74,6 +74,7 @@ Partial Class frmSelectQuantity
         Me.Controls.Add(Me.btnAccept)
         Me.Controls.Add(Me.nudQuantity)
         Me.Controls.Add(Me.lblDetails)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

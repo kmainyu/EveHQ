@@ -114,7 +114,7 @@ Partial Class frmDoomsday
         Me.nudDoomsdayLevel.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.nudDoomsdayLevel.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudDoomsdayLevel.Name = "nudDoomsdayLevel"
-        Me.nudDoomsdayLevel.Size = New System.Drawing.Size(49, 20)
+        Me.nudDoomsdayLevel.Size = New System.Drawing.Size(49, 21)
         Me.nudDoomsdayLevel.TabIndex = 15
         Me.nudDoomsdayLevel.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
@@ -127,6 +127,7 @@ Partial Class frmDoomsday
         Me.Controls.Add(Me.lblDoomsdayLevel)
         Me.Controls.Add(Me.lvwDoomsday)
         Me.Controls.Add(Me.btnClose)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

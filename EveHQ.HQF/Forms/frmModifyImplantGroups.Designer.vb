@@ -61,7 +61,7 @@ Partial Class frmModifyImplantGroups
         '
         Me.txtGroupName.Location = New System.Drawing.Point(91, 47)
         Me.txtGroupName.Name = "txtGroupName"
-        Me.txtGroupName.Size = New System.Drawing.Size(188, 20)
+        Me.txtGroupName.Size = New System.Drawing.Size(188, 21)
         Me.txtGroupName.TabIndex = 8
         '
         'lblGroupName
@@ -85,6 +85,7 @@ Partial Class frmModifyImplantGroups
         Me.Controls.Add(Me.btnAccept)
         Me.Controls.Add(Me.txtGroupName)
         Me.Controls.Add(Me.lblGroupName)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
