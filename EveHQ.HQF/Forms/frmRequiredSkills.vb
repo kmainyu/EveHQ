@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports DotNetLib.Windows.Forms
+Imports System.Windows.Forms
 
 Public Class frmRequiredSkills
 
@@ -91,6 +92,9 @@ Public Class frmRequiredSkills
         Next
         clvSkills.EndUpdate()
 
+        ' Calculate the Queue Time
+        Call Me.CalculateQueueTime()
+
     End Sub
 
     Private Sub DisplaySubSkills(ByVal parentSkill As ContainerListViewItem, ByVal pSkillID As String)
@@ -156,6 +160,38 @@ Public Class frmRequiredSkills
             End If
             Call Me.DisplaySubSkills(newSkill, pSkill.TS)
         End If
+    End Sub
+
+    Private Sub CalculateQueueTime()
+        Dim nPilot As EveHQ.Core.Pilot = reqPilot
+        Dim newQueue As New EveHQ.Core.SkillQueue
+        newQueue.Name = "HQFQueue"
+        newQueue.IncCurrentTraining = False
+        newQueue.Primary = False
+
+        ' Add the skills we have to the training queue (in any order, no learning skills will be applied)
+        Dim skill As Integer = 0
+        For Each rSkill As ReqSkill In reqSkills.Values
+            Dim skillName As String = rSkill.Name
+            Dim skillLevel As Integer = CInt(rSkill.ReqLevel)
+            Dim qItem As New EveHQ.Core.SkillQueueItem
+            qItem.Name = skillName
+            qItem.FromLevel = 0
+            qItem.ToLevel = skillLevel
+            qItem.Pos = Skill + 1
+            qItem.Key = qItem.Name & qItem.FromLevel & qItem.ToLevel
+            newQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(nPilot, skillName, skill + 1, newQueue, skillLevel, True, True)
+        Next
+
+        ' Build the Queue
+        Dim aQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, newQueue)
+
+        ' Now Let's optimize this queue, because it won't be optimal!
+        Dim optimalQueue As EveHQ.Core.SkillQueue = EveHQ.Core.SkillQueueFunctions.FindSuggestions(nPilot, newQueue)
+
+        ' Display the time results
+        lblQueueTime.Text = "Estimated Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(newQueue.QueueTime) & " (Optimal Time: " & EveHQ.Core.SkillFunctions.TimeToString(optimalQueue.QueueTime) & ")"
+
     End Sub
 
 #End Region

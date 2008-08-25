@@ -30,6 +30,7 @@ Partial Class frmRequiredSkills
         Me.colRequiredFor = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.btnClose = New System.Windows.Forms.Button
         Me.btnAddToQueue = New System.Windows.Forms.Button
+        Me.lblQueueTime = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'clvSkills
@@ -104,11 +105,21 @@ Partial Class frmRequiredSkills
         Me.btnAddToQueue.Text = "Add To Queue"
         Me.btnAddToQueue.UseVisualStyleBackColor = True
         '
+        'lblQueueTime
+        '
+        Me.lblQueueTime.AutoSize = True
+        Me.lblQueueTime.Location = New System.Drawing.Point(12, 540)
+        Me.lblQueueTime.Name = "lblQueueTime"
+        Me.lblQueueTime.Size = New System.Drawing.Size(118, 13)
+        Me.lblQueueTime.TabIndex = 3
+        Me.lblQueueTime.Text = "Estimated Queue Time:"
+        '
         'frmRequiredSkills
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(790, 564)
+        Me.Controls.Add(Me.lblQueueTime)
         Me.Controls.Add(Me.btnAddToQueue)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.clvSkills)
@@ -120,6 +131,7 @@ Partial Class frmRequiredSkills
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Required Skills"
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents clvSkills As DotNetLib.Windows.Forms.ContainerListView
@@ -130,4 +142,5 @@ Partial Class frmRequiredSkills
     Friend WithEvents colHQFLevel As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colActLevel As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colRequiredFor As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents lblQueueTime As System.Windows.Forms.Label
 End Class

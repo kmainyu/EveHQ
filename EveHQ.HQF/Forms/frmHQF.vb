@@ -1671,7 +1671,7 @@ Public Class frmHQF
             Call Me.CreateFittingTabPage(fittingKeyName)
             Call Me.UpdateFittingsTree()
             tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
-            If currentShipSlot Is Nothing Then
+            If tabHQF.TabPages.Count = 1 Then
                 Call Me.UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
             End If
             currentShipSlot.UpdateEverything()
