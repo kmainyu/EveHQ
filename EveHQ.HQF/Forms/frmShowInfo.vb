@@ -36,13 +36,6 @@ Public Class frmShowInfo
             If TypeOf itemObject Is ShipModule Then
                 itemType = CType(itemObject, ShipModule)
                 picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/icon" & itemObject.Icon & ".png"
-            Else
-                If TypeOf itemObject Is Implant Then
-                    itemType = CType(itemObject, Implant)
-                    picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/icon" & itemObject.Icon & ".png"
-                Else
-                    ' Insert remaining item types here
-                End If
             End If
         End If
 

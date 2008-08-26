@@ -679,7 +679,7 @@ Public Class IGB
                                 attributes(14, 4) = " ms"
                                 attributes(15, 4) = " ms"
                             Else                            ' If not in the blueprint category
-                                strSQL = "SELECT dgmTypeAttributes.attributeID as attributeTypeID, dgmAttributetypes.attributeGroup, eveUnits.unitID, eveUnits.displayName as unitDisplayName, eveUnits.unitName, dgmTypeAttributes.attributeID, dgmAttributeTypes.attributeID, dgmAttributeTypes.displayName as attributeDisplayName, dgmAttributeTypes.attributeName, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
+                                strSQL = "SELECT dgmTypeAttributes.attributeID as attributeTypeID, dgmAttributeTypes.attributeGroup, eveUnits.unitID, eveUnits.displayName as unitDisplayName, eveUnits.unitName, dgmTypeAttributes.attributeID, dgmAttributeTypes.attributeID, dgmAttributeTypes.displayName as attributeDisplayName, dgmAttributeTypes.attributeName, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
                                 strSQL &= " FROM (eveUnits INNER JOIN dgmAttributeTypes ON eveUnits.unitID=dgmAttributeTypes.unitID) INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID=dgmTypeAttributes.attributeID"
                                 strSQL &= " WHERE typeID=" & typeID & " ORDER BY dgmTypeAttributes.attributeID;"
                                 eveData = EveHQ.Core.DataFunctions.GetData(strSQL)

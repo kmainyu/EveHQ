@@ -33,62 +33,10 @@ Public Class frmAssets
     Implements EveHQ.Core.IEveHQPlugIn
     Dim mSetPlugInData As Object
 
-#Region "Embed Code For 3rd Party Code"
-
-    'Public Sub New()
-    '    Call Init()
-    '    ' This call is required by the Windows Form Designer.
-    '    InitializeComponent()
-    '    ' Add any initialization after the InitializeComponent() call.
-    'End Sub
-    'Public Shared Sub Init()
-    '    Dim loadAssembly As New ResolveEventHandler(AddressOf LoadComponentAssembly)
-    '    AddHandler AppDomain.CurrentDomain.AssemblyResolve, loadAssembly
-    'End Sub
-    'Private Shared Function LoadComponentAssembly(ByVal sender As Object, ByVal args As ResolveEventArgs) As Assembly
-    '    Dim assembly As Assembly = assembly.GetExecutingAssembly()
-    '    Dim simpleName As String = args.Name.Substring(0, args.Name.IndexOf(","c))
-    '    Dim dllImageResourceName As String = getResourceLibName(simpleName, assembly)
-    '    Return streamFromResource(dllImageResourceName, assembly)
-    'End Function
-    'Private Shared Function getResourceLibName(ByVal simpleLibName As String) As String
-    '    Return getResourceLibName(simpleLibName, Assembly.GetExecutingAssembly())
-    'End Function
-    'Private Shared Function getResourceLibName(ByVal simpleLibName As String, ByVal assembly As Assembly) As String
-    '    If simpleLibName Is Nothing OrElse assembly Is Nothing Then
-    '        Return Nothing
-    '    End If
-    '    simpleLibName += ".dll"
-    '    Dim dllImageResourceName As String = Nothing
-    '    For Each resourceName As String In assembly.GetManifestResourceNames()
-    '        If resourceName.Length < simpleLibName.Length Then
-    '            Continue For
-    '        End If
-    '        If [String].Compare(simpleLibName, 0, resourceName, (resourceName.Length - simpleLibName.Length), simpleLibName.Length, True) = 0 Then
-    '            dllImageResourceName = resourceName
-    '        End If
-    '    Next
-    '    Return dllImageResourceName
-    'End Function
-    'Private Shared Function streamFromResource(ByVal dllImageResourceName As String) As Assembly
-    '    Return streamFromResource(dllImageResourceName, Assembly.GetExecutingAssembly())
-    'End Function
-    'Private Shared Function streamFromResource(ByVal dllImageResourceName As String, ByVal assembly As Assembly) As Assembly
-    '    If dllImageResourceName Is Nothing OrElse assembly Is Nothing Then
-    '        Return Nothing
-    '    End If
-    '    Dim imageStream As Stream
-    '    imageStream = assembly.GetManifestResourceStream(dllImageResourceName)
-    '    Dim bytestreamMaxLength As Long = imageStream.Length
-    '    Dim buffer As Byte() = New Byte(CInt(bytestreamMaxLength - 1)) {}
-    '    imageStream.Read(buffer, 0, CInt(bytestreamMaxLength))
-    '    Return AssemblyBuilder.Load(buffer)
-    'End Function
-#End Region
-
 #Region "Class Wide Variables"
     Shared itemFlags As New SortedList
     Shared stations As New SortedList
+    Shared NPCCorps As New ArrayList
     Dim filters As New ArrayList
     Dim catFilters As New ArrayList
     Dim groupFilters As New ArrayList
@@ -104,6 +52,7 @@ Public Class frmAssets
     Dim totalAssetValue As Double = 0
     Dim totalAssetCount As Long = 0
     Dim totalAssetBatch As Long = 0
+    Dim HQFShip As New ArrayList
 #End Region
 
 #Region "Plug-in Interface Properties and Functions"
@@ -159,6 +108,10 @@ Public Class frmAssets
                 Exit Function
             End If
             If Me.LoadSolarSystems = False Then
+                Return False
+                Exit Function
+            End If
+            If Me.LoadNPCCorps = False Then
                 Return False
                 Exit Function
             End If
@@ -301,6 +254,29 @@ Public Class frmAssets
             End If
         Catch ex As Exception
             MessageBox.Show("Error Loading System Data for Assets Plugin" & ControlChars.CrLf & ex.Message, "Assets Plug-in Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End Try
+    End Function
+    Private Function LoadNPCCorps() As Boolean
+        ' Load the Station Data From the mapDenormalize table
+        NPCCorps.Clear()
+        Try
+            Dim strSQL As String = "SELECT corporationID FROM crpNPCCorporations;"
+            Dim corpData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If corpData IsNot Nothing Then
+                If corpData.Tables(0).Rows.Count > 0 Then
+                    For Each corpRow As DataRow In corpData.Tables(0).Rows
+                        NPCCorps.Add(CStr(corpRow.Item("corporationID")))
+                    Next
+                    Return True
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error Loading NPC Corporation Data for Assets Plugin" & ControlChars.CrLf & ex.Message, "Assets Plug-in Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -873,80 +849,61 @@ Public Class frmAssets
             If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
                 Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
                 Dim fileName As String = ""
+                Dim processFile As Boolean = True
                 If cPilot.Text = selPilot.Corp Then
                     fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_15_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
                     assetOwner = selPilot.Corp
+                    If NPCCorps.Contains(selPilot.CorpID) = True Then processFile = False
                 Else
                     fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_14_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
                     assetOwner = selPilot.Name
                 End If
-                If My.Computer.FileSystem.FileExists(fileName) = False Then
-                    MessageBox.Show("Unable to load assets file for " & selPilot.Name & ".", "Error Loading Assets", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End If
-                ' File found so lets see what we have!
-                Dim assetXML As New XmlDocument
-                assetXML.Load(fileName)
-                Dim locList As XmlNodeList
-                Dim loc As XmlNode
-                locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                If locList.Count > 0 Then
-                    Dim linePrice As Double = 0
-                    Dim containerPrice As Double = 0
-                    For Each loc In locList
-                        ' Check if the location is already listed
-                        Dim locNode As New ContainerListViewItem
-                        Dim addLocation As Boolean = True
-                        For Each testNode As ContainerListViewItem In tlvAssets.Items
-                            If testNode.Tag.ToString = (loc.Attributes.GetNamedItem("locationID").Value) Then
-                                locNode = testNode
-                                addLocation = False
-                                Exit For
-                            End If
-                        Next
-                        If addLocation = True Then
-                            Dim locID As String = loc.Attributes.GetNamedItem("locationID").Value
-                            If CDbl(locID) >= 66000000 Then
-                                If CDbl(locID) < 66014933 Then
-                                    locID = (CDbl(locID) - 6000001).ToString
-                                Else
-                                    locID = (CDbl(locID) - 6000000).ToString
+                If processFile = True Then
+                    If My.Computer.FileSystem.FileExists(fileName) = False Then
+                        MessageBox.Show("Unable to load assets file for " & selPilot.Name & ".", "Error Loading Assets", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        Exit Sub
+                    End If
+                    ' File found so lets see what we have!
+                    Dim assetXML As New XmlDocument
+                    assetXML.Load(fileName)
+                    Dim locList As XmlNodeList
+                    Dim loc As XmlNode
+                    locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
+                    If locList.Count > 0 Then
+                        Dim linePrice As Double = 0
+                        Dim containerPrice As Double = 0
+                        For Each loc In locList
+                            ' Check if the location is already listed
+                            Dim locNode As New ContainerListViewItem
+                            Dim addLocation As Boolean = True
+                            For Each testNode As ContainerListViewItem In tlvAssets.Items
+                                If testNode.Tag.ToString = (loc.Attributes.GetNamedItem("locationID").Value) Then
+                                    locNode = testNode
+                                    addLocation = False
+                                    Exit For
                                 End If
-                            End If
-                            Dim newLocation As Assets.Location
-                            If CDbl(locID) >= 61000000 And CDbl(locID) <= 61999999 Then
-                                If stations.Contains(locID) = True Then
-                                    ' Known Outpost
-                                    newLocation = CType(stations(locID), Assets.Location)
-                                    locNode.Text = newLocation.locationName
-                                    locNode.Tag = newLocation.locationID
-                                Else
-                                    ' Unknown outpost!
-                                    newLocation = New Assets.Location
-                                    newLocation.locationID = locID
-                                    newLocation.locationName = "Unknown Outpost"
-                                    newLocation.systemID = "?"
-                                    newLocation.constID = "?"
-                                    newLocation.regionID = "?"
-                                    newLocation.systemSec = "0.0"
-                                    locNode.Text = newLocation.locationName
-                                    locNode.Tag = newLocation.locationID
+                            Next
+                            If addLocation = True Then
+                                Dim locID As String = loc.Attributes.GetNamedItem("locationID").Value
+                                If CDbl(locID) >= 66000000 Then
+                                    If CDbl(locID) < 66014933 Then
+                                        locID = (CDbl(locID) - 6000001).ToString
+                                    Else
+                                        locID = (CDbl(locID) - 6000000).ToString
+                                    End If
                                 End If
-                            Else
-                                If CDbl(locID) < 60000000 Then
-                                    Dim newSystem As SolarSystem = CType(stations(locID), SolarSystem)
-                                    locNode.Text = newSystem.Name
-                                    locNode.Tag = newSystem.ID
-                                Else
-                                    newLocation = CType(stations(locID), Assets.Location)
-                                    If newLocation IsNot Nothing Then
+                                Dim newLocation As Assets.Location
+                                If CDbl(locID) >= 61000000 And CDbl(locID) <= 61999999 Then
+                                    If stations.Contains(locID) = True Then
+                                        ' Known Outpost
+                                        newLocation = CType(stations(locID), Assets.Location)
                                         locNode.Text = newLocation.locationName
                                         locNode.Tag = newLocation.locationID
                                     Else
-                                        ' Unknown system/station!
+                                        ' Unknown outpost!
                                         newLocation = New Assets.Location
                                         newLocation.locationID = locID
-                                        newLocation.locationName = "Unknown Location"
+                                        newLocation.locationName = "Unknown Outpost"
                                         newLocation.systemID = "?"
                                         newLocation.constID = "?"
                                         newLocation.regionID = "?"
@@ -954,92 +911,115 @@ Public Class frmAssets
                                         locNode.Text = newLocation.locationName
                                         locNode.Tag = newLocation.locationID
                                     End If
+                                Else
+                                    If CDbl(locID) < 60000000 Then
+                                        Dim newSystem As SolarSystem = CType(stations(locID), SolarSystem)
+                                        locNode.Text = newSystem.Name
+                                        locNode.Tag = newSystem.ID
+                                    Else
+                                        newLocation = CType(stations(locID), Assets.Location)
+                                        If newLocation IsNot Nothing Then
+                                            locNode.Text = newLocation.locationName
+                                            locNode.Tag = newLocation.locationID
+                                        Else
+                                            ' Unknown system/station!
+                                            newLocation = New Assets.Location
+                                            newLocation.locationID = locID
+                                            newLocation.locationName = "Unknown Location"
+                                            newLocation.systemID = "?"
+                                            newLocation.constID = "?"
+                                            newLocation.regionID = "?"
+                                            newLocation.systemSec = "0.0"
+                                            locNode.Text = newLocation.locationName
+                                            locNode.Tag = newLocation.locationID
+                                        End If
+                                    End If
+                                End If
+                                tlvAssets.Items.Add(locNode)
+                            End If
+
+                            Dim itemID As String = loc.Attributes.GetNamedItem("typeID").Value
+                            Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
+                            Dim itemName As String = ""
+                            Dim groupID As String = ""
+                            Dim catID As String = ""
+                            Dim groupIDX As Integer = 0
+                            Dim groupName As String = ""
+                            Dim catIDX As Integer = 0
+                            Dim catName As String = ""
+                            If itemIDX <> -1 Then
+                                itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
+                                groupID = EveHQ.Core.HQ.typeGroups(itemID).ToString
+                                catID = EveHQ.Core.HQ.groupCats(groupID).ToString
+                                groupIDX = EveHQ.Core.HQ.groupList.IndexOfValue(groupID)
+                                groupName = EveHQ.Core.HQ.groupList.GetKey(groupIDX).ToString
+                                catIDX = EveHQ.Core.HQ.catList.IndexOfValue(catID)
+                                catName = EveHQ.Core.HQ.catList.GetKey(catIDX).ToString
+                            Else
+                                ' Can't find the item in the database
+                                itemName = "ItemID: " & itemID.ToString
+                                groupID = "unknown"
+                                catID = "unknown"
+                                groupIDX = -1
+                                groupName = "Unknown"
+                                catIDX = -1
+                                catName = "Unknown"
+                            End If
+
+                            Dim newAsset As New ContainerListViewItem
+                            newAsset.Tag = loc.Attributes.GetNamedItem("itemID").Value
+                            newAsset.Text = itemName
+                            ' Add the asset to the treelistview
+                            locNode.Items.Add(newAsset)
+
+                            newAsset.SubItems(1).Text = assetOwner
+                            newAsset.SubItems(2).Text = groupName
+                            newAsset.SubItems(3).Text = catName
+                            Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
+                            Dim flagName As String = itemFlags(flagID).ToString
+                            If assetOwner = selPilot.Corp And newAsset.SubItems(2).Text <> "Station Services" Then
+                                Dim accountID As Integer = flagID + 885
+                                If accountID = 889 Then accountID = 1000
+                                If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
+                                    flagName = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
                                 End If
                             End If
-                            tlvAssets.Items.Add(locNode)
-                        End If
-
-                        Dim itemID As String = loc.Attributes.GetNamedItem("typeID").Value
-                        Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
-                        Dim itemName As String = ""
-                        Dim groupID As String = ""
-                        Dim catID As String = ""
-                        Dim groupIDX As Integer = 0
-                        Dim groupName As String = ""
-                        Dim catIDX As Integer = 0
-                        Dim catName As String = ""
-                        If itemIDX <> -1 Then
-                            itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
-                            groupID = EveHQ.Core.HQ.typeGroups(itemID).ToString
-                            catID = EveHQ.Core.HQ.groupCats(groupID).ToString
-                            groupIDX = EveHQ.Core.HQ.groupList.IndexOfValue(groupID)
-                            groupName = EveHQ.Core.HQ.groupList.GetKey(groupIDX).ToString
-                            catIDX = EveHQ.Core.HQ.catList.IndexOfValue(catID)
-                            catName = EveHQ.Core.HQ.catList.GetKey(catIDX).ToString
-                        Else
-                            ' Can't find the item in the database
-                            itemName = "ItemID: " & itemID.ToString
-                            groupID = "unknown"
-                            catID = "unknown"
-                            groupIDX = -1
-                            groupName = "Unknown"
-                            catIDX = -1
-                            catName = "Unknown"
-                        End If
-
-                        Dim newAsset As New ContainerListViewItem
-                        newAsset.Tag = loc.Attributes.GetNamedItem("itemID").Value
-                        newAsset.Text = itemName
-                        ' Add the asset to the treelistview
-                        locNode.Items.Add(newAsset)
-
-                        newAsset.SubItems(1).Text = assetOwner
-                        newAsset.SubItems(2).Text = groupName
-                        newAsset.SubItems(3).Text = catName
-                        Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
-                        Dim flagName As String = itemFlags(flagID).ToString
-                        If assetOwner = selPilot.Corp And newAsset.SubItems(2).Text <> "Station Services" Then
-                            Dim accountID As Integer = flagID + 885
-                            If accountID = 889 Then accountID = 1000
-                            If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
-                                flagName = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
-                            End If
-                        End If
-                        newAsset.SubItems(4).Text = flagName
-                        newAsset.SubItems(5).Text = FormatNumber(loc.Attributes.GetNamedItem("quantity").Value, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                        If newAsset.Text.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
-                            newAsset.SubItems(6).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                            linePrice = 0
-                        Else
-                            newAsset.SubItems(6).Text = FormatNumber(EveHQ.Core.DataFunctions.GetPrice(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                            If IsNumeric(newAsset.SubItems(6).Text) = True Then
-                                linePrice = CDbl(newAsset.SubItems(5).Text) * CDbl(newAsset.SubItems(6).Text)
-                            Else
+                            newAsset.SubItems(4).Text = flagName
+                            newAsset.SubItems(5).Text = FormatNumber(loc.Attributes.GetNamedItem("quantity").Value, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            If newAsset.Text.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
+                                newAsset.SubItems(6).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                 linePrice = 0
+                            Else
+                                newAsset.SubItems(6).Text = FormatNumber(EveHQ.Core.DataFunctions.GetPrice(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                If IsNumeric(newAsset.SubItems(6).Text) = True Then
+                                    linePrice = CDbl(newAsset.SubItems(5).Text) * CDbl(newAsset.SubItems(6).Text)
+                                Else
+                                    linePrice = 0
+                                End If
                             End If
-                        End If
-                        newAsset.SubItems(7).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            newAsset.SubItems(7).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
-                        ' Add the asset to the list of assets
-                        Dim newAssetList As New AssetItem
-                        newAssetList.itemID = newAsset.Tag.ToString
-                        newAssetList.system = locNode.Text
-                        newAssetList.typeID = itemID
-                        newAssetList.typeName = itemName
-                        newAssetList.owner = assetOwner
-                        newAssetList.group = groupName
-                        newAssetList.category = catName
-                        newAssetList.location = flagName
-                        newAssetList.quantity = CLng(loc.Attributes.GetNamedItem("quantity").Value)
-                        newAssetList.price = CDbl(newAsset.SubItems(6).Text)
-                        totalAssetCount += newAssetList.quantity
-                        assetList.Add(newAssetList.itemID, newAssetList)
+                            ' Add the asset to the list of assets
+                            Dim newAssetList As New AssetItem
+                            newAssetList.itemID = newAsset.Tag.ToString
+                            newAssetList.system = locNode.Text
+                            newAssetList.typeID = itemID
+                            newAssetList.typeName = itemName
+                            newAssetList.owner = assetOwner
+                            newAssetList.group = groupName
+                            newAssetList.category = catName
+                            newAssetList.location = flagName
+                            newAssetList.quantity = CLng(loc.Attributes.GetNamedItem("quantity").Value)
+                            newAssetList.price = CDbl(newAsset.SubItems(6).Text)
+                            totalAssetCount += newAssetList.quantity
+                            assetList.Add(newAssetList.itemID, newAssetList)
 
-                        ' Check if this row has child nodes and repeat
-                        If loc.HasChildNodes = True Then
-                            Call Me.PopulateAssetNode(newAsset, loc, assetOwner, locNode.Text, selPilot)
-                        End If
-                    Next
+                            ' Check if this row has child nodes and repeat
+                            If loc.HasChildNodes = True Then
+                                Call Me.PopulateAssetNode(newAsset, loc, assetOwner, locNode.Text, selPilot)
+                            End If
+                        Next
+                    End If
                 End If
             End If
         Next
@@ -2521,7 +2501,9 @@ Public Class frmAssets
             End If
         End If
     End Sub
-
+    Private Sub chkViewClosedInvestments_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkViewClosedInvestments.CheckedChanged
+        Me.ListInvestments()
+    End Sub
 #End Region
 
 #Region "Context Menu Routines"
@@ -2860,12 +2842,6 @@ Public Class frmAssets
             End Try
         Next
     End Sub
-#End Region
-
-    Private Sub lblOwnerFilters_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblOwnerFilters.TextChanged
-        lblRigOwnerFilter.Text = lblOwnerFilters.Text
-    End Sub
-
     Private Sub btnBuildRigs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuildRigs.Click
 
         ' Build a Salvage List
@@ -2968,9 +2944,142 @@ Public Class frmAssets
         lvwRigs.EndUpdate()
 
     End Sub
+#End Region
 
-    Private Sub chkViewClosedInvestments_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkViewClosedInvestments.CheckedChanged
-        Me.ListInvestments()
+    Private Sub lblOwnerFilters_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblOwnerFilters.TextChanged
+        lblRigOwnerFilter.Text = lblOwnerFilters.Text
+    End Sub
+
+    Private Sub mnuViewInHQF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewInHQF.Click
+        If tlvAssets.SelectedItems.Count > 0 Then
+            Dim assetID As String = tlvAssets.SelectedItems(0).Tag.ToString
+            Dim shipName As String = tlvAssets.SelectedItems(0).Text
+            Dim owner As String = tlvAssets.SelectedItems(0).SubItems(1).Text
+            HQFShip = New ArrayList
+            Call Me.SearchForShip(assetID, owner)
+            ' Should have got the ship by now
+            HQFShip.Sort()
+            Dim list As New StringBuilder
+            list.AppendLine("[" & shipName & "," & owner & "'s " & shipName & "]")
+            For Each fittedMod As String In HQFShip
+                Dim modData() As String = fittedMod.Split(",".ToCharArray)
+                Select Case modData(0)
+                    Case "Drone Bay"
+                        list.AppendLine(modData(1) & ", " & modData(2) & "i")
+                    Case "Cargo Bay"
+                        list.AppendLine(modData(1) & ", " & modData(2))
+                    Case Else
+                        list.AppendLine(modData(1))
+                End Select
+            Next
+            Clipboard.SetText(list.ToString)
+        End If
+    End Sub
+    Private Sub SearchForShip(ByVal assetID As String, ByVal owner As String)
+
+        Dim assetOwner As String = ""
+        For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
+            ' Check in the cache folder for a valid file
+            Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(owner), Core.Pilot)
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+                Dim fileName As String = ""
+                If cPilot.Text = selPilot.Corp Then
+                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_15_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
+                    assetOwner = selPilot.Corp
+                Else
+                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_14_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
+                    assetOwner = selPilot.Name
+                End If
+                If My.Computer.FileSystem.FileExists(fileName) = False Then
+                    MessageBox.Show("Unable to load assets file for " & assetOwner & ".", "Error Loading Assets", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+                End If
+                ' File found so lets see what we have!
+                Dim assetXML As New XmlDocument
+                assetXML.Load(fileName)
+                Dim locList As XmlNodeList
+                Dim loc As XmlNode
+                locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
+                If locList.Count > 0 Then
+                    For Each loc In locList
+                        ' Let's search for our asset!
+                        If loc.Attributes.GetNamedItem("itemID").Value = assetID Then
+                            ' We found our ship so extract the subitem data
+                            Dim modList As XmlNodeList
+                            Dim mods As XmlNode
+                            modList = loc.ChildNodes(0).ChildNodes
+                            For Each mods In modList
+                                Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
+                                Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
+                                Dim itemName As String = ""
+                                If itemIDX <> -1 Then
+                                    itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
+                                Else
+                                    ' Can't find the item in the database
+                                    itemName = "ItemID: " & itemID.ToString
+                                End If
+                                Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
+                                Dim flagName As String = itemFlags(flagID).ToString
+                                Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
+                                HQFShip.Add(flagName & "," & itemName & "," & quantity)
+                            Next
+                            Exit Sub
+                        Else
+                            ' Check if this row has child nodes and repeat
+                            If loc.HasChildNodes = True Then
+                                Call Me.SearchForShipNode(loc, assetID)
+                                If HQFShip.Count > 0 Then Exit Sub
+                            End If
+                        End If
+                    Next
+                End If
+            End If
+        Next
+    End Sub
+    Private Sub SearchForShipNode(ByVal loc As XmlNode, ByVal assetID As String)
+        Dim subLocList As XmlNodeList
+        Dim subLoc As XmlNode
+        subLocList = loc.ChildNodes(0).ChildNodes
+        For Each subLoc In subLocList
+            ' Let's search for our asset!
+            Try
+                If subLoc.Attributes.GetNamedItem("itemID").Value = assetID Then
+                    ' We found our ship so extract the subitem data
+                    Dim modList As XmlNodeList
+                    Dim mods As XmlNode
+                    modList = subLoc.ChildNodes(0).ChildNodes
+                    For Each mods In modList
+                        Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
+                        Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
+                        Dim itemName As String = ""
+                        If itemIDX <> -1 Then
+                            itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
+                        Else
+                            ' Can't find the item in the database
+                            itemName = "ItemID: " & itemID.ToString
+                        End If
+                        Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
+                        Dim flagName As String = itemFlags(flagID).ToString
+                        Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
+                        HQFShip.Add(flagName & "," & itemName & "," & quantity)
+                    Next
+                    Exit Sub
+                Else
+                    ' Check if this row has child nodes and repeat
+                    If subLoc.HasChildNodes = True Then
+                        Call Me.SearchForShipNode(subLoc, assetID)
+                    End If
+                End If
+            Catch ex As Exception
+                Dim msg As String = "Unable to parse Asset:" & ControlChars.CrLf
+                msg &= "InnerXML: " & subLoc.InnerXml & ControlChars.CrLf
+                msg &= "InnerText: " & subLoc.InnerText & ControlChars.CrLf
+                msg &= "TypeID: " & subLoc.Attributes.GetNamedItem("typeID").Value
+                MessageBox.Show(msg, "Error Getting Ship Information!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End Try
+        Next
     End Sub
 End Class
 

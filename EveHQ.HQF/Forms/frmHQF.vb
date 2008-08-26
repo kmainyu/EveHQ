@@ -99,9 +99,9 @@ Public Class frmHQF
             End If
 
             'Me.LoadBonuses()
+            Engine.BuildPirateImplants()
             Engine.BuildEffectsMap()
             Engine.BuildShipEffectsMap()
-            Engine.BuildImplantEffectsMap()
             ' Check for the existence of the binary data
             If UseSerializableData = True Then
                 If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\attributes.bin") = True Then
@@ -153,6 +153,7 @@ Public Class frmHQF
                     s.Close()
                 End If
                 Call Me.BuildAttributeQuickList()
+                Engine.BuildImplantEffectsMap()
                 Return True
             Else
                 ' Populate the Ship data
@@ -782,7 +783,7 @@ Public Class frmHQF
                 newModule.ActivationTime = 0
                 ModuleLists.moduleList.Add(newModule.ID, newModule)
                 ModuleLists.moduleListName.Add(newModule.Name, newModule.ID)
-                ' If an implant then add to the implants list
+
                 ' Determine whether implant, drone, charge etc
                 Select Case CInt(row.Item("categoryID"))
                     Case 8 ' Charge
@@ -790,19 +791,27 @@ Public Class frmHQF
                     Case 18 ' Drone
                         newModule.IsDrone = True
                     Case 20 ' Implant
-                        ' Exclude groups 303 (Boosters) & 304 (DNA Mutators)
-                        If CInt(row.Item("groupID")) <> 303 And CInt(row.Item("groupID")) <> 304 Then
-                            Dim newImplant As New Implant
-                            newImplant.ID = newModule.ID
-                            newImplant.Name = newModule.Name
-                            newImplant.Description = newModule.Description
-                            newImplant.DatabaseGroup = newModule.DatabaseGroup
-                            newImplant.BasePrice = newModule.BasePrice
-                            newImplant.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newImplant.ID)
-                            newImplant.MarketGroup = newModule.MarketGroup
-                            newImplant.MetaType = newModule.MetaType
-                            Implants.implantList.Add(newImplant.Name, newImplant)
+                        If CInt(row.Item("groupID")) <> 304 Then
+                            If CInt(row.Item("groupID")) = 303 Then
+                                newModule.IsBooster = True
+                            Else
+                                newModule.IsImplant = True
+                            End If
                         End If
+
+                        ' Exclude groups 303 (Boosters) & 304 (DNA Mutators)
+                        'If CInt(row.Item("groupID")) <> 303 And CInt(row.Item("groupID")) <> 304 Then
+                        '    Dim newImplant As New Implant
+                        '    newImplant.ID = newModule.ID
+                        '    newImplant.Name = newModule.Name
+                        '    newImplant.Description = newModule.Description
+                        '    newImplant.DatabaseGroup = newModule.DatabaseGroup
+                        '    newImplant.BasePrice = newModule.BasePrice
+                        '    newImplant.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newImplant.ID)
+                        '    newImplant.MarketGroup = newModule.MarketGroup
+                        '    newImplant.MetaType = newModule.MetaType
+                        '    Implants.implantList.Add(newImplant.Name, newImplant)
+                        'End If
                 End Select
             Next
 
@@ -1032,8 +1041,9 @@ Public Class frmHQF
                     Case 1153
                         attMod.Calibration = CInt(attValue)
                     Case 331 ' Slot Type for Implants
-                        Dim attImplant As Implant = CType(Implants.implantList.Item(modRow.Item("typeName").ToString), Implant)
-                        attImplant.Slot = CInt(attValue)
+                        attMod.ImplantSlot = CInt(attValue)
+                    Case 1087 ' Slot Type For Boosters
+                        attMod.BoosterSlot = CInt(attValue)
                     Case 182
                         Dim pSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.SkillList)
                         Dim nSkill As New ItemSkills
@@ -1096,29 +1106,32 @@ Public Class frmHQF
     End Function
     Private Function BuildImplantData() As Boolean
         Try
+            ' Build the List of implants from the modules?
+            For Each impMod As ShipModule In ModuleLists.moduleList.Values
+                If impMod.IsImplant = True Then
+                    Implants.implantList.Add(impMod.Name, impMod)
+                End If
+            Next
             Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-            ' Extract the bonuses from the included resource file
-            Dim implantsList() As String = My.Resources.Implants.Split(ControlChars.CrLf.ToCharArray)
+            ' Extract the groups from the included resource file
+            Dim implantsList() As String = My.Resources.ImplantEffects.Split(ControlChars.CrLf.ToCharArray)
             Dim implantData() As String
             Dim implantName As String = ""
             Dim implantBonus As String = ""
             Dim implantBonusValue As Double = 0
-            Dim implantGroup As String = ""
+            Dim implantGroups As String = ""
+            Dim implantGroup() As String
             For Each cImplant As String In implantsList
-                If cImplant.Trim <> "" Then
+                If cImplant.Trim <> "" And cImplant.StartsWith("#") = False Then
                     implantData = cImplant.Split(",".ToCharArray)
-                    implantName = implantData(0)
-                    implantBonus = implantData(1)
-                    implantBonusValue = Double.Parse(implantData(2), Globalization.NumberStyles.Number, culture)
-                    'implantBonusValue = CInt(implantData(2))
-                    implantGroup = implantData(3)
+                    implantName = implantData(10)
+                    implantGroups = implantData(9)
+                    implantGroup = implantGroups.Split(";".ToCharArray)
                     If Implants.implantList.ContainsKey(implantName) = True Then
-                        Dim bImplant As Implant = CType(Implants.implantList(implantName), Implant)
-                        Dim newBonus As New ImplantBonus
-                        newBonus.BonusName = implantBonus
-                        newBonus.BonusValue = implantBonusValue
-                        bImplant.ImplantBonuses.Add(newBonus)
-                        bImplant.ImplantGroups.Add(implantGroup)
+                        Dim bImplant As ShipModule = CType(Implants.implantList(implantName), ShipModule)
+                        For Each impGroup As String In implantGroup
+                            bImplant.ImplantGroups.Add(impGroup)
+                        Next
                     End If
                 End If
             Next

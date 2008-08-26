@@ -39,7 +39,7 @@ Public Class frmPilotManager
         ' Load the Implant Group Filters
         cboImplantFilter.Items.Clear()
         cboImplantFilter.Items.Add("<All Groups>")
-        For Each cImplant As Implant In Implants.implantList.Values
+        For Each cImplant As ShipModule In Implants.implantList.Values
             For Each implantGroup As String In cImplant.ImplantGroups
                 If cboImplantFilter.Items.Contains(implantGroup) = False Then
                     cboImplantFilter.Items.Add(implantGroup)
@@ -346,19 +346,19 @@ Public Class frmPilotManager
                 tvwImplants.Nodes("Slot " & slot.ToString).Nodes.Add("No Implant")
             End If
         Next
-        For Each cImplant As Implant In Implants.implantList.Values
+        For Each cImplant As ShipModule In Implants.implantList.Values
             If cboImplantFilter.SelectedItem.ToString = "<All Groups>" Then
-                tvwImplants.Nodes("Slot " & cImplant.Slot.ToString).Nodes.Add(cImplant.Name, cImplant.Name)
+                tvwImplants.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes.Add(cImplant.Name, cImplant.Name)
                 ' Check if this is the selected one!
-                If tvwImplants.Nodes("Slot " & cImplant.Slot.ToString).Nodes(cImplant.Name).Text = tvwImplants.Nodes("Slot " & cImplant.Slot.ToString).Text Then
-                    tvwImplants.Nodes("Slot " & cImplant.Slot.ToString).Nodes(cImplant.Name).ForeColor = Drawing.Color.LimeGreen
+                If tvwImplants.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).Text = tvwImplants.Nodes("Slot " & cImplant.ImplantSlot.ToString).Text Then
+                    tvwImplants.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).ForeColor = Drawing.Color.LimeGreen
                 End If
             Else
                 If cImplant.ImplantGroups.Contains(cboImplantFilter.SelectedItem.ToString) = True Then
-                    tvwImplants.Nodes("Slot " & cImplant.Slot.ToString).Nodes.Add(cImplant.Name, cImplant.Name)
+                    tvwImplants.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes.Add(cImplant.Name, cImplant.Name)
                     ' Check if this is the selected one!
-                    If tvwImplants.Nodes("Slot " & cImplant.Slot.ToString).Nodes(cImplant.Name).Text = tvwImplants.Nodes("Slot " & cImplant.Slot.ToString).Text Then
-                        tvwImplants.Nodes("Slot " & cImplant.Slot.ToString).Nodes(cImplant.Name).ForeColor = Drawing.Color.LimeGreen
+                    If tvwImplants.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).Text = tvwImplants.Nodes("Slot " & cImplant.ImplantSlot.ToString).Text Then
+                        tvwImplants.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).ForeColor = Drawing.Color.LimeGreen
                     End If
                 End If
             End If
@@ -372,7 +372,7 @@ Public Class frmPilotManager
     Private Sub tvwImplants_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplants.NodeMouseClick
         If e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
             Dim implantName As String = e.Node.Text
-            Dim cImplant As Implant = CType(Implants.implantList.Item(implantName), Implant)
+            Dim cImplant As ShipModule = CType(Implants.implantList.Item(implantName), ShipModule)
             lblImplantDescription.Text = cImplant.Description
         Else
             lblImplantDescription.Text = ""
@@ -390,7 +390,7 @@ Public Class frmPilotManager
         End If
         If e.Node.Nodes.Count = 0 And e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
             Dim implantName As String = e.Node.Text
-            Dim cImplant As Implant = CType(Implants.implantList.Item(implantName), Implant)
+            Dim cImplant As ShipModule = CType(Implants.implantList.Item(implantName), ShipModule)
             lblImplantDescription.Text = cImplant.Description
             e.Node.Parent.Text = cImplant.Name
             currentPilot.ImplantName(currentSlot) = cImplant.Name
@@ -476,7 +476,7 @@ Public Class frmPilotManager
     Private Sub LoadImplantManagerGroups()
         cboImplantGroupsM.Items.Clear()
         cboImplantGroupsM.Items.Add("<All Groups>")
-        For Each cImplant As Implant In Implants.implantList.Values
+        For Each cImplant As ShipModule In Implants.implantList.Values
             For Each implantGroup As String In cImplant.ImplantGroups
                 If cboImplantGroupsM.Items.Contains(implantGroup) = False Then
                     cboImplantGroupsM.Items.Add(implantGroup)
@@ -507,19 +507,19 @@ Public Class frmPilotManager
                     tvwImplantsM.Nodes("Slot " & slot.ToString).Nodes.Add("No Implant")
                 End If
             Next
-            For Each cImplant As Implant In Implants.implantList.Values
+            For Each cImplant As ShipModule In Implants.implantList.Values
                 If cboImplantGroupsM.SelectedItem.ToString = "<All Groups>" Then
-                    tvwImplantsM.Nodes("Slot " & cImplant.Slot.ToString).Nodes.Add(cImplant.Name, cImplant.Name)
+                    tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes.Add(cImplant.Name, cImplant.Name)
                     ' Check if this is the selected one!
-                    If tvwImplantsM.Nodes("Slot " & cImplant.Slot.ToString).Nodes(cImplant.Name).Text = tvwImplantsM.Nodes("Slot " & cImplant.Slot.ToString).Text Then
-                        tvwImplantsM.Nodes("Slot " & cImplant.Slot.ToString).Nodes(cImplant.Name).ForeColor = Drawing.Color.LimeGreen
+                    If tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).Text = tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Text Then
+                        tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).ForeColor = Drawing.Color.LimeGreen
                     End If
                 Else
                     If cImplant.ImplantGroups.Contains(cboImplantGroupsM.SelectedItem.ToString) = True Then
-                        tvwImplantsM.Nodes("Slot " & cImplant.Slot.ToString).Nodes.Add(cImplant.Name, cImplant.Name)
+                        tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes.Add(cImplant.Name, cImplant.Name)
                         ' Check if this is the selected one!
-                        If tvwImplantsM.Nodes("Slot " & cImplant.Slot.ToString).Nodes(cImplant.Name).Text = tvwImplantsM.Nodes("Slot " & cImplant.Slot.ToString).Text Then
-                            tvwImplantsM.Nodes("Slot " & cImplant.Slot.ToString).Nodes(cImplant.Name).ForeColor = Drawing.Color.LimeGreen
+                        If tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).Text = tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Text Then
+                            tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).ForeColor = Drawing.Color.LimeGreen
                         End If
                     End If
                 End If
@@ -531,7 +531,7 @@ Public Class frmPilotManager
     Private Sub tvwImplantsM_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplantsM.NodeMouseClick
         If e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
             Dim implantName As String = e.Node.Text
-            Dim cImplant As Implant = CType(Implants.implantList.Item(implantName), Implant)
+            Dim cImplant As ShipModule = CType(Implants.implantList.Item(implantName), ShipModule)
             lblImplantDescriptionM.Text = cImplant.Description
         End If
     End Sub
@@ -547,7 +547,7 @@ Public Class frmPilotManager
         End If
         If e.Node.Nodes.Count = 0 And e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
             Dim implantName As String = e.Node.Text
-            Dim cImplant As Implant = CType(Implants.implantList.Item(implantName), Implant)
+            Dim cImplant As ShipModule = CType(Implants.implantList.Item(implantName), ShipModule)
             lblImplantDescriptionM.Text = cImplant.Description
             e.Node.Parent.Text = cImplant.Name
             currentGroup.ImplantName(currentSlot) = cImplant.Name

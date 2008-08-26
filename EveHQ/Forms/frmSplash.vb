@@ -203,7 +203,6 @@ Public Class frmSplash
             End If
         End If
 
-
         ' Check for modules
         lblStatus.Text = "Loading modules..."
         Me.Refresh()
@@ -235,7 +234,6 @@ Public Class frmSplash
             Dim myUpdater As New frmUpdater
             myUpdater.ShowDialog()
         End If
-
     End Sub
 
     Private Sub LoadModules()

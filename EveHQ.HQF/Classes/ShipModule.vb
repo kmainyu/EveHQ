@@ -48,6 +48,8 @@ Imports System.Runtime.Serialization
     ' Fitting Details
     Private cSlotType As Integer ' 1=Rig, 2=Low, 4=Mid, 8=High
     Private cSlotNo As Integer
+    Private cImplantSlot As Integer
+    Private cBoosterSlot As Integer
     Private cVolume As Double
     Private cCPU As Double
     Private cPG As Double
@@ -59,6 +61,8 @@ Imports System.Runtime.Serialization
     Private cIsTurret As Boolean
     Private cIsDrone As Boolean
     Private cIsCharge As Boolean
+    Private cIsImplant As Boolean
+    Private cIsBooster As Boolean
 
     ' Skills
     Private cRequiredSkills As New SortedList
@@ -79,6 +83,9 @@ Imports System.Runtime.Serialization
 
     ' Module State
     Private cModuleState As Integer = 4 ' Default to 4 = Active
+
+    ' Implant Groups
+    Private cImplantGroups As New ArrayList
 
 #End Region
 
@@ -191,6 +198,22 @@ Imports System.Runtime.Serialization
             cSlotNo = value
         End Set
     End Property
+    Public Property ImplantSlot() As Integer
+        Get
+            Return cImplantSlot
+        End Get
+        Set(ByVal value As Integer)
+            cImplantSlot = value
+        End Set
+    End Property
+    Public Property BoosterSlot() As Integer
+        Get
+            Return cBoosterSlot
+        End Get
+        Set(ByVal value As Integer)
+            cBoosterSlot = value
+        End Set
+    End Property
     Public Property Volume() As Double
         Get
             Return cVolume
@@ -279,6 +302,22 @@ Imports System.Runtime.Serialization
             cIsCharge = value
         End Set
     End Property
+    Public Property IsImplant() As Boolean
+        Get
+            Return cIsImplant
+        End Get
+        Set(ByVal value As Boolean)
+            cIsImplant = value
+        End Set
+    End Property
+    Public Property IsBooster() As Boolean
+        Get
+            Return cIsBooster
+        End Get
+        Set(ByVal value As Boolean)
+            cIsBooster = value
+        End Set
+    End Property
 
     ' Skills
     Public Property RequiredSkills() As SortedList
@@ -356,6 +395,15 @@ Imports System.Runtime.Serialization
         End Set
     End Property
 
+    ' Implant Groups
+    Public Property ImplantGroups() As ArrayList
+        Get
+            Return cImplantGroups
+        End Get
+        Set(ByVal value As ArrayList)
+            cImplantGroups = value
+        End Set
+    End Property
 
 #End Region
 

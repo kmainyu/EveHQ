@@ -1,401 +1,392 @@
-#HQF Implant Mapping Table,,,,,,,,
-# Implant Name,Affected Attribute,Affected Attribute,Affected Type,Affected ID,Calc Type,Value,IsGang,Group
-
-Akemon's Modified 'Noble' ZET5000,1083,265,3,6,0,8,0,Armor
-Armored Warfare Mindlink,1083,265,3,6,0,15,1,Armor
-Armored Warfare Mindlink,884,833,1,20069;20409;22227,0,50,1,Gang
-Crystal Alpha,548,68,2,40,0,1,0,Shield;Learning
-Crystal Beta,548,68,2,40,0,2,0,Shield;Learning
-Crystal Delta,548,68,2,40,0,4,0,Shield;Learning
-Crystal Epsilon,548,68,2,40,0,5,0,Shield;Learning
-Crystal Gamma,548,68,2,40,0,3,0,Shield;Learning
-#Crystal Omega,,,,,,50,0,Science
-#Cybernetic Subprocessor - Advanced,,,,,,6,0,Learning
-#Cybernetic Subprocessor - Basic,,,,,,3,0,Learning
-#Cybernetic Subprocessor - Elite,,,,,,7,0,Learning
-#Cybernetic Subprocessor - Improved,,,,,,5,0,Learning
-#Cybernetic Subprocessor - Standard,,,,,,4,0,Learning
-Halo Alpha,554,552,3,6,0,1,0,Electronics;Learning
-Halo Beta,554,552,3,6,0,1.25,0,Electronics;Learning
-Halo Delta,554,552,3,6,0,1.5,0,Electronics;Learning
-Halo Epsilon,554,552,3,6,0,2,0,Electronics;Learning
-Halo Gamma,554,552,3,6,0,1.75,0,Electronics;Learning
-#Halo Omega,,,,,,50,0,Science
-Hardwiring - Eifyr and Co 'Gunslinger' AX-0,767,160,2,53;55;74,0,1,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' AX-1,767,160,2,53;55;74,0,3,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' AX-2,767,160,2,53;55;74,0,5,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' CX-0,292,64,2,53;55;74,0,1,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' CX-1,292,64,2,53;55;74,0,3,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' CX-2,292,64,2,53;55;74,0,5,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' LX-0,292,64,4,579,0,1,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' LX-1,292,64,4,579,0,3,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' LX-2,292,64,4,579,0,5,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' MX-0,292,64,4,578,0,1,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' MX-1,292,64,4,578,0,3,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' MX-2,292,64,4,578,0,5,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' SX-0,292,64,4,575,0,1,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' SX-1,292,64,4,575,0,3,0,Gunnery
-Hardwiring - Eifyr and Co 'Gunslinger' SX-2,292,64,4,575,0,5,0,Gunnery
-#Hardwiring - Eifyr and Co. 'Alchemist' WA-1,,,,,,5,0,Shield
-#Hardwiring - Eifyr and Co. 'Alchemist' WA-2,,,,,,10,0,Shield
-#Hardwiring - Eifyr and Co. 'Alchemist' XA-1,,,,,,3,0,Science
-#Hardwiring - Eifyr and Co. 'Alchemist' XA-2,,,,,,5,0,Science
-#Hardwiring - Eifyr and Co. 'Alchemist' YA-1,,,,,,3,0,Science
-#Hardwiring - Eifyr and Co. 'Alchemist' YA-2,,,,,,5,0,Science
-Hardwiring - Eifyr and Co. 'Alchemist' ZA-0,66,73,2,737,0,1,0,Industry
-Hardwiring - Eifyr and Co. 'Alchemist' ZA-1,66,73,2,737,0,3,0,Industry
-Hardwiring - Eifyr and Co. 'Alchemist' ZA-2,66,73,2,737,0,5,0,Industry
-Hardwiring - Eifyr and Co. 'Rogue' AY-0,151,70,3,6,0,1,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' AY-1,151,70,3,6,0,3,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' AY-2,151,70,3,6,0,5,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' CY-0,1076,37,3,6,0,1,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' CY-1,1076,37,3,6,0,3,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' CY-2,1076,37,3,6,0,5,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' DY-0,317,6,4,542,0,-1,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' DY-1,317,6,4,542,0,-3,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' DY-2,317,6,4,542,0,-5,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' EY-0,66,73,4,542,0,-1,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' EY-1,66,73,4,542,0,-3,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' EY-2,66,73,4,542,0,-5,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' FY-0,319,153,3,6,0,2,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' FY-1,319,153,3,6,0,6,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' FY-2,319,153,3,6,0,10,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' GY-0,216,6,4,131,0,1,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' GY-1,216,6,4,131,0,3,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' GY-2,216,6,4,131,0,5,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' HY-0,624,600,3,6,0,5,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' HY-1,624,600,3,6,0,10,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' HY-2,624,600,3,6,0,15,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' MY-0,318,20,4,131;542,0,1,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' MY-1,318,20,4,131;542,0,3,0,Navigation
-Hardwiring - Eifyr and Co. 'Rogue' MY-2,318,20,4,131;542,0,5,0,Navigation
-Hardwiring - Inherent Implants 'Gentry' ZEX10,312,73,4,1056,0,1,0,Armor
-Hardwiring - Inherent Implants 'Gentry' ZEX100,312,73,4,1056,0,3,0,Armor
-Hardwiring - Inherent Implants 'Gentry' ZEX1000,312,73,4,1056,0,5,0,Armor
-Hardwiring - Inherent Implants 'Gentry' ZEX20,317,6,4,1056,0,1,0,Armor
-Hardwiring - Inherent Implants 'Gentry' ZEX200,317,6,4,1056,0,3,0,Armor
-Hardwiring - Inherent Implants 'Gentry' ZEX2000,317,6,4,1056,0,5,0,Armor
-Hardwiring - Inherent Implants 'Highwall' HX-0,434,77,4,1039;1040,0,1,0,Industry
-Hardwiring - Inherent Implants 'Highwall' HX-1,434,77,4,1039;1040,0,3,0,Industry
-Hardwiring - Inherent Implants 'Highwall' HX-2,434,77,4,1039;1040,0,5,0,Industry
-Hardwiring - Inherent Implants 'Highwall' HY-0,927,1082,4,935,1,1,0,Industry
-Hardwiring - Inherent Implants 'Highwall' HY-1,927,1082,4,935,1,3,0,Industry
-Hardwiring - Inherent Implants 'Highwall' HY-2,927,1082,4,935,1,5,0,Industry
-Hardwiring - Inherent Implants 'Lancer' G0-Alpha,292,64,4,567,0,1,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G0-Beta,317,6,2,53;55;74,0,1,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G0-Delta,441,51,2,53;55;74,0,1,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G0-Epsilon,292,64,4,569,0,1,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G0-Gamma,292,64,4,568,0,1,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G1-Alpha,292,64,4,567,0,3,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G1-Beta,317,6,2,53;55;74,0,3,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G1-Delta,441,51,2,53;55;74,0,3,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G1-Epsilon,292,64,4,569,0,3,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G1-Gamma,292,64,4,568,0,3,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G2-Alpha,292,64,4,567,0,5,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G2-Beta,317,6,2,53;55;74,0,5,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G2-Delta,441,51,2,53;55;74,0,5,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G2-Epsilon,292,64,4,569,0,5,0,Gunnery
-Hardwiring - Inherent Implants 'Lancer' G2-Gamma,292,64,4,568,0,5,0,Gunnery
-Hardwiring - Inherent Implants 'Noble' ZET10,312,73,4,1049;1050;1051;1053;1054;1055,0,1,0,Armor;Hull
-Hardwiring - Inherent Implants 'Noble' ZET100,312,73,4,1049;1050;1051;1053;1054;1055,0,3,0,Armor;Hull
-Hardwiring - Inherent Implants 'Noble' ZET1000,312,73,4,1049;1050;1051;1053;1054;1055,0,5,0,Armor;Hull
-Hardwiring - Inherent Implants 'Noble' ZET20,317,6,4,1057;1058;1059,0,1,0,Armor
-Hardwiring - Inherent Implants 'Noble' ZET200,317,6,4,1057;1058;1059,0,3,0,Armor
-Hardwiring - Inherent Implants 'Noble' ZET2000,317,6,4,1057;1058;1059,0,5,0,Armor
-Hardwiring - Inherent Implants 'Noble' ZET30,327,9,3,6,0,1,0,Hull
-Hardwiring - Inherent Implants 'Noble' ZET300,327,9,3,6,0,3,0,Hull
-Hardwiring - Inherent Implants 'Noble' ZET3000,327,9,3,6,0,5,0,Hull
-Hardwiring - Inherent Implants 'Noble' ZET40,806,84,4,1049;1050;1051,0,1,0,Armor
-Hardwiring - Inherent Implants 'Noble' ZET400,806,84,4,1049;1050;1051,0,3,0,Armor
-Hardwiring - Inherent Implants 'Noble' ZET4000,806,84,4,1049;1050;1051,0,5,0,Armor
-Hardwiring - Inherent Implants 'Noble' ZET50,1083,265,3,6,0,1,0,Armor
-Hardwiring - Inherent Implants 'Noble' ZET500,1083,265,3,6,0,3,0,Armor
-Hardwiring - Inherent Implants 'Noble' ZET5000,1083,265,3,6,0,5,0,Armor
-Hardwiring - Inherent Implants 'Squire' CC2,1079,482,3,6,0,1,0,Engineering
-Hardwiring - Inherent Implants 'Squire' CC4,1079,482,3,6,0,3,0,Engineering
-Hardwiring - Inherent Implants 'Squire' CC8,1079,482,3,6,0,5,0,Engineering
-Hardwiring - Inherent Implants 'Squire' CR2,314,55,3,6,0,1,0,Engineering
-Hardwiring - Inherent Implants 'Squire' CR4,314,55,3,6,0,3,0,Engineering
-Hardwiring - Inherent Implants 'Squire' CR8,314,55,3,6,0,5,0,Engineering
-Hardwiring - Inherent Implants 'Squire' EE2,317,6,4,695;696;697,0,1,0,Engineering
-Hardwiring - Inherent Implants 'Squire' EE4,317,6,4,695;696;697,0,3,0,Engineering
-Hardwiring - Inherent Implants 'Squire' EE8,317,6,4,695;696;697,0,5,0,Engineering
-Hardwiring - Inherent Implants 'Squire' EP2,66,73,2,72,0,1,0,Engineering
-Hardwiring - Inherent Implants 'Squire' EP4,66,73,2,72,0,3,0,Engineering
-Hardwiring - Inherent Implants 'Squire' EP8,66,73,2,72,0,5,0,Engineering
-Hardwiring - Inherent Implants 'Squire' GU2,310,50,5,3424,0,1,0,Engineering
-Hardwiring - Inherent Implants 'Squire' GU4,310,50,5,3424,0,3,0,Engineering
-Hardwiring - Inherent Implants 'Squire' GU8,310,50,5,3424,0,5,0,Engineering
-Hardwiring - Inherent Implants 'Squire' PG2,313,11,3,6,0,1,0,Engineering
-Hardwiring - Inherent Implants 'Squire' PG4,313,11,3,6,0,3,0,Engineering
-Hardwiring - Inherent Implants 'Squire' PG8,313,11,3,6,0,5,0,Engineering
-Hardwiring - Inherent Implants 'Yeti' BX-0,780,73,4,1038,0,1,0,Industry
-Hardwiring - Inherent Implants 'Yeti' BX-1,780,73,4,1038,0,3,0,Industry
-Hardwiring - Inherent Implants 'Yeti' BX-2,780,73,4,1038,0,5,0,Industry
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-0,1156,788,2,479,0,2,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-1,1156,788,2,479,0,6,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-2,1156,788,2,479,0,10,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-0,846,208,2,479,0,1,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-1,846,208,2,479,0,3,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-2,846,208,2,479,0,5,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-0,846,209,2,479,0,1,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-1,846,209,2,479,0,3,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-2,846,209,2,479,0,5,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-0,846,210,2,479,0,1,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-1,846,210,2,479,0,3,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-2,846,210,2,479,0,5,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-0,846,211,2,479,0,1,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-1,846,211,2,479,0,3,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-2,846,211,2,479,0,5,0,Science
-#Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-0,,,,,,2,0,Science
-#Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-1,,,,,,6,0,Science
-#Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-2,,,,,,10,0,Science
-#Hardwiring - Poteque Pharmaceuticals 'Prospector' PPW-1,,,,,,5,0,Science
-#Hardwiring - Poteque Pharmaceuticals 'Prospector' PPX-1,,,,,,5,0,Science
-#Hardwiring - Poteque Pharmaceuticals 'Prospector' PPY-1,,,,,,5,0,Science
-Hardwiring - Poteque Pharmaceuticals 'Prospector' PPZ-1,66,73,2,538,0,5,0,Science
-#Hardwiring - Zainou 'Beancounter' F40,,,,,,1,0,Industry
-#Hardwiring - Zainou 'Beancounter' F50,,,,,,2,0,Industry
-#Hardwiring - Zainou 'Beancounter' F60,,,,,,4,0,Industry
-#Hardwiring - Zainou 'Beancounter' H40,,,,,,1,0,Industry
-#Hardwiring - Zainou 'Beancounter' H50,,,,,,2,0,Industry
-#Hardwiring - Zainou 'Beancounter' H60,,,,,,4,0,Industry
-#Hardwiring - Zainou 'Beancounter' I40,,,,,,1,0,Industry
-#Hardwiring - Zainou 'Beancounter' I50,,,,,,3,0,Industry
-#Hardwiring - Zainou 'Beancounter' I60,,,,,,5,0,Industry
-#Hardwiring - Zainou 'Beancounter' J40,,,,,,1,0,Industry
-#Hardwiring - Zainou 'Beancounter' J50,,,,,,3,0,Industry
-#Hardwiring - Zainou 'Beancounter' J60,,,,,,5,0,Industry
-#Hardwiring - Zainou 'Beancounter' K40,,,,,,1,0,Industry
-#Hardwiring - Zainou 'Beancounter' K50,,,,,,3,0,Industry
-#Hardwiring - Zainou 'Beancounter' K60,,,,,,5,0,Industry
-Hardwiring - Zainou 'Deadeye' ZGA10,294,54,2,53;55;74,0,1,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGA100,294,54,2,53;55;74,0,3,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGA1000,294,54,2,53;55;74,0,5,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGC10,349,158,2,53;55;74,0,1,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGC100,349,158,2,53;55;74,0,3,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGC1000,349,158,2,53;55;74,0,5,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGL10,292,64,4,566,0,1,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGL100,292,64,4,566,0,3,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGL1000,292,64,4,566,0,5,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGM10,292,64,4,565,0,1,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGM100,292,64,4,565,0,3,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGM1000,292,64,4,565,0,5,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGS10,292,64,4,564,0,1,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGS100,292,64,4,564,0,3,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZGS1000,292,64,4,564,0,5,0,Gunnery
-Hardwiring - Zainou 'Deadeye' ZMA10,848,654,2,384;653;385;655;386;656,0,1,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZMA100,848,654,2,384;653;385;655;386;656,0,3,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZMA1000,848,654,2,384;653;385;655;386;656,0,5,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZMC10,557,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZMC100,557,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,3,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZMC1000,557,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,5,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZML10,20,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZML100,20,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,3,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZML1000,20,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,5,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZMM10,293,51,2,511;862;524;506;510;771;507;508;501;509,0,1,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZMM100,293,51,2,511;862;524;506;510;771;507;508;501;509,0,3,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZMM1000,293,51,2,511;862;524;506;510;771;507;508;501;509,0,5,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZMS10,847,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZMS100,847,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,3,0,Missiles
-Hardwiring - Zainou 'Deadeye' ZMS1000,847,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,5,0,Missiles
-Hardwiring - Zainou 'Gnome' KTA10,310,50,2,511;862;524;506;510;771;507;508;501;509,0,1,0,Missiles
-Hardwiring - Zainou 'Gnome' KTA100,310,50,2,511;862;524;506;510;771;507;508;501;509,0,3,0,Missiles
-Hardwiring - Zainou 'Gnome' KTA1000,310,50,2,511;862;524;506;510;771;507;508;501;509,0,5,0,Missiles
-Hardwiring - Zainou 'Gnome' KUA1000,323,30,5,3425,0,3,0,Shield
-Hardwiring - Zainou 'Gnome' KUA2000,323,30,5,3425,0,5,0,Shield
-Hardwiring - Zainou 'Gnome' KUA500,323,30,5,3425,0,1,0,Shield
-Hardwiring - Zainou 'Gnome' KVA1000,337,263,3,6,0,3,0,Shield
-Hardwiring - Zainou 'Gnome' KVA2000,337,263,3,6,0,5,0,Shield
-Hardwiring - Zainou 'Gnome' KVA500,337,263,3,6,0,1,0,Shield
-Hardwiring - Zainou 'Gnome' KXA1000,317,6,4,604;603;602;601,0,3,0,Shield
-Hardwiring - Zainou 'Gnome' KXA2000,317,6,4,604;603;602;601,0,5,0,Shield
-Hardwiring - Zainou 'Gnome' KXA500,317,6,4,604;603;602;601,0,1,0,Shield
-Hardwiring - Zainou 'Gnome' KYA1000,338,479,3,6,0,3,0,Shield
-Hardwiring - Zainou 'Gnome' KYA2000,338,479,3,6,0,5,0,Shield
-Hardwiring - Zainou 'Gnome' KYA500,338,479,3,6,0,1,0,Shield
-Hardwiring - Zainou 'Gnome' KZA1000,310,50,2,53;55;74,0,3,0,Gunnery
-Hardwiring - Zainou 'Gnome' KZA2000,310,50,2,53;55;74,0,5,0,Gunnery
-Hardwiring - Zainou 'Gnome' KZA500,310,50,2,53;55;74,0,1,0,Gunnery
-Hardwiring - Zainou 'Gypsy' KLB-25,310,50,5,3432,0,1,0,Electronics
-Hardwiring - Zainou 'Gypsy' KLB-50,310,50,5,3432,0,3,0,Electronics
-Hardwiring - Zainou 'Gypsy' KLB-75,310,50,5,3432,0,5,0,Electronics
-Hardwiring - Zainou 'Gypsy' KMB-25,424,48,3,6,0,1,0,Electronics
-Hardwiring - Zainou 'Gypsy' KMB-50,424,48,3,6,0,3,0,Electronics
-Hardwiring - Zainou 'Gypsy' KMB-75,424,48,3,6,0,5,0,Electronics
-Hardwiring - Zainou 'Gypsy' KNB-25,566,564,3,6,0,1,0,Electronics
-Hardwiring - Zainou 'Gypsy' KNB-50,566,564,3,6,0,3,0,Electronics
-Hardwiring - Zainou 'Gypsy' KNB-75,566,564,3,6,0,5,0,Electronics
-Hardwiring - Zainou 'Gypsy' KOB-25,317,6,5,3427,0,1,0,Electronics
-Hardwiring - Zainou 'Gypsy' KOB-50,317,6,5,3427,0,3,0,Electronics
-Hardwiring - Zainou 'Gypsy' KOB-75,317,6,5,3427,0,5,0,Electronics
-Hardwiring - Zainou 'Gypsy' KPB-25,309,76,3,6,0,1,0,Electronics
-Hardwiring - Zainou 'Gypsy' KPB-50,309,76,3,6,0,3,0,Electronics
-Hardwiring - Zainou 'Gypsy' KPB-75,309,76,3,6,0,5,0,Electronics
-Hardwiring - Zainou 'Gypsy' KQB-25,317,6,2,52;65,0,1,0,Electronics
-Hardwiring - Zainou 'Gypsy' KQB-50,317,6,2,52;65,0,3,0,Electronics
-Hardwiring - Zainou 'Gypsy' KQB-75,317,6,2,52;65,0,5,0,Electronics
-Hardwiring - Zainou 'Gypsy' KRB-25,317,6,2,208;290,0,1,0,Electronics
-Hardwiring - Zainou 'Gypsy' KRB-50,317,6,2,208;290,0,3,0,Electronics
-Hardwiring - Zainou 'Gypsy' KRB-75,317,6,2,208;290,0,5,0,Electronics
-Hardwiring - Zainou 'Gypsy' KSB-25,317,6,2,291,0,1,0,Electronics
-Hardwiring - Zainou 'Gypsy' KSB-50,317,6,2,291,0,3,0,Electronics
-Hardwiring - Zainou 'Gypsy' KSB-75,317,6,2,291,0,5,0,Electronics
-Hardwiring - Zainou 'Gypsy' KTB-25,317,6,2,379,0,1,0,Electronics
-Hardwiring - Zainou 'Gypsy' KTB-50,317,6,2,379,0,3,0,Electronics
-Hardwiring - Zainou 'Gypsy' KTB-75,317,6,2,379,0,5,0,Electronics
-Hardwiring - Zainou 'Sharpshooter' ZMX10,292,114;116;117;118,2,476,0,1,0,Missiles
-Hardwiring - Zainou 'Sharpshooter' ZMX100,292,114;116;117;118,2,476,0,3,0,Missiles
-Hardwiring - Zainou 'Sharpshooter' ZMX1000,292,114;116;117;118,2,476,0,5,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMD1000,547,37,2,88,0,3,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMD2000,547,37,2,88,0,5,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMD500,547,37,2,88,0,1,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZME1000,292,114;116;117;118,2,654;772,0,3,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZME2000,292,114;116;117;118,2,654;772,0,5,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZME500,292,114;116;117;118,2,654;772,0,1,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMF1000,848,654,2,394;395;396,0,3,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMF2000,848,654,2,394;395;396,0,5,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMF500,848,654,2,394;395;396,0,1,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMH1000,292,114;116;117;118,2,385;655,0,3,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMH2000,292,114;116;117;118,2,385;655,0,5,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMH500,292,114;116;117;118,2,385;655,0,1,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMN1000,292,114;116;117;118,2,384;653,0,3,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMN2000,292,114;116;117;118,2,384;653,0,5,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMN500,292,114;116;117;118,2,384;653,0,1,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMR1000,292,114;116;117;118,2,387;648,0,3,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMR2000,292,114;116;117;118,2,387;648,0,5,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMR500,292,114;116;117;118,2,387;648,0,1,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMT1000,292,114;116;117;118,2,89;657,0,3,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMT2000,292,114;116;117;118,2,89;657,0,5,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMT500,292,114;116;117;118,2,89;657,0,1,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMU1000,292,114;116;117;118,2,386;656,0,3,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMU2000,292,114;116;117;118,2,386;656,0,5,0,Missiles
-Hardwiring - Zainou 'Snapshot' ZMU500,292,114;116;117;118,2,386;656,0,1,0,Missiles
-Hardwiring - Zainou 'Sprite' KXX1000,317,6,4,600,0,3,0,Shield
-Hardwiring - Zainou 'Sprite' KXX2000,317,6,4,600,0,5,0,Shield
-Hardwiring - Zainou 'Sprite' KXX500,317,6,4,600,0,1,0,Shield
-Imperial Special Ops Field Enhancer - Standard,1083,265,3,6,0,5,0,Armor
-Information Warfare Mindlink,309,76,3,6,0,15,1,Electronics
-Information Warfare Mindlink,884,833,1,20406;20405;11052,0,50,1,Gang
-#Limited Cybernetic Subprocessor,,,,,,1,0,Learning
-#Limited Cybernetic Subprocessor - Beta,,,,,,2,0,Learning
-#Limited Memory Augmentation,,,,,,1,0,Learning
-#Limited Memory Augmentation - Beta,,,,,,2,0,Learning
-#Limited Neural Boost,,,,,,1,0,Learning
-#Limited Neural Boost - Beta,,,,,,2,0,Learning
-#Limited Ocular Filter,,,,,,1,0,Learning
-#Limited Ocular Filter - Beta,,,,,,2,0,Learning
-#Limited Social Adaptation Chip,,,,,,1,0,Learning
-#Limited Social Adaptation Chip - Beta,,,,,,2,0,Learning
-Low-grade Centurion Alpha,294,54,2,201;208;291;379,0,1,0,Electronics;Learning
-Low-grade Centurion Beta,294,54,2,201;208;291;379,0,2,0,Electronics;Learning
-Low-grade Centurion Delta,294,54,2,201;208;291;379,0,4,0,Electronics;Learning
-Low-grade Centurion Epsilon,294,54,2,201;208;291;379,0,5,0,Electronics;Learning
-Low-grade Centurion Gamma,294,54,2,201;208;291;379,0,3,0,Electronics;Learning
-#Low-grade Centurion Omega,,,,,,25,0,Science
-Low-grade Crystal Alpha,548,68,2,40,0,1,0,Shield;Learning
-Low-grade Crystal Beta,548,68,2,40,0,2,0,Shield;Learning
-Low-grade Crystal Delta,548,68,2,40,0,4,0,Shield;Learning
-Low-grade Crystal Epsilon,548,68,2,40,0,5,0,Shield;Learning
-Low-grade Crystal Gamma,548,68,2,40,0,3,0,Shield;Learning
-#Low-grade Crystal Omega,,,,,,25,0,Science
-#Low-grade Edge Alpha,,,,,,1,0,Science;Learning
-#Low-grade Edge Beta,,,,,,2,0,Science;Learning
-#Low-grade Edge Delta,,,,,,4,0,Science;Learning
-#Low-grade Edge Epsilon,,,,,,5,0,Science;Learning
-#Low-grade Edge Gamma,,,,,,3,0,Science;Learning
-#Low-grade Edge Omega,,,,,,25,0,Science
-Low-grade Halo Alpha,554,552,3,6,0,1,0,Electronics;Learning
-Low-grade Halo Beta,554,552,3,6,0,1.25,0,Electronics;Learning
-Low-grade Halo Delta,554,552,3,6,0,1.5,0,Electronics;Learning
-Low-grade Halo Epsilon,554,552,3,6,0,2,0,Electronics;Learning
-Low-grade Halo Gamma,554,552,3,6,0,1.75,0,Electronics;Learning
-#Low-grade Halo Omega,,,,,,25,0,Science
-Low-grade Harvest Alpha,243,54,2,54;464;483,0,1,0,Industry;Learning
-Low-grade Harvest Beta,243,54,2,54;464;483,0,2,0,Industry;Learning
-Low-grade Harvest Delta,243,54,2,54;464;483,0,4,0,Industry;Learning
-Low-grade Harvest Epsilon,243,54,2,54;464;483,0,5,0,Industry;Learning
-Low-grade Harvest Gamma,243,54,2,54;464;483,0,3,0,Industry;Learning
-#Low-grade Harvest Omega,,,,,,25,0,Science
-Low-grade Nomad Alpha,151,70,3,6,0,1,0,Navigation;Learning
-Low-grade Nomad Beta,151,70,3,6,0,2,0,Navigation;Learning
-Low-grade Nomad Delta,151,70,3,6,0,4,0,Navigation;Learning
-Low-grade Nomad Epsilon,151,70,3,6,0,5,0,Navigation;Learning
-Low-grade Nomad Gamma,151,70,3,6,0,3,0,Navigation;Learning
-#Low-grade Nomad Omega,,,,,,25,0,Science
-Low-grade Slave Alpha,335,265,3,6,0,1,0,Armor;Learning
-Low-grade Slave Beta,335,265,3,6,0,2,0,Armor;Learning
-Low-grade Slave Delta,335,265,3,6,0,4,0,Armor;Learning
-Low-grade Slave Epsilon,335,265,3,6,0,5,0,Armor;Learning
-Low-grade Slave Gamma,335,265,3,6,0,3,0,Armor;Learning
-#Low-grade Slave Omega,,,,,,25,0,Science
-Low-grade Snake Alpha,315,37,3,6,0,1,0,Navigation;Learning
-Low-grade Snake Beta,315,37,3,6,0,2,0,Navigation;Learning
-Low-grade Snake Delta,315,37,3,6,0,4,0,Navigation;Learning
-Low-grade Snake Epsilon,315,37,3,6,0,5,0,Navigation;Learning
-Low-grade Snake Gamma,315,37,3,6,0,3,0,Navigation;Learning
-#Low-grade Snake Omega,,,,,,25,0,Science
-Low-grade Talisman Alpha,66,73,5,3423,0,1,0,Engineering;Learning
-Low-grade Talisman Beta,66,73,5,3423,0,2,0,Engineering;Learning
-Low-grade Talisman Delta,66,73,5,3423,0,4,0,Engineering;Learning
-Low-grade Talisman Epsilon,66,73,5,3423,0,5,0,Engineering;Learning
-Low-grade Talisman Gamma,66,73,5,3423,0,3,0,Engineering;Learning
-#Low-grade Talisman Omega,,,,,,25,0,Science
-Low-grade Virtue Alpha,846,208;209;210;211,2,479,0,1,0,Science;Learning
-Low-grade Virtue Beta,846,208;209;210;211,2,479,0,2,0,Science;Learning
-Low-grade Virtue Delta,846,208;209;210;211,2,479,0,4,0,Science;Learning
-Low-grade Virtue Epsilon,846,208;209;210;211,2,479,0,5,0,Science;Learning
-Low-grade Virtue Gamma,846,208;209;210;211,2,479,0,3,0,Science;Learning
-#Low-grade Virtue Omega,,,,,,25,0,Science
-#Memory Augmentation - Advanced,,,,,,6,0,Learning
-#Memory Augmentation - Basic,,,,,,3,0,Learning
-#Memory Augmentation - Elite,,,,,,7,0,Learning
-#Memory Augmentation - Improved,,,,,,5,0,Learning
-#Memory Augmentation - Standard,,,,,,4,0,Learning
-Michi's Excavation Augmentor,434,77,4,1039;464;1040,0,5,0,Industry
-Mining Foreman Mindlink,434,77,2,54;464;483,0,15,1,Industry
-Mining Foreman Mindlink,884,434,1,22536,0,50,1,Gang
-#Neural Boost - Advanced,,,,,,6,0,Learning
-#Neural Boost - Basic,,,,,,3,0,Learning
-#Neural Boost - Elite,,,,,,7,0,Learning
-#Neural Boost - Improved,,,,,,5,0,Learning
-#Neural Boost - Standard,,,,,,4,0,Learning
-#Ocular Filter - Advanced,,,,,,6,0,Learning
-#Ocular Filter - Basic,,,,,,3,0,Learning
-#Ocular Filter - Elite,,,,,,7,0,Learning
-#Ocular Filter - Improved,,,,,,5,0,Learning
-#Ocular Filter - Standard,,,,,,4,0,Learning
-Ogdin's Eye Coordination Enhancer,767,160,2,53;55;74,0,6,0,Gunnery
-Pashan's Turret Customization Mindlink,441,51,2,53;55;74,0,7,0,Gunnery
-Pashan's Turret Handling Mindlink,292,64,4,569,0,7,0,Gunnery
-Republic Special Ops Field Enhancer - Gamma,1084,37,3,6,0,5,0,Navigation
-Shaqil's Speed Enhancer,1076,37,3,6,0,8,0,Navigation
-Siege Warfare Mindlink,337,263,3,6,0,15,1,Shield
-Siege Warfare Mindlink,884,833,1,20124;22228;20514,0,50,1,Gang
-Skirmish Warfare Mindlink,315,37,3,6,0,15,1,Navigation
-Skirmish Warfare Mindlink,884,833,2,20070;11017;20408,0,50,1,Gang
-Slave Alpha,335,265,3,6,0,1,0,Armor;Learning
-Slave Beta,335,265,3,6,0,2,0,Armor;Learning
-Slave Delta,335,265,3,6,0,4,0,Armor;Learning
-Slave Epsilon,335,265,3,6,0,5,0,Armor;Learning
-Slave Gamma,335,265,3,6,0,3,0,Armor;Learning
-#Slave Omega,,,,,,50,0,Science
-Snake Alpha,315,37,3,6,0,1,0,Navigation;Learning
-Snake Beta,315,37,3,6,0,2,0,Navigation;Learning
-Snake Delta,315,37,3,6,0,4,0,Navigation;Learning
-Snake Epsilon,315,37,3,6,0,5,0,Navigation;Learning
-Snake Gamma,315,37,3,6,0,3,0,Navigation;Learning
-#Snake Omega,,,,,,50,0,Science
-#Social Adaptation Chip - Advanced,,,,,,6,0,Learning
-#Social Adaptation Chip - Basic,,,,,,3,0,Learning
-#Social Adaptation Chip - Improved,,,,,,5,0,Learning
-#Social Adaptation Chip - Standard,,,,,,4,0,Learning
-Talisman Alpha,66,73,5,3423,0,1,0,Engineering;Learning
-Talisman Beta,66,73,5,3423,0,2,0,Engineering;Learning
-Talisman Delta,66,73,5,3423,0,4,0,Engineering;Learning
-Talisman Epsilon,66,73,5,3423,0,5,0,Engineering;Learning
-Talisman Gamma,66,73,5,3423,0,3,0,Engineering;Learning
-#Talisman Omega,,,,,,50,0,Science
-Whelan Machorin's Ballistic Smartlink,293,51,2,511;862;524;506;510;771;507;508;501;509,0,5,0,Missiles
-Zor's Custom Navigation Hyper-Link,318,20,2,46,0,5,0,Navigation
-Zor's Custom Navigation Link,66,73,4,542,0,10,0,Navigation
+#HQF Implant Mapping Table,,,,,,,,,,
+#Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Calc Type,State,IsGang,Group,Implant Name
+1083,1,21606,265,3,6,0,0,0,Armor,Akemon's Modified 'Noble' ZET5000
+1083,1,13209,265,3,6,0,0,1,Armor,Armored Warfare Mindlink
+884,1,13209,833,1,20069;20409;22227,0,0,1,Gang,Armored Warfare Mindlink
+548,1,20121,68,2,40,0,0,0,Shield;Learning,Crystal Alpha
+548,1,20157,68,2,40,0,0,0,Shield;Learning,Crystal Beta
+548,1,20159,68,2,40,0,0,0,Shield;Learning,Crystal Delta
+548,1,20160,68,2,40,0,0,0,Shield;Learning,Crystal Epsilon
+548,1,20158,68,2,40,0,0,0,Shield;Learning,Crystal Gamma
+#,1,20161,,,,,0,0,Science,#Crystal Omega
+#,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Advanced
+#,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Basic
+#,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Elite
+#,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Improved
+#,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Standard
+554,1,20498,552,3,6,0,0,0,Electronics;Learning,Halo Alpha
+554,1,20500,552,3,6,0,0,0,Electronics;Learning,Halo Beta
+554,1,20502,552,3,6,0,0,0,Electronics;Learning,Halo Delta
+554,1,20504,552,3,6,0,0,0,Electronics;Learning,Halo Epsilon
+554,1,20506,552,3,6,0,0,0,Electronics;Learning,Halo Gamma
+#,1,20508,,,,,0,0,Science,#Halo Omega
+767,1,27075,160,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' AX-0
+767,1,9957,160,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' AX-1
+767,1,19686,160,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' AX-2
+292,1,27081,64,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' CX-0
+292,1,13244,64,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' CX-1
+292,1,19687,64,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' CX-2
+292,1,27090,64,4,579,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' LX-0
+292,1,13219,64,4,579,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' LX-1
+292,1,19688,64,4,579,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' LX-2
+292,1,27087,64,4,578,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' MX-0
+292,1,13222,64,4,578,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' MX-1
+292,1,19689,64,4,578,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' MX-2
+292,1,27084,64,4,575,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' SX-0
+292,1,13225,64,4,575,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' SX-1
+292,1,19690,64,4,575,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' SX-2
+#,1,27147,,,,,0,0,Shield,#Hardwiring - Eifyr and Co. 'Alchemist' WA-1
+#,1,27148,,,,,0,0,Shield,#Hardwiring - Eifyr and Co. 'Alchemist' WA-2
+#,1,25547,,,,,0,0,Science,#Hardwiring - Eifyr and Co. 'Alchemist' XA-1
+#,1,25548,,,,,0,0,Science,#Hardwiring - Eifyr and Co. 'Alchemist' XA-2
+#,1,25545,,,,,0,0,Science,#Hardwiring - Eifyr and Co. 'Alchemist' YA-1
+#,1,25546,,,,,0,0,Science,#Hardwiring - Eifyr and Co. 'Alchemist' YA-2
+66,1,27240,73,2,737,0,0,0,Industry,Hardwiring - Eifyr and Co. 'Alchemist' ZA-0
+66,1,27238,73,2,737,0,0,0,Industry,Hardwiring - Eifyr and Co. 'Alchemist' ZA-1
+66,1,27239,73,2,737,0,0,0,Industry,Hardwiring - Eifyr and Co. 'Alchemist' ZA-2
+151,1,27099,70,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' AY-0
+151,1,13240,70,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' AY-1
+151,1,16004,70,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' AY-2
+1076,1,27097,37,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' CY-0
+1076,1,13237,37,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' CY-1
+1076,1,16003,37,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' CY-2
+317,1,27098,6,4,542,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' DY-0
+317,1,13238,6,4,542,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' DY-1
+317,1,16005,6,4,542,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' DY-2
+66,1,27111,73,4,542,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' EY-0
+66,1,13239,73,4,542,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' EY-1
+66,1,27110,73,4,542,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' EY-2
+319,1,27113,153,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' FY-0
+319,1,13241,153,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' FY-1
+319,1,27112,153,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' FY-2
+216,1,27100,6,4,131,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' GY-0
+216,1,13243,6,4,131,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' GY-1
+216,1,16006,6,4,131,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' GY-2
+624,1,27115,600,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' HY-0
+624,1,13242,600,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' HY-1
+624,1,27114,600,3,6,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' HY-2
+318,1,27101,20,4,131;542,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' MY-0
+318,1,16008,20,4,131;542,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' MY-1
+318,1,16009,20,4,131;542,0,0,0,Navigation,Hardwiring - Eifyr and Co. 'Rogue' MY-2
+312,1,27218,73,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX10
+312,1,27216,73,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX100
+312,1,27217,73,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX1000
+317,1,27221,6,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX20
+317,1,27219,6,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX200
+317,1,27220,6,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX2000
+434,1,27102,77,4,1039;1040,0,0,0,Industry,Hardwiring - Inherent Implants 'Highwall' HX-0
+434,1,22534,77,4,1039;1040,0,0,0,Industry,Hardwiring - Inherent Implants 'Highwall' HX-1
+434,1,22535,77,4,1039;1040,0,0,0,Industry,Hardwiring - Inherent Implants 'Highwall' HX-2
+927,1,27151,1082,4,935,1,0,0,Industry,Hardwiring - Inherent Implants 'Highwall' HY-0
+927,1,27149,1082,4,935,1,0,0,Industry,Hardwiring - Inherent Implants 'Highwall' HY-1
+927,1,27150,1082,4,935,1,0,0,Industry,Hardwiring - Inherent Implants 'Highwall' HY-2
+292,1,27082,64,4,567,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Alpha
+317,1,27079,6,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Beta
+441,1,27077,51,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Delta
+292,1,27088,64,4,569,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Epsilon
+292,1,27085,64,4,568,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Gamma
+292,1,13223,64,4,567,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Alpha
+317,1,13246,6,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Beta
+441,1,13166,51,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Delta
+292,1,13217,64,4,569,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Epsilon
+292,1,13220,64,4,568,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Gamma
+292,1,19691,64,4,567,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Alpha
+317,1,19692,6,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Beta
+441,1,19693,51,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Delta
+292,1,19694,64,4,569,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Epsilon
+292,1,19695,64,4,568,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Gamma
+312,1,27070,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Hardwiring - Inherent Implants 'Noble' ZET10
+312,1,13258,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Hardwiring - Inherent Implants 'Noble' ZET100
+312,1,19547,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Hardwiring - Inherent Implants 'Noble' ZET1000
+317,1,27071,6,4,1057;1058;1059,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET20
+317,1,17871,6,4,1057;1058;1059,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET200
+317,1,19548,6,4,1057;1058;1059,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET2000
+327,1,27072,9,3,6,0,0,0,Hull,Hardwiring - Inherent Implants 'Noble' ZET30
+327,1,13257,9,3,6,0,0,0,Hull,Hardwiring - Inherent Implants 'Noble' ZET300
+327,1,19549,9,3,6,0,0,0,Hull,Hardwiring - Inherent Implants 'Noble' ZET3000
+806,1,27073,84,4,1049;1050;1051,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET40
+806,1,19684,84,4,1049;1050;1051,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET400
+806,1,19685,84,4,1049;1050;1051,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET4000
+1083,1,27074,265,3,6,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET50
+1083,1,13256,265,3,6,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET500
+1083,1,19550,265,3,6,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET5000
+1079,1,27117,482,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' CC2
+1079,1,13259,482,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' CC4
+1079,1,27116,482,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' CC8
+314,1,27119,55,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' CR2
+314,1,13260,55,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' CR4
+314,1,27118,55,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' CR8
+317,1,27120,6,4,695;696;697,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' EE2
+317,1,13265,6,4,695;696;697,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' EE4
+317,1,27121,6,4,695;696;697,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' EE8
+66,1,27123,73,2,72,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' EP2
+66,1,13251,73,2,72,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' EP4
+66,1,27122,73,2,72,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' EP8
+310,1,27125,50,5,3424,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' GU2
+310,1,13255,50,5,3424,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' GU4
+310,1,27124,50,5,3424,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' GU8
+313,1,27127,11,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' PG2
+313,1,13261,11,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' PG4
+313,1,27126,11,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' PG8
+780,1,27103,73,4,1038,0,0,0,Industry,Hardwiring - Inherent Implants 'Yeti' BX-0
+780,1,22570,73,4,1038,0,0,0,Industry,Hardwiring - Inherent Implants 'Yeti' BX-1
+780,1,22571,73,4,1038,0,0,0,Industry,Hardwiring - Inherent Implants 'Yeti' BX-2
+1156,1,27191,788,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-0
+1156,1,27186,788,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-1
+1156,1,27190,788,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-2
+846,1,27193,208,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-0
+846,1,27187,208,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-1
+846,1,27192,208,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-2
+#66,1,27195,,,,,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-0
+#66,1,27188,,,,,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-1
+#66,1,27194,,,,,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-2
+#1160,1,27196,,,,,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPW-1
+#1160,1,27197,,,,,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPX-1
+#902,1,27198,,,,,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPY-1
+66,1,27260,73,2,538,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPZ-1
+#,1,27170,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' F40
+#,1,27167,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' F50
+#,1,27171,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' F60
+#,1,27175,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' H40
+#,1,27169,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' H50
+#,1,27174,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' H60
+#,1,27180,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' I40
+#,1,27177,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' I50
+#,1,27179,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' I60
+#,1,27182,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' J40
+#,1,27176,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' J50
+#,1,27181,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' J60
+#,1,27185,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' K40
+#,1,27178,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' K50
+#,1,27184,,,,,0,0,Industry,#Hardwiring - Zainou 'Beancounter' K60
+294,1,27076,54,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGA10
+294,1,10204,54,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGA100
+294,1,19696,54,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGA1000
+349,1,27078,158,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGC10
+349,1,13245,158,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGC100
+349,1,19697,158,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGC1000
+292,1,27089,64,4,566,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGL10
+292,1,13218,64,4,566,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGL100
+292,1,19698,64,4,566,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGL1000
+292,1,27086,64,4,565,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGM10
+292,1,13221,64,4,565,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGM100
+292,1,19699,64,4,565,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGM1000
+292,1,27083,64,4,564,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGS10
+292,1,13224,64,4,564,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGS100
+292,1,19700,64,4,564,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGS1000
+848,1,27094,654,2,384;653;385;655;386;656,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMA10
+848,1,24632,654,2,384;653;385;655;386;656,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMA100
+848,1,24640,654,2,384;653;385;655;386;656,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMA1000
+557,1,27092,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMC10
+557,1,13247,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMC100
+557,1,24636,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMC1000
+20,1,27093,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZML10
+20,1,13248,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZML100
+20,1,24637,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZML1000
+293,1,27096,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMM10
+293,1,13249,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMM100
+293,1,24638,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMM1000
+847,1,27095,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMS10
+847,1,13250,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMS100
+847,1,24639,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMS1000
+310,1,27091,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Hardwiring - Zainou 'Gnome' KTA10
+310,1,24641,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Hardwiring - Zainou 'Gnome' KTA100
+310,1,24642,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Hardwiring - Zainou 'Gnome' KTA1000
+323,1,13253,30,5,3425,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KUA1000
+323,1,16245,30,5,3425,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KUA2000
+323,1,27104,30,5,3425,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KUA500
+337,1,10228,263,3,6,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KVA1000
+337,1,16246,263,3,6,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KVA2000
+337,1,27105,263,3,6,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KVA500
+317,1,13262,6,4,604;603;602;601,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KXA1000
+317,1,16247,6,4,604;603;602;601,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KXA2000
+317,1,27106,6,4,604;603;602;601,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KXA500
+338,1,13263,479,3,6,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KYA1000
+338,1,16248,479,3,6,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KYA2000
+338,1,27107,479,3,6,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KYA500
+310,1,13252,50,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Gnome' KZA1000
+310,1,16249,50,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Gnome' KZA2000
+310,1,27080,50,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Gnome' KZA500
+310,1,27129,50,5,3432,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KLB-25
+310,1,13254,50,5,3432,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KLB-50
+310,1,27128,50,5,3432,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KLB-75
+424,1,27143,48,3,6,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KMB-25
+424,1,13216,48,3,6,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KMB-50
+424,1,27142,48,3,6,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KMB-75
+566,1,27131,564,3,6,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KNB-25
+566,1,10244,564,3,6,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KNB-50
+566,1,27130,564,3,6,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KNB-75
+317,1,27226,6,5,3427,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KOB-25
+317,1,13232,6,5,3427,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KOB-50
+317,1,27225,6,5,3427,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KOB-75
+309,1,27229,76,3,6,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KPB-25
+309,1,13233,76,3,6,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KPB-50
+309,1,27227,76,3,6,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KPB-75
+317,1,27231,6,2,52;65,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KQB-25
+317,1,13234,6,2,52;65,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KQB-50
+317,1,27230,6,2,52;65,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KQB-75
+317,1,27233,6,2,208;290,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KRB-25
+317,1,13235,6,2,208;290,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KRB-50
+317,1,27232,6,2,208;290,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KRB-75
+317,1,27235,6,2,291,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KSB-25
+317,1,13236,6,2,291,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KSB-50
+317,1,27234,6,2,291,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KSB-75
+317,1,27237,6,2,379,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KTB-25
+317,1,27224,6,2,379,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KTB-50
+317,1,27236,6,2,379,0,0,0,Electronics,Hardwiring - Zainou 'Gypsy' KTB-75
+292,1,27206,114;116;117;118,2,476,0,0,0,Missiles,Hardwiring - Zainou 'Sharpshooter' ZMX10
+292,1,27204,114;116;117;118,2,476,0,0,0,Missiles,Hardwiring - Zainou 'Sharpshooter' ZMX100
+292,1,27205,114;116;117;118,2,476,0,0,0,Missiles,Hardwiring - Zainou 'Sharpshooter' ZMX1000
+547,1,13227,37,2,88,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMD1000
+547,1,27243,37,2,88,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMD2000
+547,1,27244,37,2,88,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMD500
+292,1,27109,114;116;117;118,2,654;772,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZME1000
+292,1,27245,114;116;117;118,2,654;772,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZME2000
+292,1,27246,114;116;117;118,2,654;772,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZME500
+848,1,13228,654,2,394;395;396,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMF1000
+848,1,27247,654,2,394;395;396,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMF2000
+848,1,27249,654,2,394;395;396,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMF500
+292,1,13229,114;116;117;118,2,385;655,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMH1000
+292,1,27250,114;116;117;118,2,385;655,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMH2000
+292,1,27251,114;116;117;118,2,385;655,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMH500
+292,1,27108,114;116;117;118,2,384;653,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMN1000
+292,1,27252,114;116;117;118,2,384;653,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMN2000
+292,1,27253,114;116;117;118,2,384;653,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMN500
+292,1,13230,114;116;117;118,2,387;648,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMR1000
+292,1,27254,114;116;117;118,2,387;648,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMR2000
+292,1,27255,114;116;117;118,2,387;648,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMR500
+292,1,13231,114;116;117;118,2,89;657,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMT1000
+292,1,27256,114;116;117;118,2,89;657,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMT2000
+292,1,27257,114;116;117;118,2,89;657,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMT500
+292,1,13226,114;116;117;118,2,386;656,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMU1000
+292,1,27258,114;116;117;118,2,386;656,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMU2000
+292,1,27259,114;116;117;118,2,386;656,0,0,0,Missiles,Hardwiring - Zainou 'Snapshot' ZMU500
+317,1,27213,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX1000
+317,1,27215,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX2000
+317,1,27214,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX500
+1083,1,22760,265,3,6,0,0,0,Armor,Imperial Special Ops Field Enhancer - Standard
+309,1,21889,76,3,6,0,0,1,Electronics,Information Warfare Mindlink
+884,1,21889,833,1,20406;20405;11052,0,0,1,Gang,Information Warfare Mindlink
+#,1,,,,,,0,0,Learning,#Limited Cybernetic Subprocessor
+#,1,,,,,,0,0,Learning,#Limited Cybernetic Subprocessor - Beta
+#,1,,,,,,0,0,Learning,#Limited Memory Augmentation
+#,1,,,,,,0,0,Learning,#Limited Memory Augmentation - Beta
+#,1,,,,,,0,0,Learning,#Limited Neural Boost
+#,1,,,,,,0,0,Learning,#Limited Neural Boost - Beta
+#,1,,,,,,0,0,Learning,#Limited Ocular Filter
+#,1,,,,,,0,0,Learning,#Limited Ocular Filter - Beta
+#,1,,,,,,0,0,Learning,#Limited Social Adaptation Chip
+#,1,,,,,,0,0,Learning,#Limited Social Adaptation Chip - Beta
+294,1,28790,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Alpha
+294,1,28791,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Beta
+294,1,28792,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Delta
+294,1,28793,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Epsilon
+294,1,28794,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Gamma
+#,1,28795,,,,,0,0,Science,#Low-grade Centurion Omega
+548,1,22107,68,2,40,0,0,0,Shield;Learning,Low-grade Crystal Alpha
+548,1,22108,68,2,40,0,0,0,Shield;Learning,Low-grade Crystal Beta
+548,1,22109,68,2,40,0,0,0,Shield;Learning,Low-grade Crystal Delta
+548,1,22110,68,2,40,0,0,0,Shield;Learning,Low-grade Crystal Epsilon
+548,1,22111,68,2,40,0,0,0,Shield;Learning,Low-grade Crystal Gamma
+#,1,22112,,,,,0,0,Science,#Low-grade Crystal Omega
+#,1,28814,,,,,0,0,Science;Learning,#Low-grade Edge Alpha
+#,1,28815,,,,,0,0,Science;Learning,#Low-grade Edge Beta
+#,1,28816,,,,,0,0,Science;Learning,#Low-grade Edge Delta
+#,1,28817,,,,,0,0,Science;Learning,#Low-grade Edge Epsilon
+#,1,28818,,,,,0,0,Science;Learning,#Low-grade Edge Gamma
+#,1,28819,,,,,0,0,Science,#Low-grade Edge Omega
+554,1,22113,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Alpha
+554,1,22114,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Beta
+554,1,22115,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Delta
+554,1,22116,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Epsilon
+554,1,22117,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Gamma
+#,1,22118,,,,,0,0,Science,#Low-grade Halo Omega
+243,1,28802,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Alpha
+243,1,28803,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Beta
+243,1,28804,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Delta
+243,1,28805,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Epsilon
+243,1,28806,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Gamma
+#,1,28807,,,,,0,0,Science,#Low-grade Harvest Omega
+151,1,28796,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Alpha
+151,1,28797,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Beta
+151,1,28798,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Delta
+151,1,28799,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Epsilon
+151,1,28800,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Gamma
+#,1,28801,,,,,0,0,Science,#Low-grade Nomad Omega
+335,1,22119,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Alpha
+335,1,22120,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Beta
+335,1,22121,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Delta
+335,1,22122,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Epsilon
+335,1,22123,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Gamma
+#,1,22124,,,,,0,0,Science,#Low-grade Slave Omega
+315,1,22125,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Alpha
+315,1,22126,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Beta
+315,1,22127,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Delta
+315,1,22128,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Epsilon
+315,1,22129,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Gamma
+#,1,22130,,,,,0,0,Science,#Low-grade Snake Omega
+66,1,22131,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Alpha
+66,1,22133,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Beta
+66,1,22134,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Delta
+66,1,22135,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Epsilon
+66,1,22136,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Gamma
+#,1,22137,,,,,0,0,Science,#Low-grade Talisman Omega
+846,1,28808,208;209;210;211,2,479,0,0,0,Science;Learning,Low-grade Virtue Alpha
+846,1,28809,208;209;210;211,2,479,0,0,0,Science;Learning,Low-grade Virtue Beta
+846,1,28810,208;209;210;211,2,479,0,0,0,Science;Learning,Low-grade Virtue Delta
+846,1,28811,208;209;210;211,2,479,0,0,0,Science;Learning,Low-grade Virtue Epsilon
+846,1,28812,208;209;210;211,2,479,0,0,0,Science;Learning,Low-grade Virtue Gamma
+#,1,28813,,,,,0,0,Science,#Low-grade Virtue Omega
+#,1,,,,,,0,0,Learning,#Memory Augmentation - Advanced
+#,1,,,,,,0,0,Learning,#Memory Augmentation - Basic
+#,1,,,,,,0,0,Learning,#Memory Augmentation - Elite
+#,1,,,,,,0,0,Learning,#Memory Augmentation - Improved
+#,1,,,,,,0,0,Learning,#Memory Augmentation - Standard
+434,1,20700,77,4,1039;464;1040,0,0,0,Industry,Michi's Excavation Augmentor
+434,1,22559,77,2,54;464;483,0,0,1,Industry,Mining Foreman Mindlink
+884,1,22559,434,1,22536,0,0,1,Gang,Mining Foreman Mindlink
+#,1,,,,,,0,0,Learning,#Neural Boost - Advanced
+#,1,,,,,,0,0,Learning,#Neural Boost - Basic
+#,1,,,,,,0,0,Learning,#Neural Boost - Elite
+#,1,,,,,,0,0,Learning,#Neural Boost - Improved
+#,1,,,,,,0,0,Learning,#Neural Boost - Standard
+312,1,20358,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Numon Family Heirloom
+#,1,,,,,,0,0,Learning,#Ocular Filter - Advanced
+#,1,,,,,,0,0,Learning,#Ocular Filter - Basic
+#,1,,,,,,0,0,Learning,#Ocular Filter - Elite
+#,1,,,,,,0,0,Learning,#Ocular Filter - Improved
+#,1,,,,,,0,0,Learning,#Ocular Filter - Standard
+767,1,20443,160,2,53;55;74,0,0,0,Gunnery,Ogdin's Eye Coordination Enhancer
+441,1,25868,51,2,53;55;74,0,0,0,Gunnery,Pashan's Turret Customization Mindlink
+292,1,25867,64,4,569,0,0,0,Gunnery,Pashan's Turret Handling Mindlink
+1084,1,22715,37,3,6,0,0,0,Navigation,Republic Special Ops Field Enhancer - Gamma
+1076,1,24669,37,3,6,0,0,0,Navigation,Shaqil's Speed Enhancer
+337,1,21888,263,3,6,0,0,1,Shield,Siege Warfare Mindlink
+884,1,21888,833,1,20124;22228;20514,0,0,1,Gang,Siege Warfare Mindlink
+315,1,21890,37,3,6,0,0,1,Navigation,Skirmish Warfare Mindlink
+884,1,21890,833,2,20070;11017;20408,0,0,1,Gang,Skirmish Warfare Mindlink
+335,1,20499,265,3,6,0,0,0,Armor;Learning,Slave Alpha
+335,1,20501,265,3,6,0,0,0,Armor;Learning,Slave Beta
+335,1,20503,265,3,6,0,0,0,Armor;Learning,Slave Delta
+335,1,20505,265,3,6,0,0,0,Armor;Learning,Slave Epsilon
+335,1,20507,265,3,6,0,0,0,Armor;Learning,Slave Gamma
+#838,1,20509,,,,,0,0,Science,#Slave Omega
+315,1,19540,37,3,6,0,0,0,Navigation;Learning,Snake Alpha
+315,1,19551,37,3,6,0,0,0,Navigation;Learning,Snake Beta
+315,1,19554,37,3,6,0,0,0,Navigation;Learning,Snake Delta
+315,1,19555,37,3,6,0,0,0,Navigation;Learning,Snake Epsilon
+315,1,19553,37,3,6,0,0,0,Navigation;Learning,Snake Gamma
+#,1,19556,,,,,0,0,Science,#Snake Omega
+#,1,,,,,,0,0,Learning,#Social Adaptation Chip - Advanced
+#,1,,,,,,0,0,Learning,#Social Adaptation Chip - Basic
+#,1,,,,,,0,0,Learning,#Social Adaptation Chip - Improved
+#,1,,,,,,0,0,Learning,#Social Adaptation Chip - Standard
+66,1,19534,73,5,3423,0,0,0,Engineering;Learning,Talisman Alpha
+66,1,19535,73,5,3423,0,0,0,Engineering;Learning,Talisman Beta
+66,1,19537,73,5,3423,0,0,0,Engineering;Learning,Talisman Delta
+66,1,19538,73,5,3423,0,0,0,Engineering;Learning,Talisman Epsilon
+66,1,19536,73,5,3423,0,0,0,Engineering;Learning,Talisman Gamma
+#838,1,19539,,,,,0,0,Science,#Talisman Omega
+293,1,20371,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Whelan Machorin's Ballistic Smartlink
+318,1,24663,20,2,46,0,0,0,Navigation,Zor's Custom Navigation Hyper-Link
+66,1,19500,73,4,542,0,0,0,Navigation,Zor's Custom Navigation Link

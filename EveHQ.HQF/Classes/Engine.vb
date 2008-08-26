@@ -30,11 +30,43 @@ Public Class Engine
     Public Shared SkillEffectsTable As New SortedList
     Public Shared BaseSkillEffectsTable As New SortedList
     Public Shared ModuleEffectsTable As New SortedList
+    Public Shared PirateImplants As New SortedList
+    Public Shared PirateImplantGroups As New SortedList
 
     Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
     'Dim isk As Double = Double.Parse(toon.ChildNodes.Item(7).InnerText, Globalization.NumberStyles.Number, culture)
 
 #Region "New Routines"
+    Public Shared Sub BuildPirateImplants()
+        Dim PirateImplantComponents As New ArrayList
+        PirateImplantGroups.Add("Crystal", 1)
+        PirateImplantGroups.Add("Halo", 1)
+        PirateImplantGroups.Add("Slave", 1)
+        PirateImplantGroups.Add("Snake", 1)
+        PirateImplantGroups.Add("Talisman", 1)
+        PirateImplantGroups.Add("Low-Grade Centurion", 1)
+        PirateImplantGroups.Add("Low-Grade Crystal", 1)
+        PirateImplantGroups.Add("Low-Grade Edge", 1)
+        PirateImplantGroups.Add("Low-Grade Halo", 1)
+        PirateImplantGroups.Add("Low-Grade Harvest", 1)
+        PirateImplantGroups.Add("Low-Grade Nomad", 1)
+        PirateImplantGroups.Add("Low-Grade Slave", 1)
+        PirateImplantGroups.Add("Low-Grade Snake", 1)
+        PirateImplantGroups.Add("Low-Grade Talisman", 1)
+        PirateImplantGroups.Add("Low-Grade Virtue", 1)
+        PirateImplantComponents.Add(" Alpha")
+        PirateImplantComponents.Add(" Beta")
+        PirateImplantComponents.Add(" Delta")
+        PirateImplantComponents.Add(" Epsilon")
+        PirateImplantComponents.Add(" Gamma")
+        PirateImplantComponents.Add(" Omega")
+        PirateImplants.Clear()
+        For Each group As String In PirateImplantGroups.Keys
+            For Each component As String In PirateImplantComponents
+                PirateImplants.Add(group & component, group)
+            Next
+        Next
+    End Sub
     Public Shared Sub BuildEffectsMap()
         ' Fetch the Effects list
         Dim EffectFile As String = My.Resources.Effects.ToString
@@ -139,44 +171,45 @@ Public Class Engine
             If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
                 EffectData = EffectLine.Split(",".ToCharArray)
                 Atts.Clear()
-                If EffectData(2).Contains(";") Then
-                    AttIDs = EffectData(2).Split(";".ToCharArray)
+                If EffectData(3).Contains(";") Then
+                    AttIDs = EffectData(3).Split(";".ToCharArray)
                     For Each AttID As String In AttIDs
                         Atts.Add(AttID)
                     Next
                 Else
-                    Atts.Add(EffectData(2))
+                    Atts.Add(EffectData(3))
                 End If
                 For Each att As String In Atts
                     newEffect = New ImplantEffect
-                    If ImplantEffectsMap.Contains((EffectData(0))) = True Then
-                        ImplantEffectClassList = CType(ImplantEffectsMap(EffectData(0)), ArrayList)
+                    If ImplantEffectsMap.Contains((EffectData(10))) = True Then
+                        ImplantEffectClassList = CType(ImplantEffectsMap(EffectData(10)), ArrayList)
                     Else
                         ImplantEffectClassList = New ArrayList
-                        ImplantEffectsMap.Add(EffectData(0), ImplantEffectClassList)
+                        ImplantEffectsMap.Add(EffectData(10), ImplantEffectClassList)
                     End If
-                    newEffect.ImplantName = CStr(EffectData(0))
-                    newEffect.AffectingAtt = CInt(EffectData(1))
+                    newEffect.ImplantName = CStr(EffectData(10))
+                    newEffect.AffectingAtt = CInt(EffectData(0))
                     newEffect.AffectedAtt = CInt(att)
-                    newEffect.AffectedType = CInt(EffectData(3))
-                    If EffectData(4).Contains(";") = True Then
-                        IDs = EffectData(4).Split(";".ToCharArray)
+                    newEffect.AffectedType = CInt(EffectData(4))
+                    If EffectData(5).Contains(";") = True Then
+                        IDs = EffectData(5).Split(";".ToCharArray)
                         For Each ID As String In IDs
                             newEffect.AffectedID.Add(ID)
                         Next
                     Else
-                        newEffect.AffectedID.Add(EffectData(4))
+                        newEffect.AffectedID.Add(EffectData(5))
                     End If
-                    newEffect.CalcType = CInt(EffectData(5))
-                    newEffect.Value = Double.Parse(EffectData(6), Globalization.NumberStyles.Number, culture)
-                    newEffect.IsGang = CBool(EffectData(7))
-                    If EffectData(8).Contains(";") = True Then
-                        IDs = EffectData(8).Split(";".ToCharArray)
+                    newEffect.CalcType = CInt(EffectData(6))
+                    Dim cImplant As ShipModule = CType(Implants.implantList(newEffect.ImplantName), ShipModule)
+                    newEffect.Value = CDbl(cImplant.Attributes(EffectData(0)))
+                    newEffect.IsGang = CBool(EffectData(8))
+                    If EffectData(9).Contains(";") = True Then
+                        IDs = EffectData(9).Split(";".ToCharArray)
                         For Each ID As String In IDs
                             newEffect.Groups.Add(ID)
                         Next
                     Else
-                        newEffect.Groups.Add(EffectData(8))
+                        newEffect.Groups.Add(EffectData(9))
                     End If
                     ImplantEffectClassList.Add(newEffect)
                 Next
@@ -229,11 +262,25 @@ Public Class Engine
     Public Shared Sub BuildImplantEffects(ByVal hPilot As HQFPilot)
         Dim sTime, eTime As Date
         sTime = Now
+        ' Run through the implants and see if we have any pirate implants
+        Dim hImplant As String = ""
+        Dim aImplant As ShipModule
+        Dim PIGroup As String = ""
+        Dim cPirateImplantGroups As SortedList = CType(PirateImplantGroups.Clone, Collections.SortedList)
+        For slotNo As Integer = 1 To 10
+            hImplant = hPilot.ImplantName(slotNo)
+            If PirateImplants.Contains(hImplant) = True Then
+                ' We have a pirate implant so let's work out the group and the set bonus
+                PIGroup = CStr(PirateImplants.Item(hImplant))
+                aImplant = CType(ModuleLists.moduleList(ModuleLists.moduleListName(hImplant)), ShipModule)
+                cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("838"))
+            End If
+        Next
+
         ' Go through all the implants and see what needs to be mapped
         Dim fEffect As New FinalEffect
         Dim fEffectList As New ArrayList
-        Dim hImplant As String = ""
-        Dim aImplant As ShipModule
+        
         For slotNo As Integer = 1 To 10
             hImplant = hPilot.ImplantName(slotNo)
             If hImplant <> "" Then
@@ -246,9 +293,15 @@ Public Class Engine
                             fEffect.AffectedAtt = chkEffect.AffectedAtt
                             fEffect.AffectedType = chkEffect.AffectedType
                             fEffect.AffectedID = chkEffect.AffectedID
-                            fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString))
+                            If PirateImplants.Contains(aImplant.Name) = True Then
+                                PIGroup = CStr(PirateImplants.Item(hImplant))
+                                fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString)) * CDbl(cPirateImplantGroups.Item(PIGroup))
+                                fEffect.Cause = aImplant.Name & " (Set Bonus: " & FormatNumber(cPirateImplantGroups.Item(PIGroup), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "x)"
+                            Else
+                                fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString))
+                                fEffect.Cause = aImplant.Name
+                            End If
                             fEffect.StackNerf = False
-                            fEffect.Cause = aImplant.Name
                             fEffect.CalcType = chkEffect.CalcType
                             If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
                                 fEffectList = New ArrayList
@@ -756,8 +809,8 @@ Public Class Engine
                                         End If
                                 End Select
                                 If processAtt = True Then
-                                    oldatt = aModule.Attributes(att).ToString
-                                    log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & oldatt
+                                    oldAtt = aModule.Attributes(att).ToString
+                                    log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & oldAtt
                                     Select Case fEffect.CalcType
                                         Case EffectCalcType.Percentage
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
@@ -781,7 +834,7 @@ Public Class Engine
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
                                     End Select
                                     log &= " --> " & aModule.Attributes(att).ToString
-                                    If oldatt <> aModule.Attributes(att).ToString Then
+                                    If oldAtt <> aModule.Attributes(att).ToString Then
                                         aModule.AuditLog.Add(log)
                                     End If
                                 End If
@@ -1054,7 +1107,7 @@ Public Class Engine
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
                                     End Select
                                     log &= " --> " & aModule.Attributes(att).ToString
-                                    If oldatt <> aModule.Attributes(att).ToString Then
+                                    If oldAtt <> aModule.Attributes(att).ToString Then
                                         aModule.AuditLog.Add(log)
                                     End If
                                 End If
@@ -1544,15 +1597,15 @@ Public Class Engine
         For slotType As Integer = 1 To 4
             Select Case slotType
                 Case 1
-                    maxSlots = newShip.HiSlots
+                    maxslots = newShip.HiSlots
                 Case 2
-                    maxSlots = newShip.MidSlots
+                    maxslots = newShip.MidSlots
                 Case 3
-                    maxSlots = newShip.LowSlots
+                    maxslots = newShip.LowSlots
                 Case 4
-                    maxSlots = newShip.RigSlots
+                    maxslots = newShip.RigSlots
             End Select
-            For slot As Integer = 1 To maxSlots
+            For slot As Integer = 1 To maxslots
                 Select Case slotType
                     Case 1
                         cModule = newShip.HiSlot(slot)

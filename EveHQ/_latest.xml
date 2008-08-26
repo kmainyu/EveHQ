@@ -47,8 +47,8 @@
 		<file>
 			<name>EveHQ.Assets.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.2.85</version>
-			<requires>1.7.2.85</requires>
+			<version>1.7.2.93</version>
+			<requires>1.7.2.93</requires>
 			<description>Assets Plug-in</description>
 		</file>
 		<file>
@@ -103,8 +103,8 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.2.92</version>
-			<requires>1.7.2.92</requires>
+			<version>1.7.2.93</version>
+			<requires>1.7.2.93</requires>
 			<description>Ship Fitting Plug-in</description>
 		</file>
 	</files>
