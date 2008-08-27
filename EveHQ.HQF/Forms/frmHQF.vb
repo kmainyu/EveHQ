@@ -98,7 +98,6 @@ Public Class frmHQF
                 UseSerializableData = False
             End If
 
-            'Me.LoadBonuses()
             Engine.BuildPirateImplants()
             Engine.BuildEffectsMap()
             Engine.BuildShipEffectsMap()
@@ -171,6 +170,7 @@ Public Class frmHQF
                                                         If Me.BuildModuleData = True Then
                                                             If Me.LoadNPCData = True Then
                                                                 Call Me.BuildAttributeQuickList()
+                                                                Engine.BuildImplantEffectsMap()
                                                                 Return True
                                                             Else
                                                                 Return False

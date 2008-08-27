@@ -351,7 +351,6 @@
     <None Include="Resources\icon26_06.png" />
     <None Include="Resources\icon26_09.png" />
     <None Include="Resources\icon56_02.png" />
-    <None Include="Resources\Implants.csv" />
     <None Include="Resources\Rigs.csv" />
     <None Include="Resources\Ships.csv" />
     <None Include="Resources\Status_green.gif" />
