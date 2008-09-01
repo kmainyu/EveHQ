@@ -1259,7 +1259,7 @@ Public Class frmSettings
             frmEveHQ.tmrEve.Enabled = False
         End If
     End Sub
-    Private Sub chkAutoAPI_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub chkAutoAPI_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoAPI.CheckedChanged
         If chkAutoAPI.Checked = True Then
             EveHQ.Core.HQ.EveHQSettings.AutoAPI = True
         Else
@@ -2227,5 +2227,4 @@ Public Class frmSettings
 
 #End Region
     
-   
 End Class

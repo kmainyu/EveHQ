@@ -82,7 +82,7 @@
 828,1,19761,240,2,201,0,1,0,0,Signal Dispersion - Mag ECM
 828,1,19761,241,2,201,0,1,0,0,Signal Dispersion - Radar ECM
 828,1,19766,566,2,208,0,1,0,0,Signal Suppression - RSD Resolution
-828,1,19766,54,2,208,0,1,0,0,Signal Suppression - RSD Range
+828,1,19766,309,2,208,0,1,0,0,Signal Suppression - RSD Range
 566,1,3431,564,3,6,0,1,0,0,Signature Analysis
 832,1,19922,554,2,379,0,1,0,0,Signature Focusing
 #,1,3551,,,,0,1,0,0,Survey

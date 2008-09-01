@@ -207,6 +207,8 @@ Partial Public Class frmSettings
         Me.gbEveServer = New System.Windows.Forms.GroupBox
         Me.chkShowAPIStatusForm = New System.Windows.Forms.CheckBox
         Me.gbAPIServer = New System.Windows.Forms.GroupBox
+        Me.txtAPIFileExtension = New System.Windows.Forms.TextBox
+        Me.lblAPIFileExtension = New System.Windows.Forms.Label
         Me.chkUseCCPBackup = New System.Windows.Forms.CheckBox
         Me.chkUseAPIRSServer = New System.Windows.Forms.CheckBox
         Me.txtAPIRSServer = New System.Windows.Forms.TextBox
@@ -316,8 +318,6 @@ Partial Public Class frmSettings
         Me.lblLastUpdateTime = New System.Windows.Forms.Label
         Me.lblLastUpdate = New System.Windows.Forms.Label
         Me.btnUpdatePrices = New System.Windows.Forms.Button
-        Me.txtAPIFileExtension = New System.Windows.Forms.TextBox
-        Me.lblAPIFileExtension = New System.Windows.Forms.Label
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotLevel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2142,6 +2142,22 @@ Partial Public Class frmSettings
         Me.gbAPIServer.TabStop = False
         Me.gbAPIServer.Text = "API Server"
         '
+        'txtAPIFileExtension
+        '
+        Me.txtAPIFileExtension.Location = New System.Drawing.Point(152, 101)
+        Me.txtAPIFileExtension.Name = "txtAPIFileExtension"
+        Me.txtAPIFileExtension.Size = New System.Drawing.Size(98, 20)
+        Me.txtAPIFileExtension.TabIndex = 28
+        '
+        'lblAPIFileExtension
+        '
+        Me.lblAPIFileExtension.AutoSize = True
+        Me.lblAPIFileExtension.Location = New System.Drawing.Point(9, 104)
+        Me.lblAPIFileExtension.Name = "lblAPIFileExtension"
+        Me.lblAPIFileExtension.Size = New System.Drawing.Size(93, 13)
+        Me.lblAPIFileExtension.TabIndex = 27
+        Me.lblAPIFileExtension.Text = "API File Extention:"
+        '
         'chkUseCCPBackup
         '
         Me.chkUseCCPBackup.AutoSize = True
@@ -3202,22 +3218,6 @@ Partial Public Class frmSettings
         Me.btnUpdatePrices.TabIndex = 0
         Me.btnUpdatePrices.Text = "Update Market Prices"
         Me.btnUpdatePrices.UseVisualStyleBackColor = True
-        '
-        'txtAPIFileExtension
-        '
-        Me.txtAPIFileExtension.Location = New System.Drawing.Point(152, 101)
-        Me.txtAPIFileExtension.Name = "txtAPIFileExtension"
-        Me.txtAPIFileExtension.Size = New System.Drawing.Size(98, 20)
-        Me.txtAPIFileExtension.TabIndex = 28
-        '
-        'lblAPIFileExtension
-        '
-        Me.lblAPIFileExtension.AutoSize = True
-        Me.lblAPIFileExtension.Location = New System.Drawing.Point(9, 104)
-        Me.lblAPIFileExtension.Name = "lblAPIFileExtension"
-        Me.lblAPIFileExtension.Size = New System.Drawing.Size(93, 13)
-        Me.lblAPIFileExtension.TabIndex = 27
-        Me.lblAPIFileExtension.Text = "API File Extention:"
         '
         'frmSettings
         '

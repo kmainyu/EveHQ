@@ -101,64 +101,70 @@ Public Class frmRequiredSkills
         Dim aSkill As EveHQ.Core.Skills
         Dim pSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(pSkillID), Core.SkillList)
         If pSkill.PS <> "" Then
-            Dim newSkill As New ContainerListViewItem
-            parentSkill.Items.Add(newSkill)
-            newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.PS)
-            Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
-            newSkill.SubItems(1).Text = pSkill.PSL.ToString
-            If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
-                aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
-                newSkill.SubItems(2).Text = aSkill.Level.ToString
-            Else
-                newSkill.SubItems(2).Text = "0"
+            If EveHQ.Core.HQ.SkillListID.Contains(pSkill.PS) Then
+                Dim newSkill As New ContainerListViewItem
+                parentSkill.Items.Add(newSkill)
+                newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.PS)
+                Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
+                newSkill.SubItems(1).Text = pSkill.PSL.ToString
+                If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
+                    aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
+                    newSkill.SubItems(2).Text = aSkill.Level.ToString
+                Else
+                    newSkill.SubItems(2).Text = "0"
+                End If
+                newSkill.SubItems(3).Text = rSkill.Level.ToString
+                If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
+                    newSkill.ForeColor = Drawing.Color.Red
+                Else
+                    newSkill.ForeColor = Drawing.Color.LimeGreen
+                End If
+                Call Me.DisplaySubSkills(newSkill, pSkill.PS)
             End If
-            newSkill.SubItems(3).Text = rSkill.Level.ToString
-            If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
-                newSkill.ForeColor = Drawing.Color.Red
-            Else
-                newSkill.ForeColor = Drawing.Color.LimeGreen
-            End If
-            Call Me.DisplaySubSkills(newSkill, pSkill.PS)
         End If
         If pSkill.SS <> "" Then
-            Dim newSkill As New ContainerListViewItem
-            parentSkill.Items.Add(newSkill)
-            newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.SS)
-            Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
-            newSkill.SubItems(1).Text = pSkill.SSL.ToString
-            If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
-                aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
-                newSkill.SubItems(2).Text = aSkill.Level.ToString
-            Else
-                newSkill.SubItems(2).Text = "0"
+            If EveHQ.Core.HQ.SkillListID.Contains(pSkill.SS) Then
+                Dim newSkill As New ContainerListViewItem
+                parentSkill.Items.Add(newSkill)
+                newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.SS)
+                Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
+                newSkill.SubItems(1).Text = pSkill.SSL.ToString
+                If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
+                    aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
+                    newSkill.SubItems(2).Text = aSkill.Level.ToString
+                Else
+                    newSkill.SubItems(2).Text = "0"
+                End If
+                newSkill.SubItems(3).Text = rSkill.Level.ToString
+                If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
+                    newSkill.ForeColor = Drawing.Color.Red
+                Else
+                    newSkill.ForeColor = Drawing.Color.LimeGreen
+                End If
+                Call Me.DisplaySubSkills(newSkill, pSkill.SS)
             End If
-            newSkill.SubItems(3).Text = rSkill.Level.ToString
-            If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
-                newSkill.ForeColor = Drawing.Color.Red
-            Else
-                newSkill.ForeColor = Drawing.Color.LimeGreen
-            End If
-            Call Me.DisplaySubSkills(newSkill, pSkill.SS)
         End If
         If pSkill.TS <> "" Then
-            Dim newSkill As New ContainerListViewItem
-            parentSkill.Items.Add(newSkill)
-            newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.TS)
-            Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
-            newSkill.SubItems(1).Text = pSkill.TSL.ToString
-            If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
-                aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
-                newSkill.SubItems(2).Text = aSkill.Level.ToString
-            Else
-                newSkill.SubItems(2).Text = "0"
+            If EveHQ.Core.HQ.SkillListID.Contains(pSkill.TS) Then
+                Dim newSkill As New ContainerListViewItem
+                parentSkill.Items.Add(newSkill)
+                newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(pSkill.TS)
+                Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
+                newSkill.SubItems(1).Text = pSkill.TSL.ToString
+                If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
+                    aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
+                    newSkill.SubItems(2).Text = aSkill.Level.ToString
+                Else
+                    newSkill.SubItems(2).Text = "0"
+                End If
+                newSkill.SubItems(3).Text = rSkill.Level.ToString
+                If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
+                    newSkill.ForeColor = Drawing.Color.Red
+                Else
+                    newSkill.ForeColor = Drawing.Color.LimeGreen
+                End If
+                Call Me.DisplaySubSkills(newSkill, pSkill.TS)
             End If
-            newSkill.SubItems(3).Text = rSkill.Level.ToString
-            If CInt(newSkill.SubItems(3).Text) < CInt(newSkill.SubItems(1).Text) Then
-                newSkill.ForeColor = Drawing.Color.Red
-            Else
-                newSkill.ForeColor = Drawing.Color.LimeGreen
-            End If
-            Call Me.DisplaySubSkills(newSkill, pSkill.TS)
         End If
     End Sub
 

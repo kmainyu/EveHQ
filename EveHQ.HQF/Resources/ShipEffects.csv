@@ -1046,14 +1046,16 @@
 28352,1,28374,714,1,28583,0,1,0,-5,15,Industrial Core Fuel Need,,
 28352,0,0,197,2,49,0,0,0,900,15,Survey Scanner Range,,
 28352,0,0,126,2,47,0,0,0,200,15,Cargo Scanner Range,,
+28352,0,0,50,2,815,0,0,0,-99,15,Clone VAT Bay CPU Use,,
+28352,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use,,
 28352,0,0,0,0,0,0,0,0,2,15,Warfare Link Use,,
 # Rupture,,,,,,,,,,,,,
 629,1,3333,51,4,575;578,0,0,0,-5,15,Medium Projectile Turret ROF,,
 629,1,3333,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage,,
 # Sabre,,,,,,,,,,,,,
 22456,1,12097,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage,,
-22456,1,12097,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking,,
-22456,1,12098,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff,,
+22456,1,12097,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking
+22456,1,12098,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff
 22456,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF
 22456,0,0,50,1,22782,0,0,0,-99,15,Sphere Launcher CPU
 # Sacrilege,,,,,,,,,,,

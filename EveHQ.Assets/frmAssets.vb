@@ -331,6 +331,7 @@ Public Class frmAssets
         Call Me.ScanForExistingXMLs()
         Call Portfolio.SetupTypes()
         Call Me.LoadInvestments()
+        cboPilots.SelectedItem = EveHQ.Core.HQ.myPilot.Name
     End Sub
     Private Sub LoadFilterGroups()
         Dim newNode As TreeNode
@@ -1616,6 +1617,7 @@ Public Class frmAssets
             End If
         Next
         lblOwnerFilters.Text = "Owner Filter: " & cboPilots.SelectedItem.ToString
+        Call Me.RefreshAssets()
     End Sub
     Private Sub FilterSystemValue()
         Dim minValue As Double = CDbl(txtMinSystemValue.Text)
@@ -1700,6 +1702,9 @@ Public Class frmAssets
         pLoc.SubItems(7).Text = FormatNumber(contValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         Return contValue
     End Function
+    Private Sub lblOwnerFilters_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblOwnerFilters.TextChanged
+        lblRigOwnerFilter.Text = lblOwnerFilters.Text
+    End Sub
 #End Region
 
 #Region "Reports"
@@ -2568,6 +2573,177 @@ Public Class frmAssets
         newPrice.Text = "Modify Price - " & mnuItemName.Text
         newPrice.ShowDialog()
     End Sub
+    Private Sub mnuViewInHQF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewInHQF.Click
+        If tlvAssets.SelectedItems.Count > 0 Then
+            Dim assetID As String = tlvAssets.SelectedItems(0).Tag.ToString
+            Dim shipName As String = tlvAssets.SelectedItems(0).Text
+            Dim owner As String = tlvAssets.SelectedItems(0).SubItems(1).Text
+            HQFShip = New ArrayList
+            Call Me.SearchForShip(assetID, owner)
+            ' Should have got the ship by now
+            HQFShip.Sort()
+            Dim FittedMods As New SortedList
+            Dim ChargedMod(1) As String
+            For Each fittedMod As String In HQFShip
+                Dim modData() As String = fittedMod.Split(",".ToCharArray)
+                If FittedMods.Contains(modData(0)) = False Then
+                    ReDim ChargedMod(1)
+                    If modData(3) = "8" Then ' Is Charge
+                        ChargedMod(1) = modData(1)
+                    Else
+                        ChargedMod(0) = modData(1)
+                    End If
+                    FittedMods.Add(modData(0), ChargedMod)
+                Else
+
+                    ChargedMod = CType(FittedMods(modData(0)), String())
+                    If modData(3) = "8" Then ' Is Charge
+                        ChargedMod(1) = modData(1)
+                    Else
+                        ChargedMod(0) = modData(1)
+                    End If
+                    FittedMods(modData(0)) = ChargedMod
+                End If
+            Next
+            Dim list As New StringBuilder
+            list.AppendLine("[" & shipName & "," & owner & "'s " & shipName & "]")
+            For Each fittedMod As String In HQFShip
+                Dim modData() As String = fittedMod.Split(",".ToCharArray)
+                Select Case modData(0)
+                    Case "Drone Bay"
+                        list.AppendLine(modData(1) & ", " & modData(2) & "i")
+                    Case "Cargo Bay"
+                        list.AppendLine(modData(1) & ", " & modData(2))
+                    Case Else
+                        If FittedMods.Contains(modData(0)) = True Then
+                            ChargedMod = CType(FittedMods(modData(0)), String())
+                            If ChargedMod(1) = "" Then
+                                list.AppendLine(ChargedMod(0))
+                            Else
+                                list.AppendLine(ChargedMod(0) & ", " & ChargedMod(1))
+                            End If
+                            FittedMods.Remove(modData(0))
+                        End If
+                End Select
+            Next
+            MessageBox.Show(list.ToString)
+            Clipboard.SetText(list.ToString)
+        End If
+    End Sub
+    Private Sub SearchForShip(ByVal assetID As String, ByVal owner As String)
+
+        Dim assetOwner As String = ""
+        For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
+            ' Check in the cache folder for a valid file
+            Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(owner), Core.Pilot)
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+                Dim fileName As String = ""
+                If cPilot.Text = selPilot.Corp Then
+                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_15_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
+                    assetOwner = selPilot.Corp
+                Else
+                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_14_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
+                    assetOwner = selPilot.Name
+                End If
+                If My.Computer.FileSystem.FileExists(fileName) = False Then
+                    MessageBox.Show("Unable to load assets file for " & assetOwner & ".", "Error Loading Assets", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+                End If
+                ' File found so lets see what we have!
+                Dim assetXML As New XmlDocument
+                assetXML.Load(fileName)
+                Dim locList As XmlNodeList
+                Dim loc As XmlNode
+                locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
+                If locList.Count > 0 Then
+                    For Each loc In locList
+                        ' Let's search for our asset!
+                        If loc.Attributes.GetNamedItem("itemID").Value = assetID Then
+                            ' We found our ship so extract the subitem data
+                            Dim groupID As String = ""
+                            Dim catID As String = ""
+                            Dim modList As XmlNodeList
+                            Dim mods As XmlNode
+                            modList = loc.ChildNodes(0).ChildNodes
+                            For Each mods In modList
+                                Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
+                                Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
+                                groupID = EveHQ.Core.HQ.typeGroups(itemID).ToString
+                                catID = EveHQ.Core.HQ.groupCats(groupID).ToString
+                                Dim itemName As String = ""
+                                If itemIDX <> -1 Then
+                                    itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
+                                Else
+                                    ' Can't find the item in the database
+                                    itemName = "ItemID: " & itemID.ToString
+                                End If
+                                Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
+                                Dim flagName As String = itemFlags(flagID).ToString
+                                Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
+                                HQFShip.Add(flagName & "," & itemName & "," & quantity & "," & catID)
+                            Next
+                            Exit Sub
+                        Else
+                            ' Check if this row has child nodes and repeat
+                            If loc.HasChildNodes = True Then
+                                Call Me.SearchForShipNode(loc, assetID)
+                                If HQFShip.Count > 0 Then Exit Sub
+                            End If
+                        End If
+                    Next
+                End If
+            End If
+        Next
+    End Sub
+    Private Sub SearchForShipNode(ByVal loc As XmlNode, ByVal assetID As String)
+        Dim subLocList As XmlNodeList
+        Dim subLoc As XmlNode
+        subLocList = loc.ChildNodes(0).ChildNodes
+        For Each subLoc In subLocList
+            ' Let's search for our asset!
+            Try
+                If subLoc.Attributes.GetNamedItem("itemID").Value = assetID Then
+                    ' We found our ship so extract the subitem data
+                    Dim groupID As String = ""
+                    Dim catID As String = ""
+                    Dim modList As XmlNodeList
+                    Dim mods As XmlNode
+                    modList = subLoc.ChildNodes(0).ChildNodes
+                    For Each mods In modList
+                        Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
+                        Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
+                        groupID = EveHQ.Core.HQ.typeGroups(itemID).ToString
+                        catID = EveHQ.Core.HQ.groupCats(groupID).ToString
+                        Dim itemName As String = ""
+                        If itemIDX <> -1 Then
+                            itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
+                        Else
+                            ' Can't find the item in the database
+                            itemName = "ItemID: " & itemID.ToString
+                        End If
+                        Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
+                        Dim flagName As String = itemFlags(flagID).ToString
+                        Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
+                        HQFShip.Add(flagName & "," & itemName & "," & quantity & "," & catid)
+                    Next
+                    Exit Sub
+                Else
+                    ' Check if this row has child nodes and repeat
+                    If subLoc.HasChildNodes = True Then
+                        Call Me.SearchForShipNode(subLoc, assetID)
+                    End If
+                End If
+            Catch ex As Exception
+                Dim msg As String = "Unable to parse Asset:" & ControlChars.CrLf
+                msg &= "InnerXML: " & subLoc.InnerXml & ControlChars.CrLf
+                msg &= "InnerText: " & subLoc.InnerText & ControlChars.CrLf
+                msg &= "TypeID: " & subLoc.Attributes.GetNamedItem("typeID").Value
+                MessageBox.Show(msg, "Error Getting Ship Information!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End Try
+        Next
+    End Sub
 #End Region
 
 #Region "Toolbar Menu Routines"
@@ -2580,6 +2756,9 @@ Public Class frmAssets
         Call Me.GetOutposts()
     End Sub
     Private Sub tsbRefreshAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbRefreshAssets.Click
+        Call Me.RefreshAssets()
+    End Sub
+    Private Sub RefreshAssets()
         If lvwCharFilter.CheckedItems.Count > 0 Then
             ' Set search variables
             If txtSearch.Text <> "" Then
@@ -2744,6 +2923,17 @@ Public Class frmAssets
         ' Tidy up report variables
         GC.Collect()
     End Sub
+    Private Sub txtSearch_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtSearch.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Call Me.RefreshAssets()
+        End If
+    End Sub
+    Private Sub txtMinSystemValue_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtMinSystemValue.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Call Me.RefreshAssets()
+        End If
+    End Sub
+   
 #End Region
 
 #Region "Rig Builder Routines"
@@ -2946,140 +3136,10 @@ Public Class frmAssets
     End Sub
 #End Region
 
-    Private Sub lblOwnerFilters_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblOwnerFilters.TextChanged
-        lblRigOwnerFilter.Text = lblOwnerFilters.Text
-    End Sub
+  
 
-    Private Sub mnuViewInHQF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewInHQF.Click
-        If tlvAssets.SelectedItems.Count > 0 Then
-            Dim assetID As String = tlvAssets.SelectedItems(0).Tag.ToString
-            Dim shipName As String = tlvAssets.SelectedItems(0).Text
-            Dim owner As String = tlvAssets.SelectedItems(0).SubItems(1).Text
-            HQFShip = New ArrayList
-            Call Me.SearchForShip(assetID, owner)
-            ' Should have got the ship by now
-            HQFShip.Sort()
-            Dim list As New StringBuilder
-            list.AppendLine("[" & shipName & "," & owner & "'s " & shipName & "]")
-            For Each fittedMod As String In HQFShip
-                Dim modData() As String = fittedMod.Split(",".ToCharArray)
-                Select Case modData(0)
-                    Case "Drone Bay"
-                        list.AppendLine(modData(1) & ", " & modData(2) & "i")
-                    Case "Cargo Bay"
-                        list.AppendLine(modData(1) & ", " & modData(2))
-                    Case Else
-                        list.AppendLine(modData(1))
-                End Select
-            Next
-            Clipboard.SetText(list.ToString)
-        End If
-    End Sub
-    Private Sub SearchForShip(ByVal assetID As String, ByVal owner As String)
+   
 
-        Dim assetOwner As String = ""
-        For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
-            ' Check in the cache folder for a valid file
-            Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(owner), Core.Pilot)
-            Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
-                Dim fileName As String = ""
-                If cPilot.Text = selPilot.Corp Then
-                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_15_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
-                    assetOwner = selPilot.Corp
-                Else
-                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_14_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
-                    assetOwner = selPilot.Name
-                End If
-                If My.Computer.FileSystem.FileExists(fileName) = False Then
-                    MessageBox.Show("Unable to load assets file for " & assetOwner & ".", "Error Loading Assets", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End If
-                ' File found so lets see what we have!
-                Dim assetXML As New XmlDocument
-                assetXML.Load(fileName)
-                Dim locList As XmlNodeList
-                Dim loc As XmlNode
-                locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                If locList.Count > 0 Then
-                    For Each loc In locList
-                        ' Let's search for our asset!
-                        If loc.Attributes.GetNamedItem("itemID").Value = assetID Then
-                            ' We found our ship so extract the subitem data
-                            Dim modList As XmlNodeList
-                            Dim mods As XmlNode
-                            modList = loc.ChildNodes(0).ChildNodes
-                            For Each mods In modList
-                                Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
-                                Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
-                                Dim itemName As String = ""
-                                If itemIDX <> -1 Then
-                                    itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
-                                Else
-                                    ' Can't find the item in the database
-                                    itemName = "ItemID: " & itemID.ToString
-                                End If
-                                Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
-                                Dim flagName As String = itemFlags(flagID).ToString
-                                Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
-                                HQFShip.Add(flagName & "," & itemName & "," & quantity)
-                            Next
-                            Exit Sub
-                        Else
-                            ' Check if this row has child nodes and repeat
-                            If loc.HasChildNodes = True Then
-                                Call Me.SearchForShipNode(loc, assetID)
-                                If HQFShip.Count > 0 Then Exit Sub
-                            End If
-                        End If
-                    Next
-                End If
-            End If
-        Next
-    End Sub
-    Private Sub SearchForShipNode(ByVal loc As XmlNode, ByVal assetID As String)
-        Dim subLocList As XmlNodeList
-        Dim subLoc As XmlNode
-        subLocList = loc.ChildNodes(0).ChildNodes
-        For Each subLoc In subLocList
-            ' Let's search for our asset!
-            Try
-                If subLoc.Attributes.GetNamedItem("itemID").Value = assetID Then
-                    ' We found our ship so extract the subitem data
-                    Dim modList As XmlNodeList
-                    Dim mods As XmlNode
-                    modList = subLoc.ChildNodes(0).ChildNodes
-                    For Each mods In modList
-                        Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
-                        Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
-                        Dim itemName As String = ""
-                        If itemIDX <> -1 Then
-                            itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
-                        Else
-                            ' Can't find the item in the database
-                            itemName = "ItemID: " & itemID.ToString
-                        End If
-                        Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
-                        Dim flagName As String = itemFlags(flagID).ToString
-                        Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
-                        HQFShip.Add(flagName & "," & itemName & "," & quantity)
-                    Next
-                    Exit Sub
-                Else
-                    ' Check if this row has child nodes and repeat
-                    If subLoc.HasChildNodes = True Then
-                        Call Me.SearchForShipNode(subLoc, assetID)
-                    End If
-                End If
-            Catch ex As Exception
-                Dim msg As String = "Unable to parse Asset:" & ControlChars.CrLf
-                msg &= "InnerXML: " & subLoc.InnerXml & ControlChars.CrLf
-                msg &= "InnerText: " & subLoc.InnerText & ControlChars.CrLf
-                msg &= "TypeID: " & subLoc.Attributes.GetNamedItem("typeID").Value
-                MessageBox.Show(msg, "Error Getting Ship Information!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            End Try
-        Next
-    End Sub
+   
 End Class
 
