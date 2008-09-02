@@ -1250,6 +1250,9 @@ Public Class frmHQF
         Call Settings.HQFSettings.SaveHQFSettings()
         ' Destroy the tab settings
         Me.tabHQF.Dispose()
+        ' Destory the panels?
+        Me.SplitContainer1.Dispose()
+        Me.SplitContainer2.Dispose()
     End Sub
     Private Sub frmHQF_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
@@ -1261,10 +1264,14 @@ Public Class frmHQF
             Me.WindowState = FormWindowState.Maximized
         End If
 
-        ' Clear tabs and fitted ship lists
+        ' Clear tabs and fitted ship lists, results list
         ShipLists.fittedShipList.Clear()
         Fittings.FittingTabList.Clear()
+        LastModuleResults.Clear()
         tabHQF.TabPages.Clear()
+        If tvwItems.Tag IsNot Nothing Then
+            MessageBox.Show(tvwItems.Tag.ToString)
+        End If
         Me.Show()
         Me.Refresh()
 
@@ -1835,11 +1842,15 @@ Public Class frmHQF
                         'newModule.ImageKey = "rigSlot"
                 End Select
                 Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                chkFilter.ForeColor = Color.Black
+                If chkFilter IsNot Nothing Then
+                    chkFilter.ForeColor = Color.Black
+                End If
                 lvwItems.Items.Add(newModule)
             Else
                 Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                chkFilter.ForeColor = Color.LimeGreen
+                If chkFilter IsNot Nothing Then
+                    chkFilter.ForeColor = Color.LimeGreen
+                End If
             End If
         Next
         If lvwItems.Items.Count = 0 Then

@@ -59,6 +59,7 @@ Partial Public Class frmHQFSettings
         Me.lblShieldRecharge = New System.Windows.Forms.Label
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
+        Me.btnCheckModuleMetaData = New System.Windows.Forms.Button
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -320,6 +321,7 @@ Partial Public Class frmHQFSettings
         '
         'gbCache
         '
+        Me.gbCache.Controls.Add(Me.btnCheckModuleMetaData)
         Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
         Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
@@ -417,6 +419,15 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.TabIndex = 0
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         '
+        'btnCheckModuleMetaData
+        '
+        Me.btnCheckModuleMetaData.Location = New System.Drawing.Point(36, 202)
+        Me.btnCheckModuleMetaData.Name = "btnCheckModuleMetaData"
+        Me.btnCheckModuleMetaData.Size = New System.Drawing.Size(102, 46)
+        Me.btnCheckModuleMetaData.TabIndex = 4
+        Me.btnCheckModuleMetaData.Text = "Check Module Meta Data"
+        Me.btnCheckModuleMetaData.UseVisualStyleBackColor = True
+        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -488,4 +499,5 @@ Partial Public Class frmHQFSettings
     Friend WithEvents btnMoveUp As System.Windows.Forms.Button
     Friend WithEvents btnCheckData As System.Windows.Forms.Button
     Friend WithEvents btnDeleteAllFittings As System.Windows.Forms.Button
+    Friend WithEvents btnCheckModuleMetaData As System.Windows.Forms.Button
 End Class

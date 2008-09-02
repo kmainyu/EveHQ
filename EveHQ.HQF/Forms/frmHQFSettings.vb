@@ -412,5 +412,14 @@ Public Class frmHQFSettings
 
     End Sub
 
-   
+    Private Sub btnCheckModuleMetaData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCheckModuleMetaData.Click
+        For Each chkModule As ShipModule In ModuleLists.moduleList.Values
+            Select Case chkModule.MetaType
+                Case 1, 2, 4, 8, 16, 32
+                Case Else
+                    MessageBox.Show(chkModule.Name & " has an invalid meta type: " & chkModule.MetaType, "Error Found", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Select
+        Next
+        MessageBox.Show("Module Meta Check Completed.", "Module Check Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
 End Class

@@ -460,11 +460,23 @@ Public Class ShipSlotControl
                     If sMod IsNot Nothing Then
                         ' Check if module is a drone
                         If sMod.IsDrone = True Then
+                            Dim count As Integer = 0
                             Dim active As Boolean = False
-                            If modData(1).EndsWith("a") = True Then
-                                active = True
+                            If modData.GetUpperBound(0) > 0 Then
+                                If modData(1).EndsWith("a") = True Then
+                                    active = True
+                                    count = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
+                                Else
+                                    If modData(1).EndsWith("i") = True Then
+                                        count = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
+                                    Else
+                                        count = CInt(modData(1))
+                                    End If
+                                End If
+                            Else
+                                count = 1
                             End If
-                            Call Me.AddDrone(sMod, CInt(modData(1).Substring(0, Len(modData(1)) - 1)), active)
+                            Call Me.AddDrone(sMod, count, active)
                         Else
                             ' Check if module is a charge
                             If sMod.IsCharge = True Then
