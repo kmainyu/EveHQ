@@ -31,6 +31,8 @@ Public Class Pilot
     Public Corp As String = ""
     Public CorpID As String = ""
     Public Isk As Double = 0
+    Public CloneName As String = ""
+    Public CloneSP As String = ""
     Public SkillPoints As Integer = 0
     Public Training As Boolean = False
     Public TrainingStartTime As Date = Now

@@ -824,8 +824,10 @@ Public Class PilotParseFunctions
             .Gender = toon.ChildNodes.Item(4).InnerText
             .Corp = toon.ChildNodes.Item(5).InnerText
             .CorpID = toon.ChildNodes.Item(6).InnerText
+            .CloneName = toon.ChildNodes.Item(7).InnerText
+            .CloneSP = toon.ChildNodes.Item(8).InnerText
             Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-            Dim isk As Double = Double.Parse(toon.ChildNodes.Item(7).InnerText, Globalization.NumberStyles.Number, culture)
+            Dim isk As Double = Double.Parse(toon.ChildNodes.Item(9).InnerText, Globalization.NumberStyles.Number, culture)
             .Isk = isk
             ' Put cache info here??
         End With
@@ -941,75 +943,74 @@ Public Class PilotParseFunctions
         ' Start new nodelist
         CharDetails = cPilot.PilotData.SelectNodes("/eveapi/result/rowset")
         sp = 0
-        For Each toon In CharDetails
-            ' Get list of skills within the groups!
-            For a As Integer = 0 To toon.ChildNodes.Count - 1
-                Dim newSkill As New EveHQ.Core.Skills
-                ' Check if the skill exists in the database we have
+        toon = CharDetails(0)
+        ' Get list of skills within the groups!
+        For a As Integer = 0 To toon.ChildNodes.Count - 1
+            Dim newSkill As New EveHQ.Core.Skills
+            ' Check if the skill exists in the database we have
 
-                newSkill.ID = toon.ChildNodes.Item(a).Attributes.GetNamedItem("typeID").Value
-                newSkill.SP = CInt(toon.ChildNodes.Item(a).Attributes.GetNamedItem("skillpoints").Value)
-                If toon.ChildNodes.Item(a).Attributes.GetNamedItem("level") IsNot Nothing Then
-                    newSkill.Level = CInt(toon.ChildNodes.Item(a).Attributes.GetNamedItem("level").Value)
-                Else
-                    newSkill.Level = EveHQ.Core.SkillFunctions.CalcLevelFromSP(newSkill.ID, newSkill.SP)
-                End If
+            newSkill.ID = toon.ChildNodes.Item(a).Attributes.GetNamedItem("typeID").Value
+            newSkill.SP = CInt(toon.ChildNodes.Item(a).Attributes.GetNamedItem("skillpoints").Value)
+            If toon.ChildNodes.Item(a).Attributes.GetNamedItem("level") IsNot Nothing Then
+                newSkill.Level = CInt(toon.ChildNodes.Item(a).Attributes.GetNamedItem("level").Value)
+            Else
+                newSkill.Level = EveHQ.Core.SkillFunctions.CalcLevelFromSP(newSkill.ID, newSkill.SP)
+            End If
 
-                sp = sp + newSkill.SP
+            sp = sp + newSkill.SP
 
-                ' Load API Data if we are a skill missing!
-                If EveHQ.Core.HQ.SkillListID.Contains(newSkill.ID) = False Then
-                    Call EveHQ.Core.SkillFunctions.LoadEveSkillDataFromAPI()
-                End If
+            ' Load API Data if we are a skill missing!
+            If EveHQ.Core.HQ.SkillListID.Contains(newSkill.ID) = False Then
+                Call EveHQ.Core.SkillFunctions.LoadEveSkillDataFromAPI()
+            End If
 
-                If EveHQ.Core.HQ.SkillListID.Contains(newSkill.ID) = True Then
-                    Dim thisSkill As SkillList = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), SkillList)
-                    newSkill.Name = thisSkill.Name
-                    newSkill.GroupID = thisSkill.GroupID
-                    newSkill.Flag = 0
-                    newSkill.Rank = thisSkill.Rank
-                    newSkill.LevelUp(0) = 0
-                    newSkill.LevelUp(1) = thisSkill.LevelUp(1)
-                    newSkill.LevelUp(2) = thisSkill.LevelUp(2)
-                    newSkill.LevelUp(3) = thisSkill.LevelUp(3)
-                    newSkill.LevelUp(4) = thisSkill.LevelUp(4)
-                    newSkill.LevelUp(5) = thisSkill.LevelUp(5)
-                    cPilot.PilotSkills.Add(newSkill, newSkill.Name)
-                    ' Check if a pilot skill is missing from the global skill list
-                Else
-                    Dim missingSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-                    missingSkill.ID = newSkill.ID
-                    missingSkill.Name = "Skill " & newSkill.ID
-                    newSkill.Name = "Skill " & newSkill.ID         ' temp line to avoid error
-                    missingSkill.GroupID = "267" : newSkill.GroupID = "267"
-                    missingSkill.Rank = 20 : newSkill.Rank = 20
-                    missingSkill.Level = newSkill.Level
-                    missingSkill.PA = "Intelligence" : missingSkill.SA = "Memory"
-                    newSkill.LevelUp(1) = 5000
-                    newSkill.LevelUp(2) = 28284
-                    newSkill.LevelUp(3) = 160000
-                    newSkill.LevelUp(4) = 905097
-                    newSkill.LevelUp(5) = 5120000
-                    missingSkill.LevelUp(0) = newSkill.LevelUp(0)
-                    missingSkill.LevelUp(1) = newSkill.LevelUp(1)
-                    missingSkill.LevelUp(2) = newSkill.LevelUp(2)
-                    missingSkill.LevelUp(3) = newSkill.LevelUp(3)
-                    missingSkill.LevelUp(4) = newSkill.LevelUp(4)
-                    missingSkill.LevelUp(5) = newSkill.LevelUp(5)
-                    EveHQ.Core.HQ.SkillListName.Add(missingSkill, missingSkill.Name)
-                    EveHQ.Core.HQ.SkillListID.Add(missingSkill, missingSkill.ID)
-                    missingSkills &= newSkill.Name & ControlChars.CrLf
-                    cPilot.PilotSkills.Add(newSkill, newSkill.Name)
-                End If
-                ' Check if the skillID is present but the skillname is different (CCP changing bloody skill names!!!)
-                If EveHQ.Core.HQ.SkillListID.Contains(newSkill.ID) = True And EveHQ.Core.HQ.SkillListName.Contains(newSkill.Name) = False Then
-                    Dim changeSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), SkillList)
-                    Dim oldName As String = changeSkill.Name
-                    changeSkill.Name = newSkill.Name
-                    EveHQ.Core.HQ.SkillListID.Remove(newSkill.ID) : EveHQ.Core.HQ.SkillListID.Add(changeSkill, changeSkill.ID)
-                    EveHQ.Core.HQ.SkillListName.Remove(oldName) : EveHQ.Core.HQ.SkillListName.Add(changeSkill, changeSkill.Name)
-                End If
-            Next
+            If EveHQ.Core.HQ.SkillListID.Contains(newSkill.ID) = True Then
+                Dim thisSkill As SkillList = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), SkillList)
+                newSkill.Name = thisSkill.Name
+                newSkill.GroupID = thisSkill.GroupID
+                newSkill.Flag = 0
+                newSkill.Rank = thisSkill.Rank
+                newSkill.LevelUp(0) = 0
+                newSkill.LevelUp(1) = thisSkill.LevelUp(1)
+                newSkill.LevelUp(2) = thisSkill.LevelUp(2)
+                newSkill.LevelUp(3) = thisSkill.LevelUp(3)
+                newSkill.LevelUp(4) = thisSkill.LevelUp(4)
+                newSkill.LevelUp(5) = thisSkill.LevelUp(5)
+                cPilot.PilotSkills.Add(newSkill, newSkill.Name)
+                ' Check if a pilot skill is missing from the global skill list
+            Else
+                Dim missingSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
+                missingSkill.ID = newSkill.ID
+                missingSkill.Name = "Skill " & newSkill.ID
+                newSkill.Name = "Skill " & newSkill.ID         ' temp line to avoid error
+                missingSkill.GroupID = "267" : newSkill.GroupID = "267"
+                missingSkill.Rank = 20 : newSkill.Rank = 20
+                missingSkill.Level = newSkill.Level
+                missingSkill.PA = "Intelligence" : missingSkill.SA = "Memory"
+                newSkill.LevelUp(1) = 5000
+                newSkill.LevelUp(2) = 28284
+                newSkill.LevelUp(3) = 160000
+                newSkill.LevelUp(4) = 905097
+                newSkill.LevelUp(5) = 5120000
+                missingSkill.LevelUp(0) = newSkill.LevelUp(0)
+                missingSkill.LevelUp(1) = newSkill.LevelUp(1)
+                missingSkill.LevelUp(2) = newSkill.LevelUp(2)
+                missingSkill.LevelUp(3) = newSkill.LevelUp(3)
+                missingSkill.LevelUp(4) = newSkill.LevelUp(4)
+                missingSkill.LevelUp(5) = newSkill.LevelUp(5)
+                EveHQ.Core.HQ.SkillListName.Add(missingSkill, missingSkill.Name)
+                EveHQ.Core.HQ.SkillListID.Add(missingSkill, missingSkill.ID)
+                missingSkills &= newSkill.Name & ControlChars.CrLf
+                cPilot.PilotSkills.Add(newSkill, newSkill.Name)
+            End If
+            ' Check if the skillID is present but the skillname is different (CCP changing bloody skill names!!!)
+            If EveHQ.Core.HQ.SkillListID.Contains(newSkill.ID) = True And EveHQ.Core.HQ.SkillListName.Contains(newSkill.Name) = False Then
+                Dim changeSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), SkillList)
+                Dim oldName As String = changeSkill.Name
+                changeSkill.Name = newSkill.Name
+                EveHQ.Core.HQ.SkillListID.Remove(newSkill.ID) : EveHQ.Core.HQ.SkillListID.Add(changeSkill, changeSkill.ID)
+                EveHQ.Core.HQ.SkillListName.Remove(oldName) : EveHQ.Core.HQ.SkillListName.Add(changeSkill, changeSkill.Name)
+            End If
         Next
         ' If missing skills were identified then report that fact!
         If missingSkills <> "" Then
