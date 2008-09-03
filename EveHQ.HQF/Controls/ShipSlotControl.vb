@@ -574,7 +574,13 @@ Public Class ShipSlotControl
         Dim grouped As Boolean = False
         ' See if there is sufficient space
         Dim vol As Double = Drone.Volume
-        If currentShip.DroneBay - currentShip.DroneBay_Used >= vol Then
+        Dim myShip As New Ship
+        If fittedShip IsNot Nothing Then
+            myShip = fittedShip
+        Else
+            myShip = currentShip
+        End If
+        If myShip.DroneBay - myShip.DroneBay_Used >= vol Then
             ' Scan through existing items and see if we can group this new one
             For Each droneGroup As DroneBayItem In currentShip.DroneBayItems.Values
                 If Drone.Name = droneGroup.DroneType.Name And Active = droneGroup.IsActive Then
@@ -612,7 +618,13 @@ Public Class ShipSlotControl
             Dim grouped As Boolean = False
             ' See if there is sufficient space
             Dim vol As Double = Item.Volume
-            If currentShip.CargoBay - currentShip.CargoBay_Used >= vol Then
+            Dim myShip As New Ship
+            If fittedShip IsNot Nothing Then
+                myShip = fittedShip
+            Else
+                myShip = currentShip
+            End If
+            If myShip.CargoBay - myShip.CargoBay_Used >= vol Then
                 ' Scan through existing items and see if we can group this new one
                 For Each itemGroup As CargoBayItem In currentShip.CargoBayItems.Values
                     If Item.Name = itemGroup.ItemType.Name Then
@@ -1169,9 +1181,9 @@ Public Class ShipSlotControl
             lvwCargoBay.Items.Add(newCargoItem)
         Next
         lvwCargoBay.EndUpdate()
-        lblCargoBay.Text = FormatNumber(currentShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(currentShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
-        pbCargoBay.Maximum = CInt(currentShip.CargoBay)
-        pbCargoBay.Value = CInt(currentShip.CargoBay_Used)
+        lblCargoBay.Text = FormatNumber(fittedShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        pbCargoBay.Maximum = CInt(fittedShip.CargoBay)
+        pbCargoBay.Value = CInt(fittedShip.CargoBay_Used)
     End Sub
 
     Private Sub RedrawDroneBay()
@@ -1196,13 +1208,9 @@ Public Class ShipSlotControl
             lvwDroneBay.Items.Add(newDroneItem)
         Next
         lvwDroneBay.EndUpdate()
-        lblDroneBay.Text = FormatNumber(currentShip.DroneBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(currentShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
-        pbDroneBay.Maximum = CInt(currentShip.DroneBay)
-        pbDroneBay.Value = CInt(currentShip.DroneBay_Used)
-    End Sub
-
-    Private Sub lvwDroneBay_ItemCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles lvwDroneBay.ItemCheck
-
+        lblDroneBay.Text = FormatNumber(fittedShip.DroneBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        pbDroneBay.Maximum = CInt(fittedShip.DroneBay)
+        pbDroneBay.Value = CInt(fittedShip.DroneBay_Used)
     End Sub
 
     Private Sub lvwDroneBay_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwDroneBay.ItemChecked

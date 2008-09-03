@@ -221,6 +221,9 @@ Public Class ShipInfoControl
         ' Propulsion
         lblSpeed.Text = FormatNumber(fittedShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
         lblWarpSpeed.Text = FormatNumber(fittedShip.WarpSpeed, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " au/s"
+        ttt = "Warp Capacitor Need: " & fittedShip.WarpCapNeed & ControlChars.CrLf
+        ttt &= "Max Warp Distance: " & FormatNumber(fittedShip.CapCapacity / (fittedShip.WarpCapNeed * fittedShip.Mass), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " au"
+        ToolTip1.SetToolTip(lblWarpSpeed, ttt)
         lblInertia.Text = FormatNumber(fittedShip.Inertia, 6, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         ' Time to warp based on calculation from http://myeve.eve-online.com/ingameboard.asp?a=topic&threadID=502836
         ' Time to warp (in seconds) = Inertial Modifier * (Mass / 1.000.000) * 1.61

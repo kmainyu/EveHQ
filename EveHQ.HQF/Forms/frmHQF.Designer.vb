@@ -1500,7 +1500,7 @@ Partial Class frmHQF
         Me.tabFit.Controls.Add(Me.panelShipInfo)
         Me.tabFit.Location = New System.Drawing.Point(4, 22)
         Me.tabFit.Name = "tabFit"
-        Me.tabFit.Size = New System.Drawing.Size(464, 642)
+        Me.tabFit.Size = New System.Drawing.Size(464, 666)
         Me.tabFit.TabIndex = 2
         Me.tabFit.Text = "Fitting"
         Me.tabFit.UseVisualStyleBackColor = True
@@ -1510,7 +1510,7 @@ Partial Class frmHQF
         Me.panelShipSlot.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelShipSlot.Location = New System.Drawing.Point(0, 0)
         Me.panelShipSlot.Name = "panelShipSlot"
-        Me.panelShipSlot.Size = New System.Drawing.Size(214, 642)
+        Me.panelShipSlot.Size = New System.Drawing.Size(214, 666)
         Me.panelShipSlot.TabIndex = 1
         '
         'panelShipInfo
@@ -1518,7 +1518,7 @@ Partial Class frmHQF
         Me.panelShipInfo.Dock = System.Windows.Forms.DockStyle.Right
         Me.panelShipInfo.Location = New System.Drawing.Point(214, 0)
         Me.panelShipInfo.Name = "panelShipInfo"
-        Me.panelShipInfo.Size = New System.Drawing.Size(250, 642)
+        Me.panelShipInfo.Size = New System.Drawing.Size(250, 666)
         Me.panelShipInfo.TabIndex = 0
         '
         'tmrClipboard
