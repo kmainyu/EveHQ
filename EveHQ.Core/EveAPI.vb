@@ -52,6 +52,10 @@ Public Class EveAPI
                 remoteURL = "/eve/ConquerableStationList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.ErrorList
                 remoteURL = "/eve/ErrorList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.FWTop100
+                remoteURL = "/eve/FacWarTopStats.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.FWMap
+                remoteURL = "/map/FacWarSystems.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -131,6 +135,24 @@ Public Class EveAPI
                 remoteURL = "/corp/MarketOrders.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.POSList
                 remoteURL = "/corp/StarbaseList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.StandingsChar
+                remoteURL = "/char/Standings.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.StandingsCorp
+                remoteURL = "/corp/Standings.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.CorpContainerLog
+                remoteURL = "/corp/ContainerLog.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.CorpMemberSecurity
+                remoteURL = "/corp/MemberSecurity.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.CorpMemberSecurityLog
+                remoteURL = "/corp/MemberSecurityLog.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.CorpShareholders
+                remoteURL = "/corp/Shareholders.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.CorpTitles
+                remoteURL = "/corp/CorporationTitles.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.FWStatsChar
+                remoteURL = "/char/FacWarStats.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.FWStatsCorp
+                remoteURL = "/corp/FacWarStats.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -403,6 +425,18 @@ Public Class EveAPI
         IDToName = 28
         POSList = 29
         POSDetails = 30
+        StandingsChar = 31
+        StandingsCorp = 32
+        StandingsAlliance = 33
+        CorpContainerLog = 34
+        CorpTitles = 35
+        CorpMemberSecurity = 36
+        CorpMemberSecurityLog = 37
+        CorpShareholders = 38
+        FWStatsChar = 39
+        FWStatsCorp = 40
+        FWTop100 = 41
+        FWMap = 42
     End Enum
 
     Public Enum APIResults As Integer
