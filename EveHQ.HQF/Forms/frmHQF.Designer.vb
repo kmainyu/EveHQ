@@ -47,6 +47,9 @@ Partial Class frmHQF
         Me.mnuFittingsCreateFitting = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuPreviewShip2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.btnResetShips = New System.Windows.Forms.Button
+        Me.lblSearchShip = New System.Windows.Forms.Label
+        Me.txtShipSearch = New System.Windows.Forms.TextBox
         Me.tvwShips = New System.Windows.Forms.TreeView
         Me.ctxShipBrowser = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuShipBrowserShipName = New System.Windows.Forms.ToolStripMenuItem
@@ -322,6 +325,9 @@ Partial Class frmHQF
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnResetShips)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.lblSearchShip)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.txtShipSearch)
         Me.SplitContainer1.Panel2.Controls.Add(Me.tvwShips)
         Me.SplitContainer1.Size = New System.Drawing.Size(200, 696)
         Me.SplitContainer1.SplitterDistance = 316
@@ -406,14 +412,41 @@ Partial Class frmHQF
         Me.mnuPreviewShip2.Size = New System.Drawing.Size(179, 22)
         Me.mnuPreviewShip2.Text = "Preview Ship Details"
         '
+        'btnResetShips
+        '
+        Me.btnResetShips.Location = New System.Drawing.Point(152, 0)
+        Me.btnResetShips.Name = "btnResetShips"
+        Me.btnResetShips.Size = New System.Drawing.Size(44, 23)
+        Me.btnResetShips.TabIndex = 3
+        Me.btnResetShips.Text = "Reset"
+        Me.btnResetShips.UseVisualStyleBackColor = True
+        '
+        'lblSearchShip
+        '
+        Me.lblSearchShip.AutoSize = True
+        Me.lblSearchShip.Location = New System.Drawing.Point(3, 6)
+        Me.lblSearchShip.Name = "lblSearchShip"
+        Me.lblSearchShip.Size = New System.Drawing.Size(44, 13)
+        Me.lblSearchShip.TabIndex = 2
+        Me.lblSearchShip.Text = "Search:"
+        '
+        'txtShipSearch
+        '
+        Me.txtShipSearch.Location = New System.Drawing.Point(48, 1)
+        Me.txtShipSearch.Name = "txtShipSearch"
+        Me.txtShipSearch.Size = New System.Drawing.Size(101, 21)
+        Me.txtShipSearch.TabIndex = 1
+        '
         'tvwShips
         '
+        Me.tvwShips.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwShips.ContextMenuStrip = Me.ctxShipBrowser
-        Me.tvwShips.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tvwShips.FullRowSelect = True
-        Me.tvwShips.Location = New System.Drawing.Point(0, 0)
+        Me.tvwShips.Location = New System.Drawing.Point(0, 28)
         Me.tvwShips.Name = "tvwShips"
-        Me.tvwShips.Size = New System.Drawing.Size(196, 374)
+        Me.tvwShips.Size = New System.Drawing.Size(196, 346)
         Me.tvwShips.TabIndex = 0
         '
         'ctxShipBrowser
@@ -1628,6 +1661,7 @@ Partial Class frmHQF
         Me.ToolStrip1.PerformLayout()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
         Me.ctxFittings.ResumeLayout(False)
         Me.ctxShipBrowser.ResumeLayout(False)
@@ -1835,4 +1869,7 @@ Partial Class frmHQF
     Friend WithEvents mnuSep2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuShowModuleMarketGroup As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuEFTImport As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lblSearchShip As System.Windows.Forms.Label
+    Friend WithEvents txtShipSearch As System.Windows.Forms.TextBox
+    Friend WithEvents btnResetShips As System.Windows.Forms.Button
 End Class

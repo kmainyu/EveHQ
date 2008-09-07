@@ -121,6 +121,12 @@
     <Compile Include="Forms\frmAbout.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmAPIChecker.Designer.vb">
+      <DependentUpon>frmAPIChecker.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAPIChecker.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmBackup.Designer.vb">
       <DependentUpon>frmBackup.vb</DependentUpon>
     </Compile>
@@ -199,6 +205,12 @@
     <Compile Include="Forms\frmSkillDetails.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmToolTrayIconPopup.Designer.vb">
+      <DependentUpon>frmToolTrayIconPopup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmToolTrayIconPopup.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmTraining.Designer.vb">
       <DependentUpon>frmTraining.vb</DependentUpon>
     </Compile>
@@ -261,6 +273,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmAbout.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAPIChecker.resx">
+      <DependentUpon>frmAPIChecker.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBackup.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmBackup.vb</DependentUpon>
@@ -312,6 +327,9 @@
     <EmbeddedResource Include="Forms\frmSkillDetails.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSkillDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmToolTrayIconPopup.resx">
+      <DependentUpon>frmToolTrayIconPopup.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmTraining.resx">
       <SubType>Designer</SubType>

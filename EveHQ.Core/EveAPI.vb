@@ -139,8 +139,6 @@ Public Class EveAPI
                 remoteURL = "/char/Standings.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.StandingsCorp
                 remoteURL = "/corp/Standings.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
-            Case EveHQ.Core.EveAPI.APIRequest.CorpContainerLog
-                remoteURL = "/corp/ContainerLog.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.CorpMemberSecurity
                 remoteURL = "/corp/MemberSecurity.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.CorpMemberSecurityLog
@@ -148,7 +146,7 @@ Public Class EveAPI
             Case EveHQ.Core.EveAPI.APIRequest.CorpShareholders
                 remoteURL = "/corp/Shareholders.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.CorpTitles
-                remoteURL = "/corp/CorporationTitles.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+                remoteURL = "/corp/Titles.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.FWStatsChar
                 remoteURL = "/char/FacWarStats.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.FWStatsCorp
@@ -427,8 +425,8 @@ Public Class EveAPI
         POSDetails = 30
         StandingsChar = 31
         StandingsCorp = 32
-        StandingsAlliance = 33
-        CorpContainerLog = 34
+        'StandingsAlliance = 33
+        'CorpContainerLog = 34
         CorpTitles = 35
         CorpMemberSecurity = 36
         CorpMemberSecurityLog = 37

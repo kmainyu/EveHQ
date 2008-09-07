@@ -56,20 +56,33 @@ Public Class frmPilot
             ' Display Information
             Try
                 lvPilot.Items.Clear()
-                lvPilot.Items.Add("Name")
-                lvPilot.Items(0).SubItems.Add(EveHQ.Core.HQ.myPilot.Name)
-                lvPilot.Items.Add("Gender")
-                lvPilot.Items(1).SubItems.Add(EveHQ.Core.HQ.myPilot.Gender)
-                lvPilot.Items.Add("Char. ID")
-                lvPilot.Items(2).SubItems.Add(EveHQ.Core.HQ.myPilot.ID)
-                lvPilot.Items.Add("Corporation")
-                lvPilot.Items(3).SubItems.Add(EveHQ.Core.HQ.myPilot.Corp)
-                lvPilot.Items.Add("Race")
-                lvPilot.Items(4).SubItems.Add(EveHQ.Core.HQ.myPilot.Race & " (" & EveHQ.Core.HQ.myPilot.Blood & ")")
-                lvPilot.Items.Add("Wealth")
-                lvPilot.Items(5).SubItems.Add(FormatNumber(EveHQ.Core.HQ.myPilot.Isk, 2, , , TriState.True))
-                lvPilot.Items.Add("Skill Points")
-                lvPilot.Items(6).SubItems.Add(FormatNumber(EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(EveHQ.Core.HQ.myPilot), 0, , , TriState.True))
+                Dim newCharItem As New ListViewItem
+                newCharItem.Name = "Name" : newCharItem.Text = "Name" : newCharItem.SubItems.Add(EveHQ.Core.HQ.myPilot.Name)
+                lvPilot.Items.Add(newCharItem)
+                newCharItem = New ListViewItem
+                newCharItem.Name = "ID" : newCharItem.Text = "ID" : newCharItem.SubItems.Add(EveHQ.Core.HQ.myPilot.ID)
+                lvPilot.Items.Add(newCharItem)
+                newCharItem = New ListViewItem
+                newCharItem.Name = "Race" : newCharItem.Text = "Race" : newCharItem.SubItems.Add(EveHQ.Core.HQ.myPilot.Race & " (" & EveHQ.Core.HQ.myPilot.Blood & ")")
+                lvPilot.Items.Add(newCharItem)
+                newCharItem = New ListViewItem
+                newCharItem.Name = "Corp" : newCharItem.Text = "Corp" : newCharItem.SubItems.Add(EveHQ.Core.HQ.myPilot.Corp)
+                lvPilot.Items.Add(newCharItem)
+                newCharItem = New ListViewItem
+                newCharItem.Name = "Wealth" : newCharItem.Text = "Wealth" : newCharItem.SubItems.Add(FormatNumber(EveHQ.Core.HQ.myPilot.Isk, 2, , , TriState.True))
+                lvPilot.Items.Add(newCharItem)
+                newCharItem = New ListViewItem
+                newCharItem.Name = "Skill Points" : newCharItem.Text = "Skill Points" : newCharItem.SubItems.Add(FormatNumber(EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(EveHQ.Core.HQ.myPilot), 0, , , TriState.True))
+                lvPilot.Items.Add(newCharItem)
+                newCharItem = New ListViewItem
+                newCharItem.Name = "Clone" : newCharItem.Text = "Clone" : newCharItem.SubItems.Add(EveHQ.Core.HQ.myPilot.CloneName & " (" & FormatNumber(EveHQ.Core.HQ.myPilot.CloneSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP)")
+                lvPilot.Items.Add(newCharItem)
+                ' Check Clone
+                If (EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP) > CLng(EveHQ.Core.HQ.myPilot.CloneSP) Then
+                    lvPilot.Items("Clone").ForeColor = Color.Red
+                Else
+                    lvPilot.Items("Clone").ForeColor = Color.Black
+                End If
             Catch e As Exception
                 Dim msg As String = "An error has occurred:" & ControlChars.CrLf & ControlChars.CrLf & e.Message & ControlChars.CrLf & ControlChars.CrLf
                 msg &= "Pilot Name: " & EveHQ.Core.HQ.myPilot.Name
@@ -356,9 +369,8 @@ Public Class frmPilot
     Public Sub UpdateSkillInfo()
         If EveHQ.Core.HQ.myPilot.PilotData.InnerText <> "" Then
             If EveHQ.Core.HQ.myPilot.Training = True Then
-                lvPilot.Items(6).SubItems(1).Text = (FormatNumber(EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, , , TriState.True))
+                lvPilot.Items("Skill Points").SubItems(1).Text = (FormatNumber(EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, , , TriState.True))
                 Dim cSkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.Skills)
-
                 Dim percent As Double
                 If cSkill.Level = 5 Then
                     percent = 100
@@ -382,6 +394,13 @@ Public Class frmPilot
                     lvTraining.Items(1).Text = "Just Finished Training"
                     lvTraining.Items(2).Text = "Trained To"
                 End If
+            End If
+
+            ' Check Clone
+            If (EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP) > CLng(EveHQ.Core.HQ.myPilot.CloneSP) Then
+                lvPilot.Items("Clone").ForeColor = Color.Red
+            Else
+                lvPilot.Items("Clone").ForeColor = Color.Black
             End If
 
             ' Check Cache details!

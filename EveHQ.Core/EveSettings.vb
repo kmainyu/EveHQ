@@ -113,7 +113,16 @@ Public Class EveSettings
     Private cUseAPIStatusForm As Boolean = True
     Private cUseAppDirectoryForDB As Boolean = False
     Private cAPIFileExtension As String = "aspx"
+    Private cECMDefaultLocation As String = ""
 
+    Public Property ECMDefaultLocation() As String
+        Get
+            Return cECMDefaultLocation
+        End Get
+        Set(ByVal value As String)
+            cECMDefaultLocation = value
+        End Set
+    End Property
     Public Property APIFileExtension() As String
         Get
             Return cAPIFileExtension
@@ -1109,6 +1118,7 @@ Public Class EveSettings
         XMLS &= Chr(9) & Chr(9) & "<useAPIStatusForm>" & EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm & "</useAPIStatusForm>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<useAppDirForDB>" & EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB & "</useAppDirForDB>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<APIFileExtension>" & EveHQ.Core.HQ.EveHQSettings.APIFileExtension & "</APIFileExtension>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<ECMDefaultLocation>" & EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation & "</ECMDefaultLocation>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the Plug-Ins details
@@ -1454,6 +1464,7 @@ Public Class EveSettings
                         EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm = CBool(accountSettings.ChildNodes(120).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = CBool(accountSettings.ChildNodes(121).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.APIFileExtension = accountSettings.ChildNodes(122).InnerText
+                        EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation = accountSettings.ChildNodes(123).InnerText
                     End If
                 End If
             Catch

@@ -544,7 +544,7 @@ Public Class ShipInfoControl
         myAuditLog.lvwAudit.BeginUpdate()
         For Each log As String In fittedShip.AuditLog
             newLog = New ListViewItem
-            logData = log.Split(":".ToCharArray)
+            logData = log.Split("#".ToCharArray)
             newLog.Text = logData(0).Trim
             newLog.SubItems.Add(logData(1).Trim)
             newLog.SubItems.Add(FormatNumber(logData(2).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))

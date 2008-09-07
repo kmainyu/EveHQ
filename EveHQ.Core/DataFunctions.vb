@@ -217,10 +217,16 @@ Public Class DataFunctions
                 iParent = eveData.Tables(0).Rows(item).Item("groupID").ToString.Trim
                 iBasePrice = eveData.Tables(0).Rows(item).Item("basePrice").ToString.Trim
                 iPublished = CBool(eveData.Tables(0).Rows(item).Item("published"))
-                EveHQ.Core.HQ.itemList.Add(iKey, iValue)
+                If EveHQ.Core.HQ.itemList.Contains(iKey) = False Then
+                    EveHQ.Core.HQ.itemList.Add(iKey, iValue)
+                End If
                 EveHQ.Core.HQ.typeGroups.Add(iValue, iParent)
-                EveHQ.Core.HQ.itemPublishedList.Add(iKey, iPublished)
-                EveHQ.Core.HQ.BasePriceList.Add(iValue, iBasePrice)
+                If EveHQ.Core.HQ.itemPublishedList.Contains(iKey) = False Then
+                    EveHQ.Core.HQ.itemPublishedList.Add(iKey, iPublished)
+                End If
+                If EveHQ.Core.HQ.BasePriceList.Contains(iValue) = False Then
+                    EveHQ.Core.HQ.BasePriceList.Add(iValue, iBasePrice)
+                End If
             Next
             ' Load attribute names
             eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmAttributeTypes ORDER BY attributeName;")

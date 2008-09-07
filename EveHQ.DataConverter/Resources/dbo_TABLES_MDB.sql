@@ -501,12 +501,8 @@ CREATE TABLE dbo.dgmAttributeTypes
 (
   attributeID                   integer             NOT NULL,
   attributeName                 text(100)			NOT NULL,
-  attributeCategory             integer				NOT NULL,
   description                   memo				NOT NULL,
-  maxAttributeID                integer             NULL,
-  attributeIdx                  integer             NULL,
   graphicID                     integer				NULL,
-  chargeRechargeTimeID          integer             NULL,
   defaultValue                  integer             NOT NULL DEFAULT 0,
   published                     integer             NOT NULL DEFAULT 1,
   displayName                   text(100)			NOT NULL,
@@ -583,8 +579,6 @@ CREATE TABLE dbo.crpActivities
 CREATE TABLE dbo.crpNPCCorporations
 (
   corporationID                 integer             NOT NULL,
-  mainActivityID                integer         NOT NULL,
-  secondaryActivityID           integer         NULL,
   `size`                        text(1)         NOT NULL,
   extent                        text(1)         NOT NULL,
   solarSystemID                 integer             NULL,
@@ -616,8 +610,7 @@ CREATE TABLE dbo.crpNPCCorporations
 CREATE TABLE dbo.crpNPCCorporationResearchFields
 (
   skillID                       integer        NOT NULL,
-  corporationID                 integer        NOT NULL,
-  supplierTypes                 integer        NOT NULL 
+  corporationID                 integer        NOT NULL
 );
 
 CREATE TABLE dbo.crpNPCCorporationTrades
@@ -640,9 +633,7 @@ CREATE TABLE dbo.crpNPCCorporationDivisions
 (
   corporationID                 integer             NOT NULL,
   divisionID                    integer         NOT NULL,
-  divisionNumber                integer         NOT NULL,
-  `size`                        integer         NULL,
-  leaderID                      integer             NULL
+   `size`                        integer         NULL
 );
 
 CREATE TABLE dbo.chrAttributes
@@ -724,7 +715,6 @@ CREATE TABLE dbo.chrCareerSpecialities
   description       memo   NOT NULL,
   shortDescription  memo   NOT NULL,
   graphicID         integer        NULL,
-  departmentID      integer         NULL,
   CONSTRAINT pk_chrCareerSpecialities PRIMARY KEY  (specialityID)
 );
 
@@ -757,7 +747,6 @@ CREATE TABLE dbo.chrSchools
   description        memo  NOT NULL,
   graphicID          integer        NULL,
   corporationID      integer             NULL,
-  agentID            integer             NULL,
   newAgentID         integer             NULL,
   careerID           integer         NULL,
   CONSTRAINT pk_chrSchools PRIMARY KEY  (schoolID)
@@ -868,6 +857,7 @@ CREATE TABLE dbo.typeActivityMaterials
   activityID  		integer			NOT NULL,
   requiredTypeID	integer			NOT NULL,
   quantity			integer			NOT NULL,
-  damagePerJob		double			NOT NULL
+  damagePerJob		double			NOT NULL,
+  recycle           integer         NULL
 );
 

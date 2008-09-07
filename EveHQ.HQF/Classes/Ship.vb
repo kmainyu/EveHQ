@@ -1478,8 +1478,12 @@ Imports System.Runtime.Serialization
                     newShip.Inertia = attValue
                 Case 153
                     newShip.WarpCapNeed = attValue
-                Case 600
-                    newShip.WarpSpeed = attValue
+                Case 1281
+                    If CDbl(newShip.Attributes("600")) <> 0 Then
+                        newShip.WarpSpeed = attValue * CDbl(newShip.Attributes("600"))
+                    Else
+                        newShip.WarpSpeed = attValue
+                    End If
                 Case 283
                     newShip.DroneBay = attValue
                 Case 1271

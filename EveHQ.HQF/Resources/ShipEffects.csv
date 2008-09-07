@@ -52,13 +52,13 @@
 28848,1,29029,868,1,28848,0,1,0,-10,15,Jump Fuel Need
 # Apocalypse,,,,,,,,,,,
 642,1,3339,6,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
-642,1,3339,482,1,642,0,1,0,5,15,Capacitor Capacity
+642,1,3339,54,4,569;573,0,1,0,7.5,15,Large Energy Turret Optimal Range
 # Apocalypse Imperial Issue,,,,,,,,,,,
 11936,1,3339,6,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
-11936,1,3339,482,1,11936,0,1,0,5,15,Capacitor Capacity
+11936,1,3339,54,4,569;573,0,1,0,7.5,15,Large Energy Turret Optimal Range
 # Apocalypse Navy Issue,,,,,,,,,,,
 17726,1,3339,6,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
-17726,1,3339,482,1,17726,0,1,0,5,15,Capacitor Capacity
+17726,1,3339,54,4,569;573,0,1,0,7.5,15,Large Energy Turret Optimal Range
 # Arazu,,,,,,,,,,,
 11969,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 11969,1,3332,309,2,208,0,1,0,5,15,Remote Sensor Damp Range

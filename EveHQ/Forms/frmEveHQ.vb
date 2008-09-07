@@ -26,6 +26,7 @@ Imports System.Net.Sockets
 Imports System.Threading
 Imports System.Xml
 Imports System.Reflection
+Imports System.Runtime.InteropServices
 
 Public Class frmEveHQ
     Dim WithEvents eveTQWorker As System.ComponentModel.BackgroundWorker = New System.ComponentModel.BackgroundWorker
@@ -40,6 +41,9 @@ Public Class frmEveHQ
     Private Declare Auto Function MoveWindow Lib "user32.dll" (ByVal hwnd As IntPtr, ByVal x As Int32, ByVal y As Int32, ByVal nWidth As Int32, ByVal nHeight As Int32, ByVal bRepaint As Boolean) As Int32
     Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hwnd As Int32, ByRef lpRect As RECT) As Boolean
     Private Declare Function GetClientRect Lib "user32.dll" (ByVal hwnd As Int32, ByRef lpRect As RECT) As Int32
+    Dim ToolTrayForm As New frmToolTrayIconPopup
+    Dim iR As New Rectangle
+    Dim ToolTrayFormActivated As Boolean = False
     Private Delegate Sub QueryMyEveServerDelegate()
     Private m_ChildFormNumber As Integer = 0
     Private childFormCount As Integer = 0
@@ -1179,7 +1183,11 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub mnuBackup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBackup.Click, tsbSettingsBackup.Click
-        Call OpenBackUpForm()
+        Call Me.OpenBackUpForm()
+    End Sub
+
+    Private Sub mnuToolsAPIChecker_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuToolsAPIChecker.Click
+        Call Me.OpenAPICheckerForm()
     End Sub
 
 #Region "Backup Worker routines"
@@ -1464,6 +1472,14 @@ Public Class frmEveHQ
             tabMDI.SelectTab(frmBackup.Text)
         End If
     End Sub
+    Private Sub OpenAPICheckerForm()
+        If tabMDI.TabPages.ContainsKey(frmAPIChecker.Text) = False Then
+            frmAPIChecker.MdiParent = Me
+            frmAPIChecker.Show()
+        Else
+            tabMDI.SelectTab(frmAPIChecker.Text)
+        End If
+    End Sub
     Public Sub DisplayReport(ByRef reportForm As EveHQ.frmReportViewer, ByVal reportText As String)
         reportForm.Text = reportText
         If tabMDI.TabPages.ContainsKey(reportForm.Text) = False Then
@@ -1595,15 +1611,26 @@ Public Class frmEveHQ
 
     Private Sub mnuECMExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuECMExport.Click
         Dim ECMLocation As String = ""
+        Dim result As Integer = 0
         With fbd1
-            .Description = "Please select the folder where the ECM XML files are located..."
             .ShowNewFolderButton = False
-            .RootFolder = Environment.SpecialFolder.Desktop
-            .ShowDialog()
+            If EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation <> "" Then
+                If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation) = True Then
+                    .Description = "Please select the folder where the ECM XML files are located..." & ControlChars.CrLf & "Default is: " & EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
+                    .SelectedPath = EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
+                Else
+                    .Description = "Please select the folder where the ECM XML files are located..."
+                    .RootFolder = Environment.SpecialFolder.Desktop
+                End If
+            Else
+                .Description = "Please select the folder where the ECM XML files are located..."
+                .RootFolder = Environment.SpecialFolder.Desktop
+            End If
+            result = .ShowDialog()
             ECMLocation = .SelectedPath
         End With
 
-        If ECMLocation <> "" Then
+        If ECMLocation <> "" And result = 1 Then
 
             ' Generate the Old Style XML Report
             Call EveHQ.Core.Reports.GenerateCurrentPilotXML_Old(EveHQ.Core.HQ.myPilot)
@@ -1613,7 +1640,7 @@ Public Class frmEveHQ
             ' Copy these to the selected folder
             My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\CurrentXML - Old (" & EveHQ.Core.HQ.myPilot.Name & ").xml", ECMLocation & "\" & EveHQ.Core.HQ.myPilot.ID.ToString & ".xml", True)
             My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\TrainingXML - Old (" & EveHQ.Core.HQ.myPilot.Name & ").xml", ECMLocation & "\" & EveHQ.Core.HQ.myPilot.ID.ToString & ".training.xml", True)
-
+            EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation = ECMLocation
             MessageBox.Show("Export of ECM-compatible files completed!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
 
@@ -1739,6 +1766,36 @@ Public Class frmEveHQ
     End Sub
 #End Region
 
+    'Private Sub EveStatusIcon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles EveStatusIcon.MouseMove
+    '    Dim eX As Integer = Control.MousePosition.X
+    '    Dim eY As Integer = Control.MousePosition.Y
+    '    If ToolTrayFormActivated = False Then
+    '        ToolTrayFormActivated = True
+    '        tmrToolTrayForm.Enabled = True
+    '        ' Work out co-ords of icon
+    '        Dim iX As Integer = MousePosition.X - eX
+    '        Dim iY As Integer = MousePosition.Y - eY
+    '        iR = New Rectangle(iX, iY, 16, 16)
+    '        Dim workingRectangle As System.Drawing.Rectangle = Screen.PrimaryScreen.WorkingArea
+    '        ToolTrayForm.Location = New System.Drawing.Point(workingRectangle.Width - ToolTrayForm.Width - 5, workingRectangle.Height - ToolTrayForm.Height - 5)
+    '        ToolTrayForm.Show()
+    '        tsLogonStatus.Text = iX & ", " & iY & "(" & eX & ", " & eY & ")"
+    '    End If
+    'End Sub
 
+    'Private Sub tmrToolTrayForm_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrToolTrayForm.Tick
+    '    ' Check if we have gone outside the bounds of the icon
+    '    If ToolTrayFormActivated = True Then
+    '        If iR.Contains(MousePosition.X, MousePosition.Y) = False Then
+    '            tmrToolTrayForm.Enabled = False
+    '            ToolTrayForm.Hide()
+    '            ToolTrayFormActivated = False
+    '        Else
+    '            tsLogonStatus.Text = iR.X & ", " & iR.Y & "(" & MousePosition.X & ", " & MousePosition.Y & ")"
+    '        End If
+    '    End If
+    'End Sub
 
+   
 End Class
+

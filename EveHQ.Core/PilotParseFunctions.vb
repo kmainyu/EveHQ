@@ -1164,7 +1164,9 @@ Public Class PilotParseFunctions
 
                 newPilot.PilotData.Save(EveHQ.Core.HQ.cacheFolder & "\c" & newPilot.ID & ".xml")
                 If pilotTXML IsNot Nothing Then
-                    newPilot.PilotTrainingData.Save(EveHQ.Core.HQ.cacheFolder & "\t" & newPilot.ID & ".xml")
+                    If pilotTXML.InnerText <> "" Then
+                        newPilot.PilotTrainingData.Save(EveHQ.Core.HQ.cacheFolder & "\t" & newPilot.ID & ".xml")
+                    End If
                 End If
 
                 Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot

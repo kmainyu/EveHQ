@@ -527,7 +527,7 @@ Public Class frmHQF
                                 attValue = attValue / 1000
                             Case 113, 111, 109, 110, 267, 268, 269, 270, 271, 272, 273, 274
                                 attValue = (1 - attValue) * 100
-                            Case 600
+                            Case 1281
                                 attValue = attValue * 3
                             Case 1154 ' Reset this field to be used as Calibration_Used
                                 attValue = 0
@@ -1655,7 +1655,7 @@ Public Class frmHQF
         lblTurretSlots.Text = "Turret Slots: " & FormatNumber(selShip.TurretSlots, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblLauncherSlots.Text = "Launcher Slots: " & FormatNumber(selShip.LauncherSlots, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
-        lblWarpSpeed.Text = "Warp Speed: " & FormatNumber(selShip.WarpSpeed * 3, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " au/s"
+        lblWarpSpeed.Text = "Warp Speed: " & FormatNumber(selShip.WarpSpeed, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " au/s"
 
         ' Add Required Skill into the Description
         txtShipDescription.Text &= ControlChars.CrLf & ControlChars.CrLf & "Required Skills" & ControlChars.CrLf
@@ -1698,6 +1698,61 @@ Public Class frmHQF
         Else
             MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
+    End Sub
+    Private Sub txtShipSearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtShipSearch.TextChanged
+        If Len(txtShipSearch.Text) > 0 Then
+            Dim strSearch As String = txtShipSearch.Text.Trim.ToLower
+
+            ' Redraw the ships tree
+            Dim shipResults As New SortedList(Of String, String)
+            For Each sShip As String In ShipLists.shipList.Keys
+                If sShip.ToLower.Contains(strSearch) Then
+                    shipResults.Add(sShip, sShip)
+                End If
+            Next
+            tvwShips.BeginUpdate()
+            tvwShips.Nodes.Clear()
+            For Each item As String In shipResults.Values
+                Dim shipNode As TreeNode = New TreeNode
+                shipNode.Text = item
+                shipNode.Name = item
+                tvwShips.Nodes.Add(shipNode)
+            Next
+            tvwShips.EndUpdate()
+
+            ' Redraw the fitting tree
+            Dim fitResults As New SortedList(Of String, String)
+            For Each sFit As String In Fittings.FittingList.Keys
+                If sFit.ToLower.Contains(strSearch) Then
+                    fitResults.Add(sFit, sFit)
+                End If
+            Next
+            tvwFittings.Nodes.Clear()
+            Dim shipName As String = ""
+            Dim fittingName As String = ""
+            Dim fittingSep As Integer = 0
+            For Each item As String In fitResults.Values
+                fittingSep = item.IndexOf(", ")
+                shipName = item.Substring(0, fittingSep)
+                fittingName = item.Substring(fittingSep + 2)
+                ' Create the ship node if it's not already present
+                If tvwFittings.Nodes.ContainsKey(shipName) = False Then
+                    tvwFittings.Nodes.Add(shipName, shipName)
+                End If
+                ' Add the details to the Node, checking for duplicates
+                tvwFittings.Nodes(shipName).Nodes.Add(fittingName, fittingName)
+            Next
+            tvwFittings.EndUpdate()
+        Else
+            txtShipSearch.Text = ""
+            Call Me.ShowShipGroups()
+            Call Me.UpdateFittingsTree()
+        End If
+    End Sub
+    Private Sub btnResetShips_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetShips.Click
+        txtShipSearch.Text = ""
+        Call Me.ShowShipGroups()
+        Call Me.UpdateFittingsTree()
     End Sub
 #End Region
 
@@ -2804,5 +2859,9 @@ Public Class frmHQF
                 tabHQF.TabPages.Remove(tp)
             End If
         Next
+    End Sub
+
+    Private Sub lvwItems_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwItems.SelectedIndexChanged
+
     End Sub
 End Class
