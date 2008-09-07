@@ -534,6 +534,9 @@ Public Class ShipInfoControl
         Next
         lblDroneBandwidth.Text = FormatNumber(fittedShip.DroneBandwidth_Used, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBandwidth, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblDroneControl.Text = fittedShip.UsedDrones & " / " & fittedShip.MaxDrones
+        Dim ttt As String = "Drone Control Range: " & FormatNumber(fittedShip.Attributes("10007"), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
+        ToolTip1.SetToolTip(lblDroneControl, ttt)
+        ToolTip1.SetToolTip(pbDroneControl, ttt)
     End Sub
 
 #Region "Audit Log Routines"
