@@ -1123,75 +1123,79 @@ Public Class ShipSlotControl
         Call Me.UpdateSlotLocation(sModule, slotNo)
     End Sub
     Private Sub lvwSlots_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvwSlots.MouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            Dim hti As ListViewHitTestInfo = lvwSlots.HitTest(e.X, e.Y)
-            If hti.Location = ListViewHitTestLocations.Image Then
-                ctxSlots.Tag = "Cancel" ' Should cancel the menu and any double-click event?
-                ' Get the module details
-                Dim modID As String = CStr(ModuleLists.moduleListName.Item(hti.Item.Text))
-                Dim currentMod As New ShipModule
-                Dim slotType As Integer = CInt(hti.Item.Name.Substring(0, 1))
-                Dim slotNo As Integer = CInt(hti.Item.Name.Substring(2, 1))
-                Dim canOffline As Boolean = True
-                Select Case slotType
-                    Case 1 ' Rig
-                        currentMod = currentShip.RigSlot(slotNo)
-                        canOffline = False
-                    Case 2 ' Low
-                        currentMod = currentShip.LowSlot(slotNo)
-                    Case 4 ' Mid
-                        currentMod = currentShip.MidSlot(slotNo)
-                    Case 8 ' High
-                        currentMod = currentShip.HiSlot(slotNo)
-                End Select
+        Dim hti As ListViewHitTestInfo = lvwSlots.HitTest(e.X, e.Y)
+        If hti.Item IsNot Nothing Then
+            If e.Button = Windows.Forms.MouseButtons.Right Then
+                If hti.Location = ListViewHitTestLocations.Image Then
+                    ctxSlots.Tag = "Cancel" ' Should cancel the menu and any double-click event?
+                    ' Get the module details
+                    Dim modID As String = CStr(ModuleLists.moduleListName.Item(hti.Item.Text))
+                    Dim currentMod As New ShipModule
+                    Dim slotType As Integer = CInt(hti.Item.Name.Substring(0, 1))
+                    Dim slotNo As Integer = CInt(hti.Item.Name.Substring(2, 1))
+                    Dim canOffline As Boolean = True
+                    Select Case slotType
+                        Case 1 ' Rig
+                            currentMod = currentShip.RigSlot(slotNo)
+                            canOffline = False
+                        Case 2 ' Low
+                            currentMod = currentShip.LowSlot(slotNo)
+                        Case 4 ' Mid
+                            currentMod = currentShip.MidSlot(slotNo)
+                        Case 8 ' High
+                            currentMod = currentShip.HiSlot(slotNo)
+                    End Select
 
-                If currentMod IsNot Nothing Then
-                    Dim currentstate As Integer = currentMod.ModuleState
-                    ' Check for status
-                    Dim canDeactivate As Boolean = False
-                    Dim canOverload As Boolean = False
-                    ' Check for activation cost
-                    If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Then
-                        canDeactivate = True
-                    End If
-                    If currentMod.Attributes.Contains("1211") = True Then
-                        canOverload = True
-                    End If
-                    currentstate *= 2
-                    Dim changedstate As Boolean = False
-                    Do
-                        changedstate = False
-                        If currentstate > 8 Then
-                            currentstate = 1
-                            changedstate = True
+                    If currentMod IsNot Nothing Then
+                        Dim currentstate As Integer = currentMod.ModuleState
+                        ' Check for status
+                        Dim canDeactivate As Boolean = False
+                        Dim canOverload As Boolean = False
+                        ' Check for activation cost
+                        If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Then
+                            canDeactivate = True
                         End If
-                        If currentstate = ModuleStates.Offline And canOffline = False Then
-                            currentstate *= 2
-                            changedstate = True
+                        If currentMod.Attributes.Contains("1211") = True Then
+                            canOverload = True
                         End If
-                        If currentstate = ModuleStates.Inactive And canDeactivate = False Then
-                            currentstate *= 2
-                            changedstate = True
-                        End If
-                        If currentstate = ModuleStates.Overloaded And canOverload = False Then
-                            currentstate *= 2
-                            changedstate = True
-                        End If
-                    Loop Until changedstate = False
+                        currentstate *= 2
+                        Dim changedstate As Boolean = False
+                        Do
+                            changedstate = False
+                            If currentstate > 8 Then
+                                currentstate = 1
+                                changedstate = True
+                            End If
+                            If currentstate = ModuleStates.Offline And canOffline = False Then
+                                currentstate *= 2
+                                changedstate = True
+                            End If
+                            If currentstate = ModuleStates.Inactive And canDeactivate = False Then
+                                currentstate *= 2
+                                changedstate = True
+                            End If
+                            If currentstate = ModuleStates.Overloaded And canOverload = False Then
+                                currentstate *= 2
+                                changedstate = True
+                            End If
+                        Loop Until changedstate = False
 
-                    ' Update only if the module state has changed
-                    If currentstate <> currentMod.ModuleState Then
-                        currentMod.ModuleState = currentstate
-                        currentInfo.ShipType = currentShip
-                        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-                        Call Me.UpdateSlotLocation(currentMod, slotNo)
-                        'MessageBox.Show("Changing to State: " & currentMod.ModuleState)
+                        ' Update only if the module state has changed
+                        If currentstate <> currentMod.ModuleState Then
+                            currentMod.ModuleState = currentstate
+                            currentInfo.ShipType = currentShip
+                            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+                            Call Me.UpdateSlotLocation(currentMod, slotNo)
+                            'MessageBox.Show("Changing to State: " & currentMod.ModuleState)
+                        End If
                     End If
-
+                End If
+            Else
+                If e.Button = Windows.Forms.MouseButtons.Left Then
+                    lvwSlots.DoDragDrop(hti.Item, DragDropEffects.Copy Or DragDropEffects.Move)
                 End If
             End If
         End If
-
     End Sub
 #End Region
 
@@ -1551,5 +1555,57 @@ Public Class ShipSlotControl
     End Function
 #End Region
 
+#Region "Slot Drag/Drop Routines"
+    
+#End Region
+
    
+    Private Sub lvwSlots_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles lvwSlots.DragOver
+        Dim oLVI As ListViewItem = CType(e.Data.GetData(GetType(ListViewItem)), ListViewItem)
+        Dim oModID As String = CStr(ModuleLists.moduleListName.Item(oLVI.Text))
+        Dim oMod As New ShipModule
+        Dim oSlotType As Integer = CInt(oLVI.Name.Substring(0, 1))
+
+        Dim p As Point = lvwSlots.PointToClient(New Point(e.X, e.Y))
+        Dim nLVI As ListViewItem = lvwSlots.GetItemAt(p.X, p.Y)
+        Dim nModID As String = CStr(ModuleLists.moduleListName.Item(nLVI.Text))
+        Dim nMod As New ShipModule
+        Dim nSlotType As Integer = CInt(nLVI.Name.Substring(0, 1))
+
+        If oSlotType <> nSlotType Then
+            e.Effect = DragDropEffects.None
+        Else
+            If e.KeyState = 9 Then
+                e.Effect = DragDropEffects.Copy
+            Else
+                e.Effect = DragDropEffects.Move
+            End If
+        End If
+
+    End Sub
+
+    Private Sub lvwSlots_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles lvwSlots.DragDrop
+        Dim oLVI As ListViewItem = CType(e.Data.GetData(GetType(ListViewItem)), ListViewItem)
+        Dim oModID As String = CStr(ModuleLists.moduleListName.Item(oLVI.Text))
+        Dim oMod As New ShipModule
+        Dim oSlotType As Integer = CInt(oLVI.Name.Substring(0, 1))
+
+        Dim p As Point = lvwSlots.PointToClient(New Point(e.X, e.Y))
+        Dim nLVI As ListViewItem = lvwSlots.GetItemAt(p.X, p.Y)
+        Dim nModID As String = CStr(ModuleLists.moduleListName.Item(nLVI.Text))
+        Dim nMod As New ShipModule
+        Dim nSlotType As Integer = CInt(nLVI.Name.Substring(0, 1))
+
+        If oSlotType <> nSlotType Then
+            e.Effect = DragDropEffects.None
+        Else
+            If e.KeyState = 8 Then ' Mouse button released!
+                MessageBox.Show("Wanting to copy " & oLVI.Text & " for " & nLVI.Text & "?", "Confirm copy", MessageBoxButtons.OK, MessageBoxIcon.Question)
+            Else
+                MessageBox.Show("Wanting to swap " & oLVI.Text & " for " & nLVI.Text & "?", "Confirm swap", MessageBoxButtons.OK, MessageBoxIcon.Question)
+            End If
+        End If
+
+    End Sub
+
 End Class
