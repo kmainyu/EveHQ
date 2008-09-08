@@ -1592,21 +1592,23 @@ Public Class frmAssets
     Private Sub lvwCharFilter_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwCharFilter.ItemChecked
         ' Write the owner filter to the main Assets tab
         Dim filter As String = "Owner Filter: "
-        If lvwCharFilter.CheckedItems Is Nothing Then
+        Dim itemCount As Integer = 0
+        Try
+            itemCount = lvwCharFilter.CheckedItems.Count
+        Catch ex As Exception
+            itemCount = 0
+        End Try
+        If itemCount = 0 Then
             filter &= "None"
         Else
-            If lvwCharFilter.CheckedItems.Count = 0 Then
-                filter &= "None"
-            Else
-                Try
-                    For Each Owner As ListViewItem In lvwCharFilter.Items
-                        If Owner.Checked = True Then
-                            filter &= Owner.Text & ", "
-                        End If
-                    Next
-                Catch ex As Exception
-                End Try
-            End If
+            Try
+                For Each Owner As ListViewItem In lvwCharFilter.Items
+                    If Owner.Checked = True Then
+                        filter &= Owner.Text & ", "
+                    End If
+                Next
+            Catch ex As Exception
+            End Try
         End If
         filter = filter.TrimEnd(", ".ToCharArray)
         lblOwnerFilters.Text = filter
