@@ -23,10 +23,10 @@ Partial Class ShipSlotControl
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
         Me.panelSlotInfo = New System.Windows.Forms.Panel
         Me.lblFittingMarketPrice = New System.Windows.Forms.Label
@@ -208,6 +208,7 @@ Partial Class ShipSlotControl
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
         Me.ctxSlots.Size = New System.Drawing.Size(128, 26)
+        Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
@@ -240,20 +241,21 @@ Partial Class ShipSlotControl
         Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
         Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvwSlots.FullRowSelect = True
-        ListViewGroup5.Header = "High Slots"
-        ListViewGroup5.Name = "lvwgHighSlots"
-        ListViewGroup6.Header = "Mid Slots"
-        ListViewGroup6.Name = "lvwgMidSlots"
-        ListViewGroup7.Header = "Low Slots"
-        ListViewGroup7.Name = "lvwgLowSlots"
-        ListViewGroup8.Header = "Rig Slots"
-        ListViewGroup8.Name = "lvwgRigSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8})
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
         Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
         Me.lvwSlots.Name = "lvwSlots"
         Me.lvwSlots.Size = New System.Drawing.Size(639, 382)
         Me.lvwSlots.SmallImageList = Me.imgState
         Me.lvwSlots.TabIndex = 0
+        Me.lvwSlots.Tag = ""
         Me.lvwSlots.UseCompatibleStateImageBehavior = False
         Me.lvwSlots.View = System.Windows.Forms.View.Details
         '
