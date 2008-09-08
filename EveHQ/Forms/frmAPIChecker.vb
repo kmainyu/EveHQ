@@ -58,6 +58,11 @@ Public Class frmAPIChecker
                 lblCharacter.Enabled = False : cboCharacter.Enabled = False
                 lblAccount.Enabled = False : cboAccount.Enabled = False
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
+                If CInt(APIMethods(cboAPIMethod.SelectedItem)) = EveHQ.Core.EveAPI.APIRequest.NameToID Then
+                    lblOtherInfo.Text = "Item Name"
+                Else
+                    lblOtherInfo.Text = "Item ID:"
+                End If
                 APIStyle = 2
 
             Case EveHQ.Core.EveAPI.APIRequest.Characters
@@ -98,17 +103,21 @@ Public Class frmAPIChecker
                 lblCharacter.Enabled = True : cboCharacter.Enabled = True
                 lblAccount.Enabled = False : cboAccount.Enabled = False
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
+                lblOtherInfo.Text = "POS ItemID:"
                 APIStyle = 5
+
             Case EveHQ.Core.EveAPI.APIRequest.WalletTransChar, EveHQ.Core.EveAPI.APIRequest.WalletTransCorp
                 lblCharacter.Enabled = True : cboCharacter.Enabled = True
                 lblAccount.Enabled = False : cboAccount.Enabled = False
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
+                lblOtherInfo.Text = "Before RefID:"
                 APIStyle = 6
 
             Case EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp
                 lblCharacter.Enabled = True : cboCharacter.Enabled = True
                 lblAccount.Enabled = True : cboAccount.Enabled = True
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
+                lblOtherInfo.Text = "Before RefID:"
                 APIStyle = 7
 
         End Select
@@ -159,8 +168,9 @@ Public Class frmAPIChecker
                 testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, CInt(cboAccount.SelectedItem.ToString), txtOtherInfo.Text, False)
         End Select
         Try
-            testXML.Save(EveHQ.Core.HQ.reportFolder & "\testXML.xml")
-            wbAPI.Navigate(EveHQ.Core.HQ.reportFolder & "\testXML.xml")
+            wbAPI.Navigate(EveHQ.Core.EveAPI.LastAPIFileName)
+            lblCurrentlyViewing.Text = "Currently Viewing: " & cboAPIMethod.SelectedItem.ToString
+            lblFileLocation.Text = "Cache File Location: " & EveHQ.Core.EveAPI.LastAPIFileName
         Catch ex As Exception
             MessageBox.Show("There was an error trying to display the requested API. The error was: " & ControlChars.CrLf & ex.Message, "Error Requesting API", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try

@@ -33,6 +33,8 @@ Partial Class frmAPIChecker
         Me.txtOtherInfo = New System.Windows.Forms.TextBox
         Me.wbAPI = New System.Windows.Forms.WebBrowser
         Me.btnGetAPI = New System.Windows.Forms.Button
+        Me.lblCurrentlyViewing = New System.Windows.Forms.Label
+        Me.lblFileLocation = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'lblCharacter
@@ -121,10 +123,10 @@ Partial Class frmAPIChecker
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.wbAPI.IsWebBrowserContextMenuEnabled = False
-        Me.wbAPI.Location = New System.Drawing.Point(12, 103)
+        Me.wbAPI.Location = New System.Drawing.Point(12, 133)
         Me.wbAPI.MinimumSize = New System.Drawing.Size(20, 20)
         Me.wbAPI.Name = "wbAPI"
-        Me.wbAPI.Size = New System.Drawing.Size(865, 571)
+        Me.wbAPI.Size = New System.Drawing.Size(865, 541)
         Me.wbAPI.TabIndex = 8
         Me.wbAPI.WebBrowserShortcutsEnabled = False
         '
@@ -137,11 +139,31 @@ Partial Class frmAPIChecker
         Me.btnGetAPI.Text = "Get API"
         Me.btnGetAPI.UseVisualStyleBackColor = True
         '
+        'lblCurrentlyViewing
+        '
+        Me.lblCurrentlyViewing.AutoSize = True
+        Me.lblCurrentlyViewing.Location = New System.Drawing.Point(9, 104)
+        Me.lblCurrentlyViewing.Name = "lblCurrentlyViewing"
+        Me.lblCurrentlyViewing.Size = New System.Drawing.Size(111, 13)
+        Me.lblCurrentlyViewing.TabIndex = 10
+        Me.lblCurrentlyViewing.Text = "Currently Viewing: n/a"
+        '
+        'lblFileLocation
+        '
+        Me.lblFileLocation.AutoSize = True
+        Me.lblFileLocation.Location = New System.Drawing.Point(9, 117)
+        Me.lblFileLocation.Name = "lblFileLocation"
+        Me.lblFileLocation.Size = New System.Drawing.Size(124, 13)
+        Me.lblFileLocation.TabIndex = 11
+        Me.lblFileLocation.Text = "Cache File Location: n/a"
+        '
         'frmAPIChecker
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(889, 686)
+        Me.Controls.Add(Me.lblFileLocation)
+        Me.Controls.Add(Me.lblCurrentlyViewing)
         Me.Controls.Add(Me.btnGetAPI)
         Me.Controls.Add(Me.wbAPI)
         Me.Controls.Add(Me.txtOtherInfo)
@@ -170,4 +192,6 @@ Partial Class frmAPIChecker
     Friend WithEvents txtOtherInfo As System.Windows.Forms.TextBox
     Friend WithEvents wbAPI As System.Windows.Forms.WebBrowser
     Friend WithEvents btnGetAPI As System.Windows.Forms.Button
+    Friend WithEvents lblCurrentlyViewing As System.Windows.Forms.Label
+    Friend WithEvents lblFileLocation As System.Windows.Forms.Label
 End Class

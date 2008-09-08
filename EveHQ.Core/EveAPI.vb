@@ -25,9 +25,15 @@ Imports System.IO
 
 Public Class EveAPI
     Private Shared cLastAPIResult As Integer
+    Private Shared cLastAPIFileName As String
     Public ReadOnly Property LastAPIResult() As Integer
         Get
             Return cLastAPIResult
+        End Get
+    End Property
+    Public Shared ReadOnly Property LastAPIFileName() As String
+        Get
+            Return cLastAPIFileName
         End Get
     End Property
 
@@ -82,7 +88,7 @@ Public Class EveAPI
                 Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & Feature.ToString
+        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & charData
         Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, UseTimeStamp)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, Optional ByVal UseTimeStamp As Boolean = False) As XmlDocument
@@ -223,6 +229,7 @@ Public Class EveAPI
         End If
         ' Check if the file already exists
         Dim fileLoc As String = EveHQ.Core.HQ.cacheFolder & "\" & fileName & fileDate & ".xml"
+        cLastAPIFileName = fileLoc
         Dim APIXML As New XmlDocument
         Dim tmpAPIXML As New XmlDocument
         Dim errlist As XmlNodeList
