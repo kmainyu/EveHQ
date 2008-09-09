@@ -308,6 +308,9 @@ Public Class frmHQF
                         attData.GraphicID = row.Item("graphicID").ToString
                         attData.UnitName = row.Item("eveUnits_displayName").ToString
                         attData.AttributeGroup = row.Item("attributeGroup").ToString
+                        If attData.UnitName = "ms" Then
+                            attData.UnitName = "s"
+                        End If
                         Attributes.AttributeList.Add(attData.ID, attData)
                     Next
                     Return Me.LoadCustomAttributes()

@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Windows.Forms
+Imports System.Drawing
 
 Public Class ListViewNoFlicker
     Inherits ListView

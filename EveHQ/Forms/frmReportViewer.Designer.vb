@@ -26,7 +26,6 @@ Partial Public Class frmReportViewer
         'wbReport
         '
         Me.wbReport.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.wbReport.IsWebBrowserContextMenuEnabled = False
         Me.wbReport.Location = New System.Drawing.Point(0, 0)
         Me.wbReport.Name = "wbReport"
         Me.wbReport.Size = New System.Drawing.Size(842, 466)
