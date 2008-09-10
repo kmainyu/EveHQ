@@ -156,6 +156,7 @@ Partial Public Class frmEveHQ
         Me.XPTraining = New EveHQ.XPander
         Me.lblTrainingStatus = New System.Windows.Forms.Label
         Me.XPModules = New EveHQ.XPander
+        Me.TriggerErrorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -465,7 +466,7 @@ Partial Public Class frmEveHQ
         '
         'ToolsMenu
         '
-        Me.ToolsMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.RunIGBToolStripMenuItem, Me.mnuToolsGetAccountInfo, Me.mnuBackup, Me.mnuToolsAPIChecker})
+        Me.ToolsMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.RunIGBToolStripMenuItem, Me.mnuToolsGetAccountInfo, Me.mnuBackup, Me.mnuToolsAPIChecker, Me.TriggerErrorToolStripMenuItem})
         Me.ToolsMenu.Name = "ToolsMenu"
         Me.ToolsMenu.Size = New System.Drawing.Size(48, 20)
         Me.ToolsMenu.Text = "&Tools"
@@ -1167,6 +1168,12 @@ Partial Public Class frmEveHQ
         Me.XPModules.Tag = 2
         Me.XPModules.TooltipText = Nothing
         '
+        'TriggerErrorToolStripMenuItem
+        '
+        Me.TriggerErrorToolStripMenuItem.Name = "TriggerErrorToolStripMenuItem"
+        Me.TriggerErrorToolStripMenuItem.Size = New System.Drawing.Size(202, 22)
+        Me.TriggerErrorToolStripMenuItem.Text = "Trigger Error"
+        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1333,5 +1340,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuLoadPlugin As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tmrToolTrayForm As System.Windows.Forms.Timer
     Friend WithEvents mnuToolsAPIChecker As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TriggerErrorToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -145,6 +145,12 @@
     <Compile Include="Forms\frmEditImplants.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmException.Designer.vb">
+      <DependentUpon>frmException.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmException.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmModifyQueues.Designer.vb">
       <DependentUpon>frmModifyQueues.vb</DependentUpon>
     </Compile>
@@ -287,6 +293,9 @@
     <EmbeddedResource Include="Forms\frmEditImplants.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmEditImplants.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmException.resx">
+      <DependentUpon>frmException.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmModifyQueues.resx">
       <SubType>Designer</SubType>

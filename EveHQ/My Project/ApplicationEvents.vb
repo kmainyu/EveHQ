@@ -55,6 +55,24 @@ Namespace My
             End If
             e.BringToForeground = True
         End Sub
+
+        Private Sub MyApplication_UnhandledException(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.UnhandledExceptionEventArgs) Handles Me.UnhandledException
+            Dim myException As New frmException
+            myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
+            myException.lblError.Text = e.Exception.Message
+            Dim trace As New System.Text.StringBuilder
+            trace.AppendLine(e.Exception.StackTrace.ToString)
+            trace.AppendLine("")
+            trace.AppendLine("========== Plug-ins ==========")
+            trace.AppendLine("")
+            For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.PlugIns.Values
+                If myPlugIn.ShortFileName IsNot Nothing Then
+                    trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
+                End If
+            Next
+            myException.txtStackTrace.Text = trace.ToString
+            myException.ShowDialog()
+        End Sub
     End Class
 
 End Namespace
