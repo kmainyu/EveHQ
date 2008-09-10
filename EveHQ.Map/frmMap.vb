@@ -1258,9 +1258,9 @@ Public Class frmMap
 
         Call Me.ClearSystemInfo()
         Call Me.CreateEveMap(True)
-        Me.ships = New String() {"Titan", "Mothership", "Capital Industrial", "Dreadnought", "Carrier", "Anshar", "Ark", "Nomad", "Rhea"}
-        Me.ranges = New Double() {3.5, 4, 5, 5, 6.5, 5, 5, 5, 5}
-        Me.fuel = New Double() {1000, 1000, 1000, 1000, 1000, 3100, 2900, 2700, 3300}
+        Me.ships = New String() {"Titan", "Mothership", "Capital Industrial", "Dreadnought", "Carrier", "Black Ops", "Anshar", "Ark", "Nomad", "Rhea"}
+        Me.ranges = New Double() {3.5, 4, 5, 5, 6.5, 2, 5, 5, 5, 5}
+        Me.fuel = New Double() {1000, 1000, 1000, 1000, 1000, 400, 3100, 2900, 2700, 3300}
         Call Me.LoadPilots()
         Call Me.LoadShips()
         Call Me.LoadJFC()
