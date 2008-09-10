@@ -1253,7 +1253,7 @@ Public Class frmHQF
         Call Settings.HQFSettings.SaveHQFSettings()
         ' Destroy the tab settings
         Me.tabHQF.Dispose()
-        ' Destory the panels?
+        ' Destroy the panels
         Me.SplitContainer1.Dispose()
         Me.SplitContainer2.Dispose()
     End Sub
@@ -2147,7 +2147,7 @@ Public Class frmHQF
                     currentShipSlot.AddItem(shipMod, 1)
                 Else
                     ' Must be a proper module then!
-                    Call currentShipSlot.AddModule(shipMod)
+                    Call currentShipSlot.AddModule(shipMod, 0, True)
                 End If
             End If
         End If
@@ -2163,9 +2163,11 @@ Public Class frmHQF
         ' Updates all the open fittings
         For Each openTab As String In Fittings.FittingTabList
             Dim thisTab As TabPage = tabHQF.TabPages(openTab)
-            Dim thisShipSlotControl As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
-            Dim thisShipInfoControl As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
-            thisShipSlotControl.UpdateEverything()
+            If thisTab IsNot Nothing Then
+                Dim thisShipSlotControl As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
+                Dim thisShipInfoControl As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
+                thisShipSlotControl.UpdateEverything()
+            End If
         Next
         Me.Cursor = Cursors.Default
     End Sub
@@ -2283,6 +2285,7 @@ Public Class frmHQF
     End Sub
   
 #Region "TabHQF Selection and Context Menu Routines"
+
     Private Sub tabHQF_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabHQF.SelectedIndexChanged
         Call Me.UpdateSelectedTab()
     End Sub
