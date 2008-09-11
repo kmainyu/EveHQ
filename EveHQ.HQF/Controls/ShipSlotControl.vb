@@ -1615,16 +1615,21 @@ Public Class ShipSlotControl
     Private Sub lvwSlots_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles lvwSlots.DragDrop
         Dim oLVI As ListViewItem = CType(e.Data.GetData(GetType(ListViewItem)), ListViewItem)
         Dim oModID As String = CStr(ModuleLists.moduleListName.Item(oLVI.Text))
-        Dim oMod As New ShipModule
+
         Dim oSlotType As Integer = CInt(oLVI.Name.Substring(0, 1))
         Dim oslotNo As Integer = CInt(oLVI.Name.Substring(2, 1))
 
         Dim p As Point = lvwSlots.PointToClient(New Point(e.X, e.Y))
         Dim nLVI As ListViewItem = lvwSlots.GetItemAt(p.X, p.Y)
         Dim nModID As String = CStr(ModuleLists.moduleListName.Item(nLVI.Text))
-        Dim nMod As New ShipModule
+
         Dim nSlotType As Integer = CInt(nLVI.Name.Substring(0, 1))
         Dim nslotNo As Integer = CInt(nLVI.Name.Substring(2, 1))
+
+        Dim ocMod As New ShipModule
+        Dim ncMod As New ShipModule
+        Dim ofMod As New ShipModule
+        Dim nfMod As New ShipModule
 
         If oSlotType <> nSlotType Then
             e.Effect = DragDropEffects.None
@@ -1633,76 +1638,91 @@ Public Class ShipSlotControl
                 e.Effect = DragDropEffects.None
             Else
                 If oLVI.Text = "<Empty>" Then
-                    oMod = Nothing
+                    ocMod = Nothing
                 Else
                     Select Case oSlotType
                         Case 1 ' Rig
-                            oMod = currentShip.RigSlot(oslotNo)
+                            ocMod = currentShip.RigSlot(oslotNo)
+                            ofMod = fittedShip.RigSlot(oslotNo)
                         Case 2 ' Low
-                            oMod = currentShip.LowSlot(oslotNo)
+                            ocMod = currentShip.LowSlot(oslotNo)
+                            ofMod = fittedShip.LowSlot(oslotNo)
                         Case 4 ' Mid
-                            oMod = currentShip.MidSlot(oslotNo)
+                            ocMod = currentShip.MidSlot(oslotNo)
+                            ofMod = fittedShip.MidSlot(oslotNo)
                         Case 8 ' High
-                            oMod = currentShip.HiSlot(oslotNo)
+                            ocMod = currentShip.HiSlot(oslotNo)
+                            ofMod = fittedShip.HiSlot(oslotNo)
                     End Select
                 End If
                 
                 If nLVI.Text = "<Empty>" Then
-                    nMod = Nothing
+                    ncMod = Nothing
                 Else
                     Select Case nSlotType
                         Case 1 ' Rig
-                            nMod = currentShip.RigSlot(nslotNo)
+                            ncMod = currentShip.RigSlot(nslotNo)
+                            nfMod = fittedShip.RigSlot(nslotNo)
                         Case 2 ' Low
-                            nMod = currentShip.LowSlot(nslotNo)
+                            ncMod = currentShip.LowSlot(nslotNo)
+                            nfMod = fittedShip.LowSlot(nslotNo)
                         Case 4 ' Mid
-                            nMod = currentShip.MidSlot(nslotNo)
+                            ncMod = currentShip.MidSlot(nslotNo)
+                            nfMod = fittedShip.MidSlot(nslotNo)
                         Case 8 ' High
-                            nMod = currentShip.HiSlot(nslotNo)
+                            ncMod = currentShip.HiSlot(nslotNo)
+                            nfMod = fittedShip.HiSlot(nslotNo)
                     End Select
                 End If
                 If e.Effect = DragDropEffects.Move Then ' Mouse button released?
-                    'ToDo: CREATE CUSTOM CODE FOR SWAPPING MODULES - WE DON'T NEED TO RECALCULATE THE SHIP INFO!!
                     'MessageBox.Show("Wanting to swap " & oLVI.Text & " for " & nLVI.Text & "?", "Confirm swap", MessageBoxButtons.OK, MessageBoxIcon.Question)
-                    If oMod Is Nothing Then
+                    If ocMod Is Nothing Then
                         RemoveModule(nLVI, False)
                     Else
                         Select Case nSlotType
                             Case 1 ' Rig
-                                currentShip.RigSlot(nslotNo) = oMod
+                                currentShip.RigSlot(nslotNo) = ocMod
+                                fittedShip.RigSlot(nslotNo) = ofMod
                             Case 2 ' Low
-                                currentShip.LowSlot(nslotNo) = oMod
+                                currentShip.LowSlot(nslotNo) = ocMod
+                                fittedShip.LowSlot(nslotNo) = ofMod
                             Case 4 ' Mid
-                                currentShip.MidSlot(nslotNo) = oMod
+                                currentShip.MidSlot(nslotNo) = ocMod
+                                fittedShip.MidSlot(nslotNo) = ofMod
                             Case 8 ' High
-                                currentShip.HiSlot(nslotNo) = oMod
+                                currentShip.HiSlot(nslotNo) = ocMod
+                                fittedShip.HiSlot(nslotNo) = ofMod
                         End Select
                     End If
-                    If nMod Is Nothing Then
+                    If ncMod Is Nothing Then
                         RemoveModule(oLVI, False)
                     Else
                         Select Case oSlotType
                             Case 1 ' Rig
-                                currentShip.RigSlot(oslotNo) = nMod
+                                currentShip.RigSlot(oslotNo) = ncMod
+                                fittedShip.RigSlot(oslotNo) = nfMod
                             Case 2 ' Low
-                                currentShip.LowSlot(oslotNo) = nMod
+                                currentShip.LowSlot(oslotNo) = ncMod
+                                fittedShip.LowSlot(oslotNo) = nfMod
                             Case 4 ' Mid
-                                currentShip.MidSlot(oslotNo) = nMod
+                                currentShip.MidSlot(oslotNo) = ncMod
+                                fittedShip.MidSlot(oslotNo) = nfMod
                             Case 8 ' High
-                                currentShip.HiSlot(oslotNo) = nMod
+                                currentShip.HiSlot(oslotNo) = ncMod
+                                fittedShip.HiSlot(oslotNo) = nfMod
                         End Select
                     End If
-                    currentInfo.ShipType = currentShip
-                    currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-                    Call Me.UpdateSlotLocation(oMod, nslotNo)
-                    Call Me.UpdateSlotLocation(nMod, oslotNo)
+                    'currentInfo.ShipType = currentShip
+                    'currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+                    Call Me.UpdateSlotLocation(ofMod, nslotNo)
+                    Call Me.UpdateSlotLocation(nfMod, oslotNo)
                 Else
                     'MessageBox.Show("Wanting to copy " & oLVI.Text & " for " & nLVI.Text & "?", "Confirm copy", MessageBoxButtons.OK, MessageBoxIcon.Question)
-                    nMod = oMod.Clone
-                    AddModule(nMod, nslotNo, False) '- Need to modify this function to specify which location we are putting it
+                    ncMod = ocMod.Clone
+                    AddModule(ncMod, nslotNo, False) '- Need to modify this function to specify which location we are putting it
                     currentInfo.ShipType = currentShip
                     currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-                    Call Me.UpdateSlotLocation(nMod, nslotNo)
+                    Call Me.UpdateSlotLocation(ncMod, nslotNo)
                 End If
             End If
         End If
