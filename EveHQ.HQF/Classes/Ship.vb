@@ -751,6 +751,16 @@ Imports System.Runtime.Serialization
                         cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cHiSlot(index).ID)
                     End If
                 Else
+                    If cHiSlot(index) IsNot Nothing Then
+                        cHiSlots_Used -= 1
+                        If cHiSlot(index).IsLauncher Then
+                            cLauncherSlots_Used -= 1
+                        ElseIf cHiSlot(index).IsTurret Then
+                            cTurretSlots_Used -= 1
+                        End If
+                        cFittingBasePrice -= cHiSlot(index).BasePrice
+                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cHiSlot(index).ID)
+                    End If
                     cHiSlots_Used += 1
                     If value.IsLauncher Then
                         cLauncherSlots_Used += 1
@@ -784,6 +794,11 @@ Imports System.Runtime.Serialization
                         cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cMidSlot(index).ID)
                     End If
                 Else
+                    If cMidSlot(index) IsNot Nothing Then
+                        cMidSlots_Used -= 1
+                        cFittingBasePrice -= cMidSlot(index).BasePrice
+                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cMidSlot(index).ID)
+                    End If
                     cMidSlots_Used += 1
                     cFittingBasePrice += value.BasePrice
                     cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
@@ -812,6 +827,11 @@ Imports System.Runtime.Serialization
                         cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cLowSlot(index).ID)
                     End If
                 Else
+                    If cLowSlot(index) IsNot Nothing Then
+                        cLowSlots_Used -= 1
+                        cFittingBasePrice -= cLowSlot(index).BasePrice
+                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cLowSlot(index).ID)
+                    End If
                     cLowSlots_Used += 1
                     cFittingBasePrice += value.BasePrice
                     cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
@@ -840,6 +860,11 @@ Imports System.Runtime.Serialization
                         cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cRigSlot(index).ID)
                     End If
                 Else
+                    If cRigSlot(index) IsNot Nothing Then
+                        cRigSlots_Used -= 1
+                        cFittingBasePrice -= cRigSlot(index).BasePrice
+                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cRigSlot(index).ID)
+                    End If
                     cRigSlots_Used += 1
                     cFittingBasePrice += value.BasePrice
                     cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)

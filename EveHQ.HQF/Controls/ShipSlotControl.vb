@@ -1662,11 +1662,7 @@ Public Class ShipSlotControl
                     End Select
                 End If
                 If e.Effect = DragDropEffects.Move Then ' Mouse button released?
-
-                    ' CREATE CUSTOM CODE FOR SWAPPING MODULES - WE DON'T NEED TO RECALCULATE THE SHIP INFO!!
-                    ' WARNING! CHANGING THE MODS LIKE BELOW CHANGES THE SLOT NUMBERS INCORRECTLY.
-                    ' PROBABLY NEED TO CHANGE THE SLOT HANDLING ROUTINES IN THE SHIP CLASS!!
-
+                    'ToDo: CREATE CUSTOM CODE FOR SWAPPING MODULES - WE DON'T NEED TO RECALCULATE THE SHIP INFO!!
                     'MessageBox.Show("Wanting to swap " & oLVI.Text & " for " & nLVI.Text & "?", "Confirm swap", MessageBoxButtons.OK, MessageBoxIcon.Question)
                     If oMod Is Nothing Then
                         RemoveModule(nLVI, False)
@@ -1704,16 +1700,6 @@ Public Class ShipSlotControl
                     'MessageBox.Show("Wanting to copy " & oLVI.Text & " for " & nLVI.Text & "?", "Confirm copy", MessageBoxButtons.OK, MessageBoxIcon.Question)
                     nMod = oMod.Clone
                     AddModule(nMod, nslotNo, False) '- Need to modify this function to specify which location we are putting it
-                    'Select Case nSlotType
-                    '    Case 1 ' Rig
-                    '        currentShip.RigSlot(nslotNo) = nMod
-                    '    Case 2 ' Low
-                    '        currentShip.LowSlot(nslotNo) = nMod
-                    '    Case 4 ' Mid
-                    '        currentShip.MidSlot(nslotNo) = nMod
-                    '    Case 8 ' High
-                    '        currentShip.HiSlot(nslotNo) = nMod
-                    'End Select
                     currentInfo.ShipType = currentShip
                     currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                     Call Me.UpdateSlotLocation(nMod, nslotNo)
