@@ -227,7 +227,8 @@ Public Class ShipInfoControl
         lblInertia.Text = FormatNumber(fittedShip.Inertia, 6, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         ' Time to warp based on calculation from http://myeve.eve-online.com/ingameboard.asp?a=topic&threadID=502836
         ' Time to warp (in seconds) = Inertial Modifier * (Mass / 1.000.000) * 1.61
-        lblAlignTime.Text = FormatNumber(1.61 * fittedShip.Inertia * fittedShip.Mass / 1000000, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
+        '-ln(0.25) * Inertia Modifier * Mass / 1.000.000
+        lblAlignTime.Text = FormatNumber(-Math.Log(0.25) * fittedShip.Inertia * fittedShip.Mass / 1000000, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " s"
 
         ' Targeting
         lblTargetRange.Text = FormatNumber(fittedShip.MaxTargetRange, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m"

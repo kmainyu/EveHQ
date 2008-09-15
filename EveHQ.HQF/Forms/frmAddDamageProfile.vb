@@ -163,6 +163,11 @@ Public Class frmAddDamageProfile
         If Me.Tag.ToString = "Add" Then
             cboProfileType.SelectedIndex = 0
             Me.txtProfileName.Tag = ""
+            Me.txtEMDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Me.txtEXDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Me.txtKIDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Me.txtTHDamage.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Me.txtDPS.Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         Else
             Dim editProfile As DamageProfile = CType(Me.Tag, DamageProfile)
             Me.txtProfileName.Tag = editProfile.Name

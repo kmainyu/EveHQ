@@ -64,6 +64,7 @@ Public Class frmSettings
         Call Me.UpdateG15Options()
         Call Me.UpdateMarketPriceOptions()
         Call Me.UpdateDatabaseSettings()
+        Call Me.UpdateTaskBarIconOptions()
 
         ' Switch to the right tab
         If Me.Tag IsNot Nothing Then
@@ -1390,6 +1391,7 @@ Public Class frmSettings
             txtEmailUsername.Enabled = False : txtEmailPassword.Enabled = False
         End If
         Me.txtSMTPServer.Text = EveHQ.Core.HQ.EveHQSettings.EMailServer
+        Me.txtSMTPPort.Text = CStr(EveHQ.Core.HQ.EveHQSettings.EMailPort)
         Me.txtEmailAddress.Text = EveHQ.Core.HQ.EveHQSettings.EMailAddress
         Me.txtEmailUsername.Text = EveHQ.Core.HQ.EveHQSettings.EMailUsername
         Me.txtEmailPassword.Text = EveHQ.Core.HQ.EveHQSettings.EMailPassword
@@ -1511,7 +1513,7 @@ Public Class frmSettings
         Dim eveHQMail As New System.Net.Mail.SmtpClient
         Try
             eveHQMail.Host = EveHQ.Core.HQ.EveHQSettings.EMailServer
-            eveHQMail.Port = 25
+            eveHQMail.Port = EveHQ.Core.HQ.EveHQSettings.EMailPort
             If EveHQ.Core.HQ.EveHQSettings.UseSMTPAuth = True Then
                 Dim newCredentials As New System.Net.NetworkCredential
                 newCredentials.UserName = EveHQ.Core.HQ.EveHQSettings.EMailUsername
@@ -1549,6 +1551,10 @@ Public Class frmSettings
         Catch ex As Exception
             MessageBox.Show("Unable to play sound file." & ControlChars.CrLf & "Error: " & ex.Message, "Error with Wave File", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End Try
+    End Sub
+
+    Private Sub txtSMTPPort_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSMTPPort.TextChanged
+        EveHQ.Core.HQ.EveHQSettings.EMailPort = CInt(txtSMTPPort.Text)
     End Sub
 
 #End Region
@@ -2226,5 +2232,44 @@ Public Class frmSettings
     End Sub
 
 #End Region
-    
+
+#Region "Taskbar Icon Options"
+    Private Sub UpdateTaskBarIconOptions()
+        cboTaskbarIconMode.SelectedIndex = EveHQ.Core.HQ.EveHQSettings.TaskbarIconMode
+    End Sub
+
+    Private Sub cboTaskbarIconMode_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboTaskbarIconMode.SelectedIndexChanged
+        EveHQ.Core.HQ.EveHQSettings.TaskbarIconMode = cboTaskbarIconMode.SelectedIndex
+        Select Case EveHQ.Core.HQ.EveHQSettings.TaskbarIconMode
+            Case 0 ' Simple
+                Select Case EveHQ.Core.HQ.myTQServer.Status
+                    Case EveHQ.Core.EveServer.ServerStatus.Down
+                        frmEveHQ.EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    Case EveHQ.Core.EveServer.ServerStatus.Starting
+                        frmEveHQ.EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    Case EveHQ.Core.EveServer.ServerStatus.Shutting
+                        frmEveHQ.EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    Case EveHQ.Core.EveServer.ServerStatus.Full
+                        frmEveHQ.EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    Case EveHQ.Core.EveServer.ServerStatus.ProxyDown
+                        frmEveHQ.EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    Case EveHQ.Core.EveServer.ServerStatus.Unknown
+                        frmEveHQ.EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
+                    Case EveHQ.Core.EveServer.ServerStatus.Up
+                        Dim msg As String = EveHQ.Core.HQ.myTQServer.ServerName & ":" & vbCrLf
+                        msg = msg & "Version: " & EveHQ.Core.HQ.myTQServer.Version & vbCrLf
+                        msg = msg & "Players: " & EveHQ.Core.HQ.myTQServer.Players
+                        If msg.Length > 50 Then
+                            frmEveHQ.EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.ServerName & ":" & vbCrLf & "Server currently initialising"
+                        Else
+                            frmEveHQ.EveStatusIcon.Text = msg
+                        End If
+                End Select
+            Case 1 ' Enhanced
+
+        End Select
+    End Sub
+
+#End Region
+
 End Class

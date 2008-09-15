@@ -2988,4 +2988,331 @@ Public Class Reports
     End Function
 #End Region
 
+#Region "Partial Skills Report"
+    Public Shared Sub GeneratePartialSkills(ByVal rpilot As EveHQ.Core.Pilot)
+        Dim strHTML As String = ""
+        strHTML &= HTMLHeader("Partially Trained Skills - " & rpilot.Name, False)
+        strHTML &= HTMLTitle("Partially Trained Skills - " & rpilot.Name, False)
+        strHTML &= HTMLCharacterDetails(rpilot, False)
+        strHTML &= PartialSkills(rpilot, False)
+        strHTML &= HTMLFooter(False)
+        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\PartialSkills (" & rpilot.Name & ").html")
+        sw.Write(strHTML)
+        sw.Flush()
+        sw.Close()
+        strHTML = Nothing
+
+        ' Tidy up report variables
+        GC.Collect()
+    End Sub
+
+    Public Shared Function PartialSkills(ByVal rpilot As EveHQ.Core.Pilot, ByVal forIGB As Boolean) As String
+        Dim strHTML As String = ""
+
+        Dim currentSkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
+        Dim currentSP As String = ""
+        Dim currentTime As String = ""
+        If rpilot.Training = True Then
+            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), Skills)
+            currentSP = CStr(rpilot.TrainingCurrentSP)
+            currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
+        End If
+
+        Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
+        Dim curSkill As EveHQ.Core.Skills
+        Dim count As Integer
+        Dim redTime As Long = 0
+        For Each curSkill In rpilot.PilotSkills
+            Dim partTrained As Boolean = True
+            For level As Integer = 0 To 5
+                If curSkill.SP = curSkill.LevelUp(level) Or curSkill.SP = curSkill.LevelUp(level) + 1 Or curSkill.Level = 5 Then
+                    partTrained = False
+                    Exit For
+                End If
+            Next
+            If partTrained = True Then
+                ' Determine if the skill is being trained
+                If rpilot.Training = True Then
+                    If curSkill.ID = rpilot.TrainingSkillID Then
+                        sortSkill(count, 1) = rpilot.TrainingCurrentTime
+                    Else
+                        sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                    End If
+                Else
+                    sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                End If
+                sortSkill(count, 0) = CLng(curSkill.ID)
+                count += 1
+            End If
+        Next
+
+        ' Create a tag array ready to sort the skill times
+        Dim tagArray(count - 1) As Integer
+        For a As Integer = 0 To count - 1
+            tagArray(a) = a
+        Next
+
+        ' Initialize the comparer and sort
+        Dim myComparer As New RectangularComparer(sortSkill)
+        Array.Sort(tagArray, myComparer)
+
+        ' Define the groups
+        Dim nog As Integer = 15             ' Number of groups to break the report into
+        Dim repGroup(nog, 4) As String      ' Name, Min, Max, skillcount, SPs
+        repGroup(1, 0) = "Training Completed" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
+        repGroup(2, 0) = "Upto 1 hour" : repGroup(2, 1) = "1" : repGroup(2, 2) = "3600"
+        repGroup(3, 0) = "1 to 2 hours" : repGroup(3, 1) = "3601" : repGroup(3, 2) = "7200"
+        repGroup(4, 0) = "2 to 4 hours" : repGroup(4, 1) = "7201" : repGroup(4, 2) = "14400"
+        repGroup(5, 0) = "4 to 6 hours" : repGroup(5, 1) = "14401" : repGroup(5, 2) = "21600"
+        repGroup(6, 0) = "6 to 8 hours" : repGroup(6, 1) = "21601" : repGroup(6, 2) = "28800"
+        repGroup(7, 0) = "8 to 16 hours" : repGroup(7, 1) = "28801" : repGroup(7, 2) = "57600"
+        repGroup(8, 0) = "16 to 24 hours" : repGroup(8, 1) = "57601" : repGroup(8, 2) = "86400"
+        repGroup(9, 0) = "1 to 2 days" : repGroup(9, 1) = "86401" : repGroup(9, 2) = "172800"
+        repGroup(10, 0) = "2 to 4 days" : repGroup(10, 1) = "172801" : repGroup(10, 2) = "345600"
+        repGroup(11, 0) = "4 to 7 days" : repGroup(11, 1) = "345601" : repGroup(11, 2) = "604800"
+        repGroup(12, 0) = "7 to 14 days" : repGroup(12, 1) = "604801" : repGroup(12, 2) = "1209600"
+        repGroup(13, 0) = "14 to 21 days" : repGroup(13, 1) = "1209601" : repGroup(13, 2) = "1814400"
+        repGroup(14, 0) = "21 to 28 days" : repGroup(14, 1) = "1814401" : repGroup(14, 2) = "2419200"
+        repGroup(15, 0) = "28 days or more" : repGroup(15, 1) = "2419200" : repGroup(15, 2) = "9999999999"
+
+        Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 6) As String
+        Dim groupCount As Integer = 0
+        Dim skillTimeLeft As Long = 0
+        For groupCount = 1 To nog
+            Dim skillCount As Long = 0
+            Dim SPCount As Long = 0
+            Dim TotalTime As Double = 0
+            Dim i As Integer
+            For i = 0 To tagArray.Length - 1
+                skillTimeLeft = sortSkill(tagArray(i), 1)
+                If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
+                    Dim cskill As EveHQ.Core.Skills
+                    Dim askill As EveHQ.Core.SkillList
+                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                    cskill = CType(rpilot.PilotSkills(askill.Name), Skills)
+                    skillCount += 1
+                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0)
+                    SPCount += cskill.SP
+                    repSkill(groupCount, CInt(skillCount), 0) = cskill.ID
+                    repSkill(groupCount, CInt(skillCount), 1) = cskill.Name
+                    repSkill(groupCount, CInt(skillCount), 2) = CStr(cskill.Rank)
+                    repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0))
+                    repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
+                    repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
+
+                    If rpilot.Training = True Then
+                        If currentSkill.ID = cskill.ID Then
+                            repSkill(groupCount, CInt(skillCount), 3) = CStr((Val(repSkill(groupCount, CInt(skillCount), 3)) + Val(currentSP)))
+                            repSkill(groupCount, CInt(skillCount), 4) = currentTime
+                            SPCount += CLng(currentSP)
+                        End If
+                    End If
+                End If
+            Next
+            repGroup(groupCount, 2) = CStr(skillCount)
+            repGroup(groupCount, 3) = CStr(SPCount)
+            repGroup(groupCount, 4) = EveHQ.Core.SkillFunctions.TimeToString(TotalTime)
+        Next
+
+        Dim imgLevel As String = ""
+        If forIGB = False Then
+            strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
+        Else
+            strHTML &= "<table width=800px cellspacing=0 cellpadding=0>"
+        End If
+        Dim group As Integer = 1
+        Do
+            group = group + 1
+            If group = nog + 1 Then group = 1
+            If CDbl(repGroup(group, 2)) > 0 Then
+                If forIGB = False Then
+                    strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
+                Else
+                    strHTML &= "<tr bgcolor=#44444488><td width=50px></td><td colspan=2 align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td width=50px></td></tr>"
+                End If
+                strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
+                For skill As Integer = 1 To CInt(repGroup(group, 2))
+                    strHTML &= "<tr height=20px><td width=50px></td><td width=50px></td>"
+                    If rpilot.Training = True Then
+                        If currentSkill.ID = repSkill(group, skill, 0) Then
+                            strHTML &= "<td style='color:#FFAA00;'>"
+                            imgLevel = "http://myeve.eve-online.com/bitmaps/character/level" & CDbl(repSkill(group, skill, 5)) + 1 & "_act.gif"
+                        Else
+                            strHTML &= "<td>"
+                            imgLevel = "http://myeve.eve-online.com/bitmaps/character/level" & repSkill(group, skill, 5) & ".gif"
+                        End If
+                    Else
+                        strHTML &= "<td>"
+                        imgLevel = "http://myeve.eve-online.com/bitmaps/character/level" & repSkill(group, skill, 5) & ".gif"
+                    End If
+                    strHTML &= "<b>" & repSkill(group, skill, 1) & "</b>&nbsp;&nbsp;/&nbsp;&nbsp;"
+                    strHTML &= "Rank " & repSkill(group, skill, 2) & "&nbsp;&nbsp;/&nbsp;&nbsp;"
+                    strHTML &= "SP: " & Format(CLng(repSkill(group, skill, 3)), "#,###") & " of " & Format(CLng(repSkill(group, skill, 6)), "#,###") & "&nbsp;&nbsp;/&nbsp;&nbsp;"
+                    strHTML &= "Time to Next Level: " & repSkill(group, skill, 4)
+                    strHTML &= "</td><td width=100px align=center><img src=" & imgLevel & " width=48 height=8 alt='Level " & repSkill(group, skill, 5) & "'></td></tr>"
+                Next
+                strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
+                strHTML &= "<tr><td width=50px></td><td width=50px></td><td align=right>Time to Clear Group: " & repGroup(group, 4) & "</td><td width=100px></td></tr>"
+                strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
+                strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
+            End If
+        Loop Until group = 1
+        strHTML &= "</table>"
+        strHTML &= "<p></p>"
+
+        Return strHTML
+    End Function
+#End Region
+
+#Region "Text Partial Skills Report"
+    Public Shared Sub GenerateTextPartialSkills(ByVal rPilot As EveHQ.Core.Pilot)
+
+        Dim strText As String = ""
+        strText &= TextCharacterDetails("Partially Trained Skills", rPilot)
+        strText &= TextPartialSkills(rPilot)
+        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\PartialSkills (" & rPilot.Name & ").txt")
+        sw.Write(strText)
+        sw.Flush()
+        sw.Close()
+        strText = Nothing
+
+        ' Tidy up report variables
+        GC.Collect()
+
+    End Sub
+
+    Public Shared Function TextPartialSkills(ByVal rpilot As EveHQ.Core.Pilot) As String
+        Dim strText As New StringBuilder
+
+        Dim currentSkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
+        Dim currentSP As String = ""
+        Dim currentTime As String = ""
+        If rpilot.Training = True Then
+            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), Skills)
+            currentSP = CStr(rpilot.TrainingCurrentSP)
+            currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
+        End If
+
+        Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
+        Dim curSkill As EveHQ.Core.Skills
+        Dim count As Integer
+        Dim redTime As Long = 0
+        For Each curSkill In rpilot.PilotSkills
+            Dim partTrained As Boolean = True
+            For level As Integer = 0 To 5
+                If curSkill.SP = curSkill.LevelUp(level) Or curSkill.SP = curSkill.LevelUp(level) + 1 Or curSkill.Level = 5 Then
+                    partTrained = False
+                    Exit For
+                End If
+            Next
+            If partTrained = True Then
+                ' Determine if the skill is being trained
+                If rpilot.Training = True Then
+                    If curSkill.ID = rpilot.TrainingSkillID Then
+                        sortSkill(count, 1) = rpilot.TrainingCurrentTime
+                    Else
+                        sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                    End If
+                Else
+                    sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                End If
+                sortSkill(count, 0) = CLng(curSkill.ID)
+                count += 1
+            End If
+        Next
+
+        ' Create a tag array ready to sort the skill times
+        Dim tagArray(count - 1) As Integer
+        For a As Integer = 0 To count - 1
+            tagArray(a) = a
+        Next
+
+        ' Initialize the comparer and sort
+        Dim myComparer As New RectangularComparer(sortSkill)
+        Array.Sort(tagArray, myComparer)
+
+        ' Define the groups
+        Dim nog As Integer = 15             ' Number of groups to break the report into
+        Dim repGroup(nog, 4) As String      ' Name, Min, Max, skillcount, SPs
+        repGroup(1, 0) = "Training Completed" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
+        repGroup(2, 0) = "Upto 1 hour" : repGroup(2, 1) = "1" : repGroup(2, 2) = "3600"
+        repGroup(3, 0) = "1 to 2 hours" : repGroup(3, 1) = "3601" : repGroup(3, 2) = "7200"
+        repGroup(4, 0) = "2 to 4 hours" : repGroup(4, 1) = "7201" : repGroup(4, 2) = "14400"
+        repGroup(5, 0) = "4 to 6 hours" : repGroup(5, 1) = "14401" : repGroup(5, 2) = "21600"
+        repGroup(6, 0) = "6 to 8 hours" : repGroup(6, 1) = "21601" : repGroup(6, 2) = "28800"
+        repGroup(7, 0) = "8 to 16 hours" : repGroup(7, 1) = "28801" : repGroup(7, 2) = "57600"
+        repGroup(8, 0) = "16 to 24 hours" : repGroup(8, 1) = "57601" : repGroup(8, 2) = "86400"
+        repGroup(9, 0) = "1 to 2 days" : repGroup(9, 1) = "86401" : repGroup(9, 2) = "172800"
+        repGroup(10, 0) = "2 to 4 days" : repGroup(10, 1) = "172801" : repGroup(10, 2) = "345600"
+        repGroup(11, 0) = "4 to 7 days" : repGroup(11, 1) = "345601" : repGroup(11, 2) = "604800"
+        repGroup(12, 0) = "7 to 14 days" : repGroup(12, 1) = "604801" : repGroup(12, 2) = "1209600"
+        repGroup(13, 0) = "14 to 21 days" : repGroup(13, 1) = "1209601" : repGroup(13, 2) = "1814400"
+        repGroup(14, 0) = "21 to 28 days" : repGroup(14, 1) = "1814401" : repGroup(14, 2) = "2419200"
+        repGroup(15, 0) = "28 days or more" : repGroup(15, 1) = "2419200" : repGroup(15, 2) = "9999999999"
+
+        Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 6) As String
+        Dim groupCount As Integer = 0
+        Dim skillTimeLeft As Long = 0
+        For groupCount = 1 To nog
+            Dim skillCount As Long = 0
+            Dim SPCount As Long = 0
+            Dim TotalTime As Double = 0
+            Dim i As Integer
+            For i = 0 To tagArray.Length - 1
+                skillTimeLeft = sortSkill(tagArray(i), 1)
+                If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
+                    Dim cskill As EveHQ.Core.Skills
+                    Dim askill As EveHQ.Core.SkillList
+                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                    cskill = CType(rpilot.PilotSkills(askill.Name), Skills)
+                    skillCount += 1
+                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0)
+                    SPCount += cskill.SP
+                    repSkill(groupCount, CInt(skillCount), 0) = cskill.ID
+                    repSkill(groupCount, CInt(skillCount), 1) = cskill.Name
+                    repSkill(groupCount, CInt(skillCount), 2) = CStr(cskill.Rank)
+                    repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0))
+                    repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
+                    repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
+
+                    If rpilot.Training = True Then
+                        If currentSkill.ID = cskill.ID Then
+                            repSkill(groupCount, CInt(skillCount), 3) = CStr((Val(repSkill(groupCount, CInt(skillCount), 3)) + Val(currentSP)))
+                            repSkill(groupCount, CInt(skillCount), 4) = currentTime
+                            SPCount += CLng(currentSP)
+                        End If
+                    End If
+                End If
+            Next
+            repGroup(groupCount, 2) = CStr(skillCount)
+            repGroup(groupCount, 3) = CStr(SPCount)
+            repGroup(groupCount, 4) = EveHQ.Core.SkillFunctions.TimeToString(TotalTime)
+        Next
+
+        Dim group As Integer = 1
+        Do
+            group = group + 1
+            If group = nog + 1 Then group = 1
+            If CDbl(repGroup(group, 2)) > 0 Then
+                strText.AppendLine(repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)")
+                For skill As Integer = 1 To CInt(repGroup(group, 2))
+                    Dim txtData(4) As String
+                    txtData(0) = "  * " & repSkill(group, skill, 1)
+                    txtData(1) = "Rank " & repSkill(group, skill, 2)
+                    txtData(2) = "Level " & repSkill(group, skill, 5)
+                    txtData(3) = "SP " & FormatNumber(repSkill(group, skill, 3), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    txtData(4) = "TTNL " & repSkill(group, skill, 4)
+                    strText.AppendLine(String.Format("{0,-45} {1,-10} {2,-10} {3,-15} {4,-25}", txtData))
+                Next
+                strText.AppendLine(String.Format("{0,-45} {1,-40}", "", "Time to Clear Group: " & repGroup(group, 4)))
+                strText.AppendLine()
+            End If
+        Loop Until group = 1
+
+        Return strText.ToString
+    End Function
+#End Region
+
 End Class

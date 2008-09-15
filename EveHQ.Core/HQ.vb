@@ -42,6 +42,7 @@ Public Class HQ
     Public Shared SkillUnlocks As SortedList = New SortedList
     Public Shared ItemUnlocks As SortedList = New SortedList
     Public Shared IsUsingLocalFolders As Boolean = False
+    Public Shared IsSplashFormDisabled As Boolean = False
     Public Shared appDataFolder As String = ""
     Public Shared appFolder As String = ""
     Public Shared cacheFolder As String = ""

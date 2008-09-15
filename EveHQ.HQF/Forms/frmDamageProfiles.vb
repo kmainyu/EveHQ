@@ -114,6 +114,7 @@ Public Class frmDamageProfiles
         ProfileForm.Tag = "Add"
         ProfileForm.btnAccept.Text = "Add Profile"
         ProfileForm.ShowDialog()
+        Me.UpdateProfileList()
     End Sub
 
     Private Sub btnEditProfile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditProfile.Click

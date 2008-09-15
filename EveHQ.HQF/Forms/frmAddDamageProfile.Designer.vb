@@ -207,7 +207,6 @@ Partial Class frmAddDamageProfile
         Me.txtEXDamage.Name = "txtEXDamage"
         Me.txtEXDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtEXDamage.TabIndex = 9
-        Me.txtEXDamage.Text = "0.00"
         Me.txtEXDamage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'lblEXDamage
@@ -225,7 +224,6 @@ Partial Class frmAddDamageProfile
         Me.txtKIDamage.Name = "txtKIDamage"
         Me.txtKIDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtKIDamage.TabIndex = 7
-        Me.txtKIDamage.Text = "0.00"
         Me.txtKIDamage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'lblKIDamage
@@ -243,7 +241,6 @@ Partial Class frmAddDamageProfile
         Me.txtTHDamage.Name = "txtTHDamage"
         Me.txtTHDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtTHDamage.TabIndex = 5
-        Me.txtTHDamage.Text = "0.00"
         Me.txtTHDamage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'lblTHDamage
@@ -261,7 +258,6 @@ Partial Class frmAddDamageProfile
         Me.txtDPS.Name = "txtDPS"
         Me.txtDPS.Size = New System.Drawing.Size(75, 21)
         Me.txtDPS.TabIndex = 3
-        Me.txtDPS.Text = "0.00"
         Me.txtDPS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'lblDPS
@@ -279,7 +275,6 @@ Partial Class frmAddDamageProfile
         Me.txtEMDamage.Name = "txtEMDamage"
         Me.txtEMDamage.Size = New System.Drawing.Size(75, 21)
         Me.txtEMDamage.TabIndex = 1
-        Me.txtEMDamage.Text = "0.00"
         Me.txtEMDamage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'lblEmDamage

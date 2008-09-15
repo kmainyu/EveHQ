@@ -56,6 +56,7 @@ Public Class EveSettings
     Private cNotifySoundFile As String
     Private cNotifyOffset As Integer = 0
     Private cEmailServer As String = ""
+    Private cEmailPort As Integer = 25
     Private cEmailAddress As String = ""
     Private cUseSMTPAuth As Boolean = False
     Private cEmailUsername As String = ""
@@ -114,7 +115,16 @@ Public Class EveSettings
     Private cUseAppDirectoryForDB As Boolean = False
     Private cAPIFileExtension As String = "aspx"
     Private cECMDefaultLocation As String = ""
+    Private cTaskbarIconMode As Integer = 0 '0=simple, 1=enhanced
 
+    Public Property TaskbarIconMode() As Integer
+        Get
+            Return cTaskbarIconMode
+        End Get
+        Set(ByVal value As Integer)
+            cTaskbarIconMode = value
+        End Set
+    End Property
     Public Property ECMDefaultLocation() As String
         Get
             Return cECMDefaultLocation
@@ -604,6 +614,14 @@ Public Class EveSettings
         End Get
         Set(ByVal value As String)
             cEmailAddress = value
+        End Set
+    End Property
+    Public Property EMailPort() As Integer
+        Get
+            Return cEmailPort
+        End Get
+        Set(ByVal value As Integer)
+            cEmailPort = value
         End Set
     End Property
     Public Property EMailServer() As String
@@ -1119,6 +1137,8 @@ Public Class EveSettings
         XMLS &= Chr(9) & Chr(9) & "<useAppDirForDB>" & EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB & "</useAppDirForDB>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<APIFileExtension>" & EveHQ.Core.HQ.EveHQSettings.APIFileExtension & "</APIFileExtension>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<ECMDefaultLocation>" & EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation & "</ECMDefaultLocation>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<EMailPort>" & EveHQ.Core.HQ.EveHQSettings.EMailPort & "</EMailPort>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<TaskbarIconMode>" & EveHQ.Core.HQ.EveHQSettings.TaskbarIconMode & "</TaskbarIconMode>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the Plug-Ins details
@@ -1465,6 +1485,8 @@ Public Class EveSettings
                         EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = CBool(accountSettings.ChildNodes(121).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.APIFileExtension = accountSettings.ChildNodes(122).InnerText
                         EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation = accountSettings.ChildNodes(123).InnerText
+                        EveHQ.Core.HQ.EveHQSettings.EMailPort = CInt(accountSettings.ChildNodes(124).InnerText)
+                        EveHQ.Core.HQ.EveHQSettings.TaskbarIconMode = CInt(accountSettings.ChildNodes(125).InnerText)
                     End If
                 End If
             Catch

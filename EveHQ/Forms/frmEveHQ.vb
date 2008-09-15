@@ -41,9 +41,9 @@ Public Class frmEveHQ
     Private Declare Auto Function MoveWindow Lib "user32.dll" (ByVal hwnd As IntPtr, ByVal x As Int32, ByVal y As Int32, ByVal nWidth As Int32, ByVal nHeight As Int32, ByVal bRepaint As Boolean) As Int32
     Private Declare Function GetWindowRect Lib "user32.dll" (ByVal hwnd As Int32, ByRef lpRect As RECT) As Boolean
     Private Declare Function GetClientRect Lib "user32.dll" (ByVal hwnd As Int32, ByRef lpRect As RECT) As Int32
-    Dim ToolTrayForm As New frmToolTrayIconPopup
-    Dim iR As New Rectangle
-    Dim ToolTrayFormActivated As Boolean = False
+    Private Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As Long
+    Private Declare Function FindWindowEx Lib "user32" Alias "FindWindowExA" (ByVal hWnd1 As Integer, ByVal hWnd2 As Integer, ByVal lpsz1 As String, ByVal lpsz2 As String) As Integer
+    Private Declare Function SHAppBarMessage Lib "shell32.dll" Alias "SHAppBarMessage" (ByVal dwMessage As Int32, ByRef pData As APPBARDATA) As Int32
     Private Delegate Sub QueryMyEveServerDelegate()
     Private m_ChildFormNumber As Integer = 0
     Private childFormCount As Integer = 0
@@ -61,6 +61,18 @@ Public Class frmEveHQ
         Public Shared Widening Operator CType(ByVal a As RECT) As Rectangle
             Return New Rectangle(a.Left, a.Top, a.Right - a.Left, a.Bottom - a.Top)
         End Operator
+    End Structure
+    Private Const ABM_GETTASKBARPOS As Int32 = &H5
+    Private Const ABM_GETSTATE As Int32 = &H4
+    Private Const ABS_AUTOHIDE As Int32 = &H1
+    Private Const ABS_ALWAYSONTOP As Int32 = &H2
+    Private Structure APPBARDATA
+        Dim cbSize As Int32
+        Dim hwnd As IntPtr
+        Dim uCallbackMessage As [Delegate]
+        Dim uEdge As Int32
+        Dim rc As RECT
+        Dim lParam As Int32
     End Structure
 
 #Region "Menu Click Routines"
@@ -553,6 +565,9 @@ Public Class frmEveHQ
         If frmTrainingInfo.IsHandleCreated = True Then
             Call frmTrainingInfo.UpdateTraining()
         End If
+        If frmToolTrayIconPopup.IsHandleCreated = True Then
+            Call frmToolTrayIconPopup.UpdateSkillTimes()
+        End If
         ' Update the G15 LCD if applicable
         If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True And EveHQ.Core.HQ.IsG15LCDActive = True Then
             Select Case EveHQ.Core.HQ.lcdCharMode
@@ -684,7 +699,7 @@ Public Class frmEveHQ
         Dim eveHQMail As New System.Net.Mail.SmtpClient
         Try
             eveHQMail.Host = EveHQ.Core.HQ.EveHQSettings.EMailServer
-            eveHQMail.Port = 25
+            eveHQMail.Port = EveHQ.Core.HQ.EveHQSettings.EMailPort
             If EveHQ.Core.HQ.EveHQSettings.UseSMTPAuth = True Then
                 Dim newCredentials As New System.Net.NetworkCredential
                 newCredentials.UserName = EveHQ.Core.HQ.EveHQSettings.EMailUsername
@@ -696,7 +711,7 @@ Public Class frmEveHQ
             eveHQMsg.Body = mailText
             eveHQMail.Send(eveHQMsg)
         Catch ex As Exception
-            MessageBox.Show("The mail notification sending process failed. Please check that the server, address, username and password are correct." & ControlChars.CrLf & ControlChars.CrLf & "The error was: " & ex.Message, "EveHQ Test Email Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("The mail notification sending process failed. Please check that the server, port, address, username and password are correct." & ControlChars.CrLf & ControlChars.CrLf & "The error was: " & ex.Message, "EveHQ Test Email Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
 
     End Sub
@@ -917,6 +932,47 @@ Public Class frmEveHQ
 
     End Sub
 
+    Private Sub XPPilotLabels_Click(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim clickedLabel As Label = CType(sender, Label)
+        Me.cboPilots.SelectedItem = clickedLabel.Text
+    End Sub
+
+    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
+        Dim curPilot As String = cboPilots.SelectedItem.ToString
+        EveHQ.Core.HQ.myPilot = CType(EveHQ.Core.HQ.Pilots(curPilot), Core.Pilot)
+        ' Update the info on the pilot form
+        Call frmPilot.UpdatePilotInfo()
+        ' Check if there is anything we need to disable
+        If EveHQ.Core.HQ.myPilot.Updated = False Then
+            mnuReportsHTMLChar.Enabled = False
+        Else
+            mnuReportsHTMLChar.Enabled = True
+        End If
+        If EveHQ.Core.HQ.myPilot.PilotData.InnerText = "" Then
+            Me.PilotInfoToolStripMenuItem.Enabled = False
+            Me.SkillTrainingToolStripMenuItem.Enabled = False
+            Me.tsbPilotInfo.Enabled = False
+            Me.tsbSkillTraining.Enabled = False
+            If frmTraining.IsHandleCreated = True Then
+                frmTraining.Close()
+            End If
+            If frmPilot.IsHandleCreated = True Then
+                frmPilot.Close()
+            End If
+        Else
+            Me.PilotInfoToolStripMenuItem.Enabled = True
+            Me.SkillTrainingToolStripMenuItem.Enabled = True
+            Me.tsbPilotInfo.Enabled = True
+            Me.tsbSkillTraining.Enabled = True
+        End If
+    End Sub
+
+    Private Sub mnuReportOpenfolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportOpenfolder.Click
+        Process.Start(EveHQ.Core.HQ.reportFolder)
+    End Sub
+
+#Region "Reports"
+
     Private Sub DrawReportsMenu(ByVal allPilots As SortedList)
 
         For menu As Integer = 0 To 3
@@ -1056,50 +1112,17 @@ Public Class frmEveHQ
                 Call EveHQ.Core.Reports.GenerateTextShoppingList(rPilot, rQueue)
                 newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").txt")
                 DisplayReport(newReport, "Shopping List - " & rPilot.Name & " (" & rQueue.Name & ")")
+            Case "mnuReportPartiallyTrainedSkills"
+                Call EveHQ.Core.Reports.GeneratePartialSkills(rPilot)
+                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\PartialSkills (" & rPilot.Name & ").html")
+                DisplayReport(newReport, "Partially Trained Skills - " & rPilot.Name)
+            Case "mnuReportsTextPartiallyTrainedSkills"
+                Call EveHQ.Core.Reports.GenerateTextPartialSkills(rPilot)
+                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\PartialSkills (" & rPilot.Name & ").txt")
+                DisplayReport(newReport, "Partially Trained Skills - " & rPilot.Name)
         End Select
 
     End Sub
-
-    Private Sub XPPilotLabels_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        Dim clickedLabel As Label = CType(sender, Label)
-        Me.cboPilots.SelectedItem = clickedLabel.Text
-    End Sub
-
-    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        Dim curPilot As String = cboPilots.SelectedItem.ToString
-        EveHQ.Core.HQ.myPilot = CType(EveHQ.Core.HQ.Pilots(curPilot), Core.Pilot)
-        ' Update the info on the pilot form
-        Call frmPilot.UpdatePilotInfo()
-        ' Check if there is anything we need to disable
-        If EveHQ.Core.HQ.myPilot.Updated = False Then
-            mnuReportsHTMLChar.Enabled = False
-        Else
-            mnuReportsHTMLChar.Enabled = True
-        End If
-        If EveHQ.Core.HQ.myPilot.PilotData.InnerText = "" Then
-            Me.PilotInfoToolStripMenuItem.Enabled = False
-            Me.SkillTrainingToolStripMenuItem.Enabled = False
-            Me.tsbPilotInfo.Enabled = False
-            Me.tsbSkillTraining.Enabled = False
-            If frmTraining.IsHandleCreated = True Then
-                frmTraining.Close()
-            End If
-            If frmPilot.IsHandleCreated = True Then
-                frmPilot.Close()
-            End If
-        Else
-            Me.PilotInfoToolStripMenuItem.Enabled = True
-            Me.SkillTrainingToolStripMenuItem.Enabled = True
-            Me.tsbPilotInfo.Enabled = True
-            Me.tsbSkillTraining.Enabled = True
-        End If
-    End Sub
-
-    Private Sub mnuReportOpenfolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportOpenfolder.Click
-        Process.Start(EveHQ.Core.HQ.reportFolder)
-    End Sub
-
-#Region "Reports"
 
     Private Sub mnuRepCharSummary_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRepCharSummary.Click
         Dim newReport As New frmReportViewer
@@ -1766,39 +1789,95 @@ Public Class frmEveHQ
     End Sub
 #End Region
 
-    'Private Sub EveStatusIcon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles EveStatusIcon.MouseMove
-    '    Dim eX As Integer = Control.MousePosition.X
-    '    Dim eY As Integer = Control.MousePosition.Y
-    '    If ToolTrayFormActivated = False Then
-    '        ToolTrayFormActivated = True
-    '        tmrToolTrayForm.Enabled = True
-    '        ' Work out co-ords of icon
-    '        Dim iX As Integer = MousePosition.X - eX
-    '        Dim iY As Integer = MousePosition.Y - eY
-    '        iR = New Rectangle(iX, iY, 16, 16)
-    '        Dim workingRectangle As System.Drawing.Rectangle = Screen.PrimaryScreen.WorkingArea
-    '        ToolTrayForm.Location = New System.Drawing.Point(workingRectangle.Width - ToolTrayForm.Width - 5, workingRectangle.Height - ToolTrayForm.Height - 5)
-    '        ToolTrayForm.Show()
-    '        tsLogonStatus.Text = iX & ", " & iY & "(" & eX & ", " & eY & ")"
-    '    End If
-    'End Sub
+#Region "New Popup Routines"
+    Private Sub EveStatusIcon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles EveStatusIcon.MouseMove
+        Select Case EveHQ.Core.HQ.EveHQSettings.TaskbarIconMode
+            Case 0 ' Simple (tooltip)
 
-    'Private Sub tmrToolTrayForm_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrToolTrayForm.Tick
-    '    ' Check if we have gone outside the bounds of the icon
-    '    If ToolTrayFormActivated = True Then
-    '        If iR.Contains(MousePosition.X, MousePosition.Y) = False Then
-    '            tmrToolTrayForm.Enabled = False
-    '            ToolTrayForm.Hide()
-    '            ToolTrayFormActivated = False
-    '        Else
-    '            tsLogonStatus.Text = iR.X & ", " & iR.Y & "(" & MousePosition.X & ", " & MousePosition.Y & ")"
-    '        End If
-    '    End If
-    'End Sub
+            Case 1 ' Enhanced (form)
+                EveStatusIcon.Text = ""
+                If frmToolTrayIconPopup.IsHandleCreated = False Then
+                    frmToolTrayIconPopup.ConfigureForm()
+                    Dim workingRectangle As System.Drawing.Rectangle = Screen.PrimaryScreen.WorkingArea
+                    Dim TaskBarLocation As String = Me.GetTaskbarLocation
+                    Select Case TaskBarLocation
+                        Case "Bottom"
+                            frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
+                        Case "Top"
+                            frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Y + 5)
+                        Case "Left"
+                            frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.X + 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
+                        Case "Right"
+                            frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
+                    End Select
+                    frmToolTrayIconPopup.Show()
+                Else
+                    frmToolTrayIconPopup.tmrSkill.Stop()
+                    frmToolTrayIconPopup.tmrSkill.Start()
+                End If
+        End Select
+        
+    End Sub
+
+    Private Function GetTaskbarLocation() As String
+        Dim tbLeft As Int32
+        Dim tbTop As Int32
+        Dim tbRight As Int32
+        Dim tbBottom As Int32
+        Dim location As String = ""
+
+        ' Get task bar position and state
+        Dim Result As String = GetTaskbarState(Me.Handle, tbLeft, tbTop, tbRight, tbBottom)
+
+        ' Get screen dimensions
+        Dim sX, sY, sW, sH As Int32
+        sX = 0
+        sY = 0
+        sW = Screen.PrimaryScreen.Bounds.Width
+        sH = Screen.PrimaryScreen.Bounds.Height
+
+        ' Work out position
+        If tbBottom = sH Then
+            If tbTop <> sY Then
+                location = "Bottom"
+            Else
+                If tbRight = sW Then
+                    location = "Right"
+                Else
+                    location = "Left"
+                End If
+            End If
+        Else
+            location = "Top"
+        End If
+        Return location
+    End Function
+    Private Function GetTaskbarState(ByVal ParentHandle As IntPtr, ByRef tbLeft As Int32, ByRef tbTop As Int32, ByRef tbRight As Int32, ByRef tbBottom As Int32) As String
+        Dim Result As Int32
+        Dim abd As New APPBARDATA
+        Dim state As String = ""
+        Call SHAppBarMessage(ABM_GETTASKBARPOS, abd)
+        Result = SHAppBarMessage(ABM_GETSTATE, abd)
+        If CBool((Result And ABS_AUTOHIDE)) Then
+            state = "Autohide is Enabled"
+        ElseIf CBool((Result And ABS_ALWAYSONTOP)) Then
+            state = "Always on Top"
+        End If
+        With abd.rc
+            tbLeft = .Left
+            tbTop = .Top
+            tbRight = .Right
+            tbBottom = .Bottom
+        End With
+        Return state
+    End Function
+
+#End Region
 
     Private Sub TriggerErrorToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TriggerErrorToolStripMenuItem.Click
         Dim mPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots("Lee"), Core.Pilot)
         MessageBox.Show(mPilot.Name)
     End Sub
+
 End Class
 

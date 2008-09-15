@@ -67,6 +67,7 @@ Partial Public Class frmEveHQ
         Me.mnuToolsGetAccountInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuBackup = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuToolsAPIChecker = New System.Windows.Forms.ToolStripMenuItem
+        Me.TriggerErrorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuModules = New System.Windows.Forms.ToolStripMenuItem
         Me.NoModulesLoadedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReports = New System.Windows.Forms.ToolStripMenuItem
@@ -150,13 +151,13 @@ Partial Public Class frmEveHQ
         Me.tmrEveWindow = New System.Windows.Forms.Timer(Me.components)
         Me.ctxPlugin = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuLoadPlugin = New System.Windows.Forms.ToolStripMenuItem
-        Me.tmrToolTrayForm = New System.Windows.Forms.Timer(Me.components)
         Me.XPanderList1 = New EveHQ.XPanderList
         Me.XPPilots = New EveHQ.XPander
         Me.XPTraining = New EveHQ.XPander
         Me.lblTrainingStatus = New System.Windows.Forms.Label
         Me.XPModules = New EveHQ.XPander
-        Me.TriggerErrorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportPartiallyTrainedSkills = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportsTextPartiallyTrainedSkills = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -499,6 +500,12 @@ Partial Public Class frmEveHQ
         Me.mnuToolsAPIChecker.Size = New System.Drawing.Size(202, 22)
         Me.mnuToolsAPIChecker.Text = "API Checker"
         '
+        'TriggerErrorToolStripMenuItem
+        '
+        Me.TriggerErrorToolStripMenuItem.Name = "TriggerErrorToolStripMenuItem"
+        Me.TriggerErrorToolStripMenuItem.Size = New System.Drawing.Size(202, 22)
+        Me.TriggerErrorToolStripMenuItem.Text = "Trigger Error"
+        '
         'mnuModules
         '
         Me.mnuModules.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NoModulesLoadedToolStripMenuItem})
@@ -535,7 +542,7 @@ Partial Public Class frmEveHQ
         '
         'mnuReportsHTMLChar
         '
-        Me.mnuReportsHTMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsCharCharsheet, Me.mnuReportCharTraintimes, Me.mnuReportTimeToLevel5, Me.mnureportCharSkillLevels, Me.mnuReportTrainingQueue, Me.mnuReportQueueShoppingList, Me.mnuReportSkillsAvailable, Me.mnuReportSkillsNotTrained})
+        Me.mnuReportsHTMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsCharCharsheet, Me.mnuReportCharTraintimes, Me.mnuReportTimeToLevel5, Me.mnureportCharSkillLevels, Me.mnuReportTrainingQueue, Me.mnuReportQueueShoppingList, Me.mnuReportSkillsAvailable, Me.mnuReportSkillsNotTrained, Me.mnuReportPartiallyTrainedSkills})
         Me.mnuReportsHTMLChar.Enabled = False
         Me.mnuReportsHTMLChar.Name = "mnuReportsHTMLChar"
         Me.mnuReportsHTMLChar.Size = New System.Drawing.Size(190, 22)
@@ -623,9 +630,9 @@ Partial Public Class frmEveHQ
         '
         'mnuReportsTextChar
         '
-        Me.mnuReportsTextChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextCharSheet, Me.mnuReportsTextTrainTimes, Me.mnuReportsTextTimeToLevel5, Me.mnuReportsTextSkillLevels, Me.mnuReportsTextTrainingQueue, Me.mnuReportsTextShoppingList, Me.mnuReportsTextSkillsAvailable, Me.mnuReportsTextSkillsNotTrained})
+        Me.mnuReportsTextChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextCharSheet, Me.mnuReportsTextTrainTimes, Me.mnuReportsTextTimeToLevel5, Me.mnuReportsTextSkillLevels, Me.mnuReportsTextTrainingQueue, Me.mnuReportsTextShoppingList, Me.mnuReportsTextSkillsAvailable, Me.mnuReportsTextSkillsNotTrained, Me.mnuReportsTextPartiallyTrainedSkills})
         Me.mnuReportsTextChar.Name = "mnuReportsTextChar"
-        Me.mnuReportsTextChar.Size = New System.Drawing.Size(125, 22)
+        Me.mnuReportsTextChar.Size = New System.Drawing.Size(152, 22)
         Me.mnuReportsTextChar.Text = "Character"
         '
         'mnuReportsTextCharSheet
@@ -797,7 +804,6 @@ Partial Public Class frmEveHQ
         '
         Me.EveStatusIcon.ContextMenuStrip = Me.EveIconMenu
         Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
-        Me.EveStatusIcon.Text = "EveHQ"
         Me.EveStatusIcon.Visible = True
         '
         'EveIconMenu
@@ -1037,11 +1043,6 @@ Partial Public Class frmEveHQ
         Me.mnuLoadPlugin.Size = New System.Drawing.Size(142, 22)
         Me.mnuLoadPlugin.Text = "Load Plug-in"
         '
-        'tmrToolTrayForm
-        '
-        Me.tmrToolTrayForm.Enabled = True
-        Me.tmrToolTrayForm.Interval = 500
-        '
         'XPanderList1
         '
         Me.XPanderList1.AutoScroll = True
@@ -1168,11 +1169,17 @@ Partial Public Class frmEveHQ
         Me.XPModules.Tag = 2
         Me.XPModules.TooltipText = Nothing
         '
-        'TriggerErrorToolStripMenuItem
+        'mnuReportPartiallyTrainedSkills
         '
-        Me.TriggerErrorToolStripMenuItem.Name = "TriggerErrorToolStripMenuItem"
-        Me.TriggerErrorToolStripMenuItem.Size = New System.Drawing.Size(202, 22)
-        Me.TriggerErrorToolStripMenuItem.Text = "Trigger Error"
+        Me.mnuReportPartiallyTrainedSkills.Name = "mnuReportPartiallyTrainedSkills"
+        Me.mnuReportPartiallyTrainedSkills.Size = New System.Drawing.Size(198, 22)
+        Me.mnuReportPartiallyTrainedSkills.Text = "Partially Trained Skills"
+        '
+        'mnuReportsTextPartiallyTrainedSkills
+        '
+        Me.mnuReportsTextPartiallyTrainedSkills.Name = "mnuReportsTextPartiallyTrainedSkills"
+        Me.mnuReportsTextPartiallyTrainedSkills.Size = New System.Drawing.Size(198, 22)
+        Me.mnuReportsTextPartiallyTrainedSkills.Text = "Partially Trained Skills"
         '
         'frmEveHQ
         '
@@ -1338,8 +1345,9 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuReportsTextShoppingList As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ctxPlugin As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuLoadPlugin As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents tmrToolTrayForm As System.Windows.Forms.Timer
     Friend WithEvents mnuToolsAPIChecker As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TriggerErrorToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuReportPartiallyTrainedSkills As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuReportsTextPartiallyTrainedSkills As System.Windows.Forms.ToolStripMenuItem
 
 End Class

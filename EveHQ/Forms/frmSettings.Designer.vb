@@ -33,8 +33,9 @@ Partial Public Class frmSettings
         Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
         Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
         Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
-        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Overlay")
-        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
+        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
+        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Overlay")
+        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
         Me.txtUpdateLocation = New System.Windows.Forms.TextBox
@@ -244,6 +245,8 @@ Partial Public Class frmSettings
         Me.lblNotifyOffset = New System.Windows.Forms.Label
         Me.trackNotifyOffset = New System.Windows.Forms.TrackBar
         Me.gbEmailOptions = New System.Windows.Forms.GroupBox
+        Me.txtSMTPPort = New System.Windows.Forms.TextBox
+        Me.lblSMTPPort = New System.Windows.Forms.Label
         Me.btnTestEmail = New System.Windows.Forms.Button
         Me.lblEmailPassword = New System.Windows.Forms.Label
         Me.txtEmailPassword = New System.Windows.Forms.TextBox
@@ -318,6 +321,9 @@ Partial Public Class frmSettings
         Me.lblLastUpdateTime = New System.Windows.Forms.Label
         Me.lblLastUpdate = New System.Windows.Forms.Label
         Me.btnUpdatePrices = New System.Windows.Forms.Button
+        Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
+        Me.lblTaskbarIconMode = New System.Windows.Forms.Label
+        Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotLevel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -379,6 +385,7 @@ Partial Public Class frmSettings
         CType(Me.nudCycleTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbMarketPrices.SuspendLayout()
         Me.ctxPrices.SuspendLayout()
+        Me.gbTaskbarIcon.SuspendLayout()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -2106,9 +2113,9 @@ Partial Public Class frmSettings
         Me.gbEveServer.Controls.Add(Me.lblCurrentOffset)
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.trackServerOffset)
-        Me.gbEveServer.Location = New System.Drawing.Point(194, 12)
+        Me.gbEveServer.Location = New System.Drawing.Point(703, 72)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(694, 489)
+        Me.gbEveServer.Size = New System.Drawing.Size(102, 29)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
@@ -2403,9 +2410,9 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(411, 376)
+        Me.gbNotifications.Location = New System.Drawing.Point(468, 399)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(104, 29)
+        Me.gbNotifications.Size = New System.Drawing.Size(95, 34)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
@@ -2414,7 +2421,7 @@ Partial Public Class frmSettings
         'chkNotifyEarly
         '
         Me.chkNotifyEarly.AutoSize = True
-        Me.chkNotifyEarly.Location = New System.Drawing.Point(236, 215)
+        Me.chkNotifyEarly.Location = New System.Drawing.Point(236, 153)
         Me.chkNotifyEarly.Name = "chkNotifyEarly"
         Me.chkNotifyEarly.Size = New System.Drawing.Size(115, 17)
         Me.chkNotifyEarly.TabIndex = 20
@@ -2424,7 +2431,7 @@ Partial Public Class frmSettings
         'chkNotifyNow
         '
         Me.chkNotifyNow.AutoSize = True
-        Me.chkNotifyNow.Location = New System.Drawing.Point(98, 215)
+        Me.chkNotifyNow.Location = New System.Drawing.Point(98, 153)
         Me.chkNotifyNow.Name = "chkNotifyNow"
         Me.chkNotifyNow.Size = New System.Drawing.Size(113, 17)
         Me.chkNotifyNow.TabIndex = 19
@@ -2434,7 +2441,7 @@ Partial Public Class frmSettings
         'lblNotifyMe
         '
         Me.lblNotifyMe.AutoSize = True
-        Me.lblNotifyMe.Location = New System.Drawing.Point(18, 216)
+        Me.lblNotifyMe.Location = New System.Drawing.Point(18, 154)
         Me.lblNotifyMe.Name = "lblNotifyMe"
         Me.lblNotifyMe.Size = New System.Drawing.Size(55, 13)
         Me.lblNotifyMe.TabIndex = 18
@@ -2442,7 +2449,7 @@ Partial Public Class frmSettings
         '
         'btnSoundTest
         '
-        Me.btnSoundTest.Location = New System.Drawing.Point(422, 182)
+        Me.btnSoundTest.Location = New System.Drawing.Point(547, 117)
         Me.btnSoundTest.Name = "btnSoundTest"
         Me.btnSoundTest.Size = New System.Drawing.Size(36, 20)
         Me.btnSoundTest.TabIndex = 17
@@ -2451,7 +2458,7 @@ Partial Public Class frmSettings
         '
         'btnSelectSoundFile
         '
-        Me.btnSelectSoundFile.Location = New System.Drawing.Point(367, 182)
+        Me.btnSelectSoundFile.Location = New System.Drawing.Point(492, 117)
         Me.btnSelectSoundFile.Name = "btnSelectSoundFile"
         Me.btnSelectSoundFile.Size = New System.Drawing.Size(49, 20)
         Me.btnSelectSoundFile.TabIndex = 16
@@ -2463,7 +2470,7 @@ Partial Public Class frmSettings
         Me.lblSoundFile.AutoEllipsis = True
         Me.lblSoundFile.BackColor = System.Drawing.SystemColors.Window
         Me.lblSoundFile.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblSoundFile.Location = New System.Drawing.Point(38, 182)
+        Me.lblSoundFile.Location = New System.Drawing.Point(163, 117)
         Me.lblSoundFile.Name = "lblSoundFile"
         Me.lblSoundFile.Size = New System.Drawing.Size(323, 20)
         Me.lblSoundFile.TabIndex = 15
@@ -2471,7 +2478,7 @@ Partial Public Class frmSettings
         'chkNotifySound
         '
         Me.chkNotifySound.AutoSize = True
-        Me.chkNotifySound.Location = New System.Drawing.Point(21, 158)
+        Me.chkNotifySound.Location = New System.Drawing.Point(21, 117)
         Me.chkNotifySound.Name = "chkNotifySound"
         Me.chkNotifySound.Size = New System.Drawing.Size(136, 17)
         Me.chkNotifySound.TabIndex = 14
@@ -2481,7 +2488,7 @@ Partial Public Class frmSettings
         'lblNotifyOffset
         '
         Me.lblNotifyOffset.AutoSize = True
-        Me.lblNotifyOffset.Location = New System.Drawing.Point(18, 246)
+        Me.lblNotifyOffset.Location = New System.Drawing.Point(18, 184)
         Me.lblNotifyOffset.Name = "lblNotifyOffset"
         Me.lblNotifyOffset.Size = New System.Drawing.Size(120, 13)
         Me.lblNotifyOffset.TabIndex = 13
@@ -2490,7 +2497,7 @@ Partial Public Class frmSettings
         'trackNotifyOffset
         '
         Me.trackNotifyOffset.BackColor = System.Drawing.SystemColors.Control
-        Me.trackNotifyOffset.Location = New System.Drawing.Point(21, 262)
+        Me.trackNotifyOffset.Location = New System.Drawing.Point(21, 200)
         Me.trackNotifyOffset.Maximum = 900
         Me.trackNotifyOffset.Name = "trackNotifyOffset"
         Me.trackNotifyOffset.Size = New System.Drawing.Size(450, 45)
@@ -2500,6 +2507,8 @@ Partial Public Class frmSettings
         '
         'gbEmailOptions
         '
+        Me.gbEmailOptions.Controls.Add(Me.txtSMTPPort)
+        Me.gbEmailOptions.Controls.Add(Me.lblSMTPPort)
         Me.gbEmailOptions.Controls.Add(Me.btnTestEmail)
         Me.gbEmailOptions.Controls.Add(Me.lblEmailPassword)
         Me.gbEmailOptions.Controls.Add(Me.txtEmailPassword)
@@ -2510,17 +2519,33 @@ Partial Public Class frmSettings
         Me.gbEmailOptions.Controls.Add(Me.txtEmailAddress)
         Me.gbEmailOptions.Controls.Add(Me.txtSMTPServer)
         Me.gbEmailOptions.Controls.Add(Me.lblSMTPServer)
-        Me.gbEmailOptions.Location = New System.Drawing.Point(21, 324)
+        Me.gbEmailOptions.Location = New System.Drawing.Point(21, 283)
         Me.gbEmailOptions.Name = "gbEmailOptions"
-        Me.gbEmailOptions.Size = New System.Drawing.Size(452, 154)
+        Me.gbEmailOptions.Size = New System.Drawing.Size(463, 182)
         Me.gbEmailOptions.TabIndex = 6
         Me.gbEmailOptions.TabStop = False
         Me.gbEmailOptions.Text = "E-Mail Options"
         Me.gbEmailOptions.Visible = False
         '
+        'txtSMTPPort
+        '
+        Me.txtSMTPPort.Location = New System.Drawing.Point(106, 46)
+        Me.txtSMTPPort.Name = "txtSMTPPort"
+        Me.txtSMTPPort.Size = New System.Drawing.Size(86, 20)
+        Me.txtSMTPPort.TabIndex = 11
+        '
+        'lblSMTPPort
+        '
+        Me.lblSMTPPort.AutoSize = True
+        Me.lblSMTPPort.Location = New System.Drawing.Point(7, 49)
+        Me.lblSMTPPort.Name = "lblSMTPPort"
+        Me.lblSMTPPort.Size = New System.Drawing.Size(62, 13)
+        Me.lblSMTPPort.TabIndex = 10
+        Me.lblSMTPPort.Text = "SMTP Port:"
+        '
         'btnTestEmail
         '
-        Me.btnTestEmail.Location = New System.Drawing.Point(371, 118)
+        Me.btnTestEmail.Location = New System.Drawing.Point(371, 144)
         Me.btnTestEmail.Name = "btnTestEmail"
         Me.btnTestEmail.Size = New System.Drawing.Size(75, 23)
         Me.btnTestEmail.TabIndex = 9
@@ -2531,7 +2556,7 @@ Partial Public Class frmSettings
         '
         Me.lblEmailPassword.AutoSize = True
         Me.lblEmailPassword.Enabled = False
-        Me.lblEmailPassword.Location = New System.Drawing.Point(7, 124)
+        Me.lblEmailPassword.Location = New System.Drawing.Point(7, 150)
         Me.lblEmailPassword.Name = "lblEmailPassword"
         Me.lblEmailPassword.Size = New System.Drawing.Size(56, 13)
         Me.lblEmailPassword.TabIndex = 8
@@ -2540,7 +2565,7 @@ Partial Public Class frmSettings
         'txtEmailPassword
         '
         Me.txtEmailPassword.Enabled = False
-        Me.txtEmailPassword.Location = New System.Drawing.Point(106, 121)
+        Me.txtEmailPassword.Location = New System.Drawing.Point(106, 147)
         Me.txtEmailPassword.Name = "txtEmailPassword"
         Me.txtEmailPassword.Size = New System.Drawing.Size(250, 20)
         Me.txtEmailPassword.TabIndex = 7
@@ -2548,7 +2573,7 @@ Partial Public Class frmSettings
         'txtEmailUsername
         '
         Me.txtEmailUsername.Enabled = False
-        Me.txtEmailUsername.Location = New System.Drawing.Point(106, 95)
+        Me.txtEmailUsername.Location = New System.Drawing.Point(106, 121)
         Me.txtEmailUsername.Name = "txtEmailUsername"
         Me.txtEmailUsername.Size = New System.Drawing.Size(250, 20)
         Me.txtEmailUsername.TabIndex = 6
@@ -2557,7 +2582,7 @@ Partial Public Class frmSettings
         '
         Me.lblEmailUsername.AutoSize = True
         Me.lblEmailUsername.Enabled = False
-        Me.lblEmailUsername.Location = New System.Drawing.Point(7, 98)
+        Me.lblEmailUsername.Location = New System.Drawing.Point(7, 124)
         Me.lblEmailUsername.Name = "lblEmailUsername"
         Me.lblEmailUsername.Size = New System.Drawing.Size(58, 13)
         Me.lblEmailUsername.TabIndex = 5
@@ -2566,7 +2591,7 @@ Partial Public Class frmSettings
         'chkSMTPAuthentication
         '
         Me.chkSMTPAuthentication.AutoSize = True
-        Me.chkSMTPAuthentication.Location = New System.Drawing.Point(10, 72)
+        Me.chkSMTPAuthentication.Location = New System.Drawing.Point(10, 98)
         Me.chkSMTPAuthentication.Name = "chkSMTPAuthentication"
         Me.chkSMTPAuthentication.Size = New System.Drawing.Size(149, 17)
         Me.chkSMTPAuthentication.TabIndex = 4
@@ -2576,7 +2601,7 @@ Partial Public Class frmSettings
         'lblEMailAddress
         '
         Me.lblEMailAddress.AutoSize = True
-        Me.lblEMailAddress.Location = New System.Drawing.Point(7, 49)
+        Me.lblEMailAddress.Location = New System.Drawing.Point(7, 75)
         Me.lblEMailAddress.Name = "lblEMailAddress"
         Me.lblEMailAddress.Size = New System.Drawing.Size(80, 13)
         Me.lblEMailAddress.TabIndex = 3
@@ -2584,7 +2609,7 @@ Partial Public Class frmSettings
         '
         'txtEmailAddress
         '
-        Me.txtEmailAddress.Location = New System.Drawing.Point(106, 46)
+        Me.txtEmailAddress.Location = New System.Drawing.Point(106, 72)
         Me.txtEmailAddress.Name = "txtEmailAddress"
         Me.txtEmailAddress.Size = New System.Drawing.Size(331, 20)
         Me.txtEmailAddress.TabIndex = 2
@@ -2608,7 +2633,7 @@ Partial Public Class frmSettings
         'chkNotifyEmail
         '
         Me.chkNotifyEmail.AutoSize = True
-        Me.chkNotifyEmail.Location = New System.Drawing.Point(21, 135)
+        Me.chkNotifyEmail.Location = New System.Drawing.Point(400, 89)
         Me.chkNotifyEmail.Name = "chkNotifyEmail"
         Me.chkNotifyEmail.Size = New System.Drawing.Size(137, 17)
         Me.chkNotifyEmail.TabIndex = 5
@@ -2618,7 +2643,7 @@ Partial Public Class frmSettings
         'chkNotifyDialog
         '
         Me.chkNotifyDialog.AutoSize = True
-        Me.chkNotifyDialog.Location = New System.Drawing.Point(21, 112)
+        Me.chkNotifyDialog.Location = New System.Drawing.Point(231, 89)
         Me.chkNotifyDialog.Name = "chkNotifyDialog"
         Me.chkNotifyDialog.Size = New System.Drawing.Size(163, 17)
         Me.chkNotifyDialog.TabIndex = 4
@@ -2706,11 +2731,13 @@ Partial Public Class frmSettings
         TreeNode12.Text = "Plug Ins"
         TreeNode13.Name = "nodeProxyServer"
         TreeNode13.Text = "Proxy Server"
-        TreeNode14.Name = "nodeTrainingOverlay"
-        TreeNode14.Text = "Training Overlay"
-        TreeNode15.Name = "nodeTrainingQueue"
-        TreeNode15.Text = "Training Queue"
-        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15})
+        TreeNode14.Name = "nodeTaskBarIcon"
+        TreeNode14.Text = "Taskbar Icon"
+        TreeNode15.Name = "nodeTrainingOverlay"
+        TreeNode15.Text = "Training Overlay"
+        TreeNode16.Name = "nodeTrainingQueue"
+        TreeNode16.Text = "Training Queue"
+        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16})
         Me.tvwSettings.Size = New System.Drawing.Size(176, 473)
         Me.tvwSettings.TabIndex = 27
         '
@@ -2978,7 +3005,7 @@ Partial Public Class frmSettings
         Me.gbG15.Controls.Add(Me.lblCycleTime)
         Me.gbG15.Controls.Add(Me.chkCyclePilots)
         Me.gbG15.Controls.Add(Me.chkActivateG15)
-        Me.gbG15.Location = New System.Drawing.Point(308, 66)
+        Me.gbG15.Location = New System.Drawing.Point(450, 170)
         Me.gbG15.Name = "gbG15"
         Me.gbG15.Size = New System.Drawing.Size(91, 35)
         Me.gbG15.TabIndex = 30
@@ -3219,23 +3246,55 @@ Partial Public Class frmSettings
         Me.btnUpdatePrices.Text = "Update Market Prices"
         Me.btnUpdatePrices.UseVisualStyleBackColor = True
         '
+        'gbTaskbarIcon
+        '
+        Me.gbTaskbarIcon.Controls.Add(Me.cboTaskbarIconMode)
+        Me.gbTaskbarIcon.Controls.Add(Me.lblTaskbarIconMode)
+        Me.gbTaskbarIcon.Location = New System.Drawing.Point(194, 12)
+        Me.gbTaskbarIcon.Name = "gbTaskbarIcon"
+        Me.gbTaskbarIcon.Size = New System.Drawing.Size(694, 494)
+        Me.gbTaskbarIcon.TabIndex = 32
+        Me.gbTaskbarIcon.TabStop = False
+        Me.gbTaskbarIcon.Text = "Taskbar Icon Settings"
+        Me.gbTaskbarIcon.Visible = False
+        '
+        'lblTaskbarIconMode
+        '
+        Me.lblTaskbarIconMode.AutoSize = True
+        Me.lblTaskbarIconMode.Location = New System.Drawing.Point(16, 38)
+        Me.lblTaskbarIconMode.Name = "lblTaskbarIconMode"
+        Me.lblTaskbarIconMode.Size = New System.Drawing.Size(103, 13)
+        Me.lblTaskbarIconMode.TabIndex = 0
+        Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
+        '
+        'cboTaskbarIconMode
+        '
+        Me.cboTaskbarIconMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboTaskbarIconMode.FormattingEnabled = True
+        Me.cboTaskbarIconMode.Items.AddRange(New Object() {"Simple (Tooltip)", "Enhanced (Form)"})
+        Me.cboTaskbarIconMode.Location = New System.Drawing.Point(125, 35)
+        Me.cboTaskbarIconMode.Name = "cboTaskbarIconMode"
+        Me.cboTaskbarIconMode.Size = New System.Drawing.Size(175, 21)
+        Me.cboTaskbarIconMode.TabIndex = 1
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbEveServer)
+        Me.Controls.Add(Me.gbTaskbarIcon)
         Me.Controls.Add(Me.gbMarketPrices)
+        Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbPilots)
+        Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbEveFolders)
         Me.Controls.Add(Me.gbPlugIns)
-        Me.Controls.Add(Me.gbNotifications)
-        Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbProxyServer)
+        Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbIGB)
         Me.Controls.Add(Me.gbColours)
@@ -3336,6 +3395,8 @@ Partial Public Class frmSettings
         Me.gbMarketPrices.ResumeLayout(False)
         Me.gbMarketPrices.PerformLayout()
         Me.ctxPrices.ResumeLayout(False)
+        Me.gbTaskbarIcon.ResumeLayout(False)
+        Me.gbTaskbarIcon.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -3621,4 +3682,9 @@ Partial Public Class frmSettings
     Friend WithEvents chkUseAppDirForDB As System.Windows.Forms.CheckBox
     Friend WithEvents txtAPIFileExtension As System.Windows.Forms.TextBox
     Friend WithEvents lblAPIFileExtension As System.Windows.Forms.Label
+    Friend WithEvents txtSMTPPort As System.Windows.Forms.TextBox
+    Friend WithEvents lblSMTPPort As System.Windows.Forms.Label
+    Friend WithEvents gbTaskbarIcon As System.Windows.Forms.GroupBox
+    Friend WithEvents cboTaskbarIconMode As System.Windows.Forms.ComboBox
+    Friend WithEvents lblTaskbarIconMode As System.Windows.Forms.Label
 End Class

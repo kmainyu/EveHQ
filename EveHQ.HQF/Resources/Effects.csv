@@ -549,9 +549,9 @@
 1206,2,71,73,2,71,1,0,0,8,Energy Neut Duration
 1206,2,67,73,2,67,1,0,0,8,Energy Transfer Duration
 1206,2,68,73,2,68,1,0,0,8,Energy Vampire Duration
-1205,2,53,51,2,53,1,0,0,8,Energy Weapon ROF Bonus
+1205,2,53,10011,2,53,1,0,0,8,Energy Weapon ROF Bonus
 1206,2,63,73,2,63,1,0,0,8,Hull Rep Duration
-1205,2,74,51,2,74,1,0,0,8,Hybrid Weapon ROF Bonus
+1205,2,74,10012,2,74,1,0,0,8,Hybrid Weapon ROF Bonus
 1205,2,511,51,2,511,0,0,0,8,Assault Launcher ROF Bonus
 1205,2,524,51,2,524,0,0,0,8,Citadel Launcher ROF Bonus
 1205,2,506,51,2,506,0,0,0,8,Cruise Launcher ROF Bonus
@@ -560,7 +560,7 @@
 1205,2,507,51,2,507,0,0,0,8,Rocket Launcher ROF Bonus
 1205,2,508,51,2,508,0,0,0,8,Siege Launcher ROF Bonus
 1205,2,509,51,2,509,0,0,0,8,Standard Launcher ROF Bonus
-1205,2,509,51,2,509,1,0,0,8,Projectile Weapon ROF Bonus
+1205,2,509,10013,2,509,1,0,0,8,Projectile Weapon ROF Bonus
 1231,2,40,68,2,40,1,0,0,8,Shield Booster Boost Amount
 1206,2,40,73,2,40,1,0,0,8,Shield Booster Duration
 1208,2,77,984,2,77,1,0,0,8,Shield Hardener - EM

@@ -340,15 +340,19 @@ Public Class DataFunctions
         Return True
     End Function
     Public Shared Function GetPrice(ByVal itemID As String) As Double
-        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) = True Then
-            Return CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
-        Else
-            If EveHQ.Core.HQ.MarketPriceList.ContainsKey(itemID) Then
-                Return CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))
+        Try
+            If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) = True Then
+                Return CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
             Else
-                Return CDbl(EveHQ.Core.HQ.BasePriceList(itemID))
+                If EveHQ.Core.HQ.MarketPriceList.ContainsKey(itemID) Then
+                    Return CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))
+                Else
+                    Return CDbl(EveHQ.Core.HQ.BasePriceList(itemID))
+                End If
             End If
-        End If
+        Catch e As Exception
+            Return CDbl(EveHQ.Core.HQ.BasePriceList(itemID))
+        End Try
     End Function
 
 #Region "MSSQL Data Conversion Routines"

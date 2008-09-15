@@ -359,8 +359,14 @@ Public Class frmUpdater
             lblUpdateStatus.Text = "Updating Files..."
             Call UpdateEveHQ()
             lblUpdateStatus.Text = "Status: Update Complete!"
-            MessageBox.Show("All Updates Completed! Please restart EveHQ to use the updated application.", "Update Complete!", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Me.Close()
+            Dim msg As String = "All Updates Completed! EveHQ needs to be restarted to use the new updates." & ControlChars.CrLf & ControlChars.CrLf
+            msg &= "Would you like to restart EveHQ now?"
+            Dim result As Integer = MessageBox.Show(msg, "Update Complete!", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If result = DialogResult.No Then
+                Me.Close()
+            Else
+                Call Me.RestartEveHQ()
+            End If
         End If
     End Sub
 
@@ -372,6 +378,9 @@ Public Class frmUpdater
                 Dim ofi As New IO.FileInfo(oldFile)
                 Dim nfi As New IO.FileInfo(newFile)
                 If ofi.Exists = True Then
+                    If My.Computer.FileSystem.FileExists(ofi.FullName & ".old") = True Then
+                        My.Computer.FileSystem.DeleteFile(ofi.FullName & ".old")
+                    End If
                     My.Computer.FileSystem.RenameFile(ofi.FullName, ofi.Name & ".old")
                 End If
                 ' Copy the new file as the old one
@@ -389,6 +398,24 @@ Public Class frmUpdater
     Private Sub btnRecheckUpdates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRecheckUpdates.Click
         btnRecheckUpdates.Enabled = False
         Call Me.ShowUpdates()
+    End Sub
+
+    Private Sub btnRestartEveHQ_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRestartEveHQ.Click
+        RestartEveHQ()
+    End Sub
+
+    Private Sub RestartEveHQ()
+        Dim np As New ProcessStartInfo
+        np.FileName = EveHQ.Core.HQ.appFolder & "\evehq.exe"
+        np.Arguments = "/wait "
+        If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
+            np.Arguments &= "/local "
+        End If
+        If EveHQ.Core.HQ.IsSplashFormDisabled = True Then
+            np.Arguments &= "/nosplash "
+        End If
+        Process.Start(np)
+        Application.Exit()
     End Sub
 End Class
 

@@ -1513,6 +1513,8 @@ Imports System.Runtime.Serialization
                     newShip.DroneBay = attValue
                 Case 1271
                     newShip.DroneBandwidth = attValue
+                Case 10002
+                    newShip.Mass = attValue
                 Case 10004
                     newShip.CargoBay = CInt(attValue)
                 Case 10005

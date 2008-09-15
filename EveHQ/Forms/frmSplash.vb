@@ -34,12 +34,16 @@ Public Class frmSplash
 
         ' Check for any commandline parameters that we need to account for
         For Each param As String In System.Environment.GetCommandLineArgs
+            If param = "/wait" Then
+                Threading.Thread.Sleep(2000)
+            End If
             If param = "/local" Then
                 isLocal = True
                 EveHQ.Core.HQ.IsUsingLocalFolders = True
             End If
             If param = "/nosplash" Then
                 showSplash = False
+                EveHQ.Core.HQ.IsSplashFormDisabled = True
             End If
         Next
 
