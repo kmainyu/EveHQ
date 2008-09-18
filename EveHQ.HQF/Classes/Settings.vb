@@ -50,7 +50,25 @@ Public Class Settings
     Private cStandardSlotColumns As New ArrayList
     Private cUserSlotColumns As New ArrayList
     Private cFavourites As New ArrayList
+    Private cMRULimit As Integer = 15
+    Private cMRUModules As New ArrayList
 
+    Public Property MRUModules() As ArrayList
+        Get
+            Return cMRUModules
+        End Get
+        Set(ByVal value As ArrayList)
+            cMRUModules = value
+        End Set
+    End Property
+    Public Property MRULimit() As Integer
+        Get
+            Return cMRULimit
+        End Get
+        Set(ByVal value As Integer)
+            cMRULimit = value
+        End Set
+    End Property
     Public Property Favourites() As ArrayList
         Get
             Return cFavourites
@@ -359,14 +377,11 @@ Public Class Settings
 
         End If
 
-        ' Check if the columns are blank and we need to setup the default
+        ' Check if the standard columns have changed and we need to add columns
         If HQFSettings.UserSlotColumns.Count <> HQFSettings.StandardSlotColumns.Count Then
-            HQFSettings.UserSlotColumns.Clear()
             For Each slotItem As ListViewItem In cStandardSlotColumns
-                If slotItem.Checked = False Then
+                If HQFSettings.UserSlotColumns.Contains(slotItem.Name & "0") = False And HQFSettings.UserSlotColumns.Contains(slotItem.Name & "1") = False Then
                     HQFSettings.UserSlotColumns.Add(slotItem.Name & "0")
-                Else
-                    HQFSettings.UserSlotColumns.Add(slotItem.Name & "1")
                 End If
             Next
         End If
@@ -446,6 +461,18 @@ Public Class Settings
         newItem = New ListViewItem
         newItem.Name = "DPS"
         newItem.Text = "DPS"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+        ' Setup Falloff
+        newItem = New ListViewItem
+        newItem.Name = "Falloff"
+        newItem.Text = "Falloff"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+        ' Setup Tracking
+        newItem = New ListViewItem
+        newItem.Name = "Tracking"
+        newItem.Text = "Tracking"
         newItem.Checked = False
         cStandardSlotColumns.Add(newItem)
     End Sub

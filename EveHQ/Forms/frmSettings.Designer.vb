@@ -21,21 +21,22 @@ Partial Public Class frmSettings
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("General")
-        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Database Format")
-        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Accounts")
-        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Folders")
-        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve API & Server")
-        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("FTP Accounts")
-        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("G15 Display")
-        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("IGB")
-        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Market Prices")
-        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
-        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
-        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
-        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
-        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
-        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Overlay")
-        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Colours")
+        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Database Format")
+        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Accounts")
+        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Folders")
+        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve API & Server")
+        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("FTP Accounts")
+        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("G15 Display")
+        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("IGB")
+        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Market Prices")
+        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
+        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
+        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
+        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
+        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
+        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Overlay")
+        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
         Me.txtUpdateLocation = New System.Windows.Forms.TextBox
@@ -268,8 +269,6 @@ Partial Public Class frmSettings
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog
         Me.tvwSettings = New System.Windows.Forms.TreeView
         Me.gbColours = New System.Windows.Forms.GroupBox
-        Me.pbPilotTrainingHighlight = New System.Windows.Forms.PictureBox
-        Me.lblPilotTrainingHighlight = New System.Windows.Forms.Label
         Me.cd1 = New System.Windows.Forms.ColorDialog
         Me.gbTrainingOverlay = New System.Windows.Forms.GroupBox
         Me.chkClickThroughOverlay = New System.Windows.Forms.CheckBox
@@ -304,11 +303,6 @@ Partial Public Class frmSettings
         Me.lblSearchPrices = New System.Windows.Forms.Label
         Me.lblUpdatePrice = New System.Windows.Forms.Label
         Me.txtUpdatePrice = New System.Windows.Forms.TextBox
-        Me.lvwPrices = New EveHQ.ListViewNoFlicker
-        Me.colPriceName = New System.Windows.Forms.ColumnHeader
-        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
-        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
-        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
         Me.ctxPrices = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
@@ -322,8 +316,18 @@ Partial Public Class frmSettings
         Me.lblLastUpdate = New System.Windows.Forms.Label
         Me.btnUpdatePrices = New System.Windows.Forms.Button
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
-        Me.lblTaskbarIconMode = New System.Windows.Forms.Label
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
+        Me.lblTaskbarIconMode = New System.Windows.Forms.Label
+        Me.lvwPrices = New EveHQ.ListViewNoFlicker
+        Me.colPriceName = New System.Windows.Forms.ColumnHeader
+        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
+        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
+        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
+        Me.chkErrorReporting = New System.Windows.Forms.CheckBox
+        Me.lblErrorRepName = New System.Windows.Forms.Label
+        Me.txtErrorRepName = New System.Windows.Forms.TextBox
+        Me.txtErrorRepEmail = New System.Windows.Forms.TextBox
+        Me.lblErrorRepEmail = New System.Windows.Forms.Label
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotLevel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -373,7 +377,6 @@ Partial Public Class frmSettings
         Me.gbEmailOptions.SuspendLayout()
         CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbColours.SuspendLayout()
-        CType(Me.pbPilotTrainingHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbTrainingOverlay.SuspendLayout()
         CType(Me.pbFontColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudOverlayYOffset, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -390,10 +393,13 @@ Partial Public Class frmSettings
         '
         'gbGeneral
         '
+        Me.gbGeneral.Controls.Add(Me.txtErrorRepEmail)
+        Me.gbGeneral.Controls.Add(Me.lblErrorRepEmail)
+        Me.gbGeneral.Controls.Add(Me.txtErrorRepName)
+        Me.gbGeneral.Controls.Add(Me.lblErrorRepName)
+        Me.gbGeneral.Controls.Add(Me.chkErrorReporting)
         Me.gbGeneral.Controls.Add(Me.txtUpdateLocation)
         Me.gbGeneral.Controls.Add(Me.lblUpdateLocation)
-        Me.gbGeneral.Controls.Add(Me.gbPilotScreenColours)
-        Me.gbGeneral.Controls.Add(Me.gbPanelColours)
         Me.gbGeneral.Controls.Add(Me.chkMinimiseOnExit)
         Me.gbGeneral.Controls.Add(Me.lblMDITabStyle)
         Me.gbGeneral.Controls.Add(Me.cboMDITabStyle)
@@ -406,9 +412,9 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
         Me.gbGeneral.Controls.Add(Me.chkAutoRun)
         Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-        Me.gbGeneral.Location = New System.Drawing.Point(615, 324)
+        Me.gbGeneral.Location = New System.Drawing.Point(194, 12)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(100, 53)
+        Me.gbGeneral.Size = New System.Drawing.Size(693, 498)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -441,7 +447,7 @@ Partial Public Class frmSettings
         Me.gbPilotScreenColours.Controls.Add(Me.lblPilotCurrentColour)
         Me.gbPilotScreenColours.Controls.Add(Me.pbPilotStandard)
         Me.gbPilotScreenColours.Controls.Add(Me.lblPilotStandardColour)
-        Me.gbPilotScreenColours.Location = New System.Drawing.Point(245, 223)
+        Me.gbPilotScreenColours.Location = New System.Drawing.Point(239, 21)
         Me.gbPilotScreenColours.Name = "gbPilotScreenColours"
         Me.gbPilotScreenColours.Size = New System.Drawing.Size(215, 257)
         Me.gbPilotScreenColours.TabIndex = 37
@@ -552,7 +558,7 @@ Partial Public Class frmSettings
         Me.gbPanelColours.Controls.Add(Me.lblPanelOutline)
         Me.gbPanelColours.Controls.Add(Me.pbPanelBackground)
         Me.gbPanelColours.Controls.Add(Me.lblPanelBackground)
-        Me.gbPanelColours.Location = New System.Drawing.Point(24, 223)
+        Me.gbPanelColours.Location = New System.Drawing.Point(13, 21)
         Me.gbPanelColours.Name = "gbPanelColours"
         Me.gbPanelColours.Size = New System.Drawing.Size(215, 257)
         Me.gbPanelColours.TabIndex = 36
@@ -2410,7 +2416,7 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(468, 399)
+        Me.gbNotifications.Location = New System.Drawing.Point(418, 399)
         Me.gbNotifications.Name = "gbNotifications"
         Me.gbNotifications.Size = New System.Drawing.Size(95, 34)
         Me.gbNotifications.TabIndex = 20
@@ -2707,70 +2713,53 @@ Partial Public Class frmSettings
         Me.tvwSettings.Name = "tvwSettings"
         TreeNode1.Name = "nodeGeneral"
         TreeNode1.Text = "General"
-        TreeNode2.Name = "nodeDatabaseFormat"
-        TreeNode2.Text = "Database Format"
-        TreeNode3.Name = "nodeEveAccounts"
-        TreeNode3.Text = "Eve Accounts"
-        TreeNode4.Name = "nodeEveFolders"
-        TreeNode4.Text = "Eve Folders"
-        TreeNode5.Name = "nodeEveServer"
-        TreeNode5.Text = "Eve API & Server"
-        TreeNode6.Name = "nodeFTPAccounts"
-        TreeNode6.Text = "FTP Accounts"
-        TreeNode7.Name = "nodeG15"
-        TreeNode7.Text = "G15 Display"
-        TreeNode8.Name = "nodeIGB"
-        TreeNode8.Text = "IGB"
-        TreeNode9.Name = "nodeMarketPrices"
-        TreeNode9.Text = "Market Prices"
-        TreeNode10.Name = "nodeNotifications"
-        TreeNode10.Text = "Notifications"
-        TreeNode11.Name = "nodePilots"
-        TreeNode11.Text = "Pilots"
-        TreeNode12.Name = "nodePlugins"
-        TreeNode12.Text = "Plug Ins"
-        TreeNode13.Name = "nodeProxyServer"
-        TreeNode13.Text = "Proxy Server"
-        TreeNode14.Name = "nodeTaskBarIcon"
-        TreeNode14.Text = "Taskbar Icon"
-        TreeNode15.Name = "nodeTrainingOverlay"
-        TreeNode15.Text = "Training Overlay"
-        TreeNode16.Name = "nodeTrainingQueue"
-        TreeNode16.Text = "Training Queue"
-        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16})
+        TreeNode2.Name = "nodeColours"
+        TreeNode2.Text = "Colours"
+        TreeNode3.Name = "nodeDatabaseFormat"
+        TreeNode3.Text = "Database Format"
+        TreeNode4.Name = "nodeEveAccounts"
+        TreeNode4.Text = "Eve Accounts"
+        TreeNode5.Name = "nodeEveFolders"
+        TreeNode5.Text = "Eve Folders"
+        TreeNode6.Name = "nodeEveServer"
+        TreeNode6.Text = "Eve API & Server"
+        TreeNode7.Name = "nodeFTPAccounts"
+        TreeNode7.Text = "FTP Accounts"
+        TreeNode8.Name = "nodeG15"
+        TreeNode8.Text = "G15 Display"
+        TreeNode9.Name = "nodeIGB"
+        TreeNode9.Text = "IGB"
+        TreeNode10.Name = "nodeMarketPrices"
+        TreeNode10.Text = "Market Prices"
+        TreeNode11.Name = "nodeNotifications"
+        TreeNode11.Text = "Notifications"
+        TreeNode12.Name = "nodePilots"
+        TreeNode12.Text = "Pilots"
+        TreeNode13.Name = "nodePlugins"
+        TreeNode13.Text = "Plug Ins"
+        TreeNode14.Name = "nodeProxyServer"
+        TreeNode14.Text = "Proxy Server"
+        TreeNode15.Name = "nodeTaskBarIcon"
+        TreeNode15.Text = "Taskbar Icon"
+        TreeNode16.Name = "nodeTrainingOverlay"
+        TreeNode16.Text = "Training Overlay"
+        TreeNode17.Name = "nodeTrainingQueue"
+        TreeNode17.Text = "Training Queue"
+        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode17})
         Me.tvwSettings.Size = New System.Drawing.Size(176, 473)
         Me.tvwSettings.TabIndex = 27
         '
         'gbColours
         '
-        Me.gbColours.Controls.Add(Me.pbPilotTrainingHighlight)
-        Me.gbColours.Controls.Add(Me.lblPilotTrainingHighlight)
-        Me.gbColours.Location = New System.Drawing.Point(200, 90)
+        Me.gbColours.Controls.Add(Me.gbPanelColours)
+        Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
+        Me.gbColours.Location = New System.Drawing.Point(612, 314)
         Me.gbColours.Name = "gbColours"
-        Me.gbColours.Size = New System.Drawing.Size(60, 37)
+        Me.gbColours.Size = New System.Drawing.Size(100, 31)
         Me.gbColours.TabIndex = 28
         Me.gbColours.TabStop = False
         Me.gbColours.Text = "Colours"
         Me.gbColours.Visible = False
-        '
-        'pbPilotTrainingHighlight
-        '
-        Me.pbPilotTrainingHighlight.BackColor = System.Drawing.Color.Lime
-        Me.pbPilotTrainingHighlight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPilotTrainingHighlight.Location = New System.Drawing.Point(204, 24)
-        Me.pbPilotTrainingHighlight.Name = "pbPilotTrainingHighlight"
-        Me.pbPilotTrainingHighlight.Size = New System.Drawing.Size(46, 19)
-        Me.pbPilotTrainingHighlight.TabIndex = 1
-        Me.pbPilotTrainingHighlight.TabStop = False
-        '
-        'lblPilotTrainingHighlight
-        '
-        Me.lblPilotTrainingHighlight.AutoSize = True
-        Me.lblPilotTrainingHighlight.Location = New System.Drawing.Point(19, 30)
-        Me.lblPilotTrainingHighlight.Name = "lblPilotTrainingHighlight"
-        Me.lblPilotTrainingHighlight.Size = New System.Drawing.Size(160, 13)
-        Me.lblPilotTrainingHighlight.TabIndex = 0
-        Me.lblPilotTrainingHighlight.Text = "Pilot Form Skill Training Highlight"
         '
         'gbTrainingOverlay
         '
@@ -3115,48 +3104,6 @@ Partial Public Class frmSettings
         Me.txtUpdatePrice.TabIndex = 8
         Me.txtUpdatePrice.Visible = False
         '
-        'lvwPrices
-        '
-        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
-        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
-        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwPrices.FullRowSelect = True
-        Me.lvwPrices.GridLines = True
-        Me.lvwPrices.HideSelection = False
-        Me.lvwPrices.Location = New System.Drawing.Point(6, 110)
-        Me.lvwPrices.MultiSelect = False
-        Me.lvwPrices.Name = "lvwPrices"
-        Me.lvwPrices.Size = New System.Drawing.Size(82, 0)
-        Me.lvwPrices.TabIndex = 7
-        Me.lvwPrices.UseCompatibleStateImageBehavior = False
-        Me.lvwPrices.View = System.Windows.Forms.View.Details
-        '
-        'colPriceName
-        '
-        Me.colPriceName.Text = "Item Name"
-        Me.colPriceName.Width = 300
-        '
-        'colBasePrice
-        '
-        Me.colBasePrice.Text = "Base Price"
-        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colBasePrice.Width = 120
-        '
-        'colMarketPrice
-        '
-        Me.colMarketPrice.Text = "Market Price"
-        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colMarketPrice.Width = 120
-        '
-        'colCustomPrice
-        '
-        Me.colCustomPrice.Text = "Custom Price"
-        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colCustomPrice.Width = 120
-        '
         'ctxPrices
         '
         Me.ctxPrices.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuPriceItemName, Me.ToolStripMenuItem1, Me.mnuPriceAdd, Me.mnuPriceEdit, Me.mnuPriceDelete})
@@ -3250,22 +3197,13 @@ Partial Public Class frmSettings
         '
         Me.gbTaskbarIcon.Controls.Add(Me.cboTaskbarIconMode)
         Me.gbTaskbarIcon.Controls.Add(Me.lblTaskbarIconMode)
-        Me.gbTaskbarIcon.Location = New System.Drawing.Point(194, 12)
+        Me.gbTaskbarIcon.Location = New System.Drawing.Point(634, 414)
         Me.gbTaskbarIcon.Name = "gbTaskbarIcon"
-        Me.gbTaskbarIcon.Size = New System.Drawing.Size(694, 494)
+        Me.gbTaskbarIcon.Size = New System.Drawing.Size(100, 39)
         Me.gbTaskbarIcon.TabIndex = 32
         Me.gbTaskbarIcon.TabStop = False
         Me.gbTaskbarIcon.Text = "Taskbar Icon Settings"
         Me.gbTaskbarIcon.Visible = False
-        '
-        'lblTaskbarIconMode
-        '
-        Me.lblTaskbarIconMode.AutoSize = True
-        Me.lblTaskbarIconMode.Location = New System.Drawing.Point(16, 38)
-        Me.lblTaskbarIconMode.Name = "lblTaskbarIconMode"
-        Me.lblTaskbarIconMode.Size = New System.Drawing.Size(103, 13)
-        Me.lblTaskbarIconMode.TabIndex = 0
-        Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
         'cboTaskbarIconMode
         '
@@ -3277,27 +3215,124 @@ Partial Public Class frmSettings
         Me.cboTaskbarIconMode.Size = New System.Drawing.Size(175, 21)
         Me.cboTaskbarIconMode.TabIndex = 1
         '
+        'lblTaskbarIconMode
+        '
+        Me.lblTaskbarIconMode.AutoSize = True
+        Me.lblTaskbarIconMode.Location = New System.Drawing.Point(16, 38)
+        Me.lblTaskbarIconMode.Name = "lblTaskbarIconMode"
+        Me.lblTaskbarIconMode.Size = New System.Drawing.Size(103, 13)
+        Me.lblTaskbarIconMode.TabIndex = 0
+        Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
+        '
+        'lvwPrices
+        '
+        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
+        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
+        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwPrices.FullRowSelect = True
+        Me.lvwPrices.GridLines = True
+        Me.lvwPrices.HideSelection = False
+        Me.lvwPrices.Location = New System.Drawing.Point(6, 110)
+        Me.lvwPrices.MultiSelect = False
+        Me.lvwPrices.Name = "lvwPrices"
+        Me.lvwPrices.Size = New System.Drawing.Size(82, 0)
+        Me.lvwPrices.TabIndex = 7
+        Me.lvwPrices.UseCompatibleStateImageBehavior = False
+        Me.lvwPrices.View = System.Windows.Forms.View.Details
+        '
+        'colPriceName
+        '
+        Me.colPriceName.Text = "Item Name"
+        Me.colPriceName.Width = 300
+        '
+        'colBasePrice
+        '
+        Me.colBasePrice.Text = "Base Price"
+        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colBasePrice.Width = 120
+        '
+        'colMarketPrice
+        '
+        Me.colMarketPrice.Text = "Market Price"
+        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colMarketPrice.Width = 120
+        '
+        'colCustomPrice
+        '
+        Me.colCustomPrice.Text = "Custom Price"
+        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colCustomPrice.Width = 120
+        '
+        'chkErrorReporting
+        '
+        Me.chkErrorReporting.AutoSize = True
+        Me.chkErrorReporting.Location = New System.Drawing.Point(24, 224)
+        Me.chkErrorReporting.Name = "chkErrorReporting"
+        Me.chkErrorReporting.Size = New System.Drawing.Size(184, 17)
+        Me.chkErrorReporting.TabIndex = 40
+        Me.chkErrorReporting.Text = "Enable Integrated Error Reporting"
+        Me.chkErrorReporting.UseVisualStyleBackColor = True
+        '
+        'lblErrorRepName
+        '
+        Me.lblErrorRepName.AutoSize = True
+        Me.lblErrorRepName.Enabled = False
+        Me.lblErrorRepName.Location = New System.Drawing.Point(56, 250)
+        Me.lblErrorRepName.Name = "lblErrorRepName"
+        Me.lblErrorRepName.Size = New System.Drawing.Size(86, 13)
+        Me.lblErrorRepName.TabIndex = 41
+        Me.lblErrorRepName.Text = "Name (Optional):"
+        '
+        'txtErrorRepName
+        '
+        Me.txtErrorRepName.Enabled = False
+        Me.txtErrorRepName.Location = New System.Drawing.Point(144, 247)
+        Me.txtErrorRepName.Name = "txtErrorRepName"
+        Me.txtErrorRepName.Size = New System.Drawing.Size(247, 20)
+        Me.txtErrorRepName.TabIndex = 42
+        '
+        'txtErrorRepEmail
+        '
+        Me.txtErrorRepEmail.Enabled = False
+        Me.txtErrorRepEmail.Location = New System.Drawing.Point(144, 273)
+        Me.txtErrorRepEmail.Name = "txtErrorRepEmail"
+        Me.txtErrorRepEmail.Size = New System.Drawing.Size(247, 20)
+        Me.txtErrorRepEmail.TabIndex = 44
+        '
+        'lblErrorRepEmail
+        '
+        Me.lblErrorRepEmail.AutoSize = True
+        Me.lblErrorRepEmail.Enabled = False
+        Me.lblErrorRepEmail.Location = New System.Drawing.Point(56, 276)
+        Me.lblErrorRepEmail.Name = "lblErrorRepEmail"
+        Me.lblErrorRepEmail.Size = New System.Drawing.Size(83, 13)
+        Me.lblErrorRepEmail.TabIndex = 43
+        Me.lblErrorRepEmail.Text = "Email (Optional):"
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbTaskbarIcon)
+        Me.Controls.Add(Me.gbGeneral)
+        Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbMarketPrices)
+        Me.Controls.Add(Me.gbTaskbarIcon)
         Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbPilots)
         Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbTrainingQueue)
-        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbEveFolders)
         Me.Controls.Add(Me.gbPlugIns)
         Me.Controls.Add(Me.gbProxyServer)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbIGB)
-        Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.gbFTPAccounts)
@@ -3379,8 +3414,6 @@ Partial Public Class frmSettings
         Me.gbEmailOptions.PerformLayout()
         CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbColours.ResumeLayout(False)
-        Me.gbColours.PerformLayout()
-        CType(Me.pbPilotTrainingHighlight, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbTrainingOverlay.ResumeLayout(False)
         Me.gbTrainingOverlay.PerformLayout()
         CType(Me.pbFontColour, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3530,9 +3563,7 @@ Partial Public Class frmSettings
     Friend WithEvents chkContinueTraining As System.Windows.Forms.CheckBox
     Friend WithEvents tvwSettings As System.Windows.Forms.TreeView
     Friend WithEvents gbColours As System.Windows.Forms.GroupBox
-    Friend WithEvents lblPilotTrainingHighlight As System.Windows.Forms.Label
     Friend WithEvents cd1 As System.Windows.Forms.ColorDialog
-    Friend WithEvents pbPilotTrainingHighlight As System.Windows.Forms.PictureBox
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnRefreshPlugins As System.Windows.Forms.Button
     Friend WithEvents gbTrainingOverlay As System.Windows.Forms.GroupBox
@@ -3687,4 +3718,9 @@ Partial Public Class frmSettings
     Friend WithEvents gbTaskbarIcon As System.Windows.Forms.GroupBox
     Friend WithEvents cboTaskbarIconMode As System.Windows.Forms.ComboBox
     Friend WithEvents lblTaskbarIconMode As System.Windows.Forms.Label
+    Friend WithEvents chkErrorReporting As System.Windows.Forms.CheckBox
+    Friend WithEvents txtErrorRepEmail As System.Windows.Forms.TextBox
+    Friend WithEvents lblErrorRepEmail As System.Windows.Forms.Label
+    Friend WithEvents txtErrorRepName As System.Windows.Forms.TextBox
+    Friend WithEvents lblErrorRepName As System.Windows.Forms.Label
 End Class

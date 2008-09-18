@@ -178,14 +178,12 @@ Public Class ShipSlotControl
         lblMidSlots.Text = "Mid Slots: " & currentShip.MidSlots_Used & "/" & currentShip.MidSlots
         lblLowSlots.Text = "Low Slots: " & currentShip.LowSlots_Used & "/" & currentShip.LowSlots
         lblRigSlots.Text = "Rig Slots: " & currentShip.RigSlots_Used & "/" & currentShip.RigSlots
-        lblLauncherSlots.Text = "Launcher Slots: " & currentShip.LauncherSlots_Used & "/" & currentShip.LauncherSlots
-        lblTurretSlots.Text = "Turret Slots: " & currentShip.TurretSlots_Used & "/" & currentShip.TurretSlots
+        lblLauncherSlots.Text = "Launchers: " & currentShip.LauncherSlots_Used & "/" & currentShip.LauncherSlots
+        lblTurretSlots.Text = "Turrets: " & currentShip.TurretSlots_Used & "/" & currentShip.TurretSlots
     End Sub
     Private Sub UpdatePrices()
         currentShip.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(currentShip.ID)
-        lblShipBasePrice.Text = "Ship Base Price: " & FormatNumber(currentShip.BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblShipMarketPrice.Text = "Ship Market Price: " & FormatNumber(currentShip.MarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblFittingBasePrice.Text = "Fitting Base Price: " & FormatNumber(currentShip.BasePrice + currentShip.FittingBasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblFittingMarketPrice.Text = "Fitting Market Price: " & FormatNumber(currentShip.MarketPrice + currentShip.FittingMarketPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
     End Sub
     Private Sub UpdateSlotColumns()
@@ -437,6 +435,20 @@ Public Class ShipSlotControl
                             slotName.SubItems(idx).Text = ""
                         End If
                         idx += 1
+                    Case "Falloff"
+                        If shipMod.Attributes.Contains("158") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("158"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
+                    Case "Tracking"
+                        If shipMod.Attributes.Contains("160") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("160"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
                 End Select
             End If
         Next
@@ -447,6 +459,12 @@ Public Class ShipSlotControl
             If shipMod IsNot Nothing Then
                 ' Check for installed charges
                 Dim modData() As String = shipMod.Split(",".ToCharArray)
+                Dim state As Integer = 4
+                If modData(0).Substring(modData(0).Length - 2, 1) = "_" Then
+                    state = CInt(modData(0).Substring(modData(0).Length - 1, 1))
+                    modData(0) = modData(0).TrimEnd(("_" & state.ToString).ToCharArray)
+                    state = CInt(Math.Pow(2, state))
+                End If
                 If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
                     Dim modID As String = ModuleLists.moduleListName(modData(0).Trim).ToString
                     Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
@@ -484,6 +502,7 @@ Public Class ShipSlotControl
                                 Call Me.AddItem(sMod, CInt(modData(1)))
                             Else
                                 ' Must be a proper module then!
+                                sMod.ModuleState = state
                                 Call AddModule(sMod, 0, True)
                             End If
                         End If
@@ -502,9 +521,9 @@ Public Class ShipSlotControl
         For Each shipMod As ListViewItem In lvwSlots.Items
             If shipMod.Text <> "<Empty>" Then
                 If shipMod.SubItems(1).Text <> "" Then
-                    currentFit.Add(shipMod.Text & ", " & shipMod.SubItems(1).Text)
+                    currentFit.Add(shipMod.Text & "_" & shipMod.ImageIndex & ", " & shipMod.SubItems(1).Text)
                 Else
-                    currentFit.Add(shipMod.Text)
+                    currentFit.Add(shipMod.Text & "_" & shipMod.ImageIndex)
                 End If
             End If
         Next
@@ -524,36 +543,32 @@ Public Class ShipSlotControl
 
 #Region "Clearing routines"
     Private Sub ClearShipSlots()
-        For slot As Integer = 1 To currentShip.HiSlots
-            currentShip.HiSlot(slot) = Nothing
-        Next
-        For slot As Integer = 1 To currentShip.MidSlots
-            currentShip.MidSlot(slot) = Nothing
-        Next
-        For slot As Integer = 1 To currentShip.LowSlots
-            currentShip.LowSlot(slot) = Nothing
-        Next
-        For slot As Integer = 1 To currentShip.RigSlots
-            currentShip.RigSlot(slot) = Nothing
-        Next
-        'currentShip.HiSlots_Used = 0
-        'currentShip.MidSlots_Used = 0
-        'currentShip.LowSlots_Used = 0
-        'currentShip.RigSlots_Used = 0
-        'currentShip.LauncherSlots_Used = 0
-        'currentShip.TurretSlots_Used = 0
-        'currentShip.FittingBasePrice = 0
-        'currentShip.FittingMarketPrice = 0
+        If currentShip IsNot Nothing Then
+            For slot As Integer = 1 To currentShip.HiSlots
+                currentShip.HiSlot(slot) = Nothing
+            Next
+            For slot As Integer = 1 To currentShip.MidSlots
+                currentShip.MidSlot(slot) = Nothing
+            Next
+            For slot As Integer = 1 To currentShip.LowSlots
+                currentShip.LowSlot(slot) = Nothing
+            Next
+            For slot As Integer = 1 To currentShip.RigSlots
+                currentShip.RigSlot(slot) = Nothing
+            Next
+        End If
     End Sub
     Private Sub ClearDroneBay()
-        currentShip.DroneBayItems.Clear()
-        currentShip.DroneBay_Used = 0
-        'Me.RedrawDroneBay()
+        If currentShip IsNot Nothing Then
+            currentShip.DroneBayItems.Clear()
+            currentShip.DroneBay_Used = 0
+        End If
     End Sub
     Private Sub ClearCargoBay()
-        currentShip.CargoBayItems.Clear()
-        currentShip.CargoBay_Used = 0
-        'Me.RedrawCargoBay()
+        If currentShip IsNot Nothing Then
+            currentShip.CargoBayItems.Clear()
+            currentShip.CargoBay_Used = 0
+        End If
     End Sub
 #End Region
 
@@ -893,7 +908,7 @@ Public Class ShipSlotControl
                             statusMenuItem.Name = lvwSlots.SelectedItems(0).Name
                             statusMenuItem.Text = "Set Module Status"
                             ' Check for activation cost
-                            If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Then
+                            If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Then
                                 canDeactivate = True
                             End If
                             If currentMod.Attributes.Contains("1211") = True Then
@@ -1507,8 +1522,6 @@ Public Class ShipSlotControl
 #End Region
 
 #Region "Slot Drag/Drop Routines"
-    
-#End Region
 
     Private Sub lvwSlots_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvwSlots.MouseDown
         Dim hti As ListViewHitTestInfo = lvwSlots.HitTest(e.X, e.Y)
@@ -1540,7 +1553,7 @@ Public Class ShipSlotControl
                         Dim canDeactivate As Boolean = False
                         Dim canOverload As Boolean = False
                         ' Check for activation cost
-                        If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Then
+                        If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Then
                             canDeactivate = True
                         End If
                         If currentMod.Attributes.Contains("1211") = True Then
@@ -1655,7 +1668,7 @@ Public Class ShipSlotControl
                             ofMod = fittedShip.HiSlot(oslotNo)
                     End Select
                 End If
-                
+
                 If nLVI.Text = "<Empty>" Then
                     ncMod = Nothing
                 Else
@@ -1731,5 +1744,7 @@ Public Class ShipSlotControl
     Private Sub lvwSlots_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles lvwSlots.ItemDrag
         lvwSlots.DoDragDrop(e.Item, DragDropEffects.Copy Or DragDropEffects.Move)
     End Sub
+#End Region
+
 
 End Class

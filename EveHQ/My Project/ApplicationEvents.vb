@@ -71,7 +71,12 @@ Namespace My
                 End If
             Next
             myException.txtStackTrace.Text = trace.ToString
-            myException.ShowDialog()
+            Dim result As Integer = myException.ShowDialog()
+            If result = DialogResult.Ignore Then
+                e.ExitApplication = False
+            Else
+                e.ExitApplication = True
+            End If
         End Sub
     End Class
 

@@ -343,6 +343,16 @@ Public Class frmHQFSettings
 
 #Region "Recharge Rate Options"
     Private Sub UpdateRechargeRateOptions()
+        If HQF.Settings.HQFSettings.CapRechargeConstant > nudCapRecharge.Maximum Then
+            HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Maximum
+        ElseIf HQF.Settings.HQFSettings.CapRechargeConstant < nudCapRecharge.Minimum Then
+            HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Minimum
+        End If
+        If HQF.Settings.HQFSettings.ShieldRechargeConstant > nudShieldRecharge.Maximum Then
+            HQF.Settings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Maximum
+        ElseIf HQF.Settings.HQFSettings.ShieldRechargeConstant < nudShieldRecharge.Minimum Then
+            HQF.Settings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Minimum
+        End If
         nudCapRecharge.Value = CDec(HQF.Settings.HQFSettings.CapRechargeConstant)
         nudShieldRecharge.Value = CDec(HQF.Settings.HQFSettings.ShieldRechargeConstant)
     End Sub

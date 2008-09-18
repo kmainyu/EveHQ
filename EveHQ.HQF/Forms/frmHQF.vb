@@ -33,7 +33,7 @@ Public Class frmHQF
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.7.2.94"
+    Shared LastCacheRefresh As String = "1.7.2.114"
     Dim cacheForm As New frmHQFCacheWriter
 
 #Region "Class Wide Variables"
@@ -877,9 +877,9 @@ Public Class frmHQF
                         effMod.SlotType = 4
                     Case 2663 ' Rig slot
                         effMod.SlotType = 1
-                    Case 40
+                    Case 101
                         effMod.IsLauncher = True
-                    Case 42
+                    Case 34
                         effMod.IsTurret = True
                 End Select
                 ' Add custom attributes
@@ -1417,6 +1417,11 @@ Public Class frmHQF
         FavNode.Name = "Favourites"
         FavNode.Tag = "Favourites"
         tvwItems.Nodes.Add(FavNode)
+        ' Add the Favourties Node
+        Dim MRUNode As New TreeNode("Recently Used")
+        MRUNode.Name = "Recently Used"
+        MRUNode.Tag = "Recently Used"
+        tvwItems.Nodes.Add(MRUNode)
         tvwItems.EndUpdate()
         Market.MarketGroupPath.Clear()
         Call BuildTreePathData()
@@ -1692,7 +1697,7 @@ Public Class frmHQF
             Dim fittingKeyName As String = shipName & ", " & fittingName
             Fittings.FittingList.Add(fittingKeyName, New ArrayList)
             Call Me.CreateFittingTabPage(fittingKeyName)
-            Call Me.UpdateFittingsTree()
+            Call Me.UpdateFilteredShips()
             tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
             If tabHQF.TabPages.Count = 1 Then
                 Call Me.UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
@@ -1703,6 +1708,9 @@ Public Class frmHQF
         End If
     End Sub
     Private Sub txtShipSearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtShipSearch.TextChanged
+        Call Me.UpdateFilteredShips()
+    End Sub
+    Private Sub UpdateFilteredShips()
         If Len(txtShipSearch.Text) > 0 Then
             Dim strSearch As String = txtShipSearch.Text.Trim.ToLower
 
@@ -1746,6 +1754,7 @@ Public Class frmHQF
                 tvwFittings.Nodes(shipName).Nodes.Add(fittingName, fittingName)
             Next
             tvwFittings.EndUpdate()
+            Call Me.UpdateFittingsCombo()
         Else
             txtShipSearch.Text = ""
             Call Me.ShowShipGroups()
@@ -1801,6 +1810,8 @@ Public Class frmHQF
                         Call CalculateModulesThatWillFit()
                     Case "Favourites"
                         Call CalculateFilteredModules(tvwItems.SelectedNode)
+                    Case "Recently Used"
+                        Call CalculateFilteredModules(tvwItems.SelectedNode)
                     Case Else
                         Call CalculateFilteredModules(tvwItems.SelectedNode)
                 End Select
@@ -1831,6 +1842,25 @@ Public Class frmHQF
                 End If
             Next
             lblModuleDisplayType.Text = "Displaying: Favourites"
+        ElseIf groupNode.Name = "Recently Used" Then
+            tvwItems.Tag = "Recently Used"
+            For Each modName As String In Settings.HQFSettings.MRUModules
+                cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
+                ' Add results in by name, module
+                If chkApplySkills.Checked = True Then
+                    sMod = Engine.ApplySkillEffectsToModule(cMod)
+                Else
+                    sMod = cMod.Clone
+                End If
+                If chkOnlyShowUsable.Checked = True Then
+                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                        results.Add(sMod.Name, sMod)
+                    End If
+                Else
+                    results.Add(sMod.Name, sMod)
+                End If
+            Next
+            lblModuleDisplayType.Text = "Displaying: Recently Used"
         Else
             If groupNode.Nodes.Count = 0 Then
                 groupID = groupNode.Tag.ToString
@@ -2148,7 +2178,34 @@ Public Class frmHQF
                 Else
                     ' Must be a proper module then!
                     Call currentShipSlot.AddModule(shipMod, 0, True)
+                    ' Add it to the MRU
+                    Call Me.UpdateMRUModules(shipMod.Name)
                 End If
+            End If
+        End If
+    End Sub
+    Private Sub UpdateMRUModules(ByVal modName As String)
+        If HQF.Settings.HQFSettings.MRUModules.Count < HQF.Settings.HQFSettings.MRULimit Then
+            ' If the MRU list isn't full
+            If HQF.Settings.HQFSettings.MRUModules.Contains(modName) = False Then
+                ' If the module isn't already in the list
+                HQF.Settings.HQFSettings.MRUModules.Add(modName)
+            Else
+                ' If it is in the list, remove it and add it at the end
+                HQF.Settings.HQFSettings.MRUModules.Remove(modName)
+                HQF.Settings.HQFSettings.MRUModules.Add(modName)
+            End If
+        Else
+            If HQF.Settings.HQFSettings.MRUModules.Contains(modName) = False Then
+                For m As Integer = 0 To HQF.Settings.HQFSettings.MRULimit - 2
+                    HQF.Settings.HQFSettings.MRUModules(m) = HQF.Settings.HQFSettings.MRUModules(m + 1)
+                Next
+                HQF.Settings.HQFSettings.MRUModules.RemoveAt(HQF.Settings.HQFSettings.MRULimit - 1)
+                HQF.Settings.HQFSettings.MRUModules.Add(modName)
+            Else
+                ' If it is in the list, remove it and add it at the end
+                HQF.Settings.HQFSettings.MRUModules.Remove(modName)
+                HQF.Settings.HQFSettings.MRUModules.Add(modName)
             End If
         End If
     End Sub
@@ -2246,7 +2303,8 @@ Public Class frmHQF
         'tp.Controls("PanelShipInfo").Visible = False
         Dim fittingImage As Bitmap = ScreenGrab.GrabScreen(New Rectangle(sx, sy, tp.Width, tp.Height))
         Clipboard.SetDataObject(fittingImage)
-        fittingImage.Save(EveHQ.Core.HQ.reportFolder & "\HQF" & Now.Ticks & ".png", System.Drawing.Imaging.ImageFormat.Png)
+        Dim filename As String = "HQF_" & tp.Text & "_" & Format(Now, "yyyy-MM-dd-HH-mm-ss") & ".png"
+        fittingImage.Save(EveHQ.Core.HQ.reportFolder & "\" & filename, System.Drawing.Imaging.ImageFormat.Png)
         'tp.Controls("PanelShipInfo").Visible = True
     End Sub
 
@@ -2448,6 +2506,15 @@ Public Class frmHQF
             End If
         Next
         tvwFittings.EndUpdate()
+        Call Me.UpdateFittingsCombo()
+    End Sub
+    Private Sub UpdateFittingsCombo()
+        cboFittings.BeginUpdate()
+        cboFittings.Items.Clear()
+        For Each fitting As String In Fittings.FittingList.Keys
+            cboFittings.Items.Add(fitting)
+        Next
+        cboFittings.EndUpdate()
     End Sub
     Private Sub tvwFittings_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwFittings.NodeMouseClick
         tvwFittings.SelectedNode = e.Node
@@ -2577,7 +2644,7 @@ Public Class frmHQF
                 tp.Tag = fittingKeyName
                 tp.Text = fittingKeyName
             End If
-            Call Me.UpdateFittingsTree()
+            Call Me.UpdateFilteredShips()
         Else
             MessageBox.Show("Unable to Copy Fitting!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -2608,7 +2675,7 @@ Public Class frmHQF
         If fittingName <> "" Then
             Dim fittingKeyName As String = shipName & ", " & fittingName
             Fittings.FittingList.Add(fittingKeyName, FitToCopy.Clone)
-            Call Me.UpdateFittingsTree()
+            Call Me.UpdateFilteredShips()
         Else
             MessageBox.Show("Unable to Copy Fitting!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -2638,7 +2705,7 @@ Public Class frmHQF
                 ShipLists.fittedShipList.Remove(tp.Text)
             End If
             ' Update the list
-            Me.UpdateFittingsTree()
+            Call Me.UpdateFilteredShips()
         End If
     End Sub
     Private Sub mnuFittingsCreateFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsCreateFitting.Click
@@ -2664,8 +2731,9 @@ Public Class frmHQF
             Dim fittingKeyName As String = shipName & ", " & fittingName
             Fittings.FittingList.Add(fittingKeyName, New ArrayList)
             Call Me.CreateFittingTabPage(fittingKeyName)
-            Call Me.UpdateFittingsTree()
+            Call Me.UpdateFilteredShips()
             tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
+            If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
             currentShipSlot.UpdateEverything()
         Else
             MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -2693,15 +2761,30 @@ Public Class frmHQF
     End Sub
 #End Region
 
+#Region "Fittings Combo Routines"
+    Private Sub cboFittings_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboFittings.SelectedIndexChanged
+        Dim shipFit As String = cboFittings.SelectedItem.ToString
+        ' Create the tab and display
+        If Fittings.FittingTabList.Contains(shipFit) = False Then
+            Call Me.CreateFittingTabPage(shipFit)
+        End If
+        tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+        If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
+        currentShipSlot.UpdateEverything()
+    End Sub
+#End Region
+
     Private Sub btnShipPanel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShipPanel.Click
         If btnShipPanel.Checked = True Then
             ' If the panel is open
             'btnShipPanel.Image = My.Resources.panel_close
             SplitContainer1.Visible = True
+            cboFittings.Visible = False
         Else
             ' If the panel is closed
             'btnShipPanel.Image = My.Resources.panel_open
             SplitContainer1.Visible = False
+            cboFittings.Visible = True
         End If
     End Sub
 
@@ -2870,4 +2953,7 @@ Public Class frmHQF
     Private Sub lvwItems_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwItems.SelectedIndexChanged
 
     End Sub
+
+    
+    
 End Class

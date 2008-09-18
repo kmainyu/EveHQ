@@ -49,6 +49,7 @@ Public Class frmSettings
         ' Set the startup flag
         startup = True
         Call Me.UpdateGeneralSettings()
+        Call Me.UpdateColourOptions()
         Call Me.UpdateEveServerSettings()
         Call Me.UpdateIGBSettings()
         Call Me.UpdateAccounts()
@@ -94,30 +95,13 @@ Public Class frmSettings
         Else
             cboStartupView.SelectedIndex = 0
         End If
-        ' Update the panel colours
-        Call Me.UpdatePBPanelColours()
-        ' Update the pilot colours
-        Call Me.UpdatePBPilotColours()
+        
         txtUpdateLocation.Text = EveHQ.Core.HQ.EveHQSettings.UpdateURL
         txtUpdateLocation.Enabled = False
-    End Sub
+        chkErrorReporting.Checked = EveHQ.Core.HQ.EveHQSettings.ErrorReportingEnabled
+        txtErrorRepName.Text = EveHQ.Core.HQ.EveHQSettings.ErrorReportingName
+        txtErrorRepEmail.Text = EveHQ.Core.HQ.EveHQSettings.ErrorReportingEmail
 
-    Private Sub UpdatePBPanelColours()
-        pbPanelBackground.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBackgroundColor))
-        pbPanelBottomRight.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBottomRightColor))
-        pbPanelHighlight.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelHighlightColor))
-        pbPanelLeft.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelLeftColor))
-        pbPanelOutline.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelOutlineColor))
-        pbPanelRight.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelRightColor))
-        pbPanelText.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTextColor))
-        pbPanelTopLeft.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTopLeftColor))
-    End Sub
-
-    Private Sub UpdatePBPilotColours()
-        pbPilotCurrent.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotCurrentTrainSkillColor))
-        pbPilotLevel5.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotLevel5SkillColor))
-        pbPilotPartial.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotPartTrainedSkillColor))
-        pbPilotStandard.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotStandardSkillColor))
     End Sub
 
     Private Sub chkAutoHide_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkAutoHide.CheckedChanged
@@ -207,6 +191,64 @@ Public Class frmSettings
         Else
             cboStartupPilot.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
         End If
+    End Sub
+
+    Private Sub lblUpdateLocation_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblUpdateLocation.DoubleClick
+        txtUpdateLocation.Enabled = True
+    End Sub
+
+    Private Sub txtUpdateLocation_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtUpdateLocation.TextChanged
+        EveHQ.Core.HQ.EveHQSettings.UpdateURL = txtUpdateLocation.Text
+    End Sub
+
+    Private Sub chkErrorReporting_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkErrorReporting.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.ErrorReportingEnabled = chkErrorReporting.Checked
+        If EveHQ.Core.HQ.EveHQSettings.ErrorReportingEnabled = True Then
+            lblErrorRepEmail.Enabled = True
+            lblErrorRepName.Enabled = True
+            txtErrorRepEmail.Enabled = True
+            txtErrorRepName.Enabled = True
+        Else
+            lblErrorRepEmail.Enabled = False
+            lblErrorRepName.Enabled = False
+            txtErrorRepEmail.Enabled = False
+            txtErrorRepName.Enabled = False
+        End If
+    End Sub
+
+    Private Sub txtErrorRepName_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtErrorRepName.TextChanged
+        EveHQ.Core.HQ.EveHQSettings.ErrorReportingName = txtErrorRepName.Text
+    End Sub
+
+    Private Sub txtErrorRepEmail_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtErrorRepEmail.TextChanged
+        EveHQ.Core.HQ.EveHQSettings.ErrorReportingEmail = txtErrorRepEmail.Text
+    End Sub
+
+#End Region
+
+#Region "Colour Settings"
+    Private Sub UpdateColourOptions()
+        ' Update the panel colours
+        Call Me.UpdatePBPanelColours()
+        ' Update the pilot colours
+        Call Me.UpdatePBPilotColours()
+    End Sub
+    Private Sub UpdatePBPanelColours()
+        pbPanelBackground.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBackgroundColor))
+        pbPanelBottomRight.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBottomRightColor))
+        pbPanelHighlight.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelHighlightColor))
+        pbPanelLeft.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelLeftColor))
+        pbPanelOutline.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelOutlineColor))
+        pbPanelRight.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelRightColor))
+        pbPanelText.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTextColor))
+        pbPanelTopLeft.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTopLeftColor))
+    End Sub
+
+    Private Sub UpdatePBPilotColours()
+        pbPilotCurrent.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotCurrentTrainSkillColor))
+        pbPilotLevel5.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotLevel5SkillColor))
+        pbPilotPartial.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotPartTrainedSkillColor))
+        pbPilotStandard.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotStandardSkillColor))
     End Sub
 
     Private Sub pbPanelColours_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbPanelBackground.Click, pbPanelBottomRight.Click, pbPanelHighlight.Click, pbPanelLeft.Click, pbPanelOutline.Click, pbPanelRight.Click, pbPanelText.Click, pbPanelTopLeft.Click
@@ -328,15 +370,6 @@ Public Class frmSettings
         ' Update the PBPilot Colours
         Call Me.UpdatePBPilotColours()
     End Sub
-
-    Private Sub lblUpdateLocation_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblUpdateLocation.DoubleClick
-        txtUpdateLocation.Enabled = True
-    End Sub
-
-    Private Sub txtUpdateLocation_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtUpdateLocation.TextChanged
-        EveHQ.Core.HQ.EveHQSettings.UpdateURL = txtUpdateLocation.Text
-    End Sub
-
 #End Region
 
 #Region "Eve Accounts Settings"
@@ -2272,4 +2305,5 @@ Public Class frmSettings
 
 #End Region
 
+   
 End Class

@@ -761,17 +761,22 @@ Public Class frmItemBrowser
                 ' Do modifier calculations here!
                 Select Case eveData.Tables(0).Rows(row).Item("unitID")
                     Case "108"
-                        attributes(attNo, 3) = Math.Round(100 - (Val(attributes(attNo, 3)) * 100), 2)
+                        attributes(attNo, 3) = Math.Round(100 - (CDbl(attributes(attNo, 3)) * 100), 2)
                     Case "109"
-                        attributes(attNo, 3) = Math.Round((Val(attributes(attNo, 3)) * 100) - 100, 2)
+                        attributes(attNo, 3) = Math.Round((CDbl(attributes(attNo, 3)) * 100) - 100, 2)
                     Case "111"
-                        attributes(attNo, 3) = Math.Round((Val(attributes(attNo, 3)) - 1) * 100, 2)
+                        attributes(attNo, 3) = Math.Round((CDbl(attributes(attNo, 3)) - 1) * 100, 2)
                     Case "101"      ' If unit is "ms"
                         If Val(attributes(attNo, 3)) > 1000 Then
-                            attributes(attNo, 3) = Math.Round(Val(attributes(attNo, 3)) / 1000, 2)
+                            attributes(attNo, 3) = Math.Round(CDbl(attributes(attNo, 3)) / 1000, 2)
                             attributes(attNo, 4) = " s"
                         End If
                 End Select
+                'If Double.TryParse(attributes(attNo, 3), Globalization.NumberStyles.Number, culture, attValue) = True Then
+                '    If attValue <> 0 Then
+                '        attributes(attNo, 3) = Double.Parse(attValue, Globalization.NumberStyles.Number, culture)
+                '    End If
+                'End If
             Next
         End If
 

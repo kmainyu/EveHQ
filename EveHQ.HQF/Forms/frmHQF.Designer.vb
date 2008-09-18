@@ -164,6 +164,7 @@ Partial Class frmHQF
         Me.mnuEFTImport = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripSeparator
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.cboFittings = New System.Windows.Forms.ToolStripComboBox
         Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
         Me.colModuleName = New System.Windows.Forms.ColumnHeader
         Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
@@ -226,7 +227,7 @@ Partial Class frmHQF
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnShipPanel, Me.btnItemPanel, Me.tsbOptions, Me.ToolStripButton3, Me.btnScreenshot, Me.ToolStripButton4, Me.btnPilotManager, Me.btnClipboardPaste})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnShipPanel, Me.btnItemPanel, Me.tsbOptions, Me.ToolStripButton3, Me.btnScreenshot, Me.ToolStripButton4, Me.btnPilotManager, Me.btnClipboardPaste, Me.cboFittings})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(967, 25)
@@ -308,8 +309,8 @@ Partial Class frmHQF
         Me.btnClipboardPaste.Image = CType(resources.GetObject("btnClipboardPaste.Image"), System.Drawing.Image)
         Me.btnClipboardPaste.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnClipboardPaste.Name = "btnClipboardPaste"
-        Me.btnClipboardPaste.Size = New System.Drawing.Size(55, 22)
-        Me.btnClipboardPaste.Text = "Paste"
+        Me.btnClipboardPaste.Size = New System.Drawing.Size(147, 22)
+        Me.btnClipboardPaste.Text = "Import from Clipboard"
         '
         'SplitContainer1
         '
@@ -1606,6 +1607,15 @@ Partial Class frmHQF
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
+        'cboFittings
+        '
+        Me.cboFittings.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFittings.FlatStyle = System.Windows.Forms.FlatStyle.Standard
+        Me.cboFittings.Name = "cboFittings"
+        Me.cboFittings.Size = New System.Drawing.Size(250, 25)
+        Me.cboFittings.Sorted = True
+        Me.cboFittings.Visible = False
+        '
         'lvwItems
         '
         Me.lvwItems.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1872,4 +1882,5 @@ Partial Class frmHQF
     Friend WithEvents lblSearchShip As System.Windows.Forms.Label
     Friend WithEvents txtShipSearch As System.Windows.Forms.TextBox
     Friend WithEvents btnResetShips As System.Windows.Forms.Button
+    Friend WithEvents cboFittings As System.Windows.Forms.ToolStripComboBox
 End Class

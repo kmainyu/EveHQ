@@ -116,7 +116,34 @@ Public Class EveSettings
     Private cAPIFileExtension As String = "aspx"
     Private cECMDefaultLocation As String = ""
     Private cTaskbarIconMode As Integer = 0 '0=simple, 1=enhanced
+    Private cErrorReportingEnabled As Boolean = False
+    Private cErrorReportingName As String = ""
+    Private cErrorReportingEmail As String = ""
 
+    Public Property ErrorReportingEmail() As String
+        Get
+            Return cErrorReportingEmail
+        End Get
+        Set(ByVal value As String)
+            cErrorReportingEmail = value
+        End Set
+    End Property
+    Public Property ErrorReportingName() As String
+        Get
+            Return cErrorReportingName
+        End Get
+        Set(ByVal value As String)
+            cErrorReportingName = value
+        End Set
+    End Property
+    Public Property ErrorReportingEnabled() As Boolean
+        Get
+            Return cErrorReportingEnabled
+        End Get
+        Set(ByVal value As Boolean)
+            cErrorReportingEnabled = value
+        End Set
+    End Property
     Public Property TaskbarIconMode() As Integer
         Get
             Return cTaskbarIconMode
@@ -1139,6 +1166,9 @@ Public Class EveSettings
         XMLS &= Chr(9) & Chr(9) & "<ECMDefaultLocation>" & EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation & "</ECMDefaultLocation>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<EMailPort>" & EveHQ.Core.HQ.EveHQSettings.EMailPort & "</EMailPort>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<TaskbarIconMode>" & EveHQ.Core.HQ.EveHQSettings.TaskbarIconMode & "</TaskbarIconMode>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<ErrorReportingEnabled>" & EveHQ.Core.HQ.EveHQSettings.ErrorReportingEnabled & "</ErrorReportingEnabled>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<ErrorReportingName>" & EveHQ.Core.HQ.EveHQSettings.ErrorReportingName & "</ErrorReportingName>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<ErrorReportingEmail>" & EveHQ.Core.HQ.EveHQSettings.ErrorReportingEmail & "</ErrorReportingEmail>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the Plug-Ins details
@@ -1487,6 +1517,9 @@ Public Class EveSettings
                         EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation = accountSettings.ChildNodes(123).InnerText
                         EveHQ.Core.HQ.EveHQSettings.EMailPort = CInt(accountSettings.ChildNodes(124).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.TaskbarIconMode = CInt(accountSettings.ChildNodes(125).InnerText)
+                        EveHQ.Core.HQ.EveHQSettings.ErrorReportingEnabled = CBool(accountSettings.ChildNodes(126).InnerText)
+                        EveHQ.Core.HQ.EveHQSettings.ErrorReportingName = accountSettings.ChildNodes(127).InnerText
+                        EveHQ.Core.HQ.EveHQSettings.ErrorReportingEmail = accountSettings.ChildNodes(128).InnerText
                     End If
                 End If
             Catch

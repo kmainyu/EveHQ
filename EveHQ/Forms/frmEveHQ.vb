@@ -1818,7 +1818,6 @@ Public Class frmEveHQ
         End Select
         
     End Sub
-
     Private Function GetTaskbarLocation() As String
         Dim tbLeft As Int32
         Dim tbTop As Int32
