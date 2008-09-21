@@ -29,10 +29,15 @@ Partial Class frmHQF
         Me.btnItemPanel = New System.Windows.Forms.ToolStripButton
         Me.tsbOptions = New System.Windows.Forms.ToolStripButton
         Me.ToolStripButton3 = New System.Windows.Forms.ToolStripButton
-        Me.btnScreenshot = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripButton4 = New System.Windows.Forms.ToolStripButton
         Me.btnPilotManager = New System.Windows.Forms.ToolStripButton
+        Me.btnCopy = New System.Windows.Forms.ToolStripSplitButton
+        Me.mnuCopyForHQF = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuCopyForEFT = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuCopyForForums = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuScreenshot = New System.Windows.Forms.ToolStripMenuItem
         Me.btnClipboardPaste = New System.Windows.Forms.ToolStripButton
+        Me.cboFittings = New System.Windows.Forms.ToolStripComboBox
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.tvwFittings = New System.Windows.Forms.TreeView
         Me.ctxFittings = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -164,7 +169,6 @@ Partial Class frmHQF
         Me.mnuEFTImport = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripSeparator
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.cboFittings = New System.Windows.Forms.ToolStripComboBox
         Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
         Me.colModuleName = New System.Windows.Forms.ColumnHeader
         Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
@@ -227,7 +231,7 @@ Partial Class frmHQF
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnShipPanel, Me.btnItemPanel, Me.tsbOptions, Me.ToolStripButton3, Me.btnScreenshot, Me.ToolStripButton4, Me.btnPilotManager, Me.btnClipboardPaste, Me.cboFittings})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnShipPanel, Me.btnItemPanel, Me.tsbOptions, Me.ToolStripButton3, Me.btnPilotManager, Me.btnCopy, Me.btnClipboardPaste, Me.cboFittings})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(967, 25)
@@ -277,31 +281,53 @@ Partial Class frmHQF
         Me.ToolStripButton3.Text = "Check Data"
         Me.ToolStripButton3.Visible = False
         '
-        'btnScreenshot
-        '
-        Me.btnScreenshot.AutoToolTip = False
-        Me.btnScreenshot.Image = CType(resources.GetObject("btnScreenshot.Image"), System.Drawing.Image)
-        Me.btnScreenshot.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnScreenshot.Name = "btnScreenshot"
-        Me.btnScreenshot.Size = New System.Drawing.Size(86, 22)
-        Me.btnScreenshot.Text = "ScreenShot"
-        '
-        'ToolStripButton4
-        '
-        Me.ToolStripButton4.Image = CType(resources.GetObject("ToolStripButton4.Image"), System.Drawing.Image)
-        Me.ToolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton4.Name = "ToolStripButton4"
-        Me.ToolStripButton4.Size = New System.Drawing.Size(85, 22)
-        Me.ToolStripButton4.Text = "Test Dump"
-        Me.ToolStripButton4.Visible = False
-        '
         'btnPilotManager
         '
+        Me.btnPilotManager.Enabled = False
         Me.btnPilotManager.Image = CType(resources.GetObject("btnPilotManager.Image"), System.Drawing.Image)
         Me.btnPilotManager.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnPilotManager.Name = "btnPilotManager"
         Me.btnPilotManager.Size = New System.Drawing.Size(101, 22)
         Me.btnPilotManager.Text = "Pilot Manager"
+        '
+        'btnCopy
+        '
+        Me.btnCopy.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyForHQF, Me.mnuCopyForEFT, Me.mnuCopyForForums, Me.ToolStripMenuItem7, Me.mnuScreenshot})
+        Me.btnCopy.Enabled = False
+        Me.btnCopy.Image = CType(resources.GetObject("btnCopy.Image"), System.Drawing.Image)
+        Me.btnCopy.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.btnCopy.Name = "btnCopy"
+        Me.btnCopy.Size = New System.Drawing.Size(109, 22)
+        Me.btnCopy.Text = "Export Fitting"
+        '
+        'mnuCopyForHQF
+        '
+        Me.mnuCopyForHQF.Name = "mnuCopyForHQF"
+        Me.mnuCopyForHQF.Size = New System.Drawing.Size(165, 22)
+        Me.mnuCopyForHQF.Text = "Copy For HQF"
+        '
+        'mnuCopyForEFT
+        '
+        Me.mnuCopyForEFT.Name = "mnuCopyForEFT"
+        Me.mnuCopyForEFT.Size = New System.Drawing.Size(165, 22)
+        Me.mnuCopyForEFT.Text = "Copy For EFT"
+        '
+        'mnuCopyForForums
+        '
+        Me.mnuCopyForForums.Name = "mnuCopyForForums"
+        Me.mnuCopyForForums.Size = New System.Drawing.Size(165, 22)
+        Me.mnuCopyForForums.Text = "Copy For Forums"
+        '
+        'ToolStripMenuItem7
+        '
+        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(162, 6)
+        '
+        'mnuScreenshot
+        '
+        Me.mnuScreenshot.Name = "mnuScreenshot"
+        Me.mnuScreenshot.Size = New System.Drawing.Size(165, 22)
+        Me.mnuScreenshot.Text = "Screenshot"
         '
         'btnClipboardPaste
         '
@@ -311,6 +337,15 @@ Partial Class frmHQF
         Me.btnClipboardPaste.Name = "btnClipboardPaste"
         Me.btnClipboardPaste.Size = New System.Drawing.Size(147, 22)
         Me.btnClipboardPaste.Text = "Import from Clipboard"
+        '
+        'cboFittings
+        '
+        Me.cboFittings.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFittings.FlatStyle = System.Windows.Forms.FlatStyle.Standard
+        Me.cboFittings.Name = "cboFittings"
+        Me.cboFittings.Size = New System.Drawing.Size(250, 25)
+        Me.cboFittings.Sorted = True
+        Me.cboFittings.Visible = False
         '
         'SplitContainer1
         '
@@ -1607,15 +1642,6 @@ Partial Class frmHQF
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
-        'cboFittings
-        '
-        Me.cboFittings.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFittings.FlatStyle = System.Windows.Forms.FlatStyle.Standard
-        Me.cboFittings.Name = "cboFittings"
-        Me.cboFittings.Size = New System.Drawing.Size(250, 25)
-        Me.cboFittings.Sorted = True
-        Me.cboFittings.Visible = False
-        '
         'lvwItems
         '
         Me.lvwItems.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1840,8 +1866,6 @@ Partial Class frmHQF
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents panelShipSlot As System.Windows.Forms.Panel
     Friend WithEvents panelShipInfo As System.Windows.Forms.Panel
-    Friend WithEvents btnScreenshot As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripButton4 As System.Windows.Forms.ToolStripButton
     Friend WithEvents ctxModuleList As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuShowModuleInfo As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tvwFittings As System.Windows.Forms.TreeView
@@ -1883,4 +1907,10 @@ Partial Class frmHQF
     Friend WithEvents txtShipSearch As System.Windows.Forms.TextBox
     Friend WithEvents btnResetShips As System.Windows.Forms.Button
     Friend WithEvents cboFittings As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents btnCopy As System.Windows.Forms.ToolStripSplitButton
+    Friend WithEvents mnuCopyForHQF As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuCopyForEFT As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuCopyForForums As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuScreenshot As System.Windows.Forms.ToolStripMenuItem
 End Class

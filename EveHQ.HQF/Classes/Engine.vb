@@ -440,7 +440,7 @@ Public Class Engine
                                     fEffect.AffectedAtt = chkEffect.AffectedAtt
                                     fEffect.AffectedType = chkEffect.AffectedType
                                     If chkEffect.AffectedType = EffectType.Slot Then
-                                        fEffect.AffectedID.Add(aModule.SlotNo)
+                                        fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
                                     Else
                                         fEffect.AffectedID = chkEffect.AffectedID
                                     End If

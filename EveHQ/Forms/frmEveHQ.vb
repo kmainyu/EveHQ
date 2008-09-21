@@ -1810,7 +1810,10 @@ Public Class frmEveHQ
                         Case "Right"
                             frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
                     End Select
-                    frmToolTrayIconPopup.Show()
+                    Try
+                        frmToolTrayIconPopup.Show()
+                    Catch ex As Exception
+                    End Try
                 Else
                     frmToolTrayIconPopup.tmrSkill.Stop()
                     frmToolTrayIconPopup.tmrSkill.Start()
@@ -1872,11 +1875,6 @@ Public Class frmEveHQ
     End Function
 
 #End Region
-
-    Private Sub TriggerErrorToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TriggerErrorToolStripMenuItem.Click
-        Dim mPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots("Lee"), Core.Pilot)
-        MessageBox.Show(mPilot.Name)
-    End Sub
 
 End Class
 

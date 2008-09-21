@@ -300,6 +300,14 @@ Public Class ShipSlotControl
                         Case "OptRange"
                             If shipMod.Attributes.Contains("54") Then
                                 slotName.SubItems.Add(FormatNumber(shipMod.Attributes("54"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            ElseIf shipMod.Attributes.Contains("87") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("87"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            ElseIf shipMod.Attributes.Contains("91") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("91"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            ElseIf shipMod.Attributes.Contains("98") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("98"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            ElseIf shipMod.Attributes.Contains("99") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("99"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             Else
                                 slotName.SubItems.Add("")
                             End If
@@ -404,6 +412,14 @@ Public Class ShipSlotControl
                     Case "OptRange"
                         If shipMod.Attributes.Contains("54") Then
                             slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("54"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        ElseIf shipMod.Attributes.Contains("87") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("87"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        ElseIf shipMod.Attributes.Contains("91") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("91"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        ElseIf shipMod.Attributes.Contains("98") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("98"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        ElseIf shipMod.Attributes.Contains("99") Then
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("99"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                         Else
                             slotName.SubItems(idx).Text = ""
                         End If
@@ -460,10 +476,12 @@ Public Class ShipSlotControl
                 ' Check for installed charges
                 Dim modData() As String = shipMod.Split(",".ToCharArray)
                 Dim state As Integer = 4
-                If modData(0).Substring(modData(0).Length - 2, 1) = "_" Then
-                    state = CInt(modData(0).Substring(modData(0).Length - 1, 1))
-                    modData(0) = modData(0).TrimEnd(("_" & state.ToString).ToCharArray)
-                    state = CInt(Math.Pow(2, state))
+                If modData(0).Length > 2 Then
+                    If modData(0).Substring(modData(0).Length - 2, 1) = "_" Then
+                        state = CInt(modData(0).Substring(modData(0).Length - 1, 1))
+                        modData(0) = modData(0).TrimEnd(("_" & state.ToString).ToCharArray)
+                        state = CInt(Math.Pow(2, state))
+                    End If
                 End If
                 If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
                     Dim modID As String = ModuleLists.moduleListName(modData(0).Trim).ToString
@@ -503,7 +521,7 @@ Public Class ShipSlotControl
                             Else
                                 ' Must be a proper module then!
                                 sMod.ModuleState = state
-                                Call AddModule(sMod, 0, True)
+                                Call AddModule(sMod, 0, True, False)
                             End If
                         End If
                     Else
@@ -573,20 +591,23 @@ Public Class ShipSlotControl
 #End Region
 
 #Region "Adding Mods/Drones/Items"
-    Public Sub AddModule(ByVal shipMod As ShipModule, ByVal slotNo As Integer, ByVal updateShip As Boolean)
+    Public Sub AddModule(ByVal shipMod As ShipModule, ByVal slotNo As Integer, ByVal updateShip As Boolean, ByVal replace As Boolean)
         ' Check slot availability
-        If IsSlotAvailable(shipMod) = True Then
-            ' Add Module to the next slot
-            If slotNo = 0 Then
-                slotNo = AddModuleInNextSlot(CType(shipMod.Clone, ShipModule))
-            Else
-                AddModuleInSpecifiedSlot(CType(shipMod.Clone, ShipModule), slotNo)
+        If replace = False Then
+            If IsSlotAvailable(shipMod) = False Then
+                Exit Sub
             End If
-            If UpdateAll = False And updateShip = True Then
-                currentInfo.ShipType = currentShip
-                currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-                Call UpdateSlotLocation(shipMod, slotNo)
-            End If
+        End If
+        ' Add Module to the next slot
+        If slotNo = 0 Then
+            slotNo = AddModuleInNextSlot(CType(shipMod.Clone, ShipModule))
+        Else
+            AddModuleInSpecifiedSlot(CType(shipMod.Clone, ShipModule), slotNo)
+        End If
+        If UpdateAll = False And updateShip = True Then
+            currentInfo.ShipType = currentShip
+            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+            Call UpdateSlotLocation(shipMod, slotNo)
         End If
     End Sub
     Public Sub AddDrone(ByVal Drone As ShipModule, ByVal Qty As Integer, ByVal Active As Boolean)
@@ -1732,7 +1753,7 @@ Public Class ShipSlotControl
                 Else
                     'MessageBox.Show("Wanting to copy " & oLVI.Text & " for " & nLVI.Text & "?", "Confirm copy", MessageBoxButtons.OK, MessageBoxIcon.Question)
                     ncMod = ocMod.Clone
-                    AddModule(ncMod, nslotNo, False) '- Need to modify this function to specify which location we are putting it
+                    AddModule(ncMod, nslotNo, False, True) '- Need to modify this function to specify which location we are putting it
                     currentInfo.ShipType = currentShip
                     currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                     Call Me.UpdateSlotLocation(ncMod, nslotNo)

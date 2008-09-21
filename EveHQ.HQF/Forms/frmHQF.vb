@@ -1091,8 +1091,16 @@ Public Class frmHQF
                 End Select
                 lastModName = modRow.Item("typeName").ToString
                 ' Add to the ChargeGroups if it doesn't exist and chargesize <> 0
-                If attMod.IsCharge = True And Charges.ChargeGroups.Contains(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize) = False Then
-                    Charges.ChargeGroups.Add(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize)
+                'If attMod.IsCharge = True And Charges.ChargeGroups.Contains(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize) = False Then
+                '    Charges.ChargeGroups.Add(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize)
+                'End If
+            Next
+            ' Build charge data
+            For Each cMod As ShipModule In ModuleLists.moduleList.Values
+                If cMod.IsCharge = True Then
+                    If Charges.ChargeGroups.Contains(cMod.MarketGroup) = False Then
+                        Charges.ChargeGroups.Add(cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
+                    End If
                 End If
             Next
             ' Build the implant data
@@ -1575,6 +1583,10 @@ Public Class frmHQF
             Call HQFPilotCollection.SaveHQFPilotData()
         End If
 
+        If HQFPilotCollection.HQFPilots.Count > 0 Then
+            btnPilotManager.Enabled = True
+        End If
+
     End Sub
     Private Sub SetMetaTypeFilters()
         Dim filters() As Integer = {1, 2, 4, 8, 16, 32}
@@ -1680,31 +1692,38 @@ Public Class frmHQF
 
     End Sub
     Private Sub CreateNewFitting(ByVal shipName As String)
-        ' Clear the text boxes
-        Dim myNewFitting As New frmModifyFittingName
-        Dim fittingName As String = ""
-        With myNewFitting
-            .txtFittingName.Text = "" : .txtFittingName.Enabled = True
-            .btnAccept.Text = "Add" : .Tag = "Add"
-            .btnAccept.Tag = shipName
-            .Text = "Create New Fitting for " & shipName
-            .ShowDialog()
-            fittingName = .txtFittingName.Text
-        End With
-        myNewFitting = Nothing
+        ' Check we have some valid characters
+        If EveHQ.Core.HQ.Pilots.Count > 0 Then
+            ' Clear the text boxes
+            Dim myNewFitting As New frmModifyFittingName
+            Dim fittingName As String = ""
+            With myNewFitting
+                .txtFittingName.Text = "" : .txtFittingName.Enabled = True
+                .btnAccept.Text = "Add" : .Tag = "Add"
+                .btnAccept.Tag = shipName
+                .Text = "Create New Fitting for " & shipName
+                .ShowDialog()
+                fittingName = .txtFittingName.Text
+            End With
+            myNewFitting = Nothing
 
-        If fittingName <> "" Then
-            Dim fittingKeyName As String = shipName & ", " & fittingName
-            Fittings.FittingList.Add(fittingKeyName, New ArrayList)
-            Call Me.CreateFittingTabPage(fittingKeyName)
-            Call Me.UpdateFilteredShips()
-            tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
-            If tabHQF.TabPages.Count = 1 Then
-                Call Me.UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
+            If fittingName <> "" Then
+                Dim fittingKeyName As String = shipName & ", " & fittingName
+                Fittings.FittingList.Add(fittingKeyName, New ArrayList)
+                Call Me.CreateFittingTabPage(fittingKeyName)
+                Call Me.UpdateFilteredShips()
+                tabHQF.SelectedTab = tabHQF.TabPages(fittingKeyName)
+                If tabHQF.TabPages.Count = 1 Then
+                    Call Me.UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
+                End If
+                currentShipSlot.UpdateEverything()
+            Else
+                MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-            currentShipSlot.UpdateEverything()
         Else
-            MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Dim msg As String = "There are no pilots or accounts created in EveHQ." & ControlChars.CrLf
+            msg &= "Please add an API account or manual pilot in the main EveHQ Settings before opening or creating a fitting."
+            MessageBox.Show(msg, "Pilots Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
     Private Sub txtShipSearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtShipSearch.TextChanged
@@ -1965,8 +1984,12 @@ Public Class frmHQF
                     Else
                         sMod = cMod.Clone
                     End If
-                    If chkOnlyShowUsable.Checked = True Then
-                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                    If chkOnlyShowUsable.Checked = True And currentShipInfo IsNot Nothing Then
+                        If currentShipInfo.cboPilots.SelectedItem IsNot Nothing Then
+                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                results.Add(sMod.Name, sMod)
+                            End If
+                        Else
                             results.Add(sMod.Name, sMod)
                         End If
                     Else
@@ -2177,7 +2200,7 @@ Public Class frmHQF
                     currentShipSlot.AddItem(shipMod, 1)
                 Else
                     ' Must be a proper module then!
-                    Call currentShipSlot.AddModule(shipMod, 0, True)
+                    Call currentShipSlot.AddModule(shipMod, 0, True, False)
                     ' Add it to the MRU
                     Call Me.UpdateMRUModules(shipMod.Name)
                 End If
@@ -2294,44 +2317,6 @@ Public Class frmHQF
         Next
     End Sub
 
-    Private Sub btnScreenshot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnScreenshot.Click
-        ' Determine co-ords of current main panel
-        Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-        Dim xy As Point = tp.PointToScreen(New Point(0, 0))
-        Dim sx As Integer = xy.X
-        Dim sy As Integer = xy.Y
-        'tp.Controls("PanelShipInfo").Visible = False
-        Dim fittingImage As Bitmap = ScreenGrab.GrabScreen(New Rectangle(sx, sy, tp.Width, tp.Height))
-        Clipboard.SetDataObject(fittingImage)
-        Dim filename As String = "HQF_" & tp.Text & "_" & Format(Now, "yyyy-MM-dd-HH-mm-ss") & ".png"
-        fittingImage.Save(EveHQ.Core.HQ.reportFolder & "\" & filename, System.Drawing.Imaging.ImageFormat.Png)
-        'tp.Controls("PanelShipInfo").Visible = True
-    End Sub
-
-    Private Sub ToolStripButton4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton4.Click
-        'Dim strSQL As String = ""
-        'strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.marketGroupID"
-        'strSQL &= " FROM invCategories INNER JOIN (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) ON invCategories.categoryID = invGroups.categoryID"
-        'strSQL &= " WHERE ((invGroups.categoryID) In (16) AND (invTypes.published=true))"
-        'strSQL &= " ORDER BY invTypes.typeName;"
-        'moduleData = EveHQ.Core.DataFunctions.GetData(strSQL)
-
-        'Dim sw As New IO.StreamWriter(EveHQ.Core.HQ.reportFolder & "\Skills.csv")
-        'For Each row As DataRow In moduleData.Tables(0).Rows
-        '    sw.WriteLine(row.Item("typeName"))
-        'Next
-        'sw.Flush()
-        'sw.Close()
-        'MessageBox.Show("Data Dump Finished!")
-
-        Dim sw As New IO.StreamWriter(EveHQ.Core.HQ.reportFolder & "\Groups.csv")
-        For Each rootNode As TreeNode In tvwItems.Nodes
-            SearchChildNodes1(rootNode, sw)
-        Next
-        sw.Flush()
-        sw.Close()
-
-    End Sub
     Private Sub SearchChildNodes1(ByRef parentNode As TreeNode, ByVal sw As IO.StreamWriter)
         For Each childNode As TreeNode In parentNode.Nodes
             If childNode.Nodes.Count > 0 Then
@@ -2360,6 +2345,9 @@ Public Class frmHQF
                 currentShipInfo.BuildMethod = BuildType.BuildEffectsMaps
             End If
             tabHQF.Tag = tabHQF.SelectedIndex
+            btnCopy.Enabled = True
+        Else
+            btnCopy.Enabled = False
         End If
     End Sub
     Private Function TabControlHitTest(ByVal TabCtrl As TabControl, ByVal pt As Point) As Integer
@@ -2403,7 +2391,7 @@ Public Class frmHQF
     End Sub
 #End Region
 
-#Region "Clipboard Routines (incl Timer)"
+#Region "Clipboard Paste Routines (incl Timer)"
     Private Sub tmrClipboard_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrClipboard.Tick
         ' Checks the clipboard for any compatible fixes!
         If Clipboard.GetDataObject IsNot Nothing Then
@@ -2427,7 +2415,6 @@ Public Class frmHQF
             btnClipboardPaste.Enabled = False
         End If
     End Sub
-
     Private Sub btnClipboardPaste_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClipboardPaste.Click
         ' Pick the text up from the clipboard
         Dim fileText As String = CStr(Clipboard.GetDataObject().GetData(DataFormats.Text))
@@ -2746,17 +2733,24 @@ Public Class frmHQF
         Call DisplayShipPreview(selShip)
     End Sub
     Private Sub ShowFitting(ByVal fittingNode As TreeNode)
-        ' Get the ship details
-        If fittingNode.Parent IsNot Nothing Then
-            Dim shipName As String = fittingNode.Parent.Text
-            Dim shipFit As String = fittingNode.Parent.Text & ", " & fittingNode.Text
-            ' Create the tab and display
-            If Fittings.FittingTabList.Contains(shipFit) = False Then
-                Call Me.CreateFittingTabPage(shipFit)
+        ' Check we have some valid characters
+        If EveHQ.Core.HQ.Pilots.Count > 0 Then
+            ' Get the ship details
+            If fittingNode.Parent IsNot Nothing Then
+                Dim shipName As String = fittingNode.Parent.Text
+                Dim shipFit As String = fittingNode.Parent.Text & ", " & fittingNode.Text
+                ' Create the tab and display
+                If Fittings.FittingTabList.Contains(shipFit) = False Then
+                    Call Me.CreateFittingTabPage(shipFit)
+                End If
+                tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+                If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
+                currentShipSlot.UpdateEverything()
             End If
-            tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
-            If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
-            currentShipSlot.UpdateEverything()
+        Else
+            Dim msg As String = "There are no pilots or accounts created in EveHQ." & ControlChars.CrLf
+            msg &= "Please add an API account or manual pilot in the main EveHQ Settings before opening or creating a fitting."
+            MessageBox.Show(msg, "Pilots Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 #End Region
@@ -2910,6 +2904,302 @@ Public Class frmHQF
 
 #End Region
 
+#Region "Menu & Button Routines"
+
+    Private Sub mnuScreenshot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuScreenshot.Click
+        ' Determine co-ords of current main panel
+        Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
+        Dim xy As Point = tp.PointToScreen(New Point(0, 0))
+        Dim sx As Integer = xy.X
+        Dim sy As Integer = xy.Y
+        Dim fittingImage As Bitmap = ScreenGrab.GrabScreen(New Rectangle(sx, sy, tp.Width, tp.Height))
+        Clipboard.SetDataObject(fittingImage)
+        Dim filename As String = "HQF_" & tp.Text & "_" & Format(Now, "yyyy-MM-dd-HH-mm-ss") & ".png"
+        fittingImage.Save(EveHQ.Core.HQ.reportFolder & "\" & filename, System.Drawing.Imaging.ImageFormat.Png)
+    End Sub
+
+    Private Sub mnuCopyForHQF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyForHQF.Click
+        Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
+        Dim currentship As Ship = currentShipSlot.ShipFitted
+        Dim cModule As New ShipModule
+        Dim state As Integer
+        Dim fitting As New System.Text.StringBuilder
+        fitting.AppendLine("[" & tp.Text & "]")
+        For slot As Integer = 1 To currentship.HiSlots
+            If currentship.HiSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentship.HiSlot(slot).ModuleState) / Math.Log(2))
+                If currentship.HiSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentship.HiSlot(slot).Name & "_" & state & ", " & currentship.HiSlot(slot).LoadedCharge.Name)
+                Else
+                    fitting.AppendLine(currentship.HiSlot(slot).Name & "_" & state)
+                End If
+            End If
+        Next
+        fitting.AppendLine("")
+        For slot As Integer = 1 To currentship.MidSlots
+            If currentship.MidSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentship.MidSlot(slot).ModuleState) / Math.Log(2))
+                If currentship.MidSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentship.MidSlot(slot).Name & "_" & state & ", " & currentship.MidSlot(slot).LoadedCharge.Name)
+                Else
+                    fitting.AppendLine(currentship.MidSlot(slot).Name & "_" & state)
+                End If
+            End If
+        Next
+        fitting.AppendLine("")
+        For slot As Integer = 1 To currentship.LowSlots
+            If currentship.LowSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentship.LowSlot(slot).ModuleState) / Math.Log(2))
+                If currentship.LowSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentship.LowSlot(slot).Name & "_" & state & ", " & currentship.LowSlot(slot).LoadedCharge.Name)
+                Else
+                    fitting.AppendLine(currentship.LowSlot(slot).Name & "_" & state)
+                End If
+            End If
+        Next
+        fitting.AppendLine("")
+        For slot As Integer = 1 To currentship.RigSlots
+            If currentship.RigSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentship.RigSlot(slot).ModuleState) / Math.Log(2))
+                If currentship.RigSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentship.RigSlot(slot).Name & "_" & state & ", " & currentship.RigSlot(slot).LoadedCharge.Name)
+                Else
+                    fitting.AppendLine(currentship.RigSlot(slot).Name & "_" & state)
+                End If
+            End If
+        Next
+        fitting.AppendLine("")
+        For Each drone As DroneBayItem In currentship.DroneBayItems.Values
+            fitting.AppendLine(drone.DroneType.Name & " x" & drone.Quantity & ", " & drone.IsActive)
+        Next
+        fitting.AppendLine("")
+        For Each cargo As CargoBayItem In currentship.CargoBayItems.Values
+            fitting.AppendLine(cargo.ItemType.Name & " x" & cargo.Quantity)
+        Next
+        Clipboard.SetText(fitting.ToString)
+    End Sub
+
+    Private Sub mnuCopyForEFT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyForEFT.Click
+        Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
+        Dim currentship As Ship = currentShipSlot.ShipFitted
+        Dim cModule As New ShipModule
+        Dim fitting As New System.Text.StringBuilder
+        fitting.AppendLine("[" & tp.Text & "]")
+        For slot As Integer = 1 To currentship.LowSlots
+            If currentship.LowSlot(slot) IsNot Nothing Then
+                If currentship.LowSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentship.LowSlot(slot).Name & ", " & currentship.LowSlot(slot).LoadedCharge.Name)
+                Else
+                    fitting.AppendLine(currentship.LowSlot(slot).Name)
+                End If
+            End If
+        Next
+        fitting.AppendLine("")
+        For slot As Integer = 1 To currentship.MidSlots
+            If currentship.MidSlot(slot) IsNot Nothing Then
+                If currentship.MidSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentship.MidSlot(slot).Name & ", " & currentship.MidSlot(slot).LoadedCharge.Name)
+                Else
+                    fitting.AppendLine(currentship.MidSlot(slot).Name)
+                End If
+            End If
+        Next
+        fitting.AppendLine("")
+        For slot As Integer = 1 To currentship.HiSlots
+            If currentship.HiSlot(slot) IsNot Nothing Then
+                If currentship.HiSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentship.HiSlot(slot).Name & ", " & currentship.HiSlot(slot).LoadedCharge.Name)
+                Else
+                    fitting.AppendLine(currentship.HiSlot(slot).Name)
+                End If
+            End If
+        Next
+        fitting.AppendLine("")
+        For slot As Integer = 1 To currentship.RigSlots
+            If currentship.RigSlot(slot) IsNot Nothing Then
+                If currentship.RigSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentship.RigSlot(slot).Name & ", " & currentship.RigSlot(slot).LoadedCharge.Name)
+                Else
+                    fitting.AppendLine(currentship.RigSlot(slot).Name)
+                End If
+            End If
+        Next
+        fitting.AppendLine("")
+        For Each drone As DroneBayItem In currentship.DroneBayItems.Values
+            fitting.AppendLine(drone.DroneType.Name & " x" & drone.Quantity)
+        Next
+        Clipboard.SetText(fitting.ToString)
+    End Sub
+
+    Private Sub mnuCopyForForums_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyForForums.Click
+        Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
+        Dim currentship As Ship = currentShipSlot.ShipFitted
+        Dim slots As Dictionary(Of String, Integer)
+        Dim slotList As New ArrayList
+        Dim slotCount As Integer = 0
+        Dim cModule As New ShipModule
+        Dim state As Integer
+        Dim fitting As New System.Text.StringBuilder
+
+        slots = New Dictionary(Of String, Integer)
+        For slot As Integer = 1 To currentship.HiSlots
+            If currentship.HiSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentship.HiSlot(slot).ModuleState) / Math.Log(2))
+                If currentship.HiSlot(slot).LoadedCharge IsNot Nothing Then
+                    If slotList.Contains(currentship.HiSlot(slot).Name & " (" & currentship.HiSlot(slot).LoadedCharge.Name & ")") = True Then
+                        ' Get the dictionary item
+                        slotCount = slots(currentship.HiSlot(slot).Name & " (" & currentship.HiSlot(slot).LoadedCharge.Name & ")")
+                        slots(currentship.HiSlot(slot).Name & " (" & currentship.HiSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                    Else
+                        slotList.Add(currentship.HiSlot(slot).Name & " (" & currentship.HiSlot(slot).LoadedCharge.Name & ")")
+                        slots.Add(currentship.HiSlot(slot).Name & " (" & currentship.HiSlot(slot).LoadedCharge.Name & ")", 1)
+                    End If
+                Else
+                    If slotList.Contains(currentship.HiSlot(slot).Name) = True Then
+                        slotCount = slots(currentship.HiSlot(slot).Name)
+                        slots(currentship.HiSlot(slot).Name) = slotCount + 1
+                    Else
+                        slotList.Add(currentship.HiSlot(slot).Name)
+                        slots.Add(currentship.HiSlot(slot).Name, 1)
+                    End If
+                End If
+            End If
+        Next
+        If slots.Count > 0 Then
+            For Each cMod As String In slots.Keys
+                If CInt(slots(cMod)) > 1 Then
+                    fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
+                Else
+                    fitting.AppendLine(cMod)
+                End If
+            Next
+        End If
+
+        slots = New Dictionary(Of String, Integer)
+        For slot As Integer = 1 To currentship.MidSlots
+            If currentship.MidSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentship.MidSlot(slot).ModuleState) / Math.Log(2))
+                If currentship.MidSlot(slot).LoadedCharge IsNot Nothing Then
+                    If slotList.Contains(currentship.MidSlot(slot).Name & " (" & currentship.MidSlot(slot).LoadedCharge.Name & ")") = True Then
+                        ' Get the dictionary item
+                        slotCount = slots(currentship.MidSlot(slot).Name & " (" & currentship.MidSlot(slot).LoadedCharge.Name & ")")
+                        slots(currentship.MidSlot(slot).Name & " (" & currentship.MidSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                    Else
+                        slotList.Add(currentship.MidSlot(slot).Name & " (" & currentship.MidSlot(slot).LoadedCharge.Name & ")")
+                        slots.Add(currentship.MidSlot(slot).Name & " (" & currentship.MidSlot(slot).LoadedCharge.Name & ")", 1)
+                    End If
+                Else
+                    If slotList.Contains(currentship.MidSlot(slot).Name) = True Then
+                        slotCount = slots(currentship.MidSlot(slot).Name)
+                        slots(currentship.MidSlot(slot).Name) = slotCount + 1
+                    Else
+                        slotList.Add(currentship.MidSlot(slot).Name)
+                        slots.Add(currentship.MidSlot(slot).Name, 1)
+                    End If
+                End If
+            End If
+        Next
+        If slots.Count > 0 Then
+            fitting.AppendLine("")
+            For Each cMod As String In slots.Keys
+                If CInt(slots(cMod)) > 1 Then
+                    fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
+                Else
+                    fitting.AppendLine(cMod)
+                End If
+            Next
+        End If
+
+        slots = New Dictionary(Of String, Integer)
+        For slot As Integer = 1 To currentship.LowSlots
+            If currentship.LowSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentship.LowSlot(slot).ModuleState) / Math.Log(2))
+                If currentship.LowSlot(slot).LoadedCharge IsNot Nothing Then
+                    If slotList.Contains(currentship.LowSlot(slot).Name & " (" & currentship.LowSlot(slot).LoadedCharge.Name & ")") = True Then
+                        ' Get the dictionary item
+                        slotCount = slots(currentship.LowSlot(slot).Name & " (" & currentship.LowSlot(slot).LoadedCharge.Name & ")")
+                        slots(currentship.LowSlot(slot).Name & " (" & currentship.LowSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                    Else
+                        slotList.Add(currentship.LowSlot(slot).Name & " (" & currentship.LowSlot(slot).LoadedCharge.Name & ")")
+                        slots.Add(currentship.LowSlot(slot).Name & " (" & currentship.LowSlot(slot).LoadedCharge.Name & ")", 1)
+                    End If
+                Else
+                    If slotList.Contains(currentship.LowSlot(slot).Name) = True Then
+                        slotCount = slots(currentship.LowSlot(slot).Name)
+                        slots(currentship.LowSlot(slot).Name) = slotCount + 1
+                    Else
+                        slotList.Add(currentship.LowSlot(slot).Name)
+                        slots.Add(currentship.LowSlot(slot).Name, 1)
+                    End If
+                End If
+            End If
+        Next
+        If slots.Count > 0 Then
+            fitting.AppendLine("")
+            For Each cMod As String In slots.Keys
+                If CInt(slots(cMod)) > 1 Then
+                    fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
+                Else
+                    fitting.AppendLine(cMod)
+                End If
+            Next
+        End If
+
+
+        slots = New Dictionary(Of String, Integer)
+        For slot As Integer = 1 To currentship.RigSlots
+            If currentship.RigSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentship.RigSlot(slot).ModuleState) / Math.Log(2))
+                If currentship.RigSlot(slot).LoadedCharge IsNot Nothing Then
+                    If slotList.Contains(currentship.RigSlot(slot).Name & " (" & currentship.RigSlot(slot).LoadedCharge.Name & ")") = True Then
+                        ' Get the dictionary item
+                        slotCount = slots(currentship.RigSlot(slot).Name & " (" & currentship.RigSlot(slot).LoadedCharge.Name & ")")
+                        slots(currentship.RigSlot(slot).Name & " (" & currentship.RigSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                    Else
+                        slotList.Add(currentship.RigSlot(slot).Name & " (" & currentship.RigSlot(slot).LoadedCharge.Name & ")")
+                        slots.Add(currentship.RigSlot(slot).Name & " (" & currentship.RigSlot(slot).LoadedCharge.Name & ")", 1)
+                    End If
+                Else
+                    If slotList.Contains(currentship.RigSlot(slot).Name) = True Then
+                        slotCount = slots(currentship.RigSlot(slot).Name)
+                        slots(currentship.RigSlot(slot).Name) = slotCount + 1
+                    Else
+                        slotList.Add(currentship.RigSlot(slot).Name)
+                        slots.Add(currentship.RigSlot(slot).Name, 1)
+                    End If
+                End If
+            End If
+        Next
+        If slots.Count > 0 Then
+            fitting.AppendLine("")
+            For Each cMod As String In slots.Keys
+                If CInt(slots(cMod)) > 1 Then
+                    fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
+                Else
+                    fitting.AppendLine(cMod)
+                End If
+            Next
+        End If
+
+        If currentship.DroneBayItems.Count > 0 Then
+            fitting.AppendLine("")
+            For Each drone As DroneBayItem In currentship.DroneBayItems.Values
+                fitting.AppendLine(drone.Quantity & "x " & drone.DroneType.Name)
+            Next
+        End If
+
+        If currentship.CargoBayItems.Count > 0 Then
+            fitting.AppendLine("")
+            For Each cargo As CargoBayItem In currentship.CargoBayItems.Values
+                fitting.AppendLine(cargo.Quantity & "x " & cargo.ItemType.Name & " (cargo)")
+            Next
+        End If
+
+        Clipboard.SetText(fitting.ToString)
+    End Sub
+
+#End Region
+
     Private Sub btnPilotManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPilotManager.Click
         Dim myPilotManager As New frmPilotManager
         myPilotManager.ShowDialog()
@@ -2950,10 +3240,4 @@ Public Class frmHQF
         Next
     End Sub
 
-    Private Sub lvwItems_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwItems.SelectedIndexChanged
-
-    End Sub
-
-    
-    
 End Class

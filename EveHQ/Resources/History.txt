@@ -1,6 +1,41 @@
 EveHQ - Version History
 -----------------------
 
+1.7.3.115 (21/09/2008)
+--------
+New Features:
+- Added new Pop-up form to the EveHQ taskbar icon (activated in Settings)
+- New API Checker function for testing the response from the API (Tools Menu)
+- EveHQ Integrated Error Reporting - submit program crashes direct to the EveHQ website (activated in Settings)
+
+Fixes and Improvements:
+- Core: Fixed SQL statements in the IGB Server when accessing the item database from ingame
+- Core: Auto retrieval of the character API when the cache expires now works again
+- Core: Fixed parsing of XML files for new format
+- Core: Clone details now added to the Pilot Info form
+- Core: Clone details will show in red if the clone is not sufficient enough for the current skillpoints
+- Core: Added new APIs from EA1.1 into the API system
+- Core: Updated the EveAPI class to record data in the filename of the IDToName and NameToID APIs
+- Core: Location of last ECM Export now saved into settings and recalled next time the user is promted for a location
+- Core: Fixed loading of item database to check for duplicate item names
+- Core: Enabled context menu in webbrowser control for reports
+- Core: Added facility to restart EveHQ on completion of updates
+- Core: Added a setting to modify the port number for the SMTP server in email notifications
+- Core: Added Partial Skills report to HTML Reports
+- Core: Added Partial Skills report to Text Reports
+- Core: Fixed crash caused by invalid data in the market prices data
+- Map: Fixed various errors when opening the Map plug-in
+- Map: Added Black-Ops to the available ships with jump drive
+- Assets: Added a copy to clipboard function in the Assets plug-in for importing ships into HQF
+- Assets: Fixed an error in the Assets plug-in caused by NPC Corps having valid XML files
+- Assets: Owner filter now defaults to pilot name in main EveHQ application
+- Assets: Pressing Enter in Search or Minimum Value box refreshes the asset list accordingly
+- Assets: Changing owner in dropdown list refreshes the asset list
+- Assets: Caught error in the character filter routines due to a .net issue
+- Item Browser: Fixed display of various items in the IB if using different cultures
+- DataConverter: Modified the dbo_TABLES_MDB.sql file to adjust to the new CCP database format
+
+
 1.7.2.85 (20/08/2008)
 --------
 Fixes and Improvements:
