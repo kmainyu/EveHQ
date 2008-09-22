@@ -33,7 +33,7 @@ Public Class frmHQF
     Dim LastSlotFitting As New ArrayList
     Dim LastModuleResults As New SortedList
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.7.2.114"
+    Shared LastCacheRefresh As String = "1.7.3.117"
     Dim cacheForm As New frmHQFCacheWriter
 
 #Region "Class Wide Variables"
@@ -879,7 +879,7 @@ Public Class frmHQF
                         effMod.SlotType = 1
                     Case 101
                         effMod.IsLauncher = True
-                    Case 34
+                    Case 10, 34
                         effMod.IsTurret = True
                 End Select
                 ' Add custom attributes

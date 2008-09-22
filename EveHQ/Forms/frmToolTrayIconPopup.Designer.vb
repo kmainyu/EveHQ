@@ -33,7 +33,7 @@ Partial Class frmToolTrayIconPopup
         'tmrSkill
         '
         Me.tmrSkill.Enabled = True
-        Me.tmrSkill.Interval = 500
+        Me.tmrSkill.Interval = 2000
         '
         'AGP1
         '
