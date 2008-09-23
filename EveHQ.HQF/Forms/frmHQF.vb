@@ -1625,6 +1625,8 @@ Public Class frmHQF
             Else
                 e.Cancel = True
             End If
+        Else
+            e.Cancel = True
         End If
     End Sub
     Private Sub mnuCreateNewFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCreateNewFitting.Click
@@ -2584,6 +2586,8 @@ Public Class frmHQF
                 mnuFittingsRenameFitting.Enabled = False
                 mnuFittingsShowFitting.Enabled = False
             End If
+        Else
+            e.Cancel = True
         End If
     End Sub
     Private Sub mnuFittingsShowFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsShowFitting.Click
