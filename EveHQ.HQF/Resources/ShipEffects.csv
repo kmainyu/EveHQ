@@ -127,7 +127,7 @@
 # Avatar,,,,,,,,,,,
 11567,1,3347,6,4,773;774,0,1,0,-10,15,Capital Energy Turret Cap
 11567,1,3347,10014,4,773;774,0,1,0,5,15,Capital Energy Turret Damage
-11567,1,3347,0,0,0,0,1,0,7.5,15,Gang Capacitor Recharge
+11567,1,3347,0,0,0,0,1,0,-7.5,15,Gang Capacitor Recharge
 11567,0,0,50,2,815,0,0,0,-99,15,Clone VAT Bay CPU Use
 11567,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
 11567,0,0,50,1,24550,0,0,0,-99,15,Judgement CPU Need
@@ -212,7 +212,7 @@
 # Catalyst,,,,,,,,,,,
 16240,1,12097,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
 16240,1,12097,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
-16240,0,0,51,2,53;55;74,0,0,0,-25,15,Turret ROF
+16240,0,0,51,2,53;55;74,0,0,0,25,15,Turret ROF
 16240,0,0,54,4,561;564,0,1,0,50,15,Small Hybrid Turret Optimal Range
 # Celestis,,,,,,,,,,,
 633,1,3352,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
@@ -222,13 +222,13 @@
 11993,1,3334,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,5,15,Kinetic Missile Damage
 11993,1,3334,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,10,15,Missile Velocity
 11993,1,16591,281,2,653;384;655;385;654;772,0,1,0,10,15,"Light, Heavy, Assualt Missile Flight Time"
-11993,1,16591,51,2,511;862;524;506;510;771;507;508;501;509,0,1,0,5,15,Missile ROF
+11993,1,16591,51,2,511;862;524;506;510;771;507;508;501;509,0,1,0,-5,15,Missile ROF
 # Charon,,,,,,,,,,,
 20185,1,20526,10004,1,20185,0,1,0,5,15,Cargo Capacity
 20185,1,20526,37,1,20185,0,1,0,5,15,Max Velocity
 # Cheetah,,,,,,,,,,,
 11182,1,3329,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
-11182,1,3329,54,4,574;577,0,1,0,-5,15,Small Projectile Turret Optimal Range
+11182,1,3329,54,4,574;577,0,1,0,10,15,Small Projectile Turret Optimal Range
 11182,0,0,50,2,330,0,0,0,-97.5,15,Cloaking Device CPU
 11182,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11182,1,12093,73,5,3412,0,1,0,-10,15,Astrometrics Module Duration
@@ -259,7 +259,7 @@
 # Coercer,,,,,,,,,,,
 16236,1,12097,160,4,567;570,0,1,0,10,15,Small Energy Turret Tracking
 16236,1,12097,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
-16236,0,0,51,2,53;55;74,0,0,0,-25,15,Turret ROF
+16236,0,0,51,2,53;55;74,0,0,0,25,15,Turret ROF
 16236,0,0,54,4,567;570,0,0,0,50,15,Small Energy Turret Optimal Range
 # Condor,,,,,,,,,,,
 583,1,3330,117,2,387;648,0,1,0,5,15,Rocket Damage - Kin
@@ -268,7 +268,7 @@
 # Cormorant,,,,,,,,,,,
 16238,1,12097,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
 16238,1,12097,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
-16238,0,0,51,2,53;55;74,0,0,0,-25,15,Turret ROF
+16238,0,0,51,2,53;55;74,0,0,0,25,15,Turret ROF
 16238,0,0,54,4,561;564,0,0,0,50,15,Small Hybrid Turret Optimal Range
 # Covetor,,,,,,,,,,,
 17476,0,0,50,4,1038;1040,0,0,0,-99.5,15,Ice Harvester/Strip Miner CPU Need
@@ -1174,7 +1174,7 @@
 # Thrasher,,,,,,,,,,,
 16242,1,12097,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
 16242,1,12097,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
-16242,0,0,51,2,53;55;74,0,0,0,-25,15,Turret ROF
+16242,0,0,51,2,53;55;74,0,0,0,25,15,Turret ROF
 16242,0,0,54,4,574;577,0,0,0,50,15,Small Projectile Turret Optimal Range
 # Tormentor,,,,,,,,,,,
 591,1,3331,10004,1,582,0,1,0,5,15,Cargo Capacity
@@ -1298,4 +1298,4 @@
 12003,1,3335,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
 12003,1,3335,51,4,568;572,0,1,0,-5,15,Medium Energy Turret ROF
 12003,1,16591,10014,4,568;572,0,1,0,5,15,Medium Energy Turret Damage
-12003,1,16591,54,4,568;572,0,1,0,-5,15,Medium Energy Turret Optimal Range
+12003,1,16591,54,4,568;572,0,1,0,10,15,Medium Energy Turret Optimal Range

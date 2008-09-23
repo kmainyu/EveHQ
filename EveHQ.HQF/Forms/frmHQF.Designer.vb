@@ -737,7 +737,7 @@ Partial Class frmHQF
         '
         Me.ctxModuleList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowModuleInfo, Me.mnuSep1, Me.mnuAddToFavourites_List, Me.mnuRemoveFromFavourites, Me.mnuSep2, Me.mnuShowModuleMarketGroup})
         Me.ctxModuleList.Name = "ctxModuleList"
-        Me.ctxModuleList.Size = New System.Drawing.Size(217, 104)
+        Me.ctxModuleList.Size = New System.Drawing.Size(217, 126)
         '
         'mnuShowModuleInfo
         '

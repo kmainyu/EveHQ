@@ -104,7 +104,8 @@
 1079,1,3418,482,3,6,0,1,0,0,Energy Management
 66,1,3421,73,2,72,0,1,0,0,Energy Pulse Weapons
 314,1,3417,55,3,6,0,1,0,0,Energy Systems Operation
-313,1,3413,11,3,6,0,1,0,0,Engineering
+313,1,3413,11,3,6,0,1,0,0,Engineering - Ship
+313,1,3413,549,2,339,0,1,0,0,Engineering - MAPC
 958,1,12367,985,2,295,0,1,0,0,Explosive Shield Compensation - Passive
 988,1,12367,995,2,77,0,1,4,0,Explosive Shield Compensation - Acitve
 958,1,12366,986,2,295,0,1,0,0,Kinetic Shield Compensation - Passive
