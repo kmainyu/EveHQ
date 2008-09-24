@@ -73,6 +73,8 @@ Public Class frmConfirmAtts
         nPilot.Corp = "EveHQ Import Corp"
         nPilot.CorpID = "1000000"
         nPilot.Gender = gender
+        nPilot.CloneName = "Clone Grade Alpha"
+        nPilot.CloneSP = "900000"
         For Each skillItem As ListViewItem In skills
             Dim pilotSkill As New EveHQ.Core.Skills
             pilotSkill.ID = skillItem.Name

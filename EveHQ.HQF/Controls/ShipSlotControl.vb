@@ -223,22 +223,26 @@ Public Class ShipSlotControl
         Next
     End Sub
     Private Sub UpdateSlotLocation(ByVal oldMod As ShipModule, ByVal slotNo As Integer)
-        Dim shipMod As New ShipModule
-        Select Case oldMod.SlotType
-            Case 1 ' Rig
-                shipMod = fittedShip.RigSlot(slotNo)
-            Case 2 ' Low
-                shipMod = fittedShip.LowSlot(slotNo)
-            Case 4 ' Mid
-                shipMod = fittedShip.MidSlot(slotNo)
-            Case 8 ' High
-                shipMod = fittedShip.HiSlot(slotNo)
-        End Select
-        shipMod.ModuleState = oldMod.ModuleState
-        Dim slotName As ListViewItem = lvwSlots.Items(shipMod.SlotType & "_" & slotNo)
-        slotName.ImageIndex = CInt(Math.Log(shipMod.ModuleState) / Math.Log(2))
-        slotName.UseItemStyleForSubItems = True
-        Call Me.UpdateUserColumns(shipMod, slotName)
+        If oldMod IsNot Nothing Then
+            Dim shipMod As New ShipModule
+            Select Case oldMod.SlotType
+                Case 1 ' Rig
+                    shipMod = fittedShip.RigSlot(slotNo)
+                Case 2 ' Low
+                    shipMod = fittedShip.LowSlot(slotNo)
+                Case 4 ' Mid
+                    shipMod = fittedShip.MidSlot(slotNo)
+                Case 8 ' High
+                    shipMod = fittedShip.HiSlot(slotNo)
+            End Select
+            If shipMod IsNot Nothing Then
+                shipMod.ModuleState = oldMod.ModuleState
+                Dim slotName As ListViewItem = lvwSlots.Items(shipMod.SlotType & "_" & slotNo)
+                slotName.ImageIndex = CInt(Math.Log(shipMod.ModuleState) / Math.Log(2))
+                slotName.UseItemStyleForSubItems = True
+                Call Me.UpdateUserColumns(shipMod, slotName)
+            End If
+        End If
         Call UpdateShipDetails()
     End Sub
     Private Sub AddUserColumns(ByVal shipMod As ShipModule, ByVal slotName As ListViewItem)
@@ -332,6 +336,18 @@ Public Class ShipSlotControl
                         Case "DPS"
                             If shipMod.Attributes.Contains("10019") Then
                                 slotName.SubItems.Add(FormatNumber(shipMod.Attributes("10019"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
+                        Case "Falloff"
+                            If shipMod.Attributes.Contains("158") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("158"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
+                        Case "Tracking"
+                            If shipMod.Attributes.Contains("160") Then
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("160"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             Else
                                 slotName.SubItems.Add("")
                             End If
@@ -521,7 +537,7 @@ Public Class ShipSlotControl
                             Else
                                 ' Must be a proper module then!
                                 sMod.ModuleState = state
-                                Call AddModule(sMod, 0, True, False)
+                                Call AddModule(sMod, 0, True, Nothing)
                             End If
                         End If
                     Else
@@ -591,12 +607,10 @@ Public Class ShipSlotControl
 #End Region
 
 #Region "Adding Mods/Drones/Items"
-    Public Sub AddModule(ByVal shipMod As ShipModule, ByVal slotNo As Integer, ByVal updateShip As Boolean, ByVal replace As Boolean)
+    Public Sub AddModule(ByVal shipMod As ShipModule, ByVal slotNo As Integer, ByVal updateShip As Boolean, ByVal repMod As ShipModule)
         ' Check slot availability
-        If replace = False Then
-            If IsSlotAvailable(shipMod) = False Then
-                Exit Sub
-            End If
+        If IsSlotAvailable(shipMod, repMod) = False Then
+            Exit Sub
         End If
         ' Add Module to the next slot
         If slotNo = 0 Then
@@ -607,7 +621,8 @@ Public Class ShipSlotControl
         If UpdateAll = False And updateShip = True Then
             currentInfo.ShipType = currentShip
             currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-            Call UpdateSlotLocation(shipMod, slotNo)
+            'Call UpdateSlotLocation(shipMod, slotNo)
+            Call Me.UpdateAllSlotLocations()
         End If
     End Sub
     Public Sub AddDrone(ByVal Drone As ShipModule, ByVal Qty As Integer, ByVal Active As Boolean)
@@ -695,27 +710,53 @@ Public Class ShipSlotControl
             End If
         End If
     End Sub
-    Private Function IsSlotAvailable(ByVal shipMod As ShipModule) As Boolean
+    Private Function IsSlotAvailable(ByVal shipMod As ShipModule, Optional ByVal repShipMod As ShipModule = Nothing) As Boolean
+        Dim cRig, cLow, cMid, cHi, cTurret, cLauncher As Integer
 
+        If repShipMod IsNot Nothing Then
+            Select Case repShipMod.SlotType
+                Case 1 ' Rig
+                    cRig = currentShip.RigSlots_Used - 1
+                Case 2 ' Low
+                    cLow = currentShip.LowSlots_Used - 1
+                Case 4 ' Mid
+                    cMid = currentShip.MidSlots_Used - 1
+                Case 8 ' High
+                    cHi = currentShip.HiSlots_Used - 1
+            End Select
+            If repShipMod.IsTurret = True Then
+                cTurret = currentShip.TurretSlots_Used - 1
+            End If
+            If repShipMod.IsLauncher = True Then
+                cLauncher = currentShip.LauncherSlots_Used - 1
+            End If
+        Else
+            cRig = currentShip.RigSlots_Used
+            cLow = currentShip.LowSlots_Used
+            cMid = currentShip.MidSlots_Used
+            cHi = currentShip.HiSlots_Used
+            cTurret = currentShip.TurretSlots_Used
+            cLauncher = currentShip.LauncherSlots_Used
+        End If
         ' First, check slot layout
         Select Case shipMod.SlotType
             Case 1 ' Rig
-                If currentShip.RigSlots_Used = currentShip.RigSlots Then
+                If cRig = currentShip.RigSlots Then
                     MessageBox.Show("There are no available rig slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
             Case 2 ' Low
-                If currentShip.LowSlots_Used = currentShip.LowSlots Then
+                If cLow = currentShip.LowSlots Then
                     MessageBox.Show("There are no available low slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
             Case 4 ' Mid
-                If currentShip.MidSlots_Used = currentShip.MidSlots Then
+                If cMid = currentShip.MidSlots Then
                     MessageBox.Show("There are no available mid slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
             Case 8 ' High
-                If currentShip.HiSlots_Used = currentShip.HiSlots Then
+                If cHi = currentShip.HiSlots Then
                     MessageBox.Show("There are no available high slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
@@ -723,7 +764,7 @@ Public Class ShipSlotControl
 
         ' Now check launcher slots
         If shipMod.IsLauncher Then
-            If currentShip.LauncherSlots_Used = currentShip.LauncherSlots Then
+            If cLauncher = currentShip.LauncherSlots Then
                 MessageBox.Show("There are no available launcher slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
             End If
@@ -731,7 +772,7 @@ Public Class ShipSlotControl
 
         ' Now check turret slots
         If shipMod.IsTurret Then
-            If currentShip.TurretSlots_Used = currentShip.TurretSlots Then
+            If cTurret = currentShip.TurretSlots Then
                 MessageBox.Show("There are no available turret slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
             End If
@@ -826,8 +867,8 @@ Public Class ShipSlotControl
     End Sub
     Private Sub RemoveModule(ByVal slot As ListViewItem, ByVal updateShip As Boolean)
         ' Get name of the "slot" which has slot type and number
-        Dim slotType As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(0, 1))
-        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
+        Dim slotType As Integer = CInt(slot.Name.Substring(0, 1))
+        Dim slotNo As Integer = CInt(slot.Name.Substring(2, 1))
         Select Case slotType
             Case 1 ' Rig
                 currentShip.RigSlot(slotNo) = Nothing
@@ -849,6 +890,7 @@ Public Class ShipSlotControl
             currentInfo.ShipType = currentShip
             currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
             Call UpdateShipDetails()
+            Call Me.UpdateAllSlotLocations()
         End If
     End Sub
 #End Region
@@ -1625,23 +1667,26 @@ Public Class ShipSlotControl
 
         Dim p As Point = lvwSlots.PointToClient(New Point(e.X, e.Y))
         Dim nLVI As ListViewItem = lvwSlots.GetItemAt(p.X, p.Y)
-        Dim nModID As String = CStr(ModuleLists.moduleListName.Item(nLVI.Text))
-        Dim nMod As New ShipModule
-        Dim nSlotType As Integer = CInt(nLVI.Name.Substring(0, 1))
-        Dim nslotNo As Integer = CInt(nLVI.Name.Substring(2, 1))
-
-        If oSlotType <> nSlotType Then
-            e.Effect = DragDropEffects.None
-        Else
-            If oslotNo = nslotNo Then
+        If nLVI IsNot Nothing Then
+            Dim nModID As String = CStr(ModuleLists.moduleListName.Item(nLVI.Text))
+            Dim nMod As New ShipModule
+            Dim nSlotType As Integer = CInt(nLVI.Name.Substring(0, 1))
+            Dim nslotNo As Integer = CInt(nLVI.Name.Substring(2, 1))
+            If oSlotType <> nSlotType Then
                 e.Effect = DragDropEffects.None
             Else
-                If e.KeyState = 1 Then
-                    e.Effect = DragDropEffects.Move
+                If oslotNo = nslotNo Then
+                    e.Effect = DragDropEffects.None
                 Else
-                    e.Effect = DragDropEffects.Copy
+                    If e.KeyState = 1 Then
+                        e.Effect = DragDropEffects.Move
+                    Else
+                        e.Effect = DragDropEffects.Copy
+                    End If
                 End If
             End If
+        Else
+            e.Effect = DragDropEffects.None
         End If
 
     End Sub
@@ -1673,39 +1718,41 @@ Public Class ShipSlotControl
             Else
                 If oLVI.Text = "<Empty>" Then
                     ocMod = Nothing
+                    ofMod = Nothing
                 Else
                     Select Case oSlotType
                         Case 1 ' Rig
-                            ocMod = currentShip.RigSlot(oslotNo)
-                            ofMod = fittedShip.RigSlot(oslotNo)
+                            ocMod = currentShip.RigSlot(oslotNo).Clone
+                            ofMod = fittedShip.RigSlot(oslotNo).Clone
                         Case 2 ' Low
-                            ocMod = currentShip.LowSlot(oslotNo)
-                            ofMod = fittedShip.LowSlot(oslotNo)
+                            ocMod = currentShip.LowSlot(oslotNo).Clone
+                            ofMod = fittedShip.LowSlot(oslotNo).Clone
                         Case 4 ' Mid
-                            ocMod = currentShip.MidSlot(oslotNo)
-                            ofMod = fittedShip.MidSlot(oslotNo)
+                            ocMod = currentShip.MidSlot(oslotNo).Clone
+                            ofMod = fittedShip.MidSlot(oslotNo).Clone
                         Case 8 ' High
-                            ocMod = currentShip.HiSlot(oslotNo)
-                            ofMod = fittedShip.HiSlot(oslotNo)
+                            ocMod = currentShip.HiSlot(oslotNo).Clone
+                            ofMod = fittedShip.HiSlot(oslotNo).Clone
                     End Select
                 End If
 
                 If nLVI.Text = "<Empty>" Then
                     ncMod = Nothing
+                    nfMod = Nothing
                 Else
                     Select Case nSlotType
                         Case 1 ' Rig
-                            ncMod = currentShip.RigSlot(nslotNo)
-                            nfMod = fittedShip.RigSlot(nslotNo)
+                            ncMod = currentShip.RigSlot(nslotNo).Clone
+                            nfMod = fittedShip.RigSlot(nslotNo).Clone
                         Case 2 ' Low
-                            ncMod = currentShip.LowSlot(nslotNo)
-                            nfMod = fittedShip.LowSlot(nslotNo)
+                            ncMod = currentShip.LowSlot(nslotNo).Clone
+                            nfMod = fittedShip.LowSlot(nslotNo).Clone
                         Case 4 ' Mid
-                            ncMod = currentShip.MidSlot(nslotNo)
-                            nfMod = fittedShip.MidSlot(nslotNo)
+                            ncMod = currentShip.MidSlot(nslotNo).Clone
+                            nfMod = fittedShip.MidSlot(nslotNo).Clone
                         Case 8 ' High
-                            ncMod = currentShip.HiSlot(nslotNo)
-                            nfMod = fittedShip.HiSlot(nslotNo)
+                            ncMod = currentShip.HiSlot(nslotNo).Clone
+                            nfMod = fittedShip.HiSlot(nslotNo).Clone
                     End Select
                 End If
                 If e.Effect = DragDropEffects.Move Then ' Mouse button released?
@@ -1746,17 +1793,23 @@ Public Class ShipSlotControl
                                 fittedShip.HiSlot(oslotNo) = nfMod
                         End Select
                     End If
-                    'currentInfo.ShipType = currentShip
-                    'currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                     Call Me.UpdateSlotLocation(ofMod, nslotNo)
                     Call Me.UpdateSlotLocation(nfMod, oslotNo)
                 Else
                     'MessageBox.Show("Wanting to copy " & oLVI.Text & " for " & nLVI.Text & "?", "Confirm copy", MessageBoxButtons.OK, MessageBoxIcon.Question)
-                    ncMod = ocMod.Clone
-                    AddModule(ncMod, nslotNo, False, True) '- Need to modify this function to specify which location we are putting it
+                    Dim rMod As ShipModule = Nothing
+                    If ncMod IsNot Nothing Then
+                        rMod = ncMod.Clone()
+                    End If
+                    If ocMod IsNot Nothing Then
+                        ncMod = ocMod.Clone
+                        AddModule(ncMod, nslotNo, False, rMod)
+                    Else
+                        RemoveModule(nLVI, False)
+                    End If
                     currentInfo.ShipType = currentShip
                     currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-                    Call Me.UpdateSlotLocation(ncMod, nslotNo)
+                    Call Me.UpdateAllSlotLocations()
                 End If
             End If
         End If

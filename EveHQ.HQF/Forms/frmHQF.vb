@@ -2202,7 +2202,7 @@ Public Class frmHQF
                     currentShipSlot.AddItem(shipMod, 1)
                 Else
                     ' Must be a proper module then!
-                    Call currentShipSlot.AddModule(shipMod, 0, True, False)
+                    Call currentShipSlot.AddModule(shipMod, 0, True, Nothing)
                     ' Add it to the MRU
                     Call Me.UpdateMRUModules(shipMod.Name)
                 End If

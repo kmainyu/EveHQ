@@ -1971,6 +1971,8 @@ Public Class Reports
         strXML &= tabs(2) & "<gender>" & rpilot.Gender & "</gender>" & vbCrLf
         strXML &= tabs(2) & "<corporationName>" & rpilot.Corp & "</corporationName>" & vbCrLf
         strXML &= tabs(2) & "<corporationID>" & rpilot.CorpID & "</corporationID>" & vbCrLf
+        strXML &= tabs(2) & "<cloneName>" & rpilot.CloneName & "</cloneName>" & vbCrLf
+        strXML &= tabs(2) & "<cloneSkillPoints>" & rpilot.CloneSP & "</cloneSkillPoints>" & vbCrLf
         ' Make the isk value non-culture specfic using en-GB
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         strXML &= tabs(2) & "<balance>" & rpilot.Isk.ToString(culture.NumberFormat) & "</balance>" & vbCrLf
