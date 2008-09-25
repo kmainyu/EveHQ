@@ -1255,6 +1255,9 @@ Public Class frmHQF
 #Region "Form Initialisation & Closing Routines"
 
     Private Sub frmHQF_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        ' Save the panel widths
+        Settings.HQFSettings.ShipPanelWidth = SplitContainer1.Width
+        Settings.HQFSettings.ModPanelWidth = SplitContainer2.Width
         ' Save fittings
         Call Me.SaveFittings()
         ' Save the Settings
@@ -1337,6 +1340,10 @@ Public Class frmHQF
             Next
         End If
         HQF.Settings.HQFSettings.ShowPerformanceData = performanceSetting
+
+        ' Set the panel widths
+        SplitContainer1.Width = Settings.HQFSettings.ShipPanelWidth
+        SplitContainer2.Width = Settings.HQFSettings.ModPanelWidth
 
     End Sub
     Private Sub LoadFittings()
@@ -1821,6 +1828,9 @@ Public Class frmHQF
     Private Sub chkOnlyShowUsable_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOnlyShowUsable.CheckedChanged
         Call Me.UpdateModuleList()
     End Sub
+    Private Sub chkOnlyShowFittable_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOnlyShowFittable.CheckedChanged
+        Call Me.UpdateModuleList()
+    End Sub
     Private Sub UpdateModuleList()
         If startUp = False Then
             If tvwItems.Tag IsNot Nothing Then
@@ -1854,15 +1864,31 @@ Public Class frmHQF
                 Else
                     sMod = cMod.Clone
                 End If
-                If chkOnlyShowUsable.Checked = True Then
-                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
-                        results.Add(sMod.Name, sMod)
+                If currentShipInfo IsNot Nothing Then
+                    If chkOnlyShowUsable.Checked = True Then
+                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                            If chkOnlyShowFittable.Checked = True Then
+                                If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                    results.Add(sMod.Name, sMod)
+                                End If
+                            Else
+                                results.Add(sMod.Name, sMod)
+                            End If
+                        End If
+                    Else
+                        If chkOnlyShowFittable.Checked = True Then
+                            If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                results.Add(sMod.Name, sMod)
+                            End If
+                        Else
+                            results.Add(sMod.Name, sMod)
+                        End If
                     End If
                 Else
                     results.Add(sMod.Name, sMod)
                 End If
             Next
-            lblModuleDisplayType.Text = "Displaying: Favourites"
+            lvwItems.Tag = "Displaying: Favourites"
         ElseIf groupNode.Name = "Recently Used" Then
             tvwItems.Tag = "Recently Used"
             For Each modName As String In Settings.HQFSettings.MRUModules
@@ -1875,13 +1901,25 @@ Public Class frmHQF
                 End If
                 If chkOnlyShowUsable.Checked = True Then
                     If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
-                        results.Add(sMod.Name, sMod)
+                        If chkOnlyShowFittable.Checked = True Then
+                            If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                results.Add(sMod.Name, sMod)
+                            End If
+                        Else
+                            results.Add(sMod.Name, sMod)
+                        End If
                     End If
                 Else
-                    results.Add(sMod.Name, sMod)
+                    If chkOnlyShowFittable.Checked = True Then
+                        If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                            results.Add(sMod.Name, sMod)
+                        End If
+                    Else
+                        results.Add(sMod.Name, sMod)
+                    End If
                 End If
             Next
-            lblModuleDisplayType.Text = "Displaying: Recently Used"
+            lvwItems.Tag = "Displaying: Recently Used"
         Else
             If groupNode.Nodes.Count = 0 Then
                 groupID = groupNode.Tag.ToString
@@ -1900,14 +1938,26 @@ Public Class frmHQF
                     End If
                     If chkOnlyShowUsable.Checked = True And currentShipInfo IsNot Nothing Then
                         If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
-                            results.Add(sMod.Name, sMod)
+                            If chkOnlyShowFittable.Checked = True Then
+                                If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                    results.Add(sMod.Name, sMod)
+                                End If
+                            Else
+                                results.Add(sMod.Name, sMod)
+                            End If
                         End If
                     Else
-                        results.Add(sMod.Name, sMod)
+                        If chkOnlyShowFittable.Checked = True Then
+                            If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                results.Add(sMod.Name, sMod)
+                            End If
+                        Else
+                            results.Add(sMod.Name, sMod)
+                        End If
                     End If
                 End If
             Next
-            lblModuleDisplayType.Text = "Displaying: " & lblModuleDisplayType.Tag.ToString
+            lvwItems.Tag = "Displaying: " & lblModuleDisplayType.Tag.ToString
         End If
         Me.LastModuleResults = results
         Call Me.ShowFilteredModules()
@@ -1965,8 +2015,10 @@ Public Class frmHQF
         If lvwItems.Items.Count = 0 Then
             lvwItems.Items.Add("<Empty - Please check filters>")
             lvwItems.Enabled = False
+            lblModuleDisplayType.Text = lvwItems.Tag.ToString & " (0 items)"
         Else
             lvwItems.Enabled = True
+            lblModuleDisplayType.Text = lvwItems.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
         End If
         lvwItems.EndUpdate()
 
@@ -1989,18 +2041,30 @@ Public Class frmHQF
                     If chkOnlyShowUsable.Checked = True And currentShipInfo IsNot Nothing Then
                         If currentShipInfo.cboPilots.SelectedItem IsNot Nothing Then
                             If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
-                                results.Add(sMod.Name, sMod)
+                                If chkOnlyShowFittable.Checked = True Then
+                                    If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                        results.Add(sMod.Name, sMod)
+                                    End If
+                                Else
+                                    results.Add(sMod.Name, sMod)
+                                End If
                             End If
                         Else
-                            results.Add(sMod.Name, sMod)
+                            If chkOnlyShowFittable.Checked = True Then
+                                If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                    results.Add(sMod.Name, sMod)
+                                End If
+                            Else
+                                results.Add(sMod.Name, sMod)
+                            End If
                         End If
-                    Else
+                    Else    
                         results.Add(sMod.Name, sMod)
                     End If
                 End If
             Next
             Me.LastModuleResults = results
-            lblModuleDisplayType.Text = "Displaying: Modules Matching *" & txtSearchModules.Text & "*"
+            lvwItems.Tag = "Displaying: Matching *" & txtSearchModules.Text & "*"
             Call Me.ShowSearchedModules()
         End If
         Me.Cursor = Cursors.Default
@@ -2052,6 +2116,7 @@ Public Class frmHQF
         Next
         lvwItems.EndUpdate()
         tvwItems.Tag = "Search"
+        lblModuleDisplayType.Text = lvwItems.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
     End Sub
     Private Sub UpdateModulesThatWillFit(ByVal modData As ArrayList)
         LastSlotFitting = modData
@@ -2118,7 +2183,7 @@ Public Class frmHQF
             End If
         Next
         Me.LastModuleResults = results
-        lblModuleDisplayType.Text = "Displaying: Modules That Will Fit"
+        lvwItems.Tag = "Displaying: Modules That Fit"
         Call Me.ShowModulesThatWillFit()
         Me.Cursor = Cursors.Default
     End Sub
@@ -2167,6 +2232,7 @@ Public Class frmHQF
         Next
         lvwItems.EndUpdate()
         tvwItems.Tag = "Fitted"
+        lblModuleDisplayType.Text = lvwItems.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
     End Sub
     Private Sub txtSearchModules_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchModules.GotFocus
         Call CalculateSearchedModules()
@@ -3248,4 +3314,5 @@ Public Class frmHQF
         Next
     End Sub
 
+  
 End Class

@@ -52,7 +52,25 @@ Public Class Settings
     Private cFavourites As New ArrayList
     Private cMRULimit As Integer = 15
     Private cMRUModules As New ArrayList
+    Private cShipPanelWidth As Integer = 200
+    Private cModPanelWidth As Integer = 300
 
+    Public Property ModPanelWidth() As Integer
+        Get
+            Return cModPanelWidth
+        End Get
+        Set(ByVal value As Integer)
+            cModPanelWidth = value
+        End Set
+    End Property
+    Public Property ShipPanelWidth() As Integer
+        Get
+            Return cShipPanelWidth
+        End Get
+        Set(ByVal value As Integer)
+            cShipPanelWidth = value
+        End Set
+    End Property
     Public Property MRUModules() As ArrayList
         Get
             Return cMRUModules
@@ -229,6 +247,8 @@ Public Class Settings
         XMLS &= Chr(9) & Chr(9) & "<closeInfoPanel>" & HQFSettings.CloseInfoPanel & "</closeInfoPanel>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<capRechargeConst>" & HQFSettings.CapRechargeConstant & "</capRechargeConst>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<shieldRechargeConst>" & HQFSettings.ShieldRechargeConstant & "</shieldRechargeConst>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<shipPanelWidth>" & HQFSettings.ShipPanelWidth & "</shipPanelWidth>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<modPanelWidth>" & HQFSettings.ModPanelWidth & "</modPanelWidth>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the slot layout
@@ -307,6 +327,8 @@ Public Class Settings
                         HQFSettings.CloseInfoPanel = CBool(settingSettings.ChildNodes(10).InnerText)
                         HQFSettings.CapRechargeConstant = CDbl(settingSettings.ChildNodes(11).InnerText)
                         HQFSettings.ShieldRechargeConstant = CDbl(settingSettings.ChildNodes(12).InnerText)
+                        HQFSettings.ShipPanelWidth = CInt(settingSettings.ChildNodes(13).InnerText)
+                        HQFSettings.ModPanelWidth = CInt(settingSettings.ChildNodes(14).InnerText)
                     End If
                 End If
             Catch

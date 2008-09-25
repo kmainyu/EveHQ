@@ -1753,6 +1753,16 @@ Public Class Engine
         Next
         Return usable
     End Function
+    Public Shared Function IsFittable(ByVal cMod As ShipModule, ByVal cShip As Ship) As Boolean
+        If cMod.CPU <= cShip.CPU - cShip.CPU_Used Then
+            If cMod.PG <= cShip.PG - cShip.PG_Used Then
+                If cMod.Calibration <= cShip.Calibration - cShip.Calibration_Used Then
+                    Return True
+                End If
+            End If
+        End If
+        Return False
+    End Function
 #End Region
 
 #Region "Fitting Routines"
