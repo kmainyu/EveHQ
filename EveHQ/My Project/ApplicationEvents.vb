@@ -49,7 +49,7 @@ Namespace My
         Private Sub MyApplication_StartupNextInstance(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.StartupNextInstanceEventArgs) Handles Me.StartupNextInstance
             'MessageBox.Show("You can only run one copy of EveHQ at a time!", "EveHQ Already Running", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             If frmEveHQ.WindowState = FormWindowState.Minimized Then
-                frmEveHQ.WindowState = FormWindowState.Normal
+                frmEveHQ.WindowState = FormWindowState.Maximized
                 frmEveHQ.Show()
                 frmEveHQ.BringToFront()
             End If

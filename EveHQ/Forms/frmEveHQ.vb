@@ -1876,5 +1876,17 @@ Public Class frmEveHQ
 
 #End Region
 
+    Private Sub ClearEveHQCache_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearEveHQCache.Click
+        Dim msg As String = "This will delete the entire contents of the cache folder." & ControlChars.CrLf & ControlChars.CrLf & "Are you sure you wish to continue?"
+        Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Cache", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If reply = DialogResult.Yes Then
+            Try
+                'My.Computer.FileSystem.DeleteDirectory(EveHQ.Core.HQ.cacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                Application.Restart()
+            Catch ex As Exception
+                MessageBox.Show("Error Deleting the EveHQ Cache Folder, please try to delete the following location manually: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.cacheFolder, "Error Deleting Cache", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+        End If
+    End Sub
 End Class
 

@@ -2099,36 +2099,50 @@ Public Class frmSettings
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim feedXML As New XmlDocument
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
-            feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
-            Dim Items As XmlNodeList
-            Dim Item As XmlNode
-            Items = feedXML.SelectNodes("/medians_lookup/items/item")
-            lblUpdateStatus.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : lblUpdateStatus.Refresh()
-            For Each Item In Items
-                If EveHQ.Core.HQ.MarketPriceList.ContainsKey(Item.ChildNodes(0).InnerText) = True Then
-                    EveHQ.Core.HQ.MarketPriceList(Item.ChildNodes(0).InnerText) = Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture)
-                Else
-                    EveHQ.Core.HQ.MarketPriceList.Add(Item.ChildNodes(0).InnerText, Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture))
+            Try
+                feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+                Dim Items As XmlNodeList
+                Dim Item As XmlNode
+                Items = feedXML.SelectNodes("/medians_lookup/items/item")
+                lblUpdateStatus.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : lblUpdateStatus.Refresh()
+                For Each Item In Items
+                    If EveHQ.Core.HQ.MarketPriceList.ContainsKey(Item.ChildNodes(0).InnerText) = True Then
+                        EveHQ.Core.HQ.MarketPriceList(Item.ChildNodes(0).InnerText) = Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture)
+                    Else
+                        EveHQ.Core.HQ.MarketPriceList.Add(Item.ChildNodes(0).InnerText, Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture))
+                    End If
+                Next
+            Catch e As Exception
+                MessageBox.Show("Unable to parse Median Price feed:" & ControlChars.CrLf & e.Message, "Error in Price Feed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
+                    My.Computer.FileSystem.DeleteFile(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
                 End If
-            Next
+            End Try
         End If
     End Sub
     Private Sub ParseFactionPriceFeed(ByVal FeedName As String)
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim feedXML As New XmlDocument
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
-            feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
-            Dim Items As XmlNodeList
-            Dim Item As XmlNode
-            Items = feedXML.SelectNodes("/factionPriceData/items/item")
-            lblUpdateStatus.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : lblUpdateStatus.Refresh()
-            For Each Item In Items
-                If EveHQ.Core.HQ.MarketPriceList.ContainsKey(Item.ChildNodes(0).InnerText) = True Then
-                    EveHQ.Core.HQ.MarketPriceList(Item.ChildNodes(0).InnerText) = Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture)
-                Else
-                    EveHQ.Core.HQ.MarketPriceList.Add(Item.ChildNodes(0).InnerText, Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture))
+            Try
+                feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+                Dim Items As XmlNodeList
+                Dim Item As XmlNode
+                Items = feedXML.SelectNodes("/factionPriceData/items/item")
+                lblUpdateStatus.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : lblUpdateStatus.Refresh()
+                For Each Item In Items
+                    If EveHQ.Core.HQ.MarketPriceList.ContainsKey(Item.ChildNodes(0).InnerText) = True Then
+                        EveHQ.Core.HQ.MarketPriceList(Item.ChildNodes(0).InnerText) = Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture)
+                    Else
+                        EveHQ.Core.HQ.MarketPriceList.Add(Item.ChildNodes(0).InnerText, Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture))
+                    End If
+                Next
+            Catch e As Exception
+                MessageBox.Show("Unable to parse Faction Price feed:" & ControlChars.CrLf & e.Message, "Error in Price Feed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
+                    My.Computer.FileSystem.DeleteFile(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
                 End If
-            Next
+            End Try
         End If
     End Sub
     Private Sub SaveMarketPrices()
