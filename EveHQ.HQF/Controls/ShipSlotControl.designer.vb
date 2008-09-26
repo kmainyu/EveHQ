@@ -23,12 +23,11 @@ Partial Class ShipSlotControl
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
-        Me.panelSlotInfo = New System.Windows.Forms.Panel
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Me.lblFittingMarketPrice = New System.Windows.Forms.Label
         Me.lblShipMarketPrice = New System.Windows.Forms.Label
         Me.lblTurretSlots = New System.Windows.Forms.Label
@@ -40,7 +39,6 @@ Partial Class ShipSlotControl
         Me.ctxSlots = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.imgState = New System.Windows.Forms.ImageList(Me.components)
         Me.tabStorage = New System.Windows.Forms.TabControl
         Me.tabDroneBay = New System.Windows.Forms.TabPage
@@ -63,11 +61,10 @@ Partial Class ShipSlotControl
         Me.pbCargoBay = New System.Windows.Forms.ProgressBar
         Me.lblCargoBay = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btnClipboardCopy = New System.Windows.Forms.Button
         Me.btnToggleStorage = New System.Windows.Forms.Button
         Me.panelFunctions = New System.Windows.Forms.Panel
         Me.pbShipInfo = New System.Windows.Forms.PictureBox
-        Me.panelSlotInfo.SuspendLayout()
+        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.ctxSlots.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -80,30 +77,10 @@ Partial Class ShipSlotControl
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'panelSlotInfo
-        '
-        Me.panelSlotInfo.AutoScroll = True
-        Me.panelSlotInfo.BackColor = System.Drawing.Color.Transparent
-        Me.panelSlotInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.panelSlotInfo.Controls.Add(Me.lblFittingMarketPrice)
-        Me.panelSlotInfo.Controls.Add(Me.lblShipMarketPrice)
-        Me.panelSlotInfo.Controls.Add(Me.lblTurretSlots)
-        Me.panelSlotInfo.Controls.Add(Me.lblLauncherSlots)
-        Me.panelSlotInfo.Controls.Add(Me.lblRigSlots)
-        Me.panelSlotInfo.Controls.Add(Me.lblLowSlots)
-        Me.panelSlotInfo.Controls.Add(Me.lblMidSlots)
-        Me.panelSlotInfo.Controls.Add(Me.lblHighSlots)
-        Me.panelSlotInfo.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.panelSlotInfo.Location = New System.Drawing.Point(0, 424)
-        Me.panelSlotInfo.Name = "panelSlotInfo"
-        Me.panelSlotInfo.Size = New System.Drawing.Size(888, 55)
-        Me.panelSlotInfo.TabIndex = 0
-        '
         'lblFittingMarketPrice
         '
-        Me.lblFittingMarketPrice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblFittingMarketPrice.AutoSize = True
-        Me.lblFittingMarketPrice.Location = New System.Drawing.Point(237, 16)
+        Me.lblFittingMarketPrice.Location = New System.Drawing.Point(78, 17)
         Me.lblFittingMarketPrice.Name = "lblFittingMarketPrice"
         Me.lblFittingMarketPrice.Size = New System.Drawing.Size(208, 13)
         Me.lblFittingMarketPrice.TabIndex = 10
@@ -111,9 +88,8 @@ Partial Class ShipSlotControl
         '
         'lblShipMarketPrice
         '
-        Me.lblShipMarketPrice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblShipMarketPrice.AutoSize = True
-        Me.lblShipMarketPrice.Location = New System.Drawing.Point(4, 16)
+        Me.lblShipMarketPrice.Location = New System.Drawing.Point(292, 17)
         Me.lblShipMarketPrice.Name = "lblShipMarketPrice"
         Me.lblShipMarketPrice.Size = New System.Drawing.Size(201, 13)
         Me.lblShipMarketPrice.TabIndex = 8
@@ -121,9 +97,8 @@ Partial Class ShipSlotControl
         '
         'lblTurretSlots
         '
-        Me.lblTurretSlots.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblTurretSlots.AutoSize = True
-        Me.lblTurretSlots.Location = New System.Drawing.Point(401, 3)
+        Me.lblTurretSlots.Location = New System.Drawing.Point(371, 4)
         Me.lblTurretSlots.Name = "lblTurretSlots"
         Me.lblTurretSlots.Size = New System.Drawing.Size(63, 13)
         Me.lblTurretSlots.TabIndex = 6
@@ -131,9 +106,8 @@ Partial Class ShipSlotControl
         '
         'lblLauncherSlots
         '
-        Me.lblLauncherSlots.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblLauncherSlots.AutoSize = True
-        Me.lblLauncherSlots.Location = New System.Drawing.Point(315, 3)
+        Me.lblLauncherSlots.Location = New System.Drawing.Point(285, 4)
         Me.lblLauncherSlots.Name = "lblLauncherSlots"
         Me.lblLauncherSlots.Size = New System.Drawing.Size(80, 13)
         Me.lblLauncherSlots.TabIndex = 5
@@ -141,55 +115,51 @@ Partial Class ShipSlotControl
         '
         'lblRigSlots
         '
-        Me.lblRigSlots.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblRigSlots.AutoSize = True
-        Me.lblRigSlots.Location = New System.Drawing.Point(237, 3)
+        Me.lblRigSlots.Location = New System.Drawing.Point(233, 4)
         Me.lblRigSlots.Name = "lblRigSlots"
-        Me.lblRigSlots.Size = New System.Drawing.Size(72, 13)
+        Me.lblRigSlots.Size = New System.Drawing.Size(46, 13)
         Me.lblRigSlots.TabIndex = 4
-        Me.lblRigSlots.Text = "Rig Slots: 0/0"
+        Me.lblRigSlots.Text = "Rig: 0/0"
         '
         'lblLowSlots
         '
-        Me.lblLowSlots.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblLowSlots.AutoSize = True
-        Me.lblLowSlots.Location = New System.Drawing.Point(155, 3)
+        Me.lblLowSlots.Location = New System.Drawing.Point(177, 4)
         Me.lblLowSlots.Name = "lblLowSlots"
-        Me.lblLowSlots.Size = New System.Drawing.Size(76, 13)
+        Me.lblLowSlots.Size = New System.Drawing.Size(50, 13)
         Me.lblLowSlots.TabIndex = 3
-        Me.lblLowSlots.Text = "Low Slots: 0/0"
+        Me.lblLowSlots.Text = "Low: 0/0"
         '
         'lblMidSlots
         '
-        Me.lblMidSlots.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblMidSlots.AutoSize = True
-        Me.lblMidSlots.Location = New System.Drawing.Point(76, 3)
+        Me.lblMidSlots.Location = New System.Drawing.Point(124, 4)
         Me.lblMidSlots.Name = "lblMidSlots"
-        Me.lblMidSlots.Size = New System.Drawing.Size(73, 13)
+        Me.lblMidSlots.Size = New System.Drawing.Size(47, 13)
         Me.lblMidSlots.TabIndex = 2
-        Me.lblMidSlots.Text = "Mid Slots: 0/0"
+        Me.lblMidSlots.Text = "Mid: 0/0"
         '
         'lblHighSlots
         '
-        Me.lblHighSlots.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblHighSlots.AutoSize = True
-        Me.lblHighSlots.Location = New System.Drawing.Point(4, 3)
+        Me.lblHighSlots.Location = New System.Drawing.Point(78, 4)
         Me.lblHighSlots.Name = "lblHighSlots"
-        Me.lblHighSlots.Size = New System.Drawing.Size(66, 13)
+        Me.lblHighSlots.Size = New System.Drawing.Size(40, 13)
         Me.lblHighSlots.TabIndex = 1
-        Me.lblHighSlots.Text = "Hi Slots: 0/0"
+        Me.lblHighSlots.Text = "Hi: 0/0"
         '
         'ctxSlots
         '
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(128, 26)
+        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
         Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
         '
         'SplitContainer1
@@ -199,6 +169,7 @@ Partial Class ShipSlotControl
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 39)
         Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer1.Panel1
         '
@@ -208,33 +179,9 @@ Partial Class ShipSlotControl
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.tabStorage)
         Me.SplitContainer1.Panel2MinSize = 10
-        Me.SplitContainer1.Size = New System.Drawing.Size(888, 382)
-        Me.SplitContainer1.SplitterDistance = 639
+        Me.SplitContainer1.Size = New System.Drawing.Size(599, 437)
+        Me.SplitContainer1.SplitterDistance = 231
         Me.SplitContainer1.TabIndex = 1
-        '
-        'lvwSlots
-        '
-        Me.lvwSlots.AllowDrop = True
-        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
-        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwSlots.FullRowSelect = True
-        ListViewGroup5.Header = "High Slots"
-        ListViewGroup5.Name = "lvwgHighSlots"
-        ListViewGroup6.Header = "Mid Slots"
-        ListViewGroup6.Name = "lvwgMidSlots"
-        ListViewGroup7.Header = "Low Slots"
-        ListViewGroup7.Name = "lvwgLowSlots"
-        ListViewGroup8.Header = "Rig Slots"
-        ListViewGroup8.Name = "lvwgRigSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8})
-        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
-        Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.Size = New System.Drawing.Size(639, 382)
-        Me.lvwSlots.SmallImageList = Me.imgState
-        Me.lvwSlots.TabIndex = 0
-        Me.lvwSlots.Tag = ""
-        Me.lvwSlots.UseCompatibleStateImageBehavior = False
-        Me.lvwSlots.View = System.Windows.Forms.View.Details
         '
         'imgState
         '
@@ -254,7 +201,7 @@ Partial Class ShipSlotControl
         Me.tabStorage.Multiline = True
         Me.tabStorage.Name = "tabStorage"
         Me.tabStorage.SelectedIndex = 0
-        Me.tabStorage.Size = New System.Drawing.Size(245, 382)
+        Me.tabStorage.Size = New System.Drawing.Size(599, 202)
         Me.tabStorage.TabIndex = 0
         '
         'tabDroneBay
@@ -265,7 +212,7 @@ Partial Class ShipSlotControl
         Me.tabDroneBay.Location = New System.Drawing.Point(4, 22)
         Me.tabDroneBay.Name = "tabDroneBay"
         Me.tabDroneBay.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabDroneBay.Size = New System.Drawing.Size(237, 356)
+        Me.tabDroneBay.Size = New System.Drawing.Size(591, 176)
         Me.tabDroneBay.TabIndex = 0
         Me.tabDroneBay.Text = "Drone Bay"
         Me.tabDroneBay.UseVisualStyleBackColor = True
@@ -283,7 +230,7 @@ Partial Class ShipSlotControl
         Me.lvwDroneBay.GridLines = True
         Me.lvwDroneBay.Location = New System.Drawing.Point(7, 33)
         Me.lvwDroneBay.Name = "lvwDroneBay"
-        Me.lvwDroneBay.Size = New System.Drawing.Size(224, 317)
+        Me.lvwDroneBay.Size = New System.Drawing.Size(578, 137)
         Me.lvwDroneBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwDroneBay.TabIndex = 2
         Me.lvwDroneBay.UseCompatibleStateImageBehavior = False
@@ -303,49 +250,49 @@ Partial Class ShipSlotControl
         '
         Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(163, 104)
+        Me.ctxBays.Size = New System.Drawing.Size(167, 104)
         '
         'ctxRemoveItem
         '
         Me.ctxRemoveItem.Name = "ctxRemoveItem"
-        Me.ctxRemoveItem.Size = New System.Drawing.Size(162, 22)
+        Me.ctxRemoveItem.Size = New System.Drawing.Size(166, 22)
         Me.ctxRemoveItem.Text = "Remove Item"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(159, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(163, 6)
         '
         'ctxAlterQuantity
         '
         Me.ctxAlterQuantity.Name = "ctxAlterQuantity"
-        Me.ctxAlterQuantity.Size = New System.Drawing.Size(162, 22)
+        Me.ctxAlterQuantity.Size = New System.Drawing.Size(166, 22)
         Me.ctxAlterQuantity.Text = "Alter Quantity"
         '
         'ctxSplitBatch
         '
         Me.ctxSplitBatch.Name = "ctxSplitBatch"
-        Me.ctxSplitBatch.Size = New System.Drawing.Size(162, 22)
+        Me.ctxSplitBatch.Size = New System.Drawing.Size(166, 22)
         Me.ctxSplitBatch.Text = "Split Batch"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(159, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(163, 6)
         '
         'ctxShowBayInfoItem
         '
         Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
-        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(162, 22)
+        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(166, 22)
         Me.ctxShowBayInfoItem.Text = "Show Drone Info"
         '
         'pbDroneBay
         '
         Me.pbDroneBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pbDroneBay.Location = New System.Drawing.Point(7, 16)
+        Me.pbDroneBay.Location = New System.Drawing.Point(7, 19)
         Me.pbDroneBay.Name = "pbDroneBay"
-        Me.pbDroneBay.Size = New System.Drawing.Size(224, 10)
+        Me.pbDroneBay.Size = New System.Drawing.Size(578, 10)
         Me.pbDroneBay.TabIndex = 1
         '
         'lblDroneBay
@@ -365,7 +312,7 @@ Partial Class ShipSlotControl
         Me.tabCargoBay.Location = New System.Drawing.Point(4, 22)
         Me.tabCargoBay.Name = "tabCargoBay"
         Me.tabCargoBay.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabCargoBay.Size = New System.Drawing.Size(237, 356)
+        Me.tabCargoBay.Size = New System.Drawing.Size(591, 176)
         Me.tabCargoBay.TabIndex = 1
         Me.tabCargoBay.Text = "CargoBay"
         Me.tabCargoBay.UseVisualStyleBackColor = True
@@ -382,7 +329,7 @@ Partial Class ShipSlotControl
         Me.lvwCargoBay.GridLines = True
         Me.lvwCargoBay.Location = New System.Drawing.Point(7, 33)
         Me.lvwCargoBay.Name = "lvwCargoBay"
-        Me.lvwCargoBay.Size = New System.Drawing.Size(224, 315)
+        Me.lvwCargoBay.Size = New System.Drawing.Size(578, 135)
         Me.lvwCargoBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwCargoBay.TabIndex = 5
         Me.lvwCargoBay.UseCompatibleStateImageBehavior = False
@@ -404,7 +351,7 @@ Partial Class ShipSlotControl
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pbCargoBay.Location = New System.Drawing.Point(7, 16)
         Me.pbCargoBay.Name = "pbCargoBay"
-        Me.pbCargoBay.Size = New System.Drawing.Size(224, 10)
+        Me.pbCargoBay.Size = New System.Drawing.Size(578, 10)
         Me.pbCargoBay.TabIndex = 4
         '
         'lblCargoBay
@@ -416,21 +363,10 @@ Partial Class ShipSlotControl
         Me.lblCargoBay.TabIndex = 3
         Me.lblCargoBay.Text = "0.00 / 000.00 m³"
         '
-        'btnClipboardCopy
-        '
-        Me.btnClipboardCopy.Image = Global.EveHQ.HQF.My.Resources.Resources.Clipboard1
-        Me.btnClipboardCopy.Location = New System.Drawing.Point(40, 2)
-        Me.btnClipboardCopy.Name = "btnClipboardCopy"
-        Me.btnClipboardCopy.Size = New System.Drawing.Size(32, 32)
-        Me.btnClipboardCopy.TabIndex = 12
-        Me.ToolTip1.SetToolTip(Me.btnClipboardCopy, "Copy To Clipboard")
-        Me.btnClipboardCopy.UseVisualStyleBackColor = True
-        '
         'btnToggleStorage
         '
-        Me.btnToggleStorage.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnToggleStorage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCargo
-        Me.btnToggleStorage.Location = New System.Drawing.Point(851, 2)
+        Me.btnToggleStorage.Location = New System.Drawing.Point(40, 2)
         Me.btnToggleStorage.Name = "btnToggleStorage"
         Me.btnToggleStorage.Size = New System.Drawing.Size(32, 32)
         Me.btnToggleStorage.TabIndex = 11
@@ -439,16 +375,22 @@ Partial Class ShipSlotControl
         '
         'panelFunctions
         '
-        Me.panelFunctions.AutoScroll = True
         Me.panelFunctions.BackColor = System.Drawing.Color.Transparent
         Me.panelFunctions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.panelFunctions.Controls.Add(Me.btnClipboardCopy)
+        Me.panelFunctions.Controls.Add(Me.lblFittingMarketPrice)
         Me.panelFunctions.Controls.Add(Me.pbShipInfo)
+        Me.panelFunctions.Controls.Add(Me.lblShipMarketPrice)
         Me.panelFunctions.Controls.Add(Me.btnToggleStorage)
+        Me.panelFunctions.Controls.Add(Me.lblTurretSlots)
+        Me.panelFunctions.Controls.Add(Me.lblMidSlots)
+        Me.panelFunctions.Controls.Add(Me.lblLauncherSlots)
+        Me.panelFunctions.Controls.Add(Me.lblHighSlots)
+        Me.panelFunctions.Controls.Add(Me.lblRigSlots)
+        Me.panelFunctions.Controls.Add(Me.lblLowSlots)
         Me.panelFunctions.Dock = System.Windows.Forms.DockStyle.Top
         Me.panelFunctions.Location = New System.Drawing.Point(0, 0)
         Me.panelFunctions.Name = "panelFunctions"
-        Me.panelFunctions.Size = New System.Drawing.Size(888, 38)
+        Me.panelFunctions.Size = New System.Drawing.Size(599, 38)
         Me.panelFunctions.TabIndex = 2
         '
         'pbShipInfo
@@ -460,17 +402,38 @@ Partial Class ShipSlotControl
         Me.pbShipInfo.TabIndex = 0
         Me.pbShipInfo.TabStop = False
         '
+        'lvwSlots
+        '
+        Me.lvwSlots.AllowDrop = True
+        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
+        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwSlots.FullRowSelect = True
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
+        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
+        Me.lvwSlots.Name = "lvwSlots"
+        Me.lvwSlots.Size = New System.Drawing.Size(599, 231)
+        Me.lvwSlots.SmallImageList = Me.imgState
+        Me.lvwSlots.TabIndex = 0
+        Me.lvwSlots.Tag = ""
+        Me.lvwSlots.UseCompatibleStateImageBehavior = False
+        Me.lvwSlots.View = System.Windows.Forms.View.Details
+        '
         'ShipSlotControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.panelFunctions)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Controls.Add(Me.panelSlotInfo)
         Me.Name = "ShipSlotControl"
-        Me.Size = New System.Drawing.Size(888, 479)
-        Me.panelSlotInfo.ResumeLayout(False)
-        Me.panelSlotInfo.PerformLayout()
+        Me.Size = New System.Drawing.Size(599, 479)
         Me.ctxSlots.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
@@ -482,11 +445,11 @@ Partial Class ShipSlotControl
         Me.tabCargoBay.ResumeLayout(False)
         Me.tabCargoBay.PerformLayout()
         Me.panelFunctions.ResumeLayout(False)
+        Me.panelFunctions.PerformLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents panelSlotInfo As System.Windows.Forms.Panel
     Friend WithEvents lvwSlots As EveHQ.HQF.ListViewNoFlicker
     Friend WithEvents lblMidSlots As System.Windows.Forms.Label
     Friend WithEvents lblHighSlots As System.Windows.Forms.Label
@@ -544,7 +507,6 @@ Partial Class ShipSlotControl
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ctxShowBayInfoItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents panelFunctions As System.Windows.Forms.Panel
-    Friend WithEvents btnClipboardCopy As System.Windows.Forms.Button
     Friend WithEvents pbShipInfo As System.Windows.Forms.PictureBox
     Friend WithEvents btnToggleStorage As System.Windows.Forms.Button
 End Class

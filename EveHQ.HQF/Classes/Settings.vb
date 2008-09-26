@@ -41,7 +41,7 @@ Public Class Settings
     Private cRestoreLastSession As Boolean = False
     Private cLastPriceUpdate As DateTime
     Private cModuleFilter As Integer = 63
-    Private cAutoUpdateHQFSkills As Boolean = False
+    Private cAutoUpdateHQFSkills As Boolean = True
     Private cOpenFittingList As New ArrayList
     Private cShowPerformanceData As Boolean = False
     Private cCloseInfoPanel As Boolean = False

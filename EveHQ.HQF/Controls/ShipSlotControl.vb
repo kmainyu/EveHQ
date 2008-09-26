@@ -174,10 +174,10 @@ Public Class ShipSlotControl
         Call UpdatePrices()
     End Sub
     Private Sub UpdateSlotNumbers()
-        lblHighSlots.Text = "Hi Slots: " & currentShip.HiSlots_Used & "/" & currentShip.HiSlots
-        lblMidSlots.Text = "Mid Slots: " & currentShip.MidSlots_Used & "/" & currentShip.MidSlots
-        lblLowSlots.Text = "Low Slots: " & currentShip.LowSlots_Used & "/" & currentShip.LowSlots
-        lblRigSlots.Text = "Rig Slots: " & currentShip.RigSlots_Used & "/" & currentShip.RigSlots
+        lblHighSlots.Text = "Hi: " & currentShip.HiSlots_Used & "/" & currentShip.HiSlots
+        lblMidSlots.Text = "Mid: " & currentShip.MidSlots_Used & "/" & currentShip.MidSlots
+        lblLowSlots.Text = "Low: " & currentShip.LowSlots_Used & "/" & currentShip.LowSlots
+        lblRigSlots.Text = "Rig: " & currentShip.RigSlots_Used & "/" & currentShip.RigSlots
         lblLauncherSlots.Text = "Launchers: " & currentShip.LauncherSlots_Used & "/" & currentShip.LauncherSlots
         lblTurretSlots.Text = "Turrets: " & currentShip.TurretSlots_Used & "/" & currentShip.TurretSlots
     End Sub
@@ -899,7 +899,7 @@ Public Class ShipSlotControl
     Private Sub btnToggleStorage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnToggleStorage.Click
         If SplitContainer1.Panel2Collapsed = True Then
             SplitContainer1.Panel2Collapsed = False
-            SplitContainer1.SplitterDistance = SplitContainer1.Width - 252
+            SplitContainer1.SplitterDistance = SplitContainer1.Height - 180
             UpdateDrones = True
             Me.RedrawDroneBay()
             UpdateDrones = False
@@ -1517,71 +1517,6 @@ Public Class ShipSlotControl
                 newSelectForm.Dispose()
         End Select
     End Sub
-#End Region
-
-#Region "Clipboard Copy Routines"
-    Private Sub btnClipboardCopy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClipboardCopy.Click
-        Call Me.ClipboardCopy(True)
-    End Sub
-    Private Function ClipboardCopy(ByVal EFTCompatible As Boolean) As String
-        Dim cModule As New ShipModule
-        Dim fitting As New StringBuilder
-        fitting.AppendLine("[" & cShipFit & "]")
-        For slot As Integer = 1 To currentShip.LowSlots
-            If currentShip.LowSlot(slot) IsNot Nothing Then
-                If currentShip.LowSlot(slot).LoadedCharge IsNot Nothing Then
-                    fitting.AppendLine(currentShip.LowSlot(slot).Name & ", " & currentShip.LowSlot(slot).LoadedCharge.Name)
-                Else
-                    fitting.AppendLine(currentShip.LowSlot(slot).Name)
-                End If
-            End If
-        Next
-        fitting.AppendLine("")
-        For slot As Integer = 1 To currentShip.MidSlots
-            If currentShip.MidSlot(slot) IsNot Nothing Then
-                If currentShip.MidSlot(slot).LoadedCharge IsNot Nothing Then
-                    fitting.AppendLine(currentShip.MidSlot(slot).Name & ", " & currentShip.MidSlot(slot).LoadedCharge.Name)
-                Else
-                    fitting.AppendLine(currentShip.MidSlot(slot).Name)
-                End If
-            End If
-        Next
-        fitting.AppendLine("")
-        For slot As Integer = 1 To currentShip.HiSlots
-            If currentShip.HiSlot(slot) IsNot Nothing Then
-                If currentShip.HiSlot(slot).LoadedCharge IsNot Nothing Then
-                    fitting.AppendLine(currentShip.HiSlot(slot).Name & ", " & currentShip.HiSlot(slot).LoadedCharge.Name)
-                Else
-                    fitting.AppendLine(currentShip.HiSlot(slot).Name)
-                End If
-            End If
-        Next
-        fitting.AppendLine("")
-        For slot As Integer = 1 To currentShip.RigSlots
-            If currentShip.RigSlot(slot) IsNot Nothing Then
-                If currentShip.RigSlot(slot).LoadedCharge IsNot Nothing Then
-                    fitting.AppendLine(currentShip.RigSlot(slot).Name & ", " & currentShip.RigSlot(slot).LoadedCharge.Name)
-                Else
-                    fitting.AppendLine(currentShip.RigSlot(slot).Name)
-                End If
-            End If
-        Next
-        fitting.AppendLine("")
-        For Each drone As DroneBayItem In currentShip.DroneBayItems.Values
-            If EFTCompatible = True Then
-                fitting.AppendLine(drone.DroneType.Name & " x" & drone.Quantity)
-            Else
-                fitting.AppendLine(drone.DroneType.Name & " x" & drone.Quantity & ", " & drone.IsActive)
-            End If
-        Next
-        fitting.AppendLine("")
-        For Each cargo As CargoBayItem In currentShip.CargoBayItems.Values
-            fitting.AppendLine(cargo.ItemType.Name & " x" & cargo.Quantity)
-        Next
-        MessageBox.Show(fitting.ToString)
-        Clipboard.SetText(fitting.ToString)
-        Return fitting.ToString
-    End Function
 #End Region
 
 #Region "Slot Drag/Drop Routines"
