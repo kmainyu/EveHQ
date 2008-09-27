@@ -67,6 +67,8 @@ Partial Public Class frmEveHQ
         Me.mnuToolsGetAccountInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuBackup = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuToolsAPIChecker = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.ClearEveHQCache = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuModules = New System.Windows.Forms.ToolStripMenuItem
         Me.NoModulesLoadedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReports = New System.Windows.Forms.ToolStripMenuItem
@@ -157,8 +159,6 @@ Partial Public Class frmEveHQ
         Me.XPTraining = New EveHQ.XPander
         Me.lblTrainingStatus = New System.Windows.Forms.Label
         Me.XPModules = New EveHQ.XPander
-        Me.ClearEveHQCache = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -500,6 +500,18 @@ Partial Public Class frmEveHQ
         Me.mnuToolsAPIChecker.Name = "mnuToolsAPIChecker"
         Me.mnuToolsAPIChecker.Size = New System.Drawing.Size(202, 22)
         Me.mnuToolsAPIChecker.Text = "API Checker"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(199, 6)
+        '
+        'ClearEveHQCache
+        '
+        Me.ClearEveHQCache.Name = "ClearEveHQCache"
+        Me.ClearEveHQCache.Size = New System.Drawing.Size(202, 22)
+        Me.ClearEveHQCache.Text = "Clear EveHQ Cache"
+        Me.ClearEveHQCache.Visible = False
         '
         'mnuModules
         '
@@ -1175,17 +1187,6 @@ Partial Public Class frmEveHQ
         Me.XPModules.TabIndex = 0
         Me.XPModules.Tag = 2
         Me.XPModules.TooltipText = Nothing
-        '
-        'ClearEveHQCache
-        '
-        Me.ClearEveHQCache.Name = "ClearEveHQCache"
-        Me.ClearEveHQCache.Size = New System.Drawing.Size(202, 22)
-        Me.ClearEveHQCache.Text = "Clear EveHQ Cache"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(199, 6)
         '
         'frmEveHQ
         '
