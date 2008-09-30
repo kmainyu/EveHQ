@@ -96,20 +96,37 @@ Public Class frmCorpHQ
                 End If
                 ' Search the cache dir for files containing the text "GetCharStandings"
                 If My.Computer.FileSystem.DirectoryExists(cacheDir) = True Then
+                    Dim fileError As Boolean = False
                     For Each cacheFile As String In My.Computer.FileSystem.GetFiles(cacheDir, FileIO.SearchOption.SearchAllSubDirectories, "*.cache")
-                        ' Load the contents of the cachefile to check for text
                         Dim sr As New StreamReader(cacheFile)
-                        cacheFileData = sr.ReadToEnd
-                        sr.Close()
-                        Dim cacheMatch As MatchCollection = CharStandingsRegex.Matches(cacheFileData)
-                        If cacheMatch.Count > 0 And cacheFile.Contains("CachedObjects") = True Then
-                            cacheFileList.Add(cacheFile)
-                        End If
-                        cacheMatch = CorpStandingsRegex.Matches(cacheFileData)
-                        If cacheMatch.Count > 0 And cacheFile.Contains("CachedObjects") = True Then
-                            cacheFileList.Add(cacheFile)
-                        End If
+                        Try
+                            ' Load the contents of the cachefile to check for text
+                            cacheFileData = sr.ReadToEnd
+                            sr.Close()
+                            Dim cacheMatch As MatchCollection = CharStandingsRegex.Matches(cacheFileData)
+                            If cacheMatch.Count > 0 And cacheFile.Contains("CachedObjects") = True Then
+                                cacheFileList.Add(cacheFile)
+                            End If
+                            cacheMatch = CorpStandingsRegex.Matches(cacheFileData)
+                            If cacheMatch.Count > 0 And cacheFile.Contains("CachedObjects") = True Then
+                                cacheFileList.Add(cacheFile)
+                            End If
+                        Catch ex As Exception
+                            fileError = True
+                        Finally
+                            ' Try and close the stream but ignore if it's already closed (and therefore errors)
+                            Try
+                                sr.Close()
+                            Catch ex As Exception
+                            End Try
+                        End Try
                     Next
+                    If fileError = True Then
+                        Dim msg As String = "There were some errors reading some applicable cache files. This could be due to corruption or some other problem."
+                        msg &= "As a result, all the standings information may not be present or correct." & ControlChars.CrLf & ControlChars.CrLf
+                        msg &= "If this problem persists, consider clearing your EveHQ cache folder."
+                        MessageBox.Show(msg, "Errors Found In Cache Files", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
                 Else
                     MessageBox.Show("Unable to locate cache folder, please check the location of your Eve Client and/or log in to Eve to create it.", "Missing Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
@@ -139,13 +156,17 @@ Public Class frmCorpHQ
                     Select Case MyStandings.CacheType
                         Case "GetCharStandings"
                             If ownerID = cPilot.ID Then
-                                cboOwner.Items.Add(cPilot.Name)
-                                MyStandings.OwnerName = cPilot.Name
+                                If cboOwner.Items.Contains(cPilot.Name) = False Then
+                                    cboOwner.Items.Add(cPilot.Name)
+                                    MyStandings.OwnerName = cPilot.Name
+                                End If
                             End If
                         Case "GetCorpStandings"
-                            If ownerID = cPilot.CorpID Then
-                                cboOwner.Items.Add(cPilot.Corp)
-                                MyStandings.OwnerName = cPilot.Corp
+                                If ownerID = cPilot.CorpID Then
+                                If cboOwner.Items.Contains(cPilot.Corp) = False Then
+                                    cboOwner.Items.Add(cPilot.Corp)
+                                    MyStandings.OwnerName = cPilot.Corp
+                                End If
                             End If
                     End Select
                 Next

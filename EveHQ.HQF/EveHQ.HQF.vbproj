@@ -61,6 +61,7 @@
     <Compile Include="Classes\Attributes.vb" />
     <Compile Include="Classes\Charges.vb" />
     <Compile Include="Classes\DamageProfiles.vb" />
+    <Compile Include="Classes\HQFData.vb" />
     <Compile Include="Classes\HQFEvents.vb" />
     <Compile Include="Classes\HQFPilot.vb" />
     <Compile Include="Classes\Market.vb" />

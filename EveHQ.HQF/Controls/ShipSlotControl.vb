@@ -1025,10 +1025,12 @@ Public Class ShipSlotControl
                     If lvwSlots.SelectedItems.Count > 1 Then
                         Dim marketGroup As String = currentMod.MarketGroup
                         For Each selItems As ListViewItem In lvwSlots.SelectedItems
-                            cMod = CType(ModuleLists.moduleList(CStr(ModuleLists.moduleListName.Item(selItems.Text))), ShipModule)
-                            If cMod.MarketGroup <> marketGroup Then
-                                ShowCharges = False
-                                Exit For
+                            If selItems.Text <> "<Empty>" Then
+                                cMod = CType(ModuleLists.moduleList(CStr(ModuleLists.moduleListName.Item(selItems.Text))), ShipModule)
+                                If cMod.MarketGroup <> marketGroup Then
+                                    ShowCharges = False
+                                    Exit For
+                                End If
                             End If
                         Next
                     End If
@@ -1255,21 +1257,23 @@ Public Class ShipSlotControl
         Dim moduleID As String = ChargeMenu.Name
         ' Get name of the "slot" which has slot type and number
         For Each selItem As ListViewItem In lvwSlots.SelectedItems
-            Dim Charge As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule).Clone
-            Dim slotType As Integer = CInt(selItem.Name.Substring(0, 1))
-            Dim slotNo As Integer = CInt(selItem.Name.Substring(2, 1))
-            Dim LoadedModule As New ShipModule
-            Select Case slotType
-                Case 1 ' Rig
-                    LoadedModule = currentShip.RigSlot(slotNo)
-                Case 2 ' Low
-                    LoadedModule = currentShip.LowSlot(slotNo)
-                Case 4 ' Mid
-                    LoadedModule = currentShip.MidSlot(slotNo)
-                Case 8 ' High
-                    LoadedModule = currentShip.HiSlot(slotNo)
-            End Select
-            LoadedModule.LoadedCharge = Charge
+            If selItem.Text <> "<Empty>" Then
+                Dim Charge As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule).Clone
+                Dim slotType As Integer = CInt(selItem.Name.Substring(0, 1))
+                Dim slotNo As Integer = CInt(selItem.Name.Substring(2, 1))
+                Dim LoadedModule As New ShipModule
+                Select Case slotType
+                    Case 1 ' Rig
+                        LoadedModule = currentShip.RigSlot(slotNo)
+                    Case 2 ' Low
+                        LoadedModule = currentShip.LowSlot(slotNo)
+                    Case 4 ' Mid
+                        LoadedModule = currentShip.MidSlot(slotNo)
+                    Case 8 ' High
+                        LoadedModule = currentShip.HiSlot(slotNo)
+                End Select
+                LoadedModule.LoadedCharge = Charge
+            End If
         Next
         currentInfo.ShipType = currentShip
         currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps

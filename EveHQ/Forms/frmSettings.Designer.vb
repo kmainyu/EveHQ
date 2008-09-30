@@ -39,8 +39,25 @@ Partial Public Class frmSettings
         Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
+        Me.txtErrorRepEmail = New System.Windows.Forms.TextBox
+        Me.lblErrorRepEmail = New System.Windows.Forms.Label
+        Me.txtErrorRepName = New System.Windows.Forms.TextBox
+        Me.lblErrorRepName = New System.Windows.Forms.Label
+        Me.chkErrorReporting = New System.Windows.Forms.CheckBox
         Me.txtUpdateLocation = New System.Windows.Forms.TextBox
         Me.lblUpdateLocation = New System.Windows.Forms.Label
+        Me.chkMinimiseOnExit = New System.Windows.Forms.CheckBox
+        Me.lblMDITabStyle = New System.Windows.Forms.Label
+        Me.cboMDITabStyle = New System.Windows.Forms.ComboBox
+        Me.chkEncryptSettings = New System.Windows.Forms.CheckBox
+        Me.cboStartupPilot = New System.Windows.Forms.ComboBox
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.cboStartupView = New System.Windows.Forms.ComboBox
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.chkAutoCheck = New System.Windows.Forms.CheckBox
+        Me.chkAutoMinimise = New System.Windows.Forms.CheckBox
+        Me.chkAutoRun = New System.Windows.Forms.CheckBox
+        Me.chkAutoHide = New System.Windows.Forms.CheckBox
         Me.gbPilotScreenColours = New System.Windows.Forms.GroupBox
         Me.btnResetPilotColours = New System.Windows.Forms.Button
         Me.pbPilotLevel5 = New System.Windows.Forms.PictureBox
@@ -69,18 +86,6 @@ Partial Public Class frmSettings
         Me.lblPanelOutline = New System.Windows.Forms.Label
         Me.pbPanelBackground = New System.Windows.Forms.PictureBox
         Me.lblPanelBackground = New System.Windows.Forms.Label
-        Me.chkMinimiseOnExit = New System.Windows.Forms.CheckBox
-        Me.lblMDITabStyle = New System.Windows.Forms.Label
-        Me.cboMDITabStyle = New System.Windows.Forms.ComboBox
-        Me.chkEncryptSettings = New System.Windows.Forms.CheckBox
-        Me.cboStartupPilot = New System.Windows.Forms.ComboBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.cboStartupView = New System.Windows.Forms.ComboBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.chkAutoCheck = New System.Windows.Forms.CheckBox
-        Me.chkAutoMinimise = New System.Windows.Forms.CheckBox
-        Me.chkAutoRun = New System.Windows.Forms.CheckBox
-        Me.chkAutoHide = New System.Windows.Forms.CheckBox
         Me.gbEveAccounts = New System.Windows.Forms.GroupBox
         Me.btnGetData = New System.Windows.Forms.Button
         Me.btnDeleteAccount = New System.Windows.Forms.Button
@@ -323,11 +328,6 @@ Partial Public Class frmSettings
         Me.colBasePrice = New System.Windows.Forms.ColumnHeader
         Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
         Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
-        Me.chkErrorReporting = New System.Windows.Forms.CheckBox
-        Me.lblErrorRepName = New System.Windows.Forms.Label
-        Me.txtErrorRepName = New System.Windows.Forms.TextBox
-        Me.txtErrorRepEmail = New System.Windows.Forms.TextBox
-        Me.lblErrorRepEmail = New System.Windows.Forms.Label
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotLevel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -412,13 +412,59 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
         Me.gbGeneral.Controls.Add(Me.chkAutoRun)
         Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-        Me.gbGeneral.Location = New System.Drawing.Point(194, 12)
+        Me.gbGeneral.Location = New System.Drawing.Point(284, 293)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(693, 498)
+        Me.gbGeneral.Size = New System.Drawing.Size(95, 46)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
         Me.gbGeneral.Visible = False
+        '
+        'txtErrorRepEmail
+        '
+        Me.txtErrorRepEmail.Enabled = False
+        Me.txtErrorRepEmail.Location = New System.Drawing.Point(144, 273)
+        Me.txtErrorRepEmail.Name = "txtErrorRepEmail"
+        Me.txtErrorRepEmail.Size = New System.Drawing.Size(247, 20)
+        Me.txtErrorRepEmail.TabIndex = 44
+        '
+        'lblErrorRepEmail
+        '
+        Me.lblErrorRepEmail.AutoSize = True
+        Me.lblErrorRepEmail.Enabled = False
+        Me.lblErrorRepEmail.Location = New System.Drawing.Point(56, 276)
+        Me.lblErrorRepEmail.Name = "lblErrorRepEmail"
+        Me.lblErrorRepEmail.Size = New System.Drawing.Size(83, 13)
+        Me.lblErrorRepEmail.TabIndex = 43
+        Me.lblErrorRepEmail.Text = "Email (Optional):"
+        '
+        'txtErrorRepName
+        '
+        Me.txtErrorRepName.Enabled = False
+        Me.txtErrorRepName.Location = New System.Drawing.Point(144, 247)
+        Me.txtErrorRepName.Name = "txtErrorRepName"
+        Me.txtErrorRepName.Size = New System.Drawing.Size(247, 20)
+        Me.txtErrorRepName.TabIndex = 42
+        '
+        'lblErrorRepName
+        '
+        Me.lblErrorRepName.AutoSize = True
+        Me.lblErrorRepName.Enabled = False
+        Me.lblErrorRepName.Location = New System.Drawing.Point(56, 250)
+        Me.lblErrorRepName.Name = "lblErrorRepName"
+        Me.lblErrorRepName.Size = New System.Drawing.Size(86, 13)
+        Me.lblErrorRepName.TabIndex = 41
+        Me.lblErrorRepName.Text = "Name (Optional):"
+        '
+        'chkErrorReporting
+        '
+        Me.chkErrorReporting.AutoSize = True
+        Me.chkErrorReporting.Location = New System.Drawing.Point(24, 224)
+        Me.chkErrorReporting.Name = "chkErrorReporting"
+        Me.chkErrorReporting.Size = New System.Drawing.Size(184, 17)
+        Me.chkErrorReporting.TabIndex = 40
+        Me.chkErrorReporting.Text = "Enable Integrated Error Reporting"
+        Me.chkErrorReporting.UseVisualStyleBackColor = True
         '
         'txtUpdateLocation
         '
@@ -435,6 +481,125 @@ Partial Public Class frmSettings
         Me.lblUpdateLocation.Size = New System.Drawing.Size(89, 13)
         Me.lblUpdateLocation.TabIndex = 38
         Me.lblUpdateLocation.Text = "Update Location:"
+        '
+        'chkMinimiseOnExit
+        '
+        Me.chkMinimiseOnExit.AutoSize = True
+        Me.chkMinimiseOnExit.Location = New System.Drawing.Point(24, 80)
+        Me.chkMinimiseOnExit.Name = "chkMinimiseOnExit"
+        Me.chkMinimiseOnExit.Size = New System.Drawing.Size(101, 17)
+        Me.chkMinimiseOnExit.TabIndex = 11
+        Me.chkMinimiseOnExit.Text = "Minimise on Exit"
+        Me.chkMinimiseOnExit.UseVisualStyleBackColor = True
+        '
+        'lblMDITabStyle
+        '
+        Me.lblMDITabStyle.AutoSize = True
+        Me.lblMDITabStyle.Location = New System.Drawing.Point(313, 89)
+        Me.lblMDITabStyle.Name = "lblMDITabStyle"
+        Me.lblMDITabStyle.Size = New System.Drawing.Size(78, 13)
+        Me.lblMDITabStyle.TabIndex = 10
+        Me.lblMDITabStyle.Text = "MDI Tab Style:"
+        '
+        'cboMDITabStyle
+        '
+        Me.cboMDITabStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboMDITabStyle.FormattingEnabled = True
+        Me.cboMDITabStyle.Items.AddRange(New Object() {"Flat Buttons", "Raised Buttons", "Tabs"})
+        Me.cboMDITabStyle.Location = New System.Drawing.Point(404, 86)
+        Me.cboMDITabStyle.Name = "cboMDITabStyle"
+        Me.cboMDITabStyle.Size = New System.Drawing.Size(161, 21)
+        Me.cboMDITabStyle.Sorted = True
+        Me.cboMDITabStyle.TabIndex = 9
+        '
+        'chkEncryptSettings
+        '
+        Me.chkEncryptSettings.AutoSize = True
+        Me.chkEncryptSettings.Location = New System.Drawing.Point(24, 126)
+        Me.chkEncryptSettings.Name = "chkEncryptSettings"
+        Me.chkEncryptSettings.Size = New System.Drawing.Size(122, 17)
+        Me.chkEncryptSettings.TabIndex = 8
+        Me.chkEncryptSettings.Text = "Encrypt Settings File"
+        Me.chkEncryptSettings.UseVisualStyleBackColor = True
+        '
+        'cboStartupPilot
+        '
+        Me.cboStartupPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboStartupPilot.FormattingEnabled = True
+        Me.cboStartupPilot.Location = New System.Drawing.Point(404, 59)
+        Me.cboStartupPilot.Name = "cboStartupPilot"
+        Me.cboStartupPilot.Size = New System.Drawing.Size(161, 21)
+        Me.cboStartupPilot.Sorted = True
+        Me.cboStartupPilot.TabIndex = 7
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(313, 62)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(67, 13)
+        Me.Label3.TabIndex = 6
+        Me.Label3.Text = "Default Pilot:"
+        '
+        'cboStartupView
+        '
+        Me.cboStartupView.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboStartupView.FormattingEnabled = True
+        Me.cboStartupView.Items.AddRange(New Object() {"Pilot Information", "Pilot Summary Report", "Skill Training"})
+        Me.cboStartupView.Location = New System.Drawing.Point(404, 32)
+        Me.cboStartupView.Name = "cboStartupView"
+        Me.cboStartupView.Size = New System.Drawing.Size(161, 21)
+        Me.cboStartupView.Sorted = True
+        Me.cboStartupView.TabIndex = 5
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(313, 35)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(85, 13)
+        Me.Label2.TabIndex = 4
+        Me.Label2.Text = "View on Startup:"
+        '
+        'chkAutoCheck
+        '
+        Me.chkAutoCheck.AutoSize = True
+        Me.chkAutoCheck.Location = New System.Drawing.Point(24, 149)
+        Me.chkAutoCheck.Name = "chkAutoCheck"
+        Me.chkAutoCheck.Size = New System.Drawing.Size(215, 17)
+        Me.chkAutoCheck.TabIndex = 3
+        Me.chkAutoCheck.Text = "Check for Updates When EveHQ Starts"
+        Me.chkAutoCheck.UseVisualStyleBackColor = True
+        '
+        'chkAutoMinimise
+        '
+        Me.chkAutoMinimise.AutoSize = True
+        Me.chkAutoMinimise.Location = New System.Drawing.Point(24, 57)
+        Me.chkAutoMinimise.Name = "chkAutoMinimise"
+        Me.chkAutoMinimise.Size = New System.Drawing.Size(166, 17)
+        Me.chkAutoMinimise.TabIndex = 1
+        Me.chkAutoMinimise.Text = "Minimise When EveHQ Starts"
+        Me.chkAutoMinimise.UseVisualStyleBackColor = True
+        '
+        'chkAutoRun
+        '
+        Me.chkAutoRun.AutoSize = True
+        Me.chkAutoRun.Location = New System.Drawing.Point(24, 103)
+        Me.chkAutoRun.Name = "chkAutoRun"
+        Me.chkAutoRun.Size = New System.Drawing.Size(183, 17)
+        Me.chkAutoRun.TabIndex = 2
+        Me.chkAutoRun.Text = "Run EveHQ on Windows Startup"
+        Me.chkAutoRun.UseVisualStyleBackColor = True
+        '
+        'chkAutoHide
+        '
+        Me.chkAutoHide.AutoSize = True
+        Me.chkAutoHide.Location = New System.Drawing.Point(24, 34)
+        Me.chkAutoHide.Name = "chkAutoHide"
+        Me.chkAutoHide.Size = New System.Drawing.Size(249, 17)
+        Me.chkAutoHide.TabIndex = 0
+        Me.chkAutoHide.Text = "Hide EveHQ from the Taskbar when Minimising"
+        Me.chkAutoHide.UseVisualStyleBackColor = True
         '
         'gbPilotScreenColours
         '
@@ -725,125 +890,6 @@ Partial Public Class frmSettings
         Me.lblPanelBackground.Size = New System.Drawing.Size(95, 13)
         Me.lblPanelBackground.TabIndex = 36
         Me.lblPanelBackground.Text = "Panel Background"
-        '
-        'chkMinimiseOnExit
-        '
-        Me.chkMinimiseOnExit.AutoSize = True
-        Me.chkMinimiseOnExit.Location = New System.Drawing.Point(24, 80)
-        Me.chkMinimiseOnExit.Name = "chkMinimiseOnExit"
-        Me.chkMinimiseOnExit.Size = New System.Drawing.Size(101, 17)
-        Me.chkMinimiseOnExit.TabIndex = 11
-        Me.chkMinimiseOnExit.Text = "Minimise on Exit"
-        Me.chkMinimiseOnExit.UseVisualStyleBackColor = True
-        '
-        'lblMDITabStyle
-        '
-        Me.lblMDITabStyle.AutoSize = True
-        Me.lblMDITabStyle.Location = New System.Drawing.Point(313, 89)
-        Me.lblMDITabStyle.Name = "lblMDITabStyle"
-        Me.lblMDITabStyle.Size = New System.Drawing.Size(78, 13)
-        Me.lblMDITabStyle.TabIndex = 10
-        Me.lblMDITabStyle.Text = "MDI Tab Style:"
-        '
-        'cboMDITabStyle
-        '
-        Me.cboMDITabStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboMDITabStyle.FormattingEnabled = True
-        Me.cboMDITabStyle.Items.AddRange(New Object() {"Flat Buttons", "Raised Buttons", "Tabs"})
-        Me.cboMDITabStyle.Location = New System.Drawing.Point(404, 86)
-        Me.cboMDITabStyle.Name = "cboMDITabStyle"
-        Me.cboMDITabStyle.Size = New System.Drawing.Size(161, 21)
-        Me.cboMDITabStyle.Sorted = True
-        Me.cboMDITabStyle.TabIndex = 9
-        '
-        'chkEncryptSettings
-        '
-        Me.chkEncryptSettings.AutoSize = True
-        Me.chkEncryptSettings.Location = New System.Drawing.Point(24, 126)
-        Me.chkEncryptSettings.Name = "chkEncryptSettings"
-        Me.chkEncryptSettings.Size = New System.Drawing.Size(122, 17)
-        Me.chkEncryptSettings.TabIndex = 8
-        Me.chkEncryptSettings.Text = "Encrypt Settings File"
-        Me.chkEncryptSettings.UseVisualStyleBackColor = True
-        '
-        'cboStartupPilot
-        '
-        Me.cboStartupPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboStartupPilot.FormattingEnabled = True
-        Me.cboStartupPilot.Location = New System.Drawing.Point(404, 59)
-        Me.cboStartupPilot.Name = "cboStartupPilot"
-        Me.cboStartupPilot.Size = New System.Drawing.Size(161, 21)
-        Me.cboStartupPilot.Sorted = True
-        Me.cboStartupPilot.TabIndex = 7
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(313, 62)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(67, 13)
-        Me.Label3.TabIndex = 6
-        Me.Label3.Text = "Default Pilot:"
-        '
-        'cboStartupView
-        '
-        Me.cboStartupView.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboStartupView.FormattingEnabled = True
-        Me.cboStartupView.Items.AddRange(New Object() {"Pilot Information", "Pilot Summary Report", "Skill Training"})
-        Me.cboStartupView.Location = New System.Drawing.Point(404, 32)
-        Me.cboStartupView.Name = "cboStartupView"
-        Me.cboStartupView.Size = New System.Drawing.Size(161, 21)
-        Me.cboStartupView.Sorted = True
-        Me.cboStartupView.TabIndex = 5
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(313, 35)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(85, 13)
-        Me.Label2.TabIndex = 4
-        Me.Label2.Text = "View on Startup:"
-        '
-        'chkAutoCheck
-        '
-        Me.chkAutoCheck.AutoSize = True
-        Me.chkAutoCheck.Location = New System.Drawing.Point(24, 149)
-        Me.chkAutoCheck.Name = "chkAutoCheck"
-        Me.chkAutoCheck.Size = New System.Drawing.Size(215, 17)
-        Me.chkAutoCheck.TabIndex = 3
-        Me.chkAutoCheck.Text = "Check for Updates When EveHQ Starts"
-        Me.chkAutoCheck.UseVisualStyleBackColor = True
-        '
-        'chkAutoMinimise
-        '
-        Me.chkAutoMinimise.AutoSize = True
-        Me.chkAutoMinimise.Location = New System.Drawing.Point(24, 57)
-        Me.chkAutoMinimise.Name = "chkAutoMinimise"
-        Me.chkAutoMinimise.Size = New System.Drawing.Size(166, 17)
-        Me.chkAutoMinimise.TabIndex = 1
-        Me.chkAutoMinimise.Text = "Minimise When EveHQ Starts"
-        Me.chkAutoMinimise.UseVisualStyleBackColor = True
-        '
-        'chkAutoRun
-        '
-        Me.chkAutoRun.AutoSize = True
-        Me.chkAutoRun.Location = New System.Drawing.Point(24, 103)
-        Me.chkAutoRun.Name = "chkAutoRun"
-        Me.chkAutoRun.Size = New System.Drawing.Size(183, 17)
-        Me.chkAutoRun.TabIndex = 2
-        Me.chkAutoRun.Text = "Run EveHQ on Windows Startup"
-        Me.chkAutoRun.UseVisualStyleBackColor = True
-        '
-        'chkAutoHide
-        '
-        Me.chkAutoHide.AutoSize = True
-        Me.chkAutoHide.Location = New System.Drawing.Point(24, 34)
-        Me.chkAutoHide.Name = "chkAutoHide"
-        Me.chkAutoHide.Size = New System.Drawing.Size(249, 17)
-        Me.chkAutoHide.TabIndex = 0
-        Me.chkAutoHide.Text = "Hide EveHQ from the Taskbar when Minimising"
-        Me.chkAutoHide.UseVisualStyleBackColor = True
         '
         'gbEveAccounts
         '
@@ -1676,9 +1722,9 @@ Partial Public Class frmSettings
         Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
         Me.gbDatabaseFormat.Controls.Add(Me.cboFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(619, 234)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(194, 12)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(41, 34)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(693, 501)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
@@ -3266,66 +3312,20 @@ Partial Public Class frmSettings
         Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colCustomPrice.Width = 120
         '
-        'chkErrorReporting
-        '
-        Me.chkErrorReporting.AutoSize = True
-        Me.chkErrorReporting.Location = New System.Drawing.Point(24, 224)
-        Me.chkErrorReporting.Name = "chkErrorReporting"
-        Me.chkErrorReporting.Size = New System.Drawing.Size(184, 17)
-        Me.chkErrorReporting.TabIndex = 40
-        Me.chkErrorReporting.Text = "Enable Integrated Error Reporting"
-        Me.chkErrorReporting.UseVisualStyleBackColor = True
-        '
-        'lblErrorRepName
-        '
-        Me.lblErrorRepName.AutoSize = True
-        Me.lblErrorRepName.Enabled = False
-        Me.lblErrorRepName.Location = New System.Drawing.Point(56, 250)
-        Me.lblErrorRepName.Name = "lblErrorRepName"
-        Me.lblErrorRepName.Size = New System.Drawing.Size(86, 13)
-        Me.lblErrorRepName.TabIndex = 41
-        Me.lblErrorRepName.Text = "Name (Optional):"
-        '
-        'txtErrorRepName
-        '
-        Me.txtErrorRepName.Enabled = False
-        Me.txtErrorRepName.Location = New System.Drawing.Point(144, 247)
-        Me.txtErrorRepName.Name = "txtErrorRepName"
-        Me.txtErrorRepName.Size = New System.Drawing.Size(247, 20)
-        Me.txtErrorRepName.TabIndex = 42
-        '
-        'txtErrorRepEmail
-        '
-        Me.txtErrorRepEmail.Enabled = False
-        Me.txtErrorRepEmail.Location = New System.Drawing.Point(144, 273)
-        Me.txtErrorRepEmail.Name = "txtErrorRepEmail"
-        Me.txtErrorRepEmail.Size = New System.Drawing.Size(247, 20)
-        Me.txtErrorRepEmail.TabIndex = 44
-        '
-        'lblErrorRepEmail
-        '
-        Me.lblErrorRepEmail.AutoSize = True
-        Me.lblErrorRepEmail.Enabled = False
-        Me.lblErrorRepEmail.Location = New System.Drawing.Point(56, 276)
-        Me.lblErrorRepEmail.Name = "lblErrorRepEmail"
-        Me.lblErrorRepEmail.Size = New System.Drawing.Size(83, 13)
-        Me.lblErrorRepEmail.TabIndex = 43
-        Me.lblErrorRepEmail.Text = "Email (Optional):"
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbGeneral)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbColours)
+        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbMarketPrices)
         Me.Controls.Add(Me.gbTaskbarIcon)
         Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbPilots)
         Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbEveAccounts)
-        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbEveFolders)
         Me.Controls.Add(Me.gbPlugIns)

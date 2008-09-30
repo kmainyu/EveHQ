@@ -23,6 +23,7 @@ Partial Class frmUpdater
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmUpdater))
         Me.lblUpdateStatus = New System.Windows.Forms.Label
         Me.clvUpdates = New DotNetLib.Windows.Forms.ContainerListView
         Me.colComponent = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -34,7 +35,6 @@ Partial Class frmUpdater
         Me.btnStartUpdate = New System.Windows.Forms.Button
         Me.tmrUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.btnRecheckUpdates = New System.Windows.Forms.Button
-        Me.btnRestartEveHQ = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'lblUpdateStatus
@@ -133,29 +133,18 @@ Partial Class frmUpdater
         Me.btnRecheckUpdates.Text = "Check Updates"
         Me.btnRecheckUpdates.UseVisualStyleBackColor = True
         '
-        'btnRestartEveHQ
-        '
-        Me.btnRestartEveHQ.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRestartEveHQ.Location = New System.Drawing.Point(12, 573)
-        Me.btnRestartEveHQ.Name = "btnRestartEveHQ"
-        Me.btnRestartEveHQ.Size = New System.Drawing.Size(100, 22)
-        Me.btnRestartEveHQ.TabIndex = 7
-        Me.btnRestartEveHQ.Text = "Restart EveHQ"
-        Me.btnRestartEveHQ.UseVisualStyleBackColor = True
-        Me.btnRestartEveHQ.Visible = False
-        '
         'frmUpdater
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(795, 607)
-        Me.Controls.Add(Me.btnRestartEveHQ)
         Me.Controls.Add(Me.btnRecheckUpdates)
         Me.Controls.Add(Me.btnStartUpdate)
         Me.Controls.Add(Me.clvUpdates)
         Me.Controls.Add(Me.lblUpdateStatus)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmUpdater"
@@ -176,5 +165,4 @@ Partial Class frmUpdater
     Friend WithEvents tmrUpdate As System.Windows.Forms.Timer
     Friend WithEvents colDownload As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents btnRecheckUpdates As System.Windows.Forms.Button
-    Friend WithEvents btnRestartEveHQ As System.Windows.Forms.Button
 End Class

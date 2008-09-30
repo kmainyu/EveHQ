@@ -88,6 +88,12 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property doh3() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("doh3", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property EveHQ() As System.Drawing.Icon
             Get
                 Dim obj As Object = ResourceManager.GetObject("EveHQ", resourceCulture)
@@ -148,16 +154,16 @@ Namespace My.Resources
         '''  Looks up a localized string similar to EveHQ - Version History
         '''-----------------------
         '''
-        '''1.7.0.51 (16/07/2008)
-        '''-------
+        '''1.7.3.115 (21/09/2008)
+        '''--------
         '''New Features:
-        '''- API Relay Server: Use EveHQ as a cache and secondary API server for other instances of EveHQ and other applications
-        '''- New Updater: Can deliver new libraries and plug-ins without the need for further installers/zip files
-        '''- Empyrean Age database upgrade
+        '''- Added new Pop-up form to the EveHQ taskbar icon (activated in Settings)
+        '''- New API Checker function for testing the response from the API (Tools Menu)
+        '''- EveHQ Integrated Error Reporting - submit program crashes direct to the EveHQ website (activated in Settings)
         '''
-        '''Features and Improvements (Core):
-        '''- Fixed multiple redraws of the skill list in the training form when changing pilots
-        '''- Fixed multiple redraws of the t [rest of string was truncated]&quot;;.
+        '''Fixes and Improvements:
+        '''- Core: Fixed SQL statements in the IGB Server when accessing the item database from ingame
+        '''- Core: Auto retrieval o [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property History() As String
             Get

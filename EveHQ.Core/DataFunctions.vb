@@ -63,7 +63,7 @@ Public Class DataFunctions
         EveHQData.Tables.Clear()
 
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-            Case 0
+            Case 0 ' Access
                 Dim conn As New OleDbConnection
                 conn.ConnectionString = EveHQ.Core.HQ.dataConnectionString
                 Try
@@ -80,7 +80,7 @@ Public Class DataFunctions
                         conn.Close()
                     End If
                 End Try
-            Case 1, 2
+            Case 1, 2 ' MSSQL, MSSQL Express
                 Dim conn As New SqlConnection
                 conn.ConnectionString = EveHQ.Core.HQ.dataConnectionString
                 Try
@@ -102,7 +102,7 @@ Public Class DataFunctions
                         conn.Close()
                     End If
                 End Try
-            Case 3
+            Case 3 ' MySQL
                 Dim conn As New MySqlConnection
                 conn.ConnectionString = EveHQ.Core.HQ.dataConnectionString
                 Try

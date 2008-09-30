@@ -6,6 +6,8 @@ Imports System.IO
 Imports System.Reflection
 Imports System.Net.Sockets
 Imports System.Threading
+Imports System.Data
+Imports System.IO.Compression
 
 Public Class frmUpdater
 
@@ -13,6 +15,7 @@ Public Class frmUpdater
     Dim CurrentComponents As New SortedList
     Dim filesRequired As New SortedList
     Dim filesComplete As New SortedList
+    Dim DatabaseUpgradeAvailable As Boolean = False
 
     Private Sub frmUpdater_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         tmrUpdate.Enabled = True
@@ -124,6 +127,21 @@ Public Class frmUpdater
                 CurrentComponents.Add("LgLcd.dll", "Not Present")
                 msg &= "LgLcd.dll (Not Present)" & ControlChars.CrLf
             End If
+            ' Try and add the database version (if using Access)
+            If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
+                Dim databaseData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM EveHQVersion;")
+                If databaseData IsNot Nothing Then
+                    If databaseData.Tables(0).Rows.Count > 0 Then
+                        CurrentComponents.Add("EveHQ.mdb", databaseData.Tables(0).Rows(0).Item("Version"))
+                    Else
+                        CurrentComponents.Add("EveHQ.mdb", "1.0.0.0")
+                    End If
+                Else
+                    CurrentComponents.Add("EveHQ.mdb", "1.0.0.0")
+                End If
+            Else
+                CurrentComponents.Add("EveHQ.mdb", "Not Used")
+            End If
             'MessageBox.Show(msg, "Assembly List", MessageBoxButtons.OK, MessageBoxIcon.Information)
             ' Try parsing the update file 
             lblUpdateStatus.Text = "Status: Parsing update file..."
@@ -144,25 +162,29 @@ Public Class frmUpdater
                     If CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)) IsNot Nothing Then
                         ' Check which is the later version
                         If IsUpdateAvailable(CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)), updateFile.ChildNodes(2).InnerText) = True Then
-                            newFile.ForeColor = Color.Red
-                            Dim chkDownload As New CheckBox
-                            chkDownload.Name = newFile.Text
-                            chkDownload.Size = New Size(14, 14)
-                            If newFile.SubItems(1).Text = "Required" Then
-                                chkDownload.Enabled = False
+                            If newFile.Text = "EveHQ.mdb" Then
+                                DatabaseUpgradeAvailable = True
                             Else
-                                chkDownload.Enabled = True
+                                newFile.ForeColor = Color.Red
+                                Dim chkDownload As New CheckBox
+                                chkDownload.Name = newFile.Text
+                                chkDownload.Size = New Size(14, 14)
+                                If newFile.SubItems(1).Text = "Required" Then
+                                    chkDownload.Enabled = False
+                                Else
+                                    chkDownload.Enabled = True
+                                End If
+                                chkDownload.Checked = True
+                                newFile.SubItems(4).ItemControl = chkDownload
+                                newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
+                                Dim pbProgress As New ProgressBar
+                                pbProgress.Name = newFile.Text
+                                pbProgress.Width = 190
+                                pbProgress.Height = 16
+                                newFile.SubItems(5).ItemControl = pbProgress
+                                pbControls.Add(newFile.Text, pbProgress)
+                                UpdateRequired = True
                             End If
-                            chkDownload.Checked = True
-                            newFile.SubItems(4).ItemControl = chkDownload
-                            newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-                            Dim pbProgress As New ProgressBar
-                            pbProgress.Name = newFile.Text
-                            pbProgress.Width = 190
-                            pbProgress.Height = 16
-                            newFile.SubItems(5).ItemControl = pbProgress
-                            pbControls.Add(newFile.Text, pbProgress)
-                            UpdateRequired = True
                         Else
                             Dim chkDownload As New CheckBox
                             chkDownload.Name = newFile.Text
@@ -175,30 +197,41 @@ Public Class frmUpdater
                             newFile.SubItems(5).Text = "Update Not Required"
                         End If
                     Else
-                        newFile.SubItems(2).Text = "New!!"
-                        newFile.ForeColor = Color.Red
-                        Dim chkDownload As New CheckBox
-                        chkDownload.Name = newFile.Text
-                        chkDownload.Size = New Size(14, 14)
-                        chkDownload.Enabled = True
-                        chkDownload.Checked = True
-                        newFile.SubItems(4).ItemControl = chkDownload
-                        newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-                        Dim pbProgress As New ProgressBar
-                        pbProgress.Name = newFile.Text
-                        pbProgress.Width = 190
-                        pbProgress.Height = 16
-                        newFile.SubItems(5).ItemControl = pbProgress
-                        pbControls.Add(newFile.Text, pbProgress)
-                        UpdateRequired = True
+                    newFile.SubItems(2).Text = "New!!"
+                    newFile.ForeColor = Color.Red
+                    Dim chkDownload As New CheckBox
+                    chkDownload.Name = newFile.Text
+                    chkDownload.Size = New Size(14, 14)
+                    chkDownload.Enabled = True
+                    chkDownload.Checked = True
+                    newFile.SubItems(4).ItemControl = chkDownload
+                    newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
+                    Dim pbProgress As New ProgressBar
+                    pbProgress.Name = newFile.Text
+                    pbProgress.Width = 190
+                    pbProgress.Height = 16
+                    newFile.SubItems(5).ItemControl = pbProgress
+                    pbControls.Add(newFile.Text, pbProgress)
+                    UpdateRequired = True
                     End If
                 Next
                 If UpdateRequired = True Then
                     lblUpdateStatus.Text = "Status: Awaiting User Action..."
                     btnStartUpdate.Enabled = True
                 Else
-                    lblUpdateStatus.Text = "Status: No Updates Required!"
+                    If DatabaseUpgradeAvailable = True Then
+                        lblUpdateStatus.Text = "Status: No Updates Required (Database Available)"
+                    Else
+                        lblUpdateStatus.Text = "Status: No Updates Required!"
+                    End If
                     btnRecheckUpdates.Enabled = True
+                End If
+                ' Report if there is a database upgrade available
+                If DatabaseUpgradeAvailable = True Then
+                    Dim DBMsg As String = "There is a new version of the Access database available for download." & ControlChars.CrLf & ControlChars.CrLf
+                    DBMsg &= "It is recommended that you upgrade your database as soon as possible so as to include all the latest changes from Eve patches and to maximise compatability with EveHQ." & ControlChars.CrLf & ControlChars.CrLf
+                    DBMsg &= "Please visit the EveHQ website to obtain this newer version."
+                    MessageBox.Show(DBMsg, "Database Upgrade Available", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
             Catch ex As Exception
                 Dim ErrMsg As String = ex.Message & ControlChars.CrLf & ControlChars.CrLf
@@ -208,24 +241,28 @@ Public Class frmUpdater
     End Sub
 
     Private Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
-        If localVer = remoteVer Then
+        If localVer = "Not Used" Then
             Return False
         Else
-            Dim localVers() As String = localVer.Split(CChar("."))
-            Dim remoteVers() As String = remoteVer.Split(CChar("."))
-            Dim requiresUpdate As Boolean = False
-            For ver As Integer = 0 To 3
-                If CInt(remoteVers(ver)) <> CInt(localVers(ver)) Then
-                    If CInt(remoteVers(ver)) > CInt(localVers(ver)) Then
-                        requiresUpdate = True
-                        Exit For
-                    Else
-                        requiresUpdate = False
-                        Exit For
+            If localVer = remoteVer Then
+                Return False
+            Else
+                Dim localVers() As String = localVer.Split(CChar("."))
+                Dim remoteVers() As String = remoteVer.Split(CChar("."))
+                Dim requiresUpdate As Boolean = False
+                For ver As Integer = 0 To 3
+                    If CInt(remoteVers(ver)) <> CInt(localVers(ver)) Then
+                        If CInt(remoteVers(ver)) > CInt(localVers(ver)) Then
+                            requiresUpdate = True
+                            Exit For
+                        Else
+                            requiresUpdate = False
+                            Exit For
+                        End If
                     End If
-                End If
-            Next
-            Return requiresUpdate
+                Next
+                Return requiresUpdate
+            End If
         End If
     End Function
 
@@ -360,12 +397,12 @@ Public Class frmUpdater
             Call UpdateEveHQ()
             lblUpdateStatus.Text = "Status: Update Complete!"
             Dim msg As String = "All Updates Completed! EveHQ needs to be restarted to use the new updates." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "Would you like to restart EveHQ now?"
+            msg &= "Would you like to close EveHQ now?"
             Dim result As Integer = MessageBox.Show(msg, "Update Complete!", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If result = DialogResult.No Then
                 Me.Close()
             Else
-                Call Me.RestartEveHQ()
+                Application.Exit()
             End If
         End If
     End Sub
@@ -377,16 +414,28 @@ Public Class frmUpdater
                 oldFile = newFile.TrimEnd(".upd".ToCharArray)
                 Dim ofi As New IO.FileInfo(oldFile)
                 Dim nfi As New IO.FileInfo(newFile)
-                If ofi.Exists = True Then
-                    If My.Computer.FileSystem.FileExists(ofi.FullName & ".old") = True Then
-                        My.Computer.FileSystem.DeleteFile(ofi.FullName & ".old")
+                ' Check if this is the database upgrade
+                If nfi.Name = "EveHQ.mdb.upd" Then
+                    ' Get the current database file location and rename it
+                    If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBFilename) = True Then
+                        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBFilename & ".old") = True Then
+                            My.Computer.FileSystem.DeleteFile(EveHQ.Core.HQ.EveHQSettings.DBFilename & ".old")
+                        End If
+                        My.Computer.FileSystem.RenameFile(EveHQ.Core.HQ.EveHQSettings.DBFilename, EveHQ.Core.HQ.EveHQSettings.DBFilename & ".old")
                     End If
-                    My.Computer.FileSystem.RenameFile(ofi.FullName, ofi.Name & ".old")
+                    ' Uncompress the database file
+                    DecompressFile(nfi.Name, EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                Else
+                    ' Not the DB upgrade
+                    If ofi.Exists = True Then
+
+                        My.Computer.FileSystem.RenameFile(ofi.FullName, ofi.Name & ".old")
+                    End If
+                    ' Copy the new file as the old one
+                    My.Computer.FileSystem.CopyFile(nfi.FullName, ofi.FullName, True)
+                    ' If no errors, then delete the update file
+                    My.Computer.FileSystem.DeleteFile(nfi.FullName)
                 End If
-                ' Copy the new file as the old one
-                My.Computer.FileSystem.CopyFile(nfi.FullName, ofi.FullName, True)
-                ' If no errors, then delete the update file
-                My.Computer.FileSystem.DeleteFile(nfi.FullName)
             Next
         Catch e As Exception
             Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
@@ -400,22 +449,118 @@ Public Class frmUpdater
         Call Me.ShowUpdates()
     End Sub
 
-    Private Sub btnRestartEveHQ_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRestartEveHQ.Click
-        RestartEveHQ()
+    Public Sub CompressFile(ByVal sourceFile As String, ByVal destinationFile As String)
+
+        ' make sure the source file is there
+        If File.Exists(sourceFile) = False Then
+            Throw New FileNotFoundException
+        End If
+
+        ' Create the streams and byte arrays needed
+        Dim buffer As Byte() = Nothing
+        Dim sourceStream As FileStream = Nothing
+        Dim destinationStream As FileStream = Nothing
+        Dim compressedStream As GZipStream = Nothing
+
+        Try
+            ' Read the bytes from the source file into a byte array
+            sourceStream = New FileStream(sourceFile, FileMode.Open, FileAccess.Read, FileShare.Read)
+
+            ' Read the source stream values into the buffer
+            buffer = New Byte(CInt(sourceStream.Length)) {}
+            Dim checkCounter As Integer = sourceStream.Read(buffer, 0, buffer.Length)
+
+            ' Open the FileStream to write to
+            destinationStream = New FileStream(destinationFile, FileMode.OpenOrCreate, FileAccess.Write)
+
+            ' Create a compression stream pointing to the destiantion stream
+            compressedStream = New GZipStream(destinationStream, CompressionMode.Compress, True)
+
+            'Now write the compressed data to the destination file
+            compressedStream.Write(buffer, 0, buffer.Length)
+
+        Catch ex As ApplicationException
+            MessageBox.Show(ex.Message, "An Error occured during compression", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            ' Make sure we allways close all streams
+            If Not (sourceStream Is Nothing) Then
+                sourceStream.Close()
+            End If
+            If Not (compressedStream Is Nothing) Then
+                compressedStream.Close()
+            End If
+            If Not (destinationStream Is Nothing) Then
+                destinationStream.Close()
+            End If
+        End Try
+
     End Sub
 
-    Private Sub RestartEveHQ()
-        Dim np As New ProcessStartInfo
-        np.FileName = EveHQ.Core.HQ.appFolder & "\evehq.exe"
-        np.Arguments = "/wait "
-        If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
-            np.Arguments &= "/local "
+    Public Sub DecompressFile(ByVal sourceFile As String, ByVal destinationFile As String)
+
+        ' make sure the source file is there
+        If File.Exists(sourceFile) = False Then
+            Throw New FileNotFoundException
         End If
-        If EveHQ.Core.HQ.IsSplashFormDisabled = True Then
-            np.Arguments &= "/nosplash "
-        End If
-        Process.Start(np)
-        Application.Exit()
+
+        ' Create the streams and byte arrays needed
+        Dim sourceStream As FileStream = Nothing
+        Dim destinationStream As FileStream = Nothing
+        Dim decompressedStream As GZipStream = Nothing
+        Dim quartetBuffer As Byte() = Nothing
+
+        Try
+            ' Read in the compressed source stream
+            sourceStream = New FileStream(sourceFile, FileMode.Open)
+
+            ' Create a compression stream pointing to the destiantion stream
+            decompressedStream = New GZipStream(sourceStream, CompressionMode.Decompress, True)
+
+            ' Read the footer to determine the length of the destiantion file
+            quartetBuffer = New Byte(4) {}
+            Dim position As Integer = CType(sourceStream.Length, Integer) - 4
+            sourceStream.Position = position
+            sourceStream.Read(quartetBuffer, 0, 4)
+            sourceStream.Position = 0
+            Dim checkLength As Integer = BitConverter.ToInt32(quartetBuffer, 0)
+
+            Dim buffer(checkLength + 100) As Byte
+            Dim offset As Integer = 0
+            Dim total As Integer = 0
+
+            ' Read the compressed data into the buffer
+            While True
+                Dim bytesRead As Integer = decompressedStream.Read(buffer, offset, 100)
+                If bytesRead = 0 Then
+                    Exit While
+                End If
+                offset += bytesRead
+                total += bytesRead
+            End While
+
+            ' Now write everything to the destination file
+            destinationStream = New FileStream(destinationFile, FileMode.Create)
+            destinationStream.Write(buffer, 0, total)
+
+            ' and flush everyhting to clean out the buffer
+            destinationStream.Flush()
+
+        Catch ex As ApplicationException
+            MessageBox.Show(ex.Message, "An Error occured during compression", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            ' Make sure we allways close all streams
+            If Not (sourceStream Is Nothing) Then
+                sourceStream.Close()
+            End If
+            If Not (decompressedStream Is Nothing) Then
+                decompressedStream.Close()
+            End If
+            If Not (destinationStream Is Nothing) Then
+                destinationStream.Close()
+            End If
+        End Try
+
     End Sub
+
 End Class
 

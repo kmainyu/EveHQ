@@ -30,25 +30,24 @@ Public Class frmHQF
     Dim dataCheckList As New SortedList
     Dim currentShipSlot As ShipSlotControl
     Dim currentShipInfo As ShipInfoControl
-    Dim LastSlotFitting As New ArrayList
-    Dim LastModuleResults As New SortedList
-    Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.7.3.117"
+    Shared LastSlotFitting As New ArrayList
+    Shared LastModuleResults As New SortedList
     Dim cacheForm As New frmHQFCacheWriter
 
 #Region "Class Wide Variables"
 
-    Shared MarketGroupData As DataSet
-
-    Shared shipGroupData As DataSet
-    Shared shipNameData As DataSet
-
-    Shared moduleData As DataSet
-    Shared moduleEffectData As DataSet
-    Shared moduleAttributeData As DataSet
-
     Dim itemCount As Integer = 0
     Dim startUp As Boolean = False
+
+    Shared cModuleDisplay As String = ""
+    Public Shared Property ModuleDisplay() As String
+        Get
+            Return cModuleDisplay
+        End Get
+        Set(ByVal value As String)
+            cModuleDisplay = value
+        End Set
+    End Property
 
 #End Region
 
@@ -82,27 +81,27 @@ Public Class frmHQF
                     Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\version.txt")
                     Dim cacheVersion As String = sr.ReadToEnd
                     sr.Close()
-                    If IsUpdateAvailable(cacheVersion, LastCacheRefresh) = True Then
+                    If IsUpdateAvailable(cacheVersion, HQFData.LastCacheRefresh) = True Then
                         ' Delete the existing cache folder and force a rebuild
                         My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
-                        UseSerializableData = False
+                        HQFData.UseSerializableData = False
                     Else
-                        UseSerializableData = True
+                        HQFData.UseSerializableData = True
                     End If
                 Else
                     ' Delete the existing cache folder and force a rebuild
                     My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
-                    UseSerializableData = False
+                    HQFData.UseSerializableData = False
                 End If
             Else
-                UseSerializableData = False
+                HQFData.UseSerializableData = False
             End If
 
             Engine.BuildPirateImplants()
             Engine.BuildEffectsMap()
             Engine.BuildShipEffectsMap()
             ' Check for the existence of the binary data
-            If UseSerializableData = True Then
+            If HQFData.UseSerializableData = True Then
                 If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\attributes.bin") = True Then
                     Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.bin", FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
@@ -268,11 +267,11 @@ Public Class frmHQF
             Call Me.LoadAttributes()
             Dim strSQL As String = ""
             strSQL &= "SELECT * FROM invMarketGroups ORDER BY parentGroupID;"
-            MarketGroupData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If MarketGroupData IsNot Nothing Then
-                If MarketGroupData.Tables(0).Rows.Count <> 0 Then
+            HQFData.MarketGroupData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If HQFData.MarketGroupData IsNot Nothing Then
+                If HQFData.MarketGroupData.Tables(0).Rows.Count <> 0 Then
                     Market.MarketGroupList.Clear()
-                    For Each row As DataRow In MarketGroupData.Tables(0).Rows
+                    For Each row As DataRow In HQFData.MarketGroupData.Tables(0).Rows
                         Market.MarketGroupList.Add(row.Item("marketGroupID").ToString, row.Item("marketGroupName").ToString)
                     Next
                     Return True
@@ -395,9 +394,9 @@ Public Class frmHQF
         Try
             Dim strSQL As String = ""
             strSQL &= "SELECT * FROM invGroups WHERE invGroups.categoryID=6 ORDER BY groupName;"
-            shipGroupData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If shipGroupData IsNot Nothing Then
-                If shipGroupData.Tables(0).Rows.Count <> 0 Then
+            HQFData.shipGroupData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If HQFData.shipGroupData IsNot Nothing Then
+                If HQFData.shipGroupData.Tables(0).Rows.Count <> 0 Then
                     Return True
                 Else
                     Return False
@@ -416,9 +415,9 @@ Public Class frmHQF
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.published, invTypes.raceID, invTypes.marketGroupID"
             strSQL &= " FROM (invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID"
             strSQL &= " WHERE (invCategories.categoryID=6 AND invTypes.published=true) ORDER BY typeName;"
-            shipNameData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If shipNameData IsNot Nothing Then
-                If shipNameData.Tables(0).Rows.Count <> 0 Then
+            HQFData.shipNameData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If HQFData.shipNameData IsNot Nothing Then
+                If HQFData.shipNameData.Tables(0).Rows.Count <> 0 Then
                     Return True
                 Else
                     Return False
@@ -638,7 +637,7 @@ Public Class frmHQF
     Private Sub PopulateShipLists()
         ShipLists.shipListKeyName.Clear()
         ShipLists.shipListKeyID.Clear()
-        For Each shipRow As DataRow In shipNameData.Tables(0).Rows
+        For Each shipRow As DataRow In HQFData.shipNameData.Tables(0).Rows
             ShipLists.shipListKeyName.Add(CStr(shipRow.Item("typeName")), CStr(shipRow.Item("typeID")))
             ShipLists.shipListKeyID.Add(CStr(shipRow.Item("typeID")), CStr(shipRow.Item("typeName")))
         Next
@@ -652,9 +651,9 @@ Public Class frmHQF
             strSQL &= " FROM eveGraphics INNER JOIN (invCategories INNER JOIN (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) ON invCategories.categoryID = invGroups.categoryID) ON (eveGraphics.graphicID = invTypes.graphicID)"
             strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20)) AND ((invTypes.published)=1))"
             strSQL &= " ORDER BY invTypes.typeName;"
-            moduleData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If moduleData IsNot Nothing Then
-                If moduleData.Tables(0).Rows.Count <> 0 Then
+            HQFData.moduleData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If HQFData.moduleData IsNot Nothing Then
+                If HQFData.moduleData.Tables(0).Rows.Count <> 0 Then
                     Return True
                 Else
                     MessageBox.Show("Module Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -676,9 +675,9 @@ Public Class frmHQF
             strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeEffects ON invTypes.typeID=dgmTypeEffects.typeID"
             strSQL &= " WHERE(invCategories.categoryID In (7,8,18,20) And invTypes.published=true)"
             strSQL &= " ORDER BY typeName, effectID;"
-            moduleEffectData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If moduleEffectData IsNot Nothing Then
-                If moduleEffectData.Tables(0).Rows.Count <> 0 Then
+            HQFData.moduleEffectData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If HQFData.moduleEffectData IsNot Nothing Then
+                If HQFData.moduleEffectData.Tables(0).Rows.Count <> 0 Then
                     Return True
                 Else
                     MessageBox.Show("Module Effect Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -701,9 +700,9 @@ Public Class frmHQF
             strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20)) AND ((invTypes.published)=1))"
             strSQL &= " ORDER BY invTypes.typeName, dgmTypeAttributes.attributeID;"
 
-            moduleAttributeData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If moduleAttributeData IsNot Nothing Then
-                If moduleAttributeData.Tables(0).Rows.Count <> 0 Then
+            HQFData.moduleAttributeData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If HQFData.moduleAttributeData IsNot Nothing Then
+                If HQFData.moduleAttributeData.Tables(0).Rows.Count <> 0 Then
                     Return True
                 Else
                     MessageBox.Show("Module Attribute Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -758,7 +757,7 @@ Public Class frmHQF
             Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
             ModuleLists.moduleList.Clear()
             Implants.implantList.Clear()
-            For Each row As DataRow In moduleData.Tables(0).Rows
+            For Each row As DataRow In HQFData.moduleData.Tables(0).Rows
                 Dim newModule As New ShipModule
                 newModule.ID = row.Item("typeID").ToString
                 newModule.Name = row.Item("typeName").ToString
@@ -825,7 +824,7 @@ Public Class frmHQF
             Dim nModule As New ShipModule
             Dim eModule As New ShipModule
             For setNo As Integer = 0 To 1
-                For Each row As DataRow In moduleData.Tables(0).Rows
+                For Each row As DataRow In HQFData.moduleData.Tables(0).Rows
                     If IsDBNull(row.Item("marketGroupID")) = True Then
                         modID = row.Item("typeID").ToString
                         nModule = CType(ModuleLists.moduleList(modID), ShipModule)
@@ -866,7 +865,7 @@ Public Class frmHQF
         Try
             ' Get details of module attributes from already retrieved dataset
             Dim attValue As Double = 0
-            For Each modRow As DataRow In moduleEffectData.Tables(0).Rows
+            For Each modRow As DataRow In HQFData.moduleEffectData.Tables(0).Rows
                 Dim effMod As ShipModule = CType(ModuleLists.moduleList.Item(modRow.Item("typeID").ToString), ShipModule)
                 Select Case CInt(modRow.Item("effectID"))
                     Case 11 ' Low slot
@@ -932,7 +931,7 @@ Public Class frmHQF
             Dim attValue As Double = 0
             Dim pSkillName As String = "" : Dim sSkillName As String = "" : Dim tSkillName As String = ""
             Dim lastModName As String = ""
-            For Each modRow As DataRow In moduleAttributeData.Tables(0).Rows
+            For Each modRow As DataRow In HQFData.moduleAttributeData.Tables(0).Rows
                 Dim attMod As ShipModule = CType(ModuleLists.moduleList.Item(modRow.Item("typeID").ToString), ShipModule)
                 If lastModName <> modRow.Item("typeName").ToString And lastModName <> "" Then
                     pSkillName = "" : sSkillName = "" : tSkillName = ""
@@ -1267,6 +1266,11 @@ Public Class frmHQF
         ' Destroy the panels
         Me.SplitContainer1.Dispose()
         Me.SplitContainer2.Dispose()
+        Me.lvwItems.Dispose()
+        Me.tvwItems.Dispose()
+        LastModuleResults.Clear()
+        LastSlotFitting.Clear()
+        ModuleDisplay = ""
     End Sub
     Private Sub frmHQF_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
@@ -1277,17 +1281,21 @@ Public Class frmHQF
             EveHQ.Core.HQ.StartCloseInfoPanel = True
             Me.WindowState = FormWindowState.Maximized
         End If
+        ModuleDisplay = ""
+        LastModuleResults.Clear()
 
         ' Clear tabs and fitted ship lists, results list
         ShipLists.fittedShipList.Clear()
         Fittings.FittingTabList.Clear()
         LastModuleResults.Clear()
         tabHQF.TabPages.Clear()
-        If tvwItems.Tag IsNot Nothing Then
-            MessageBox.Show(tvwItems.Tag.ToString)
-        End If
         Me.Show()
         Me.Refresh()
+
+        RemoveHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
+        RemoveHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
+        RemoveHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFittings
+        RemoveHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
 
         AddHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
         AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
@@ -1309,7 +1317,7 @@ Public Class frmHQF
         ' Set the MetaType Filter
         Call Me.SetMetaTypeFilters()
 
-        If UseSerializableData = True Then
+        If HQFData.UseSerializableData = True Then
             Call Me.ShowShipGroups()
             Call Me.ShowMarketGroups()
         Else
@@ -1317,7 +1325,7 @@ Public Class frmHQF
             Call Me.ShowModuleMarketGroups()
             ' Generate the cache
             Call Me.GenerateHQFCache()
-            UseSerializableData = True
+            HQFData.UseSerializableData = True
         End If
 
         startUp = False
@@ -1344,6 +1352,7 @@ Public Class frmHQF
         ' Set the panel widths
         SplitContainer1.Width = Settings.HQFSettings.ShipPanelWidth
         SplitContainer2.Width = Settings.HQFSettings.ModPanelWidth
+       
 
     End Sub
     Private Sub LoadFittings()
@@ -1366,7 +1375,7 @@ Public Class frmHQF
     Private Sub ShowShipMarketGroups()
         tvwShips.BeginUpdate()
         tvwShips.Nodes.Clear()
-        Dim marketTable As DataTable = MarketGroupData.Tables(0)
+        Dim marketTable As DataTable = HQFData.MarketGroupData.Tables(0)
         Dim rootRows() As DataRow = marketTable.Select("ISNULL(parentGroupID, 0) = 0")
         For Each rootRow As DataRow In rootRows
             Dim rootNode As New TreeNode(CStr(rootRow.Item("marketGroupName")))
@@ -1380,7 +1389,7 @@ Public Class frmHQF
         Next
         ' Now check for Faction ships
         Dim shipGroup As String = ""
-        Dim factionRows() As DataRow = shipNameData.Tables(0).Select("ISNULL(marketGroupID, 0) = 0")
+        Dim factionRows() As DataRow = HQFData.shipNameData.Tables(0).Select("ISNULL(marketGroupID, 0) = 0")
         For Each factionRow As DataRow In factionRows
             shipGroup = factionRow.Item("groupName").ToString & "s"
             For Each groupNode As TreeNode In tvwShips.Nodes
@@ -1406,7 +1415,7 @@ Public Class frmHQF
             parentnode.Tag = ParentRow.Item("marketGroupID")
             PopulateShipGroups(CInt(parentnode.Tag), parentnode, marketTable)
         Next ParentRow
-        Dim groupRows() As DataRow = shipNameData.Tables(0).Select("marketGroupID=" & inParentID)
+        Dim groupRows() As DataRow = HQFData.shipNameData.Tables(0).Select("marketGroupID=" & inParentID)
         For Each shipRow As DataRow In groupRows
             inTreeNode.Nodes.Add(shipRow.Item("typeName").ToString)
         Next
@@ -1414,7 +1423,7 @@ Public Class frmHQF
     Private Sub ShowModuleMarketGroups()
         tvwItems.BeginUpdate()
         tvwItems.Nodes.Clear()
-        Dim marketTable As DataTable = MarketGroupData.Tables(0)
+        Dim marketTable As DataTable = HQFData.MarketGroupData.Tables(0)
         Dim rootRows() As DataRow = marketTable.Select("ISNULL(parentGroupID, 0) = 0")
         For Each rootRow As DataRow In rootRows
             Dim rootNode As New TreeNode(CStr(rootRow.Item("marketGroupName")))
@@ -1810,8 +1819,8 @@ Public Class frmHQF
             Dim chkBox As CheckBox = CType(sender, CheckBox)
             Dim changedFilter As Integer = CInt(chkBox.Tag)
             HQF.Settings.HQFSettings.ModuleFilter = HQF.Settings.HQFSettings.ModuleFilter Xor changedFilter
-            If tvwItems.Tag IsNot Nothing Then
-                Select Case tvwItems.Tag.ToString
+            If ModuleDisplay <> "" Then
+                Select Case ModuleDisplay
                     Case "Search"
                         Call ShowSearchedModules()
                     Case "Fitted"
@@ -1833,12 +1842,14 @@ Public Class frmHQF
     End Sub
     Private Sub UpdateModuleList()
         If startUp = False Then
-            If tvwItems.Tag IsNot Nothing Then
-                Select Case tvwItems.Tag.ToString
+            If ModuleDisplay <> "" Then
+                Select Case ModuleDisplay
                     Case "Search"
                         Call CalculateSearchedModules()
                     Case "Fitted"
-                        Call CalculateModulesThatWillFit()
+                        If LastSlotFitting.Count > 0 Then
+                            Call CalculateModulesThatWillFit()
+                        End If
                     Case "Favourites"
                         Call CalculateFilteredModules(tvwItems.SelectedNode)
                     Case "Recently Used"
@@ -1855,7 +1866,7 @@ Public Class frmHQF
         Dim groupID As String
         Dim results As New SortedList
         If groupNode.Name = "Favourites" Then
-            tvwItems.Tag = "Favourites"
+            ModuleDisplay = "Favourites"
             For Each modName As String In Settings.HQFSettings.Favourites
                 cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
                 ' Add results in by name, module
@@ -1888,9 +1899,9 @@ Public Class frmHQF
                     results.Add(sMod.Name, sMod)
                 End If
             Next
-            lvwItems.Tag = "Displaying: Favourites"
+            lblModuleDisplayType.Tag = "Displaying: Favourites"
         ElseIf groupNode.Name = "Recently Used" Then
-            tvwItems.Tag = "Recently Used"
+            ModuleDisplay = "Recently Used"
             For Each modName As String In Settings.HQFSettings.MRUModules
                 cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
                 ' Add results in by name, module
@@ -1919,14 +1930,14 @@ Public Class frmHQF
                     End If
                 End If
             Next
-            lvwItems.Tag = "Displaying: Recently Used"
+            lblModuleDisplayType.Tag = "Displaying: Recently Used"
         Else
             If groupNode.Nodes.Count = 0 Then
                 groupID = groupNode.Tag.ToString
             Else
-                groupID = tvwItems.Tag.ToString
+                groupID = ModuleDisplay
             End If
-            tvwItems.Tag = groupID
+            ModuleDisplay = groupID
             lblModuleDisplayType.Tag = Market.MarketGroupList(groupID).ToString
             For Each shipMod As ShipModule In HQF.ModuleLists.moduleList.Values
                 If shipMod.MarketGroup = groupID Then
@@ -1957,9 +1968,9 @@ Public Class frmHQF
                     End If
                 End If
             Next
-            lvwItems.Tag = "Displaying: " & lblModuleDisplayType.Tag.ToString
+            lblModuleDisplayType.Tag = "Displaying: " & lblModuleDisplayType.Tag.ToString
         End If
-        Me.LastModuleResults = results
+        LastModuleResults = results
         Call Me.ShowFilteredModules()
         Me.Cursor = Cursors.Default
     End Sub
@@ -2015,10 +2026,10 @@ Public Class frmHQF
         If lvwItems.Items.Count = 0 Then
             lvwItems.Items.Add("<Empty - Please check filters>")
             lvwItems.Enabled = False
-            lblModuleDisplayType.Text = lvwItems.Tag.ToString & " (0 items)"
+            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (0 items)"
         Else
             lvwItems.Enabled = True
-            lblModuleDisplayType.Text = lvwItems.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
+            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
         End If
         lvwItems.EndUpdate()
 
@@ -2063,8 +2074,8 @@ Public Class frmHQF
                     End If
                 End If
             Next
-            Me.LastModuleResults = results
-            lvwItems.Tag = "Displaying: Matching *" & txtSearchModules.Text & "*"
+            LastModuleResults = results
+            lblModuleDisplayType.Tag = "Displaying: Matching *" & txtSearchModules.Text & "*"
             Call Me.ShowSearchedModules()
         End If
         Me.Cursor = Cursors.Default
@@ -2115,12 +2126,14 @@ Public Class frmHQF
             End If
         Next
         lvwItems.EndUpdate()
-        tvwItems.Tag = "Search"
-        lblModuleDisplayType.Text = lvwItems.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
+        ModuleDisplay = "Search"
+        lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
     End Sub
     Private Sub UpdateModulesThatWillFit(ByVal modData As ArrayList)
         LastSlotFitting = modData
-        Call CalculateModulesThatWillFit()
+        If LastSlotFitting.Count > 0 Then
+            Call CalculateModulesThatWillFit()
+        End If
     End Sub
     Private Sub CalculateModulesThatWillFit()
         Me.Cursor = Cursors.WaitCursor
@@ -2182,8 +2195,8 @@ Public Class frmHQF
                 End Select
             End If
         Next
-        Me.LastModuleResults = results
-        lvwItems.Tag = "Displaying: Modules That Fit"
+        LastModuleResults = results
+        lblModuleDisplayType.Tag = "Displaying: Modules That Fit"
         Call Me.ShowModulesThatWillFit()
         Me.Cursor = Cursors.Default
     End Sub
@@ -2223,7 +2236,9 @@ Public Class frmHQF
                         'newModule.ImageKey = "rigSlot"
                 End Select
                 Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
-                chkFilter.ForeColor = Color.Black
+                If chkFilter IsNot Nothing Then
+                    chkFilter.ForeColor = Color.Black
+                End If
                 lvwItems.Items.Add(newModule)
             Else
                 Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
@@ -2231,8 +2246,8 @@ Public Class frmHQF
             End If
         Next
         lvwItems.EndUpdate()
-        tvwItems.Tag = "Fitted"
-        lblModuleDisplayType.Text = lvwItems.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
+        ModuleDisplay = "Fitted"
+        lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
     End Sub
     Private Sub txtSearchModules_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchModules.GotFocus
         Call CalculateSearchedModules()
@@ -2872,7 +2887,7 @@ Public Class frmHQF
         Call Me.WriteItemGroups()
         ' Write the current version
         Dim sw As New StreamWriter(HQF.Settings.HQFCacheFolder & "\version.txt")
-        sw.Write(LastCacheRefresh)
+        sw.Write(HQFData.LastCacheRefresh)
         sw.Flush()
         sw.Close()
     End Sub
@@ -2920,7 +2935,7 @@ Public Class frmHQF
         If lvwItems.SelectedItems.Count > 0 Then
             Dim moduleID As String = lvwItems.SelectedItems(0).Name
             Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
-            If tvwItems.Tag.ToString = "Favourites" Then
+            If ModuleDisplay = "Favourites" Then
                 mnuAddToFavourites_List.Visible = False
                 mnuRemoveFromFavourites.Visible = True
             Else
@@ -2932,7 +2947,7 @@ Public Class frmHQF
                     mnuAddToFavourites_List.Enabled = True
                 End If
             End If
-            If IsNumeric(tvwItems.Tag.ToString) = True Then
+            If IsNumeric(ModuleDisplay) = True Then
                 mnuSep2.Visible = False
                 mnuShowModuleMarketGroup.Visible = False
             Else

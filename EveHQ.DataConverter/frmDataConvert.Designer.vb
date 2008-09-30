@@ -62,9 +62,22 @@ Partial Class frmDataConvert
         Me.btnCSVDump = New System.Windows.Forms.Button
         Me.btnAddToMySQL = New System.Windows.Forms.Button
         Me.FileSystemWatcher1 = New System.IO.FileSystemWatcher
+        Me.TabControl1 = New System.Windows.Forms.TabControl
+        Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.TabPage2 = New System.Windows.Forms.TabPage
+        Me.txtCompressFile = New System.Windows.Forms.TextBox
+        Me.btnFileSource = New System.Windows.Forms.Button
+        Me.lblCompress = New System.Windows.Forms.Label
+        Me.ofd1 = New System.Windows.Forms.OpenFileDialog
+        Me.lblSourceFileInfo = New System.Windows.Forms.Label
+        Me.lblCompressedFileInfo = New System.Windows.Forms.Label
+        Me.brnStartCompression = New System.Windows.Forms.Button
         Me.grpMSSQL.SuspendLayout()
         Me.grpMySQL.SuspendLayout()
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabControl1.SuspendLayout()
+        Me.TabPage1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
         Me.SuspendLayout()
         '
         'cboConvertType
@@ -72,7 +85,7 @@ Partial Class frmDataConvert
         Me.cboConvertType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboConvertType.FormattingEnabled = True
         Me.cboConvertType.Items.AddRange(New Object() {"Full", "Basic (Items)", "Standard (Items & Map Routes)"})
-        Me.cboConvertType.Location = New System.Drawing.Point(408, 45)
+        Me.cboConvertType.Location = New System.Drawing.Point(402, 50)
         Me.cboConvertType.Name = "cboConvertType"
         Me.cboConvertType.Size = New System.Drawing.Size(188, 21)
         Me.cboConvertType.TabIndex = 52
@@ -80,7 +93,7 @@ Partial Class frmDataConvert
         'lblConvertType
         '
         Me.lblConvertType.AutoSize = True
-        Me.lblConvertType.Location = New System.Drawing.Point(314, 48)
+        Me.lblConvertType.Location = New System.Drawing.Point(308, 53)
         Me.lblConvertType.Name = "lblConvertType"
         Me.lblConvertType.Size = New System.Drawing.Size(63, 13)
         Me.lblConvertType.TabIndex = 51
@@ -97,7 +110,7 @@ Partial Class frmDataConvert
         Me.grpMSSQL.Controls.Add(Me.lblMSSQLPassword)
         Me.grpMSSQL.Controls.Add(Me.lblMSSQLUser)
         Me.grpMSSQL.Controls.Add(Me.lblMSSQLServer)
-        Me.grpMSSQL.Location = New System.Drawing.Point(109, 72)
+        Me.grpMSSQL.Location = New System.Drawing.Point(103, 77)
         Me.grpMSSQL.Name = "grpMSSQL"
         Me.grpMSSQL.Size = New System.Drawing.Size(309, 145)
         Me.grpMSSQL.TabIndex = 50
@@ -193,7 +206,7 @@ Partial Class frmDataConvert
         Me.grpMySQL.Controls.Add(Me.lblMySQLPassword)
         Me.grpMySQL.Controls.Add(Me.lblMySQLUser)
         Me.grpMySQL.Controls.Add(Me.lblMySQLServer)
-        Me.grpMySQL.Location = New System.Drawing.Point(109, 72)
+        Me.grpMySQL.Location = New System.Drawing.Point(103, 77)
         Me.grpMySQL.Name = "grpMySQL"
         Me.grpMySQL.Size = New System.Drawing.Size(309, 145)
         Me.grpMySQL.TabIndex = 49
@@ -255,7 +268,7 @@ Partial Class frmDataConvert
         Me.cboConvert.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboConvert.FormattingEnabled = True
         Me.cboConvert.Items.AddRange(New Object() {"Access Database (.MDB)", "Comma Separated Files (.CSV)", "MS SQL Server", "MS SQL 2005 Express", "MySQL 5.0"})
-        Me.cboConvert.Location = New System.Drawing.Point(109, 45)
+        Me.cboConvert.Location = New System.Drawing.Point(103, 50)
         Me.cboConvert.Name = "cboConvert"
         Me.cboConvert.Size = New System.Drawing.Size(188, 21)
         Me.cboConvert.TabIndex = 48
@@ -263,7 +276,7 @@ Partial Class frmDataConvert
         'lblConvertTo
         '
         Me.lblConvertTo.AutoSize = True
-        Me.lblConvertTo.Location = New System.Drawing.Point(15, 48)
+        Me.lblConvertTo.Location = New System.Drawing.Point(9, 53)
         Me.lblConvertTo.Name = "lblConvertTo"
         Me.lblConvertTo.Size = New System.Drawing.Size(63, 13)
         Me.lblConvertTo.TabIndex = 47
@@ -272,7 +285,7 @@ Partial Class frmDataConvert
         'btnCancel
         '
         Me.btnCancel.Enabled = False
-        Me.btnCancel.Location = New System.Drawing.Point(124, 378)
+        Me.btnCancel.Location = New System.Drawing.Point(118, 383)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(106, 32)
         Me.btnCancel.TabIndex = 46
@@ -282,7 +295,7 @@ Partial Class frmDataConvert
         'lblProgress
         '
         Me.lblProgress.AutoSize = True
-        Me.lblProgress.Location = New System.Drawing.Point(12, 336)
+        Me.lblProgress.Location = New System.Drawing.Point(6, 341)
         Me.lblProgress.Name = "lblProgress"
         Me.lblProgress.Size = New System.Drawing.Size(48, 13)
         Me.lblProgress.TabIndex = 45
@@ -290,7 +303,7 @@ Partial Class frmDataConvert
         '
         'pbProgress
         '
-        Me.pbProgress.Location = New System.Drawing.Point(12, 352)
+        Me.pbProgress.Location = New System.Drawing.Point(6, 357)
         Me.pbProgress.Name = "pbProgress"
         Me.pbProgress.Size = New System.Drawing.Size(609, 20)
         Me.pbProgress.Step = 1
@@ -300,7 +313,7 @@ Partial Class frmDataConvert
         'btnConvert
         '
         Me.btnConvert.Enabled = False
-        Me.btnConvert.Location = New System.Drawing.Point(12, 378)
+        Me.btnConvert.Location = New System.Drawing.Point(6, 383)
         Me.btnConvert.Name = "btnConvert"
         Me.btnConvert.Size = New System.Drawing.Size(106, 32)
         Me.btnConvert.TabIndex = 43
@@ -310,7 +323,7 @@ Partial Class frmDataConvert
         'lblFiles
         '
         Me.lblFiles.AutoSize = True
-        Me.lblFiles.Location = New System.Drawing.Point(106, 246)
+        Me.lblFiles.Location = New System.Drawing.Point(100, 251)
         Me.lblFiles.Name = "lblFiles"
         Me.lblFiles.Size = New System.Drawing.Size(154, 13)
         Me.lblFiles.TabIndex = 42
@@ -319,7 +332,7 @@ Partial Class frmDataConvert
         'btnTarget
         '
         Me.btnTarget.Enabled = False
-        Me.btnTarget.Location = New System.Drawing.Point(602, 271)
+        Me.btnTarget.Location = New System.Drawing.Point(596, 276)
         Me.btnTarget.Name = "btnTarget"
         Me.btnTarget.Size = New System.Drawing.Size(24, 23)
         Me.btnTarget.TabIndex = 41
@@ -329,7 +342,7 @@ Partial Class frmDataConvert
         'txtTarget
         '
         Me.txtTarget.Enabled = False
-        Me.txtTarget.Location = New System.Drawing.Point(109, 273)
+        Me.txtTarget.Location = New System.Drawing.Point(103, 278)
         Me.txtTarget.Name = "txtTarget"
         Me.txtTarget.Size = New System.Drawing.Size(487, 20)
         Me.txtTarget.TabIndex = 40
@@ -338,7 +351,7 @@ Partial Class frmDataConvert
         '
         Me.lblTarget.AutoSize = True
         Me.lblTarget.Enabled = False
-        Me.lblTarget.Location = New System.Drawing.Point(14, 276)
+        Me.lblTarget.Location = New System.Drawing.Point(8, 281)
         Me.lblTarget.Name = "lblTarget"
         Me.lblTarget.Size = New System.Drawing.Size(86, 13)
         Me.lblTarget.TabIndex = 39
@@ -346,7 +359,7 @@ Partial Class frmDataConvert
         '
         'btnSource
         '
-        Me.btnSource.Location = New System.Drawing.Point(602, 221)
+        Me.btnSource.Location = New System.Drawing.Point(596, 226)
         Me.btnSource.Name = "btnSource"
         Me.btnSource.Size = New System.Drawing.Size(24, 23)
         Me.btnSource.TabIndex = 38
@@ -355,7 +368,7 @@ Partial Class frmDataConvert
         '
         'txtSource
         '
-        Me.txtSource.Location = New System.Drawing.Point(109, 223)
+        Me.txtSource.Location = New System.Drawing.Point(103, 228)
         Me.txtSource.Name = "txtSource"
         Me.txtSource.Size = New System.Drawing.Size(487, 20)
         Me.txtSource.TabIndex = 37
@@ -363,7 +376,7 @@ Partial Class frmDataConvert
         'lblSource
         '
         Me.lblSource.AutoSize = True
-        Me.lblSource.Location = New System.Drawing.Point(14, 226)
+        Me.lblSource.Location = New System.Drawing.Point(8, 231)
         Me.lblSource.Name = "lblSource"
         Me.lblSource.Size = New System.Drawing.Size(89, 13)
         Me.lblSource.TabIndex = 36
@@ -372,7 +385,7 @@ Partial Class frmDataConvert
         'lblPurpose
         '
         Me.lblPurpose.AutoSize = True
-        Me.lblPurpose.Location = New System.Drawing.Point(12, 9)
+        Me.lblPurpose.Location = New System.Drawing.Point(6, 14)
         Me.lblPurpose.Name = "lblPurpose"
         Me.lblPurpose.Size = New System.Drawing.Size(365, 13)
         Me.lblPurpose.TabIndex = 35
@@ -380,7 +393,7 @@ Partial Class frmDataConvert
         '
         'btnMap
         '
-        Me.btnMap.Location = New System.Drawing.Point(550, 386)
+        Me.btnMap.Location = New System.Drawing.Point(544, 391)
         Me.btnMap.Name = "btnMap"
         Me.btnMap.Size = New System.Drawing.Size(75, 23)
         Me.btnMap.TabIndex = 53
@@ -390,7 +403,7 @@ Partial Class frmDataConvert
         '
         'btnBPS
         '
-        Me.btnBPS.Location = New System.Drawing.Point(469, 386)
+        Me.btnBPS.Location = New System.Drawing.Point(463, 391)
         Me.btnBPS.Name = "btnBPS"
         Me.btnBPS.Size = New System.Drawing.Size(75, 23)
         Me.btnBPS.TabIndex = 54
@@ -400,7 +413,7 @@ Partial Class frmDataConvert
         '
         'btnCSVDump
         '
-        Me.btnCSVDump.Location = New System.Drawing.Point(388, 386)
+        Me.btnCSVDump.Location = New System.Drawing.Point(382, 391)
         Me.btnCSVDump.Name = "btnCSVDump"
         Me.btnCSVDump.Size = New System.Drawing.Size(75, 23)
         Me.btnCSVDump.TabIndex = 55
@@ -410,7 +423,7 @@ Partial Class frmDataConvert
         '
         'btnAddToMySQL
         '
-        Me.btnAddToMySQL.Location = New System.Drawing.Point(295, 386)
+        Me.btnAddToMySQL.Location = New System.Drawing.Point(289, 391)
         Me.btnAddToMySQL.Name = "btnAddToMySQL"
         Me.btnAddToMySQL.Size = New System.Drawing.Size(87, 23)
         Me.btnAddToMySQL.TabIndex = 56
@@ -423,33 +436,127 @@ Partial Class frmDataConvert
         Me.FileSystemWatcher1.EnableRaisingEvents = True
         Me.FileSystemWatcher1.SynchronizingObject = Me
         '
+        'TabControl1
+        '
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl1.Location = New System.Drawing.Point(0, 0)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(661, 483)
+        Me.TabControl1.TabIndex = 57
+        '
+        'TabPage1
+        '
+        Me.TabPage1.Controls.Add(Me.lblPurpose)
+        Me.TabPage1.Controls.Add(Me.btnAddToMySQL)
+        Me.TabPage1.Controls.Add(Me.lblSource)
+        Me.TabPage1.Controls.Add(Me.btnCSVDump)
+        Me.TabPage1.Controls.Add(Me.txtSource)
+        Me.TabPage1.Controls.Add(Me.btnBPS)
+        Me.TabPage1.Controls.Add(Me.btnSource)
+        Me.TabPage1.Controls.Add(Me.btnMap)
+        Me.TabPage1.Controls.Add(Me.lblTarget)
+        Me.TabPage1.Controls.Add(Me.cboConvertType)
+        Me.TabPage1.Controls.Add(Me.txtTarget)
+        Me.TabPage1.Controls.Add(Me.lblConvertType)
+        Me.TabPage1.Controls.Add(Me.btnTarget)
+        Me.TabPage1.Controls.Add(Me.grpMSSQL)
+        Me.TabPage1.Controls.Add(Me.lblFiles)
+        Me.TabPage1.Controls.Add(Me.grpMySQL)
+        Me.TabPage1.Controls.Add(Me.btnConvert)
+        Me.TabPage1.Controls.Add(Me.cboConvert)
+        Me.TabPage1.Controls.Add(Me.pbProgress)
+        Me.TabPage1.Controls.Add(Me.lblConvertTo)
+        Me.TabPage1.Controls.Add(Me.lblProgress)
+        Me.TabPage1.Controls.Add(Me.btnCancel)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(653, 457)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "Data Converter"
+        Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'TabPage2
+        '
+        Me.TabPage2.Controls.Add(Me.brnStartCompression)
+        Me.TabPage2.Controls.Add(Me.lblCompressedFileInfo)
+        Me.TabPage2.Controls.Add(Me.lblSourceFileInfo)
+        Me.TabPage2.Controls.Add(Me.txtCompressFile)
+        Me.TabPage2.Controls.Add(Me.btnFileSource)
+        Me.TabPage2.Controls.Add(Me.lblCompress)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(653, 457)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "File Compression"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'txtCompressFile
+        '
+        Me.txtCompressFile.Location = New System.Drawing.Point(21, 49)
+        Me.txtCompressFile.Name = "txtCompressFile"
+        Me.txtCompressFile.Size = New System.Drawing.Size(581, 20)
+        Me.txtCompressFile.TabIndex = 40
+        '
+        'btnFileSource
+        '
+        Me.btnFileSource.Location = New System.Drawing.Point(608, 47)
+        Me.btnFileSource.Name = "btnFileSource"
+        Me.btnFileSource.Size = New System.Drawing.Size(24, 23)
+        Me.btnFileSource.TabIndex = 41
+        Me.btnFileSource.Text = "..."
+        Me.btnFileSource.UseVisualStyleBackColor = True
+        '
+        'lblCompress
+        '
+        Me.lblCompress.AutoSize = True
+        Me.lblCompress.Location = New System.Drawing.Point(18, 20)
+        Me.lblCompress.Name = "lblCompress"
+        Me.lblCompress.Size = New System.Drawing.Size(282, 13)
+        Me.lblCompress.TabIndex = 0
+        Me.lblCompress.Text = "Please enter the file name of the file you wish to compress:"
+        '
+        'ofd1
+        '
+        Me.ofd1.FileName = "OpenFileDialog1"
+        '
+        'lblSourceFileInfo
+        '
+        Me.lblSourceFileInfo.AutoSize = True
+        Me.lblSourceFileInfo.Location = New System.Drawing.Point(18, 166)
+        Me.lblSourceFileInfo.Name = "lblSourceFileInfo"
+        Me.lblSourceFileInfo.Size = New System.Drawing.Size(84, 13)
+        Me.lblSourceFileInfo.TabIndex = 42
+        Me.lblSourceFileInfo.Text = "Source File Info:"
+        '
+        'lblCompressedFileInfo
+        '
+        Me.lblCompressedFileInfo.AutoSize = True
+        Me.lblCompressedFileInfo.Location = New System.Drawing.Point(18, 194)
+        Me.lblCompressedFileInfo.Name = "lblCompressedFileInfo"
+        Me.lblCompressedFileInfo.Size = New System.Drawing.Size(108, 13)
+        Me.lblCompressedFileInfo.TabIndex = 43
+        Me.lblCompressedFileInfo.Text = "Compressed File Info:"
+        '
+        'brnStartCompression
+        '
+        Me.brnStartCompression.Location = New System.Drawing.Point(478, 98)
+        Me.brnStartCompression.Name = "brnStartCompression"
+        Me.brnStartCompression.Size = New System.Drawing.Size(124, 23)
+        Me.brnStartCompression.TabIndex = 44
+        Me.brnStartCompression.Text = "Start Compression"
+        Me.brnStartCompression.UseVisualStyleBackColor = True
+        '
         'frmDataConvert
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(634, 416)
-        Me.Controls.Add(Me.btnAddToMySQL)
-        Me.Controls.Add(Me.btnCSVDump)
-        Me.Controls.Add(Me.btnBPS)
-        Me.Controls.Add(Me.btnMap)
-        Me.Controls.Add(Me.cboConvertType)
-        Me.Controls.Add(Me.lblConvertType)
-        Me.Controls.Add(Me.grpMSSQL)
-        Me.Controls.Add(Me.grpMySQL)
-        Me.Controls.Add(Me.cboConvert)
-        Me.Controls.Add(Me.lblConvertTo)
-        Me.Controls.Add(Me.btnCancel)
-        Me.Controls.Add(Me.lblProgress)
-        Me.Controls.Add(Me.pbProgress)
-        Me.Controls.Add(Me.btnConvert)
-        Me.Controls.Add(Me.lblFiles)
-        Me.Controls.Add(Me.btnTarget)
-        Me.Controls.Add(Me.txtTarget)
-        Me.Controls.Add(Me.lblTarget)
-        Me.Controls.Add(Me.btnSource)
-        Me.Controls.Add(Me.txtSource)
-        Me.Controls.Add(Me.lblSource)
-        Me.Controls.Add(Me.lblPurpose)
+        Me.ClientSize = New System.Drawing.Size(661, 483)
+        Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmDataConvert"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
@@ -459,8 +566,12 @@ Partial Class frmDataConvert
         Me.grpMySQL.ResumeLayout(False)
         Me.grpMySQL.PerformLayout()
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabControl1.ResumeLayout(False)
+        Me.TabPage1.ResumeLayout(False)
+        Me.TabPage1.PerformLayout()
+        Me.TabPage2.ResumeLayout(False)
+        Me.TabPage2.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents cboConvertType As System.Windows.Forms.ComboBox
@@ -502,4 +613,14 @@ Partial Class frmDataConvert
     Friend WithEvents btnCSVDump As System.Windows.Forms.Button
     Friend WithEvents btnAddToMySQL As System.Windows.Forms.Button
     Friend WithEvents FileSystemWatcher1 As System.IO.FileSystemWatcher
+    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
+    Friend WithEvents txtCompressFile As System.Windows.Forms.TextBox
+    Friend WithEvents btnFileSource As System.Windows.Forms.Button
+    Friend WithEvents lblCompress As System.Windows.Forms.Label
+    Friend WithEvents ofd1 As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents brnStartCompression As System.Windows.Forms.Button
+    Friend WithEvents lblCompressedFileInfo As System.Windows.Forms.Label
+    Friend WithEvents lblSourceFileInfo As System.Windows.Forms.Label
 End Class

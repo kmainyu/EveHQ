@@ -154,6 +154,7 @@ Partial Public Class frmEveHQ
         Me.tmrEveWindow = New System.Windows.Forms.Timer(Me.components)
         Me.ctxPlugin = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuLoadPlugin = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuToolsTriggerError = New System.Windows.Forms.ToolStripMenuItem
         Me.XPanderList1 = New EveHQ.XPanderList
         Me.XPPilots = New EveHQ.XPander
         Me.XPTraining = New EveHQ.XPander
@@ -241,7 +242,7 @@ Partial Public Class frmEveHQ
         Me.btnTogglePanel.CheckOnClick = True
         Me.btnTogglePanel.CheckState = System.Windows.Forms.CheckState.Checked
         Me.btnTogglePanel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.btnTogglePanel.Image = Global.EveHQ.My.Resources.Resources.panel_close
+        Me.btnTogglePanel.Image = CType(resources.GetObject("btnTogglePanel.Image"), System.Drawing.Image)
         Me.btnTogglePanel.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnTogglePanel.Name = "btnTogglePanel"
         Me.btnTogglePanel.Size = New System.Drawing.Size(23, 22)
@@ -452,7 +453,7 @@ Partial Public Class frmEveHQ
         '
         'SkillTrainingToolStripMenuItem
         '
-        Me.SkillTrainingToolStripMenuItem.Image = Global.EveHQ.My.Resources.Resources.icon22_41
+        Me.SkillTrainingToolStripMenuItem.Image = CType(resources.GetObject("SkillTrainingToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SkillTrainingToolStripMenuItem.Name = "SkillTrainingToolStripMenuItem"
         Me.SkillTrainingToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
         Me.SkillTrainingToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
@@ -468,7 +469,7 @@ Partial Public Class frmEveHQ
         '
         'ToolsMenu
         '
-        Me.ToolsMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.RunIGBToolStripMenuItem, Me.mnuToolsGetAccountInfo, Me.mnuBackup, Me.mnuToolsAPIChecker, Me.ToolStripMenuItem1, Me.ClearEveHQCache})
+        Me.ToolsMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.RunIGBToolStripMenuItem, Me.mnuToolsGetAccountInfo, Me.mnuBackup, Me.mnuToolsAPIChecker, Me.ToolStripMenuItem1, Me.mnuToolsTriggerError, Me.ClearEveHQCache})
         Me.ToolsMenu.Name = "ToolsMenu"
         Me.ToolsMenu.Size = New System.Drawing.Size(48, 20)
         Me.ToolsMenu.Text = "&Tools"
@@ -511,7 +512,6 @@ Partial Public Class frmEveHQ
         Me.ClearEveHQCache.Name = "ClearEveHQCache"
         Me.ClearEveHQCache.Size = New System.Drawing.Size(202, 22)
         Me.ClearEveHQCache.Text = "Clear EveHQ Cache"
-        Me.ClearEveHQCache.Visible = False
         '
         'mnuModules
         '
@@ -1062,6 +1062,13 @@ Partial Public Class frmEveHQ
         Me.mnuLoadPlugin.Size = New System.Drawing.Size(142, 22)
         Me.mnuLoadPlugin.Text = "Load Plug-in"
         '
+        'mnuToolsTriggerError
+        '
+        Me.mnuToolsTriggerError.Name = "mnuToolsTriggerError"
+        Me.mnuToolsTriggerError.Size = New System.Drawing.Size(202, 22)
+        Me.mnuToolsTriggerError.Text = "Trigger Error"
+        Me.mnuToolsTriggerError.Visible = False
+        '
         'XPanderList1
         '
         Me.XPanderList1.AutoScroll = True
@@ -1096,10 +1103,10 @@ Partial Public Class frmEveHQ
         Me.XPPilots.CaptionTextColor = System.Drawing.Color.Black
         Me.XPPilots.CaptionTextHighlightColor = System.Drawing.Color.LightSteelBlue
         Me.XPPilots.ChevronStyle = EveHQ.XPander.ChevronStyleEnum.Image
-        Me.XPPilots.CollapsedHighlightImage = Global.EveHQ.My.Resources.Resources.CollapsedHighlightImage
-        Me.XPPilots.CollapsedImage = Global.EveHQ.My.Resources.Resources.CollapsedImage
-        Me.XPPilots.ExpandedHighlightImage = Global.EveHQ.My.Resources.Resources.ExpandedHighlightImage
-        Me.XPPilots.ExpandedImage = Global.EveHQ.My.Resources.Resources.ExpandedImage
+        Me.XPPilots.CollapsedHighlightImage = CType(resources.GetObject("XPPilots.CollapsedHighlightImage"), System.Drawing.Bitmap)
+        Me.XPPilots.CollapsedImage = CType(resources.GetObject("XPPilots.CollapsedImage"), System.Drawing.Bitmap)
+        Me.XPPilots.ExpandedHighlightImage = CType(resources.GetObject("XPPilots.ExpandedHighlightImage"), System.Drawing.Bitmap)
+        Me.XPPilots.ExpandedImage = CType(resources.GetObject("XPPilots.ExpandedImage"), System.Drawing.Bitmap)
         Me.XPPilots.Location = New System.Drawing.Point(4, 273)
         Me.XPPilots.Name = "XPPilots"
         Me.XPPilots.Padding = New System.Windows.Forms.Padding(0, 25, 0, 0)
@@ -1129,11 +1136,11 @@ Partial Public Class frmEveHQ
         Me.XPTraining.CaptionTextColor = System.Drawing.Color.Black
         Me.XPTraining.CaptionTextHighlightColor = System.Drawing.Color.LightSteelBlue
         Me.XPTraining.ChevronStyle = EveHQ.XPander.ChevronStyleEnum.Image
-        Me.XPTraining.CollapsedHighlightImage = Global.EveHQ.My.Resources.Resources.CollapsedHighlightImage
-        Me.XPTraining.CollapsedImage = Global.EveHQ.My.Resources.Resources.CollapsedImage
+        Me.XPTraining.CollapsedHighlightImage = CType(resources.GetObject("XPTraining.CollapsedHighlightImage"), System.Drawing.Bitmap)
+        Me.XPTraining.CollapsedImage = CType(resources.GetObject("XPTraining.CollapsedImage"), System.Drawing.Bitmap)
         Me.XPTraining.Controls.Add(Me.lblTrainingStatus)
-        Me.XPTraining.ExpandedHighlightImage = Global.EveHQ.My.Resources.Resources.ExpandedHighlightImage
-        Me.XPTraining.ExpandedImage = Global.EveHQ.My.Resources.Resources.ExpandedImage
+        Me.XPTraining.ExpandedHighlightImage = CType(resources.GetObject("XPTraining.ExpandedHighlightImage"), System.Drawing.Bitmap)
+        Me.XPTraining.ExpandedImage = CType(resources.GetObject("XPTraining.ExpandedImage"), System.Drawing.Bitmap)
         Me.XPTraining.Location = New System.Drawing.Point(4, 160)
         Me.XPTraining.Name = "XPTraining"
         Me.XPTraining.Padding = New System.Windows.Forms.Padding(0, 25, 0, 0)
@@ -1173,10 +1180,10 @@ Partial Public Class frmEveHQ
         Me.XPModules.CaptionTextColor = System.Drawing.Color.Black
         Me.XPModules.CaptionTextHighlightColor = System.Drawing.Color.LightSteelBlue
         Me.XPModules.ChevronStyle = EveHQ.XPander.ChevronStyleEnum.Image
-        Me.XPModules.CollapsedHighlightImage = Global.EveHQ.My.Resources.Resources.CollapsedHighlightImage
-        Me.XPModules.CollapsedImage = Global.EveHQ.My.Resources.Resources.CollapsedImage
-        Me.XPModules.ExpandedHighlightImage = Global.EveHQ.My.Resources.Resources.ExpandedHighlightImage
-        Me.XPModules.ExpandedImage = Global.EveHQ.My.Resources.Resources.ExpandedImage
+        Me.XPModules.CollapsedHighlightImage = CType(resources.GetObject("XPModules.CollapsedHighlightImage"), System.Drawing.Bitmap)
+        Me.XPModules.CollapsedImage = CType(resources.GetObject("XPModules.CollapsedImage"), System.Drawing.Bitmap)
+        Me.XPModules.ExpandedHighlightImage = CType(resources.GetObject("XPModules.ExpandedHighlightImage"), System.Drawing.Bitmap)
+        Me.XPModules.ExpandedImage = CType(resources.GetObject("XPModules.ExpandedImage"), System.Drawing.Bitmap)
         Me.XPModules.Location = New System.Drawing.Point(4, 4)
         Me.XPModules.Name = "XPModules"
         Me.XPModules.Padding = New System.Windows.Forms.Padding(0, 25, 0, 0)
@@ -1357,5 +1364,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuReportsTextPartiallyTrainedSkills As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ClearEveHQCache As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuToolsTriggerError As System.Windows.Forms.ToolStripMenuItem
 
 End Class

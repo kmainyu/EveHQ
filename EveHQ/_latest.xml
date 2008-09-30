@@ -44,6 +44,13 @@
 			<requires></requires>
 			<description>MySQL .Net Library</description>
 		</file>
+		<file_t>
+			<name>EveHQ.mdb</name>
+			<type>Database</type>
+			<version>1.7.4.0</version>
+			<requires>1.7.4.0</requires>
+			<description>EveHQ Access Database</description>
+		</file_t>
 		<file>
 			<name>EveHQ.Assets.dll</name>
 			<type>Plug-in</type>
@@ -103,8 +110,8 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.3.126</version>
-			<requires>1.7.3.126</requires>
+			<version>1.7.3.127</version>
+			<requires>1.7.3.127</requires>
 			<description>Ship Fitting Plug-in</description>
 		</file>
 	</files>

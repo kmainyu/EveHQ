@@ -2027,7 +2027,7 @@ Public Class frmSettings
     End Sub
     Private Sub btnUpdatePrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdatePrices.Click
 
-        Call Me.GetPriceFeed("MedianPrices", "http://nonninja.net/eve/prices/medians.xml")
+        Call Me.GetPriceFeed("MedianPrices", "http://www.evehq.net/market/prices.aspx")
         Call Me.GetPriceFeed("FactionPrices", "http://www.eve-prices.net/xml/today.xml")
 
         Call Me.ParseMedianPriceFeed("MedianPrices")
@@ -2097,19 +2097,21 @@ Public Class frmSettings
     End Sub
     Private Sub ParseMedianPriceFeed(ByVal FeedName As String)
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-        Dim feedXML As New XmlDocument
+        Dim feedData As String = ""
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
             Try
-                feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
-                Dim Items As XmlNodeList
-                Dim Item As XmlNode
-                Items = feedXML.SelectNodes("/medians_lookup/items/item")
-                lblUpdateStatus.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : lblUpdateStatus.Refresh()
-                For Each Item In Items
-                    If EveHQ.Core.HQ.MarketPriceList.ContainsKey(Item.ChildNodes(0).InnerText) = True Then
-                        EveHQ.Core.HQ.MarketPriceList(Item.ChildNodes(0).InnerText) = Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture)
-                    Else
-                        EveHQ.Core.HQ.MarketPriceList.Add(Item.ChildNodes(0).InnerText, Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture))
+                Dim sr As New StreamReader(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+                feedData = sr.ReadToEnd
+                Dim feedItems() As String = feedData.Split(ControlChars.CrLf.ToCharArray)
+                Dim feedInfo(1) As String
+                For Each feedItem As String In feedItems
+                    If feedItem <> "" Then
+                        feedInfo = feedItem.Split(",".ToCharArray)
+                        If EveHQ.Core.HQ.MarketPriceList.ContainsKey(feedInfo(0)) = True Then
+                            EveHQ.Core.HQ.MarketPriceList(feedInfo(0)) = Double.Parse(feedInfo(1), Globalization.NumberStyles.Number, culture)
+                        Else
+                            EveHQ.Core.HQ.MarketPriceList.Add(feedInfo(0), Double.Parse(feedInfo(1), Globalization.NumberStyles.Number, culture))
+                        End If
                     End If
                 Next
             Catch e As Exception
