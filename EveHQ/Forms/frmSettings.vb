@@ -825,14 +825,6 @@ Public Class frmSettings
         End If
     End Sub
 
-    Private Sub chkOmitCurrentSkill_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOmitCurrentSkill.CheckedChanged
-        If Me.chkOmitCurrentSkill.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = False
-        End If
-    End Sub
-
     Private Sub UpdateTrainingQueueOptions()
         ' Add the Queue columns
         Me.clbColumns.Items.Clear()
@@ -881,7 +873,6 @@ Public Class frmSettings
         Next
         Me.chkContinueTraining.Checked = EveHQ.Core.HQ.EveHQSettings.ContinueTraining
         Me.chkDeleteCompletedSkills.Checked = EveHQ.Core.HQ.EveHQSettings.DeleteSkills
-        Me.chkOmitCurrentSkill.Checked = EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill
         Dim IColor As Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.IsPreReqColor))
         Me.pbIsPreReqColour.BackColor = IColor
         Dim HColor As Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.HasPreReqColor))

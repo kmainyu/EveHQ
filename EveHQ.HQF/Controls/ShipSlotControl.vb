@@ -1588,7 +1588,8 @@ Public Class ShipSlotControl
                             currentMod.ModuleState = currentstate
                             currentInfo.ShipType = currentShip
                             currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-                            Call Me.UpdateSlotLocation(currentMod, slotNo)
+                            Call Me.UpdateAllSlotLocations()
+                            'Call Me.UpdateSlotLocation(currentMod, slotNo)
                             'MessageBox.Show("Changing to State: " & currentMod.ModuleState)
                         End If
                     End If

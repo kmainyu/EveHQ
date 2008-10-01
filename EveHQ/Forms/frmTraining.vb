@@ -86,7 +86,7 @@ Public Class frmTraining
             tTimeItem.Text = EveHQ.Core.SkillFunctions.TimeToString(tTime)
             newItem.SubItems.Add(tTimeItem)
             Dim qTime As Double = 0
-            If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = False Then
+            If EveHQ.Core.HQ.myPilot.Training = True And newQ.IncCurrentTraining = True Then
                 qTime = tTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
             Else
                 qTime = tTime
@@ -123,6 +123,7 @@ Public Class frmTraining
             newQTab.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
             Dim newLVQueue As New EveHQ.DragAndDropListView
             newLVQueue.Name = "Q" & newQ.Name
+            newLVQueue.IncludeCurrentTraining = newQ.IncCurrentTraining
             newLVQueue.FullRowSelect = True
             newLVQueue.View = View.Details
             newLVQueue.Location = New Point(3, 3)
@@ -680,34 +681,36 @@ Public Class frmTraining
     End Sub
 
     Public Sub UpdateTraining()
-        If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = False Then
+        'If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = False Then
+        If EveHQ.Core.HQ.myPilot.Training = True Then
             If Me.tabQueues.TabPages.Count > 1 Then
                 For Each tp As TabPage In Me.tabQueues.TabPages
                     If tp.Name <> "tabSummary" Then
                         Dim cLabel As Label = CType(Me.tabQueues.TabPages(tp.Name).Controls("T" & tp.Name), Label)
                         Dim cLVW As EveHQ.DragAndDropListView = CType(Me.tabQueues.TabPages(tp.Name).Controls("Q" & tp.Name), EveHQ.DragAndDropListView)
-
-                        If cLVW.Items.Count > 0 Then
-                            Dim myCurSkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.Skills)
-                            Dim clevel As Integer = EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                            Dim cTime As Double = EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-                            Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
-                            Dim endtime As Date = EveHQ.Core.HQ.myPilot.TrainingEndTime
-                            Dim percent As Integer = 0
-                            percent = CInt(Int((myCurSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
-
-                            cLVW.Items(cLVW.Tag.ToString).SubItems(4).Text = CStr(percent)
-                            cLVW.Items(cLVW.Tag.ToString).SubItems(5).Tag = cTime
-                            cLVW.Items(cLVW.Tag.ToString).SubItems(5).Text = strTime
-
-                            ' Calculate total time
+                        If cLVW.IncludeCurrentTraining = True Then
                             If cLVW.Items.Count > 0 Then
-                                Dim totalTime As Double = 0
-                                For count As Integer = 0 To cLVW.Items.Count - 1
-                                    totalTime += CLng(cLVW.Items(count).SubItems(5).Tag)
-                                Next
-                                cLabel.Tag = totalTime.ToString
-                                cLabel.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
+                                Dim myCurSkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.Skills)
+                                Dim clevel As Integer = EveHQ.Core.HQ.myPilot.TrainingSkillLevel
+                                Dim cTime As Double = EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                                Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
+                                Dim endtime As Date = EveHQ.Core.HQ.myPilot.TrainingEndTime
+                                Dim percent As Integer = 0
+                                percent = CInt(Int((myCurSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
+
+                                cLVW.Items(cLVW.Tag.ToString).SubItems(4).Text = CStr(percent)
+                                cLVW.Items(cLVW.Tag.ToString).SubItems(5).Tag = cTime
+                                cLVW.Items(cLVW.Tag.ToString).SubItems(5).Text = strTime
+
+                                ' Calculate total time
+                                If cLVW.Items.Count > 0 Then
+                                    Dim totalTime As Double = 0
+                                    For count As Integer = 0 To cLVW.Items.Count - 1
+                                        totalTime += CLng(cLVW.Items(count).SubItems(5).Tag)
+                                    Next
+                                    cLabel.Tag = totalTime.ToString
+                                    cLabel.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
+                                End If
                             End If
                         End If
                     End If
@@ -734,7 +737,10 @@ Public Class frmTraining
                 Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
                 lvQueues.Items(newQ.Name).SubItems(2).Tag = tTime
                 lvQueues.Items(newQ.Name).SubItems(2).Text = (EveHQ.Core.SkillFunctions.TimeToString(tTime))
-                Dim qTime As Double = tTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                Dim qTime As Double = tTime
+                If newQ.IncCurrentTraining = True Then
+                    qTime = tTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                End If
                 lvQueues.Items(newQ.Name).SubItems(3).Tag = qTime
                 lvQueues.Items(newQ.Name).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(qTime)
                 Dim eTime As Date = Now.AddSeconds(tTime)
@@ -1215,6 +1221,9 @@ Public Class frmTraining
     Private Sub RedrawOptions()
         ' Determines what buttons and menus are available from the listview!
         If activeLVW IsNot Nothing Then
+            ' Check the queue status
+            btnICT.Checked = activeLVW.IncludeCurrentTraining
+            btnICT.Enabled = True
             If activeLVW.SelectedItems.Count <> 0 Then
                 Select Case activeLVW.SelectedItems.Count
                     Case 1
@@ -1292,7 +1301,7 @@ Public Class frmTraining
                         End If
 
                         ' Adjust for if the training skill
-                        If EveHQ.Core.HQ.myPilot.Training = True Then
+                        If EveHQ.Core.HQ.myPilot.Training = True And activeLVW.IncludeCurrentTraining = True Then
                             If activeLVW.SelectedItems(0).Index = 0 Then
                                 mnuIncreaseLevel.Enabled = False : btnLevelUp.Enabled = False
                                 mnuDecreaseLevel.Enabled = False : btnLevelDown.Enabled = False
@@ -1333,6 +1342,8 @@ Public Class frmTraining
             btnMoveDown.Enabled = False
             btnShowDetails.Enabled = False
             btnAddSkill.Enabled = False
+            btnICT.Checked = False
+            btnICT.Enabled = False
         End If
     End Sub
 
@@ -1814,6 +1825,7 @@ Public Class frmTraining
             EveHQ.Core.HQ.myPilot.ActiveQueue = activeQueue
             activeTime = CType(Me.tabQueues.TabPages(activeQueueName).Controls("T" & activeQueueName), Label)
             activeLVW = CType(Me.tabQueues.TabPages(activeQueueName).Controls("Q" & activeQueueName), EveHQ.DragAndDropListView)
+            activeLVW.IncludeCurrentTraining = aq.IncCurrentTraining
             Call RedrawOptions()
             tsQueueOptions.Enabled = True
             activeLVW.Select()
@@ -2518,4 +2530,13 @@ Public Class frmTraining
         End If
 
     End Sub
+
+    Private Sub btnICT_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnICT.CheckedChanged
+        activeLVW.IncludeCurrentTraining = btnICT.Checked
+        activeQueue.IncCurrentTraining = btnICT.Checked
+        If activeQueue.Name IsNot Nothing Then
+            RefreshTraining(activeQueue.Name)
+        End If
+    End Sub
+
 End Class

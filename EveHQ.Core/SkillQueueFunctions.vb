@@ -74,7 +74,7 @@ Public Class SkillQueueFunctions
         ' Add in the currently training skill if applicable
         Dim endtime As Date = Now
         Try
-            If qPilot.Training = True And EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = False Then
+            If qPilot.Training = True And bQueue.IncCurrentTraining = True Then
                 Dim mypos As Integer = 0
                 Dim mySkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(qPilot.TrainingSkillID), SkillList)
                 Dim clevel As Integer = qPilot.TrainingSkillLevel
@@ -144,7 +144,7 @@ Public Class SkillQueueFunctions
             Dim myTSkill As EveHQ.Core.SkillQueueItem
             ' Get starting point of time
             Try
-                If qPilot.Training = True And EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = False Then
+                If qPilot.Training = True And bQueue.IncCurrentTraining = True Then
                     If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(qPilot.TrainingEndTime) < Now Then
                         endtime = Now
                     Else
@@ -1273,7 +1273,7 @@ End Class
 Public Class SkillQueue
     Implements System.ICloneable
     Public Name As String
-    Public IncCurrentTraining As Boolean
+    Public IncCurrentTraining As Boolean = True
     Public Queue As New Collection
     Public Primary As Boolean
     Public QueueTime As Long

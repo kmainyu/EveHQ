@@ -85,7 +85,7 @@ Public Class DragAndDropListView
                     'msg &= "Destination: " & din & " (" & di & ")" & ControlChars.CrLf
                     'MessageBox.Show(msg)
 
-                    If EveHQ.Core.HQ.myPilot.Training = False Then
+                    If EveHQ.Core.HQ.myPilot.Training = False Or m_includeCurrentTrining = False Then
                         di += 1
                         si += 1
                     Else
@@ -245,9 +245,19 @@ Public Class DragAndDropListView
         End Set
     End Property
 
+    Public Property IncludeCurrentTraining() As Boolean
+        Get
+            Return Me.m_includeCurrentTrining
+        End Get
+        Set(ByVal value As Boolean)
+            Me.m_includeCurrentTrining = value
+        End Set
+    End Property
+
     ' Fields
     Private m_allowReorder As Boolean
     Private m_lineColor As Color
+    Private m_includeCurrentTrining As Boolean
     Private m_previousItem As ListViewItem
 
 End Class
