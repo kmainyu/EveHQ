@@ -236,6 +236,7 @@ Public Class frmSplash
             lblStatus.Text = "Checking for updates..."
             Me.Refresh()
             Dim myUpdater As New frmUpdater
+            myUpdater.startupTest = True
             myUpdater.ShowDialog()
         End If
     End Sub

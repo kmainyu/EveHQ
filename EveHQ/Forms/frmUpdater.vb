@@ -16,6 +16,7 @@ Public Class frmUpdater
     Dim filesRequired As New SortedList
     Dim filesComplete As New SortedList
     Dim DatabaseUpgradeAvailable As Boolean = False
+    Public startupTest As Boolean = False
 
     Private Sub frmUpdater_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         tmrUpdate.Enabled = True
@@ -223,6 +224,9 @@ Public Class frmUpdater
                         lblUpdateStatus.Text = "Status: No Updates Required (Database Available)"
                     Else
                         lblUpdateStatus.Text = "Status: No Updates Required!"
+                        If startupTest = True Then
+                            Me.Close()
+                        End If
                     End If
                     btnRecheckUpdates.Enabled = True
                 End If

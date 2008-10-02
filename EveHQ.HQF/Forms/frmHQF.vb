@@ -2429,8 +2429,10 @@ Public Class frmHQF
             End If
             tabHQF.Tag = tabHQF.SelectedIndex
             btnCopy.Enabled = True
+            btnScreenshot.Enabled = True
         Else
             btnCopy.Enabled = False
+            btnScreenshot.Enabled = False
         End If
     End Sub
     Private Function TabControlHitTest(ByVal TabCtrl As TabControl, ByVal pt As Point) As Integer
@@ -2995,7 +2997,7 @@ Public Class frmHQF
 
 #Region "Menu & Button Routines"
 
-    Private Sub mnuScreenshot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuScreenshot.Click
+    Private Sub btnScreenshot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnScreenshot.Click
         ' Determine co-ords of current main panel
         Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
         Dim xy As Point = tp.PointToScreen(New Point(0, 0))

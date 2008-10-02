@@ -1532,9 +1532,9 @@ Partial Public Class frmSettings
         Me.gbTrainingQueue.Controls.Add(Me.chkContinueTraining)
         Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
         Me.gbTrainingQueue.Controls.Add(Me.clbColumns)
-        Me.gbTrainingQueue.Location = New System.Drawing.Point(194, 12)
+        Me.gbTrainingQueue.Location = New System.Drawing.Point(560, 231)
         Me.gbTrainingQueue.Name = "gbTrainingQueue"
-        Me.gbTrainingQueue.Size = New System.Drawing.Size(695, 497)
+        Me.gbTrainingQueue.Size = New System.Drawing.Size(138, 46)
         Me.gbTrainingQueue.TabIndex = 3
         Me.gbTrainingQueue.TabStop = False
         Me.gbTrainingQueue.Text = "Training Queue"
@@ -3087,9 +3087,9 @@ Partial Public Class frmSettings
         Me.gbMarketPrices.Controls.Add(Me.lblLastUpdateTime)
         Me.gbMarketPrices.Controls.Add(Me.lblLastUpdate)
         Me.gbMarketPrices.Controls.Add(Me.btnUpdatePrices)
-        Me.gbMarketPrices.Location = New System.Drawing.Point(729, 218)
+        Me.gbMarketPrices.Location = New System.Drawing.Point(194, 12)
         Me.gbMarketPrices.Name = "gbMarketPrices"
-        Me.gbMarketPrices.Size = New System.Drawing.Size(94, 58)
+        Me.gbMarketPrices.Size = New System.Drawing.Size(696, 500)
         Me.gbMarketPrices.TabIndex = 31
         Me.gbMarketPrices.TabStop = False
         Me.gbMarketPrices.Text = "Market Prices"
@@ -3152,7 +3152,7 @@ Partial Public Class frmSettings
         Me.lvwPrices.Location = New System.Drawing.Point(6, 110)
         Me.lvwPrices.MultiSelect = False
         Me.lvwPrices.Name = "lvwPrices"
-        Me.lvwPrices.Size = New System.Drawing.Size(82, 0)
+        Me.lvwPrices.Size = New System.Drawing.Size(684, 378)
         Me.lvwPrices.TabIndex = 7
         Me.lvwPrices.UseCompatibleStateImageBehavior = False
         Me.lvwPrices.View = System.Windows.Forms.View.Details
@@ -3305,11 +3305,11 @@ Partial Public Class frmSettings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbMarketPrices)
         Me.Controls.Add(Me.gbColours)
+        Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbGeneral)
-        Me.Controls.Add(Me.gbMarketPrices)
         Me.Controls.Add(Me.gbTaskbarIcon)
         Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbPilots)

@@ -1622,13 +1622,13 @@ Public Class Engine
                         cModule = newShip.RigSlot(slot)
                 End Select
                 If cModule IsNot Nothing Then
-                    If cModule.DatabaseGroup = "40" Then
+                    If cModule.DatabaseGroup = "40" And (cModule.ModuleState And 12) = cModule.ModuleState Then
                         sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
                     End If
-                    If cModule.DatabaseGroup = "62" Then
+                    If cModule.DatabaseGroup = "62" And (cModule.ModuleState And 12) = cModule.ModuleState Then
                         aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
                     End If
-                    If cModule.DatabaseGroup = "63" Then
+                    If cModule.DatabaseGroup = "63" And (cModule.ModuleState And 12) = cModule.ModuleState Then
                         hR = hR + CDbl(cModule.Attributes("83")) / CDbl(cModule.Attributes("73"))
                     End If
                 End If

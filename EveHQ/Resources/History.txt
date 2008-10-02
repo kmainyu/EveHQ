@@ -1,6 +1,31 @@
 EveHQ - Version History
 -----------------------
 
+1.7.4.130 (02/10/2008)
+---------
+Fixes and Improvements:
+- Core: Fixed the refresh rate of the pop-up form causing display issues
+- Core: NewCharacterXML Report now outputs the clone details
+- Core: Fixed case of text in the SQL for generating the Asteroid and Ice reports (fails with MSSQL)
+- Core: Errors in Market Price Feeds now caught and rogue files now deleted
+- Core: Added a "Clear Cache" option to the Tools menu
+- Core: Updated median price feed to use the one from the EveHQ website
+- Core: Homer has become more vocal when an error occurs
+- Core: After an update, EveHQ will no longer ask you to restart, just to close
+- Core: Only one instance of EveHQ is allowed to run at a time
+- Core: EveHQ Updater will notify user of a new database version available
+- Core: Reorganised buttons in Training screen to fit to smaller resolutions
+- Core: Removed the "Include Training" setting from the Training Queue options and implemented this on a per-queue basis in the Training screen
+- Core: "Move Up" and "Move Down" buttons in the Training screen are now correctly enabled/disabled if the "Include Training" option is enabled
+- Core: Drag and drop of skills in the training queue now work correctly if the "Include Training" option is enabled
+- Core: Fixed anchoring of the market prices grid in settings
+- Core: EveHQ Updater will close automatically if no updates are detected at startup
+- CorpHQ: Duplicate names should no longer appear in the Standings Owner dropdown
+- CorpHQ: A warning message will now appear if something goes wrong with the cache file parsing
+- Creation: New characters for import into EveHQ are given the basic clone
+- HQF: Numerous fixes and improvements - see http://www.evehq.net/e107_plugins/smf/smf.php?topic=2758.0 for details
+
+
 1.7.3.115 (21/09/2008)
 --------
 New Features:
