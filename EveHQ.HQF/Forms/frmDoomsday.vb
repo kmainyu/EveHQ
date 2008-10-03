@@ -58,8 +58,8 @@ Public Class frmDoomsday
 
         ' EM Resists
         effShield = cShipType.ShieldCapacity * (100 / (100 - cShipType.ShieldEMResist))
-        effArmor = cShipType.ShieldCapacity * (100 / (100 - cShipType.ArmorEMResist))
-        effStructure = cShipType.ShieldCapacity * (100 / (100 - cShipType.StructureEMResist))
+        effArmor = cShipType.ArmorCapacity * (100 / (100 - cShipType.ArmorEMResist))
+        effStructure = cShipType.StructureCapacity * (100 / (100 - cShipType.StructureEMResist))
         effTotal = effShield + effArmor + effStructure
         residual = effTotal - damage
         newDD = New ListViewItem
@@ -80,8 +80,8 @@ Public Class frmDoomsday
 
         ' Explosive Resists
         effShield = cShipType.ShieldCapacity * (100 / (100 - cShipType.ShieldExResist))
-        effArmor = cShipType.ShieldCapacity * (100 / (100 - cShipType.ArmorExResist))
-        effStructure = cShipType.ShieldCapacity * (100 / (100 - cShipType.StructureExResist))
+        effArmor = cShipType.ArmorCapacity * (100 / (100 - cShipType.ArmorExResist))
+        effStructure = cShipType.StructureCapacity * (100 / (100 - cShipType.StructureExResist))
         effTotal = effShield + effArmor + effStructure
         residual = effTotal - damage
         newDD = New ListViewItem
@@ -102,8 +102,8 @@ Public Class frmDoomsday
 
         ' Kinetic Resists
         effShield = cShipType.ShieldCapacity * (100 / (100 - cShipType.ShieldKiResist))
-        effArmor = cShipType.ShieldCapacity * (100 / (100 - cShipType.ArmorKiResist))
-        effStructure = cShipType.ShieldCapacity * (100 / (100 - cShipType.StructureKiResist))
+        effArmor = cShipType.ArmorCapacity * (100 / (100 - cShipType.ArmorKiResist))
+        effStructure = cShipType.StructureCapacity * (100 / (100 - cShipType.StructureKiResist))
         effTotal = effShield + effArmor + effStructure
         residual = effTotal - damage
         newDD = New ListViewItem
@@ -124,8 +124,8 @@ Public Class frmDoomsday
 
         ' Thermal Resists
         effShield = cShipType.ShieldCapacity * (100 / (100 - cShipType.ShieldThResist))
-        effArmor = cShipType.ShieldCapacity * (100 / (100 - cShipType.ArmorThResist))
-        effStructure = cShipType.ShieldCapacity * (100 / (100 - cShipType.StructureThResist))
+        effArmor = cShipType.ArmorCapacity * (100 / (100 - cShipType.ArmorThResist))
+        effStructure = cShipType.StructureCapacity * (100 / (100 - cShipType.StructureThResist))
         effTotal = effShield + effArmor + effStructure
         residual = effTotal - damage
         newDD = New ListViewItem
