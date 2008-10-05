@@ -1763,6 +1763,66 @@ Public Class Engine
         End If
         Return False
     End Function
+    Public Shared Function CalculateCapStatistics(ByVal baseShip As Ship) As Double
+        Dim CapacitorCapacity As Double = baseShip.CapCapacity
+        Dim Capacitor As Double = CapacitorCapacity
+        Dim currentTime, nextTime As Double
+        Dim RechargeRate As Double = baseShip.CapRecharge
+        Dim capConstant As Double = (RechargeRate / 5.0)
+        Dim maxTime As Double = 3600 ' an hour
+
+        ' Populate the module list
+        Dim modCount As Integer = 0
+        Dim shipMods(24, 2) As Double
+        For slot As Integer = 1 To baseShip.HiSlots
+            If baseShip.HiSlot(slot) IsNot Nothing Then
+                If baseShip.HiSlot(slot).CapUsage <> 0 And (baseShip.HiSlot(slot).ModuleState Or 12) = 12 Then
+                    shipMods(modCount, 0) = baseShip.HiSlot(slot).CapUsage
+                    shipMods(modCount, 1) = baseShip.HiSlot(slot).ActivationTime + CDbl(baseShip.HiSlot(slot).Attributes("10011")) + CDbl(baseShip.HiSlot(slot).Attributes("10012"))
+                    modCount += 1
+                End If
+            End If
+        Next
+        For slot As Integer = 1 To baseShip.MidSlots
+            If baseShip.MidSlot(slot) IsNot Nothing Then
+                If baseShip.MidSlot(slot).CapUsage <> 0 And (baseShip.MidSlot(slot).ModuleState Or 12) = 12 Then
+                    shipMods(modCount, 0) = baseShip.MidSlot(slot).CapUsage
+                    shipMods(modCount, 1) = baseShip.MidSlot(slot).ActivationTime
+                    modCount += 1
+                End If
+            End If
+        Next
+        For slot As Integer = 1 To baseShip.LowSlots
+            If baseShip.LowSlot(slot) IsNot Nothing Then
+                If baseShip.LowSlot(slot).CapUsage <> 0 And (baseShip.LowSlot(slot).ModuleState Or 12) = 12 Then
+                    shipMods(modCount, 0) = baseShip.LowSlot(slot).CapUsage
+                    shipMods(modCount, 1) = baseShip.LowSlot(slot).ActivationTime
+                    modCount += 1
+                End If
+            End If
+        Next
+
+        ' Do the calculations
+        While ((Capacitor > 0.0) And (nextTime < maxTime))
+            Capacitor = (((1.0 + ((Math.Sqrt((Capacitor / CapacitorCapacity)) - 1.0) * Math.Exp(((currentTime - nextTime) / capConstant)))) ^ 2) * CapacitorCapacity)
+            currentTime = nextTime
+            nextTime = maxTime
+            For sm As Integer = 0 To modCount - 1
+                If (shipMods(sm, 2) = currentTime) Then
+                    shipMods(sm, 2) += shipMods(sm, 1)
+                    Capacitor -= shipMods(sm, 0)
+                End If
+                nextTime = Math.Min(nextTime, shipMods(sm, 2))
+            Next
+        End While
+
+        ' Return the result
+        If Capacitor > 0 Then
+            Return Capacitor
+        Else
+            Return -currentTime
+        End If
+    End Function
 #End Region
 
 #Region "Fitting Routines"

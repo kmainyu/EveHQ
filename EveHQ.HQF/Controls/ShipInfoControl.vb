@@ -87,6 +87,7 @@ Public Class ShipInfoControl
     Private Sub UpdateInfoDisplay()
         ' Update the display with the information about the (fitted) ship
         Dim ttt As String = "" ' Fot tool tip text!
+        Dim ccc As Double = 0 ' For capacitor sustainability
 
         ' CPU
         If fittedShip.CPU > 0 Then
@@ -217,6 +218,12 @@ Public Class ShipInfoControl
         lblCapPeak.Text = FormatNumber(HQF.Settings.HQFSettings.CapRechargeConstant * fittedShip.CapCapacity / fittedShip.CapRecharge, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " F/s"
         lblCapBalP.Text = "+" & FormatNumber((CDbl(fittedShip.Attributes("10050")) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * fittedShip.CapCapacity / fittedShip.CapRecharge), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblCapBalN.Text = "- " & FormatNumber(fittedShip.Attributes("10049"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        ccc = Engine.CalculateCapStatistics(fittedShip)
+        If ccc > 0 Then
+            gbCapacitor.Text = "Capacitor (Stable at " & FormatNumber(ccc / fittedShip.CapCapacity * 100, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+        Else
+            gbCapacitor.Text = "Capacitor (Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-ccc) & ")"
+        End If
 
         ' Propulsion
         lblSpeed.Text = FormatNumber(fittedShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"

@@ -110,8 +110,8 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.4.132</version>
-			<requires>1.7.4.132</requires>
+			<version>1.7.4.133</version>
+			<requires>1.7.4.133</requires>
 			<description>Ship Fitting Plug-in</description>
 		</file>
 	</files>

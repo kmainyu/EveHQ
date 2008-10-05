@@ -97,9 +97,12 @@
 851,1,21802,6,4,778,0,1,0,0,Capital Shield Operation
 958,1,12365,984,2,295,0,1,0,0,EM Shield Compensation - Passive
 988,1,12365,994,2,77,0,1,4,0,EM Shield Compensation - Active
-317,1,3423,6,4,695,0,1,0,0,Energy Emission Systems - Small
-317,1,3423,6,4,696,0,1,0,0,Energy Emission Systems - Medium
-317,1,3423,6,4,697,0,1,0,0,Energy Emission Systems - Large
+317,1,3423,6,4,689,0,1,0,0,Energy Emission Systems - Small Energy Neut
+317,1,3423,6,4,690,0,1,0,0,Energy Emission Systems - Medium Energy Neut
+317,1,3423,6,4,691,0,1,0,0,Energy Emission Systems - Large Energy Neut
+317,1,3423,6,4,695,0,1,0,0,Energy Emission Systems - Small Energy Transfer
+317,1,3423,6,4,696,0,1,0,0,Energy Emission Systems - Medium Energy Transfer
+317,1,3423,6,4,697,0,1,0,0,Energy Emission Systems - Large Energy Transfer
 310,1,3424,50,5,3424,0,1,0,0,Energy Grid Upgrades
 1079,1,3418,482,3,6,0,1,0,0,Energy Management
 66,1,3421,73,2,72,0,1,0,0,Energy Pulse Weapons
