@@ -6,5 +6,5 @@
     Public Shared moduleEffectData As DataSet
     Public Shared moduleAttributeData As DataSet
     Public Shared UseSerializableData As Boolean = False
-    Public Shared LastCacheRefresh As String = "1.7.3.117"
+    Public Shared LastCacheRefresh As String = "1.7.4.134"
 End Class

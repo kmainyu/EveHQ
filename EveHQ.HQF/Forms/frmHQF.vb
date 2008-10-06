@@ -937,7 +937,7 @@ Public Class frmHQF
                     pSkillName = "" : sSkillName = "" : tSkillName = ""
                 End If
                 ' Now get, modify (if applicable) and add the "attribute"
-                If IsDBNull(modRow.Item("valueInt")) = True Then
+                If IsDBNull(modRow.Item("valueFloat")) = False Then
                     attValue = CDbl(modRow.Item("valueFloat"))
                 Else
                     attValue = CDbl(modRow.Item("valueInt"))

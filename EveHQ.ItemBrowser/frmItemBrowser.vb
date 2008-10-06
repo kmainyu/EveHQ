@@ -265,7 +265,7 @@ Public Class frmItemBrowser
                 Case Else
                     compAttID = eveData.Tables(0).Rows(row).Item("attributeID")
             End Select
-            If IsDBNull(eveData.Tables(0).Rows(row).Item("valueInt")) = True Then
+            If IsDBNull(eveData.Tables(0).Rows(row).Item("valueFloat")) = False Then
                 compValue = eveData.Tables(0).Rows(row).Item("valueFloat")
             Else
                 compValue = eveData.Tables(0).Rows(row).Item("valueInt")
@@ -751,7 +751,7 @@ Public Class frmItemBrowser
                 Else
                     attributes(attNo, 2) = eveData.Tables(0).Rows(row).Item("attributeDisplayName").ToString.Trim
                 End If
-                If IsDBNull(eveData.Tables(0).Rows(row).Item("valueInt")) = True Then
+                If IsDBNull(eveData.Tables(0).Rows(row).Item("valueFloat")) = False Then
                     attributes(attNo, 3) = eveData.Tables(0).Rows(row).Item("valueFloat")
                 Else
                     attributes(attNo, 3) = eveData.Tables(0).Rows(row).Item("valueInt")
@@ -1839,10 +1839,10 @@ Public Class frmItemBrowser
             Dim lstItem As New ListViewItem
             lstItem.Text = itemName
             lstItem.Name = itemID
-            If IsDBNull(eveData.Tables(0).Rows(item).Item("valueFloat")) = True Then
-                itemValue = eveData.Tables(0).Rows(item).Item("valueInt")
-            Else
+            If IsDBNull(eveData.Tables(0).Rows(item).Item("valueFloat")) = False Then
                 itemValue = eveData.Tables(0).Rows(item).Item("valueFloat")
+            Else
+                itemValue = eveData.Tables(0).Rows(item).Item("valueInt")
             End If
             lstItem.ToolTipText = itemName & " - " & itemValue
             lstItem.SubItems.Add(itemValue)
