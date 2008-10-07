@@ -34,12 +34,6 @@
         "Entry"
         {
         "MsmKey" = "8:_31CEDDBB3F0684100624B560521D4C94"
-        "OwnerKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_31CEDDBB3F0684100624B560521D4C94"
         "OwnerKey" = "8:_F5C3A3E0189842F09E8C917B2B37561B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -53,6 +47,12 @@
         {
         "MsmKey" = "8:_31CEDDBB3F0684100624B560521D4C94"
         "OwnerKey" = "8:_B7300576CE0F4262B3A8D7EE59B06197"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_31CEDDBB3F0684100624B560521D4C94"
+        "OwnerKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -106,12 +106,6 @@
         "Entry"
         {
         "MsmKey" = "8:_4097A4571739E97CFC38A5F4DE68DC5D"
-        "OwnerKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4097A4571739E97CFC38A5F4DE68DC5D"
         "OwnerKey" = "8:_F5C3A3E0189842F09E8C917B2B37561B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -125,6 +119,12 @@
         {
         "MsmKey" = "8:_4097A4571739E97CFC38A5F4DE68DC5D"
         "OwnerKey" = "8:_B7300576CE0F4262B3A8D7EE59B06197"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4097A4571739E97CFC38A5F4DE68DC5D"
+        "OwnerKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -154,12 +154,6 @@
         "Entry"
         {
         "MsmKey" = "8:_41CC4A9DFC17D12428166FEA6C23D93C"
-        "OwnerKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41CC4A9DFC17D12428166FEA6C23D93C"
         "OwnerKey" = "8:_F5C3A3E0189842F09E8C917B2B37561B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -173,6 +167,12 @@
         {
         "MsmKey" = "8:_41CC4A9DFC17D12428166FEA6C23D93C"
         "OwnerKey" = "8:_B7300576CE0F4262B3A8D7EE59B06197"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_41CC4A9DFC17D12428166FEA6C23D93C"
+        "OwnerKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -244,12 +244,6 @@
         "Entry"
         {
         "MsmKey" = "8:_E578E43E3A61DD768D329E848B43E985"
-        "OwnerKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E578E43E3A61DD768D329E848B43E985"
         "OwnerKey" = "8:_F5C3A3E0189842F09E8C917B2B37561B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -263,6 +257,12 @@
         {
         "MsmKey" = "8:_E578E43E3A61DD768D329E848B43E985"
         "OwnerKey" = "8:_B7300576CE0F4262B3A8D7EE59B06197"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E578E43E3A61DD768D329E848B43E985"
+        "OwnerKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -304,12 +304,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_C9AA9F84701A4C4A91F7823023D74CBF"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -317,6 +311,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_B7300576CE0F4262B3A8D7EE59B06197"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -557,7 +557,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=1.7.3.115, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=1.7.5.137, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_4097A4571739E97CFC38A5F4DE68DC5D"
@@ -639,7 +639,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=1.7.3.115, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=1.7.5.137, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E578E43E3A61DD768D329E848B43E985"
@@ -733,14 +733,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EveHQ"
-        "ProductCode" = "8:{CA93FB41-8831-4AFC-8710-D031672476D7}"
-        "PackageCode" = "8:{35A25525-0061-49B6-A3D8-59BA145534A5}"
+        "ProductCode" = "8:{EADCA5DD-70D3-4CAD-AA82-BDE5B978C9C2}"
+        "PackageCode" = "8:{21D34C74-4017-44D2-8501-12910AE9A9B3}"
         "UpgradeCode" = "8:{5EBB0328-70C2-4A58-A4AC-225419B25E51}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.7.3"
+        "ProductVersion" = "8:1.7.5"
         "Manufacturer" = "8:Indicium Technologies"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

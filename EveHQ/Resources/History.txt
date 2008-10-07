@@ -1,6 +1,28 @@
 EveHQ - Version History
 -----------------------
 
+1.7.5.137 (07/10/2008)
+---------
+Fixes and Improvements:
+- Core: Anti-Explosive Pump II is now given the correct metaType variation in the database
+- Core: Added Alloys to the list of refinable materials in the database
+- Core: Added a new HTML Report - Alloy Composition
+- Core: Added the Alloy Composition Report to the IGB
+- Core: Corrected the EveHQ Database version check and made active from v1.7.5+
+- Core: New database released from the EA 1.1.1 patch
+- Item Browser: Fixed attribute parsing caused by duplicate values in the CCP data
+- DataConverter: Added Alloys to the list of refinable materials
+- DataConverter: Added a file compression tool and new option to convert the CCP MSSQL export into TSQL
+- HQF: Fixed bug in calculating effective armor HP and structure HP in the DDD check
+- HQF: Added capacitor stability figures into the Ship Information
+- HQF: Energy Emissions skill now affects Energy Neutralizers
+- HQF: Fixed ROF Bonus on various ships pointing to wrong attribute
+- HQF: Fixed ROF Bonus on various ships being a Role bonus when it should be a per level bonus
+- HQF: Fixed attribute parsing caused by duplicate values in the CCP data
+- HQF: Fixed hybrid turret damage bonus on Megathron and Hyperion
+- HQF: Cargo and Drone bay capacities now update after adding modules/drones
+
+
 1.7.4.130 (02/10/2008)
 ---------
 Fixes and Improvements:

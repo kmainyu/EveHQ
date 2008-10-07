@@ -5,21 +5,21 @@
 		<file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-			<version>1.7.5.135</version>
+			<version>1.7.5.137</version>
 			<requires></requires>
 			<description>EveHQ Executable</description>
 		</file>
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-			<version>1.7.5.135</version>
+			<version>1.7.5.137</version>
 			<requires></requires>
 			<description>EveHQ Core Library</description>
 		</file>
 		<file>
 			<name>EveHQ.CoreControls.dll</name>
 			<type>Required</type>
-			<version>1.7.5.135</version>
+			<version>1.7.5.137</version>
 			<requires></requires>
 			<description>EveHQ Controls Library</description>
 		</file>
@@ -68,8 +68,8 @@
 		<file_t>
 			<name>EveHQ.DataConverter.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.5.135</version>
-			<requires>1.7.5.135</requires>
+			<version>1.7.5.137</version>
+			<requires>1.7.5.137</requires>
 			<description>Data Converter Plug-in</description>
 		</file_t>
 		<file>
@@ -89,8 +89,8 @@
 		<file>
 			<name>EveHQ.ItemBrowser.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.5.135</version>
-			<requires>1.7.5.135</requires>
+			<version>1.7.5.137</version>
+			<requires>1.7.5.137</requires>
 			<description>Item Browser Plug-in</description>
 		</file>
 		<file>
@@ -103,13 +103,13 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.5.135</version>
-			<requires>1.7.5.135</requires>
+			<version>1.7.5.137</version>
+			<requires>1.7.5.137</requires>
 			<description>Ship Fitting Plug-in</description>
 		</file>
 	</files>
 	<database>
-		<version>1.7.5.1</version>
+		<version>1.7.5.0</version>
 		<description>EveHQ Access Database</description>
 	</database>
 </eveHQUpdate>
