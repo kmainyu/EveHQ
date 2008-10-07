@@ -129,21 +129,39 @@ Public Class frmUpdater
                 msg &= "LgLcd.dll (Not Present)" & ControlChars.CrLf
             End If
             ' Try and add the database version (if using Access)
+            Dim DBData As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/database")
+            Dim localDBVersion As String = ""
+            Dim remoteDBVersion As String = ""
+            If DBData.Count > 0 Then
+                remoteDBVersion = DBData(0).ChildNodes(0).InnerText
+            End If
             If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
                 Dim databaseData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM EveHQVersion;")
                 If databaseData IsNot Nothing Then
                     If databaseData.Tables(0).Rows.Count > 0 Then
-                        CurrentComponents.Add("EveHQ.mdb", databaseData.Tables(0).Rows(0).Item("Version"))
+                        localDBVersion = databaseData.Tables(0).Rows(0).Item("Version").ToString
+                        If IsUpdateAvailable(localDBVersion, remoteDBVersion) = True Then
+                            DatabaseUpgradeAvailable = True
+                        Else
+                            DatabaseUpgradeAvailable = False
+                        End If
                     Else
-                        CurrentComponents.Add("EveHQ.mdb", "1.0.0.0")
+                        If remoteDBVersion <> "" Then
+                            DatabaseUpgradeAvailable = True
+                        Else
+                            DatabaseUpgradeAvailable = False
+                        End If
                     End If
                 Else
-                    CurrentComponents.Add("EveHQ.mdb", "1.0.0.0")
+                    If remoteDBVersion <> "" Then
+                        DatabaseUpgradeAvailable = True
+                    Else
+                        DatabaseUpgradeAvailable = False
+                    End If
                 End If
             Else
-                CurrentComponents.Add("EveHQ.mdb", "Not Used")
+                DatabaseUpgradeAvailable = False
             End If
-            'MessageBox.Show(msg, "Assembly List", MessageBoxButtons.OK, MessageBoxIcon.Information)
             ' Try parsing the update file 
             lblUpdateStatus.Text = "Status: Parsing update file..."
             Try
@@ -163,29 +181,25 @@ Public Class frmUpdater
                     If CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)) IsNot Nothing Then
                         ' Check which is the later version
                         If IsUpdateAvailable(CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)), updateFile.ChildNodes(2).InnerText) = True Then
-                            If newFile.Text = "EveHQ.mdb" Then
-                                DatabaseUpgradeAvailable = True
+                            newFile.ForeColor = Color.Red
+                            Dim chkDownload As New CheckBox
+                            chkDownload.Name = newFile.Text
+                            chkDownload.Size = New Size(14, 14)
+                            If newFile.SubItems(1).Text = "Required" Then
+                                chkDownload.Enabled = False
                             Else
-                                newFile.ForeColor = Color.Red
-                                Dim chkDownload As New CheckBox
-                                chkDownload.Name = newFile.Text
-                                chkDownload.Size = New Size(14, 14)
-                                If newFile.SubItems(1).Text = "Required" Then
-                                    chkDownload.Enabled = False
-                                Else
-                                    chkDownload.Enabled = True
-                                End If
-                                chkDownload.Checked = True
-                                newFile.SubItems(4).ItemControl = chkDownload
-                                newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-                                Dim pbProgress As New ProgressBar
-                                pbProgress.Name = newFile.Text
-                                pbProgress.Width = 190
-                                pbProgress.Height = 16
-                                newFile.SubItems(5).ItemControl = pbProgress
-                                pbControls.Add(newFile.Text, pbProgress)
-                                UpdateRequired = True
+                                chkDownload.Enabled = True
                             End If
+                            chkDownload.Checked = True
+                            newFile.SubItems(4).ItemControl = chkDownload
+                            newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
+                            Dim pbProgress As New ProgressBar
+                            pbProgress.Name = newFile.Text
+                            pbProgress.Width = 190
+                            pbProgress.Height = 16
+                            newFile.SubItems(5).ItemControl = pbProgress
+                            pbControls.Add(newFile.Text, pbProgress)
+                            UpdateRequired = True
                         Else
                             Dim chkDownload As New CheckBox
                             chkDownload.Name = newFile.Text
@@ -198,22 +212,22 @@ Public Class frmUpdater
                             newFile.SubItems(5).Text = "Update Not Required"
                         End If
                     Else
-                    newFile.SubItems(2).Text = "New!!"
-                    newFile.ForeColor = Color.Red
-                    Dim chkDownload As New CheckBox
-                    chkDownload.Name = newFile.Text
-                    chkDownload.Size = New Size(14, 14)
-                    chkDownload.Enabled = True
-                    chkDownload.Checked = True
-                    newFile.SubItems(4).ItemControl = chkDownload
-                    newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-                    Dim pbProgress As New ProgressBar
-                    pbProgress.Name = newFile.Text
-                    pbProgress.Width = 190
-                    pbProgress.Height = 16
-                    newFile.SubItems(5).ItemControl = pbProgress
-                    pbControls.Add(newFile.Text, pbProgress)
-                    UpdateRequired = True
+                        newFile.SubItems(2).Text = "New!!"
+                        newFile.ForeColor = Color.Red
+                        Dim chkDownload As New CheckBox
+                        chkDownload.Name = newFile.Text
+                        chkDownload.Size = New Size(14, 14)
+                        chkDownload.Enabled = True
+                        chkDownload.Checked = True
+                        newFile.SubItems(4).ItemControl = chkDownload
+                        newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
+                        Dim pbProgress As New ProgressBar
+                        pbProgress.Name = newFile.Text
+                        pbProgress.Width = 190
+                        pbProgress.Height = 16
+                        newFile.SubItems(5).ItemControl = pbProgress
+                        pbControls.Add(newFile.Text, pbProgress)
+                        UpdateRequired = True
                     End If
                 Next
                 If UpdateRequired = True Then
@@ -286,11 +300,13 @@ Public Class frmUpdater
         filesComplete.Clear()
         For Each item As ContainerListViewItem In clvUpdates.Items
             Dim chkDownload As CheckBox = CType(item.SubItems(4).ItemControl, CheckBox)
-            If chkDownload.Checked = True Then
-                filesRequired.Add(item.Text, item)
-            Else
-                item.SubItems(5).ItemControl = Nothing
-                item.SubItems(5).Text = "Not selected for download"
+            If chkDownload IsNot Nothing Then
+                If chkDownload.Checked = True Then
+                    filesRequired.Add(item.Text, item)
+                Else
+                    item.SubItems(5).ItemControl = Nothing
+                    item.SubItems(5).Text = "Not selected for download"
+                End If
             End If
         Next
 

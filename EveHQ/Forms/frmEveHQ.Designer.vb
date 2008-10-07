@@ -68,6 +68,7 @@ Partial Public Class frmEveHQ
         Me.mnuBackup = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuToolsAPIChecker = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuToolsTriggerError = New System.Windows.Forms.ToolStripMenuItem
         Me.ClearEveHQCache = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuModules = New System.Windows.Forms.ToolStripMenuItem
         Me.NoModulesLoadedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -154,12 +155,12 @@ Partial Public Class frmEveHQ
         Me.tmrEveWindow = New System.Windows.Forms.Timer(Me.components)
         Me.ctxPlugin = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuLoadPlugin = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuToolsTriggerError = New System.Windows.Forms.ToolStripMenuItem
         Me.XPanderList1 = New EveHQ.XPanderList
         Me.XPPilots = New EveHQ.XPander
         Me.XPTraining = New EveHQ.XPander
         Me.lblTrainingStatus = New System.Windows.Forms.Label
         Me.XPModules = New EveHQ.XPander
+        Me.mnuReportAsteroidAlloys = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -507,6 +508,13 @@ Partial Public Class frmEveHQ
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
         Me.ToolStripMenuItem1.Size = New System.Drawing.Size(199, 6)
         '
+        'mnuToolsTriggerError
+        '
+        Me.mnuToolsTriggerError.Name = "mnuToolsTriggerError"
+        Me.mnuToolsTriggerError.Size = New System.Drawing.Size(202, 22)
+        Me.mnuToolsTriggerError.Text = "Trigger Error"
+        Me.mnuToolsTriggerError.Visible = False
+        '
         'ClearEveHQCache
         '
         Me.ClearEveHQCache.Name = "ClearEveHQCache"
@@ -544,7 +552,7 @@ Partial Public Class frmEveHQ
         'mnuRepCharSummary
         '
         Me.mnuRepCharSummary.Name = "mnuRepCharSummary"
-        Me.mnuRepCharSummary.Size = New System.Drawing.Size(190, 22)
+        Me.mnuRepCharSummary.Size = New System.Drawing.Size(189, 22)
         Me.mnuRepCharSummary.Text = "Character Summary"
         '
         'mnuReportsHTMLChar
@@ -552,7 +560,7 @@ Partial Public Class frmEveHQ
         Me.mnuReportsHTMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsCharCharsheet, Me.mnuReportCharTraintimes, Me.mnuReportTimeToLevel5, Me.mnureportCharSkillLevels, Me.mnuReportTrainingQueue, Me.mnuReportQueueShoppingList, Me.mnuReportSkillsAvailable, Me.mnuReportSkillsNotTrained, Me.mnuReportPartiallyTrainedSkills})
         Me.mnuReportsHTMLChar.Enabled = False
         Me.mnuReportsHTMLChar.Name = "mnuReportsHTMLChar"
-        Me.mnuReportsHTMLChar.Size = New System.Drawing.Size(190, 22)
+        Me.mnuReportsHTMLChar.Size = New System.Drawing.Size(189, 22)
         Me.mnuReportsHTMLChar.Text = "Character"
         '
         'mnuReportsCharCharsheet
@@ -611,27 +619,27 @@ Partial Public Class frmEveHQ
         '
         'mnuReportAsteroids
         '
-        Me.mnuReportAsteroids.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportAsteroidRocks, Me.mnuReportAsteroidIce})
+        Me.mnuReportAsteroids.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportAsteroidAlloys, Me.mnuReportAsteroidRocks, Me.mnuReportAsteroidIce})
         Me.mnuReportAsteroids.Name = "mnuReportAsteroids"
-        Me.mnuReportAsteroids.Size = New System.Drawing.Size(190, 22)
-        Me.mnuReportAsteroids.Text = "Asteroid Composition"
+        Me.mnuReportAsteroids.Size = New System.Drawing.Size(189, 22)
+        Me.mnuReportAsteroids.Text = "Material Composition"
         '
         'mnuReportAsteroidRocks
         '
         Me.mnuReportAsteroidRocks.Name = "mnuReportAsteroidRocks"
-        Me.mnuReportAsteroidRocks.Size = New System.Drawing.Size(123, 22)
+        Me.mnuReportAsteroidRocks.Size = New System.Drawing.Size(152, 22)
         Me.mnuReportAsteroidRocks.Text = "Asteroids"
         '
         'mnuReportAsteroidIce
         '
         Me.mnuReportAsteroidIce.Name = "mnuReportAsteroidIce"
-        Me.mnuReportAsteroidIce.Size = New System.Drawing.Size(123, 22)
+        Me.mnuReportAsteroidIce.Size = New System.Drawing.Size(152, 22)
         Me.mnuReportAsteroidIce.Text = "Ice"
         '
         'mnuReportSPSummary
         '
         Me.mnuReportSPSummary.Name = "mnuReportSPSummary"
-        Me.mnuReportSPSummary.Size = New System.Drawing.Size(190, 22)
+        Me.mnuReportSPSummary.Size = New System.Drawing.Size(189, 22)
         Me.mnuReportSPSummary.Text = "Skill Level Table"
         '
         'mnuReportsText
@@ -1062,13 +1070,6 @@ Partial Public Class frmEveHQ
         Me.mnuLoadPlugin.Size = New System.Drawing.Size(142, 22)
         Me.mnuLoadPlugin.Text = "Load Plug-in"
         '
-        'mnuToolsTriggerError
-        '
-        Me.mnuToolsTriggerError.Name = "mnuToolsTriggerError"
-        Me.mnuToolsTriggerError.Size = New System.Drawing.Size(202, 22)
-        Me.mnuToolsTriggerError.Text = "Trigger Error"
-        Me.mnuToolsTriggerError.Visible = False
-        '
         'XPanderList1
         '
         Me.XPanderList1.AutoScroll = True
@@ -1194,6 +1195,12 @@ Partial Public Class frmEveHQ
         Me.XPModules.TabIndex = 0
         Me.XPModules.Tag = 2
         Me.XPModules.TooltipText = Nothing
+        '
+        'mnuReportAsteroidAlloys
+        '
+        Me.mnuReportAsteroidAlloys.Name = "mnuReportAsteroidAlloys"
+        Me.mnuReportAsteroidAlloys.Size = New System.Drawing.Size(152, 22)
+        Me.mnuReportAsteroidAlloys.Text = "Alloys"
         '
         'frmEveHQ
         '
@@ -1365,5 +1372,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ClearEveHQCache As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuToolsTriggerError As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuReportAsteroidAlloys As System.Windows.Forms.ToolStripMenuItem
 
 End Class

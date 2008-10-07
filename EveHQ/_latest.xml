@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQUpdate>
-	<lastUpdated>15/05/2008 22:00:00</lastUpdated>
+	<lastUpdated>07/10/2008 22:00:00</lastUpdated>
 	<files>
 		<file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-			<version>1.7.4.130</version>
+			<version>1.7.5.135</version>
 			<requires></requires>
 			<description>EveHQ Executable</description>
 		</file>
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-			<version>1.7.4.130</version>
+			<version>1.7.5.135</version>
 			<requires></requires>
 			<description>EveHQ Core Library</description>
 		</file>
 		<file>
 			<name>EveHQ.CoreControls.dll</name>
 			<type>Required</type>
-			<version>1.7.4.130</version>
+			<version>1.7.5.135</version>
 			<requires></requires>
 			<description>EveHQ Controls Library</description>
 		</file>
@@ -44,13 +44,6 @@
 			<requires></requires>
 			<description>MySQL .Net Library</description>
 		</file>
-		<file_t>
-			<name>EveHQ.mdb</name>
-			<type>Database</type>
-			<version>1.7.4.0</version>
-			<requires>1.7.4.0</requires>
-			<description>EveHQ Access Database</description>
-		</file_t>
 		<file>
 			<name>EveHQ.Assets.dll</name>
 			<type>Plug-in</type>
@@ -75,8 +68,8 @@
 		<file_t>
 			<name>EveHQ.DataConverter.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.4.130</version>
-			<requires>1.7.4.130</requires>
+			<version>1.7.5.135</version>
+			<requires>1.7.5.135</requires>
 			<description>Data Converter Plug-in</description>
 		</file_t>
 		<file>
@@ -96,8 +89,8 @@
 		<file>
 			<name>EveHQ.ItemBrowser.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.3.115</version>
-			<requires>1.7.3.115</requires>
+			<version>1.7.5.135</version>
+			<requires>1.7.5.135</requires>
 			<description>Item Browser Plug-in</description>
 		</file>
 		<file>
@@ -110,9 +103,13 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.4.134</version>
-			<requires>1.7.4.134</requires>
+			<version>1.7.5.135</version>
+			<requires>1.7.5.135</requires>
 			<description>Ship Fitting Plug-in</description>
 		</file>
 	</files>
+	<database>
+		<version>1.7.5.1</version>
+		<description>EveHQ Access Database</description>
+	</database>
 </eveHQUpdate>

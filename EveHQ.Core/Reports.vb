@@ -1297,6 +1297,183 @@ Public Class Reports
 
 #End Region
 
+#Region "Alloy Reports"
+    Public Shared Sub GenerateAlloyReport()
+        Dim strHTML As String = ""
+
+        strHTML &= NonCharHTMLHeader("Alloy Composition Report", "")
+        strHTML &= AlloyReport(False)
+        strHTML &= HTMLFooter(False)
+
+        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\AlloyReport.html")
+        sw.Write(strHTML)
+        sw.Flush()
+        sw.Close()
+        strHTML = Nothing
+
+        ' Tidy up report variables
+        GC.Collect()
+    End Sub
+    Public Shared Function AlloyReport(ByVal forIGB As Boolean) As String
+        Dim strHTML As String = ""
+
+        Dim strSQL As String = ""
+        strSQL &= "SELECT invTypes.typeID, invTypes.typeName, (SELECT typeName FROM invTypes WHERE typeActivityMaterials.requiredTypeID=invTypes.typeID) AS Material, typeActivityMaterials.requiredTypeID, typeActivityMaterials.quantity, invGroups.groupID, invGroups.groupName, (SELECT icon FROM eveGraphics WHERE invTypes.graphicID=eveGraphics.graphicID) AS groupIcon, (SELECT (SELECT icon FROM eveGraphics WHERE eveGraphics.graphicID=invTypes.graphicID) FROM invTypes WHERE typeActivityMaterials.requiredTypeID=invTypes.typeID) AS typeIcon"
+        strSQL &= " FROM eveGraphics INNER JOIN (invGroups INNER JOIN (invTypes INNER JOIN typeActivityMaterials ON invTypes.typeID=typeActivityMaterials.typeID) ON invGroups.groupID=invTypes.groupID) ON eveGraphics.graphicID=invTypes.graphicID"
+        strSQL &= " WHERE((invGroups.groupID) = 355) And ((typeActivityMaterials.activityID) = 9)"
+        strSQL &= " ORDER BY invGroups.groupName, invTypes.typeName;"
+        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+
+        Dim oreMaterials(1, 12, 8) As String
+        Dim oreIcons(12, 12) As String
+        Dim oreID(12, 12) As String
+        Dim minIcons(8) As String
+        Dim minID(8) As String
+
+        Dim groupCount As Integer = 1
+        Dim lastGroup As String = eveData.Tables(0).Rows(0).Item("groupName").ToString.Trim
+        Dim typeCount As Integer = 1
+        Dim lastType As String = eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim
+        For ore As Integer = 0 To eveData.Tables(0).Rows.Count - 1
+            If eveData.Tables(0).Rows(ore).Item("typeName").ToString.Trim <> lastType Then
+                typeCount += 1
+                lastType = eveData.Tables(0).Rows(ore).Item("typeName").ToString.Trim
+            End If
+            If eveData.Tables(0).Rows(ore).Item("groupName").ToString.Trim <> lastGroup Then
+                groupCount += 1
+                typeCount = 1
+                lastGroup = eveData.Tables(0).Rows(ore).Item("groupName").ToString.Trim
+                lastType = eveData.Tables(0).Rows(ore).Item("typeName").ToString.Trim
+            End If
+            oreMaterials(groupCount, 0, 0) = eveData.Tables(0).Rows(ore).Item("groupName").ToString.Trim
+            oreMaterials(groupCount, typeCount, 0) = eveData.Tables(0).Rows(ore).Item("typeName").ToString.Trim
+            oreIcons(groupCount, typeCount) = eveData.Tables(0).Rows(ore).Item("groupIcon").ToString.Trim
+            oreID(groupCount, typeCount) = eveData.Tables(0).Rows(ore).Item("typeID").ToString
+            Select Case eveData.Tables(0).Rows(ore).Item("Material").ToString.Trim
+                Case "Tritanium"
+                    oreMaterials(groupCount, typeCount, 1) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
+                    minIcons(1) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
+                    minID(1) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                Case "Pyerite"
+                    oreMaterials(groupCount, typeCount, 2) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
+                    minIcons(2) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
+                    minID(2) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                Case "Mexallon"
+                    oreMaterials(groupCount, typeCount, 3) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
+                    minIcons(3) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
+                    minID(3) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                Case "Isogen"
+                    oreMaterials(groupCount, typeCount, 4) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
+                    minIcons(4) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
+                    minID(4) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                Case "Nocxium"
+                    oreMaterials(groupCount, typeCount, 5) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
+                    minIcons(5) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
+                    minID(5) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                Case "Zydrine"
+                    oreMaterials(groupCount, typeCount, 6) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
+                    minIcons(6) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
+                    minID(6) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                Case "Megacyte"
+                    oreMaterials(groupCount, typeCount, 7) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
+                    minIcons(7) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
+                    minID(7) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+                Case "Morphite"
+                    oreMaterials(groupCount, typeCount, 8) = eveData.Tables(0).Rows(ore).Item("quantity").ToString
+                    minIcons(8) = eveData.Tables(0).Rows(ore).Item("typeIcon").ToString.Trim
+                    minID(8) = eveData.Tables(0).Rows(ore).Item("requiredTypeID").ToString
+            End Select
+        Next
+
+        If forIGB = False Then
+
+            Dim iconLoc As String = "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/"
+            Dim iconLoc2 As String = "http://www.eve-online.com/bitmaps/icons/itemdb/black/32_32/"
+
+            strHTML &= "<table width=800px align=center>"
+            strHTML &= "<tr>"
+            strHTML &= "<td width=35px></td>"
+            strHTML &= "<td width=165px></td>"
+            For min As Integer = 1 To 8
+                strHTML &= "<td width=75px align=center><img src=" & iconLoc & "icon" & minIcons(min) & ".png></td>"
+            Next
+            strHTML &= "</tr>"
+            strHTML &= "<tr>"
+            strHTML &= "<td width=35px></td>"
+            strHTML &= "<td width=165px></td>"
+            strHTML &= "<td width=75px align=center>Tritanium</td>"
+            strHTML &= "<td width=75px align=center>Pyerite</td>"
+            strHTML &= "<td width=75px align=center>Mexallon</td>"
+            strHTML &= "<td width=75px align=center>Isogen</td>"
+            strHTML &= "<td width=75px align=center>Nocxium</td>"
+            strHTML &= "<td width=75px align=center>Zydrine</td>"
+            strHTML &= "<td width=75px align=center>Megacyte</td>"
+            strHTML &= "<td width=75px align=center>Morphite</td>"
+            strHTML &= "</tr>"
+
+            For groupType As Integer = 1 To 1
+                strHTML &= "<tr><td colspan=10 class=thead>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
+                For oreType As Integer = 1 To 12
+                    strHTML &= "<tr>"
+                    strHTML &= "<td width=35px>"
+                    strHTML &= "<img src='" & iconLoc2 & "icon" & oreIcons(groupType, oreType) & ".png'>"
+                    strHTML &= "</td>"
+                    strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
+                    For minType As Integer = 1 To 8
+                        strHTML &= "<td width=75px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"
+                    Next
+                    strHTML &= "</tr>"
+                Next
+            Next
+            strHTML &= "</table><br>"
+
+        Else
+
+            strHTML &= "<TABLE WIDTH=800px>"
+            strHTML &= "<TR>"
+            strHTML &= "<TD WIDTH=35px></TD>"
+            strHTML &= "<TD WIDTH=165px></TD>"
+            For min As Integer = 1 To 8
+                strHTML &= "<TD WIDTH=75px ALIGN=CENTER>"
+                strHTML &= "<IMG SRC=""TYPEICON:" & minID(min) & """ WIDTH=64 HEIGHT=64>"
+                strHTML &= "</TD>"
+            Next
+            strHTML &= "</TR>"
+            strHTML &= "<tr>"
+            strHTML &= "<td width=35px></td>"
+            strHTML &= "<td width=165px></td>"
+            strHTML &= "<td width=75px align=center>Tritanium</td>"
+            strHTML &= "<td width=75px align=center>Pyerite</td>"
+            strHTML &= "<td width=75px align=center>Mexallon</td>"
+            strHTML &= "<td width=75px align=center>Isogen</td>"
+            strHTML &= "<td width=75px align=center>Nocxium</td>"
+            strHTML &= "<td width=75px align=center>Zydrine</td>"
+            strHTML &= "<td width=75px align=center>Megacyte</td>"
+            strHTML &= "<td width=75px align=center>Morphite</td>"
+            strHTML &= "</tr>"
+
+            For groupType As Integer = 1 To 1
+                strHTML &= "<tr><td colspan=10 bgcolor=#444444>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
+                For oreType As Integer = 1 To 12
+                    strHTML &= "<tr>"
+                    strHTML &= "<td width=35px>"
+                    strHTML &= "<img src='typeicon:" & oreID(groupType, oreType) & "' width=32 height=32>"
+                    strHTML &= "</td>"
+                    strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
+                    For minType As Integer = 1 To 8
+                        strHTML &= "<td width=75px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"
+                    Next
+                    strHTML &= "</tr>"
+                Next
+            Next
+            strHTML &= "</TABLE><BR>"
+        End If
+
+        Return strHTML
+
+    End Function
+#End Region
+
 #Region "Asteroid Reports"
 
     Public Shared Sub GenerateRockReport()

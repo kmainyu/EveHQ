@@ -146,15 +146,15 @@
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAfFJREFUOE/F0t9L
-        01EYx3H/kSCC6KbLIIj+BS/GVq7ULXNKspXOtcG2WIQMA2mE2CSpcLk2vm5KDVdNVwuy0JRGK3XOVRdt
-        6UyKyqv94N3O9xu7aOuiuuiBz82B8zrPec5pavrXUvVJxitT2V1nMIsjUI0/g/12Gtv4CtZbb7DcTNE/
-        lqTv+kt6vUuYRhZxeOd3xT75bHc4WRmObfGn6biaqMiAOPlv0j30BBlw+DfIsMKGnFWyrPGOdXQhDfHM
-        Q7a/FyhVSvxanYOPFMA+sV4D0pXXDDx3ysAxXzOx1SiFb1sNgVPu2Z9AdWCiAxFzrAedpCGxPUunv5Vo
-        KkLhaxUo13egu/RAAcS0xWbrnInz94244jZax9UYgwaiyQibXzYplot1V2hzRRVAPNXpsBbzTA/eZQ/D
-        S0N4Fgbp8umZXgzz8XO+YQcnL0QUwHLjldxBt6THEGhH79NyxHWI9rEWQs8kcju5hoDWcVcBekeXazPQ
-        XGvm6MXDvK+uHDx7gPD8JPmdPMVS/RU01rACnBt5UQPWyil0oydkYH/XPgKJO+Q+fWjYgdoyqQCm4YUa
-        IP7BW9IysFe3B3984reAql9SAJU5KJ3xPEX8LMPlx3S459APxGhzzSAGpXXeo8U+zXHbFBprCLVFQmUW
-        CUoy8N/rB/L7bYtKiOUeAAAAAElFTkSuQmCC
+        01EYx3H/kSCC6KbLIIj+BS/GVq7UzXJKspXOtcG2WIQMA2mE2CSpcLk2vm5KDVdNVwuy0BSllTrnyou2
+        dCZF5dV+8G7n+41dtHVRXfTA5+bAeZ3nPOc0NPxrqXok47WJzJ4zmMERqMSfxn43hW10Beudt1huJ+kd
+        Wabn5hLd3gVMQ/M4vLN7Yp98tju8VB6MbfOnabueKMuAOPlv0jnwDBlw+DdIs8KGnFUyrPGedXQhDfH0
+        Y3a+5ymWi/xa7f1PFMA+tl4FUuU39L10ysAJXyOx1Sj5b9t1gTb39E+gMjDRgYg51oVO0pDYmabd30w0
+        GSH/tQKUajvQXXmkAGLaYrN1xsTFh0ZccRvNo2qMQQPR5QhbX7YolAo1V2hxRRVAPNXZsBbzVBfeRQ+D
+        CwN45vrp8OmZnA/z8XOubgenL0UUwHLrtdxBp6THEGhF79NyzHWE1pEmQi8ksrvZuoDWcV8BuocXqzPQ
+        3Gjk+OWjbFZWDp8/RHh2nNxujkKx9goaa1gBLgy9qgJrpSS64VMycLDjAIHEPbKfPtTtQG0ZVwDT4FwV
+        EP/gHSkZ2K/bhz8+9ltA1SspgMoclM55niN+luHqU864Z9D3xWhxTSEGpXU+oMk+yUnbBBprCLVFQmUW
+        CUoy8N/rB+wbbYlXOUfQAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="tsbRetrieveData.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -606,6 +606,15 @@
   </metadata>
   <metadata name="ctxPlugin.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>593, 54</value>
+  </metadata>
+  <metadata name="XPPilots.ExpandedHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>177</value>
+  </metadata>
+  <metadata name="XPTraining.ExpandedHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>107</value>
+  </metadata>
+  <metadata name="XPModules.ExpandedHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>150</value>
   </metadata>
   <metadata name="XPPilots.ExpandedHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>177</value>

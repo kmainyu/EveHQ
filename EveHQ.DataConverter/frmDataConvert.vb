@@ -26,6 +26,7 @@ Imports System.Data.Odbc
 Imports MySql.Data.MySqlClient
 Imports System.Data.SqlClient
 Imports System.IO.Compression
+Imports System.Text
 
 Public Class frmDataConvert
     Implements EveHQ.Core.IEveHQPlugIn
@@ -49,6 +50,7 @@ Public Class frmDataConvert
     Dim password As String
     Dim conversionSuccess As Boolean = False
     Dim fileList As New ArrayList
+    Dim DBVersion As String = "1.7.5.0"
 
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
         Return True
@@ -718,6 +720,7 @@ Public Class frmDataConvert
         Call AddMDBRefiningData()
         Call AddMDBAttributeGroupColumn()
         Call CorrectMDBEveUnits()
+        Call AddMDBVersionTable()
         conversionSuccess = True
 
     End Sub
@@ -812,6 +815,20 @@ Public Class frmDataConvert
         connection.Open()
         Dim strSQL As String = "UPDATE dgmAttributeTypes SET unitID=122 WHERE unitID IS NULL;"
         Dim keyCommand As New OleDbCommand(strSQL, connection)
+        keyCommand.ExecuteNonQuery()
+        connection.Close()
+    End Sub
+    Private Sub AddMDBVersionTable()
+        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
+        connection.Open()
+        ' Create the table
+        Dim strSQL As String = "CREATE TABLE EveHQVersion (Version  text(10)  NOT NULL);"
+        Dim keyCommand As New OleDbCommand(strSQL, connection)
+        keyCommand.ExecuteNonQuery()
+        ' Add the version
+        strSQL = "INSERT INTO EveHQVersion (Version) VALUES('" & DBVersion & "');"
+        keyCommand = New OleDbCommand(strSQL, connection)
         keyCommand.ExecuteNonQuery()
         connection.Close()
     End Sub
@@ -1365,5 +1382,152 @@ Public Class frmDataConvert
 
 #End Region
 
-   
+#Region "SQL2TSQL Routines"
+    Private Sub btnTestConnection_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTestConnection.Click
+        Dim strConnection As String = "Server=" & txtSQLServer.Text & "; Database = " & txtDatabase.Text & "; Integrated Security = SSPI;"
+        Dim connection As New SqlConnection(strConnection)
+        Try
+            connection.Open()
+            connection.Close()
+            MessageBox.Show("Successfully connected to " & txtDatabase.Text & " on " & txtSQLServer.Text, "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error Opening " & txtDatabase.Text & " on " & txtSQLServer.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+    Private Sub btnConvertSQL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConvertSQL.Click
+        ' Set the connection string for later
+        Dim strConnection As String = "Server=" & txtSQLServer.Text & "; Database = " & txtDatabase.Text & "; Integrated Security = SSPI;"
+        ' Call the Conversion routines!
+        Call Me.ConvertData(strConnection)
+    End Sub
+    Private Sub ConvertData(ByVal strConnection As String)
+
+        Dim dataTables As New ArrayList
+        Dim dataCols As New ArrayList
+        Dim dataColTypes As New SortedList
+        Dim strData As New StringBuilder
+        Dim strItem As String = ""
+
+        ' Stage 1: See if we can analyse the DB and determine what tables we have
+        lblSQLConversionProgress.Text = "Analysing data tables..." : Me.Refresh()
+        Dim tableSQL As String = "select TABLE_NAME from INFORMATION_SCHEMA.TABLES order by TABLE_NAME"
+        Dim tableData As DataSet = GetData(tableSQL, strConnection)
+        If tableData IsNot Nothing Then
+            'MessageBox.Show("There are " & tableData.Tables(0).Rows.Count & " tables in this database.", "Found database schema", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            dataTables.Clear()
+            For Each tableRow As DataRow In tableData.Tables(0).Rows
+                dataTables.Add(tableRow.Item("TABLE_NAME").ToString)
+            Next
+        End If
+        tableData = Nothing
+
+        ' Stage 2: Cycle through each table, reading the columns and parsing the data
+        Dim total As Integer = dataTables.Count
+        Dim count As Integer = 0
+        For Each DataTable As String In dataTables
+            ' Get the column details
+            count += 1
+            Dim colSQL As String = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = """ & DataTable & """;"
+            lblSQLConversionProgress.Text = "Converting table data for '" & DataTable & "' (" & count & " of " & total & ")..." : Me.Refresh()
+            Dim colData As DataSet = GetData(colSQL, strConnection)
+            If colData IsNot Nothing Then
+                dataCols.Clear()
+                dataColTypes.Clear()
+                For Each colRow As DataRow In colData.Tables(0).Rows
+                    dataCols.Add(colRow.Item("COLUMN_NAME").ToString)
+                    dataColTypes.Add(colRow.Item("COLUMN_NAME").ToString, colRow.Item("DATA_TYPE").ToString)
+                Next
+                ' Get the whole table of information
+                Dim eveSQL As String = "SELECT * FROM " & DataTable
+                Dim EveData As DataSet = GetData(eveSQL, strConnection)
+                Dim sw As New StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\SQL2TSQL\" & DataTable & ".sql")
+                sw.WriteLine("")
+                strData = New StringBuilder
+                For Each eveRow As DataRow In EveData.Tables(0).Rows
+                    ' Write the first part
+                    strData.AppendLine("INSERT INTO " & DataTable)
+                    strData.Append("(")
+                    For Each datacol As String In dataCols
+                        If datacol <> dataCols(dataCols.Count - 1) Then
+                            strData.Append(datacol & ",")
+                        Else
+                            strData.AppendLine(datacol & ")")
+                        End If
+                    Next
+                    strData.Append("VALUES(")
+                    For Each datacol As String In dataCols
+                        If datacol <> dataCols(dataCols.Count - 1) Then
+                            If IsDBNull(eveRow.Item(datacol)) = True Then
+                                strData.Append("null,")
+                            Else
+                                If dataColTypes.Item(datacol).ToString.Contains("char") = False Then
+                                    'If IsNumeric(eveRow.Item(datacol)) = True Then
+                                    ' Is numeric
+                                    strData.Append(eveRow.Item(datacol) & ",")
+                                Else
+                                    ' Is alphabetic
+                                    strItem = eveRow.Item(datacol).ToString.Replace("'", "''")
+                                    strData.Append("'" & strItem & "',")
+                                End If
+                            End If
+                        Else
+                            If IsDBNull(eveRow.Item(datacol)) = True Then
+                                strData.AppendLine("null);")
+                            Else
+                                If dataColTypes.Item(datacol).ToString.Contains("char") = False Then
+                                    'If IsNumeric(eveRow.Item(datacol)) = True Then
+                                    ' Is numeric
+                                    strData.AppendLine(eveRow.Item(datacol) & ");")
+                                Else
+                                    ' Is alphabetic
+                                    strItem = eveRow.Item(datacol).ToString.Replace("'", "''")
+                                    strData.AppendLine("'" & strItem & "');")
+                                End If
+                            End If
+                        End If
+                    Next
+                    strData.AppendLine("")
+                Next
+                sw.Write(strData.ToString)
+                sw.Flush()
+                sw.Close()
+            End If
+            ' Process other messages
+            Application.DoEvents()
+        Next
+
+        ' Conversion Complete!
+        lblSQLConversionProgress.Text = "Conversion Complete!" : Me.Refresh()
+        MessageBox.Show("Conversion of SQL data complete", "Conversion Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
+    Public Function GetData(ByVal strSQL As String, ByVal strConnection As String) As DataSet
+
+        Dim MyData As New DataSet
+        MyData.Clear()
+        MyData.Tables.Clear()
+
+        Dim conn As New SqlConnection
+        conn.ConnectionString = strConnection
+        Try
+            conn.Open()
+            If strSQL.Contains(" LIKE ") = False Then
+                strSQL = strSQL.Replace("'", "''")
+                strSQL = strSQL.Replace(ControlChars.Quote, "'")
+                strSQL = strSQL.Replace("=true", "=1")
+            End If
+            Dim da As New SqlDataAdapter(strSQL, conn)
+            da.Fill(MyData, "MyData")
+            conn.Close()
+            Return MyData
+        Catch e As Exception
+            MessageBox.Show(e.Message, "An Error Occured Getting Data!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return Nothing
+        Finally
+            If conn.State = ConnectionState.Open Then
+                conn.Close()
+            End If
+        End Try
+    End Function
+#End Region
+
 End Class

@@ -114,6 +114,8 @@ Public Class IGB
                                 responseString &= CreateHeaders()
                             Case "/REPORTS", "/REPORTS/"
                                 responseString &= CreateReports()
+                            Case "/REPORTS/ALLOY", "/REPORTS/ALLOY/"
+                                responseString &= CreateAlloyReport()
                             Case "/REPORTS/ORE", "/REPORTS/ORE/"
                                 responseString &= CreateOreReport()
                             Case "/REPORTS/ICE", "/REPORTS/ICE/"
@@ -411,7 +413,8 @@ Public Class IGB
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "EveHQ Reports")
         strHTML &= "<p>Please select a report from the list below:</p><br>"
-        strHTML &= "<p><a href=/reports/ore>Ore Composition Report</a><br>"
+        strHTML &= "<p><a href=/reports/alloy>Alloy Composition Report</a><br>"
+        strHTML &= "<br><a href=/reports/ore>Ore Composition Report</a><br>"
         strHTML &= "<br><a href=/reports/ice>Ice Composition Report</a><br>"
         strHTML &= "<br><a href=/reports/skilllevels>Skill Level Table</a><br>"
         strHTML &= "<br><a href=/reports/charsumm>Character Summary</a><br>"
@@ -433,6 +436,14 @@ Public Class IGB
         strHTML &= IGBHTMLHeader(context, "Ice Composition Report")
         strHTML &= EveHQ.Core.Reports.HTMLTitle("Ice Composition Report", True)
         strHTML &= EveHQ.Core.Reports.IceReport(True)
+        strHTML &= EveHQ.Core.Reports.HTMLFooter(True)
+        Return strHTML
+    End Function
+    Private Function CreateAlloyReport() As String
+        Dim strHTML As String = ""
+        strHTML &= IGBHTMLHeader(context, "Alloy Composition Report")
+        strHTML &= EveHQ.Core.Reports.HTMLTitle("Alloy Composition Report", True)
+        strHTML &= EveHQ.Core.Reports.AlloyReport(True)
         strHTML &= EveHQ.Core.Reports.HTMLFooter(True)
         Return strHTML
     End Function

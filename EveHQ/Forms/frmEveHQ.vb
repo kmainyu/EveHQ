@@ -1138,6 +1138,13 @@ Public Class frmEveHQ
         DisplayReport(newReport, "Skill Point Summary")
     End Sub
 
+    Private Sub mnuReportAsteroidAlloys_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportAsteroidAlloys.Click
+        Dim newReport As New frmReportViewer
+        Call EveHQ.Core.Reports.GenerateAlloyReport()
+        newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\AlloyReport.html")
+        DisplayReport(newReport, "Alloy Composition")
+    End Sub
+
     Private Sub mnuReportAsteroidRocks_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportAsteroidRocks.Click
         Dim newReport As New frmReportViewer
         Call EveHQ.Core.Reports.GenerateRockReport()
@@ -1893,5 +1900,7 @@ Public Class frmEveHQ
         Dim errPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots("O M G"), Core.Pilot)
         MessageBox.Show(errPilot.Name)
     End Sub
+
+   
 End Class
 
