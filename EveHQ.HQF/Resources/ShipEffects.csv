@@ -567,7 +567,7 @@
 11387,1,28615,552,1,11387,0,1,0,-3,15,Signature Radius
 11387,1,28615,54,2,65,0,1,0,20,15,Stasis Web Range
 # Hyperion,,,,,,,,,,,
-24690,1,3336,10015,2,563;566,0,1,0,5,15,Large Hybrid Turret Damage
+24690,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
 24690,1,3336,84,2,62,0,1,0,7.5,15,Armor Repair Amount
 # Imicus,,,,,,,,,,,
 607,1,3328,10007,1,607,0,0,0,5,15,Drone Control Range 
@@ -730,13 +730,13 @@
 609,1,3328,309,2,208,0,1,0,5,15,Remote Sensor Damp Range
 609,1,3328,566,2,208,0,1,0,5,15,Remote Sensor Damp Res
 # Megathron,,,,,,,,,,,
-641,1,3336,10015,2,563;566,0,1,0,5,15,Large Hybrid Turret Damage
+641,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
 641,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
 # Megathron Federate Issue,,,,,,,,,,,
-13202,1,3336,10015,2,563;566,0,1,0,5,15,Large Hybrid Turret Damage
+13202,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
 13202,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
 # Megathron Navy Issue,,,,,,,,,,,
-17728,1,3336,10015,2,563;566,0,1,0,5,15,Large Hybrid Turret Damage
+17728,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
 17728,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
 # Merlin,,,,,,,,,,,
 603,1,3330,54,4,561;564,0,1,0,10,15,Small Hybrid Turret Optimal Range

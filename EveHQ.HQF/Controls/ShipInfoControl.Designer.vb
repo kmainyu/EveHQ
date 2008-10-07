@@ -212,7 +212,7 @@ Partial Class ShipInfoControl
         Me.gbDefence.Controls.Add(Me.PictureBox4)
         Me.gbDefence.Location = New System.Drawing.Point(5, 171)
         Me.gbDefence.Name = "gbDefence"
-        Me.gbDefence.Size = New System.Drawing.Size(240, 164)
+        Me.gbDefence.Size = New System.Drawing.Size(240, 162)
         Me.gbDefence.TabIndex = 34
         Me.gbDefence.TabStop = False
         Me.gbDefence.Text = "Ship Defence"

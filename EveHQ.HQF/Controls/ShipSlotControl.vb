@@ -221,6 +221,8 @@ Public Class ShipSlotControl
                 UpdateSlotLocation(fittedShip.RigSlot(slot), slot)
             End If
         Next
+        Call Me.RedrawCargoBayCapacity()
+        Call Me.RedrawDroneBayCapacity()
     End Sub
     Private Sub UpdateSlotLocation(ByVal oldMod As ShipModule, ByVal slotNo As Integer)
         If oldMod IsNot Nothing Then
@@ -903,6 +905,7 @@ Public Class ShipSlotControl
             UpdateDrones = True
             Me.RedrawDroneBay()
             UpdateDrones = False
+            Me.RedrawCargoBay()
         Else
             SplitContainer1.Panel2Collapsed = True
         End If
@@ -1327,6 +1330,18 @@ Public Class ShipSlotControl
             currentShip.DroneBay_Used += DBI.DroneType.Volume * DBI.Quantity
             lvwDroneBay.Items.Add(newDroneItem)
         Next
+        lvwDroneBay.EndUpdate()
+        lblDroneBay.Text = FormatNumber(currentShip.DroneBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        pbDroneBay.Maximum = CInt(fittedShip.DroneBay)
+        pbDroneBay.Value = CInt(currentShip.DroneBay_Used)
+    End Sub
+
+    Private Sub RedrawDroneBayCapacity()
+        lblCargoBay.Text = FormatNumber(currentShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        pbCargoBay.Maximum = CInt(fittedShip.CargoBay)
+        pbCargoBay.Value = CInt(currentShip.CargoBay_Used)
+    End Sub
+    Private Sub RedrawCargoBayCapacity()
         lvwDroneBay.EndUpdate()
         lblDroneBay.Text = FormatNumber(currentShip.DroneBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
         pbDroneBay.Maximum = CInt(fittedShip.DroneBay)
