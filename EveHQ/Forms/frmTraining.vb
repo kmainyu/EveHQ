@@ -35,6 +35,7 @@ Public Class frmTraining
     Dim cSuggestingQueue As String
     Dim suggestionsTaken As Boolean = False
     Dim usingFilter As Boolean = True
+    Dim skillListNodes As New SortedList
 
     Private Sub frmTraining_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         cboFilter.SelectedIndex = 0
@@ -211,19 +212,26 @@ Public Class frmTraining
             End If
         Next
         tvwSkillList.BeginUpdate()
+        tvwSkillList.Nodes.Clear()
+        tvwSkillList.Sorted = False
         Call Me.LoadSkillGroups()
         Call Me.LoadFilteredSkills(filter)
-        Call Me.RemoveEmptyGroups()
+        Call Me.ShowSkillGroups()
         For Each oNode As String In oNodes
             If tvwSkillList.Nodes.ContainsKey(oNode) = True Then
                 tvwSkillList.Nodes(oNode).Expand()
             End If
         Next
+        tvwSkillList.Sorted = True
         tvwSkillList.EndUpdate()
+        tvwSkillList.Refresh()
+        If tvwSkillList.SelectedNode Is Nothing Then
+            btnShowDetails.Enabled = False
+        End If
     End Sub
 
     Private Sub LoadSkillGroups()
-        tvwSkillList.Nodes.Clear()
+        skillListNodes.Clear()
         Dim newSkillGroup As EveHQ.Core.SkillGroup
         For Each newSkillGroup In EveHQ.Core.HQ.SkillGroups
             If newSkillGroup.ID <> "505" Then
@@ -232,15 +240,17 @@ Public Class frmTraining
                 groupNode.Text = newSkillGroup.Name.Trim
                 groupNode.ImageIndex = 8
                 groupNode.SelectedImageIndex = 8
-                tvwSkillList.Nodes.Add(groupNode)
+                skillListNodes.Add(groupNode.Name, groupNode)
             End If
         Next
     End Sub
 
     Private Sub LoadFilteredSkills(ByVal filter As Integer)
         Dim newSkill As EveHQ.Core.SkillList
+        Dim groupNode As New TreeNode
         For Each newSkill In EveHQ.Core.HQ.SkillListID
             Dim gID As String = newSkill.GroupID
+            groupNode = CType(skillListNodes.Item(gID), TreeNode)
             If gID <> "505" Then
                 Dim skillNode As TreeNode = New TreeNode
                 skillNode.Text = newSkill.Name
@@ -389,7 +399,7 @@ Public Class frmTraining
                     End Select
                     If addSkill = True Then
                         If omitQueuedSkills = False Then
-                            tvwSkillList.Nodes(gID).Nodes.Add(skillNode)
+                            groupNode.Nodes.Add(skillNode)
                         Else
                             Dim inQ As Boolean = False
                             For Each skillQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
@@ -403,7 +413,7 @@ Public Class frmTraining
                                 Next
                             Next
                             If inQ = False Then
-                                tvwSkillList.Nodes(gID).Nodes.Add(skillNode)
+                                groupNode.Nodes.Add(skillNode)
                             End If
                         End If
                     End If
@@ -412,13 +422,10 @@ Public Class frmTraining
         Next
     End Sub
 
-    Private Sub RemoveEmptyGroups()
-        For Each newSkillGroup As EveHQ.Core.SkillGroup In EveHQ.Core.HQ.SkillGroups
-            If newSkillGroup.ID <> "505" Then
-                Dim groupNode As TreeNode = tvwSkillList.Nodes(newSkillGroup.ID)
-                If groupNode.Nodes.Count = 0 Then
-                    tvwSkillList.Nodes.RemoveByKey(newSkillGroup.ID)
-                End If
+    Private Sub ShowSkillGroups()
+        For Each groupNode As TreeNode In skillListNodes.Values
+            If groupNode.Nodes.Count > 0 Then
+                tvwSkillList.Nodes.Add(groupNode)
             End If
         Next
     End Sub
@@ -929,12 +936,16 @@ Public Class frmTraining
         If activeLVW.Focused = False Then
             Dim curNode As TreeNode = New TreeNode
             curNode = tvwSkillList.SelectedNode
-            skillName = curNode.Text
+            If curNode IsNot Nothing Then
+                skillName = curNode.Text
+            End If
         Else
             skillName = activeLVW.SelectedItems(0).Text
         End If
-        skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
-        Call frmSkillDetails.ShowSkillDetails(skillID)
+        If skillName <> "" Then
+            skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
+            Call frmSkillDetails.ShowSkillDetails(skillID)
+        End If
     End Sub
 
     Private Sub btnAddSkill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddSkill.Click
@@ -2256,20 +2267,25 @@ Public Class frmTraining
                     Dim activeLabel As Label = CType(Me.tabQueues.Controls(sugQueue).Controls("S" & sugQueue), Label)
                     Dim origQueue As EveHQ.Core.SkillQueue = CType(suggestingQueues(sugQueue), Core.SkillQueue)
                     Dim newQueue As EveHQ.Core.SkillQueue = CType(suggestedQueues(sugQueue), Core.SkillQueue)
-                    If newQueue.QueueTime < origQueue.QueueTime Then
-                        Me.suggestionsTaken = False
-                        activePB.Image = My.Resources.info_icon
-                        activePB.Enabled = True
-                        activePB.Visible = True
-                        endTime = Now
-                        Dim timeTaken As TimeSpan = endTime - startTime
-                        activeLabel.Text = "EveHQ can help decrease your training time, click the icon for more details..."
-                        activeLabel.Visible = True
+                    If newQueue IsNot Nothing And origQueue IsNot Nothing Then
+                        If newQueue.QueueTime < origQueue.QueueTime Then
+                            Me.suggestionsTaken = False
+                            activePB.Image = My.Resources.info_icon
+                            activePB.Enabled = True
+                            activePB.Visible = True
+                            endTime = Now
+                            Dim timeTaken As TimeSpan = endTime - startTime
+                            activeLabel.Text = "EveHQ can help decrease your training time, click the icon for more details..."
+                            activeLabel.Visible = True
+                        Else
+                            activePB.Visible = False
+                            activeLabel.Visible = False
+                        End If
+                        Exit Sub
                     Else
                         activePB.Visible = False
                         activeLabel.Visible = False
                     End If
-                    Exit Sub
                 End If
             End If
         Next

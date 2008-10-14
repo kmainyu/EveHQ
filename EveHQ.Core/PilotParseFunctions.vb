@@ -812,6 +812,9 @@ Public Class PilotParseFunctions
         Dim curr_toon As Integer = 0
         Dim toonNo As Integer = 0
 
+        Dim name As XmlNodeList = cPilot.PilotData.GetElementsByTagName("name")
+        'MessageBox.Show(name(0).InnerXml)
+
         Dim nPilot As New EveHQ.Core.Pilot
         CharDetails = cPilot.PilotData.SelectNodes("/eveapi/result")
         toon = CharDetails(toonNo)

@@ -85,6 +85,12 @@ Public Class ShipSlotControl
         End Set
     End Property
 
+    Public ReadOnly Property ShipCurrent() As Ship
+        Get
+            Return currentShip
+        End Get
+    End Property
+
     Public Property UpdateAllSlots() As Boolean
         Get
             Return cUpdateAllSlots
@@ -494,6 +500,7 @@ Public Class ShipSlotControl
                 ' Check for installed charges
                 Dim modData() As String = shipMod.Split(",".ToCharArray)
                 Dim state As Integer = 4
+                Dim itemQuantity As Integer = 1
                 If modData(0).Length > 2 Then
                     If modData(0).Substring(modData(0).Length - 2, 1) = "_" Then
                         state = CInt(modData(0).Substring(modData(0).Length - 1, 1))
@@ -501,6 +508,19 @@ Public Class ShipSlotControl
                         state = CInt(Math.Pow(2, state))
                     End If
                 End If
+                ' Check for item quantity (EFT method)
+                Dim qSep As Integer = InStrRev(modData(0), " ")
+                If qSep > 0 Then
+                    Dim qString As String = modData(0).Substring(qSep)
+                    If qString.StartsWith("x") Then
+                        qString = qString.TrimStart("x".ToCharArray)
+                        If IsNumeric(qString) = True Then
+                            itemQuantity = CInt(qString)
+                            modData(0) = modData(0).TrimEnd((" x" & itemQuantity.ToString).ToCharArray)
+                        End If
+                    End If
+                End If
+                ' Check if the module exists
                 If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
                     Dim modID As String = ModuleLists.moduleListName(modData(0).Trim).ToString
                     Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
@@ -515,27 +535,27 @@ Public Class ShipSlotControl
                     If sMod IsNot Nothing Then
                         ' Check if module is a drone
                         If sMod.IsDrone = True Then
-                            Dim count As Integer = 0
                             Dim active As Boolean = False
                             If modData.GetUpperBound(0) > 0 Then
                                 If modData(1).EndsWith("a") = True Then
                                     active = True
-                                    count = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
+                                    itemQuantity = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
                                 Else
                                     If modData(1).EndsWith("i") = True Then
-                                        count = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
+                                        itemQuantity = CInt(modData(1).Substring(0, Len(modData(1)) - 1))
                                     Else
-                                        count = CInt(modData(1))
+                                        itemQuantity = CInt(modData(1))
                                     End If
                                 End If
-                            Else
-                                count = 1
                             End If
-                            Call Me.AddDrone(sMod, count, active)
+                            Call Me.AddDrone(sMod, itemQuantity, active)
                         Else
                             ' Check if module is a charge
                             If sMod.IsCharge = True Then
-                                Call Me.AddItem(sMod, CInt(modData(1)))
+                                If modData.GetUpperBound(0) > 0 Then
+                                    itemQuantity = CInt(modData(1))
+                                End If
+                                Call Me.AddItem(sMod, itemQuantity)
                             Else
                                 ' Must be a proper module then!
                                 sMod.ModuleState = state
@@ -1464,7 +1484,7 @@ Public Class ShipSlotControl
                 newSelectForm.IsDroneBay = False
                 newSelectForm.IsSplit = False
                 newSelectForm.nudQuantity.Minimum = 1
-                newSelectForm.nudQuantity.Maximum = CBI.Quantity + CInt(Int((fittedShip.CargoBay - fittedShip.CargoBay_Used) / CBI.ItemType.Volume))
+                newSelectForm.nudQuantity.Maximum = CBI.Quantity + CInt(Int((fittedShip.CargoBay - currentShip.CargoBay_Used) / CBI.ItemType.Volume))
                 newSelectForm.nudQuantity.Value = CBI.Quantity
                 newSelectForm.ShowDialog()
                 newSelectForm.Dispose()
@@ -1480,7 +1500,7 @@ Public Class ShipSlotControl
                 newSelectForm.IsDroneBay = True
                 newSelectForm.IsSplit = False
                 newSelectForm.nudQuantity.Minimum = 1
-                newSelectForm.nudQuantity.Maximum = DBI.Quantity + CInt(Int((fittedShip.DroneBay - fittedShip.DroneBay_Used) / DBI.DroneType.Volume))
+                newSelectForm.nudQuantity.Maximum = DBI.Quantity + CInt(Int((fittedShip.DroneBay - currentShip.DroneBay_Used) / DBI.DroneType.Volume))
                 newSelectForm.nudQuantity.Value = DBI.Quantity
                 newSelectForm.ShowDialog()
                 currentInfo.ShipType = currentShip

@@ -2327,9 +2327,11 @@ Public Class frmHQF
         For Each openTab As String In Fittings.FittingTabList
             Dim thisTab As TabPage = tabHQF.TabPages(openTab)
             If thisTab IsNot Nothing Then
-                Dim thisShipSlotControl As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
-                Dim thisShipInfoControl As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
-                thisShipSlotControl.UpdateEverything()
+                If thisTab.Controls.Count > 0 Then
+                    Dim thisShipSlotControl As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
+                    Dim thisShipInfoControl As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
+                    thisShipSlotControl.UpdateEverything()
+                End If
             End If
         Next
         Me.Cursor = Cursors.Default
@@ -2480,22 +2482,26 @@ Public Class frmHQF
     Private Sub tmrClipboard_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrClipboard.Tick
         ' Checks the clipboard for any compatible fixes!
         If Clipboard.GetDataObject IsNot Nothing Then
-            Dim fileText As String = CStr(Clipboard.GetDataObject().GetData(DataFormats.Text))
-            If fileText IsNot Nothing Then
-                Dim fittingMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(fileText, "\[(?<ShipName>[^,]*)\]|\[(?<ShipName>.*),\s?(?<FittingName>.*)\]")
-                If fittingMatch.Success = True Then
-                    ' Appears to be a match so lets check the ship type
-                    If ShipLists.shipList.Contains(fittingMatch.Groups.Item("ShipName").Value) = True Then
-                        btnClipboardPaste.Enabled = True
+            Try
+                Dim fileText As String = CStr(Clipboard.GetDataObject().GetData(DataFormats.Text))
+                If fileText IsNot Nothing Then
+                    Dim fittingMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(fileText, "\[(?<ShipName>[^,]*)\]|\[(?<ShipName>.*),\s?(?<FittingName>.*)\]")
+                    If fittingMatch.Success = True Then
+                        ' Appears to be a match so lets check the ship type
+                        If ShipLists.shipList.Contains(fittingMatch.Groups.Item("ShipName").Value) = True Then
+                            btnClipboardPaste.Enabled = True
+                        Else
+                            btnClipboardPaste.Enabled = False
+                        End If
                     Else
                         btnClipboardPaste.Enabled = False
                     End If
                 Else
                     btnClipboardPaste.Enabled = False
                 End If
-            Else
+            Catch ex As Exception
                 btnClipboardPaste.Enabled = False
-            End If
+            End Try
         Else
             btnClipboardPaste.Enabled = False
         End If
@@ -3011,7 +3017,8 @@ Public Class frmHQF
 
     Private Sub mnuCopyForHQF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyForHQF.Click
         Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-        Dim currentship As Ship = currentShipSlot.ShipFitted
+        Dim currentShip As Ship = currentShipSlot.ShipCurrent
+        Dim fittedShip As Ship = currentShipSlot.ShipFitted
         Dim cModule As New ShipModule
         Dim state As Integer
         Dim fitting As New System.Text.StringBuilder
@@ -3060,12 +3067,16 @@ Public Class frmHQF
             End If
         Next
         fitting.AppendLine("")
-        For Each drone As DroneBayItem In currentship.DroneBayItems.Values
-            fitting.AppendLine(drone.DroneType.Name & " x" & drone.Quantity & ", " & drone.IsActive)
+        For Each drone As DroneBayItem In currentShip.DroneBayItems.Values
+            If drone.IsActive = True Then
+                fitting.AppendLine(drone.DroneType.Name & ", " & drone.Quantity & "a")
+            Else
+                fitting.AppendLine(drone.DroneType.Name & ", " & drone.Quantity & "i")
+            End If
         Next
         fitting.AppendLine("")
         For Each cargo As CargoBayItem In currentship.CargoBayItems.Values
-            fitting.AppendLine(cargo.ItemType.Name & " x" & cargo.Quantity)
+            fitting.AppendLine(cargo.ItemType.Name & ", " & cargo.Quantity)
         Next
         Clipboard.SetText(fitting.ToString)
     End Sub
@@ -3330,6 +3341,4 @@ Public Class frmHQF
             End If
         Next
     End Sub
-
-  
 End Class
