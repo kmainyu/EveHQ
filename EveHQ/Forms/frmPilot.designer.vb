@@ -21,21 +21,6 @@ Partial Public Class frmPilot
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPilot))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation Management", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Drones", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Electronics", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Engineering", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Gunnery", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Industry", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Leadership", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Learning", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mechanic", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Missiles", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Navigation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Science", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Social", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Spaceship Command", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Trade", System.Windows.Forms.HorizontalAlignment.Left)
         Me.ctxSkills = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuSkillName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
@@ -61,15 +46,13 @@ Partial Public Class frmPilot
         Me.Label7 = New System.Windows.Forms.Label
         Me.chkManualImplants = New System.Windows.Forms.CheckBox
         Me.btnEditImplants = New System.Windows.Forms.Button
-        Me.chkSkillGroups = New System.Windows.Forms.CheckBox
-        Me.chkGraphicalView = New System.Windows.Forms.CheckBox
-        Me.lvSkills = New EveHQ.ListViewNoFlicker
-        Me.Skill = New System.Windows.Forms.ColumnHeader
-        Me.Rank = New System.Windows.Forms.ColumnHeader
-        Me.Level = New System.Windows.Forms.ColumnHeader
-        Me.Percent = New System.Windows.Forms.ColumnHeader
-        Me.Skillpoints = New System.Windows.Forms.ColumnHeader
-        Me.LevelUp = New System.Windows.Forms.ColumnHeader
+        Me.clvSkills = New DotNetLib.Windows.Forms.ContainerListView
+        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader2 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader3 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader4 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader5 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader6 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.lvTraining = New EveHQ.ListViewNoFlicker
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
@@ -277,110 +260,78 @@ Partial Public Class frmPilot
         Me.btnEditImplants.Text = "Edit Implants"
         Me.btnEditImplants.UseVisualStyleBackColor = True
         '
-        'chkSkillGroups
+        'clvSkills
         '
-        Me.chkSkillGroups.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkSkillGroups.AutoSize = True
-        Me.chkSkillGroups.Checked = True
-        Me.chkSkillGroups.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkSkillGroups.Location = New System.Drawing.Point(745, 287)
-        Me.chkSkillGroups.Name = "chkSkillGroups"
-        Me.chkSkillGroups.Size = New System.Drawing.Size(128, 17)
-        Me.chkSkillGroups.TabIndex = 35
-        Me.chkSkillGroups.Text = "Show Skills in Groups"
-        Me.chkSkillGroups.UseVisualStyleBackColor = True
-        '
-        'chkGraphicalView
-        '
-        Me.chkGraphicalView.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkGraphicalView.AutoSize = True
-        Me.chkGraphicalView.Checked = True
-        Me.chkGraphicalView.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkGraphicalView.Location = New System.Drawing.Point(612, 287)
-        Me.chkGraphicalView.Name = "chkGraphicalView"
-        Me.chkGraphicalView.Size = New System.Drawing.Size(112, 17)
-        Me.chkGraphicalView.TabIndex = 36
-        Me.chkGraphicalView.Text = "Graphical Skill List"
-        Me.chkGraphicalView.UseVisualStyleBackColor = True
-        Me.chkGraphicalView.Visible = False
-        '
-        'lvSkills
-        '
-        Me.lvSkills.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.clvSkills.AllowColumnResize = False
+        Me.clvSkills.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvSkills.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Skill, Me.Rank, Me.Level, Me.Percent, Me.Skillpoints, Me.LevelUp})
-        Me.lvSkills.ContextMenuStrip = Me.ctxSkills
-        Me.lvSkills.FullRowSelect = True
-        ListViewGroup1.Header = "Corporation Management"
-        ListViewGroup1.Name = "grpCorp"
-        ListViewGroup2.Header = "Drones"
-        ListViewGroup2.Name = "grpDron"
-        ListViewGroup3.Header = "Electronics"
-        ListViewGroup3.Name = "grpElec"
-        ListViewGroup4.Header = "Engineering"
-        ListViewGroup4.Name = "grpEngi"
-        ListViewGroup5.Header = "Gunnery"
-        ListViewGroup5.Name = "grpGunn"
-        ListViewGroup6.Header = "Industry"
-        ListViewGroup6.Name = "grpIndu"
-        ListViewGroup7.Header = "Leadership"
-        ListViewGroup7.Name = "grpLead"
-        ListViewGroup8.Header = "Learning"
-        ListViewGroup8.Name = "grpLear"
-        ListViewGroup9.Header = "Mechanic"
-        ListViewGroup9.Name = "grpMech"
-        ListViewGroup10.Header = "Missiles"
-        ListViewGroup10.Name = "grpMiss"
-        ListViewGroup11.Header = "Navigation"
-        ListViewGroup11.Name = "grpNavi"
-        ListViewGroup12.Header = "Science"
-        ListViewGroup12.Name = "grpScie"
-        ListViewGroup13.Header = "Social"
-        ListViewGroup13.Name = "grpSoci"
-        ListViewGroup14.Header = "Spaceship Command"
-        ListViewGroup14.Name = "grpSpac"
-        ListViewGroup15.Header = "Trade"
-        ListViewGroup15.Name = "grpTrad"
-        Me.lvSkills.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8, ListViewGroup9, ListViewGroup10, ListViewGroup11, ListViewGroup12, ListViewGroup13, ListViewGroup14, ListViewGroup15})
-        Me.lvSkills.Location = New System.Drawing.Point(152, 310)
-        Me.lvSkills.MultiSelect = False
-        Me.lvSkills.Name = "lvSkills"
-        Me.lvSkills.OwnerDraw = True
-        Me.lvSkills.Size = New System.Drawing.Size(721, 244)
-        Me.lvSkills.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvSkills.TabIndex = 29
-        Me.lvSkills.UseCompatibleStateImageBehavior = False
-        Me.lvSkills.View = System.Windows.Forms.View.Details
+        Me.clvSkills.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1, Me.ContainerListViewColumnHeader2, Me.ContainerListViewColumnHeader3, Me.ContainerListViewColumnHeader4, Me.ContainerListViewColumnHeader5, Me.ContainerListViewColumnHeader6})
+        Me.clvSkills.DefaultItemHeight = 18
+        Me.clvSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.clvSkills.ItemContextMenu = Me.ctxSkills
+        Me.clvSkills.Location = New System.Drawing.Point(152, 310)
+        Me.clvSkills.Name = "clvSkills"
+        Me.clvSkills.Size = New System.Drawing.Size(721, 231)
+        Me.clvSkills.TabIndex = 37
         '
-        'Skill
+        'ContainerListViewColumnHeader1
         '
-        Me.Skill.Text = "Skill"
-        Me.Skill.Width = 210
+        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader1.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.ContainerListViewColumnHeader1.Tag = Nothing
+        Me.ContainerListViewColumnHeader1.Text = "Skill"
+        Me.ContainerListViewColumnHeader1.Width = 250
         '
-        'Rank
+        'ContainerListViewColumnHeader2
         '
-        Me.Rank.Text = "Rank"
-        Me.Rank.Width = 50
+        Me.ContainerListViewColumnHeader2.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.ContainerListViewColumnHeader2.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader2.DisplayIndex = 1
+        Me.ContainerListViewColumnHeader2.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.ContainerListViewColumnHeader2.Tag = Nothing
+        Me.ContainerListViewColumnHeader2.Text = "Rank"
+        Me.ContainerListViewColumnHeader2.Width = 60
         '
-        'Level
+        'ContainerListViewColumnHeader3
         '
-        Me.Level.Text = "Level"
-        Me.Level.Width = 50
+        Me.ContainerListViewColumnHeader3.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.ContainerListViewColumnHeader3.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader3.DisplayIndex = 2
+        Me.ContainerListViewColumnHeader3.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.ContainerListViewColumnHeader3.Tag = Nothing
+        Me.ContainerListViewColumnHeader3.Text = "Level"
+        Me.ContainerListViewColumnHeader3.Width = 60
         '
-        'Percent
+        'ContainerListViewColumnHeader4
         '
-        Me.Percent.Text = "% Done"
+        Me.ContainerListViewColumnHeader4.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.ContainerListViewColumnHeader4.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader4.DisplayIndex = 3
+        Me.ContainerListViewColumnHeader4.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.ContainerListViewColumnHeader4.Tag = Nothing
+        Me.ContainerListViewColumnHeader4.Text = "% Done"
+        Me.ContainerListViewColumnHeader4.Width = 70
         '
-        'Skillpoints
+        'ContainerListViewColumnHeader5
         '
-        Me.Skillpoints.Text = "Skillpoints"
-        Me.Skillpoints.Width = 100
+        Me.ContainerListViewColumnHeader5.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ContainerListViewColumnHeader5.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader5.DisplayIndex = 4
+        Me.ContainerListViewColumnHeader5.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.ContainerListViewColumnHeader5.Tag = Nothing
+        Me.ContainerListViewColumnHeader5.Text = "Skillpoints"
+        Me.ContainerListViewColumnHeader5.Width = 100
         '
-        'LevelUp
+        'ContainerListViewColumnHeader6
         '
-        Me.LevelUp.Text = "Time to Level Up"
-        Me.LevelUp.Width = 120
+        Me.ContainerListViewColumnHeader6.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ContainerListViewColumnHeader6.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader6.DisplayIndex = 5
+        Me.ContainerListViewColumnHeader6.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.ContainerListViewColumnHeader6.Tag = Nothing
+        Me.ContainerListViewColumnHeader6.Text = "Time To Level Up"
+        Me.ContainerListViewColumnHeader6.Width = 125
         '
         'lvTraining
         '
@@ -439,11 +390,10 @@ Partial Public Class frmPilot
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(885, 566)
-        Me.Controls.Add(Me.chkGraphicalView)
-        Me.Controls.Add(Me.lvSkills)
+        Me.ClientSize = New System.Drawing.Size(885, 553)
         Me.Controls.Add(Me.lvTraining)
         Me.Controls.Add(Me.btnEditImplants)
+        Me.Controls.Add(Me.clvSkills)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.chkManualImplants)
         Me.Controls.Add(Me.lvPilot)
@@ -455,7 +405,6 @@ Partial Public Class frmPilot
         Me.Controls.Add(Me.picPilot)
         Me.Controls.Add(Me.lvImplants)
         Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.chkSkillGroups)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmPilot"
@@ -468,11 +417,6 @@ Partial Public Class frmPilot
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents lvSkills As EveHQ.ListViewNoFlicker
-    Friend WithEvents Skill As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Rank As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Level As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Skillpoints As System.Windows.Forms.ColumnHeader
     Friend WithEvents picPilot As System.Windows.Forms.PictureBox
     Friend WithEvents lvPilot As EveHQ.ListViewNoFlicker
     Friend WithEvents Category As System.Windows.Forms.ColumnHeader
@@ -492,21 +436,24 @@ Partial Public Class frmPilot
     Friend WithEvents lvTraining As EveHQ.ListViewNoFlicker
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents LevelUp As System.Windows.Forms.ColumnHeader
     Friend WithEvents ctxSkills As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuSkillName As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuViewDetails As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents chkManualImplants As System.Windows.Forms.CheckBox
     Friend WithEvents btnEditImplants As System.Windows.Forms.Button
-    Friend WithEvents chkSkillGroups As System.Windows.Forms.CheckBox
     Friend WithEvents ctxPic As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuCtxPicGetPortraitFromServer As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuCtxPicGetPortraitFromLocal As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuSavePortrait As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuForceTraining As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents chkGraphicalView As System.Windows.Forms.CheckBox
-    Friend WithEvents Percent As System.Windows.Forms.ColumnHeader
+    Friend WithEvents clvSkills As DotNetLib.Windows.Forms.ContainerListView
+    Friend WithEvents ContainerListViewColumnHeader1 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader2 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader3 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader4 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader5 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader6 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
 
 End Class

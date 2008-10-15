@@ -339,7 +339,7 @@ Public Class frmSettings
                     EveHQ.Core.HQ.EveHQSettings.PilotStandardSkillColor = cd1.Color.ToArgb
             End Select
             ' Update the colours
-            frmPilot.lvSkills.Refresh()
+            frmPilot.clvSkills.Refresh()
         End If
     End Sub
 
@@ -366,7 +366,7 @@ Public Class frmSettings
         EveHQ.Core.HQ.EveHQSettings.PilotPartTrainedSkillColor = System.Drawing.Color.Gold.ToArgb
         EveHQ.Core.HQ.EveHQSettings.PilotStandardSkillColor = System.Drawing.Color.White.ToArgb
         ' Update the colours
-        frmPilot.lvSkills.Refresh()
+        frmPilot.clvSkills.Refresh()
         ' Update the PBPilot Colours
         Call Me.UpdatePBPilotColours()
     End Sub
