@@ -1135,7 +1135,7 @@ Public Class frmDataConvert
     End Sub
 
     Private Sub btnBPS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBPS.Click
-        Dim bpSQL As String = "SELECT * FROM invblueprinttypes INNER JOIN invTypes ON productTypeID=typeID WHERE published=true;"
+        Dim bpSQL As String = "SELECT * FROM invBlueprintTypes INNER JOIN invTypes ON productTypeID=typeID WHERE published=1;"
         Dim newData As DataSet = EveHQ.Core.DataFunctions.GetData(bpSQL)
         Dim materialData As DataSet = New DataSet
 

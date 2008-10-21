@@ -1119,10 +1119,13 @@ Public Class ShipSlotControl
                                 For Each charge As String In chargeItems.Keys
                                     If chargeItems(charge).ToString = group Then
                                         Dim newCharge As New ToolStripMenuItem
-                                        newCharge.Name = CStr(ModuleLists.moduleListName(charge))
-                                        newCharge.Text = charge
-                                        AddHandler newCharge.Click, AddressOf Me.LoadChargeIntoModule
-                                        newGroup.DropDownItems.Add(newCharge)
+                                        Dim chargeMod As ShipModule = CType(ModuleLists.moduleList(ModuleLists.moduleListName(charge)), ShipModule)
+                                        If chargeMod.Volume <= currentMod.Capacity Then
+                                            newCharge.Name = CStr(ModuleLists.moduleListName(charge))
+                                            newCharge.Text = charge
+                                            AddHandler newCharge.Click, AddressOf Me.LoadChargeIntoModule
+                                            newGroup.DropDownItems.Add(newCharge)
+                                        End If
                                     End If
                                 Next
                                 ctxSlots.Items.Add(newGroup)
@@ -1735,6 +1738,7 @@ Public Class ShipSlotControl
                     If ocMod Is Nothing Then
                         RemoveModule(nLVI, False)
                     Else
+                        ocMod.SlotNo = nslotNo
                         Select Case nSlotType
                             Case 1 ' Rig
                                 currentShip.RigSlot(nslotNo) = ocMod
@@ -1753,6 +1757,7 @@ Public Class ShipSlotControl
                     If ncMod Is Nothing Then
                         RemoveModule(oLVI, False)
                     Else
+                        ncMod.SlotNo = oslotNo
                         Select Case oSlotType
                             Case 1 ' Rig
                                 currentShip.RigSlot(oslotNo) = ncMod

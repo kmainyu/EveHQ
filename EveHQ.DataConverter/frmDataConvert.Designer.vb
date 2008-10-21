@@ -64,35 +64,35 @@ Partial Class frmDataConvert
         Me.FileSystemWatcher1 = New System.IO.FileSystemWatcher
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.panelConvert = New System.Windows.Forms.Panel
         Me.TabPage2 = New System.Windows.Forms.TabPage
-        Me.brnStartCompression = New System.Windows.Forms.Button
-        Me.lblCompressedFileInfo = New System.Windows.Forms.Label
-        Me.lblSourceFileInfo = New System.Windows.Forms.Label
-        Me.txtCompressFile = New System.Windows.Forms.TextBox
-        Me.btnFileSource = New System.Windows.Forms.Button
+        Me.panelCompress = New System.Windows.Forms.Panel
         Me.lblCompress = New System.Windows.Forms.Label
+        Me.brnStartCompression = New System.Windows.Forms.Button
+        Me.btnFileSource = New System.Windows.Forms.Button
+        Me.lblCompressedFileInfo = New System.Windows.Forms.Label
+        Me.txtCompressFile = New System.Windows.Forms.TextBox
+        Me.lblSourceFileInfo = New System.Windows.Forms.Label
         Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.panelSQL2TSQL = New System.Windows.Forms.Panel
+        Me.lblSQLServer = New System.Windows.Forms.Label
         Me.lblSQLConversionProgress = New System.Windows.Forms.Label
+        Me.txtSQLServer = New System.Windows.Forms.TextBox
         Me.btnConvertSQL = New System.Windows.Forms.Button
+        Me.lblDatabase = New System.Windows.Forms.Label
         Me.btnTestConnection = New System.Windows.Forms.Button
         Me.txtDatabase = New System.Windows.Forms.TextBox
-        Me.lblDatabase = New System.Windows.Forms.Label
-        Me.txtSQLServer = New System.Windows.Forms.TextBox
-        Me.lblSQLServer = New System.Windows.Forms.Label
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog
-        Me.panelSQL2TSQL = New System.Windows.Forms.Panel
-        Me.panelCompress = New System.Windows.Forms.Panel
-        Me.panelConvert = New System.Windows.Forms.Panel
         Me.grpMSSQL.SuspendLayout()
         Me.grpMySQL.SuspendLayout()
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
+        Me.panelConvert.SuspendLayout()
         Me.TabPage2.SuspendLayout()
+        Me.panelCompress.SuspendLayout()
         Me.TabPage3.SuspendLayout()
         Me.panelSQL2TSQL.SuspendLayout()
-        Me.panelCompress.SuspendLayout()
-        Me.panelConvert.SuspendLayout()
         Me.SuspendLayout()
         '
         'cboConvertType
@@ -424,7 +424,6 @@ Partial Class frmDataConvert
         Me.btnBPS.TabIndex = 54
         Me.btnBPS.Text = "BP Dump"
         Me.btnBPS.UseVisualStyleBackColor = True
-        Me.btnBPS.Visible = False
         '
         'btnCSVDump
         '
@@ -474,174 +473,6 @@ Partial Class frmDataConvert
         Me.TabPage1.Text = "Data Converter"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.panelCompress)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(646, 437)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "File Compression"
-        Me.TabPage2.UseVisualStyleBackColor = True
-        '
-        'brnStartCompression
-        '
-        Me.brnStartCompression.Location = New System.Drawing.Point(465, 88)
-        Me.brnStartCompression.Name = "brnStartCompression"
-        Me.brnStartCompression.Size = New System.Drawing.Size(124, 23)
-        Me.brnStartCompression.TabIndex = 44
-        Me.brnStartCompression.Text = "Start Compression"
-        Me.brnStartCompression.UseVisualStyleBackColor = True
-        '
-        'lblCompressedFileInfo
-        '
-        Me.lblCompressedFileInfo.AutoSize = True
-        Me.lblCompressedFileInfo.Location = New System.Drawing.Point(5, 184)
-        Me.lblCompressedFileInfo.Name = "lblCompressedFileInfo"
-        Me.lblCompressedFileInfo.Size = New System.Drawing.Size(108, 13)
-        Me.lblCompressedFileInfo.TabIndex = 43
-        Me.lblCompressedFileInfo.Text = "Compressed File Info:"
-        '
-        'lblSourceFileInfo
-        '
-        Me.lblSourceFileInfo.AutoSize = True
-        Me.lblSourceFileInfo.Location = New System.Drawing.Point(5, 156)
-        Me.lblSourceFileInfo.Name = "lblSourceFileInfo"
-        Me.lblSourceFileInfo.Size = New System.Drawing.Size(84, 13)
-        Me.lblSourceFileInfo.TabIndex = 42
-        Me.lblSourceFileInfo.Text = "Source File Info:"
-        '
-        'txtCompressFile
-        '
-        Me.txtCompressFile.Location = New System.Drawing.Point(8, 39)
-        Me.txtCompressFile.Name = "txtCompressFile"
-        Me.txtCompressFile.Size = New System.Drawing.Size(581, 20)
-        Me.txtCompressFile.TabIndex = 40
-        '
-        'btnFileSource
-        '
-        Me.btnFileSource.Location = New System.Drawing.Point(595, 37)
-        Me.btnFileSource.Name = "btnFileSource"
-        Me.btnFileSource.Size = New System.Drawing.Size(24, 23)
-        Me.btnFileSource.TabIndex = 41
-        Me.btnFileSource.Text = "..."
-        Me.btnFileSource.UseVisualStyleBackColor = True
-        '
-        'lblCompress
-        '
-        Me.lblCompress.AutoSize = True
-        Me.lblCompress.Location = New System.Drawing.Point(5, 10)
-        Me.lblCompress.Name = "lblCompress"
-        Me.lblCompress.Size = New System.Drawing.Size(282, 13)
-        Me.lblCompress.TabIndex = 0
-        Me.lblCompress.Text = "Please enter the file name of the file you wish to compress:"
-        '
-        'TabPage3
-        '
-        Me.TabPage3.Controls.Add(Me.panelSQL2TSQL)
-        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(646, 437)
-        Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "MSSQL To TSQL"
-        Me.TabPage3.UseVisualStyleBackColor = True
-        '
-        'lblSQLConversionProgress
-        '
-        Me.lblSQLConversionProgress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblSQLConversionProgress.Location = New System.Drawing.Point(25, 116)
-        Me.lblSQLConversionProgress.Name = "lblSQLConversionProgress"
-        Me.lblSQLConversionProgress.Size = New System.Drawing.Size(315, 42)
-        Me.lblSQLConversionProgress.TabIndex = 13
-        '
-        'btnConvertSQL
-        '
-        Me.btnConvertSQL.Location = New System.Drawing.Point(234, 75)
-        Me.btnConvertSQL.Name = "btnConvertSQL"
-        Me.btnConvertSQL.Size = New System.Drawing.Size(106, 23)
-        Me.btnConvertSQL.TabIndex = 12
-        Me.btnConvertSQL.Text = "Convert to T-SQL"
-        Me.btnConvertSQL.UseVisualStyleBackColor = True
-        '
-        'btnTestConnection
-        '
-        Me.btnTestConnection.Location = New System.Drawing.Point(122, 75)
-        Me.btnTestConnection.Name = "btnTestConnection"
-        Me.btnTestConnection.Size = New System.Drawing.Size(106, 23)
-        Me.btnTestConnection.TabIndex = 11
-        Me.btnTestConnection.Text = "Test Connection"
-        Me.btnTestConnection.UseVisualStyleBackColor = True
-        '
-        'txtDatabase
-        '
-        Me.txtDatabase.Location = New System.Drawing.Point(93, 40)
-        Me.txtDatabase.Name = "txtDatabase"
-        Me.txtDatabase.Size = New System.Drawing.Size(247, 20)
-        Me.txtDatabase.TabIndex = 10
-        Me.txtDatabase.Text = "EveHQ"
-        '
-        'lblDatabase
-        '
-        Me.lblDatabase.AutoSize = True
-        Me.lblDatabase.Location = New System.Drawing.Point(22, 43)
-        Me.lblDatabase.Name = "lblDatabase"
-        Me.lblDatabase.Size = New System.Drawing.Size(56, 13)
-        Me.lblDatabase.TabIndex = 9
-        Me.lblDatabase.Text = "Database:"
-        '
-        'txtSQLServer
-        '
-        Me.txtSQLServer.Location = New System.Drawing.Point(93, 14)
-        Me.txtSQLServer.Name = "txtSQLServer"
-        Me.txtSQLServer.Size = New System.Drawing.Size(247, 20)
-        Me.txtSQLServer.TabIndex = 8
-        Me.txtSQLServer.Text = "localhost"
-        '
-        'lblSQLServer
-        '
-        Me.lblSQLServer.AutoSize = True
-        Me.lblSQLServer.Location = New System.Drawing.Point(22, 17)
-        Me.lblSQLServer.Name = "lblSQLServer"
-        Me.lblSQLServer.Size = New System.Drawing.Size(65, 13)
-        Me.lblSQLServer.TabIndex = 7
-        Me.lblSQLServer.Text = "SQL Server:"
-        '
-        'ofd1
-        '
-        Me.ofd1.FileName = "OpenFileDialog1"
-        '
-        'panelSQL2TSQL
-        '
-        Me.panelSQL2TSQL.BackColor = System.Drawing.SystemColors.Control
-        Me.panelSQL2TSQL.Controls.Add(Me.lblSQLServer)
-        Me.panelSQL2TSQL.Controls.Add(Me.lblSQLConversionProgress)
-        Me.panelSQL2TSQL.Controls.Add(Me.txtSQLServer)
-        Me.panelSQL2TSQL.Controls.Add(Me.btnConvertSQL)
-        Me.panelSQL2TSQL.Controls.Add(Me.lblDatabase)
-        Me.panelSQL2TSQL.Controls.Add(Me.btnTestConnection)
-        Me.panelSQL2TSQL.Controls.Add(Me.txtDatabase)
-        Me.panelSQL2TSQL.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelSQL2TSQL.Location = New System.Drawing.Point(0, 0)
-        Me.panelSQL2TSQL.Name = "panelSQL2TSQL"
-        Me.panelSQL2TSQL.Size = New System.Drawing.Size(646, 437)
-        Me.panelSQL2TSQL.TabIndex = 14
-        '
-        'panelCompress
-        '
-        Me.panelCompress.BackColor = System.Drawing.SystemColors.Control
-        Me.panelCompress.Controls.Add(Me.lblCompress)
-        Me.panelCompress.Controls.Add(Me.brnStartCompression)
-        Me.panelCompress.Controls.Add(Me.btnFileSource)
-        Me.panelCompress.Controls.Add(Me.lblCompressedFileInfo)
-        Me.panelCompress.Controls.Add(Me.txtCompressFile)
-        Me.panelCompress.Controls.Add(Me.lblSourceFileInfo)
-        Me.panelCompress.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelCompress.Location = New System.Drawing.Point(3, 3)
-        Me.panelCompress.Name = "panelCompress"
-        Me.panelCompress.Size = New System.Drawing.Size(640, 431)
-        Me.panelCompress.TabIndex = 45
-        '
         'panelConvert
         '
         Me.panelConvert.BackColor = System.Drawing.SystemColors.Control
@@ -673,6 +504,174 @@ Partial Class frmDataConvert
         Me.panelConvert.Size = New System.Drawing.Size(640, 431)
         Me.panelConvert.TabIndex = 57
         '
+        'TabPage2
+        '
+        Me.TabPage2.Controls.Add(Me.panelCompress)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(646, 437)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "File Compression"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'panelCompress
+        '
+        Me.panelCompress.BackColor = System.Drawing.SystemColors.Control
+        Me.panelCompress.Controls.Add(Me.lblCompress)
+        Me.panelCompress.Controls.Add(Me.brnStartCompression)
+        Me.panelCompress.Controls.Add(Me.btnFileSource)
+        Me.panelCompress.Controls.Add(Me.lblCompressedFileInfo)
+        Me.panelCompress.Controls.Add(Me.txtCompressFile)
+        Me.panelCompress.Controls.Add(Me.lblSourceFileInfo)
+        Me.panelCompress.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelCompress.Location = New System.Drawing.Point(3, 3)
+        Me.panelCompress.Name = "panelCompress"
+        Me.panelCompress.Size = New System.Drawing.Size(640, 431)
+        Me.panelCompress.TabIndex = 45
+        '
+        'lblCompress
+        '
+        Me.lblCompress.AutoSize = True
+        Me.lblCompress.Location = New System.Drawing.Point(5, 10)
+        Me.lblCompress.Name = "lblCompress"
+        Me.lblCompress.Size = New System.Drawing.Size(282, 13)
+        Me.lblCompress.TabIndex = 0
+        Me.lblCompress.Text = "Please enter the file name of the file you wish to compress:"
+        '
+        'brnStartCompression
+        '
+        Me.brnStartCompression.Location = New System.Drawing.Point(465, 88)
+        Me.brnStartCompression.Name = "brnStartCompression"
+        Me.brnStartCompression.Size = New System.Drawing.Size(124, 23)
+        Me.brnStartCompression.TabIndex = 44
+        Me.brnStartCompression.Text = "Start Compression"
+        Me.brnStartCompression.UseVisualStyleBackColor = True
+        '
+        'btnFileSource
+        '
+        Me.btnFileSource.Location = New System.Drawing.Point(595, 37)
+        Me.btnFileSource.Name = "btnFileSource"
+        Me.btnFileSource.Size = New System.Drawing.Size(24, 23)
+        Me.btnFileSource.TabIndex = 41
+        Me.btnFileSource.Text = "..."
+        Me.btnFileSource.UseVisualStyleBackColor = True
+        '
+        'lblCompressedFileInfo
+        '
+        Me.lblCompressedFileInfo.AutoSize = True
+        Me.lblCompressedFileInfo.Location = New System.Drawing.Point(5, 184)
+        Me.lblCompressedFileInfo.Name = "lblCompressedFileInfo"
+        Me.lblCompressedFileInfo.Size = New System.Drawing.Size(108, 13)
+        Me.lblCompressedFileInfo.TabIndex = 43
+        Me.lblCompressedFileInfo.Text = "Compressed File Info:"
+        '
+        'txtCompressFile
+        '
+        Me.txtCompressFile.Location = New System.Drawing.Point(8, 39)
+        Me.txtCompressFile.Name = "txtCompressFile"
+        Me.txtCompressFile.Size = New System.Drawing.Size(581, 20)
+        Me.txtCompressFile.TabIndex = 40
+        '
+        'lblSourceFileInfo
+        '
+        Me.lblSourceFileInfo.AutoSize = True
+        Me.lblSourceFileInfo.Location = New System.Drawing.Point(5, 156)
+        Me.lblSourceFileInfo.Name = "lblSourceFileInfo"
+        Me.lblSourceFileInfo.Size = New System.Drawing.Size(84, 13)
+        Me.lblSourceFileInfo.TabIndex = 42
+        Me.lblSourceFileInfo.Text = "Source File Info:"
+        '
+        'TabPage3
+        '
+        Me.TabPage3.Controls.Add(Me.panelSQL2TSQL)
+        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Size = New System.Drawing.Size(646, 437)
+        Me.TabPage3.TabIndex = 2
+        Me.TabPage3.Text = "MSSQL To TSQL"
+        Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'panelSQL2TSQL
+        '
+        Me.panelSQL2TSQL.BackColor = System.Drawing.SystemColors.Control
+        Me.panelSQL2TSQL.Controls.Add(Me.lblSQLServer)
+        Me.panelSQL2TSQL.Controls.Add(Me.lblSQLConversionProgress)
+        Me.panelSQL2TSQL.Controls.Add(Me.txtSQLServer)
+        Me.panelSQL2TSQL.Controls.Add(Me.btnConvertSQL)
+        Me.panelSQL2TSQL.Controls.Add(Me.lblDatabase)
+        Me.panelSQL2TSQL.Controls.Add(Me.btnTestConnection)
+        Me.panelSQL2TSQL.Controls.Add(Me.txtDatabase)
+        Me.panelSQL2TSQL.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelSQL2TSQL.Location = New System.Drawing.Point(0, 0)
+        Me.panelSQL2TSQL.Name = "panelSQL2TSQL"
+        Me.panelSQL2TSQL.Size = New System.Drawing.Size(646, 437)
+        Me.panelSQL2TSQL.TabIndex = 14
+        '
+        'lblSQLServer
+        '
+        Me.lblSQLServer.AutoSize = True
+        Me.lblSQLServer.Location = New System.Drawing.Point(22, 17)
+        Me.lblSQLServer.Name = "lblSQLServer"
+        Me.lblSQLServer.Size = New System.Drawing.Size(65, 13)
+        Me.lblSQLServer.TabIndex = 7
+        Me.lblSQLServer.Text = "SQL Server:"
+        '
+        'lblSQLConversionProgress
+        '
+        Me.lblSQLConversionProgress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblSQLConversionProgress.Location = New System.Drawing.Point(25, 116)
+        Me.lblSQLConversionProgress.Name = "lblSQLConversionProgress"
+        Me.lblSQLConversionProgress.Size = New System.Drawing.Size(315, 42)
+        Me.lblSQLConversionProgress.TabIndex = 13
+        '
+        'txtSQLServer
+        '
+        Me.txtSQLServer.Location = New System.Drawing.Point(93, 14)
+        Me.txtSQLServer.Name = "txtSQLServer"
+        Me.txtSQLServer.Size = New System.Drawing.Size(247, 20)
+        Me.txtSQLServer.TabIndex = 8
+        Me.txtSQLServer.Text = "localhost"
+        '
+        'btnConvertSQL
+        '
+        Me.btnConvertSQL.Location = New System.Drawing.Point(234, 75)
+        Me.btnConvertSQL.Name = "btnConvertSQL"
+        Me.btnConvertSQL.Size = New System.Drawing.Size(106, 23)
+        Me.btnConvertSQL.TabIndex = 12
+        Me.btnConvertSQL.Text = "Convert to T-SQL"
+        Me.btnConvertSQL.UseVisualStyleBackColor = True
+        '
+        'lblDatabase
+        '
+        Me.lblDatabase.AutoSize = True
+        Me.lblDatabase.Location = New System.Drawing.Point(22, 43)
+        Me.lblDatabase.Name = "lblDatabase"
+        Me.lblDatabase.Size = New System.Drawing.Size(56, 13)
+        Me.lblDatabase.TabIndex = 9
+        Me.lblDatabase.Text = "Database:"
+        '
+        'btnTestConnection
+        '
+        Me.btnTestConnection.Location = New System.Drawing.Point(122, 75)
+        Me.btnTestConnection.Name = "btnTestConnection"
+        Me.btnTestConnection.Size = New System.Drawing.Size(106, 23)
+        Me.btnTestConnection.TabIndex = 11
+        Me.btnTestConnection.Text = "Test Connection"
+        Me.btnTestConnection.UseVisualStyleBackColor = True
+        '
+        'txtDatabase
+        '
+        Me.txtDatabase.Location = New System.Drawing.Point(93, 40)
+        Me.txtDatabase.Name = "txtDatabase"
+        Me.txtDatabase.Size = New System.Drawing.Size(247, 20)
+        Me.txtDatabase.TabIndex = 10
+        Me.txtDatabase.Text = "EveHQ"
+        '
+        'ofd1
+        '
+        Me.ofd1.FileName = "OpenFileDialog1"
+        '
         'frmDataConvert
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -690,14 +689,14 @@ Partial Class frmDataConvert
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
+        Me.panelConvert.ResumeLayout(False)
+        Me.panelConvert.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
+        Me.panelCompress.ResumeLayout(False)
+        Me.panelCompress.PerformLayout()
         Me.TabPage3.ResumeLayout(False)
         Me.panelSQL2TSQL.ResumeLayout(False)
         Me.panelSQL2TSQL.PerformLayout()
-        Me.panelCompress.ResumeLayout(False)
-        Me.panelCompress.PerformLayout()
-        Me.panelConvert.ResumeLayout(False)
-        Me.panelConvert.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub

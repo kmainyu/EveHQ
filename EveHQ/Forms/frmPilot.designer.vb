@@ -281,7 +281,7 @@ Partial Public Class frmPilot
         Me.ContainerListViewColumnHeader1.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.ContainerListViewColumnHeader1.Tag = Nothing
         Me.ContainerListViewColumnHeader1.Text = "Skill"
-        Me.ContainerListViewColumnHeader1.Width = 250
+        Me.ContainerListViewColumnHeader1.Width = 280
         '
         'ContainerListViewColumnHeader2
         '

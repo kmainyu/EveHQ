@@ -51,6 +51,7 @@ Imports System.Runtime.Serialization
     Private cImplantSlot As Integer
     Private cBoosterSlot As Integer
     Private cVolume As Double
+    Private cCapacity As Double
     Private cCPU As Double
     Private cPG As Double
     Private cCalibration As Integer
@@ -222,6 +223,15 @@ Imports System.Runtime.Serialization
             cVolume = value
         End Set
     End Property
+    Public Property Capacity() As Double
+        Get
+            Return cCapacity
+        End Get
+        Set(ByVal value As Double)
+            cCapacity = value
+        End Set
+    End Property
+
     Public Property CPU() As Double
         Get
             Return cCPU

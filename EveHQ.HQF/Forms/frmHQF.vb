@@ -766,6 +766,7 @@ Public Class frmHQF
                 newModule.DatabaseCategory = row.Item("categoryID").ToString
                 newModule.BasePrice = CDbl(row.Item("baseprice"))
                 newModule.Volume = CDbl(row.Item("volume"))
+                newModule.Capacity = CDbl(row.Item("capacity"))
                 newModule.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newModule.ID)
                 newModule.Icon = row.Item("icon").ToString
                 If IsDBNull(row.Item("marketGroupID")) = False Then
@@ -3341,4 +3342,5 @@ Public Class frmHQF
             End If
         Next
     End Sub
+
 End Class

@@ -405,6 +405,32 @@ Public Class ShipInfoControl
                         nSkills.Add("HiSlot" & slot.ToString & count.ToString, rSkill)
                     End If
                 Next
+                If fittedShip.HiSlot(slot).LoadedCharge IsNot Nothing Then
+                    count = 0
+                    For Each nSkill As ItemSkills In fittedShip.HiSlot(slot).LoadedCharge.RequiredSkills.Values
+                        count += 1
+                        If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                            mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                            If mySkill.Level < nSkill.Level Then
+                                rSkill = New ReqSkill
+                                rSkill.Name = nSkill.Name
+                                rSkill.ID = nSkill.ID
+                                rSkill.ReqLevel = nSkill.Level
+                                rSkill.CurLevel = mySkill.Level
+                                rSkill.NeededFor = fittedShip.HiSlot(slot).LoadedCharge.Name
+                                nSkills.Add("HiSlot Charge" & slot.ToString & count.ToString, rSkill)
+                            End If
+                        Else
+                            rSkill = New ReqSkill
+                            rSkill.Name = nSkill.Name
+                            rSkill.ID = nSkill.ID
+                            rSkill.ReqLevel = nSkill.Level
+                            rSkill.CurLevel = 0
+                            rSkill.NeededFor = fittedShip.HiSlot(slot).LoadedCharge.Name
+                            nSkills.Add("HiSlot Charge" & slot.ToString & count.ToString, rSkill)
+                        End If
+                    Next
+                End If
             End If
         Next
         For slot As Integer = 1 To fittedShip.MidSlots
@@ -433,6 +459,32 @@ Public Class ShipInfoControl
                         nSkills.Add("MidSlot" & slot.ToString & count.ToString, rSkill)
                     End If
                 Next
+                If fittedShip.MidSlot(slot).LoadedCharge IsNot Nothing Then
+                    count = 0
+                    For Each nSkill As ItemSkills In fittedShip.MidSlot(slot).LoadedCharge.RequiredSkills.Values
+                        count += 1
+                        If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                            mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                            If mySkill.Level < nSkill.Level Then
+                                rSkill = New ReqSkill
+                                rSkill.Name = nSkill.Name
+                                rSkill.ID = nSkill.ID
+                                rSkill.ReqLevel = nSkill.Level
+                                rSkill.CurLevel = mySkill.Level
+                                rSkill.NeededFor = fittedShip.MidSlot(slot).LoadedCharge.Name
+                                nSkills.Add("MidSlot Charge" & slot.ToString & count.ToString, rSkill)
+                            End If
+                        Else
+                            rSkill = New ReqSkill
+                            rSkill.Name = nSkill.Name
+                            rSkill.ID = nSkill.ID
+                            rSkill.ReqLevel = nSkill.Level
+                            rSkill.CurLevel = 0
+                            rSkill.NeededFor = fittedShip.MidSlot(slot).LoadedCharge.Name
+                            nSkills.Add("MidSlot Charge" & slot.ToString & count.ToString, rSkill)
+                        End If
+                    Next
+                End If
             End If
         Next
         For slot As Integer = 1 To fittedShip.LowSlots
@@ -461,6 +513,32 @@ Public Class ShipInfoControl
                         nSkills.Add("LowSlot" & slot.ToString & count.ToString, rSkill)
                     End If
                 Next
+                If fittedShip.LowSlot(slot).LoadedCharge IsNot Nothing Then
+                    count = 0
+                    For Each nSkill As ItemSkills In fittedShip.LowSlot(slot).LoadedCharge.RequiredSkills.Values
+                        count += 1
+                        If shipPilot.SkillSet.Contains(nSkill.Name) = True Then
+                            mySkill = CType(shipPilot.SkillSet(nSkill.Name), HQFSkill)
+                            If mySkill.Level < nSkill.Level Then
+                                rSkill = New ReqSkill
+                                rSkill.Name = nSkill.Name
+                                rSkill.ID = nSkill.ID
+                                rSkill.ReqLevel = nSkill.Level
+                                rSkill.CurLevel = mySkill.Level
+                                rSkill.NeededFor = fittedShip.LowSlot(slot).LoadedCharge.Name
+                                nSkills.Add("LowSlot Charge" & slot.ToString & count.ToString, rSkill)
+                            End If
+                        Else
+                            rSkill = New ReqSkill
+                            rSkill.Name = nSkill.Name
+                            rSkill.ID = nSkill.ID
+                            rSkill.ReqLevel = nSkill.Level
+                            rSkill.CurLevel = 0
+                            rSkill.NeededFor = fittedShip.LowSlot(slot).LoadedCharge.Name
+                            nSkills.Add("LowSlot Charge" & slot.ToString & count.ToString, rSkill)
+                        End If
+                    Next
+                End If
             End If
         Next
         For slot As Integer = 1 To fittedShip.RigSlots

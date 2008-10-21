@@ -2757,6 +2757,7 @@ Public Class frmAssets
         ' Flick to the API Status tab
         TabControl1.SelectTab(tabAssetsAPI)
         Call Me.GetAssets()
+        cboPilots.SelectedItem = EveHQ.Core.HQ.myPilot.Name
     End Sub
     Private Sub tsbDownloadOutposts_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbDownloadOutposts.Click
         Call Me.GetOutposts()
