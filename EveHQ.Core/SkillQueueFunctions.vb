@@ -62,6 +62,10 @@ Public Class SkillQueueFunctions
             ' Check the skill order of the existing skills
             If QuickBuild = False Then Call CheckSkillOrder(qPilot, bQueue)
             ' Check if we need to covertly delete skills!
+            ' Deletes completed skills if appropriate
+            If EveHQ.Core.HQ.EveHQSettings.DeleteSkills = True Then
+                EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(qPilot, bQueue)
+            End If
         Catch ex As Exception
             MessageBox.Show("Error occurs in Queue Building", "BuildQueue Error")
             Return Nothing
@@ -1026,6 +1030,7 @@ Public Class SkillQueueFunctions
                 End If
             End If
         Next
+        aQ.QueueSkills = aQ.Queue.Count
     End Sub
 
     Public Shared Function SortQueueByPos(ByVal aQ As EveHQ.Core.SkillQueue) As EveHQ.Core.SkillQueue
@@ -1050,10 +1055,6 @@ Public Class SkillQueueFunctions
     End Function
 
     Public Shared Function TidyQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal aQueue As EveHQ.Core.SkillQueue, ByVal qList As ArrayList) As EveHQ.Core.SkillQueue
-        ' Deletes Removed skills if appropriate
-        If EveHQ.Core.HQ.EveHQSettings.DeleteSkills = True Then
-            Call EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(qPilot, aQueue)
-        End If
         ' Resets position numbers of the list
         Dim startPOS As Integer = 0
         If qPilot.Training = True Then

@@ -318,7 +318,7 @@ Public Class frmInEveUploader
                 lvwQueues.Items(queue).SubItems(1).Text = "Working..."
                 Dim oQueue As EveHQ.Core.SkillQueue = CType(uPilot.TrainingQueues(lvwQueues.Items(queue).Name), Core.SkillQueue)
                 Dim uQueue As EveHQ.Core.SkillQueue = CType(oQueue.Clone, Core.SkillQueue)
-                Call EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(uPilot, uQueue)
+                EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(uPilot, uQueue)
                 uQueue = EveHQ.Core.SkillQueueFunctions.SortQueueByPos(uQueue)
                 Me.queueXML &= Me.GenerateQueueXML(uPilot, uQueue)
             Else
