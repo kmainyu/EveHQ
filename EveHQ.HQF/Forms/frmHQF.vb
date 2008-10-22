@@ -2836,10 +2836,12 @@ Public Class frmHQF
                 ' Create the tab and display
                 If Fittings.FittingTabList.Contains(shipFit) = False Then
                     Call Me.CreateFittingTabPage(shipFit)
+                    tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+                    If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
+                    currentShipSlot.UpdateEverything()
+                Else
+                    tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
                 End If
-                tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
-                If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
-                currentShipSlot.UpdateEverything()
             End If
         Else
             Dim msg As String = "There are no pilots or accounts created in EveHQ." & ControlChars.CrLf

@@ -1383,19 +1383,20 @@ Public Class frmTraining
             Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
             Dim keyName As String = skillName & fromLevel & toLevel
 
-            ' Remove it from the queue
-            Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-            mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-            Dim mySkillPos As Integer = mySkill.Pos - 1
-            Call Me.DeleteFromQueue(mySkill)
+            If activeQueue.Queue.Contains(keyName) = True Then
+                ' Remove it from the queue
+                Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+                mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+                Dim mySkillPos As Integer = mySkill.Pos - 1
+                Call Me.DeleteFromQueue(mySkill)
 
-            ' Add all the sublevels
-            For level As Integer = CInt(fromLevel) To CInt(toLevel) - 1
-                mySkillPos += 1
-                activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos, activeQueue, level + 1)
-            Next
+                ' Add all the sublevels
+                For level As Integer = CInt(fromLevel) To CInt(toLevel) - 1
+                    mySkillPos += 1
+                    activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos, activeQueue, level + 1)
+                Next
+            End If
         Next selItem
-
         Call Me.RefreshTraining(activeQueueName)
     End Sub
 
@@ -2495,56 +2496,57 @@ Public Class frmTraining
         Dim toLevel As String = activeLVW.SelectedItems(0).SubItems(3).Text
         Dim keyName As String = skillName & fromLevel & toLevel
         Dim myTSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-        myTSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-        If selectedLevel < CInt(toLevel) Then
-            ' Delete the existing item
-            activeQueue.Queue.Remove(keyName)
-            ' Adjust the "to" level
-            myTSkill.ToLevel = selectedLevel
-            ' Add the item back in at its new levels
-            activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
-            Call Me.RefreshTraining(activeQueueName)
-            activeLVW.Items(oldIndex).Selected = True
-        End If
-        If selectedLevel > CInt(toLevel) Then
-            ' Check if we have another skill that can be affected by us increasing the level i.e. the same skill!
-            Dim checkSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-            For Each checkSkill In activeQueue.Queue
-                If myTSkill.Name = checkSkill.Name Then ' Matched skill name
-                    ' Check the "from" skill level matches
-                    If checkSkill.FromLevel >= myTSkill.ToLevel Then
-                        ' We have to decide what to do here, either increase the levels or merge
-                        If checkSkill.ToLevel <= selectedLevel Then
-                            ' We have to merge the items here so delete the new found one
-                            Call Me.DeleteFromQueue(checkSkill)
-                        Else
-                            ' We have to increase the levels so decrease the new found one
-                            ' Delete the existing item
-                            activeQueue.Queue.Remove(checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
-                            ' Adjust the "to" level
-                            checkSkill.FromLevel = selectedLevel + 1
-                            ' Add the item back in at its new levels
-                            activeQueue.Queue.Add(checkSkill, checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
+        If activeQueue.Queue.Contains(keyName) = True Then
+            myTSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+            If selectedLevel < CInt(toLevel) Then
+                ' Delete the existing item
+                activeQueue.Queue.Remove(keyName)
+                ' Adjust the "to" level
+                myTSkill.ToLevel = selectedLevel
+                ' Add the item back in at its new levels
+                activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
+                Call Me.RefreshTraining(activeQueueName)
+                activeLVW.Items(oldIndex).Selected = True
+            End If
+            If selectedLevel > CInt(toLevel) Then
+                ' Check if we have another skill that can be affected by us increasing the level i.e. the same skill!
+                Dim checkSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+                For Each checkSkill In activeQueue.Queue
+                    If myTSkill.Name = checkSkill.Name Then ' Matched skill name
+                        ' Check the "from" skill level matches
+                        If checkSkill.FromLevel >= myTSkill.ToLevel Then
+                            ' We have to decide what to do here, either increase the levels or merge
+                            If checkSkill.ToLevel <= selectedLevel Then
+                                ' We have to merge the items here so delete the new found one
+                                Call Me.DeleteFromQueue(checkSkill)
+                            Else
+                                ' We have to increase the levels so decrease the new found one
+                                ' Delete the existing item
+                                activeQueue.Queue.Remove(checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
+                                ' Adjust the "to" level
+                                checkSkill.FromLevel = selectedLevel + 1
+                                ' Add the item back in at its new levels
+                                activeQueue.Queue.Add(checkSkill, checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
+                            End If
                         End If
                     End If
+                Next
+
+                ' Check if the skill has been trained and we wish to increase it to the next level
+                If activeLVW.SelectedItems(0).Font.Strikeout = True Then
+                    myTSkill.FromLevel = Math.Max(CInt(curLevel), myTSkill.FromLevel)
                 End If
-            Next
 
-            ' Check if the skill has been trained and we wish to increase it to the next level
-            If activeLVW.SelectedItems(0).Font.Strikeout = True Then
-                myTSkill.FromLevel = Math.Max(CInt(curLevel), myTSkill.FromLevel)
+                ' Delete the existing item
+                activeQueue.Queue.Remove(keyName)
+                ' Adjust the "to" level
+                myTSkill.ToLevel = selectedLevel
+                ' Add the item back in at its new levels
+                activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
+                Call Me.RefreshTraining(activeQueueName)
+                activeLVW.Items(oldIndex).Selected = True
             End If
-
-            ' Delete the existing item
-            activeQueue.Queue.Remove(keyName)
-            ' Adjust the "to" level
-            myTSkill.ToLevel = selectedLevel
-            ' Add the item back in at its new levels
-            activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
-            Call Me.RefreshTraining(activeQueueName)
-            activeLVW.Items(oldIndex).Selected = True
         End If
-
     End Sub
 
     Private Sub btnICT_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnICT.CheckedChanged

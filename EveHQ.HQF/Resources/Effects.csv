@@ -682,8 +682,8 @@
 353,2,407,10005,3,6,0,0,1,4,Drone Control Unit - Drone Bonus
 459,2,647,10007,3,6,0,0,1,15,Drone Link Augmenter - Drone Control Range Bonus
 567,2,644,37,3,18,0,0,0,15,Drone Navigation Computer - Drone Velocity
-243,2,646,54,3,18,0,0,0,15,Omni Tracking Link - Max Range
-244,2,646,160,3,18,0,0,0,15,Omni Tracking Link - Tracking Speed
+243,2,646,54,3,18,0,0,5,15,Omni Tracking Link - Max Range
+244,2,646,160,3,18,0,0,5,15,Omni Tracking Link - Tracking Speed
 # ELECTRONIC WARFARE,,,,,,,,,,
 # ECCM,,,,,,,,,,
 1027,2,202,211,3,6,1,0,0,14,Grav Strength
