@@ -1256,8 +1256,10 @@ Public Class frmHQF
 
     Private Sub frmHQF_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         ' Save the panel widths
-        Settings.HQFSettings.ShipPanelWidth = SplitContainer1.Width
-        Settings.HQFSettings.ModPanelWidth = SplitContainer2.Width
+        Settings.HQFSettings.ShipPanelWidth = SplitContainerShip.Width
+        Settings.HQFSettings.ModPanelWidth = SplitContainerMod.Width
+        Settings.HQFSettings.ShipSplitterWidth = SplitContainerShip.SplitterDistance
+        Settings.HQFSettings.ModSplitterWidth = SplitContainerMod.SplitterDistance
         ' Save fittings
         Call Me.SaveFittings()
         ' Save the Settings
@@ -1265,8 +1267,8 @@ Public Class frmHQF
         ' Destroy the tab settings
         Me.tabHQF.Dispose()
         ' Destroy the panels
-        Me.SplitContainer1.Dispose()
-        Me.SplitContainer2.Dispose()
+        Me.SplitContainerShip.Dispose()
+        Me.SplitContainerMod.Dispose()
         Me.lvwItems.Dispose()
         Me.tvwItems.Dispose()
         LastModuleResults.Clear()
@@ -1348,12 +1350,14 @@ Public Class frmHQF
                 End If
             Next
         End If
-        HQF.Settings.HQFSettings.ShowPerformanceData = performanceSetting
 
         ' Set the panel widths
-        SplitContainer1.Width = Settings.HQFSettings.ShipPanelWidth
-        SplitContainer2.Width = Settings.HQFSettings.ModPanelWidth
-       
+        SplitContainerShip.Width = Settings.HQFSettings.ShipPanelWidth
+        SplitContainerMod.Width = Settings.HQFSettings.ModPanelWidth
+        SplitContainerShip.SplitterDistance = Settings.HQFSettings.ShipSplitterWidth
+        SplitContainerMod.SplitterDistance = Settings.HQFSettings.ModSplitterWidth
+
+        HQF.Settings.HQFSettings.ShowPerformanceData = performanceSetting
 
     End Sub
     Private Sub LoadFittings()
@@ -1551,7 +1555,12 @@ Public Class frmHQF
         tvwItems.SelectedNode = cNode
         tvwItems.Select()
     End Sub
-   
+    Private Sub SplitContainerShip_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles SplitContainerShip.Resize
+        SplitContainerShip.SplitterDistance = Settings.HQFSettings.ShipSplitterWidth
+    End Sub
+    Private Sub SplitContainerMod_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles SplitContainerMod.Resize
+        SplitContainerMod.SplitterDistance = Settings.HQFSettings.ModSplitterWidth
+    End Sub
     Private Sub LoadPilots()
         ' Loads the skills for the selected pilots
         ' Check for a valid HQFPilotSettings.xml file
@@ -1608,7 +1617,7 @@ Public Class frmHQF
     Private Sub SetMetaTypeFilters()
         Dim filters() As Integer = {1, 2, 4, 8, 16, 32}
         For Each filter As Integer In filters
-            Dim chkBox As CheckBox = CType(Me.SplitContainer2.Panel1.Controls.Item("chkFilter" & filter.ToString), CheckBox)
+            Dim chkBox As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls.Item("chkFilter" & filter.ToString), CheckBox)
             If (HQF.Settings.HQFSettings.ModuleFilter And filter) = filter Then
                 chkBox.Checked = True
             Else
@@ -2012,13 +2021,13 @@ Public Class frmHQF
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
                         'newModule.ImageKey = "rigSlot"
                 End Select
-                Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
+                Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
                 If chkFilter IsNot Nothing Then
                     chkFilter.ForeColor = Color.Black
                 End If
                 lvwItems.Items.Add(newModule)
             Else
-                Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
+                Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
                 If chkFilter IsNot Nothing Then
                     chkFilter.ForeColor = Color.LimeGreen
                 End If
@@ -2070,7 +2079,7 @@ Public Class frmHQF
                                 results.Add(sMod.Name, sMod)
                             End If
                         End If
-                    Else    
+                    Else
                         results.Add(sMod.Name, sMod)
                     End If
                 End If
@@ -2117,11 +2126,11 @@ Public Class frmHQF
                             newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
                             'newModule.ImageKey = "rigSlot"
                     End Select
-                    Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
+                    Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
                     chkFilter.ForeColor = Color.Black
                     lvwItems.Items.Add(newModule)
                 Else
-                    Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
+                    Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
                     chkFilter.ForeColor = Color.LimeGreen
                 End If
             End If
@@ -2236,13 +2245,13 @@ Public Class frmHQF
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
                         'newModule.ImageKey = "rigSlot"
                 End Select
-                Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
+                Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
                 If chkFilter IsNot Nothing Then
                     chkFilter.ForeColor = Color.Black
                 End If
                 lvwItems.Items.Add(newModule)
             Else
-                Dim chkFilter As CheckBox = CType(Me.SplitContainer2.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
+                Dim chkFilter As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls("chkFilter" & shipMod.MetaType), CheckBox)
                 chkFilter.ForeColor = Color.LimeGreen
             End If
         Next
@@ -2256,7 +2265,7 @@ Public Class frmHQF
     Private Sub txtSearchModules_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchModules.TextChanged
         Call CalculateSearchedModules()
     End Sub
-    
+
 #End Region
 
 #Region "Module List Routines"
@@ -2412,7 +2421,7 @@ Public Class frmHQF
             End If
         Next
     End Sub
-  
+
 #Region "TabHQF Selection and Context Menu Routines"
 
     Private Sub tabHQF_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabHQF.SelectedIndexChanged
@@ -2868,12 +2877,12 @@ Public Class frmHQF
         If btnShipPanel.Checked = True Then
             ' If the panel is open
             'btnShipPanel.Image = My.Resources.panel_close
-            SplitContainer1.Visible = True
+            SplitContainerShip.Visible = True
             cboFittings.Visible = False
         Else
             ' If the panel is closed
             'btnShipPanel.Image = My.Resources.panel_open
-            SplitContainer1.Visible = False
+            SplitContainerShip.Visible = False
             cboFittings.Visible = True
         End If
     End Sub
@@ -2882,11 +2891,11 @@ Public Class frmHQF
         If btnItemPanel.Checked = True Then
             ' If the panel is open
             'btnShipPanel.Image = My.Resources.panel_close
-            SplitContainer2.Visible = True
+            SplitContainerMod.Visible = True
         Else
             ' If the panel is closed
             'btnShipPanel.Image = My.Resources.panel_open
-            SplitContainer2.Visible = False
+            SplitContainerMod.Visible = False
         End If
     End Sub
 
@@ -3345,4 +3354,6 @@ Public Class frmHQF
         Next
     End Sub
 
+
+   
 End Class

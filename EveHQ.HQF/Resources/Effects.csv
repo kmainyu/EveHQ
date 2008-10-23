@@ -263,9 +263,7 @@
 #,1,28880,,,,0,1,0,0,Nanite Interfacing
 #,1,28879,,,,0,1,0,0,Nanite Operation
 1139,1,26257,1138,2,777,0,1,0,0,Projectile Weapon Rigging
-317,1,16069,6,4,1059,0,1,0,0,Remote Armor Repair Systems - Small
-317,1,16069,6,4,1058,0,1,0,0,Remote Armor Repair Systems - Medium
-317,1,16069,6,4,1057,0,1,0,0,Remote Armor Repair Systems - Large
+317,1,16069,6,2,325,0,1,0,0,Remote Armor Repair Systems
 317,1,27902,6,4,372,0,1,0,0,Remote Hull Repair Systems - Small
 317,1,27902,6,4,1061,0,1,0,0,Remote Hull Repair Systems - Medium
 317,1,27902,6,4,1062,0,1,0,0,Remote Hull Repair Systems - Large

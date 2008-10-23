@@ -2589,6 +2589,7 @@ Public Class frmAssets
             ' Should have got the ship by now
             HQFShip.Sort()
             Dim FittedMods As New SortedList
+            Dim Drones As New SortedList
             Dim ChargedMod(1) As String
             For Each fittedMod As String In HQFShip
                 Dim modData() As String = fittedMod.Split(",".ToCharArray)
@@ -2601,7 +2602,6 @@ Public Class frmAssets
                     End If
                     FittedMods.Add(modData(0), ChargedMod)
                 Else
-
                     ChargedMod = CType(FittedMods(modData(0)), String())
                     If modData(3) = "8" Then ' Is Charge
                         ChargedMod(1) = modData(1)
@@ -2610,6 +2610,15 @@ Public Class frmAssets
                     End If
                     FittedMods(modData(0)) = ChargedMod
                 End If
+                If modData(3) = "18" Then ' Is Drone
+                    If Drones.Contains(modData(1)) = True Then
+                        Dim CDQ As Integer = CInt(modData(2))
+                        Dim TDQ As Integer = CInt(Drones(modData(1)))
+                        Drones(modData(1)) = (TDQ + CDQ).ToString
+                    Else
+                        Drones.Add(modData(1), modData(2))
+                    End If
+                End If
             Next
             Dim list As New StringBuilder
             list.AppendLine("[" & shipName & "," & owner & "'s " & shipName & "]")
@@ -2617,9 +2626,12 @@ Public Class frmAssets
                 Dim modData() As String = fittedMod.Split(",".ToCharArray)
                 Select Case modData(0)
                     Case "Drone Bay"
-                        list.AppendLine(modData(1) & ", " & modData(2) & "i")
+                        ' Ignore as we will be adding them later
+                        '    list.AppendLine(modData(1) & ", " & modData(2) & "i")
                     Case "Cargo Bay"
-                        list.AppendLine(modData(1) & ", " & modData(2))
+                        If modData(3) = "8" Then
+                            list.AppendLine(modData(1) & ", " & modData(2))
+                        End If
                     Case Else
                         If FittedMods.Contains(modData(0)) = True Then
                             ChargedMod = CType(FittedMods(modData(0)), String())
@@ -2631,6 +2643,10 @@ Public Class frmAssets
                             FittedMods.Remove(modData(0))
                         End If
                 End Select
+            Next
+            ' Add Drones
+            For Each drone As String In Drones.Keys
+                list.AppendLine(drone & ", " & Drones(drone).ToString & "i")
             Next
             MessageBox.Show(list.ToString)
             Clipboard.SetText(list.ToString)

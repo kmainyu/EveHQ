@@ -292,11 +292,12 @@ Public Class frmPilot
         clvSkills.Items.Clear()
         clvSkills.Refresh()
         clvSkills.BeginUpdate()
+        clvSkills.ItemSelectedColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor))
         Dim groupStructure As New SortedList
         For group As Integer = 0 To 14
             Dim newCLVGroup As New ContainerListViewItem
-            newCLVGroup.BackColor = Color.DimGray
-            newCLVGroup.ForeColor = Color.White
+            newCLVGroup.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor))
+            newCLVGroup.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor))
             newCLVGroup.Text = groupHeaders(group, 0)
             clvSkills.Items.Add(newCLVGroup)
             groupStructure.Add(groupHeaders(group, 1), newCLVGroup)
@@ -308,6 +309,7 @@ Public Class frmPilot
                 Dim groupCLV As ContainerListViewItem = CType(groupStructure(cSkill.GroupID), ContainerListViewItem)
                 Dim newCLVItem As New ContainerListViewItem
                 newCLVItem.Text = cSkill.Name
+                newCLVItem.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor))
                 groupCLV.Items.Add(newCLVItem)
                 newCLVItem.SubItems(1).Text = cSkill.Rank.ToString
                 

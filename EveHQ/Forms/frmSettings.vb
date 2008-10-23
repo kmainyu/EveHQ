@@ -249,6 +249,10 @@ Public Class frmSettings
         pbPilotLevel5.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotLevel5SkillColor))
         pbPilotPartial.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotPartTrainedSkillColor))
         pbPilotStandard.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotStandardSkillColor))
+        pbPilotGroupBG.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor))
+        pbPilotGroupText.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor))
+        pbPilotSkillText.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor))
+        pbPilotSkillHighlight.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor))
     End Sub
 
     Private Sub pbPanelColours_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbPanelBackground.Click, pbPanelBottomRight.Click, pbPanelHighlight.Click, pbPanelLeft.Click, pbPanelOutline.Click, pbPanelRight.Click, pbPanelText.Click, pbPanelTopLeft.Click
@@ -321,6 +325,14 @@ Public Class frmSettings
                     .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotPartTrainedSkillColor))
                 Case "pbPilotStandard"
                     .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotStandardSkillColor))
+                Case "pbPilotGroupBG"
+                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor))
+                Case "pbPilotGroupText"
+                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor))
+                Case "pbPilotSkillText"
+                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor))
+                Case "pbPilotSkillHighlight"
+                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor))
             End Select
             dlgResult = .ShowDialog()
         End With
@@ -337,6 +349,14 @@ Public Class frmSettings
                     EveHQ.Core.HQ.EveHQSettings.PilotPartTrainedSkillColor = cd1.Color.ToArgb
                 Case "pbPilotStandard"
                     EveHQ.Core.HQ.EveHQSettings.PilotStandardSkillColor = cd1.Color.ToArgb
+                Case "pbPilotGroupBG"
+                    EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor = cd1.Color.ToArgb
+                Case "pbPilotGroupText"
+                    EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor = cd1.Color.ToArgb
+                Case "pbPilotSkillText"
+                    EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor = cd1.Color.ToArgb
+                Case "pbPilotSkillHighlight"
+                    EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor = cd1.Color.ToArgb
             End Select
             ' Update the colours
             frmPilot.clvSkills.Refresh()
@@ -365,6 +385,10 @@ Public Class frmSettings
         EveHQ.Core.HQ.EveHQSettings.PilotLevel5SkillColor = System.Drawing.Color.Thistle.ToArgb
         EveHQ.Core.HQ.EveHQSettings.PilotPartTrainedSkillColor = System.Drawing.Color.Gold.ToArgb
         EveHQ.Core.HQ.EveHQSettings.PilotStandardSkillColor = System.Drawing.Color.White.ToArgb
+        EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor = System.Drawing.Color.DimGray.ToArgb
+        EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor = System.Drawing.Color.White.ToArgb
+        EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor = System.Drawing.Color.Black.ToArgb
+        EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor = System.Drawing.Color.DodgerBlue.ToArgb
         ' Update the colours
         frmPilot.clvSkills.Refresh()
         ' Update the PBPilot Colours

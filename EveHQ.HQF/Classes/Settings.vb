@@ -54,7 +54,25 @@ Public Class Settings
     Private cMRUModules As New ArrayList
     Private cShipPanelWidth As Integer = 200
     Private cModPanelWidth As Integer = 300
+    Private cShipSplitterWidth As Integer = 300
+    Private cModSplitterWidth As Integer = 300
 
+    Public Property ModSplitterWidth() As Integer
+        Get
+            Return cModSplitterWidth
+        End Get
+        Set(ByVal value As Integer)
+            cModSplitterWidth = value
+        End Set
+    End Property
+    Public Property ShipSplitterWidth() As Integer
+        Get
+            Return cShipSplitterWidth
+        End Get
+        Set(ByVal value As Integer)
+            cShipSplitterWidth = value
+        End Set
+    End Property
     Public Property ModPanelWidth() As Integer
         Get
             Return cModPanelWidth
@@ -249,6 +267,8 @@ Public Class Settings
         XMLS &= Chr(9) & Chr(9) & "<shieldRechargeConst>" & HQFSettings.ShieldRechargeConstant & "</shieldRechargeConst>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<shipPanelWidth>" & HQFSettings.ShipPanelWidth & "</shipPanelWidth>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<modPanelWidth>" & HQFSettings.ModPanelWidth & "</modPanelWidth>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<shipSplitterWidth>" & HQFSettings.ShipSplitterWidth & "</shipSplitterWidth>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<modSplitterWidth>" & HQFSettings.ModSplitterWidth & "</modSplitterWidth>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the slot layout
@@ -329,6 +349,8 @@ Public Class Settings
                         HQFSettings.ShieldRechargeConstant = CDbl(settingSettings.ChildNodes(12).InnerText)
                         HQFSettings.ShipPanelWidth = CInt(settingSettings.ChildNodes(13).InnerText)
                         HQFSettings.ModPanelWidth = CInt(settingSettings.ChildNodes(14).InnerText)
+                        HQFSettings.ShipSplitterWidth = CInt(settingSettings.ChildNodes(15).InnerText)
+                        HQFSettings.ModSplitterWidth = CInt(settingSettings.ChildNodes(16).InnerText)
                     End If
                 End If
             Catch

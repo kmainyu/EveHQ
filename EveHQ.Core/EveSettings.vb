@@ -119,7 +119,43 @@ Public Class EveSettings
     Private cErrorReportingEnabled As Boolean = False
     Private cErrorReportingName As String = ""
     Private cErrorReportingEmail As String = ""
+    Private cPilotGroupBackgroundColor As Long = System.Drawing.Color.DimGray.ToArgb
+    Private cPilotGroupTextColor As Long = System.Drawing.Color.White.ToArgb
+    Private cPilotSkillTextColor As Long = System.Drawing.Color.Black.ToArgb
+    Private cPilotSkillHighlightColor As Long = System.Drawing.Color.DodgerBlue.ToArgb
 
+    Public Property PilotSkillHighlightColor() As Long
+        Get
+            Return cPilotSkillHighlightColor
+        End Get
+        Set(ByVal value As Long)
+            cPilotSkillHighlightColor = value
+        End Set
+    End Property
+    Public Property PilotSkillTextColor() As Long
+        Get
+            Return cPilotSkillTextColor
+        End Get
+        Set(ByVal value As Long)
+            cPilotSkillTextColor = value
+        End Set
+    End Property
+    Public Property PilotGroupTextColor() As Long
+        Get
+            Return cPilotGroupTextColor
+        End Get
+        Set(ByVal value As Long)
+            cPilotGroupTextColor = value
+        End Set
+    End Property
+    Public Property PilotGroupBackgroundColor() As Long
+        Get
+            Return cPilotGroupBackgroundColor
+        End Get
+        Set(ByVal value As Long)
+            cPilotGroupBackgroundColor = value
+        End Set
+    End Property
     Public Property ErrorReportingEmail() As String
         Get
             Return cErrorReportingEmail
@@ -1169,6 +1205,10 @@ Public Class EveSettings
         XMLS &= Chr(9) & Chr(9) & "<ErrorReportingEnabled>" & EveHQ.Core.HQ.EveHQSettings.ErrorReportingEnabled & "</ErrorReportingEnabled>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<ErrorReportingName>" & EveHQ.Core.HQ.EveHQSettings.ErrorReportingName & "</ErrorReportingName>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<ErrorReportingEmail>" & EveHQ.Core.HQ.EveHQSettings.ErrorReportingEmail & "</ErrorReportingEmail>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<pilotGroupBackgroundColour>" & EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor & "</pilotGroupBackgroundColour>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<pilotGroupTextColour>" & EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor & "</pilotGroupTextColour>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<pilotPartSkillTextColour>" & EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor & "</pilotPartSkillTextColour>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<pilotSkillHighlightColour>" & EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor & "</pilotSkillHighlightColour>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the Plug-Ins details
@@ -1520,6 +1560,10 @@ Public Class EveSettings
                         EveHQ.Core.HQ.EveHQSettings.ErrorReportingEnabled = CBool(accountSettings.ChildNodes(126).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.ErrorReportingName = accountSettings.ChildNodes(127).InnerText
                         EveHQ.Core.HQ.EveHQSettings.ErrorReportingEmail = accountSettings.ChildNodes(128).InnerText
+                        EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor = CLng(accountSettings.ChildNodes(129).InnerText)
+                        EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor = CLng(accountSettings.ChildNodes(130).InnerText)
+                        EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor = CLng(accountSettings.ChildNodes(131).InnerText)
+                        EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor = CLng(accountSettings.ChildNodes(132).InnerText)
                     End If
                 End If
             Catch
