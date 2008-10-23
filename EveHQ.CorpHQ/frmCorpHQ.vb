@@ -20,11 +20,11 @@
 Imports System.Windows.Forms
 Imports System.IO
 Imports System.Text.RegularExpressions
+Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class frmCorpHQ
     Implements EveHQ.Core.IEveHQPlugIn
     Dim mSetPlugInData As Object
-
     Dim AllStandings As New SortedList
 
 #Region "Plug-in Initialisation Routines"
@@ -60,6 +60,39 @@ Public Class frmCorpHQ
     End Property
 #End Region
 
+#Region "Form/Standings Loading and Unloading"
+
+    Private Sub frmCorpHQ_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Call Me.LoadStandings()
+        Call Me.UpdateOwners()
+    End Sub
+
+    Private Sub frmCorpHQ_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        Call Me.SaveStandings()
+    End Sub
+
+    Private Sub LoadStandings()
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\Standings.bin") = True Then
+            Dim s As New FileStream(EveHQ.Core.HQ.cacheFolder & "\Standings.bin", FileMode.Open)
+            Dim f As BinaryFormatter = New BinaryFormatter
+            AllStandings.Clear()
+            Try
+                AllStandings = CType(f.Deserialize(s), SortedList)
+            Catch e As Exception
+                MessageBox.Show("There was an error retrieving the cached standings file, please obtain a new set of standings.", "Load Standings Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                AllStandings.Clear()
+            End Try
+            s.Close()
+        End If
+    End Sub
+    Private Sub SaveStandings()
+        Dim s As New FileStream(EveHQ.Core.HQ.cacheFolder & "\Standings.bin", FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, AllStandings)
+        s.Close()
+    End Sub
+#End Region
+
 #Region "Standings Parser"
     Private Sub btnGetStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetStandings.Click
         ' First, let's check out the cache location based on the value of the settings
@@ -72,11 +105,6 @@ Public Class frmCorpHQ
         Dim CharStandingsRegex As New System.Text.RegularExpressions.Regex("GetCharStandings.*", (RegexOptions.Compiled Or RegexOptions.IgnoreCase))
         Dim CorpStandingsRegex As New System.Text.RegularExpressions.Regex("GetCorpStandings.*", (RegexOptions.Compiled Or RegexOptions.IgnoreCase))
         Dim MyStandings As New StandingsData
-
-        Dim startTime, endTime As Date
-        Dim timeTaken As TimeSpan
-
-        startTime = Now
 
         For folderNo As Integer = 1 To 4
             If EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo) <> "" Then
@@ -142,13 +170,17 @@ Public Class frmCorpHQ
             End If
         Next
 
+        Call Me.SaveStandings()
+        Call UpdateOwners()
+
+    End Sub
+    Private Sub UpdateOwners()
         cboOwner.Items.Clear()
         lvwStandings.Items.Clear()
-
         If AllStandings.Count > 0 Then
             ' Create the list of owners in the combobox
             cboOwner.BeginUpdate()
-            For Each MyStandings In AllStandings.Values
+            For Each MyStandings As StandingsData In AllStandings.Values
                 ' Get Either Pilot or Corp Name
                 Dim ownerID As String = MyStandings.OwnerID
                 ' Cycle through the pilots to see if we have a match
@@ -162,7 +194,7 @@ Public Class frmCorpHQ
                                 End If
                             End If
                         Case "GetCorpStandings"
-                                If ownerID = cPilot.CorpID Then
+                            If ownerID = cPilot.CorpID Then
                                 If cboOwner.Items.Contains(cPilot.Corp) = False Then
                                     cboOwner.Items.Add(cPilot.Corp)
                                     MyStandings.OwnerName = cPilot.Corp
@@ -187,11 +219,6 @@ Public Class frmCorpHQ
             cboFilter.Enabled = False
             MessageBox.Show("Unable to find any valid cache files!", "No Cache Files Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
-
-        endTime = Now
-        timeTaken = endTime - startTime
-        'MessageBox.Show("Finished retrieving standings in " & timeTaken.TotalMilliseconds.ToString & "ms", "Completed!", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
     End Sub
     Private Sub cboOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboOwner.SelectedIndexChanged
         Call UpdateStandingsList()
@@ -340,7 +367,27 @@ Public Class frmCorpHQ
                         End Select
                         If show = True Then
                             Dim newStanding As New ListViewItem
-                            newStanding.Text = MyStandings.StandingNames(iStanding).ToString
+                            Try
+                                newStanding.Text = MyStandings.StandingNames(iStanding).ToString
+                            Catch e As Exception
+                                MessageBox.Show("Standing ID: " & iStanding)
+                                Try
+
+                                    Dim sw As New StreamWriter(EveHQ.Core.HQ.reportFolder & "\StandingsDump.txt")
+                                    For Each rStanding As String In MyStandings.StandingValues.Keys
+                                        Try
+                                            sw.WriteLine("ID: " & rStanding & " = " & MyStandings.StandingNames(rStanding).ToString)
+                                        Catch ex As Exception
+                                            sw.WriteLine("ID: " & rStanding & " = <Unrecognised item>")
+                                        End Try
+                                    Next
+                                    sw.Flush()
+                                    sw.Close()
+                                    MessageBox.Show("StandingNames Dump made - check EveHQ Report Folder for StandingsDump.txt")
+                                Catch ex As Exception
+                                    MessageBox.Show("Status of StandingNames: uninitialized!")
+                                End Try
+                            End Try
                             newStanding.SubItems.Add(iStanding.ToString)
                             Select Case CLng(iStanding)
                                 Case 500000 To 599999
@@ -372,5 +419,4 @@ Public Class frmCorpHQ
     End Sub
 #End Region
 
-  
 End Class

@@ -661,7 +661,7 @@ Public Class ShipSlotControl
         If myShip.DroneBay - currentShip.DroneBay_Used >= vol Then
             ' Scan through existing items and see if we can group this new one
             For Each droneGroup As DroneBayItem In currentShip.DroneBayItems.Values
-                If Drone.Name = droneGroup.DroneType.Name And Active = droneGroup.IsActive Then
+                If Drone.Name = droneGroup.DroneType.Name And Active = droneGroup.IsActive And UpdateAll = False Then
                     ' Add to existing drone group
                     droneGroup.Quantity += Qty
                     grouped = True
@@ -702,7 +702,7 @@ Public Class ShipSlotControl
             Else
                 myShip = currentShip
             End If
-            If myShip.CargoBay - currentShip.CargoBay_Used >= vol Then
+            If myShip.CargoBay - currentShip.CargoBay_Used >= vol And UpdateAll = False Then
                 ' Scan through existing items and see if we can group this new one
                 For Each itemGroup As CargoBayItem In currentShip.CargoBayItems.Values
                     If Item.Name = itemGroup.ItemType.Name Then

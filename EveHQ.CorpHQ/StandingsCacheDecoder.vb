@@ -1217,17 +1217,17 @@ Public Class Agent
     Public gender As Integer
 End Class
 
-Public Class Standing
+<Serializable()> Public Class Standing
     Public ID As String
     Public Value As String
 End Class
 
-Public Class StandingName
+<Serializable()> Public Class StandingName
     Public ID As String
     Public Name As String
 End Class
 
-Public Class StandingsData
+<Serializable()> Public Class StandingsData
     Public OwnerID As String
     Public OwnerName As String
     Public CacheType As String
