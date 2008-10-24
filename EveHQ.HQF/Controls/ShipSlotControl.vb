@@ -920,12 +920,12 @@ Public Class ShipSlotControl
 #Region "UI Routines"
     Private Sub btnToggleStorage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnToggleStorage.Click
         If SplitContainer1.Panel2Collapsed = True Then
+            UpdateDrones = True
             SplitContainer1.Panel2Collapsed = False
             SplitContainer1.SplitterDistance = SplitContainer1.Height - 180
-            UpdateDrones = True
             Me.RedrawDroneBay()
-            UpdateDrones = False
             Me.RedrawCargoBay()
+            UpdateDrones = False
         Else
             SplitContainer1.Panel2Collapsed = True
         End If
@@ -1559,6 +1559,7 @@ Public Class ShipSlotControl
                 newSelectForm.Dispose()
         End Select
     End Sub
+
 #End Region
 
 #Region "Slot Drag/Drop Routines"
@@ -1800,5 +1801,46 @@ Public Class ShipSlotControl
     End Sub
 #End Region
 
+    Private Sub btnMergeDrones_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMergeDrones.Click
+        UpdateDrones = True
+        lvwDroneBay.BeginUpdate()
+        lvwDroneBay.Items.Clear()
+        currentShip.DroneBay_Used = 0
+        Dim DBI As DroneBayItem
+        Dim HoldingBay As New SortedList
+        Dim DroneQuantities As New SortedList
+        For Each DBI In currentShip.DroneBayItems.Values
+            If HoldingBay.Contains(DBI.DroneType.Name) = False Then
+                HoldingBay.Add(DBI.DroneType.Name, DBI.DroneType)
+            End If
+            If DroneQuantities.Contains(DBI.DroneType.Name) = True Then
+                Dim CQ As Integer = CInt(DroneQuantities(DBI.DroneType.Name))
+                DroneQuantities(DBI.DroneType.Name) = CQ + DBI.Quantity
+            Else
+                DroneQuantities.Add(DBI.DroneType.Name, DBI.Quantity)
+            End If
+        Next
+        currentShip.DroneBayItems.Clear()
+        For Each drone As String In HoldingBay.Keys
+            DBI = New DroneBayItem
+            DBI.DroneType = CType(HoldingBay(drone), ShipModule)
+            DBI.IsActive = False
+            DBI.Quantity = CInt(DroneQuantities(drone))
+            Dim newDroneItem As New ListViewItem(DBI.DroneType.Name)
+            newDroneItem.Name = CStr(lvwDroneBay.Items.Count)
+            newDroneItem.SubItems.Add(CStr(DBI.Quantity))
+            currentShip.DroneBayItems.Add(lvwDroneBay.Items.Count, DBI)
+            currentShip.DroneBay_Used += DBI.DroneType.Volume * DBI.Quantity
+            lvwDroneBay.Items.Add(newDroneItem)
+        Next
+        lvwDroneBay.EndUpdate()
+        lblDroneBay.Text = FormatNumber(currentShip.DroneBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        pbDroneBay.Maximum = CInt(fittedShip.DroneBay)
+        pbDroneBay.Value = CInt(currentShip.DroneBay_Used)
+        UpdateDrones = False
+        ' Rebuild the ship to account for any disabled drones
+        currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+    End Sub
 
 End Class
