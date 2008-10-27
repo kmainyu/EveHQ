@@ -369,47 +369,33 @@ Public Class frmCorpHQ
                             Dim newStanding As New ListViewItem
                             Try
                                 newStanding.Text = MyStandings.StandingNames(iStanding).ToString
-                            Catch e As Exception
-                                MessageBox.Show("Standing ID: " & iStanding)
-                                Try
-
-                                    Dim sw As New StreamWriter(EveHQ.Core.HQ.reportFolder & "\StandingsDump.txt")
-                                    For Each rStanding As String In MyStandings.StandingValues.Keys
-                                        Try
-                                            sw.WriteLine("ID: " & rStanding & " = " & MyStandings.StandingNames(rStanding).ToString)
-                                        Catch ex As Exception
-                                            sw.WriteLine("ID: " & rStanding & " = <Unrecognised item>")
-                                        End Try
-                                    Next
-                                    sw.Flush()
-                                    sw.Close()
-                                    MessageBox.Show("StandingNames Dump made - check EveHQ Report Folder for StandingsDump.txt")
-                                Catch ex As Exception
-                                    MessageBox.Show("Status of StandingNames: uninitialized!")
-                                End Try
-                            End Try
-                            newStanding.SubItems.Add(iStanding.ToString)
-                            Select Case CLng(iStanding)
-                                Case 500000 To 599999
-                                    newStanding.SubItems.Add("Faction")
-                                Case 1000000 To 1099999
-                                    newStanding.SubItems.Add("Corporation")
-                                Case 3000000 To 3099999
-                                    newStanding.SubItems.Add("Agent")
-                                Case Else
-                                    newStanding.SubItems.Add("Player/Corp")
-                            End Select
-                            standing = CDbl(MyStandings.StandingValues(iStanding))
-                            newStanding.SubItems.Add(standing.ToString)
-                            If CLng(iStanding) < 70000000 Then
-                                If standing < 0 Then
-                                    standing = standing + ((10 - standing) * (DiplomacyLevel * 4 / 100))
-                                Else
-                                    standing = standing + ((10 - standing) * (ConnectionsLevel * 4 / 100))
+                                newStanding.SubItems.Add(iStanding.ToString)
+                                Select Case CLng(iStanding)
+                                    Case 500000 To 599999
+                                        newStanding.SubItems.Add("Faction")
+                                    Case 1000000 To 1099999
+                                        newStanding.SubItems.Add("Corporation")
+                                    Case 3000000 To 3099999
+                                        newStanding.SubItems.Add("Agent")
+                                    Case Else
+                                        newStanding.SubItems.Add("Player/Corp")
+                                End Select
+                                standing = CDbl(MyStandings.StandingValues(iStanding))
+                                newStanding.SubItems.Add(standing.ToString)
+                                If CLng(iStanding) < 70000000 Then
+                                    If standing < 0 Then
+                                        standing = standing + ((10 - standing) * (DiplomacyLevel * 4 / 100))
+                                    Else
+                                        standing = standing + ((10 - standing) * (ConnectionsLevel * 4 / 100))
+                                    End If
                                 End If
-                            End If
-                            newStanding.SubItems.Add(standing.ToString)
-                            lvwStandings.Items.Add(newStanding)
+                                newStanding.SubItems.Add(standing.ToString)
+                                lvwStandings.Items.Add(newStanding)
+                            Catch e As Exception
+                                Dim msg As String = "There was an error processing the standings details for:" & ControlChars.CrLf & "Standing ID: " & iStanding & ControlChars.CrLf
+                                msg &= "If this continues, please clear the Eve cache and retry."
+                                MessageBox.Show(msg, "Standings Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            End Try
                         End If
                     Next
                     lvwStandings.EndUpdate()

@@ -21,6 +21,8 @@ Imports DotNetLib.Windows.Forms
 Imports System.Windows.Forms
 
 Public Class frmPilotManager
+
+    Public pilotName As String = ""
     Dim currentPilotName As String = ""
     Dim currentPilot As HQFPilot
     Dim currentGroup As ImplantGroup
@@ -59,11 +61,21 @@ Public Class frmPilotManager
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
             cboPilots.Items.Add(cPilot.Name)
         Next
-        ' Set the list to the first one
-        If cboPilots.Items.Count > 0 Then
-            cboPilots.SelectedIndex = 0
-        End If
 
+        ' Set the list to the pilot name (or the first item if pilotname is blank)
+        If pilotName <> "" Then
+            If cboPilots.Items.Contains(pilotName) = True Then
+                cboPilots.SelectedItem = pilotName
+            Else
+                If cboPilots.Items.Count > 0 Then
+                    cboPilots.SelectedIndex = 0
+                End If
+            End If
+        Else
+            If cboPilots.Items.Count > 0 Then
+                cboPilots.SelectedIndex = 0
+            End If
+        End If
     End Sub
 #End Region
 

@@ -26,8 +26,11 @@ Public Class frmShowInfo
 
     Dim oldNodeIndex As Integer = -1
     Dim itemType As Object
+    Dim hPilot As EveHQ.Core.Pilot
 
-    Public Sub ShowItemDetails(ByVal itemObject As Object)
+    Public Sub ShowItemDetails(ByVal itemObject As Object, ByVal iPilot As EveHQ.Core.Pilot)
+
+        hPilot = iPilot
 
         If TypeOf itemObject Is Ship Then
             itemType = CType(itemObject, Ship)
@@ -40,7 +43,7 @@ Public Class frmShowInfo
         End If
 
         ' Get image from cache 
-        Dim imgFilename As String = EveHQ.Core.HQ.cacheFolder & "\i" & EveHQ.Core.HQ.myPilot.ID & ".png"
+        Dim imgFilename As String = EveHQ.Core.HQ.cacheFolder & "\i" & hPilot.ID & ".png"
         If My.Computer.FileSystem.FileExists(imgFilename) = True Then
             pbPilot.ImageLocation = imgFilename
         Else
@@ -83,17 +86,17 @@ Public Class frmShowInfo
         Dim skillTrained As Boolean = False
         Dim myLevel As Integer = 0
         skillTrained = False
-        If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
-            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) Then
+        If EveHQ.Core.HQ.Pilots.Count > 0 And hPilot.Updated = True Then
+            If hPilot.PilotSkills.Contains(cSkill.Name) Then
                 Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
-                mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.Skills)
+                mySkill = CType(hPilot.PilotSkills(cSkill.Name), Core.Skills)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
                 If skillTrained = True Then
                     curNode.ForeColor = Color.LimeGreen
                     curNode.ToolTipText = "Already Trained"
                 Else
-                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(hPilot, cSkill.Name, curLevel)
                     If planLevel = 0 Then
                         curNode.ForeColor = Color.Red
                         curNode.ToolTipText = "Not trained & no planned training"
@@ -107,7 +110,7 @@ Public Class frmShowInfo
                     End If
                 End If
             Else
-                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(hPilot, cSkill.Name, curLevel)
                 If planLevel = 0 Then
                     curNode.ForeColor = Color.Red
                     curNode.ToolTipText = "Not trained & no planned training"
@@ -164,12 +167,12 @@ Public Class frmShowInfo
                 newNode.Name = CStr(counter)
                 newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
                 ' Check if the current pilot has the skill
-                If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+                If EveHQ.Core.HQ.Pilots.Count > 0 And hPilot.Updated = True Then
                     skillTrained = False
                     myLevel = 0
-                    If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) Then
+                    If hPilot.PilotSkills.Contains(newSkill.Name) Then
                         Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
-                        mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.Skills)
+                        mySkill = CType(hPilot.PilotSkills(newSkill.Name), Core.Skills)
                         myLevel = CInt(mySkill.Level)
                         If myLevel >= curLevel Then skillTrained = True
                     End If
@@ -177,7 +180,7 @@ Public Class frmShowInfo
                         newNode.ForeColor = Color.LimeGreen
                         newNode.ToolTipText = "Already Trained"
                     Else
-                        Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, newSkill.Name, curLevel)
+                        Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(hPilot, newSkill.Name, curLevel)
                         If planLevel = 0 Then
                             newNode.ForeColor = Color.Red
                             newNode.ToolTipText = "Not trained & no planned training"
@@ -286,17 +289,17 @@ Public Class frmShowInfo
                     Dim skillTrained As Boolean = False
                     Dim myLevel As Integer = 0
                     skillTrained = False
-                    If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
-                        If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) Then
+                    If EveHQ.Core.HQ.Pilots.Count > 0 And hPilot.Updated = True Then
+                        If hPilot.PilotSkills.Contains(cSkill.Name) Then
                             Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
-                            mySkill = EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name)
+                            mySkill = hPilot.PilotSkills(cSkill.Name)
                             myLevel = CInt(mySkill.Level)
                             If myLevel >= curLevel Then skillTrained = True
                             If skillTrained = True Then
                                 curNode.ForeColor = Color.LimeGreen
                                 curNode.ToolTipText = "Already Trained"
                             Else
-                                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(hPilot, cSkill.Name, curLevel)
                                 If planLevel = 0 Then
                                     curNode.ForeColor = Color.Red
                                     curNode.ToolTipText = "Not trained & no planned training"
@@ -312,7 +315,7 @@ Public Class frmShowInfo
                                 ItemUsable = False
                             End If
                         Else
-                            Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                            Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(hPilot, cSkill.Name, curLevel)
                             If planLevel = 0 Then
                                 curNode.ForeColor = Color.Red
                                 curNode.ToolTipText = "Not trained & no planned training"
@@ -371,12 +374,12 @@ Public Class frmShowInfo
                             newNode.Name = CStr(counter)
                             newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
                             ' Check if the current pilot has the skill
-                            If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+                            If EveHQ.Core.HQ.Pilots.Count > 0 And hPilot.Updated = True Then
                                 skillTrained = False
                                 myLevel = 0
-                                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) Then
+                                If hPilot.PilotSkills.Contains(newSkill.Name) Then
                                     Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
-                                    mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.Skills)
+                                    mySkill = CType(hPilot.PilotSkills(newSkill.Name), Core.Skills)
                                     myLevel = CInt(mySkill.Level)
                                     If myLevel >= curLevel Then skillTrained = True
                                 End If
@@ -384,7 +387,7 @@ Public Class frmShowInfo
                                     newNode.ForeColor = Color.LimeGreen
                                     newNode.ToolTipText = "Already Trained"
                                 Else
-                                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, newSkill.Name, curLevel)
+                                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(hPilot, newSkill.Name, curLevel)
                                     If planLevel = 0 Then
                                         newNode.ForeColor = Color.Red
                                         newNode.ToolTipText = "Not trained & no planned training"
@@ -410,9 +413,9 @@ Public Class frmShowInfo
 
         If skillsRequired = True Then
             tvwReqs.ExpandAll()
-            If EveHQ.Core.HQ.myPilot.Name <> "" Then
+            If hPilot.Name <> "" Then
                 If ItemUsable = True Then
-                    lblUsable.Text = EveHQ.Core.HQ.myPilot.Name & " has the skills to use this item."
+                    lblUsable.Text = hPilot.Name & " has the skills to use this item."
                     lblUsableTime.Text = ""
                 Else
                     Dim usableTime As Long = 0
@@ -450,9 +453,9 @@ Public Class frmShowInfo
                         Dim skillName As String = skill.Substring(0, skill.Length - 1)
                         Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
                         Dim cSkill As EveHQ.Core.SkillList = EveHQ.Core.HQ.SkillListName(skillName)
-                        usableTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, skillLvl)
+                        usableTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(hPilot, cSkill, skillLvl)
                     Next
-                    lblUsable.Text = EveHQ.Core.HQ.myPilot.Name & " doesn't have the skills to use this item."
+                    lblUsable.Text = hPilot.Name & " doesn't have the skills to use this item."
                     lblUsableTime.Text = "Training Time: " & EveHQ.Core.SkillFunctions.TimeToString(usableTime)
                 End If
             Else
@@ -548,9 +551,5 @@ Public Class frmShowInfo
             Next
             lvwAudit.EndUpdate()
         End If
-    End Sub
-
-    Private Sub frmShowInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
     End Sub
 End Class

@@ -609,51 +609,51 @@
 120,2,374,54,6,0,0,0,0,15,T2 Beam - Optimal Range
 317,2,374,6,6,0,0,0,0,15,T2 Beam - Activation Cost
 144,2,374,55,3,6,0,0,0,15,T2 Beam - Capacitor Recharge Rate
-244,2,374,160,6,0,0,0,0,15,T2 Beam - Tracking Speed
+244,2,374,160,6,0,0,0,5,15,T2 Beam - Tracking Speed
 306,2,374,37,3,6,0,0,0,15,T2 Beam - Max Velocity
-517,2,374,158,6,0,0,0,0,15,T2 Beam - Falloff Modifier
+517,2,374,158,6,0,0,0,5,15,T2 Beam - Falloff Modifier
 146,2,374,263,3,6,0,0,0,15,T2 Beam - Shield HP
 652,2,374,552,3,6,0,0,0,15,T2 Beam - Signature Radius
 120,2,375,54,6,0,0,0,0,15,T2 Pulse - Optimal Range
 317,2,375,6,6,0,0,0,0,15,T2 Pulse - Activation Cost
 144,2,375,55,3,6,0,0,0,15,T2 Pulse - Capacitor Recharge Rate
-244,2,375,160,6,0,0,0,0,15,T2 Pulse - Tracking Speed
+244,2,375,160,6,0,0,0,5,15,T2 Pulse - Tracking Speed
 306,2,375,37,3,6,0,0,0,15,T2 Pulse - Max Velocity
-517,2,375,158,6,0,0,0,0,15,T2 Pulse - Falloff Modifier
+517,2,375,158,6,0,0,0,5,15,T2 Pulse - Falloff Modifier
 146,2,375,263,3,6,0,0,0,15,T2 Pulse - Shield HP
 652,2,375,552,3,6,0,0,0,15,T2 Pulse - Signature Radius
 # T2 Hybrid Ammo,,,,,,,,,,
 120,2,377,54,6,0,0,0,0,15,T2 Blaster - Optimal Range
 317,2,377,6,6,0,0,0,0,15,T2 Blaster - Activation Cost
 144,2,377,55,3,6,0,0,0,15,T2 Blaster - Capacitor Recharge Rate
-244,2,377,160,6,0,0,0,0,15,T2 Blaster - Tracking Speed
+244,2,377,160,6,0,0,0,5,15,T2 Blaster - Tracking Speed
 306,2,377,37,3,6,0,0,0,15,T2 Blaster - Max Velocity
-517,2,377,158,6,0,0,0,0,15,T2 Blaster - Falloff Modifier
+517,2,377,158,6,0,0,0,5,15,T2 Blaster - Falloff Modifier
 146,2,377,263,3,6,0,0,0,15,T2 Blaster - Shield HP
 652,2,377,552,3,6,0,0,0,15,T2 Blaster - Signature Radius
 120,2,373,54,6,0,0,0,0,15,T2 Railgun - Optimal Range
 317,2,373,6,6,0,0,0,0,15,T2 Railgun - Activation Cost
 144,2,373,55,3,6,0,0,0,15,T2 Railgun - Capacitor Recharge Rate
-244,2,373,160,6,0,0,0,0,15,T2 Railgun - Tracking Speed
+244,2,373,160,6,0,0,0,5,15,T2 Railgun - Tracking Speed
 306,2,373,37,3,6,0,0,0,15,T2 Railgun - Max Velocity
-517,2,373,158,6,0,0,0,0,15,T2 Railgun - Falloff Modifier
+517,2,373,158,6,0,0,0,5,15,T2 Railgun - Falloff Modifier
 146,2,373,263,3,6,0,0,0,15,T2 Railgun - Shield HP
 652,2,373,552,3,6,0,0,0,15,T2 Railgun - Signature Radius
 # T2 Projectile Ammo,,,,,,,,,,
 120,2,376,54,6,0,0,0,0,15,T2 Artillery - Optimal Range
 317,2,376,6,6,0,0,0,0,15,T2 Artillery - Activation Cost
 144,2,376,55,3,6,0,0,0,15,T2 Artillery - Capacitor Recharge Rate
-244,2,376,160,6,0,0,0,0,15,T2 Artillery - Tracking Speed
+244,2,376,160,6,0,0,0,5,15,T2 Artillery - Tracking Speed
 306,2,376,37,3,6,0,0,0,15,T2 Artillery - Max Velocity
-517,2,376,158,6,0,0,0,0,15,T2 Artillery - Falloff Modifier
+517,2,376,158,6,0,0,0,5,15,T2 Artillery - Falloff Modifier
 146,2,376,263,3,6,0,0,0,15,T2 Artillery - Shield HP
 652,2,376,552,3,6,0,0,0,15,T2 Artillery - Signature Radius
 120,2,372,54,6,0,0,0,0,15,T2 Autocannon - Optimal Range
 317,2,372,6,6,0,0,0,0,15,T2 Autocannon - Activation Cost
 144,2,372,55,3,6,0,0,0,15,T2 Autocannon - Capacitor Recharge Rate
-244,2,372,160,6,0,0,0,0,15,T2 Autocannon - Tracking Speed
+244,2,372,160,6,0,0,0,5,15,T2 Autocannon - Tracking Speed
 306,2,372,37,3,6,0,0,0,15,T2 Autocannon - Max Velocity
-517,2,372,158,6,0,0,0,0,15,T2 Autocannon - Falloff Modifier
+517,2,372,158,6,0,0,0,5,15,T2 Autocannon - Falloff Modifier
 146,2,372,263,3,6,0,0,0,15,T2 Autocannon - Shield HP
 652,2,372,552,3,6,0,0,0,15,T2 Autocannon - Signature Radius
 # SCRIPTS,,,,,,,,,,

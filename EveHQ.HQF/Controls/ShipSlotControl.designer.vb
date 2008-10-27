@@ -23,11 +23,11 @@ Partial Class ShipSlotControl
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
         Me.lblFittingMarketPrice = New System.Windows.Forms.Label
         Me.lblShipMarketPrice = New System.Windows.Forms.Label
         Me.lblTurretSlots = New System.Windows.Forms.Label
@@ -39,9 +39,11 @@ Partial Class ShipSlotControl
         Me.ctxSlots = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.imgState = New System.Windows.Forms.ImageList(Me.components)
         Me.tabStorage = New System.Windows.Forms.TabControl
         Me.tabDroneBay = New System.Windows.Forms.TabPage
+        Me.btnMergeDrones = New System.Windows.Forms.Button
         Me.lvwDroneBay = New System.Windows.Forms.ListView
         Me.colDroneBayType = New System.Windows.Forms.ColumnHeader
         Me.colDroneBayQty = New System.Windows.Forms.ColumnHeader
@@ -55,6 +57,7 @@ Partial Class ShipSlotControl
         Me.pbDroneBay = New System.Windows.Forms.ProgressBar
         Me.lblDroneBay = New System.Windows.Forms.Label
         Me.tabCargoBay = New System.Windows.Forms.TabPage
+        Me.btnMergeCargo = New System.Windows.Forms.Button
         Me.lvwCargoBay = New System.Windows.Forms.ListView
         Me.colCargoBayType = New System.Windows.Forms.ColumnHeader
         Me.colCargoBayQty = New System.Windows.Forms.ColumnHeader
@@ -64,9 +67,6 @@ Partial Class ShipSlotControl
         Me.btnToggleStorage = New System.Windows.Forms.Button
         Me.panelFunctions = New System.Windows.Forms.Panel
         Me.pbShipInfo = New System.Windows.Forms.PictureBox
-        Me.btnMergeDrones = New System.Windows.Forms.Button
-        Me.btnMergeCargo = New System.Windows.Forms.Button
-        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.ctxSlots.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -155,13 +155,13 @@ Partial Class ShipSlotControl
         '
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
+        Me.ctxSlots.Size = New System.Drawing.Size(128, 26)
         Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
         '
         'SplitContainer1
@@ -184,6 +184,30 @@ Partial Class ShipSlotControl
         Me.SplitContainer1.Size = New System.Drawing.Size(599, 437)
         Me.SplitContainer1.SplitterDistance = 231
         Me.SplitContainer1.TabIndex = 1
+        '
+        'lvwSlots
+        '
+        Me.lvwSlots.AllowDrop = True
+        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
+        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwSlots.FullRowSelect = True
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
+        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
+        Me.lvwSlots.Name = "lvwSlots"
+        Me.lvwSlots.Size = New System.Drawing.Size(599, 231)
+        Me.lvwSlots.SmallImageList = Me.imgState
+        Me.lvwSlots.TabIndex = 0
+        Me.lvwSlots.Tag = ""
+        Me.lvwSlots.UseCompatibleStateImageBehavior = False
+        Me.lvwSlots.View = System.Windows.Forms.View.Details
         '
         'imgState
         '
@@ -222,6 +246,16 @@ Partial Class ShipSlotControl
         Me.tabDroneBay.Text = "Drone Bay"
         Me.tabDroneBay.UseVisualStyleBackColor = True
         '
+        'btnMergeDrones
+        '
+        Me.btnMergeDrones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMergeDrones.Location = New System.Drawing.Point(496, 6)
+        Me.btnMergeDrones.Name = "btnMergeDrones"
+        Me.btnMergeDrones.Size = New System.Drawing.Size(90, 23)
+        Me.btnMergeDrones.TabIndex = 3
+        Me.btnMergeDrones.Text = "Merge Drones"
+        Me.btnMergeDrones.UseVisualStyleBackColor = True
+        '
         'lvwDroneBay
         '
         Me.lvwDroneBay.AllowDrop = True
@@ -255,40 +289,40 @@ Partial Class ShipSlotControl
         '
         Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(167, 104)
+        Me.ctxBays.Size = New System.Drawing.Size(163, 104)
         '
         'ctxRemoveItem
         '
         Me.ctxRemoveItem.Name = "ctxRemoveItem"
-        Me.ctxRemoveItem.Size = New System.Drawing.Size(166, 22)
+        Me.ctxRemoveItem.Size = New System.Drawing.Size(162, 22)
         Me.ctxRemoveItem.Text = "Remove Item"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(163, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(159, 6)
         '
         'ctxAlterQuantity
         '
         Me.ctxAlterQuantity.Name = "ctxAlterQuantity"
-        Me.ctxAlterQuantity.Size = New System.Drawing.Size(166, 22)
+        Me.ctxAlterQuantity.Size = New System.Drawing.Size(162, 22)
         Me.ctxAlterQuantity.Text = "Alter Quantity"
         '
         'ctxSplitBatch
         '
         Me.ctxSplitBatch.Name = "ctxSplitBatch"
-        Me.ctxSplitBatch.Size = New System.Drawing.Size(166, 22)
+        Me.ctxSplitBatch.Size = New System.Drawing.Size(162, 22)
         Me.ctxSplitBatch.Text = "Split Batch"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(163, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(159, 6)
         '
         'ctxShowBayInfoItem
         '
         Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
-        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(166, 22)
+        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(162, 22)
         Me.ctxShowBayInfoItem.Text = "Show Drone Info"
         '
         'pbDroneBay
@@ -322,6 +356,16 @@ Partial Class ShipSlotControl
         Me.tabCargoBay.TabIndex = 1
         Me.tabCargoBay.Text = "CargoBay"
         Me.tabCargoBay.UseVisualStyleBackColor = True
+        '
+        'btnMergeCargo
+        '
+        Me.btnMergeCargo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMergeCargo.Location = New System.Drawing.Point(495, 6)
+        Me.btnMergeCargo.Name = "btnMergeCargo"
+        Me.btnMergeCargo.Size = New System.Drawing.Size(90, 23)
+        Me.btnMergeCargo.TabIndex = 6
+        Me.btnMergeCargo.Text = "Merge Cargo"
+        Me.btnMergeCargo.UseVisualStyleBackColor = True
         '
         'lvwCargoBay
         '
@@ -407,50 +451,6 @@ Partial Class ShipSlotControl
         Me.pbShipInfo.Size = New System.Drawing.Size(32, 32)
         Me.pbShipInfo.TabIndex = 0
         Me.pbShipInfo.TabStop = False
-        '
-        'btnMergeDrones
-        '
-        Me.btnMergeDrones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeDrones.Location = New System.Drawing.Point(496, 6)
-        Me.btnMergeDrones.Name = "btnMergeDrones"
-        Me.btnMergeDrones.Size = New System.Drawing.Size(90, 23)
-        Me.btnMergeDrones.TabIndex = 3
-        Me.btnMergeDrones.Text = "Merge Drones"
-        Me.btnMergeDrones.UseVisualStyleBackColor = True
-        '
-        'btnMergeCargo
-        '
-        Me.btnMergeCargo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeCargo.Location = New System.Drawing.Point(495, 6)
-        Me.btnMergeCargo.Name = "btnMergeCargo"
-        Me.btnMergeCargo.Size = New System.Drawing.Size(90, 23)
-        Me.btnMergeCargo.TabIndex = 6
-        Me.btnMergeCargo.Text = "Merge Cargo"
-        Me.btnMergeCargo.UseVisualStyleBackColor = True
-        '
-        'lvwSlots
-        '
-        Me.lvwSlots.AllowDrop = True
-        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
-        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwSlots.FullRowSelect = True
-        ListViewGroup1.Header = "High Slots"
-        ListViewGroup1.Name = "lvwgHighSlots"
-        ListViewGroup2.Header = "Mid Slots"
-        ListViewGroup2.Name = "lvwgMidSlots"
-        ListViewGroup3.Header = "Low Slots"
-        ListViewGroup3.Name = "lvwgLowSlots"
-        ListViewGroup4.Header = "Rig Slots"
-        ListViewGroup4.Name = "lvwgRigSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
-        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
-        Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.Size = New System.Drawing.Size(599, 231)
-        Me.lvwSlots.SmallImageList = Me.imgState
-        Me.lvwSlots.TabIndex = 0
-        Me.lvwSlots.Tag = ""
-        Me.lvwSlots.UseCompatibleStateImageBehavior = False
-        Me.lvwSlots.View = System.Windows.Forms.View.Details
         '
         'ShipSlotControl
         '

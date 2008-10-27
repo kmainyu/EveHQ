@@ -2485,6 +2485,10 @@ Public Class frmHQF
         Fittings.FittingTabList.Remove(tp.Text)
         ShipLists.fittedShipList.Remove(tp.Text)
         tabHQF.TabPages.Remove(tp)
+        If Fittings.FittingTabList.Count = 0 Then
+            currentShipInfo = Nothing
+            currentShipSlot = Nothing
+        End If
     End Sub
 #End Region
 
@@ -2983,7 +2987,13 @@ Public Class frmHQF
         Dim moduleID As String = lvwItems.SelectedItems(0).Name
         Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
         Dim showInfo As New frmShowInfo
-        showInfo.ShowItemDetails(cModule)
+        Dim hPilot As EveHQ.Core.Pilot
+        If currentShipInfo IsNot Nothing Then
+            hPilot = CType(EveHQ.Core.HQ.Pilots(currentShipInfo.cboPilots.SelectedItem), Core.Pilot)
+        Else
+            hPilot = EveHQ.Core.HQ.myPilot
+        End If
+        showInfo.ShowItemDetails(cModule, hPilot)
         showInfo = Nothing
     End Sub
 
@@ -3316,6 +3326,11 @@ Public Class frmHQF
 
     Private Sub btnPilotManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPilotManager.Click
         Dim myPilotManager As New frmPilotManager
+        If currentShipInfo IsNot Nothing Then
+            myPilotManager.pilotName = currentShipInfo.cboPilots.SelectedItem.ToString
+        Else
+            myPilotManager.pilotName = EveHQ.Core.HQ.myPilot.Name
+        End If
         myPilotManager.ShowDialog()
         myPilotManager = Nothing
     End Sub
@@ -3326,6 +3341,11 @@ Public Class frmHQF
 
     Private Sub PilotManagerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PilotManagerToolStripMenuItem.Click
         Dim myPilotManager As New frmPilotManager
+        If currentShipInfo IsNot Nothing Then
+            myPilotManager.pilotName = currentShipInfo.cboPilots.SelectedItem.ToString
+        Else
+            myPilotManager.pilotName = EveHQ.Core.HQ.myPilot.Name
+        End If
         myPilotManager.ShowDialog()
         myPilotManager = Nothing
     End Sub
