@@ -96,7 +96,7 @@
 317,1,24571,6,4,600,0,1,0,0,Capital Shield Emission Systems
 851,1,21802,6,4,778,0,1,0,0,Capital Shield Operation
 958,1,12365,984,2,295,0,1,0,0,EM Shield Compensation - Passive
-988,1,12365,994,2,77,0,1,4,0,EM Shield Compensation - Active
+988,1,12365,994,2,77,0,1,5,0,EM Shield Compensation - Active
 317,1,3423,6,4,689,0,1,0,0,Energy Emission Systems - Small Energy Neut
 317,1,3423,6,4,690,0,1,0,0,Energy Emission Systems - Medium Energy Neut
 317,1,3423,6,4,691,0,1,0,0,Energy Emission Systems - Large Energy Neut
@@ -110,9 +110,9 @@
 313,1,3413,11,3,6,0,1,0,0,Engineering - Ship
 313,1,3413,549,2,339,0,1,0,0,Engineering - MAPC
 958,1,12367,985,2,295,0,1,0,0,Explosive Shield Compensation - Passive
-988,1,12367,995,2,77,0,1,4,0,Explosive Shield Compensation - Acitve
+988,1,12367,995,2,77,0,1,5,0,Explosive Shield Compensation - Acitve
 958,1,12366,986,2,295,0,1,0,0,Kinetic Shield Compensation - Passive
-988,1,12366,996,2,77,0,1,4,0,Kinetic Shield Compensation - Active
+988,1,12366,996,2,77,0,1,5,0,Kinetic Shield Compensation - Active
 851,1,21059,6,2,40,0,1,0,0,Shield Compensation
 317,1,3422,6,4,604,0,1,0,0,Shield Emission Systems - Micro
 317,1,3422,6,4,603,0,1,0,0,Shield Emission Systems - Small
@@ -124,7 +124,7 @@
 323,1,3425,30,5,3425,0,1,0,0,Shield Upgrades
 336,1,3420,484,3,6,0,1,0,0,Tactical Shield Manipulation
 958,1,11566,987,2,295,0,1,0,0,Thermic Shield Compensation - Passive
-988,1,11566,997,2,77,0,1,4,0,Thermic Shield Compensation - Active
+988,1,11566,997,2,77,0,1,5,0,Thermic Shield Compensation - Active
 # GUNNERY,,,,,,,,,,
 323,1,11207,30,2,53,0,1,0,0,Advanced Weapon Upgrades - Energy
 323,1,11207,30,2,74,0,1,0,0,Advanced Weapon Upgrades - Hybrid
@@ -248,16 +248,16 @@
 1139,1,26255,1138,2,778,0,1,0,0,Drones Rigging
 1139,1,26256,1138,2,786,0,1,0,0,Electronic Superiority Rigging
 958,1,22806,984,2,326,0,1,0,0,EM Armor Compensation - Passive
-988,1,22806,994,2,994,0,1,4,0,EM Armor Compensation - Active
+988,1,22806,994,2,994,0,1,5,0,EM Armor Compensation - Active
 1139,1,26258,1138,2,775,0,1,0,0,Energy Weapon Rigging
 958,1,22807,985,2,326,0,1,0,0,Explosive Armor Compensation
-988,1,22807,995,2,994,0,1,4,0,Explosive Armor Compensation
+988,1,22807,995,2,994,0,1,5,0,Explosive Armor Compensation
 335,1,3394,265,3,6,0,1,0,0,Hull Upgrades - Armor HP
 335,1,3394,1159,2,329,0,1,0,0,Hull Upgrades - Armor Plate HP
 1139,1,26259,1138,2,776,0,1,0,0,Hybrid Weapon Rigging
 #,1,26252,,,,0,1,0,0,Jury Rigging
 958,1,22808,986,2,326,0,1,0,0,Kinetic Armor Compensation
-988,1,22808,996,2,994,0,1,4,0,Kinetic Armor Compensation
+988,1,22808,996,2,994,0,1,5,0,Kinetic Armor Compensation
 1139,1,26260,1138,2,779,0,1,0,0,Launcher Rigging
 327,1,3392,9,3,6,0,1,0,0,Mechanic
 #,1,28880,,,,0,1,0,0,Nanite Interfacing
@@ -274,7 +274,7 @@
 1139,1,26261,1138,2,774,0,1,0,0,Shield Rigging
 #,1,27906,,,,0,1,0,0,Tactical Logistics Reconfiguration
 958,1,22809,987,2,326,0,1,0,0,Thermic Armor Compensation
-988,1,22809,997,2,994,0,1,4,0,Thermic Armor Compensation
+988,1,22809,997,2,994,0,1,5,0,Thermic Armor Compensation
 # MISSILE LAUNCHER OPERATION,,,,,,,,,,
 293,1,28073,669,2,862,0,1,0,0,Bomb Deployment
 292,1,21668,114,2,476,0,1,0,0,Citadel Torpedoes - EM
