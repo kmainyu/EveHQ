@@ -47,15 +47,15 @@
 		<file>
 			<name>EveHQ.Assets.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.3.115</version>
-			<requires>1.7.3.115</requires>
+			<version>1.7.6.150</version>
+			<requires>1.7.6.150</requires>
 			<description>Assets Plug-in</description>
 		</file>
 		<file>
 			<name>EveHQ.CorpHQ.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.4.130</version>
-			<requires>1.7.4.130</requires>
+			<version>1.7.6.150</version>
+			<requires>1.7.6.150</requires>
 			<description>Corp Management Plug-in</description>
 		</file>
 		<file>
@@ -103,8 +103,8 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.7.5.137</version>
-			<requires>1.7.5.137</requires>
+			<version>1.7.6.150</version>
+			<requires>1.7.6.150</requires>
 			<description>Ship Fitting Plug-in</description>
 		</file>
 	</files>

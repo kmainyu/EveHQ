@@ -1,6 +1,56 @@
 EveHQ - Version History
 -----------------------
 
+1.8.0.? (??/??/????)
+--------
+- Core: Fixed crash in skill queue after suggestions had been analysed
+- Core: Fixed skill list in training form containing null nodes (seems to be Vista only problem)
+- Core: Fixed crash in skill list caused by invalid nodes
+- Core: Converted the skill list in frmPilot to a ContainerListView
+- Core: Converted the skill list in frmPilot to a ContainerListView
+- Core: Fixed number of skills reported in the skill queue after deleting completed skills
+- Core: Fixed removing completed skills occurs in the skill queue when automatically rebuilding queues
+- Core: Fixed crash in changing skill levels in the skill queue
+- Core: Fixed crash in separating skill levels in the skill queue
+- Core: Added new configurable colours for the new pilot skills ContainerListView
+
+
+1.7.6.150 (28/10/2008)
+---------
+Fixes and Improvements:
+- Assets: Default pilot is now selected after asset XML download is completed
+- Assets: "Copy for HQF" option will now disregard cargo bay items that are not charges
+- Assets: "Copy for HQF" option will now group drones
+- CorpHQ: Fixed crash when trying to export standings with no owner selected
+- CorpHQ: Standings now saved and loaded between sessions
+- CorpHQ: Handled issue with incomplete standings info (presumably due to corrupt Eve cache data)
+- HQF: Charges are now applied before module effects
+- HQF: Fixed crash casued by updating all fittings after restarting the plug-in
+- HQF: Fixed crash caused when clipboard cannot retrieve data
+- HQF: Altering quantities in the drone/cargo bay now restricts values to the correct limits
+- HQF: Altering/Splitting cargo bay quantities now updates the quantities correctly
+- HQF: Export as HQF option now modified to work correctly with the import function
+- HQF: Import from clipboard will now process drones correctly in both HQF and EFT format
+- HQF: Added Focused Warp Disruption Script
+- HQF: Fixed Drone Control Range Augmentor and EW Drone Range Augmentor rigs
+- HQF: Fixed issue caused by modules having old slot references when being moved
+- HQF: Charge volumes are now compared to the module capacity before adding them to the available charges
+- HQF: Needed skills for a fitting now includes skill requirements for charges
+- HQF: Changed Omnidirectional tracking link to use multiplier instead of percentage for bonuses
+- HQF: Double-clicking an item in the fitting panel which is already open will now just switch to the item instead of recalculating the fitting
+- HQF: Fixed drone/cargo items not retaining their groupings after restarting plug-in
+- HQF: Heights of the various panels are now saved between HQF sessions
+- HQF: Fixed cap usage of capital remote armor repairers not benefitting from the remote armor repair skill
+- HQF: Prevented recalculation of ship info after opening drone bay
+- HQF: Added merge drone option to drone bay
+- HQF: Added merge cargo bay option to cargo bay
+- HQF: T2 Ammo now correctly maps Tracking and Falloff bonuses/penalties
+- HQF: "Show Info" will now base the information on the pilot on the active open fitting (or the main EveHQ pilot if no open fitting)
+- HQF: Pilot Manager will now open with the pilot that is in the current active fitting (or the main EveHQ pilot if no open fitting)
+- HQF: Corrected effect of damage specific shield compensation skills on inactive "Active Shield Hardeners"
+- HQF: Corrected effect of damage specific armor compensation skills on inactive "Active Armor Hardeners"
+
+
 1.7.5.137 (07/10/2008)
 ---------
 Fixes and Improvements:
