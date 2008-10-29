@@ -113,6 +113,10 @@ Partial Class frmMap
         Me.lblMinSec = New System.Windows.Forms.Label
         Me.tabMapTool = New System.Windows.Forms.TabControl
         Me.tabCelestial = New System.Windows.Forms.TabPage
+        Me.lvOres = New System.Windows.Forms.ListView
+        Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
+        Me.lblOres = New System.Windows.Forms.Label
         Me.radCelRegion = New System.Windows.Forms.RadioButton
         Me.radCelConst = New System.Windows.Forms.RadioButton
         Me.radCelSystem = New System.Windows.Forms.RadioButton
@@ -216,6 +220,10 @@ Partial Class frmMap
         Me.cboConst = New System.Windows.Forms.ComboBox
         Me.cboRegion = New System.Windows.Forms.ComboBox
         Me.btnExclude = New EveHQ.Map.SplitButton
+        Me.lblIce = New System.Windows.Forms.Label
+        Me.lvIce = New System.Windows.Forms.ListView
+        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.gbSystemInfo.SuspendLayout()
         Me.tabMap.SuspendLayout()
         CType(Me.pbMap, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -291,7 +299,7 @@ Partial Class frmMap
         Me.gbSystemInfo.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gbSystemInfo.Location = New System.Drawing.Point(0, 0)
         Me.gbSystemInfo.Name = "gbSystemInfo"
-        Me.gbSystemInfo.Size = New System.Drawing.Size(239, 413)
+        Me.gbSystemInfo.Size = New System.Drawing.Size(239, 530)
         Me.gbSystemInfo.TabIndex = 2
         Me.gbSystemInfo.TabStop = False
         Me.gbSystemInfo.Text = "System Information"
@@ -1003,12 +1011,12 @@ Partial Class frmMap
         '
         Me.ctxRoute.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyToClipboard})
         Me.ctxRoute.Name = "ctxRoute"
-        Me.ctxRoute.Size = New System.Drawing.Size(175, 26)
+        Me.ctxRoute.Size = New System.Drawing.Size(174, 26)
         '
         'mnuCopyToClipboard
         '
         Me.mnuCopyToClipboard.Name = "mnuCopyToClipboard"
-        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(174, 22)
+        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(173, 22)
         Me.mnuCopyToClipboard.Text = "Copy To Clipboard"
         '
         'lblTimeTaken
@@ -1121,11 +1129,15 @@ Partial Class frmMap
         Me.tabMapTool.Location = New System.Drawing.Point(261, 10)
         Me.tabMapTool.Name = "tabMapTool"
         Me.tabMapTool.SelectedIndex = 0
-        Me.tabMapTool.Size = New System.Drawing.Size(665, 652)
+        Me.tabMapTool.Size = New System.Drawing.Size(665, 769)
         Me.tabMapTool.TabIndex = 37
         '
         'tabCelestial
         '
+        Me.tabCelestial.Controls.Add(Me.lvIce)
+        Me.tabCelestial.Controls.Add(Me.lblIce)
+        Me.tabCelestial.Controls.Add(Me.lvOres)
+        Me.tabCelestial.Controls.Add(Me.lblOres)
         Me.tabCelestial.Controls.Add(Me.radCelRegion)
         Me.tabCelestial.Controls.Add(Me.radCelConst)
         Me.tabCelestial.Controls.Add(Me.radCelSystem)
@@ -1139,10 +1151,42 @@ Partial Class frmMap
         Me.tabCelestial.Location = New System.Drawing.Point(4, 22)
         Me.tabCelestial.Name = "tabCelestial"
         Me.tabCelestial.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabCelestial.Size = New System.Drawing.Size(657, 626)
+        Me.tabCelestial.Size = New System.Drawing.Size(657, 743)
         Me.tabCelestial.TabIndex = 2
         Me.tabCelestial.Text = "Celestial"
         Me.tabCelestial.UseVisualStyleBackColor = True
+        '
+        'lvOres
+        '
+        Me.lvOres.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader5, Me.ColumnHeader6})
+        Me.lvOres.GridLines = True
+        Me.lvOres.Location = New System.Drawing.Point(17, 467)
+        Me.lvOres.Name = "lvOres"
+        Me.lvOres.Size = New System.Drawing.Size(514, 110)
+        Me.lvOres.TabIndex = 34
+        Me.lvOres.UseCompatibleStateImageBehavior = False
+        Me.lvOres.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader5
+        '
+        Me.ColumnHeader5.Text = "System"
+        Me.ColumnHeader5.Width = 115
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "Ores"
+        Me.ColumnHeader6.Width = 383
+        '
+        'lblOres
+        '
+        Me.lblOres.AutoSize = True
+        Me.lblOres.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblOres.Location = New System.Drawing.Point(14, 448)
+        Me.lblOres.Name = "lblOres"
+        Me.lblOres.Size = New System.Drawing.Size(37, 16)
+        Me.lblOres.TabIndex = 33
+        Me.lblOres.Text = "Ores"
+        Me.lblOres.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         '
         'radCelRegion
         '
@@ -1189,7 +1233,7 @@ Partial Class frmMap
         '
         Me.lblCelBelts.AutoSize = True
         Me.lblCelBelts.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCelBelts.Location = New System.Drawing.Point(14, 369)
+        Me.lblCelBelts.Location = New System.Drawing.Point(14, 316)
         Me.lblCelBelts.Name = "lblCelBelts"
         Me.lblCelBelts.Size = New System.Drawing.Size(38, 16)
         Me.lblCelBelts.TabIndex = 28
@@ -1200,7 +1244,7 @@ Partial Class frmMap
         '
         Me.lblCelMoons.AutoSize = True
         Me.lblCelMoons.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCelMoons.Location = New System.Drawing.Point(13, 204)
+        Me.lblCelMoons.Location = New System.Drawing.Point(13, 183)
         Me.lblCelMoons.Name = "lblCelMoons"
         Me.lblCelMoons.Size = New System.Drawing.Size(49, 16)
         Me.lblCelMoons.TabIndex = 27
@@ -1222,9 +1266,9 @@ Partial Class frmMap
         '
         Me.lvBelts.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader4})
         Me.lvBelts.GridLines = True
-        Me.lvBelts.Location = New System.Drawing.Point(17, 388)
+        Me.lvBelts.Location = New System.Drawing.Point(16, 335)
         Me.lvBelts.Name = "lvBelts"
-        Me.lvBelts.Size = New System.Drawing.Size(514, 137)
+        Me.lvBelts.Size = New System.Drawing.Size(514, 110)
         Me.lvBelts.TabIndex = 25
         Me.lvBelts.UseCompatibleStateImageBehavior = False
         Me.lvBelts.View = System.Windows.Forms.View.Details
@@ -1232,15 +1276,15 @@ Partial Class frmMap
         'ColumnHeader4
         '
         Me.ColumnHeader4.Text = "Name"
-        Me.ColumnHeader4.Width = 297
+        Me.ColumnHeader4.Width = 424
         '
         'lvMoons
         '
         Me.lvMoons.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.CoplMoonsName})
         Me.lvMoons.GridLines = True
-        Me.lvMoons.Location = New System.Drawing.Point(16, 223)
+        Me.lvMoons.Location = New System.Drawing.Point(16, 212)
         Me.lvMoons.Name = "lvMoons"
-        Me.lvMoons.Size = New System.Drawing.Size(514, 143)
+        Me.lvMoons.Size = New System.Drawing.Size(514, 101)
         Me.lvMoons.TabIndex = 24
         Me.lvMoons.UseCompatibleStateImageBehavior = False
         Me.lvMoons.View = System.Windows.Forms.View.Details
@@ -1248,7 +1292,7 @@ Partial Class frmMap
         'CoplMoonsName
         '
         Me.CoplMoonsName.Text = "Name"
-        Me.CoplMoonsName.Width = 297
+        Me.CoplMoonsName.Width = 421
         '
         'lvPlanets
         '
@@ -1256,7 +1300,7 @@ Partial Class frmMap
         Me.lvPlanets.GridLines = True
         Me.lvPlanets.Location = New System.Drawing.Point(16, 75)
         Me.lvPlanets.Name = "lvPlanets"
-        Me.lvPlanets.Size = New System.Drawing.Size(514, 126)
+        Me.lvPlanets.Size = New System.Drawing.Size(514, 105)
         Me.lvPlanets.TabIndex = 23
         Me.lvPlanets.UseCompatibleStateImageBehavior = False
         Me.lvPlanets.View = System.Windows.Forms.View.Details
@@ -1264,7 +1308,7 @@ Partial Class frmMap
         'CoPlName
         '
         Me.CoPlName.Text = "Name"
-        Me.CoPlName.Width = 297
+        Me.CoPlName.Width = 419
         '
         'tabStations
         '
@@ -1892,7 +1936,7 @@ Partial Class frmMap
         '
         Me.pbInfo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.pbInfo.Image = CType(resources.GetObject("pbInfo.Image"), System.Drawing.Image)
-        Me.pbInfo.Location = New System.Drawing.Point(8, 630)
+        Me.pbInfo.Location = New System.Drawing.Point(8, 747)
         Me.pbInfo.Name = "pbInfo"
         Me.pbInfo.Size = New System.Drawing.Size(32, 32)
         Me.pbInfo.TabIndex = 66
@@ -1928,24 +1972,24 @@ Partial Class frmMap
         '
         Me.ctxExclude.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExcludeSystem, Me.mnuExcludeConstellation, Me.mnuExcludeRegion})
         Me.ctxExclude.Name = "ctxExclude"
-        Me.ctxExclude.Size = New System.Drawing.Size(145, 70)
+        Me.ctxExclude.Size = New System.Drawing.Size(148, 70)
         '
         'mnuExcludeSystem
         '
         Me.mnuExcludeSystem.Name = "mnuExcludeSystem"
-        Me.mnuExcludeSystem.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeSystem.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeSystem.Text = "Solar System"
         '
         'mnuExcludeConstellation
         '
         Me.mnuExcludeConstellation.Name = "mnuExcludeConstellation"
-        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeConstellation.Text = "Constellation"
         '
         'mnuExcludeRegion
         '
         Me.mnuExcludeRegion.Name = "mnuExcludeRegion"
-        Me.mnuExcludeRegion.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeRegion.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeRegion.Text = "Region"
         '
         'btnRemoveExclusion
@@ -1968,7 +2012,7 @@ Partial Class frmMap
         Me.tabWaypointExclusions.Location = New System.Drawing.Point(8, 185)
         Me.tabWaypointExclusions.Name = "tabWaypointExclusions"
         Me.tabWaypointExclusions.SelectedIndex = 0
-        Me.tabWaypointExclusions.Size = New System.Drawing.Size(247, 439)
+        Me.tabWaypointExclusions.Size = New System.Drawing.Size(247, 556)
         Me.tabWaypointExclusions.TabIndex = 68
         '
         'tabSystem
@@ -1976,7 +2020,7 @@ Partial Class frmMap
         Me.tabSystem.Controls.Add(Me.gbSystemInfo)
         Me.tabSystem.Location = New System.Drawing.Point(4, 22)
         Me.tabSystem.Name = "tabSystem"
-        Me.tabSystem.Size = New System.Drawing.Size(239, 413)
+        Me.tabSystem.Size = New System.Drawing.Size(239, 530)
         Me.tabSystem.TabIndex = 2
         Me.tabSystem.Text = "System Info"
         Me.tabSystem.UseVisualStyleBackColor = True
@@ -2065,11 +2109,43 @@ Partial Class frmMap
         Me.btnExclude.UseCompatibleTextRendering = True
         Me.btnExclude.UseVisualStyleBackColor = True
         '
+        'lblIce
+        '
+        Me.lblIce.AutoSize = True
+        Me.lblIce.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIce.Location = New System.Drawing.Point(15, 580)
+        Me.lblIce.Name = "lblIce"
+        Me.lblIce.Size = New System.Drawing.Size(26, 16)
+        Me.lblIce.TabIndex = 35
+        Me.lblIce.Text = "Ice"
+        Me.lblIce.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
+        'lvIce
+        '
+        Me.lvIce.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader9, Me.ColumnHeader10})
+        Me.lvIce.GridLines = True
+        Me.lvIce.Location = New System.Drawing.Point(17, 599)
+        Me.lvIce.Name = "lvIce"
+        Me.lvIce.Size = New System.Drawing.Size(514, 110)
+        Me.lvIce.TabIndex = 36
+        Me.lvIce.UseCompatibleStateImageBehavior = False
+        Me.lvIce.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader9
+        '
+        Me.ColumnHeader9.Text = "System"
+        Me.ColumnHeader9.Width = 115
+        '
+        'ColumnHeader10
+        '
+        Me.ColumnHeader10.Text = "Ice"
+        Me.ColumnHeader10.Width = 383
+        '
         'frmMap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(938, 666)
+        Me.ClientSize = New System.Drawing.Size(938, 783)
         Me.Controls.Add(Me.lblConstMain)
         Me.Controls.Add(Me.lblRegionMain)
         Me.Controls.Add(Me.cboConst)
@@ -2317,4 +2393,12 @@ Partial Class frmMap
     Friend WithEvents lblPlanetsLbl As System.Windows.Forms.Label
     Friend WithEvents lgagstype As System.Windows.Forms.ColumnHeader
     Friend WithEvents colSov As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lblOres As System.Windows.Forms.Label
+    Friend WithEvents lvOres As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lvIce As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader9 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader10 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lblIce As System.Windows.Forms.Label
 End Class

@@ -49,6 +49,8 @@
     Public Updated As Boolean = False
     Public LastUpdate As String = ""
     Public Active As Boolean = True
+    Public Ice As String
+    Public Ores As String
 
     Public Function GetName() As String
         Dim text1 As String = (Me.Name & " (" & Me.Security)

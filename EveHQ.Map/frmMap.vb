@@ -349,12 +349,81 @@ Public Class frmMap
                         cSystem.ID = CInt(systemData.Tables(0).Rows(solar).Item("solarSystemID")) - 30000000
                         cSystem.Name = systemData.Tables(0).Rows(solar).Item("solarSystemName")
                         cSystem.Region = systemData.Tables(0).Rows(solar).Item("regionName")
+                        cSystem.RegionId = systemData.Tables(0).Rows(solar).Item("mapSolarSystems_regionID")
                         cSystem.Constellation = systemData.Tables(0).Rows(solar).Item("constellationName")
                         cSystem.x = systemData.Tables(0).Rows(solar).Item("x")
                         cSystem.y = systemData.Tables(0).Rows(solar).Item("y")
                         cSystem.z = systemData.Tables(0).Rows(solar).Item("z")
                         cSystem.Security = systemData.Tables(0).Rows(solar).Item("security")
                         cSystem.EveSec = Math.Max(Int((cSystem.Security * 10) + 0.5) / 10, 0)
+                        If IsDBNull(systemData.Tables(0).Rows(solar).Item("securityClass")) = False Then
+                            cSystem.SecClass = systemData.Tables(0).Rows(solar).Item("securityClass")
+                        Else
+                            cSystem.SecClass = ""
+                        End If
+                        cSystem.Ice = GetIce(cSystem.RegionId, cSystem.Security)
+                        If cSystem.SecClass = "A" Then cSystem.Ores = "Veldspar, Scordite"
+                        If cSystem.SecClass = "B" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres"
+                        If cSystem.SecClass = "B1" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Kernite"
+                        If cSystem.SecClass = "B2" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Kernite, Jaspet"
+                        If cSystem.SecClass = "B3" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Kernite, Jaspet, Hemorphite"
+                        If cSystem.SecClass = "C" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Pyroxeres"
+                        If cSystem.SecClass = "C1" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Pyroxeres, Kernite"
+                        If cSystem.SecClass = "C2" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Pyroxeres, Kernite, Hedbergite"
+                        If cSystem.SecClass = "D" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase"
+                        If cSystem.SecClass = "D1" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber"
+                        If cSystem.SecClass = "D2" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Jaspet"
+                        If cSystem.SecClass = "D3" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Jaspet, Hemorphite"
+                        If cSystem.SecClass = "E" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite"
+                        If cSystem.SecClass = "E1" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Hedbergite"
+                        If cSystem.SecClass = "F" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber"
+                        If cSystem.SecClass = "F1" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain"
+                        If cSystem.SecClass = "F2" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss"
+                        If cSystem.SecClass = "F3" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot"
+                        If cSystem.SecClass = "F4" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor"
+                        If cSystem.SecClass = "F5" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor, Pyroxeres"
+                        If cSystem.SecClass = "F6" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor, Pyroxeres, Mercoxit"
+                        If cSystem.SecClass = "F7" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor, Pyroxeres, Mercoxit, Plagioclase"
+                        If cSystem.SecClass = "G" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite"
+                        If cSystem.SecClass = "G1" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss"
+                        If cSystem.SecClass = "G2" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres"
+                        If cSystem.SecClass = "G3" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain"
+                        If cSystem.SecClass = "G4" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot"
+                        If cSystem.SecClass = "G5" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot, Crokite"
+                        If cSystem.SecClass = "G6" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot, Crokite, Mercoxit"
+                        If cSystem.SecClass = "G7" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot, Crokite, Mercoxit, Dark Ochre"
+                        If cSystem.SecClass = "H" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet"
+                        If cSystem.SecClass = "H1" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite"
+                        If cSystem.SecClass = "H2" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre"
+                        If cSystem.SecClass = "H3" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite"
+                        If cSystem.SecClass = "H4" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite"
+                        If cSystem.SecClass = "H5" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite, Spodumain"
+                        If cSystem.SecClass = "H6" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite, Spodumain, Mercoxit"
+                        If cSystem.SecClass = "H7" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite, Spodumain, Mercoxit, Bistot"
+                        If cSystem.SecClass = "I" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber"
+                        If cSystem.SecClass = "I1" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet"
+                        If cSystem.SecClass = "I2" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain"
+                        If cSystem.SecClass = "I3" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss"
+                        If cSystem.SecClass = "I4" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre"
+                        If cSystem.SecClass = "I5" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre, Arkonor"
+                        If cSystem.SecClass = "I6" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre, Arkonor, Mercoxit"
+                        If cSystem.SecClass = "I7" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre, Arkonor, Mercoxit, Kernite"
+                        If cSystem.SecClass = "J" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet"
+                        If cSystem.SecClass = "J1" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre"
+                        If cSystem.SecClass = "J2" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite"
+                        If cSystem.SecClass = "J3" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot"
+                        If cSystem.SecClass = "J4" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite"
+                        If cSystem.SecClass = "J5" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite, Hedbergite"
+                        If cSystem.SecClass = "J6" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite, Hedbergite, Mercoxit"
+                        If cSystem.SecClass = "J7" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite, Hedbergite, Mercoxit, Arkonor"
+                        If cSystem.SecClass = "K" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber"
+                        If cSystem.SecClass = "K1" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre"
+                        If cSystem.SecClass = "K2" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain"
+                        If cSystem.SecClass = "K3" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite"
+                        If cSystem.SecClass = "K4" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot"
+                        If cSystem.SecClass = "K5" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot, Arkonor"
+                        If cSystem.SecClass = "K6" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot, Arkonor, Mercoxit"
+                        If cSystem.SecClass = "K7" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot, Arkonor, Mercoxit, Gneiss"
                         cSystem.Flag = False
                         EveHQ.Core.HQ.SystemsID.Add(cSystem.ID.ToString, cSystem)
                         EveHQ.Core.HQ.SystemsName.Add(cSystem.Name, cSystem)
@@ -373,6 +442,367 @@ Public Class frmMap
             Return False
         End Try
     End Function
+
+    Public Function GetIce(ByVal regid As Integer, ByVal syssec As Double) As String
+        Dim Icelist As String = ""
+        If syssec <= 0.35 And syssec > 0.15 Then Icelist = "Glare Crust"
+        If syssec <= 0.15 And syssec >= -0.15 Then Icelist = "Glare Crust, Dark Glitter"
+        If syssec <= -0.15 And syssec >= -0.449 Then Icelist = "Dark Glitter, Gelidus"
+        If syssec < -0.449 And syssec > -0.5 Then Icelist = "Gelidus"
+        If syssec <= -0.5 And syssec > -0.65 Then Icelist = "Gelidus, Krystallos"
+        If syssec <= -0.65 And syssec > -1 Then Icelist = "Krystallos"
+
+        Select Case regid
+            Case 10000001
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000002
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + "White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+            Case 10000003
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+                'Case 10000004
+                '   If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                '  If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                ' If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000005
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000006
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000007
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000008
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000009
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000010
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+            Case 10000011
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000012
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000013
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000014
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000015
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+            Case 10000016
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+                'Case 10000017
+                '   If syssec <= 1 And syssec > 0.35 Then Icelist = ""
+                '   If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ""
+                '  If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ""
+
+            Case 10000018
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+                'Case 10000019
+                '   If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                '   If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                '   If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000020
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000021
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000022
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000023
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+                'Case 10000024
+                '    If syssec <= 1 And syssec > 0.35 Then Icelist = ""
+                '    If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ""
+                '   If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ""
+
+            Case 10000025
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+                'Case 10000026
+                '  If syssec <= 1 And syssec > 0.35 Then Icelist = ""
+                '  If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ""
+                '  If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ""
+
+            Case 10000027
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000028
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000029
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+            Case 10000030
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000031
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000032
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000033
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+            Case 10000034
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000035
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+            Case 10000036
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000037
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000038
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000039
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000040
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000041
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000042
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000043
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000044
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000045
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+            Case 10000046
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000047
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000048
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000049
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000050
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000051
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000052
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000053
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000054
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000055
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+            Case 10000056
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000057
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000058
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000059
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000060
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000061
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000062
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Glacial Mass"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Glacial Mass"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Smooth Glacial Mass"
+
+            Case 10000063
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000064
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000065
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000066
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000067
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Clear Icicle"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Clear Icicle"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Enriched Clear Icicle"
+
+            Case 10000068
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "Blue Ice"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", Blue Ice"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Thick Blue Ice"
+
+            Case 10000069
+                If syssec <= 1 And syssec > 0.35 Then Icelist = "White Glaze"
+                If syssec <= 0.35 And syssec >= 0.05 Then Icelist = Icelist + ", White Glaze"
+                If syssec <= 0.05 And syssec >= -1 Then Icelist = Icelist + ", Pristine White Glaze"
+
+        End Select
+        Return Icelist
+    End Function
+
+
     Public Function LoadGates() As Boolean
         Dim strSQL As String = "SELECT * FROM mapSolarSystemJumps"
         Dim systemData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -447,7 +877,7 @@ Public Class frmMap
                 If NameData.Tables(0).Rows.Count > 0 Then
                     eveNames.Clear()
                     For a As Integer = 0 To NameData.Tables(0).Rows.Count - 1
-                        Dim cName As evename = New evename
+                        Dim cName As EveName = New EveName
                         cName.itemID = NameData.Tables(0).Rows(a).Item("itemID")
                         cName.itemName = NameData.Tables(0).Rows(a).Item("itemName")
                         cName.Flag = False
@@ -2520,8 +2950,8 @@ Public Class frmMap
 
         End If
 
-            myPen.Dispose()
-            formGraphics.Dispose()
+        myPen.Dispose()
+        formGraphics.Dispose()
 
     End Sub
     Private Sub CreateEveMap(ByVal FullMap As Boolean)
@@ -3622,7 +4052,16 @@ Public Class frmMap
         lvBelts.BeginUpdate()
         lvBelts.Sorting = SortOrder.None
         lvBelts.Items.Clear()
+        lvOres.BeginUpdate()
+        lvOres.Sorting = SortOrder.None
+        lvOres.Items.Clear()
+        lvIce.BeginUpdate()
+        lvIce.Sorting = SortOrder.None
+        lvIce.Items.Clear()
+        Dim OreId As Integer = 0
+        Dim IceId As Integer = 0
         For Each sys As String In systemArray
+            Dim Icepresent As Boolean = False
             Dim celSystem As SolarSystem = EveHQ.Core.HQ.SystemsName(sys)
             For Each celBody As String In celSystem.Planets.Values
                 lvPlanets.Items.Add(celBody)
@@ -3633,6 +4072,14 @@ Public Class frmMap
             For Each celBody As String In celSystem.ABelts.Values
                 lvBelts.Items.Add(celBody)
             Next
+            For Each celBody As String In celSystem.IBelts.Values
+                lvIce.Items.Add(celBody)
+                lvIce.Items(IceId).SubItems.Add(celSystem.Ice)
+                IceId = IceId + 1
+            Next
+            lvOres.Items.Add(celSystem.Name)
+            lvOres.Items(OreId).SubItems.Add(celSystem.Ores)
+            OreId = OreId + 1
         Next
         lvPlanets.Sorting = SortOrder.Ascending
         lvPlanets.EndUpdate()
@@ -3640,6 +4087,10 @@ Public Class frmMap
         lvMoons.EndUpdate()
         lvBelts.Sorting = SortOrder.Ascending
         lvBelts.EndUpdate()
+        lvOres.Sorting = SortOrder.Ascending
+        lvOres.EndUpdate()
+        lvIce.Sorting = SortOrder.Ascending
+        lvIce.EndUpdate()
         lblCelPlanets.Text = "Planets (" & FormatNumber(lvPlanets.Items.Count, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " found)"
         lblCelMoons.Text = "Moons (" & FormatNumber(lvMoons.Items.Count, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " found)"
         lblCelBelts.Text = "Belts (" & FormatNumber(lvBelts.Items.Count, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " found)"
