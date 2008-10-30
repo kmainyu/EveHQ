@@ -702,10 +702,10 @@ Public Class ShipSlotControl
             Else
                 myShip = currentShip
             End If
-            If myShip.CargoBay - currentShip.CargoBay_Used >= vol And UpdateAll = False Then
+            If myShip.CargoBay - currentShip.CargoBay_Used >= vol Then
                 ' Scan through existing items and see if we can group this new one
                 For Each itemGroup As CargoBayItem In currentShip.CargoBayItems.Values
-                    If Item.Name = itemGroup.ItemType.Name Then
+                    If Item.Name = itemGroup.ItemType.Name And UpdateAll = False Then
                         ' Add to existing drone group
                         itemGroup.Quantity += Qty
                         grouped = True
@@ -1622,7 +1622,6 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub btnMergeCargo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMergeCargo.Click
-        UpdateDrones = True
         lvwCargoBay.BeginUpdate()
         lvwCargoBay.Items.Clear()
         currentShip.CargoBay_Used = 0

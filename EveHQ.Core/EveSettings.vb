@@ -1227,7 +1227,7 @@ Public Class EveSettings
             XMLS &= Chr(9) & Chr(9) & "<account>" & vbCrLf
             XMLS &= Chr(9) & Chr(9) & Chr(9) & "<userName>" & currentAccount.userID & "</userName>" & vbCrLf
             XMLS &= Chr(9) & Chr(9) & Chr(9) & "<password>" & currentAccount.APIKey & "</password>" & vbCrLf
-            XMLS &= Chr(9) & Chr(9) & Chr(9) & "<accountName>" & currentAccount.FriendlyName & "</accountName>" & vbCrLf
+            XMLS &= Chr(9) & Chr(9) & Chr(9) & "<accountName>" & System.Security.SecurityElement.Escape(currentAccount.FriendlyName) & "</accountName>" & vbCrLf
             XMLS &= Chr(9) & Chr(9) & "</account>" & vbCrLf
         Next
         XMLS &= Chr(9) & "</accounts>" & vbCrLf
