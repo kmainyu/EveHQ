@@ -410,7 +410,9 @@ Public Class frmPilotManager
             e.Node.ForeColor = Drawing.Color.LimeGreen
             ' Remove the old node colour
             If currentImplant <> "" And currentImplant <> cImplant.Name Then
-                e.Node.Parent.Nodes(currentImplant).ForeColor = tvwImplants.ForeColor
+                If e.Node.Parent.Nodes.ContainsKey(currentImplant) = True Then
+                    e.Node.Parent.Nodes(currentImplant).ForeColor = tvwImplants.ForeColor
+                End If
             End If
         Else
             If e.Node.Text = "No Implant" Then

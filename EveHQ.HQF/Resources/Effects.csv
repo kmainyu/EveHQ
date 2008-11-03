@@ -564,8 +564,8 @@
 1205,2,507,51,6,0,0,0,0,8,Rocket Launcher ROF Bonus
 1205,2,508,51,6,0,0,0,0,8,Siege Launcher ROF Bonus
 1205,2,509,51,6,0,0,0,0,8,Standard Launcher ROF Bonus
-1205,2,509,10013,6,0,1,0,0,8,Projectile Weapon ROF Bonus
-1210,2,509,10016,6,0,1,0,0,8,Projectile Weapon Damage Bonus
+1205,2,55,10013,6,0,1,0,0,8,Projectile Weapon ROF Bonus
+1210,2,55,10016,6,0,1,0,0,8,Projectile Weapon Damage Bonus
 1231,2,40,68,6,0,1,0,0,8,Shield Booster Boost Amount
 1206,2,40,73,6,0,1,0,0,8,Shield Booster Duration
 1208,2,77,984,6,0,1,0,0,8,Shield Hardener - EM

@@ -23,18 +23,18 @@
 767,1,27075,160,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' AX-0
 767,1,9957,160,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' AX-1
 767,1,19686,160,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' AX-2
-292,1,27081,64,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' CX-0
-292,1,13244,64,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' CX-1
-292,1,19687,64,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' CX-2
-292,1,27090,64,4,579,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' LX-0
-292,1,13219,64,4,579,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' LX-1
-292,1,19688,64,4,579,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' LX-2
-292,1,27087,64,4,578,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' MX-0
-292,1,13222,64,4,578,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' MX-1
-292,1,19689,64,4,578,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' MX-2
-292,1,27084,64,4,575,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' SX-0
-292,1,13225,64,4,575,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' SX-1
-292,1,19690,64,4,575,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' SX-2
+292,1,27081,10014;10015;10016,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' CX-0
+292,1,13244,10014;10015;10016,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' CX-1
+292,1,19687,10014;10015;10016,2,53;55;74,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' CX-2
+292,1,27090,10016,4,579,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' LX-0
+292,1,13219,10016,4,579,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' LX-1
+292,1,19688,10016,4,579,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' LX-2
+292,1,27087,10016,4,578,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' MX-0
+292,1,13222,10016,4,578,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' MX-1
+292,1,19689,10016,4,578,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' MX-2
+292,1,27084,10016,4,575,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' SX-0
+292,1,13225,10016,4,575,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' SX-1
+292,1,19690,10016,4,575,0,0,0,Gunnery,Hardwiring - Eifyr and Co 'Gunslinger' SX-2
 #,1,27147,,,,,0,0,Shield,#Hardwiring - Eifyr and Co. 'Alchemist' WA-1
 #,1,27148,,,,,0,0,Shield,#Hardwiring - Eifyr and Co. 'Alchemist' WA-2
 #,1,25547,,,,,0,0,Science,#Hardwiring - Eifyr and Co. 'Alchemist' XA-1
@@ -80,21 +80,21 @@
 927,1,27151,1082,4,935,1,0,0,Industry,Hardwiring - Inherent Implants 'Highwall' HY-0
 927,1,27149,1082,4,935,1,0,0,Industry,Hardwiring - Inherent Implants 'Highwall' HY-1
 927,1,27150,1082,4,935,1,0,0,Industry,Hardwiring - Inherent Implants 'Highwall' HY-2
-292,1,27082,64,4,567,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Alpha
+292,1,27082,10014,4,567,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Alpha
 317,1,27079,6,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Beta
-441,1,27077,51,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Delta
-292,1,27088,64,4,569,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Epsilon
-292,1,27085,64,4,568,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Gamma
-292,1,13223,64,4,567,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Alpha
+441,1,27077,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Delta
+292,1,27088,10014,4,569,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Epsilon
+292,1,27085,10014,4,568,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G0-Gamma
+292,1,13223,10014,4,567,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Alpha
 317,1,13246,6,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Beta
-441,1,13166,51,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Delta
-292,1,13217,64,4,569,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Epsilon
-292,1,13220,64,4,568,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Gamma
-292,1,19691,64,4,567,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Alpha
+441,1,13166,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Delta
+292,1,13217,10014,4,569,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Epsilon
+292,1,13220,10014,4,568,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G1-Gamma
+292,1,19691,10014,4,567,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Alpha
 317,1,19692,6,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Beta
-441,1,19693,51,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Delta
-292,1,19694,64,4,569,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Epsilon
-292,1,19695,64,4,568,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Gamma
+441,1,19693,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Delta
+292,1,19694,10014,4,569,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Epsilon
+292,1,19695,10014,4,568,0,0,0,Gunnery,Hardwiring - Inherent Implants 'Lancer' G2-Gamma
 312,1,27070,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Hardwiring - Inherent Implants 'Noble' ZET10
 312,1,13258,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Hardwiring - Inherent Implants 'Noble' ZET100
 312,1,19547,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Hardwiring - Inherent Implants 'Noble' ZET1000
@@ -165,15 +165,15 @@
 349,1,27078,158,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGC10
 349,1,13245,158,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGC100
 349,1,19697,158,2,53;55;74,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGC1000
-292,1,27089,64,4,566,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGL10
-292,1,13218,64,4,566,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGL100
-292,1,19698,64,4,566,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGL1000
-292,1,27086,64,4,565,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGM10
-292,1,13221,64,4,565,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGM100
-292,1,19699,64,4,565,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGM1000
-292,1,27083,64,4,564,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGS10
-292,1,13224,64,4,564,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGS100
-292,1,19700,64,4,564,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGS1000
+292,1,27089,10015,4,566,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGL10
+292,1,13218,10015,4,566,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGL100
+292,1,19698,10015,4,566,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGL1000
+292,1,27086,10015,4,565,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGM10
+292,1,13221,10015,4,565,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGM100
+292,1,19699,10015,4,565,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGM1000
+292,1,27083,10015,4,564,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGS10
+292,1,13224,10015,4,564,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGS100
+292,1,19700,10015,4,564,0,0,0,Gunnery,Hardwiring - Zainou 'Deadeye' ZGS1000
 848,1,27094,654,2,384;653;385;655;386;656,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMA10
 848,1,24632,654,2,384;653;385;655;386;656,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMA100
 848,1,24640,654,2,384;653;385;655;386;656,0,0,0,Missiles,Hardwiring - Zainou 'Deadeye' ZMA1000
@@ -357,8 +357,8 @@
 #,1,,,,,,0,0,Learning,#Ocular Filter - Improved
 #,1,,,,,,0,0,Learning,#Ocular Filter - Standard
 767,1,20443,160,2,53;55;74,0,0,0,Gunnery,Ogdin's Eye Coordination Enhancer
-441,1,25868,51,2,53;55;74,0,0,0,Gunnery,Pashan's Turret Customization Mindlink
-292,1,25867,64,4,569,0,0,0,Gunnery,Pashan's Turret Handling Mindlink
+441,1,25868,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Pashan's Turret Customization Mindlink
+292,1,25867,10014,4,569,0,0,0,Gunnery,Pashan's Turret Handling Mindlink
 1084,1,22715,37,3,6,0,0,0,Navigation,Republic Special Ops Field Enhancer - Gamma
 1076,1,24669,37,3,6,0,0,0,Navigation,Shaqil's Speed Enhancer
 337,1,21888,263,3,6,0,0,1,Shield,Siege Warfare Mindlink
@@ -370,7 +370,7 @@
 335,1,20503,265,3,6,0,0,0,Armor;Learning,Slave Delta
 335,1,20505,265,3,6,0,0,0,Armor;Learning,Slave Epsilon
 335,1,20507,265,3,6,0,0,0,Armor;Learning,Slave Gamma
-#838,1,20509,,,,,0,0,Science,#Slave Omega
+#,1,20509,,,,,0,0,Science,#Slave Omega
 315,1,19540,37,3,6,0,0,0,Navigation;Learning,Snake Alpha
 315,1,19551,37,3,6,0,0,0,Navigation;Learning,Snake Beta
 315,1,19554,37,3,6,0,0,0,Navigation;Learning,Snake Delta
@@ -386,7 +386,7 @@
 66,1,19537,73,5,3423,0,0,0,Engineering;Learning,Talisman Delta
 66,1,19538,73,5,3423,0,0,0,Engineering;Learning,Talisman Epsilon
 66,1,19536,73,5,3423,0,0,0,Engineering;Learning,Talisman Gamma
-#838,1,19539,,,,,0,0,Science,#Talisman Omega
+#,1,19539,,,,,0,0,Science,#Talisman Omega
 293,1,20371,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Whelan Machorin's Ballistic Smartlink
 318,1,24663,20,2,46,0,0,0,Navigation,Zor's Custom Navigation Hyper-Link
 66,1,19500,73,4,542,0,0,0,Navigation,Zor's Custom Navigation Link
