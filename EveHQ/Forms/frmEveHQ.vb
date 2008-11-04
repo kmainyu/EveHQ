@@ -1417,26 +1417,26 @@ Public Class frmEveHQ
         Dim mnu As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
         Dim PluginName As String = mnu.Name
         Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(PluginName), Core.PlugIn)
-        Dim PluginFile As String = myPlugIn.FileName
-        Dim PluginType As String = myPlugIn.FileType
-        Dim myAssembly As Assembly = Assembly.LoadFrom(PluginFile)
-        Dim t As Type = myAssembly.GetType(PluginType)
-        myPlugIn.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
-        Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = myPlugIn.Instance
-        Dim plugInForm As Form = runPlugIn.RunEveHQPlugIn
+        'Dim PluginFile As String = myPlugIn.FileName
+        'Dim PluginType As String = myPlugIn.FileType
+        'Dim myAssembly As Assembly = Assembly.LoadFrom(PluginFile)
+        'Dim t As Type = myAssembly.GetType(PluginType)
+        'myPlugIn.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
+        'Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = myPlugIn.Instance
+        Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
         Call OpenPlugInForm(plugInForm)
     End Sub
     Private Sub ModuleTSBClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim btn As ToolStripButton = DirectCast(sender, ToolStripButton)
         Dim PluginName As String = btn.Name
         Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(PluginName), Core.PlugIn)
-        Dim PluginFile As String = myPlugIn.FileName
-        Dim PluginType As String = myPlugIn.FileType
-        Dim myAssembly As Assembly = Assembly.LoadFrom(PluginFile)
-        Dim t As Type = myAssembly.GetType(PluginType)
-        myPlugIn.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
-        Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = myPlugIn.Instance
-        Dim plugInForm As Form = runPlugIn.RunEveHQPlugIn
+        'Dim PluginFile As String = myPlugIn.FileName
+        'Dim PluginType As String = myPlugIn.FileType
+        'Dim myAssembly As Assembly = Assembly.LoadFrom(PluginFile)
+        'Dim t As Type = myAssembly.GetType(PluginType)
+        'myPlugIn.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
+        'Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = myPlugIn.Instance
+        Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
         Call OpenPlugInForm(plugInForm)
     End Sub
 #End Region

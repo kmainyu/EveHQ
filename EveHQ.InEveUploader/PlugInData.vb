@@ -1,7 +1,7 @@
 ﻿Imports System.Reflection
 Imports System.Windows.Forms
 
-Public Class Plugin
+Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
     Dim mSetPlugInData As Object
 

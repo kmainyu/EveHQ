@@ -442,11 +442,11 @@ Public Class frmHQFSettings
             strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20)) AND ((invTypes.published)=1))"
             strSQL &= " ORDER BY invTypes.typeName, dgmTypeAttributes.attributeID;"
 
-            HQFData.moduleAttributeData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If HQFData.moduleAttributeData IsNot Nothing Then
-                If HQFData.moduleAttributeData.Tables(0).Rows.Count <> 0 Then
+            PlugInData.moduleAttributeData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If PlugInData.moduleAttributeData IsNot Nothing Then
+                If PlugInData.moduleAttributeData.Tables(0).Rows.Count <> 0 Then
                     ' Find module information
-                    For Each attRow As DataRow In HQFData.moduleAttributeData.Tables(0).Rows
+                    For Each attRow As DataRow In PlugInData.moduleAttributeData.Tables(0).Rows
                         If IsDBNull(attRow.Item("valueFloat")) = False And IsDBNull(attRow.Item("valueInt")) = False Then
                             MessageBox.Show(CStr(attRow.Item("typeID")) & ": " & CStr(attRow.Item("typeName")))
                         End If

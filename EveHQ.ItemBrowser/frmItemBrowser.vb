@@ -25,8 +25,6 @@ Imports System.Text
 Imports System.Xml
 
 Public Class frmItemBrowser
-    Implements EveHQ.Core.IEveHQPlugIn
-    Dim mSetPlugInData As Object
 
     Const ActivityCount As Integer = 9
     Dim metaParentID As Long
@@ -65,50 +63,6 @@ Public Class frmItemBrowser
     Dim BPWFPC As Double = 0
     Dim BPWFMC As Double = 0
     Dim eveData As Data.DataSet
-
-    Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
-        Get
-            Return mSetPlugInData
-        End Get
-        Set(ByVal value As Object)
-            mSetPlugInData = value
-            If CStr(value) <> "" Then
-                Call LoadItemID(CStr(value))
-                mSetPlugInData = ""
-                Call Me.AddToNavigation(itemTypeName)
-            End If
-        End Set
-    End Property
-
-    Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
-        Try
-            Return True
-        Catch ex As Exception
-            Windows.Forms.MessageBox.Show(ex.Message)
-            Return False
-        End Try
-    End Function
-    Public Function GetEveHQPlugInInfo() As Core.PlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
-        ' Returns data to EveHQ to identify it as a plugin
-        Dim EveHQPlugIn As New EveHQ.Core.PlugIn
-        EveHQPlugIn.Name = "EveHQ Item Browser"
-        EveHQPlugIn.Description = "Shows Data on all Eve ingame items"
-        EveHQPlugIn.Author = "Vessper"
-        EveHQPlugIn.MainMenuText = "Item Browser"
-        EveHQPlugIn.RunAtStartup = False
-        EveHQPlugIn.RunInIGB = False
-        EveHQPlugIn.MenuImage = My.Resources.plugin_icon
-        EveHQPlugIn.Version = My.Application.Info.Version.ToString
-        Return EveHQPlugIn
-    End Function
-
-    Public Function IGBService(ByVal IGBContext As Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
-        Return ""
-    End Function
-
-    Public Function RunEveHQPlugIn() As System.Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
-        Return Me
-    End Function
 
     Private Sub LoadItemName(ByVal itemName As String)
         Dim strSQL As String = "SELECT * FROM invTypes WHERE typeName LIKE '" & itemName & "'"
@@ -473,7 +427,12 @@ Public Class frmItemBrowser
             lstEveCentral.Items.Add("Unable to Load XML Feed")
         End Try
     End Sub
+
     Private Sub frmItemBrowser_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        ' Add an event handler for the changing data
+        AddHandler PlugInData.PluginDataReceived, AddressOf PluginDataHandler
+
         For activity As Integer = 1 To ActivityCount
             tabPagesM(activity) = Me.tabMaterial.TabPages("tabM" & activity)
             tabPagesC(activity) = Me.tabComponents.TabPages("tabC" & activity)
@@ -506,6 +465,13 @@ Public Class frmItemBrowser
         cboAttSearch.EndUpdate()
         ' Reset the list of navigated items
         navigated.Clear()
+    End Sub
+    Private Sub PluginDataHandler()
+        Dim myPlugInData As Object = PlugInData.PlugInDataObject
+        If CStr(myPlugInData) <> "" Then
+            Call LoadItemID(CStr(myPlugInData))
+            Call Me.AddToNavigation(itemTypeName)
+        End If
     End Sub
     Private Sub LoadBrowserGroups()
         Dim newNode As TreeNode

@@ -23,42 +23,7 @@ Imports System.Text.RegularExpressions
 Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class frmCorpHQ
-    Implements EveHQ.Core.IEveHQPlugIn
-    Dim mSetPlugInData As Object
-    Dim AllStandings As New SortedList
-
-#Region "Plug-in Initialisation Routines"
-    Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
-        Return True
-    End Function
-    Public Function GetEveHQPlugInInfo() As Core.PlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
-        ' Returns data to EveHQ to identify it as a plugin
-        Dim EveHQPlugIn As New EveHQ.Core.PlugIn
-        EveHQPlugIn.Name = "EveHQ CorpHQ"
-        EveHQPlugIn.Description = "Corporation Management"
-        EveHQPlugIn.Author = "Vessper"
-        EveHQPlugIn.MainMenuText = "CorpHQ"
-        EveHQPlugIn.RunAtStartup = False
-        EveHQPlugIn.RunInIGB = False
-        EveHQPlugIn.MenuImage = My.Resources.Plugin_Icon
-        EveHQPlugIn.Version = My.Application.Info.Version.ToString
-        Return EveHQPlugIn
-    End Function
-    Public Function IGBService(ByVal context As System.Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
-        Return ""
-    End Function
-    Public Function RunEveHQPlugIn() As System.Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
-        Return Me
-    End Function
-    Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
-        Get
-            Return mSetPlugInData
-        End Get
-        Set(ByVal value As Object)
-            mSetPlugInData = value
-        End Set
-    End Property
-#End Region
+   
 
 #Region "Form/Standings Loading and Unloading"
 
@@ -75,12 +40,12 @@ Public Class frmCorpHQ
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\Standings.bin") = True Then
             Dim s As New FileStream(EveHQ.Core.HQ.cacheFolder & "\Standings.bin", FileMode.Open)
             Dim f As BinaryFormatter = New BinaryFormatter
-            AllStandings.Clear()
+            PlugInData.AllStandings.Clear()
             Try
-                AllStandings = CType(f.Deserialize(s), SortedList)
+                PlugInData.AllStandings = CType(f.Deserialize(s), SortedList)
             Catch e As Exception
                 MessageBox.Show("There was an error retrieving the cached standings file, please obtain a new set of standings.", "Load Standings Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                AllStandings.Clear()
+                PlugInData.AllStandings.Clear()
             End Try
             s.Close()
         End If
@@ -88,7 +53,7 @@ Public Class frmCorpHQ
     Private Sub SaveStandings()
         Dim s As New FileStream(EveHQ.Core.HQ.cacheFolder & "\Standings.bin", FileMode.Create)
         Dim f As New BinaryFormatter
-        f.Serialize(s, AllStandings)
+        f.Serialize(s, PlugInData.AllStandings)
         s.Close()
     End Sub
 #End Region
@@ -162,11 +127,11 @@ Public Class frmCorpHQ
         Next
 
         Dim StandingsDecoder As New StandingsCacheDecoder
-        AllStandings.Clear()
+        PlugInData.AllStandings.Clear()
         For Each cachefile As String In cacheFileList
             MyStandings = StandingsDecoder.FetchStandings(cachefile)
-            If AllStandings.ContainsKey(MyStandings.OwnerID) = False Then
-                AllStandings.Add(MyStandings.OwnerID, MyStandings)
+            If PlugInData.AllStandings.ContainsKey(MyStandings.OwnerID) = False Then
+                PlugInData.AllStandings.Add(MyStandings.OwnerID, MyStandings)
             End If
         Next
 
@@ -177,10 +142,10 @@ Public Class frmCorpHQ
     Private Sub UpdateOwners()
         cboOwner.Items.Clear()
         lvwStandings.Items.Clear()
-        If AllStandings.Count > 0 Then
+        If PlugInData.AllStandings.Count > 0 Then
             ' Create the list of owners in the combobox
             cboOwner.BeginUpdate()
-            For Each MyStandings As StandingsData In AllStandings.Values
+            For Each MyStandings As StandingsData In PlugInData.AllStandings.Values
                 ' Get Either Pilot or Corp Name
                 Dim ownerID As String = MyStandings.OwnerID
                 ' Cycle through the pilots to see if we have a match
@@ -322,7 +287,7 @@ Public Class frmCorpHQ
             Dim ConnectionsLevel As Integer = 0
             Dim standing As Double = 0
             ' Iterate through the list and find the rightID
-            For Each MyStandings As StandingsData In AllStandings.Values
+            For Each MyStandings As StandingsData In PlugInData.AllStandings.Values
                 If ownerName = MyStandings.OwnerName Then
                     ' Check if this is a character and whether we need to get the Connections and Diplomacy skills
                     If MyStandings.CacheType = "GetCharStandings" Then

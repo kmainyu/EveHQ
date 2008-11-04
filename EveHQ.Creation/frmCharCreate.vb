@@ -22,42 +22,6 @@ Imports System.Windows.Forms
 
 Public Class frmCharCreate
 
-    Implements EveHQ.Core.IEveHQPlugIn
-    Dim mSetPlugInData As Object
-    Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
-        Get
-            Return mSetPlugInData
-        End Get
-        Set(ByVal value As Object)
-            mSetPlugInData = value
-        End Set
-    End Property
-    Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
-        Return LoadData()
-    End Function
-
-    Public Function GetEveHQPlugInInfo() As Core.PlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
-        ' Returns data to EveHQ to identify it as a plugin
-        Dim EveHQPlugIn As New EveHQ.Core.PlugIn
-        EveHQPlugIn.Name = "EveHQ Character Creation"
-        EveHQPlugIn.Description = "Helps determine the best character to start Eve with"
-        EveHQPlugIn.Author = "Vessper"
-        EveHQPlugIn.MainMenuText = "Character Creation"
-        EveHQPlugIn.RunAtStartup = True
-        EveHQPlugIn.RunInIGB = False
-        EveHQPlugIn.MenuImage = My.Resources.plugin_logo
-        EveHQPlugIn.Version = My.Application.Info.Version.ToString
-        Return EveHQPlugIn
-    End Function
-
-    Public Function IGBService(ByVal IGBContext As Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
-        Return ""
-    End Function
-
-    Public Function RunEveHQPlugIn() As System.Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
-        Return Me
-    End Function
-
     Dim createXML As XmlDocument = New Xml.XmlDocument
     Dim sRace As Integer = 0
     Dim sRaceID As Integer = 0
@@ -84,14 +48,7 @@ Public Class frmCharCreate
     Dim sM As Integer = 0
     Dim sP As Integer = 0
     Dim sW As Integer = 0
-    Shared raceData As New DataSet
-    Shared bloodData As New DataSet
-    Shared ancestryData As New DataSet
-    Shared careerData As New DataSet
-    Shared specData As New DataSet
-    Shared raceSkillData As New DataSet
-    Shared careerSkillData As New DataSet
-    Shared specSkillData As New DataSet
+   
     Dim skillsRace As Collection = New Collection
     Dim skillsBloodline As Collection = New Collection
     Dim skillsAncestry As Collection = New Collection
@@ -119,10 +76,10 @@ Public Class frmCharCreate
 
         ' Load up the creation
         Dim raceName As String = ""
-        For raceNo As Integer = 0 To raceData.Tables(0).Rows.Count - 1
-            raceName = CStr(raceData.Tables(0).Rows(raceNo).Item("raceName"))
+        For raceNo As Integer = 0 To PlugInData.raceData.Tables(0).Rows.Count - 1
+            raceName = CStr(PlugInData.raceData.Tables(0).Rows(raceNo).Item("raceName"))
             If raceName <> "Jove" And raceName <> "Pirate" Then
-                eveRaces.Add(raceName, raceData.Tables(0).Rows(raceNo).Item("raceID"))
+                eveRaces.Add(raceName, PlugInData.raceData.Tables(0).Rows(raceNo).Item("raceID"))
                 cboRace.Items.Add(raceName)
             End If
         Next
@@ -149,7 +106,7 @@ Public Class frmCharCreate
         ' Load up the options for the bloodlines
         cboBloodline.Items.Clear()
         eveBloodlines.Clear()
-        Dim bloodset() As DataRow = bloodData.Tables(0).Select("raceID=" & sRaceID)
+        Dim bloodset() As DataRow = PlugInData.bloodData.Tables(0).Select("raceID=" & sRaceID)
         Dim bloodName As String = ""
         For bloodNo As Integer = 0 To bloodset.GetUpperBound(0)
             bloodName = CStr(bloodset(bloodNo).Item("bloodlineName"))
@@ -200,7 +157,7 @@ Public Class frmCharCreate
         ' Load up the options for the ancestries
         cboAncestry.Items.Clear()
         eveAncestries.Clear()
-        Dim ancSet() As DataRow = ancestryData.Tables(0).Select("bloodlineID=" & sBloodID)
+        Dim ancSet() As DataRow = PlugInData.ancestryData.Tables(0).Select("bloodlineID=" & sBloodID)
         Dim ancName As String = ""
         For ancNo As Integer = 0 To ancSet.GetUpperBound(0)
             ancName = CStr(ancSet(ancNo).Item("ancestryName"))
@@ -249,7 +206,7 @@ Public Class frmCharCreate
         ' Load up the options for the careers
         cboCareer.Items.Clear()
         eveCareers.Clear()
-        Dim careerset() As DataRow = careerData.Tables(0).Select("raceID=" & sRaceID)
+        Dim careerset() As DataRow = PlugInData.careerData.Tables(0).Select("raceID=" & sRaceID)
         Dim careerName As String = ""
         For careerNo As Integer = 0 To careerset.GetUpperBound(0)
             careerName = CStr(careerset(careerNo).Item("careerName"))
@@ -293,7 +250,7 @@ Public Class frmCharCreate
         ' Load up the options for the specialisations
         cboSpec.Items.Clear()
         eveSpecs.Clear()
-        Dim specSet() As DataRow = specData.Tables(0).Select("careerID=" & sCareerID)
+        Dim specSet() As DataRow = PlugInData.specData.Tables(0).Select("careerID=" & sCareerID)
         Dim specName As String = ""
         For specNo As Integer = 0 To specSet.GetUpperBound(0)
             specName = CStr(specSet(specNo).Item("specialityName"))
@@ -344,7 +301,7 @@ Public Class frmCharCreate
         ' Load up the skills for the selected race
         skillsRace.Clear()
         Dim skillRows() As DataRow
-        skillRows = raceSkillData.Tables(0).Select("raceID = " & raceID)
+        skillRows = PlugInData.raceSkillData.Tables(0).Select("raceID = " & raceID)
         Dim skillID As String = ""
         Dim skillName As String = ""
         Dim skillLevel As Integer = 0
@@ -366,7 +323,7 @@ Public Class frmCharCreate
 
         ' Load up the attributes for the selected bloodline
         Dim attRows() As DataRow
-        attRows = bloodData.Tables(0).Select("bloodlineID = " & bloodID)
+        attRows = PlugInData.bloodData.Tables(0).Select("bloodlineID = " & bloodID)
         ' Get attributes of the bloodline & display them
         siC = CInt(attRows(0).Item("charisma"))
         siI = CInt(attRows(0).Item("intelligence"))
@@ -387,7 +344,7 @@ Public Class frmCharCreate
 
         ' Load up the attributes for the selected bloodline
         Dim attRows() As DataRow
-        attRows = ancestryData.Tables(0).Select("ancestryID = " & ancestryID)
+        attRows = PlugInData.ancestryData.Tables(0).Select("ancestryID = " & ancestryID)
         ' Get attributes of the bloodline & display them
         sC = siC + CInt(attRows(0).Item("charisma"))
         sI = siI + CInt(attRows(0).Item("intelligence"))
@@ -411,7 +368,7 @@ Public Class frmCharCreate
 
         ' Load up the skills for the selected race
         Dim skillRows() As DataRow
-        skillRows = careerSkillData.Tables(0).Select("careerID = " & careerID)
+        skillRows = PlugInData.careerSkillData.Tables(0).Select("careerID = " & careerID)
         Dim skillID As String = ""
         Dim skillName As String = ""
         Dim skillLevel As Integer = 0
@@ -448,7 +405,7 @@ Public Class frmCharCreate
 
         ' Load up the skills for the selected race
         Dim skillRows() As DataRow
-        skillRows = specSkillData.Tables(0).Select("specialityID = " & specID)
+        skillRows = PlugInData.specSkillData.Tables(0).Select("specialityID = " & specID)
         Dim skillID As String = ""
         Dim skillName As String = ""
         Dim skillLevel As Integer = 0
@@ -476,78 +433,36 @@ Public Class frmCharCreate
         Next
     End Sub
 
-    Private Function LoadData() As Boolean
-        raceData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrRaces")
-        If raceData Is Nothing Or raceData.Tables(0).Rows.Count = 0 Then
-            Return False
-            Exit Function
-        End If
-        bloodData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrBloodlines")
-        If bloodData Is Nothing Or bloodData.Tables(0).Rows.Count = 0 Then
-            Return False
-            Exit Function
-        End If
-        ancestryData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrAncestries")
-        If ancestryData Is Nothing Or ancestryData.Tables(0).Rows.Count = 0 Then
-            Return False
-            Exit Function
-        End If
-        careerData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareers")
-        If careerData Is Nothing Or careerData.Tables(0).Rows.Count = 0 Then
-            Return False
-            Exit Function
-        End If
-        specData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSpecialities")
-        If specData Is Nothing Or specData.Tables(0).Rows.Count = 0 Then
-            Return False
-            Exit Function
-        End If
-        raceSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrRaceSkills")
-        If raceSkillData Is Nothing Or raceSkillData.Tables(0).Rows.Count = 0 Then
-            Return False
-            Exit Function
-        End If
-        careerSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSkills")
-        If careerSkillData Is Nothing Or careerSkillData.Tables(0).Rows.Count = 0 Then
-            Return False
-            Exit Function
-        End If
-        specSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSpecialitySkills")
-        If specSkillData Is Nothing Or specSkillData.Tables(0).Rows.Count = 0 Then
-            Return False
-            Exit Function
-        End If
-        Return True
-    End Function
+   
     Private Sub LoadOptions()
         fullSkillList.Clear()
         NewCharacters.Clear()
         Dim count As Integer = 0
-        For race As Integer = 0 To raceData.Tables(0).Rows.Count - 1
-            Dim raceName As String = CStr(raceData.Tables(0).Rows(race).Item("raceName"))
-            Dim raceID As String = CStr(raceData.Tables(0).Rows(race).Item("raceID"))
+        For race As Integer = 0 To PlugInData.raceData.Tables(0).Rows.Count - 1
+            Dim raceName As String = CStr(PlugInData.raceData.Tables(0).Rows(race).Item("raceName"))
+            Dim raceID As String = CStr(PlugInData.raceData.Tables(0).Rows(race).Item("raceID"))
             If raceName <> "Jove" And raceName <> "Pirate" Then
                 ' Get bloodlines
                 Dim bloodRows() As DataRow
-                bloodRows = bloodData.Tables(0).Select("raceID = " & raceID)
+                bloodRows = PlugInData.bloodData.Tables(0).Select("raceID = " & raceID)
                 For blood As Integer = 0 To bloodRows.GetUpperBound(0)
                     Dim bloodName As String = CStr(bloodRows(blood).Item("bloodlineName"))
                     Dim bloodID As String = CStr(bloodRows(blood).Item("bloodlineID"))
                     ' Get ancestry
                     Dim ancestryRows() As DataRow
-                    ancestryRows = ancestryData.Tables(0).Select("bloodlineID = " & bloodID)
+                    ancestryRows = PlugInData.ancestryData.Tables(0).Select("bloodlineID = " & bloodID)
                     For ancestry As Integer = 0 To ancestryRows.GetUpperBound(0)
                         Dim ancestryName As String = CStr(ancestryRows(ancestry).Item("ancestryName"))
                         Dim ancestryID As String = CStr(ancestryRows(ancestry).Item("ancestryID"))
                         ' Get careers
                         Dim careerRows() As DataRow
-                        careerRows = careerData.Tables(0).Select("raceID = " & raceID)
+                        careerRows = PlugInData.careerData.Tables(0).Select("raceID = " & raceID)
                         For career As Integer = 0 To careerRows.GetUpperBound(0)
                             Dim careerName As String = CStr(careerRows(career).Item("careerName"))
                             Dim careerID As String = CStr(careerRows(career).Item("careerID"))
                             ' Get specs
                             Dim specRows() As DataRow
-                            specRows = specData.Tables(0).Select("careerID = " & careerID)
+                            specRows = PlugInData.specData.Tables(0).Select("careerID = " & careerID)
                             For spec As Integer = 0 To specRows.GetUpperBound(0)
                                 Dim specName As String = CStr(specRows(spec).Item("specialityName"))
                                 Dim specID As String = CStr(specRows(spec).Item("specialityID"))
