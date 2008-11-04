@@ -50,10 +50,6 @@ Public Class frmHQF
 
 #End Region
 
-
-
-
-
 #Region "Form Initialisation & Closing Routines"
 
     Private Sub frmHQF_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
@@ -1527,15 +1523,14 @@ Public Class frmHQF
             Dim fittingKeyName As String = shipName & ", " & fittingName
             Fittings.FittingList.Remove(oldKeyName)
             Fittings.FittingList.Add(fittingKeyName, FitToCopy.Clone)
-            ' Rename the file if available
-            If My.Computer.FileSystem.FileExists(Settings.HQFFolder & "\" & oldKeyName & ".hqf") = True Then
-                My.Computer.FileSystem.RenameFile(Settings.HQFFolder & "\" & oldKeyName & ".hqf", fittingKeyName & ".hqf")
-            End If
             ' Amend it in the tabs if it's there!
             Dim tp As TabPage = tabHQF.TabPages(oldKeyName)
             If tp IsNot Nothing Then
                 Fittings.FittingTabList.Remove(oldKeyName)
                 Fittings.FittingTabList.Add(fittingKeyName)
+                Dim copyShip As Ship = CType(ShipLists.fittedShipList(oldKeyName), Ship).Clone
+                ShipLists.fittedShipList.Remove(oldKeyName)
+                ShipLists.fittedShipList.Add(fittingKeyName, copyShip)
                 tp.Name = fittingKeyName
                 tp.Tag = fittingKeyName
                 tp.Text = fittingKeyName
