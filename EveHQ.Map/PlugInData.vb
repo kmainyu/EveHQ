@@ -1,13 +1,14 @@
 ﻿Imports System.IO
-Imports System.Runtime.Serialization.Formatters.Binary
+'Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
 Imports System.Xml
+Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
     Dim mSetPlugInData As Object
     Dim mapFolder As String = ""
-    Dim mapCacheFolder As String = ""
+    Shared mapCacheFolder As String = ""
     Dim UseSerializableData As Boolean = False
 
 #Region "Plug-in Interface Functions"
@@ -16,6 +17,13 @@ Public Class PlugInData
             mapFolder = (EveHQ.Core.HQ.appDataFolder & "\EveHQMap").Replace("\\", "\")
             ' Check for cache folder
             mapCacheFolder = mapFolder & "\Cache"
+            Dim startTime, endTime As DateTime
+            Dim timeTaken As TimeSpan
+            startTime = Now
+            Dim ds As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM eveNames;")
+            endTime = Now
+            timeTaken = endTime - startTime
+            MessageBox.Show("EveNames database load: " & timeTaken.TotalSeconds)
             If My.Computer.FileSystem.DirectoryExists(mapCacheFolder) = True Then
                 UseSerializableData = True
                 Return Me.LoadSerializedData
@@ -177,91 +185,166 @@ Public Class PlugInData
         Return True
     End Function
     Private Function LoadSerializedData() As Boolean
-        Dim s As New FileStream(mapCacheFolder & "\Systems.txt", FileMode.Open)
-        Dim f As BinaryFormatter = New BinaryFormatter
-        EveHQ.Core.HQ.SystemsID = CType(f.Deserialize(s), SortedList)
-        EveHQ.Core.HQ.SystemsName = CType(f.Deserialize(s), SortedList)
-        s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Regions.txt", FileMode.Open)
+        Dim startTime, endtime As DateTime
+        Dim timeTaken As TimeSpan
+        Dim s As FileStream
+        Dim f As BinaryFormatter
+
+        startTime = Now
+        Dim sysLists(20) As SortedList
+        EveHQ.Core.HQ.SystemsID.Clear()
+        For sysList As Integer = 0 To 20
+            s = New FileStream(mapCacheFolder & "\SolarSystems" & sysList & ".bin", FileMode.Open)
+            f = New BinaryFormatter
+            sysLists(sysList) = CType(f.Deserialize(s), SortedList)
+            s.Close()
+            For Each sys As SolarSystem In sysLists(sysList).Values
+                EveHQ.Core.HQ.SystemsID.Add(sys.Name, sys)
+            Next
+        Next
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Solar Systems 1: " & timeTaken.TotalSeconds)
+        startTime = Now
+        For Each cSystem As SolarSystem In EveHQ.Core.HQ.SystemsID.Values
+            EveHQ.Core.HQ.SystemsName.Add(cSystem.Name, cSystem)
+        Next
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Solar Systems 2: " & timeTaken.TotalSeconds)
+
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\Regions.bin", FileMode.Open)
         f = New BinaryFormatter
         RegionID = CType(f.Deserialize(s), SortedList)
         s.Close()
         For Each cSystem As Region In RegionID.Values
             EveHQ.Core.HQ.SystemsName.Add(cSystem.regionName, cSystem)
         Next
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Regions: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\Constellations.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\Constellations.bin", FileMode.Open)
         f = New BinaryFormatter
         ConstellationID = CType(f.Deserialize(s), SortedList)
         s.Close()
         For Each cSystem As Constellation In ConstellationID.Values
             ConstellationName.Add(cSystem.constellationName, cSystem)
         Next
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Constellations: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\Names.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\Names.bin", FileMode.Open)
         f = New BinaryFormatter
         eveNames = CType(f.Deserialize(s), SortedList)
         s.Close()
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Names: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\NPCCorps.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\NPCCorps.bin", FileMode.Open)
         f = New BinaryFormatter
         NPCCorpList = CType(f.Deserialize(s), SortedList)
         s.Close()
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("NPC Corps: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\Factions.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\Factions.bin", FileMode.Open)
         f = New BinaryFormatter
         FactionList = CType(f.Deserialize(s), SortedList)
         s.Close()
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Factions: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\Alliances.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\Alliances.bin", FileMode.Open)
         f = New BinaryFormatter
         AllianceList = CType(f.Deserialize(s), SortedList)
         s.Close()
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Alliances: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\Stations.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\Stations.bin", FileMode.Open)
         f = New BinaryFormatter
         StationList = CType(f.Deserialize(s), SortedList)
         s.Close()
         For Each cStation As Station In StationList.Values
             StationName.Add(cStation.stationName, cStation)
         Next
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Stations: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\Operations.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\Operations.bin", FileMode.Open)
         f = New BinaryFormatter
         OperationList = CType(f.Deserialize(s), SortedList)
         s.Close()
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Operations: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\Services.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\Services.bin", FileMode.Open)
         f = New BinaryFormatter
         ServiceList = CType(f.Deserialize(s), SortedList)
         s.Close()
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Services: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\Agents.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\Agents.bin", FileMode.Open)
         f = New BinaryFormatter
         AgentID = CType(f.Deserialize(s), SortedList)
         s.Close()
         For Each cAgent As Agent In AgentID.Values
             AgentName.Add(cAgent.agentName, cAgent)
         Next
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Agents: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\Conquerables.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\Conquerables.bin", FileMode.Open)
         f = New BinaryFormatter
         CSStationList = CType(f.Deserialize(s), SortedList)
         s.Close()
         For Each cStation As ConqStat In CSStationList.Values
             CSStationName.Add(cStation.stationName, cStation)
         Next
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Conquerables: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\StationTypes.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\StationTypes.bin", FileMode.Open)
         f = New BinaryFormatter
         StationTypes = CType(f.Deserialize(s), SortedList)
         s.Close()
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("Station Types: " & timeTaken.TotalSeconds)
 
-        s = New FileStream(mapCacheFolder & "\NPCDivs.txt", FileMode.Open)
+        startTime = Now
+        s = New FileStream(mapCacheFolder & "\NPCDivs.bin", FileMode.Open)
         f = New BinaryFormatter
         NPCDivID = CType(f.Deserialize(s), SortedList)
         s.Close()
+        endtime = Now
+        timeTaken = endtime - startTime
+        MessageBox.Show("NPC Divisions: " & timeTaken.TotalSeconds)
 
         Return True
     End Function
@@ -748,7 +831,8 @@ Public Class PlugInData
                         fromSystem = CInt(systemData.Tables(0).Rows(solar).Item("fromsolarSystemID")) - 30000000
                         toSystem = CInt(systemData.Tables(0).Rows(solar).Item("tosolarSystemID")) - 30000000
                         cSystem = EveHQ.Core.HQ.SystemsID(fromSystem.ToString)
-                        cSystem.Gates.Add(EveHQ.Core.HQ.SystemsID(toSystem.ToString))
+                        'cSystem.Gates.Add(EveHQ.Core.HQ.SystemsID(toSystem.ToString))
+                        cSystem.Gates.Add(toSystem.ToString)
                     Next
                 Else
                     Return False
@@ -777,7 +861,7 @@ Public Class PlugInData
                     For Each solar2 In EveHQ.Core.HQ.SystemsID.Values
                         solar2.Flag = False
                     Next
-                    frmMap.SetFlags(solar1)
+                    'frmMap.SetFlags(solar1)
                 End If
                 Dim sList As New SortedList
                 Dim solar3 As SolarSystem
@@ -793,7 +877,8 @@ Public Class PlugInData
                 End If
                 Dim solar4 As SolarSystem
                 For Each solar4 In sList.Values
-                    solar1.Jumps.Add(solar4)
+                    'solar1.Jumps.Add(solar4)
+                    solar1.Jumps.Add(solar4.ID)
                 Next
             Next
             Return True
@@ -1574,4 +1659,101 @@ Public Class PlugInData
         End Try
     End Function
 #End Region
+
+#Region "Serialization Routines"
+    Public Shared Sub SaveSerializedData()
+        ' Delete the cache folder if it's already there
+        If My.Computer.FileSystem.DirectoryExists(mapCacheFolder) = True Then
+            My.Computer.FileSystem.DeleteDirectory(mapCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+        End If
+        My.Computer.FileSystem.CreateDirectory(mapCacheFolder)
+        Dim s As FileStream
+        Dim f As BinaryFormatter
+
+        ' Save SolarSystems
+        Dim sysLists(20) As SortedList
+        For sysList As Integer = 0 To 20
+            sysLists(sysList) = New SortedList
+        Next
+        For Each sSystem As SolarSystem In EveHQ.Core.HQ.SystemsID.Values
+            sysLists(Int(sSystem.Security * 10) + 10).Add(sSystem.Name, sSystem)
+        Next
+        For sysList As Integer = 0 To 20
+            s = New FileStream(mapCacheFolder & "\SolarSystems" & sysList & ".bin", FileMode.Create)
+            f = New BinaryFormatter
+            Dim ss As SortedList = sysLists(sysList)
+            f.Serialize(s, ss)
+            s.Close()
+        Next
+
+        ' Save Constellations
+        s = New FileStream(mapCacheFolder & "\Constellations.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, ConstellationID)
+        s.Close()
+
+        ' Save Regions
+        s = New FileStream(mapCacheFolder & "\Regions.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, RegionID)
+        s.Close()
+
+        s = New FileStream(mapCacheFolder & "\Names.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, eveNames)
+        s.Close()
+
+        s = New FileStream(mapCacheFolder & "\NPCCorps.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, NPCCorpList)
+        s.Close()
+
+        s = New FileStream(mapCacheFolder & "\Factions.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, FactionList)
+        s.Close()
+
+        s = New FileStream(mapCacheFolder & "\Alliances.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, AllianceList)
+        s.Close()
+
+        s = New FileStream(mapCacheFolder & "\Stations.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, StationList)
+        s.Close()
+
+        s = New FileStream(mapCacheFolder & "\Operations.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, OperationList)
+        s.Close()
+
+        s = New FileStream(mapCacheFolder & "\Services.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, ServiceList)
+        s.Close()
+
+        s = New FileStream(mapCacheFolder & "\Agents.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, AgentID)
+        s.Close()
+
+        s = New FileStream(mapCacheFolder & "\Conquerables.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, CSStationList)
+        s.Close()
+
+        s = New FileStream(mapCacheFolder & "\StationTypes.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, StationTypes)
+        s.Close()
+
+        s = New FileStream(mapCacheFolder & "\NPCDivs.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, NPCDivID)
+        s.Close()
+
+    End Sub
+#End Region
+
 End Class

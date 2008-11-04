@@ -113,6 +113,10 @@ Partial Class frmMap
         Me.lblMinSec = New System.Windows.Forms.Label
         Me.tabMapTool = New System.Windows.Forms.TabControl
         Me.tabCelestial = New System.Windows.Forms.TabPage
+        Me.lvIce = New System.Windows.Forms.ListView
+        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
+        Me.lblIce = New System.Windows.Forms.Label
         Me.lvOres = New System.Windows.Forms.ListView
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
@@ -220,10 +224,7 @@ Partial Class frmMap
         Me.cboConst = New System.Windows.Forms.ComboBox
         Me.cboRegion = New System.Windows.Forms.ComboBox
         Me.btnExclude = New EveHQ.Map.SplitButton
-        Me.lblIce = New System.Windows.Forms.Label
-        Me.lvIce = New System.Windows.Forms.ListView
-        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
+        Me.btnSerialize = New System.Windows.Forms.Button
         Me.gbSystemInfo.SuspendLayout()
         Me.tabMap.SuspendLayout()
         CType(Me.pbMap, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -667,7 +668,7 @@ Partial Class frmMap
         Me.tabMap.Location = New System.Drawing.Point(4, 22)
         Me.tabMap.Name = "tabMap"
         Me.tabMap.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabMap.Size = New System.Drawing.Size(657, 626)
+        Me.tabMap.Size = New System.Drawing.Size(657, 743)
         Me.tabMap.TabIndex = 0
         Me.tabMap.Text = "Map View"
         Me.tabMap.UseVisualStyleBackColor = True
@@ -765,7 +766,7 @@ Partial Class frmMap
         Me.tabRoute.Location = New System.Drawing.Point(4, 22)
         Me.tabRoute.Name = "tabRoute"
         Me.tabRoute.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabRoute.Size = New System.Drawing.Size(657, 626)
+        Me.tabRoute.Size = New System.Drawing.Size(657, 743)
         Me.tabRoute.TabIndex = 1
         Me.tabRoute.Text = "Route Calculator"
         Me.tabRoute.UseVisualStyleBackColor = True
@@ -1156,6 +1157,38 @@ Partial Class frmMap
         Me.tabCelestial.Text = "Celestial"
         Me.tabCelestial.UseVisualStyleBackColor = True
         '
+        'lvIce
+        '
+        Me.lvIce.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader9, Me.ColumnHeader10})
+        Me.lvIce.GridLines = True
+        Me.lvIce.Location = New System.Drawing.Point(17, 599)
+        Me.lvIce.Name = "lvIce"
+        Me.lvIce.Size = New System.Drawing.Size(514, 110)
+        Me.lvIce.TabIndex = 36
+        Me.lvIce.UseCompatibleStateImageBehavior = False
+        Me.lvIce.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader9
+        '
+        Me.ColumnHeader9.Text = "System"
+        Me.ColumnHeader9.Width = 115
+        '
+        'ColumnHeader10
+        '
+        Me.ColumnHeader10.Text = "Ice"
+        Me.ColumnHeader10.Width = 383
+        '
+        'lblIce
+        '
+        Me.lblIce.AutoSize = True
+        Me.lblIce.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIce.Location = New System.Drawing.Point(15, 580)
+        Me.lblIce.Name = "lblIce"
+        Me.lblIce.Size = New System.Drawing.Size(26, 16)
+        Me.lblIce.TabIndex = 35
+        Me.lblIce.Text = "Ice"
+        Me.lblIce.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        '
         'lvOres
         '
         Me.lvOres.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader5, Me.ColumnHeader6})
@@ -1324,7 +1357,7 @@ Partial Class frmMap
         Me.tabStations.Controls.Add(Me.lblStationCorp)
         Me.tabStations.Location = New System.Drawing.Point(4, 22)
         Me.tabStations.Name = "tabStations"
-        Me.tabStations.Size = New System.Drawing.Size(657, 626)
+        Me.tabStations.Size = New System.Drawing.Size(657, 743)
         Me.tabStations.TabIndex = 3
         Me.tabStations.Text = "Stations"
         Me.tabStations.UseVisualStyleBackColor = True
@@ -1469,7 +1502,7 @@ Partial Class frmMap
         Me.tabStationSearch.Controls.Add(Me.cbstssys)
         Me.tabStationSearch.Location = New System.Drawing.Point(4, 22)
         Me.tabStationSearch.Name = "tabStationSearch"
-        Me.tabStationSearch.Size = New System.Drawing.Size(657, 626)
+        Me.tabStationSearch.Size = New System.Drawing.Size(657, 743)
         Me.tabStationSearch.TabIndex = 4
         Me.tabStationSearch.Text = "Station Search"
         Me.tabStationSearch.UseVisualStyleBackColor = True
@@ -1660,7 +1693,7 @@ Partial Class frmMap
         Me.tabAgentSearch.Controls.Add(Me.lvwAgents)
         Me.tabAgentSearch.Location = New System.Drawing.Point(4, 22)
         Me.tabAgentSearch.Name = "tabAgentSearch"
-        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 626)
+        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 743)
         Me.tabAgentSearch.TabIndex = 5
         Me.tabAgentSearch.Text = "Agent Search"
         Me.tabAgentSearch.UseVisualStyleBackColor = True
@@ -2032,7 +2065,7 @@ Partial Class frmMap
         Me.tabExclusions.Location = New System.Drawing.Point(4, 22)
         Me.tabExclusions.Name = "tabExclusions"
         Me.tabExclusions.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabExclusions.Size = New System.Drawing.Size(239, 413)
+        Me.tabExclusions.Size = New System.Drawing.Size(239, 530)
         Me.tabExclusions.TabIndex = 0
         Me.tabExclusions.Text = "Exclusions"
         Me.tabExclusions.UseVisualStyleBackColor = True
@@ -2047,7 +2080,7 @@ Partial Class frmMap
         Me.tabWaypoints.Location = New System.Drawing.Point(4, 22)
         Me.tabWaypoints.Name = "tabWaypoints"
         Me.tabWaypoints.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabWaypoints.Size = New System.Drawing.Size(239, 413)
+        Me.tabWaypoints.Size = New System.Drawing.Size(239, 530)
         Me.tabWaypoints.TabIndex = 1
         Me.tabWaypoints.Text = "Waypoints"
         Me.tabWaypoints.UseVisualStyleBackColor = True
@@ -2109,43 +2142,21 @@ Partial Class frmMap
         Me.btnExclude.UseCompatibleTextRendering = True
         Me.btnExclude.UseVisualStyleBackColor = True
         '
-        'lblIce
+        'btnSerialize
         '
-        Me.lblIce.AutoSize = True
-        Me.lblIce.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblIce.Location = New System.Drawing.Point(15, 580)
-        Me.lblIce.Name = "lblIce"
-        Me.lblIce.Size = New System.Drawing.Size(26, 16)
-        Me.lblIce.TabIndex = 35
-        Me.lblIce.Text = "Ice"
-        Me.lblIce.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'lvIce
-        '
-        Me.lvIce.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader9, Me.ColumnHeader10})
-        Me.lvIce.GridLines = True
-        Me.lvIce.Location = New System.Drawing.Point(17, 599)
-        Me.lvIce.Name = "lvIce"
-        Me.lvIce.Size = New System.Drawing.Size(514, 110)
-        Me.lvIce.TabIndex = 36
-        Me.lvIce.UseCompatibleStateImageBehavior = False
-        Me.lvIce.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader9
-        '
-        Me.ColumnHeader9.Text = "System"
-        Me.ColumnHeader9.Width = 115
-        '
-        'ColumnHeader10
-        '
-        Me.ColumnHeader10.Text = "Ice"
-        Me.ColumnHeader10.Width = 383
+        Me.btnSerialize.Location = New System.Drawing.Point(46, 748)
+        Me.btnSerialize.Name = "btnSerialize"
+        Me.btnSerialize.Size = New System.Drawing.Size(75, 23)
+        Me.btnSerialize.TabIndex = 81
+        Me.btnSerialize.Text = "Serialize"
+        Me.btnSerialize.UseVisualStyleBackColor = True
         '
         'frmMap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(938, 783)
+        Me.Controls.Add(Me.btnSerialize)
         Me.Controls.Add(Me.lblConstMain)
         Me.Controls.Add(Me.lblRegionMain)
         Me.Controls.Add(Me.cboConst)
@@ -2401,4 +2412,5 @@ Partial Class frmMap
     Friend WithEvents ColumnHeader9 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader10 As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblIce As System.Windows.Forms.Label
+    Friend WithEvents btnSerialize As System.Windows.Forms.Button
 End Class

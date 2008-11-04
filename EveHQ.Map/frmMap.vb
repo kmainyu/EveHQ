@@ -20,9 +20,6 @@
 Imports System.Data
 Imports System.Drawing
 Imports System.Windows.Forms
-Imports System.IO
-Imports System.Runtime.Serialization.Formatters.Binary
-Imports System.Xml
 
 Public Class frmMap
     Dim EnableJumps As Boolean
@@ -988,7 +985,8 @@ Public Class frmMap
                 Return route1
             End If
             Dim solar3 As SolarSystem
-            For Each solar3 In solar1.Gates
+            For Each solar3ID As String In solar1.Gates
+                solar3 = EveHQ.Core.HQ.SystemsID(solar3ID)
                 If (((solar3.EveSec >= frmMap.mingate) AndAlso (solar3.EveSec <= frmMap.maxgate)) AndAlso Not hashtable1.Contains(solar3)) Then
                     If (Exclusions.Contains(solar3.Name) = False And Exclusions.Contains(solar3.Constellation) = False And Exclusions.Contains(solar3.Region) = False) Then
                         hashtable1.Add(solar3, solar1)
@@ -1331,7 +1329,8 @@ Public Class frmMap
             Me.cboSystem.Text = cSystem.Name
 
             For gate As Integer = 0 To cSystem.Gates.Count - 1
-                Dim tosystem As SolarSystem = cSystem.Gates(gate)
+                Dim tosystem As SolarSystem = EveHQ.Core.HQ.SystemsID(cSystem.Gates(gate))
+
                 lblGates.Text &= tosystem.Name & " (" & FormatNumber(Math.Max(0, tosystem.Security), 1, TriState.True) & ")" & ControlChars.CrLf
             Next
             If cSystem.x >= mapX1 And cSystem.x <= mapX2 And cSystem.z >= mapY1 And cSystem.z <= mapY2 Then
@@ -1453,8 +1452,11 @@ Public Class frmMap
         Dim g As Graphics
         g = GetGraphicsObject()
         Dim myPen As New System.Drawing.Pen(Color.FromArgb(255, 0, 0, 75))
+        Dim lSystem As SolarSystem
         For Each cSystem As SolarSystem In EveHQ.Core.HQ.SystemsID.Values
-            For Each lSystem As SolarSystem In cSystem.Gates
+            For Each lSystemID As String In cSystem.Gates
+                lSystem = EveHQ.Core.HQ.SystemsID(lSystemID)
+
                 If (cSystem.x >= mapX1 And cSystem.x <= mapX2 And cSystem.z >= mapY1 And cSystem.z <= mapY2) Or (lSystem.x >= mapX1 And lSystem.x <= mapX2 And lSystem.z >= mapY1 And lSystem.z <= mapY2) Then
                     locX = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
                     locY = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
@@ -2615,6 +2617,9 @@ Public Class frmMap
     End Function
 #End Region
 
+    Private Sub btnSerialize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSerialize.Click
+        Call PlugInData.SaveSerializedData()
+    End Sub
 End Class
 
 
