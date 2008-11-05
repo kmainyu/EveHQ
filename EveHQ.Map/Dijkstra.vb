@@ -121,7 +121,9 @@ Public Class Dijkstra
             s.Add(u.ID, u)
             found(u.ID) = True
             ' See if we can improve the distance
-            For Each gatelink As SolarSystem In u.Gates
+            Dim gatelink As SolarSystem
+            For Each gatelinkID As String In u.Gates
+                gatelink = PlugInData.SystemsID(gatelinkID)
                 If q.Contains(gatelink.ID) = False Then
                     If u.EveSec >= minSec And u.EveSec <= maxSec Then
                         If dist(gatelink.ID) > dist(u.ID) + 1 Then

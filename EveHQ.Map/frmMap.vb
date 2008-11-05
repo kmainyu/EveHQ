@@ -1088,18 +1088,32 @@ Public Class frmMap
                 Exit Function
             End If
             Dim solar3 As SolarSystem
-            For Each solar3ID As Integer In solar1.Jumps
-                solar3 = PlugInData.SystemsID(CStr(solar3ID))
-                If (frmMap.Distance(solar1, solar3) > frmMap.maxdist) Then
-                    Exit For
-                End If
-                If ((((solar3.EveSec >= frmMap.minjump) AndAlso (solar3.EveSec <= frmMap.maxjump)) AndAlso Not hashtable1.Contains(solar3)) AndAlso solar3.EveSec <= 0.4) Then
-                    If (Exclusions.Contains(solar3.Name) = False And Exclusions.Contains(solar3.Constellation) = False And Exclusions.Contains(solar3.Region) = False) Then
-                        hashtable1.Add(solar3, solar1)
-                        queue1.Enqueue(solar3)
+            If PlugInData.LowMemoryMode = True Then
+                For Each solar3ID As Integer In solar1.Jumps
+                    solar3 = PlugInData.SystemsID(CStr(solar3ID))
+                    If (frmMap.Distance(solar1, solar3) > frmMap.maxdist) Then
+                        Exit For
                     End If
-                End If
-            Next
+                    If ((((solar3.EveSec >= frmMap.minjump) AndAlso (solar3.EveSec <= frmMap.maxjump)) AndAlso Not hashtable1.Contains(solar3)) AndAlso solar3.EveSec <= 0.4) Then
+                        If (Exclusions.Contains(solar3.Name) = False And Exclusions.Contains(solar3.Constellation) = False And Exclusions.Contains(solar3.Region) = False) Then
+                            hashtable1.Add(solar3, solar1)
+                            queue1.Enqueue(solar3)
+                        End If
+                    End If
+                Next
+            Else
+                For Each solar3 In solar1.Jumps
+                    If (frmMap.Distance(solar1, solar3) > frmMap.maxdist) Then
+                        Exit For
+                    End If
+                    If ((((solar3.EveSec >= frmMap.minjump) AndAlso (solar3.EveSec <= frmMap.maxjump)) AndAlso Not hashtable1.Contains(solar3)) AndAlso solar3.EveSec <= 0.4) Then
+                        If (Exclusions.Contains(solar3.Name) = False And Exclusions.Contains(solar3.Constellation) = False And Exclusions.Contains(solar3.Region) = False) Then
+                            hashtable1.Add(solar3, solar1)
+                            queue1.Enqueue(solar3)
+                        End If
+                    End If
+                Next
+            End If
         Loop
         Return Nothing
     End Function
@@ -2256,41 +2270,34 @@ Public Class frmMap
         Dim minSec As Double = nudMinSec.Value
         Dim maxSec As Double = nudMaxSec.Value
         Dim startSys As SolarSystem = CType(PlugInData.SystemsName(CStr(cboSystem.SelectedItem)), SolarSystem)
-        Dim ndSys As SolarSystem = CType(startSys.Gates(0), SolarSystem)
+        Dim ndSys As SolarSystem = CType(PlugInData.SystemsID(CStr(startSys.Gates(0))), SolarSystem)
         Call myRoute.GetPath(startSys, ndSys, True, minSec, maxSec)
 
         For Each cAgent As Agent In PlugInData.AgentID.Values
             agtest = CheckAgent(cAgent)
             If agtest = True Then
-                Dim agstat As Station = CType(PlugInData.StationList(cAgent.stationId), Station)
-                Dim agsystem As SolarSystem = CType(PlugInData.SystemsID(agstat.solarSystemID.ToString), SolarSystem)
-                Dim xsid As Integer = CInt(cAgent.stationId)
-                'lvAgSerAg.Items.Add(agsystem.Security) ' system sec
-                'lvAgSerAg.Items(AgInd).SubItems.Add(cAgent.agentName) 'agent name
-                Dim xcCID As Integer = CInt(cAgent.corporationID)
-                Dim xcorpid As String = CStr(PlugInData.eveNames(xcCID))
-                'lvAgSerAg.Items(AgInd).SubItems.Add(xcorpid) 'agent corp
-                Dim tcorp As NPCCorp = CType(PlugInData.NPCCorpList(xcCID), NPCCorp)
-                Dim xcFID As Integer = CInt(tcorp.factionID)
-                Dim xfacname As String = CStr(PlugInData.eveNames(xcFID))
+                Dim agentStation As Station = CType(PlugInData.StationList(cAgent.stationId), Station)
+                Dim agentSystem As SolarSystem = CType(PlugInData.SystemsID(agentStation.solarSystemID.ToString), SolarSystem)
+                Dim agentCorp As NPCCorp = CType(PlugInData.NPCCorpList(cAgent.corporationID), NPCCorp)
+                Dim agentFaction As Faction = CType(PlugInData.FactionList(agentCorp.factionID), Faction)
                 Dim newAgent As New ListViewItem
                 newAgent.Text = cAgent.agentName
-                newAgent.SubItems.Add(xcorpid)
-                newAgent.SubItems.Add(xfacname) ' faction name
+                newAgent.SubItems.Add(agentCorp.CorpName)
+                newAgent.SubItems.Add(agentFaction.factionName) ' faction name
                 newAgent.SubItems.Add(cAgent.Level.ToString) 'lvl
                 newAgent.SubItems.Add(cAgent.Quality.ToString) 'quality
                 ' Get the distance
-                Dim route As ArrayList = myRoute.GetPath(startSys, agsystem, False)
+                Dim route As ArrayList = myRoute.GetPath(startSys, agentSystem, False)
                 If route IsNot Nothing Then
                     newAgent.SubItems.Add(CStr(route.Count - 1)) 'Dist
                 Else
                     newAgent.SubItems.Add("N/A")
                 End If
-                newAgent.SubItems.Add(FormatNumber(agsystem.Security, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                newAgent.SubItems.Add(agsystem.Region) 'region
-                newAgent.SubItems.Add(agsystem.Constellation) 'cont
-                newAgent.SubItems.Add(agsystem.Name) 'systm
-                newAgent.SubItems.Add(CStr(PlugInData.eveNames(agstat.stationID))) 'station
+                newAgent.SubItems.Add(FormatNumber(agentSystem.Security, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                newAgent.SubItems.Add(agentSystem.Region) 'region
+                newAgent.SubItems.Add(agentSystem.Constellation) 'cont
+                newAgent.SubItems.Add(agentSystem.Name) 'systm
+                newAgent.SubItems.Add(agentStation.stationName)
                 Select Case CInt(cAgent.Type)
                     Case 1
                         ' Non Agent
@@ -2332,8 +2339,8 @@ Public Class frmMap
         Dim agstat As Station = CType(PlugInData.StationList(statid), Station)
         Dim agsysid As Integer = agstat.solarSystemID
         Dim agsys As SolarSystem = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem)
-        Dim agfid As Integer = CInt(Int(PlugInData.NPCCorpList(agcid)))
-        Dim agfacnam As String = CStr(PlugInData.eveNames(agfid))
+        Dim agfid As String = agcorp.factionID
+        Dim agfacnam As String = CType(PlugInData.FactionList(agfid), Faction).factionName
         Dim agsysnam As String = agsys.Name
         Dim agreg As String = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem).Region
         Dim agcon As String = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem).Constellation
@@ -2396,7 +2403,7 @@ Public Class frmMap
         'checking faction
         If cboAgentFaction.SelectedItem.ToString = agfacnam Or cboAgentFaction.SelectedItem.ToString = "All" Then checfac = True
         'checking corp
-        If cboAgentCorp.SelectedItem.ToString = CStr(PlugInData.eveNames(agcid)) Or cboAgentCorp.SelectedItem.ToString = "All" Then checcorp = True
+        If cboAgentCorp.SelectedItem.ToString = agcorp.CorpName Or cboAgentCorp.SelectedItem.ToString = "All" Then checcorp = True
         'checking div
         If cboAgentDivision.SelectedItem.ToString = CType(PlugInData.NPCDivID(xAgent.divisionID), NPCDiv).divisionName Or cboAgentDivision.SelectedItem.ToString = "All" Then checdiv = True
         If checfac = True And checcorp = True And checdiv = True Then checassaoc = True
@@ -2544,11 +2551,10 @@ Public Class frmMap
                 If cStation.stationName = statname Then
                     xcntr = 2
                     Dim xCID As Integer = CInt(cStation.corporationID)
-                    lblStationCorp.Text = CStr(PlugInData.eveNames(xCID))
-                    Dim tcorp As NPCCorp = CType(PlugInData.NPCCorpList(xCID), NPCCorp)
-                    Dim xFID As Integer = CInt(tcorp.factionID)
+                    Dim stationCorp As NPCCorp = CType(PlugInData.NPCCorpList(CInt(cStation.corporationID)), NPCCorp)
+                    lblStationCorp.Text = stationCorp.CorpName
                     lblStationFactionLbl.Text = "Faction:"
-                    lblStationFaction.Text = CStr(PlugInData.eveNames(xFID))
+                    lblStationFaction.Text = CType(PlugInData.FactionList(stationCorp.factionID), Faction).factionName
                     lblStationServices.Text = SetStationServices(CInt(cStation.operationID))
                     Dim SID As Integer = CInt(cStation.stationID)
                     lvagnts.Items.Clear()
@@ -2557,13 +2563,8 @@ Public Class frmMap
                         Dim xsid As Integer = CInt(cAgent.stationId)
                         If SID = xsid Then
                             lvagnts.Items.Add(cAgent.agentName)
-                            Dim xcCID As Integer = CInt(cAgent.corporationID)
-                            Dim xcorpid As String = CStr(PlugInData.eveNames(xCID))
-                            lvagnts.Items(AgInd).SubItems.Add(xcorpid)
-                            Dim tccorp As NPCCorp = CType(PlugInData.NPCCorpList(xCID), NPCCorp)
-                            Dim xcFID As Integer = CInt(tccorp.factionID)
-                            Dim xfacname As String = CStr(PlugInData.eveNames(xcFID))
-                            lvagnts.Items(AgInd).SubItems.Add(xfacname)
+                            lvagnts.Items(AgInd).SubItems.Add(stationCorp.CorpName)
+                            lvagnts.Items(AgInd).SubItems.Add(CType(PlugInData.FactionList(stationCorp.factionID), Faction).factionName)
                             lvagnts.Items(AgInd).SubItems.Add(CStr(cAgent.Level))
                             lvagnts.Items(AgInd).SubItems.Add(CStr(cAgent.Quality))
                             AgInd = AgInd + 1
@@ -2581,9 +2582,8 @@ Public Class frmMap
                     Dim xctype As StType = CType(PlugInData.StationTypes(cx), StType)
                     Dim cy As Integer = xctype.OperationID
                     lblStationServices.Text = SetStationServices(cy)
-                    Dim ssid As Integer = cCS.solarSystemID + 30000000
                     lblStationFactionLbl.Text = "Alliance:"
-                    lblStationFaction.Text = SetAlliance(CStr(PlugInData.eveNames(ssid)))
+                    lblStationFaction.Text = SetAlliance(CType(PlugInData.SystemsID(CStr(cCS.solarSystemID)), SolarSystem).Name)
                 End If
             Next
         End If

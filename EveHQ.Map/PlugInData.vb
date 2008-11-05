@@ -87,6 +87,9 @@ Public Class PlugInData
     Public Shared CSStationName As New SortedList
     Public Shared StationTypes As New SortedList
     Public Shared OreClassList As New SortedList
+    Dim SystemJumps As New SortedList
+    Dim JumpList As New ArrayList
+    Public Shared LowMemoryMode As Boolean = False
     Private Function LoadDataFromDatabase() As Boolean
         If Me.LoadSystems() = False Then
             ReportError("LoadSystems failed", "Problem Loading Data")
@@ -183,6 +186,8 @@ Public Class PlugInData
             Return False
             Exit Function
         End If
+        eveNames.Clear()
+        GC.Collect()
         Return True
     End Function
     Private Function LoadSerializedData() As Boolean
@@ -295,6 +300,11 @@ Public Class PlugInData
         endtime = Now
         timeTaken = endtime - startTime
         MessageBox.Show("Cache Load Time: " & timeTaken.TotalSeconds)
+
+        If LowMemoryMode = False Then
+            Call ConvertJumpsToSystems()
+        End If
+
         GC.Collect()
 
         Return True
@@ -1609,6 +1619,19 @@ Public Class PlugInData
             cbData.Clear()
         End Try
     End Function
+
+    Private Sub ConvertJumpsToSystems()
+        For Each ss As SolarSystem In PlugInData.SystemsID.Values
+            JumpList = CType(ss.Jumps.Clone, ArrayList)
+            SystemJumps.Add(ss.ID, JumpList)
+            ss.Jumps.Clear()
+            For Each jump As String In JumpList
+                ss.Jumps.Add(PlugInData.SystemsID(jump))
+            Next
+        Next
+        MessageBox.Show("Jump Conversion Complete!")
+    End Sub
+
 #End Region
 
 #Region "Serialization Routines"
