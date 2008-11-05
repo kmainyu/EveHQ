@@ -59,8 +59,6 @@ Public Class HQ
     Public Shared logonStatus As Integer = 0
     Public Shared logonStatusText As String = ""
     Public Shared MaxLogonAttempts As Integer = 3
-    Public Shared SystemsName As SortedList = New SortedList
-    Public Shared SystemsID As SortedList = New SortedList
     Public Shared itemList As SortedList = New SortedList
     Public Shared itemPublishedList As SortedList = New SortedList
     Public Shared groupList As SortedList = New SortedList

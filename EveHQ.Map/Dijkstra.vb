@@ -33,14 +33,14 @@ Public Class Dijkstra
         Return prev
     End Function
 
-    Private Function GetCost(ByVal u As SolarSystem, ByVal v As SolarSystem) As Integer
+    Private Function GetCost(ByVal u As SolarSystem, ByVal v As SolarSystem) As Double
         If u.ID = v.ID Then
             Return 0
             Exit Function
         End If
         ' Get value of the edge between u and v (will always be 1 if connected)
         For Each gatelink As String In u.Gates
-            If gatelink = v.ID Then
+            If CInt(gatelink) = v.ID Then
                 Return CalcDistance(u, v)
                 Exit Function
             End If
@@ -51,7 +51,7 @@ Public Class Dijkstra
         Dim min As Double = 1000000
         Dim minPos As Integer = -1
         For check As Integer = 0 To q.Count - 1
-            Dim sys As SolarSystem = q.GetByIndex(check)
+            Dim sys As SolarSystem = CType(q.GetByIndex(check), SolarSystem)
             If dist(sys.ID) < min And found(sys.ID) = False Then
                 min = dist(sys.ID)
                 minPos = sys.ID
@@ -69,7 +69,7 @@ Public Class Dijkstra
         Dim route As New ArrayList
         Do While tracer <> fromSys.ID And tracer <> 0
             route.Add(tracer)
-            tracer = prev.Item(tracer)
+            tracer = CInt(prev.Item(tracer))
         Loop
         If tracer = 0 Then
             Return Nothing
@@ -88,7 +88,7 @@ Public Class Dijkstra
         Dim route As New ArrayList
         Do While tracer <> fromSys.ID And tracer <> 0
             route.Add(tracer)
-            tracer = prev.Item(tracer)
+            tracer = CInt(prev.Item(tracer))
         Loop
         If tracer = 0 Then
             Return Nothing
@@ -116,7 +116,7 @@ Public Class Dijkstra
         ' The REAL work!!!
         While q.Count > 0
             Dim c2 As Integer = Choose()
-            Dim u As SolarSystem = EveHQ.Core.HQ.SystemsID(c2.ToString)
+            Dim u As SolarSystem = CType(PlugInData.SystemsID(c2.ToString), SolarSystem)
             q.Remove(u.ID)
             s.Add(u.ID, u)
             found(u.ID) = True
@@ -126,7 +126,7 @@ Public Class Dijkstra
                     If u.EveSec >= minSec And u.EveSec <= maxSec Then
                         If dist(gatelink.ID) > dist(u.ID) + 1 Then
                             dist(gatelink.ID) = dist(u.ID) + 1
-                            q.Add(gatelink.ID, EveHQ.Core.HQ.SystemsID(gatelink.ID.ToString))
+                            q.Add(gatelink.ID, PlugInData.SystemsID(gatelink.ID.ToString))
                             prev.Add(gatelink.ID, u.ID)
                         End If
                     End If
@@ -159,7 +159,7 @@ Public Class Dijkstra
         Dim maxdist As Double = 5.0
 
         ' Prepare array
-        For sys As Integer = 1 To EveHQ.Core.HQ.SystemsID.Count
+        For sys As Integer = 1 To PlugInData.SystemsID.Count
             dist(sys) = 1000000
             found(sys) = False
         Next
@@ -172,19 +172,19 @@ Public Class Dijkstra
         While q.Count > 0
             Dim c2 As Integer = Choose()
             Dim cdist As Double = 0
-            u = EveHQ.Core.HQ.SystemsID(c2)
+            u = CType(PlugInData.SystemsID(CStr(c2)), SolarSystem)
             q.Remove(u.ID)
             s.Add(u.ID, u)
             found(u.ID) = True
             ' See if we can improve the distance
             For Each gatelink As SolarSystem In u.Jumps
-                v = EveHQ.Core.HQ.SystemsID(gatelink.ID)
+                v = CType(PlugInData.SystemsID(CStr(gatelink.ID)), SolarSystem)
                 If q.Contains(gatelink.ID) = False Then
                     cdist = CalcDistance(u, v)
                     If cdist < maxdist Then
                         If dist(gatelink.ID) > dist(u.ID) + cdist Then
-                            dist(gatelink.ID) = dist(u.ID) + cdist
-                            q.Add(gatelink.ID, EveHQ.Core.HQ.SystemsID(gatelink.ID))
+                            dist(gatelink.ID) = CInt(dist(u.ID) + cdist)
+                            q.Add(gatelink.ID, PlugInData.SystemsID(CStr(gatelink.ID)))
                             prev.Add(gatelink.ID, u.ID)
                         End If
                     End If

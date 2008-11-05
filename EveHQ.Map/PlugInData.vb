@@ -17,13 +17,6 @@ Public Class PlugInData
             mapFolder = (EveHQ.Core.HQ.appDataFolder & "\EveHQMap").Replace("\\", "\")
             ' Check for cache folder
             mapCacheFolder = mapFolder & "\Cache"
-            Dim startTime, endTime As DateTime
-            Dim timeTaken As TimeSpan
-            startTime = Now
-            Dim ds As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM eveNames;")
-            endTime = Now
-            timeTaken = endTime - startTime
-            MessageBox.Show("EveNames database load: " & timeTaken.TotalSeconds)
             If My.Computer.FileSystem.DirectoryExists(mapCacheFolder) = True Then
                 UseSerializableData = True
                 Return Me.LoadSerializedData
@@ -73,27 +66,35 @@ Public Class PlugInData
 #End Region
 
 #Region "Data Loading Routines"
-    Public Shared NPCCorpList As SortedList = New SortedList
-    Public Shared NPCDivID As SortedList = New SortedList
-    Public Shared eveNames As SortedList = New SortedList
-    Public Shared RegionID As SortedList = New SortedList
-    Public Shared RegionName As SortedList = New SortedList
-    Public Shared ConstellationID As SortedList = New SortedList
-    Public Shared ConstellationName As SortedList = New SortedList
-    Public Shared AgentID As SortedList = New SortedList
-    Public Shared AgentName As SortedList = New SortedList
-    Public Shared ServiceList As SortedList = New SortedList
-    Public Shared OperationList As SortedList = New SortedList
-    Public Shared FactionList As SortedList = New SortedList
-    Public Shared AllianceList As SortedList = New SortedList
-    Public Shared StationList As SortedList = New SortedList
-    Public Shared StationName As SortedList = New SortedList
-    Public Shared CSStationList As SortedList = New SortedList
-    Public Shared CSStationName As SortedList = New SortedList
-    Public Shared StationTypes As SortedList = New SortedList
+    Public Shared SystemsName As New SortedList(Of String, SolarSystem)
+    Public Shared SystemsID As New SortedList(Of String, SolarSystem)
+    Public Shared NPCCorpList As New SortedList
+    Public Shared NPCDivID As New SortedList
+    Public Shared eveNames As New SortedList
+    Public Shared RegionID As New SortedList(Of String, Region)
+    Public Shared RegionName As New SortedList(Of String, Region)
+    Public Shared ConstellationID As New SortedList(Of String, Constellation)
+    Public Shared ConstellationName As New SortedList(Of String, Constellation)
+    Public Shared AgentID As New SortedList
+    Public Shared AgentName As New SortedList
+    Public Shared ServiceList As New SortedList
+    Public Shared OperationList As New SortedList
+    Public Shared FactionList As New SortedList
+    Public Shared AllianceList As New SortedList
+    Public Shared StationList As New SortedList
+    Public Shared StationName As New SortedList
+    Public Shared CSStationList As New SortedList
+    Public Shared CSStationName As New SortedList
+    Public Shared StationTypes As New SortedList
+    Public Shared OreClassList As New SortedList
     Private Function LoadDataFromDatabase() As Boolean
         If Me.LoadSystems() = False Then
             ReportError("LoadSystems failed", "Problem Loading Data")
+            Return False
+            Exit Function
+        End If
+        If Me.LoadOreData() = False Then
+            ReportError("LoadOreData failed", "Problem Loading Data")
             Return False
             Exit Function
         End If
@@ -193,88 +194,61 @@ Public Class PlugInData
 
         startTime = Now
         Dim sysLists(20) As SortedList
-        EveHQ.Core.HQ.SystemsID.Clear()
+        PlugInData.SystemsID.Clear()
         For sysList As Integer = 0 To 20
             s = New FileStream(mapCacheFolder & "\SolarSystems" & sysList & ".bin", FileMode.Open)
             f = New BinaryFormatter
             sysLists(sysList) = CType(f.Deserialize(s), SortedList)
             s.Close()
             For Each sys As SolarSystem In sysLists(sysList).Values
-                EveHQ.Core.HQ.SystemsID.Add(sys.Name, sys)
+                SystemsID.Add(sys.ID.ToString, sys)
             Next
         Next
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Solar Systems 1: " & timeTaken.TotalSeconds)
-        startTime = Now
-        For Each cSystem As SolarSystem In EveHQ.Core.HQ.SystemsID.Values
-            EveHQ.Core.HQ.SystemsName.Add(cSystem.Name, cSystem)
+        For Each cSystem As SolarSystem In PlugInData.SystemsID.Values
+            SystemsName.Add(cSystem.Name, cSystem)
         Next
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Solar Systems 2: " & timeTaken.TotalSeconds)
 
-        startTime = Now
         s = New FileStream(mapCacheFolder & "\Regions.bin", FileMode.Open)
         f = New BinaryFormatter
-        RegionID = CType(f.Deserialize(s), SortedList)
+        RegionID = CType(f.Deserialize(s), SortedList(Of String, Region))
         s.Close()
         For Each cSystem As Region In RegionID.Values
-            EveHQ.Core.HQ.SystemsName.Add(cSystem.regionName, cSystem)
+            RegionName.Add(cSystem.regionName, cSystem)
         Next
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Regions: " & timeTaken.TotalSeconds)
 
-        startTime = Now
         s = New FileStream(mapCacheFolder & "\Constellations.bin", FileMode.Open)
         f = New BinaryFormatter
-        ConstellationID = CType(f.Deserialize(s), SortedList)
+        ConstellationID = CType(f.Deserialize(s), SortedList(Of String, Constellation))
         s.Close()
         For Each cSystem As Constellation In ConstellationID.Values
             ConstellationName.Add(cSystem.constellationName, cSystem)
         Next
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Constellations: " & timeTaken.TotalSeconds)
 
-        startTime = Now
-        s = New FileStream(mapCacheFolder & "\Names.bin", FileMode.Open)
+        s = New FileStream(mapCacheFolder & "\OreClass.bin", FileMode.Open)
         f = New BinaryFormatter
-        eveNames = CType(f.Deserialize(s), SortedList)
+        OreClassList = CType(f.Deserialize(s), SortedList)
         s.Close()
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Names: " & timeTaken.TotalSeconds)
 
-        startTime = Now
+        's = New FileStream(mapCacheFolder & "\Names.bin", FileMode.Open)
+        'f = New BinaryFormatter
+        'eveNames = CType(f.Deserialize(s), SortedList)
+        's.Close()
+
         s = New FileStream(mapCacheFolder & "\NPCCorps.bin", FileMode.Open)
         f = New BinaryFormatter
         NPCCorpList = CType(f.Deserialize(s), SortedList)
         s.Close()
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("NPC Corps: " & timeTaken.TotalSeconds)
 
-        startTime = Now
         s = New FileStream(mapCacheFolder & "\Factions.bin", FileMode.Open)
         f = New BinaryFormatter
         FactionList = CType(f.Deserialize(s), SortedList)
         s.Close()
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Factions: " & timeTaken.TotalSeconds)
 
-        startTime = Now
         s = New FileStream(mapCacheFolder & "\Alliances.bin", FileMode.Open)
         f = New BinaryFormatter
         AllianceList = CType(f.Deserialize(s), SortedList)
         s.Close()
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Alliances: " & timeTaken.TotalSeconds)
 
-        startTime = Now
         s = New FileStream(mapCacheFolder & "\Stations.bin", FileMode.Open)
         f = New BinaryFormatter
         StationList = CType(f.Deserialize(s), SortedList)
@@ -282,29 +256,17 @@ Public Class PlugInData
         For Each cStation As Station In StationList.Values
             StationName.Add(cStation.stationName, cStation)
         Next
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Stations: " & timeTaken.TotalSeconds)
 
-        startTime = Now
         s = New FileStream(mapCacheFolder & "\Operations.bin", FileMode.Open)
         f = New BinaryFormatter
         OperationList = CType(f.Deserialize(s), SortedList)
         s.Close()
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Operations: " & timeTaken.TotalSeconds)
 
-        startTime = Now
         s = New FileStream(mapCacheFolder & "\Services.bin", FileMode.Open)
         f = New BinaryFormatter
         ServiceList = CType(f.Deserialize(s), SortedList)
         s.Close()
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Services: " & timeTaken.TotalSeconds)
 
-        startTime = Now
         s = New FileStream(mapCacheFolder & "\Agents.bin", FileMode.Open)
         f = New BinaryFormatter
         AgentID = CType(f.Deserialize(s), SortedList)
@@ -312,11 +274,7 @@ Public Class PlugInData
         For Each cAgent As Agent In AgentID.Values
             AgentName.Add(cAgent.agentName, cAgent)
         Next
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Agents: " & timeTaken.TotalSeconds)
 
-        startTime = Now
         s = New FileStream(mapCacheFolder & "\Conquerables.bin", FileMode.Open)
         f = New BinaryFormatter
         CSStationList = CType(f.Deserialize(s), SortedList)
@@ -324,27 +282,20 @@ Public Class PlugInData
         For Each cStation As ConqStat In CSStationList.Values
             CSStationName.Add(cStation.stationName, cStation)
         Next
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Conquerables: " & timeTaken.TotalSeconds)
 
-        startTime = Now
         s = New FileStream(mapCacheFolder & "\StationTypes.bin", FileMode.Open)
         f = New BinaryFormatter
         StationTypes = CType(f.Deserialize(s), SortedList)
         s.Close()
-        endtime = Now
-        timeTaken = endtime - startTime
-        MessageBox.Show("Station Types: " & timeTaken.TotalSeconds)
 
-        startTime = Now
         s = New FileStream(mapCacheFolder & "\NPCDivs.bin", FileMode.Open)
         f = New BinaryFormatter
         NPCDivID = CType(f.Deserialize(s), SortedList)
         s.Close()
         endtime = Now
         timeTaken = endtime - startTime
-        MessageBox.Show("NPC Divisions: " & timeTaken.TotalSeconds)
+        MessageBox.Show("Cache Load Time: " & timeTaken.TotalSeconds)
+        GC.Collect()
 
         Return True
     End Function
@@ -358,92 +309,31 @@ Public Class PlugInData
         Try
             If systemData IsNot Nothing Then
                 If systemData.Tables(0).Rows.Count > 0 Then
-                    EveHQ.Core.HQ.SystemsName.Clear()
-                    EveHQ.Core.HQ.SystemsID.Clear()
+                    PlugInData.SystemsName.Clear()
+                    PlugInData.SystemsID.Clear()
                     Dim cSystem As SolarSystem = New SolarSystem
                     For solar As Integer = 0 To systemData.Tables(0).Rows.Count - 1
                         cSystem = New SolarSystem
                         cSystem.ID = CInt(systemData.Tables(0).Rows(solar).Item("solarSystemID")) - 30000000
-                        cSystem.Name = systemData.Tables(0).Rows(solar).Item("solarSystemName")
-                        cSystem.Region = systemData.Tables(0).Rows(solar).Item("regionName")
-                        cSystem.RegionId = systemData.Tables(0).Rows(solar).Item("mapSolarSystems_regionID")
-                        cSystem.Constellation = systemData.Tables(0).Rows(solar).Item("constellationName")
-                        cSystem.x = systemData.Tables(0).Rows(solar).Item("x")
-                        cSystem.y = systemData.Tables(0).Rows(solar).Item("y")
-                        cSystem.z = systemData.Tables(0).Rows(solar).Item("z")
-                        cSystem.Security = systemData.Tables(0).Rows(solar).Item("security")
+                        cSystem.Name = CStr(systemData.Tables(0).Rows(solar).Item("solarSystemName"))
+                        cSystem.Region = CStr(systemData.Tables(0).Rows(solar).Item("regionName"))
+                        cSystem.RegionId = CStr(systemData.Tables(0).Rows(solar).Item("mapSolarSystems_regionID"))
+                        cSystem.Constellation = CStr(systemData.Tables(0).Rows(solar).Item("constellationName"))
+                        cSystem.x = CDbl(systemData.Tables(0).Rows(solar).Item("x"))
+                        cSystem.y = CDbl(systemData.Tables(0).Rows(solar).Item("y"))
+                        cSystem.z = CDbl(systemData.Tables(0).Rows(solar).Item("z"))
+                        cSystem.Security = CDbl(systemData.Tables(0).Rows(solar).Item("security"))
                         cSystem.EveSec = Math.Max(Int((cSystem.Security * 10) + 0.5) / 10, 0)
                         If IsDBNull(systemData.Tables(0).Rows(solar).Item("securityClass")) = False Then
-                            cSystem.SecClass = systemData.Tables(0).Rows(solar).Item("securityClass")
+                            cSystem.SecClass = CStr(systemData.Tables(0).Rows(solar).Item("securityClass"))
                         Else
                             cSystem.SecClass = ""
                         End If
-                        cSystem.Ice = GetIce(cSystem.RegionId, cSystem.Security)
-                        If cSystem.SecClass = "A" Then cSystem.Ores = "Veldspar, Scordite"
-                        If cSystem.SecClass = "B" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres"
-                        If cSystem.SecClass = "B1" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Kernite"
-                        If cSystem.SecClass = "B2" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Kernite, Jaspet"
-                        If cSystem.SecClass = "B3" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Kernite, Jaspet, Hemorphite"
-                        If cSystem.SecClass = "C" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Pyroxeres"
-                        If cSystem.SecClass = "C1" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Pyroxeres, Kernite"
-                        If cSystem.SecClass = "C2" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Pyroxeres, Kernite, Hedbergite"
-                        If cSystem.SecClass = "D" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase"
-                        If cSystem.SecClass = "D1" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber"
-                        If cSystem.SecClass = "D2" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Jaspet"
-                        If cSystem.SecClass = "D3" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Jaspet, Hemorphite"
-                        If cSystem.SecClass = "E" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite"
-                        If cSystem.SecClass = "E1" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Hedbergite"
-                        If cSystem.SecClass = "F" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber"
-                        If cSystem.SecClass = "F1" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain"
-                        If cSystem.SecClass = "F2" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss"
-                        If cSystem.SecClass = "F3" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot"
-                        If cSystem.SecClass = "F4" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor"
-                        If cSystem.SecClass = "F5" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor, Pyroxeres"
-                        If cSystem.SecClass = "F6" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor, Pyroxeres, Mercoxit"
-                        If cSystem.SecClass = "F7" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor, Pyroxeres, Mercoxit, Plagioclase"
-                        If cSystem.SecClass = "G" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite"
-                        If cSystem.SecClass = "G1" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss"
-                        If cSystem.SecClass = "G2" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres"
-                        If cSystem.SecClass = "G3" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain"
-                        If cSystem.SecClass = "G4" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot"
-                        If cSystem.SecClass = "G5" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot, Crokite"
-                        If cSystem.SecClass = "G6" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot, Crokite, Mercoxit"
-                        If cSystem.SecClass = "G7" Then cSystem.Ores = "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot, Crokite, Mercoxit, Dark Ochre"
-                        If cSystem.SecClass = "H" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet"
-                        If cSystem.SecClass = "H1" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite"
-                        If cSystem.SecClass = "H2" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre"
-                        If cSystem.SecClass = "H3" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite"
-                        If cSystem.SecClass = "H4" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite"
-                        If cSystem.SecClass = "H5" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite, Spodumain"
-                        If cSystem.SecClass = "H6" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite, Spodumain, Mercoxit"
-                        If cSystem.SecClass = "H7" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite, Spodumain, Mercoxit, Bistot"
-                        If cSystem.SecClass = "I" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber"
-                        If cSystem.SecClass = "I1" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet"
-                        If cSystem.SecClass = "I2" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain"
-                        If cSystem.SecClass = "I3" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss"
-                        If cSystem.SecClass = "I4" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre"
-                        If cSystem.SecClass = "I5" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre, Arkonor"
-                        If cSystem.SecClass = "I6" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre, Arkonor, Mercoxit"
-                        If cSystem.SecClass = "I7" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre, Arkonor, Mercoxit, Kernite"
-                        If cSystem.SecClass = "J" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet"
-                        If cSystem.SecClass = "J1" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre"
-                        If cSystem.SecClass = "J2" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite"
-                        If cSystem.SecClass = "J3" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot"
-                        If cSystem.SecClass = "J4" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite"
-                        If cSystem.SecClass = "J5" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite, Hedbergite"
-                        If cSystem.SecClass = "J6" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite, Hedbergite, Mercoxit"
-                        If cSystem.SecClass = "J7" Then cSystem.Ores = "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite, Hedbergite, Mercoxit, Arkonor"
-                        If cSystem.SecClass = "K" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber"
-                        If cSystem.SecClass = "K1" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre"
-                        If cSystem.SecClass = "K2" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain"
-                        If cSystem.SecClass = "K3" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite"
-                        If cSystem.SecClass = "K4" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot"
-                        If cSystem.SecClass = "K5" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot, Arkonor"
-                        If cSystem.SecClass = "K6" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot, Arkonor, Mercoxit"
-                        If cSystem.SecClass = "K7" Then cSystem.Ores = "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot, Arkonor, Mercoxit, Gneiss"
+                        cSystem.Ice = GetIce(CInt(cSystem.RegionId), cSystem.Security)
+
                         cSystem.Flag = False
-                        EveHQ.Core.HQ.SystemsID.Add(cSystem.ID.ToString, cSystem)
-                        EveHQ.Core.HQ.SystemsName.Add(cSystem.Name, cSystem)
+                        PlugInData.SystemsID.Add(cSystem.ID.ToString, cSystem)
+                        PlugInData.SystemsName.Add(cSystem.Name, cSystem)
                     Next
                 Else
                     Return False
@@ -458,6 +348,72 @@ Public Class PlugInData
             MessageBox.Show("There was an error generating the solar system data. The error was: " & ControlChars.CrLf & e.Message, "Map Tool Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
+    End Function
+
+    Public Function LoadOreData() As Boolean
+        OreClassList.Add("A", "Veldspar, Scordite")
+        OreClassList.Add("B", "Veldspar, Scordite, Pyroxeres")
+        OreClassList.Add("B1", "Veldspar, Scordite, Pyroxeres, Kernite")
+        OreClassList.Add("B2", "Veldspar, Scordite, Pyroxeres, Kernite, Jaspet")
+        OreClassList.Add("B3", "Veldspar, Scordite, Pyroxeres, Kernite, Jaspet, Hemorphite")
+        OreClassList.Add("C", "Veldspar, Scordite, Plagioclase, Pyroxeres")
+        OreClassList.Add("C1", "Veldspar, Scordite, Plagioclase, Pyroxeres, Kernite")
+        OreClassList.Add("C2", "Veldspar, Scordite, Plagioclase, Pyroxeres, Kernite, Hedbergite")
+        OreClassList.Add("D", "Veldspar, Scordite, Plagioclase")
+        OreClassList.Add("D1", "Veldspar, Scordite, Plagioclase, Omber")
+        OreClassList.Add("D2", "Veldspar, Scordite, Plagioclase, Omber, Jaspet")
+        OreClassList.Add("D3", "Veldspar, Scordite, Plagioclase, Omber, Jaspet, Hemorphite")
+        OreClassList.Add("E", "Veldspar, Scordite, Plagioclase, Omber, Kernite")
+        OreClassList.Add("E1", "Veldspar, Scordite, Plagioclase, Omber, Kernite, Hedbergite")
+        OreClassList.Add("F", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber")
+        OreClassList.Add("F1", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain")
+        OreClassList.Add("F2", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss")
+        OreClassList.Add("F3", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot")
+        OreClassList.Add("F4", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor")
+        OreClassList.Add("F5", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor, Pyroxeres")
+        OreClassList.Add("F6", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor, Pyroxeres, Mercoxit")
+        OreClassList.Add("F7", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Spodumain, Gneiss, Bistot, Arkonor, Pyroxeres, Mercoxit, Plagioclase")
+        OreClassList.Add("G", "Veldspar, Scordite, Plagioclase, Omber, Kernite")
+        OreClassList.Add("G1", "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss")
+        OreClassList.Add("G2", "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres")
+        OreClassList.Add("G3", "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain")
+        OreClassList.Add("G4", "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot")
+        OreClassList.Add("G5", "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot, Crokite")
+        OreClassList.Add("G6", "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot, Crokite, Mercoxit")
+        OreClassList.Add("G7", "Veldspar, Scordite, Plagioclase, Omber, Kernite, Gneiss, Pyroxeres, Spodumain, Bistot, Crokite, Mercoxit, Dark Ochre")
+        OreClassList.Add("H", "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet")
+        OreClassList.Add("H1", "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite")
+        OreClassList.Add("H2", "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre")
+        OreClassList.Add("H3", "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite")
+        OreClassList.Add("H4", "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite")
+        OreClassList.Add("H5", "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite, Spodumain")
+        OreClassList.Add("H6", "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite, Spodumain, Mercoxit")
+        OreClassList.Add("H7", "Veldspar, Scordite, Pyroxeres, Hemorphite, Jaspet, Hedbergite, Dark Ochre, Kernite, Crokite, Spodumain, Mercoxit, Bistot")
+        OreClassList.Add("I", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber")
+        OreClassList.Add("I1", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet")
+        OreClassList.Add("I2", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain")
+        OreClassList.Add("I3", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss")
+        OreClassList.Add("I4", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre")
+        OreClassList.Add("I5", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre, Arkonor")
+        OreClassList.Add("I6", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre, Arkonor, Mercoxit")
+        OreClassList.Add("I7", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Jaspet, Spodumain, Gneiss, Dark Ochre, Arkonor, Mercoxit, Kernite")
+        OreClassList.Add("J", "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet")
+        OreClassList.Add("J1", "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre")
+        OreClassList.Add("J2", "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite")
+        OreClassList.Add("J3", "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot")
+        OreClassList.Add("J4", "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite")
+        OreClassList.Add("J5", "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite, Hedbergite")
+        OreClassList.Add("J6", "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite, Hedbergite, Mercoxit")
+        OreClassList.Add("J7", "Veldspar, Scordite, Pyroxeres, Plagioclase, Jaspet, Dark Ochre, Crokite, Bistot, Hemorphite, Hedbergite, Mercoxit, Arkonor")
+        OreClassList.Add("K", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber")
+        OreClassList.Add("K1", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre")
+        OreClassList.Add("K2", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain")
+        OreClassList.Add("K3", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite")
+        OreClassList.Add("K4", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot")
+        OreClassList.Add("K5", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot, Arkonor")
+        OreClassList.Add("K6", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot, Arkonor, Mercoxit")
+        OreClassList.Add("K7", "Veldspar, Scordite, Hedbergite, Hemorphite, Omber, Dark Ochre, Spodumain, Crokite, Bistot, Arkonor, Mercoxit, Gneiss")
+        Return True
     End Function
 
     Public Function GetIce(ByVal regid As Integer, ByVal syssec As Double) As String
@@ -830,8 +786,8 @@ Public Class PlugInData
                         Dim cSystem As SolarSystem = New SolarSystem
                         fromSystem = CInt(systemData.Tables(0).Rows(solar).Item("fromsolarSystemID")) - 30000000
                         toSystem = CInt(systemData.Tables(0).Rows(solar).Item("tosolarSystemID")) - 30000000
-                        cSystem = EveHQ.Core.HQ.SystemsID(fromSystem.ToString)
-                        'cSystem.Gates.Add(EveHQ.Core.HQ.SystemsID(toSystem.ToString))
+                        cSystem = CType(PlugInData.SystemsID(fromSystem.ToString), SolarSystem)
+                        'cSystem.Gates.Add(PlugInData.SystemsID(toSystem.ToString))
                         cSystem.Gates.Add(toSystem.ToString)
                     Next
                 Else
@@ -855,20 +811,20 @@ Public Class PlugInData
         frmMap.maxgate = 1
         Try
             Dim solar1 As SolarSystem
-            For Each solar1 In EveHQ.Core.HQ.SystemsID.Values
+            For Each solar1 In PlugInData.SystemsID.Values
                 If Not solar1.Flag Then
                     Dim solar2 As SolarSystem
-                    For Each solar2 In EveHQ.Core.HQ.SystemsID.Values
+                    For Each solar2 In PlugInData.SystemsID.Values
                         solar2.Flag = False
                     Next
-                    'frmMap.SetFlags(solar1)
+                    frmMap.SetFlags(solar1)
                 End If
                 Dim sList As New SortedList
                 Dim solar3 As SolarSystem
-                For Each solar3 In EveHQ.Core.HQ.SystemsID.Values
+                For Each solar3 In PlugInData.SystemsID.Values
                     Dim cDist As Double = frmMap.Distance(solar1, solar3)
-                    'If (((cDist <= 14.625) AndAlso (Not solar1 Is solar3)) AndAlso ((solar3.EveSec <= 0.4) AndAlso solar3.Flag)) Then
-                    If (((cDist <= 14.625) AndAlso (Not solar1 Is solar3)) AndAlso solar3.Flag) Then
+                    If (((cDist <= 14.625) AndAlso (Not solar1 Is solar3)) AndAlso ((solar3.EveSec <= 0.4) AndAlso solar3.Flag)) Then
+                        'If (((cDist <= 14.625) AndAlso (Not solar1 Is solar3)) AndAlso solar3.Flag) Then
                         sList.Add(cDist, solar3)
                     End If
                 Next
@@ -895,11 +851,7 @@ Public Class PlugInData
                 If NameData.Tables(0).Rows.Count > 0 Then
                     eveNames.Clear()
                     For a As Integer = 0 To NameData.Tables(0).Rows.Count - 1
-                        Dim cName As EveName = New EveName
-                        cName.itemID = NameData.Tables(0).Rows(a).Item("itemID")
-                        cName.itemName = NameData.Tables(0).Rows(a).Item("itemName")
-                        cName.Flag = False
-                        eveNames.Add(cName.itemID, cName)
+                        eveNames.Add(NameData.Tables(0).Rows(a).Item("itemID"), NameData.Tables(0).Rows(a).Item("itemName"))
                     Next
                 Else
                     Return False
@@ -924,9 +876,9 @@ Public Class PlugInData
                     NPCCorpList.Clear()
                     For a As Integer = 0 To NPCCData.Tables(0).Rows.Count - 1
                         Dim cCorp As NPCCorp = New NPCCorp
-                        cCorp.CorporationID = NPCCData.Tables(0).Rows(a).Item("corporationID")
-                        cCorp.factionID = NPCCData.Tables(0).Rows(a).Item("factionID")
-                        cCorp.Flag = False
+                        cCorp.CorporationID = CInt(NPCCData.Tables(0).Rows(a).Item("corporationID"))
+                        cCorp.factionID = CStr(NPCCData.Tables(0).Rows(a).Item("factionID"))
+                        cCorp.CorpName = CStr(eveNames(cCorp.CorporationID))
                         NPCCorpList.Add(cCorp.CorporationID, cCorp)
                     Next
                 Else
@@ -955,22 +907,22 @@ Public Class PlugInData
             Dim XMLDoc As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Sovereignty)
             SystemDetails = XMLDoc.SelectNodes("/eveapi/result/rowset/row")
             For Each SysNode In SystemDetails
-                id = CLng(SysNode.Attributes.GetNamedItem("solarSystemID").Value) - 30000000
-                Dim solar As SolarSystem = EveHQ.Core.HQ.SystemsID(id)
+                id = CStr(CLng(SysNode.Attributes.GetNamedItem("solarSystemID").Value) - 30000000)
+                Dim solar As SolarSystem = CType(PlugInData.SystemsID(id), SolarSystem)
                 If SysNode.Attributes.GetNamedItem("factionID").Value <> "0" Then
                     ' This is a faction
                     solar.SovereigntyID = SysNode.Attributes.GetNamedItem("factionID").Value
-                    nFaction = FactionList(solar.SovereigntyID)
+                    nFaction = CType(FactionList(solar.SovereigntyID), Faction)
                     solar.SovereigntyName = nFaction.factionName
                 Else
-                    If SysNode.Attributes.GetNamedItem("allianceID").Value Then
+                    If SysNode.Attributes.GetNamedItem("allianceID").Value <> "0" Then
                         ' This is an alliance
                         solar.SovereigntyID = SysNode.Attributes.GetNamedItem("allianceID").Value
-                        nAlliance = AllianceList(solar.SovereigntyID)
+                        nAlliance = CType(AllianceList(solar.SovereigntyID), Alliance)
                         If nAlliance IsNot Nothing Then
                             solar.SovereigntyName = nAlliance.name
                             solar.sovereigntyLevel = SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value
-                            solar.constellationSovereignty = SysNode.Attributes.GetNamedItem("constellationSovereignty").Value
+                            solar.constellationSovereignty = CInt(SysNode.Attributes.GetNamedItem("constellationSovereignty").Value)
                         Else
                             ' Try to get the name from the IDToName API
                             Try
@@ -985,7 +937,7 @@ Public Class PlugInData
                                 solar.SovereigntyName = "<Alliance " & solar.SovereigntyID & ">"
                             End Try
                             solar.sovereigntyLevel = SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value
-                            solar.constellationSovereignty = SysNode.Attributes.GetNamedItem("constellationSovereignty").Value
+                            solar.constellationSovereignty = CInt(SysNode.Attributes.GetNamedItem("constellationSovereignty").Value)
                         End If
                     Else
                         solar.SovereigntyID = ""
@@ -1010,23 +962,23 @@ Public Class PlugInData
                     FactionList.Clear()
                     Dim cFaction As Faction = New Faction
                     For solar As Integer = 0 To FactionData.Tables(0).Rows.Count - 1
-                        If FactionData.Tables(0).Rows(solar).Item("factionName") <> "Unknown" Then
+                        If CStr(FactionData.Tables(0).Rows(solar).Item("factionName")) <> "Unknown" Then
                             cFaction = New Faction
-                            cFaction.factionID = FactionData.Tables(0).Rows(solar).Item("factionID")
-                            cFaction.factionName = FactionData.Tables(0).Rows(solar).Item("factionName")
-                            cFaction.description = FactionData.Tables(0).Rows(solar).Item("description")
-                            cFaction.raceID = FactionData.Tables(0).Rows(solar).Item("raceIDs")
-                            cFaction.solarSystemID = FactionData.Tables(0).Rows(solar).Item("solarSystemID")
-                            cFaction.CorporationID = FactionData.Tables(0).Rows(solar).Item("corporationID")
-                            cFaction.sizeFactor = FactionData.Tables(0).Rows(solar).Item("sizeFactor")
-                            cFaction.stationCount = FactionData.Tables(0).Rows(solar).Item("stationCount")
-                            cFaction.StationSystemCount = FactionData.Tables(0).Rows(solar).Item("stationSystemCount")
+                            cFaction.factionID = CStr(FactionData.Tables(0).Rows(solar).Item("factionID"))
+                            cFaction.factionName = CStr(FactionData.Tables(0).Rows(solar).Item("factionName"))
+                            cFaction.description = CStr(FactionData.Tables(0).Rows(solar).Item("description"))
+                            cFaction.raceID = CStr(FactionData.Tables(0).Rows(solar).Item("raceIDs"))
+                            cFaction.solarSystemID = CStr(FactionData.Tables(0).Rows(solar).Item("solarSystemID"))
+                            cFaction.CorporationID = CStr(FactionData.Tables(0).Rows(solar).Item("corporationID"))
+                            cFaction.sizeFactor = CStr(FactionData.Tables(0).Rows(solar).Item("sizeFactor"))
+                            cFaction.stationCount = CStr(FactionData.Tables(0).Rows(solar).Item("stationCount"))
+                            cFaction.StationSystemCount = CStr(FactionData.Tables(0).Rows(solar).Item("stationSystemCount"))
                         Else
                             cFaction = New Faction
-                            cFaction.factionID = FactionData.Tables(0).Rows(solar).Item("factionID")
-                            cFaction.factionName = FactionData.Tables(0).Rows(solar).Item("factionName")
+                            cFaction.factionID = CStr(FactionData.Tables(0).Rows(solar).Item("factionID"))
+                            cFaction.factionName = CStr(FactionData.Tables(0).Rows(solar).Item("factionName"))
                             cFaction.description = "Unknown"
-                            cFaction.raceID = FactionData.Tables(0).Rows(solar).Item("raceIDs")
+                            cFaction.raceID = CStr(FactionData.Tables(0).Rows(solar).Item("raceIDs"))
                             cFaction.solarSystemID = "Unknown"
                             cFaction.CorporationID = "Unknown"
                             cFaction.sizeFactor = "Unknown"
@@ -1079,7 +1031,7 @@ Public Class PlugInData
             Exit Function
         End Try
     End Function
-    Public Function LoadStations()
+    Public Function LoadStations() As Boolean
         Dim strSQL As String = "SELECT * FROM staStations ORDER BY stationID;"
         Dim StationData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
 
@@ -1094,24 +1046,24 @@ Public Class PlugInData
                         cstation.stationID = CInt(StationData.Tables(0).Rows(stat).Item("stationID"))
 
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("security")) = False Then
-                            cstation.security = StationData.Tables(0).Rows(stat).Item("security")
+                            cstation.security = CStr(StationData.Tables(0).Rows(stat).Item("security"))
                         Else
                             cstation.security = " "
                         End If
                         'cstation.dockingCostPerVolume = Nullcheck(StationData.Tables(0).Rows(stat).Item("dockingCostPerVolume")
                         'cstation.maxShipVolumeDockable = Nullcheck(StationData.Tables(0).Rows(stat).Item("maxShipVolumeDockable")
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("operationID")) = False Then
-                            cstation.operationID = StationData.Tables(0).Rows(stat).Item("operationID")
+                            cstation.operationID = CStr(StationData.Tables(0).Rows(stat).Item("operationID"))
                         Else
                             cstation.operationID = " "
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("stationTypeID")) = False Then
-                            cstation.stationTypeID = StationData.Tables(0).Rows(stat).Item("stationTypeID")
+                            cstation.stationTypeID = CStr(StationData.Tables(0).Rows(stat).Item("stationTypeID"))
                         Else
                             cstation.stationTypeID = " "
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("corporationID")) = False Then
-                            cstation.corporationID = StationData.Tables(0).Rows(stat).Item("corporationID")
+                            cstation.corporationID = CStr(StationData.Tables(0).Rows(stat).Item("corporationID"))
                         Else
                             cstation.corporationID = " "
                         End If
@@ -1122,44 +1074,44 @@ Public Class PlugInData
                             skip = True
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("constellationID")) = False Then
-                            cstation.constellationID = StationData.Tables(0).Rows(stat).Item("constellationID")
+                            cstation.constellationID = CStr(StationData.Tables(0).Rows(stat).Item("constellationID"))
                         Else
                             cstation.constellationID = " "
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("regionID")) = False Then
-                            cstation.regionID = StationData.Tables(0).Rows(stat).Item("regionID")
+                            cstation.regionID = CStr(StationData.Tables(0).Rows(stat).Item("regionID"))
                         Else
                             cstation.regionID = " "
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("stationName")) = False Then
-                            cstation.stationName = StationData.Tables(0).Rows(stat).Item("stationName")
+                            cstation.stationName = CStr(StationData.Tables(0).Rows(stat).Item("stationName"))
                         Else
                             cstation.stationName = " "
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("x")) = False Then
-                            cstation.x = StationData.Tables(0).Rows(stat).Item("x")
+                            cstation.x = CStr(StationData.Tables(0).Rows(stat).Item("x"))
                         Else
                             cstation.x = " "
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("y")) = False Then
-                            cstation.y = StationData.Tables(0).Rows(stat).Item("y")
+                            cstation.y = CStr(StationData.Tables(0).Rows(stat).Item("y"))
                         Else
                             cstation.y = " "
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("z")) = False Then
-                            cstation.z = StationData.Tables(0).Rows(stat).Item("z")
+                            cstation.z = CStr(StationData.Tables(0).Rows(stat).Item("z"))
                         Else
                             cstation.z = " "
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("reprocessingEfficiency")) = False Then
-                            cstation.reprocessingEfficiency = StationData.Tables(0).Rows(stat).Item("reprocessingEfficiency")
+                            cstation.reprocessingEfficiency = CInt(StationData.Tables(0).Rows(stat).Item("reprocessingEfficiency"))
                         Else
-                            cstation.reprocessingEfficiency = " "
+                            cstation.reprocessingEfficiency = 0
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("reprocessingStationsTake")) = False Then
-                            cstation.reprocessingStationsTake = StationData.Tables(0).Rows(stat).Item("reprocessingStationsTake")
+                            cstation.reprocessingStationsTake = CInt(StationData.Tables(0).Rows(stat).Item("reprocessingStationsTake"))
                         Else
-                            cstation.reprocessingStationsTake = " "
+                            cstation.reprocessingStationsTake = 0
                         End If
 
                         'cstation.reprocessingHangarFlag = StationData.Tables(0).Rows(stat).Item("reprocessingHangarFlag")
@@ -1201,68 +1153,68 @@ Public Class PlugInData
                         cRegion.RegionID = CInt(RegionData.Tables(0).Rows(Rstat).Item("regionID"))
 
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("regionName")) = False Then
-                            cRegion.regionName = RegionData.Tables(0).Rows(Rstat).Item("regionName")
+                            cRegion.regionName = CStr(RegionData.Tables(0).Rows(Rstat).Item("regionName"))
                         Else
                             cRegion.regionName = ""
                         End If
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("x")) = False Then
-                            cRegion.x = RegionData.Tables(0).Rows(Rstat).Item("x")
+                            cRegion.x = CStr(RegionData.Tables(0).Rows(Rstat).Item("x"))
                         Else
                             cRegion.x = ""
                         End If
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("y")) = False Then
-                            cRegion.y = RegionData.Tables(0).Rows(Rstat).Item("y")
+                            cRegion.y = CStr(RegionData.Tables(0).Rows(Rstat).Item("y"))
                         Else
                             cRegion.y = ""
                         End If
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("z")) = False Then
-                            cRegion.z = RegionData.Tables(0).Rows(Rstat).Item("z")
+                            cRegion.z = CStr(RegionData.Tables(0).Rows(Rstat).Item("z"))
                         Else
                             cRegion.z = ""
                         End If
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("xmin")) = False Then
-                            cRegion.xmin = RegionData.Tables(0).Rows(Rstat).Item("xmin")
+                            cRegion.xmin = CStr(RegionData.Tables(0).Rows(Rstat).Item("xmin"))
                         Else
                             cRegion.xmin = ""
                         End If
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("ymin")) = False Then
-                            cRegion.ymin = RegionData.Tables(0).Rows(Rstat).Item("ymin")
+                            cRegion.ymin = CStr(RegionData.Tables(0).Rows(Rstat).Item("ymin"))
                         Else
                             cRegion.ymin = ""
                         End If
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("zmin")) = False Then
-                            cRegion.zmin = RegionData.Tables(0).Rows(Rstat).Item("zmin")
+                            cRegion.zmin = CStr(RegionData.Tables(0).Rows(Rstat).Item("zmin"))
                         Else
                             cRegion.zmin = ""
                         End If
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("xmax")) = False Then
-                            cRegion.xmax = RegionData.Tables(0).Rows(Rstat).Item("xmax")
+                            cRegion.xmax = CStr(RegionData.Tables(0).Rows(Rstat).Item("xmax"))
                         Else
                             cRegion.xmax = ""
                         End If
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("ymax")) = False Then
-                            cRegion.ymax = RegionData.Tables(0).Rows(Rstat).Item("ymax")
+                            cRegion.ymax = CStr(RegionData.Tables(0).Rows(Rstat).Item("ymax"))
                         Else
                             cRegion.ymax = ""
                         End If
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("zmax")) = False Then
-                            cRegion.zmax = RegionData.Tables(0).Rows(Rstat).Item("zmax")
+                            cRegion.zmax = CStr(RegionData.Tables(0).Rows(Rstat).Item("zmax"))
                         Else
                             cRegion.zmax = ""
                         End If
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("factionID")) = False Then
-                            cRegion.factionID = RegionData.Tables(0).Rows(Rstat).Item("factionID")
+                            cRegion.factionID = CStr(RegionData.Tables(0).Rows(Rstat).Item("factionID"))
                         Else
                             cRegion.factionID = ""
                         End If
                         If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("radius")) = False Then
-                            cRegion.radius = RegionData.Tables(0).Rows(Rstat).Item("radius")
+                            cRegion.radius = CStr(RegionData.Tables(0).Rows(Rstat).Item("radius"))
                         Else
                             cRegion.radius = ""
                         End If
                         cRegion.Flag = False
+                        RegionID.Add(CStr(cRegion.RegionID), cRegion)
                         RegionName.Add(cRegion.regionName, cRegion)
-                        RegionID.Add(cRegion.RegionID, cRegion)
                     Next
                 Else
                     Return False
@@ -1293,73 +1245,73 @@ Public Class PlugInData
                         cConst.regionID = CInt(ConstData.Tables(0).Rows(Rstat).Item("regionID"))
 
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("constellationID")) = False Then
-                            cConst.constellationID = ConstData.Tables(0).Rows(Rstat).Item("constellationID")
+                            cConst.constellationID = CInt(ConstData.Tables(0).Rows(Rstat).Item("constellationID"))
                         Else
-                            cConst.constellationID = " "
+                            cConst.constellationID = 0
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("constellationName")) = False Then
-                            cConst.constellationName = ConstData.Tables(0).Rows(Rstat).Item("constellationName")
+                            cConst.constellationName = CStr(ConstData.Tables(0).Rows(Rstat).Item("constellationName"))
                         Else
                             cConst.constellationName = " "
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("x")) = False Then
-                            cConst.x = ConstData.Tables(0).Rows(Rstat).Item("x")
+                            cConst.x = CStr(ConstData.Tables(0).Rows(Rstat).Item("x"))
                         Else
                             cConst.x = " "
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("y")) = False Then
-                            cConst.y = ConstData.Tables(0).Rows(Rstat).Item("y")
+                            cConst.y = CStr(ConstData.Tables(0).Rows(Rstat).Item("y"))
                         Else
                             cConst.y = " "
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("z")) = False Then
-                            cConst.z = ConstData.Tables(0).Rows(Rstat).Item("z")
+                            cConst.z = CStr(ConstData.Tables(0).Rows(Rstat).Item("z"))
                         Else
                             cConst.z = " "
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("xmin")) = False Then
-                            cConst.xmin = ConstData.Tables(0).Rows(Rstat).Item("xmin")
+                            cConst.xmin = CStr(ConstData.Tables(0).Rows(Rstat).Item("xmin"))
                         Else
                             cConst.xmin = " "
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("ymin")) = False Then
-                            cConst.ymin = ConstData.Tables(0).Rows(Rstat).Item("ymin")
+                            cConst.ymin = CStr(ConstData.Tables(0).Rows(Rstat).Item("ymin"))
                         Else
                             cConst.ymin = " "
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("zmin")) = False Then
-                            cConst.zmin = ConstData.Tables(0).Rows(Rstat).Item("zmin")
+                            cConst.zmin = CStr(ConstData.Tables(0).Rows(Rstat).Item("zmin"))
                         Else
                             cConst.zmin = " "
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("xmax")) = False Then
-                            cConst.xmax = ConstData.Tables(0).Rows(Rstat).Item("xmax")
+                            cConst.xmax = CStr(ConstData.Tables(0).Rows(Rstat).Item("xmax"))
                         Else
                             cConst.xmax = " "
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("ymax")) = False Then
-                            cConst.ymax = ConstData.Tables(0).Rows(Rstat).Item("ymax")
+                            cConst.ymax = CStr(ConstData.Tables(0).Rows(Rstat).Item("ymax"))
                         Else
                             cConst.ymax = " "
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("zmax")) = False Then
-                            cConst.zmax = ConstData.Tables(0).Rows(Rstat).Item("zmax")
+                            cConst.zmax = CStr(ConstData.Tables(0).Rows(Rstat).Item("zmax"))
                         Else
                             cConst.zmax = " "
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("factionID")) = False Then
-                            cConst.factionID = ConstData.Tables(0).Rows(Rstat).Item("factionID")
+                            cConst.factionID = CStr(ConstData.Tables(0).Rows(Rstat).Item("factionID"))
                         Else
                             cConst.factionID = " "
                         End If
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("radius")) = False Then
-                            cConst.radius = ConstData.Tables(0).Rows(Rstat).Item("radius")
+                            cConst.radius = CStr(ConstData.Tables(0).Rows(Rstat).Item("radius"))
                         Else
                             cConst.radius = " "
                         End If
                         cConst.Flag = False
+                        ConstellationID.Add(CStr(cConst.constellationID), cConst)
                         ConstellationName.Add(cConst.constellationName, cConst)
-                        ConstellationID.Add(cConst.constellationID, cConst)
                     Next
                 Else
                     Return False
@@ -1385,8 +1337,8 @@ Public Class PlugInData
                     OperationList.Clear()
                     For a As Integer = 0 To OpData.Tables(0).Rows.Count - 1
                         Dim cOp As Operation = New Operation
-                        cOp.operationID = OpData.Tables(0).Rows(a).Item("operationID")
-                        cOp.serviceID = OpData.Tables(0).Rows(a).Item("serviceID")
+                        cOp.operationID = CInt(OpData.Tables(0).Rows(a).Item("operationID"))
+                        cOp.serviceID = CInt(OpData.Tables(0).Rows(a).Item("serviceID"))
                         cOp.Flag = False
                         OperationList.Add(a, cOp)
                     Next
@@ -1415,8 +1367,8 @@ Public Class PlugInData
                     ServiceList.Clear()
                     For a As Integer = 0 To ServData.Tables(0).Rows.Count - 1
                         Dim CServ As Service = New Service
-                        CServ.serviceID = ServData.Tables(0).Rows(a).Item("serviceID")
-                        CServ.serviceName = ServData.Tables(0).Rows(a).Item("serviceName")
+                        CServ.serviceID = CInt(ServData.Tables(0).Rows(a).Item("serviceID"))
+                        CServ.serviceName = CStr(ServData.Tables(0).Rows(a).Item("serviceName"))
                         CServ.Flag = False
                         ServiceList.Add(a, CServ)
                     Next
@@ -1448,40 +1400,39 @@ Public Class PlugInData
                         Dim cAgent As Agent = New Agent
                         Dim skip As Boolean = False
                         If IsDBNull(AgentData.Tables(0).Rows(a).Item("agentID")) = False Then
-                            cAgent.agentID = AgentData.Tables(0).Rows(a).Item("agentID")
-                            Dim x As Integer = AgentData.Tables(0).Rows(a).Item("agentID")
-                            cAgent.agentName = eveNames(x).itemname
+                            cAgent.agentID = CInt(AgentData.Tables(0).Rows(a).Item("agentID"))
+                            cAgent.agentName = CStr(eveNames(cAgent.agentID))
                         Else
                             cAgent.agentID = 0
                         End If
                         If IsDBNull(AgentData.Tables(0).Rows(a).Item("divisionID")) = False Then
-                            cAgent.divisionID = AgentData.Tables(0).Rows(a).Item("divisionID")
+                            cAgent.divisionID = CInt(AgentData.Tables(0).Rows(a).Item("divisionID"))
                         Else
                             cAgent.divisionID = 0
                         End If
                         If IsDBNull(AgentData.Tables(0).Rows(a).Item("corporationID")) = False Then
-                            cAgent.corporationID = AgentData.Tables(0).Rows(a).Item("corporationID")
+                            cAgent.corporationID = CInt(AgentData.Tables(0).Rows(a).Item("corporationID"))
                         Else
                             cAgent.corporationID = 0
                         End If
                         If IsDBNull(AgentData.Tables(0).Rows(a).Item("stationID")) = False Then
-                            cAgent.stationId = AgentData.Tables(0).Rows(a).Item("stationID")
+                            cAgent.stationId = CInt(AgentData.Tables(0).Rows(a).Item("stationID"))
                         Else
                             skip = True
                             cAgent.stationId = 0
                         End If
                         If IsDBNull(AgentData.Tables(0).Rows(a).Item("level")) = False Then
-                            cAgent.Level = AgentData.Tables(0).Rows(a).Item("level")
+                            cAgent.Level = CInt(AgentData.Tables(0).Rows(a).Item("level"))
                         Else
                             cAgent.Level = 0
                         End If
                         If IsDBNull(AgentData.Tables(0).Rows(a).Item("quality")) = False Then
-                            cAgent.Quality = AgentData.Tables(0).Rows(a).Item("quality")
+                            cAgent.Quality = CInt(AgentData.Tables(0).Rows(a).Item("quality"))
                         Else
                             cAgent.Quality = 0
                         End If
                         If IsDBNull(AgentData.Tables(0).Rows(a).Item("agentTypeID")) = False Then
-                            cAgent.Type = AgentData.Tables(0).Rows(a).Item("agentTypeID")
+                            cAgent.Type = CStr(AgentData.Tables(0).Rows(a).Item("agentTypeID"))
                         Else
                             cAgent.Type = " "
                         End If
@@ -1516,10 +1467,10 @@ Public Class PlugInData
             CSDetails = XMLDoc.SelectNodes("/eveapi/result/rowset/row")
             For Each CSNode In CSDetails
                 Dim CS As New ConqStat
-                CS.stationID = CSNode.Attributes.GetNamedItem("stationID").Value
+                CS.stationID = CInt(CSNode.Attributes.GetNamedItem("stationID").Value)
                 CS.stationName = CSNode.Attributes.GetNamedItem("stationName").Value
                 CS.stationTypeID = CSNode.Attributes.GetNamedItem("stationTypeID").Value
-                CS.solarSystemID = CSNode.Attributes.GetNamedItem("solarSystemID").Value - 30000000
+                CS.solarSystemID = CInt(CSNode.Attributes.GetNamedItem("solarSystemID").Value) - 30000000
                 CS.corporationID = CSNode.Attributes.GetNamedItem("corporationID").Value
                 CS.corporationName = CSNode.Attributes.GetNamedItem("corporationName").Value
                 CS.Flag = False
@@ -1542,17 +1493,17 @@ Public Class PlugInData
                     For a As Integer = 0 To sttData.Tables(0).Rows.Count - 1
                         Dim cCSS As StType = New StType
                         If IsDBNull(sttData.Tables(0).Rows(a).Item("stationTypeID")) = False Then
-                            cCSS.stationTypeID = sttData.Tables(0).Rows(a).Item("stationTypeID")
+                            cCSS.stationTypeID = CInt(sttData.Tables(0).Rows(a).Item("stationTypeID"))
                         Else
                             cCSS.stationTypeID = 0
                         End If
                         If IsDBNull(sttData.Tables(0).Rows(a).Item("operationID")) = False Then
-                            cCSS.OperationID = sttData.Tables(0).Rows(a).Item("operationID")
+                            cCSS.OperationID = CInt(sttData.Tables(0).Rows(a).Item("operationID"))
                         Else
                             cCSS.OperationID = 0
                         End If
                         If IsDBNull(sttData.Tables(0).Rows(a).Item("officeSlots")) = False Then
-                            cCSS.OfficeSlots = sttData.Tables(0).Rows(a).Item("officeSlots")
+                            cCSS.OfficeSlots = CInt(sttData.Tables(0).Rows(a).Item("officeSlots"))
                         Else
                             cCSS.OfficeSlots = 0
                         End If
@@ -1583,8 +1534,8 @@ Public Class PlugInData
                     NPCDivID.Clear()
                     For a As Integer = 0 To DivData.Tables(0).Rows.Count - 1
                         Dim cDiv As NPCDiv = New NPCDiv
-                        cDiv.divisionID = DivData.Tables(0).Rows(a).Item("divisionID")
-                        cDiv.divisionName = DivData.Tables(0).Rows(a).Item("divisionName")
+                        cDiv.divisionID = CInt(DivData.Tables(0).Rows(a).Item("divisionID"))
+                        cDiv.divisionName = CStr(DivData.Tables(0).Rows(a).Item("divisionName"))
                         cDiv.Flag = False
                         NPCDivID.Add(cDiv.divisionID, cDiv)
                     Next
@@ -1615,9 +1566,9 @@ Public Class PlugInData
                     For Each mapRow As DataRow In cbData.Tables(0).Rows
                         'For stat As Integer = 0 To cbData.Tables(0).Rows.Count - 1
                         If IsDBNull(mapRow.Item("solarSystemID")) = False Then
-                            If lastSystemNo <> CInt(mapRow.Item("solarSystemID") - 30000000) Then
-                                lastSystemNo = CInt(mapRow.Item("solarSystemID") - 30000000)
-                                lastSystem = EveHQ.Core.HQ.SystemsID(lastSystemNo.ToString)
+                            If lastSystemNo <> CInt(mapRow.Item("solarSystemID")) - 30000000 Then
+                                lastSystemNo = CInt(mapRow.Item("solarSystemID")) - 30000000
+                                lastSystem = CType(PlugInData.SystemsID(lastSystemNo.ToString), SolarSystem)
                             End If
                             Select Case CInt(mapRow.Item("groupID"))
                                 Case 6
@@ -1675,8 +1626,8 @@ Public Class PlugInData
         For sysList As Integer = 0 To 20
             sysLists(sysList) = New SortedList
         Next
-        For Each sSystem As SolarSystem In EveHQ.Core.HQ.SystemsID.Values
-            sysLists(Int(sSystem.Security * 10) + 10).Add(sSystem.Name, sSystem)
+        For Each sSystem As SolarSystem In PlugInData.SystemsID.Values
+            sysLists(CInt(Int(sSystem.Security * 10) + 10)).Add(sSystem.Name, sSystem)
         Next
         For sysList As Integer = 0 To 20
             s = New FileStream(mapCacheFolder & "\SolarSystems" & sysList & ".bin", FileMode.Create)
@@ -1698,9 +1649,9 @@ Public Class PlugInData
         f.Serialize(s, RegionID)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Names.bin", FileMode.Create)
+        s = New FileStream(mapCacheFolder & "\OreClass.bin", FileMode.Create)
         f = New BinaryFormatter
-        f.Serialize(s, eveNames)
+        f.Serialize(s, OreClassList)
         s.Close()
 
         s = New FileStream(mapCacheFolder & "\NPCCorps.bin", FileMode.Create)

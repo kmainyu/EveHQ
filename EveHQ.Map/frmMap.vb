@@ -79,7 +79,7 @@ Public Class frmMap
         cboRegion.BeginUpdate()
         cboRegion.AutoCompleteCustomSource.Add("All")
         Me.cboRegion.Items.Add("All")
-        For Each xRegion As Region In PlugInData.RegionName.Values
+        For Each xRegion As Region In PlugInData.RegionID.Values
             cboRegion.AutoCompleteCustomSource.Add(xRegion.regionName)
             Me.cboRegion.Items.Add(xRegion.regionName)
         Next
@@ -92,7 +92,7 @@ Public Class frmMap
         cboConst.BeginUpdate()
         cboConst.AutoCompleteCustomSource.Add("All")
         Me.cboConst.Items.Add("All")
-        For Each xConst As Constellation In PlugInData.ConstellationName.Values
+        For Each xConst As Constellation In PlugInData.ConstellationID.Values
             cboConst.AutoCompleteCustomSource.Add(xConst.constellationName)
             Me.cboConst.Items.Add(xConst.constellationName)
         Next
@@ -103,7 +103,7 @@ Public Class frmMap
         cboSystem.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboSystem.AutoCompleteSource = AutoCompleteSource.CustomSource
         cboSystem.BeginUpdate()
-        For Each cSystem As SolarSystem In EveHQ.Core.HQ.SystemsID.Values
+        For Each cSystem As SolarSystem In PlugInData.SystemsID.Values
             cboSystem.AutoCompleteCustomSource.Add(cSystem.Name)
             Me.cboSystem.Items.Add(cSystem.Name)
         Next
@@ -122,9 +122,9 @@ Public Class frmMap
         Me.cboRouteMode.Text = Me.cboRouteMode.Items.Item(0).ToString
         Me.cboSystem.Text = Me.cboSystem.Items.Item(0).ToString
         Me.cboShips.SelectedIndex = 0
-        cboJDC.SelectedIndex = EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration)
-        cboJFC.SelectedIndex = EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation)
-        cboJF.SelectedIndex = EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters)
+        cboJDC.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration))
+        cboJFC.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation))
+        cboJF.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters))
         Me.BringToFront()
         bHaveMouse = False
         bHaveScan = False
@@ -188,7 +188,7 @@ Public Class frmMap
                 Me.cboJFC.SelectedIndex = 0
                 Me.cboJFC.Enabled = True
             Else
-                Me.cboJFC.SelectedIndex = csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation)
+                Me.cboJFC.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation))
                 Me.cboJFC.Enabled = False
             End If
         Else
@@ -212,7 +212,7 @@ Public Class frmMap
                 Me.cboJDC.SelectedIndex = JDC
                 Me.cboJDC.Enabled = True
             Else
-                Me.cboJDC.SelectedIndex = csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration)
+                Me.cboJDC.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration))
                 Me.cboJDC.Enabled = False
             End If
         Else
@@ -230,29 +230,31 @@ Public Class frmMap
         Dim JFC As Integer = Me.cboJFC.SelectedIndex
         Me.cboJF.Items.Clear()
         CBF = CBF * (1 - (JFC * 0.1))
-        Select Case cboShips.SelectedItem
-            Case "Titan", "Mothership", "Capital Industrial", "Dreadnought", "Carrier"
-                For level As Integer = 0 To 5
-                    Me.cboJF.Items.Add(String.Concat(New Object() {level, " (", CBF, "/ly)"}))
-                Next
-            Case Else
-                For level As Integer = 0 To 5
-                    Me.cboJF.Items.Add(String.Concat(New Object() {level, " (", (CBF * (1 - (level * 0.05))), "/ly)"}))
-                Next
-        End Select
-        If csPilot IsNot Nothing Then
-            If chkOverrideJF.Checked = True Then
+        If cboShips.SelectedItem IsNot Nothing Then
+            Select Case cboShips.SelectedItem.ToString
+                Case "Titan", "Mothership", "Capital Industrial", "Dreadnought", "Carrier"
+                    For level As Integer = 0 To 5
+                        Me.cboJF.Items.Add(String.Concat(New Object() {level, " (", CBF, "/ly)"}))
+                    Next
+                Case Else
+                    For level As Integer = 0 To 5
+                        Me.cboJF.Items.Add(String.Concat(New Object() {level, " (", (CBF * (1 - (level * 0.05))), "/ly)"}))
+                    Next
+            End Select
+            If csPilot IsNot Nothing Then
+                If chkOverrideJF.Checked = True Then
+                    Me.cboJF.SelectedIndex = JF
+                    Me.cboJF.Enabled = True
+                Else
+                    Me.cboJF.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters))
+                    Me.cboJF.Enabled = False
+                End If
+            Else
+                Me.chkOverrideJF.Checked = True
+                Me.chkOverrideJF.Enabled = False
                 Me.cboJF.SelectedIndex = JF
                 Me.cboJF.Enabled = True
-            Else
-                Me.cboJF.SelectedIndex = csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters)
-                Me.cboJF.Enabled = False
             End If
-        Else
-            Me.chkOverrideJF.Checked = True
-            Me.chkOverrideJF.Enabled = False
-            Me.cboJF.SelectedIndex = JF
-            Me.cboJF.Enabled = True
         End If
     End Sub
 
@@ -277,7 +279,7 @@ Public Class frmMap
     End Sub
 
     Private Sub cboSystem_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSystem.SelectedIndexChanged
-        Call PinpointLocation(cboSystem.SelectedItem)
+        Call PinpointLocation(cboSystem.SelectedItem.ToString)
     End Sub
 
 #End Region
@@ -289,8 +291,8 @@ Public Class frmMap
 
         startTime = Now
         Dim s, t As SolarSystem
-        s = EveHQ.Core.HQ.SystemsName(startSystem)
-        t = EveHQ.Core.HQ.SystemsName(endSystem)
+        s = CType(PlugInData.SystemsName(startSystem), SolarSystem)
+        t = CType(PlugInData.SystemsName(endSystem), SolarSystem)
         Dim minSec As Double = nudMinSec.Value
         Dim maxSec As Double = nudMaxSec.Value
         Dim myRoute As Dijkstra = New Dijkstra
@@ -311,8 +313,8 @@ Public Class frmMap
 
         startTime = Now
         Dim s, t As SolarSystem
-        s = EveHQ.Core.HQ.SystemsName(startSystem)
-        t = EveHQ.Core.HQ.SystemsName(endSystem)
+        s = CType(PlugInData.SystemsName(startSystem), SolarSystem)
+        t = CType(PlugInData.SystemsName(endSystem), SolarSystem)
         Dim minSec As Double = nudMinSec.Value
         Dim maxSec As Double = nudMaxSec.Value
         Dim myRoute As Dijkstra = New Dijkstra
@@ -334,24 +336,24 @@ Public Class frmMap
         If WaypointSets.Count > 0 Then
             If lstWaypoints.Items.Count = 0 Then
                 ' Generate the start to end route only
-                Dim fromSys As SolarSystem = EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag)
-                Dim toSys As SolarSystem = EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)
+                Dim fromSys As SolarSystem = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
+                Dim toSys As SolarSystem = CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem)
                 FullRoute.Add(Me.GetRoute(fromSys, toSys))
             Else
                 ' Generate for all the waypoints
                 Dim fromSys, toSys As SolarSystem
                 For sys As Integer = 0 To lstWaypoints.Items.Count - 1
-                    Dim sysname As String = lstWaypoints.Items(sys)
-                    toSys = EveHQ.Core.HQ.SystemsName(sysname)
+                    Dim sysName As String = CStr(lstWaypoints.Items(sys))
+                    toSys = CType(PlugInData.SystemsID(sysName), SolarSystem)
                     If sys = 0 Then
-                        fromSys = EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag)
+                        fromSys = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
                     Else
-                        fromSys = EveHQ.Core.HQ.SystemsName(lstWaypoints.Items(sys - 1))
+                        fromSys = CType(PlugInData.SystemsName(CStr(lstWaypoints.Items(sys - 1))), SolarSystem)
                     End If
                     FullRoute.Add(Me.GetRoute(fromSys, toSys))
                 Next
-                fromSys = EveHQ.Core.HQ.SystemsName(lstWaypoints.Items(lstWaypoints.Items.Count - 1))
-                toSys = EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)
+                fromSys = CType(PlugInData.SystemsName(CStr(lstWaypoints.Items(lstWaypoints.Items.Count - 1))), SolarSystem)
+                toSys = CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem)
                 FullRoute.Add(Me.GetRoute(fromSys, toSys))
             End If
         End If
@@ -362,7 +364,7 @@ Public Class frmMap
         lvwRoute.Items.Clear()
         For Each route As ArrayList In FullRoute
             For Each sys As Integer In route
-                Dim cSystem As SolarSystem = EveHQ.Core.HQ.SystemsID(sys)
+                Dim cSystem As SolarSystem = CType(PlugInData.SystemsID(CStr(sys)), SolarSystem)
                 Dim newSystem As New ListViewItem
                 newSystem.Text = FormatNumber(jumps, 0, TriState.True)
                 newSystem.Name = cSystem.Name
@@ -380,7 +382,7 @@ Public Class frmMap
         Dim route As New ArrayList
         Do While tracer <> fromSys.ID And tracer <> 0
             route.Add(tracer)
-            tracer = prev.Item(tracer)
+            tracer = CInt(prev.Item(tracer))
         Loop
         route.Reverse()
         Return route
@@ -392,7 +394,7 @@ Public Class frmMap
         End If
     End Sub
     Private Sub lvwRoute_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwRoute.ColumnClick
-        If lvwRoute.Tag = e.Column Then
+        If CInt(lvwRoute.Tag) = e.Column Then
             Me.lvwRoute.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Name(e.Column, SortOrder.Ascending)
             lvwRoute.Tag = -1
         Else
@@ -414,14 +416,14 @@ Public Class frmMap
         End If
 
         Dim s, t As SolarSystem
-        s = EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag)
+        s = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
         t = s
         Dim myRoute As Dijkstra = New Dijkstra
         Dim gates As ArrayList = myRoute.SystemsInGateRange(s, t, True, 2)
         lvwRoute.Items.Clear()
         Dim system(0, 1) As Integer
         For Each system In gates
-            Dim cSystem As SolarSystem = EveHQ.Core.HQ.SystemsID(system(0, 0))
+            Dim cSystem As SolarSystem = CType(PlugInData.SystemsID(CStr(system(0, 0))), SolarSystem)
             Dim sysJump As Integer = system(0, 1)
             Dim newSystem As New ListViewItem
             newSystem.Text = cSystem.Name
@@ -465,13 +467,13 @@ Public Class frmMap
 
         'use the factorial function to determine the number of rows needed
         'because redim preserve is slow
-        ReDim strings(data.Length - 1, Factorial(data.Length - 1) - 1)
+        ReDim strings(data.Length - 1, CInt(Factorial(data.Length - 1)) - 1)
         strings(0, 0) = data
 
         'swap each character(I) from the second postion to the second to last position
         For i = 1 To (data.Length - 2)
             'for each of the already created numbers
-            For y = 0 To rowCount
+            For y = 0 To CInt(rowCount)
                 'do swaps for the character(I) with each of the characters to the right
                 For x = data.Length To i + 2 Step -1
                     tempChar = strings(0, y).Substring(i, 1)
@@ -479,7 +481,7 @@ Public Class frmMap
                     Mid(newString, i + 1, 1) = newString.Substring(x - 1, 1)
                     Mid(newString, x, 1) = tempChar
                     rowCount = rowCount + 1
-                    strings(0, rowCount) = newString
+                    strings(0, CInt(rowCount)) = newString
                 Next
             Next
         Next
@@ -501,9 +503,9 @@ Public Class frmMap
     Private Function Factorial(ByVal Number As Integer) As String
         Try
             If Number = 0 Then
-                Return 1
+                Return CStr(1)
             Else
-                Return Number * Factorial(Number - 1)
+                Return CStr(Number * CInt(Factorial(Number - 1)))
             End If
         Catch ex As Exception
             Return ex.Message
@@ -514,45 +516,45 @@ Public Class frmMap
 #Region "New Routing Functions"
     ' Interface Routines
     Private Sub btnAddStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddStart.Click
-        If EveHQ.Core.HQ.SystemsName.Contains(cboSystem.Text) = False Then
+        If PlugInData.SystemsName.ContainsKey(cboSystem.Text) = False Then
             MessageBox.Show("System Name is not a valid system", "System Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Else
-            Dim startSystem As SolarSystem = EveHQ.Core.HQ.SystemsName(cboSystem.Text)
+            Dim startSystem As SolarSystem = CType(PlugInData.SystemsName(cboSystem.Text), SolarSystem)
             lblStartSystem.Text = "Start System: " & startSystem.Name
             lblStartSystem.Tag = startSystem.Name
         End If
     End Sub
     Private Sub btnAddEnd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddEnd.Click
-        If EveHQ.Core.HQ.SystemsName.Contains(cboSystem.Text) = False Then
+        If PlugInData.SystemsName.ContainsKey(cboSystem.Text) = False Then
             MessageBox.Show("System Name is not a valid system", "System Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Else
-            If lblStartSystem.Tag = "" Then
+            If lblStartSystem.Tag.ToString = "" Then
                 MessageBox.Show("Please enter a Start System before entering a Destination.", "Start System Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                Dim endSystem As SolarSystem = EveHQ.Core.HQ.SystemsName(cboSystem.Text)
+                Dim endSystem As SolarSystem = CType(PlugInData.SystemsName(cboSystem.Text), SolarSystem)
                 ' See if we are changing the end point
                 If lblEndSystem.Tag IsNot Nothing Then
                     ' Remove the old endpoint from the waypoints
                     WaypointRoutes.Remove(lblEndSystem.Tag)
                     If Waypoints.Count > 0 Then
-                        Dim startSystem As SolarSystem = Waypoints(Waypoints.Count - 1)
-                        If cboRouteMode.SelectedItem = "Gate Route" Then
+                        Dim startSystem As SolarSystem = CType(Waypoints(Waypoints.Count - 1), SolarSystem)
+                        If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
                             WaypointRoutes(endSystem.Name) = Me.GateRoute(startSystem, endSystem)
                         Else
                             WaypointRoutes(endSystem.Name) = Me.JumpRoute(startSystem, endSystem)
                         End If
                     Else
-                        If cboRouteMode.SelectedItem = "Gate Route" Then
-                            WaypointRoutes(endSystem.Name) = Me.GateRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), endSystem)
+                        If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
+                            WaypointRoutes(endSystem.Name) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), endSystem)
                         Else
-                            WaypointRoutes(endSystem.Name) = Me.JumpRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), endSystem)
+                            WaypointRoutes(endSystem.Name) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), endSystem)
                         End If
                     End If
                 Else
-                    If cboRouteMode.SelectedItem = "Gate Route" Then
-                        WaypointRoutes(endSystem.Name) = Me.GateRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), endSystem)
+                    If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
+                        WaypointRoutes(endSystem.Name) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), endSystem)
                     Else
-                        WaypointRoutes(endSystem.Name) = Me.JumpRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), endSystem)
+                        WaypointRoutes(endSystem.Name) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), endSystem)
                     End If
                 End If
 
@@ -560,7 +562,7 @@ Public Class frmMap
                 lblEndSystem.Tag = endSystem.Name
 
                 lastAlgo = Me.cboRouteMode.SelectedIndex
-                'Call GenerateWaypointRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+                'Call GenerateWaypointRoute(PlugInData.SystemsName(lblStartSystem.Tag), PlugInData.SystemsName(lblEndSystem.Tag))
             End If
         End If
     End Sub
@@ -609,7 +611,7 @@ Public Class frmMap
         End If
     End Sub
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
-        csPilot = EveHQ.Core.HQ.Pilots.Item(cboPilot.SelectedItem)
+        csPilot = CType(EveHQ.Core.HQ.Pilots.Item(cboPilot.SelectedItem), Core.Pilot)
         Call Me.LoadJDC()
         Call Me.LoadJFC()
     End Sub
@@ -623,7 +625,7 @@ Public Class frmMap
             cboJDC.Enabled = True
         Else
             If EveHQ.Core.HQ.myPilot IsNot Nothing Then
-                cboJDC.SelectedIndex = EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration)
+                cboJDC.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration))
                 cboJDC.Enabled = False
             End If
         End If
@@ -633,7 +635,7 @@ Public Class frmMap
             cboJFC.Enabled = True
         Else
             If EveHQ.Core.HQ.myPilot IsNot Nothing Then
-                cboJFC.SelectedIndex = EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation)
+                cboJFC.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation))
                 cboJFC.Enabled = False
             End If
         End If
@@ -643,7 +645,7 @@ Public Class frmMap
             cboJF.Enabled = True
         Else
             If EveHQ.Core.HQ.myPilot IsNot Nothing Then
-                cboJF.SelectedIndex = EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters)
+                cboJF.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters))
                 cboJF.Enabled = False
             End If
         End If
@@ -721,11 +723,11 @@ Public Class frmMap
         Dim driveRange As Double
         Dim fuelMultiplier As Double
         Dim nJumps As Double
-        Dim startSys As SolarSystem = EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag)
+        Dim startSys As SolarSystem = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
         Dim endSys As New SolarSystem
         Select Case algotype1
             Case RouteType.Gates, RouteType.Jumps
-                endSys = EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)
+                endSys = CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem)
             Case RouteType.GateRadius, RouteType.JumpRadius
                 endSys = Nothing
         End Select
@@ -750,7 +752,7 @@ Public Class frmMap
         Else
             fuelMultiplier = baseFuel
         End If
-        Select Case cboShips.SelectedItem
+        Select Case cboShips.SelectedItem.ToString
             Case "Anshar", "Ark", "Nomad", "Rhea"
                 fuelMultiplier = fuelMultiplier * (1 - (Me.cboJF.SelectedIndex * 0.05))
         End Select
@@ -820,8 +822,8 @@ Public Class frmMap
                         Else
                             count += 1
                             Dim newItem As ListViewItem = New ListViewItem
-                            newItem.Name = count
-                            newItem.Text = count
+                            newItem.Name = CStr(count)
+                            newItem.Text = CStr(count)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Name : nsi.Name = route1.Sys.Name : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Region : nsi.Name = route1.Sys.Region : newItem.SubItems.Add(nsi)
@@ -829,10 +831,10 @@ Public Class frmMap
                             newItem.SubItems.Add(FormatNumber(route1.Sys.EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             If (algotype1 = RouteType.JumpRadius) Then
                                 Dim dd As Double = Math.Round(frmMap.Distance(startSys, route1.Sys), 8, MidpointRounding.AwayFromZero)
-                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(dd, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = dd : newItem.SubItems.Add(nsi)
-                                Dim fuel As Integer = Int(dd * fuelMultiplier)
-                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel : newItem.SubItems.Add(nsi)
-                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel * 0.15, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel * 0.15 : newItem.SubItems.Add(nsi)
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(dd, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = CStr(dd) : newItem.SubItems.Add(nsi)
+                                Dim fuel As Integer = CInt(Int(dd * fuelMultiplier))
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = CStr(fuel) : newItem.SubItems.Add(nsi)
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel * 0.15, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = CStr(fuel * 0.15) : newItem.SubItems.Add(nsi)
                             Else
                                 newItem.SubItems.Add("-") : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
                             End If
@@ -861,19 +863,19 @@ Public Class frmMap
                         If route1.Sys IsNot startSys Then
                             Dim newItem As ListViewItem = New ListViewItem
                             count += 1
-                            newItem.Name = count
-                            newItem.Text = count
+                            newItem.Name = CStr(count)
+                            newItem.Text = CStr(count)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Name : nsi.Name = route1.Sys.Name : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
                             nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Region : nsi.Name = route1.Sys.Region : newItem.SubItems.Add(nsi)
                             newItem.BackColor = Me.SystemColour(route1.Sys.EveSec)
                             newItem.SubItems.Add(FormatNumber(route1.Sys.EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             If (algotype1 = RouteType.Jumps) Then
-                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(Math.Round(jumpDist, 8, MidpointRounding.AwayFromZero), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = jumpDist : newItem.SubItems.Add(nsi)
-                                fuel = Int(jumpDist * fuelMultiplier)
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(Math.Round(jumpDist, 8, MidpointRounding.AwayFromZero), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = CStr(jumpDist) : newItem.SubItems.Add(nsi)
+                                fuel = CInt(Int(jumpDist * fuelMultiplier))
                                 totalFuel += fuel
-                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel : newItem.SubItems.Add(nsi)
-                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel * 0.15, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel * 0.15 : newItem.SubItems.Add(nsi)
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = CStr(fuel) : newItem.SubItems.Add(nsi)
+                                nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel * 0.15, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = CStr(fuel * 0.15) : newItem.SubItems.Add(nsi)
                             Else
                                 newItem.SubItems.Add("-") : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
                             End If
@@ -934,7 +936,7 @@ Public Class frmMap
     End Sub
     Public Function GateRadius(ByVal from As SolarSystem, ByVal rad As Integer) As Route
         Dim solar1 As SolarSystem
-        For Each solar1 In EveHQ.Core.HQ.SystemsName.Values
+        For Each solar1 In PlugInData.SystemsName.Values
             solar1.Flag = False
         Next
         Dim queue1 As New Queue
@@ -986,7 +988,7 @@ Public Class frmMap
             End If
             Dim solar3 As SolarSystem
             For Each solar3ID As String In solar1.Gates
-                solar3 = EveHQ.Core.HQ.SystemsID(solar3ID)
+                solar3 = CType(PlugInData.SystemsID(solar3ID), SolarSystem)
                 If (((solar3.EveSec >= frmMap.mingate) AndAlso (solar3.EveSec <= frmMap.maxgate)) AndAlso Not hashtable1.Contains(solar3)) Then
                     If (Exclusions.Contains(solar3.Name) = False And Exclusions.Contains(solar3.Constellation) = False And Exclusions.Contains(solar3.Region) = False) Then
                         hashtable1.Add(solar3, solar1)
@@ -1032,7 +1034,7 @@ Public Class frmMap
     End Function
     Public Function JumpRadius(ByVal from As SolarSystem, ByVal rad As Integer) As Route
         Dim solar1 As SolarSystem
-        For Each solar1 In EveHQ.Core.HQ.SystemsName.Values
+        For Each solar1 In PlugInData.SystemsName.Values
             solar1.Flag = False
         Next
         Dim queue1 As New Queue
@@ -1086,7 +1088,8 @@ Public Class frmMap
                 Exit Function
             End If
             Dim solar3 As SolarSystem
-            For Each solar3 In solar1.Jumps
+            For Each solar3ID As Integer In solar1.Jumps
+                solar3 = PlugInData.SystemsID(CStr(solar3ID))
                 If (frmMap.Distance(solar1, solar3) > frmMap.maxdist) Then
                     Exit For
                 End If
@@ -1106,7 +1109,8 @@ Public Class frmMap
         Do While (queue1.Count > 0)
             Dim solar1 As SolarSystem = DirectCast(queue1.Dequeue, SolarSystem)
             Dim solar2 As SolarSystem
-            For Each solar2 In solar1.Gates
+            For Each solar2ID As String In solar1.Gates
+                solar2 = PlugInData.SystemsID(solar2ID)
                 If (((solar2.EveSec >= frmMap.mingate) AndAlso (solar2.EveSec <= frmMap.maxgate)) AndAlso Not solar2.Flag) Then
                     solar2.Flag = True
                     queue1.Enqueue(solar2)
@@ -1130,7 +1134,7 @@ Public Class frmMap
 
 #Region "Map Drawing Routines"
     Private Sub tabMap_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles tabMap.Paint
-        Call PinpointLocation(cboSystem.SelectedItem)
+        Call PinpointLocation(cboSystem.SelectedItem.ToString)
     End Sub
     Private Sub tabMapTool_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabMapTool.Resize
         Dim x As Integer = tabMapTool.Width - 50
@@ -1193,7 +1197,7 @@ Public Class frmMap
         Else
             If bHaveScan Then
                 'if we don't "have the mouse", then let's browse the system names!
-                Dim area As Integer = nudAccuracy.Value - 1
+                Dim area As Integer = CInt(nudAccuracy.Value - 1)
                 Dim allSystems As String = ""
                 For x As Integer = Math.Max(0, e.X - area) To Math.Min((pbMap.Width - 1), e.X + area)
                     For y As Integer = Math.Max(0, e.Y - area) To Math.Min((pbMap.Height - 1), e.Y + area)
@@ -1203,7 +1207,7 @@ Public Class frmMap
                     Next
                 Next
                 If allSystems <> "" Then
-                    Dim systems() As String = allSystems.Split(",")
+                    Dim systems() As String = allSystems.Split(",".ToCharArray)
                     Dim system As String = systems(0)
                     cboSystem.SelectedItem = system
                 End If
@@ -1297,14 +1301,14 @@ Public Class frmMap
 
         ' Now show the location of our target system
         If solarname <> "" Then
-            cSystem = EveHQ.Core.HQ.SystemsName(solarname)
+            cSystem = CType(PlugInData.SystemsName(solarname), SolarSystem)
             lblName.Text = cSystem.Name
-            lblID.Text = cSystem.ID
+            lblID.Text = CStr(cSystem.ID)
             lblConst.Text = cSystem.Constellation
             lblRegion.Text = cSystem.Region
             lblSecurity.Text = FormatNumber(cSystem.Security, 5, TriState.True)
             lblEveSec.Text = FormatNumber(cSystem.EveSec, 1, TriState.True)
-            lblNoGates.Text = cSystem.Gates.Count
+            lblNoGates.Text = CStr(cSystem.Gates.Count)
             lblGates.Text = ""
             lblSovereigntyLevel.Text = cSystem.sovereigntyLevel
             If cSystem.SovereigntyName <> "" Then
@@ -1312,14 +1316,14 @@ Public Class frmMap
             Else
                 lblSovHolder.Text = "<Unclaimed>"
             End If
-            lblPlanets.Text = cSystem.Planets.Count
-            lblMoons.Text = cSystem.Moons.Count
-            lblABelts.Text = cSystem.ABelts.Count
-            lblIBelts.Text = cSystem.IBelts.Count
-            lblStations.Text = cSystem.Stations.Count
+            lblPlanets.Text = CStr(cSystem.Planets.Count)
+            lblMoons.Text = CStr(cSystem.Moons.Count)
+            lblABelts.Text = CStr(cSystem.ABelts.Count)
+            lblIBelts.Text = CStr(cSystem.IBelts.Count)
+            lblStations.Text = CStr(cSystem.Stations.Count)
             For Each cCS As ConqStat In PlugInData.CSStationName.Values
                 If cSystem.ID = cCS.solarSystemID Then
-                    lblStations.Text = CInt(lblStations.Text) + 1
+                    lblStations.Text = CStr(CInt(lblStations.Text) + 1)
                     Exit For
                 End If
             Next
@@ -1329,14 +1333,14 @@ Public Class frmMap
             Me.cboSystem.Text = cSystem.Name
 
             For gate As Integer = 0 To cSystem.Gates.Count - 1
-                Dim tosystem As SolarSystem = EveHQ.Core.HQ.SystemsID(cSystem.Gates(gate))
+                Dim tosystem As SolarSystem = CType(PlugInData.SystemsID(CStr(cSystem.Gates(gate))), SolarSystem)
 
                 lblGates.Text &= tosystem.Name & " (" & FormatNumber(Math.Max(0, tosystem.Security), 1, TriState.True) & ")" & ControlChars.CrLf
             Next
             If cSystem.x >= mapX1 And cSystem.x <= mapX2 And cSystem.z >= mapY1 And cSystem.z <= mapY2 Then
                 ' A valid point in the map!
-                locX = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
-                locY = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
+                locX = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
+                locY = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
                 myPen = New System.Drawing.Pen(Color.FromArgb(160, 255, 255, 255))
                 formGraphics.DrawLine(myPen, 0, locY, pbMap.Width, locY)
                 formGraphics.DrawLine(myPen, locX, 0, locX, pbMap.Height)
@@ -1402,17 +1406,17 @@ Public Class frmMap
             g = GetGraphicsObject()
             g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
             g.TextRenderingHint = Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit
-            For Each cSystem As SolarSystem In EveHQ.Core.HQ.SystemsID.Values
+            For Each cSystem As SolarSystem In PlugInData.SystemsID.Values
                 If cSystem.x >= mapX1 And cSystem.x <= mapX2 And cSystem.z >= mapY1 And cSystem.z <= mapY2 Then
                     ' A valid point in the zoomed map!
-                    locX = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
-                    locY = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
+                    locX = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
+                    locY = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
                     Dim myBrush As SolidBrush = New SolidBrush(Me.SystemColour(cSystem.Security))
                     Dim brushSize As Integer
                     If Int(zoomLevel / 500) = 0 Then
                         brushSize = 3
                     Else
-                        brushSize = Int((Math.Log(Int(zoomLevel / 500)) / Math.Log(2)) * 2) + 5
+                        brushSize = CInt(Int((Math.Log(Int(zoomLevel / 500)) / Math.Log(2)) * 2) + 5)
                     End If
 
                     g.FillEllipse(myBrush, locX - CInt((brushSize - 1) / 2), locY - CInt((brushSize - 1) / 2), brushSize, brushSize)
@@ -1421,18 +1425,18 @@ Public Class frmMap
                         Case 500 To 1000
                             Dim rnd As Integer = RandomNumGen.Next(1, 10)
                             If rnd = 1 Then
-                                sWidth = g.MeasureString(cSystem.Name, mapFont, mapSize).Width
-                                g.DrawString(cSystem.Name, mapFont, myBrush, locX - (sWidth / 2), locY + brushSize + 2)
+                                sWidth = CInt(g.MeasureString(cSystem.Name, mapFont, mapSize).Width)
+                                g.DrawString(cSystem.Name, mapFont, myBrush, CInt(locX - (sWidth / 2)), locY + brushSize + 2)
                             End If
                         Case 1000 To 1500
                             Dim rnd As Integer = RandomNumGen.Next(1, 5)
                             If rnd = 1 Then
-                                sWidth = g.MeasureString(cSystem.Name, mapFont, mapSize).Width
-                                g.DrawString(cSystem.Name, mapFont, myBrush, locX - (sWidth / 2), locY + brushSize + 2)
+                                sWidth = CInt(g.MeasureString(cSystem.Name, mapFont, mapSize).Width)
+                                g.DrawString(cSystem.Name, mapFont, myBrush, CInt(locX - (sWidth / 2)), locY + brushSize + 2)
                             End If
                         Case Is > 1500
-                            sWidth = g.MeasureString(cSystem.Name, mapFont, mapSize).Width
-                            g.DrawString(cSystem.Name, mapFont, myBrush, locX - (sWidth / 2), locY + brushSize + 2)
+                            sWidth = CInt(g.MeasureString(cSystem.Name, mapFont, mapSize).Width)
+                            g.DrawString(cSystem.Name, mapFont, myBrush, CInt(locX - (sWidth / 2)), locY + brushSize + 2)
                     End Select
 
                     Mapdata(locX, locY) &= cSystem.Name & ","
@@ -1442,7 +1446,9 @@ Public Class frmMap
             Call Me.DrawRoute()
 
             pbMap.Image = EveMap
-            Call PinpointLocation(cboSystem.SelectedItem)
+            If cboSystem.SelectedItem IsNot Nothing Then
+                Call PinpointLocation(cboSystem.SelectedItem.ToString)
+            End If
         End If
     End Sub
     Private Sub DrawGateLinks()
@@ -1453,22 +1459,22 @@ Public Class frmMap
         g = GetGraphicsObject()
         Dim myPen As New System.Drawing.Pen(Color.FromArgb(255, 0, 0, 75))
         Dim lSystem As SolarSystem
-        For Each cSystem As SolarSystem In EveHQ.Core.HQ.SystemsID.Values
+        For Each cSystem As SolarSystem In PlugInData.SystemsID.Values
             For Each lSystemID As String In cSystem.Gates
-                lSystem = EveHQ.Core.HQ.SystemsID(lSystemID)
+                lSystem = CType(PlugInData.SystemsID(lSystemID), SolarSystem)
 
                 If (cSystem.x >= mapX1 And cSystem.x <= mapX2 And cSystem.z >= mapY1 And cSystem.z <= mapY2) Or (lSystem.x >= mapX1 And lSystem.x <= mapX2 And lSystem.z >= mapY1 And lSystem.z <= mapY2) Then
-                    locX = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
-                    locY = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
-                    locX2 = (pbMap.Width - 1) / (mapX2 - mapX1) * (lSystem.x - mapX1)
-                    locY2 = (pbMap.Height - 1) / (mapY2 - mapY1) * (lSystem.z - mapY1)
+                    locX = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
+                    locY = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
+                    locX2 = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (lSystem.x - mapX1))
+                    locY2 = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (lSystem.z - mapY1))
                     If cSystem.Region <> lSystem.Region Then
-                        myPen.Color = Color.FromArgb(brightness, 100, 0, 100)
+                        myPen.Color = Color.FromArgb(CInt(brightness), 100, 0, 100)
                     Else
                         If cSystem.Constellation <> lSystem.Constellation Then
-                            myPen.Color = Color.FromArgb(brightness, 100, 0, 0)
+                            myPen.Color = Color.FromArgb(CInt(brightness), 100, 0, 0)
                         Else
-                            myPen.Color = Color.FromArgb(brightness, 0, 0, 100)
+                            myPen.Color = Color.FromArgb(CInt(brightness), 0, 0, 100)
                         End If
                     End If
                     g.DrawLine(myPen, locX, locY, locX2, locY2)
@@ -1495,52 +1501,52 @@ Public Class frmMap
                         Dim mapFont As Font = New Font("Tahoma", 7, FontStyle.Regular)
 
                         ' Draw the starting point
-                        cSystem = EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag)
-                        locX = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
-                        locY = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
+                        cSystem = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
+                        locX = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
+                        locY = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
                         g.FillEllipse(myBrush, locX - 2, locY - 2, 5, 5)
-                        nSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(0).SubItems(1).Text)
-                        locX2 = (pbMap.Width - 1) / (mapX2 - mapX1) * (nSystem.x - mapX1)
-                        locY2 = (pbMap.Height - 1) / (mapY2 - mapY1) * (nSystem.z - mapY1)
+                        nSystem = CType(PlugInData.SystemsName(lvwRoute.Items(0).SubItems(1).Text), SolarSystem)
+                        locX2 = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (nSystem.x - mapX1))
+                        locY2 = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (nSystem.z - mapY1))
                         g.DrawLine(myPen, locX, locY, locX, locY)
                         g.DrawLine(myPen, locX, locY, locX2, locY2)
-                        sWidth = g.MeasureString(cSystem.Name, mapFont, mapSize).Width
-                        g.DrawString(cSystem.Name, mapFont, Brushes.White, locX - (sWidth / 2), locY + 5)
+                        sWidth = CInt(g.MeasureString(cSystem.Name, mapFont, mapSize).Width)
+                        g.DrawString(cSystem.Name, mapFont, Brushes.White, CInt(locX - (sWidth / 2)), locY + 5)
 
                         ' Draw the rest of them!
                         For a As Integer = 0 To lvwRoute.Items.Count - 1
-                            cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Text)
-                            locX = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
-                            locY = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
+                            cSystem = CType(PlugInData.SystemsName(lvwRoute.Items(a).SubItems(1).Text), SolarSystem)
+                            locX = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
+                            locY = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
                             g.FillEllipse(myBrush, locX - 2, locY - 2, 5, 5)
                             If a <> lvwRoute.Items.Count - 1 Then
-                                nSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a + 1).SubItems(1).Text)
-                                locX2 = (pbMap.Width - 1) / (mapX2 - mapX1) * (nSystem.x - mapX1)
-                                locY2 = (pbMap.Height - 1) / (mapY2 - mapY1) * (nSystem.z - mapY1)
+                                nSystem = CType(PlugInData.SystemsName(lvwRoute.Items(a + 1).SubItems(1).Text), SolarSystem)
+                                locX2 = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (nSystem.x - mapX1))
+                                locY2 = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (nSystem.z - mapY1))
                                 g.DrawLine(myPen, locX, locY, locX, locY)
                             End If
                             g.DrawLine(myPen, locX, locY, locX2, locY2)
-                            sWidth = g.MeasureString(cSystem.Name, mapFont, mapSize).Width
-                            g.DrawString(cSystem.Name, mapFont, Brushes.White, locX - (sWidth / 2), locY + 5)
+                            sWidth = CInt(g.MeasureString(cSystem.Name, mapFont, mapSize).Width)
+                            g.DrawString(cSystem.Name, mapFont, Brushes.White, CInt(locX - (sWidth / 2)), locY + 5)
                         Next
                     Case 2, 3
                         ' If a radius is used
                         Dim mapFont As Font = New Font("Tahoma", 7, FontStyle.Regular)
                         ' Draw the starting point
-                        cSystem = EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag)
-                        locX = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
-                        locY = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
+                        cSystem = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
+                        locX = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
+                        locY = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
                         g.DrawEllipse(myPen, New System.Drawing.RectangleF(locX - 1, locY - 1, 3, 3))
 
                         ' Draw the lines
                         For a As Integer = 0 To lvwRoute.Items.Count - 1
-                            cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Text)
-                            locX2 = (pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1)
-                            locY2 = (pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1)
+                            cSystem = CType(PlugInData.SystemsName(lvwRoute.Items(a).SubItems(1).Text), SolarSystem)
+                            locX2 = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
+                            locY2 = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
                             g.FillEllipse(myBrush, locX2 - 2, locY2 - 2, 5, 5)
                             g.DrawLine(myPen, locX, locY, locX2, locY2)
-                            sWidth = g.MeasureString(cSystem.Name, mapFont, mapSize).Width
-                            g.DrawString(cSystem.Name, mapFont, Brushes.White, locX2 - (sWidth / 2), locY2 + 5)
+                            sWidth = CInt(g.MeasureString(cSystem.Name, mapFont, mapSize).Width)
+                            g.DrawString(cSystem.Name, mapFont, Brushes.White, CInt(locX2 - (sWidth / 2)), locY2 + 5)
                         Next
                 End Select
             End If
@@ -1584,7 +1590,7 @@ Public Class frmMap
         zoomLevel = maxX / dx * 100
         lblZoom.Text = "Zoom: " & FormatNumber(zoomLevel, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
     End Sub
-    Private Function GetGraphicsObject()
+    Private Function GetGraphicsObject() As Graphics
         Dim bmp As Bitmap
         bmp = EveMap
         Dim g As Graphics
@@ -1597,14 +1603,14 @@ Public Class frmMap
             Dim minx, miny, minz, maxx, maxy, maxz As Double
             minx = 1.0E+19 : miny = 1.0E+19 : minz = 1.0E+19 : maxx = -1.0E+19 : maxy = -1.0E+19 : maxz = -1.0E+19
             Dim cSystem As SolarSystem
-            cSystem = EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag)
+            cSystem = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
             If cSystem.x > maxx Then maxx = cSystem.x
             If cSystem.x < minx Then minx = cSystem.x
             If cSystem.y > maxy Then maxy = cSystem.y
             If cSystem.y < miny Then miny = cSystem.y
             If cSystem.z > maxz Then maxz = cSystem.z
             For a As Integer = 0 To lvwRoute.Items.Count - 1
-                cSystem = EveHQ.Core.HQ.SystemsName(lvwRoute.Items(a).SubItems(1).Text)
+                cSystem = CType(PlugInData.SystemsName(lvwRoute.Items(a).SubItems(1).Text), SolarSystem)
                 If cSystem IsNot Nothing Then
                     If cSystem.x > maxx Then maxx = cSystem.x
                     If cSystem.x < minx Then minx = cSystem.x
@@ -1669,17 +1675,17 @@ Public Class frmMap
     '    Return Facname
     'End Function
     Public Function SetAlliance(ByVal SolName As String) As String
-        Dim saSystem As SolarSystem = EveHQ.Core.HQ.SystemsName(SolName)
+        Dim saSystem As SolarSystem = CType(PlugInData.SystemsName(SolName), SolarSystem)
         Dim TAlliance As Alliance
         Dim TFaction As Alliance
         Dim Allyname As String = "Unknown"
         Dim AlID As String = saSystem.SovereigntyID
         If PlugInData.AllianceList.Contains(AlID) = True Then
-            TAlliance = PlugInData.AllianceList(AlID)
+            TAlliance = CType(PlugInData.AllianceList(AlID), Alliance)
             Allyname = TAlliance.name
         Else
             If PlugInData.FactionList.Contains(AlID) = True Then
-                TFaction = PlugInData.FactionList(AlID)
+                TFaction = CType(PlugInData.FactionList(AlID), Alliance)
                 Allyname = TFaction.name
             End If
         End If
@@ -1704,7 +1710,7 @@ Public Class frmMap
                 strHTML &= "</p>"
                 strHTML &= EveHQ.Core.IGB.IGBHTMLFooter(MapContext)
             Case "/EVEHQMAPTOOL/NUMBER", "/EVEHQMAPTOOL/NUMBER/"
-                Dim no As Integer = MapContext.Request.QueryString("no")
+                Dim no As Integer = CInt(MapContext.Request.QueryString("no"))
                 strHTML &= "<p>Number " & no & "</p>"
             Case "/EVEHQMAPTOOL/MAPOVERVIEW.PNG", "/EVEHQMAPTOOL/MAPOVERVIEW.PNG/"
                 Call CreateIGBMap(300, True)
@@ -1728,11 +1734,11 @@ Public Class frmMap
             IGBY1 = -5.0E+17 : IGBY2 = 5.0E+17
         End If
         Call Me.DrawIGBLinks()
-        For Each cSystem As SolarSystem In EveHQ.Core.HQ.SystemsID.Values
+        For Each cSystem As SolarSystem In PlugInData.SystemsID.Values
             If cSystem.x >= IGBX1 And cSystem.x <= IGBX2 And cSystem.z >= IGBY1 And cSystem.z <= IGBY2 Then
                 ' A valid point in the zoomed map!
-                locX = (IGBMapSize - 1) / (IGBX2 - IGBX1) * (cSystem.x - IGBX1)
-                locY = (IGBMapSize - 1) / (IGBY2 - IGBY1) * (cSystem.z - IGBY1)
+                locX = CInt((IGBMapSize - 1) / (IGBX2 - IGBX1) * (cSystem.x - IGBX1))
+                locY = CInt((IGBMapSize - 1) / (IGBY2 - IGBY1) * (cSystem.z - IGBY1))
                 Select Case cSystem.Security
                     Case Is < 0.05
                         sysColor = Color.DarkRed
@@ -1772,12 +1778,12 @@ Public Class frmMap
         Dim g As Graphics
         g = Graphics.FromImage(IGBMap)
         Dim myPen As New System.Drawing.Pen(Color.FromArgb(255, 0, 0, 75))
-        For Each cSystem As SolarSystem In EveHQ.Core.HQ.SystemsID.Values
+        For Each cSystem As SolarSystem In PlugInData.SystemsID.Values
             For Each lSystem As SolarSystem In cSystem.Gates
-                locX = (IGBMapSize - 1) / (IGBX2 - IGBX1) * (cSystem.x - IGBX1)
-                locY = (IGBMapSize - 1) / (IGBY2 - IGBY1) * (cSystem.z - IGBY1)
-                locX2 = (IGBMapSize - 1) / (IGBX2 - IGBX1) * (lSystem.x - IGBX1)
-                locY2 = (IGBMapSize - 1) / (IGBY2 - IGBY1) * (lSystem.z - IGBY1)
+                locX = CInt((IGBMapSize - 1) / (IGBX2 - IGBX1) * (cSystem.x - IGBX1))
+                locY = CInt((IGBMapSize - 1) / (IGBY2 - IGBY1) * (cSystem.z - IGBY1))
+                locX2 = CInt((IGBMapSize - 1) / (IGBX2 - IGBX1) * (lSystem.x - IGBX1))
+                locY2 = CInt((IGBMapSize - 1) / (IGBY2 - IGBY1) * (lSystem.z - IGBY1))
                 If cSystem.Region <> lSystem.Region Then
                     myPen.Color = Color.FromArgb(255, 75, 0, 0)
                 Else
@@ -1802,23 +1808,23 @@ Public Class frmMap
 
         ' Now show the location of our target system
         If solarname <> "" Then
-            cSystem = EveHQ.Core.HQ.SystemsName(solarname)
+            cSystem = CType(PlugInData.SystemsName(solarname), SolarSystem)
             lblName.Text = cSystem.Name
-            lblID.Text = cSystem.ID
+            lblID.Text = CStr(cSystem.ID)
             lblConst.Text = cSystem.Constellation
             lblRegion.Text = cSystem.Region
             lblSecurity.Text = FormatNumber(cSystem.Security, 5, TriState.True)
             lblEveSec.Text = FormatNumber(cSystem.EveSec, 1, TriState.True)
-            lblNoGates.Text = cSystem.Gates.Count
+            lblNoGates.Text = CStr(cSystem.Gates.Count)
             lblGates.Text = ""
             For gate As Integer = 0 To cSystem.Gates.Count - 1
-                Dim tosystem As SolarSystem = cSystem.Gates(gate)
+                Dim tosystem As SolarSystem = CType(cSystem.Gates(gate), SolarSystem)
                 lblGates.Text &= tosystem.Name & " (" & FormatNumber(Math.Max(0, tosystem.Security), 1, TriState.True) & ")" & ControlChars.CrLf
             Next
             If cSystem.x >= IGBX1 And cSystem.x <= IGBX2 And cSystem.z >= IGBY1 And cSystem.z <= IGBY2 Then
                 ' A valid point in the map!
-                locX = (IGBMapSize - 1) / (IGBX2 - IGBX1) * (cSystem.x - IGBX1)
-                locY = (IGBMapSize - 1) / (IGBY2 - IGBY1) * (cSystem.z - IGBY1)
+                locX = CInt((IGBMapSize - 1) / (IGBX2 - IGBX1) * (cSystem.x - IGBX1))
+                locY = CInt((IGBMapSize - 1) / (IGBY2 - IGBY1) * (cSystem.z - IGBY1))
                 myPen = New System.Drawing.Pen(Color.FromArgb(160, 255, 255, 255))
                 g.DrawLine(myPen, 0, locY, IGBMapSize, locY)
                 g.DrawLine(myPen, locX, 0, locX, IGBMapSize)
@@ -1837,15 +1843,15 @@ Public Class frmMap
             lstWaypoints.Items.Clear()
             Waypoints.Clear()
             WaypointRoutes.Clear()
-            If cboRouteMode.SelectedItem = "Gate Route" Then
-                'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)))
-                WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+            If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
+                'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
+                WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
             Else
-                'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)))
-                WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+                'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
+                WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
             End If
             lastAlgo = Me.cboRouteMode.SelectedIndex
-            Call GenerateWaypointRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+            Call GenerateWaypointRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
         End If
     End Sub
     Private Sub btnAddWaypoint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddWaypoint.Click
@@ -1853,55 +1859,55 @@ Public Class frmMap
             MessageBox.Show("You have reached the maximum number of waypoints allowed.", "Waypoint Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         Else
-            If EveHQ.Core.HQ.SystemsName.Contains(cboSystem.Text) = False Then
+            If PlugInData.SystemsName.ContainsKey(cboSystem.Text) = False Then
                 MessageBox.Show("System Name is not a valid system", "System Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
-                If lblStartSystem.Tag = "" Or lblEndSystem.Tag = "" Then
+                If lblStartSystem.Tag.ToString = "" Or lblEndSystem.Tag.ToString = "" Then
                     MessageBox.Show("Please enter a Start and End System before entering a Waypoint.", "Start System Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                ElseIf WaypointRoutes.Contains(EveHQ.Core.HQ.SystemsName(cboSystem.Text).Name) Then
+                ElseIf WaypointRoutes.Contains(cboSystem.Text) Then
                     MessageBox.Show("System is already set as a waypoint.", "Waypoint Exists", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
-                    Dim WPSystem As SolarSystem = EveHQ.Core.HQ.SystemsName(cboSystem.Text)
+                    Dim WPSystem As SolarSystem = CType(PlugInData.SystemsName(cboSystem.Text), SolarSystem)
                     lstWaypoints.Items.Add(WPSystem.Name)
                     Waypoints.Add(WPSystem)
                     If chkAutoCalcRoute.Checked = True Then
-                        If cboRouteMode.SelectedItem = "Gate Route" Then
+                        If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
                             frmMap.mingate = CDbl(Me.nudMinSec.Value)
                             frmMap.maxgate = CDbl(Me.nudMaxSec.Value)
                             If Waypoints.Count = 1 Then
-                                WaypointRoutes.Add(WPSystem.Name, Me.GateRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), WPSystem))
+                                WaypointRoutes.Add(WPSystem.Name, Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), WPSystem))
                             Else
                                 Dim startIndex As Integer = Waypoints.Count - 2
-                                WaypointRoutes.Add(WPSystem.Name, Me.GateRoute(Waypoints(startIndex), WPSystem))
+                                WaypointRoutes.Add(WPSystem.Name, Me.GateRoute(CType(Waypoints(startIndex), SolarSystem), WPSystem))
                             End If
                             ' Calculate the final leg of the route (remove the old leg first!)
                             WaypointRoutes.Remove(lblEndSystem.Tag)
-                            If lblEndSystem.Tag <> "" Then
-                                WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(WPSystem, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)))
+                            If lblEndSystem.Tag.ToString <> "" Then
+                                WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(WPSystem, CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem)))
                             End If
                             lastAlgo = 4
                         Else
-                            If cboRouteMode.SelectedItem = "Jump Route" Then
+                            If cboRouteMode.SelectedItem.ToString = "Jump Route" Then
                                 Dim baseRange As Double = Me.CurrentBaseRange
                                 Dim driverange As Double = (baseRange * (1 + (Me.cboJDC.SelectedIndex * 0.25)))
                                 frmMap.maxdist = Math.Min(driverange, 14.625)
                                 frmMap.minjump = CDbl(Me.nudMinSec.Value)
                                 frmMap.maxjump = CDbl(Me.nudMaxSec.Value)
                                 If Waypoints.Count = 1 Then
-                                    WaypointRoutes.Add(WPSystem.Name, Me.JumpRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), WPSystem))
+                                    WaypointRoutes.Add(WPSystem.Name, Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), WPSystem))
                                 Else
                                     Dim startIndex As Integer = Waypoints.Count - 2
-                                    WaypointRoutes.Add(WPSystem.Name, Me.JumpRoute(Waypoints(startIndex), WPSystem))
+                                    WaypointRoutes.Add(WPSystem.Name, Me.JumpRoute(CType(Waypoints(startIndex), SolarSystem), WPSystem))
                                 End If
                                 ' Calculate the final leg of the route (remove the old leg first!)
                                 WaypointRoutes.Remove(lblEndSystem.Tag)
-                                If lblEndSystem.Tag <> "" Then
-                                    WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(WPSystem, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)))
+                                If lblEndSystem.Tag.ToString <> "" Then
+                                    WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(WPSystem, CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem)))
                                 End If
                                 lastAlgo = 4
                             End If
                         End If
-                        Call GenerateWaypointRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+                        Call GenerateWaypointRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
                     End If
                 End If
             End If
@@ -1916,28 +1922,28 @@ Public Class frmMap
         Else
             fuelmultiplier = baseFuel
         End If
-        Select Case cboShips.SelectedItem
+        Select Case cboShips.SelectedItem.ToString
             Case "Anshar", "Ark", "Nomad", "Rhea"
                 fuelmultiplier = fuelmultiplier * (1 - (Me.cboJF.SelectedIndex * 0.05))
         End Select
         Dim totalFuel As Integer = 0
         Dim totalDist As Double = 0
         Dim count As Integer = 0
-        Dim actualWaypoints As ArrayList = Waypoints.Clone
+        Dim actualWaypoints As ArrayList = CType(Waypoints.Clone, ArrayList)
         actualWaypoints.Add(OriginalEndSys)
 
         lvwRoute.BeginUpdate()
         lvwRoute.Items.Clear()
         For waypointNo As Integer = 0 To actualWaypoints.Count - 1
-            Dim waypoint As SolarSystem = actualWaypoints(waypointNo)
+            Dim waypoint As SolarSystem = CType(actualWaypoints(waypointNo), SolarSystem)
             Dim endSys As SolarSystem = waypoint
             Dim startSys As SolarSystem
             If waypointNo = 0 Then
                 startSys = OriginalStartSys
             Else
-                startSys = Waypoints(waypointNo - 1)
+                startSys = CType(Waypoints(waypointNo - 1), SolarSystem)
             End If
-            Dim route1 As Route = WaypointRoutes(waypoint.Name)
+            Dim route1 As Route = CType(WaypointRoutes(waypoint.Name), Route)
             'text2 = String.Concat(New Object() {startSys.Name, " to ", endSys.Name, ": ", (route1.Length - 1), " jumps"})
             totalDist += route1.RouteDist
             Dim accDist As Double = 0
@@ -1950,19 +1956,19 @@ Public Class frmMap
                 If route1.Sys IsNot startSys Then
                     Dim newItem As ListViewItem = New ListViewItem
                     count += 1
-                    newItem.Name = count
-                    newItem.Text = count
+                    newItem.Name = CStr(count)
+                    newItem.Text = CStr(count)
                     nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Name : nsi.Name = route1.Sys.Name : newItem.SubItems.Add(nsi)
                     nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Constellation : nsi.Name = route1.Sys.Constellation : newItem.SubItems.Add(nsi)
                     nsi = New ListViewItem.ListViewSubItem : nsi.Text = route1.Sys.Region : nsi.Name = route1.Sys.Region : newItem.SubItems.Add(nsi)
                     newItem.BackColor = Me.SystemColour(route1.Sys.EveSec)
                     newItem.SubItems.Add(FormatNumber(route1.Sys.EveSec, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                    If (cboRouteMode.SelectedItem = "Route Jumps") Then
-                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(Math.Round(jumpDist, 8, MidpointRounding.AwayFromZero), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = jumpDist : newItem.SubItems.Add(nsi)
-                        fuel = Int(jumpDist * fuelmultiplier)
+                    If (cboRouteMode.SelectedItem.ToString = "Route Jumps") Then
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(Math.Round(jumpDist, 8, MidpointRounding.AwayFromZero), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ly" : nsi.Name = CStr(jumpDist) : newItem.SubItems.Add(nsi)
+                        fuel = CInt(Int(jumpDist * fuelmultiplier))
                         totalFuel += fuel
-                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel : newItem.SubItems.Add(nsi)
-                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel * 0.15, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = fuel * 0.15 : newItem.SubItems.Add(nsi)
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = CStr(fuel) : newItem.SubItems.Add(nsi)
+                        nsi = New ListViewItem.ListViewSubItem : nsi.Text = FormatNumber(fuel * 0.15, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) : nsi.Name = CStr(fuel * 0.15) : newItem.SubItems.Add(nsi)
                     Else
                         newItem.SubItems.Add("-") : newItem.SubItems.Add("-") : newItem.SubItems.Add("-")
                     End If
@@ -1979,7 +1985,7 @@ Public Class frmMap
             Loop
         Next
         lvwRoute.EndUpdate()
-        Select Case cboRouteMode.SelectedItem
+        Select Case cboRouteMode.SelectedItem.ToString
             Case "Jump Route"
                 frmMap.minjump = CDbl(Me.nudMinSec.Value)
                 frmMap.maxjump = CDbl(Me.nudMaxSec.Value)
@@ -2000,15 +2006,15 @@ Public Class frmMap
         Else
             ' Get the systems either side of the removed one
             Dim newStart, newEnd, remSystem As SolarSystem
-            Dim remIndex = lstWaypoints.SelectedIndex
-            remSystem = Waypoints(remIndex)
+            Dim remIndex As Integer = lstWaypoints.SelectedIndex
+            remSystem = CType(Waypoints(remIndex), SolarSystem)
             If remIndex > 0 Then
-                newStart = Waypoints(remIndex - 1)
+                newStart = CType(Waypoints(remIndex - 1), SolarSystem)
             Else
                 newStart = Nothing
             End If
             If remIndex = Waypoints.Count - 2 Then
-                newEnd = Waypoints(remIndex + 1)
+                newEnd = CType(Waypoints(remIndex + 1), SolarSystem)
             Else
                 newEnd = Nothing
             End If
@@ -2024,37 +2030,37 @@ Public Class frmMap
                     ' Start from a waypoint
                     If newEnd Is Nothing Then
                         ' To the proper end system
-                        If cboRouteMode.SelectedItem = "Gate Route" Then
-                            'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)))
-                            WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+                        If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
+                            'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
+                            WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
                         Else
-                            'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)))
-                            WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+                            'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
+                            WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
                         End If
                     Else
                         ' From the proper start system
-                        If cboRouteMode.SelectedItem = "Gate Route" Then
-                            'WaypointRoutes.Add(newEnd.Name, Me.GateRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), newEnd))
-                            WaypointRoutes(newEnd.Name) = Me.GateRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), newEnd)
+                        If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
+                            'WaypointRoutes.Add(newEnd.Name, Me.GateRoute(PlugInData.SystemsName(lblStartSystem.Tag), newEnd))
+                            WaypointRoutes(newEnd.Name) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), newEnd)
                         Else
-                            'WaypointRoutes.Add(newEnd.Name, Me.JumpRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), newEnd))
-                            WaypointRoutes(newEnd.Name) = Me.JumpRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), newEnd)
+                            'WaypointRoutes.Add(newEnd.Name, Me.JumpRoute(PlugInData.SystemsName(lblStartSystem.Tag), newEnd))
+                            WaypointRoutes(newEnd.Name) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), newEnd)
                         End If
                     End If
                 Else
                     ' Start from a waypoint
                     If newEnd Is Nothing Then
                         ' To the proper end system
-                        If cboRouteMode.SelectedItem = "Gate Route" Then
-                            'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)))
-                            WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(newStart, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+                        If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
+                            'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
+                            WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(newStart, CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
                         Else
-                            'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)))
-                            WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(newStart, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+                            'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
+                            WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(newStart, CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
                         End If
                     Else
                         ' From WP to WP
-                        If cboRouteMode.SelectedItem = "Gate Route" Then
+                        If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
                             'WaypointRoutes.Add(newEnd.Name, Me.GateRoute(newStart, newEnd))
                             WaypointRoutes(newEnd.Name) = Me.GateRoute(newStart, newEnd)
                         Else
@@ -2064,15 +2070,15 @@ Public Class frmMap
                     End If
                 End If
             Else
-                If cboRouteMode.SelectedItem = "Gate Route" Then
-                    'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)))
-                    WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+                If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
+                    'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
+                    WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
                 Else
-                    'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag)))
-                    WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+                    'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
+                    WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
                 End If
             End If
-            Call GenerateWaypointRoute(EveHQ.Core.HQ.SystemsName(lblStartSystem.Tag), EveHQ.Core.HQ.SystemsName(lblEndSystem.Tag))
+            Call GenerateWaypointRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
         End If
     End Sub
     Private Sub btnOptimalWP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOptimalWP.Click
@@ -2103,11 +2109,11 @@ Public Class frmMap
             Dim routes(,) As String = StringPermutations(WPstring)
 
             ' Step 2 - Work out the routing from each of the systems
-            Dim routeCosts(WPcount - 1, WPcount - 1)
+            Dim routeCosts(WPcount - 1, WPcount - 1) As Integer
             For Waypoint As Integer = 0 To Waypoints.Count - 1
                 Dim s, t As SolarSystem
-                s = EveHQ.Core.HQ.SystemsName(Waypoints(Waypoint))
-                t = EveHQ.Core.HQ.SystemsName(Waypoints(Waypoint))
+                s = CType(PlugInData.SystemsName(CStr(Waypoints(Waypoint))), SolarSystem)
+                t = CType(PlugInData.SystemsName(CStr(Waypoints(Waypoint))), SolarSystem)
                 Dim minSec As Double = nudMinSec.Value
                 Dim maxSec As Double = nudMaxSec.Value
                 Dim myRoute As Dijkstra = New Dijkstra
@@ -2115,8 +2121,8 @@ Public Class frmMap
                 routeCosts(Waypoint, Waypoint) = route.Count
                 For Waypoint2 As Integer = 0 To Waypoints.Count - 1
                     If Waypoint <> Waypoint2 Then
-                        s = EveHQ.Core.HQ.SystemsName(Waypoints(Waypoint))
-                        t = EveHQ.Core.HQ.SystemsName(Waypoints(Waypoint2))
+                        s = CType(PlugInData.SystemsName(CStr(Waypoints(Waypoint))), SolarSystem)
+                        t = CType(PlugInData.SystemsName(CStr(Waypoints(Waypoint2))), SolarSystem)
                         route = myRoute.GetPath(s, t, False)
                         routeCosts(Waypoint, Waypoint2) = route.Count
                     End If
@@ -2156,14 +2162,14 @@ Public Class frmMap
             Dim msg As String = "Optimal cost: " & minCost & ControlChars.CrLf & "Route Index: " & minRoute & ControlChars.CrLf
             msg &= "Route:" & ControlChars.CrLf
             For route As Integer = 0 To minRoute.Length - 1
-                msg &= "        " & Waypoints(Convert.ToInt32(minRoute.Substring(route, 1), 16)) & ControlChars.CrLf
+                msg &= "        " & CStr(Waypoints(Convert.ToInt32(minRoute.Substring(route, 1), 16))) & ControlChars.CrLf
             Next
             msg &= ControlChars.CrLf & "Time Taken: " & timeDiff.TotalSeconds & "s"
             MessageBox.Show(msg, "Waypoints Optimised", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             Dim curRoute As String = "0" & WPstring
             Dim curIndex As Integer = totalCosts.IndexOfKey(curRoute)
-            Dim curCost As Integer = totalCosts.GetByIndex(curIndex)
+            Dim curCost As Integer = CInt(totalCosts.GetByIndex(curIndex))
 
             MessageBox.Show("Current cost: " & curCost & ControlChars.CrLf & "Route Index: " & curRoute, "Waypoints Optimised", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -2174,7 +2180,7 @@ Public Class frmMap
 #Region "Exclusion Routines"
     Private Sub btnExclude_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExclude.Click
         ' Exclude the system
-        Dim eSys As SolarSystem = EveHQ.Core.HQ.SystemsName(cboSystem.SelectedItem)
+        Dim eSys As SolarSystem = CType(PlugInData.SystemsName(CStr(cboSystem.SelectedItem)), SolarSystem)
         Call ExcludeSystem(eSys)
     End Sub
     Private Sub ExcludeSystem(ByVal eSys As SolarSystem)
@@ -2210,19 +2216,19 @@ Public Class frmMap
 
     Private Sub mnuExcludeSystem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExcludeSystem.Click
         ' Exclude the system
-        Dim eSys As SolarSystem = EveHQ.Core.HQ.SystemsName(cboSystem.SelectedItem)
+        Dim eSys As SolarSystem = CType(PlugInData.SystemsName(CStr(cboSystem.SelectedItem)), SolarSystem)
         Call ExcludeSystem(eSys)
     End Sub
 
     Private Sub mnuExcludeConstellation_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExcludeConstellation.Click
         ' Exclude the constellation
-        Dim eSys As SolarSystem = EveHQ.Core.HQ.SystemsName(cboSystem.SelectedItem)
+        Dim eSys As SolarSystem = CType(PlugInData.SystemsName(CStr(cboSystem.SelectedItem)), SolarSystem)
         Call ExcludeConstellation(eSys)
     End Sub
 
     Private Sub mnuExcludeRegion_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExcludeRegion.Click
         ' Exclude the region
-        Dim eSys As SolarSystem = EveHQ.Core.HQ.SystemsName(cboSystem.SelectedItem)
+        Dim eSys As SolarSystem = CType(PlugInData.SystemsName(CStr(cboSystem.SelectedItem)), SolarSystem)
         Call ExcludeRegion(eSys)
     End Sub
 
@@ -2236,7 +2242,7 @@ Public Class frmMap
 
 #Region "Agent Search Routines"
     Private Sub btnSearchAgents_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearchAgents.Click
-        Call Me.PopulateAgentList(cboAgentFaction.SelectedItem, cboAgentCorp.SelectedItem, cboAgentDivision.SelectedItem)
+        Call Me.PopulateAgentList(CStr(cboAgentFaction.SelectedItem), CStr(cboAgentCorp.SelectedItem), CStr(cboAgentDivision.SelectedItem))
     End Sub
     Public Sub PopulateAgentList(ByVal xfact As String, ByVal xcorp As String, ByVal xdiv As String)
         Dim AgInd As Integer = 0
@@ -2249,34 +2255,34 @@ Public Class frmMap
         Dim myRoute As Dijkstra = New Dijkstra
         Dim minSec As Double = nudMinSec.Value
         Dim maxSec As Double = nudMaxSec.Value
-        Dim startSys As SolarSystem = EveHQ.Core.HQ.SystemsName(cboSystem.SelectedItem)
-        Dim ndSys As SolarSystem = startSys.Gates(0)
+        Dim startSys As SolarSystem = CType(PlugInData.SystemsName(CStr(cboSystem.SelectedItem)), SolarSystem)
+        Dim ndSys As SolarSystem = CType(startSys.Gates(0), SolarSystem)
         Call myRoute.GetPath(startSys, ndSys, True, minSec, maxSec)
 
         For Each cAgent As Agent In PlugInData.AgentID.Values
             agtest = CheckAgent(cAgent)
             If agtest = True Then
-                Dim agstat As Station = PlugInData.StationList(cAgent.stationId)
-                Dim agsystem As SolarSystem = EveHQ.Core.HQ.SystemsID(agstat.solarSystemID.ToString)
+                Dim agstat As Station = CType(PlugInData.StationList(cAgent.stationId), Station)
+                Dim agsystem As SolarSystem = CType(PlugInData.SystemsID(agstat.solarSystemID.ToString), SolarSystem)
                 Dim xsid As Integer = CInt(cAgent.stationId)
                 'lvAgSerAg.Items.Add(agsystem.Security) ' system sec
                 'lvAgSerAg.Items(AgInd).SubItems.Add(cAgent.agentName) 'agent name
                 Dim xcCID As Integer = CInt(cAgent.corporationID)
-                Dim xcorpid As String = PlugInData.eveNames(xcCID).itemname
+                Dim xcorpid As String = CStr(PlugInData.eveNames(xcCID))
                 'lvAgSerAg.Items(AgInd).SubItems.Add(xcorpid) 'agent corp
-                Dim tcorp As NPCCorp = PlugInData.NPCCorpList(xcCID)
+                Dim tcorp As NPCCorp = CType(PlugInData.NPCCorpList(xcCID), NPCCorp)
                 Dim xcFID As Integer = CInt(tcorp.factionID)
-                Dim xfacname = PlugInData.eveNames(xcFID).itemName
+                Dim xfacname As String = CStr(PlugInData.eveNames(xcFID))
                 Dim newAgent As New ListViewItem
                 newAgent.Text = cAgent.agentName
                 newAgent.SubItems.Add(xcorpid)
                 newAgent.SubItems.Add(xfacname) ' faction name
-                newAgent.SubItems.Add(cAgent.Level) 'lvl
-                newAgent.SubItems.Add(cAgent.Quality) 'quality
+                newAgent.SubItems.Add(cAgent.Level.ToString) 'lvl
+                newAgent.SubItems.Add(cAgent.Quality.ToString) 'quality
                 ' Get the distance
                 Dim route As ArrayList = myRoute.GetPath(startSys, agsystem, False)
                 If route IsNot Nothing Then
-                    newAgent.SubItems.Add(route.Count - 1) 'Dist
+                    newAgent.SubItems.Add(CStr(route.Count - 1)) 'Dist
                 Else
                     newAgent.SubItems.Add("N/A")
                 End If
@@ -2284,7 +2290,7 @@ Public Class frmMap
                 newAgent.SubItems.Add(agsystem.Region) 'region
                 newAgent.SubItems.Add(agsystem.Constellation) 'cont
                 newAgent.SubItems.Add(agsystem.Name) 'systm
-                newAgent.SubItems.Add(PlugInData.eveNames(agstat.stationID).itemname) 'station
+                newAgent.SubItems.Add(CStr(PlugInData.eveNames(agstat.stationID))) 'station
                 Select Case CInt(cAgent.Type)
                     Case 1
                         ' Non Agent
@@ -2321,16 +2327,16 @@ Public Class frmMap
 
         Dim checkag As Boolean = False
         Dim agcid As Integer = xAgent.corporationID
-        Dim agcorp As NPCCorp = PlugInData.NPCCorpList(agcid)
+        Dim agcorp As NPCCorp = CType(PlugInData.NPCCorpList(agcid), NPCCorp)
         Dim statid As Integer = xAgent.stationId
-        Dim agstat As Station = PlugInData.StationList(statid)
+        Dim agstat As Station = CType(PlugInData.StationList(statid), Station)
         Dim agsysid As Integer = agstat.solarSystemID
-        Dim agsys As SolarSystem = EveHQ.Core.HQ.SystemsID(agsysid.ToString)
-        Dim agfid As Integer = Int(PlugInData.NPCCorpList(agcid).factionid)
-        Dim agfacnam As String = PlugInData.eveNames(agfid).itemName
+        Dim agsys As SolarSystem = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem)
+        Dim agfid As Integer = CInt(Int(PlugInData.NPCCorpList(agcid)))
+        Dim agfacnam As String = CStr(PlugInData.eveNames(agfid))
         Dim agsysnam As String = agsys.Name
-        Dim agreg As String = EveHQ.Core.HQ.SystemsID(agsysid.ToString).region
-        Dim agcon As String = EveHQ.Core.HQ.SystemsID(agsysid.ToString).constellation
+        Dim agreg As String = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem).Region
+        Dim agcon As String = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem).Constellation
         Dim checsec As Boolean = False
         Dim checqual As Boolean = False
         Dim checlvl As Boolean = False
@@ -2377,22 +2383,22 @@ Public Class frmMap
 
         'checking location
         If chkAgentSystem.Checked = True Then
-            If (agsysnam = cboSystem.SelectedItem Or cboSystem.SelectedItem = "All") Or checloc = True Then checloc = True
+            If (agsysnam = cboSystem.SelectedItem.ToString Or cboSystem.SelectedItem.ToString = "All") Or checloc = True Then checloc = True
         End If
         If chkAgentConst.Checked = True Then
-            If (agcon = cboConst.SelectedItem Or cboConst.SelectedItem = "All") Or checloc = True Then checloc = True
+            If (agcon = cboConst.SelectedItem.ToString Or cboConst.SelectedItem.ToString = "All") Or checloc = True Then checloc = True
         End If
         If chkAgentRegion.Checked = True Then
-            If (agreg = cboRegion.SelectedItem Or cboRegion.SelectedItem = "All") Or checloc = True Then checloc = True
+            If (agreg = cboRegion.SelectedItem.ToString Or cboRegion.SelectedItem.ToString = "All") Or checloc = True Then checloc = True
         End If
         If chkAgentSystem.Checked = False And chkAgentConst.Checked = False And chkAgentRegion.Checked = False Then checloc = True
 
         'checking faction
-        If cboAgentFaction.SelectedItem = agfacnam Or cboAgentFaction.SelectedItem = "All" Then checfac = True
+        If cboAgentFaction.SelectedItem.ToString = agfacnam Or cboAgentFaction.SelectedItem.ToString = "All" Then checfac = True
         'checking corp
-        If cboAgentCorp.SelectedItem = PlugInData.eveNames(agcid).itemname Or cboAgentCorp.SelectedItem = "All" Then checcorp = True
+        If cboAgentCorp.SelectedItem.ToString = CStr(PlugInData.eveNames(agcid)) Or cboAgentCorp.SelectedItem.ToString = "All" Then checcorp = True
         'checking div
-        If cboAgentDivision.SelectedItem = PlugInData.NPCDivID(xAgent.divisionID).divisionName Or cboAgentDivision.SelectedItem = "All" Then checdiv = True
+        If cboAgentDivision.SelectedItem.ToString = CType(PlugInData.NPCDivID(xAgent.divisionID), NPCDiv).divisionName Or cboAgentDivision.SelectedItem.ToString = "All" Then checdiv = True
         If checfac = True And checcorp = True And checdiv = True Then checassaoc = True
 
         If checsec = True And checlvl = True And checqual = True And checloc = True And checassaoc = True Then checkag = True
@@ -2400,7 +2406,7 @@ Public Class frmMap
         Return checkag
     End Function
     Private Sub lvwAgents_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwAgents.ColumnClick
-        If lvwAgents.Tag = e.Column Then
+        If CInt(lvwAgents.Tag) = e.Column Then
             Me.lvwAgents.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
             lvwAgents.Tag = -1
         Else
@@ -2411,14 +2417,13 @@ Public Class frmMap
         lvwAgents.Sort()
     End Sub
     Private Sub cboAgentFaction_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAgentFaction.SelectedIndexChanged
-        SetAgentFactionCorps(cboAgentFaction.SelectedItem)
+        SetAgentFactionCorps(CStr(cboAgentFaction.SelectedItem))
     End Sub
 
     Private Sub cboAgentCorp_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAgentCorp.SelectedIndexChanged
-        SetAgentCorpDivisions(cboAgentCorp.SelectedItem)
+        SetAgentCorpDivisions(CStr(cboAgentCorp.SelectedItem))
     End Sub
     Public Sub SetAgentFactionCorps(ByVal agsfact As String)
-        Dim tname As EveName
         Me.cboAgentCorp.Items.Clear()
         cboAgentCorp.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboAgentCorp.AutoCompleteSource = AutoCompleteSource.CustomSource
@@ -2426,10 +2431,7 @@ Public Class frmMap
         cboAgentCorp.AutoCompleteCustomSource.Add("All")
         Me.cboAgentCorp.Items.Add("All")
         For Each cCorp As NPCCorp In PlugInData.NPCCorpList.Values
-            Dim cid As Integer = cCorp.CorporationID
-            tname = PlugInData.eveNames(cid)
-            cboAgentCorp.AutoCompleteCustomSource.Add(tname.itemName)
-            Me.cboAgentCorp.Items.Add(tname.itemName)
+            Me.cboAgentCorp.Items.Add(cCorp.CorpName)
         Next
         Me.cboAgentCorp.EndUpdate()
         Me.cboAgentCorp.Text = "All"
@@ -2461,11 +2463,11 @@ Public Class frmMap
         If radCelSystem.Checked = True Then
             systemArray.Add(cboSystem.SelectedItem)
         Else
-            For Each searchSys As SolarSystem In EveHQ.Core.HQ.SystemsName.Values
-                If radCelConst.Checked = True And searchSys.Constellation = cboConst.SelectedItem Then
+            For Each searchSys As SolarSystem In PlugInData.SystemsName.Values
+                If radCelConst.Checked = True And searchSys.Constellation = cboConst.SelectedItem.ToString Then
                     systemArray.Add(searchSys.Name)
                 Else
-                    If radCelRegion.Checked = True And searchSys.Region = cboRegion.SelectedItem Then
+                    If radCelRegion.Checked = True And searchSys.Region = cboRegion.SelectedItem.ToString Then
                         systemArray.Add(searchSys.Name)
                     End If
                 End If
@@ -2490,7 +2492,7 @@ Public Class frmMap
         Dim IceId As Integer = 0
         For Each sys As String In systemArray
             Dim Icepresent As Boolean = False
-            Dim celSystem As SolarSystem = EveHQ.Core.HQ.SystemsName(sys)
+            Dim celSystem As SolarSystem = CType(PlugInData.SystemsName(sys), SolarSystem)
             For Each celBody As String In celSystem.Planets.Values
                 lvPlanets.Items.Add(celBody)
             Next
@@ -2506,7 +2508,7 @@ Public Class frmMap
                 IceId = IceId + 1
             Next
             lvOres.Items.Add(celSystem.Name)
-            lvOres.Items(OreId).SubItems.Add(celSystem.Ores)
+            lvOres.Items(OreId).SubItems.Add(CStr(PlugInData.OreClassList(celSystem.SecClass)))
             OreId = OreId + 1
         Next
         lvPlanets.Sorting = SortOrder.Ascending
@@ -2527,7 +2529,7 @@ Public Class frmMap
 
 #Region "Station Routines"
     Private Sub cboStation_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboStation.SelectedIndexChanged
-        Call Me.SetStationInfo(cboStation.SelectedItem)
+        Call Me.SetStationInfo(cboStation.SelectedItem.ToString)
     End Sub
     Public Sub SetStationInfo(ByVal statname As String)
         Dim cStation As Station
@@ -2542,12 +2544,12 @@ Public Class frmMap
                 If cStation.stationName = statname Then
                     xcntr = 2
                     Dim xCID As Integer = CInt(cStation.corporationID)
-                    lblStationCorp.Text = PlugInData.eveNames(xCID).itemname
-                    Dim tcorp As NPCCorp = PlugInData.NPCCorpList(xCID)
+                    lblStationCorp.Text = CStr(PlugInData.eveNames(xCID))
+                    Dim tcorp As NPCCorp = CType(PlugInData.NPCCorpList(xCID), NPCCorp)
                     Dim xFID As Integer = CInt(tcorp.factionID)
                     lblStationFactionLbl.Text = "Faction:"
-                    lblStationFaction.Text = PlugInData.eveNames(xFID).itemName
-                    lblStationServices.Text = SetStationServices(cStation.operationID)
+                    lblStationFaction.Text = CStr(PlugInData.eveNames(xFID))
+                    lblStationServices.Text = SetStationServices(CInt(cStation.operationID))
                     Dim SID As Integer = CInt(cStation.stationID)
                     lvagnts.Items.Clear()
                     Dim AgInd As Integer = 0
@@ -2556,14 +2558,14 @@ Public Class frmMap
                         If SID = xsid Then
                             lvagnts.Items.Add(cAgent.agentName)
                             Dim xcCID As Integer = CInt(cAgent.corporationID)
-                            Dim xcorpid As String = PlugInData.eveNames(xCID).itemname
+                            Dim xcorpid As String = CStr(PlugInData.eveNames(xCID))
                             lvagnts.Items(AgInd).SubItems.Add(xcorpid)
-                            Dim tccorp As NPCCorp = PlugInData.NPCCorpList(xCID)
+                            Dim tccorp As NPCCorp = CType(PlugInData.NPCCorpList(xCID), NPCCorp)
                             Dim xcFID As Integer = CInt(tccorp.factionID)
-                            Dim xfacname = PlugInData.eveNames(xcFID).itemName
+                            Dim xfacname As String = CStr(PlugInData.eveNames(xcFID))
                             lvagnts.Items(AgInd).SubItems.Add(xfacname)
-                            lvagnts.Items(AgInd).SubItems.Add(cAgent.Level)
-                            lvagnts.Items(AgInd).SubItems.Add(cAgent.Quality)
+                            lvagnts.Items(AgInd).SubItems.Add(CStr(cAgent.Level))
+                            lvagnts.Items(AgInd).SubItems.Add(CStr(cAgent.Quality))
                             AgInd = AgInd + 1
                         End If
                     Next
@@ -2576,14 +2578,12 @@ Public Class frmMap
                     lblStationCorp.Text = cCS.corporationName
                     lvagnts.Items.Clear()
                     Dim cx As Integer = CInt(cCS.stationTypeID)
-                    Dim xctype As StType = PlugInData.StationTypes(cx)
+                    Dim xctype As StType = CType(PlugInData.StationTypes(cx), StType)
                     Dim cy As Integer = xctype.OperationID
                     lblStationServices.Text = SetStationServices(cy)
                     Dim ssid As Integer = cCS.solarSystemID + 30000000
-                    Dim ssname As EveName = PlugInData.eveNames(ssid)
-                    Dim ssaid As String = ssname.itemName
                     lblStationFactionLbl.Text = "Alliance:"
-                    lblStationFaction.Text = SetAlliance(ssaid)
+                    lblStationFaction.Text = SetAlliance(CStr(PlugInData.eveNames(ssid)))
                 End If
             Next
         End If
@@ -2597,11 +2597,11 @@ Public Class frmMap
         Dim Tserv As Service
         Dim TL As SortedList = New SortedList
         For cX As Integer = 0 To PlugInData.OperationList.Count - 1 'scan all operations
-            Top = PlugInData.OperationList(cX)
+            Top = CType(PlugInData.OperationList(cX), Operation)
             If Top.operationID = OID Then
                 csID = Top.serviceID
                 For cS As Integer = 0 To PlugInData.ServiceList.Count - 1
-                    Tserv = PlugInData.ServiceList(cS)
+                    Tserv = CType(PlugInData.ServiceList(cS), Service)
                     csID2 = Tserv.serviceID
                     If csID2 = csID Then
                         TL.Add(Tserv.serviceName, Tserv.serviceName)
