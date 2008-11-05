@@ -842,7 +842,9 @@ Public Class PlugInData
                     Case 2663 ' Rig slot
                         effMod.SlotType = 1
                     Case 101
-                        effMod.IsLauncher = True
+                        If effMod.DatabaseGroup <> "481" Then
+                            effMod.IsLauncher = True
+                        End If
                     Case 10, 34
                         effMod.IsTurret = True
                 End Select
