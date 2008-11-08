@@ -39,6 +39,8 @@ Partial Class frmHQF
         Me.mnuCopyForHQF = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuCopyForEFT = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuCopyForForums = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuShipStats = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.btnClipboardPaste = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
@@ -181,8 +183,6 @@ Partial Class frmHQF
         Me.panelShipInfo = New System.Windows.Forms.Panel
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.Splitter2 = New System.Windows.Forms.Splitter
-        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuShipStats = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStrip1.SuspendLayout()
         Me.SplitContainerShip.Panel1.SuspendLayout()
         Me.SplitContainerShip.Panel2.SuspendLayout()
@@ -343,20 +343,31 @@ Partial Class frmHQF
         'mnuCopyForHQF
         '
         Me.mnuCopyForHQF.Name = "mnuCopyForHQF"
-        Me.mnuCopyForHQF.Size = New System.Drawing.Size(165, 22)
+        Me.mnuCopyForHQF.Size = New System.Drawing.Size(177, 22)
         Me.mnuCopyForHQF.Text = "Copy For HQF"
         '
         'mnuCopyForEFT
         '
         Me.mnuCopyForEFT.Name = "mnuCopyForEFT"
-        Me.mnuCopyForEFT.Size = New System.Drawing.Size(165, 22)
+        Me.mnuCopyForEFT.Size = New System.Drawing.Size(177, 22)
         Me.mnuCopyForEFT.Text = "Copy For EFT"
         '
         'mnuCopyForForums
         '
         Me.mnuCopyForForums.Name = "mnuCopyForForums"
-        Me.mnuCopyForForums.Size = New System.Drawing.Size(165, 22)
+        Me.mnuCopyForForums.Size = New System.Drawing.Size(177, 22)
         Me.mnuCopyForForums.Text = "Copy For Forums"
+        '
+        'ToolStripMenuItem7
+        '
+        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(174, 6)
+        '
+        'mnuShipStats
+        '
+        Me.mnuShipStats.Name = "mnuShipStats"
+        Me.mnuShipStats.Size = New System.Drawing.Size(177, 22)
+        Me.mnuShipStats.Text = "Copy Ship Statistics"
         '
         'ToolStripSeparator2
         '
@@ -1742,17 +1753,6 @@ Partial Class frmHQF
         Me.Splitter2.Size = New System.Drawing.Size(3, 696)
         Me.Splitter2.TabIndex = 8
         Me.Splitter2.TabStop = False
-        '
-        'ToolStripMenuItem7
-        '
-        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(162, 6)
-        '
-        'mnuShipStats
-        '
-        Me.mnuShipStats.Name = "mnuShipStats"
-        Me.mnuShipStats.Size = New System.Drawing.Size(177, 22)
-        Me.mnuShipStats.Text = "Copy Ship Statistics"
         '
         'frmHQF
         '

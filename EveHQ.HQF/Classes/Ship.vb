@@ -739,6 +739,7 @@ Imports System.Runtime.Serialization
             If index < 1 Or index > cHiSlots Then
                 MessageBox.Show("High Slot index must be in the range 1 to " & cHiSlots & " for " & cName, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
+                If cHiSlots > 8 Then ReDim Preserve cHiSlot(cHiSlots) ' Used if we artifically expand the slot count for weapon analysis
                 If value Is Nothing Then
                     If cHiSlot(index) IsNot Nothing Then
                         cHiSlots_Used -= 1
@@ -1411,16 +1412,16 @@ Imports System.Runtime.Serialization
         For Each att As String In newShip.Attributes.Keys
             attValue = CDbl(newShip.Attributes(att))
             Select Case CInt(CInt(att))
-                Case 12
-                    newShip.LowSlots = CInt(attValue)
-                Case 13
-                    newShip.MidSlots = CInt(attValue)
-                Case 14
-                    newShip.HiSlots = CInt(attValue)
+                'Case 12
+                '    newShip.LowSlots = CInt(attValue)
+                'Case 13
+                '    newShip.MidSlots = CInt(attValue)
+                'Case 14
+                '    newShip.HiSlots = CInt(attValue)
+                'Case 1137
+                '    newShip.RigSlots = CInt(attValue)
                 Case 15
                     newShip.PG_Used = attValue
-                Case 1137
-                    newShip.RigSlots = CInt(attValue)
                 Case 1132
                     newShip.Calibration = CInt(attValue)
                 Case 1154 ' This is a changed attribute as it duplicates 1132 in the database!!

@@ -89,7 +89,7 @@ Public Class PlugInData
     Public Shared OreClassList As New SortedList
     Dim SystemJumps As New SortedList
     Dim JumpList As New ArrayList
-    Public Shared LowMemoryMode As Boolean = False
+    Public Shared LowMemoryMode As Boolean = True
     Private Function LoadDataFromDatabase() As Boolean
         If Me.LoadSystems() = False Then
             ReportError("LoadSystems failed", "Problem Loading Data")

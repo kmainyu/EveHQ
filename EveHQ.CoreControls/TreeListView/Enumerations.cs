@@ -43,6 +43,11 @@ namespace DotNetLib.Windows.Forms
 		/// </summary>
 		Double,
 
+        /// <summary>
+        /// Sorts values as doubles using the tag instead of the text
+        /// </summary>
+        Tag,
+
 		/// <summary>
 		/// Sorts values as DateTime.
 		/// </summary>

@@ -318,7 +318,7 @@ Public Class frmPilot
                 pb.Image = CType(My.Resources.ResourceManager.GetObject("level" & cSkill.Level.ToString), Image)
                 pb.Width = 48 : pb.Height = 8
                 newCLVItem.SubItems(2).ItemControl = pb
-                newCLVItem.SubItems(2).Text = cSkill.Level.ToString
+                newCLVItem.SubItems(2).Tag = cSkill.Level
                 
                 Dim percent As Double
                 Dim partially As Boolean = False
@@ -338,9 +338,11 @@ Public Class frmPilot
                     End If
                 End If
                 ' Write percentage
+                newCLVItem.SubItems(3).Tag = FormatNumber(percent, 0)
                 newCLVItem.SubItems(3).Text = FormatNumber(percent, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
 
                 ' Write skillpoints
+                newCLVItem.SubItems(4).Tag = cSkill.SP
                 newCLVItem.SubItems(4).Text = FormatNumber(cSkill.SP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
                 For skillGroup As Integer = 0 To 14
@@ -369,7 +371,7 @@ Public Class frmPilot
                     currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListName(cSkill.Name), EveHQ.Core.SkillList), 0))
                 End If
                 If currentTime = 0 Then currentTime = 9999999999
-                TimeSubItem.Name = currentTime.ToString
+                newCLVItem.SubItems(5).Tag = currentTime.ToString
                 newCLVItem.SubItems(5).Text = TimeSubItem.Text
                 newCLVItem.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotStandardSkillColor))
 
@@ -421,8 +423,11 @@ Public Class frmPilot
                     End If
                 End If
                 TrainingSkill.SubItems(3).Text = FormatNumber(percent, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                TrainingSkill.SubItems(3).Tag = percent
                 TrainingSkill.SubItems(4).Text = FormatNumber(cSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                TrainingSkill.SubItems(4).Tag = cSkill.SP
                 TrainingSkill.SubItems(5).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
+                TrainingSkill.SubItems(5).Tag = EveHQ.Core.HQ.myPilot.TrainingCurrentTime
                 TrainingSkill.SubItems(2).ItemControl.Refresh()
                 TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"

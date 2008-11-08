@@ -1086,6 +1086,7 @@ Public Class ShipSlotControl
 
                     ' Check if we have the same collection of modules and therefore can accept the same charges
                     Dim ShowCharges As Boolean = True
+                    Dim AmmoAnalysis As ShipModule = currentMod
                     Dim cMod As New ShipModule
                     If lvwSlots.SelectedItems.Count > 1 Then
                         Dim marketGroup As String = currentMod.MarketGroup
@@ -1093,14 +1094,18 @@ Public Class ShipSlotControl
                             If selItems.Text <> "<Empty>" Then
                                 cMod = CType(ModuleLists.moduleList(CStr(ModuleLists.moduleListName.Item(selItems.Text))), ShipModule)
                                 If cMod.MarketGroup <> marketGroup Then
+                                    AmmoAnalysis = Nothing
                                     ShowCharges = False
                                     Exit For
+                                Else
+                                    AmmoAnalysis = cMod
                                 End If
                             End If
                         Next
                     End If
 
                     If ShowCharges = True Then
+
                         ' Get the charge group and item data
                         Dim chargeGroups As New ArrayList
                         Dim chargeGroupData() As String
@@ -1173,6 +1178,15 @@ Public Class ShipSlotControl
                                 ctxSlots.Items.Add(newGroup)
                             Next
                         End If
+                        ' Add an "Ammo Analysis" option - the old Gunnery tool feature
+                        If AmmoAnalysis.IsTurret Or AmmoAnalysis.IsLauncher Then
+                            ctxSlots.Items.Add("-")
+                            Dim AmmoInfo As New ToolStripMenuItem
+                            AmmoInfo.Name = "AmmoInfo"
+                            AmmoInfo.Text = "Ammo Analysis"
+                            AddHandler AmmoInfo.Click, AddressOf Me.AnalyseAmmo
+                            ctxSlots.Items.Add(AmmoInfo)
+                        End If
                     End If
                 End If
                 ' Cancel the menu if there is nothing to display
@@ -1180,7 +1194,7 @@ Public Class ShipSlotControl
                     e.Cancel = True
                 End If
             Else
-                e.Cancel = True
+                    e.Cancel = True
             End If
         Else
             e.Cancel = True
@@ -1247,6 +1261,15 @@ Public Class ShipSlotControl
 
         showInfo.ShowItemDetails(sModule, hPilot)
         showInfo = Nothing
+    End Sub
+    Private Sub AnalyseAmmo(ByVal sender As Object, ByVal e As System.EventArgs)
+        ' Display the ammo types available by this module
+        Dim AmmoAnalysis As New frmGunnery
+        AmmoAnalysis.CurrentShip = currentShip
+        AmmoAnalysis.CurrentPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot)
+        AmmoAnalysis.CurrentSlot = lvwSlots.SelectedItems(0).Name
+        AmmoAnalysis.ShowDialog()
+        AmmoAnalysis.Dispose()
     End Sub
     Private Sub ShowModuleMarketGroup(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim ShowMarketMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)

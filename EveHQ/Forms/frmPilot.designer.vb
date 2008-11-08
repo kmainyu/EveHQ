@@ -288,7 +288,7 @@ Partial Public Class frmPilot
         Me.ContainerListViewColumnHeader2.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.ContainerListViewColumnHeader2.CustomSortTag = Nothing
         Me.ContainerListViewColumnHeader2.DisplayIndex = 1
-        Me.ContainerListViewColumnHeader2.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.ContainerListViewColumnHeader2.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
         Me.ContainerListViewColumnHeader2.Tag = Nothing
         Me.ContainerListViewColumnHeader2.Text = "Rank"
         Me.ContainerListViewColumnHeader2.Width = 60
@@ -298,7 +298,7 @@ Partial Public Class frmPilot
         Me.ContainerListViewColumnHeader3.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.ContainerListViewColumnHeader3.CustomSortTag = Nothing
         Me.ContainerListViewColumnHeader3.DisplayIndex = 2
-        Me.ContainerListViewColumnHeader3.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.ContainerListViewColumnHeader3.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
         Me.ContainerListViewColumnHeader3.Tag = Nothing
         Me.ContainerListViewColumnHeader3.Text = "Level"
         Me.ContainerListViewColumnHeader3.Width = 60
@@ -308,7 +308,7 @@ Partial Public Class frmPilot
         Me.ContainerListViewColumnHeader4.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.ContainerListViewColumnHeader4.CustomSortTag = Nothing
         Me.ContainerListViewColumnHeader4.DisplayIndex = 3
-        Me.ContainerListViewColumnHeader4.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.ContainerListViewColumnHeader4.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
         Me.ContainerListViewColumnHeader4.Tag = Nothing
         Me.ContainerListViewColumnHeader4.Text = "% Done"
         Me.ContainerListViewColumnHeader4.Width = 70
@@ -328,7 +328,7 @@ Partial Public Class frmPilot
         Me.ContainerListViewColumnHeader6.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.ContainerListViewColumnHeader6.CustomSortTag = Nothing
         Me.ContainerListViewColumnHeader6.DisplayIndex = 5
-        Me.ContainerListViewColumnHeader6.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.ContainerListViewColumnHeader6.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
         Me.ContainerListViewColumnHeader6.Tag = Nothing
         Me.ContainerListViewColumnHeader6.Text = "Time To Level Up"
         Me.ContainerListViewColumnHeader6.Width = 125

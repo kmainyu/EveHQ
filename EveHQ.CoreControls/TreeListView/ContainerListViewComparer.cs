@@ -160,11 +160,13 @@ namespace DotNetLib.Windows.Forms
 				ContainerListViewSubItem subItem1 = sortOrder == SortOrder.Ascending ? item1.SubItems[sortColumnIndex] : item2.SubItems[sortColumnIndex];
 				ContainerListViewSubItem subItem2 = sortOrder == SortOrder.Ascending ? item2.SubItems[sortColumnIndex] : item1.SubItems[sortColumnIndex];
 
-				if(sortDataType == SortDataType.Custom)
-					n = sortColumn.CustomSortComparer.Compare(subItem1, subItem2);
-				else
-					n = CompareItems(subItem1.Text, subItem2.Text, sortDataType);
-
+                if (sortDataType == SortDataType.Custom)
+                    n = sortColumn.CustomSortComparer.Compare(subItem1, subItem2);
+                else
+                    if (sortDataType == SortDataType.Tag)
+                        n = CompareItems(Convert.ToString(subItem1.Tag), Convert.ToString(subItem2.Tag), sortDataType);
+                    else
+                        n = CompareItems(subItem1.Text, subItem2.Text, sortDataType);
 				if(n != 0)
 					return n;
 			}
@@ -204,6 +206,15 @@ namespace DotNetLib.Windows.Forms
 					else
 						goto case SortDataType.String;
 				}
+                case SortDataType.Tag:
+                {
+                    double n1, n2;
+
+                    if (Double.TryParse(item1, NumberStyles.Number, null, out n1) && Double.TryParse(item2, NumberStyles.Number, null, out n2))
+                        return n1.CompareTo(n2);
+                    else
+                        goto case SortDataType.String;
+                }
 				case SortDataType.Date:
 				{
 					try

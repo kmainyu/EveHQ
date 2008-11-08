@@ -86,6 +86,12 @@
     <Compile Include="Forms\frmEFTImport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmGunnery.Designer.vb">
+      <DependentUpon>frmGunnery.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmGunnery.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmHQFCacheWriter.Designer.vb">
       <DependentUpon>frmHQFCacheWriter.vb</DependentUpon>
     </Compile>
@@ -215,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEFTImport.resx">
       <DependentUpon>frmEFTImport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmGunnery.resx">
+      <DependentUpon>frmGunnery.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHQFCacheWriter.resx">
       <DependentUpon>frmHQFCacheWriter.vb</DependentUpon>
