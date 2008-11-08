@@ -359,6 +359,26 @@ Public Class ShipSlotControl
                             Else
                                 slotName.SubItems.Add("")
                             End If
+                        Case "ExpRad"
+                            If shipMod.LoadedCharge IsNot Nothing Then
+                                If shipMod.LoadedCharge.Attributes.Contains("654") Then
+                                    slotName.SubItems.Add(FormatNumber(shipMod.LoadedCharge.Attributes("654"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                Else
+                                    slotName.SubItems.Add("")
+                                End If
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
+                        Case "ExpVel"
+                            If shipMod.LoadedCharge IsNot Nothing Then
+                                If shipMod.LoadedCharge.Attributes.Contains("653") Then
+                                    slotName.SubItems.Add(FormatNumber(shipMod.LoadedCharge.Attributes("653"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                Else
+                                    slotName.SubItems.Add("")
+                                End If
+                            Else
+                                slotName.SubItems.Add("")
+                            End If
                     End Select
                 End If
             Next
@@ -485,6 +505,28 @@ Public Class ShipSlotControl
                     Case "Tracking"
                         If shipMod.Attributes.Contains("160") Then
                             slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("160"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
+                    Case "ExpRad"
+                        If shipMod.LoadedCharge IsNot Nothing Then
+                            If shipMod.LoadedCharge.Attributes.Contains("654") Then
+                                slotName.SubItems(idx).Text = FormatNumber(shipMod.LoadedCharge.Attributes("654"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            Else
+                                slotName.SubItems(idx).Text = ""
+                            End If
+                        Else
+                            slotName.SubItems(idx).Text = ""
+                        End If
+                        idx += 1
+                    Case "ExpVel"
+                        If shipMod.LoadedCharge IsNot Nothing Then
+                            If shipMod.LoadedCharge.Attributes.Contains("653") Then
+                                slotName.SubItems(idx).Text = FormatNumber(shipMod.LoadedCharge.Attributes("653"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            Else
+                                slotName.SubItems(idx).Text = ""
+                            End If
                         Else
                             slotName.SubItems(idx).Text = ""
                         End If

@@ -2119,6 +2119,24 @@ Public Class frmHQF
         Clipboard.SetText(fitting.ToString)
     End Sub
 
+    Private Sub mnuShipStats_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShipStats.Click
+        Dim currentship As Ship = currentShipSlot.ShipFitted
+        Dim stats As New System.Text.StringBuilder
+        stats.AppendLine("[Statistics]")
+        stats.AppendLine("")
+        stats.AppendLine(currentShipInfo.lblEffectiveHP.Text)
+        stats.AppendLine(currentShipInfo.lblTankAbility.Text)
+        stats.AppendLine("Damage Profile - " & currentship.DamageProfile.Name & " (EM: " & FormatNumber(currentship.DamageProfileEM * 100, 2) & "%, Ex: " & FormatNumber(currentship.DamageProfileEX * 100, 2) & "%, Ki: " & FormatNumber(currentship.DamageProfileKI * 100, 2) & "%, Th: " & FormatNumber(currentship.DamageProfileTH * 100, 2) & "%)")
+        stats.AppendLine("Shield Resists - EM: " & currentShipInfo.lblShieldEM.Text & ", Ex: " & currentShipInfo.lblShieldExplosive.Text & ", Ki: " & currentShipInfo.lblShieldKinetic.Text & ", Th: " & currentShipInfo.lblShieldThermal.Text)
+        stats.AppendLine("Armor Resists - EM: " & currentShipInfo.lblArmorEM.Text & ", Ex: " & currentShipInfo.lblArmorExplosive.Text & ", Ki: " & currentShipInfo.lblArmorKinetic.Text & ", Th: " & currentShipInfo.lblArmorThermal.Text)
+        stats.AppendLine("")
+        stats.AppendLine(currentShipInfo.gbCapacitor.Text)
+        stats.AppendLine("")
+        stats.AppendLine("Volley Damage: " & FormatNumber(currentship.TotalVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        stats.AppendLine("DPS: " & FormatNumber(currentship.TotalDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        Clipboard.SetText(stats.ToString)
+    End Sub
+
 #End Region
 
     Private Sub btnPilotManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPilotManager.Click
@@ -2172,5 +2190,4 @@ Public Class frmHQF
     End Sub
 
 
-   
 End Class

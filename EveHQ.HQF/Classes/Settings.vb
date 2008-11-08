@@ -519,6 +519,18 @@ Public Class Settings
         newItem.Text = "Tracking"
         newItem.Checked = False
         cStandardSlotColumns.Add(newItem)
+        ' Setup Tracking
+        newItem = New ListViewItem
+        newItem.Name = "ExpRad"
+        newItem.Text = "Explosion Radius"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
+        ' Setup Tracking
+        newItem = New ListViewItem
+        newItem.Name = "ExpVel"
+        newItem.Text = "Explosion Velocity"
+        newItem.Checked = False
+        cStandardSlotColumns.Add(newItem)
     End Sub
     Public Sub LoadProfiles()
         ' Check for the profiles file so we can load it

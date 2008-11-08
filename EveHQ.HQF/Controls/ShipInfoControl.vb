@@ -220,9 +220,9 @@ Public Class ShipInfoControl
         lblCapBalN.Text = "- " & FormatNumber(fittedShip.Attributes("10049"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         ccc = Engine.CalculateCapStatistics(fittedShip)
         If ccc > 0 Then
-            gbCapacitor.Text = "Capacitor (Stable at " & FormatNumber(ccc / fittedShip.CapCapacity * 100, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+            gbCapacitor.Text = "Capacitor: Stable at " & FormatNumber(ccc / fittedShip.CapCapacity * 100, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         Else
-            gbCapacitor.Text = "Capacitor (Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-ccc) & ")"
+            gbCapacitor.Text = "Capacitor: Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-ccc)
         End If
 
         ' Propulsion
