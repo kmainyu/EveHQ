@@ -2342,8 +2342,8 @@ Public Class frmAssets
             For Each drone As String In Drones.Keys
                 list.AppendLine(drone & ", " & Drones(drone).ToString & "i")
             Next
-            MessageBox.Show(list.ToString)
             Clipboard.SetText(list.ToString)
+            MessageBox.Show(list.ToString, "Copy To Clipboard Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
     Private Sub SearchForShip(ByVal assetID As String, ByVal owner As String)
@@ -2382,24 +2382,26 @@ Public Class frmAssets
                             Dim catID As String = ""
                             Dim modList As XmlNodeList
                             Dim mods As XmlNode
-                            modList = loc.ChildNodes(0).ChildNodes
-                            For Each mods In modList
-                                Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
-                                Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
-                                groupID = EveHQ.Core.HQ.typeGroups(itemID).ToString
-                                catID = EveHQ.Core.HQ.groupCats(groupID).ToString
-                                Dim itemName As String = ""
-                                If itemIDX <> -1 Then
-                                    itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
-                                Else
-                                    ' Can't find the item in the database
-                                    itemName = "ItemID: " & itemID.ToString
-                                End If
-                                Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
-                                Dim flagName As String = PlugInData.itemFlags(flagID).ToString
-                                Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
-                                HQFShip.Add(flagName & "," & itemName & "," & quantity & "," & catID)
-                            Next
+                            If loc.ChildNodes.Count > 0 Then
+                                modList = loc.ChildNodes(0).ChildNodes
+                                For Each mods In modList
+                                    Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
+                                    Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
+                                    groupID = EveHQ.Core.HQ.typeGroups(itemID).ToString
+                                    catID = EveHQ.Core.HQ.groupCats(groupID).ToString
+                                    Dim itemName As String = ""
+                                    If itemIDX <> -1 Then
+                                        itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
+                                    Else
+                                        ' Can't find the item in the database
+                                        itemName = "ItemID: " & itemID.ToString
+                                    End If
+                                    Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
+                                    Dim flagName As String = PlugInData.itemFlags(flagID).ToString
+                                    Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
+                                    HQFShip.Add(flagName & "," & itemName & "," & quantity & "," & catID)
+                                Next
+                            End If
                             Exit Sub
                         Else
                             ' Check if this row has child nodes and repeat

@@ -767,7 +767,11 @@ Public Class frmHQF
                         End If
                     Else
                         If chkOnlyShowFittable.Checked = True Then
-                            If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                            If currentShipSlot IsNot Nothing Then
+                                If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                    results.Add(sMod.Name, sMod)
+                                End If
+                            Else
                                 results.Add(sMod.Name, sMod)
                             End If
                         Else
