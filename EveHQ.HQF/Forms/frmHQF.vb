@@ -23,9 +23,10 @@ Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
 Imports System.Xml
+Imports DotNetLib.Windows.Forms
 
 Public Class frmHQF
-   
+
     Dim dataCheckList As New SortedList
     Dim currentShipSlot As ShipSlotControl
     Dim currentShipInfo As ShipInfoControl
@@ -583,7 +584,9 @@ Public Class frmHQF
                     fitResults.Add(sFit, sFit)
                 End If
             Next
-            tvwFittings.Nodes.Clear()
+            clvFittings.BeginUpdate()
+            clvFittings.SelectedItems.Clear()
+            clvFittings.Items.Clear()
             Dim shipName As String = ""
             Dim fittingName As String = ""
             Dim fittingSep As Integer = 0
@@ -592,13 +595,20 @@ Public Class frmHQF
                 shipName = item.Substring(0, fittingSep)
                 fittingName = item.Substring(fittingSep + 2)
                 ' Create the ship node if it's not already present
-                If tvwFittings.Nodes.ContainsKey(shipName) = False Then
-                    tvwFittings.Nodes.Add(shipName, shipName)
+                Dim containsShip As New ContainerListViewItem
+                For Each ship As ContainerListViewItem In clvFittings.Items
+                    If ship.Text = shipName Then
+                        containsShip = ship
+                    End If
+                Next
+                If containsShip.Text = "" Then
+                    containsShip.Text = shipName
+                    clvFittings.Items.Add(containsShip)
                 End If
                 ' Add the details to the Node, checking for duplicates
-                tvwFittings.Nodes(shipName).Nodes.Add(fittingName, fittingName)
+                containsShip.Items.Add(New ContainerListViewItem(fittingName))
             Next
-            tvwFittings.EndUpdate()
+            clvFittings.EndUpdate()
             Call Me.UpdateFittingsCombo()
         Else
             txtShipSearch.Text = ""
@@ -1366,16 +1376,16 @@ Public Class frmHQF
 #Region "Fitting Panel Routines"
 
     Private Sub UpdateFittingsTree()
-        tvwFittings.BeginUpdate()
+        clvFittings.BeginUpdate()
         ' Get Current List of "open" nodes
         Dim openNodes As New ArrayList
-        For Each shipNode As TreeNode In tvwFittings.Nodes
-            If shipNode.IsExpanded = True Then
-                openNodes.Add(shipNode.Name)
+        For Each shipNode As ContainerListViewItem In clvFittings.Items
+            If shipNode.Expanded = True Then
+                openNodes.Add(shipNode.Text)
             End If
         Next
         ' Redraw the tree
-        tvwFittings.Nodes.Clear()
+        clvFittings.Items.Clear()
         Dim shipName As String = ""
         Dim fittingName As String = ""
         Dim fittingSep As Integer = 0
@@ -1383,23 +1393,39 @@ Public Class frmHQF
             fittingSep = fitting.IndexOf(", ")
             shipName = fitting.Substring(0, fittingSep)
             fittingName = fitting.Substring(fittingSep + 2)
+
             ' Create the ship node if it's not already present
-            If tvwFittings.Nodes.ContainsKey(shipName) = False Then
-                tvwFittings.Nodes.Add(shipName, shipName)
+            Dim containsShip As New ContainerListViewItem
+            For Each ship As ContainerListViewItem In clvFittings.Items
+                If ship.Text = shipName Then
+                    containsShip = ship
+                End If
+            Next
+            If containsShip.Text = "" Then
+                containsShip.Text = shipName
+                clvFittings.Items.Add(containsShip)
             End If
+
             ' Add the details to the Node, checking for duplicates
-            If tvwFittings.Nodes(shipName).Nodes.ContainsKey(fittingName) = False Then
-                tvwFittings.Nodes(shipName).Nodes.Add(fittingName, fittingName)
-            Else
-                MessageBox.Show("Duplicate fitting found for " & shipName & ", and omitted", "Duplicate Fitting Found!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Dim containsFitting As New ContainerListViewItem
+            For Each fit As ContainerListViewItem In containsShip.Items
+                If fit.Text = fittingName Then
+                    MessageBox.Show("Duplicate fitting found for " & shipName & ", and omitted", "Duplicate Fitting Found!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    containsFitting = Nothing
+                    Exit For
+                End If
+            Next
+            If containsFitting IsNot Nothing Then
+                containsFitting.Text = fittingName
+                containsShip.Items.Add(containsFitting)
             End If
         Next
-        For Each shipNode As String In openNodes
-            If tvwFittings.Nodes.ContainsKey(shipNode) = True Then
-                tvwFittings.Nodes(shipNode).Expand()
+        For Each shipNode As ContainerListViewItem In clvFittings.Items
+            If openNodes.Contains(shipNode.Text) Then
+                shipNode.Expand()
             End If
         Next
-        tvwFittings.EndUpdate()
+        clvFittings.EndUpdate()
         Call Me.UpdateFittingsCombo()
     End Sub
     Private Sub UpdateFittingsCombo()
@@ -1410,12 +1436,7 @@ Public Class frmHQF
         Next
         cboFittings.EndUpdate()
     End Sub
-    Private Sub tvwFittings_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwFittings.NodeMouseClick
-        tvwFittings.SelectedNode = e.Node
-    End Sub
-    Private Sub tvwFittings_NodeMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwFittings.NodeMouseDoubleClick
-        Call Me.ShowFitting(e.Node)
-    End Sub
+
     Private Sub CreateFittingTabPage(ByVal shipFit As String)
         Dim fittingSep As Integer = shipFit.IndexOf(", ")
         Dim shipName As String = shipFit.Substring(0, fittingSep)
@@ -1471,10 +1492,10 @@ Public Class frmHQF
         Fittings.FittingTabList.Add(shipFit)
     End Sub
     Private Sub ctxFittings_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxFittings.Opening
-        Dim curNode As TreeNode = tvwFittings.SelectedNode
+        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
         If curNode IsNot Nothing Then
-            Dim parentNode As TreeNode = curNode.Parent
-            If parentNode IsNot Nothing Then
+            If curNode.Items.Count = 0 Then
+                Dim parentNode As ContainerListViewItem = curNode.ParentItem
                 mnuFittingsFittingName.Text = parentNode.Text & ", " & curNode.Text
                 mnuFittingsFittingName.Tag = parentNode.Text
                 mnuFittingsCreateFitting.Text = "Create New " & parentNode.Text & " Fitting"
@@ -1497,13 +1518,13 @@ Public Class frmHQF
     End Sub
     Private Sub mnuFittingsShowFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsShowFitting.Click
         ' Get the node details
-        Dim curNode As TreeNode = tvwFittings.SelectedNode
+        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
         Call Me.ShowFitting(curNode)
     End Sub
     Private Sub mnuFittingsRenameFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsRenameFitting.Click
         ' Get the node details
-        Dim curNode As TreeNode = tvwFittings.SelectedNode
-        Dim parentnode As TreeNode = curNode.Parent
+        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
+        Dim parentnode As ContainerListViewItem = curNode.ParentItem
         Dim shipName As String = parentnode.Text
         Dim fitName As String = curNode.Text
         Dim oldKeyName As String = shipName & ", " & fitName
@@ -1546,8 +1567,8 @@ Public Class frmHQF
     End Sub
     Private Sub mnuFittingsCopyFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsCopyFitting.Click
         ' Get the node details
-        Dim curNode As TreeNode = tvwFittings.SelectedNode
-        Dim parentnode As TreeNode = curNode.Parent
+        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
+        Dim parentnode As ContainerListViewItem = curNode.ParentItem
         Dim shipName As String = parentnode.Text
         Dim fitName As String = curNode.Text
         Dim fitKeyName As String = shipName & ", " & fitName
@@ -1577,8 +1598,8 @@ Public Class frmHQF
     End Sub
     Private Sub mnuFittingsDeleteFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsDeleteFitting.Click
         ' Get the node details
-        Dim curNode As TreeNode = tvwFittings.SelectedNode
-        Dim parentnode As TreeNode = curNode.Parent
+        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
+        Dim parentnode As ContainerListViewItem = curNode.ParentItem
         Dim shipName As String = parentnode.Text
         Dim fitName As String = curNode.Text
 
@@ -1605,7 +1626,7 @@ Public Class frmHQF
     End Sub
     Private Sub mnuFittingsCreateFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsCreateFitting.Click
         ' Get the node details
-        Dim curNode As TreeNode = tvwFittings.SelectedNode
+        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
 
         ' Clear the text boxes
@@ -1635,18 +1656,18 @@ Public Class frmHQF
         End If
     End Sub
     Private Sub mnuPreviewShip2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPreviewShip2.Click
-        Dim curNode As TreeNode = tvwFittings.SelectedNode
+        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
         Dim selShip As Ship = CType(ShipLists.shipList(shipName), Ship)
         Call DisplayShipPreview(selShip)
     End Sub
-    Private Sub ShowFitting(ByVal fittingNode As TreeNode)
+    Private Sub ShowFitting(ByVal fittingNode As ContainerListViewItem)
         ' Check we have some valid characters
         If EveHQ.Core.HQ.Pilots.Count > 0 Then
             ' Get the ship details
-            If fittingNode.Parent IsNot Nothing Then
-                Dim shipName As String = fittingNode.Parent.Text
-                Dim shipFit As String = fittingNode.Parent.Text & ", " & fittingNode.Text
+            If fittingNode.ParentItem IsNot Nothing Then
+                Dim shipName As String = fittingNode.ParentItem.Text
+                Dim shipFit As String = fittingNode.ParentItem.Text & ", " & fittingNode.Text
                 ' Create the tab and display
                 If Fittings.FittingTabList.Contains(shipFit) = False Then
                     Call Me.CreateFittingTabPage(shipFit)
@@ -1846,46 +1867,46 @@ Public Class frmHQF
         Dim state As Integer
         Dim fitting As New System.Text.StringBuilder
         fitting.AppendLine("[" & tp.Text & "]")
-        For slot As Integer = 1 To currentship.HiSlots
-            If currentship.HiSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentship.HiSlot(slot).ModuleState) / Math.Log(2))
-                If currentship.HiSlot(slot).LoadedCharge IsNot Nothing Then
-                    fitting.AppendLine(currentship.HiSlot(slot).Name & "_" & state & ", " & currentship.HiSlot(slot).LoadedCharge.Name)
+        For slot As Integer = 1 To currentShip.HiSlots
+            If currentShip.HiSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.HiSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.HiSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentShip.HiSlot(slot).Name & "_" & state & ", " & currentShip.HiSlot(slot).LoadedCharge.Name)
                 Else
-                    fitting.AppendLine(currentship.HiSlot(slot).Name & "_" & state)
+                    fitting.AppendLine(currentShip.HiSlot(slot).Name & "_" & state)
                 End If
             End If
         Next
         fitting.AppendLine("")
-        For slot As Integer = 1 To currentship.MidSlots
-            If currentship.MidSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentship.MidSlot(slot).ModuleState) / Math.Log(2))
-                If currentship.MidSlot(slot).LoadedCharge IsNot Nothing Then
-                    fitting.AppendLine(currentship.MidSlot(slot).Name & "_" & state & ", " & currentship.MidSlot(slot).LoadedCharge.Name)
+        For slot As Integer = 1 To currentShip.MidSlots
+            If currentShip.MidSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.MidSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.MidSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentShip.MidSlot(slot).Name & "_" & state & ", " & currentShip.MidSlot(slot).LoadedCharge.Name)
                 Else
-                    fitting.AppendLine(currentship.MidSlot(slot).Name & "_" & state)
+                    fitting.AppendLine(currentShip.MidSlot(slot).Name & "_" & state)
                 End If
             End If
         Next
         fitting.AppendLine("")
-        For slot As Integer = 1 To currentship.LowSlots
-            If currentship.LowSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentship.LowSlot(slot).ModuleState) / Math.Log(2))
-                If currentship.LowSlot(slot).LoadedCharge IsNot Nothing Then
-                    fitting.AppendLine(currentship.LowSlot(slot).Name & "_" & state & ", " & currentship.LowSlot(slot).LoadedCharge.Name)
+        For slot As Integer = 1 To currentShip.LowSlots
+            If currentShip.LowSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.LowSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.LowSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentShip.LowSlot(slot).Name & "_" & state & ", " & currentShip.LowSlot(slot).LoadedCharge.Name)
                 Else
-                    fitting.AppendLine(currentship.LowSlot(slot).Name & "_" & state)
+                    fitting.AppendLine(currentShip.LowSlot(slot).Name & "_" & state)
                 End If
             End If
         Next
         fitting.AppendLine("")
-        For slot As Integer = 1 To currentship.RigSlots
-            If currentship.RigSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentship.RigSlot(slot).ModuleState) / Math.Log(2))
-                If currentship.RigSlot(slot).LoadedCharge IsNot Nothing Then
-                    fitting.AppendLine(currentship.RigSlot(slot).Name & "_" & state & ", " & currentship.RigSlot(slot).LoadedCharge.Name)
+        For slot As Integer = 1 To currentShip.RigSlots
+            If currentShip.RigSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.RigSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.RigSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentShip.RigSlot(slot).Name & "_" & state & ", " & currentShip.RigSlot(slot).LoadedCharge.Name)
                 Else
-                    fitting.AppendLine(currentship.RigSlot(slot).Name & "_" & state)
+                    fitting.AppendLine(currentShip.RigSlot(slot).Name & "_" & state)
                 End If
             End If
         Next
@@ -1898,7 +1919,7 @@ Public Class frmHQF
             End If
         Next
         fitting.AppendLine("")
-        For Each cargo As CargoBayItem In currentship.CargoBayItems.Values
+        For Each cargo As CargoBayItem In currentShip.CargoBayItems.Values
             fitting.AppendLine(cargo.ItemType.Name & ", " & cargo.Quantity)
         Next
         Clipboard.SetText(fitting.ToString)
@@ -2193,5 +2214,57 @@ Public Class frmHQF
         Next
     End Sub
 
+    Private Sub clvFittings_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles clvFittings.MouseDoubleClick
+        If clvFittings.SelectedItems.Count > 0 Then
+            If clvFittings.SelectedItems(0).Items.Count = 0 Then
+                Call Me.ShowFitting(clvFittings.SelectedItems(0))
+            End If
+        End If
+    End Sub
 
+    Private Sub clvFittings_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles clvFittings.Resize
+        clvFittings.Columns(0).Width = clvFittings.Width - 30
+    End Sub
+
+   
+
+    Private Sub clvFittings_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvFittings.SelectedItemsChanged
+        If clvFittings.SelectedItems.Count > 1 Then
+            mnuCompareShips.Enabled = True
+        Else
+            If clvFittings.SelectedItems.Count = 1 Then
+                If clvFittings.SelectedItems(0).Items.Count > 1 Then
+                    mnuCompareShips.Enabled = True
+                Else
+                    mnuCompareShips.Enabled = False
+                End If
+            Else
+                mnuCompareShips.Enabled = False
+            End If
+        End If
+    End Sub
+
+    Private Sub mnuCompareShips_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCompareShips.Click
+        ' Establish which fittings we will be comparing
+        Dim Fittings As New SortedList
+        For Each fitting As ContainerListViewItem In clvFittings.SelectedItems
+            If fitting.Items.Count = 0 Then
+                ' If we have highlighted an item
+                If Fittings.Contains(fitting.ParentItem.Text & ", " & fitting.Text) = False Then
+                    Fittings.Add(fitting.ParentItem.Text & ", " & fitting.Text, "")
+                End If
+            Else
+                ' If we have highlighted a group
+                For Each subFit As ContainerListViewItem In fitting.Items
+                    If Fittings.Contains(subFit.ParentItem.Text & ", " & subFit.Text) = False Then
+                        Fittings.Add(subFit.ParentItem.Text & ", " & subFit.Text, "")
+                    End If
+                Next
+            End If
+        Next
+        Dim CompareShips As New frmShipComparison
+        CompareShips.ShipList = Fittings
+        CompareShips.ShowDialog()
+        CompareShips.Dispose()
+    End Sub
 End Class

@@ -243,15 +243,15 @@ Public Class frmPilot
             Call Me.DisplaySkills()
 
         Else
-            lvPilot.Items.Clear()
-            lvImplants.Items.Clear()
-            lvTraining.Items.Clear()
-            lvAttributes.Items.Clear()
-            clvSkills.Items.Clear()
-            ' Get image from cache
-            If EveHQ.Core.HQ.myPilot.ID = "" Then
-                picPilot.Image = My.Resources.noitem
-            End If
+        lvPilot.Items.Clear()
+        lvImplants.Items.Clear()
+        lvTraining.Items.Clear()
+        lvAttributes.Items.Clear()
+        clvSkills.Items.Clear()
+        ' Get image from cache
+        If EveHQ.Core.HQ.myPilot.ID = "" Then
+            picPilot.Image = My.Resources.noitem
+        End If
         End If
     End Sub
 
@@ -293,15 +293,18 @@ Public Class frmPilot
         clvSkills.Refresh()
         clvSkills.BeginUpdate()
         clvSkills.ItemSelectedColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor))
+
         Dim groupStructure As New SortedList
-        For group As Integer = 0 To 14
-            Dim newCLVGroup As New ContainerListViewItem
-            newCLVGroup.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor))
-            newCLVGroup.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor))
-            newCLVGroup.Text = groupHeaders(group, 0)
-            clvSkills.Items.Add(newCLVGroup)
-            groupStructure.Add(groupHeaders(group, 1), newCLVGroup)
-        Next
+        If chkGroupSkills.Checked = True Then
+            For group As Integer = 0 To 14
+                Dim newCLVGroup As New ContainerListViewItem
+                newCLVGroup.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor))
+                newCLVGroup.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor))
+                newCLVGroup.Text = groupHeaders(group, 0)
+                clvSkills.Items.Add(newCLVGroup)
+                groupStructure.Add(groupHeaders(group, 1), newCLVGroup)
+            Next
+        End If
 
         ' Set up items
         For Each cSkill As EveHQ.Core.Skills In EveHQ.Core.HQ.myPilot.PilotSkills
@@ -310,16 +313,20 @@ Public Class frmPilot
                 Dim newCLVItem As New ContainerListViewItem
                 newCLVItem.Text = cSkill.Name
                 newCLVItem.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor))
-                groupCLV.Items.Add(newCLVItem)
+                If chkGroupSkills.Checked = True Then
+                    groupCLV.Items.Add(newCLVItem)
+                Else
+                    clvSkills.Items.Add(newCLVItem)
+                End If
                 newCLVItem.SubItems(1).Text = cSkill.Rank.ToString
-                
+
                 Dim pb As New PictureBox
                 pb.Image = My.Resources.level2_act
                 pb.Image = CType(My.Resources.ResourceManager.GetObject("level" & cSkill.Level.ToString), Image)
                 pb.Width = 48 : pb.Height = 8
                 newCLVItem.SubItems(2).ItemControl = pb
                 newCLVItem.SubItems(2).Tag = cSkill.Level
-                
+
                 Dim percent As Double
                 Dim partially As Boolean = False
                 If cSkill.Level = 5 Then
@@ -345,18 +352,20 @@ Public Class frmPilot
                 newCLVItem.SubItems(4).Tag = cSkill.SP
                 newCLVItem.SubItems(4).Text = FormatNumber(cSkill.SP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
-                For skillGroup As Integer = 0 To 14
-                    If cSkill.GroupID = groupHeaders(skillGroup, 1) Then
-                        'newLine.Group = lvSkills.Groups.Item(skillGroup)
-                        groupHeaders(skillGroup, 2) = CStr(CDbl(groupHeaders(skillGroup, 2)) + cSkill.SP)
-                        groupHeaders(skillGroup, 3) = CStr(CDbl(groupHeaders(skillGroup, 3)) + 1)
-                        groupCLV.Text = groupHeaders(skillGroup, 0) & " (" & groupHeaders(skillGroup, 3) & " skills)"
-                        groupCLV.Tag = groupCLV.Text
-                        groupCLV.SubItems(4).Text = FormatNumber(groupHeaders(skillGroup, 2), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                        groupCLV.SubItems(4).Tag = groupHeaders(skillGroup, 2)
-                        Exit For
-                    End If
-                Next
+                If chkGroupSkills.Checked = True Then
+                    For skillGroup As Integer = 0 To 14
+                        If cSkill.GroupID = groupHeaders(skillGroup, 1) Then
+                            'newLine.Group = lvSkills.Groups.Item(skillGroup)
+                            groupHeaders(skillGroup, 2) = CStr(CDbl(groupHeaders(skillGroup, 2)) + cSkill.SP)
+                            groupHeaders(skillGroup, 3) = CStr(CDbl(groupHeaders(skillGroup, 3)) + 1)
+                            groupCLV.Text = groupHeaders(skillGroup, 0) & " (" & groupHeaders(skillGroup, 3) & " skills)"
+                            groupCLV.Tag = groupCLV.Text
+                            groupCLV.SubItems(4).Text = FormatNumber(groupHeaders(skillGroup, 2), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            groupCLV.SubItems(4).Tag = groupHeaders(skillGroup, 2)
+                            Exit For
+                        End If
+                    Next
+                End If
                 ' Write time to next level - adjusted if 0 to put completed skills to the bottom
                 Dim TimeSubItem As New ListViewItem.ListViewSubItem
                 Dim currentTime As Long = 0
@@ -383,8 +392,10 @@ Public Class frmPilot
                         Dim lvFont As Font = New Font(clvSkills.Font, FontStyle.Bold)
                         newCLVItem.Font = lvFont
                         newCLVItem.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotCurrentTrainSkillColor))
-                        groupCLV.Text = groupCLV.Tag.ToString & " - Training"
-                        groupCLV.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
+                        If chkGroupSkills.Checked = True Then
+                            groupCLV.Text = groupCLV.Tag.ToString & " - Training"
+                            groupCLV.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
+                        End If
                     Else
                         If partially = True Then
                             newCLVItem.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotPartTrainedSkillColor))
@@ -400,10 +411,13 @@ Public Class frmPilot
                 MessageBox.Show(msg, "Error Displaying Skill Information", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         Next
+        clvSkills.Sort(0, SortOrder.Ascending, True)
         clvSkills.EndUpdate()
-        TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"
-        TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
+        If chkGroupSkills.Checked = True Then
+            TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"
+            TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
+        End If
     End Sub
 
 #Region "Skill Update Routine"
@@ -429,9 +443,11 @@ Public Class frmPilot
                 TrainingSkill.SubItems(5).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
                 TrainingSkill.SubItems(5).Tag = EveHQ.Core.HQ.myPilot.TrainingCurrentTime
                 TrainingSkill.SubItems(2).ItemControl.Refresh()
-                TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"
-                TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
+                If chkGroupSkills.Checked = True Then
+                    TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"
+                    TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
+                End If
                 Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.TrainingEndTime)
                 lvTraining.Items(3).SubItems(1).Text = Format(localdate, "ddd") & " " & localdate & " (" & EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & ")"
                 If EveHQ.Core.HQ.myPilot.TrainingCurrentTime = 0 Then
@@ -746,5 +762,8 @@ Public Class frmPilot
 
 #End Region
 
+    Private Sub chkGroupSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkGroupSkills.CheckedChanged
+        Call Me.DisplaySkills()
+    End Sub
 End Class
 

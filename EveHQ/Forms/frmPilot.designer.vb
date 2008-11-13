@@ -59,6 +59,7 @@ Partial Public Class frmPilot
         Me.lvPilot = New EveHQ.ListViewNoFlicker
         Me.Category = New System.Windows.Forms.ColumnHeader
         Me.Data = New System.Windows.Forms.ColumnHeader
+        Me.chkGroupSkills = New System.Windows.Forms.CheckBox
         Me.ctxSkills.SuspendLayout()
         CType(Me.picPilot, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxPic.SuspendLayout()
@@ -386,11 +387,25 @@ Partial Public Class frmPilot
         Me.Data.Text = "Data"
         Me.Data.Width = 260
         '
+        'chkGroupSkills
+        '
+        Me.chkGroupSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkGroupSkills.AutoSize = True
+        Me.chkGroupSkills.Checked = True
+        Me.chkGroupSkills.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkGroupSkills.Location = New System.Drawing.Point(791, 293)
+        Me.chkGroupSkills.Name = "chkGroupSkills"
+        Me.chkGroupSkills.Size = New System.Drawing.Size(82, 17)
+        Me.chkGroupSkills.TabIndex = 38
+        Me.chkGroupSkills.Text = "Group Skills"
+        Me.chkGroupSkills.UseVisualStyleBackColor = True
+        '
         'frmPilot
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(885, 553)
+        Me.Controls.Add(Me.chkGroupSkills)
         Me.Controls.Add(Me.lvTraining)
         Me.Controls.Add(Me.btnEditImplants)
         Me.Controls.Add(Me.clvSkills)
@@ -455,5 +470,6 @@ Partial Public Class frmPilot
     Friend WithEvents ContainerListViewColumnHeader4 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents ContainerListViewColumnHeader5 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents ContainerListViewColumnHeader6 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents chkGroupSkills As System.Windows.Forms.CheckBox
 
 End Class

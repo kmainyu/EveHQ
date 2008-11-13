@@ -1,6 +1,4 @@
-﻿Imports System.Windows.Forms
-
-' ========================================================================
+﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
 ' Copyright © 2005-2008  Lee Vessey
 ' 
@@ -19,6 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Windows.Forms
+
 Public Class ShipInfoControl
 
 #Region "Other Variables"
