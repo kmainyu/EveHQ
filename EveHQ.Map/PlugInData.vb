@@ -89,7 +89,7 @@ Public Class PlugInData
     Public Shared OreClassList As New SortedList
     Dim SystemJumps As New SortedList
     Dim JumpList As New ArrayList
-    Public Shared LowMemoryMode As Boolean = True
+    Public Shared LowMemoryMode As Boolean = False
     Private Function LoadDataFromDatabase() As Boolean
         If Me.LoadSystems() = False Then
             ReportError("LoadSystems failed", "Problem Loading Data")
@@ -185,6 +185,9 @@ Public Class PlugInData
             ReportError("Loadcb failed", "Problem Loading Data")
             Return False
             Exit Function
+        End If
+        If LowMemoryMode = False Then
+            Call ConvertJumpsToSystems()
         End If
         eveNames.Clear()
         GC.Collect()
