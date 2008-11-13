@@ -1412,14 +1412,16 @@ Imports System.Runtime.Serialization
         For Each att As String In newShip.Attributes.Keys
             attValue = CDbl(newShip.Attributes(att))
             Select Case CInt(CInt(att))
-                'Case 12
-                '    newShip.LowSlots = CInt(attValue)
-                'Case 13
-                '    newShip.MidSlots = CInt(attValue)
-                'Case 14
-                '    newShip.HiSlots = CInt(attValue)
-                'Case 1137
-                '    newShip.RigSlots = CInt(attValue)
+                Case 12
+                    newShip.LowSlots = CInt(attValue)
+                Case 13
+                    newShip.MidSlots = CInt(attValue)
+                Case 14
+                    If newShip.HiSlots < 9 Then ' Condition for testing if we are using ammo analysis
+                        newShip.HiSlots = CInt(attValue)
+                    End If
+                Case 1137
+                    newShip.RigSlots = CInt(attValue)
                 Case 15
                     newShip.PG_Used = attValue
                 Case 1132
