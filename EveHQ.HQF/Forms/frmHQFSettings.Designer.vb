@@ -51,6 +51,7 @@ Partial Public Class frmHQFSettings
         Me.colSlotColumns = New System.Windows.Forms.ColumnHeader
         Me.lblSlotColumns = New System.Windows.Forms.Label
         Me.gbCache = New System.Windows.Forms.GroupBox
+        Me.btnCheckAttributeIntFloat = New System.Windows.Forms.Button
         Me.btnCheckModuleMetaData = New System.Windows.Forms.Button
         Me.btnDeleteAllFittings = New System.Windows.Forms.Button
         Me.btnCheckData = New System.Windows.Forms.Button
@@ -60,7 +61,6 @@ Partial Public Class frmHQFSettings
         Me.lblShieldRecharge = New System.Windows.Forms.Label
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
-        Me.btnCheckAttributeIntFloat = New System.Windows.Forms.Button
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -335,6 +335,16 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Text = "Data and Cache Settings"
         Me.gbCache.Visible = False
         '
+        'btnCheckAttributeIntFloat
+        '
+        Me.btnCheckAttributeIntFloat.Location = New System.Drawing.Point(36, 254)
+        Me.btnCheckAttributeIntFloat.Name = "btnCheckAttributeIntFloat"
+        Me.btnCheckAttributeIntFloat.Size = New System.Drawing.Size(102, 58)
+        Me.btnCheckAttributeIntFloat.TabIndex = 5
+        Me.btnCheckAttributeIntFloat.Text = "Check Module Attribute Int/Float"
+        Me.btnCheckAttributeIntFloat.UseVisualStyleBackColor = True
+        Me.btnCheckAttributeIntFloat.Visible = False
+        '
         'btnCheckModuleMetaData
         '
         Me.btnCheckModuleMetaData.Location = New System.Drawing.Point(36, 202)
@@ -343,10 +353,11 @@ Partial Public Class frmHQFSettings
         Me.btnCheckModuleMetaData.TabIndex = 4
         Me.btnCheckModuleMetaData.Text = "Check Module Meta Data"
         Me.btnCheckModuleMetaData.UseVisualStyleBackColor = True
+        Me.btnCheckModuleMetaData.Visible = False
         '
         'btnDeleteAllFittings
         '
-        Me.btnDeleteAllFittings.Location = New System.Drawing.Point(36, 76)
+        Me.btnDeleteAllFittings.Location = New System.Drawing.Point(267, 47)
         Me.btnDeleteAllFittings.Name = "btnDeleteAllFittings"
         Me.btnDeleteAllFittings.Size = New System.Drawing.Size(102, 23)
         Me.btnDeleteAllFittings.TabIndex = 3
@@ -429,15 +440,6 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.Size = New System.Drawing.Size(153, 13)
         Me.lblCapRecharge.TabIndex = 0
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
-        '
-        'btnCheckAttributeIntFloat
-        '
-        Me.btnCheckAttributeIntFloat.Location = New System.Drawing.Point(36, 254)
-        Me.btnCheckAttributeIntFloat.Name = "btnCheckAttributeIntFloat"
-        Me.btnCheckAttributeIntFloat.Size = New System.Drawing.Size(102, 58)
-        Me.btnCheckAttributeIntFloat.TabIndex = 5
-        Me.btnCheckAttributeIntFloat.Text = "Check Module Attribute Int/Float"
-        Me.btnCheckAttributeIntFloat.UseVisualStyleBackColor = True
         '
         'frmHQFSettings
         '

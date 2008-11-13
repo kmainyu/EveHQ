@@ -1,3 +1,41 @@
+CREATE TABLE dbo.crtCategories
+(
+  categoryID   integer,
+  description  memo,
+  categoryName text(255),
+  CONSTRAINT crtCategories_PK PRIMARY KEY (categoryID)
+);
+
+CREATE TABLE dbo.crtClasses
+(
+  classID      integer,
+  description  memo,
+  className    text(255),
+  CONSTRAINT crtClasses_PK PRIMARY KEY (classID)
+);
+
+CREATE TABLE dbo.crtRelationships
+(
+  relationshipID    integer,
+  parentID          integer,
+  parentTypeID      integer,
+  parentLevel       integer,
+  childID           integer,
+  CONSTRAINT crtRelationships_relationship PRIMARY KEY (relationshipID)
+);
+
+CREATE TABLE dbo.crtCertificates
+(
+  certificateID       integer,
+  categoryID          integer,
+  classID             integer,
+  grade               integer,
+  corpID              integer,
+  iconID              integer,
+  description         memo,
+  CONSTRAINT crtCertificates_PK PRIMARY KEY (certificateID)
+);
+
 CREATE TABLE dbo.staOperations
 (
   activityID             integer         NOT NULL,
