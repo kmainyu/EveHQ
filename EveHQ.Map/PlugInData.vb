@@ -299,7 +299,7 @@ Public Class PlugInData
         s.Close()
         endtime = Now
         timeTaken = endtime - startTime
-        MessageBox.Show("Cache Load Time: " & timeTaken.TotalSeconds)
+        'MessageBox.Show("Cache Load Time: " & timeTaken.TotalSeconds)
 
         If LowMemoryMode = False Then
             Call ConvertJumpsToSystems()
@@ -1629,7 +1629,7 @@ Public Class PlugInData
                 ss.Jumps.Add(PlugInData.SystemsID(jump))
             Next
         Next
-        MessageBox.Show("Jump Conversion Complete!")
+        'MessageBox.Show("Jump Conversion Complete!")
     End Sub
 
 #End Region
