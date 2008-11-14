@@ -414,9 +414,11 @@ Public Class frmPilot
         clvSkills.Sort(0, SortOrder.Ascending, True)
         clvSkills.EndUpdate()
         If chkGroupSkills.Checked = True Then
-            TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"
-            TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
+            If TrainingGroup IsNot Nothing Then
+                TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"
+                TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
+            End If
         End If
     End Sub
 

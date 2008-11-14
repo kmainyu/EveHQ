@@ -67,8 +67,29 @@ End Class
 <Serializable()> Class HQFPilotCollection
     Public Shared HQFPilots As New SortedList
 
+    Public Shared Sub CheckForMissingSkills(ByVal hPilot As HQFPilot)
+        If EveHQ.Core.HQ.Pilots.Contains(hPilot.PilotName) = True Then
+            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(hPilot.PilotName), Core.Pilot)
+            For Each newSkill As EveHQ.Core.SkillList In EveHQ.Core.HQ.SkillListID
+                If hPilot.SkillSet.Contains(newSkill.Name) = False Then
+                    ' Ooo, a new skill!
+                    Dim MyHQFSkill As New HQFSkill
+                    MyHQFSkill.ID = newSkill.ID
+                    MyHQFSkill.Name = newSkill.Name
+                    If cpilot.PilotSkills.Contains(newSkill.Name) = True Then
+                        Dim mySkill As EveHQ.Core.Skills = CType(cpilot.PilotSkills(newSkill.Name), Core.Skills)
+                        MyHQFSkill.Level = mySkill.Level
+                    Else
+                        MyHQFSkill.Level = 0
+                    End If
+                    hPilot.SkillSet.Add(MyHQFSkill, MyHQFSkill.Name)
+                End If
+            Next
+        End If
+    End Sub
+
     Public Shared Sub ResetSkillsToDefault(ByVal hPilot As HQFPilot)
-        Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(hpilot.PilotName), Core.Pilot)
+        Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(hPilot.PilotName), Core.Pilot)
         hPilot.SkillSet.Clear()
         For Each newSkill As EveHQ.Core.SkillList In EveHQ.Core.HQ.SkillListID
             Dim MyHQFSkill As New HQFSkill

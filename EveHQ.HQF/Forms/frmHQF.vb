@@ -61,6 +61,8 @@ Public Class frmHQF
         Settings.HQFSettings.ModSplitterWidth = SplitContainerMod.SplitterDistance
         ' Save fittings
         Call Me.SaveFittings()
+        ' Save pilots
+        Call HQFPilotCollection.SaveHQFPilotData()
         ' Save the Settings
         Call Settings.HQFSettings.SaveHQFSettings()
         ' Destroy the tab settings
@@ -380,6 +382,10 @@ Public Class frmHQF
                     HQFPilotCollection.HQFPilots.Add(newHQFPilot.PilotName, newHQFPilot)
                     morePilots = True
                 End If
+            Next
+            ' Check for missing skills in the pilots info
+            For Each hPilot As HQFPilot In HQFPilotCollection.HQFPilots.Values
+                Call HQFPilotCollection.CheckForMissingSkills(hPilot)
             Next
             ' Check if we need to update the HQFPilot skills to actuals
             If HQF.Settings.HQFSettings.AutoUpdateHQFSkills = True Then

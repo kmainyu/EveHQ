@@ -1,18 +1,50 @@
 EveHQ - Version History
 -----------------------
 
-1.8.0.? (??/??/????)
---------
+1.8.0.171 (13/11/2008)
+---------
 - Core: Fixed crash in skill queue after suggestions had been analysed
-- Core: Fixed skill list in training form containing null nodes (seems to be Vista only problem)
+- Core: Fixed skill list in training form containing null nodes (Vista related problem)
 - Core: Fixed crash in skill list caused by invalid nodes
-- Core: Converted the skill list in frmPilot to a ContainerListView
-- Core: Converted the skill list in frmPilot to a ContainerListView
+- Core: Converted the skill list in the Pilot screen to a grouped view
 - Core: Fixed number of skills reported in the skill queue after deleting completed skills
 - Core: Fixed removing completed skills occurs in the skill queue when automatically rebuilding queues
 - Core: Fixed crash in changing skill levels in the skill queue
 - Core: Fixed crash in separating skill levels in the skill queue
-- Core: Added new configurable colours for the new pilot skills ContainerListView
+- Core: Added new configurable colours for the new pilot skills
+- Core: Settings file now saves correctly with XML reserved characters in Account names
+- Core: Updates to custom controls
+- Core: Updates to plug-in handling routines
+- Core: Updated database to Quantum Rise patch
+- Assets: Copy for HQF option no longer crashes if there is no modules/cargo/drones in the ship
+- DataConverter: Added new certificate tables for Access conversion
+- Gunnery: Gunnery plug-in is now obsolete
+- Map: Added ore and ice locations
+- Map: Fixed anchoring of various controls to the bottom of the Map display
+- Map: Improved memory usage
+- HQF: Fixed cargo bay not allowing items to be restored on loading a fitting
+- HQF: "Merge cargo" option no longer prevents drones from being updated
+- HQF: Fixed turret damage and ROF implants mapped to the wrong weapon attributes
+- HQF: Fixed crash caused by replacing an implant that isn't in the list due to being filtered out
+- HQF: Fixed overload mapping of projectile turrets
+- HQF: Renaming an open fitting now correctly updates the list of open fitted ships
+- HQF: Renaming a ship will now longer try to update the ship file name (old usage)
+- HQF: Fixed Scan and Recon probe launchers being incorrectly identified as missile launchers
+- HQF: Added "Ship Statistics" Export into the export fitting menu
+- HQF: Missile Explosion Radius now added as an available column in the slot control
+- HQF: Missile Explosion Velocity now added as an available column in the slot control
+- HQF: Gunnery plug0in now part of HQF - renamed as Ammo Analysis
+- HQF: Added Copy To Clipboard option for Ammo Analysis
+- HQF: Ammo Analysis now works with missiles, skills, implants, modules and scripts
+- HQF: Fixed crash setting the Fittable checkbox when no active fitting is open
+- HQF: Fixed certain charge effects not being applied to ship attributes
+- HQF: Fixed certain module effects not being applied to charges
+- HQF: Fixed overloading of turrets
+- HQF: Updated Fittings panel to allow multiple selections
+- HQF: Added new Ship Comparison feature for comparing fittings
+- HQF: Updated ship bonuses for QR release
+- HQF: Fixed issue in the Engine class when quickly calculating info of a ship fitting
+- HQF: Removed various options in Data Settings and moved Delete All Fittings option to elsewhere on the panel
 
 
 1.7.6.150 (28/10/2008)

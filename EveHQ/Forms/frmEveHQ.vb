@@ -908,11 +908,15 @@ Public Class frmEveHQ
 
         If cboPilots.Items.Count = 0 Then
             EveHQ.Core.HQ.myPilot = New EveHQ.Core.Pilot
-            If frmPilot.IsHandleCreated = True Then
-                frmPilot.Close()
+            If frmPilot IsNot Nothing Then
+                If frmPilot.IsHandleCreated = True Then
+                    frmPilot.Close()
+                End If
             End If
-            If frmTraining.IsHandleCreated = True Then
-                frmTraining.Close()
+            If frmTraining IsNot Nothing Then
+                If frmTraining.IsHandleCreated = True Then
+                    frmTraining.Close()
+                End If
             End If
         Else
             If startUp = False Then
