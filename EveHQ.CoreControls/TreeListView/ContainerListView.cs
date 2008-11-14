@@ -1779,7 +1779,7 @@ namespace DotNetLib.Windows.Forms
 			SetColumnPressed(_pressedColumnHeader, false);
 
 			// Check for context click
-			if (e.Button == MouseButtons.Right)
+           if (e.Button == MouseButtons.Right)
 			{
 				if (MouseInRectangle(e, _headerVisibleRect))
 					OnPopColumnContextMenu(new ContainerListViewEventArgs(_hoveredColumnHeader, null, e));
@@ -1799,9 +1799,12 @@ namespace DotNetLib.Windows.Forms
 			if (_lastUserSingleClickedItem != null && ((ModifierKeys & Keys.Shift) == 0) && ((ModifierKeys & Keys.Control) == 0))
 			{
 				//single click mouse up, with no modifiers keys: select only _lastItemClicked
-				ClearSelectedItems(false);
-				SetItemSelected(_lastUserSingleClickedItem, true, true, true);
-				_lastUserSingleClickedItem = null;
+                if (e.Button != MouseButtons.Right)
+                {
+                    ClearSelectedItems(false);
+                    SetItemSelected(_lastUserSingleClickedItem, true, true, true);
+                    _lastUserSingleClickedItem = null;
+                }
 			}
 		}
 
@@ -2620,8 +2623,8 @@ namespace DotNetLib.Windows.Forms
 					selectRange(startRange, item);
 				}
 				else
-					SetItemSelected(item, true, true, true);
-			}
+                    SetItemSelected(item, true, true, true);
+                                    			}
 			else if ((ModifierKeys & Keys.Shift) == Keys.Shift) // we have the shift key, select a range if possible
 			{
 				ContainerListViewItem startRange = _lastUserSelectedItem;

@@ -1498,28 +1498,44 @@ Public Class frmHQF
         Fittings.FittingTabList.Add(shipFit)
     End Sub
     Private Sub ctxFittings_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxFittings.Opening
-        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
-        If curNode IsNot Nothing Then
-            If curNode.Items.Count = 0 Then
-                Dim parentNode As ContainerListViewItem = curNode.ParentItem
-                mnuFittingsFittingName.Text = parentNode.Text & ", " & curNode.Text
-                mnuFittingsFittingName.Tag = parentNode.Text
-                mnuFittingsCreateFitting.Text = "Create New " & parentNode.Text & " Fitting"
-                mnuFittingsCopyFitting.Enabled = True
-                mnuFittingsDeleteFitting.Enabled = True
-                mnuFittingsRenameFitting.Enabled = True
-                mnuFittingsShowFitting.Enabled = True
+        If clvFittings.SelectedItems.Count < 2 Then
+            Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
+            If curNode IsNot Nothing Then
+                If curNode.Items.Count = 0 Then
+                    Dim parentNode As ContainerListViewItem = curNode.ParentItem
+                    mnuFittingsFittingName.Text = parentNode.Text & ", " & curNode.Text
+                    mnuFittingsFittingName.Tag = parentNode.Text
+                    mnuFittingsCreateFitting.Text = "Create New " & parentNode.Text & " Fitting"
+                    mnuFittingsCreateFitting.Enabled = True
+                    mnuFittingsCopyFitting.Enabled = True
+                    mnuFittingsDeleteFitting.Enabled = True
+                    mnuFittingsRenameFitting.Enabled = True
+                    mnuFittingsShowFitting.Enabled = True
+                    mnuPreviewShip2.Enabled = True
+                Else
+                    mnuFittingsFittingName.Text = curNode.Text
+                    mnuFittingsFittingName.Tag = curNode.Text
+                    mnuFittingsCreateFitting.Text = "Create New " & curNode.Text & " Fitting"
+                    mnuFittingsCreateFitting.Enabled = True
+                    mnuFittingsCopyFitting.Enabled = False
+                    mnuFittingsDeleteFitting.Enabled = False
+                    mnuFittingsRenameFitting.Enabled = False
+                    mnuFittingsShowFitting.Enabled = False
+                    mnuPreviewShip2.Enabled = True
+                End If
             Else
-                mnuFittingsFittingName.Text = curNode.Text
-                mnuFittingsFittingName.Tag = curNode.Text
-                mnuFittingsCreateFitting.Text = "Create New " & curNode.Text & " Fitting"
-                mnuFittingsCopyFitting.Enabled = False
-                mnuFittingsDeleteFitting.Enabled = False
-                mnuFittingsRenameFitting.Enabled = False
-                mnuFittingsShowFitting.Enabled = False
+                e.Cancel = True
             End If
         Else
-            e.Cancel = True
+            mnuFittingsFittingName.Text = "[Multiple Selection]"
+            mnuFittingsFittingName.Tag = "[Multiple Selection]"
+            mnuFittingsCreateFitting.Text = "[Multiple Selection]"
+            mnuFittingsCreateFitting.Enabled = False
+            mnuFittingsCopyFitting.Enabled = False
+            mnuFittingsDeleteFitting.Enabled = False
+            mnuFittingsRenameFitting.Enabled = False
+            mnuFittingsShowFitting.Enabled = False
+            mnuPreviewShip2.Enabled = False
         End If
     End Sub
     Private Sub mnuFittingsShowFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsShowFitting.Click
@@ -2232,25 +2248,35 @@ Public Class frmHQF
         clvFittings.Columns(0).Width = clvFittings.Width - 30
     End Sub
 
-   
-
     Private Sub clvFittings_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvFittings.SelectedItemsChanged
         If clvFittings.SelectedItems.Count > 1 Then
             mnuCompareShips.Enabled = True
+            mnuCompareFittings.Enabled = True
         Else
             If clvFittings.SelectedItems.Count = 1 Then
                 If clvFittings.SelectedItems(0).Items.Count > 1 Then
                     mnuCompareShips.Enabled = True
+                    mnuCompareFittings.Enabled = True
                 Else
                     mnuCompareShips.Enabled = False
+                    mnuCompareFittings.Enabled = False
                 End If
             Else
                 mnuCompareShips.Enabled = False
+                mnuCompareFittings.Enabled = False
             End If
         End If
     End Sub
 
     Private Sub mnuCompareShips_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCompareShips.Click
+        Call Me.CompareShips()
+    End Sub
+
+    Private Sub mnuCompareFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCompareFittings.Click
+        Call Me.CompareShips()
+    End Sub
+
+    Private Sub CompareShips()
         ' Establish which fittings we will be comparing
         Dim Fittings As New SortedList
         For Each fitting As ContainerListViewItem In clvFittings.SelectedItems
