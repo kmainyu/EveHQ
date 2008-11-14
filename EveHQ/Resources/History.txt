@@ -1,7 +1,7 @@
 EveHQ - Version History
 -----------------------
 
-1.8.0.171 (13/11/2008)
+1.8.0.172 (13/11/2008)
 ---------
 - Core: Fixed crash in skill queue after suggestions had been analysed
 - Core: Fixed skill list in training form containing null nodes (Vista related problem)
@@ -45,6 +45,7 @@ EveHQ - Version History
 - HQF: Updated ship bonuses for QR release
 - HQF: Fixed issue in the Engine class when quickly calculating info of a ship fitting
 - HQF: Removed various options in Data Settings and moved Delete All Fittings option to elsewhere on the panel
+- HQF: Fixed error caused by unrecognised skills in the database when opening Pilot Manager
 
 
 1.7.6.150 (28/10/2008)

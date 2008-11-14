@@ -289,9 +289,8 @@ Public Class frmPilot
         groupHeaders(14, 1) = "274"
 
         ' Set up Groups
-        clvSkills.Items.Clear()
-        clvSkills.Refresh()
         clvSkills.BeginUpdate()
+        clvSkills.Items.Clear()
         clvSkills.ItemSelectedColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor))
 
         Dim groupStructure As New SortedList
@@ -402,6 +401,7 @@ Public Class frmPilot
                         End If
                     End If
                 End If
+
             Catch e As Exception
                 Dim msg As String = "An error has occurred:" & ControlChars.CrLf & ControlChars.CrLf & e.Message & ControlChars.CrLf & ControlChars.CrLf
                 msg &= "Pilot Name: " & EveHQ.Core.HQ.myPilot.Name
@@ -411,6 +411,21 @@ Public Class frmPilot
                 MessageBox.Show(msg, "Error Displaying Skill Information", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         Next
+
+        ' Remove empty groups
+        If chkGroupSkills.Checked = True Then
+            Dim SG As New ContainerListViewItem
+            Dim SGNo As Integer = 0
+            Do
+                SG = clvSkills.Items(SGNo)
+                If SG.Items.Count = 0 Then
+                    clvSkills.Items.Remove(SG)
+                    SGNo -= 1
+                End If
+                SGNo += 1
+            Loop Until SGNo = clvSkills.Items.Count
+        End If
+
         clvSkills.Sort(0, SortOrder.Ascending, True)
         clvSkills.EndUpdate()
         If chkGroupSkills.Checked = True Then
@@ -521,8 +536,8 @@ Public Class frmPilot
     End Sub
 
     Private Sub clvSkills_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles clvSkills.DoubleClick
-        If clvSkills.SelectedItems(0).Items.Count = 0 Then
-            Dim skillID As String
+        If clvSkills.SelectedItems(0).Depth = 2 Then
+            Dim skillID As String = ""
             skillID = EveHQ.Core.SkillFunctions.SkillNameToID(clvSkills.SelectedItems(0).Text)
             Call frmSkillDetails.ShowSkillDetails(skillID)
         End If
