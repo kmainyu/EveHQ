@@ -1,8 +1,25 @@
 EveHQ - Version History
 -----------------------
 
+1.8.1.174 (16/11/2008)
+---------
+Fixes and Improvements:
+- Core: Updated Custom Controls to not clear multiple selections if context menu pops up
+- Core: Increased timeout of updates to 15mins to prevent errors in downloading files over low speed connections
+- Core: Fixed pilot skills section leaving images behind on refresh
+- HQF: Added new fitting panel context menu item for comparing ships
+- HQF: Fixed nanofibers not giving bonuses to velocity and inertia
+- HQF: Fixed polycarbon engine housing rigs to give correct bonuses
+- HQF: Locus rigs now updated to use the correct attribute (was changed in QR patch)
+- HQF: Show info on drones now shows the correct image
+- HQF: Fixed order of calculation for charges
+- HQF: Corrected capacitor recharge penalty on T2 missiles (now a signature radius penalty)
+- HQF: Fixed crash caused when clicking the "View Skill details" menu in the required skills section of the Show Info screen
+
+
 1.8.0.172 (13/11/2008)
 ---------
+Fixes and Improvements:
 - Core: Fixed crash in skill queue after suggestions had been analysed
 - Core: Fixed skill list in training form containing null nodes (Vista related problem)
 - Core: Fixed crash in skill list caused by invalid nodes

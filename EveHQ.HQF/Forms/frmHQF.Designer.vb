@@ -46,6 +46,8 @@ Partial Class frmHQF
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
         Me.cboFittings = New System.Windows.Forms.ToolStripComboBox
         Me.SplitContainerShip = New System.Windows.Forms.SplitContainer
+        Me.clvFittings = New DotNetLib.Windows.Forms.ContainerListView
+        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxFittings = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuFittingsFittingName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
@@ -58,6 +60,7 @@ Partial Class frmHQF
         Me.mnuFittingsCreateFitting = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuPreviewShip2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuCompareFittings = New System.Windows.Forms.ToolStripMenuItem
         Me.pbSearchShips = New System.Windows.Forms.PictureBox
         Me.txtShipSearch = New System.Windows.Forms.TextBox
         Me.btnResetShips = New System.Windows.Forms.Button
@@ -81,6 +84,11 @@ Partial Class frmHQF
         Me.lblModuleDisplayType = New System.Windows.Forms.Label
         Me.txtSearchModules = New System.Windows.Forms.TextBox
         Me.lblSearchModules = New System.Windows.Forms.Label
+        Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
+        Me.colModuleName = New System.Windows.Forms.ColumnHeader
+        Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
+        Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
+        Me.colModulePG = New System.Windows.Forms.ColumnHeader
         Me.ctxModuleList = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuShowModuleInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuSep1 = New System.Windows.Forms.ToolStripSeparator
@@ -178,14 +186,6 @@ Partial Class frmHQF
         Me.panelShipInfo = New System.Windows.Forms.Panel
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.Splitter2 = New System.Windows.Forms.Splitter
-        Me.mnuCompareFittings = New System.Windows.Forms.ToolStripMenuItem
-        Me.clvFittings = New DotNetLib.Windows.Forms.ContainerListView
-        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
-        Me.colModuleName = New System.Windows.Forms.ColumnHeader
-        Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
-        Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
-        Me.colModulePG = New System.Windows.Forms.ColumnHeader
         Me.ToolStrip1.SuspendLayout()
         Me.SplitContainerShip.Panel1.SuspendLayout()
         Me.SplitContainerShip.Panel2.SuspendLayout()
@@ -286,7 +286,7 @@ Partial Class frmHQF
         Me.ToolStripButton3.Image = CType(resources.GetObject("ToolStripButton3.Image"), System.Drawing.Image)
         Me.ToolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton3.Name = "ToolStripButton3"
-        Me.ToolStripButton3.Size = New System.Drawing.Size(82, 22)
+        Me.ToolStripButton3.Size = New System.Drawing.Size(87, 22)
         Me.ToolStripButton3.Text = "Check Data"
         Me.ToolStripButton3.Visible = False
         '
@@ -295,7 +295,7 @@ Partial Class frmHQF
         Me.tsbOptions.Image = CType(resources.GetObject("tsbOptions.Image"), System.Drawing.Image)
         Me.tsbOptions.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbOptions.Name = "tsbOptions"
-        Me.tsbOptions.Size = New System.Drawing.Size(64, 22)
+        Me.tsbOptions.Size = New System.Drawing.Size(69, 22)
         Me.tsbOptions.Text = "Options"
         '
         'ToolStripSeparator3
@@ -309,7 +309,7 @@ Partial Class frmHQF
         Me.btnPilotManager.Image = CType(resources.GetObject("btnPilotManager.Image"), System.Drawing.Image)
         Me.btnPilotManager.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnPilotManager.Name = "btnPilotManager"
-        Me.btnPilotManager.Size = New System.Drawing.Size(92, 22)
+        Me.btnPilotManager.Size = New System.Drawing.Size(101, 22)
         Me.btnPilotManager.Text = "Pilot Manager"
         '
         'ToolStripSeparator1
@@ -340,36 +340,36 @@ Partial Class frmHQF
         Me.btnCopy.Image = CType(resources.GetObject("btnCopy.Image"), System.Drawing.Image)
         Me.btnCopy.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnCopy.Name = "btnCopy"
-        Me.btnCopy.Size = New System.Drawing.Size(104, 22)
+        Me.btnCopy.Size = New System.Drawing.Size(109, 22)
         Me.btnCopy.Text = "Export Fitting"
         '
         'mnuCopyForHQF
         '
         Me.mnuCopyForHQF.Name = "mnuCopyForHQF"
-        Me.mnuCopyForHQF.Size = New System.Drawing.Size(179, 22)
+        Me.mnuCopyForHQF.Size = New System.Drawing.Size(177, 22)
         Me.mnuCopyForHQF.Text = "Copy For HQF"
         '
         'mnuCopyForEFT
         '
         Me.mnuCopyForEFT.Name = "mnuCopyForEFT"
-        Me.mnuCopyForEFT.Size = New System.Drawing.Size(179, 22)
+        Me.mnuCopyForEFT.Size = New System.Drawing.Size(177, 22)
         Me.mnuCopyForEFT.Text = "Copy For EFT"
         '
         'mnuCopyForForums
         '
         Me.mnuCopyForForums.Name = "mnuCopyForForums"
-        Me.mnuCopyForForums.Size = New System.Drawing.Size(179, 22)
+        Me.mnuCopyForForums.Size = New System.Drawing.Size(177, 22)
         Me.mnuCopyForForums.Text = "Copy For Forums"
         '
         'ToolStripMenuItem7
         '
         Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(176, 6)
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(174, 6)
         '
         'mnuShipStats
         '
         Me.mnuShipStats.Name = "mnuShipStats"
-        Me.mnuShipStats.Size = New System.Drawing.Size(179, 22)
+        Me.mnuShipStats.Size = New System.Drawing.Size(177, 22)
         Me.mnuShipStats.Text = "Copy Ship Statistics"
         '
         'ToolStripSeparator2
@@ -383,7 +383,7 @@ Partial Class frmHQF
         Me.btnClipboardPaste.Image = CType(resources.GetObject("btnClipboardPaste.Image"), System.Drawing.Image)
         Me.btnClipboardPaste.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnClipboardPaste.Name = "btnClipboardPaste"
-        Me.btnClipboardPaste.Size = New System.Drawing.Size(132, 22)
+        Me.btnClipboardPaste.Size = New System.Drawing.Size(147, 22)
         Me.btnClipboardPaste.Text = "Import from Clipboard"
         '
         'ToolStripSeparator4
@@ -423,74 +423,103 @@ Partial Class frmHQF
         Me.SplitContainerShip.SplitterWidth = 2
         Me.SplitContainerShip.TabIndex = 3
         '
+        'clvFittings
+        '
+        Me.clvFittings.AllowMultiSelect = True
+        Me.clvFittings.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1})
+        Me.clvFittings.DefaultItemHeight = 16
+        Me.clvFittings.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.clvFittings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.clvFittings.ItemContextMenu = Me.ctxFittings
+        Me.clvFittings.Location = New System.Drawing.Point(0, 0)
+        Me.clvFittings.Name = "clvFittings"
+        Me.clvFittings.ShowPlusMinus = True
+        Me.clvFittings.ShowRootTreeLines = True
+        Me.clvFittings.ShowTreeLines = True
+        Me.clvFittings.Size = New System.Drawing.Size(196, 295)
+        Me.clvFittings.TabIndex = 0
+        '
+        'ContainerListViewColumnHeader1
+        '
+        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader1.Tag = Nothing
+        Me.ContainerListViewColumnHeader1.Text = "Available Fittings"
+        Me.ContainerListViewColumnHeader1.Width = 150
+        '
         'ctxFittings
         '
         Me.ctxFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFittingsFittingName, Me.ToolStripMenuItem4, Me.mnuFittingsShowFitting, Me.ToolStripMenuItem1, Me.mnuFittingsRenameFitting, Me.mnuFittingsCopyFitting, Me.mnuFittingsDeleteFitting, Me.ToolStripMenuItem3, Me.mnuFittingsCreateFitting, Me.ToolStripMenuItem5, Me.mnuPreviewShip2, Me.mnuCompareFittings})
         Me.ctxFittings.Name = "ctxFittings"
-        Me.ctxFittings.Size = New System.Drawing.Size(182, 204)
+        Me.ctxFittings.Size = New System.Drawing.Size(180, 204)
         '
         'mnuFittingsFittingName
         '
         Me.mnuFittingsFittingName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.mnuFittingsFittingName.Name = "mnuFittingsFittingName"
-        Me.mnuFittingsFittingName.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsFittingName.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsFittingName.Text = "Fitting Name"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(176, 6)
         '
         'mnuFittingsShowFitting
         '
         Me.mnuFittingsShowFitting.Name = "mnuFittingsShowFitting"
-        Me.mnuFittingsShowFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsShowFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsShowFitting.Text = "Show Fitting"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(176, 6)
         '
         'mnuFittingsRenameFitting
         '
         Me.mnuFittingsRenameFitting.Name = "mnuFittingsRenameFitting"
-        Me.mnuFittingsRenameFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsRenameFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsRenameFitting.Text = "Rename Fitting"
         '
         'mnuFittingsCopyFitting
         '
         Me.mnuFittingsCopyFitting.Name = "mnuFittingsCopyFitting"
-        Me.mnuFittingsCopyFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsCopyFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsCopyFitting.Text = "Copy Fitting"
         '
         'mnuFittingsDeleteFitting
         '
         Me.mnuFittingsDeleteFitting.Name = "mnuFittingsDeleteFitting"
-        Me.mnuFittingsDeleteFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsDeleteFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsDeleteFitting.Text = "Delete Fitting"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(176, 6)
         '
         'mnuFittingsCreateFitting
         '
         Me.mnuFittingsCreateFitting.Name = "mnuFittingsCreateFitting"
-        Me.mnuFittingsCreateFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsCreateFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsCreateFitting.Text = "Create New Fitting"
         '
         'ToolStripMenuItem5
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(176, 6)
         '
         'mnuPreviewShip2
         '
         Me.mnuPreviewShip2.Name = "mnuPreviewShip2"
-        Me.mnuPreviewShip2.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPreviewShip2.Size = New System.Drawing.Size(179, 22)
         Me.mnuPreviewShip2.Text = "Preview Ship Details"
+        '
+        'mnuCompareFittings
+        '
+        Me.mnuCompareFittings.Name = "mnuCompareFittings"
+        Me.mnuCompareFittings.Size = New System.Drawing.Size(179, 22)
+        Me.mnuCompareFittings.Text = "Compare Fittings"
         '
         'pbSearchShips
         '
@@ -537,30 +566,30 @@ Partial Class frmHQF
         '
         Me.ctxShipBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShipBrowserShipName, Me.ToolStripMenuItem2, Me.mnuPreviewShip, Me.mnuCreateNewFitting})
         Me.ctxShipBrowser.Name = "ctxShipBrowser"
-        Me.ctxShipBrowser.Size = New System.Drawing.Size(182, 76)
+        Me.ctxShipBrowser.Size = New System.Drawing.Size(180, 76)
         '
         'mnuShipBrowserShipName
         '
         Me.mnuShipBrowserShipName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuShipBrowserShipName.Name = "mnuShipBrowserShipName"
-        Me.mnuShipBrowserShipName.Size = New System.Drawing.Size(181, 22)
+        Me.mnuShipBrowserShipName.Size = New System.Drawing.Size(179, 22)
         Me.mnuShipBrowserShipName.Text = "Ship Name"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(176, 6)
         '
         'mnuPreviewShip
         '
         Me.mnuPreviewShip.Name = "mnuPreviewShip"
-        Me.mnuPreviewShip.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPreviewShip.Size = New System.Drawing.Size(179, 22)
         Me.mnuPreviewShip.Text = "Preview Ship Details"
         '
         'mnuCreateNewFitting
         '
         Me.mnuCreateNewFitting.Name = "mnuCreateNewFitting"
-        Me.mnuCreateNewFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuCreateNewFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuCreateNewFitting.Text = "Create New Fitting"
         '
         'SplitContainerMod
@@ -757,44 +786,82 @@ Partial Class frmHQF
         Me.lblSearchModules.TabIndex = 18
         Me.lblSearchModules.Text = "Search:"
         '
+        'lvwItems
+        '
+        Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG})
+        Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
+        Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwItems.FullRowSelect = True
+        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
+        Me.lvwItems.Name = "lvwItems"
+        Me.lvwItems.ShowItemToolTips = True
+        Me.lvwItems.Size = New System.Drawing.Size(287, 342)
+        Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwItems.TabIndex = 0
+        Me.lvwItems.UseCompatibleStateImageBehavior = False
+        Me.lvwItems.View = System.Windows.Forms.View.Details
+        '
+        'colModuleName
+        '
+        Me.colModuleName.Text = "Module"
+        Me.colModuleName.Width = 150
+        '
+        'colModuleMetaType
+        '
+        Me.colModuleMetaType.Text = "Meta"
+        Me.colModuleMetaType.Width = 40
+        '
+        'colModuleCPU
+        '
+        Me.colModuleCPU.Text = "CPU"
+        Me.colModuleCPU.Width = 40
+        '
+        'colModulePG
+        '
+        Me.colModulePG.Text = "PG"
+        Me.colModulePG.Width = 40
+        '
         'ctxModuleList
         '
         Me.ctxModuleList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowModuleInfo, Me.mnuSep1, Me.mnuAddToFavourites_List, Me.mnuRemoveFromFavourites, Me.mnuSep2, Me.mnuShowModuleMarketGroup})
         Me.ctxModuleList.Name = "ctxModuleList"
-        Me.ctxModuleList.Size = New System.Drawing.Size(217, 104)
+        Me.ctxModuleList.Size = New System.Drawing.Size(224, 104)
         '
         'mnuShowModuleInfo
         '
         Me.mnuShowModuleInfo.Name = "mnuShowModuleInfo"
-        Me.mnuShowModuleInfo.Size = New System.Drawing.Size(216, 22)
+        Me.mnuShowModuleInfo.Size = New System.Drawing.Size(223, 22)
         Me.mnuShowModuleInfo.Text = "Show Info"
         '
         'mnuSep1
         '
         Me.mnuSep1.Name = "mnuSep1"
-        Me.mnuSep1.Size = New System.Drawing.Size(213, 6)
+        Me.mnuSep1.Size = New System.Drawing.Size(220, 6)
         '
         'mnuAddToFavourites_List
         '
         Me.mnuAddToFavourites_List.Name = "mnuAddToFavourites_List"
-        Me.mnuAddToFavourites_List.Size = New System.Drawing.Size(216, 22)
+        Me.mnuAddToFavourites_List.Size = New System.Drawing.Size(223, 22)
         Me.mnuAddToFavourites_List.Text = "Add To Favourites"
         '
         'mnuRemoveFromFavourites
         '
         Me.mnuRemoveFromFavourites.Name = "mnuRemoveFromFavourites"
-        Me.mnuRemoveFromFavourites.Size = New System.Drawing.Size(216, 22)
+        Me.mnuRemoveFromFavourites.Size = New System.Drawing.Size(223, 22)
         Me.mnuRemoveFromFavourites.Text = "Remove From Favourites"
         '
         'mnuSep2
         '
         Me.mnuSep2.Name = "mnuSep2"
-        Me.mnuSep2.Size = New System.Drawing.Size(213, 6)
+        Me.mnuSep2.Size = New System.Drawing.Size(220, 6)
         '
         'mnuShowModuleMarketGroup
         '
         Me.mnuShowModuleMarketGroup.Name = "mnuShowModuleMarketGroup"
-        Me.mnuShowModuleMarketGroup.Size = New System.Drawing.Size(216, 22)
+        Me.mnuShowModuleMarketGroup.Size = New System.Drawing.Size(223, 22)
         Me.mnuShowModuleMarketGroup.Text = "Show Module Market Group"
         '
         'imgAttributes
@@ -810,12 +877,12 @@ Partial Class frmHQF
         '
         Me.ctxTabHQF.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCloseHQFTab})
         Me.ctxTabHQF.Name = "ctxTabbedMDI"
-        Me.ctxTabHQF.Size = New System.Drawing.Size(128, 26)
+        Me.ctxTabHQF.Size = New System.Drawing.Size(124, 26)
         '
         'mnuCloseHQFTab
         '
         Me.mnuCloseHQFTab.Name = "mnuCloseHQFTab"
-        Me.mnuCloseHQFTab.Size = New System.Drawing.Size(127, 22)
+        Me.mnuCloseHQFTab.Size = New System.Drawing.Size(123, 22)
         Me.mnuCloseHQFTab.Text = "Not Valid"
         '
         'tmrClipboard
@@ -837,44 +904,44 @@ Partial Class frmHQF
         '
         Me.HQFToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolsToolStripMenuItem, Me.mnuEFTImport, Me.ToolStripMenuItem6, Me.OptionsToolStripMenuItem})
         Me.HQFToolStripMenuItem.Name = "HQFToolStripMenuItem"
-        Me.HQFToolStripMenuItem.Size = New System.Drawing.Size(40, 20)
+        Me.HQFToolStripMenuItem.Size = New System.Drawing.Size(43, 20)
         Me.HQFToolStripMenuItem.Text = "HQF"
         '
         'ToolsToolStripMenuItem
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PilotManagerToolStripMenuItem, Me.mnuCompareShips})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.ToolsToolStripMenuItem.Text = "Tools"
         '
         'PilotManagerToolStripMenuItem
         '
         Me.PilotManagerToolStripMenuItem.Name = "PilotManagerToolStripMenuItem"
-        Me.PilotManagerToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.PilotManagerToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
         Me.PilotManagerToolStripMenuItem.Text = "Pilot Manager"
         '
         'mnuCompareShips
         '
         Me.mnuCompareShips.Enabled = False
         Me.mnuCompareShips.Name = "mnuCompareShips"
-        Me.mnuCompareShips.Size = New System.Drawing.Size(156, 22)
+        Me.mnuCompareShips.Size = New System.Drawing.Size(154, 22)
         Me.mnuCompareShips.Text = "Compare Ships"
         '
         'mnuEFTImport
         '
         Me.mnuEFTImport.Name = "mnuEFTImport"
-        Me.mnuEFTImport.Size = New System.Drawing.Size(174, 22)
+        Me.mnuEFTImport.Size = New System.Drawing.Size(170, 22)
         Me.mnuEFTImport.Text = "Import EFT Setups"
         '
         'ToolStripMenuItem6
         '
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(171, 6)
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(167, 6)
         '
         'OptionsToolStripMenuItem
         '
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(170, 22)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
         'tabHQF
@@ -1716,73 +1783,6 @@ Partial Class frmHQF
         Me.Splitter2.Size = New System.Drawing.Size(3, 696)
         Me.Splitter2.TabIndex = 8
         Me.Splitter2.TabStop = False
-        '
-        'mnuCompareFittings
-        '
-        Me.mnuCompareFittings.Name = "mnuCompareFittings"
-        Me.mnuCompareFittings.Size = New System.Drawing.Size(181, 22)
-        Me.mnuCompareFittings.Text = "Compare Fittings"
-        '
-        'clvFittings
-        '
-        Me.clvFittings.AllowMultiSelect = True
-        Me.clvFittings.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1})
-        Me.clvFittings.DefaultItemHeight = 16
-        Me.clvFittings.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.clvFittings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.clvFittings.ItemContextMenu = Me.ctxFittings
-        Me.clvFittings.Location = New System.Drawing.Point(0, 0)
-        Me.clvFittings.Name = "clvFittings"
-        Me.clvFittings.ShowPlusMinus = True
-        Me.clvFittings.ShowRootTreeLines = True
-        Me.clvFittings.ShowTreeLines = True
-        Me.clvFittings.Size = New System.Drawing.Size(196, 295)
-        Me.clvFittings.TabIndex = 0
-        '
-        'ContainerListViewColumnHeader1
-        '
-        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader1.Tag = Nothing
-        Me.ContainerListViewColumnHeader1.Text = "Available Fittings"
-        Me.ContainerListViewColumnHeader1.Width = 150
-        '
-        'lvwItems
-        '
-        Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG})
-        Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
-        Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwItems.FullRowSelect = True
-        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
-        Me.lvwItems.Name = "lvwItems"
-        Me.lvwItems.ShowItemToolTips = True
-        Me.lvwItems.Size = New System.Drawing.Size(287, 342)
-        Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvwItems.TabIndex = 0
-        Me.lvwItems.UseCompatibleStateImageBehavior = False
-        Me.lvwItems.View = System.Windows.Forms.View.Details
-        '
-        'colModuleName
-        '
-        Me.colModuleName.Text = "Module"
-        Me.colModuleName.Width = 150
-        '
-        'colModuleMetaType
-        '
-        Me.colModuleMetaType.Text = "Meta"
-        Me.colModuleMetaType.Width = 40
-        '
-        'colModuleCPU
-        '
-        Me.colModuleCPU.Text = "CPU"
-        Me.colModuleCPU.Width = 40
-        '
-        'colModulePG
-        '
-        Me.colModulePG.Text = "PG"
-        Me.colModulePG.Width = 40
         '
         'frmHQF
         '

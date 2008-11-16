@@ -22,14 +22,6 @@ Partial Class frmShowInfo
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmShowInfo))
         Me.tvwReqs = New System.Windows.Forms.TreeView
-        Me.ctxReqs = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuSkillName = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuViewSkillDetails = New System.Windows.Forms.ToolStripMenuItem
-        Me.ctxDepend = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuViewItemDetails = New System.Windows.Forms.ToolStripMenuItem
         Me.tabShowInfo = New System.Windows.Forms.TabControl
         Me.tabSIDescription = New System.Windows.Forms.TabPage
         Me.lblDescription = New System.Windows.Forms.Label
@@ -48,8 +40,6 @@ Partial Class frmShowInfo
         Me.picItem = New System.Windows.Forms.PictureBox
         Me.lblItemName = New System.Windows.Forms.Label
         Me.pbPilot = New System.Windows.Forms.PictureBox
-        Me.ctxReqs.SuspendLayout()
-        Me.ctxDepend.SuspendLayout()
         Me.tabShowInfo.SuspendLayout()
         Me.tabSIDescription.SuspendLayout()
         Me.tabSIAttributes.SuspendLayout()
@@ -61,7 +51,6 @@ Partial Class frmShowInfo
         '
         'tvwReqs
         '
-        Me.tvwReqs.ContextMenuStrip = Me.ctxReqs
         Me.tvwReqs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tvwReqs.Indent = 25
         Me.tvwReqs.ItemHeight = 20
@@ -70,56 +59,6 @@ Partial Class frmShowInfo
         Me.tvwReqs.ShowPlusMinus = False
         Me.tvwReqs.Size = New System.Drawing.Size(559, 387)
         Me.tvwReqs.TabIndex = 0
-        '
-        'ctxReqs
-        '
-        Me.ctxReqs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.ctxReqs.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator2, Me.mnuViewSkillDetails})
-        Me.ctxReqs.Name = "ctxDepend"
-        Me.ctxReqs.Size = New System.Drawing.Size(133, 54)
-        '
-        'mnuSkillName
-        '
-        Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(132, 22)
-        Me.mnuSkillName.Text = "Skill Name"
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(129, 6)
-        '
-        'mnuViewSkillDetails
-        '
-        Me.mnuViewSkillDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
-        Me.mnuViewSkillDetails.Name = "mnuViewSkillDetails"
-        Me.mnuViewSkillDetails.Size = New System.Drawing.Size(132, 22)
-        Me.mnuViewSkillDetails.Text = "View Details"
-        '
-        'ctxDepend
-        '
-        Me.ctxDepend.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.ctxDepend.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripSeparator1, Me.mnuViewItemDetails})
-        Me.ctxDepend.Name = "ctxDepend"
-        Me.ctxDepend.Size = New System.Drawing.Size(138, 54)
-        '
-        'mnuItemName
-        '
-        Me.mnuItemName.Name = "mnuItemName"
-        Me.mnuItemName.Size = New System.Drawing.Size(137, 22)
-        Me.mnuItemName.Text = "Item Name"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(134, 6)
-        '
-        'mnuViewItemDetails
-        '
-        Me.mnuViewItemDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
-        Me.mnuViewItemDetails.Name = "mnuViewItemDetails"
-        Me.mnuViewItemDetails.Size = New System.Drawing.Size(137, 22)
-        Me.mnuViewItemDetails.Text = "View Details"
         '
         'tabShowInfo
         '
@@ -310,8 +249,6 @@ Partial Class frmShowInfo
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Show Info"
-        Me.ctxReqs.ResumeLayout(False)
-        Me.ctxDepend.ResumeLayout(False)
         Me.tabShowInfo.ResumeLayout(False)
         Me.tabSIDescription.ResumeLayout(False)
         Me.tabSIAttributes.ResumeLayout(False)
@@ -326,17 +263,9 @@ Partial Class frmShowInfo
     Friend WithEvents tvwReqs As System.Windows.Forms.TreeView
     Friend WithEvents tabShowInfo As System.Windows.Forms.TabControl
     Friend WithEvents tabSISkills As System.Windows.Forms.TabPage
-    Friend WithEvents ctxDepend As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents mnuItemName As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents tabSIDescription As System.Windows.Forms.TabPage
     Friend WithEvents lblDescription As System.Windows.Forms.Label
     Friend WithEvents SkillToolTip As System.Windows.Forms.ToolTip
-    Friend WithEvents ctxReqs As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents mnuSkillName As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents mnuViewSkillDetails As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnuViewItemDetails As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents lblUsableTime As System.Windows.Forms.LinkLabel
     Friend WithEvents lblUsable As System.Windows.Forms.Label
     Friend WithEvents picItem As System.Windows.Forms.PictureBox

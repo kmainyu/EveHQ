@@ -38,7 +38,11 @@ Public Class frmShowInfo
         Else
             If TypeOf itemObject Is ShipModule Then
                 itemType = CType(itemObject, ShipModule)
-                picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/icon" & itemObject.Icon & ".png"
+                If itemType.IsDrone = True Then
+                    picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/dronetypes/128_128/" & itemObject.ID & ".png"
+                Else
+                    picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/icon" & itemObject.Icon & ".png"
+                End If
             End If
         End If
 
@@ -222,38 +226,6 @@ Public Class frmShowInfo
 
     Private Sub tvwReqs_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwReqs.NodeMouseClick
         tvwReqs.SelectedNode = e.Node
-    End Sub
-
-    Private Sub mnuViewSkillDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSkillDetails.Click
-        Dim skillID As String
-        skillID = CStr(mnuSkillName.Tag)
-        'Call Me.PrepareDetails(skillID)
-        Call Me.PrepareTree(skillID)
-        'Call Me.PrepareDepends(skillID)
-        Call Me.PrepareDescription(skillID)
-    End Sub
-
-    Private Sub ctxReqs_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxReqs.Opening
-        Dim curNode As TreeNode = New TreeNode
-        curNode = tvwReqs.SelectedNode
-        Dim skillName As String = ""
-        Dim skillID As String = ""
-        skillName = curNode.Text
-        If InStr(skillName, "(Level") <> 0 Then
-            skillName = skillName.Substring(0, InStr(skillName, "(Level") - 1).Trim(Chr(32))
-        End If
-        skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
-        mnuSkillName.Text = skillName
-        mnuSkillName.Tag = skillID
-    End Sub
-
-    Private Sub mnuViewItemDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetails.Click
-        Dim skillID As String
-        skillID = CStr(mnuItemName.Tag)
-        'Call Me.PrepareDetails(skillID)
-        Call Me.PrepareTree(skillID)
-        'Call Me.PrepareDepends(skillID)
-        Call Me.PrepareDescription(skillID)
     End Sub
 
     Public Sub GenerateSkills(ByVal itemObject As Object)

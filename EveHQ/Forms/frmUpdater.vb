@@ -336,6 +336,7 @@ Public Class frmUpdater
         Dim request As HttpWebRequest = CType(HttpWebRequest.Create(httpURI), HttpWebRequest)
         request.CachePolicy = policy
         request.Method = WebRequestMethods.File.DownloadFile
+        request.Timeout = 900000
         Try
 
             Using response As HttpWebResponse = CType(request.GetResponse, HttpWebResponse)

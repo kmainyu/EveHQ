@@ -289,8 +289,9 @@ Public Class frmPilot
         groupHeaders(14, 1) = "274"
 
         ' Set up Groups
-        clvSkills.BeginUpdate()
         clvSkills.Items.Clear()
+        clvSkills.Refresh()
+        clvSkills.BeginUpdate()
         clvSkills.ItemSelectedColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor))
 
         Dim groupStructure As New SortedList

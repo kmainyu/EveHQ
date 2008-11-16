@@ -250,14 +250,14 @@
 958,1,22806,984,2,326,0,1,0,0,EM Armor Compensation - Passive
 988,1,22806,994,2,994,0,1,5,0,EM Armor Compensation - Active
 1139,1,26258,1138,2,775,0,1,0,0,Energy Weapon Rigging
-958,1,22807,985,2,326,0,1,0,0,Explosive Armor Compensation
-988,1,22807,995,2,994,0,1,5,0,Explosive Armor Compensation
+958,1,22807,985,2,326,0,1,0,0,Explosive Armor Compensation - Passive
+988,1,22807,995,2,994,0,1,5,0,Explosive Armor Compensation - Active
 335,1,3394,265,3,6,0,1,0,0,Hull Upgrades - Armor HP
 335,1,3394,1159,2,329,0,1,0,0,Hull Upgrades - Armor Plate HP
 1139,1,26259,1138,2,776,0,1,0,0,Hybrid Weapon Rigging
 #,1,26252,,,,0,1,0,0,Jury Rigging
-958,1,22808,986,2,326,0,1,0,0,Kinetic Armor Compensation
-988,1,22808,996,2,994,0,1,5,0,Kinetic Armor Compensation
+958,1,22808,986,2,326,0,1,0,0,Kinetic Armor Compensation - Passive
+988,1,22808,996,2,994,0,1,5,0,Kinetic Armor Compensation - Active
 1139,1,26260,1138,2,779,0,1,0,0,Launcher Rigging
 327,1,3392,9,3,6,0,1,0,0,Mechanic
 #,1,28880,,,,0,1,0,0,Nanite Interfacing
@@ -273,8 +273,8 @@
 #,1,25863,,,,0,1,0,0,Salvaging
 1139,1,26261,1138,2,774,0,1,0,0,Shield Rigging
 #,1,27906,,,,0,1,0,0,Tactical Logistics Reconfiguration
-958,1,22809,987,2,326,0,1,0,0,Thermic Armor Compensation
-988,1,22809,997,2,994,0,1,5,0,Thermic Armor Compensation
+958,1,22809,987,2,326,0,1,0,0,Thermic Armor Compensation - Passive
+988,1,22809,997,2,994,0,1,5,0,Thermic Armor Compensation - Active
 # MISSILE LAUNCHER OPERATION,,,,,,,,,,
 293,1,28073,669,2,862,0,1,0,0,Bomb Deployment
 292,1,21668,114,2,476,0,1,0,0,Citadel Torpedoes - EM
@@ -593,17 +593,17 @@
 120,2,83,54,6,0,0,0,0,15,Projectile Ammo - Optimal Range
 317,2,83,6,6,0,0,0,0,15,Projectile Ammo - Activation Cost
 # T2 MISSILES,,,,,,,,,,
-144,2,654,55,3,6,0,0,0,15,Assault - Capacitor Recharge Rate Penalty
+554,2,654,552,3,6,0,0,0,15,Assault - Signature Radius Penalty
 306,2,654,37,3,6,0,0,0,15,Assault - Max Velocity Penalty
-144,2,656,55,3,6,0,0,0,15,Cruise - Capacitor Recharge Rate Penalty
+554,2,656,552,3,6,0,0,0,15,Cruise - Signature Radius Penalty
 306,2,656,37,3,6,0,0,0,15,Cruise - Max Velocity Penalty
-144,2,655,55,3,6,0,0,0,15,Heavy - Capacitor Recharge Rate Penalty
+554,2,655,552,3,6,0,0,0,15,Heavy - Signature Radius Penalty
 306,2,655,37,3,6,0,0,0,15,Heavy - Max Velocity Penalty
-144,2,653,55,3,6,0,0,0,15,Light - Capacitor Recharge Rate Penalty
+554,2,653,552,3,6,0,0,0,15,Light - Signature Radius Penalty
 306,2,653,37,3,6,0,0,0,15,Light - Max Velocity Penalty
-144,2,648,55,3,6,0,0,0,15,Rocket - Capacitor Recharge Rate Penalty
+554,2,648,552,3,6,0,0,0,15,Rocket - Signature Radius Penalty
 306,2,648,37,3,6,0,0,0,15,Rocket - Max Velocity Penalty
-144,2,657,55,3,6,0,0,0,15,Torpedo - Capacitor Recharge Rate Penalty
+554,2,657,552,3,6,0,0,0,15,Torpedo - Signature Radius Penalty
 306,2,657,37,3,6,0,0,0,15,Torpedo - Max Velocity Penalty
 # T2 Frequency Crystals,,,,,,,,,,
 120,2,374,54,6,0,0,0,0,15,T2 Beam - Optimal Range
@@ -812,7 +812,8 @@
 306,2,765,37,3,6,1,0,0,14,Max Velocity Penalty
 # Nanofiber Internal Structure,,,,,,,,,,
 150,2,763,9,3,6,0,0,0,14,Structure HP Bonus
-1131,2,763,10002,3,6,1,0,0,14,Mass Reduction
+169,2,763,70,3,6,1,0,0,14,Inertia Bonus
+1076,2,763,37,3,6,1,0,0,14,Max Velocity Bonus
 # Reinforced Bulkheads,,,,,,,,,,
 150,2,78,9,3,6,0,0,0,14,Structure HP Bonus
 169,2,78,70,3,6,1,0,0,14,Inertia Penalty
@@ -948,7 +949,8 @@
 66,2,782,73,2,46,0,0,0,15,Engine Thermal Shielding
 624,2,782,600,3,6,0,0,0,15,Hyperspatial Velocity Optimizer
 151,2,782,70,3,6,1,0,0,15,Low Friction Nozzle Joints
-1131,2,782,10002,3,6,1,0,0,15,Polycarbon Engine Housing
+1076,2,782,37,3,6,1,0,0,15,Polycarbon Engine Housing - Velocity
+169,2,782,70,3,6,1,0,0,15,Polycarbon Engine Housing - Inertia
 319,2,782,153,3,6,0,0,0,15,Warp Core Optimizer
 # RIGS - DRONE,,,,,,,,,,
 1138,2,778,48,3,6,0,0,0,15,Drone Rig Drawback - CPU Output
@@ -994,7 +996,7 @@
 204,2,775,10011,2,53,0,0,0,15,Energy Burst Aerator
 64,2,775,10014,2,53,0,0,5,15,Energy Collision Accelerator
 317,2,775,6,2,53,0,0,0,15,Energy Discharge Elutriation
-243,2,775,54,2,53,0,0,0,15,Energy Locus Coordinator
+351,2,775,54,2,53,0,0,0,15,Energy Locus Coordinator
 244,2,775,160,2,53,0,0,0,15,Energy Metastasis Adjuster
 # RIGS - HYBRID WEAPON,,,,,,,,,,
 1138,2,776,30,2,74,0,0,0,15,Hybrid Weapon Rig Drawback - PG Penalty
@@ -1003,7 +1005,7 @@
 204,2,776,10012,2,74,0,0,0,15,Hybrid Burst Aerator
 64,2,776,10015,2,74,0,0,5,15,Hybrid Collision Accelerator
 317,2,776,6,2,74,0,0,0,15,Hybrid Discharge Elutriation
-243,2,776,54,2,74,0,0,0,15,Hybrid Locus Coordinator
+351,2,776,54,2,74,0,0,0,15,Hybrid Locus Coordinator
 244,2,776,160,2,74,0,0,0,15,Hybrid Metastasis Adjuster
 # RIGS - LAUNCHER,,,,,,,,,,
 1138,2,779,50,2,511;524;506;510;771;507;508;509,0,0,0,15,Launcher Rig Drawback - CPU Penalty
@@ -1022,7 +1024,7 @@
 204,2,777,10013,2,55,0,0,0,15,Projectile Burst Aerator
 64,2,777,10016,2,55,0,0,5,15,Projectile Collision Accelerator
 317,2,777,6,2,55,0,0,0,15,Projectile Discharge Elutriation
-243,2,777,54,2,55,0,0,0,15,Projectile Locus Coordinator
+351,2,777,54,2,55,0,0,0,15,Projectile Locus Coordinator
 244,2,777,160,2,55,0,0,0,15,Projectile Metastasis Adjuster
 # RIGS - SHIELD,,,,,,,,,,
 1138,2,774,552,3,6,1,0,0,15,Shield Rig Drawback - Sig Radius Penalty
