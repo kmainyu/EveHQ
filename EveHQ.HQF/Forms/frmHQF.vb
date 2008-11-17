@@ -1100,20 +1100,22 @@ Public Class frmHQF
     End Sub
     Private Sub lvwItems_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwItems.DoubleClick
         If currentShipSlot IsNot Nothing Then
-            Dim moduleID As String = lvwItems.SelectedItems(0).Name
-            Dim shipMod As ShipModule = CType(ModuleLists.moduleList(moduleID), ShipModule).Clone
-            If shipMod.IsDrone = True Then
-                Dim active As Boolean = False
-                Call currentShipSlot.AddDrone(shipMod, 1, False)
-            Else
-                ' Check if module is a charge
-                If shipMod.IsCharge = True Then
-                    currentShipSlot.AddItem(shipMod, 1)
+            If lvwItems.SelectedItems.Count > 0 Then
+                Dim moduleID As String = lvwItems.SelectedItems(0).Name
+                Dim shipMod As ShipModule = CType(ModuleLists.moduleList(moduleID), ShipModule).Clone
+                If shipMod.IsDrone = True Then
+                    Dim active As Boolean = False
+                    Call currentShipSlot.AddDrone(shipMod, 1, False)
                 Else
-                    ' Must be a proper module then!
-                    Call currentShipSlot.AddModule(shipMod, 0, True, Nothing)
-                    ' Add it to the MRU
-                    Call Me.UpdateMRUModules(shipMod.Name)
+                    ' Check if module is a charge
+                    If shipMod.IsCharge = True Then
+                        currentShipSlot.AddItem(shipMod, 1)
+                    Else
+                        ' Must be a proper module then!
+                        Call currentShipSlot.AddModule(shipMod, 0, True, Nothing)
+                        ' Add it to the MRU
+                        Call Me.UpdateMRUModules(shipMod.Name)
+                    End If
                 End If
             End If
         End If
