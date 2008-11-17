@@ -547,6 +547,7 @@ Public Class PlugInData
                     newShip.Attributes.Add("10007", 20000)
                     newShip.Attributes.Add("10008", 20000)
                     newShip.Attributes.Add("10009", 1)
+                    newShip.Attributes.Add("10010", 0)
                     newShip.Attributes.Add("10020", 0)
                     newShip.Attributes.Add("10021", 0)
                     newShip.Attributes.Add("10022", 0)
