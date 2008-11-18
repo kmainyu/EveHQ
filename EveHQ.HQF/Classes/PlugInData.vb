@@ -846,7 +846,7 @@ Public Class PlugInData
                         If effMod.DatabaseGroup <> "481" Then
                             effMod.IsLauncher = True
                         End If
-                    Case 10, 34
+                    Case 10, 34, 42
                         effMod.IsTurret = True
                 End Select
                 ' Add custom attributes
