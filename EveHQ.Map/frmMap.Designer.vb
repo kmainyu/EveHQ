@@ -2138,6 +2138,7 @@ Partial Class frmMap
         Me.btnSerialize.TabIndex = 81
         Me.btnSerialize.Text = "Serialize"
         Me.btnSerialize.UseVisualStyleBackColor = True
+        Me.btnSerialize.Visible = False
         '
         'btnExclude
         '

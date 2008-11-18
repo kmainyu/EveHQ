@@ -230,30 +230,34 @@ Public Class Engine
             If hSkill.Level <> 0 Then
                 ' Go through the attributes
                 aSkill = CType(SkillLists.SkillList(hSkill.ID), Skill)
-                For Each att As String In aSkill.Attributes.Keys
-                    If EffectsMap.Contains(att) = True Then
-                        For Each chkEffect As Effect In CType(EffectsMap(att), ArrayList)
-                            If chkEffect.AffectingType = EffectType.Item And chkEffect.AffectingID = CInt(aSkill.ID) Then
-                                fEffect = New FinalEffect
-                                fEffect.AffectedAtt = chkEffect.AffectedAtt
-                                fEffect.AffectedType = chkEffect.AffectedType
-                                fEffect.AffectedID = chkEffect.AffectedID
-                                fEffect.AffectedValue = CDbl(aSkill.Attributes(att)) * hSkill.Level
-                                fEffect.StackNerf = chkEffect.StackNerf
-                                fEffect.Cause = hSkill.Name & " (Level " & hSkill.Level & ")"
-                                fEffect.CalcType = chkEffect.CalcType
-                                fEffect.Status = chkEffect.Status
-                                If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
-                                    fEffectList = New ArrayList
-                                    SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
-                                Else
-                                    fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                Try
+                    For Each att As String In aSkill.Attributes.Keys
+                        If EffectsMap.Contains(att) = True Then
+                            For Each chkEffect As Effect In CType(EffectsMap(att), ArrayList)
+                                If chkEffect.AffectingType = EffectType.Item And chkEffect.AffectingID = CInt(aSkill.ID) Then
+                                    fEffect = New FinalEffect
+                                    fEffect.AffectedAtt = chkEffect.AffectedAtt
+                                    fEffect.AffectedType = chkEffect.AffectedType
+                                    fEffect.AffectedID = chkEffect.AffectedID
+                                    fEffect.AffectedValue = CDbl(aSkill.Attributes(att)) * hSkill.Level
+                                    fEffect.StackNerf = chkEffect.StackNerf
+                                    fEffect.Cause = hSkill.Name & " (Level " & hSkill.Level & ")"
+                                    fEffect.CalcType = chkEffect.CalcType
+                                    fEffect.Status = chkEffect.Status
+                                    If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                        fEffectList = New ArrayList
+                                        SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                    Else
+                                        fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                                    End If
+                                    fEffectList.Add(fEffect)
                                 End If
-                                fEffectList.Add(fEffect)
-                            End If
-                        Next
-                    End If
-                Next
+                            Next
+                        End If
+                    Next
+                Catch e As Exception
+                    MessageBox.Show("An error occured trying to process the skill effects for " & hSkill.Name & "!", "HQF Engine Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Try
             End If
         Next
         eTime = Now

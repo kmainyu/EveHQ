@@ -186,11 +186,12 @@ Public Class PlugInData
             Return False
             Exit Function
         End If
+        eveNames.Clear()
+        GC.Collect()
+        Call PlugInData.SaveSerializedData()
         If LowMemoryMode = False Then
             Call ConvertJumpsToSystems()
         End If
-        eveNames.Clear()
-        GC.Collect()
         Return True
     End Function
     Private Function LoadSerializedData() As Boolean

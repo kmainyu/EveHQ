@@ -723,11 +723,11 @@ Public Class frmMap
         Dim driveRange As Double
         Dim fuelMultiplier As Double
         Dim nJumps As Double
-        Dim startSys As SolarSystem = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
+        Dim startSys As SolarSystem = PlugInData.SystemsID(CStr(PlugInData.SystemsName(CStr(lblStartSystem.Tag)).ID))
         Dim endSys As New SolarSystem
         Select Case algotype1
             Case RouteType.Gates, RouteType.Jumps
-                endSys = CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem)
+                endSys = PlugInData.SystemsID(CStr(PlugInData.SystemsName(CStr(lblEndSystem.Tag)).ID))
             Case RouteType.GateRadius, RouteType.JumpRadius
                 endSys = Nothing
         End Select
@@ -936,7 +936,7 @@ Public Class frmMap
     End Sub
     Public Function GateRadius(ByVal from As SolarSystem, ByVal rad As Integer) As Route
         Dim solar1 As SolarSystem
-        For Each solar1 In PlugInData.SystemsName.Values
+        For Each solar1 In PlugInData.SystemsID.Values
             solar1.Flag = False
         Next
         Dim queue1 As New Queue
@@ -946,7 +946,8 @@ Public Class frmMap
         Do While (queue1.Count > 0)
             Dim solar2 As SolarSystem = DirectCast(queue1.Dequeue, SolarSystem)
             Dim solar3 As SolarSystem
-            For Each solar3 In solar2.Gates
+            For Each solar3ID As String In solar2.Gates
+                solar3 = PlugInData.SystemsID(CStr(solar3ID))
                 If solar3.EveSec >= frmMap.mingate AndAlso solar3.EveSec <= frmMap.maxgate AndAlso Not solar3.Flag Then
                     If (Exclusions.Contains(solar3.Name) = False And Exclusions.Contains(solar3.Constellation) = False And Exclusions.Contains(solar3.Region) = False) Then
                         solar3.Flag = True
@@ -1034,7 +1035,7 @@ Public Class frmMap
     End Function
     Public Function JumpRadius(ByVal from As SolarSystem, ByVal rad As Integer) As Route
         Dim solar1 As SolarSystem
-        For Each solar1 In PlugInData.SystemsName.Values
+        For Each solar1 In PlugInData.SystemsID.Values
             solar1.Flag = False
         Next
         Dim queue1 As New Queue

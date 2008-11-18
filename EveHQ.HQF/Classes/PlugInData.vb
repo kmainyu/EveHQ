@@ -13,7 +13,7 @@ Public Class PlugInData
     Public Shared moduleEffectData As DataSet
     Public Shared moduleAttributeData As DataSet
     Public Shared UseSerializableData As Boolean = False
-    Public Shared LastCacheRefresh As String = "1.8.0.171"
+    Public Shared LastCacheRefresh As String = "1.8.1.179"
 
 #Region "Plug-in Interface Properties and Functions"
     Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData

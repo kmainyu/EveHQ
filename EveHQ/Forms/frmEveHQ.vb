@@ -111,8 +111,8 @@ Public Class frmEveHQ
                 MessageBox.Show("The IGB Server is still shutting down. Please wait a few moments", "IGB Server Busy", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 IGBWorker.Dispose()
                 IGBWorker = New System.ComponentModel.BackgroundWorker
-                IGBWorker.WorkerSupportsCancellation = True
             Else
+                IGBWorker.WorkerSupportsCancellation = True
                 IGBWorker.RunWorkerAsync()
                 RunIGBToolStripMenuItem.Checked = True
                 EveHQ.Core.HQ.IGBActive = True
