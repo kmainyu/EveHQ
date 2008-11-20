@@ -1419,29 +1419,26 @@ Public Class frmEveHQ
     End Sub
     Private Sub ModuleMenuItemClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim mnu As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
-        Dim PluginName As String = mnu.Name
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(PluginName), Core.PlugIn)
-        'Dim PluginFile As String = myPlugIn.FileName
-        'Dim PluginType As String = myPlugIn.FileType
-        'Dim myAssembly As Assembly = Assembly.LoadFrom(PluginFile)
-        'Dim t As Type = myAssembly.GetType(PluginType)
-        'myPlugIn.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
-        'Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = myPlugIn.Instance
-        Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
-        Call OpenPlugInForm(plugInForm)
+        If tabMDI.TabPages.ContainsKey(mnu.Name) = True Then
+            tabMDI.SelectTab(mnu.Name)
+        Else
+            Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(mnu.Name), Core.PlugIn)
+            Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
+            plugInForm.MdiParent = Me
+            plugInForm.Show()
+        End If
     End Sub
     Private Sub ModuleTSBClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim btn As ToolStripButton = DirectCast(sender, ToolStripButton)
-        Dim PluginName As String = btn.Name
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(PluginName), Core.PlugIn)
-        'Dim PluginFile As String = myPlugIn.FileName
-        'Dim PluginType As String = myPlugIn.FileType
-        'Dim myAssembly As Assembly = Assembly.LoadFrom(PluginFile)
-        'Dim t As Type = myAssembly.GetType(PluginType)
-        'myPlugIn.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
-        'Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = myPlugIn.Instance
-        Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
-        Call OpenPlugInForm(plugInForm)
+        If tabMDI.TabPages.ContainsKey(btn.Name) = True Then
+            tabMDI.SelectTab(btn.Name)
+        Else
+            Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(btn.Name), Core.PlugIn)
+            Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
+            plugInForm.MdiParent = Me
+            plugInForm.Show()
+        End If
+        
     End Sub
 #End Region
 
@@ -1473,6 +1470,7 @@ Public Class frmEveHQ
     End Sub
     Private Sub ActiveMdiChild_FormClosed(ByVal sender As Object, ByVal e As FormClosedEventArgs)
         TryCast(TryCast(sender, Form).Tag, TabPage).Dispose()
+        TryCast(sender, Form).Dispose()
     End Sub
     Private Sub OpenPilotInfoForm()
         If tabMDI.TabPages.ContainsKey(frmPilot.Text) = False Then
@@ -1521,14 +1519,6 @@ Public Class frmEveHQ
             reportForm.Show()
         Else
             tabMDI.SelectTab(reportForm.Text)
-        End If
-    End Sub
-    Private Sub OpenPlugInForm(ByVal PlugInForm As Form)
-        If tabMDI.TabPages.ContainsKey(PlugInForm.Text) = False Then
-            PlugInForm.MdiParent = Me
-            PlugInForm.Show()
-        Else
-            tabMDI.SelectTab(PlugInForm.Text)
         End If
     End Sub
     Private Sub mnuCloseMDITab_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCloseMDITab.Click
@@ -1906,5 +1896,11 @@ Public Class frmEveHQ
     End Sub
 
    
+    Private Sub btnAddAccount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddAccount.Click
+        Dim EveHQSettings As New frmSettings
+        EveHQSettings.Tag = "nodeEveAccounts"
+        EveHQSettings.ShowDialog()
+        EveHQSettings.Dispose()
+    End Sub
 End Class
 

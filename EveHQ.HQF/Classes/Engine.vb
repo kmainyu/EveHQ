@@ -35,7 +35,6 @@ Public Class Engine
     Public Shared PirateImplantGroups As New SortedList
 
     Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-    'Dim isk As Double = Double.Parse(toon.ChildNodes.Item(7).InnerText, Globalization.NumberStyles.Number, culture)
 
 #Region "New Routines"
     Public Shared Sub BuildPirateImplants()

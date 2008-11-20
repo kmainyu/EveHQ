@@ -1320,7 +1320,11 @@ Public Class frmAssets
         Call Me.RefreshAssets()
     End Sub
     Private Sub FilterSystemValue()
-        Dim minValue As Double = CDbl(txtMinSystemValue.Text)
+        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+        Dim minValue As Double
+        If Double.TryParse(txtMinSystemValue.Text, minvalue) = False Then
+            minValue = 0
+        End If
         Dim cL As Integer = 0
         Dim cLoc As ContainerListViewItem
         Do
@@ -1335,6 +1339,7 @@ Public Class frmAssets
             cL += 1
         Loop Until (cL = tlvAssets.Items.Count)
         Call Me.RecalcAllPrices()
+
     End Sub
     Private Sub FilterSystemNode(ByVal pLoc As ContainerListViewItem)
         Dim cL As Integer = 0
@@ -2475,7 +2480,12 @@ Public Class frmAssets
         Call Me.GetOutposts()
     End Sub
     Private Sub tsbRefreshAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbRefreshAssets.Click
-        Call Me.RefreshAssets()
+        Dim minValue As Double
+        If Double.TryParse(txtMinSystemValue.Text, minValue) = True Then
+            Call Me.RefreshAssets()
+        Else
+            MessageBox.Show("Minimum System Value is not a valid number. Please try again!", "Error in Minimum Value", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
     End Sub
     Private Sub RefreshAssets()
         If lvwCharFilter.CheckedItems.Count > 0 Then
@@ -2649,7 +2659,12 @@ Public Class frmAssets
     End Sub
     Private Sub txtMinSystemValue_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtMinSystemValue.KeyDown
         If e.KeyCode = Keys.Enter Then
-            Call Me.RefreshAssets()
+            Dim minValue As Double
+            If Double.TryParse(txtMinSystemValue.Text, minValue) = True Then
+                Call Me.RefreshAssets()
+            Else
+                MessageBox.Show("Minimum System Value is not a valid number. Please try again!", "Error in Minimum Value", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
         End If
     End Sub
    

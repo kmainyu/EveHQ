@@ -59,6 +59,14 @@ Partial Public Class frmSettings
         Me.chkAutoRun = New System.Windows.Forms.CheckBox
         Me.chkAutoHide = New System.Windows.Forms.CheckBox
         Me.gbPilotScreenColours = New System.Windows.Forms.GroupBox
+        Me.pbPilotSkillHighlight = New System.Windows.Forms.PictureBox
+        Me.lblPilotSkillHighlight = New System.Windows.Forms.Label
+        Me.pbPilotSkillText = New System.Windows.Forms.PictureBox
+        Me.lblPilotSkillText = New System.Windows.Forms.Label
+        Me.pbPilotGroupText = New System.Windows.Forms.PictureBox
+        Me.lblPilotGroupText = New System.Windows.Forms.Label
+        Me.pbPilotGroupBG = New System.Windows.Forms.PictureBox
+        Me.lblPilotGroupBG = New System.Windows.Forms.Label
         Me.btnResetPilotColours = New System.Windows.Forms.Button
         Me.pbPilotLevel5 = New System.Windows.Forms.PictureBox
         Me.lblLevel5Colour = New System.Windows.Forms.Label
@@ -307,6 +315,11 @@ Partial Public Class frmSettings
         Me.lblSearchPrices = New System.Windows.Forms.Label
         Me.lblUpdatePrice = New System.Windows.Forms.Label
         Me.txtUpdatePrice = New System.Windows.Forms.TextBox
+        Me.lvwPrices = New EveHQ.ListViewNoFlicker
+        Me.colPriceName = New System.Windows.Forms.ColumnHeader
+        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
+        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
+        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
         Me.ctxPrices = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
@@ -322,21 +335,12 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
-        Me.pbPilotSkillHighlight = New System.Windows.Forms.PictureBox
-        Me.lblPilotSkillHighlight = New System.Windows.Forms.Label
-        Me.pbPilotSkillText = New System.Windows.Forms.PictureBox
-        Me.lblPilotSkillText = New System.Windows.Forms.Label
-        Me.pbPilotGroupText = New System.Windows.Forms.PictureBox
-        Me.lblPilotGroupText = New System.Windows.Forms.Label
-        Me.pbPilotGroupBG = New System.Windows.Forms.PictureBox
-        Me.lblPilotGroupBG = New System.Windows.Forms.Label
-        Me.lvwPrices = New EveHQ.ListViewNoFlicker
-        Me.colPriceName = New System.Windows.Forms.ColumnHeader
-        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
-        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
-        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
+        CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbPilotSkillText, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbPilotGroupText, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbPilotGroupBG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPilotLevel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPilotPartial, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPilotCurrent, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -396,10 +400,6 @@ Partial Public Class frmSettings
         Me.gbMarketPrices.SuspendLayout()
         Me.ctxPrices.SuspendLayout()
         Me.gbTaskbarIcon.SuspendLayout()
-        CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPilotSkillText, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPilotGroupText, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPilotGroupBG, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -637,6 +637,82 @@ Partial Public Class frmSettings
         Me.gbPilotScreenColours.TabIndex = 37
         Me.gbPilotScreenColours.TabStop = False
         Me.gbPilotScreenColours.Text = "Pilot Screen Skill Colours"
+        '
+        'pbPilotSkillHighlight
+        '
+        Me.pbPilotSkillHighlight.BackColor = System.Drawing.Color.DodgerBlue
+        Me.pbPilotSkillHighlight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbPilotSkillHighlight.Location = New System.Drawing.Point(159, 96)
+        Me.pbPilotSkillHighlight.Name = "pbPilotSkillHighlight"
+        Me.pbPilotSkillHighlight.Size = New System.Drawing.Size(24, 24)
+        Me.pbPilotSkillHighlight.TabIndex = 60
+        Me.pbPilotSkillHighlight.TabStop = False
+        '
+        'lblPilotSkillHighlight
+        '
+        Me.lblPilotSkillHighlight.AutoSize = True
+        Me.lblPilotSkillHighlight.Location = New System.Drawing.Point(13, 99)
+        Me.lblPilotSkillHighlight.Name = "lblPilotSkillHighlight"
+        Me.lblPilotSkillHighlight.Size = New System.Drawing.Size(70, 13)
+        Me.lblPilotSkillHighlight.TabIndex = 59
+        Me.lblPilotSkillHighlight.Text = "Skill Highlight"
+        '
+        'pbPilotSkillText
+        '
+        Me.pbPilotSkillText.BackColor = System.Drawing.Color.Black
+        Me.pbPilotSkillText.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbPilotSkillText.Location = New System.Drawing.Point(159, 72)
+        Me.pbPilotSkillText.Name = "pbPilotSkillText"
+        Me.pbPilotSkillText.Size = New System.Drawing.Size(24, 24)
+        Me.pbPilotSkillText.TabIndex = 58
+        Me.pbPilotSkillText.TabStop = False
+        '
+        'lblPilotSkillText
+        '
+        Me.lblPilotSkillText.AutoSize = True
+        Me.lblPilotSkillText.Location = New System.Drawing.Point(13, 75)
+        Me.lblPilotSkillText.Name = "lblPilotSkillText"
+        Me.lblPilotSkillText.Size = New System.Drawing.Size(50, 13)
+        Me.lblPilotSkillText.TabIndex = 57
+        Me.lblPilotSkillText.Text = "Skill Text"
+        '
+        'pbPilotGroupText
+        '
+        Me.pbPilotGroupText.BackColor = System.Drawing.Color.White
+        Me.pbPilotGroupText.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbPilotGroupText.Location = New System.Drawing.Point(159, 48)
+        Me.pbPilotGroupText.Name = "pbPilotGroupText"
+        Me.pbPilotGroupText.Size = New System.Drawing.Size(24, 24)
+        Me.pbPilotGroupText.TabIndex = 56
+        Me.pbPilotGroupText.TabStop = False
+        '
+        'lblPilotGroupText
+        '
+        Me.lblPilotGroupText.AutoSize = True
+        Me.lblPilotGroupText.Location = New System.Drawing.Point(13, 51)
+        Me.lblPilotGroupText.Name = "lblPilotGroupText"
+        Me.lblPilotGroupText.Size = New System.Drawing.Size(60, 13)
+        Me.lblPilotGroupText.TabIndex = 55
+        Me.lblPilotGroupText.Text = "Group Text"
+        '
+        'pbPilotGroupBG
+        '
+        Me.pbPilotGroupBG.BackColor = System.Drawing.Color.DimGray
+        Me.pbPilotGroupBG.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbPilotGroupBG.Location = New System.Drawing.Point(159, 24)
+        Me.pbPilotGroupBG.Name = "pbPilotGroupBG"
+        Me.pbPilotGroupBG.Size = New System.Drawing.Size(24, 24)
+        Me.pbPilotGroupBG.TabIndex = 54
+        Me.pbPilotGroupBG.TabStop = False
+        '
+        'lblPilotGroupBG
+        '
+        Me.lblPilotGroupBG.AutoSize = True
+        Me.lblPilotGroupBG.Location = New System.Drawing.Point(13, 27)
+        Me.lblPilotGroupBG.Name = "lblPilotGroupBG"
+        Me.lblPilotGroupBG.Size = New System.Drawing.Size(97, 13)
+        Me.lblPilotGroupBG.TabIndex = 53
+        Me.lblPilotGroupBG.Text = "Group Background"
         '
         'btnResetPilotColours
         '
@@ -2809,7 +2885,7 @@ Partial Public Class frmSettings
         Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
         Me.gbColours.Location = New System.Drawing.Point(194, 12)
         Me.gbColours.Name = "gbColours"
-        Me.gbColours.Size = New System.Drawing.Size(695, 501)
+        Me.gbColours.Size = New System.Drawing.Size(138, 48)
         Me.gbColours.TabIndex = 28
         Me.gbColours.TabStop = False
         Me.gbColours.Text = "Colours"
@@ -3158,6 +3234,48 @@ Partial Public Class frmSettings
         Me.txtUpdatePrice.TabIndex = 8
         Me.txtUpdatePrice.Visible = False
         '
+        'lvwPrices
+        '
+        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
+        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
+        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwPrices.FullRowSelect = True
+        Me.lvwPrices.GridLines = True
+        Me.lvwPrices.HideSelection = False
+        Me.lvwPrices.Location = New System.Drawing.Point(6, 110)
+        Me.lvwPrices.MultiSelect = False
+        Me.lvwPrices.Name = "lvwPrices"
+        Me.lvwPrices.Size = New System.Drawing.Size(103, 0)
+        Me.lvwPrices.TabIndex = 7
+        Me.lvwPrices.UseCompatibleStateImageBehavior = False
+        Me.lvwPrices.View = System.Windows.Forms.View.Details
+        '
+        'colPriceName
+        '
+        Me.colPriceName.Text = "Item Name"
+        Me.colPriceName.Width = 300
+        '
+        'colBasePrice
+        '
+        Me.colBasePrice.Text = "Base Price"
+        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colBasePrice.Width = 120
+        '
+        'colMarketPrice
+        '
+        Me.colMarketPrice.Text = "Market Price"
+        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colMarketPrice.Width = 120
+        '
+        'colCustomPrice
+        '
+        Me.colCustomPrice.Text = "Custom Price"
+        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colCustomPrice.Width = 120
+        '
         'ctxPrices
         '
         Me.ctxPrices.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuPriceItemName, Me.ToolStripMenuItem1, Me.mnuPriceAdd, Me.mnuPriceEdit, Me.mnuPriceDelete})
@@ -3278,124 +3396,6 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
-        'pbPilotSkillHighlight
-        '
-        Me.pbPilotSkillHighlight.BackColor = System.Drawing.Color.DodgerBlue
-        Me.pbPilotSkillHighlight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPilotSkillHighlight.Location = New System.Drawing.Point(159, 96)
-        Me.pbPilotSkillHighlight.Name = "pbPilotSkillHighlight"
-        Me.pbPilotSkillHighlight.Size = New System.Drawing.Size(24, 24)
-        Me.pbPilotSkillHighlight.TabIndex = 60
-        Me.pbPilotSkillHighlight.TabStop = False
-        '
-        'lblPilotSkillHighlight
-        '
-        Me.lblPilotSkillHighlight.AutoSize = True
-        Me.lblPilotSkillHighlight.Location = New System.Drawing.Point(13, 99)
-        Me.lblPilotSkillHighlight.Name = "lblPilotSkillHighlight"
-        Me.lblPilotSkillHighlight.Size = New System.Drawing.Size(70, 13)
-        Me.lblPilotSkillHighlight.TabIndex = 59
-        Me.lblPilotSkillHighlight.Text = "Skill Highlight"
-        '
-        'pbPilotSkillText
-        '
-        Me.pbPilotSkillText.BackColor = System.Drawing.Color.Black
-        Me.pbPilotSkillText.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPilotSkillText.Location = New System.Drawing.Point(159, 72)
-        Me.pbPilotSkillText.Name = "pbPilotSkillText"
-        Me.pbPilotSkillText.Size = New System.Drawing.Size(24, 24)
-        Me.pbPilotSkillText.TabIndex = 58
-        Me.pbPilotSkillText.TabStop = False
-        '
-        'lblPilotSkillText
-        '
-        Me.lblPilotSkillText.AutoSize = True
-        Me.lblPilotSkillText.Location = New System.Drawing.Point(13, 75)
-        Me.lblPilotSkillText.Name = "lblPilotSkillText"
-        Me.lblPilotSkillText.Size = New System.Drawing.Size(50, 13)
-        Me.lblPilotSkillText.TabIndex = 57
-        Me.lblPilotSkillText.Text = "Skill Text"
-        '
-        'pbPilotGroupText
-        '
-        Me.pbPilotGroupText.BackColor = System.Drawing.Color.White
-        Me.pbPilotGroupText.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPilotGroupText.Location = New System.Drawing.Point(159, 48)
-        Me.pbPilotGroupText.Name = "pbPilotGroupText"
-        Me.pbPilotGroupText.Size = New System.Drawing.Size(24, 24)
-        Me.pbPilotGroupText.TabIndex = 56
-        Me.pbPilotGroupText.TabStop = False
-        '
-        'lblPilotGroupText
-        '
-        Me.lblPilotGroupText.AutoSize = True
-        Me.lblPilotGroupText.Location = New System.Drawing.Point(13, 51)
-        Me.lblPilotGroupText.Name = "lblPilotGroupText"
-        Me.lblPilotGroupText.Size = New System.Drawing.Size(60, 13)
-        Me.lblPilotGroupText.TabIndex = 55
-        Me.lblPilotGroupText.Text = "Group Text"
-        '
-        'pbPilotGroupBG
-        '
-        Me.pbPilotGroupBG.BackColor = System.Drawing.Color.DimGray
-        Me.pbPilotGroupBG.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPilotGroupBG.Location = New System.Drawing.Point(159, 24)
-        Me.pbPilotGroupBG.Name = "pbPilotGroupBG"
-        Me.pbPilotGroupBG.Size = New System.Drawing.Size(24, 24)
-        Me.pbPilotGroupBG.TabIndex = 54
-        Me.pbPilotGroupBG.TabStop = False
-        '
-        'lblPilotGroupBG
-        '
-        Me.lblPilotGroupBG.AutoSize = True
-        Me.lblPilotGroupBG.Location = New System.Drawing.Point(13, 27)
-        Me.lblPilotGroupBG.Name = "lblPilotGroupBG"
-        Me.lblPilotGroupBG.Size = New System.Drawing.Size(97, 13)
-        Me.lblPilotGroupBG.TabIndex = 53
-        Me.lblPilotGroupBG.Text = "Group Background"
-        '
-        'lvwPrices
-        '
-        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
-        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
-        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwPrices.FullRowSelect = True
-        Me.lvwPrices.GridLines = True
-        Me.lvwPrices.HideSelection = False
-        Me.lvwPrices.Location = New System.Drawing.Point(6, 110)
-        Me.lvwPrices.MultiSelect = False
-        Me.lvwPrices.Name = "lvwPrices"
-        Me.lvwPrices.Size = New System.Drawing.Size(103, 0)
-        Me.lvwPrices.TabIndex = 7
-        Me.lvwPrices.UseCompatibleStateImageBehavior = False
-        Me.lvwPrices.View = System.Windows.Forms.View.Details
-        '
-        'colPriceName
-        '
-        Me.colPriceName.Text = "Item Name"
-        Me.colPriceName.Width = 300
-        '
-        'colBasePrice
-        '
-        Me.colBasePrice.Text = "Base Price"
-        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colBasePrice.Width = 120
-        '
-        'colMarketPrice
-        '
-        Me.colMarketPrice.Text = "Market Price"
-        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colMarketPrice.Width = 120
-        '
-        'colCustomPrice
-        '
-        Me.colCustomPrice.Text = "Custom Price"
-        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colCustomPrice.Width = 120
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3432,6 +3432,10 @@ Partial Public Class frmSettings
         Me.gbGeneral.PerformLayout()
         Me.gbPilotScreenColours.ResumeLayout(False)
         Me.gbPilotScreenColours.PerformLayout()
+        CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbPilotSkillText, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbPilotGroupText, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbPilotGroupBG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPilotLevel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPilotPartial, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPilotCurrent, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3514,10 +3518,6 @@ Partial Public Class frmSettings
         Me.ctxPrices.ResumeLayout(False)
         Me.gbTaskbarIcon.ResumeLayout(False)
         Me.gbTaskbarIcon.PerformLayout()
-        CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPilotSkillText, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPilotGroupText, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPilotGroupBG, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

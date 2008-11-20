@@ -86,6 +86,7 @@ Partial Public Class frmEveHQ
         Me.mnuReportSkillsNotTrained = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportPartiallyTrainedSkills = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportAsteroids = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportAsteroidAlloys = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportAsteroidRocks = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportAsteroidIce = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportSPSummary = New System.Windows.Forms.ToolStripMenuItem
@@ -160,7 +161,8 @@ Partial Public Class frmEveHQ
         Me.XPTraining = New EveHQ.XPander
         Me.lblTrainingStatus = New System.Windows.Forms.Label
         Me.XPModules = New EveHQ.XPander
-        Me.mnuReportAsteroidAlloys = New System.Windows.Forms.ToolStripMenuItem
+        Me.btnAddAccount = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator14 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -230,7 +232,7 @@ Partial Public Class frmEveHQ
         '
         'ToolStrip
         '
-        Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnTogglePanel, Me.ToolStripSeparator10, Me.ToolStripLabel1, Me.ToolStripSeparator12, Me.cboPilots, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.tsbWebBrowser, Me.tsbTrainingOverlay, Me.tsbSettingsBackup, Me.tsbSettings, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator6, Me.tsbCheckUpdates, Me.ToolStripSeparator9, Me.tsbAbout, Me.ToolStripSeparator7})
+        Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnTogglePanel, Me.ToolStripSeparator10, Me.btnAddAccount, Me.ToolStripSeparator14, Me.ToolStripLabel1, Me.ToolStripSeparator12, Me.cboPilots, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.tsbWebBrowser, Me.tsbTrainingOverlay, Me.tsbSettingsBackup, Me.tsbSettings, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator6, Me.tsbCheckUpdates, Me.ToolStripSeparator9, Me.tsbAbout, Me.ToolStripSeparator7})
         Me.ToolStrip.Location = New System.Drawing.Point(0, 24)
         Me.ToolStrip.Name = "ToolStrip"
         Me.ToolStrip.Size = New System.Drawing.Size(917, 25)
@@ -624,16 +626,22 @@ Partial Public Class frmEveHQ
         Me.mnuReportAsteroids.Size = New System.Drawing.Size(189, 22)
         Me.mnuReportAsteroids.Text = "Material Composition"
         '
+        'mnuReportAsteroidAlloys
+        '
+        Me.mnuReportAsteroidAlloys.Name = "mnuReportAsteroidAlloys"
+        Me.mnuReportAsteroidAlloys.Size = New System.Drawing.Size(123, 22)
+        Me.mnuReportAsteroidAlloys.Text = "Alloys"
+        '
         'mnuReportAsteroidRocks
         '
         Me.mnuReportAsteroidRocks.Name = "mnuReportAsteroidRocks"
-        Me.mnuReportAsteroidRocks.Size = New System.Drawing.Size(152, 22)
+        Me.mnuReportAsteroidRocks.Size = New System.Drawing.Size(123, 22)
         Me.mnuReportAsteroidRocks.Text = "Asteroids"
         '
         'mnuReportAsteroidIce
         '
         Me.mnuReportAsteroidIce.Name = "mnuReportAsteroidIce"
-        Me.mnuReportAsteroidIce.Size = New System.Drawing.Size(152, 22)
+        Me.mnuReportAsteroidIce.Size = New System.Drawing.Size(123, 22)
         Me.mnuReportAsteroidIce.Text = "Ice"
         '
         'mnuReportSPSummary
@@ -1196,11 +1204,18 @@ Partial Public Class frmEveHQ
         Me.XPModules.Tag = 2
         Me.XPModules.TooltipText = Nothing
         '
-        'mnuReportAsteroidAlloys
+        'btnAddAccount
         '
-        Me.mnuReportAsteroidAlloys.Name = "mnuReportAsteroidAlloys"
-        Me.mnuReportAsteroidAlloys.Size = New System.Drawing.Size(152, 22)
-        Me.mnuReportAsteroidAlloys.Text = "Alloys"
+        Me.btnAddAccount.Image = CType(resources.GetObject("btnAddAccount.Image"), System.Drawing.Image)
+        Me.btnAddAccount.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.btnAddAccount.Name = "btnAddAccount"
+        Me.btnAddAccount.Size = New System.Drawing.Size(118, 22)
+        Me.btnAddAccount.Text = "Add API Account"
+        '
+        'ToolStripSeparator14
+        '
+        Me.ToolStripSeparator14.Name = "ToolStripSeparator14"
+        Me.ToolStripSeparator14.Size = New System.Drawing.Size(6, 25)
         '
         'frmEveHQ
         '
@@ -1373,5 +1388,7 @@ Partial Public Class frmEveHQ
     Friend WithEvents ClearEveHQCache As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuToolsTriggerError As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportAsteroidAlloys As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents btnAddAccount As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator14 As System.Windows.Forms.ToolStripSeparator
 
 End Class

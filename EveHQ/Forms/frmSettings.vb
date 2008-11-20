@@ -67,16 +67,48 @@ Public Class frmSettings
         Call Me.UpdateDatabaseSettings()
         Call Me.UpdateTaskBarIconOptions()
 
-        ' Switch to the right tab
-        If Me.Tag IsNot Nothing Then
-            If Me.Tag.ToString = "" Then
-                Me.Tag = "tabGeneral"
-            End If
-        End If
-
         ' Set the flag to indicate end of the startup
         startup = False
 
+        ' Switch to the right tab
+        Me.tvwSettings.Select()
+        If Me.Tag IsNot Nothing Then
+            If Me.Tag.ToString = "" Then
+                Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes("nodeGeneral")
+            Else
+                If Me.tvwSettings.Nodes.ContainsKey(Me.Tag.ToString) = True Then
+                    Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes(Me.Tag.ToString)
+                Else
+                    Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes("nodeGeneral")
+                End If
+            End If
+        Else
+            Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes("nodeGeneral")
+        End If
+
+    End Sub
+#End Region
+
+#Region "Treeview Routines"
+
+    Private Sub tvwSettings_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwSettings.AfterSelect
+        Dim nodeName As String = e.Node.Name
+        Dim gbName As String = nodeName.TrimStart("node".ToCharArray)
+        gbName = "gb" & gbName
+        For Each setControl As Control In Me.Controls
+            If setControl.Name = "tvwSettings" Or setControl.Name = "btnClose" Or setControl.Name = gbName Then
+                Me.Controls(gbName).Top = 12
+                Me.Controls(gbName).Left = 195
+                Me.Controls(gbName).Width = 700
+                Me.Controls(gbName).Height = 500
+                Me.Controls(gbName).Visible = True
+            Else
+                setControl.Visible = False
+            End If
+        Next
+    End Sub
+    Private Sub tvwSettings_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwSettings.NodeMouseClick
+        Me.tvwSettings.SelectedNode = e.Node
     End Sub
 #End Region
 
@@ -1607,25 +1639,7 @@ Public Class frmSettings
 
 #End Region
 
-#Region "Treeview Routines"
-    Private Sub tvwSettings_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwSettings.NodeMouseClick
-        Dim nodeName As String = e.Node.Name
-        Dim gbName As String = nodeName.TrimStart("node".ToCharArray)
-        gbName = "gb" & gbName
-        For Each setControl As Control In Me.Controls
-            If setControl.Name = "tvwSettings" Or setControl.Name = "btnClose" Or setControl.Name = gbName Then
-                Me.Controls(gbName).Top = 12
-                Me.Controls(gbName).Left = 195
-                Me.Controls(gbName).Width = 700
-                Me.Controls(gbName).Height = 500
-                Me.Controls(gbName).Visible = True
-            Else
-                setControl.Visible = False
-            End If
-        Next
-    End Sub
 
-#End Region
 
 #Region "Training Overlay Routines"
 

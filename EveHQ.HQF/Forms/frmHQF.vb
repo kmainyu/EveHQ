@@ -2199,27 +2199,6 @@ Public Class frmHQF
         myPilotManager = Nothing
     End Sub
 
-    Private Sub OptionsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptionsToolStripMenuItem.Click
-        Call Me.OpenSettingsForm()
-    End Sub
-
-    Private Sub PilotManagerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PilotManagerToolStripMenuItem.Click
-        Dim myPilotManager As New frmPilotManager
-        If currentShipInfo IsNot Nothing Then
-            myPilotManager.pilotName = currentShipInfo.cboPilots.SelectedItem.ToString
-        Else
-            myPilotManager.pilotName = EveHQ.Core.HQ.myPilot.Name
-        End If
-        myPilotManager.ShowDialog()
-        myPilotManager = Nothing
-    End Sub
-
-    Private Sub mnuEFTImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuEFTImport.Click
-        Dim myEFTImport As New frmEFTImport
-        myEFTImport.ShowDialog()
-        myEFTImport = Nothing
-        Call Me.UpdateFittingsTree()
-    End Sub
     Private Sub OpenSettingsForm()
         ' Open options form
         Dim mySettings As New frmHQFSettings
@@ -2252,25 +2231,21 @@ Public Class frmHQF
 
     Private Sub clvFittings_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvFittings.SelectedItemsChanged
         If clvFittings.SelectedItems.Count > 1 Then
-            mnuCompareShips.Enabled = True
             mnuCompareFittings.Enabled = True
         Else
             If clvFittings.SelectedItems.Count = 1 Then
                 If clvFittings.SelectedItems(0).Items.Count > 1 Then
-                    mnuCompareShips.Enabled = True
                     mnuCompareFittings.Enabled = True
                 Else
-                    mnuCompareShips.Enabled = False
                     mnuCompareFittings.Enabled = False
                 End If
             Else
-                mnuCompareShips.Enabled = False
                 mnuCompareFittings.Enabled = False
             End If
         End If
     End Sub
 
-    Private Sub mnuCompareShips_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCompareShips.Click
+    Private Sub mnuCompareShips_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Call Me.CompareShips()
     End Sub
 
@@ -2300,5 +2275,12 @@ Public Class frmHQF
         CompareShips.ShipList = Fittings
         CompareShips.ShowDialog()
         CompareShips.Dispose()
+    End Sub
+
+    Private Sub btnImportEFT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportEFT.Click
+        Dim myEFTImport As New frmEFTImport
+        myEFTImport.ShowDialog()
+        myEFTImport = Nothing
+        Call Me.UpdateFittingsTree()
     End Sub
 End Class
