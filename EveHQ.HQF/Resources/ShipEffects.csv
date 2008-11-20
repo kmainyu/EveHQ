@@ -151,7 +151,7 @@
 11985,1,12096,6,2,41,0,1,0,-15,15,Shield Transporter Cap Use
 11985,1,12096,6,2,67,0,1,0,-15,15,Energy Transfer Cap Use
 11985,0,0,50,2,41,0,0,0,-50,15,Shield Transporter CPU
-11985,0,0,50,2,67,0,0,0,-50,15,Energy Transfer CPU
+11985,0,0,30,2,67,0,0,0,-50,15,Energy Transfer PG
 # Bellicose,,,,,,,,,,,
 630,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 630,1,3333,554,2,379,0,1,0,7.5,15,Target Painter Sig Radius
@@ -272,7 +272,7 @@
 583,1,3330,37,2,387;648;384;653,0,1,0,10,15,"Rocket, Light Missile Velocity"
 # Cormorant,,,,,,,,,,,
 16238,1,12097,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
-16238,1,12097,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
+16238,1,12097,54,4,561;564,0,1,0,10,15,Small Hybrid Turret Optimal Range
 16238,0,0,10011,2,53;55;74,0,0,0,25,15,Energy Turret ROF
 16238,0,0,10012,2,53;55;74,0,0,0,25,15,Hybrid Turret ROF
 16238,0,0,10013,2,53;55;74,0,0,0,25,15,Projectile Turret ROF
@@ -471,7 +471,7 @@
 11987,1,3335,84,4,842,0,1,0,20,15,Armor Maintenance Bot Transfer
 11987,1,12096,6,2,325,0,1,0,-15,15,Remote Armor Repairer Cap Use
 11987,1,12096,6,2,67,0,1,0,-15,15,Energy Transfer Cap Use
-11987,0,0,30,2,325,0,0,0,-65,15,Shield Transporter Power Need
+11987,0,0,30,2,325,0,0,0,-65,15,Remote Armor Repairer Power Need
 11987,0,0,30,2,67,0,0,0,-50,15,Energy Transfer Power Need
 # Guardian-Vexor,,,,,,,,,,,
 11011,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
@@ -530,7 +530,7 @@
 12034,1,3329,118,2,656;386,0,1,0,5,15,Thermal Cruise Damage
 12034,1,3329,654,2,656;386,0,1,0,-16.66,15,Cruise Missile Explosion Radius
 12034,1,12093,116,2,656;386;90,0,1,0,5,15,Explosive Cruise & Bomb Damage
-12034,1,12093,306,2,330,0,1,0,-25,8,Cloaked Velocity Bonus
+12034,1,12093,306,2,330,0,1,1,25,8,Cloaked Velocity Bonus
 12034,0,0,30,2,506,0,0,0,-99,15,Cruise Missile PG Need
 12034,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
 12034,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
@@ -691,7 +691,7 @@
 12032,1,3330,118,2,656;386,0,1,0,5,15,Thermal Cruise Damage
 12032,1,3330,654,2,656;386,0,1,0,-16.66,15,Cruise Missile Explosion Radius
 12032,1,12093,117,2,656;386;90,0,1,0,5,15,Kinetic Cruise & Bomb Damage
-12032,1,12093,306,2,330,0,1,0,-25,8,Cloaked Velocity Bonus
+12032,1,12093,306,2,330,0,1,1,25,8,Cloaked Velocity Bonus
 12032,0,0,30,2,506,0,0,0,-99,15,Cruise Missile PG Need
 12032,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
 12032,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
@@ -759,7 +759,7 @@
 11377,1,3328,118,2,656;386,0,1,0,5,15,Thermal Cruise Damage
 11377,1,3328,654,2,656;386,0,1,0,-16.66,15,Cruise Missile Explosion Radius
 11377,1,12093,118,2,656;386;90,0,1,0,5,15,Thermal Cruise & Bomb Damage
-11377,1,12093,306,2,330,0,1,0,-25,8,Cloaked Velocity Bonus
+11377,1,12093,306,2,330,0,1,1,25,8,Cloaked Velocity Bonus
 11377,0,0,30,2,506,0,0,0,-99,15,Cruise Missile PG Need
 11377,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
 11377,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
@@ -938,7 +938,7 @@
 12038,1,3331,118,2,656;386,0,1,0,5,15,Thermal Cruise Damage
 12038,1,3331,654,2,656;386,0,1,0,-16.66,15,Cruise Missile Explosion Radius
 12038,1,12093,114,2,656;386;90,0,1,0,5,15,EM Cruise & Bomb Damage
-12038,1,12093,306,2,330,0,1,0,-25,8,Cloaked Velocity Bonus
+12038,1,12093,306,2,330,0,1,1,25,8,Cloaked Velocity Bonus
 12038,0,0,30,2,506,0,0,0,-99,15,Cruise Missile PG Need
 12038,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
 12038,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
@@ -1155,7 +1155,7 @@
 627,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 627,1,3332,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus
 # Thrasher,,,,,,,,,,,
-16242,1,12097,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
+16242,1,12097,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking
 16242,1,12097,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 16242,0,0,10011,2,53;55;74,0,0,0,25,15,Energy Turret ROF
 16242,0,0,10012,2,53;55;74,0,0,0,25,15,Hybrid Turret ROF

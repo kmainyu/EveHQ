@@ -473,7 +473,7 @@
 292,1,24563,114,2,588,0,1,0,0,Doomsday Operation - EM
 292,1,24563,117,2,588,0,1,0,0,Doomsday Operation - Kinetic
 885,1,24562,714,2,590,0,1,0,0,Jump Portal Generation
-#,1,25739,,,,0,1,0,0,Signal Acquisition
+66,1,25739,73,2,481,0,1,0,0,Signal Acquisition
 1229,1,28164,1211,0,0,0,1,0,0,Thermodynamics
 # SPACESHIP COMMAND,,,,,,,,,,
 151,1,20342,70,2,547,0,1,0,0,Advanced Spaceship Command
@@ -965,7 +965,7 @@
 292,2,778,64,4,911,1,0,0,15,Sentry Damage Augmentor
 1164,2,778,20,3,18,0,0,0,15,Stasis Drone Augmentor
 # RIGS - ELECTRONIC,,,,,,,,,,
-#66,2,780,0,0,0,0,0,0,15,Gravity Capacitor Upgrade
+66,2,780,73,2,481,0,0,0,15,Gravity Capacitor Upgrade
 310,2,780,50,5,3432,0,0,0,15,Liquid Cooled Electronics
 317,2,780,6,2,201;80,0,0,0,15,Signal Disruption Amplifier
 # RIGS - ELECTRONIC SUPERIORITY,,,,,,,,,,

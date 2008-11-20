@@ -355,7 +355,7 @@ Public Class ShipSlotControl
                             End If
                         Case "Tracking"
                             If shipMod.Attributes.Contains("160") Then
-                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("160"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                slotName.SubItems.Add(FormatNumber(shipMod.Attributes("160"), 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             Else
                                 slotName.SubItems.Add("")
                             End If
@@ -504,7 +504,7 @@ Public Class ShipSlotControl
                         idx += 1
                     Case "Tracking"
                         If shipMod.Attributes.Contains("160") Then
-                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("160"), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            slotName.SubItems(idx).Text = FormatNumber(shipMod.Attributes("160"), 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                         Else
                             slotName.SubItems(idx).Text = ""
                         End If
