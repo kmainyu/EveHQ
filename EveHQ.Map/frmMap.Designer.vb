@@ -608,7 +608,7 @@ Partial Class frmMap
         Me.chkAutoCalcRoute.AutoSize = True
         Me.chkAutoCalcRoute.Checked = True
         Me.chkAutoCalcRoute.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkAutoCalcRoute.Location = New System.Drawing.Point(4, 391)
+        Me.chkAutoCalcRoute.Location = New System.Drawing.Point(5, 508)
         Me.chkAutoCalcRoute.Name = "chkAutoCalcRoute"
         Me.chkAutoCalcRoute.Size = New System.Drawing.Size(167, 17)
         Me.chkAutoCalcRoute.TabIndex = 6
@@ -618,7 +618,7 @@ Partial Class frmMap
         'btnOptimalWP
         '
         Me.btnOptimalWP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnOptimalWP.Location = New System.Drawing.Point(175, 366)
+        Me.btnOptimalWP.Location = New System.Drawing.Point(176, 483)
         Me.btnOptimalWP.Name = "btnOptimalWP"
         Me.btnOptimalWP.Size = New System.Drawing.Size(58, 23)
         Me.btnOptimalWP.TabIndex = 5
@@ -629,7 +629,7 @@ Partial Class frmMap
         'btnRemoveWaypoint
         '
         Me.btnRemoveWaypoint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnRemoveWaypoint.Location = New System.Drawing.Point(3, 366)
+        Me.btnRemoveWaypoint.Location = New System.Drawing.Point(4, 483)
         Me.btnRemoveWaypoint.Name = "btnRemoveWaypoint"
         Me.btnRemoveWaypoint.Size = New System.Drawing.Size(80, 23)
         Me.btnRemoveWaypoint.TabIndex = 4
@@ -644,7 +644,7 @@ Partial Class frmMap
         Me.lstWaypoints.FormattingEnabled = True
         Me.lstWaypoints.Location = New System.Drawing.Point(4, 6)
         Me.lstWaypoints.Name = "lstWaypoints"
-        Me.lstWaypoints.Size = New System.Drawing.Size(229, 355)
+        Me.lstWaypoints.Size = New System.Drawing.Size(229, 472)
         Me.lstWaypoints.TabIndex = 3
         '
         'btnAddWaypoint
@@ -1985,7 +1985,7 @@ Partial Class frmMap
         Me.lvwExclusions.GridLines = True
         Me.lvwExclusions.Location = New System.Drawing.Point(3, 6)
         Me.lvwExclusions.Name = "lvwExclusions"
-        Me.lvwExclusions.Size = New System.Drawing.Size(231, 372)
+        Me.lvwExclusions.Size = New System.Drawing.Size(231, 489)
         Me.lvwExclusions.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwExclusions.TabIndex = 68
         Me.lvwExclusions.UseCompatibleStateImageBehavior = False
@@ -2028,7 +2028,7 @@ Partial Class frmMap
         'btnRemoveExclusion
         '
         Me.btnRemoveExclusion.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRemoveExclusion.Location = New System.Drawing.Point(127, 384)
+        Me.btnRemoveExclusion.Location = New System.Drawing.Point(128, 501)
         Me.btnRemoveExclusion.Name = "btnRemoveExclusion"
         Me.btnRemoveExclusion.Size = New System.Drawing.Size(106, 23)
         Me.btnRemoveExclusion.TabIndex = 69
@@ -2088,7 +2088,7 @@ Partial Class frmMap
         'btnClearWP
         '
         Me.btnClearWP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnClearWP.Location = New System.Drawing.Point(89, 366)
+        Me.btnClearWP.Location = New System.Drawing.Point(90, 483)
         Me.btnClearWP.Name = "btnClearWP"
         Me.btnClearWP.Size = New System.Drawing.Size(76, 23)
         Me.btnClearWP.TabIndex = 7

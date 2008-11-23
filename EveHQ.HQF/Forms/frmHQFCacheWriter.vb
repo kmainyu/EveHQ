@@ -14,31 +14,37 @@ Public Class frmHQFCacheWriter
         Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\ships.bin", FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, ShipLists.shipList)
+        s.Flush()
         s.Close()
         ' Save modules
         s = New FileStream(HQF.Settings.HQFCacheFolder & "\modules.bin", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, ModuleLists.moduleList)
+        s.Flush()
         s.Close()
         ' Save implants
         s = New FileStream(HQF.Settings.HQFCacheFolder & "\implants.bin", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, Implants.implantList)
+        s.Flush()
         s.Close()
         ' Save skills
         s = New FileStream(HQF.Settings.HQFCacheFolder & "\skills.bin", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, SkillLists.SkillList)
+        s.Flush()
         s.Close()
         ' Save attributes
         s = New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.bin", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, Attributes.AttributeList)
+        s.Flush()
         s.Close()
         ' Save NPCs
         s = New FileStream(HQF.Settings.HQFCacheFolder & "\NPCs.bin", FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, NPCs.NPCList)
+        s.Flush()
         s.Close()
         Me.Close()
     End Sub

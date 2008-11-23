@@ -2516,12 +2516,11 @@ Public Class frmAssets
         sw.Close()
         strHTML = Nothing
 
-        Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetLocations.html")
-
-        'Dim newReport As New frmReportViewer
-        'Call EveHQ.Core.Reports.GenerateCharSummary()
-        'newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\AssetLocations.html")
-        'DisplayReport(newReport, "Pilot Summary")
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetLocations.html") = True Then
+            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetLocations.html")
+        Else
+            MessageBox.Show("Unable to locate the Asset Location file, please try again!", "Error Finding File")
+        End If
 
         ' Tidy up report variables
         GC.Collect()
@@ -2539,7 +2538,11 @@ Public Class frmAssets
         sw.Close()
         strHTML = Nothing
 
-        Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetList.html")
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetList.html") = True Then
+            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetList.html")
+        Else
+            MessageBox.Show("Unable to locate the Asset List file, please try again!", "Error Finding File")
+        End If
 
         ' Tidy up report variables
         GC.Collect()
@@ -2557,7 +2560,11 @@ Public Class frmAssets
         sw.Close()
         strHTML = Nothing
 
-        Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityA.html")
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityA.html") = True Then
+            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityA.html")
+        Else
+            MessageBox.Show("Unable to locate the Asset Quantity file, please try again!", "Error Finding File")
+        End If
 
         ' Tidy up report variables
         GC.Collect()
@@ -2575,7 +2582,11 @@ Public Class frmAssets
         sw.Close()
         strHTML = Nothing
 
-        Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityD.html")
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityD.html") = True Then
+            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityD.html")
+        Else
+            MessageBox.Show("Unable to locate the Asset Quantity file, please try again!", "Error Finding File")
+        End If
 
         ' Tidy up report variables
         GC.Collect()
@@ -2593,7 +2604,11 @@ Public Class frmAssets
         sw.Close()
         strHTML = Nothing
 
-        Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListPriceA.html")
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListPriceA.html") = True Then
+            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListPriceA.html")
+        Else
+            MessageBox.Show("Unable to locate the Asset Price file, please try again!", "Error Finding File")
+        End If
 
         ' Tidy up report variables
         GC.Collect()
@@ -2611,7 +2626,11 @@ Public Class frmAssets
         sw.Close()
         strHTML = Nothing
 
-        Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListPriceD.html")
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListPriceD.html") = True Then
+            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListPriceD.html")
+        Else
+            MessageBox.Show("Unable to locate the Asset Price file, please try again!", "Error Finding File")
+        End If
 
         ' Tidy up report variables
         GC.Collect()
@@ -2629,7 +2648,11 @@ Public Class frmAssets
         sw.Close()
         strHTML = Nothing
 
-        Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListValueA.html")
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListValueA.html") = True Then
+            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListValueA.html")
+        Else
+            MessageBox.Show("Unable to locate the Asset Value file, please try again!", "Error Finding File")
+        End If
 
         ' Tidy up report variables
         GC.Collect()
@@ -2647,7 +2670,11 @@ Public Class frmAssets
         sw.Close()
         strHTML = Nothing
 
-        Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListValueD.html")
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListValueD.html") = True Then
+            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListValueD.html")
+        Else
+            MessageBox.Show("Unable to locate the Asset Value file, please try again!", "Error Finding File")
+        End If
 
         ' Tidy up report variables
         GC.Collect()

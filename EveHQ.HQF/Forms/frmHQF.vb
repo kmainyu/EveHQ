@@ -176,6 +176,7 @@ Public Class frmHQF
         Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFFittings.bin", FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, Fittings.FittingList)
+        s.Flush()
         s.Close()
     End Sub
     Private Sub ShowShipMarketGroups()
@@ -1946,7 +1947,11 @@ Public Class frmHQF
         For Each cargo As CargoBayItem In currentShip.CargoBayItems.Values
             fitting.AppendLine(cargo.ItemType.Name & ", " & cargo.Quantity)
         Next
-        Clipboard.SetText(fitting.ToString)
+        Try
+            Clipboard.SetText(fitting.ToString)
+        Catch ex As Exception
+            MessageBox.Show("There was an error writing data to the clipboard. Please wait a couple of seconds and try again.", "Copy For HQF Error")
+        End Try
     End Sub
 
     Private Sub mnuCopyForEFT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyForEFT.Click
@@ -1998,7 +2003,12 @@ Public Class frmHQF
         For Each drone As DroneBayItem In currentship.DroneBayItems.Values
             fitting.AppendLine(drone.DroneType.Name & " x" & drone.Quantity)
         Next
-        Clipboard.SetText(fitting.ToString)
+        Try
+            Clipboard.SetText(fitting.ToString)
+        Catch ex As Exception
+            MessageBox.Show("There was an error writing data to the clipboard. Please wait a couple of seconds and try again.", "Copy For EFT Error")
+        End Try
+
     End Sub
 
     Private Sub mnuCopyForForums_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyForForums.Click
@@ -2164,8 +2174,11 @@ Public Class frmHQF
                 fitting.AppendLine(cargo.Quantity & "x " & cargo.ItemType.Name & " (cargo)")
             Next
         End If
-
-        Clipboard.SetText(fitting.ToString)
+        Try
+            Clipboard.SetText(fitting.ToString)
+        Catch ex As Exception
+            MessageBox.Show("There was an error writing data to the clipboard. Please wait a couple of seconds and try again.", "Copy For Forums Error")
+        End Try
     End Sub
 
     Private Sub mnuShipStats_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShipStats.Click
@@ -2183,7 +2196,11 @@ Public Class frmHQF
         stats.AppendLine("")
         stats.AppendLine("Volley Damage: " & FormatNumber(currentship.TotalVolley, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
         stats.AppendLine("DPS: " & FormatNumber(currentship.TotalDPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-        Clipboard.SetText(stats.ToString)
+        Try
+            Clipboard.SetText(stats.ToString)
+        Catch ex As Exception
+            MessageBox.Show("There was an error writing data to the clipboard. Please wait a couple of seconds and try again.", "Copy Stats Error")
+        End Try
     End Sub
 
 #End Region

@@ -257,7 +257,7 @@ Partial Class frmAssets
         Me.ContainerListViewColumnHeader2.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.ContainerListViewColumnHeader2.CustomSortTag = Nothing
         Me.ContainerListViewColumnHeader2.DisplayIndex = 5
-        Me.ContainerListViewColumnHeader2.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.ContainerListViewColumnHeader2.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
         Me.ContainerListViewColumnHeader2.Tag = Nothing
         Me.ContainerListViewColumnHeader2.Text = "Quantity"
         Me.ContainerListViewColumnHeader2.Width = 100

@@ -1877,7 +1877,7 @@ Public Class frmMap
             If PlugInData.SystemsName.ContainsKey(cboSystem.Text) = False Then
                 MessageBox.Show("System Name is not a valid system", "System Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
-                If lblStartSystem.Tag.ToString = "" Or lblEndSystem.Tag.ToString = "" Then
+                If lblStartSystem.Tag Is Nothing Or lblEndSystem.Tag Is Nothing Then
                     MessageBox.Show("Please enter a Start and End System before entering a Waypoint.", "Start System Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 ElseIf WaypointRoutes.Contains(cboSystem.Text) Then
                     MessageBox.Show("System is already set as a waypoint.", "Waypoint Exists", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

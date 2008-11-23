@@ -133,6 +133,7 @@ End Class
         Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFPilotSettings.bin", FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, HQFPilotCollection.HQFPilots)
+        s.Flush()
         s.Close()
     End Sub
 

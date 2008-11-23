@@ -2885,7 +2885,7 @@ Partial Public Class frmSettings
         Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
         Me.gbColours.Location = New System.Drawing.Point(194, 12)
         Me.gbColours.Name = "gbColours"
-        Me.gbColours.Size = New System.Drawing.Size(138, 48)
+        Me.gbColours.Size = New System.Drawing.Size(695, 501)
         Me.gbColours.TabIndex = 28
         Me.gbColours.TabStop = False
         Me.gbColours.Text = "Colours"

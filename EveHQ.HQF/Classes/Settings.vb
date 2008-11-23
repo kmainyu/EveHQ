@@ -629,6 +629,7 @@ Public Class Settings
         Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFProfiles.bin", FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, DamageProfiles.ProfileList)
+        s.Flush()
         s.Close()
     End Sub
 
