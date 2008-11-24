@@ -526,6 +526,11 @@ Public Class frmEveHQ
 
         tsProgramStatus.Text = "Exiting Program..."
 
+        ' Close the tabs if they are open, forcing the correct closure of each plug-in and form
+        For Each tp As TabPage In tabMDI.TabPages
+            TryCast(tp.Tag, Form).Close()
+        Next
+
         EveStatusIcon.Icon = Nothing
         EveStatusIcon.Dispose()
         End
