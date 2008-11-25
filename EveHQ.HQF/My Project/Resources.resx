@@ -235,15 +235,6 @@
   <data name="imgWarpSpeed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon03_07.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Boosters" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Boosters.csv;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="Rigs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Rigs.csv;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="Ships" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ships.csv;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="Status_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Status_green.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

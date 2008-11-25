@@ -81,24 +81,6 @@ Namespace My.Resources
             End Get
         End Property
         
-        '''<summary>
-        '''  Looks up a localized string similar to Improved Blue Pill Booster,SHIELD_BOOSTER_BOOST,25,1
-        '''Improved Blue Pill Booster,SHIELD_HP_PERCENT,-25,-1
-        '''Improved Blue Pill Booster,TURRET_OPTIMAL_RANGE,-25,-1
-        '''Improved Blue Pill Booster,MISSILE_EXPLOSION_VELOCITY,-25,-1
-        '''Improved Blue Pill Booster,CAPACITOR_CAPACITY_PERCENT,-25,-1
-        '''Improved Crash Booster,MISSILE_EXPLOSION_RADIUS,-25,1
-        '''Improved Crash Booster,SHIELD_BOOSTER_BOOST,-25,-1
-        '''Improved Crash Booster,MAX_VELOCITY,-25,-1
-        '''Improved Crash Booster,MISSILE_VELOCITY,-25,-1
-        '''Improved Crash Booster,ARM [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property Boosters() As String
-            Get
-                Return ResourceManager.GetString("Boosters", resourceCulture)
-            End Get
-        End Property
-        
         Friend ReadOnly Property Clipboard1() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Clipboard1", resourceCulture)
@@ -512,26 +494,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Armor,MAX_VELOCITY
-        '''Astronautic,ARMOR_HP_PERCENT
-        '''Drone,CPU
-        '''Electronics,NO
-        '''Electronics Superiority,SHIELD_HP_PERCENT
-        '''Energy Grid,NO
-        '''Energy Weapon,ENERGY_TURRET_POWER_NEED
-        '''Hybrid Weapon,HYBRID_TURRET_POWER_NEED
-        '''Missile Launcher,MISSILE_LAUNCHER_CPU_NEED
-        '''Projectile Weapon,PROJECTILE_TURRET_POWER_NEED
-        '''Shield,SIGNATURE_RADIUS
-        '''.
-        '''</summary>
-        Friend ReadOnly Property Rigs() As String
-            Get
-                Return ResourceManager.GetString("Rigs", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to #HQF Ship Bonus Mapping Table,,,,,,,,,,,
         '''#Ship ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Status,Description
         '''# Abaddon,,,,,,,,,,,
@@ -544,24 +506,6 @@ Namespace My.Resources
         Friend ReadOnly Property ShipEffects() As String
             Get
                 Return ResourceManager.GetString("ShipEffects", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Abaddon,LARGE_ENERGY_TURRET_DAMAGE,5,1,Amarr Battleship
-        '''Abaddon,EM_ARMOR_RESIST,5,1,Amarr Battleship
-        '''Abaddon,EXPLOSIVE_ARMOR_RESIST,5,1,Amarr Battleship
-        '''Abaddon,KINETIC_ARMOR_RESIST,5,1,Amarr Battleship
-        '''Abaddon,THERMAL_ARMOR_RESIST,5,1,Amarr Battleship
-        '''Absolution,MEDIUM_ENERGY_TURRET_CAPACITOR,-10,1,Battlecruisers
-        '''Absolution,EM_ARMOR_RESIST,5,1,Battlecruisers
-        '''Absolution,EXPLOSIVE_ARMOR_RESIST,5,1,Battlecruisers
-        '''Absolution,KINETIC_ARMOR_RESIST,5,1,Battlecruisers
-        '''Absolution,THERMAL_ARMOR_RESIST,5,1,B [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property Ships() As String
-            Get
-                Return ResourceManager.GetString("Ships", resourceCulture)
             End Get
         End Property
         

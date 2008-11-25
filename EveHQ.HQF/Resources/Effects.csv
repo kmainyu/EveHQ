@@ -724,10 +724,10 @@
 #351,2,291,54,2,55;53;74,1,0,0,14,Optimal Range
 #767,2,291,160,2,55;53;74,1,0,0,14,Tracking Speed
 # Warp Disruption Field Generators,,,,,,,,,,
-554,2,899,552,3,6,0,0,0,14,Signature Radius Penalty
-1131,2,899,10002,3,6,0,0,0,14,Mass Reduction
-1164,2,899,20,2,46,0,0,0,14,AB/MWD Max Velocity Penalty
-1270,2,899,567,2,46,0,0,0,14,AB/MWD Thrust Penalty
+554,2,899,552,3,6,1,0,0,12,Signature Radius Penalty
+1131,2,899,10002,3,6,1,0,0,12,Mass Reduction
+1164,2,899,20,2,46,1,0,0,12,AB/MWD Max Velocity Penalty
+1270,2,899,567,2,46,0,0,0,12,AB/MWD Thrust Penalty
 # Warp Scramblers,,,,,,,,,,
 105,2,52,10009,3,6,0,0,0,14,Warp Core Strength
 # ELECTRONICS AND SENSOR UPGRADES,,,,,,,,,,

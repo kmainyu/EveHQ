@@ -831,6 +831,8 @@ Public Class Engine
                                             End If
                                         Case EffectCalcType.Subtraction
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
+                                        Case EffectCalcType.CloakedVelocity
+                                            aModule.Attributes(att) = -100 + ((100 + CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100))
                                     End Select
                                     log &= " --> " & aModule.Attributes(att).ToString
                                     If oldAtt <> aModule.Attributes(att).ToString Then
@@ -917,6 +919,8 @@ Public Class Engine
                                 End If
                             Case EffectCalcType.Subtraction
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) - fEffect.AffectedValue
+                            Case EffectCalcType.CloakedVelocity
+                                newShip.Attributes(att) = -100 + ((100 + CDbl(newShip.Attributes(att))) * (fEffect.AffectedValue / 100))
                         End Select
                         log &= "# " & newShip.Attributes(att).ToString
                         If oldAtt <> newShip.Attributes(att).ToString Then
@@ -994,6 +998,8 @@ Public Class Engine
                                 End If
                             Case EffectCalcType.Subtraction
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) - fEffect.AffectedValue
+                            Case EffectCalcType.CloakedVelocity
+                                newShip.Attributes(att) = -100 + ((100 + CDbl(newShip.Attributes(att))) * (fEffect.AffectedValue / 100))
                         End Select
                         log &= "# " & newShip.Attributes(att).ToString
                         newShip.AuditLog.Add(log)
@@ -1100,6 +1106,8 @@ Public Class Engine
                                             End If
                                         Case EffectCalcType.Subtraction
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
+                                        Case EffectCalcType.CloakedVelocity
+                                            aModule.Attributes(att) = -100 + ((100 + CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100))
                                     End Select
                                     log &= " --> " & aModule.Attributes(att).ToString
                                     If oldAtt <> aModule.Attributes(att).ToString Then
@@ -1160,14 +1168,16 @@ Public Class Engine
                                                 aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * fEffect.AffectedValue
                                             Case EffectCalcType.AddPositive
                                                 If fEffect.AffectedValue > 0 Then
-                                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                                    aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
                                                 End If
                                             Case EffectCalcType.AddNegative
                                                 If fEffect.AffectedValue < 0 Then
-                                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                                    aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
                                                 End If
                                             Case EffectCalcType.Subtraction
-                                                aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
+                                                aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) - fEffect.AffectedValue
+                                            Case EffectCalcType.CloakedVelocity
+                                                aModule.LoadedCharge.Attributes(att) = -100 + ((100 + CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100))
                                         End Select
                                         log &= " --> " & aModule.LoadedCharge.Attributes(att).ToString
                                         If oldAtt <> aModule.LoadedCharge.Attributes(att).ToString Then
@@ -1260,6 +1270,8 @@ Public Class Engine
                                     End If
                                 Case EffectCalcType.Subtraction
                                     aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
+                                Case EffectCalcType.CloakedVelocity
+                                    aModule.Attributes(att) = -100 + ((100 + CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100))
                             End Select
                             log &= " --> " & aModule.Attributes(att).ToString
                             If oldAtt <> aModule.Attributes(att).ToString Then
@@ -1373,6 +1385,8 @@ Public Class Engine
                                             End If
                                         Case EffectCalcType.Subtraction
                                             aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
+                                        Case EffectCalcType.CloakedVelocity
+                                            aModule.Attributes(att) = -100 + ((100 + CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100))
                                     End Select
                                     log &= " --> " & aModule.Attributes(att).ToString
                                     If oldAtt <> aModule.Attributes(att).ToString Then
@@ -1437,14 +1451,16 @@ Public Class Engine
                                                 aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * fEffect.AffectedValue
                                             Case EffectCalcType.AddPositive
                                                 If fEffect.AffectedValue > 0 Then
-                                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                                    aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
                                                 End If
                                             Case EffectCalcType.AddNegative
                                                 If fEffect.AffectedValue < 0 Then
-                                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                                    aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
                                                 End If
                                             Case EffectCalcType.Subtraction
-                                                aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
+                                                aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) - fEffect.AffectedValue
+                                            Case EffectCalcType.CloakedVelocity
+                                                aModule.LoadedCharge.Attributes(att) = -100 + ((100 + CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100))
                                         End Select
                                         log &= " --> " & aModule.LoadedCharge.Attributes(att).ToString
                                         If oldAtt <> aModule.LoadedCharge.Attributes(att).ToString Then
@@ -1540,6 +1556,8 @@ Public Class Engine
                                     End If
                                 Case EffectCalcType.Subtraction
                                     aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
+                                Case EffectCalcType.CloakedVelocity
+                                    aModule.Attributes(att) = -100 + ((100 + CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100))
                             End Select
                             log &= " --> " & aModule.Attributes(att).ToString
                             If oldAtt <> aModule.Attributes(att).ToString Then
@@ -1622,6 +1640,8 @@ Public Class Engine
                                 End If
                             Case EffectCalcType.Subtraction
                                 newShip.Attributes(att) = CDbl(newShip.Attributes(att)) - fEffect.AffectedValue
+                            Case EffectCalcType.CloakedVelocity
+                                newShip.Attributes(att) = -100 + ((100 + CDbl(newShip.Attributes(att))) * (fEffect.AffectedValue / 100))
                         End Select
                         log &= "# " & newShip.Attributes(att).ToString
                         newShip.AuditLog.Add(log)
@@ -2365,6 +2385,7 @@ Public Enum EffectCalcType
     AddPositive = 6 ' Adding positive values only
     AddNegative = 7 ' Adding negative values only
     Subtraction = 8 ' Subtracting positive values
+    CloakedVelocity = 9 ' Bonus for dealing with cloaked velocity
 End Enum
 
 Public Enum BuildType
