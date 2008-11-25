@@ -92,12 +92,6 @@
     <Compile Include="Forms\frmGunnery.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmHQFCacheWriter.Designer.vb">
-      <DependentUpon>frmHQFCacheWriter.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmHQFCacheWriter.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\frmModifyFittingName.Designer.vb">
       <DependentUpon>frmModifyFittingName.vb</DependentUpon>
     </Compile>
@@ -236,9 +230,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmGunnery.resx">
       <DependentUpon>frmGunnery.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmHQFCacheWriter.resx">
-      <DependentUpon>frmHQFCacheWriter.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmModifyFittingName.resx">
       <DependentUpon>frmModifyFittingName.vb</DependentUpon>

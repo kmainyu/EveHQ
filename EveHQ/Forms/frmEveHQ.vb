@@ -724,35 +724,35 @@ Public Class frmEveHQ
     Public Sub UpdateToNextLevel()
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
             If cPilot.Training = True Then
-                Dim trainSkill As EveHQ.Core.Skills = CType(cPilot.PilotSkills(cPilot.TrainingSkillName), Core.Skills)
+                If cPilot.PilotSkills.Contains(cPilot.TrainingSkillName) = True Then
+                    Dim trainSkill As EveHQ.Core.Skills = CType(cPilot.PilotSkills(cPilot.TrainingSkillName), Core.Skills)
+                    Dim trainingTime As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
+                    ' See if we need to "update" this level
+                    If trainingTime <= 0 And cPilot.TrainingSkillLevel <> trainSkill.Level Then
+                        Dim strXML As String = ""
 
-                Dim trainingTime As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
-                ' See if we need to "update" this level
-                If trainingTime <= 0 And cPilot.TrainingSkillLevel <> trainSkill.Level Then
-                    Dim strXML As String = ""
-
-                    ' Browse the skill queue and pick the next available skill
-                    Dim pq As EveHQ.Core.SkillQueue = CType(cPilot.TrainingQueues(cPilot.PrimaryQueue), Core.SkillQueue)
-                    If pq IsNot Nothing Then
-                        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(cPilot, pq)
-                        Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
-                        For Each qItem In arrQueue
-                            If qItem.Done = False Then
-                                If qItem.IsTraining = False Then
-                                    ' Update the skill and move on
-                                    If EveHQ.Core.SkillFunctions.ForceSkillTraining(cPilot, qItem.ID, True) = True Then
-                                        Call frmPilot.UpdatePilotInfo()
-                                        Call frmTraining.LoadSkillTree()
+                        ' Browse the skill queue and pick the next available skill
+                        Dim pq As EveHQ.Core.SkillQueue = CType(cPilot.TrainingQueues(cPilot.PrimaryQueue), Core.SkillQueue)
+                        If pq IsNot Nothing Then
+                            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(cPilot, pq)
+                            Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
+                            For Each qItem In arrQueue
+                                If qItem.Done = False Then
+                                    If qItem.IsTraining = False Then
+                                        ' Update the skill and move on
+                                        If EveHQ.Core.SkillFunctions.ForceSkillTraining(cPilot, qItem.ID, True) = True Then
+                                            Call frmPilot.UpdatePilotInfo()
+                                            Call frmTraining.LoadSkillTree()
+                                        End If
+                                        Exit For
                                     End If
-                                    Exit For
                                 End If
-                            End If
-                        Next
+                            Next
+                        End If
                     End If
                 End If
             End If
         Next
-
     End Sub
 
 #End Region
@@ -892,6 +892,7 @@ Public Class frmEveHQ
             XPPilots.Controls.Add(newPilot)
         Next
         XPPilots.Height = 50 + (20 * pilotCount)
+
         ' Restore the pilot if it still in the list
         If oldPilot <> Nothing Then
             If cboPilots.Items.Contains(oldPilot) Then
@@ -903,7 +904,7 @@ Public Class frmEveHQ
             End If
         Else
             If cboPilots.Items.Count > 0 Then
-                If startUp = True Then
+                If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
                     cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
                 Else
                     cboPilots.SelectedIndex = 0
@@ -913,6 +914,8 @@ Public Class frmEveHQ
 
         If cboPilots.Items.Count = 0 Then
             EveHQ.Core.HQ.myPilot = New EveHQ.Core.Pilot
+            tsbPilotInfo.Enabled = False
+            tsbSkillTraining.Enabled = False
             If frmPilot IsNot Nothing Then
                 If frmPilot.IsHandleCreated = True Then
                     frmPilot.Close()
@@ -924,6 +927,8 @@ Public Class frmEveHQ
                 End If
             End If
         Else
+            tsbPilotInfo.Enabled = True
+            tsbSkillTraining.Enabled = True
             If startUp = False Then
                 EveHQ.Core.HQ.myPilot = CType(EveHQ.Core.HQ.Pilots(EveHQ.Core.HQ.myPilot.Name), Core.Pilot)
                 Call frmPilot.UpdatePilotInfo()
@@ -1883,12 +1888,48 @@ Public Class frmEveHQ
 #End Region
 
     Private Sub ClearEveHQCache_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearEveHQCache.Click
-        Dim msg As String = "This will delete the entire contents of the cache folder and close EveHQ." & ControlChars.CrLf & ControlChars.CrLf & "Are you sure you wish to continue?"
+        Dim msg As String = "This will delete the entire contents of the cache folder, clear the pilot data and reconnect to the API." & ControlChars.CrLf & ControlChars.CrLf & "Are you sure you wish to continue?"
         Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Cache", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If reply = DialogResult.Yes Then
             Try
-                My.Computer.FileSystem.DeleteDirectory(EveHQ.Core.HQ.cacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
-                Application.Exit()
+                ' Close all open forms
+                For Each tp As TabPage In tabMDI.TabPages
+                    TryCast(tp.Tag, Form).Close()
+                Next
+
+                ' Clear the EveHQ cache
+                Try
+                    If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.cacheFolder) Then
+                        My.Computer.FileSystem.DeleteDirectory(EveHQ.Core.HQ.cacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    End If
+                Catch ex As Exception
+                End Try
+
+                ' Recreate the EveHQ cache folder
+                Try
+                    If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.cacheFolder) = False Then
+                        My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.cacheFolder)
+                    End If
+                Catch ex As Exception
+                End Try
+
+                ' Clear the EveHQ Pilot Data
+                Try
+                    EveHQ.Core.HQ.Pilots.Clear()
+                    EveHQ.Core.HQ.TPilots.Clear()
+                    EveHQ.Core.HQ.myPilot = Nothing
+                Catch ex As Exception
+                End Try
+
+                ' Update the pilot lists
+                Call Me.UpdatePilotInfo(True)
+
+                ' Restart the timer
+                tmrSkillUpdate.Enabled = True
+
+                ' Call the API
+                Call Me.QueryMyEveServer()
+
             Catch ex As Exception
                 MessageBox.Show("Error Deleting the EveHQ Cache Folder, please try to delete the following location manually: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.cacheFolder, "Error Deleting Cache", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try
@@ -1907,5 +1948,72 @@ Public Class frmEveHQ
         EveHQSettings.ShowDialog()
         EveHQSettings.Dispose()
     End Sub
+
+    Public Function CacheErrorHandler() As Boolean
+        ' Stop the timer from reporting multiple errors
+        tmrSkillUpdate.Enabled = False
+        Dim msg As New StringBuilder
+        msg.Append("EveHQ has detected that the skill that " & EveHQ.Core.HQ.myPilot.Name & " is supposedly training is not in the list of their skills. ")
+        msg.AppendLine("This could be due to a corrupt cache file or a conflict with another skill training application. The relevant data was:")
+        msg.AppendLine("")
+        msg.AppendLine("Skill ID: " & EveHQ.Core.HQ.myPilot.TrainingSkillID.ToString)
+        msg.AppendLine("Skill Name: " & EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID))
+        msg.AppendLine("")
+        msg.AppendLine("This data, together with the character and training XML have been copied to the clipboard. If you would like to assist in trying to correct this error, please copy the details into an email to the EveHQ Developers.")
+        msg.AppendLine("")
+        msg.AppendLine("The issue may be resolved by clearing the EveHQ cache and connecting back to the API. Would you like to do this now?")
+        msg.AppendLine("")
+        Try
+            Clipboard.SetText(msg.ToString & EveHQ.Core.HQ.myPilot.PilotData.InnerXml & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.myPilot.PilotTrainingData.InnerXml)
+        Catch e As Exception
+        End Try
+
+        Dim reply As Integer = MessageBox.Show(msg.ToString, "Skill Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If reply = DialogResult.No Then
+            ' Don't do anything with the cache but restart the timer
+            tmrSkillUpdate.Enabled = True
+            Return False
+        Else
+            ' Close all open forms
+            For Each tp As TabPage In tabMDI.TabPages
+                TryCast(tp.Tag, Form).Close()
+            Next
+
+            ' Clear the EveHQ cache
+            Try
+                If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.cacheFolder) Then
+                    My.Computer.FileSystem.DeleteDirectory(EveHQ.Core.HQ.cacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                End If
+            Catch e As Exception
+            End Try
+
+            ' Recreate the EveHQ cache folder
+            Try
+                If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.cacheFolder) = False Then
+                    My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.cacheFolder)
+                End If
+            Catch e As Exception
+            End Try
+
+            ' Clear the EveHQ Pilot Data
+            Try
+                EveHQ.Core.HQ.Pilots.Clear()
+                EveHQ.Core.HQ.TPilots.Clear()
+                EveHQ.Core.HQ.myPilot = Nothing
+            Catch ex As Exception
+            End Try
+
+            ' Update the pilot lists
+            Call Me.UpdatePilotInfo(True)
+
+            ' Restart the timer
+            tmrSkillUpdate.Enabled = True
+
+            ' Call the API
+            Call Me.QueryMyEveServer()
+
+            Return True
+        End If
+    End Function
 End Class
 

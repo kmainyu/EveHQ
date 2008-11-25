@@ -32,7 +32,6 @@ Public Class frmHQF
     Dim currentShipInfo As ShipInfoControl
     Shared LastSlotFitting As New ArrayList
     Shared LastModuleResults As New SortedList
-    Dim cacheForm As New frmHQFCacheWriter
 
 #Region "Class Wide Variables"
 
@@ -121,16 +120,9 @@ Public Class frmHQF
         ' Set the MetaType Filter
         Call Me.SetMetaTypeFilters()
 
-        If PlugInData.UseSerializableData = True Then
-            Call Me.ShowShipGroups()
-            Call Me.ShowMarketGroups()
-        Else
-            Call Me.ShowShipMarketGroups()
-            Call Me.ShowModuleMarketGroups()
-            ' Generate the cache
-            Call Me.GenerateHQFCache()
-            PlugInData.UseSerializableData = True
-        End If
+        ' Show the groups
+        Call Me.ShowShipGroups()
+        Call Me.ShowMarketGroups()
 
         startUp = False
         ' Temporarily disable the performance setting
@@ -179,109 +171,7 @@ Public Class frmHQF
         s.Flush()
         s.Close()
     End Sub
-    Private Sub ShowShipMarketGroups()
-        tvwShips.BeginUpdate()
-        tvwShips.Nodes.Clear()
-        Dim marketTable As DataTable = PlugInData.MarketGroupData.Tables(0)
-        Dim rootRows() As DataRow = marketTable.Select("ISNULL(parentGroupID, 0) = 0")
-        For Each rootRow As DataRow In rootRows
-            Dim rootNode As New TreeNode(CStr(rootRow.Item("marketGroupName")))
-            Call PopulateShipGroups(CInt(rootRow.Item("marketGroupID")), rootNode, marketTable)
-            Select Case rootNode.Text
-                Case "Ships"
-                    For Each childNode As TreeNode In rootNode.Nodes
-                        tvwShips.Nodes.Add(childNode)
-                    Next
-            End Select
-        Next
-        ' Now check for Faction ships
-        Dim shipGroup As String = ""
-        Dim factionRows() As DataRow = PlugInData.shipNameData.Tables(0).Select("ISNULL(marketGroupID, 0) = 0")
-        For Each factionRow As DataRow In factionRows
-            shipGroup = factionRow.Item("groupName").ToString & "s"
-            For Each groupNode As TreeNode In tvwShips.Nodes
-                If groupNode.Text = shipGroup Then
-                    ' Check for "Faction" node
-                    If groupNode.Nodes.ContainsKey("Faction") = False Then
-                        groupNode.Nodes.Add("Faction", "Faction")
-                    End If
-                    ' Add to the "Faction" node
-                    groupNode.Nodes("Faction").Nodes.Add(factionRow.Item("typeName").ToString)
-                End If
-            Next
-        Next
-        tvwShips.Sorted = True
-        tvwShips.EndUpdate()
-    End Sub
-    Private Sub PopulateShipGroups(ByVal inParentID As Integer, ByRef inTreeNode As TreeNode, ByVal marketTable As DataTable)
-        Dim ParentRows() As DataRow = marketTable.Select("parentGroupID=" & inParentID)
-        For Each ParentRow As DataRow In ParentRows
-            Dim parentnode As TreeNode
-            parentnode = New TreeNode(CStr(ParentRow.Item("marketGroupName")))
-            inTreeNode.Nodes.Add(parentnode)
-            parentnode.Tag = ParentRow.Item("marketGroupID")
-            PopulateShipGroups(CInt(parentnode.Tag), parentnode, marketTable)
-        Next ParentRow
-        Dim groupRows() As DataRow = PlugInData.shipNameData.Tables(0).Select("marketGroupID=" & inParentID)
-        For Each shipRow As DataRow In groupRows
-            inTreeNode.Nodes.Add(shipRow.Item("typeName").ToString)
-        Next
-    End Sub
-    Private Sub ShowModuleMarketGroups()
-        tvwItems.BeginUpdate()
-        tvwItems.Nodes.Clear()
-        Dim marketTable As DataTable = PlugInData.MarketGroupData.Tables(0)
-        Dim rootRows() As DataRow = marketTable.Select("ISNULL(parentGroupID, 0) = 0")
-        For Each rootRow As DataRow In rootRows
-            Dim rootNode As New TreeNode(CStr(rootRow.Item("marketGroupName")))
-            rootNode.Name = rootNode.Text
-            Call PopulateModuleGroups(CInt(rootRow.Item("marketGroupID")), rootNode, marketTable)
-            Select Case rootNode.Text
-                Case "Ship Equipment", "Ammunition & Charges", "Drones", "Ship Modifications" ', "Implants & Boosters"
-                    tvwItems.Nodes.Add(rootNode)
-            End Select
-        Next
-        tvwItems.Sorted = True
-        tvwItems.Sorted = False
-        ' Add the Favourties Node
-        Dim FavNode As New TreeNode("Favourites")
-        FavNode.Name = "Favourites"
-        FavNode.Tag = "Favourites"
-        tvwItems.Nodes.Add(FavNode)
-        ' Add the Favourties Node
-        Dim MRUNode As New TreeNode("Recently Used")
-        MRUNode.Name = "Recently Used"
-        MRUNode.Tag = "Recently Used"
-        tvwItems.Nodes.Add(MRUNode)
-        tvwItems.EndUpdate()
-        Market.MarketGroupPath.Clear()
-        Call BuildTreePathData()
-    End Sub
-    Private Sub PopulateModuleGroups(ByVal inParentID As Integer, ByRef inTreeNode As TreeNode, ByVal marketTable As DataTable)
-        Dim ParentRows() As DataRow = marketTable.Select("parentGroupID=" & inParentID)
-        For Each ParentRow As DataRow In ParentRows
-            Dim parentnode As TreeNode
-            parentnode = New TreeNode(CStr(ParentRow.Item("marketGroupName")))
-            parentnode.Name = parentnode.Text
-            inTreeNode.Nodes.Add(parentnode)
-            parentnode.Tag = ParentRow.Item("marketGroupID")
-            PopulateModuleGroups(CInt(parentnode.Tag), parentnode, marketTable)
-        Next ParentRow
-    End Sub
-    Private Sub BuildTreePathData()
-        For Each rootNode As TreeNode In tvwItems.Nodes
-            BuildTreePathData2(rootNode)
-        Next
-    End Sub
-    Private Sub BuildTreePathData2(ByRef parentNode As TreeNode)
-        For Each childNode As TreeNode In parentNode.Nodes
-            If childNode.Nodes.Count > 0 Then
-                BuildTreePathData2(childNode)
-            Else
-                Market.MarketGroupPath.Add(childNode.Tag.ToString, childNode.FullPath)
-            End If
-        Next
-    End Sub
+   
     Private Sub ShowShipGroups()
         Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\ShipGroups.bin")
         Dim ShipGroups As String = sr.ReadToEnd
@@ -1750,55 +1640,7 @@ Public Class frmHQF
         End If
     End Sub
 
-#Region "Cache Routines"
-    Private Sub GenerateHQFCache()
-        cacheForm.ShowDialog()
-        ' Write Ship Tree 
-        Call Me.WriteShipGroups()
-        Call Me.WriteItemGroups()
-        ' Write the current version
-        Dim sw As New StreamWriter(HQF.Settings.HQFCacheFolder & "\version.txt")
-        sw.Write(PlugInData.LastCacheRefresh)
-        sw.Flush()
-        sw.Close()
-    End Sub
-    Private Sub WriteShipGroups()
-        Dim sw As New IO.StreamWriter(HQF.Settings.HQFCacheFolder & "\ShipGroups.bin")
-        For Each rootNode As TreeNode In tvwShips.Nodes
-            WriteShipNodes(rootNode, sw)
-        Next
-        sw.Flush()
-        sw.Close()
-    End Sub
-    Private Sub WriteItemGroups()
-        Dim sw As New IO.StreamWriter(HQF.Settings.HQFCacheFolder & "\ItemGroups.bin")
-        For Each rootNode As TreeNode In tvwItems.Nodes
-            WriteGroupNodes(rootNode, sw)
-        Next
-        sw.Flush()
-        sw.Close()
-    End Sub
-    Private Sub WriteShipNodes(ByRef parentNode As TreeNode, ByVal sw As IO.StreamWriter)
-        sw.Write(parentNode.FullPath & ControlChars.CrLf)
-        For Each childNode As TreeNode In parentNode.Nodes
-            If childNode.Nodes.Count > 0 Then
-                WriteShipNodes(childNode, sw)
-            Else
-                sw.Write(childNode.FullPath & ControlChars.CrLf)
-            End If
-        Next
-    End Sub
-    Private Sub WriteGroupNodes(ByRef parentNode As TreeNode, ByVal sw As IO.StreamWriter)
-        sw.Write("0," & parentNode.FullPath & ControlChars.CrLf)
-        For Each childNode As TreeNode In parentNode.Nodes
-            If childNode.Nodes.Count > 0 Then
-                WriteGroupNodes(childNode, sw)
-            Else
-                sw.Write(childNode.Tag.ToString & "," & childNode.FullPath & ControlChars.CrLf)
-            End If
-        Next
-    End Sub
-#End Region
+
 
 #Region "Module List Context Menu Routines"
 

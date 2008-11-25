@@ -239,6 +239,8 @@ Public Class frmSplash
             myUpdater.startupTest = True
             myUpdater.ShowDialog()
         End If
+
+        GC.Collect()
     End Sub
 
     Private Sub LoadModules()

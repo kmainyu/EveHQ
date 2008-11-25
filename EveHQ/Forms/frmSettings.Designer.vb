@@ -2883,9 +2883,9 @@ Partial Public Class frmSettings
         '
         Me.gbColours.Controls.Add(Me.gbPanelColours)
         Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
-        Me.gbColours.Location = New System.Drawing.Point(194, 12)
+        Me.gbColours.Location = New System.Drawing.Point(703, 286)
         Me.gbColours.Name = "gbColours"
-        Me.gbColours.Size = New System.Drawing.Size(695, 501)
+        Me.gbColours.Size = New System.Drawing.Size(132, 39)
         Me.gbColours.TabIndex = 28
         Me.gbColours.TabStop = False
         Me.gbColours.Text = "Colours"
@@ -3183,9 +3183,9 @@ Partial Public Class frmSettings
         Me.gbMarketPrices.Controls.Add(Me.lblLastUpdateTime)
         Me.gbMarketPrices.Controls.Add(Me.lblLastUpdate)
         Me.gbMarketPrices.Controls.Add(Me.btnUpdatePrices)
-        Me.gbMarketPrices.Location = New System.Drawing.Point(520, 109)
+        Me.gbMarketPrices.Location = New System.Drawing.Point(194, 12)
         Me.gbMarketPrices.Name = "gbMarketPrices"
-        Me.gbMarketPrices.Size = New System.Drawing.Size(115, 37)
+        Me.gbMarketPrices.Size = New System.Drawing.Size(695, 500)
         Me.gbMarketPrices.TabIndex = 31
         Me.gbMarketPrices.TabStop = False
         Me.gbMarketPrices.Text = "Market Prices"
@@ -3248,7 +3248,7 @@ Partial Public Class frmSettings
         Me.lvwPrices.Location = New System.Drawing.Point(6, 110)
         Me.lvwPrices.MultiSelect = False
         Me.lvwPrices.Name = "lvwPrices"
-        Me.lvwPrices.Size = New System.Drawing.Size(103, 0)
+        Me.lvwPrices.Size = New System.Drawing.Size(683, 384)
         Me.lvwPrices.TabIndex = 7
         Me.lvwPrices.UseCompatibleStateImageBehavior = False
         Me.lvwPrices.View = System.Windows.Forms.View.Details
@@ -3401,9 +3401,9 @@ Partial Public Class frmSettings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbColours)
-        Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbMarketPrices)
+        Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbTaskbarIcon)

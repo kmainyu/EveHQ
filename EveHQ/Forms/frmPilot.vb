@@ -231,12 +231,8 @@ Public Class frmPilot
                 End If
                 lvTraining.Items(4).SubItems.Add(cacheItem)
             Catch e As Exception
-                Dim msg As String = "An error has occurred:" & ControlChars.CrLf & ControlChars.CrLf & e.Message & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Pilot Name: " & EveHQ.Core.HQ.myPilot.Name
-                msg &= "Training Skill ID: " & EveHQ.Core.HQ.myPilot.TrainingSkillID & ControlChars.CrLf
-                msg &= "Pilot Has Skill: " & EveHQ.Core.HQ.myPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID))
-                msg &= "EveHQ Has Skill: " & EveHQ.Core.HQ.SkillListID.Contains(EveHQ.Core.HQ.myPilot.TrainingSkillID)
-                MessageBox.Show(msg, "Error Displaying Skill Training Information", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                ' Possible cache corruption
+                If frmEveHQ.CacheErrorHandler() = True Then Exit Sub
             End Try
 
             ' Display Skills
@@ -404,12 +400,7 @@ Public Class frmPilot
                 End If
 
             Catch e As Exception
-                Dim msg As String = "An error has occurred:" & ControlChars.CrLf & ControlChars.CrLf & e.Message & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Pilot Name: " & EveHQ.Core.HQ.myPilot.Name
-                msg &= "Training Skill Name: " & cSkill.Name & ControlChars.CrLf
-                msg &= "Pilot Has Skill: " & EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name)
-                msg &= "EveHQ Has Skill: " & EveHQ.Core.HQ.SkillListName.Contains(cSkill.Name)
-                MessageBox.Show(msg, "Error Displaying Skill Information", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                If frmEveHQ.CacheErrorHandler() = True Then Exit Sub
             End Try
         Next
 
@@ -443,35 +434,40 @@ Public Class frmPilot
         If EveHQ.Core.HQ.myPilot.PilotData.InnerText <> "" Then
             If EveHQ.Core.HQ.myPilot.Training = True Then
                 lvPilot.Items("Skill Points").SubItems(1).Text = (FormatNumber(EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, , , TriState.True))
-                Dim cSkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.Skills)
-                Dim percent As Double
-                If cSkill.Level = 5 Then
-                    percent = 100
-                Else
-                    If EveHQ.Core.HQ.myPilot.TrainingSkillID = cSkill.ID Then
-                        percent = CDbl((cSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100)
+                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)) = True Then
+                    Dim cSkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.Skills)
+                    Dim percent As Double
+                    If cSkill.Level = 5 Then
+                        percent = 100
                     Else
-                        percent = (Math.Min(Math.Max(CDbl((cSkill.SP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100), 0), 100))
+                        If EveHQ.Core.HQ.myPilot.TrainingSkillID = cSkill.ID Then
+                            percent = CDbl((cSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100)
+                        Else
+                            percent = (Math.Min(Math.Max(CDbl((cSkill.SP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100), 0), 100))
+                        End If
                     End If
-                End If
-                TrainingSkill.SubItems(3).Text = FormatNumber(percent, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                TrainingSkill.SubItems(3).Tag = percent
-                TrainingSkill.SubItems(4).Text = FormatNumber(cSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                TrainingSkill.SubItems(4).Tag = cSkill.SP
-                TrainingSkill.SubItems(5).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
-                TrainingSkill.SubItems(5).Tag = EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-                TrainingSkill.SubItems(2).ItemControl.Refresh()
-                If chkGroupSkills.Checked = True Then
-                    TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"
-                    TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
-                End If
-                Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.TrainingEndTime)
-                lvTraining.Items(3).SubItems(1).Text = Format(localdate, "ddd") & " " & localdate & " (" & EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & ")"
-                If EveHQ.Core.HQ.myPilot.TrainingCurrentTime = 0 Then
-                    lvTraining.Items(0).SubItems(1).Text = ("Finished")
-                    lvTraining.Items(1).Text = "Just Finished Training"
-                    lvTraining.Items(2).Text = "Trained To"
+                    TrainingSkill.SubItems(3).Text = FormatNumber(percent, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                    TrainingSkill.SubItems(3).Tag = percent
+                    TrainingSkill.SubItems(4).Text = FormatNumber(cSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    TrainingSkill.SubItems(4).Tag = cSkill.SP
+                    TrainingSkill.SubItems(5).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
+                    TrainingSkill.SubItems(5).Tag = EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                    TrainingSkill.SubItems(2).ItemControl.Refresh()
+                    If chkGroupSkills.Checked = True Then
+                        TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"
+                        TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
+                    End If
+                    Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.TrainingEndTime)
+                    lvTraining.Items(3).SubItems(1).Text = Format(localdate, "ddd") & " " & localdate & " (" & EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & ")"
+                    If EveHQ.Core.HQ.myPilot.TrainingCurrentTime = 0 Then
+                        lvTraining.Items(0).SubItems(1).Text = ("Finished")
+                        lvTraining.Items(1).Text = "Just Finished Training"
+                        lvTraining.Items(2).Text = "Trained To"
+                    End If
+                Else
+                    ' Cache corruption here??
+                    If frmEveHQ.CacheErrorHandler() = True Then Exit Sub
                 End If
             End If
 

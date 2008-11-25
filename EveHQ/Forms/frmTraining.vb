@@ -741,17 +741,21 @@ Public Class frmTraining
             End If
             ' Update the queue summary data
             For Each newQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
-                Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
-                lvQueues.Items(newQ.Name).SubItems(2).Tag = tTime
-                lvQueues.Items(newQ.Name).SubItems(2).Text = (EveHQ.Core.SkillFunctions.TimeToString(tTime))
-                Dim qTime As Double = tTime
-                If newQ.IncCurrentTraining = True Then
-                    qTime = tTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-                End If
-                lvQueues.Items(newQ.Name).SubItems(3).Tag = qTime
-                lvQueues.Items(newQ.Name).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(qTime)
-                Dim eTime As Date = Now.AddSeconds(tTime)
-                lvQueues.Items(newQ.Name).SubItems(4).Text = (Format(eTime, "ddd") & " " & FormatDateTime(eTime, DateFormat.GeneralDate))
+                Try
+                    Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
+                    lvQueues.Items(newQ.Name).SubItems(2).Tag = tTime
+                    lvQueues.Items(newQ.Name).SubItems(2).Text = (EveHQ.Core.SkillFunctions.TimeToString(tTime))
+                    Dim qTime As Double = tTime
+                    If newQ.IncCurrentTraining = True Then
+                        qTime = tTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                    End If
+                    lvQueues.Items(newQ.Name).SubItems(3).Tag = qTime
+                    lvQueues.Items(newQ.Name).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(qTime)
+                    Dim eTime As Date = Now.AddSeconds(tTime)
+                    lvQueues.Items(newQ.Name).SubItems(4).Text = (Format(eTime, "ddd") & " " & FormatDateTime(eTime, DateFormat.GeneralDate))
+                Catch e As Exception
+                    ' Error will most likely be if a skill queue is in the process of deletion.
+                End Try
             Next
             If Me.selQTime > 0 Then
                 lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"

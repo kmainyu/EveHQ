@@ -6,14 +6,14 @@ Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
     Dim mSetPlugInData As Object
 
-    Public Shared MarketGroupData As DataSet
-    Public Shared shipGroupData As DataSet
-    Public Shared shipNameData As DataSet
-    Public Shared moduleData As DataSet
-    Public Shared moduleEffectData As DataSet
-    Public Shared moduleAttributeData As DataSet
-    Public Shared UseSerializableData As Boolean = False
-    Public Shared LastCacheRefresh As String = "1.8.1.179"
+    Shared MarketGroupData As DataSet
+    Shared shipGroupData As DataSet
+    Shared shipNameData As DataSet
+    Shared moduleData As DataSet
+    Shared moduleEffectData As DataSet
+    Shared moduleAttributeData As DataSet
+    Shared UseSerializableData As Boolean = False
+    Shared LastCacheRefresh As String = "1.8.1.179"
 
 #Region "Plug-in Interface Properties and Functions"
     Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
@@ -134,6 +134,9 @@ Public Class PlugInData
                                                             If Me.LoadNPCData = True Then
                                                                 Call Me.BuildAttributeQuickList()
                                                                 Engine.BuildImplantEffectsMap()
+                                                                ' Save the HQF data
+                                                                Call Me.SaveHQFCacheData()
+                                                                Call Me.CleanUpData()
                                                                 Return True
                                                             Else
                                                                 Return False
@@ -1217,5 +1220,222 @@ Public Class PlugInData
         End Try
     End Function
 
+    Private Sub SaveHQFCacheData()
+        ' Delete the cache folder if it's already there
+        If My.Computer.FileSystem.DirectoryExists(Settings.HQFCacheFolder) = True Then
+            My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+        End If
+        My.Computer.FileSystem.CreateDirectory(Settings.HQFCacheFolder)
+        ' Save ships
+        Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\ships.bin", FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, ShipLists.shipList)
+        s.Flush()
+        s.Close()
+        ' Save modules
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\modules.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, ModuleLists.moduleList)
+        s.Flush()
+        s.Close()
+        ' Save implants
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\implants.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, Implants.implantList)
+        s.Flush()
+        s.Close()
+        ' Save skills
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\skills.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, SkillLists.SkillList)
+        s.Flush()
+        s.Close()
+        ' Save attributes
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, Attributes.AttributeList)
+        s.Flush()
+        s.Close()
+        ' Save NPCs
+        s = New FileStream(HQF.Settings.HQFCacheFolder & "\NPCs.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, NPCs.NPCList)
+        s.Flush()
+        s.Close()
+
+        ' Build and write the Ship Market Group Data
+        Call Me.BuildShipMarketGroups()
+
+        ' Build and write the Item Market Group Data
+        Call Me.BuildItemMarketGroups()
+
+        ' Write the current version
+        Dim sw As New StreamWriter(HQF.Settings.HQFCacheFolder & "\version.txt")
+        sw.Write(PlugInData.LastCacheRefresh)
+        sw.Flush()
+        sw.Close()
+
+    End Sub
+
+    Private Sub CleanUpData()
+        MarketGroupData = Nothing
+        shipGroupData = Nothing
+        shipNameData = Nothing
+        moduleData = Nothing
+        moduleEffectData = Nothing
+        moduleAttributeData = Nothing
+        GC.Collect()
+    End Sub
+
 #End Region
+
+#Region "Ship and Item Market Group Cache Building Routines"
+    Private Sub BuildShipMarketGroups()
+        Dim tvwShips As New TreeView
+        tvwShips.BeginUpdate()
+        tvwShips.Nodes.Clear()
+        Dim marketTable As DataTable = PlugInData.MarketGroupData.Tables(0)
+        Dim rootRows() As DataRow = marketTable.Select("ISNULL(parentGroupID, 0) = 0")
+        For Each rootRow As DataRow In rootRows
+            Dim rootNode As New TreeNode(CStr(rootRow.Item("marketGroupName")))
+            Call PopulateShipGroups(CInt(rootRow.Item("marketGroupID")), rootNode, marketTable)
+            Select Case rootNode.Text
+                Case "Ships"
+                    For Each childNode As TreeNode In rootNode.Nodes
+                        tvwShips.Nodes.Add(childNode)
+                    Next
+            End Select
+        Next
+        ' Now check for Faction ships
+        Dim shipGroup As String = ""
+        Dim factionRows() As DataRow = PlugInData.shipNameData.Tables(0).Select("ISNULL(marketGroupID, 0) = 0")
+        For Each factionRow As DataRow In factionRows
+            shipGroup = factionRow.Item("groupName").ToString & "s"
+            For Each groupNode As TreeNode In tvwShips.Nodes
+                If groupNode.Text = shipGroup Then
+                    ' Check for "Faction" node
+                    If groupNode.Nodes.ContainsKey("Faction") = False Then
+                        groupNode.Nodes.Add("Faction", "Faction")
+                    End If
+                    ' Add to the "Faction" node
+                    groupNode.Nodes("Faction").Nodes.Add(factionRow.Item("typeName").ToString)
+                End If
+            Next
+        Next
+        tvwShips.Sorted = True
+        tvwShips.EndUpdate()
+        Call Me.WriteShipGroups(tvwShips)
+        tvwShips.Dispose()
+    End Sub
+    Private Sub BuildItemMarketGroups()
+        Dim tvwItems As New TreeView
+        tvwItems.BeginUpdate()
+        tvwItems.Nodes.Clear()
+        Dim marketTable As DataTable = PlugInData.MarketGroupData.Tables(0)
+        Dim rootRows() As DataRow = marketTable.Select("ISNULL(parentGroupID, 0) = 0")
+        For Each rootRow As DataRow In rootRows
+            Dim rootNode As New TreeNode(CStr(rootRow.Item("marketGroupName")))
+            rootNode.Name = rootNode.Text
+            Call PopulateModuleGroups(CInt(rootRow.Item("marketGroupID")), rootNode, marketTable)
+            Select Case rootNode.Text
+                Case "Ship Equipment", "Ammunition & Charges", "Drones", "Ship Modifications" ', "Implants & Boosters"
+                    tvwItems.Nodes.Add(rootNode)
+            End Select
+        Next
+        tvwItems.Sorted = True
+        tvwItems.Sorted = False
+        ' Add the Favourties Node
+        Dim FavNode As New TreeNode("Favourites")
+        FavNode.Name = "Favourites"
+        FavNode.Tag = "Favourites"
+        tvwItems.Nodes.Add(FavNode)
+        ' Add the Favourties Node
+        Dim MRUNode As New TreeNode("Recently Used")
+        MRUNode.Name = "Recently Used"
+        MRUNode.Tag = "Recently Used"
+        tvwItems.Nodes.Add(MRUNode)
+        tvwItems.EndUpdate()
+        Market.MarketGroupPath.Clear()
+        Call BuildTreePathData(tvwItems)
+        Call Me.WriteItemGroups(tvwItems)
+        tvwItems.Dispose()
+    End Sub
+
+    Private Sub PopulateShipGroups(ByVal inParentID As Integer, ByRef inTreeNode As TreeNode, ByVal marketTable As DataTable)
+        Dim ParentRows() As DataRow = marketTable.Select("parentGroupID=" & inParentID)
+        For Each ParentRow As DataRow In ParentRows
+            Dim parentnode As TreeNode
+            parentnode = New TreeNode(CStr(ParentRow.Item("marketGroupName")))
+            inTreeNode.Nodes.Add(parentnode)
+            parentnode.Tag = ParentRow.Item("marketGroupID")
+            PopulateShipGroups(CInt(parentnode.Tag), parentnode, marketTable)
+        Next ParentRow
+        Dim groupRows() As DataRow = PlugInData.shipNameData.Tables(0).Select("marketGroupID=" & inParentID)
+        For Each shipRow As DataRow In groupRows
+            inTreeNode.Nodes.Add(shipRow.Item("typeName").ToString)
+        Next
+    End Sub
+    Private Sub PopulateModuleGroups(ByVal inParentID As Integer, ByRef inTreeNode As TreeNode, ByVal marketTable As DataTable)
+        Dim ParentRows() As DataRow = marketTable.Select("parentGroupID=" & inParentID)
+        For Each ParentRow As DataRow In ParentRows
+            Dim parentnode As TreeNode
+            parentnode = New TreeNode(CStr(ParentRow.Item("marketGroupName")))
+            parentnode.Name = parentnode.Text
+            inTreeNode.Nodes.Add(parentnode)
+            parentnode.Tag = ParentRow.Item("marketGroupID")
+            PopulateModuleGroups(CInt(parentnode.Tag), parentnode, marketTable)
+        Next ParentRow
+    End Sub
+    Private Sub BuildTreePathData(ByVal tvwItems As TreeView)
+        For Each rootNode As TreeNode In tvwItems.Nodes
+            BuildTreePathData2(rootNode)
+        Next
+    End Sub
+    Private Sub BuildTreePathData2(ByRef parentNode As TreeNode)
+        For Each childNode As TreeNode In parentNode.Nodes
+            If childNode.Nodes.Count > 0 Then
+                BuildTreePathData2(childNode)
+            Else
+                Market.MarketGroupPath.Add(childNode.Tag.ToString, childNode.FullPath)
+            End If
+        Next
+    End Sub
+    Private Sub WriteShipGroups(ByVal tvwShips As TreeView)
+        Dim sw As New IO.StreamWriter(HQF.Settings.HQFCacheFolder & "\ShipGroups.bin")
+        For Each rootNode As TreeNode In tvwShips.Nodes
+            WriteShipNodes(rootNode, sw)
+        Next
+        sw.Flush()
+        sw.Close()
+    End Sub
+    Private Sub WriteItemGroups(ByVal tvwItems As TreeView)
+        Dim sw As New IO.StreamWriter(HQF.Settings.HQFCacheFolder & "\ItemGroups.bin")
+        For Each rootNode As TreeNode In tvwItems.Nodes
+            WriteGroupNodes(rootNode, sw)
+        Next
+        sw.Flush()
+        sw.Close()
+    End Sub
+    Private Sub WriteShipNodes(ByRef parentNode As TreeNode, ByVal sw As IO.StreamWriter)
+        sw.Write(parentNode.FullPath & ControlChars.CrLf)
+        For Each childNode As TreeNode In parentNode.Nodes
+            If childNode.Nodes.Count > 0 Then
+                WriteShipNodes(childNode, sw)
+            Else
+                sw.Write(childNode.FullPath & ControlChars.CrLf)
+            End If
+        Next
+    End Sub
+    Private Sub WriteGroupNodes(ByRef parentNode As TreeNode, ByVal sw As IO.StreamWriter)
+        sw.Write("0," & parentNode.FullPath & ControlChars.CrLf)
+        For Each childNode As TreeNode In parentNode.Nodes
+            If childNode.Nodes.Count > 0 Then
+                WriteGroupNodes(childNode, sw)
+            Else
+                sw.Write(childNode.Tag.ToString & "," & childNode.FullPath & ControlChars.CrLf)
+            End If
+        Next
+    End Sub
+#End Region
+
 End Class

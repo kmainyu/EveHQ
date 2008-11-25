@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-'Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Runtime.Serialization.Formatters.Binary
@@ -192,6 +191,7 @@ Public Class PlugInData
         If LowMemoryMode = False Then
             Call ConvertJumpsToSystems()
         End If
+        GC.Collect()
         Return True
     End Function
     Private Function LoadSerializedData() As Boolean
