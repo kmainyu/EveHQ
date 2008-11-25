@@ -1803,7 +1803,7 @@ Public Class frmEveHQ
 #Region "New Popup Routines"
     Private Sub EveStatusIcon_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles EveStatusIcon.MouseMove
         Select Case EveHQ.Core.HQ.EveHQSettings.TaskbarIconMode
-            Case 0 ' Simple (tooltip)
+            Case 0 ' Simple (tooltip
 
             Case 1 ' Enhanced (form)
                 EveStatusIcon.Text = ""
@@ -1820,6 +1820,8 @@ Public Class frmEveHQ
                             frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.X + 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
                         Case "Right"
                             frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
+                        Case Else
+                            Exit Sub
                     End Select
                     Try
                         frmToolTrayIconPopup.Show()
@@ -1842,47 +1844,56 @@ Public Class frmEveHQ
         ' Get task bar position and state
         Dim Result As String = GetTaskbarState(Me.Handle, tbLeft, tbTop, tbRight, tbBottom)
 
-        ' Get screen dimensions
-        Dim sX, sY, sW, sH As Int32
-        sX = 0
-        sY = 0
-        sW = Screen.PrimaryScreen.Bounds.Width
-        sH = Screen.PrimaryScreen.Bounds.Height
+        If Result <> "Error" Then
 
-        ' Work out position
-        If tbBottom = sH Then
-            If tbTop <> sY Then
-                location = "Bottom"
-            Else
-                If tbRight = sW Then
-                    location = "Right"
+            ' Get screen dimensions
+            Dim sX, sY, sW, sH As Int32
+            sX = 0
+            sY = 0
+            sW = Screen.PrimaryScreen.Bounds.Width
+            sH = Screen.PrimaryScreen.Bounds.Height
+
+            ' Work out position
+            If tbBottom = sH Then
+                If tbTop <> sY Then
+                    location = "Bottom"
                 Else
-                    location = "Left"
+                    If tbRight = sW Then
+                        location = "Right"
+                    Else
+                        location = "Left"
+                    End If
                 End If
+            Else
+                location = "Top"
             End If
+            Return location
         Else
-            location = "Top"
+            Return "Error"
         End If
-        Return location
     End Function
     Private Function GetTaskbarState(ByVal ParentHandle As IntPtr, ByRef tbLeft As Int32, ByRef tbTop As Int32, ByRef tbRight As Int32, ByRef tbBottom As Int32) As String
-        Dim Result As Int32
-        Dim abd As New APPBARDATA
-        Dim state As String = ""
-        Call SHAppBarMessage(ABM_GETTASKBARPOS, abd)
-        Result = SHAppBarMessage(ABM_GETSTATE, abd)
-        If CBool((Result And ABS_AUTOHIDE)) Then
-            state = "Autohide is Enabled"
-        ElseIf CBool((Result And ABS_ALWAYSONTOP)) Then
-            state = "Always on Top"
-        End If
-        With abd.rc
-            tbLeft = .Left
-            tbTop = .Top
-            tbRight = .Right
-            tbBottom = .Bottom
-        End With
-        Return state
+        Try
+            Dim Result As Int32
+            Dim abd As New APPBARDATA
+            Dim state As String = ""
+            Call SHAppBarMessage(ABM_GETTASKBARPOS, abd)
+            Result = SHAppBarMessage(ABM_GETSTATE, abd)
+            If CBool((Result And ABS_AUTOHIDE)) Then
+                state = "Autohide is Enabled"
+            ElseIf CBool((Result And ABS_ALWAYSONTOP)) Then
+                state = "Always on Top"
+            End If
+            With abd.rc
+                tbLeft = .Left
+                tbTop = .Top
+                tbRight = .Right
+                tbBottom = .Bottom
+            End With
+            Return state
+        Catch e As Exception
+            Return "Error"
+        End Try
     End Function
 
 #End Region
@@ -1941,7 +1952,6 @@ Public Class frmEveHQ
         MessageBox.Show(errPilot.Name)
     End Sub
 
-   
     Private Sub btnAddAccount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddAccount.Click
         Dim EveHQSettings As New frmSettings
         EveHQSettings.Tag = "nodeEveAccounts"

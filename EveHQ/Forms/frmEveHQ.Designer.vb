@@ -35,6 +35,8 @@ Partial Public Class frmEveHQ
         Me.ToolStrip = New System.Windows.Forms.ToolStrip
         Me.btnTogglePanel = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator
+        Me.btnAddAccount = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator14 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel
         Me.ToolStripSeparator12 = New System.Windows.Forms.ToolStripLabel
         Me.cboPilots = New System.Windows.Forms.ToolStripComboBox
@@ -161,8 +163,6 @@ Partial Public Class frmEveHQ
         Me.XPTraining = New EveHQ.XPander
         Me.lblTrainingStatus = New System.Windows.Forms.Label
         Me.XPModules = New EveHQ.XPander
-        Me.btnAddAccount = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator14 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -255,6 +255,19 @@ Partial Public Class frmEveHQ
         '
         Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
         Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 25)
+        '
+        'btnAddAccount
+        '
+        Me.btnAddAccount.Image = CType(resources.GetObject("btnAddAccount.Image"), System.Drawing.Image)
+        Me.btnAddAccount.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.btnAddAccount.Name = "btnAddAccount"
+        Me.btnAddAccount.Size = New System.Drawing.Size(118, 22)
+        Me.btnAddAccount.Text = "Add API Account"
+        '
+        'ToolStripSeparator14
+        '
+        Me.ToolStripSeparator14.Name = "ToolStripSeparator14"
+        Me.ToolStripSeparator14.Size = New System.Drawing.Size(6, 25)
         '
         'ToolStripLabel1
         '
@@ -661,7 +674,7 @@ Partial Public Class frmEveHQ
         '
         Me.mnuReportsTextChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextCharSheet, Me.mnuReportsTextTrainTimes, Me.mnuReportsTextTimeToLevel5, Me.mnuReportsTextSkillLevels, Me.mnuReportsTextTrainingQueue, Me.mnuReportsTextShoppingList, Me.mnuReportsTextSkillsAvailable, Me.mnuReportsTextSkillsNotTrained, Me.mnuReportsTextPartiallyTrainedSkills})
         Me.mnuReportsTextChar.Name = "mnuReportsTextChar"
-        Me.mnuReportsTextChar.Size = New System.Drawing.Size(125, 22)
+        Me.mnuReportsTextChar.Size = New System.Drawing.Size(152, 22)
         Me.mnuReportsTextChar.Text = "Character"
         '
         'mnuReportsTextCharSheet
@@ -1203,19 +1216,6 @@ Partial Public Class frmEveHQ
         Me.XPModules.TabIndex = 0
         Me.XPModules.Tag = 2
         Me.XPModules.TooltipText = Nothing
-        '
-        'btnAddAccount
-        '
-        Me.btnAddAccount.Image = CType(resources.GetObject("btnAddAccount.Image"), System.Drawing.Image)
-        Me.btnAddAccount.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnAddAccount.Name = "btnAddAccount"
-        Me.btnAddAccount.Size = New System.Drawing.Size(118, 22)
-        Me.btnAddAccount.Text = "Add API Account"
-        '
-        'ToolStripSeparator14
-        '
-        Me.ToolStripSeparator14.Name = "ToolStripSeparator14"
-        Me.ToolStripSeparator14.Size = New System.Drawing.Size(6, 25)
         '
         'frmEveHQ
         '

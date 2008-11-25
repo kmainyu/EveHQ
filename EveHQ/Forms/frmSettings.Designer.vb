@@ -315,11 +315,6 @@ Partial Public Class frmSettings
         Me.lblSearchPrices = New System.Windows.Forms.Label
         Me.lblUpdatePrice = New System.Windows.Forms.Label
         Me.txtUpdatePrice = New System.Windows.Forms.TextBox
-        Me.lvwPrices = New EveHQ.ListViewNoFlicker
-        Me.colPriceName = New System.Windows.Forms.ColumnHeader
-        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
-        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
-        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
         Me.ctxPrices = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
@@ -335,6 +330,11 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
+        Me.lvwPrices = New EveHQ.ListViewNoFlicker
+        Me.colPriceName = New System.Windows.Forms.ColumnHeader
+        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
+        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
+        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2462,7 +2462,7 @@ Partial Public Class frmSettings
         Me.gbPlugIns.Controls.Add(Me.lblPlugInInfo)
         Me.gbPlugIns.Controls.Add(Me.lblDetectedPlugIns)
         Me.gbPlugIns.Controls.Add(Me.lvwPlugins)
-        Me.gbPlugIns.Location = New System.Drawing.Point(427, 106)
+        Me.gbPlugIns.Location = New System.Drawing.Point(443, 235)
         Me.gbPlugIns.Name = "gbPlugIns"
         Me.gbPlugIns.Size = New System.Drawing.Size(70, 26)
         Me.gbPlugIns.TabIndex = 18
@@ -2914,9 +2914,9 @@ Partial Public Class frmSettings
         Me.gbTrainingOverlay.Controls.Add(Me.lblTransparancy)
         Me.gbTrainingOverlay.Controls.Add(Me.lblPanelColour)
         Me.gbTrainingOverlay.Controls.Add(Me.lblBorderColour)
-        Me.gbTrainingOverlay.Location = New System.Drawing.Point(407, 245)
+        Me.gbTrainingOverlay.Location = New System.Drawing.Point(363, 109)
         Me.gbTrainingOverlay.Name = "gbTrainingOverlay"
-        Me.gbTrainingOverlay.Size = New System.Drawing.Size(101, 23)
+        Me.gbTrainingOverlay.Size = New System.Drawing.Size(145, 42)
         Me.gbTrainingOverlay.TabIndex = 29
         Me.gbTrainingOverlay.TabStop = False
         Me.gbTrainingOverlay.Text = "Training Overlay"
@@ -2963,6 +2963,8 @@ Partial Public Class frmSettings
         'nudOverlayYOffset
         '
         Me.nudOverlayYOffset.Location = New System.Drawing.Point(239, 256)
+        Me.nudOverlayYOffset.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
+        Me.nudOverlayYOffset.Minimum = New Decimal(New Integer() {2000, 0, 0, -2147483648})
         Me.nudOverlayYOffset.Name = "nudOverlayYOffset"
         Me.nudOverlayYOffset.Size = New System.Drawing.Size(57, 20)
         Me.nudOverlayYOffset.TabIndex = 16
@@ -2971,6 +2973,8 @@ Partial Public Class frmSettings
         'nudOverlayXOffset
         '
         Me.nudOverlayXOffset.Location = New System.Drawing.Point(239, 233)
+        Me.nudOverlayXOffset.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
+        Me.nudOverlayXOffset.Minimum = New Decimal(New Integer() {2000, 0, 0, -2147483648})
         Me.nudOverlayXOffset.Name = "nudOverlayXOffset"
         Me.nudOverlayXOffset.Size = New System.Drawing.Size(57, 20)
         Me.nudOverlayXOffset.TabIndex = 15
@@ -3185,7 +3189,7 @@ Partial Public Class frmSettings
         Me.gbMarketPrices.Controls.Add(Me.btnUpdatePrices)
         Me.gbMarketPrices.Location = New System.Drawing.Point(194, 12)
         Me.gbMarketPrices.Name = "gbMarketPrices"
-        Me.gbMarketPrices.Size = New System.Drawing.Size(695, 500)
+        Me.gbMarketPrices.Size = New System.Drawing.Size(695, 487)
         Me.gbMarketPrices.TabIndex = 31
         Me.gbMarketPrices.TabStop = False
         Me.gbMarketPrices.Text = "Market Prices"
@@ -3233,48 +3237,6 @@ Partial Public Class frmSettings
         Me.txtUpdatePrice.Size = New System.Drawing.Size(118, 20)
         Me.txtUpdatePrice.TabIndex = 8
         Me.txtUpdatePrice.Visible = False
-        '
-        'lvwPrices
-        '
-        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
-        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
-        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwPrices.FullRowSelect = True
-        Me.lvwPrices.GridLines = True
-        Me.lvwPrices.HideSelection = False
-        Me.lvwPrices.Location = New System.Drawing.Point(6, 110)
-        Me.lvwPrices.MultiSelect = False
-        Me.lvwPrices.Name = "lvwPrices"
-        Me.lvwPrices.Size = New System.Drawing.Size(683, 384)
-        Me.lvwPrices.TabIndex = 7
-        Me.lvwPrices.UseCompatibleStateImageBehavior = False
-        Me.lvwPrices.View = System.Windows.Forms.View.Details
-        '
-        'colPriceName
-        '
-        Me.colPriceName.Text = "Item Name"
-        Me.colPriceName.Width = 300
-        '
-        'colBasePrice
-        '
-        Me.colBasePrice.Text = "Base Price"
-        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colBasePrice.Width = 120
-        '
-        'colMarketPrice
-        '
-        Me.colMarketPrice.Text = "Market Price"
-        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colMarketPrice.Width = 120
-        '
-        'colCustomPrice
-        '
-        Me.colCustomPrice.Text = "Custom Price"
-        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colCustomPrice.Width = 120
         '
         'ctxPrices
         '
@@ -3358,7 +3320,7 @@ Partial Public Class frmSettings
         '
         'btnUpdatePrices
         '
-        Me.btnUpdatePrices.Location = New System.Drawing.Point(568, 19)
+        Me.btnUpdatePrices.Location = New System.Drawing.Point(557, 19)
         Me.btnUpdatePrices.Name = "btnUpdatePrices"
         Me.btnUpdatePrices.Size = New System.Drawing.Size(125, 23)
         Me.btnUpdatePrices.TabIndex = 0
@@ -3396,6 +3358,48 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
+        'lvwPrices
+        '
+        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
+        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
+        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwPrices.FullRowSelect = True
+        Me.lvwPrices.GridLines = True
+        Me.lvwPrices.HideSelection = False
+        Me.lvwPrices.Location = New System.Drawing.Point(6, 112)
+        Me.lvwPrices.MultiSelect = False
+        Me.lvwPrices.Name = "lvwPrices"
+        Me.lvwPrices.Size = New System.Drawing.Size(683, 361)
+        Me.lvwPrices.TabIndex = 7
+        Me.lvwPrices.UseCompatibleStateImageBehavior = False
+        Me.lvwPrices.View = System.Windows.Forms.View.Details
+        '
+        'colPriceName
+        '
+        Me.colPriceName.Text = "Item Name"
+        Me.colPriceName.Width = 300
+        '
+        'colBasePrice
+        '
+        Me.colBasePrice.Text = "Base Price"
+        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colBasePrice.Width = 120
+        '
+        'colMarketPrice
+        '
+        Me.colMarketPrice.Text = "Market Price"
+        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colMarketPrice.Width = 120
+        '
+        'colCustomPrice
+        '
+        Me.colCustomPrice.Text = "Custom Price"
+        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colCustomPrice.Width = 120
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3403,6 +3407,7 @@ Partial Public Class frmSettings
         Me.ClientSize = New System.Drawing.Size(899, 524)
         Me.Controls.Add(Me.gbMarketPrices)
         Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbGeneral)
@@ -3412,10 +3417,9 @@ Partial Public Class frmSettings
         Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbEveFolders)
-        Me.Controls.Add(Me.gbPlugIns)
         Me.Controls.Add(Me.gbProxyServer)
+        Me.Controls.Add(Me.gbPlugIns)
         Me.Controls.Add(Me.gbG15)
-        Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbIGB)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)

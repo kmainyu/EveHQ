@@ -195,6 +195,57 @@ Public Class Reports
         Return strText.ToString
     End Function
 
+    Public Shared Function XMLImplantDetails(ByVal rpilot As EveHQ.Core.Pilot) As String
+        Dim strXML As String = ""
+        Dim tabs(10) As String
+        For tab As Integer = 1 To 10
+            For tab2 As Integer = 1 To tab
+                tabs(tab) &= Chr(9)
+            Next
+        Next
+        Dim Implants(4, 1) As String
+        Implants(0, 0) = "memory" : Implants(0, 1) = "Memory Augmentation"
+        Implants(1, 0) = "willpower" : Implants(1, 1) = "Neural Boost"
+        Implants(2, 0) = "perception" : Implants(2, 1) = "Ocular Filter"
+        Implants(3, 0) = "intelligence" : Implants(3, 1) = "Cybernetic Subprocessor"
+        Implants(4, 0) = "charisma" : Implants(4, 1) = "Social Adaptation Chip"
+        Dim ImplantStyles(6, 1) As String
+        ImplantStyles(0, 0) = "Limited " : ImplantStyles(0, 1) = ""
+        ImplantStyles(1, 0) = "Limited " : ImplantStyles(1, 1) = " - Beta"
+        ImplantStyles(2, 0) = "" : ImplantStyles(2, 1) = " - Basic"
+        ImplantStyles(3, 0) = "" : ImplantStyles(3, 1) = " - Standard"
+        ImplantStyles(4, 0) = "" : ImplantStyles(4, 1) = " - Improved"
+        ImplantStyles(5, 0) = "" : ImplantStyles(5, 1) = " - Advanced"
+        ImplantStyles(6, 0) = "" : ImplantStyles(6, 1) = " - Elite"
+        strXML &= tabs(2) & "<attributeEnhancers>" & vbCrLf
+        If rpilot.MImplantA > 0 Then
+            strXML &= AddImplantToXML(rpilot.MImplantA, Implants(0, 0), Implants(0, 1), ImplantStyles(rpilot.MImplantA - 1, 0), ImplantStyles(rpilot.MImplantA - 1, 1))
+        End If
+        If rpilot.WImplantA > 0 Then
+            strXML &= AddImplantToXML(rpilot.WImplantA, Implants(1, 0), Implants(1, 1), ImplantStyles(rpilot.WImplantA - 1, 0), ImplantStyles(rpilot.WImplantA - 1, 1))
+        End If
+        If rpilot.PImplantA > 0 Then
+            strXML &= AddImplantToXML(rpilot.PImplantA, Implants(2, 0), Implants(2, 1), ImplantStyles(rpilot.PImplantA - 1, 0), ImplantStyles(rpilot.PImplantA - 1, 1))
+        End If
+        If rpilot.IImplantA > 0 Then
+            strXML &= AddImplantToXML(rpilot.IImplantA, Implants(3, 0), Implants(3, 1), ImplantStyles(rpilot.IImplantA - 1, 0), ImplantStyles(rpilot.IImplantA - 1, 1))
+        End If
+        If rpilot.CImplantA > 0 Then
+            strXML &= AddImplantToXML(rpilot.CImplantA, Implants(4, 0), Implants(4, 1), ImplantStyles(rpilot.CImplantA - 1, 0), ImplantStyles(rpilot.CImplantA - 1, 1))
+        End If
+        strXML &= tabs(2) & "</attributeEnhancers>" & vbCrLf
+        Return strXML
+    End Function
+
+    Private Shared Function AddImplantToXML(ByVal level As Integer, ByVal implant As String, ByVal implantName As String, ByVal impPre As String, ByVal impPost As String) As String
+        Dim strXML As String = ""
+        strXML &= New String(Chr(9), 3) & "<" & implant & "Bonus>" & vbCrLf
+        strXML &= New String(Chr(9), 4) & "<augmentatorName>" & impPre & implantName & impPost & "</augmentatorName>" & vbCrLf
+        strXML &= New String(Chr(9), 4) & "<augmentatorValue>" & level.ToString & "</augmentatorValue>" & vbCrLf
+        strXML &= New String(Chr(9), 3) & "</" & implant & "Bonus>" & vbCrLf
+        Return strXML
+    End Function
+
 #End Region
 
 #Region "Character Sheet Report"
@@ -1998,7 +2049,7 @@ Public Class Reports
         strXML &= tabs(3) & "<gender>" & rpilot.Gender & "</gender>" & vbCrLf
         strXML &= tabs(3) & "<corporationName>" & rpilot.Corp & "</corporationName>" & vbCrLf
         strXML &= tabs(3) & "<balance>" & rpilot.Isk & "</balance>" & vbCrLf
-        strXML &= tabs(3) & "<attributeEnhancers timeInCache=""0"" timeLeftInCache=""1000"" />" & vbCrLf
+        strXML &= XMLImplantDetails(rpilot)
         strXML &= tabs(3) & "<attributes>" & vbCrLf
         strXML &= tabs(4) & "<intelligence>" & rpilot.IAtt & "</intelligence>" & vbCrLf
         strXML &= tabs(4) & "<charisma>" & rpilot.CAtt & "</charisma>" & vbCrLf
@@ -2138,7 +2189,7 @@ Public Class Reports
 
         Dim strXML As String = "<?xml version=""1.0"" encoding=""iso-8859-1"" ?>" & vbCrLf
         strXML &= tabs(0) & "<eveapi version=""1"">" & vbCrLf
-        strXML &= tabs(1) & "<currentTime>" & Format(EveHQ.Core.HQ.myPilot.CacheFileTime, "yyyy-MM-dd HH:mm:ss") & "</currentTime>" & vbCrLf
+        strXML &= tabs(1) & "<currentTime>" & Format(rpilot.CacheFileTime, "yyyy-MM-dd HH:mm:ss") & "</currentTime>" & vbCrLf
         strXML &= tabs(1) & "<result>"
 
         strXML &= tabs(2) & "<characterID>" & rpilot.ID & "</characterID>" & vbCrLf
@@ -2153,7 +2204,7 @@ Public Class Reports
         ' Make the isk value non-culture specfic using en-GB
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         strXML &= tabs(2) & "<balance>" & rpilot.Isk.ToString(culture.NumberFormat) & "</balance>" & vbCrLf
-        strXML &= tabs(2) & "<attributeEnhancers />" & vbCrLf
+        strXML &= XMLImplantDetails(rpilot)
         strXML &= tabs(2) & "<attributes>" & vbCrLf
         strXML &= tabs(3) & "<intelligence>" & rpilot.IAtt & "</intelligence>" & vbCrLf
         strXML &= tabs(3) & "<charisma>" & rpilot.CAtt & "</charisma>" & vbCrLf
@@ -2182,7 +2233,7 @@ Public Class Reports
 
         strXML &= tabs(2) & "</rowset>" & vbCrLf
         strXML &= tabs(1) & "</result>" & vbCrLf
-        strXML &= tabs(1) & "<cachedUntil>" & Format(EveHQ.Core.HQ.myPilot.CacheExpirationTime, "yyyy-MM-dd HH:mm:ss") & "</cachedUntil>" & vbCrLf
+        strXML &= tabs(1) & "<cachedUntil>" & Format(rpilot.CacheExpirationTime, "yyyy-MM-dd HH:mm:ss") & "</cachedUntil>" & vbCrLf
         strXML &= tabs(0) & "</eveapi>" & vbCrLf
         Return strXML
     End Function
@@ -2199,7 +2250,7 @@ Public Class Reports
 
         If rpilot.Training = True Then
             strXML &= tabs(0) & "<eveapi version=""1"">" & vbCrLf
-            strXML &= tabs(1) & "<currentTime>" & Format(EveHQ.Core.HQ.myPilot.CacheFileTime, "yyyy-mm-dd HH:MM:ss") & "</currentTime>" & vbCrLf
+            strXML &= tabs(1) & "<currentTime>" & Format(rpilot.CacheFileTime, "yyyy-mm-dd HH:MM:ss") & "</currentTime>" & vbCrLf
             strXML &= tabs(1) & "<result>"
             strXML &= tabs(2) & "<currentTQTime offset=""-8"">" & Format(Now.AddSeconds(-8), "yyyy-MM-dd HH:mm:ss") & "</currentTQTime>"
             strXML &= tabs(2) & "<trainingEndTime>" & Format(rpilot.TrainingEndTimeActual, "yyyy-MM-dd HH:mm:ss") & "</trainingEndTime>" & vbCrLf
@@ -2219,7 +2270,7 @@ Public Class Reports
             strXML &= tabs(2) & "<currentTQTime offset=""-8"">" & Format(Now.AddSeconds(-8), "yyyy-MM-dd hh:mm:ss") & "</currentTQTime>"
             strXML &= tabs(2) & "<skillInTraining>0</skillInTraining>" & vbCrLf
             strXML &= tabs(1) & "</result>" & vbCrLf
-            strXML &= tabs(1) & "<cachedUntil>" & Format(EveHQ.Core.HQ.myPilot.CacheExpirationTime, "yyyy-MM-dd HH:mm:ss") & "</cachedUntil>" & vbCrLf
+            strXML &= tabs(1) & "<cachedUntil>" & Format(rpilot.CacheExpirationTime, "yyyy-MM-dd HH:mm:ss") & "</cachedUntil>" & vbCrLf
             strXML &= tabs(0) & "</eveapi>" & vbCrLf
         End If
 

@@ -309,14 +309,17 @@ Public Class DataFunctions
     End Function
     Public Shared Function LoadMarketPrices() As Boolean
         Try
+            Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
             EveHQ.Core.HQ.MarketPriceList.Clear()
             If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\MarketPrices.txt") = True Then
                 Dim sr As New IO.StreamReader(EveHQ.Core.HQ.cacheFolder & "\MarketPrices.txt")
                 Dim marketLine As String = ""
+                Dim price As Double
                 Do
                     marketLine = sr.ReadLine()
                     Dim marketData() As String = marketLine.Split(",".ToCharArray)
-                    EveHQ.Core.HQ.MarketPriceList.Add(marketData(0), marketData(1))
+                    price = Double.Parse(CStr(marketData(1)), Globalization.NumberStyles.Number, culture)
+                    EveHQ.Core.HQ.MarketPriceList.Add(marketData(0), price)
                 Loop Until sr.EndOfStream
             End If
         Catch ex As Exception
@@ -325,14 +328,17 @@ Public Class DataFunctions
     End Function
     Public Shared Function LoadCustomPrices() As Boolean
         Try
+            Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
             EveHQ.Core.HQ.CustomPriceList.Clear()
             If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\CustomPrices.txt") = True Then
                 Dim sr As New IO.StreamReader(EveHQ.Core.HQ.cacheFolder & "\CustomPrices.txt")
                 Dim marketLine As String = ""
+                Dim price As Double
                 Do
                     marketLine = sr.ReadLine()
                     Dim marketData() As String = marketLine.Split(",".ToCharArray)
-                    EveHQ.Core.HQ.CustomPriceList.Add(marketData(0), marketData(1))
+                    price = Double.Parse(CStr(marketData(1)), Globalization.NumberStyles.Number, culture)
+                    EveHQ.Core.HQ.CustomPriceList.Add(marketData(0), price)
                 Loop Until sr.EndOfStream
             End If
         Catch ex As Exception

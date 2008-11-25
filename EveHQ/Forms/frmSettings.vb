@@ -2177,10 +2177,13 @@ Public Class frmSettings
         End If
     End Sub
     Private Sub SaveMarketPrices()
+        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim sw As New StreamWriter(EveHQ.Core.HQ.cacheFolder & "\MarketPrices.txt")
         lblUpdateStatus.Text = "Dumping Market Prices..." : lblUpdateStatus.Refresh()
+        Dim price As Double = 0
         For Each marketPrice As String In EveHQ.Core.HQ.MarketPriceList.Keys
-            sw.WriteLine(marketPrice & "," & EveHQ.Core.HQ.MarketPriceList(marketPrice).ToString)
+            price = Double.Parse(EveHQ.Core.HQ.MarketPriceList(marketPrice).ToString, Globalization.NumberStyles.Number)
+            sw.WriteLine(marketPrice & "," & price.ToString(culture))
         Next
         sw.Flush()
         sw.Close()
@@ -2213,13 +2216,13 @@ Public Class frmSettings
                     lvItem.Name = itemID
                     lvItem.SubItems.Add(FormatNumber(EveHQ.Core.HQ.BasePriceList(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     If EveHQ.Core.HQ.MarketPriceList.Contains(itemID) Then
-                        price = Double.Parse(CStr(EveHQ.Core.HQ.MarketPriceList(itemID)), Globalization.NumberStyles.Number, culture)
+                        price = CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))
                         lvItem.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     Else
                         lvItem.SubItems.Add("")
                     End If
                     If EveHQ.Core.HQ.CustomPriceList.Contains(itemID) Then
-                        price = Double.Parse(CStr(EveHQ.Core.HQ.CustomPriceList(itemID)), Globalization.NumberStyles.Number, culture)
+                        price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
                         lvItem.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     Else
                         lvItem.SubItems.Add("")
