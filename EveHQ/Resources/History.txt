@@ -1,6 +1,62 @@
 EveHQ - Version History
 -----------------------
 
+1.8.2.188 (25/11/2008)
+---------
+Fixes and Improvements:
+- Core: Fixed error caused when trying to disable the IGB Server
+- Core: Fixed crash caused by multiple clicks of plug-in menu or buttons
+- Core: Settings form now opens on the General settings as default
+- Core: Added an "Add API Account" button to the main toolbar (opens to Eve Accounts section in Settings)
+- Core: Closing EveHQ will now force all plug-ins closed before closing the main application
+- Core: Fixed multiple colour selection settings from not responding when double clicking
+- Core: Added new routines for handling potential cache corruption
+- Core: Fixed docking of market prices controls
+- Core: Handled error relating to an attempt to show the Tooltray Popup Form
+- Core: Training Overlay offsets now can be in the range +/-2000
+- Core: Made several small corrections to the XML reports regarding cache times being reported incorrectly
+- Core: CurrentXML (Old Style) and CurrentXML (New Style) reports now include implants
+- Core: Fixed parsing of price files for different locales
+- Assets: Non-numeric Minimum System values will now generate a warning instead of crashing
+- Assets: Plug-in will no longer crash if it can't find a report file
+- Assets: Fixed sort order of Quantity column
+- Map: Fixed gate radius routines causing error
+- Map: Automatic serialisation performed on loading of the plug-in (reduces load time on subsequent running)
+- Map: Fixed error caused by setting a WP when no start and end system has been selected
+- Map: Fixed docking of Exclusion controls
+- Map: Fixed docking of Waypoint controls
+- Map: Implemented memory clean-up after cache rebuilding
+- HQF: Fixed crash caused by holding down Ctrl and double-clicking an item in the module list
+- HQF: multi-select now disabled in the module list
+- HQF: Fixed missing Thrust attribute from Zealot
+- HQF: Removed duplicate resistance bonuses from Assault Frigates (was already included in the ship base attributes)
+- HQF: Removed duplicate resistance bonuses from Exhumers (was already included in the ship base attributes)
+- HQF: Fixed cargo capacity bonus on the Navitas
+- HQF: Fixed cargo capacity bonus on the Tormentor
+- HQF: Fixed cargo capacity bonus on the Wreate
+- HQF: Fixed velocity bonus on the Panther
+- HQF: Fixed velocity bonus on the Vagabond
+- HQF: Fixed velocity bonus on the Wreathe
+- HQF: Fixed agility bonus on the Sin
+- HQF: Caught crash in building skill effects if a skill does not exist
+- HQF: Mining lasers are now classified as turrets
+- HQF: Added Import EFT Fittings button on the toolbar
+- HQF: Removed HQF menu from the main menu
+- HQF: Energy transfer CPU bonus on Basilisk now changed to a PG bonus
+- HQF: Corrected optimal range bonus on Cormorant
+- HQF: Corrected tracking speed bonus on Thrasher
+- HQF: Tracking speed figure in slot columns changed to 4 decimal places
+- HQF: Gravity Capacitor Upgrade rigs now affect scan time of probes
+- HQF: Signal Acquisition skill now affects scan time of probes
+- HQF: Poteque Pharmaceuticals 'Prospector' PPH-x series implants now included and affect scan time of probes
+- HQF: Now handled errors that could occur when exporting formats to the clipboard
+- HQF: Cloaked velocity bonuses now correctly applied for Stealth Bombers and Black Ops
+- HQF: Warp Disruption Field Generator (with no script) only produces effects when online
+- HQF: Warp Disruption Field Generation mass reduction is now stacking penalised
+- HQF: Cache saving routines now performed as part of cache building therefore do not occur on first loading of form
+- HQF: Implemented memory clean-up routines after cache rebuilding
+
+
 1.8.1.174 (16/11/2008)
 ---------
 Fixes and Improvements:
