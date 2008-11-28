@@ -288,6 +288,7 @@ Public Class EveAPI
     End Function
     Private Shared Function FetchXMLFromWeb(ByVal remoteURL As String, ByVal postData As String) As XmlDocument
         ' Determine if we use the APIRS or CCP API Server
+
         Dim APIServer As String = ""
         If EveHQ.Core.HQ.EveHQSettings.UseAPIRS = True Then
             APIServer = EveHQ.Core.HQ.EveHQSettings.APIRSAddress
@@ -305,6 +306,8 @@ Public Class EveAPI
         Dim APIXML As New XmlDocument
         Try
             ' Create the requester
+            ServicePointManager.Expect100Continue = False
+            Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(remoteURL))
             Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
             ' Setup proxy server (if required)
             If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
@@ -317,6 +320,7 @@ Public Class EveAPI
                 End If
                 request.Proxy = EveHQProxy
             End If
+
             ' Setup request parameters
             request.Method = "POST"
             request.ContentLength = postData.Length

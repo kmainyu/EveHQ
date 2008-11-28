@@ -1563,12 +1563,14 @@ Public Class frmItemBrowser
 
     Private Sub tvwBrowse_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles tvwBrowse.KeyDown
         Dim cNode As TreeNode = tvwBrowse.SelectedNode
-        If cNode.Level = 2 And (e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space) Then
-            Call LoadItemID(cNode.Name)
-            ' Alter navigation
-            Call Me.AddToNavigation(itemTypeName)
+        If cNode IsNot Nothing Then
+            If cNode.Level = 2 And (e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space) Then
+                Call LoadItemID(cNode.Name)
+                ' Alter navigation
+                Call Me.AddToNavigation(itemTypeName)
+            End If
+            tvwBrowse.Focus()
         End If
-        tvwBrowse.Focus()
     End Sub
 
     Private Sub tvwBrowse_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwBrowse.NodeMouseClick

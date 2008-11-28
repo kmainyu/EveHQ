@@ -48,6 +48,7 @@ Public Class frmSettings
     Private Sub frmSettings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Set the startup flag
         startup = True
+
         Call Me.UpdateGeneralSettings()
         Call Me.UpdateColourOptions()
         Call Me.UpdateEveServerSettings()
@@ -1231,13 +1232,13 @@ Public Class frmSettings
         Else
             chkUseProxy.Checked = False
         End If
+        txtProxyUsername.Text = EveHQ.Core.HQ.EveHQSettings.ProxyUsername
+        txtProxyPassword.Text = EveHQ.Core.HQ.EveHQSettings.ProxyPassword
         txtProxyServer.Text = EveHQ.Core.HQ.EveHQSettings.ProxyServer
         If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
             radUseDefaultCreds.Checked = True
         Else
             radUseSpecifiedCreds.Checked = True
-            txtProxyUsername.Text = EveHQ.Core.HQ.EveHQSettings.ProxyUsername
-            txtProxyPassword.Text = EveHQ.Core.HQ.EveHQSettings.ProxyPassword
         End If
     End Sub
     Private Sub chkUseProxy_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseProxy.CheckedChanged
@@ -1250,21 +1251,27 @@ Public Class frmSettings
         End If
     End Sub
     Private Sub radUseDefaultCreds_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radUseDefaultCreds.CheckedChanged
+
         If radUseDefaultCreds.Checked = True Then
             lblProxyUsername.Enabled = False
             lblProxyPassword.Enabled = False
             txtProxyUsername.Enabled = False
             txtProxyPassword.Enabled = False
-            EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True
+            If startup = False Then
+                EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True
+            End If
         End If
     End Sub
     Private Sub radUseSpecifiedCreds_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radUseSpecifiedCreds.CheckedChanged
+
         If radUseSpecifiedCreds.Checked = True Then
             lblProxyUsername.Enabled = True
             lblProxyPassword.Enabled = True
             txtProxyUsername.Enabled = True
             txtProxyPassword.Enabled = True
-            EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = False
+            If startup = False Then
+                EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = False
+            End If
         End If
     End Sub
     Private Sub txtProxyServer_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtProxyServer.TextChanged
@@ -2353,5 +2360,5 @@ Public Class frmSettings
 
 #End Region
 
-   
+
 End Class

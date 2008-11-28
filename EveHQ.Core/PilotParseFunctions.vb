@@ -545,6 +545,8 @@ Public Class PilotParseFunctions
 
             Dim RemoteURL As String = APIServer & "/account/characters.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             ' Set up data for the HTTP "POST" method
+            ServicePointManager.Expect100Continue = False
+            Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(RemoteURL))
             Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey
             ' Create the requester
             Dim request As HttpWebRequest = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
@@ -696,9 +698,10 @@ Public Class PilotParseFunctions
             If cPilot.Account = cAccount.userID Then
                 Dim webdata As String = ""
                 Try
-
                     RemoteURL = APIServer & "/char/charactersheet.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
                     ' Set up data for the HTTP "POST" method
+                    ServicePointManager.Expect100Continue = False
+                    Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(RemoteURL))
                     Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & cPilot.ID
                     ' Create the requester
                     request = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
