@@ -61,6 +61,9 @@ Partial Public Class frmHQFSettings
         Me.lblShieldRecharge = New System.Windows.Forms.Label
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
+        Me.btnExportEffects = New System.Windows.Forms.Button
+        Me.btnExportImplantEffects = New System.Windows.Forms.Button
+        Me.btnExportShipBonuses = New System.Windows.Forms.Button
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -322,6 +325,9 @@ Partial Public Class frmHQFSettings
         '
         'gbCache
         '
+        Me.gbCache.Controls.Add(Me.btnExportShipBonuses)
+        Me.gbCache.Controls.Add(Me.btnExportImplantEffects)
+        Me.gbCache.Controls.Add(Me.btnExportEffects)
         Me.gbCache.Controls.Add(Me.btnCheckAttributeIntFloat)
         Me.gbCache.Controls.Add(Me.btnCheckModuleMetaData)
         Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
@@ -337,7 +343,7 @@ Partial Public Class frmHQFSettings
         '
         'btnCheckAttributeIntFloat
         '
-        Me.btnCheckAttributeIntFloat.Location = New System.Drawing.Point(36, 254)
+        Me.btnCheckAttributeIntFloat.Location = New System.Drawing.Point(6, 433)
         Me.btnCheckAttributeIntFloat.Name = "btnCheckAttributeIntFloat"
         Me.btnCheckAttributeIntFloat.Size = New System.Drawing.Size(102, 58)
         Me.btnCheckAttributeIntFloat.TabIndex = 5
@@ -347,7 +353,7 @@ Partial Public Class frmHQFSettings
         '
         'btnCheckModuleMetaData
         '
-        Me.btnCheckModuleMetaData.Location = New System.Drawing.Point(36, 202)
+        Me.btnCheckModuleMetaData.Location = New System.Drawing.Point(114, 445)
         Me.btnCheckModuleMetaData.Name = "btnCheckModuleMetaData"
         Me.btnCheckModuleMetaData.Size = New System.Drawing.Size(102, 46)
         Me.btnCheckModuleMetaData.TabIndex = 4
@@ -366,7 +372,7 @@ Partial Public Class frmHQFSettings
         '
         'btnCheckData
         '
-        Me.btnCheckData.Location = New System.Drawing.Point(36, 173)
+        Me.btnCheckData.Location = New System.Drawing.Point(222, 468)
         Me.btnCheckData.Name = "btnCheckData"
         Me.btnCheckData.Size = New System.Drawing.Size(102, 23)
         Me.btnCheckData.TabIndex = 2
@@ -441,6 +447,33 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.TabIndex = 0
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         '
+        'btnExportEffects
+        '
+        Me.btnExportEffects.Location = New System.Drawing.Point(36, 112)
+        Me.btnExportEffects.Name = "btnExportEffects"
+        Me.btnExportEffects.Size = New System.Drawing.Size(137, 23)
+        Me.btnExportEffects.TabIndex = 6
+        Me.btnExportEffects.Text = "Export Effects"
+        Me.btnExportEffects.UseVisualStyleBackColor = True
+        '
+        'btnExportImplantEffects
+        '
+        Me.btnExportImplantEffects.Location = New System.Drawing.Point(36, 141)
+        Me.btnExportImplantEffects.Name = "btnExportImplantEffects"
+        Me.btnExportImplantEffects.Size = New System.Drawing.Size(137, 23)
+        Me.btnExportImplantEffects.TabIndex = 7
+        Me.btnExportImplantEffects.Text = "Export Implant Effects"
+        Me.btnExportImplantEffects.UseVisualStyleBackColor = True
+        '
+        'btnExportShipBonuses
+        '
+        Me.btnExportShipBonuses.Location = New System.Drawing.Point(36, 170)
+        Me.btnExportShipBonuses.Name = "btnExportShipBonuses"
+        Me.btnExportShipBonuses.Size = New System.Drawing.Size(137, 23)
+        Me.btnExportShipBonuses.TabIndex = 8
+        Me.btnExportShipBonuses.Text = "Export Ship Bonuses"
+        Me.btnExportShipBonuses.UseVisualStyleBackColor = True
+        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -514,4 +547,7 @@ Partial Public Class frmHQFSettings
     Friend WithEvents btnDeleteAllFittings As System.Windows.Forms.Button
     Friend WithEvents btnCheckModuleMetaData As System.Windows.Forms.Button
     Friend WithEvents btnCheckAttributeIntFloat As System.Windows.Forms.Button
+    Friend WithEvents btnExportShipBonuses As System.Windows.Forms.Button
+    Friend WithEvents btnExportImplantEffects As System.Windows.Forms.Button
+    Friend WithEvents btnExportEffects As System.Windows.Forms.Button
 End Class

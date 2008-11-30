@@ -34,6 +34,9 @@ Public Class frmUpdater
         Try
             lblUpdateStatus.Text = "Status: Attempting to obtain update file..."
             ' Create the requester
+            ServicePointManager.DefaultConnectionLimit = 10
+            ServicePointManager.Expect100Continue = False
+            Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(remoteURL))
             Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
             request.CachePolicy = policy
             ' Setup proxy server (if required)
@@ -195,9 +198,10 @@ Public Class frmUpdater
                             newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
                             Dim pbProgress As New ProgressBar
                             pbProgress.Name = newFile.Text
-                            pbProgress.Width = 190
+                            pbProgress.Width = 100
                             pbProgress.Height = 16
                             newFile.SubItems(5).ItemControl = pbProgress
+                            'newFile.SubItems(5).Text = "0%"
                             pbControls.Add(newFile.Text, pbProgress)
                             UpdateRequired = True
                         Else
@@ -223,9 +227,10 @@ Public Class frmUpdater
                         newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
                         Dim pbProgress As New ProgressBar
                         pbProgress.Name = newFile.Text
-                        pbProgress.Width = 190
+                        pbProgress.Width = 100
                         pbProgress.Height = 16
                         newFile.SubItems(5).ItemControl = pbProgress
+                        'newFile.SubItems(5).Text = "0%"
                         pbControls.Add(newFile.Text, pbProgress)
                         UpdateRequired = True
                     End If
@@ -331,22 +336,19 @@ Public Class frmUpdater
         'count += 1
         Dim httpURI As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
         Dim localFile As String = My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd"
-
+        
         ' Create the request to access the server and set credentials
         Dim request As HttpWebRequest = CType(HttpWebRequest.Create(httpURI), HttpWebRequest)
         request.CachePolicy = policy
         request.Method = WebRequestMethods.File.DownloadFile
         request.Timeout = 900000
         Try
-
             Using response As HttpWebResponse = CType(request.GetResponse, HttpWebResponse)
                 Dim filesize As Long = CLng(response.ContentLength)
-                'lblTotalBytes.Text = filesize
-                'Using response As FtpWebResponse = CType(request.GetResponse, FtpWebResponse)
                 Using responseStream As IO.Stream = response.GetResponseStream
                     'loop to read & write to file
                     Using fs As New IO.FileStream(localFile, IO.FileMode.Create)
-                        Dim buffer(2047) As Byte
+                        Dim buffer(4095) As Byte
                         Dim read As Integer = 0
                         Dim totalBytes As Long = 0
                         Dim percent As Integer = 0
@@ -355,8 +357,6 @@ Public Class frmUpdater
                             fs.Write(buffer, 0, read)
                             totalBytes += read
                             percent = CInt(totalBytes / filesize * 100)
-                            'lblBytes.Text = totalBytes & " (" & percent & "%)"
-                            'pb1.Value = percent
                             worker.ReportProgress(percent, FileNeeded)
                         Loop Until read = 0 'see Note(1)
                         responseStream.Close()
@@ -396,7 +396,8 @@ Public Class frmUpdater
     End Sub
 
     Private Sub UpdateWorker_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs)
-        Dim pb As ProgressBar = CType(pbControls(e.UserState.ToString), ProgressBar)
+        Dim fileName As String = e.UserState.ToString
+        Dim pb As ProgressBar = CType(pbControls(fileName), ProgressBar)
         pb.Value = e.ProgressPercentage
     End Sub
 

@@ -467,5 +467,39 @@ Public Class frmHQFSettings
     End Sub
 #End Region
 
-   
+    Private Sub btnExportEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportEffects.Click
+        Try
+            Dim sw As New StreamWriter(Settings.HQFFolder & "/HQFEffects.csv")
+            sw.Write(My.Resources.Effects.ToString)
+            sw.Flush()
+            sw.Close()
+            MessageBox.Show("HQF Effects file successfully written to disk", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("Error writing the HQF Effects file to disk: " & ex.Message.ToString, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub btnExportImplantEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportImplantEffects.Click
+        Try
+            Dim sw As New StreamWriter(Settings.HQFFolder & "/HQFImplantEffects.csv")
+            sw.Write(My.Resources.ImplantEffects.ToString)
+            sw.Flush()
+            sw.Close()
+            MessageBox.Show("HQF Implant Effects file successfully written to disk", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("Error writing the HQF Implant Effects file to disk: " & ex.Message.ToString, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub btnExportShipBonuses_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportShipBonuses.Click
+        Try
+            Dim sw As New StreamWriter(Settings.HQFFolder & "/HQFShipEffects.csv")
+            sw.Write(My.Resources.ShipEffects.ToString)
+            sw.Flush()
+            sw.Close()
+            MessageBox.Show("HQF Ship Effects file successfully written to disk", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("Error writing the HQF Ship Effects file to disk: " & ex.Message.ToString, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 End Class
