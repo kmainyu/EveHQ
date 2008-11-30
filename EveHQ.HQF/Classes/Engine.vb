@@ -380,90 +380,64 @@ Public Class Engine
         ' Clear the Effects Table
         ModuleEffectsTable.Clear()
         ' Go through all the skills and see what needs to be mapped
-        Dim maxSlots As Integer = 0
-        Dim aModule As New ShipModule
         Dim attData As New ArrayList
         Dim fEffect As New FinalEffect
         Dim fEffectList As New ArrayList
         Dim processData As Boolean = False
-        For slotType As Integer = 1 To 4
-            Select Case slotType
-                Case 1
-                    maxSlots = newShip.HiSlots
-                Case 2
-                    maxSlots = newShip.MidSlots
-                Case 3
-                    maxSlots = newShip.LowSlots
-                Case 4
-                    maxSlots = newShip.RigSlots
-            End Select
-            For slot As Integer = 1 To maxSlots
-                Select Case slotType
-                    Case 1
-                        aModule = newShip.HiSlot(slot)
-                    Case 2
-                        aModule = newShip.MidSlot(slot)
-                    Case 3
-                        aModule = newShip.LowSlot(slot)
-                    Case 4
-                        aModule = newShip.RigSlot(slot)
-                End Select
-                If aModule IsNot Nothing Then
-                    For Each att As String In aModule.Attributes.Keys
-                        If EffectsMap.Contains(att) = True Then
-                            For Each chkEffect As Effect In CType(EffectsMap(att), ArrayList)
-                                processData = False
-                                Select Case chkEffect.AffectingType
-                                    Case EffectType.All
-                                        processData = True
-                                    Case EffectType.Item
-                                        If chkEffect.AffectingID.ToString = aModule.ID Then
-                                            processData = True
-                                        End If
-                                    Case EffectType.Group
-                                        If chkEffect.AffectingID.ToString = aModule.DatabaseGroup Then
-                                            processData = True
-                                        End If
-                                    Case EffectType.Category
-                                        If chkEffect.AffectingID.ToString = aModule.DatabaseCategory Then
-                                            processData = True
-                                        End If
-                                    Case EffectType.MarketGroup
-                                        If chkEffect.AffectingID.ToString = aModule.MarketGroup Then
-                                            processData = True
-                                        End If
-                                    Case EffectType.Skill
-                                        If aModule.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
-                                            processData = True
-                                        End If
-                                    Case EffectType.Slot
-                                        processData = True
-                                End Select
-                                If processData = True And (aModule.ModuleState And chkEffect.Status) = aModule.ModuleState Then
-                                    fEffect = New FinalEffect
-                                    fEffect.AffectedAtt = chkEffect.AffectedAtt
-                                    fEffect.AffectedType = chkEffect.AffectedType
-                                    If chkEffect.AffectedType = EffectType.Slot Then
-                                        fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
-                                    Else
-                                        fEffect.AffectedID = chkEffect.AffectedID
-                                    End If
-                                    fEffect.AffectedValue = CDbl(aModule.Attributes(att))
-                                    fEffect.StackNerf = chkEffect.StackNerf
-                                    fEffect.Cause = aModule.Name
-                                    fEffect.CalcType = chkEffect.CalcType
-                                    If ModuleEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
-                                        fEffectList = New ArrayList
-                                        ModuleEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
-                                    Else
-                                        fEffectList = CType(ModuleEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
-                                    End If
-                                    fEffectList.Add(fEffect)
+        For Each aModule As ShipModule In newShip.SlotCollection
+            For Each att As String In aModule.Attributes.Keys
+                If EffectsMap.Contains(att) = True Then
+                    For Each chkEffect As Effect In CType(EffectsMap(att), ArrayList)
+                        processData = False
+                        Select Case chkEffect.AffectingType
+                            Case EffectType.All
+                                processData = True
+                            Case EffectType.Item
+                                If chkEffect.AffectingID.ToString = aModule.ID Then
+                                    processData = True
                                 End If
-                            Next
+                            Case EffectType.Group
+                                If chkEffect.AffectingID.ToString = aModule.DatabaseGroup Then
+                                    processData = True
+                                End If
+                            Case EffectType.Category
+                                If chkEffect.AffectingID.ToString = aModule.DatabaseCategory Then
+                                    processData = True
+                                End If
+                            Case EffectType.MarketGroup
+                                If chkEffect.AffectingID.ToString = aModule.MarketGroup Then
+                                    processData = True
+                                End If
+                            Case EffectType.Skill
+                                If aModule.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
+                                    processData = True
+                                End If
+                            Case EffectType.Slot
+                                processData = True
+                        End Select
+                        If processData = True And (aModule.ModuleState And chkEffect.Status) = aModule.ModuleState Then
+                            fEffect = New FinalEffect
+                            fEffect.AffectedAtt = chkEffect.AffectedAtt
+                            fEffect.AffectedType = chkEffect.AffectedType
+                            If chkEffect.AffectedType = EffectType.Slot Then
+                                fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
+                            Else
+                                fEffect.AffectedID = chkEffect.AffectedID
+                            End If
+                            fEffect.AffectedValue = CDbl(aModule.Attributes(att))
+                            fEffect.StackNerf = chkEffect.StackNerf
+                            fEffect.Cause = aModule.Name
+                            fEffect.CalcType = chkEffect.CalcType
+                            If ModuleEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                fEffectList = New ArrayList
+                                ModuleEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                            Else
+                                fEffectList = CType(ModuleEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                            End If
+                            fEffectList.Add(fEffect)
                         End If
                     Next
-                End If ' End of Module checking
+                End If
             Next
         Next
         eTime = Now
@@ -479,93 +453,67 @@ Public Class Engine
         ' Clear the Effects Table
         ChargeEffectsTable.Clear()
         ' Go through all the skills and see what needs to be mapped
-        Dim maxSlots As Integer = 0
-        Dim aModule As New ShipModule
         Dim attData As New ArrayList
         Dim fEffect As New FinalEffect
         Dim fEffectList As New ArrayList
         Dim processData As Boolean = False
-        For slotType As Integer = 1 To 4
-            Select Case slotType
-                Case 1
-                    maxSlots = newShip.HiSlots
-                Case 2
-                    maxSlots = newShip.MidSlots
-                Case 3
-                    maxSlots = newShip.LowSlots
-                Case 4
-                    maxSlots = newShip.RigSlots
-            End Select
-            For slot As Integer = 1 To maxSlots
-                Select Case slotType
-                    Case 1
-                        aModule = newShip.HiSlot(slot)
-                    Case 2
-                        aModule = newShip.MidSlot(slot)
-                    Case 3
-                        aModule = newShip.LowSlot(slot)
-                    Case 4
-                        aModule = newShip.RigSlot(slot)
-                End Select
-                If aModule IsNot Nothing Then
-                     If aModule.LoadedCharge IsNot Nothing Then
-                        For Each att As String In aModule.LoadedCharge.Attributes.Keys
-                            If EffectsMap.Contains(att) = True Then
-                                For Each chkEffect As Effect In CType(EffectsMap(att), ArrayList)
-                                    processData = False
-                                    Select Case chkEffect.AffectingType
-                                        Case EffectType.All
-                                            processData = True
-                                        Case EffectType.Item
-                                            If chkEffect.AffectingID.ToString = aModule.LoadedCharge.ID Then
-                                                processData = True
-                                            End If
-                                        Case EffectType.Group
-                                            If chkEffect.AffectingID.ToString = aModule.LoadedCharge.DatabaseGroup Then
-                                                processData = True
-                                            End If
-                                        Case EffectType.Category
-                                            If chkEffect.AffectingID.ToString = aModule.LoadedCharge.DatabaseCategory Then
-                                                processData = True
-                                            End If
-                                        Case EffectType.MarketGroup
-                                            If chkEffect.AffectingID.ToString = aModule.LoadedCharge.MarketGroup Then
-                                                processData = True
-                                            End If
-                                        Case EffectType.Skill
-                                            If aModule.LoadedCharge.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
-                                                processData = True
-                                            End If
-                                        Case EffectType.Slot
-                                            processData = True
-                                    End Select
-                                    If processData = True And (aModule.LoadedCharge.ModuleState And chkEffect.Status) = aModule.LoadedCharge.ModuleState Then
-                                        fEffect = New FinalEffect
-                                        fEffect.AffectedAtt = chkEffect.AffectedAtt
-                                        fEffect.AffectedType = chkEffect.AffectedType
-                                        If chkEffect.AffectedType = EffectType.Slot Then
-                                            fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
-                                        Else
-                                            fEffect.AffectedID = chkEffect.AffectedID
-                                        End If
-                                        fEffect.AffectedValue = CDbl(aModule.LoadedCharge.Attributes(att))
-                                        fEffect.StackNerf = chkEffect.StackNerf
-                                        fEffect.Cause = aModule.LoadedCharge.Name
-                                        fEffect.CalcType = chkEffect.CalcType
-                                        If ChargeEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
-                                            fEffectList = New ArrayList
-                                            ChargeEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
-                                        Else
-                                            fEffectList = CType(ChargeEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
-                                        End If
-                                        fEffectList.Add(fEffect)
+        For Each aModule As ShipModule In newShip.SlotCollection
+            If aModule.LoadedCharge IsNot Nothing Then
+                For Each att As String In aModule.LoadedCharge.Attributes.Keys
+                    If EffectsMap.Contains(att) = True Then
+                        For Each chkEffect As Effect In CType(EffectsMap(att), ArrayList)
+                            processData = False
+                            Select Case chkEffect.AffectingType
+                                Case EffectType.All
+                                    processData = True
+                                Case EffectType.Item
+                                    If chkEffect.AffectingID.ToString = aModule.LoadedCharge.ID Then
+                                        processData = True
                                     End If
-                                Next
+                                Case EffectType.Group
+                                    If chkEffect.AffectingID.ToString = aModule.LoadedCharge.DatabaseGroup Then
+                                        processData = True
+                                    End If
+                                Case EffectType.Category
+                                    If chkEffect.AffectingID.ToString = aModule.LoadedCharge.DatabaseCategory Then
+                                        processData = True
+                                    End If
+                                Case EffectType.MarketGroup
+                                    If chkEffect.AffectingID.ToString = aModule.LoadedCharge.MarketGroup Then
+                                        processData = True
+                                    End If
+                                Case EffectType.Skill
+                                    If aModule.LoadedCharge.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
+                                        processData = True
+                                    End If
+                                Case EffectType.Slot
+                                    processData = True
+                            End Select
+                            If processData = True And (aModule.LoadedCharge.ModuleState And chkEffect.Status) = aModule.LoadedCharge.ModuleState Then
+                                fEffect = New FinalEffect
+                                fEffect.AffectedAtt = chkEffect.AffectedAtt
+                                fEffect.AffectedType = chkEffect.AffectedType
+                                If chkEffect.AffectedType = EffectType.Slot Then
+                                    fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
+                                Else
+                                    fEffect.AffectedID = chkEffect.AffectedID
+                                End If
+                                fEffect.AffectedValue = CDbl(aModule.LoadedCharge.Attributes(att))
+                                fEffect.StackNerf = chkEffect.StackNerf
+                                fEffect.Cause = aModule.LoadedCharge.Name
+                                fEffect.CalcType = chkEffect.CalcType
+                                If ChargeEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                    fEffectList = New ArrayList
+                                    ChargeEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                Else
+                                    fEffectList = CType(ChargeEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                                End If
+                                fEffectList.Add(fEffect)
                             End If
                         Next
-                    End If ' End of LoadedCharge checking
-                End If ' End of Module checking
-            Next
+                    End If
+                Next
+            End If ' End of LoadedCharge checking
         Next
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
@@ -609,7 +557,8 @@ Public Class Engine
                 pStageTime(2) = Now
                 Engine.BuildShipEffects(shipPilot, baseShip)
                 pStageTime(3) = Now
-                newShip = Engine.ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
+                newShip = Engine.CollectModules(CType(baseShip.Clone, Ship))
+                newShip = Engine.ApplySkillEffectsToShip(newShip)
                 pStageTime(4) = Now
                 newShip = Engine.ApplySkillEffectsToModules(newShip)
                 pStageTime(5) = Now
@@ -648,7 +597,8 @@ Public Class Engine
                 pStageTime(2) = Now
                 Engine.BuildShipEffects(shipPilot, baseShip)
                 pStageTime(3) = Now
-                'newShip = Engine.ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
+                'newShip = Engine.CollectModules(CType(baseShip.Clone, Ship))
+                'newShip = Engine.ApplySkillEffectsToShip(newShip)
                 pStageTime(4) = Now
                 'newShip = Engine.ApplySkillEffectsToModules(newShip)
                 pStageTime(5) = Now
@@ -687,7 +637,8 @@ Public Class Engine
                 pStageTime(2) = Now
                 'Engine.BuildShipEffects(shipPilot, baseShip)
                 pStageTime(3) = Now
-                newShip = Engine.ApplySkillEffectsToShip(CType(baseShip.Clone, Ship))
+                newShip = Engine.CollectModules(CType(baseShip.Clone, Ship))
+                newShip = Engine.ApplySkillEffectsToShip(newShip)
                 pStageTime(4) = Now
                 newShip = Engine.ApplySkillEffectsToModules(newShip)
                 pStageTime(5) = Now
@@ -735,116 +686,115 @@ Public Class Engine
         Return newShip
     End Function
 
+    Private Shared Function CollectModules(ByVal newShip As Ship) As Ship
+        newShip.SlotCollection.Clear()
+        For slot As Integer = 1 To newShip.HiSlots
+            If newShip.HiSlot(slot) IsNot Nothing Then
+                newShip.SlotCollection.Add(newShip.HiSlot(slot))
+            End If
+        Next
+        For slot As Integer = 1 To newShip.MidSlots
+            If newShip.MidSlot(slot) IsNot Nothing Then
+                newShip.SlotCollection.Add(newShip.MidSlot(slot))
+            End If
+        Next
+        For slot As Integer = 1 To newShip.LowSlots
+            If newShip.LowSlot(slot) IsNot Nothing Then
+                newShip.SlotCollection.Add(newShip.LowSlot(slot))
+            End If
+        Next
+        For slot As Integer = 1 To newShip.RigSlots
+            If newShip.RigSlot(slot) IsNot Nothing Then
+                newShip.SlotCollection.Add(newShip.RigSlot(slot))
+            End If
+        Next
+        Return newShip
+    End Function
+
     Private Shared Function ApplyChargeEffectsToModules(ByVal baseShip As Ship) As Ship
         Dim sTime, eTime As Date
         sTime = Now
-        Dim aModule As New ShipModule
-        Dim maxSlots As Integer = 0
         Dim att As String = ""
         Dim oldAtt As String = ""
         Dim log As String = ""
         Dim processAtt As Boolean = False
         ' Define a new ship
         Dim newShip As Ship = CType(baseShip.Clone, Ship)
-        For slotType As Integer = 1 To 4
-            Select Case slotType
-                Case 1
-                    maxSlots = newShip.HiSlots
-                Case 2
-                    maxSlots = newShip.MidSlots
-                Case 3
-                    maxSlots = newShip.LowSlots
-                Case 4
-                    maxSlots = newShip.RigSlots
-            End Select
-            For slot As Integer = 1 To maxSlots
-                Select Case slotType
-                    Case 1
-                        aModule = newShip.HiSlot(slot)
-                    Case 2
-                        aModule = newShip.MidSlot(slot)
-                    Case 3
-                        aModule = newShip.LowSlot(slot)
-                    Case 4
-                        aModule = newShip.RigSlot(slot)
-                End Select
-                If aModule IsNot Nothing Then
-                    For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
-                        att = CStr(aModule.Attributes.GetKey(attNo))
-                        If ChargeEffectsTable.Contains(att) = True Then
-                            For Each fEffect As FinalEffect In CType(ChargeEffectsTable(att), ArrayList)
-                                processAtt = False
-                                log = ""
-                                Select Case fEffect.AffectedType
-                                    Case EffectType.All
-                                        processAtt = True
-                                    Case EffectType.Item
-                                        If fEffect.AffectedID.Contains(aModule.ID) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Group
-                                        If fEffect.AffectedID.Contains(aModule.DatabaseGroup) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Category
-                                        If fEffect.AffectedID.Contains(aModule.DatabaseCategory) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.MarketGroup
-                                        If fEffect.AffectedID.Contains(aModule.MarketGroup) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Skill
-                                        If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Slot
-                                        If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
-                                            processAtt = True
-                                        End If
-                                End Select
-                                If processAtt = True Then
-                                    log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
-                                    If aModule.Name = fEffect.Cause Then
-                                        log &= " (Overloading)"
-                                    End If
-                                    oldAtt = aModule.Attributes(att).ToString()
-                                    log &= ": " & oldAtt
-                                    Select Case fEffect.CalcType
-                                        Case EffectCalcType.Percentage
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
-                                        Case EffectCalcType.Addition
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
-                                        Case EffectCalcType.Difference ' Used for resistances
-                                            aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
-                                        Case EffectCalcType.Absolute
-                                            aModule.Attributes(att) = fEffect.AffectedValue
-                                        Case EffectCalcType.Multiplier
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * fEffect.AffectedValue
-                                        Case EffectCalcType.AddPositive
-                                            If fEffect.AffectedValue > 0 Then
-                                                aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
-                                            End If
-                                        Case EffectCalcType.AddNegative
-                                            If fEffect.AffectedValue < 0 Then
-                                                aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
-                                            End If
-                                        Case EffectCalcType.Subtraction
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
-                                        Case EffectCalcType.CloakedVelocity
-                                            aModule.Attributes(att) = -100 + ((100 + CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100))
-                                    End Select
-                                    log &= " --> " & aModule.Attributes(att).ToString
-                                    If oldAtt <> aModule.Attributes(att).ToString Then
-                                        aModule.AuditLog.Add(log)
-                                    End If
+        For Each aModule As ShipModule In newShip.SlotCollection
+            For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
+                att = CStr(aModule.Attributes.GetKey(attNo))
+                If ChargeEffectsTable.Contains(att) = True Then
+                    For Each fEffect As FinalEffect In CType(ChargeEffectsTable(att), ArrayList)
+                        processAtt = False
+                        log = ""
+                        Select Case fEffect.AffectedType
+                            Case EffectType.All
+                                processAtt = True
+                            Case EffectType.Item
+                                If fEffect.AffectedID.Contains(aModule.ID) Then
+                                    processAtt = True
                                 End If
-                            Next
+                            Case EffectType.Group
+                                If fEffect.AffectedID.Contains(aModule.DatabaseGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Category
+                                If fEffect.AffectedID.Contains(aModule.DatabaseCategory) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.MarketGroup
+                                If fEffect.AffectedID.Contains(aModule.MarketGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Skill
+                                If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Slot
+                                If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
+                                    processAtt = True
+                                End If
+                        End Select
+                        If processAtt = True Then
+                            log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
+                            If aModule.Name = fEffect.Cause Then
+                                log &= " (Overloading)"
+                            End If
+                            oldAtt = aModule.Attributes(att).ToString()
+                            log &= ": " & oldAtt
+                            Select Case fEffect.CalcType
+                                Case EffectCalcType.Percentage
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                                Case EffectCalcType.Addition
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                Case EffectCalcType.Difference ' Used for resistances
+                                    aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                Case EffectCalcType.Absolute
+                                    aModule.Attributes(att) = fEffect.AffectedValue
+                                Case EffectCalcType.Multiplier
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * fEffect.AffectedValue
+                                Case EffectCalcType.AddPositive
+                                    If fEffect.AffectedValue > 0 Then
+                                        aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                    End If
+                                Case EffectCalcType.AddNegative
+                                    If fEffect.AffectedValue < 0 Then
+                                        aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                    End If
+                                Case EffectCalcType.Subtraction
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
+                                Case EffectCalcType.CloakedVelocity
+                                    aModule.Attributes(att) = -100 + ((100 + CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100))
+                            End Select
+                            log &= " --> " & aModule.Attributes(att).ToString
+                            If oldAtt <> aModule.Attributes(att).ToString Then
+                                aModule.AuditLog.Add(log)
+                            End If
                         End If
                     Next
-                    ShipModule.MapModuleAttributes(aModule)
                 End If
             Next
+            ShipModule.MapModuleAttributes(aModule)
         Next
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
@@ -1017,180 +967,154 @@ Public Class Engine
     Private Shared Function ApplySkillEffectsToModules(ByVal baseShip As Ship) As Ship
         Dim sTime, eTime As Date
         sTime = Now
-        Dim aModule As New ShipModule
-        Dim maxSlots As Integer = 0
         Dim att As String = ""
         Dim oldAtt As String = ""
         ' Define a new ship
         Dim newShip As Ship = CType(baseShip.Clone, Ship)
         Dim processAtt As Boolean = False
         Dim log As String = ""
-        For slotType As Integer = 1 To 4
-            Select Case slotType
-                Case 1
-                    maxSlots = newShip.HiSlots
-                Case 2
-                    maxSlots = newShip.MidSlots
-                Case 3
-                    maxSlots = newShip.LowSlots
-                Case 4
-                    maxSlots = newShip.RigSlots
-            End Select
-            For slot As Integer = 1 To maxSlots
-                Select Case slotType
-                    Case 1
-                        aModule = newShip.HiSlot(slot)
-                    Case 2
-                        aModule = newShip.MidSlot(slot)
-                    Case 3
-                        aModule = newShip.LowSlot(slot)
-                    Case 4
-                        aModule = newShip.RigSlot(slot)
-                End Select
-                If aModule IsNot Nothing Then
-                    For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
-                        att = CStr(aModule.Attributes.GetKey(attNo))
-                        If SkillEffectsTable.Contains(att) = True Then
-                            For Each fEffect As FinalEffect In CType(SkillEffectsTable(att), ArrayList)
-                                processAtt = False
-                                log = ""
-                                Select Case fEffect.AffectedType
-                                    Case EffectType.All
-                                        processAtt = True
-                                    Case EffectType.Item
-                                        If fEffect.AffectedID.Contains(aModule.ID) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Group
-                                        If fEffect.AffectedID.Contains(aModule.DatabaseGroup) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Category
-                                        If fEffect.AffectedID.Contains(aModule.DatabaseCategory) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.MarketGroup
-                                        If fEffect.AffectedID.Contains(aModule.MarketGroup) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Skill
-                                        If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Slot
-                                        If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
-                                            processAtt = True
-                                        End If
-                                End Select
-                                If processAtt = True Then
-                                    oldAtt = aModule.Attributes(att).ToString
-                                    log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & oldAtt
-                                    Select Case fEffect.CalcType
-                                        Case EffectCalcType.Percentage
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
-                                        Case EffectCalcType.Addition
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
-                                        Case EffectCalcType.Difference ' Used for resistances
-                                            aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
-                                        Case EffectCalcType.Absolute
-                                            aModule.Attributes(att) = fEffect.AffectedValue
-                                        Case EffectCalcType.Multiplier
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * fEffect.AffectedValue
-                                        Case EffectCalcType.AddPositive
-                                            If fEffect.AffectedValue > 0 Then
-                                                aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
-                                            End If
-                                        Case EffectCalcType.AddNegative
-                                            If fEffect.AffectedValue < 0 Then
-                                                aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
-                                            End If
-                                        Case EffectCalcType.Subtraction
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
-                                        Case EffectCalcType.CloakedVelocity
-                                            aModule.Attributes(att) = -100 + ((100 + CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100))
-                                    End Select
-                                    log &= " --> " & aModule.Attributes(att).ToString
-                                    If oldAtt <> aModule.Attributes(att).ToString Then
-                                        aModule.AuditLog.Add(log)
-                                    End If
+        For Each aModule As ShipModule In newShip.SlotCollection
+            For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
+                att = CStr(aModule.Attributes.GetKey(attNo))
+                If SkillEffectsTable.Contains(att) = True Then
+                    For Each fEffect As FinalEffect In CType(SkillEffectsTable(att), ArrayList)
+                        processAtt = False
+                        log = ""
+                        Select Case fEffect.AffectedType
+                            Case EffectType.All
+                                processAtt = True
+                            Case EffectType.Item
+                                If fEffect.AffectedID.Contains(aModule.ID) Then
+                                    processAtt = True
                                 End If
-                            Next
+                            Case EffectType.Group
+                                If fEffect.AffectedID.Contains(aModule.DatabaseGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Category
+                                If fEffect.AffectedID.Contains(aModule.DatabaseCategory) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.MarketGroup
+                                If fEffect.AffectedID.Contains(aModule.MarketGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Skill
+                                If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Slot
+                                If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
+                                    processAtt = True
+                                End If
+                        End Select
+                        If processAtt = True Then
+                            oldAtt = aModule.Attributes(att).ToString
+                            log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & oldAtt
+                            Select Case fEffect.CalcType
+                                Case EffectCalcType.Percentage
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                                Case EffectCalcType.Addition
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                Case EffectCalcType.Difference ' Used for resistances
+                                    aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                Case EffectCalcType.Absolute
+                                    aModule.Attributes(att) = fEffect.AffectedValue
+                                Case EffectCalcType.Multiplier
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * fEffect.AffectedValue
+                                Case EffectCalcType.AddPositive
+                                    If fEffect.AffectedValue > 0 Then
+                                        aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                    End If
+                                Case EffectCalcType.AddNegative
+                                    If fEffect.AffectedValue < 0 Then
+                                        aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                    End If
+                                Case EffectCalcType.Subtraction
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
+                                Case EffectCalcType.CloakedVelocity
+                                    aModule.Attributes(att) = -100 + ((100 + CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100))
+                            End Select
+                            log &= " --> " & aModule.Attributes(att).ToString
+                            If oldAtt <> aModule.Attributes(att).ToString Then
+                                aModule.AuditLog.Add(log)
+                            End If
                         End If
                     Next
-                    If aModule.LoadedCharge IsNot Nothing Then
-                        For attNo As Integer = 0 To aModule.LoadedCharge.Attributes.Keys.Count - 1
-                            att = CStr(aModule.LoadedCharge.Attributes.GetKey(attNo))
-                            If SkillEffectsTable.Contains(att) = True Then
-                                For Each fEffect As FinalEffect In CType(SkillEffectsTable(att), ArrayList)
-                                    processAtt = False
-                                    log = ""
-                                    Select Case fEffect.AffectedType
-                                        Case EffectType.All
-                                            processAtt = True
-                                        Case EffectType.Item
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.ID) Then
-                                                processAtt = True
-                                            End If
-                                        Case EffectType.Group
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.DatabaseGroup) Then
-                                                processAtt = True
-                                            End If
-                                        Case EffectType.Category
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.DatabaseCategory) Then
-                                                processAtt = True
-                                            End If
-                                        Case EffectType.MarketGroup
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.MarketGroup) Then
-                                                processAtt = True
-                                            End If
-                                        Case EffectType.Skill
-                                            If aModule.LoadedCharge.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
-                                                processAtt = True
-                                            End If
-                                        Case EffectType.Slot
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.SlotType & aModule.LoadedCharge.SlotNo) Then
-                                                processAtt = True
-                                            End If
-                                    End Select
-                                    If processAtt = True Then
-                                        oldAtt = aModule.LoadedCharge.Attributes(att).ToString
-                                        log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & oldAtt
-                                        Select Case fEffect.CalcType
-                                            Case EffectCalcType.Percentage
-                                                aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
-                                            Case EffectCalcType.Addition
-                                                aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
-                                            Case EffectCalcType.Difference ' Used for resistances
-                                                aModule.LoadedCharge.Attributes(att) = ((100 - CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.LoadedCharge.Attributes(att))
-                                            Case EffectCalcType.Absolute
-                                                aModule.LoadedCharge.Attributes(att) = fEffect.AffectedValue
-                                            Case EffectCalcType.Multiplier
-                                                aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * fEffect.AffectedValue
-                                            Case EffectCalcType.AddPositive
-                                                If fEffect.AffectedValue > 0 Then
-                                                    aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
-                                                End If
-                                            Case EffectCalcType.AddNegative
-                                                If fEffect.AffectedValue < 0 Then
-                                                    aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
-                                                End If
-                                            Case EffectCalcType.Subtraction
-                                                aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) - fEffect.AffectedValue
-                                            Case EffectCalcType.CloakedVelocity
-                                                aModule.LoadedCharge.Attributes(att) = -100 + ((100 + CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100))
-                                        End Select
-                                        log &= " --> " & aModule.LoadedCharge.Attributes(att).ToString
-                                        If oldAtt <> aModule.LoadedCharge.Attributes(att).ToString Then
-                                            aModule.LoadedCharge.AuditLog.Add(log)
-                                        End If
+                End If
+            Next
+            If aModule.LoadedCharge IsNot Nothing Then
+                For attNo As Integer = 0 To aModule.LoadedCharge.Attributes.Keys.Count - 1
+                    att = CStr(aModule.LoadedCharge.Attributes.GetKey(attNo))
+                    If SkillEffectsTable.Contains(att) = True Then
+                        For Each fEffect As FinalEffect In CType(SkillEffectsTable(att), ArrayList)
+                            processAtt = False
+                            log = ""
+                            Select Case fEffect.AffectedType
+                                Case EffectType.All
+                                    processAtt = True
+                                Case EffectType.Item
+                                    If fEffect.AffectedID.Contains(aModule.LoadedCharge.ID) Then
+                                        processAtt = True
                                     End If
-                                Next
+                                Case EffectType.Group
+                                    If fEffect.AffectedID.Contains(aModule.LoadedCharge.DatabaseGroup) Then
+                                        processAtt = True
+                                    End If
+                                Case EffectType.Category
+                                    If fEffect.AffectedID.Contains(aModule.LoadedCharge.DatabaseCategory) Then
+                                        processAtt = True
+                                    End If
+                                Case EffectType.MarketGroup
+                                    If fEffect.AffectedID.Contains(aModule.LoadedCharge.MarketGroup) Then
+                                        processAtt = True
+                                    End If
+                                Case EffectType.Skill
+                                    If aModule.LoadedCharge.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                        processAtt = True
+                                    End If
+                                Case EffectType.Slot
+                                    If fEffect.AffectedID.Contains(aModule.LoadedCharge.SlotType & aModule.LoadedCharge.SlotNo) Then
+                                        processAtt = True
+                                    End If
+                            End Select
+                            If processAtt = True Then
+                                oldAtt = aModule.LoadedCharge.Attributes(att).ToString
+                                log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause & ": " & oldAtt
+                                Select Case fEffect.CalcType
+                                    Case EffectCalcType.Percentage
+                                        aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                                    Case EffectCalcType.Addition
+                                        aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
+                                    Case EffectCalcType.Difference ' Used for resistances
+                                        aModule.LoadedCharge.Attributes(att) = ((100 - CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.LoadedCharge.Attributes(att))
+                                    Case EffectCalcType.Absolute
+                                        aModule.LoadedCharge.Attributes(att) = fEffect.AffectedValue
+                                    Case EffectCalcType.Multiplier
+                                        aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * fEffect.AffectedValue
+                                    Case EffectCalcType.AddPositive
+                                        If fEffect.AffectedValue > 0 Then
+                                            aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
+                                        End If
+                                    Case EffectCalcType.AddNegative
+                                        If fEffect.AffectedValue < 0 Then
+                                            aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
+                                        End If
+                                    Case EffectCalcType.Subtraction
+                                        aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) - fEffect.AffectedValue
+                                    Case EffectCalcType.CloakedVelocity
+                                        aModule.LoadedCharge.Attributes(att) = -100 + ((100 + CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100))
+                                End Select
+                                log &= " --> " & aModule.LoadedCharge.Attributes(att).ToString
+                                If oldAtt <> aModule.LoadedCharge.Attributes(att).ToString Then
+                                    aModule.LoadedCharge.AuditLog.Add(log)
+                                End If
                             End If
                         Next
                     End If
-                    'ShipModule.MapModuleAttributes(aModule)
-                End If
-            Next
+                Next
+            End If
+            'ShipModule.MapModuleAttributes(aModule)
         Next
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
@@ -1292,188 +1216,162 @@ Public Class Engine
     Private Shared Function ApplyModuleEffectsToModules(ByVal baseShip As Ship) As Ship
         Dim sTime, eTime As Date
         sTime = Now
-        Dim aModule As New ShipModule
-        Dim maxSlots As Integer = 0
         Dim att As String = ""
         Dim oldAtt As String = ""
         Dim log As String = ""
         Dim processAtt As Boolean = False
         ' Define a new ship
         Dim newShip As Ship = CType(baseShip.Clone, Ship)
-        For slotType As Integer = 1 To 4
-            Select Case slotType
-                Case 1
-                    maxSlots = newShip.HiSlots
-                Case 2
-                    maxSlots = newShip.MidSlots
-                Case 3
-                    maxSlots = newShip.LowSlots
-                Case 4
-                    maxSlots = newShip.RigSlots
-            End Select
-            For slot As Integer = 1 To maxSlots
-                Select Case slotType
-                    Case 1
-                        aModule = newShip.HiSlot(slot)
-                    Case 2
-                        aModule = newShip.MidSlot(slot)
-                    Case 3
-                        aModule = newShip.LowSlot(slot)
-                    Case 4
-                        aModule = newShip.RigSlot(slot)
-                End Select
-                If aModule IsNot Nothing Then
-                    For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
-                        att = CStr(aModule.Attributes.GetKey(attNo))
-                        If ModuleEffectsTable.Contains(att) = True Then
-                            For Each fEffect As FinalEffect In CType(ModuleEffectsTable(att), ArrayList)
-                                processAtt = False
-                                log = ""
-                                Select Case fEffect.AffectedType
-                                    Case EffectType.All
-                                        processAtt = True
-                                    Case EffectType.Item
-                                        If fEffect.AffectedID.Contains(aModule.ID) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Group
-                                        If fEffect.AffectedID.Contains(aModule.DatabaseGroup) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Category
-                                        If fEffect.AffectedID.Contains(aModule.DatabaseCategory) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.MarketGroup
-                                        If fEffect.AffectedID.Contains(aModule.MarketGroup) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Skill
-                                        If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
-                                            processAtt = True
-                                        End If
-                                    Case EffectType.Slot
-                                        If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
-                                            processAtt = True
-                                        End If
-                                End Select
-                                If processAtt = True Then
-                                    log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
-                                    If aModule.Name = fEffect.Cause Then
-                                        log &= " (Overloading)"
-                                    End If
-                                    oldAtt = aModule.Attributes(att).ToString()
-                                    log &= ": " & oldAtt
-                                    Select Case fEffect.CalcType
-                                        Case EffectCalcType.Percentage
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
-                                        Case EffectCalcType.Addition
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
-                                        Case EffectCalcType.Difference ' Used for resistances
-                                            aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
-                                        Case EffectCalcType.Absolute
-                                            aModule.Attributes(att) = fEffect.AffectedValue
-                                        Case EffectCalcType.Multiplier
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * fEffect.AffectedValue
-                                        Case EffectCalcType.AddPositive
-                                            If fEffect.AffectedValue > 0 Then
-                                                aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
-                                            End If
-                                        Case EffectCalcType.AddNegative
-                                            If fEffect.AffectedValue < 0 Then
-                                                aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
-                                            End If
-                                        Case EffectCalcType.Subtraction
-                                            aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
-                                        Case EffectCalcType.CloakedVelocity
-                                            aModule.Attributes(att) = -100 + ((100 + CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100))
-                                    End Select
-                                    log &= " --> " & aModule.Attributes(att).ToString
-                                    If oldAtt <> aModule.Attributes(att).ToString Then
-                                        aModule.AuditLog.Add(log)
-                                    End If
+        For Each aModule As ShipModule In newShip.SlotCollection
+            For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
+                att = CStr(aModule.Attributes.GetKey(attNo))
+                If ModuleEffectsTable.Contains(att) = True Then
+                    For Each fEffect As FinalEffect In CType(ModuleEffectsTable(att), ArrayList)
+                        processAtt = False
+                        log = ""
+                        Select Case fEffect.AffectedType
+                            Case EffectType.All
+                                processAtt = True
+                            Case EffectType.Item
+                                If fEffect.AffectedID.Contains(aModule.ID) Then
+                                    processAtt = True
                                 End If
-                            Next
+                            Case EffectType.Group
+                                If fEffect.AffectedID.Contains(aModule.DatabaseGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Category
+                                If fEffect.AffectedID.Contains(aModule.DatabaseCategory) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.MarketGroup
+                                If fEffect.AffectedID.Contains(aModule.MarketGroup) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Skill
+                                If aModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                    processAtt = True
+                                End If
+                            Case EffectType.Slot
+                                If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
+                                    processAtt = True
+                                End If
+                        End Select
+                        If processAtt = True Then
+                            log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
+                            If aModule.Name = fEffect.Cause Then
+                                log &= " (Overloading)"
+                            End If
+                            oldAtt = aModule.Attributes(att).ToString()
+                            log &= ": " & oldAtt
+                            Select Case fEffect.CalcType
+                                Case EffectCalcType.Percentage
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                                Case EffectCalcType.Addition
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                Case EffectCalcType.Difference ' Used for resistances
+                                    aModule.Attributes(att) = ((100 - CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.Attributes(att))
+                                Case EffectCalcType.Absolute
+                                    aModule.Attributes(att) = fEffect.AffectedValue
+                                Case EffectCalcType.Multiplier
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) * fEffect.AffectedValue
+                                Case EffectCalcType.AddPositive
+                                    If fEffect.AffectedValue > 0 Then
+                                        aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                    End If
+                                Case EffectCalcType.AddNegative
+                                    If fEffect.AffectedValue < 0 Then
+                                        aModule.Attributes(att) = CDbl(aModule.Attributes(att)) + fEffect.AffectedValue
+                                    End If
+                                Case EffectCalcType.Subtraction
+                                    aModule.Attributes(att) = CDbl(aModule.Attributes(att)) - fEffect.AffectedValue
+                                Case EffectCalcType.CloakedVelocity
+                                    aModule.Attributes(att) = -100 + ((100 + CDbl(aModule.Attributes(att))) * (fEffect.AffectedValue / 100))
+                            End Select
+                            log &= " --> " & aModule.Attributes(att).ToString
+                            If oldAtt <> aModule.Attributes(att).ToString Then
+                                aModule.AuditLog.Add(log)
+                            End If
                         End If
                     Next
-                    If aModule.LoadedCharge IsNot Nothing Then
-                        For attNo As Integer = 0 To aModule.LoadedCharge.Attributes.Keys.Count - 1
-                            att = CStr(aModule.LoadedCharge.Attributes.GetKey(attNo))
-                            If ModuleEffectsTable.Contains(att) = True Then
-                                For Each fEffect As FinalEffect In CType(ModuleEffectsTable(att), ArrayList)
-                                    processAtt = False
-                                    log = ""
-                                    Select Case fEffect.AffectedType
-                                        Case EffectType.All
-                                            processAtt = True
-                                        Case EffectType.Item
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.ID) Then
-                                                processAtt = True
-                                            End If
-                                        Case EffectType.Group
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.DatabaseGroup) Then
-                                                processAtt = True
-                                            End If
-                                        Case EffectType.Category
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.DatabaseCategory) Then
-                                                processAtt = True
-                                            End If
-                                        Case EffectType.MarketGroup
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.MarketGroup) Then
-                                                processAtt = True
-                                            End If
-                                        Case EffectType.Skill
-                                            If aModule.LoadedCharge.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
-                                                processAtt = True
-                                            End If
-                                        Case EffectType.Slot
-                                            If fEffect.AffectedID.Contains(aModule.LoadedCharge.SlotType & aModule.LoadedCharge.SlotNo) Then
-                                                processAtt = True
-                                            End If
-                                    End Select
-                                    If processAtt = True Then
-                                        log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
-                                        If aModule.LoadedCharge.Name = fEffect.Cause Then
-                                            log &= " (Overloading)"
-                                        End If
-                                        oldAtt = aModule.LoadedCharge.Attributes(att).ToString()
-                                        log &= ": " & oldAtt
-                                        Select Case fEffect.CalcType
-                                            Case EffectCalcType.Percentage
-                                                aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
-                                            Case EffectCalcType.Addition
-                                                aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
-                                            Case EffectCalcType.Difference ' Used for resistances
-                                                aModule.LoadedCharge.Attributes(att) = ((100 - CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.LoadedCharge.Attributes(att))
-                                            Case EffectCalcType.Absolute
-                                                aModule.LoadedCharge.Attributes(att) = fEffect.AffectedValue
-                                            Case EffectCalcType.Multiplier
-                                                aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * fEffect.AffectedValue
-                                            Case EffectCalcType.AddPositive
-                                                If fEffect.AffectedValue > 0 Then
-                                                    aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
-                                                End If
-                                            Case EffectCalcType.AddNegative
-                                                If fEffect.AffectedValue < 0 Then
-                                                    aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
-                                                End If
-                                            Case EffectCalcType.Subtraction
-                                                aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) - fEffect.AffectedValue
-                                            Case EffectCalcType.CloakedVelocity
-                                                aModule.LoadedCharge.Attributes(att) = -100 + ((100 + CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100))
-                                        End Select
-                                        log &= " --> " & aModule.LoadedCharge.Attributes(att).ToString
-                                        If oldAtt <> aModule.LoadedCharge.Attributes(att).ToString Then
-                                            aModule.LoadedCharge.AuditLog.Add(log)
-                                        End If
+                End If
+            Next
+            If aModule.LoadedCharge IsNot Nothing Then
+                For attNo As Integer = 0 To aModule.LoadedCharge.Attributes.Keys.Count - 1
+                    att = CStr(aModule.LoadedCharge.Attributes.GetKey(attNo))
+                    If ModuleEffectsTable.Contains(att) = True Then
+                        For Each fEffect As FinalEffect In CType(ModuleEffectsTable(att), ArrayList)
+                            processAtt = False
+                            log = ""
+                            Select Case fEffect.AffectedType
+                                Case EffectType.All
+                                    processAtt = True
+                                Case EffectType.Item
+                                    If fEffect.AffectedID.Contains(aModule.LoadedCharge.ID) Then
+                                        processAtt = True
                                     End If
-                                Next
+                                Case EffectType.Group
+                                    If fEffect.AffectedID.Contains(aModule.LoadedCharge.DatabaseGroup) Then
+                                        processAtt = True
+                                    End If
+                                Case EffectType.Category
+                                    If fEffect.AffectedID.Contains(aModule.LoadedCharge.DatabaseCategory) Then
+                                        processAtt = True
+                                    End If
+                                Case EffectType.MarketGroup
+                                    If fEffect.AffectedID.Contains(aModule.LoadedCharge.MarketGroup) Then
+                                        processAtt = True
+                                    End If
+                                Case EffectType.Skill
+                                    If aModule.LoadedCharge.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                        processAtt = True
+                                    End If
+                                Case EffectType.Slot
+                                    If fEffect.AffectedID.Contains(aModule.LoadedCharge.SlotType & aModule.LoadedCharge.SlotNo) Then
+                                        processAtt = True
+                                    End If
+                            End Select
+                            If processAtt = True Then
+                                log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
+                                If aModule.LoadedCharge.Name = fEffect.Cause Then
+                                    log &= " (Overloading)"
+                                End If
+                                oldAtt = aModule.LoadedCharge.Attributes(att).ToString()
+                                log &= ": " & oldAtt
+                                Select Case fEffect.CalcType
+                                    Case EffectCalcType.Percentage
+                                        aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                                    Case EffectCalcType.Addition
+                                        aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
+                                    Case EffectCalcType.Difference ' Used for resistances
+                                        aModule.LoadedCharge.Attributes(att) = ((100 - CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100)) + CDbl(aModule.LoadedCharge.Attributes(att))
+                                    Case EffectCalcType.Absolute
+                                        aModule.LoadedCharge.Attributes(att) = fEffect.AffectedValue
+                                    Case EffectCalcType.Multiplier
+                                        aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) * fEffect.AffectedValue
+                                    Case EffectCalcType.AddPositive
+                                        If fEffect.AffectedValue > 0 Then
+                                            aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
+                                        End If
+                                    Case EffectCalcType.AddNegative
+                                        If fEffect.AffectedValue < 0 Then
+                                            aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) + fEffect.AffectedValue
+                                        End If
+                                    Case EffectCalcType.Subtraction
+                                        aModule.LoadedCharge.Attributes(att) = CDbl(aModule.LoadedCharge.Attributes(att)) - fEffect.AffectedValue
+                                    Case EffectCalcType.CloakedVelocity
+                                        aModule.LoadedCharge.Attributes(att) = -100 + ((100 + CDbl(aModule.LoadedCharge.Attributes(att))) * (fEffect.AffectedValue / 100))
+                                End Select
+                                log &= " --> " & aModule.LoadedCharge.Attributes(att).ToString
+                                If oldAtt <> aModule.LoadedCharge.Attributes(att).ToString Then
+                                    aModule.LoadedCharge.AuditLog.Add(log)
+                                End If
                             End If
                         Next
                     End If
-                    ShipModule.MapModuleAttributes(aModule)
-                End If
-            Next
+                Next
+            End If
+            ShipModule.MapModuleAttributes(aModule)
         Next
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
@@ -1885,42 +1783,16 @@ Public Class Engine
         ' Define a new ship
         Dim newShip As Ship = CType(baseShip.Clone, Ship)
         Dim sR, aR, hR As Double
-        Dim cModule As New ShipModule
-        Dim maxslots As Integer = 0
-        For slotType As Integer = 1 To 4
-            Select Case slotType
-                Case 1
-                    maxslots = newShip.HiSlots
-                Case 2
-                    maxslots = newShip.MidSlots
-                Case 3
-                    maxslots = newShip.LowSlots
-                Case 4
-                    maxslots = newShip.RigSlots
-            End Select
-            For slot As Integer = 1 To maxslots
-                Select Case slotType
-                    Case 1
-                        cModule = newShip.HiSlot(slot)
-                    Case 2
-                        cModule = newShip.MidSlot(slot)
-                    Case 3
-                        cModule = newShip.LowSlot(slot)
-                    Case 4
-                        cModule = newShip.RigSlot(slot)
-                End Select
-                If cModule IsNot Nothing Then
-                    If cModule.DatabaseGroup = "40" And (cModule.ModuleState And 12) = cModule.ModuleState Then
-                        sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
-                    End If
-                    If cModule.DatabaseGroup = "62" And (cModule.ModuleState And 12) = cModule.ModuleState Then
-                        aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
-                    End If
-                    If cModule.DatabaseGroup = "63" And (cModule.ModuleState And 12) = cModule.ModuleState Then
-                        hR = hR + CDbl(cModule.Attributes("83")) / CDbl(cModule.Attributes("73"))
-                    End If
-                End If
-            Next
+        For Each cModule As ShipModule In newShip.SlotCollection
+            If cModule.DatabaseGroup = "40" And (cModule.ModuleState And 12) = cModule.ModuleState Then
+                sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
+            End If
+            If cModule.DatabaseGroup = "62" And (cModule.ModuleState And 12) = cModule.ModuleState Then
+                aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
+            End If
+            If cModule.DatabaseGroup = "63" And (cModule.ModuleState And 12) = cModule.ModuleState Then
+                hR = hR + CDbl(cModule.Attributes("83")) / CDbl(cModule.Attributes("73"))
+            End If
         Next
         sR = sR + (newShip.ShieldCapacity / newShip.ShieldRecharge * HQF.Settings.HQFSettings.ShieldRechargeConstant)
         ' Calculate the actual tanking ability
