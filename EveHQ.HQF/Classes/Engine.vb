@@ -702,6 +702,9 @@ Public Class Engine
                 newShip.SlotCollection.Add(newShip.RigSlot(slot))
             End If
         Next
+        For Each remoteModule As ShipModule In newShip.RemoteSlotCollection
+            newShip.SlotCollection.Add(remoteModule)
+        Next
         Return newShip
     End Function
 
@@ -1750,12 +1753,21 @@ Public Class Engine
     Private Shared Sub CalculateDefenceStatistics(ByRef newShip As Ship)
         Dim sR, aR, hR As Double
         For Each cModule As ShipModule In newShip.SlotCollection
+            ' Calculate shield boosting
             If cModule.DatabaseGroup = "40" And (cModule.ModuleState And 12) = cModule.ModuleState Then
                 sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
             End If
+            ' Calculate remote shield boosting
+            If cModule.DatabaseGroup = "41" Then
+                If (cModule.ModuleState And 28) = cModule.ModuleState Then
+                    sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
+                End If
+            End If
+            ' Calculate armor repairing
             If cModule.DatabaseGroup = "62" And (cModule.ModuleState And 12) = cModule.ModuleState Then
                 aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
             End If
+            ' Calculate hull repairing
             If cModule.DatabaseGroup = "63" And (cModule.ModuleState And 12) = cModule.ModuleState Then
                 hR = hR + CDbl(cModule.Attributes("83")) / CDbl(cModule.Attributes("73"))
             End If

@@ -63,6 +63,15 @@ Partial Class ShipSlotControl
         Me.colCargoBayQty = New System.Windows.Forms.ColumnHeader
         Me.pbCargoBay = New System.Windows.Forms.ProgressBar
         Me.lblCargoBay = New System.Windows.Forms.Label
+        Me.tabRemote = New System.Windows.Forms.TabPage
+        Me.btnLoad = New System.Windows.Forms.Button
+        Me.lvwRemoteEffects = New System.Windows.Forms.ListView
+        Me.colModule = New System.Windows.Forms.ColumnHeader
+        Me.btnUpdateRemoteEffects = New System.Windows.Forms.Button
+        Me.cboPilot = New System.Windows.Forms.ComboBox
+        Me.lblPilot = New System.Windows.Forms.Label
+        Me.cboFitting = New System.Windows.Forms.ComboBox
+        Me.lblFitting = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnToggleStorage = New System.Windows.Forms.Button
         Me.panelFunctions = New System.Windows.Forms.Panel
@@ -75,6 +84,7 @@ Partial Class ShipSlotControl
         Me.tabDroneBay.SuspendLayout()
         Me.ctxBays.SuspendLayout()
         Me.tabCargoBay.SuspendLayout()
+        Me.tabRemote.SuspendLayout()
         Me.panelFunctions.SuspendLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -224,6 +234,7 @@ Partial Class ShipSlotControl
         '
         Me.tabStorage.Controls.Add(Me.tabDroneBay)
         Me.tabStorage.Controls.Add(Me.tabCargoBay)
+        Me.tabStorage.Controls.Add(Me.tabRemote)
         Me.tabStorage.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabStorage.Location = New System.Drawing.Point(0, 0)
         Me.tabStorage.Multiline = True
@@ -413,6 +424,97 @@ Partial Class ShipSlotControl
         Me.lblCargoBay.TabIndex = 3
         Me.lblCargoBay.Text = "0.00 / 000.00 m³"
         '
+        'tabRemote
+        '
+        Me.tabRemote.Controls.Add(Me.btnLoad)
+        Me.tabRemote.Controls.Add(Me.lvwRemoteEffects)
+        Me.tabRemote.Controls.Add(Me.btnUpdateRemoteEffects)
+        Me.tabRemote.Controls.Add(Me.cboPilot)
+        Me.tabRemote.Controls.Add(Me.lblPilot)
+        Me.tabRemote.Controls.Add(Me.cboFitting)
+        Me.tabRemote.Controls.Add(Me.lblFitting)
+        Me.tabRemote.Location = New System.Drawing.Point(4, 22)
+        Me.tabRemote.Name = "tabRemote"
+        Me.tabRemote.Size = New System.Drawing.Size(591, 176)
+        Me.tabRemote.TabIndex = 2
+        Me.tabRemote.Text = "Remote Effects"
+        Me.tabRemote.UseVisualStyleBackColor = True
+        '
+        'btnLoad
+        '
+        Me.btnLoad.Location = New System.Drawing.Point(3, 5)
+        Me.btnLoad.Name = "btnLoad"
+        Me.btnLoad.Size = New System.Drawing.Size(46, 23)
+        Me.btnLoad.TabIndex = 6
+        Me.btnLoad.Text = "Load"
+        Me.btnLoad.UseVisualStyleBackColor = True
+        '
+        'lvwRemoteEffects
+        '
+        Me.lvwRemoteEffects.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwRemoteEffects.CheckBoxes = True
+        Me.lvwRemoteEffects.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModule})
+        Me.lvwRemoteEffects.FullRowSelect = True
+        Me.lvwRemoteEffects.GridLines = True
+        Me.lvwRemoteEffects.Location = New System.Drawing.Point(3, 34)
+        Me.lvwRemoteEffects.Name = "lvwRemoteEffects"
+        Me.lvwRemoteEffects.Size = New System.Drawing.Size(585, 139)
+        Me.lvwRemoteEffects.TabIndex = 5
+        Me.lvwRemoteEffects.UseCompatibleStateImageBehavior = False
+        Me.lvwRemoteEffects.View = System.Windows.Forms.View.Details
+        '
+        'colModule
+        '
+        Me.colModule.Text = "Remote Module"
+        Me.colModule.Width = 300
+        '
+        'btnUpdateRemoteEffects
+        '
+        Me.btnUpdateRemoteEffects.Location = New System.Drawing.Point(482, 5)
+        Me.btnUpdateRemoteEffects.Name = "btnUpdateRemoteEffects"
+        Me.btnUpdateRemoteEffects.Size = New System.Drawing.Size(75, 23)
+        Me.btnUpdateRemoteEffects.TabIndex = 4
+        Me.btnUpdateRemoteEffects.Text = "Update"
+        Me.btnUpdateRemoteEffects.UseVisualStyleBackColor = True
+        '
+        'cboPilot
+        '
+        Me.cboPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboPilot.FormattingEnabled = True
+        Me.cboPilot.Location = New System.Drawing.Point(328, 7)
+        Me.cboPilot.Name = "cboPilot"
+        Me.cboPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboPilot.TabIndex = 3
+        '
+        'lblPilot
+        '
+        Me.lblPilot.AutoSize = True
+        Me.lblPilot.Location = New System.Drawing.Point(292, 10)
+        Me.lblPilot.Name = "lblPilot"
+        Me.lblPilot.Size = New System.Drawing.Size(30, 13)
+        Me.lblPilot.TabIndex = 2
+        Me.lblPilot.Text = "Pilot:"
+        '
+        'cboFitting
+        '
+        Me.cboFitting.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFitting.FormattingEnabled = True
+        Me.cboFitting.Location = New System.Drawing.Point(99, 7)
+        Me.cboFitting.Name = "cboFitting"
+        Me.cboFitting.Size = New System.Drawing.Size(187, 21)
+        Me.cboFitting.TabIndex = 1
+        '
+        'lblFitting
+        '
+        Me.lblFitting.AutoSize = True
+        Me.lblFitting.Location = New System.Drawing.Point(55, 10)
+        Me.lblFitting.Name = "lblFitting"
+        Me.lblFitting.Size = New System.Drawing.Size(38, 13)
+        Me.lblFitting.TabIndex = 0
+        Me.lblFitting.Text = "Fitting:"
+        '
         'btnToggleStorage
         '
         Me.btnToggleStorage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCargo
@@ -470,6 +572,8 @@ Partial Class ShipSlotControl
         Me.ctxBays.ResumeLayout(False)
         Me.tabCargoBay.ResumeLayout(False)
         Me.tabCargoBay.PerformLayout()
+        Me.tabRemote.ResumeLayout(False)
+        Me.tabRemote.PerformLayout()
         Me.panelFunctions.ResumeLayout(False)
         Me.panelFunctions.PerformLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -537,4 +641,13 @@ Partial Class ShipSlotControl
     Friend WithEvents btnToggleStorage As System.Windows.Forms.Button
     Friend WithEvents btnMergeDrones As System.Windows.Forms.Button
     Friend WithEvents btnMergeCargo As System.Windows.Forms.Button
+    Friend WithEvents tabRemote As System.Windows.Forms.TabPage
+    Friend WithEvents lvwRemoteEffects As System.Windows.Forms.ListView
+    Friend WithEvents btnUpdateRemoteEffects As System.Windows.Forms.Button
+    Friend WithEvents cboPilot As System.Windows.Forms.ComboBox
+    Friend WithEvents lblPilot As System.Windows.Forms.Label
+    Friend WithEvents cboFitting As System.Windows.Forms.ComboBox
+    Friend WithEvents lblFitting As System.Windows.Forms.Label
+    Friend WithEvents colModule As System.Windows.Forms.ColumnHeader
+    Friend WithEvents btnLoad As System.Windows.Forms.Button
 End Class

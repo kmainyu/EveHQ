@@ -48,6 +48,7 @@ Imports System.Runtime.Serialization
     Private cLauncherSlots As Integer
     Private cCalibration As Integer
     Private cSlotCollection As New ArrayList
+    Private cRemoteSlotCollection As New ArrayList
 
     ' CPU, Power & Capacitor
     Private cCPU As Double
@@ -340,6 +341,14 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As ArrayList)
             cSlotCollection = value
+        End Set
+    End Property
+    Public Property RemoteSlotCollection() As ArrayList
+        Get
+            Return cRemoteSlotCollection
+        End Get
+        Set(ByVal value As ArrayList)
+            cRemoteSlotCollection = value
         End Set
     End Property
 

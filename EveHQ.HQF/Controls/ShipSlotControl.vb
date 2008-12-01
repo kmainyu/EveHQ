@@ -1963,5 +1963,62 @@ Public Class ShipSlotControl
     End Sub
 #End Region
 
-   
+    Private Sub btnLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoad.Click
+        ' Load details into the combo boxes
+        cboFitting.BeginUpdate()
+        cboFitting.Items.Clear()
+        For Each fitting As String In Fittings.FittingList.Keys
+            cboFitting.Items.Add(fitting)
+        Next
+        cboFitting.EndUpdate()
+        cboPilot.BeginUpdate()
+        cboPilot.Items.Clear()
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+            cboPilot.Items.Add(cPilot.Name)
+        Next
+        cboPilot.EndUpdate()
+    End Sub
+
+    Private Sub btnUpdateRemoteEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateRemoteEffects.Click
+        ' Check if we have a fitting and a pilot and if so, generate the fitting
+        If cboFitting.SelectedItem IsNot Nothing And cboPilot.SelectedItem IsNot Nothing Then
+            ' Let's try and generate a fitting and get some module info
+            Dim shipFit As String = cboFitting.SelectedItem.ToString
+            Dim fittingSep As Integer = shipFit.IndexOf(", ")
+            Dim shipName As String = shipFit.Substring(0, fittingSep)
+            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+            Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+            pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
+            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilot.SelectedItem.ToString), HQFPilot)
+            Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
+            pShip = Nothing
+            lvwRemoteEffects.Tag = "Refresh"
+            lvwRemoteEffects.BeginUpdate()
+            lvwRemoteEffects.Items.Clear()
+            For Each remoteModule As ShipModule In remoteShip.SlotCollection
+                remoteModule.ModuleState += 16
+                Dim newRemoteItem As New ListViewItem
+                newRemoteItem.Tag = remoteModule
+                If remoteModule.LoadedCharge IsNot Nothing Then
+                    newRemoteItem.Text = remoteModule.Name & "(" & remoteModule.LoadedCharge.Name & ")"
+                Else
+                    newRemoteItem.Text = remoteModule.Name
+                End If
+                lvwRemoteEffects.Items.Add(newRemoteItem)
+            Next
+            lvwRemoteEffects.EndUpdate()
+            lvwRemoteEffects.Tag = ""
+        End If
+    End Sub
+
+    Private Sub lvwRemoteEffects_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwRemoteEffects.ItemChecked
+        If lvwRemoteEffects.Tag.ToString <> "Refresh" Then
+            currentShip.RemoteSlotCollection.Clear()
+            For Each item As ListViewItem In lvwRemoteEffects.CheckedItems
+                currentShip.RemoteSlotCollection.Add(item.Tag)
+            Next
+            currentInfo.ShipType = currentShip
+            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+        End If
+    End Sub
 End Class
