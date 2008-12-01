@@ -170,8 +170,9 @@ Public Class frmHQF
         f.Serialize(s, Fittings.FittingList)
         s.Flush()
         s.Close()
+        'MessageBox.Show("Confirmed saving of fittings file contained " & Fittings.FittingList.Count & " objects to " & HQF.Settings.HQFFolder & "\HQFFittings.bin", "Save Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
-   
+
     Private Sub ShowShipGroups()
         Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\ShipGroups.bin")
         Dim ShipGroups As String = sr.ReadToEnd
@@ -1392,32 +1393,36 @@ Public Class frmHQF
     End Sub
     Private Sub ctxFittings_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxFittings.Opening
         If clvFittings.SelectedItems.Count < 2 Then
-            Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
-            If curNode IsNot Nothing Then
-                If curNode.Items.Count = 0 Then
-                    Dim parentNode As ContainerListViewItem = curNode.ParentItem
-                    mnuFittingsFittingName.Text = parentNode.Text & ", " & curNode.Text
-                    mnuFittingsFittingName.Tag = parentNode.Text
-                    mnuFittingsCreateFitting.Text = "Create New " & parentNode.Text & " Fitting"
-                    mnuFittingsCreateFitting.Enabled = True
-                    mnuFittingsCopyFitting.Enabled = True
-                    mnuFittingsDeleteFitting.Enabled = True
-                    mnuFittingsRenameFitting.Enabled = True
-                    mnuFittingsShowFitting.Enabled = True
-                    mnuPreviewShip2.Enabled = True
-                Else
-                    mnuFittingsFittingName.Text = curNode.Text
-                    mnuFittingsFittingName.Tag = curNode.Text
-                    mnuFittingsCreateFitting.Text = "Create New " & curNode.Text & " Fitting"
-                    mnuFittingsCreateFitting.Enabled = True
-                    mnuFittingsCopyFitting.Enabled = False
-                    mnuFittingsDeleteFitting.Enabled = False
-                    mnuFittingsRenameFitting.Enabled = False
-                    mnuFittingsShowFitting.Enabled = False
-                    mnuPreviewShip2.Enabled = True
-                End If
-            Else
+            If clvFittings.SelectedItems.Count = 0 Then
                 e.Cancel = True
+            Else
+                Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
+                If curNode IsNot Nothing Then
+                    If curNode.Items.Count = 0 Then
+                        Dim parentNode As ContainerListViewItem = curNode.ParentItem
+                        mnuFittingsFittingName.Text = parentNode.Text & ", " & curNode.Text
+                        mnuFittingsFittingName.Tag = parentNode.Text
+                        mnuFittingsCreateFitting.Text = "Create New " & parentNode.Text & " Fitting"
+                        mnuFittingsCreateFitting.Enabled = True
+                        mnuFittingsCopyFitting.Enabled = True
+                        mnuFittingsDeleteFitting.Enabled = True
+                        mnuFittingsRenameFitting.Enabled = True
+                        mnuFittingsShowFitting.Enabled = True
+                        mnuPreviewShip2.Enabled = True
+                    Else
+                        mnuFittingsFittingName.Text = curNode.Text
+                        mnuFittingsFittingName.Tag = curNode.Text
+                        mnuFittingsCreateFitting.Text = "Create New " & curNode.Text & " Fitting"
+                        mnuFittingsCreateFitting.Enabled = True
+                        mnuFittingsCopyFitting.Enabled = False
+                        mnuFittingsDeleteFitting.Enabled = False
+                        mnuFittingsRenameFitting.Enabled = False
+                        mnuFittingsShowFitting.Enabled = False
+                        mnuPreviewShip2.Enabled = True
+                    End If
+                Else
+                    e.Cancel = True
+                End If
             End If
         Else
             mnuFittingsFittingName.Text = "[Multiple Selection]"

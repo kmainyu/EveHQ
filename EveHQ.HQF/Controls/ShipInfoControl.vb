@@ -632,13 +632,15 @@ Public Class ShipInfoControl
         Dim newLog As New ListViewItem
         myAuditLog.lvwAudit.BeginUpdate()
         For Each log As String In fittedShip.AuditLog
-            newLog = New ListViewItem
             logData = log.Split("#".ToCharArray)
-            newLog.Text = logData(0).Trim
-            newLog.SubItems.Add(logData(1).Trim)
-            newLog.SubItems.Add(FormatNumber(logData(2).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            newLog.SubItems.Add(FormatNumber(logData(3).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-            myAuditLog.lvwAudit.Items.Add(newLog)
+            If logData(2).Trim <> logData(3).Trim Then
+                newLog = New ListViewItem
+                newLog.Text = logData(0).Trim
+                newLog.SubItems.Add(logData(1).Trim)
+                newLog.SubItems.Add(FormatNumber(logData(2).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                newLog.SubItems.Add(FormatNumber(logData(3).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                myAuditLog.lvwAudit.Items.Add(newLog)
+            End If
         Next
         myAuditLog.lvwAudit.EndUpdate()
         myAuditLog.ShowDialog()
