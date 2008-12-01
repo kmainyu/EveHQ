@@ -372,11 +372,9 @@ Public Class Engine
             'MessageBox.Show("Building Ship Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
         End If
     End Sub
-    Public Shared Function BuildModuleEffects(ByVal baseShip As Ship) As Ship
+    Public Shared Sub BuildModuleEffects(ByRef newShip As Ship)
         Dim sTime, eTime As Date
         sTime = Now
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
         ' Clear the Effects Table
         ModuleEffectsTable.Clear()
         ' Go through all the skills and see what needs to be mapped
@@ -443,13 +441,10 @@ Public Class Engine
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Building Module Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
-        Return newShip
-    End Function
-    Public Shared Function BuildChargeEffects(ByVal baseShip As Ship) As Ship
+    End Sub
+    Public Shared Sub BuildChargeEffects(ByRef newShip As Ship)
         Dim sTime, eTime As Date
         sTime = Now
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
         ' Clear the Effects Table
         ChargeEffectsTable.Clear()
         ' Go through all the skills and see what needs to be mapped
@@ -518,9 +513,8 @@ Public Class Engine
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Building Module Effects took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
-        Return newShip
 
-    End Function
+    End Sub
 
     Public Shared Function ApplyFitting(ByVal baseShip As Ship, ByVal shipPilot As HQFPilot, Optional ByVal BuildMethod As Integer = 0) As Ship
         ' Setup performance info - just in case!
@@ -558,36 +552,36 @@ Public Class Engine
                 Engine.BuildShipEffects(shipPilot, baseShip)
                 pStageTime(3) = Now
                 newShip = Engine.CollectModules(CType(baseShip.Clone, Ship))
-                newShip = Engine.ApplySkillEffectsToShip(newShip)
+                Engine.ApplySkillEffectsToShip(newShip)
                 pStageTime(4) = Now
-                newShip = Engine.ApplySkillEffectsToModules(newShip)
+                Engine.ApplySkillEffectsToModules(newShip)
                 pStageTime(5) = Now
-                newShip = Engine.ApplySkillEffectsToDrones(newShip)
+                Engine.ApplySkillEffectsToDrones(newShip)
                 pStageTime(6) = Now
-                newShip = Engine.BuildChargeEffects(newShip)
+                Engine.BuildChargeEffects(newShip)
                 pStageTime(10) = Now
-                newShip = Engine.ApplyChargeEffectsToModules(newShip)
+                Engine.ApplyChargeEffectsToModules(newShip)
                 pStageTime(11) = Now
-                newShip = Engine.ApplyChargeEffectsToShip(newShip)
+                Engine.ApplyChargeEffectsToShip(newShip)
                 pStageTime(12) = Now
-                newShip = Engine.BuildModuleEffects(newShip)
+                Engine.BuildModuleEffects(newShip)
                 pStageTime(7) = Now
                 Call Engine.ApplyStackingPenalties()
                 pStageTime(8) = Now
-                newShip = Engine.ApplyModuleEffectsToModules(newShip)
+                Engine.ApplyModuleEffectsToModules(newShip)
                 pStageTime(9) = Now
-                newShip = Engine.BuildModuleEffects(newShip)
+                Engine.BuildModuleEffects(newShip)
                 pStageTime(13) = Now
                 Call Engine.ApplyStackingPenalties()
                 pStageTime(14) = Now
-                newShip = Engine.ApplyModuleEffectsToDrones(newShip)
+                Engine.ApplyModuleEffectsToDrones(newShip)
                 pStageTime(15) = Now
-                newShip = Engine.ApplyModuleEffectsToShip(newShip)
+                Engine.ApplyModuleEffectsToShip(newShip)
                 pStageTime(16) = Now
-                newShip = Engine.CalculateDamageStatistics(newShip)
+                Engine.CalculateDamageStatistics(newShip)
                 pStageTime(17) = Now
                 Ship.MapShipAttributes(newShip)
-                newShip = Engine.CalculateDefenceStatistics(newShip)
+                Engine.CalculateDefenceStatistics(newShip)
                 pStageTime(18) = Now
             Case BuildType.BuildEffectsMaps
                 pStageTime(0) = Now
@@ -598,37 +592,37 @@ Public Class Engine
                 Engine.BuildShipEffects(shipPilot, baseShip)
                 pStageTime(3) = Now
                 'newShip = Engine.CollectModules(CType(baseShip.Clone, Ship))
-                'newShip = Engine.ApplySkillEffectsToShip(newShip)
+                'Engine.ApplySkillEffectsToShip(newShip)
                 pStageTime(4) = Now
-                'newShip = Engine.ApplySkillEffectsToModules(newShip)
+                'Engine.ApplySkillEffectsToModules(newShip)
                 pStageTime(5) = Now
-                'newShip = Engine.ApplySkillEffectsToDrones(newShip)
+                'Engine.ApplySkillEffectsToDrones(newShip)
                 pStageTime(6) = Now
-                'newShip = Engine.BuildModuleEffects(newShip)
+                'Engine.BuildModuleEffects(newShip)
                 pStageTime(7) = Now
-                'Call Engine.ApplyStackingPenalties()
+                'Engine.ApplyStackingPenalties()
                 pStageTime(8) = Now
-                'newShip = Engine.ApplyModuleEffectsToModules(newShip)
+                'Engine.ApplyModuleEffectsToModules(newShip)
                 pStageTime(9) = Now
-                'newShip = Engine.BuildChargeEffects(newShip)
+                'Engine.BuildChargeEffects(newShip)
                 pStageTime(10) = Now
-                'newShip = Engine.ApplyChargeEffectsToModules(newShip)
+                'Engine.ApplyChargeEffectsToModules(newShip)
                 pStageTime(11) = Now
-                'newShip = Engine.ApplyChargeEffectsToShip(newShip)
+                'Engine.ApplyChargeEffectsToShip(newShip)
                 pStageTime(12) = Now
-                'newShip = Engine.BuildModuleEffects(newShip)
+                'Engine.BuildModuleEffects(newShip)
                 pStageTime(13) = Now
                 'Call Engine.ApplyStackingPenalties()
                 pStageTime(14) = Now
-                'newShip = Engine.ApplyModuleEffectsToDrones(newShip)
+                'Engine.ApplyModuleEffectsToDrones(newShip)
                 pStageTime(15) = Now
-                'newShip = Engine.ApplyModuleEffectsToShip(newShip)
+                'Engine.ApplyModuleEffectsToShip(newShip)
                 pStageTime(16) = Now
-                'newShip = Engine.CalculateDamageStatistics(newShip)
+                'Engine.CalculateDamageStatistics(newShip)
                 pStageTime(17) = Now
                 'Ship.MapShipAttributes(newShip)
-                newShip = Engine.CalculateDefenceStatistics(newShip)
-                'pStageTime(18) = Now
+                'Engine.CalculateDefenceStatistics(newShip)
+                pStageTime(18) = Now
             Case BuildType.BuildFromEffectsMaps
                 pStageTime(0) = Now
                 'Engine.BuildSkillEffects(shipPilot)
@@ -638,36 +632,36 @@ Public Class Engine
                 'Engine.BuildShipEffects(shipPilot, baseShip)
                 pStageTime(3) = Now
                 newShip = Engine.CollectModules(CType(baseShip.Clone, Ship))
-                newShip = Engine.ApplySkillEffectsToShip(newShip)
+                Engine.ApplySkillEffectsToShip(newShip)
                 pStageTime(4) = Now
-                newShip = Engine.ApplySkillEffectsToModules(newShip)
+                Engine.ApplySkillEffectsToModules(newShip)
                 pStageTime(5) = Now
-                newShip = Engine.ApplySkillEffectsToDrones(newShip)
+                Engine.ApplySkillEffectsToDrones(newShip)
                 pStageTime(6) = Now
-                newShip = Engine.BuildChargeEffects(newShip)
+                Engine.BuildChargeEffects(newShip)
                 pStageTime(10) = Now
-                newShip = Engine.ApplyChargeEffectsToModules(newShip)
+                Engine.ApplyChargeEffectsToModules(newShip)
                 pStageTime(11) = Now
-                newShip = Engine.ApplyChargeEffectsToShip(newShip)
+                Engine.ApplyChargeEffectsToShip(newShip)
                 pStageTime(12) = Now
-                newShip = Engine.BuildModuleEffects(newShip)
+                Engine.BuildModuleEffects(newShip)
                 pStageTime(7) = Now
-                Call Engine.ApplyStackingPenalties()
+                Engine.ApplyStackingPenalties()
                 pStageTime(8) = Now
-                newShip = Engine.ApplyModuleEffectsToModules(newShip)
+                Engine.ApplyModuleEffectsToModules(newShip)
                 pStageTime(9) = Now
-                newShip = Engine.BuildModuleEffects(newShip)
+                Engine.BuildModuleEffects(newShip)
                 pStageTime(13) = Now
-                Call Engine.ApplyStackingPenalties()
+                Engine.ApplyStackingPenalties()
                 pStageTime(14) = Now
-                newShip = Engine.ApplyModuleEffectsToDrones(newShip)
+                Engine.ApplyModuleEffectsToDrones(newShip)
                 pStageTime(15) = Now
-                newShip = Engine.ApplyModuleEffectsToShip(newShip)
+                Engine.ApplyModuleEffectsToShip(newShip)
                 pStageTime(16) = Now
-                newShip = Engine.CalculateDamageStatistics(newShip)
+                Engine.CalculateDamageStatistics(newShip)
                 pStageTime(17) = Now
                 Ship.MapShipAttributes(newShip)
-                newShip = Engine.CalculateDefenceStatistics(newShip)
+                Engine.CalculateDefenceStatistics(newShip)
                 pStageTime(18) = Now
         End Select
         If Settings.HQFSettings.ShowPerformanceData = True Then
@@ -711,15 +705,13 @@ Public Class Engine
         Return newShip
     End Function
 
-    Private Shared Function ApplyChargeEffectsToModules(ByVal baseShip As Ship) As Ship
+    Private Shared Sub ApplyChargeEffectsToModules(ByRef newShip As Ship)
         Dim sTime, eTime As Date
         sTime = Now
         Dim att As String = ""
         Dim oldAtt As String = ""
         Dim log As String = ""
         Dim processAtt As Boolean = False
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
         For Each aModule As ShipModule In newShip.SlotCollection
             For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
                 att = CStr(aModule.Attributes.GetKey(attNo))
@@ -799,9 +791,9 @@ Public Class Engine
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Applying Module Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
-        Return newShip
-    End Function
-    Private Shared Function ApplyChargeEffectsToShip(ByVal baseShip As Ship) As Ship
+    End Sub
+
+    Private Shared Sub ApplyChargeEffectsToShip(ByRef newShip As Ship)
         Dim sTime, eTime As Date
         sTime = Now
         Dim maxSlots As Integer = 0
@@ -809,8 +801,6 @@ Public Class Engine
         Dim oldAtt As String = ""
         Dim log As String = ""
         Dim processAtt As Boolean = False
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = CStr(newShip.Attributes.GetKey(attNo))
             If ChargeEffectsTable.Contains(att) = True Then
@@ -883,18 +873,15 @@ Public Class Engine
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Applying Charge Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
-        Return newShip
-    End Function
+    End Sub
 
-    Private Shared Function ApplySkillEffectsToShip(ByVal baseShip As Ship) As Ship
+    Private Shared Sub ApplySkillEffectsToShip(ByRef newShip As Ship)
         Dim sTime, eTime As Date
         sTime = Now
         Dim thisEffect As New FinalEffect
         Dim att As String = ""
         Dim processAtt As Boolean = False
         Dim log As String = ""
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = CStr(newShip.Attributes.GetKey(attNo))
             If SkillEffectsTable.Contains(att) = True Then
@@ -961,16 +948,13 @@ Public Class Engine
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Applying Skill Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
-        Return newShip
-    End Function
+    End Sub
 
-    Private Shared Function ApplySkillEffectsToModules(ByVal baseShip As Ship) As Ship
+    Private Shared Sub ApplySkillEffectsToModules(ByRef newShip As Ship)
         Dim sTime, eTime As Date
         sTime = Now
         Dim att As String = ""
         Dim oldAtt As String = ""
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
         Dim processAtt As Boolean = False
         Dim log As String = ""
         For Each aModule As ShipModule In newShip.SlotCollection
@@ -1119,19 +1103,16 @@ Public Class Engine
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Applying Skill Effects to Modules took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
-        Return newShip
 
-    End Function
+    End Sub
 
-    Private Shared Function ApplySkillEffectsToDrones(ByVal baseShip As Ship) As Ship
+    Private Shared Sub ApplySkillEffectsToDrones(ByRef newShip As Ship)
         Dim sTime, eTime As Date
         sTime = Now
         Dim aModule As New ShipModule
         Dim maxSlots As Integer = 0
         Dim att As String = ""
         Dim oldAtt As String = ""
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
         Dim processAtt As Boolean = False
         Dim log As String = ""
         For Each DBI As DroneBayItem In newShip.DroneBayItems.Values
@@ -1209,19 +1190,16 @@ Public Class Engine
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Applying Skill Effects to Modules took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
-        Return newShip
 
-    End Function
+    End Sub
 
-    Private Shared Function ApplyModuleEffectsToModules(ByVal baseShip As Ship) As Ship
+    Private Shared Sub ApplyModuleEffectsToModules(ByRef newShip As Ship)
         Dim sTime, eTime As Date
         sTime = Now
         Dim att As String = ""
         Dim oldAtt As String = ""
         Dim log As String = ""
         Dim processAtt As Boolean = False
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
         For Each aModule As ShipModule In newShip.SlotCollection
             For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
                 att = CStr(aModule.Attributes.GetKey(attNo))
@@ -1376,10 +1354,9 @@ Public Class Engine
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Applying Module Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
-        Return newShip
-    End Function
+    End Sub
 
-    Private Shared Function ApplyModuleEffectsToDrones(ByVal baseShip As Ship) As Ship
+    Private Shared Sub ApplyModuleEffectsToDrones(ByRef newShip As Ship)
         Dim sTime, eTime As Date
         sTime = Now
         Dim aModule As New ShipModule
@@ -1388,8 +1365,6 @@ Public Class Engine
         Dim oldAtt As String = ""
         Dim log As String = ""
         Dim processAtt As Boolean = False
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
         For Each DBI As DroneBayItem In newShip.DroneBayItems.Values
             aModule = DBI.DroneType
             For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
@@ -1469,18 +1444,15 @@ Public Class Engine
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Applying Module Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
-        Return newShip
-    End Function
+    End Sub
 
-    Private Shared Function ApplyModuleEffectsToShip(ByVal baseShip As Ship) As Ship
+    Private Shared Sub ApplyModuleEffectsToShip(ByRef newShip As Ship)
         Dim sTime, eTime As Date
         sTime = Now
         Dim att As String = ""
         Dim log As String = ""
         Dim oldAtt As String = ""
         Dim processAtt As Boolean = False
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = CStr(newShip.Attributes.GetKey(attNo))
             If ModuleEffectsTable.Contains(att) = True Then
@@ -1550,8 +1522,7 @@ Public Class Engine
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
         'MessageBox.Show("Applying Module Effects to Ship took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
-        Return newShip
-    End Function
+    End Sub
 
     Private Shared Sub ApplyStackingPenalties()
         Dim sTime, eTime As Date
@@ -1653,9 +1624,7 @@ Public Class Engine
         'MessageBox.Show("Applying Stacking Penalties took " & FormatNumber(dTime.TotalMilliseconds, 2, TriState.True, TriState.True, TriState.True) & "ms")
     End Sub
 
-    Private Shared Function CalculateDamageStatistics(ByVal baseShip As Ship) As Ship
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
+    Private Shared Sub CalculateDamageStatistics(ByRef newShip As Ship)
         Dim cModule As New ShipModule
         Dim dgmMod As Double = 1
         Dim ROF As Double = 1
@@ -1776,12 +1745,9 @@ Public Class Engine
                 End If
             End If
         Next
-        Return newShip
-    End Function
+    End Sub
 
-    Private Shared Function CalculateDefenceStatistics(ByVal baseShip As Ship) As Ship
-        ' Define a new ship
-        Dim newShip As Ship = CType(baseShip.Clone, Ship)
+    Private Shared Sub CalculateDefenceStatistics(ByRef newShip As Ship)
         Dim sR, aR, hR As Double
         For Each cModule As ShipModule In newShip.SlotCollection
             If cModule.DatabaseGroup = "40" And (cModule.ModuleState And 12) = cModule.ModuleState Then
@@ -1796,15 +1762,14 @@ Public Class Engine
         Next
         sR = sR + (newShip.ShieldCapacity / newShip.ShieldRecharge * HQF.Settings.HQFSettings.ShieldRechargeConstant)
         ' Calculate the actual tanking ability
-        Dim sT As Double = (sR * newShip.DamageProfileEM / (1 - newShip.ShieldEMResist / 100)) + (sR * newShip.DamageProfileEX / (1 - newShip.ShieldExResist / 100)) + (sR * newShip.DamageProfileKI / (1 - newShip.ShieldKiResist / 100)) + (sR * newShip.DamageProfileTH / (1 - newShip.ShieldThResist / 100))
-        Dim aT As Double = (aR * newShip.DamageProfileEM / (1 - newShip.ArmorEMResist / 100)) + (aR * newShip.DamageProfileEX / (1 - newShip.ArmorExResist / 100)) + (aR * newShip.DamageProfileKI / (1 - newShip.ArmorKiResist / 100)) + (aR * newShip.DamageProfileTH / (1 - newShip.ArmorThResist / 100))
-        Dim hT As Double = (hR * newShip.DamageProfileEM / (1 - newShip.StructureEMResist / 100)) + (hR * newShip.DamageProfileEX / (1 - newShip.StructureExResist / 100)) + (hR * newShip.DamageProfileKI / (1 - newShip.StructureKiResist / 100)) + (hR * newShip.DamageProfileTH / (1 - newShip.StructureThResist / 100))
+        Dim sT As Double = sR / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.ShieldThResist / 100)))
+        Dim aT As Double = aR / ((newShip.DamageProfileEM * (1 - newShip.ArmorEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.ArmorExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.ArmorKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.ArmorThResist / 100)))
+        Dim hT As Double = hR / ((newShip.DamageProfileEM * (1 - newShip.StructureEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.StructureExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.StructureKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.StructureThResist / 100)))
         newShip.Attributes("10059") = sT
         newShip.Attributes("10060") = aT
         newShip.Attributes("10061") = hT
         newShip.Attributes("10062") = Math.Max(sT, Math.Max(aT, hT))
-        Return newShip
-    End Function
+    End Sub
 
 #End Region
 
