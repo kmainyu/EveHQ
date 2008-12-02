@@ -580,8 +580,8 @@
 50,0,0,49,3,6,0,0,1,14,CPU -> CPU_Used
 30,0,0,15,3,6,0,0,1,14,PG -> PG_Used
 1153,0,0,1154,3,6,0,0,1,14,Cal -> Cal-Used
-10032,0,0,10049,0,6,0,0,6,12,Cap rate (+ve)
-10032,0,0,10050,0,6,0,0,7,12,Cap rate (+ve)
+10032,0,0,10049,0,6,0,0,6,28,Cap rate (+ve)
+10032,0,0,10050,0,6,0,0,7,28,Cap rate (+ve)
 # AMMUNITION & CHARGES,,,,,,,,,,
 # CAP BOOSTER,,,,,,,,,,
 67,2,87,6,6,0,0,0,8,15,Cap Booster Charges
@@ -754,7 +754,7 @@
 # Energy Destablilizers,,,,,,,,,,
 #97,2,71,,,,0,0,0,14,Energy Neutralized
 # Energy Transfer Arrays,,,,,,,,,,
-#90,2,67,,,,0,0,0,14,Energy Transferred
+90,2,67,6,6,0,0,0,8,16,Energy Transferred
 # Energy Vampires,,,,,,,,,,
 90,2,68,6,6,0,0,0,8,12,Energy Transferred
 # Auxiliary Power Cores,,,,,,,,,,

@@ -2000,7 +2000,7 @@ Public Class ShipSlotControl
                 Dim newRemoteItem As New ListViewItem
                 newRemoteItem.Tag = remoteModule
                 If remoteModule.LoadedCharge IsNot Nothing Then
-                    newRemoteItem.Text = remoteModule.Name & "(" & remoteModule.LoadedCharge.Name & ")"
+                    newRemoteItem.Text = remoteModule.Name & " (" & remoteModule.LoadedCharge.Name & ")"
                 Else
                     newRemoteItem.Text = remoteModule.Name
                 End If
@@ -2008,6 +2008,8 @@ Public Class ShipSlotControl
             Next
             lvwRemoteEffects.EndUpdate()
             lvwRemoteEffects.Tag = ""
+            ' Update the mapping effects back to the current pilot
+            currentInfo.BuildMethod = BuildType.BuildEffectsMaps
         End If
     End Sub
 

@@ -433,6 +433,15 @@ Imports System.Runtime.Serialization
     Public Shared Sub MapModuleAttributes(ByVal newModule As ShipModule)
         Dim att As String
         Dim attValue As Double = 0
+        ' Amend for remote effects capacitor use
+        If (newModule.ModuleState And 16) = 16 Then
+            If newModule.DatabaseGroup = "67" Then
+                newModule.Attributes("6") = CDbl(newModule.Attributes("90")) * -1
+            Else
+                newModule.Attributes("6") = "0"
+            End If
+        End If
+        ' Parse values
         For attNo As Integer = 0 To newModule.Attributes.Keys.Count - 1
             att = CStr(newModule.Attributes.GetKey(attNo))
             attValue = CDbl(newModule.Attributes(att))
@@ -448,31 +457,31 @@ Imports System.Runtime.Serialization
                 Case 1153
                     newModule.Calibration = CInt(attValue)
             End Select
-            If newModule.Attributes.Contains("10032") = True Then
-                If newModule.Attributes.Contains("51") = True Then
-                    newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("51"))
-                ElseIf newModule.Attributes.Contains("10011") = True Then
-                    newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10011"))
-                ElseIf newModule.Attributes.Contains("10012") = True Then
-                    newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10012"))
-                ElseIf newModule.Attributes.Contains("10013") = True Then
-                    newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10013"))
-                Else
-                    newModule.Attributes("10032") = newModule.CapUsage / newModule.ActivationTime
-                End If
-                newModule.CapUsageRate = CDbl(newModule.Attributes("10032"))
-            End If
-            If newModule.Attributes.Contains("77") = True Then
-                Select Case CInt(newModule.MarketGroup)
-                    Case 1038 ' Ice Mining
-                        newModule.Attributes("10041") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
-                    Case 1039, 1040 ' Ore Mining
-                        newModule.Attributes("10039") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
-                    Case 158 ' Mining Drone
-                        newModule.Attributes("10040") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
-                End Select
-            End If
         Next
+        If newModule.Attributes.Contains("10032") = True Then
+            If newModule.Attributes.Contains("51") = True Then
+                newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("51"))
+            ElseIf newModule.Attributes.Contains("10011") = True Then
+                newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10011"))
+            ElseIf newModule.Attributes.Contains("10012") = True Then
+                newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10012"))
+            ElseIf newModule.Attributes.Contains("10013") = True Then
+                newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10013"))
+            Else
+                newModule.Attributes("10032") = newModule.CapUsage / newModule.ActivationTime
+            End If
+            newModule.CapUsageRate = CDbl(newModule.Attributes("10032"))
+        End If
+        If newModule.Attributes.Contains("77") = True Then
+            Select Case CInt(newModule.MarketGroup)
+                Case 1038 ' Ice Mining
+                    newModule.Attributes("10041") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
+                Case 1039, 1040 ' Ore Mining
+                    newModule.Attributes("10039") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
+                Case 158 ' Mining Drone
+                    newModule.Attributes("10040") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
+            End Select
+        End If
     End Sub
 #End Region
 

@@ -1758,17 +1758,23 @@ Public Class Engine
                 sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate remote shield boosting
-            If cModule.DatabaseGroup = "41" Then
-                If (cModule.ModuleState And 28) = cModule.ModuleState Then
-                    sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
-                End If
+            If cModule.DatabaseGroup = "41" And (cModule.ModuleState And 28) = cModule.ModuleState Then
+                sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate armor repairing
             If cModule.DatabaseGroup = "62" And (cModule.ModuleState And 12) = cModule.ModuleState Then
                 aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
             End If
+            ' Calculate remote armor repairing
+            If cModule.DatabaseGroup = "325" And (cModule.ModuleState And 28) = cModule.ModuleState Then
+                aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
+            End If
             ' Calculate hull repairing
             If cModule.DatabaseGroup = "63" And (cModule.ModuleState And 12) = cModule.ModuleState Then
+                hR = hR + CDbl(cModule.Attributes("83")) / CDbl(cModule.Attributes("73"))
+            End If
+            ' Calculate remote hull repairing
+            If cModule.DatabaseGroup = "585" And (cModule.ModuleState And 28) = cModule.ModuleState Then
                 hR = hR + CDbl(cModule.Attributes("83")) / CDbl(cModule.Attributes("73"))
             End If
         Next
@@ -1910,32 +1916,12 @@ Public Class Engine
 
         ' Populate the module list
         Dim modCount As Integer = 0
-        Dim shipMods(24, 2) As Double
-        For slot As Integer = 1 To baseShip.HiSlots
-            If baseShip.HiSlot(slot) IsNot Nothing Then
-                If baseShip.HiSlot(slot).CapUsage <> 0 And (baseShip.HiSlot(slot).ModuleState Or 12) = 12 Then
-                    shipMods(modCount, 0) = baseShip.HiSlot(slot).CapUsage
-                    shipMods(modCount, 1) = baseShip.HiSlot(slot).ActivationTime + CDbl(baseShip.HiSlot(slot).Attributes("10011")) + CDbl(baseShip.HiSlot(slot).Attributes("10012"))
-                    modCount += 1
-                End If
-            End If
-        Next
-        For slot As Integer = 1 To baseShip.MidSlots
-            If baseShip.MidSlot(slot) IsNot Nothing Then
-                If baseShip.MidSlot(slot).CapUsage <> 0 And (baseShip.MidSlot(slot).ModuleState Or 12) = 12 Then
-                    shipMods(modCount, 0) = baseShip.MidSlot(slot).CapUsage
-                    shipMods(modCount, 1) = baseShip.MidSlot(slot).ActivationTime
-                    modCount += 1
-                End If
-            End If
-        Next
-        For slot As Integer = 1 To baseShip.LowSlots
-            If baseShip.LowSlot(slot) IsNot Nothing Then
-                If baseShip.LowSlot(slot).CapUsage <> 0 And (baseShip.LowSlot(slot).ModuleState Or 12) = 12 Then
-                    shipMods(modCount, 0) = baseShip.LowSlot(slot).CapUsage
-                    shipMods(modCount, 1) = baseShip.LowSlot(slot).ActivationTime
-                    modCount += 1
-                End If
+        Dim shipMods(baseShip.SlotCollection.Count, 2) As Double
+        For Each slotMod As ShipModule In baseShip.SlotCollection
+            If slotMod.CapUsage <> 0 And (slotMod.ModuleState Or 28) = 28 Then
+                shipMods(modCount, 0) = slotMod.CapUsage
+                shipMods(modCount, 1) = slotMod.ActivationTime + CDbl(slotMod.Attributes("10011")) + CDbl(slotMod.Attributes("10012"))
+                modCount += 1
             End If
         Next
 
