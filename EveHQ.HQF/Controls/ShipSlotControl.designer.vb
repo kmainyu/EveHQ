@@ -23,11 +23,11 @@ Partial Class ShipSlotControl
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
         Me.lblFittingMarketPrice = New System.Windows.Forms.Label
         Me.lblShipMarketPrice = New System.Windows.Forms.Label
         Me.lblTurretSlots = New System.Windows.Forms.Label
@@ -39,7 +39,6 @@ Partial Class ShipSlotControl
         Me.ctxSlots = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.imgState = New System.Windows.Forms.ImageList(Me.components)
         Me.tabStorage = New System.Windows.Forms.TabControl
         Me.tabDroneBay = New System.Windows.Forms.TabPage
@@ -76,6 +75,9 @@ Partial Class ShipSlotControl
         Me.btnToggleStorage = New System.Windows.Forms.Button
         Me.panelFunctions = New System.Windows.Forms.Panel
         Me.pbShipInfo = New System.Windows.Forms.PictureBox
+        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
+        Me.ctxRemoteModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuShowRemoteModInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxSlots.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -87,6 +89,7 @@ Partial Class ShipSlotControl
         Me.tabRemote.SuspendLayout()
         Me.panelFunctions.SuspendLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ctxRemoteModule.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblFittingMarketPrice
@@ -194,30 +197,6 @@ Partial Class ShipSlotControl
         Me.SplitContainer1.Size = New System.Drawing.Size(599, 437)
         Me.SplitContainer1.SplitterDistance = 231
         Me.SplitContainer1.TabIndex = 1
-        '
-        'lvwSlots
-        '
-        Me.lvwSlots.AllowDrop = True
-        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
-        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwSlots.FullRowSelect = True
-        ListViewGroup1.Header = "High Slots"
-        ListViewGroup1.Name = "lvwgHighSlots"
-        ListViewGroup2.Header = "Mid Slots"
-        ListViewGroup2.Name = "lvwgMidSlots"
-        ListViewGroup3.Header = "Low Slots"
-        ListViewGroup3.Name = "lvwgLowSlots"
-        ListViewGroup4.Header = "Rig Slots"
-        ListViewGroup4.Name = "lvwgRigSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
-        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
-        Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.Size = New System.Drawing.Size(599, 231)
-        Me.lvwSlots.SmallImageList = Me.imgState
-        Me.lvwSlots.TabIndex = 0
-        Me.lvwSlots.Tag = ""
-        Me.lvwSlots.UseCompatibleStateImageBehavior = False
-        Me.lvwSlots.View = System.Windows.Forms.View.Details
         '
         'imgState
         '
@@ -456,6 +435,7 @@ Partial Class ShipSlotControl
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lvwRemoteEffects.CheckBoxes = True
         Me.lvwRemoteEffects.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModule})
+        Me.lvwRemoteEffects.ContextMenuStrip = Me.ctxRemoteModule
         Me.lvwRemoteEffects.FullRowSelect = True
         Me.lvwRemoteEffects.GridLines = True
         Me.lvwRemoteEffects.Location = New System.Drawing.Point(3, 34)
@@ -554,6 +534,42 @@ Partial Class ShipSlotControl
         Me.pbShipInfo.TabIndex = 0
         Me.pbShipInfo.TabStop = False
         '
+        'lvwSlots
+        '
+        Me.lvwSlots.AllowDrop = True
+        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
+        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwSlots.FullRowSelect = True
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
+        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
+        Me.lvwSlots.Name = "lvwSlots"
+        Me.lvwSlots.Size = New System.Drawing.Size(599, 231)
+        Me.lvwSlots.SmallImageList = Me.imgState
+        Me.lvwSlots.TabIndex = 0
+        Me.lvwSlots.Tag = ""
+        Me.lvwSlots.UseCompatibleStateImageBehavior = False
+        Me.lvwSlots.View = System.Windows.Forms.View.Details
+        '
+        'ctxRemoteModule
+        '
+        Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
+        Me.ctxRemoteModule.Name = "ctxRemoteModule"
+        Me.ctxRemoteModule.Size = New System.Drawing.Size(153, 48)
+        '
+        'mnuShowRemoteModInfo
+        '
+        Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
+        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(152, 22)
+        Me.mnuShowRemoteModInfo.Text = "Show Info"
+        '
         'ShipSlotControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -577,6 +593,7 @@ Partial Class ShipSlotControl
         Me.panelFunctions.ResumeLayout(False)
         Me.panelFunctions.PerformLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ctxRemoteModule.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -650,4 +667,6 @@ Partial Class ShipSlotControl
     Friend WithEvents lblFitting As System.Windows.Forms.Label
     Friend WithEvents colModule As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnLoad As System.Windows.Forms.Button
+    Friend WithEvents ctxRemoteModule As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuShowRemoteModInfo As System.Windows.Forms.ToolStripMenuItem
 End Class

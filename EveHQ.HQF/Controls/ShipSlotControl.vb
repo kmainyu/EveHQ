@@ -1996,7 +1996,8 @@ Public Class ShipSlotControl
             lvwRemoteEffects.BeginUpdate()
             lvwRemoteEffects.Items.Clear()
             For Each remoteModule As ShipModule In remoteShip.SlotCollection
-                remoteModule.ModuleState += 16
+                remoteModule.ModuleState = 16
+                remoteModule.SlotNo = 0
                 Dim newRemoteItem As New ListViewItem
                 newRemoteItem.Tag = remoteModule
                 If remoteModule.LoadedCharge IsNot Nothing Then
@@ -2021,6 +2022,23 @@ Public Class ShipSlotControl
             Next
             currentInfo.ShipType = currentShip
             currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+        End If
+    End Sub
+
+    Private Sub mnuShowRemoteModInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowRemoteModInfo.Click
+        Dim sModule As ShipModule = CType(lvwRemoteEffects.SelectedItems(0).Tag, ShipModule)
+        Dim showInfo As New frmShowInfo
+        Dim hPilot As EveHQ.Core.Pilot
+        If cboPilot.SelectedItem IsNot Nothing Then
+            hPilot = CType(EveHQ.Core.HQ.Pilots(cboPilot.SelectedItem), Core.Pilot)
+            showInfo.ShowItemDetails(sModule, hPilot)
+            showInfo = Nothing
+        End If
+    End Sub
+
+    Private Sub ctxRemoteModule_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxRemoteModule.Opening
+        If lvwRemoteEffects.SelectedItems.Count = 0 Then
+            e.Cancel = True
         End If
     End Sub
 End Class
