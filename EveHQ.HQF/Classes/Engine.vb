@@ -702,8 +702,15 @@ Public Class Engine
                 newShip.SlotCollection.Add(newShip.RigSlot(slot))
             End If
         Next
-        For Each remoteModule As ShipModule In newShip.RemoteSlotCollection
-            newShip.SlotCollection.Add(remoteModule)
+        For Each RemoteObject As Object In newShip.RemoteSlotCollection
+            If TypeOf RemoteObject Is ShipModule Then
+                newShip.SlotCollection.Add(RemoteObject)
+            Else
+                Dim remoteDrones As DroneBayItem = CType(RemoteObject, DroneBayItem)
+                For drone As Integer = 1 To remoteDrones.Quantity
+                    newShip.SlotCollection.Add(remoteDrones.DroneType)
+                Next
+            End If
         Next
         Return newShip
     End Function

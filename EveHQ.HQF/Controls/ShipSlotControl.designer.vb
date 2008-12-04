@@ -649,6 +649,22 @@ Partial Class ShipSlotControl
         rigGroups.Add(777)
         rigGroups.Add(896)
         rigGroups.Add(774)
+        remoteGroups.Add(41)
+        remoteGroups.Add(325)
+        remoteGroups.Add(585)
+        remoteGroups.Add(67)
+        remoteGroups.Add(65)
+        remoteGroups.Add(68)
+        remoteGroups.Add(71)
+        remoteGroups.Add(291)
+        remoteGroups.Add(209)
+        remoteGroups.Add(290)
+        remoteGroups.Add(208)
+        remoteGroups.Add(379)
+        remoteGroups.Add(544)
+        remoteGroups.Add(641)
+        remoteGroups.Add(640)
+        remoteGroups.Add(639)
     End Sub
     Friend WithEvents imgState As System.Windows.Forms.ImageList
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator

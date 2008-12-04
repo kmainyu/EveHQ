@@ -26,6 +26,7 @@ Public Class ShipSlotControl
     Dim UpdateDrones As Boolean = False
     Dim cancelDroneActivation As Boolean = False
     Dim rigGroups As New ArrayList
+    Dim remoteGroups As New ArrayList
     Dim cancelSlotMenu As Boolean = False
 
 #Region "Property Variables"
@@ -1996,16 +1997,29 @@ Public Class ShipSlotControl
             lvwRemoteEffects.BeginUpdate()
             lvwRemoteEffects.Items.Clear()
             For Each remoteModule As ShipModule In remoteShip.SlotCollection
-                remoteModule.ModuleState = 16
-                remoteModule.SlotNo = 0
-                Dim newRemoteItem As New ListViewItem
-                newRemoteItem.Tag = remoteModule
-                If remoteModule.LoadedCharge IsNot Nothing Then
-                    newRemoteItem.Text = remoteModule.Name & " (" & remoteModule.LoadedCharge.Name & ")"
-                Else
-                    newRemoteItem.Text = remoteModule.Name
+                If remoteGroups.Contains(CInt(remoteModule.DatabaseGroup)) = True Then
+                    remoteModule.ModuleState = 16
+                    remoteModule.SlotNo = 0
+                    Dim newRemoteItem As New ListViewItem
+                    newRemoteItem.Tag = remoteModule
+                    If remoteModule.LoadedCharge IsNot Nothing Then
+                        newRemoteItem.Text = remoteModule.Name & " (" & remoteModule.LoadedCharge.Name & ")"
+                    Else
+                        newRemoteItem.Text = remoteModule.Name
+                    End If
+                    lvwRemoteEffects.Items.Add(newRemoteItem)
                 End If
-                lvwRemoteEffects.Items.Add(newRemoteItem)
+            Next
+            For Each remoteDrone As DroneBayItem In remoteShip.DroneBayItems.Values
+                If remoteGroups.Contains(CInt(remoteDrone.DroneType.DatabaseGroup)) = True Then
+                    If remoteDrone.IsActive = True Then
+                        remoteDrone.DroneType.ModuleState = 16
+                        Dim newRemoteItem As New ListViewItem
+                        newRemoteItem.Tag = remoteDrone
+                        newRemoteItem.Text = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
+                        lvwRemoteEffects.Items.Add(newRemoteItem)
+                    End If
+                End If
             Next
             lvwRemoteEffects.EndUpdate()
             lvwRemoteEffects.Tag = ""
