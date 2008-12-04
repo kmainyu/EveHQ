@@ -435,11 +435,16 @@ Imports System.Runtime.Serialization
         Dim attValue As Double = 0
         ' Amend for remote effects capacitor use
         If (newModule.ModuleState And 16) = 16 Then
-            If newModule.DatabaseGroup = "67" Then
-                newModule.Attributes("6") = CDbl(newModule.Attributes("90")) * -1
-            Else
-                newModule.Attributes("6") = "0"
-            End If
+            Select Case newModule.DatabaseGroup
+                Case "67" ' Energy Transfer Array
+                    newModule.Attributes("6") = CDbl(newModule.Attributes("90")) * -1
+                Case "68" ' Energy Vampire
+                    newModule.Attributes("6") = CDbl(newModule.Attributes("90"))
+                Case "71" ' Energy Neutraliser
+                    newModule.Attributes("6") = CDbl(newModule.Attributes("97"))
+                Case Else
+                    newModule.Attributes("6") = "0"
+            End Select
         End If
         ' Parse values
         For attNo As Integer = 0 To newModule.Attributes.Keys.Count - 1

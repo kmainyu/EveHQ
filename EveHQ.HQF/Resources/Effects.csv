@@ -714,15 +714,16 @@
 #1029,2,289,210,3,6,1,0,0,14,Mag Strength
 #1030,2,289,208,3,6,1,0,0,14,Radar Strength
 # Remote Sensor Dampeners,,,,,,,,,,
-#309,2,208,76,3,6,1,0,0,14,Max Targeting Range
-#566,2,208,564,3,6,1,0,0,14,Scan Resolution
+309,2,208,76,3,6,1,0,0,16,Max Targeting Range
+566,2,208,564,3,6,1,0,0,16,Scan Resolution
 # Stasis Webifiers,,,,,,,,,,
 20,2,65,37,3,6,1,0,0,16,Max Velocity Penalty
 # Target Painters,,,,,,,,,,
-#554,2,379,552,3,6,0,0,0,14,Signature Radius Penalty
+554,2,379,552,3,6,0,0,0,16,Signature Radius Penalty
 # Tracking Disruptors,,,,,,,,,,
-#351,2,291,54,2,55;53;74,1,0,0,14,Optimal Range
-#767,2,291,160,2,55;53;74,1,0,0,14,Tracking Speed
+349,2,158,54,2,55;53;74,1,0,0,16,Falloff
+351,2,291,54,2,55;53;74,1,0,0,16,Optimal Range
+767,2,291,160,2,55;53;74,1,0,0,16,Tracking Speed
 # Warp Disruption Field Generators,,,,,,,,,,
 554,2,899,552,3,6,1,0,0,12,Signature Radius Penalty
 1131,2,899,10002,3,6,1,0,0,12,Mass Reduction
@@ -739,8 +740,8 @@
 # CPU Upgrades,,,,,,,,,,
 202,2,285,48,3,6,0,0,0,14,Co-Processor - CPU Output
 # Remote Sensor Boosters,,,,,,,,,,
-#309,2,212,76,3,6,1,0,0,4,Sensor Booster - Max Targeting Range
-#566,2,212,564,3,6,1,0,0,4,Sensor Booster - Scan Resolution
+309,2,290,76,3,6,1,0,0,16,Remote Sensor Booster - Max Targeting Range
+566,2,290,564,3,6,1,0,0,16,Remote Sensor Booster - Scan Resolution
 # Sensor Boosters,,,,,,,,,,
 309,2,212,76,3,6,1,0,0,4,Sensor Booster - Max Targeting Range
 566,2,212,564,3,6,1,0,0,4,Sensor Booster - Scan Resolution
@@ -752,7 +753,7 @@
 # Capacitor Batteries,,,,,,,,,,
 67,2,61,482,3,6,0,0,1,14,Capacitor Battery - Capacitor Capacity
 # Energy Destablilizers,,,,,,,,,,
-#97,2,71,,,,0,0,0,14,Energy Neutralized
+97,2,71,6,6,0,0,0,8,16,Energy Neutralized
 # Energy Transfer Arrays,,,,,,,,,,
 90,2,67,6,6,0,0,0,8,16,Energy Transferred
 # Energy Vampires,,,,,,,,,,
@@ -925,6 +926,9 @@
 # Tracking Enhancers,,,,,,,,,,
 351,2,211,54,2,55;53;74,1,0,0,14,Optimal Range
 767,2,211,160,2,55;53;74,1,0,0,14,Tracking Speed
+# Tracking Links,,,,,,,,,,
+351,2,209,54,2,55;53;74,1,0,0,16,Optimal Range
+767,2,209,160,2,55;53;74,1,0,0,16,Tracking Speed
 # Mining Upgrade,,,,,,,,,,
 434,2,546,77,4,1039;1040,0,0,0,14,Mining Amount
 1082,2,546,50,4,1039;1040,0,0,0,14,CPU Penalty

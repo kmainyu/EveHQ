@@ -2022,6 +2022,7 @@ Public Class ShipSlotControl
             Next
             currentInfo.ShipType = currentShip
             currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+            Call Me.UpdateAllSlotLocations()
         End If
     End Sub
 
