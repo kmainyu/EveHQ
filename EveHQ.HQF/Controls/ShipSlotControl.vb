@@ -1981,45 +1981,49 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub btnUpdateRemoteEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateRemoteEffects.Click
-        ' Check if we have a fitting and a pilot and if so, generate the fitting
-        If cboFitting.SelectedItem IsNot Nothing And cboPilot.SelectedItem IsNot Nothing Then
-            ' Let's try and generate a fitting and get some module info
-            Dim shipFit As String = cboFitting.SelectedItem.ToString
-            Dim fittingSep As Integer = shipFit.IndexOf(", ")
-            Dim shipName As String = shipFit.Substring(0, fittingSep)
-            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-            Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
-            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilot.SelectedItem.ToString), HQFPilot)
-            Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
-            pShip = Nothing
+        ' Check if we have any remote fittings and if so, generate the fitting
+        If lvwRemoteFittings.Items.Count > 0 Then
             lvwRemoteEffects.Tag = "Refresh"
             lvwRemoteEffects.BeginUpdate()
             lvwRemoteEffects.Items.Clear()
-            For Each remoteModule As ShipModule In remoteShip.SlotCollection
-                If remoteGroups.Contains(CInt(remoteModule.DatabaseGroup)) = True Then
-                    remoteModule.ModuleState = 16
-                    remoteModule.SlotNo = 0
-                    Dim newRemoteItem As New ListViewItem
-                    newRemoteItem.Tag = remoteModule
-                    If remoteModule.LoadedCharge IsNot Nothing Then
-                        newRemoteItem.Text = remoteModule.Name & " (" & remoteModule.LoadedCharge.Name & ")"
-                    Else
-                        newRemoteItem.Text = remoteModule.Name
-                    End If
-                    lvwRemoteEffects.Items.Add(newRemoteItem)
-                End If
-            Next
-            For Each remoteDrone As DroneBayItem In remoteShip.DroneBayItems.Values
-                If remoteGroups.Contains(CInt(remoteDrone.DroneType.DatabaseGroup)) = True Then
-                    If remoteDrone.IsActive = True Then
-                        remoteDrone.DroneType.ModuleState = 16
+            For Each remoteFitting As ListViewItem In lvwRemoteFittings.CheckedItems
+                ' Let's try and generate a fitting and get some module info
+                'Dim shipFit As String = cboFitting.SelectedItem.ToString
+                Dim shipFit As String = remoteFitting.Tag.ToString
+                Dim fittingSep As Integer = shipFit.IndexOf(", ")
+                Dim shipName As String = shipFit.Substring(0, fittingSep)
+                Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+                Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+                pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
+                'Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilot.SelectedItem.ToString), HQFPilot)
+                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(remoteFitting.Name.TrimStart((shipFit & ": ").ToCharArray)), HQFPilot)
+                Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
+                pShip = Nothing
+                For Each remoteModule As ShipModule In remoteShip.SlotCollection
+                    If remoteGroups.Contains(CInt(remoteModule.DatabaseGroup)) = True Then
+                        remoteModule.ModuleState = 16
+                        remoteModule.SlotNo = 0
                         Dim newRemoteItem As New ListViewItem
-                        newRemoteItem.Tag = remoteDrone
-                        newRemoteItem.Text = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
+                        newRemoteItem.Tag = remoteModule
+                        If remoteModule.LoadedCharge IsNot Nothing Then
+                            newRemoteItem.Text = remoteModule.Name & " (" & remoteModule.LoadedCharge.Name & ")"
+                        Else
+                            newRemoteItem.Text = remoteModule.Name
+                        End If
                         lvwRemoteEffects.Items.Add(newRemoteItem)
                     End If
-                End If
+                Next
+                For Each remoteDrone As DroneBayItem In remoteShip.DroneBayItems.Values
+                    If remoteGroups.Contains(CInt(remoteDrone.DroneType.DatabaseGroup)) = True Then
+                        If remoteDrone.IsActive = True Then
+                            remoteDrone.DroneType.ModuleState = 16
+                            Dim newRemoteItem As New ListViewItem
+                            newRemoteItem.Tag = remoteDrone
+                            newRemoteItem.Text = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
+                            lvwRemoteEffects.Items.Add(newRemoteItem)
+                        End If
+                    End If
+                Next
             Next
             lvwRemoteEffects.EndUpdate()
             lvwRemoteEffects.Tag = ""
@@ -2054,6 +2058,22 @@ Public Class ShipSlotControl
     Private Sub ctxRemoteModule_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxRemoteModule.Opening
         If lvwRemoteEffects.SelectedItems.Count = 0 Then
             e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub btnAddRemoteFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddRemoteFitting.Click
+        ' Check if we have a fitting and a pilot and if so, generate the fitting
+        If cboFitting.SelectedItem IsNot Nothing And cboPilot.SelectedItem IsNot Nothing Then
+            If lvwRemoteFittings.Items.ContainsKey(cboFitting.SelectedItem.ToString & ": " & cboPilot.SelectedItem.ToString) = False Then
+                Dim newFitting As New ListViewItem
+                newFitting.Name = cboFitting.SelectedItem.ToString & ": " & cboPilot.SelectedItem.ToString
+                newFitting.Text = cboFitting.SelectedItem.ToString & ": " & cboPilot.SelectedItem.ToString
+                newFitting.Tag = cboFitting.SelectedItem.ToString
+                newFitting.Checked = True
+                lvwRemoteFittings.Items.Add(newFitting)
+            Else
+                MessageBox.Show("Fitting and Pilot combination already exists!", "Duplicate Remote Setup Detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
         End If
     End Sub
 End Class

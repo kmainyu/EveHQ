@@ -1129,10 +1129,10 @@
 17924,1,3330,160,4,567;570,0,1,0,5,15,Small Energy Turret Tracking
 17924,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
 # Taranis,,,,,,,,,,,
-11198,1,3328,10015,4,564;561,0,1,0,10,15,Small Hybrid Turret Damage
-11198,1,12092,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
-11198,1,12092,160,4,561;564,0,1,0,7.5,15,Small Hybrid Turret Tracking
-11198,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
+11200,1,3328,10015,4,564;561,0,1,0,10,15,Small Hybrid Turret Damage
+11200,1,12092,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
+11200,1,12092,160,4,561;564,0,1,0,7.5,15,Small Hybrid Turret Tracking
+11200,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Tempest,,,,,,,,,,,
 639,1,3337,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
 639,1,3337,10016,4,576;579,0,1,0,5,15,Large Projectile Turret Damage

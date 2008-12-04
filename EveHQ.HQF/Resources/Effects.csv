@@ -89,7 +89,7 @@
 317,1,19921,6,2,379,0,1,0,0,Target Painting
 #,1,3429,,,,0,1,0,0,Targeting
 828,1,19767,767,2,291,0,1,0,0,Turret Destabilization - Tracking Speed
-828,1,19767,54,2,291,0,1,0,0,Turret Destabilization - Optimal Range
+828,1,19767,351,2,291,0,1,0,0,Turret Destabilization - Optimal Range
 317,1,3434,6,2,291,0,1,0,0,Weapon Disruption
 # ENGINEERING,,,,,,,,,,
 317,1,24572,6,4,910,0,1,0,0,Capital Energy Emission Systems
@@ -719,9 +719,9 @@
 # Stasis Webifiers,,,,,,,,,,
 20,2,65,37,3,6,1,0,0,16,Max Velocity Penalty
 # Target Painters,,,,,,,,,,
-554,2,379,552,3,6,0,0,0,16,Signature Radius Penalty
+554,2,379,552,3,6,1,0,0,16,Signature Radius Penalty
 # Tracking Disruptors,,,,,,,,,,
-349,2,158,54,2,55;53;74,1,0,0,16,Falloff
+349,2,291,158,2,55;53;74,0,0,0,16,Falloff
 351,2,291,54,2,55;53;74,1,0,0,16,Optimal Range
 767,2,291,160,2,55;53;74,1,0,0,16,Tracking Speed
 # Warp Disruption Field Generators,,,,,,,,,,

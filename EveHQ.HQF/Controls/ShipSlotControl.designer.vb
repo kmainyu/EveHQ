@@ -66,6 +66,8 @@ Partial Class ShipSlotControl
         Me.btnLoad = New System.Windows.Forms.Button
         Me.lvwRemoteEffects = New System.Windows.Forms.ListView
         Me.colModule = New System.Windows.Forms.ColumnHeader
+        Me.ctxRemoteModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuShowRemoteModInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.btnUpdateRemoteEffects = New System.Windows.Forms.Button
         Me.cboPilot = New System.Windows.Forms.ComboBox
         Me.lblPilot = New System.Windows.Forms.Label
@@ -75,9 +77,10 @@ Partial Class ShipSlotControl
         Me.btnToggleStorage = New System.Windows.Forms.Button
         Me.panelFunctions = New System.Windows.Forms.Panel
         Me.pbShipInfo = New System.Windows.Forms.PictureBox
+        Me.lvwRemoteFittings = New System.Windows.Forms.ListView
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.btnAddRemoteFitting = New System.Windows.Forms.Button
         Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
-        Me.ctxRemoteModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuShowRemoteModInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxSlots.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -87,9 +90,9 @@ Partial Class ShipSlotControl
         Me.ctxBays.SuspendLayout()
         Me.tabCargoBay.SuspendLayout()
         Me.tabRemote.SuspendLayout()
+        Me.ctxRemoteModule.SuspendLayout()
         Me.panelFunctions.SuspendLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ctxRemoteModule.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblFittingMarketPrice
@@ -194,8 +197,8 @@ Partial Class ShipSlotControl
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.tabStorage)
         Me.SplitContainer1.Panel2MinSize = 10
-        Me.SplitContainer1.Size = New System.Drawing.Size(599, 437)
-        Me.SplitContainer1.SplitterDistance = 231
+        Me.SplitContainer1.Size = New System.Drawing.Size(676, 521)
+        Me.SplitContainer1.SplitterDistance = 275
         Me.SplitContainer1.TabIndex = 1
         '
         'imgState
@@ -219,7 +222,7 @@ Partial Class ShipSlotControl
         Me.tabStorage.Multiline = True
         Me.tabStorage.Name = "tabStorage"
         Me.tabStorage.SelectedIndex = 0
-        Me.tabStorage.Size = New System.Drawing.Size(599, 202)
+        Me.tabStorage.Size = New System.Drawing.Size(676, 242)
         Me.tabStorage.TabIndex = 0
         '
         'tabDroneBay
@@ -231,7 +234,7 @@ Partial Class ShipSlotControl
         Me.tabDroneBay.Location = New System.Drawing.Point(4, 22)
         Me.tabDroneBay.Name = "tabDroneBay"
         Me.tabDroneBay.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabDroneBay.Size = New System.Drawing.Size(591, 176)
+        Me.tabDroneBay.Size = New System.Drawing.Size(668, 216)
         Me.tabDroneBay.TabIndex = 0
         Me.tabDroneBay.Text = "Drone Bay"
         Me.tabDroneBay.UseVisualStyleBackColor = True
@@ -239,7 +242,7 @@ Partial Class ShipSlotControl
         'btnMergeDrones
         '
         Me.btnMergeDrones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeDrones.Location = New System.Drawing.Point(496, 6)
+        Me.btnMergeDrones.Location = New System.Drawing.Point(573, 6)
         Me.btnMergeDrones.Name = "btnMergeDrones"
         Me.btnMergeDrones.Size = New System.Drawing.Size(90, 23)
         Me.btnMergeDrones.TabIndex = 3
@@ -259,7 +262,7 @@ Partial Class ShipSlotControl
         Me.lvwDroneBay.GridLines = True
         Me.lvwDroneBay.Location = New System.Drawing.Point(7, 33)
         Me.lvwDroneBay.Name = "lvwDroneBay"
-        Me.lvwDroneBay.Size = New System.Drawing.Size(578, 137)
+        Me.lvwDroneBay.Size = New System.Drawing.Size(655, 177)
         Me.lvwDroneBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwDroneBay.TabIndex = 2
         Me.lvwDroneBay.UseCompatibleStateImageBehavior = False
@@ -321,7 +324,7 @@ Partial Class ShipSlotControl
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pbDroneBay.Location = New System.Drawing.Point(7, 19)
         Me.pbDroneBay.Name = "pbDroneBay"
-        Me.pbDroneBay.Size = New System.Drawing.Size(483, 10)
+        Me.pbDroneBay.Size = New System.Drawing.Size(560, 10)
         Me.pbDroneBay.TabIndex = 1
         '
         'lblDroneBay
@@ -342,7 +345,7 @@ Partial Class ShipSlotControl
         Me.tabCargoBay.Location = New System.Drawing.Point(4, 22)
         Me.tabCargoBay.Name = "tabCargoBay"
         Me.tabCargoBay.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabCargoBay.Size = New System.Drawing.Size(591, 176)
+        Me.tabCargoBay.Size = New System.Drawing.Size(668, 216)
         Me.tabCargoBay.TabIndex = 1
         Me.tabCargoBay.Text = "CargoBay"
         Me.tabCargoBay.UseVisualStyleBackColor = True
@@ -350,7 +353,7 @@ Partial Class ShipSlotControl
         'btnMergeCargo
         '
         Me.btnMergeCargo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeCargo.Location = New System.Drawing.Point(495, 6)
+        Me.btnMergeCargo.Location = New System.Drawing.Point(572, 6)
         Me.btnMergeCargo.Name = "btnMergeCargo"
         Me.btnMergeCargo.Size = New System.Drawing.Size(90, 23)
         Me.btnMergeCargo.TabIndex = 6
@@ -369,7 +372,7 @@ Partial Class ShipSlotControl
         Me.lvwCargoBay.GridLines = True
         Me.lvwCargoBay.Location = New System.Drawing.Point(7, 33)
         Me.lvwCargoBay.Name = "lvwCargoBay"
-        Me.lvwCargoBay.Size = New System.Drawing.Size(578, 135)
+        Me.lvwCargoBay.Size = New System.Drawing.Size(655, 175)
         Me.lvwCargoBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwCargoBay.TabIndex = 5
         Me.lvwCargoBay.UseCompatibleStateImageBehavior = False
@@ -391,7 +394,7 @@ Partial Class ShipSlotControl
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pbCargoBay.Location = New System.Drawing.Point(6, 19)
         Me.pbCargoBay.Name = "pbCargoBay"
-        Me.pbCargoBay.Size = New System.Drawing.Size(482, 10)
+        Me.pbCargoBay.Size = New System.Drawing.Size(559, 10)
         Me.pbCargoBay.TabIndex = 4
         '
         'lblCargoBay
@@ -405,6 +408,8 @@ Partial Class ShipSlotControl
         '
         'tabRemote
         '
+        Me.tabRemote.Controls.Add(Me.btnAddRemoteFitting)
+        Me.tabRemote.Controls.Add(Me.lvwRemoteFittings)
         Me.tabRemote.Controls.Add(Me.btnLoad)
         Me.tabRemote.Controls.Add(Me.lvwRemoteEffects)
         Me.tabRemote.Controls.Add(Me.btnUpdateRemoteEffects)
@@ -414,7 +419,7 @@ Partial Class ShipSlotControl
         Me.tabRemote.Controls.Add(Me.lblFitting)
         Me.tabRemote.Location = New System.Drawing.Point(4, 22)
         Me.tabRemote.Name = "tabRemote"
-        Me.tabRemote.Size = New System.Drawing.Size(591, 176)
+        Me.tabRemote.Size = New System.Drawing.Size(668, 216)
         Me.tabRemote.TabIndex = 2
         Me.tabRemote.Text = "Remote Effects"
         Me.tabRemote.UseVisualStyleBackColor = True
@@ -438,21 +443,33 @@ Partial Class ShipSlotControl
         Me.lvwRemoteEffects.ContextMenuStrip = Me.ctxRemoteModule
         Me.lvwRemoteEffects.FullRowSelect = True
         Me.lvwRemoteEffects.GridLines = True
-        Me.lvwRemoteEffects.Location = New System.Drawing.Point(3, 34)
+        Me.lvwRemoteEffects.Location = New System.Drawing.Point(328, 34)
         Me.lvwRemoteEffects.Name = "lvwRemoteEffects"
-        Me.lvwRemoteEffects.Size = New System.Drawing.Size(585, 139)
+        Me.lvwRemoteEffects.Size = New System.Drawing.Size(337, 179)
         Me.lvwRemoteEffects.TabIndex = 5
         Me.lvwRemoteEffects.UseCompatibleStateImageBehavior = False
         Me.lvwRemoteEffects.View = System.Windows.Forms.View.Details
         '
         'colModule
         '
-        Me.colModule.Text = "Remote Module"
+        Me.colModule.Text = "Remote Modules"
         Me.colModule.Width = 300
+        '
+        'ctxRemoteModule
+        '
+        Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
+        Me.ctxRemoteModule.Name = "ctxRemoteModule"
+        Me.ctxRemoteModule.Size = New System.Drawing.Size(128, 26)
+        '
+        'mnuShowRemoteModInfo
+        '
+        Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
+        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(127, 22)
+        Me.mnuShowRemoteModInfo.Text = "Show Info"
         '
         'btnUpdateRemoteEffects
         '
-        Me.btnUpdateRemoteEffects.Location = New System.Drawing.Point(482, 5)
+        Me.btnUpdateRemoteEffects.Location = New System.Drawing.Point(563, 5)
         Me.btnUpdateRemoteEffects.Name = "btnUpdateRemoteEffects"
         Me.btnUpdateRemoteEffects.Size = New System.Drawing.Size(75, 23)
         Me.btnUpdateRemoteEffects.TabIndex = 4
@@ -522,7 +539,7 @@ Partial Class ShipSlotControl
         Me.panelFunctions.Dock = System.Windows.Forms.DockStyle.Top
         Me.panelFunctions.Location = New System.Drawing.Point(0, 0)
         Me.panelFunctions.Name = "panelFunctions"
-        Me.panelFunctions.Size = New System.Drawing.Size(599, 38)
+        Me.panelFunctions.Size = New System.Drawing.Size(676, 38)
         Me.panelFunctions.TabIndex = 2
         '
         'pbShipInfo
@@ -533,6 +550,36 @@ Partial Class ShipSlotControl
         Me.pbShipInfo.Size = New System.Drawing.Size(32, 32)
         Me.pbShipInfo.TabIndex = 0
         Me.pbShipInfo.TabStop = False
+        '
+        'lvwRemoteFittings
+        '
+        Me.lvwRemoteFittings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lvwRemoteFittings.CheckBoxes = True
+        Me.lvwRemoteFittings.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+        Me.lvwRemoteFittings.ContextMenuStrip = Me.ctxRemoteModule
+        Me.lvwRemoteFittings.FullRowSelect = True
+        Me.lvwRemoteFittings.GridLines = True
+        Me.lvwRemoteFittings.Location = New System.Drawing.Point(3, 34)
+        Me.lvwRemoteFittings.Name = "lvwRemoteFittings"
+        Me.lvwRemoteFittings.Size = New System.Drawing.Size(319, 179)
+        Me.lvwRemoteFittings.TabIndex = 7
+        Me.lvwRemoteFittings.UseCompatibleStateImageBehavior = False
+        Me.lvwRemoteFittings.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Remote Fittings"
+        Me.ColumnHeader1.Width = 280
+        '
+        'btnAddRemoteFitting
+        '
+        Me.btnAddRemoteFitting.Location = New System.Drawing.Point(482, 5)
+        Me.btnAddRemoteFitting.Name = "btnAddRemoteFitting"
+        Me.btnAddRemoteFitting.Size = New System.Drawing.Size(75, 23)
+        Me.btnAddRemoteFitting.TabIndex = 8
+        Me.btnAddRemoteFitting.Text = "Add"
+        Me.btnAddRemoteFitting.UseVisualStyleBackColor = True
         '
         'lvwSlots
         '
@@ -551,24 +598,12 @@ Partial Class ShipSlotControl
         Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
         Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
         Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.Size = New System.Drawing.Size(599, 231)
+        Me.lvwSlots.Size = New System.Drawing.Size(676, 275)
         Me.lvwSlots.SmallImageList = Me.imgState
         Me.lvwSlots.TabIndex = 0
         Me.lvwSlots.Tag = ""
         Me.lvwSlots.UseCompatibleStateImageBehavior = False
         Me.lvwSlots.View = System.Windows.Forms.View.Details
-        '
-        'ctxRemoteModule
-        '
-        Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
-        Me.ctxRemoteModule.Name = "ctxRemoteModule"
-        Me.ctxRemoteModule.Size = New System.Drawing.Size(153, 48)
-        '
-        'mnuShowRemoteModInfo
-        '
-        Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
-        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(152, 22)
-        Me.mnuShowRemoteModInfo.Text = "Show Info"
         '
         'ShipSlotControl
         '
@@ -577,7 +612,7 @@ Partial Class ShipSlotControl
         Me.Controls.Add(Me.panelFunctions)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "ShipSlotControl"
-        Me.Size = New System.Drawing.Size(599, 479)
+        Me.Size = New System.Drawing.Size(676, 563)
         Me.ctxSlots.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
@@ -590,10 +625,10 @@ Partial Class ShipSlotControl
         Me.tabCargoBay.PerformLayout()
         Me.tabRemote.ResumeLayout(False)
         Me.tabRemote.PerformLayout()
+        Me.ctxRemoteModule.ResumeLayout(False)
         Me.panelFunctions.ResumeLayout(False)
         Me.panelFunctions.PerformLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ctxRemoteModule.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -685,4 +720,7 @@ Partial Class ShipSlotControl
     Friend WithEvents btnLoad As System.Windows.Forms.Button
     Friend WithEvents ctxRemoteModule As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuShowRemoteModInfo As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents btnAddRemoteFitting As System.Windows.Forms.Button
+    Friend WithEvents lvwRemoteFittings As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
 End Class
