@@ -1774,12 +1774,20 @@ Public Class Engine
             If cModule.DatabaseGroup = "41" And (cModule.ModuleState And 28) = cModule.ModuleState Then
                 sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
             End If
+            ' Calculate shield maintenance drones
+            If cModule.DatabaseGroup = "640" And (cModule.ModuleState And 16) = cModule.ModuleState Then
+                sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
+            End If
             ' Calculate armor repairing
             If cModule.DatabaseGroup = "62" And (cModule.ModuleState And 12) = cModule.ModuleState Then
                 aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate remote armor repairing
             If cModule.DatabaseGroup = "325" And (cModule.ModuleState And 28) = cModule.ModuleState Then
+                aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
+            End If
+            ' Calculate armor maintenance drones
+            If cModule.DatabaseGroup = "640" And (cModule.ModuleState And 16) = cModule.ModuleState Then
                 aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate hull repairing

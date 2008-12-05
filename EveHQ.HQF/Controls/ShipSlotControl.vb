@@ -2005,6 +2005,7 @@ Public Class ShipSlotControl
                         remoteModule.SlotNo = 0
                         Dim newRemoteItem As New ListViewItem
                         newRemoteItem.Tag = remoteModule
+                        newRemoteItem.Name = pPilot.PilotName
                         If remoteModule.LoadedCharge IsNot Nothing Then
                             newRemoteItem.Text = remoteModule.Name & " (" & remoteModule.LoadedCharge.Name & ")"
                         Else
@@ -2019,6 +2020,7 @@ Public Class ShipSlotControl
                             remoteDrone.DroneType.ModuleState = 16
                             Dim newRemoteItem As New ListViewItem
                             newRemoteItem.Tag = remoteDrone
+                            newRemoteItem.Name = pPilot.PilotName
                             newRemoteItem.Text = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
                             lvwRemoteEffects.Items.Add(newRemoteItem)
                         End If
@@ -2045,14 +2047,15 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub mnuShowRemoteModInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowRemoteModInfo.Click
-        Dim sModule As ShipModule = CType(lvwRemoteEffects.SelectedItems(0).Tag, ShipModule)
+        Dim sModule As Object = lvwRemoteEffects.SelectedItems(0).Tag
+        If TypeOf sModule Is DroneBayItem Then
+            sModule = CType(sModule, DroneBayItem).DroneType
+        End If
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.Pilot
-        If cboPilot.SelectedItem IsNot Nothing Then
-            hPilot = CType(EveHQ.Core.HQ.Pilots(cboPilot.SelectedItem), Core.Pilot)
-            showInfo.ShowItemDetails(sModule, hPilot)
-            showInfo = Nothing
-        End If
+        hPilot = CType(EveHQ.Core.HQ.Pilots(lvwRemoteEffects.SelectedItems(0).Name), Core.Pilot)
+        showInfo.ShowItemDetails(sModule, hPilot)
+        showInfo = Nothing
     End Sub
 
     Private Sub ctxRemoteModule_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxRemoteModule.Opening
