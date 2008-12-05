@@ -442,6 +442,8 @@ Imports System.Runtime.Serialization
                     newModule.Attributes("6") = CDbl(newModule.Attributes("90"))
                 Case "71" ' Energy Neutraliser
                     newModule.Attributes("6") = CDbl(newModule.Attributes("97"))
+                Case "544" ' Energy Neutraliser Drones
+                    newModule.Attributes("6") = CDbl(newModule.Attributes("90"))
                 Case Else
                     newModule.Attributes("6") = "0"
             End Select

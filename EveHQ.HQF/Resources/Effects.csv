@@ -682,6 +682,15 @@
 567,2,644,37,3,18,0,0,0,15,Drone Navigation Computer - Drone Velocity
 243,2,646,54,3,18,0,0,5,15,Omni Tracking Link - Max Range
 244,2,646,160,3,18,0,0,5,15,Omni Tracking Link - Tracking Speed
+# REMOTE DRONES,,,,,,,,,,
+90,2,544,6,6,0,0,0,8,16,Energy Vampire Drone
+517,2,639,158,2,55;53;74,0,0,0,16,TD Drone - Falloff
+243,2,639,54,2,55;53;74,1,0,0,16,TD Drone - Optimal Range
+244,2,639,160,2,55;53;74,1,0,0,16,TD Drone - Tracking Speed
+554,2,639,552,3,6,1,0,0,16,TP Drone - Signature Radius
+237,2,639,76,3,6,1,0,0,16,SD Drone - Max Targeting Range
+565,2,639,564,3,6,1,0,0,16,SD Drone - Scan Resolution
+20,2,641,37,3,6,0,0,0,16,SW Drone - Max Velocity
 # ELECTRONIC WARFARE,,,,,,,,,,
 # ECCM,,,,,,,,,,
 1027,2,202,211,3,6,1,0,0,14,Grav Strength
@@ -717,7 +726,7 @@
 309,2,208,76,3,6,1,0,0,16,Max Targeting Range
 566,2,208,564,3,6,1,0,0,16,Scan Resolution
 # Stasis Webifiers,,,,,,,,,,
-20,2,65,37,3,6,1,0,0,16,Max Velocity Penalty
+20,2,65,37,3,6,0,0,0,16,Max Velocity Penalty
 # Target Painters,,,,,,,,,,
 554,2,379,552,3,6,1,0,0,16,Signature Radius Penalty
 # Tracking Disruptors,,,,,,,,,,
@@ -727,8 +736,9 @@
 # Warp Disruption Field Generators,,,,,,,,,,
 554,2,899,552,3,6,1,0,0,12,Signature Radius Penalty
 1131,2,899,10002,3,6,1,0,0,12,Mass Reduction
+1131,2,899,796,2,46,1,0,0,12,Mass Reduction
 1164,2,899,20,2,46,1,0,0,12,AB/MWD Max Velocity Penalty
-1270,2,899,567,2,46,0,0,0,12,AB/MWD Thrust Penalty
+1270,2,899,567,2,46,1,0,0,12,AB/MWD Thrust Penalty
 # Warp Scramblers,,,,,,,,,,
 105,2,52,10009,3,6,0,0,0,14,Warp Core Strength
 # ELECTRONICS AND SENSOR UPGRADES,,,,,,,,,,
