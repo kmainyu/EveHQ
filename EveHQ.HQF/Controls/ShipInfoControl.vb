@@ -651,11 +651,21 @@ Public Class ShipInfoControl
 #Region "Profile Routines"
 
     Private Sub cboDamageProfiles_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDamageProfiles.SelectedIndexChanged
+        Dim curProfile As DamageProfile = CType(DamageProfiles.ProfileList.Item(cboDamageProfiles.SelectedItem), DamageProfile)
         If cboDamageProfiles.SelectedItem IsNot Nothing Then
             If currentShip IsNot Nothing Then
-                currentShip.DamageProfile = CType(DamageProfiles.ProfileList.Item(cboDamageProfiles.SelectedItem), DamageProfile)
+                currentShip.DamageProfile = curProfile
             End If
         End If
+        ' State damage profile info
+        Dim info As New System.Text.StringBuilder
+        info.AppendLine(curProfile.Name & " Profile Info:")
+        info.AppendLine("EM: " & FormatNumber(curProfile.EM, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        info.AppendLine("Explosive: " & FormatNumber(curProfile.Explosive, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        info.AppendLine("Kinetic: " & FormatNumber(curProfile.Kinetic, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        info.AppendLine("Thermal: " & FormatNumber(curProfile.Thermal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        info.AppendLine("DPS: " & FormatNumber(curProfile.DPS, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        ToolTip1.SetToolTip(cboDamageProfiles, info.ToString)
         ' Kick off a rebuild
         BuildMethod = BuildType.BuildFromEffectsMaps
     End Sub
