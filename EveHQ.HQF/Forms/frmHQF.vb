@@ -79,6 +79,9 @@ Public Class frmHQF
 
         startUp = True
 
+        ' Load the settings!
+        Call Settings.HQFSettings.LoadHQFSettings()
+
         ' Close the EveHQ InfoPanel if opted to
         If Settings.HQFSettings.CloseInfoPanel = True Then
             EveHQ.Core.HQ.StartCloseInfoPanel = True
@@ -104,9 +107,6 @@ Public Class frmHQF
         AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
         AddHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFittings
         AddHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
-
-        ' Load the settings!
-        Call Settings.HQFSettings.LoadHQFSettings()
 
         ' Load the Profiles - stored separately from settings for distibution!
         Call Settings.HQFSettings.LoadProfiles()
