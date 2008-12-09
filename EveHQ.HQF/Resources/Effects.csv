@@ -1007,20 +1007,20 @@
 1138,2,775,30,2,53,0,0,0,15,Energy Weapon Rig Drawback - PG Penalty
 310,2,775,50,2,53,0,0,0,15,Algid Energy Administrations Unit
 349,2,775,158,2,53,0,0,0,15,Energy Ambit Extension
-204,2,775,10011,2,53,0,0,0,15,Energy Burst Aerator
-64,2,775,10014,2,53,0,0,5,15,Energy Collision Accelerator
+204,2,775,10011,2,53,1,0,0,15,Energy Burst Aerator
+64,2,775,10014,2,53,1,0,5,15,Energy Collision Accelerator
 317,2,775,6,2,53,0,0,0,15,Energy Discharge Elutriation
-351,2,775,54,2,53,0,0,0,15,Energy Locus Coordinator
-244,2,775,160,2,53,0,0,0,15,Energy Metastasis Adjuster
+351,2,775,54,2,53,1,0,0,15,Energy Locus Coordinator
+244,2,775,160,2,53,1,0,0,15,Energy Metastasis Adjuster
 # RIGS - HYBRID WEAPON,,,,,,,,,,
 1138,2,776,30,2,74,0,0,0,15,Hybrid Weapon Rig Drawback - PG Penalty
 310,2,776,50,2,74,0,0,0,15,Algid Hybrid Administrations Unit
 349,2,776,158,2,74,0,0,0,15,Hybrid Ambit Extension
-204,2,776,10012,2,74,0,0,0,15,Hybrid Burst Aerator
-64,2,776,10015,2,74,0,0,5,15,Hybrid Collision Accelerator
+204,2,776,10012,2,74,1,0,0,15,Hybrid Burst Aerator
+64,2,776,10015,2,74,1,0,5,15,Hybrid Collision Accelerator
 317,2,776,6,2,74,0,0,0,15,Hybrid Discharge Elutriation
-351,2,776,54,2,74,0,0,0,15,Hybrid Locus Coordinator
-244,2,776,160,2,74,0,0,0,15,Hybrid Metastasis Adjuster
+351,2,776,54,2,74,1,0,0,15,Hybrid Locus Coordinator
+244,2,776,160,2,74,1,0,0,15,Hybrid Metastasis Adjuster
 # RIGS - LAUNCHER,,,,,,,,,,
 1138,2,779,50,2,511;524;506;510;771;507;508;509,0,0,0,15,Launcher Rig Drawback - CPU Penalty
 204,2,779,51,2,511;524;506;510;771;507;508;509,1,0,0,15,Bay Loading Accelerator
@@ -1036,10 +1036,10 @@
 1138,2,777,30,2,55,0,0,0,15,Projectile Weapon Rig Drawback - PG Penalty
 349,2,777,158,2,55,0,0,0,15,Projectile Ambit Extension
 204,2,777,10013,2,55,0,0,0,15,Projectile Burst Aerator
-64,2,777,10016,2,55,0,0,5,15,Projectile Collision Accelerator
-317,2,777,6,2,55,0,0,0,15,Projectile Discharge Elutriation
-351,2,777,54,2,55,0,0,0,15,Projectile Locus Coordinator
-244,2,777,160,2,55,0,0,0,15,Projectile Metastasis Adjuster
+64,2,777,10016,2,55,1,0,5,15,Projectile Collision Accelerator
+317,2,777,6,2,55,1,0,0,15,Projectile Discharge Elutriation
+351,2,777,54,2,55,1,0,0,15,Projectile Locus Coordinator
+244,2,777,160,2,55,1,0,0,15,Projectile Metastasis Adjuster
 # RIGS - SHIELD,,,,,,,,,,
 1138,2,774,552,3,6,1,0,0,15,Shield Rig Drawback - Sig Radius Penalty
 984,2,774,271,3,6,1,0,2,15,Anti-EM Screen Reinforcer
