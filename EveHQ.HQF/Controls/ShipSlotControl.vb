@@ -1406,9 +1406,7 @@ Public Class ShipSlotControl
             lvwCargoBay.Items.Add(newCargoItem)
         Next
         lvwCargoBay.EndUpdate()
-        lblCargoBay.Text = FormatNumber(currentShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
-        pbCargoBay.Maximum = CInt(fittedShip.CargoBay)
-        pbCargoBay.Value = CInt(currentShip.CargoBay_Used)
+        Call Me.RedrawCargoBayCapacity()
     End Sub
 
     Private Sub RedrawDroneBay()
@@ -1433,21 +1431,43 @@ Public Class ShipSlotControl
             lvwDroneBay.Items.Add(newDroneItem)
         Next
         lvwDroneBay.EndUpdate()
-        lblDroneBay.Text = FormatNumber(currentShip.DroneBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
-        pbDroneBay.Maximum = CInt(fittedShip.DroneBay)
-        pbDroneBay.Value = CInt(currentShip.DroneBay_Used)
+        Call Me.RedrawDroneBayCapacity()
     End Sub
 
-    Private Sub RedrawDroneBayCapacity()
-        lblCargoBay.Text = FormatNumber(currentShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
-        pbCargoBay.Maximum = CInt(fittedShip.CargoBay)
-        pbCargoBay.Value = CInt(currentShip.CargoBay_Used)
-    End Sub
     Private Sub RedrawCargoBayCapacity()
+        lblCargoBay.Text = FormatNumber(currentShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        pbCargoBay.MaxValue = CInt(fittedShip.CargoBay)
+        If currentShip.CargoBay_Used > fittedShip.CargoBay Then
+            pbCargoBay.Value = CInt(fittedShip.CargoBay)
+            pbCargoBay.StartColor = Drawing.Color.Red
+            pbCargoBay.EndColor = Drawing.Color.Red
+            pbCargoBay.HighlightColor = Drawing.Color.White
+            pbCargoBay.GlowColor = Drawing.Color.LightPink
+        Else
+            pbCargoBay.Value = CInt(currentShip.CargoBay_Used)
+            pbCargoBay.StartColor = Drawing.Color.LimeGreen
+            pbCargoBay.EndColor = Drawing.Color.LimeGreen
+            pbCargoBay.HighlightColor = Drawing.Color.White
+            pbCargoBay.GlowColor = Drawing.Color.LightGreen
+        End If
+    End Sub
+    Private Sub RedrawDroneBayCapacity()
         lvwDroneBay.EndUpdate()
         lblDroneBay.Text = FormatNumber(currentShip.DroneBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
-        pbDroneBay.Maximum = CInt(fittedShip.DroneBay)
-        pbDroneBay.Value = CInt(currentShip.DroneBay_Used)
+        pbDroneBay.MaxValue = CInt(fittedShip.DroneBay)
+        If currentShip.DroneBay_Used > fittedShip.DroneBay Then
+            pbDroneBay.Value = CInt(fittedShip.DroneBay)
+            pbDroneBay.StartColor = Drawing.Color.Red
+            pbDroneBay.EndColor = Drawing.Color.Red
+            pbDroneBay.HighlightColor = Drawing.Color.White
+            pbDroneBay.GlowColor = Drawing.Color.LightPink
+        Else
+            pbDroneBay.Value = CInt(currentShip.DroneBay_Used)
+            pbDroneBay.StartColor = Drawing.Color.LimeGreen
+            pbDroneBay.EndColor = Drawing.Color.LimeGreen
+            pbDroneBay.HighlightColor = Drawing.Color.White
+            pbDroneBay.GlowColor = Drawing.Color.LightGreen
+        End If
     End Sub
 
     Private Sub lvwDroneBay_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwDroneBay.ItemChecked
@@ -1678,9 +1698,7 @@ Public Class ShipSlotControl
             lvwDroneBay.Items.Add(newDroneItem)
         Next
         lvwDroneBay.EndUpdate()
-        lblDroneBay.Text = FormatNumber(currentShip.DroneBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
-        pbDroneBay.Maximum = CInt(fittedShip.DroneBay)
-        pbDroneBay.Value = CInt(currentShip.DroneBay_Used)
+        Call Me.RedrawDroneBayCapacity()
         UpdateDrones = False
         ' Rebuild the ship to account for any disabled drones
         currentInfo.ShipType = currentShip
@@ -1718,9 +1736,7 @@ Public Class ShipSlotControl
             lvwCargoBay.Items.Add(newCargoItem)
         Next
         lvwCargoBay.EndUpdate()
-        lblCargoBay.Text = FormatNumber(currentShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
-        pbCargoBay.Maximum = CInt(fittedShip.CargoBay)
-        pbCargoBay.Value = CInt(currentShip.CargoBay_Used)
+        Call Me.RedrawCargoBayCapacity()
     End Sub
 
 #End Region
@@ -1995,7 +2011,7 @@ Public Class ShipSlotControl
                 Dim fittingName As String = shipFit.Substring(fittingSep + 2)
                 Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
                 pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
-                'Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilot.SelectedItem.ToString), HQFPilot)
+                'MessageBox.Show("ShipFit: " & shipFit & ControlChars.CrLf & "Remote Name: " & remoteFitting.Name)
                 Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(remoteFitting.Name.TrimStart((shipFit & ": ").ToCharArray)), HQFPilot)
                 Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
                 pShip = Nothing

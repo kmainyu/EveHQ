@@ -53,21 +53,22 @@ Partial Class ShipSlotControl
         Me.ctxSplitBatch = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
         Me.ctxShowBayInfoItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.pbDroneBay = New System.Windows.Forms.ProgressBar
         Me.lblDroneBay = New System.Windows.Forms.Label
         Me.tabCargoBay = New System.Windows.Forms.TabPage
         Me.btnMergeCargo = New System.Windows.Forms.Button
         Me.lvwCargoBay = New System.Windows.Forms.ListView
         Me.colCargoBayType = New System.Windows.Forms.ColumnHeader
         Me.colCargoBayQty = New System.Windows.Forms.ColumnHeader
-        Me.pbCargoBay = New System.Windows.Forms.ProgressBar
         Me.lblCargoBay = New System.Windows.Forms.Label
         Me.tabRemote = New System.Windows.Forms.TabPage
+        Me.btnAddRemoteFitting = New System.Windows.Forms.Button
+        Me.lvwRemoteFittings = New System.Windows.Forms.ListView
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.ctxRemoteModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuShowRemoteModInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.btnLoad = New System.Windows.Forms.Button
         Me.lvwRemoteEffects = New System.Windows.Forms.ListView
         Me.colModule = New System.Windows.Forms.ColumnHeader
-        Me.ctxRemoteModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuShowRemoteModInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.btnUpdateRemoteEffects = New System.Windows.Forms.Button
         Me.cboPilot = New System.Windows.Forms.ComboBox
         Me.lblPilot = New System.Windows.Forms.Label
@@ -77,10 +78,9 @@ Partial Class ShipSlotControl
         Me.btnToggleStorage = New System.Windows.Forms.Button
         Me.panelFunctions = New System.Windows.Forms.Panel
         Me.pbShipInfo = New System.Windows.Forms.PictureBox
-        Me.lvwRemoteFittings = New System.Windows.Forms.ListView
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.btnAddRemoteFitting = New System.Windows.Forms.Button
         Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
+        Me.pbDroneBay = New VistaStyleProgressBar.ProgressBar
+        Me.pbCargoBay = New VistaStyleProgressBar.ProgressBar
         Me.ctxSlots.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -227,9 +227,9 @@ Partial Class ShipSlotControl
         '
         'tabDroneBay
         '
+        Me.tabDroneBay.Controls.Add(Me.pbDroneBay)
         Me.tabDroneBay.Controls.Add(Me.btnMergeDrones)
         Me.tabDroneBay.Controls.Add(Me.lvwDroneBay)
-        Me.tabDroneBay.Controls.Add(Me.pbDroneBay)
         Me.tabDroneBay.Controls.Add(Me.lblDroneBay)
         Me.tabDroneBay.Location = New System.Drawing.Point(4, 22)
         Me.tabDroneBay.Name = "tabDroneBay"
@@ -318,15 +318,6 @@ Partial Class ShipSlotControl
         Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(162, 22)
         Me.ctxShowBayInfoItem.Text = "Show Drone Info"
         '
-        'pbDroneBay
-        '
-        Me.pbDroneBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pbDroneBay.Location = New System.Drawing.Point(7, 19)
-        Me.pbDroneBay.Name = "pbDroneBay"
-        Me.pbDroneBay.Size = New System.Drawing.Size(560, 10)
-        Me.pbDroneBay.TabIndex = 1
-        '
         'lblDroneBay
         '
         Me.lblDroneBay.AutoSize = True
@@ -338,9 +329,9 @@ Partial Class ShipSlotControl
         '
         'tabCargoBay
         '
+        Me.tabCargoBay.Controls.Add(Me.pbCargoBay)
         Me.tabCargoBay.Controls.Add(Me.btnMergeCargo)
         Me.tabCargoBay.Controls.Add(Me.lvwCargoBay)
-        Me.tabCargoBay.Controls.Add(Me.pbCargoBay)
         Me.tabCargoBay.Controls.Add(Me.lblCargoBay)
         Me.tabCargoBay.Location = New System.Drawing.Point(4, 22)
         Me.tabCargoBay.Name = "tabCargoBay"
@@ -388,15 +379,6 @@ Partial Class ShipSlotControl
         Me.colCargoBayQty.Text = "Qty"
         Me.colCargoBayQty.Width = 35
         '
-        'pbCargoBay
-        '
-        Me.pbCargoBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pbCargoBay.Location = New System.Drawing.Point(6, 19)
-        Me.pbCargoBay.Name = "pbCargoBay"
-        Me.pbCargoBay.Size = New System.Drawing.Size(559, 10)
-        Me.pbCargoBay.TabIndex = 4
-        '
         'lblCargoBay
         '
         Me.lblCargoBay.AutoSize = True
@@ -423,6 +405,48 @@ Partial Class ShipSlotControl
         Me.tabRemote.TabIndex = 2
         Me.tabRemote.Text = "Remote Effects"
         Me.tabRemote.UseVisualStyleBackColor = True
+        '
+        'btnAddRemoteFitting
+        '
+        Me.btnAddRemoteFitting.Location = New System.Drawing.Point(482, 5)
+        Me.btnAddRemoteFitting.Name = "btnAddRemoteFitting"
+        Me.btnAddRemoteFitting.Size = New System.Drawing.Size(75, 23)
+        Me.btnAddRemoteFitting.TabIndex = 8
+        Me.btnAddRemoteFitting.Text = "Add"
+        Me.btnAddRemoteFitting.UseVisualStyleBackColor = True
+        '
+        'lvwRemoteFittings
+        '
+        Me.lvwRemoteFittings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lvwRemoteFittings.CheckBoxes = True
+        Me.lvwRemoteFittings.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+        Me.lvwRemoteFittings.ContextMenuStrip = Me.ctxRemoteModule
+        Me.lvwRemoteFittings.FullRowSelect = True
+        Me.lvwRemoteFittings.GridLines = True
+        Me.lvwRemoteFittings.Location = New System.Drawing.Point(3, 34)
+        Me.lvwRemoteFittings.Name = "lvwRemoteFittings"
+        Me.lvwRemoteFittings.Size = New System.Drawing.Size(319, 179)
+        Me.lvwRemoteFittings.TabIndex = 7
+        Me.lvwRemoteFittings.UseCompatibleStateImageBehavior = False
+        Me.lvwRemoteFittings.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Remote Fittings"
+        Me.ColumnHeader1.Width = 280
+        '
+        'ctxRemoteModule
+        '
+        Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
+        Me.ctxRemoteModule.Name = "ctxRemoteModule"
+        Me.ctxRemoteModule.Size = New System.Drawing.Size(128, 26)
+        '
+        'mnuShowRemoteModInfo
+        '
+        Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
+        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(127, 22)
+        Me.mnuShowRemoteModInfo.Text = "Show Info"
         '
         'btnLoad
         '
@@ -454,18 +478,6 @@ Partial Class ShipSlotControl
         '
         Me.colModule.Text = "Remote Modules"
         Me.colModule.Width = 300
-        '
-        'ctxRemoteModule
-        '
-        Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
-        Me.ctxRemoteModule.Name = "ctxRemoteModule"
-        Me.ctxRemoteModule.Size = New System.Drawing.Size(128, 26)
-        '
-        'mnuShowRemoteModInfo
-        '
-        Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
-        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(127, 22)
-        Me.mnuShowRemoteModInfo.Text = "Show Info"
         '
         'btnUpdateRemoteEffects
         '
@@ -551,36 +563,6 @@ Partial Class ShipSlotControl
         Me.pbShipInfo.TabIndex = 0
         Me.pbShipInfo.TabStop = False
         '
-        'lvwRemoteFittings
-        '
-        Me.lvwRemoteFittings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lvwRemoteFittings.CheckBoxes = True
-        Me.lvwRemoteFittings.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
-        Me.lvwRemoteFittings.ContextMenuStrip = Me.ctxRemoteModule
-        Me.lvwRemoteFittings.FullRowSelect = True
-        Me.lvwRemoteFittings.GridLines = True
-        Me.lvwRemoteFittings.Location = New System.Drawing.Point(3, 34)
-        Me.lvwRemoteFittings.Name = "lvwRemoteFittings"
-        Me.lvwRemoteFittings.Size = New System.Drawing.Size(319, 179)
-        Me.lvwRemoteFittings.TabIndex = 7
-        Me.lvwRemoteFittings.UseCompatibleStateImageBehavior = False
-        Me.lvwRemoteFittings.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Remote Fittings"
-        Me.ColumnHeader1.Width = 280
-        '
-        'btnAddRemoteFitting
-        '
-        Me.btnAddRemoteFitting.Location = New System.Drawing.Point(482, 5)
-        Me.btnAddRemoteFitting.Name = "btnAddRemoteFitting"
-        Me.btnAddRemoteFitting.Size = New System.Drawing.Size(75, 23)
-        Me.btnAddRemoteFitting.TabIndex = 8
-        Me.btnAddRemoteFitting.Text = "Add"
-        Me.btnAddRemoteFitting.UseVisualStyleBackColor = True
-        '
         'lvwSlots
         '
         Me.lvwSlots.AllowDrop = True
@@ -604,6 +586,30 @@ Partial Class ShipSlotControl
         Me.lvwSlots.Tag = ""
         Me.lvwSlots.UseCompatibleStateImageBehavior = False
         Me.lvwSlots.View = System.Windows.Forms.View.Details
+        '
+        'pbDroneBay
+        '
+        Me.pbDroneBay.BackColor = System.Drawing.Color.Transparent
+        Me.pbDroneBay.EndColor = System.Drawing.Color.LimeGreen
+        Me.pbDroneBay.GlowColor = System.Drawing.Color.LightGreen
+        Me.pbDroneBay.Location = New System.Drawing.Point(7, 19)
+        Me.pbDroneBay.Name = "pbDroneBay"
+        Me.pbDroneBay.Size = New System.Drawing.Size(560, 10)
+        Me.pbDroneBay.StartColor = System.Drawing.Color.LimeGreen
+        Me.pbDroneBay.TabIndex = 31
+        Me.pbDroneBay.Value = 50
+        '
+        'pbCargoBay
+        '
+        Me.pbCargoBay.BackColor = System.Drawing.Color.Transparent
+        Me.pbCargoBay.EndColor = System.Drawing.Color.LimeGreen
+        Me.pbCargoBay.GlowColor = System.Drawing.Color.LightGreen
+        Me.pbCargoBay.Location = New System.Drawing.Point(7, 19)
+        Me.pbCargoBay.Name = "pbCargoBay"
+        Me.pbCargoBay.Size = New System.Drawing.Size(559, 10)
+        Me.pbCargoBay.StartColor = System.Drawing.Color.LimeGreen
+        Me.pbCargoBay.TabIndex = 32
+        Me.pbCargoBay.Value = 50
         '
         'ShipSlotControl
         '
@@ -648,9 +654,7 @@ Partial Class ShipSlotControl
     Friend WithEvents tabDroneBay As System.Windows.Forms.TabPage
     Friend WithEvents tabCargoBay As System.Windows.Forms.TabPage
     Friend WithEvents lblDroneBay As System.Windows.Forms.Label
-    Friend WithEvents pbDroneBay As System.Windows.Forms.ProgressBar
     Friend WithEvents lvwDroneBay As System.Windows.Forms.ListView
-    Friend WithEvents pbCargoBay As System.Windows.Forms.ProgressBar
     Friend WithEvents lblCargoBay As System.Windows.Forms.Label
     Friend WithEvents colDroneBayType As System.Windows.Forms.ColumnHeader
     Friend WithEvents colDroneBayQty As System.Windows.Forms.ColumnHeader
@@ -723,4 +727,6 @@ Partial Class ShipSlotControl
     Friend WithEvents btnAddRemoteFitting As System.Windows.Forms.Button
     Friend WithEvents lvwRemoteFittings As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents pbDroneBay As VistaStyleProgressBar.ProgressBar
+    Friend WithEvents pbCargoBay As VistaStyleProgressBar.ProgressBar
 End Class
