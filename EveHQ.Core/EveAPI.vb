@@ -62,6 +62,10 @@ Public Class EveAPI
                 remoteURL = "/eve/FacWarTopStats.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.FWMap
                 remoteURL = "/map/FacWarSystems.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.ServerStatus
+                remoteURL = "/server/ServerStatus.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.CertificateTree
+                remoteURL = "/eve/CertificateTree.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -157,6 +161,12 @@ Public Class EveAPI
                 remoteURL = "/char/FacWarStats.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.FWStatsCorp
                 remoteURL = "/corp/FacWarStats.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.MedalsReceived
+                remoteURL = "/char/Medals.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.MedalsAvailable
+                remoteURL = "/corp/Medals.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.MemberMedals
+                remoteURL = "/corp/MemberMedals.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -446,6 +456,11 @@ Public Class EveAPI
         FWStatsCorp = 40
         FWTop100 = 41
         FWMap = 42
+        ServerStatus = 43
+        CertificateTree = 44
+        MedalsReceived = 45
+        MedalsAvailable = 46
+        MemberMedals = 47
     End Enum
 
     Public Enum APIResults As Integer

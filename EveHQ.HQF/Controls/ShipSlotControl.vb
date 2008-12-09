@@ -2004,15 +2004,13 @@ Public Class ShipSlotControl
             lvwRemoteEffects.Items.Clear()
             For Each remoteFitting As ListViewItem In lvwRemoteFittings.CheckedItems
                 ' Let's try and generate a fitting and get some module info
-                'Dim shipFit As String = cboFitting.SelectedItem.ToString
                 Dim shipFit As String = remoteFitting.Tag.ToString
                 Dim fittingSep As Integer = shipFit.IndexOf(", ")
                 Dim shipName As String = shipFit.Substring(0, fittingSep)
                 Dim fittingName As String = shipFit.Substring(fittingSep + 2)
                 Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
                 pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
-                'MessageBox.Show("ShipFit: " & shipFit & ControlChars.CrLf & "Remote Name: " & remoteFitting.Name)
-                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(remoteFitting.Name.TrimStart((shipFit & ": ").ToCharArray)), HQFPilot)
+                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(remoteFitting.Name.Substring(shipFit.Length + 2)), HQFPilot)
                 Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
                 pShip = Nothing
                 For Each remoteModule As ShipModule In remoteShip.SlotCollection

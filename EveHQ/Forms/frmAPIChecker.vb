@@ -48,7 +48,9 @@ Public Class frmAPIChecker
                 EveHQ.Core.EveAPI.APIRequest.Conquerables, _
                 EveHQ.Core.EveAPI.APIRequest.ErrorList, _
                 EveHQ.Core.EveAPI.APIRequest.FWTop100, _
-                EveHQ.Core.EveAPI.APIRequest.FWMap
+                EveHQ.Core.EveAPI.APIRequest.FWMap, _
+                EveHQ.Core.EveAPI.APIRequest.ServerStatus, _
+                EveHQ.Core.EveAPI.APIRequest.CertificateTree
                 lblCharacter.Enabled = False : cboCharacter.Enabled = False
                 lblAccount.Enabled = False : cboAccount.Enabled = False
                 lblOtherInfo.Enabled = False : txtOtherInfo.Enabled = False
@@ -93,7 +95,10 @@ Public Class frmAPIChecker
             EveHQ.Core.EveAPI.APIRequest.CorpShareholders, _
             EveHQ.Core.EveAPI.APIRequest.CorpTitles, _
             EveHQ.Core.EveAPI.APIRequest.FWStatsChar, _
-            EveHQ.Core.EveAPI.APIRequest.FWStatsCorp
+            EveHQ.Core.EveAPI.APIRequest.FWStatsCorp, _
+            EveHQ.Core.EveAPI.APIRequest.MedalsReceived, _
+            EveHQ.Core.EveAPI.APIRequest.MedalsAvailable, _
+            EveHQ.Core.EveAPI.APIRequest.MemberMedals
                 lblCharacter.Enabled = True : cboCharacter.Enabled = True
                 lblAccount.Enabled = False : cboAccount.Enabled = False
                 lblOtherInfo.Enabled = False : txtOtherInfo.Enabled = False
