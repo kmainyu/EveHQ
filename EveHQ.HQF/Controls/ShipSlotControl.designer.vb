@@ -23,11 +23,11 @@ Partial Class ShipSlotControl
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Me.lblFittingMarketPrice = New System.Windows.Forms.Label
         Me.lblShipMarketPrice = New System.Windows.Forms.Label
         Me.lblTurretSlots = New System.Windows.Forms.Label
@@ -39,6 +39,7 @@ Partial Class ShipSlotControl
         Me.ctxSlots = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ShowInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.imgState = New System.Windows.Forms.ImageList(Me.components)
         Me.tabStorage = New System.Windows.Forms.TabControl
         Me.tabDroneBay = New System.Windows.Forms.TabPage
@@ -66,23 +67,38 @@ Partial Class ShipSlotControl
         Me.btnAddRemoteFitting = New System.Windows.Forms.Button
         Me.lvwRemoteFittings = New System.Windows.Forms.ListView
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ctxRemoteModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuShowRemoteModInfo = New System.Windows.Forms.ToolStripMenuItem
-        Me.btnLoad = New System.Windows.Forms.Button
+        Me.ctxRemoteFittings = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RemoveFittingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.lvwRemoteEffects = New System.Windows.Forms.ListView
         Me.colModule = New System.Windows.Forms.ColumnHeader
+        Me.ctxRemoteModule = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuShowRemoteModInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.btnUpdateRemoteEffects = New System.Windows.Forms.Button
         Me.cboPilot = New System.Windows.Forms.ComboBox
         Me.lblPilot = New System.Windows.Forms.Label
         Me.cboFitting = New System.Windows.Forms.ComboBox
         Me.lblFitting = New System.Windows.Forms.Label
+        Me.tabFleet = New System.Windows.Forms.TabPage
+        Me.btnLeaveFleet = New System.Windows.Forms.Button
+        Me.lblFleetStatus = New System.Windows.Forms.Label
+        Me.lblFleetStatusLabel = New System.Windows.Forms.Label
+        Me.cboFCShip = New System.Windows.Forms.ComboBox
+        Me.cboWCShip = New System.Windows.Forms.ComboBox
+        Me.lblWCShip = New System.Windows.Forms.Label
+        Me.lblFCShip = New System.Windows.Forms.Label
+        Me.cboFCPilot = New System.Windows.Forms.ComboBox
+        Me.cboWCPilot = New System.Windows.Forms.ComboBox
+        Me.lblWC = New System.Windows.Forms.Label
+        Me.lblFC = New System.Windows.Forms.Label
+        Me.lblSC = New System.Windows.Forms.Label
+        Me.cboSCPilot = New System.Windows.Forms.ComboBox
+        Me.lblSCShip = New System.Windows.Forms.Label
+        Me.cboSCShip = New System.Windows.Forms.ComboBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnToggleStorage = New System.Windows.Forms.Button
         Me.panelFunctions = New System.Windows.Forms.Panel
         Me.pbShipInfo = New System.Windows.Forms.PictureBox
-        Me.ctxRemoteFittings = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.RemoveFittingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
+        Me.lblFleetData = New System.Windows.Forms.Label
         Me.ctxSlots.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -92,10 +108,11 @@ Partial Class ShipSlotControl
         Me.ctxBays.SuspendLayout()
         Me.tabCargoBay.SuspendLayout()
         Me.tabRemote.SuspendLayout()
+        Me.ctxRemoteFittings.SuspendLayout()
         Me.ctxRemoteModule.SuspendLayout()
+        Me.tabFleet.SuspendLayout()
         Me.panelFunctions.SuspendLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ctxRemoteFittings.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblFittingMarketPrice
@@ -174,13 +191,13 @@ Partial Class ShipSlotControl
         '
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(128, 26)
+        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
         Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
         '
         'SplitContainer1
@@ -204,6 +221,30 @@ Partial Class ShipSlotControl
         Me.SplitContainer1.SplitterDistance = 275
         Me.SplitContainer1.TabIndex = 1
         '
+        'lvwSlots
+        '
+        Me.lvwSlots.AllowDrop = True
+        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
+        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwSlots.FullRowSelect = True
+        ListViewGroup5.Header = "High Slots"
+        ListViewGroup5.Name = "lvwgHighSlots"
+        ListViewGroup6.Header = "Mid Slots"
+        ListViewGroup6.Name = "lvwgMidSlots"
+        ListViewGroup7.Header = "Low Slots"
+        ListViewGroup7.Name = "lvwgLowSlots"
+        ListViewGroup8.Header = "Rig Slots"
+        ListViewGroup8.Name = "lvwgRigSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8})
+        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
+        Me.lvwSlots.Name = "lvwSlots"
+        Me.lvwSlots.Size = New System.Drawing.Size(676, 275)
+        Me.lvwSlots.SmallImageList = Me.imgState
+        Me.lvwSlots.TabIndex = 0
+        Me.lvwSlots.Tag = ""
+        Me.lvwSlots.UseCompatibleStateImageBehavior = False
+        Me.lvwSlots.View = System.Windows.Forms.View.Details
+        '
         'imgState
         '
         Me.imgState.ImageStream = CType(resources.GetObject("imgState.ImageStream"), System.Windows.Forms.ImageListStreamer)
@@ -220,6 +261,7 @@ Partial Class ShipSlotControl
         Me.tabStorage.Controls.Add(Me.tabDroneBay)
         Me.tabStorage.Controls.Add(Me.tabCargoBay)
         Me.tabStorage.Controls.Add(Me.tabRemote)
+        Me.tabStorage.Controls.Add(Me.tabFleet)
         Me.tabStorage.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabStorage.Location = New System.Drawing.Point(0, 0)
         Me.tabStorage.Multiline = True
@@ -297,40 +339,40 @@ Partial Class ShipSlotControl
         '
         Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(163, 104)
+        Me.ctxBays.Size = New System.Drawing.Size(167, 104)
         '
         'ctxRemoveItem
         '
         Me.ctxRemoveItem.Name = "ctxRemoveItem"
-        Me.ctxRemoveItem.Size = New System.Drawing.Size(162, 22)
+        Me.ctxRemoveItem.Size = New System.Drawing.Size(166, 22)
         Me.ctxRemoveItem.Text = "Remove Item"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(159, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(163, 6)
         '
         'ctxAlterQuantity
         '
         Me.ctxAlterQuantity.Name = "ctxAlterQuantity"
-        Me.ctxAlterQuantity.Size = New System.Drawing.Size(162, 22)
+        Me.ctxAlterQuantity.Size = New System.Drawing.Size(166, 22)
         Me.ctxAlterQuantity.Text = "Alter Quantity"
         '
         'ctxSplitBatch
         '
         Me.ctxSplitBatch.Name = "ctxSplitBatch"
-        Me.ctxSplitBatch.Size = New System.Drawing.Size(162, 22)
+        Me.ctxSplitBatch.Size = New System.Drawing.Size(166, 22)
         Me.ctxSplitBatch.Text = "Split Batch"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(159, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(163, 6)
         '
         'ctxShowBayInfoItem
         '
         Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
-        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(162, 22)
+        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(166, 22)
         Me.ctxShowBayInfoItem.Text = "Show Drone Info"
         '
         'lblDroneBay
@@ -419,7 +461,6 @@ Partial Class ShipSlotControl
         '
         Me.tabRemote.Controls.Add(Me.btnAddRemoteFitting)
         Me.tabRemote.Controls.Add(Me.lvwRemoteFittings)
-        Me.tabRemote.Controls.Add(Me.btnLoad)
         Me.tabRemote.Controls.Add(Me.lvwRemoteEffects)
         Me.tabRemote.Controls.Add(Me.btnUpdateRemoteEffects)
         Me.tabRemote.Controls.Add(Me.cboPilot)
@@ -435,7 +476,7 @@ Partial Class ShipSlotControl
         '
         'btnAddRemoteFitting
         '
-        Me.btnAddRemoteFitting.Location = New System.Drawing.Point(482, 5)
+        Me.btnAddRemoteFitting.Location = New System.Drawing.Point(435, 5)
         Me.btnAddRemoteFitting.Name = "btnAddRemoteFitting"
         Me.btnAddRemoteFitting.Size = New System.Drawing.Size(75, 23)
         Me.btnAddRemoteFitting.TabIndex = 8
@@ -463,26 +504,18 @@ Partial Class ShipSlotControl
         Me.ColumnHeader1.Text = "Remote Fittings"
         Me.ColumnHeader1.Width = 280
         '
-        'ctxRemoteModule
+        'ctxRemoteFittings
         '
-        Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
-        Me.ctxRemoteModule.Name = "ctxRemoteModule"
-        Me.ctxRemoteModule.Size = New System.Drawing.Size(128, 26)
+        Me.ctxRemoteFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFittingToolStripMenuItem})
+        Me.ctxRemoteFittings.Name = "ctxRemoteFittings"
+        Me.ctxRemoteFittings.Size = New System.Drawing.Size(180, 26)
         '
-        'mnuShowRemoteModInfo
+        'RemoveFittingToolStripMenuItem
         '
-        Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
-        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(127, 22)
-        Me.mnuShowRemoteModInfo.Text = "Show Info"
-        '
-        'btnLoad
-        '
-        Me.btnLoad.Location = New System.Drawing.Point(3, 5)
-        Me.btnLoad.Name = "btnLoad"
-        Me.btnLoad.Size = New System.Drawing.Size(46, 23)
-        Me.btnLoad.TabIndex = 6
-        Me.btnLoad.Text = "Load"
-        Me.btnLoad.UseVisualStyleBackColor = True
+        Me.RemoveFittingToolStripMenuItem.Name = "RemoveFittingToolStripMenuItem"
+        Me.RemoveFittingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
+        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
+        Me.RemoveFittingToolStripMenuItem.Text = "Remove Fitting"
         '
         'lvwRemoteEffects
         '
@@ -506,9 +539,21 @@ Partial Class ShipSlotControl
         Me.colModule.Text = "Remote Modules"
         Me.colModule.Width = 300
         '
+        'ctxRemoteModule
+        '
+        Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
+        Me.ctxRemoteModule.Name = "ctxRemoteModule"
+        Me.ctxRemoteModule.Size = New System.Drawing.Size(135, 26)
+        '
+        'mnuShowRemoteModInfo
+        '
+        Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
+        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(134, 22)
+        Me.mnuShowRemoteModInfo.Text = "Show Info"
+        '
         'btnUpdateRemoteEffects
         '
-        Me.btnUpdateRemoteEffects.Location = New System.Drawing.Point(563, 5)
+        Me.btnUpdateRemoteEffects.Location = New System.Drawing.Point(516, 5)
         Me.btnUpdateRemoteEffects.Name = "btnUpdateRemoteEffects"
         Me.btnUpdateRemoteEffects.Size = New System.Drawing.Size(75, 23)
         Me.btnUpdateRemoteEffects.TabIndex = 4
@@ -519,7 +564,7 @@ Partial Class ShipSlotControl
         '
         Me.cboPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboPilot.FormattingEnabled = True
-        Me.cboPilot.Location = New System.Drawing.Point(328, 7)
+        Me.cboPilot.Location = New System.Drawing.Point(281, 7)
         Me.cboPilot.Name = "cboPilot"
         Me.cboPilot.Size = New System.Drawing.Size(148, 21)
         Me.cboPilot.TabIndex = 3
@@ -527,7 +572,7 @@ Partial Class ShipSlotControl
         'lblPilot
         '
         Me.lblPilot.AutoSize = True
-        Me.lblPilot.Location = New System.Drawing.Point(292, 10)
+        Me.lblPilot.Location = New System.Drawing.Point(245, 10)
         Me.lblPilot.Name = "lblPilot"
         Me.lblPilot.Size = New System.Drawing.Size(30, 13)
         Me.lblPilot.TabIndex = 2
@@ -537,7 +582,7 @@ Partial Class ShipSlotControl
         '
         Me.cboFitting.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboFitting.FormattingEnabled = True
-        Me.cboFitting.Location = New System.Drawing.Point(99, 7)
+        Me.cboFitting.Location = New System.Drawing.Point(52, 7)
         Me.cboFitting.Name = "cboFitting"
         Me.cboFitting.Size = New System.Drawing.Size(187, 21)
         Me.cboFitting.TabIndex = 1
@@ -545,11 +590,175 @@ Partial Class ShipSlotControl
         'lblFitting
         '
         Me.lblFitting.AutoSize = True
-        Me.lblFitting.Location = New System.Drawing.Point(55, 10)
+        Me.lblFitting.Location = New System.Drawing.Point(8, 10)
         Me.lblFitting.Name = "lblFitting"
         Me.lblFitting.Size = New System.Drawing.Size(38, 13)
         Me.lblFitting.TabIndex = 0
         Me.lblFitting.Text = "Fitting:"
+        '
+        'tabFleet
+        '
+        Me.tabFleet.Controls.Add(Me.lblFleetData)
+        Me.tabFleet.Controls.Add(Me.btnLeaveFleet)
+        Me.tabFleet.Controls.Add(Me.lblFleetStatus)
+        Me.tabFleet.Controls.Add(Me.lblFleetStatusLabel)
+        Me.tabFleet.Controls.Add(Me.cboFCShip)
+        Me.tabFleet.Controls.Add(Me.cboWCShip)
+        Me.tabFleet.Controls.Add(Me.lblWCShip)
+        Me.tabFleet.Controls.Add(Me.lblFCShip)
+        Me.tabFleet.Controls.Add(Me.cboFCPilot)
+        Me.tabFleet.Controls.Add(Me.cboWCPilot)
+        Me.tabFleet.Controls.Add(Me.lblWC)
+        Me.tabFleet.Controls.Add(Me.lblFC)
+        Me.tabFleet.Controls.Add(Me.lblSC)
+        Me.tabFleet.Controls.Add(Me.cboSCPilot)
+        Me.tabFleet.Controls.Add(Me.lblSCShip)
+        Me.tabFleet.Controls.Add(Me.cboSCShip)
+        Me.tabFleet.Location = New System.Drawing.Point(4, 22)
+        Me.tabFleet.Name = "tabFleet"
+        Me.tabFleet.Size = New System.Drawing.Size(668, 216)
+        Me.tabFleet.TabIndex = 3
+        Me.tabFleet.Text = "Fleet Effects"
+        Me.tabFleet.UseVisualStyleBackColor = True
+        '
+        'btnLeaveFleet
+        '
+        Me.btnLeaveFleet.Enabled = False
+        Me.btnLeaveFleet.Location = New System.Drawing.Point(188, 102)
+        Me.btnLeaveFleet.Name = "btnLeaveFleet"
+        Me.btnLeaveFleet.Size = New System.Drawing.Size(75, 23)
+        Me.btnLeaveFleet.TabIndex = 23
+        Me.btnLeaveFleet.Text = "Leave Fleet"
+        Me.btnLeaveFleet.UseVisualStyleBackColor = True
+        '
+        'lblFleetStatus
+        '
+        Me.lblFleetStatus.AutoSize = True
+        Me.lblFleetStatus.Location = New System.Drawing.Point(81, 107)
+        Me.lblFleetStatus.Name = "lblFleetStatus"
+        Me.lblFleetStatus.Size = New System.Drawing.Size(45, 13)
+        Me.lblFleetStatus.TabIndex = 22
+        Me.lblFleetStatus.Text = "Inactive"
+        '
+        'lblFleetStatusLabel
+        '
+        Me.lblFleetStatusLabel.AutoSize = True
+        Me.lblFleetStatusLabel.Location = New System.Drawing.Point(9, 107)
+        Me.lblFleetStatusLabel.Name = "lblFleetStatusLabel"
+        Me.lblFleetStatusLabel.Size = New System.Drawing.Size(66, 13)
+        Me.lblFleetStatusLabel.TabIndex = 21
+        Me.lblFleetStatusLabel.Text = "Fleet Status:"
+        '
+        'cboFCShip
+        '
+        Me.cboFCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFCShip.Enabled = False
+        Me.cboFCShip.FormattingEnabled = True
+        Me.cboFCShip.Location = New System.Drawing.Point(319, 68)
+        Me.cboFCShip.Name = "cboFCShip"
+        Me.cboFCShip.Size = New System.Drawing.Size(187, 21)
+        Me.cboFCShip.TabIndex = 20
+        '
+        'cboWCShip
+        '
+        Me.cboWCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWCShip.Enabled = False
+        Me.cboWCShip.FormattingEnabled = True
+        Me.cboWCShip.Location = New System.Drawing.Point(319, 41)
+        Me.cboWCShip.Name = "cboWCShip"
+        Me.cboWCShip.Size = New System.Drawing.Size(187, 21)
+        Me.cboWCShip.TabIndex = 19
+        '
+        'lblWCShip
+        '
+        Me.lblWCShip.AutoSize = True
+        Me.lblWCShip.Location = New System.Drawing.Point(269, 44)
+        Me.lblWCShip.Name = "lblWCShip"
+        Me.lblWCShip.Size = New System.Drawing.Size(44, 13)
+        Me.lblWCShip.TabIndex = 18
+        Me.lblWCShip.Text = "Piloting:"
+        '
+        'lblFCShip
+        '
+        Me.lblFCShip.AutoSize = True
+        Me.lblFCShip.Location = New System.Drawing.Point(269, 71)
+        Me.lblFCShip.Name = "lblFCShip"
+        Me.lblFCShip.Size = New System.Drawing.Size(44, 13)
+        Me.lblFCShip.TabIndex = 17
+        Me.lblFCShip.Text = "Piloting:"
+        '
+        'cboFCPilot
+        '
+        Me.cboFCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFCPilot.FormattingEnabled = True
+        Me.cboFCPilot.Location = New System.Drawing.Point(115, 68)
+        Me.cboFCPilot.Name = "cboFCPilot"
+        Me.cboFCPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboFCPilot.TabIndex = 16
+        '
+        'cboWCPilot
+        '
+        Me.cboWCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWCPilot.FormattingEnabled = True
+        Me.cboWCPilot.Location = New System.Drawing.Point(115, 41)
+        Me.cboWCPilot.Name = "cboWCPilot"
+        Me.cboWCPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboWCPilot.TabIndex = 15
+        '
+        'lblWC
+        '
+        Me.lblWC.AutoSize = True
+        Me.lblWC.Location = New System.Drawing.Point(9, 44)
+        Me.lblWC.Name = "lblWC"
+        Me.lblWC.Size = New System.Drawing.Size(94, 13)
+        Me.lblWC.TabIndex = 14
+        Me.lblWC.Text = "Wing Commander:"
+        '
+        'lblFC
+        '
+        Me.lblFC.AutoSize = True
+        Me.lblFC.Location = New System.Drawing.Point(9, 71)
+        Me.lblFC.Name = "lblFC"
+        Me.lblFC.Size = New System.Drawing.Size(92, 13)
+        Me.lblFC.TabIndex = 13
+        Me.lblFC.Text = "Fleet Commander:"
+        '
+        'lblSC
+        '
+        Me.lblSC.AutoSize = True
+        Me.lblSC.Location = New System.Drawing.Point(9, 17)
+        Me.lblSC.Name = "lblSC"
+        Me.lblSC.Size = New System.Drawing.Size(100, 13)
+        Me.lblSC.TabIndex = 12
+        Me.lblSC.Text = "Squad Commander:"
+        '
+        'cboSCPilot
+        '
+        Me.cboSCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboSCPilot.FormattingEnabled = True
+        Me.cboSCPilot.Location = New System.Drawing.Point(115, 14)
+        Me.cboSCPilot.Name = "cboSCPilot"
+        Me.cboSCPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboSCPilot.TabIndex = 10
+        '
+        'lblSCShip
+        '
+        Me.lblSCShip.AutoSize = True
+        Me.lblSCShip.Location = New System.Drawing.Point(269, 17)
+        Me.lblSCShip.Name = "lblSCShip"
+        Me.lblSCShip.Size = New System.Drawing.Size(44, 13)
+        Me.lblSCShip.TabIndex = 9
+        Me.lblSCShip.Text = "Piloting:"
+        '
+        'cboSCShip
+        '
+        Me.cboSCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboSCShip.Enabled = False
+        Me.cboSCShip.FormattingEnabled = True
+        Me.cboSCShip.Location = New System.Drawing.Point(319, 14)
+        Me.cboSCShip.Name = "cboSCShip"
+        Me.cboSCShip.Size = New System.Drawing.Size(187, 21)
+        Me.cboSCShip.TabIndex = 8
         '
         'btnToggleStorage
         '
@@ -590,42 +799,14 @@ Partial Class ShipSlotControl
         Me.pbShipInfo.TabIndex = 0
         Me.pbShipInfo.TabStop = False
         '
-        'ctxRemoteFittings
+        'lblFleetData
         '
-        Me.ctxRemoteFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFittingToolStripMenuItem})
-        Me.ctxRemoteFittings.Name = "ctxRemoteFittings"
-        Me.ctxRemoteFittings.Size = New System.Drawing.Size(179, 48)
-        '
-        'RemoveFittingToolStripMenuItem
-        '
-        Me.RemoveFittingToolStripMenuItem.Name = "RemoveFittingToolStripMenuItem"
-        Me.RemoveFittingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
-        Me.RemoveFittingToolStripMenuItem.Text = "Remove Fitting"
-        '
-        'lvwSlots
-        '
-        Me.lvwSlots.AllowDrop = True
-        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
-        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwSlots.FullRowSelect = True
-        ListViewGroup1.Header = "High Slots"
-        ListViewGroup1.Name = "lvwgHighSlots"
-        ListViewGroup2.Header = "Mid Slots"
-        ListViewGroup2.Name = "lvwgMidSlots"
-        ListViewGroup3.Header = "Low Slots"
-        ListViewGroup3.Name = "lvwgLowSlots"
-        ListViewGroup4.Header = "Rig Slots"
-        ListViewGroup4.Name = "lvwgRigSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
-        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
-        Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.Size = New System.Drawing.Size(676, 275)
-        Me.lvwSlots.SmallImageList = Me.imgState
-        Me.lvwSlots.TabIndex = 0
-        Me.lvwSlots.Tag = ""
-        Me.lvwSlots.UseCompatibleStateImageBehavior = False
-        Me.lvwSlots.View = System.Windows.Forms.View.Details
+        Me.lblFleetData.AutoSize = True
+        Me.lblFleetData.Location = New System.Drawing.Point(9, 133)
+        Me.lblFleetData.Name = "lblFleetData"
+        Me.lblFleetData.Size = New System.Drawing.Size(59, 13)
+        Me.lblFleetData.TabIndex = 24
+        Me.lblFleetData.Text = "Fleet Data:"
         '
         'ShipSlotControl
         '
@@ -647,11 +828,13 @@ Partial Class ShipSlotControl
         Me.tabCargoBay.PerformLayout()
         Me.tabRemote.ResumeLayout(False)
         Me.tabRemote.PerformLayout()
+        Me.ctxRemoteFittings.ResumeLayout(False)
         Me.ctxRemoteModule.ResumeLayout(False)
+        Me.tabFleet.ResumeLayout(False)
+        Me.tabFleet.PerformLayout()
         Me.panelFunctions.ResumeLayout(False)
         Me.panelFunctions.PerformLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ctxRemoteFittings.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -721,6 +904,15 @@ Partial Class ShipSlotControl
         remoteGroups.Add(641)
         remoteGroups.Add(640)
         remoteGroups.Add(639)
+        fleetGroups.Add("Armored Warfare")
+        fleetGroups.Add("Information Warfare")
+        fleetGroups.Add("Leadership")
+        fleetGroups.Add("Mining Foreman")
+        fleetGroups.Add("Siege Warfare")
+        fleetGroups.Add("Skirmish Warfare")
+
+        ' Load the remote and fleet info
+        Call LoadRemoteFleetInfo()
     End Sub
     Friend WithEvents imgState As System.Windows.Forms.ImageList
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
@@ -738,7 +930,6 @@ Partial Class ShipSlotControl
     Friend WithEvents cboFitting As System.Windows.Forms.ComboBox
     Friend WithEvents lblFitting As System.Windows.Forms.Label
     Friend WithEvents colModule As System.Windows.Forms.ColumnHeader
-    Friend WithEvents btnLoad As System.Windows.Forms.Button
     Friend WithEvents ctxRemoteModule As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuShowRemoteModInfo As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents btnAddRemoteFitting As System.Windows.Forms.Button
@@ -748,4 +939,21 @@ Partial Class ShipSlotControl
     Friend WithEvents pbCargoBay As VistaStyleProgressBar.ProgressBar
     Friend WithEvents ctxRemoteFittings As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents RemoveFittingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tabFleet As System.Windows.Forms.TabPage
+    Friend WithEvents lblWC As System.Windows.Forms.Label
+    Friend WithEvents lblFC As System.Windows.Forms.Label
+    Friend WithEvents lblSC As System.Windows.Forms.Label
+    Friend WithEvents cboSCPilot As System.Windows.Forms.ComboBox
+    Friend WithEvents lblSCShip As System.Windows.Forms.Label
+    Friend WithEvents cboSCShip As System.Windows.Forms.ComboBox
+    Friend WithEvents cboFCPilot As System.Windows.Forms.ComboBox
+    Friend WithEvents cboWCPilot As System.Windows.Forms.ComboBox
+    Friend WithEvents lblWCShip As System.Windows.Forms.Label
+    Friend WithEvents lblFCShip As System.Windows.Forms.Label
+    Friend WithEvents cboFCShip As System.Windows.Forms.ComboBox
+    Friend WithEvents cboWCShip As System.Windows.Forms.ComboBox
+    Friend WithEvents lblFleetStatus As System.Windows.Forms.Label
+    Friend WithEvents lblFleetStatusLabel As System.Windows.Forms.Label
+    Friend WithEvents btnLeaveFleet As System.Windows.Forms.Button
+    Friend WithEvents lblFleetData As System.Windows.Forms.Label
 End Class

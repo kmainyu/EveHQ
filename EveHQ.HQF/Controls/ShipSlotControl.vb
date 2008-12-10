@@ -27,6 +27,7 @@ Public Class ShipSlotControl
     Dim cancelDroneActivation As Boolean = False
     Dim rigGroups As New ArrayList
     Dim remoteGroups As New ArrayList
+    Dim fleetGroups As New ArrayList
     Dim cancelSlotMenu As Boolean = False
 
 #Region "Property Variables"
@@ -2048,22 +2049,6 @@ Public Class ShipSlotControl
     End Sub
 #End Region
 
-    Private Sub btnLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoad.Click
-        ' Load details into the combo boxes
-        cboFitting.BeginUpdate()
-        cboFitting.Items.Clear()
-        For Each fitting As String In Fittings.FittingList.Keys
-            cboFitting.Items.Add(fitting)
-        Next
-        cboFitting.EndUpdate()
-        cboPilot.BeginUpdate()
-        cboPilot.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
-            cboPilot.Items.Add(cPilot.Name)
-        Next
-        cboPilot.EndUpdate()
-    End Sub
-
     Private Sub btnUpdateRemoteEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateRemoteEffects.Click
         ' Check if we have any remote fittings and if so, generate the fitting
         If lvwRemoteFittings.Items.Count > 0 Then
@@ -2174,5 +2159,116 @@ Public Class ShipSlotControl
         If lvwRemoteFittings.SelectedItems.Count = 0 Then
             e.Cancel = True
         End If
+    End Sub
+
+    Private Sub LoadRemoteFleetInfo()
+        ' Load details into the combo boxes
+        cboPilot.BeginUpdate() : cboFitting.BeginUpdate()
+        cboSCPilot.BeginUpdate() : cboSCShip.BeginUpdate()
+        cboWCPilot.BeginUpdate() : cboWCShip.BeginUpdate()
+        cboFCPilot.BeginUpdate() : cboFCShip.BeginUpdate()
+        cboPilot.Items.Clear() : cboFitting.Items.Clear()
+        cboSCPilot.Items.Clear() : cboSCShip.Items.Clear()
+        cboWCPilot.Items.Clear() : cboWCShip.Items.Clear()
+        cboFCPilot.Items.Clear() : cboFCShip.Items.Clear()
+        ' Add the fittings
+        For Each fitting As String In Fittings.FittingList.Keys
+            cboFitting.Items.Add(fitting)
+            cboSCShip.Items.Add(fitting)
+            cboWCShip.Items.Add(fitting)
+            cboFCShip.Items.Add(fitting)
+        Next
+        ' Add the pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+            cboPilot.Items.Add(cPilot.Name)
+            cboSCPilot.Items.Add(cPilot.Name)
+            cboWCPilot.Items.Add(cPilot.Name)
+            cboFCPilot.Items.Add(cPilot.Name)
+        Next
+        cboPilot.EndUpdate() : cboFitting.BeginUpdate()
+        cboSCPilot.BeginUpdate() : cboSCShip.BeginUpdate()
+        cboWCPilot.BeginUpdate() : cboWCShip.BeginUpdate()
+        cboFCPilot.BeginUpdate() : cboFCShip.BeginUpdate()
+    End Sub
+
+    Private Sub cboSCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSCPilot.SelectedIndexChanged
+        ' Set the fleet status
+        lblFleetStatus.Text = "Active"
+        btnLeaveFleet.Enabled = True
+        lblSCShip.Enabled = True
+        cboSCShip.Enabled = True
+        Call Me.CalculateFleetSkillEffects()
+    End Sub
+
+    Private Sub cboWCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWCPilot.SelectedIndexChanged
+        ' Set the fleet status
+        lblFleetStatus.Text = "Active"
+        btnLeaveFleet.Enabled = True
+        lblWCShip.Enabled = True
+        cboWCShip.Enabled = True
+        Call Me.CalculateFleetSkillEffects()
+    End Sub
+
+    Private Sub cboFCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFCPilot.SelectedIndexChanged
+        ' Set the fleet status
+        lblFleetStatus.Text = "Active"
+        btnLeaveFleet.Enabled = True
+        lblFCShip.Enabled = True
+        cboFCShip.Enabled = True
+        Call Me.CalculateFleetSkillEffects()
+    End Sub
+
+    Private Sub btnLeaveFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLeaveFleet.Click
+        ' Set the fleet status
+        cboSCShip.SelectedIndex = -1 : cboWCShip.SelectedIndex = -1 : cboFCShip.SelectedIndex = -1
+        cboSCPilot.SelectedIndex = -1 : cboWCPilot.SelectedIndex = -1 : cboFCPilot.SelectedIndex = -1
+        cboSCShip.Enabled = False : cboWCShip.Enabled = False : cboFCShip.Enabled = False
+        lblSCShip.Enabled = False : lblWCShip.Enabled = False : lblFCShip.Enabled = False
+        lblFleetStatus.Text = "Inactive"
+        btnLeaveFleet.Enabled = False
+        Call Me.CalculateFleetSkillEffects()
+    End Sub
+
+    Private Sub CalculateFleetSkillEffects()
+
+        ' Add in the commander details
+        Dim Commanders As New ArrayList
+        If cboSCPilot.SelectedItem IsNot Nothing Then
+            Commanders.Add(cboSCPilot.SelectedItem.ToString)
+        End If
+        If cboWCPilot.SelectedItem IsNot Nothing Then
+            Commanders.Add(cboWCPilot.SelectedItem.ToString)
+        End If
+        If cboFCPilot.SelectedItem IsNot Nothing Then
+            Commanders.Add(cboFCPilot.SelectedItem.ToString)
+        End If
+
+        If Commanders.Count > 0 Then
+
+            ' Go through each commander and parse the skills
+            Dim FleetSkills(Commanders.Count + 1, fleetGroups.Count - 1) As String
+            Dim hPilot As New HQFPilot
+            For Commander As Integer = 0 To Commanders.Count - 1
+                hPilot = CType(HQFPilotCollection.HQFPilots(Commanders(Commander)), HQFPilot)
+                For Skill As Integer = 0 To fleetGroups.Count - 1
+                    If hPilot.SkillSet.Contains(fleetGroups(Skill).ToString) Then
+                        FleetSkills(Commander + 1, Skill) = CType(hPilot.SkillSet(fleetGroups(Skill).ToString), HQFSkill).Level.ToString
+                        If FleetSkills(Commander + 1, Skill) >= FleetSkills(0, Skill) Then
+                            FleetSkills(0, Skill) = FleetSkills(Commander + 1, Skill)
+                            FleetSkills(Commanders.Count + 1, Skill) = hPilot.PilotName
+                        End If
+                    End If
+                Next
+            Next
+
+            ' Display the fleet skills data
+            lblFleetData.Text = ""
+            For skill As Integer = 0 To fleetGroups.Count - 1
+                lblFleetData.Text &= fleetGroups(skill).ToString & " (" & FleetSkills(Commanders.Count + 1, skill) & " - Level " & FleetSkills(0, skill) & ")" & ControlChars.CrLf
+            Next
+        Else
+            lblFleetData.Text = "Fleet Data:"
+        End If
+
     End Sub
 End Class
