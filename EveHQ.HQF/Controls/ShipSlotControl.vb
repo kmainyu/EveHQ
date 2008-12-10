@@ -2161,4 +2161,18 @@ Public Class ShipSlotControl
             End If
         End If
     End Sub
+
+    Private Sub RemoveFittingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveFittingToolStripMenuItem.Click
+        lvwRemoteFittings.BeginUpdate()
+        For Each fit As ListViewItem In lvwRemoteFittings.SelectedItems
+            lvwRemoteFittings.Items.Remove(fit)
+        Next
+        lvwRemoteFittings.EndUpdate()
+    End Sub
+
+    Private Sub ctxRemoteFittings_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxRemoteFittings.Opening
+        If lvwRemoteFittings.SelectedItems.Count = 0 Then
+            e.Cancel = True
+        End If
+    End Sub
 End Class
