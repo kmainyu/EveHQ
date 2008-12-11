@@ -2197,6 +2197,7 @@ Public Class ShipSlotControl
         btnLeaveFleet.Enabled = True
         lblSCShip.Enabled = True
         cboSCShip.Enabled = True
+        currentShip.FleetActive = True
         Call Me.CalculateFleetSkillEffects()
     End Sub
 
@@ -2206,6 +2207,7 @@ Public Class ShipSlotControl
         btnLeaveFleet.Enabled = True
         lblWCShip.Enabled = True
         cboWCShip.Enabled = True
+        currentShip.FleetActive = True
         Call Me.CalculateFleetSkillEffects()
     End Sub
 
@@ -2215,6 +2217,7 @@ Public Class ShipSlotControl
         btnLeaveFleet.Enabled = True
         lblFCShip.Enabled = True
         cboFCShip.Enabled = True
+        currentShip.FleetActive = True
         Call Me.CalculateFleetSkillEffects()
     End Sub
 
@@ -2226,6 +2229,7 @@ Public Class ShipSlotControl
         lblSCShip.Enabled = False : lblWCShip.Enabled = False : lblFCShip.Enabled = False
         lblFleetStatus.Text = "Inactive"
         btnLeaveFleet.Enabled = False
+        currentShip.FleetActive = False
         Call Me.CalculateFleetSkillEffects()
     End Sub
 
@@ -2263,12 +2267,19 @@ Public Class ShipSlotControl
 
             ' Display the fleet skills data
             lblFleetData.Text = ""
+            currentShip.FleetSkills.Clear()
             For skill As Integer = 0 To fleetGroups.Count - 1
                 lblFleetData.Text &= fleetGroups(skill).ToString & " (" & FleetSkills(Commanders.Count + 1, skill) & " - Level " & FleetSkills(0, skill) & ")" & ControlChars.CrLf
+                currentShip.FleetSkills.Add(EveHQ.Core.SkillFunctions.SkillNameToID(fleetGroups(skill).ToString), FleetSkills(0, skill))
             Next
         Else
             lblFleetData.Text = "Fleet Data:"
+            currentShip.FleetSkills.Clear()
         End If
+
+        currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+        Call Me.UpdateAllSlotLocations()
 
     End Sub
 End Class

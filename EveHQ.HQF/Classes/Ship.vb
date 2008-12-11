@@ -50,6 +50,10 @@ Imports System.Runtime.Serialization
     Private cSlotCollection As New ArrayList
     Private cRemoteSlotCollection As New ArrayList
 
+    ' Fleet details
+    Private cFleetActive As Boolean
+    Private cFleetSkills As New SortedList
+
     ' CPU, Power & Capacitor
     Private cCPU As Double
     Private cPG As Double
@@ -349,6 +353,24 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As ArrayList)
             cRemoteSlotCollection = value
+        End Set
+    End Property
+
+    ' Fleet Details
+    Public Property FleetActive() As Boolean
+        Get
+            Return cFleetActive
+        End Get
+        Set(ByVal value As Boolean)
+            cFleetActive = value
+        End Set
+    End Property
+    Public Property FleetSkills() As SortedList
+        Get
+            Return cFleetSkills
+        End Get
+        Set(ByVal value As SortedList)
+            cFleetSkills = value
         End Set
     End Property
 

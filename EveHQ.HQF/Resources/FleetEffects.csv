@@ -1,0 +1,25 @@
+#HQF Fleet Attribute Mapping Table,,,,,,,,,,,
+#Skill ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,State,Description
+20494,1,20494,265,3,6,0,1,0,2,0,Armored Warfare
+11569,1,11569,833,1,20069;20409;22227,0,1,0,100,0,Armored Warfare Specialist
+#24764,1,24764,,,,0,1,0,,0,Fleet Command
+20495,1,20495,76,3,6,0,1,0,2,0,Information Warfare
+3352,1,3352,833,1,20405;11052,0,1,0,100,0,Information Warfare Specialist
+3352,1,3352,1320,1,20406,0,1,0,100,0,Information Warfare Specialist
+3352,1,3352,1321,1,20406,0,1,0,100,0,Information Warfare Specialist
+3352,1,3352,1322,1,20406,0,1,0,100,0,Information Warfare Specialist
+3352,1,3352,1323,1,20406,0,1,0,100,0,Information Warfare Specialist
+3348,1,3348,564,3,6,0,1,0,2,0,Leadership
+22552,1,22552,833,1,22553;22555;22557,0,1,0,100,0,Mining Director
+22536,1,22536,77,4,1039,0,1,0,2,0,Mining Foreman
+22536,1,22536,77,4,1040,0,1,0,2,0,Mining Foreman
+3350,1,3350,263,3,6,0,1,0,2,0,Siege Warfare
+3351,1,3351,833,1,20124;22228;20514,0,1,0,100,0,Siege Warfare Specialist
+3349,1,3349,70,3,6,0,1,0,2,0,Skirmish Warfare
+11572,1,11572,833,1,20070;11017;20408,0,1,0,100,0,Skirmish Warfare Specialist
+3354,1,3354,833,2,316,0,1,0,10,0,Warfare Link Specialist
+3354,1,3354,1320,2,316,0,1,0,10,0,Warfare Link Specialist
+3354,1,3354,1321,2,316,0,1,0,10,0,Warfare Link Specialist
+3354,1,3354,1322,2,316,0,1,0,10,0,Warfare Link Specialist
+3354,1,3354,1323,2,316,0,1,0,10,0,Warfare Link Specialist
+#11574,1,11574,,,,0,1,0,,0,Wing Command

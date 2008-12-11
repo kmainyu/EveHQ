@@ -225,17 +225,18 @@
 434,1,3386,77,4,1040,0,1,0,0,Mining - Strip Miner
 927,1,22578,1082,2,546,0,1,0,0,Mining Upgrades
 # LEADERSHIP,,,,,,,,,,
-#,1,20494,,,,0,1,0,0,Armored Warfare
+#335,1,20494,265,3,6,0,1,0,32,Armored Warfare
 #,1,11569,,,,0,1,0,0,Armored Warfare Specialist
 #,1,24764,,,,0,1,0,0,Fleet Command
-#,1,20495,,,,0,1,0,0,Information Warfare
+#309,1,20495,76,3,6,0,1,0,32,Information Warfare
 #,1,3352,,,,0,1,0,0,Information Warfare Specialist
-#,1,3348,,,,0,1,0,0,Leadership
+#566,1,3348,564,3,6,0,1,0,32,Leadership
 #,1,22552,,,,0,1,0,0,Mining Director
-#,1,22536,,,,0,1,0,0,Mining Foreman
-#,1,3350,,,,0,1,0,0,Siege Warfare
+#434,1,22536,77,4,1039,0,1,0,32,Mining Foreman
+#434,1,22536,77,4,1040,0,1,0,32,Mining Foreman
+#337,1,3350,263,3,6,0,1,0,32,Siege Warfare
 #,1,3351,,,,0,1,0,0,Siege Warfare Specialist
-#,1,3349,,,,0,1,0,0,Skirmish Warfare
+#151,1,3349,70,3,6,0,1,0,32,Skirmish Warfare
 #,1,11572,,,,0,1,0,0,Skirmish Warfare Specialist
 #,1,3354,,,,0,1,0,0,Warfare Link Specialist
 #,1,11574,,,,0,1,0,0,Wing Command
@@ -945,6 +946,13 @@
 # Ice Harvester Upgrade,,,,,,,,,,
 780,2,546,73,4,1038,0,0,0,14,Cycle Time
 1082,2,546,50,4,1038,0,0,0,14,CPU Penalty
+# GANG MODULES,,,,,,,,,,
+#833,1,20069,6,2,62;325,0,0,0,4,Armored Warfare Link - Damage Control
+#833,1,20409,267,3,6,1,0,2,4,Armored Warfare Link - Passive Defense
+#833,1,20409,268,3,6,1,0,2,4,Armored Warfare Link - Passive Defense
+#833,1,20409,269,3,6,1,0,2,4,Armored Warfare Link - Passive Defense
+#833,1,20409,270,3,6,1,0,2,4,Armored Warfare Link - Passive Defense
+#833,1,20409,270,3,6,1,0,0,4,Armored Warfare Link - Rapid Repair
 # RIGS - ARMOR,,,,,,,,,,
 1138,2,773,37,3,6,0,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 984,2,773,267,3,6,1,0,2,15,Anti-EM Pump
