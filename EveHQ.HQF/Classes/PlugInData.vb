@@ -64,6 +64,7 @@ Public Class PlugInData
             Engine.BuildPirateImplants()
             Engine.BuildEffectsMap()
             Engine.BuildShipEffectsMap()
+            Engine.BuildFleetEffectsMap()
             ' Check for the existence of the binary data
             If PlugInData.UseSerializableData = True Then
                 If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\attributes.bin") = True Then
