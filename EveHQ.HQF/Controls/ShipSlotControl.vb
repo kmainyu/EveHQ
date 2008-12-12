@@ -618,15 +618,52 @@ Public Class ShipSlotControl
     End Sub
     Private Sub UpdateFittingListFromShipData()
         currentFit.Clear()
-        For Each shipMod As ListViewItem In lvwSlots.Items
-            If shipMod.Text <> "<Empty>" Then
-                If shipMod.SubItems(1).Text <> "" Then
-                    currentFit.Add(shipMod.Text & "_" & shipMod.ImageIndex & ", " & shipMod.SubItems(1).Text)
+        Dim state As Integer
+
+        For slot As Integer = 1 To currentShip.HiSlots
+            If currentShip.HiSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.HiSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.HiSlot(slot).LoadedCharge IsNot Nothing Then
+                    currentFit.Add(currentShip.HiSlot(slot).Name & "_" & state & ", " & currentShip.HiSlot(slot).LoadedCharge.Name)
                 Else
-                    currentFit.Add(shipMod.Text & "_" & shipMod.ImageIndex)
+                    currentFit.Add(currentShip.HiSlot(slot).Name & "_" & state)
                 End If
             End If
         Next
+
+        For slot As Integer = 1 To currentShip.MidSlots
+            If currentShip.MidSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.MidSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.MidSlot(slot).LoadedCharge IsNot Nothing Then
+                    currentFit.Add(currentShip.MidSlot(slot).Name & "_" & state & ", " & currentShip.MidSlot(slot).LoadedCharge.Name)
+                Else
+                    currentFit.Add(currentShip.MidSlot(slot).Name & "_" & state)
+                End If
+            End If
+        Next
+
+        For slot As Integer = 1 To currentShip.LowSlots
+            If currentShip.LowSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.LowSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.LowSlot(slot).LoadedCharge IsNot Nothing Then
+                    currentFit.Add(currentShip.LowSlot(slot).Name & "_" & state & ", " & currentShip.LowSlot(slot).LoadedCharge.Name)
+                Else
+                    currentFit.Add(currentShip.LowSlot(slot).Name & "_" & state)
+                End If
+            End If
+        Next
+
+        For slot As Integer = 1 To currentShip.RigSlots
+            If currentShip.RigSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.RigSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.RigSlot(slot).LoadedCharge IsNot Nothing Then
+                    currentFit.Add(currentShip.RigSlot(slot).Name & "_" & state & ", " & currentShip.RigSlot(slot).LoadedCharge.Name)
+                Else
+                    currentFit.Add(currentShip.RigSlot(slot).Name & "_" & state)
+                End If
+            End If
+        Next
+
         For Each DBI As DroneBayItem In currentShip.DroneBayItems.Values
             If DBI.IsActive = True Then
                 currentFit.Add(DBI.DroneType.Name & ", " & DBI.Quantity & "a")
@@ -634,6 +671,7 @@ Public Class ShipSlotControl
                 currentFit.Add(DBI.DroneType.Name & ", " & DBI.Quantity & "i")
             End If
         Next
+
         For Each CBI As CargoBayItem In currentShip.CargoBayItems.Values
             currentFit.Add(CBI.ItemType.Name & ", " & CBI.Quantity)
         Next
