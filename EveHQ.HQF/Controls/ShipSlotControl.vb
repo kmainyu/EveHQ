@@ -2197,8 +2197,9 @@ Public Class ShipSlotControl
         btnLeaveFleet.Enabled = True
         lblSCShip.Enabled = True
         cboSCShip.Enabled = True
-        currentShip.FleetActive = True
-        Call Me.CalculateFleetSkillEffects()
+        If cboSCPilot.SelectedIndex <> -1 Then
+            Call Me.CalculateFleetSkillEffects()
+        End If
     End Sub
 
     Private Sub cboWCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWCPilot.SelectedIndexChanged
@@ -2207,8 +2208,9 @@ Public Class ShipSlotControl
         btnLeaveFleet.Enabled = True
         lblWCShip.Enabled = True
         cboWCShip.Enabled = True
-        currentShip.FleetActive = True
-        Call Me.CalculateFleetSkillEffects()
+        If cboWCPilot.SelectedIndex <> -1 Then
+            Call Me.CalculateFleetSkillEffects()
+        End If
     End Sub
 
     Private Sub cboFCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFCPilot.SelectedIndexChanged
@@ -2217,8 +2219,9 @@ Public Class ShipSlotControl
         btnLeaveFleet.Enabled = True
         lblFCShip.Enabled = True
         cboFCShip.Enabled = True
-        currentShip.FleetActive = True
-        Call Me.CalculateFleetSkillEffects()
+        If cboFCPilot.SelectedIndex <> -1 Then
+            Call Me.CalculateFleetSkillEffects()
+        End If
     End Sub
 
     Private Sub btnLeaveFleet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLeaveFleet.Click
@@ -2229,7 +2232,6 @@ Public Class ShipSlotControl
         lblSCShip.Enabled = False : lblWCShip.Enabled = False : lblFCShip.Enabled = False
         lblFleetStatus.Text = "Inactive"
         btnLeaveFleet.Enabled = False
-        currentShip.FleetActive = False
         Call Me.CalculateFleetSkillEffects()
     End Sub
 
@@ -2267,14 +2269,34 @@ Public Class ShipSlotControl
 
             ' Display the fleet skills data
             lblFleetData.Text = ""
-            currentShip.FleetSkills.Clear()
+            currentShip.FleetSlotCollection.Clear()
             For skill As Integer = 0 To fleetGroups.Count - 1
+                If CInt(FleetSkills(0, skill)) > 0 Then
+                    Dim fleetModule As New ShipModule
+                    fleetModule.Name = fleetGroups(skill).ToString & " (" & FleetSkills(Commanders.Count + 1, skill) & " - Level " & FleetSkills(0, skill) & ")"
+                    fleetModule.ID = "-" & EveHQ.Core.SkillFunctions.SkillNameToID(fleetGroups(skill).ToString)
+                    fleetModule.ModuleState = 32
+                    Select Case fleetGroups(skill).ToString
+                        Case "Armored Warfare"
+                            fleetModule.Attributes.Add("335", 2 * CInt(FleetSkills(0, skill)))
+                        Case "Information Warfare"
+                            fleetModule.Attributes.Add("309", 2 * CInt(FleetSkills(0, skill)))
+                        Case "Leadership"
+                            fleetModule.Attributes.Add("566", 2 * CInt(FleetSkills(0, skill)))
+                        Case "Mining Foreman"
+                            fleetModule.Attributes.Add("434", 2 * CInt(FleetSkills(0, skill)))
+                        Case "Siege Warfare"
+                            fleetModule.Attributes.Add("337", 2 * CInt(FleetSkills(0, skill)))
+                        Case "Skirmish Warfare"
+                            fleetModule.Attributes.Add("151", 2 * CInt(FleetSkills(0, skill)))
+                    End Select
+                    currentShip.FleetSlotCollection.Add(fleetModule)
+                End If
                 lblFleetData.Text &= fleetGroups(skill).ToString & " (" & FleetSkills(Commanders.Count + 1, skill) & " - Level " & FleetSkills(0, skill) & ")" & ControlChars.CrLf
-                currentShip.FleetSkills.Add(EveHQ.Core.SkillFunctions.SkillNameToID(fleetGroups(skill).ToString), FleetSkills(0, skill))
             Next
         Else
             lblFleetData.Text = "Fleet Data:"
-            currentShip.FleetSkills.Clear()
+            currentShip.FleetSlotCollection.Clear()
         End If
 
         currentInfo.ShipType = currentShip

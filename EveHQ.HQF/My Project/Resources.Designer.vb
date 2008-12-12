@@ -105,22 +105,6 @@ Namespace My.Resources
             End Get
         End Property
         
-        '''<summary>
-        '''  Looks up a localized string similar to #HQF Fleet Attribute Mapping Table,,,,,,,,,,,
-        '''#Skill ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,State,Description
-        '''20494,1,20494,265,3,6,0,1,0,2,0,Armored Warfare
-        '''11569,1,11569,833,1,20069;20409;22227,0,1,0,100,0,Armored Warfare Specialist
-        '''#24764,1,24764,,,,0,1,0,,0,Fleet Command
-        '''20495,1,20495,76,3,6,0,1,0,2,0,Information Warfare
-        '''3352,1,3352,833,1,20405;11052,0,1,0,100,0,Information Warfare Specialist
-        '''3352,1,3352,1320,1,20406,0,1,0, [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property FleetEffects() As String
-            Get
-                Return ResourceManager.GetString("FleetEffects", resourceCulture)
-            End Get
-        End Property
-        
         Friend ReadOnly Property imgArmor() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("imgArmor", resourceCulture)

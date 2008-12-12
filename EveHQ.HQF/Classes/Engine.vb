@@ -154,49 +154,6 @@ Public Class Engine
             End If
         Next
     End Sub
-    Public Shared Sub BuildFleetEffectsMap()
-        ' Fetch the Effects list
-        Dim EffectFile As String = My.Resources.FleetEffects.ToString
-        ' Break the Effects down into separate lines
-        Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
-        ' Go through lines and break each one down
-        Dim EffectData() As String
-        ' Build the map
-        FleetEffectsMap.Clear()
-        Dim FleetEffectClassList As New ArrayList
-        Dim newEffect As New FleetEffect
-        Dim IDs() As String
-        For Each EffectLine As String In EffectLines
-            If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
-                EffectData = EffectLine.Split(",".ToCharArray)
-                newEffect = New FleetEffect
-                If FleetEffectsMap.Contains((EffectData(0))) = True Then
-                    FleetEffectClassList = CType(FleetEffectsMap(EffectData(0)), ArrayList)
-                Else
-                    FleetEffectClassList = New ArrayList
-                    FleetEffectsMap.Add(EffectData(0), FleetEffectClassList)
-                End If
-                newEffect.SkillID = CInt(EffectData(0))
-                newEffect.AffectingType = CInt(EffectData(1))
-                newEffect.AffectingID = CInt(EffectData(2))
-                newEffect.AffectedAtt = CInt(EffectData(3))
-                newEffect.AffectedType = CInt(EffectData(4))
-                If EffectData(5).Contains(";") = True Then
-                    IDs = EffectData(5).Split(";".ToCharArray)
-                    For Each ID As String In IDs
-                        newEffect.AffectedID.Add(ID)
-                    Next
-                Else
-                    newEffect.AffectedID.Add(EffectData(5))
-                End If
-                newEffect.StackNerf = CBool(EffectData(6))
-                newEffect.IsPerLevel = CBool(EffectData(7))
-                newEffect.CalcType = CInt(EffectData(8))
-                newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
-                FleetEffectClassList.Add(newEffect)
-            End If
-        Next
-    End Sub
     Public Shared Sub BuildImplantEffectsMap()
         ' Fetch the Effects list
         Dim EffectFile As String = My.Resources.ImplantEffects.ToString
@@ -408,83 +365,6 @@ Public Class Engine
                 Next
             End If
             BaseSkillEffectsTable = Engine.CloneSortedList(SkillEffectsTable)
-            eTime = Now
-            Dim dTime As TimeSpan = eTime - sTime
-        End If
-    End Sub
-    Public Shared Sub BuildFleetEffects(ByVal hShip As Ship)
-        '' Fetch the Effects list
-        'Dim EffectFile As String = My.Resources.FleetEffects.ToString
-        '' Break the Effects down into separate lines
-        'Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
-        '' Go through lines and break each one down
-        'Dim EffectData() As String
-        '' Build the map
-        'SkillEffectsTable = Engine.CloneSortedList(BaseSkillEffectsTable)
-        'Dim fEffect As New FinalEffect
-        'Dim fEffectList As New ArrayList
-        'Dim IDs() As String
-        'For Each EffectLine As String In EffectLines
-        '    If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
-        '        EffectData = EffectLine.Split(",".ToCharArray)
-
-        '        fEffect = New FinalEffect
-        '        fEffect.AffectedAtt = CInt(EffectData(3))
-        '        fEffect.AffectedType = CInt(EffectData(4))
-        '        If EffectData(5).Contains(";") = True Then
-        '            IDs = EffectData(5).Split(";".ToCharArray)
-        '            For Each ID As String In IDs
-        '                fEffect.AffectedID.Add(ID)
-        '            Next
-        '        Else
-        '            fEffect.AffectedID.Add(EffectData(5))
-        '        End If
-        '        fEffect.AffectedValue = CDbl(EffectData(9)) * CDbl(hShip.FleetSkills(EffectData(2)))
-        '        fEffect.StackNerf = CBool(EffectData(6))
-        '        fEffect.Cause = "Fleet Bonus (Level " & CDbl(hShip.FleetSkills(EffectData(2))) & ")"
-        '        fEffect.CalcType = CInt(EffectData(8))
-        '        fEffect.Status = CInt(EffectData(10))
-        '        If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
-        '            fEffectList = New ArrayList
-        '            SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
-        '        Else
-        '            fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
-        '        End If
-        '        fEffectList.Add(fEffect)
-
-        '    End If
-        'Next
-
-        If hShip IsNot Nothing Then
-            Dim sTime, eTime As Date
-            sTime = Now
-            ' Reset the SkillEffectsTable
-            SkillEffectsTable = Engine.CloneSortedList(BaseSkillEffectsTable)
-            Dim hSkill As New HQFSkill
-            Dim fEffect As New FinalEffect
-            Dim fEffectList As New ArrayList
-            'Dim FleetRoles As New ArrayList
-            For Each FleetRoles As ArrayList In FleetEffectsMap.Values
-                For Each chkEffect As FleetEffect In FleetRoles
-                    fEffect = New FinalEffect
-                    If hShip.FleetSkills.Contains(CStr(chkEffect.AffectingID)) = True Then
-                        fEffect.AffectedValue = chkEffect.Value * CDbl(hShip.FleetSkills(CStr(chkEffect.AffectingID)))
-                        fEffect.Cause = "Fleet Bonus (Level " & CDbl(hShip.FleetSkills(CStr(chkEffect.AffectingID))) & ")"
-                        fEffect.AffectedAtt = chkEffect.AffectedAtt
-                        fEffect.AffectedType = chkEffect.AffectedType
-                        fEffect.AffectedID = chkEffect.AffectedID
-                        fEffect.StackNerf = chkEffect.StackNerf
-                        fEffect.CalcType = chkEffect.CalcType
-                        If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
-                            fEffectList = New ArrayList
-                            SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
-                        Else
-                            fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
-                        End If
-                        fEffectList.Add(fEffect)
-                    End If
-                Next
-            Next
             eTime = Now
             Dim dTime As TimeSpan = eTime - sTime
         End If
@@ -826,9 +706,11 @@ Public Class Engine
                 Next
             End If
         Next
-        If newShip.FleetActive = True Then
-            Call Engine.BuildFleetEffects(newShip)
-        End If
+        For Each FleetObject As Object In newShip.FleetSlotCollection
+            If TypeOf FleetObject Is ShipModule Then
+                newShip.SlotCollection.Add(FleetObject)
+            End If
+        Next
         Return newShip
     End Function
 
@@ -2293,20 +2175,6 @@ End Class
 
 Public Class ShipEffect
     Public ShipID As Integer
-    Public AffectingType As Integer
-    Public AffectingID As Integer
-    Public AffectedAtt As Integer
-    Public AffectedType As Integer
-    Public AffectedID As New ArrayList
-    Public StackNerf As Boolean
-    Public IsPerLevel As Boolean
-    Public CalcType As Integer
-    Public Status As Integer
-    Public Value As Double
-End Class
-
-Public Class FleetEffect
-    Public SkillID As Integer
     Public AffectingType As Integer
     Public AffectingID As Integer
     Public AffectedAtt As Integer

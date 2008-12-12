@@ -79,6 +79,7 @@ Partial Class ShipSlotControl
         Me.cboFitting = New System.Windows.Forms.ComboBox
         Me.lblFitting = New System.Windows.Forms.Label
         Me.tabFleet = New System.Windows.Forms.TabPage
+        Me.lblFleetData = New System.Windows.Forms.Label
         Me.btnLeaveFleet = New System.Windows.Forms.Button
         Me.lblFleetStatus = New System.Windows.Forms.Label
         Me.lblFleetStatusLabel = New System.Windows.Forms.Label
@@ -98,7 +99,6 @@ Partial Class ShipSlotControl
         Me.btnToggleStorage = New System.Windows.Forms.Button
         Me.panelFunctions = New System.Windows.Forms.Panel
         Me.pbShipInfo = New System.Windows.Forms.PictureBox
-        Me.lblFleetData = New System.Windows.Forms.Label
         Me.ctxSlots.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -191,13 +191,13 @@ Partial Class ShipSlotControl
         '
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
+        Me.ctxSlots.Size = New System.Drawing.Size(128, 26)
         Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
         '
         'SplitContainer1
@@ -286,6 +286,8 @@ Partial Class ShipSlotControl
         '
         'pbDroneBay
         '
+        Me.pbDroneBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pbDroneBay.BackColor = System.Drawing.Color.Transparent
         Me.pbDroneBay.EndColor = System.Drawing.Color.LimeGreen
         Me.pbDroneBay.GlowColor = System.Drawing.Color.LightGreen
@@ -339,40 +341,40 @@ Partial Class ShipSlotControl
         '
         Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(167, 104)
+        Me.ctxBays.Size = New System.Drawing.Size(163, 104)
         '
         'ctxRemoveItem
         '
         Me.ctxRemoveItem.Name = "ctxRemoveItem"
-        Me.ctxRemoveItem.Size = New System.Drawing.Size(166, 22)
+        Me.ctxRemoveItem.Size = New System.Drawing.Size(162, 22)
         Me.ctxRemoveItem.Text = "Remove Item"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(163, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(159, 6)
         '
         'ctxAlterQuantity
         '
         Me.ctxAlterQuantity.Name = "ctxAlterQuantity"
-        Me.ctxAlterQuantity.Size = New System.Drawing.Size(166, 22)
+        Me.ctxAlterQuantity.Size = New System.Drawing.Size(162, 22)
         Me.ctxAlterQuantity.Text = "Alter Quantity"
         '
         'ctxSplitBatch
         '
         Me.ctxSplitBatch.Name = "ctxSplitBatch"
-        Me.ctxSplitBatch.Size = New System.Drawing.Size(166, 22)
+        Me.ctxSplitBatch.Size = New System.Drawing.Size(162, 22)
         Me.ctxSplitBatch.Text = "Split Batch"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(163, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(159, 6)
         '
         'ctxShowBayInfoItem
         '
         Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
-        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(166, 22)
+        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(162, 22)
         Me.ctxShowBayInfoItem.Text = "Show Drone Info"
         '
         'lblDroneBay
@@ -400,6 +402,8 @@ Partial Class ShipSlotControl
         '
         'pbCargoBay
         '
+        Me.pbCargoBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pbCargoBay.BackColor = System.Drawing.Color.Transparent
         Me.pbCargoBay.EndColor = System.Drawing.Color.LimeGreen
         Me.pbCargoBay.GlowColor = System.Drawing.Color.LightGreen
@@ -508,13 +512,13 @@ Partial Class ShipSlotControl
         '
         Me.ctxRemoteFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFittingToolStripMenuItem})
         Me.ctxRemoteFittings.Name = "ctxRemoteFittings"
-        Me.ctxRemoteFittings.Size = New System.Drawing.Size(180, 26)
+        Me.ctxRemoteFittings.Size = New System.Drawing.Size(179, 26)
         '
         'RemoveFittingToolStripMenuItem
         '
         Me.RemoveFittingToolStripMenuItem.Name = "RemoveFittingToolStripMenuItem"
         Me.RemoveFittingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
+        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
         Me.RemoveFittingToolStripMenuItem.Text = "Remove Fitting"
         '
         'lvwRemoteEffects
@@ -543,12 +547,12 @@ Partial Class ShipSlotControl
         '
         Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
         Me.ctxRemoteModule.Name = "ctxRemoteModule"
-        Me.ctxRemoteModule.Size = New System.Drawing.Size(135, 26)
+        Me.ctxRemoteModule.Size = New System.Drawing.Size(128, 26)
         '
         'mnuShowRemoteModInfo
         '
         Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
-        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(134, 22)
+        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(127, 22)
         Me.mnuShowRemoteModInfo.Text = "Show Info"
         '
         'btnUpdateRemoteEffects
@@ -620,6 +624,15 @@ Partial Class ShipSlotControl
         Me.tabFleet.TabIndex = 3
         Me.tabFleet.Text = "Fleet Effects"
         Me.tabFleet.UseVisualStyleBackColor = True
+        '
+        'lblFleetData
+        '
+        Me.lblFleetData.AutoSize = True
+        Me.lblFleetData.Location = New System.Drawing.Point(9, 133)
+        Me.lblFleetData.Name = "lblFleetData"
+        Me.lblFleetData.Size = New System.Drawing.Size(59, 13)
+        Me.lblFleetData.TabIndex = 24
+        Me.lblFleetData.Text = "Fleet Data:"
         '
         'btnLeaveFleet
         '
@@ -799,15 +812,6 @@ Partial Class ShipSlotControl
         Me.pbShipInfo.TabIndex = 0
         Me.pbShipInfo.TabStop = False
         '
-        'lblFleetData
-        '
-        Me.lblFleetData.AutoSize = True
-        Me.lblFleetData.Location = New System.Drawing.Point(9, 133)
-        Me.lblFleetData.Name = "lblFleetData"
-        Me.lblFleetData.Size = New System.Drawing.Size(59, 13)
-        Me.lblFleetData.TabIndex = 24
-        Me.lblFleetData.Text = "Fleet Data:"
-        '
         'ShipSlotControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -910,8 +914,6 @@ Partial Class ShipSlotControl
         fleetGroups.Add("Mining Foreman")
         fleetGroups.Add("Siege Warfare")
         fleetGroups.Add("Skirmish Warfare")
-        tabStorage.TabPages.Remove(tabRemote)
-        tabStorage.TabPages.Remove(tabFleet)
 
         ' Load the remote and fleet info
         Call LoadRemoteFleetInfo()
