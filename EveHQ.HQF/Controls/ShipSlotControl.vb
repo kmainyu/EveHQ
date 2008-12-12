@@ -209,28 +209,30 @@ Public Class ShipSlotControl
         Next
     End Sub
     Private Sub UpdateAllSlotLocations()
-        For slot As Integer = 1 To fittedShip.HiSlots
-            If fittedShip.HiSlot(slot) IsNot Nothing Then
-                UpdateSlotLocation(fittedShip.HiSlot(slot), slot)
-            End If
-        Next
-        For slot As Integer = 1 To fittedShip.MidSlots
-            If fittedShip.MidSlot(slot) IsNot Nothing Then
-                UpdateSlotLocation(fittedShip.MidSlot(slot), slot)
-            End If
-        Next
-        For slot As Integer = 1 To fittedShip.LowSlots
-            If fittedShip.LowSlot(slot) IsNot Nothing Then
-                UpdateSlotLocation(fittedShip.LowSlot(slot), slot)
-            End If
-        Next
-        For slot As Integer = 1 To fittedShip.RigSlots
-            If fittedShip.RigSlot(slot) IsNot Nothing Then
-                UpdateSlotLocation(fittedShip.RigSlot(slot), slot)
-            End If
-        Next
-        Call Me.RedrawCargoBayCapacity()
-        Call Me.RedrawDroneBayCapacity()
+        If fittedShip IsNot Nothing Then
+            For slot As Integer = 1 To fittedShip.HiSlots
+                If fittedShip.HiSlot(slot) IsNot Nothing Then
+                    UpdateSlotLocation(fittedShip.HiSlot(slot), slot)
+                End If
+            Next
+            For slot As Integer = 1 To fittedShip.MidSlots
+                If fittedShip.MidSlot(slot) IsNot Nothing Then
+                    UpdateSlotLocation(fittedShip.MidSlot(slot), slot)
+                End If
+            Next
+            For slot As Integer = 1 To fittedShip.LowSlots
+                If fittedShip.LowSlot(slot) IsNot Nothing Then
+                    UpdateSlotLocation(fittedShip.LowSlot(slot), slot)
+                End If
+            Next
+            For slot As Integer = 1 To fittedShip.RigSlots
+                If fittedShip.RigSlot(slot) IsNot Nothing Then
+                    UpdateSlotLocation(fittedShip.RigSlot(slot), slot)
+                End If
+            Next
+            Call Me.RedrawCargoBayCapacity()
+            Call Me.RedrawDroneBayCapacity()
+        End If
     End Sub
     Private Sub UpdateSlotLocation(ByVal oldMod As ShipModule, ByVal slotNo As Integer)
         If oldMod IsNot Nothing Then
