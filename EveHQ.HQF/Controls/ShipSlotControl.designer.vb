@@ -910,6 +910,8 @@ Partial Class ShipSlotControl
         fleetGroups.Add("Mining Foreman")
         fleetGroups.Add("Siege Warfare")
         fleetGroups.Add("Skirmish Warfare")
+        tabStorage.TabPages.Remove(tabRemote)
+        tabStorage.TabPages.Remove(tabFleet)
 
         ' Load the remote and fleet info
         Call LoadRemoteFleetInfo()
