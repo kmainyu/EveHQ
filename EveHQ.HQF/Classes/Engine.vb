@@ -150,6 +150,7 @@ Public Class Engine
                 newEffect.IsPerLevel = CBool(EffectData(7))
                 newEffect.CalcType = CInt(EffectData(8))
                 newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
+                newEffect.Status = CInt(EffectData(10))
                 shipEffectClassList.Add(newEffect)
             End If
         Next
@@ -336,32 +337,34 @@ Public Class Engine
             shipRoles = CType(ShipEffectsMap(hShip.ID), ArrayList)
             If shipRoles IsNot Nothing Then
                 For Each chkEffect As ShipEffect In shipRoles
-                    fEffect = New FinalEffect
-                    If hPilot.SkillSet.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))) = True Then
-                        hSkill = CType(hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), HQFSkill)
-                        If chkEffect.IsPerLevel = True Then
-                            fEffect.AffectedValue = chkEffect.Value * hSkill.Level
-                            fEffect.Cause = "Ship Bonus - " & hSkill.Name & " (Level " & hSkill.Level & ")"
+                    If chkEffect.Status <> 16 Then
+                        fEffect = New FinalEffect
+                        If hPilot.SkillSet.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))) = True Then
+                            hSkill = CType(hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), HQFSkill)
+                            If chkEffect.IsPerLevel = True Then
+                                fEffect.AffectedValue = chkEffect.Value * hSkill.Level
+                                fEffect.Cause = "Ship Bonus - " & hSkill.Name & " (Level " & hSkill.Level & ")"
+                            Else
+                                fEffect.AffectedValue = chkEffect.Value
+                                fEffect.Cause = "Ship Role - "
+                            End If
                         Else
                             fEffect.AffectedValue = chkEffect.Value
                             fEffect.Cause = "Ship Role - "
                         End If
-                    Else
-                        fEffect.AffectedValue = chkEffect.Value
-                        fEffect.Cause = "Ship Role - "
+                        fEffect.AffectedAtt = chkEffect.AffectedAtt
+                        fEffect.AffectedType = chkEffect.AffectedType
+                        fEffect.AffectedID = chkEffect.AffectedID
+                        fEffect.StackNerf = chkEffect.StackNerf
+                        fEffect.CalcType = chkEffect.CalcType
+                        If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                            fEffectList = New ArrayList
+                            SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                        Else
+                            fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                        End If
+                        fEffectList.Add(fEffect)
                     End If
-                    fEffect.AffectedAtt = chkEffect.AffectedAtt
-                    fEffect.AffectedType = chkEffect.AffectedType
-                    fEffect.AffectedID = chkEffect.AffectedID
-                    fEffect.StackNerf = chkEffect.StackNerf
-                    fEffect.CalcType = chkEffect.CalcType
-                    If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
-                        fEffectList = New ArrayList
-                        SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
-                    Else
-                        fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
-                    End If
-                    fEffectList.Add(fEffect)
                 Next
             End If
             BaseSkillEffectsTable = Engine.CloneSortedList(SkillEffectsTable)

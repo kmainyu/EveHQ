@@ -984,6 +984,11 @@
 833,1,20070,552,3,6,0,0,0,16,SkWL - Evasive Maneuvers
 833,1,11017,54,2,52;65,0,0,0,16,SkWL - Interdiction Maneuvers
 833,1,20408,567,2,46,0,0,0,16,SkWL - Rapid Deployment
+# FLEET SHIP EFFECTS,,,,,,,,,,
+55,1,-1,55,3,6,0,0,0,16,Gang Capacitor Recharge Rate
+265,1,-1,265,3,6,0,0,0,16,Gang Armor HP
+263,1,-1,263,3,6,0,0,0,16,Gang Shield HP
+552,1,-1,552,3,6,0,0,0,16,Gang Capacitor Recharge Rate
 # RIGS - ARMOR,,,,,,,,,,
 1138,2,773,37,3,6,0,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 984,2,773,267,3,6,1,0,2,15,Anti-EM Pump

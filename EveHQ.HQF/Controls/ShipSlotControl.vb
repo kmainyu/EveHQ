@@ -2382,6 +2382,9 @@ Public Class ShipSlotControl
             Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
             pShip = Nothing
             Dim SCModules As New ArrayList
+            ' Check the ship bonuses for further effects (Titans use this!)
+            SCModules = GetShipGangBonusModules(remoteShip, pPilot)
+            ' Check the modules for fleet effects
             For Each FleetModule As ShipModule In remoteShip.SlotCollection
                 If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
                     FleetModule.ModuleState = 16
@@ -2550,6 +2553,64 @@ Public Class ShipSlotControl
         Next
 
     End Sub
+
+    Private Function GetShipGangBonusModules(ByVal hShip As Ship, ByVal hPilot As HQFPilot) As ArrayList
+        Dim FleetModules As New ArrayList
+        If hShip IsNot Nothing Then
+            Dim shipRoles As New ArrayList
+            Dim hSkill As New HQFSkill
+            'Dim fEffect As New FinalEffect
+            'Dim fEffectList As New ArrayList
+            shipRoles = CType(Engine.ShipEffectsMap(hShip.ID), ArrayList)
+            If shipRoles IsNot Nothing Then
+                For Each chkEffect As ShipEffect In shipRoles
+                    If chkEffect.Status = 16 Then
+                        ' We have a gang bonus effect so create a dummy module for handling this
+
+                        Dim gangModule As New ShipModule
+                        gangModule.Name = hShip.Name & " Gang Bonus"
+                        gangModule.ID = "-1"
+                        gangModule.SlotNo = 0
+                        gangModule.ModuleState = 16
+                        If hPilot.SkillSet.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))) = True Then
+                            hSkill = CType(hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), HQFSkill)
+                            If chkEffect.IsPerLevel = True Then
+                                gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value * hSkill.Level)
+                                'fEffect.AffectedValue = chkEffect.Value * hSkill.Level
+                                'fEffect.Cause = "Ship Bonus - " & hSkill.Name & " (Level " & hSkill.Level & ")"
+                            Else
+                                gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value)
+                                'fEffect.AffectedValue = chkEffect.Value
+                                'fEffect.Cause = "Ship Role - "
+                            End If
+                        Else
+                            gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value)
+                            'fEffect.AffectedValue = chkEffect.Value
+                            'fEffect.Cause = "Ship Role - "
+                        End If
+                        FleetModules.Add(gangModule)
+
+                        'fEffect = New FinalEffect
+                        'fEffect.AffectedAtt = chkEffect.AffectedAtt
+                        'fEffect.AffectedType = chkEffect.AffectedType
+                        'fEffect.AffectedID = chkEffect.AffectedID
+                        'fEffect.StackNerf = chkEffect.StackNerf
+                        'fEffect.CalcType = chkEffect.CalcType
+                        'If Engine.SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                        '    fEffectList = New ArrayList
+                        '    Engine.SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                        'Else
+                        '    fEffectList = CType(Engine.SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                        'End If
+                        'fEffectList.Add(fEffect)
+
+                    End If
+                Next
+            End If
+        End If
+        Return FleetModules
+
+    End Function
 
 #End Region
 
