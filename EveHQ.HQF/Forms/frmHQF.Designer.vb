@@ -86,11 +86,6 @@ Partial Class frmHQF
         Me.lblModuleDisplayType = New System.Windows.Forms.Label
         Me.txtSearchModules = New System.Windows.Forms.TextBox
         Me.lblSearchModules = New System.Windows.Forms.Label
-        Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
-        Me.colModuleName = New System.Windows.Forms.ColumnHeader
-        Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
-        Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
-        Me.colModulePG = New System.Windows.Forms.ColumnHeader
         Me.ctxModuleList = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuShowModuleInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuSep1 = New System.Windows.Forms.ToolStripSeparator
@@ -180,6 +175,12 @@ Partial Class frmHQF
         Me.panelShipInfo = New System.Windows.Forms.Panel
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.Splitter2 = New System.Windows.Forms.Splitter
+        Me.panelPreview = New System.Windows.Forms.Panel
+        Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
+        Me.colModuleName = New System.Windows.Forms.ColumnHeader
+        Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
+        Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
+        Me.colModulePG = New System.Windows.Forms.ColumnHeader
         Me.ToolStrip1.SuspendLayout()
         Me.SplitContainerShip.Panel1.SuspendLayout()
         Me.SplitContainerShip.Panel2.SuspendLayout()
@@ -232,6 +233,7 @@ Partial Class frmHQF
         CType(Me.pbSpeed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbShip, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabFit.SuspendLayout()
+        Me.panelPreview.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStrip1
@@ -792,45 +794,6 @@ Partial Class frmHQF
         Me.lblSearchModules.TabIndex = 18
         Me.lblSearchModules.Text = "Search:"
         '
-        'lvwItems
-        '
-        Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG})
-        Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
-        Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwItems.FullRowSelect = True
-        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
-        Me.lvwItems.MultiSelect = False
-        Me.lvwItems.Name = "lvwItems"
-        Me.lvwItems.ShowItemToolTips = True
-        Me.lvwItems.Size = New System.Drawing.Size(287, 343)
-        Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvwItems.TabIndex = 0
-        Me.lvwItems.UseCompatibleStateImageBehavior = False
-        Me.lvwItems.View = System.Windows.Forms.View.Details
-        '
-        'colModuleName
-        '
-        Me.colModuleName.Text = "Module"
-        Me.colModuleName.Width = 150
-        '
-        'colModuleMetaType
-        '
-        Me.colModuleMetaType.Text = "Meta"
-        Me.colModuleMetaType.Width = 40
-        '
-        'colModuleCPU
-        '
-        Me.colModuleCPU.Text = "CPU"
-        Me.colModuleCPU.Width = 40
-        '
-        'colModulePG
-        '
-        Me.colModulePG.Text = "PG"
-        Me.colModulePG.Width = 40
-        '
         'ctxModuleList
         '
         Me.ctxModuleList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowModuleInfo, Me.mnuSep1, Me.mnuAddToFavourites_List, Me.mnuRemoveFromFavourites, Me.mnuSep2, Me.mnuShowModuleMarketGroup})
@@ -911,10 +874,7 @@ Partial Class frmHQF
         '
         'tabShipPreview
         '
-        Me.tabShipPreview.Controls.Add(Me.FlowLayoutPanel1)
-        Me.tabShipPreview.Controls.Add(Me.txtShipDescription)
-        Me.tabShipPreview.Controls.Add(Me.lblShipType)
-        Me.tabShipPreview.Controls.Add(Me.pbShip)
+        Me.tabShipPreview.Controls.Add(Me.panelPreview)
         Me.tabShipPreview.Location = New System.Drawing.Point(4, 22)
         Me.tabShipPreview.Name = "tabShipPreview"
         Me.tabShipPreview.Padding = New System.Windows.Forms.Padding(3)
@@ -930,16 +890,16 @@ Partial Class frmHQF
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.FlowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.FlowLayoutPanel1.Controls.Add(Me.GroupBox1)
+        Me.FlowLayoutPanel1.Controls.Add(Me.gbFitting)
         Me.FlowLayoutPanel1.Controls.Add(Me.gbShield)
         Me.FlowLayoutPanel1.Controls.Add(Me.gbArmor)
         Me.FlowLayoutPanel1.Controls.Add(Me.gbStructure)
         Me.FlowLayoutPanel1.Controls.Add(Me.gbStorage)
-        Me.FlowLayoutPanel1.Controls.Add(Me.gbFitting)
         Me.FlowLayoutPanel1.Controls.Add(Me.gbCapacitor)
         Me.FlowLayoutPanel1.Controls.Add(Me.gbSpeed)
-        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(6, 272)
+        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(3, 174)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(582, 367)
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(582, 485)
         Me.FlowLayoutPanel1.TabIndex = 18
         '
         'GroupBox1
@@ -1094,7 +1054,7 @@ Partial Class frmHQF
         Me.gbShield.Controls.Add(Me.pbShield)
         Me.gbShield.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbShield.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbShield.Location = New System.Drawing.Point(260, 3)
+        Me.gbShield.Location = New System.Drawing.Point(3, 135)
         Me.gbShield.Name = "gbShield"
         Me.gbShield.Size = New System.Drawing.Size(191, 113)
         Me.gbShield.TabIndex = 9
@@ -1221,7 +1181,7 @@ Partial Class frmHQF
         Me.gbArmor.Controls.Add(Me.pbArmor)
         Me.gbArmor.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbArmor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbArmor.Location = New System.Drawing.Point(3, 135)
+        Me.gbArmor.Location = New System.Drawing.Point(200, 135)
         Me.gbArmor.Name = "gbArmor"
         Me.gbArmor.Size = New System.Drawing.Size(191, 96)
         Me.gbArmor.TabIndex = 10
@@ -1338,7 +1298,7 @@ Partial Class frmHQF
         Me.gbStructure.Controls.Add(Me.pbStructure)
         Me.gbStructure.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbStructure.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbStructure.Location = New System.Drawing.Point(200, 135)
+        Me.gbStructure.Location = New System.Drawing.Point(3, 254)
         Me.gbStructure.Name = "gbStructure"
         Me.gbStructure.Size = New System.Drawing.Size(191, 96)
         Me.gbStructure.TabIndex = 11
@@ -1448,7 +1408,7 @@ Partial Class frmHQF
         Me.gbStorage.Controls.Add(Me.pbStorage)
         Me.gbStorage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbStorage.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbStorage.Location = New System.Drawing.Point(3, 237)
+        Me.gbStorage.Location = New System.Drawing.Point(200, 254)
         Me.gbStorage.Name = "gbStorage"
         Me.gbStorage.Size = New System.Drawing.Size(194, 75)
         Me.gbStorage.TabIndex = 14
@@ -1495,9 +1455,9 @@ Partial Class frmHQF
         Me.gbFitting.Controls.Add(Me.pbCPU)
         Me.gbFitting.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbFitting.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbFitting.Location = New System.Drawing.Point(203, 237)
+        Me.gbFitting.Location = New System.Drawing.Point(260, 3)
         Me.gbFitting.Name = "gbFitting"
-        Me.gbFitting.Size = New System.Drawing.Size(147, 120)
+        Me.gbFitting.Size = New System.Drawing.Size(147, 126)
         Me.gbFitting.TabIndex = 15
         Me.gbFitting.TabStop = False
         Me.gbFitting.Text = "Fitting"
@@ -1566,7 +1526,7 @@ Partial Class frmHQF
         Me.gbCapacitor.Controls.Add(Me.pbCapacitor)
         Me.gbCapacitor.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbCapacitor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCapacitor.Location = New System.Drawing.Point(356, 237)
+        Me.gbCapacitor.Location = New System.Drawing.Point(3, 356)
         Me.gbCapacitor.Name = "gbCapacitor"
         Me.gbCapacitor.Size = New System.Drawing.Size(191, 75)
         Me.gbCapacitor.TabIndex = 12
@@ -1611,7 +1571,7 @@ Partial Class frmHQF
         Me.gbSpeed.Controls.Add(Me.pbSpeed)
         Me.gbSpeed.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gbSpeed.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbSpeed.Location = New System.Drawing.Point(3, 363)
+        Me.gbSpeed.Location = New System.Drawing.Point(200, 356)
         Me.gbSpeed.Name = "gbSpeed"
         Me.gbSpeed.Size = New System.Drawing.Size(222, 75)
         Me.gbSpeed.TabIndex = 13
@@ -1662,14 +1622,14 @@ Partial Class frmHQF
         '
         Me.txtShipDescription.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtShipDescription.BackColor = System.Drawing.SystemColors.Window
+        Me.txtShipDescription.BackColor = System.Drawing.SystemColors.Control
         Me.txtShipDescription.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtShipDescription.Cursor = System.Windows.Forms.Cursors.Default
-        Me.txtShipDescription.Location = New System.Drawing.Point(141, 43)
+        Me.txtShipDescription.Location = New System.Drawing.Point(134, 40)
         Me.txtShipDescription.Name = "txtShipDescription"
         Me.txtShipDescription.ReadOnly = True
         Me.txtShipDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
-        Me.txtShipDescription.Size = New System.Drawing.Size(450, 223)
+        Me.txtShipDescription.Size = New System.Drawing.Size(451, 128)
         Me.txtShipDescription.TabIndex = 17
         Me.txtShipDescription.Text = "Ship Description"
         '
@@ -1678,15 +1638,15 @@ Partial Class frmHQF
         Me.lblShipType.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblShipType.Font = New System.Drawing.Font("Arial", 20.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShipType.Location = New System.Drawing.Point(6, 7)
+        Me.lblShipType.Location = New System.Drawing.Point(4, 4)
         Me.lblShipType.Name = "lblShipType"
-        Me.lblShipType.Size = New System.Drawing.Size(632, 33)
+        Me.lblShipType.Size = New System.Drawing.Size(581, 33)
         Me.lblShipType.TabIndex = 2
         Me.lblShipType.Text = "Ship Type"
         '
         'pbShip
         '
-        Me.pbShip.Location = New System.Drawing.Point(6, 43)
+        Me.pbShip.Location = New System.Drawing.Point(0, 40)
         Me.pbShip.Name = "pbShip"
         Me.pbShip.Size = New System.Drawing.Size(128, 128)
         Me.pbShip.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -1736,6 +1696,58 @@ Partial Class frmHQF
         Me.Splitter2.Size = New System.Drawing.Size(3, 696)
         Me.Splitter2.TabIndex = 8
         Me.Splitter2.TabStop = False
+        '
+        'panelPreview
+        '
+        Me.panelPreview.BackColor = System.Drawing.SystemColors.Control
+        Me.panelPreview.Controls.Add(Me.lblShipType)
+        Me.panelPreview.Controls.Add(Me.FlowLayoutPanel1)
+        Me.panelPreview.Controls.Add(Me.pbShip)
+        Me.panelPreview.Controls.Add(Me.txtShipDescription)
+        Me.panelPreview.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelPreview.Location = New System.Drawing.Point(3, 3)
+        Me.panelPreview.Name = "panelPreview"
+        Me.panelPreview.Size = New System.Drawing.Size(588, 664)
+        Me.panelPreview.TabIndex = 19
+        '
+        'lvwItems
+        '
+        Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG})
+        Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
+        Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwItems.FullRowSelect = True
+        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
+        Me.lvwItems.MultiSelect = False
+        Me.lvwItems.Name = "lvwItems"
+        Me.lvwItems.ShowItemToolTips = True
+        Me.lvwItems.Size = New System.Drawing.Size(287, 343)
+        Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwItems.TabIndex = 0
+        Me.lvwItems.UseCompatibleStateImageBehavior = False
+        Me.lvwItems.View = System.Windows.Forms.View.Details
+        '
+        'colModuleName
+        '
+        Me.colModuleName.Text = "Module"
+        Me.colModuleName.Width = 150
+        '
+        'colModuleMetaType
+        '
+        Me.colModuleMetaType.Text = "Meta"
+        Me.colModuleMetaType.Width = 40
+        '
+        'colModuleCPU
+        '
+        Me.colModuleCPU.Text = "CPU"
+        Me.colModuleCPU.Width = 40
+        '
+        'colModulePG
+        '
+        Me.colModulePG.Text = "PG"
+        Me.colModulePG.Width = 40
         '
         'frmHQF
         '
@@ -1815,6 +1827,7 @@ Partial Class frmHQF
         CType(Me.pbSpeed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbShip, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabFit.ResumeLayout(False)
+        Me.panelPreview.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1975,4 +1988,5 @@ Partial Class frmHQF
     Friend WithEvents mnuCompareFittings As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents btnImportEFT As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator7 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents panelPreview As System.Windows.Forms.Panel
 End Class

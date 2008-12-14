@@ -226,18 +226,23 @@
 927,1,22578,1082,2,546,0,1,0,0,Mining Upgrades
 # LEADERSHIP,,,,,,,,,,
 335,1,-20494,265,3,6,0,0,0,32,Armored Warfare
-275,1,11569,833,1,20069;20409;22227,0,1,5,0,Armored Warfare Specialist
+277,1,11569,833,1,20069;20409;22227,0,1,5,0,Armored Warfare Specialist
 #,1,24764,,,,0,1,0,0,Fleet Command
 309,1,-20495,76,3,6,0,0,0,32,Information Warfare
-275,1,3352,833,1,20406;20405;11052,0,1,5,0,Information Warfare Specialist
+277,1,3352,833,1,20405;11052,0,1,5,0,Information Warfare Specialist
+277,1,3352,1310,1,20406,0,1,5,0,Information Warfare Specialist
+277,1,3352,1320,1,20406,0,1,5,0,Information Warfare Specialist
+277,1,3352,1321,1,20406,0,1,5,0,Information Warfare Specialist
+277,1,3352,1322,1,20406,0,1,5,0,Information Warfare Specialist
+277,1,3352,1323,1,20406,0,1,5,0,Information Warfare Specialist
 566,1,-3348,564,3,6,0,0,0,32,Leadership
-275,1,22552,833,1,22553;22555;22557,0,1,5,0,Mining Director
+277,1,22552,833,1,22553;22555;22557,0,1,5,0,Mining Director
 434,1,-22536,77,4,1039,0,0,0,32,Mining Foreman
 434,1,-22536,77,4,1040,0,0,0,32,Mining Foreman
 337,1,-3350,263,3,6,0,0,0,32,Siege Warfare
-275,1,3351,833,1,20124;22228;20514,0,1,5,0,Siege Warfare Specialist
+277,1,3351,833,1,20124;22228;20514,0,1,5,0,Siege Warfare Specialist
 151,1,-3349,70,3,6,0,0,0,32,Skirmish Warfare
-275,1,11572,833,1,20070;11017;20408,0,1,5,0,Skirmish Warfare Specialist
+277,1,11572,833,1,20070;11017;20408,0,1,5,0,Skirmish Warfare Specialist
 850,1,3354,833,2,316,0,1,0,0,Warfare Link Specialist
 #,1,11574,,,,0,1,0,0,Wing Command
 # MECHANIC,,,,,,,,,,
@@ -947,12 +952,38 @@
 780,2,546,73,4,1038,0,0,0,14,Cycle Time
 1082,2,546,50,4,1038,0,0,0,14,CPU Penalty
 # GANG MODULES,,,,,,,,,,
-#833,1,20069,6,2,62;325,0,0,0,4,Armored Warfare Link - Damage Control
-#833,1,20409,267,3,6,1,0,2,4,Armored Warfare Link - Passive Defense
-#833,1,20409,268,3,6,1,0,2,4,Armored Warfare Link - Passive Defense
-#833,1,20409,269,3,6,1,0,2,4,Armored Warfare Link - Passive Defense
-#833,1,20409,270,3,6,1,0,2,4,Armored Warfare Link - Passive Defense
-#833,1,20409,270,3,6,1,0,0,4,Armored Warfare Link - Rapid Repair
+833,1,20069,6,2,62;325,0,0,0,16,Armored Warfare Link - Damage Control
+833,1,20409,267,3,6,0,0,2,16,Armored Warfare Link - Passive Defense
+833,1,20409,268,3,6,0,0,2,16,Armored Warfare Link - Passive Defense
+833,1,20409,269,3,6,0,0,2,16,Armored Warfare Link - Passive Defense
+833,1,20409,270,3,6,0,0,2,16,Armored Warfare Link - Passive Defense
+833,1,20409,73,2,62;325,0,0,0,16,Armored Warfare Link - Rapid Repair
+1320,1,20406,238,2,201,0,0,0,16,IWL - Electronic Superiority (ECM Strength)
+1320,1,20406,239,2,201,0,0,0,16,IWL - Electronic Superiority (ECM Strength)
+1320,1,20406,240,2,201,0,0,0,16,IWL - Electronic Superiority (ECM Strength)
+1320,1,20406,241,2,201,0,0,0,16,IWL - Electronic Superiority (ECM Strength)
+1321,1,20406,309,2,208,0,0,0,16,IWL - Electronic Superiority (Sensor Dampening)
+1321,1,20406,566,2,208,0,0,0,16,IWL - Electronic Superiority (Sensor Dampening)
+1322,1,20406,351,2,291,0,0,0,16,IWL - Electronic Superiority (Tracking Disruption)
+1322,1,20406,767,2,291,0,0,0,16,IWL - Electronic Superiority (Tracking Disruption)
+1323,1,20406,554,2,379,0,0,0,16,IWL - Electronic Superiority (Target Painters)
+833,1,20405,54,2,201;208;291;379,0,0,0,16,IWL - Recon Operation
+833,1,11052,211,3,6,0,0,0,16,IWL - Sensor Integrity (Grav Strength)
+833,1,11052,209,3,6,0,0,0,16,IWL - Sensor Integrity (Ladar Strength)
+833,1,11052,210,3,6,0,0,0,16,IWL - Sensor Integrity (Mag Strength)
+833,1,11052,208,3,6,0,0,0,16,IWL - Sensor Integrity (Radar Strength)
+833,1,22553,6,4,1037;1038;1039;1040,0,0,0,16,MFL - Harvester Capacitor Efficiency
+833,1,22557,73,4,1037;1038;1039;1040,0,0,0,16,MFL - Laser Optimization
+833,1,22555,54,4,1037;1038;1039;1040,0,0,0,16,MFL - Mining Laser Field Enhancement
+833,1,20124,73,2,40;41,0,0,0,16,SiWL - Active Shielding
+833,1,22228,6,2,40;41,0,0,0,16,SiWL - Shield Efficiency
+833,1,20514,271,3,6,0,0,2,16,SiWL - Shield Harmonizing
+833,1,20514,272,3,6,0,0,2,16,SiWL - Shield Harmonizing
+833,1,20514,273,3,6,0,0,2,16,SiWL - Shield Harmonizing
+833,1,20514,274,3,6,0,0,2,16,SiWL - Shield Harmonizing
+833,1,20070,552,3,6,0,0,0,16,SkWL - Evasive Maneuvers
+833,1,11017,54,2,52;65,0,0,0,16,SkWL - Interdiction Maneuvers
+833,1,20408,567,2,46,0,0,0,16,SkWL - Rapid Deployment
 # RIGS - ARMOR,,,,,,,,,,
 1138,2,773,37,3,6,0,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 984,2,773,267,3,6,1,0,2,15,Anti-EM Pump

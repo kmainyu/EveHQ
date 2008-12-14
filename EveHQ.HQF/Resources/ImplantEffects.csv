@@ -344,7 +344,7 @@
 #,1,,,,,,0,0,Learning,#Memory Augmentation - Standard
 434,1,20700,77,4,1039;464;1040,0,0,0,Industry,Michi's Excavation Augmentor
 434,1,22559,77,2,54;464;483,0,0,1,Industry,Mining Foreman Mindlink
-884,1,22559,434,1,22536,0,0,1,Gang,Mining Foreman Mindlink
+884,1,22559,833,1,22553;22555;22557,0,0,1,Gang,Mining Foreman Mindlink
 #,1,,,,,,0,0,Learning,#Neural Boost - Advanced
 #,1,,,,,,0,0,Learning,#Neural Boost - Basic
 #,1,,,,,,0,0,Learning,#Neural Boost - Elite

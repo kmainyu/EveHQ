@@ -28,6 +28,7 @@ Public Class ShipSlotControl
     Dim rigGroups As New ArrayList
     Dim remoteGroups As New ArrayList
     Dim fleetGroups As New ArrayList
+    Dim fleetSkills As New ArrayList
     Dim cancelSlotMenu As Boolean = False
 
 #Region "Property Variables"
@@ -2089,6 +2090,8 @@ Public Class ShipSlotControl
     End Sub
 #End Region
 
+#Region "Remote Effects"
+
     Private Sub btnUpdateRemoteEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateRemoteEffects.Click
         ' Check if we have any remote fittings and if so, generate the fitting
         If lvwRemoteFittings.Items.Count > 0 Then
@@ -2200,6 +2203,9 @@ Public Class ShipSlotControl
             e.Cancel = True
         End If
     End Sub
+#End Region
+
+#Region "Fleet Effects"
 
     Private Sub LoadRemoteFleetInfo()
         ' Load details into the combo boxes
@@ -2233,34 +2239,46 @@ Public Class ShipSlotControl
 
     Private Sub cboSCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSCPilot.SelectedIndexChanged
         ' Set the fleet status
-        lblFleetStatus.Text = "Active"
-        btnLeaveFleet.Enabled = True
-        lblSCShip.Enabled = True
-        cboSCShip.Enabled = True
         If cboSCPilot.SelectedIndex <> -1 Then
-            Call Me.CalculateFleetSkillEffects()
+            lblFleetStatus.Text = "Active"
+            btnLeaveFleet.Enabled = True
+            lblSCShip.Enabled = True
+            cboSCShip.Enabled = True
+            If cboSCShip.SelectedIndex = -1 Then
+                Call Me.CalculateFleetEffects()
+            Else
+                Call Me.UpdateSCShipEffects()
+            End If
         End If
     End Sub
 
     Private Sub cboWCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWCPilot.SelectedIndexChanged
         ' Set the fleet status
-        lblFleetStatus.Text = "Active"
-        btnLeaveFleet.Enabled = True
-        lblWCShip.Enabled = True
-        cboWCShip.Enabled = True
         If cboWCPilot.SelectedIndex <> -1 Then
-            Call Me.CalculateFleetSkillEffects()
+            lblFleetStatus.Text = "Active"
+            btnLeaveFleet.Enabled = True
+            lblWCShip.Enabled = True
+            cboWCShip.Enabled = True
+            If cboWCShip.SelectedIndex = -1 Then
+                Call Me.CalculateFleetEffects()
+            Else
+                Call Me.UpdateWCShipEffects()
+            End If
         End If
     End Sub
 
     Private Sub cboFCPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFCPilot.SelectedIndexChanged
         ' Set the fleet status
-        lblFleetStatus.Text = "Active"
-        btnLeaveFleet.Enabled = True
-        lblFCShip.Enabled = True
-        cboFCShip.Enabled = True
         If cboFCPilot.SelectedIndex <> -1 Then
-            Call Me.CalculateFleetSkillEffects()
+            lblFleetStatus.Text = "Active"
+            btnLeaveFleet.Enabled = True
+            lblFCShip.Enabled = True
+            cboFCShip.Enabled = True
+            If cboFCShip.SelectedIndex = -1 Then
+                Call Me.CalculateFleetEffects()
+            Else
+                Call Me.UpdateFCShipEffects()
+            End If
         End If
     End Sub
 
@@ -2270,9 +2288,10 @@ Public Class ShipSlotControl
         cboSCPilot.SelectedIndex = -1 : cboWCPilot.SelectedIndex = -1 : cboFCPilot.SelectedIndex = -1
         cboSCShip.Enabled = False : cboWCShip.Enabled = False : cboFCShip.Enabled = False
         lblSCShip.Enabled = False : lblWCShip.Enabled = False : lblFCShip.Enabled = False
+        cboSCShip.Tag = Nothing : cboWCShip.Tag = Nothing : cboFCShip.Tag = Nothing
         lblFleetStatus.Text = "Inactive"
         btnLeaveFleet.Enabled = False
-        Call Me.CalculateFleetSkillEffects()
+        Call Me.CalculateFleetEffects()
     End Sub
 
     Private Sub CalculateFleetSkillEffects()
@@ -2292,50 +2311,46 @@ Public Class ShipSlotControl
         If Commanders.Count > 0 Then
 
             ' Go through each commander and parse the skills
-            Dim FleetSkills(Commanders.Count + 1, fleetGroups.Count - 1) As String
+            Dim FleetSkill(Commanders.Count + 1, fleetSkills.Count - 1) As String
             Dim hPilot As New HQFPilot
             For Commander As Integer = 0 To Commanders.Count - 1
                 hPilot = CType(HQFPilotCollection.HQFPilots(Commanders(Commander)), HQFPilot)
-                For Skill As Integer = 0 To fleetGroups.Count - 1
-                    If hPilot.SkillSet.Contains(fleetGroups(Skill).ToString) Then
-                        FleetSkills(Commander + 1, Skill) = CType(hPilot.SkillSet(fleetGroups(Skill).ToString), HQFSkill).Level.ToString
-                        If FleetSkills(Commander + 1, Skill) >= FleetSkills(0, Skill) Then
-                            FleetSkills(0, Skill) = FleetSkills(Commander + 1, Skill)
-                            FleetSkills(Commanders.Count + 1, Skill) = hPilot.PilotName
+                For Skill As Integer = 0 To FleetSkills.Count - 1
+                    If hPilot.SkillSet.Contains(FleetSkills(Skill).ToString) Then
+                        FleetSkill(Commander + 1, Skill) = CType(hPilot.SkillSet(fleetSkills(Skill).ToString), HQFSkill).Level.ToString
+                        If FleetSkill(Commander + 1, Skill) >= FleetSkill(0, Skill) Then
+                            FleetSkill(0, Skill) = FleetSkill(Commander + 1, Skill)
+                            FleetSkill(Commanders.Count + 1, Skill) = hPilot.PilotName
                         End If
                     End If
                 Next
             Next
 
             ' Display the fleet skills data
-            lblFleetData.Text = ""
-            currentShip.FleetSlotCollection.Clear()
-            For skill As Integer = 0 To fleetGroups.Count - 1
-                If CInt(FleetSkills(0, skill)) > 0 Then
+            For skill As Integer = 0 To fleetSkills.Count - 1
+                If CInt(FleetSkill(0, skill)) > 0 Then
                     Dim fleetModule As New ShipModule
-                    fleetModule.Name = fleetGroups(skill).ToString & " (" & FleetSkills(Commanders.Count + 1, skill) & " - Level " & FleetSkills(0, skill) & ")"
-                    fleetModule.ID = "-" & EveHQ.Core.SkillFunctions.SkillNameToID(fleetGroups(skill).ToString)
+                    fleetModule.Name = fleetSkills(skill).ToString & " (" & FleetSkill(Commanders.Count + 1, skill) & " - Level " & FleetSkill(0, skill) & ")"
+                    fleetModule.ID = "-" & EveHQ.Core.SkillFunctions.SkillNameToID(fleetSkills(skill).ToString)
                     fleetModule.ModuleState = 32
-                    Select Case fleetGroups(skill).ToString
+                    Select Case fleetSkills(skill).ToString
                         Case "Armored Warfare"
-                            fleetModule.Attributes.Add("335", 2 * CInt(FleetSkills(0, skill)))
+                            fleetModule.Attributes.Add("335", 2 * CInt(FleetSkill(0, skill)))
                         Case "Information Warfare"
-                            fleetModule.Attributes.Add("309", 2 * CInt(FleetSkills(0, skill)))
+                            fleetModule.Attributes.Add("309", 2 * CInt(FleetSkill(0, skill)))
                         Case "Leadership"
-                            fleetModule.Attributes.Add("566", 2 * CInt(FleetSkills(0, skill)))
+                            fleetModule.Attributes.Add("566", 2 * CInt(FleetSkill(0, skill)))
                         Case "Mining Foreman"
-                            fleetModule.Attributes.Add("434", 2 * CInt(FleetSkills(0, skill)))
+                            fleetModule.Attributes.Add("434", 2 * CInt(FleetSkill(0, skill)))
                         Case "Siege Warfare"
-                            fleetModule.Attributes.Add("337", 2 * CInt(FleetSkills(0, skill)))
+                            fleetModule.Attributes.Add("337", 2 * CInt(FleetSkill(0, skill)))
                         Case "Skirmish Warfare"
-                            fleetModule.Attributes.Add("151", 2 * CInt(FleetSkills(0, skill)))
+                            fleetModule.Attributes.Add("151", 2 * CInt(FleetSkill(0, skill)))
                     End Select
                     currentShip.FleetSlotCollection.Add(fleetModule)
                 End If
-                lblFleetData.Text &= fleetGroups(skill).ToString & " (" & FleetSkills(Commanders.Count + 1, skill) & " - Level " & FleetSkills(0, skill) & ")" & ControlChars.CrLf
             Next
         Else
-            lblFleetData.Text = "Fleet Data:"
             currentShip.FleetSlotCollection.Clear()
         End If
 
@@ -2344,4 +2359,199 @@ Public Class ShipSlotControl
         Call Me.UpdateAllSlotLocations()
 
     End Sub
+
+    Private Sub cboSCShip_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSCShip.SelectedIndexChanged
+        Call UpdateSCShipEffects()
+    End Sub
+    Private Sub cboWCShip_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWCShip.SelectedIndexChanged
+        Call UpdateWCShipEffects()
+    End Sub
+    Private Sub cboFCShip_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFCShip.SelectedIndexChanged
+        Call UpdateFCShipEffects()
+    End Sub
+    Private Sub UpdateSCShipEffects()
+        If cboSCShip.SelectedIndex <> -1 Then
+            ' Let's try and generate a fitting and get some module info
+            Dim shipFit As String = cboSCShip.SelectedItem.ToString
+            Dim fittingSep As Integer = shipFit.IndexOf(", ")
+            Dim shipName As String = shipFit.Substring(0, fittingSep)
+            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+            Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+            pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
+            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboSCPilot.SelectedItem.ToString), HQFPilot)
+            Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
+            pShip = Nothing
+            Dim SCModules As New ArrayList
+            For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                    FleetModule.ModuleState = 16
+                    FleetModule.SlotNo = 0
+                    SCModules.Add(FleetModule)
+                End If
+            Next
+            cboSCShip.Tag = SCModules
+            ' Update the mapping effects back to the current pilot
+            currentInfo.BuildMethod = BuildType.BuildEffectsMaps
+            Call Me.CalculateFleetEffects()
+        End If
+    End Sub
+
+    Private Sub UpdateWCShipEffects()
+        If cboWCShip.SelectedIndex <> -1 Then
+            ' Let's try and generate a fitting and get some module info
+            Dim shipFit As String = cboWCShip.SelectedItem.ToString
+            Dim fittingSep As Integer = shipFit.IndexOf(", ")
+            Dim shipName As String = shipFit.Substring(0, fittingSep)
+            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+            Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+            pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
+            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboWCPilot.SelectedItem.ToString), HQFPilot)
+            Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
+            pShip = Nothing
+            Dim WCModules As New ArrayList
+            For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                    FleetModule.ModuleState = 16
+                    FleetModule.SlotNo = 0
+                    WCModules.Add(FleetModule)
+                End If
+            Next
+            cboWCShip.Tag = WCModules
+            ' Update the mapping effects back to the current pilot
+            currentInfo.BuildMethod = BuildType.BuildEffectsMaps
+            Call Me.CalculateFleetEffects()
+        End If
+    End Sub
+
+    Private Sub UpdateFCShipEffects()
+        If cboFCShip.SelectedIndex <> -1 Then
+            ' Let's try and generate a fitting and get some module info
+            Dim shipFit As String = cboFCShip.SelectedItem.ToString
+            Dim fittingSep As Integer = shipFit.IndexOf(", ")
+            Dim shipName As String = shipFit.Substring(0, fittingSep)
+            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+            Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+            pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
+            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboFCPilot.SelectedItem.ToString), HQFPilot)
+            Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
+            pShip = Nothing
+            Dim FCModules As New ArrayList
+            For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                    FleetModule.ModuleState = 16
+                    FleetModule.SlotNo = 0
+                    FCModules.Add(FleetModule)
+                End If
+            Next
+            cboFCShip.Tag = FCModules
+            ' Update the mapping effects back to the current pilot
+            currentInfo.BuildMethod = BuildType.BuildEffectsMaps
+            Call Me.CalculateFleetEffects()
+        End If
+    End Sub
+
+    Private Sub CalculateFleetEffects()
+        currentShip.FleetSlotCollection.Clear()
+        Call Me.CalculateFleetSkillEffects()
+        Call Me.CalculateFleetModuleEffects()
+        currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+        Call Me.UpdateAllSlotLocations()
+    End Sub
+
+    Private Sub CalculateFleetModuleEffects()
+
+        Dim FleetCollection As New SortedList
+
+        If cboSCShip.Tag IsNot Nothing Then
+            Dim SCModules As ArrayList = CType(cboSCShip.Tag, ArrayList)
+            For Each fleetModule As ShipModule In SCModules
+                If FleetCollection.ContainsKey(fleetModule.Name) = False Then
+                    ' Add it to the Fleet Collection
+                    FleetCollection.Add(fleetModule.Name, fleetModule)
+                Else
+                    ' See if this module improves the fleet capabilities
+                    Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
+                    If compareModule.Attributes.ContainsKey("833") = True Then
+                        ' Contains the Command Bonus attribute
+                        If Math.Abs(CDbl(fleetModule.Attributes("833"))) >= Math.Abs(CDbl(compareModule.Attributes("833"))) Then
+                            FleetCollection(fleetModule.Name) = fleetModule
+                        End If
+                    Else
+                        ' Contains the ECM Command Bonus attribute
+                        If compareModule.Attributes.ContainsKey("1320") = True Then
+                            ' Contains the Command Bonus attribute
+                            If Math.Abs(CDbl(fleetModule.Attributes("1320"))) >= Math.Abs(CDbl(compareModule.Attributes("1320"))) Then
+                                FleetCollection(fleetModule.Name) = fleetModule
+                            End If
+                        End If
+                    End If
+                End If
+
+            Next
+        End If
+
+        If cboWCShip.Tag IsNot Nothing Then
+            Dim WCModules As ArrayList = CType(cboWCShip.Tag, ArrayList)
+            For Each fleetModule As ShipModule In WCModules
+                If FleetCollection.ContainsKey(fleetModule.Name) = False Then
+                    ' Add it to the Fleet Collection
+                    FleetCollection.Add(fleetModule.Name, fleetModule)
+                Else
+                    ' See if this module improves the fleet capabilities
+                    Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
+                    If compareModule.Attributes.ContainsKey("833") = True Then
+                        ' Contains the Command Bonus attribute
+                        If Math.Abs(CDbl(fleetModule.Attributes("833"))) >= Math.Abs(CDbl(compareModule.Attributes("833"))) Then
+                            FleetCollection(fleetModule.Name) = fleetModule
+                        End If
+                    Else
+                        ' Contains the ECM Command Bonus attribute
+                        If compareModule.Attributes.ContainsKey("1320") = True Then
+                            ' Contains the Command Bonus attribute
+                            If Math.Abs(CDbl(fleetModule.Attributes("1320"))) >= Math.Abs(CDbl(compareModule.Attributes("1320"))) Then
+                                FleetCollection(fleetModule.Name) = fleetModule
+                            End If
+                        End If
+                    End If
+                End If
+            Next
+        End If
+
+        If cboFCShip.Tag IsNot Nothing Then
+            Dim FCModules As ArrayList = CType(cboFCShip.Tag, ArrayList)
+            For Each fleetModule As ShipModule In FCModules
+                If FleetCollection.ContainsKey(fleetModule.Name) = False Then
+                    ' Add it to the Fleet Collection
+                    FleetCollection.Add(fleetModule.Name, fleetModule)
+                Else
+                    ' See if this module improves the fleet capabilities
+                    Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
+                    If compareModule.Attributes.ContainsKey("833") = True Then
+                        ' Contains the Command Bonus attribute
+                        If Math.Abs(CDbl(fleetModule.Attributes("833"))) >= Math.Abs(CDbl(compareModule.Attributes("833"))) Then
+                            FleetCollection(fleetModule.Name) = fleetModule
+                        End If
+                    Else
+                        ' Contains the ECM Command Bonus attribute
+                        If compareModule.Attributes.ContainsKey("1320") = True Then
+                            ' Contains the Command Bonus attribute
+                            If Math.Abs(CDbl(fleetModule.Attributes("1320"))) >= Math.Abs(CDbl(compareModule.Attributes("1320"))) Then
+                                FleetCollection(fleetModule.Name) = fleetModule
+                            End If
+                        End If
+                    End If
+                End If
+            Next
+        End If
+
+        For Each FleetModule As ShipModule In FleetCollection.Values
+            currentShip.FleetSlotCollection.Add(FleetModule)
+        Next
+
+    End Sub
+
+#End Region
+
+   
 End Class
