@@ -126,10 +126,14 @@ Public Class ShipSlotControl
         UpdateAll = False
         currentInfo.ShipType = currentShip
         currentInfo.BuildMethod = BuildType.BuildEverything
-        Me.UpdateAllSlotLocations()
-        Me.UpdateShipDetails()
-        Me.RedrawDroneBay()
-        Me.RedrawCargoBay()
+        If fittedShip IsNot Nothing Then
+            Me.UpdateAllSlotLocations()
+            Me.UpdateShipDetails()
+            Me.RedrawDroneBay()
+            Me.RedrawCargoBay()
+        Else
+            MessageBox.Show("The fitting for " & cShipFit & " failed to produce a calculated setup.", "Error Calculating Fitting", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
     End Sub
     Private Sub UpdateShipDetails()
         If UpdateAll = False Then
