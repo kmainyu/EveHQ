@@ -2241,23 +2241,15 @@ Public Class frmAssets
         Dim itemID As String = mnuItemName.Tag.ToString
         Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(PluginName), Core.PlugIn)
         If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
-            Dim PluginFile As String = myPlugIn.FileName
-            Dim PluginType As String = myPlugIn.FileType
-            Dim runPlugIn As EveHQ.Core.IEveHQPlugIn
             Dim mainTab As TabControl = CType(EveHQ.Core.HQ.MainForm.Controls("tabMDI"), TabControl)
-            If mainTab.TabPages.ContainsKey(PluginName) = False Then
-                Dim myAssembly As Reflection.Assembly = Reflection.Assembly.LoadFrom(PluginFile)
-                Dim t As Type = myAssembly.GetType(PluginType)
-                myPlugIn.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
-                runPlugIn = myPlugIn.Instance
-                Dim plugInForm As Form = runPlugIn.RunEveHQPlugIn
+            If mainTab.TabPages.ContainsKey(PluginName) = True Then
+                mainTab.SelectTab(PluginName)
+            Else
+                Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
                 plugInForm.MdiParent = EveHQ.Core.HQ.MainForm
                 plugInForm.Show()
-            Else
-                runPlugIn = myPlugIn.Instance
-                mainTab.SelectTab(PluginName)
             End If
-            runPlugIn.SetPlugInData = itemID
+            myPlugIn.Instance.SetPlugInData = itemID
         Else
             ' Plug-in is not loaded so best not try to access it!
             Dim msg As String = ""

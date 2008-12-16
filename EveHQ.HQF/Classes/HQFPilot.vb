@@ -57,6 +57,17 @@ Imports System.IO
         End Get
         Set(ByVal value As String)
             cImplantName(index) = value
+            ' Check if we can set the implants from the group listing
+            If index = 0 Then
+                If value <> "*Custom*" Then
+                    If HQF.Implants.implantGroups.ContainsKey(value) Then
+                        Dim ImplantSet As ImplantGroup = CType(HQF.Implants.implantGroups(value), ImplantGroup)
+                        For slot As Integer = 1 To 10
+                            cImplantName(slot) = ImplantSet.ImplantName(slot)
+                        Next
+                    End If
+                End If
+            End If
         End Set
     End Property
 

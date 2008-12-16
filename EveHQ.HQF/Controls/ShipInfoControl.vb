@@ -65,16 +65,19 @@ Public Class ShipInfoControl
                     Select Case cBuildMethod
                         Case BuildType.BuildEverything
                             Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+                            shipPilot.ImplantName(0) = cboImplants.SelectedItem.ToString
                             fittedShip = Engine.ApplyFitting(CType(currentShip.Clone, Ship), shipPilot, cBuildMethod)
                             Call UpdateInfoDisplay()
                             currentSlot.ShipFitted = fittedShip
                         Case BuildType.BuildFromEffectsMaps
                             Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+                            shipPilot.ImplantName(0) = cboImplants.SelectedItem.ToString
                             fittedShip = Engine.ApplyFitting(CType(currentShip.Clone, Ship), shipPilot, cBuildMethod)
                             Call UpdateInfoDisplay()
                             currentSlot.ShipFitted = fittedShip
                         Case BuildType.BuildEffectsMaps
                             Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+                            shipPilot.ImplantName(0) = cboImplants.SelectedItem.ToString
                             Engine.ApplyFitting(CType(currentShip.Clone, Ship), shipPilot, cBuildMethod)
                     End Select
                 End If
@@ -325,9 +328,30 @@ Public Class ShipInfoControl
             End If
         End If
 
+        ' Add the current list of implants to the combobox
+        Call Me.UpdateImplantList()
+
         Call Me.LoadProfiles()
         ' Set the default damage profile
         cboDamageProfiles.SelectedItem = "<Omni-Damage>"
+    End Sub
+
+    Public Sub UpdateImplantList()
+        cboImplants.Tag = "Updating"
+        Dim oldImplants As String
+        Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+        oldImplants = shipPilot.ImplantName(0)
+        cboImplants.BeginUpdate()
+        cboImplants.Items.Clear()
+        cboImplants.Items.Add("*Custom*")
+        For Each cImplantSet As String In HQF.Implants.implantGroups.Keys
+            cboImplants.Items.Add(cImplantSet)
+        Next
+        If cboImplants.Items.Contains(oldImplants) Then
+            cboImplants.SelectedItem = oldImplants
+        End If
+        cboImplants.EndUpdate()
+        cboImplants.Tag = Nothing
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
@@ -337,11 +361,39 @@ Public Class ShipInfoControl
         If currentSlot IsNot Nothing Then
             currentSlot.UpdateAllSlots = True
         End If
+        cboImplants.Tag = "Updating"
+        cboImplants.SelectedItem = shipPilot.ImplantName(0)
+        cboImplants.Tag = Nothing
         BuildMethod = BuildType.BuildEverything
         If currentSlot IsNot Nothing Then
             currentSlot.UpdateAllSlots = False
         End If
         HQFEvents.StartUpdateModuleList = True
+    End Sub
+
+    Private Sub cboImplants_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboImplants.SelectedIndexChanged
+        Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+        ' Update the pilot's implants?
+        'shipPilot.ImplantName(0) = cboImplants.SelectedItem.ToString
+        Dim implantList As New System.Text.StringBuilder
+        If cboImplants.SelectedItem.ToString <> "*Custom*" Then
+            Dim currentImplantGroup As ImplantGroup = CType(Implants.implantGroups(cboImplants.SelectedItem.ToString), ImplantGroup)
+            For imp As Integer = 1 To 10
+                implantList.AppendLine("Slot " & imp.ToString & ": " & currentImplantGroup.ImplantName(imp))
+            Next
+        Else
+            For imp As Integer = 1 To 10
+                implantList.AppendLine("Slot " & imp.ToString & ": " & shipPilot.ImplantName(imp))
+            Next
+        End If
+        If cboImplants.Tag Is Nothing Then
+            BuildMethod = BuildType.BuildEverything
+            If currentSlot IsNot Nothing Then
+                currentSlot.UpdateAllSlots = False
+            End If
+            HQFEvents.StartUpdateModuleList = True
+        End If
+        ToolTip1.SetToolTip(cboImplants, implantList.ToString)
     End Sub
 
     Private Sub btnTargetSpeed_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTargetSpeed.Click
@@ -693,4 +745,6 @@ Public Class ShipInfoControl
     End Sub
 
 #End Region
+
+   
 End Class

@@ -50,7 +50,7 @@ Public Class frmHQFSettings
     Private Sub frmSettings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Call Me.UpdateGeneralOptions()
         Call Me.UpdateSlotFormatOptions()
-        Call Me.UpdateRechargeRateOptions()
+        Call Me.UpdateConstantsOptions()
 
         If Me.Tag IsNot Nothing Then
             If Me.Tag.ToString = "" Then
@@ -343,7 +343,7 @@ Public Class frmHQFSettings
 #End Region
 
 #Region "Recharge Rate Options"
-    Private Sub UpdateRechargeRateOptions()
+    Private Sub UpdateConstantsOptions()
         If HQF.Settings.HQFSettings.CapRechargeConstant > nudCapRecharge.Maximum Then
             HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Maximum
         ElseIf HQF.Settings.HQFSettings.CapRechargeConstant < nudCapRecharge.Minimum Then
@@ -354,23 +354,37 @@ Public Class frmHQFSettings
         ElseIf HQF.Settings.HQFSettings.ShieldRechargeConstant < nudShieldRecharge.Minimum Then
             HQF.Settings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Minimum
         End If
+        If HQF.Settings.HQFSettings.MissileRangeConstant > nudMissileRange.Maximum Then
+            HQF.Settings.HQFSettings.MissileRangeConstant = nudMissileRange.Maximum
+        ElseIf HQF.Settings.HQFSettings.MissileRangeConstant < nudMissileRange.Minimum Then
+            HQF.Settings.HQFSettings.MissileRangeConstant = nudMissileRange.Minimum
+        End If
         nudCapRecharge.Value = CDec(HQF.Settings.HQFSettings.CapRechargeConstant)
         nudShieldRecharge.Value = CDec(HQF.Settings.HQFSettings.ShieldRechargeConstant)
-    End Sub
-    Private Sub nudCapRecharge_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudCapRecharge.Click
-        HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Value
-        forceUpdate = True
+        nudMissileRange.Value = CDec(HQF.Settings.HQFSettings.MissileRangeConstant)
     End Sub
     Private Sub nudCapRecharge_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudCapRecharge.HandleDestroyed
         HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Value
     End Sub
-    Private Sub nudShieldRecharge_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudShieldRecharge.Click
-        HQF.Settings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Value
-        forceUpdate = True
-    End Sub
     Private Sub nudShieldRecharge_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudShieldRecharge.HandleDestroyed
         HQF.Settings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Value
     End Sub
+    Private Sub nudMissileRange_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudMissileRange.HandleDestroyed
+        HQF.Settings.HQFSettings.MissileRangeConstant = nudMissileRange.Value
+    End Sub
+    Private Sub nudCapRecharge_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudCapRecharge.ValueChanged
+        HQF.Settings.HQFSettings.CapRechargeConstant = CDbl(nudCapRecharge.Value)
+        forceUpdate = True
+    End Sub
+    Private Sub nudShieldRecharge_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudShieldRecharge.ValueChanged
+        HQF.Settings.HQFSettings.ShieldRechargeConstant = CDbl(nudShieldRecharge.Value)
+        forceUpdate = True
+    End Sub
+    Private Sub nudMissileRange_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMissileRange.ValueChanged
+        HQF.Settings.HQFSettings.MissileRangeConstant = CDbl(nudMissileRange.Value)
+        forceUpdate = True
+    End Sub
+
 #End Region
 
 #Region "Data Checking Routines"
@@ -503,4 +517,7 @@ Public Class frmHQFSettings
             MessageBox.Show("Error writing the HQF Ship Effects file to disk: " & ex.Message.ToString, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+   
+   
 End Class

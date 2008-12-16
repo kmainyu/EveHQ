@@ -863,7 +863,9 @@ Public Class frmItemBrowser
                 activities(Val(eveData.Tables(0).Rows(row).Item("activityID"))) = True
             Next
             ' Then create sub tabs :)
-            Me.tabMaterial.TabPages.Clear()
+            If Me.tabMaterial.IsDisposed = False Then
+                Me.tabMaterial.TabPages.Clear()
+            End If
             For activity As Integer = 1 To ActivityCount
                 If activities(activity) = True Then
                     Me.tabMaterial.TabPages.Add(tabPagesM(activity))

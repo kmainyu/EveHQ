@@ -56,7 +56,16 @@ Public Class Settings
     Private cModPanelWidth As Integer = 300
     Private cShipSplitterWidth As Integer = 300
     Private cModSplitterWidth As Integer = 300
+    Private cMissileRangeConstant As Double = 1.0
 
+    Public Property MissileRangeConstant() As Double
+        Get
+            Return cMissileRangeConstant
+        End Get
+        Set(ByVal value As Double)
+            cMissileRangeConstant = value
+        End Set
+    End Property
     Public Property ModSplitterWidth() As Integer
         Get
             Return cModSplitterWidth
@@ -269,6 +278,7 @@ Public Class Settings
         XMLS &= Chr(9) & Chr(9) & "<modPanelWidth>" & HQFSettings.ModPanelWidth & "</modPanelWidth>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<shipSplitterWidth>" & HQFSettings.ShipSplitterWidth & "</shipSplitterWidth>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<modSplitterWidth>" & HQFSettings.ModSplitterWidth & "</modSplitterWidth>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<missileRangeConst>" & HQFSettings.MissileRangeConstant & "</missileRangeConst>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the slot layout
@@ -351,6 +361,7 @@ Public Class Settings
                         HQFSettings.ModPanelWidth = CInt(settingSettings.ChildNodes(14).InnerText)
                         HQFSettings.ShipSplitterWidth = CInt(settingSettings.ChildNodes(15).InnerText)
                         HQFSettings.ModSplitterWidth = CInt(settingSettings.ChildNodes(16).InnerText)
+                        HQFSettings.MissileRangeConstant = CDbl(settingSettings.ChildNodes(17).InnerText)
                     End If
                 End If
             Catch

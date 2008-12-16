@@ -1718,7 +1718,7 @@ Public Class Engine
                                         newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
                                         newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
                                         If cModule.LoadedCharge IsNot Nothing Then
-                                            cModule.Attributes("54") = CDbl(cModule.LoadedCharge.Attributes("37")) * CDbl(cModule.LoadedCharge.Attributes("281"))
+                                            cModule.Attributes("54") = CDbl(cModule.LoadedCharge.Attributes("37")) * CDbl(cModule.LoadedCharge.Attributes("281")) * HQF.Settings.HQFSettings.MissileRangeConstant
                                         End If
                                     End If
                                     cModule.Attributes("10051") = CDbl(cModule.LoadedCharge.Attributes("114")) * dgmMod

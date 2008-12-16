@@ -19,9 +19,10 @@ Partial Public Class frmHQFSettings
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("General")
-        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data and Cache")
-        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Recharge Rates")
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Calculation Constants")
+        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data and Cache")
         Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Layout")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHQFSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
@@ -51,19 +52,25 @@ Partial Public Class frmHQFSettings
         Me.colSlotColumns = New System.Windows.Forms.ColumnHeader
         Me.lblSlotColumns = New System.Windows.Forms.Label
         Me.gbCache = New System.Windows.Forms.GroupBox
+        Me.btnExportShipBonuses = New System.Windows.Forms.Button
+        Me.btnExportImplantEffects = New System.Windows.Forms.Button
+        Me.btnExportEffects = New System.Windows.Forms.Button
         Me.btnCheckAttributeIntFloat = New System.Windows.Forms.Button
         Me.btnCheckModuleMetaData = New System.Windows.Forms.Button
         Me.btnDeleteAllFittings = New System.Windows.Forms.Button
         Me.btnCheckData = New System.Windows.Forms.Button
         Me.btnDeleteCache = New System.Windows.Forms.Button
-        Me.gbRechargeRates = New System.Windows.Forms.GroupBox
+        Me.gbConstants = New System.Windows.Forms.GroupBox
+        Me.lblCapRechargeUnit = New System.Windows.Forms.Label
+        Me.lblShieldRechargeUnit = New System.Windows.Forms.Label
+        Me.lblMissileRangeUnit = New System.Windows.Forms.Label
+        Me.nudMissileRange = New System.Windows.Forms.NumericUpDown
+        Me.lblMissileRange = New System.Windows.Forms.Label
         Me.nudShieldRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblShieldRecharge = New System.Windows.Forms.Label
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
-        Me.btnExportEffects = New System.Windows.Forms.Button
-        Me.btnExportImplantEffects = New System.Windows.Forms.Button
-        Me.btnExportShipBonuses = New System.Windows.Forms.Button
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,7 +78,8 @@ Partial Public Class frmHQFSettings
         CType(Me.pbRigSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbSlotFormat.SuspendLayout()
         Me.gbCache.SuspendLayout()
-        Me.gbRechargeRates.SuspendLayout()
+        Me.gbConstants.SuspendLayout()
+        CType(Me.nudMissileRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -170,10 +178,10 @@ Partial Public Class frmHQFSettings
         Me.tvwSettings.Name = "tvwSettings"
         TreeNode1.Name = "nodeGeneral"
         TreeNode1.Text = "General"
-        TreeNode2.Name = "nodeCache"
-        TreeNode2.Text = "Data and Cache"
-        TreeNode3.Name = "nodeRechargeRates"
-        TreeNode3.Text = "Recharge Rates"
+        TreeNode2.Name = "nodeConstants"
+        TreeNode2.Text = "Calculation Constants"
+        TreeNode3.Name = "nodeCache"
+        TreeNode3.Text = "Data and Cache"
         TreeNode4.Name = "nodeSlotFormat"
         TreeNode4.Text = "Slot Layout"
         Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4})
@@ -333,13 +341,40 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
         Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
-        Me.gbCache.Location = New System.Drawing.Point(194, 12)
+        Me.gbCache.Location = New System.Drawing.Point(465, 224)
         Me.gbCache.Name = "gbCache"
-        Me.gbCache.Size = New System.Drawing.Size(498, 497)
+        Me.gbCache.Size = New System.Drawing.Size(179, 77)
         Me.gbCache.TabIndex = 29
         Me.gbCache.TabStop = False
         Me.gbCache.Text = "Data and Cache Settings"
         Me.gbCache.Visible = False
+        '
+        'btnExportShipBonuses
+        '
+        Me.btnExportShipBonuses.Location = New System.Drawing.Point(36, 170)
+        Me.btnExportShipBonuses.Name = "btnExportShipBonuses"
+        Me.btnExportShipBonuses.Size = New System.Drawing.Size(137, 23)
+        Me.btnExportShipBonuses.TabIndex = 8
+        Me.btnExportShipBonuses.Text = "Export Ship Bonuses"
+        Me.btnExportShipBonuses.UseVisualStyleBackColor = True
+        '
+        'btnExportImplantEffects
+        '
+        Me.btnExportImplantEffects.Location = New System.Drawing.Point(36, 141)
+        Me.btnExportImplantEffects.Name = "btnExportImplantEffects"
+        Me.btnExportImplantEffects.Size = New System.Drawing.Size(137, 23)
+        Me.btnExportImplantEffects.TabIndex = 7
+        Me.btnExportImplantEffects.Text = "Export Implant Effects"
+        Me.btnExportImplantEffects.UseVisualStyleBackColor = True
+        '
+        'btnExportEffects
+        '
+        Me.btnExportEffects.Location = New System.Drawing.Point(36, 112)
+        Me.btnExportEffects.Name = "btnExportEffects"
+        Me.btnExportEffects.Size = New System.Drawing.Size(137, 23)
+        Me.btnExportEffects.TabIndex = 6
+        Me.btnExportEffects.Text = "Export Effects"
+        Me.btnExportEffects.UseVisualStyleBackColor = True
         '
         'btnCheckAttributeIntFloat
         '
@@ -389,19 +424,77 @@ Partial Public Class frmHQFSettings
         Me.btnDeleteCache.Text = "Delete Cache"
         Me.btnDeleteCache.UseVisualStyleBackColor = True
         '
-        'gbRechargeRates
+        'gbConstants
         '
-        Me.gbRechargeRates.Controls.Add(Me.nudShieldRecharge)
-        Me.gbRechargeRates.Controls.Add(Me.lblShieldRecharge)
-        Me.gbRechargeRates.Controls.Add(Me.nudCapRecharge)
-        Me.gbRechargeRates.Controls.Add(Me.lblCapRecharge)
-        Me.gbRechargeRates.Location = New System.Drawing.Point(285, 330)
-        Me.gbRechargeRates.Name = "gbRechargeRates"
-        Me.gbRechargeRates.Size = New System.Drawing.Size(122, 30)
-        Me.gbRechargeRates.TabIndex = 30
-        Me.gbRechargeRates.TabStop = False
-        Me.gbRechargeRates.Text = "Recharge Rates"
-        Me.gbRechargeRates.Visible = False
+        Me.gbConstants.Controls.Add(Me.lblCapRechargeUnit)
+        Me.gbConstants.Controls.Add(Me.lblShieldRechargeUnit)
+        Me.gbConstants.Controls.Add(Me.lblMissileRangeUnit)
+        Me.gbConstants.Controls.Add(Me.nudMissileRange)
+        Me.gbConstants.Controls.Add(Me.lblMissileRange)
+        Me.gbConstants.Controls.Add(Me.nudShieldRecharge)
+        Me.gbConstants.Controls.Add(Me.lblShieldRecharge)
+        Me.gbConstants.Controls.Add(Me.nudCapRecharge)
+        Me.gbConstants.Controls.Add(Me.lblCapRecharge)
+        Me.gbConstants.Location = New System.Drawing.Point(194, 12)
+        Me.gbConstants.Name = "gbConstants"
+        Me.gbConstants.Size = New System.Drawing.Size(498, 497)
+        Me.gbConstants.TabIndex = 30
+        Me.gbConstants.TabStop = False
+        Me.gbConstants.Text = "Calculation Constants"
+        Me.gbConstants.Visible = False
+        '
+        'lblCapRechargeUnit
+        '
+        Me.lblCapRechargeUnit.AutoSize = True
+        Me.lblCapRechargeUnit.Location = New System.Drawing.Point(258, 47)
+        Me.lblCapRechargeUnit.Name = "lblCapRechargeUnit"
+        Me.lblCapRechargeUnit.Size = New System.Drawing.Size(13, 13)
+        Me.lblCapRechargeUnit.TabIndex = 8
+        Me.lblCapRechargeUnit.Text = "x"
+        '
+        'lblShieldRechargeUnit
+        '
+        Me.lblShieldRechargeUnit.AutoSize = True
+        Me.lblShieldRechargeUnit.Location = New System.Drawing.Point(258, 75)
+        Me.lblShieldRechargeUnit.Name = "lblShieldRechargeUnit"
+        Me.lblShieldRechargeUnit.Size = New System.Drawing.Size(13, 13)
+        Me.lblShieldRechargeUnit.TabIndex = 7
+        Me.lblShieldRechargeUnit.Text = "x"
+        '
+        'lblMissileRangeUnit
+        '
+        Me.lblMissileRangeUnit.AutoSize = True
+        Me.lblMissileRangeUnit.Location = New System.Drawing.Point(258, 102)
+        Me.lblMissileRangeUnit.Name = "lblMissileRangeUnit"
+        Me.lblMissileRangeUnit.Size = New System.Drawing.Size(13, 13)
+        Me.lblMissileRangeUnit.TabIndex = 6
+        Me.lblMissileRangeUnit.Text = "x"
+        '
+        'nudMissileRange
+        '
+        Me.nudMissileRange.DecimalPlaces = 2
+        Me.nudMissileRange.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
+        Me.nudMissileRange.Location = New System.Drawing.Point(180, 100)
+        Me.nudMissileRange.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudMissileRange.Minimum = New Decimal(New Integer() {50, 0, 0, 131072})
+        Me.nudMissileRange.Name = "nudMissileRange"
+        Me.nudMissileRange.Size = New System.Drawing.Size(72, 21)
+        Me.nudMissileRange.TabIndex = 5
+        Me.nudMissileRange.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ToolTip1.SetToolTip(Me.nudMissileRange, "Defines the proportion of the theoretical maximum range of missiles (velocity x f" & _
+                "light time) to be used for optimal missile optimal range calculations")
+        Me.nudMissileRange.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'lblMissileRange
+        '
+        Me.lblMissileRange.AutoSize = True
+        Me.lblMissileRange.Location = New System.Drawing.Point(15, 102)
+        Me.lblMissileRange.Name = "lblMissileRange"
+        Me.lblMissileRange.Size = New System.Drawing.Size(122, 13)
+        Me.lblMissileRange.TabIndex = 4
+        Me.lblMissileRange.Text = "Missile Range Constant:"
+        Me.ToolTip1.SetToolTip(Me.lblMissileRange, "Defines the proportion of the theoretical maximum range of missiles (velocity x f" & _
+                "light time) to be used for optimal missile optimal range calculations")
         '
         'nudShieldRecharge
         '
@@ -414,6 +507,7 @@ Partial Public Class frmHQFSettings
         Me.nudShieldRecharge.Size = New System.Drawing.Size(72, 21)
         Me.nudShieldRecharge.TabIndex = 3
         Me.nudShieldRecharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ToolTip1.SetToolTip(Me.nudShieldRecharge, "Defines the peak recharge rate of the shields (max = 2.50 x average)")
         Me.nudShieldRecharge.Value = New Decimal(New Integer() {25, 0, 0, 65536})
         '
         'lblShieldRecharge
@@ -424,6 +518,7 @@ Partial Public Class frmHQFSettings
         Me.lblShieldRecharge.Size = New System.Drawing.Size(135, 13)
         Me.lblShieldRecharge.TabIndex = 2
         Me.lblShieldRecharge.Text = "Shield Recharge Constant:"
+        Me.ToolTip1.SetToolTip(Me.lblShieldRecharge, "Defines the peak recharge rate of the shields (max = 2.50 x average)")
         '
         'nudCapRecharge
         '
@@ -436,6 +531,7 @@ Partial Public Class frmHQFSettings
         Me.nudCapRecharge.Size = New System.Drawing.Size(72, 21)
         Me.nudCapRecharge.TabIndex = 1
         Me.nudCapRecharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ToolTip1.SetToolTip(Me.nudCapRecharge, "Defines the peak recharge rate of the capacitor (max = 2.50 x average)")
         Me.nudCapRecharge.Value = New Decimal(New Integer() {25, 0, 0, 65536})
         '
         'lblCapRecharge
@@ -446,42 +542,16 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.Size = New System.Drawing.Size(153, 13)
         Me.lblCapRecharge.TabIndex = 0
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
-        '
-        'btnExportEffects
-        '
-        Me.btnExportEffects.Location = New System.Drawing.Point(36, 112)
-        Me.btnExportEffects.Name = "btnExportEffects"
-        Me.btnExportEffects.Size = New System.Drawing.Size(137, 23)
-        Me.btnExportEffects.TabIndex = 6
-        Me.btnExportEffects.Text = "Export Effects"
-        Me.btnExportEffects.UseVisualStyleBackColor = True
-        '
-        'btnExportImplantEffects
-        '
-        Me.btnExportImplantEffects.Location = New System.Drawing.Point(36, 141)
-        Me.btnExportImplantEffects.Name = "btnExportImplantEffects"
-        Me.btnExportImplantEffects.Size = New System.Drawing.Size(137, 23)
-        Me.btnExportImplantEffects.TabIndex = 7
-        Me.btnExportImplantEffects.Text = "Export Implant Effects"
-        Me.btnExportImplantEffects.UseVisualStyleBackColor = True
-        '
-        'btnExportShipBonuses
-        '
-        Me.btnExportShipBonuses.Location = New System.Drawing.Point(36, 170)
-        Me.btnExportShipBonuses.Name = "btnExportShipBonuses"
-        Me.btnExportShipBonuses.Size = New System.Drawing.Size(137, 23)
-        Me.btnExportShipBonuses.TabIndex = 8
-        Me.btnExportShipBonuses.Text = "Export Ship Bonuses"
-        Me.btnExportShipBonuses.UseVisualStyleBackColor = True
+        Me.ToolTip1.SetToolTip(Me.lblCapRecharge, "Defines the peak recharge rate of the capacitor (max = 2.50 x average)")
         '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
+        Me.Controls.Add(Me.gbConstants)
         Me.Controls.Add(Me.gbCache)
         Me.Controls.Add(Me.gbSlotFormat)
-        Me.Controls.Add(Me.gbRechargeRates)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
@@ -503,8 +573,9 @@ Partial Public Class frmHQFSettings
         Me.gbSlotFormat.ResumeLayout(False)
         Me.gbSlotFormat.PerformLayout()
         Me.gbCache.ResumeLayout(False)
-        Me.gbRechargeRates.ResumeLayout(False)
-        Me.gbRechargeRates.PerformLayout()
+        Me.gbConstants.ResumeLayout(False)
+        Me.gbConstants.PerformLayout()
+        CType(Me.nudMissileRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -533,7 +604,7 @@ Partial Public Class frmHQFSettings
     Friend WithEvents chkAutoUpdateHQFSkills As System.Windows.Forms.CheckBox
     Friend WithEvents chkShowPerformance As System.Windows.Forms.CheckBox
     Friend WithEvents chkCloseInfoPanel As System.Windows.Forms.CheckBox
-    Friend WithEvents gbRechargeRates As System.Windows.Forms.GroupBox
+    Friend WithEvents gbConstants As System.Windows.Forms.GroupBox
     Friend WithEvents nudShieldRecharge As System.Windows.Forms.NumericUpDown
     Friend WithEvents lblShieldRecharge As System.Windows.Forms.Label
     Friend WithEvents nudCapRecharge As System.Windows.Forms.NumericUpDown
@@ -550,4 +621,10 @@ Partial Public Class frmHQFSettings
     Friend WithEvents btnExportShipBonuses As System.Windows.Forms.Button
     Friend WithEvents btnExportImplantEffects As System.Windows.Forms.Button
     Friend WithEvents btnExportEffects As System.Windows.Forms.Button
+    Friend WithEvents nudMissileRange As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblMissileRange As System.Windows.Forms.Label
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents lblMissileRangeUnit As System.Windows.Forms.Label
+    Friend WithEvents lblCapRechargeUnit As System.Windows.Forms.Label
+    Friend WithEvents lblShieldRechargeUnit As System.Windows.Forms.Label
 End Class

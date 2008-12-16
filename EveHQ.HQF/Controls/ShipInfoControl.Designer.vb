@@ -112,6 +112,8 @@ Partial Class ShipInfoControl
         Me.pbPG = New System.Windows.Forms.PictureBox
         Me.pbCPU = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.cboImplants = New System.Windows.Forms.ComboBox
+        Me.lblImplants = New System.Windows.Forms.Label
         Me.Panel1.SuspendLayout()
         Me.gbDefence.SuspendLayout()
         CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -153,6 +155,8 @@ Partial Class ShipInfoControl
         '
         Me.Panel1.AutoScroll = True
         Me.Panel1.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.Panel1.Controls.Add(Me.lblImplants)
+        Me.Panel1.Controls.Add(Me.cboImplants)
         Me.Panel1.Controls.Add(Me.gbDefence)
         Me.Panel1.Controls.Add(Me.gbDamage)
         Me.Panel1.Controls.Add(Me.progCalibration)
@@ -179,7 +183,7 @@ Partial Class ShipInfoControl
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(270, 699)
+        Me.Panel1.Size = New System.Drawing.Size(270, 732)
         Me.Panel1.TabIndex = 0
         '
         'gbDefence
@@ -210,7 +214,7 @@ Partial Class ShipInfoControl
         Me.gbDefence.Controls.Add(Me.PictureBox2)
         Me.gbDefence.Controls.Add(Me.PictureBox3)
         Me.gbDefence.Controls.Add(Me.PictureBox4)
-        Me.gbDefence.Location = New System.Drawing.Point(5, 171)
+        Me.gbDefence.Location = New System.Drawing.Point(6, 187)
         Me.gbDefence.Name = "gbDefence"
         Me.gbDefence.Size = New System.Drawing.Size(240, 162)
         Me.gbDefence.TabIndex = 34
@@ -505,7 +509,7 @@ Partial Class ShipInfoControl
         Me.gbDamage.Controls.Add(Me.lblDamage)
         Me.gbDamage.Controls.Add(Me.pbDamage)
         Me.gbDamage.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbDamage.Location = New System.Drawing.Point(5, 407)
+        Me.gbDamage.Location = New System.Drawing.Point(6, 423)
         Me.gbDamage.Name = "gbDamage"
         Me.gbDamage.Size = New System.Drawing.Size(240, 70)
         Me.gbDamage.TabIndex = 33
@@ -560,7 +564,7 @@ Partial Class ShipInfoControl
         Me.progCalibration.BackColor = System.Drawing.Color.Transparent
         Me.progCalibration.EndColor = System.Drawing.Color.LimeGreen
         Me.progCalibration.GlowColor = System.Drawing.Color.LightGreen
-        Me.progCalibration.Location = New System.Drawing.Point(35, 155)
+        Me.progCalibration.Location = New System.Drawing.Point(36, 171)
         Me.progCalibration.Name = "progCalibration"
         Me.progCalibration.Size = New System.Drawing.Size(134, 10)
         Me.progCalibration.StartColor = System.Drawing.Color.LimeGreen
@@ -572,7 +576,7 @@ Partial Class ShipInfoControl
         Me.progPG.BackColor = System.Drawing.Color.Transparent
         Me.progPG.EndColor = System.Drawing.Color.LimeGreen
         Me.progPG.GlowColor = System.Drawing.Color.LightGreen
-        Me.progPG.Location = New System.Drawing.Point(35, 131)
+        Me.progPG.Location = New System.Drawing.Point(36, 147)
         Me.progPG.Name = "progPG"
         Me.progPG.Size = New System.Drawing.Size(134, 10)
         Me.progPG.StartColor = System.Drawing.Color.LimeGreen
@@ -584,7 +588,7 @@ Partial Class ShipInfoControl
         Me.progCPU.BackColor = System.Drawing.Color.Transparent
         Me.progCPU.EndColor = System.Drawing.Color.LimeGreen
         Me.progCPU.GlowColor = System.Drawing.Color.LightGreen
-        Me.progCPU.Location = New System.Drawing.Point(35, 107)
+        Me.progCPU.Location = New System.Drawing.Point(36, 123)
         Me.progCPU.Name = "progCPU"
         Me.progCPU.Size = New System.Drawing.Size(134, 10)
         Me.progCPU.StartColor = System.Drawing.Color.LimeGreen
@@ -594,7 +598,7 @@ Partial Class ShipInfoControl
         'line2
         '
         Me.line2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.line2.Location = New System.Drawing.Point(4, 88)
+        Me.line2.Location = New System.Drawing.Point(5, 104)
         Me.line2.Name = "line2"
         Me.line2.Size = New System.Drawing.Size(242, 2)
         Me.line2.TabIndex = 29
@@ -602,7 +606,7 @@ Partial Class ShipInfoControl
         'btnLog
         '
         Me.btnLog.Image = Global.EveHQ.HQF.My.Resources.Resources.imgLog
-        Me.btnLog.Location = New System.Drawing.Point(85, 53)
+        Me.btnLog.Location = New System.Drawing.Point(86, 69)
         Me.btnLog.Name = "btnLog"
         Me.btnLog.Size = New System.Drawing.Size(32, 32)
         Me.btnLog.TabIndex = 28
@@ -612,7 +616,7 @@ Partial Class ShipInfoControl
         'btnSkills
         '
         Me.btnSkills.Image = CType(resources.GetObject("btnSkills.Image"), System.Drawing.Image)
-        Me.btnSkills.Location = New System.Drawing.Point(213, 8)
+        Me.btnSkills.Location = New System.Drawing.Point(214, 16)
         Me.btnSkills.Name = "btnSkills"
         Me.btnSkills.Size = New System.Drawing.Size(32, 32)
         Me.btnSkills.TabIndex = 27
@@ -622,7 +626,7 @@ Partial Class ShipInfoControl
         'btnTargetSpeed
         '
         Me.btnTargetSpeed.Image = Global.EveHQ.HQF.My.Resources.Resources.imgScanResolution
-        Me.btnTargetSpeed.Location = New System.Drawing.Point(47, 53)
+        Me.btnTargetSpeed.Location = New System.Drawing.Point(48, 69)
         Me.btnTargetSpeed.Name = "btnTargetSpeed"
         Me.btnTargetSpeed.Size = New System.Drawing.Size(32, 32)
         Me.btnTargetSpeed.TabIndex = 25
@@ -633,7 +637,7 @@ Partial Class ShipInfoControl
         '
         Me.cboPilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboPilots.FormattingEnabled = True
-        Me.cboPilots.Location = New System.Drawing.Point(42, 15)
+        Me.cboPilots.Location = New System.Drawing.Point(42, 8)
         Me.cboPilots.Name = "cboPilots"
         Me.cboPilots.Size = New System.Drawing.Size(165, 21)
         Me.cboPilots.Sorted = True
@@ -642,7 +646,7 @@ Partial Class ShipInfoControl
         'lblPilot
         '
         Me.lblPilot.AutoSize = True
-        Me.lblPilot.Location = New System.Drawing.Point(6, 18)
+        Me.lblPilot.Location = New System.Drawing.Point(6, 11)
         Me.lblPilot.Name = "lblPilot"
         Me.lblPilot.Size = New System.Drawing.Size(30, 13)
         Me.lblPilot.TabIndex = 23
@@ -651,7 +655,7 @@ Partial Class ShipInfoControl
         'line1
         '
         Me.line1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.line1.Location = New System.Drawing.Point(4, 48)
+        Me.line1.Location = New System.Drawing.Point(5, 64)
         Me.line1.Name = "line1"
         Me.line1.Size = New System.Drawing.Size(242, 2)
         Me.line1.TabIndex = 22
@@ -659,7 +663,7 @@ Partial Class ShipInfoControl
         'btnDoomsdayCheck
         '
         Me.btnDoomsdayCheck.Image = CType(resources.GetObject("btnDoomsdayCheck.Image"), System.Drawing.Image)
-        Me.btnDoomsdayCheck.Location = New System.Drawing.Point(9, 53)
+        Me.btnDoomsdayCheck.Location = New System.Drawing.Point(10, 69)
         Me.btnDoomsdayCheck.Name = "btnDoomsdayCheck"
         Me.btnDoomsdayCheck.Size = New System.Drawing.Size(32, 32)
         Me.btnDoomsdayCheck.TabIndex = 20
@@ -677,7 +681,7 @@ Partial Class ShipInfoControl
         Me.gbCargo.Controls.Add(Me.lblCargoBay)
         Me.gbCargo.Controls.Add(Me.pbCargoBay)
         Me.gbCargo.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCargo.Location = New System.Drawing.Point(4, 623)
+        Me.gbCargo.Location = New System.Drawing.Point(5, 639)
         Me.gbCargo.Name = "gbCargo"
         Me.gbCargo.Size = New System.Drawing.Size(240, 70)
         Me.gbCargo.TabIndex = 19
@@ -780,7 +784,7 @@ Partial Class ShipInfoControl
         Me.gbPropulsion.Controls.Add(Me.lblSpeed)
         Me.gbPropulsion.Controls.Add(Me.pbSpeed)
         Me.gbPropulsion.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbPropulsion.Location = New System.Drawing.Point(5, 551)
+        Me.gbPropulsion.Location = New System.Drawing.Point(6, 567)
         Me.gbPropulsion.Name = "gbPropulsion"
         Me.gbPropulsion.Size = New System.Drawing.Size(240, 70)
         Me.gbPropulsion.TabIndex = 18
@@ -884,7 +888,7 @@ Partial Class ShipInfoControl
         Me.gbCapacitor.Controls.Add(Me.lblCapacitor)
         Me.gbCapacitor.Controls.Add(Me.pbCapacitor)
         Me.gbCapacitor.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbCapacitor.Location = New System.Drawing.Point(5, 333)
+        Me.gbCapacitor.Location = New System.Drawing.Point(6, 349)
         Me.gbCapacitor.Name = "gbCapacitor"
         Me.gbCapacitor.Size = New System.Drawing.Size(240, 72)
         Me.gbCapacitor.TabIndex = 17
@@ -997,7 +1001,7 @@ Partial Class ShipInfoControl
         Me.gbTargeting.Controls.Add(Me.lblTargetRange)
         Me.gbTargeting.Controls.Add(Me.pbTargetRange)
         Me.gbTargeting.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.gbTargeting.Location = New System.Drawing.Point(5, 479)
+        Me.gbTargeting.Location = New System.Drawing.Point(6, 495)
         Me.gbTargeting.Name = "gbTargeting"
         Me.gbTargeting.Size = New System.Drawing.Size(240, 70)
         Me.gbTargeting.TabIndex = 14
@@ -1093,7 +1097,7 @@ Partial Class ShipInfoControl
         '
         Me.lblCalibration.AutoSize = True
         Me.lblCalibration.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblCalibration.Location = New System.Drawing.Point(35, 143)
+        Me.lblCalibration.Location = New System.Drawing.Point(36, 159)
         Me.lblCalibration.Name = "lblCalibration"
         Me.lblCalibration.Size = New System.Drawing.Size(30, 13)
         Me.lblCalibration.TabIndex = 13
@@ -1103,7 +1107,7 @@ Partial Class ShipInfoControl
         'pbCalibration
         '
         Me.pbCalibration.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCalibration
-        Me.pbCalibration.Location = New System.Drawing.Point(7, 141)
+        Me.pbCalibration.Location = New System.Drawing.Point(8, 157)
         Me.pbCalibration.Name = "pbCalibration"
         Me.pbCalibration.Size = New System.Drawing.Size(24, 24)
         Me.pbCalibration.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -1115,7 +1119,7 @@ Partial Class ShipInfoControl
         '
         Me.lblPG.AutoSize = True
         Me.lblPG.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblPG.Location = New System.Drawing.Point(35, 119)
+        Me.lblPG.Location = New System.Drawing.Point(36, 135)
         Me.lblPG.Name = "lblPG"
         Me.lblPG.Size = New System.Drawing.Size(30, 13)
         Me.lblPG.TabIndex = 7
@@ -1126,7 +1130,7 @@ Partial Class ShipInfoControl
         '
         Me.lblCPU.AutoSize = True
         Me.lblCPU.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblCPU.Location = New System.Drawing.Point(35, 95)
+        Me.lblCPU.Location = New System.Drawing.Point(36, 111)
         Me.lblCPU.Name = "lblCPU"
         Me.lblCPU.Size = New System.Drawing.Size(30, 13)
         Me.lblCPU.TabIndex = 6
@@ -1136,7 +1140,7 @@ Partial Class ShipInfoControl
         'pbPG
         '
         Me.pbPG.Image = Global.EveHQ.HQF.My.Resources.Resources.imgPG
-        Me.pbPG.Location = New System.Drawing.Point(7, 117)
+        Me.pbPG.Location = New System.Drawing.Point(8, 133)
         Me.pbPG.Name = "pbPG"
         Me.pbPG.Size = New System.Drawing.Size(24, 24)
         Me.pbPG.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -1147,7 +1151,7 @@ Partial Class ShipInfoControl
         'pbCPU
         '
         Me.pbCPU.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCPU
-        Me.pbCPU.Location = New System.Drawing.Point(7, 93)
+        Me.pbCPU.Location = New System.Drawing.Point(8, 109)
         Me.pbCPU.Name = "pbCPU"
         Me.pbCPU.Size = New System.Drawing.Size(24, 24)
         Me.pbCPU.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -1163,6 +1167,25 @@ Partial Class ShipInfoControl
         Me.ToolTip1.ReshowDelay = 100
         Me.ToolTip1.ShowAlways = True
         '
+        'cboImplants
+        '
+        Me.cboImplants.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboImplants.FormattingEnabled = True
+        Me.cboImplants.Location = New System.Drawing.Point(42, 35)
+        Me.cboImplants.Name = "cboImplants"
+        Me.cboImplants.Size = New System.Drawing.Size(165, 21)
+        Me.cboImplants.Sorted = True
+        Me.cboImplants.TabIndex = 35
+        '
+        'lblImplants
+        '
+        Me.lblImplants.AutoSize = True
+        Me.lblImplants.Location = New System.Drawing.Point(6, 38)
+        Me.lblImplants.Name = "lblImplants"
+        Me.lblImplants.Size = New System.Drawing.Size(32, 13)
+        Me.lblImplants.TabIndex = 36
+        Me.lblImplants.Text = "Imps:"
+        '
         'ShipInfoControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1170,7 +1193,7 @@ Partial Class ShipInfoControl
         Me.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Controls.Add(Me.Panel1)
         Me.Name = "ShipInfoControl"
-        Me.Size = New System.Drawing.Size(270, 699)
+        Me.Size = New System.Drawing.Size(270, 732)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.gbDefence.ResumeLayout(False)
@@ -1304,5 +1327,7 @@ Partial Class ShipInfoControl
     Friend WithEvents cboDamageProfiles As System.Windows.Forms.ComboBox
     Friend WithEvents btnEditProfiles As System.Windows.Forms.Button
     Friend WithEvents lblTankAbility As System.Windows.Forms.Label
+    Friend WithEvents lblImplants As System.Windows.Forms.Label
+    Friend WithEvents cboImplants As System.Windows.Forms.ComboBox
 
 End Class

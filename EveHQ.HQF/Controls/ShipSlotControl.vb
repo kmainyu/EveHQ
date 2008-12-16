@@ -125,6 +125,7 @@ Public Class ShipSlotControl
         lvwSlots.EndUpdate()
         UpdateAll = False
         currentInfo.ShipType = currentShip
+        currentInfo.UpdateImplantList()
         currentInfo.BuildMethod = BuildType.BuildEverything
         If fittedShip IsNot Nothing Then
             Me.UpdateAllSlotLocations()
@@ -1550,7 +1551,11 @@ Public Class ShipSlotControl
 
     Private Sub RedrawCargoBayCapacity()
         lblCargoBay.Text = FormatNumber(currentShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
-        pbCargoBay.MaxValue = CInt(fittedShip.CargoBay)
+        If fittedShip.CargoBay > 0 Then
+            pbCargoBay.MaxValue = CInt(fittedShip.CargoBay)
+        Else
+            pbCargoBay.MaxValue = 1
+        End If
         If currentShip.CargoBay_Used > fittedShip.CargoBay Then
             pbCargoBay.Value = CInt(fittedShip.CargoBay)
             pbCargoBay.StartColor = Drawing.Color.Red
@@ -1565,10 +1570,15 @@ Public Class ShipSlotControl
             pbCargoBay.GlowColor = Drawing.Color.LightGreen
         End If
     End Sub
+
     Private Sub RedrawDroneBayCapacity()
         lvwDroneBay.EndUpdate()
         lblDroneBay.Text = FormatNumber(currentShip.DroneBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
-        pbDroneBay.MaxValue = CInt(fittedShip.DroneBay)
+        If fittedShip.DroneBay > 0 Then
+            pbDroneBay.MaxValue = CInt(fittedShip.DroneBay)
+        Else
+            pbDroneBay.MaxValue = 1
+        End If
         If currentShip.DroneBay_Used > fittedShip.DroneBay Then
             pbDroneBay.Value = CInt(fittedShip.DroneBay)
             pbDroneBay.StartColor = Drawing.Color.Red
