@@ -334,22 +334,22 @@
 22474,1,23950,265,1,22474,0,1,0,10,15,Armor HP
 22474,1,23950,1159,2,329,0,1,0,10,15,Armor HP - Plates
 22474,1,23950,833,4,779,0,1,0,3,15,Skirmish Warfare Link Bonus
-22474,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use,
-22474,0,0,0,0,0,0,0,0,2,15,Warfare Link Use,
-# Daredevil,,,,,,,,,,,,
-17928,0,0,10015,4,561;564,0,0,0,25,15,Small Hybrid Damage,
-17928,1,3329,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus,
-17928,1,3328,160,4,561;564,0,1,0,7.5,15,Small Hybrid Tracking Speed,
-# Deimos,,,,,,,,,,,,
-12023,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage,
-12023,1,3332,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus,
-12023,1,16591,158,4,562;565,0,1,0,10,15,Medium Hybrid Turret Falloff,
-12023,1,16591,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage,
-# Devoter,,,,,,,,,,,,
-12017,1,3335,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use,
-12017,1,3335,267,1,12017,0,1,2,5,15,Armor EM Resistance,
-12017,1,3335,268,1,12017,0,1,2,5,15,Armor Explosive Resistance,
-12017,1,3335,269,1,12017,0,1,2,5,15,Armor Kinetic Resistance,
+22474,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
+22474,0,0,0,0,0,0,0,0,2,15,Warfare Link Use
+# Daredevil,,,,,,,,,,,
+17928,0,0,10015,4,561;564,0,0,0,25,15,Small Hybrid Damage
+17928,1,3329,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus
+17928,1,3328,160,4,561;564,0,1,0,7.5,15,Small Hybrid Tracking Speed
+# Deimos,,,,,,,,,,,
+12023,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
+12023,1,3332,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus
+12023,1,16591,158,4,562;565,0,1,0,10,15,Medium Hybrid Turret Falloff
+12023,1,16591,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
+# Devoter,,,,,,,,,,,
+12017,1,3335,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
+12017,1,3335,267,1,12017,0,1,2,5,15,Armor EM Resistance
+12017,1,3335,268,1,12017,0,1,2,5,15,Armor Explosive Resistance
+12017,1,3335,269,1,12017,0,1,2,5,15,Armor Kinetic Resistance
 12017,1,3335,270,1,12017,0,1,2,5,15,Armor Thermal Resistance
 12017,1,28609,10011,4,568;572,0,1,0,-10,15,Medium Energy Turret ROF
 12017,1,28609,103,2,899,0,1,0,5,15,Warp Disruption Field Range
@@ -365,7 +365,7 @@
 24698,1,12099,272,1,24698,0,1,2,5,15,Shield Explosive Resistance
 24698,1,12099,273,1,24698,0,1,2,5,15,Shield Kinetic Resistance
 24698,1,12099,274,1,24698,0,1,2,5,15,Shield Thermal Resistance
-24698,1,12099,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
+24698,0,12099,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
 # Dramiel,,,,,,,,,,,
 17932,0,0,10016,4,574;577,0,0,0,25,15,Small Projectile Turret Damage
 17932,1,3329,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
@@ -442,7 +442,7 @@
 22464,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF
 22464,0,0,50,1,22782,0,0,0,-99,15,Sphere Launcher CPU
 # Gila,,,,,,,,,,,
-17715,1,17715,37,2,653;384;655;385;654;772,0,0,0,50,15,"Light, Heavy, Assualt Missile Velocity"
+17715,0,0,37,2,653;384;655;385;654;772,0,0,0,50,15,"Light, Heavy, Assualt Missile Velocity"
 17715,1,3334,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,5,15,Kinetic Missile Damage
 17715,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 # Gold Magnate,,,,,,,,,,,
@@ -787,7 +787,7 @@
 # Nightmare,,,,,,,,,,,
 17736,0,0,10014,4,569;573,0,0,0,100,15,Large Energy Turret Damage
 17736,1,3329,160,4,569;573,0,1,0,7.5,15,Large Energy Turret Tracking
-17736,1,3338,10014,4,569;573,0,0,0,5,15,Large Energy Turret Damage
+17736,1,3338,10014,4,569;573,0,1,0,5,15,Large Energy Turret Damage
 # Nomad,,,,,,,,,,,
 28846,1,20528,10004,1,28846,0,1,0,5,15,Cargo Capacity
 28846,1,20528,70,1,28846,0,1,0,5,15,Agility
@@ -828,7 +828,7 @@
 11989,1,3332,84,4,842,0,1,0,20,15,Armor Maintenance Bot Transfer
 11989,1,12096,6,2,325,0,1,0,-15,15,Remote Armor Repairer Cap Use
 11989,1,12096,351,2,209,0,1,0,10,15,Tracking Link Optimal Range Bonus
-11989,1,12096,767,2,209,0,0,0,10,15,Tracking Link Tracking Speed Bonus
+11989,1,12096,767,2,209,0,1,0,10,15,Tracking Link Tracking Speed Bonus
 11989,0,0,30,2,325,0,0,0,-65,15,Remote Armor Repairer Power Need
 # Onyx,,,,,,,,,,,
 11995,1,3334,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,5,15,Kinetic Missile Damage
@@ -862,22 +862,22 @@
 28659,0,0,1045,2,650,0,0,0,100,15,Tractor Beam Velocity
 28659,0,0,54,2,650,0,0,0,100,15,Tractor Beam Range
 # Panther,,,,,,,,,,,
-22440,1,3337,10013,4,576;579,0,1,0,-25,15,Large Projectile Turret ROF,
-22440,1,3337,10016,4,576;579,0,1,0,5,15,Large Projectile Turret Damage,
-22440,1,28656,37,1,22440,0,1,0,5,15,Max Velocity,
-22440,1,28656,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus,
-22440,0,0,50,2,658,0,0,0,-99,15,Cynosural Field Generator CPU Need,
-22440,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus,
-# Phantasm,,,,,,,,,,,,
-17718,0,0,10014,4,568;572,0,0,0,100,15,Medium Energy Turret Damage,
-17718,1,3335,160,4,568;572,0,1,0,5,15,Medium Energy Turret Tracking,
-17718,1,3334,10014,4,568;572,0,1,0,5,15,Medium Energy Turret Damage,
-# Phobos,,,,,,,,,,,,
-12021,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage,
-12021,1,3332,267,1,12021,0,1,2,5,15,Armor EM Resistance,
-12021,1,3332,268,1,12021,0,1,2,5,15,Armor Explosive Resistance,
-12021,1,3332,269,1,12021,0,1,2,5,15,Armor Kinetic Resistance,
-12021,1,3332,270,1,12021,0,1,2,5,15,Armor Thermal Resistance,
+22440,1,3337,10013,4,576;579,0,1,0,-25,15,Large Projectile Turret ROF
+22440,1,3337,10016,4,576;579,0,1,0,5,15,Large Projectile Turret Damage
+22440,1,28656,37,1,22440,0,1,0,5,15,Max Velocity
+22440,1,28656,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus
+22440,0,0,50,2,658,0,0,0,-99,15,Cynosural Field Generator CPU Need
+22440,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
+# Phantasm,,,,,,,,,,,
+17718,0,0,10014,4,568;572,0,0,0,100,15,Medium Energy Turret Damage
+17718,1,3335,160,4,568;572,0,1,0,5,15,Medium Energy Turret Tracking
+17718,1,3334,10014,4,568;572,0,1,0,5,15,Medium Energy Turret Damage
+# Phobos,,,,,,,,,,,
+12021,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
+12021,1,3332,267,1,12021,0,1,2,5,15,Armor EM Resistance
+12021,1,3332,268,1,12021,0,1,2,5,15,Armor Explosive Resistance
+12021,1,3332,269,1,12021,0,1,2,5,15,Armor Kinetic Resistance
+12021,1,3332,270,1,12021,0,1,2,5,15,Armor Thermal Resistance
 12021,1,28609,158,4,562;565,0,1,0,10,15,Medium Hybrid Turret Falloff
 12021,1,28609,103,2,899,0,1,0,5,15,Warp Disruption Field Range
 # Phoenix,,,,,,,,,,,
@@ -1059,7 +1059,7 @@
 11978,1,3333,68,4,842,0,1,0,20,15,Shield Maintenance Bot Transfer
 11978,1,12096,6,2,41,0,1,0,-15,15,Shield Transporter Cap Use
 11978,1,12096,351,2,209,0,1,0,10,15,Tracking Link Optimal Range Bonus
-11978,1,12096,767,2,209,0,0,0,10,15,Tracking Link Tracking Speed Bonus
+11978,1,12096,767,2,209,0,1,0,10,15,Tracking Link Tracking Speed Bonus
 11978,0,0,50,2,41,0,0,0,-50,15,Shield Transporter CPU
 # Scorpion,,,,,,,,,,,
 640,1,3338,54,2,201,0,1,0,20,15,ECM Optimal Range
@@ -1070,7 +1070,7 @@
 # Scythe,,,,,,,,,,,
 631,1,3333,77,2,54,0,1,0,20,15,Mining Laser Yield
 631,1,3333,351,2,209,0,1,0,3.5,15,Tracking Link Optimal Range Bonus
-631,1,3333,767,2,209,0,0,0,3.5,15,Tracking Link Tracking Speed Bonus
+631,1,3333,767,2,209,0,1,0,3.5,15,Tracking Link Tracking Speed Bonus
 631,0,0,351,2,209,0,1,0,500,15,Tracking Link Optimal Range Bonus
 # Scythe Fleet Issue,,,,,,,,,,,
 29336,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
