@@ -61,6 +61,7 @@ Public Class frmShowInfo
         Call Me.PrepareDescription(itemType)
         Call Me.GenerateSkills(itemType)
         Call Me.ShowAttributes(itemType)
+        Call Me.ShowAffects(itemType)
         Call Me.ShowAudit(itemType)
 
         Me.ShowDialog()
@@ -510,6 +511,19 @@ Public Class frmShowInfo
             lvwAttributes.Items.Add(newItem)
         Next
         lvwAttributes.EndUpdate()
+    End Sub
+
+    Private Sub ShowAffects(ByVal itemObject As Object)
+        If itemObject.Affects.Count = 0 Then
+            tabShowInfo.TabPages.Remove(tabAffects)
+        Else
+            lvwAffects.BeginUpdate()
+            lvwAffects.Items.Clear()
+            For Each item As String In itemObject.Affects.Values
+                lvwAffects.Items.Add(item)
+            Next
+            lvwAffects.EndUpdate()
+        End If
     End Sub
 
     Private Sub ShowAudit(ByVal itemObject As Object)

@@ -88,6 +88,9 @@ Imports System.Runtime.Serialization
     ' Implant Groups
     Private cImplantGroups As New ArrayList
 
+    ' Affected by
+    Private cAffects As New SortedList
+
 #End Region
 
 #Region "Properties"
@@ -412,6 +415,16 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As ArrayList)
             cImplantGroups = value
+        End Set
+    End Property
+
+    ' Affected by
+    Public Property Affects() As SortedList
+        Get
+            Return cAffects
+        End Get
+        Set(ByVal value As SortedList)
+            cAffects = value
         End Set
     End Property
 

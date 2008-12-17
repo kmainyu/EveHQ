@@ -40,6 +40,7 @@ Public Class Engine
 #Region "New Routines"
     Public Shared Sub BuildPirateImplants()
         Dim PirateImplantComponents As New ArrayList
+        PirateImplantGroups.Clear()
         PirateImplantGroups.Add("Crystal", 1)
         PirateImplantGroups.Add("Halo", 1)
         PirateImplantGroups.Add("Slave", 1)
@@ -55,6 +56,7 @@ Public Class Engine
         PirateImplantGroups.Add("Low-Grade Snake", 1)
         PirateImplantGroups.Add("Low-Grade Talisman", 1)
         PirateImplantGroups.Add("Low-Grade Virtue", 1)
+        PirateImplantComponents.Clear()
         PirateImplantComponents.Add(" Alpha")
         PirateImplantComponents.Add(" Beta")
         PirateImplantComponents.Add(" Delta")
