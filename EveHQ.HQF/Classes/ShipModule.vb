@@ -89,7 +89,7 @@ Imports System.Runtime.Serialization
     Private cImplantGroups As New ArrayList
 
     ' Affected by
-    Private cAffects As New SortedList
+    Private cAffects As New ArrayList
 
 #End Region
 
@@ -419,11 +419,11 @@ Imports System.Runtime.Serialization
     End Property
 
     ' Affected by
-    Public Property Affects() As SortedList
+    Public Property Affects() As ArrayList
         Get
             Return cAffects
         End Get
-        Set(ByVal value As SortedList)
+        Set(ByVal value As ArrayList)
             cAffects = value
         End Set
     End Property

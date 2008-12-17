@@ -134,6 +134,8 @@ Public Class PlugInData
                                                                 Call Me.BuildAttributeQuickList()
                                                                 Engine.BuildImplantEffectsMap()
                                                                 Call Me.BuildModuleEffects()
+                                                                Call Me.BuildImplantEffects()
+                                                                Call Me.BuildShipEffects()
                                                                 ' Save the HQF data
                                                                 Call Me.SaveHQFCacheData()
                                                                 Call Me.CleanUpData()
@@ -462,6 +464,7 @@ Public Class PlugInData
                                 newShip.Attributes.Add("10060", 0)
                                 newShip.Attributes.Add("10061", 0)
                                 newShip.Attributes.Add("10062", 0)
+                                newShip.Attributes.Add("10063", 1)
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -584,6 +587,7 @@ Public Class PlugInData
                     newShip.Attributes.Add("10060", 0)
                     newShip.Attributes.Add("10061", 0)
                     newShip.Attributes.Add("10062", 0)
+                    newShip.Attributes.Add("10063", 1)
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
                     ' Perform the last addition for the last ship type
@@ -1136,12 +1140,7 @@ Public Class PlugInData
         Return True
     End Function
 
-    Private Function BuildModuleEffects() As Boolean
-        Dim startTime, endTime As DateTime
-        Dim timeTaken As TimeSpan
-        Dim attEffects As New ArrayList
-        Dim attEffect As New Effect
-        startTime = Now
+    Private Sub BuildModuleEffects()
 
         ' Fetch the Effects list
         Dim EffectFile As String = My.Resources.Effects.ToString
@@ -1175,51 +1174,212 @@ Public Class PlugInData
                 newEffect.Status = CInt(EffectData(9))
 
                 Select Case newEffect.AffectingType
+                    ' Setup the name as Item;Type;Attribute
                     Case EffectType.All
-                        AffectingName = "Global" & " (" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ")"
+                        AffectingName = "Global;Global;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                     Case EffectType.Item
                         If newEffect.AffectingID > 0 Then
-                            AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectingID.ToString))) & " (" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ")"
+                            AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectingID.ToString)))
+                            If EveHQ.Core.HQ.SkillListName.Contains(AffectingName) = True Then
+                                AffectingName &= ";Skill;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                            Else
+                                AffectingName &= ";Item;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                            End If
                         End If
                     Case EffectType.Group
-                        AffectingName = "Group: " & CStr(EveHQ.Core.HQ.groupList.GetKey(EveHQ.Core.HQ.groupList.IndexOfValue(newEffect.AffectingID.ToString))) & " (" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ")"
+                        AffectingName = CStr(EveHQ.Core.HQ.groupList.GetKey(EveHQ.Core.HQ.groupList.IndexOfValue(newEffect.AffectingID.ToString))) & ";Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                     Case EffectType.Category
-                        AffectingName = "Category: " & CStr(EveHQ.Core.HQ.catList.GetKey(EveHQ.Core.HQ.catList.IndexOfValue(newEffect.AffectingID.ToString))) & " (" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ")"
+                        AffectingName = CStr(EveHQ.Core.HQ.catList.GetKey(EveHQ.Core.HQ.catList.IndexOfValue(newEffect.AffectingID.ToString))) & ";Category;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                     Case EffectType.MarketGroup
-                        AffectingName = "Market Group: " & CStr(HQF.Market.MarketGroupList(newEffect.AffectingID.ToString)) & " (" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ")"
+                        AffectingName = CStr(HQF.Market.MarketGroupList(newEffect.AffectingID.ToString)) & ";Market Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                 End Select
 
                 For Each cModule As ShipModule In ModuleLists.moduleList.Values
                     Select Case newEffect.AffectedType
                         Case EffectType.All
                             If newEffect.AffectingID <> 0 Then
-                                cModule.Affects.Add(newEffect.AffectingID & newEffect.AffectedAtt, AffectingName)
+                                cModule.Affects.Add(AffectingName)
                             End If
                         Case EffectType.Item
                             If newEffect.AffectedID.Contains(cModule.ID) Then
-                                cModule.Affects.Add(newEffect.AffectingID & newEffect.AffectedAtt, AffectingName)
+                                cModule.Affects.Add(AffectingName)
                             End If
                         Case EffectType.Group
                             If newEffect.AffectedID.Contains(cModule.DatabaseGroup) Then
-                                cModule.Affects.Add(newEffect.AffectingID & newEffect.AffectedAtt, AffectingName)
+                                cModule.Affects.Add(AffectingName)
                             End If
                         Case EffectType.Category
                             If newEffect.AffectedID.Contains(cModule.DatabaseCategory) Then
-                                cModule.Affects.Add(newEffect.AffectingID & newEffect.AffectedAtt, AffectingName)
+                                cModule.Affects.Add(AffectingName)
                             End If
                         Case EffectType.MarketGroup
                             If newEffect.AffectedID.Contains(cModule.MarketGroup) Then
-                                cModule.Affects.Add(newEffect.AffectingID & newEffect.AffectedAtt, AffectingName)
+                                cModule.Affects.Add(AffectingName)
                             End If
                     End Select
                 Next
             End If
         Next
+    End Sub
 
-        endTime = Now
-        timeTaken = endTime - startTime
-        MessageBox.Show("Time Taken: " & timeTaken.TotalMilliseconds & "ms")
-    End Function
+    Private Sub BuildImplantEffects()
+
+        ' Fetch the Effects list
+        Dim EffectFile As String = My.Resources.ImplantEffects.ToString
+        ' Break the Effects down into separate lines
+        Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
+        ' Go through lines and break each one down
+        Dim EffectData() As String
+        Dim ImplantEffectClassList As New ArrayList
+        Dim newEffect As New ImplantEffect
+        Dim IDs() As String
+        Dim AttIDs() As String
+        Dim Atts As New ArrayList
+        Dim AffectingName As String = ""
+        For Each EffectLine As String In EffectLines
+            If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
+                EffectData = EffectLine.Split(",".ToCharArray)
+                Atts.Clear()
+                If EffectData(3).Contains(";") Then
+                    AttIDs = EffectData(3).Split(";".ToCharArray)
+                    For Each AttID As String In AttIDs
+                        Atts.Add(AttID)
+                    Next
+                Else
+                    Atts.Add(EffectData(3))
+                End If
+                For Each att As String In Atts
+                    newEffect = New ImplantEffect
+                    newEffect.ImplantName = CStr(EffectData(10))
+                    newEffect.AffectingAtt = CInt(EffectData(0))
+                    newEffect.AffectedAtt = CInt(att)
+                    newEffect.AffectedType = CInt(EffectData(4))
+                    If EffectData(5).Contains(";") = True Then
+                        IDs = EffectData(5).Split(";".ToCharArray)
+                        For Each ID As String In IDs
+                            newEffect.AffectedID.Add(ID)
+                        Next
+                    Else
+                        newEffect.AffectedID.Add(EffectData(5))
+                    End If
+                    newEffect.CalcType = CInt(EffectData(6))
+                    Dim cImplant As ShipModule = CType(Implants.implantList(newEffect.ImplantName), ShipModule)
+                    newEffect.Value = CDbl(cImplant.Attributes(EffectData(0)))
+                    newEffect.IsGang = CBool(EffectData(8))
+                    If EffectData(9).Contains(";") = True Then
+                        IDs = EffectData(9).Split(";".ToCharArray)
+                        For Each ID As String In IDs
+                            newEffect.Groups.Add(ID)
+                        Next
+                    Else
+                        newEffect.Groups.Add(EffectData(9))
+                    End If
+
+                    AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(EffectData(2)))) & ";Implant;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+
+                    For Each cModule As ShipModule In ModuleLists.moduleList.Values
+                        Select Case newEffect.AffectedType
+                            Case EffectType.All
+                                If CInt(EffectData(2)) <> 0 Then
+                                    cModule.Affects.Add(AffectingName)
+                                End If
+                            Case EffectType.Item
+                                If newEffect.AffectedID.Contains(cModule.ID) Then
+                                    cModule.Affects.Add(AffectingName)
+                                End If
+                            Case EffectType.Group
+                                If newEffect.AffectedID.Contains(cModule.DatabaseGroup) Then
+                                    cModule.Affects.Add(AffectingName)
+                                End If
+                            Case EffectType.Category
+                                If newEffect.AffectedID.Contains(cModule.DatabaseCategory) Then
+                                    cModule.Affects.Add(AffectingName)
+                                End If
+                            Case EffectType.MarketGroup
+                                If newEffect.AffectedID.Contains(cModule.MarketGroup) Then
+                                    cModule.Affects.Add(AffectingName)
+                                End If
+                        End Select
+                    Next
+                Next
+            End If
+        Next
+    End Sub
+
+    Private Sub BuildShipEffects()
+
+        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+
+        ' Fetch the Effects list
+        Dim EffectFile As String = My.Resources.ShipEffects.ToString
+        ' Break the Effects down into separate lines
+        Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
+        ' Go through lines and break each one down
+        Dim EffectData() As String
+        
+        Dim shipEffectClassList As New ArrayList
+        Dim newEffect As New ShipEffect
+        Dim IDs() As String
+        Dim AffectingName As String = ""
+        For Each EffectLine As String In EffectLines
+            If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
+                EffectData = EffectLine.Split(",".ToCharArray)
+                newEffect = New ShipEffect
+                newEffect.ShipID = CInt(EffectData(0))
+                newEffect.AffectingType = CInt(EffectData(1))
+                newEffect.AffectingID = CInt(EffectData(2))
+                newEffect.AffectedAtt = CInt(EffectData(3))
+                newEffect.AffectedType = CInt(EffectData(4))
+                If EffectData(5).Contains(";") = True Then
+                    IDs = EffectData(5).Split(";".ToCharArray)
+                    For Each ID As String In IDs
+                        newEffect.AffectedID.Add(ID)
+                    Next
+                Else
+                    newEffect.AffectedID.Add(EffectData(5))
+                End If
+                newEffect.StackNerf = CBool(EffectData(6))
+                newEffect.IsPerLevel = CBool(EffectData(7))
+                newEffect.CalcType = CInt(EffectData(8))
+                newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
+                newEffect.Status = CInt(EffectData(10))
+                shipEffectClassList.Add(newEffect)
+
+                AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.ShipID.ToString)))
+                If newEffect.IsPerLevel = False Then
+                    AffectingName &= ";Ship Role;"
+                Else
+                    AffectingName &= ";Ship Bonus;"
+                End If
+                AffectingName &= HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+
+                For Each cModule As ShipModule In ModuleLists.moduleList.Values
+                    Select Case newEffect.AffectedType
+                        Case EffectType.All
+                            If newEffect.AffectingID <> 0 Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        Case EffectType.Item
+                            If newEffect.AffectedID.Contains(cModule.ID) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        Case EffectType.Group
+                            If newEffect.AffectedID.Contains(cModule.DatabaseGroup) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        Case EffectType.Category
+                            If newEffect.AffectedID.Contains(cModule.DatabaseCategory) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        Case EffectType.MarketGroup
+                            If newEffect.AffectedID.Contains(cModule.MarketGroup) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                    End Select
+                Next
+            End If
+        Next
+    End Sub
 
     ' NPC Loading Routines
     Private Function LoadNPCData() As Boolean

@@ -31,6 +31,11 @@ Partial Class frmShowInfo
         Me.colStandardValue = New System.Windows.Forms.ColumnHeader
         Me.colPilotValue = New System.Windows.Forms.ColumnHeader
         Me.tabSISkills = New System.Windows.Forms.TabPage
+        Me.tabAffects = New System.Windows.Forms.TabPage
+        Me.lvwAffects = New System.Windows.Forms.ListView
+        Me.colTypeName = New System.Windows.Forms.ColumnHeader
+        Me.colType = New System.Windows.Forms.ColumnHeader
+        Me.colTypeAtttribute = New System.Windows.Forms.ColumnHeader
         Me.tabAudit = New System.Windows.Forms.TabPage
         Me.lvwAudit = New System.Windows.Forms.ListView
         Me.colAudit = New System.Windows.Forms.ColumnHeader
@@ -40,17 +45,14 @@ Partial Class frmShowInfo
         Me.picItem = New System.Windows.Forms.PictureBox
         Me.lblItemName = New System.Windows.Forms.Label
         Me.pbPilot = New System.Windows.Forms.PictureBox
-        Me.tabAffects = New System.Windows.Forms.TabPage
-        Me.lvwAffects = New System.Windows.Forms.ListView
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.tabShowInfo.SuspendLayout()
         Me.tabSIDescription.SuspendLayout()
         Me.tabSIAttributes.SuspendLayout()
         Me.tabSISkills.SuspendLayout()
+        Me.tabAffects.SuspendLayout()
         Me.tabAudit.SuspendLayout()
         CType(Me.picItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPilot, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tabAffects.SuspendLayout()
         Me.SuspendLayout()
         '
         'tvwReqs
@@ -153,6 +155,45 @@ Partial Class frmShowInfo
         Me.tabSISkills.Text = "Req Skills"
         Me.tabSISkills.UseVisualStyleBackColor = True
         '
+        'tabAffects
+        '
+        Me.tabAffects.Controls.Add(Me.lvwAffects)
+        Me.tabAffects.Location = New System.Drawing.Point(4, 22)
+        Me.tabAffects.Name = "tabAffects"
+        Me.tabAffects.Size = New System.Drawing.Size(565, 393)
+        Me.tabAffects.TabIndex = 5
+        Me.tabAffects.Text = "Affected By"
+        Me.tabAffects.UseVisualStyleBackColor = True
+        '
+        'lvwAffects
+        '
+        Me.lvwAffects.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colTypeName, Me.colType, Me.colTypeAtttribute})
+        Me.lvwAffects.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwAffects.FullRowSelect = True
+        Me.lvwAffects.GridLines = True
+        Me.lvwAffects.Location = New System.Drawing.Point(0, 0)
+        Me.lvwAffects.Name = "lvwAffects"
+        Me.lvwAffects.Size = New System.Drawing.Size(565, 393)
+        Me.lvwAffects.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwAffects.TabIndex = 4
+        Me.lvwAffects.UseCompatibleStateImageBehavior = False
+        Me.lvwAffects.View = System.Windows.Forms.View.Details
+        '
+        'colTypeName
+        '
+        Me.colTypeName.Text = "Affected By"
+        Me.colTypeName.Width = 250
+        '
+        'colType
+        '
+        Me.colType.Text = "Type"
+        Me.colType.Width = 100
+        '
+        'colTypeAtttribute
+        '
+        Me.colTypeAtttribute.Text = "Attribute"
+        Me.colTypeAtttribute.Width = 180
+        '
         'tabAudit
         '
         Me.tabAudit.Controls.Add(Me.lvwAudit)
@@ -234,35 +275,6 @@ Partial Class frmShowInfo
         Me.pbPilot.TabIndex = 17
         Me.pbPilot.TabStop = False
         '
-        'tabAffects
-        '
-        Me.tabAffects.Controls.Add(Me.lvwAffects)
-        Me.tabAffects.Location = New System.Drawing.Point(4, 22)
-        Me.tabAffects.Name = "tabAffects"
-        Me.tabAffects.Size = New System.Drawing.Size(565, 393)
-        Me.tabAffects.TabIndex = 5
-        Me.tabAffects.Text = "Affected By"
-        Me.tabAffects.UseVisualStyleBackColor = True
-        '
-        'lvwAffects
-        '
-        Me.lvwAffects.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
-        Me.lvwAffects.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwAffects.FullRowSelect = True
-        Me.lvwAffects.GridLines = True
-        Me.lvwAffects.Location = New System.Drawing.Point(0, 0)
-        Me.lvwAffects.Name = "lvwAffects"
-        Me.lvwAffects.Size = New System.Drawing.Size(565, 393)
-        Me.lvwAffects.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvwAffects.TabIndex = 4
-        Me.lvwAffects.UseCompatibleStateImageBehavior = False
-        Me.lvwAffects.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Details"
-        Me.ColumnHeader1.Width = 540
-        '
         'frmShowInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -287,10 +299,10 @@ Partial Class frmShowInfo
         Me.tabSIDescription.ResumeLayout(False)
         Me.tabSIAttributes.ResumeLayout(False)
         Me.tabSISkills.ResumeLayout(False)
+        Me.tabAffects.ResumeLayout(False)
         Me.tabAudit.ResumeLayout(False)
         CType(Me.picItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPilot, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tabAffects.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -316,5 +328,7 @@ Partial Class frmShowInfo
     Friend WithEvents colPilotValue As System.Windows.Forms.ColumnHeader
     Friend WithEvents tabAffects As System.Windows.Forms.TabPage
     Friend WithEvents lvwAffects As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colTypeName As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colType As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colTypeAtttribute As System.Windows.Forms.ColumnHeader
 End Class

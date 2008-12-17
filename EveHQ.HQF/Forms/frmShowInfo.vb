@@ -519,8 +519,16 @@ Public Class frmShowInfo
         Else
             lvwAffects.BeginUpdate()
             lvwAffects.Items.Clear()
-            For Each item As String In itemObject.Affects.Values
-                lvwAffects.Items.Add(item)
+            Dim effects(2) As String
+            Dim newEffect As New ListViewItem
+            For Each item As String In itemObject.Affects
+                newEffect = New ListViewItem
+                effects = item.Split(";")
+                newEffect.Text = effects(0)
+                For subItem As Integer = 1 To 2
+                    newEffect.SubItems.Add(effects(subItem))
+                Next
+                lvwAffects.Items.Add(newEffect)
             Next
             lvwAffects.EndUpdate()
         End If
@@ -537,5 +545,17 @@ Public Class frmShowInfo
             Next
             lvwAudit.EndUpdate()
         End If
+    End Sub
+
+    Private Sub lvwAffects_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwAffects.ColumnClick
+        If CInt(lvwAffects.Tag) = e.Column Then
+            Me.lvwAffects.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
+            lvwAffects.Tag = -1
+        Else
+            Me.lvwAffects.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Descending)
+            lvwAffects.Tag = e.Column
+        End If
+        ' Call the sort method to manually sort.
+        lvwAffects.Sort()
     End Sub
 End Class

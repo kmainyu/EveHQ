@@ -68,5 +68,7 @@
 10060,ArmorDefence,Armor Defence,0,HP,0
 10061,HullDefence,Hull Defence,0,HP,0
 10062,MaxDefence,Max Defence,0,HP,0
+# GangLink Capacity
+10063,MaxGanglinks,Maximum Gang Modules,0,,0
 
 

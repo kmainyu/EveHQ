@@ -27,6 +27,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Public Class frmHQFSettings
     Dim forceUpdate As Boolean = False
     Dim redrawColumns As Boolean = True
+    Dim startUp As Boolean = True
 
 #Region "Form Opening & Closing"
 
@@ -48,6 +49,8 @@ Public Class frmHQFSettings
     End Sub
 
     Private Sub frmSettings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        startUp = True
         Call Me.UpdateGeneralOptions()
         Call Me.UpdateSlotFormatOptions()
         Call Me.UpdateConstantsOptions()
@@ -59,6 +62,7 @@ Public Class frmHQFSettings
         End If
         forceUpdate = False
         redrawColumns = True
+        startUp = False
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -342,7 +346,7 @@ Public Class frmHQFSettings
 
 #End Region
 
-#Region "Recharge Rate Options"
+#Region "Constants Options"
     Private Sub UpdateConstantsOptions()
         If HQF.Settings.HQFSettings.CapRechargeConstant > nudCapRecharge.Maximum Then
             HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Maximum
@@ -363,6 +367,7 @@ Public Class frmHQFSettings
         nudShieldRecharge.Value = CDec(HQF.Settings.HQFSettings.ShieldRechargeConstant)
         nudMissileRange.Value = CDec(HQF.Settings.HQFSettings.MissileRangeConstant)
     End Sub
+
     Private Sub nudCapRecharge_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudCapRecharge.HandleDestroyed
         HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Value
     End Sub
@@ -373,16 +378,22 @@ Public Class frmHQFSettings
         HQF.Settings.HQFSettings.MissileRangeConstant = nudMissileRange.Value
     End Sub
     Private Sub nudCapRecharge_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudCapRecharge.ValueChanged
-        HQF.Settings.HQFSettings.CapRechargeConstant = CDbl(nudCapRecharge.Value)
-        forceUpdate = True
+        If startUp = False Then
+            HQF.Settings.HQFSettings.CapRechargeConstant = CDbl(nudCapRecharge.Value)
+            forceUpdate = True
+        End If
     End Sub
     Private Sub nudShieldRecharge_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudShieldRecharge.ValueChanged
-        HQF.Settings.HQFSettings.ShieldRechargeConstant = CDbl(nudShieldRecharge.Value)
-        forceUpdate = True
+        If startUp = False Then
+            HQF.Settings.HQFSettings.ShieldRechargeConstant = CDbl(nudShieldRecharge.Value)
+            forceUpdate = True
+        End If
     End Sub
     Private Sub nudMissileRange_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMissileRange.ValueChanged
-        HQF.Settings.HQFSettings.MissileRangeConstant = CDbl(nudMissileRange.Value)
-        forceUpdate = True
+        If startUp = False Then
+            HQF.Settings.HQFSettings.MissileRangeConstant = CDbl(nudMissileRange.Value)
+            forceUpdate = True
+        End If
     End Sub
 
 #End Region
