@@ -383,6 +383,12 @@
     <None Include="Resources\icon12_08.png" />
     <None Include="Resources\icon01_04.png" />
     <None Include="Resources\icon09_09.png" />
+    <None Include="Resources\Level0.jpg" />
+    <None Include="Resources\Level1.jpg" />
+    <None Include="Resources\Level2.jpg" />
+    <None Include="Resources\Level3.jpg" />
+    <None Include="Resources\Level4.jpg" />
+    <None Include="Resources\Level5.jpg" />
     <Content Include="_Changelog.txt" />
   </ItemGroup>
   <ItemGroup>

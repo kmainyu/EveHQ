@@ -519,7 +519,7 @@ Public Class frmShowInfo
         Else
             lvwAffects.BeginUpdate()
             lvwAffects.Items.Clear()
-            Dim effects(2) As String
+            Dim effects(3) As String
             Dim newEffect As New ListViewItem
             For Each item As String In itemObject.Affects
                 newEffect = New ListViewItem

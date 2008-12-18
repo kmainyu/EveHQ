@@ -1101,6 +1101,103 @@ Public Class ShipSlotControl
                         End If
                         AddHandler AddToFavourtiesMenuItem.Click, AddressOf Me.AddModuleToFavourites
                         ctxSlots.Items.Add(AddToFavourtiesMenuItem)
+                        ' Check for Relevant Skills in Modules/Charges
+                        Dim RelModuleSkills, RelChargeSkills As New ArrayList
+                        Dim Affects(3) As String
+                        For Each Affect As String In currentMod.Affects
+                            If Affect.Contains(";Skill;") = True Then
+                                Affects = Affect.Split((";").ToCharArray)
+                                If RelModuleSkills.Contains(Affects(0)) = False Then
+                                    RelModuleSkills.Add(Affects(0))
+                                End If
+                            End If
+                            If Affect.Contains(";Ship Bonus;") = True Then
+                                Affects = Affect.Split((";").ToCharArray)
+                                If ShipCurrent.Name = Affects(0) Then
+                                    If RelModuleSkills.Contains(Affects(3)) = False Then
+                                        RelModuleSkills.Add(Affects(3))
+                                    End If
+                                End If
+                            End If
+                        Next
+                        If currentMod.LoadedCharge IsNot Nothing Then
+                            For Each Affect As String In currentMod.LoadedCharge.Affects
+                                If Affect.Contains(";Skill;") = True Then
+                                    Affects = Affect.Split((";").ToCharArray)
+                                    If RelChargeSkills.Contains(Affects(0)) = False Then
+                                        RelChargeSkills.Add(Affects(0))
+                                    End If
+                                End If
+                                If Affect.Contains(";Ship Bonus;") = True Then
+                                    Affects = Affect.Split((";").ToCharArray)
+                                    If ShipCurrent.Name = Affects(0) Then
+                                        If RelChargeSkills.Contains(Affects(3)) = False Then
+                                            RelChargeSkills.Add(Affects(3))
+                                        End If
+                                    End If
+                                End If
+                            Next
+                        End If
+                        If RelModuleSkills.Count > 0 Or RelChargeSkills.Count > 0 Then
+                            ' Add the Main menu item
+                            Dim AlterRelevantSkills As New ToolStripMenuItem
+                            AlterRelevantSkills.Name = currentMod.Name
+                            AlterRelevantSkills.Text = "Alter Relevant Skills"
+                            For Each relSkill As String In RelModuleSkills
+                                Dim newRelSkill As New ToolStripMenuItem
+                                newRelSkill.Name = relSkill
+                                newRelSkill.Text = relSkill
+                                Dim pilotLevel As Integer = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
+                                newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
+                                For skillLevel As Integer = 0 To 5
+                                    Dim newRelSkillLevel As New ToolStripMenuItem
+                                    newRelSkillLevel.Name = relSkill & skillLevel.ToString
+                                    newRelSkillLevel.Text = "Level " & skillLevel.ToString
+                                    If skillLevel = pilotLevel Then
+                                        newRelSkillLevel.Checked = True
+                                    End If
+                                    AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotSkillLevel
+                                    newRelSkill.DropDownItems.Add(newRelSkillLevel)
+                                Next
+                                newRelSkill.DropDownItems.Add("-")
+                                Dim defaultLevel As Integer = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                                Dim newRelSkillDefault As New ToolStripMenuItem
+                                newRelSkillDefault.Name = relSkill & defaultLevel.ToString
+                                newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
+                                AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
+                                newRelSkill.DropDownItems.Add(newRelSkillDefault)
+                                AlterRelevantSkills.DropDownItems.Add(newRelSkill)
+                            Next
+                            If AlterRelevantSkills.DropDownItems.Count > 0 And RelChargeSkills.Count > 0 Then
+                                AlterRelevantSkills.DropDownItems.Add("-")
+                            End If
+                            For Each relSkill As String In RelChargeSkills
+                                Dim newRelSkill As New ToolStripMenuItem
+                                newRelSkill.Name = relSkill
+                                newRelSkill.Text = relSkill
+                                Dim pilotLevel As Integer = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
+                                newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
+                                For skillLevel As Integer = 0 To 5
+                                    Dim newRelSkillLevel As New ToolStripMenuItem
+                                    newRelSkillLevel.Name = relSkill & skillLevel.ToString
+                                    newRelSkillLevel.Text = "Level " & skillLevel.ToString
+                                    If skillLevel = pilotLevel Then
+                                        newRelSkillLevel.Checked = True
+                                    End If
+                                    AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotSkillLevel
+                                    newRelSkill.DropDownItems.Add(newRelSkillLevel)
+                                Next
+                                newRelSkill.DropDownItems.Add("-")
+                                Dim defaultLevel As Integer = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                                Dim newRelSkillDefault As New ToolStripMenuItem
+                                newRelSkillDefault.Name = relSkill & defaultLevel.ToString
+                                newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
+                                AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
+                                newRelSkill.DropDownItems.Add(newRelSkillDefault)
+                                AlterRelevantSkills.DropDownItems.Add(newRelSkill)
+                            Next
+                            ctxSlots.Items.Add(AlterRelevantSkills)
+                        End If
                         ' Add the Remove Module item
                         Dim RemoveModuleMenuItem As New ToolStripMenuItem
                         RemoveModuleMenuItem.Name = currentMod.Name
@@ -1407,6 +1504,18 @@ Public Class ShipSlotControl
     End Sub
     Private Sub pbShipInfo_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles pbShipInfo.MouseHover
         ToolTip1.SetToolTip(pbShipInfo, currentShip.Description)
+    End Sub
+    Private Sub SetPilotSkillLevel(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim mnuPilotLevel As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim hPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot)
+        Dim pilotSkill As HQFSkill = CType(hPilot.SkillSet(mnuPilotLevel.Name.Substring(0, mnuPilotLevel.Name.Length - 1)), HQFSkill)
+        Dim level As Integer = CInt(mnuPilotLevel.Name.Substring(mnuPilotLevel.Name.Length - 1))
+        If level <> pilotSkill.Level Then
+            pilotSkill.Level = level
+            currentInfo.ShipType = currentShip
+            currentInfo.BuildMethod = BuildType.BuildEverything
+            Call Me.UpdateAllSlotLocations()
+        End If
     End Sub
 #End Region
 
@@ -2590,33 +2699,13 @@ Public Class ShipSlotControl
                             hSkill = CType(hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), HQFSkill)
                             If chkEffect.IsPerLevel = True Then
                                 gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value * hSkill.Level)
-                                'fEffect.AffectedValue = chkEffect.Value * hSkill.Level
-                                'fEffect.Cause = "Ship Bonus - " & hSkill.Name & " (Level " & hSkill.Level & ")"
                             Else
                                 gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value)
-                                'fEffect.AffectedValue = chkEffect.Value
-                                'fEffect.Cause = "Ship Role - "
                             End If
                         Else
                             gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value)
-                            'fEffect.AffectedValue = chkEffect.Value
-                            'fEffect.Cause = "Ship Role - "
                         End If
                         FleetModules.Add(gangModule)
-
-                        'fEffect = New FinalEffect
-                        'fEffect.AffectedAtt = chkEffect.AffectedAtt
-                        'fEffect.AffectedType = chkEffect.AffectedType
-                        'fEffect.AffectedID = chkEffect.AffectedID
-                        'fEffect.StackNerf = chkEffect.StackNerf
-                        'fEffect.CalcType = chkEffect.CalcType
-                        'If Engine.SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
-                        '    fEffectList = New ArrayList
-                        '    Engine.SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
-                        'Else
-                        '    fEffectList = CType(Engine.SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
-                        'End If
-                        'fEffectList.Add(fEffect)
 
                     End If
                 Next

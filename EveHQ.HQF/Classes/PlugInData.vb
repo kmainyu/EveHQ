@@ -1193,6 +1193,7 @@ Public Class PlugInData
                     Case EffectType.MarketGroup
                         AffectingName = CStr(HQF.Market.MarketGroupList(newEffect.AffectingID.ToString)) & ";Market Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                 End Select
+                AffectingName &= ";"
 
                 For Each cModule As ShipModule In ModuleLists.moduleList.Values
                     Select Case newEffect.AffectedType
@@ -1214,6 +1215,10 @@ Public Class PlugInData
                             End If
                         Case EffectType.MarketGroup
                             If newEffect.AffectedID.Contains(cModule.MarketGroup) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        Case EffectType.Skill
+                            If cModule.RequiredSkills.ContainsKey(CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectedID(0).ToString)))) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
                     End Select
@@ -1275,7 +1280,7 @@ Public Class PlugInData
                         newEffect.Groups.Add(EffectData(9))
                     End If
 
-                    AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(EffectData(2)))) & ";Implant;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                    AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(EffectData(2)))) & ";Implant;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ";"
 
                     For Each cModule As ShipModule In ModuleLists.moduleList.Values
                         Select Case newEffect.AffectedType
@@ -1352,6 +1357,11 @@ Public Class PlugInData
                     AffectingName &= ";Ship Bonus;"
                 End If
                 AffectingName &= HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                If newEffect.IsPerLevel = False Then
+                    AffectingName &= ";"
+                Else
+                    AffectingName &= ";" & CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectingID.ToString)))
+                End If
 
                 For Each cModule As ShipModule In ModuleLists.moduleList.Values
                     Select Case newEffect.AffectedType
