@@ -1747,6 +1747,111 @@ Public Class ShipSlotControl
             ctxShowBayInfoItem.Text = "Show Item Info"
         Else
             ctxShowBayInfoItem.Text = "Show Drone Info"
+            Dim selItem As ListViewItem = lvwBay.SelectedItems(0)
+            Dim idx As Integer = CInt(selItem.Name)
+            Dim DBI As DroneBayItem = CType(fittedShip.DroneBayItems.Item(idx), DroneBayItem)
+            Dim currentMod As ShipModule = DBI.DroneType
+
+            ' Check for Relevant Skills in Modules/Charges
+            Dim RelModuleSkills, RelChargeSkills As New ArrayList
+            Dim Affects(3) As String
+            For Each Affect As String In currentMod.Affects
+                If Affect.Contains(";Skill;") = True Then
+                    Affects = Affect.Split((";").ToCharArray)
+                    If RelModuleSkills.Contains(Affects(0)) = False Then
+                        RelModuleSkills.Add(Affects(0))
+                    End If
+                End If
+                If Affect.Contains(";Ship Bonus;") = True Then
+                    Affects = Affect.Split((";").ToCharArray)
+                    If ShipCurrent.Name = Affects(0) Then
+                        If RelModuleSkills.Contains(Affects(3)) = False Then
+                            RelModuleSkills.Add(Affects(3))
+                        End If
+                    End If
+                End If
+            Next
+            If currentMod.LoadedCharge IsNot Nothing Then
+                For Each Affect As String In currentMod.LoadedCharge.Affects
+                    If Affect.Contains(";Skill;") = True Then
+                        Affects = Affect.Split((";").ToCharArray)
+                        If RelChargeSkills.Contains(Affects(0)) = False Then
+                            RelChargeSkills.Add(Affects(0))
+                        End If
+                    End If
+                    If Affect.Contains(";Ship Bonus;") = True Then
+                        Affects = Affect.Split((";").ToCharArray)
+                        If ShipCurrent.Name = Affects(0) Then
+                            If RelChargeSkills.Contains(Affects(3)) = False Then
+                                RelChargeSkills.Add(Affects(3))
+                            End If
+                        End If
+                    End If
+                Next
+            End If
+            If RelModuleSkills.Count > 0 Or RelChargeSkills.Count > 0 Then
+                ' Add the Main menu item
+                Dim AlterRelevantSkills As New ToolStripMenuItem
+                AlterRelevantSkills.Name = "Drone Skills"
+                AlterRelevantSkills.Text = "Alter Relevant Skills"
+                For Each relSkill As String In RelModuleSkills
+                    Dim newRelSkill As New ToolStripMenuItem
+                    newRelSkill.Name = relSkill
+                    newRelSkill.Text = relSkill
+                    Dim pilotLevel As Integer = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
+                    newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
+                    For skillLevel As Integer = 0 To 5
+                        Dim newRelSkillLevel As New ToolStripMenuItem
+                        newRelSkillLevel.Name = relSkill & skillLevel.ToString
+                        newRelSkillLevel.Text = "Level " & skillLevel.ToString
+                        If skillLevel = pilotLevel Then
+                            newRelSkillLevel.Checked = True
+                        End If
+                        AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotSkillLevel
+                        newRelSkill.DropDownItems.Add(newRelSkillLevel)
+                    Next
+                    newRelSkill.DropDownItems.Add("-")
+                    Dim defaultLevel As Integer = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                    Dim newRelSkillDefault As New ToolStripMenuItem
+                    newRelSkillDefault.Name = relSkill & defaultLevel.ToString
+                    newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
+                    AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
+                    newRelSkill.DropDownItems.Add(newRelSkillDefault)
+                    AlterRelevantSkills.DropDownItems.Add(newRelSkill)
+                Next
+                If AlterRelevantSkills.DropDownItems.Count > 0 And RelChargeSkills.Count > 0 Then
+                    AlterRelevantSkills.DropDownItems.Add("-")
+                End If
+                For Each relSkill As String In RelChargeSkills
+                    Dim newRelSkill As New ToolStripMenuItem
+                    newRelSkill.Name = relSkill
+                    newRelSkill.Text = relSkill
+                    Dim pilotLevel As Integer = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
+                    newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
+                    For skillLevel As Integer = 0 To 5
+                        Dim newRelSkillLevel As New ToolStripMenuItem
+                        newRelSkillLevel.Name = relSkill & skillLevel.ToString
+                        newRelSkillLevel.Text = "Level " & skillLevel.ToString
+                        If skillLevel = pilotLevel Then
+                            newRelSkillLevel.Checked = True
+                        End If
+                        AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotSkillLevel
+                        newRelSkill.DropDownItems.Add(newRelSkillLevel)
+                    Next
+                    newRelSkill.DropDownItems.Add("-")
+                    Dim defaultLevel As Integer = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                    Dim newRelSkillDefault As New ToolStripMenuItem
+                    newRelSkillDefault.Name = relSkill & defaultLevel.ToString
+                    newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
+                    AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
+                    newRelSkill.DropDownItems.Add(newRelSkillDefault)
+                    AlterRelevantSkills.DropDownItems.Add(newRelSkill)
+                Next
+                If ctxBays.Items.ContainsKey("Drone Skills") = True Then
+                    ctxBays.Items.RemoveByKey("Drone Skills")
+                End If
+                ctxBays.Items.Add(AlterRelevantSkills)
+            End If
         End If
         If lvwBay.SelectedIndices.Count = 0 Then
             e.Cancel = True
