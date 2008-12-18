@@ -1221,6 +1221,10 @@ Public Class PlugInData
                             If cModule.RequiredSkills.ContainsKey(CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectedID(0).ToString)))) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
+                        Case EffectType.Attribute
+                            If cModule.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
                     End Select
                 Next
             End If
@@ -1304,6 +1308,10 @@ Public Class PlugInData
                                 If newEffect.AffectedID.Contains(cModule.MarketGroup) Then
                                     cModule.Affects.Add(AffectingName)
                                 End If
+                            Case EffectType.Attribute
+                                If cModule.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
+                                    cModule.Affects.Add(AffectingName)
+                                End If
                         End Select
                     Next
                 Next
@@ -1383,6 +1391,10 @@ Public Class PlugInData
                             End If
                         Case EffectType.MarketGroup
                             If newEffect.AffectedID.Contains(cModule.MarketGroup) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        Case EffectType.Attribute
+                            If cModule.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
                     End Select

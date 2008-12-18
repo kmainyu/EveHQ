@@ -414,6 +414,10 @@ Public Class Engine
                                 End If
                             Case EffectType.Slot
                                 processData = True
+                            Case EffectType.Attribute
+                                If aModule.Attributes.Contains(chkEffect.AffectingID.ToString) Then
+                                    processData = True
+                                End If
                         End Select
                         If processData = True And (aModule.ModuleState And chkEffect.Status) = aModule.ModuleState Then
                             fEffect = New FinalEffect
@@ -484,6 +488,10 @@ Public Class Engine
                                     End If
                                 Case EffectType.Slot
                                     processData = True
+                                Case EffectType.Attribute
+                                    If aModule.LoadedCharge.Attributes.Contains(chkEffect.AffectingID.ToString) Then
+                                        processData = True
+                                    End If
                             End Select
                             If processData = True And (aModule.LoadedCharge.ModuleState And chkEffect.Status) = aModule.LoadedCharge.ModuleState Then
                                 fEffect = New FinalEffect
@@ -761,6 +769,10 @@ Public Class Engine
                                     If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
                                         processAtt = True
                                     End If
+                                Case EffectType.Attribute
+                                    If aModule.Attributes.Contains(CStr(fEffect.AffectedID(0))) Then
+                                        processAtt = True
+                                    End If
                             End Select
                             If processAtt = True Then
                                 log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
@@ -845,6 +857,10 @@ Public Class Engine
                             If newShip.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
                                 processAtt = True
                             End If
+                        Case EffectType.Attribute
+                            If newShip.Attributes.Contains(CStr(fEffect.AffectedID(0))) Then
+                                processAtt = True
+                            End If
                     End Select
                     If processAtt = True Then
                         log &= Attributes.AttributeQuickList(att).ToString & "# " & fEffect.Cause
@@ -923,6 +939,10 @@ Public Class Engine
                             End If
                         Case EffectType.Skill
                             If newShip.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                processAtt = True
+                            End If
+                        Case EffectType.Attribute
+                            If newShip.Attributes.Contains(CStr(fEffect.AffectedID(0))) Then
                                 processAtt = True
                             End If
                     End Select
@@ -1005,6 +1025,10 @@ Public Class Engine
                                     If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
                                         processAtt = True
                                     End If
+                                Case EffectType.Attribute
+                                    If aModule.Attributes.Contains(CStr(fEffect.AffectedID(0))) Then
+                                        processAtt = True
+                                    End If
                             End Select
                             If processAtt = True Then
                                 oldAtt = aModule.Attributes(att).ToString
@@ -1073,6 +1097,10 @@ Public Class Engine
                                         End If
                                     Case EffectType.Slot
                                         If fEffect.AffectedID.Contains(aModule.LoadedCharge.SlotType & aModule.LoadedCharge.SlotNo) Then
+                                            processAtt = True
+                                        End If
+                                    Case EffectType.Attribute
+                                        If aModule.LoadedCharge.Attributes.Contains(CStr(fEffect.AffectedID(0))) Then
                                             processAtt = True
                                         End If
                                 End Select
@@ -1165,6 +1193,10 @@ Public Class Engine
                                     If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
                                         processAtt = True
                                     End If
+                                Case EffectType.Attribute
+                                    If aModule.Attributes.Contains(CStr(fEffect.AffectedID(0))) Then
+                                        processAtt = True
+                                    End If
                             End Select
                             If processAtt = True Then
                                 oldAtt = aModule.Attributes(att).ToString
@@ -1249,6 +1281,10 @@ Public Class Engine
                                 If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
                                     processAtt = True
                                 End If
+                            Case EffectType.Attribute
+                                If aModule.Attributes.Contains(CStr(fEffect.AffectedID(0))) Then
+                                    processAtt = True
+                                End If
                         End Select
                         If processAtt = True Then
                             log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
@@ -1321,6 +1357,10 @@ Public Class Engine
                                     End If
                                 Case EffectType.Slot
                                     If fEffect.AffectedID.Contains(aModule.LoadedCharge.SlotType & aModule.LoadedCharge.SlotNo) Then
+                                        processAtt = True
+                                    End If
+                                Case EffectType.Attribute
+                                    If aModule.LoadedCharge.Attributes.Contains(CStr(fEffect.AffectedID(0))) Then
                                         processAtt = True
                                     End If
                             End Select
@@ -1414,6 +1454,10 @@ Public Class Engine
                                 If fEffect.AffectedID.Contains(aModule.SlotType & aModule.SlotNo) Then
                                     processAtt = True
                                 End If
+                            Case EffectType.Attribute
+                                If aModule.Attributes.Contains(CStr(fEffect.AffectedID(0))) Then
+                                    processAtt = True
+                                End If
                         End Select
                         If processAtt = True Then
                             log &= Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
@@ -1493,6 +1537,10 @@ Public Class Engine
                             End If
                         Case EffectType.Skill
                             If newShip.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                processAtt = True
+                            End If
+                        Case EffectType.Attribute
+                            If newShip.Attributes.Contains(CStr(fEffect.AffectedID(0))) Then
                                 processAtt = True
                             End If
                     End Select
@@ -2224,6 +2272,7 @@ Public Enum EffectType
     MarketGroup = 4
     Skill = 5
     Slot = 6
+    Attribute = 7
 End Enum
 
 Public Enum EffectCalcType
