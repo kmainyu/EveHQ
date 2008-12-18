@@ -1120,6 +1120,7 @@ Public Class ShipSlotControl
                                 End If
                             End If
                         Next
+                        RelModuleSkills.Sort
                         If currentMod.LoadedCharge IsNot Nothing Then
                             For Each Affect As String In currentMod.LoadedCharge.Affects
                                 If Affect.Contains(";Skill;") = True Then
@@ -1138,6 +1139,7 @@ Public Class ShipSlotControl
                                 End If
                             Next
                         End If
+                        RelChargeSkills.Sort()
                         If RelModuleSkills.Count > 0 Or RelChargeSkills.Count > 0 Then
                             ' Add the Main menu item
                             Dim AlterRelevantSkills As New ToolStripMenuItem
@@ -1771,6 +1773,7 @@ Public Class ShipSlotControl
                     End If
                 End If
             Next
+            RelModuleSkills.Sort()
             If currentMod.LoadedCharge IsNot Nothing Then
                 For Each Affect As String In currentMod.LoadedCharge.Affects
                     If Affect.Contains(";Skill;") = True Then
@@ -1789,6 +1792,7 @@ Public Class ShipSlotControl
                     End If
                 Next
             End If
+            RelChargeSkills.Sort()
             If RelModuleSkills.Count > 0 Or RelChargeSkills.Count > 0 Then
                 ' Add the Main menu item
                 Dim AlterRelevantSkills As New ToolStripMenuItem

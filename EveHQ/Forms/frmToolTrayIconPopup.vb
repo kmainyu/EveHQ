@@ -44,6 +44,8 @@
                 Me.Location = New System.Drawing.Point(workingRectangle.X + 5, workingRectangle.Height - Me.Height - 5)
             Case "Right"
                 Me.Location = New System.Drawing.Point(workingRectangle.Width - Me.Width - 5, workingRectangle.Height - Me.Height - 5)
+            Case "Error"
+                Me.Close()
         End Select
         tmrSkill.Start()
     End Sub
@@ -65,7 +67,11 @@
         sY = 0
         sW = Screen.PrimaryScreen.Bounds.Width
         sH = Screen.PrimaryScreen.Bounds.Height
-
+        ' Check for error
+        If sW = 0 And sH = 0 Then
+            location = "Error"
+            Return location
+        End If
         ' Work out position
         If tbBottom = sH Then
             If tbTop <> sY Then
@@ -86,20 +92,28 @@
         Dim Result As Int32
         Dim abd As New APPBARDATA
         Dim state As String = ""
-        Call SHAppBarMessage(ABM_GETTASKBARPOS, abd)
-        Result = SHAppBarMessage(ABM_GETSTATE, abd)
-        If CBool((Result And ABS_AUTOHIDE)) Then
-            state = "Autohide is Enabled"
-        ElseIf CBool((Result And ABS_ALWAYSONTOP)) Then
-            state = "Always on Top"
-        End If
-        With abd.rc
-            tbLeft = .Left
-            tbTop = .Top
-            tbRight = .Right
-            tbBottom = .Bottom
-        End With
-        Return state
+        Try
+            Call SHAppBarMessage(ABM_GETTASKBARPOS, abd)
+            Result = SHAppBarMessage(ABM_GETSTATE, abd)
+            If CBool((Result And ABS_AUTOHIDE)) Then
+                state = "Autohide is Enabled"
+            ElseIf CBool((Result And ABS_ALWAYSONTOP)) Then
+                state = "Always on Top"
+            End If
+            With abd.rc
+                tbLeft = .Left
+                tbTop = .Top
+                tbRight = .Right
+                tbBottom = .Bottom
+            End With
+            Return state
+        Catch e As Exception
+            tbLeft = 0
+            tbTop = 0
+            tbRight = 0
+            tbBottom = 0
+            Return state
+        End Try
     End Function
 #End Region
 

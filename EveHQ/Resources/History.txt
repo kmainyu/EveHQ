@@ -1,6 +1,75 @@
 EveHQ - Version History
 -----------------------
 
+19/12/2008 (1.8.3.???)
+---------
+New Features:
+- HQF: Remote Effects added - Add specific hostile/friendly effects to your ship
+- HQF: Fleet Effects added - Setup gang boosters and have Leadership skills and ganglinks applied to your fitting
+
+Fixes and Improvements:
+- Assets: Fixed code for accessing the Item Browser plug-in
+- Core: Proxy settings now restore correctly after restarting EveHQ
+- Core: EveHQ should now work with transparent proxies 
+- Core: Increased size of buffer used to download updates
+- Core: Increased concurrent connection limit to the EveHQ upgrade site from 2 to 10
+- Core: Added Server Status XML to the EveHQ API
+- Core: Added Certificate Tree XML to the EveHQ API
+- Core: Added Medals Received XML to the EveHQ API
+- Core: Added Medals Available XML to the EveHQ API
+- Core: Added Member Medals XML to the EveHQ API
+- Core: Implemented a fix for the pop-up form causing an error
+- Item Browser: Fixed crash when pressing a key on the treeview with no node selected
+- Item Browser: Fixed crash caused by trying to clear tabs when they didn't exist
+- HQF: Re-written calculation code to provide additional flexibility and speed improvements of 75%-90%
+- HQF: Reworked defence statistic calculations to provide more accurate tanking ability figures
+- HQF: Settings now loaded before anything else on the form which fixes removing the Info Panel in EveHQ on first opening HQF
+- HQF: The Close InfoPanel option now remembers the correct state in the settings form
+- HQF: Fixed resetting of the HQF constants on entering the settings
+- HQF: Added a Missile Range Constant into the HQF Settings
+- HQF: Damage Profile info added as a tooltip to the Damage Profile combobox
+- HQF: Fixed crash caused by Ctrl-clicking on the fittings panel
+- HQF: Ship Audit log will now omit items that do not modify the ship attributes
+- HQF: Show Info screen now shows items which affect the selected module/charge/drone
+- HQF: Added panel to the ship preview page, modified control ordering and control docking
+- HQF: Added a "Remove Module" option to the HQF menu (with "Delete" shortcut)
+- HQF: Multiple module removal now enabled
+- HQF: Reworked slot context menu
+- HQF: Added a new context menu for altering relevant skills of modules
+- HQF: Added an implants dropdown box to the fitting for selecting implants directly
+- HQF: Fixed context menu in SlotControl not appearing after using the right-click to change module state
+- HQF: Reworked the fitting parsing routine to run off the ship modules (not the slot text) thus fixing saving issues
+- HQF: Fixed possible invalid fitted ship being returned from the calculations
+- HQF: Fixed incorrect labelling of functions for redrawing cargo and drone bays
+- HQF: An error will no longer occur if the drone bay usage exceeds the maximum when changing pilots
+- HQF: Added panels to the tabs of the Cargo/Drone bay to prevent graphical glitches on resizing
+- HQF: Increased width of drone and cargo module descriptions
+- HQF: Fixed crash with cargo/drone capacity bars when cargo/drone bay was zero
+- HQF: Fixed all ship bonuses for the Taranis
+- HQF: Fixed falloff penalty of tracking disruptors
+- HQF: Fixed falloff stacking nerf of tracking disruptors
+- HQF: Fixed stacking nerf of target painters
+- HQF: Fixed Ship bonuses for Omen Navy Issue pointing to Omen
+- HQF: Burst Aerator rigs now stacking penalised
+- HQF: Collision Accelerator rigs now stacking penalised
+- HQF: Locus Coordinator rigs now stacking penalised
+- HQF: Metastasis Adjuster rigs now stacking penalised
+- HQF: Stasis webifier remote effect now stacking nerfed
+- HQF: Fixed gang bonus on Orca
+- HQF: Fixed Mining Foreman Mindlink command bonus
+- HQF: Warfare Link Bonus on Drake now changed to Role
+- HQF: Gila role bonus corrected
+- HQF: Damage per level bonus on Nightmare now corrected
+- HQF: Tracking link bonus on Oneiros changed to a per-level bonus
+- HQF: Tracking link bonus on Scimitar changed to a per-level bonus
+- HQF: Tracking link bonus on Scythe changed to a per-level bonus
+- HQF: Removed the EW Immunity Role bonus from Motherships and Titans as this is contained in the attributes
+- HQF: Corrected mappings for MaxGangLink Bonuses on Motherships, Titans, Field Command Ships, Orca and Rorqual
+- HQF: Removed MaxGangLink Role bonus on the Nighthawk
+- HQF: The Thermodynamics skill no longer has an effect on all modules
+- HQF: Fixed advanced leadership skills giving incorrect bonuses
+
+
 1.8.2.188 (25/11/2008)
 ---------
 Fixes and Improvements:

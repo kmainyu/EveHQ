@@ -341,9 +341,9 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
         Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
-        Me.gbCache.Location = New System.Drawing.Point(465, 224)
+        Me.gbCache.Location = New System.Drawing.Point(199, 12)
         Me.gbCache.Name = "gbCache"
-        Me.gbCache.Size = New System.Drawing.Size(179, 77)
+        Me.gbCache.Size = New System.Drawing.Size(493, 497)
         Me.gbCache.TabIndex = 29
         Me.gbCache.TabStop = False
         Me.gbCache.Text = "Data and Cache Settings"
@@ -357,6 +357,7 @@ Partial Public Class frmHQFSettings
         Me.btnExportShipBonuses.TabIndex = 8
         Me.btnExportShipBonuses.Text = "Export Ship Bonuses"
         Me.btnExportShipBonuses.UseVisualStyleBackColor = True
+        Me.btnExportShipBonuses.Visible = False
         '
         'btnExportImplantEffects
         '
@@ -366,6 +367,7 @@ Partial Public Class frmHQFSettings
         Me.btnExportImplantEffects.TabIndex = 7
         Me.btnExportImplantEffects.Text = "Export Implant Effects"
         Me.btnExportImplantEffects.UseVisualStyleBackColor = True
+        Me.btnExportImplantEffects.Visible = False
         '
         'btnExportEffects
         '
@@ -375,6 +377,7 @@ Partial Public Class frmHQFSettings
         Me.btnExportEffects.TabIndex = 6
         Me.btnExportEffects.Text = "Export Effects"
         Me.btnExportEffects.UseVisualStyleBackColor = True
+        Me.btnExportEffects.Visible = False
         '
         'btnCheckAttributeIntFloat
         '
@@ -435,9 +438,9 @@ Partial Public Class frmHQFSettings
         Me.gbConstants.Controls.Add(Me.lblShieldRecharge)
         Me.gbConstants.Controls.Add(Me.nudCapRecharge)
         Me.gbConstants.Controls.Add(Me.lblCapRecharge)
-        Me.gbConstants.Location = New System.Drawing.Point(194, 12)
+        Me.gbConstants.Location = New System.Drawing.Point(219, 316)
         Me.gbConstants.Name = "gbConstants"
-        Me.gbConstants.Size = New System.Drawing.Size(498, 497)
+        Me.gbConstants.Size = New System.Drawing.Size(159, 43)
         Me.gbConstants.TabIndex = 30
         Me.gbConstants.TabStop = False
         Me.gbConstants.Text = "Calculation Constants"
@@ -549,8 +552,8 @@ Partial Public Class frmHQFSettings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
-        Me.Controls.Add(Me.gbConstants)
         Me.Controls.Add(Me.gbCache)
+        Me.Controls.Add(Me.gbConstants)
         Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.tvwSettings)
