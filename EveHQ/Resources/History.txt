@@ -32,6 +32,7 @@ Fixes and Improvements:
 - HQF: Ship Audit log will now omit items that do not modify the ship attributes
 - HQF: Show Info screen now shows items which affect the selected module/charge/drone
 - HQF: Added panel to the ship preview page, modified control ordering and control docking
+- HQF: Ship preview page now contains drone bandwdith
 - HQF: Added a "Remove Module" option to the HQF menu (with "Delete" shortcut)
 - HQF: Multiple module removal now enabled
 - HQF: Reworked slot context menu

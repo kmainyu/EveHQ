@@ -1304,6 +1304,21 @@ Public Class frmEveHQ
                 End If
             End If
         Next
+        ' Check for existing pilots and accounts
+        If EveHQ.Core.HQ.Accounts.Count = 0 And EveHQ.Core.HQ.Pilots.Count = 0 Then
+            Dim wMsg As String = "EveHQ has detected that you have not yet setup any API accounts." & ControlChars.CrLf & ControlChars.CrLf
+            wMsg &= "Would you like to do this now?"
+            Dim reply As Integer = MessageBox.Show(wMsg, "Welcome to EveHQ!", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If reply = DialogResult.No Then
+                wMsg = "You can add API accounts using the 'Add API Account' button on the toolbar or by going into Settings and choosing the Eve Accounts section."
+                MessageBox.Show(wMsg, "API Account Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                Dim EveHQSettings As New frmSettings
+                EveHQSettings.Tag = "nodeEveAccounts"
+                EveHQSettings.ShowDialog()
+                EveHQSettings.Dispose()
+            End If
+        End If
     End Sub
     Private Sub RunModuleStartUps(ByVal State As Object)
         Dim plugInInfo As EveHQ.Core.PlugIn = CType(State, EveHQ.Core.PlugIn)

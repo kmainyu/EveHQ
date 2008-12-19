@@ -5,21 +5,21 @@
 		<file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-			<version>1.8.2.190</version>
+			<version>1.8.3.231</version>
 			<requires></requires>
 			<description>EveHQ Executable</description>
 		</file>
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-			<version>1.8.2.190</version>
+			<version>1.8.3.231</version>
 			<requires></requires>
 			<description>EveHQ Core Library</description>
 		</file>
 		<file>
 			<name>EveHQ.CoreControls.dll</name>
 			<type>Required</type>
-			<version>1.8.2.190</version>
+			<version>1.8.3.231</version>
 			<requires></requires>
 			<description>EveHQ Controls Library</description>
 		</file>
@@ -47,8 +47,8 @@
 		<file>
 			<name>EveHQ.Assets.dll</name>
 			<type>Plug-in</type>
-			<version>1.8.2.190</version>
-			<requires>1.8.2.190</requires>
+			<version>1.8.3.231</version>
+			<requires>1.8.3.231</requires>
 			<description>Assets Plug-in</description>
 		</file>
 		<file>
@@ -89,8 +89,8 @@
 		<file>
 			<name>EveHQ.ItemBrowser.dll</name>
 			<type>Plug-in</type>
-			<version>1.8.2.190</version>
-			<requires>1.8.2.190</requires>
+			<version>1.8.3.231</version>
+			<requires>1.8.3.231</requires>
 			<description>Item Browser Plug-in</description>
 		</file>
 		<file>
@@ -103,8 +103,8 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.8.2.190</version>
-			<requires>1.8.2.190</requires>
+			<version>1.8.3.231</version>
+			<requires>1.8.2.231</requires>
 			<description>Ship Fitting Plug-in</description>
 		</file>
 	</files>

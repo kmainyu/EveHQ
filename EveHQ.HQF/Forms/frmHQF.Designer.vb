@@ -162,6 +162,7 @@ Partial Class frmHQF
         Me.pbStructureEM = New System.Windows.Forms.PictureBox
         Me.pbStructure = New System.Windows.Forms.PictureBox
         Me.gbStorage = New System.Windows.Forms.GroupBox
+        Me.lblDroneBandwidth = New System.Windows.Forms.Label
         Me.lblDroneBay = New System.Windows.Forms.Label
         Me.lblCargohold = New System.Windows.Forms.Label
         Me.pbStorage = New System.Windows.Forms.PictureBox
@@ -1540,6 +1541,7 @@ Partial Class frmHQF
         '
         'gbStorage
         '
+        Me.gbStorage.Controls.Add(Me.lblDroneBandwidth)
         Me.gbStorage.Controls.Add(Me.lblDroneBay)
         Me.gbStorage.Controls.Add(Me.lblCargohold)
         Me.gbStorage.Controls.Add(Me.pbStorage)
@@ -1552,11 +1554,21 @@ Partial Class frmHQF
         Me.gbStorage.TabStop = False
         Me.gbStorage.Text = "Storage"
         '
+        'lblDroneBandwidth
+        '
+        Me.lblDroneBandwidth.AutoSize = True
+        Me.lblDroneBandwidth.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDroneBandwidth.Location = New System.Drawing.Point(57, 54)
+        Me.lblDroneBandwidth.Name = "lblDroneBandwidth"
+        Me.lblDroneBandwidth.Size = New System.Drawing.Size(96, 13)
+        Me.lblDroneBandwidth.TabIndex = 7
+        Me.lblDroneBandwidth.Text = "Bandwidth: 0 Mb/s"
+        '
         'lblDroneBay
         '
         Me.lblDroneBay.AutoSize = True
         Me.lblDroneBay.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDroneBay.Location = New System.Drawing.Point(60, 47)
+        Me.lblDroneBay.Location = New System.Drawing.Point(57, 36)
         Me.lblDroneBay.Name = "lblDroneBay"
         Me.lblDroneBay.Size = New System.Drawing.Size(87, 13)
         Me.lblDroneBay.TabIndex = 6
@@ -1566,7 +1578,7 @@ Partial Class frmHQF
         '
         Me.lblCargohold.AutoSize = True
         Me.lblCargohold.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCargohold.Location = New System.Drawing.Point(60, 25)
+        Me.lblCargohold.Location = New System.Drawing.Point(57, 18)
         Me.lblCargohold.Name = "lblCargohold"
         Me.lblCargohold.Size = New System.Drawing.Size(66, 13)
         Me.lblCargohold.TabIndex = 5
@@ -1989,4 +2001,5 @@ Partial Class frmHQF
     Friend WithEvents btnImportEFT As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator7 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents panelPreview As System.Windows.Forms.Panel
+    Friend WithEvents lblDroneBandwidth As System.Windows.Forms.Label
 End Class

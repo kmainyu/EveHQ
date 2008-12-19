@@ -368,7 +368,9 @@ Public Class ShipInfoControl
             currentSlot.UpdateAllSlots = True
         End If
         cboImplants.Tag = "Updating"
-        cboImplants.SelectedItem = shipPilot.ImplantName(0)
+        If shipPilot.ImplantName(0) IsNot Nothing Then
+            cboImplants.SelectedItem = shipPilot.ImplantName(0)
+        End If
         cboImplants.Tag = Nothing
         BuildMethod = BuildType.BuildEverything
         If currentSlot IsNot Nothing Then

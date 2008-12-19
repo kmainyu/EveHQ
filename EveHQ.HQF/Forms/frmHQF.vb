@@ -388,6 +388,7 @@ Public Class frmHQF
         lblInertia.Text = "Inertia: " & FormatNumber(selShip.Inertia, 6, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblCargohold.Text = "Cargo: " & FormatNumber(selShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3"
         lblDroneBay.Text = "Drone Bay: " & FormatNumber(selShip.DroneBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3"
+        lblDroneBandwidth.Text = "Bandwidth: " & FormatNumber(selShip.DroneBandwidth, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " Mb/s"
 
         lblCPU.Text = "CPU: " & FormatNumber(selShip.CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblPG.Text = "Powergrid: " & FormatNumber(selShip.PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -418,7 +419,7 @@ Public Class frmHQF
     End Sub
     Private Sub CreateNewFitting(ByVal shipName As String)
         ' Check we have some valid characters
-        If EveHQ.Core.HQ.Pilots.Count > 0 Then
+        If HQF.HQFPilotCollection.HQFPilots.Count > 0 Then
             ' Clear the text boxes
             Dim myNewFitting As New frmModifyFittingName
             Dim fittingName As String = ""
@@ -446,8 +447,10 @@ Public Class frmHQF
                 MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         Else
-            Dim msg As String = "There are no pilots or accounts created in EveHQ." & ControlChars.CrLf
+            Dim msg As String = "There appears to be no pilots or accounts created in EveHQ." & ControlChars.CrLf
             msg &= "Please add an API account or manual pilot in the main EveHQ Settings before opening or creating a fitting."
+            msg &= ControlChars.CrLf & ControlChars.CrLf
+            msg &= "If you have just added accounts or pilots with HQF open, please close the HQF plug-in and re-open it."
             MessageBox.Show(msg, "Pilots Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
