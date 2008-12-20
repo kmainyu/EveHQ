@@ -1162,7 +1162,11 @@ Public Class ShipSlotControl
                                     newRelSkill.DropDownItems.Add(newRelSkillLevel)
                                 Next
                                 newRelSkill.DropDownItems.Add("-")
-                                Dim defaultLevel As Integer = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                                Dim defaultLevel As Integer = 0
+                                If CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
+                                    defaultLevel = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                                Else
+                                End If
                                 Dim newRelSkillDefault As New ToolStripMenuItem
                                 newRelSkillDefault.Name = relSkill & defaultLevel.ToString
                                 newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
@@ -1190,7 +1194,10 @@ Public Class ShipSlotControl
                                     newRelSkill.DropDownItems.Add(newRelSkillLevel)
                                 Next
                                 newRelSkill.DropDownItems.Add("-")
-                                Dim defaultLevel As Integer = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                                Dim defaultLevel As Integer = 0
+                                If CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
+                                    defaultLevel = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                                End If
                                 Dim newRelSkillDefault As New ToolStripMenuItem
                                 newRelSkillDefault.Name = relSkill & defaultLevel.ToString
                                 newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
@@ -1318,7 +1325,7 @@ Public Class ShipSlotControl
                     Next
                 End If
 
-                If ShowCharges = True Then
+                If ShowCharges = True And currentMod IsNot Nothing Then
 
                     ' Get the charge group and item data
                     Dim chargeGroups As New ArrayList
@@ -1815,7 +1822,10 @@ Public Class ShipSlotControl
                         newRelSkill.DropDownItems.Add(newRelSkillLevel)
                     Next
                     newRelSkill.DropDownItems.Add("-")
-                    Dim defaultLevel As Integer = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                    Dim defaultLevel As Integer = 0
+                    If CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
+                        defaultLevel = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                    End If
                     Dim newRelSkillDefault As New ToolStripMenuItem
                     newRelSkillDefault.Name = relSkill & defaultLevel.ToString
                     newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
@@ -1843,7 +1853,10 @@ Public Class ShipSlotControl
                         newRelSkill.DropDownItems.Add(newRelSkillLevel)
                     Next
                     newRelSkill.DropDownItems.Add("-")
-                    Dim defaultLevel As Integer = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                    Dim defaultLevel As Integer = 0
+                    If CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
+                        defaultLevel = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                    End If
                     Dim newRelSkillDefault As New ToolStripMenuItem
                     newRelSkillDefault.Name = relSkill & defaultLevel.ToString
                     newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
