@@ -528,7 +528,7 @@ Public Class frmMap
         If PlugInData.SystemsName.ContainsKey(cboSystem.Text) = False Then
             MessageBox.Show("System Name is not a valid system", "System Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Else
-            If lblStartSystem.Tag.ToString = "" Then
+            If lblStartSystem.Tag Is Nothing Then
                 MessageBox.Show("Please enter a Start System before entering a Destination.", "Start System Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 Dim endSystem As SolarSystem = CType(PlugInData.SystemsName(cboSystem.Text), SolarSystem)
