@@ -214,7 +214,7 @@
 16240,0,0,10011,2,53;55;74,0,0,0,25,15,Energy Turret ROF
 16240,0,0,10012,2,53;55;74,0,0,0,25,15,Hybrid Turret ROF
 16240,0,0,10013,2,53;55;74,0,0,0,25,15,Projectile Turret ROF
-16240,0,0,54,4,561;564,0,1,0,50,15,Small Hybrid Turret Optimal Range
+16240,0,0,54,4,561;564,0,0,0,50,15,Small Hybrid Turret Optimal Range
 # Celestis,,,,,,,,,,,
 633,1,3352,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 633,1,3352,309,2,208,0,1,0,5,15,Remote Sensor Damp Range
@@ -1063,7 +1063,7 @@
 631,1,3333,77,2,54,0,1,0,20,15,Mining Laser Yield
 631,1,3333,351,2,209,0,1,0,3.5,15,Tracking Link Optimal Range Bonus
 631,1,3333,767,2,209,0,1,0,3.5,15,Tracking Link Tracking Speed Bonus
-631,0,0,351,2,209,0,1,0,500,15,Tracking Link Optimal Range Bonus
+631,0,0,351,2,209,0,0,0,500,15,Tracking Link Optimal Range Bonus
 # Scythe Fleet Issue,,,,,,,,,,,
 29336,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 29336,1,3333,51,2,511;510;771,0,1,0,-5,15,"Assault, Heavy, Heavy Assault Launcher ROF"
@@ -1206,11 +1206,11 @@
 3766,1,3329,37,1,3766,0,1,0,5,15,Max Velocity
 3766,1,3329,554,2,379,0,1,0,5,15,Target Painter Sig Radius
 # Vigilant,,,,,,,,,,,
-17722,0,0,10015,4,562;565,0,1,0,25,15,Medium Hybrid Turret Damage
+17722,0,0,10015,4,562;565,0,0,0,25,15,Medium Hybrid Turret Damage
 17722,1,3332,160,4,562;565,0,1,0,7.5,15,Medium Hybrid Turret Tracking
 17722,1,3333,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus
 # Vindicator,,,,,,,,,,,
-17740,0,0,10015,4,563;566,0,1,0,25,15,Large Hybrid Turret Damage
+17740,0,0,10015,4,563;566,0,0,0,25,15,Large Hybrid Turret Damage
 17740,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
 17740,1,3337,147,4,131,0,1,0,-20,15,MWD Capacitor Penalty Bonus
 # Vulture,,,,,,,,,,,

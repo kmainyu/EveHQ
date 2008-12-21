@@ -1149,7 +1149,12 @@ Public Class ShipSlotControl
                                 Dim newRelSkill As New ToolStripMenuItem
                                 newRelSkill.Name = relSkill
                                 newRelSkill.Text = relSkill
-                                Dim pilotLevel As Integer = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
+                                Dim pilotLevel As Integer = 0
+                                If CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet.Contains(relSkill) Then
+                                    pilotLevel = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
+                                Else
+                                    MessageBox.Show("There is a mis-match of roles for the " & currentShip.Name & ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                End If
                                 newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                                 For skillLevel As Integer = 0 To 5
                                     Dim newRelSkillLevel As New ToolStripMenuItem
@@ -1181,7 +1186,12 @@ Public Class ShipSlotControl
                                 Dim newRelSkill As New ToolStripMenuItem
                                 newRelSkill.Name = relSkill
                                 newRelSkill.Text = relSkill
-                                Dim pilotLevel As Integer = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
+                                Dim pilotLevel As Integer = 0
+                                If CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet.Contains(relSkill) Then
+                                    pilotLevel = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
+                                Else
+                                    MessageBox.Show("There is a mis-match of roles for the " & currentShip.Name & ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                End If
                                 newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                                 For skillLevel As Integer = 0 To 5
                                     Dim newRelSkillLevel As New ToolStripMenuItem
