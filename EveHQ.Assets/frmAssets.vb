@@ -1668,7 +1668,11 @@ Public Class frmAssets
             If asset.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
                 price = 0
             Else
-                price = EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(asset)))
+                If EveHQ.Core.HQ.itemList.Contains(asset) Then
+                    price = EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(asset)))
+                Else
+                    price = 0
+                End If
             End If
             price = Math.Round(price, 2)
             ' Get quantity
@@ -1713,7 +1717,11 @@ Public Class frmAssets
             If asset.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
                 cPrice = 0
             Else
-                cPrice = EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(asset)))
+                If EveHQ.Core.HQ.itemList.Contains(asset) Then
+                    cPrice = EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(asset)))
+                Else
+                    cPrice = 0
+                End If
             End If
             cPrice = Math.Round(cPrice, 2)
             Select Case field
@@ -1758,7 +1766,11 @@ Public Class frmAssets
             If cAsset.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
                 price = 0
             Else
-                price = EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(cAsset)))
+                If EveHQ.Core.HQ.itemList.Contains(cAsset) Then
+                    price = EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(cAsset)))
+                Else
+                    price = 0
+                End If
             End If
             price = Math.Round(price, 2)
             ' Get quantity

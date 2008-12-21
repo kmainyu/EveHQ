@@ -46,16 +46,16 @@ Public Class Engine
         PirateImplantGroups.Add("Slave", 1)
         PirateImplantGroups.Add("Snake", 1)
         PirateImplantGroups.Add("Talisman", 1)
-        PirateImplantGroups.Add("Low-Grade Centurion", 1)
-        PirateImplantGroups.Add("Low-Grade Crystal", 1)
-        PirateImplantGroups.Add("Low-Grade Edge", 1)
-        PirateImplantGroups.Add("Low-Grade Halo", 1)
-        PirateImplantGroups.Add("Low-Grade Harvest", 1)
-        PirateImplantGroups.Add("Low-Grade Nomad", 1)
-        PirateImplantGroups.Add("Low-Grade Slave", 1)
-        PirateImplantGroups.Add("Low-Grade Snake", 1)
-        PirateImplantGroups.Add("Low-Grade Talisman", 1)
-        PirateImplantGroups.Add("Low-Grade Virtue", 1)
+        PirateImplantGroups.Add("Low-grade Centurion", 1)
+        PirateImplantGroups.Add("Low-grade Crystal", 1)
+        PirateImplantGroups.Add("Low-grade Edge", 1)
+        PirateImplantGroups.Add("Low-grade Halo", 1)
+        PirateImplantGroups.Add("Low-grade Harvest", 1)
+        PirateImplantGroups.Add("Low-grade Nomad", 1)
+        PirateImplantGroups.Add("Low-grade Slave", 1)
+        PirateImplantGroups.Add("Low-grade Snake", 1)
+        PirateImplantGroups.Add("Low-grade Talisman", 1)
+        PirateImplantGroups.Add("Low-grade Virtue", 1)
         PirateImplantComponents.Clear()
         PirateImplantComponents.Add(" Alpha")
         PirateImplantComponents.Add(" Beta")
@@ -280,7 +280,29 @@ Public Class Engine
                 ' We have a pirate implant so let's work out the group and the set bonus
                 PIGroup = CStr(PirateImplants.Item(hImplant))
                 aImplant = CType(ModuleLists.moduleList(ModuleLists.moduleListName(hImplant)), ShipModule)
-                cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("838"))
+                Select Case PIGroup
+                    Case "Low-grade Centurion"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1293"))
+                    Case "Crystal", "Low-grade Crystal"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("838"))
+                    Case "Low-grade Edge"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1291"))
+                    Case "Halo", "Low-grade Halo"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("863"))
+                    Case "Low-grade Harvest"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1292"))
+                    Case "Low-grade Nomad"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1282"))
+                    Case "Slave", "Low-grade Slave"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("864"))
+                    Case "Snake", "Low-grade Snake"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("802"))
+                    Case "Talisman", "Low-grade Talisman"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("799"))
+                    Case "Low-grade Virtue"
+                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1284"))
+                End Select
+
             End If
         Next
 
@@ -1814,7 +1836,7 @@ Public Class Engine
                 sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate remote shield boosting
-            If cModule.DatabaseGroup = "41" And (cModule.ModuleState And 28) = cModule.ModuleState Then
+            If cModule.DatabaseGroup = "41" And (cModule.ModuleState And 16) = cModule.ModuleState Then
                 sR = sR + CDbl(cModule.Attributes("68")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate shield maintenance drones
@@ -1826,7 +1848,7 @@ Public Class Engine
                 aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate remote armor repairing
-            If cModule.DatabaseGroup = "325" And (cModule.ModuleState And 28) = cModule.ModuleState Then
+            If cModule.DatabaseGroup = "325" And (cModule.ModuleState And 16) = cModule.ModuleState Then
                 aR = aR + CDbl(cModule.Attributes("84")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate armor maintenance drones
@@ -1838,7 +1860,7 @@ Public Class Engine
                 hR = hR + CDbl(cModule.Attributes("83")) / CDbl(cModule.Attributes("73"))
             End If
             ' Calculate remote hull repairing
-            If cModule.DatabaseGroup = "585" And (cModule.ModuleState And 28) = cModule.ModuleState Then
+            If cModule.DatabaseGroup = "585" And (cModule.ModuleState And 16) = cModule.ModuleState Then
                 hR = hR + CDbl(cModule.Attributes("83")) / CDbl(cModule.Attributes("73"))
             End If
         Next
