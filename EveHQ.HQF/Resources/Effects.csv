@@ -909,9 +909,9 @@
 292,1,20280,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,4,Damage Bonus - Explosive Missiles
 292,1,20280,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,4,Damage Bonus - Kinetic Missiles
 292,1,20280,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,4,Damage Bonus - Thermal Missiles
-292,1,20280,10016,2,55,0,0,5,4,Damage Bonus - Projectiles
-292,1,20280,10014,2,53,0,0,5,4,Damage Bonus - Lasers
-292,1,20280,10015,2,74,0,0,5,4,Damage Bonus - Hybrids
+292,1,20280,10016,2,55,0,0,0,4,Damage Bonus - Projectiles
+292,1,20280,10014,2,53,0,0,0,4,Damage Bonus - Lasers
+292,1,20280,10015,2,74,0,0,0,4,Damage Bonus - Hybrids
 548,1,20280,68,2,40,0,0,0,4,Shield Boost Bonus
 565,1,20280,564,3,6,0,0,0,4,Scan Resolution Penalty
 767,1,20280,160,2,55;53;74,0,0,0,4,Tracking Speed

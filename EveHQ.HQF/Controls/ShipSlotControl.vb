@@ -1233,7 +1233,7 @@ Public Class ShipSlotControl
                             statusMenuItem.Name = lvwSlots.SelectedItems(0).Name
                             statusMenuItem.Text = "Set Module Status"
                             ' Check for activation cost
-                            If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Then
+                            If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.DatabaseGroup = "515" Then
                                 canDeactivate = True
                             End If
                             If currentMod.Attributes.Contains("1211") = True Then
@@ -2138,7 +2138,7 @@ Public Class ShipSlotControl
                         Dim canDeactivate As Boolean = False
                         Dim canOverload As Boolean = False
                         ' Check for activation cost
-                        If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Then
+                        If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.DatabaseGroup = "515" Then
                             canDeactivate = True
                         End If
                         If currentMod.Attributes.Contains("1211") = True Then
