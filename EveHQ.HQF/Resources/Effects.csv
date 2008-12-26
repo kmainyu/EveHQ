@@ -977,10 +977,10 @@
 833,1,22555,54,4,1037;1038;1039;1040,0,0,0,16,MFL - Mining Laser Field Enhancement
 833,1,20124,73,2,40;41,0,0,0,16,SiWL - Active Shielding
 833,1,22228,6,2,40;41,0,0,0,16,SiWL - Shield Efficiency
-833,1,20514,271,3,6,0,0,2,16,SiWL - Shield Harmonizing
-833,1,20514,272,3,6,0,0,2,16,SiWL - Shield Harmonizing
-833,1,20514,273,3,6,0,0,2,16,SiWL - Shield Harmonizing
-833,1,20514,274,3,6,0,0,2,16,SiWL - Shield Harmonizing
+833,1,20514,271,3,6,1,0,2,16,SiWL - Shield Harmonizing
+833,1,20514,272,3,6,1,0,2,16,SiWL - Shield Harmonizing
+833,1,20514,273,3,6,1,0,2,16,SiWL - Shield Harmonizing
+833,1,20514,274,3,6,1,0,2,16,SiWL - Shield Harmonizing
 833,1,20070,552,3,6,0,0,0,16,SkWL - Evasive Maneuvers
 833,1,11017,54,2,52;65,0,0,0,16,SkWL - Interdiction Maneuvers
 833,1,20408,567,2,46,0,0,0,16,SkWL - Rapid Deployment
