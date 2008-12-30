@@ -711,6 +711,21 @@ Public Class Engine
 
     Private Shared Function CollectModules(ByVal newShip As Ship) As Ship
         newShip.SlotCollection.Clear()
+        For Each RemoteObject As Object In newShip.RemoteSlotCollection
+            If TypeOf RemoteObject Is ShipModule Then
+                newShip.SlotCollection.Add(RemoteObject)
+            Else
+                Dim remoteDrones As DroneBayItem = CType(RemoteObject, DroneBayItem)
+                For drone As Integer = 1 To remoteDrones.Quantity
+                    newShip.SlotCollection.Add(remoteDrones.DroneType)
+                Next
+            End If
+        Next
+        For Each FleetObject As Object In newShip.FleetSlotCollection
+            If TypeOf FleetObject Is ShipModule Then
+                newShip.SlotCollection.Add(FleetObject)
+            End If
+        Next
         For slot As Integer = 1 To newShip.HiSlots
             If newShip.HiSlot(slot) IsNot Nothing Then
                 newShip.SlotCollection.Add(newShip.HiSlot(slot))
@@ -729,21 +744,6 @@ Public Class Engine
         For slot As Integer = 1 To newShip.RigSlots
             If newShip.RigSlot(slot) IsNot Nothing Then
                 newShip.SlotCollection.Add(newShip.RigSlot(slot))
-            End If
-        Next
-        For Each RemoteObject As Object In newShip.RemoteSlotCollection
-            If TypeOf RemoteObject Is ShipModule Then
-                newShip.SlotCollection.Add(RemoteObject)
-            Else
-                Dim remoteDrones As DroneBayItem = CType(RemoteObject, DroneBayItem)
-                For drone As Integer = 1 To remoteDrones.Quantity
-                    newShip.SlotCollection.Add(remoteDrones.DroneType)
-                Next
-            End If
-        Next
-        For Each FleetObject As Object In newShip.FleetSlotCollection
-            If TypeOf FleetObject Is ShipModule Then
-                newShip.SlotCollection.Add(FleetObject)
             End If
         Next
         Return newShip

@@ -45,7 +45,7 @@ Public Class frmUpdater
                 If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
                     EveHQProxy.UseDefaultCredentials = True
                 Else
-                    EveHQProxy.UseDefaultCredentials = True
+                    EveHQProxy.UseDefaultCredentials = False
                     EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
                 End If
                 request.Proxy = EveHQProxy
@@ -338,7 +338,22 @@ Public Class frmUpdater
         Dim localFile As String = My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd"
         
         ' Create the request to access the server and set credentials
+        ServicePointManager.DefaultConnectionLimit = 10
+        ServicePointManager.Expect100Continue = False
+        Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(httpURI))
         Dim request As HttpWebRequest = CType(HttpWebRequest.Create(httpURI), HttpWebRequest)
+        request.CachePolicy = policy
+        ' Setup proxy server (if required)
+        If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
+            Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
+            If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
+                EveHQProxy.UseDefaultCredentials = True
+            Else
+                EveHQProxy.UseDefaultCredentials = False
+                EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
+            End If
+            request.Proxy = EveHQProxy
+        End If
         request.CachePolicy = policy
         request.Method = WebRequestMethods.File.DownloadFile
         request.Timeout = 900000

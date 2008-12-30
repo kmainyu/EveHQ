@@ -556,7 +556,7 @@ Public Class PilotParseFunctions
                 If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
                     EveHQProxy.UseDefaultCredentials = True
                 Else
-                    EveHQProxy.UseDefaultCredentials = True
+                    EveHQProxy.UseDefaultCredentials = False
                     EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
                 End If
                 request.Proxy = EveHQProxy
@@ -711,7 +711,7 @@ Public Class PilotParseFunctions
                         If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
                             EveHQProxy.UseDefaultCredentials = True
                         Else
-                            EveHQProxy.UseDefaultCredentials = True
+                            EveHQProxy.UseDefaultCredentials = False
                             EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
                         End If
                         request.Proxy = EveHQProxy
@@ -767,7 +767,7 @@ Public Class PilotParseFunctions
                         If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
                             EveHQProxy.UseDefaultCredentials = True
                         Else
-                            EveHQProxy.UseDefaultCredentials = True
+                            EveHQProxy.UseDefaultCredentials = False
                             EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
                         End If
                         request.Proxy = EveHQProxy

@@ -108,8 +108,11 @@
 806,1,19684,84,4,1049;1050;1051,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET400
 806,1,19685,84,4,1049;1050;1051,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET4000
 1083,1,27074,265,3,6,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET50
+1083,1,27074,1159,2,329,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET50
 1083,1,13256,265,3,6,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET500
+1083,1,13256,1159,2,329,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET500
 1083,1,19550,265,3,6,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET5000
+1083,1,19550,1159,2,329,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET5000
 1079,1,27117,482,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' CC2
 1079,1,13259,482,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' CC4
 1079,1,27116,482,3,6,0,0,0,Engineering,Hardwiring - Inherent Implants 'Squire' CC8
@@ -196,8 +199,11 @@
 323,1,16245,30,5,3425,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KUA2000
 323,1,27104,30,5,3425,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KUA500
 337,1,10228,263,3,6,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KVA1000
+337,1,10228,72,2,38,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KVA1000
 337,1,16246,263,3,6,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KVA2000
+337,1,16246,72,2,38,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KVA2000
 337,1,27105,263,3,6,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KVA500
+337,1,27105,72,2,38,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KVA500
 317,1,13262,6,4,604;603;602;601,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KXA1000
 317,1,16247,6,4,604;603;602;601,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KXA2000
 317,1,27106,6,4,604;603;602;601,0,0,0,Shield,Hardwiring - Zainou 'Gnome' KXA500

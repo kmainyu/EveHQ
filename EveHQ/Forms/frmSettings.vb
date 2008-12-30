@@ -2062,19 +2062,28 @@ Public Class frmSettings
         Me.UpdatePriceMatrix()
     End Sub
     Private Sub btnUpdatePrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdatePrices.Click
+        Dim ErrorsFound As Boolean = False
 
-        Call Me.GetPriceFeed("MedianPrices", "http://www.evehq.net/market/prices.aspx")
-        Call Me.GetPriceFeed("FactionPrices", "http://www.eve-prices.net/xml/today.xml")
+        If GetPriceFeed("MedianPrices", "http://www.evehq.net/market/prices.aspx") = False Then
+            Call Me.ParseMedianPriceFeed("MedianPrices")
+        Else
+            ErrorsFound = True
+        End If
 
-        Call Me.ParseMedianPriceFeed("MedianPrices")
-        Call Me.ParseFactionPriceFeed("FactionPrices")
+        If GetPriceFeed("FactionPrices", "http://www.eve-prices.net/xml/today.xml") = False Then
+            Call Me.ParseFactionPriceFeed("FactionPrices")
+        Else
+            ErrorsFound = True
+        End If
 
         Call Me.SaveMarketPrices()
         lblUpdateStatus.Text = "Market Price Update Complete!" : lblUpdateStatus.Refresh()
 
-        ' Update Time
+        ' Update Time (only if successful)
         EveHQ.Core.HQ.EveHQSettings.LastPriceUpdate = Now
-        lblLastUpdateTime.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastPriceUpdate, "HH:mm:ss dd/MM/yyyy")
+        If ErrorsFound = False Then
+            lblLastUpdateTime.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastPriceUpdate, "HH:mm:ss dd/MM/yyyy")
+        End If
         If EveHQ.Core.HQ.EveHQSettings.LastPriceUpdate.AddSeconds(86400) < Now Then
             btnUpdatePrices.Enabled = True
         Else
@@ -2083,15 +2092,29 @@ Public Class frmSettings
         Me.UpdatePriceMatrix()
         lblMarketPriceStats.Text = "Market Price Stats: " & EveHQ.Core.HQ.MarketPriceList.Count & " items matched."
     End Sub
-    Private Sub GetPriceFeed(ByVal FeedName As String, ByVal URL As String)
+    Private Function GetPriceFeed(ByVal FeedName As String, ByVal URL As String) As Boolean
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
         ' Create the request to access the server and set credentials
         lblUpdateStatus.Text = "Setting '" & FeedName & "' Server Address..." : lblUpdateStatus.Refresh()
         Dim localfile As String = EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml"
+        ServicePointManager.DefaultConnectionLimit = 10
+        ServicePointManager.Expect100Continue = False
+        Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(URL))
         Dim request As HttpWebRequest = CType(WebRequest.Create(URL), HttpWebRequest)
         request.CachePolicy = policy
+        ' Setup proxy server (if required)
+        If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
+            Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
+            If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
+                EveHQProxy.UseDefaultCredentials = True
+            Else
+                EveHQProxy.UseDefaultCredentials = False
+                EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
+            End If
+            request.Proxy = EveHQProxy
+        End If
         request.Method = WebRequestMethods.File.DownloadFile
         request.UserAgent = "EveHQ v" & My.Application.Info.Version.ToString
         Try
@@ -2127,10 +2150,12 @@ Public Class frmSettings
                 response.Close()
             End Using
             lblUpdateStatus.Text = "Download of '" & FeedName & "' Complete!" : lblUpdateStatus.Refresh()
+            Return True
         Catch ex As Exception
             MessageBox.Show("There was an error downloading the '" & FeedName & "' data: " & ex.Message, "Error in Download", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
         End Try
-    End Sub
+    End Function
     Private Sub ParseMedianPriceFeed(ByVal FeedName As String)
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim feedData As String = ""
