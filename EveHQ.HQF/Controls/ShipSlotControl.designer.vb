@@ -86,6 +86,9 @@ Partial Class ShipSlotControl
         Me.btnUpdateRemoteEffects = New System.Windows.Forms.Button
         Me.tabFleet = New System.Windows.Forms.TabPage
         Me.panelFleet = New System.Windows.Forms.Panel
+        Me.chkFCActive = New System.Windows.Forms.CheckBox
+        Me.chkWCActive = New System.Windows.Forms.CheckBox
+        Me.chkSCActive = New System.Windows.Forms.CheckBox
         Me.cboSCShip = New System.Windows.Forms.ComboBox
         Me.cboFCPilot = New System.Windows.Forms.ComboBox
         Me.cboWCPilot = New System.Windows.Forms.ComboBox
@@ -651,6 +654,7 @@ Partial Class ShipSlotControl
         Me.btnUpdateRemoteEffects.TabIndex = 4
         Me.btnUpdateRemoteEffects.Text = "Update"
         Me.btnUpdateRemoteEffects.UseVisualStyleBackColor = True
+        Me.btnUpdateRemoteEffects.Visible = False
         '
         'tabFleet
         '
@@ -665,6 +669,9 @@ Partial Class ShipSlotControl
         'panelFleet
         '
         Me.panelFleet.BackColor = System.Drawing.SystemColors.Control
+        Me.panelFleet.Controls.Add(Me.chkFCActive)
+        Me.panelFleet.Controls.Add(Me.chkWCActive)
+        Me.panelFleet.Controls.Add(Me.chkSCActive)
         Me.panelFleet.Controls.Add(Me.cboSCShip)
         Me.panelFleet.Controls.Add(Me.cboFCPilot)
         Me.panelFleet.Controls.Add(Me.cboWCPilot)
@@ -686,12 +693,48 @@ Partial Class ShipSlotControl
         Me.panelFleet.Size = New System.Drawing.Size(668, 216)
         Me.panelFleet.TabIndex = 25
         '
+        'chkFCActive
+        '
+        Me.chkFCActive.AutoSize = True
+        Me.chkFCActive.Checked = True
+        Me.chkFCActive.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkFCActive.Location = New System.Drawing.Point(480, 68)
+        Me.chkFCActive.Name = "chkFCActive"
+        Me.chkFCActive.Size = New System.Drawing.Size(62, 17)
+        Me.chkFCActive.TabIndex = 26
+        Me.chkFCActive.Text = "Active?"
+        Me.chkFCActive.UseVisualStyleBackColor = True
+        '
+        'chkWCActive
+        '
+        Me.chkWCActive.AutoSize = True
+        Me.chkWCActive.Checked = True
+        Me.chkWCActive.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkWCActive.Location = New System.Drawing.Point(480, 41)
+        Me.chkWCActive.Name = "chkWCActive"
+        Me.chkWCActive.Size = New System.Drawing.Size(62, 17)
+        Me.chkWCActive.TabIndex = 25
+        Me.chkWCActive.Text = "Active?"
+        Me.chkWCActive.UseVisualStyleBackColor = True
+        '
+        'chkSCActive
+        '
+        Me.chkSCActive.AutoSize = True
+        Me.chkSCActive.Checked = True
+        Me.chkSCActive.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkSCActive.Location = New System.Drawing.Point(480, 14)
+        Me.chkSCActive.Name = "chkSCActive"
+        Me.chkSCActive.Size = New System.Drawing.Size(62, 17)
+        Me.chkSCActive.TabIndex = 24
+        Me.chkSCActive.Text = "Active?"
+        Me.chkSCActive.UseVisualStyleBackColor = True
+        '
         'cboSCShip
         '
         Me.cboSCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSCShip.Enabled = False
         Me.cboSCShip.FormattingEnabled = True
-        Me.cboSCShip.Location = New System.Drawing.Point(320, 12)
+        Me.cboSCShip.Location = New System.Drawing.Point(287, 12)
         Me.cboSCShip.Name = "cboSCShip"
         Me.cboSCShip.Size = New System.Drawing.Size(187, 21)
         Me.cboSCShip.TabIndex = 8
@@ -700,7 +743,7 @@ Partial Class ShipSlotControl
         '
         Me.cboFCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboFCPilot.FormattingEnabled = True
-        Me.cboFCPilot.Location = New System.Drawing.Point(116, 66)
+        Me.cboFCPilot.Location = New System.Drawing.Point(96, 66)
         Me.cboFCPilot.Name = "cboFCPilot"
         Me.cboFCPilot.Size = New System.Drawing.Size(148, 21)
         Me.cboFCPilot.TabIndex = 16
@@ -709,7 +752,7 @@ Partial Class ShipSlotControl
         '
         Me.cboWCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboWCPilot.FormattingEnabled = True
-        Me.cboWCPilot.Location = New System.Drawing.Point(116, 39)
+        Me.cboWCPilot.Location = New System.Drawing.Point(96, 39)
         Me.cboWCPilot.Name = "cboWCPilot"
         Me.cboWCPilot.Size = New System.Drawing.Size(148, 21)
         Me.cboWCPilot.TabIndex = 15
@@ -717,11 +760,11 @@ Partial Class ShipSlotControl
         'lblSCShip
         '
         Me.lblSCShip.AutoSize = True
-        Me.lblSCShip.Location = New System.Drawing.Point(270, 15)
+        Me.lblSCShip.Location = New System.Drawing.Point(250, 15)
         Me.lblSCShip.Name = "lblSCShip"
-        Me.lblSCShip.Size = New System.Drawing.Size(44, 13)
+        Me.lblSCShip.Size = New System.Drawing.Size(31, 13)
         Me.lblSCShip.TabIndex = 9
-        Me.lblSCShip.Text = "Piloting:"
+        Me.lblSCShip.Text = "Ship:"
         '
         'lblWC
         '
@@ -754,11 +797,11 @@ Partial Class ShipSlotControl
         'lblFCShip
         '
         Me.lblFCShip.AutoSize = True
-        Me.lblFCShip.Location = New System.Drawing.Point(270, 69)
+        Me.lblFCShip.Location = New System.Drawing.Point(250, 69)
         Me.lblFCShip.Name = "lblFCShip"
-        Me.lblFCShip.Size = New System.Drawing.Size(44, 13)
+        Me.lblFCShip.Size = New System.Drawing.Size(31, 13)
         Me.lblFCShip.TabIndex = 17
-        Me.lblFCShip.Text = "Piloting:"
+        Me.lblFCShip.Text = "Ship:"
         '
         'lblSC
         '
@@ -773,7 +816,7 @@ Partial Class ShipSlotControl
         '
         Me.cboSCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSCPilot.FormattingEnabled = True
-        Me.cboSCPilot.Location = New System.Drawing.Point(116, 12)
+        Me.cboSCPilot.Location = New System.Drawing.Point(96, 12)
         Me.cboSCPilot.Name = "cboSCPilot"
         Me.cboSCPilot.Size = New System.Drawing.Size(148, 21)
         Me.cboSCPilot.TabIndex = 10
@@ -790,11 +833,11 @@ Partial Class ShipSlotControl
         'lblWCShip
         '
         Me.lblWCShip.AutoSize = True
-        Me.lblWCShip.Location = New System.Drawing.Point(270, 42)
+        Me.lblWCShip.Location = New System.Drawing.Point(250, 42)
         Me.lblWCShip.Name = "lblWCShip"
-        Me.lblWCShip.Size = New System.Drawing.Size(44, 13)
+        Me.lblWCShip.Size = New System.Drawing.Size(31, 13)
         Me.lblWCShip.TabIndex = 18
-        Me.lblWCShip.Text = "Piloting:"
+        Me.lblWCShip.Text = "Ship:"
         '
         'lblFleetStatusLabel
         '
@@ -810,7 +853,7 @@ Partial Class ShipSlotControl
         Me.cboWCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboWCShip.Enabled = False
         Me.cboWCShip.FormattingEnabled = True
-        Me.cboWCShip.Location = New System.Drawing.Point(320, 39)
+        Me.cboWCShip.Location = New System.Drawing.Point(287, 39)
         Me.cboWCShip.Name = "cboWCShip"
         Me.cboWCShip.Size = New System.Drawing.Size(187, 21)
         Me.cboWCShip.TabIndex = 19
@@ -820,7 +863,7 @@ Partial Class ShipSlotControl
         Me.cboFCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboFCShip.Enabled = False
         Me.cboFCShip.FormattingEnabled = True
-        Me.cboFCShip.Location = New System.Drawing.Point(320, 66)
+        Me.cboFCShip.Location = New System.Drawing.Point(287, 66)
         Me.cboFCShip.Name = "cboFCShip"
         Me.cboFCShip.Size = New System.Drawing.Size(187, 21)
         Me.cboFCShip.TabIndex = 20
@@ -1005,4 +1048,7 @@ Partial Class ShipSlotControl
     Friend WithEvents panelRemote As System.Windows.Forms.Panel
     Friend WithEvents panelDrone As System.Windows.Forms.Panel
     Friend WithEvents panelCargo As System.Windows.Forms.Panel
+    Friend WithEvents chkFCActive As System.Windows.Forms.CheckBox
+    Friend WithEvents chkWCActive As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSCActive As System.Windows.Forms.CheckBox
 End Class

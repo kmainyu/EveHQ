@@ -144,48 +144,50 @@ Public Class ShipSlotControl
         End If
     End Sub
     Private Sub UpdateSlotLayout()
-        lvwSlots.BeginUpdate()
-        lvwSlots.Items.Clear()
-        ' Produce high slots
-        For slot As Integer = 1 To currentShip.HiSlots
-            Dim newSlot As New ListViewItem
-            newSlot.Name = "8_" & slot
-            newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
-            newSlot.ForeColor = Color.Black
-            newSlot.Group = lvwSlots.Groups.Item("lvwgHighSlots")
-            Call Me.AddUserColumns(currentShip.HiSlot(slot), newSlot)
-            lvwSlots.Items.Add(newSlot)
-        Next
-        For slot As Integer = 1 To currentShip.MidSlots
-            Dim newSlot As New ListViewItem
-            newSlot.Name = "4_" & slot
-            newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
-            newSlot.ForeColor = Color.Black
-            newSlot.Group = lvwSlots.Groups.Item("lvwgMidSlots")
-            Call Me.AddUserColumns(currentShip.MidSlot(slot), newSlot)
-            lvwSlots.Items.Add(newSlot)
-        Next
-        For slot As Integer = 1 To currentShip.LowSlots
-            Dim newSlot As New ListViewItem
-            newSlot.Name = "2_" & slot
-            newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
-            newSlot.ForeColor = Color.Black
-            newSlot.Group = lvwSlots.Groups.Item("lvwgLowSlots")
-            Call Me.AddUserColumns(currentShip.LowSlot(slot), newSlot)
-            lvwSlots.Items.Add(newSlot)
-        Next
-        For slot As Integer = 1 To currentShip.RigSlots
-            Dim newSlot As New ListViewItem
-            newSlot.Name = "1_" & slot
-            newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
-            newSlot.ForeColor = Color.Black
-            newSlot.Group = lvwSlots.Groups.Item("lvwgRigSlots")
-            Call Me.AddUserColumns(currentShip.RigSlot(slot), newSlot)
-            lvwSlots.Items.Add(newSlot)
-        Next
-        lvwSlots.EndUpdate()
-        Call UpdateSlotNumbers()
-        Call UpdatePrices()
+        If currentShip IsNot Nothing Then
+            lvwSlots.BeginUpdate()
+            lvwSlots.Items.Clear()
+            ' Produce high slots
+            For slot As Integer = 1 To currentShip.HiSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "8_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgHighSlots")
+                Call Me.AddUserColumns(currentShip.HiSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            For slot As Integer = 1 To currentShip.MidSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "4_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgMidSlots")
+                Call Me.AddUserColumns(currentShip.MidSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            For slot As Integer = 1 To currentShip.LowSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "2_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgLowSlots")
+                Call Me.AddUserColumns(currentShip.LowSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            For slot As Integer = 1 To currentShip.RigSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "1_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgRigSlots")
+                Call Me.AddUserColumns(currentShip.RigSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            lvwSlots.EndUpdate()
+            Call UpdateSlotNumbers()
+            Call UpdatePrices()
+        End If
     End Sub
     Private Sub UpdateSlotNumbers()
         lblHighSlots.Text = "Hi: " & currentShip.HiSlots_Used & "/" & currentShip.HiSlots
@@ -2355,6 +2357,9 @@ Public Class ShipSlotControl
 #Region "Remote Effects"
 
     Private Sub btnUpdateRemoteEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateRemoteEffects.Click
+        Call Me.UpdateRemoteEffects()
+    End Sub
+    Private Sub UpdateRemoteEffects()
         ' Check if we have any remote fittings and if so, generate the fitting
         If lvwRemoteFittings.Items.Count > 0 Then
             lvwRemoteEffects.Tag = "Refresh"
@@ -2446,6 +2451,7 @@ Public Class ShipSlotControl
                 newFitting.Tag = cboFitting.SelectedItem.ToString
                 newFitting.Checked = True
                 lvwRemoteFittings.Items.Add(newFitting)
+                Call Me.UpdateRemoteEffects()
             Else
                 MessageBox.Show("Fitting and Pilot combination already exists!", "Duplicate Remote Setup Detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
@@ -2458,6 +2464,7 @@ Public Class ShipSlotControl
             lvwRemoteFittings.Items.Remove(fit)
         Next
         lvwRemoteFittings.EndUpdate()
+        Call Me.UpdateRemoteEffects()
     End Sub
 
     Private Sub ctxRemoteFittings_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxRemoteFittings.Opening
@@ -2480,6 +2487,9 @@ Public Class ShipSlotControl
         cboWCPilot.Items.Clear() : cboWCShip.Items.Clear()
         cboFCPilot.Items.Clear() : cboFCShip.Items.Clear()
         ' Add the fittings
+        cboSCShip.Items.Add("<None>")
+        cboWCShip.Items.Add("<None>")
+        cboFCShip.Items.Add("<None>")
         For Each fitting As String In Fittings.FittingList.Keys
             cboFitting.Items.Add(fitting)
             cboSCShip.Items.Add(fitting)
@@ -2561,13 +2571,19 @@ Public Class ShipSlotControl
         ' Add in the commander details
         Dim Commanders As New ArrayList
         If cboSCPilot.SelectedItem IsNot Nothing Then
-            Commanders.Add(cboSCPilot.SelectedItem.ToString)
+            If chkSCActive.Checked = True Then
+                Commanders.Add(cboSCPilot.SelectedItem.ToString)
+            End If
         End If
         If cboWCPilot.SelectedItem IsNot Nothing Then
-            Commanders.Add(cboWCPilot.SelectedItem.ToString)
+            If chkWCActive.Checked = True Then
+                Commanders.Add(cboWCPilot.SelectedItem.ToString)
+            End If
         End If
         If cboFCPilot.SelectedItem IsNot Nothing Then
-            Commanders.Add(cboFCPilot.SelectedItem.ToString)
+            If chkFCActive.Checked = True Then
+                Commanders.Add(cboFCPilot.SelectedItem.ToString)
+            End If
         End If
 
         If Commanders.Count > 0 Then
@@ -2662,30 +2678,47 @@ Public Class ShipSlotControl
     Private Sub cboFCShip_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFCShip.SelectedIndexChanged
         Call UpdateFCShipEffects()
     End Sub
+    Private Sub chkSCActive_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSCActive.CheckedChanged
+        Call UpdateSCShipEffects()
+    End Sub
+    Private Sub chkWCActive_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkWCActive.CheckedChanged
+        Call UpdateWCShipEffects()
+    End Sub
+    Private Sub chkFCActive_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFCActive.CheckedChanged
+        Call UpdateFCShipEffects()
+    End Sub
     Private Sub UpdateSCShipEffects()
         If cboSCShip.SelectedIndex <> -1 Then
-            ' Let's try and generate a fitting and get some module info
-            Dim shipFit As String = cboSCShip.SelectedItem.ToString
-            Dim fittingSep As Integer = shipFit.IndexOf(", ")
-            Dim shipName As String = shipFit.Substring(0, fittingSep)
-            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-            Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
-            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboSCPilot.SelectedItem.ToString), HQFPilot)
-            Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
-            pShip = Nothing
-            Dim SCModules As New ArrayList
-            ' Check the ship bonuses for further effects (Titans use this!)
-            SCModules = GetShipGangBonusModules(remoteShip, pPilot)
-            ' Check the modules for fleet effects
-            For Each FleetModule As ShipModule In remoteShip.SlotCollection
-                If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
-                    FleetModule.ModuleState = 16
-                    FleetModule.SlotNo = 0
-                    SCModules.Add(FleetModule)
+            If cboSCShip.SelectedItem.ToString = "<None>" Then
+                cboSCShip.Tag = Nothing
+            Else
+                If chkSCActive.Checked = False Then
+                    cboSCShip.Tag = Nothing
+                Else
+                    ' Let's try and generate a fitting and get some module info
+                    Dim shipFit As String = cboSCShip.SelectedItem.ToString
+                    Dim fittingSep As Integer = shipFit.IndexOf(", ")
+                    Dim shipName As String = shipFit.Substring(0, fittingSep)
+                    Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+                    Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+                    pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
+                    Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboSCPilot.SelectedItem.ToString), HQFPilot)
+                    Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
+                    pShip = Nothing
+                    Dim SCModules As New ArrayList
+                    ' Check the ship bonuses for further effects (Titans use this!)
+                    SCModules = GetShipGangBonusModules(remoteShip, pPilot)
+                    ' Check the modules for fleet effects
+                    For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                        If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                            FleetModule.ModuleState = 16
+                            FleetModule.SlotNo = 0
+                            SCModules.Add(FleetModule)
+                        End If
+                    Next
+                    cboSCShip.Tag = SCModules
                 End If
-            Next
-            cboSCShip.Tag = SCModules
+            End If
             ' Update the mapping effects back to the current pilot
             currentInfo.BuildMethod = BuildType.BuildEffectsMaps
             Call Me.CalculateFleetEffects()
@@ -2694,25 +2727,33 @@ Public Class ShipSlotControl
 
     Private Sub UpdateWCShipEffects()
         If cboWCShip.SelectedIndex <> -1 Then
-            ' Let's try and generate a fitting and get some module info
-            Dim shipFit As String = cboWCShip.SelectedItem.ToString
-            Dim fittingSep As Integer = shipFit.IndexOf(", ")
-            Dim shipName As String = shipFit.Substring(0, fittingSep)
-            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-            Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
-            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboWCPilot.SelectedItem.ToString), HQFPilot)
-            Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
-            pShip = Nothing
-            Dim WCModules As New ArrayList
-            For Each FleetModule As ShipModule In remoteShip.SlotCollection
-                If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
-                    FleetModule.ModuleState = 16
-                    FleetModule.SlotNo = 0
-                    WCModules.Add(FleetModule)
+            If cboWCShip.SelectedItem.ToString = "<None>" Then
+                cboWCShip.Tag = Nothing
+            Else
+                If chkWCActive.Checked = False Then
+                    cboWCShip.Tag = Nothing
+                Else
+                    ' Let's try and generate a fitting and get some module info
+                    Dim shipFit As String = cboWCShip.SelectedItem.ToString
+                    Dim fittingSep As Integer = shipFit.IndexOf(", ")
+                    Dim shipName As String = shipFit.Substring(0, fittingSep)
+                    Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+                    Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+                    pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
+                    Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboWCPilot.SelectedItem.ToString), HQFPilot)
+                    Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
+                    pShip = Nothing
+                    Dim WCModules As New ArrayList
+                    For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                        If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                            FleetModule.ModuleState = 16
+                            FleetModule.SlotNo = 0
+                            WCModules.Add(FleetModule)
+                        End If
+                    Next
+                    cboWCShip.Tag = WCModules
                 End If
-            Next
-            cboWCShip.Tag = WCModules
+            End If
             ' Update the mapping effects back to the current pilot
             currentInfo.BuildMethod = BuildType.BuildEffectsMaps
             Call Me.CalculateFleetEffects()
@@ -2721,25 +2762,33 @@ Public Class ShipSlotControl
 
     Private Sub UpdateFCShipEffects()
         If cboFCShip.SelectedIndex <> -1 Then
-            ' Let's try and generate a fitting and get some module info
-            Dim shipFit As String = cboFCShip.SelectedItem.ToString
-            Dim fittingSep As Integer = shipFit.IndexOf(", ")
-            Dim shipName As String = shipFit.Substring(0, fittingSep)
-            Dim fittingName As String = shipFit.Substring(fittingSep + 2)
-            Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
-            pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
-            Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboFCPilot.SelectedItem.ToString), HQFPilot)
-            Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
-            pShip = Nothing
-            Dim FCModules As New ArrayList
-            For Each FleetModule As ShipModule In remoteShip.SlotCollection
-                If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
-                    FleetModule.ModuleState = 16
-                    FleetModule.SlotNo = 0
-                    FCModules.Add(FleetModule)
+            If cboFCShip.SelectedItem.ToString = "<None>" Then
+                cboFCShip.Tag = Nothing
+            Else
+                If chkFCActive.Checked = False Then
+                    cboFCShip.Tag = Nothing
+                Else
+                    ' Let's try and generate a fitting and get some module info
+                    Dim shipFit As String = cboFCShip.SelectedItem.ToString
+                    Dim fittingSep As Integer = shipFit.IndexOf(", ")
+                    Dim shipName As String = shipFit.Substring(0, fittingSep)
+                    Dim fittingName As String = shipFit.Substring(fittingSep + 2)
+                    Dim pShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+                    pShip = Engine.UpdateShipDataFromFittingList(pShip, CType(Fittings.FittingList(shipFit), ArrayList))
+                    Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboFCPilot.SelectedItem.ToString), HQFPilot)
+                    Dim remoteShip As Ship = Engine.ApplyFitting(pShip, pPilot)
+                    pShip = Nothing
+                    Dim FCModules As New ArrayList
+                    For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                        If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                            FleetModule.ModuleState = 16
+                            FleetModule.SlotNo = 0
+                            FCModules.Add(FleetModule)
+                        End If
+                    Next
+                    cboFCShip.Tag = FCModules
                 End If
-            Next
-            cboFCShip.Tag = FCModules
+            End If
             ' Update the mapping effects back to the current pilot
             currentInfo.BuildMethod = BuildType.BuildEffectsMaps
             Call Me.CalculateFleetEffects()
@@ -2888,4 +2937,5 @@ Public Class ShipSlotControl
 #End Region
 
    
+    
 End Class

@@ -403,6 +403,9 @@ Public Class ShipInfoControl
             Next
         End If
         If cboImplants.Tag Is Nothing Then
+            If currentSlot IsNot Nothing Then
+                currentSlot.UpdateAllSlots = True
+            End If
             BuildMethod = BuildType.BuildEverything
             If currentSlot IsNot Nothing Then
                 currentSlot.UpdateAllSlots = False
