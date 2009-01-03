@@ -1288,6 +1288,7 @@ Public Class frmHQF
             End If
         Next
         ' Redraw the tree
+        clvFittings.SelectedItems.Clear()
         clvFittings.Items.Clear()
         Dim shipName As String = ""
         Dim fittingName As String = ""

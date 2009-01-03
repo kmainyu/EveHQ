@@ -2200,7 +2200,8 @@ namespace DotNetLib.Windows.Forms
 		/// </summary>
 		public void SetItemSelected(ContainerListViewItem item, bool isSelected, bool sendEvent, bool userFocused)
 		{
-			SetItemSelected(item, isSelected, sendEvent, userFocused, false);
+            if (item.ListView != null)
+               SetItemSelected(item, isSelected, sendEvent, userFocused, false);
 		}
 
 		/// <summary>
