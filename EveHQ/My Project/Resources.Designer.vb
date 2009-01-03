@@ -60,6 +60,27 @@ Namespace My.Resources
             End Set
         End Property
         
+        Friend ReadOnly Property CertificateCategories() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("CertificateCategories", resourceCulture)
+                Return CType(obj,Byte())
+            End Get
+        End Property
+        
+        Friend ReadOnly Property CertificateClasses() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("CertificateClasses", resourceCulture)
+                Return CType(obj,Byte())
+            End Get
+        End Property
+        
+        Friend ReadOnly Property Certificates() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Certificates", resourceCulture)
+                Return CType(obj,Byte())
+            End Get
+        End Property
+        
         Friend ReadOnly Property Collapse() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Collapse", resourceCulture)
@@ -154,16 +175,16 @@ Namespace My.Resources
         '''  Looks up a localized string similar to EveHQ - Version History
         '''-----------------------
         '''
-        '''1.7.3.115 (21/09/2008)
-        '''--------
+        '''1.8.3.232 (19/12/2008)
+        '''---------
         '''New Features:
-        '''- Added new Pop-up form to the EveHQ taskbar icon (activated in Settings)
-        '''- New API Checker function for testing the response from the API (Tools Menu)
-        '''- EveHQ Integrated Error Reporting - submit program crashes direct to the EveHQ website (activated in Settings)
+        '''- HQF: Remote Effects added - Add specific hostile/friendly effects to your ship
+        '''- HQF: Fleet Effects added - Setup gang boosters and have Leadership skills and ganglinks applied to your fitting
         '''
         '''Fixes and Improvements:
-        '''- Core: Fixed SQL statements in the IGB Server when accessing the item database from ingame
-        '''- Core: Auto retrieval o [rest of string was truncated]&quot;;.
+        '''- Assets: Fixed code for accessing the Item Browser plug-in
+        '''- Core: Account detection routines will prompt users to add an API account at start-up
+        '''- Core: Proxy settings now restore co [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property History() As String
             Get

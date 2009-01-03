@@ -528,6 +528,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="license.txt" />
+    <None Include="Resources\CertificateCategories.bin" />
+    <None Include="Resources\CertificateClasses.bin" />
+    <None Include="Resources\Certificates.bin" />
     <None Include="Resources\doh3.wav" />
     <Content Include="_latest.xml" />
   </ItemGroup>

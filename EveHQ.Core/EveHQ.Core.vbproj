@@ -79,6 +79,7 @@
     <Compile Include="AlphaGradientPanel\ColorWithAlphaConverter.vb" />
     <Compile Include="AlphaGradientPanel\DrawingHelper.vb" />
     <Compile Include="APIRS.vb" />
+    <Compile Include="Certificates.vb" />
     <Compile Include="DataFunctions.vb" />
     <Compile Include="EveAccount.vb" />
     <Compile Include="EveAPI.vb" />

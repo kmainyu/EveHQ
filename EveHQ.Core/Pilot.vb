@@ -92,6 +92,7 @@ Public Class Pilot
     Public PilotData As XmlDocument = New XmlDocument
     Public PilotTrainingData As XmlDocument = New XmlDocument
     Public PilotSkills As Collection = New Collection
+    Public Certificates As New ArrayList
     Public PrimaryQueue As String = ""
     Public ActiveQueue As EveHQ.Core.SkillQueue = New EveHQ.Core.SkillQueue
     Public ActiveQueueName As String = ""

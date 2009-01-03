@@ -83,6 +83,12 @@ Partial Class frmDataConvert
         Me.btnTestConnection = New System.Windows.Forms.Button
         Me.txtDatabase = New System.Windows.Forms.TextBox
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog
+        Me.TabPage4 = New System.Windows.Forms.TabPage
+        Me.panelCerts = New System.Windows.Forms.Panel
+        Me.lblCertLocation = New System.Windows.Forms.Label
+        Me.btnDecodeCertificates = New System.Windows.Forms.Button
+        Me.btnFindCertficates = New System.Windows.Forms.Button
+        Me.txtCertificates = New System.Windows.Forms.TextBox
         Me.grpMSSQL.SuspendLayout()
         Me.grpMySQL.SuspendLayout()
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,6 +99,8 @@ Partial Class frmDataConvert
         Me.panelCompress.SuspendLayout()
         Me.TabPage3.SuspendLayout()
         Me.panelSQL2TSQL.SuspendLayout()
+        Me.TabPage4.SuspendLayout()
+        Me.panelCerts.SuspendLayout()
         Me.SuspendLayout()
         '
         'cboConvertType
@@ -455,6 +463,7 @@ Partial Class frmDataConvert
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
+        Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -672,6 +681,63 @@ Partial Class frmDataConvert
         '
         Me.ofd1.FileName = "OpenFileDialog1"
         '
+        'TabPage4
+        '
+        Me.TabPage4.Controls.Add(Me.panelCerts)
+        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Size = New System.Drawing.Size(646, 437)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "Certificates"
+        Me.TabPage4.UseVisualStyleBackColor = True
+        '
+        'panelCerts
+        '
+        Me.panelCerts.BackColor = System.Drawing.SystemColors.Control
+        Me.panelCerts.Controls.Add(Me.lblCertLocation)
+        Me.panelCerts.Controls.Add(Me.btnDecodeCertificates)
+        Me.panelCerts.Controls.Add(Me.btnFindCertficates)
+        Me.panelCerts.Controls.Add(Me.txtCertificates)
+        Me.panelCerts.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelCerts.Location = New System.Drawing.Point(0, 0)
+        Me.panelCerts.Name = "panelCerts"
+        Me.panelCerts.Size = New System.Drawing.Size(646, 437)
+        Me.panelCerts.TabIndex = 0
+        '
+        'lblCertLocation
+        '
+        Me.lblCertLocation.AutoSize = True
+        Me.lblCertLocation.Location = New System.Drawing.Point(16, 14)
+        Me.lblCertLocation.Name = "lblCertLocation"
+        Me.lblCertLocation.Size = New System.Drawing.Size(255, 13)
+        Me.lblCertLocation.TabIndex = 45
+        Me.lblCertLocation.Text = "Please enter the file name of the Certificates XML file" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        '
+        'btnDecodeCertificates
+        '
+        Me.btnDecodeCertificates.Location = New System.Drawing.Point(476, 74)
+        Me.btnDecodeCertificates.Name = "btnDecodeCertificates"
+        Me.btnDecodeCertificates.Size = New System.Drawing.Size(124, 23)
+        Me.btnDecodeCertificates.TabIndex = 48
+        Me.btnDecodeCertificates.Text = "Start Decoding"
+        Me.btnDecodeCertificates.UseVisualStyleBackColor = True
+        '
+        'btnFindCertficates
+        '
+        Me.btnFindCertficates.Location = New System.Drawing.Point(606, 37)
+        Me.btnFindCertficates.Name = "btnFindCertficates"
+        Me.btnFindCertficates.Size = New System.Drawing.Size(24, 23)
+        Me.btnFindCertficates.TabIndex = 47
+        Me.btnFindCertficates.Text = "..."
+        Me.btnFindCertficates.UseVisualStyleBackColor = True
+        '
+        'txtCertificates
+        '
+        Me.txtCertificates.Location = New System.Drawing.Point(19, 39)
+        Me.txtCertificates.Name = "txtCertificates"
+        Me.txtCertificates.Size = New System.Drawing.Size(581, 20)
+        Me.txtCertificates.TabIndex = 46
+        '
         'frmDataConvert
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -697,6 +763,9 @@ Partial Class frmDataConvert
         Me.TabPage3.ResumeLayout(False)
         Me.panelSQL2TSQL.ResumeLayout(False)
         Me.panelSQL2TSQL.PerformLayout()
+        Me.TabPage4.ResumeLayout(False)
+        Me.panelCerts.ResumeLayout(False)
+        Me.panelCerts.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -760,4 +829,10 @@ Partial Class frmDataConvert
     Friend WithEvents panelCompress As System.Windows.Forms.Panel
     Friend WithEvents panelSQL2TSQL As System.Windows.Forms.Panel
     Friend WithEvents panelConvert As System.Windows.Forms.Panel
+    Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
+    Friend WithEvents panelCerts As System.Windows.Forms.Panel
+    Friend WithEvents lblCertLocation As System.Windows.Forms.Label
+    Friend WithEvents btnDecodeCertificates As System.Windows.Forms.Button
+    Friend WithEvents btnFindCertficates As System.Windows.Forms.Button
+    Friend WithEvents txtCertificates As System.Windows.Forms.TextBox
 End Class

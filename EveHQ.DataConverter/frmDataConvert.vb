@@ -27,6 +27,8 @@ Imports MySql.Data.MySqlClient
 Imports System.Data.SqlClient
 Imports System.IO.Compression
 Imports System.Text
+Imports System.Xml
+Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class frmDataConvert
 
@@ -1494,4 +1496,108 @@ Public Class frmDataConvert
     End Function
 #End Region
 
+#Region "Certificate routines"
+
+#End Region
+
+    Private Sub btnFindCertficates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnFindCertficates.Click
+        With ofd1
+            .Title = "Select certifictae XML file"
+            .FileName = ""
+            .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            .Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*"
+            .FilterIndex = 1
+            .RestoreDirectory = True
+            If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                txtCertificates.Text = .FileName
+            End If
+        End With
+    End Sub
+
+    Private Sub btnDecodeCertificates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDecodeCertificates.Click
+        If My.Computer.FileSystem.FileExists(txtCertificates.Text) = False Then
+            MessageBox.Show("File does not exist! Please try again!", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+        ' Try to load in the certificate XML
+        Dim CertXML As New XmlDocument
+        Try
+            CertXML.Load(txtCertificates.Text)
+        Catch ex As Exception
+            MessageBox.Show("There was an error loading the Certificates XML file. Please check the format and integrity.", "File Load Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End Try
+
+        ' Let's try and parse the data
+        Dim CertCats, CertClasses, Certs, CertSkills, CertCerts As XmlNodeList
+        Dim CertCat, CertClass, Cert, CertSkill, CertCert As XmlNode
+        Dim Classes, Categories, Certificates As New SortedList
+
+        ' Parse the Certificate Category data
+        CertCats = CertXML.SelectNodes("/eveapi/result/rowset/row")
+        For Each CertCat In CertCats
+            Dim cCat As New EveHQ.Core.CertificateCategory
+            cCat.ID = CInt(CertCat.Attributes.GetNamedItem("categoryID").Value)
+            cCat.Name = CertCat.Attributes.GetNamedItem("categoryName").Value
+            Categories.Add(cCat.ID.ToString, cCat)
+            ' Get the Classes within this Category
+            CertClasses = CertCat.SelectNodes("rowset/row")
+            For Each CertClass In CertClasses
+                Dim cClass As New EveHQ.Core.CertificateClass
+                cClass.ID = CInt(CertClass.Attributes.GetNamedItem("classID").Value)
+                cClass.Name = CertClass.Attributes.GetNamedItem("className").Value
+                Classes.Add(cClass.ID.ToString, cClass)
+                ' Get the Certificates within this class
+                Certs = CertClass.SelectNodes("rowset/row")
+                For Each Cert In Certs
+                    Dim cCert As New EveHQ.Core.Certificate
+                    cCert.ID = CInt(Cert.Attributes.GetNamedItem("certificateID").Value)
+                    cCert.Grade = CInt(Cert.Attributes.GetNamedItem("grade").Value)
+                    cCert.CorpID = CLng(Cert.Attributes.GetNamedItem("corporationID").Value)
+                    cCert.Description = Cert.Attributes.GetNamedItem("description").Value
+                    cCert.ClassID = cClass.ID
+                    cCert.CategoryID = cCat.ID
+                    ' Get the required Skills
+                    CertSkills = Cert.ChildNodes(0).ChildNodes
+                    For Each CertSkill In CertSkills
+                        cCert.RequiredSkills.Add(CertSkill.Attributes.GetNamedItem("typeID").Value, CertSkill.Attributes.GetNamedItem("level").Value)
+                    Next
+                    ' Get the required Certs
+                    CertCerts = Cert.ChildNodes(1).ChildNodes
+                    For Each CertCert In CertCerts
+                        cCert.RequiredCerts.Add(CertCert.Attributes.GetNamedItem("certificateID").Value, CertCert.Attributes.GetNamedItem("grade").Value)
+                    Next
+                    Certificates.Add(cCert.ID.ToString, cCert)
+                Next
+            Next
+        Next
+
+        MessageBox.Show("Certificate parsing is complete!", "Parsing Completed!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        ' Save the data as binary files
+        Dim FI As New FileInfo(txtCertificates.Text)
+        Dim saveDir As String = FI.DirectoryName
+        ' Save categories
+        Dim s As New FileStream(saveDir & "\CertificateCategories.bin", FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, Categories)
+        s.Flush()
+        s.Close()
+        ' Save classes
+        s = New FileStream(saveDir & "\CertificateClasses.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, Classes)
+        s.Flush()
+        s.Close()
+        ' Save certificates
+        s = New FileStream(saveDir & "\Certificates.bin", FileMode.Create)
+        f = New BinaryFormatter
+        f.Serialize(s, Certificates)
+        s.Flush()
+        s.Close()
+
+        MessageBox.Show("Certificate dumping is complete!", "Dump Completed!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+
+    End Sub
 End Class

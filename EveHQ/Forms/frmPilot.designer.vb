@@ -35,15 +35,15 @@ Partial Public Class frmPilot
         Me.lvImplants = New System.Windows.Forms.ListView
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
-        Me.Label4 = New System.Windows.Forms.Label
+        Me.lblImplants = New System.Windows.Forms.Label
         Me.btnCharXML = New System.Windows.Forms.Button
         Me.btnTrainingXML = New System.Windows.Forms.Button
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
+        Me.lblTraining = New System.Windows.Forms.Label
+        Me.lblSkills = New System.Windows.Forms.Label
         Me.lvAttributes = New System.Windows.Forms.ListView
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
-        Me.Label7 = New System.Windows.Forms.Label
+        Me.lblAttributes = New System.Windows.Forms.Label
         Me.chkManualImplants = New System.Windows.Forms.CheckBox
         Me.btnEditImplants = New System.Windows.Forms.Button
         Me.clvSkills = New DotNetLib.Windows.Forms.ContainerListView
@@ -60,9 +60,14 @@ Partial Public Class frmPilot
         Me.Category = New System.Windows.Forms.ColumnHeader
         Me.Data = New System.Windows.Forms.ColumnHeader
         Me.chkGroupSkills = New System.Windows.Forms.CheckBox
+        Me.tcSkills = New System.Windows.Forms.TabControl
+        Me.tabSkills = New System.Windows.Forms.TabPage
+        Me.tabCerts = New System.Windows.Forms.TabPage
         Me.ctxSkills.SuspendLayout()
         CType(Me.picPilot, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxPic.SuspendLayout()
+        Me.tcSkills.SuspendLayout()
+        Me.tabSkills.SuspendLayout()
         Me.SuspendLayout()
         '
         'ctxSkills
@@ -160,14 +165,14 @@ Partial Public Class frmPilot
         '
         Me.ColumnHeader3.Text = "Modifier"
         '
-        'Label4
+        'lblImplants
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(5, 294)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(49, 13)
-        Me.Label4.TabIndex = 24
-        Me.Label4.Text = "Implants:"
+        Me.lblImplants.AutoSize = True
+        Me.lblImplants.Location = New System.Drawing.Point(5, 294)
+        Me.lblImplants.Name = "lblImplants"
+        Me.lblImplants.Size = New System.Drawing.Size(49, 13)
+        Me.lblImplants.TabIndex = 24
+        Me.lblImplants.Text = "Implants:"
         '
         'btnCharXML
         '
@@ -191,23 +196,23 @@ Partial Public Class frmPilot
         Me.btnTrainingXML.Text = "Training"
         Me.btnTrainingXML.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'Label5
+        'lblTraining
         '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(151, 145)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(70, 13)
-        Me.Label5.TabIndex = 26
-        Me.Label5.Text = "Skill Training:"
+        Me.lblTraining.AutoSize = True
+        Me.lblTraining.Location = New System.Drawing.Point(151, 145)
+        Me.lblTraining.Name = "lblTraining"
+        Me.lblTraining.Size = New System.Drawing.Size(70, 13)
+        Me.lblTraining.TabIndex = 26
+        Me.lblTraining.Text = "Skill Training:"
         '
-        'Label6
+        'lblSkills
         '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(151, 294)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(34, 13)
-        Me.Label6.TabIndex = 30
-        Me.Label6.Text = "Skills:"
+        Me.lblSkills.AutoSize = True
+        Me.lblSkills.Location = New System.Drawing.Point(151, 294)
+        Me.lblSkills.Name = "lblSkills"
+        Me.lblSkills.Size = New System.Drawing.Size(91, 13)
+        Me.lblSkills.TabIndex = 30
+        Me.lblSkills.Text = "Skills/Certificates:"
         '
         'lvAttributes
         '
@@ -233,14 +238,14 @@ Partial Public Class frmPilot
         '
         Me.ColumnHeader7.Text = "Value"
         '
-        'Label7
+        'lblAttributes
         '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(7, 145)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(54, 13)
-        Me.Label7.TabIndex = 32
-        Me.Label7.Text = "Attributes:"
+        Me.lblAttributes.AutoSize = True
+        Me.lblAttributes.Location = New System.Drawing.Point(7, 145)
+        Me.lblAttributes.Name = "lblAttributes"
+        Me.lblAttributes.Size = New System.Drawing.Size(54, 13)
+        Me.lblAttributes.TabIndex = 32
+        Me.lblAttributes.Text = "Attributes:"
         '
         'chkManualImplants
         '
@@ -264,16 +269,14 @@ Partial Public Class frmPilot
         'clvSkills
         '
         Me.clvSkills.AllowColumnResize = False
-        Me.clvSkills.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clvSkills.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1, Me.ContainerListViewColumnHeader2, Me.ContainerListViewColumnHeader3, Me.ContainerListViewColumnHeader4, Me.ContainerListViewColumnHeader5, Me.ContainerListViewColumnHeader6})
         Me.clvSkills.DefaultItemHeight = 18
+        Me.clvSkills.Dock = System.Windows.Forms.DockStyle.Fill
         Me.clvSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.clvSkills.ItemContextMenu = Me.ctxSkills
-        Me.clvSkills.Location = New System.Drawing.Point(152, 310)
+        Me.clvSkills.Location = New System.Drawing.Point(3, 3)
         Me.clvSkills.Name = "clvSkills"
-        Me.clvSkills.Size = New System.Drawing.Size(721, 231)
+        Me.clvSkills.Size = New System.Drawing.Size(719, 204)
         Me.clvSkills.TabIndex = 37
         '
         'ContainerListViewColumnHeader1
@@ -345,7 +348,7 @@ Partial Public Class frmPilot
         Me.lvTraining.Location = New System.Drawing.Point(152, 161)
         Me.lvTraining.MultiSelect = False
         Me.lvTraining.Name = "lvTraining"
-        Me.lvTraining.Size = New System.Drawing.Size(721, 114)
+        Me.lvTraining.Size = New System.Drawing.Size(737, 114)
         Me.lvTraining.TabIndex = 25
         Me.lvTraining.UseCompatibleStateImageBehavior = False
         Me.lvTraining.View = System.Windows.Forms.View.Details
@@ -372,7 +375,7 @@ Partial Public Class frmPilot
         Me.lvPilot.Location = New System.Drawing.Point(152, 12)
         Me.lvPilot.MultiSelect = False
         Me.lvPilot.Name = "lvPilot"
-        Me.lvPilot.Size = New System.Drawing.Size(721, 126)
+        Me.lvPilot.Size = New System.Drawing.Size(737, 126)
         Me.lvPilot.TabIndex = 22
         Me.lvPilot.UseCompatibleStateImageBehavior = False
         Me.lvPilot.View = System.Windows.Forms.View.Details
@@ -393,33 +396,67 @@ Partial Public Class frmPilot
         Me.chkGroupSkills.AutoSize = True
         Me.chkGroupSkills.Checked = True
         Me.chkGroupSkills.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkGroupSkills.Location = New System.Drawing.Point(791, 293)
+        Me.chkGroupSkills.Location = New System.Drawing.Point(750, 293)
         Me.chkGroupSkills.Name = "chkGroupSkills"
-        Me.chkGroupSkills.Size = New System.Drawing.Size(82, 17)
+        Me.chkGroupSkills.Size = New System.Drawing.Size(139, 17)
         Me.chkGroupSkills.TabIndex = 38
-        Me.chkGroupSkills.Text = "Group Skills"
+        Me.chkGroupSkills.Text = "Group Skills/Certificates"
         Me.chkGroupSkills.UseVisualStyleBackColor = True
+        '
+        'tcSkills
+        '
+        Me.tcSkills.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tcSkills.Controls.Add(Me.tabSkills)
+        Me.tcSkills.Controls.Add(Me.tabCerts)
+        Me.tcSkills.Location = New System.Drawing.Point(156, 311)
+        Me.tcSkills.Name = "tcSkills"
+        Me.tcSkills.SelectedIndex = 0
+        Me.tcSkills.Size = New System.Drawing.Size(733, 236)
+        Me.tcSkills.TabIndex = 39
+        '
+        'tabSkills
+        '
+        Me.tabSkills.Controls.Add(Me.clvSkills)
+        Me.tabSkills.Location = New System.Drawing.Point(4, 22)
+        Me.tabSkills.Name = "tabSkills"
+        Me.tabSkills.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabSkills.Size = New System.Drawing.Size(725, 210)
+        Me.tabSkills.TabIndex = 0
+        Me.tabSkills.Text = "Skills"
+        Me.tabSkills.UseVisualStyleBackColor = True
+        '
+        'tabCerts
+        '
+        Me.tabCerts.Location = New System.Drawing.Point(4, 22)
+        Me.tabCerts.Name = "tabCerts"
+        Me.tabCerts.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabCerts.Size = New System.Drawing.Size(725, 199)
+        Me.tabCerts.TabIndex = 1
+        Me.tabCerts.Text = "Certificates"
+        Me.tabCerts.UseVisualStyleBackColor = True
         '
         'frmPilot
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(885, 553)
+        Me.ClientSize = New System.Drawing.Size(901, 552)
+        Me.Controls.Add(Me.tcSkills)
         Me.Controls.Add(Me.chkGroupSkills)
         Me.Controls.Add(Me.lvTraining)
         Me.Controls.Add(Me.btnEditImplants)
-        Me.Controls.Add(Me.clvSkills)
-        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.lblAttributes)
         Me.Controls.Add(Me.chkManualImplants)
         Me.Controls.Add(Me.lvPilot)
         Me.Controls.Add(Me.lvAttributes)
         Me.Controls.Add(Me.btnTrainingXML)
         Me.Controls.Add(Me.btnCharXML)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.lblTraining)
+        Me.Controls.Add(Me.lblSkills)
         Me.Controls.Add(Me.picPilot)
         Me.Controls.Add(Me.lvImplants)
-        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.lblImplants)
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmPilot"
@@ -428,6 +465,8 @@ Partial Public Class frmPilot
         Me.ctxSkills.ResumeLayout(False)
         CType(Me.picPilot, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxPic.ResumeLayout(False)
+        Me.tcSkills.ResumeLayout(False)
+        Me.tabSkills.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -439,15 +478,15 @@ Partial Public Class frmPilot
     Friend WithEvents lvImplants As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents lblImplants As System.Windows.Forms.Label
     Friend WithEvents btnCharXML As System.Windows.Forms.Button
     Friend WithEvents btnTrainingXML As System.Windows.Forms.Button
-    Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents lblTraining As System.Windows.Forms.Label
+    Friend WithEvents lblSkills As System.Windows.Forms.Label
     Friend WithEvents lvAttributes As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents lblAttributes As System.Windows.Forms.Label
     Friend WithEvents lvTraining As EveHQ.ListViewNoFlicker
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
@@ -471,5 +510,8 @@ Partial Public Class frmPilot
     Friend WithEvents ContainerListViewColumnHeader5 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents ContainerListViewColumnHeader6 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents chkGroupSkills As System.Windows.Forms.CheckBox
+    Friend WithEvents tcSkills As System.Windows.Forms.TabControl
+    Friend WithEvents tabSkills As System.Windows.Forms.TabPage
+    Friend WithEvents tabCerts As System.Windows.Forms.TabPage
 
 End Class

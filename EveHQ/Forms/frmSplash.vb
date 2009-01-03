@@ -18,6 +18,8 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Reflection
+Imports System.IO
+Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class frmSplash
 
@@ -184,6 +186,22 @@ Public Class frmSplash
             End If
             frmSettings.ShowDialog()
         Loop
+
+        ' Load Certificate data
+        lblStatus.Text = "Loading Certificate data..."
+        Me.Refresh()
+        Dim s As New MemoryStream(My.Resources.CertificateCategories)
+        Dim f As BinaryFormatter = New BinaryFormatter
+        EveHQ.Core.HQ.CertificateCategories = CType(f.Deserialize(s), SortedList)
+        s.Close()
+        s = New MemoryStream(My.Resources.CertificateClasses)
+        f = New BinaryFormatter
+        EveHQ.Core.HQ.CertificateClasses = CType(f.Deserialize(s), SortedList)
+        s.Close()
+        s = New MemoryStream(My.Resources.Certificates)
+        f = New BinaryFormatter
+        EveHQ.Core.HQ.Certificates = CType(f.Deserialize(s), SortedList)
+        s.Close()
 
         ' If we get this far we have loaded a DB so check for SQL format and check the custom data
         lblStatus.Text = "Checking database..."
