@@ -237,17 +237,19 @@ Public Class frmPilot
 
             ' Display Skills
             Call Me.DisplaySkills()
+            Call Me.DisplayCertificates()
 
         Else
-        lvPilot.Items.Clear()
-        lvImplants.Items.Clear()
-        lvTraining.Items.Clear()
-        lvAttributes.Items.Clear()
-        clvSkills.Items.Clear()
-        ' Get image from cache
-        If EveHQ.Core.HQ.myPilot.ID = "" Then
-            picPilot.Image = My.Resources.noitem
-        End If
+            lvPilot.Items.Clear()
+            lvImplants.Items.Clear()
+            lvTraining.Items.Clear()
+            lvAttributes.Items.Clear()
+            clvSkills.Items.Clear()
+            clvCerts.Items.Clear()
+            ' Get image from cache
+            If EveHQ.Core.HQ.myPilot.ID = "" Then
+                picPilot.Image = My.Resources.noitem
+            End If
         End If
     End Sub
 
@@ -427,6 +429,104 @@ Public Class frmPilot
                 TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
             End If
         End If
+    End Sub
+
+    Private Sub DisplayCertificates()
+
+        Dim cCert As EveHQ.Core.Certificate
+
+        ' Filter out the lower end certificates
+        Dim certList As New SortedList
+        For Each cCertID As String In EveHQ.Core.HQ.myPilot.Certificates
+            cCert = CType(EveHQ.Core.HQ.Certificates(cCertID), Core.Certificate)
+            If certList.Contains(cCert.ClassID) = False Then
+                certList.Add(cCert.ClassID, cCert)
+            Else
+                Dim storedGrade As Integer = CType(certList(cCert.ClassID), Core.Certificate).Grade
+                If cCert.Grade > storedGrade Then
+                    certList(cCert.ClassID) = cCert
+                End If
+            End If
+        Next
+
+        'Set up Groups
+
+        clvCerts.Items.Clear()
+        clvCerts.Refresh()
+        clvCerts.BeginUpdate()
+        clvCerts.Columns.Clear()
+        clvCerts.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colCertificate, Me.colCertGrade, Me.colCertLevel})
+        clvCerts.ItemSelectedColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor))
+
+        Dim certGroups As New SortedList
+
+        If chkGroupSkills.Checked = True Then
+            For Each cCategory As EveHQ.Core.CertificateCategory In EveHQ.Core.HQ.CertificateCategories.Values
+                Dim newCertGroup As New ContainerListViewItem
+                newCertGroup.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor))
+                newCertGroup.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor))
+                newCertGroup.Text = cCategory.Name
+                newCertGroup.Tag = 0
+                certGroups.Add(cCategory.ID.ToString, newCertGroup)
+                clvCerts.Items.Add(newCertGroup)
+            Next
+        End If
+
+        'Set up items
+
+        For Each cCert In certList.Values
+            Dim certGroup As ContainerListViewItem = CType(certGroups(cCert.CategoryID.ToString), ContainerListViewItem)
+            Dim newCLVItem As New ContainerListViewItem
+            newCLVItem.Text = CType(EveHQ.Core.HQ.CertificateClasses(cCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+            newCLVItem.Tag = cCert.ID
+            newCLVItem.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor))
+            If chkGroupSkills.Checked = True Then
+                certGroup.Items.Add(newCLVItem)
+                certGroup.Tag = CInt(certGroup.Tag) + 1
+            Else
+                clvCerts.Items.Add(newCLVItem)
+            End If
+            newCLVItem.SubItems(1).Tag = cCert.Grade
+            Select Case cCert.Grade
+                Case 1
+                    newCLVItem.SubItems(1).Text = "Basic"
+                Case 2
+                    newCLVItem.SubItems(1).Text = "Standard"
+                Case 3
+                    newCLVItem.SubItems(1).Text = "Improved"
+                Case 4
+                    newCLVItem.SubItems(1).Text = "Advanced"
+                Case 5
+                    newCLVItem.SubItems(1).Text = "Elite"
+            End Select
+
+            Dim pb As New PictureBox
+            pb.Image = My.Resources.level2_act
+            pb.Image = CType(My.Resources.ResourceManager.GetObject("level" & cCert.Grade.ToString), Image)
+            pb.Width = 48 : pb.Height = 8
+            newCLVItem.SubItems(2).ItemControl = pb
+            newCLVItem.SubItems(2).Tag = cCert.Grade
+        Next
+
+        ' Add certificate count and remove empty groups
+        If chkGroupSkills.Checked = True Then
+            For Each certGroup As ContainerListViewItem In clvCerts.Items
+                certGroup.Text &= " (" & certGroup.Tag.ToString & " certificates)"
+            Next
+            Dim SG As New ContainerListViewItem
+            Dim SGNo As Integer = 0
+            Do
+                SG = clvCerts.Items(SGNo)
+                If SG.Items.Count = 0 Then
+                    clvCerts.Items.Remove(SG)
+                    SGNo -= 1
+                End If
+                SGNo += 1
+            Loop Until SGNo = clvCerts.Items.Count
+        End If
+
+        clvCerts.Sort(0, SortOrder.Ascending, True)
+        clvCerts.EndUpdate()
     End Sub
 
 #Region "Skill Update Routine"
@@ -778,6 +878,32 @@ Public Class frmPilot
 
     Private Sub chkGroupSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkGroupSkills.CheckedChanged
         Call Me.DisplaySkills()
+        Call Me.DisplayCertificates()
+    End Sub
+
+    Private Sub ctxCerts_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxCerts.Opening
+        If clvCerts.SelectedItems.Count <> 0 Then
+            If clvCerts.SelectedItems(0).Items.Count = 0 Then
+                Dim skillName As String = ""
+                Dim skillID As String = ""
+                Dim certName As String = clvCerts.SelectedItems(0).Text
+                Dim certGrade As String = clvCerts.SelectedItems(0).SubItems(1).Text
+                Dim certID As String = clvCerts.SelectedItems(0).Tag.ToString
+                mnuCertName.Text = certName & " (" & certGrade & ")"
+                mnuCertName.Tag = certID
+            Else
+                e.Cancel = True
+            End If
+        Else
+            e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
+        Dim certID As String = mnuCertName.Tag.ToString
+        Dim certDetails As New frmCertificateDetails
+        certDetails.Text = mnuCertName.Text
+        certDetails.ShowCertDetails(certID)
     End Sub
 End Class
 

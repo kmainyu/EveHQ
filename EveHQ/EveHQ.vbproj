@@ -55,7 +55,7 @@
     <DocumentationFile>EveHQ.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
@@ -131,6 +131,12 @@
       <DependentUpon>frmBackup.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmBackup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCertificateDetails.Designer.vb">
+      <DependentUpon>frmCertificateDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCertificateDetails.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmChartViewer.Designer.vb">
@@ -285,6 +291,9 @@
     <EmbeddedResource Include="Forms\frmBackup.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmBackup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCertificateDetails.resx">
+      <DependentUpon>frmCertificateDetails.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmChartViewer.resx">
       <DependentUpon>frmChartViewer.vb</DependentUpon>

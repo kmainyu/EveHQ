@@ -53,21 +53,33 @@ Partial Public Class frmPilot
         Me.ContainerListViewColumnHeader4 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ContainerListViewColumnHeader5 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ContainerListViewColumnHeader6 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.chkGroupSkills = New System.Windows.Forms.CheckBox
+        Me.tcSkills = New System.Windows.Forms.TabControl
+        Me.tabSkills = New System.Windows.Forms.TabPage
+        Me.tabCerts = New System.Windows.Forms.TabPage
+        Me.Panel1 = New System.Windows.Forms.Panel
+        Me.clvCerts = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colCertificate = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colCertGrade = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colCertLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ctxCerts = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuCertName = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuViewCertDetails = New System.Windows.Forms.ToolStripMenuItem
         Me.lvTraining = New EveHQ.ListViewNoFlicker
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.lvPilot = New EveHQ.ListViewNoFlicker
         Me.Category = New System.Windows.Forms.ColumnHeader
         Me.Data = New System.Windows.Forms.ColumnHeader
-        Me.chkGroupSkills = New System.Windows.Forms.CheckBox
-        Me.tcSkills = New System.Windows.Forms.TabControl
-        Me.tabSkills = New System.Windows.Forms.TabPage
-        Me.tabCerts = New System.Windows.Forms.TabPage
         Me.ctxSkills.SuspendLayout()
         CType(Me.picPilot, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxPic.SuspendLayout()
         Me.tcSkills.SuspendLayout()
         Me.tabSkills.SuspendLayout()
+        Me.tabCerts.SuspendLayout()
+        Me.Panel1.SuspendLayout()
+        Me.ctxCerts.SuspendLayout()
         Me.SuspendLayout()
         '
         'ctxSkills
@@ -337,6 +349,132 @@ Partial Public Class frmPilot
         Me.ContainerListViewColumnHeader6.Text = "Time To Level Up"
         Me.ContainerListViewColumnHeader6.Width = 125
         '
+        'chkGroupSkills
+        '
+        Me.chkGroupSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkGroupSkills.AutoSize = True
+        Me.chkGroupSkills.Checked = True
+        Me.chkGroupSkills.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkGroupSkills.Location = New System.Drawing.Point(750, 293)
+        Me.chkGroupSkills.Name = "chkGroupSkills"
+        Me.chkGroupSkills.Size = New System.Drawing.Size(139, 17)
+        Me.chkGroupSkills.TabIndex = 38
+        Me.chkGroupSkills.Text = "Group Skills/Certificates"
+        Me.chkGroupSkills.UseVisualStyleBackColor = True
+        '
+        'tcSkills
+        '
+        Me.tcSkills.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tcSkills.Controls.Add(Me.tabSkills)
+        Me.tcSkills.Controls.Add(Me.tabCerts)
+        Me.tcSkills.Location = New System.Drawing.Point(156, 311)
+        Me.tcSkills.Name = "tcSkills"
+        Me.tcSkills.SelectedIndex = 0
+        Me.tcSkills.Size = New System.Drawing.Size(733, 236)
+        Me.tcSkills.TabIndex = 39
+        '
+        'tabSkills
+        '
+        Me.tabSkills.Controls.Add(Me.clvSkills)
+        Me.tabSkills.Location = New System.Drawing.Point(4, 22)
+        Me.tabSkills.Name = "tabSkills"
+        Me.tabSkills.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabSkills.Size = New System.Drawing.Size(725, 210)
+        Me.tabSkills.TabIndex = 0
+        Me.tabSkills.Text = "Skills"
+        Me.tabSkills.UseVisualStyleBackColor = True
+        '
+        'tabCerts
+        '
+        Me.tabCerts.Controls.Add(Me.Panel1)
+        Me.tabCerts.Location = New System.Drawing.Point(4, 22)
+        Me.tabCerts.Name = "tabCerts"
+        Me.tabCerts.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabCerts.Size = New System.Drawing.Size(725, 210)
+        Me.tabCerts.TabIndex = 1
+        Me.tabCerts.Text = "Certificates"
+        Me.tabCerts.UseVisualStyleBackColor = True
+        '
+        'Panel1
+        '
+        Me.Panel1.BackColor = System.Drawing.SystemColors.Control
+        Me.Panel1.Controls.Add(Me.clvCerts)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Location = New System.Drawing.Point(3, 3)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(719, 204)
+        Me.Panel1.TabIndex = 1
+        '
+        'clvCerts
+        '
+        Me.clvCerts.AllowColumnResize = False
+        Me.clvCerts.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colCertificate, Me.colCertGrade, Me.colCertLevel})
+        Me.clvCerts.DefaultItemHeight = 18
+        Me.clvCerts.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.clvCerts.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.clvCerts.ItemContextMenu = Me.ctxCerts
+        Me.clvCerts.Location = New System.Drawing.Point(0, 0)
+        Me.clvCerts.MultipleColumnSort = True
+        Me.clvCerts.Name = "clvCerts"
+        Me.clvCerts.Size = New System.Drawing.Size(719, 204)
+        Me.clvCerts.TabIndex = 50
+        '
+        'colCertificate
+        '
+        Me.colCertificate.CustomSortTag = Nothing
+        Me.colCertificate.MinimumWidth = 50
+        Me.colCertificate.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colCertificate.Tag = Nothing
+        Me.colCertificate.Text = "Certificate"
+        Me.colCertificate.Width = 400
+        '
+        'colCertGrade
+        '
+        Me.colCertGrade.CustomSortTag = Nothing
+        Me.colCertGrade.DisplayIndex = 1
+        Me.colCertGrade.MinimumWidth = 50
+        Me.colCertGrade.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colCertGrade.Tag = Nothing
+        Me.colCertGrade.Text = "Grade"
+        Me.colCertGrade.Width = 100
+        '
+        'colCertLevel
+        '
+        Me.colCertLevel.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.colCertLevel.CustomSortTag = Nothing
+        Me.colCertLevel.DisplayIndex = 2
+        Me.colCertLevel.MinimumWidth = 50
+        Me.colCertLevel.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colCertLevel.Tag = Nothing
+        Me.colCertLevel.Text = "Level"
+        Me.colCertLevel.Width = 100
+        '
+        'ctxCerts
+        '
+        Me.ctxCerts.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator2, Me.mnuViewCertDetails})
+        Me.ctxCerts.Name = "ctxSkills"
+        Me.ctxCerts.Size = New System.Drawing.Size(138, 54)
+        '
+        'mnuCertName
+        '
+        Me.mnuCertName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.mnuCertName.Name = "mnuCertName"
+        Me.mnuCertName.Size = New System.Drawing.Size(137, 22)
+        Me.mnuCertName.Text = "Skill Name"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(134, 6)
+        '
+        'mnuViewCertDetails
+        '
+        Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(137, 22)
+        Me.mnuViewCertDetails.Text = "View Details"
+        '
         'lvTraining
         '
         Me.lvTraining.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -390,53 +528,6 @@ Partial Public Class frmPilot
         Me.Data.Text = "Data"
         Me.Data.Width = 260
         '
-        'chkGroupSkills
-        '
-        Me.chkGroupSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkGroupSkills.AutoSize = True
-        Me.chkGroupSkills.Checked = True
-        Me.chkGroupSkills.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkGroupSkills.Location = New System.Drawing.Point(750, 293)
-        Me.chkGroupSkills.Name = "chkGroupSkills"
-        Me.chkGroupSkills.Size = New System.Drawing.Size(139, 17)
-        Me.chkGroupSkills.TabIndex = 38
-        Me.chkGroupSkills.Text = "Group Skills/Certificates"
-        Me.chkGroupSkills.UseVisualStyleBackColor = True
-        '
-        'tcSkills
-        '
-        Me.tcSkills.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.tcSkills.Controls.Add(Me.tabSkills)
-        Me.tcSkills.Controls.Add(Me.tabCerts)
-        Me.tcSkills.Location = New System.Drawing.Point(156, 311)
-        Me.tcSkills.Name = "tcSkills"
-        Me.tcSkills.SelectedIndex = 0
-        Me.tcSkills.Size = New System.Drawing.Size(733, 236)
-        Me.tcSkills.TabIndex = 39
-        '
-        'tabSkills
-        '
-        Me.tabSkills.Controls.Add(Me.clvSkills)
-        Me.tabSkills.Location = New System.Drawing.Point(4, 22)
-        Me.tabSkills.Name = "tabSkills"
-        Me.tabSkills.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabSkills.Size = New System.Drawing.Size(725, 210)
-        Me.tabSkills.TabIndex = 0
-        Me.tabSkills.Text = "Skills"
-        Me.tabSkills.UseVisualStyleBackColor = True
-        '
-        'tabCerts
-        '
-        Me.tabCerts.Location = New System.Drawing.Point(4, 22)
-        Me.tabCerts.Name = "tabCerts"
-        Me.tabCerts.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabCerts.Size = New System.Drawing.Size(725, 199)
-        Me.tabCerts.TabIndex = 1
-        Me.tabCerts.Text = "Certificates"
-        Me.tabCerts.UseVisualStyleBackColor = True
-        '
         'frmPilot
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -467,6 +558,9 @@ Partial Public Class frmPilot
         Me.ctxPic.ResumeLayout(False)
         Me.tcSkills.ResumeLayout(False)
         Me.tabSkills.ResumeLayout(False)
+        Me.tabCerts.ResumeLayout(False)
+        Me.Panel1.ResumeLayout(False)
+        Me.ctxCerts.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -513,5 +607,14 @@ Partial Public Class frmPilot
     Friend WithEvents tcSkills As System.Windows.Forms.TabControl
     Friend WithEvents tabSkills As System.Windows.Forms.TabPage
     Friend WithEvents tabCerts As System.Windows.Forms.TabPage
+    Friend WithEvents clvCerts As DotNetLib.Windows.Forms.ContainerListView
+    Friend WithEvents colCertificate As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colCertGrade As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colCertLevel As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents ctxCerts As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuCertName As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuViewCertDetails As System.Windows.Forms.ToolStripMenuItem
 
 End Class
