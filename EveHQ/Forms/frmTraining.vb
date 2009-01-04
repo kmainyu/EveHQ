@@ -36,9 +36,11 @@ Public Class frmTraining
     Dim suggestionsTaken As Boolean = False
     Dim usingFilter As Boolean = True
     Dim skillListNodes As New SortedList
+    Dim certListNodes As New SortedList
 
     Private Sub frmTraining_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         cboFilter.SelectedIndex = 0
+        cboCertFilter.SelectedIndex = 0
         Call Me.SetupQueues()
         Call Me.RefreshAllTrainingQueues()
         tsQueueOptions.Enabled = False
@@ -450,6 +452,99 @@ Public Class frmTraining
         newItem.Text = "##" & skillNode.Text
         Return newItem
     End Function
+
+#Region "Certificate Planning"
+
+    Private Sub cboCertFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboCertFilter.SelectedIndexChanged
+        Call Me.LoadCertificateTree()
+    End Sub
+    Public Sub LoadCertificateTree()
+        Dim filter As Integer = cboCertFilter.SelectedIndex
+        ' Save current open nodes
+        oNodes.Clear()
+        For Each oNode As TreeNode In tvwCertList.Nodes
+            If oNode.IsExpanded = True Then
+                oNodes.Add(oNode.Name)
+            End If
+        Next
+        tvwCertList.BeginUpdate()
+        tvwCertList.Nodes.Clear()
+        tvwCertList.Sorted = False
+        Call Me.LoadCertGroups()
+        Call Me.LoadFilteredCerts(filter)
+        Call Me.ShowCertGroups()
+        For Each oNode As String In oNodes
+            If tvwCertList.Nodes.ContainsKey(oNode) = True Then
+                tvwCertList.Nodes(oNode).Expand()
+            End If
+        Next
+        tvwCertList.Sorted = True
+        tvwCertList.EndUpdate()
+        tvwCertList.Refresh()
+        If tvwCertList.SelectedNode Is Nothing Then
+            btnShowDetails.Enabled = False
+        End If
+    End Sub
+    Private Sub LoadCertGroups()
+        certListNodes.Clear()
+        For Each CertGroup As Core.CertificateCategory In EveHQ.Core.HQ.CertificateCategories.Values
+            Dim groupNode As TreeNode = New TreeNode
+            groupNode.Name = CertGroup.ID.ToString
+            groupNode.Text = CertGroup.Name
+            groupNode.ImageIndex = 8
+            groupNode.SelectedImageIndex = 8
+            certListNodes.Add(groupNode.Name, groupNode)
+        Next
+    End Sub
+    Private Sub LoadFilteredCerts(ByVal filter As Integer)
+        Dim groupNode As New TreeNode
+        Dim addCert As Boolean = False
+        For Each newCert As Core.Certificate In Core.HQ.Certificates.Values
+            addCert = False
+            groupNode = CType(certListNodes.Item(newCert.CategoryID.ToString), TreeNode)
+            Select Case filter
+                Case 0
+                    addCert = True
+                Case 1
+                    If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = True Then
+                        addCert = True
+                    End If
+                Case 2
+                    If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = False Then
+                        addCert = True
+                    End If
+                Case 3 To 7
+                    If newCert.Grade = filter - 2 Then
+                        addCert = True
+                    End If
+                Case 8 To 12
+                    If newCert.Grade = filter - 7 And EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = False Then
+                        addCert = True
+                    End If
+            End Select
+            If addCert = True Then
+                Dim certNode As New TreeNode
+                certNode.Text = CType(Core.HQ.CertificateClasses(newCert.ClassID.ToString), Core.CertificateClass).Name
+                certNode.Name = newCert.ID.ToString
+                If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = True Then
+                    certNode.ImageIndex = newCert.Grade
+                    certNode.SelectedImageIndex = newCert.Grade
+                Else
+                    certNode.ImageIndex = 10
+                    certNode.SelectedImageIndex = 10
+                End If
+                groupNode.Nodes.Add(certNode)
+            End If
+        Next
+    End Sub
+    Private Sub ShowCertGroups()
+        For Each groupNode As TreeNode In certListNodes.Values
+            If groupNode.Nodes.Count > 0 Then
+                tvwCertList.Nodes.Add(groupNode)
+            End If
+        Next
+    End Sub
+#End Region
 
     Private Sub activeLVW_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim skillID As String

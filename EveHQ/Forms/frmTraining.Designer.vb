@@ -154,6 +154,14 @@ Partial Class frmTraining
         Me.btnMergeQueues = New System.Windows.Forms.Button
         Me.btnAddQueue = New System.Windows.Forms.Button
         Me.chkOmitQueuesSkills = New System.Windows.Forms.CheckBox
+        Me.tabQueueMode = New System.Windows.Forms.TabControl
+        Me.tabSkillMode = New System.Windows.Forms.TabPage
+        Me.tabCertMode = New System.Windows.Forms.TabPage
+        Me.panelSkillPlanning = New System.Windows.Forms.Panel
+        Me.panelCertPlanning = New System.Windows.Forms.Panel
+        Me.cboCertFilter = New System.Windows.Forms.ComboBox
+        Me.lblCertFilter = New System.Windows.Forms.Label
+        Me.tvwCertList = New System.Windows.Forms.TreeView
         Me.lvQueues = New EveHQ.ListViewNoFlicker
         Me.colQName = New System.Windows.Forms.ColumnHeader
         Me.colQSkills = New System.Windows.Forms.ColumnHeader
@@ -181,22 +189,28 @@ Partial Class frmTraining
         Me.tabTimes.SuspendLayout()
         Me.tabQueues.SuspendLayout()
         Me.tabSummary.SuspendLayout()
+        Me.tabQueueMode.SuspendLayout()
+        Me.tabSkillMode.SuspendLayout()
+        Me.tabCertMode.SuspendLayout()
+        Me.panelSkillPlanning.SuspendLayout()
+        Me.panelCertPlanning.SuspendLayout()
         Me.SuspendLayout()
         '
         'tvwSkillList
         '
-        Me.tvwSkillList.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.tvwSkillList.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwSkillList.ContextMenuStrip = Me.ctxDetails
         Me.tvwSkillList.FullRowSelect = True
         Me.tvwSkillList.HideSelection = False
         Me.tvwSkillList.ImageKey = "Blank.jpg"
         Me.tvwSkillList.ImageList = Me.ImageList1
         Me.tvwSkillList.Indent = 20
-        Me.tvwSkillList.Location = New System.Drawing.Point(12, 63)
+        Me.tvwSkillList.Location = New System.Drawing.Point(9, 32)
         Me.tvwSkillList.Name = "tvwSkillList"
         Me.tvwSkillList.SelectedImageIndex = 6
-        Me.tvwSkillList.Size = New System.Drawing.Size(239, 347)
+        Me.tvwSkillList.Size = New System.Drawing.Size(239, 309)
         Me.tvwSkillList.TabIndex = 0
         '
         'ctxDetails
@@ -653,7 +667,7 @@ Partial Class frmTraining
         'lblFilter
         '
         Me.lblFilter.AutoSize = True
-        Me.lblFilter.Location = New System.Drawing.Point(12, 38)
+        Me.lblFilter.Location = New System.Drawing.Point(9, 8)
         Me.lblFilter.Name = "lblFilter"
         Me.lblFilter.Size = New System.Drawing.Size(32, 13)
         Me.lblFilter.TabIndex = 13
@@ -665,7 +679,7 @@ Partial Class frmTraining
         Me.cboFilter.FormattingEnabled = True
         Me.cboFilter.IntegralHeight = False
         Me.cboFilter.Items.AddRange(New Object() {"Published Only", "All", "Non-Published Only", "Owned Skills", "Missing Skills", "New Skills Ready To Train", "Skills Ready To Train to Next Level", "Partially Trained", "Skills at Level 0", "Skills at Level 1", "Skills at Level 2", "Skills at Level 3", "Skills at Level 4", "Rank 1 Skills", "Rank 2 Skills", "Rank 3 Skills", "Rank 4 Skills", "Rank 5 Skills", "Rank 6 Skills", "Rank 7 Skills", "Rank 8 Skills", "Rank 9 Skills", "Rank 10 Skills", "Rank 11 Skills", "Rank 12 Skills", "Rank 13 Skills", "Rank 14 Skills", "Rank 15 Skills", "Rank 16 Skills", "Primary - Charisma", "Primary - Intelligence", "Primary - Memory", "Primary - Perception", "Primary - Willpower", "Secondary - Charisma", "Secondary - Intelligence", "Secondary - Memory", "Secondary - Perception", "Secondary - Willpower"})
-        Me.cboFilter.Location = New System.Drawing.Point(59, 35)
+        Me.cboFilter.Location = New System.Drawing.Point(56, 5)
         Me.cboFilter.Name = "cboFilter"
         Me.cboFilter.Size = New System.Drawing.Size(192, 21)
         Me.cboFilter.TabIndex = 14
@@ -912,10 +926,10 @@ Partial Class frmTraining
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tabQueues.Controls.Add(Me.tabSummary)
-        Me.tabQueues.Location = New System.Drawing.Point(257, 35)
+        Me.tabQueues.Location = New System.Drawing.Point(285, 35)
         Me.tabQueues.Name = "tabQueues"
         Me.tabQueues.SelectedIndex = 0
-        Me.tabQueues.Size = New System.Drawing.Size(643, 402)
+        Me.tabQueues.Size = New System.Drawing.Size(615, 402)
         Me.tabQueues.TabIndex = 17
         '
         'tabSummary
@@ -933,7 +947,7 @@ Partial Class frmTraining
         Me.tabSummary.Location = New System.Drawing.Point(4, 22)
         Me.tabSummary.Name = "tabSummary"
         Me.tabSummary.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabSummary.Size = New System.Drawing.Size(635, 376)
+        Me.tabSummary.Size = New System.Drawing.Size(607, 376)
         Me.tabSummary.TabIndex = 1
         Me.tabSummary.Text = "Queue Summary"
         Me.tabSummary.UseVisualStyleBackColor = True
@@ -1030,12 +1044,110 @@ Partial Class frmTraining
         '
         Me.chkOmitQueuesSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.chkOmitQueuesSkills.AutoSize = True
-        Me.chkOmitQueuesSkills.Location = New System.Drawing.Point(12, 416)
+        Me.chkOmitQueuesSkills.Location = New System.Drawing.Point(9, 347)
         Me.chkOmitQueuesSkills.Name = "chkOmitQueuesSkills"
         Me.chkOmitQueuesSkills.Size = New System.Drawing.Size(115, 17)
         Me.chkOmitQueuesSkills.TabIndex = 18
         Me.chkOmitQueuesSkills.Text = "Omit Queued Skills"
         Me.chkOmitQueuesSkills.UseVisualStyleBackColor = True
+        '
+        'tabQueueMode
+        '
+        Me.tabQueueMode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.tabQueueMode.Controls.Add(Me.tabSkillMode)
+        Me.tabQueueMode.Controls.Add(Me.tabCertMode)
+        Me.tabQueueMode.Location = New System.Drawing.Point(12, 35)
+        Me.tabQueueMode.Name = "tabQueueMode"
+        Me.tabQueueMode.SelectedIndex = 0
+        Me.tabQueueMode.Size = New System.Drawing.Size(271, 402)
+        Me.tabQueueMode.TabIndex = 19
+        '
+        'tabSkillMode
+        '
+        Me.tabSkillMode.BackColor = System.Drawing.Color.Transparent
+        Me.tabSkillMode.Controls.Add(Me.panelSkillPlanning)
+        Me.tabSkillMode.Location = New System.Drawing.Point(4, 22)
+        Me.tabSkillMode.Name = "tabSkillMode"
+        Me.tabSkillMode.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabSkillMode.Size = New System.Drawing.Size(263, 376)
+        Me.tabSkillMode.TabIndex = 0
+        Me.tabSkillMode.Text = "Skill Planning"
+        Me.tabSkillMode.UseVisualStyleBackColor = True
+        '
+        'tabCertMode
+        '
+        Me.tabCertMode.BackColor = System.Drawing.Color.Transparent
+        Me.tabCertMode.Controls.Add(Me.panelCertPlanning)
+        Me.tabCertMode.Location = New System.Drawing.Point(4, 22)
+        Me.tabCertMode.Name = "tabCertMode"
+        Me.tabCertMode.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabCertMode.Size = New System.Drawing.Size(263, 376)
+        Me.tabCertMode.TabIndex = 1
+        Me.tabCertMode.Text = "Certificate Planning"
+        Me.tabCertMode.UseVisualStyleBackColor = True
+        '
+        'panelSkillPlanning
+        '
+        Me.panelSkillPlanning.BackColor = System.Drawing.SystemColors.Window
+        Me.panelSkillPlanning.Controls.Add(Me.cboFilter)
+        Me.panelSkillPlanning.Controls.Add(Me.lblFilter)
+        Me.panelSkillPlanning.Controls.Add(Me.tvwSkillList)
+        Me.panelSkillPlanning.Controls.Add(Me.chkOmitQueuesSkills)
+        Me.panelSkillPlanning.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelSkillPlanning.Location = New System.Drawing.Point(3, 3)
+        Me.panelSkillPlanning.Name = "panelSkillPlanning"
+        Me.panelSkillPlanning.Size = New System.Drawing.Size(257, 370)
+        Me.panelSkillPlanning.TabIndex = 0
+        '
+        'panelCertPlanning
+        '
+        Me.panelCertPlanning.BackColor = System.Drawing.SystemColors.Window
+        Me.panelCertPlanning.Controls.Add(Me.cboCertFilter)
+        Me.panelCertPlanning.Controls.Add(Me.lblCertFilter)
+        Me.panelCertPlanning.Controls.Add(Me.tvwCertList)
+        Me.panelCertPlanning.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelCertPlanning.Location = New System.Drawing.Point(3, 3)
+        Me.panelCertPlanning.Name = "panelCertPlanning"
+        Me.panelCertPlanning.Size = New System.Drawing.Size(257, 370)
+        Me.panelCertPlanning.TabIndex = 0
+        '
+        'cboCertFilter
+        '
+        Me.cboCertFilter.DropDownHeight = 160
+        Me.cboCertFilter.FormattingEnabled = True
+        Me.cboCertFilter.IntegralHeight = False
+        Me.cboCertFilter.Items.AddRange(New Object() {"All", "Owned Certificates", "Missing Certificates", "Basic Certificates - All", "Standard Certificates - All", "Improved Certificates - All", "Advanced Certificates - All", "Elite Certificates - All", "Basic Certificates - Missing", "Standard Certificates - Missing", "Improved Certificates - Missing", "Advanced Certificates - Missing", "Elite Certificates - Missing"})
+        Me.cboCertFilter.Location = New System.Drawing.Point(56, 5)
+        Me.cboCertFilter.Name = "cboCertFilter"
+        Me.cboCertFilter.Size = New System.Drawing.Size(192, 21)
+        Me.cboCertFilter.TabIndex = 17
+        '
+        'lblCertFilter
+        '
+        Me.lblCertFilter.AutoSize = True
+        Me.lblCertFilter.Location = New System.Drawing.Point(9, 8)
+        Me.lblCertFilter.Name = "lblCertFilter"
+        Me.lblCertFilter.Size = New System.Drawing.Size(32, 13)
+        Me.lblCertFilter.TabIndex = 16
+        Me.lblCertFilter.Text = "Filter:"
+        '
+        'tvwCertList
+        '
+        Me.tvwCertList.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tvwCertList.ContextMenuStrip = Me.ctxDetails
+        Me.tvwCertList.FullRowSelect = True
+        Me.tvwCertList.HideSelection = False
+        Me.tvwCertList.ImageKey = "Blank.jpg"
+        Me.tvwCertList.ImageList = Me.ImageList1
+        Me.tvwCertList.Indent = 20
+        Me.tvwCertList.Location = New System.Drawing.Point(9, 32)
+        Me.tvwCertList.Name = "tvwCertList"
+        Me.tvwCertList.SelectedImageIndex = 6
+        Me.tvwCertList.Size = New System.Drawing.Size(239, 335)
+        Me.tvwCertList.TabIndex = 15
         '
         'lvQueues
         '
@@ -1050,7 +1162,7 @@ Partial Class frmTraining
         Me.lvQueues.HideSelection = False
         Me.lvQueues.Location = New System.Drawing.Point(108, 6)
         Me.lvQueues.Name = "lvQueues"
-        Me.lvQueues.Size = New System.Drawing.Size(520, 348)
+        Me.lvQueues.Size = New System.Drawing.Size(492, 348)
         Me.lvQueues.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvQueues.TabIndex = 4
         Me.lvQueues.UseCompatibleStateImageBehavior = False
@@ -1156,14 +1268,11 @@ Partial Class frmTraining
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(912, 688)
+        Me.Controls.Add(Me.tabQueueMode)
         Me.Controls.Add(Me.tabQueues)
         Me.Controls.Add(Me.lvwDetails)
-        Me.Controls.Add(Me.cboFilter)
-        Me.Controls.Add(Me.lblFilter)
         Me.Controls.Add(Me.tabSkillDetails)
         Me.Controls.Add(Me.tsQueueOptions)
-        Me.Controls.Add(Me.tvwSkillList)
-        Me.Controls.Add(Me.chkOmitQueuesSkills)
         Me.Name = "frmTraining"
         Me.Text = "Skill Training"
         Me.ctxDetails.ResumeLayout(False)
@@ -1181,6 +1290,13 @@ Partial Class frmTraining
         Me.tabQueues.ResumeLayout(False)
         Me.tabSummary.ResumeLayout(False)
         Me.tabSummary.PerformLayout()
+        Me.tabQueueMode.ResumeLayout(False)
+        Me.tabSkillMode.ResumeLayout(False)
+        Me.tabCertMode.ResumeLayout(False)
+        Me.panelSkillPlanning.ResumeLayout(False)
+        Me.panelSkillPlanning.PerformLayout()
+        Me.panelCertPlanning.ResumeLayout(False)
+        Me.panelCertPlanning.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1308,4 +1424,12 @@ Partial Class frmTraining
     Friend WithEvents mnuChangeLevel5 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents btnICT As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator14 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents tabQueueMode As System.Windows.Forms.TabControl
+    Friend WithEvents tabSkillMode As System.Windows.Forms.TabPage
+    Friend WithEvents panelSkillPlanning As System.Windows.Forms.Panel
+    Friend WithEvents tabCertMode As System.Windows.Forms.TabPage
+    Friend WithEvents panelCertPlanning As System.Windows.Forms.Panel
+    Friend WithEvents cboCertFilter As System.Windows.Forms.ComboBox
+    Friend WithEvents lblCertFilter As System.Windows.Forms.Label
+    Friend WithEvents tvwCertList As System.Windows.Forms.TreeView
 End Class
