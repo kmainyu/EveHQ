@@ -1052,6 +1052,15 @@ Public Class frmSettings
     Private Sub UpdateDatabaseSettings()
         Me.cboFormat.SelectedIndex = EveHQ.Core.HQ.EveHQSettings.DBFormat
         Me.chkUseAppDirForDB.Checked = EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB
+        Me.nudDBTimeout.Value = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+    End Sub
+
+    Private Sub nudDBTimeout_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudDBTimeout.HandleDestroyed
+        EveHQ.Core.HQ.EveHQSettings.DBTimeout = CInt(nudDBTimeout.Value)
+    End Sub
+
+    Private Sub nudDBTimeout_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudDBTimeout.ValueChanged
+        EveHQ.Core.HQ.EveHQSettings.DBTimeout = CInt(nudDBTimeout.Value)
     End Sub
 
     Private Sub cboFormat_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFormat.SelectedIndexChanged

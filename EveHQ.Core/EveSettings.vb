@@ -123,7 +123,16 @@ Public Class EveSettings
     Private cPilotGroupTextColor As Long = System.Drawing.Color.White.ToArgb
     Private cPilotSkillTextColor As Long = System.Drawing.Color.Black.ToArgb
     Private cPilotSkillHighlightColor As Long = System.Drawing.Color.DodgerBlue.ToArgb
+    Private cDBTimeout As Integer = 30
 
+    Public Property DBTimeout() As Integer
+        Get
+            Return cDBTimeout
+        End Get
+        Set(ByVal value As Integer)
+            cDBTimeout = value
+        End Set
+    End Property
     Public Property PilotSkillHighlightColor() As Long
         Get
             Return cPilotSkillHighlightColor
@@ -1209,6 +1218,7 @@ Public Class EveSettings
         XMLS &= Chr(9) & Chr(9) & "<pilotGroupTextColour>" & EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor & "</pilotGroupTextColour>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<pilotPartSkillTextColour>" & EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor & "</pilotPartSkillTextColour>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<pilotSkillHighlightColour>" & EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor & "</pilotSkillHighlightColour>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<DBTimeout>" & EveHQ.Core.HQ.EveHQSettings.DBTimeout & "</DBTimeout>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the Plug-Ins details
@@ -1564,6 +1574,7 @@ Public Class EveSettings
                         EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor = CLng(accountSettings.ChildNodes(130).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor = CLng(accountSettings.ChildNodes(131).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor = CLng(accountSettings.ChildNodes(132).InnerText)
+                        EveHQ.Core.HQ.EveHQSettings.DBTimeout = CInt(accountSettings.ChildNodes(133).InnerText)
                     End If
                 End If
             Catch

@@ -69,6 +69,7 @@ Public Class DataFunctions
                 Try
                     conn.Open()
                     Dim da As New OleDbDataAdapter(strSQL, conn)
+                    da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
                     da.Fill(EveHQData, "EveHQData")
                     conn.Close()
                     Return EveHQData
@@ -91,6 +92,7 @@ Public Class DataFunctions
                         strSQL = strSQL.Replace("=true", "=1")
                     End If
                     Dim da As New SqlDataAdapter(strSQL, conn)
+                    da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
                     da.Fill(EveHQData, "EveHQData")
                     conn.Close()
                     Return EveHQData
@@ -108,6 +110,7 @@ Public Class DataFunctions
                 Try
                     conn.Open()
                     Dim da As New MySqlDataAdapter(strSQL.ToLower, conn)
+                    da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
                     da.Fill(EveHQData, "EveHQData")
                     conn.Close()
                     Return EveHQData

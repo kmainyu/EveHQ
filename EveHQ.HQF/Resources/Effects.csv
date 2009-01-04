@@ -1000,7 +1000,7 @@
 806,2,773,84,4,1049;1050;1051,1,0,0,15,Auxiliary Nano Pump
 312,2,773,73,4,1049;1050;1051,1,0,0,15,Nanobot Accelerator
 317,2,773,6,4,1059;1058;1057,1,0,0,15,Remote Repair Augmentor
-335,2,773,265,3,6,1,0,0,15,Trimark Armor Pump
+335,2,773,265,3,6,0,0,0,15,Trimark Armor Pump
 # RIGS - ASTRONAUTIC,,,,,,,,,,
 1138,2,782,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
 315,2,782,37,3,6,1,0,0,15,Auxiliary Thrusters

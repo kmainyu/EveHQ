@@ -335,6 +335,8 @@ Partial Public Class frmSettings
         Me.colBasePrice = New System.Windows.Forms.ColumnHeader
         Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
         Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
+        Me.lblDatabaseTimeout = New System.Windows.Forms.Label
+        Me.nudDBTimeout = New System.Windows.Forms.NumericUpDown
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -400,6 +402,7 @@ Partial Public Class frmSettings
         Me.gbMarketPrices.SuspendLayout()
         Me.ctxPrices.SuspendLayout()
         Me.gbTaskbarIcon.SuspendLayout()
+        CType(Me.nudDBTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -1800,15 +1803,17 @@ Partial Public Class frmSettings
         '
         'gbDatabaseFormat
         '
+        Me.gbDatabaseFormat.Controls.Add(Me.nudDBTimeout)
+        Me.gbDatabaseFormat.Controls.Add(Me.lblDatabaseTimeout)
         Me.gbDatabaseFormat.Controls.Add(Me.gbAccess)
         Me.gbDatabaseFormat.Controls.Add(Me.gbMySQL)
         Me.gbDatabaseFormat.Controls.Add(Me.btnTestDB)
         Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
         Me.gbDatabaseFormat.Controls.Add(Me.cboFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(514, 61)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(194, 12)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(168, 40)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(693, 501)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
@@ -1824,7 +1829,7 @@ Partial Public Class frmSettings
         Me.gbAccess.Controls.Add(Me.lblMDBPassword)
         Me.gbAccess.Controls.Add(Me.lblMDBUser)
         Me.gbAccess.Controls.Add(Me.lblMDBFilename)
-        Me.gbAccess.Location = New System.Drawing.Point(6, 80)
+        Me.gbAccess.Location = New System.Drawing.Point(5, 112)
         Me.gbAccess.Name = "gbAccess"
         Me.gbAccess.Size = New System.Drawing.Size(513, 170)
         Me.gbAccess.TabIndex = 37
@@ -2005,7 +2010,7 @@ Partial Public Class frmSettings
         Me.gbMSSQL.Controls.Add(Me.lblMSSQLPassword)
         Me.gbMSSQL.Controls.Add(Me.lblMSSQLUser)
         Me.gbMSSQL.Controls.Add(Me.lblMSSQLServer)
-        Me.gbMSSQL.Location = New System.Drawing.Point(6, 233)
+        Me.gbMSSQL.Location = New System.Drawing.Point(6, 150)
         Me.gbMSSQL.Name = "gbMSSQL"
         Me.gbMSSQL.Size = New System.Drawing.Size(403, 177)
         Me.gbMSSQL.TabIndex = 35
@@ -3187,9 +3192,9 @@ Partial Public Class frmSettings
         Me.gbMarketPrices.Controls.Add(Me.lblLastUpdateTime)
         Me.gbMarketPrices.Controls.Add(Me.lblLastUpdate)
         Me.gbMarketPrices.Controls.Add(Me.btnUpdatePrices)
-        Me.gbMarketPrices.Location = New System.Drawing.Point(194, 12)
+        Me.gbMarketPrices.Location = New System.Drawing.Point(532, 276)
         Me.gbMarketPrices.Name = "gbMarketPrices"
-        Me.gbMarketPrices.Size = New System.Drawing.Size(695, 487)
+        Me.gbMarketPrices.Size = New System.Drawing.Size(132, 35)
         Me.gbMarketPrices.TabIndex = 31
         Me.gbMarketPrices.TabStop = False
         Me.gbMarketPrices.Text = "Market Prices"
@@ -3372,7 +3377,7 @@ Partial Public Class frmSettings
         Me.lvwPrices.Location = New System.Drawing.Point(6, 112)
         Me.lvwPrices.MultiSelect = False
         Me.lvwPrices.Name = "lvwPrices"
-        Me.lvwPrices.Size = New System.Drawing.Size(683, 361)
+        Me.lvwPrices.Size = New System.Drawing.Size(120, 0)
         Me.lvwPrices.TabIndex = 7
         Me.lvwPrices.UseCompatibleStateImageBehavior = False
         Me.lvwPrices.View = System.Windows.Forms.View.Details
@@ -3400,16 +3405,32 @@ Partial Public Class frmSettings
         Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colCustomPrice.Width = 120
         '
+        'lblDatabaseTimeout
+        '
+        Me.lblDatabaseTimeout.AutoSize = True
+        Me.lblDatabaseTimeout.Location = New System.Drawing.Point(6, 363)
+        Me.lblDatabaseTimeout.Name = "lblDatabaseTimeout"
+        Me.lblDatabaseTimeout.Size = New System.Drawing.Size(123, 13)
+        Me.lblDatabaseTimeout.TabIndex = 39
+        Me.lblDatabaseTimeout.Text = "Database Timeout (sec):"
+        '
+        'nudDBTimeout
+        '
+        Me.nudDBTimeout.Location = New System.Drawing.Point(135, 360)
+        Me.nudDBTimeout.Name = "nudDBTimeout"
+        Me.nudDBTimeout.Size = New System.Drawing.Size(50, 20)
+        Me.nudDBTimeout.TabIndex = 40
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbMarketPrices)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbMarketPrices)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbColours)
-        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbTaskbarIcon)
         Me.Controls.Add(Me.gbNotifications)
@@ -3522,6 +3543,7 @@ Partial Public Class frmSettings
         Me.ctxPrices.ResumeLayout(False)
         Me.gbTaskbarIcon.ResumeLayout(False)
         Me.gbTaskbarIcon.PerformLayout()
+        CType(Me.nudDBTimeout, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -3822,4 +3844,6 @@ Partial Public Class frmSettings
     Friend WithEvents lblPilotGroupText As System.Windows.Forms.Label
     Friend WithEvents pbPilotGroupBG As System.Windows.Forms.PictureBox
     Friend WithEvents lblPilotGroupBG As System.Windows.Forms.Label
+    Friend WithEvents lblDatabaseTimeout As System.Windows.Forms.Label
+    Friend WithEvents nudDBTimeout As System.Windows.Forms.NumericUpDown
 End Class
