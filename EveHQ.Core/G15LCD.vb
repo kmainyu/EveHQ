@@ -217,7 +217,7 @@ Public Class G15LCD
     End Sub
 
     Private Sub tmrLCDChar_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles tmrLCDChar.Tick
-        If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
+        If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True And EveHQ.Core.HQ.Pilots.Count > 0 Then
             Call SelectNextChar()
         End If
     End Sub
