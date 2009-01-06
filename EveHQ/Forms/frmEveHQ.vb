@@ -1234,6 +1234,10 @@ Public Class frmEveHQ
         Call Me.OpenAPICheckerForm()
     End Sub
 
+    Private Sub mnuToolsMarketPrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuToolsMarketPrices.Click
+        Call Me.OpenMarketPricesForm()
+    End Sub
+
 #Region "Backup Worker routines"
 
     Private Sub tmrBackup_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrBackup.Tick
@@ -1535,6 +1539,14 @@ Public Class frmEveHQ
             frmAPIChecker.Show()
         Else
             tabMDI.SelectTab(frmAPIChecker.Text)
+        End If
+    End Sub
+    Private Sub OpenMarketPricesForm()
+        If tabMDI.TabPages.ContainsKey(frmMarketPrices.Text) = False Then
+            frmMarketPrices.MdiParent = Me
+            frmMarketPrices.Show()
+        Else
+            tabMDI.SelectTab(frmMarketPrices.Text)
         End If
     End Sub
     Public Sub DisplayReport(ByRef reportForm As EveHQ.frmReportViewer, ByVal reportText As String)
@@ -2040,5 +2052,7 @@ Public Class frmEveHQ
             Return True
         End If
     End Function
+
+   
 End Class
 

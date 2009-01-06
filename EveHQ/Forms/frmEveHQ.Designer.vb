@@ -163,6 +163,7 @@ Partial Public Class frmEveHQ
         Me.XPTraining = New EveHQ.XPander
         Me.lblTrainingStatus = New System.Windows.Forms.Label
         Me.XPModules = New EveHQ.XPander
+        Me.mnuToolsMarketPrices = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -485,7 +486,7 @@ Partial Public Class frmEveHQ
         '
         'ToolsMenu
         '
-        Me.ToolsMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.RunIGBToolStripMenuItem, Me.mnuToolsGetAccountInfo, Me.mnuBackup, Me.mnuToolsAPIChecker, Me.ToolStripMenuItem1, Me.mnuToolsTriggerError, Me.ClearEveHQCache})
+        Me.ToolsMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.RunIGBToolStripMenuItem, Me.mnuToolsGetAccountInfo, Me.mnuBackup, Me.mnuToolsMarketPrices, Me.mnuToolsAPIChecker, Me.ToolStripMenuItem1, Me.mnuToolsTriggerError, Me.ClearEveHQCache})
         Me.ToolsMenu.Name = "ToolsMenu"
         Me.ToolsMenu.Size = New System.Drawing.Size(48, 20)
         Me.ToolsMenu.Text = "&Tools"
@@ -674,7 +675,7 @@ Partial Public Class frmEveHQ
         '
         Me.mnuReportsTextChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextCharSheet, Me.mnuReportsTextTrainTimes, Me.mnuReportsTextTimeToLevel5, Me.mnuReportsTextSkillLevels, Me.mnuReportsTextTrainingQueue, Me.mnuReportsTextShoppingList, Me.mnuReportsTextSkillsAvailable, Me.mnuReportsTextSkillsNotTrained, Me.mnuReportsTextPartiallyTrainedSkills})
         Me.mnuReportsTextChar.Name = "mnuReportsTextChar"
-        Me.mnuReportsTextChar.Size = New System.Drawing.Size(152, 22)
+        Me.mnuReportsTextChar.Size = New System.Drawing.Size(125, 22)
         Me.mnuReportsTextChar.Text = "Character"
         '
         'mnuReportsTextCharSheet
@@ -1217,6 +1218,12 @@ Partial Public Class frmEveHQ
         Me.XPModules.Tag = 2
         Me.XPModules.TooltipText = Nothing
         '
+        'mnuToolsMarketPrices
+        '
+        Me.mnuToolsMarketPrices.Name = "mnuToolsMarketPrices"
+        Me.mnuToolsMarketPrices.Size = New System.Drawing.Size(202, 22)
+        Me.mnuToolsMarketPrices.Text = "Market Prices"
+        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1390,5 +1397,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuReportAsteroidAlloys As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents btnAddAccount As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator14 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuToolsMarketPrices As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -157,6 +157,12 @@
     <Compile Include="Forms\frmException.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmMarketPrices.Designer.vb">
+      <DependentUpon>frmMarketPrices.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMarketPrices.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmModifyQueues.Designer.vb">
       <DependentUpon>frmModifyQueues.vb</DependentUpon>
     </Compile>
@@ -305,6 +311,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmException.resx">
       <DependentUpon>frmException.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMarketPrices.resx">
+      <DependentUpon>frmMarketPrices.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmModifyQueues.resx">
       <SubType>Designer</SubType>
