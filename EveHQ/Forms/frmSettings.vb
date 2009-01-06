@@ -1862,9 +1862,18 @@ Public Class frmSettings
                 EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True
                 'Init the LCD
                 EveHQ.Core.HQ.EveHQLCD.InitLCD("EveHQ LCD Display")
-
-                'With the LCD initialised, draw the opening screen
-                EveHQ.Core.HQ.EveHQLCD.DrawIntroScreen()
+                If EveHQ.Core.HQ.IsG15LCDActive = False Then
+                    MessageBox.Show("Unable to start G15 Display. Please ensure you have the keyboard and drivers correctly installed.", "Error Starting G15", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    chkActivateG15.Checked = False
+                Else
+                    'With the LCD initialised, draw the opening screen
+                    EveHQ.Core.HQ.EveHQLCD.DrawIntroScreen()
+                    ' Check if the LCD will cycle chars
+                    If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
+                        EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHQSettings.CycleG15Time)
+                        EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Enabled = True
+                    End If
+                End If
             End If
         Else
             If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True Then
@@ -1877,8 +1886,11 @@ Public Class frmSettings
     Private Sub chkCyclePilots_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCyclePilots.CheckedChanged
         If chkCyclePilots.Checked = True Then
             EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True
+            EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHQSettings.CycleG15Time)
+            EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Enabled = True
         Else
             EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = False
+            EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Enabled = False
         End If
     End Sub
     Private Sub nudCycleTime_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudCycleTime.ValueChanged

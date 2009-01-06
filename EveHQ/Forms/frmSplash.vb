@@ -163,16 +163,18 @@ Public Class frmSplash
         If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True Then
             'Init the LCD
             EveHQ.Core.HQ.EveHQLCD.InitLCD("EveHQ LCD Display")
-            'With the LCD initialised, draw the opening screen
-            EveHQ.Core.HQ.EveHQLCD.DrawIntroScreen()
-            ' Check if the LCD will cycle chars
-            If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
-                EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Enabled = True
+            If EveHQ.Core.HQ.IsG15LCDActive = False Then
+                MessageBox.Show("Unable to start G15 Display. Please ensure you have the keyboard and drivers correctly installed.", "Error Starting G15", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                'With the LCD initialised, draw the opening screen
+                EveHQ.Core.HQ.EveHQLCD.DrawIntroScreen()
+                ' Check if the LCD will cycle chars
+                If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
+                    EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHQSettings.CycleG15Time)
+                    EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Enabled = True
+                End If
             End If
-            ' Set the cycle timer
-            EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHQSettings.CycleG15Time)
         End If
-
         ' Load skill data and item data
         lblStatus.Text = "Loading skills && items..."
         Me.Refresh()

@@ -174,6 +174,8 @@ Partial Public Class frmSettings
         Me.lblQueueColumns = New System.Windows.Forms.Label
         Me.clbColumns = New System.Windows.Forms.CheckedListBox
         Me.gbDatabaseFormat = New System.Windows.Forms.GroupBox
+        Me.nudDBTimeout = New System.Windows.Forms.NumericUpDown
+        Me.lblDatabaseTimeout = New System.Windows.Forms.Label
         Me.gbAccess = New System.Windows.Forms.GroupBox
         Me.chkUseAppDirForDB = New System.Windows.Forms.CheckBox
         Me.btnBrowseMDB = New System.Windows.Forms.Button
@@ -315,6 +317,11 @@ Partial Public Class frmSettings
         Me.lblSearchPrices = New System.Windows.Forms.Label
         Me.lblUpdatePrice = New System.Windows.Forms.Label
         Me.txtUpdatePrice = New System.Windows.Forms.TextBox
+        Me.lvwPrices = New EveHQ.ListViewNoFlicker
+        Me.colPriceName = New System.Windows.Forms.ColumnHeader
+        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
+        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
+        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
         Me.ctxPrices = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
@@ -330,13 +337,6 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
-        Me.lvwPrices = New EveHQ.ListViewNoFlicker
-        Me.colPriceName = New System.Windows.Forms.ColumnHeader
-        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
-        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
-        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
-        Me.lblDatabaseTimeout = New System.Windows.Forms.Label
-        Me.nudDBTimeout = New System.Windows.Forms.NumericUpDown
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -374,6 +374,7 @@ Partial Public Class frmSettings
         CType(Me.pbHasPreReqColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbIsPreReqColour, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbDatabaseFormat.SuspendLayout()
+        CType(Me.nudDBTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbAccess.SuspendLayout()
         Me.gbMySQL.SuspendLayout()
         Me.gbMSSQL.SuspendLayout()
@@ -402,7 +403,6 @@ Partial Public Class frmSettings
         Me.gbMarketPrices.SuspendLayout()
         Me.ctxPrices.SuspendLayout()
         Me.gbTaskbarIcon.SuspendLayout()
-        CType(Me.nudDBTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -1811,13 +1811,29 @@ Partial Public Class frmSettings
         Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
         Me.gbDatabaseFormat.Controls.Add(Me.cboFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(194, 12)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(532, 65)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(693, 501)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(138, 36)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
         Me.gbDatabaseFormat.Visible = False
+        '
+        'nudDBTimeout
+        '
+        Me.nudDBTimeout.Location = New System.Drawing.Point(135, 360)
+        Me.nudDBTimeout.Name = "nudDBTimeout"
+        Me.nudDBTimeout.Size = New System.Drawing.Size(50, 20)
+        Me.nudDBTimeout.TabIndex = 40
+        '
+        'lblDatabaseTimeout
+        '
+        Me.lblDatabaseTimeout.AutoSize = True
+        Me.lblDatabaseTimeout.Location = New System.Drawing.Point(6, 363)
+        Me.lblDatabaseTimeout.Name = "lblDatabaseTimeout"
+        Me.lblDatabaseTimeout.Size = New System.Drawing.Size(123, 13)
+        Me.lblDatabaseTimeout.TabIndex = 39
+        Me.lblDatabaseTimeout.Text = "Database Timeout (sec):"
         '
         'gbAccess
         '
@@ -3133,9 +3149,9 @@ Partial Public Class frmSettings
         Me.gbG15.Controls.Add(Me.lblCycleTime)
         Me.gbG15.Controls.Add(Me.chkCyclePilots)
         Me.gbG15.Controls.Add(Me.chkActivateG15)
-        Me.gbG15.Location = New System.Drawing.Point(450, 170)
+        Me.gbG15.Location = New System.Drawing.Point(194, 12)
         Me.gbG15.Name = "gbG15"
-        Me.gbG15.Size = New System.Drawing.Size(91, 35)
+        Me.gbG15.Size = New System.Drawing.Size(695, 499)
         Me.gbG15.TabIndex = 30
         Me.gbG15.TabStop = False
         Me.gbG15.Text = "G15 Display"
@@ -3242,6 +3258,48 @@ Partial Public Class frmSettings
         Me.txtUpdatePrice.Size = New System.Drawing.Size(118, 20)
         Me.txtUpdatePrice.TabIndex = 8
         Me.txtUpdatePrice.Visible = False
+        '
+        'lvwPrices
+        '
+        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
+        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
+        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwPrices.FullRowSelect = True
+        Me.lvwPrices.GridLines = True
+        Me.lvwPrices.HideSelection = False
+        Me.lvwPrices.Location = New System.Drawing.Point(6, 112)
+        Me.lvwPrices.MultiSelect = False
+        Me.lvwPrices.Name = "lvwPrices"
+        Me.lvwPrices.Size = New System.Drawing.Size(120, 0)
+        Me.lvwPrices.TabIndex = 7
+        Me.lvwPrices.UseCompatibleStateImageBehavior = False
+        Me.lvwPrices.View = System.Windows.Forms.View.Details
+        '
+        'colPriceName
+        '
+        Me.colPriceName.Text = "Item Name"
+        Me.colPriceName.Width = 300
+        '
+        'colBasePrice
+        '
+        Me.colBasePrice.Text = "Base Price"
+        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colBasePrice.Width = 120
+        '
+        'colMarketPrice
+        '
+        Me.colMarketPrice.Text = "Market Price"
+        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colMarketPrice.Width = 120
+        '
+        'colCustomPrice
+        '
+        Me.colCustomPrice.Text = "Custom Price"
+        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colCustomPrice.Width = 120
         '
         'ctxPrices
         '
@@ -3363,71 +3421,14 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
-        'lvwPrices
-        '
-        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
-        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
-        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwPrices.FullRowSelect = True
-        Me.lvwPrices.GridLines = True
-        Me.lvwPrices.HideSelection = False
-        Me.lvwPrices.Location = New System.Drawing.Point(6, 112)
-        Me.lvwPrices.MultiSelect = False
-        Me.lvwPrices.Name = "lvwPrices"
-        Me.lvwPrices.Size = New System.Drawing.Size(120, 0)
-        Me.lvwPrices.TabIndex = 7
-        Me.lvwPrices.UseCompatibleStateImageBehavior = False
-        Me.lvwPrices.View = System.Windows.Forms.View.Details
-        '
-        'colPriceName
-        '
-        Me.colPriceName.Text = "Item Name"
-        Me.colPriceName.Width = 300
-        '
-        'colBasePrice
-        '
-        Me.colBasePrice.Text = "Base Price"
-        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colBasePrice.Width = 120
-        '
-        'colMarketPrice
-        '
-        Me.colMarketPrice.Text = "Market Price"
-        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colMarketPrice.Width = 120
-        '
-        'colCustomPrice
-        '
-        Me.colCustomPrice.Text = "Custom Price"
-        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colCustomPrice.Width = 120
-        '
-        'lblDatabaseTimeout
-        '
-        Me.lblDatabaseTimeout.AutoSize = True
-        Me.lblDatabaseTimeout.Location = New System.Drawing.Point(6, 363)
-        Me.lblDatabaseTimeout.Name = "lblDatabaseTimeout"
-        Me.lblDatabaseTimeout.Size = New System.Drawing.Size(123, 13)
-        Me.lblDatabaseTimeout.TabIndex = 39
-        Me.lblDatabaseTimeout.Text = "Database Timeout (sec):"
-        '
-        'nudDBTimeout
-        '
-        Me.nudDBTimeout.Location = New System.Drawing.Point(135, 360)
-        Me.nudDBTimeout.Name = "nudDBTimeout"
-        Me.nudDBTimeout.Size = New System.Drawing.Size(50, 20)
-        Me.nudDBTimeout.TabIndex = 40
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbDatabaseFormat)
+        Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbMarketPrices)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbColours)
@@ -3440,7 +3441,6 @@ Partial Public Class frmSettings
         Me.Controls.Add(Me.gbEveFolders)
         Me.Controls.Add(Me.gbProxyServer)
         Me.Controls.Add(Me.gbPlugIns)
-        Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbIGB)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
@@ -3500,6 +3500,7 @@ Partial Public Class frmSettings
         CType(Me.pbIsPreReqColour, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbDatabaseFormat.ResumeLayout(False)
         Me.gbDatabaseFormat.PerformLayout()
+        CType(Me.nudDBTimeout, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbAccess.ResumeLayout(False)
         Me.gbAccess.PerformLayout()
         Me.gbMySQL.ResumeLayout(False)
@@ -3543,7 +3544,6 @@ Partial Public Class frmSettings
         Me.ctxPrices.ResumeLayout(False)
         Me.gbTaskbarIcon.ResumeLayout(False)
         Me.gbTaskbarIcon.PerformLayout()
-        CType(Me.nudDBTimeout, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
