@@ -73,6 +73,7 @@ Public Class frmMarketPrices
         Dim sorBuy, sorSell, sorAll As New SortedList
         Dim medBuy, medSell, medAll As Double
         Dim stdBuy, stdSell, stdAll As Double
+        Dim devBuy, devSell, devAll As Double
 
         For Each order As String In orderList
             orderDetails = order.Split(",".ToCharArray)
@@ -122,6 +123,7 @@ Public Class frmMarketPrices
             Else
                 sorAll(oPrice.ToString) = CLng(sorAll(oPrice.ToString)) + oVol
             End If
+            devAll += Math.Pow(oPrice, 2) * oVol
 
             Select Case oType
                 Case 0 ' Sell order
@@ -139,6 +141,7 @@ Public Class frmMarketPrices
                     Else
                         sorSell(oPrice.ToString) = CLng(sorSell(oPrice.ToString)) + oVol
                     End If
+                    devSell += Math.Pow(oPrice, 2) * oVol
                 Case 1 ' Buy order
                     countSell += 1
                     volBuy += oVol
@@ -154,6 +157,7 @@ Public Class frmMarketPrices
                     Else
                         sorBuy(oPrice.ToString) = CLng(sorBuy(oPrice.ToString)) + oVol
                     End If
+                    devBuy += Math.Pow(oPrice, 2) * oVol
             End Select
         Next
 
@@ -187,70 +191,69 @@ Public Class frmMarketPrices
         Next
 
         ' Calculate Standard Deviations
-        Dim devBuy, devSell, devAll As Double
-        For Each order As String In orderList
-            orderDetails = order.Split(",".ToCharArray)
-            'oReg = CLng(orderDetails(1).Trim)
-            'oSys = CLng(orderDetails(2).Trim)
-            'oStation = CLng(orderDetails(3).Trim)
-            oType = CLng(orderDetails(5).Trim)
-            'oMinVol = CLng(orderDetails(7).Trim)
-            'oVol = CLng(orderDetails(8).Trim)
-            oPrice = CDbl(orderDetails(6).Trim)
-            devAll += Math.Pow(avgAll - oPrice, 2)
-            Select Case oType
-                Case 0 ' Sell order
-                    devSell += Math.Pow(avgAll - oPrice, 2)
-                Case 1 ' Buy order
-                    devBuy += Math.Pow(avgAll - oPrice, 2)
-            End Select
-        Next
-        stdAll = Math.Sqrt(devAll / countAll)
-        stdBuy = Math.Sqrt(devBuy / countBuy)
-        stdSell = Math.Sqrt(devSell / countSell)
+        'For Each order As String In orderList
+        '    orderDetails = order.Split(",".ToCharArray)
+        '    'oReg = CLng(orderDetails(1).Trim)
+        '    'oSys = CLng(orderDetails(2).Trim)
+        '    'oStation = CLng(orderDetails(3).Trim)
+        '    oType = CLng(orderDetails(5).Trim)
+        '    'oMinVol = CLng(orderDetails(7).Trim)
+        '    oVol = CLng(orderDetails(8).Trim)
+        '    oPrice = CDbl(orderDetails(6).Trim)
+        '    devAll += Math.Pow(avgAll - oPrice, 2)
+        '    Select Case oType
+        '        Case 0 ' Sell order
+        '            devSell += Math.Pow(avgAll - oPrice, 2)
+        '        Case 1 ' Buy order
+        '            devBuy += Math.Pow(avgAll - oPrice, 2)
+        '    End Select
+        'Next
+        stdAll = Math.Sqrt((devAll / volAll) - Math.Pow(avgAll, 2))
+        stdBuy = Math.Sqrt((devBuy / volBuy) - Math.Pow(avgBuy, 2))
+        stdSell = Math.Sqrt((devSell / volSell) - Math.Pow(avgSell, 2))
 
         ' Write some XML data
-        Dim fileName As String = saveLoc
-        Select Case CalcType
-            Case 0 ' Global
-                fileName &= "\" & EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(oTypeID.ToString)).ToString.Replace(":", "-") & " (Global).xml"
-            Case 1 ' Regional
-                fileName &= "\" & EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(oTypeID.ToString)).ToString.Replace(":", "-") & " (Region-" & oReg & ").xml"
-            Case 2 ' System
-                fileName &= "\" & EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(oTypeID.ToString)).ToString.Replace(":", "-") & " (Region-" & oReg & ", System-" & oSys & ").xml"
-        End Select
-        Dim XMLdoc As XmlDocument = New XmlDocument
-        Dim XMLS As New StringBuilder
-        ' Prepare the XML document
-        XMLS.AppendLine("<?xml version=""1.0"" encoding=""iso-8859-1"" ?>")
-        XMLS.AppendLine("<EveHQMarket>")
-        XMLS.AppendLine(Chr(9) & "<all>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<volume>" & volAll & "</volume>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<avg>" & avgAll & "</avg>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<max>" & maxAll & "</max>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<min>" & minAll & "</min>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<stddev>" & stdAll & "</stddev>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<median>" & medAll & "</median>")
-        XMLS.AppendLine(Chr(9) & "</all>")
-        XMLS.AppendLine(Chr(9) & "<buy>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<volume>" & volBuy & "</volume>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<avg>" & avgBuy & "</avg>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<max>" & maxBuy & "</max>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<min>" & minBuy & "</min>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<stddev>" & stdBuy & "</stddev>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<median>" & medBuy & "</median>")
-        XMLS.AppendLine(Chr(9) & "</buy>")
-        XMLS.AppendLine(Chr(9) & "<sell>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<volume>" & volSell & "</volume>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<avg>" & avgSell & "</avg>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<max>" & maxSell & "</max>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<min>" & minSell & "</min>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<stddev>" & stdSell & "</stddev>")
-        XMLS.AppendLine(Chr(9) & Chr(9) & "<median>" & medSell & "</median>")
-        XMLS.AppendLine(Chr(9) & "</sell>")
-        XMLS.AppendLine("</EveHQMarket>")
-        XMLdoc.LoadXml(XMLS.ToString)
-        XMLdoc.Save(fileName)
+        'Dim fileName As String = saveLoc
+        'Select Case CalcType
+        '    Case 0 ' Global
+        '        fileName &= "\" & EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(oTypeID.ToString)).ToString.Replace(":", "-") & " (Global).xml"
+        '    Case 1 ' Regional
+        '        fileName &= "\" & EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(oTypeID.ToString)).ToString.Replace(":", "-") & " (Region-" & oReg & ").xml"
+        '    Case 2 ' System
+        '        fileName &= "\" & EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(oTypeID.ToString)).ToString.Replace(":", "-") & " (Region-" & oReg & ", System-" & oSys & ").xml"
+        'End Select
+        'Dim XMLdoc As XmlDocument = New XmlDocument
+        'Dim XMLS As New StringBuilder
+        '' Prepare the XML document
+        'XMLS.AppendLine("<?xml version=""1.0"" encoding=""iso-8859-1"" ?>")
+        'XMLS.AppendLine("<EveHQMarket>")
+        'XMLS.AppendLine(Chr(9) & "<all>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<volume>" & volAll & "</volume>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<avg>" & avgAll & "</avg>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<max>" & maxAll & "</max>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<min>" & minAll & "</min>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<stddev>" & stdAll & "</stddev>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<median>" & medAll & "</median>")
+        'XMLS.AppendLine(Chr(9) & "</all>")
+        'XMLS.AppendLine(Chr(9) & "<buy>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<volume>" & volBuy & "</volume>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<avg>" & avgBuy & "</avg>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<max>" & maxBuy & "</max>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<min>" & minBuy & "</min>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<stddev>" & stdBuy & "</stddev>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<median>" & medBuy & "</median>")
+        'XMLS.AppendLine(Chr(9) & "</buy>")
+        'XMLS.AppendLine(Chr(9) & "<sell>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<volume>" & volSell & "</volume>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<avg>" & avgSell & "</avg>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<max>" & maxSell & "</max>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<min>" & minSell & "</min>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<stddev>" & stdSell & "</stddev>")
+        'XMLS.AppendLine(Chr(9) & Chr(9) & "<median>" & medSell & "</median>")
+        'XMLS.AppendLine(Chr(9) & "</sell>")
+        'XMLS.AppendLine("</EveHQMarket>")
+        'XMLdoc.LoadXml(XMLS.ToString)
+        'XMLdoc.Save(fileName)
 
         ' Calculate regional stuff if required
         If CalcType = 0 Then
