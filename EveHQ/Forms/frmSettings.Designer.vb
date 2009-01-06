@@ -337,6 +337,13 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
+        Me.txtMSSQLDatabase2 = New System.Windows.Forms.TextBox
+        Me.lblMSSQLDatabase2 = New System.Windows.Forms.Label
+        Me.txtMySQLDatabase2 = New System.Windows.Forms.TextBox
+        Me.lblMySQLDatabase2 = New System.Windows.Forms.Label
+        Me.btnBrowseMDB2 = New System.Windows.Forms.Button
+        Me.txtMDBServer2 = New System.Windows.Forms.TextBox
+        Me.lblMDBFilename2 = New System.Windows.Forms.Label
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1803,17 +1810,17 @@ Partial Public Class frmSettings
         '
         'gbDatabaseFormat
         '
+        Me.gbDatabaseFormat.Controls.Add(Me.gbAccess)
+        Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
+        Me.gbDatabaseFormat.Controls.Add(Me.gbMySQL)
         Me.gbDatabaseFormat.Controls.Add(Me.nudDBTimeout)
         Me.gbDatabaseFormat.Controls.Add(Me.lblDatabaseTimeout)
-        Me.gbDatabaseFormat.Controls.Add(Me.gbAccess)
-        Me.gbDatabaseFormat.Controls.Add(Me.gbMySQL)
         Me.gbDatabaseFormat.Controls.Add(Me.btnTestDB)
-        Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
         Me.gbDatabaseFormat.Controls.Add(Me.cboFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(532, 65)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(194, 12)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(138, 36)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(693, 498)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
@@ -1837,6 +1844,9 @@ Partial Public Class frmSettings
         '
         'gbAccess
         '
+        Me.gbAccess.Controls.Add(Me.btnBrowseMDB2)
+        Me.gbAccess.Controls.Add(Me.txtMDBServer2)
+        Me.gbAccess.Controls.Add(Me.lblMDBFilename2)
         Me.gbAccess.Controls.Add(Me.chkUseAppDirForDB)
         Me.gbAccess.Controls.Add(Me.btnBrowseMDB)
         Me.gbAccess.Controls.Add(Me.txtMDBPassword)
@@ -1847,7 +1857,7 @@ Partial Public Class frmSettings
         Me.gbAccess.Controls.Add(Me.lblMDBFilename)
         Me.gbAccess.Location = New System.Drawing.Point(5, 112)
         Me.gbAccess.Name = "gbAccess"
-        Me.gbAccess.Size = New System.Drawing.Size(513, 170)
+        Me.gbAccess.Size = New System.Drawing.Size(513, 53)
         Me.gbAccess.TabIndex = 37
         Me.gbAccess.TabStop = False
         Me.gbAccess.Text = "Access (MDB) Options"
@@ -1855,7 +1865,7 @@ Partial Public Class frmSettings
         'chkUseAppDirForDB
         '
         Me.chkUseAppDirForDB.AutoSize = True
-        Me.chkUseAppDirForDB.Location = New System.Drawing.Point(73, 142)
+        Me.chkUseAppDirForDB.Location = New System.Drawing.Point(99, 176)
         Me.chkUseAppDirForDB.Name = "chkUseAppDirForDB"
         Me.chkUseAppDirForDB.Size = New System.Drawing.Size(247, 17)
         Me.chkUseAppDirForDB.TabIndex = 7
@@ -1873,7 +1883,7 @@ Partial Public Class frmSettings
         '
         'txtMDBPassword
         '
-        Me.txtMDBPassword.Location = New System.Drawing.Point(73, 115)
+        Me.txtMDBPassword.Location = New System.Drawing.Point(99, 149)
         Me.txtMDBPassword.Name = "txtMDBPassword"
         Me.txtMDBPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtMDBPassword.Size = New System.Drawing.Size(230, 20)
@@ -1881,23 +1891,23 @@ Partial Public Class frmSettings
         '
         'txtMDBUsername
         '
-        Me.txtMDBUsername.Location = New System.Drawing.Point(73, 89)
+        Me.txtMDBUsername.Location = New System.Drawing.Point(99, 123)
         Me.txtMDBUsername.Name = "txtMDBUsername"
         Me.txtMDBUsername.Size = New System.Drawing.Size(230, 20)
         Me.txtMDBUsername.TabIndex = 4
         '
         'txtMDBServer
         '
-        Me.txtMDBServer.Location = New System.Drawing.Point(73, 27)
+        Me.txtMDBServer.Location = New System.Drawing.Point(99, 27)
         Me.txtMDBServer.Multiline = True
         Me.txtMDBServer.Name = "txtMDBServer"
-        Me.txtMDBServer.Size = New System.Drawing.Size(324, 56)
+        Me.txtMDBServer.Size = New System.Drawing.Size(324, 42)
         Me.txtMDBServer.TabIndex = 3
         '
         'lblMDBPassword
         '
         Me.lblMDBPassword.AutoSize = True
-        Me.lblMDBPassword.Location = New System.Drawing.Point(6, 118)
+        Me.lblMDBPassword.Location = New System.Drawing.Point(7, 152)
         Me.lblMDBPassword.Name = "lblMDBPassword"
         Me.lblMDBPassword.Size = New System.Drawing.Size(56, 13)
         Me.lblMDBPassword.TabIndex = 2
@@ -1906,7 +1916,7 @@ Partial Public Class frmSettings
         'lblMDBUser
         '
         Me.lblMDBUser.AutoSize = True
-        Me.lblMDBUser.Location = New System.Drawing.Point(6, 92)
+        Me.lblMDBUser.Location = New System.Drawing.Point(7, 126)
         Me.lblMDBUser.Name = "lblMDBUser"
         Me.lblMDBUser.Size = New System.Drawing.Size(32, 13)
         Me.lblMDBUser.TabIndex = 1
@@ -1917,12 +1927,14 @@ Partial Public Class frmSettings
         Me.lblMDBFilename.AutoSize = True
         Me.lblMDBFilename.Location = New System.Drawing.Point(6, 30)
         Me.lblMDBFilename.Name = "lblMDBFilename"
-        Me.lblMDBFilename.Size = New System.Drawing.Size(52, 13)
+        Me.lblMDBFilename.Size = New System.Drawing.Size(72, 13)
         Me.lblMDBFilename.TabIndex = 0
-        Me.lblMDBFilename.Text = "Filename:"
+        Me.lblMDBFilename.Text = "Item DataFile:"
         '
         'gbMySQL
         '
+        Me.gbMySQL.Controls.Add(Me.txtMySQLDatabase2)
+        Me.gbMySQL.Controls.Add(Me.lblMySQLDatabase2)
         Me.gbMySQL.Controls.Add(Me.txtMySQLDatabase)
         Me.gbMySQL.Controls.Add(Me.lblMySQLDatabase)
         Me.gbMySQL.Controls.Add(Me.txtMySQLPassword)
@@ -1933,7 +1945,7 @@ Partial Public Class frmSettings
         Me.gbMySQL.Controls.Add(Me.lblMySQLServer)
         Me.gbMySQL.Location = New System.Drawing.Point(6, 151)
         Me.gbMySQL.Name = "gbMySQL"
-        Me.gbMySQL.Size = New System.Drawing.Size(403, 63)
+        Me.gbMySQL.Size = New System.Drawing.Size(403, 181)
         Me.gbMySQL.TabIndex = 36
         Me.gbMySQL.TabStop = False
         Me.gbMySQL.Text = "MySQL Options"
@@ -1941,7 +1953,7 @@ Partial Public Class frmSettings
         '
         'txtMySQLDatabase
         '
-        Me.txtMySQLDatabase.Location = New System.Drawing.Point(73, 53)
+        Me.txtMySQLDatabase.Location = New System.Drawing.Point(106, 53)
         Me.txtMySQLDatabase.Name = "txtMySQLDatabase"
         Me.txtMySQLDatabase.Size = New System.Drawing.Size(230, 20)
         Me.txtMySQLDatabase.TabIndex = 7
@@ -1951,13 +1963,13 @@ Partial Public Class frmSettings
         Me.lblMySQLDatabase.AutoSize = True
         Me.lblMySQLDatabase.Location = New System.Drawing.Point(6, 56)
         Me.lblMySQLDatabase.Name = "lblMySQLDatabase"
-        Me.lblMySQLDatabase.Size = New System.Drawing.Size(56, 13)
+        Me.lblMySQLDatabase.Size = New System.Drawing.Size(79, 13)
         Me.lblMySQLDatabase.TabIndex = 6
-        Me.lblMySQLDatabase.Text = "Database:"
+        Me.lblMySQLDatabase.Text = "Item Database:"
         '
         'txtMySQLPassword
         '
-        Me.txtMySQLPassword.Location = New System.Drawing.Point(73, 105)
+        Me.txtMySQLPassword.Location = New System.Drawing.Point(106, 131)
         Me.txtMySQLPassword.Name = "txtMySQLPassword"
         Me.txtMySQLPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtMySQLPassword.Size = New System.Drawing.Size(230, 20)
@@ -1965,14 +1977,14 @@ Partial Public Class frmSettings
         '
         'txtMySQLUsername
         '
-        Me.txtMySQLUsername.Location = New System.Drawing.Point(73, 79)
+        Me.txtMySQLUsername.Location = New System.Drawing.Point(106, 105)
         Me.txtMySQLUsername.Name = "txtMySQLUsername"
         Me.txtMySQLUsername.Size = New System.Drawing.Size(230, 20)
         Me.txtMySQLUsername.TabIndex = 4
         '
         'txtMySQLServer
         '
-        Me.txtMySQLServer.Location = New System.Drawing.Point(73, 27)
+        Me.txtMySQLServer.Location = New System.Drawing.Point(106, 27)
         Me.txtMySQLServer.Name = "txtMySQLServer"
         Me.txtMySQLServer.Size = New System.Drawing.Size(230, 20)
         Me.txtMySQLServer.TabIndex = 3
@@ -1980,7 +1992,7 @@ Partial Public Class frmSettings
         'lblMySQLPassword
         '
         Me.lblMySQLPassword.AutoSize = True
-        Me.lblMySQLPassword.Location = New System.Drawing.Point(6, 108)
+        Me.lblMySQLPassword.Location = New System.Drawing.Point(6, 134)
         Me.lblMySQLPassword.Name = "lblMySQLPassword"
         Me.lblMySQLPassword.Size = New System.Drawing.Size(56, 13)
         Me.lblMySQLPassword.TabIndex = 2
@@ -1989,7 +2001,7 @@ Partial Public Class frmSettings
         'lblMySQLUser
         '
         Me.lblMySQLUser.AutoSize = True
-        Me.lblMySQLUser.Location = New System.Drawing.Point(6, 82)
+        Me.lblMySQLUser.Location = New System.Drawing.Point(6, 108)
         Me.lblMySQLUser.Name = "lblMySQLUser"
         Me.lblMySQLUser.Size = New System.Drawing.Size(32, 13)
         Me.lblMySQLUser.TabIndex = 1
@@ -2015,6 +2027,8 @@ Partial Public Class frmSettings
         '
         'gbMSSQL
         '
+        Me.gbMSSQL.Controls.Add(Me.txtMSSQLDatabase2)
+        Me.gbMSSQL.Controls.Add(Me.lblMSSQLDatabase2)
         Me.gbMSSQL.Controls.Add(Me.txtMSSQLDatabase)
         Me.gbMSSQL.Controls.Add(Me.lblMSSQLDatabase)
         Me.gbMSSQL.Controls.Add(Me.lblMSSQLSecurity)
@@ -2028,7 +2042,7 @@ Partial Public Class frmSettings
         Me.gbMSSQL.Controls.Add(Me.lblMSSQLServer)
         Me.gbMSSQL.Location = New System.Drawing.Point(6, 150)
         Me.gbMSSQL.Name = "gbMSSQL"
-        Me.gbMSSQL.Size = New System.Drawing.Size(403, 177)
+        Me.gbMSSQL.Size = New System.Drawing.Size(403, 54)
         Me.gbMSSQL.TabIndex = 35
         Me.gbMSSQL.TabStop = False
         Me.gbMSSQL.Text = "MS SQL Options"
@@ -2036,7 +2050,7 @@ Partial Public Class frmSettings
         '
         'txtMSSQLDatabase
         '
-        Me.txtMSSQLDatabase.Location = New System.Drawing.Point(73, 79)
+        Me.txtMSSQLDatabase.Location = New System.Drawing.Point(105, 77)
         Me.txtMSSQLDatabase.Name = "txtMSSQLDatabase"
         Me.txtMSSQLDatabase.Size = New System.Drawing.Size(230, 20)
         Me.txtMSSQLDatabase.TabIndex = 10
@@ -2046,9 +2060,9 @@ Partial Public Class frmSettings
         Me.lblMSSQLDatabase.AutoSize = True
         Me.lblMSSQLDatabase.Location = New System.Drawing.Point(6, 82)
         Me.lblMSSQLDatabase.Name = "lblMSSQLDatabase"
-        Me.lblMSSQLDatabase.Size = New System.Drawing.Size(56, 13)
+        Me.lblMSSQLDatabase.Size = New System.Drawing.Size(79, 13)
         Me.lblMSSQLDatabase.TabIndex = 9
-        Me.lblMSSQLDatabase.Text = "Database:"
+        Me.lblMSSQLDatabase.Text = "Item Database:"
         '
         'lblMSSQLSecurity
         '
@@ -2062,7 +2076,7 @@ Partial Public Class frmSettings
         'radMSSQLDatabase
         '
         Me.radMSSQLDatabase.AutoSize = True
-        Me.radMSSQLDatabase.Location = New System.Drawing.Point(73, 30)
+        Me.radMSSQLDatabase.Location = New System.Drawing.Point(105, 29)
         Me.radMSSQLDatabase.Name = "radMSSQLDatabase"
         Me.radMSSQLDatabase.Size = New System.Drawing.Size(46, 17)
         Me.radMSSQLDatabase.TabIndex = 7
@@ -2072,7 +2086,7 @@ Partial Public Class frmSettings
         'radMSSQLWindows
         '
         Me.radMSSQLWindows.AutoSize = True
-        Me.radMSSQLWindows.Location = New System.Drawing.Point(139, 30)
+        Me.radMSSQLWindows.Location = New System.Drawing.Point(173, 29)
         Me.radMSSQLWindows.Name = "radMSSQLWindows"
         Me.radMSSQLWindows.Size = New System.Drawing.Size(69, 17)
         Me.radMSSQLWindows.TabIndex = 6
@@ -2081,7 +2095,7 @@ Partial Public Class frmSettings
         '
         'txtMSSQLPassword
         '
-        Me.txtMSSQLPassword.Location = New System.Drawing.Point(73, 131)
+        Me.txtMSSQLPassword.Location = New System.Drawing.Point(105, 155)
         Me.txtMSSQLPassword.Name = "txtMSSQLPassword"
         Me.txtMSSQLPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtMSSQLPassword.Size = New System.Drawing.Size(230, 20)
@@ -2089,14 +2103,14 @@ Partial Public Class frmSettings
         '
         'txtMSSQLUsername
         '
-        Me.txtMSSQLUsername.Location = New System.Drawing.Point(73, 105)
+        Me.txtMSSQLUsername.Location = New System.Drawing.Point(105, 129)
         Me.txtMSSQLUsername.Name = "txtMSSQLUsername"
         Me.txtMSSQLUsername.Size = New System.Drawing.Size(230, 20)
         Me.txtMSSQLUsername.TabIndex = 4
         '
         'txtMSSQLServer
         '
-        Me.txtMSSQLServer.Location = New System.Drawing.Point(73, 53)
+        Me.txtMSSQLServer.Location = New System.Drawing.Point(105, 51)
         Me.txtMSSQLServer.Name = "txtMSSQLServer"
         Me.txtMSSQLServer.Size = New System.Drawing.Size(230, 20)
         Me.txtMSSQLServer.TabIndex = 3
@@ -2104,7 +2118,7 @@ Partial Public Class frmSettings
         'lblMSSQLPassword
         '
         Me.lblMSSQLPassword.AutoSize = True
-        Me.lblMSSQLPassword.Location = New System.Drawing.Point(6, 134)
+        Me.lblMSSQLPassword.Location = New System.Drawing.Point(6, 158)
         Me.lblMSSQLPassword.Name = "lblMSSQLPassword"
         Me.lblMSSQLPassword.Size = New System.Drawing.Size(56, 13)
         Me.lblMSSQLPassword.TabIndex = 2
@@ -2113,7 +2127,7 @@ Partial Public Class frmSettings
         'lblMSSQLUser
         '
         Me.lblMSSQLUser.AutoSize = True
-        Me.lblMSSQLUser.Location = New System.Drawing.Point(6, 108)
+        Me.lblMSSQLUser.Location = New System.Drawing.Point(6, 132)
         Me.lblMSSQLUser.Name = "lblMSSQLUser"
         Me.lblMSSQLUser.Size = New System.Drawing.Size(32, 13)
         Me.lblMSSQLUser.TabIndex = 1
@@ -3149,9 +3163,9 @@ Partial Public Class frmSettings
         Me.gbG15.Controls.Add(Me.lblCycleTime)
         Me.gbG15.Controls.Add(Me.chkCyclePilots)
         Me.gbG15.Controls.Add(Me.chkActivateG15)
-        Me.gbG15.Location = New System.Drawing.Point(194, 12)
+        Me.gbG15.Location = New System.Drawing.Point(385, 183)
         Me.gbG15.Name = "gbG15"
-        Me.gbG15.Size = New System.Drawing.Size(695, 499)
+        Me.gbG15.Size = New System.Drawing.Size(95, 37)
         Me.gbG15.TabIndex = 30
         Me.gbG15.TabStop = False
         Me.gbG15.Text = "G15 Display"
@@ -3421,14 +3435,72 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
+        'txtMSSQLDatabase2
+        '
+        Me.txtMSSQLDatabase2.Location = New System.Drawing.Point(105, 103)
+        Me.txtMSSQLDatabase2.Name = "txtMSSQLDatabase2"
+        Me.txtMSSQLDatabase2.Size = New System.Drawing.Size(230, 20)
+        Me.txtMSSQLDatabase2.TabIndex = 12
+        '
+        'lblMSSQLDatabase2
+        '
+        Me.lblMSSQLDatabase2.AutoSize = True
+        Me.lblMSSQLDatabase2.Location = New System.Drawing.Point(5, 106)
+        Me.lblMSSQLDatabase2.Name = "lblMSSQLDatabase2"
+        Me.lblMSSQLDatabase2.Size = New System.Drawing.Size(94, 13)
+        Me.lblMSSQLDatabase2.TabIndex = 11
+        Me.lblMSSQLDatabase2.Text = "EveHQ Database:"
+        '
+        'txtMySQLDatabase2
+        '
+        Me.txtMySQLDatabase2.Location = New System.Drawing.Point(106, 79)
+        Me.txtMySQLDatabase2.Name = "txtMySQLDatabase2"
+        Me.txtMySQLDatabase2.Size = New System.Drawing.Size(230, 20)
+        Me.txtMySQLDatabase2.TabIndex = 9
+        '
+        'lblMySQLDatabase2
+        '
+        Me.lblMySQLDatabase2.AutoSize = True
+        Me.lblMySQLDatabase2.Location = New System.Drawing.Point(6, 82)
+        Me.lblMySQLDatabase2.Name = "lblMySQLDatabase2"
+        Me.lblMySQLDatabase2.Size = New System.Drawing.Size(94, 13)
+        Me.lblMySQLDatabase2.TabIndex = 8
+        Me.lblMySQLDatabase2.Text = "EveHQ Database:"
+        '
+        'btnBrowseMDB2
+        '
+        Me.btnBrowseMDB2.Location = New System.Drawing.Point(7, 94)
+        Me.btnBrowseMDB2.Name = "btnBrowseMDB2"
+        Me.btnBrowseMDB2.Size = New System.Drawing.Size(51, 23)
+        Me.btnBrowseMDB2.TabIndex = 10
+        Me.btnBrowseMDB2.Text = "Browse"
+        Me.btnBrowseMDB2.UseVisualStyleBackColor = True
+        '
+        'txtMDBServer2
+        '
+        Me.txtMDBServer2.Location = New System.Drawing.Point(99, 75)
+        Me.txtMDBServer2.Multiline = True
+        Me.txtMDBServer2.Name = "txtMDBServer2"
+        Me.txtMDBServer2.Size = New System.Drawing.Size(324, 42)
+        Me.txtMDBServer2.TabIndex = 9
+        '
+        'lblMDBFilename2
+        '
+        Me.lblMDBFilename2.AutoSize = True
+        Me.lblMDBFilename2.Location = New System.Drawing.Point(6, 78)
+        Me.lblMDBFilename2.Name = "lblMDBFilename2"
+        Me.lblMDBFilename2.Size = New System.Drawing.Size(87, 13)
+        Me.lblMDBFilename2.TabIndex = 8
+        Me.lblMDBFilename2.Text = "EveHQ DataFile:"
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbG15)
-        Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbDatabaseFormat)
+        Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbMarketPrices)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbColours)
@@ -3846,4 +3918,11 @@ Partial Public Class frmSettings
     Friend WithEvents lblPilotGroupBG As System.Windows.Forms.Label
     Friend WithEvents lblDatabaseTimeout As System.Windows.Forms.Label
     Friend WithEvents nudDBTimeout As System.Windows.Forms.NumericUpDown
+    Friend WithEvents txtMSSQLDatabase2 As System.Windows.Forms.TextBox
+    Friend WithEvents lblMSSQLDatabase2 As System.Windows.Forms.Label
+    Friend WithEvents txtMySQLDatabase2 As System.Windows.Forms.TextBox
+    Friend WithEvents lblMySQLDatabase2 As System.Windows.Forms.Label
+    Friend WithEvents btnBrowseMDB2 As System.Windows.Forms.Button
+    Friend WithEvents txtMDBServer2 As System.Windows.Forms.TextBox
+    Friend WithEvents lblMDBFilename2 As System.Windows.Forms.Label
 End Class

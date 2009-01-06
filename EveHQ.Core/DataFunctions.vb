@@ -22,40 +22,234 @@ Imports System.Data.OleDb
 Imports System.Data.Odbc
 Imports MySql.Data.MySqlClient
 Imports System.Data.SqlClient
+Imports System.IO
 
 Public Class DataFunctions
 
     Shared eveData As Data.DataSet
 
+    Public Shared Function CreateEveHQDataDB() As Boolean
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' Access
+                ' Get the directory of the existing Access database to write the new one there
+                Dim FI As New FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                Dim outputFile As String = FI.DirectoryName & "\EveHQData.mdb"
+
+                ' Try to create a new access db from resources
+                Dim fs As New FileStream(outputFile, FileMode.Create)
+                Dim bw As New BinaryWriter(fs)
+                Try
+                    bw.Write(My.Resources.EveHQDataDB)
+                    bw.Close()
+                    fs.Close()
+                    EveHQ.Core.HQ.EveHQSettings.DBDataFilename = outputFile
+                    Return True
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = "Unable to create Access database in " & outputFile & ControlChars.CrLf & ControlChars.CrLf & e.Message
+                    Return False
+                Finally
+                    fs.Dispose()
+                End Try
+            Case 1, 2, 3 ' MSSQL, MSSQL Express, MySQL
+                Dim strSQL As String = "CREATE DATABASE EveHQData;"
+                If EveHQ.Core.DataFunctions.SetData(strSQL) = True Then
+                    EveHQ.Core.HQ.EveHQSettings.DBDataName = "EveHQData"
+                    Return True
+                Else
+                    Return False
+                End If
+        End Select
+    End Function
+    Public Shared Function GetDatabaseTables() As ArrayList
+        Dim DBTables As New ArrayList
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' Access
+                Dim conn As New OleDbConnection
+                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    conn.Open()
+                    Dim SchemaTable As DataTable = conn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, New Object() {Nothing, Nothing, Nothing, Nothing})
+                    For table As Integer = 0 To SchemaTable.Rows.Count - 1
+                        If SchemaTable.Rows(table)!TABLE_TYPE.ToString = "TABLE" Then
+                            DBTables.Add(SchemaTable.Rows(table)!TABLE_NAME.ToString())
+                        End If
+                    Next
+                    Return DBTables
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return Nothing
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case 1, 2 ' MSSQL, MSSQL Express
+                Dim conn As New SqlConnection
+                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    conn.Open()
+                    Dim SchemaTable As DataTable = conn.GetSchema("Tables")
+                    For table As Integer = 0 To SchemaTable.Rows.Count - 1
+                        DBTables.Add(SchemaTable.Rows(table)!TABLE_NAME.ToString())
+                    Next
+                    Return DBTables
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return Nothing
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case 3 ' MySQL
+                Dim conn As New MySqlConnection
+                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    conn.Open()
+                    Dim da As New MySqlDataAdapter("SHOW TABLES;", conn)
+                    'da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    Dim EveHQData As New DataSet
+                    da.Fill(EveHQData, "EveHQData")
+                    For Each table As DataRow In EveHQData.Tables(0).Rows
+                        DBTables.Add(table.Item(0).ToString)
+                    Next
+                    conn.Close()
+                    Return DBTables
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return Nothing
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case Else
+                EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
+                Return Nothing
+        End Select
+    End Function
     Public Shared Sub SetEveHQConnectionString()
 
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0
                 If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
-                    EveHQ.Core.HQ.dataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBFilename
+                    EveHQ.Core.HQ.itemDBConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBFilename
                 Else
                     Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                    EveHQ.Core.HQ.dataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
+                    EveHQ.Core.HQ.itemDBConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
                 End If
             Case 1
-                EveHQ.Core.HQ.dataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
+                EveHQ.Core.HQ.itemDBConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
                 If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                    EveHQ.Core.HQ.dataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                    EveHQ.Core.HQ.itemDBConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
                 Else
-                    EveHQ.Core.HQ.dataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; Integrated Security = SSPI;"
+                    EveHQ.Core.HQ.itemDBConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; Integrated Security = SSPI;"
                 End If
             Case 2
-                EveHQ.Core.HQ.dataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
+                EveHQ.Core.HQ.itemDBConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
                 If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                    EveHQ.Core.HQ.dataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                    EveHQ.Core.HQ.itemDBConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
                 Else
-                    EveHQ.Core.HQ.dataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; Integrated Security = SSPI;"
+                    EveHQ.Core.HQ.itemDBConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; Integrated Security = SSPI;"
                 End If
             Case 3
-                EveHQ.Core.HQ.dataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                EveHQ.Core.HQ.itemDBConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
         End Select
 
     End Sub
+    Public Shared Sub SetEveHQDataConnectionString()
+
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0
+                If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
+                    EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBFilename
+                Else
+                    Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                    EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
+                End If
+            Case 1
+                EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
+                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
+                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                Else
+                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; Integrated Security = SSPI;"
+                End If
+            Case 2
+                EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
+                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
+                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                Else
+                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; Integrated Security = SSPI;"
+                End If
+            Case 3
+                EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+        End Select
+
+    End Sub
+    Public Shared Function SetData(ByVal strSQL As String) As Boolean
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' Access
+                Dim conn As New OleDbConnection
+                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    conn.Open()
+                    Dim keyCommand As New OleDbCommand(strSQL, conn)
+                    keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    keyCommand.ExecuteNonQuery()
+                    Return True
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return False
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case 1, 2 ' MSSQL, MSSQL Express
+                Dim conn As New SqlConnection
+                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    conn.Open()
+                    If strSQL.Contains(" LIKE ") = False Then
+                        strSQL = strSQL.Replace("'", "''")
+                        strSQL = strSQL.Replace(ControlChars.Quote, "'")
+                        strSQL = strSQL.Replace("=true", "=1")
+                    End If
+                    Dim keyCommand As New SqlCommand(strSQL, conn)
+                    keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    keyCommand.ExecuteNonQuery()
+                    Return True
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return False
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case 3 ' MySQL
+                Dim conn As New MySqlConnection
+                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    conn.Open()
+                    Dim keyCommand As New MySqlCommand(strSQL, conn)
+                    'keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    keyCommand.ExecuteNonQuery()
+                    Return True
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return False
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case Else
+                EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
+                Return Nothing
+        End Select
+    End Function
+
     Public Shared Function GetData(ByVal strSQL As String) As DataSet
 
         Dim EveHQData As New DataSet
@@ -65,7 +259,7 @@ Public Class DataFunctions
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' Access
                 Dim conn As New OleDbConnection
-                conn.ConnectionString = EveHQ.Core.HQ.dataConnectionString
+                conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
                 Try
                     conn.Open()
                     Dim da As New OleDbDataAdapter(strSQL, conn)
@@ -83,7 +277,7 @@ Public Class DataFunctions
                 End Try
             Case 1, 2 ' MSSQL, MSSQL Express
                 Dim conn As New SqlConnection
-                conn.ConnectionString = EveHQ.Core.HQ.dataConnectionString
+                conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
                 Try
                     conn.Open()
                     If strSQL.Contains(" LIKE ") = False Then
@@ -106,11 +300,11 @@ Public Class DataFunctions
                 End Try
             Case 3 ' MySQL
                 Dim conn As New MySqlConnection
-                conn.ConnectionString = EveHQ.Core.HQ.dataConnectionString
+                conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
                 Try
                     conn.Open()
                     Dim da As New MySqlDataAdapter(strSQL.ToLower, conn)
-                    da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    'da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
                     da.Fill(EveHQData, "EveHQData")
                     conn.Close()
                     Return EveHQData

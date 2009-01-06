@@ -161,6 +161,7 @@
     <Content Include="LgLcd.NET.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\EveHQDataDB.mdb" />
     <None Include="Resources\attributeGroups.csv" />
     <None Include="Resources\EveHQ_IGBLogo.jpg" />
     <None Include="Resources\materialsForRefining.csv" />

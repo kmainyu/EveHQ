@@ -49,7 +49,8 @@ Public Class HQ
     Public Shared reportFolder As String = ""
     Public Shared dataFolder As String = ""
     Public Shared backupFolder As String = ""
-    Public Shared dataConnectionString As String = ""
+    Public Shared itemDBConnectionString As String = ""
+    Public Shared EveHQDataConnectionString As String = ""
     Public Shared dataError As String = ""
     Public Shared IGBActive As Boolean = False
     Public Shared APIRSActive As Boolean = False

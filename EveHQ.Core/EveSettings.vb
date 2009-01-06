@@ -124,7 +124,25 @@ Public Class EveSettings
     Private cPilotSkillTextColor As Long = System.Drawing.Color.Black.ToArgb
     Private cPilotSkillHighlightColor As Long = System.Drawing.Color.DodgerBlue.ToArgb
     Private cDBTimeout As Integer = 30
+    Private cDBDataFilename As String = ""
+    Private cDBDataName As String = ""
 
+    Public Property DBDataName() As String
+        Get
+            Return cDBDataName
+        End Get
+        Set(ByVal value As String)
+            cDBDataName = value
+        End Set
+    End Property
+    Public Property DBDataFilename() As String
+        Get
+            Return cDBDataFilename
+        End Get
+        Set(ByVal value As String)
+            cDBDataFilename = value
+        End Set
+    End Property
     Public Property DBTimeout() As Integer
         Get
             Return cDBTimeout
@@ -1219,6 +1237,8 @@ Public Class EveSettings
         XMLS &= Chr(9) & Chr(9) & "<pilotPartSkillTextColour>" & EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor & "</pilotPartSkillTextColour>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<pilotSkillHighlightColour>" & EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor & "</pilotSkillHighlightColour>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<DBTimeout>" & EveHQ.Core.HQ.EveHQSettings.DBTimeout & "</DBTimeout>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<DBDataFilename>" & EveHQ.Core.HQ.EveHQSettings.DBDataFilename & "</DBDataFilename>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<DBDataServer>" & EveHQ.Core.HQ.EveHQSettings.DBDataName & "</DBDataServer>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the Plug-Ins details
@@ -1575,6 +1595,8 @@ Public Class EveSettings
                         EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor = CLng(accountSettings.ChildNodes(131).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor = CLng(accountSettings.ChildNodes(132).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.DBTimeout = CInt(accountSettings.ChildNodes(133).InnerText)
+                        EveHQ.Core.HQ.EveHQSettings.DBDataFilename = accountSettings.ChildNodes(134).InnerText
+                        EveHQ.Core.HQ.EveHQSettings.DBDataName = accountSettings.ChildNodes(135).InnerText
                     End If
                 End If
             Catch
@@ -1683,6 +1705,7 @@ Public Class EveSettings
         End If
 
         Call EveHQ.Core.DataFunctions.SetEveHQConnectionString()
+        Call EveHQ.Core.DataFunctions.SetEveHQDataConnectionString()
 
         ' Load the skill data before attempting to load in the EveHQ.Core.Pilot skill data
         If EveHQ.Core.SkillFunctions.LoadEveSkillData() = False Then

@@ -216,13 +216,41 @@ Public Class frmSplash
                 lblStatus.Text = "Customising MSSQL database..."
                 Me.Refresh()
                 Dim conn As New Data.SqlClient.SqlConnection
-                conn.ConnectionString = EveHQ.Core.HQ.dataConnectionString
+                conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
                 conn.Open()
                 Call EveHQ.Core.DataFunctions.AddSQLRefiningData(conn)
                 Call EveHQ.Core.DataFunctions.AddSQLAttributeGroupColumn(conn)
                 Call EveHQ.Core.DataFunctions.CorrectSQLEveUnits(conn)
                 If conn.State = Data.ConnectionState.Open Then
                     conn.Close()
+                End If
+            End If
+        End If
+
+        ' Check for new database
+        If (EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 And EveHQ.Core.HQ.EveHQSettings.DBDataFilename = "") Or (EveHQ.Core.HQ.EveHQSettings.DBFormat > 0 And EveHQ.Core.HQ.EveHQSettings.DBDataName = "") Then
+            ' Looks like it hasn't been set so let's create it - but inform the user
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        Else
+            ' Looks like it's been initialised, but let's test a connection to make sure it exists
+            If TestDataDBConnection() = False Then
+                ' Looks like it hasn't been set so let's create it - but inform the user
+                Dim msg As String = "EveHQ has detected that although the the new storage database is initialised, it cannot be located." & ControlChars.CrLf
+                msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+                msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to create the new database."
+                MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                    MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
             End If
         End If
@@ -304,5 +332,61 @@ Public Class frmSplash
             End Try
         Next
     End Sub
+
+    Private Function TestDataDBConnection() As Boolean
+        Dim strConnection As String = ""
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0
+                strConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & EveHQ.Core.HQ.EveHQSettings.DBDataFilename & ";"
+                Dim connection As New Data.OleDb.OleDbConnection(strConnection)
+                Try
+                    connection.Open()
+                    connection.Close()
+                    Return True
+                Catch ex As Exception
+                    Return False
+                End Try
+            Case 1
+                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
+                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                Else
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName & "; Integrated Security = SSPI;"
+                End If
+                Dim connection As New Data.SqlClient.SqlConnection(strConnection)
+                Try
+                    connection.Open()
+                    connection.Close()
+                    Return True
+                Catch ex As Exception
+                    Return False
+                End Try
+            Case 2
+                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
+                If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                Else
+                    strConnection += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName & "; Integrated Security = SSPI;"
+                End If
+                Dim connection As New Data.SqlClient.SqlConnection(strConnection)
+                Try
+                    connection.Open()
+                    connection.Close()
+                    Return True
+                Catch ex As Exception
+                    Return False
+                End Try
+            Case 3
+                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBDataName & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                Dim connection As New MySql.Data.MySqlClient.MySqlConnection(strConnection)
+                Try
+                    connection.Open()
+                    connection.Close()
+                    Return True
+                Catch ex As Exception
+                    Return False
+                End Try
+        End Select
+    End Function
 
 End Class
