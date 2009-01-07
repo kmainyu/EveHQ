@@ -5,7 +5,83 @@ Imports System.Text
 Public Class frmMarketPrices
     Dim saveLoc As String = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\MarketXMLs"
 
+    Private Function CheckMarketStatsDBTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("marketStats") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the Db and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
+
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            strSQL.AppendLine("CREATE TABLE marketStats")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  statID         int,")
+            strSQL.AppendLine("  typeID         int,")
+            strSQL.AppendLine("  regionID       int,")
+            strSQL.AppendLine("  systemID       int,")
+            strSQL.AppendLine("  volAll         float,")
+            strSQL.AppendLine("  avgAll         float,")
+            strSQL.AppendLine("  maxAll         float,")
+            strSQL.AppendLine("  minAll         float,")
+            strSQL.AppendLine("  stdAll         float,")
+            strSQL.AppendLine("  medAll         float,")
+            strSQL.AppendLine("  volBuy         float,")
+            strSQL.AppendLine("  avgBuy         float,")
+            strSQL.AppendLine("  maxBuy         float,")
+            strSQL.AppendLine("  minBuy         float,")
+            strSQL.AppendLine("  stdBuy         float,")
+            strSQL.AppendLine("  medBuy         float,")
+            strSQL.AppendLine("  volSell         float,")
+            strSQL.AppendLine("  avgSell         float,")
+            strSQL.AppendLine("  maxSell         float,")
+            strSQL.AppendLine("  minSell         float,")
+            strSQL.AppendLine("  stdSell         float,")
+            strSQL.AppendLine("  medSell         float,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT marketStats_PK PRIMARY KEY CLUSTERED (statID)")
+            strSQL.AppendLine(")")
+            strSQL.AppendLine("CREATE NONCLUSTERED INDEX marketStats_IX_type ON marketStats (typeID)")
+            strSQL.AppendLine("CREATE NONCLUSTERED INDEX marketStats_IX_region ON marketStats (regionID)")
+            strSQL.AppendLine("CREATE NONCLUSTERED INDEX marketStats_IX_system ON marketStats (systemID)")
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the marketStats database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
+
+    End Function
+
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+
+        ' Check we have the EveHQDB Database and MarketStats table available
+        If Me.CheckMarketStatsDBTable = False Then
+            MessageBox.Show("EveHQ cannot proceed with the market price processing until the EveHQData storage database is available", "Error In Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End If
+
         Dim startTime, endTime As Date
         Dim timeTaken As TimeSpan
 

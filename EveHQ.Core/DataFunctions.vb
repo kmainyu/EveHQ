@@ -162,7 +162,7 @@ Public Class DataFunctions
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0
                 If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
-                    EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBFilename
+                    EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename
                 Else
                     Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
                     EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
@@ -170,19 +170,19 @@ Public Class DataFunctions
             Case 1
                 EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
                 If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
                 Else
-                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; Integrated Security = SSPI;"
+                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName.ToLower & "; Integrated Security = SSPI;"
                 End If
             Case 2
                 EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
                 If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
-                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName.ToLower & "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
                 Else
-                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & "; Integrated Security = SSPI;"
+                    EveHQ.Core.HQ.EveHQDataConnectionString += "; Database = " & EveHQ.Core.HQ.EveHQSettings.DBDataName.ToLower & "; Integrated Security = SSPI;"
                 End If
             Case 3
-                EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBDataName.ToLower & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
         End Select
 
     End Sub
