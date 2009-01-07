@@ -543,11 +543,11 @@ Public Class PilotParseFunctions
                 APIServer = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
             End If
 
-            Dim RemoteURL As String = APIServer & "/account/characters.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Dim RemoteURL As String = APIServer & "/account/Characters.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             ' Set up data for the HTTP "POST" method
             ServicePointManager.Expect100Continue = False
             Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(RemoteURL))
-            Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey
+            Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey
             ' Create the requester
             Dim request As HttpWebRequest = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
             ' Setup proxy server (if required)
@@ -702,7 +702,7 @@ Public Class PilotParseFunctions
                     ' Set up data for the HTTP "POST" method
                     ServicePointManager.Expect100Continue = False
                     Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(RemoteURL))
-                    Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & cPilot.ID
+                    Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & cPilot.ID
                     ' Create the requester
                     request = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
                     ' Setup proxy server (if required)
@@ -758,7 +758,7 @@ Public Class PilotParseFunctions
                 Try
                     RemoteURL = APIServer & "/char/skillintraining.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
                     ' Set up data for the HTTP "POST" method
-                    Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & cPilot.ID
+                    Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & cPilot.ID
                     ' Create the requester
                     request = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
                     ' Setup proxy server (if required)

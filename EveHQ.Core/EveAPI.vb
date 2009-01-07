@@ -97,11 +97,11 @@ Public Class EveAPI
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
         Dim remoteURL As String = ""
-        Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey
+        Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey
         Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.Characters
 
-                remoteURL = "/account/characters.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+                remoteURL = "/account/Characters.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case Else
                 cLastAPIResult = APIResults.InvalidFeature
                 Return Nothing
@@ -113,7 +113,7 @@ Public Class EveAPI
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
         Dim remoteURL As String = ""
-        Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & charID
+        Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID
         Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar
                 remoteURL = "/char/AccountBalance.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
@@ -178,7 +178,7 @@ Public Class EveAPI
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal itemID As Integer, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
         Dim remoteURL As String = ""
-        Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
+        Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
         Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.POSDetails
                 remoteURL = "/corp/StarbaseDetail.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
@@ -193,7 +193,7 @@ Public Class EveAPI
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal BeforeRefID As String, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
         Dim remoteURL As String = ""
-        Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
+        Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
         If BeforeRefID <> "" Then
             postData &= "&beforeRefID=" & BeforeRefID
         End If
@@ -213,7 +213,7 @@ Public Class EveAPI
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal BeforeTransID As String, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
         Dim remoteURL As String = ""
-        Dim postData As String = "userID=" & cAccount.userID & "&apikey=" & cAccount.APIKey & "&characterID=" & charID
+        Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID
         If BeforeTransID <> "" Then
             postData &= "&beforeTransID=" & BeforeTransID
         End If
