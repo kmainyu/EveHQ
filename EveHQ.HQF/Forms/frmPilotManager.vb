@@ -26,17 +26,24 @@ Public Class frmPilotManager
     Dim currentPilotName As String = ""
     Dim currentPilot As HQFPilot
     Dim currentGroup As ImplantGroup
-    Dim forceUpdate As Boolean = False
+    Dim StartUp As Boolean = False
+
+    Private WriteOnly Property ForceUpdate() As Boolean
+        Set(ByVal value As Boolean)
+            If value = True And StartUp = False Then
+                HQFEvents.StartUpdateShipInfo = cboPilots.SelectedItem.ToString
+            End If
+        End Set
+    End Property
 
 #Region "Form Loading & Closing Routines"
 
     Private Sub frmPilotManager_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Call HQFPilotCollection.SaveHQFPilotData()
-        If forceUpdate = True Then
-            HQFEvents.StartUpdateFitting = True
-        End If
     End Sub
     Private Sub frmPilotManager_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        StartUp = True
 
         ' Load the Implant Group Filters
         cboImplantFilter.Items.Clear()
@@ -76,6 +83,9 @@ Public Class frmPilotManager
                 cboPilots.SelectedIndex = 0
             End If
         End If
+
+        StartUp = False
+
     End Sub
 #End Region
 
@@ -158,6 +168,7 @@ Public Class frmPilotManager
                                         SkillsModified = True
                                     Else
                                         ' Default = HQF
+                                        skillNode.ForeColor = Drawing.Color.Black
                                         If ShowOnlyModified = True Then
                                             groupNode.Items.Remove(skillNode)
                                         End If
@@ -272,6 +283,7 @@ Public Class frmPilotManager
                 skillNode.ForeColor = Drawing.Color.LimeGreen
             Else
                 ' Default = HQF
+                skillNode.ForeColor = Drawing.Color.Black
                 If chkShowModifiedSkills.Checked = True Then
                     skillNode.ParentItem.Items.Remove(skillNode)
                 End If
@@ -291,14 +303,17 @@ Public Class frmPilotManager
             clvSkills.Items.Add("(No Skills Modified)")
         End If
         ' Test if anything else is modified
+        Dim SkillsModified As Boolean = False
         For Each parentItem As ContainerListViewItem In clvSkills.Items
             For Each skillItem As ContainerListViewItem In parentItem.Items
                 If skillItem.ForeColor <> Drawing.Color.Black Then
-                    lblSkillsModified.Visible = True
-                    Exit Sub
+                    SkillsModified = True
+                    Exit For
                 End If
             Next
         Next
+        lblSkillsModified.Visible = SkillsModified
+        ForceUpdate = True
     End Sub
 
 #End Region
@@ -374,7 +389,6 @@ Public Class frmPilotManager
                     End If
                 End If
             End If
-
         Next
         tvwImplants.EndUpdate()
     End Sub

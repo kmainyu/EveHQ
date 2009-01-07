@@ -55,7 +55,7 @@ Public Class frmShowInfo
         End If
 
         ' Alter form header text & Item label
-        Me.Text = "Show Info - " & itemObject.Name
+        Me.Text = "Info - " & itemObject.Name
         Me.lblItemName.Text = itemObject.Name
 
         Call Me.PrepareDescription(itemType)
@@ -64,7 +64,7 @@ Public Class frmShowInfo
         Call Me.ShowAffects(itemType)
         Call Me.ShowAudit(itemType)
 
-        Me.ShowDialog()
+        Me.Show()
 
     End Sub
 

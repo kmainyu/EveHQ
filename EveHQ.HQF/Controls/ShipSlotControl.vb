@@ -1469,7 +1469,6 @@ Public Class ShipSlotControl
             hPilot = EveHQ.Core.HQ.myPilot
         End If
         showInfo.ShowItemDetails(sModule, hPilot)
-        showInfo = Nothing
     End Sub
     Private Sub ShowChargeInfo(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim selectedSlot As ListViewItem = lvwSlots.SelectedItems(0)
@@ -1494,7 +1493,6 @@ Public Class ShipSlotControl
         End If
 
         showInfo.ShowItemDetails(sModule, hPilot)
-        showInfo = Nothing
     End Sub
     Private Sub AnalyseAmmo(ByVal sender As Object, ByVal e As System.EventArgs)
         ' Display the ammo types available by this module
@@ -1950,7 +1948,6 @@ Public Class ShipSlotControl
             hPilot = EveHQ.Core.HQ.myPilot
         End If
         showInfo.ShowItemDetails(sModule, hPilot)
-        showInfo = Nothing
     End Sub
 
     Private Sub ctxAlterQuantity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxAlterQuantity.Click
@@ -2432,7 +2429,6 @@ Public Class ShipSlotControl
         Dim hPilot As EveHQ.Core.Pilot
         hPilot = CType(EveHQ.Core.HQ.Pilots(lvwRemoteEffects.SelectedItems(0).Name), Core.Pilot)
         showInfo.ShowItemDetails(sModule, hPilot)
-        showInfo = Nothing
     End Sub
 
     Private Sub ctxRemoteModule_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxRemoteModule.Opening
@@ -2936,6 +2932,4 @@ Public Class ShipSlotControl
 
 #End Region
 
-   
-    
 End Class

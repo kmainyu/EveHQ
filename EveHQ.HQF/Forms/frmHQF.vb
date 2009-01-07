@@ -32,6 +32,7 @@ Public Class frmHQF
     Dim currentShipInfo As ShipInfoControl
     Shared LastSlotFitting As New ArrayList
     Shared LastModuleResults As New SortedList
+    Dim myPilotManager As New frmPilotManager
 
 #Region "Class Wide Variables"
 
@@ -107,6 +108,7 @@ Public Class frmHQF
         AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
         AddHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFittings
         AddHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
+        AddHandler HQFEvents.UpdateShipInfo, AddressOf Me.UpdateShipInfo
 
         ' Load the Profiles - stored separately from settings for distibution!
         Call Settings.HQFSettings.LoadProfiles()
@@ -1062,6 +1064,40 @@ Public Class frmHQF
         Me.Cursor = Cursors.Default
     End Sub
 
+    Public Sub UpdateShipInfo(ByVal pilotName As String)
+        Me.Cursor = Cursors.WaitCursor
+        ' Updates all the open fittings
+        For Each openTab As String In Fittings.FittingTabList
+            Dim thisTab As TabPage = tabHQF.TabPages(openTab)
+            If thisTab IsNot Nothing Then
+                If thisTab.Controls.Count > 0 Then
+                    Dim shipSlots As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
+                    Dim shipInfo As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
+                    If pilotName = shipInfo.cboPilots.SelectedItem.ToString Then
+                        ' Build the Affections data for this pilot
+                        Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(shipInfo.cboPilots.SelectedItem), HQFPilot)
+                        ' Call the property modifier again which will trigger the fitting routines and update all slots for the new pilot
+                        If shipSlots IsNot Nothing Then
+                            shipSlots.UpdateAllSlots = True
+                        End If
+                        shipInfo.cboImplants.Tag = "Updating"
+                        If shipPilot.ImplantName(0) IsNot Nothing Then
+                            shipInfo.cboImplants.SelectedItem = shipPilot.ImplantName(0)
+                        End If
+                        shipInfo.cboImplants.Tag = Nothing
+                        shipInfo.BuildMethod = BuildType.BuildEverything
+                        If shipSlots IsNot Nothing Then
+                            shipSlots.UpdateAllSlots = False
+                        End If
+                    End If
+                End If
+            End If
+        Next
+        Me.Cursor = Cursors.Default
+        currentShipInfo.BuildMethod = BuildType.BuildEffectsMaps
+        HQFEvents.StartUpdateModuleList = True
+    End Sub
+
     Private Sub ToolStripButton3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton3.Click
         ' Count number of items
         Dim items As Integer = ModuleLists.moduleList.Count
@@ -1692,7 +1728,6 @@ Public Class frmHQF
             hPilot = EveHQ.Core.HQ.myPilot
         End If
         showInfo.ShowItemDetails(cModule, hPilot)
-        showInfo = Nothing
     End Sub
 
     Private Sub mnuAddToFavourites_List_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToFavourites_List.Click
@@ -2057,14 +2092,21 @@ Public Class frmHQF
 #End Region
 
     Private Sub btnPilotManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPilotManager.Click
-        Dim myPilotManager As New frmPilotManager
-        If currentShipInfo IsNot Nothing Then
-            myPilotManager.pilotName = currentShipInfo.cboPilots.SelectedItem.ToString
+        If myPilotManager.IsHandleCreated = False Then
+            myPilotManager = New frmPilotManager
+            If currentShipInfo IsNot Nothing Then
+                myPilotManager.pilotName = currentShipInfo.cboPilots.SelectedItem.ToString
+            Else
+                myPilotManager.pilotName = EveHQ.Core.HQ.myPilot.Name
+            End If
+            myPilotManager.Show()
         Else
-            myPilotManager.pilotName = EveHQ.Core.HQ.myPilot.Name
+            If myPilotManager.WindowState = FormWindowState.Minimized Then
+                myPilotManager.WindowState = FormWindowState.Normal
+            End If
+            myPilotManager.BringToFront()
+            myPilotManager.Show()
         End If
-        myPilotManager.ShowDialog()
-        myPilotManager = Nothing
     End Sub
 
     Private Sub OpenSettingsForm()

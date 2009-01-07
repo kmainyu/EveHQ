@@ -2,6 +2,7 @@
     Public Shared Event FindModule(ByVal modData As ArrayList)
     Public Shared Event UpdateFitting()
     Public Shared Event UpdateModuleList()
+    Public Shared Event UpdateShipInfo(ByVal pilotName As String)
 
     Shared WriteOnly Property StartFindModule() As ArrayList
         Set(ByVal value As ArrayList)
@@ -14,6 +15,13 @@
         Set(ByVal value As Boolean)
             If value = True Then
                 RaiseEvent UpdateFitting()
+            End If
+        End Set
+    End Property
+    Shared WriteOnly Property StartUpdateShipInfo() As String
+        Set(ByVal value As String)
+            If value <> "" Then
+                RaiseEvent UpdateShipInfo(value)
             End If
         End Set
     End Property

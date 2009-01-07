@@ -59,6 +59,7 @@ Partial Class frmPilotManager
         Me.lblImplantDescription = New System.Windows.Forms.Label
         Me.tvwImplants = New System.Windows.Forms.TreeView
         Me.tabImplantManager = New System.Windows.Forms.TabPage
+        Me.lblCurrentGroup = New System.Windows.Forms.Label
         Me.btnCollapseAllM = New System.Windows.Forms.Button
         Me.lblImplantFilterM = New System.Windows.Forms.Label
         Me.cboImplantGroupsM = New System.Windows.Forms.ComboBox
@@ -68,7 +69,6 @@ Partial Class frmPilotManager
         Me.btnEditImplantGroup = New System.Windows.Forms.Button
         Me.btnAddImplantGroup = New System.Windows.Forms.Button
         Me.lstImplantGroups = New System.Windows.Forms.ListBox
-        Me.lblCurrentGroup = New System.Windows.Forms.Label
         Me.ctxHQFLevel.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.tabSkills.SuspendLayout()
@@ -114,69 +114,72 @@ Partial Class frmPilotManager
         '
         Me.ctxHQFLevel.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSetSkillName, Me.ToolStripMenuItem1, Me.mnuSetLevel0, Me.mnuSetLevel1, Me.mnuSetLevel2, Me.mnuSetLevel3, Me.mnuSetLevel4, Me.mnuSetLevel5, Me.ToolStripMenuItem2, Me.mnuSetDefault})
         Me.ctxHQFLevel.Name = "ctxHQFLevel"
-        Me.ctxHQFLevel.Size = New System.Drawing.Size(149, 192)
+        Me.ctxHQFLevel.Size = New System.Drawing.Size(155, 192)
         '
         'mnuSetSkillName
         '
         Me.mnuSetSkillName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuSetSkillName.Name = "mnuSetSkillName"
-        Me.mnuSetSkillName.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetSkillName.Size = New System.Drawing.Size(154, 22)
         Me.mnuSetSkillName.Text = "Skill Name"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(145, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(151, 6)
         '
         'mnuSetLevel0
         '
         Me.mnuSetLevel0.Name = "mnuSetLevel0"
-        Me.mnuSetLevel0.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel0.Size = New System.Drawing.Size(154, 22)
         Me.mnuSetLevel0.Text = "Set To Level 0"
         '
         'mnuSetLevel1
         '
         Me.mnuSetLevel1.Name = "mnuSetLevel1"
-        Me.mnuSetLevel1.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel1.Size = New System.Drawing.Size(154, 22)
         Me.mnuSetLevel1.Text = "Set To Level 1"
         '
         'mnuSetLevel2
         '
         Me.mnuSetLevel2.Name = "mnuSetLevel2"
-        Me.mnuSetLevel2.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel2.Size = New System.Drawing.Size(154, 22)
         Me.mnuSetLevel2.Text = "Set To Level 2"
         '
         'mnuSetLevel3
         '
         Me.mnuSetLevel3.Name = "mnuSetLevel3"
-        Me.mnuSetLevel3.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel3.Size = New System.Drawing.Size(154, 22)
         Me.mnuSetLevel3.Text = "Set To Level 3"
         '
         'mnuSetLevel4
         '
         Me.mnuSetLevel4.Name = "mnuSetLevel4"
-        Me.mnuSetLevel4.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel4.Size = New System.Drawing.Size(154, 22)
         Me.mnuSetLevel4.Text = "Set To Level 4"
         '
         'mnuSetLevel5
         '
         Me.mnuSetLevel5.Name = "mnuSetLevel5"
-        Me.mnuSetLevel5.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetLevel5.Size = New System.Drawing.Size(154, 22)
         Me.mnuSetLevel5.Text = "Set To Level 5"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(145, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(151, 6)
         '
         'mnuSetDefault
         '
         Me.mnuSetDefault.Name = "mnuSetDefault"
-        Me.mnuSetDefault.Size = New System.Drawing.Size(148, 22)
+        Me.mnuSetDefault.Size = New System.Drawing.Size(154, 22)
         Me.mnuSetDefault.Text = "Set To Default"
         '
         'clvSkills
         '
+        Me.clvSkills.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clvSkills.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colName, Me.colActualLevel, Me.colHQFLevel})
         Me.clvSkills.DefaultItemHeight = 20
         Me.clvSkills.ItemContextMenu = Me.ctxHQFLevel
@@ -215,6 +218,7 @@ Partial Class frmPilotManager
         '
         'btnResetAll
         '
+        Me.btnResetAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnResetAll.Location = New System.Drawing.Point(448, 500)
         Me.btnResetAll.Name = "btnResetAll"
         Me.btnResetAll.Size = New System.Drawing.Size(75, 36)
@@ -224,6 +228,7 @@ Partial Class frmPilotManager
         '
         'btnSetAllToLevel5
         '
+        Me.btnSetAllToLevel5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnSetAllToLevel5.Location = New System.Drawing.Point(529, 500)
         Me.btnSetAllToLevel5.Name = "btnSetAllToLevel5"
         Me.btnSetAllToLevel5.Size = New System.Drawing.Size(75, 36)
@@ -252,6 +257,9 @@ Partial Class frmPilotManager
         '
         'TabControl1
         '
+        Me.TabControl1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControl1.Controls.Add(Me.tabSkills)
         Me.TabControl1.Controls.Add(Me.tabImplants)
         Me.TabControl1.Controls.Add(Me.tabImplantManager)
@@ -278,6 +286,7 @@ Partial Class frmPilotManager
         '
         'btnUpdateSkills
         '
+        Me.btnUpdateSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnUpdateSkills.Location = New System.Drawing.Point(367, 500)
         Me.btnUpdateSkills.Name = "btnUpdateSkills"
         Me.btnUpdateSkills.Size = New System.Drawing.Size(75, 36)
@@ -305,6 +314,7 @@ Partial Class frmPilotManager
         '
         'btnSaveGroup
         '
+        Me.btnSaveGroup.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnSaveGroup.Location = New System.Drawing.Point(448, 432)
         Me.btnSaveGroup.Name = "btnSaveGroup"
         Me.btnSaveGroup.Size = New System.Drawing.Size(75, 23)
@@ -334,6 +344,7 @@ Partial Class frmPilotManager
         '
         'btnCollapseAll
         '
+        Me.btnCollapseAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCollapseAll.Location = New System.Drawing.Point(529, 432)
         Me.btnCollapseAll.Name = "btnCollapseAll"
         Me.btnCollapseAll.Size = New System.Drawing.Size(75, 23)
@@ -343,6 +354,7 @@ Partial Class frmPilotManager
         '
         'lblImplantFilter
         '
+        Me.lblImplantFilter.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblImplantFilter.AutoSize = True
         Me.lblImplantFilter.Location = New System.Drawing.Point(13, 435)
         Me.lblImplantFilter.Name = "lblImplantFilter"
@@ -352,6 +364,7 @@ Partial Class frmPilotManager
         '
         'cboImplantFilter
         '
+        Me.cboImplantFilter.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cboImplantFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboImplantFilter.FormattingEnabled = True
         Me.cboImplantFilter.Location = New System.Drawing.Point(121, 432)
@@ -362,6 +375,8 @@ Partial Class frmPilotManager
         '
         'lblImplantDescription
         '
+        Me.lblImplantDescription.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblImplantDescription.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblImplantDescription.Location = New System.Drawing.Point(16, 466)
         Me.lblImplantDescription.Name = "lblImplantDescription"
@@ -370,6 +385,9 @@ Partial Class frmPilotManager
         '
         'tvwImplants
         '
+        Me.tvwImplants.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwImplants.Location = New System.Drawing.Point(16, 52)
         Me.tvwImplants.Name = "tvwImplants"
         Me.tvwImplants.Size = New System.Drawing.Size(588, 374)
@@ -394,8 +412,18 @@ Partial Class frmPilotManager
         Me.tabImplantManager.Text = "Implant Manager"
         Me.tabImplantManager.UseVisualStyleBackColor = True
         '
+        'lblCurrentGroup
+        '
+        Me.lblCurrentGroup.AutoSize = True
+        Me.lblCurrentGroup.Location = New System.Drawing.Point(218, 13)
+        Me.lblCurrentGroup.Name = "lblCurrentGroup"
+        Me.lblCurrentGroup.Size = New System.Drawing.Size(80, 13)
+        Me.lblCurrentGroup.TabIndex = 18
+        Me.lblCurrentGroup.Text = "Current Group:"
+        '
         'btnCollapseAllM
         '
+        Me.btnCollapseAllM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCollapseAllM.Location = New System.Drawing.Point(524, 430)
         Me.btnCollapseAllM.Name = "btnCollapseAllM"
         Me.btnCollapseAllM.Size = New System.Drawing.Size(75, 23)
@@ -405,6 +433,7 @@ Partial Class frmPilotManager
         '
         'lblImplantFilterM
         '
+        Me.lblImplantFilterM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblImplantFilterM.AutoSize = True
         Me.lblImplantFilterM.Location = New System.Drawing.Point(218, 435)
         Me.lblImplantFilterM.Name = "lblImplantFilterM"
@@ -414,6 +443,7 @@ Partial Class frmPilotManager
         '
         'cboImplantGroupsM
         '
+        Me.cboImplantGroupsM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cboImplantGroupsM.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboImplantGroupsM.FormattingEnabled = True
         Me.cboImplantGroupsM.Location = New System.Drawing.Point(326, 432)
@@ -424,6 +454,8 @@ Partial Class frmPilotManager
         '
         'lblImplantDescriptionM
         '
+        Me.lblImplantDescriptionM.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblImplantDescriptionM.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblImplantDescriptionM.Location = New System.Drawing.Point(221, 467)
         Me.lblImplantDescriptionM.Name = "lblImplantDescriptionM"
@@ -432,6 +464,9 @@ Partial Class frmPilotManager
         '
         'tvwImplantsM
         '
+        Me.tvwImplantsM.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwImplantsM.Location = New System.Drawing.Point(221, 29)
         Me.tvwImplantsM.Name = "tvwImplantsM"
         Me.tvwImplantsM.Size = New System.Drawing.Size(378, 395)
@@ -439,6 +474,7 @@ Partial Class frmPilotManager
         '
         'btnRemoveImplantGroup
         '
+        Me.btnRemoveImplantGroup.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRemoveImplantGroup.Location = New System.Drawing.Point(143, 497)
         Me.btnRemoveImplantGroup.Name = "btnRemoveImplantGroup"
         Me.btnRemoveImplantGroup.Size = New System.Drawing.Size(60, 40)
@@ -448,6 +484,7 @@ Partial Class frmPilotManager
         '
         'btnEditImplantGroup
         '
+        Me.btnEditImplantGroup.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnEditImplantGroup.Location = New System.Drawing.Point(77, 497)
         Me.btnEditImplantGroup.Name = "btnEditImplantGroup"
         Me.btnEditImplantGroup.Size = New System.Drawing.Size(60, 40)
@@ -457,6 +494,7 @@ Partial Class frmPilotManager
         '
         'btnAddImplantGroup
         '
+        Me.btnAddImplantGroup.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnAddImplantGroup.Location = New System.Drawing.Point(11, 497)
         Me.btnAddImplantGroup.Name = "btnAddImplantGroup"
         Me.btnAddImplantGroup.Size = New System.Drawing.Size(60, 40)
@@ -466,20 +504,13 @@ Partial Class frmPilotManager
         '
         'lstImplantGroups
         '
+        Me.lstImplantGroups.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lstImplantGroups.FormattingEnabled = True
         Me.lstImplantGroups.Location = New System.Drawing.Point(11, 13)
         Me.lstImplantGroups.Name = "lstImplantGroups"
         Me.lstImplantGroups.Size = New System.Drawing.Size(192, 472)
         Me.lstImplantGroups.TabIndex = 9
-        '
-        'lblCurrentGroup
-        '
-        Me.lblCurrentGroup.AutoSize = True
-        Me.lblCurrentGroup.Location = New System.Drawing.Point(218, 13)
-        Me.lblCurrentGroup.Name = "lblCurrentGroup"
-        Me.lblCurrentGroup.Size = New System.Drawing.Size(80, 13)
-        Me.lblCurrentGroup.TabIndex = 18
-        Me.lblCurrentGroup.Text = "Current Group:"
         '
         'frmPilotManager
         '
@@ -491,9 +522,8 @@ Partial Class frmPilotManager
         Me.Controls.Add(Me.cboPilots)
         Me.Controls.Add(Me.blbPilots)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
-        Me.MinimizeBox = False
         Me.Name = "frmPilotManager"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "HQF Pilot Manager"
