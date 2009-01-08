@@ -37,6 +37,7 @@ Public Class frmTraining
     Dim usingFilter As Boolean = True
     Dim skillListNodes As New SortedList
     Dim certListNodes As New SortedList
+    Dim CertGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
 
     Private Sub frmTraining_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         cboFilter.SelectedIndex = 0
@@ -453,98 +454,7 @@ Public Class frmTraining
         Return newItem
     End Function
 
-#Region "Certificate Planning"
 
-    Private Sub cboCertFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboCertFilter.SelectedIndexChanged
-        Call Me.LoadCertificateTree()
-    End Sub
-    Public Sub LoadCertificateTree()
-        Dim filter As Integer = cboCertFilter.SelectedIndex
-        ' Save current open nodes
-        oNodes.Clear()
-        For Each oNode As TreeNode In tvwCertList.Nodes
-            If oNode.IsExpanded = True Then
-                oNodes.Add(oNode.Name)
-            End If
-        Next
-        tvwCertList.BeginUpdate()
-        tvwCertList.Nodes.Clear()
-        tvwCertList.Sorted = False
-        Call Me.LoadCertGroups()
-        Call Me.LoadFilteredCerts(filter)
-        Call Me.ShowCertGroups()
-        For Each oNode As String In oNodes
-            If tvwCertList.Nodes.ContainsKey(oNode) = True Then
-                tvwCertList.Nodes(oNode).Expand()
-            End If
-        Next
-        tvwCertList.Sorted = True
-        tvwCertList.EndUpdate()
-        tvwCertList.Refresh()
-        If tvwCertList.SelectedNode Is Nothing Then
-            btnShowDetails.Enabled = False
-        End If
-    End Sub
-    Private Sub LoadCertGroups()
-        certListNodes.Clear()
-        For Each CertGroup As Core.CertificateCategory In EveHQ.Core.HQ.CertificateCategories.Values
-            Dim groupNode As TreeNode = New TreeNode
-            groupNode.Name = CertGroup.ID.ToString
-            groupNode.Text = CertGroup.Name
-            groupNode.ImageIndex = 8
-            groupNode.SelectedImageIndex = 8
-            certListNodes.Add(groupNode.Name, groupNode)
-        Next
-    End Sub
-    Private Sub LoadFilteredCerts(ByVal filter As Integer)
-        Dim groupNode As New TreeNode
-        Dim addCert As Boolean = False
-        For Each newCert As Core.Certificate In Core.HQ.Certificates.Values
-            addCert = False
-            groupNode = CType(certListNodes.Item(newCert.CategoryID.ToString), TreeNode)
-            Select Case filter
-                Case 0
-                    addCert = True
-                Case 1
-                    If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = True Then
-                        addCert = True
-                    End If
-                Case 2
-                    If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = False Then
-                        addCert = True
-                    End If
-                Case 3 To 7
-                    If newCert.Grade = filter - 2 Then
-                        addCert = True
-                    End If
-                Case 8 To 12
-                    If newCert.Grade = filter - 7 And EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = False Then
-                        addCert = True
-                    End If
-            End Select
-            If addCert = True Then
-                Dim certNode As New TreeNode
-                certNode.Text = CType(Core.HQ.CertificateClasses(newCert.ClassID.ToString), Core.CertificateClass).Name
-                certNode.Name = newCert.ID.ToString
-                If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = True Then
-                    certNode.ImageIndex = newCert.Grade
-                    certNode.SelectedImageIndex = newCert.Grade
-                Else
-                    certNode.ImageIndex = 10
-                    certNode.SelectedImageIndex = 10
-                End If
-                groupNode.Nodes.Add(certNode)
-            End If
-        Next
-    End Sub
-    Private Sub ShowCertGroups()
-        For Each groupNode As TreeNode In certListNodes.Values
-            If groupNode.Nodes.Count > 0 Then
-                tvwCertList.Nodes.Add(groupNode)
-            End If
-        Next
-    End Sub
-#End Region
 
     Private Sub activeLVW_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim skillID As String
@@ -1539,6 +1449,197 @@ Public Class frmTraining
         Next selItem
         Call Me.RefreshTraining(activeQueueName)
     End Sub
+
+#Region "Certificate Planning"
+
+    Private Sub cboCertFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboCertFilter.SelectedIndexChanged
+        Call Me.LoadCertificateTree()
+    End Sub
+    Public Sub LoadCertificateTree()
+        Dim filter As Integer = cboCertFilter.SelectedIndex
+        ' Save current open nodes
+        oNodes.Clear()
+        For Each oNode As TreeNode In tvwCertList.Nodes
+            If oNode.IsExpanded = True Then
+                oNodes.Add(oNode.Name)
+            End If
+        Next
+        tvwCertList.BeginUpdate()
+        tvwCertList.Nodes.Clear()
+        tvwCertList.Sorted = False
+        Call Me.LoadCertGroups()
+        Call Me.LoadFilteredCerts(filter)
+        Call Me.ShowCertGroups()
+        For Each oNode As String In oNodes
+            If tvwCertList.Nodes.ContainsKey(oNode) = True Then
+                tvwCertList.Nodes(oNode).Expand()
+            End If
+        Next
+        tvwCertList.Sorted = True
+        tvwCertList.EndUpdate()
+        tvwCertList.Refresh()
+        If tvwCertList.SelectedNode Is Nothing Then
+            btnShowDetails.Enabled = False
+        End If
+    End Sub
+    Private Sub LoadCertGroups()
+        certListNodes.Clear()
+        For Each CertCat As Core.CertificateCategory In EveHQ.Core.HQ.CertificateCategories.Values
+            Dim groupNode As TreeNode = New TreeNode
+            groupNode.Name = CertCat.ID.ToString
+            groupNode.Text = CertCat.Name
+            groupNode.ImageIndex = 8
+            groupNode.SelectedImageIndex = 8
+            certListNodes.Add(groupNode.Name, groupNode)
+        Next
+    End Sub
+    Private Sub LoadFilteredCerts(ByVal filter As Integer)
+        Dim groupNode As New TreeNode
+        Dim addCert As Boolean = False
+        For Each newCert As Core.Certificate In Core.HQ.Certificates.Values
+            addCert = False
+            groupNode = CType(certListNodes.Item(newCert.CategoryID.ToString), TreeNode)
+            Select Case filter
+                Case 0
+                    addCert = True
+                Case 1
+                    If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = True Then
+                        addCert = True
+                    End If
+                Case 2
+                    If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = False Then
+                        addCert = True
+                    End If
+                Case 3 To 7
+                    If newCert.Grade = filter - 2 Then
+                        addCert = True
+                    End If
+                Case 8 To 12
+                    If newCert.Grade = filter - 7 And EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = False Then
+                        addCert = True
+                    End If
+            End Select
+            If addCert = True Then
+                Dim certNode As New TreeNode
+                certNode.Text = CType(Core.HQ.CertificateClasses(newCert.ClassID.ToString), Core.CertificateClass).Name & " (" & newCert.Grade & ")"
+                certNode.Name = newCert.ID.ToString
+                If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = True Then
+                    certNode.ImageIndex = newCert.Grade
+                    certNode.SelectedImageIndex = newCert.Grade
+                Else
+                    certNode.ImageIndex = 10
+                    certNode.SelectedImageIndex = 10
+                End If
+                groupNode.Nodes.Add(certNode)
+            End If
+        Next
+    End Sub
+    Private Sub ShowCertGroups()
+        For Each groupNode As TreeNode In certListNodes.Values
+            If groupNode.Nodes.Count > 0 Then
+                tvwCertList.Nodes.Add(groupNode)
+            End If
+        Next
+    End Sub
+
+#End Region
+
+#Region "Certificate Menu Routines"
+
+    Private Sub tvwCertList_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwCertList.NodeMouseClick
+        tvwCertList.SelectedNode = e.Node
+    End Sub
+
+    Private Sub ctxCertDetails_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxCertDetails.Opening
+        Dim curNode As TreeNode = New TreeNode
+        curNode = tvwCertList.SelectedNode
+        If curNode IsNot Nothing Then
+            ' Reset grades
+            For grade As Integer = 1 To 5
+                mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & grade).Enabled = False
+            Next
+            Dim certName As String = ""
+            Dim certID As String = ""
+            certName = curNode.Text
+            certID = curNode.Name
+            mnuCertName.Text = certName
+            mnuCertName.Tag = certID
+            ' Determine if this is a parent node or not
+            If curNode.Parent Is Nothing Then
+                ' Group Node
+                mnuAddCertGroupToQueue.Visible = True
+                mnuAddCertToQueue.Visible = False
+            Else
+                ' Skill Node
+                mnuAddCertGroupToQueue.Visible = False
+                mnuAddCertToQueue.Visible = True
+            End If
+            If activeQueueName = "" Then
+                mnuAddCertGroupToQueue.Enabled = False
+                mnuAddCertToQueue.Enabled = False
+            Else
+                mnuAddCertGroupToQueue.Enabled = True
+                mnuAddCertToQueue.Enabled = True
+                ' Determine enabled menu items of adding to queue
+                Dim selCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
+                Dim selCertClass As Integer = selCert.ClassID
+                For Each testCert As EveHQ.Core.Certificate In EveHQ.Core.HQ.Certificates.Values
+                    If testCert.ClassID = selCertClass Then
+                        ' Check if the pilot has it
+                        If EveHQ.Core.HQ.myPilot.Certificates.Contains(testCert.ID.ToString) = False Then
+                            mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & testCert.Grade).Enabled = True
+                        Else
+                            mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & testCert.Grade).Enabled = False
+                        End If
+                    End If
+                Next
+            End If
+        End If
+    End Sub
+
+    Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
+        Dim certID As String = mnuCertName.Tag.ToString
+        Dim certDetails As New frmCertificateDetails
+        certDetails.ShowCertDetails(certID)
+    End Sub
+
+    Private Sub mnuAddCertToQueue1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCertToQueue1.Click, mnuAddCertToQueue2.Click, mnuAddCertToQueue3.Click, mnuAddCertToQueue4.Click, mnuAddCertToQueue5.Click
+        ' Get the certificate details
+        Dim certID As String = mnuCertName.Tag.ToString
+        Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
+        ' Get a list of skills that we need to add to the skill queue (iterative routine)
+        Call AddCertSkills(cert)
+        ' Refresh our training queue
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+
+    Private Sub AddCertSkills(ByVal cert As EveHQ.Core.Certificate)
+        Dim reqSkills As SortedList = cert.RequiredSkills
+        For Each reqSkill As String In reqSkills.Keys
+            EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, CStr(EveHQ.Core.SkillFunctions.SkillIDToName(reqSkill)), activeQueue.Queue.Count + 1, activeQueue, CInt(reqSkills(reqSkill)), True, True)
+        Next
+        ' Get a list of the certs that are required
+        For Each reqCertID As String In cert.RequiredCerts.Keys
+            Call AddCertSkills(CType(EveHQ.Core.HQ.Certificates(reqCertID), Core.Certificate))
+        Next
+    End Sub
+
+    Private Sub mnuAddCertGroupToQueue1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCertGroupToQueue1.Click, mnuAddCertGroupToQueue2.Click, mnuAddCertGroupToQueue3.Click, mnuAddCertGroupToQueue4.Click, mnuAddCertGroupToQueue5.Click
+        ' Get the Grade required
+        Dim grade As Integer = CInt(CType(sender, ToolStripItem).Name.Substring(CType(sender, ToolStripItem).Name.Length - 1, 1))
+        Dim certCat As String = mnuCertName.Tag.ToString
+        For Each cert As EveHQ.Core.Certificate In EveHQ.Core.HQ.Certificates.Values
+            If cert.CategoryID = CInt(certCat) Then
+                If cert.Grade = grade Then
+                    Call AddCertSkills(cert)
+                End If
+            End If
+        Next
+        ' Refresh our training queue
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+
+#End Region
 
 #Region "Skill Information Display"
 
@@ -2656,4 +2757,8 @@ Public Class frmTraining
         End If
     End Sub
 
+  
+
+   
+   
 End Class

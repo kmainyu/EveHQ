@@ -141,6 +141,11 @@ Partial Class frmTraining
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.tabTimes = New System.Windows.Forms.TabPage
+        Me.lvwTimes = New EveHQ.ListViewNoFlicker
+        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
+        Me.Standard = New System.Windows.Forms.ColumnHeader
+        Me.Current = New System.Windows.Forms.ColumnHeader
+        Me.Cumulative = New System.Windows.Forms.ColumnHeader
         Me.SkillToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.tabQueues = New System.Windows.Forms.TabControl
         Me.tabSummary = New System.Windows.Forms.TabPage
@@ -149,6 +154,12 @@ Partial Class frmTraining
         Me.btnSetPrimary = New System.Windows.Forms.Button
         Me.btnImportEveMon = New System.Windows.Forms.Button
         Me.btnCopyQueue = New System.Windows.Forms.Button
+        Me.lvQueues = New EveHQ.ListViewNoFlicker
+        Me.colQName = New System.Windows.Forms.ColumnHeader
+        Me.colQSkills = New System.Windows.Forms.ColumnHeader
+        Me.colQTimeLeft = New System.Windows.Forms.ColumnHeader
+        Me.colQQueuedTime = New System.Windows.Forms.ColumnHeader
+        Me.colQEndDate = New System.Windows.Forms.ColumnHeader
         Me.btnEditQueue = New System.Windows.Forms.Button
         Me.btnDeleteQueue = New System.Windows.Forms.Button
         Me.btnMergeQueues = New System.Windows.Forms.Button
@@ -156,26 +167,34 @@ Partial Class frmTraining
         Me.chkOmitQueuesSkills = New System.Windows.Forms.CheckBox
         Me.tabQueueMode = New System.Windows.Forms.TabControl
         Me.tabSkillMode = New System.Windows.Forms.TabPage
-        Me.tabCertMode = New System.Windows.Forms.TabPage
         Me.panelSkillPlanning = New System.Windows.Forms.Panel
+        Me.tabCertMode = New System.Windows.Forms.TabPage
         Me.panelCertPlanning = New System.Windows.Forms.Panel
         Me.cboCertFilter = New System.Windows.Forms.ComboBox
         Me.lblCertFilter = New System.Windows.Forms.Label
         Me.tvwCertList = New System.Windows.Forms.TreeView
-        Me.lvQueues = New EveHQ.ListViewNoFlicker
-        Me.colQName = New System.Windows.Forms.ColumnHeader
-        Me.colQSkills = New System.Windows.Forms.ColumnHeader
-        Me.colQTimeLeft = New System.Windows.Forms.ColumnHeader
-        Me.colQQueuedTime = New System.Windows.Forms.ColumnHeader
-        Me.colQEndDate = New System.Windows.Forms.ColumnHeader
+        Me.ctxCertDetails = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuCertName = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator16 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuAddCertToQueue = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddCertToQueueNext = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator17 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuAddCertToQueue1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddCertToQueue2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddCertToQueue3 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddCertToQueue4 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddCertToQueue5 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddCertGroupToQueue = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddCertGroupToQueue1 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddCertGroupToQueue2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddCertGroupToQueue3 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddCertGroupToQueue4 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddCertGroupToQueue5 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator18 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuViewCertDetails = New System.Windows.Forms.ToolStripMenuItem
         Me.lvwDetails = New EveHQ.ListViewNoFlicker
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.lvwTimes = New EveHQ.ListViewNoFlicker
-        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
-        Me.Standard = New System.Windows.Forms.ColumnHeader
-        Me.Current = New System.Windows.Forms.ColumnHeader
-        Me.Cumulative = New System.Windows.Forms.ColumnHeader
         Me.ctxDetails.SuspendLayout()
         Me.ctxQueue.SuspendLayout()
         Me.tsQueueOptions.SuspendLayout()
@@ -191,9 +210,10 @@ Partial Class frmTraining
         Me.tabSummary.SuspendLayout()
         Me.tabQueueMode.SuspendLayout()
         Me.tabSkillMode.SuspendLayout()
-        Me.tabCertMode.SuspendLayout()
         Me.panelSkillPlanning.SuspendLayout()
+        Me.tabCertMode.SuspendLayout()
         Me.panelCertPlanning.SuspendLayout()
+        Me.ctxCertDetails.SuspendLayout()
         Me.SuspendLayout()
         '
         'tvwSkillList
@@ -920,6 +940,37 @@ Partial Class frmTraining
         Me.tabTimes.Text = "Training Times"
         Me.tabTimes.UseVisualStyleBackColor = True
         '
+        'lvwTimes
+        '
+        Me.lvwTimes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader6, Me.Standard, Me.Current, Me.Cumulative})
+        Me.lvwTimes.FullRowSelect = True
+        Me.lvwTimes.GridLines = True
+        Me.lvwTimes.Location = New System.Drawing.Point(3, 3)
+        Me.lvwTimes.Name = "lvwTimes"
+        Me.lvwTimes.Size = New System.Drawing.Size(456, 191)
+        Me.lvwTimes.TabIndex = 1
+        Me.lvwTimes.UseCompatibleStateImageBehavior = False
+        Me.lvwTimes.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "To Level"
+        '
+        'Standard
+        '
+        Me.Standard.Text = "Time to Level Up"
+        Me.Standard.Width = 125
+        '
+        'Current
+        '
+        Me.Current.Text = "Cumulative From 0 SP"
+        Me.Current.Width = 125
+        '
+        'Cumulative
+        '
+        Me.Cumulative.Text = "Cumulative From Now"
+        Me.Cumulative.Width = 125
+        '
         'tabQueues
         '
         Me.tabQueues.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1001,6 +1052,49 @@ Partial Class frmTraining
         Me.btnCopyQueue.Text = "Copy Queue"
         Me.btnCopyQueue.UseVisualStyleBackColor = True
         '
+        'lvQueues
+        '
+        Me.lvQueues.AllowColumnReorder = True
+        Me.lvQueues.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvQueues.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colQName, Me.colQSkills, Me.colQTimeLeft, Me.colQQueuedTime, Me.colQEndDate})
+        Me.lvQueues.FullRowSelect = True
+        Me.lvQueues.GridLines = True
+        Me.lvQueues.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.lvQueues.HideSelection = False
+        Me.lvQueues.Location = New System.Drawing.Point(108, 6)
+        Me.lvQueues.Name = "lvQueues"
+        Me.lvQueues.Size = New System.Drawing.Size(492, 348)
+        Me.lvQueues.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvQueues.TabIndex = 4
+        Me.lvQueues.UseCompatibleStateImageBehavior = False
+        Me.lvQueues.View = System.Windows.Forms.View.Details
+        '
+        'colQName
+        '
+        Me.colQName.Text = "Queue Name"
+        Me.colQName.Width = 200
+        '
+        'colQSkills
+        '
+        Me.colQSkills.Text = "Skills"
+        '
+        'colQTimeLeft
+        '
+        Me.colQTimeLeft.Text = "Total Time"
+        Me.colQTimeLeft.Width = 120
+        '
+        'colQQueuedTime
+        '
+        Me.colQQueuedTime.Text = "Queued Time"
+        Me.colQQueuedTime.Width = 120
+        '
+        'colQEndDate
+        '
+        Me.colQEndDate.Text = "End Date"
+        Me.colQEndDate.Width = 175
+        '
         'btnEditQueue
         '
         Me.btnEditQueue.Enabled = False
@@ -1075,18 +1169,6 @@ Partial Class frmTraining
         Me.tabSkillMode.Text = "Skill Planning"
         Me.tabSkillMode.UseVisualStyleBackColor = True
         '
-        'tabCertMode
-        '
-        Me.tabCertMode.BackColor = System.Drawing.Color.Transparent
-        Me.tabCertMode.Controls.Add(Me.panelCertPlanning)
-        Me.tabCertMode.Location = New System.Drawing.Point(4, 22)
-        Me.tabCertMode.Name = "tabCertMode"
-        Me.tabCertMode.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabCertMode.Size = New System.Drawing.Size(263, 376)
-        Me.tabCertMode.TabIndex = 1
-        Me.tabCertMode.Text = "Certificate Planning"
-        Me.tabCertMode.UseVisualStyleBackColor = True
-        '
         'panelSkillPlanning
         '
         Me.panelSkillPlanning.BackColor = System.Drawing.SystemColors.Window
@@ -1099,6 +1181,18 @@ Partial Class frmTraining
         Me.panelSkillPlanning.Name = "panelSkillPlanning"
         Me.panelSkillPlanning.Size = New System.Drawing.Size(257, 370)
         Me.panelSkillPlanning.TabIndex = 0
+        '
+        'tabCertMode
+        '
+        Me.tabCertMode.BackColor = System.Drawing.Color.Transparent
+        Me.tabCertMode.Controls.Add(Me.panelCertPlanning)
+        Me.tabCertMode.Location = New System.Drawing.Point(4, 22)
+        Me.tabCertMode.Name = "tabCertMode"
+        Me.tabCertMode.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabCertMode.Size = New System.Drawing.Size(263, 376)
+        Me.tabCertMode.TabIndex = 1
+        Me.tabCertMode.Text = "Certificate Planning"
+        Me.tabCertMode.UseVisualStyleBackColor = True
         '
         'panelCertPlanning
         '
@@ -1137,7 +1231,7 @@ Partial Class frmTraining
         Me.tvwCertList.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.tvwCertList.ContextMenuStrip = Me.ctxDetails
+        Me.tvwCertList.ContextMenuStrip = Me.ctxCertDetails
         Me.tvwCertList.FullRowSelect = True
         Me.tvwCertList.HideSelection = False
         Me.tvwCertList.ImageKey = "Blank.jpg"
@@ -1149,48 +1243,131 @@ Partial Class frmTraining
         Me.tvwCertList.Size = New System.Drawing.Size(239, 335)
         Me.tvwCertList.TabIndex = 15
         '
-        'lvQueues
+        'ctxCertDetails
         '
-        Me.lvQueues.AllowColumnReorder = True
-        Me.lvQueues.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvQueues.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colQName, Me.colQSkills, Me.colQTimeLeft, Me.colQQueuedTime, Me.colQEndDate})
-        Me.lvQueues.FullRowSelect = True
-        Me.lvQueues.GridLines = True
-        Me.lvQueues.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.lvQueues.HideSelection = False
-        Me.lvQueues.Location = New System.Drawing.Point(108, 6)
-        Me.lvQueues.Name = "lvQueues"
-        Me.lvQueues.Size = New System.Drawing.Size(492, 348)
-        Me.lvQueues.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvQueues.TabIndex = 4
-        Me.lvQueues.UseCompatibleStateImageBehavior = False
-        Me.lvQueues.View = System.Windows.Forms.View.Details
+        Me.ctxCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.ctxCertDetails.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator16, Me.mnuAddCertToQueue, Me.mnuAddCertGroupToQueue, Me.ToolStripSeparator18, Me.mnuViewCertDetails})
+        Me.ctxCertDetails.Name = "ctxDepend"
+        Me.ctxCertDetails.Size = New System.Drawing.Size(217, 126)
         '
-        'colQName
+        'mnuCertName
         '
-        Me.colQName.Text = "Queue Name"
-        Me.colQName.Width = 200
+        Me.mnuCertName.Name = "mnuCertName"
+        Me.mnuCertName.Size = New System.Drawing.Size(216, 22)
+        Me.mnuCertName.Text = "Skill Name"
         '
-        'colQSkills
+        'ToolStripSeparator16
         '
-        Me.colQSkills.Text = "Skills"
+        Me.ToolStripSeparator16.Name = "ToolStripSeparator16"
+        Me.ToolStripSeparator16.Size = New System.Drawing.Size(213, 6)
         '
-        'colQTimeLeft
+        'mnuAddCertToQueue
         '
-        Me.colQTimeLeft.Text = "Total Time"
-        Me.colQTimeLeft.Width = 120
+        Me.mnuAddCertToQueue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddCertToQueueNext, Me.ToolStripSeparator17, Me.mnuAddCertToQueue1, Me.mnuAddCertToQueue2, Me.mnuAddCertToQueue3, Me.mnuAddCertToQueue4, Me.mnuAddCertToQueue5})
+        Me.mnuAddCertToQueue.Font = New System.Drawing.Font("Tahoma", 8.25!)
+        Me.mnuAddCertToQueue.Name = "mnuAddCertToQueue"
+        Me.mnuAddCertToQueue.Size = New System.Drawing.Size(216, 22)
+        Me.mnuAddCertToQueue.Text = "Add to Training Queue"
         '
-        'colQQueuedTime
+        'mnuAddCertToQueueNext
         '
-        Me.colQQueuedTime.Text = "Queued Time"
-        Me.colQQueuedTime.Width = 120
+        Me.mnuAddCertToQueueNext.Enabled = False
+        Me.mnuAddCertToQueueNext.Name = "mnuAddCertToQueueNext"
+        Me.mnuAddCertToQueueNext.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueueNext.Text = "Next Grade"
+        Me.mnuAddCertToQueueNext.Visible = False
         '
-        'colQEndDate
+        'ToolStripSeparator17
         '
-        Me.colQEndDate.Text = "End Date"
-        Me.colQEndDate.Width = 175
+        Me.ToolStripSeparator17.Name = "ToolStripSeparator17"
+        Me.ToolStripSeparator17.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripSeparator17.Visible = False
+        '
+        'mnuAddCertToQueue1
+        '
+        Me.mnuAddCertToQueue1.Enabled = False
+        Me.mnuAddCertToQueue1.Name = "mnuAddCertToQueue1"
+        Me.mnuAddCertToQueue1.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueue1.Text = "Basic"
+        '
+        'mnuAddCertToQueue2
+        '
+        Me.mnuAddCertToQueue2.Enabled = False
+        Me.mnuAddCertToQueue2.Name = "mnuAddCertToQueue2"
+        Me.mnuAddCertToQueue2.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueue2.Text = "Standard"
+        '
+        'mnuAddCertToQueue3
+        '
+        Me.mnuAddCertToQueue3.Enabled = False
+        Me.mnuAddCertToQueue3.Name = "mnuAddCertToQueue3"
+        Me.mnuAddCertToQueue3.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueue3.Text = "Improved"
+        '
+        'mnuAddCertToQueue4
+        '
+        Me.mnuAddCertToQueue4.Enabled = False
+        Me.mnuAddCertToQueue4.Name = "mnuAddCertToQueue4"
+        Me.mnuAddCertToQueue4.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueue4.Text = "Advanced"
+        '
+        'mnuAddCertToQueue5
+        '
+        Me.mnuAddCertToQueue5.Enabled = False
+        Me.mnuAddCertToQueue5.Name = "mnuAddCertToQueue5"
+        Me.mnuAddCertToQueue5.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueue5.Text = "Elite"
+        '
+        'mnuAddCertGroupToQueue
+        '
+        Me.mnuAddCertGroupToQueue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddCertGroupToQueue1, Me.mnuAddCertGroupToQueue2, Me.mnuAddCertGroupToQueue3, Me.mnuAddCertGroupToQueue4, Me.mnuAddCertGroupToQueue5})
+        Me.mnuAddCertGroupToQueue.Font = New System.Drawing.Font("Tahoma", 8.25!)
+        Me.mnuAddCertGroupToQueue.Name = "mnuAddCertGroupToQueue"
+        Me.mnuAddCertGroupToQueue.Size = New System.Drawing.Size(216, 22)
+        Me.mnuAddCertGroupToQueue.Text = "Add Group To Training Queue"
+        '
+        'mnuAddCertGroupToQueue1
+        '
+        Me.mnuAddCertGroupToQueue1.Name = "mnuAddCertGroupToQueue1"
+        Me.mnuAddCertGroupToQueue1.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertGroupToQueue1.Text = "To Basic"
+        '
+        'mnuAddCertGroupToQueue2
+        '
+        Me.mnuAddCertGroupToQueue2.Name = "mnuAddCertGroupToQueue2"
+        Me.mnuAddCertGroupToQueue2.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertGroupToQueue2.Text = "To Standard"
+        '
+        'mnuAddCertGroupToQueue3
+        '
+        Me.mnuAddCertGroupToQueue3.Name = "mnuAddCertGroupToQueue3"
+        Me.mnuAddCertGroupToQueue3.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertGroupToQueue3.Text = "To Improved"
+        '
+        'mnuAddCertGroupToQueue4
+        '
+        Me.mnuAddCertGroupToQueue4.Enabled = False
+        Me.mnuAddCertGroupToQueue4.Name = "mnuAddCertGroupToQueue4"
+        Me.mnuAddCertGroupToQueue4.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertGroupToQueue4.Text = "To Advanced"
+        '
+        'mnuAddCertGroupToQueue5
+        '
+        Me.mnuAddCertGroupToQueue5.Name = "mnuAddCertGroupToQueue5"
+        Me.mnuAddCertGroupToQueue5.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertGroupToQueue5.Text = "To Elite"
+        '
+        'ToolStripSeparator18
+        '
+        Me.ToolStripSeparator18.Name = "ToolStripSeparator18"
+        Me.ToolStripSeparator18.Size = New System.Drawing.Size(213, 6)
+        '
+        'mnuViewCertDetails
+        '
+        Me.mnuViewCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
+        Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(216, 22)
+        Me.mnuViewCertDetails.Text = "View Details"
         '
         'lvwDetails
         '
@@ -1232,37 +1409,6 @@ Partial Class frmTraining
         '
         Me.ColumnHeader2.Width = 200
         '
-        'lvwTimes
-        '
-        Me.lvwTimes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader6, Me.Standard, Me.Current, Me.Cumulative})
-        Me.lvwTimes.FullRowSelect = True
-        Me.lvwTimes.GridLines = True
-        Me.lvwTimes.Location = New System.Drawing.Point(3, 3)
-        Me.lvwTimes.Name = "lvwTimes"
-        Me.lvwTimes.Size = New System.Drawing.Size(456, 191)
-        Me.lvwTimes.TabIndex = 1
-        Me.lvwTimes.UseCompatibleStateImageBehavior = False
-        Me.lvwTimes.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader6
-        '
-        Me.ColumnHeader6.Text = "To Level"
-        '
-        'Standard
-        '
-        Me.Standard.Text = "Time to Level Up"
-        Me.Standard.Width = 125
-        '
-        'Current
-        '
-        Me.Current.Text = "Cumulative From 0 SP"
-        Me.Current.Width = 125
-        '
-        'Cumulative
-        '
-        Me.Cumulative.Text = "Cumulative From Now"
-        Me.Cumulative.Width = 125
-        '
         'frmTraining
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1292,11 +1438,12 @@ Partial Class frmTraining
         Me.tabSummary.PerformLayout()
         Me.tabQueueMode.ResumeLayout(False)
         Me.tabSkillMode.ResumeLayout(False)
-        Me.tabCertMode.ResumeLayout(False)
         Me.panelSkillPlanning.ResumeLayout(False)
         Me.panelSkillPlanning.PerformLayout()
+        Me.tabCertMode.ResumeLayout(False)
         Me.panelCertPlanning.ResumeLayout(False)
         Me.panelCertPlanning.PerformLayout()
+        Me.ctxCertDetails.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1432,4 +1579,23 @@ Partial Class frmTraining
     Friend WithEvents cboCertFilter As System.Windows.Forms.ComboBox
     Friend WithEvents lblCertFilter As System.Windows.Forms.Label
     Friend WithEvents tvwCertList As System.Windows.Forms.TreeView
+    Friend WithEvents ctxCertDetails As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuCertName As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator16 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuAddCertToQueue As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAddCertToQueueNext As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator17 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuAddCertToQueue1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAddCertToQueue2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAddCertToQueue3 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAddCertToQueue4 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAddCertToQueue5 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAddCertGroupToQueue As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAddCertGroupToQueue1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAddCertGroupToQueue2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAddCertGroupToQueue3 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAddCertGroupToQueue4 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuAddCertGroupToQueue5 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator18 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuViewCertDetails As System.Windows.Forms.ToolStripMenuItem
 End Class

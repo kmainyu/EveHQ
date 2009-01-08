@@ -1,11 +1,14 @@
 ﻿Public Class frmCertificateDetails
 
+    Dim CertGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
+
     Public Sub ShowCertDetails(ByVal certID As String)
 
+        Dim cCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
+        Me.Text = CType(EveHQ.Core.HQ.CertificateClasses(cCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name & " (" & CertGrades(cCert.Grade) & ")"
         Call Me.PrepareDescription(certID)
         Call Me.PrepareTree(certID)
         Call Me.PrepareCerts(certID)
-       
         Me.ShowDialog()
 
     End Sub
@@ -220,7 +223,6 @@
 
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
         Dim certID As String = mnuCertName.Tag.ToString
-        Me.Text = mnuCertName.Text
         Call Me.PrepareDescription(certID)
         Call Me.PrepareTree(certID)
         Call Me.PrepareCerts(certID)
