@@ -1883,7 +1883,11 @@ Public Class frmItemBrowser
         End If
     End Sub
     Private Sub lstEveCentral_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lstEveCentral.DoubleClick
-        Process.Start("http://eve-central.com/home/quicklook.html?typeid=" & Me.itemTypeID)
+        Try
+            Process.Start("http://eve-central.com/home/quicklook.html?typeid=" & Me.itemTypeID)
+        Catch ex As Exception
+            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
 
 #End Region

@@ -2521,7 +2521,11 @@ Public Class frmAssets
         strHTML = Nothing
 
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetLocations.html") = True Then
-            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetLocations.html")
+            Try
+                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetLocations.html")
+            Catch ex As Exception
+                MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
         Else
             MessageBox.Show("Unable to locate the Asset Location file, please try again!", "Error Finding File")
         End If
@@ -2543,7 +2547,12 @@ Public Class frmAssets
         strHTML = Nothing
 
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetList.html") = True Then
-            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetList.html")
+            Try
+                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetList.html")
+            Catch ex As Exception
+                MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+
         Else
             MessageBox.Show("Unable to locate the Asset List file, please try again!", "Error Finding File")
         End If
@@ -2565,7 +2574,12 @@ Public Class frmAssets
         strHTML = Nothing
 
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityA.html") = True Then
-            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityA.html")
+            Try
+                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityA.html")
+            Catch ex As Exception
+                MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+
         Else
             MessageBox.Show("Unable to locate the Asset Quantity file, please try again!", "Error Finding File")
         End If
@@ -2587,7 +2601,12 @@ Public Class frmAssets
         strHTML = Nothing
 
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityD.html") = True Then
-            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityD.html")
+            Try
+                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityD.html")
+            Catch ex As Exception
+                MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+
         Else
             MessageBox.Show("Unable to locate the Asset Quantity file, please try again!", "Error Finding File")
         End If
@@ -2609,7 +2628,12 @@ Public Class frmAssets
         strHTML = Nothing
 
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListPriceA.html") = True Then
-            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListPriceA.html")
+            Try
+                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListPriceA.html")
+            Catch ex As Exception
+                MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+
         Else
             MessageBox.Show("Unable to locate the Asset Price file, please try again!", "Error Finding File")
         End If
@@ -2631,7 +2655,12 @@ Public Class frmAssets
         strHTML = Nothing
 
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListPriceD.html") = True Then
-            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListPriceD.html")
+            Try
+                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListPriceD.html")
+            Catch ex As Exception
+                MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+
         Else
             MessageBox.Show("Unable to locate the Asset Price file, please try again!", "Error Finding File")
         End If
@@ -2653,7 +2682,12 @@ Public Class frmAssets
         strHTML = Nothing
 
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListValueA.html") = True Then
-            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListValueA.html")
+            Try
+                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListValueA.html")
+            Catch ex As Exception
+                MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+
         Else
             MessageBox.Show("Unable to locate the Asset Value file, please try again!", "Error Finding File")
         End If
@@ -2675,7 +2709,11 @@ Public Class frmAssets
         strHTML = Nothing
 
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListValueD.html") = True Then
-            Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListValueD.html")
+            Try
+                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListValueD.html")
+            Catch ex As Exception
+                MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
         Else
             MessageBox.Show("Unable to locate the Asset Value file, please try again!", "Error Finding File")
         End If

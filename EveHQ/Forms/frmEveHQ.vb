@@ -982,7 +982,11 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub mnuReportOpenfolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportOpenfolder.Click
-        Process.Start(EveHQ.Core.HQ.reportFolder)
+        Try
+            Process.Start(EveHQ.Core.HQ.reportFolder)
+        Catch ex As Exception
+            MessageBox.Show("Unable to start Windows Explorer: " & ex.Message, "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
 
 #Region "Reports"
@@ -1734,22 +1738,38 @@ Public Class frmEveHQ
 
     Private Sub ctxLaunchEve1Normal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxLaunchEve1Normal.Click
         Me.WindowState = FormWindowState.Minimized
-        Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(1) & "\Eve.exe")
+        Try
+            Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(1) & "\Eve.exe")
+        Catch ex As Exception
+            MessageBox.Show("Unable to start Eve. Please ensure that the location is correctly specified in the EveHQ settings.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
 
     Private Sub ctxLaunchEve2Normal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxLaunchEve2Normal.Click
         Me.WindowState = FormWindowState.Minimized
-        Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(2) & "\Eve.exe")
+        Try
+            Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(2) & "\Eve.exe")
+        Catch ex As Exception
+            MessageBox.Show("Unable to start Eve. Please ensure that the location is correctly specified in the EveHQ settings.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
 
     Private Sub ctxLaunchEve3Normal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxLaunchEve3Normal.Click
         Me.WindowState = FormWindowState.Minimized
-        Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(3) & "\Eve.exe")
+        Try
+            Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(3) & "\Eve.exe")
+        Catch ex As Exception
+            MessageBox.Show("Unable to start Eve. Please ensure that the location is correctly specified in the EveHQ settings.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
 
     Private Sub ctxLaunchEve4Normal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxLaunchEve4Normal.Click
         Me.WindowState = FormWindowState.Minimized
-        Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(4) & "\Eve.exe")
+        Try
+            Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(4) & "\Eve.exe")
+        Catch ex As Exception
+            MessageBox.Show("Unable to start Eve. Please ensure that the location is correctly specified in the EveHQ settings.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
 
     Private Sub ctxLaunchEve1Full_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxLaunchEve1Full.Click
@@ -1770,7 +1790,11 @@ Public Class frmEveHQ
 
     Private Sub CheckEveHandle(ByVal EveFolder As Integer)
         Me.WindowState = FormWindowState.Minimized
-        Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(EveFolder) & "\Eve.exe")
+        Try
+            Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(EveFolder) & "\Eve.exe")
+        Catch ex As Exception
+            MessageBox.Show("Unable to start Eve. Please ensure that the location is correctly specified in the EveHQ settings.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
         tmrEveWindow.Tag = EveFolder
         tmrEveWindow.Enabled = True
     End Sub

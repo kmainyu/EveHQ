@@ -204,7 +204,11 @@ Public Class frmInEveUploader
     End Sub
 
     Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        Process.Start("http://ineve.net")
+        Try
+            Process.Start("http://ineve.net")
+        Catch ex As Exception
+            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
@@ -222,7 +226,11 @@ Public Class frmInEveUploader
     End Sub
 
     Private Sub LinkLabel2_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
-        Process.Start("http://ineve.net")
+        Try
+            Process.Start("http://ineve.net")
+        Catch ex As Exception
+            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
 
     Private Sub btnUploadQueues_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUploadQueues.Click

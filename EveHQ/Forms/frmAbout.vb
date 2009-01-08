@@ -24,6 +24,10 @@ Public Class frmAbout
     End Sub
 
     Private Sub lblEveHQLink_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblEveHQLink.LinkClicked
-        Process.Start("http://www.evehq.net")
+        Try
+            Process.Start("http://www.evehq.net")
+        Catch ex As Exception
+            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
 End Class

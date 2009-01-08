@@ -63,6 +63,10 @@ Public Class frmModifyEveAccounts
     End Sub
 
     Private Sub lblGetAPIKey_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblGetAPIKey.LinkClicked
-        Process.Start(lblGetAPIKey.Text)
+        Try
+            Process.Start(lblGetAPIKey.Text)
+        Catch ex As Exception
+            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
 End Class
