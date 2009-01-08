@@ -609,18 +609,28 @@ Public Class frmEveHQ
         lblTrainingStatus.Text = ""
         Dim notifyText As String = ""
         ' Check each pilot
+        Dim pilotTimes As New SortedList
+        Dim defer As Integer = 0
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
             If cPilot.Training = True Then
                 If cPilot.Active = True Then
-                    lblTrainingStatus.Text &= cPilot.Name & ":" & ControlChars.CrLf
-                    lblTrainingStatus.Text &= cPilot.TrainingSkillName
-                    lblTrainingStatus.Text &= " (Lvl " & cPilot.TrainingSkillLevel & ")" & ControlChars.CrLf
-                    Dim trainingTime As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
-                    Dim skillpoints As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(cPilot)
-                    lblTrainingStatus.Text &= EveHQ.Core.SkillFunctions.TimeToString(trainingTime) & ControlChars.CrLf & ControlChars.CrLf
+                    defer += 1
+                    If pilotTimes.ContainsKey(Format(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot), "00000000")) = True Then
+                        pilotTimes.Add(Format(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot) + defer, "00000000"), cPilot)
+                    Else
+                        pilotTimes.Add(Format(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot), "00000000"), cPilot)
+                    End If
                 End If
                 accounts.Add(cPilot.Account)
             End If
+        Next
+        For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
+            lblTrainingStatus.Text &= cPilot.Name & ":" & ControlChars.CrLf
+            lblTrainingStatus.Text &= cPilot.TrainingSkillName
+            lblTrainingStatus.Text &= " (Lvl " & cPilot.TrainingSkillLevel & ")" & ControlChars.CrLf
+            Dim trainingTime As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
+            Dim skillpoints As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(cPilot)
+            lblTrainingStatus.Text &= EveHQ.Core.SkillFunctions.TimeToString(trainingTime) & ControlChars.CrLf & ControlChars.CrLf
         Next
         ' Check each account to see if something is training.
         For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.Accounts
