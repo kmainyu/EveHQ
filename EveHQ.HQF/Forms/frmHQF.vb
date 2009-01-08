@@ -1470,7 +1470,7 @@ Public Class frmHQF
             mnuFittingsCreateFitting.Text = "[Multiple Selection]"
             mnuFittingsCreateFitting.Enabled = False
             mnuFittingsCopyFitting.Enabled = False
-            mnuFittingsDeleteFitting.Enabled = False
+            mnuFittingsDeleteFitting.Enabled = True
             mnuFittingsRenameFitting.Enabled = False
             mnuFittingsShowFitting.Enabled = False
             mnuPreviewShip2.Enabled = False
@@ -1558,28 +1558,33 @@ Public Class frmHQF
     End Sub
     Private Sub mnuFittingsDeleteFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsDeleteFitting.Click
         ' Get the node details
-        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
-        Dim parentnode As ContainerListViewItem = curNode.ParentItem
-        Dim shipName As String = parentnode.Text
-        Dim fitName As String = curNode.Text
-
+        Dim response As Integer = 0
+        If clvFittings.SelectedItems.Count = 1 Then
+            Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
+            Dim parentnode As ContainerListViewItem = curNode.ParentItem
+            Dim shipName As String = parentnode.Text
+            Dim fitName As String = curNode.Text
+            response = MessageBox.Show("Are you sure you wish to delete the '" & fitName & "' Fitting for the " & shipName & "?", "Confirm Fitting Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        Else
+            response = MessageBox.Show("Are you sure you wish to delete these multiple fittings?", "Confirm Fitting Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        End If
         ' Get confirmation of deletion
-        Dim response As Integer = MessageBox.Show("Are you sure you wish to delete the '" & fitName & "' Fitting for the " & shipName & "?", "Confirm Fitting Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If response = Windows.Forms.DialogResult.Yes Then
-            ' Remove the fit from the list
-            Dim fittingKeyName As String = shipName & ", " & fitName
-            Fittings.FittingList.Remove(fittingKeyName)
-            ' Delete the file if it's there
-            If My.Computer.FileSystem.FileExists(Settings.HQFFolder & "\" & fittingKeyName & ".hqf") = True Then
-                My.Computer.FileSystem.DeleteFile(Settings.HQFFolder & "\" & fittingKeyName & ".hqf")
-            End If
-            ' Delete it from the tabs if it's there!
-            Dim tp As TabPage = tabHQF.TabPages(fittingKeyName)
-            If tp IsNot Nothing Then
-                Fittings.FittingTabList.Remove(tp.Text)
-                tabHQF.TabPages.Remove(tp)
-                ShipLists.fittedShipList.Remove(tp.Text)
-            End If
+            For Each curNode As ContainerListViewItem In clvFittings.SelectedItems
+                Dim parentnode As ContainerListViewItem = curNode.ParentItem
+                Dim shipName As String = parentnode.Text
+                Dim fitName As String = curNode.Text
+                ' Remove the fit from the list
+                Dim fittingKeyName As String = shipName & ", " & fitName
+                Fittings.FittingList.Remove(fittingKeyName)
+                ' Delete it from the tabs if it's there!
+                Dim tp As TabPage = tabHQF.TabPages(fittingKeyName)
+                If tp IsNot Nothing Then
+                    Fittings.FittingTabList.Remove(tp.Text)
+                    tabHQF.TabPages.Remove(tp)
+                    ShipLists.fittedShipList.Remove(tp.Text)
+                End If
+            Next
             ' Update the list
             Call Me.UpdateFilteredShips()
         End If
