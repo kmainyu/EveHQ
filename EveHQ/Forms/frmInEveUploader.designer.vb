@@ -29,7 +29,6 @@ Partial Class frmInEveUploader
         Me.colPilot = New System.Windows.Forms.ColumnHeader
         Me.colStatus = New System.Windows.Forms.ColumnHeader
         Me.btnUploadSkills = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
         Me.tabInEveQueues = New System.Windows.Forms.TabPage
         Me.Label6 = New System.Windows.Forms.Label
         Me.btnUploadQueues = New System.Windows.Forms.Button
@@ -40,7 +39,6 @@ Partial Class frmInEveUploader
         Me.cboPilots = New System.Windows.Forms.ComboBox
         Me.LinkLabel2 = New System.Windows.Forms.LinkLabel
         Me.Label4 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
         Me.btnClose = New System.Windows.Forms.Button
         Me.tabInEve.SuspendLayout()
         Me.tabInEveSkills.SuspendLayout()
@@ -66,7 +64,6 @@ Partial Class frmInEveUploader
         Me.tabInEveSkills.Controls.Add(Me.Label2)
         Me.tabInEveSkills.Controls.Add(Me.lvwPilots)
         Me.tabInEveSkills.Controls.Add(Me.btnUploadSkills)
-        Me.tabInEveSkills.Controls.Add(Me.Label1)
         Me.tabInEveSkills.Location = New System.Drawing.Point(4, 22)
         Me.tabInEveSkills.Name = "tabInEveSkills"
         Me.tabInEveSkills.Padding = New System.Windows.Forms.Padding(3)
@@ -88,7 +85,7 @@ Partial Class frmInEveUploader
         '
         'LinkLabel1
         '
-        Me.LinkLabel1.Location = New System.Drawing.Point(9, 77)
+        Me.LinkLabel1.Location = New System.Drawing.Point(9, 3)
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.Size = New System.Drawing.Size(478, 23)
         Me.LinkLabel1.TabIndex = 13
@@ -98,7 +95,7 @@ Partial Class frmInEveUploader
         '
         'Label2
         '
-        Me.Label2.Location = New System.Drawing.Point(6, 110)
+        Me.Label2.Location = New System.Drawing.Point(9, 26)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(481, 43)
         Me.Label2.TabIndex = 12
@@ -115,10 +112,10 @@ Partial Class frmInEveUploader
         Me.lvwPilots.FullRowSelect = True
         Me.lvwPilots.GridLines = True
         Me.lvwPilots.HideSelection = False
-        Me.lvwPilots.Location = New System.Drawing.Point(6, 156)
+        Me.lvwPilots.Location = New System.Drawing.Point(6, 72)
         Me.lvwPilots.MultiSelect = False
         Me.lvwPilots.Name = "lvwPilots"
-        Me.lvwPilots.Size = New System.Drawing.Size(481, 484)
+        Me.lvwPilots.Size = New System.Drawing.Size(481, 568)
         Me.lvwPilots.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwPilots.TabIndex = 11
         Me.lvwPilots.UseCompatibleStateImageBehavior = False
@@ -144,15 +141,6 @@ Partial Class frmInEveUploader
         Me.btnUploadSkills.Text = "Upload"
         Me.btnUploadSkills.UseVisualStyleBackColor = True
         '
-        'Label1
-        '
-        Me.Label1.Location = New System.Drawing.Point(6, 3)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(481, 63)
-        Me.Label1.TabIndex = 8
-        Me.Label1.Text = resources.GetString("Label1.Text")
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'tabInEveQueues
         '
         Me.tabInEveQueues.Controls.Add(Me.Label6)
@@ -162,7 +150,6 @@ Partial Class frmInEveUploader
         Me.tabInEveQueues.Controls.Add(Me.cboPilots)
         Me.tabInEveQueues.Controls.Add(Me.LinkLabel2)
         Me.tabInEveQueues.Controls.Add(Me.Label4)
-        Me.tabInEveQueues.Controls.Add(Me.Label5)
         Me.tabInEveQueues.Location = New System.Drawing.Point(4, 22)
         Me.tabInEveQueues.Name = "tabInEveQueues"
         Me.tabInEveQueues.Padding = New System.Windows.Forms.Padding(3)
@@ -200,10 +187,10 @@ Partial Class frmInEveUploader
         Me.lvwQueues.FullRowSelect = True
         Me.lvwQueues.GridLines = True
         Me.lvwQueues.HideSelection = False
-        Me.lvwQueues.Location = New System.Drawing.Point(9, 196)
+        Me.lvwQueues.Location = New System.Drawing.Point(9, 99)
         Me.lvwQueues.MultiSelect = False
         Me.lvwQueues.Name = "lvwQueues"
-        Me.lvwQueues.Size = New System.Drawing.Size(481, 444)
+        Me.lvwQueues.Size = New System.Drawing.Size(481, 541)
         Me.lvwQueues.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwQueues.TabIndex = 19
         Me.lvwQueues.UseCompatibleStateImageBehavior = False
@@ -222,7 +209,7 @@ Partial Class frmInEveUploader
         'lblPilotName
         '
         Me.lblPilotName.AutoSize = True
-        Me.lblPilotName.Location = New System.Drawing.Point(53, 172)
+        Me.lblPilotName.Location = New System.Drawing.Point(54, 75)
         Me.lblPilotName.Name = "lblPilotName"
         Me.lblPilotName.Size = New System.Drawing.Size(61, 13)
         Me.lblPilotName.TabIndex = 18
@@ -231,7 +218,7 @@ Partial Class frmInEveUploader
         'cboPilots
         '
         Me.cboPilots.FormattingEnabled = True
-        Me.cboPilots.Location = New System.Drawing.Point(120, 169)
+        Me.cboPilots.Location = New System.Drawing.Point(121, 72)
         Me.cboPilots.Name = "cboPilots"
         Me.cboPilots.Size = New System.Drawing.Size(273, 21)
         Me.cboPilots.Sorted = True
@@ -239,7 +226,7 @@ Partial Class frmInEveUploader
         '
         'LinkLabel2
         '
-        Me.LinkLabel2.Location = New System.Drawing.Point(9, 77)
+        Me.LinkLabel2.Location = New System.Drawing.Point(12, 3)
         Me.LinkLabel2.Name = "LinkLabel2"
         Me.LinkLabel2.Size = New System.Drawing.Size(478, 23)
         Me.LinkLabel2.TabIndex = 16
@@ -249,22 +236,13 @@ Partial Class frmInEveUploader
         '
         'Label4
         '
-        Me.Label4.Location = New System.Drawing.Point(6, 110)
+        Me.Label4.Location = New System.Drawing.Point(9, 26)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(481, 43)
         Me.Label4.TabIndex = 15
         Me.Label4.Text = "To upload your skill queues to the InEve website, please select a character, ensu" & _
             "re the queues you want to upload are checked, then click the 'Upload' button."
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label5
-        '
-        Me.Label5.Location = New System.Drawing.Point(6, 3)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(481, 63)
-        Me.Label5.TabIndex = 14
-        Me.Label5.Text = resources.GetString("Label5.Text")
-        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'btnClose
         '
@@ -284,6 +262,7 @@ Partial Class frmInEveUploader
         Me.Controls.Add(Me.tabInEve)
         Me.Controls.Add(Me.btnClose)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmInEveUploader"
         Me.Text = "InEve Uploader"
         Me.tabInEve.ResumeLayout(False)
@@ -303,11 +282,9 @@ Partial Class frmInEveUploader
     Friend WithEvents colStatus As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnClose As System.Windows.Forms.Button
     Friend WithEvents btnUploadSkills As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents tabInEveQueues As System.Windows.Forms.TabPage
     Friend WithEvents LinkLabel2 As System.Windows.Forms.LinkLabel
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents btnUploadQueues As System.Windows.Forms.Button
     Friend WithEvents lvwQueues As System.Windows.Forms.ListView

@@ -68,10 +68,12 @@ Partial Public Class frmEveHQ
         Me.RunIGBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuToolsGetAccountInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuBackup = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuToolsMarketPrices = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuToolsAPIChecker = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuToolsTriggerError = New System.Windows.Forms.ToolStripMenuItem
         Me.ClearEveHQCache = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuInEveUploader = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuModules = New System.Windows.Forms.ToolStripMenuItem
         Me.NoModulesLoadedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReports = New System.Windows.Forms.ToolStripMenuItem
@@ -163,7 +165,6 @@ Partial Public Class frmEveHQ
         Me.XPTraining = New EveHQ.XPander
         Me.lblTrainingStatus = New System.Windows.Forms.Label
         Me.XPModules = New EveHQ.XPander
-        Me.mnuToolsMarketPrices = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -486,7 +487,7 @@ Partial Public Class frmEveHQ
         '
         'ToolsMenu
         '
-        Me.ToolsMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.RunIGBToolStripMenuItem, Me.mnuToolsGetAccountInfo, Me.mnuBackup, Me.mnuToolsMarketPrices, Me.mnuToolsAPIChecker, Me.ToolStripMenuItem1, Me.mnuToolsTriggerError, Me.ClearEveHQCache})
+        Me.ToolsMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OptionsToolStripMenuItem, Me.RunIGBToolStripMenuItem, Me.mnuToolsGetAccountInfo, Me.mnuBackup, Me.mnuToolsMarketPrices, Me.mnuInEveUploader, Me.mnuToolsAPIChecker, Me.ToolStripMenuItem1, Me.mnuToolsTriggerError, Me.ClearEveHQCache})
         Me.ToolsMenu.Name = "ToolsMenu"
         Me.ToolsMenu.Size = New System.Drawing.Size(48, 20)
         Me.ToolsMenu.Text = "&Tools"
@@ -513,6 +514,12 @@ Partial Public Class frmEveHQ
         Me.mnuBackup.Size = New System.Drawing.Size(202, 22)
         Me.mnuBackup.Text = "Settings Backup/Restore"
         '
+        'mnuToolsMarketPrices
+        '
+        Me.mnuToolsMarketPrices.Name = "mnuToolsMarketPrices"
+        Me.mnuToolsMarketPrices.Size = New System.Drawing.Size(202, 22)
+        Me.mnuToolsMarketPrices.Text = "Market Prices"
+        '
         'mnuToolsAPIChecker
         '
         Me.mnuToolsAPIChecker.Name = "mnuToolsAPIChecker"
@@ -536,6 +543,12 @@ Partial Public Class frmEveHQ
         Me.ClearEveHQCache.Name = "ClearEveHQCache"
         Me.ClearEveHQCache.Size = New System.Drawing.Size(202, 22)
         Me.ClearEveHQCache.Text = "Clear EveHQ Cache"
+        '
+        'mnuInEveUploader
+        '
+        Me.mnuInEveUploader.Name = "mnuInEveUploader"
+        Me.mnuInEveUploader.Size = New System.Drawing.Size(202, 22)
+        Me.mnuInEveUploader.Text = "InEve Uploader"
         '
         'mnuModules
         '
@@ -1218,12 +1231,6 @@ Partial Public Class frmEveHQ
         Me.XPModules.Tag = 2
         Me.XPModules.TooltipText = Nothing
         '
-        'mnuToolsMarketPrices
-        '
-        Me.mnuToolsMarketPrices.Name = "mnuToolsMarketPrices"
-        Me.mnuToolsMarketPrices.Size = New System.Drawing.Size(202, 22)
-        Me.mnuToolsMarketPrices.Text = "Market Prices"
-        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1398,5 +1405,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents btnAddAccount As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator14 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuToolsMarketPrices As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuInEveUploader As System.Windows.Forms.ToolStripMenuItem
 
 End Class

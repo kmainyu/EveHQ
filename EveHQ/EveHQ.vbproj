@@ -157,6 +157,12 @@
     <Compile Include="Forms\frmException.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmInEveUploader.designer.vb">
+      <DependentUpon>frmInEveUploader.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmInEveUploader.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmMarketPrices.Designer.vb">
       <DependentUpon>frmMarketPrices.vb</DependentUpon>
     </Compile>
@@ -311,6 +317,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmException.resx">
       <DependentUpon>frmException.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmInEveUploader.resx">
+      <DependentUpon>frmInEveUploader.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMarketPrices.resx">
       <DependentUpon>frmMarketPrices.vb</DependentUpon>
