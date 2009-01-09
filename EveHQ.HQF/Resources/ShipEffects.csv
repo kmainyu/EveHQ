@@ -91,7 +91,7 @@
 11202,1,3328,10015,4,561;564,0,1,0,5,15,Small Hybrid Damage
 11202,1,3328,160,4,561;564,0,1,0,7.5,15,Small Hybrid Tracking Speed
 11202,1,12092,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
-11202,1,12092,54,2,52,0,1,0,20,15,Warp Scrambler Range
+11202,1,12092,54,2,52,0,1,0,5,15,Warp Scrambler Range
 11202,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Ark,,,,,,,,,,,
 28850,1,20524,10004,1,28850,0,1,0,5,15,Cargo Capacity
