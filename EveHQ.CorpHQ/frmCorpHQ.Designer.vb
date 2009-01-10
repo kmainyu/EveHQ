@@ -41,6 +41,8 @@ Partial Class frmCorpHQ
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCorpHQ))
         Me.btnGetStandings = New System.Windows.Forms.Button
         Me.cboOwner = New System.Windows.Forms.ComboBox
         Me.lblSelectOwner = New System.Windows.Forms.Label
@@ -54,6 +56,12 @@ Partial Class frmCorpHQ
         Me.btnClearCache = New System.Windows.Forms.Button
         Me.lblTypeFilter = New System.Windows.Forms.Label
         Me.cboFilter = New System.Windows.Forms.ComboBox
+        Me.lblPrecision = New System.Windows.Forms.Label
+        Me.nudPrecision = New System.Windows.Forms.NumericUpDown
+        Me.ctxStandings = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuExtrapolateStandings = New System.Windows.Forms.ToolStripMenuItem
+        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ctxStandings.SuspendLayout()
         Me.SuspendLayout()
         '
         'btnGetStandings
@@ -92,10 +100,12 @@ Partial Class frmCorpHQ
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lvwStandings.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colName, Me.colID, Me.colType, Me.colRawValue, Me.colActualValue})
+        Me.lvwStandings.ContextMenuStrip = Me.ctxStandings
         Me.lvwStandings.Enabled = False
         Me.lvwStandings.FullRowSelect = True
         Me.lvwStandings.GridLines = True
         Me.lvwStandings.Location = New System.Drawing.Point(11, 69)
+        Me.lvwStandings.MultiSelect = False
         Me.lvwStandings.Name = "lvwStandings"
         Me.lvwStandings.Size = New System.Drawing.Size(731, 381)
         Me.lvwStandings.Sorting = System.Windows.Forms.SortOrder.Ascending
@@ -121,11 +131,13 @@ Partial Class frmCorpHQ
         'colRawValue
         '
         Me.colRawValue.Text = "Standing Value (Raw)"
+        Me.colRawValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colRawValue.Width = 150
         '
         'colActualValue
         '
         Me.colActualValue.Text = "Standing Value (Actual)"
+        Me.colActualValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colActualValue.Width = 150
         '
         'btExportStandings
@@ -171,11 +183,43 @@ Partial Class frmCorpHQ
         Me.cboFilter.TabIndex = 6
         Me.cboFilter.Tag = "0"
         '
+        'lblPrecision
+        '
+        Me.lblPrecision.AutoSize = True
+        Me.lblPrecision.Location = New System.Drawing.Point(10, 45)
+        Me.lblPrecision.Name = "lblPrecision"
+        Me.lblPrecision.Size = New System.Drawing.Size(50, 13)
+        Me.lblPrecision.TabIndex = 8
+        Me.lblPrecision.Text = "Precision"
+        '
+        'nudPrecision
+        '
+        Me.nudPrecision.Location = New System.Drawing.Point(66, 43)
+        Me.nudPrecision.Maximum = New Decimal(New Integer() {16, 0, 0, 0})
+        Me.nudPrecision.Name = "nudPrecision"
+        Me.nudPrecision.Size = New System.Drawing.Size(66, 20)
+        Me.nudPrecision.TabIndex = 9
+        Me.nudPrecision.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        '
+        'ctxStandings
+        '
+        Me.ctxStandings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExtrapolateStandings})
+        Me.ctxStandings.Name = "ctxStandings"
+        Me.ctxStandings.Size = New System.Drawing.Size(188, 48)
+        '
+        'mnuExtrapolateStandings
+        '
+        Me.mnuExtrapolateStandings.Name = "mnuExtrapolateStandings"
+        Me.mnuExtrapolateStandings.Size = New System.Drawing.Size(187, 22)
+        Me.mnuExtrapolateStandings.Text = "Extrapolate Standings"
+        '
         'frmCorpHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(754, 491)
+        Me.Controls.Add(Me.nudPrecision)
+        Me.Controls.Add(Me.lblPrecision)
         Me.Controls.Add(Me.lblTypeFilter)
         Me.Controls.Add(Me.cboFilter)
         Me.Controls.Add(Me.btnClearCache)
@@ -184,8 +228,11 @@ Partial Class frmCorpHQ
         Me.Controls.Add(Me.lblSelectOwner)
         Me.Controls.Add(Me.cboOwner)
         Me.Controls.Add(Me.btnGetStandings)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmCorpHQ"
         Me.Text = "CorpHQ"
+        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ctxStandings.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -203,4 +250,8 @@ Partial Class frmCorpHQ
     Friend WithEvents colType As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblTypeFilter As System.Windows.Forms.Label
     Friend WithEvents cboFilter As System.Windows.Forms.ComboBox
+    Friend WithEvents lblPrecision As System.Windows.Forms.Label
+    Friend WithEvents nudPrecision As System.Windows.Forms.NumericUpDown
+    Friend WithEvents ctxStandings As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuExtrapolateStandings As System.Windows.Forms.ToolStripMenuItem
 End Class

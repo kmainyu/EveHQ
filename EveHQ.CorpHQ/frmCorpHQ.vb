@@ -30,6 +30,13 @@ Public Class frmCorpHQ
     Private Sub frmCorpHQ_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Call Me.LoadStandings()
         Call Me.UpdateOwners()
+        If cboOwner.Items.Contains(EveHQ.Core.HQ.myPilot.Name) = True Then
+            cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
+        Else
+            If cboOwner.Items.Count > 0 Then
+                cboOwner.SelectedIndex = 0
+            End If
+        End If
     End Sub
 
     Private Sub frmCorpHQ_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
@@ -72,6 +79,7 @@ Public Class frmCorpHQ
         Dim MyStandings As New StandingsData
 
         For folderNo As Integer = 1 To 4
+            Cursor = Cursors.WaitCursor
             If EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo) <> "" Then
                 ' Define the base cache dir depending on the /LUA switch
                 If EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folderNo) = True Then
@@ -115,28 +123,35 @@ Public Class frmCorpHQ
                         End Try
                     Next
                     If fileError = True Then
+                        Cursor = Cursors.Default
                         Dim msg As String = "There were some errors reading some applicable cache files. This could be due to corruption or some other problem."
                         msg &= "As a result, all the standings information may not be present or correct." & ControlChars.CrLf & ControlChars.CrLf
                         msg &= "If this problem persists, consider clearing your EveHQ cache folder."
                         MessageBox.Show(msg, "Errors Found In Cache Files", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                 Else
-                    MessageBox.Show("Unable to locate cache folder, please check the location of your Eve Client and/or log in to Eve to create it.", "Missing Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Cursor = Cursors.Default
+                    MessageBox.Show("Unable to locate cache folder for your " & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(folderNo) & " installation. Please check the location of your Eve Client and/or log in to Eve to create it.", "Missing Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             End If
         Next
 
-        Dim StandingsDecoder As New StandingsCacheDecoder
-        PlugInData.AllStandings.Clear()
-        For Each cachefile As String In cacheFileList
-            MyStandings = StandingsDecoder.FetchStandings(cachefile)
-            If PlugInData.AllStandings.ContainsKey(MyStandings.OwnerID) = False Then
-                PlugInData.AllStandings.Add(MyStandings.OwnerID, MyStandings)
-            End If
-        Next
-
-        Call Me.SaveStandings()
-        Call UpdateOwners()
+        If cacheFileList.Count > 0 Then
+            Cursor = Cursors.WaitCursor
+            Dim StandingsDecoder As New StandingsCacheDecoder
+            PlugInData.AllStandings.Clear()
+            For Each cachefile As String In cacheFileList
+                MyStandings = StandingsDecoder.FetchStandings(cachefile)
+                If PlugInData.AllStandings.ContainsKey(MyStandings.OwnerID) = False Then
+                    PlugInData.AllStandings.Add(MyStandings.OwnerID, MyStandings)
+                End If
+            Next
+            Call Me.SaveStandings()
+            Call UpdateOwners()
+            Cursor = Cursors.Default
+        Else
+            MessageBox.Show("CorpHQ was unable to locate any valid cache files in any of your Eve installations. Please check the location of your Eve Client and/or log in to Eve and view your standings to create the relevant cache files.", "No Cache Files Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
 
     End Sub
     Private Sub UpdateOwners()
@@ -250,7 +265,7 @@ Public Class frmCorpHQ
                         folder = folder.Replace(":", "")
                         folder = folder.Replace(" ", "_")
                         folder = folder.Replace("\", "_")
-                        cacheDir = baseCacheDir & folder & "_tranquility\cache\machonet\87.237.38.200\"
+                        cacheDir = baseCacheDir & folder & "_tranquility\cache\machonet\87.237.38.200"
                     End If
                     ' Search the cache dir for files containing the text "GetCharStandings"
                     If My.Computer.FileSystem.DirectoryExists(cacheDir) = True Then
@@ -334,6 +349,8 @@ Public Class frmCorpHQ
                             Dim newStanding As New ListViewItem
                             Try
                                 newStanding.Text = MyStandings.StandingNames(iStanding).ToString
+                                newStanding.Name = MyStandings.OwnerName
+
                                 newStanding.SubItems.Add(iStanding.ToString)
                                 Select Case CLng(iStanding)
                                     Case 500000 To 599999
@@ -346,7 +363,7 @@ Public Class frmCorpHQ
                                         newStanding.SubItems.Add("Player/Corp")
                                 End Select
                                 standing = CDbl(MyStandings.StandingValues(iStanding))
-                                newStanding.SubItems.Add(standing.ToString)
+                                newStanding.SubItems.Add(formatnumber(standing,CInt(nudPrecision.Value),TriState.UseDefault,TriState.UseDefault,TriState.UseDefault))
                                 If CLng(iStanding) < 70000000 Then
                                     If standing < 0 Then
                                         standing = standing + ((10 - standing) * (DiplomacyLevel * 4 / 100))
@@ -354,7 +371,8 @@ Public Class frmCorpHQ
                                         standing = standing + ((10 - standing) * (ConnectionsLevel * 4 / 100))
                                     End If
                                 End If
-                                newStanding.SubItems.Add(standing.ToString)
+                                newStanding.Tag = standing
+                                newStanding.SubItems.Add(FormatNumber(standing, CInt(nudPrecision.Value), TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                                 lvwStandings.Items.Add(newStanding)
                             Catch e As Exception
                                 Dim msg As String = "There was an error processing the standings details for:" & ControlChars.CrLf & "Standing ID: " & iStanding & ControlChars.CrLf
@@ -368,6 +386,28 @@ Public Class frmCorpHQ
             Next
         End If
     End Sub
+    Private Sub nudPrecision_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudPrecision.ValueChanged
+        Call Me.UpdateStandingsList()
+    End Sub
 #End Region
 
+    Private Sub ctxStandings_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxStandings.Opening
+        If lvwStandings.SelectedItems.Count = 0 Then
+            e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub mnuExtrapolateStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExtrapolateStandings.Click
+        If lvwStandings.SelectedItems.Count >= 1 Then
+            Dim standingsLine As ListViewItem = lvwStandings.SelectedItems(0)
+            Dim ownerID As String = standingsLine.Name
+            Dim standingID As String = standingsLine.Tag.ToString
+            Dim MyStanding As StandingsData = CType(PlugInData.AllStandings(ownerID), StandingsData)
+            Dim extraStandings As New frmExtraStandings
+            extraStandings.Pilot = standingsLine.Name
+            extraStandings.Party = standingsLine.Text
+            extraStandings.Standing = CDbl(standingsLine.Tag)
+            extraStandings.ShowDialog()
+        End If
+    End Sub
 End Class
