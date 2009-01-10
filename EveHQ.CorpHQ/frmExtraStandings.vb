@@ -33,6 +33,7 @@ Public Class frmExtraStandings
 
     Private Sub CalculateMissions()
         Dim curStanding As Double = cStanding
+        Dim newStanding As Double = 0
         Dim reqStanding As Double = CDbl(nudReqStanding.Value)
         Dim missionGain As Double = 0
 
@@ -60,21 +61,37 @@ Public Class frmExtraStandings
             lblGainAverage.Text = "Average: " & FormatNumber(missionGain, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         End If
         Dim missionCount As Integer = 0
+        lvwStandings.BeginUpdate()
+        lvwStandings.Items.Clear()
+        Dim newStand As New ListViewItem
         If missionGain <> 0 Then
             Do While curStanding < reqStanding
-                curStanding = curStanding + (missionGain * (10 - curStanding) / 100)
                 missionCount += 1
+                newStand = New ListViewItem
+                newStand.Text = missionCount.ToString
+                newStand.SubItems.Add(FormatNumber(curStanding, 10, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                newStand.SubItems.Add(FormatNumber(missionGain, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                newStanding = curStanding + (missionGain * (10 - curStanding) / 100)
+                newStand.SubItems.Add(FormatNumber(newStanding, 10, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                If Int(curStanding) <> Int(newStanding) Then
+                    newStand.BackColor = Drawing.Color.LightSteelBlue
+                End If
+                lvwStandings.Items.Add(newStand)
+                curStanding = newStanding
             Loop
+
             lblMissionsRequired.Text = FormatNumber(missionCount, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         Else
             lblMissionsRequired.Text = "Infinite!"
         End If
+        lvwStandings.EndUpdate()
 
     End Sub
 
     Private Sub frmExtraStandings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.Text = "Standings Extrapolation - " & Party
         Me.lblCurrentStanding.Text = cStanding.ToString
+        Me.CalculateMissions()
     End Sub
 
     Private Sub nudReqStanding_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudReqStanding.ValueChanged

@@ -10,7 +10,7 @@
     Public Function GetEveHQPlugInInfo() As Core.PlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
         ' Returns data to EveHQ to identify it as a plugin
         Dim EveHQPlugIn As New EveHQ.Core.PlugIn
-        EveHQPlugIn.Name = "EveHQ CorpHQ"
+        EveHQPlugIn.Name = "CorpHQ"
         EveHQPlugIn.Description = "Corporation Management"
         EveHQPlugIn.Author = "Vessper"
         EveHQPlugIn.MainMenuText = "CorpHQ"

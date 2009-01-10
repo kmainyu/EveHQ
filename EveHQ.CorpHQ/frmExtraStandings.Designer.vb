@@ -36,6 +36,12 @@ Partial Class frmExtraStandings
         Me.radCalculated = New System.Windows.Forms.RadioButton
         Me.txtGains = New System.Windows.Forms.TextBox
         Me.lblGainAverage = New System.Windows.Forms.Label
+        Me.lblStandingProgression = New System.Windows.Forms.Label
+        Me.lvwStandings = New System.Windows.Forms.ListView
+        Me.colNo = New System.Windows.Forms.ColumnHeader
+        Me.colStartStanding = New System.Windows.Forms.ColumnHeader
+        Me.colStandingGain = New System.Windows.Forms.ColumnHeader
+        Me.colEndStanding = New System.Windows.Forms.ColumnHeader
         CType(Me.nudReqStanding, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudMissionGain, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -61,7 +67,7 @@ Partial Class frmExtraStandings
         'nudReqStanding
         '
         Me.nudReqStanding.DecimalPlaces = 3
-        Me.nudReqStanding.Location = New System.Drawing.Point(185, 44)
+        Me.nudReqStanding.Location = New System.Drawing.Point(116, 44)
         Me.nudReqStanding.Maximum = New Decimal(New Integer() {9999, 0, 0, 196608})
         Me.nudReqStanding.Name = "nudReqStanding"
         Me.nudReqStanding.Size = New System.Drawing.Size(73, 20)
@@ -71,7 +77,7 @@ Partial Class frmExtraStandings
         'nudMissionGain
         '
         Me.nudMissionGain.DecimalPlaces = 3
-        Me.nudMissionGain.Location = New System.Drawing.Point(248, 126)
+        Me.nudMissionGain.Location = New System.Drawing.Point(163, 119)
         Me.nudMissionGain.Name = "nudMissionGain"
         Me.nudMissionGain.Size = New System.Drawing.Size(73, 20)
         Me.nudMissionGain.TabIndex = 4
@@ -80,16 +86,16 @@ Partial Class frmExtraStandings
         'lblAvgMission
         '
         Me.lblAvgMission.AutoSize = True
-        Me.lblAvgMission.Location = New System.Drawing.Point(75, 128)
+        Me.lblAvgMission.Location = New System.Drawing.Point(49, 121)
         Me.lblAvgMission.Name = "lblAvgMission"
-        Me.lblAvgMission.Size = New System.Drawing.Size(146, 13)
+        Me.lblAvgMission.Size = New System.Drawing.Size(108, 13)
         Me.lblAvgMission.TabIndex = 3
-        Me.lblAvgMission.Text = "Average Mission Increase (%)"
+        Me.lblAvgMission.Text = "Average Increase (%)"
         '
         'lblCurrentStanding
         '
         Me.lblCurrentStanding.AutoSize = True
-        Me.lblCurrentStanding.Location = New System.Drawing.Point(182, 20)
+        Me.lblCurrentStanding.Location = New System.Drawing.Point(113, 20)
         Me.lblCurrentStanding.Name = "lblCurrentStanding"
         Me.lblCurrentStanding.Size = New System.Drawing.Size(28, 13)
         Me.lblCurrentStanding.TabIndex = 6
@@ -127,7 +133,7 @@ Partial Class frmExtraStandings
         '
         Me.radDirect.AutoSize = True
         Me.radDirect.Checked = True
-        Me.radDirect.Location = New System.Drawing.Point(47, 107)
+        Me.radDirect.Location = New System.Drawing.Point(21, 100)
         Me.radDirect.Name = "radDirect"
         Me.radDirect.Size = New System.Drawing.Size(92, 17)
         Me.radDirect.TabIndex = 10
@@ -138,7 +144,7 @@ Partial Class frmExtraStandings
         'radCalculated
         '
         Me.radCalculated.AutoSize = True
-        Me.radCalculated.Location = New System.Drawing.Point(47, 155)
+        Me.radCalculated.Location = New System.Drawing.Point(21, 148)
         Me.radCalculated.Name = "radCalculated"
         Me.radCalculated.Size = New System.Drawing.Size(118, 17)
         Me.radCalculated.TabIndex = 11
@@ -147,7 +153,7 @@ Partial Class frmExtraStandings
         '
         'txtGains
         '
-        Me.txtGains.Location = New System.Drawing.Point(78, 179)
+        Me.txtGains.Location = New System.Drawing.Point(52, 172)
         Me.txtGains.Multiline = True
         Me.txtGains.Name = "txtGains"
         Me.txtGains.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
@@ -157,17 +163,62 @@ Partial Class frmExtraStandings
         'lblGainAverage
         '
         Me.lblGainAverage.AutoSize = True
-        Me.lblGainAverage.Location = New System.Drawing.Point(75, 435)
+        Me.lblGainAverage.Location = New System.Drawing.Point(49, 428)
         Me.lblGainAverage.Name = "lblGainAverage"
         Me.lblGainAverage.Size = New System.Drawing.Size(50, 13)
         Me.lblGainAverage.TabIndex = 13
         Me.lblGainAverage.Text = "Average:"
         '
+        'lblStandingProgression
+        '
+        Me.lblStandingProgression.AutoSize = True
+        Me.lblStandingProgression.Location = New System.Drawing.Point(256, 20)
+        Me.lblStandingProgression.Name = "lblStandingProgression"
+        Me.lblStandingProgression.Size = New System.Drawing.Size(115, 13)
+        Me.lblStandingProgression.TabIndex = 14
+        Me.lblStandingProgression.Text = "Standings Progression:"
+        '
+        'lvwStandings
+        '
+        Me.lvwStandings.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colNo, Me.colStartStanding, Me.colStandingGain, Me.colEndStanding})
+        Me.lvwStandings.FullRowSelect = True
+        Me.lvwStandings.GridLines = True
+        Me.lvwStandings.Location = New System.Drawing.Point(259, 36)
+        Me.lvwStandings.Name = "lvwStandings"
+        Me.lvwStandings.Size = New System.Drawing.Size(414, 461)
+        Me.lvwStandings.TabIndex = 15
+        Me.lvwStandings.UseCompatibleStateImageBehavior = False
+        Me.lvwStandings.View = System.Windows.Forms.View.Details
+        '
+        'colNo
+        '
+        Me.colNo.Text = "No"
+        Me.colNo.Width = 50
+        '
+        'colStartStanding
+        '
+        Me.colStartStanding.Text = "Starting Standing"
+        Me.colStartStanding.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colStartStanding.Width = 125
+        '
+        'colStandingGain
+        '
+        Me.colStandingGain.Text = "Gain (%)"
+        Me.colStandingGain.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'colEndStanding
+        '
+        Me.colEndStanding.Text = "End Standing"
+        Me.colEndStanding.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colEndStanding.Width = 125
+        '
         'frmExtraStandings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(360, 509)
+        Me.ClientSize = New System.Drawing.Size(678, 509)
+        Me.Controls.Add(Me.lvwStandings)
+        Me.Controls.Add(Me.lblStandingProgression)
         Me.Controls.Add(Me.lblGainAverage)
         Me.Controls.Add(Me.txtGains)
         Me.Controls.Add(Me.radCalculated)
@@ -207,4 +258,10 @@ Partial Class frmExtraStandings
     Friend WithEvents radCalculated As System.Windows.Forms.RadioButton
     Friend WithEvents txtGains As System.Windows.Forms.TextBox
     Friend WithEvents lblGainAverage As System.Windows.Forms.Label
+    Friend WithEvents lblStandingProgression As System.Windows.Forms.Label
+    Friend WithEvents lvwStandings As System.Windows.Forms.ListView
+    Friend WithEvents colNo As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colStartStanding As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colStandingGain As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colEndStanding As System.Windows.Forms.ColumnHeader
 End Class
