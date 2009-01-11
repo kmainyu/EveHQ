@@ -9,6 +9,7 @@
         Call Me.PrepareDescription(certID)
         Call Me.PrepareTree(certID)
         Call Me.PrepareCerts(certID)
+        Call Me.PrepareDepends(certID)
         Me.ShowDialog()
 
     End Sub
@@ -42,6 +43,11 @@
                 Case 5
                     newCert.SubItems.Add("Elite")
             End Select
+            If EveHQ.Core.HQ.myPilot.Certificates.Contains(cRCert.ID.ToString) = True Then
+                newCert.ForeColor = Color.Green
+            Else
+                newCert.ForeColor = Color.Red
+            End If
             lvwCerts.Items.Add(newCert)
         Next
         lvwCerts.EndUpdate()
@@ -190,6 +196,66 @@
         tvwReqs.ExpandAll()
     End Sub
 
+    Private Sub PrepareDepends(ByVal certID As String)
+        ' Add the certificate unlocks
+        lvwDepend.Items.Clear()
+        Dim certUnlocks As ArrayList = CType(EveHQ.Core.HQ.CertUnlockCerts(certID), ArrayList)
+        If certUnlocks IsNot Nothing Then
+            For Each item As String In certUnlocks
+                Dim itemGrade As String = ""
+                Dim newItem As New ListViewItem
+                newItem.Group = lvwDepend.Groups("CatCerts")
+                Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(item), Core.Certificate)
+                Dim certName As String = CType(EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+                Dim certGrade As String = ""
+                Select Case cert.Grade
+                    Case 1
+                        certGrade = "Basic"
+                    Case 2
+                        certGrade = "Standard"
+                    Case 3
+                        certGrade = "Improved"
+                    Case 4
+                        certGrade = "Advanced"
+                    Case 5
+                        certGrade = "Elite"
+                End Select
+                For Each reqCertID As String In cert.RequiredCerts.Keys
+                    Dim reqCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(reqCertID), Core.Certificate)
+                    If reqCert.ID.ToString <> certID Then
+                        newItem.ToolTipText &= CType(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+                        Select Case reqCert.Grade
+                            Case 1
+                                newItem.ToolTipText &= " (Basic), "
+                            Case 2
+                                newItem.ToolTipText &= " (Standard), "
+                            Case 3
+                                newItem.ToolTipText &= " (Improved), "
+                            Case 4
+                                newItem.ToolTipText &= " (Advanced), "
+                            Case 5
+                                newItem.ToolTipText &= " (Elite), "
+                        End Select
+                    End If
+                Next
+                If newItem.ToolTipText <> "" Then
+                    newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
+                    newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
+                End If
+                If EveHQ.Core.HQ.myPilot.Certificates.Contains(cert.ID.ToString) = True Then
+                    newItem.ForeColor = Color.Green
+                Else
+                    newItem.ForeColor = Color.Red
+                End If
+                newItem.Text = certName
+                newItem.Name = cert.ID.ToString
+                newItem.SubItems.Add(certGrade)
+                newItem.Name = item
+                lvwDepend.Items.Add(newItem)
+            Next
+        End If
+    End Sub
+
     Private Sub ctxSkills_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxSkills.Opening
         Dim curNode As TreeNode = New TreeNode
         curNode = tvwReqs.SelectedNode
@@ -215,16 +281,27 @@
 
     Private Sub ctxCerts_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxCerts.Opening
         Dim curNode As New ListViewItem
-        If lvwCerts.SelectedItems.Count > 0 Then
-            mnuCertName.Text = lvwCerts.SelectedItems(0).Text & " (" & lvwCerts.SelectedItems(0).SubItems(1).Text & ")"
-            mnuCertName.Tag = lvwCerts.SelectedItems(0).Name
+        If ctxCerts.SourceControl.Name = "lvwCerts" Then
+            If lvwCerts.SelectedItems.Count > 0 Then
+                mnuCertName.Text = lvwCerts.SelectedItems(0).Text & " (" & lvwCerts.SelectedItems(0).SubItems(1).Text & ")"
+                mnuCertName.Tag = lvwCerts.SelectedItems(0).Name
+            End If
+        Else
+            If lvwDepend.SelectedItems.Count > 0 Then
+                mnuCertName.Text = lvwDepend.SelectedItems(0).Text & " (" & lvwDepend.SelectedItems(0).SubItems(1).Text & ")"
+                mnuCertName.Tag = lvwDepend.SelectedItems(0).Name
+            End If
         End If
     End Sub
 
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
         Dim certID As String = mnuCertName.Tag.ToString
+        Dim cCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
+        Me.Text = CType(EveHQ.Core.HQ.CertificateClasses(cCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name & " (" & CertGrades(cCert.Grade) & ")"
         Call Me.PrepareDescription(certID)
         Call Me.PrepareTree(certID)
         Call Me.PrepareCerts(certID)
+        Call Me.PrepareDepends(certID)
     End Sub
+
 End Class

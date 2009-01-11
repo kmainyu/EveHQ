@@ -41,6 +41,8 @@ Public Class HQ
     Public Shared SkillGroups As Collection = New Collection
     Public Shared SkillUnlocks As SortedList = New SortedList
     Public Shared ItemUnlocks As SortedList = New SortedList
+    Public Shared CertUnlockSkills As SortedList = New SortedList
+    Public Shared CertUnlockCerts As SortedList = New SortedList
     Public Shared IsUsingLocalFolders As Boolean = False
     Public Shared IsSplashFormDisabled As Boolean = False
     Public Shared appDataFolder As String = ""

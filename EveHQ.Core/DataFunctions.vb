@@ -473,6 +473,7 @@ Public Class DataFunctions
             ' Place the items into the Shared arrays
             Dim items(2) As String
             Dim itemUnlocked As New ArrayList
+            Dim certUnlocked As New ArrayList
             EveHQ.Core.HQ.SkillUnlocks.Clear()
             EveHQ.Core.HQ.ItemUnlocks.Clear()
             For Each item As String In itemList
@@ -497,6 +498,34 @@ Public Class DataFunctions
                     itemUnlocked = CType(EveHQ.Core.HQ.ItemUnlocks(items(1)), ArrayList)
                     itemUnlocked.Add(items(0))
                 End If
+            Next
+            ' Add certificates into the skill unlocks?
+            For Each cert As EveHQ.Core.Certificate In EveHQ.Core.HQ.Certificates.Values
+                For Each skill As String In cert.RequiredSkills.Keys
+                    Dim skillID As String = skill & "." & cert.RequiredSkills(skill).ToString
+                    If EveHQ.Core.HQ.CertUnlockSkills.ContainsKey(skillID) = False Then
+                        ' Create an arraylist and add the item
+                        certUnlocked = New ArrayList
+                        certUnlocked.Add(cert.ID)
+                        EveHQ.Core.HQ.CertUnlockSkills.Add(skillID, certUnlocked)
+                    Else
+                        ' Fetch the item and add the new one
+                        certUnlocked = CType(EveHQ.Core.HQ.CertUnlockSkills(skillID), ArrayList)
+                        certUnlocked.Add(cert.ID)
+                    End If
+                Next
+                For Each certID As String In cert.RequiredCerts.Keys
+                    If EveHQ.Core.HQ.CertUnlockCerts.ContainsKey(certID) = False Then
+                        ' Create an arraylist and add the item
+                        certUnlocked = New ArrayList
+                        certUnlocked.Add(cert.ID)
+                        EveHQ.Core.HQ.CertUnlockCerts.Add(certID, certUnlocked)
+                    Else
+                        ' Fetch the item and add the new one
+                        certUnlocked = CType(EveHQ.Core.HQ.CertUnlockCerts(certID), ArrayList)
+                        certUnlocked.Add(cert.ID)
+                    End If
+                Next
             Next
             Return True
         Catch e As Exception

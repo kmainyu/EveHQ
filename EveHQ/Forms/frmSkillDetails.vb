@@ -226,9 +226,12 @@ Public Class frmSkillDetails
         Dim catID As String = ""
         Dim itemID As Integer = 0
         Dim skillName As String = ""
+        Dim certName As String = ""
+        Dim certGrade As String = ""
         Dim itemData(1) As String
         Dim skillData(1) As String
         For lvl As Integer = 1 To 5
+            ' Add the skill unlocks
             If EveHQ.Core.HQ.SkillUnlocks.ContainsKey(skillID & "." & CStr(lvl)) = True Then
                 Dim itemUnlocked As ArrayList = CType(EveHQ.Core.HQ.SkillUnlocks(skillID & "." & CStr(lvl)), ArrayList)
                 For Each item As String In itemUnlocked
@@ -238,6 +241,7 @@ Public Class frmSkillDetails
                     newItem.Group = lvwDepend.Groups("Cat" & catID)
                     itemID = EveHQ.Core.HQ.itemList.IndexOfValue(itemData(0))
                     newItem.Text = EveHQ.Core.HQ.itemList.GetKey(itemID).ToString
+                    newItem.Name = itemData(0)
                     Dim skillUnlocked As ArrayList = CType(EveHQ.Core.HQ.ItemUnlocks(itemData(0)), ArrayList)
                     Dim allTrained As Boolean = True
                     For Each skillPair As String In skillUnlocked
@@ -259,6 +263,59 @@ Public Class frmSkillDetails
                         newItem.ForeColor = Color.Red
                     End If
                     newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
+                    newItem.SubItems.Add("Level " & lvl)
+                    lvwDepend.Items.Add(newItem)
+                Next
+            End If
+            ' Add the certificate unlocks
+            If EveHQ.Core.HQ.CertUnlockSkills.ContainsKey(skillID & "." & CStr(lvl)) = True Then
+                Dim certUnlocked As ArrayList = CType(EveHQ.Core.HQ.CertUnlockSkills(skillID & "." & CStr(lvl)), ArrayList)
+                For Each item As String In certUnlocked
+                    Dim newItem As New ListViewItem
+                    newItem.Group = lvwDepend.Groups("CatCerts")
+                    Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(item), Core.Certificate)
+                    certName = CType(EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+                    Select Case cert.Grade
+                        Case 1
+                            certGrade = "Basic"
+                        Case 2
+                            certGrade = "Standard"
+                        Case 3
+                            certGrade = "Improved"
+                        Case 4
+                            certGrade = "Advanced"
+                        Case 5
+                            certGrade = "Elite"
+                    End Select
+                    For Each reqCertID As String In cert.RequiredCerts.Keys
+                        Dim reqCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(reqCertID), Core.Certificate)
+                        If reqCert.ID.ToString <> item Then
+                            newItem.ToolTipText &= CType(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+                            Select Case reqCert.Grade
+                                Case 1
+                                    newItem.ToolTipText &= " (Basic), "
+                                Case 2
+                                    newItem.ToolTipText &= " (Standard), "
+                                Case 3
+                                    newItem.ToolTipText &= " (Improved), "
+                                Case 4
+                                    newItem.ToolTipText &= " (Advanced), "
+                                Case 5
+                                    newItem.ToolTipText &= " (Elite), "
+                            End Select
+                        End If
+                    Next
+                    If newItem.ToolTipText <> "" Then
+                        newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
+                        newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
+                    End If
+                    If EveHQ.Core.HQ.myPilot.Certificates.Contains(cert.ID.ToString) = True Then
+                        newItem.ForeColor = Color.Green
+                    Else
+                        newItem.ForeColor = Color.Red
+                    End If
+                    newItem.Text = certName & " (" & certGrade & ")"
+                    newItem.Name = item
                     newItem.SubItems.Add("Level " & lvl)
                     lvwDepend.Items.Add(newItem)
                 Next
@@ -367,11 +424,19 @@ Public Class frmSkillDetails
                 Dim itemID As String = ""
                 Dim item As ListViewItem = lvwDepend.SelectedItems(0)
                 itemName = item.Text
-                itemID = CStr(EveHQ.Core.HQ.itemList(itemName))
-                If item.Group.Name = "Cat16" Then
-                    mnuViewItemDetails.Visible = True
-                Else
+                itemID = item.Name
+                If item.Group.Name = "CatCerts" = True Then
                     mnuViewItemDetails.Visible = False
+                    mnuViewCertDetails.Visible = True
+                    mnuViewItemDetailsInIB.Visible = False
+                Else
+                    mnuViewCertDetails.Visible = False
+                    mnuViewItemDetailsInIB.Visible = True
+                    If item.Group.Name = "Cat16" Then
+                        mnuViewItemDetails.Visible = True
+                    Else
+                        mnuViewItemDetails.Visible = False
+                    End If
                 End If
                 mnuItemName.Text = itemName
                 mnuItemName.Tag = itemID
@@ -433,5 +498,12 @@ Public Class frmSkillDetails
         Call Me.PrepareDepends(skillID)
         Call Me.PrepareDescription(skillID)
         Call Me.PrepareTimes(skillID)
+    End Sub
+
+    Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
+        Dim certID As String = mnuItemName.Tag.ToString
+        Dim certDetails As New frmCertificateDetails
+        certDetails.Text = mnuItemName.Text
+        certDetails.ShowCertDetails(certID)
     End Sub
 End Class

@@ -175,19 +175,6 @@ Public Class frmSplash
                 End If
             End If
         End If
-        ' Load skill data and item data
-        lblStatus.Text = "Loading skills && items..."
-        Me.Refresh()
-        Do While EveHQ.Core.DataFunctions.LoadItems = False
-            Dim msg As String = "EveHQ was unable to load data from a Database." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "If you do not select a valid Database, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "Would you like to select a Database now?" & ControlChars.CrLf
-            Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.No Then
-                End
-            End If
-            frmSettings.ShowDialog()
-        Loop
 
         ' Load Certificate data
         lblStatus.Text = "Loading Certificate data..."
@@ -204,6 +191,20 @@ Public Class frmSplash
         f = New BinaryFormatter
         EveHQ.Core.HQ.Certificates = CType(f.Deserialize(s), SortedList)
         s.Close()
+
+        ' Load skill data and item data
+        lblStatus.Text = "Loading skills && items..."
+        Me.Refresh()
+        Do While EveHQ.Core.DataFunctions.LoadItems = False
+            Dim msg As String = "EveHQ was unable to load data from a Database." & ControlChars.CrLf & ControlChars.CrLf
+            msg &= "If you do not select a valid Database, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf
+            msg &= "Would you like to select a Database now?" & ControlChars.CrLf
+            Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If reply = Windows.Forms.DialogResult.No Then
+                End
+            End If
+            frmSettings.ShowDialog()
+        Loop
 
         ' If we get this far we have loaded a DB so check for SQL format and check the custom data
         lblStatus.Text = "Checking database..."
