@@ -47,7 +47,7 @@ Public Class frmExtraStandings
             Dim gainCount As Integer = 0
             For Each gain As String In gains
                 If IsNumeric(gain) = True Then
-                    If CDbl(gain) > 0 And CDbl(gain) < 100 Then
+                    If CDbl(gain) > -100 And CDbl(gain) < 100 Then
                         gainTotal += CDbl(gain)
                         gainCount += 1
                     End If
@@ -65,13 +65,14 @@ Public Class frmExtraStandings
         lvwStandings.Items.Clear()
         Dim newStand As New ListViewItem
         If missionGain <> 0 Then
-            Do While curStanding < reqStanding
+            Do While curStanding < reqStanding And curStanding > -10
                 missionCount += 1
                 newStand = New ListViewItem
                 newStand.Text = missionCount.ToString
                 newStand.SubItems.Add(FormatNumber(curStanding, 10, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 newStand.SubItems.Add(FormatNumber(missionGain, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 newStanding = curStanding + (missionGain * (10 - curStanding) / 100)
+                If newStanding <= -10 Then newStanding = -10
                 newStand.SubItems.Add(FormatNumber(newStanding, 10, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 If Int(curStanding) <> Int(newStanding) Then
                     newStand.BackColor = Drawing.Color.LightSteelBlue
@@ -79,8 +80,11 @@ Public Class frmExtraStandings
                 lvwStandings.Items.Add(newStand)
                 curStanding = newStanding
             Loop
-
-            lblMissionsRequired.Text = FormatNumber(missionCount, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            If newStanding = -10 Then
+                lblMissionsRequired.Text = "Infinite!"
+            Else
+                lblMissionsRequired.Text = FormatNumber(missionCount, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            End If
         Else
             lblMissionsRequired.Text = "Infinite!"
         End If

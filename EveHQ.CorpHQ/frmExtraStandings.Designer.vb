@@ -78,6 +78,7 @@ Partial Class frmExtraStandings
         '
         Me.nudMissionGain.DecimalPlaces = 3
         Me.nudMissionGain.Location = New System.Drawing.Point(163, 119)
+        Me.nudMissionGain.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
         Me.nudMissionGain.Name = "nudMissionGain"
         Me.nudMissionGain.Size = New System.Drawing.Size(73, 20)
         Me.nudMissionGain.TabIndex = 4
@@ -115,7 +116,7 @@ Partial Class frmExtraStandings
         '
         Me.lblMissionsRequired.AutoSize = True
         Me.lblMissionsRequired.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMissionsRequired.Location = New System.Drawing.Point(181, 469)
+        Me.lblMissionsRequired.Location = New System.Drawing.Point(160, 469)
         Me.lblMissionsRequired.Name = "lblMissionsRequired"
         Me.lblMissionsRequired.Size = New System.Drawing.Size(0, 13)
         Me.lblMissionsRequired.TabIndex = 8
