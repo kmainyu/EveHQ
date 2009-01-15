@@ -2115,13 +2115,13 @@ Public Class frmSettings
     Private Sub btnUpdatePrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdatePrices.Click
         Dim ErrorsFound As Boolean = False
 
-        If GetPriceFeed("MedianPrices", "http://www.evehq.net/market/prices.aspx") = False Then
+        If GetPriceFeed("MedianPrices", "http://www.evehq.net/market/prices.aspx") = True Then
             Call Me.ParseMedianPriceFeed("MedianPrices")
         Else
             ErrorsFound = True
         End If
 
-        If GetPriceFeed("FactionPrices", "http://www.eve-prices.net/xml/today.xml") = False Then
+        If GetPriceFeed("FactionPrices", "http://www.eve-prices.net/xml/today.xml") = True Then
             Call Me.ParseFactionPriceFeed("FactionPrices")
         Else
             ErrorsFound = True

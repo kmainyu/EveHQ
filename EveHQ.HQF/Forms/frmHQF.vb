@@ -817,6 +817,7 @@ Public Class frmHQF
 
         lvwItems.BeginUpdate()
         lvwItems.Items.Clear()
+        lvwItems.Enabled = True
         For Each shipMod As ShipModule In LastModuleResults.Values
             If ModuleLists.moduleList.Contains(shipMod.ID) = True And Implants.implantList.ContainsKey(shipMod.ID) = False Then
                 If (shipMod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipMod.MetaType Then
@@ -850,9 +851,16 @@ Public Class frmHQF
                 End If
             End If
         Next
+        If lvwItems.Items.Count = 0 Then
+            lvwItems.Items.Add("<Empty - no matches found>")
+            lvwItems.Enabled = False
+            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (0 items)"
+        Else
+            lvwItems.Enabled = True
+            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
+        End If
         lvwItems.EndUpdate()
         ModuleDisplay = "Search"
-        lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
     End Sub
     Private Sub UpdateModulesThatWillFit(ByVal modData As ArrayList)
         LastSlotFitting = modData

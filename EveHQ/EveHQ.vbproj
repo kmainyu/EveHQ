@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{366925AB-54F3-4D36-B05C-E98DBE8DA595}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -299,6 +299,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAPIChecker.resx">
       <DependentUpon>frmAPIChecker.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBackup.resx">
       <SubType>Designer</SubType>
@@ -306,6 +307,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCertificateDetails.resx">
       <DependentUpon>frmCertificateDetails.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmChartViewer.resx">
       <DependentUpon>frmChartViewer.vb</DependentUpon>
@@ -317,12 +319,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmException.resx">
       <DependentUpon>frmException.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmInEveUploader.resx">
       <DependentUpon>frmInEveUploader.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMarketPrices.resx">
       <DependentUpon>frmMarketPrices.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmModifyQueues.resx">
       <SubType>Designer</SubType>
@@ -366,6 +371,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmToolTrayIconPopup.resx">
       <DependentUpon>frmToolTrayIconPopup.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmTraining.resx">
       <SubType>Designer</SubType>
