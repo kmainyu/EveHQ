@@ -95,13 +95,15 @@ Public Class frmBackup
             If noLocations = True Then
                 Dim msg As String = ""
                 msg &= "Before trying to backup your Eve-Online settings, you must set the" & ControlChars.CrLf
-                msg &= "path to your Eve installation(s) in the General tab in EveHQ Settings." & ControlChars.CrLf & ControlChars.CrLf
+                msg &= "path to your Eve installation(s) in the Eve Folders section in EveHQ Settings." & ControlChars.CrLf & ControlChars.CrLf
                 msg &= "Would you like to do this now?"
                 If MessageBox.Show(msg, "Backup Location Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
                     Exit Sub
                 Else
-                    frmSettings.Tag = "tabGeneral"
-                    frmSettings.ShowDialog()
+                    Dim EveHQSettings As New frmSettings
+                    EveHQSettings.Tag = "nodeEveFolders"
+                    EveHQSettings.ShowDialog()
+                    EveHQSettings.Dispose()
                 End If
             End If
         Loop Until noLocations = False
