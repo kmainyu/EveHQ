@@ -30,7 +30,6 @@ Imports System.Text
 Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class frmAssets
-    
 
 #Region "Class Wide Variables"
     
@@ -50,6 +49,12 @@ Public Class frmAssets
     Dim totalAssetCount As Long = 0
     Dim totalAssetBatch As Long = 0
     Dim HQFShip As New ArrayList
+
+    ' Rig Builder Variables
+    Dim RigBPData As New SortedList
+    Dim RigBuildData As New SortedList
+    Dim SalvageList As New SortedList
+
 #End Region
 
 #Region "Form Initialisation Routines"
@@ -2743,9 +2748,9 @@ Public Class frmAssets
     Private Sub btnGetSalvage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Call Me.GetSalvage()
     End Sub
-    Private Function GetSalvage() As SortedList
+    Private Sub GetSalvage()
 
-        Dim SalvageList As New SortedList
+        SalvageList = New SortedList
 
         Dim assetOwner As String = ""
         For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
@@ -2763,8 +2768,7 @@ Public Class frmAssets
             End If
             If My.Computer.FileSystem.FileExists(fileName) = False Then
                 MessageBox.Show("Unable to load assets file for " & selPilot.Name & ".", "Error Loading Assets", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Return Nothing
-                Exit Function
+                Exit Sub
             End If
             ' File found so lets see what we have!
             Dim assetXML As New XmlDocument
@@ -2798,9 +2802,7 @@ Public Class frmAssets
             End If
         Next
 
-        Return SalvageList
-
-    End Function
+    End Sub
     Private Sub GetSalvageNode(ByVal SalvageList As SortedList, ByVal loc As XmlNode, ByVal assetOwner As String, ByVal selPilot As EveHQ.Core.Pilot)
         Dim subLocList As XmlNodeList
         Dim subLoc As XmlNode
@@ -2837,8 +2839,20 @@ Public Class frmAssets
     End Sub
     Private Sub btnBuildRigs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuildRigs.Click
 
+        ' Get the rig and salvage info
+        Call Me.PrepareRigData()
+
+        ' Get the list of available rigs
+        Call Me.GetBuildList()
+
+    End Sub
+    Private Sub PrepareRigData()
+        ' Clear the build list
+        lvwRigBuildList.Items.Clear()
+        lvwRigs.Sort(0, SortOrder.Ascending, True)
+
         ' Build a Salvage List
-        Dim salvageList As SortedList = GetSalvage()
+        Call Me.GetSalvage()
 
         ' Calculate the true Waste Factor
         Dim BPWF As Double = 10
@@ -2848,13 +2862,14 @@ Public Class frmAssets
             BPWF = 1 + ((1 / BPWF) * (1 - nudRigMELevel.Value))
         End If
 
+        RigBPData = New SortedList
+        RigBuildData = New SortedList
+
         ' Get the BP Details and build requirements
         Dim strSQL As String = "SELECT typeActivityMaterials.typeID AS typeActivityMaterials_typeID, typeActivityMaterials.activityID, typeActivityMaterials.requiredTypeID, typeActivityMaterials.quantity, typeActivityMaterials.damagePerJob, invTypes.typeID AS invTypes_typeID, invTypes.groupID, invTypes.published"
         strSQL &= " FROM invTypes INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.typeID"
         strSQL &= " WHERE (((typeActivityMaterials.activityID)=1) AND ((invTypes.groupID)=787) AND ((invTypes.published)=1));"
         Dim rigData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Dim BPData As New SortedList
-        Dim BuildData As New SortedList
         Dim BPID As String = ""
         Dim BPIDX As Integer = 0
         Dim BPName As String = ""
@@ -2868,8 +2883,8 @@ Public Class frmAssets
             BPIDX = EveHQ.Core.HQ.itemList.IndexOfValue(BPID)
             BPName = CStr(EveHQ.Core.HQ.itemList.GetKey(BPIDX)).TrimEnd(" Blueprint".ToCharArray)
             ' Add it to the BPList if not already in
-            If BPData.Contains(BPName) = False Then
-                BPData.Add(BPName, New SortedList)
+            If RigBPData.Contains(BPName) = False Then
+                RigBPData.Add(BPName, New SortedList)
             End If
             ' Read the required type and see if it is salvage (read groupID = 754)
             SalvageID = rigRow.Item("requiredTypeID").ToString
@@ -2878,11 +2893,13 @@ Public Class frmAssets
                 SalvageIDX = EveHQ.Core.HQ.itemList.IndexOfValue(SalvageID)
                 SalvageName = CStr(EveHQ.Core.HQ.itemList.GetKey(SalvageIDX))
                 SalvageQ = Math.Round(CDbl(rigRow.Item("quantity")) * BPWF, 0)
-                BuildData = CType(BPData.Item(BPName), Collections.SortedList)
-                BuildData.Add(SalvageName, SalvageQ)
+                RigBuildData = CType(RigBPData.Item(BPName), Collections.SortedList)
+                RigBuildData.Add(SalvageName, SalvageQ)
             End If
         Next
 
+    End Sub
+    Private Sub GetBuildList()
         Dim buildableBP As Boolean = False
         Dim material As String = ""
         Dim minQuantity As Double = 1.0E+99
@@ -2890,19 +2907,19 @@ Public Class frmAssets
         Dim rigCost As Double = 0
         lvwRigs.BeginUpdate()
         lvwRigs.Items.Clear()
-        For Each BP As String In BPData.Keys
+        For Each BP As String In RigBPData.Keys
             buildableBP = True
             minQuantity = 1.0E+99
             buildCost = 0
             ' Fetch the build requirements
-            BuildData = CType(BPData(BP), Collections.SortedList)
+            RigBuildData = CType(RigBPData(BP), Collections.SortedList)
             ' Go through the requirements and see if have sufficient materials
-            For Each material In BuildData.Keys
-                If salvageList.Contains(material) = True Then
+            For Each material In RigBuildData.Keys
+                If SalvageList.Contains(material) = True Then
                     ' Check quantity
-                    If CDbl(salvageList(material)) > CDbl(BuildData(material)) Then
+                    If CDbl(SalvageList(material)) > CDbl(RigBuildData(material)) Then
                         ' We have enough so let's calculate the quantity we can use
-                        minQuantity = Math.Min(minQuantity, (CDbl(salvageList(material)) / CDbl(BuildData(material))))
+                        minQuantity = Math.Min(minQuantity, (CDbl(SalvageList(material)) / CDbl(RigBuildData(material))))
                     Else
                         ' We are lacking
                         buildableBP = False
@@ -2916,9 +2933,9 @@ Public Class frmAssets
             ' Find the results
             If buildableBP = True Then
                 ' Caluclate the build cost
-                For Each material In BuildData.Keys
+                For Each material In RigBuildData.Keys
                     ' Get price
-                    buildCost += CInt(BuildData(material)) * EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(material)))
+                    buildCost += CInt(RigBuildData(material)) * EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(material)))
                 Next
                 rigCost = EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(BP)))
                 Dim lviBP2 As New ContainerListViewItem
@@ -2931,12 +2948,89 @@ Public Class frmAssets
                 lviBP2.SubItems(5).Text = (FormatNumber(Int(minQuantity) * rigCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 lviBP2.SubItems(6).Text = (FormatNumber(Int(minQuantity) * buildCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 lviBP2.SubItems(7).Text = (FormatNumber(Int(minQuantity) * (rigCost - buildCost), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                lviBP2.SubItems(8).Text = (FormatNumber((Int(minQuantity) * (rigCost - buildCost)) / (Int(minQuantity) * buildCost) * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                lviBP2.SubItems(8).Text = (FormatNumber((Int(minQuantity) * (rigCost - buildCost)) / (Int(minQuantity) * rigCost) * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
             End If
         Next
+        lvwRigs.Sort(False)
         lvwRigs.EndUpdate()
-
     End Sub
+    Private Sub lvwRigs_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwRigs.DoubleClick
+        If lvwRigs.SelectedItems.Count > 0 Then
+            Call AddRigToBuildList(lvwRigs.SelectedItems(0))
+            Call Me.GetBuildList()
+            Call Me.CalculateRigBuildInfo()
+        End If
+    End Sub
+    Private Sub lvwRigBuildList_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwRigBuildList.DoubleClick
+        If lvwRigBuildList.SelectedItems.Count > 0 Then
+            Call RemoveRigFromBuildList(lvwRigBuildList.SelectedItems(0))
+            ' Recalculate the salvage available
+            Call Me.GetBuildList()
+            Call Me.CalculateRigBuildInfo()
+        End If
+    End Sub
+    Private Sub AddRigToBuildList(ByVal currentRig As ContainerListViewItem)
+        Dim newRig As New ContainerListViewItem(currentRig.Text)
+        ' Add the selected rig to the build list
+        lvwRigBuildList.Items.Add(newRig)
+        ' Copy details (the inbuilt clone fails!)
+        For subI As Integer = 1 To currentRig.SubItems.Count - 1
+            newRig.SubItems(subI).Text = currentRig.SubItems(subI).Text
+        Next
+        'Get the salvage used by the rig and reduce the main list
+        Dim RigSalvageList As SortedList = CType(RigBPData(currentRig.Text), Collections.SortedList)
+        For Each salvage As String In RigSalvageList.Keys
+            SalvageList(salvage) = CInt(SalvageList(salvage)) - (CInt(RigSalvageList(salvage)) * CInt(currentRig.SubItems(1).Text))
+        Next
+    End Sub
+    Private Sub RemoveRigFromBuildList(ByVal currentRig As ContainerListViewItem)
+        ' Remove the selected rig to the build list
+        lvwRigBuildList.Items.Remove(currentRig)
+        ' Get the salvage used by the rig and reduce the main list
+        Dim RigSalvageList As SortedList = CType(RigBPData(currentRig.Text), Collections.SortedList)
+        For Each salvage As String In RigSalvageList.Keys
+            SalvageList(salvage) = CInt(SalvageList(salvage)) + (CInt(RigSalvageList(salvage)) * CInt(currentRig.SubItems(1).Text))
+        Next
+    End Sub
+    Private Sub btnAutoRig_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAutoRig.Click
+        ' Get the rig and salvage info
+        Call Me.PrepareRigData()
+        ' Get the list of available rigs
+        Call Me.GetBuildList()
+        Do While lvwRigs.Items.Count > 0
+            lvwRigs.Sort(CInt(btnAutoRig.Tag), SortOrder.Descending, True)
+            AddRigToBuildList(lvwRigs.Items(0))
+            Call Me.GetBuildList()
+        Loop
+        lvwRigBuildList.Sort(CInt(btnAutoRig.Tag), SortOrder.Descending, True)
+        Call Me.CalculateRigBuildInfo()
+    End Sub
+    Private Sub radRigSaleprice_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radRigSaleprice.CheckedChanged
+        btnAutoRig.Tag = 2
+    End Sub
+    Private Sub radRigProfit_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radRigProfit.CheckedChanged
+        btnAutoRig.Tag = 4
+    End Sub
+    Private Sub radRigMargin_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radRigMargin.CheckedChanged
+        btnAutoRig.Tag = 8
+    End Sub
+    Private Sub radTotalSalePrice_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radTotalSalePrice.CheckedChanged
+        btnAutoRig.Tag = 5
+    End Sub
+    Private Sub radTotalProfit_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radTotalProfit.CheckedChanged
+        btnAutoRig.Tag = 7
+    End Sub
+    Private Sub CalculateRigBuildInfo()
+        Dim totalRSP, totalRP As Double
+        For Each rigItem As ContainerListViewItem In lvwRigBuildList.Items
+            totalRSP += CDbl(rigItem.SubItems(5).Text)
+            totalRP += CDbl(rigItem.SubItems(7).Text)
+        Next
+        lblTotalRigSalePrice.Text = "Total Rig Sale Price: " & FormatNumber(totalRSP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblTotalRigProfit.Text = "Total Rig Profit: " & FormatNumber(totalRP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblTotalRigMargin.Text = "Margin: " & FormatNumber(totalRP / totalRSP * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+    End Sub
+
 #End Region
 
 End Class
