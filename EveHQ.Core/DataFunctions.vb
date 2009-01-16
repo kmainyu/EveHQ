@@ -52,10 +52,32 @@ Public Class DataFunctions
                 End Try
             Case 1, 2, 3 ' MSSQL, MSSQL Express, MySQL
                 Dim strSQL As String = "CREATE DATABASE EveHQData;"
+                Dim oldStrConn As String = EveHQ.Core.HQ.EveHQDataConnectionString
+                ' Set new database connection string
+                Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+                    Case 1
+                        EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
+                        If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
+                            EveHQ.Core.HQ.EveHQDataConnectionString += "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                        Else
+                            EveHQ.Core.HQ.EveHQDataConnectionString += "; Integrated Security = SSPI;"
+                        End If
+                    Case 2
+                        EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "\SQLEXPRESS"
+                        If EveHQ.Core.HQ.EveHQSettings.DBSQLSecurity = True Then
+                            EveHQ.Core.HQ.EveHQDataConnectionString += "; User ID=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & "; Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                        Else
+                            EveHQ.Core.HQ.EveHQDataConnectionString += "; Integrated Security = SSPI;"
+                        End If
+                    Case 3
+                        EveHQ.Core.HQ.EveHQDataConnectionString = "Data Source=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";User Id=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+                End Select
                 If EveHQ.Core.DataFunctions.SetData(strSQL) = True Then
                     EveHQ.Core.HQ.EveHQSettings.DBDataName = "EveHQData"
+                    EveHQ.Core.HQ.EveHQDataConnectionString = oldStrConn
                     Return True
                 Else
+                    EveHQ.Core.HQ.EveHQDataConnectionString = oldStrConn
                     Return False
                 End If
         End Select
