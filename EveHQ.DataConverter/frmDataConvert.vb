@@ -809,7 +809,7 @@ Public Class frmDataConvert
             Dim inputFile As String = ""
             Dim strConn As String
             If CreateMySQLDB("EveHQ") = False Then Exit Sub
-            strConn = "Server=" & server & ";Database=EveHQ;Uid=" & userName & ";Pwd=" & password & ";"
+            strConn = "Data Source=" & server & ";Database=EveHQ;User Id=" & userName & ";Password=" & password & ";"
             Dim lineCount As Long = 0
             Dim connection As MySqlConnection
             connection = New MySqlConnection(strConn)
@@ -892,7 +892,7 @@ Public Class frmDataConvert
 
         Dim conn As MySqlConnection
         Dim strConn As String
-        strConn = "Server=" & server & ";Uid=" & userName & ";Pwd=" & password & ";"
+        strConn = "Data Source=" & server & ";User Id=" & userName & ";Password=" & password & ";"
         conn = New MySqlConnection(strConn)
         Try
             conn.Open()
@@ -906,7 +906,7 @@ Public Class frmDataConvert
             Exit Function
         End Try
         Dim strSQL As String = ""
-        strSQL = "DROP DATABASE " & dbName & "; CREATE DATABASE " & dbName & ";"
+        strSQL = "DROP DATABASE IF EXISTS " & dbName & "; CREATE DATABASE " & dbName & ";"
         Dim cmd As New MySqlCommand(strSQL, conn)
         cmd.CommandType = CommandType.Text
         Try
@@ -1034,7 +1034,7 @@ Public Class frmDataConvert
         Dim inputFile As String = ""
         Dim strConn As String
         Dim command As MySqlCommand
-        strConn = "Server=" & server & ";Database=EveHQ;Uid=" & userName & ";Pwd=" & password & ";"
+        strConn = "Data Source=" & server & ";Database=EveHQ;User Id=" & userName & ";Password=" & password & ";"
         Dim connection As MySqlConnection
         connection = New MySqlConnection(strConn)
         connection.Open()
@@ -1194,7 +1194,7 @@ Public Class frmDataConvert
     End Sub
 
     Private Sub btnAddToMySQL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddToMySQL.Click
-        Dim strConn As String = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=EveHQ;Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
+        Dim strConn As String = "Data Source=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=EveHQ;User Id=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
         Dim lineCount As Long = 0
         Dim connection As MySqlConnection
         connection = New MySqlConnection(strConn)
@@ -1408,8 +1408,8 @@ Public Class frmDataConvert
                 Dim EveData As DataSet = GetData(eveSQL, strConnection)
                 Dim sw As New StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\SQL2TSQL\" & DataTable & ".sql")
                 sw.WriteLine("")
-                strData = New StringBuilder
                 For Each eveRow As DataRow In EveData.Tables(0).Rows
+                    strData = New StringBuilder
                     ' Write the first part
                     strData.AppendLine("INSERT INTO " & DataTable)
                     strData.Append("(")
@@ -1433,6 +1433,9 @@ Public Class frmDataConvert
                                 Else
                                     ' Is alphabetic
                                     strItem = eveRow.Item(datacol).ToString.Replace("'", "''")
+                                    strItem = strItem.Replace(Chr(145).ToString, "''")
+                                    strItem = strItem.Replace(Chr(146).ToString, "''")
+                                    strItem = strItem.Replace("’", "''")
                                     strData.Append("'" & strItem & "',")
                                 End If
                             End If
@@ -1447,19 +1450,22 @@ Public Class frmDataConvert
                                 Else
                                     ' Is alphabetic
                                     strItem = eveRow.Item(datacol).ToString.Replace("'", "''")
+                                    strItem = strItem.Replace(Chr(145).ToString, "''")
+                                    strItem = strItem.Replace(Chr(146).ToString, "''")
+                                    strItem = strItem.Replace("’", "''")
                                     strData.AppendLine("'" & strItem & "');")
                                 End If
                             End If
                         End If
                     Next
                     strData.AppendLine("")
+                    sw.Write(strData.ToString)
                 Next
-                sw.Write(strData.ToString)
+                ' Process other messages
+                Application.DoEvents()
                 sw.Flush()
                 sw.Close()
             End If
-            ' Process other messages
-            Application.DoEvents()
         Next
 
         ' Conversion Complete!
