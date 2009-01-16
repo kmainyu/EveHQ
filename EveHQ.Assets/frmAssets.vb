@@ -723,7 +723,7 @@ Public Class frmAssets
                                 newAsset.SubItems(6).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                 linePrice = 0
                             Else
-                                newAsset.SubItems(6).Text = FormatNumber(EveHQ.Core.DataFunctions.GetPrice(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                newAsset.SubItems(6).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(itemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                 If IsNumeric(newAsset.SubItems(6).Text) = True Then
                                     linePrice = CDbl(newAsset.SubItems(5).Text) * CDbl(newAsset.SubItems(6).Text)
                                 Else
@@ -842,7 +842,7 @@ Public Class frmAssets
                     subAsset.SubItems(6).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     linePrice = 0
                 Else
-                    subAsset.SubItems(6).Text = FormatNumber(EveHQ.Core.DataFunctions.GetPrice(ItemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    subAsset.SubItems(6).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(ItemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     If IsNumeric(subAsset.SubItems(6).Text) = True Then
                         linePrice = CDbl(subAsset.SubItems(5).Text) * CDbl(subAsset.SubItems(6).Text)
                     Else
@@ -1595,10 +1595,10 @@ Public Class frmAssets
                     strHTML.Append("<td align=center>" & newAsset.owner & "</td>")
                     strHTML.Append("<td align=center>" & newAsset.location & "</td>")
                     strHTML.Append("<td align=center>" & FormatNumber(newAsset.quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-                    strHTML.Append("<td align=right>" & FormatNumber(newAsset.price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
-                    strHTML.Append("<td align=right>" & FormatNumber(CDbl(newAsset.quantity) * CDbl(newAsset.price), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
+                    strHTML.Append("<td align=right>" & FormatNumber(Math.Round(newAsset.price, 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
+                    strHTML.Append("<td align=right>" & FormatNumber(CDbl(newAsset.quantity) * CDbl(Math.Round(newAsset.price, 2)), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>")
                     strHTML.Append("</tr>")
-                    GroupValue += CDbl(newAsset.quantity) * CDbl(newAsset.price)
+                    GroupValue += CDbl(newAsset.quantity) * CDbl(Math.Round(newAsset.price, 2))
                 Next
                 strHTML.Append("<tr bgcolor=000000>")
                 strHTML.Append("<td></td>")
