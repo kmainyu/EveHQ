@@ -3033,5 +3033,21 @@ Public Class frmAssets
 
 #End Region
 
+#Region "Item Recycler Routines"
+
+    Private Sub mnuRecycleItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecycleItem.Click
+        Dim asset As ContainerListViewItem = tlvAssets.SelectedItems(0)
+        Dim assetList As New SortedList
+        assetList.Add(asset.Text, CLng(asset.SubItems(5).Text))
+        Dim myRecycler As New frmRecycleAssets
+        myRecycler.AssetList = assetList
+        myRecycler.ShowDialog()
+        myRecycler.Dispose()
+    End Sub
+
+#End Region
+
+   
+    
 End Class
 

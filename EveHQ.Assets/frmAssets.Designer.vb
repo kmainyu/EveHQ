@@ -23,8 +23,8 @@ Partial Class frmAssets
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAssets))
         Me.lblSelectChar = New System.Windows.Forms.Label
         Me.cboPilots = New System.Windows.Forms.ComboBox
@@ -114,6 +114,17 @@ Partial Class frmAssets
         Me.colInvCIncome = New System.Windows.Forms.ColumnHeader
         Me.colInvCYield = New System.Windows.Forms.ColumnHeader
         Me.tabRigBuilder = New System.Windows.Forms.TabPage
+        Me.lblTotalRigMargin = New System.Windows.Forms.Label
+        Me.lblTotalRigProfit = New System.Windows.Forms.Label
+        Me.lblTotalRigSalePrice = New System.Windows.Forms.Label
+        Me.bgAutoRig = New System.Windows.Forms.GroupBox
+        Me.radTotalProfit = New System.Windows.Forms.RadioButton
+        Me.radTotalSalePrice = New System.Windows.Forms.RadioButton
+        Me.radRigMargin = New System.Windows.Forms.RadioButton
+        Me.radRigProfit = New System.Windows.Forms.RadioButton
+        Me.radRigSaleprice = New System.Windows.Forms.RadioButton
+        Me.lblAutoRigCriteria = New System.Windows.Forms.Label
+        Me.btnAutoRig = New System.Windows.Forms.Button
         Me.lblRigBuildList = New System.Windows.Forms.Label
         Me.lvwRigBuildList = New DotNetLib.Windows.Forms.ContainerListView
         Me.ContainerListViewColumnHeader9 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -162,17 +173,11 @@ Partial Class frmAssets
         Me.mnuAssetListValue = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueA = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueD = New System.Windows.Forms.ToolStripMenuItem
-        Me.btnAutoRig = New System.Windows.Forms.Button
-        Me.bgAutoRig = New System.Windows.Forms.GroupBox
-        Me.lblAutoRigCriteria = New System.Windows.Forms.Label
-        Me.radRigSaleprice = New System.Windows.Forms.RadioButton
-        Me.radRigProfit = New System.Windows.Forms.RadioButton
-        Me.radRigMargin = New System.Windows.Forms.RadioButton
-        Me.radTotalProfit = New System.Windows.Forms.RadioButton
-        Me.radTotalSalePrice = New System.Windows.Forms.RadioButton
-        Me.lblTotalRigSalePrice = New System.Windows.Forms.Label
-        Me.lblTotalRigProfit = New System.Windows.Forms.Label
-        Me.lblTotalRigMargin = New System.Windows.Forms.Label
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuItemRecycling = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuRecycleItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuRecycleContained = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuRecycleAll = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -182,10 +187,10 @@ Partial Class frmAssets
         Me.tabAssetsAPI.SuspendLayout()
         Me.tabInvestments.SuspendLayout()
         Me.tabRigBuilder.SuspendLayout()
+        Me.bgAutoRig.SuspendLayout()
         CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.bgAutoRig.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblSelectChar
@@ -308,39 +313,39 @@ Partial Class frmAssets
         '
         'ctxAssets
         '
-        Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice})
+        Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.ToolStripMenuItem2, Me.mnuItemRecycling})
         Me.ctxAssets.Name = "ctxAssets"
-        Me.ctxAssets.Size = New System.Drawing.Size(188, 98)
+        Me.ctxAssets.Size = New System.Drawing.Size(190, 148)
         '
         'mnuItemName
         '
         Me.mnuItemName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.mnuItemName.Name = "mnuItemName"
-        Me.mnuItemName.Size = New System.Drawing.Size(187, 22)
+        Me.mnuItemName.Size = New System.Drawing.Size(189, 22)
         Me.mnuItemName.Text = "Item Name"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(184, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(186, 6)
         '
         'mnuViewInIB
         '
         Me.mnuViewInIB.Name = "mnuViewInIB"
-        Me.mnuViewInIB.Size = New System.Drawing.Size(187, 22)
+        Me.mnuViewInIB.Size = New System.Drawing.Size(189, 22)
         Me.mnuViewInIB.Text = "View In Item Browser"
         '
         'mnuViewInHQF
         '
         Me.mnuViewInHQF.Name = "mnuViewInHQF"
-        Me.mnuViewInHQF.Size = New System.Drawing.Size(187, 22)
+        Me.mnuViewInHQF.Size = New System.Drawing.Size(189, 22)
         Me.mnuViewInHQF.Text = "Copy Setup for HQF"
         '
         'mnuModifyPrice
         '
         Me.mnuModifyPrice.Name = "mnuModifyPrice"
-        Me.mnuModifyPrice.Size = New System.Drawing.Size(187, 22)
-        Me.mnuModifyPrice.Text = "Modify Price"
+        Me.mnuModifyPrice.Size = New System.Drawing.Size(189, 22)
+        Me.mnuModifyPrice.Text = "Modify Custom Price"
         '
         'chkExcludeBPs
         '
@@ -364,12 +369,12 @@ Partial Class frmAssets
         '
         Me.ctxFilter.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToFilterToolStripMenuItem})
         Me.ctxFilter.Name = "ctxFilter"
-        Me.ctxFilter.Size = New System.Drawing.Size(147, 26)
+        Me.ctxFilter.Size = New System.Drawing.Size(143, 26)
         '
         'AddToFilterToolStripMenuItem
         '
         Me.AddToFilterToolStripMenuItem.Name = "AddToFilterToolStripMenuItem"
-        Me.AddToFilterToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.AddToFilterToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
         Me.AddToFilterToolStripMenuItem.Text = "Add To Filter"
         '
         'lblGroupFilter
@@ -395,12 +400,12 @@ Partial Class frmAssets
         '
         Me.ctxFilterList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFilterToolStripMenuItem})
         Me.ctxFilterList.Name = "ctxFilterList"
-        Me.ctxFilterList.Size = New System.Drawing.Size(152, 26)
+        Me.ctxFilterList.Size = New System.Drawing.Size(147, 26)
         '
         'RemoveFilterToolStripMenuItem
         '
         Me.RemoveFilterToolStripMenuItem.Name = "RemoveFilterToolStripMenuItem"
-        Me.RemoveFilterToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.RemoveFilterToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.RemoveFilterToolStripMenuItem.Text = "Remove Filter"
         '
         'lblSelectedFilters
@@ -603,11 +608,11 @@ Partial Class frmAssets
         '
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup9.Header = "Corporation"
-        ListViewGroup9.Name = "grpCorporation"
-        ListViewGroup10.Header = "Personal"
-        ListViewGroup10.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
+        ListViewGroup3.Header = "Corporation"
+        ListViewGroup3.Name = "grpCorporation"
+        ListViewGroup4.Header = "Personal"
+        ListViewGroup4.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -977,6 +982,122 @@ Partial Class frmAssets
         Me.tabRigBuilder.Text = "Rig Builder"
         Me.tabRigBuilder.UseVisualStyleBackColor = True
         '
+        'lblTotalRigMargin
+        '
+        Me.lblTotalRigMargin.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalRigMargin.AutoSize = True
+        Me.lblTotalRigMargin.Location = New System.Drawing.Point(553, 311)
+        Me.lblTotalRigMargin.Name = "lblTotalRigMargin"
+        Me.lblTotalRigMargin.Size = New System.Drawing.Size(42, 13)
+        Me.lblTotalRigMargin.TabIndex = 33
+        Me.lblTotalRigMargin.Text = "Margin:"
+        '
+        'lblTotalRigProfit
+        '
+        Me.lblTotalRigProfit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalRigProfit.AutoSize = True
+        Me.lblTotalRigProfit.Location = New System.Drawing.Point(350, 311)
+        Me.lblTotalRigProfit.Name = "lblTotalRigProfit"
+        Me.lblTotalRigProfit.Size = New System.Drawing.Size(61, 13)
+        Me.lblTotalRigProfit.TabIndex = 32
+        Me.lblTotalRigProfit.Text = "Total Profit:"
+        '
+        'lblTotalRigSalePrice
+        '
+        Me.lblTotalRigSalePrice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalRigSalePrice.AutoSize = True
+        Me.lblTotalRigSalePrice.Location = New System.Drawing.Point(138, 311)
+        Me.lblTotalRigSalePrice.Name = "lblTotalRigSalePrice"
+        Me.lblTotalRigSalePrice.Size = New System.Drawing.Size(85, 13)
+        Me.lblTotalRigSalePrice.TabIndex = 31
+        Me.lblTotalRigSalePrice.Text = "Total Sale Price:"
+        '
+        'bgAutoRig
+        '
+        Me.bgAutoRig.Controls.Add(Me.radTotalProfit)
+        Me.bgAutoRig.Controls.Add(Me.radTotalSalePrice)
+        Me.bgAutoRig.Controls.Add(Me.radRigMargin)
+        Me.bgAutoRig.Controls.Add(Me.radRigProfit)
+        Me.bgAutoRig.Controls.Add(Me.radRigSaleprice)
+        Me.bgAutoRig.Controls.Add(Me.lblAutoRigCriteria)
+        Me.bgAutoRig.Controls.Add(Me.btnAutoRig)
+        Me.bgAutoRig.Location = New System.Drawing.Point(174, 11)
+        Me.bgAutoRig.Name = "bgAutoRig"
+        Me.bgAutoRig.Size = New System.Drawing.Size(326, 89)
+        Me.bgAutoRig.TabIndex = 30
+        Me.bgAutoRig.TabStop = False
+        Me.bgAutoRig.Text = "Automatic Rig Availability Options"
+        '
+        'radTotalProfit
+        '
+        Me.radTotalProfit.AutoSize = True
+        Me.radTotalProfit.Location = New System.Drawing.Point(161, 36)
+        Me.radTotalProfit.Name = "radTotalProfit"
+        Me.radTotalProfit.Size = New System.Drawing.Size(76, 17)
+        Me.radTotalProfit.TabIndex = 35
+        Me.radTotalProfit.Text = "Total Profit"
+        Me.radTotalProfit.UseVisualStyleBackColor = True
+        '
+        'radTotalSalePrice
+        '
+        Me.radTotalSalePrice.AutoSize = True
+        Me.radTotalSalePrice.Location = New System.Drawing.Point(55, 36)
+        Me.radTotalSalePrice.Name = "radTotalSalePrice"
+        Me.radTotalSalePrice.Size = New System.Drawing.Size(100, 17)
+        Me.radTotalSalePrice.TabIndex = 34
+        Me.radTotalSalePrice.Text = "Total Sale Price"
+        Me.radTotalSalePrice.UseVisualStyleBackColor = True
+        '
+        'radRigMargin
+        '
+        Me.radRigMargin.AutoSize = True
+        Me.radRigMargin.Checked = True
+        Me.radRigMargin.Location = New System.Drawing.Point(235, 18)
+        Me.radRigMargin.Name = "radRigMargin"
+        Me.radRigMargin.Size = New System.Drawing.Size(76, 17)
+        Me.radRigMargin.TabIndex = 33
+        Me.radRigMargin.TabStop = True
+        Me.radRigMargin.Text = "Rig Margin"
+        Me.radRigMargin.UseVisualStyleBackColor = True
+        '
+        'radRigProfit
+        '
+        Me.radRigProfit.AutoSize = True
+        Me.radRigProfit.Location = New System.Drawing.Point(161, 18)
+        Me.radRigProfit.Name = "radRigProfit"
+        Me.radRigProfit.Size = New System.Drawing.Size(68, 17)
+        Me.radRigProfit.TabIndex = 32
+        Me.radRigProfit.Text = "Rig Profit"
+        Me.radRigProfit.UseVisualStyleBackColor = True
+        '
+        'radRigSaleprice
+        '
+        Me.radRigSaleprice.AutoSize = True
+        Me.radRigSaleprice.Location = New System.Drawing.Point(55, 18)
+        Me.radRigSaleprice.Name = "radRigSaleprice"
+        Me.radRigSaleprice.Size = New System.Drawing.Size(92, 17)
+        Me.radRigSaleprice.TabIndex = 31
+        Me.radRigSaleprice.Text = "Rig Sale Price"
+        Me.radRigSaleprice.UseVisualStyleBackColor = True
+        '
+        'lblAutoRigCriteria
+        '
+        Me.lblAutoRigCriteria.AutoSize = True
+        Me.lblAutoRigCriteria.Location = New System.Drawing.Point(7, 20)
+        Me.lblAutoRigCriteria.Name = "lblAutoRigCriteria"
+        Me.lblAutoRigCriteria.Size = New System.Drawing.Size(42, 13)
+        Me.lblAutoRigCriteria.TabIndex = 30
+        Me.lblAutoRigCriteria.Text = "Criteria:"
+        '
+        'btnAutoRig
+        '
+        Me.btnAutoRig.Location = New System.Drawing.Point(10, 60)
+        Me.btnAutoRig.Name = "btnAutoRig"
+        Me.btnAutoRig.Size = New System.Drawing.Size(125, 23)
+        Me.btnAutoRig.TabIndex = 29
+        Me.btnAutoRig.Text = "Auto Rig Availability"
+        Me.btnAutoRig.UseVisualStyleBackColor = True
+        '
         'lblRigBuildList
         '
         Me.lblRigBuildList.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1255,7 +1376,7 @@ Partial Class frmAssets
         'tssLabelTotalAssetsLabel
         '
         Me.tssLabelTotalAssetsLabel.Name = "tssLabelTotalAssetsLabel"
-        Me.tssLabelTotalAssetsLabel.Size = New System.Drawing.Size(143, 17)
+        Me.tssLabelTotalAssetsLabel.Size = New System.Drawing.Size(154, 17)
         Me.tssLabelTotalAssetsLabel.Text = "Total Displayed Asset Value:"
         '
         'tssLabelTotalAssets
@@ -1278,7 +1399,7 @@ Partial Class frmAssets
         Me.tsbDownloadAssets.Image = CType(resources.GetObject("tsbDownloadAssets.Image"), System.Drawing.Image)
         Me.tsbDownloadAssets.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbDownloadAssets.Name = "tsbDownloadAssets"
-        Me.tsbDownloadAssets.Size = New System.Drawing.Size(93, 22)
+        Me.tsbDownloadAssets.Size = New System.Drawing.Size(101, 22)
         Me.tsbDownloadAssets.Text = "Download Assets"
         '
         'ToolStripSeparator1
@@ -1292,7 +1413,7 @@ Partial Class frmAssets
         Me.tsbDownloadOutposts.Image = CType(resources.GetObject("tsbDownloadOutposts.Image"), System.Drawing.Image)
         Me.tsbDownloadOutposts.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbDownloadOutposts.Name = "tsbDownloadOutposts"
-        Me.tsbDownloadOutposts.Size = New System.Drawing.Size(105, 22)
+        Me.tsbDownloadOutposts.Size = New System.Drawing.Size(116, 22)
         Me.tsbDownloadOutposts.Text = "Download Outposts"
         '
         'ToolStripSeparator3
@@ -1306,7 +1427,7 @@ Partial Class frmAssets
         Me.tsbRefreshAssets.Image = CType(resources.GetObject("tsbRefreshAssets.Image"), System.Drawing.Image)
         Me.tsbRefreshAssets.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbRefreshAssets.Name = "tsbRefreshAssets"
-        Me.tsbRefreshAssets.Size = New System.Drawing.Size(68, 22)
+        Me.tsbRefreshAssets.Size = New System.Drawing.Size(72, 22)
         Me.tsbRefreshAssets.Text = "View Assets"
         '
         'ToolStripSeparator2
@@ -1321,200 +1442,116 @@ Partial Class frmAssets
         Me.tsbReports.Image = CType(resources.GetObject("tsbReports.Image"), System.Drawing.Image)
         Me.tsbReports.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbReports.Name = "tsbReports"
-        Me.tsbReports.Size = New System.Drawing.Size(61, 22)
+        Me.tsbReports.Size = New System.Drawing.Size(63, 22)
         Me.tsbReports.Text = "Reports"
         '
         'mnuLocation
         '
         Me.mnuLocation.Name = "mnuLocation"
-        Me.mnuLocation.Size = New System.Drawing.Size(184, 22)
+        Me.mnuLocation.Size = New System.Drawing.Size(185, 22)
         Me.mnuLocation.Text = "Grouped by Location"
         '
         'mnuAssetLists
         '
         Me.mnuAssetLists.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListName, Me.mnuAssetListQuantity, Me.mnuAssetListPrice, Me.mnuAssetListValue})
         Me.mnuAssetLists.Name = "mnuAssetLists"
-        Me.mnuAssetLists.Size = New System.Drawing.Size(184, 22)
+        Me.mnuAssetLists.Size = New System.Drawing.Size(185, 22)
         Me.mnuAssetLists.Text = "Asset Lists"
         '
         'mnuAssetListName
         '
         Me.mnuAssetListName.Name = "mnuAssetListName"
-        Me.mnuAssetListName.Size = New System.Drawing.Size(195, 22)
+        Me.mnuAssetListName.Size = New System.Drawing.Size(193, 22)
         Me.mnuAssetListName.Text = "Asset List (Name)"
         '
         'mnuAssetListQuantity
         '
         Me.mnuAssetListQuantity.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListQuantityA, Me.mnuAssetListQuantityD})
         Me.mnuAssetListQuantity.Name = "mnuAssetListQuantity"
-        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(195, 22)
+        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(193, 22)
         Me.mnuAssetListQuantity.Text = "Asset List (Quantity)"
         '
         'mnuAssetListQuantityA
         '
         Me.mnuAssetListQuantityA.Name = "mnuAssetListQuantityA"
-        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(136, 22)
         Me.mnuAssetListQuantityA.Text = "Ascending"
         '
         'mnuAssetListQuantityD
         '
         Me.mnuAssetListQuantityD.Name = "mnuAssetListQuantityD"
-        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(136, 22)
         Me.mnuAssetListQuantityD.Text = "Descending"
         '
         'mnuAssetListPrice
         '
         Me.mnuAssetListPrice.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListPriceA, Me.mnuAssetListPriceD})
         Me.mnuAssetListPrice.Name = "mnuAssetListPrice"
-        Me.mnuAssetListPrice.Size = New System.Drawing.Size(195, 22)
+        Me.mnuAssetListPrice.Size = New System.Drawing.Size(193, 22)
         Me.mnuAssetListPrice.Text = "Asset List (Unit Price)"
         '
         'mnuAssetListPriceA
         '
         Me.mnuAssetListPriceA.Name = "mnuAssetListPriceA"
-        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(136, 22)
         Me.mnuAssetListPriceA.Text = "Ascending"
         '
         'mnuAssetListPriceD
         '
         Me.mnuAssetListPriceD.Name = "mnuAssetListPriceD"
-        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(136, 22)
         Me.mnuAssetListPriceD.Text = "Descending"
         '
         'mnuAssetListValue
         '
         Me.mnuAssetListValue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListValueA, Me.mnuAssetListValueD})
         Me.mnuAssetListValue.Name = "mnuAssetListValue"
-        Me.mnuAssetListValue.Size = New System.Drawing.Size(195, 22)
+        Me.mnuAssetListValue.Size = New System.Drawing.Size(193, 22)
         Me.mnuAssetListValue.Text = "Asset List (Total Value)"
         '
         'mnuAssetListValueA
         '
         Me.mnuAssetListValueA.Name = "mnuAssetListValueA"
-        Me.mnuAssetListValueA.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListValueA.Size = New System.Drawing.Size(136, 22)
         Me.mnuAssetListValueA.Text = "Ascending"
         '
         'mnuAssetListValueD
         '
         Me.mnuAssetListValueD.Name = "mnuAssetListValueD"
-        Me.mnuAssetListValueD.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListValueD.Size = New System.Drawing.Size(136, 22)
         Me.mnuAssetListValueD.Text = "Descending"
         '
-        'btnAutoRig
+        'ToolStripMenuItem2
         '
-        Me.btnAutoRig.Location = New System.Drawing.Point(10, 60)
-        Me.btnAutoRig.Name = "btnAutoRig"
-        Me.btnAutoRig.Size = New System.Drawing.Size(125, 23)
-        Me.btnAutoRig.TabIndex = 29
-        Me.btnAutoRig.Text = "Auto Rig Availability"
-        Me.btnAutoRig.UseVisualStyleBackColor = True
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(186, 6)
         '
-        'bgAutoRig
+        'mnuItemRecycling
         '
-        Me.bgAutoRig.Controls.Add(Me.radTotalProfit)
-        Me.bgAutoRig.Controls.Add(Me.radTotalSalePrice)
-        Me.bgAutoRig.Controls.Add(Me.radRigMargin)
-        Me.bgAutoRig.Controls.Add(Me.radRigProfit)
-        Me.bgAutoRig.Controls.Add(Me.radRigSaleprice)
-        Me.bgAutoRig.Controls.Add(Me.lblAutoRigCriteria)
-        Me.bgAutoRig.Controls.Add(Me.btnAutoRig)
-        Me.bgAutoRig.Location = New System.Drawing.Point(174, 11)
-        Me.bgAutoRig.Name = "bgAutoRig"
-        Me.bgAutoRig.Size = New System.Drawing.Size(326, 89)
-        Me.bgAutoRig.TabIndex = 30
-        Me.bgAutoRig.TabStop = False
-        Me.bgAutoRig.Text = "Automatic Rig Availability Options"
+        Me.mnuItemRecycling.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRecycleItem, Me.mnuRecycleContained, Me.mnuRecycleAll})
+        Me.mnuItemRecycling.Name = "mnuItemRecycling"
+        Me.mnuItemRecycling.Size = New System.Drawing.Size(189, 22)
+        Me.mnuItemRecycling.Text = "Recycling Profitability"
         '
-        'lblAutoRigCriteria
+        'mnuRecycleItem
         '
-        Me.lblAutoRigCriteria.AutoSize = True
-        Me.lblAutoRigCriteria.Location = New System.Drawing.Point(7, 20)
-        Me.lblAutoRigCriteria.Name = "lblAutoRigCriteria"
-        Me.lblAutoRigCriteria.Size = New System.Drawing.Size(42, 13)
-        Me.lblAutoRigCriteria.TabIndex = 30
-        Me.lblAutoRigCriteria.Text = "Criteria:"
+        Me.mnuRecycleItem.Name = "mnuRecycleItem"
+        Me.mnuRecycleItem.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleItem.Text = "Current Item"
         '
-        'radRigSaleprice
+        'mnuRecycleContained
         '
-        Me.radRigSaleprice.AutoSize = True
-        Me.radRigSaleprice.Location = New System.Drawing.Point(55, 18)
-        Me.radRigSaleprice.Name = "radRigSaleprice"
-        Me.radRigSaleprice.Size = New System.Drawing.Size(92, 17)
-        Me.radRigSaleprice.TabIndex = 31
-        Me.radRigSaleprice.Text = "Rig Sale Price"
-        Me.radRigSaleprice.UseVisualStyleBackColor = True
+        Me.mnuRecycleContained.Enabled = False
+        Me.mnuRecycleContained.Name = "mnuRecycleContained"
+        Me.mnuRecycleContained.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleContained.Text = "Contained Items"
         '
-        'radRigProfit
+        'mnuRecycleAll
         '
-        Me.radRigProfit.AutoSize = True
-        Me.radRigProfit.Location = New System.Drawing.Point(161, 18)
-        Me.radRigProfit.Name = "radRigProfit"
-        Me.radRigProfit.Size = New System.Drawing.Size(68, 17)
-        Me.radRigProfit.TabIndex = 32
-        Me.radRigProfit.Text = "Rig Profit"
-        Me.radRigProfit.UseVisualStyleBackColor = True
-        '
-        'radRigMargin
-        '
-        Me.radRigMargin.AutoSize = True
-        Me.radRigMargin.Checked = True
-        Me.radRigMargin.Location = New System.Drawing.Point(235, 18)
-        Me.radRigMargin.Name = "radRigMargin"
-        Me.radRigMargin.Size = New System.Drawing.Size(76, 17)
-        Me.radRigMargin.TabIndex = 33
-        Me.radRigMargin.TabStop = True
-        Me.radRigMargin.Text = "Rig Margin"
-        Me.radRigMargin.UseVisualStyleBackColor = True
-        '
-        'radTotalProfit
-        '
-        Me.radTotalProfit.AutoSize = True
-        Me.radTotalProfit.Location = New System.Drawing.Point(161, 36)
-        Me.radTotalProfit.Name = "radTotalProfit"
-        Me.radTotalProfit.Size = New System.Drawing.Size(76, 17)
-        Me.radTotalProfit.TabIndex = 35
-        Me.radTotalProfit.Text = "Total Profit"
-        Me.radTotalProfit.UseVisualStyleBackColor = True
-        '
-        'radTotalSalePrice
-        '
-        Me.radTotalSalePrice.AutoSize = True
-        Me.radTotalSalePrice.Location = New System.Drawing.Point(55, 36)
-        Me.radTotalSalePrice.Name = "radTotalSalePrice"
-        Me.radTotalSalePrice.Size = New System.Drawing.Size(100, 17)
-        Me.radTotalSalePrice.TabIndex = 34
-        Me.radTotalSalePrice.Text = "Total Sale Price"
-        Me.radTotalSalePrice.UseVisualStyleBackColor = True
-        '
-        'lblTotalRigSalePrice
-        '
-        Me.lblTotalRigSalePrice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblTotalRigSalePrice.AutoSize = True
-        Me.lblTotalRigSalePrice.Location = New System.Drawing.Point(138, 311)
-        Me.lblTotalRigSalePrice.Name = "lblTotalRigSalePrice"
-        Me.lblTotalRigSalePrice.Size = New System.Drawing.Size(85, 13)
-        Me.lblTotalRigSalePrice.TabIndex = 31
-        Me.lblTotalRigSalePrice.Text = "Total Sale Price:"
-        '
-        'lblTotalRigProfit
-        '
-        Me.lblTotalRigProfit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblTotalRigProfit.AutoSize = True
-        Me.lblTotalRigProfit.Location = New System.Drawing.Point(350, 311)
-        Me.lblTotalRigProfit.Name = "lblTotalRigProfit"
-        Me.lblTotalRigProfit.Size = New System.Drawing.Size(61, 13)
-        Me.lblTotalRigProfit.TabIndex = 32
-        Me.lblTotalRigProfit.Text = "Total Profit:"
-        '
-        'lblTotalRigMargin
-        '
-        Me.lblTotalRigMargin.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblTotalRigMargin.AutoSize = True
-        Me.lblTotalRigMargin.Location = New System.Drawing.Point(553, 311)
-        Me.lblTotalRigMargin.Name = "lblTotalRigMargin"
-        Me.lblTotalRigMargin.Size = New System.Drawing.Size(42, 13)
-        Me.lblTotalRigMargin.TabIndex = 33
-        Me.lblTotalRigMargin.Text = "Margin:"
+        Me.mnuRecycleAll.Enabled = False
+        Me.mnuRecycleAll.Name = "mnuRecycleAll"
+        Me.mnuRecycleAll.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleAll.Text = "Container + Items"
         '
         'frmAssets
         '
@@ -1540,13 +1577,13 @@ Partial Class frmAssets
         Me.tabInvestments.PerformLayout()
         Me.tabRigBuilder.ResumeLayout(False)
         Me.tabRigBuilder.PerformLayout()
+        Me.bgAutoRig.ResumeLayout(False)
+        Me.bgAutoRig.PerformLayout()
         CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        Me.bgAutoRig.ResumeLayout(False)
-        Me.bgAutoRig.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1698,4 +1735,9 @@ Partial Class frmAssets
     Friend WithEvents lblTotalRigProfit As System.Windows.Forms.Label
     Friend WithEvents lblTotalRigSalePrice As System.Windows.Forms.Label
     Friend WithEvents lblTotalRigMargin As System.Windows.Forms.Label
+    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuItemRecycling As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuRecycleItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuRecycleContained As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuRecycleAll As System.Windows.Forms.ToolStripMenuItem
 End Class

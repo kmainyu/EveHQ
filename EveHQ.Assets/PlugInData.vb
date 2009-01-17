@@ -6,6 +6,7 @@ Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
     Dim mSetPlugInData As Object
 
+    Public Shared Items As New SortedList
     Public Shared itemFlags As New SortedList
     Public Shared stations As New SortedList
     Public Shared NPCCorps As New ArrayList
@@ -70,9 +71,53 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
+            If Me.LoadItems = False Then
+                Return False
+                Exit Function
+            End If
             Call Me.CheckForConqXMLFile()
             Return True
         End If
+    End Function
+    Private Function LoadItems() As Boolean
+        Try
+            Items.Clear()
+            Dim strSQL As String = "SELECT * FROM (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN dgmTypeAttributes ON invTypes.typeID = dgmTypeAttributes.typeID WHERE attributeID=633;"
+            Dim itemData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+            If itemData IsNot Nothing Then
+                If itemData.Tables(0).Rows.Count > 0 Then
+                    For Each itemRow As DataRow In itemData.Tables(0).Rows
+                        Dim newItem As New ItemData
+                        newItem.ID = CLng(itemRow.Item("typeID"))
+                        newItem.Name = CStr(itemRow.Item("typeName"))
+                        newItem.Group = CInt(itemRow.Item("groupID"))
+                        newItem.Category = CInt(itemRow.Item("categoryID"))
+                        If IsDBNull(itemRow.Item("marketGroupID")) = False Then
+                            newItem.MarketGroup = CInt(itemRow.Item("marketGroupID"))
+                        Else
+                            newItem.MarketGroup = 0
+                        End If
+                        newItem.Published = CInt(itemRow.Item("published"))
+                        newItem.Volume = CInt(itemRow.Item("volume"))
+                        If IsDBNull(itemRow.Item("valueInt")) = False Then
+                            newItem.MetaLevel = CInt(itemRow.Item("valueInt"))
+                        Else
+                            newItem.MetaLevel = CInt(itemRow.Item("valueFloat"))
+                        End If
+                        newItem.PortionSize = CInt(itemRow.Item("portionSize"))
+                        Items.Add(newItem.ID, newItem)
+                    Next
+                    Return True
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error Loading Item Data for Assets Plugin" & ControlChars.CrLf & ex.Message, "Assets Plug-in Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End Try
     End Function
     Private Sub LoadItemFlags()
         itemFlags.Add(0, "None")
