@@ -28,17 +28,19 @@ Partial Class frmRecycleAssets
         Me.colQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colItemPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colRefinePrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBatches = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colTotalPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.SuspendLayout()
         '
         'clvRecycle
         '
-        Me.clvRecycle.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colItem, Me.colQuantity, Me.colItemPrice, Me.colRefinePrice})
+        Me.clvRecycle.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colItem, Me.colQuantity, Me.colBatches, Me.colItemPrice, Me.colTotalPrice, Me.colRefinePrice})
         Me.clvRecycle.DefaultItemHeight = 20
         Me.clvRecycle.Dock = System.Windows.Forms.DockStyle.Fill
         Me.clvRecycle.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.clvRecycle.Location = New System.Drawing.Point(0, 0)
         Me.clvRecycle.Name = "clvRecycle"
-        Me.clvRecycle.Size = New System.Drawing.Size(728, 520)
+        Me.clvRecycle.Size = New System.Drawing.Size(851, 540)
         Me.clvRecycle.TabIndex = 0
         '
         'colItem
@@ -54,31 +56,49 @@ Partial Class frmRecycleAssets
         Me.colQuantity.DisplayIndex = 1
         Me.colQuantity.Tag = Nothing
         Me.colQuantity.Text = "Quantity"
+        Me.colQuantity.Width = 75
         '
         'colItemPrice
         '
         Me.colItemPrice.CustomSortTag = Nothing
-        Me.colItemPrice.DisplayIndex = 2
+        Me.colItemPrice.DisplayIndex = 3
         Me.colItemPrice.Tag = Nothing
         Me.colItemPrice.Text = "Item Price"
-        Me.colItemPrice.Width = 150
+        Me.colItemPrice.Width = 100
         '
         'colRefinePrice
         '
         Me.colRefinePrice.CustomSortTag = Nothing
-        Me.colRefinePrice.DisplayIndex = 3
+        Me.colRefinePrice.DisplayIndex = 5
         Me.colRefinePrice.Tag = Nothing
         Me.colRefinePrice.Text = "Refine Price"
-        Me.colRefinePrice.Width = 150
+        Me.colRefinePrice.Width = 100
+        '
+        'colBatches
+        '
+        Me.colBatches.CustomSortTag = Nothing
+        Me.colBatches.DisplayIndex = 2
+        Me.colBatches.Tag = Nothing
+        Me.colBatches.Text = "Batches"
+        Me.colBatches.Width = 60
+        '
+        'colTotalPrice
+        '
+        Me.colTotalPrice.CustomSortTag = Nothing
+        Me.colTotalPrice.DisplayIndex = 4
+        Me.colTotalPrice.Tag = Nothing
+        Me.colTotalPrice.Text = "Total Price"
+        Me.colTotalPrice.Width = 100
         '
         'frmRecycleAssets
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(728, 520)
+        Me.ClientSize = New System.Drawing.Size(851, 540)
         Me.Controls.Add(Me.clvRecycle)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmRecycleAssets"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Recycling Profitability Calculations"
         Me.ResumeLayout(False)
 
@@ -88,4 +108,6 @@ Partial Class frmRecycleAssets
     Friend WithEvents colQuantity As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colItemPrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colRefinePrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colBatches As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colTotalPrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
 End Class

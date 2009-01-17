@@ -38,6 +38,6 @@ Public Class ItemData
     Public MarketGroup As Integer
     Public Published As Integer
     Public Volume As Integer
-    Public MetaLevel As Integer
+    Public MetaLevel As Integer = 1
     Public PortionSize As Integer
 End Class

@@ -82,12 +82,13 @@ Public Class PlugInData
     Private Function LoadItems() As Boolean
         Try
             Items.Clear()
-            Dim strSQL As String = "SELECT * FROM (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN dgmTypeAttributes ON invTypes.typeID = dgmTypeAttributes.typeID WHERE attributeID=633;"
+            Dim strSQL As String = "SELECT * FROM invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID;"
             Dim itemData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+            Dim newItem As New ItemData
             If itemData IsNot Nothing Then
                 If itemData.Tables(0).Rows.Count > 0 Then
                     For Each itemRow As DataRow In itemData.Tables(0).Rows
-                        Dim newItem As New ItemData
+                        newItem = New ItemData
                         newItem.ID = CLng(itemRow.Item("typeID"))
                         newItem.Name = CStr(itemRow.Item("typeName"))
                         newItem.Group = CInt(itemRow.Item("groupID"))
@@ -99,15 +100,25 @@ Public Class PlugInData
                         End If
                         newItem.Published = CInt(itemRow.Item("published"))
                         newItem.Volume = CInt(itemRow.Item("volume"))
-                        If IsDBNull(itemRow.Item("valueInt")) = False Then
-                            newItem.MetaLevel = CInt(itemRow.Item("valueInt"))
-                        Else
-                            newItem.MetaLevel = CInt(itemRow.Item("valueFloat"))
-                        End If
                         newItem.PortionSize = CInt(itemRow.Item("portionSize"))
-                        Items.Add(newItem.ID, newItem)
+                        Items.Add(newItem.ID.ToString, newItem)
                     Next
-                    Return True
+                    ' Get the MetaLevel data
+                    strSQL = "SELECT * FROM dgmTypeAttributes WHERE attributeID=633;"
+                    itemData = EveHQ.Core.DataFunctions.GetData(strSQL)
+                    If itemData.Tables(0).Rows.Count > 0 Then
+                        For Each itemRow As DataRow In itemData.Tables(0).Rows
+                            newItem = CType(Items(CStr(itemRow.Item("typeID"))), Assets.ItemData)
+                            If IsDBNull(itemRow.Item("valueInt")) = False Then
+                                newItem.MetaLevel = CInt(itemRow.Item("valueInt"))
+                            Else
+                                newItem.MetaLevel = CInt(itemRow.Item("valueFloat"))
+                            End If
+                        Next
+                        Return True
+                    Else
+                        Return False
+                    End If
                 Else
                     Return False
                 End If

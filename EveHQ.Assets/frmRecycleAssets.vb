@@ -19,13 +19,13 @@ Public Class frmRecycleAssets
         ' Form a string of the asset IDs in the AssetList Property
         Dim strAssets As New StringBuilder
         For Each asset As String In cAssetList.Keys
-            strAssets.Append(", " & EveHQ.Core.HQ.itemList(asset).ToString)
+            strAssets.Append(", " & asset)
         Next
         strAssets.Remove(0, 2)
 
         ' Fetch the data from the database
-        Dim strSQL As String = "SELECT typeActivityMaterials.typeID AS itemTypeID, invTypes1.typeName AS itemTypeName, invTypes.typeID AS materialTypeID, invTypes.typeName AS materialTypeName, typeActivityMaterials.quantity AS materialQuantity, invTypes1.portionSize AS itemPortion"
-        strSQL &= " FROM invTypes AS invTypes1 INNER JOIN (invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID=typeActivityMaterials.requiredTypeID) ON invCategories.categoryID=invGroups.categoryID) ON invTypes1.typeID=typeActivityMaterials.typeID"
+        Dim strSQL As String = "SELECT typeActivityMaterials.typeID AS itemTypeID, invTypes.typeID AS materialTypeID, invTypes.typeName AS materialTypeName, typeActivityMaterials.quantity AS materialQuantity"
+        strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.requiredTypeID) ON invCategories.categoryID = invGroups.categoryID"
         strSQL &= " WHERE (typeActivityMaterials.typeID IN (" & strAssets.ToString & ") AND typeActivityMaterials.activityID IN (6,9)) ORDER BY invCategories.categoryName, invGroups.groupName"
         Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         MessageBox.Show(CStr(mDataSet.Tables(0).Rows.Count))
@@ -40,10 +40,6 @@ Public Class frmRecycleAssets
                 Else
                     matList = New SortedList
                     itemList.Add(.Rows(row).Item("itemTypeID").ToString.Trim, matList)
-                    ' Reset the quantity to the portion size
-                    If CInt(.Rows(row).Item("itemPortion")) > 1 Then
-                        cAssetList(.Rows(row).Item("itemTypeName").ToString.Trim) = Int(CLng(cAssetList(.Rows(row).Item("itemTypeName").ToString.Trim)) / CInt(.Rows(row).Item("itemPortion")))
-                    End If
                 End If
                 matList.Add(.Rows(row).Item("materialTypeName").ToString.Trim, CLng(.Rows(row).Item("materialQuantity").ToString.Trim))
             Next
@@ -56,28 +52,39 @@ Public Class frmRecycleAssets
         Dim quant As Double = 0
         Dim recycleTotal As Double = 0
         Dim newCLVItem As New ContainerListViewItem
+        Dim newCLVSubItem As New ContainerListViewItem
+        Dim itemInfo As New ItemData
+        Dim batches As Integer
         For Each asset As String In cAssetList.Keys
-            matList = CType(itemList(EveHQ.Core.HQ.itemList(asset)), Collections.SortedList)
+            itemInfo = CType(PlugInData.Items(asset), ItemData)
+            matList = CType(itemList(asset), Collections.SortedList)
             newCLVItem = New ContainerListViewItem
-            newCLVItem.Text = asset
+            newCLVItem.Text = itemInfo.Name
             clvRecycle.Items.Add(newCLVItem)
-            newCLVItem.SubItems(1).Text = CStr(cAssetList(asset))
-            newCLVItem.SubItems(2).Text = FormatNumber(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(asset).ToString), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(asset), 2)
+            batches = CInt(Int(CLng(cAssetList(itemInfo.ID.ToString)) / itemInfo.PortionSize))
+            quant = CDbl(cAssetList(asset))
+            newCLVItem.SubItems(1).Text = FormatNumber(quant, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            newCLVItem.SubItems(2).Text = FormatNumber(batches, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            newCLVItem.SubItems(3).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            newCLVItem.SubItems(4).Text = FormatNumber(price * quant, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             recycleTotal = 0
             For Each mat As String In matList.Keys
                 price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat).ToString), 2)
-                quant = CDbl(matList(mat))
-                Dim newCLVSubItem As New ContainerListViewItem
+                quant = CDbl(matList(mat)) * batches
+                newCLVSubItem = New ContainerListViewItem
                 newCLVSubItem.Text = mat
                 newCLVItem.Items.Add(newCLVSubItem)
                 newCLVSubItem.SubItems(1).Text = CStr(quant)
-                newCLVSubItem.SubItems(2).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLVSubItem.SubItems(3).Text = FormatNumber(price * quant, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                newCLVSubItem.SubItems(2).Text = CStr(quant)
+                newCLVSubItem.SubItems(3).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                newCLVSubItem.SubItems(4).Text = FormatNumber(price * quant, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                newCLVSubItem.SubItems(5).Text = newCLVSubItem.SubItems(4).Text
                 recycleTotal += price * quant
             Next
-            newCLVItem.SubItems(3).Text = FormatNumber(recycleTotal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            If CDbl(newCLVItem.SubItems(2).Text) > CDbl(newCLVItem.SubItems(3).Text) Then
-                newCLVItem.BackColor = Drawing.Color.Green
+            newCLVItem.SubItems(5).Text = FormatNumber(recycleTotal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            If CDbl(newCLVItem.SubItems(5).Text) > CDbl(newCLVItem.SubItems(4).Text) Then
+                newCLVItem.BackColor = Drawing.Color.LightGreen
             End If
         Next
         clvRecycle.EndUpdate()
