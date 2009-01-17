@@ -23,8 +23,8 @@ Partial Class frmAssets
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAssets))
         Me.lblSelectChar = New System.Windows.Forms.Label
         Me.cboPilots = New System.Windows.Forms.ComboBox
@@ -43,6 +43,11 @@ Partial Class frmAssets
         Me.mnuViewInIB = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuViewInHQF = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuModifyPrice = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuToolSep = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuItemRecycling = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuRecycleItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuRecycleContained = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuRecycleAll = New System.Windows.Forms.ToolStripMenuItem
         Me.chkExcludeBPs = New System.Windows.Forms.CheckBox
         Me.tvwFilter = New System.Windows.Forms.TreeView
         Me.ctxFilter = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -173,11 +178,6 @@ Partial Class frmAssets
         Me.mnuAssetListValue = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueA = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueD = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuItemRecycling = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuRecycleItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuRecycleContained = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuRecycleAll = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -313,7 +313,7 @@ Partial Class frmAssets
         '
         'ctxAssets
         '
-        Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.ToolStripMenuItem2, Me.mnuItemRecycling})
+        Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.mnuToolSep, Me.mnuItemRecycling})
         Me.ctxAssets.Name = "ctxAssets"
         Me.ctxAssets.Size = New System.Drawing.Size(190, 148)
         '
@@ -346,6 +346,38 @@ Partial Class frmAssets
         Me.mnuModifyPrice.Name = "mnuModifyPrice"
         Me.mnuModifyPrice.Size = New System.Drawing.Size(189, 22)
         Me.mnuModifyPrice.Text = "Modify Custom Price"
+        '
+        'mnuToolSep
+        '
+        Me.mnuToolSep.Name = "mnuToolSep"
+        Me.mnuToolSep.Size = New System.Drawing.Size(186, 6)
+        '
+        'mnuItemRecycling
+        '
+        Me.mnuItemRecycling.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRecycleItem, Me.mnuRecycleContained, Me.mnuRecycleAll})
+        Me.mnuItemRecycling.Name = "mnuItemRecycling"
+        Me.mnuItemRecycling.Size = New System.Drawing.Size(189, 22)
+        Me.mnuItemRecycling.Text = "Recycling Profitability"
+        '
+        'mnuRecycleItem
+        '
+        Me.mnuRecycleItem.Name = "mnuRecycleItem"
+        Me.mnuRecycleItem.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleItem.Text = "Current Item"
+        '
+        'mnuRecycleContained
+        '
+        Me.mnuRecycleContained.Enabled = False
+        Me.mnuRecycleContained.Name = "mnuRecycleContained"
+        Me.mnuRecycleContained.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleContained.Text = "Contained Items"
+        '
+        'mnuRecycleAll
+        '
+        Me.mnuRecycleAll.Enabled = False
+        Me.mnuRecycleAll.Name = "mnuRecycleAll"
+        Me.mnuRecycleAll.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleAll.Text = "Container + Items"
         '
         'chkExcludeBPs
         '
@@ -608,11 +640,11 @@ Partial Class frmAssets
         '
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup3.Header = "Corporation"
-        ListViewGroup3.Name = "grpCorporation"
-        ListViewGroup4.Header = "Personal"
-        ListViewGroup4.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Corporation"
+        ListViewGroup1.Name = "grpCorporation"
+        ListViewGroup2.Header = "Personal"
+        ListViewGroup2.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -1521,38 +1553,6 @@ Partial Class frmAssets
         Me.mnuAssetListValueD.Size = New System.Drawing.Size(136, 22)
         Me.mnuAssetListValueD.Text = "Descending"
         '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(186, 6)
-        '
-        'mnuItemRecycling
-        '
-        Me.mnuItemRecycling.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRecycleItem, Me.mnuRecycleContained, Me.mnuRecycleAll})
-        Me.mnuItemRecycling.Name = "mnuItemRecycling"
-        Me.mnuItemRecycling.Size = New System.Drawing.Size(189, 22)
-        Me.mnuItemRecycling.Text = "Recycling Profitability"
-        '
-        'mnuRecycleItem
-        '
-        Me.mnuRecycleItem.Name = "mnuRecycleItem"
-        Me.mnuRecycleItem.Size = New System.Drawing.Size(169, 22)
-        Me.mnuRecycleItem.Text = "Current Item"
-        '
-        'mnuRecycleContained
-        '
-        Me.mnuRecycleContained.Enabled = False
-        Me.mnuRecycleContained.Name = "mnuRecycleContained"
-        Me.mnuRecycleContained.Size = New System.Drawing.Size(169, 22)
-        Me.mnuRecycleContained.Text = "Contained Items"
-        '
-        'mnuRecycleAll
-        '
-        Me.mnuRecycleAll.Enabled = False
-        Me.mnuRecycleAll.Name = "mnuRecycleAll"
-        Me.mnuRecycleAll.Size = New System.Drawing.Size(169, 22)
-        Me.mnuRecycleAll.Text = "Container + Items"
-        '
         'frmAssets
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1735,7 +1735,7 @@ Partial Class frmAssets
     Friend WithEvents lblTotalRigProfit As System.Windows.Forms.Label
     Friend WithEvents lblTotalRigSalePrice As System.Windows.Forms.Label
     Friend WithEvents lblTotalRigMargin As System.Windows.Forms.Label
-    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuToolSep As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuItemRecycling As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuRecycleItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuRecycleContained As System.Windows.Forms.ToolStripMenuItem

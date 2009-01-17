@@ -2237,13 +2237,39 @@ Public Class frmAssets
     Private Sub ctxAssets_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxAssets.Opening
         If tlvAssets.SelectedItems.Count > 0 Then
             Dim itemName As String = tlvAssets.SelectedItems(0).Text
-            If EveHQ.Core.HQ.itemList.Contains(itemName) = True Then
-                mnuItemName.Text = itemName
-                mnuItemName.Tag = EveHQ.Core.HQ.itemList(itemName)
-                If tlvAssets.SelectedItems(0).SubItems(3).Text = "Ship" Then
-                    mnuViewInHQF.Visible = True
+            If itemName <> "Cash Balances" And itemName <> "Investments" Then
+                If EveHQ.Core.HQ.itemList.Contains(itemName) = True Then
+                    mnuItemName.Text = itemName
+                    mnuItemName.Tag = EveHQ.Core.HQ.itemList(itemName)
+                    mnuViewInIB.Visible = True
+                    mnuModifyPrice.Visible = True
+                    mnuToolSep.Visible = True
+                    mnuRecycleItem.Enabled = True
+                    If tlvAssets.SelectedItems(0).SubItems(3).Text = "Ship" Then
+                        mnuViewInHQF.Visible = True
+                    Else
+                        mnuViewInHQF.Visible = False
+                    End If
+                    If tlvAssets.SelectedItems(0).Items.Count > 0 Then
+                        mnuRecycleContained.Enabled = True
+                        mnuRecycleAll.Enabled = True
+                    Else
+                        mnuRecycleContained.Enabled = False
+                        mnuRecycleAll.Enabled = False
+                    End If
                 Else
+                    mnuItemName.Text = itemName
+                    mnuViewInIB.Visible = False
                     mnuViewInHQF.Visible = False
+                    mnuModifyPrice.Visible = False
+                    mnuToolSep.Visible = False
+                    If tlvAssets.SelectedItems(0).Items.Count > 0 Then
+                        mnuRecycleItem.Enabled = False
+                        mnuRecycleContained.Enabled = True
+                        mnuRecycleAll.Enabled = False
+                    Else
+                        e.Cancel = True
+                    End If
                 End If
             Else
                 e.Cancel = True
@@ -3045,9 +3071,46 @@ Public Class frmAssets
         myRecycler.Dispose()
     End Sub
 
+    Private Sub mnuRecycleContained_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecycleContained.Click
+        Dim asset As ContainerListViewItem = tlvAssets.SelectedItems(0)
+        Dim assetList As New SortedList
+        Call Me.AddItemsToRecycleList(asset, assetList)
+        Dim myRecycler As New frmRecycleAssets
+        myRecycler.AssetList = assetList
+        myRecycler.ShowDialog()
+        myRecycler.Dispose()
+    End Sub
+
+    Private Sub mnuRecycleAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecycleAll.Click
+        Dim asset As ContainerListViewItem = tlvAssets.SelectedItems(0)
+        Dim assetList As New SortedList
+        assetList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(5).Text))
+        Call Me.AddItemsToRecycleList(asset, assetList)
+        Dim myRecycler As New frmRecycleAssets
+        myRecycler.AssetList = assetList
+        myRecycler.ShowDialog()
+        myRecycler.Dispose()
+    End Sub
+
+    Private Sub AddItemsToRecycleList(ByVal item As ContainerListViewItem, ByRef assetList As SortedList)
+        For Each childItem As ContainerListViewItem In item.Items
+            If assetList.ContainsKey(EveHQ.Core.HQ.itemList(childItem.Text)) = True Then
+                assetList(EveHQ.Core.HQ.itemList(childItem.Text)) = CLng(assetList(EveHQ.Core.HQ.itemList(childItem.Text))) + CLng(childItem.SubItems(5).Text)
+            Else
+                assetList.Add(EveHQ.Core.HQ.itemList(childItem.Text), CLng(childItem.SubItems(5).Text))
+            End If
+            If childItem.Items.Count > 0 Then
+                Call Me.AddItemsToRecycleList(childItem, assetList)
+            End If
+        Next
+    End Sub
+
 #End Region
 
    
     
+  
+
+   
 End Class
 

@@ -28,7 +28,6 @@ Public Class frmRecycleAssets
         strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.requiredTypeID) ON invCategories.categoryID = invGroups.categoryID"
         strSQL &= " WHERE (typeActivityMaterials.typeID IN (" & strAssets.ToString & ") AND typeActivityMaterials.activityID IN (6,9)) ORDER BY invCategories.categoryName, invGroups.groupName"
         Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        MessageBox.Show(CStr(mDataSet.Tables(0).Rows.Count))
 
         ' Add the data into a collection for parsing
         Dim itemList As New SortedList
@@ -64,29 +63,33 @@ Public Class frmRecycleAssets
             price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(asset), 2)
             batches = CInt(Int(CLng(cAssetList(itemInfo.ID.ToString)) / itemInfo.PortionSize))
             quant = CDbl(cAssetList(asset))
-            newCLVItem.SubItems(1).Text = FormatNumber(quant, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            newCLVItem.SubItems(2).Text = FormatNumber(batches, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            newCLVItem.SubItems(3).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            newCLVItem.SubItems(4).Text = FormatNumber(price * quant, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            newCLVItem.SubItems(1).Text = FormatNumber(itemInfo.MetaLevel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            newCLVItem.SubItems(2).Text = FormatNumber(quant, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            newCLVItem.SubItems(3).Text = FormatNumber(batches, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            newCLVItem.SubItems(4).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            newCLVItem.SubItems(5).Text = FormatNumber(price * quant, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             recycleTotal = 0
-            For Each mat As String In matList.Keys
-                price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat).ToString), 2)
-                quant = CDbl(matList(mat)) * batches
-                newCLVSubItem = New ContainerListViewItem
-                newCLVSubItem.Text = mat
-                newCLVItem.Items.Add(newCLVSubItem)
-                newCLVSubItem.SubItems(1).Text = CStr(quant)
-                newCLVSubItem.SubItems(2).Text = CStr(quant)
-                newCLVSubItem.SubItems(3).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLVSubItem.SubItems(4).Text = FormatNumber(price * quant, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                newCLVSubItem.SubItems(5).Text = newCLVSubItem.SubItems(4).Text
-                recycleTotal += price * quant
-            Next
-            newCLVItem.SubItems(5).Text = FormatNumber(recycleTotal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            If CDbl(newCLVItem.SubItems(5).Text) > CDbl(newCLVItem.SubItems(4).Text) Then
+            If matList IsNot Nothing Then ' i.e. it can be refined
+                For Each mat As String In matList.Keys
+                    price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat).ToString), 2)
+                    quant = CDbl(matList(mat)) * batches
+                    newCLVSubItem = New ContainerListViewItem
+                    newCLVSubItem.Text = mat
+                    newCLVItem.Items.Add(newCLVSubItem)
+                    newCLVSubItem.SubItems(2).Text = CStr(quant)
+                    newCLVSubItem.SubItems(3).Text = CStr(quant)
+                    newCLVSubItem.SubItems(4).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    newCLVSubItem.SubItems(5).Text = FormatNumber(price * quant, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    newCLVSubItem.SubItems(6).Text = newCLVSubItem.SubItems(4).Text
+                    recycleTotal += price * quant
+                Next
+            End If
+            newCLVItem.SubItems(6).Text = FormatNumber(recycleTotal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            If CDbl(newCLVItem.SubItems(6).Text) > CDbl(newCLVItem.SubItems(5).Text) Then
                 newCLVItem.BackColor = Drawing.Color.LightGreen
             End If
         Next
+        clvRecycle.Sort(0, True, True)
         clvRecycle.EndUpdate()
     End Sub
 
