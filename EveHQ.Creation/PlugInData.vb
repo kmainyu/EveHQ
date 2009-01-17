@@ -1,6 +1,6 @@
 ﻿Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
-    Dim mSetPlugInData As Object
+
 
     Public Shared raceData As New DataSet
     Public Shared bloodData As New DataSet
@@ -11,14 +11,10 @@
     Public Shared careerSkillData As New DataSet
     Public Shared specSkillData As New DataSet
 
-    Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
-        Get
-            Return mSetPlugInData
-        End Get
-        Set(ByVal value As Object)
-            mSetPlugInData = value
-        End Set
-    End Property
+    Public Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+        Return Nothing
+    End Function
+
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
         Return LoadData()
     End Function
@@ -88,4 +84,6 @@
         End If
         Return True
     End Function
+
+  
 End Class

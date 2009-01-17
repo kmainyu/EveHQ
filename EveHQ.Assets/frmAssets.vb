@@ -2290,7 +2290,7 @@ Public Class frmAssets
                 plugInForm.MdiParent = EveHQ.Core.HQ.MainForm
                 plugInForm.Show()
             End If
-            myPlugIn.Instance.SetPlugInData = itemID
+            myPlugIn.Instance.GetPlugInData(itemID)
         Else
             ' Plug-in is not loaded so best not try to access it!
             Dim msg As String = ""

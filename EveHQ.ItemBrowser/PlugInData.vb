@@ -1,17 +1,28 @@
 ﻿Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
+
     Public Shared PlugInDataObject As Object
     Public Shared Event PluginDataReceived()
 
-    Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
-        Get
-            Return PlugInDataObject
-        End Get
-        Set(ByVal value As Object)
-            PlugInDataObject = value
+    'Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
+    '    Get
+    '        Return PlugInDataObject
+    '    End Get
+    '    Set(ByVal value As Object)
+    '        PlugInDataObject = value
+    '        RaiseEvent PluginDataReceived()
+    '    End Set
+    'End Property
+
+    Public Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+        Try
+            PlugInDataObject = Data
             RaiseEvent PluginDataReceived()
-        End Set
-    End Property
+            Return True
+        Catch e As Exception
+            Return False
+        End Try
+    End Function
 
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
         Try

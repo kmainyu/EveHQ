@@ -1,5 +1,6 @@
 ﻿Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
+
     Dim mSetPlugInData As Object
     Public Shared AllStandings As New SortedList
 
@@ -26,14 +27,11 @@
     Public Function RunEveHQPlugIn() As System.Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
         Return New frmCorpHQ
     End Function
-    Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
-        Get
-            Return mSetPlugInData
-        End Get
-        Set(ByVal value As Object)
-            mSetPlugInData = value
-        End Set
-    End Property
+    Public Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+        Return Nothing
+    End Function
 #End Region
+
+
 
 End Class

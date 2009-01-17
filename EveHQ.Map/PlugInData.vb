@@ -5,7 +5,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
-    Dim mSetPlugInData As Object
+
     Dim mapFolder As String = ""
     Shared mapCacheFolder As String = ""
     Dim UseSerializableData As Boolean = False
@@ -54,14 +54,9 @@ Public Class PlugInData
         Return New frmMap
     End Function
 
-    Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
-        Get
-            Return mSetPlugInData
-        End Get
-        Set(ByVal value As Object)
-            mSetPlugInData = value
-        End Set
-    End Property
+    Public Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+        Return Nothing
+    End Function
 #End Region
 
 #Region "Data Loading Routines"

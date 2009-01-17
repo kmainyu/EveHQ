@@ -23,6 +23,6 @@ Public Interface IEveHQPlugIn
     Function EveHQStartUp() As Boolean
     Function IGBService(ByVal context As Net.HttpListenerContext) As String
     Function RunEveHQPlugIn() As Windows.Forms.Form
-    Property SetPlugInData() As Object
+    Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object
 
 End Interface

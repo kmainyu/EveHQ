@@ -4,7 +4,7 @@ Imports System.Reflection
 
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
-    Dim mSetPlugInData As Object
+
 
     Public Shared Items As New SortedList
     Public Shared itemFlags As New SortedList
@@ -13,14 +13,10 @@ Public Class PlugInData
     Public Shared Corps As New SortedList
 
 #Region "Plug-in Interface Properties and Functions"
-    Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
-        Get
-            Return mSetPlugInData
-        End Get
-        Set(ByVal value As Object)
-            mSetPlugInData = value
-        End Set
-    End Property
+
+    Public Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+        Return Nothing
+    End Function
 
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
         Try
@@ -372,4 +368,5 @@ Public Class PlugInData
         End If
     End Sub
 #End Region
+
 End Class

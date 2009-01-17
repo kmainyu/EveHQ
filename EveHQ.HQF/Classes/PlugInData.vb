@@ -4,7 +4,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
-    Dim mSetPlugInData As Object
+
 
     Shared MarketGroupData As DataSet
     Shared shipGroupData As DataSet
@@ -16,14 +16,10 @@ Public Class PlugInData
     Shared LastCacheRefresh As String = "1.8.3.245"
 
 #Region "Plug-in Interface Properties and Functions"
-    Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
-        Get
-            Return mSetPlugInData
-        End Get
-        Set(ByVal value As Object)
-            mSetPlugInData = value
-        End Set
-    End Property
+
+    Public Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+        Return Nothing
+    End Function
 
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
         Try
@@ -1329,7 +1325,7 @@ Public Class PlugInData
         Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
         ' Go through lines and break each one down
         Dim EffectData() As String
-        
+
         Dim shipEffectClassList As New ArrayList
         Dim newEffect As New ShipEffect
         Dim IDs() As String
