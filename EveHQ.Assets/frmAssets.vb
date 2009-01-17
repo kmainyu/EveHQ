@@ -625,24 +625,23 @@ Public Class frmAssets
                                         locID = (CDbl(locID) - 6000000).ToString
                                     End If
                                 End If
-                                Dim newLocation As Assets.Location
+                                Dim newLocation As Assets.Station
                                 If CDbl(locID) >= 61000000 And CDbl(locID) <= 61999999 Then
                                     If PlugInData.stations.Contains(locID) = True Then
                                         ' Known Outpost
-                                        newLocation = CType(PlugInData.stations(locID), Assets.Location)
-                                        locNode.Text = newLocation.locationName
-                                        locNode.Tag = newLocation.locationID
+                                        newLocation = CType(PlugInData.stations(locID), Assets.Station)
+                                        locNode.Text = newLocation.stationName
+                                        locNode.Tag = newLocation.stationID
                                     Else
                                         ' Unknown outpost!
-                                        newLocation = New Assets.Location
-                                        newLocation.locationID = locID
-                                        newLocation.locationName = "Unknown Outpost"
-                                        newLocation.systemID = "?"
-                                        newLocation.constID = "?"
-                                        newLocation.regionID = "?"
-                                        newLocation.systemSec = "0.0"
-                                        locNode.Text = newLocation.locationName
-                                        locNode.Tag = newLocation.locationID
+                                        newLocation = New Assets.Station
+                                        newLocation.stationID = CLng(locID)
+                                        newLocation.stationName = "Unknown Outpost"
+                                        newLocation.systemID = 0
+                                        newLocation.constID = 0
+                                        newLocation.regionID = 0
+                                        locNode.Text = newLocation.stationName
+                                        locNode.Tag = newLocation.stationID
                                     End If
                                 Else
                                     If CDbl(locID) < 60000000 Then
@@ -650,21 +649,20 @@ Public Class frmAssets
                                         locNode.Text = newSystem.Name
                                         locNode.Tag = newSystem.ID
                                     Else
-                                        newLocation = CType(PlugInData.stations(locID), Assets.Location)
+                                        newLocation = CType(PlugInData.stations(locID), Assets.Station)
                                         If newLocation IsNot Nothing Then
-                                            locNode.Text = newLocation.locationName
-                                            locNode.Tag = newLocation.locationID
+                                            locNode.Text = newLocation.stationName
+                                            locNode.Tag = newLocation.stationID
                                         Else
                                             ' Unknown system/station!
-                                            newLocation = New Assets.Location
-                                            newLocation.locationID = locID
-                                            newLocation.locationName = "Unknown Location"
-                                            newLocation.systemID = "?"
-                                            newLocation.constID = "?"
-                                            newLocation.regionID = "?"
-                                            newLocation.systemSec = "0.0"
-                                            locNode.Text = newLocation.locationName
-                                            locNode.Tag = newLocation.locationID
+                                            newLocation = New Assets.Station
+                                            newLocation.stationID = CLng(locID)
+                                            newLocation.stationName = "Unknown Location"
+                                            newLocation.systemID = 0
+                                            newLocation.constID = 0
+                                            newLocation.regionID = 0
+                                            locNode.Text = newLocation.stationName
+                                            locNode.Tag = newLocation.stationID
                                         End If
                                     End If
                                 End If
@@ -3067,6 +3065,8 @@ Public Class frmAssets
         assetList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(5).Text))
         Dim myRecycler As New frmRecycleAssets
         myRecycler.AssetList = assetList
+        myRecycler.AssetOwner = cboPilots.SelectedItem.ToString
+        myRecycler.AssetLocation = GetLocationID(asset)
         myRecycler.ShowDialog()
         myRecycler.Dispose()
     End Sub
@@ -3077,6 +3077,8 @@ Public Class frmAssets
         Call Me.AddItemsToRecycleList(asset, assetList)
         Dim myRecycler As New frmRecycleAssets
         myRecycler.AssetList = assetList
+        myRecycler.AssetOwner = cboPilots.SelectedItem.ToString
+        myRecycler.AssetLocation = GetLocationID(asset)
         myRecycler.ShowDialog()
         myRecycler.Dispose()
     End Sub
@@ -3088,6 +3090,8 @@ Public Class frmAssets
         Call Me.AddItemsToRecycleList(asset, assetList)
         Dim myRecycler As New frmRecycleAssets
         myRecycler.AssetList = assetList
+        myRecycler.AssetOwner = cboPilots.SelectedItem.ToString
+        myRecycler.AssetLocation = GetLocationID(asset)
         myRecycler.ShowDialog()
         myRecycler.Dispose()
     End Sub
@@ -3104,6 +3108,13 @@ Public Class frmAssets
             End If
         Next
     End Sub
+
+    Private Function GetLocationID(ByVal item As ContainerListViewItem) As String
+        Do While item.ParentItem.ParentItem IsNot Nothing
+            item = item.ParentItem
+        Loop
+        Return item.Tag.ToString
+    End Function
 
 #End Region
 

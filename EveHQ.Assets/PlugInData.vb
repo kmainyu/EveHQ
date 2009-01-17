@@ -9,7 +9,8 @@ Public Class PlugInData
     Public Shared Items As New SortedList
     Public Shared itemFlags As New SortedList
     Public Shared stations As New SortedList
-    Public Shared NPCCorps As New ArrayList
+    Public Shared NPCCorps As New SortedList
+    Public Shared Corps As New SortedList
 
 #Region "Plug-in Interface Properties and Functions"
     Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
@@ -213,19 +214,22 @@ Public Class PlugInData
     Private Function LoadStations() As Boolean
         ' Load the Station Data From the mapDenormalize table
         Try
-            Dim strSQL As String = "SELECT * FROM mapDenormalize WHERE groupID=15;"
+            Dim strSQL As String = "SELECT * FROM staStations;"
             Dim locationData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             If locationData IsNot Nothing Then
                 If locationData.Tables(0).Rows.Count > 0 Then
                     For Each locationRow As DataRow In locationData.Tables(0).Rows
-                        Dim newLocation As New Location
-                        newLocation.locationID = CStr(locationRow.Item("itemID"))
-                        newLocation.locationName = CStr(locationRow.Item("itemName"))
-                        newLocation.systemID = CStr(locationRow.Item("solarSystemID"))
-                        newLocation.constID = CStr(locationRow.Item("constellationID"))
-                        newLocation.regionID = CStr(locationRow.Item("regionID"))
-                        newLocation.systemSec = CStr(locationRow.Item("security"))
-                        stations.Add(newLocation.locationID, newLocation)
+                        Dim newStation As New Station
+                        newStation.stationID = CLng(locationRow.Item("stationID"))
+                        newStation.stationName = CStr(locationRow.Item("stationName"))
+                        newStation.systemID = CLng(locationRow.Item("solarSystemID"))
+                        newStation.constID = CLng(locationRow.Item("constellationID"))
+                        newStation.regionID = CLng(locationRow.Item("regionID"))
+                        newStation.corpID = CLng(locationRow.Item("corporationID"))
+                        newStation.stationTypeID = CLng(locationRow.Item("stationTypeID"))
+                        newStation.operationID = CLng(locationRow.Item("operationID"))
+                        newStation.refiningEff = CDbl(locationRow.Item("reprocessingEfficiency"))
+                        stations.Add(newStation.stationID.ToString, newStation)
                     Next
                     Return True
                 Else
@@ -272,12 +276,12 @@ Public Class PlugInData
         ' Load the Station Data From the mapDenormalize table
         NPCCorps.Clear()
         Try
-            Dim strSQL As String = "SELECT corporationID FROM crpNPCCorporations;"
+            Dim strSQL As String = "SELECT itemID, itemName FROM eveNames WHERE typeID=2;"
             Dim corpData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             If corpData IsNot Nothing Then
                 If corpData.Tables(0).Rows.Count > 0 Then
                     For Each corpRow As DataRow In corpData.Tables(0).Rows
-                        NPCCorps.Add(CStr(corpRow.Item("corporationID")))
+                        NPCCorps.Add(CStr(corpRow.Item("itemID")), CStr(corpRow.Item("itemname")))
                     Next
                     Return True
                 Else
@@ -340,30 +344,29 @@ Public Class PlugInData
         Dim stationID As String = ""
         locList = stationXML.SelectNodes("/eveapi/result/rowset/row")
         If locList.Count > 0 Then
+            Corps.Clear()
             For Each loc In locList
                 stationID = (loc.Attributes.GetNamedItem("stationID").Value)
-                If CDbl(stationID) >= 61000001 And CDbl(stationID) <= 61999999 Then
-                    ' This is an outpost so needs adding to the station list if it's not there
-                    If PlugInData.stations.Contains(stationID) = False Then
-                        Dim station As New Location
-                        station.locationID = stationID
-                        station.locationName = (loc.Attributes.GetNamedItem("stationName").Value)
-                        station.systemID = (loc.Attributes.GetNamedItem("solarSystemID").Value)
-                        Dim system As SolarSystem = CType(PlugInData.stations(station.systemID), SolarSystem)
-                        station.locationName &= " (" & system.Name & ", " & system.Region & ")"
-                        PlugInData.stations.Add(station.locationID, station)
-                    Else
-                        Dim station As Location = CType(PlugInData.stations(stationID), Assets.Location)
-                        station.systemID = (loc.Attributes.GetNamedItem("solarSystemID").Value)
-                        Dim system As SolarSystem = CType(PlugInData.stations(station.systemID), SolarSystem)
-                        station.locationName &= " (" & system.Name & ", " & system.Region & ")"
-                    End If
+                ' This is an outpost so needs adding to the station list if it's not there
+                If PlugInData.stations.Contains(stationID) = False Then
+                    Dim cStation As New Station
+                    cStation.stationID = CLng(stationID)
+                    cStation.stationName = (loc.Attributes.GetNamedItem("stationName").Value)
+                    cStation.systemID = CLng(loc.Attributes.GetNamedItem("solarSystemID").Value)
+                    Dim system As SolarSystem = CType(PlugInData.stations(cStation.systemID.ToString), SolarSystem)
+                    cStation.stationName &= " (" & system.Name & ", " & system.Region & ")"
+                    cStation.corpID = CLng(loc.Attributes.GetNamedItem("corporationID").Value)
+                    PlugInData.stations.Add(cStation.stationID.ToString, cStation)
                 Else
-                    ' This is a conquerable station so the station name needs amending
-                    Dim station As Location = CType(PlugInData.stations(stationID), Assets.Location)
-                    station.systemID = (loc.Attributes.GetNamedItem("solarSystemID").Value)
-                    Dim system As SolarSystem = CType(PlugInData.stations(station.systemID), SolarSystem)
-                    station.locationName = (loc.Attributes.GetNamedItem("stationName").Value) & " (" & system.Name & ", " & system.Region & ")"
+                    Dim cStation As Station = CType(PlugInData.stations(stationID), Assets.Station)
+                    cStation.systemID = CLng(loc.Attributes.GetNamedItem("solarSystemID").Value)
+                    Dim system As SolarSystem = CType(PlugInData.stations(cStation.systemID.ToString), SolarSystem)
+                    cStation.stationName &= " (" & system.Name & ", " & system.Region & ")"
+                    cStation.corpID = CLng(loc.Attributes.GetNamedItem("corporationID").Value)
+                End If
+                ' Add the corp if not already entered
+                If Corps.ContainsKey(CStr(loc.Attributes.GetNamedItem("corporationID").Value)) = False Then
+                    Corps.Add(CStr(loc.Attributes.GetNamedItem("corporationID").Value), CStr(loc.Attributes.GetNamedItem("corporationName").Value))
                 End If
             Next
         End If

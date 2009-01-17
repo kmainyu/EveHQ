@@ -5,6 +5,13 @@ Imports DotNetLib.Windows.Forms
 Public Class frmRecycleAssets
 
     Dim cAssetList As New SortedList
+    Dim cAssetOwner As String = ""
+    Dim cAssetLocation As String = ""
+    Dim itemList As New SortedList
+    Dim matList As New SortedList
+    Dim BaseYield As Double = 0.5
+    Dim NetYield As Double = 0
+    Dim StationTake As Double = 0
 
     Public Property AssetList() As SortedList
         Get
@@ -14,8 +21,25 @@ Public Class frmRecycleAssets
             cAssetList = value
         End Set
     End Property
+    Public Property AssetOwner() As String
+        Get
+            Return cAssetOwner
+        End Get
+        Set(ByVal value As String)
+            cAssetOwner = value
+        End Set
+    End Property
+    Public Property AssetLocation() As String
+        Get
+            Return cAssetLocation
+        End Get
+        Set(ByVal value As String)
+            cAssetLocation = value
+        End Set
+    End Property
 
     Private Sub frmRecycleAssets_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         ' Form a string of the asset IDs in the AssetList Property
         Dim strAssets As New StringBuilder
         For Each asset As String In cAssetList.Keys
@@ -30,8 +54,8 @@ Public Class frmRecycleAssets
         Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
 
         ' Add the data into a collection for parsing
-        Dim itemList As New SortedList
-        Dim matList As New SortedList
+
+        itemList.Clear()
         With mDataSet.Tables(0)
             For row As Integer = 0 To .Rows.Count - 1
                 If itemList.ContainsKey(.Rows(row).Item("itemTypeID").ToString.Trim) = True Then
@@ -44,6 +68,43 @@ Public Class frmRecycleAssets
             Next
         End With
 
+        ' Load the characters into the combobox
+        cboPilots.Items.Clear()
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+            If cPilot.Active = True Then
+                cboPilots.Items.Add(cPilot.Name)
+            End If
+        Next
+
+        ' Set the pilot to the recycling one
+        If cboPilots.Items.Contains(cAssetOwner) Then
+            cboPilots.SelectedItem = cAssetOwner
+        Else
+            cboPilots.SelectedIndex = 0
+        End If
+
+        ' Get the location details
+        If PlugInData.stations.ContainsKey(cAssetLocation) = True Then
+            Dim aLocation As Station = CType(PlugInData.stations(cAssetLocation), Station)
+            lblStation.Text = aLocation.stationName
+            lblCorp.Text = aLocation.corpID.ToString
+            If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
+                lblCorp.Text = CStr(PlugInData.NPCCorps(aLocation.corpID.ToString))
+            Else
+                If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
+                    lblCorp.Text = CStr(PlugInData.Corps(aLocation.corpID.ToString))
+                Else
+                    lblCorp.Text = "Unknown"
+                End If
+            End If
+        Else
+            lblStation.Text = "n/a"
+            lblCorp.Text = "n/a"
+        End If
+
+    End Sub
+
+    Private Sub RecalcRecycling()
         ' Create the main list
         clvRecycle.BeginUpdate()
         clvRecycle.Items.Clear()
@@ -89,8 +150,15 @@ Public Class frmRecycleAssets
                 newCLVItem.BackColor = Drawing.Color.LightGreen
             End If
         Next
-        clvRecycle.Sort(0, True, True)
+        clvRecycle.Sort(0, SortOrder.Ascending, True)
         clvRecycle.EndUpdate()
     End Sub
 
+    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
+        Call Me.RecalcRecycling()
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+        lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+    End Sub
 End Class

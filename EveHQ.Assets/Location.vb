@@ -17,20 +17,20 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class Location
-    Public locationID As String
-    Public locationName As String
-    Public systemID As String
-    Public constID As String
-    Public regionID As String
-    Public systemSec As String
+
+Public Class Station
+    Public stationID As Long
+    Public stationName As String
+    Public systemID As Long
+    Public constID As Long
+    Public regionID As Long
+    Public corpID As Long
+    Public stationTypeID As Long
+    Public operationID As Long
+    Public refiningEff As Double
 End Class
 
-Public Class Conquerable
-    Public locationID As String
-    Public locationName As String
-    Public systemID As String
-    Public constID As String
-    Public regionID As String
-    Public systemSec As String
+Public Class Corporation
+    Public CorpID As Long
+    Public CorpName As String
 End Class
