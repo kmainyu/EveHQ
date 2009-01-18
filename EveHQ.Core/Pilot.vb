@@ -104,7 +104,7 @@ Public Class Pilot
     Public Updated As Boolean = False
     Public LastUpdate As String = ""
     Public Active As Boolean = True
-    Public KeySkills(39) As String
+    Public KeySkills(40) As String
     Public Enum KeySkill
         Mining = 1
         MiningUpgrades = 2
@@ -145,5 +145,6 @@ Public Class Pilot
         JumpDriveCalibration = 37
         JumpFuelConservation = 38
         JumpFreighters = 39
+        ScrapMetalProc = 40
     End Enum
 End Class
