@@ -28,7 +28,9 @@ Public Class frmCorpHQ
 #Region "Form/Standings Loading and Unloading"
 
     Private Sub frmCorpHQ_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Call Me.LoadStandings()
+        If PlugInData.AllStandings.Count = 0 Then
+            Call PlugInData.LoadStandings()
+        End If
         Call Me.UpdateOwners()
         If cboOwner.Items.Contains(EveHQ.Core.HQ.myPilot.Name) = True Then
             cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
@@ -43,20 +45,6 @@ Public Class frmCorpHQ
         Call Me.SaveStandings()
     End Sub
 
-    Private Sub LoadStandings()
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\Standings.bin") = True Then
-            Dim s As New FileStream(EveHQ.Core.HQ.cacheFolder & "\Standings.bin", FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            PlugInData.AllStandings.Clear()
-            Try
-                PlugInData.AllStandings = CType(f.Deserialize(s), SortedList)
-            Catch e As Exception
-                MessageBox.Show("There was an error retrieving the cached standings file, please obtain a new set of standings.", "Load Standings Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                PlugInData.AllStandings.Clear()
-            End Try
-            s.Close()
-        End If
-    End Sub
     Private Sub SaveStandings()
         Dim s As New FileStream(EveHQ.Core.HQ.cacheFolder & "\Standings.bin", FileMode.Create)
         Dim f As New BinaryFormatter

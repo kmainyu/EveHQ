@@ -76,13 +76,6 @@ Public Class frmRecycleAssets
             End If
         Next
 
-        ' Set the pilot to the recycling one
-        If cboPilots.Items.Contains(cAssetOwner) Then
-            cboPilots.SelectedItem = cAssetOwner
-        Else
-            cboPilots.SelectedIndex = 0
-        End If
-
         ' Get the location details
         If PlugInData.stations.ContainsKey(cAssetLocation) = True Then
             Dim aLocation As Station = CType(PlugInData.stations(cAssetLocation), Station)
@@ -90,16 +83,30 @@ Public Class frmRecycleAssets
             lblCorp.Text = aLocation.corpID.ToString
             If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
                 lblCorp.Text = CStr(PlugInData.NPCCorps(aLocation.corpID.ToString))
+                lblCorp.Tag = aLocation.corpID.ToString
+                lblBaseYield.Text = FormatNumber(aLocation.refiningEff * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             Else
                 If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
                     lblCorp.Text = CStr(PlugInData.Corps(aLocation.corpID.ToString))
+                    lblBaseYield.Text = FormatNumber(aLocation.refiningEff * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 Else
                     lblCorp.Text = "Unknown"
+                    lblCorp.Tag = Nothing
+                    lblBaseYield.Text = FormatNumber(50, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 End If
             End If
         Else
             lblStation.Text = "n/a"
             lblCorp.Text = "n/a"
+            lblCorp.Tag = Nothing
+            lblBaseYield.Text = FormatNumber(50, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        End If
+
+        ' Set the pilot to the recycling one
+        If cboPilots.Items.Contains(cAssetOwner) Then
+            cboPilots.SelectedItem = cAssetOwner
+        Else
+            cboPilots.SelectedIndex = 0
         End If
 
     End Sub
@@ -160,5 +167,33 @@ Public Class frmRecycleAssets
         NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
         lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        If lblCorp.Tag Is Nothing Then
+            lblStandings.Text = FormatNumber(0, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        Else
+            lblStandings.Text = FormatNumber(GetStanding(rPilot.Name, lblCorp.Tag.ToString), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        End If
+    End Sub
+
+    Private Function GetStanding(ByVal pilotName As String, ByVal corpID As String) As Double
+        ' Check for the existence of the CorpHQ plug-in and try and get the standing data
+        Dim PluginName As String = "CorpHQ"
+        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(PluginName), Core.PlugIn)
+        If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
+            Dim PlugInData As New ArrayList
+            PlugInData.Add(pilotName)
+            PlugInData.Add(corpID)
+            Return CDbl(myPlugIn.Instance.GetPlugInData(PlugInData))
+        Else
+            ' Plug-in is not loaded so best not try to access it!
+            Dim msg As String = ""
+            msg &= "The " & myPlugIn.MainMenuText & " Plug-in is not currently active. This is required to get accurate standings information." & ControlChars.CrLf & ControlChars.CrLf
+            msg &= "Please load the plug-in in order to get standings info."
+            MessageBox.Show(msg, "Error Starting " & myPlugIn.MainMenuText & " Plug-in!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Function
+
+    Private Sub lblStandings_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblStandings.TextChanged
+        Dim take As Double = Math.Max(5 - (0.75 * CDbl(lblStandings.Text)), 0)
+        lblStationTake.Text = FormatNumber(take, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
     End Sub
 End Class
