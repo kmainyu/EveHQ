@@ -2236,7 +2236,7 @@ Public Class frmAssets
         If tlvAssets.SelectedItems.Count > 0 Then
             Dim itemName As String = tlvAssets.SelectedItems(0).Text
             If itemName <> "Cash Balances" And itemName <> "Investments" Then
-                If EveHQ.Core.HQ.itemList.Contains(itemName) = True Then
+                If EveHQ.Core.HQ.itemList.Contains(itemName) = True And itemName <> "Office" And tlvAssets.SelectedItems(0).SubItems(5).Text <> "" Then
                     mnuItemName.Text = itemName
                     mnuItemName.Tag = EveHQ.Core.HQ.itemList(itemName)
                     mnuViewInIB.Visible = True
@@ -3099,9 +3099,13 @@ Public Class frmAssets
     Private Sub AddItemsToRecycleList(ByVal item As ContainerListViewItem, ByRef assetList As SortedList)
         For Each childItem As ContainerListViewItem In item.Items
             If assetList.ContainsKey(EveHQ.Core.HQ.itemList(childItem.Text)) = True Then
-                assetList(EveHQ.Core.HQ.itemList(childItem.Text)) = CLng(assetList(EveHQ.Core.HQ.itemList(childItem.Text))) + CLng(childItem.SubItems(5).Text)
+                If childItem.SubItems(5).Text <> "" Then
+                    assetList(EveHQ.Core.HQ.itemList(childItem.Text)) = CLng(assetList(EveHQ.Core.HQ.itemList(childItem.Text))) + CLng(childItem.SubItems(5).Text)
+                End If
             Else
-                assetList.Add(EveHQ.Core.HQ.itemList(childItem.Text), CLng(childItem.SubItems(5).Text))
+                If childItem.SubItems(5).Text <> "" Then
+                    assetList.Add(EveHQ.Core.HQ.itemList(childItem.Text), CLng(childItem.SubItems(5).Text))
+                End If
             End If
             If childItem.Items.Count > 0 Then
                 Call Me.AddItemsToRecycleList(childItem, assetList)

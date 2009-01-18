@@ -50,20 +50,39 @@ Partial Class frmRecycleAssets
         Me.nudStandings = New System.Windows.Forms.NumericUpDown
         Me.chkOverrideBaseYield = New System.Windows.Forms.CheckBox
         Me.chkOverrideStandings = New System.Windows.Forms.CheckBox
+        Me.lblRefineMode = New System.Windows.Forms.Label
+        Me.cboRefineMode = New System.Windows.Forms.ComboBox
+        Me.lblVolumeLbl = New System.Windows.Forms.Label
+        Me.lblItemsLbl = New System.Windows.Forms.Label
+        Me.lblVolume = New System.Windows.Forms.Label
+        Me.lblItems = New System.Windows.Forms.Label
+        Me.tabRecycle = New System.Windows.Forms.TabControl
+        Me.tabItems = New System.Windows.Forms.TabPage
+        Me.tabTotals = New System.Windows.Forms.TabPage
+        Me.clvTotals = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colMaterial = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colReceive = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colStationTake = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWaste = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colMatPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colMatTotal = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         CType(Me.nudBaseYield, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudStandings, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tabRecycle.SuspendLayout()
+        Me.tabItems.SuspendLayout()
+        Me.tabTotals.SuspendLayout()
         Me.SuspendLayout()
         '
         'clvRecycle
         '
         Me.clvRecycle.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colItem, Me.colMetaLevel, Me.colQuantity, Me.colBatches, Me.colItemPrice, Me.colTotalPrice, Me.colRefinePrice})
         Me.clvRecycle.DefaultItemHeight = 20
-        Me.clvRecycle.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.clvRecycle.Dock = System.Windows.Forms.DockStyle.Fill
         Me.clvRecycle.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.clvRecycle.Location = New System.Drawing.Point(0, 113)
+        Me.clvRecycle.Location = New System.Drawing.Point(3, 3)
         Me.clvRecycle.MultipleColumnSort = True
         Me.clvRecycle.Name = "clvRecycle"
-        Me.clvRecycle.Size = New System.Drawing.Size(946, 427)
+        Me.clvRecycle.Size = New System.Drawing.Size(932, 384)
         Me.clvRecycle.TabIndex = 0
         '
         'colItem
@@ -135,7 +154,7 @@ Partial Class frmRecycleAssets
         'lblPilot
         '
         Me.lblPilot.AutoSize = True
-        Me.lblPilot.Location = New System.Drawing.Point(12, 15)
+        Me.lblPilot.Location = New System.Drawing.Point(12, 48)
         Me.lblPilot.Name = "lblPilot"
         Me.lblPilot.Size = New System.Drawing.Size(30, 13)
         Me.lblPilot.TabIndex = 1
@@ -145,7 +164,7 @@ Partial Class frmRecycleAssets
         '
         Me.cboPilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboPilots.FormattingEnabled = True
-        Me.cboPilots.Location = New System.Drawing.Point(48, 12)
+        Me.cboPilots.Location = New System.Drawing.Point(48, 45)
         Me.cboPilots.Name = "cboPilots"
         Me.cboPilots.Size = New System.Drawing.Size(165, 21)
         Me.cboPilots.TabIndex = 2
@@ -153,7 +172,7 @@ Partial Class frmRecycleAssets
         'chkPerfectRefine
         '
         Me.chkPerfectRefine.AutoSize = True
-        Me.chkPerfectRefine.Location = New System.Drawing.Point(15, 39)
+        Me.chkPerfectRefine.Location = New System.Drawing.Point(259, 47)
         Me.chkPerfectRefine.Name = "chkPerfectRefine"
         Me.chkPerfectRefine.Size = New System.Drawing.Size(94, 17)
         Me.chkPerfectRefine.TabIndex = 3
@@ -163,7 +182,7 @@ Partial Class frmRecycleAssets
         'lblBaseYieldLbl
         '
         Me.lblBaseYieldLbl.AutoSize = True
-        Me.lblBaseYieldLbl.Location = New System.Drawing.Point(256, 50)
+        Me.lblBaseYieldLbl.Location = New System.Drawing.Point(500, 61)
         Me.lblBaseYieldLbl.Name = "lblBaseYieldLbl"
         Me.lblBaseYieldLbl.Size = New System.Drawing.Size(60, 13)
         Me.lblBaseYieldLbl.TabIndex = 4
@@ -172,7 +191,7 @@ Partial Class frmRecycleAssets
         'lblNetYieldLbl
         '
         Me.lblNetYieldLbl.AutoSize = True
-        Me.lblNetYieldLbl.Location = New System.Drawing.Point(256, 63)
+        Me.lblNetYieldLbl.Location = New System.Drawing.Point(500, 74)
         Me.lblNetYieldLbl.Name = "lblNetYieldLbl"
         Me.lblNetYieldLbl.Size = New System.Drawing.Size(53, 13)
         Me.lblNetYieldLbl.TabIndex = 5
@@ -181,7 +200,7 @@ Partial Class frmRecycleAssets
         'lblStandingsLbl
         '
         Me.lblStandingsLbl.AutoSize = True
-        Me.lblStandingsLbl.Location = New System.Drawing.Point(256, 76)
+        Me.lblStandingsLbl.Location = New System.Drawing.Point(500, 87)
         Me.lblStandingsLbl.Name = "lblStandingsLbl"
         Me.lblStandingsLbl.Size = New System.Drawing.Size(57, 13)
         Me.lblStandingsLbl.TabIndex = 6
@@ -190,7 +209,7 @@ Partial Class frmRecycleAssets
         'lblStationTakeLbl
         '
         Me.lblStationTakeLbl.AutoSize = True
-        Me.lblStationTakeLbl.Location = New System.Drawing.Point(256, 89)
+        Me.lblStationTakeLbl.Location = New System.Drawing.Point(500, 100)
         Me.lblStationTakeLbl.Name = "lblStationTakeLbl"
         Me.lblStationTakeLbl.Size = New System.Drawing.Size(71, 13)
         Me.lblStationTakeLbl.TabIndex = 7
@@ -199,7 +218,7 @@ Partial Class frmRecycleAssets
         'lblStationTake
         '
         Me.lblStationTake.AutoSize = True
-        Me.lblStationTake.Location = New System.Drawing.Point(333, 89)
+        Me.lblStationTake.Location = New System.Drawing.Point(577, 100)
         Me.lblStationTake.Name = "lblStationTake"
         Me.lblStationTake.Size = New System.Drawing.Size(36, 13)
         Me.lblStationTake.TabIndex = 8
@@ -208,7 +227,7 @@ Partial Class frmRecycleAssets
         'lblStandings
         '
         Me.lblStandings.AutoSize = True
-        Me.lblStandings.Location = New System.Drawing.Point(333, 76)
+        Me.lblStandings.Location = New System.Drawing.Point(577, 87)
         Me.lblStandings.Name = "lblStandings"
         Me.lblStandings.Size = New System.Drawing.Size(28, 13)
         Me.lblStandings.TabIndex = 9
@@ -217,7 +236,7 @@ Partial Class frmRecycleAssets
         'lblNetYield
         '
         Me.lblNetYield.AutoSize = True
-        Me.lblNetYield.Location = New System.Drawing.Point(333, 63)
+        Me.lblNetYield.Location = New System.Drawing.Point(577, 74)
         Me.lblNetYield.Name = "lblNetYield"
         Me.lblNetYield.Size = New System.Drawing.Size(36, 13)
         Me.lblNetYield.TabIndex = 10
@@ -226,7 +245,7 @@ Partial Class frmRecycleAssets
         'lblBaseYield
         '
         Me.lblBaseYield.AutoSize = True
-        Me.lblBaseYield.Location = New System.Drawing.Point(333, 50)
+        Me.lblBaseYield.Location = New System.Drawing.Point(577, 61)
         Me.lblBaseYield.Name = "lblBaseYield"
         Me.lblBaseYield.Size = New System.Drawing.Size(36, 13)
         Me.lblBaseYield.TabIndex = 11
@@ -235,7 +254,7 @@ Partial Class frmRecycleAssets
         'lblStationLbl
         '
         Me.lblStationLbl.AutoSize = True
-        Me.lblStationLbl.Location = New System.Drawing.Point(256, 15)
+        Me.lblStationLbl.Location = New System.Drawing.Point(256, 9)
         Me.lblStationLbl.Name = "lblStationLbl"
         Me.lblStationLbl.Size = New System.Drawing.Size(43, 13)
         Me.lblStationLbl.TabIndex = 12
@@ -244,7 +263,7 @@ Partial Class frmRecycleAssets
         'lblStation
         '
         Me.lblStation.AutoSize = True
-        Me.lblStation.Location = New System.Drawing.Point(305, 15)
+        Me.lblStation.Location = New System.Drawing.Point(305, 9)
         Me.lblStation.Name = "lblStation"
         Me.lblStation.Size = New System.Drawing.Size(24, 13)
         Me.lblStation.TabIndex = 13
@@ -253,7 +272,7 @@ Partial Class frmRecycleAssets
         'lblCorp
         '
         Me.lblCorp.AutoSize = True
-        Me.lblCorp.Location = New System.Drawing.Point(305, 28)
+        Me.lblCorp.Location = New System.Drawing.Point(305, 22)
         Me.lblCorp.Name = "lblCorp"
         Me.lblCorp.Size = New System.Drawing.Size(24, 13)
         Me.lblCorp.TabIndex = 15
@@ -262,7 +281,7 @@ Partial Class frmRecycleAssets
         'lblCorpLbl
         '
         Me.lblCorpLbl.AutoSize = True
-        Me.lblCorpLbl.Location = New System.Drawing.Point(256, 28)
+        Me.lblCorpLbl.Location = New System.Drawing.Point(256, 22)
         Me.lblCorpLbl.Name = "lblCorpLbl"
         Me.lblCorpLbl.Size = New System.Drawing.Size(32, 13)
         Me.lblCorpLbl.TabIndex = 14
@@ -271,7 +290,7 @@ Partial Class frmRecycleAssets
         'nudBaseYield
         '
         Me.nudBaseYield.DecimalPlaces = 2
-        Me.nudBaseYield.Location = New System.Drawing.Point(140, 61)
+        Me.nudBaseYield.Location = New System.Drawing.Point(384, 72)
         Me.nudBaseYield.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
         Me.nudBaseYield.Name = "nudBaseYield"
         Me.nudBaseYield.Size = New System.Drawing.Size(74, 20)
@@ -281,7 +300,7 @@ Partial Class frmRecycleAssets
         'nudStandings
         '
         Me.nudStandings.DecimalPlaces = 4
-        Me.nudStandings.Location = New System.Drawing.Point(140, 87)
+        Me.nudStandings.Location = New System.Drawing.Point(384, 98)
         Me.nudStandings.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.nudStandings.Name = "nudStandings"
         Me.nudStandings.Size = New System.Drawing.Size(74, 20)
@@ -290,7 +309,7 @@ Partial Class frmRecycleAssets
         'chkOverrideBaseYield
         '
         Me.chkOverrideBaseYield.AutoSize = True
-        Me.chkOverrideBaseYield.Location = New System.Drawing.Point(15, 62)
+        Me.chkOverrideBaseYield.Location = New System.Drawing.Point(259, 73)
         Me.chkOverrideBaseYield.Name = "chkOverrideBaseYield"
         Me.chkOverrideBaseYield.Size = New System.Drawing.Size(119, 17)
         Me.chkOverrideBaseYield.TabIndex = 18
@@ -300,18 +319,183 @@ Partial Class frmRecycleAssets
         'chkOverrideStandings
         '
         Me.chkOverrideStandings.AutoSize = True
-        Me.chkOverrideStandings.Location = New System.Drawing.Point(15, 88)
+        Me.chkOverrideStandings.Location = New System.Drawing.Point(259, 99)
         Me.chkOverrideStandings.Name = "chkOverrideStandings"
         Me.chkOverrideStandings.Size = New System.Drawing.Size(116, 17)
         Me.chkOverrideStandings.TabIndex = 19
         Me.chkOverrideStandings.Text = "Override Standings"
         Me.chkOverrideStandings.UseVisualStyleBackColor = True
         '
+        'lblRefineMode
+        '
+        Me.lblRefineMode.AutoSize = True
+        Me.lblRefineMode.Location = New System.Drawing.Point(12, 17)
+        Me.lblRefineMode.Name = "lblRefineMode"
+        Me.lblRefineMode.Size = New System.Drawing.Size(37, 13)
+        Me.lblRefineMode.TabIndex = 20
+        Me.lblRefineMode.Text = "Mode:"
+        '
+        'cboRefineMode
+        '
+        Me.cboRefineMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboRefineMode.FormattingEnabled = True
+        Me.cboRefineMode.Items.AddRange(New Object() {"Standard (Station)", "Refining Array", "Intensive Refining Array"})
+        Me.cboRefineMode.Location = New System.Drawing.Point(48, 14)
+        Me.cboRefineMode.Name = "cboRefineMode"
+        Me.cboRefineMode.Size = New System.Drawing.Size(165, 21)
+        Me.cboRefineMode.TabIndex = 21
+        '
+        'lblVolumeLbl
+        '
+        Me.lblVolumeLbl.AutoSize = True
+        Me.lblVolumeLbl.Location = New System.Drawing.Point(12, 79)
+        Me.lblVolumeLbl.Name = "lblVolumeLbl"
+        Me.lblVolumeLbl.Size = New System.Drawing.Size(45, 13)
+        Me.lblVolumeLbl.TabIndex = 22
+        Me.lblVolumeLbl.Text = "Volume:"
+        '
+        'lblItemsLbl
+        '
+        Me.lblItemsLbl.AutoSize = True
+        Me.lblItemsLbl.Location = New System.Drawing.Point(12, 100)
+        Me.lblItemsLbl.Name = "lblItemsLbl"
+        Me.lblItemsLbl.Size = New System.Drawing.Size(35, 13)
+        Me.lblItemsLbl.TabIndex = 23
+        Me.lblItemsLbl.Text = "Items:"
+        '
+        'lblVolume
+        '
+        Me.lblVolume.AutoSize = True
+        Me.lblVolume.Location = New System.Drawing.Point(63, 79)
+        Me.lblVolume.Name = "lblVolume"
+        Me.lblVolume.Size = New System.Drawing.Size(42, 13)
+        Me.lblVolume.TabIndex = 24
+        Me.lblVolume.Text = "0.00 m³"
+        '
+        'lblItems
+        '
+        Me.lblItems.AutoSize = True
+        Me.lblItems.Location = New System.Drawing.Point(63, 100)
+        Me.lblItems.Name = "lblItems"
+        Me.lblItems.Size = New System.Drawing.Size(13, 13)
+        Me.lblItems.TabIndex = 25
+        Me.lblItems.Text = "0"
+        '
+        'tabRecycle
+        '
+        Me.tabRecycle.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tabRecycle.Controls.Add(Me.tabItems)
+        Me.tabRecycle.Controls.Add(Me.tabTotals)
+        Me.tabRecycle.Location = New System.Drawing.Point(0, 124)
+        Me.tabRecycle.Name = "tabRecycle"
+        Me.tabRecycle.SelectedIndex = 0
+        Me.tabRecycle.Size = New System.Drawing.Size(946, 416)
+        Me.tabRecycle.TabIndex = 26
+        '
+        'tabItems
+        '
+        Me.tabItems.Controls.Add(Me.clvRecycle)
+        Me.tabItems.Location = New System.Drawing.Point(4, 22)
+        Me.tabItems.Name = "tabItems"
+        Me.tabItems.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabItems.Size = New System.Drawing.Size(938, 390)
+        Me.tabItems.TabIndex = 0
+        Me.tabItems.Text = "Item Analysis"
+        Me.tabItems.UseVisualStyleBackColor = True
+        '
+        'tabTotals
+        '
+        Me.tabTotals.Controls.Add(Me.clvTotals)
+        Me.tabTotals.Location = New System.Drawing.Point(4, 22)
+        Me.tabTotals.Name = "tabTotals"
+        Me.tabTotals.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabTotals.Size = New System.Drawing.Size(938, 390)
+        Me.tabTotals.TabIndex = 1
+        Me.tabTotals.Text = "Recycling Totals"
+        Me.tabTotals.UseVisualStyleBackColor = True
+        '
+        'clvTotals
+        '
+        Me.clvTotals.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colMaterial, Me.colStationTake, Me.colWaste, Me.colReceive, Me.colMatPrice, Me.colMatTotal})
+        Me.clvTotals.DefaultItemHeight = 20
+        Me.clvTotals.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.clvTotals.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.clvTotals.Location = New System.Drawing.Point(3, 3)
+        Me.clvTotals.MultipleColumnSort = True
+        Me.clvTotals.Name = "clvTotals"
+        Me.clvTotals.Size = New System.Drawing.Size(932, 384)
+        Me.clvTotals.TabIndex = 1
+        '
+        'colMaterial
+        '
+        Me.colMaterial.CustomSortTag = Nothing
+        Me.colMaterial.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colMaterial.Tag = Nothing
+        Me.colMaterial.Text = "Material"
+        Me.colMaterial.Width = 300
+        '
+        'colReceive
+        '
+        Me.colReceive.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colReceive.CustomSortTag = Nothing
+        Me.colReceive.DisplayIndex = 3
+        Me.colReceive.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colReceive.Tag = Nothing
+        Me.colReceive.Text = "Receivable"
+        Me.colReceive.Width = 100
+        '
+        'colStationTake
+        '
+        Me.colStationTake.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colStationTake.CustomSortTag = Nothing
+        Me.colStationTake.DisplayIndex = 1
+        Me.colStationTake.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colStationTake.Tag = Nothing
+        Me.colStationTake.Text = "Station Take"
+        Me.colStationTake.Width = 100
+        '
+        'colWaste
+        '
+        Me.colWaste.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colWaste.CustomSortTag = Nothing
+        Me.colWaste.DisplayIndex = 2
+        Me.colWaste.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colWaste.Tag = Nothing
+        Me.colWaste.Text = "Unrecoverable"
+        Me.colWaste.Width = 100
+        '
+        'colMatPrice
+        '
+        Me.colMatPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colMatPrice.CustomSortTag = Nothing
+        Me.colMatPrice.DisplayIndex = 4
+        Me.colMatPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colMatPrice.Tag = Nothing
+        Me.colMatPrice.Text = "Price"
+        '
+        'colMatTotal
+        '
+        Me.colMatTotal.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colMatTotal.CustomSortTag = Nothing
+        Me.colMatTotal.DisplayIndex = 5
+        Me.colMatTotal.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colMatTotal.Tag = Nothing
+        Me.colMatTotal.Text = "Total"
+        '
         'frmRecycleAssets
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(946, 540)
+        Me.Controls.Add(Me.tabRecycle)
+        Me.Controls.Add(Me.lblItems)
+        Me.Controls.Add(Me.lblVolume)
+        Me.Controls.Add(Me.lblItemsLbl)
+        Me.Controls.Add(Me.lblVolumeLbl)
+        Me.Controls.Add(Me.cboRefineMode)
+        Me.Controls.Add(Me.lblRefineMode)
         Me.Controls.Add(Me.chkOverrideStandings)
         Me.Controls.Add(Me.chkOverrideBaseYield)
         Me.Controls.Add(Me.nudStandings)
@@ -331,13 +515,15 @@ Partial Class frmRecycleAssets
         Me.Controls.Add(Me.chkPerfectRefine)
         Me.Controls.Add(Me.cboPilots)
         Me.Controls.Add(Me.lblPilot)
-        Me.Controls.Add(Me.clvRecycle)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmRecycleAssets"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Recycling Profitability Calculations"
         CType(Me.nudBaseYield, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudStandings, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tabRecycle.ResumeLayout(False)
+        Me.tabItems.ResumeLayout(False)
+        Me.tabTotals.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -369,4 +555,20 @@ Partial Class frmRecycleAssets
     Friend WithEvents nudStandings As System.Windows.Forms.NumericUpDown
     Friend WithEvents chkOverrideBaseYield As System.Windows.Forms.CheckBox
     Friend WithEvents chkOverrideStandings As System.Windows.Forms.CheckBox
+    Friend WithEvents lblRefineMode As System.Windows.Forms.Label
+    Friend WithEvents cboRefineMode As System.Windows.Forms.ComboBox
+    Friend WithEvents lblVolumeLbl As System.Windows.Forms.Label
+    Friend WithEvents lblItemsLbl As System.Windows.Forms.Label
+    Friend WithEvents lblVolume As System.Windows.Forms.Label
+    Friend WithEvents lblItems As System.Windows.Forms.Label
+    Friend WithEvents tabRecycle As System.Windows.Forms.TabControl
+    Friend WithEvents tabItems As System.Windows.Forms.TabPage
+    Friend WithEvents tabTotals As System.Windows.Forms.TabPage
+    Friend WithEvents clvTotals As DotNetLib.Windows.Forms.ContainerListView
+    Friend WithEvents colMaterial As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colReceive As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colStationTake As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colWaste As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colMatPrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colMatTotal As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
 End Class

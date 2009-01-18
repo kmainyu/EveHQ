@@ -96,7 +96,7 @@ Public Class PlugInData
                             newItem.MarketGroup = 0
                         End If
                         newItem.Published = CInt(itemRow.Item("published"))
-                        newItem.Volume = CInt(itemRow.Item("volume"))
+                        newItem.Volume = CDbl(itemRow.Item("volume"))
                         newItem.PortionSize = CInt(itemRow.Item("portionSize"))
                         Items.Add(newItem.ID.ToString, newItem)
                     Next

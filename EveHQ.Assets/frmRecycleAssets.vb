@@ -11,8 +11,11 @@ Public Class frmRecycleAssets
     Dim matList As New SortedList
     Dim BaseYield As Double = 0.5
     Dim NetYield As Double = 0
+    Dim StationYield As Double = 0
     Dim StationTake As Double = 0
+    Dim StationStanding As Double = 0
 
+#Region "Public Properties"
     Public Property AssetList() As SortedList
         Get
             Return cAssetList
@@ -37,6 +40,7 @@ Public Class frmRecycleAssets
             cAssetLocation = value
         End Set
     End Property
+#End Region
 
     Private Sub frmRecycleAssets_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
@@ -50,7 +54,7 @@ Public Class frmRecycleAssets
         ' Fetch the data from the database
         Dim strSQL As String = "SELECT typeActivityMaterials.typeID AS itemTypeID, invTypes.typeID AS materialTypeID, invTypes.typeName AS materialTypeName, typeActivityMaterials.quantity AS materialQuantity"
         strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.requiredTypeID) ON invCategories.categoryID = invGroups.categoryID"
-        strSQL &= " WHERE (typeActivityMaterials.typeID IN (" & strAssets.ToString & ") AND typeActivityMaterials.activityID IN (6,9)) ORDER BY invCategories.categoryName, invGroups.groupName"
+        strSQL &= " WHERE (typeActivityMaterials.typeID IN (" & strAssets.ToString & ") AND typeActivityMaterials.activityID IN (6,9) AND invTypes.typeID NOT IN (10298,11473)) ORDER BY invCategories.categoryName, invGroups.groupName"
         Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
 
         ' Add the data into a collection for parsing
@@ -84,7 +88,8 @@ Public Class frmRecycleAssets
             If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
                 lblCorp.Text = CStr(PlugInData.NPCCorps(aLocation.corpID.ToString))
                 lblCorp.Tag = aLocation.corpID.ToString
-                lblBaseYield.Text = FormatNumber(aLocation.refiningEff * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                StationYield = aLocation.refiningEff
+                lblBaseYield.Text = FormatNumber(StationYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             Else
                 If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
                     lblCorp.Text = CStr(PlugInData.Corps(aLocation.corpID.ToString))
@@ -109,6 +114,9 @@ Public Class frmRecycleAssets
             cboPilots.SelectedIndex = 0
         End If
 
+        ' Set the recycling mode
+        cboRefineMode.SelectedIndex = 0
+
     End Sub
 
     Private Sub RecalcRecycling()
@@ -116,12 +124,20 @@ Public Class frmRecycleAssets
         clvRecycle.BeginUpdate()
         clvRecycle.Items.Clear()
         Dim price As Double = 0
-        Dim quant As Double = 0
+        Dim perfect As Long = 0
+        Dim quant As Long = 0
+        Dim wastage As Long = 0
+        Dim taken As Long = 0
         Dim recycleTotal As Double = 0
         Dim newCLVItem As New ContainerListViewItem
         Dim newCLVSubItem As New ContainerListViewItem
         Dim itemInfo As New ItemData
-        Dim batches As Integer
+        Dim batches As Integer = 0
+        Dim items As Long = 0
+        Dim volume As Double = 0
+        Dim RecycleResults As New SortedList
+        Dim RecycleWaste As New SortedList
+        Dim RecycleTake As New SortedList
         For Each asset As String In cAssetList.Keys
             itemInfo = CType(PlugInData.Items(asset), ItemData)
             matList = CType(itemList(asset), Collections.SortedList)
@@ -130,7 +146,9 @@ Public Class frmRecycleAssets
             clvRecycle.Items.Add(newCLVItem)
             price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(asset), 2)
             batches = CInt(Int(CLng(cAssetList(itemInfo.ID.ToString)) / itemInfo.PortionSize))
-            quant = CDbl(cAssetList(asset))
+            quant = CLng(cAssetList(asset))
+            volume += itemInfo.Volume * quant
+            items += CLng(quant)
             newCLVItem.SubItems(1).Text = FormatNumber(itemInfo.MetaLevel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             newCLVItem.SubItems(2).Text = FormatNumber(quant, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             newCLVItem.SubItems(3).Text = FormatNumber(batches, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -140,16 +158,38 @@ Public Class frmRecycleAssets
             If matList IsNot Nothing Then ' i.e. it can be refined
                 For Each mat As String In matList.Keys
                     price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat).ToString), 2)
-                    quant = CDbl(matList(mat)) * batches
+                    perfect = CLng(matList(mat)) * batches
+                    wastage = CLng(perfect * (1 - NetYield))
+                    quant = CLng(perfect * NetYield)
+                    taken = CLng(quant * (StationTake / 100))
+                    quant = quant - taken
                     newCLVSubItem = New ContainerListViewItem
                     newCLVSubItem.Text = mat
                     newCLVItem.Items.Add(newCLVSubItem)
-                    newCLVSubItem.SubItems(2).Text = CStr(quant)
-                    newCLVSubItem.SubItems(3).Text = CStr(quant)
+                    newCLVSubItem.SubItems(2).Text = FormatNumber(quant, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    newCLVSubItem.SubItems(3).Text = FormatNumber(quant, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     newCLVSubItem.SubItems(4).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     newCLVSubItem.SubItems(5).Text = FormatNumber(price * quant, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    newCLVSubItem.SubItems(6).Text = newCLVSubItem.SubItems(4).Text
+                    newCLVSubItem.SubItems(6).Text = newCLVSubItem.SubItems(5).Text
                     recycleTotal += price * quant
+                    ' Save the perfect refining quantity
+                    If RecycleResults.Contains(mat) = False Then
+                        RecycleResults.Add(mat, quant)
+                    Else
+                        RecycleResults(mat) = CDbl(RecycleResults(mat)) + quant
+                    End If
+                    ' Save the wasted amounts
+                    If RecycleWaste.Contains(mat) = False Then
+                        RecycleWaste.Add(mat, wastage)
+                    Else
+                        RecycleWaste(mat) = CDbl(RecycleWaste(mat)) + wastage
+                    End If
+                    ' Save the take amounts
+                    If RecycleTake.Contains(mat) = False Then
+                        RecycleTake.Add(mat, taken)
+                    Else
+                        RecycleTake(mat) = CDbl(RecycleTake(mat)) + taken
+                    End If
                 Next
             End If
             newCLVItem.SubItems(6).Text = FormatNumber(recycleTotal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -159,19 +199,52 @@ Public Class frmRecycleAssets
         Next
         clvRecycle.Sort(0, SortOrder.Ascending, True)
         clvRecycle.EndUpdate()
+        lblVolume.Text = FormatNumber(volume, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        lblItems.Text = FormatNumber(clvRecycle.Items.Count, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblItems.Text &= " (" & FormatNumber(items, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")"
+        ' Create the totals list
+        clvTotals.BeginUpdate()
+        clvTotals.Items.Clear()
+        If RecycleResults IsNot Nothing Then
+            For Each mat As String In RecycleResults.Keys
+                price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat).ToString), 2)
+                wastage = CLng(RecycleWaste(mat))
+                taken = CLng(RecycleTake(mat))
+                quant = CLng(RecycleResults(mat))
+                newCLVItem = New ContainerListViewItem
+                newCLVItem.Text = mat
+                clvTotals.Items.Add(newCLVItem)
+                newCLVItem.SubItems(1).Text = FormatNumber(taken, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                newCLVItem.SubItems(2).Text = FormatNumber(wastage, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                newCLVItem.SubItems(3).Text = FormatNumber(quant, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                newCLVItem.SubItems(4).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                newCLVItem.SubItems(5).Text = FormatNumber(quant * price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Next
+        End If
+        clvTotals.Sort(3, SortOrder.Descending, True)
+        clvTotals.EndUpdate()
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        Call Me.RecalcRecycling()
         Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
-        NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+        If chkPerfectRefine.Checked = True Then
+            NetYield = 1
+        Else
+            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+        End If
         lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        If lblCorp.Tag Is Nothing Then
-            lblStandings.Text = FormatNumber(0, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        StationStanding = GetStanding(rPilot.Name, lblCorp.Tag.ToString)
+        If chkOverrideStandings.Checked = True Then
+            lblStandings.Text = FormatNumber(nudStandings.Value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         Else
-            lblStandings.Text = FormatNumber(GetStanding(rPilot.Name, lblCorp.Tag.ToString), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            If lblCorp.Tag Is Nothing Then
+                lblStandings.Text = FormatNumber(0, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Else
+                lblStandings.Text = FormatNumber(StationStanding, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            End If
         End If
+        Call Me.RecalcRecycling()
     End Sub
 
     Private Function GetStanding(ByVal pilotName As String, ByVal corpID As String) As Double
@@ -192,8 +265,128 @@ Public Class frmRecycleAssets
         End If
     End Function
 
-    Private Sub lblStandings_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblStandings.TextChanged
-        Dim take As Double = Math.Max(5 - (0.75 * CDbl(lblStandings.Text)), 0)
-        lblStationTake.Text = FormatNumber(take, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+#Region "Override Base Yield functions"
+    Private Sub chkOverrideBaseYield_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideBaseYield.CheckedChanged
+        If chkOverrideBaseYield.Checked = True Then
+            BaseYield = CDbl(nudBaseYield.Value) / 100
+        Else
+            BaseYield = StationYield
+        End If
+        lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        Call Me.RecalcRecycling()
     End Sub
+
+    Private Sub nudBaseYield_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudBaseYield.ValueChanged
+        If chkOverrideBaseYield.Checked = True Then
+            BaseYield = CDbl(nudBaseYield.Value)
+            lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            Call Me.RecalcRecycling()
+        End If
+    End Sub
+#End Region
+
+#Region "Override Standings functions"
+    Private Sub chkOverrideStandings_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideStandings.CheckedChanged
+        If chkOverrideStandings.Checked = True Then
+            lblStandings.Text = FormatNumber(nudStandings.Value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        Else
+            If lblCorp.Tag Is Nothing Then
+                lblStandings.Text = FormatNumber(0, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Else
+                lblStandings.Text = FormatNumber(StationStanding, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            End If
+        End If
+        Call Me.RecalcRecycling()
+    End Sub
+
+    Private Sub lblStandings_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblStandings.TextChanged
+        StationTake = Math.Max(5 - (0.75 * CDbl(lblStandings.Text)), 0)
+        lblStationTake.Text = FormatNumber(StationTake, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+    End Sub
+
+    Private Sub nudStandings_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudStandings.ValueChanged
+        If chkOverrideStandings.Checked = True Then
+            lblStandings.Text = FormatNumber(nudStandings.Value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Call Me.RecalcRecycling()
+        End If
+    End Sub
+
+#End Region
+
+#Region "Override Refining Skills functions"
+    Private Sub chkPerfectRefine_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkPerfectRefine.CheckedChanged
+        If chkPerfectRefine.Checked = True Then
+            NetYield = 1
+        Else
+            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+        End If
+        lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        Call Me.RecalcRecycling()
+    End Sub
+#End Region
+
+#Region "Refining Mode functions"
+    Private Sub cboRefineMode_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboRefineMode.SelectedIndexChanged
+        Select Case cboRefineMode.SelectedIndex
+            Case 0 ' Standard
+                If chkOverrideBaseYield.Checked = True Then
+                    BaseYield = CDbl(nudBaseYield.Value) / 100
+                Else
+                    BaseYield = StationYield
+                End If
+                lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                If chkPerfectRefine.Checked = True Then
+                    NetYield = 1
+                Else
+                    Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+                    NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+                End If
+                lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                If chkOverrideStandings.Checked = True Then
+                    lblStandings.Text = FormatNumber(nudStandings.Value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                Else
+                    If lblCorp.Tag Is Nothing Then
+                        lblStandings.Text = FormatNumber(0, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    Else
+                        lblStandings.Text = FormatNumber(StationStanding, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    End If
+                End If
+                chkOverrideBaseYield.Enabled = True
+                chkOverrideStandings.Enabled = True
+                chkPerfectRefine.Enabled = True
+                nudBaseYield.Enabled = True
+                nudStandings.Enabled = True
+                cboPilots.Enabled = True
+            Case 1 ' Refining Array
+                BaseYield = 0.35
+                NetYield = 0.35
+                lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                lblStandings.Text = FormatNumber(10, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                chkOverrideBaseYield.Enabled = False
+                chkOverrideStandings.Enabled = False
+                chkPerfectRefine.Enabled = False
+                nudBaseYield.Enabled = False
+                nudStandings.Enabled = False
+                cboPilots.Enabled = False
+            Case 2 ' Intensive Refining Array
+                BaseYield = 0.75
+                NetYield = 0.75
+                lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                lblStandings.Text = FormatNumber(10, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                chkOverrideBaseYield.Enabled = False
+                chkOverrideStandings.Enabled = False
+                chkPerfectRefine.Enabled = False
+                nudBaseYield.Enabled = False
+                nudStandings.Enabled = False
+                cboPilots.Enabled = False
+        End Select
+        Call Me.RecalcRecycling()
+    End Sub
+#End Region
+    
+    
+   
 End Class
