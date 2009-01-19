@@ -301,7 +301,7 @@ Public Class PilotParseFunctions
                     curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Astrogeology) = CStr(curSkill.Level)
                 Case "Mining Barge"
                     curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningBarge) = CStr(curSkill.Level)
-                Case "Mining Drone"
+                Case "Mining Drone Operation"
                     curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningDrone) = CStr(curSkill.Level)
                 Case "Exhumers"
                     curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Exhumers) = CStr(curSkill.Level)
@@ -349,7 +349,7 @@ Public Class PilotParseFunctions
                     curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScorditeProc) = CStr(curSkill.Level)
                 Case "Spodumain Processing"
                     curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.SpodumainProc) = CStr(curSkill.Level)
-                Case "Veldspare Processing"
+                Case "Veldspar Processing"
                     curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.VeldsparProc) = CStr(curSkill.Level)
                 Case "Ice Processing"
                     curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceProc) = CStr(curSkill.Level)

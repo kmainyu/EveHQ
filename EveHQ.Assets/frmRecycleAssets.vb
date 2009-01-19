@@ -135,11 +135,54 @@ Public Class frmRecycleAssets
         Dim batches As Integer = 0
         Dim items As Long = 0
         Dim volume As Double = 0
+        Dim tempNetYield As Double = 0
         Dim RecycleResults As New SortedList
         Dim RecycleWaste As New SortedList
         Dim RecycleTake As New SortedList
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
         For Each asset As String In cAssetList.Keys
             itemInfo = CType(PlugInData.Items(asset), ItemData)
+            If itemInfo.Category = 25 Then
+                Select Case itemInfo.Group
+                    Case 465 ' Ice
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceProc))))
+                    Case 450 ' Arkonor
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ArkonorProc))))
+                    Case 451 ' Bistot
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BistotProc))))
+                    Case 452 ' Crokite
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.CrokiteProc))))
+                    Case 453 ' Dark Ochre
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DarkOchreProc))))
+                    Case 467 ' Gneiss
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.GneissProc))))
+                    Case 454 ' Hedbergite
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HedbergiteProc))))
+                    Case 455 ' Hemorphite
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HemorphiteProc))))
+                    Case 456 ' Jaspet
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JaspetProc))))
+                    Case 457 ' Kernite
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.KerniteProc))))
+                    Case 468 ' Mercoxit
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MercoxitProc))))
+                    Case 469 ' Omber
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.OmberProc))))
+                    Case 458 ' Plagioclase
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PlagioclaseProc))))
+                    Case 459 ' Pyroxeres
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PyroxeresProc))))
+                    Case 460 ' Scordite
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScorditeProc))))
+                    Case 461 ' Spodumain
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.SpodumainProc))))
+                    Case 462 ' Veldspar
+                        tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.VeldsparProc))))
+                End Select
+            Else
+                tempNetYield = NetYield * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScrapMetalProc))))
+            End If
+            tempNetYield = Math.Min(tempNetYield, 1)
             matList = CType(itemList(asset), Collections.SortedList)
             newCLVItem = New ContainerListViewItem
             newCLVItem.Text = itemInfo.Name
@@ -159,8 +202,8 @@ Public Class frmRecycleAssets
                 For Each mat As String In matList.Keys
                     price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat).ToString), 2)
                     perfect = CLng(matList(mat)) * batches
-                    wastage = CLng(perfect * (1 - NetYield))
-                    quant = CLng(perfect * NetYield)
+                    wastage = CLng(perfect * (1 - tempNetYield))
+                    quant = CLng(perfect * tempNetYield)
                     taken = CLng(quant * (StationTake / 100))
                     quant = quant - taken
                     newCLVSubItem = New ContainerListViewItem
@@ -273,13 +316,19 @@ Public Class frmRecycleAssets
             BaseYield = StationYield
         End If
         lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+        lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         Call Me.RecalcRecycling()
     End Sub
 
     Private Sub nudBaseYield_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudBaseYield.ValueChanged
         If chkOverrideBaseYield.Checked = True Then
-            BaseYield = CDbl(nudBaseYield.Value)
+            BaseYield = CDbl(nudBaseYield.Value) / 100
             lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+            lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
             Call Me.RecalcRecycling()
         End If
     End Sub
