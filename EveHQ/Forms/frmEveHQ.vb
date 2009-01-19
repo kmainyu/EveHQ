@@ -585,7 +585,7 @@ Public Class frmEveHQ
         ' Check for an API update if applicable
         ' check if the API form is active and cancel if so
         If EveHQ.Core.HQ.APIRequestForm.IsHandleCreated = False Then
-            If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.EveHQSettings.AutoAPI = True Then
+            If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.myPilot.Account <> "" And EveHQ.Core.HQ.EveHQSettings.AutoAPI = True Then
                 If EveHQ.Core.HQ.LastAutoAPIResult = True Or (EveHQ.Core.HQ.LastAutoAPIResult = False And EveHQ.Core.HQ.LastAutoAPITime.AddMinutes(5) < Now) Then
                     Dim cacheDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.CacheExpirationTime)
                     Dim cacheTimeLeft As TimeSpan = cacheDate - Now
