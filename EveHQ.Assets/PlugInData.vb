@@ -88,14 +88,20 @@ Public Class PlugInData
                         newItem = New ItemData
                         newItem.ID = CLng(itemRow.Item("typeID"))
                         newItem.Name = CStr(itemRow.Item("typeName"))
-                        newItem.Group = CInt(itemRow.Item("groupID"))
+                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+                            Case 0, 3 ' Access & MySQL
+                                newItem.Group = CInt(itemRow.Item("invGroups.groupID"))
+                                newItem.Published = CInt(itemRow.Item("invTypes.published"))
+                            Case 1, 2 ' SQL
+                                newItem.Group = CInt(itemRow.Item("groupID"))
+                                newItem.Published = CInt(itemRow.Item("published"))
+                        End Select
                         newItem.Category = CInt(itemRow.Item("categoryID"))
                         If IsDBNull(itemRow.Item("marketGroupID")) = False Then
                             newItem.MarketGroup = CInt(itemRow.Item("marketGroupID"))
                         Else
                             newItem.MarketGroup = 0
                         End If
-                        newItem.Published = CInt(itemRow.Item("published"))
                         newItem.Volume = CDbl(itemRow.Item("volume"))
                         newItem.PortionSize = CInt(itemRow.Item("portionSize"))
                         Items.Add(newItem.ID.ToString, newItem)
