@@ -932,7 +932,7 @@
 1187,1,27951,73,2,325,0,0,0,4,Remote Armor Repair Duration Bonus
 1188,1,27951,73,2,41,0,0,0,4,Shield Transporter Duration Bonus
 1189,1,27951,68,2,41,0,0,0,4,Shield Transporter Amount Bonus
-1190,1,27951,6,2,201;202;80;289;842;208;65;379;291;899;52,0,0,0,4,EW Capacitor Need Bonus
+1190,1,27951,6,2,201;80;208;65;379;291;52,0,0,0,4,EW Capacitor Need Bonus
 1191,1,27951,10005,3,6,0,0,0,4,Drone Control Bonus
 1201,1,27951,83,2,585,0,0,0,4,Remote Hull Repair Bonus
 1202,1,27951,73,2,585,0,0,0,4,Remote Hull Repair Duration Bonus

@@ -231,7 +231,7 @@ Public Class ShipInfoControl
         If ccc > 0 Then
             gbCapacitor.Text = "Capacitor: Stable at " & FormatNumber(ccc / fittedShip.CapCapacity * 100, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         Else
-            gbCapacitor.Text = "Capacitor: Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-ccc)
+            gbCapacitor.Text = "Capacitor: Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-ccc, False)
         End If
 
         ' Propulsion

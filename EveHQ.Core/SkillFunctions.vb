@@ -75,14 +75,18 @@ Public Class SkillFunctions
         Dim rank As Integer = cSkill.Rank
         Return CalculateSPLevel(rank, Level)
     End Function
-    Public Shared Function TimeToString(ByVal sTime As Double) As String
+    Public Shared Function TimeToString(ByVal sTime As Double, Optional ByVal skillTime As Boolean = True) As String
 
         Dim days, hours, minutes, seconds As Long
         Dim strTime As String = ""
 
 
         If sTime <= 0 Then       ' Changed from "= 0" to "<= 0" due to a CCP bug!!
-            strTime = "Training Complete"
+            If skillTime = True Then
+                strTime = "Training Complete"
+            Else
+                strTime = "0s"
+            End If
         Else
             days = CInt(Int(sTime / (60 * 60 * 24)))
             sTime = sTime - (days * 60 * 60 * 24)
@@ -109,7 +113,7 @@ Public Class SkillFunctions
             End If
         End If
 
-        Return strTime.Trim(" ".ToCharArray)
+            Return strTime.Trim(" ".ToCharArray)
 
     End Function             'TimeToString
     Public Shared Function TimeToStringAll(ByVal sTime As Double) As String
