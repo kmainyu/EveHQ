@@ -117,24 +117,24 @@ Partial Class frmCertificateDetails
         Me.ctxSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator2, Me.mnuViewSkillDetails})
         Me.ctxSkills.Name = "ctxDepend"
-        Me.ctxSkills.Size = New System.Drawing.Size(133, 54)
+        Me.ctxSkills.Size = New System.Drawing.Size(144, 54)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(132, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(143, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(129, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(140, 6)
         '
         'mnuViewSkillDetails
         '
         Me.mnuViewSkillDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewSkillDetails.Name = "mnuViewSkillDetails"
-        Me.mnuViewSkillDetails.Size = New System.Drawing.Size(132, 22)
+        Me.mnuViewSkillDetails.Size = New System.Drawing.Size(143, 22)
         Me.mnuViewSkillDetails.Text = "View Details"
         '
         'tabPreReqCerts
@@ -205,24 +205,24 @@ Partial Class frmCertificateDetails
         Me.ctxCerts.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxCerts.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator1, Me.mnuViewCertDetails})
         Me.ctxCerts.Name = "ctxDepend"
-        Me.ctxCerts.Size = New System.Drawing.Size(133, 54)
+        Me.ctxCerts.Size = New System.Drawing.Size(144, 54)
         '
         'mnuCertName
         '
         Me.mnuCertName.Name = "mnuCertName"
-        Me.mnuCertName.Size = New System.Drawing.Size(132, 22)
+        Me.mnuCertName.Size = New System.Drawing.Size(143, 22)
         Me.mnuCertName.Text = "Skill Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(129, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(140, 6)
         '
         'mnuViewCertDetails
         '
         Me.mnuViewCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
-        Me.mnuViewCertDetails.Size = New System.Drawing.Size(132, 22)
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(143, 22)
         Me.mnuViewCertDetails.Text = "View Details"
         '
         'tabDepends

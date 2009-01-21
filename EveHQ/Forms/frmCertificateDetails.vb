@@ -31,18 +31,7 @@
             newCert = New ListViewItem
             newCert.Text = CType(EveHQ.Core.HQ.CertificateClasses(cRCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
             newCert.Name = cRCert.ID.ToString
-            Select Case cRCert.Grade
-                Case 1
-                    newCert.SubItems.Add("Basic")
-                Case 2
-                    newCert.SubItems.Add("Standard")
-                Case 3
-                    newCert.SubItems.Add("Improved")
-                Case 4
-                    newCert.SubItems.Add("Advanced")
-                Case 5
-                    newCert.SubItems.Add("Elite")
-            End Select
+            newCert.SubItems.Add(CertGrades(cRCert.Grade))
             If EveHQ.Core.HQ.myPilot.Certificates.Contains(cRCert.ID.ToString) = True Then
                 newCert.ForeColor = Color.Green
             Else
@@ -207,35 +196,12 @@
                 newItem.Group = lvwDepend.Groups("CatCerts")
                 Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(item), Core.Certificate)
                 Dim certName As String = CType(EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
-                Dim certGrade As String = ""
-                Select Case cert.Grade
-                    Case 1
-                        certGrade = "Basic"
-                    Case 2
-                        certGrade = "Standard"
-                    Case 3
-                        certGrade = "Improved"
-                    Case 4
-                        certGrade = "Advanced"
-                    Case 5
-                        certGrade = "Elite"
-                End Select
+                Dim certGrade As String = CertGrades(cert.Grade)
                 For Each reqCertID As String In cert.RequiredCerts.Keys
                     Dim reqCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(reqCertID), Core.Certificate)
                     If reqCert.ID.ToString <> certID Then
                         newItem.ToolTipText &= CType(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
-                        Select Case reqCert.Grade
-                            Case 1
-                                newItem.ToolTipText &= " (Basic), "
-                            Case 2
-                                newItem.ToolTipText &= " (Standard), "
-                            Case 3
-                                newItem.ToolTipText &= " (Improved), "
-                            Case 4
-                                newItem.ToolTipText &= " (Advanced), "
-                            Case 5
-                                newItem.ToolTipText &= " (Elite), "
-                        End Select
+                        newItem.ToolTipText &= " (" & CertGrades(reqCert.Grade) & "), "
                     End If
                 Next
                 If newItem.ToolTipText <> "" Then
