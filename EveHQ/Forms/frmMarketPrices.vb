@@ -1,9 +1,27 @@
 ﻿Imports System.IO
 Imports System.Xml
 Imports System.Text
+Imports System.Data.SqlClient
+Imports System.Data
 
 Public Class frmMarketPrices
     Dim saveLoc As String = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\MarketXMLs"
+    Dim insertStat As String = "INSERT INTO marketStats (statDate, typeID, regionID, systemID, volAll, avgAll, maxAll, minAll, stdAll, medAll, volBuy, avgBuy, maxBuy, minBuy, stdBuy, medBuy, volSell, avgSell, maxSell, minSell, stdSell, medSell) "
+    Dim strSQL As String = ""
+    Dim orderDetails() As String
+    Dim oReg, oSys, oStation As Long
+    Dim oTypeID, oType, oMinVol, oVol As Long
+    Dim oPrice As Double
+    Dim avgBuy, avgSell, avgAll As Double
+    Dim medBuy, medSell, medAll As Double
+    Dim stdBuy, stdSell, stdAll As Double
+    Dim sorBuy, sorSell, sorAll As New SortedList
+    Dim countBuy, countSell, countAll As Integer
+    Dim volBuy, volSell, volAll As Long
+    Dim minBuy, minSell, minAll As Double
+    Dim maxBuy, maxSell, maxAll As Double
+    Dim valBuy, valSell, valAll As Double
+    Dim devBuy, devSell, devAll As Double
 
     Private Function CheckMarketStatsDBTable() As Boolean
         Dim CreateTable As Boolean = False
@@ -36,7 +54,8 @@ Public Class frmMarketPrices
             Dim strSQL As New StringBuilder
             strSQL.AppendLine("CREATE TABLE marketStats")
             strSQL.AppendLine("(")
-            strSQL.AppendLine("  statID         int,")
+            strSQL.AppendLine("  statID         int IDENTITY(1,1),")
+            strSQL.AppendLine("  statDate       datetime,")
             strSQL.AppendLine("  typeID         int,")
             strSQL.AppendLine("  regionID       int,")
             strSQL.AppendLine("  systemID       int,")
@@ -120,11 +139,14 @@ Public Class frmMarketPrices
             timeTaken = endTime - startTime
             MessageBox.Show("Time taken to read " & orders.ToString & "orders = " & timeTaken.TotalSeconds.ToString)
 
+            EveHQ.Core.DataFunctions.SetData("SET DATEFORMAT dmy;")
+
             ' Calculate global statistics
             startTime = Now
             For Each item As String In items.Keys
                 Call CalculateStats(CType(items(item), ArrayList), 0)
             Next
+
             endTime = Now
             timeTaken = endTime - startTime
             MessageBox.Show("Time taken to parse data for " & items.Count.ToString & " items = " & timeTaken.TotalSeconds.ToString)
@@ -134,22 +156,17 @@ Public Class frmMarketPrices
     End Sub
 
     Private Sub CalculateStats(ByVal orderList As ArrayList, ByVal CalcType As Integer)
-        Dim orderDetails() As String
+
         Dim regions, systems As New SortedList
         Dim regOrders, sysOrders As New ArrayList
-        Dim oReg, oSys, oStation As Long
-        Dim oTypeID, oType, oMinVol, oVol As Long
-        Dim oPrice As Double
-        Dim countBuy, countSell, countAll As Integer
-        Dim volBuy, volSell, volAll As Long
-        Dim minBuy, minSell, minAll As Double
-        Dim maxBuy, maxSell, maxAll As Double
-        Dim valBuy, valSell, valAll As Double
-        Dim avgBuy, avgSell, avgAll As Double
-        Dim sorBuy, sorSell, sorAll As New SortedList
-        Dim medBuy, medSell, medAll As Double
-        Dim stdBuy, stdSell, stdAll As Double
-        Dim devBuy, devSell, devAll As Double
+        sorBuy.Clear() : sorSell.Clear() : sorAll.Clear()
+
+        countBuy = 0 : countSell = 0 : countAll = 0
+        volBuy = 0 : volSell = 0 : volAll = 0
+        minBuy = 0 : minSell = 0 : minAll = 0
+        maxBuy = 0 : maxSell = 0 : maxAll = 0
+        valBuy = 0 : valSell = 0 : valAll = 0
+        devBuy = 0 : devSell = 0 : devAll = 0
 
         For Each order As String In orderList
             orderDetails = order.Split(",".ToCharArray)
@@ -237,11 +254,6 @@ Public Class frmMarketPrices
             End Select
         Next
 
-        ' Calculate Averages
-        avgAll = valAll / volAll
-        avgSell = valSell / volSell
-        avgBuy = valBuy / volBuy
-
         ' Calculate Medians
         Dim cumVol As Long = 0
         For Each chkVol As String In sorAll.Keys
@@ -266,27 +278,25 @@ Public Class frmMarketPrices
             End If
         Next
 
-        ' Calculate Standard Deviations
-        'For Each order As String In orderList
-        '    orderDetails = order.Split(",".ToCharArray)
-        '    'oReg = CLng(orderDetails(1).Trim)
-        '    'oSys = CLng(orderDetails(2).Trim)
-        '    'oStation = CLng(orderDetails(3).Trim)
-        '    oType = CLng(orderDetails(5).Trim)
-        '    'oMinVol = CLng(orderDetails(7).Trim)
-        '    oVol = CLng(orderDetails(8).Trim)
-        '    oPrice = CDbl(orderDetails(6).Trim)
-        '    devAll += Math.Pow(avgAll - oPrice, 2)
-        '    Select Case oType
-        '        Case 0 ' Sell order
-        '            devSell += Math.Pow(avgAll - oPrice, 2)
-        '        Case 1 ' Buy order
-        '            devBuy += Math.Pow(avgAll - oPrice, 2)
-        '    End Select
-        'Next
-        stdAll = Math.Sqrt((devAll / volAll) - Math.Pow(avgAll, 2))
-        stdBuy = Math.Sqrt((devBuy / volBuy) - Math.Pow(avgBuy, 2))
-        stdSell = Math.Sqrt((devSell / volSell) - Math.Pow(avgSell, 2))
+        ' Calculate Averages & Standard Deviations
+        If volAll > 0 Then
+            avgAll = valAll / volAll
+            stdAll = Math.Sqrt(Math.Abs((devAll / volAll) - Math.Pow(avgAll, 2)))
+        Else
+            avgAll = 0 : stdAll = 0
+        End If
+        If volSell > 0 Then
+            avgSell = valSell / volSell
+            stdSell = Math.Sqrt(Math.Abs((devSell / volSell) - Math.Pow(avgSell, 2)))
+        Else
+            avgSell = 0 : stdSell = 0
+        End If
+        If volBuy > 0 Then
+            avgBuy = valBuy / volBuy
+            stdBuy = Math.Sqrt(Math.Abs((devBuy / volBuy) - Math.Pow(avgBuy, 2)))
+        Else
+            avgBuy = 0 : stdBuy = 0
+        End If
 
         ' Write some XML data
         'Dim fileName As String = saveLoc
@@ -330,6 +340,19 @@ Public Class frmMarketPrices
         'XMLS.AppendLine("</EveHQMarket>")
         'XMLdoc.LoadXml(XMLS.ToString)
         'XMLdoc.Save(fileName)
+        Select Case CalcType
+            Case 0
+                oReg = 0
+                oSys = 0
+            Case 1
+                oSys = 0
+        End Select
+
+        ' Write data to the database
+        strSQL = insertStat & "VALUES (" & Now.ToOADate & ", " & oTypeID.ToString & ", " & oReg.ToString & ", " & oSys.ToString & ", " & volAll & ", " & avgAll & ", " & maxAll & ", " & minAll & ", " & stdAll & ", " & medAll & ", " & volBuy & ", " & avgBuy & ", " & maxBuy & ", " & minBuy & ", " & stdBuy & ", " & medBuy & ", " & volSell & ", " & avgSell & ", " & maxSell & ", " & minSell & ", " & stdSell & ", " & medSell & ");"
+        If EveHQ.Core.DataFunctions.SetData(strSQL) = False Then
+            MessageBox.Show("There was an error writing data to the marketStats database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL, "Error Writing Market Stats", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End If
 
         ' Calculate regional stuff if required
         If CalcType = 0 Then
@@ -337,11 +360,13 @@ Public Class frmMarketPrices
                 Call CalculateStats(CType(regions(Region), ArrayList), 1)
             Next
         End If
-        If CalcType = 1 Then
-            For Each System As String In systems.Keys
-                Call CalculateStats(CType(systems(System), ArrayList), 2)
-            Next
-        End If
+        'If CalcType = 1 Then
+        '    For Each System As String In systems.Keys
+        '        Call CalculateStats(CType(systems(System), ArrayList), 2)
+        '    Next
+        'End If
 
     End Sub
+
+
 End Class
