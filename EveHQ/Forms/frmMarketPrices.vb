@@ -22,6 +22,10 @@ Public Class frmMarketPrices
     Dim maxBuy, maxSell, maxAll As Double
     Dim valBuy, valSell, valAll As Double
     Dim devBuy, devSell, devAll As Double
+    Dim cumVol As Long = 0
+    Dim ProcessOrder As Boolean = True
+    Dim orderFile As FileInfo
+    Dim orderDate As Date
 
     Private Function CheckMarketStatsDBTable() As Boolean
         Dim CreateTable As Boolean = False
@@ -105,8 +109,9 @@ Public Class frmMarketPrices
         Dim timeTaken As TimeSpan
 
         ofd1.ShowDialog()
-        Dim filename As String = ofd1.FileName
-        Dim sr As New StreamReader(filename)
+        OrderFile = New FileInfo(ofd1.FileName)
+        orderDate = Date.Parse(orderFile.Name.Trim(".dump.txt".ToCharArray))
+        Dim sr As New StreamReader(orderFile.FullName)
         Dim header As String = sr.ReadLine()
         Dim items As New SortedList
         Dim itemOrders As New ArrayList
@@ -130,7 +135,6 @@ Public Class frmMarketPrices
                     itemOrders = CType(items(orderDetails(4).Trim), ArrayList)
                     itemOrders.Add(order)
                 End If
-
                 orders += 1
             Loop Until sr.EndOfStream
             sr.Close()
@@ -138,8 +142,6 @@ Public Class frmMarketPrices
             endTime = Now
             timeTaken = endTime - startTime
             MessageBox.Show("Time taken to read " & orders.ToString & "orders = " & timeTaken.TotalSeconds.ToString)
-
-            EveHQ.Core.DataFunctions.SetData("SET DATEFORMAT dmy;")
 
             ' Calculate global statistics
             startTime = Now
@@ -202,144 +204,116 @@ Public Class frmMarketPrices
                 End If
             End If
 
-            countAll += 1
-            volAll += oVol
-            If oPrice < minAll Or minAll = 0 Then
-                minAll = oPrice
-            End If
-            If oPrice > maxAll Then
-                maxAll = oPrice
-            End If
-            valAll += (oVol * oPrice)
-            If sorAll.Contains(oPrice.ToString) = False Then
-                sorAll.Add(oPrice.ToString, oVol)
-            Else
-                sorAll(oPrice.ToString) = CLng(sorAll(oPrice.ToString)) + oVol
-            End If
-            devAll += Math.Pow(oPrice, 2) * oVol
+            ' Check if we process this
+            processOrder = True
+            'If oType = 0 Then ' Sell Order
+            '    If chkIgnoreSellOrders.Checked = True And oPrice > nudIgnoreSellOrderLimit.Value Then
+            '        ProcessOrder = False
+            '    End If
+            'Else ' Buy Order
+            '    If chkIgnoreBuyOrders.Checked = True And oPrice < nudIgnoreBuyOrderLimit.Value Then
+            '        ProcessOrder = False
+            '    End If
+            'End If
 
-            Select Case oType
-                Case 0 ' Sell order
-                    countBuy += 1
-                    volSell += oVol
-                    If oPrice < minSell Or minSell = 0 Then
-                        minSell = oPrice
-                    End If
-                    If oPrice > maxSell Then
-                        maxSell = oPrice
-                    End If
-                    valSell += (oVol * oPrice)
-                    If sorSell.Contains(oPrice.ToString) = False Then
-                        sorSell.Add(oPrice.ToString, oVol)
-                    Else
-                        sorSell(oPrice.ToString) = CLng(sorSell(oPrice.ToString)) + oVol
-                    End If
-                    devSell += Math.Pow(oPrice, 2) * oVol
-                Case 1 ' Buy order
-                    countSell += 1
-                    volBuy += oVol
-                    If oPrice < minBuy Or minBuy = 0 Then
-                        minBuy = oPrice
-                    End If
-                    If oPrice > maxBuy Then
-                        maxBuy = oPrice
-                    End If
-                    valBuy += (oVol * oPrice)
-                    If sorBuy.Contains(oPrice.ToString) = False Then
-                        sorBuy.Add(oPrice.ToString, oVol)
-                    Else
-                        sorBuy(oPrice.ToString) = CLng(sorBuy(oPrice.ToString)) + oVol
-                    End If
-                    devBuy += Math.Pow(oPrice, 2) * oVol
-            End Select
-        Next
+            If ProcessOrder = True Then
+                countAll += 1
+                volAll += oVol
+                If oPrice < minAll Or minAll = 0 Then
+                    minAll = oPrice
+                End If
+                If oPrice > maxAll Then
+                    maxAll = oPrice
+                End If
+                valAll += (oVol * oPrice)
+                If sorAll.Contains(oPrice.ToString) = False Then
+                    sorAll.Add(oPrice.ToString, oVol)
+                Else
+                    sorAll(oPrice.ToString) = CLng(sorAll(oPrice.ToString)) + oVol
+                End If
+                devAll += Math.Pow(oPrice, 2) * oVol
 
-        ' Calculate Medians
-        Dim cumVol As Long = 0
-        For Each chkVol As String In sorAll.Keys
-            cumVol += CLng(sorAll(chkVol))
-            If cumVol >= (volAll / 2) Then
-                medAll = CDbl(chkVol)
-                Exit For
-            End If
-        Next
-        For Each chkVol As String In sorSell.Keys
-            cumVol += CLng(sorSell(chkVol))
-            If cumVol >= (volSell / 2) Then
-                medSell = CDbl(chkVol)
-                Exit For
-            End If
-        Next
-        For Each chkVol As String In sorBuy.Keys
-            cumVol += CLng(sorBuy(chkVol))
-            If cumVol >= (volBuy / 2) Then
-                medBuy = CDbl(chkVol)
-                Exit For
+                Select Case oType
+                    Case 0 ' Sell order
+                        countBuy += 1
+                        volSell += oVol
+                        If oPrice < minSell Or minSell = 0 Then
+                            minSell = oPrice
+                        End If
+                        If oPrice > maxSell Then
+                            maxSell = oPrice
+                        End If
+                        valSell += (oVol * oPrice)
+                        If sorSell.Contains(oPrice.ToString) = False Then
+                            sorSell.Add(oPrice.ToString, oVol)
+                        Else
+                            sorSell(oPrice.ToString) = CLng(sorSell(oPrice.ToString)) + oVol
+                        End If
+                        devSell += Math.Pow(oPrice, 2) * oVol
+                    Case 1 ' Buy order
+                        countSell += 1
+                        volBuy += oVol
+                        If oPrice < minBuy Or minBuy = 0 Then
+                            minBuy = oPrice
+                        End If
+                        If oPrice > maxBuy Then
+                            maxBuy = oPrice
+                        End If
+                        valBuy += (oVol * oPrice)
+                        If sorBuy.Contains(oPrice.ToString) = False Then
+                            sorBuy.Add(oPrice.ToString, oVol)
+                        Else
+                            sorBuy(oPrice.ToString) = CLng(sorBuy(oPrice.ToString)) + oVol
+                        End If
+                        devBuy += Math.Pow(oPrice, 2) * oVol
+                End Select
             End If
         Next
 
-        ' Calculate Averages & Standard Deviations
+        ' Calculate Averages, Standard Deviations & Medians
         If volAll > 0 Then
             avgAll = valAll / volAll
             stdAll = Math.Sqrt(Math.Abs((devAll / volAll) - Math.Pow(avgAll, 2)))
+            cumVol = 0
+            For Each chkVol As String In sorAll.Keys
+                cumVol += CLng(sorAll(chkVol))
+                If cumVol >= (volAll / 2) Then
+                    medAll = CDbl(chkVol)
+                    Exit For
+                End If
+            Next
         Else
-            avgAll = 0 : stdAll = 0
+            avgAll = 0 : stdAll = 0 : medAll = 0
         End If
         If volSell > 0 Then
             avgSell = valSell / volSell
             stdSell = Math.Sqrt(Math.Abs((devSell / volSell) - Math.Pow(avgSell, 2)))
+            cumVol = 0
+            For Each chkVol As String In sorSell.Keys
+                cumVol += CLng(sorSell(chkVol))
+                If cumVol >= (volSell / 2) Then
+                    medSell = CDbl(chkVol)
+                    Exit For
+                End If
+            Next
         Else
-            avgSell = 0 : stdSell = 0
+            avgSell = 0 : stdSell = 0 : medSell = 0
         End If
         If volBuy > 0 Then
             avgBuy = valBuy / volBuy
             stdBuy = Math.Sqrt(Math.Abs((devBuy / volBuy) - Math.Pow(avgBuy, 2)))
+            cumVol = 0
+            For Each chkVol As String In sorBuy.Keys
+                cumVol += CLng(sorBuy(chkVol))
+                If cumVol >= (volBuy / 2) Then
+                    medBuy = CDbl(chkVol)
+                    Exit For
+                End If
+            Next
         Else
-            avgBuy = 0 : stdBuy = 0
+            avgBuy = 0 : stdBuy = 0 : medBuy = 0
         End If
 
-        ' Write some XML data
-        'Dim fileName As String = saveLoc
-        'Select Case CalcType
-        '    Case 0 ' Global
-        '        fileName &= "\" & EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(oTypeID.ToString)).ToString.Replace(":", "-") & " (Global).xml"
-        '    Case 1 ' Regional
-        '        fileName &= "\" & EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(oTypeID.ToString)).ToString.Replace(":", "-") & " (Region-" & oReg & ").xml"
-        '    Case 2 ' System
-        '        fileName &= "\" & EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(oTypeID.ToString)).ToString.Replace(":", "-") & " (Region-" & oReg & ", System-" & oSys & ").xml"
-        'End Select
-        'Dim XMLdoc As XmlDocument = New XmlDocument
-        'Dim XMLS As New StringBuilder
-        '' Prepare the XML document
-        'XMLS.AppendLine("<?xml version=""1.0"" encoding=""iso-8859-1"" ?>")
-        'XMLS.AppendLine("<EveHQMarket>")
-        'XMLS.AppendLine(Chr(9) & "<all>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<volume>" & volAll & "</volume>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<avg>" & avgAll & "</avg>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<max>" & maxAll & "</max>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<min>" & minAll & "</min>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<stddev>" & stdAll & "</stddev>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<median>" & medAll & "</median>")
-        'XMLS.AppendLine(Chr(9) & "</all>")
-        'XMLS.AppendLine(Chr(9) & "<buy>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<volume>" & volBuy & "</volume>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<avg>" & avgBuy & "</avg>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<max>" & maxBuy & "</max>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<min>" & minBuy & "</min>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<stddev>" & stdBuy & "</stddev>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<median>" & medBuy & "</median>")
-        'XMLS.AppendLine(Chr(9) & "</buy>")
-        'XMLS.AppendLine(Chr(9) & "<sell>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<volume>" & volSell & "</volume>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<avg>" & avgSell & "</avg>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<max>" & maxSell & "</max>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<min>" & minSell & "</min>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<stddev>" & stdSell & "</stddev>")
-        'XMLS.AppendLine(Chr(9) & Chr(9) & "<median>" & medSell & "</median>")
-        'XMLS.AppendLine(Chr(9) & "</sell>")
-        'XMLS.AppendLine("</EveHQMarket>")
-        'XMLdoc.LoadXml(XMLS.ToString)
-        'XMLdoc.Save(fileName)
         Select Case CalcType
             Case 0
                 oReg = 0
@@ -349,7 +323,7 @@ Public Class frmMarketPrices
         End Select
 
         ' Write data to the database
-        strSQL = insertStat & "VALUES (" & Now.ToOADate & ", " & oTypeID.ToString & ", " & oReg.ToString & ", " & oSys.ToString & ", " & volAll & ", " & avgAll & ", " & maxAll & ", " & minAll & ", " & stdAll & ", " & medAll & ", " & volBuy & ", " & avgBuy & ", " & maxBuy & ", " & minBuy & ", " & stdBuy & ", " & medBuy & ", " & volSell & ", " & avgSell & ", " & maxSell & ", " & minSell & ", " & stdSell & ", " & medSell & ");"
+        strSQL = insertStat & "VALUES (" & orderDate.ToOADate - 2 & ", " & oTypeID.ToString & ", " & oReg.ToString & ", " & oSys.ToString & ", " & volAll & ", " & avgAll & ", " & maxAll & ", " & minAll & ", " & stdAll & ", " & medAll & ", " & volBuy & ", " & avgBuy & ", " & maxBuy & ", " & minBuy & ", " & stdBuy & ", " & medBuy & ", " & volSell & ", " & avgSell & ", " & maxSell & ", " & minSell & ", " & stdSell & ", " & medSell & ");"
         If EveHQ.Core.DataFunctions.SetData(strSQL) = False Then
             MessageBox.Show("There was an error writing data to the marketStats database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL, "Error Writing Market Stats", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
