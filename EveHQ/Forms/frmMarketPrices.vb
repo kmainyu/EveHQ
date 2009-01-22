@@ -590,13 +590,14 @@ Public Class frmMarketPrices
             sourceStream.Position = 0
             Dim checkLength As Integer = BitConverter.ToInt32(quartetBuffer, 0)
 
-            Dim buffer(checkLength + 32768) As Byte
+            Dim buffer(checkLength + 65536) As Byte
             Dim offset As Integer = 0
             Dim total As Integer = 0
+            Dim bytesRead As Integer = 0
 
             ' Read the compressed data into the buffer
             While True
-                Dim bytesRead As Integer = decompressedStream.Read(buffer, offset, 32768)
+                bytesRead = decompressedStream.Read(buffer, offset, 65536)
                 If bytesRead = 0 Then
                     Exit While
                 End If
