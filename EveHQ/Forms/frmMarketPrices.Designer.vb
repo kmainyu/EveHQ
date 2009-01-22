@@ -31,6 +31,9 @@ Partial Class frmMarketPrices
         Me.lblIgnoreSellOrderUnit = New System.Windows.Forms.Label
         Me.chkIgnoreBuyOrders = New System.Windows.Forms.CheckBox
         Me.chkIgnoreSellOrders = New System.Windows.Forms.CheckBox
+        Me.Button2 = New System.Windows.Forms.Button
+        Me.lblProgress = New System.Windows.Forms.Label
+        Me.lblDecompress = New System.Windows.Forms.Label
         CType(Me.nudIgnoreBuyOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -110,11 +113,41 @@ Partial Class frmMarketPrices
         Me.chkIgnoreSellOrders.Text = "Ignore Sell Orders More Than:"
         Me.chkIgnoreSellOrders.UseVisualStyleBackColor = True
         '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(15, 136)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 9
+        Me.Button2.Text = "Button2"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'lblProgress
+        '
+        Me.lblProgress.AutoSize = True
+        Me.lblProgress.Location = New System.Drawing.Point(96, 141)
+        Me.lblProgress.Name = "lblProgress"
+        Me.lblProgress.Size = New System.Drawing.Size(81, 13)
+        Me.lblProgress.TabIndex = 10
+        Me.lblProgress.Text = "0 bytes (0 kb/s)"
+        '
+        'lblDecompress
+        '
+        Me.lblDecompress.AutoSize = True
+        Me.lblDecompress.Location = New System.Drawing.Point(96, 169)
+        Me.lblDecompress.Name = "lblDecompress"
+        Me.lblDecompress.Size = New System.Drawing.Size(81, 13)
+        Me.lblDecompress.TabIndex = 11
+        Me.lblDecompress.Text = "0 bytes (0 kb/s)"
+        '
         'frmMarketPrices
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(867, 567)
+        Me.Controls.Add(Me.lblDecompress)
+        Me.Controls.Add(Me.lblProgress)
+        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.chkIgnoreSellOrders)
         Me.Controls.Add(Me.chkIgnoreBuyOrders)
         Me.Controls.Add(Me.lblIgnoreSellOrderUnit)
@@ -139,4 +172,7 @@ Partial Class frmMarketPrices
     Friend WithEvents lblIgnoreSellOrderUnit As System.Windows.Forms.Label
     Friend WithEvents chkIgnoreBuyOrders As System.Windows.Forms.CheckBox
     Friend WithEvents chkIgnoreSellOrders As System.Windows.Forms.CheckBox
+    Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents lblProgress As System.Windows.Forms.Label
+    Friend WithEvents lblDecompress As System.Windows.Forms.Label
 End Class

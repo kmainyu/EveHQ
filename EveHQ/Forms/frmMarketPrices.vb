@@ -3,6 +3,8 @@ Imports System.Xml
 Imports System.Text
 Imports System.Data.SqlClient
 Imports System.Data
+Imports System.Net
+Imports System.IO.Compression
 
 Public Class frmMarketPrices
     Dim saveLoc As String = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\MarketXMLs"
@@ -26,6 +28,7 @@ Public Class frmMarketPrices
     Dim ProcessOrder As Boolean = True
     Dim orderFile As FileInfo
     Dim orderDate As Date
+    Dim marketCacheFolder As String = ""
 
     Private Function CheckMarketStatsDBTable() As Boolean
         Dim CreateTable As Boolean = False
@@ -97,19 +100,59 @@ Public Class frmMarketPrices
 
     End Function
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-
-        ' Check we have the EveHQDB Database and MarketStats table available
-        If Me.CheckMarketStatsDBTable = False Then
-            MessageBox.Show("EveHQ cannot proceed with the market price processing until the EveHQData storage database is available", "Error In Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Exit Sub
+    Private Function CheckMarketDatesDBTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("marketDates") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the Db and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
         End If
+
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            strSQL.AppendLine("CREATE TABLE marketDates")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  dateID         int IDENTITY(1,1),")
+            strSQL.AppendLine("  priceDate      datetime,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT marketDates_PK PRIMARY KEY CLUSTERED (dateID)")
+            strSQL.AppendLine(")")
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the marketDates database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
+
+    End Function
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
 
         Dim startTime, endTime As Date
         Dim timeTaken As TimeSpan
 
         ofd1.ShowDialog()
-        OrderFile = New FileInfo(ofd1.FileName)
+        orderFile = New FileInfo(ofd1.FileName)
         orderDate = Date.Parse(orderFile.Name.Trim(".dump.txt".ToCharArray))
         Dim sr As New StreamReader(orderFile.FullName)
         Dim header As String = sr.ReadLine()
@@ -192,20 +235,20 @@ Public Class frmMarketPrices
                     regOrders.Add(order)
                 End If
             End If
-            If CalcType = 1 Then
-                ' Add this to a system order processing list if required
-                If systems.Contains(oSys.ToString) = False Then
-                    sysOrders = New ArrayList
-                    sysOrders.Add(order)
-                    systems.Add(oSys.ToString, sysOrders)
-                Else
-                    sysOrders = CType(systems(oSys.ToString), ArrayList)
-                    sysOrders.Add(order)
-                End If
-            End If
+            'If CalcType = 1 Then
+            '    ' Add this to a system order processing list if required
+            '    If systems.Contains(oSys.ToString) = False Then
+            '        sysOrders = New ArrayList
+            '        sysOrders.Add(order)
+            '        systems.Add(oSys.ToString, sysOrders)
+            '    Else
+            '        sysOrders = CType(systems(oSys.ToString), ArrayList)
+            '        sysOrders.Add(order)
+            '    End If
+            'End If
 
             ' Check if we process this
-            processOrder = True
+            ProcessOrder = True
             'If oType = 0 Then ' Sell Order
             '    If chkIgnoreSellOrders.Checked = True And oPrice > nudIgnoreSellOrderLimit.Value Then
             '        ProcessOrder = False
@@ -342,5 +385,248 @@ Public Class frmMarketPrices
 
     End Sub
 
+    Private Function GetLastMarketDate() As Date
+        Dim strSQL As String = "SELECT max(priceDate) AS lastDate FROM marketDates"
+        Dim dateData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        If dateData IsNot Nothing Then
+            If dateData.Tables(0).Rows.Count > 0 Then
+                If IsDBNull(dateData.Tables(0).Rows(0).Item("lastDate")) = False Then
+                    Return CDate(dateData.Tables(0).Rows(0).Item("lastDate"))
+                Else
+                    Return Date.FromOADate(0)
+                End If
+            Else
+                Return Date.FromOADate(0)
+            End If
+            Return Date.FromOADate(0)
+        End If
+    End Function
 
+    Private Sub frmMarketPrices_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        ' Check for the market cache folder
+        If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.appDataFolder & "\MarketCache") = False Then
+            Try
+                My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.appDataFolder & "\MarketCache")
+                marketCacheFolder = EveHQ.Core.HQ.appDataFolder & "\MarketCache"
+            Catch ex As Exception
+                MessageBox.Show("An error occured while attempting to create the Market Cache folder: " & ex.Message, "Error Creating Market Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End Try
+        Else
+            marketCacheFolder = EveHQ.Core.HQ.appDataFolder & "\MarketCache"
+        End If
+
+        ' Check we have the EveHQDB Database and MarketStats table available
+        If Me.CheckMarketStatsDBTable = False Then
+            MessageBox.Show("EveHQ cannot proceed with the market price processing until the EveHQData storage database is available", "Error In Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End If
+
+        ' Check we have the EveHQDB Database and MarketDates table available
+        If Me.CheckMarketDatesDBTable = False Then
+            MessageBox.Show("EveHQ cannot proceed with the market price processing until the EveHQData storage database is available", "Error In Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End If
+
+        Dim lastDate As Date = GetLastMarketDate()
+
+        If lastDate.ToOADate = 0 Then
+            MessageBox.Show("No last date found!")
+        Else
+            MessageBox.Show("Last date is " & FormatDateTime(lastDate, DateFormat.LongDate))
+        End If
+
+    End Sub
+
+    Private Function DownloadFile(ByVal FileNeeded As String) As Boolean
+
+        ' Set a default policy level for the "http:" and "https" schemes.
+        Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
+
+        'Dim count As Integer = 0
+        'count += 1
+        Dim httpURI As String = "http://eve-central.com/dumps/" & FileNeeded
+        Dim localFile As String = marketCacheFolder & "\" & FileNeeded
+
+        ' Create the request to access the server and set credentials
+        ServicePointManager.DefaultConnectionLimit = 10
+        ServicePointManager.Expect100Continue = False
+        Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(httpURI))
+        Dim request As HttpWebRequest = CType(HttpWebRequest.Create(httpURI), HttpWebRequest)
+        request.CachePolicy = policy
+        ' Setup proxy server (if required)
+        If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
+            Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
+            If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
+                EveHQProxy.UseDefaultCredentials = True
+            Else
+                EveHQProxy.UseDefaultCredentials = False
+                EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
+            End If
+            request.Proxy = EveHQProxy
+        End If
+        request.CachePolicy = policy
+        request.Method = WebRequestMethods.File.DownloadFile
+        request.Timeout = 900000
+        Try
+            Using response As HttpWebResponse = CType(request.GetResponse, HttpWebResponse)
+                Dim filesize As Long = CLng(response.ContentLength)
+                Using responseStream As IO.Stream = response.GetResponseStream
+                    'loop to read & write to file
+                    Using fs As New IO.FileStream(localFile, IO.FileMode.Create)
+                        Dim buffer(4095) As Byte
+                        Dim read As Integer = 0
+                        Dim totalBytes As Long = 0
+                        Dim percent As Integer = 0
+                        Dim startTime As Date
+                        Dim timeTaken As TimeSpan
+                        startTime = Now
+                        Do
+                            read = responseStream.Read(buffer, 0, buffer.Length)
+                            fs.Write(buffer, 0, read)
+                            totalBytes += read
+                            percent = CInt(totalBytes / filesize * 100)
+                            timeTaken = Now - startTime
+                            lblProgress.Text = FormatNumber(totalBytes, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " bytes (" & FormatNumber(totalBytes / 1024 / timeTaken.TotalSeconds, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " kb/s) in " & timeTaken.TotalSeconds.ToString & "s"
+                            Application.DoEvents()
+                            'worker.ReportProgress(percent, FileNeeded)
+                        Loop Until read = 0 'see Note(1)
+                        responseStream.Close()
+                        fs.Flush()
+                        fs.Close()
+                    End Using
+                    responseStream.Close()
+                End Using
+                response.Close()
+            End Using
+        Catch e As WebException
+            Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
+            errMsg &= "Status: " & e.Status & ControlChars.CrLf
+            errMsg &= "Message: " & e.Message & ControlChars.CrLf
+            MessageBox.Show(errMsg, "Error Uploading File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            'worker.CancelAsync()
+            Return False
+        End Try
+        Return True
+    End Function
+
+    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+        Dim fileName As String = "2009-01-21.dump.gz"
+        'Call Me.DownloadFile(fileName)
+        Call Me.DecompressFile(marketCacheFolder & "\" & fileName, marketCacheFolder & "\2009-01-21.dump.txt")
+    End Sub
+
+    Public Sub CompressFile(ByVal sourceFile As String, ByVal destinationFile As String)
+
+        ' make sure the source file is there
+        If File.Exists(sourceFile) = False Then
+            Throw New FileNotFoundException
+        End If
+
+        ' Create the streams and byte arrays needed
+        Dim buffer As Byte() = Nothing
+        Dim sourceStream As FileStream = Nothing
+        Dim destinationStream As FileStream = Nothing
+        Dim compressedStream As GZipStream = Nothing
+
+        Try
+            ' Read the bytes from the source file into a byte array
+            sourceStream = New FileStream(sourceFile, FileMode.Open, FileAccess.Read, FileShare.Read)
+
+            ' Read the source stream values into the buffer
+            buffer = New Byte(CInt(sourceStream.Length)) {}
+            Dim checkCounter As Integer = sourceStream.Read(buffer, 0, buffer.Length)
+
+            ' Open the FileStream to write to
+            destinationStream = New FileStream(destinationFile, FileMode.OpenOrCreate, FileAccess.Write)
+            ' Create a compression stream pointing to the destiantion stream
+            compressedStream = New GZipStream(destinationStream, CompressionMode.Compress, True)
+
+            'Now write the compressed data to the destination file
+            compressedStream.Write(buffer, 0, buffer.Length)
+
+        Catch ex As ApplicationException
+            MessageBox.Show(ex.Message, "An Error occured during compression", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            ' Make sure we allways close all streams
+            If Not (sourceStream Is Nothing) Then
+                sourceStream.Close()
+            End If
+            If Not (compressedStream Is Nothing) Then
+                compressedStream.Close()
+            End If
+            If Not (destinationStream Is Nothing) Then
+                destinationStream.Close()
+            End If
+        End Try
+
+    End Sub
+
+    Public Sub DecompressFile(ByVal sourceFile As String, ByVal destinationFile As String)
+
+        ' make sure the source file is there
+        If File.Exists(sourceFile) = False Then
+            Throw New FileNotFoundException
+        End If
+
+        ' Create the streams and byte arrays needed
+        Dim sourceStream As FileStream = Nothing
+        Dim destinationStream As FileStream = Nothing
+        Dim decompressedStream As GZipStream = Nothing
+        Dim quartetBuffer As Byte() = Nothing
+
+        Try
+            ' Read in the compressed source stream
+            sourceStream = New FileStream(sourceFile, FileMode.Open)
+
+            ' Create a compression stream pointing to the destiantion stream
+            decompressedStream = New GZipStream(sourceStream, CompressionMode.Decompress, True)
+
+            ' Read the footer to determine the length of the destiantion file
+            quartetBuffer = New Byte(4) {}
+            Dim position As Integer = CType(sourceStream.Length, Integer) - 4
+            sourceStream.Position = position
+            sourceStream.Read(quartetBuffer, 0, 4)
+            sourceStream.Position = 0
+            Dim checkLength As Integer = BitConverter.ToInt32(quartetBuffer, 0)
+
+            Dim buffer(checkLength + 32768) As Byte
+            Dim offset As Integer = 0
+            Dim total As Integer = 0
+
+            ' Read the compressed data into the buffer
+            While True
+                Dim bytesRead As Integer = decompressedStream.Read(buffer, offset, 32768)
+                If bytesRead = 0 Then
+                    Exit While
+                End If
+                offset += bytesRead
+                total += bytesRead
+                lblDecompress.Text = FormatNumber(total, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " bytes processed"
+                Application.DoEvents()
+            End While
+
+            ' Now write everything to the destination file
+            destinationStream = New FileStream(destinationFile, FileMode.Create)
+            destinationStream.Write(buffer, 0, total)
+
+            ' and flush everyhting to clean out the buffer
+            destinationStream.Flush()
+
+        Catch ex As ApplicationException
+            MessageBox.Show(ex.Message, "An Error occured during compression", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            ' Make sure we allways close all streams
+            If Not (sourceStream Is Nothing) Then
+                sourceStream.Close()
+            End If
+            If Not (decompressedStream Is Nothing) Then
+                decompressedStream.Close()
+            End If
+            If Not (destinationStream Is Nothing) Then
+                destinationStream.Close()
+            End If
+        End Try
+
+    End Sub
 End Class

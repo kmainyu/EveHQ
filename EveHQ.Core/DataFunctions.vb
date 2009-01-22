@@ -343,6 +343,77 @@ Public Class DataFunctions
                 Return Nothing
         End Select
     End Function
+    Public Shared Function GetCustomData(ByVal strSQL As String) As DataSet
+
+        Dim EveHQData As New DataSet
+        EveHQData.Clear()
+        EveHQData.Tables.Clear()
+
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' Access
+                Dim conn As New OleDbConnection
+                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    conn.Open()
+                    Dim da As New OleDbDataAdapter(strSQL, conn)
+                    da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    da.Fill(EveHQData, "EveHQData")
+                    conn.Close()
+                    Return EveHQData
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return Nothing
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case 1, 2 ' MSSQL, MSSQL Express
+                Dim conn As New SqlConnection
+                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    conn.Open()
+                    If strSQL.Contains(" LIKE ") = False Then
+                        strSQL = strSQL.Replace("'", "''")
+                        strSQL = strSQL.Replace(ControlChars.Quote, "'")
+                        strSQL = strSQL.Replace("=true", "=1")
+                    End If
+                    Dim da As New SqlDataAdapter(strSQL, conn)
+                    da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    da.Fill(EveHQData, "EveHQData")
+                    conn.Close()
+                    Return EveHQData
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return Nothing
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case 3 ' MySQL
+                Dim conn As New MySqlConnection
+                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    conn.Open()
+                    Dim da As New MySqlDataAdapter(strSQL.ToLower, conn)
+                    'da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    da.Fill(EveHQData, "EveHQData")
+                    conn.Close()
+                    Return EveHQData
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return Nothing
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case Else
+                EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
+                Return Nothing
+        End Select
+    End Function
     Public Shared Function GetBPTypeID(ByVal typeID As String) As String
         eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invBlueprintTypes WHERE productTypeID=" & typeID & ";")
         If eveData.Tables(0).Rows.Count = 0 Then
