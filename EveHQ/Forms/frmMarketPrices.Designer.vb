@@ -34,6 +34,7 @@ Partial Class frmMarketPrices
         Me.Button2 = New System.Windows.Forms.Button
         Me.lblProgress = New System.Windows.Forms.Label
         Me.lblDecompress = New System.Windows.Forms.Label
+        Me.ScrollingMarquee1 = New EveHQ.Core.ScrollingMarquee
         CType(Me.nudIgnoreBuyOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -140,11 +141,29 @@ Partial Class frmMarketPrices
         Me.lblDecompress.TabIndex = 11
         Me.lblDecompress.Text = "0 bytes (0 kb/s)"
         '
+        'ScrollingMarquee1
+        '
+        Me.ScrollingMarquee1.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.ScrollingMarquee1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.ScrollingMarquee1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ScrollingMarquee1.Font = New System.Drawing.Font("LED BOARD REVERSED", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ScrollingMarquee1.ForeColor = System.Drawing.Color.White
+        Me.ScrollingMarquee1.Location = New System.Drawing.Point(0, 547)
+        Me.ScrollingMarquee1.MarqueeText = "PLACEHOLDER TEXT FOR MARQUEE!! PLACEHOLDER TEXT FOR MARQUEE!! PLACEHOLDER TEXT FO" & _
+            "R MARQUEE!!"
+        Me.ScrollingMarquee1.Name = "ScrollingMarquee1"
+        Me.ScrollingMarquee1.ScrollLeftToRight = EveHQ.Core.ScrollingMarquee.Direction.Left
+        Me.ScrollingMarquee1.ScrollSpeed = 1
+        Me.ScrollingMarquee1.ShadowColor = System.Drawing.Color.White
+        Me.ScrollingMarquee1.Size = New System.Drawing.Size(867, 20)
+        Me.ScrollingMarquee1.TabIndex = 12
+        '
         'frmMarketPrices
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(867, 567)
+        Me.Controls.Add(Me.ScrollingMarquee1)
         Me.Controls.Add(Me.lblDecompress)
         Me.Controls.Add(Me.lblProgress)
         Me.Controls.Add(Me.Button2)
@@ -175,4 +194,5 @@ Partial Class frmMarketPrices
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents lblProgress As System.Windows.Forms.Label
     Friend WithEvents lblDecompress As System.Windows.Forms.Label
+    Friend WithEvents ScrollingMarquee1 As EveHQ.Core.ScrollingMarquee
 End Class

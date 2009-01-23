@@ -26,9 +26,8 @@ Public Class frmMarketPrices
     Dim devBuy, devSell, devAll As Double
     Dim cumVol As Long = 0
     Dim ProcessOrder As Boolean = True
-    Dim orderFile As FileInfo
-    Dim orderDate As Date
     Dim marketCacheFolder As String = ""
+    Dim ECDumpURL As String = "http://eve-central.com/dumps/"
 
     Private Function CheckMarketStatsDBTable() As Boolean
         Dim CreateTable As Boolean = False
@@ -148,59 +147,12 @@ Public Class frmMarketPrices
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
 
-        Dim startTime, endTime As Date
-        Dim timeTaken As TimeSpan
-
         ofd1.ShowDialog()
-        orderFile = New FileInfo(ofd1.FileName)
-        orderDate = Date.Parse(orderFile.Name.Trim(".dump.txt".ToCharArray))
-        Dim sr As New StreamReader(orderFile.FullName)
-        Dim header As String = sr.ReadLine()
-        Dim items As New SortedList
-        Dim itemOrders As New ArrayList
-
-        If header <> "orderid, regionid, systemid, stationid, typeid, bid, price, minvolume, volremain, volenter, issued, duration, range, reportedby, reportedtime" Then
-            MessageBox.Show("File is not a valid Eve-Central dump file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Else
-            startTime = Now
-            Dim order As String = ""
-            Dim orders As Long = 0
-            Dim orderDetails() As String
-            Do
-                order = sr.ReadLine
-                orderDetails = order.Split(",".ToCharArray)
-                ' Add to the relevant item list
-                If items.Contains(orderDetails(4).Trim) = False Then
-                    itemOrders = New ArrayList
-                    itemOrders.Add(order)
-                    items.Add(orderDetails(4).Trim, itemOrders)
-                Else
-                    itemOrders = CType(items(orderDetails(4).Trim), ArrayList)
-                    itemOrders.Add(order)
-                End If
-                orders += 1
-            Loop Until sr.EndOfStream
-            sr.Close()
-
-            endTime = Now
-            timeTaken = endTime - startTime
-            MessageBox.Show("Time taken to read " & orders.ToString & "orders = " & timeTaken.TotalSeconds.ToString)
-
-            ' Calculate global statistics
-            startTime = Now
-            For Each item As String In items.Keys
-                Call CalculateStats(CType(items(item), ArrayList), 0)
-            Next
-
-            endTime = Now
-            timeTaken = endTime - startTime
-            MessageBox.Show("Time taken to parse data for " & items.Count.ToString & " items = " & timeTaken.TotalSeconds.ToString)
-
-        End If
+        Call Me.ProcessPrices(ofd1.FileName)
 
     End Sub
 
-    Private Sub CalculateStats(ByVal orderList As ArrayList, ByVal CalcType As Integer)
+    Private Sub CalculateStats(ByVal orderList As ArrayList, ByVal CalcType As Integer, ByVal orderDate As Date)
 
         Dim regions, systems As New SortedList
         Dim regOrders, sysOrders As New ArrayList
@@ -374,7 +326,7 @@ Public Class frmMarketPrices
         ' Calculate regional stuff if required
         If CalcType = 0 Then
             For Each Region As String In regions.Keys
-                Call CalculateStats(CType(regions(Region), ArrayList), 1)
+                Call CalculateStats(CType(regions(Region), ArrayList), 1, orderDate)
             Next
         End If
         'If CalcType = 1 Then
@@ -407,13 +359,13 @@ Public Class frmMarketPrices
         If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.appDataFolder & "\MarketCache") = False Then
             Try
                 My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.appDataFolder & "\MarketCache")
-                marketCacheFolder = EveHQ.Core.HQ.appDataFolder & "\MarketCache"
+                marketCacheFolder = EveHQ.Core.HQ.appDataFolder & "\MarketCache\"
             Catch ex As Exception
                 MessageBox.Show("An error occured while attempting to create the Market Cache folder: " & ex.Message, "Error Creating Market Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End Try
         Else
-            marketCacheFolder = EveHQ.Core.HQ.appDataFolder & "\MarketCache"
+            marketCacheFolder = EveHQ.Core.HQ.appDataFolder & "\MarketCache\"
         End If
 
         ' Check we have the EveHQDB Database and MarketStats table available
@@ -428,25 +380,121 @@ Public Class frmMarketPrices
             Exit Sub
         End If
 
-        Dim lastDate As Date = GetLastMarketDate()
+        ' Setup some fake text for prices in the marquee
+        Dim lastItem As Integer = EveHQ.Core.HQ.itemList.Count
+        Dim strTicker As String = ""
+        Dim idx As Integer = 0
+        Dim itemName As String = ""
+        Dim itemID As String = ""
+        Dim r As New Random(Now.Millisecond)
+        For item As Integer = 1 To 10
+            idx = r.Next(1, lastItem)
+            itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(idx))
+            itemID = CStr(EveHQ.Core.HQ.itemList(itemName))
+            strTicker &= itemName & " - " & FormatNumber(EveHQ.Core.HQ.BasePriceList(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " : "
+        Next
+        ScrollingMarquee1.MarqueeText = strTicker
 
-        If lastDate.ToOADate = 0 Then
-            MessageBox.Show("No last date found!")
+    End Sub
+
+    Private Sub GetFirstPrices()
+        Dim tryDate As Date = Now
+        Dim fileName As String = Format(tryDate, "yyyy-MM-dd") & ".dump.gz"
+        Dim DLsuccess As Boolean = False
+        Dim tryCount As Integer = 0
+        Do
+            fileName = Format(tryDate, "yyyy-MM-dd") & ".dump.gz"
+            lblProgress.Text = "Attempting download of " & ECDumpURL & fileName
+            lblProgress.Refresh()
+            DLsuccess = Me.DownloadFile(fileName, True)
+            tryDate = tryDate.AddDays(-1)
+            tryCount += 1
+            If tryCount = 5 And DLsuccess = False Then
+                MessageBox.Show("Unable to find any recent dump files. Please check your system date and connection.", "Cannot Locate Dump Files", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+        Loop Until DLsuccess = True
+        If Me.DecompressFile(marketCacheFolder & fileName, marketCacheFolder & fileName & ".txt") = True Then
+            Call Me.ProcessPrices(marketCacheFolder & fileName & ".txt")
+        End If
+    End Sub
+
+    Private Sub ProcessPrices(ByVal orderFile As String)
+        Dim startTime, endTime As Date
+        Dim timeTaken As TimeSpan
+        Dim orderFI As New FileInfo(orderFile)
+        Dim orderDate As Date = Date.Parse(orderFI.Name.Trim(".dump.gz.txt".ToCharArray))
+        Dim sr As New StreamReader(orderFile)
+        Dim header As String = sr.ReadLine()
+        Dim items As New SortedList
+        Dim itemOrders As New ArrayList
+
+        If header <> "orderid, regionid, systemid, stationid, typeid, bid, price, minvolume, volremain, volenter, issued, duration, range, reportedby, reportedtime" Then
+            MessageBox.Show("File is not a valid Eve-Central dump file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
-            MessageBox.Show("Last date is " & FormatDateTime(lastDate, DateFormat.LongDate))
+            startTime = Now
+            Dim order As String = ""
+            Dim orders As Long = 0
+            Dim orderDetails() As String
+            Do
+                order = sr.ReadLine
+                orderDetails = order.Split(",".ToCharArray)
+                ' Add to the relevant item list
+                If items.Contains(orderDetails(4).Trim) = False Then
+                    itemOrders = New ArrayList
+                    itemOrders.Add(order)
+                    items.Add(orderDetails(4).Trim, itemOrders)
+                Else
+                    itemOrders = CType(items(orderDetails(4).Trim), ArrayList)
+                    itemOrders.Add(order)
+                End If
+                orders += 1
+            Loop Until sr.EndOfStream
+            sr.Close()
+
+            endTime = Now
+            timeTaken = endTime - startTime
+            MessageBox.Show("Time taken to read " & orders.ToString & "orders = " & timeTaken.TotalSeconds.ToString)
+
+            ' Calculate global statistics
+            startTime = Now
+            For Each item As String In items.Keys
+                Call CalculateStats(CType(items(item), ArrayList), 0, orderDate)
+            Next
+
+            ' Insert the date into the database
+            Dim dateSQL As String = "INSERT INTO marketDates (priceDate) VALUES (" & orderDate.ToOADate - 2 & ");"
+            If EveHQ.Core.DataFunctions.SetData(strSQL) = False Then
+                MessageBox.Show("There was an error writing the date to the marketDates database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
+
+            endTime = Now
+            timeTaken = endTime - startTime
+            MessageBox.Show("Time taken to parse data for " & items.Count.ToString & " items = " & timeTaken.TotalSeconds.ToString)
+
         End If
 
     End Sub
 
-    Private Function DownloadFile(ByVal FileNeeded As String) As Boolean
+    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+        Dim lastDate As Date = GetLastMarketDate()
+
+        If lastDate.ToOADate = 0 Then
+            Call Me.GetFirstPrices()
+        Else
+            MessageBox.Show("Last date is " & FormatDateTime(lastDate, DateFormat.LongDate))
+        End If
+    End Sub
+
+    Private Function DownloadFile(ByVal FileNeeded As String, ByVal SilentError As Boolean) As Boolean
 
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
         'Dim count As Integer = 0
         'count += 1
-        Dim httpURI As String = "http://eve-central.com/dumps/" & FileNeeded
-        Dim localFile As String = marketCacheFolder & "\" & FileNeeded
+        Dim httpURI As String = ECDumpURL & FileNeeded
+        Dim localFile As String = marketCacheFolder & FileNeeded
 
         ' Create the request to access the server and set credentials
         ServicePointManager.DefaultConnectionLimit = 10
@@ -499,22 +547,18 @@ Public Class frmMarketPrices
                 End Using
                 response.Close()
             End Using
+            Return True
         Catch e As WebException
-            Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
-            errMsg &= "Status: " & e.Status & ControlChars.CrLf
-            errMsg &= "Message: " & e.Message & ControlChars.CrLf
-            MessageBox.Show(errMsg, "Error Uploading File", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            'worker.CancelAsync()
+            If SilentError = False Then
+                Dim errMsg As String = "An error has occurred during download of " & httpURI & ":" & ControlChars.CrLf
+                errMsg &= "Status: " & e.Status & ControlChars.CrLf
+                errMsg &= "Message: " & e.Message & ControlChars.CrLf
+                MessageBox.Show(errMsg, "Error Downloading File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                'worker.CancelAsync()
+            End If
             Return False
         End Try
-        Return True
     End Function
-
-    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
-        Dim fileName As String = "2009-01-21.dump.gz"
-        'Call Me.DownloadFile(fileName)
-        Call Me.DecompressFile(marketCacheFolder & "\" & fileName, marketCacheFolder & "\2009-01-21.dump.txt")
-    End Sub
 
     Public Sub CompressFile(ByVal sourceFile As String, ByVal destinationFile As String)
 
@@ -562,7 +606,9 @@ Public Class frmMarketPrices
 
     End Sub
 
-    Public Sub DecompressFile(ByVal sourceFile As String, ByVal destinationFile As String)
+    Public Function DecompressFile(ByVal sourceFile As String, ByVal destinationFile As String) As Boolean
+
+        Dim noError As Boolean = True
 
         ' make sure the source file is there
         If File.Exists(sourceFile) = False Then
@@ -616,6 +662,7 @@ Public Class frmMarketPrices
 
         Catch ex As ApplicationException
             MessageBox.Show(ex.Message, "An Error occured during compression", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            noError = False
         Finally
             ' Make sure we allways close all streams
             If Not (sourceStream Is Nothing) Then
@@ -628,6 +675,7 @@ Public Class frmMarketPrices
                 destinationStream.Close()
             End If
         End Try
+        Return noError
 
-    End Sub
+    End Function
 End Class

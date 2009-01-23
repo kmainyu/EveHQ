@@ -116,6 +116,12 @@
     <Compile Include="PilotParseFunctions.vb" />
     <Compile Include="PlugIn.vb" />
     <Compile Include="Reports.vb" />
+    <Compile Include="ScrollingMarquee.designer.vb">
+      <DependentUpon>ScrollingMarquee.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ScrollingMarquee.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="SkillFunctions.vb" />
     <Compile Include="SkillQueueFunctions.vb" />
     <Compile Include="SplitButton.vb">
