@@ -41,20 +41,35 @@ Partial Class frmMarketPrices
         Me.btnNoRegions = New System.Windows.Forms.Button
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.tabDumps = New System.Windows.Forms.TabPage
-        Me.tabPrices = New System.Windows.Forms.TabPage
         Me.panelECDumps = New System.Windows.Forms.Panel
+        Me.tabPrices = New System.Windows.Forms.TabPage
         Me.panelPrices = New System.Windows.Forms.Panel
-        Me.btnAmarr = New System.Windows.Forms.Button
-        Me.btnCaldari = New System.Windows.Forms.Button
-        Me.btnGallente = New System.Windows.Forms.Button
         Me.btnMinmatar = New System.Windows.Forms.Button
+        Me.btnGallente = New System.Windows.Forms.Button
+        Me.btnCaldari = New System.Windows.Forms.Button
+        Me.btnAmarr = New System.Windows.Forms.Button
+        Me.gbCriteria = New System.Windows.Forms.GroupBox
+        Me.chkBuyMean = New System.Windows.Forms.CheckBox
+        Me.chkBuyMax = New System.Windows.Forms.CheckBox
+        Me.chkBuyMin = New System.Windows.Forms.CheckBox
+        Me.chkBuyMedian = New System.Windows.Forms.CheckBox
+        Me.chkSellMean = New System.Windows.Forms.CheckBox
+        Me.chkSellMax = New System.Windows.Forms.CheckBox
+        Me.chkSellMin = New System.Windows.Forms.CheckBox
+        Me.chkSellMedian = New System.Windows.Forms.CheckBox
+        Me.chkAllMean = New System.Windows.Forms.CheckBox
+        Me.chkAllMax = New System.Windows.Forms.CheckBox
+        Me.chkAllMin = New System.Windows.Forms.CheckBox
+        Me.chkAllMedian = New System.Windows.Forms.CheckBox
+        Me.MonthCalendar1 = New System.Windows.Forms.MonthCalendar
         CType(Me.nudIgnoreBuyOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl1.SuspendLayout()
         Me.tabDumps.SuspendLayout()
-        Me.tabPrices.SuspendLayout()
         Me.panelECDumps.SuspendLayout()
+        Me.tabPrices.SuspendLayout()
         Me.panelPrices.SuspendLayout()
+        Me.gbCriteria.SuspendLayout()
         Me.SuspendLayout()
         '
         'ofd1
@@ -161,6 +176,7 @@ Partial Class frmMarketPrices
         '
         'grpRegions
         '
+        Me.grpRegions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grpRegions.Location = New System.Drawing.Point(14, 13)
         Me.grpRegions.Name = "grpRegions"
         Me.grpRegions.Size = New System.Drawing.Size(610, 400)
@@ -170,7 +186,8 @@ Partial Class frmMarketPrices
         '
         'btnAllRegions
         '
-        Me.btnAllRegions.Location = New System.Drawing.Point(14, 419)
+        Me.btnAllRegions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAllRegions.Location = New System.Drawing.Point(17, 419)
         Me.btnAllRegions.Name = "btnAllRegions"
         Me.btnAllRegions.Size = New System.Drawing.Size(70, 23)
         Me.btnAllRegions.TabIndex = 13
@@ -179,7 +196,8 @@ Partial Class frmMarketPrices
         '
         'btnEmpireRegions
         '
-        Me.btnEmpireRegions.Location = New System.Drawing.Point(90, 419)
+        Me.btnEmpireRegions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnEmpireRegions.Location = New System.Drawing.Point(93, 419)
         Me.btnEmpireRegions.Name = "btnEmpireRegions"
         Me.btnEmpireRegions.Size = New System.Drawing.Size(70, 23)
         Me.btnEmpireRegions.TabIndex = 14
@@ -188,7 +206,8 @@ Partial Class frmMarketPrices
         '
         'btnNullRegions
         '
-        Me.btnNullRegions.Location = New System.Drawing.Point(166, 419)
+        Me.btnNullRegions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNullRegions.Location = New System.Drawing.Point(169, 419)
         Me.btnNullRegions.Name = "btnNullRegions"
         Me.btnNullRegions.Size = New System.Drawing.Size(70, 23)
         Me.btnNullRegions.TabIndex = 15
@@ -197,7 +216,8 @@ Partial Class frmMarketPrices
         '
         'btnNoRegions
         '
-        Me.btnNoRegions.Location = New System.Drawing.Point(242, 419)
+        Me.btnNoRegions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNoRegions.Location = New System.Drawing.Point(245, 419)
         Me.btnNoRegions.Name = "btnNoRegions"
         Me.btnNoRegions.Size = New System.Drawing.Size(75, 23)
         Me.btnNoRegions.TabIndex = 16
@@ -226,17 +246,6 @@ Partial Class frmMarketPrices
         Me.tabDumps.Text = "EC Market Dumps"
         Me.tabDumps.UseVisualStyleBackColor = True
         '
-        'tabPrices
-        '
-        Me.tabPrices.Controls.Add(Me.panelPrices)
-        Me.tabPrices.Location = New System.Drawing.Point(4, 22)
-        Me.tabPrices.Name = "tabPrices"
-        Me.tabPrices.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabPrices.Size = New System.Drawing.Size(781, 635)
-        Me.tabPrices.TabIndex = 1
-        Me.tabPrices.Text = "Price Selection"
-        Me.tabPrices.UseVisualStyleBackColor = True
-        '
         'panelECDumps
         '
         Me.panelECDumps.BackColor = System.Drawing.SystemColors.Control
@@ -256,9 +265,22 @@ Partial Class frmMarketPrices
         Me.panelECDumps.Size = New System.Drawing.Size(775, 629)
         Me.panelECDumps.TabIndex = 0
         '
+        'tabPrices
+        '
+        Me.tabPrices.Controls.Add(Me.panelPrices)
+        Me.tabPrices.Location = New System.Drawing.Point(4, 22)
+        Me.tabPrices.Name = "tabPrices"
+        Me.tabPrices.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabPrices.Size = New System.Drawing.Size(781, 635)
+        Me.tabPrices.TabIndex = 1
+        Me.tabPrices.Text = "Price Selection"
+        Me.tabPrices.UseVisualStyleBackColor = True
+        '
         'panelPrices
         '
         Me.panelPrices.BackColor = System.Drawing.SystemColors.Control
+        Me.panelPrices.Controls.Add(Me.MonthCalendar1)
+        Me.panelPrices.Controls.Add(Me.gbCriteria)
         Me.panelPrices.Controls.Add(Me.btnMinmatar)
         Me.panelPrices.Controls.Add(Me.btnGallente)
         Me.panelPrices.Controls.Add(Me.btnCaldari)
@@ -274,41 +296,197 @@ Partial Class frmMarketPrices
         Me.panelPrices.Size = New System.Drawing.Size(775, 629)
         Me.panelPrices.TabIndex = 0
         '
-        'btnAmarr
+        'btnMinmatar
         '
-        Me.btnAmarr.Location = New System.Drawing.Point(323, 419)
-        Me.btnAmarr.Name = "btnAmarr"
-        Me.btnAmarr.Size = New System.Drawing.Size(70, 23)
-        Me.btnAmarr.TabIndex = 17
-        Me.btnAmarr.Text = "Amarr"
-        Me.btnAmarr.UseVisualStyleBackColor = True
-        '
-        'btnCaldari
-        '
-        Me.btnCaldari.Location = New System.Drawing.Point(399, 419)
-        Me.btnCaldari.Name = "btnCaldari"
-        Me.btnCaldari.Size = New System.Drawing.Size(70, 23)
-        Me.btnCaldari.TabIndex = 18
-        Me.btnCaldari.Text = "Caldari"
-        Me.btnCaldari.UseVisualStyleBackColor = True
+        Me.btnMinmatar.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMinmatar.Location = New System.Drawing.Point(554, 419)
+        Me.btnMinmatar.Name = "btnMinmatar"
+        Me.btnMinmatar.Size = New System.Drawing.Size(70, 23)
+        Me.btnMinmatar.TabIndex = 20
+        Me.btnMinmatar.Text = "Minmatar"
+        Me.btnMinmatar.UseVisualStyleBackColor = True
         '
         'btnGallente
         '
-        Me.btnGallente.Location = New System.Drawing.Point(475, 419)
+        Me.btnGallente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGallente.Location = New System.Drawing.Point(478, 419)
         Me.btnGallente.Name = "btnGallente"
         Me.btnGallente.Size = New System.Drawing.Size(70, 23)
         Me.btnGallente.TabIndex = 19
         Me.btnGallente.Text = "Gallente"
         Me.btnGallente.UseVisualStyleBackColor = True
         '
-        'btnMinmatar
+        'btnCaldari
         '
-        Me.btnMinmatar.Location = New System.Drawing.Point(551, 419)
-        Me.btnMinmatar.Name = "btnMinmatar"
-        Me.btnMinmatar.Size = New System.Drawing.Size(70, 23)
-        Me.btnMinmatar.TabIndex = 20
-        Me.btnMinmatar.Text = "Minmatar"
-        Me.btnMinmatar.UseVisualStyleBackColor = True
+        Me.btnCaldari.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCaldari.Location = New System.Drawing.Point(402, 419)
+        Me.btnCaldari.Name = "btnCaldari"
+        Me.btnCaldari.Size = New System.Drawing.Size(70, 23)
+        Me.btnCaldari.TabIndex = 18
+        Me.btnCaldari.Text = "Caldari"
+        Me.btnCaldari.UseVisualStyleBackColor = True
+        '
+        'btnAmarr
+        '
+        Me.btnAmarr.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAmarr.Location = New System.Drawing.Point(326, 419)
+        Me.btnAmarr.Name = "btnAmarr"
+        Me.btnAmarr.Size = New System.Drawing.Size(70, 23)
+        Me.btnAmarr.TabIndex = 17
+        Me.btnAmarr.Text = "Amarr"
+        Me.btnAmarr.UseVisualStyleBackColor = True
+        '
+        'gbCriteria
+        '
+        Me.gbCriteria.Controls.Add(Me.chkAllMedian)
+        Me.gbCriteria.Controls.Add(Me.chkAllMin)
+        Me.gbCriteria.Controls.Add(Me.chkAllMax)
+        Me.gbCriteria.Controls.Add(Me.chkAllMean)
+        Me.gbCriteria.Controls.Add(Me.chkSellMedian)
+        Me.gbCriteria.Controls.Add(Me.chkSellMin)
+        Me.gbCriteria.Controls.Add(Me.chkSellMax)
+        Me.gbCriteria.Controls.Add(Me.chkSellMean)
+        Me.gbCriteria.Controls.Add(Me.chkBuyMedian)
+        Me.gbCriteria.Controls.Add(Me.chkBuyMin)
+        Me.gbCriteria.Controls.Add(Me.chkBuyMax)
+        Me.gbCriteria.Controls.Add(Me.chkBuyMean)
+        Me.gbCriteria.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gbCriteria.Location = New System.Drawing.Point(14, 448)
+        Me.gbCriteria.Name = "gbCriteria"
+        Me.gbCriteria.Size = New System.Drawing.Size(425, 126)
+        Me.gbCriteria.TabIndex = 21
+        Me.gbCriteria.TabStop = False
+        Me.gbCriteria.Text = "Pricing Criteria"
+        '
+        'chkBuyMean
+        '
+        Me.chkBuyMean.AutoSize = True
+        Me.chkBuyMean.Location = New System.Drawing.Point(6, 20)
+        Me.chkBuyMean.Name = "chkBuyMean"
+        Me.chkBuyMean.Size = New System.Drawing.Size(107, 17)
+        Me.chkBuyMean.TabIndex = 0
+        Me.chkBuyMean.Text = "Mean Price (Buy)"
+        Me.chkBuyMean.UseVisualStyleBackColor = True
+        '
+        'chkBuyMax
+        '
+        Me.chkBuyMax.AutoSize = True
+        Me.chkBuyMax.Location = New System.Drawing.Point(6, 89)
+        Me.chkBuyMax.Name = "chkBuyMax"
+        Me.chkBuyMax.Size = New System.Drawing.Size(101, 17)
+        Me.chkBuyMax.TabIndex = 1
+        Me.chkBuyMax.Text = "Max Price (Buy)"
+        Me.chkBuyMax.UseVisualStyleBackColor = True
+        '
+        'chkBuyMin
+        '
+        Me.chkBuyMin.AutoSize = True
+        Me.chkBuyMin.Location = New System.Drawing.Point(6, 66)
+        Me.chkBuyMin.Name = "chkBuyMin"
+        Me.chkBuyMin.Size = New System.Drawing.Size(97, 17)
+        Me.chkBuyMin.TabIndex = 2
+        Me.chkBuyMin.Text = "Min Price (Buy)"
+        Me.chkBuyMin.UseVisualStyleBackColor = True
+        '
+        'chkBuyMedian
+        '
+        Me.chkBuyMedian.AutoSize = True
+        Me.chkBuyMedian.Location = New System.Drawing.Point(6, 43)
+        Me.chkBuyMedian.Name = "chkBuyMedian"
+        Me.chkBuyMedian.Size = New System.Drawing.Size(115, 17)
+        Me.chkBuyMedian.TabIndex = 3
+        Me.chkBuyMedian.Text = "Median Price (Buy)"
+        Me.chkBuyMedian.UseVisualStyleBackColor = True
+        '
+        'chkSellMean
+        '
+        Me.chkSellMean.AutoSize = True
+        Me.chkSellMean.Location = New System.Drawing.Point(152, 20)
+        Me.chkSellMean.Name = "chkSellMean"
+        Me.chkSellMean.Size = New System.Drawing.Size(105, 17)
+        Me.chkSellMean.TabIndex = 4
+        Me.chkSellMean.Text = "Mean Price (Sell)"
+        Me.chkSellMean.UseVisualStyleBackColor = True
+        '
+        'chkSellMax
+        '
+        Me.chkSellMax.AutoSize = True
+        Me.chkSellMax.Location = New System.Drawing.Point(152, 89)
+        Me.chkSellMax.Name = "chkSellMax"
+        Me.chkSellMax.Size = New System.Drawing.Size(99, 17)
+        Me.chkSellMax.TabIndex = 5
+        Me.chkSellMax.Text = "Max Price (Sell)"
+        Me.chkSellMax.UseVisualStyleBackColor = True
+        '
+        'chkSellMin
+        '
+        Me.chkSellMin.AutoSize = True
+        Me.chkSellMin.Location = New System.Drawing.Point(152, 66)
+        Me.chkSellMin.Name = "chkSellMin"
+        Me.chkSellMin.Size = New System.Drawing.Size(95, 17)
+        Me.chkSellMin.TabIndex = 6
+        Me.chkSellMin.Text = "Min Price (Sell)"
+        Me.chkSellMin.UseVisualStyleBackColor = True
+        '
+        'chkSellMedian
+        '
+        Me.chkSellMedian.AutoSize = True
+        Me.chkSellMedian.Location = New System.Drawing.Point(152, 43)
+        Me.chkSellMedian.Name = "chkSellMedian"
+        Me.chkSellMedian.Size = New System.Drawing.Size(113, 17)
+        Me.chkSellMedian.TabIndex = 7
+        Me.chkSellMedian.Text = "Median Price (Sell)"
+        Me.chkSellMedian.UseVisualStyleBackColor = True
+        '
+        'chkAllMean
+        '
+        Me.chkAllMean.AutoSize = True
+        Me.chkAllMean.Location = New System.Drawing.Point(309, 20)
+        Me.chkAllMean.Name = "chkAllMean"
+        Me.chkAllMean.Size = New System.Drawing.Size(100, 17)
+        Me.chkAllMean.TabIndex = 8
+        Me.chkAllMean.Text = "Mean Price (All)"
+        Me.chkAllMean.UseVisualStyleBackColor = True
+        '
+        'chkAllMax
+        '
+        Me.chkAllMax.AutoSize = True
+        Me.chkAllMax.Location = New System.Drawing.Point(309, 89)
+        Me.chkAllMax.Name = "chkAllMax"
+        Me.chkAllMax.Size = New System.Drawing.Size(94, 17)
+        Me.chkAllMax.TabIndex = 9
+        Me.chkAllMax.Text = "Max Price (All)"
+        Me.chkAllMax.UseVisualStyleBackColor = True
+        '
+        'chkAllMin
+        '
+        Me.chkAllMin.AutoSize = True
+        Me.chkAllMin.Location = New System.Drawing.Point(309, 66)
+        Me.chkAllMin.Name = "chkAllMin"
+        Me.chkAllMin.Size = New System.Drawing.Size(90, 17)
+        Me.chkAllMin.TabIndex = 10
+        Me.chkAllMin.Text = "Min Price (All)"
+        Me.chkAllMin.UseVisualStyleBackColor = True
+        '
+        'chkAllMedian
+        '
+        Me.chkAllMedian.AutoSize = True
+        Me.chkAllMedian.Location = New System.Drawing.Point(309, 43)
+        Me.chkAllMedian.Name = "chkAllMedian"
+        Me.chkAllMedian.Size = New System.Drawing.Size(108, 17)
+        Me.chkAllMedian.TabIndex = 11
+        Me.chkAllMedian.Text = "Median Price (All)"
+        Me.chkAllMedian.UseVisualStyleBackColor = True
+        '
+        'MonthCalendar1
+        '
+        Me.MonthCalendar1.BoldedDates = New Date() {New Date(2009, 1, 28, 0, 0, 0, 0)}
+        Me.MonthCalendar1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MonthCalendar1.Location = New System.Drawing.Point(453, 448)
+        Me.MonthCalendar1.MaxSelectionCount = 1
+        Me.MonthCalendar1.Name = "MonthCalendar1"
+        Me.MonthCalendar1.TabIndex = 22
+        Me.MonthCalendar1.TitleBackColor = System.Drawing.Color.MidnightBlue
         '
         'frmMarketPrices
         '
@@ -323,10 +501,12 @@ Partial Class frmMarketPrices
         CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControl1.ResumeLayout(False)
         Me.tabDumps.ResumeLayout(False)
-        Me.tabPrices.ResumeLayout(False)
         Me.panelECDumps.ResumeLayout(False)
         Me.panelECDumps.PerformLayout()
+        Me.tabPrices.ResumeLayout(False)
         Me.panelPrices.ResumeLayout(False)
+        Me.gbCriteria.ResumeLayout(False)
+        Me.gbCriteria.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -355,4 +535,18 @@ Partial Class frmMarketPrices
     Friend WithEvents btnGallente As System.Windows.Forms.Button
     Friend WithEvents btnCaldari As System.Windows.Forms.Button
     Friend WithEvents btnAmarr As System.Windows.Forms.Button
+    Friend WithEvents gbCriteria As System.Windows.Forms.GroupBox
+    Friend WithEvents chkAllMedian As System.Windows.Forms.CheckBox
+    Friend WithEvents chkAllMin As System.Windows.Forms.CheckBox
+    Friend WithEvents chkAllMax As System.Windows.Forms.CheckBox
+    Friend WithEvents chkAllMean As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSellMedian As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSellMin As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSellMax As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSellMean As System.Windows.Forms.CheckBox
+    Friend WithEvents chkBuyMedian As System.Windows.Forms.CheckBox
+    Friend WithEvents chkBuyMin As System.Windows.Forms.CheckBox
+    Friend WithEvents chkBuyMax As System.Windows.Forms.CheckBox
+    Friend WithEvents chkBuyMean As System.Windows.Forms.CheckBox
+    Friend WithEvents MonthCalendar1 As System.Windows.Forms.MonthCalendar
 End Class
