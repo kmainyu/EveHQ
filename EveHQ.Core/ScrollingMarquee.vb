@@ -126,13 +126,13 @@ Public Class ScrollingMarquee
             If startPosition > Me.Width Then
                 startPosition = CInt(-szf.Width)
             Else
-                startPosition += 2
+                startPosition += 1
             End If
         ElseIf m_LeftToRight = Direction.Left Then
             If startPosition < -szf.Width Then
                 startPosition = CInt(szf.Width)
             Else
-                startPosition -= 2
+                startPosition -= 1
             End If
         End If
         g.DrawString(m_MarqueeText, Me.Font, New SolidBrush(Me.ForeColor), startPosition, CSng(0 + (Me.Height / 2) - (szf.Height / 2)))

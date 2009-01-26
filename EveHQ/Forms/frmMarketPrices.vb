@@ -355,6 +355,7 @@ Public Class frmMarketPrices
     End Function
 
     Private Sub frmMarketPrices_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         ' Check for the market cache folder
         If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.appDataFolder & "\MarketCache") = False Then
             Try
@@ -380,24 +381,40 @@ Public Class frmMarketPrices
             Exit Sub
         End If
 
-        ' Setup some fake text for prices in the marquee
-        Dim lastItem As Integer = EveHQ.Core.HQ.itemList.Count
-        Dim strTicker As String = ""
-        Dim idx As Integer = 0
-        Dim itemName As String = ""
-        Dim itemID As String = ""
-        Dim r As New Random(Now.Millisecond)
-        For item As Integer = 1 To 10
-            idx = r.Next(1, lastItem)
-            itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(idx))
-            itemID = CStr(EveHQ.Core.HQ.itemList(itemName))
-            strTicker &= itemName & " - " & FormatNumber(EveHQ.Core.HQ.BasePriceList(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " : "
-        Next
-        ScrollingMarquee1.MarqueeText = strTicker
+        ' Get Regions
+        Dim regionSet As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM mapRegions ORDER BY regionName;")
+        If regionSet IsNot Nothing Then
+            Dim x, y As Integer : x = 10 : y = 20
+            For Each regionRow As DataRow In regionSet.Tables(0).Rows
+                ' Create a batch of checkboxes for the regions
+                Dim chk As New CheckBox
+                chk.Text = CStr(regionRow.Item("regionName"))
+                chk.Name = CStr(regionRow.Item("regionID"))
+                If IsDBNull(regionRow.Item("factionID")) Then
+                    chk.Tag = 0
+                Else
+                    If CInt(regionRow.Item("factionID")) > 500008 Then
+                        chk.Tag = 0
+                    Else
+                        chk.Tag = CInt(regionRow.Item("factionID"))
+                    End If
+                End If
+                If CInt(chk.Tag) <> 500005 Then ' Ignore the Jove systems
+                    chk.Location = New Point(x, y) : chk.Width = 145
+                    grpRegions.Controls.Add(chk)
+                    x += 150
+                    If x > 600 Then
+                        x = 10 : y += 20
+                    End If
+                End If
+            Next
+        Else
+            MessageBox.Show("EveHQ cannot proceed with the market price processing until the Map Regions have been correctly loaded.", "Error Loading Map Regions", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
 
     End Sub
 
-    Private Sub GetFirstPrices()
+    Private Sub GetFirstPrices(ByVal dataObject As Object)
         Dim tryDate As Date = Now
         Dim fileName As String = Format(tryDate, "yyyy-MM-dd") & ".dump.gz"
         Dim DLsuccess As Boolean = False
@@ -464,7 +481,7 @@ Public Class frmMarketPrices
 
             ' Insert the date into the database
             Dim dateSQL As String = "INSERT INTO marketDates (priceDate) VALUES (" & orderDate.ToOADate - 2 & ");"
-            If EveHQ.Core.DataFunctions.SetData(strSQL) = False Then
+            If EveHQ.Core.DataFunctions.SetData(dateSQL) = False Then
                 MessageBox.Show("There was an error writing the date to the marketDates database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
 
@@ -480,7 +497,8 @@ Public Class frmMarketPrices
         Dim lastDate As Date = GetLastMarketDate()
 
         If lastDate.ToOADate = 0 Then
-            Call Me.GetFirstPrices()
+            System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetFirstPrices, Nothing)
+            'Call Me.GetFirstPrices()
         Else
             MessageBox.Show("Last date is " & FormatDateTime(lastDate, DateFormat.LongDate))
         End If
@@ -678,4 +696,76 @@ Public Class frmMarketPrices
         Return noError
 
     End Function
+
+    Private Sub btnAllRegions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAllRegions.Click
+        For Each chk As CheckBox In grpRegions.Controls
+            chk.Checked = True
+        Next
+    End Sub
+
+    Private Sub btnEmpireRegions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEmpireRegions.Click
+        For Each chk As CheckBox In grpRegions.Controls
+            If CInt(chk.Tag) > 0 Then
+                chk.Checked = True
+            Else
+                chk.Checked = False
+            End If
+        Next
+    End Sub
+
+    Private Sub btnNullRegions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNullRegions.Click
+        For Each chk As CheckBox In grpRegions.Controls
+            If CInt(chk.Tag) = 0 Then
+                chk.Checked = True
+            Else
+                chk.Checked = False
+            End If
+        Next
+    End Sub
+
+    Private Sub btnNoRegions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNoRegions.Click
+        For Each chk As CheckBox In grpRegions.Controls
+            chk.Checked = False
+        Next
+    End Sub
+
+    Private Sub btnAmarr_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAmarr.Click
+        For Each chk As CheckBox In grpRegions.Controls
+            If CInt(chk.Tag) = 500003 Then
+                chk.Checked = True
+            Else
+                chk.Checked = False
+            End If
+        Next
+    End Sub
+
+    Private Sub btnCaldari_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCaldari.Click
+        For Each chk As CheckBox In grpRegions.Controls
+            If CInt(chk.Tag) = 500001 Then
+                chk.Checked = True
+            Else
+                chk.Checked = False
+            End If
+        Next
+    End Sub
+
+    Private Sub btnGallente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGallente.Click
+        For Each chk As CheckBox In grpRegions.Controls
+            If CInt(chk.Tag) = 500004 Then
+                chk.Checked = True
+            Else
+                chk.Checked = False
+            End If
+        Next
+    End Sub
+
+    Private Sub btnMinmatar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMinmatar.Click
+        For Each chk As CheckBox In grpRegions.Controls
+            If CInt(chk.Tag) = 500002 Then
+                chk.Checked = True
+            Else
+                chk.Checked = False
+            End If
+        Next
+    End Sub
 End Class

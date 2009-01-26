@@ -127,6 +127,12 @@
     <Compile Include="SplitButton.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Ticker.Designer.vb">
+      <DependentUpon>Ticker.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Ticker.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EveAPIStatusForm.resx">
@@ -138,6 +144,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ticker.resx">
+      <DependentUpon>Ticker.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

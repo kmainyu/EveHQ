@@ -655,9 +655,11 @@ Public Class DataFunctions
                 Dim price As Double
                 Do
                     marketLine = sr.ReadLine()
-                    Dim marketData() As String = marketLine.Split(",".ToCharArray)
-                    price = Double.Parse(CStr(marketData(1)), Globalization.NumberStyles.Number, culture)
-                    EveHQ.Core.HQ.CustomPriceList.Add(marketData(0), price)
+                    If marketLine IsNot Nothing Then
+                        Dim marketData() As String = marketLine.Split(",".ToCharArray)
+                        price = Double.Parse(CStr(marketData(1)), Globalization.NumberStyles.Number, culture)
+                        EveHQ.Core.HQ.CustomPriceList.Add(marketData(0), price)
+                    End If
                 Loop Until sr.EndOfStream
             End If
         Catch ex As Exception
