@@ -1685,8 +1685,6 @@ Public Class frmSettings
 
 #End Region
 
-
-
 #Region "Training Overlay Routines"
 
     Public Sub UpdateTrainingOverlayOptions()
