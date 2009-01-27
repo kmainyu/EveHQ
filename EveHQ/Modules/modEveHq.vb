@@ -80,7 +80,7 @@ Module modEveHq
     '                Dim fileVersion As String = fileDetails(1)
 
     '                ' Check the plugins first
-    '                For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.PlugIns.Values
+    '                For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.PlugIns.Values
     '                    If PlugInInfo.Available = True Then
     '                        If PlugInInfo.ShortFileName = fileName Then
     '                            If CompareVersions(PlugInInfo.Version, fileVersion) = True Then

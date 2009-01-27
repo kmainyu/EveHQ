@@ -548,7 +548,7 @@ Public Class frmTraining
 
         Dim lvwQueue As EveHQ.DragAndDropListView = CType(Me.tabQueues.Controls(QueueName).Controls("Q" & QueueName), EveHQ.DragAndDropListView)
 
-        If EveHQ.Core.HQ.myPilot.PilotData.InnerText <> "" Then
+        If EveHQ.Core.HQ.myPilot.PilotSkills.Count <> 0 Then
             ' Clear the visible training queue
             lvwQueue.BeginUpdate()
             lvwQueue.Items.Clear()
@@ -1664,7 +1664,7 @@ Public Class frmTraining
             Dim myGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
             myGroup = CType(EveHQ.Core.HQ.SkillGroups(cSkill.GroupID), Core.SkillGroup)
             Dim cLevel, cSP, cTime, cRate As String
-            If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
                 If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) = False Then
                     cLevel = "0" : cSP = "0" : cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, 1))
                     cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, cSkill))
@@ -1723,7 +1723,7 @@ Public Class frmTraining
         Dim skillTrained As Boolean = False
         Dim myLevel As Integer = 0
         skillTrained = False
-        If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
             If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) Then
                 Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
                 mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.Skills)
@@ -1804,7 +1804,7 @@ Public Class frmTraining
                 newNode.Name = CStr(counter)
                 newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
                 ' Check if the current pilot has the skill
-                If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+                If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
                     skillTrained = False
                     myLevel = 0
                     If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) Then
@@ -1905,7 +1905,7 @@ Public Class frmTraining
     Private Sub PrepareTimes(ByVal skillID As String)
         lvwTimes.Items.Clear()
 
-        If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
             Dim cskill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
             cskill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
 
@@ -1951,7 +1951,7 @@ Public Class frmTraining
 
         Dim PluginName As String = "EveHQ Item Browser"
         Dim itemID As String = mnuItemName.Tag.ToString
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(PluginName), Core.PlugIn)
+        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
         Dim PluginFile As String = myPlugIn.FileName
         Dim PluginType As String = myPlugIn.FileType
         Dim runPlugIn As EveHQ.Core.IEveHQPlugIn
@@ -2270,14 +2270,14 @@ Public Class frmTraining
                         PlanInfo(count, 2) = SQ.Count.ToString
 
                         ' Check if we have a relevant pilot!
-                        If EveHQ.Core.HQ.Pilots.Contains(PlanInfo(count, 0)) = True Then
+                        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(PlanInfo(count, 0)) = True Then
                             ' Ok, load up the plan
                             Dim newSQ As New EveHQ.Core.SkillQueue
                             newSQ.Name = PlanInfo(count, 1)
                             newSQ.IncCurrentTraining = True
                             newSQ.Primary = False
                             newSQ.Queue = SQ
-                            Dim QPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(PlanInfo(count, 0)), Core.Pilot)
+                            Dim QPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(PlanInfo(count, 0)), Core.Pilot)
                             If QPilot.TrainingQueues.Contains(PlanInfo(count, 1)) = False Then
                                 QPilot.TrainingQueues.Add(newSQ.Name, newSQ)
                                 RecalcQueues = True

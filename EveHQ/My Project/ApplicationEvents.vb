@@ -65,7 +65,7 @@ Namespace My
             trace.AppendLine("")
             trace.AppendLine("========== Plug-ins ==========")
             trace.AppendLine("")
-            For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.PlugIns.Values
+            For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.PlugIns.Values
                 If myPlugIn.ShortFileName IsNot Nothing Then
                     trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
                 End If

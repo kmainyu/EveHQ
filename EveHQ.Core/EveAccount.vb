@@ -17,7 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class EveAccount
+<Serializable()> Public Class EveAccount
 
     Private cUserID As String
     Private cAPIkey As String

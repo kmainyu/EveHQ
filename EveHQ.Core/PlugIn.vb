@@ -17,23 +17,23 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class PlugIn
+<Serializable()> Public Class PlugIn
 
     Public Name As String
-    Public Description As String
-    Public Author As String
-    Public MainMenuText As String
-    Public MenuImage As Drawing.Image
-    Public RunAtStartup As Boolean
-    Public RunInIGB As Boolean
-    Public FileName As String
-    Public ShortFileName As String
-    Public FileType As String
-    Public Version As String
+    <NonSerialized()> Public Description As String
+    <NonSerialized()> Public Author As String
+    <NonSerialized()> Public MainMenuText As String
+    <NonSerialized()> Public MenuImage As Drawing.Image
+    <NonSerialized()> Public RunAtStartup As Boolean
+    <NonSerialized()> Public RunInIGB As Boolean
+    <NonSerialized()> Public FileName As String
+    <NonSerialized()> Public ShortFileName As String
+    <NonSerialized()> Public FileType As String
+    <NonSerialized()> Public Version As String
     Public Disabled As Boolean
-    Public Available As Boolean
-    Public Status As Integer
-    Public Instance As IEveHQPlugIn
+    <NonSerialized()> Public Available As Boolean
+    <NonSerialized()> Public Status As Integer
+    <NonSerialized()> Public Instance As IEveHQPlugIn
 
     Public Enum PlugInStatus
         Uninitialised = 0

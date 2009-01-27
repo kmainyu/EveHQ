@@ -152,7 +152,7 @@ Public Class frmCorpHQ
                 ' Get Either Pilot or Corp Name
                 Dim ownerID As String = MyStandings.OwnerID
                 ' Cycle through the pilots to see if we have a match
-                For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+                For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                     Select Case MyStandings.CacheType
                         Case "GetCharStandings"
                             If ownerID = cPilot.ID Then
@@ -294,7 +294,7 @@ Public Class frmCorpHQ
                 If ownerName = MyStandings.OwnerName Then
                     ' Check if this is a character and whether we need to get the Connections and Diplomacy skills
                     If MyStandings.CacheType = "GetCharStandings" Then
-                        Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(ownerName), Core.Pilot)
+                        Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(ownerName), Core.Pilot)
                         For Each cSkill As EveHQ.Core.Skills In cPilot.PilotSkills
                             If cSkill.Name = "Diplomacy" Then
                                 DiplomacyLevel = cSkill.Level
@@ -351,7 +351,7 @@ Public Class frmCorpHQ
                                         newStanding.SubItems.Add("Player/Corp")
                                 End Select
                                 standing = CDbl(MyStandings.StandingValues(iStanding))
-                                newStanding.SubItems.Add(formatnumber(standing,CInt(nudPrecision.Value),TriState.UseDefault,TriState.UseDefault,TriState.UseDefault))
+                                newStanding.SubItems.Add(FormatNumber(standing, CInt(nudPrecision.Value), TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                                 If CLng(iStanding) < 70000000 Then
                                     If standing < 0 Then
                                         standing = standing + ((10 - standing) * (DiplomacyLevel * 4 / 100))

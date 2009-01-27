@@ -40,7 +40,7 @@ Public Class PlugInData
                     If StandingsRequest.Count = 2 Then
                         Dim pilotName As String = CStr(StandingsRequest(0))
                         Dim corpID As String = CStr(StandingsRequest(1))
-                        If EveHQ.Core.HQ.Pilots.Contains(pilotName) = True Then
+                        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(pilotName) = True Then
                             ' Check if the standings are loaded
                             If AllStandings.Count > 0 Then
                                 Return FindStanding(pilotName, corpID)
@@ -92,7 +92,7 @@ Public Class PlugInData
             If ownerName = MyStandings.OwnerName Then
                 ' Check if this is a character and whether we need to get the Connections and Diplomacy skills
                 If MyStandings.CacheType = "GetCharStandings" Then
-                    Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(ownerName), Core.Pilot)
+                    Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(ownerName), Core.Pilot)
                     For Each cSkill As EveHQ.Core.Skills In cPilot.PilotSkills
                         If cSkill.Name = "Diplomacy" Then
                             DiplomacyLevel = cSkill.Level

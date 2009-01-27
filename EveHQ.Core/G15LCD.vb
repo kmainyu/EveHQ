@@ -150,8 +150,8 @@ Public Class G15LCD
     End Sub
 
     Public Sub DrawSkillTrainingInfo(ByVal lcdPilot As String)
-        If EveHQ.Core.HQ.Pilots.Contains(lcdPilot) = True Then
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots.Item(lcdPilot), Pilot)
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(lcdPilot) = True Then
+            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots.Item(lcdPilot), Pilot)
             Dim lcdFont As Font = New Font("Tahoma", 9, FontStyle.Regular, GraphicsUnit.Pixel)
             Dim img As New System.Drawing.Bitmap(160, 43)
             'Declare a Graphics object to use as the 'tool' for drawing on the bitmap
@@ -183,8 +183,8 @@ Public Class G15LCD
     End Sub
 
     Public Sub DrawCharacterInfo(ByVal lcdPilot As String)
-        If EveHQ.Core.HQ.Pilots.Contains(lcdPilot) = True Then
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots.Item(lcdPilot), Pilot)
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(lcdPilot) = True Then
+            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots.Item(lcdPilot), Pilot)
             'Dim lcdFont As Font = New Font("Microsoft Sans Serif", 13.5F, FontStyle.Regular, GraphicsUnit.Point)
             Dim lcdFont As Font = New Font("Tahoma", 9, FontStyle.Regular, GraphicsUnit.Pixel)
             Dim img As New System.Drawing.Bitmap(160, 43)
@@ -217,7 +217,7 @@ Public Class G15LCD
     End Sub
 
     Private Sub tmrLCDChar_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles tmrLCDChar.Tick
-        If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True And EveHQ.Core.HQ.Pilots.Count > 0 Then
+        If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True And EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 Then
             Call SelectNextChar()
         End If
     End Sub
@@ -230,8 +230,8 @@ Public Class G15LCD
         Dim cPilot As New EveHQ.Core.Pilot
         Do
             searchChar += 1
-            If searchChar = EveHQ.Core.HQ.Pilots.Count + 1 Then searchChar = 1
-            cPilot = CType(EveHQ.Core.HQ.Pilots.Item(searchChar), Pilot)
+            If searchChar = EveHQ.Core.HQ.EveHQSettings.Pilots.Count + 1 Then searchChar = 1
+            cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots.Item(searchChar), Pilot)
             If startSearch = True And cPilot.Training = True Then
                 Exit Do
             End If

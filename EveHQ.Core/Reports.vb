@@ -21,6 +21,7 @@ Imports System.IO
 Imports System.Data
 Imports System.Drawing
 Imports System.Text
+Imports System.Xml
 
 Public Class Reports
     Shared www As String = "http://www.evehq.net"
@@ -263,7 +264,7 @@ Public Class Reports
         sw.Flush()
         sw.Close()
         strHTML = Nothing
-        
+
         ' Tidy up report variables
         GC.Collect()
 
@@ -362,7 +363,7 @@ Public Class Reports
 
 #Region "Skill Levels Report"
     Public Shared Sub GenerateSkillLevels(ByVal rPilot As EveHQ.Core.Pilot)
-        
+
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Skill Levels - " & rPilot.Name, False)
         strHTML &= HTMLTitle("Skill Levels - " & rPilot.Name, False)
@@ -511,7 +512,7 @@ Public Class Reports
 
 #Region "Training Time Report"
     Public Shared Sub GenerateTrainingTime(ByVal rPilot As EveHQ.Core.Pilot)
-        
+
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Training Times - " & rPilot.Name, False)
         strHTML &= HTMLTitle("Training Times - " & rPilot.Name, False)
@@ -523,7 +524,7 @@ Public Class Reports
         sw.Flush()
         sw.Close()
         strHTML = Nothing
-        
+
         ' Tidy up report variables
         GC.Collect()
 
@@ -840,12 +841,12 @@ Public Class Reports
     Public Shared Sub GenerateTimeToLevel5(ByVal rPilot As EveHQ.Core.Pilot)
 
         Dim strHTML As String = ""
-        strHTML &= HTMLHeader("Time To Level 5 - " & rpilot.Name, False)
-        strHTML &= HTMLTitle("Time To Level 5 - " & rpilot.Name, False)
-        strHTML &= HTMLCharacterDetails(rpilot, False)
-        strHTML &= TimeToLevel5(rpilot, False)
+        strHTML &= HTMLHeader("Time To Level 5 - " & rPilot.Name, False)
+        strHTML &= HTMLTitle("Time To Level 5 - " & rPilot.Name, False)
+        strHTML &= HTMLCharacterDetails(rPilot, False)
+        strHTML &= TimeToLevel5(rPilot, False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\TimeToLevel5 (" & rpilot.Name & ").html")
+        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\TimeToLevel5 (" & rPilot.Name & ").html")
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -998,11 +999,15 @@ Public Class Reports
 #Region "Pilot XML Reports"
 
     Public Shared Sub GenerateCharXML(ByVal rPilot As EveHQ.Core.Pilot)
-        rPilot.PilotData.Save(EveHQ.Core.HQ.reportFolder & "\CharXML (" & rPilot.Name & ").xml")
+        Dim cXML As New XmlDocument
+        cXML.Load(EveHQ.Core.HQ.cacheFolder & "\c" & rPilot.ID & ".xml")
+        cXML.Save(EveHQ.Core.HQ.reportFolder & "\CharXML (" & rPilot.Name & ").xml")
     End Sub
 
     Public Shared Sub GenerateTrainXML(ByVal rPilot As EveHQ.Core.Pilot)
-        rPilot.PilotTrainingData.Save(EveHQ.Core.HQ.reportFolder & "\TrainingXML (" & rPilot.Name & ").xml")
+        Dim tXML As New XmlDocument
+        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\t" & rPilot.ID & ".xml")
+        tXML.Save(EveHQ.Core.HQ.reportFolder & "\TrainingXML (" & rPilot.Name & ").xml")
     End Sub
 
 #End Region
@@ -1891,9 +1896,9 @@ Public Class Reports
         Dim strHTML As String = ""
 
         Dim rPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        Dim repLines(EveHQ.Core.HQ.Pilots.Count, 6) As String
+        Dim repLines(EveHQ.Core.HQ.EveHQSettings.Pilots.Count, 6) As String
         Dim curPilot As Integer = 0
-        For Each rPilot In EveHQ.Core.HQ.Pilots
+        For Each rPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             curPilot += 1
 
             Dim currentSkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
@@ -1946,7 +1951,7 @@ Public Class Reports
             strHTML &= "<td width=150px align=right>Current Training</td>"
             strHTML &= "</tr>"
         End If
-        For curPilot = 1 To EveHQ.Core.HQ.Pilots.Count
+        For curPilot = 1 To EveHQ.Core.HQ.EveHQSettings.Pilots.Count
             strHTML &= "<tr height=75px>"
             strHTML &= "<td width=70px><img src='" & repLines(curPilot, 1) & "' style='border:0px;width:64px;height:64px;' alt='" & repLines(curPilot, 2) & "'></td>"
             strHTML &= "<td width=165px>" & repLines(curPilot, 2) & "</td>"
@@ -2018,7 +2023,7 @@ Public Class Reports
 #Region "Current Pilot XML Report (Old Style)"
 
     Public Shared Sub GenerateCurrentPilotXML_Old(ByVal rPilot As EveHQ.Core.Pilot)
-        
+
         Dim strXML As String = ""
         strXML &= CurrentPilotXML_Old(rPilot)
         Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\CurrentXML - Old (" & rPilot.Name & ").xml")
@@ -2168,8 +2173,8 @@ Public Class Reports
     Public Shared Sub GenerateCurrentPilotXML_New(ByVal rPilot As EveHQ.Core.Pilot)
 
         Dim strXML As String = ""
-        strXML &= CurrentPilotXML_New(rpilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\CurrentXML - New (" & rpilot.Name & ").xml")
+        strXML &= CurrentPilotXML_New(rPilot)
+        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\CurrentXML - New (" & rPilot.Name & ").xml")
         sw.Write(strXML)
         sw.Flush()
         sw.Close()
@@ -2380,7 +2385,7 @@ Public Class Reports
                 text.Text &= groupText & ControlChars.CrLf
             Next
         End If
-        
+
         ' Calculate the Axis Scale Ranges
         zgc.AxisChange()
         zgc.Top = 0 : zgc.Left = 0 : zgc.Dock = Windows.Forms.DockStyle.Fill
@@ -2728,7 +2733,7 @@ Public Class Reports
             repGroup(groupCount, 4) = EveHQ.Core.SkillFunctions.TimeToString(TotalTime)
         Next
 
-        
+
         Dim group As Integer = 1
         Do
             group = group + 1

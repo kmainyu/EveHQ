@@ -47,7 +47,7 @@ Public Class frmSkillDetails
             Dim myGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
             myGroup = CType(EveHQ.Core.HQ.SkillGroups(cSkill.GroupID), Core.SkillGroup)
             Dim cLevel, cSP, cTime, cRate As String
-            If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
                 If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) = False Then
                     cLevel = "0" : cSP = "0" : cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, 1))
                     cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, cSkill))
@@ -107,7 +107,7 @@ Public Class frmSkillDetails
         Dim skillTrained As Boolean = False
         Dim myLevel As Integer = 0
         skillTrained = False
-        If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
             If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) Then
                 Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
                 mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.Skills)
@@ -188,7 +188,7 @@ Public Class frmSkillDetails
                 newNode.Name = CStr(counter)
                 newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
                 ' Check if the current pilot has the skill
-                If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+                If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
                     skillTrained = False
                     myLevel = 0
                     If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) Then
@@ -349,7 +349,7 @@ Public Class frmSkillDetails
     Private Sub PrepareTimes(ByVal skillID As String)
         lvwTimes.Items.Clear()
 
-        If EveHQ.Core.HQ.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
             Dim cskill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
             cskill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
 
@@ -397,7 +397,7 @@ Public Class frmSkillDetails
     Private Sub mnuViewDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetailsInIB.Click
         Dim PluginName As String = "EveHQ Item Browser"
         Dim itemID As String = mnuItemName.Tag.ToString
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(PluginName), Core.PlugIn)
+        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
         Dim PluginFile As String = myPlugIn.FileName
         Dim PluginType As String = myPlugIn.FileType
         Dim runPlugIn As EveHQ.Core.IEveHQPlugIn

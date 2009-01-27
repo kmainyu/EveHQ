@@ -362,7 +362,7 @@ Public Class frmEveHQ
         ' Determine which view to display!
         Select Case EveHQ.Core.HQ.EveHQSettings.StartupView
             Case "Pilot Information"
-                If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.myPilot.PilotData.InnerText <> "" Then
+                If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.myPilot.PilotSkills.Count <> 0 Then
                     ' Open the pilot info form
                     Call OpenPilotInfoForm()
                 End If
@@ -373,7 +373,7 @@ Public Class frmEveHQ
                 newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\PilotSummary.html")
                 Call DisplayReport(newReport, "Pilot Summary")
             Case "Skill Training"
-                If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.myPilot.PilotData.InnerText <> "" Then
+                If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.myPilot.PilotSkills.Count <> 0 Then
                     ' Open the skill training form
                     Call OpenSkillTrainingForm()
                 End If
@@ -493,7 +493,7 @@ Public Class frmEveHQ
             Dim accounts As New ArrayList
             Dim strNotify As String = ""
             Dim strCharNotify As String = ""
-            For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+            For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                 If cPilot.Training = True Then
                     Dim timeRemaining As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
                     If timeRemaining <= EveHQ.Core.HQ.EveHQSettings.ShutdownNotifyPeriod * 60 * 60 Then
@@ -508,7 +508,7 @@ Public Class frmEveHQ
             End If
             ' Check each account to see if something is training.
             Dim strAccountNotify As String = ""
-            For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.Accounts
+            For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
                 If accounts.Contains(cAccount.userID) = False Then
                     strAccountNotify &= cAccount.userID & ControlChars.CrLf
                 End If
@@ -612,7 +612,7 @@ Public Class frmEveHQ
         ' Check each pilot
         Dim pilotTimes As New SortedList
         Dim defer As Integer = 0
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Training = True Then
                 If cPilot.Active = True Then
                     defer += 1
@@ -634,7 +634,7 @@ Public Class frmEveHQ
             lblTrainingStatus.Text &= EveHQ.Core.SkillFunctions.TimeToString(trainingTime) & ControlChars.CrLf & ControlChars.CrLf
         Next
         ' Check each account to see if something is training.
-        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.Accounts
+        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
             If accounts.Contains(cAccount.userID) = False Then
                 lblTrainingStatus.Text &= "Account '" & cAccount.FriendlyName & "' is not training!" & ControlChars.CrLf & ControlChars.CrLf
             End If
@@ -656,7 +656,7 @@ Public Class frmEveHQ
             Dim NeedToNotifyEarly As Boolean = False
             Dim notifyText As String = ""
 
-            For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+            For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                 If cPilot.Training = True Then
                     Dim trainingTime As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
                     ' See if we need to notify about this pilot
@@ -733,7 +733,7 @@ Public Class frmEveHQ
     End Sub
 
     Public Sub UpdateToNextLevel()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Training = True Then
                 If cPilot.PilotSkills.Contains(cPilot.TrainingSkillName) = True Then
                     Dim trainSkill As EveHQ.Core.Skills = CType(cPilot.PilotSkills(cPilot.TrainingSkillName), Core.Skills)
@@ -813,7 +813,7 @@ Public Class frmEveHQ
         End If
 
         ' If we have accounts to query then get the data for them
-        If EveHQ.Core.HQ.Accounts.Count = 0 Then
+        If EveHQ.Core.HQ.EveHQSettings.Accounts.Count = 0 Then
             tsLogonStatus.Text = "Logon Status: No accounts!! (" & Now.ToString & ")"
             Exit Sub
         Else
@@ -867,7 +867,7 @@ Public Class frmEveHQ
             cList.Add(pilot)
         Next
         cboPilots.BeginUpdate()
-        For Each currentPilot In EveHQ.Core.HQ.Pilots
+        For Each currentPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If currentPilot.Active = True Then
                 allPilots.Add(currentPilot.Name, currentPilot.Name)
                 If cboPilots.Items.Contains(currentPilot.Name) = False Then
@@ -941,12 +941,12 @@ Public Class frmEveHQ
             tsbPilotInfo.Enabled = True
             tsbSkillTraining.Enabled = True
             If startUp = False Then
-                EveHQ.Core.HQ.myPilot = CType(EveHQ.Core.HQ.Pilots(EveHQ.Core.HQ.myPilot.Name), Core.Pilot)
+                EveHQ.Core.HQ.myPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.myPilot.Name), Core.Pilot)
                 Call frmPilot.UpdatePilotInfo()
             End If
         End If
 
-        If EveHQ.Core.HQ.Pilots.Count = 0 Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count = 0 Then
             mnuReportsHTMLChar.Enabled = False
         Else
             mnuReportsHTMLChar.Enabled = True
@@ -964,7 +964,7 @@ Public Class frmEveHQ
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
         Dim curPilot As String = cboPilots.SelectedItem.ToString
-        EveHQ.Core.HQ.myPilot = CType(EveHQ.Core.HQ.Pilots(curPilot), Core.Pilot)
+        EveHQ.Core.HQ.myPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(curPilot), Core.Pilot)
         ' Update the info on the pilot form
         Call frmPilot.UpdatePilotInfo()
         ' Check if there is anything we need to disable
@@ -973,7 +973,7 @@ Public Class frmEveHQ
         Else
             mnuReportsHTMLChar.Enabled = True
         End If
-        If EveHQ.Core.HQ.myPilot.PilotData.InnerText = "" Then
+        If EveHQ.Core.HQ.myPilot.PilotSkills.Count = 0 Then
             Me.PilotInfoToolStripMenuItem.Enabled = False
             Me.SkillTrainingToolStripMenuItem.Enabled = False
             Me.tsbPilotInfo.Enabled = False
@@ -1019,7 +1019,7 @@ Public Class frmEveHQ
             For Each reportMenu As ToolStripMenuItem In currentMenu.DropDownItems
                 reportMenu.DropDownItems.Clear()
                 For Each curPilot As String In allPilots.Values
-                    Dim currentPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(curPilot), Core.Pilot)
+                    Dim currentPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(curPilot), Core.Pilot)
                     If currentPilot.Active = True Then
                         Dim pilotMenu As New ToolStripMenuItem
                         pilotMenu.Name = reportMenu.Name & "_" & currentPilot.Name
@@ -1046,7 +1046,7 @@ Public Class frmEveHQ
     Private Sub ReportsMenuHandler(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim reportMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim menuParts() As String = reportMenu.Name.Split("_".ToCharArray)
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(menuParts(1)), Core.Pilot)
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(menuParts(1)), Core.Pilot)
         Dim newReport As New frmReportViewer
         Select Case menuParts(0)
             Case "mnuReportsCharCharsheet"
@@ -1319,7 +1319,7 @@ Public Class frmEveHQ
     Private Sub tmrModules_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrModules.Tick
         frmEveHQ.CheckForIllegalCrossThreadCalls = False
         tmrModules.Enabled = False
-        For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.PlugIns.Values
+        For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
             If PlugInInfo.Available = True And PlugInInfo.Disabled = False Then
                 'If PlugInInfo.Available = True Then
                 If PlugInInfo.RunAtStartup = True Then
@@ -1328,7 +1328,7 @@ Public Class frmEveHQ
             End If
         Next
         ' Check for existing pilots and accounts
-        If EveHQ.Core.HQ.Accounts.Count = 0 And EveHQ.Core.HQ.Pilots.Count = 0 Then
+        If EveHQ.Core.HQ.EveHQSettings.Accounts.Count = 0 And EveHQ.Core.HQ.EveHQSettings.Pilots.Count = 0 Then
             Dim wMsg As String = "EveHQ has detected that you have not yet setup any API accounts." & ControlChars.CrLf & ControlChars.CrLf
             wMsg &= "Would you like to do this now?"
             Dim reply As Integer = MessageBox.Show(wMsg, "Welcome to EveHQ!", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -1384,7 +1384,7 @@ Public Class frmEveHQ
         mnuLoadPlugin.Text = "Load " & lbl.Text.Trim
     End Sub
     Private Sub mnuLoadPlugin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuLoadPlugin.Click
-        Dim PlugInInfo As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns.Item(mnuLoadPlugin.Tag), Core.PlugIn)
+        Dim PlugInInfo As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins.Item(mnuLoadPlugin.Tag), Core.PlugIn)
         If PlugInInfo.RunAtStartup = True Then
             ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
         Else
@@ -1404,10 +1404,10 @@ Public Class frmEveHQ
 
 #Region "Plug-in Routines"
     Private Sub SetupModuleMenu()
-        If EveHQ.Core.HQ.PlugIns.Count <> 0 Then
+        If EveHQ.Core.HQ.EveHQSettings.Plugins.Count <> 0 Then
             mnuModules.DropDownItems.Clear()
             Dim modCount As Integer = 0
-            For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.PlugIns.Values
+            For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
                 'If PlugInInfo.Available = True And PlugInInfo.Disabled = False Then
                 If PlugInInfo.Available = True Then
                     modCount += 1
@@ -1470,7 +1470,7 @@ Public Class frmEveHQ
         If tabMDI.TabPages.ContainsKey(mnu.Name) = True Then
             tabMDI.SelectTab(mnu.Name)
         Else
-            Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(mnu.Name), Core.PlugIn)
+            Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(mnu.Name), Core.PlugIn)
             Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
             plugInForm.MdiParent = Me
             plugInForm.Show()
@@ -1481,12 +1481,12 @@ Public Class frmEveHQ
         If tabMDI.TabPages.ContainsKey(btn.Name) = True Then
             tabMDI.SelectTab(btn.Name)
         Else
-            Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(btn.Name), Core.PlugIn)
+            Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(btn.Name), Core.PlugIn)
             Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
             plugInForm.MdiParent = Me
             plugInForm.Show()
         End If
-        
+
     End Sub
 #End Region
 
@@ -1906,7 +1906,7 @@ Public Class frmEveHQ
                     frmToolTrayIconPopup.tmrSkill.Start()
                 End If
         End Select
-        
+
     End Sub
     Private Function GetTaskbarLocation() As String
         Dim tbLeft As Int32
@@ -2000,7 +2000,7 @@ Public Class frmEveHQ
 
                 ' Clear the EveHQ Pilot Data
                 Try
-                    EveHQ.Core.HQ.Pilots.Clear()
+                    EveHQ.Core.HQ.EveHQSettings.Pilots.Clear()
                     EveHQ.Core.HQ.TPilots.Clear()
                     EveHQ.Core.HQ.myPilot = Nothing
                 Catch ex As Exception
@@ -2022,7 +2022,7 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub mnuToolsTriggerError_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuToolsTriggerError.Click
-        Dim errPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots("O M G"), Core.Pilot)
+        Dim errPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots("O M G"), Core.Pilot)
         MessageBox.Show(errPilot.Name)
     End Sub
 
@@ -2036,6 +2036,9 @@ Public Class frmEveHQ
     Public Function CacheErrorHandler() As Boolean
         ' Stop the timer from reporting multiple errors
         tmrSkillUpdate.Enabled = False
+        Dim cXML, tXML As New XmlDocument
+        cXML.Load(EveHQ.Core.HQ.cacheFolder & "\c" & EveHQ.Core.HQ.myPilot.ID & ".xml")
+        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\t" & EveHQ.Core.HQ.myPilot.ID & ".xml")
         Dim msg As New StringBuilder
         msg.Append("EveHQ has detected that the skill that " & EveHQ.Core.HQ.myPilot.Name & " is supposedly training is not in the list of their skills. ")
         msg.AppendLine("This could be due to a corrupt cache file or a conflict with another skill training application. The relevant data was:")
@@ -2048,7 +2051,7 @@ Public Class frmEveHQ
         msg.AppendLine("The issue may be resolved by clearing the EveHQ cache and connecting back to the API. Would you like to do this now?")
         msg.AppendLine("")
         Try
-            Clipboard.SetText(msg.ToString & EveHQ.Core.HQ.myPilot.PilotData.InnerXml & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.myPilot.PilotTrainingData.InnerXml)
+            Clipboard.SetText(msg.ToString & cXML.InnerXml & ControlChars.CrLf & ControlChars.CrLf & tXML.InnerXml)
         Catch e As Exception
         End Try
 
@@ -2081,7 +2084,7 @@ Public Class frmEveHQ
 
             ' Clear the EveHQ Pilot Data
             Try
-                EveHQ.Core.HQ.Pilots.Clear()
+                EveHQ.Core.HQ.EveHQSettings.Pilots.Clear()
                 EveHQ.Core.HQ.TPilots.Clear()
                 EveHQ.Core.HQ.myPilot = Nothing
             Catch ex As Exception

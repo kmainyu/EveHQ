@@ -17,7 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class FTPAccount
+<Serializable()> Public Class FTPAccount
 
     Public cFTPName As String
     Public cServer As String

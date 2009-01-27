@@ -56,7 +56,7 @@ Public Class frmAddInvestment
         ' Load in the owners into the combobox
         cboOwner.BeginUpdate()
         cboOwner.Items.Clear()
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             cboOwner.Items.Add(selPilot.Name)
             If cboOwner.Items.Contains(selPilot.Corp) = False Then
                 cboOwner.Items.Add(selPilot.Corp)

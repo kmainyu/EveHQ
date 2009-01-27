@@ -321,7 +321,7 @@ Public Class ShipInfoControl
         ' Add the current list of pilots to the combobox
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             cboPilots.Items.Add(cPilot.Name)
         Next
         cboPilots.EndUpdate()
@@ -676,7 +676,7 @@ Public Class ShipInfoControl
     Private Sub btnSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSkills.Click
         If reqSkills.Count > 0 Then
             Dim myRequiredSkills As New frmRequiredSkills
-            myRequiredSkills.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem), EveHQ.Core.Pilot)
+            myRequiredSkills.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem), EveHQ.Core.Pilot)
             myRequiredSkills.Skills = reqSkills
             myRequiredSkills.ShowDialog()
         End If

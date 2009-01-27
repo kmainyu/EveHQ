@@ -49,6 +49,7 @@ Public Class PilotParseFunctions
         Dim request As HttpWebRequest
 
         Dim cPilot, nPilot As New EveHQ.Core.Pilot
+        Dim XMLDoc As New XmlDocument
         For Each cPilot In EveHQ.Core.HQ.TPilots
             If cPilot.Account = cAccount.userID Then
                 ' Set the URL and create the requester
@@ -71,9 +72,9 @@ Public Class PilotParseFunctions
                 Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
                 Dim WebData As String = readStream.ReadToEnd()
                 ' Save the response in the pilotdata area for later retrieval
-                cPilot.PilotData.LoadXml(WebData)
+                XMLDoc.LoadXml(WebData)
                 ' Also save a copy in the cache folder for later retrievel
-                cPilot.PilotData.Save(EveHQ.Core.HQ.cacheFolder & "\c" & cPilot.ID & ".xml")
+                XMLDoc.Save(EveHQ.Core.HQ.cacheFolder & "\c" & cPilot.ID & ".xml")
                 ' Close the connections
                 response.Close()
                 readStream.Close()
@@ -102,9 +103,9 @@ Public Class PilotParseFunctions
                 Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
                 Dim WebData As String = readStream.ReadToEnd()
                 ' Save the response in the pilotdata area for later retrieval
-                cPilot.PilotTrainingData.LoadXml(WebData)
+                XMLDoc.LoadXml(WebData)
                 ' Also save a copy in the cache folder for later retrievel
-                cPilot.PilotTrainingData.Save(EveHQ.Core.HQ.cacheFolder & "\t" & cPilot.ID & ".xml")
+                XMLDoc.Save(EveHQ.Core.HQ.cacheFolder & "\t" & cPilot.ID & ".xml")
                 ' Close the connections
                 response.Close()
                 readStream.Close()
@@ -209,7 +210,7 @@ Public Class PilotParseFunctions
         ' Copy new pilot data
         Dim oldPilot, newPilot As EveHQ.Core.Pilot
         For Each newPilot In EveHQ.Core.HQ.TPilots
-            For Each oldPilot In EveHQ.Core.HQ.Pilots
+            For Each oldPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                 If oldPilot.Name = newPilot.Name Then
                     ' Transfer old information first (stuff that isn't picked up in the XML download)!!
                     newPilot.UseManualImplants = oldPilot.UseManualImplants
@@ -224,7 +225,7 @@ Public Class PilotParseFunctions
                         newPilot.Account = oldPilot.Account
                         newPilot.AccountPosition = oldPilot.AccountPosition
                     End If
-                    EveHQ.Core.HQ.Pilots.Remove(oldPilot.Name)
+                    EveHQ.Core.HQ.EveHQSettings.Pilots.Remove(oldPilot.Name)
                 End If
             Next
         Next
@@ -235,7 +236,7 @@ Public Class PilotParseFunctions
                 newPilot.Updated = True
                 newPilot.LastUpdate = Now.ToString
             End If
-            EveHQ.Core.HQ.Pilots.Add(newPilot, newPilot.Name)
+            EveHQ.Core.HQ.EveHQSettings.Pilots.Add(newPilot, newPilot.Name)
         Next
 
         ' Reload pilot specific data!!
@@ -250,6 +251,7 @@ Public Class PilotParseFunctions
             ' Check if the 2 files exist in the cache
             Dim cXML As Boolean = False
             Dim tXML As Boolean = False
+            Dim cXMLDoc, tXMLDoc As New XmlDocument
             If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\c" & currentPilot.ID & ".xml") = True Then
                 cXML = True
             End If
@@ -259,12 +261,12 @@ Public Class PilotParseFunctions
 
             ' Only load in and parse if both files are available
             If cXML = True Then
-                currentPilot.PilotData.Load(EveHQ.Core.HQ.cacheFolder & "\c" & currentPilot.ID & ".xml")
+                cXMLDoc.Load(EveHQ.Core.HQ.cacheFolder & "\c" & currentPilot.ID & ".xml")
                 If tXML = True Then
-                    currentPilot.PilotTrainingData.Load(EveHQ.Core.HQ.cacheFolder & "\t" & currentPilot.ID & ".xml")
+                    tXMLDoc.Load(EveHQ.Core.HQ.cacheFolder & "\t" & currentPilot.ID & ".xml")
                 End If
-                Call ParsePilotSkills(currentPilot)
-                Call ParsePilotXML(currentPilot)
+                Call ParsePilotSkills(currentPilot, cXMLDoc)
+                Call ParsePilotXML(currentPilot, cXMLDoc, tXMLDoc)
                 Call BuildAttributeData(currentPilot)
             Else
                 Dim msg As String = ""
@@ -284,7 +286,7 @@ Public Class PilotParseFunctions
     Private Shared Sub LoadKeySkills()
         Call ResetKeySkills()
         Dim curPilot As EveHQ.Core.Pilot
-        For Each curPilot In EveHQ.Core.HQ.Pilots
+        For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Call LoadKeySkillsForPilot(curPilot)
         Next
     End Sub
@@ -378,7 +380,7 @@ Public Class PilotParseFunctions
     End Sub
     Private Shared Sub ResetKeySkills()
         Dim curPilot As EveHQ.Core.Pilot
-        For Each curPilot In EveHQ.Core.HQ.Pilots
+        For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             For keyskill As Integer = 0 To curPilot.KeySkills.GetUpperBound(0)
                 curPilot.KeySkills(keyskill) = "0"
             Next
@@ -396,7 +398,7 @@ Public Class PilotParseFunctions
             .lstStatus.Items.Clear()
 
             Dim CurrentAccount As New EveAccount
-            For Each CurrentAccount In EveHQ.Core.HQ.Accounts
+            For Each CurrentAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
                 Dim newLine As New ListViewItem
                 newLine.Name = "A" & CurrentAccount.userID
                 newLine.Text = "Enumerating Account '" & CurrentAccount.FriendlyName & "' (ID=" & CurrentAccount.userID & ")"
@@ -430,9 +432,12 @@ Public Class PilotParseFunctions
             Next
 
             Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
+            Dim cXML, tXML As New XmlDocument
             For Each currentPilot In EveHQ.Core.HQ.TPilots
-                Call ParsePilotSkills(currentPilot)
-                Call ParsePilotXML(currentPilot)
+                cXML.Load(EveHQ.Core.HQ.cacheFolder & "\c" & currentPilot.ID & ".xml")
+                tXML.Load(EveHQ.Core.HQ.cacheFolder & "\t" & currentPilot.ID & ".xml")
+                Call ParsePilotSkills(currentPilot, cXML)
+                Call ParsePilotXML(currentPilot, cXML, tXML)
                 Call BuildAttributeData(currentPilot)
             Next
             Call CopyTempPilotsToMain()
@@ -548,8 +553,8 @@ Public Class PilotParseFunctions
             newPilot.AccountPosition = CStr(curr_toon)
             newPilot.Account = cAccount.userID
             ' Check if the pilot already exists and whether the cache expiration time has passed
-            If EveHQ.Core.HQ.Pilots.Contains(newPilot.Name) = True Then
-                Dim cachePilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(newPilot.Name), Pilot)
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(newPilot.Name) = True Then
+                Dim cachePilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(newPilot.Name), Pilot)
                 Dim cacheDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.CacheExpirationTime)
                 If cacheDate < Now Then
                     ' Ok to download!
@@ -563,7 +568,7 @@ Public Class PilotParseFunctions
         ' Check if we have any old pilots that the account does not have anymore
         Dim oldPilots As String = ""
         Dim oldPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        For Each oldPilot In EveHQ.Core.HQ.Pilots
+        For Each oldPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If oldPilot.Account = cAccount.userID Then
                 Dim validPilot As Boolean = False
                 For Each toon In charlist
@@ -599,6 +604,7 @@ Public Class PilotParseFunctions
         Dim RemoteURL As String
         Dim request As HttpWebRequest
         Dim cPilot, nPilot As New EveHQ.Core.Pilot
+        Dim XMLDoc As New XmlDocument
 
         ' Determine if we use the APIRS or CCP API Server
         Dim APIServer As String = ""
@@ -656,9 +662,9 @@ Public Class PilotParseFunctions
                     webdata = readStream.ReadToEnd()
                     'MessageBox.Show(webdata)
                     ' Save the response in the pilotdata area for later retrieval
-                    cPilot.PilotData.LoadXml(webdata)
+                    XMLDoc.LoadXml(webdata)
                     ' Also save a copy in the cache folder for later retrievel
-                    cPilot.PilotData.Save(EveHQ.Core.HQ.cacheFolder & "\c" & cPilot.ID & ".xml")
+                    XMLDoc.Save(EveHQ.Core.HQ.cacheFolder & "\c" & cPilot.ID & ".xml")
                     ' Close the connections
                     response.Close()
                     readStream.Close()
@@ -711,9 +717,9 @@ Public Class PilotParseFunctions
                     Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
                     webdata = readStream.ReadToEnd()
                     ' Save the response in the pilotdata area for later retrieval
-                    cPilot.PilotTrainingData.LoadXml(webdata)
+                    XMLDoc.LoadXml(webdata)
                     ' Also save a copy in the cache folder for later retrievel
-                    cPilot.PilotTrainingData.Save(EveHQ.Core.HQ.cacheFolder & "\t" & cPilot.ID & ".xml")
+                    XMLDoc.Save(EveHQ.Core.HQ.cacheFolder & "\t" & cPilot.ID & ".xml")
                     ' Close the connections
                     response.Close()
                     readStream.Close()
@@ -728,18 +734,18 @@ Public Class PilotParseFunctions
         Next
 
     End Sub                 'GetPilotInfo
-    Private Shared Sub ParsePilotXML(ByRef cPilot As EveHQ.Core.Pilot)
+    Private Shared Sub ParsePilotXML(ByRef cPilot As EveHQ.Core.Pilot, ByVal CXMLDoc As XmlDocument, ByVal TXMLDoc As XmlDocument)
 
         Dim CharDetails As XmlNodeList
         Dim toon As XmlNode
         Dim curr_toon As Integer = 0
         Dim toonNo As Integer = 0
 
-        Dim name As XmlNodeList = cPilot.PilotData.GetElementsByTagName("name")
+        Dim name As XmlNodeList = CXMLDoc.GetElementsByTagName("name")
         'MessageBox.Show(name(0).InnerXml)
 
         Dim nPilot As New EveHQ.Core.Pilot
-        CharDetails = cPilot.PilotData.SelectNodes("/eveapi/result")
+        CharDetails = CXMLDoc.SelectNodes("/eveapi/result")
         toon = CharDetails(toonNo)
         ' Get the Pilot name & charID in the character node
         With cPilot
@@ -759,7 +765,7 @@ Public Class PilotParseFunctions
         End With
 
         ' Get the implant details
-        CharDetails = cPilot.PilotData.SelectNodes("/eveapi/result/attributeEnhancers")
+        CharDetails = CXMLDoc.SelectNodes("/eveapi/result/attributeEnhancers")
         ' Get the relevant node!
         toon = CharDetails(0)       ' This is zero because there is only 1 occurence of the attributeEnhancers node in each XML doc
         If toon.HasChildNodes Then
@@ -796,7 +802,7 @@ Public Class PilotParseFunctions
         End If
 
         ' Get the attribute details
-        CharDetails = cPilot.PilotData.SelectNodes("/eveapi/result/attributes")
+        CharDetails = CXMLDoc.SelectNodes("/eveapi/result/attributes")
         ' Get the relevant node!
         toon = CharDetails(0)       ' This is zero because there is only 1 occurence of the attributes node in each XML doc
         If toon.HasChildNodes Then
@@ -817,13 +823,13 @@ Public Class PilotParseFunctions
         End If
 
         ' Get Cache details
-        CharDetails = cPilot.PilotData.SelectNodes("/eveapi")
+        CharDetails = CXMLDoc.SelectNodes("/eveapi")
         cPilot.CacheFileTime = CDate(CharDetails(0).ChildNodes(0).InnerText)
         cPilot.CacheExpirationTime = CDate(CharDetails(0).ChildNodes(2).InnerText)
 
         ' Get the training details
-        If cPilot.PilotTrainingData IsNot Nothing Then
-            CharDetails = cPilot.PilotTrainingData.SelectNodes("/eveapi/result")
+        If TXMLDoc IsNot Nothing Then
+            CharDetails = TXMLDoc.SelectNodes("/eveapi/result")
             ' Check if a training file has been loaded!
             If CharDetails.Count <> 0 Then
                 ' Get the relevant node!
@@ -859,7 +865,7 @@ Public Class PilotParseFunctions
         'Next
 
     End Sub                'ParsePilotXML
-    Private Shared Sub ParsePilotSkills(ByRef cPilot As EveHQ.Core.Pilot)
+    Private Shared Sub ParsePilotSkills(ByRef cPilot As EveHQ.Core.Pilot, ByVal XMLDoc As XmlDocument)
         Dim CharDetails As XmlNodeList
         Dim toon As XmlNode
         Dim sp As Integer = 0
@@ -867,7 +873,7 @@ Public Class PilotParseFunctions
         cPilot.PilotSkills.Clear()
 
         ' Start new nodelist
-        CharDetails = cPilot.PilotData.SelectNodes("/eveapi/result/rowset")
+        CharDetails = XMLDoc.SelectNodes("/eveapi/result/rowset")
         For section As Integer = 0 To CharDetails.Count - 1
             Select Case CharDetails(section).Attributes.GetNamedItem("name").Value
                 Case "skills"
@@ -996,23 +1002,21 @@ Public Class PilotParseFunctions
                 Dim newPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
                 newPilot.Name = pilotName
                 newPilot.ID = pilotID
-                newPilot.PilotData = pilotXML
-                newPilot.PilotTrainingData = pilotTXML
                 newPilot.Account = ""
                 newPilot.AccountPosition = "0"
                 newPilot.Updated = True
                 EveHQ.Core.HQ.TPilots.Clear()
                 EveHQ.Core.HQ.TPilots.Add(newPilot)
 
-                newPilot.PilotData.Save(EveHQ.Core.HQ.cacheFolder & "\c" & newPilot.ID & ".xml")
+                pilotXML.Save(EveHQ.Core.HQ.cacheFolder & "\c" & newPilot.ID & ".xml")
                 If pilotTXML IsNot Nothing Then
-                    newPilot.PilotTrainingData.Save(EveHQ.Core.HQ.cacheFolder & "\t" & newPilot.ID & ".xml")
+                    pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\t" & newPilot.ID & ".xml")
                 End If
 
                 Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
                 For Each currentPilot In EveHQ.Core.HQ.TPilots
-                    Call EveHQ.Core.PilotParseFunctions.ParsePilotSkills(currentPilot)
-                    Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot)
+                    Call EveHQ.Core.PilotParseFunctions.ParsePilotSkills(currentPilot, pilotXML)
+                    Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot, pilotXML, pilotTXML)
                     Call EveHQ.Core.PilotParseFunctions.BuildAttributeData(currentPilot)
                     Call EveHQ.Core.PilotParseFunctions.CopyTempPilotsToMain()
                 Next
@@ -1074,7 +1078,7 @@ Public Class PilotParseFunctions
                         pilotID = CharDetails(toonNo).ChildNodes(0).InnerText
                         pilotName = CharDetails(toonNo).ChildNodes(1).InnerText
                         ' Check if this pilot already exists
-                        If EveHQ.Core.HQ.Pilots.Contains(pilotName) = True Then
+                        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(pilotName) = True Then
                             reply = MessageBox.Show("This pilot already exists, would you like to update the pilot?", "Update Pilot?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                             If reply = Windows.Forms.DialogResult.No Then
                                 Exit Sub
@@ -1093,24 +1097,22 @@ Public Class PilotParseFunctions
                 Dim newPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
                 newPilot.Name = pilotName
                 newPilot.ID = pilotID
-                newPilot.PilotData = pilotXML
-                newPilot.PilotTrainingData = pilotTXML
                 newPilot.Account = ""
                 newPilot.AccountPosition = "0"
                 EveHQ.Core.HQ.TPilots.Clear()
                 EveHQ.Core.HQ.TPilots.Add(newPilot)
 
-                newPilot.PilotData.Save(EveHQ.Core.HQ.cacheFolder & "\c" & newPilot.ID & ".xml")
+                pilotXML.Save(EveHQ.Core.HQ.cacheFolder & "\c" & newPilot.ID & ".xml")
                 If pilotTXML IsNot Nothing Then
                     If pilotTXML.InnerText <> "" Then
-                        newPilot.PilotTrainingData.Save(EveHQ.Core.HQ.cacheFolder & "\t" & newPilot.ID & ".xml")
+                        pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\t" & newPilot.ID & ".xml")
                     End If
                 End If
 
                 Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
                 For Each currentPilot In EveHQ.Core.HQ.TPilots
-                    Call EveHQ.Core.PilotParseFunctions.ParsePilotSkills(currentPilot)
-                    Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot)
+                    Call EveHQ.Core.PilotParseFunctions.ParsePilotSkills(currentPilot, pilotXML)
+                    Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot, pilotXML, pilotTXML)
                     Call EveHQ.Core.PilotParseFunctions.BuildAttributeData(currentPilot)
                     Call EveHQ.Core.PilotParseFunctions.CopyTempPilotsToMain()
                 Next
@@ -1193,15 +1195,6 @@ Public Class PilotParseFunctions
         Loop Until Retry = False
         Return pilotXML
     End Function
-    Public Shared Sub ImportWebPilot()
-        Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        For Each currentPilot In EveHQ.Core.HQ.TPilots
-            Call EveHQ.Core.PilotParseFunctions.ParsePilotSkills(currentPilot)
-            Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot)
-            Call EveHQ.Core.PilotParseFunctions.BuildAttributeData(currentPilot)
-        Next
-        Call EveHQ.Core.PilotParseFunctions.CopyTempPilotsToMain()
-    End Sub
     Public Shared Sub SwitchImplants()
         ' Decide whether to use Auto or Manual Implants
         If EveHQ.Core.HQ.myPilot.UseManualImplants = True Then

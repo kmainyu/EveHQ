@@ -133,7 +133,7 @@ Public Class APIRS
                                     Case APIRSResponseTypes.ValidResponse
                                         Dim userID As String = postData("userid").ToString
                                         Dim APIKey As String = postData("apikey").ToString
-                                        Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts(userID), EveAccount)
+                                        Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(userID), EveAccount)
                                         Dim APIXML As New XmlDocument
                                         APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Characters, aAccount)
                                         responseString = APIXML.InnerXml
@@ -158,7 +158,7 @@ Public Class APIRS
                                         If postData.Contains("beforetransid") = True Then
                                             beforeTransID = postData("beforetransid").ToString
                                         End If
-                                        Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts(userID), EveAccount)
+                                        Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(userID), EveAccount)
                                         Dim APIXML As New XmlDocument
                                         Select Case context.Request.Url.AbsolutePath.ToUpper
                                             Case "CHAR/ACCOUNTBALANCE.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
@@ -219,7 +219,7 @@ Public Class APIRS
                                         Dim APIKey As String = postData("apikey").ToString
                                         Dim charID As String = postData("charid").ToString
                                         Dim itemID As Integer = CInt(postData("itemID").ToString)
-                                        Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts(userID), EveAccount)
+                                        Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(userID), EveAccount)
                                         Dim APIXML As New XmlDocument
                                         APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.POSDetails, aAccount, charID, itemID)
                                         responseString = APIXML.InnerXml
@@ -249,7 +249,7 @@ Public Class APIRS
                                         If postData.Contains("beforerefid") = True Then
                                             beforeRefID = postData("beforerefid").ToString
                                         End If
-                                        Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts(userID), EveAccount)
+                                        Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(userID), EveAccount)
                                         Dim APIXML As New XmlDocument
                                         Select Case context.Request.Url.AbsolutePath.ToUpper
                                             Case "CHAR/WALLETJOURNAL.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
@@ -319,9 +319,9 @@ Public Class APIRS
             Dim userID As String = postData("userid").ToString
             Dim APIKey As String = postData("apikey").ToString
             ' Check for a matching account
-            If EveHQ.Core.HQ.Accounts.Contains(userID) = True Then
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(userID) = True Then
                 ' Check for a matching API Key
-                Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts(userID), EveAccount)
+                Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(userID), EveAccount)
                 If APIKey = aAccount.APIKey Then
                     Return APIRSResponseTypes.ValidResponse
                 Else
@@ -340,12 +340,12 @@ Public Class APIRS
             Dim APIKey As String = postData("apikey").ToString
             Dim charID As String = postData("characterid").ToString
             ' Check for a matching account
-            If EveHQ.Core.HQ.Accounts.Contains(userID) = True Then
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(userID) = True Then
                 ' Check for a matching API Key
-                Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts(userID), EveAccount)
+                Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(userID), EveAccount)
                 If APIKey = aAccount.APIKey Then
                     ' Check for a character on this account
-                    For Each aPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+                    For Each aPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                         If aPilot.ID = charID Then
                             If aPilot.Account = userID Then
                                 Return APIRSResponseTypes.ValidResponse
@@ -371,12 +371,12 @@ Public Class APIRS
             Dim charID As String = postData("characterid").ToString
             Dim accountKey As Integer = CInt(postData("accountkey").ToString)
             ' Check for a matching account
-            If EveHQ.Core.HQ.Accounts.Contains(userID) = True Then
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(userID) = True Then
                 ' Check for a matching API Key
-                Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts(userID), EveAccount)
+                Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(userID), EveAccount)
                 If APIKey = aAccount.APIKey Then
                     ' Check for a character on this account
-                    For Each aPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+                    For Each aPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                         If aPilot.ID = charID Then
                             If aPilot.Account = userID Then
                                 If accountKey < 1000 Or accountKey > 1006 Then
@@ -406,12 +406,12 @@ Public Class APIRS
             Dim charID As String = postData("characterid").ToString
             Dim itemID As Integer = CInt(postData("itemID").ToString)
             ' Check for a matching account
-            If EveHQ.Core.HQ.Accounts.Contains(userID) = True Then
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(userID) = True Then
                 ' Check for a matching API Key
-                Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts(userID), EveAccount)
+                Dim aAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(userID), EveAccount)
                 If APIKey = aAccount.APIKey Then
                     ' Check for a character on this account
-                    For Each aPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+                    For Each aPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                         If aPilot.ID = charID Then
                             If aPilot.Account = userID Then
                                 Return APIRSResponseTypes.ValidResponse

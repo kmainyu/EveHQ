@@ -35,8 +35,8 @@ Public Class frmTrainingInfo
         If tmrAccount.Enabled = False Then
             tmrAccount.Enabled = True
         End If
-        If displayPilot > 0 And displayPilot <= EveHQ.Core.HQ.Pilots.Count Then
-            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots.Item(displayPilot), Core.Pilot)
+        If displayPilot > 0 And displayPilot <= EveHQ.Core.HQ.EveHQSettings.Pilots.Count Then
+            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots.Item(displayPilot), Core.Pilot)
             If pbPilot.Image Is Nothing Then
                 Dim imgFilename As String = EveHQ.Core.HQ.cacheFolder & "\i" & cpilot.ID & ".png"
                 If My.Computer.FileSystem.FileExists(imgFilename) = True Then
@@ -70,10 +70,10 @@ Public Class frmTrainingInfo
         Dim cpilot As EveHQ.Core.Pilot
         Do
             displayPilot += 1
-            If displayPilot > EveHQ.Core.HQ.Pilots.Count Then
+            If displayPilot > EveHQ.Core.HQ.EveHQSettings.Pilots.Count Then
                 displayPilot = 1
             End If
-            cpilot = CType(EveHQ.Core.HQ.Pilots.Item(displayPilot), Core.Pilot)
+            cpilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots.Item(displayPilot), Core.Pilot)
         Loop Until cpilot.Active = True
         updateRequired = True
         lblPilot.Text = cpilot.Name

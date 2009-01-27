@@ -65,7 +65,7 @@ Public Class frmPilotManager
 
         ' Add the current list of pilots to the combobox
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             cboPilots.Items.Add(cPilot.Name)
         Next
 
@@ -115,9 +115,9 @@ Public Class frmPilotManager
     End Sub
     Private Sub DisplayPilotSkills(ByVal ShowOnlyModified As Boolean)
         ' Loads the pilot skills - both defaults and revised
-        If EveHQ.Core.HQ.Pilots.Contains(currentPilotName) = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(currentPilotName) = True Then
             ' Get Core pilot
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(currentPilotName), Core.Pilot)
+            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentPilotName), Core.Pilot)
             ' Get HQF pilot
             Dim hSkill As HQFSkill
             ' Display the skill groups

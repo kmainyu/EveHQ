@@ -34,7 +34,7 @@ Public Class frmModifyEveAccounts
         If Me.Tag.ToString = "Add" Then
             ' Add the account to the accounts collection
             ' First check if the account already exists
-            If EveHQ.Core.HQ.Accounts.Contains(txtUserID.Text) Then
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(txtUserID.Text) Then
                 Dim reply As Integer = MessageBox.Show("Account name " & txtUserID.Text & " already exists in EveHQ! Would you like to try another Account name?", "Error Creating Account", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                 If reply = Windows.Forms.DialogResult.Retry Then
                     Exit Sub
@@ -47,10 +47,10 @@ Public Class frmModifyEveAccounts
             newAccount.userID = txtUserID.Text
             newAccount.APIKey = txtAPIKey.Text
             newAccount.FriendlyName = txtAccountName.Text
-            EveHQ.Core.HQ.Accounts.Add(newAccount, newAccount.userID)
+            EveHQ.Core.HQ.EveHQSettings.Accounts.Add(newAccount, newAccount.userID)
         Else
             ' Fetch the account from the collection
-            Dim newAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts(txtUserID.Text), Core.EveAccount)
+            Dim newAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(txtUserID.Text), Core.EveAccount)
             ' Change the password on the account
             newAccount.APIKey = txtAPIKey.Text
             newAccount.FriendlyName = txtAccountName.Text

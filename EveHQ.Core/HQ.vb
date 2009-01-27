@@ -22,12 +22,9 @@ Imports System.Windows.Forms
 Public Class HQ
 
     Public Shared MainForm As Form
-    Public Shared PlugIns As SortedList = New SortedList
-    Public Shared Accounts As Collection = New Collection
     Public Shared logonCookie As New System.Net.CookieContainer
     Public Shared logonSID As String
     Public Shared TAccounts As Collection = New Collection
-    Public Shared Pilots As Collection = New Collection
     Public Shared TPilots As Collection = New Collection
     Public Shared EveHQSettings As EveSettings = New EveSettings
     Public Shared myPilot As New EveHQ.Core.Pilot
@@ -56,7 +53,6 @@ Public Class HQ
     Public Shared dataError As String = ""
     Public Shared IGBActive As Boolean = False
     Public Shared APIRSActive As Boolean = False
-    Public Shared FTPAccounts As Collection = New Collection
     Public Shared TFTPAccounts As Collection = New Collection
     Public Shared MineralPrices(8) As Double
     Public Shared logonStatus As Integer = 0

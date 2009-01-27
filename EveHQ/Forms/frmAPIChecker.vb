@@ -19,7 +19,7 @@ Public Class frmAPIChecker
         ' Load up account characters into the character combo
         cboCharacter.BeginUpdate()
         cboCharacter.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Account <> "" Then
                 cboCharacter.Items.Add(cPilot.Name)
             End If
@@ -138,9 +138,9 @@ Public Class frmAPIChecker
                 MessageBox.Show("You must select a character to retrieve the requested API.", "Additional Info Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-            selpilot = CType(EveHQ.Core.HQ.Pilots(cboCharacter.SelectedItem.ToString), Core.Pilot)
+            selpilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboCharacter.SelectedItem.ToString), Core.Pilot)
             Dim accountName As String = selpilot.Account
-            pilotAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            pilotAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
         End If
         If APIStyle = 7 Then
             If cboAccount.SelectedItem Is Nothing Then

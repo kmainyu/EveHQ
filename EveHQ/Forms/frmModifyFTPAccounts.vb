@@ -39,7 +39,7 @@ Public Class frmModifyFTPAccounts
         If btnAccept.Text = "Add" Then
             ' Add the account to the accounts collection
             ' First check if the account already exists
-            If EveHQ.Core.HQ.FTPAccounts.Contains(txtFTPName.Text) Then
+            If EveHQ.Core.HQ.EveHQSettings.FTPAccounts.Contains(txtFTPName.Text) Then
                 Dim reply As Integer = MessageBox.Show("Account name '" & txtFTPName.Text & "' already exists! Would you like to try another Account name?", "Error Creating Account", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                 If reply = Windows.Forms.DialogResult.Retry Then
                     Exit Sub
@@ -55,10 +55,10 @@ Public Class frmModifyFTPAccounts
             newAccount.Path = txtPath.Text
             newAccount.Username = txtUsername.Text
             newAccount.Password = txtPassword.Text
-            EveHQ.Core.HQ.FTPAccounts.Add(newAccount, newAccount.FTPName)
+            EveHQ.Core.HQ.EveHQSettings.FTPAccounts.Add(newAccount, newAccount.FTPName)
         Else
             ' Fetch the account from the collection
-            Dim newAccount As EveHQ.Core.FTPAccount = CType(EveHQ.Core.HQ.FTPAccounts(txtFTPName.Text), Core.FTPAccount)
+            Dim newAccount As EveHQ.Core.FTPAccount = CType(EveHQ.Core.HQ.EveHQSettings.FTPAccounts(txtFTPName.Text), Core.FTPAccount)
             ' Change the password on the account
             newAccount.Server = txtServer.Text
             newAccount.Port = CInt(txtPort.Value)

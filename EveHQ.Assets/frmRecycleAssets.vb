@@ -74,7 +74,7 @@ Public Class frmRecycleAssets
 
         ' Load the characters into the combobox
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -139,7 +139,7 @@ Public Class frmRecycleAssets
         Dim RecycleResults As New SortedList
         Dim RecycleWaste As New SortedList
         Dim RecycleTake As New SortedList
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
         For Each asset As String In cAssetList.Keys
             itemInfo = CType(PlugInData.Items(asset), ItemData)
             If itemInfo.Category = 25 Then
@@ -269,7 +269,7 @@ Public Class frmRecycleAssets
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
         If chkPerfectRefine.Checked = True Then
             NetYield = 1
         Else
@@ -293,7 +293,7 @@ Public Class frmRecycleAssets
     Private Function GetStanding(ByVal pilotName As String, ByVal corpID As String) As Double
         ' Check for the existence of the CorpHQ plug-in and try and get the standing data
         Dim PluginName As String = "CorpHQ"
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(PluginName), Core.PlugIn)
+        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
         If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
             Dim PlugInData As New ArrayList
             PlugInData.Add(pilotName)
@@ -316,7 +316,7 @@ Public Class frmRecycleAssets
             BaseYield = StationYield
         End If
         lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
         NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
         lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         Call Me.RecalcRecycling()
@@ -326,7 +326,7 @@ Public Class frmRecycleAssets
         If chkOverrideBaseYield.Checked = True Then
             BaseYield = CDbl(nudBaseYield.Value) / 100
             lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
             lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
             Call Me.RecalcRecycling()
@@ -367,7 +367,7 @@ Public Class frmRecycleAssets
         If chkPerfectRefine.Checked = True Then
             NetYield = 1
         Else
-            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
         End If
         lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
@@ -388,7 +388,7 @@ Public Class frmRecycleAssets
                 If chkPerfectRefine.Checked = True Then
                     NetYield = 1
                 Else
-                    Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+                    Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
                     NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
                 End If
                 lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"

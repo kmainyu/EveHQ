@@ -158,7 +158,7 @@ Public Class frmMap
 
     Private Sub LoadPilots()
         Me.cboPilot.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Active = True Then
                 Me.cboPilot.Items.Add(cPilot.Name)
             End If
@@ -611,7 +611,7 @@ Public Class frmMap
         End If
     End Sub
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
-        csPilot = CType(EveHQ.Core.HQ.Pilots.Item(cboPilot.SelectedItem), Core.Pilot)
+        csPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots.Item(cboPilot.SelectedItem), Core.Pilot)
         Call Me.LoadJDC()
         Call Me.LoadJFC()
     End Sub

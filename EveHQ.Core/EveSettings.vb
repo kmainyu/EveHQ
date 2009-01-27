@@ -12,6 +12,10 @@ Imports System.Web
 Imports System.Runtime.Serialization.Formatters.Binary
 
 <Serializable()> Public Class EveSettings
+    Private cAccounts As New Collection
+    Private cPilots As New Collection
+    Private cPlugins As New SortedList
+    Private cFTPAccounts As New Collection
     Private cIGBPort As Integer = 26001
     Private cIGBAutoStart As Boolean = True
     Private cAutoStart As Boolean = False
@@ -1193,16 +1197,48 @@ Imports System.Runtime.Serialization.Formatters.Binary
             cDBSQLSecurity = value
         End Set
     End Property
+    Public Property Accounts() As Collection
+        Get
+            Return cAccounts
+        End Get
+        Set(ByVal value As Collection)
+            cAccounts = value
+        End Set
+    End Property
+    Public Property Plugins() As SortedList
+        Get
+            Return cPlugins
+        End Get
+        Set(ByVal value As SortedList)
+            cPlugins = value
+        End Set
+    End Property
+    Public Property Pilots() As Collection
+        Get
+            Return cPilots
+        End Get
+        Set(ByVal value As Collection)
+            cPilots = value
+        End Set
+    End Property
+    Public Property FTPAccounts() As Collection
+        Get
+            Return cFTPAccounts
+        End Get
+        Set(ByVal value As Collection)
+            cFTPAccounts = value
+        End Set
+    End Property
 End Class
 
 Public Class EveHQSettingsFunctions
 
     Public Shared Sub SaveSettings()
-        Call SaveEveSettings()
+        Call SaveEveSettings2()
         Call SaveTraining()
     End Sub                  'SaveSettings
     Public Shared Function LoadSettings() As Boolean
-        If LoadEveSettings() = False Then
+        If LoadEveSettings2() = False Then
             Return False
             Exit Function
         End If
@@ -1346,7 +1382,7 @@ Public Class EveHQSettingsFunctions
 
         ' Save the Plug-Ins details
         XMLS &= Chr(9) & "<plugins>" & vbCrLf
-        For Each currentPlugin In EveHQ.Core.HQ.PlugIns.Values
+        For Each currentPlugin In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
             XMLS &= Chr(9) & Chr(9) & "<plugin>" & vbCrLf
             XMLS &= Chr(9) & Chr(9) & Chr(9) & "<pluginName>" & currentPlugin.Name & "</pluginName>" & vbCrLf
             XMLS &= Chr(9) & Chr(9) & Chr(9) & "<pluginDisabled>" & currentPlugin.Disabled & "</pluginDisabled>" & vbCrLf
@@ -1356,7 +1392,7 @@ Public Class EveHQSettingsFunctions
 
         ' Save Account details
         XMLS &= Chr(9) & "<accounts>" & vbCrLf
-        For Each currentAccount In EveHQ.Core.HQ.Accounts
+        For Each currentAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
             XMLS &= Chr(9) & Chr(9) & "<account>" & vbCrLf
             XMLS &= Chr(9) & Chr(9) & Chr(9) & "<userName>" & currentAccount.userID & "</userName>" & vbCrLf
             XMLS &= Chr(9) & Chr(9) & Chr(9) & "<password>" & currentAccount.APIKey & "</password>" & vbCrLf
@@ -1374,7 +1410,7 @@ Public Class EveHQSettingsFunctions
 
         ' Save EveHQ.Core.Pilot details
         XMLS &= Chr(9) & "<pilots>" & vbCrLf
-        For Each currentPilot In EveHQ.Core.HQ.Pilots
+        For Each currentPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             XMLS &= Chr(9) & Chr(9) & "<pilot>" & vbCrLf
             XMLS &= Chr(9) & Chr(9) & Chr(9) & "<pilotName>" & currentPilot.Name & "</pilotName>" & vbCrLf
             XMLS &= Chr(9) & Chr(9) & Chr(9) & "<pilotID>" & currentPilot.ID & "</pilotID>" & vbCrLf
@@ -1402,7 +1438,7 @@ Public Class EveHQSettingsFunctions
         ' Save FTP details
         XMLS &= Chr(9) & "<FTP>" & vbCrLf
         Dim myFTP As FTPAccount = New FTPAccount
-        For Each myFTP In EveHQ.Core.HQ.FTPAccounts
+        For Each myFTP In EveHQ.Core.HQ.EveHQSettings.FTPAccounts
             XMLS &= Chr(9) & Chr(9) & "<account>" & vbCrLf
             XMLS &= Chr(9) & Chr(9) & Chr(9) & "<name>" & myFTP.FTPName & "</name>" & vbCrLf
             XMLS &= Chr(9) & Chr(9) & Chr(9) & "<server>" & myFTP.Server & "</server>" & vbCrLf
@@ -1444,30 +1480,32 @@ Public Class EveHQSettingsFunctions
         Dim XMLdoc As XmlDocument = New XmlDocument
         Dim XMLS As String = ""
 
-        For Each currentPilot In EveHQ.Core.HQ.Pilots
-            XMLS = ("<?xml version=""1.0"" encoding=""iso-8859-1"" ?>") & vbCrLf
-            XMLS &= "<training>" & vbCrLf
-            For Each currentQueue In currentPilot.TrainingQueues.Values
-                XMLS &= Chr(9) & "<queue name=""" & HttpUtility.HtmlEncode(currentQueue.Name) & """ ICT=""" & currentQueue.IncCurrentTraining & """ primary=""" & currentQueue.Primary & """ >"
-                Dim mySkillQueue As EveHQ.Core.SkillQueueItem
-                For Each mySkillQueue In currentQueue.Queue
-                    XMLS &= Chr(9) & "<skill>" & vbCrLf
-                    XMLS &= Chr(9) & Chr(9) & "<skillID>" & mySkillQueue.Name & "</skillID>" & vbCrLf
-                    XMLS &= Chr(9) & Chr(9) & "<fromLevel>" & mySkillQueue.FromLevel & "</fromLevel>" & vbCrLf
-                    XMLS &= Chr(9) & Chr(9) & "<toLevel>" & mySkillQueue.ToLevel & "</toLevel>" & vbCrLf
-                    XMLS &= Chr(9) & Chr(9) & "<position>" & mySkillQueue.Pos & "</position>" & vbCrLf
-                    XMLS &= Chr(9) & "</skill>" & vbCrLf
+        For Each currentPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If currentPilot.TrainingQueues IsNot Nothing Then
+                XMLS = ("<?xml version=""1.0"" encoding=""iso-8859-1"" ?>") & vbCrLf
+                XMLS &= "<training>" & vbCrLf
+                For Each currentQueue In currentPilot.TrainingQueues.Values
+                    XMLS &= Chr(9) & "<queue name=""" & HttpUtility.HtmlEncode(currentQueue.Name) & """ ICT=""" & currentQueue.IncCurrentTraining & """ primary=""" & currentQueue.Primary & """ >"
+                    Dim mySkillQueue As EveHQ.Core.SkillQueueItem
+                    For Each mySkillQueue In currentQueue.Queue
+                        XMLS &= Chr(9) & "<skill>" & vbCrLf
+                        XMLS &= Chr(9) & Chr(9) & "<skillID>" & mySkillQueue.Name & "</skillID>" & vbCrLf
+                        XMLS &= Chr(9) & Chr(9) & "<fromLevel>" & mySkillQueue.FromLevel & "</fromLevel>" & vbCrLf
+                        XMLS &= Chr(9) & Chr(9) & "<toLevel>" & mySkillQueue.ToLevel & "</toLevel>" & vbCrLf
+                        XMLS &= Chr(9) & Chr(9) & "<position>" & mySkillQueue.Pos & "</position>" & vbCrLf
+                        XMLS &= Chr(9) & "</skill>" & vbCrLf
+                    Next
+                    XMLS &= Chr(9) & "</queue>"
                 Next
-                XMLS &= Chr(9) & "</queue>"
-            Next
-            XMLS &= "</training>" & vbCrLf
-            Try
-                XMLdoc.LoadXml(XMLS)
-                XMLdoc.Save(EveHQ.Core.HQ.dataFolder & "\Q_" & currentPilot.Name & ".xml")
-            Catch e As Exception
-                MessageBox.Show(e.Message, "Error Saving Training Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End Try
+                XMLS &= "</training>" & vbCrLf
+                Try
+                    XMLdoc.LoadXml(XMLS)
+                    XMLdoc.Save(EveHQ.Core.HQ.dataFolder & "\Q_" & currentPilot.Name & ".xml")
+                Catch e As Exception
+                    MessageBox.Show(e.Message, "Error Saving Training Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+                End Try
+            End If
         Next
     End Sub
 
@@ -1487,7 +1525,7 @@ Public Class EveHQSettingsFunctions
                 DecryptSettingsXML(XMLdoc)
             End If
 
-            EveHQ.Core.HQ.Accounts.Clear()
+            EveHQ.Core.HQ.EveHQSettings.Accounts.Clear()
             EveHQ.Core.HQ.TPilots.Clear()
 
             ' Get the account details
@@ -1505,7 +1543,7 @@ Public Class EveHQSettingsFunctions
                         Else
                             newAccount.FriendlyName = accountSettings.ChildNodes(account).ChildNodes(2).InnerText
                         End If
-                        EveHQ.Core.HQ.Accounts.Add(newAccount, newAccount.userID)
+                        EveHQ.Core.HQ.EveHQSettings.Accounts.Add(newAccount, newAccount.userID)
                     Next
                 End If
             Catch
@@ -1522,7 +1560,7 @@ Public Class EveHQSettingsFunctions
                         newPlugin.Name = accountSettings.ChildNodes(account).ChildNodes(0).InnerText
                         newPlugin.Disabled = CBool(accountSettings.ChildNodes(account).ChildNodes(1).InnerText)
                         newPlugin.Available = False
-                        EveHQ.Core.HQ.PlugIns.Add(newPlugin.Name, newPlugin)
+                        EveHQ.Core.HQ.EveHQSettings.Plugins.Add(newPlugin.Name, newPlugin)
                     Next
                 End If
             Catch
@@ -1741,7 +1779,7 @@ Public Class EveHQSettingsFunctions
                             newFTP.Path = accountSettings.ChildNodes(account).ChildNodes(3).InnerText
                             newFTP.Username = accountSettings.ChildNodes(account).ChildNodes(4).InnerText
                             newFTP.Password = accountSettings.ChildNodes(account).ChildNodes(5).InnerText
-                            EveHQ.Core.HQ.FTPAccounts.Add(newFTP, newFTP.FTPName)
+                            EveHQ.Core.HQ.EveHQSettings.FTPAccounts.Add(newFTP, newFTP.FTPName)
                         Next
                     End If
                 End If
@@ -1831,8 +1869,10 @@ Public Class EveHQSettingsFunctions
         Dim trainingList, QueueList As XmlNodeList
         Dim trainingDetails, Queuedetails As XmlNode
 
-        For Each currentPilot In EveHQ.Core.HQ.Pilots
-            currentPilot.ActiveQueue.Queue.Clear()
+        For Each currentPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            currentPilot.ActiveQueue = New EveHQ.Core.SkillQueue
+            'currentPilot.ActiveQueue.Queue.Clear()
+            currentPilot.TrainingQueues = New SortedList
             currentPilot.TrainingQueues.Clear()
             currentPilot.PrimaryQueue = ""
             If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.dataFolder & "\Q_" & currentPilot.Name & ".xml") = True Then
@@ -2027,12 +2067,13 @@ Public Class EveHQSettingsFunctions
             EveHQ.Core.HQ.EveHQSettings = CType(f.Deserialize(s), EveSettings)
             s.Close()
         Else
-            Dim msg As String = ""
-            msg &= "EveHQ cannot find the settings file. The file should reside "
-            msg &= "in the application directory." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "A new settings file has been created."
-            ' Set the Queue Columns up!
-            Call ResetColumns()
+            Return LoadEveSettings()
+            'Dim msg As String = ""
+            'msg &= "EveHQ cannot find the settings file. The file should reside "
+            'msg &= "in the application directory." & ControlChars.CrLf & ControlChars.CrLf
+            'msg &= "A new settings file has been created."
+            '' Set the Queue Columns up!
+            'Call ResetColumns()
         End If
 
         ' Set the database connection string

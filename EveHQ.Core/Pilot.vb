@@ -19,7 +19,7 @@
 '=========================================================================
 Imports System.Xml
 
-Public Class Pilot
+<Serializable()> Public Class Pilot
 
     Public Name As String = ""
     Public ID As String = ""
@@ -89,15 +89,13 @@ Public Class Pilot
     Public MAttT As Double = 0
     Public PAttT As Double = 0
     Public WAttT As Double = 0
-    Public PilotData As XmlDocument = New XmlDocument
-    Public PilotTrainingData As XmlDocument = New XmlDocument
-    Public PilotSkills As Collection = New Collection
+    Public PilotSkills As New Collection
     Public Certificates As New ArrayList
     Public PrimaryQueue As String = ""
-    Public ActiveQueue As EveHQ.Core.SkillQueue = New EveHQ.Core.SkillQueue
+    Public ActiveQueue As New EveHQ.Core.SkillQueue
     Public ActiveQueueName As String = ""
-    Public TrainingQueues As SortedList = New SortedList
-    Public Blueprints As Collection = New Collection
+    Public TrainingQueues As New SortedList
+    Public Blueprints As New Collection
     Public CacheFileTime As Date
     Public CacheExpiration As Long
     Public CacheExpirationTime As Date

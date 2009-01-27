@@ -1170,8 +1170,8 @@ Public Class ShipSlotControl
                                 Next
                                 newRelSkill.DropDownItems.Add("-")
                                 Dim defaultLevel As Integer = 0
-                                If CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
-                                    defaultLevel = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                                If CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
+                                    defaultLevel = CType(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
                                 Else
                                 End If
                                 Dim newRelSkillDefault As New ToolStripMenuItem
@@ -1207,8 +1207,8 @@ Public Class ShipSlotControl
                                 Next
                                 newRelSkill.DropDownItems.Add("-")
                                 Dim defaultLevel As Integer = 0
-                                If CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
-                                    defaultLevel = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                                If CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
+                                    defaultLevel = CType(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
                                 End If
                                 Dim newRelSkillDefault As New ToolStripMenuItem
                                 newRelSkillDefault.Name = relSkill & defaultLevel.ToString
@@ -1464,7 +1464,7 @@ Public Class ShipSlotControl
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.Pilot
         If currentInfo IsNot Nothing Then
-            hPilot = CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
+            hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
         Else
             hPilot = EveHQ.Core.HQ.myPilot
         End If
@@ -1487,7 +1487,7 @@ Public Class ShipSlotControl
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.Pilot
         If currentInfo IsNot Nothing Then
-            hPilot = CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
+            hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
         Else
             hPilot = EveHQ.Core.HQ.myPilot
         End If
@@ -1575,7 +1575,7 @@ Public Class ShipSlotControl
         currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
         Call Me.UpdateSlotLocation(sModule, slotNo)
     End Sub
-  
+
 #End Region
 
 #Region "Load/Remove Charges"
@@ -1841,8 +1841,8 @@ Public Class ShipSlotControl
                         Next
                         newRelSkill.DropDownItems.Add("-")
                         Dim defaultLevel As Integer = 0
-                        If CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
-                            defaultLevel = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                        If CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
+                            defaultLevel = CType(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
                         End If
                         Dim newRelSkillDefault As New ToolStripMenuItem
                         newRelSkillDefault.Name = relSkill & defaultLevel.ToString
@@ -1872,8 +1872,8 @@ Public Class ShipSlotControl
                         Next
                         newRelSkill.DropDownItems.Add("-")
                         Dim defaultLevel As Integer = 0
-                        If CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
-                            defaultLevel = CType(CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
+                        If CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
+                            defaultLevel = CType(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.Skills).Level
                         End If
                         Dim newRelSkillDefault As New ToolStripMenuItem
                         newRelSkillDefault.Name = relSkill & defaultLevel.ToString
@@ -1939,11 +1939,11 @@ Public Class ShipSlotControl
             Dim idx As Integer = CInt(selItem.Name)
             Dim DBI As DroneBayItem = CType(fittedShip.DroneBayItems.Item(idx), DroneBayItem)
             sModule = DBI.DroneType
-        End If  
+        End If
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.Pilot
         If currentInfo IsNot Nothing Then
-            hPilot = CType(EveHQ.Core.HQ.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
+            hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
         Else
             hPilot = EveHQ.Core.HQ.myPilot
         End If
@@ -2427,7 +2427,7 @@ Public Class ShipSlotControl
         End If
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.Pilot
-        hPilot = CType(EveHQ.Core.HQ.Pilots(lvwRemoteEffects.SelectedItems(0).Name), Core.Pilot)
+        hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(lvwRemoteEffects.SelectedItems(0).Name), Core.Pilot)
         showInfo.ShowItemDetails(sModule, hPilot)
     End Sub
 
@@ -2493,7 +2493,7 @@ Public Class ShipSlotControl
             cboFCShip.Items.Add(fitting)
         Next
         ' Add the pilots
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             cboPilot.Items.Add(cPilot.Name)
             cboSCPilot.Items.Add(cPilot.Name)
             cboWCPilot.Items.Add(cPilot.Name)

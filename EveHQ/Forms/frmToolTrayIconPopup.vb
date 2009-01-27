@@ -121,7 +121,7 @@
         Dim charCount As Integer = 0
         Dim textY As Integer = 20
         AGP1.Controls.Clear()
-        For Each dPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each dPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If dPilot.Training = True Then
                 ' Add image
                 Dim pb As New PictureBox
@@ -232,13 +232,13 @@
             AGP1.Controls.Add(SisiLabel)
         End If
     End Sub
-   
+
     Private Sub AGP1_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles AGP1.Click
         Me.Close()
     End Sub
 
     Public Sub UpdateSkillTimes()
-        For Each currentPilot In EveHQ.Core.HQ.Pilots
+        For Each currentPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If currentPilot.Training = True Then
                 currentLabel = CType(AGP1.Controls(currentPilot.Name), Label)
                 currentDate = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(currentPilot.TrainingEndTime)

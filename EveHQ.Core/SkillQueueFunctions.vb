@@ -1231,7 +1231,7 @@ Public Class SkillQueueFunctions
     End Function
 End Class
 
-Public Class SkillQueueItem
+<Serializable()> Public Class SkillQueueItem
     Implements System.ICloneable
     Public Key As String
     Public Name As String
@@ -1271,7 +1271,7 @@ Public Class SortedQueue
     Public HasPrereq As Boolean
     Public Reqs As String
 End Class
-Public Class SkillQueue
+<Serializable()> Public Class SkillQueue
     Implements System.ICloneable
     Public Name As String
     Public IncCurrentTraining As Boolean = True

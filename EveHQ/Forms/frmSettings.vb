@@ -212,13 +212,13 @@ Public Class frmSettings
     Private Sub UpdateViewPilots()
         cboStartupPilot.Items.Clear()
         Dim myPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        For Each myPilot In EveHQ.Core.HQ.Pilots
+        For Each myPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If myPilot.Active = True Then
                 cboStartupPilot.Items.Add(myPilot.Name)
             End If
         Next
-        If EveHQ.Core.HQ.Pilots.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = False Then
-            If EveHQ.Core.HQ.Pilots.Count > 0 Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = False Then
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 Then
                 cboStartupPilot.SelectedIndex = 0
             End If
         Else
@@ -459,7 +459,7 @@ Public Class frmSettings
             With myAccounts
                 ' Load the account details into the text boxes
                 Dim selAccount As New EveHQ.Core.EveAccount
-                selAccount = CType(EveHQ.Core.HQ.Accounts(lvAccounts.SelectedItems(0).Name), Core.EveAccount)
+                selAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(lvAccounts.SelectedItems(0).Name), Core.EveAccount)
                 .txtUserID.Text = selAccount.userID : .txtUserID.Enabled = False
                 .txtAPIKey.Text = selAccount.APIKey : .txtAPIKey.Enabled = True
                 .txtAccountName.Text = selAccount.FriendlyName : .txtAccountName.Enabled = True
@@ -483,7 +483,7 @@ Public Class frmSettings
             ' Get the list of pilots that are affected
             Dim dPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
             Dim strPilots As String = ""
-            For Each dPilot In EveHQ.Core.HQ.Pilots
+            For Each dPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                 If dPilot.Account = selAccount Then
                     strPilots &= dPilot.Name & ControlChars.CrLf
                 End If
@@ -500,13 +500,13 @@ Public Class frmSettings
             Dim confirm As Integer = MessageBox.Show(msg, "Confirm Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If confirm = vbYes Then
                 ' Delete the account from the accounts collection
-                EveHQ.Core.HQ.Accounts.Remove(lvAccounts.SelectedItems(0).Name)
+                EveHQ.Core.HQ.EveHQSettings.Accounts.Remove(lvAccounts.SelectedItems(0).Name)
                 ' Remove the item from the list
                 lvAccounts.Items.Remove(lvAccounts.SelectedItems(0))
                 ' Remove the pilots
-                For Each dPilot In EveHQ.Core.HQ.Pilots
+                For Each dPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                     If dPilot.Account = selAccount Then
-                        EveHQ.Core.HQ.Pilots.Remove(dPilot.Name)
+                        EveHQ.Core.HQ.EveHQSettings.Pilots.Remove(dPilot.Name)
                         If dPilot.Name = EveHQ.Core.HQ.myPilot.Name Then
                             EveHQ.Core.HQ.myPilot = New EveHQ.Core.Pilot
                             Call frmPilot.UpdatePilotInfo()
@@ -530,14 +530,14 @@ Public Class frmSettings
     Public Sub UpdateAccounts()
         lvAccounts.Items.Clear()
         Dim newAccount As EveHQ.Core.EveAccount = New EveHQ.Core.EveAccount
-        For Each newAccount In EveHQ.Core.HQ.Accounts
+        For Each newAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
             Dim newLine As New ListViewItem
             newLine.Name = newAccount.userID
             newLine.Text = newAccount.FriendlyName
             newLine.SubItems.Add(newAccount.userID)
             lvAccounts.Items.Add(newLine)
         Next
-        If EveHQ.Core.HQ.Accounts.Count = 0 Then
+        If EveHQ.Core.HQ.EveHQSettings.Accounts.Count = 0 Then
             frmEveHQ.mnuToolsGetAccountInfo.Enabled = False
         Else
             frmEveHQ.mnuToolsGetAccountInfo.Enabled = True
@@ -565,7 +565,7 @@ Public Class frmSettings
 #Region "Plug-ins Settings"
     Public Sub UpdatePlugIns()
         lvwPlugins.Items.Clear()
-        For Each newPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.PlugIns.Values
+        For Each newPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
             Dim newLine As New ListViewItem
             newLine.Name = newPlugIn.Name
             newLine.Text = newPlugIn.Name & " (v" & newPlugIn.Version & ")"
@@ -606,13 +606,13 @@ Public Class frmSettings
     End Sub
     Private Sub btnTidyPlugins_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTidyPlugins.Click
         Dim removePlugIns As New ArrayList
-        For Each newPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.PlugIns.Values
+        For Each newPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
             If newPlugIn.Available = False Then
                 removePlugIns.Add(newPlugIn.Name)
             End If
         Next
         For Each Plugin As String In removePlugIns
-            EveHQ.Core.HQ.PlugIns.Remove(Plugin)
+            EveHQ.Core.HQ.EveHQSettings.Plugins.Remove(Plugin)
         Next
         Call Me.UpdatePlugIns()
     End Sub
@@ -621,7 +621,7 @@ Public Class frmSettings
     End Sub
     Private Sub lvwPlugins_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwPlugins.ItemChecked
         Dim pluginName As String = e.Item.Name
-        Dim plugin As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(pluginName), Core.PlugIn)
+        Dim plugin As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(pluginName), Core.PlugIn)
         If e.Item.Checked = True Then
             plugin.Disabled = False
         Else
@@ -653,7 +653,7 @@ Public Class frmSettings
     Public Sub UpdatePilots()
         lvwPilots.Items.Clear()
         Dim newPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        For Each newPilot In EveHQ.Core.HQ.Pilots
+        For Each newPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim newLine As New ListViewItem
             newLine.Text = newPilot.Name
             newLine.SubItems.Add(newPilot.ID)
@@ -687,7 +687,7 @@ Public Class frmSettings
             Dim confirm As Integer = MessageBox.Show(strMsg, "Confirm Pilot Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If confirm = vbYes Then
                 ' Delete the account from the accounts collection
-                EveHQ.Core.HQ.Pilots.Remove(selPilot)
+                EveHQ.Core.HQ.EveHQSettings.Pilots.Remove(selPilot)
                 ' Update the settings view
                 Call Me.UpdatePilots()
                 ' Update the list of pilots in the main form
@@ -714,7 +714,7 @@ Public Class frmSettings
     Private Sub lvwPilots_ItemCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles lvwPilots.ItemCheck
         Dim pilotIndex As Integer = e.Index
         Dim newpilot As New EveHQ.Core.Pilot
-        newpilot = CType(EveHQ.Core.HQ.Pilots(lvwPilots.Items(pilotIndex).Text), Core.Pilot)
+        newpilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(lvwPilots.Items(pilotIndex).Text), Core.Pilot)
         If lvwPilots.Items(pilotIndex).Checked = False Then
             newpilot.Active = True
         Else
@@ -782,7 +782,7 @@ Public Class frmSettings
             With myFTPAccounts
                 ' Load the account details into the text boxes
                 Dim selAccount As New EveHQ.Core.FTPAccount
-                selAccount = CType(EveHQ.Core.HQ.FTPAccounts(lvwFTP.SelectedItems(0).Text), Core.FTPAccount)
+                selAccount = CType(EveHQ.Core.HQ.EveHQSettings.FTPAccounts(lvwFTP.SelectedItems(0).Text), Core.FTPAccount)
                 .txtFTPName.Text = selAccount.FTPName : .txtFTPName.Enabled = False
                 .txtServer.Text = selAccount.Server : .txtServer.Enabled = True
                 .txtPort.Value = selAccount.Port : .txtPort.Enabled = True
@@ -811,7 +811,7 @@ Public Class frmSettings
             Dim confirm As Integer = MessageBox.Show(msg, "Confirm Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If confirm = vbYes Then
                 ' Delete the account from the accounts collection
-                EveHQ.Core.HQ.FTPAccounts.Remove(lvwFTP.SelectedItems(0).Text)
+                EveHQ.Core.HQ.EveHQSettings.FTPAccounts.Remove(lvwFTP.SelectedItems(0).Text)
                 ' Remove the item from the list
                 lvwFTP.Items.Remove(lvwFTP.SelectedItems(0))
             Else
@@ -824,7 +824,7 @@ Public Class frmSettings
     Public Sub UpdateFTPAccounts()
         lvwFTP.Items.Clear()
         Dim newAccount As EveHQ.Core.FTPAccount = New EveHQ.Core.FTPAccount
-        For Each newAccount In EveHQ.Core.HQ.FTPAccounts
+        For Each newAccount In EveHQ.Core.HQ.EveHQSettings.FTPAccounts
             Dim newFTP As ListViewItem = New ListViewItem
             newFTP.Text = newAccount.FTPName
             newFTP.SubItems.Add(newAccount.Server)
@@ -840,7 +840,7 @@ Public Class frmSettings
 
         ' Load the account details into the text boxes
         Dim selAccount As New EveHQ.Core.FTPAccount
-        selAccount = CType(EveHQ.Core.HQ.FTPAccounts(lvwFTP.SelectedItems(0).Text), Core.FTPAccount)
+        selAccount = CType(EveHQ.Core.HQ.EveHQSettings.FTPAccounts(lvwFTP.SelectedItems(0).Text), Core.FTPAccount)
 
         Dim fileName As String = "CharSheet (Vessper).html"
         Dim localPath As String = EveHQ.Core.HQ.reportFolder
@@ -1358,7 +1358,7 @@ Public Class frmSettings
     End Sub
     Private Sub trackServerOffset_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles trackServerOffset.ValueChanged
         EveHQ.Core.HQ.EveHQSettings.ServerOffset = trackServerOffset.Value
-        For Each newPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each newPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             newPilot.TrainingEndTime = newPilot.TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
             newPilot.TrainingStartTime = newPilot.TrainingStartTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
         Next

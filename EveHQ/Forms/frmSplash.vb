@@ -309,18 +309,18 @@ Public Class frmSplash
                             EveHQPlugIn.Version = myAssembly.GetName.Version.ToString
                             EveHQPlugIn.Instance = myPlugIn
                             ' Get status of plug-ins from settings (should already exist!)
-                            If EveHQ.Core.HQ.PlugIns.Contains(EveHQPlugIn.Name) = True Then
-                                Dim oldPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(EveHQPlugIn.Name), Core.PlugIn)
+                            If EveHQ.Core.HQ.EveHQSettings.Plugins.Contains(EveHQPlugIn.Name) = True Then
+                                Dim oldPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(EveHQPlugIn.Name), Core.PlugIn)
                                 EveHQPlugIn.Disabled = oldPlugIn.Disabled
                                 EveHQPlugIn.Available = True
-                                EveHQ.Core.HQ.PlugIns.Remove(EveHQPlugIn.Name)
+                                EveHQ.Core.HQ.EveHQSettings.Plugins.Remove(EveHQPlugIn.Name)
                             Else
                                 ' If not listed, it must be new
                                 EveHQPlugIn.Disabled = False
                                 EveHQPlugIn.Available = True
                             End If
                             EveHQPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Uninitialised
-                            EveHQ.Core.HQ.PlugIns.Add(EveHQPlugIn.Name, EveHQPlugIn)
+                            EveHQ.Core.HQ.EveHQSettings.Plugins.Add(EveHQPlugIn.Name, EveHQPlugIn)
                         End If
                     End If
                 Next

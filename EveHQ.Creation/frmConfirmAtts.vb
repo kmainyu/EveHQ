@@ -57,7 +57,7 @@ Public Class frmConfirmAtts
             nPilot.Name = Me.txtCharName.Text
         End If
         ' Check if name exists
-        If EveHQ.Core.HQ.Pilots.Contains(nPilot.Name) = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(nPilot.Name) = True Then
             MessageBox.Show("Pilot name already exists. Please choose an alternative name.", "Pilot Already Exists", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If

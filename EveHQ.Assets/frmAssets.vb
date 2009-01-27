@@ -96,10 +96,10 @@ Public Class frmAssets
         lvwCharFilter.Items.Clear()
         Dim fileName As String = ""
         Dim assetXML As New XmlDocument
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
                 ' Check for personal assets
                 fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_14_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
@@ -264,10 +264,10 @@ Public Class frmAssets
     End Sub
     Private Sub GetCharAssets()
         ' Get Individual Assets
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim assetXML As New XmlDocument
@@ -312,10 +312,10 @@ Public Class frmAssets
     End Sub
     Private Sub GetCorpAssets()
         ' Get Corp Assets
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim assetXML As New XmlDocument
@@ -362,10 +362,10 @@ Public Class frmAssets
     End Sub
     Private Sub GetCorpSheet()
         ' Get Corp Sheet For Account/Hangar Divisions
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
                 ' Make a call to the EveHQ.Core.API to fetch the corp sheet
                 Dim corpXML As New XmlDocument
@@ -406,10 +406,10 @@ Public Class frmAssets
     End Sub
     Private Sub GetCharIsk()
         ' Get Corp Sheet For Account/Hangar Divisions
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
                 ' Make a call to the EveHQ.Core.API to fetch the corp sheet
                 Dim charXML As New XmlDocument
@@ -450,10 +450,10 @@ Public Class frmAssets
     End Sub
     Private Sub GetCorpIsk()
         ' Get Corp Sheet For Account/Hangar Divisions
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
                 ' Make a call to the EveHQ.Core.API to fetch the corp sheet
                 Dim corpXML As New XmlDocument
@@ -536,8 +536,8 @@ Public Class frmAssets
         For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
             Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(cPilot.Text), Core.Pilot)
             Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
                 ' Check for corp sheets
                 fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_19_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
@@ -579,8 +579,8 @@ Public Class frmAssets
             'Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(cboPilots.SelectedItem), Core.Pilot)
             Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(cPilot.Text), Core.Pilot)
             Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
                 Dim fileName As String = ""
                 Dim processFile As Boolean = True
                 If cPilot.Text = selPilot.Corp Then
@@ -799,9 +799,9 @@ Public Class frmAssets
                 Dim groupName As String = ""
                 Dim catIDX As Integer = 0
                 Dim catName As String = ""
-                If itemIDX <> -1 Then
-                    itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
-                    groupID = EveHQ.Core.HQ.typeGroups(itemID).ToString
+                If ItemIDX <> -1 Then
+                    itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(ItemIDX))
+                    groupID = EveHQ.Core.HQ.typeGroups(ItemID).ToString
                     catID = EveHQ.Core.HQ.groupCats(groupID).ToString
                     groupIDX = EveHQ.Core.HQ.groupList.IndexOfValue(groupID)
                     groupName = EveHQ.Core.HQ.groupList.GetKey(groupIDX).ToString
@@ -809,7 +809,7 @@ Public Class frmAssets
                     catName = EveHQ.Core.HQ.catList.GetKey(catIDX).ToString
                 Else
                     ' Can't find the item in the database
-                    itemName = "ItemID: " & itemID.ToString
+                    itemName = "ItemID: " & ItemID.ToString
                     groupID = "unknown"
                     catID = "unknown"
                     groupIDX = -1
@@ -892,8 +892,8 @@ Public Class frmAssets
         For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
             Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(cPilot.Text), Core.Pilot)
             Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
                 ' Check for corp wallets
                 If cPilot.Text = selPilot.Corp Then
@@ -1059,7 +1059,7 @@ Public Class frmAssets
 #End Region
 
 #Region "Outpost XML Retrieval and Parsing"
-    
+
     Private Sub GetOutposts()
 
         ' Make a call to the EveHQ.Core.API to fetch the assets
@@ -1083,7 +1083,7 @@ Public Class frmAssets
         End If
 
     End Sub
-  
+
 #End Region
 
 #Region "Filter, Owner and Search Routines"
@@ -1325,7 +1325,7 @@ Public Class frmAssets
     Private Sub FilterSystemValue()
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim minValue As Double
-        If Double.TryParse(txtMinSystemValue.Text, minvalue) = False Then
+        If Double.TryParse(txtMinSystemValue.Text, minValue) = False Then
             minValue = 0
         End If
         Dim cL As Integer = 0
@@ -1350,19 +1350,19 @@ Public Class frmAssets
         Do
             cLoc = pLoc.Items(cL)
             If cLoc.Items.Count = 0 Then
-                    pLoc.Items.Remove(cLoc)
+                pLoc.Items.Remove(cLoc)
                 assetList.Remove(cLoc.Tag)
                 totalAssetCount -= CLng(cLoc.SubItems(5).Text)
                 cL -= 1
             Else
                 Call FilterSystemNode(cLoc)
                 If cLoc.Items.Count = 0 Then
-                        pLoc.Items.Remove(cLoc)
+                    pLoc.Items.Remove(cLoc)
                     assetList.Remove(cLoc.Tag)
                     totalAssetCount -= CLng(cLoc.SubItems(5).Text)
                     cL -= 1
                 Else
-                        If IsNumeric(cLoc.SubItems(5).Text) = True Then
+                    If IsNumeric(cLoc.SubItems(5).Text) = True Then
                         totalAssetCount -= CLng(cLoc.SubItems(5).Text)
                     End If
                     ' Remove quantity and price information
@@ -2202,7 +2202,7 @@ Public Class frmAssets
             EditInvestment.ShowDialog()
             Call Me.ListInvestments()
             Call Me.SaveInvestments()
-            End If
+        End If
     End Sub
 
     Private Sub btnCloseInvestment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCloseInvestment.Click
@@ -2280,7 +2280,7 @@ Public Class frmAssets
         ' This routine is shit hot!!
         Dim PluginName As String = "EveHQ Item Browser"
         Dim itemID As String = mnuItemName.Tag.ToString
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.PlugIns(PluginName), Core.PlugIn)
+        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
         If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
             Dim mainTab As TabControl = CType(EveHQ.Core.HQ.MainForm.Controls("tabMDI"), TabControl)
             If mainTab.TabPages.ContainsKey(PluginName) = True Then
@@ -2391,8 +2391,8 @@ Public Class frmAssets
             ' Check in the cache folder for a valid file
             Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(owner), Core.Pilot)
             Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
                 Dim fileName As String = ""
                 If cPilot.Text = selPilot.Corp Then
                     fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_15_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
@@ -2482,7 +2482,7 @@ Public Class frmAssets
                         Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
                         Dim flagName As String = PlugInData.itemFlags(flagID).ToString
                         Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
-                        HQFShip.Add(flagName & "," & itemName & "," & quantity & "," & catid)
+                        HQFShip.Add(flagName & "," & itemName & "," & quantity & "," & catID)
                     Next
                     Exit Sub
                 Else
@@ -2765,7 +2765,7 @@ Public Class frmAssets
             End If
         End If
     End Sub
-   
+
 #End Region
 
 #Region "Rig Builder Routines"
@@ -2781,7 +2781,7 @@ Public Class frmAssets
             ' Check in the cache folder for a valid file
             Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(cPilot.Text), Core.Pilot)
             Dim accountName As String = selPilot.Account
-            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.Accounts.Item(accountName), Core.EveAccount)
+            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
             Dim fileName As String = ""
             If cPilot.Text = selPilot.Corp Then
                 fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_15_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"

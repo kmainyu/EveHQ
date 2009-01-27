@@ -1021,7 +1021,7 @@ Public Class SkillFunctions
                     Dim skillTrained As Boolean = False
                     Dim myLevel As Integer = 0
                     skillTrained = False
-                    If EveHQ.Core.HQ.Pilots.Count > 0 And rPilot.Updated = True Then
+                    If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And rPilot.Updated = True Then
                         If rPilot.PilotSkills.Contains(cSkill.Name) Then
                             Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
                             mySkill = CType(rPilot.PilotSkills(cSkill.Name), Skills)
@@ -1078,7 +1078,7 @@ Public Class SkillFunctions
                             newNode.Name = CStr(counter)
                             newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
                             ' Check if the current pilot has the skill
-                            If EveHQ.Core.HQ.Pilots.Count > 0 And rPilot.Updated = True Then
+                            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And rPilot.Updated = True Then
                                 skillTrained = False
                                 myLevel = 0
                                 If rPilot.PilotSkills.Contains(newSkill.Name) Then

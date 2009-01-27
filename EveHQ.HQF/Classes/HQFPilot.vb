@@ -79,8 +79,8 @@ End Class
     Public Shared HQFPilots As New SortedList
 
     Public Shared Sub CheckForMissingSkills(ByVal hPilot As HQFPilot)
-        If EveHQ.Core.HQ.Pilots.Contains(hPilot.PilotName) = True Then
-            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(hPilot.PilotName), Core.Pilot)
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(hPilot.PilotName) = True Then
+            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(hPilot.PilotName), Core.Pilot)
             For Each newSkill As EveHQ.Core.SkillList In EveHQ.Core.HQ.SkillListID
                 If hPilot.SkillSet.Contains(newSkill.Name) = False Then
                     ' Ooo, a new skill!
@@ -100,7 +100,7 @@ End Class
     End Sub
 
     Public Shared Sub ResetSkillsToDefault(ByVal hPilot As HQFPilot)
-        Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(hPilot.PilotName), Core.Pilot)
+        Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(hPilot.PilotName), Core.Pilot)
         hPilot.SkillSet.Clear()
         For Each newSkill As EveHQ.Core.SkillList In EveHQ.Core.HQ.SkillListID
             Dim MyHQFSkill As New HQFSkill
@@ -124,8 +124,8 @@ End Class
 
     Public Shared Sub UpdateHQFSkillsToActual(ByVal hPilot As HQFPilot)
         ' If the HQF skill < Actual, this routine makes HQF = Actual
-        If EveHQ.Core.HQ.Pilots.Contains(hPilot.PilotName) = True Then
-            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(hPilot.PilotName), Core.Pilot)
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(hPilot.PilotName) = True Then
+            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(hPilot.PilotName), Core.Pilot)
             For Each newSkill As EveHQ.Core.SkillList In EveHQ.Core.HQ.SkillListID
                 If hPilot.SkillSet.Contains(newSkill.Name) = True Then
                     Dim MyHQFSkill As HQFSkill = CType(hPilot.SkillSet(newSkill.Name), HQFSkill)

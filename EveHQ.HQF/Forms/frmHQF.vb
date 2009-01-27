@@ -263,7 +263,7 @@ Public Class frmHQF
             Call HQFPilotCollection.LoadHQFPilotData()
             ' Check we have all the available pilots!
             Dim morePilots As Boolean = False
-            For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+            For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                 If HQFPilotCollection.HQFPilots.Contains(pilot.Name) = False Then
                     ' We don't have it, so lets create one!
                     Dim newHQFPilot As New HQFPilot
@@ -294,7 +294,7 @@ Public Class frmHQF
             End If
         Else
             HQFPilotCollection.HQFPilots.Clear()
-            For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+            For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                 Dim newHQFPilot As New HQFPilot
                 newHQFPilot.PilotName = pilot.Name
                 newHQFPilot.SkillSet = New Collection
@@ -1636,7 +1636,7 @@ Public Class frmHQF
     End Sub
     Private Sub ShowFitting(ByVal fittingNode As ContainerListViewItem)
         ' Check we have some valid characters
-        If EveHQ.Core.HQ.Pilots.Count > 0 Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 Then
             ' Get the ship details
             If fittingNode.ParentItem IsNot Nothing Then
                 Dim shipName As String = fittingNode.ParentItem.Text
@@ -1736,7 +1736,7 @@ Public Class frmHQF
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.Pilot
         If currentShipInfo IsNot Nothing Then
-            hPilot = CType(EveHQ.Core.HQ.Pilots(currentShipInfo.cboPilots.SelectedItem), Core.Pilot)
+            hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentShipInfo.cboPilots.SelectedItem), Core.Pilot)
         Else
             hPilot = EveHQ.Core.HQ.myPilot
         End If

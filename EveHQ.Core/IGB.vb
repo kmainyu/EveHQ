@@ -164,7 +164,7 @@ Public Class IGB
                             Case Else
                                 ' Check if this is a plugin string
                                 Dim IGBPlugin As Boolean = False
-                                For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.PlugIns.Values
+                                For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
                                     Dim testName As String = PlugInInfo.Name.Replace(" ", "")
                                     If context.Request.Url.AbsolutePath.ToUpper.StartsWith("/" & testName.ToUpper) Then
                                         IGBPlugin = True
@@ -318,7 +318,7 @@ Public Class IGB
             End If
             strHTML &= "There are " & EveHQ.Core.HQ.myTQServer.Players & " pilots on-line (" & EveHQ.Core.HQ.mySiSiServer.Players & " on test server)<br>"
             strHTML &= "<hr><a href=/>Home</a>  |  <a href=/itemDB>Item Database</a>  |  <a href=/reports>Reports</a>  |  <a href=/headers>IGB Headers</a>"
-            For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.PlugIns.Values
+            For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
                 If PlugInInfo.RunInIGB = True Then
                     strHTML &= "  |  <a href=/" & PlugInInfo.Name.Replace(" ", "") & ">" & PlugInInfo.MainMenuText & "</a>"
                 End If
@@ -983,7 +983,7 @@ Public Class IGB
 
         Dim pilotNames As ArrayList = New ArrayList
         Dim curPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        For Each curPilot In EveHQ.Core.HQ.Pilots
+        For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If curPilot.Updated = True Then
                 pilotNames.Add(curPilot.Name)
             End If
@@ -993,7 +993,7 @@ Public Class IGB
         Dim strHTML As String = ""
         ' Step 1 - Draw the pilots drop down list
         strHTML &= "<p>Please select a Pilot and a report to view</p>"
-        If EveHQ.Core.HQ.Pilots.Count <> pilotNames.Count Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count <> pilotNames.Count Then
             strHTML &= "<p><b>EveHQ is indicating that you have pilots but they have not been updated, therefore not all pilots will be accessible here.<br><br>"
             strHTML &= "Please update your accounts and/or pilots in order to view reports on all pilots.</b></p>"
         End If
@@ -1043,7 +1043,7 @@ Public Class IGB
             repString = repString.Replace("+", " ")
             pilotString = pilotString.Replace("+", " ")
             strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString)
-            Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(pilotString), Pilot)
+            Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(pilotString), Pilot)
             Select Case repString
                 Case "Character Sheet"
                     strHTML &= EveHQ.Core.Reports.HTMLTitle("Character Sheet - " & repPilot.Name, True)
@@ -1110,7 +1110,7 @@ Public Class IGB
             pilotString = pilotString.Replace("+", " ")
             queueString = queueString.Replace("+", " ")
             strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString)
-            Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(pilotString), Pilot)
+            Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(pilotString), Pilot)
             Select Case repString
                 Case "Training Queue"
                     strHTML &= EveHQ.Core.Reports.HTMLTitle("Training Queue - " & repPilot.Name & " (" & queueString & ")", True)

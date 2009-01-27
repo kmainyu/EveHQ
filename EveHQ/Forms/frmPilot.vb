@@ -38,7 +38,7 @@ Public Class frmPilot
     Public Sub UpdatePilotInfo()
         ' Check if the pilot has had data and therefore able to be displayed properly
 
-        If EveHQ.Core.HQ.myPilot.PilotData.OuterXml <> "" Then
+        If EveHQ.Core.HQ.myPilot.PilotSkills.Count > 0 Then
 
             ' Get image from cache
             Try
@@ -531,7 +531,7 @@ Public Class frmPilot
 
 #Region "Skill Update Routine"
     Public Sub UpdateSkillInfo()
-        If EveHQ.Core.HQ.myPilot.PilotData.InnerText <> "" Then
+        If EveHQ.Core.HQ.myPilot.PilotSkills.Count <> 0 Then
             If EveHQ.Core.HQ.myPilot.Training = True Then
                 lvPilot.Items("Skill Points").SubItems(1).Text = (FormatNumber(EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, , , TriState.True))
                 If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)) = True Then
@@ -641,7 +641,7 @@ Public Class frmPilot
     End Sub
 
     Private Sub btnCharXML_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCharXML.Click
-        If EveHQ.Core.HQ.myPilot.PilotData.OuterXml = "" Then
+        If EveHQ.Core.HQ.myPilot.PilotSkills.Count = 0 Then
             MessageBox.Show("Please select the pilot whose XML you wish to view", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             Dim newReport As New frmReportViewer
@@ -651,7 +651,7 @@ Public Class frmPilot
         End If
     End Sub
     Private Sub btnTrainingXML_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTrainingXML.Click
-        If EveHQ.Core.HQ.myPilot.PilotTrainingData.OuterXml = "" Then
+        If EveHQ.Core.HQ.myPilot.PilotSkills.Count = 0 Then
             MessageBox.Show("Please select the pilot whose XML you wish to view", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             Dim newReport As New frmReportViewer

@@ -39,7 +39,7 @@ Public Class frmInEveUploader
 
         lvwPilots.Items.Clear()
         cboPilots.Items.Clear()
-        For Each uPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.Pilots
+        For Each uPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If uPilot.Active = True Then
                 Dim newLI As New ListViewItem
                 newLI.Name = uPilot.Name
@@ -66,7 +66,7 @@ Public Class frmInEveUploader
 
         For pilot As Integer = 0 To lvwPilots.Items.Count - 1
             If lvwPilots.Items(pilot).Checked = True Then
-                Dim uPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(lvwPilots.Items(pilot).Name), Core.Pilot)
+                Dim uPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(lvwPilots.Items(pilot).Name), Core.Pilot)
                 lvwPilots.Items(pilot).SubItems(1).Text = "Working..."
                 ThreadPool.QueueUserWorkItem(AddressOf Me.CreateReport, uPilot)
             Else
@@ -214,7 +214,7 @@ Public Class frmInEveUploader
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
         ' Load skill queues into listview
         lvwQueues.Items.Clear()
-        Dim uPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        Dim uPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
         For Each skillQueue As EveHQ.Core.SkillQueue In uPilot.TrainingQueues.Values
             Dim newLI As New ListViewItem
             newLI.Name = skillQueue.Name
@@ -239,7 +239,7 @@ Public Class frmInEveUploader
             lvwQueues.Items(queue).SubItems(1).Text = ""
         Next
 
-        Dim uPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        Dim uPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
         Me.queueXML = ""
         Me.queueXML = ("<?xml version=""1.0"" encoding=""iso-8859-1"" ?>") & vbCrLf
         Me.queueXML &= "<training>" & vbCrLf
