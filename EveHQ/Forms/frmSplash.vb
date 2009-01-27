@@ -147,7 +147,7 @@ Public Class frmSplash
         ' Load user settings - this is needed to work out data connection type & update requirements
         lblStatus.Text = "Loading settings..."
         Me.Refresh()
-        Do While EveHQ.Core.HQ.EveHQSettings.LoadSettings() = False
+        Do While EveHQ.Core.EveHQSettingsFunctions.LoadSettings() = False
             ' Ask if we want to check for a database
             Dim msg As String = "EveHQ was unable to load data from a Database." & ControlChars.CrLf & ControlChars.CrLf
             msg &= "If you do not select a valid Database, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf

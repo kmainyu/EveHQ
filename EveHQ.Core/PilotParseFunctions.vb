@@ -204,7 +204,7 @@ Public Class PilotParseFunctions
     Private Shared Sub CopyTempPilotsToMain()
 
         ' Save pilot specific data first!!
-        Call EveHQ.Core.HQ.EveHQSettings.SaveTraining()
+        Call EveHQ.Core.EveHQSettingsFunctions.SaveTraining()
 
         ' Copy new pilot data
         Dim oldPilot, newPilot As EveHQ.Core.Pilot
@@ -239,7 +239,7 @@ Public Class PilotParseFunctions
         Next
 
         ' Reload pilot specific data!!
-        Call EveHQ.Core.HQ.EveHQSettings.LoadTraining()
+        Call EveHQ.Core.EveHQSettingsFunctions.LoadTraining()
         ' Reload pilot key skills
         Call LoadKeySkills()
 

@@ -9,8 +9,9 @@ Imports System.Security.Cryptography
 Imports System.Security.Cryptography.Xml
 Imports System.Windows.Forms
 Imports System.Web
+Imports System.Runtime.Serialization.Formatters.Binary
 
-Public Class EveSettings
+<Serializable()> Public Class EveSettings
     Private cIGBPort As Integer = 26001
     Private cIGBAutoStart As Boolean = True
     Private cAutoStart As Boolean = False
@@ -126,7 +127,106 @@ Public Class EveSettings
     Private cDBTimeout As Integer = 30
     Private cDBDataFilename As String = ""
     Private cDBDataName As String = ""
+    'Private cIgnoreSellOrders As Boolean = True
+    'Private cIgnoreBuyOrders As Boolean = True
+    'Private cIgnoreSellOrderLimit As Double = 0
+    'Private cIgnoreBuyOrderLimit As Double = 1
+    'Private cMarketRegionList As New ArrayList
+    'Private cPriceCriteria(11) As Boolean
+    'Private cEnableMarketLogWatcher As Boolean = False
+    'Private cMarketLogToolTipConfirm As Boolean = False
+    'Private cMarketLogPopupConfirm As Boolean = False
+    'Private cMarketLogUpdatePrice As Boolean = False
+    'Private cMarketLogUpdateData As Boolean = False
 
+    'Public Property MarketRegionList() As ArrayList
+    '    Get
+    '        Return cMarketRegionList
+    '    End Get
+    '    Set(ByVal value As ArrayList)
+    '        cMarketRegionList = value
+    '    End Set
+    'End Property
+    'Public Property IgnoreBuyOrderLimit() As Double
+    '    Get
+    '        Return cIgnoreBuyOrderLimit
+    '    End Get
+    '    Set(ByVal value As Double)
+    '        cIgnoreBuyOrderLimit = value
+    '    End Set
+    'End Property
+    'Public Property IgnoreSellOrderLimit() As Double
+    '    Get
+    '        Return cIgnoreSellOrderLimit
+    '    End Get
+    '    Set(ByVal value As Double)
+    '        cIgnoreSellOrderLimit = value
+    '    End Set
+    'End Property
+    'Public Property PriceCriteria(ByVal index As Integer) As Boolean
+    '    Get
+    '        Return cPriceCriteria(index)
+    '    End Get
+    '    Set(ByVal value As Boolean)
+    '        cPriceCriteria(index) = value
+    '    End Set
+    'End Property
+    'Public Property MarketLogUpdateData() As Boolean
+    '    Get
+    '        Return cMarketLogUpdateData
+    '    End Get
+    '    Set(ByVal value As Boolean)
+    '        cMarketLogUpdateData = value
+    '    End Set
+    'End Property
+    'Public Property MarketLogUpdatePrice() As Boolean
+    '    Get
+    '        Return cMarketLogUpdatePrice
+    '    End Get
+    '    Set(ByVal value As Boolean)
+    '        cMarketLogUpdatePrice = value
+    '    End Set
+    'End Property
+    'Public Property MarketLogPopupConfirm() As Boolean
+    '    Get
+    '        Return cMarketLogPopupConfirm
+    '    End Get
+    '    Set(ByVal value As Boolean)
+    '        cMarketLogPopupConfirm = value
+    '    End Set
+    'End Property
+    'Public Property MarketLogToolTipConfirm() As Boolean
+    '    Get
+    '        Return cMarketLogToolTipConfirm
+    '    End Get
+    '    Set(ByVal value As Boolean)
+    '        cMarketLogToolTipConfirm = value
+    '    End Set
+    'End Property
+    'Public Property EnableMarketLogWatcher() As Boolean
+    '    Get
+    '        Return cEnableMarketLogWatcher
+    '    End Get
+    '    Set(ByVal value As Boolean)
+    '        cEnableMarketLogWatcher = value
+    '    End Set
+    'End Property
+    'Public Property IgnoreBuyOrders() As Boolean
+    '    Get
+    '        Return cIgnoreBuyOrders
+    '    End Get
+    '    Set(ByVal value As Boolean)
+    '        cIgnoreBuyOrders = value
+    '    End Set
+    'End Property
+    'Public Property IgnoreSellOrders() As Boolean
+    '    Get
+    '        Return cIgnoreSellOrders
+    '    End Get
+    '    Set(ByVal value As Boolean)
+    '        cIgnoreSellOrders = value
+    '    End Set
+    'End Property
     Public Property DBDataName() As String
         Get
             Return cDBDataName
@@ -1093,21 +1193,24 @@ Public Class EveSettings
             cDBSQLSecurity = value
         End Set
     End Property
+End Class
 
-    Public Sub SaveSettings()
-        Call Me.SaveEveSettings()
-        Call Me.SaveTraining()
+Public Class EveHQSettingsFunctions
+
+    Public Shared Sub SaveSettings()
+        Call SaveEveSettings()
+        Call SaveTraining()
     End Sub                  'SaveSettings
-    Public Function LoadSettings() As Boolean
-        If Me.LoadEveSettings() = False Then
+    Public Shared Function LoadSettings() As Boolean
+        If LoadEveSettings() = False Then
             Return False
             Exit Function
         End If
-        Call Me.LoadTraining()
+        Call LoadTraining()
         Return True
     End Function             'LoadSettings
 
-    Public Sub SaveEveSettings()
+    Public Shared Sub SaveEveSettings()
         Dim currentAccount As EveAccount = New EveAccount
         Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
         Dim currentPlugin As EveHQ.Core.PlugIn = New EveHQ.Core.PlugIn
@@ -1333,8 +1436,9 @@ Public Class EveSettings
         Finally
 
         End Try
+
     End Sub
-    Public Sub SaveTraining()
+    Public Shared Sub SaveTraining()
         Dim currentPilot As New EveHQ.Core.Pilot
         Dim currentQueue As New EveHQ.Core.SkillQueue
         Dim XMLdoc As XmlDocument = New XmlDocument
@@ -1367,7 +1471,7 @@ Public Class EveSettings
         Next
     End Sub
 
-    Public Function LoadEveSettings() As Boolean
+    Public Shared Function LoadEveSettings() As Boolean
         Dim currentaccount As EveAccount = New EveAccount
         Dim XMLdoc As XmlDocument = New XmlDocument
 
@@ -1719,7 +1823,7 @@ Public Class EveSettings
         Return True
 
     End Function
-    Public Sub LoadTraining()
+    Public Shared Sub LoadTraining()
         Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
         Dim XMLdoc As XmlDocument = New XmlDocument
         Dim XMLS As String = ""
@@ -1806,7 +1910,7 @@ Public Class EveSettings
         Next
     End Sub
 
-    Private Sub ResetColumns()
+    Private Shared Sub ResetColumns()
         EveHQ.Core.HQ.EveHQSettings.QColumns(0, 0) = "Name" : EveHQ.Core.HQ.EveHQSettings.QColumns(0, 1) = CStr(True)
         EveHQ.Core.HQ.EveHQSettings.QColumns(1, 0) = "Curr" : EveHQ.Core.HQ.EveHQSettings.QColumns(1, 1) = CStr(True)
         EveHQ.Core.HQ.EveHQSettings.QColumns(2, 0) = "From" : EveHQ.Core.HQ.EveHQSettings.QColumns(2, 1) = CStr(True)
@@ -1826,7 +1930,7 @@ Public Class EveSettings
         EveHQ.Core.HQ.EveHQSettings.QColumns(16, 0) = "SPTo" : EveHQ.Core.HQ.EveHQSettings.QColumns(16, 1) = CStr(False)
         EveHQ.Core.HQ.EveHQSettings.QColumnsSet = True
     End Sub
-    Sub EncryptSettingsXML(ByVal Doc As XmlDocument)
+    Shared Sub EncryptSettingsXML(ByVal Doc As XmlDocument)
 
         ' Create a new TripleDES key. 
         Dim tDESkey As New TripleDESCryptoServiceProvider()
@@ -1872,7 +1976,7 @@ Public Class EveSettings
         tDESkey.Clear()
 
     End Sub                      'EncryptSettings
-    Sub DecryptSettingsXML(ByVal Doc As XmlDocument)
+    Shared Sub DecryptSettingsXML(ByVal Doc As XmlDocument)
 
         'DecryptSettings(XMLdoc, tDESkey, "tDESkey")
 
@@ -1907,4 +2011,81 @@ Public Class EveSettings
         tDESkey.Clear()
     End Sub                      'DecryptSettings
 
+    Public Shared Sub SaveEveSettings2()
+        ' Write a serial version?
+        Dim s As New FileStream(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.bin", FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, EveHQ.Core.HQ.EveHQSettings)
+        s.Flush()
+        s.Close()
+    End Sub
+
+    Public Shared Function LoadEveSettings2() As Boolean
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.bin") = True Then
+            Dim s As New FileStream(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.bin", FileMode.Open)
+            Dim f As BinaryFormatter = New BinaryFormatter
+            EveHQ.Core.HQ.EveHQSettings = CType(f.Deserialize(s), EveSettings)
+            s.Close()
+        Else
+            Dim msg As String = ""
+            msg &= "EveHQ cannot find the settings file. The file should reside "
+            msg &= "in the application directory." & ControlChars.CrLf & ControlChars.CrLf
+            msg &= "A new settings file has been created."
+            ' Set the Queue Columns up!
+            Call ResetColumns()
+        End If
+
+        ' Set the database connection string
+        ' Determine if a database format has been chosen before and set it if not
+        If EveHQ.Core.HQ.EveHQSettings.DBFormat = -1 Then
+            EveHQ.Core.HQ.EveHQSettings.DBFormat = 0
+            EveHQ.Core.HQ.EveHQSettings.DBFilename = EveHQ.Core.HQ.appFolder & "\EveHQ.mdb"
+            ' Check for this file!
+            Dim fileExists As Boolean = False
+            Do
+                If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBFilename) = False Then
+                    Dim msg As String = "EveHQ needs a database in order to work correctly." & ControlChars.CrLf
+                    msg &= "If you do not select a valid DB file, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "Would you like to select a file now?" & ControlChars.CrLf
+                    Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    If reply = Windows.Forms.DialogResult.No Then
+                        Return False
+                        Exit Function
+                    End If
+                    Dim ofd1 As New OpenFileDialog
+                    With ofd1
+                        .Title = "Select Access Data file"
+                        .FileName = ""
+                        .InitialDirectory = "c:\"
+                        .Filter = "Access Data files (*.mdb)|*.mdb|All files (*.*)|*.*"
+                        .FilterIndex = 1
+                        .RestoreDirectory = True
+                        If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                            EveHQ.Core.HQ.EveHQSettings.DBFilename = .FileName
+                        End If
+                    End With
+                Else
+                    fileExists = True
+                End If
+            Loop Until fileExists = True
+            EveHQ.Core.HQ.EveHQSettings.DBUsername = ""
+            EveHQ.Core.HQ.EveHQSettings.DBPassword = ""
+        End If
+
+        Call EveHQ.Core.DataFunctions.SetEveHQConnectionString()
+        Call EveHQ.Core.DataFunctions.SetEveHQDataConnectionString()
+
+        ' Load the skill data before attempting to load in the EveHQ.Core.Pilot skill data
+        If EveHQ.Core.SkillFunctions.LoadEveSkillData() = False Then
+            Return False
+            Exit Function
+        End If
+
+        ' Check for the existence of EveHQ.Core.Pilot data in the cache folder and load it
+        Call EveHQ.Core.PilotParseFunctions.LoadPilotCachedInfo()
+
+        Return True
+
+
+    End Function
 End Class

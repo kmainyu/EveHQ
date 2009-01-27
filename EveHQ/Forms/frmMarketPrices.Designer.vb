@@ -65,16 +65,15 @@ Partial Class frmMarketPrices
         Me.btnGallente = New System.Windows.Forms.Button
         Me.btnCaldari = New System.Windows.Forms.Button
         Me.btnAmarr = New System.Windows.Forms.Button
-        Me.tmrStart = New System.Windows.Forms.Timer(Me.components)
         Me.tabMarketLogs = New System.Windows.Forms.TabPage
         Me.panelMarketLog = New System.Windows.Forms.Panel
-        Me.chkNotifyPopup = New System.Windows.Forms.CheckBox
-        Me.chkNotifyTray = New System.Windows.Forms.CheckBox
-        Me.chkEnableLogWatcher = New System.Windows.Forms.CheckBox
-        Me.iconEveHQMLW = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.lvwLogs = New System.Windows.Forms.ListView
         Me.colFilename = New System.Windows.Forms.ColumnHeader
         Me.colDate = New System.Windows.Forms.ColumnHeader
+        Me.chkEnableLogWatcher = New System.Windows.Forms.CheckBox
+        Me.chkNotifyPopup = New System.Windows.Forms.CheckBox
+        Me.chkNotifyTray = New System.Windows.Forms.CheckBox
+        Me.tmrStart = New System.Windows.Forms.Timer(Me.components)
         CType(Me.nudIgnoreBuyOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl1.SuspendLayout()
@@ -523,9 +522,6 @@ Partial Class frmMarketPrices
         Me.btnAmarr.Text = "Amarr"
         Me.btnAmarr.UseVisualStyleBackColor = True
         '
-        'tmrStart
-        '
-        '
         'tabMarketLogs
         '
         Me.tabMarketLogs.Controls.Add(Me.panelMarketLog)
@@ -549,40 +545,6 @@ Partial Class frmMarketPrices
         Me.panelMarketLog.Size = New System.Drawing.Size(781, 653)
         Me.panelMarketLog.TabIndex = 0
         '
-        'chkNotifyPopup
-        '
-        Me.chkNotifyPopup.AutoSize = True
-        Me.chkNotifyPopup.Location = New System.Drawing.Point(19, 65)
-        Me.chkNotifyPopup.Name = "chkNotifyPopup"
-        Me.chkNotifyPopup.Size = New System.Drawing.Size(198, 17)
-        Me.chkNotifyPopup.TabIndex = 5
-        Me.chkNotifyPopup.Text = "Popup Notification on Upload Result"
-        Me.chkNotifyPopup.UseVisualStyleBackColor = True
-        '
-        'chkNotifyTray
-        '
-        Me.chkNotifyTray.AutoSize = True
-        Me.chkNotifyTray.Location = New System.Drawing.Point(19, 42)
-        Me.chkNotifyTray.Name = "chkNotifyTray"
-        Me.chkNotifyTray.Size = New System.Drawing.Size(225, 17)
-        Me.chkNotifyTray.TabIndex = 4
-        Me.chkNotifyTray.Text = "System Tray Notification on Upload Result"
-        Me.chkNotifyTray.UseVisualStyleBackColor = True
-        '
-        'chkEnableLogWatcher
-        '
-        Me.chkEnableLogWatcher.AutoSize = True
-        Me.chkEnableLogWatcher.Location = New System.Drawing.Point(19, 19)
-        Me.chkEnableLogWatcher.Name = "chkEnableLogWatcher"
-        Me.chkEnableLogWatcher.Size = New System.Drawing.Size(160, 17)
-        Me.chkEnableLogWatcher.TabIndex = 6
-        Me.chkEnableLogWatcher.Text = "Enable Market Log Watcher"
-        Me.chkEnableLogWatcher.UseVisualStyleBackColor = True
-        '
-        'iconEveHQMLW
-        '
-        Me.iconEveHQMLW.Icon = CType(resources.GetObject("iconEveHQMLW.Icon"), System.Drawing.Icon)
-        '
         'lvwLogs
         '
         Me.lvwLogs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colFilename, Me.colDate})
@@ -603,6 +565,39 @@ Partial Class frmMarketPrices
         '
         Me.colDate.Text = "Date/Time"
         Me.colDate.Width = 150
+        '
+        'chkEnableLogWatcher
+        '
+        Me.chkEnableLogWatcher.AutoSize = True
+        Me.chkEnableLogWatcher.Location = New System.Drawing.Point(19, 19)
+        Me.chkEnableLogWatcher.Name = "chkEnableLogWatcher"
+        Me.chkEnableLogWatcher.Size = New System.Drawing.Size(160, 17)
+        Me.chkEnableLogWatcher.TabIndex = 6
+        Me.chkEnableLogWatcher.Text = "Enable Market Log Watcher"
+        Me.chkEnableLogWatcher.UseVisualStyleBackColor = True
+        '
+        'chkNotifyPopup
+        '
+        Me.chkNotifyPopup.AutoSize = True
+        Me.chkNotifyPopup.Location = New System.Drawing.Point(19, 65)
+        Me.chkNotifyPopup.Name = "chkNotifyPopup"
+        Me.chkNotifyPopup.Size = New System.Drawing.Size(198, 17)
+        Me.chkNotifyPopup.TabIndex = 5
+        Me.chkNotifyPopup.Text = "Popup Notification on Upload Result"
+        Me.chkNotifyPopup.UseVisualStyleBackColor = True
+        '
+        'chkNotifyTray
+        '
+        Me.chkNotifyTray.AutoSize = True
+        Me.chkNotifyTray.Location = New System.Drawing.Point(19, 42)
+        Me.chkNotifyTray.Name = "chkNotifyTray"
+        Me.chkNotifyTray.Size = New System.Drawing.Size(225, 17)
+        Me.chkNotifyTray.TabIndex = 4
+        Me.chkNotifyTray.Text = "System Tray Notification on Upload Result"
+        Me.chkNotifyTray.UseVisualStyleBackColor = True
+        '
+        'tmrStart
+        '
         '
         'frmMarketPrices
         '
@@ -678,7 +673,6 @@ Partial Class frmMarketPrices
     Friend WithEvents chkNotifyPopup As System.Windows.Forms.CheckBox
     Friend WithEvents chkNotifyTray As System.Windows.Forms.CheckBox
     Friend WithEvents chkEnableLogWatcher As System.Windows.Forms.CheckBox
-    Friend WithEvents iconEveHQMLW As System.Windows.Forms.NotifyIcon
     Friend WithEvents lvwLogs As System.Windows.Forms.ListView
     Friend WithEvents colFilename As System.Windows.Forms.ColumnHeader
     Friend WithEvents colDate As System.Windows.Forms.ColumnHeader

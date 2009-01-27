@@ -33,7 +33,7 @@ Public Class frmSettings
 
 #Region "Form Opening & Closing"
     Private Sub frmSettings_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        Call EveHQ.Core.HQ.EveHQSettings.SaveSettings()
+        Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
         If frmTraining.IsHandleCreated = True And redrawColumns = True Then
             redrawColumns = False
             Call frmTraining.RefreshAllTrainingQueues()

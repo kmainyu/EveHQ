@@ -30,7 +30,6 @@ Public Class frmMarketPrices
     Dim ProcessOrder As Boolean = True
     Dim marketCacheFolder As String = ""
     Dim ECDumpURL As String = "http://eve-central.com/dumps/"
-    Dim EveHQMLW As New SortedList
 
     Private Function CheckMarketStatsDBTable() As Boolean
         Dim CreateTable As Boolean = False
@@ -339,164 +338,7 @@ Public Class frmMarketPrices
         'End If
 
     End Sub
-    Private Sub CalculateMLStats(ByVal orderList As ArrayList, ByVal orderDate As Date)
-
-        Dim regions, systems As New SortedList
-        Dim regOrders, sysOrders As New ArrayList
-        sorBuy.Clear() : sorSell.Clear() : sorAll.Clear()
-
-        countBuy = 0 : countSell = 0 : countAll = 0
-        volBuy = 0 : volSell = 0 : volAll = 0
-        minBuy = 0 : minSell = 0 : minAll = 0
-        maxBuy = 0 : maxSell = 0 : maxAll = 0
-        valBuy = 0 : valSell = 0 : valAll = 0
-        devBuy = 0 : devSell = 0 : devAll = 0
-
-        For Each order As String In orderList
-            orderDetails = order.Split(",".ToCharArray)
-            oReg = CLng(orderDetails(11).Trim)
-            oSys = CLng(orderDetails(12).Trim)
-            oStation = CLng(orderDetails(10).Trim)
-            oTypeID = CLng(orderDetails(2).Trim)
-            oType = Math.Abs(CLng(CBool(orderDetails(7).Trim)))
-            oMinVol = CLng(orderDetails(6).Trim)
-            oVol = CLng(orderDetails(1).Trim)
-            oPrice = CDbl(orderDetails(0).Trim)
-
-            ' Check if we process this
-            ProcessOrder = True
-            If oType = 0 Then ' Sell Order
-                If chkIgnoreSellOrders.Checked = True And oPrice > nudIgnoreSellOrderLimit.Value Then
-                    ProcessOrder = False
-                End If
-            Else ' Buy Order
-                If chkIgnoreBuyOrders.Checked = True And oPrice < nudIgnoreBuyOrderLimit.Value Then
-                    ProcessOrder = False
-                End If
-            End If
-
-            If ProcessOrder = True Then
-                countAll += 1
-                volAll += oVol
-                If oPrice < minAll Or minAll = 0 Then
-                    minAll = oPrice
-                End If
-                If oPrice > maxAll Then
-                    maxAll = oPrice
-                End If
-                valAll += (oVol * oPrice)
-                If sorAll.Contains(oPrice.ToString) = False Then
-                    sorAll.Add(oPrice.ToString, oVol)
-                Else
-                    sorAll(oPrice.ToString) = CLng(sorAll(oPrice.ToString)) + oVol
-                End If
-                devAll += Math.Pow(oPrice, 2) * oVol
-
-                Select Case oType
-                    Case 0 ' Sell order
-                        countBuy += 1
-                        volSell += oVol
-                        If oPrice < minSell Or minSell = 0 Then
-                            minSell = oPrice
-                        End If
-                        If oPrice > maxSell Then
-                            maxSell = oPrice
-                        End If
-                        valSell += (oVol * oPrice)
-                        If sorSell.Contains(oPrice.ToString) = False Then
-                            sorSell.Add(oPrice.ToString, oVol)
-                        Else
-                            sorSell(oPrice.ToString) = CLng(sorSell(oPrice.ToString)) + oVol
-                        End If
-                        devSell += Math.Pow(oPrice, 2) * oVol
-                    Case 1 ' Buy order
-                        countSell += 1
-                        volBuy += oVol
-                        If oPrice < minBuy Or minBuy = 0 Then
-                            minBuy = oPrice
-                        End If
-                        If oPrice > maxBuy Then
-                            maxBuy = oPrice
-                        End If
-                        valBuy += (oVol * oPrice)
-                        If sorBuy.Contains(oPrice.ToString) = False Then
-                            sorBuy.Add(oPrice.ToString, oVol)
-                        Else
-                            sorBuy(oPrice.ToString) = CLng(sorBuy(oPrice.ToString)) + oVol
-                        End If
-                        devBuy += Math.Pow(oPrice, 2) * oVol
-                End Select
-            End If
-        Next
-
-        ' Calculate Averages, Standard Deviations & Medians
-        If volAll > 0 Then
-            avgAll = valAll / volAll
-            stdAll = Math.Sqrt(Math.Abs((devAll / volAll) - Math.Pow(avgAll, 2)))
-            cumVol = 0
-            For Each chkVol As String In sorAll.Keys
-                cumVol += CLng(sorAll(chkVol))
-                If cumVol >= (volAll / 2) Then
-                    medAll = CDbl(chkVol)
-                    Exit For
-                End If
-            Next
-        Else
-            avgAll = 0 : stdAll = 0 : medAll = 0
-        End If
-        If volSell > 0 Then
-            avgSell = valSell / volSell
-            stdSell = Math.Sqrt(Math.Abs((devSell / volSell) - Math.Pow(avgSell, 2)))
-            cumVol = 0
-            For Each chkVol As String In sorSell.Keys
-                cumVol += CLng(sorSell(chkVol))
-                If cumVol >= (volSell / 2) Then
-                    medSell = CDbl(chkVol)
-                    Exit For
-                End If
-            Next
-        Else
-            avgSell = 0 : stdSell = 0 : medSell = 0
-        End If
-        If volBuy > 0 Then
-            avgBuy = valBuy / volBuy
-            stdBuy = Math.Sqrt(Math.Abs((devBuy / volBuy) - Math.Pow(avgBuy, 2)))
-            cumVol = 0
-            For Each chkVol As String In sorBuy.Keys
-                cumVol += CLng(sorBuy(chkVol))
-                If cumVol >= (volBuy / 2) Then
-                    medBuy = CDbl(chkVol)
-                    Exit For
-                End If
-            Next
-        Else
-            avgBuy = 0 : stdBuy = 0 : medBuy = 0
-        End If
-
-        ' Write data to the database
-        'strSQL = insertStat & "VALUES (" & orderDate.ToOADate - 2 & ", " & oTypeID.ToString & ", " & oReg.ToString & ", " & oSys.ToString & ", " & volAll & ", " & avgAll & ", " & maxAll & ", " & minAll & ", " & stdAll & ", " & medAll & ", " & volBuy & ", " & avgBuy & ", " & maxBuy & ", " & minBuy & ", " & stdBuy & ", " & medBuy & ", " & volSell & ", " & avgSell & ", " & maxSell & ", " & minSell & ", " & stdSell & ", " & medSell & ");"
-        'If EveHQ.Core.DataFunctions.SetData(strSQL) = False Then
-        '    MessageBox.Show("There was an error writing data to the marketStats database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL, "Error Writing Market Stats", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        'End If
-
-        ' Show a messagebox with the info!
-        Dim str As New StringBuilder
-        str.AppendLine("Results for: " & oTypeID.ToString & ControlChars.CrLf & ControlChars.CrLf)
-        str.AppendLine("Min (Buy): " & FormatNumber(minBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Max (Buy): " & FormatNumber(maxBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Mean (Buy): " & FormatNumber(avgBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Median (Buy): " & FormatNumber(medBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Min (Sell): " & FormatNumber(minSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Max (Sell): " & FormatNumber(maxSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Mean (Sell): " & FormatNumber(avgSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Median (Sell): " & FormatNumber(medSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Min (All): " & FormatNumber(minAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Max (All): " & FormatNumber(maxAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Mean (All): " & FormatNumber(avgAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Median (All): " & FormatNumber(medAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        MessageBox.Show(str.ToString, "Price Results", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-    End Sub
+    
 
     Private Function GetLastMarketDate() As Date
         Dim strSQL As String = "SELECT max(priceDate) AS lastDate FROM marketDates"
@@ -683,88 +525,7 @@ Public Class frmMarketPrices
         End If
 
     End Sub
-    Private Sub ProcessMLPrices(ByVal orderFile As String)
-        Dim startTime, endTime As Date
-        Dim timeTaken As TimeSpan
-        Dim orderFI As New FileInfo(orderFile)
-        'Dim orderDate As Date = Date.Parse(orderFI.Name.Trim(".dump.gz.txt".ToCharArray))
-        Dim orderdate As Date = Now
-        Dim items As New SortedList
-        Dim itemOrders As New ArrayList
-        Dim FileInUse As Boolean = False
-        Dim sr As StreamReader = Nothing
-        Do
-            Try
-                sr = New StreamReader(orderFile)
-                FileInUse = False
-            Catch ex As Exception
-                FileInUse = True
-            End Try
-        Loop Until FileInUse = False
-        Dim header As String = sr.ReadLine()
-
-        If header <> "price,volRemaining,typeID,range,orderID,volEntered,minVolume,bid,issued,duration,stationID,regionID,solarSystemID,jumps," Then
-            MessageBox.Show("File is not a valid Eve Market Export file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Else
-            lblProcess.Text = "Current Process: Reading order list from file..."
-            lblProgress.Text = "Progress: Reading orders..."
-            currentProgressScroll = True : Me.Invoke(New MethodInvoker(AddressOf Me.UpdateProgressBar))
-            startTime = Now
-            Dim order As String = ""
-            Dim orders As Long = 0
-            Dim orderDetails() As String
-            Do
-                order = sr.ReadLine
-                orderDetails = order.Split(",".ToCharArray)
-                ' Add to the relevant item list
-                If items.Contains(orderDetails(2).Trim) = False Then
-                    itemOrders = New ArrayList
-                    itemOrders.Add(order)
-                    items.Add(orderDetails(2).Trim, itemOrders)
-                Else
-                    itemOrders = CType(items(orderDetails(2).Trim), ArrayList)
-                    itemOrders.Add(order)
-                End If
-                orders += 1
-            Loop Until sr.EndOfStream
-            sr.Close()
-
-            endTime = Now
-            timeTaken = endTime - startTime
-            MessageBox.Show("Time taken to read " & orders.ToString & " orders = " & timeTaken.TotalSeconds.ToString)
-
-            ' Calculate global statistics
-            lblProcess.Text = "Current Process: Calculating Order Statistics for " & FormatDateTime(orderdate, DateFormat.LongDate) & "..."
-            currentProgressScroll = False : Me.Invoke(New MethodInvoker(AddressOf Me.UpdateProgressBar))
-            pbProgress.Style = ProgressBarStyle.Continuous
-            startTime = Now
-            Dim itemCount As Integer = items.Count
-            Dim count As Integer = 0
-            For Each item As String In items.Keys
-                count += 1
-                Call CalculateMLStats(CType(items(item), ArrayList), orderdate)
-                lblProgress.Text = "Progress: Processing " & EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(item)).ToString & "..."
-                currentProgress = count / itemCount * 100
-                Me.Invoke(New MethodInvoker(AddressOf Me.UpdateProgressBar))
-            Next
-
-            ' Insert the date into the database
-            'lblProcess.Text = "Current Process: Updating price date table..."
-            'Dim dateSQL As String = "INSERT INTO marketDates (priceDate) VALUES (" & orderDate.ToOADate - 2 & ");"
-            'If EveHQ.Core.DataFunctions.SetData(dateSQL) = False Then
-            '    MessageBox.Show("There was an error writing the date to the marketDates database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            'End If
-
-            endTime = Now
-            timeTaken = endTime - startTime
-            lblProcess.Text = "Current Process: Processing Complete!"
-            lblProgress.Text = "Progress: Finished Processing " & items.Count.ToString & " items in " & timeTaken.TotalSeconds.ToString & "s"
-            items.Clear() : items = Nothing
-            itemOrders.Clear() : itemOrders = Nothing
-            GC.Collect()
-            'MessageBox.Show("Time taken to parse data for " & items.Count.ToString & " items = " & timeTaken.TotalSeconds.ToString, "Price Processing Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
-    End Sub
+  
 
     Private Sub SetMarketPrices()
 
@@ -1080,57 +841,17 @@ Public Class frmMarketPrices
 
 
 #Region "Market Log Watcher Routines"
-    Private Sub InitialiseWatchers()
-        Dim folderCount As Integer = 0
-        For folder As Integer = 1 To 4
-            ' Check if the folder exists before starting a watcher for the necessary folder
-            If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHQSettings.EveFolder(folder)) = True Then
-                ' Check the /LUA status to see where the location of the market log folder will be
-                Dim MLFolder As String = ""
-                Dim emeFSW As New FileSystemWatcher
-                MLFolder = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\logs\Marketlogs\"
-                emeFSW = New FileSystemWatcher
-                emeFSW.Path = MLFolder
-                emeFSW.IncludeSubdirectories = True
-                emeFSW.NotifyFilter = (NotifyFilters.LastAccess Or NotifyFilters.LastWrite Or NotifyFilters.FileName Or NotifyFilters.DirectoryName)
-                emeFSW.Filter = "*.txt"
-                AddHandler emeFSW.Created, AddressOf OnCreated
-                emeFSW.EnableRaisingEvents = True
-                EveHQMLW.Add(MLFolder, emeFSW)
-                folderCount += 1
-            End If
-        Next
-        iconEveHQMLW.Text = "EveHQ Market Export - Watching " & folderCount & " folders"
-        iconEveHQMLW.Visible = True
-    End Sub
-
-    Private Sub CancelWatchers()
-        ' Stop and dispose of the watchers before clearing the list
-        For Each emeFSW As FileSystemWatcher In EveHQMLW.Values
-            emeFSW.EnableRaisingEvents = False
-            emeFSW.Dispose()
-        Next
-        EveHQMLW.Clear()
-        iconEveHQMLW.Visible = False
-    End Sub
-
-    Private Sub OnCreated(ByVal source As Object, ByVal e As FileSystemEventArgs)
-        ' Specify what is done when a file is created
-        'Dim wct As WatcherChangeTypes = e.ChangeType
-        'MessageBox.Show("File: " & e.FullPath & ", " & wct.ToString)
-        If lvwLogs.Items.ContainsKey(e.Name) = False Then
-            lvwLogs.Items.Add(e.FullPath)
-        End If
-        Call Me.ProcessMLPrices(e.FullPath)
-    End Sub
-
     Private Sub chkEnableLogWatcher_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEnableLogWatcher.CheckedChanged
         If chkEnableLogWatcher.Checked = True Then
-            If EveHQMLW.Count = 0 Then
-                Call Me.InitialiseWatchers()
+            If frmEveHQ.InitialiseWatchers() = True Then
+                'EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = True
+            Else
+                MessageBox.Show("Unable to start Market Log Watcher. Please check your Eve folders in the EveHQ Settings.", "Error Starting Watcher", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                chkEnableLogWatcher.Checked = False
             End If
         Else
-            Call Me.CancelWatchers()
+            Call frmEveHQ.CancelWatchers()
+            'EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = False
         End If
     End Sub
 
