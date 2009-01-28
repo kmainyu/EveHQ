@@ -26,12 +26,6 @@ Partial Class frmMarketPrices
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMarketPrices))
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog
         Me.Button1 = New System.Windows.Forms.Button
-        Me.nudIgnoreBuyOrderLimit = New System.Windows.Forms.NumericUpDown
-        Me.nudIgnoreSellOrderLimit = New System.Windows.Forms.NumericUpDown
-        Me.lblIgnoreBuyOrderUnit = New System.Windows.Forms.Label
-        Me.lblIgnoreSellOrderUnit = New System.Windows.Forms.Label
-        Me.chkIgnoreBuyOrders = New System.Windows.Forms.CheckBox
-        Me.chkIgnoreSellOrders = New System.Windows.Forms.CheckBox
         Me.Button2 = New System.Windows.Forms.Button
         Me.lblProgress = New System.Windows.Forms.Label
         Me.grpRegions = New System.Windows.Forms.GroupBox
@@ -47,7 +41,9 @@ Partial Class frmMarketPrices
         Me.lblProcess = New System.Windows.Forms.Label
         Me.tabPrices = New System.Windows.Forms.TabPage
         Me.panelPrices = New System.Windows.Forms.Panel
-        Me.MonthCalendar1 = New System.Windows.Forms.MonthCalendar
+        Me.chkEnableLogWatcher = New System.Windows.Forms.CheckBox
+        Me.chkNotifyPopup = New System.Windows.Forms.CheckBox
+        Me.chkNotifyTray = New System.Windows.Forms.CheckBox
         Me.gbCriteria = New System.Windows.Forms.GroupBox
         Me.chkAllMedian = New System.Windows.Forms.CheckBox
         Me.chkAllMin = New System.Windows.Forms.CheckBox
@@ -70,12 +66,18 @@ Partial Class frmMarketPrices
         Me.lvwLogs = New System.Windows.Forms.ListView
         Me.colFilename = New System.Windows.Forms.ColumnHeader
         Me.colDate = New System.Windows.Forms.ColumnHeader
-        Me.chkEnableLogWatcher = New System.Windows.Forms.CheckBox
-        Me.chkNotifyPopup = New System.Windows.Forms.CheckBox
-        Me.chkNotifyTray = New System.Windows.Forms.CheckBox
         Me.tmrStart = New System.Windows.Forms.Timer(Me.components)
-        CType(Me.nudIgnoreBuyOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.chkEnableWatcherAtStartup = New System.Windows.Forms.CheckBox
+        Me.chkAutoUpdateCurrentPrice = New System.Windows.Forms.CheckBox
+        Me.chkAutoUpdatePriceData = New System.Windows.Forms.CheckBox
+        Me.chkIgnoreBuyOrders = New System.Windows.Forms.CheckBox
+        Me.nudIgnoreBuyOrderLimit = New System.Windows.Forms.NumericUpDown
+        Me.nudIgnoreSellOrderLimit = New System.Windows.Forms.NumericUpDown
+        Me.chkIgnoreSellOrders = New System.Windows.Forms.CheckBox
+        Me.lblIgnoreBuyOrderUnit = New System.Windows.Forms.Label
+        Me.lblIgnoreSellOrderUnit = New System.Windows.Forms.Label
+        Me.grpParsing = New System.Windows.Forms.GroupBox
+        Me.grpMarketLogWatcher = New System.Windows.Forms.GroupBox
         Me.TabControl1.SuspendLayout()
         Me.tabDumps.SuspendLayout()
         Me.panelECDumps.SuspendLayout()
@@ -85,6 +87,10 @@ Partial Class frmMarketPrices
         Me.gbCriteria.SuspendLayout()
         Me.tabMarketLogs.SuspendLayout()
         Me.panelMarketLog.SuspendLayout()
+        CType(Me.nudIgnoreBuyOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpParsing.SuspendLayout()
+        Me.grpMarketLogWatcher.SuspendLayout()
         Me.SuspendLayout()
         '
         'ofd1
@@ -100,68 +106,6 @@ Partial Class frmMarketPrices
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
         '
-        'nudIgnoreBuyOrderLimit
-        '
-        Me.nudIgnoreBuyOrderLimit.DecimalPlaces = 2
-        Me.nudIgnoreBuyOrderLimit.Location = New System.Drawing.Point(187, 19)
-        Me.nudIgnoreBuyOrderLimit.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
-        Me.nudIgnoreBuyOrderLimit.Name = "nudIgnoreBuyOrderLimit"
-        Me.nudIgnoreBuyOrderLimit.Size = New System.Drawing.Size(74, 20)
-        Me.nudIgnoreBuyOrderLimit.TabIndex = 2
-        Me.nudIgnoreBuyOrderLimit.Value = New Decimal(New Integer() {1, 0, 0, 65536})
-        '
-        'nudIgnoreSellOrderLimit
-        '
-        Me.nudIgnoreSellOrderLimit.DecimalPlaces = 2
-        Me.nudIgnoreSellOrderLimit.Location = New System.Drawing.Point(187, 45)
-        Me.nudIgnoreSellOrderLimit.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
-        Me.nudIgnoreSellOrderLimit.Name = "nudIgnoreSellOrderLimit"
-        Me.nudIgnoreSellOrderLimit.Size = New System.Drawing.Size(74, 20)
-        Me.nudIgnoreSellOrderLimit.TabIndex = 4
-        Me.nudIgnoreSellOrderLimit.Value = New Decimal(New Integer() {10, 0, 0, 0})
-        '
-        'lblIgnoreBuyOrderUnit
-        '
-        Me.lblIgnoreBuyOrderUnit.AutoSize = True
-        Me.lblIgnoreBuyOrderUnit.Location = New System.Drawing.Point(267, 21)
-        Me.lblIgnoreBuyOrderUnit.Name = "lblIgnoreBuyOrderUnit"
-        Me.lblIgnoreBuyOrderUnit.Size = New System.Drawing.Size(24, 13)
-        Me.lblIgnoreBuyOrderUnit.TabIndex = 5
-        Me.lblIgnoreBuyOrderUnit.Text = "ISK"
-        '
-        'lblIgnoreSellOrderUnit
-        '
-        Me.lblIgnoreSellOrderUnit.AutoSize = True
-        Me.lblIgnoreSellOrderUnit.Location = New System.Drawing.Point(267, 47)
-        Me.lblIgnoreSellOrderUnit.Name = "lblIgnoreSellOrderUnit"
-        Me.lblIgnoreSellOrderUnit.Size = New System.Drawing.Size(39, 13)
-        Me.lblIgnoreSellOrderUnit.TabIndex = 6
-        Me.lblIgnoreSellOrderUnit.Text = "x Base"
-        '
-        'chkIgnoreBuyOrders
-        '
-        Me.chkIgnoreBuyOrders.AutoSize = True
-        Me.chkIgnoreBuyOrders.Checked = True
-        Me.chkIgnoreBuyOrders.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkIgnoreBuyOrders.Location = New System.Drawing.Point(14, 20)
-        Me.chkIgnoreBuyOrders.Name = "chkIgnoreBuyOrders"
-        Me.chkIgnoreBuyOrders.Size = New System.Drawing.Size(167, 17)
-        Me.chkIgnoreBuyOrders.TabIndex = 7
-        Me.chkIgnoreBuyOrders.Text = "Ignore Buy Orders Less Than:"
-        Me.chkIgnoreBuyOrders.UseVisualStyleBackColor = True
-        '
-        'chkIgnoreSellOrders
-        '
-        Me.chkIgnoreSellOrders.AutoSize = True
-        Me.chkIgnoreSellOrders.Checked = True
-        Me.chkIgnoreSellOrders.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkIgnoreSellOrders.Location = New System.Drawing.Point(14, 46)
-        Me.chkIgnoreSellOrders.Name = "chkIgnoreSellOrders"
-        Me.chkIgnoreSellOrders.Size = New System.Drawing.Size(168, 17)
-        Me.chkIgnoreSellOrders.TabIndex = 8
-        Me.chkIgnoreSellOrders.Text = "Ignore Sell Orders More Than:"
-        Me.chkIgnoreSellOrders.UseVisualStyleBackColor = True
-        '
         'Button2
         '
         Me.Button2.Location = New System.Drawing.Point(95, 118)
@@ -176,24 +120,24 @@ Partial Class frmMarketPrices
         Me.lblProgress.AutoSize = True
         Me.lblProgress.Location = New System.Drawing.Point(16, 51)
         Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(51, 13)
+        Me.lblProgress.Size = New System.Drawing.Size(53, 13)
         Me.lblProgress.TabIndex = 10
         Me.lblProgress.Text = "Progress:"
         '
         'grpRegions
         '
         Me.grpRegions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpRegions.Location = New System.Drawing.Point(17, 46)
+        Me.grpRegions.Location = New System.Drawing.Point(10, 89)
         Me.grpRegions.Name = "grpRegions"
-        Me.grpRegions.Size = New System.Drawing.Size(610, 350)
+        Me.grpRegions.Size = New System.Drawing.Size(610, 338)
         Me.grpRegions.TabIndex = 12
         Me.grpRegions.TabStop = False
-        Me.grpRegions.Text = "Regions"
+        Me.grpRegions.Text = "Region Selection"
         '
         'btnAllRegions
         '
         Me.btnAllRegions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAllRegions.Location = New System.Drawing.Point(17, 419)
+        Me.btnAllRegions.Location = New System.Drawing.Point(626, 115)
         Me.btnAllRegions.Name = "btnAllRegions"
         Me.btnAllRegions.Size = New System.Drawing.Size(70, 23)
         Me.btnAllRegions.TabIndex = 13
@@ -203,7 +147,7 @@ Partial Class frmMarketPrices
         'btnEmpireRegions
         '
         Me.btnEmpireRegions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnEmpireRegions.Location = New System.Drawing.Point(93, 419)
+        Me.btnEmpireRegions.Location = New System.Drawing.Point(626, 144)
         Me.btnEmpireRegions.Name = "btnEmpireRegions"
         Me.btnEmpireRegions.Size = New System.Drawing.Size(70, 23)
         Me.btnEmpireRegions.TabIndex = 14
@@ -213,7 +157,7 @@ Partial Class frmMarketPrices
         'btnNullRegions
         '
         Me.btnNullRegions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnNullRegions.Location = New System.Drawing.Point(169, 419)
+        Me.btnNullRegions.Location = New System.Drawing.Point(626, 289)
         Me.btnNullRegions.Name = "btnNullRegions"
         Me.btnNullRegions.Size = New System.Drawing.Size(70, 23)
         Me.btnNullRegions.TabIndex = 15
@@ -223,9 +167,9 @@ Partial Class frmMarketPrices
         'btnNoRegions
         '
         Me.btnNoRegions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnNoRegions.Location = New System.Drawing.Point(245, 419)
+        Me.btnNoRegions.Location = New System.Drawing.Point(626, 318)
         Me.btnNoRegions.Name = "btnNoRegions"
-        Me.btnNoRegions.Size = New System.Drawing.Size(75, 23)
+        Me.btnNoRegions.Size = New System.Drawing.Size(70, 23)
         Me.btnNoRegions.TabIndex = 16
         Me.btnNoRegions.Text = "No Regions"
         Me.btnNoRegions.UseVisualStyleBackColor = True
@@ -238,8 +182,9 @@ Partial Class frmMarketPrices
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.Padding = New System.Drawing.Point(0, 0)
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(789, 679)
+        Me.TabControl1.Size = New System.Drawing.Size(717, 623)
         Me.TabControl1.TabIndex = 17
         '
         'tabDumps
@@ -247,8 +192,7 @@ Partial Class frmMarketPrices
         Me.tabDumps.Controls.Add(Me.panelECDumps)
         Me.tabDumps.Location = New System.Drawing.Point(4, 22)
         Me.tabDumps.Name = "tabDumps"
-        Me.tabDumps.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabDumps.Size = New System.Drawing.Size(781, 653)
+        Me.tabDumps.Size = New System.Drawing.Size(709, 597)
         Me.tabDumps.TabIndex = 0
         Me.tabDumps.Text = "EC Market Dumps"
         Me.tabDumps.UseVisualStyleBackColor = True
@@ -257,18 +201,12 @@ Partial Class frmMarketPrices
         '
         Me.panelECDumps.BackColor = System.Drawing.SystemColors.Control
         Me.panelECDumps.Controls.Add(Me.gbProcessStatus)
-        Me.panelECDumps.Controls.Add(Me.chkIgnoreBuyOrders)
         Me.panelECDumps.Controls.Add(Me.Button1)
-        Me.panelECDumps.Controls.Add(Me.nudIgnoreBuyOrderLimit)
         Me.panelECDumps.Controls.Add(Me.Button2)
-        Me.panelECDumps.Controls.Add(Me.nudIgnoreSellOrderLimit)
-        Me.panelECDumps.Controls.Add(Me.chkIgnoreSellOrders)
-        Me.panelECDumps.Controls.Add(Me.lblIgnoreBuyOrderUnit)
-        Me.panelECDumps.Controls.Add(Me.lblIgnoreSellOrderUnit)
         Me.panelECDumps.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelECDumps.Location = New System.Drawing.Point(3, 3)
+        Me.panelECDumps.Location = New System.Drawing.Point(0, 0)
         Me.panelECDumps.Name = "panelECDumps"
-        Me.panelECDumps.Size = New System.Drawing.Size(775, 647)
+        Me.panelECDumps.Size = New System.Drawing.Size(709, 597)
         Me.panelECDumps.TabIndex = 0
         '
         'gbProcessStatus
@@ -295,7 +233,7 @@ Partial Class frmMarketPrices
         Me.lblProcess.AutoSize = True
         Me.lblProcess.Location = New System.Drawing.Point(16, 27)
         Me.lblProcess.Name = "lblProcess"
-        Me.lblProcess.Size = New System.Drawing.Size(183, 13)
+        Me.lblProcess.Size = New System.Drawing.Size(186, 13)
         Me.lblProcess.TabIndex = 0
         Me.lblProcess.Text = "Current Process: Awaiting Processing"
         '
@@ -304,8 +242,7 @@ Partial Class frmMarketPrices
         Me.tabPrices.Controls.Add(Me.panelPrices)
         Me.tabPrices.Location = New System.Drawing.Point(4, 22)
         Me.tabPrices.Name = "tabPrices"
-        Me.tabPrices.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabPrices.Size = New System.Drawing.Size(781, 653)
+        Me.tabPrices.Size = New System.Drawing.Size(709, 597)
         Me.tabPrices.TabIndex = 1
         Me.tabPrices.Text = "Price Selection"
         Me.tabPrices.UseVisualStyleBackColor = True
@@ -313,32 +250,54 @@ Partial Class frmMarketPrices
         'panelPrices
         '
         Me.panelPrices.BackColor = System.Drawing.SystemColors.Control
-        Me.panelPrices.Controls.Add(Me.MonthCalendar1)
+        Me.panelPrices.Controls.Add(Me.btnAllRegions)
+        Me.panelPrices.Controls.Add(Me.btnEmpireRegions)
+        Me.panelPrices.Controls.Add(Me.grpMarketLogWatcher)
+        Me.panelPrices.Controls.Add(Me.btnNullRegions)
+        Me.panelPrices.Controls.Add(Me.grpParsing)
+        Me.panelPrices.Controls.Add(Me.btnNoRegions)
         Me.panelPrices.Controls.Add(Me.gbCriteria)
-        Me.panelPrices.Controls.Add(Me.btnMinmatar)
-        Me.panelPrices.Controls.Add(Me.btnGallente)
-        Me.panelPrices.Controls.Add(Me.btnCaldari)
         Me.panelPrices.Controls.Add(Me.btnAmarr)
         Me.panelPrices.Controls.Add(Me.grpRegions)
-        Me.panelPrices.Controls.Add(Me.btnNoRegions)
-        Me.panelPrices.Controls.Add(Me.btnAllRegions)
-        Me.panelPrices.Controls.Add(Me.btnNullRegions)
-        Me.panelPrices.Controls.Add(Me.btnEmpireRegions)
+        Me.panelPrices.Controls.Add(Me.btnCaldari)
+        Me.panelPrices.Controls.Add(Me.btnMinmatar)
+        Me.panelPrices.Controls.Add(Me.btnGallente)
         Me.panelPrices.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelPrices.Location = New System.Drawing.Point(3, 3)
+        Me.panelPrices.Location = New System.Drawing.Point(0, 0)
+        Me.panelPrices.Margin = New System.Windows.Forms.Padding(0)
         Me.panelPrices.Name = "panelPrices"
-        Me.panelPrices.Size = New System.Drawing.Size(775, 647)
+        Me.panelPrices.Size = New System.Drawing.Size(709, 597)
         Me.panelPrices.TabIndex = 0
         '
-        'MonthCalendar1
+        'chkEnableLogWatcher
         '
-        Me.MonthCalendar1.BoldedDates = New Date() {New Date(2009, 1, 28, 0, 0, 0, 0)}
-        Me.MonthCalendar1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MonthCalendar1.Location = New System.Drawing.Point(453, 448)
-        Me.MonthCalendar1.MaxSelectionCount = 1
-        Me.MonthCalendar1.Name = "MonthCalendar1"
-        Me.MonthCalendar1.TabIndex = 22
-        Me.MonthCalendar1.TitleBackColor = System.Drawing.Color.MidnightBlue
+        Me.chkEnableLogWatcher.AutoSize = True
+        Me.chkEnableLogWatcher.Location = New System.Drawing.Point(8, 19)
+        Me.chkEnableLogWatcher.Name = "chkEnableLogWatcher"
+        Me.chkEnableLogWatcher.Size = New System.Drawing.Size(158, 17)
+        Me.chkEnableLogWatcher.TabIndex = 25
+        Me.chkEnableLogWatcher.Text = "Enable Market Log Watcher"
+        Me.chkEnableLogWatcher.UseVisualStyleBackColor = True
+        '
+        'chkNotifyPopup
+        '
+        Me.chkNotifyPopup.AutoSize = True
+        Me.chkNotifyPopup.Location = New System.Drawing.Point(407, 19)
+        Me.chkNotifyPopup.Name = "chkNotifyPopup"
+        Me.chkNotifyPopup.Size = New System.Drawing.Size(163, 17)
+        Me.chkNotifyPopup.TabIndex = 24
+        Me.chkNotifyPopup.Text = "Popup Notification on Import"
+        Me.chkNotifyPopup.UseVisualStyleBackColor = True
+        '
+        'chkNotifyTray
+        '
+        Me.chkNotifyTray.AutoSize = True
+        Me.chkNotifyTray.Location = New System.Drawing.Point(407, 42)
+        Me.chkNotifyTray.Name = "chkNotifyTray"
+        Me.chkNotifyTray.Size = New System.Drawing.Size(193, 17)
+        Me.chkNotifyTray.TabIndex = 23
+        Me.chkNotifyTray.Text = "System Tray Notification on Import"
+        Me.chkNotifyTray.UseVisualStyleBackColor = True
         '
         'gbCriteria
         '
@@ -355,9 +314,9 @@ Partial Class frmMarketPrices
         Me.gbCriteria.Controls.Add(Me.chkBuyMax)
         Me.gbCriteria.Controls.Add(Me.chkBuyMean)
         Me.gbCriteria.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gbCriteria.Location = New System.Drawing.Point(14, 448)
+        Me.gbCriteria.Location = New System.Drawing.Point(10, 433)
         Me.gbCriteria.Name = "gbCriteria"
-        Me.gbCriteria.Size = New System.Drawing.Size(425, 126)
+        Me.gbCriteria.Size = New System.Drawing.Size(610, 94)
         Me.gbCriteria.TabIndex = 21
         Me.gbCriteria.TabStop = False
         Me.gbCriteria.Text = "Pricing Criteria"
@@ -365,7 +324,7 @@ Partial Class frmMarketPrices
         'chkAllMedian
         '
         Me.chkAllMedian.AutoSize = True
-        Me.chkAllMedian.Location = New System.Drawing.Point(309, 43)
+        Me.chkAllMedian.Location = New System.Drawing.Point(158, 66)
         Me.chkAllMedian.Name = "chkAllMedian"
         Me.chkAllMedian.Size = New System.Drawing.Size(108, 17)
         Me.chkAllMedian.TabIndex = 11
@@ -375,7 +334,7 @@ Partial Class frmMarketPrices
         'chkAllMin
         '
         Me.chkAllMin.AutoSize = True
-        Me.chkAllMin.Location = New System.Drawing.Point(309, 66)
+        Me.chkAllMin.Location = New System.Drawing.Point(308, 66)
         Me.chkAllMin.Name = "chkAllMin"
         Me.chkAllMin.Size = New System.Drawing.Size(90, 17)
         Me.chkAllMin.TabIndex = 10
@@ -385,7 +344,7 @@ Partial Class frmMarketPrices
         'chkAllMax
         '
         Me.chkAllMax.AutoSize = True
-        Me.chkAllMax.Location = New System.Drawing.Point(309, 89)
+        Me.chkAllMax.Location = New System.Drawing.Point(458, 66)
         Me.chkAllMax.Name = "chkAllMax"
         Me.chkAllMax.Size = New System.Drawing.Size(94, 17)
         Me.chkAllMax.TabIndex = 9
@@ -395,7 +354,7 @@ Partial Class frmMarketPrices
         'chkAllMean
         '
         Me.chkAllMean.AutoSize = True
-        Me.chkAllMean.Location = New System.Drawing.Point(309, 20)
+        Me.chkAllMean.Location = New System.Drawing.Point(8, 66)
         Me.chkAllMean.Name = "chkAllMean"
         Me.chkAllMean.Size = New System.Drawing.Size(100, 17)
         Me.chkAllMean.TabIndex = 8
@@ -405,7 +364,7 @@ Partial Class frmMarketPrices
         'chkSellMedian
         '
         Me.chkSellMedian.AutoSize = True
-        Me.chkSellMedian.Location = New System.Drawing.Point(152, 43)
+        Me.chkSellMedian.Location = New System.Drawing.Point(158, 43)
         Me.chkSellMedian.Name = "chkSellMedian"
         Me.chkSellMedian.Size = New System.Drawing.Size(113, 17)
         Me.chkSellMedian.TabIndex = 7
@@ -415,7 +374,7 @@ Partial Class frmMarketPrices
         'chkSellMin
         '
         Me.chkSellMin.AutoSize = True
-        Me.chkSellMin.Location = New System.Drawing.Point(152, 66)
+        Me.chkSellMin.Location = New System.Drawing.Point(308, 43)
         Me.chkSellMin.Name = "chkSellMin"
         Me.chkSellMin.Size = New System.Drawing.Size(95, 17)
         Me.chkSellMin.TabIndex = 6
@@ -425,7 +384,7 @@ Partial Class frmMarketPrices
         'chkSellMax
         '
         Me.chkSellMax.AutoSize = True
-        Me.chkSellMax.Location = New System.Drawing.Point(152, 89)
+        Me.chkSellMax.Location = New System.Drawing.Point(458, 43)
         Me.chkSellMax.Name = "chkSellMax"
         Me.chkSellMax.Size = New System.Drawing.Size(99, 17)
         Me.chkSellMax.TabIndex = 5
@@ -435,7 +394,7 @@ Partial Class frmMarketPrices
         'chkSellMean
         '
         Me.chkSellMean.AutoSize = True
-        Me.chkSellMean.Location = New System.Drawing.Point(152, 20)
+        Me.chkSellMean.Location = New System.Drawing.Point(8, 43)
         Me.chkSellMean.Name = "chkSellMean"
         Me.chkSellMean.Size = New System.Drawing.Size(105, 17)
         Me.chkSellMean.TabIndex = 4
@@ -445,7 +404,7 @@ Partial Class frmMarketPrices
         'chkBuyMedian
         '
         Me.chkBuyMedian.AutoSize = True
-        Me.chkBuyMedian.Location = New System.Drawing.Point(6, 43)
+        Me.chkBuyMedian.Location = New System.Drawing.Point(158, 20)
         Me.chkBuyMedian.Name = "chkBuyMedian"
         Me.chkBuyMedian.Size = New System.Drawing.Size(115, 17)
         Me.chkBuyMedian.TabIndex = 3
@@ -455,7 +414,7 @@ Partial Class frmMarketPrices
         'chkBuyMin
         '
         Me.chkBuyMin.AutoSize = True
-        Me.chkBuyMin.Location = New System.Drawing.Point(6, 66)
+        Me.chkBuyMin.Location = New System.Drawing.Point(308, 20)
         Me.chkBuyMin.Name = "chkBuyMin"
         Me.chkBuyMin.Size = New System.Drawing.Size(97, 17)
         Me.chkBuyMin.TabIndex = 2
@@ -465,7 +424,7 @@ Partial Class frmMarketPrices
         'chkBuyMax
         '
         Me.chkBuyMax.AutoSize = True
-        Me.chkBuyMax.Location = New System.Drawing.Point(6, 89)
+        Me.chkBuyMax.Location = New System.Drawing.Point(458, 20)
         Me.chkBuyMax.Name = "chkBuyMax"
         Me.chkBuyMax.Size = New System.Drawing.Size(101, 17)
         Me.chkBuyMax.TabIndex = 1
@@ -475,7 +434,7 @@ Partial Class frmMarketPrices
         'chkBuyMean
         '
         Me.chkBuyMean.AutoSize = True
-        Me.chkBuyMean.Location = New System.Drawing.Point(6, 20)
+        Me.chkBuyMean.Location = New System.Drawing.Point(8, 20)
         Me.chkBuyMean.Name = "chkBuyMean"
         Me.chkBuyMean.Size = New System.Drawing.Size(107, 17)
         Me.chkBuyMean.TabIndex = 0
@@ -485,7 +444,7 @@ Partial Class frmMarketPrices
         'btnMinmatar
         '
         Me.btnMinmatar.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMinmatar.Location = New System.Drawing.Point(554, 419)
+        Me.btnMinmatar.Location = New System.Drawing.Point(626, 260)
         Me.btnMinmatar.Name = "btnMinmatar"
         Me.btnMinmatar.Size = New System.Drawing.Size(70, 23)
         Me.btnMinmatar.TabIndex = 20
@@ -495,7 +454,7 @@ Partial Class frmMarketPrices
         'btnGallente
         '
         Me.btnGallente.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGallente.Location = New System.Drawing.Point(478, 419)
+        Me.btnGallente.Location = New System.Drawing.Point(626, 231)
         Me.btnGallente.Name = "btnGallente"
         Me.btnGallente.Size = New System.Drawing.Size(70, 23)
         Me.btnGallente.TabIndex = 19
@@ -505,7 +464,7 @@ Partial Class frmMarketPrices
         'btnCaldari
         '
         Me.btnCaldari.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCaldari.Location = New System.Drawing.Point(402, 419)
+        Me.btnCaldari.Location = New System.Drawing.Point(626, 202)
         Me.btnCaldari.Name = "btnCaldari"
         Me.btnCaldari.Size = New System.Drawing.Size(70, 23)
         Me.btnCaldari.TabIndex = 18
@@ -515,7 +474,7 @@ Partial Class frmMarketPrices
         'btnAmarr
         '
         Me.btnAmarr.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAmarr.Location = New System.Drawing.Point(326, 419)
+        Me.btnAmarr.Location = New System.Drawing.Point(626, 173)
         Me.btnAmarr.Name = "btnAmarr"
         Me.btnAmarr.Size = New System.Drawing.Size(70, 23)
         Me.btnAmarr.TabIndex = 17
@@ -527,7 +486,7 @@ Partial Class frmMarketPrices
         Me.tabMarketLogs.Controls.Add(Me.panelMarketLog)
         Me.tabMarketLogs.Location = New System.Drawing.Point(4, 22)
         Me.tabMarketLogs.Name = "tabMarketLogs"
-        Me.tabMarketLogs.Size = New System.Drawing.Size(781, 653)
+        Me.tabMarketLogs.Size = New System.Drawing.Size(709, 597)
         Me.tabMarketLogs.TabIndex = 2
         Me.tabMarketLogs.Text = "Market Log Import"
         Me.tabMarketLogs.UseVisualStyleBackColor = True
@@ -536,21 +495,19 @@ Partial Class frmMarketPrices
         '
         Me.panelMarketLog.BackColor = System.Drawing.SystemColors.Control
         Me.panelMarketLog.Controls.Add(Me.lvwLogs)
-        Me.panelMarketLog.Controls.Add(Me.chkEnableLogWatcher)
-        Me.panelMarketLog.Controls.Add(Me.chkNotifyPopup)
-        Me.panelMarketLog.Controls.Add(Me.chkNotifyTray)
         Me.panelMarketLog.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMarketLog.Location = New System.Drawing.Point(0, 0)
         Me.panelMarketLog.Name = "panelMarketLog"
-        Me.panelMarketLog.Size = New System.Drawing.Size(781, 653)
+        Me.panelMarketLog.Size = New System.Drawing.Size(709, 597)
         Me.panelMarketLog.TabIndex = 0
         '
         'lvwLogs
         '
         Me.lvwLogs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colFilename, Me.colDate})
-        Me.lvwLogs.Location = New System.Drawing.Point(8, 88)
+        Me.lvwLogs.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwLogs.Location = New System.Drawing.Point(0, 0)
         Me.lvwLogs.Name = "lvwLogs"
-        Me.lvwLogs.Size = New System.Drawing.Size(765, 557)
+        Me.lvwLogs.Size = New System.Drawing.Size(709, 597)
         Me.lvwLogs.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwLogs.TabIndex = 7
         Me.lvwLogs.UseCompatibleStateImageBehavior = False
@@ -566,54 +523,144 @@ Partial Class frmMarketPrices
         Me.colDate.Text = "Date/Time"
         Me.colDate.Width = 150
         '
-        'chkEnableLogWatcher
-        '
-        Me.chkEnableLogWatcher.AutoSize = True
-        Me.chkEnableLogWatcher.Location = New System.Drawing.Point(19, 19)
-        Me.chkEnableLogWatcher.Name = "chkEnableLogWatcher"
-        Me.chkEnableLogWatcher.Size = New System.Drawing.Size(160, 17)
-        Me.chkEnableLogWatcher.TabIndex = 6
-        Me.chkEnableLogWatcher.Text = "Enable Market Log Watcher"
-        Me.chkEnableLogWatcher.UseVisualStyleBackColor = True
-        '
-        'chkNotifyPopup
-        '
-        Me.chkNotifyPopup.AutoSize = True
-        Me.chkNotifyPopup.Location = New System.Drawing.Point(19, 65)
-        Me.chkNotifyPopup.Name = "chkNotifyPopup"
-        Me.chkNotifyPopup.Size = New System.Drawing.Size(198, 17)
-        Me.chkNotifyPopup.TabIndex = 5
-        Me.chkNotifyPopup.Text = "Popup Notification on Upload Result"
-        Me.chkNotifyPopup.UseVisualStyleBackColor = True
-        '
-        'chkNotifyTray
-        '
-        Me.chkNotifyTray.AutoSize = True
-        Me.chkNotifyTray.Location = New System.Drawing.Point(19, 42)
-        Me.chkNotifyTray.Name = "chkNotifyTray"
-        Me.chkNotifyTray.Size = New System.Drawing.Size(225, 17)
-        Me.chkNotifyTray.TabIndex = 4
-        Me.chkNotifyTray.Text = "System Tray Notification on Upload Result"
-        Me.chkNotifyTray.UseVisualStyleBackColor = True
-        '
         'tmrStart
         '
+        '
+        'chkEnableWatcherAtStartup
+        '
+        Me.chkEnableWatcherAtStartup.AutoSize = True
+        Me.chkEnableWatcherAtStartup.Location = New System.Drawing.Point(8, 42)
+        Me.chkEnableWatcherAtStartup.Name = "chkEnableWatcherAtStartup"
+        Me.chkEnableWatcherAtStartup.Size = New System.Drawing.Size(220, 17)
+        Me.chkEnableWatcherAtStartup.TabIndex = 26
+        Me.chkEnableWatcherAtStartup.Text = "Start Market Watcher on EveHQ Startup"
+        Me.chkEnableWatcherAtStartup.UseVisualStyleBackColor = True
+        '
+        'chkAutoUpdateCurrentPrice
+        '
+        Me.chkAutoUpdateCurrentPrice.AutoSize = True
+        Me.chkAutoUpdateCurrentPrice.Location = New System.Drawing.Point(248, 19)
+        Me.chkAutoUpdateCurrentPrice.Name = "chkAutoUpdateCurrentPrice"
+        Me.chkAutoUpdateCurrentPrice.Size = New System.Drawing.Size(154, 17)
+        Me.chkAutoUpdateCurrentPrice.TabIndex = 27
+        Me.chkAutoUpdateCurrentPrice.Text = "Auto-Update Current Price"
+        Me.chkAutoUpdateCurrentPrice.UseVisualStyleBackColor = True
+        '
+        'chkAutoUpdatePriceData
+        '
+        Me.chkAutoUpdatePriceData.AutoSize = True
+        Me.chkAutoUpdatePriceData.Location = New System.Drawing.Point(248, 42)
+        Me.chkAutoUpdatePriceData.Name = "chkAutoUpdatePriceData"
+        Me.chkAutoUpdatePriceData.Size = New System.Drawing.Size(140, 17)
+        Me.chkAutoUpdatePriceData.TabIndex = 28
+        Me.chkAutoUpdatePriceData.Text = "Auto-Update Price Data"
+        Me.chkAutoUpdatePriceData.UseVisualStyleBackColor = True
+        '
+        'chkIgnoreBuyOrders
+        '
+        Me.chkIgnoreBuyOrders.AutoSize = True
+        Me.chkIgnoreBuyOrders.Checked = True
+        Me.chkIgnoreBuyOrders.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkIgnoreBuyOrders.Location = New System.Drawing.Point(8, 19)
+        Me.chkIgnoreBuyOrders.Name = "chkIgnoreBuyOrders"
+        Me.chkIgnoreBuyOrders.Size = New System.Drawing.Size(170, 17)
+        Me.chkIgnoreBuyOrders.TabIndex = 33
+        Me.chkIgnoreBuyOrders.Text = "Ignore Buy Orders Less Than:"
+        Me.chkIgnoreBuyOrders.UseVisualStyleBackColor = True
+        '
+        'nudIgnoreBuyOrderLimit
+        '
+        Me.nudIgnoreBuyOrderLimit.DecimalPlaces = 2
+        Me.nudIgnoreBuyOrderLimit.Location = New System.Drawing.Point(181, 18)
+        Me.nudIgnoreBuyOrderLimit.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.nudIgnoreBuyOrderLimit.Name = "nudIgnoreBuyOrderLimit"
+        Me.nudIgnoreBuyOrderLimit.Size = New System.Drawing.Size(74, 21)
+        Me.nudIgnoreBuyOrderLimit.TabIndex = 29
+        Me.nudIgnoreBuyOrderLimit.Value = New Decimal(New Integer() {1, 0, 0, 65536})
+        '
+        'nudIgnoreSellOrderLimit
+        '
+        Me.nudIgnoreSellOrderLimit.DecimalPlaces = 2
+        Me.nudIgnoreSellOrderLimit.Location = New System.Drawing.Point(481, 18)
+        Me.nudIgnoreSellOrderLimit.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.nudIgnoreSellOrderLimit.Name = "nudIgnoreSellOrderLimit"
+        Me.nudIgnoreSellOrderLimit.Size = New System.Drawing.Size(74, 21)
+        Me.nudIgnoreSellOrderLimit.TabIndex = 30
+        Me.nudIgnoreSellOrderLimit.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        '
+        'chkIgnoreSellOrders
+        '
+        Me.chkIgnoreSellOrders.AutoSize = True
+        Me.chkIgnoreSellOrders.Checked = True
+        Me.chkIgnoreSellOrders.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkIgnoreSellOrders.Location = New System.Drawing.Point(308, 19)
+        Me.chkIgnoreSellOrders.Name = "chkIgnoreSellOrders"
+        Me.chkIgnoreSellOrders.Size = New System.Drawing.Size(171, 17)
+        Me.chkIgnoreSellOrders.TabIndex = 34
+        Me.chkIgnoreSellOrders.Text = "Ignore Sell Orders More Than:"
+        Me.chkIgnoreSellOrders.UseVisualStyleBackColor = True
+        '
+        'lblIgnoreBuyOrderUnit
+        '
+        Me.lblIgnoreBuyOrderUnit.AutoSize = True
+        Me.lblIgnoreBuyOrderUnit.Location = New System.Drawing.Point(261, 20)
+        Me.lblIgnoreBuyOrderUnit.Name = "lblIgnoreBuyOrderUnit"
+        Me.lblIgnoreBuyOrderUnit.Size = New System.Drawing.Size(23, 13)
+        Me.lblIgnoreBuyOrderUnit.TabIndex = 31
+        Me.lblIgnoreBuyOrderUnit.Text = "ISK"
+        '
+        'lblIgnoreSellOrderUnit
+        '
+        Me.lblIgnoreSellOrderUnit.AutoSize = True
+        Me.lblIgnoreSellOrderUnit.Location = New System.Drawing.Point(561, 20)
+        Me.lblIgnoreSellOrderUnit.Name = "lblIgnoreSellOrderUnit"
+        Me.lblIgnoreSellOrderUnit.Size = New System.Drawing.Size(39, 13)
+        Me.lblIgnoreSellOrderUnit.TabIndex = 32
+        Me.lblIgnoreSellOrderUnit.Text = "x Base"
+        '
+        'grpParsing
+        '
+        Me.grpParsing.Controls.Add(Me.nudIgnoreBuyOrderLimit)
+        Me.grpParsing.Controls.Add(Me.nudIgnoreSellOrderLimit)
+        Me.grpParsing.Controls.Add(Me.chkIgnoreBuyOrders)
+        Me.grpParsing.Controls.Add(Me.chkIgnoreSellOrders)
+        Me.grpParsing.Controls.Add(Me.lblIgnoreSellOrderUnit)
+        Me.grpParsing.Controls.Add(Me.lblIgnoreBuyOrderUnit)
+        Me.grpParsing.Location = New System.Drawing.Point(10, 533)
+        Me.grpParsing.Name = "grpParsing"
+        Me.grpParsing.Size = New System.Drawing.Size(610, 49)
+        Me.grpParsing.TabIndex = 35
+        Me.grpParsing.TabStop = False
+        Me.grpParsing.Text = "Market Log Parsing Criteria"
+        '
+        'grpMarketLogWatcher
+        '
+        Me.grpMarketLogWatcher.Controls.Add(Me.chkEnableLogWatcher)
+        Me.grpMarketLogWatcher.Controls.Add(Me.chkEnableWatcherAtStartup)
+        Me.grpMarketLogWatcher.Controls.Add(Me.chkNotifyTray)
+        Me.grpMarketLogWatcher.Controls.Add(Me.chkAutoUpdatePriceData)
+        Me.grpMarketLogWatcher.Controls.Add(Me.chkNotifyPopup)
+        Me.grpMarketLogWatcher.Controls.Add(Me.chkAutoUpdateCurrentPrice)
+        Me.grpMarketLogWatcher.Location = New System.Drawing.Point(10, 10)
+        Me.grpMarketLogWatcher.Name = "grpMarketLogWatcher"
+        Me.grpMarketLogWatcher.Size = New System.Drawing.Size(610, 73)
+        Me.grpMarketLogWatcher.TabIndex = 36
+        Me.grpMarketLogWatcher.TabStop = False
+        Me.grpMarketLogWatcher.Text = "Market Log Watcher Options"
         '
         'frmMarketPrices
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(789, 679)
+        Me.ClientSize = New System.Drawing.Size(717, 623)
         Me.Controls.Add(Me.TabControl1)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMarketPrices"
         Me.Text = "Market Prices"
-        CType(Me.nudIgnoreBuyOrderLimit, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControl1.ResumeLayout(False)
         Me.tabDumps.ResumeLayout(False)
         Me.panelECDumps.ResumeLayout(False)
-        Me.panelECDumps.PerformLayout()
         Me.gbProcessStatus.ResumeLayout(False)
         Me.gbProcessStatus.PerformLayout()
         Me.tabPrices.ResumeLayout(False)
@@ -622,18 +669,17 @@ Partial Class frmMarketPrices
         Me.gbCriteria.PerformLayout()
         Me.tabMarketLogs.ResumeLayout(False)
         Me.panelMarketLog.ResumeLayout(False)
-        Me.panelMarketLog.PerformLayout()
+        CType(Me.nudIgnoreBuyOrderLimit, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpParsing.ResumeLayout(False)
+        Me.grpParsing.PerformLayout()
+        Me.grpMarketLogWatcher.ResumeLayout(False)
+        Me.grpMarketLogWatcher.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents ofd1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents nudIgnoreBuyOrderLimit As System.Windows.Forms.NumericUpDown
-    Friend WithEvents nudIgnoreSellOrderLimit As System.Windows.Forms.NumericUpDown
-    Friend WithEvents lblIgnoreBuyOrderUnit As System.Windows.Forms.Label
-    Friend WithEvents lblIgnoreSellOrderUnit As System.Windows.Forms.Label
-    Friend WithEvents chkIgnoreBuyOrders As System.Windows.Forms.CheckBox
-    Friend WithEvents chkIgnoreSellOrders As System.Windows.Forms.CheckBox
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents lblProgress As System.Windows.Forms.Label
     Friend WithEvents grpRegions As System.Windows.Forms.GroupBox
@@ -663,17 +709,27 @@ Partial Class frmMarketPrices
     Friend WithEvents chkBuyMin As System.Windows.Forms.CheckBox
     Friend WithEvents chkBuyMax As System.Windows.Forms.CheckBox
     Friend WithEvents chkBuyMean As System.Windows.Forms.CheckBox
-    Friend WithEvents MonthCalendar1 As System.Windows.Forms.MonthCalendar
     Friend WithEvents tmrStart As System.Windows.Forms.Timer
     Friend WithEvents gbProcessStatus As System.Windows.Forms.GroupBox
     Friend WithEvents pbProgress As System.Windows.Forms.ProgressBar
     Friend WithEvents lblProcess As System.Windows.Forms.Label
     Friend WithEvents tabMarketLogs As System.Windows.Forms.TabPage
     Friend WithEvents panelMarketLog As System.Windows.Forms.Panel
-    Friend WithEvents chkNotifyPopup As System.Windows.Forms.CheckBox
-    Friend WithEvents chkNotifyTray As System.Windows.Forms.CheckBox
-    Friend WithEvents chkEnableLogWatcher As System.Windows.Forms.CheckBox
     Friend WithEvents lvwLogs As System.Windows.Forms.ListView
     Friend WithEvents colFilename As System.Windows.Forms.ColumnHeader
     Friend WithEvents colDate As System.Windows.Forms.ColumnHeader
+    Friend WithEvents chkEnableLogWatcher As System.Windows.Forms.CheckBox
+    Friend WithEvents chkNotifyPopup As System.Windows.Forms.CheckBox
+    Friend WithEvents chkNotifyTray As System.Windows.Forms.CheckBox
+    Friend WithEvents chkAutoUpdatePriceData As System.Windows.Forms.CheckBox
+    Friend WithEvents chkAutoUpdateCurrentPrice As System.Windows.Forms.CheckBox
+    Friend WithEvents chkEnableWatcherAtStartup As System.Windows.Forms.CheckBox
+    Friend WithEvents chkIgnoreBuyOrders As System.Windows.Forms.CheckBox
+    Friend WithEvents nudIgnoreBuyOrderLimit As System.Windows.Forms.NumericUpDown
+    Friend WithEvents nudIgnoreSellOrderLimit As System.Windows.Forms.NumericUpDown
+    Friend WithEvents chkIgnoreSellOrders As System.Windows.Forms.CheckBox
+    Friend WithEvents lblIgnoreBuyOrderUnit As System.Windows.Forms.Label
+    Friend WithEvents lblIgnoreSellOrderUnit As System.Windows.Forms.Label
+    Friend WithEvents grpMarketLogWatcher As System.Windows.Forms.GroupBox
+    Friend WithEvents grpParsing As System.Windows.Forms.GroupBox
 End Class

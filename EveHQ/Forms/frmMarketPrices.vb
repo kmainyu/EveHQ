@@ -30,6 +30,7 @@ Public Class frmMarketPrices
     Dim ProcessOrder As Boolean = True
     Dim marketCacheFolder As String = ""
     Dim ECDumpURL As String = "http://eve-central.com/dumps/"
+    Dim startUp As Boolean = True
 
     Private Function CheckMarketStatsDBTable() As Boolean
         Dim CreateTable As Boolean = False
@@ -359,6 +360,8 @@ Public Class frmMarketPrices
 
     Private Sub frmMarketPrices_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        startUp = True
+
         ' Check for the market cache folder
         If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.appDataFolder & "\MarketCache") = False Then
             Try
@@ -393,6 +396,7 @@ Public Class frmMarketPrices
                 Dim chk As New CheckBox
                 chk.Text = CStr(regionRow.Item("regionName"))
                 chk.Name = CStr(regionRow.Item("regionID"))
+                AddHandler chk.CheckedChanged, AddressOf Me.MarketRegionChanged
                 If IsDBNull(regionRow.Item("factionID")) Then
                     chk.Tag = 0
                 Else
@@ -422,6 +426,11 @@ Public Class frmMarketPrices
             lvwLogs.Items.Add(file)
         Next
         lvwLogs.EndUpdate()
+
+        ' Update Market Price Settings
+        Call Me.UpdatePriceSettings()
+
+        startUp = False
 
         ' Start the initial timing check (but do last so form is drawn)
         tmrStart.Enabled = True
@@ -743,11 +752,57 @@ Public Class frmMarketPrices
 
     End Function
 
+   
+    Private Sub tmrStart_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrStart.Tick
+        tmrStart.Stop()
+        Dim lastDate As Date = GetLastMarketDate()
+        If lastDate.ToOADate = 0 Then
+            Dim msg As String = "EveHQ has detected that no market prices have been processed. Would you like to download and process these from Eve-Central now?"
+            Dim reply As Integer = MessageBox.Show(msg, "Get Initial Prices?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If reply = DialogResult.No Then
+                Exit Sub
+            Else
+                System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetFirstPrices, Nothing)
+            End If
+        End If
+    End Sub
+
+    Private Sub UpdateProgressBar()
+        If currentProgressScroll = True Then
+            pbProgress.Style = ProgressBarStyle.Marquee
+        Else
+            pbProgress.Style = ProgressBarStyle.Continuous
+        End If
+        pbProgress.Value = CInt(currentProgress)
+        pbProgress.Refresh()
+    End Sub
+
+#Region "Market Price Settings"
+
+    Private Sub UpdatePriceSettings()
+        ' Update the regionallist
+        For Each chk As CheckBox In grpRegions.Controls
+            If EveHQ.Core.HQ.EveHQSettings.MarketRegionList.Contains(chk.Name) = True Then
+                chk.Checked = True
+            Else
+                chk.Checked = False
+            End If
+        Next
+    End Sub
+
     Private Sub AddRegions()
         EveHQ.Core.HQ.EveHQSettings.MarketRegionList.Clear()
         For Each chk As CheckBox In grpRegions.Controls
-            EveHQ.Core.HQ.EveHQSettings.MarketRegionList.Add(chk.Name)
+            If chk.Checked = True Then
+                EveHQ.Core.HQ.EveHQSettings.MarketRegionList.Add(chk.Name)
+            End If
         Next
+    End Sub
+
+    Private Sub MarketRegionChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+        If startUp = False Then
+            Call Me.AddRegions()
+        End If
     End Sub
 
     Private Sub btnAllRegions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAllRegions.Click
@@ -830,47 +885,20 @@ Public Class frmMarketPrices
         Call Me.AddRegions()
     End Sub
 
-    Private Sub tmrStart_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrStart.Tick
-        tmrStart.Stop()
-        Dim lastDate As Date = GetLastMarketDate()
-        If lastDate.ToOADate = 0 Then
-            Dim msg As String = "EveHQ has detected that no market prices have been processed. Would you like to download and process these from Eve-Central now?"
-            Dim reply As Integer = MessageBox.Show(msg, "Get Initial Prices?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If reply = DialogResult.No Then
-                Exit Sub
-            Else
-                System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetFirstPrices, Nothing)
-            End If
-        End If
-    End Sub
-
-    Private Sub UpdateProgressBar()
-        If currentProgressScroll = True Then
-            pbProgress.Style = ProgressBarStyle.Marquee
-        Else
-            pbProgress.Style = ProgressBarStyle.Continuous
-        End If
-        pbProgress.Value = CInt(currentProgress)
-        pbProgress.Refresh()
-    End Sub
-
-
-#Region "Market Log Watcher Routines"
     Private Sub chkEnableLogWatcher_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEnableLogWatcher.CheckedChanged
         If chkEnableLogWatcher.Checked = True Then
             If frmEveHQ.InitialiseWatchers() = True Then
-                'EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = True
+                EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = True
             Else
                 MessageBox.Show("Unable to start Market Log Watcher. Please check your Eve folders in the EveHQ Settings.", "Error Starting Watcher", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 chkEnableLogWatcher.Checked = False
             End If
         Else
             Call frmEveHQ.CancelWatchers()
-            'EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = False
+            EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = False
         End If
     End Sub
 
 #End Region
 
-    
 End Class

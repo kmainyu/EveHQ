@@ -328,6 +328,8 @@ Public Class frmSplash
                 myAssembly = Nothing
             Catch bife As BadImageFormatException
                 'Ignore non .Net dlls (ones without manifests i.e. the G15 lglcd.dll) i.e. don't error
+            Catch rtle As ReflectionTypeLoadException
+                ' Assume it's a bad/old version and ignore it
             Catch e As Exception
                 MessageBox.Show("Error loading module: " & filename & ControlChars.CrLf & e.Message.ToString, "Module Error!", MessageBoxButtons.OK, MessageBoxIcon.Stop)
             End Try

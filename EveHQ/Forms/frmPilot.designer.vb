@@ -86,35 +86,35 @@ Partial Public Class frmPilot
         '
         Me.ctxSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuViewDetails, Me.ToolStripMenuItem1, Me.mnuForceTraining})
         Me.ctxSkills.Name = "ctxSkills"
-        Me.ctxSkills.Size = New System.Drawing.Size(175, 82)
+        Me.ctxSkills.Size = New System.Drawing.Size(174, 82)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(174, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(173, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(171, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(170, 6)
         '
         'mnuViewDetails
         '
         Me.mnuViewDetails.Name = "mnuViewDetails"
-        Me.mnuViewDetails.Size = New System.Drawing.Size(174, 22)
+        Me.mnuViewDetails.Size = New System.Drawing.Size(173, 22)
         Me.mnuViewDetails.Text = "View Details"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(171, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(170, 6)
         '
         'mnuForceTraining
         '
         Me.mnuForceTraining.Name = "mnuForceTraining"
-        Me.mnuForceTraining.Size = New System.Drawing.Size(174, 22)
+        Me.mnuForceTraining.Size = New System.Drawing.Size(173, 22)
         Me.mnuForceTraining.Text = "Force Skill Training"
         '
         'picPilot
@@ -134,24 +134,24 @@ Partial Public Class frmPilot
         '
         Me.ctxPic.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCtxPicGetPortraitFromServer, Me.mnuCtxPicGetPortraitFromLocal, Me.mnuSavePortrait})
         Me.ctxPic.Name = "ctxPic"
-        Me.ctxPic.Size = New System.Drawing.Size(246, 70)
+        Me.ctxPic.Size = New System.Drawing.Size(244, 70)
         '
         'mnuCtxPicGetPortraitFromServer
         '
         Me.mnuCtxPicGetPortraitFromServer.Name = "mnuCtxPicGetPortraitFromServer"
-        Me.mnuCtxPicGetPortraitFromServer.Size = New System.Drawing.Size(245, 22)
+        Me.mnuCtxPicGetPortraitFromServer.Size = New System.Drawing.Size(243, 22)
         Me.mnuCtxPicGetPortraitFromServer.Text = "Get Portrait from Eve Server"
         '
         'mnuCtxPicGetPortraitFromLocal
         '
         Me.mnuCtxPicGetPortraitFromLocal.Name = "mnuCtxPicGetPortraitFromLocal"
-        Me.mnuCtxPicGetPortraitFromLocal.Size = New System.Drawing.Size(245, 22)
+        Me.mnuCtxPicGetPortraitFromLocal.Size = New System.Drawing.Size(243, 22)
         Me.mnuCtxPicGetPortraitFromLocal.Text = "Get Portrait from Eve Installation"
         '
         'mnuSavePortrait
         '
         Me.mnuSavePortrait.Name = "mnuSavePortrait"
-        Me.mnuSavePortrait.Size = New System.Drawing.Size(245, 22)
+        Me.mnuSavePortrait.Size = New System.Drawing.Size(243, 22)
         Me.mnuSavePortrait.Text = "Save Portrait into EveHQ Cache"
         '
         'lvImplants
@@ -286,9 +286,9 @@ Partial Public Class frmPilot
         Me.clvSkills.Dock = System.Windows.Forms.DockStyle.Fill
         Me.clvSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.clvSkills.ItemContextMenu = Me.ctxSkills
-        Me.clvSkills.Location = New System.Drawing.Point(3, 3)
+        Me.clvSkills.Location = New System.Drawing.Point(0, 0)
         Me.clvSkills.Name = "clvSkills"
-        Me.clvSkills.Size = New System.Drawing.Size(719, 204)
+        Me.clvSkills.Size = New System.Drawing.Size(725, 210)
         Me.clvSkills.TabIndex = 37
         '
         'ContainerListViewColumnHeader1
@@ -380,7 +380,6 @@ Partial Public Class frmPilot
         Me.tabSkills.Controls.Add(Me.clvSkills)
         Me.tabSkills.Location = New System.Drawing.Point(4, 22)
         Me.tabSkills.Name = "tabSkills"
-        Me.tabSkills.Padding = New System.Windows.Forms.Padding(3)
         Me.tabSkills.Size = New System.Drawing.Size(725, 210)
         Me.tabSkills.TabIndex = 0
         Me.tabSkills.Text = "Skills"
@@ -391,7 +390,6 @@ Partial Public Class frmPilot
         Me.tabCerts.Controls.Add(Me.Panel1)
         Me.tabCerts.Location = New System.Drawing.Point(4, 22)
         Me.tabCerts.Name = "tabCerts"
-        Me.tabCerts.Padding = New System.Windows.Forms.Padding(3)
         Me.tabCerts.Size = New System.Drawing.Size(725, 210)
         Me.tabCerts.TabIndex = 1
         Me.tabCerts.Text = "Certificates"
@@ -402,9 +400,9 @@ Partial Public Class frmPilot
         Me.Panel1.BackColor = System.Drawing.SystemColors.Control
         Me.Panel1.Controls.Add(Me.clvCerts)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel1.Location = New System.Drawing.Point(3, 3)
+        Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(719, 204)
+        Me.Panel1.Size = New System.Drawing.Size(725, 210)
         Me.Panel1.TabIndex = 1
         '
         'clvCerts
@@ -418,7 +416,7 @@ Partial Public Class frmPilot
         Me.clvCerts.Location = New System.Drawing.Point(0, 0)
         Me.clvCerts.MultipleColumnSort = True
         Me.clvCerts.Name = "clvCerts"
-        Me.clvCerts.Size = New System.Drawing.Size(719, 204)
+        Me.clvCerts.Size = New System.Drawing.Size(725, 210)
         Me.clvCerts.TabIndex = 50
         '
         'colCertificate
@@ -455,24 +453,24 @@ Partial Public Class frmPilot
         '
         Me.ctxCerts.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator2, Me.mnuViewCertDetails})
         Me.ctxCerts.Name = "ctxSkills"
-        Me.ctxCerts.Size = New System.Drawing.Size(138, 54)
+        Me.ctxCerts.Size = New System.Drawing.Size(144, 54)
         '
         'mnuCertName
         '
         Me.mnuCertName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuCertName.Name = "mnuCertName"
-        Me.mnuCertName.Size = New System.Drawing.Size(137, 22)
+        Me.mnuCertName.Size = New System.Drawing.Size(143, 22)
         Me.mnuCertName.Text = "Skill Name"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(134, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(140, 6)
         '
         'mnuViewCertDetails
         '
         Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
-        Me.mnuViewCertDetails.Size = New System.Drawing.Size(137, 22)
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(143, 22)
         Me.mnuViewCertDetails.Text = "View Details"
         '
         'lvTraining

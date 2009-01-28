@@ -201,13 +201,13 @@ Partial Class ShipSlotControl
         '
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(153, 48)
+        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
         Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
         '
         'imgState
@@ -389,7 +389,6 @@ Partial Class ShipSlotControl
         Me.tabDroneBay.Controls.Add(Me.panelDrone)
         Me.tabDroneBay.Location = New System.Drawing.Point(4, 22)
         Me.tabDroneBay.Name = "tabDroneBay"
-        Me.tabDroneBay.Padding = New System.Windows.Forms.Padding(3)
         Me.tabDroneBay.Size = New System.Drawing.Size(668, 216)
         Me.tabDroneBay.TabIndex = 0
         Me.tabDroneBay.Text = "Drone Bay"
@@ -403,9 +402,9 @@ Partial Class ShipSlotControl
         Me.panelDrone.Controls.Add(Me.btnMergeDrones)
         Me.panelDrone.Controls.Add(Me.lvwDroneBay)
         Me.panelDrone.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelDrone.Location = New System.Drawing.Point(3, 3)
+        Me.panelDrone.Location = New System.Drawing.Point(0, 0)
         Me.panelDrone.Name = "panelDrone"
-        Me.panelDrone.Size = New System.Drawing.Size(662, 210)
+        Me.panelDrone.Size = New System.Drawing.Size(668, 216)
         Me.panelDrone.TabIndex = 32
         '
         'pbDroneBay
@@ -417,7 +416,7 @@ Partial Class ShipSlotControl
         Me.pbDroneBay.GlowColor = System.Drawing.Color.LightGreen
         Me.pbDroneBay.Location = New System.Drawing.Point(3, 21)
         Me.pbDroneBay.Name = "pbDroneBay"
-        Me.pbDroneBay.Size = New System.Drawing.Size(560, 10)
+        Me.pbDroneBay.Size = New System.Drawing.Size(566, 10)
         Me.pbDroneBay.StartColor = System.Drawing.Color.LimeGreen
         Me.pbDroneBay.TabIndex = 31
         Me.pbDroneBay.Value = 50
@@ -434,7 +433,7 @@ Partial Class ShipSlotControl
         'btnMergeDrones
         '
         Me.btnMergeDrones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeDrones.Location = New System.Drawing.Point(569, 8)
+        Me.btnMergeDrones.Location = New System.Drawing.Point(575, 8)
         Me.btnMergeDrones.Name = "btnMergeDrones"
         Me.btnMergeDrones.Size = New System.Drawing.Size(90, 23)
         Me.btnMergeDrones.TabIndex = 3
@@ -454,7 +453,7 @@ Partial Class ShipSlotControl
         Me.lvwDroneBay.GridLines = True
         Me.lvwDroneBay.Location = New System.Drawing.Point(3, 35)
         Me.lvwDroneBay.Name = "lvwDroneBay"
-        Me.lvwDroneBay.Size = New System.Drawing.Size(656, 172)
+        Me.lvwDroneBay.Size = New System.Drawing.Size(662, 178)
         Me.lvwDroneBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwDroneBay.TabIndex = 2
         Me.lvwDroneBay.UseCompatibleStateImageBehavior = False
@@ -475,7 +474,6 @@ Partial Class ShipSlotControl
         Me.tabCargoBay.Controls.Add(Me.panelCargo)
         Me.tabCargoBay.Location = New System.Drawing.Point(4, 22)
         Me.tabCargoBay.Name = "tabCargoBay"
-        Me.tabCargoBay.Padding = New System.Windows.Forms.Padding(3)
         Me.tabCargoBay.Size = New System.Drawing.Size(668, 216)
         Me.tabCargoBay.TabIndex = 1
         Me.tabCargoBay.Text = "CargoBay"
@@ -489,9 +487,9 @@ Partial Class ShipSlotControl
         Me.panelCargo.Controls.Add(Me.btnMergeCargo)
         Me.panelCargo.Controls.Add(Me.lvwCargoBay)
         Me.panelCargo.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelCargo.Location = New System.Drawing.Point(3, 3)
+        Me.panelCargo.Location = New System.Drawing.Point(0, 0)
         Me.panelCargo.Name = "panelCargo"
-        Me.panelCargo.Size = New System.Drawing.Size(662, 210)
+        Me.panelCargo.Size = New System.Drawing.Size(668, 216)
         Me.panelCargo.TabIndex = 33
         '
         'pbCargoBay
@@ -503,7 +501,7 @@ Partial Class ShipSlotControl
         Me.pbCargoBay.GlowColor = System.Drawing.Color.LightGreen
         Me.pbCargoBay.Location = New System.Drawing.Point(3, 21)
         Me.pbCargoBay.Name = "pbCargoBay"
-        Me.pbCargoBay.Size = New System.Drawing.Size(560, 10)
+        Me.pbCargoBay.Size = New System.Drawing.Size(566, 10)
         Me.pbCargoBay.StartColor = System.Drawing.Color.LimeGreen
         Me.pbCargoBay.TabIndex = 32
         Me.pbCargoBay.Value = 50
@@ -520,7 +518,7 @@ Partial Class ShipSlotControl
         'btnMergeCargo
         '
         Me.btnMergeCargo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeCargo.Location = New System.Drawing.Point(569, 8)
+        Me.btnMergeCargo.Location = New System.Drawing.Point(575, 8)
         Me.btnMergeCargo.Name = "btnMergeCargo"
         Me.btnMergeCargo.Size = New System.Drawing.Size(90, 23)
         Me.btnMergeCargo.TabIndex = 6
@@ -539,7 +537,7 @@ Partial Class ShipSlotControl
         Me.lvwCargoBay.GridLines = True
         Me.lvwCargoBay.Location = New System.Drawing.Point(3, 35)
         Me.lvwCargoBay.Name = "lvwCargoBay"
-        Me.lvwCargoBay.Size = New System.Drawing.Size(656, 172)
+        Me.lvwCargoBay.Size = New System.Drawing.Size(662, 178)
         Me.lvwCargoBay.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwCargoBay.TabIndex = 5
         Me.lvwCargoBay.UseCompatibleStateImageBehavior = False

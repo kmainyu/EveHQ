@@ -139,6 +139,7 @@ Imports System.Diagnostics
     Private cMarketRegionList As New ArrayList
     Private cPriceCriteria(11) As Boolean
     Private cEnableMarketLogWatcher As Boolean = False
+    Private cEnableMarketLogWatcherAtStartup As Boolean = False
     Private cMarketLogToolTipConfirm As Boolean = False
     Private cMarketLogPopupConfirm As Boolean = False
     Private cMarketLogUpdatePrice As Boolean = False
@@ -212,6 +213,14 @@ Imports System.Diagnostics
         End Get
         Set(ByVal value As Boolean)
             cMarketLogToolTipConfirm = value
+        End Set
+    End Property
+    Public Property EnableMarketLogWatcherAtStartup() As Boolean
+        Get
+            Return cEnableMarketLogWatcherAtStartup
+        End Get
+        Set(ByVal value As Boolean)
+            cEnableMarketLogWatcherAtStartup = value
         End Set
     End Property
     Public Property EnableMarketLogWatcher() As Boolean
