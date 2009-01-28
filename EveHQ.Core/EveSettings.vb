@@ -10,6 +10,8 @@ Imports System.Security.Cryptography.Xml
 Imports System.Windows.Forms
 Imports System.Web
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports System.Reflection
+Imports System.Diagnostics
 
 <Serializable()> Public Class EveSettings
     Private cAccounts As New Collection
@@ -25,7 +27,6 @@ Imports System.Runtime.Serialization.Formatters.Binary
     Private cMinimiseExit As Boolean = False
     Private cStartupPilot As String = ""
     Private cStartupView As String = ""
-    Private cMineralCosts(8) As Double
     Private cEveFolder(4) As String
     Private cBackupAuto As Boolean = False
     Private cBackupStart As Date = Now
@@ -131,106 +132,112 @@ Imports System.Runtime.Serialization.Formatters.Binary
     Private cDBTimeout As Integer = 30
     Private cDBDataFilename As String = ""
     Private cDBDataName As String = ""
-    'Private cIgnoreSellOrders As Boolean = True
-    'Private cIgnoreBuyOrders As Boolean = True
-    'Private cIgnoreSellOrderLimit As Double = 0
-    'Private cIgnoreBuyOrderLimit As Double = 1
-    'Private cMarketRegionList As New ArrayList
-    'Private cPriceCriteria(11) As Boolean
-    'Private cEnableMarketLogWatcher As Boolean = False
-    'Private cMarketLogToolTipConfirm As Boolean = False
-    'Private cMarketLogPopupConfirm As Boolean = False
-    'Private cMarketLogUpdatePrice As Boolean = False
-    'Private cMarketLogUpdateData As Boolean = False
+    Private cIgnoreSellOrders As Boolean = True
+    Private cIgnoreBuyOrders As Boolean = True
+    Private cIgnoreSellOrderLimit As Double = 0
+    Private cIgnoreBuyOrderLimit As Double = 1
+    Private cMarketRegionList As New ArrayList
+    Private cPriceCriteria(11) As Boolean
+    Private cEnableMarketLogWatcher As Boolean = False
+    Private cMarketLogToolTipConfirm As Boolean = False
+    Private cMarketLogPopupConfirm As Boolean = False
+    Private cMarketLogUpdatePrice As Boolean = False
+    Private cMarketLogUpdateData As Boolean = False
 
-    'Public Property MarketRegionList() As ArrayList
-    '    Get
-    '        Return cMarketRegionList
-    '    End Get
-    '    Set(ByVal value As ArrayList)
-    '        cMarketRegionList = value
-    '    End Set
-    'End Property
-    'Public Property IgnoreBuyOrderLimit() As Double
-    '    Get
-    '        Return cIgnoreBuyOrderLimit
-    '    End Get
-    '    Set(ByVal value As Double)
-    '        cIgnoreBuyOrderLimit = value
-    '    End Set
-    'End Property
-    'Public Property IgnoreSellOrderLimit() As Double
-    '    Get
-    '        Return cIgnoreSellOrderLimit
-    '    End Get
-    '    Set(ByVal value As Double)
-    '        cIgnoreSellOrderLimit = value
-    '    End Set
-    'End Property
-    'Public Property PriceCriteria(ByVal index As Integer) As Boolean
-    '    Get
-    '        Return cPriceCriteria(index)
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        cPriceCriteria(index) = value
-    '    End Set
-    'End Property
-    'Public Property MarketLogUpdateData() As Boolean
-    '    Get
-    '        Return cMarketLogUpdateData
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        cMarketLogUpdateData = value
-    '    End Set
-    'End Property
-    'Public Property MarketLogUpdatePrice() As Boolean
-    '    Get
-    '        Return cMarketLogUpdatePrice
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        cMarketLogUpdatePrice = value
-    '    End Set
-    'End Property
-    'Public Property MarketLogPopupConfirm() As Boolean
-    '    Get
-    '        Return cMarketLogPopupConfirm
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        cMarketLogPopupConfirm = value
-    '    End Set
-    'End Property
-    'Public Property MarketLogToolTipConfirm() As Boolean
-    '    Get
-    '        Return cMarketLogToolTipConfirm
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        cMarketLogToolTipConfirm = value
-    '    End Set
-    'End Property
-    'Public Property EnableMarketLogWatcher() As Boolean
-    '    Get
-    '        Return cEnableMarketLogWatcher
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        cEnableMarketLogWatcher = value
-    '    End Set
-    'End Property
-    'Public Property IgnoreBuyOrders() As Boolean
-    '    Get
-    '        Return cIgnoreBuyOrders
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        cIgnoreBuyOrders = value
-    '    End Set
-    'End Property
-    'Public Property IgnoreSellOrders() As Boolean
-    '    Get
-    '        Return cIgnoreSellOrders
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        cIgnoreSellOrders = value
-    '    End Set
-    'End Property
+    Public Property MarketRegionList() As ArrayList
+        Get
+            If cMarketRegionList Is Nothing Then
+                cMarketRegionList = New ArrayList
+            End If
+            Return cMarketRegionList
+        End Get
+        Set(ByVal value As ArrayList)
+            cMarketRegionList = value
+        End Set
+    End Property
+    Public Property IgnoreBuyOrderLimit() As Double
+        Get
+            Return cIgnoreBuyOrderLimit
+        End Get
+        Set(ByVal value As Double)
+            cIgnoreBuyOrderLimit = value
+        End Set
+    End Property
+    Public Property IgnoreSellOrderLimit() As Double
+        Get
+            Return cIgnoreSellOrderLimit
+        End Get
+        Set(ByVal value As Double)
+            cIgnoreSellOrderLimit = value
+        End Set
+    End Property
+    Public Property PriceCriteria(ByVal index As Integer) As Boolean
+        Get
+            If cPriceCriteria Is Nothing Then
+                ReDim cPriceCriteria(11)
+            End If
+            Return cPriceCriteria(index)
+        End Get
+        Set(ByVal value As Boolean)
+            cPriceCriteria(index) = value
+        End Set
+    End Property
+    Public Property MarketLogUpdateData() As Boolean
+        Get
+            Return cMarketLogUpdateData
+        End Get
+        Set(ByVal value As Boolean)
+            cMarketLogUpdateData = value
+        End Set
+    End Property
+    Public Property MarketLogUpdatePrice() As Boolean
+        Get
+            Return cMarketLogUpdatePrice
+        End Get
+        Set(ByVal value As Boolean)
+            cMarketLogUpdatePrice = value
+        End Set
+    End Property
+    Public Property MarketLogPopupConfirm() As Boolean
+        Get
+            Return cMarketLogPopupConfirm
+        End Get
+        Set(ByVal value As Boolean)
+            cMarketLogPopupConfirm = value
+        End Set
+    End Property
+    Public Property MarketLogToolTipConfirm() As Boolean
+        Get
+            Return cMarketLogToolTipConfirm
+        End Get
+        Set(ByVal value As Boolean)
+            cMarketLogToolTipConfirm = value
+        End Set
+    End Property
+    Public Property EnableMarketLogWatcher() As Boolean
+        Get
+            Return cEnableMarketLogWatcher
+        End Get
+        Set(ByVal value As Boolean)
+            cEnableMarketLogWatcher = value
+        End Set
+    End Property
+    Public Property IgnoreBuyOrders() As Boolean
+        Get
+            Return cIgnoreBuyOrders
+        End Get
+        Set(ByVal value As Boolean)
+            cIgnoreBuyOrders = value
+        End Set
+    End Property
+    Public Property IgnoreSellOrders() As Boolean
+        Get
+            Return cIgnoreSellOrders
+        End Get
+        Set(ByVal value As Boolean)
+            cIgnoreSellOrders = value
+        End Set
+    End Property
     Public Property DBDataName() As String
         Get
             Return cDBDataName
@@ -369,6 +376,9 @@ Imports System.Runtime.Serialization.Formatters.Binary
     End Property
     Public Property WantedList() As SortedList
         Get
+            If cWantedList Is Nothing Then
+                cWantedList = New SortedList
+            End If
             Return cWantedList
         End Get
         Set(ByVal value As SortedList)
@@ -425,6 +435,9 @@ Imports System.Runtime.Serialization.Formatters.Binary
     End Property
     Public Property EveFolderLabel(ByVal index As Integer) As String
         Get
+            If cEveFolderLabel Is Nothing Then
+                ReDim cEveFolderLabel(4)
+            End If
             If index < 1 Or index > 4 Then
                 MessageBox.Show("Eve Folder Label index must be in the range 1 to 4", "Eve Folder Label Get Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return "0"
@@ -546,6 +559,9 @@ Imports System.Runtime.Serialization.Formatters.Binary
     End Property
     Public Property EveFolderLUA(ByVal index As Integer) As Boolean
         Get
+            If cEveFolderLUA Is Nothing Then
+                ReDim cEveFolderLUA(4)
+            End If
             If index < 1 Or index > 4 Then
                 MessageBox.Show("Eve Folder LUA index must be in the range 1 to 4", "Eve Folder Get Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
@@ -595,6 +611,9 @@ Imports System.Runtime.Serialization.Formatters.Binary
     End Property
     Public Property MainFormPosition(ByVal index As Integer) As Integer
         Get
+            If cMainFormPosition Is Nothing Then
+                ReDim cMainFormPosition(4)
+            End If
             If index < 0 Or index > 4 Then
                 MessageBox.Show("Eve Main Form Position index must be in the range 0 to 4", "Eve Main Form Position Get Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return 0
@@ -1051,25 +1070,11 @@ Imports System.Runtime.Serialization.Formatters.Binary
             cStartupView = value
         End Set
     End Property
-    Public Property MineralCosts(ByVal index As Integer) As Double
-        Get
-            If index < 1 Or index > 8 Then
-                MessageBox.Show("Mineral Cost index must be in the range 1 to 8", "Mineral Cost Get Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Return 0
-            Else
-                Return cMineralCosts(index)
-            End If
-        End Get
-        Set(ByVal value As Double)
-            If index < 1 Or index > 8 Then
-                MessageBox.Show("Mineral Cost index must be in the range 1 to 8", "Mineral Cost Set Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                cMineralCosts(index) = value
-            End If
-        End Set
-    End Property
     Public Property EveFolder(ByVal index As Integer) As String
         Get
+            If cEveFolder Is Nothing Then
+                ReDim cEveFolder(4)
+            End If
             If index < 1 Or index > 4 Then
                 MessageBox.Show("Eve Folder index must be in the range 1 to 4", "Eve Folder Get Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return "0"
@@ -1135,6 +1140,9 @@ Imports System.Runtime.Serialization.Formatters.Binary
     End Property
     Public Property QColumns(ByVal col As Integer, ByVal ref As Integer) As String
         Get
+            If cQColumns Is Nothing Then
+                ReDim cQColumns(16, 1)
+            End If
             Return cQColumns(col, ref)
         End Get
         Set(ByVal value As String)
@@ -1199,6 +1207,9 @@ Imports System.Runtime.Serialization.Formatters.Binary
     End Property
     Public Property Accounts() As Collection
         Get
+            If cAccounts Is Nothing Then
+                cAccounts = New Collection
+            End If
             Return cAccounts
         End Get
         Set(ByVal value As Collection)
@@ -1207,6 +1218,9 @@ Imports System.Runtime.Serialization.Formatters.Binary
     End Property
     Public Property Plugins() As SortedList
         Get
+            If cPlugins Is Nothing Then
+                cPlugins = New SortedList
+            End If
             Return cPlugins
         End Get
         Set(ByVal value As SortedList)
@@ -1215,6 +1229,9 @@ Imports System.Runtime.Serialization.Formatters.Binary
     End Property
     Public Property Pilots() As Collection
         Get
+            If cPilots Is Nothing Then
+                cPilots = New Collection
+            End If
             Return cPilots
         End Get
         Set(ByVal value As Collection)
@@ -1223,12 +1240,16 @@ Imports System.Runtime.Serialization.Formatters.Binary
     End Property
     Public Property FTPAccounts() As Collection
         Get
+            If cFTPAccounts Is Nothing Then
+                cFTPAccounts = New Collection
+            End If
             Return cFTPAccounts
         End Get
         Set(ByVal value As Collection)
             cFTPAccounts = value
         End Set
     End Property
+
 End Class
 
 Public Class EveHQSettingsFunctions
@@ -1450,12 +1471,6 @@ Public Class EveHQSettingsFunctions
         Next
         XMLS &= Chr(9) & "</FTP>" & vbCrLf
 
-        ' Save Mineral Cost Prices
-        XMLS &= Chr(9) & "<mineralCost>" & vbCrLf
-        For mineral As Integer = 1 To 8
-            XMLS &= Chr(9) & Chr(9) & "<cost>" & EveHQ.Core.HQ.EveHQSettings.MineralCosts(mineral).ToString & "</cost>" & vbCrLf
-        Next
-        XMLS &= Chr(9) & "</mineralCost>" & vbCrLf
         XMLS &= "</EveHQSettings>"
         XMLdoc.LoadXml(XMLS)
 
@@ -1785,21 +1800,6 @@ Public Class EveHQSettingsFunctions
                 End If
             Catch
             End Try
-
-            ' Load the Mineral Cost Settings
-            Try
-                accountDetails = XMLdoc.SelectNodes("/EveHQSettings/mineralCost")
-                If accountDetails.Count <> 0 Then
-                    ' Get the relevant node!
-                    accountSettings = accountDetails(0)       ' This is zero because there is only 1 occurence of the EveHQSettings/pilots node in each XML doc
-                    If accountSettings.HasChildNodes Then
-                        For account As Integer = 0 To accountSettings.ChildNodes.Count - 1
-                            EveHQ.Core.HQ.EveHQSettings.MineralCosts(account + 1) = CDbl(accountSettings.ChildNodes(account).InnerText)
-                        Next
-                    End If
-                End If
-            Catch
-            End Try
         Else
             Dim msg As String = ""
             msg &= "EveHQ cannot find the settings file. The file should reside "
@@ -2068,12 +2068,6 @@ Public Class EveHQSettingsFunctions
             s.Close()
         Else
             Return LoadEveSettings()
-            'Dim msg As String = ""
-            'msg &= "EveHQ cannot find the settings file. The file should reside "
-            'msg &= "in the application directory." & ControlChars.CrLf & ControlChars.CrLf
-            'msg &= "A new settings file has been created."
-            '' Set the Queue Columns up!
-            'Call ResetColumns()
         End If
 
         ' Set the database connection string
@@ -2122,11 +2116,10 @@ Public Class EveHQSettingsFunctions
             Exit Function
         End If
 
-        ' Check for the existence of EveHQ.Core.Pilot data in the cache folder and load it
-        Call EveHQ.Core.PilotParseFunctions.LoadPilotCachedInfo()
-
         Return True
-
 
     End Function
 End Class
+
+
+

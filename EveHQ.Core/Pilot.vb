@@ -94,7 +94,7 @@ Imports System.Xml
     Public PrimaryQueue As String = ""
     Public ActiveQueue As New EveHQ.Core.SkillQueue
     Public ActiveQueueName As String = ""
-    Public TrainingQueues As New SortedList
+    <NonSerialized()> Public TrainingQueues As New SortedList
     Public Blueprints As New Collection
     Public CacheFileTime As Date
     Public CacheExpiration As Long

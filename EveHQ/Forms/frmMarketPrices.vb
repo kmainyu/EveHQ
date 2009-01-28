@@ -743,10 +743,18 @@ Public Class frmMarketPrices
 
     End Function
 
+    Private Sub AddRegions()
+        EveHQ.Core.HQ.EveHQSettings.MarketRegionList.Clear()
+        For Each chk As CheckBox In grpRegions.Controls
+            EveHQ.Core.HQ.EveHQSettings.MarketRegionList.Add(chk.Name)
+        Next
+    End Sub
+
     Private Sub btnAllRegions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAllRegions.Click
         For Each chk As CheckBox In grpRegions.Controls
             chk.Checked = True
         Next
+        Call Me.AddRegions()
     End Sub
 
     Private Sub btnEmpireRegions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEmpireRegions.Click
@@ -757,6 +765,7 @@ Public Class frmMarketPrices
                 chk.Checked = False
             End If
         Next
+        Call Me.AddRegions()
     End Sub
 
     Private Sub btnNullRegions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNullRegions.Click
@@ -767,12 +776,14 @@ Public Class frmMarketPrices
                 chk.Checked = False
             End If
         Next
+        Call Me.AddRegions()
     End Sub
 
     Private Sub btnNoRegions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNoRegions.Click
         For Each chk As CheckBox In grpRegions.Controls
             chk.Checked = False
         Next
+        Call Me.AddRegions()
     End Sub
 
     Private Sub btnAmarr_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAmarr.Click
@@ -783,6 +794,7 @@ Public Class frmMarketPrices
                 chk.Checked = False
             End If
         Next
+        Call Me.AddRegions()
     End Sub
 
     Private Sub btnCaldari_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCaldari.Click
@@ -793,6 +805,7 @@ Public Class frmMarketPrices
                 chk.Checked = False
             End If
         Next
+        Call Me.AddRegions()
     End Sub
 
     Private Sub btnGallente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGallente.Click
@@ -803,6 +816,7 @@ Public Class frmMarketPrices
                 chk.Checked = False
             End If
         Next
+        Call Me.AddRegions()
     End Sub
 
     Private Sub btnMinmatar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMinmatar.Click
@@ -813,6 +827,7 @@ Public Class frmMarketPrices
                 chk.Checked = False
             End If
         Next
+        Call Me.AddRegions()
     End Sub
 
     Private Sub tmrStart_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrStart.Tick

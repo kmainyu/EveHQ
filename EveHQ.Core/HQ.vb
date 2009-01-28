@@ -26,7 +26,7 @@ Public Class HQ
     Public Shared logonSID As String
     Public Shared TAccounts As Collection = New Collection
     Public Shared TPilots As Collection = New Collection
-    Public Shared EveHQSettings As EveSettings = New EveSettings
+    Public Shared EveHQSettings As New EveSettings
     Public Shared myPilot As New EveHQ.Core.Pilot
     Public Shared myIGB As New IGB
     Public Shared myAPIRS As New APIRS
