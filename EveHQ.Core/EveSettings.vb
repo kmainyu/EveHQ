@@ -132,8 +132,8 @@ Imports System.Diagnostics
     Private cDBTimeout As Integer = 30
     Private cDBDataFilename As String = ""
     Private cDBDataName As String = ""
-    Private cIgnoreSellOrders As Boolean = True
-    Private cIgnoreBuyOrders As Boolean = True
+    Private cIgnoreSellOrders As Boolean = False
+    Private cIgnoreBuyOrders As Boolean = False
     Private cIgnoreSellOrderLimit As Double = 0
     Private cIgnoreBuyOrderLimit As Double = 1
     Private cMarketRegionList As New ArrayList

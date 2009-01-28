@@ -780,7 +780,7 @@ Public Class frmMarketPrices
 #Region "Market Price Settings"
 
     Private Sub UpdatePriceSettings()
-        ' Update the regionallist
+        ' Update the regional list
         For Each chk As CheckBox In grpRegions.Controls
             If EveHQ.Core.HQ.EveHQSettings.MarketRegionList.Contains(chk.Name) = True Then
                 chk.Checked = True
@@ -788,6 +788,24 @@ Public Class frmMarketPrices
                 chk.Checked = False
             End If
         Next
+        ' Update the criteria list
+        Dim idx As Integer = 0
+        For Each chk As CheckBox In grpCriteria.Controls
+            idx = CInt(chk.Name.Substring(16))
+            chk.Checked = EveHQ.Core.HQ.EveHQSettings.PriceCriteria(idx)
+        Next
+        ' Update the checkboxes
+        chkEnableLogWatcher.Checked = EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher
+        chkEnableWatcherAtStartup.Checked = EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcherAtStartup
+        chkAutoUpdateCurrentPrice.Checked = EveHQ.Core.HQ.EveHQSettings.MarketLogUpdatePrice
+        chkAutoUpdatePriceData.Checked = EveHQ.Core.HQ.EveHQSettings.MarketLogUpdateData
+        chkNotifyPopup.Checked = EveHQ.Core.HQ.EveHQSettings.MarketLogPopupConfirm
+        chkNotifyTray.Checked = EveHQ.Core.HQ.EveHQSettings.MarketLogToolTipConfirm
+        chkIgnoreBuyOrders.Checked = EveHQ.Core.HQ.EveHQSettings.IgnoreBuyOrders
+        chkIgnoreSellOrders.Checked = EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrders
+        ' Update the NUD controls
+        nudIgnoreBuyOrderLimit.Value = CDec(EveHQ.Core.HQ.EveHQSettings.IgnoreBuyOrderLimit)
+        nudIgnoreSellOrderLimit.Value = CDec(EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit)
     End Sub
 
     Private Sub AddRegions()
@@ -896,6 +914,64 @@ Public Class frmMarketPrices
         Else
             Call frmEveHQ.CancelWatchers()
             EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = False
+        End If
+    End Sub
+
+    Private Sub chkEnableWatcherAtStartup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEnableWatcherAtStartup.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcherAtStartup = chkEnableWatcherAtStartup.Checked
+    End Sub
+
+    Private Sub chkAutoUpdateCurrentPrice_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoUpdateCurrentPrice.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.MarketLogUpdatePrice = chkAutoUpdateCurrentPrice.Checked
+    End Sub
+
+    Private Sub chkAutoUpdatePriceData_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoUpdatePriceData.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.MarketLogUpdateData = chkAutoUpdatePriceData.Checked
+    End Sub
+
+    Private Sub chkNotifyPopup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyPopup.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.MarketLogPopupConfirm = chkNotifyPopup.Checked
+    End Sub
+
+    Private Sub chkNotifyTray_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyTray.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.MarketLogToolTipConfirm = chkNotifyTray.Checked
+    End Sub
+
+    Private Sub chkIgnoreBuyOrders_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkIgnoreBuyOrders.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.IgnoreBuyOrders = chkIgnoreBuyOrders.Checked
+    End Sub
+
+    Private Sub chkIgnoreSellOrders_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkIgnoreSellOrders.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrders = chkIgnoreSellOrders.Checked
+    End Sub
+
+    Private Sub nudIgnoreBuyOrderLimit_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudIgnoreBuyOrderLimit.HandleDestroyed
+        EveHQ.Core.HQ.EveHQSettings.IgnoreBuyOrderLimit = nudIgnoreBuyOrderLimit.Value
+    End Sub
+
+    Private Sub nudIgnoreBuyOrderLimit_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudIgnoreBuyOrderLimit.ValueChanged
+        If startUp = False Then
+            EveHQ.Core.HQ.EveHQSettings.IgnoreBuyOrderLimit = nudIgnoreBuyOrderLimit.Value
+        End If
+    End Sub
+
+    Private Sub nudIgnoreSellOrderLimit_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudIgnoreSellOrderLimit.HandleDestroyed
+        EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit = nudIgnoreSellOrderLimit.Value
+    End Sub
+
+    Private Sub nudIgnoreSellOrderLimit_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudIgnoreSellOrderLimit.ValueChanged
+        If startUp = False Then
+            EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit = nudIgnoreSellOrderLimit.Value
+        End If
+    End Sub
+
+    Private Sub chkPriceCriteria1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkPriceCriteria0.CheckedChanged, chkPriceCriteria1.CheckedChanged, chkPriceCriteria2.CheckedChanged, chkPriceCriteria3.CheckedChanged, chkPriceCriteria4.CheckedChanged, chkPriceCriteria5.CheckedChanged, chkPriceCriteria6.CheckedChanged, chkPriceCriteria7.CheckedChanged, chkPriceCriteria8.CheckedChanged, chkPriceCriteria9.CheckedChanged, chkPriceCriteria10.CheckedChanged, chkPriceCriteria11.CheckedChanged
+        If startUp = False Then
+            Dim idx As Integer = 0
+            For Each chk As CheckBox In grpCriteria.Controls
+                idx = CInt(chk.Name.Substring(16))
+                EveHQ.Core.HQ.EveHQSettings.PriceCriteria(idx) = chk.Checked
+            Next
         End If
     End Sub
 

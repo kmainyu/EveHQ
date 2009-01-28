@@ -532,9 +532,12 @@ Public Class frmEveHQ
             TryCast(tp.Tag, Form).Close()
         Next
 
-        EveStatusIcon.Icon = Nothing
-        EveStatusIcon.Dispose()
+        ' Remove the icons
+        EveStatusIcon.Visible = False : iconEveHQMLW.Visible = False
+        EveStatusIcon.Icon = Nothing : iconEveHQMLW.Icon = Nothing
+        EveStatusIcon.Dispose() : iconEveHQMLW.Dispose()
         End
+
     End Sub
 
 #End Region
@@ -2154,10 +2157,18 @@ Public Class frmEveHQ
                 frmMarketPrices.lvwLogs.Items.Add(e.FullPath)
             End If
         End If
-        Call Me.ProcessMLPrices(e.FullPath)
+        If EveHQ.Core.HQ.EveHQSettings.MarketLogToolTipConfirm = True = True Then
+            iconEveHQMLW.BalloonTipTitle = "Market Upload Completed"
+            iconEveHQMLW.BalloonTipText = "The file: " & e.Name & " has been successfully uploaded!"
+            iconEveHQMLW.BalloonTipIcon = ToolTipIcon.Info
+            iconEveHQMLW.ShowBalloonTip(10)
+        End If
+        If EveHQ.Core.HQ.EveHQSettings.MarketLogPopupConfirm = True Then
+            MessageBox.Show("The file: " & e.Name & " has been successfully uploaded!", "Market Upload Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
     End Sub
 
-    Private Sub ProcessMLPrices(ByVal orderFile As String)
+    Private Function ProcessMLPrices(ByVal orderFile As String) As Boolean
         Dim startTime, endTime As Date
         Dim timeTaken As TimeSpan
         Dim orderFI As New FileInfo(orderFile)
@@ -2179,6 +2190,7 @@ Public Class frmEveHQ
 
         If header <> "price,volRemaining,typeID,range,orderID,volEntered,minVolume,bid,issued,duration,stationID,regionID,solarSystemID,jumps," Then
             MessageBox.Show("File is not a valid Eve Market Export file", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
         Else
             startTime = Now
             Dim order As String = ""
@@ -2213,13 +2225,6 @@ Public Class frmEveHQ
                 Call CalculateMLStats(CType(items(item), ArrayList), orderdate)
             Next
 
-            ' Insert the date into the database
-            'lblProcess.Text = "Current Process: Updating price date table..."
-            'Dim dateSQL As String = "INSERT INTO marketDates (priceDate) VALUES (" & orderDate.ToOADate - 2 & ");"
-            'If EveHQ.Core.DataFunctions.SetData(dateSQL) = False Then
-            '    MessageBox.Show("There was an error writing the date to the marketDates database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            'End If
-
             endTime = Now
             timeTaken = endTime - startTime
             items.Clear() : items = Nothing
@@ -2227,7 +2232,7 @@ Public Class frmEveHQ
             GC.Collect()
             'MessageBox.Show("Time taken to parse data for " & items.Count.ToString & " items = " & timeTaken.TotalSeconds.ToString, "Price Processing Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
-    End Sub
+    End Function
 
     Private Sub CalculateMLStats(ByVal orderList As ArrayList, ByVal orderDate As Date)
         Dim orderDetails() As String
@@ -2386,21 +2391,21 @@ Public Class frmEveHQ
         'End If
 
         ' Show a messagebox with the info!
-        Dim str As New StringBuilder
-        str.AppendLine("Results for: " & oTypeID.ToString & ControlChars.CrLf & ControlChars.CrLf)
-        str.AppendLine("Min (Buy): " & FormatNumber(minBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Max (Buy): " & FormatNumber(maxBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Mean (Buy): " & FormatNumber(avgBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Median (Buy): " & FormatNumber(medBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Min (Sell): " & FormatNumber(minSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Max (Sell): " & FormatNumber(maxSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Mean (Sell): " & FormatNumber(avgSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Median (Sell): " & FormatNumber(medSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Min (All): " & FormatNumber(minAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Max (All): " & FormatNumber(maxAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Mean (All): " & FormatNumber(avgAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        str.AppendLine("Median (All): " & FormatNumber(medAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
-        MessageBox.Show(str.ToString, "Price Results", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'Dim str As New StringBuilder
+        'str.AppendLine("Results for: " & oTypeID.ToString & ControlChars.CrLf & ControlChars.CrLf)
+        'str.AppendLine("Min (Buy): " & FormatNumber(minBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'str.AppendLine("Max (Buy): " & FormatNumber(maxBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'str.AppendLine("Mean (Buy): " & FormatNumber(avgBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'str.AppendLine("Median (Buy): " & FormatNumber(medBuy, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'str.AppendLine("Min (Sell): " & FormatNumber(minSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'str.AppendLine("Max (Sell): " & FormatNumber(maxSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'str.AppendLine("Mean (Sell): " & FormatNumber(avgSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'str.AppendLine("Median (Sell): " & FormatNumber(medSell, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'str.AppendLine("Min (All): " & FormatNumber(minAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'str.AppendLine("Max (All): " & FormatNumber(maxAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'str.AppendLine("Mean (All): " & FormatNumber(avgAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'str.AppendLine("Median (All): " & FormatNumber(medAll, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ControlChars.CrLf)
+        'MessageBox.Show(str.ToString, "Price Results", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
     End Sub
 

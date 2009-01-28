@@ -271,6 +271,18 @@ Public Class frmSplash
         Call frmSettings.UpdateAccounts()
         Call frmEveHQ.UpdatePilotInfo(True)
 
+        ' Check if we need to start the market watcher
+        If EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcherAtStartup = True Then
+            If frmEveHQ.InitialiseWatchers() = True Then
+                EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = True
+            Else
+                MessageBox.Show("Unable to start Market Log Watcher. Please check your Eve folders in the EveHQ Settings.", "Error Starting Watcher", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = False
+            End If
+        Else
+            EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = False
+        End If
+
         ' Show the main form
         lblStatus.Text = "Initialising EveHQ..."
         Me.Refresh()
