@@ -2153,9 +2153,7 @@ Public Class frmEveHQ
         'Dim wct As WatcherChangeTypes = e.ChangeType
         'MessageBox.Show("File: " & e.FullPath & ", " & wct.ToString)
         If frmMarketPrices.IsHandleCreated = True Then
-            If frmMarketPrices.lvwLogs.Items.ContainsKey(e.Name) = False Then
-                frmMarketPrices.lvwLogs.Items.Add(e.FullPath)
-            End If
+            Call frmMarketPrices.DisplayLogDetails(e.FullPath)
         End If
         If EveHQ.Core.HQ.EveHQSettings.MarketLogToolTipConfirm = True = True Then
             iconEveHQMLW.BalloonTipTitle = "Market Upload Completed"

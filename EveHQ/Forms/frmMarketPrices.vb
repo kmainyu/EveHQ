@@ -5,10 +5,12 @@ Imports System.Data.SqlClient
 Imports System.Data
 Imports System.Net
 Imports System.IO.Compression
+Imports DotNetLib.Windows.Forms
 
 Public Class frmMarketPrices
     Dim saveLoc As String = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\MarketXMLs"
     Dim insertStat As String = "INSERT INTO marketStats (statDate, typeID, regionID, systemID, volAll, avgAll, maxAll, minAll, stdAll, medAll, volBuy, avgBuy, maxBuy, minBuy, stdBuy, medBuy, volSell, avgSell, maxSell, minSell, stdSell, medSell) "
+    Dim regions As New SortedList
     Dim strSQL As String = ""
     Dim orderDetails() As String
     Dim oReg, oSys, oStation As Long
@@ -339,7 +341,7 @@ Public Class frmMarketPrices
         'End If
 
     End Sub
-    
+
 
     Private Function GetLastMarketDate() As Date
         Dim strSQL As String = "SELECT max(priceDate) AS lastDate FROM marketDates"
@@ -391,11 +393,13 @@ Public Class frmMarketPrices
         Dim regionSet As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM mapRegions ORDER BY regionName;")
         If regionSet IsNot Nothing Then
             Dim x, y As Integer : x = 10 : y = 20
+            regions.Clear()
             For Each regionRow As DataRow In regionSet.Tables(0).Rows
                 ' Create a batch of checkboxes for the regions
                 Dim chk As New CheckBox
                 chk.Text = CStr(regionRow.Item("regionName"))
                 chk.Name = CStr(regionRow.Item("regionID"))
+                regions.Add(CStr(regionRow.Item("regionName")), CStr(regionRow.Item("regionID")))
                 AddHandler chk.CheckedChanged, AddressOf Me.MarketRegionChanged
                 If IsDBNull(regionRow.Item("factionID")) Then
                     chk.Tag = 0
@@ -420,12 +424,7 @@ Public Class frmMarketPrices
         End If
 
         ' Get the contents of the market log folder
-        lvwLogs.BeginUpdate()
-        lvwLogs.Items.Clear()
-        For Each file As String In My.Computer.FileSystem.GetFiles(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\Logs\Marketlogs", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
-            lvwLogs.Items.Add(file)
-        Next
-        lvwLogs.EndUpdate()
+        Call Me.ImportLogDetails()
 
         ' Update Market Price Settings
         Call Me.UpdatePriceSettings()
@@ -435,6 +434,49 @@ Public Class frmMarketPrices
         ' Start the initial timing check (but do last so form is drawn)
         tmrStart.Enabled = True
 
+    End Sub
+
+    Private Sub ImportLogDetails()
+        ' Get the contents of the market log folder and display them
+        clvLogs.BeginUpdate()
+        clvLogs.Items.Clear()
+        For Each file As String In My.Computer.FileSystem.GetFiles(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\Logs\Marketlogs", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+            Call Me.DisplayLogDetails(file)
+        Next
+        clvLogs.EndUpdate()
+    End Sub
+
+    Public Sub DisplayLogDetails(ByVal file As String)
+        ' Split the filename into sections denoted by "-"
+        Dim LogItem As New ContainerListViewItem
+        Dim FI As FileInfo
+        Dim info() As String
+        Dim idx As Integer = 0
+        Dim region As String = ""
+        Dim item As String = ""
+        Dim TimeFormat As String = "yyyy.MM.dd HHmmss"
+        Dim logDate As Date = Now
+        FI = New FileInfo(file)
+        info = FI.Name.TrimEnd(".txt".ToCharArray).Split("-".ToCharArray)
+        Region = "" : item = ""
+        idx = -1
+        Do
+            idx += 1
+            Region &= info(idx).Trim & "-"
+            ' Repeat until we have a valid
+        Loop Until regions.ContainsKey(Region.TrimEnd("-".ToCharArray))
+        Region = Region.TrimEnd("-".ToCharArray)
+        For idx = idx + 1 To info.Length - 2
+            item &= info(idx) & "-"
+        Next
+        item = item.TrimEnd("-".ToCharArray).Trim
+        logDate = DateTime.ParseExact(info(info.Length - 1).Trim, TimeFormat, Nothing, Globalization.DateTimeStyles.None)
+        LogItem = New ContainerListViewItem
+        LogItem.Tag = file
+        LogItem.Text = Region
+        clvLogs.Items.Add(LogItem)
+        LogItem.SubItems(1).Text = item
+        LogItem.SubItems(2).Text = FormatDateTime(logDate, DateFormat.GeneralDate)
     End Sub
 
     Private Sub GetFirstPrices(ByVal dataObject As Object)
@@ -534,7 +576,7 @@ Public Class frmMarketPrices
         End If
 
     End Sub
-  
+
 
     Private Sub SetMarketPrices()
 
@@ -752,7 +794,7 @@ Public Class frmMarketPrices
 
     End Function
 
-   
+
     Private Sub tmrStart_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrStart.Tick
         tmrStart.Stop()
         Dim lastDate As Date = GetLastMarketDate()

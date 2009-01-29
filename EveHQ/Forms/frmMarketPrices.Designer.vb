@@ -74,10 +74,11 @@ Partial Class frmMarketPrices
         Me.lblProcess = New System.Windows.Forms.Label
         Me.tabMarketLogs = New System.Windows.Forms.TabPage
         Me.panelMarketLog = New System.Windows.Forms.Panel
-        Me.lvwLogs = New System.Windows.Forms.ListView
-        Me.colFilename = New System.Windows.Forms.ColumnHeader
-        Me.colDate = New System.Windows.Forms.ColumnHeader
         Me.tmrStart = New System.Windows.Forms.Timer(Me.components)
+        Me.clvLogs = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colRegion = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colDate = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.TabControl1.SuspendLayout()
         Me.tabPriceSettings.SuspendLayout()
         Me.panelPrices.SuspendLayout()
@@ -616,37 +617,51 @@ Partial Class frmMarketPrices
         'panelMarketLog
         '
         Me.panelMarketLog.BackColor = System.Drawing.SystemColors.Control
-        Me.panelMarketLog.Controls.Add(Me.lvwLogs)
+        Me.panelMarketLog.Controls.Add(Me.clvLogs)
         Me.panelMarketLog.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMarketLog.Location = New System.Drawing.Point(0, 0)
         Me.panelMarketLog.Name = "panelMarketLog"
         Me.panelMarketLog.Size = New System.Drawing.Size(709, 597)
         Me.panelMarketLog.TabIndex = 0
         '
-        'lvwLogs
+        'tmrStart
         '
-        Me.lvwLogs.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colFilename, Me.colDate})
-        Me.lvwLogs.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwLogs.Location = New System.Drawing.Point(0, 0)
-        Me.lvwLogs.Name = "lvwLogs"
-        Me.lvwLogs.Size = New System.Drawing.Size(709, 597)
-        Me.lvwLogs.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvwLogs.TabIndex = 7
-        Me.lvwLogs.UseCompatibleStateImageBehavior = False
-        Me.lvwLogs.View = System.Windows.Forms.View.Details
         '
-        'colFilename
+        'clvLogs
         '
-        Me.colFilename.Text = "FileName"
-        Me.colFilename.Width = 500
+        Me.clvLogs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRegion, Me.colItem, Me.colDate})
+        Me.clvLogs.DefaultItemHeight = 18
+        Me.clvLogs.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.clvLogs.Location = New System.Drawing.Point(0, 0)
+        Me.clvLogs.Name = "clvLogs"
+        Me.clvLogs.Size = New System.Drawing.Size(709, 597)
+        Me.clvLogs.TabIndex = 0
+        '
+        'colRegion
+        '
+        Me.colRegion.CustomSortTag = Nothing
+        Me.colRegion.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colRegion.Tag = Nothing
+        Me.colRegion.Text = "Region"
+        Me.colRegion.Width = 150
+        '
+        'colItem
+        '
+        Me.colItem.CustomSortTag = Nothing
+        Me.colItem.DisplayIndex = 1
+        Me.colItem.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colItem.Tag = Nothing
+        Me.colItem.Text = "Item"
+        Me.colItem.Width = 300
         '
         'colDate
         '
-        Me.colDate.Text = "Date/Time"
+        Me.colDate.CustomSortTag = Nothing
+        Me.colDate.DisplayIndex = 2
+        Me.colDate.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
+        Me.colDate.Tag = Nothing
+        Me.colDate.Text = "Log Date"
         Me.colDate.Width = 150
-        '
-        'tmrStart
-        '
         '
         'frmMarketPrices
         '
@@ -715,9 +730,6 @@ Partial Class frmMarketPrices
     Friend WithEvents lblProcess As System.Windows.Forms.Label
     Friend WithEvents tabMarketLogs As System.Windows.Forms.TabPage
     Friend WithEvents panelMarketLog As System.Windows.Forms.Panel
-    Friend WithEvents lvwLogs As System.Windows.Forms.ListView
-    Friend WithEvents colFilename As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colDate As System.Windows.Forms.ColumnHeader
     Friend WithEvents chkEnableLogWatcher As System.Windows.Forms.CheckBox
     Friend WithEvents chkNotifyPopup As System.Windows.Forms.CheckBox
     Friend WithEvents chkNotifyTray As System.Windows.Forms.CheckBox
@@ -732,4 +744,8 @@ Partial Class frmMarketPrices
     Friend WithEvents lblIgnoreSellOrderUnit As System.Windows.Forms.Label
     Friend WithEvents grpMarketLogWatcher As System.Windows.Forms.GroupBox
     Friend WithEvents grpParsing As System.Windows.Forms.GroupBox
+    Friend WithEvents clvLogs As DotNetLib.Windows.Forms.ContainerListView
+    Friend WithEvents colRegion As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colItem As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colDate As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
 End Class
