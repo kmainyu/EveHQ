@@ -35,6 +35,7 @@ Partial Class frmAPIChecker
         Me.btnGetAPI = New System.Windows.Forms.Button
         Me.lblCurrentlyViewing = New System.Windows.Forms.Label
         Me.lblFileLocation = New System.Windows.Forms.Label
+        Me.chkReturnCached = New System.Windows.Forms.CheckBox
         Me.SuspendLayout()
         '
         'lblCharacter
@@ -157,11 +158,22 @@ Partial Class frmAPIChecker
         Me.lblFileLocation.TabIndex = 11
         Me.lblFileLocation.Text = "Cache File Location: n/a"
         '
+        'chkReturnCached
+        '
+        Me.chkReturnCached.AutoSize = True
+        Me.chkReturnCached.Location = New System.Drawing.Point(85, 35)
+        Me.chkReturnCached.Name = "chkReturnCached"
+        Me.chkReturnCached.Size = New System.Drawing.Size(147, 17)
+        Me.chkReturnCached.TabIndex = 12
+        Me.chkReturnCached.Text = "Return Cached XML Only"
+        Me.chkReturnCached.UseVisualStyleBackColor = True
+        '
         'frmAPIChecker
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(889, 686)
+        Me.Controls.Add(Me.chkReturnCached)
         Me.Controls.Add(Me.lblFileLocation)
         Me.Controls.Add(Me.lblCurrentlyViewing)
         Me.Controls.Add(Me.btnGetAPI)
@@ -194,4 +206,5 @@ Partial Class frmAPIChecker
     Friend WithEvents btnGetAPI As System.Windows.Forms.Button
     Friend WithEvents lblCurrentlyViewing As System.Windows.Forms.Label
     Friend WithEvents lblFileLocation As System.Windows.Forms.Label
+    Friend WithEvents chkReturnCached As System.Windows.Forms.CheckBox
 End Class
