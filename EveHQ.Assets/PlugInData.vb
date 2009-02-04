@@ -4,8 +4,6 @@ Imports System.Reflection
 
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
-
-
     Public Shared Items As New SortedList
     Public Shared itemFlags As New SortedList
     Public Shared stations As New SortedList
@@ -15,6 +13,15 @@ Public Class PlugInData
 #Region "Plug-in Interface Properties and Functions"
 
     Public Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+        Select Case DataType
+            Case 0 ' Return a location
+                ' Check the data in an Arraylist and contains 2 items - pilotName and corpID
+                If TypeOf (Data) Is Long Then
+                    Return CType(stations(Data.ToString), Station).stationName
+                Else
+                    Return Data
+                End If
+        End Select
         Return Nothing
     End Function
 

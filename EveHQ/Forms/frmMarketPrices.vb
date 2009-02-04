@@ -438,7 +438,19 @@ Public Class frmMarketPrices
 
     End Sub
 
-    Private Sub ImportLogDetails()
+    Private Sub LoadRegions()
+        Dim regionSet As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM mapRegions ORDER BY regionName;")
+        If regionSet IsNot Nothing Then
+            regions.Clear()
+            For Each regionRow As DataRow In regionSet.Tables(0).Rows
+                regions.Add(CStr(regionRow.Item("regionName")), CStr(regionRow.Item("regionID")))
+            Next
+        Else
+            MessageBox.Show("EveHQ cannot proceed with the market price processing until the Map Regions have been correctly loaded.", "Error Loading Map Regions", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
+    Public Sub ImportLogDetails()
         ' Get the contents of the market log folder and display them
         clvLogs.BeginUpdate()
         clvLogs.Items.Clear()
@@ -460,14 +472,14 @@ Public Class frmMarketPrices
         Dim logDate As Date = Now
         FI = New FileInfo(file)
         info = FI.Name.TrimEnd(".txt".ToCharArray).Split("-".ToCharArray)
-        Region = "" : item = ""
+        region = "" : item = ""
         idx = -1
         Do
             idx += 1
-            Region &= info(idx).Trim & "-"
+            region &= info(idx).Trim & "-"
             ' Repeat until we have a valid
-        Loop Until regions.ContainsKey(Region.TrimEnd("-".ToCharArray))
-        Region = Region.TrimEnd("-".ToCharArray)
+        Loop Until regions.ContainsKey(region.TrimEnd("-".ToCharArray))
+        region = region.TrimEnd("-".ToCharArray)
         For idx = idx + 1 To info.Length - 2
             item &= info(idx) & "-"
         Next
@@ -475,10 +487,14 @@ Public Class frmMarketPrices
         logDate = DateTime.ParseExact(info(info.Length - 1).Trim, TimeFormat, Nothing, Globalization.DateTimeStyles.None)
         LogItem = New ContainerListViewItem
         LogItem.Tag = file
-        LogItem.Text = Region
+        LogItem.Text = region
         clvLogs.Items.Add(LogItem)
         LogItem.SubItems(1).Text = item
         LogItem.SubItems(2).Text = FormatDateTime(logDate, DateFormat.GeneralDate)
+    End Sub
+
+    Public Sub ResortLogs()
+        clvLogs.Sort(False)
     End Sub
 
     Private Sub GetFirstPrices(ByVal dataObject As Object)
@@ -578,7 +594,6 @@ Public Class frmMarketPrices
         End If
 
     End Sub
-
 
     Private Sub SetMarketPrices()
 
@@ -1009,7 +1024,8 @@ Public Class frmMarketPrices
         End If
     End Sub
 
-    Private Sub chkPriceCriteria1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkPriceCriteria0.CheckedChanged, chkPriceCriteria1.CheckedChanged, chkPriceCriteria2.CheckedChanged, chkPriceCriteria3.CheckedChanged, chkPriceCriteria4.CheckedChanged, chkPriceCriteria5.CheckedChanged, chkPriceCriteria6.CheckedChanged, chkPriceCriteria7.CheckedChanged, chkPriceCriteria8.CheckedChanged, chkPriceCriteria9.CheckedChanged, chkPriceCriteria10.CheckedChanged, chkPriceCriteria11.CheckedChanged
+    Private Sub chkPriceCriteria_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkPriceCriteria0.CheckedChanged, chkPriceCriteria1.CheckedChanged, chkPriceCriteria2.CheckedChanged, chkPriceCriteria3.CheckedChanged, chkPriceCriteria4.CheckedChanged, chkPriceCriteria5.CheckedChanged, chkPriceCriteria6.CheckedChanged, chkPriceCriteria7.CheckedChanged, chkPriceCriteria8.CheckedChanged, chkPriceCriteria9.CheckedChanged, chkPriceCriteria10.CheckedChanged, chkPriceCriteria11.CheckedChanged
+
         If startUp = False Then
             Dim idx As Integer = 0
             For Each chk As CheckBox In grpCriteria.Controls
@@ -1022,21 +1038,16 @@ Public Class frmMarketPrices
 #End Region
 
 #Region "Custom Prices Functions"
-
-#End Region
-
     Private Sub txtSearchPrices_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchPrices.TextChanged
         If Len(txtSearchPrices.Text) > 2 Then
             Dim strSearch As String = txtSearchPrices.Text.Trim.ToLower
             Call Me.UpdatePriceMatrix(strSearch)
         End If
     End Sub
-
     Private Sub btnResetGrid_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetGrid.Click
         txtSearchPrices.Text = ""
         Call Me.UpdatePriceMatrix("")
     End Sub
-
     Private Sub UpdatePriceMatrix(Optional ByVal search As String = "")
         ' Loads prices into the listview
         lvwPrices.BeginUpdate()
@@ -1097,7 +1108,6 @@ Public Class frmMarketPrices
         End If
         lvwPrices.EndUpdate()
     End Sub
-
     Private Sub ctxPrices_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxPrices.Opening
         Dim selItem As ListViewItem = lvwPrices.SelectedItems(0)
         mnuPriceItemName.Text = selItem.Text
@@ -1152,7 +1162,6 @@ Public Class frmMarketPrices
         newPrice.ShowDialog()
         selItem.SubItems(3).Text = FormatNumber(EveHQ.Core.HQ.CustomPriceList(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
     End Sub
-
     Private Sub chkShowOnlyCustom_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowOnlyCustom.CheckedChanged
         If Len(txtSearchPrices.Text) > 2 Then
             Dim strSearch As String = txtSearchPrices.Text.Trim.ToLower
@@ -1160,5 +1169,12 @@ Public Class frmMarketPrices
         Else
             Call Me.UpdatePriceMatrix()
         End If
+    End Sub
+#End Region
+
+    Private Sub mnuViewOrders_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewOrders.Click
+        Dim marketOrders As New frmMarketOrders
+        marketOrders.OrdersFile = clvLogs.SelectedItems(0).Tag.ToString
+        marketOrders.ShowDialog()
     End Sub
 End Class

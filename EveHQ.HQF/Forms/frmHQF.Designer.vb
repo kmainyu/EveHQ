@@ -438,6 +438,7 @@ Partial Class frmHQF
         Me.clvFittings.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1})
         Me.clvFittings.DefaultItemHeight = 16
         Me.clvFittings.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.clvFittings.ForeColor = System.Drawing.SystemColors.WindowText
         Me.clvFittings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.clvFittings.ItemContextMenu = Me.ctxFittings
         Me.clvFittings.Location = New System.Drawing.Point(0, 0)

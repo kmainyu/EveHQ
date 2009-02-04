@@ -80,10 +80,16 @@ Partial Class frmMarketPrices
         Me.colDate = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.tabCustom = New System.Windows.Forms.TabPage
         Me.panelCustom = New System.Windows.Forms.Panel
+        Me.chkShowOnlyCustom = New System.Windows.Forms.CheckBox
         Me.lblCustomPrices = New System.Windows.Forms.Label
         Me.btnResetGrid = New System.Windows.Forms.Button
         Me.txtSearchPrices = New System.Windows.Forms.TextBox
         Me.lblSearchPrices = New System.Windows.Forms.Label
+        Me.lvwPrices = New EveHQ.ListViewNoFlicker
+        Me.colPriceName = New System.Windows.Forms.ColumnHeader
+        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
+        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
+        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
         Me.ctxPrices = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
@@ -91,12 +97,8 @@ Partial Class frmMarketPrices
         Me.mnuPriceEdit = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuPriceDelete = New System.Windows.Forms.ToolStripMenuItem
         Me.tmrStart = New System.Windows.Forms.Timer(Me.components)
-        Me.chkShowOnlyCustom = New System.Windows.Forms.CheckBox
-        Me.lvwPrices = New EveHQ.ListViewNoFlicker
-        Me.colPriceName = New System.Windows.Forms.ColumnHeader
-        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
-        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
-        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
+        Me.ctxMarketExport = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuViewOrders = New System.Windows.Forms.ToolStripMenuItem
         Me.TabControl1.SuspendLayout()
         Me.tabPriceSettings.SuspendLayout()
         Me.panelPrices.SuspendLayout()
@@ -113,6 +115,7 @@ Partial Class frmMarketPrices
         Me.tabCustom.SuspendLayout()
         Me.panelCustom.SuspendLayout()
         Me.ctxPrices.SuspendLayout()
+        Me.ctxMarketExport.SuspendLayout()
         Me.SuspendLayout()
         '
         'ofd1
@@ -651,6 +654,7 @@ Partial Class frmMarketPrices
         Me.clvLogs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRegion, Me.colItem, Me.colDate})
         Me.clvLogs.DefaultItemHeight = 18
         Me.clvLogs.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.clvLogs.ItemContextMenu = Me.ctxMarketExport
         Me.clvLogs.Location = New System.Drawing.Point(0, 0)
         Me.clvLogs.Name = "clvLogs"
         Me.clvLogs.Size = New System.Drawing.Size(709, 597)
@@ -707,6 +711,17 @@ Partial Class frmMarketPrices
         Me.panelCustom.Size = New System.Drawing.Size(709, 597)
         Me.panelCustom.TabIndex = 0
         '
+        'chkShowOnlyCustom
+        '
+        Me.chkShowOnlyCustom.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.chkShowOnlyCustom.AutoSize = True
+        Me.chkShowOnlyCustom.Location = New System.Drawing.Point(382, 570)
+        Me.chkShowOnlyCustom.Name = "chkShowOnlyCustom"
+        Me.chkShowOnlyCustom.Size = New System.Drawing.Size(147, 17)
+        Me.chkShowOnlyCustom.TabIndex = 20
+        Me.chkShowOnlyCustom.Text = "Show Only Custom Prices"
+        Me.chkShowOnlyCustom.UseVisualStyleBackColor = True
+        '
         'lblCustomPrices
         '
         Me.lblCustomPrices.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -746,56 +761,6 @@ Partial Class frmMarketPrices
         Me.lblSearchPrices.Size = New System.Drawing.Size(74, 13)
         Me.lblSearchPrices.TabIndex = 16
         Me.lblSearchPrices.Text = "Search Items:"
-        '
-        'ctxPrices
-        '
-        Me.ctxPrices.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuPriceItemName, Me.ToolStripMenuItem1, Me.mnuPriceAdd, Me.mnuPriceEdit, Me.mnuPriceDelete})
-        Me.ctxPrices.Name = "ctxPrices"
-        Me.ctxPrices.Size = New System.Drawing.Size(182, 98)
-        '
-        'mnuPriceItemName
-        '
-        Me.mnuPriceItemName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.mnuPriceItemName.Name = "mnuPriceItemName"
-        Me.mnuPriceItemName.Size = New System.Drawing.Size(181, 22)
-        Me.mnuPriceItemName.Text = "Item Name"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(178, 6)
-        '
-        'mnuPriceAdd
-        '
-        Me.mnuPriceAdd.Name = "mnuPriceAdd"
-        Me.mnuPriceAdd.Size = New System.Drawing.Size(181, 22)
-        Me.mnuPriceAdd.Text = "Add Custom Price"
-        '
-        'mnuPriceEdit
-        '
-        Me.mnuPriceEdit.Name = "mnuPriceEdit"
-        Me.mnuPriceEdit.Size = New System.Drawing.Size(181, 22)
-        Me.mnuPriceEdit.Text = "Edit Custom Price"
-        '
-        'mnuPriceDelete
-        '
-        Me.mnuPriceDelete.Name = "mnuPriceDelete"
-        Me.mnuPriceDelete.Size = New System.Drawing.Size(181, 22)
-        Me.mnuPriceDelete.Text = "Delete Custom Price"
-        '
-        'tmrStart
-        '
-        '
-        'chkShowOnlyCustom
-        '
-        Me.chkShowOnlyCustom.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.chkShowOnlyCustom.AutoSize = True
-        Me.chkShowOnlyCustom.Location = New System.Drawing.Point(382, 570)
-        Me.chkShowOnlyCustom.Name = "chkShowOnlyCustom"
-        Me.chkShowOnlyCustom.Size = New System.Drawing.Size(147, 17)
-        Me.chkShowOnlyCustom.TabIndex = 20
-        Me.chkShowOnlyCustom.Text = "Show Only Custom Prices"
-        Me.chkShowOnlyCustom.UseVisualStyleBackColor = True
         '
         'lvwPrices
         '
@@ -839,6 +804,58 @@ Partial Class frmMarketPrices
         Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colCustomPrice.Width = 120
         '
+        'ctxPrices
+        '
+        Me.ctxPrices.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuPriceItemName, Me.ToolStripMenuItem1, Me.mnuPriceAdd, Me.mnuPriceEdit, Me.mnuPriceDelete})
+        Me.ctxPrices.Name = "ctxPrices"
+        Me.ctxPrices.Size = New System.Drawing.Size(182, 98)
+        '
+        'mnuPriceItemName
+        '
+        Me.mnuPriceItemName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.mnuPriceItemName.Name = "mnuPriceItemName"
+        Me.mnuPriceItemName.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceItemName.Text = "Item Name"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(178, 6)
+        '
+        'mnuPriceAdd
+        '
+        Me.mnuPriceAdd.Name = "mnuPriceAdd"
+        Me.mnuPriceAdd.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceAdd.Text = "Add Custom Price"
+        '
+        'mnuPriceEdit
+        '
+        Me.mnuPriceEdit.Name = "mnuPriceEdit"
+        Me.mnuPriceEdit.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceEdit.Text = "Edit Custom Price"
+        '
+        'mnuPriceDelete
+        '
+        Me.mnuPriceDelete.Name = "mnuPriceDelete"
+        Me.mnuPriceDelete.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceDelete.Text = "Delete Custom Price"
+        '
+        'tmrStart
+        '
+        '
+        'ctxMarketExport
+        '
+        Me.ctxMarketExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuViewOrders})
+        Me.ctxMarketExport.Name = "ctxPrices"
+        Me.ctxMarketExport.Size = New System.Drawing.Size(153, 48)
+        '
+        'mnuViewOrders
+        '
+        Me.mnuViewOrders.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.mnuViewOrders.Name = "mnuViewOrders"
+        Me.mnuViewOrders.Size = New System.Drawing.Size(152, 22)
+        Me.mnuViewOrders.Text = "View Orders"
+        '
         'frmMarketPrices
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -870,6 +887,7 @@ Partial Class frmMarketPrices
         Me.panelCustom.ResumeLayout(False)
         Me.panelCustom.PerformLayout()
         Me.ctxPrices.ResumeLayout(False)
+        Me.ctxMarketExport.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -946,4 +964,6 @@ Partial Class frmMarketPrices
     Friend WithEvents mnuPriceDelete As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuPriceAdd As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents chkShowOnlyCustom As System.Windows.Forms.CheckBox
+    Friend WithEvents ctxMarketExport As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuViewOrders As System.Windows.Forms.ToolStripMenuItem
 End Class
