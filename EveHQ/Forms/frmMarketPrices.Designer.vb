@@ -84,17 +84,19 @@ Partial Class frmMarketPrices
         Me.btnResetGrid = New System.Windows.Forms.Button
         Me.txtSearchPrices = New System.Windows.Forms.TextBox
         Me.lblSearchPrices = New System.Windows.Forms.Label
+        Me.ctxPrices = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuPriceAdd = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuPriceEdit = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuPriceDelete = New System.Windows.Forms.ToolStripMenuItem
+        Me.tmrStart = New System.Windows.Forms.Timer(Me.components)
+        Me.chkShowOnlyCustom = New System.Windows.Forms.CheckBox
         Me.lvwPrices = New EveHQ.ListViewNoFlicker
         Me.colPriceName = New System.Windows.Forms.ColumnHeader
         Me.colBasePrice = New System.Windows.Forms.ColumnHeader
         Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
         Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
-        Me.ctxPrices = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuPriceEdit = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuPriceDelete = New System.Windows.Forms.ToolStripMenuItem
-        Me.tmrStart = New System.Windows.Forms.Timer(Me.components)
         Me.TabControl1.SuspendLayout()
         Me.tabPriceSettings.SuspendLayout()
         Me.panelPrices.SuspendLayout()
@@ -693,6 +695,7 @@ Partial Class frmMarketPrices
         'panelCustom
         '
         Me.panelCustom.BackColor = System.Drawing.SystemColors.Control
+        Me.panelCustom.Controls.Add(Me.chkShowOnlyCustom)
         Me.panelCustom.Controls.Add(Me.lblCustomPrices)
         Me.panelCustom.Controls.Add(Me.btnResetGrid)
         Me.panelCustom.Controls.Add(Me.txtSearchPrices)
@@ -744,6 +747,56 @@ Partial Class frmMarketPrices
         Me.lblSearchPrices.TabIndex = 16
         Me.lblSearchPrices.Text = "Search Items:"
         '
+        'ctxPrices
+        '
+        Me.ctxPrices.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuPriceItemName, Me.ToolStripMenuItem1, Me.mnuPriceAdd, Me.mnuPriceEdit, Me.mnuPriceDelete})
+        Me.ctxPrices.Name = "ctxPrices"
+        Me.ctxPrices.Size = New System.Drawing.Size(182, 98)
+        '
+        'mnuPriceItemName
+        '
+        Me.mnuPriceItemName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.mnuPriceItemName.Name = "mnuPriceItemName"
+        Me.mnuPriceItemName.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceItemName.Text = "Item Name"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(178, 6)
+        '
+        'mnuPriceAdd
+        '
+        Me.mnuPriceAdd.Name = "mnuPriceAdd"
+        Me.mnuPriceAdd.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceAdd.Text = "Add Custom Price"
+        '
+        'mnuPriceEdit
+        '
+        Me.mnuPriceEdit.Name = "mnuPriceEdit"
+        Me.mnuPriceEdit.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceEdit.Text = "Edit Custom Price"
+        '
+        'mnuPriceDelete
+        '
+        Me.mnuPriceDelete.Name = "mnuPriceDelete"
+        Me.mnuPriceDelete.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceDelete.Text = "Delete Custom Price"
+        '
+        'tmrStart
+        '
+        '
+        'chkShowOnlyCustom
+        '
+        Me.chkShowOnlyCustom.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.chkShowOnlyCustom.AutoSize = True
+        Me.chkShowOnlyCustom.Location = New System.Drawing.Point(382, 570)
+        Me.chkShowOnlyCustom.Name = "chkShowOnlyCustom"
+        Me.chkShowOnlyCustom.Size = New System.Drawing.Size(147, 17)
+        Me.chkShowOnlyCustom.TabIndex = 20
+        Me.chkShowOnlyCustom.Text = "Show Only Custom Prices"
+        Me.chkShowOnlyCustom.UseVisualStyleBackColor = True
+        '
         'lvwPrices
         '
         Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -785,39 +838,6 @@ Partial Class frmMarketPrices
         Me.colCustomPrice.Text = "Custom Price"
         Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colCustomPrice.Width = 120
-        '
-        'ctxPrices
-        '
-        Me.ctxPrices.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuPriceItemName, Me.ToolStripMenuItem1, Me.mnuPriceEdit, Me.mnuPriceDelete})
-        Me.ctxPrices.Name = "ctxPrices"
-        Me.ctxPrices.Size = New System.Drawing.Size(182, 98)
-        '
-        'mnuPriceItemName
-        '
-        Me.mnuPriceItemName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.mnuPriceItemName.Name = "mnuPriceItemName"
-        Me.mnuPriceItemName.Size = New System.Drawing.Size(181, 22)
-        Me.mnuPriceItemName.Text = "Item Name"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(178, 6)
-        '
-        'mnuPriceEdit
-        '
-        Me.mnuPriceEdit.Name = "mnuPriceEdit"
-        Me.mnuPriceEdit.Size = New System.Drawing.Size(181, 22)
-        Me.mnuPriceEdit.Text = "Edit Custom Price"
-        '
-        'mnuPriceDelete
-        '
-        Me.mnuPriceDelete.Name = "mnuPriceDelete"
-        Me.mnuPriceDelete.Size = New System.Drawing.Size(181, 22)
-        Me.mnuPriceDelete.Text = "Delete Custom Price"
-        '
-        'tmrStart
-        '
         '
         'frmMarketPrices
         '
@@ -924,4 +944,6 @@ Partial Class frmMarketPrices
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuPriceEdit As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuPriceDelete As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuPriceAdd As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents chkShowOnlyCustom As System.Windows.Forms.CheckBox
 End Class

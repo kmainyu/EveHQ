@@ -19,19 +19,16 @@ Public Class frmModifyPrice
 
         ' Retrieve the txt tag which = itemID
         Dim itemID As String = txtNewPrice.Tag.ToString
-        EveHQ.Core.HQ.CustomPriceList(itemID) = txtNewPrice.Text
 
-        ' Save the prices
-        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-        Dim sw As New IO.StreamWriter(EveHQ.Core.HQ.cacheFolder & "\CustomPrices.txt")
-        Dim price As Double = 0
-        For Each marketPrice As String In EveHQ.Core.HQ.CustomPriceList.Keys
-            price = Double.Parse(EveHQ.Core.HQ.CustomPriceList(marketPrice).ToString, Globalization.NumberStyles.Number)
-            sw.WriteLine(marketPrice & "," & price.ToString(culture))
-        Next
-        sw.Flush()
-        sw.Close()
-
+        Select Case Me.Tag.ToString
+            Case "Add"
+                ' Add the custom price
+                Call EveHQ.Core.DataFunctions.AddCustomPrice(itemID, CDbl(txtNewPrice.Text))
+            Case "Edit"
+                ' Edit the custom price
+                Call EveHQ.Core.DataFunctions.EditCustomPrice(itemID, CDbl(txtNewPrice.Text))
+        End Select
+        
         ' Close the form
         Me.Close()
     End Sub

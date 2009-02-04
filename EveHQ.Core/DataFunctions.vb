@@ -23,6 +23,8 @@ Imports System.Data.Odbc
 Imports MySql.Data.MySqlClient
 Imports System.Data.SqlClient
 Imports System.IO
+Imports System.Text
+Imports System.Windows.Forms
 
 Public Class DataFunctions
 
@@ -529,8 +531,8 @@ Public Class DataFunctions
                 Return False
                 Exit Function
             End If
-            EveHQ.Core.DataFunctions.LoadMarketPrices()
-            EveHQ.Core.DataFunctions.LoadCustomPrices()
+            EveHQ.Core.DataFunctions.LoadMarketPricesFromDB()
+            EveHQ.Core.DataFunctions.LoadCustomPricesFromDB()
             Return True
         Catch e As Exception
             Return False
@@ -626,46 +628,47 @@ Public Class DataFunctions
             Exit Function
         End Try
     End Function
-    Public Shared Function LoadMarketPrices() As Boolean
-        Try
-            Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-            EveHQ.Core.HQ.MarketPriceList.Clear()
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\MarketPrices.txt") = True Then
-                Dim sr As New IO.StreamReader(EveHQ.Core.HQ.cacheFolder & "\MarketPrices.txt")
-                Dim marketLine As String = ""
-                Dim price As Double
-                Do
-                    marketLine = sr.ReadLine()
-                    Dim marketData() As String = marketLine.Split(",".ToCharArray)
-                    price = Double.Parse(CStr(marketData(1)), Globalization.NumberStyles.Number, culture)
-                    EveHQ.Core.HQ.MarketPriceList.Add(marketData(0), price)
-                Loop Until sr.EndOfStream
-            End If
-        Catch ex As Exception
-        End Try
-        Return True
-    End Function
-    Public Shared Function LoadCustomPrices() As Boolean
-        Try
-            Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-            EveHQ.Core.HQ.CustomPriceList.Clear()
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\CustomPrices.txt") = True Then
-                Dim sr As New IO.StreamReader(EveHQ.Core.HQ.cacheFolder & "\CustomPrices.txt")
-                Dim marketLine As String = ""
-                Dim price As Double
-                Do
-                    marketLine = sr.ReadLine()
-                    If marketLine IsNot Nothing Then
-                        Dim marketData() As String = marketLine.Split(",".ToCharArray)
-                        price = Double.Parse(CStr(marketData(1)), Globalization.NumberStyles.Number, culture)
-                        EveHQ.Core.HQ.CustomPriceList.Add(marketData(0), price)
-                    End If
-                Loop Until sr.EndOfStream
-            End If
-        Catch ex As Exception
-        End Try
-        Return True
-    End Function
+    'Public Shared Function LoadMarketPrices() As Boolean
+    '    Try
+    '        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+    '        EveHQ.Core.HQ.MarketPriceList.Clear()
+    '        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\MarketPrices.txt") = True Then
+    '            Dim sr As New IO.StreamReader(EveHQ.Core.HQ.cacheFolder & "\MarketPrices.txt")
+    '            Dim marketLine As String = ""
+    '            Dim price As Double
+    '            Do
+    '                marketLine = sr.ReadLine()
+    '                Dim marketData() As String = marketLine.Split(",".ToCharArray)
+    '                price = Double.Parse(CStr(marketData(1)), Globalization.NumberStyles.Number, culture)
+    '                EveHQ.Core.HQ.MarketPriceList.Add(marketData(0), price)
+    '            Loop Until sr.EndOfStream
+    '        End If
+    '    Catch ex As Exception
+    '    End Try
+    '    Return True
+    'End Function
+    'Public Shared Function LoadCustomPrices() As Boolean
+    '    Try
+    '        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+    '        EveHQ.Core.HQ.CustomPriceList.Clear()
+    '        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\CustomPrices.txt") = True Then
+    '            Dim sr As New IO.StreamReader(EveHQ.Core.HQ.cacheFolder & "\CustomPrices.txt")
+    '            Dim marketLine As String = ""
+    '            Dim price As Double
+    '            Do
+    '                marketLine = sr.ReadLine()
+    '                If marketLine IsNot Nothing Then
+    '                    Dim marketData() As String = marketLine.Split(",".ToCharArray)
+    '                    price = Double.Parse(CStr(marketData(1)), Globalization.NumberStyles.Number, culture)
+    '                    EveHQ.Core.HQ.CustomPriceList.Add(marketData(0), price)
+    '                End If
+    '            Loop Until sr.EndOfStream
+    '        End If
+    '    Catch ex As Exception
+    '    End Try
+    '    Call LoadCustomPricesFromDB()
+    '    Return True
+    'End Function
     Public Shared Function GetPrice(ByVal itemID As String) As Double
         Try
             If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) = True Then
@@ -721,5 +724,162 @@ Public Class DataFunctions
     End Sub
 #End Region ' Converts the Base CCP Data Export into something EveHQ can use
 
+    Public Shared Function LoadMarketPricesFromDB() As Boolean
+        Try
+            eveData = EveHQ.Core.DataFunctions.GetCustomData("SELECT * FROM marketPrices ORDER BY typeID;")
+            If eveData IsNot Nothing Then
+                EveHQ.Core.HQ.MarketPriceList.Clear()
+                For Each priceRow As DataRow In eveData.Tables(0).Rows
+                    EveHQ.Core.HQ.MarketPriceList.Add(CStr(priceRow.Item("typeID")), CDbl(priceRow.Item("price")))
+                Next
+            Else
+                ' Doesn't look like the table is there so try creating it
+                Call CreateMarketPricesTable()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("There was an error fetching the Market Price data. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
+    End Function
+    Public Shared Function LoadCustomPricesFromDB() As Boolean
+        Try
+            eveData = EveHQ.Core.DataFunctions.GetCustomData("SELECT * FROM customPrices ORDER BY typeID;")
+            If eveData IsNot Nothing Then
+                EveHQ.Core.HQ.CustomPriceList.Clear()
+                For Each priceRow As DataRow In eveData.Tables(0).Rows
+                    EveHQ.Core.HQ.CustomPriceList.Add(CStr(priceRow.Item("typeID")), CDbl(priceRow.Item("price")))
+                Next
+            Else
+                ' Doesn't look like the table is there so try creating it
+                Call CreateCustomPricesTable()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("There was an error fetching the Custom Price data. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
+    End Function
+    Private Shared Function CreateCustomPricesTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("customPrices") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the Db and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
+
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            strSQL.AppendLine("CREATE TABLE customPrices")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  typeID         int,")
+            strSQL.AppendLine("  price          float,")
+            strSQL.AppendLine("  priceDate      datetime,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT customPrices_PK PRIMARY KEY CLUSTERED (typeID)")
+            strSQL.AppendLine(")")
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
+
+    End Function
+    Private Shared Function CreateMarketPricesTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("marketPrices") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the Db and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
+
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            strSQL.AppendLine("CREATE TABLE marketPrices")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  typeID         int,")
+            strSQL.AppendLine("  price          float,")
+            strSQL.AppendLine("  priceDate      datetime,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT marketPrices_PK PRIMARY KEY CLUSTERED (typeID)")
+            strSQL.AppendLine(")")
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Dates Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
+
+    End Function
+    Public Shared Function AddCustomPrice(ByVal itemID As String, ByVal price As Double) As Boolean
+        EveHQ.Core.HQ.CustomPriceList(itemID) = price
+        Dim priceSQL As String = "INSERT INTO customPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString & ", " & Now.ToOADate - 2 & ");"
+        If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
+            MessageBox.Show("There was an error writing data to the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return False
+        Else
+            Return True
+        End If
+    End Function
+    Public Shared Function EditCustomPrice(ByVal itemID As String, ByVal price As Double) As Boolean
+        EveHQ.Core.HQ.CustomPriceList(itemID) = price
+        Dim priceSQL As String = "UPDATE customPrices SET price=" & price.ToString & ", priceDate=" & Now.ToOADate - 2 & " WHERE typeID=" & itemID & ";"
+        If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
+            MessageBox.Show("There was an error writing data to the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return False
+        Else
+            Return True
+        End If
+    End Function
+    Public Shared Function DeleteCustomPrice(ByVal itemID As String) As Boolean
+        ' Double check it exists and delete it
+        If EveHQ.Core.HQ.CustomPriceList.Contains(itemID) = True Then
+            EveHQ.Core.HQ.CustomPriceList.Remove(itemID)
+        End If
+        Dim priceSQL As String = "DELETE FROM customPrices WHERE typeID=" & itemID & ";"
+        If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
+            MessageBox.Show("There was an error deleting data from the Custom Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return False
+        Else
+            Return True
+        End If
+    End Function
 
 End Class
