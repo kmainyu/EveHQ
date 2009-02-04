@@ -1181,6 +1181,10 @@
 11365,1,3331,116,2,387;648,0,1,0,5,15,Rocket Damage - Exp
 11365,1,3331,117,2,387;648,0,1,0,5,15,Rocket Damage - Kin
 11365,1,3331,118,2,387;648,0,1,0,5,15,Rocket Damage - Therm
+11365,1,12095,267,1,11365,0,1,2,5,15,Armor EM Resistance
+11365,1,12095,268,1,11365,0,1,2,5,15,Armor Explosive Resistance
+11365,1,12095,269,1,11365,0,1,2,5,15,Armor Kinetic Resistance
+11365,1,12095,270,1,11365,0,1,2,5,15,Armor Thermal Resistance
 11365,1,12095,55,1,11365,0,1,0,-5,15,Capacitor Recharge Rate
 # Vexor,,,,,,,,,,,
 626,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
