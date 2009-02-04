@@ -74,11 +74,27 @@ Partial Class frmMarketPrices
         Me.lblProcess = New System.Windows.Forms.Label
         Me.tabMarketLogs = New System.Windows.Forms.TabPage
         Me.panelMarketLog = New System.Windows.Forms.Panel
-        Me.tmrStart = New System.Windows.Forms.Timer(Me.components)
         Me.clvLogs = New DotNetLib.Windows.Forms.ContainerListView
         Me.colRegion = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colDate = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.tabCustom = New System.Windows.Forms.TabPage
+        Me.panelCustom = New System.Windows.Forms.Panel
+        Me.lblCustomPrices = New System.Windows.Forms.Label
+        Me.btnResetGrid = New System.Windows.Forms.Button
+        Me.txtSearchPrices = New System.Windows.Forms.TextBox
+        Me.lblSearchPrices = New System.Windows.Forms.Label
+        Me.lvwPrices = New EveHQ.ListViewNoFlicker
+        Me.colPriceName = New System.Windows.Forms.ColumnHeader
+        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
+        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
+        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
+        Me.ctxPrices = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuPriceEdit = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuPriceDelete = New System.Windows.Forms.ToolStripMenuItem
+        Me.tmrStart = New System.Windows.Forms.Timer(Me.components)
         Me.TabControl1.SuspendLayout()
         Me.tabPriceSettings.SuspendLayout()
         Me.panelPrices.SuspendLayout()
@@ -92,6 +108,9 @@ Partial Class frmMarketPrices
         Me.gbProcessStatus.SuspendLayout()
         Me.tabMarketLogs.SuspendLayout()
         Me.panelMarketLog.SuspendLayout()
+        Me.tabCustom.SuspendLayout()
+        Me.panelCustom.SuspendLayout()
+        Me.ctxPrices.SuspendLayout()
         Me.SuspendLayout()
         '
         'ofd1
@@ -180,6 +199,7 @@ Partial Class frmMarketPrices
         Me.TabControl1.Controls.Add(Me.tabPriceSettings)
         Me.TabControl1.Controls.Add(Me.tabDumps)
         Me.TabControl1.Controls.Add(Me.tabMarketLogs)
+        Me.TabControl1.Controls.Add(Me.tabCustom)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -624,9 +644,6 @@ Partial Class frmMarketPrices
         Me.panelMarketLog.Size = New System.Drawing.Size(709, 597)
         Me.panelMarketLog.TabIndex = 0
         '
-        'tmrStart
-        '
-        '
         'clvLogs
         '
         Me.clvLogs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRegion, Me.colItem, Me.colDate})
@@ -663,6 +680,145 @@ Partial Class frmMarketPrices
         Me.colDate.Text = "Log Date"
         Me.colDate.Width = 150
         '
+        'tabCustom
+        '
+        Me.tabCustom.Controls.Add(Me.panelCustom)
+        Me.tabCustom.Location = New System.Drawing.Point(4, 22)
+        Me.tabCustom.Name = "tabCustom"
+        Me.tabCustom.Size = New System.Drawing.Size(709, 597)
+        Me.tabCustom.TabIndex = 3
+        Me.tabCustom.Text = "Custom Prices"
+        Me.tabCustom.UseVisualStyleBackColor = True
+        '
+        'panelCustom
+        '
+        Me.panelCustom.BackColor = System.Drawing.SystemColors.Control
+        Me.panelCustom.Controls.Add(Me.lblCustomPrices)
+        Me.panelCustom.Controls.Add(Me.btnResetGrid)
+        Me.panelCustom.Controls.Add(Me.txtSearchPrices)
+        Me.panelCustom.Controls.Add(Me.lblSearchPrices)
+        Me.panelCustom.Controls.Add(Me.lvwPrices)
+        Me.panelCustom.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelCustom.Location = New System.Drawing.Point(0, 0)
+        Me.panelCustom.Name = "panelCustom"
+        Me.panelCustom.Size = New System.Drawing.Size(709, 597)
+        Me.panelCustom.TabIndex = 0
+        '
+        'lblCustomPrices
+        '
+        Me.lblCustomPrices.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblCustomPrices.Location = New System.Drawing.Point(8, 9)
+        Me.lblCustomPrices.Name = "lblCustomPrices"
+        Me.lblCustomPrices.Size = New System.Drawing.Size(693, 31)
+        Me.lblCustomPrices.TabIndex = 19
+        Me.lblCustomPrices.Text = "Custom Prices enable you to override the Base and Market prices by allowing you t" & _
+            "o enter your own individual figures. Right-click an item to edit or delete a Cus" & _
+            "tom price." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        '
+        'btnResetGrid
+        '
+        Me.btnResetGrid.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnResetGrid.Location = New System.Drawing.Point(268, 566)
+        Me.btnResetGrid.Name = "btnResetGrid"
+        Me.btnResetGrid.Size = New System.Drawing.Size(75, 23)
+        Me.btnResetGrid.TabIndex = 18
+        Me.btnResetGrid.Text = "Reset Grid"
+        Me.btnResetGrid.UseVisualStyleBackColor = True
+        '
+        'txtSearchPrices
+        '
+        Me.txtSearchPrices.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.txtSearchPrices.Location = New System.Drawing.Point(83, 568)
+        Me.txtSearchPrices.Name = "txtSearchPrices"
+        Me.txtSearchPrices.Size = New System.Drawing.Size(177, 21)
+        Me.txtSearchPrices.TabIndex = 17
+        '
+        'lblSearchPrices
+        '
+        Me.lblSearchPrices.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblSearchPrices.AutoSize = True
+        Me.lblSearchPrices.Location = New System.Drawing.Point(8, 572)
+        Me.lblSearchPrices.Name = "lblSearchPrices"
+        Me.lblSearchPrices.Size = New System.Drawing.Size(74, 13)
+        Me.lblSearchPrices.TabIndex = 16
+        Me.lblSearchPrices.Text = "Search Items:"
+        '
+        'lvwPrices
+        '
+        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
+        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
+        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwPrices.FullRowSelect = True
+        Me.lvwPrices.GridLines = True
+        Me.lvwPrices.HideSelection = False
+        Me.lvwPrices.Location = New System.Drawing.Point(8, 43)
+        Me.lvwPrices.MultiSelect = False
+        Me.lvwPrices.Name = "lvwPrices"
+        Me.lvwPrices.Size = New System.Drawing.Size(693, 517)
+        Me.lvwPrices.TabIndex = 13
+        Me.lvwPrices.UseCompatibleStateImageBehavior = False
+        Me.lvwPrices.View = System.Windows.Forms.View.Details
+        '
+        'colPriceName
+        '
+        Me.colPriceName.Text = "Item Name"
+        Me.colPriceName.Width = 300
+        '
+        'colBasePrice
+        '
+        Me.colBasePrice.Text = "Base Price"
+        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colBasePrice.Width = 120
+        '
+        'colMarketPrice
+        '
+        Me.colMarketPrice.Text = "Market Price"
+        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colMarketPrice.Width = 120
+        '
+        'colCustomPrice
+        '
+        Me.colCustomPrice.Text = "Custom Price"
+        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colCustomPrice.Width = 120
+        '
+        'ctxPrices
+        '
+        Me.ctxPrices.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuPriceItemName, Me.ToolStripMenuItem1, Me.mnuPriceEdit, Me.mnuPriceDelete})
+        Me.ctxPrices.Name = "ctxPrices"
+        Me.ctxPrices.Size = New System.Drawing.Size(182, 98)
+        '
+        'mnuPriceItemName
+        '
+        Me.mnuPriceItemName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.mnuPriceItemName.Name = "mnuPriceItemName"
+        Me.mnuPriceItemName.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceItemName.Text = "Item Name"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(178, 6)
+        '
+        'mnuPriceEdit
+        '
+        Me.mnuPriceEdit.Name = "mnuPriceEdit"
+        Me.mnuPriceEdit.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceEdit.Text = "Edit Custom Price"
+        '
+        'mnuPriceDelete
+        '
+        Me.mnuPriceDelete.Name = "mnuPriceDelete"
+        Me.mnuPriceDelete.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPriceDelete.Text = "Delete Custom Price"
+        '
+        'tmrStart
+        '
+        '
         'frmMarketPrices
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -690,6 +846,10 @@ Partial Class frmMarketPrices
         Me.gbProcessStatus.PerformLayout()
         Me.tabMarketLogs.ResumeLayout(False)
         Me.panelMarketLog.ResumeLayout(False)
+        Me.tabCustom.ResumeLayout(False)
+        Me.panelCustom.ResumeLayout(False)
+        Me.panelCustom.PerformLayout()
+        Me.ctxPrices.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -748,4 +908,20 @@ Partial Class frmMarketPrices
     Friend WithEvents colRegion As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colItem As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colDate As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents tabCustom As System.Windows.Forms.TabPage
+    Friend WithEvents panelCustom As System.Windows.Forms.Panel
+    Friend WithEvents lblCustomPrices As System.Windows.Forms.Label
+    Friend WithEvents btnResetGrid As System.Windows.Forms.Button
+    Friend WithEvents txtSearchPrices As System.Windows.Forms.TextBox
+    Friend WithEvents lblSearchPrices As System.Windows.Forms.Label
+    Friend WithEvents lvwPrices As EveHQ.ListViewNoFlicker
+    Friend WithEvents colPriceName As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colBasePrice As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colMarketPrice As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colCustomPrice As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ctxPrices As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuPriceItemName As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuPriceEdit As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuPriceDelete As System.Windows.Forms.ToolStripMenuItem
 End Class

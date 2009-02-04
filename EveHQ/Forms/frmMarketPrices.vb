@@ -429,6 +429,9 @@ Public Class frmMarketPrices
         ' Update Market Price Settings
         Call Me.UpdatePriceSettings()
 
+        ' Update the Custom Price Grid
+        Call Me.UpdatePriceMatrix()
+
         startUp = False
 
         ' Start the initial timing check (but do last so form is drawn)
@@ -1018,5 +1021,96 @@ Public Class frmMarketPrices
     End Sub
 
 #End Region
+
+#Region "Custom Prices Functions"
+
+#End Region
+
+    Private Sub txtSearchPrices_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchPrices.TextChanged
+        If Len(txtSearchPrices.Text) > 2 Then
+            Dim strSearch As String = txtSearchPrices.Text.Trim.ToLower
+            Call Me.UpdatePriceMatrix(strSearch)
+        End If
+    End Sub
+
+    Private Sub btnResetGrid_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetGrid.Click
+        txtSearchPrices.Text = ""
+        Call Me.UpdatePriceMatrix("")
+    End Sub
+
+    Private Sub UpdatePriceMatrix(Optional ByVal search As String = "")
+        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+        ' Loads prices into the listview
+        lvwPrices.BeginUpdate()
+        lvwPrices.Items.Clear()
+        Dim lvItem As New ListViewItem
+        Dim itemID As String = ""
+        Dim price As Double = 0
+        For Each item As String In EveHQ.Core.HQ.itemList.Keys
+            If item.ToLower.Contains(search) = True Then
+                If CBool(EveHQ.Core.HQ.itemPublishedList(item)) = True Then
+                    lvItem = New ListViewItem
+                    itemID = CStr(EveHQ.Core.HQ.itemList(item))
+                    lvItem.Text = item
+                    lvItem.Name = itemID
+                    lvItem.SubItems.Add(FormatNumber(EveHQ.Core.HQ.BasePriceList(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    If EveHQ.Core.HQ.MarketPriceList.Contains(itemID) Then
+                        price = CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))
+                        lvItem.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    Else
+                        lvItem.SubItems.Add("")
+                    End If
+                    If EveHQ.Core.HQ.CustomPriceList.Contains(itemID) Then
+                        price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
+                        lvItem.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    Else
+                        lvItem.SubItems.Add("")
+                    End If
+                    lvwPrices.Items.Add(lvItem)
+                End If
+            End If
+        Next
+        lvwPrices.EndUpdate()
+    End Sub
+
+    Private Sub ctxPrices_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxPrices.Opening
+        Dim selItem As ListViewItem = lvwPrices.SelectedItems(0)
+        mnuPriceItemName.Text = selItem.Text
+        Dim selItemID As String = selItem.Name
+        ' Check if it exists and we can edit/delete it
+        If EveHQ.Core.HQ.CustomPriceList.Contains(selItemID) = True Then
+            ' Already in custom price list
+            mnuPriceDelete.Enabled = True
+            mnuPriceEdit.Enabled = True
+        Else
+            ' Not in price list
+            mnuPriceDelete.Enabled = False
+            mnuPriceEdit.Enabled = True
+        End If
+    End Sub
+    Private Sub mnuPriceDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceDelete.Click
+        Dim selItem As ListViewItem = lvwPrices.SelectedItems(0)
+        mnuPriceItemName.Text = selItem.Text
+        Dim selItemID As String = selItem.Name
+        ' Double check it exists and delete it
+        If EveHQ.Core.HQ.CustomPriceList.Contains(selItemID) = True Then
+            EveHQ.Core.HQ.CustomPriceList.Remove(selItemID)
+        End If
+        ' refresh that asset rather than the whole list
+        selItem.SubItems(3).Text = ""
+    End Sub
+    Private Sub mnuPriceEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceEdit.Click
+        Dim selItem As ListViewItem = lvwPrices.SelectedItems(0)
+        Dim itemID As String = selItem.Name
+        Dim newPrice As New frmModifyPrice
+        newPrice.lblBasePrice.Text = FormatNumber(EveHQ.Core.HQ.BasePriceList(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        newPrice.lblMarketPrice.Text = FormatNumber(EveHQ.Core.HQ.MarketPriceList(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        newPrice.lblCustomPrice.Text = FormatNumber(EveHQ.Core.HQ.CustomPriceList(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        newPrice.txtNewPrice.Tag = itemID
+        newPrice.txtNewPrice.Text = ""
+        newPrice.Text = "Modify Price - " & selItem.Text
+        newPrice.ShowDialog()
+        selItem.SubItems(3).Text = FormatNumber(EveHQ.Core.HQ.CustomPriceList(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+    End Sub
 
 End Class

@@ -169,6 +169,12 @@
     <Compile Include="Forms\frmMarketPrices.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmModifyPrice.designer.vb">
+      <DependentUpon>frmModifyPrice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmModifyPrice.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmModifyQueues.Designer.vb">
       <DependentUpon>frmModifyQueues.vb</DependentUpon>
     </Compile>
@@ -328,6 +334,9 @@
     <EmbeddedResource Include="Forms\frmMarketPrices.resx">
       <DependentUpon>frmMarketPrices.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmModifyPrice.resx">
+      <DependentUpon>frmModifyPrice.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmModifyQueues.resx">
       <SubType>Designer</SubType>
