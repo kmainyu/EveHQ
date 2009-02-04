@@ -42,6 +42,9 @@ Partial Class frmExtraStandings
         Me.colStartStanding = New System.Windows.Forms.ColumnHeader
         Me.colStandingGain = New System.Windows.Forms.ColumnHeader
         Me.colEndStanding = New System.Windows.Forms.ColumnHeader
+        Me.chkUseBaseOnly = New System.Windows.Forms.CheckBox
+        Me.lblCurrentBaseStanding = New System.Windows.Forms.Label
+        Me.lblCurrentBaseStandingLbl = New System.Windows.Forms.Label
         CType(Me.nudReqStanding, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudMissionGain, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -49,7 +52,7 @@ Partial Class frmExtraStandings
         'lblCurrentStandingLbl
         '
         Me.lblCurrentStandingLbl.AutoSize = True
-        Me.lblCurrentStandingLbl.Location = New System.Drawing.Point(12, 20)
+        Me.lblCurrentStandingLbl.Location = New System.Drawing.Point(12, 36)
         Me.lblCurrentStandingLbl.Name = "lblCurrentStandingLbl"
         Me.lblCurrentStandingLbl.Size = New System.Drawing.Size(89, 13)
         Me.lblCurrentStandingLbl.TabIndex = 0
@@ -58,7 +61,7 @@ Partial Class frmExtraStandings
         'lblRequiredStanding
         '
         Me.lblRequiredStanding.AutoSize = True
-        Me.lblRequiredStanding.Location = New System.Drawing.Point(12, 46)
+        Me.lblRequiredStanding.Location = New System.Drawing.Point(12, 56)
         Me.lblRequiredStanding.Name = "lblRequiredStanding"
         Me.lblRequiredStanding.Size = New System.Drawing.Size(98, 13)
         Me.lblRequiredStanding.TabIndex = 1
@@ -67,7 +70,7 @@ Partial Class frmExtraStandings
         'nudReqStanding
         '
         Me.nudReqStanding.DecimalPlaces = 3
-        Me.nudReqStanding.Location = New System.Drawing.Point(116, 44)
+        Me.nudReqStanding.Location = New System.Drawing.Point(116, 54)
         Me.nudReqStanding.Maximum = New Decimal(New Integer() {9999, 0, 0, 196608})
         Me.nudReqStanding.Name = "nudReqStanding"
         Me.nudReqStanding.Size = New System.Drawing.Size(73, 20)
@@ -77,7 +80,7 @@ Partial Class frmExtraStandings
         'nudMissionGain
         '
         Me.nudMissionGain.DecimalPlaces = 3
-        Me.nudMissionGain.Location = New System.Drawing.Point(163, 119)
+        Me.nudMissionGain.Location = New System.Drawing.Point(163, 149)
         Me.nudMissionGain.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
         Me.nudMissionGain.Name = "nudMissionGain"
         Me.nudMissionGain.Size = New System.Drawing.Size(73, 20)
@@ -87,7 +90,7 @@ Partial Class frmExtraStandings
         'lblAvgMission
         '
         Me.lblAvgMission.AutoSize = True
-        Me.lblAvgMission.Location = New System.Drawing.Point(49, 121)
+        Me.lblAvgMission.Location = New System.Drawing.Point(49, 151)
         Me.lblAvgMission.Name = "lblAvgMission"
         Me.lblAvgMission.Size = New System.Drawing.Size(108, 13)
         Me.lblAvgMission.TabIndex = 3
@@ -96,7 +99,7 @@ Partial Class frmExtraStandings
         'lblCurrentStanding
         '
         Me.lblCurrentStanding.AutoSize = True
-        Me.lblCurrentStanding.Location = New System.Drawing.Point(113, 20)
+        Me.lblCurrentStanding.Location = New System.Drawing.Point(129, 36)
         Me.lblCurrentStanding.Name = "lblCurrentStanding"
         Me.lblCurrentStanding.Size = New System.Drawing.Size(28, 13)
         Me.lblCurrentStanding.TabIndex = 6
@@ -104,9 +107,10 @@ Partial Class frmExtraStandings
         '
         'lblMissionsRequiredLabel
         '
+        Me.lblMissionsRequiredLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblMissionsRequiredLabel.AutoSize = True
         Me.lblMissionsRequiredLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMissionsRequiredLabel.Location = New System.Drawing.Point(14, 469)
+        Me.lblMissionsRequiredLabel.Location = New System.Drawing.Point(18, 564)
         Me.lblMissionsRequiredLabel.Name = "lblMissionsRequiredLabel"
         Me.lblMissionsRequiredLabel.Size = New System.Drawing.Size(114, 13)
         Me.lblMissionsRequiredLabel.TabIndex = 7
@@ -116,7 +120,7 @@ Partial Class frmExtraStandings
         '
         Me.lblMissionsRequired.AutoSize = True
         Me.lblMissionsRequired.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMissionsRequired.Location = New System.Drawing.Point(160, 469)
+        Me.lblMissionsRequired.Location = New System.Drawing.Point(139, 564)
         Me.lblMissionsRequired.Name = "lblMissionsRequired"
         Me.lblMissionsRequired.Size = New System.Drawing.Size(0, 13)
         Me.lblMissionsRequired.TabIndex = 8
@@ -124,7 +128,7 @@ Partial Class frmExtraStandings
         'lblMissionGainType
         '
         Me.lblMissionGainType.AutoSize = True
-        Me.lblMissionGainType.Location = New System.Drawing.Point(12, 81)
+        Me.lblMissionGainType.Location = New System.Drawing.Point(12, 111)
         Me.lblMissionGainType.Name = "lblMissionGainType"
         Me.lblMissionGainType.Size = New System.Drawing.Size(125, 13)
         Me.lblMissionGainType.TabIndex = 9
@@ -134,7 +138,7 @@ Partial Class frmExtraStandings
         '
         Me.radDirect.AutoSize = True
         Me.radDirect.Checked = True
-        Me.radDirect.Location = New System.Drawing.Point(21, 100)
+        Me.radDirect.Location = New System.Drawing.Point(21, 130)
         Me.radDirect.Name = "radDirect"
         Me.radDirect.Size = New System.Drawing.Size(92, 17)
         Me.radDirect.TabIndex = 10
@@ -145,7 +149,7 @@ Partial Class frmExtraStandings
         'radCalculated
         '
         Me.radCalculated.AutoSize = True
-        Me.radCalculated.Location = New System.Drawing.Point(21, 148)
+        Me.radCalculated.Location = New System.Drawing.Point(21, 168)
         Me.radCalculated.Name = "radCalculated"
         Me.radCalculated.Size = New System.Drawing.Size(118, 17)
         Me.radCalculated.TabIndex = 11
@@ -154,17 +158,20 @@ Partial Class frmExtraStandings
         '
         'txtGains
         '
-        Me.txtGains.Location = New System.Drawing.Point(52, 172)
+        Me.txtGains.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.txtGains.Location = New System.Drawing.Point(52, 191)
         Me.txtGains.Multiline = True
         Me.txtGains.Name = "txtGains"
         Me.txtGains.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtGains.Size = New System.Drawing.Size(132, 253)
+        Me.txtGains.Size = New System.Drawing.Size(184, 330)
         Me.txtGains.TabIndex = 12
         '
         'lblGainAverage
         '
+        Me.lblGainAverage.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblGainAverage.AutoSize = True
-        Me.lblGainAverage.Location = New System.Drawing.Point(49, 428)
+        Me.lblGainAverage.Location = New System.Drawing.Point(49, 524)
         Me.lblGainAverage.Name = "lblGainAverage"
         Me.lblGainAverage.Size = New System.Drawing.Size(50, 13)
         Me.lblGainAverage.TabIndex = 13
@@ -181,12 +188,14 @@ Partial Class frmExtraStandings
         '
         'lvwStandings
         '
+        Me.lvwStandings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwStandings.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colNo, Me.colStartStanding, Me.colStandingGain, Me.colEndStanding})
         Me.lvwStandings.FullRowSelect = True
         Me.lvwStandings.GridLines = True
         Me.lvwStandings.Location = New System.Drawing.Point(259, 36)
         Me.lvwStandings.Name = "lvwStandings"
-        Me.lvwStandings.Size = New System.Drawing.Size(414, 461)
+        Me.lvwStandings.Size = New System.Drawing.Size(414, 544)
         Me.lvwStandings.TabIndex = 15
         Me.lvwStandings.UseCompatibleStateImageBehavior = False
         Me.lvwStandings.View = System.Windows.Forms.View.Details
@@ -213,11 +222,42 @@ Partial Class frmExtraStandings
         Me.colEndStanding.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colEndStanding.Width = 125
         '
+        'chkUseBaseOnly
+        '
+        Me.chkUseBaseOnly.AutoSize = True
+        Me.chkUseBaseOnly.Location = New System.Drawing.Point(69, 80)
+        Me.chkUseBaseOnly.Name = "chkUseBaseOnly"
+        Me.chkUseBaseOnly.Size = New System.Drawing.Size(120, 17)
+        Me.chkUseBaseOnly.TabIndex = 16
+        Me.chkUseBaseOnly.Text = "Use Base standings"
+        Me.chkUseBaseOnly.UseVisualStyleBackColor = True
+        '
+        'lblCurrentBaseStanding
+        '
+        Me.lblCurrentBaseStanding.AutoSize = True
+        Me.lblCurrentBaseStanding.Location = New System.Drawing.Point(129, 20)
+        Me.lblCurrentBaseStanding.Name = "lblCurrentBaseStanding"
+        Me.lblCurrentBaseStanding.Size = New System.Drawing.Size(28, 13)
+        Me.lblCurrentBaseStanding.TabIndex = 18
+        Me.lblCurrentBaseStanding.Text = "0.00"
+        '
+        'lblCurrentBaseStandingLbl
+        '
+        Me.lblCurrentBaseStandingLbl.AutoSize = True
+        Me.lblCurrentBaseStandingLbl.Location = New System.Drawing.Point(12, 20)
+        Me.lblCurrentBaseStandingLbl.Name = "lblCurrentBaseStandingLbl"
+        Me.lblCurrentBaseStandingLbl.Size = New System.Drawing.Size(116, 13)
+        Me.lblCurrentBaseStandingLbl.TabIndex = 17
+        Me.lblCurrentBaseStandingLbl.Text = "Current Base Standing:"
+        '
         'frmExtraStandings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(678, 509)
+        Me.ClientSize = New System.Drawing.Size(678, 586)
+        Me.Controls.Add(Me.lblCurrentBaseStanding)
+        Me.Controls.Add(Me.lblCurrentBaseStandingLbl)
+        Me.Controls.Add(Me.chkUseBaseOnly)
         Me.Controls.Add(Me.lvwStandings)
         Me.Controls.Add(Me.lblStandingProgression)
         Me.Controls.Add(Me.lblGainAverage)
@@ -265,4 +305,7 @@ Partial Class frmExtraStandings
     Friend WithEvents colStartStanding As System.Windows.Forms.ColumnHeader
     Friend WithEvents colStandingGain As System.Windows.Forms.ColumnHeader
     Friend WithEvents colEndStanding As System.Windows.Forms.ColumnHeader
+    Friend WithEvents chkUseBaseOnly As System.Windows.Forms.CheckBox
+    Friend WithEvents lblCurrentBaseStanding As System.Windows.Forms.Label
+    Friend WithEvents lblCurrentBaseStandingLbl As System.Windows.Forms.Label
 End Class

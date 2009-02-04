@@ -5,6 +5,7 @@ Public Class frmExtraStandings
     Dim cPilot As String = ""
     Dim cParty As String = ""
     Dim cStanding As Double = 0
+    Dim cBaseStanding As Double = 0
 
     Public Property Pilot() As String
         Get
@@ -30,9 +31,22 @@ Public Class frmExtraStandings
             cStanding = value
         End Set
     End Property
+    Public Property BaseStanding() As Double
+        Get
+            Return cBaseStanding
+        End Get
+        Set(ByVal value As Double)
+            cBaseStanding = value
+        End Set
+    End Property
 
     Private Sub CalculateMissions()
-        Dim curStanding As Double = cStanding
+        Dim curStanding As Double = 0
+        If chkUseBaseOnly.Checked = True Then
+            curStanding = cBaseStanding
+        Else
+            curStanding = cStanding
+        End If
         Dim newStanding As Double = 0
         Dim reqStanding As Double = CDbl(nudReqStanding.Value)
         Dim missionGain As Double = 0
@@ -94,7 +108,8 @@ Public Class frmExtraStandings
 
     Private Sub frmExtraStandings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.Text = "Standings Extrapolation - " & Party
-        Me.lblCurrentStanding.Text = cStanding.ToString
+        Me.lblCurrentStanding.Text = FormatNumber(cStanding, 10, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        Me.lblCurrentBaseStanding.Text = FormatNumber(cBaseStanding, 10, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         Me.CalculateMissions()
     End Sub
 
@@ -123,5 +138,9 @@ Public Class frmExtraStandings
             lblGainAverage.Enabled = True
         End If
         CalculateMissions()
+    End Sub
+
+    Private Sub chkUseBaseOnly_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseBaseOnly.CheckedChanged
+        Call CalculateMissions()
     End Sub
 End Class

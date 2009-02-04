@@ -85,6 +85,14 @@ Public Class frmCorpHQ
                 End If
                 ' Search the cache dir for files containing the text "GetCharStandings"
                 If My.Computer.FileSystem.DirectoryExists(cacheDir) = True Then
+                    ' Get the newest directory (protocol version)
+                    Dim protocols As New ArrayList
+                    For Each protocolDir As String In My.Computer.FileSystem.GetDirectories(cacheDir)
+                        protocols.Add(protocolDir)
+                    Next
+                    protocols.Sort()
+                    protocols.Reverse()
+                    cacheDir = CStr(protocols(0))
                     Dim fileError As Boolean = False
                     For Each cacheFile As String In My.Computer.FileSystem.GetFiles(cacheDir, FileIO.SearchOption.SearchAllSubDirectories, "*.cache")
                         Dim sr As New StreamReader(cacheFile)
@@ -338,7 +346,6 @@ Public Class frmCorpHQ
                             Try
                                 newStanding.Text = MyStandings.StandingNames(iStanding).ToString
                                 newStanding.Name = MyStandings.OwnerName
-
                                 newStanding.SubItems.Add(iStanding.ToString)
                                 Select Case CLng(iStanding)
                                     Case 500000 To 599999
@@ -351,7 +358,11 @@ Public Class frmCorpHQ
                                         newStanding.SubItems.Add("Player/Corp")
                                 End Select
                                 standing = CDbl(MyStandings.StandingValues(iStanding))
-                                newStanding.SubItems.Add(FormatNumber(standing, CInt(nudPrecision.Value), TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                Dim rawStanding As New ListViewItem.ListViewSubItem
+                                rawStanding.Text = FormatNumber(standing, CInt(nudPrecision.Value), TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                rawStanding.Name = "RawStanding"
+                                rawStanding.Tag = standing
+                                newStanding.SubItems.Add(rawStanding)
                                 If CLng(iStanding) < 70000000 Then
                                     If standing < 0 Then
                                         standing = standing + ((10 - standing) * (DiplomacyLevel * 4 / 100))
@@ -359,8 +370,11 @@ Public Class frmCorpHQ
                                         standing = standing + ((10 - standing) * (ConnectionsLevel * 4 / 100))
                                     End If
                                 End If
-                                newStanding.Tag = standing
-                                newStanding.SubItems.Add(FormatNumber(standing, CInt(nudPrecision.Value), TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                                Dim actualStanding As New ListViewItem.ListViewSubItem
+                                actualStanding.Text = FormatNumber(standing, CInt(nudPrecision.Value), TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                actualStanding.Name = "ActualStanding"
+                                actualStanding.Tag = standing
+                                newStanding.SubItems.Add(actualStanding)
                                 lvwStandings.Items.Add(newStanding)
                             Catch e As Exception
                                 Dim msg As String = "There was an error processing the standings details for:" & ControlChars.CrLf & "Standing ID: " & iStanding & ControlChars.CrLf
@@ -388,13 +402,13 @@ Public Class frmCorpHQ
     Private Sub mnuExtrapolateStandings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExtrapolateStandings.Click
         If lvwStandings.SelectedItems.Count >= 1 Then
             Dim standingsLine As ListViewItem = lvwStandings.SelectedItems(0)
-            Dim ownerID As String = standingsLine.Name
-            Dim standingID As String = standingsLine.Tag.ToString
-            Dim MyStanding As StandingsData = CType(PlugInData.AllStandings(ownerID), StandingsData)
+            'Dim ownerID As String = standingsLine.Name
+            'Dim standingID As String = standingsLine.Tag.ToString
             Dim extraStandings As New frmExtraStandings
             extraStandings.Pilot = standingsLine.Name
             extraStandings.Party = standingsLine.Text
-            extraStandings.Standing = CDbl(standingsLine.Tag)
+            extraStandings.Standing = CDbl(standingsLine.SubItems("ActualStanding").Tag)
+            extraStandings.BaseStanding = CDbl(standingsLine.SubItems("RawStanding").Tag)
             extraStandings.ShowDialog()
         End If
     End Sub
