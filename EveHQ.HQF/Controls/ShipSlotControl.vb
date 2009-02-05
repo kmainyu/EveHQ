@@ -1776,7 +1776,7 @@ Public Class ShipSlotControl
                 ctxShowBayInfoItem.Text = "Show Drone Info"
                 Dim selItem As ListViewItem = lvwBay.SelectedItems(0)
                 Dim idx As Integer = CInt(selItem.Name)
-                Dim DBI As DroneBayItem = CType(fittedShip.DroneBayItems.Item(idx), DroneBayItem)
+                Dim DBI As DroneBayItem = CType(currentShip.DroneBayItems.Item(idx), DroneBayItem)
                 Dim currentMod As ShipModule = DBI.DroneType
 
                 ' Check for Relevant Skills in Modules/Charges
@@ -1917,12 +1917,12 @@ Public Class ShipSlotControl
                     currentShip.DroneBayItems.Remove(CInt(remItem.Name))
                     lvwDroneBay.Items.RemoveByKey(remItem.Name)
                 Next
-                currentInfo.ShipType = currentShip
-                currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                 Call Me.UpdateFittingListFromShipData()
                 UpdateDrones = True
                 Call RedrawDroneBay()
                 UpdateDrones = False
+                currentInfo.ShipType = currentShip
+                currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
         End Select
     End Sub
 
