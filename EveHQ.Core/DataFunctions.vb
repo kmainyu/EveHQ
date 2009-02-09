@@ -340,10 +340,7 @@ Public Class DataFunctions
                     Return False
                 End Try
             Case 1, 2 ' MSSQL, MSSQL Express
-                Dim conn As New SqlConnection
-                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
                 Try
-                    conn.Open()
                     If strSQL.Contains(" LIKE ") = False Then
                         strSQL = strSQL.Replace("'", "''")
                         strSQL = strSQL.Replace(ControlChars.Quote, "'")
