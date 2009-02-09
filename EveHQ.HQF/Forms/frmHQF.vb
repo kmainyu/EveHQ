@@ -1254,8 +1254,8 @@ Public Class frmHQF
 #Region "Clipboard Paste Routines (incl Timer)"
     Private Sub tmrClipboard_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrClipboard.Tick
         ' Checks the clipboard for any compatible fixes!
-        If Clipboard.GetDataObject IsNot Nothing Then
-            Try
+        Try
+            If Clipboard.GetDataObject IsNot Nothing Then
                 Dim fileText As String = CStr(Clipboard.GetDataObject().GetData(DataFormats.Text))
                 If fileText IsNot Nothing Then
                     Dim fittingMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(fileText, "\[(?<ShipName>[^,]*)\]|\[(?<ShipName>.*),\s?(?<FittingName>.*)\]")
@@ -1272,12 +1272,12 @@ Public Class frmHQF
                 Else
                     btnClipboardPaste.Enabled = False
                 End If
-            Catch ex As Exception
+            Else
                 btnClipboardPaste.Enabled = False
-            End Try
-        Else
+            End If
+        Catch ex As Exception
             btnClipboardPaste.Enabled = False
-        End If
+        End Try
     End Sub
     Private Sub btnClipboardPaste_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClipboardPaste.Click
         ' Pick the text up from the clipboard

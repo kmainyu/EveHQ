@@ -2158,15 +2158,25 @@ Public Class frmEveHQ
             Call EveHQMLF.DisplayLogDetails(e.FullPath)
             Call EveHQMLF.ResortLogs()
         End If
-        If EveHQ.Core.HQ.EveHQSettings.MarketLogToolTipConfirm = True = True Then
-            iconEveHQMLW.BalloonTipTitle = "Market Upload Completed"
-            iconEveHQMLW.BalloonTipText = "The file: " & e.Name & " has been successfully uploaded!"
-            iconEveHQMLW.BalloonTipIcon = ToolTipIcon.Info
-            iconEveHQMLW.ShowBalloonTip(10)
+        If EveHQ.Core.HQ.EveHQSettings.MarketLogUpdatePrice = True Or EveHQ.Core.HQ.EveHQSettings.MarketLogUpdateData = True Then
+            ' Get the price information
+            Dim priceData As ArrayList = EveHQ.Core.DataFunctions.ProcessMarketExportFile(e.FullPath)
+            Dim USerPrice As Double = CDbl(priceData(12)) : Dim typeID As Long = CLng(priceData(13))
+            If EveHQ.Core.HQ.EveHQSettings.MarketLogUpdatePrice = True Then
+                ' Update the market price
+                EveHQ.Core.DataFunctions.SetMarketPrice(typeID, USerPrice)
+            End If
+            If EveHQ.Core.HQ.EveHQSettings.MarketLogToolTipConfirm = True = True Then
+                iconEveHQMLW.BalloonTipTitle = "Market Export Processing Completed"
+                iconEveHQMLW.BalloonTipText = "The file: " & e.Name & " has been successfully processed!"
+                iconEveHQMLW.BalloonTipIcon = ToolTipIcon.Info
+                iconEveHQMLW.ShowBalloonTip(10)
+            End If
+            If EveHQ.Core.HQ.EveHQSettings.MarketLogPopupConfirm = True Then
+                MessageBox.Show("The file: " & e.Name & " has been successfully processed!", "Market Export Processing Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
         End If
-        If EveHQ.Core.HQ.EveHQSettings.MarketLogPopupConfirm = True Then
-            MessageBox.Show("The file: " & e.Name & " has been successfully uploaded!", "Market Upload Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
+        
     End Sub
 
   

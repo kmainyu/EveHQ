@@ -94,7 +94,8 @@ Imports System.Diagnostics
     Private cCycleG15Pilots As Boolean = False
     Private cCycleG15Time As Integer = 15
     Private cEveFolderLUA(4) As Boolean
-    Private cLastPriceUpdate As Date
+    Private cLastFactionPriceUpdate As Date
+    Private cLastMarketPriceUpdate As Date
     Private cPanelBackgroundColor As Long = System.Drawing.Color.Navy.ToArgb
     Private cPanelOutlineColor As Long = System.Drawing.Color.SteelBlue.ToArgb
     Private cPanelTopLeftColor As Long = System.Drawing.Color.LightSteelBlue.ToArgb
@@ -558,12 +559,20 @@ Imports System.Diagnostics
             cPanelBackgroundColor = value
         End Set
     End Property
-    Public Property LastPriceUpdate() As DateTime
+    Public Property LastMarketPriceUpdate() As DateTime
         Get
-            Return cLastPriceUpdate
+            Return cLastMarketPriceUpdate
         End Get
         Set(ByVal value As DateTime)
-            cLastPriceUpdate = value
+            cLastMarketPriceUpdate = value
+        End Set
+    End Property
+    Public Property LastFactionPriceUpdate() As DateTime
+        Get
+            Return cLastFactionPriceUpdate
+        End Get
+        Set(ByVal value As DateTime)
+            cLastFactionPriceUpdate = value
         End Set
     End Property
     Public Property EveFolderLUA(ByVal index As Integer) As Boolean
@@ -1368,7 +1377,7 @@ Public Class EveHQSettingsFunctions
         For a As Integer = 1 To 4
             XMLS &= Chr(9) & Chr(9) & "<eveFolderLUA" & a & ">" & EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(a) & "</eveFolderLUA" & a & ">" & vbCrLf
         Next
-        XMLS &= Chr(9) & Chr(9) & "<lastPriceUpdate>" & EveHQ.Core.HQ.EveHQSettings.LastPriceUpdate & "</lastPriceUpdate>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<lastPriceUpdate>" & EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate & "</lastPriceUpdate>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<panelBackgroundColour>" & EveHQ.Core.HQ.EveHQSettings.PanelBackgroundColor & "</panelBackgroundColour>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<panelOutlineColour>" & EveHQ.Core.HQ.EveHQSettings.PanelOutlineColor & "</panelOutlineColour>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<panelTopLeftColour>" & EveHQ.Core.HQ.EveHQSettings.PanelTopLeftColor & "</panelTopLeftColour>" & vbCrLf
@@ -1723,7 +1732,7 @@ Public Class EveHQSettingsFunctions
                         For a As Integer = 1 To 4
                             EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(a) = CBool(accountSettings.ChildNodes(90 + a).InnerText)
                         Next
-                        EveHQ.Core.HQ.EveHQSettings.LastPriceUpdate = CDate(accountSettings.ChildNodes(95).InnerText)
+                        EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate = CDate(accountSettings.ChildNodes(95).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.PanelBackgroundColor = CLng(accountSettings.ChildNodes(96).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.PanelOutlineColor = CLng(accountSettings.ChildNodes(97).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.PanelTopLeftColor = CLng(accountSettings.ChildNodes(98).InnerText)

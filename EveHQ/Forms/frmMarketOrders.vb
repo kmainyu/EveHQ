@@ -7,6 +7,8 @@ Public Class frmMarketOrders
     Dim Industry As EveHQ.Core.PlugIn
     Dim IndustryPluginAvailable As Boolean = False
     Dim SellPricePoints, BuyPricePoints As New ArrayList
+    Dim typeID As Long = 0
+    Dim UserPrice As Double = 0
 
     Public Property OrdersFile() As String
         Get
@@ -311,14 +313,16 @@ Public Class frmMarketOrders
         priceArray.Add(avgBuy) : priceArray.Add(medBuy) : priceArray.Add(minBuy) : priceArray.Add(maxBuy)
         priceArray.Add(avgSell) : priceArray.Add(medSell) : priceArray.Add(minSell) : priceArray.Add(maxSell)
         priceArray.Add(avgAll) : priceArray.Add(medAll) : priceArray.Add(minAll) : priceArray.Add(maxAll)
-        lblYourPrice.Text = FormatNumber(CalcualateUserPrice(priceArray), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        typeID = oTypeID : UserPrice = CalculateUserPrice(priceArray)
+        lblYourPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblCurrentPrice.Text = FormatNumber(EveHQ.Core.HQ.MarketPriceList(oTypeID.ToString), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Draw the gay graph
         Call Me.DrawGraph(avgAll, stdAll)
 
     End Sub
 
-    Private Function CalcualateUserPrice(ByVal priceArray As ArrayList) As Double
+    Private Function CalculateUserPrice(ByVal priceArray As ArrayList) As Double
         'EveHQ.Core.HQ.EveHQSettings.PriceCriteria(idx) = chk.Checked
         Dim price As Double = 0
         Dim count As Double = 0
@@ -408,5 +412,11 @@ Public Class frmMarketOrders
     Private Function NormalDist(ByVal x As Double, ByVal s As Double, ByVal m As Double) As Double
         Return (m / (s * Math.Sqrt(2 * Math.PI))) * Math.Exp(-1 * (Math.Pow(x - m, 2) / (2 * Math.Pow(s, 2))))
     End Function
+
+    Private Sub btnSetPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetPrice.Click
+        ' Store the user's price in the database
+        Call EveHQ.Core.DataFunctions.SetMarketPrice(typeID, UserPrice)
+        lblCurrentPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+    End Sub
 
 End Class

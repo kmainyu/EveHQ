@@ -29,14 +29,13 @@ Partial Public Class frmSettings
         Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("FTP Accounts")
         Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("G15 Display")
         Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("IGB")
-        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Market Prices")
-        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
-        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
-        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
-        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
-        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
-        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Overlay")
-        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
+        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
+        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
+        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
+        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
+        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
+        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Overlay")
+        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
         Me.txtErrorRepEmail = New System.Windows.Forms.TextBox
@@ -318,29 +317,12 @@ Partial Public Class frmSettings
         Me.lblCycleTime = New System.Windows.Forms.Label
         Me.chkCyclePilots = New System.Windows.Forms.CheckBox
         Me.chkActivateG15 = New System.Windows.Forms.CheckBox
-        Me.gbMarketPrices = New System.Windows.Forms.GroupBox
-        Me.btnResetGrid = New System.Windows.Forms.Button
-        Me.txtSearchPrices = New System.Windows.Forms.TextBox
-        Me.lblSearchPrices = New System.Windows.Forms.Label
-        Me.lblUpdatePrice = New System.Windows.Forms.Label
-        Me.txtUpdatePrice = New System.Windows.Forms.TextBox
-        Me.lvwPrices = New EveHQ.ListViewNoFlicker
-        Me.colPriceName = New System.Windows.Forms.ColumnHeader
-        Me.colBasePrice = New System.Windows.Forms.ColumnHeader
-        Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
-        Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
         Me.ctxPrices = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuPriceItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuPriceAdd = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuPriceEdit = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuPriceDelete = New System.Windows.Forms.ToolStripMenuItem
-        Me.lblMarketPriceStats = New System.Windows.Forms.Label
-        Me.lblUpdateStatus = New System.Windows.Forms.Label
-        Me.lblUpdateStatusLabel = New System.Windows.Forms.Label
-        Me.lblLastUpdateTime = New System.Windows.Forms.Label
-        Me.lblLastUpdate = New System.Windows.Forms.Label
-        Me.btnUpdatePrices = New System.Windows.Forms.Button
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
@@ -407,7 +389,6 @@ Partial Public Class frmSettings
         CType(Me.tbTransparancy, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbG15.SuspendLayout()
         CType(Me.nudCycleTime, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbMarketPrices.SuspendLayout()
         Me.ctxPrices.SuspendLayout()
         Me.gbTaskbarIcon.SuspendLayout()
         Me.SuspendLayout()
@@ -2952,23 +2933,21 @@ Partial Public Class frmSettings
         TreeNode8.Text = "G15 Display"
         TreeNode9.Name = "nodeIGB"
         TreeNode9.Text = "IGB"
-        TreeNode10.Name = "nodeMarketPrices"
-        TreeNode10.Text = "Market Prices"
-        TreeNode11.Name = "nodeNotifications"
-        TreeNode11.Text = "Notifications"
-        TreeNode12.Name = "nodePilots"
-        TreeNode12.Text = "Pilots"
-        TreeNode13.Name = "nodePlugins"
-        TreeNode13.Text = "Plug Ins"
-        TreeNode14.Name = "nodeProxyServer"
-        TreeNode14.Text = "Proxy Server"
-        TreeNode15.Name = "nodeTaskBarIcon"
-        TreeNode15.Text = "Taskbar Icon"
-        TreeNode16.Name = "nodeTrainingOverlay"
-        TreeNode16.Text = "Training Overlay"
-        TreeNode17.Name = "nodeTrainingQueue"
-        TreeNode17.Text = "Training Queue"
-        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode17})
+        TreeNode10.Name = "nodeNotifications"
+        TreeNode10.Text = "Notifications"
+        TreeNode11.Name = "nodePilots"
+        TreeNode11.Text = "Pilots"
+        TreeNode12.Name = "nodePlugins"
+        TreeNode12.Text = "Plug Ins"
+        TreeNode13.Name = "nodeProxyServer"
+        TreeNode13.Text = "Proxy Server"
+        TreeNode14.Name = "nodeTaskBarIcon"
+        TreeNode14.Text = "Taskbar Icon"
+        TreeNode15.Name = "nodeTrainingOverlay"
+        TreeNode15.Text = "Training Overlay"
+        TreeNode16.Name = "nodeTrainingQueue"
+        TreeNode16.Text = "Training Queue"
+        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16})
         Me.tvwSettings.Size = New System.Drawing.Size(176, 473)
         Me.tvwSettings.TabIndex = 27
         '
@@ -3266,113 +3245,6 @@ Partial Public Class frmSettings
         Me.chkActivateG15.Text = "Activate G15 Display"
         Me.chkActivateG15.UseVisualStyleBackColor = True
         '
-        'gbMarketPrices
-        '
-        Me.gbMarketPrices.Controls.Add(Me.btnResetGrid)
-        Me.gbMarketPrices.Controls.Add(Me.txtSearchPrices)
-        Me.gbMarketPrices.Controls.Add(Me.lblSearchPrices)
-        Me.gbMarketPrices.Controls.Add(Me.lblUpdatePrice)
-        Me.gbMarketPrices.Controls.Add(Me.txtUpdatePrice)
-        Me.gbMarketPrices.Controls.Add(Me.lvwPrices)
-        Me.gbMarketPrices.Controls.Add(Me.lblMarketPriceStats)
-        Me.gbMarketPrices.Controls.Add(Me.lblUpdateStatus)
-        Me.gbMarketPrices.Controls.Add(Me.lblUpdateStatusLabel)
-        Me.gbMarketPrices.Controls.Add(Me.lblLastUpdateTime)
-        Me.gbMarketPrices.Controls.Add(Me.lblLastUpdate)
-        Me.gbMarketPrices.Controls.Add(Me.btnUpdatePrices)
-        Me.gbMarketPrices.Location = New System.Drawing.Point(194, 12)
-        Me.gbMarketPrices.Name = "gbMarketPrices"
-        Me.gbMarketPrices.Size = New System.Drawing.Size(695, 505)
-        Me.gbMarketPrices.TabIndex = 31
-        Me.gbMarketPrices.TabStop = False
-        Me.gbMarketPrices.Text = "Market Prices"
-        Me.gbMarketPrices.Visible = False
-        '
-        'btnResetGrid
-        '
-        Me.btnResetGrid.Location = New System.Drawing.Point(266, 83)
-        Me.btnResetGrid.Name = "btnResetGrid"
-        Me.btnResetGrid.Size = New System.Drawing.Size(75, 23)
-        Me.btnResetGrid.TabIndex = 12
-        Me.btnResetGrid.Text = "Reset Grid"
-        Me.btnResetGrid.UseVisualStyleBackColor = True
-        '
-        'txtSearchPrices
-        '
-        Me.txtSearchPrices.Location = New System.Drawing.Point(81, 85)
-        Me.txtSearchPrices.Name = "txtSearchPrices"
-        Me.txtSearchPrices.Size = New System.Drawing.Size(177, 20)
-        Me.txtSearchPrices.TabIndex = 11
-        '
-        'lblSearchPrices
-        '
-        Me.lblSearchPrices.AutoSize = True
-        Me.lblSearchPrices.Location = New System.Drawing.Point(6, 89)
-        Me.lblSearchPrices.Name = "lblSearchPrices"
-        Me.lblSearchPrices.Size = New System.Drawing.Size(72, 13)
-        Me.lblSearchPrices.TabIndex = 10
-        Me.lblSearchPrices.Text = "Search Items:"
-        '
-        'lblUpdatePrice
-        '
-        Me.lblUpdatePrice.AutoSize = True
-        Me.lblUpdatePrice.Location = New System.Drawing.Point(473, 88)
-        Me.lblUpdatePrice.Name = "lblUpdatePrice"
-        Me.lblUpdatePrice.Size = New System.Drawing.Size(72, 13)
-        Me.lblUpdatePrice.TabIndex = 9
-        Me.lblUpdatePrice.Text = "Update Price:"
-        Me.lblUpdatePrice.Visible = False
-        '
-        'txtUpdatePrice
-        '
-        Me.txtUpdatePrice.Location = New System.Drawing.Point(549, 85)
-        Me.txtUpdatePrice.Name = "txtUpdatePrice"
-        Me.txtUpdatePrice.Size = New System.Drawing.Size(118, 20)
-        Me.txtUpdatePrice.TabIndex = 8
-        Me.txtUpdatePrice.Visible = False
-        '
-        'lvwPrices
-        '
-        Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwPrices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPriceName, Me.colBasePrice, Me.colMarketPrice, Me.colCustomPrice})
-        Me.lvwPrices.ContextMenuStrip = Me.ctxPrices
-        Me.lvwPrices.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwPrices.FullRowSelect = True
-        Me.lvwPrices.GridLines = True
-        Me.lvwPrices.HideSelection = False
-        Me.lvwPrices.Location = New System.Drawing.Point(6, 112)
-        Me.lvwPrices.MultiSelect = False
-        Me.lvwPrices.Name = "lvwPrices"
-        Me.lvwPrices.Size = New System.Drawing.Size(683, 386)
-        Me.lvwPrices.TabIndex = 7
-        Me.lvwPrices.UseCompatibleStateImageBehavior = False
-        Me.lvwPrices.View = System.Windows.Forms.View.Details
-        '
-        'colPriceName
-        '
-        Me.colPriceName.Text = "Item Name"
-        Me.colPriceName.Width = 300
-        '
-        'colBasePrice
-        '
-        Me.colBasePrice.Text = "Base Price"
-        Me.colBasePrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colBasePrice.Width = 120
-        '
-        'colMarketPrice
-        '
-        Me.colMarketPrice.Text = "Market Price"
-        Me.colMarketPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colMarketPrice.Width = 120
-        '
-        'colCustomPrice
-        '
-        Me.colCustomPrice.Text = "Custom Price"
-        Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colCustomPrice.Width = 120
-        '
         'ctxPrices
         '
         Me.ctxPrices.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuPriceItemName, Me.ToolStripMenuItem1, Me.mnuPriceAdd, Me.mnuPriceEdit, Me.mnuPriceDelete})
@@ -3408,59 +3280,6 @@ Partial Public Class frmSettings
         Me.mnuPriceDelete.Name = "mnuPriceDelete"
         Me.mnuPriceDelete.Size = New System.Drawing.Size(181, 22)
         Me.mnuPriceDelete.Text = "Delete Custom Price"
-        '
-        'lblMarketPriceStats
-        '
-        Me.lblMarketPriceStats.AutoSize = True
-        Me.lblMarketPriceStats.Location = New System.Drawing.Point(6, 65)
-        Me.lblMarketPriceStats.Name = "lblMarketPriceStats"
-        Me.lblMarketPriceStats.Size = New System.Drawing.Size(97, 13)
-        Me.lblMarketPriceStats.TabIndex = 6
-        Me.lblMarketPriceStats.Text = "Market Price Stats:"
-        '
-        'lblUpdateStatus
-        '
-        Me.lblUpdateStatus.Location = New System.Drawing.Point(90, 41)
-        Me.lblUpdateStatus.Name = "lblUpdateStatus"
-        Me.lblUpdateStatus.Size = New System.Drawing.Size(396, 24)
-        Me.lblUpdateStatus.TabIndex = 5
-        Me.lblUpdateStatus.Text = "n/a"
-        '
-        'lblUpdateStatusLabel
-        '
-        Me.lblUpdateStatusLabel.AutoSize = True
-        Me.lblUpdateStatusLabel.Location = New System.Drawing.Point(6, 41)
-        Me.lblUpdateStatusLabel.Name = "lblUpdateStatusLabel"
-        Me.lblUpdateStatusLabel.Size = New System.Drawing.Size(78, 13)
-        Me.lblUpdateStatusLabel.TabIndex = 4
-        Me.lblUpdateStatusLabel.Text = "Update Status:"
-        '
-        'lblLastUpdateTime
-        '
-        Me.lblLastUpdateTime.AutoSize = True
-        Me.lblLastUpdateTime.Location = New System.Drawing.Point(80, 19)
-        Me.lblLastUpdateTime.Name = "lblLastUpdateTime"
-        Me.lblLastUpdateTime.Size = New System.Drawing.Size(24, 13)
-        Me.lblLastUpdateTime.TabIndex = 3
-        Me.lblLastUpdateTime.Text = "n/a"
-        '
-        'lblLastUpdate
-        '
-        Me.lblLastUpdate.AutoSize = True
-        Me.lblLastUpdate.Location = New System.Drawing.Point(6, 19)
-        Me.lblLastUpdate.Name = "lblLastUpdate"
-        Me.lblLastUpdate.Size = New System.Drawing.Size(68, 13)
-        Me.lblLastUpdate.TabIndex = 2
-        Me.lblLastUpdate.Text = "Last Update:"
-        '
-        'btnUpdatePrices
-        '
-        Me.btnUpdatePrices.Location = New System.Drawing.Point(557, 19)
-        Me.btnUpdatePrices.Name = "btnUpdatePrices"
-        Me.btnUpdatePrices.Size = New System.Drawing.Size(125, 23)
-        Me.btnUpdatePrices.TabIndex = 0
-        Me.btnUpdatePrices.Text = "Update Market Prices"
-        Me.btnUpdatePrices.UseVisualStyleBackColor = True
         '
         'gbTaskbarIcon
         '
@@ -3498,7 +3317,6 @@ Partial Public Class frmSettings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbMarketPrices)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbG15)
@@ -3611,8 +3429,6 @@ Partial Public Class frmSettings
         Me.gbG15.ResumeLayout(False)
         Me.gbG15.PerformLayout()
         CType(Me.nudCycleTime, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbMarketPrices.ResumeLayout(False)
-        Me.gbMarketPrices.PerformLayout()
         Me.ctxPrices.ResumeLayout(False)
         Me.gbTaskbarIcon.ResumeLayout(False)
         Me.gbTaskbarIcon.PerformLayout()
@@ -3820,26 +3636,12 @@ Partial Public Class frmSettings
     Friend WithEvents lblCacheSize2 As System.Windows.Forms.Label
     Friend WithEvents lblCacheSize1 As System.Windows.Forms.Label
     Friend WithEvents btnTidyPlugins As System.Windows.Forms.Button
-    Friend WithEvents gbMarketPrices As System.Windows.Forms.GroupBox
-    Friend WithEvents lblMarketPriceStats As System.Windows.Forms.Label
-    Friend WithEvents lblUpdateStatus As System.Windows.Forms.Label
-    Friend WithEvents lblUpdateStatusLabel As System.Windows.Forms.Label
-    Friend WithEvents lblLastUpdateTime As System.Windows.Forms.Label
-    Friend WithEvents lblLastUpdate As System.Windows.Forms.Label
-    Friend WithEvents btnUpdatePrices As System.Windows.Forms.Button
-    Friend WithEvents lvwPrices As EveHQ.ListViewNoFlicker
-    Friend WithEvents colPriceName As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colBasePrice As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colMarketPrice As System.Windows.Forms.ColumnHeader
-    Friend WithEvents colCustomPrice As System.Windows.Forms.ColumnHeader
     Friend WithEvents ctxPrices As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuPriceItemName As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuPriceAdd As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuPriceEdit As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuPriceDelete As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents txtUpdatePrice As System.Windows.Forms.TextBox
-    Friend WithEvents lblUpdatePrice As System.Windows.Forms.Label
     Friend WithEvents gbPanelColours As System.Windows.Forms.GroupBox
     Friend WithEvents pbPanelHighlight As System.Windows.Forms.PictureBox
     Friend WithEvents lblPanelHighlight As System.Windows.Forms.Label
@@ -3876,9 +3678,6 @@ Partial Public Class frmSettings
     Friend WithEvents txtFriendlyName3 As System.Windows.Forms.TextBox
     Friend WithEvents lblFriendlyName2 As System.Windows.Forms.Label
     Friend WithEvents txtFriendlyName2 As System.Windows.Forms.TextBox
-    Friend WithEvents txtSearchPrices As System.Windows.Forms.TextBox
-    Friend WithEvents lblSearchPrices As System.Windows.Forms.Label
-    Friend WithEvents btnResetGrid As System.Windows.Forms.Button
     Friend WithEvents gbAPIRelayServer As System.Windows.Forms.GroupBox
     Friend WithEvents nudAPIRSPort As System.Windows.Forms.NumericUpDown
     Friend WithEvents lblAPIRSPort As System.Windows.Forms.Label

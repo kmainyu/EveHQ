@@ -431,6 +431,26 @@ Public Class frmMarketPrices
         ' Update the Custom Price Grid
         Call Me.UpdatePriceMatrix()
 
+        ' Set the faction price snapshot data
+        lblLastFactionPriceUpdate.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate, "dd/MM/yyyy HH:mm:ss")
+        If EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate.AddSeconds(86400) < Now Then
+            btnUpdateFactionPrices.Enabled = True
+            lblFactionPriceUpdateStatus.Text = "Status: Awaiting update."
+        Else
+            btnUpdateFactionPrices.Enabled = False
+            lblFactionPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
+        End If
+
+        ' Set the market price snapshot data
+        lblLastMarketPriceUpdate.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate, "dd/MM/yyyy HH:mm:ss")
+        If EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate.AddSeconds(86400) < Now Then
+            btnUpdateMarketPrices.Enabled = True
+            lblMarketPriceUpdateStatus.Text = "Status: Awaiting update."
+        Else
+            btnUpdateMarketPrices.Enabled = False
+            lblMarketPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
+        End If
+
         startUp = False
 
         ' Start the initial timing check (but do last so form is drawn)
@@ -814,16 +834,16 @@ Public Class frmMarketPrices
 
     Private Sub tmrStart_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrStart.Tick
         tmrStart.Stop()
-        Dim lastDate As Date = GetLastMarketDate()
-        If lastDate.ToOADate = 0 Then
-            Dim msg As String = "EveHQ has detected that no market prices have been processed. Would you like to download and process these from Eve-Central now?"
-            Dim reply As Integer = MessageBox.Show(msg, "Get Initial Prices?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If reply = DialogResult.No Then
-                Exit Sub
-            Else
-                System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetFirstPrices, Nothing)
-            End If
-        End If
+        'Dim lastDate As Date = GetLastMarketDate()
+        'If lastDate.ToOADate = 0 Then
+        '    Dim msg As String = "EveHQ has detected that no market prices have been processed. Would you like to download and process these from Eve-Central now?"
+        '    Dim reply As Integer = MessageBox.Show(msg, "Get Initial Prices?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        '    If reply = DialogResult.No Then
+        '        Exit Sub
+        '    Else
+        '        System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetFirstPrices, Nothing)
+        '    End If
+        'End If
     End Sub
 
     Private Sub UpdateProgressBar()
@@ -1175,6 +1195,222 @@ Public Class frmMarketPrices
     Private Sub mnuViewOrders_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewOrders.Click
         Dim marketOrders As New frmMarketOrders
         marketOrders.OrdersFile = clvLogs.SelectedItems(0).Tag.ToString
+        marketOrders.Text = "Market Orders - " & clvLogs.SelectedItems(0).SubItems(1).Text & " (" & clvLogs.SelectedItems(0).Text & ") - " & clvLogs.SelectedItems(0).SubItems(2).Text
         marketOrders.ShowDialog()
     End Sub
+
+#Region "Market & Faction Price Feed Routines"
+
+    Private Sub btnUpdateFactionPrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateFactionPrices.Click
+        If GetPriceFeed("FactionPrices", "http://www.eve-prices.net/xml/today.xml", lblFactionPriceUpdateStatus, False) = True Then
+            Call Me.ParseFactionPriceFeed("FactionPrices", lblFactionPriceUpdateStatus)
+            EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate = Now
+            If EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate.AddSeconds(86400) < Now Then
+                btnUpdateFactionPrices.Enabled = True
+                lblFactionPriceUpdateStatus.Text = "Status: Awaiting update."
+            Else
+                btnUpdateFactionPrices.Enabled = False
+                lblFactionPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
+            End If
+            lblFactionPriceUpdateStatus.Text = "Faction Price Update Complete!" : lblFactionPriceUpdateStatus.Refresh()
+        Else
+            lblFactionPriceUpdateStatus.Text = "Faction Price Update Failed!" : lblFactionPriceUpdateStatus.Refresh()
+        End If
+    End Sub
+    Private Sub lblFactionPricesBy_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblFactionPricesBy.LinkClicked
+        Try
+            Process.Start("http://www.eve-prices.net")
+        Catch ex As Exception
+            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
+    End Sub
+    Private Sub btnUpdateMarketPrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateMarketPrices.Click
+        'http://eve-central.com/api/marketstat?typeid=34&typeid=35&regionlimit=10000002
+
+        ' Build the URL of the data from region limits
+        Dim mpURL As String = "http://eve-central.com/api/marketstat?"
+        For Each Region As String In regions.Values
+            If EveHQ.Core.HQ.EveHQSettings.MarketRegionList.Contains(Region) Then
+                mpURL &= "&regionlimit=" & Region
+            End If
+        Next
+
+        ' Get the stuff that can have market prices
+        Dim priceData As Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT typeID, typeName FROM invTypes WHERE marketGroupID IS NOT NULL;")
+        If priceData IsNot Nothing Then
+            If priceData.Tables(0).Rows.Count > 0 Then
+                Dim count As Integer = 0
+                Dim ecURL As String = ""
+                Dim itemRow As DataRow
+                For item As Integer = 0 To priceData.Tables(0).Rows.Count - 1 Step 20
+                    count += 1
+                    ecURL = mpURL
+                    For row As Integer = item To item + 19
+                        If row < priceData.Tables(0).Rows.Count Then
+                            itemRow = priceData.Tables(0).Rows(row)
+                            ecURL &= "&typeid=" & itemRow.Item("typeID").ToString
+                        End If
+                    Next
+                    lblMarketPriceUpdateStatus.Text = "Parsing Batch: " & count.ToString & " of " & Int((priceData.Tables(0).Rows.Count - 1) / 20) + 1 & "..." : lblMarketPriceUpdateStatus.Refresh()
+                    If GetPriceFeed("MarketPrices", ecURL, lblMarketPriceUpdateStatus, True) = True Then
+                        Call Me.ParseMarketPriceFeed("MarketPrices", lblMarketPriceUpdateStatus)
+                    End If
+                Next
+                EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate = Now
+                If EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate.AddSeconds(86400) < Now Then
+                    btnUpdateMarketPrices.Enabled = True
+                    lblMarketPriceUpdateStatus.Text = "Status: Awaiting update."
+                Else
+                    btnUpdateMarketPrices.Enabled = False
+                    lblMarketPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
+                End If
+                lblMarketPriceUpdateStatus.Text = "Market Price Update Complete!" : lblMarketPriceUpdateStatus.Refresh()
+            End If
+        End If
+    End Sub
+    Private Sub lblMarketPricesBy_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblMarketPricesBy.LinkClicked
+        Try
+            Process.Start("http://www.eve-central.com")
+        Catch ex As Exception
+            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
+    End Sub
+    Private Function GetPriceFeed(ByVal FeedName As String, ByVal URL As String, ByVal StatusLabel As Label, ByVal SupressProgress As Boolean) As Boolean
+        ' Set a default policy level for the "http:" and "https" schemes.
+        Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
+
+        ' Create the request to access the server and set credentials
+        If SupressProgress = False Then
+            StatusLabel.Text = "Setting '" & FeedName & "' Server Address..." : StatusLabel.Refresh()
+        End If
+        Dim localfile As String = EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml"
+        ServicePointManager.DefaultConnectionLimit = 10
+        ServicePointManager.Expect100Continue = False
+        Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(URL))
+        Dim request As HttpWebRequest = CType(WebRequest.Create(URL), HttpWebRequest)
+        request.CachePolicy = policy
+        ' Setup proxy server (if required)
+        If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
+            Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
+            If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
+                EveHQProxy.UseDefaultCredentials = True
+            Else
+                EveHQProxy.UseDefaultCredentials = False
+                EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
+            End If
+            request.Proxy = EveHQProxy
+        End If
+        request.Method = WebRequestMethods.File.DownloadFile
+        request.UserAgent = "EveHQ v" & My.Application.Info.Version.ToString
+        Try
+            If SupressProgress = False Then
+                StatusLabel.Text = "Contacting '" & FeedName & "' Server..." : StatusLabel.Refresh()
+            End If
+            Using response As HttpWebResponse = CType(request.GetResponse, HttpWebResponse)
+                Dim filesize As Long = CLng(response.ContentLength)
+                'Using response As FtpWebResponse = CType(request.GetResponse, FtpWebResponse)
+                Using responseStream As IO.Stream = response.GetResponseStream
+                    'loop to read & write to file
+                    Using fs As New IO.FileStream(localfile, IO.FileMode.Create)
+                        Dim buffer(4095) As Byte
+                        Dim read As Integer = 0
+                        Dim totalBytes As Long = 0
+                        Dim percent As Integer = 0
+                        Do
+                            read = responseStream.Read(buffer, 0, buffer.Length)
+                            fs.Write(buffer, 0, read)
+                            totalBytes += read
+                            If filesize <> -1 Then
+                                percent = CInt(totalBytes / filesize * 100)
+                                If SupressProgress = False Then
+                                    StatusLabel.Text = "Downloading '" & FeedName & "'... " & totalBytes & " of " & filesize & " (" & percent & "%)" : StatusLabel.Refresh()
+                                End If
+                            Else
+                                If SupressProgress = False Then
+                                    StatusLabel.Text = "Downloading '" & FeedName & "'... " & totalBytes & " of unknown size" : StatusLabel.Refresh()
+                                End If
+                            End If
+                            Application.DoEvents()
+                        Loop Until read = 0 'see Note(1)
+                        responseStream.Close()
+                        fs.Flush()
+                        fs.Close()
+                    End Using
+                    responseStream.Close()
+                End Using
+                response.Close()
+            End Using
+            If SupressProgress = False Then
+                StatusLabel.Text = "Download of '" & FeedName & "' Complete!" : StatusLabel.Refresh()
+            End If
+            Return True
+        Catch ex As Exception
+            MessageBox.Show("There was an error downloading the '" & FeedName & "' data: " & ex.Message, "Error in Download", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End Try
+    End Function
+    Private Sub ParseFactionPriceFeed(ByVal FeedName As String, ByVal StatusLabel As Label)
+        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+        Dim feedXML As New XmlDocument
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
+            Try
+                feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+                Dim Items As XmlNodeList
+                Dim Item As XmlNode
+                Items = feedXML.SelectNodes("/factionPriceData/items/item")
+                StatusLabel.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : StatusLabel.Refresh()
+                For Each Item In Items
+                    EveHQ.Core.DataFunctions.SetMarketPrice(CLng(Item.ChildNodes(0).InnerText), Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture))
+                Next
+            Catch e As Exception
+                MessageBox.Show("Unable to parse Faction Price feed:" & ControlChars.CrLf & e.Message, "Error in Price Feed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
+                    My.Computer.FileSystem.DeleteFile(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+                End If
+            End Try
+        End If
+    End Sub
+    Private Sub ParseMarketPriceFeed(ByVal FeedName As String, ByVal StatusLabel As Label)
+        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+        Dim feedXML As New XmlDocument
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
+            Try
+                feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+                Dim Items As XmlNodeList
+                Items = feedXML.SelectNodes("/evec_api/marketstat/type")
+                For Each Item As XmlNode In Items
+                    Dim typeID As Long = CLng(Item.Attributes("id").Value)
+                    Dim avgBuy, avgSell, avgAll As Double
+                    Dim medBuy, medSell, medAll As Double
+                    Dim minBuy, minSell, minAll As Double
+                    Dim maxBuy, maxSell, maxAll As Double
+                    avgBuy = CDbl(Item.ChildNodes(1).ChildNodes(1).InnerText)
+                    medBuy = CDbl(Item.ChildNodes(1).ChildNodes(5).InnerText)
+                    minBuy = CDbl(Item.ChildNodes(1).ChildNodes(3).InnerText)
+                    maxBuy = CDbl(Item.ChildNodes(1).ChildNodes(2).InnerText)
+                    avgSell = CDbl(Item.ChildNodes(2).ChildNodes(1).InnerText)
+                    medSell = CDbl(Item.ChildNodes(2).ChildNodes(5).InnerText)
+                    minSell = CDbl(Item.ChildNodes(2).ChildNodes(3).InnerText)
+                    maxSell = CDbl(Item.ChildNodes(2).ChildNodes(2).InnerText)
+                    avgAll = CDbl(Item.ChildNodes(0).ChildNodes(1).InnerText)
+                    medAll = CDbl(Item.ChildNodes(0).ChildNodes(5).InnerText)
+                    minAll = CDbl(Item.ChildNodes(0).ChildNodes(3).InnerText)
+                    maxAll = CDbl(Item.ChildNodes(0).ChildNodes(2).InnerText)
+                    Dim priceArray As New ArrayList
+                    priceArray.Add(avgBuy) : priceArray.Add(medBuy) : priceArray.Add(minBuy) : priceArray.Add(maxBuy)
+                    priceArray.Add(avgSell) : priceArray.Add(medSell) : priceArray.Add(minSell) : priceArray.Add(maxSell)
+                    priceArray.Add(avgAll) : priceArray.Add(medAll) : priceArray.Add(minAll) : priceArray.Add(maxAll)
+                    Dim userPrice As Double = EveHQ.Core.DataFunctions.CalculateUserPrice(priceArray)
+                    EveHQ.Core.DataFunctions.SetMarketPrice(typeID, userPrice)
+                Next
+            Catch e As Exception
+                MessageBox.Show("Unable to parse Market Price feed:" & ControlChars.CrLf & e.Message, "Error in Price Feed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
+                    My.Computer.FileSystem.DeleteFile(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+                End If
+            End Try
+        End If
+    End Sub
+#End Region
+   
 End Class
