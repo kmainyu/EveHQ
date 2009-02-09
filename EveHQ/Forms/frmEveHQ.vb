@@ -2164,7 +2164,7 @@ Public Class frmEveHQ
             Dim USerPrice As Double = CDbl(priceData(12)) : Dim typeID As Long = CLng(priceData(13))
             If EveHQ.Core.HQ.EveHQSettings.MarketLogUpdatePrice = True Then
                 ' Update the market price
-                EveHQ.Core.DataFunctions.SetMarketPrice(typeID, USerPrice)
+                EveHQ.Core.DataFunctions.SetMarketPrice(typeID, USerPrice, False)
             End If
             If EveHQ.Core.HQ.EveHQSettings.MarketLogToolTipConfirm = True = True Then
                 iconEveHQMLW.BalloonTipTitle = "Market Export Processing Completed"

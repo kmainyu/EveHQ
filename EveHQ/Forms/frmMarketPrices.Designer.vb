@@ -93,16 +93,8 @@ Partial Class frmMarketPrices
         Me.mnuPriceAdd = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuPriceEdit = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuPriceDelete = New System.Windows.Forms.ToolStripMenuItem
-        Me.tmrStart = New System.Windows.Forms.Timer(Me.components)
         Me.tabSnapshot = New System.Windows.Forms.TabPage
         Me.panelSnapshot = New System.Windows.Forms.Panel
-        Me.gbFactionPrices = New System.Windows.Forms.GroupBox
-        Me.lblLastFactionPriceUpdateLbl = New System.Windows.Forms.Label
-        Me.lblLastFactionPriceUpdate = New System.Windows.Forms.Label
-        Me.lblFactionPricesByLbl = New System.Windows.Forms.Label
-        Me.lblFactionPricesBy = New System.Windows.Forms.LinkLabel
-        Me.btnUpdateFactionPrices = New System.Windows.Forms.Button
-        Me.lblFactionPriceUpdateStatus = New System.Windows.Forms.Label
         Me.gbMarketPrices = New System.Windows.Forms.GroupBox
         Me.lblMarketPriceUpdateStatus = New System.Windows.Forms.Label
         Me.btnUpdateMarketPrices = New System.Windows.Forms.Button
@@ -110,11 +102,21 @@ Partial Class frmMarketPrices
         Me.lblMarketPricesByLbl = New System.Windows.Forms.Label
         Me.lblLastMarketPriceUpdate = New System.Windows.Forms.Label
         Me.lblLastMarketPriceUpdateLbl = New System.Windows.Forms.Label
+        Me.gbFactionPrices = New System.Windows.Forms.GroupBox
+        Me.lblFactionPriceUpdateStatus = New System.Windows.Forms.Label
+        Me.btnUpdateFactionPrices = New System.Windows.Forms.Button
+        Me.lblFactionPricesBy = New System.Windows.Forms.LinkLabel
+        Me.lblFactionPricesByLbl = New System.Windows.Forms.Label
+        Me.lblLastFactionPriceUpdate = New System.Windows.Forms.Label
+        Me.lblLastFactionPriceUpdateLbl = New System.Windows.Forms.Label
+        Me.tmrStart = New System.Windows.Forms.Timer(Me.components)
         Me.lvwPrices = New EveHQ.ListViewNoFlicker
         Me.colPriceName = New System.Windows.Forms.ColumnHeader
         Me.colBasePrice = New System.Windows.Forms.ColumnHeader
         Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
         Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
+        Me.btnResetFactionPriceData = New System.Windows.Forms.Button
+        Me.btnResetMarketPriceDate = New System.Windows.Forms.Button
         Me.TabControl1.SuspendLayout()
         Me.tabPriceSettings.SuspendLayout()
         Me.panelPrices.SuspendLayout()
@@ -134,8 +136,8 @@ Partial Class frmMarketPrices
         Me.ctxPrices.SuspendLayout()
         Me.tabSnapshot.SuspendLayout()
         Me.panelSnapshot.SuspendLayout()
-        Me.gbFactionPrices.SuspendLayout()
         Me.gbMarketPrices.SuspendLayout()
+        Me.gbFactionPrices.SuspendLayout()
         Me.SuspendLayout()
         '
         'ofd1
@@ -711,13 +713,13 @@ Partial Class frmMarketPrices
         '
         Me.ctxMarketExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuViewOrders})
         Me.ctxMarketExport.Name = "ctxPrices"
-        Me.ctxMarketExport.Size = New System.Drawing.Size(144, 26)
+        Me.ctxMarketExport.Size = New System.Drawing.Size(155, 26)
         '
         'mnuViewOrders
         '
         Me.mnuViewOrders.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.mnuViewOrders.Name = "mnuViewOrders"
-        Me.mnuViewOrders.Size = New System.Drawing.Size(143, 22)
+        Me.mnuViewOrders.Size = New System.Drawing.Size(154, 22)
         Me.mnuViewOrders.Text = "View Orders"
         '
         'tabCustom
@@ -832,9 +834,6 @@ Partial Class frmMarketPrices
         Me.mnuPriceDelete.Size = New System.Drawing.Size(181, 22)
         Me.mnuPriceDelete.Text = "Delete Custom Price"
         '
-        'tmrStart
-        '
-        '
         'tabSnapshot
         '
         Me.tabSnapshot.Controls.Add(Me.panelSnapshot)
@@ -856,83 +855,11 @@ Partial Class frmMarketPrices
         Me.panelSnapshot.Size = New System.Drawing.Size(709, 597)
         Me.panelSnapshot.TabIndex = 0
         '
-        'gbFactionPrices
-        '
-        Me.gbFactionPrices.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.gbFactionPrices.Controls.Add(Me.lblFactionPriceUpdateStatus)
-        Me.gbFactionPrices.Controls.Add(Me.btnUpdateFactionPrices)
-        Me.gbFactionPrices.Controls.Add(Me.lblFactionPricesBy)
-        Me.gbFactionPrices.Controls.Add(Me.lblFactionPricesByLbl)
-        Me.gbFactionPrices.Controls.Add(Me.lblLastFactionPriceUpdate)
-        Me.gbFactionPrices.Controls.Add(Me.lblLastFactionPriceUpdateLbl)
-        Me.gbFactionPrices.Location = New System.Drawing.Point(8, 12)
-        Me.gbFactionPrices.Name = "gbFactionPrices"
-        Me.gbFactionPrices.Size = New System.Drawing.Size(693, 116)
-        Me.gbFactionPrices.TabIndex = 0
-        Me.gbFactionPrices.TabStop = False
-        Me.gbFactionPrices.Text = "Faction Prices"
-        '
-        'lblLastFactionPriceUpdateLbl
-        '
-        Me.lblLastFactionPriceUpdateLbl.AutoSize = True
-        Me.lblLastFactionPriceUpdateLbl.Location = New System.Drawing.Point(20, 28)
-        Me.lblLastFactionPriceUpdateLbl.Name = "lblLastFactionPriceUpdateLbl"
-        Me.lblLastFactionPriceUpdateLbl.Size = New System.Drawing.Size(133, 13)
-        Me.lblLastFactionPriceUpdateLbl.TabIndex = 0
-        Me.lblLastFactionPriceUpdateLbl.Text = "Last Faction Price Update:"
-        '
-        'lblLastFactionPriceUpdate
-        '
-        Me.lblLastFactionPriceUpdate.AutoSize = True
-        Me.lblLastFactionPriceUpdate.Location = New System.Drawing.Point(164, 28)
-        Me.lblLastFactionPriceUpdate.Name = "lblLastFactionPriceUpdate"
-        Me.lblLastFactionPriceUpdate.Size = New System.Drawing.Size(51, 13)
-        Me.lblLastFactionPriceUpdate.TabIndex = 1
-        Me.lblLastFactionPriceUpdate.Text = "Unknown"
-        '
-        'lblFactionPricesByLbl
-        '
-        Me.lblFactionPricesByLbl.AutoSize = True
-        Me.lblFactionPricesByLbl.Location = New System.Drawing.Point(20, 88)
-        Me.lblFactionPricesByLbl.Name = "lblFactionPricesByLbl"
-        Me.lblFactionPricesByLbl.Size = New System.Drawing.Size(138, 13)
-        Me.lblFactionPricesByLbl.TabIndex = 2
-        Me.lblFactionPricesByLbl.Text = "Faction Prices Supplied By: "
-        '
-        'lblFactionPricesBy
-        '
-        Me.lblFactionPricesBy.AutoSize = True
-        Me.lblFactionPricesBy.Location = New System.Drawing.Point(164, 88)
-        Me.lblFactionPricesBy.Name = "lblFactionPricesBy"
-        Me.lblFactionPricesBy.Size = New System.Drawing.Size(137, 13)
-        Me.lblFactionPricesBy.TabIndex = 3
-        Me.lblFactionPricesBy.TabStop = True
-        Me.lblFactionPricesBy.Text = "http://www.eve-prices.net"
-        '
-        'btnUpdateFactionPrices
-        '
-        Me.btnUpdateFactionPrices.Location = New System.Drawing.Point(23, 53)
-        Me.btnUpdateFactionPrices.Name = "btnUpdateFactionPrices"
-        Me.btnUpdateFactionPrices.Size = New System.Drawing.Size(150, 23)
-        Me.btnUpdateFactionPrices.TabIndex = 4
-        Me.btnUpdateFactionPrices.Text = "Update Faction Prices"
-        Me.btnUpdateFactionPrices.UseVisualStyleBackColor = True
-        '
-        'lblFactionPriceUpdateStatus
-        '
-        Me.lblFactionPriceUpdateStatus.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblFactionPriceUpdateStatus.Location = New System.Drawing.Point(179, 58)
-        Me.lblFactionPriceUpdateStatus.Name = "lblFactionPriceUpdateStatus"
-        Me.lblFactionPriceUpdateStatus.Size = New System.Drawing.Size(508, 13)
-        Me.lblFactionPriceUpdateStatus.TabIndex = 5
-        Me.lblFactionPriceUpdateStatus.Text = "Status:"
-        '
         'gbMarketPrices
         '
         Me.gbMarketPrices.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gbMarketPrices.Controls.Add(Me.btnResetMarketPriceDate)
         Me.gbMarketPrices.Controls.Add(Me.lblMarketPriceUpdateStatus)
         Me.gbMarketPrices.Controls.Add(Me.btnUpdateMarketPrices)
         Me.gbMarketPrices.Controls.Add(Me.lblMarketPricesBy)
@@ -1002,6 +929,83 @@ Partial Class frmMarketPrices
         Me.lblLastMarketPriceUpdateLbl.TabIndex = 0
         Me.lblLastMarketPriceUpdateLbl.Text = "Last Market Price Update:"
         '
+        'gbFactionPrices
+        '
+        Me.gbFactionPrices.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gbFactionPrices.Controls.Add(Me.btnResetFactionPriceData)
+        Me.gbFactionPrices.Controls.Add(Me.lblFactionPriceUpdateStatus)
+        Me.gbFactionPrices.Controls.Add(Me.btnUpdateFactionPrices)
+        Me.gbFactionPrices.Controls.Add(Me.lblFactionPricesBy)
+        Me.gbFactionPrices.Controls.Add(Me.lblFactionPricesByLbl)
+        Me.gbFactionPrices.Controls.Add(Me.lblLastFactionPriceUpdate)
+        Me.gbFactionPrices.Controls.Add(Me.lblLastFactionPriceUpdateLbl)
+        Me.gbFactionPrices.Location = New System.Drawing.Point(8, 12)
+        Me.gbFactionPrices.Name = "gbFactionPrices"
+        Me.gbFactionPrices.Size = New System.Drawing.Size(693, 116)
+        Me.gbFactionPrices.TabIndex = 0
+        Me.gbFactionPrices.TabStop = False
+        Me.gbFactionPrices.Text = "Faction Prices"
+        '
+        'lblFactionPriceUpdateStatus
+        '
+        Me.lblFactionPriceUpdateStatus.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblFactionPriceUpdateStatus.Location = New System.Drawing.Point(179, 58)
+        Me.lblFactionPriceUpdateStatus.Name = "lblFactionPriceUpdateStatus"
+        Me.lblFactionPriceUpdateStatus.Size = New System.Drawing.Size(508, 13)
+        Me.lblFactionPriceUpdateStatus.TabIndex = 5
+        Me.lblFactionPriceUpdateStatus.Text = "Status:"
+        '
+        'btnUpdateFactionPrices
+        '
+        Me.btnUpdateFactionPrices.Location = New System.Drawing.Point(23, 53)
+        Me.btnUpdateFactionPrices.Name = "btnUpdateFactionPrices"
+        Me.btnUpdateFactionPrices.Size = New System.Drawing.Size(150, 23)
+        Me.btnUpdateFactionPrices.TabIndex = 4
+        Me.btnUpdateFactionPrices.Text = "Update Faction Prices"
+        Me.btnUpdateFactionPrices.UseVisualStyleBackColor = True
+        '
+        'lblFactionPricesBy
+        '
+        Me.lblFactionPricesBy.AutoSize = True
+        Me.lblFactionPricesBy.Location = New System.Drawing.Point(164, 88)
+        Me.lblFactionPricesBy.Name = "lblFactionPricesBy"
+        Me.lblFactionPricesBy.Size = New System.Drawing.Size(137, 13)
+        Me.lblFactionPricesBy.TabIndex = 3
+        Me.lblFactionPricesBy.TabStop = True
+        Me.lblFactionPricesBy.Text = "http://www.eve-prices.net"
+        '
+        'lblFactionPricesByLbl
+        '
+        Me.lblFactionPricesByLbl.AutoSize = True
+        Me.lblFactionPricesByLbl.Location = New System.Drawing.Point(20, 88)
+        Me.lblFactionPricesByLbl.Name = "lblFactionPricesByLbl"
+        Me.lblFactionPricesByLbl.Size = New System.Drawing.Size(138, 13)
+        Me.lblFactionPricesByLbl.TabIndex = 2
+        Me.lblFactionPricesByLbl.Text = "Faction Prices Supplied By: "
+        '
+        'lblLastFactionPriceUpdate
+        '
+        Me.lblLastFactionPriceUpdate.AutoSize = True
+        Me.lblLastFactionPriceUpdate.Location = New System.Drawing.Point(164, 28)
+        Me.lblLastFactionPriceUpdate.Name = "lblLastFactionPriceUpdate"
+        Me.lblLastFactionPriceUpdate.Size = New System.Drawing.Size(51, 13)
+        Me.lblLastFactionPriceUpdate.TabIndex = 1
+        Me.lblLastFactionPriceUpdate.Text = "Unknown"
+        '
+        'lblLastFactionPriceUpdateLbl
+        '
+        Me.lblLastFactionPriceUpdateLbl.AutoSize = True
+        Me.lblLastFactionPriceUpdateLbl.Location = New System.Drawing.Point(20, 28)
+        Me.lblLastFactionPriceUpdateLbl.Name = "lblLastFactionPriceUpdateLbl"
+        Me.lblLastFactionPriceUpdateLbl.Size = New System.Drawing.Size(133, 13)
+        Me.lblLastFactionPriceUpdateLbl.TabIndex = 0
+        Me.lblLastFactionPriceUpdateLbl.Text = "Last Faction Price Update:"
+        '
+        'tmrStart
+        '
+        '
         'lvwPrices
         '
         Me.lvwPrices.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1044,6 +1048,26 @@ Partial Class frmMarketPrices
         Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colCustomPrice.Width = 120
         '
+        'btnResetFactionPriceData
+        '
+        Me.btnResetFactionPriceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnResetFactionPriceData.Location = New System.Drawing.Point(537, 23)
+        Me.btnResetFactionPriceData.Name = "btnResetFactionPriceData"
+        Me.btnResetFactionPriceData.Size = New System.Drawing.Size(150, 23)
+        Me.btnResetFactionPriceData.TabIndex = 6
+        Me.btnResetFactionPriceData.Text = "Reset Faction Price Date"
+        Me.btnResetFactionPriceData.UseVisualStyleBackColor = True
+        '
+        'btnResetMarketPriceDate
+        '
+        Me.btnResetMarketPriceDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnResetMarketPriceDate.Location = New System.Drawing.Point(537, 23)
+        Me.btnResetMarketPriceDate.Name = "btnResetMarketPriceDate"
+        Me.btnResetMarketPriceDate.Size = New System.Drawing.Size(150, 23)
+        Me.btnResetMarketPriceDate.TabIndex = 7
+        Me.btnResetMarketPriceDate.Text = "Reset Market Price Date"
+        Me.btnResetMarketPriceDate.UseVisualStyleBackColor = True
+        '
         'frmMarketPrices
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1078,10 +1102,10 @@ Partial Class frmMarketPrices
         Me.ctxPrices.ResumeLayout(False)
         Me.tabSnapshot.ResumeLayout(False)
         Me.panelSnapshot.ResumeLayout(False)
-        Me.gbFactionPrices.ResumeLayout(False)
-        Me.gbFactionPrices.PerformLayout()
         Me.gbMarketPrices.ResumeLayout(False)
         Me.gbMarketPrices.PerformLayout()
+        Me.gbFactionPrices.ResumeLayout(False)
+        Me.gbFactionPrices.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1176,4 +1200,6 @@ Partial Class frmMarketPrices
     Friend WithEvents lblMarketPricesByLbl As System.Windows.Forms.Label
     Friend WithEvents lblLastMarketPriceUpdate As System.Windows.Forms.Label
     Friend WithEvents lblLastMarketPriceUpdateLbl As System.Windows.Forms.Label
+    Friend WithEvents btnResetMarketPriceDate As System.Windows.Forms.Button
+    Friend WithEvents btnResetFactionPriceData As System.Windows.Forms.Button
 End Class

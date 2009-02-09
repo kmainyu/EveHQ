@@ -91,9 +91,11 @@ Public Class frmMarketPrices
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT marketStats_PK PRIMARY KEY CLUSTERED (statID)")
             strSQL.AppendLine(")")
-            strSQL.AppendLine("CREATE NONCLUSTERED INDEX marketStats_IX_type ON marketStats (typeID)")
-            strSQL.AppendLine("CREATE NONCLUSTERED INDEX marketStats_IX_region ON marketStats (regionID)")
-            strSQL.AppendLine("CREATE NONCLUSTERED INDEX marketStats_IX_system ON marketStats (systemID)")
+            If EveHQ.Core.HQ.EveHQSettings.DBFormat > 0 Then
+                strSQL.AppendLine("CREATE NONCLUSTERED INDEX marketStats_IX_type ON marketStats (typeID)")
+                strSQL.AppendLine("CREATE NONCLUSTERED INDEX marketStats_IX_region ON marketStats (regionID)")
+                strSQL.AppendLine("CREATE NONCLUSTERED INDEX marketStats_IX_system ON marketStats (systemID)")
+            End If
             If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
                 Return True
             Else
@@ -1203,16 +1205,24 @@ Public Class frmMarketPrices
 
     Private Sub btnUpdateFactionPrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateFactionPrices.Click
         If GetPriceFeed("FactionPrices", "http://www.eve-prices.net/xml/today.xml", lblFactionPriceUpdateStatus, False) = True Then
-            Call Me.ParseFactionPriceFeed("FactionPrices", lblFactionPriceUpdateStatus)
-            EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate = Now
-            If EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate.AddSeconds(86400) < Now Then
-                btnUpdateFactionPrices.Enabled = True
-                lblFactionPriceUpdateStatus.Text = "Status: Awaiting update."
+            ' Open a persistant DB connection
+            If EveHQ.Core.DataFunctions.OpenCustomDatabase = True Then
+                Call Me.ParseFactionPriceFeed("FactionPrices", lblFactionPriceUpdateStatus)
+                ' Close the connection
+                EveHQ.Core.DataFunctions.CloseCustomDatabase()
+                EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate = Now
+                lblLastFactionPriceUpdate.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate, "dd/MM/yyyy HH:mm:ss")
+                If EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate.AddSeconds(86400) < Now Then
+                    btnUpdateFactionPrices.Enabled = True
+                    lblFactionPriceUpdateStatus.Text = "Status: Awaiting update."
+                Else
+                    btnUpdateFactionPrices.Enabled = False
+                    lblFactionPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
+                End If
+                lblFactionPriceUpdateStatus.Text = "Faction Price Update Complete!" : lblFactionPriceUpdateStatus.Refresh()
             Else
-                btnUpdateFactionPrices.Enabled = False
-                lblFactionPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
+                lblFactionPriceUpdateStatus.Text = "Faction Price Update Failed!" : lblFactionPriceUpdateStatus.Refresh()
             End If
-            lblFactionPriceUpdateStatus.Text = "Faction Price Update Complete!" : lblFactionPriceUpdateStatus.Refresh()
         Else
             lblFactionPriceUpdateStatus.Text = "Faction Price Update Failed!" : lblFactionPriceUpdateStatus.Refresh()
         End If
@@ -1225,7 +1235,29 @@ Public Class frmMarketPrices
         End Try
     End Sub
     Private Sub btnUpdateMarketPrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateMarketPrices.Click
-        'http://eve-central.com/api/marketstat?typeid=34&typeid=35&regionlimit=10000002
+
+        ' Check for price criteria
+        Dim PCSet As Boolean = False
+        For pc As Integer = 0 To 11
+            If EveHQ.Core.HQ.EveHQSettings.PriceCriteria(pc) = True Then
+                PCSet = True
+                Exit For
+            End If
+        Next
+        If PCSet = False Then
+            Dim msg As String = "You cannot process market prices without first setting price criteria." & ControlChars.CrLf & ControlChars.CrLf
+            msg &= "This can be done from the 'Price Settings' tab."
+            MessageBox.Show(msg, "Price Criteria Required!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+
+        ' Check for region
+        If EveHQ.Core.HQ.EveHQSettings.MarketRegionList.Count = 0 Then
+            Dim msg As String = "You cannot process market prices without first selecting valid regions." & ControlChars.CrLf & ControlChars.CrLf
+            msg &= "This can be done from the 'Price Settings' tab."
+            MessageBox.Show(msg, "Market Regions Required!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
 
         ' Build the URL of the data from region limits
         Dim mpURL As String = "http://eve-central.com/api/marketstat?"
@@ -1235,37 +1267,46 @@ Public Class frmMarketPrices
             End If
         Next
 
-        ' Get the stuff that can have market prices
-        Dim priceData As Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT typeID, typeName FROM invTypes WHERE marketGroupID IS NOT NULL;")
-        If priceData IsNot Nothing Then
-            If priceData.Tables(0).Rows.Count > 0 Then
-                Dim count As Integer = 0
-                Dim ecURL As String = ""
-                Dim itemRow As DataRow
-                For item As Integer = 0 To priceData.Tables(0).Rows.Count - 1 Step 20
-                    count += 1
-                    ecURL = mpURL
-                    For row As Integer = item To item + 19
-                        If row < priceData.Tables(0).Rows.Count Then
-                            itemRow = priceData.Tables(0).Rows(row)
-                            ecURL &= "&typeid=" & itemRow.Item("typeID").ToString
+        ' Open a persistent DB connection
+        If EveHQ.Core.DataFunctions.OpenCustomDatabase = True Then
+
+            ' Get the stuff that can have market prices
+            Dim priceData As Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT typeID, typeName FROM invTypes WHERE marketGroupID IS NOT NULL;")
+            If priceData IsNot Nothing Then
+                If priceData.Tables(0).Rows.Count > 0 Then
+                    Dim count As Integer = 0
+                    Dim ecURL As String = ""
+                    Dim itemRow As DataRow
+                    For item As Integer = 0 To priceData.Tables(0).Rows.Count - 1 Step 20
+                        count += 1
+                        ecURL = mpURL
+                        For row As Integer = item To item + 19
+                            If row < priceData.Tables(0).Rows.Count Then
+                                itemRow = priceData.Tables(0).Rows(row)
+                                ecURL &= "&typeid=" & itemRow.Item("typeID").ToString
+                            End If
+                        Next
+                        lblMarketPriceUpdateStatus.Text = "Parsing Batch: " & count.ToString & " of " & Int((priceData.Tables(0).Rows.Count - 1) / 20) + 1 & "..." : lblMarketPriceUpdateStatus.Refresh()
+                        If GetPriceFeed("MarketPrices", ecURL, lblMarketPriceUpdateStatus, True) = True Then
+                            Call Me.ParseMarketPriceFeed("MarketPrices", lblMarketPriceUpdateStatus)
                         End If
                     Next
-                    lblMarketPriceUpdateStatus.Text = "Parsing Batch: " & count.ToString & " of " & Int((priceData.Tables(0).Rows.Count - 1) / 20) + 1 & "..." : lblMarketPriceUpdateStatus.Refresh()
-                    If GetPriceFeed("MarketPrices", ecURL, lblMarketPriceUpdateStatus, True) = True Then
-                        Call Me.ParseMarketPriceFeed("MarketPrices", lblMarketPriceUpdateStatus)
+                    EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate = Now
+                    lblLastMarketPriceUpdate.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate, "dd/MM/yyyy HH:mm:ss")
+                    If EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate.AddSeconds(86400) < Now Then
+                        btnUpdateMarketPrices.Enabled = True
+                        lblMarketPriceUpdateStatus.Text = "Status: Awaiting update."
+                    Else
+                        btnUpdateMarketPrices.Enabled = False
+                        lblMarketPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
                     End If
-                Next
-                EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate = Now
-                If EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate.AddSeconds(86400) < Now Then
-                    btnUpdateMarketPrices.Enabled = True
-                    lblMarketPriceUpdateStatus.Text = "Status: Awaiting update."
-                Else
-                    btnUpdateMarketPrices.Enabled = False
-                    lblMarketPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
+                    lblMarketPriceUpdateStatus.Text = "Market Price Update Complete!" : lblMarketPriceUpdateStatus.Refresh()
                 End If
-                lblMarketPriceUpdateStatus.Text = "Market Price Update Complete!" : lblMarketPriceUpdateStatus.Refresh()
             End If
+            ' Close the DB
+            EveHQ.Core.DataFunctions.CloseCustomDatabase()
+        Else
+            lblMarketPriceUpdateStatus.Text = "Market Price Update Complete!" : lblMarketPriceUpdateStatus.Refresh()
         End If
     End Sub
     Private Sub lblMarketPricesBy_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblMarketPricesBy.LinkClicked
@@ -1360,7 +1401,7 @@ Public Class frmMarketPrices
                 Items = feedXML.SelectNodes("/factionPriceData/items/item")
                 StatusLabel.Text = "Parsing '" & FeedName & "' (" & Items.Count & " Items)..." : StatusLabel.Refresh()
                 For Each Item In Items
-                    EveHQ.Core.DataFunctions.SetMarketPrice(CLng(Item.ChildNodes(0).InnerText), Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture))
+                    EveHQ.Core.DataFunctions.SetMarketPrice(CLng(Item.ChildNodes(0).InnerText), Double.Parse(Item.ChildNodes(2).InnerText, Globalization.NumberStyles.Number, culture), True)
                 Next
             Catch e As Exception
                 MessageBox.Show("Unable to parse Faction Price feed:" & ControlChars.CrLf & e.Message, "Error in Price Feed", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1401,7 +1442,7 @@ Public Class frmMarketPrices
                     priceArray.Add(avgSell) : priceArray.Add(medSell) : priceArray.Add(minSell) : priceArray.Add(maxSell)
                     priceArray.Add(avgAll) : priceArray.Add(medAll) : priceArray.Add(minAll) : priceArray.Add(maxAll)
                     Dim userPrice As Double = EveHQ.Core.DataFunctions.CalculateUserPrice(priceArray)
-                    EveHQ.Core.DataFunctions.SetMarketPrice(typeID, userPrice)
+                    EveHQ.Core.DataFunctions.SetMarketPrice(typeID, userPrice, True)
                 Next
             Catch e As Exception
                 MessageBox.Show("Unable to parse Market Price feed:" & ControlChars.CrLf & e.Message, "Error in Price Feed", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1413,4 +1454,27 @@ Public Class frmMarketPrices
     End Sub
 #End Region
    
+    Private Sub btnResetFactionPriceData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetFactionPriceData.Click
+        EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate = Now.AddDays(-2)
+        lblLastFactionPriceUpdate.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate, "dd/MM/yyyy HH:mm:ss")
+        If EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate.AddSeconds(86400) < Now Then
+            btnUpdateFactionPrices.Enabled = True
+            lblFactionPriceUpdateStatus.Text = "Status: Awaiting update."
+        Else
+            btnUpdateFactionPrices.Enabled = False
+            lblFactionPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
+        End If
+    End Sub
+
+    Private Sub btnResetMarketPriceDate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetMarketPriceDate.Click
+        EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate = Now.AddDays(-2)
+        lblLastMarketPriceUpdate.Text = Format(EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate, "dd/MM/yyyy HH:mm:ss")
+        If EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate.AddSeconds(86400) < Now Then
+            btnUpdateMarketPrices.Enabled = True
+            lblMarketPriceUpdateStatus.Text = "Status: Awaiting update."
+        Else
+            btnUpdateMarketPrices.Enabled = False
+            lblMarketPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
+        End If
+    End Sub
 End Class

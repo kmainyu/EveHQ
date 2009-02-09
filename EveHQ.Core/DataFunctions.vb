@@ -29,6 +29,8 @@ Imports System.Windows.Forms
 Public Class DataFunctions
 
     Shared eveData As Data.DataSet
+    Shared customMDBConnection As New OleDbConnection
+    Shared customSQLConnection As New SqlConnection
 
     Public Shared Function CreateEveHQDataDB() As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
@@ -210,6 +212,58 @@ Public Class DataFunctions
         End Select
 
     End Sub
+    Public Shared Function OpenCustomDatabase() As Boolean
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' Access
+                customMDBConnection = New OleDbConnection
+                customMDBConnection.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    customMDBConnection.Open()
+                    Return True
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return False
+                End Try
+            Case 1, 2 ' MSSQL, MSSQL Express
+                customSQLConnection = New SqlConnection
+                customSQLConnection.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    customSQLConnection.Open()
+                    Return True
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return False
+                End Try
+            Case Else
+                EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
+                Return Nothing
+        End Select
+    End Function
+    Public Shared Function CloseCustomDatabase() As Boolean
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' Access
+                Try
+                    If customMDBConnection.State = ConnectionState.Open Then
+                        customMDBConnection.Close()
+                    End If
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return False
+                End Try
+            Case 1, 2 ' MSSQL, MSSQL Express
+                Try
+                    If customSQLConnection.State = ConnectionState.Open Then
+                        customSQLConnection.Close()
+                    End If
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return False
+                End Try
+            Case Else
+                EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
+                Return Nothing
+        End Select
+    End Function
     Public Shared Function SetData(ByVal strSQL As String) As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' Access
@@ -267,6 +321,41 @@ Public Class DataFunctions
                     If conn.State = ConnectionState.Open Then
                         conn.Close()
                     End If
+                End Try
+            Case Else
+                EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
+                Return Nothing
+        End Select
+    End Function
+    Public Shared Function SetDataOnly(ByVal strSQL As String) As Boolean
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' Access
+                Try
+                    Dim keyCommand As New OleDbCommand(strSQL, customMDBConnection)
+                    keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    keyCommand.ExecuteNonQuery()
+                    Return True
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return False
+                End Try
+            Case 1, 2 ' MSSQL, MSSQL Express
+                Dim conn As New SqlConnection
+                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
+                Try
+                    conn.Open()
+                    If strSQL.Contains(" LIKE ") = False Then
+                        strSQL = strSQL.Replace("'", "''")
+                        strSQL = strSQL.Replace(ControlChars.Quote, "'")
+                        strSQL = strSQL.Replace("=true", "=1")
+                    End If
+                    Dim keyCommand As New SqlCommand(strSQL, customSQLConnection)
+                    keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    keyCommand.ExecuteNonQuery()
+                    Return True
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return False
                 End Try
             Case Else
                 EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
@@ -881,42 +970,60 @@ Public Class DataFunctions
             Return True
         End If
     End Function
-    Public Shared Function SetMarketPrice(ByVal typeID As Long, ByVal UserPrice As Double) As Boolean
+    Public Shared Function SetMarketPrice(ByVal typeID As Long, ByVal UserPrice As Double, ByVal DBOpen As Boolean) As Boolean
         ' Store the user's price in the database
         If EveHQ.Core.HQ.MarketPriceList.Contains(typeID.ToString) = False Then
             ' Add the data
-            If EveHQ.Core.DataFunctions.AddMarketPrice(typeID.ToString, UserPrice) = True Then
+            If EveHQ.Core.DataFunctions.AddMarketPrice(typeID.ToString, UserPrice, DBOpen) = True Then
                 Return True
             Else
                 Return False
             End If
         Else
             ' Edit the data
-            If EveHQ.Core.DataFunctions.EditMarketPrice(typeID.ToString, UserPrice) = True Then
+            If EveHQ.Core.DataFunctions.EditMarketPrice(typeID.ToString, UserPrice, DBOpen) = True Then
                 Return True
             Else
                 Return False
             End If
         End If
     End Function
-    Public Shared Function AddMarketPrice(ByVal itemID As String, ByVal price As Double) As Boolean
+    Public Shared Function AddMarketPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) As Boolean
         EveHQ.Core.HQ.MarketPriceList(itemID) = price
         Dim priceSQL As String = "INSERT INTO marketPrices (typeID, price, priceDate) VALUES (" & itemID & ", " & price.ToString & ", " & Now.ToOADate - 2 & ");"
-        If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
-            MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return False
+        If DBOpen = False Then
+            If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
+                MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                Return True
+            End If
         Else
-            Return True
-        End If
+            If EveHQ.Core.DataFunctions.SetDataOnly(priceSQL) = False Then
+                MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                Return True
+            End If
+        End If    
     End Function
-    Public Shared Function EditMarketPrice(ByVal itemID As String, ByVal price As Double) As Boolean
+    Public Shared Function EditMarketPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) As Boolean
         EveHQ.Core.HQ.MarketPriceList(itemID) = price
         Dim priceSQL As String = "UPDATE marketPrices SET price=" & price.ToString & ", priceDate=" & Now.ToOADate - 2 & " WHERE typeID=" & itemID & ";"
-        If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
-            MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return False
+        If DBOpen = False Then
+            If EveHQ.Core.DataFunctions.SetData(priceSQL) = False Then
+                MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                Return True
+            End If
         Else
-            Return True
+            If EveHQ.Core.DataFunctions.SetDataOnly(priceSQL) = False Then
+                MessageBox.Show("There was an error writing data to the Market Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                Return True
+            End If
         End If
     End Function
     Public Shared Function DeleteMarketPrice(ByVal itemID As String) As Boolean

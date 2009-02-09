@@ -166,6 +166,7 @@ Public Class frmMarketOrders
             End If
             newOrder.SubItems(1).Text = FormatNumber(oVol, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             newOrder.SubItems(2).Text = FormatNumber(oPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            newOrder.SubItems(3).Tag = orderExpires.TotalSeconds
             newOrder.SubItems(3).Text = orderExpiry
 
             ' Check if we process this
@@ -415,7 +416,7 @@ Public Class frmMarketOrders
 
     Private Sub btnSetPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetPrice.Click
         ' Store the user's price in the database
-        Call EveHQ.Core.DataFunctions.SetMarketPrice(typeID, UserPrice)
+        Call EveHQ.Core.DataFunctions.SetMarketPrice(typeID, UserPrice, False)
         lblCurrentPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
     End Sub
 
