@@ -299,8 +299,8 @@
 17926,1,3331,97,2,71,0,1,0,10,15,Neut Drain Amount
 17926,1,3329,54,2,65,0,1,0,10,15,Stasis Web Range
 # Crusader,,,,,,,,,,,
-11184,1,3328,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
-11184,1,3328,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
+11184,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
+11184,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
 11184,1,12092,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
 11184,1,12092,160,4,567;570,0,1,0,7.5,15,Small Energy Turret Tracking
 11184,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
@@ -765,8 +765,8 @@
 24483,1,24314,68,4,600,0,1,0,5,15,Capital Shield Transporter Amount
 24483,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use
 24483,0,0,50,1,27951,0,0,0,-99,15,Triage Module CPU Use
-24483,1,24311,10005,1,24483,0,1,1,1,15,Fighter Control Bonus
-24483,1,24311,10063,1,24483,0,1,1,1,15,Warfare Link Bonus
+24483,1,24314,10005,1,24483,0,1,1,1,15,Fighter Control Bonus
+24483,1,24314,10063,1,24483,0,1,1,1,15,Warfare Link Bonus
 24483,0,0,10007,1,24483,0,0,0,200,15,Fighter Control Range 
 24483,0,0,50,1,24283,0,0,0,-99,15,Drone Control Unit CPU
 # Nighthawk,,,,,,,,,,,

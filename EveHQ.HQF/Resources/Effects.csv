@@ -255,16 +255,16 @@
 312,1,21803,73,4,1052,0,1,0,0,Capital Repair Systems
 1139,1,26255,1138,2,778,0,1,0,0,Drones Rigging
 1139,1,26256,1138,2,786,0,1,0,0,Electronic Superiority Rigging
-958,1,22806,984,2,326,0,1,0,0,EM Armor Compensation - Passive
+958,1,22806,984,2,98;326,0,1,0,0,EM Armor Compensation - Passive
 988,1,22806,994,2,994,0,1,5,0,EM Armor Compensation - Active
 1139,1,26258,1138,2,775,0,1,0,0,Energy Weapon Rigging
-958,1,22807,985,2,326,0,1,0,0,Explosive Armor Compensation - Passive
+958,1,22807,985,2,98;326,0,1,0,0,Explosive Armor Compensation - Passive
 988,1,22807,995,2,994,0,1,5,0,Explosive Armor Compensation - Active
 335,1,3394,265,3,6,0,1,0,0,Hull Upgrades - Armor HP
 335,1,3394,1159,2,329,0,1,0,0,Hull Upgrades - Armor Plate HP
 1139,1,26259,1138,2,776,0,1,0,0,Hybrid Weapon Rigging
 #,1,26252,,,,0,1,0,0,Jury Rigging
-958,1,22808,986,2,326,0,1,0,0,Kinetic Armor Compensation - Passive
+958,1,22808,986,2,98;326,0,1,0,0,Kinetic Armor Compensation - Passive
 988,1,22808,996,2,994,0,1,5,0,Kinetic Armor Compensation - Active
 1139,1,26260,1138,2,779,0,1,0,0,Launcher Rigging
 327,1,3392,9,3,6,0,1,0,0,Mechanic
@@ -281,7 +281,7 @@
 #,1,25863,,,,0,1,0,0,Salvaging
 1139,1,26261,1138,2,774,0,1,0,0,Shield Rigging
 #,1,27906,,,,0,1,0,0,Tactical Logistics Reconfiguration
-958,1,22809,987,2,326,0,1,0,0,Thermic Armor Compensation - Passive
+958,1,22809,987,2,98;326,0,1,0,0,Thermic Armor Compensation - Passive
 988,1,22809,997,2,994,0,1,5,0,Thermic Armor Compensation - Active
 # MISSILE LAUNCHER OPERATION,,,,,,,,,,
 293,1,28073,669,2,862,0,1,0,0,Bomb Deployment
