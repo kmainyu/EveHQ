@@ -30,6 +30,8 @@ Public Class frmSplash
 
         ' Insert the version number to the splash screen
         lblVersion.Text = "Version " & My.Application.Info.Version.ToString
+        lblCopyright.Text = My.Application.Info.Copyright
+        lblDate.Text = My.Application.Info.Trademark
 
         ' Set the image for the splash screen
         Panel1.BackgroundImage = My.Resources.Splashv5
@@ -60,13 +62,13 @@ Public Class frmSplash
         Next
 
         ' Set the application folder
-        lblStatus.Text = "Setting application directory..."
+        lblStatus.Text = "> Setting application directory..."
         Me.Refresh()
         EveHQ.Core.HQ.appFolder = Application.StartupPath
 
         ' Check for existence of an application folder in the application directory
         If isLocal = False Then
-            lblStatus.Text = "Checking app data directory..."
+            lblStatus.Text = "> Checking app data directory..."
             Me.Refresh()
             EveHQ.Core.HQ.appDataFolder = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) & "\EveHQ").Replace("\\", "\")
             If EveHQ.Core.HQ.appDataFolder.StartsWith("\") = True Then
@@ -81,7 +83,7 @@ Public Class frmSplash
         End If
 
         ' Check for existence of a cache folder in the application directory
-        lblStatus.Text = "Checking cache directory..."
+        lblStatus.Text = "> Checking cache directory..."
         Me.Refresh()
         If isLocal = False Then
             EveHQ.Core.HQ.cacheFolder = (EveHQ.Core.HQ.appDataFolder & "\Cache").Replace("\\", "\")
@@ -97,7 +99,7 @@ Public Class frmSplash
         End If
 
         ' Check for existence of a report folder in the application directory
-        lblStatus.Text = "Checking report folder..."
+        lblStatus.Text = "> Checking report folder..."
         Me.Refresh()
         If isLocal = False Then
             EveHQ.Core.HQ.reportFolder = (Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\EveHQ\Reports").Replace("\\", "\")
@@ -113,7 +115,7 @@ Public Class frmSplash
         End If
 
         ' Check for existence of a data folder in the application directory
-        lblStatus.Text = "Checking data directory..."
+        lblStatus.Text = "> Checking data directory..."
         Me.Refresh()
         If isLocal = False Then
             EveHQ.Core.HQ.dataFolder = (EveHQ.Core.HQ.appDataFolder & "\Data").Replace("\\", "\")
@@ -129,7 +131,7 @@ Public Class frmSplash
         End If
 
         ' Check for existence of a backup folder in the application directory
-        lblStatus.Text = "Checking backup directory..."
+        lblStatus.Text = "> Checking backup directory..."
         Me.Refresh()
         If isLocal = False Then
             EveHQ.Core.HQ.backupFolder = (Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\EveHQ\Backups").Replace("\\", "\")
@@ -145,7 +147,7 @@ Public Class frmSplash
         End If
 
         ' Load user settings - this is needed to work out data connection type & update requirements
-        lblStatus.Text = "Loading settings..."
+        lblStatus.Text = "> Loading settings..."
         Me.Refresh()
         Do While EveHQ.Core.EveHQSettingsFunctions.LoadSettings() = False
             ' Ask if we want to check for a database
@@ -177,7 +179,7 @@ Public Class frmSplash
         End If
 
         ' Load Certificate data
-        lblStatus.Text = "Loading Certificate data..."
+        lblStatus.Text = "> Loading Certificate data..."
         Me.Refresh()
         Dim s As New MemoryStream(My.Resources.CertificateCategories)
         Dim f As BinaryFormatter = New BinaryFormatter
@@ -193,7 +195,7 @@ Public Class frmSplash
         s.Close()
 
         ' Load skill data and item data
-        lblStatus.Text = "Loading skills && items..."
+        lblStatus.Text = "> Loading skills && items..."
         Me.Refresh()
         Do While EveHQ.Core.DataFunctions.LoadItems = False
             Dim msg As String = "EveHQ was unable to load data from a Database." & ControlChars.CrLf & ControlChars.CrLf
@@ -207,14 +209,14 @@ Public Class frmSplash
         Loop
 
         ' If we get this far we have loaded a DB so check for SQL format and check the custom data
-        lblStatus.Text = "Checking database..."
+        lblStatus.Text = "> Checking database..."
         Me.Refresh()
         If EveHQ.Core.HQ.EveHQSettings.DBFormat = 1 Or EveHQ.Core.HQ.EveHQSettings.DBFormat = 2 Then
             Dim strSQL As String = "SELECT attributeGroup FROM dgmAttributeTypes"
             Dim testData As Data.DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             If testData Is Nothing Then
                 ' We seem to be missing the data so lets add it in!
-                lblStatus.Text = "Customising MSSQL database..."
+                lblStatus.Text = "> Customising MSSQL database..."
                 Me.Refresh()
                 Dim conn As New Data.SqlClient.SqlConnection
                 conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
@@ -257,12 +259,12 @@ Public Class frmSplash
         End If
 
         ' Check for modules
-        lblStatus.Text = "Loading modules..."
+        lblStatus.Text = "> Loading modules..."
         Me.Refresh()
         Call LoadModules()
 
         'Set the servers to their server details
-        lblStatus.Text = "Setting Eve Server details..."
+        lblStatus.Text = "> Setting Eve Server details..."
         Me.Refresh()
         EveHQ.Core.HQ.myTQServer.Server = 0
         EveHQ.Core.HQ.mySiSiServer.Server = 1
@@ -284,7 +286,7 @@ Public Class frmSplash
         End If
 
         ' Show the main form
-        lblStatus.Text = "Initialising EveHQ..."
+        lblStatus.Text = "> Initialising EveHQ..."
         Me.Refresh()
         EveHQ.Core.HQ.MainForm = frmEveHQ
         frmEveHQ.Show()
@@ -294,7 +296,7 @@ Public Class frmSplash
 
         ' Check for updates if required
         If EveHQ.Core.HQ.EveHQSettings.AutoCheck = True Then
-            lblStatus.Text = "Checking for updates..."
+            lblStatus.Text = "> Checking for updates..."
             Me.Refresh()
             Dim myUpdater As New frmUpdater
             myUpdater.startupTest = True

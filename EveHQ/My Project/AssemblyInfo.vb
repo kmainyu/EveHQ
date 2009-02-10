@@ -31,8 +31,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Eve Online game tool")> 
 <Assembly: AssemblyCompany("Indicium Technologies")> 
 <Assembly: AssemblyProduct("EveHQ")> 
-<Assembly: AssemblyCopyright("Copyright Vessper © 2007")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyCopyright("© Vessper 2007-2009")> 
 
 <Assembly: CLSCompliant(True)> 
 
@@ -54,3 +53,5 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.8.4.308")> 
 <Assembly: AssemblyFileVersion("1.8.4.308")> 
+<Assembly: AssemblyTrademark("10/02/2009")> 
+
