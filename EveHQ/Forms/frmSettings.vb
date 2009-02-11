@@ -21,7 +21,6 @@ Imports Microsoft.Win32
 Imports System.Data
 Imports System.Data.OleDb
 Imports System.Data.Odbc
-Imports MySql.Data.MySqlClient
 Imports System.Data.SqlClient
 Imports System.Xml
 Imports System.IO
@@ -1068,7 +1067,7 @@ Public Class frmSettings
                 txtMDBServer2.Text = EveHQ.Core.HQ.EveHQSettings.DBDataFilename
                 txtMDBUsername.Text = EveHQ.Core.HQ.EveHQSettings.DBUsername
                 txtMDBPassword.Text = EveHQ.Core.HQ.EveHQSettings.DBPassword
-                gbAccess.Visible = True : gbMSSQL.Visible = False : gbMySQL.Visible = False
+                gbAccess.Visible = True : gbMSSQL.Visible = False
             Case 1, 2
                 gbMSSQL.Left = 6 : gbMSSQL.Top = 80 : gbMSSQL.Width = 400 : gbMSSQL.Height = 175
                 txtMSSQLServer.Text = EveHQ.Core.HQ.EveHQSettings.DBServer
@@ -1081,15 +1080,7 @@ Public Class frmSettings
                 Else
                     radMSSQLWindows.Checked = True
                 End If
-                gbAccess.Visible = False : gbMSSQL.Visible = True : gbMySQL.Visible = False
-            Case 3
-                gbMySQL.Left = 6 : gbMySQL.Top = 80 : gbMySQL.Width = 400 : gbMySQL.Height = 175
-                txtMySQLServer.Text = EveHQ.Core.HQ.EveHQSettings.DBServer
-                txtMySQLDatabase.Text = EveHQ.Core.HQ.EveHQSettings.DBName
-                txtMySQLDatabase2.Text = EveHQ.Core.HQ.EveHQSettings.DBDataName
-                txtMySQLUsername.Text = EveHQ.Core.HQ.EveHQSettings.DBUsername
-                txtMySQLPassword.Text = EveHQ.Core.HQ.EveHQSettings.DBPassword
-                gbAccess.Visible = False : gbMSSQL.Visible = False : gbMySQL.Visible = True
+                gbAccess.Visible = False : gbMSSQL.Visible = True
         End Select
         EveHQ.Core.HQ.EveHQSettings.DBFormat = cboFormat.SelectedIndex
         Call EveHQ.Core.DataFunctions.SetEveHQConnectionString()
@@ -1160,18 +1151,6 @@ Public Class frmSettings
         Me.txtMSSQLPassword.Visible = True
     End Sub
 
-    Private Sub txtMySQLServer_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMySQLServer.TextChanged
-        EveHQ.Core.HQ.EveHQSettings.DBServer = txtMySQLServer.Text
-    End Sub
-
-    Private Sub txtMySQLUser_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMySQLUsername.TextChanged
-        EveHQ.Core.HQ.EveHQSettings.DBUsername = txtMySQLUsername.Text
-    End Sub
-
-    Private Sub txtMySQLPassword_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMySQLPassword.TextChanged
-        EveHQ.Core.HQ.EveHQSettings.DBPassword = txtMySQLPassword.Text
-    End Sub
-
     Private Sub txtMDBServer_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMDBServer.TextChanged
         EveHQ.Core.HQ.EveHQSettings.DBFilename = txtMDBServer.Text
     End Sub
@@ -1186,14 +1165,6 @@ Public Class frmSettings
 
     Private Sub txtMSSQLDatabase2_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMSSQLDatabase2.TextChanged
         EveHQ.Core.HQ.EveHQSettings.DBDataName = txtMSSQLDatabase2.Text
-    End Sub
-
-    Private Sub txtMySQLDatabase_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMySQLDatabase.TextChanged
-        EveHQ.Core.HQ.EveHQSettings.DBName = txtMySQLDatabase.Text
-    End Sub
-
-    Private Sub txtMySQLDatabase2_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMySQLDatabase2.TextChanged
-        EveHQ.Core.HQ.EveHQSettings.DBDataName = txtMySQLDatabase2.Text
     End Sub
 
     Private Sub btnTestDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTestDB.Click
@@ -1239,17 +1210,6 @@ Public Class frmSettings
                     MessageBox.Show("Connected successfully to MS SQL EXPRESS database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Catch ex As Exception
                     MessageBox.Show(ex.Message, "Error Opening MS SQL EXPRESS Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
-            Case 3
-                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBName & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-                Dim connection As MySqlConnection
-                connection = New MySqlConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    MessageBox.Show("Connected successfully to MySQL database", "Connection Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Catch ex As Exception
-                    MessageBox.Show(ex.Message, "Error Opening MySQL Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
         End Select
     End Sub

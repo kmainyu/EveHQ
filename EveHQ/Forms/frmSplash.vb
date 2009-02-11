@@ -393,16 +393,6 @@ Public Class frmSplash
                 Catch ex As Exception
                     Return False
                 End Try
-            Case 3
-                strConnection = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBDataName & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-                Dim connection As New MySql.Data.MySqlClient.MySqlConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    Return True
-                Catch ex As Exception
-                    Return False
-                End Try
         End Select
     End Function
 

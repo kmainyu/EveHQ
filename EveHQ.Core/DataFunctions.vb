@@ -20,7 +20,6 @@
 Imports System.Data
 Imports System.Data.OleDb
 Imports System.Data.Odbc
-Imports MySql.Data.MySqlClient
 Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Text
@@ -118,28 +117,6 @@ Public Class DataFunctions
                     For table As Integer = 0 To SchemaTable.Rows.Count - 1
                         DBTables.Add(SchemaTable.Rows(table)!TABLE_NAME.ToString())
                     Next
-                    Return DBTables
-                Catch e As Exception
-                    EveHQ.Core.HQ.dataError = e.Message
-                    Return Nothing
-                Finally
-                    If conn.State = ConnectionState.Open Then
-                        conn.Close()
-                    End If
-                End Try
-            Case 3 ' MySQL
-                Dim conn As New MySqlConnection
-                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
-                Try
-                    conn.Open()
-                    Dim da As New MySqlDataAdapter("SHOW TABLES;", conn)
-                    'da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
-                    Dim EveHQData As New DataSet
-                    da.Fill(EveHQData, "EveHQData")
-                    For Each table As DataRow In EveHQData.Tables(0).Rows
-                        DBTables.Add(table.Item(0).ToString)
-                    Next
-                    conn.Close()
                     Return DBTables
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = e.Message
@@ -305,23 +282,6 @@ Public Class DataFunctions
                         conn.Close()
                     End If
                 End Try
-            Case 3 ' MySQL
-                Dim conn As New MySqlConnection
-                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
-                Try
-                    conn.Open()
-                    Dim keyCommand As New MySqlCommand(strSQL, conn)
-                    'keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
-                    keyCommand.ExecuteNonQuery()
-                    Return True
-                Catch e As Exception
-                    EveHQ.Core.HQ.dataError = e.Message
-                    Return False
-                Finally
-                    If conn.State = ConnectionState.Open Then
-                        conn.Close()
-                    End If
-                End Try
             Case Else
                 EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
                 Return Nothing
@@ -408,24 +368,6 @@ Public Class DataFunctions
                         conn.Close()
                     End If
                 End Try
-            Case 3 ' MySQL
-                Dim conn As New MySqlConnection
-                conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
-                Try
-                    conn.Open()
-                    Dim da As New MySqlDataAdapter(strSQL.ToLower, conn)
-                    'da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
-                    da.Fill(EveHQData, "EveHQData")
-                    conn.Close()
-                    Return EveHQData
-                Catch e As Exception
-                    EveHQ.Core.HQ.dataError = e.Message
-                    Return Nothing
-                Finally
-                    If conn.State = ConnectionState.Open Then
-                        conn.Close()
-                    End If
-                End Try
             Case Else
                 EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
                 Return Nothing
@@ -468,24 +410,6 @@ Public Class DataFunctions
                     End If
                     Dim da As New SqlDataAdapter(strSQL, conn)
                     da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
-                    da.Fill(EveHQData, "EveHQData")
-                    conn.Close()
-                    Return EveHQData
-                Catch e As Exception
-                    EveHQ.Core.HQ.dataError = e.Message
-                    Return Nothing
-                Finally
-                    If conn.State = ConnectionState.Open Then
-                        conn.Close()
-                    End If
-                End Try
-            Case 3 ' MySQL
-                Dim conn As New MySqlConnection
-                conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString
-                Try
-                    conn.Open()
-                    Dim da As New MySqlDataAdapter(strSQL.ToLower, conn)
-                    'da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
                     da.Fill(EveHQData, "EveHQData")
                     conn.Close()
                     Return EveHQData
