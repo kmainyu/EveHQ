@@ -842,6 +842,7 @@
 985,2,98,268,3,6,1,0,2,14,Armor Plating - Passive Exp Resist
 986,2,98,269,3,6,1,0,2,14,Armor Plating - Passive Kin Resist
 987,2,98,270,3,6,1,0,2,14,Armor Plating - Passive Therm Resist
+148,2,98,265,3,6,0,0,0,14,Armor Plating - Armor HP Bonus
 # PROPULSION,,,,,,,,,,
 # Afterburners/MWD,,,,,,,,,,
 567,2,46,10010,3,6,0,0,1,12,AB/MWD Thrust
