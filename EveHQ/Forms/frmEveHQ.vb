@@ -994,6 +994,10 @@ Public Class frmEveHQ
             Me.tsbPilotInfo.Enabled = True
             Me.tsbSkillTraining.Enabled = True
         End If
+        ' See if the Neural Remapping form is open
+        If frmNeuralRemap.IsHandleCreated = True Then
+            frmNeuralRemap.PilotName = curPilot
+        End If
     End Sub
 
     Private Sub mnuReportOpenfolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportOpenfolder.Click

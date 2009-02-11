@@ -73,6 +73,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -181,6 +182,12 @@
       <DependentUpon>frmModifyQueues.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmModifyQueues.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmNeuralRemap.Designer.vb">
+      <DependentUpon>frmNeuralRemap.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmNeuralRemap.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmReportViewer.Designer.vb">
@@ -346,6 +353,9 @@
     <EmbeddedResource Include="Forms\frmModifyQueues.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmModifyQueues.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmNeuralRemap.resx">
+      <DependentUpon>frmNeuralRemap.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmReportViewer.resx">
       <DependentUpon>frmReportViewer.vb</DependentUpon>

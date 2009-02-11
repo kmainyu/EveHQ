@@ -2049,6 +2049,9 @@ Public Class frmTraining
             tsQueueOptions.Enabled = False
             mnuAddToQueue.Enabled = False
         End If
+        If frmNeuralRemap.IsHandleCreated = True Then
+            frmNeuralRemap.QueueName = activeQueueName
+        End If
     End Sub
 
     Private Sub lvQueues_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvQueues.Click
@@ -2757,8 +2760,13 @@ Public Class frmTraining
         End If
     End Sub
 
-  
-
-   
-   
+    Private Sub tsbNeuralRemap_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbNeuralRemap.Click
+        If frmNeuralRemap.IsHandleCreated = True Then
+            frmNeuralRemap.Select()
+        Else
+            frmNeuralRemap.PilotName = EveHQ.Core.HQ.myPilot.Name
+            frmNeuralRemap.QueueName = activeQueueName
+            frmNeuralRemap.Show()
+        End If
+    End Sub
 End Class
