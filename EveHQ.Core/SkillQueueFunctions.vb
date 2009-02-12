@@ -338,7 +338,6 @@ Public Class SkillQueueFunctions
                             qItem.PartTrained = False
                         End If
                         qItem.TrainTime = CStr(cTime)
-                        totalTime += cTime
                         qItem.DateFinished = endtime
                         qItem.Rank = CStr(myskill.Rank)
                         qItem.PAtt = myskill.PA

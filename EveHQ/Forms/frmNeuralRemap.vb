@@ -363,7 +363,7 @@
 
     Private Sub btnOptimise_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOptimise.Click
         Me.Cursor = Cursors.WaitCursor
-        Dim bestTime As Long = SkillQueue.QueueTime
+        Dim bestTime As Long = SkillQueue.QueueTime * 2
         Dim calcTime As Long = 0
         Dim count As Long = 0
         Dim minI As Integer = 5
@@ -421,14 +421,8 @@
 
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
         UpdateAllBases = True
-        nPilot.IAtt = iPilot.IAtt
-        nPilot.PAtt = iPilot.PAtt
-        nPilot.CAtt = iPilot.CAtt
-        nPilot.WAtt = iPilot.WAtt
-        nPilot.MAtt = iPilot.MAtt
-        Call RecalcAttributes()
-        Call DisplayAtributes()
-        Call DisplayQueueInfo()
+        Call Me.InitialiseForm()
+        Call Me.DisplayQueueInfo()
         UpdateAllBases = False
     End Sub
 End Class

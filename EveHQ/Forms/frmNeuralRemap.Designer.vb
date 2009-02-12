@@ -24,9 +24,6 @@ Partial Class frmNeuralRemap
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmNeuralRemap))
         Me.lblDescription = New System.Windows.Forms.Label
-        Me.ShapeContainer1 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer
-        Me.LineShape2 = New Microsoft.VisualBasic.PowerPacks.LineShape
-        Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.PictureBox2 = New System.Windows.Forms.PictureBox
         Me.PictureBox3 = New System.Windows.Forms.PictureBox
@@ -101,32 +98,6 @@ Partial Class frmNeuralRemap
         Me.lblDescription.Text = "Neural Remapping allows you to respecify your starting base attributes which can " & _
             "be used to optimise skill training in a particular area. Attributes must be betw" & _
             "een 5 and 15." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
-        '
-        'ShapeContainer1
-        '
-        Me.ShapeContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.ShapeContainer1.Margin = New System.Windows.Forms.Padding(0)
-        Me.ShapeContainer1.Name = "ShapeContainer1"
-        Me.ShapeContainer1.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.LineShape2, Me.LineShape1})
-        Me.ShapeContainer1.Size = New System.Drawing.Size(590, 470)
-        Me.ShapeContainer1.TabIndex = 1
-        Me.ShapeContainer1.TabStop = False
-        '
-        'LineShape2
-        '
-        Me.LineShape2.Name = "LineShape2"
-        Me.LineShape2.X1 = 300
-        Me.LineShape2.X2 = 300
-        Me.LineShape2.Y1 = 62
-        Me.LineShape2.Y2 = 450
-        '
-        'LineShape1
-        '
-        Me.LineShape1.Name = "LineShape1"
-        Me.LineShape1.X1 = 10
-        Me.LineShape1.X2 = 580
-        Me.LineShape1.Y1 = 50
-        Me.LineShape1.Y2 = 50
         '
         'PictureBox1
         '
@@ -668,7 +639,6 @@ Partial Class frmNeuralRemap
         Me.Controls.Add(Me.PictureBox2)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.lblDescription)
-        Me.Controls.Add(Me.ShapeContainer1)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -693,8 +663,6 @@ Partial Class frmNeuralRemap
 
     End Sub
     Friend WithEvents lblDescription As System.Windows.Forms.Label
-    Friend WithEvents ShapeContainer1 As Microsoft.VisualBasic.PowerPacks.ShapeContainer
-    Friend WithEvents LineShape1 As Microsoft.VisualBasic.PowerPacks.LineShape
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
     Friend WithEvents PictureBox3 As System.Windows.Forms.PictureBox
@@ -725,7 +693,6 @@ Partial Class frmNeuralRemap
     Friend WithEvents lblMSkills As System.Windows.Forms.Label
     Friend WithEvents lblMImplant As System.Windows.Forms.Label
     Friend WithEvents nudMBase As System.Windows.Forms.NumericUpDown
-    Friend WithEvents LineShape2 As Microsoft.VisualBasic.PowerPacks.LineShape
     Friend WithEvents lblUnusedPointsLbl As System.Windows.Forms.Label
     Friend WithEvents lblUnusedPoints As System.Windows.Forms.Label
     Friend WithEvents PictureBox6 As System.Windows.Forms.PictureBox
