@@ -5,7 +5,8 @@
     Dim cPilotName As String = ""
     Dim cQueueName As String = ""
     Dim SkillQueue As New EveHQ.Core.SkillQueue
-    
+    Dim UpdateAllBases As Boolean = False
+
     Public Property PilotName() As String
         Get
             Return cPilotName
@@ -286,57 +287,148 @@
 
 
     Private Sub nudIBase_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudIBase.ValueChanged
-        If nPilot.IAtt - nudIBase.Value + Unused >= 0 Then
-            nPilot.IAtt = CInt(nudIBase.Value)
-            Call RecalcAttributes()
-            Call DisplayAtributes()
-            Call DisplayQueueInfo()
+        If UpdateAllBases = False Then
+            If nPilot.IAtt - nudIBase.Value + Unused >= 0 Then
+                nPilot.IAtt = CInt(nudIBase.Value)
+                Call RecalcAttributes()
+                Call DisplayAtributes()
+                Call DisplayQueueInfo()
+            Else
+                nudIBase.Value = nPilot.IAtt
+            End If
         Else
-            nudIBase.Value = nPilot.IAtt
+            nPilot.IAtt = CInt(nudIBase.Value)
         End If
     End Sub
 
     Private Sub nudPBase_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudPBase.ValueChanged
-        If nPilot.PAtt - nudPBase.Value + Unused >= 0 Then
-            nPilot.PAtt = CInt(nudPBase.Value)
-            Call RecalcAttributes()
-            Call DisplayAtributes()
-            Call DisplayQueueInfo()
+        If UpdateAllBases = False Then
+            If nPilot.PAtt - nudPBase.Value + Unused >= 0 Then
+                nPilot.PAtt = CInt(nudPBase.Value)
+                Call RecalcAttributes()
+                Call DisplayAtributes()
+                Call DisplayQueueInfo()
+            Else
+                nudPBase.Value = nPilot.PAtt
+            End If
         Else
-            nudPBase.Value = nPilot.PAtt
+            nPilot.PAtt = CInt(nudPBase.Value)
         End If
     End Sub
 
     Private Sub nudCBase_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudCBase.ValueChanged
-        If nPilot.CAtt - nudCBase.Value + Unused >= 0 Then
-            nPilot.CAtt = CInt(nudCBase.Value)
-            Call RecalcAttributes()
-            Call DisplayAtributes()
-            Call DisplayQueueInfo()
+        If UpdateAllBases = False Then
+            If nPilot.CAtt - nudCBase.Value + Unused >= 0 Then
+                nPilot.CAtt = CInt(nudCBase.Value)
+                Call RecalcAttributes()
+                Call DisplayAtributes()
+                Call DisplayQueueInfo()
+            Else
+                nudCBase.Value = nPilot.CAtt
+            End If
         Else
-            nudCBase.Value = nPilot.CAtt
+            nPilot.CAtt = CInt(nudCBase.Value)
         End If
     End Sub
 
     Private Sub nudWBase_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudWBase.ValueChanged
-        If nPilot.WAtt - nudWBase.Value + Unused >= 0 Then
-            nPilot.WAtt = CInt(nudWBase.Value)
-            Call RecalcAttributes()
-            Call DisplayAtributes()
-            Call DisplayQueueInfo()
+        If UpdateAllBases = False Then
+            If nPilot.WAtt - nudWBase.Value + Unused >= 0 Then
+                nPilot.WAtt = CInt(nudWBase.Value)
+                Call RecalcAttributes()
+                Call DisplayAtributes()
+                Call DisplayQueueInfo()
+            Else
+                nudWBase.Value = nPilot.WAtt
+            End If
         Else
-            nudWBase.Value = nPilot.WAtt
+            nPilot.WAtt = CInt(nudWBase.Value)
         End If
     End Sub
 
     Private Sub nudMBase_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMBase.ValueChanged
-        If nPilot.MAtt - nudMBase.Value + Unused >= 0 Then
-            nPilot.MAtt = CInt(nudMBase.Value)
-            Call RecalcAttributes()
-            Call DisplayAtributes()
-            Call DisplayQueueInfo()
+        If UpdateAllBases = False Then
+            If nPilot.MAtt - nudMBase.Value + Unused >= 0 Then
+                nPilot.MAtt = CInt(nudMBase.Value)
+                Call RecalcAttributes()
+                Call DisplayAtributes()
+                Call DisplayQueueInfo()
+            Else
+                nudMBase.Value = nPilot.MAtt
+            End If
         Else
-            nudMBase.Value = nPilot.MAtt
+            nPilot.MAtt = CInt(nudMBase.Value)
         End If
+    End Sub
+
+    Private Sub btnOptimise_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOptimise.Click
+        Me.Cursor = Cursors.WaitCursor
+        Dim bestTime As Long = SkillQueue.QueueTime
+        Dim calcTime As Long = 0
+        Dim count As Long = 0
+        Dim minI As Integer = 5
+        Dim minP As Integer = 5
+        Dim minC As Integer = 5
+        Dim minW As Integer = 5
+        Dim minM As Integer = 5
+        Dim bestI As Integer = 5
+        Dim bestP As Integer = 5
+        Dim bestC As Integer = 5
+        Dim bestW As Integer = 5
+        Dim bestM As Integer = 5
+        Dim MaxAvailable As Integer = 14 ' Maximum distributable points (39-(5x5))
+        Dim maxAtt As Integer = 10 ' Range from 5 to 15
+
+        For IAtt As Integer = 0 To maxAtt
+            nPilot.IAtt = IAtt + minI
+            For PAtt As Integer = 0 To maxAtt
+                nPilot.PAtt = PAtt + minP
+                For CAtt As Integer = 0 To maxAtt
+                    nPilot.CAtt = CAtt + minC
+                    For WAtt As Integer = 0 To maxAtt
+                        nPilot.WAtt = WAtt + minW
+                        For MAtt As Integer = 0 To maxAtt
+                            nPilot.MAtt = MAtt + minM
+                            If IAtt + PAtt + CAtt + WAtt + MAtt = MaxAvailable Then
+                                Call RecalcAttributes()
+                                calcTime = EveHQ.Core.SkillQueueFunctions.GetQueueTime(nPilot, CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue))
+                                If calcTime <= bestTime Then
+                                    bestTime = calcTime
+                                    bestI = IAtt + minI
+                                    bestP = PAtt + minP
+                                    bestC = CAtt + minC
+                                    bestW = WAtt + minW
+                                    bestM = MAtt + minM
+                                End If
+                            End If
+                        Next
+                    Next
+                Next
+            Next
+        Next
+        UpdateAllBases = True
+        nPilot.IAtt = bestI
+        nPilot.PAtt = bestP
+        nPilot.CAtt = bestC
+        nPilot.WAtt = bestW
+        nPilot.MAtt = bestM
+        Call RecalcAttributes()
+        Call DisplayAtributes()
+        Call DisplayQueueInfo()
+        UpdateAllBases = False
+        Me.Cursor = Cursors.Default
+    End Sub
+
+    Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
+        UpdateAllBases = True
+        nPilot.IAtt = iPilot.IAtt
+        nPilot.PAtt = iPilot.PAtt
+        nPilot.CAtt = iPilot.CAtt
+        nPilot.WAtt = iPilot.WAtt
+        nPilot.MAtt = iPilot.MAtt
+        Call RecalcAttributes()
+        Call DisplayAtributes()
+        Call DisplayQueueInfo()
+        UpdateAllBases = False
     End Sub
 End Class

@@ -37,12 +37,16 @@ Public Class SkillQueueFunctions
     End Property
 
     Public Shared Function BuildQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal qQueue As EveHQ.Core.SkillQueue, Optional ByVal QuickBuild As Boolean = False) As ArrayList
+        Dim trainingBonus As Double = 2
+        Dim currentBonus As Double = 1
+        Dim trainingBonusLimit As Double = 0
 
         Dim bQueue As EveHQ.Core.SkillQueue = CType(qQueue.Clone, SkillQueue)
 
         Dim arrQueue As ArrayList = New ArrayList
         Dim totalTime As Long = 0
         Dim totalSkills As Integer = 0
+        Dim totalSP As Long = qPilot.SkillPoints
 
         ' Prep a new font ready for completed training queues
         Dim doneFont As Font = New Font("MS Sans Serif", 8, FontStyle.Strikeout)
@@ -108,6 +112,7 @@ Public Class SkillQueueFunctions
                 qItem.SAtt = mySkill.SA
                 qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, mySkill))
                 qItem.SPTrained = CStr(qPilot.TrainingEndSP - qPilot.TrainingStartSP)
+                totalSP += CLng(qItem.SPTrained)
                 arrQueue.Add(qItem)
 
                 ' Before we end check if a learning skill has been trained which will affect our future training times!
@@ -221,6 +226,13 @@ Public Class SkillQueueFunctions
                     Exit Function
                 End Try
 
+                ' Check for any training bonus
+                If totalSP < trainingBonusLimit Then
+                    currentBonus = trainingBonus
+                Else
+                    currentBonus = 1
+                End If
+
                 ' Check if we already have the skill and therefore the percentage completed
                 Dim partiallyTrained As Boolean = False
                 Dim curLevel As Integer = 0
@@ -264,9 +276,9 @@ Public Class SkillQueueFunctions
                 Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
                 Try
                     If partiallyTrained = False Then
-                        cTime = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(qPilot, myskill, toLevel, fromLevel, attModifiers))
+                        cTime = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(qPilot, myskill, toLevel, fromLevel, attModifiers, currentBonus))
                     Else
-                        cTime = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(qPilot, myskill, toLevel, -1, attModifiers))
+                        cTime = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(qPilot, myskill, toLevel, -1, attModifiers, currentBonus))
                     End If
                 Catch ex As Exception
                     MessageBox.Show("Error calculating time taken for level", "BuildQueue Error")
@@ -331,7 +343,7 @@ Public Class SkillQueueFunctions
                         qItem.Rank = CStr(myskill.Rank)
                         qItem.PAtt = myskill.PA
                         qItem.SAtt = myskill.SA
-                        qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, myskill, attModifiers))
+                        qItem.SPRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(qPilot, myskill, attModifiers, currentBonus))
                         If qItem.Done = False Then
                             If curLevel < fromLevel Then
                                 qItem.SPTrained = CStr(EveHQ.Core.SkillFunctions.CalculateSP(qPilot, myskill, toLevel, fromLevel))
@@ -343,6 +355,8 @@ Public Class SkillQueueFunctions
                         End If
                         arrQueue.Add(qItem)
                         totalSkills += 1
+                        totalTime += cTime
+                        totalSP += CLng(qItem.SPTrained)
                     Catch ex As Exception
                         MessageBox.Show("Error checking pre-requisite skills", "BuildQueue Error")
                         Return Nothing
@@ -1226,6 +1240,76 @@ Public Class SkillQueueFunctions
             Return newQueue
         Else
             Return qQueue
+        End If
+
+    End Function
+
+    Public Shared Function GetQueueTime(ByVal qPilot As EveHQ.Core.Pilot, ByVal qQueue As EveHQ.Core.SkillQueue) As Long
+
+        If qQueue.Queue.Count > 0 Then
+            Dim totalTime As Long = 0
+            Dim curLevel As Integer = 0
+            Dim cTime As Integer = 0
+            Dim myskill As New EveHQ.Core.SkillList
+            Dim fromLevel As Integer = 0
+            Dim toLevel As Integer = 0
+            ' Declare variables for skill attribute modifications
+            Dim attModifiers(5) As Integer      ' Order is as follows i.e. C,I,M,P,W,L
+            Dim modifierIncrease As Integer = 0
+            Dim myTSkill As EveHQ.Core.SkillQueueItem
+
+            For i As Integer = 1 To qQueue.Queue.Count
+                myTSkill = CType(qQueue.Queue(i), SkillQueueItem)
+                myskill = CType(EveHQ.Core.HQ.SkillListName(myTSkill.Name), SkillList)
+                fromLevel = myTSkill.FromLevel
+                toLevel = myTSkill.ToLevel
+                
+                ' Check if we already have the skill and therefore the time taken
+                If qPilot.PilotSkills.Contains(myskill.Name) = True Then
+                    Dim myCurSkill As EveHQ.Core.Skills = CType(qPilot.PilotSkills(myskill.Name), Skills)
+                    curLevel = myCurSkill.Level
+                    If curLevel = fromLevel Then
+                        cTime = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(qPilot, myskill, toLevel, -1, attModifiers))
+                    Else
+                        cTime = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(qPilot, myskill, toLevel, fromLevel, attModifiers))
+                    End If
+                Else
+                    cTime = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(qPilot, myskill, toLevel, fromLevel, attModifiers))
+                End If
+
+                totalTime += cTime
+
+                ' Before we end check if a learning skill has been trained which will affect our future training times!
+                ' Need to check if the skill has been done before so that the attribute isn't modified
+                modifierIncrease = toLevel - fromLevel
+                Select Case myskill.Name
+                    Case "Analytical Mind"      ' I
+                        attModifiers(1) += modifierIncrease
+                    Case "Clarity"              ' P
+                        attModifiers(3) += modifierIncrease
+                    Case "Eidetic Memory"       ' M
+                        attModifiers(2) += modifierIncrease
+                    Case "Empathy"              ' C
+                        attModifiers(0) += modifierIncrease
+                    Case "Focus"                ' W
+                        attModifiers(4) += modifierIncrease
+                    Case "Instant Recall"       ' M
+                        attModifiers(2) += modifierIncrease
+                    Case "Iron Will"            ' W
+                        attModifiers(4) += modifierIncrease
+                    Case "Learning"             ' L
+                        attModifiers(5) += modifierIncrease
+                    Case "Logic"                ' I
+                        attModifiers(1) += modifierIncrease
+                    Case "Presence"             ' C
+                        attModifiers(0) += modifierIncrease
+                    Case "Spatial Awareness"    ' P
+                        attModifiers(3) += modifierIncrease
+                End Select
+            Next
+            ' Add the totaltime and skills to the queue data
+            qQueue.QueueTime = totalTime
+            Return totalTime
         End If
 
     End Function

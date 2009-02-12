@@ -525,7 +525,7 @@ Public Class SkillFunctions
             Exit Sub
         End Try
     End Sub
-    Public Shared Function CalculateSPRate(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.SkillList, Optional ByVal modifiers() As Integer = Nothing) As Integer
+    Public Shared Function CalculateSPRate(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.SkillList, Optional ByVal modifiers() As Integer = Nothing, Optional ByVal TrainingBonus As Double = 1) As Integer
         Dim PA, SA As Double
         Dim Rate As Integer
 
@@ -572,7 +572,7 @@ Public Class SkillFunctions
                 SA = (cPilot.WAttT - cPilot.LSWAtt + attModifiers(4)) * (1 + (0.02 * learningSkill))
         End Select
 
-        Rate = CInt((60 * PA) + (30 * SA))
+        Rate = CInt(((60 * PA) + (30 * SA)) * TrainingBonus)
         Return Rate
 
     End Function          'CalculateSPRate
@@ -611,7 +611,7 @@ Public Class SkillFunctions
         Return SP
 
     End Function              'CalculateSP
-    Public Shared Function CalcTimeToLevel(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.SkillList, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1, Optional ByVal modifiers() As Integer = Nothing) As Double
+    Public Shared Function CalcTimeToLevel(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.SkillList, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1, Optional ByVal modifiers() As Integer = Nothing, Optional ByVal TrainingBonus As Double = 1) As Double
 
         'NB Level = 0 indicates to train to the next available level
 
@@ -708,7 +708,7 @@ Public Class SkillFunctions
             If PA = 0 Or SA = 0 Then
                 sTime = 0
             Else
-                sTime = CLng(sTime + Int((EndSP - StartSP) / (PA + (SA / 2)) * 60))
+                sTime = CLng(sTime + Int((EndSP - StartSP) / (PA + (SA / 2)) * 60 / TrainingBonus))
             End If
 
             StartSP = EndSP

@@ -25,6 +25,7 @@ Partial Class frmNeuralRemap
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmNeuralRemap))
         Me.lblDescription = New System.Windows.Forms.Label
         Me.ShapeContainer1 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer
+        Me.LineShape2 = New Microsoft.VisualBasic.PowerPacks.LineShape
         Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.PictureBox2 = New System.Windows.Forms.PictureBox
@@ -57,7 +58,6 @@ Partial Class frmNeuralRemap
         Me.lblMImplant = New System.Windows.Forms.Label
         Me.nudMBase = New System.Windows.Forms.NumericUpDown
         Me.lblUnusedPointsLbl = New System.Windows.Forms.Label
-        Me.LineShape2 = New Microsoft.VisualBasic.PowerPacks.LineShape
         Me.lblUnusedPoints = New System.Windows.Forms.Label
         Me.PictureBox6 = New System.Windows.Forms.PictureBox
         Me.lblSkillQueueAnalysis = New System.Windows.Forms.Label
@@ -77,6 +77,8 @@ Partial Class frmNeuralRemap
         Me.lblAttributePoints2 = New System.Windows.Forms.Label
         Me.lblAttributePoints1 = New System.Windows.Forms.Label
         Me.lblTimeSaving = New System.Windows.Forms.Label
+        Me.btnOptimise = New System.Windows.Forms.Button
+        Me.btnReset = New System.Windows.Forms.Button
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -109,6 +111,14 @@ Partial Class frmNeuralRemap
         Me.ShapeContainer1.Size = New System.Drawing.Size(590, 470)
         Me.ShapeContainer1.TabIndex = 1
         Me.ShapeContainer1.TabStop = False
+        '
+        'LineShape2
+        '
+        Me.LineShape2.Name = "LineShape2"
+        Me.LineShape2.X1 = 300
+        Me.LineShape2.X2 = 300
+        Me.LineShape2.Y1 = 62
+        Me.LineShape2.Y2 = 450
         '
         'LineShape1
         '
@@ -401,24 +411,16 @@ Partial Class frmNeuralRemap
         'lblUnusedPointsLbl
         '
         Me.lblUnusedPointsLbl.AutoSize = True
-        Me.lblUnusedPointsLbl.Location = New System.Drawing.Point(35, 425)
+        Me.lblUnusedPointsLbl.Location = New System.Drawing.Point(117, 425)
         Me.lblUnusedPointsLbl.Name = "lblUnusedPointsLbl"
         Me.lblUnusedPointsLbl.Size = New System.Drawing.Size(125, 13)
         Me.lblUnusedPointsLbl.TabIndex = 37
         Me.lblUnusedPointsLbl.Text = "Unused Attribute Points:"
         '
-        'LineShape2
-        '
-        Me.LineShape2.Name = "LineShape2"
-        Me.LineShape2.X1 = 300
-        Me.LineShape2.X2 = 300
-        Me.LineShape2.Y1 = 62
-        Me.LineShape2.Y2 = 450
-        '
         'lblUnusedPoints
         '
         Me.lblUnusedPoints.AutoSize = True
-        Me.lblUnusedPoints.Location = New System.Drawing.Point(166, 425)
+        Me.lblUnusedPoints.Location = New System.Drawing.Point(248, 425)
         Me.lblUnusedPoints.Name = "lblUnusedPoints"
         Me.lblUnusedPoints.Size = New System.Drawing.Size(13, 13)
         Me.lblUnusedPoints.TabIndex = 38
@@ -590,11 +592,31 @@ Partial Class frmNeuralRemap
         Me.lblTimeSaving.TabIndex = 57
         Me.lblTimeSaving.Text = "Time Saving:"
         '
+        'btnOptimise
+        '
+        Me.btnOptimise.Location = New System.Drawing.Point(318, 420)
+        Me.btnOptimise.Name = "btnOptimise"
+        Me.btnOptimise.Size = New System.Drawing.Size(75, 23)
+        Me.btnOptimise.TabIndex = 58
+        Me.btnOptimise.Text = "Optimise"
+        Me.btnOptimise.UseVisualStyleBackColor = True
+        '
+        'btnReset
+        '
+        Me.btnReset.Location = New System.Drawing.Point(15, 420)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(75, 23)
+        Me.btnReset.TabIndex = 59
+        Me.btnReset.Text = "Reset"
+        Me.btnReset.UseVisualStyleBackColor = True
+        '
         'frmNeuralRemap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(590, 470)
+        Me.Controls.Add(Me.btnReset)
+        Me.Controls.Add(Me.btnOptimise)
         Me.Controls.Add(Me.lblTimeSaving)
         Me.Controls.Add(Me.lblAttributePoints5)
         Me.Controls.Add(Me.lblAttributePoints4)
@@ -724,4 +746,6 @@ Partial Class frmNeuralRemap
     Friend WithEvents lblAttributePoints2 As System.Windows.Forms.Label
     Friend WithEvents lblAttributePoints1 As System.Windows.Forms.Label
     Friend WithEvents lblTimeSaving As System.Windows.Forms.Label
+    Friend WithEvents btnOptimise As System.Windows.Forms.Button
+    Friend WithEvents btnReset As System.Windows.Forms.Button
 End Class
