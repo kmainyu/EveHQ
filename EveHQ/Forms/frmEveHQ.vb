@@ -2114,34 +2114,21 @@ Public Class frmEveHQ
 
 #Region "Market Log Watcher Routines"
     Public Function InitialiseWatchers() As Boolean
-        Dim folderCount As Integer = 0
         ' Clear the list of watchers, just in case
         Call Me.CancelWatchers()
-        For folder As Integer = 1 To 4
-            ' Check if the folder exists before starting a watcher for the necessary folder
-            If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHQSettings.EveFolder(folder)) = True Then
-                ' Check the /LUA status to see where the location of the market log folder will be
-                Dim MLFolder As String = ""
-                Dim emeFSW As New FileSystemWatcher
-                MLFolder = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\logs\Marketlogs\"
-                emeFSW = New FileSystemWatcher
-                emeFSW.Path = MLFolder
-                emeFSW.IncludeSubdirectories = True
-                emeFSW.NotifyFilter = (NotifyFilters.LastAccess Or NotifyFilters.LastWrite Or NotifyFilters.FileName Or NotifyFilters.DirectoryName)
-                emeFSW.Filter = "*.txt"
-                AddHandler emeFSW.Created, AddressOf OnMarketLogCreated
-                emeFSW.EnableRaisingEvents = True
-                EveHQMLW.Add(MLFolder, emeFSW)
-                folderCount += 1
-            End If
-        Next
-        If folderCount > 0 Then
-            Me.iconEveHQMLW.Text = "EveHQ Market Export - Watching " & folderCount & " folders"
-            Me.iconEveHQMLW.Visible = True
-            Return True
-        Else
-            Return False
-        End If
+        Dim MLFolder As String = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\logs\Marketlogs\"
+        Dim emeFSW As New FileSystemWatcher
+        emeFSW = New FileSystemWatcher
+        emeFSW.Path = MLFolder
+        emeFSW.IncludeSubdirectories = True
+        emeFSW.NotifyFilter = (NotifyFilters.LastAccess Or NotifyFilters.LastWrite Or NotifyFilters.FileName Or NotifyFilters.DirectoryName)
+        emeFSW.Filter = "*.txt"
+        AddHandler emeFSW.Created, AddressOf OnMarketLogCreated
+        emeFSW.EnableRaisingEvents = True
+        EveHQMLW.Add(MLFolder, emeFSW)
+        Me.iconEveHQMLW.Text = "EveHQ Market Export - Awaiting exports..."
+        Me.iconEveHQMLW.Visible = True
+        Return True
     End Function
 
     Public Sub CancelWatchers()
