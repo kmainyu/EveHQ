@@ -23,8 +23,8 @@ Partial Class frmAssets
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAssets))
         Me.lblSelectChar = New System.Windows.Forms.Label
         Me.cboPilots = New System.Windows.Forms.ComboBox
@@ -315,7 +315,7 @@ Partial Class frmAssets
         '
         Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.mnuToolSep, Me.mnuItemRecycling})
         Me.ctxAssets.Name = "ctxAssets"
-        Me.ctxAssets.Size = New System.Drawing.Size(190, 148)
+        Me.ctxAssets.Size = New System.Drawing.Size(190, 126)
         '
         'mnuItemName
         '
@@ -640,11 +640,11 @@ Partial Class frmAssets
         '
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup1.Header = "Corporation"
-        ListViewGroup1.Name = "grpCorporation"
-        ListViewGroup2.Header = "Personal"
-        ListViewGroup2.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup3.Header = "Corporation"
+        ListViewGroup3.Name = "grpCorporation"
+        ListViewGroup4.Header = "Personal"
+        ListViewGroup4.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -1053,9 +1053,9 @@ Partial Class frmAssets
         Me.bgAutoRig.Controls.Add(Me.radRigSaleprice)
         Me.bgAutoRig.Controls.Add(Me.lblAutoRigCriteria)
         Me.bgAutoRig.Controls.Add(Me.btnAutoRig)
-        Me.bgAutoRig.Location = New System.Drawing.Point(174, 11)
+        Me.bgAutoRig.Location = New System.Drawing.Point(216, 39)
         Me.bgAutoRig.Name = "bgAutoRig"
-        Me.bgAutoRig.Size = New System.Drawing.Size(326, 89)
+        Me.bgAutoRig.Size = New System.Drawing.Size(469, 61)
         Me.bgAutoRig.TabIndex = 30
         Me.bgAutoRig.TabStop = False
         Me.bgAutoRig.Text = "Automatic Rig Availability Options"
@@ -1123,7 +1123,7 @@ Partial Class frmAssets
         '
         'btnAutoRig
         '
-        Me.btnAutoRig.Location = New System.Drawing.Point(10, 60)
+        Me.btnAutoRig.Location = New System.Drawing.Point(334, 15)
         Me.btnAutoRig.Name = "btnAutoRig"
         Me.btnAutoRig.Size = New System.Drawing.Size(125, 23)
         Me.btnAutoRig.TabIndex = 29

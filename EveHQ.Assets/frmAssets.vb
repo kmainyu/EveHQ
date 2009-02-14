@@ -906,13 +906,17 @@ Public Class frmAssets
                             ' No errors so parse the files
                             Dim accountList As XmlNodeList
                             Dim account As XmlNode
-                            corpWallets.Add(selPilot.Corp, selPilot.CorpID)
-                            accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
-                            For Each account In accountList
-                                Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Number, culture)
-                                Dim accountKey As String = account.Attributes.GetNamedItem("accountKey").Value
-                                corpWalletDivisions.Add(selPilot.CorpID & "_" & accountKey, isk)
-                            Next
+                            If corpWallets.Contains(selPilot.Corp) = False Then
+                                corpWallets.Add(selPilot.Corp, selPilot.CorpID)
+                                accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
+                                For Each account In accountList
+                                    Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Number, culture)
+                                    Dim accountKey As String = account.Attributes.GetNamedItem("accountKey").Value
+                                    If corpWalletDivisions.ContainsKey(selPilot.CorpID & "_" & accountKey) = False Then
+                                        corpWalletDivisions.Add(selPilot.CorpID & "_" & accountKey, isk)
+                                    End If
+                                Next
+                            End If
                         End If
                     End If
                 Else
@@ -929,7 +933,9 @@ Public Class frmAssets
                             accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
                             For Each account In accountList
                                 Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Number, culture)
-                                charWallets.Add(selPilot.Name, isk)
+                                If charWallets.Contains(selPilot.Name) = False Then
+                                    charWallets.Add(selPilot.Name, isk)
+                                End If
                             Next
                         End If
                     End If
