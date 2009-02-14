@@ -98,6 +98,8 @@ Partial Class frmTraining
         Me.tsQueueOptions = New System.Windows.Forms.ToolStrip
         Me.btnICT = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator14 = New System.Windows.Forms.ToolStripSeparator
+        Me.tsbNeuralRemap = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator19 = New System.Windows.Forms.ToolStripSeparator
         Me.btnShowDetails = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator
         Me.btnAddSkill = New System.Windows.Forms.ToolStripButton
@@ -181,9 +183,6 @@ Partial Class frmTraining
         Me.mnuAddCertGroupToQueue5 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator18 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuViewCertDetails = New System.Windows.Forms.ToolStripMenuItem
-        Me.tsbNeuralRemap = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator19 = New System.Windows.Forms.ToolStripSeparator
-        Me.tsbImplants = New System.Windows.Forms.ToolStripButton
         Me.lvQueues = New EveHQ.ListViewNoFlicker
         Me.colQName = New System.Windows.Forms.ColumnHeader
         Me.colQSkills = New System.Windows.Forms.ColumnHeader
@@ -198,7 +197,6 @@ Partial Class frmTraining
         Me.Standard = New System.Windows.Forms.ColumnHeader
         Me.Current = New System.Windows.Forms.ColumnHeader
         Me.Cumulative = New System.Windows.Forms.ColumnHeader
-        Me.ToolStripSeparator20 = New System.Windows.Forms.ToolStripSeparator
         Me.ctxDetails.SuspendLayout()
         Me.ctxQueue.SuspendLayout()
         Me.tsQueueOptions.SuspendLayout()
@@ -554,7 +552,7 @@ Partial Class frmTraining
         '
         'tsQueueOptions
         '
-        Me.tsQueueOptions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnICT, Me.ToolStripSeparator14, Me.tsbNeuralRemap, Me.ToolStripSeparator20, Me.tsbImplants, Me.ToolStripSeparator19, Me.btnShowDetails, Me.ToolStripSeparator7, Me.btnAddSkill, Me.ToolStripSeparator8, Me.btnDeleteSkill, Me.ToolStripSeparator9, Me.btnLevelUp, Me.ToolStripSeparator10, Me.btnLevelDown, Me.ToolStripSeparator11, Me.btnMoveUp, Me.ToolStripSeparator13, Me.btnMoveDown, Me.ToolStripSeparator12, Me.btnClearQueue})
+        Me.tsQueueOptions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnICT, Me.ToolStripSeparator14, Me.tsbNeuralRemap, Me.ToolStripSeparator19, Me.btnShowDetails, Me.ToolStripSeparator7, Me.btnAddSkill, Me.ToolStripSeparator8, Me.btnDeleteSkill, Me.ToolStripSeparator9, Me.btnLevelUp, Me.ToolStripSeparator10, Me.btnLevelDown, Me.ToolStripSeparator11, Me.btnMoveUp, Me.ToolStripSeparator13, Me.btnMoveDown, Me.ToolStripSeparator12, Me.btnClearQueue})
         Me.tsQueueOptions.Location = New System.Drawing.Point(0, 0)
         Me.tsQueueOptions.Name = "tsQueueOptions"
         Me.tsQueueOptions.Size = New System.Drawing.Size(937, 39)
@@ -575,6 +573,22 @@ Partial Class frmTraining
         '
         Me.ToolStripSeparator14.Name = "ToolStripSeparator14"
         Me.ToolStripSeparator14.Size = New System.Drawing.Size(6, 39)
+        '
+        'tsbNeuralRemap
+        '
+        Me.tsbNeuralRemap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tsbNeuralRemap.Image = CType(resources.GetObject("tsbNeuralRemap.Image"), System.Drawing.Image)
+        Me.tsbNeuralRemap.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsbNeuralRemap.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbNeuralRemap.Name = "tsbNeuralRemap"
+        Me.tsbNeuralRemap.Size = New System.Drawing.Size(36, 36)
+        Me.tsbNeuralRemap.Text = "ToolStripButton1"
+        Me.tsbNeuralRemap.ToolTipText = "Neural Remapping & Implants"
+        '
+        'ToolStripSeparator19
+        '
+        Me.ToolStripSeparator19.Name = "ToolStripSeparator19"
+        Me.ToolStripSeparator19.Size = New System.Drawing.Size(6, 39)
         '
         'btnShowDetails
         '
@@ -1299,32 +1313,6 @@ Partial Class frmTraining
         Me.mnuViewCertDetails.Size = New System.Drawing.Size(216, 22)
         Me.mnuViewCertDetails.Text = "View Details"
         '
-        'tsbNeuralRemap
-        '
-        Me.tsbNeuralRemap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.tsbNeuralRemap.Image = CType(resources.GetObject("tsbNeuralRemap.Image"), System.Drawing.Image)
-        Me.tsbNeuralRemap.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.tsbNeuralRemap.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbNeuralRemap.Name = "tsbNeuralRemap"
-        Me.tsbNeuralRemap.Size = New System.Drawing.Size(36, 36)
-        Me.tsbNeuralRemap.Text = "ToolStripButton1"
-        Me.tsbNeuralRemap.ToolTipText = "Neural Remapping"
-        '
-        'ToolStripSeparator19
-        '
-        Me.ToolStripSeparator19.Name = "ToolStripSeparator19"
-        Me.ToolStripSeparator19.Size = New System.Drawing.Size(6, 39)
-        '
-        'tsbImplants
-        '
-        Me.tsbImplants.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.tsbImplants.Image = CType(resources.GetObject("tsbImplants.Image"), System.Drawing.Image)
-        Me.tsbImplants.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.tsbImplants.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbImplants.Name = "tsbImplants"
-        Me.tsbImplants.Size = New System.Drawing.Size(36, 36)
-        Me.tsbImplants.Text = "Implants"
-        '
         'lvQueues
         '
         Me.lvQueues.AllowColumnReorder = True
@@ -1438,11 +1426,6 @@ Partial Class frmTraining
         '
         Me.Cumulative.Text = "Cumulative From Now"
         Me.Cumulative.Width = 125
-        '
-        'ToolStripSeparator20
-        '
-        Me.ToolStripSeparator20.Name = "ToolStripSeparator20"
-        Me.ToolStripSeparator20.Size = New System.Drawing.Size(6, 39)
         '
         'frmTraining
         '
@@ -1635,6 +1618,4 @@ Partial Class frmTraining
     Friend WithEvents mnuViewCertDetails As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tsbNeuralRemap As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator19 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents tsbImplants As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator20 As System.Windows.Forms.ToolStripSeparator
 End Class

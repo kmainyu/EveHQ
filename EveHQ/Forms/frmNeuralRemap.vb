@@ -36,7 +36,7 @@
     End Sub
 
     Private Sub InitialiseForm()
-        Me.Text = "Neural Remapping - " & iPilot.Name
+        Me.Text = "Neural Remapping & Implants - " & iPilot.Name
         ' Create a dummy pilot with which to check new attributes & skill queues
 
         nPilot.PilotSkills = iPilot.PilotSkills
@@ -161,6 +161,7 @@
         ' Display Intelligence Info
         lblIntelligence.Text = "Intelligence (Default Base: " & iPilot.IAtt.ToString & ")"
         nudIBase.Value = nPilot.IAtt
+        nudIImplant.Value = nPilot.IImplant
         lblIImplant.Text = "Implant: " & nPilot.IImplant.ToString
         lblISkills.Text = "Skills: " & (nPilot.LIAtt + nPilot.ALIAtt + nPilot.LSIAtt).ToString
         lblITotal.Text = "Total: " & nPilot.IAttT.ToString
@@ -168,6 +169,7 @@
         ' Display Perception Info
         lblPerception.Text = "Perception (Default Base: " & iPilot.PAtt.ToString & ")"
         nudPBase.Value = nPilot.PAtt
+        nudPImplant.Value = nPilot.PImplant
         lblPImplant.Text = "Implant: " & nPilot.PImplant.ToString
         lblPSkills.Text = "Skills: " & (nPilot.LPAtt + nPilot.ALPAtt + nPilot.LSPAtt).ToString
         lblPTotal.Text = "Total: " & nPilot.PAttT.ToString
@@ -175,6 +177,7 @@
         ' Display Charisma Info
         lblCharisma.Text = "Charisma (Default Base: " & iPilot.CAtt.ToString & ")"
         nudCBase.Value = nPilot.CAtt
+        nudCImplant.Value = nPilot.CImplant
         lblCImplant.Text = "Implant: " & nPilot.CImplant.ToString
         lblCSkills.Text = "Skills: " & (nPilot.LCAtt + nPilot.ALCAtt + nPilot.LSCAtt).ToString
         lblCTotal.Text = "Total: " & nPilot.CAttT.ToString
@@ -182,6 +185,7 @@
         ' Display Willpower Info
         lblWillpower.Text = "Willpower (Default Base: " & iPilot.WAtt.ToString & ")"
         nudWBase.Value = nPilot.WAtt
+        nudWImplant.Value = nPilot.WImplant
         lblWImplant.Text = "Implant: " & nPilot.WImplant.ToString
         lblWSkills.Text = "Skills: " & (nPilot.LWAtt + nPilot.ALWAtt + nPilot.LSWAtt).ToString
         lblWTotal.Text = "Total: " & nPilot.WAttT.ToString
@@ -189,6 +193,7 @@
         ' Display Memory Info
         lblMemory.Text = "Memory (Default Base: " & iPilot.MAtt.ToString & ")"
         nudMBase.Value = nPilot.MAtt
+        nudMImplant.Value = nPilot.MImplant
         lblMImplant.Text = "Implant: " & nPilot.MImplant.ToString
         lblMSkills.Text = "Skills: " & (nPilot.LMAtt + nPilot.ALMAtt + nPilot.LSMAtt).ToString
         lblMTotal.Text = "Total: " & nPilot.MAttT.ToString
@@ -252,17 +257,17 @@
             For att As Integer = 0 To 4
                 Select Case tagArray(att)
                     Case 0
-                        Me.Controls("lblAttribute" & (att + 1).ToString).Text = "Charisma:"
+                        Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Charisma:"
                     Case 1
-                        Me.Controls("lblAttribute" & (att + 1).ToString).Text = "Intelligence:"
+                        Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Intelligence:"
                     Case 2
-                        Me.Controls("lblAttribute" & (att + 1).ToString).Text = "Memory:"
+                        Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Memory:"
                     Case 3
-                        Me.Controls("lblAttribute" & (att + 1).ToString).Text = "Perception:"
+                        Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Perception:"
                     Case 4
-                        Me.Controls("lblAttribute" & (att + 1).ToString).Text = "Willpower:"
+                        Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Willpower:"
                 End Select
-                Me.Controls("lblAttributePoints" & (att + 1).ToString).Text = FormatNumber(pointScores(tagArray(att), 1), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                Me.gbSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = FormatNumber(pointScores(tagArray(att), 1), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             Next
             lblRevisedQueueTime.Text = "Revised Time: " & EveHQ.Core.SkillFunctions.TimeToString(CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime)
             If CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime <= SkillQueue.QueueTime Then
@@ -275,8 +280,8 @@
                 lblActiveSkillQueue.Text = "No Queue Selected"
                 lblSkillQueuePointsAnalysis.Text = ""
                 For att As Integer = 0 To 4
-                    Me.Controls("lblAttribute" & (att + 1).ToString).Text = ""
-                    Me.Controls("lblAttributePoints" & (att + 1).ToString).Text = ""
+                    Me.gbSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = ""
+                    Me.gbSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = ""
                 Next
                 lblActiveQueueTime.Text = ""
                 lblRevisedQueueTime.Text = ""
@@ -423,6 +428,74 @@
         UpdateAllBases = True
         Call Me.InitialiseForm()
         Call Me.DisplayQueueInfo()
+        UpdateAllBases = False
+    End Sub
+
+    Private Sub nudIImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudIImplant.ValueChanged
+        If UpdateAllBases = False Then
+            nPilot.IImplant = CInt(nudIImplant.Value)
+            Call RecalcAttributes()
+            Call DisplayAtributes()
+            Call DisplayQueueInfo()
+        Else
+            nPilot.IImplant = CInt(nudIImplant.Value)
+        End If
+    End Sub
+
+    Private Sub nudPImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudPImplant.ValueChanged
+        If UpdateAllBases = False Then
+            nPilot.PImplant = CInt(nudPImplant.Value)
+            Call RecalcAttributes()
+            Call DisplayAtributes()
+            Call DisplayQueueInfo()
+        Else
+            nPilot.PImplant = CInt(nudPImplant.Value)
+        End If
+    End Sub
+
+    Private Sub nudCImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudCImplant.ValueChanged
+        If UpdateAllBases = False Then
+            nPilot.CImplant = CInt(nudCImplant.Value)
+            Call RecalcAttributes()
+            Call DisplayAtributes()
+            Call DisplayQueueInfo()
+        Else
+            nPilot.CImplant = CInt(nudCImplant.Value)
+        End If
+    End Sub
+
+    Private Sub nudWImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudWImplant.ValueChanged
+        If UpdateAllBases = False Then
+            nPilot.WImplant = CInt(nudWImplant.Value)
+            Call RecalcAttributes()
+            Call DisplayAtributes()
+            Call DisplayQueueInfo()
+        Else
+            nPilot.WImplant = CInt(nudWImplant.Value)
+        End If
+    End Sub
+
+    Private Sub nudMImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMImplant.ValueChanged
+        If UpdateAllBases = False Then
+            nPilot.MImplant = CInt(nudMImplant.Value)
+            Call RecalcAttributes()
+            Call DisplayAtributes()
+            Call DisplayQueueInfo()
+        Else
+            nPilot.MImplant = CInt(nudMImplant.Value)
+        End If
+    End Sub
+
+    Private Sub btnResetImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetImplants.Click
+        UpdateAllBases = True
+        nPilot.IImplant = iPilot.IImplant
+        nPilot.PImplant = iPilot.PImplant
+        nPilot.CImplant = iPilot.CImplant
+        nPilot.WImplant = iPilot.WImplant
+        nPilot.MImplant = iPilot.MImplant
+        Call RecalcAttributes()
+        Call DisplayAtributes()
+        Call DisplayQueueInfo()
         UpdateAllBases = False
     End Sub
 End Class
