@@ -317,31 +317,32 @@ Public Class Engine
                 aImplant = CType(ModuleLists.moduleList(ModuleLists.moduleListName(hImplant)), ShipModule)
                 If ImplantEffectsMap.Contains(hImplant) = True Then
                     For Each chkEffect As ImplantEffect In CType(ImplantEffectsMap(hImplant), ArrayList)
-                        If aImplant.Attributes.Contains(chkEffect.AffectingAtt.ToString) = True Then
-                            fEffect = New FinalEffect
-                            fEffect.AffectedAtt = chkEffect.AffectedAtt
-                            fEffect.AffectedType = chkEffect.AffectedType
-                            fEffect.AffectedID = chkEffect.AffectedID
-                            If PirateImplants.Contains(aImplant.Name) = True Then
-                                PIGroup = CStr(PirateImplants.Item(hImplant))
-                                fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString)) * CDbl(cPirateImplantGroups.Item(PIGroup))
-                                fEffect.Cause = aImplant.Name & " (Set Bonus: " & FormatNumber(cPirateImplantGroups.Item(PIGroup), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "x)"
-                            Else
-                                fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString))
-                                fEffect.Cause = aImplant.Name
+                        If chkEffect.IsGang = False Then
+                            If aImplant.Attributes.Contains(chkEffect.AffectingAtt.ToString) = True Then
+                                fEffect = New FinalEffect
+                                fEffect.AffectedAtt = chkEffect.AffectedAtt
+                                fEffect.AffectedType = chkEffect.AffectedType
+                                fEffect.AffectedID = chkEffect.AffectedID
+                                If PirateImplants.Contains(aImplant.Name) = True Then
+                                    PIGroup = CStr(PirateImplants.Item(hImplant))
+                                    fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString)) * CDbl(cPirateImplantGroups.Item(PIGroup))
+                                    fEffect.Cause = aImplant.Name & " (Set Bonus: " & FormatNumber(cPirateImplantGroups.Item(PIGroup), 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "x)"
+                                Else
+                                    fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString))
+                                    fEffect.Cause = aImplant.Name
+                                End If
+                                fEffect.StackNerf = False
+                                fEffect.CalcType = chkEffect.CalcType
+                                If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                    fEffectList = New ArrayList
+                                    SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                Else
+                                    fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                                End If
+                                fEffectList.Add(fEffect)
                             End If
-                            fEffect.StackNerf = False
-                            fEffect.CalcType = chkEffect.CalcType
-                            If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
-                                fEffectList = New ArrayList
-                                SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
-                            Else
-                                fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
-                            End If
-                            fEffectList.Add(fEffect)
                         End If
                     Next
-
                 End If
             End If
         Next
