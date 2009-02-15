@@ -726,10 +726,10 @@
 #240,2,80,,3,6,0,0,0,14,Mag Strength
 #241,2,80,,3,6,0,0,0,14,Radar Strength
 # Projected ECCM,,,,,,,,,,
-#1027,2,289,211,3,6,1,0,0,14,Grav Strength
-#1028,2,289,209,3,6,1,0,0,14,Ladar Strength
-#1029,2,289,210,3,6,1,0,0,14,Mag Strength
-#1030,2,289,208,3,6,1,0,0,14,Radar Strength
+1027,2,289,211,3,6,1,0,0,16,Grav Strength
+1028,2,289,209,3,6,1,0,0,16,Ladar Strength
+1029,2,289,210,3,6,1,0,0,16,Mag Strength
+1030,2,289,208,3,6,1,0,0,16,Radar Strength
 # Remote Sensor Dampeners,,,,,,,,,,
 309,2,208,76,3,6,1,0,0,16,Max Targeting Range
 566,2,208,564,3,6,1,0,0,16,Scan Resolution

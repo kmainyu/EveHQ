@@ -983,6 +983,7 @@ Partial Class ShipSlotControl
         remoteGroups.Add(71)
         remoteGroups.Add(291)
         remoteGroups.Add(209)
+        remoteGroups.Add(289)
         remoteGroups.Add(290)
         remoteGroups.Add(208)
         remoteGroups.Add(379)
