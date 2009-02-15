@@ -679,6 +679,8 @@ Public Class frmAssets
                             Dim groupName As String = ""
                             Dim catIDX As Integer = 0
                             Dim catName As String = ""
+                            Dim metaLevel As String = ""
+                            Dim volume As String = ""
                             If itemIDX <> -1 Then
                                 itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
                                 groupID = EveHQ.Core.HQ.typeGroups(itemID).ToString
@@ -687,6 +689,16 @@ Public Class frmAssets
                                 groupName = EveHQ.Core.HQ.groupList.GetKey(groupIDX).ToString
                                 catIDX = EveHQ.Core.HQ.catList.IndexOfValue(catID)
                                 catName = EveHQ.Core.HQ.catList.GetKey(catIDX).ToString
+                                metaLevel = CType(PlugInData.Items(itemID), ItemData).MetaLevel.ToString
+                                If PlugInData.PackedVolumes.Contains(groupID) = True Then
+                                    If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
+                                        volume = FormatNumber(PlugInData.PackedVolumes(groupID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    Else
+                                        volume = FormatNumber(CType(PlugInData.Items(itemID), ItemData).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    End If
+                                Else
+                                    volume = FormatNumber(CType(PlugInData.Items(itemID), ItemData).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                End If
                             Else
                                 ' Can't find the item in the database
                                 itemName = "ItemID: " & itemID.ToString
@@ -696,6 +708,8 @@ Public Class frmAssets
                                 groupName = "Unknown"
                                 catIDX = -1
                                 catName = "Unknown"
+                                metaLevel = "0"
+                                volume = "0"
                             End If
 
                             Dim newAsset As New ContainerListViewItem
@@ -717,19 +731,21 @@ Public Class frmAssets
                                 End If
                             End If
                             newAsset.SubItems(4).Text = flagName
-                            newAsset.SubItems(5).Text = FormatNumber(loc.Attributes.GetNamedItem("quantity").Value, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            newAsset.SubItems(5).Text = metaLevel
+                            newAsset.SubItems(6).Text = volume
+                            newAsset.SubItems(7).Text = FormatNumber(loc.Attributes.GetNamedItem("quantity").Value, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                             If newAsset.Text.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
-                                newAsset.SubItems(6).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                newAsset.SubItems(8).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                 linePrice = 0
                             Else
-                                newAsset.SubItems(6).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(itemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                                If IsNumeric(newAsset.SubItems(6).Text) = True Then
-                                    linePrice = CDbl(newAsset.SubItems(5).Text) * CDbl(newAsset.SubItems(6).Text)
+                                newAsset.SubItems(8).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(itemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                If IsNumeric(newAsset.SubItems(8).Text) = True Then
+                                    linePrice = CDbl(newAsset.SubItems(7).Text) * CDbl(newAsset.SubItems(8).Text)
                                 Else
                                     linePrice = 0
                                 End If
                             End If
-                            newAsset.SubItems(7).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            newAsset.SubItems(9).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
                             ' Add the asset to the list of assets
                             Dim newAssetList As New AssetItem
@@ -742,7 +758,7 @@ Public Class frmAssets
                             newAssetList.category = catName
                             newAssetList.location = flagName
                             newAssetList.quantity = CLng(loc.Attributes.GetNamedItem("quantity").Value)
-                            newAssetList.price = CDbl(newAsset.SubItems(6).Text)
+                            newAssetList.price = CDbl(newAsset.SubItems(8).Text)
                             totalAssetCount += newAssetList.quantity
                             assetList.Add(newAssetList.itemID, newAssetList)
 
@@ -764,10 +780,10 @@ Public Class frmAssets
                 cLoc = tlvAssets.Items(cL)
                 locationPrice = 0
                 For Each cLine As ContainerListViewItem In cLoc.Items
-                    locationPrice += CDbl(cLine.SubItems(7).Text)
+                    locationPrice += CDbl(cLine.SubItems(9).Text)
                 Next
                 totalAssetValue += locationPrice
-                cLoc.SubItems(7).Text = FormatNumber(locationPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                cLoc.SubItems(9).Text = FormatNumber(locationPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 ' Delete if no child nodes at the locations
                 If cLoc.Items.Count = 0 Then
                     tlvAssets.Items.Remove(cLoc)
@@ -783,11 +799,11 @@ Public Class frmAssets
         Dim containerPrice As Double = 0
         Dim linePrice As Double = 0
         subLocList = loc.ChildNodes(0).ChildNodes
-        If IsNumeric(parentAsset.SubItems(6).Text) = True Then
-            containerPrice = CDbl(parentAsset.SubItems(6).Text)
+        If IsNumeric(parentAsset.SubItems(8).Text) = True Then
+            containerPrice = CDbl(parentAsset.SubItems(8).Text)
         Else
             containerPrice = 0
-            parentAsset.SubItems(6).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            parentAsset.SubItems(8).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         End If
         For Each subLoc In subLocList
             Try
@@ -800,6 +816,8 @@ Public Class frmAssets
                 Dim groupName As String = ""
                 Dim catIDX As Integer = 0
                 Dim catName As String = ""
+                Dim metaLevel As String = ""
+                Dim volume As String = ""
                 If ItemIDX <> -1 Then
                     itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(ItemIDX))
                     groupID = EveHQ.Core.HQ.typeGroups(ItemID).ToString
@@ -808,6 +826,16 @@ Public Class frmAssets
                     groupName = EveHQ.Core.HQ.groupList.GetKey(groupIDX).ToString
                     catIDX = EveHQ.Core.HQ.catList.IndexOfValue(catID)
                     catName = EveHQ.Core.HQ.catList.GetKey(catIDX).ToString
+                    metaLevel = CType(PlugInData.Items(ItemID), ItemData).MetaLevel.ToString
+                    If PlugInData.PackedVolumes.Contains(groupID) = True Then
+                        If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
+                            volume = FormatNumber(PlugInData.PackedVolumes(groupID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        Else
+                            volume = FormatNumber(CType(PlugInData.Items(ItemID), ItemData).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        End If
+                    Else
+                        volume = FormatNumber(CType(PlugInData.Items(ItemID), ItemData).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    End If
                 Else
                     ' Can't find the item in the database
                     itemName = "ItemID: " & ItemID.ToString
@@ -817,6 +845,8 @@ Public Class frmAssets
                     groupName = "Unknown"
                     catIDX = -1
                     catName = "Unknown"
+                    metaLevel = "0"
+                    volume = "0"
                 End If
 
                 Dim subAsset As New ContainerListViewItem
@@ -836,21 +866,23 @@ Public Class frmAssets
                     End If
                 End If
                 subAsset.SubItems(4).Text = subFlagName
-                subAsset.SubItems(5).Text = FormatNumber(subLoc.Attributes.GetNamedItem("quantity").Value, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                subAsset.SubItems(5).Text = metaLevel
+                subAsset.SubItems(6).Text = volume
+                subAsset.SubItems(7).Text = FormatNumber(subLoc.Attributes.GetNamedItem("quantity").Value, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 If subAsset.Text.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
-                    subAsset.SubItems(6).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    subAsset.SubItems(8).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     linePrice = 0
                 Else
-                    subAsset.SubItems(6).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(ItemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    If IsNumeric(subAsset.SubItems(6).Text) = True Then
-                        linePrice = CDbl(subAsset.SubItems(5).Text) * CDbl(subAsset.SubItems(6).Text)
+                    subAsset.SubItems(8).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(ItemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    If IsNumeric(subAsset.SubItems(8).Text) = True Then
+                        linePrice = CDbl(subAsset.SubItems(7).Text) * CDbl(subAsset.SubItems(8).Text)
                     Else
                         linePrice = 0
-                        subAsset.SubItems(6).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        subAsset.SubItems(8).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     End If
                 End If
                 containerPrice += linePrice
-                subAsset.SubItems(7).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                subAsset.SubItems(9).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
                 ' Add the asset to the list of assets
                 Dim newAssetList As New AssetItem
@@ -863,7 +895,7 @@ Public Class frmAssets
                 newAssetList.category = catName
                 newAssetList.location = parentAsset.Text & ": " & subFlagName
                 newAssetList.quantity = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
-                newAssetList.price = CDbl(subAsset.SubItems(6).Text)
+                newAssetList.price = CDbl(subAsset.SubItems(8).Text)
                 assetList.Add(newAssetList.itemID, newAssetList)
                 totalAssetCount += newAssetList.quantity
                 If subLoc.HasChildNodes = True Then
@@ -878,7 +910,7 @@ Public Class frmAssets
                 MessageBox.Show(msg, "Error Parsing Assets File For " & assetOwner, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End Try
         Next
-        parentAsset.SubItems(7).Text = FormatNumber(containerPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        parentAsset.SubItems(9).Text = FormatNumber(containerPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         Return containerPrice
     End Function
     Private Sub DisplayISKAssets()
@@ -962,10 +994,10 @@ Public Class frmAssets
                 iskNode.Tag = pilot
                 iskNode.Text = pilot
                 personalNode.Items.Add(iskNode)
-                iskNode.SubItems(7).Text = FormatNumber(charWallets(pilot), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                iskNode.SubItems(9).Text = FormatNumber(charWallets(pilot), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 personalCash += CDbl(charWallets(pilot))
             Next
-            personalNode.SubItems(7).Text = FormatNumber(personalCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            personalNode.SubItems(9).Text = FormatNumber(personalCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             totalCash += personalCash
         End If
         ' Add the corporate balances
@@ -988,16 +1020,16 @@ Public Class frmAssets
                     iskNode.Tag = walletDivisions(idx).ToString
                     iskNode.Text = CStr(walletDivisions(idx))
                     corpNode.Items.Add(iskNode)
-                    iskNode.SubItems(7).Text = FormatNumber(corpWalletDivisions(idx), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    iskNode.SubItems(9).Text = FormatNumber(corpWalletDivisions(idx), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     divisionCash += CDbl(corpWalletDivisions(idx))
                 Next
                 corporateCash += divisionCash
-                corpNode.SubItems(7).Text = FormatNumber(divisionCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                corpNode.SubItems(9).Text = FormatNumber(divisionCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             Next
-            corporateNode.SubItems(7).Text = FormatNumber(corporateCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            corporateNode.SubItems(9).Text = FormatNumber(corporateCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             totalCash += corporateCash
         End If
-        node.SubItems(7).Text = FormatNumber(totalCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        node.SubItems(9).Text = FormatNumber(totalCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         totalAssetValue += totalCash
     End Sub
     Private Sub DisplayInvestments()
@@ -1035,32 +1067,32 @@ Public Class frmAssets
                             Case InvestmentType.Cash
                                 invNode.SubItems(3).Text = "Cash"
                                 If inv.ValueIsCost = True Then
-                                    invNode.SubItems(7).Text = FormatNumber(inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(9).Text = FormatNumber(inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                     ownerValue += inv.CurrentCost
                                 Else
-                                    invNode.SubItems(7).Text = FormatNumber(inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(9).Text = FormatNumber(inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                     ownerValue += inv.CurrentValue
                                 End If
                             Case InvestmentType.Shares
                                 invNode.SubItems(3).Text = "Shares"
-                                invNode.SubItems(5).Text = FormatNumber(inv.CurrentQuantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                invNode.SubItems(7).Text = FormatNumber(inv.CurrentQuantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                 If inv.ValueIsCost = True Then
-                                    invNode.SubItems(6).Text = FormatNumber(inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                                    invNode.SubItems(7).Text = FormatNumber(inv.CurrentQuantity * inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(8).Text = FormatNumber(inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(9).Text = FormatNumber(inv.CurrentQuantity * inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                     ownerValue += (inv.CurrentQuantity * inv.CurrentCost)
                                 Else
-                                    invNode.SubItems(6).Text = FormatNumber(inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                                    invNode.SubItems(7).Text = FormatNumber(inv.CurrentQuantity * inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(8).Text = FormatNumber(inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(9).Text = FormatNumber(inv.CurrentQuantity * inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                     ownerValue += (inv.CurrentQuantity * inv.CurrentValue)
                                 End If
                         End Select
                     End If
                 Next
-                ownerNode.SubItems(7).Text = FormatNumber(ownerValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ownerNode.SubItems(9).Text = FormatNumber(ownerValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 totalValue += ownerValue
             End If
         Next
-        investNode.SubItems(7).Text = FormatNumber(totalValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        investNode.SubItems(9).Text = FormatNumber(totalValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         totalAssetValue += totalValue
     End Sub
 #End Region
@@ -2244,7 +2276,7 @@ Public Class frmAssets
             If tlvAssets.SelectedItems.Count = 1 Then
                 Dim itemName As String = tlvAssets.SelectedItems(0).Text
                 If itemName <> "Cash Balances" And itemName <> "Investments" Then
-                    If EveHQ.Core.HQ.itemList.Contains(itemName) = True And itemName <> "Office" And tlvAssets.SelectedItems(0).SubItems(5).Text <> "" Then
+                    If EveHQ.Core.HQ.itemList.Contains(itemName) = True And itemName <> "Office" And tlvAssets.SelectedItems(0).SubItems(7).Text <> "" Then
                         mnuItemName.Text = itemName
                         mnuItemName.Tag = EveHQ.Core.HQ.itemList(itemName)
                         mnuViewInIB.Visible = True
@@ -3095,16 +3127,16 @@ Public Class frmAssets
         tempAssetList.Clear()
         For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
             If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(asset.Text)) = True Then
-                If asset.SubItems(5).Text <> "" Then
+                If asset.SubItems(7).Text <> "" Then
                     If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(5).Text)
+                        recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(7).Text)
                         tempAssetList.Add(asset.Tag.ToString)
                     End If
                 End If
             Else
-                If asset.SubItems(5).Text <> "" Then
+                If asset.SubItems(7).Text <> "" Then
                     If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(5).Text))
+                        recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(7).Text))
                         tempAssetList.Add(asset.Tag.ToString)
                     End If
                 End If
@@ -3139,16 +3171,16 @@ Public Class frmAssets
         tempAssetList.Clear()
         For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
             If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(asset.Text)) = True Then
-                If asset.SubItems(5).Text <> "" Then
+                If asset.SubItems(7).Text <> "" Then
                     If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(5).Text)
+                        recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(7).Text)
                         tempAssetList.Add(asset.Tag.ToString)
                     End If
                 End If
             Else
-                If asset.SubItems(5).Text <> "" Then
+                If asset.SubItems(7).Text <> "" Then
                     If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(5).Text))
+                        recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(7).Text))
                         tempAssetList.Add(asset.Tag.ToString)
                     End If
                 End If
@@ -3167,16 +3199,16 @@ Public Class frmAssets
     Private Sub AddItemsToRecycleList(ByVal item As ContainerListViewItem, ByRef assetList As SortedList)
         For Each childItem As ContainerListViewItem In item.Items
             If assetList.ContainsKey(EveHQ.Core.HQ.itemList(childItem.Text)) = True Then
-                If childItem.SubItems(5).Text <> "" Then
+                If childItem.SubItems(7).Text <> "" Then
                     If tempAssetList.Contains(childItem.Tag.ToString) = False Then
-                        assetList(EveHQ.Core.HQ.itemList(childItem.Text)) = CLng(assetList(EveHQ.Core.HQ.itemList(childItem.Text))) + CLng(childItem.SubItems(5).Text)
+                        assetList(EveHQ.Core.HQ.itemList(childItem.Text)) = CLng(assetList(EveHQ.Core.HQ.itemList(childItem.Text))) + CLng(childItem.SubItems(7).Text)
                         tempAssetList.Add(childItem.Tag.ToString)
                     End If
                 End If
             Else
-                If childItem.SubItems(5).Text <> "" Then
+                If childItem.SubItems(7).Text <> "" Then
                     If tempAssetList.Contains(childItem.Tag.ToString) = False Then
-                        assetList.Add(EveHQ.Core.HQ.itemList(childItem.Text), CLng(childItem.SubItems(5).Text))
+                        assetList.Add(EveHQ.Core.HQ.itemList(childItem.Text), CLng(childItem.SubItems(7).Text))
                         tempAssetList.Add(childItem.Tag.ToString)
                     End If
                 End If
@@ -3196,10 +3228,20 @@ Public Class frmAssets
 
 #End Region
 
-   
-    
-  
-
-   
+    Private Sub tlvAssets_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tlvAssets.SelectedItemsChanged
+        If tlvAssets.SelectedItems.Count > 0 Then
+            Dim volume, value, quantity As Double
+            For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
+                If asset.SubItems(7).Text <> "" Then
+                    volume += CDbl(asset.SubItems(6).Text)
+                    quantity += CDbl(asset.SubItems(7).Text)
+                    value += CDbl(asset.SubItems(9).Text)
+                End If
+            Next
+            tssLabelSelectedAssets.Text = "Volume = " & FormatNumber(volume, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³ : Value = " & FormatNumber(value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ISK"
+        Else
+            tssLabelSelectedAssets.Text = ""
+        End If
+    End Sub
 End Class
 

@@ -23,20 +23,20 @@ Partial Class frmAssets
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAssets))
         Me.lblSelectChar = New System.Windows.Forms.Label
         Me.cboPilots = New System.Windows.Forms.ComboBox
         Me.tlvAssets = New DotNetLib.Windows.Forms.ContainerListView
-        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader8 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader6 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader7 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader3 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader2 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader4 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader5 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colOwner = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colGroup = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colCategory = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colValue = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxAssets = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
@@ -178,6 +178,10 @@ Partial Class frmAssets
         Me.mnuAssetListValue = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueA = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueD = New System.Windows.Forms.ToolStripMenuItem
+        Me.colVolume = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colMetaLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.tssLabelSelectedAssets = New System.Windows.Forms.ToolStripStatusLabel
+        Me.tssLabelSelectedAssetsLabel = New System.Windows.Forms.ToolStripStatusLabel
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -218,7 +222,7 @@ Partial Class frmAssets
         Me.tlvAssets.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.tlvAssets.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1, Me.ContainerListViewColumnHeader8, Me.ContainerListViewColumnHeader6, Me.ContainerListViewColumnHeader7, Me.ContainerListViewColumnHeader3, Me.ContainerListViewColumnHeader2, Me.ContainerListViewColumnHeader4, Me.ContainerListViewColumnHeader5})
+        Me.tlvAssets.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colItem, Me.colOwner, Me.colGroup, Me.colCategory, Me.colLocation, Me.colMetaLevel, Me.colVolume, Me.colQuantity, Me.colPrice, Me.colValue})
         Me.tlvAssets.ColumnSortColor = System.Drawing.Color.AliceBlue
         Me.tlvAssets.ColumnTracking = True
         Me.tlvAssets.ColumnTrackingColor = System.Drawing.Color.LightCyan
@@ -234,83 +238,83 @@ Partial Class frmAssets
         Me.tlvAssets.ShowPlusMinus = True
         Me.tlvAssets.ShowRootTreeLines = True
         Me.tlvAssets.ShowTreeLines = True
-        Me.tlvAssets.Size = New System.Drawing.Size(1112, 455)
+        Me.tlvAssets.Size = New System.Drawing.Size(1130, 455)
         Me.tlvAssets.TabIndex = 6
         '
-        'ContainerListViewColumnHeader1
+        'colItem
         '
-        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader1.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.ContainerListViewColumnHeader1.Tag = Nothing
-        Me.ContainerListViewColumnHeader1.Text = "Location/ItemName"
-        Me.ContainerListViewColumnHeader1.Width = 300
-        Me.ContainerListViewColumnHeader1.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
+        Me.colItem.CustomSortTag = Nothing
+        Me.colItem.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colItem.Tag = Nothing
+        Me.colItem.Text = "Location/ItemName"
+        Me.colItem.Width = 300
+        Me.colItem.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
         '
-        'ContainerListViewColumnHeader8
+        'colOwner
         '
-        Me.ContainerListViewColumnHeader8.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader8.DisplayIndex = 1
-        Me.ContainerListViewColumnHeader8.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.ContainerListViewColumnHeader8.Tag = Nothing
-        Me.ContainerListViewColumnHeader8.Text = "Owner"
-        Me.ContainerListViewColumnHeader8.Width = 100
+        Me.colOwner.CustomSortTag = Nothing
+        Me.colOwner.DisplayIndex = 1
+        Me.colOwner.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colOwner.Tag = Nothing
+        Me.colOwner.Text = "Owner"
+        Me.colOwner.Width = 100
         '
-        'ContainerListViewColumnHeader6
+        'colGroup
         '
-        Me.ContainerListViewColumnHeader6.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader6.DisplayIndex = 2
-        Me.ContainerListViewColumnHeader6.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.ContainerListViewColumnHeader6.Tag = Nothing
-        Me.ContainerListViewColumnHeader6.Text = "Group"
+        Me.colGroup.CustomSortTag = Nothing
+        Me.colGroup.DisplayIndex = 2
+        Me.colGroup.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colGroup.Tag = Nothing
+        Me.colGroup.Text = "Group"
         '
-        'ContainerListViewColumnHeader7
+        'colCategory
         '
-        Me.ContainerListViewColumnHeader7.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader7.DisplayIndex = 3
-        Me.ContainerListViewColumnHeader7.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.ContainerListViewColumnHeader7.Tag = Nothing
-        Me.ContainerListViewColumnHeader7.Text = "Category"
+        Me.colCategory.CustomSortTag = Nothing
+        Me.colCategory.DisplayIndex = 3
+        Me.colCategory.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colCategory.Tag = Nothing
+        Me.colCategory.Text = "Category"
         '
-        'ContainerListViewColumnHeader3
+        'colLocation
         '
-        Me.ContainerListViewColumnHeader3.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.ContainerListViewColumnHeader3.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader3.DisplayIndex = 4
-        Me.ContainerListViewColumnHeader3.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.ContainerListViewColumnHeader3.Tag = Nothing
-        Me.ContainerListViewColumnHeader3.Text = "Specific Location"
-        Me.ContainerListViewColumnHeader3.Width = 150
+        Me.colLocation.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.colLocation.CustomSortTag = Nothing
+        Me.colLocation.DisplayIndex = 4
+        Me.colLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colLocation.Tag = Nothing
+        Me.colLocation.Text = "Specific Location"
+        Me.colLocation.Width = 150
         '
-        'ContainerListViewColumnHeader2
+        'colQuantity
         '
-        Me.ContainerListViewColumnHeader2.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader2.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader2.DisplayIndex = 5
-        Me.ContainerListViewColumnHeader2.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader2.Tag = Nothing
-        Me.ContainerListViewColumnHeader2.Text = "Quantity"
-        Me.ContainerListViewColumnHeader2.Width = 100
-        Me.ContainerListViewColumnHeader2.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
+        Me.colQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colQuantity.CustomSortTag = Nothing
+        Me.colQuantity.DisplayIndex = 7
+        Me.colQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colQuantity.Tag = Nothing
+        Me.colQuantity.Text = "Quantity"
+        Me.colQuantity.Width = 100
+        Me.colQuantity.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
         '
-        'ContainerListViewColumnHeader4
+        'colPrice
         '
-        Me.ContainerListViewColumnHeader4.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader4.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader4.DisplayIndex = 6
-        Me.ContainerListViewColumnHeader4.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader4.Tag = Nothing
-        Me.ContainerListViewColumnHeader4.Text = "Price"
-        Me.ContainerListViewColumnHeader4.Width = 125
+        Me.colPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colPrice.CustomSortTag = Nothing
+        Me.colPrice.DisplayIndex = 8
+        Me.colPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colPrice.Tag = Nothing
+        Me.colPrice.Text = "Price"
+        Me.colPrice.Width = 125
         '
-        'ContainerListViewColumnHeader5
+        'colValue
         '
-        Me.ContainerListViewColumnHeader5.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader5.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader5.DisplayIndex = 7
-        Me.ContainerListViewColumnHeader5.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader5.Tag = Nothing
-        Me.ContainerListViewColumnHeader5.Text = "Total Value"
-        Me.ContainerListViewColumnHeader5.Width = 125
+        Me.colValue.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colValue.CustomSortTag = Nothing
+        Me.colValue.DisplayIndex = 9
+        Me.colValue.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colValue.Tag = Nothing
+        Me.colValue.Text = "Total Value"
+        Me.colValue.Width = 125
         '
         'ctxAssets
         '
@@ -463,7 +467,7 @@ Partial Class frmAssets
         Me.TabControl1.Location = New System.Drawing.Point(0, 28)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1126, 567)
+        Me.TabControl1.Size = New System.Drawing.Size(1144, 567)
         Me.TabControl1.TabIndex = 14
         '
         'tabAssets
@@ -484,7 +488,7 @@ Partial Class frmAssets
         Me.tabAssets.Location = New System.Drawing.Point(4, 22)
         Me.tabAssets.Name = "tabAssets"
         Me.tabAssets.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabAssets.Size = New System.Drawing.Size(1118, 541)
+        Me.tabAssets.Size = New System.Drawing.Size(1136, 541)
         Me.tabAssets.TabIndex = 0
         Me.tabAssets.Text = "Assets"
         Me.tabAssets.UseVisualStyleBackColor = True
@@ -641,11 +645,11 @@ Partial Class frmAssets
         '
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup5.Header = "Corporation"
-        ListViewGroup5.Name = "grpCorporation"
-        ListViewGroup6.Header = "Personal"
-        ListViewGroup6.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup3.Header = "Corporation"
+        ListViewGroup3.Name = "grpCorporation"
+        ListViewGroup4.Header = "Personal"
+        ListViewGroup4.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -1399,10 +1403,10 @@ Partial Class frmAssets
         '
         'StatusStrip1
         '
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tssLabelTotalAssetsLabel, Me.tssLabelTotalAssets})
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tssLabelTotalAssetsLabel, Me.tssLabelTotalAssets, Me.tssLabelSelectedAssetsLabel, Me.tssLabelSelectedAssets})
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 598)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(1126, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1144, 22)
         Me.StatusStrip1.TabIndex = 15
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -1414,15 +1418,19 @@ Partial Class frmAssets
         '
         'tssLabelTotalAssets
         '
+        Me.tssLabelTotalAssets.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.tssLabelTotalAssets.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
         Me.tssLabelTotalAssets.Name = "tssLabelTotalAssets"
-        Me.tssLabelTotalAssets.Size = New System.Drawing.Size(0, 17)
+        Me.tssLabelTotalAssets.Size = New System.Drawing.Size(4, 17)
         '
         'ToolStrip1
         '
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbDownloadAssets, Me.ToolStripSeparator1, Me.tsbDownloadOutposts, Me.ToolStripSeparator3, Me.tsbRefreshAssets, Me.ToolStripSeparator2, Me.tsbReports})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(1126, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(1144, 25)
         Me.ToolStrip1.TabIndex = 16
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -1554,11 +1562,43 @@ Partial Class frmAssets
         Me.mnuAssetListValueD.Size = New System.Drawing.Size(136, 22)
         Me.mnuAssetListValueD.Text = "Descending"
         '
+        'colVolume
+        '
+        Me.colVolume.CustomSortTag = Nothing
+        Me.colVolume.DisplayIndex = 6
+        Me.colVolume.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colVolume.Tag = Nothing
+        Me.colVolume.Text = "Volume"
+        '
+        'colMetaLevel
+        '
+        Me.colMetaLevel.CustomSortTag = Nothing
+        Me.colMetaLevel.DisplayIndex = 5
+        Me.colMetaLevel.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.colMetaLevel.Tag = Nothing
+        Me.colMetaLevel.Text = "Meta"
+        Me.colMetaLevel.Width = 60
+        '
+        'tssLabelSelectedAssets
+        '
+        Me.tssLabelSelectedAssets.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.tssLabelSelectedAssets.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
+        Me.tssLabelSelectedAssets.Name = "tssLabelSelectedAssets"
+        Me.tssLabelSelectedAssets.Size = New System.Drawing.Size(4, 17)
+        '
+        'tssLabelSelectedAssetsLabel
+        '
+        Me.tssLabelSelectedAssetsLabel.Name = "tssLabelSelectedAssetsLabel"
+        Me.tssLabelSelectedAssetsLabel.Size = New System.Drawing.Size(162, 17)
+        Me.tssLabelSelectedAssetsLabel.Text = "     Total Selected Asset Value:"
+        '
         'frmAssets
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1126, 620)
+        Me.ClientSize = New System.Drawing.Size(1144, 620)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.TabControl1)
@@ -1592,14 +1632,14 @@ Partial Class frmAssets
     Friend WithEvents lblSelectChar As System.Windows.Forms.Label
     Friend WithEvents cboPilots As System.Windows.Forms.ComboBox
     Friend WithEvents tlvAssets As DotNetLib.Windows.Forms.ContainerListView
-    Friend WithEvents ContainerListViewColumnHeader1 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader2 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader3 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader4 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader5 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colItem As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colQuantity As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colLocation As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colPrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colValue As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents chkExcludeBPs As System.Windows.Forms.CheckBox
-    Friend WithEvents ContainerListViewColumnHeader6 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader7 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colGroup As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colCategory As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents tvwFilter As System.Windows.Forms.TreeView
     Friend WithEvents lblGroupFilter As System.Windows.Forms.Label
     Friend WithEvents lstFilters As System.Windows.Forms.ListBox
@@ -1628,7 +1668,7 @@ Partial Class frmAssets
     Friend WithEvents tsbDownloadAssets As System.Windows.Forms.ToolStripButton
     Friend WithEvents lblCharFilter As System.Windows.Forms.Label
     Friend WithEvents lvwCharFilter As System.Windows.Forms.ListView
-    Friend WithEvents ContainerListViewColumnHeader8 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colOwner As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtSearch As System.Windows.Forms.TextBox
     Friend WithEvents colOwnerName As System.Windows.Forms.ColumnHeader
@@ -1741,4 +1781,8 @@ Partial Class frmAssets
     Friend WithEvents mnuRecycleItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuRecycleContained As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuRecycleAll As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents colMetaLevel As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colVolume As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents tssLabelSelectedAssets As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents tssLabelSelectedAssetsLabel As System.Windows.Forms.ToolStripStatusLabel
 End Class

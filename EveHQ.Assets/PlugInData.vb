@@ -9,6 +9,7 @@ Public Class PlugInData
     Public Shared stations As New SortedList
     Public Shared NPCCorps As New SortedList
     Public Shared Corps As New SortedList
+    Public Shared PackedVolumes As New SortedList
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -63,6 +64,7 @@ Public Class PlugInData
             Return False
         Else
             Call Me.LoadItemFlags()
+            Call Me.LoadPackedVolumes()
             If Me.LoadStations = False Then
                 Return False
                 Exit Function
@@ -140,6 +142,42 @@ Public Class PlugInData
             Return False
         End Try
     End Function
+    Private Sub LoadPackedVolumes()
+        PackedVolumes.Clear()
+        PackedVolumes.Add("31", 500)
+        PackedVolumes.Add("324", 2500)
+        PackedVolumes.Add("419", 15000)
+        PackedVolumes.Add("27", 50000)
+        PackedVolumes.Add("898", 50000)
+        PackedVolumes.Add("547", 1000000)
+        PackedVolumes.Add("659", 1000000)
+        PackedVolumes.Add("540", 15000)
+        PackedVolumes.Add("830", 2500)
+        PackedVolumes.Add("834", 2500)
+        PackedVolumes.Add("26", 10000)
+        PackedVolumes.Add("420", 5000)
+        PackedVolumes.Add("485", 1000000)
+        PackedVolumes.Add("893", 2500)
+        PackedVolumes.Add("543", 3750)
+        PackedVolumes.Add("513", 1000000)
+        PackedVolumes.Add("25", 2500)
+        PackedVolumes.Add("358", 10000)
+        PackedVolumes.Add("894", 10000)
+        PackedVolumes.Add("28", 20000)
+        PackedVolumes.Add("831", 2500)
+        PackedVolumes.Add("541", 5000)
+        PackedVolumes.Add("902", 1000000)
+        PackedVolumes.Add("832", 10000)
+        PackedVolumes.Add("900", 50000)
+        PackedVolumes.Add("463", 3750)
+        PackedVolumes.Add("906", 10000)
+        PackedVolumes.Add("833", 10000)
+        PackedVolumes.Add("30", 10000000)
+        PackedVolumes.Add("380", 20000)
+        PackedVolumes.Add("941", 500000)
+        PackedVolumes.Add("883", 1000000)
+        PackedVolumes.Add("237", 2500)
+    End Sub
     Private Sub LoadItemFlags()
         itemFlags.Add(0, "None")
         itemFlags.Add(1, "Wallet")
