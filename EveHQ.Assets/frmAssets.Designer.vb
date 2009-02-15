@@ -23,8 +23,8 @@ Partial Class frmAssets
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAssets))
         Me.lblSelectChar = New System.Windows.Forms.Label
         Me.cboPilots = New System.Windows.Forms.ComboBox
@@ -34,6 +34,8 @@ Partial Class frmAssets
         Me.colGroup = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colCategory = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colMetaLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colVolume = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colValue = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -91,6 +93,7 @@ Partial Class frmAssets
         Me.colStatus = New System.Windows.Forms.ColumnHeader
         Me.colCacheTime = New System.Windows.Forms.ColumnHeader
         Me.tabInvestments = New System.Windows.Forms.TabPage
+        Me.btnReOpenInvestment = New System.Windows.Forms.Button
         Me.chkViewClosedInvestments = New System.Windows.Forms.CheckBox
         Me.btnCloseInvestment = New System.Windows.Forms.Button
         Me.btnEditInvestment = New System.Windows.Forms.Button
@@ -158,6 +161,8 @@ Partial Class frmAssets
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
         Me.tssLabelTotalAssetsLabel = New System.Windows.Forms.ToolStripStatusLabel
         Me.tssLabelTotalAssets = New System.Windows.Forms.ToolStripStatusLabel
+        Me.tssLabelSelectedAssetsLabel = New System.Windows.Forms.ToolStripStatusLabel
+        Me.tssLabelSelectedAssets = New System.Windows.Forms.ToolStripStatusLabel
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip
         Me.tsbDownloadAssets = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
@@ -178,10 +183,6 @@ Partial Class frmAssets
         Me.mnuAssetListValue = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueA = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueD = New System.Windows.Forms.ToolStripMenuItem
-        Me.colVolume = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colMetaLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.tssLabelSelectedAssets = New System.Windows.Forms.ToolStripStatusLabel
-        Me.tssLabelSelectedAssetsLabel = New System.Windows.Forms.ToolStripStatusLabel
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -284,6 +285,23 @@ Partial Class frmAssets
         Me.colLocation.Tag = Nothing
         Me.colLocation.Text = "Specific Location"
         Me.colLocation.Width = 150
+        '
+        'colMetaLevel
+        '
+        Me.colMetaLevel.CustomSortTag = Nothing
+        Me.colMetaLevel.DisplayIndex = 5
+        Me.colMetaLevel.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.colMetaLevel.Tag = Nothing
+        Me.colMetaLevel.Text = "Meta"
+        Me.colMetaLevel.Width = 60
+        '
+        'colVolume
+        '
+        Me.colVolume.CustomSortTag = Nothing
+        Me.colVolume.DisplayIndex = 6
+        Me.colVolume.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colVolume.Tag = Nothing
+        Me.colVolume.Text = "Volume"
         '
         'colQuantity
         '
@@ -591,7 +609,7 @@ Partial Class frmAssets
         Me.tabFilters.Controls.Add(Me.tvwFilter)
         Me.tabFilters.Location = New System.Drawing.Point(4, 22)
         Me.tabFilters.Name = "tabFilters"
-        Me.tabFilters.Size = New System.Drawing.Size(1118, 541)
+        Me.tabFilters.Size = New System.Drawing.Size(1136, 541)
         Me.tabFilters.TabIndex = 2
         Me.tabFilters.Text = "Filters"
         Me.tabFilters.UseVisualStyleBackColor = True
@@ -645,11 +663,11 @@ Partial Class frmAssets
         '
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup3.Header = "Corporation"
-        ListViewGroup3.Name = "grpCorporation"
-        ListViewGroup4.Header = "Personal"
-        ListViewGroup4.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Corporation"
+        ListViewGroup1.Name = "grpCorporation"
+        ListViewGroup2.Header = "Personal"
+        ListViewGroup2.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -682,7 +700,7 @@ Partial Class frmAssets
         Me.tabAssetsAPI.Location = New System.Drawing.Point(4, 22)
         Me.tabAssetsAPI.Name = "tabAssetsAPI"
         Me.tabAssetsAPI.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabAssetsAPI.Size = New System.Drawing.Size(1118, 541)
+        Me.tabAssetsAPI.Size = New System.Drawing.Size(1136, 541)
         Me.tabAssetsAPI.TabIndex = 1
         Me.tabAssetsAPI.Text = "API Status"
         Me.tabAssetsAPI.UseVisualStyleBackColor = True
@@ -777,6 +795,7 @@ Partial Class frmAssets
         '
         'tabInvestments
         '
+        Me.tabInvestments.Controls.Add(Me.btnReOpenInvestment)
         Me.tabInvestments.Controls.Add(Me.chkViewClosedInvestments)
         Me.tabInvestments.Controls.Add(Me.btnCloseInvestment)
         Me.tabInvestments.Controls.Add(Me.btnEditInvestment)
@@ -790,10 +809,20 @@ Partial Class frmAssets
         Me.tabInvestments.Controls.Add(Me.lvwInvestments)
         Me.tabInvestments.Location = New System.Drawing.Point(4, 22)
         Me.tabInvestments.Name = "tabInvestments"
-        Me.tabInvestments.Size = New System.Drawing.Size(1118, 541)
+        Me.tabInvestments.Size = New System.Drawing.Size(1136, 541)
         Me.tabInvestments.TabIndex = 3
         Me.tabInvestments.Text = "Investments"
         Me.tabInvestments.UseVisualStyleBackColor = True
+        '
+        'btnReOpenInvestment
+        '
+        Me.btnReOpenInvestment.Location = New System.Drawing.Point(645, 223)
+        Me.btnReOpenInvestment.Name = "btnReOpenInvestment"
+        Me.btnReOpenInvestment.Size = New System.Drawing.Size(110, 23)
+        Me.btnReOpenInvestment.TabIndex = 13
+        Me.btnReOpenInvestment.Text = "Reopen Investment"
+        Me.btnReOpenInvestment.UseVisualStyleBackColor = True
+        Me.btnReOpenInvestment.Visible = False
         '
         'chkViewClosedInvestments
         '
@@ -1014,7 +1043,7 @@ Partial Class frmAssets
         Me.tabRigBuilder.Controls.Add(Me.lblRigOwnerFilter)
         Me.tabRigBuilder.Location = New System.Drawing.Point(4, 22)
         Me.tabRigBuilder.Name = "tabRigBuilder"
-        Me.tabRigBuilder.Size = New System.Drawing.Size(1118, 541)
+        Me.tabRigBuilder.Size = New System.Drawing.Size(1136, 541)
         Me.tabRigBuilder.TabIndex = 4
         Me.tabRigBuilder.Text = "Rig Builder"
         Me.tabRigBuilder.UseVisualStyleBackColor = True
@@ -1425,6 +1454,21 @@ Partial Class frmAssets
         Me.tssLabelTotalAssets.Name = "tssLabelTotalAssets"
         Me.tssLabelTotalAssets.Size = New System.Drawing.Size(4, 17)
         '
+        'tssLabelSelectedAssetsLabel
+        '
+        Me.tssLabelSelectedAssetsLabel.Name = "tssLabelSelectedAssetsLabel"
+        Me.tssLabelSelectedAssetsLabel.Size = New System.Drawing.Size(162, 17)
+        Me.tssLabelSelectedAssetsLabel.Text = "     Total Selected Asset Value:"
+        '
+        'tssLabelSelectedAssets
+        '
+        Me.tssLabelSelectedAssets.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.tssLabelSelectedAssets.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
+        Me.tssLabelSelectedAssets.Name = "tssLabelSelectedAssets"
+        Me.tssLabelSelectedAssets.Size = New System.Drawing.Size(4, 17)
+        '
         'ToolStrip1
         '
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbDownloadAssets, Me.ToolStripSeparator1, Me.tsbDownloadOutposts, Me.ToolStripSeparator3, Me.tsbRefreshAssets, Me.ToolStripSeparator2, Me.tsbReports})
@@ -1561,38 +1605,6 @@ Partial Class frmAssets
         Me.mnuAssetListValueD.Name = "mnuAssetListValueD"
         Me.mnuAssetListValueD.Size = New System.Drawing.Size(136, 22)
         Me.mnuAssetListValueD.Text = "Descending"
-        '
-        'colVolume
-        '
-        Me.colVolume.CustomSortTag = Nothing
-        Me.colVolume.DisplayIndex = 6
-        Me.colVolume.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colVolume.Tag = Nothing
-        Me.colVolume.Text = "Volume"
-        '
-        'colMetaLevel
-        '
-        Me.colMetaLevel.CustomSortTag = Nothing
-        Me.colMetaLevel.DisplayIndex = 5
-        Me.colMetaLevel.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
-        Me.colMetaLevel.Tag = Nothing
-        Me.colMetaLevel.Text = "Meta"
-        Me.colMetaLevel.Width = 60
-        '
-        'tssLabelSelectedAssets
-        '
-        Me.tssLabelSelectedAssets.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
-        Me.tssLabelSelectedAssets.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
-        Me.tssLabelSelectedAssets.Name = "tssLabelSelectedAssets"
-        Me.tssLabelSelectedAssets.Size = New System.Drawing.Size(4, 17)
-        '
-        'tssLabelSelectedAssetsLabel
-        '
-        Me.tssLabelSelectedAssetsLabel.Name = "tssLabelSelectedAssetsLabel"
-        Me.tssLabelSelectedAssetsLabel.Size = New System.Drawing.Size(162, 17)
-        Me.tssLabelSelectedAssetsLabel.Text = "     Total Selected Asset Value:"
         '
         'frmAssets
         '
@@ -1785,4 +1797,5 @@ Partial Class frmAssets
     Friend WithEvents colVolume As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents tssLabelSelectedAssets As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents tssLabelSelectedAssetsLabel As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents btnReOpenInvestment As System.Windows.Forms.Button
 End Class

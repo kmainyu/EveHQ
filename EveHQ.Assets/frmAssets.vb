@@ -1978,9 +1978,11 @@ Public Class frmAssets
             If myInvestment.DateClosed.Year > 1 Then
                 btnAddTransaction.Enabled = False
                 btnEditTransaction.Enabled = False
+                btnReOpenInvestment.Visible = True
             Else
                 btnAddTransaction.Enabled = True
                 btnEditTransaction.Enabled = True
+                btnReOpenInvestment.Visible = False
             End If
         End If
     End Sub
@@ -2261,7 +2263,28 @@ Public Class frmAssets
                 Dim editInv As Investment = CType(Portfolio.Investments(CLng(lvwInvestments.SelectedItems(0).Text)), Investment)
                 editInv.DateClosed = Now
                 Call Me.ListInvestments()
+                Call Me.SaveInvestments()
                 lvwTransactions.Items.Clear()
+            End If
+        End If
+    End Sub
+    Private Sub btnReOpenInvestment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReOpenInvestment.Click
+        If lvwInvestments.SelectedItems.Count = 0 Then
+            MessageBox.Show("You must select an Investment before closing it!", "Reopen Investment Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        Else
+            ' Put up the warning about reopening
+            Dim msg As New StringBuilder
+            msg.AppendLine("Are you sure you wish to re-open this investment?")
+            Dim reply As Integer = MessageBox.Show(msg.ToString, "Confirm Re-open Investment?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If reply = Windows.Forms.DialogResult.No Then
+                Exit Sub
+            Else
+                Dim editInv As Investment = CType(Portfolio.Investments(CLng(lvwInvestments.SelectedItems(0).Text)), Investment)
+                editInv.DateClosed = New Date(1, 1, 1)
+                Call Me.ListInvestments()
+                Call Me.SaveInvestments()
+                btnReOpenInvestment.Visible = False
             End If
         End If
     End Sub
@@ -3247,5 +3270,7 @@ Public Class frmAssets
             tssLabelSelectedAssets.Text = ""
         End If
     End Sub
+
+   
 End Class
 
