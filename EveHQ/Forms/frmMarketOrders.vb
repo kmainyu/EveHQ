@@ -90,6 +90,7 @@ Public Class frmMarketOrders
         Dim orderDetails(), oDate As String
         Dim issueDate As Date
         Dim TimeFormat As String = "yyyy-MM-dd HH:mm:ss.fff"
+        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim orderExpires As TimeSpan
         Dim orderExpiry As String = ""
         Dim oReg, oSys, oStation As Long
@@ -128,6 +129,7 @@ Public Class frmMarketOrders
             orderDetails = order.Split(",".ToCharArray)
 
             oPrice = CDbl(orderDetails(0).Trim)
+            oPrice = Double.Parse(orderDetails(0).Trim, Globalization.NumberStyles.Number, culture)
             oVol = CLng(orderDetails(1).Trim)
             oTypeID = CLng(orderDetails(2).Trim)
             oRange = CLng(orderDetails(3).Trim)
