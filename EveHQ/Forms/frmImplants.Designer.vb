@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmNeuralRemap
+Partial Class frmImplants
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,40 +22,23 @@ Partial Class frmNeuralRemap
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmNeuralRemap))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmImplants))
         Me.lblDescription = New System.Windows.Forms.Label
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.PictureBox2 = New System.Windows.Forms.PictureBox
-        Me.PictureBox3 = New System.Windows.Forms.PictureBox
-        Me.PictureBox4 = New System.Windows.Forms.PictureBox
-        Me.PictureBox5 = New System.Windows.Forms.PictureBox
-        Me.lblIntelligence = New System.Windows.Forms.Label
-        Me.lblMemory = New System.Windows.Forms.Label
-        Me.lblWillpower = New System.Windows.Forms.Label
-        Me.lblCharisma = New System.Windows.Forms.Label
-        Me.lblPerception = New System.Windows.Forms.Label
-        Me.nudIBase = New System.Windows.Forms.NumericUpDown
-        Me.lblIImplant = New System.Windows.Forms.Label
+        Me.lblIBase = New System.Windows.Forms.Label
         Me.lblISkills = New System.Windows.Forms.Label
         Me.lblITotal = New System.Windows.Forms.Label
         Me.lblPTotal = New System.Windows.Forms.Label
         Me.lblPSkills = New System.Windows.Forms.Label
-        Me.lblPImplant = New System.Windows.Forms.Label
-        Me.nudPBase = New System.Windows.Forms.NumericUpDown
+        Me.lblPBase = New System.Windows.Forms.Label
         Me.lblCTotal = New System.Windows.Forms.Label
         Me.lblCSkills = New System.Windows.Forms.Label
-        Me.lblCImplant = New System.Windows.Forms.Label
-        Me.nudCBase = New System.Windows.Forms.NumericUpDown
+        Me.lblCBase = New System.Windows.Forms.Label
         Me.lblWTotal = New System.Windows.Forms.Label
         Me.lblWSkills = New System.Windows.Forms.Label
-        Me.lblWImplant = New System.Windows.Forms.Label
-        Me.nudWBase = New System.Windows.Forms.NumericUpDown
+        Me.lblWBase = New System.Windows.Forms.Label
         Me.lblMTotal = New System.Windows.Forms.Label
         Me.lblMSkills = New System.Windows.Forms.Label
-        Me.lblMImplant = New System.Windows.Forms.Label
-        Me.nudMBase = New System.Windows.Forms.NumericUpDown
-        Me.lblUnusedPointsLbl = New System.Windows.Forms.Label
-        Me.lblUnusedPoints = New System.Windows.Forms.Label
+        Me.lblMBase = New System.Windows.Forms.Label
         Me.PictureBox6 = New System.Windows.Forms.PictureBox
         Me.lblSkillQueueAnalysis = New System.Windows.Forms.Label
         Me.lblActiveSkillQueueLbl = New System.Windows.Forms.Label
@@ -74,22 +57,36 @@ Partial Class frmNeuralRemap
         Me.lblAttributePoints2 = New System.Windows.Forms.Label
         Me.lblAttributePoints1 = New System.Windows.Forms.Label
         Me.lblTimeSaving = New System.Windows.Forms.Label
-        Me.btnOptimise = New System.Windows.Forms.Button
-        Me.btnReset = New System.Windows.Forms.Button
-        Me.gbBase = New System.Windows.Forms.GroupBox
+        Me.btnResetImplants = New System.Windows.Forms.Button
+        Me.nudMImplant = New System.Windows.Forms.NumericUpDown
+        Me.nudWImplant = New System.Windows.Forms.NumericUpDown
+        Me.nudCImplant = New System.Windows.Forms.NumericUpDown
+        Me.nudPImplant = New System.Windows.Forms.NumericUpDown
+        Me.nudIImplant = New System.Windows.Forms.NumericUpDown
+        Me.lblPerceptionImplant = New System.Windows.Forms.Label
+        Me.lblCharismaImplant = New System.Windows.Forms.Label
+        Me.lblWillpowerImplant = New System.Windows.Forms.Label
+        Me.lblMemoryImplant = New System.Windows.Forms.Label
+        Me.lblIntelligenceImplant = New System.Windows.Forms.Label
+        Me.PictureBox7 = New System.Windows.Forms.PictureBox
+        Me.PictureBox8 = New System.Windows.Forms.PictureBox
+        Me.PictureBox9 = New System.Windows.Forms.PictureBox
+        Me.PictureBox10 = New System.Windows.Forms.PictureBox
+        Me.PictureBox11 = New System.Windows.Forms.PictureBox
+        Me.gbImplants = New System.Windows.Forms.GroupBox
         Me.gbSkillQueue = New System.Windows.Forms.GroupBox
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nudIBase, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nudPBase, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nudCBase, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nudWBase, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nudMBase, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbBase.SuspendLayout()
+        CType(Me.nudMImplant, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudWImplant, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudCImplant, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudPImplant, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudIImplant, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbImplants.SuspendLayout()
         Me.gbSkillQueue.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -99,125 +96,19 @@ Partial Class frmNeuralRemap
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDescription.Location = New System.Drawing.Point(15, 9)
         Me.lblDescription.Name = "lblDescription"
-        Me.lblDescription.Size = New System.Drawing.Size(506, 34)
+        Me.lblDescription.Size = New System.Drawing.Size(450, 34)
         Me.lblDescription.TabIndex = 0
-        Me.lblDescription.Text = "Neural Remapping allows you to respecify your starting base attributes which can " & _
-            "be used to optimise skill training in a particular area. Attributes must be betw" & _
-            "een 5 and 15." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        Me.lblDescription.Text = "This form allows you to see the effect of changing your implants on a particular " & _
+            "skill queue. It can also be used to see the effect of increasing skills." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
-        'PictureBox1
+        'lblIBase
         '
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(19, 31)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(64, 64)
-        Me.PictureBox1.TabIndex = 2
-        Me.PictureBox1.TabStop = False
-        '
-        'PictureBox2
-        '
-        Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
-        Me.PictureBox2.Location = New System.Drawing.Point(19, 311)
-        Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(64, 64)
-        Me.PictureBox2.TabIndex = 3
-        Me.PictureBox2.TabStop = False
-        '
-        'PictureBox3
-        '
-        Me.PictureBox3.Image = CType(resources.GetObject("PictureBox3.Image"), System.Drawing.Image)
-        Me.PictureBox3.Location = New System.Drawing.Point(19, 241)
-        Me.PictureBox3.Name = "PictureBox3"
-        Me.PictureBox3.Size = New System.Drawing.Size(64, 64)
-        Me.PictureBox3.TabIndex = 4
-        Me.PictureBox3.TabStop = False
-        '
-        'PictureBox4
-        '
-        Me.PictureBox4.Image = CType(resources.GetObject("PictureBox4.Image"), System.Drawing.Image)
-        Me.PictureBox4.Location = New System.Drawing.Point(19, 171)
-        Me.PictureBox4.Name = "PictureBox4"
-        Me.PictureBox4.Size = New System.Drawing.Size(64, 64)
-        Me.PictureBox4.TabIndex = 5
-        Me.PictureBox4.TabStop = False
-        '
-        'PictureBox5
-        '
-        Me.PictureBox5.Image = CType(resources.GetObject("PictureBox5.Image"), System.Drawing.Image)
-        Me.PictureBox5.Location = New System.Drawing.Point(19, 101)
-        Me.PictureBox5.Name = "PictureBox5"
-        Me.PictureBox5.Size = New System.Drawing.Size(64, 64)
-        Me.PictureBox5.TabIndex = 6
-        Me.PictureBox5.TabStop = False
-        '
-        'lblIntelligence
-        '
-        Me.lblIntelligence.AutoSize = True
-        Me.lblIntelligence.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblIntelligence.Location = New System.Drawing.Point(89, 31)
-        Me.lblIntelligence.Name = "lblIntelligence"
-        Me.lblIntelligence.Size = New System.Drawing.Size(78, 14)
-        Me.lblIntelligence.TabIndex = 7
-        Me.lblIntelligence.Text = "Intelligence"
-        '
-        'lblMemory
-        '
-        Me.lblMemory.AutoSize = True
-        Me.lblMemory.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMemory.Location = New System.Drawing.Point(89, 311)
-        Me.lblMemory.Name = "lblMemory"
-        Me.lblMemory.Size = New System.Drawing.Size(56, 14)
-        Me.lblMemory.TabIndex = 8
-        Me.lblMemory.Text = "Memory"
-        '
-        'lblWillpower
-        '
-        Me.lblWillpower.AutoSize = True
-        Me.lblWillpower.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblWillpower.Location = New System.Drawing.Point(89, 241)
-        Me.lblWillpower.Name = "lblWillpower"
-        Me.lblWillpower.Size = New System.Drawing.Size(67, 14)
-        Me.lblWillpower.TabIndex = 9
-        Me.lblWillpower.Text = "Willpower"
-        '
-        'lblCharisma
-        '
-        Me.lblCharisma.AutoSize = True
-        Me.lblCharisma.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCharisma.Location = New System.Drawing.Point(89, 171)
-        Me.lblCharisma.Name = "lblCharisma"
-        Me.lblCharisma.Size = New System.Drawing.Size(62, 14)
-        Me.lblCharisma.TabIndex = 10
-        Me.lblCharisma.Text = "Charisma"
-        '
-        'lblPerception
-        '
-        Me.lblPerception.AutoSize = True
-        Me.lblPerception.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPerception.Location = New System.Drawing.Point(89, 101)
-        Me.lblPerception.Name = "lblPerception"
-        Me.lblPerception.Size = New System.Drawing.Size(73, 14)
-        Me.lblPerception.TabIndex = 11
-        Me.lblPerception.Text = "Perception"
-        '
-        'nudIBase
-        '
-        Me.nudIBase.Location = New System.Drawing.Point(92, 54)
-        Me.nudIBase.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
-        Me.nudIBase.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.nudIBase.Name = "nudIBase"
-        Me.nudIBase.Size = New System.Drawing.Size(72, 21)
-        Me.nudIBase.TabIndex = 13
-        Me.nudIBase.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'lblIImplant
-        '
-        Me.lblIImplant.AutoSize = True
-        Me.lblIImplant.Location = New System.Drawing.Point(170, 56)
-        Me.lblIImplant.Name = "lblIImplant"
-        Me.lblIImplant.Size = New System.Drawing.Size(47, 13)
-        Me.lblIImplant.TabIndex = 14
-        Me.lblIImplant.Text = "Implant:"
+        Me.lblIBase.AutoSize = True
+        Me.lblIBase.Location = New System.Drawing.Point(170, 56)
+        Me.lblIBase.Name = "lblIBase"
+        Me.lblIBase.Size = New System.Drawing.Size(34, 13)
+        Me.lblIBase.TabIndex = 14
+        Me.lblIBase.Text = "Base:"
         '
         'lblISkills
         '
@@ -255,24 +146,14 @@ Partial Class frmNeuralRemap
         Me.lblPSkills.TabIndex = 20
         Me.lblPSkills.Text = "Skills:"
         '
-        'lblPImplant
+        'lblPBase
         '
-        Me.lblPImplant.AutoSize = True
-        Me.lblPImplant.Location = New System.Drawing.Point(170, 126)
-        Me.lblPImplant.Name = "lblPImplant"
-        Me.lblPImplant.Size = New System.Drawing.Size(47, 13)
-        Me.lblPImplant.TabIndex = 19
-        Me.lblPImplant.Text = "Implant:"
-        '
-        'nudPBase
-        '
-        Me.nudPBase.Location = New System.Drawing.Point(92, 124)
-        Me.nudPBase.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
-        Me.nudPBase.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.nudPBase.Name = "nudPBase"
-        Me.nudPBase.Size = New System.Drawing.Size(72, 21)
-        Me.nudPBase.TabIndex = 18
-        Me.nudPBase.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.lblPBase.AutoSize = True
+        Me.lblPBase.Location = New System.Drawing.Point(170, 126)
+        Me.lblPBase.Name = "lblPBase"
+        Me.lblPBase.Size = New System.Drawing.Size(34, 13)
+        Me.lblPBase.TabIndex = 19
+        Me.lblPBase.Text = "Base:"
         '
         'lblCTotal
         '
@@ -292,24 +173,14 @@ Partial Class frmNeuralRemap
         Me.lblCSkills.TabIndex = 25
         Me.lblCSkills.Text = "Skills:"
         '
-        'lblCImplant
+        'lblCBase
         '
-        Me.lblCImplant.AutoSize = True
-        Me.lblCImplant.Location = New System.Drawing.Point(170, 196)
-        Me.lblCImplant.Name = "lblCImplant"
-        Me.lblCImplant.Size = New System.Drawing.Size(47, 13)
-        Me.lblCImplant.TabIndex = 24
-        Me.lblCImplant.Text = "Implant:"
-        '
-        'nudCBase
-        '
-        Me.nudCBase.Location = New System.Drawing.Point(92, 194)
-        Me.nudCBase.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
-        Me.nudCBase.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.nudCBase.Name = "nudCBase"
-        Me.nudCBase.Size = New System.Drawing.Size(72, 21)
-        Me.nudCBase.TabIndex = 23
-        Me.nudCBase.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.lblCBase.AutoSize = True
+        Me.lblCBase.Location = New System.Drawing.Point(170, 196)
+        Me.lblCBase.Name = "lblCBase"
+        Me.lblCBase.Size = New System.Drawing.Size(34, 13)
+        Me.lblCBase.TabIndex = 24
+        Me.lblCBase.Text = "Base:"
         '
         'lblWTotal
         '
@@ -329,24 +200,14 @@ Partial Class frmNeuralRemap
         Me.lblWSkills.TabIndex = 30
         Me.lblWSkills.Text = "Skills:"
         '
-        'lblWImplant
+        'lblWBase
         '
-        Me.lblWImplant.AutoSize = True
-        Me.lblWImplant.Location = New System.Drawing.Point(170, 266)
-        Me.lblWImplant.Name = "lblWImplant"
-        Me.lblWImplant.Size = New System.Drawing.Size(47, 13)
-        Me.lblWImplant.TabIndex = 29
-        Me.lblWImplant.Text = "Implant:"
-        '
-        'nudWBase
-        '
-        Me.nudWBase.Location = New System.Drawing.Point(92, 264)
-        Me.nudWBase.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
-        Me.nudWBase.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.nudWBase.Name = "nudWBase"
-        Me.nudWBase.Size = New System.Drawing.Size(72, 21)
-        Me.nudWBase.TabIndex = 28
-        Me.nudWBase.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.lblWBase.AutoSize = True
+        Me.lblWBase.Location = New System.Drawing.Point(170, 266)
+        Me.lblWBase.Name = "lblWBase"
+        Me.lblWBase.Size = New System.Drawing.Size(34, 13)
+        Me.lblWBase.TabIndex = 29
+        Me.lblWBase.Text = "Base:"
         '
         'lblMTotal
         '
@@ -366,48 +227,20 @@ Partial Class frmNeuralRemap
         Me.lblMSkills.TabIndex = 35
         Me.lblMSkills.Text = "Skills:"
         '
-        'lblMImplant
+        'lblMBase
         '
-        Me.lblMImplant.AutoSize = True
-        Me.lblMImplant.Location = New System.Drawing.Point(170, 336)
-        Me.lblMImplant.Name = "lblMImplant"
-        Me.lblMImplant.Size = New System.Drawing.Size(47, 13)
-        Me.lblMImplant.TabIndex = 34
-        Me.lblMImplant.Text = "Implant:"
-        '
-        'nudMBase
-        '
-        Me.nudMBase.Location = New System.Drawing.Point(92, 334)
-        Me.nudMBase.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
-        Me.nudMBase.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.nudMBase.Name = "nudMBase"
-        Me.nudMBase.Size = New System.Drawing.Size(72, 21)
-        Me.nudMBase.TabIndex = 33
-        Me.nudMBase.Value = New Decimal(New Integer() {5, 0, 0, 0})
-        '
-        'lblUnusedPointsLbl
-        '
-        Me.lblUnusedPointsLbl.AutoSize = True
-        Me.lblUnusedPointsLbl.Location = New System.Drawing.Point(100, 397)
-        Me.lblUnusedPointsLbl.Name = "lblUnusedPointsLbl"
-        Me.lblUnusedPointsLbl.Size = New System.Drawing.Size(125, 13)
-        Me.lblUnusedPointsLbl.TabIndex = 37
-        Me.lblUnusedPointsLbl.Text = "Unused Attribute Points:"
-        '
-        'lblUnusedPoints
-        '
-        Me.lblUnusedPoints.AutoSize = True
-        Me.lblUnusedPoints.Location = New System.Drawing.Point(231, 397)
-        Me.lblUnusedPoints.Name = "lblUnusedPoints"
-        Me.lblUnusedPoints.Size = New System.Drawing.Size(13, 13)
-        Me.lblUnusedPoints.TabIndex = 38
-        Me.lblUnusedPoints.Text = "0"
+        Me.lblMBase.AutoSize = True
+        Me.lblMBase.Location = New System.Drawing.Point(170, 336)
+        Me.lblMBase.Name = "lblMBase"
+        Me.lblMBase.Size = New System.Drawing.Size(34, 13)
+        Me.lblMBase.TabIndex = 34
+        Me.lblMBase.Text = "Base:"
         '
         'PictureBox6
         '
         Me.PictureBox6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PictureBox6.Image = CType(resources.GetObject("PictureBox6.Image"), System.Drawing.Image)
-        Me.PictureBox6.Location = New System.Drawing.Point(527, 3)
+        Me.PictureBox6.Location = New System.Drawing.Point(471, 3)
         Me.PictureBox6.Name = "PictureBox6"
         Me.PictureBox6.Size = New System.Drawing.Size(40, 40)
         Me.PictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
@@ -570,72 +403,200 @@ Partial Class frmNeuralRemap
         Me.lblTimeSaving.TabIndex = 57
         Me.lblTimeSaving.Text = "Time Saving:"
         '
-        'btnOptimise
+        'btnResetImplants
         '
-        Me.btnOptimise.Location = New System.Drawing.Point(19, 392)
-        Me.btnOptimise.Name = "btnOptimise"
-        Me.btnOptimise.Size = New System.Drawing.Size(150, 23)
-        Me.btnOptimise.TabIndex = 58
-        Me.btnOptimise.Text = "Optimise Base Attributes"
-        Me.btnOptimise.UseVisualStyleBackColor = True
+        Me.btnResetImplants.Location = New System.Drawing.Point(19, 392)
+        Me.btnResetImplants.Name = "btnResetImplants"
+        Me.btnResetImplants.Size = New System.Drawing.Size(75, 23)
+        Me.btnResetImplants.TabIndex = 76
+        Me.btnResetImplants.Text = "Reset"
+        Me.btnResetImplants.UseVisualStyleBackColor = True
         '
-        'btnReset
+        'nudMImplant
         '
-        Me.btnReset.Location = New System.Drawing.Point(19, 392)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(75, 23)
-        Me.btnReset.TabIndex = 59
-        Me.btnReset.Text = "Reset"
-        Me.btnReset.UseVisualStyleBackColor = True
+        Me.nudMImplant.Location = New System.Drawing.Point(92, 334)
+        Me.nudMImplant.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
+        Me.nudMImplant.Name = "nudMImplant"
+        Me.nudMImplant.Size = New System.Drawing.Size(72, 21)
+        Me.nudMImplant.TabIndex = 74
+        Me.nudMImplant.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
-        'gbBase
+        'nudWImplant
         '
-        Me.gbBase.Controls.Add(Me.PictureBox1)
-        Me.gbBase.Controls.Add(Me.PictureBox2)
-        Me.gbBase.Controls.Add(Me.btnReset)
-        Me.gbBase.Controls.Add(Me.PictureBox3)
-        Me.gbBase.Controls.Add(Me.PictureBox4)
-        Me.gbBase.Controls.Add(Me.PictureBox5)
-        Me.gbBase.Controls.Add(Me.lblIntelligence)
-        Me.gbBase.Controls.Add(Me.lblMemory)
-        Me.gbBase.Controls.Add(Me.lblWillpower)
-        Me.gbBase.Controls.Add(Me.lblCharisma)
-        Me.gbBase.Controls.Add(Me.lblPerception)
-        Me.gbBase.Controls.Add(Me.nudIBase)
-        Me.gbBase.Controls.Add(Me.lblIImplant)
-        Me.gbBase.Controls.Add(Me.lblISkills)
-        Me.gbBase.Controls.Add(Me.lblITotal)
-        Me.gbBase.Controls.Add(Me.nudPBase)
-        Me.gbBase.Controls.Add(Me.lblPImplant)
-        Me.gbBase.Controls.Add(Me.lblPSkills)
-        Me.gbBase.Controls.Add(Me.lblPTotal)
-        Me.gbBase.Controls.Add(Me.nudCBase)
-        Me.gbBase.Controls.Add(Me.lblCImplant)
-        Me.gbBase.Controls.Add(Me.lblCSkills)
-        Me.gbBase.Controls.Add(Me.lblCTotal)
-        Me.gbBase.Controls.Add(Me.lblUnusedPoints)
-        Me.gbBase.Controls.Add(Me.nudWBase)
-        Me.gbBase.Controls.Add(Me.lblUnusedPointsLbl)
-        Me.gbBase.Controls.Add(Me.lblWImplant)
-        Me.gbBase.Controls.Add(Me.lblMTotal)
-        Me.gbBase.Controls.Add(Me.lblWSkills)
-        Me.gbBase.Controls.Add(Me.lblMSkills)
-        Me.gbBase.Controls.Add(Me.lblWTotal)
-        Me.gbBase.Controls.Add(Me.lblMImplant)
-        Me.gbBase.Controls.Add(Me.nudMBase)
-        Me.gbBase.Location = New System.Drawing.Point(18, 46)
-        Me.gbBase.Name = "gbBase"
-        Me.gbBase.Size = New System.Drawing.Size(300, 429)
-        Me.gbBase.TabIndex = 78
-        Me.gbBase.TabStop = False
-        Me.gbBase.Text = "Attributes"
+        Me.nudWImplant.Location = New System.Drawing.Point(92, 264)
+        Me.nudWImplant.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
+        Me.nudWImplant.Name = "nudWImplant"
+        Me.nudWImplant.Size = New System.Drawing.Size(72, 21)
+        Me.nudWImplant.TabIndex = 73
+        Me.nudWImplant.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'nudCImplant
+        '
+        Me.nudCImplant.Location = New System.Drawing.Point(92, 194)
+        Me.nudCImplant.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
+        Me.nudCImplant.Name = "nudCImplant"
+        Me.nudCImplant.Size = New System.Drawing.Size(72, 21)
+        Me.nudCImplant.TabIndex = 72
+        Me.nudCImplant.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'nudPImplant
+        '
+        Me.nudPImplant.Location = New System.Drawing.Point(92, 124)
+        Me.nudPImplant.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
+        Me.nudPImplant.Name = "nudPImplant"
+        Me.nudPImplant.Size = New System.Drawing.Size(72, 21)
+        Me.nudPImplant.TabIndex = 71
+        Me.nudPImplant.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'nudIImplant
+        '
+        Me.nudIImplant.Location = New System.Drawing.Point(92, 54)
+        Me.nudIImplant.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
+        Me.nudIImplant.Name = "nudIImplant"
+        Me.nudIImplant.Size = New System.Drawing.Size(72, 21)
+        Me.nudIImplant.TabIndex = 70
+        Me.nudIImplant.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'lblPerceptionImplant
+        '
+        Me.lblPerceptionImplant.AutoSize = True
+        Me.lblPerceptionImplant.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPerceptionImplant.Location = New System.Drawing.Point(89, 101)
+        Me.lblPerceptionImplant.Name = "lblPerceptionImplant"
+        Me.lblPerceptionImplant.Size = New System.Drawing.Size(73, 14)
+        Me.lblPerceptionImplant.TabIndex = 69
+        Me.lblPerceptionImplant.Text = "Perception"
+        '
+        'lblCharismaImplant
+        '
+        Me.lblCharismaImplant.AutoSize = True
+        Me.lblCharismaImplant.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCharismaImplant.Location = New System.Drawing.Point(89, 171)
+        Me.lblCharismaImplant.Name = "lblCharismaImplant"
+        Me.lblCharismaImplant.Size = New System.Drawing.Size(62, 14)
+        Me.lblCharismaImplant.TabIndex = 68
+        Me.lblCharismaImplant.Text = "Charisma"
+        '
+        'lblWillpowerImplant
+        '
+        Me.lblWillpowerImplant.AutoSize = True
+        Me.lblWillpowerImplant.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblWillpowerImplant.Location = New System.Drawing.Point(89, 241)
+        Me.lblWillpowerImplant.Name = "lblWillpowerImplant"
+        Me.lblWillpowerImplant.Size = New System.Drawing.Size(67, 14)
+        Me.lblWillpowerImplant.TabIndex = 67
+        Me.lblWillpowerImplant.Text = "Willpower"
+        '
+        'lblMemoryImplant
+        '
+        Me.lblMemoryImplant.AutoSize = True
+        Me.lblMemoryImplant.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMemoryImplant.Location = New System.Drawing.Point(89, 311)
+        Me.lblMemoryImplant.Name = "lblMemoryImplant"
+        Me.lblMemoryImplant.Size = New System.Drawing.Size(56, 14)
+        Me.lblMemoryImplant.TabIndex = 66
+        Me.lblMemoryImplant.Text = "Memory"
+        '
+        'lblIntelligenceImplant
+        '
+        Me.lblIntelligenceImplant.AutoSize = True
+        Me.lblIntelligenceImplant.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIntelligenceImplant.Location = New System.Drawing.Point(89, 31)
+        Me.lblIntelligenceImplant.Name = "lblIntelligenceImplant"
+        Me.lblIntelligenceImplant.Size = New System.Drawing.Size(78, 14)
+        Me.lblIntelligenceImplant.TabIndex = 65
+        Me.lblIntelligenceImplant.Text = "Intelligence"
+        '
+        'PictureBox7
+        '
+        Me.PictureBox7.Image = CType(resources.GetObject("PictureBox7.Image"), System.Drawing.Image)
+        Me.PictureBox7.Location = New System.Drawing.Point(19, 101)
+        Me.PictureBox7.Name = "PictureBox7"
+        Me.PictureBox7.Size = New System.Drawing.Size(64, 64)
+        Me.PictureBox7.TabIndex = 64
+        Me.PictureBox7.TabStop = False
+        '
+        'PictureBox8
+        '
+        Me.PictureBox8.Image = CType(resources.GetObject("PictureBox8.Image"), System.Drawing.Image)
+        Me.PictureBox8.Location = New System.Drawing.Point(19, 171)
+        Me.PictureBox8.Name = "PictureBox8"
+        Me.PictureBox8.Size = New System.Drawing.Size(64, 64)
+        Me.PictureBox8.TabIndex = 63
+        Me.PictureBox8.TabStop = False
+        '
+        'PictureBox9
+        '
+        Me.PictureBox9.Image = CType(resources.GetObject("PictureBox9.Image"), System.Drawing.Image)
+        Me.PictureBox9.Location = New System.Drawing.Point(19, 241)
+        Me.PictureBox9.Name = "PictureBox9"
+        Me.PictureBox9.Size = New System.Drawing.Size(64, 64)
+        Me.PictureBox9.TabIndex = 62
+        Me.PictureBox9.TabStop = False
+        '
+        'PictureBox10
+        '
+        Me.PictureBox10.Image = CType(resources.GetObject("PictureBox10.Image"), System.Drawing.Image)
+        Me.PictureBox10.Location = New System.Drawing.Point(19, 311)
+        Me.PictureBox10.Name = "PictureBox10"
+        Me.PictureBox10.Size = New System.Drawing.Size(64, 64)
+        Me.PictureBox10.TabIndex = 61
+        Me.PictureBox10.TabStop = False
+        '
+        'PictureBox11
+        '
+        Me.PictureBox11.Image = CType(resources.GetObject("PictureBox11.Image"), System.Drawing.Image)
+        Me.PictureBox11.Location = New System.Drawing.Point(19, 31)
+        Me.PictureBox11.Name = "PictureBox11"
+        Me.PictureBox11.Size = New System.Drawing.Size(64, 64)
+        Me.PictureBox11.TabIndex = 60
+        Me.PictureBox11.TabStop = False
+        '
+        'gbImplants
+        '
+        Me.gbImplants.Controls.Add(Me.PictureBox11)
+        Me.gbImplants.Controls.Add(Me.btnResetImplants)
+        Me.gbImplants.Controls.Add(Me.PictureBox10)
+        Me.gbImplants.Controls.Add(Me.nudMImplant)
+        Me.gbImplants.Controls.Add(Me.PictureBox9)
+        Me.gbImplants.Controls.Add(Me.nudWImplant)
+        Me.gbImplants.Controls.Add(Me.PictureBox8)
+        Me.gbImplants.Controls.Add(Me.nudCImplant)
+        Me.gbImplants.Controls.Add(Me.PictureBox7)
+        Me.gbImplants.Controls.Add(Me.nudPImplant)
+        Me.gbImplants.Controls.Add(Me.lblIntelligenceImplant)
+        Me.gbImplants.Controls.Add(Me.nudIImplant)
+        Me.gbImplants.Controls.Add(Me.lblIBase)
+        Me.gbImplants.Controls.Add(Me.lblISkills)
+        Me.gbImplants.Controls.Add(Me.lblMemoryImplant)
+        Me.gbImplants.Controls.Add(Me.lblITotal)
+        Me.gbImplants.Controls.Add(Me.lblPerceptionImplant)
+        Me.gbImplants.Controls.Add(Me.lblWillpowerImplant)
+        Me.gbImplants.Controls.Add(Me.lblPBase)
+        Me.gbImplants.Controls.Add(Me.lblCharismaImplant)
+        Me.gbImplants.Controls.Add(Me.lblPSkills)
+        Me.gbImplants.Controls.Add(Me.lblMBase)
+        Me.gbImplants.Controls.Add(Me.lblPTotal)
+        Me.gbImplants.Controls.Add(Me.lblWTotal)
+        Me.gbImplants.Controls.Add(Me.lblMSkills)
+        Me.gbImplants.Controls.Add(Me.lblCBase)
+        Me.gbImplants.Controls.Add(Me.lblWSkills)
+        Me.gbImplants.Controls.Add(Me.lblCSkills)
+        Me.gbImplants.Controls.Add(Me.lblMTotal)
+        Me.gbImplants.Controls.Add(Me.lblCTotal)
+        Me.gbImplants.Controls.Add(Me.lblWBase)
+        Me.gbImplants.Location = New System.Drawing.Point(18, 46)
+        Me.gbImplants.Name = "gbImplants"
+        Me.gbImplants.Size = New System.Drawing.Size(250, 429)
+        Me.gbImplants.TabIndex = 77
+        Me.gbImplants.TabStop = False
+        Me.gbImplants.Text = "Implants"
         '
         'gbSkillQueue
         '
         Me.gbSkillQueue.Controls.Add(Me.lblSkillQueueAnalysis)
         Me.gbSkillQueue.Controls.Add(Me.lblActiveSkillQueueLbl)
         Me.gbSkillQueue.Controls.Add(Me.lblActiveSkillQueue)
-        Me.gbSkillQueue.Controls.Add(Me.btnOptimise)
         Me.gbSkillQueue.Controls.Add(Me.lblActiveQueueTime)
         Me.gbSkillQueue.Controls.Add(Me.lblTimeSaving)
         Me.gbSkillQueue.Controls.Add(Me.lblRevisedQueueTime)
@@ -650,81 +611,64 @@ Partial Class frmNeuralRemap
         Me.gbSkillQueue.Controls.Add(Me.lblAttributePoints1)
         Me.gbSkillQueue.Controls.Add(Me.lblAttribute4)
         Me.gbSkillQueue.Controls.Add(Me.lblAttribute5)
-        Me.gbSkillQueue.Location = New System.Drawing.Point(334, 46)
+        Me.gbSkillQueue.Location = New System.Drawing.Point(283, 46)
         Me.gbSkillQueue.Name = "gbSkillQueue"
         Me.gbSkillQueue.Size = New System.Drawing.Size(222, 429)
         Me.gbSkillQueue.TabIndex = 79
         Me.gbSkillQueue.TabStop = False
         Me.gbSkillQueue.Text = "Skill Queue"
         '
-        'frmNeuralRemap
+        'frmImplants
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(572, 485)
+        Me.ClientSize = New System.Drawing.Size(516, 485)
         Me.Controls.Add(Me.gbSkillQueue)
-        Me.Controls.Add(Me.gbBase)
+        Me.Controls.Add(Me.gbImplants)
         Me.Controls.Add(Me.PictureBox6)
         Me.Controls.Add(Me.lblDescription)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
-        Me.Name = "frmNeuralRemap"
+        Me.Name = "frmImplants"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Neural Remapping"
+        Me.Text = "Implants"
         Me.TopMost = True
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nudIBase, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nudPBase, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nudCBase, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nudWBase, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nudMBase, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbBase.ResumeLayout(False)
-        Me.gbBase.PerformLayout()
+        CType(Me.nudMImplant, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudWImplant, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudCImplant, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudPImplant, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudIImplant, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbImplants.ResumeLayout(False)
+        Me.gbImplants.PerformLayout()
         Me.gbSkillQueue.ResumeLayout(False)
         Me.gbSkillQueue.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents lblDescription As System.Windows.Forms.Label
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-    Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
-    Friend WithEvents PictureBox3 As System.Windows.Forms.PictureBox
-    Friend WithEvents PictureBox4 As System.Windows.Forms.PictureBox
-    Friend WithEvents PictureBox5 As System.Windows.Forms.PictureBox
-    Friend WithEvents lblIntelligence As System.Windows.Forms.Label
-    Friend WithEvents lblMemory As System.Windows.Forms.Label
-    Friend WithEvents lblWillpower As System.Windows.Forms.Label
-    Friend WithEvents lblCharisma As System.Windows.Forms.Label
-    Friend WithEvents lblPerception As System.Windows.Forms.Label
-    Friend WithEvents nudIBase As System.Windows.Forms.NumericUpDown
-    Friend WithEvents lblIImplant As System.Windows.Forms.Label
+    Friend WithEvents lblIBase As System.Windows.Forms.Label
     Friend WithEvents lblISkills As System.Windows.Forms.Label
     Friend WithEvents lblITotal As System.Windows.Forms.Label
     Friend WithEvents lblPTotal As System.Windows.Forms.Label
     Friend WithEvents lblPSkills As System.Windows.Forms.Label
-    Friend WithEvents lblPImplant As System.Windows.Forms.Label
-    Friend WithEvents nudPBase As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblPBase As System.Windows.Forms.Label
     Friend WithEvents lblCTotal As System.Windows.Forms.Label
     Friend WithEvents lblCSkills As System.Windows.Forms.Label
-    Friend WithEvents lblCImplant As System.Windows.Forms.Label
-    Friend WithEvents nudCBase As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblCBase As System.Windows.Forms.Label
     Friend WithEvents lblWTotal As System.Windows.Forms.Label
     Friend WithEvents lblWSkills As System.Windows.Forms.Label
-    Friend WithEvents lblWImplant As System.Windows.Forms.Label
-    Friend WithEvents nudWBase As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblWBase As System.Windows.Forms.Label
     Friend WithEvents lblMTotal As System.Windows.Forms.Label
     Friend WithEvents lblMSkills As System.Windows.Forms.Label
-    Friend WithEvents lblMImplant As System.Windows.Forms.Label
-    Friend WithEvents nudMBase As System.Windows.Forms.NumericUpDown
-    Friend WithEvents lblUnusedPointsLbl As System.Windows.Forms.Label
-    Friend WithEvents lblUnusedPoints As System.Windows.Forms.Label
+    Friend WithEvents lblMBase As System.Windows.Forms.Label
     Friend WithEvents PictureBox6 As System.Windows.Forms.PictureBox
     Friend WithEvents lblSkillQueueAnalysis As System.Windows.Forms.Label
     Friend WithEvents lblActiveSkillQueueLbl As System.Windows.Forms.Label
@@ -743,8 +687,22 @@ Partial Class frmNeuralRemap
     Friend WithEvents lblAttributePoints2 As System.Windows.Forms.Label
     Friend WithEvents lblAttributePoints1 As System.Windows.Forms.Label
     Friend WithEvents lblTimeSaving As System.Windows.Forms.Label
-    Friend WithEvents btnOptimise As System.Windows.Forms.Button
-    Friend WithEvents btnReset As System.Windows.Forms.Button
-    Friend WithEvents gbBase As System.Windows.Forms.GroupBox
+    Friend WithEvents btnResetImplants As System.Windows.Forms.Button
+    Friend WithEvents nudMImplant As System.Windows.Forms.NumericUpDown
+    Friend WithEvents nudWImplant As System.Windows.Forms.NumericUpDown
+    Friend WithEvents nudCImplant As System.Windows.Forms.NumericUpDown
+    Friend WithEvents nudPImplant As System.Windows.Forms.NumericUpDown
+    Friend WithEvents nudIImplant As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblPerceptionImplant As System.Windows.Forms.Label
+    Friend WithEvents lblCharismaImplant As System.Windows.Forms.Label
+    Friend WithEvents lblWillpowerImplant As System.Windows.Forms.Label
+    Friend WithEvents lblMemoryImplant As System.Windows.Forms.Label
+    Friend WithEvents lblIntelligenceImplant As System.Windows.Forms.Label
+    Friend WithEvents PictureBox7 As System.Windows.Forms.PictureBox
+    Friend WithEvents PictureBox8 As System.Windows.Forms.PictureBox
+    Friend WithEvents PictureBox9 As System.Windows.Forms.PictureBox
+    Friend WithEvents PictureBox10 As System.Windows.Forms.PictureBox
+    Friend WithEvents PictureBox11 As System.Windows.Forms.PictureBox
+    Friend WithEvents gbImplants As System.Windows.Forms.GroupBox
     Friend WithEvents gbSkillQueue As System.Windows.Forms.GroupBox
 End Class

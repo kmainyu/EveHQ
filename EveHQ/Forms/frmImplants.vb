@@ -1,4 +1,4 @@
-﻿Public Class frmNeuralRemap
+﻿Public Class frmImplants
     Dim iPilot As EveHQ.Core.Pilot = EveHQ.Core.HQ.myPilot
     Dim nPilot As New EveHQ.Core.Pilot
     Dim Unused As Integer = 0
@@ -36,7 +36,7 @@
     End Sub
 
     Private Sub InitialiseForm()
-        Me.Text = "Neural Remapping - " & iPilot.Name
+        Me.Text = "Implants - " & iPilot.Name
         ' Create a dummy pilot with which to check new attributes & skill queues
 
         nPilot.PilotSkills = iPilot.PilotSkills
@@ -159,42 +159,39 @@
     End Sub
     Private Sub DisplayAtributes()
         ' Display Intelligence Info
-        lblIntelligence.Text = "Intelligence (Default Base: " & iPilot.IAtt.ToString & ")"
-        nudIBase.Value = nPilot.IAtt
-        lblIImplant.Text = "Implant: " & nPilot.IImplant.ToString
+        lblIBase.Text = nPilot.IAtt.ToString
+        nudIImplant.Value = nPilot.IImplant
+        lblIBase.Text = "Implant: " & nPilot.IImplant.ToString
         lblISkills.Text = "Skills: " & (nPilot.LIAtt + nPilot.ALIAtt + nPilot.LSIAtt).ToString
         lblITotal.Text = "Total: " & nPilot.IAttT.ToString
 
         ' Display Perception Info
-        lblPerception.Text = "Perception (Default Base: " & iPilot.PAtt.ToString & ")"
-        nudPBase.Value = nPilot.PAtt
-        lblPImplant.Text = "Implant: " & nPilot.PImplant.ToString
+        nudPImplant.Value = nPilot.PImplant
+        lblPBase.Text = nPilot.PAtt.ToString
+        lblPBase.Text = "Implant: " & nPilot.PImplant.ToString
         lblPSkills.Text = "Skills: " & (nPilot.LPAtt + nPilot.ALPAtt + nPilot.LSPAtt).ToString
         lblPTotal.Text = "Total: " & nPilot.PAttT.ToString
 
         ' Display Charisma Info
-        lblCharisma.Text = "Charisma (Default Base: " & iPilot.CAtt.ToString & ")"
-        nudCBase.Value = nPilot.CAtt
-        lblCImplant.Text = "Implant: " & nPilot.CImplant.ToString
+        nudCImplant.Value = nPilot.CImplant
+        lblCBase.Text = nPilot.CAtt.ToString
+        lblCBase.Text = "Implant: " & nPilot.CImplant.ToString
         lblCSkills.Text = "Skills: " & (nPilot.LCAtt + nPilot.ALCAtt + nPilot.LSCAtt).ToString
         lblCTotal.Text = "Total: " & nPilot.CAttT.ToString
 
         ' Display Willpower Info
-        lblWillpower.Text = "Willpower (Default Base: " & iPilot.WAtt.ToString & ")"
-        nudWBase.Value = nPilot.WAtt
-        lblWImplant.Text = "Implant: " & nPilot.WImplant.ToString
+        nudWImplant.Value = nPilot.WImplant
+        lblWBase.Text = nPilot.WAtt.ToString
+        lblWBase.Text = "Implant: " & nPilot.WImplant.ToString
         lblWSkills.Text = "Skills: " & (nPilot.LWAtt + nPilot.ALWAtt + nPilot.LSWAtt).ToString
         lblWTotal.Text = "Total: " & nPilot.WAttT.ToString
 
         ' Display Memory Info
-        lblMemory.Text = "Memory (Default Base: " & iPilot.MAtt.ToString & ")"
-        nudMBase.Value = nPilot.MAtt
-        lblMImplant.Text = "Implant: " & nPilot.MImplant.ToString
+        nudMImplant.Value = nPilot.MImplant
+        lblMBase.Text = nPilot.MAtt.ToString
+        lblMBase.Text = "Implant: " & nPilot.MImplant.ToString
         lblMSkills.Text = "Skills: " & (nPilot.LMAtt + nPilot.ALMAtt + nPilot.LSMAtt).ToString
         lblMTotal.Text = "Total: " & nPilot.MAttT.ToString
-
-        ' Display remaining attribute points
-        lblUnusedPoints.Text = Unused.ToString
 
     End Sub
 
@@ -285,144 +282,71 @@
         End If
     End Sub
 
-
-    Private Sub nudIBase_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudIBase.ValueChanged
+    Private Sub nudIImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudIImplant.ValueChanged
         If UpdateAllBases = False Then
-            If nPilot.IAtt - nudIBase.Value + Unused >= 0 Then
-                nPilot.IAtt = CInt(nudIBase.Value)
-                Call RecalcAttributes()
-                Call DisplayAtributes()
-                Call DisplayQueueInfo()
-            Else
-                nudIBase.Value = nPilot.IAtt
-            End If
+            nPilot.IImplant = CInt(nudIImplant.Value)
+            Call RecalcAttributes()
+            Call DisplayAtributes()
+            Call DisplayQueueInfo()
         Else
-            nPilot.IAtt = CInt(nudIBase.Value)
+            nPilot.IImplant = CInt(nudIImplant.Value)
         End If
     End Sub
 
-    Private Sub nudPBase_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudPBase.ValueChanged
+    Private Sub nudPImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudPImplant.ValueChanged
         If UpdateAllBases = False Then
-            If nPilot.PAtt - nudPBase.Value + Unused >= 0 Then
-                nPilot.PAtt = CInt(nudPBase.Value)
-                Call RecalcAttributes()
-                Call DisplayAtributes()
-                Call DisplayQueueInfo()
-            Else
-                nudPBase.Value = nPilot.PAtt
-            End If
+            nPilot.PImplant = CInt(nudPImplant.Value)
+            Call RecalcAttributes()
+            Call DisplayAtributes()
+            Call DisplayQueueInfo()
         Else
-            nPilot.PAtt = CInt(nudPBase.Value)
+            nPilot.PImplant = CInt(nudPImplant.Value)
         End If
     End Sub
 
-    Private Sub nudCBase_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudCBase.ValueChanged
+    Private Sub nudCImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudCImplant.ValueChanged
         If UpdateAllBases = False Then
-            If nPilot.CAtt - nudCBase.Value + Unused >= 0 Then
-                nPilot.CAtt = CInt(nudCBase.Value)
-                Call RecalcAttributes()
-                Call DisplayAtributes()
-                Call DisplayQueueInfo()
-            Else
-                nudCBase.Value = nPilot.CAtt
-            End If
+            nPilot.CImplant = CInt(nudCImplant.Value)
+            Call RecalcAttributes()
+            Call DisplayAtributes()
+            Call DisplayQueueInfo()
         Else
-            nPilot.CAtt = CInt(nudCBase.Value)
+            nPilot.CImplant = CInt(nudCImplant.Value)
         End If
     End Sub
 
-    Private Sub nudWBase_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudWBase.ValueChanged
+    Private Sub nudWImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudWImplant.ValueChanged
         If UpdateAllBases = False Then
-            If nPilot.WAtt - nudWBase.Value + Unused >= 0 Then
-                nPilot.WAtt = CInt(nudWBase.Value)
-                Call RecalcAttributes()
-                Call DisplayAtributes()
-                Call DisplayQueueInfo()
-            Else
-                nudWBase.Value = nPilot.WAtt
-            End If
+            nPilot.WImplant = CInt(nudWImplant.Value)
+            Call RecalcAttributes()
+            Call DisplayAtributes()
+            Call DisplayQueueInfo()
         Else
-            nPilot.WAtt = CInt(nudWBase.Value)
+            nPilot.WImplant = CInt(nudWImplant.Value)
         End If
     End Sub
 
-    Private Sub nudMBase_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMBase.ValueChanged
+    Private Sub nudMImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMImplant.ValueChanged
         If UpdateAllBases = False Then
-            If nPilot.MAtt - nudMBase.Value + Unused >= 0 Then
-                nPilot.MAtt = CInt(nudMBase.Value)
-                Call RecalcAttributes()
-                Call DisplayAtributes()
-                Call DisplayQueueInfo()
-            Else
-                nudMBase.Value = nPilot.MAtt
-            End If
+            nPilot.MImplant = CInt(nudMImplant.Value)
+            Call RecalcAttributes()
+            Call DisplayAtributes()
+            Call DisplayQueueInfo()
         Else
-            nPilot.MAtt = CInt(nudMBase.Value)
+            nPilot.MImplant = CInt(nudMImplant.Value)
         End If
     End Sub
 
-    Private Sub btnOptimise_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOptimise.Click
-        Me.Cursor = Cursors.WaitCursor
-        Dim bestTime As Long = SkillQueue.QueueTime * 2
-        Dim calcTime As Long = 0
-        Dim count As Long = 0
-        Dim minI As Integer = 5
-        Dim minP As Integer = 5
-        Dim minC As Integer = 5
-        Dim minW As Integer = 5
-        Dim minM As Integer = 5
-        Dim bestI As Integer = 5
-        Dim bestP As Integer = 5
-        Dim bestC As Integer = 5
-        Dim bestW As Integer = 5
-        Dim bestM As Integer = 5
-        Dim MaxAvailable As Integer = 14 ' Maximum distributable points (39-(5x5))
-        Dim maxAtt As Integer = 10 ' Range from 5 to 15
-
-        For IAtt As Integer = 0 To maxAtt
-            nPilot.IAtt = IAtt + minI
-            For PAtt As Integer = 0 To maxAtt
-                nPilot.PAtt = PAtt + minP
-                For CAtt As Integer = 0 To maxAtt
-                    nPilot.CAtt = CAtt + minC
-                    For WAtt As Integer = 0 To maxAtt
-                        nPilot.WAtt = WAtt + minW
-                        For MAtt As Integer = 0 To maxAtt
-                            nPilot.MAtt = MAtt + minM
-                            If IAtt + PAtt + CAtt + WAtt + MAtt = MaxAvailable Then
-                                Call RecalcAttributes()
-                                calcTime = EveHQ.Core.SkillQueueFunctions.GetQueueTime(nPilot, CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue))
-                                If calcTime <= bestTime Then
-                                    bestTime = calcTime
-                                    bestI = IAtt + minI
-                                    bestP = PAtt + minP
-                                    bestC = CAtt + minC
-                                    bestW = WAtt + minW
-                                    bestM = MAtt + minM
-                                End If
-                            End If
-                        Next
-                    Next
-                Next
-            Next
-        Next
+    Private Sub btnResetImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetImplants.Click
         UpdateAllBases = True
-        nPilot.IAtt = bestI
-        nPilot.PAtt = bestP
-        nPilot.CAtt = bestC
-        nPilot.WAtt = bestW
-        nPilot.MAtt = bestM
+        nPilot.IImplant = iPilot.IImplant
+        nPilot.PImplant = iPilot.PImplant
+        nPilot.CImplant = iPilot.CImplant
+        nPilot.WImplant = iPilot.WImplant
+        nPilot.MImplant = iPilot.MImplant
         Call RecalcAttributes()
         Call DisplayAtributes()
         Call DisplayQueueInfo()
-        UpdateAllBases = False
-        Me.Cursor = Cursors.Default
-    End Sub
-
-    Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
-        UpdateAllBases = True
-        Call Me.InitialiseForm()
-        Call Me.DisplayQueueInfo()
         UpdateAllBases = False
     End Sub
 End Class

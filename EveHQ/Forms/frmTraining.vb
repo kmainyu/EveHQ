@@ -2769,4 +2769,14 @@ Public Class frmTraining
             frmNeuralRemap.Show()
         End If
     End Sub
+
+    Private Sub tsbImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbImplants.Click
+        If frmImplants.IsHandleCreated = True Then
+            frmImplants.Select()
+        Else
+            frmImplants.PilotName = EveHQ.Core.HQ.myPilot.Name
+            frmImplants.QueueName = activeQueueName
+            frmImplants.Show()
+        End If
+    End Sub
 End Class
