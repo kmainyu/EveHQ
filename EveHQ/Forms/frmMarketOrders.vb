@@ -174,9 +174,9 @@ Public Class frmMarketOrders
             ' Check if we process this
             ProcessOrder = True
             If oType = 0 Then ' Sell Order
-                'If EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrders = True And oPrice > EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit Then
-                '    ProcessOrder = False
-                'End If
+                If EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrders = True And oPrice > (EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit * CDbl(EveHQ.Core.HQ.BasePriceList(oTypeID.ToString))) Then
+                    ProcessOrder = False
+                End If
             Else ' Buy Order
                 If EveHQ.Core.HQ.EveHQSettings.IgnoreBuyOrders = True And oPrice < EveHQ.Core.HQ.EveHQSettings.IgnoreBuyOrderLimit Then
                     ProcessOrder = False
@@ -422,4 +422,7 @@ Public Class frmMarketOrders
         lblCurrentPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
     End Sub
 
+    Private Sub frmMarketOrders_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

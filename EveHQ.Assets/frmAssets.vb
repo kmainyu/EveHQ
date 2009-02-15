@@ -3170,18 +3170,20 @@ Public Class frmAssets
         Dim recycleList As New SortedList
         tempAssetList.Clear()
         For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
-            If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(asset.Text)) = True Then
-                If asset.SubItems(7).Text <> "" Then
-                    If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(7).Text)
-                        tempAssetList.Add(asset.Tag.ToString)
+            If EveHQ.Core.HQ.itemList.Contains(asset.Text) = True Then
+                If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(asset.Text)) = True Then
+                    If asset.SubItems(7).Text <> "" Then
+                        If tempAssetList.Contains(asset.Tag.ToString) = False Then
+                            recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(7).Text)
+                            tempAssetList.Add(asset.Tag.ToString)
+                        End If
                     End If
-                End If
-            Else
-                If asset.SubItems(7).Text <> "" Then
-                    If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(7).Text))
-                        tempAssetList.Add(asset.Tag.ToString)
+                Else
+                    If asset.SubItems(7).Text <> "" Then
+                        If tempAssetList.Contains(asset.Tag.ToString) = False Then
+                            recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(7).Text))
+                            tempAssetList.Add(asset.Tag.ToString)
+                        End If
                     End If
                 End If
             End If
@@ -3198,18 +3200,20 @@ Public Class frmAssets
 
     Private Sub AddItemsToRecycleList(ByVal item As ContainerListViewItem, ByRef assetList As SortedList)
         For Each childItem As ContainerListViewItem In item.Items
-            If assetList.ContainsKey(EveHQ.Core.HQ.itemList(childItem.Text)) = True Then
-                If childItem.SubItems(7).Text <> "" Then
-                    If tempAssetList.Contains(childItem.Tag.ToString) = False Then
-                        assetList(EveHQ.Core.HQ.itemList(childItem.Text)) = CLng(assetList(EveHQ.Core.HQ.itemList(childItem.Text))) + CLng(childItem.SubItems(7).Text)
-                        tempAssetList.Add(childItem.Tag.ToString)
+            If EveHQ.Core.HQ.itemList.Contains(childItem.Text) = True Then
+                If assetList.ContainsKey(EveHQ.Core.HQ.itemList(childItem.Text)) = True Then
+                    If childItem.SubItems(7).Text <> "" Then
+                        If tempAssetList.Contains(childItem.Tag.ToString) = False Then
+                            assetList(EveHQ.Core.HQ.itemList(childItem.Text)) = CLng(assetList(EveHQ.Core.HQ.itemList(childItem.Text))) + CLng(childItem.SubItems(7).Text)
+                            tempAssetList.Add(childItem.Tag.ToString)
+                        End If
                     End If
-                End If
-            Else
-                If childItem.SubItems(7).Text <> "" Then
-                    If tempAssetList.Contains(childItem.Tag.ToString) = False Then
-                        assetList.Add(EveHQ.Core.HQ.itemList(childItem.Text), CLng(childItem.SubItems(7).Text))
-                        tempAssetList.Add(childItem.Tag.ToString)
+                Else
+                    If childItem.SubItems(7).Text <> "" Then
+                        If tempAssetList.Contains(childItem.Tag.ToString) = False Then
+                            assetList.Add(EveHQ.Core.HQ.itemList(childItem.Text), CLng(childItem.SubItems(7).Text))
+                            tempAssetList.Add(childItem.Tag.ToString)
+                        End If
                     End If
                 End If
             End If

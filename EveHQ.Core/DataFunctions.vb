@@ -1072,9 +1072,9 @@ Public Class DataFunctions
             ' Check if we process this
             ProcessOrder = True
             If oType = 0 Then ' Sell Order
-                'If EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrders = True And oPrice > EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit Then
-                '    ProcessOrder = False
-                'End If
+                If EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrders = True And oPrice > (EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit * CDbl(EveHQ.Core.HQ.BasePriceList(oTypeID.ToString))) Then
+                    ProcessOrder = False
+                End If
             Else ' Buy Order
                 If EveHQ.Core.HQ.EveHQSettings.IgnoreBuyOrders = True And oPrice < EveHQ.Core.HQ.EveHQSettings.IgnoreBuyOrderLimit Then
                     ProcessOrder = False
