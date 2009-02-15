@@ -82,23 +82,31 @@ Public Class frmRecycleAssets
 
         ' Get the location details
         If PlugInData.stations.ContainsKey(cAssetLocation) = True Then
-            Dim aLocation As Station = CType(PlugInData.stations(cAssetLocation), Station)
-            lblStation.Text = aLocation.stationName
-            lblCorp.Text = aLocation.corpID.ToString
-            If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
-                lblCorp.Text = CStr(PlugInData.NPCCorps(aLocation.corpID.ToString))
-                lblCorp.Tag = aLocation.corpID.ToString
-                StationYield = aLocation.refiningEff
-                lblBaseYield.Text = FormatNumber(StationYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            Else
+
+            If CDbl(AssetLocation) >= 60000000 Then ' Is a station
+                Dim aLocation As Station = CType(PlugInData.stations(cAssetLocation), Station)
+                lblStation.Text = aLocation.stationName
+                lblCorp.Text = aLocation.corpID.ToString
                 If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
-                    lblCorp.Text = CStr(PlugInData.Corps(aLocation.corpID.ToString))
-                    lblBaseYield.Text = FormatNumber(aLocation.refiningEff * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    lblCorp.Text = CStr(PlugInData.NPCCorps(aLocation.corpID.ToString))
+                    lblCorp.Tag = aLocation.corpID.ToString
+                    StationYield = aLocation.refiningEff
+                    lblBaseYield.Text = FormatNumber(StationYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 Else
-                    lblCorp.Text = "Unknown"
-                    lblCorp.Tag = Nothing
-                    lblBaseYield.Text = FormatNumber(50, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
+                        lblCorp.Text = CStr(PlugInData.Corps(aLocation.corpID.ToString))
+                        lblBaseYield.Text = FormatNumber(aLocation.refiningEff * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    Else
+                        lblCorp.Text = "Unknown"
+                        lblCorp.Tag = Nothing
+                        lblBaseYield.Text = FormatNumber(50, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    End If
                 End If
+            Else ' Is a system
+                lblStation.Text = "n/a"
+                lblCorp.Text = "n/a"
+                lblCorp.Tag = Nothing
+                lblBaseYield.Text = FormatNumber(50, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             End If
         Else
             lblStation.Text = "n/a"
@@ -107,15 +115,15 @@ Public Class frmRecycleAssets
             lblBaseYield.Text = FormatNumber(50, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         End If
 
-        ' Set the pilot to the recycling one
-        If cboPilots.Items.Contains(cAssetOwner) Then
-            cboPilots.SelectedItem = cAssetOwner
-        Else
-            cboPilots.SelectedIndex = 0
-        End If
+            ' Set the pilot to the recycling one
+            If cboPilots.Items.Contains(cAssetOwner) Then
+                cboPilots.SelectedItem = cAssetOwner
+            Else
+                cboPilots.SelectedIndex = 0
+            End If
 
-        ' Set the recycling mode
-        cboRefineMode.SelectedIndex = 0
+            ' Set the recycling mode
+            cboRefineMode.SelectedIndex = 0
 
     End Sub
 
@@ -277,7 +285,11 @@ Public Class frmRecycleAssets
         End If
         lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        StationStanding = GetStanding(rPilot.Name, lblCorp.Tag.ToString)
+        If lblCorp.Tag IsNot Nothing Then
+            StationStanding = GetStanding(rPilot.Name, lblCorp.Tag.ToString)
+        Else
+            StationStanding = 0
+        End If
         If chkOverrideStandings.Checked = True Then
             lblStandings.Text = FormatNumber(nudStandings.Value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         Else
