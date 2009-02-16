@@ -835,6 +835,8 @@ Public Class PlugInData
                     For a As Integer = 0 To NameData.Tables(0).Rows.Count - 1
                         eveNames.Add(NameData.Tables(0).Rows(a).Item("itemID"), NameData.Tables(0).Rows(a).Item("itemName"))
                     Next
+                    NameData = Nothing
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -844,10 +846,10 @@ Public Class PlugInData
                 Exit Function
             End If
         Catch e As Exception
-            MessageBox.Show("There was an error loading the data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("There was an error loading the Eve Name data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            NameData = Nothing
             Return False
         End Try
-        Return True
     End Function
     Public Function LoadNPCCorps() As Boolean
         Dim strSQL As String = "SELECT * FROM crpNPCCorporations ORDER BY corporationID;"
@@ -873,7 +875,7 @@ Public Class PlugInData
             End If
             Return True
         Catch e As Exception
-            MessageBox.Show("There was an error loading the faction data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("There was an error loading the NPC Corp data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -931,8 +933,8 @@ Public Class PlugInData
             Next
             Return True
         Catch e As Exception
+            MessageBox.Show("There was an error loading the Sovereignty data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
-            Exit Function
         End Try
     End Function
     Public Function LoadFactions() As Boolean
@@ -965,7 +967,7 @@ Public Class PlugInData
             End If
             Return True
         Catch e As Exception
-            MessageBox.Show("There was an error loading the faction data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("There was an error loading the Faction data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -995,8 +997,8 @@ Public Class PlugInData
             ind = 0
             Return True
         Catch e As Exception
+            MessageBox.Show("There was an error loading the Alliance data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
-            Exit Function
         End Try
     End Function
     Public Function LoadStations() As Boolean
@@ -1016,8 +1018,6 @@ Public Class PlugInData
                         Else
                             cstation.security = 0
                         End If
-                        'cstation.dockingCostPerVolume = Nullcheck(StationData.Tables(0).Rows(stat).Item("dockingCostPerVolume")
-                        'cstation.maxShipVolumeDockable = Nullcheck(StationData.Tables(0).Rows(stat).Item("maxShipVolumeDockable")
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("operationID")) = False Then
                             cstation.operationID = CInt(StationData.Tables(0).Rows(stat).Item("operationID"))
                         Else
@@ -1145,7 +1145,6 @@ Public Class PlugInData
     Public Function LoadOperationData() As Boolean
         Dim strSQL As String = "SELECT * FROM staOperationServices ORDER BY operationID;"
         Dim OpData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-
         Try
             If OpData IsNot Nothing Then
                 If OpData.Tables(0).Rows.Count > 0 Then
@@ -1166,10 +1165,9 @@ Public Class PlugInData
             End If
             Return True
         Catch e As Exception
-            MessageBox.Show("There was an error loading the operation data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("There was an error loading the Station Operation data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
-        Return True
     End Function
     Public Function LoadServiceData() As Boolean
         Dim strSQL As String = "SELECT * FROM staServices ORDER BY serviceID;"
@@ -1195,11 +1193,9 @@ Public Class PlugInData
             End If
             Return True
         Catch e As Exception
-            MessageBox.Show("There was an error loading the service data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("There was an error loading the Station Service data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
-
-        Return True
     End Function
     Public Function LoadAgents() As Boolean
         Dim strSQL As String = "SELECT * FROM agtAgents ORDER BY agentID;"
@@ -1263,10 +1259,9 @@ Public Class PlugInData
             End If
             Return True
         Catch e As Exception
-            MessageBox.Show("There was an error loading the agent data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("There was an error loading the Agent data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
-        Return True
     End Function
     Public Shared Function LoadConq() As Boolean
         Try
@@ -1290,8 +1285,8 @@ Public Class PlugInData
             Next
             Return True
         Catch e As Exception
+            MessageBox.Show("There was an error loading the Conquerable Station data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
-            Exit Function
         End Try
     End Function
     Public Function LoadStationTypes() As Boolean
@@ -1331,7 +1326,7 @@ Public Class PlugInData
             End If
             Return True
         Catch e As Exception
-            MessageBox.Show("There was an error loading StationTypes. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("There was an error loading Station Type data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
         Return True
@@ -1358,13 +1353,11 @@ Public Class PlugInData
                 Exit Function
             End If
         Catch e As Exception
-            MessageBox.Show("There was an error loading the data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("There was an error loading the NPC Division data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
-        Return True
     End Function
     Public Function LoadCB() As Boolean
-
         Dim strSQL As String = "SELECT * FROM mapDenormalize ORDER BY solarSystemID;"
         Dim cbData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Try
@@ -1372,7 +1365,6 @@ Public Class PlugInData
                 If cbData.Tables(0).Rows.Count > 0 Then
                     Dim lastSystemNo As Integer = 0
                     Dim lastSystem As New SolarSystem
-
                     For Each mapRow As DataRow In cbData.Tables(0).Rows
                         'For stat As Integer = 0 To cbData.Tables(0).Rows.Count - 1
                         If IsDBNull(mapRow.Item("solarSystemID")) = False Then
@@ -1412,11 +1404,12 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
+            cbData = Nothing
             Return True
         Catch e As Exception
             MessageBox.Show("There was an error loading the Celestial data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            cbData = Nothing
             Return False
-            cbData.Clear()
         End Try
     End Function
 
