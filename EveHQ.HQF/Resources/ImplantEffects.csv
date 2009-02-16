@@ -320,10 +320,15 @@
 151,1,28800,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Gamma
 #,1,28801,,,,,0,0,Science,#Low-grade Nomad Omega
 335,1,22119,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Alpha
+335,1,22119,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Alpha
 335,1,22120,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Beta
+335,1,22120,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Beta
 335,1,22121,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Delta
+335,1,22121,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Delta
 335,1,22122,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Epsilon
+335,1,22122,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Epsilon
 335,1,22123,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Gamma
+335,1,22123,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Gamma
 #,1,22124,,,,,0,0,Science,#Low-grade Slave Omega
 315,1,22125,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Alpha
 315,1,22126,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Beta
@@ -372,10 +377,15 @@
 315,1,21890,37,3,6,0,0,1,Navigation,Skirmish Warfare Mindlink
 884,1,21890,833,2,20070;11017;20408,0,0,1,Gang,Skirmish Warfare Mindlink
 335,1,20499,265,3,6,0,0,0,Armor;Learning,Slave Alpha
+335,1,20499,1159,2,329,0,0,0,Armor;Learning,Slave Alpha
 335,1,20501,265,3,6,0,0,0,Armor;Learning,Slave Beta
+335,1,20501,1159,2,329,0,0,0,Armor;Learning,Slave Beta
 335,1,20503,265,3,6,0,0,0,Armor;Learning,Slave Delta
+335,1,50203,1159,2,329,0,0,0,Armor;Learning,Slave Delta
 335,1,20505,265,3,6,0,0,0,Armor;Learning,Slave Epsilon
+335,1,20505,1159,2,329,0,0,0,Armor;Learning,Slave Epsilon
 335,1,20507,265,3,6,0,0,0,Armor;Learning,Slave Gamma
+335,1,20507,1159,2,329,0,0,0,Armor;Learning,Slave Gamma
 #,1,20509,,,,,0,0,Science,#Slave Omega
 315,1,19540,37,3,6,0,0,0,Navigation;Learning,Snake Alpha
 315,1,19551,37,3,6,0,0,0,Navigation;Learning,Snake Beta
