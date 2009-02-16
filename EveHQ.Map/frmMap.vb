@@ -1325,16 +1325,16 @@ Public Class frmMap
             lblEveSec.Text = FormatNumber(cSystem.EveSec, 1, TriState.True)
             lblNoGates.Text = CStr(cSystem.Gates.Count)
             lblGates.Text = ""
-            lblSovereigntyLevel.Text = cSystem.sovereigntyLevel
+            lblSovereigntyLevel.Text = CStr(cSystem.sovereigntyLevel)
             If cSystem.SovereigntyName <> "" Then
                 lblSovHolder.Text = cSystem.SovereigntyName
             Else
                 lblSovHolder.Text = "<Unclaimed>"
             End If
-            lblPlanets.Text = CStr(cSystem.Planets.Count)
-            lblMoons.Text = CStr(cSystem.Moons.Count)
-            lblABelts.Text = CStr(cSystem.ABelts.Count)
-            lblIBelts.Text = CStr(cSystem.IBelts.Count)
+            lblPlanets.Text = CStr(cSystem.Planets)
+            lblMoons.Text = CStr(cSystem.Moons)
+            lblABelts.Text = CStr(cSystem.ABelts)
+            lblIBelts.Text = CStr(cSystem.IBelts)
             lblStations.Text = CStr(cSystem.Stations.Count)
             For Each cCS As ConqStat In PlugInData.CSStationList.Values
                 If cSystem.ID = cCS.solarSystemID Then
@@ -1694,7 +1694,7 @@ Public Class frmMap
         Dim TAlliance As Alliance
         Dim TFaction As Alliance
         Dim Allyname As String = "Unknown"
-        Dim AlID As String = saSystem.SovereigntyID
+        Dim AlID As String = CStr(saSystem.SovereigntyID)
         If PlugInData.AllianceList.Contains(AlID) = True Then
             TAlliance = CType(PlugInData.AllianceList(AlID), Alliance)
             Allyname = TAlliance.name
@@ -2340,7 +2340,7 @@ Public Class frmMap
         Dim agstat As Station = CType(PlugInData.StationList(statid), Station)
         Dim agsysid As Integer = agstat.solarSystemID
         Dim agsys As SolarSystem = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem)
-        Dim agfid As String = agcorp.factionID
+        Dim agfid As Integer = agcorp.factionID
         Dim agfacnam As String = CType(PlugInData.FactionList(agfid), Faction).factionName
         Dim agsysnam As String = agsys.Name
         Dim agreg As String = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem).Region
@@ -2501,20 +2501,20 @@ Public Class frmMap
         For Each sys As String In systemArray
             Dim Icepresent As Boolean = False
             Dim celSystem As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(sys)), SolarSystem)
-            For Each celBody As String In celSystem.Planets.Values
-                lvPlanets.Items.Add(celBody)
-            Next
-            For Each celBody As String In celSystem.Moons.Values
-                lvMoons.Items.Add(celBody)
-            Next
-            For Each celBody As String In celSystem.ABelts.Values
-                lvBelts.Items.Add(celBody)
-            Next
-            For Each celBody As String In celSystem.IBelts.Values
-                lvIce.Items.Add(celBody)
-                lvIce.Items(IceId).SubItems.Add(celSystem.Ice)
-                IceId = IceId + 1
-            Next
+            'For Each celBody As String In celSystem.Planets.Values
+            '    lvPlanets.Items.Add(celBody)
+            'Next
+            'For Each celBody As String In celSystem.Moons.Values
+            '    lvMoons.Items.Add(celBody)
+            'Next
+            'For Each celBody As String In celSystem.ABelts.Values
+            '    lvBelts.Items.Add(celBody)
+            'Next
+            'For Each celBody As String In celSystem.IBelts.Values
+            '    lvIce.Items.Add(celBody)
+            '    lvIce.Items(IceId).SubItems.Add(celSystem.Ice)
+            '    IceId = IceId + 1
+            'Next
             lvOres.Items.Add(celSystem.Name)
             lvOres.Items(OreId).SubItems.Add(CStr(PlugInData.OreClassList(celSystem.SecClass)))
             OreId = OreId + 1

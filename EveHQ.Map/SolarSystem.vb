@@ -30,19 +30,17 @@
     Public Constellation As String
     Public Gates As ArrayList = New ArrayList
     Public Jumps As ArrayList = New ArrayList
-    Public Planets As SortedList = New SortedList
-    Public Moons As SortedList = New SortedList
-    Public Stations As SortedList = New SortedList
-    Public ABelts As SortedList = New SortedList
-    Public IBelts As SortedList = New SortedList
+    Public Planets As Integer
+    Public Moons As Integer
+    Public ABelts As Integer
+    Public IBelts As Integer
+    Public Stations As ArrayList = New ArrayList
     Public SovereigntyName As String
-    Public SovereigntyID As String
-    Public RegionId As String
+    Public SovereigntyID As Integer
+    Public RegionID As Integer
     Public SecClass As String
     Public constellationSovereignty As Integer
-    Public csID As String
-    Public sovereigntyLevel As String
-    Public SysStations As Collection = New Collection
+    Public sovereigntyLevel As Integer
     Public Ice As String
 
     Public Function GetName() As String

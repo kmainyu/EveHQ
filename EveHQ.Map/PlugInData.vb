@@ -300,7 +300,7 @@ Public Class PlugInData
                         cSystem.ID = CInt(systemData.Tables(0).Rows(solar).Item("solarSystemID")) - 30000000
                         cSystem.Name = CStr(systemData.Tables(0).Rows(solar).Item("solarSystemName"))
                         cSystem.Region = CStr(systemData.Tables(0).Rows(solar).Item("regionName"))
-                        cSystem.RegionId = CStr(systemData.Tables(0).Rows(solar).Item("mapSolarSystems_regionID"))
+                        cSystem.RegionID = CInt(systemData.Tables(0).Rows(solar).Item("mapSolarSystems_regionID"))
                         cSystem.Constellation = CStr(systemData.Tables(0).Rows(solar).Item("constellationName"))
                         cSystem.x = CDbl(systemData.Tables(0).Rows(solar).Item("x"))
                         cSystem.y = CDbl(systemData.Tables(0).Rows(solar).Item("y"))
@@ -859,7 +859,7 @@ Public Class PlugInData
                     For a As Integer = 0 To NPCCData.Tables(0).Rows.Count - 1
                         Dim cCorp As NPCCorp = New NPCCorp
                         cCorp.CorporationID = CInt(NPCCData.Tables(0).Rows(a).Item("corporationID"))
-                        cCorp.factionID = CStr(NPCCData.Tables(0).Rows(a).Item("factionID"))
+                        cCorp.factionID = CInt(NPCCData.Tables(0).Rows(a).Item("factionID"))
                         cCorp.CorpName = CStr(eveNames(cCorp.CorporationID))
                         NPCCorpList.Add(cCorp.CorporationID, cCorp)
                     Next
@@ -893,22 +893,22 @@ Public Class PlugInData
                 Dim solar As SolarSystem = CType(PlugInData.SystemsID(id), SolarSystem)
                 If SysNode.Attributes.GetNamedItem("factionID").Value <> "0" Then
                     ' This is a faction
-                    solar.SovereigntyID = SysNode.Attributes.GetNamedItem("factionID").Value
-                    nFaction = CType(FactionList(solar.SovereigntyID), Faction)
+                    solar.SovereigntyID = CInt(SysNode.Attributes.GetNamedItem("factionID").Value)
+                    nFaction = CType(FactionList(solar.SovereigntyID.ToString), Faction)
                     solar.SovereigntyName = nFaction.factionName
                 Else
                     If SysNode.Attributes.GetNamedItem("allianceID").Value <> "0" Then
                         ' This is an alliance
-                        solar.SovereigntyID = SysNode.Attributes.GetNamedItem("allianceID").Value
-                        nAlliance = CType(AllianceList(solar.SovereigntyID), Alliance)
+                        solar.SovereigntyID = CInt(SysNode.Attributes.GetNamedItem("allianceID").Value)
+                        nAlliance = CType(AllianceList(solar.SovereigntyID.ToString), Alliance)
                         If nAlliance IsNot Nothing Then
                             solar.SovereigntyName = nAlliance.name
-                            solar.sovereigntyLevel = SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value
+                            solar.sovereigntyLevel = CInt(SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value)
                             solar.constellationSovereignty = CInt(SysNode.Attributes.GetNamedItem("constellationSovereignty").Value)
                         Else
                             ' Try to get the name from the IDToName API
                             Try
-                                Dim NameXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IDToName, solar.SovereigntyID)
+                                Dim NameXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IDToName, solar.SovereigntyID.ToString)
                                 If NameXML IsNot Nothing Then
                                     AllianceDetails = NameXML.SelectNodes("/eveapi/result/rowset/row")
                                     solar.SovereigntyName = AllianceDetails(0).Attributes.GetNamedItem("name").Value
@@ -918,13 +918,13 @@ Public Class PlugInData
                             Catch e As Exception
                                 solar.SovereigntyName = "<Alliance " & solar.SovereigntyID & ">"
                             End Try
-                            solar.sovereigntyLevel = SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value
+                            solar.sovereigntyLevel = CInt(SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value)
                             solar.constellationSovereignty = CInt(SysNode.Attributes.GetNamedItem("constellationSovereignty").Value)
                         End If
                     Else
-                        solar.SovereigntyID = ""
+                        solar.SovereigntyID = 0
                         solar.SovereigntyName = ""
-                        solar.sovereigntyLevel = ""
+                        solar.sovereigntyLevel = 0
                         solar.constellationSovereignty = 0
                     End If
                 End If
@@ -948,26 +948,11 @@ Public Class PlugInData
                             cFaction = New Faction
                             cFaction.factionID = CStr(FactionData.Tables(0).Rows(solar).Item("factionID"))
                             cFaction.factionName = CStr(FactionData.Tables(0).Rows(solar).Item("factionName"))
-                            cFaction.description = CStr(FactionData.Tables(0).Rows(solar).Item("description"))
-                            cFaction.raceID = CStr(FactionData.Tables(0).Rows(solar).Item("raceIDs"))
-                            cFaction.solarSystemID = CStr(FactionData.Tables(0).Rows(solar).Item("solarSystemID"))
-                            cFaction.CorporationID = CStr(FactionData.Tables(0).Rows(solar).Item("corporationID"))
-                            cFaction.sizeFactor = CStr(FactionData.Tables(0).Rows(solar).Item("sizeFactor"))
-                            cFaction.stationCount = CStr(FactionData.Tables(0).Rows(solar).Item("stationCount"))
-                            cFaction.StationSystemCount = CStr(FactionData.Tables(0).Rows(solar).Item("stationSystemCount"))
                         Else
                             cFaction = New Faction
                             cFaction.factionID = CStr(FactionData.Tables(0).Rows(solar).Item("factionID"))
                             cFaction.factionName = CStr(FactionData.Tables(0).Rows(solar).Item("factionName"))
-                            cFaction.description = "Unknown"
-                            cFaction.raceID = CStr(FactionData.Tables(0).Rows(solar).Item("raceIDs"))
-                            cFaction.solarSystemID = "Unknown"
-                            cFaction.CorporationID = "Unknown"
-                            cFaction.sizeFactor = "Unknown"
-                            cFaction.stationCount = "Unknown"
-                            cFaction.StationSystemCount = "Unknown"
                         End If
-                        cFaction.Flag = False
                         FactionList.Add(cFaction.factionID, cFaction)
                     Next
                 Else
@@ -1026,28 +1011,27 @@ Public Class PlugInData
                         Dim cstation As Station = New Station
                         Dim skip As Boolean = False
                         cstation.stationID = CInt(StationData.Tables(0).Rows(stat).Item("stationID"))
-
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("security")) = False Then
-                            cstation.security = CStr(StationData.Tables(0).Rows(stat).Item("security"))
+                            cstation.security = CInt(StationData.Tables(0).Rows(stat).Item("security"))
                         Else
-                            cstation.security = " "
+                            cstation.security = 0
                         End If
                         'cstation.dockingCostPerVolume = Nullcheck(StationData.Tables(0).Rows(stat).Item("dockingCostPerVolume")
                         'cstation.maxShipVolumeDockable = Nullcheck(StationData.Tables(0).Rows(stat).Item("maxShipVolumeDockable")
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("operationID")) = False Then
-                            cstation.operationID = CStr(StationData.Tables(0).Rows(stat).Item("operationID"))
+                            cstation.operationID = CInt(StationData.Tables(0).Rows(stat).Item("operationID"))
                         Else
-                            cstation.operationID = " "
+                            cstation.operationID = 0
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("stationTypeID")) = False Then
-                            cstation.stationTypeID = CStr(StationData.Tables(0).Rows(stat).Item("stationTypeID"))
+                            cstation.stationTypeID = CInt(StationData.Tables(0).Rows(stat).Item("stationTypeID"))
                         Else
-                            cstation.stationTypeID = " "
+                            cstation.stationTypeID = 0
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("corporationID")) = False Then
-                            cstation.corporationID = CStr(StationData.Tables(0).Rows(stat).Item("corporationID"))
+                            cstation.corporationID = CLng(StationData.Tables(0).Rows(stat).Item("corporationID"))
                         Else
-                            cstation.corporationID = " "
+                            cstation.corporationID = 0
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("solarSystemID")) = False Then
                             cstation.solarSystemID = CInt(StationData.Tables(0).Rows(stat).Item("solarSystemID")) - 30000000
@@ -1056,52 +1040,20 @@ Public Class PlugInData
                             skip = True
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("constellationID")) = False Then
-                            cstation.constellationID = CStr(StationData.Tables(0).Rows(stat).Item("constellationID"))
+                            cstation.constellationID = CLng(StationData.Tables(0).Rows(stat).Item("constellationID"))
                         Else
-                            cstation.constellationID = " "
+                            cstation.constellationID = 0
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("regionID")) = False Then
-                            cstation.regionID = CStr(StationData.Tables(0).Rows(stat).Item("regionID"))
+                            cstation.regionID = CLng(StationData.Tables(0).Rows(stat).Item("regionID"))
                         Else
-                            cstation.regionID = " "
+                            cstation.regionID = 0
                         End If
                         If IsDBNull(StationData.Tables(0).Rows(stat).Item("stationName")) = False Then
                             cstation.stationName = CStr(StationData.Tables(0).Rows(stat).Item("stationName"))
                         Else
                             cstation.stationName = " "
                         End If
-                        If IsDBNull(StationData.Tables(0).Rows(stat).Item("x")) = False Then
-                            cstation.x = CStr(StationData.Tables(0).Rows(stat).Item("x"))
-                        Else
-                            cstation.x = " "
-                        End If
-                        If IsDBNull(StationData.Tables(0).Rows(stat).Item("y")) = False Then
-                            cstation.y = CStr(StationData.Tables(0).Rows(stat).Item("y"))
-                        Else
-                            cstation.y = " "
-                        End If
-                        If IsDBNull(StationData.Tables(0).Rows(stat).Item("z")) = False Then
-                            cstation.z = CStr(StationData.Tables(0).Rows(stat).Item("z"))
-                        Else
-                            cstation.z = " "
-                        End If
-                        If IsDBNull(StationData.Tables(0).Rows(stat).Item("reprocessingEfficiency")) = False Then
-                            cstation.reprocessingEfficiency = CInt(StationData.Tables(0).Rows(stat).Item("reprocessingEfficiency"))
-                        Else
-                            cstation.reprocessingEfficiency = 0
-                        End If
-                        If IsDBNull(StationData.Tables(0).Rows(stat).Item("reprocessingStationsTake")) = False Then
-                            cstation.reprocessingStationsTake = CInt(StationData.Tables(0).Rows(stat).Item("reprocessingStationsTake"))
-                        Else
-                            cstation.reprocessingStationsTake = 0
-                        End If
-
-                        'cstation.reprocessingHangarFlag = StationData.Tables(0).Rows(stat).Item("reprocessingHangarFlag")
-                        'cstation.capitalStation = StationData.Tables(0).Rows(stat).Item("capitalStation")
-                        'cstation.ownershipDateTime = StationData.Tables(0).Rows(stat).Item("ownershipDateTime")
-                        'cstation.upgradeLevel = StationData.Tables(0).Rows(stat).Item("upgradeLevel")
-                        'cstation.customServiceMask = StationData.Tables(0).Rows(stat).Item("customServiceMask")
-                        cstation.Flag = False
                         If skip = False Then
                             StationList.Add(cstation.stationID, cstation)
                         End If
@@ -1137,62 +1089,6 @@ Public Class PlugInData
                         Else
                             cRegion.regionName = ""
                         End If
-                        If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("x")) = False Then
-                            cRegion.x = CStr(RegionData.Tables(0).Rows(Rstat).Item("x"))
-                        Else
-                            cRegion.x = ""
-                        End If
-                        If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("y")) = False Then
-                            cRegion.y = CStr(RegionData.Tables(0).Rows(Rstat).Item("y"))
-                        Else
-                            cRegion.y = ""
-                        End If
-                        If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("z")) = False Then
-                            cRegion.z = CStr(RegionData.Tables(0).Rows(Rstat).Item("z"))
-                        Else
-                            cRegion.z = ""
-                        End If
-                        If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("xmin")) = False Then
-                            cRegion.xmin = CStr(RegionData.Tables(0).Rows(Rstat).Item("xmin"))
-                        Else
-                            cRegion.xmin = ""
-                        End If
-                        If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("ymin")) = False Then
-                            cRegion.ymin = CStr(RegionData.Tables(0).Rows(Rstat).Item("ymin"))
-                        Else
-                            cRegion.ymin = ""
-                        End If
-                        If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("zmin")) = False Then
-                            cRegion.zmin = CStr(RegionData.Tables(0).Rows(Rstat).Item("zmin"))
-                        Else
-                            cRegion.zmin = ""
-                        End If
-                        If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("xmax")) = False Then
-                            cRegion.xmax = CStr(RegionData.Tables(0).Rows(Rstat).Item("xmax"))
-                        Else
-                            cRegion.xmax = ""
-                        End If
-                        If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("ymax")) = False Then
-                            cRegion.ymax = CStr(RegionData.Tables(0).Rows(Rstat).Item("ymax"))
-                        Else
-                            cRegion.ymax = ""
-                        End If
-                        If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("zmax")) = False Then
-                            cRegion.zmax = CStr(RegionData.Tables(0).Rows(Rstat).Item("zmax"))
-                        Else
-                            cRegion.zmax = ""
-                        End If
-                        If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("factionID")) = False Then
-                            cRegion.factionID = CStr(RegionData.Tables(0).Rows(Rstat).Item("factionID"))
-                        Else
-                            cRegion.factionID = ""
-                        End If
-                        If IsDBNull(RegionData.Tables(0).Rows(Rstat).Item("radius")) = False Then
-                            cRegion.radius = CStr(RegionData.Tables(0).Rows(Rstat).Item("radius"))
-                        Else
-                            cRegion.radius = ""
-                        End If
-                        cRegion.Flag = False
                         RegionID.Add(CStr(cRegion.RegionID), cRegion)
                     Next
                 Else
@@ -1220,7 +1116,6 @@ Public Class PlugInData
                     For Rstat As Integer = 0 To ConstData.Tables(0).Rows.Count - 1
                         Dim cConst As Constellation = New Constellation
                         cConst.regionID = CInt(ConstData.Tables(0).Rows(Rstat).Item("regionID"))
-
                         If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("constellationID")) = False Then
                             cConst.constellationID = CInt(ConstData.Tables(0).Rows(Rstat).Item("constellationID"))
                         Else
@@ -1231,62 +1126,6 @@ Public Class PlugInData
                         Else
                             cConst.constellationName = " "
                         End If
-                        If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("x")) = False Then
-                            cConst.x = CStr(ConstData.Tables(0).Rows(Rstat).Item("x"))
-                        Else
-                            cConst.x = " "
-                        End If
-                        If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("y")) = False Then
-                            cConst.y = CStr(ConstData.Tables(0).Rows(Rstat).Item("y"))
-                        Else
-                            cConst.y = " "
-                        End If
-                        If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("z")) = False Then
-                            cConst.z = CStr(ConstData.Tables(0).Rows(Rstat).Item("z"))
-                        Else
-                            cConst.z = " "
-                        End If
-                        If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("xmin")) = False Then
-                            cConst.xmin = CStr(ConstData.Tables(0).Rows(Rstat).Item("xmin"))
-                        Else
-                            cConst.xmin = " "
-                        End If
-                        If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("ymin")) = False Then
-                            cConst.ymin = CStr(ConstData.Tables(0).Rows(Rstat).Item("ymin"))
-                        Else
-                            cConst.ymin = " "
-                        End If
-                        If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("zmin")) = False Then
-                            cConst.zmin = CStr(ConstData.Tables(0).Rows(Rstat).Item("zmin"))
-                        Else
-                            cConst.zmin = " "
-                        End If
-                        If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("xmax")) = False Then
-                            cConst.xmax = CStr(ConstData.Tables(0).Rows(Rstat).Item("xmax"))
-                        Else
-                            cConst.xmax = " "
-                        End If
-                        If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("ymax")) = False Then
-                            cConst.ymax = CStr(ConstData.Tables(0).Rows(Rstat).Item("ymax"))
-                        Else
-                            cConst.ymax = " "
-                        End If
-                        If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("zmax")) = False Then
-                            cConst.zmax = CStr(ConstData.Tables(0).Rows(Rstat).Item("zmax"))
-                        Else
-                            cConst.zmax = " "
-                        End If
-                        If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("factionID")) = False Then
-                            cConst.factionID = CStr(ConstData.Tables(0).Rows(Rstat).Item("factionID"))
-                        Else
-                            cConst.factionID = " "
-                        End If
-                        If IsDBNull(ConstData.Tables(0).Rows(Rstat).Item("radius")) = False Then
-                            cConst.radius = CStr(ConstData.Tables(0).Rows(Rstat).Item("radius"))
-                        Else
-                            cConst.radius = " "
-                        End If
-                        cConst.Flag = False
                         ConstellationID.Add(CStr(cConst.constellationID), cConst)
                     Next
                 Else
@@ -1315,7 +1154,6 @@ Public Class PlugInData
                         Dim cOp As Operation = New Operation
                         cOp.operationID = CInt(OpData.Tables(0).Rows(a).Item("operationID"))
                         cOp.serviceID = CInt(OpData.Tables(0).Rows(a).Item("serviceID"))
-                        cOp.Flag = False
                         OperationList.Add(a, cOp)
                     Next
                 Else
@@ -1345,7 +1183,6 @@ Public Class PlugInData
                         Dim CServ As Service = New Service
                         CServ.serviceID = CInt(ServData.Tables(0).Rows(a).Item("serviceID"))
                         CServ.serviceName = CStr(ServData.Tables(0).Rows(a).Item("serviceName"))
-                        CServ.Flag = False
                         ServiceList.Add(a, CServ)
                     Next
                 Else
@@ -1510,7 +1347,6 @@ Public Class PlugInData
                         Dim cDiv As NPCDiv = New NPCDiv
                         cDiv.divisionID = CInt(DivData.Tables(0).Rows(a).Item("divisionID"))
                         cDiv.divisionName = CStr(DivData.Tables(0).Rows(a).Item("divisionName"))
-                        cDiv.Flag = False
                         NPCDivID.Add(cDiv.divisionID, cDiv)
                     Next
                 Else
@@ -1549,22 +1385,22 @@ Public Class PlugInData
                                     ' Star - do nothing
                                 Case 7
                                     ' Planet
-                                    lastSystem.Planets.Add(CStr(mapRow.Item("itemID")), CStr(mapRow.Item("itemName")))
+                                    lastSystem.Planets += 1
                                 Case 8
                                     ' Moon
-                                    lastSystem.Moons.Add(CStr(mapRow.Item("itemID")), CStr(mapRow.Item("itemName")))
+                                    lastSystem.Moons += 1
                                 Case 9
                                     ' Belt
                                     If CStr(mapRow.Item("itemName")).Contains("Ice Field") = True Then
-                                        lastSystem.IBelts.Add(CStr(mapRow.Item("itemID")), CStr(mapRow.Item("itemName")))
+                                        lastSystem.IBelts += 1
                                     Else
-                                        lastSystem.ABelts.Add(CStr(mapRow.Item("itemID")), CStr(mapRow.Item("itemName")))
+                                        lastSystem.ABelts += 1
                                     End If
                                 Case 10
                                     ' Stargate - Do nothing
                                 Case 15
                                     ' Station
-                                    lastSystem.Stations.Add(CStr(mapRow.Item("itemID")), CStr(mapRow.Item("itemName")))
+                                    lastSystem.Stations.Add(CStr(mapRow.Item("itemID")))
                             End Select
                         End If
                     Next
