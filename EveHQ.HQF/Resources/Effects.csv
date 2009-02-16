@@ -825,6 +825,7 @@
 985,2,326,268,3,6,1,0,2,14,Armor Amplifiers - Passive Exp Resist
 986,2,326,269,3,6,1,0,2,14,Armor Amplifiers - Passive Kin Resist
 987,2,326,270,3,6,1,0,2,14,Armor Amplifiers - Passive Therm Resist
+148,2,326,265,3,6,0,0,0,14,Armor Amplifiers - Armor HP Bonus
 # Cargo Expander,,,,,,,,,,
 149,2,765,10004,3,6,0,0,0,14,Cargo Capacity Bonus
 150,2,765,9,3,6,0,0,0,14,Structure HP Penalty
