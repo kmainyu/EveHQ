@@ -291,8 +291,8 @@ Public Class frmMap
 
         startTime = Now
         Dim s, t As SolarSystem
-        s = CType(PlugInData.SystemsName(startSystem), SolarSystem)
-        t = CType(PlugInData.SystemsName(endSystem), SolarSystem)
+        s = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(startSystem)), SolarSystem)
+        t = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(endSystem)), SolarSystem)
         Dim minSec As Double = nudMinSec.Value
         Dim maxSec As Double = nudMaxSec.Value
         Dim myRoute As Dijkstra = New Dijkstra
@@ -313,8 +313,8 @@ Public Class frmMap
 
         startTime = Now
         Dim s, t As SolarSystem
-        s = CType(PlugInData.SystemsName(startSystem), SolarSystem)
-        t = CType(PlugInData.SystemsName(endSystem), SolarSystem)
+        s = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(startSystem)), SolarSystem)
+        t = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(endSystem)), SolarSystem)
         Dim minSec As Double = nudMinSec.Value
         Dim maxSec As Double = nudMaxSec.Value
         Dim myRoute As Dijkstra = New Dijkstra
@@ -336,8 +336,8 @@ Public Class frmMap
         If WaypointSets.Count > 0 Then
             If lstWaypoints.Items.Count = 0 Then
                 ' Generate the start to end route only
-                Dim fromSys As SolarSystem = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
-                Dim toSys As SolarSystem = CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem)
+                Dim fromSys As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem)
+                Dim toSys As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem)
                 FullRoute.Add(Me.GetRoute(fromSys, toSys))
             Else
                 ' Generate for all the waypoints
@@ -346,14 +346,14 @@ Public Class frmMap
                     Dim sysName As String = CStr(lstWaypoints.Items(sys))
                     toSys = CType(PlugInData.SystemsID(sysName), SolarSystem)
                     If sys = 0 Then
-                        fromSys = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
+                        fromSys = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem)
                     Else
-                        fromSys = CType(PlugInData.SystemsName(CStr(lstWaypoints.Items(sys - 1))), SolarSystem)
+                        fromSys = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lstWaypoints.Items(sys - 1)))), SolarSystem)
                     End If
                     FullRoute.Add(Me.GetRoute(fromSys, toSys))
                 Next
-                fromSys = CType(PlugInData.SystemsName(CStr(lstWaypoints.Items(lstWaypoints.Items.Count - 1))), SolarSystem)
-                toSys = CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem)
+                fromSys = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lstWaypoints.Items(lstWaypoints.Items.Count - 1)))), SolarSystem)
+                toSys = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem)
                 FullRoute.Add(Me.GetRoute(fromSys, toSys))
             End If
         End If
@@ -416,7 +416,7 @@ Public Class frmMap
         End If
 
         Dim s, t As SolarSystem
-        s = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
+        s = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem)
         t = s
         Dim myRoute As Dijkstra = New Dijkstra
         Dim gates As ArrayList = myRoute.SystemsInGateRange(s, t, True, 2)
@@ -516,22 +516,22 @@ Public Class frmMap
 #Region "New Routing Functions"
     ' Interface Routines
     Private Sub btnAddStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddStart.Click
-        If PlugInData.SystemsName.ContainsKey(cboSystem.Text) = False Then
+        If PlugInData.SystemsID.ContainsKey(PlugInData.SystemNameToID(cboSystem.Text)) = False Then
             MessageBox.Show("System Name is not a valid system", "System Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Else
-            Dim startSystem As SolarSystem = CType(PlugInData.SystemsName(cboSystem.Text), SolarSystem)
+            Dim startSystem As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(cboSystem.Text)), SolarSystem)
             lblStartSystem.Text = "Start System: " & startSystem.Name
             lblStartSystem.Tag = startSystem.Name
         End If
     End Sub
     Private Sub btnAddEnd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddEnd.Click
-        If PlugInData.SystemsName.ContainsKey(cboSystem.Text) = False Then
+        If PlugInData.SystemsID.ContainsKey(PlugInData.SystemNameToID(cboSystem.Text)) = False Then
             MessageBox.Show("System Name is not a valid system", "System Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Else
             If lblStartSystem.Tag Is Nothing Then
                 MessageBox.Show("Please enter a Start System before entering a Destination.", "Start System Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                Dim endSystem As SolarSystem = CType(PlugInData.SystemsName(cboSystem.Text), SolarSystem)
+                Dim endSystem As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(cboSystem.Text)), SolarSystem)
                 ' See if we are changing the end point
                 If lblEndSystem.Tag IsNot Nothing Then
                     ' Remove the old endpoint from the waypoints
@@ -545,16 +545,16 @@ Public Class frmMap
                         End If
                     Else
                         If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
-                            WaypointRoutes(endSystem.Name) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), endSystem)
+                            WaypointRoutes(endSystem.Name) = Me.GateRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), endSystem)
                         Else
-                            WaypointRoutes(endSystem.Name) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), endSystem)
+                            WaypointRoutes(endSystem.Name) = Me.JumpRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), endSystem)
                         End If
                     End If
                 Else
                     If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
-                        WaypointRoutes(endSystem.Name) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), endSystem)
+                        WaypointRoutes(endSystem.Name) = Me.GateRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), endSystem)
                     Else
-                        WaypointRoutes(endSystem.Name) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), endSystem)
+                        WaypointRoutes(endSystem.Name) = Me.JumpRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), endSystem)
                     End If
                 End If
 
@@ -723,11 +723,11 @@ Public Class frmMap
         Dim driveRange As Double
         Dim fuelMultiplier As Double
         Dim nJumps As Double
-        Dim startSys As SolarSystem = PlugInData.SystemsID(CStr(PlugInData.SystemsName(CStr(lblStartSystem.Tag)).ID))
+        Dim startSys As SolarSystem = PlugInData.SystemsID(CStr(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))).ID))
         Dim endSys As New SolarSystem
         Select Case algotype1
             Case RouteType.Gates, RouteType.Jumps
-                endSys = PlugInData.SystemsID(CStr(PlugInData.SystemsName(CStr(lblEndSystem.Tag)).ID))
+                endSys = PlugInData.SystemsID(CStr(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))).ID))
             Case RouteType.GateRadius, RouteType.JumpRadius
                 endSys = Nothing
         End Select
@@ -1316,7 +1316,7 @@ Public Class frmMap
 
         ' Now show the location of our target system
         If solarname <> "" Then
-            cSystem = CType(PlugInData.SystemsName(solarname), SolarSystem)
+            cSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(solarname)), SolarSystem)
             lblName.Text = cSystem.Name
             lblID.Text = CStr(cSystem.ID)
             lblConst.Text = cSystem.Constellation
@@ -1336,7 +1336,7 @@ Public Class frmMap
             lblABelts.Text = CStr(cSystem.ABelts.Count)
             lblIBelts.Text = CStr(cSystem.IBelts.Count)
             lblStations.Text = CStr(cSystem.Stations.Count)
-            For Each cCS As ConqStat In PlugInData.CSStationName.Values
+            For Each cCS As ConqStat In PlugInData.CSStationList.Values
                 If cSystem.ID = cCS.solarSystemID Then
                     lblStations.Text = CStr(CInt(lblStations.Text) + 1)
                     Exit For
@@ -1377,7 +1377,7 @@ Public Class frmMap
                 End If
             Next
             If cntr = 0 Then
-                For Each CoSt As ConqStat In PlugInData.CSStationName.Values
+                For Each CoSt As ConqStat In PlugInData.CSStationList.Values
                     If cSystem.ID = CoSt.solarSystemID Then
                         cboStation.AutoCompleteCustomSource.Add(CoSt.stationName)
                         Me.cboStation.Items.Add(CoSt.stationName)
@@ -1516,11 +1516,11 @@ Public Class frmMap
                         Dim mapFont As Font = New Font("Tahoma", 7, FontStyle.Regular)
 
                         ' Draw the starting point
-                        cSystem = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
+                        cSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem)
                         locX = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
                         locY = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
                         g.FillEllipse(myBrush, locX - 2, locY - 2, 5, 5)
-                        nSystem = CType(PlugInData.SystemsName(lvwRoute.Items(0).SubItems(1).Text), SolarSystem)
+                        nSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(lvwRoute.Items(0).SubItems(1).Text)), SolarSystem)
                         locX2 = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (nSystem.x - mapX1))
                         locY2 = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (nSystem.z - mapY1))
                         g.DrawLine(myPen, locX, locY, locX, locY)
@@ -1530,12 +1530,12 @@ Public Class frmMap
 
                         ' Draw the rest of them!
                         For a As Integer = 0 To lvwRoute.Items.Count - 1
-                            cSystem = CType(PlugInData.SystemsName(lvwRoute.Items(a).SubItems(1).Text), SolarSystem)
+                            cSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(lvwRoute.Items(a).SubItems(1).Text)), SolarSystem)
                             locX = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
                             locY = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
                             g.FillEllipse(myBrush, locX - 2, locY - 2, 5, 5)
                             If a <> lvwRoute.Items.Count - 1 Then
-                                nSystem = CType(PlugInData.SystemsName(lvwRoute.Items(a + 1).SubItems(1).Text), SolarSystem)
+                                nSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(lvwRoute.Items(a + 1).SubItems(1).Text)), SolarSystem)
                                 locX2 = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (nSystem.x - mapX1))
                                 locY2 = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (nSystem.z - mapY1))
                                 g.DrawLine(myPen, locX, locY, locX, locY)
@@ -1548,14 +1548,14 @@ Public Class frmMap
                         ' If a radius is used
                         Dim mapFont As Font = New Font("Tahoma", 7, FontStyle.Regular)
                         ' Draw the starting point
-                        cSystem = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
+                        cSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem)
                         locX = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
                         locY = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
                         g.DrawEllipse(myPen, New System.Drawing.RectangleF(locX - 1, locY - 1, 3, 3))
 
                         ' Draw the lines
                         For a As Integer = 0 To lvwRoute.Items.Count - 1
-                            cSystem = CType(PlugInData.SystemsName(lvwRoute.Items(a).SubItems(1).Text), SolarSystem)
+                            cSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(lvwRoute.Items(a).SubItems(1).Text)), SolarSystem)
                             locX2 = CInt((pbMap.Width - 1) / (mapX2 - mapX1) * (cSystem.x - mapX1))
                             locY2 = CInt((pbMap.Height - 1) / (mapY2 - mapY1) * (cSystem.z - mapY1))
                             g.FillEllipse(myBrush, locX2 - 2, locY2 - 2, 5, 5)
@@ -1618,14 +1618,14 @@ Public Class frmMap
             Dim minx, miny, minz, maxx, maxy, maxz As Double
             minx = 1.0E+19 : miny = 1.0E+19 : minz = 1.0E+19 : maxx = -1.0E+19 : maxy = -1.0E+19 : maxz = -1.0E+19
             Dim cSystem As SolarSystem
-            cSystem = CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem)
+            cSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem)
             If cSystem.x > maxx Then maxx = cSystem.x
             If cSystem.x < minx Then minx = cSystem.x
             If cSystem.y > maxy Then maxy = cSystem.y
             If cSystem.y < miny Then miny = cSystem.y
             If cSystem.z > maxz Then maxz = cSystem.z
             For a As Integer = 0 To lvwRoute.Items.Count - 1
-                cSystem = CType(PlugInData.SystemsName(lvwRoute.Items(a).SubItems(1).Text), SolarSystem)
+                cSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(lvwRoute.Items(a).SubItems(1).Text)), SolarSystem)
                 If cSystem IsNot Nothing Then
                     If cSystem.x > maxx Then maxx = cSystem.x
                     If cSystem.x < minx Then minx = cSystem.x
@@ -1690,7 +1690,7 @@ Public Class frmMap
     '    Return Facname
     'End Function
     Public Function SetAlliance(ByVal SolName As String) As String
-        Dim saSystem As SolarSystem = CType(PlugInData.SystemsName(SolName), SolarSystem)
+        Dim saSystem As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(SolName)), SolarSystem)
         Dim TAlliance As Alliance
         Dim TFaction As Alliance
         Dim Allyname As String = "Unknown"
@@ -1823,7 +1823,7 @@ Public Class frmMap
 
         ' Now show the location of our target system
         If solarname <> "" Then
-            cSystem = CType(PlugInData.SystemsName(solarname), SolarSystem)
+            cSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(solarname)), SolarSystem)
             lblName.Text = cSystem.Name
             lblID.Text = CStr(cSystem.ID)
             lblConst.Text = cSystem.Constellation
@@ -1860,13 +1860,13 @@ Public Class frmMap
             WaypointRoutes.Clear()
             If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
                 'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
-                WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
+                WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem))
             Else
                 'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
-                WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
+                WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem))
             End If
             lastAlgo = Me.cboRouteMode.SelectedIndex
-            Call GenerateWaypointRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
+            Call GenerateWaypointRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem))
         End If
     End Sub
     Private Sub btnAddWaypoint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddWaypoint.Click
@@ -1874,7 +1874,7 @@ Public Class frmMap
             MessageBox.Show("You have reached the maximum number of waypoints allowed.", "Waypoint Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         Else
-            If PlugInData.SystemsName.ContainsKey(cboSystem.Text) = False Then
+            If PlugInData.SystemsID.ContainsKey(PlugInData.SystemNameToID(cboSystem.Text)) = False Then
                 MessageBox.Show("System Name is not a valid system", "System Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 If lblStartSystem.Tag Is Nothing Or lblEndSystem.Tag Is Nothing Then
@@ -1882,7 +1882,7 @@ Public Class frmMap
                 ElseIf WaypointRoutes.Contains(cboSystem.Text) Then
                     MessageBox.Show("System is already set as a waypoint.", "Waypoint Exists", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
-                    Dim WPSystem As SolarSystem = CType(PlugInData.SystemsName(cboSystem.Text), SolarSystem)
+                    Dim WPSystem As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(cboSystem.Text)), SolarSystem)
                     lstWaypoints.Items.Add(WPSystem.Name)
                     Waypoints.Add(WPSystem)
                     If chkAutoCalcRoute.Checked = True Then
@@ -1890,7 +1890,7 @@ Public Class frmMap
                             frmMap.mingate = CDbl(Me.nudMinSec.Value)
                             frmMap.maxgate = CDbl(Me.nudMaxSec.Value)
                             If Waypoints.Count = 1 Then
-                                WaypointRoutes.Add(WPSystem.Name, Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), WPSystem))
+                                WaypointRoutes.Add(WPSystem.Name, Me.GateRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), WPSystem))
                             Else
                                 Dim startIndex As Integer = Waypoints.Count - 2
                                 WaypointRoutes.Add(WPSystem.Name, Me.GateRoute(CType(Waypoints(startIndex), SolarSystem), WPSystem))
@@ -1898,7 +1898,7 @@ Public Class frmMap
                             ' Calculate the final leg of the route (remove the old leg first!)
                             WaypointRoutes.Remove(lblEndSystem.Tag)
                             If lblEndSystem.Tag.ToString <> "" Then
-                                WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(WPSystem, CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem)))
+                                WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(WPSystem, CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem)))
                             End If
                             lastAlgo = 4
                         Else
@@ -1909,7 +1909,7 @@ Public Class frmMap
                                 frmMap.minjump = CDbl(Me.nudMinSec.Value)
                                 frmMap.maxjump = CDbl(Me.nudMaxSec.Value)
                                 If Waypoints.Count = 1 Then
-                                    WaypointRoutes.Add(WPSystem.Name, Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), WPSystem))
+                                    WaypointRoutes.Add(WPSystem.Name, Me.JumpRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), WPSystem))
                                 Else
                                     Dim startIndex As Integer = Waypoints.Count - 2
                                     WaypointRoutes.Add(WPSystem.Name, Me.JumpRoute(CType(Waypoints(startIndex), SolarSystem), WPSystem))
@@ -1917,12 +1917,12 @@ Public Class frmMap
                                 ' Calculate the final leg of the route (remove the old leg first!)
                                 WaypointRoutes.Remove(lblEndSystem.Tag)
                                 If lblEndSystem.Tag.ToString <> "" Then
-                                    WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(WPSystem, CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem)))
+                                    WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(WPSystem, CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem)))
                                 End If
                                 lastAlgo = 4
                             End If
                         End If
-                        Call GenerateWaypointRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
+                        Call GenerateWaypointRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem))
                     End If
                 End If
             End If
@@ -2047,19 +2047,19 @@ Public Class frmMap
                         ' To the proper end system
                         If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
                             'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
-                            WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
+                            WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem))
                         Else
                             'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
-                            WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
+                            WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem))
                         End If
                     Else
                         ' From the proper start system
                         If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
                             'WaypointRoutes.Add(newEnd.Name, Me.GateRoute(PlugInData.SystemsName(lblStartSystem.Tag), newEnd))
-                            WaypointRoutes(newEnd.Name) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), newEnd)
+                            WaypointRoutes(newEnd.Name) = Me.GateRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), newEnd)
                         Else
                             'WaypointRoutes.Add(newEnd.Name, Me.JumpRoute(PlugInData.SystemsName(lblStartSystem.Tag), newEnd))
-                            WaypointRoutes(newEnd.Name) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), newEnd)
+                            WaypointRoutes(newEnd.Name) = Me.JumpRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), newEnd)
                         End If
                     End If
                 Else
@@ -2068,10 +2068,10 @@ Public Class frmMap
                         ' To the proper end system
                         If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
                             'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
-                            WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(newStart, CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
+                            WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(newStart, CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem))
                         Else
                             'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
-                            WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(newStart, CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
+                            WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(newStart, CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem))
                         End If
                     Else
                         ' From WP to WP
@@ -2087,13 +2087,13 @@ Public Class frmMap
             Else
                 If cboRouteMode.SelectedItem.ToString = "Gate Route" Then
                     'WaypointRoutes.Add(lblEndSystem.Tag, Me.GateRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
-                    WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
+                    WaypointRoutes(lblEndSystem.Tag) = Me.GateRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem))
                 Else
                     'WaypointRoutes.Add(lblEndSystem.Tag, Me.JumpRoute(newStart, PlugInData.SystemsName(lblEndSystem.Tag)))
-                    WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
+                    WaypointRoutes(lblEndSystem.Tag) = Me.JumpRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem))
                 End If
             End If
-            Call GenerateWaypointRoute(CType(PlugInData.SystemsName(CStr(lblStartSystem.Tag)), SolarSystem), CType(PlugInData.SystemsName(CStr(lblEndSystem.Tag)), SolarSystem))
+            Call GenerateWaypointRoute(CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblStartSystem.Tag))), SolarSystem), CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(lblEndSystem.Tag))), SolarSystem))
         End If
     End Sub
     Private Sub btnOptimalWP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOptimalWP.Click
@@ -2127,8 +2127,8 @@ Public Class frmMap
             Dim routeCosts(WPcount - 1, WPcount - 1) As Integer
             For Waypoint As Integer = 0 To Waypoints.Count - 1
                 Dim s, t As SolarSystem
-                s = CType(PlugInData.SystemsName(CStr(Waypoints(Waypoint))), SolarSystem)
-                t = CType(PlugInData.SystemsName(CStr(Waypoints(Waypoint))), SolarSystem)
+                s = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(Waypoints(Waypoint)))), SolarSystem)
+                t = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(Waypoints(Waypoint)))), SolarSystem)
                 Dim minSec As Double = nudMinSec.Value
                 Dim maxSec As Double = nudMaxSec.Value
                 Dim myRoute As Dijkstra = New Dijkstra
@@ -2136,8 +2136,8 @@ Public Class frmMap
                 routeCosts(Waypoint, Waypoint) = route.Count
                 For Waypoint2 As Integer = 0 To Waypoints.Count - 1
                     If Waypoint <> Waypoint2 Then
-                        s = CType(PlugInData.SystemsName(CStr(Waypoints(Waypoint))), SolarSystem)
-                        t = CType(PlugInData.SystemsName(CStr(Waypoints(Waypoint2))), SolarSystem)
+                        s = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(Waypoints(Waypoint)))), SolarSystem)
+                        t = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(Waypoints(Waypoint2)))), SolarSystem)
                         route = myRoute.GetPath(s, t, False)
                         routeCosts(Waypoint, Waypoint2) = route.Count
                     End If
@@ -2195,7 +2195,7 @@ Public Class frmMap
 #Region "Exclusion Routines"
     Private Sub btnExclude_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExclude.Click
         ' Exclude the system
-        Dim eSys As SolarSystem = CType(PlugInData.SystemsName(CStr(cboSystem.SelectedItem)), SolarSystem)
+        Dim eSys As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(cboSystem.SelectedItem))), SolarSystem)
         Call ExcludeSystem(eSys)
     End Sub
     Private Sub ExcludeSystem(ByVal eSys As SolarSystem)
@@ -2231,19 +2231,19 @@ Public Class frmMap
 
     Private Sub mnuExcludeSystem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExcludeSystem.Click
         ' Exclude the system
-        Dim eSys As SolarSystem = CType(PlugInData.SystemsName(CStr(cboSystem.SelectedItem)), SolarSystem)
+        Dim eSys As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(cboSystem.SelectedItem))), SolarSystem)
         Call ExcludeSystem(eSys)
     End Sub
 
     Private Sub mnuExcludeConstellation_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExcludeConstellation.Click
         ' Exclude the constellation
-        Dim eSys As SolarSystem = CType(PlugInData.SystemsName(CStr(cboSystem.SelectedItem)), SolarSystem)
+        Dim eSys As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(cboSystem.SelectedItem))), SolarSystem)
         Call ExcludeConstellation(eSys)
     End Sub
 
     Private Sub mnuExcludeRegion_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExcludeRegion.Click
         ' Exclude the region
-        Dim eSys As SolarSystem = CType(PlugInData.SystemsName(CStr(cboSystem.SelectedItem)), SolarSystem)
+        Dim eSys As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(cboSystem.SelectedItem))), SolarSystem)
         Call ExcludeRegion(eSys)
     End Sub
 
@@ -2270,7 +2270,7 @@ Public Class frmMap
         Dim myRoute As Dijkstra = New Dijkstra
         Dim minSec As Double = nudMinSec.Value
         Dim maxSec As Double = nudMaxSec.Value
-        Dim startSys As SolarSystem = CType(PlugInData.SystemsName(CStr(cboSystem.SelectedItem)), SolarSystem)
+        Dim startSys As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(CStr(cboSystem.SelectedItem))), SolarSystem)
         Dim ndSys As SolarSystem = CType(PlugInData.SystemsID(CStr(startSys.Gates(0))), SolarSystem)
         Call myRoute.GetPath(startSys, ndSys, True, minSec, maxSec)
 
@@ -2471,7 +2471,7 @@ Public Class frmMap
         If radCelSystem.Checked = True Then
             systemArray.Add(cboSystem.SelectedItem)
         Else
-            For Each searchSys As SolarSystem In PlugInData.SystemsName.Values
+            For Each searchSys As SolarSystem In PlugInData.SystemsID.Values
                 If radCelConst.Checked = True And searchSys.Constellation = cboConst.SelectedItem.ToString Then
                     systemArray.Add(searchSys.Name)
                 Else
@@ -2500,7 +2500,7 @@ Public Class frmMap
         Dim IceId As Integer = 0
         For Each sys As String In systemArray
             Dim Icepresent As Boolean = False
-            Dim celSystem As SolarSystem = CType(PlugInData.SystemsName(sys), SolarSystem)
+            Dim celSystem As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(sys)), SolarSystem)
             For Each celBody As String In celSystem.Planets.Values
                 lvPlanets.Items.Add(celBody)
             Next
@@ -2575,7 +2575,7 @@ Public Class frmMap
             Next
         End If
         If xcntr = 1 Then
-            For Each cCS As ConqStat In PlugInData.CSStationName.Values
+            For Each cCS As ConqStat In PlugInData.CSStationList.Values
                 If cCS.stationName = statname Then
                     lblStationCorp.Text = cCS.corporationName
                     lvagnts.Items.Clear()
@@ -2620,6 +2620,12 @@ Public Class frmMap
 
     Private Sub btnSerialize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSerialize.Click
         Call PlugInData.SaveSerializedData()
+    End Sub
+
+    Private Sub tsUpdateData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsUpdateData.Click
+        Call PlugInData.LoadAlliances()
+        Call PlugInData.LoadConq()
+        Call PlugInData.LoadSov()
     End Sub
 End Class
 

@@ -225,6 +225,9 @@ Partial Class frmMap
         Me.cboRegion = New System.Windows.Forms.ComboBox
         Me.btnSerialize = New System.Windows.Forms.Button
         Me.btnExclude = New EveHQ.Map.SplitButton
+        Me.tsMap = New System.Windows.Forms.ToolStrip
+        Me.tsUpdateData = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.gbSystemInfo.SuspendLayout()
         Me.tabMap.SuspendLayout()
         CType(Me.pbMap, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -246,12 +249,13 @@ Partial Class frmMap
         Me.tabSystem.SuspendLayout()
         Me.tabExclusions.SuspendLayout()
         Me.tabWaypoints.SuspendLayout()
+        Me.tsMap.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblSystemMain
         '
         Me.lblSystemMain.AutoSize = True
-        Me.lblSystemMain.Location = New System.Drawing.Point(13, 69)
+        Me.lblSystemMain.Location = New System.Drawing.Point(13, 95)
         Me.lblSystemMain.Name = "lblSystemMain"
         Me.lblSystemMain.Size = New System.Drawing.Size(44, 13)
         Me.lblSystemMain.TabIndex = 0
@@ -260,7 +264,7 @@ Partial Class frmMap
         'cboSystem
         '
         Me.cboSystem.FormattingEnabled = True
-        Me.cboSystem.Location = New System.Drawing.Point(63, 66)
+        Me.cboSystem.Location = New System.Drawing.Point(63, 92)
         Me.cboSystem.Name = "cboSystem"
         Me.cboSystem.Size = New System.Drawing.Size(176, 21)
         Me.cboSystem.Sorted = True
@@ -300,7 +304,7 @@ Partial Class frmMap
         Me.gbSystemInfo.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gbSystemInfo.Location = New System.Drawing.Point(0, 0)
         Me.gbSystemInfo.Name = "gbSystemInfo"
-        Me.gbSystemInfo.Size = New System.Drawing.Size(239, 530)
+        Me.gbSystemInfo.Size = New System.Drawing.Size(239, 499)
         Me.gbSystemInfo.TabIndex = 2
         Me.gbSystemInfo.TabStop = False
         Me.gbSystemInfo.Text = "System Information"
@@ -568,7 +572,7 @@ Partial Class frmMap
         '
         'btnAddEnd
         '
-        Me.btnAddEnd.Location = New System.Drawing.Point(67, 99)
+        Me.btnAddEnd.Location = New System.Drawing.Point(67, 125)
         Me.btnAddEnd.Name = "btnAddEnd"
         Me.btnAddEnd.Size = New System.Drawing.Size(48, 40)
         Me.btnAddEnd.TabIndex = 63
@@ -577,7 +581,7 @@ Partial Class frmMap
         '
         'btnAddStart
         '
-        Me.btnAddStart.Location = New System.Drawing.Point(12, 99)
+        Me.btnAddStart.Location = New System.Drawing.Point(12, 125)
         Me.btnAddStart.Name = "btnAddStart"
         Me.btnAddStart.Size = New System.Drawing.Size(48, 40)
         Me.btnAddStart.TabIndex = 62
@@ -587,7 +591,7 @@ Partial Class frmMap
         'lblEndSystem
         '
         Me.lblEndSystem.AutoSize = True
-        Me.lblEndSystem.Location = New System.Drawing.Point(9, 167)
+        Me.lblEndSystem.Location = New System.Drawing.Point(9, 193)
         Me.lblEndSystem.Name = "lblEndSystem"
         Me.lblEndSystem.Size = New System.Drawing.Size(66, 13)
         Me.lblEndSystem.TabIndex = 65
@@ -596,7 +600,7 @@ Partial Class frmMap
         'lblStartSystem
         '
         Me.lblStartSystem.AutoSize = True
-        Me.lblStartSystem.Location = New System.Drawing.Point(9, 150)
+        Me.lblStartSystem.Location = New System.Drawing.Point(9, 176)
         Me.lblStartSystem.Name = "lblStartSystem"
         Me.lblStartSystem.Size = New System.Drawing.Size(69, 13)
         Me.lblStartSystem.TabIndex = 64
@@ -649,7 +653,7 @@ Partial Class frmMap
         '
         'btnAddWaypoint
         '
-        Me.btnAddWaypoint.Location = New System.Drawing.Point(191, 99)
+        Me.btnAddWaypoint.Location = New System.Drawing.Point(191, 125)
         Me.btnAddWaypoint.Name = "btnAddWaypoint"
         Me.btnAddWaypoint.Size = New System.Drawing.Size(48, 40)
         Me.btnAddWaypoint.TabIndex = 28
@@ -668,7 +672,7 @@ Partial Class frmMap
         Me.tabMap.Location = New System.Drawing.Point(4, 22)
         Me.tabMap.Name = "tabMap"
         Me.tabMap.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabMap.Size = New System.Drawing.Size(657, 743)
+        Me.tabMap.Size = New System.Drawing.Size(657, 684)
         Me.tabMap.TabIndex = 0
         Me.tabMap.Text = "Map View"
         Me.tabMap.UseVisualStyleBackColor = True
@@ -766,7 +770,7 @@ Partial Class frmMap
         Me.tabRoute.Location = New System.Drawing.Point(4, 22)
         Me.tabRoute.Name = "tabRoute"
         Me.tabRoute.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabRoute.Size = New System.Drawing.Size(657, 743)
+        Me.tabRoute.Size = New System.Drawing.Size(657, 725)
         Me.tabRoute.TabIndex = 1
         Me.tabRoute.Text = "Route Calculator"
         Me.tabRoute.UseVisualStyleBackColor = True
@@ -775,7 +779,7 @@ Partial Class frmMap
         '
         Me.lblTotalFuel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblTotalFuel.AutoSize = True
-        Me.lblTotalFuel.Location = New System.Drawing.Point(269, 722)
+        Me.lblTotalFuel.Location = New System.Drawing.Point(269, 704)
         Me.lblTotalFuel.Name = "lblTotalFuel"
         Me.lblTotalFuel.Size = New System.Drawing.Size(57, 13)
         Me.lblTotalFuel.TabIndex = 66
@@ -785,7 +789,7 @@ Partial Class frmMap
         '
         Me.lblEuclideanDistance.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblEuclideanDistance.AutoSize = True
-        Me.lblEuclideanDistance.Location = New System.Drawing.Point(6, 722)
+        Me.lblEuclideanDistance.Location = New System.Drawing.Point(6, 704)
         Me.lblEuclideanDistance.Name = "lblEuclideanDistance"
         Me.lblEuclideanDistance.Size = New System.Drawing.Size(102, 13)
         Me.lblEuclideanDistance.TabIndex = 65
@@ -941,7 +945,7 @@ Partial Class frmMap
         '
         Me.lblTotalDistance.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblTotalDistance.AutoSize = True
-        Me.lblTotalDistance.Location = New System.Drawing.Point(6, 706)
+        Me.lblTotalDistance.Location = New System.Drawing.Point(6, 688)
         Me.lblTotalDistance.Name = "lblTotalDistance"
         Me.lblTotalDistance.Size = New System.Drawing.Size(79, 13)
         Me.lblTotalDistance.TabIndex = 59
@@ -959,7 +963,7 @@ Partial Class frmMap
         Me.lvwRoute.GridLines = True
         Me.lvwRoute.Location = New System.Drawing.Point(6, 215)
         Me.lvwRoute.Name = "lvwRoute"
-        Me.lvwRoute.Size = New System.Drawing.Size(645, 488)
+        Me.lvwRoute.Size = New System.Drawing.Size(645, 470)
         Me.lvwRoute.TabIndex = 58
         Me.lvwRoute.UseCompatibleStateImageBehavior = False
         Me.lvwRoute.View = System.Windows.Forms.View.Details
@@ -1012,19 +1016,19 @@ Partial Class frmMap
         '
         Me.ctxRoute.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyToClipboard})
         Me.ctxRoute.Name = "ctxRoute"
-        Me.ctxRoute.Size = New System.Drawing.Size(175, 26)
+        Me.ctxRoute.Size = New System.Drawing.Size(174, 26)
         '
         'mnuCopyToClipboard
         '
         Me.mnuCopyToClipboard.Name = "mnuCopyToClipboard"
-        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(174, 22)
+        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(173, 22)
         Me.mnuCopyToClipboard.Text = "Copy To Clipboard"
         '
         'lblTimeTaken
         '
         Me.lblTimeTaken.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblTimeTaken.AutoSize = True
-        Me.lblTimeTaken.Location = New System.Drawing.Point(269, 706)
+        Me.lblTimeTaken.Location = New System.Drawing.Point(269, 688)
         Me.lblTimeTaken.Name = "lblTimeTaken"
         Me.lblTimeTaken.Size = New System.Drawing.Size(67, 13)
         Me.lblTimeTaken.TabIndex = 57
@@ -1127,10 +1131,10 @@ Partial Class frmMap
         Me.tabMapTool.Controls.Add(Me.tabStations)
         Me.tabMapTool.Controls.Add(Me.tabStationSearch)
         Me.tabMapTool.Controls.Add(Me.tabAgentSearch)
-        Me.tabMapTool.Location = New System.Drawing.Point(261, 10)
+        Me.tabMapTool.Location = New System.Drawing.Point(261, 28)
         Me.tabMapTool.Name = "tabMapTool"
         Me.tabMapTool.SelectedIndex = 0
-        Me.tabMapTool.Size = New System.Drawing.Size(665, 769)
+        Me.tabMapTool.Size = New System.Drawing.Size(665, 751)
         Me.tabMapTool.TabIndex = 37
         '
         'tabCelestial
@@ -1152,7 +1156,7 @@ Partial Class frmMap
         Me.tabCelestial.Location = New System.Drawing.Point(4, 22)
         Me.tabCelestial.Name = "tabCelestial"
         Me.tabCelestial.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabCelestial.Size = New System.Drawing.Size(657, 743)
+        Me.tabCelestial.Size = New System.Drawing.Size(657, 684)
         Me.tabCelestial.TabIndex = 2
         Me.tabCelestial.Text = "Celestial"
         Me.tabCelestial.UseVisualStyleBackColor = True
@@ -1357,7 +1361,7 @@ Partial Class frmMap
         Me.tabStations.Controls.Add(Me.lblStationCorp)
         Me.tabStations.Location = New System.Drawing.Point(4, 22)
         Me.tabStations.Name = "tabStations"
-        Me.tabStations.Size = New System.Drawing.Size(657, 743)
+        Me.tabStations.Size = New System.Drawing.Size(657, 684)
         Me.tabStations.TabIndex = 3
         Me.tabStations.Text = "Stations"
         Me.tabStations.UseVisualStyleBackColor = True
@@ -1502,7 +1506,7 @@ Partial Class frmMap
         Me.tabStationSearch.Controls.Add(Me.cbstssys)
         Me.tabStationSearch.Location = New System.Drawing.Point(4, 22)
         Me.tabStationSearch.Name = "tabStationSearch"
-        Me.tabStationSearch.Size = New System.Drawing.Size(657, 743)
+        Me.tabStationSearch.Size = New System.Drawing.Size(657, 684)
         Me.tabStationSearch.TabIndex = 4
         Me.tabStationSearch.Text = "Station Search"
         Me.tabStationSearch.UseVisualStyleBackColor = True
@@ -1693,7 +1697,7 @@ Partial Class frmMap
         Me.tabAgentSearch.Controls.Add(Me.lvwAgents)
         Me.tabAgentSearch.Location = New System.Drawing.Point(4, 22)
         Me.tabAgentSearch.Name = "tabAgentSearch"
-        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 743)
+        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 684)
         Me.tabAgentSearch.TabIndex = 5
         Me.tabAgentSearch.Text = "Agent Search"
         Me.tabAgentSearch.UseVisualStyleBackColor = True
@@ -2005,24 +2009,24 @@ Partial Class frmMap
         '
         Me.ctxExclude.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExcludeSystem, Me.mnuExcludeConstellation, Me.mnuExcludeRegion})
         Me.ctxExclude.Name = "ctxExclude"
-        Me.ctxExclude.Size = New System.Drawing.Size(145, 70)
+        Me.ctxExclude.Size = New System.Drawing.Size(148, 70)
         '
         'mnuExcludeSystem
         '
         Me.mnuExcludeSystem.Name = "mnuExcludeSystem"
-        Me.mnuExcludeSystem.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeSystem.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeSystem.Text = "Solar System"
         '
         'mnuExcludeConstellation
         '
         Me.mnuExcludeConstellation.Name = "mnuExcludeConstellation"
-        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeConstellation.Text = "Constellation"
         '
         'mnuExcludeRegion
         '
         Me.mnuExcludeRegion.Name = "mnuExcludeRegion"
-        Me.mnuExcludeRegion.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeRegion.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeRegion.Text = "Region"
         '
         'btnRemoveExclusion
@@ -2042,10 +2046,10 @@ Partial Class frmMap
         Me.tabWaypointExclusions.Controls.Add(Me.tabSystem)
         Me.tabWaypointExclusions.Controls.Add(Me.tabExclusions)
         Me.tabWaypointExclusions.Controls.Add(Me.tabWaypoints)
-        Me.tabWaypointExclusions.Location = New System.Drawing.Point(8, 185)
+        Me.tabWaypointExclusions.Location = New System.Drawing.Point(8, 216)
         Me.tabWaypointExclusions.Name = "tabWaypointExclusions"
         Me.tabWaypointExclusions.SelectedIndex = 0
-        Me.tabWaypointExclusions.Size = New System.Drawing.Size(247, 556)
+        Me.tabWaypointExclusions.Size = New System.Drawing.Size(247, 525)
         Me.tabWaypointExclusions.TabIndex = 68
         '
         'tabSystem
@@ -2053,7 +2057,7 @@ Partial Class frmMap
         Me.tabSystem.Controls.Add(Me.gbSystemInfo)
         Me.tabSystem.Location = New System.Drawing.Point(4, 22)
         Me.tabSystem.Name = "tabSystem"
-        Me.tabSystem.Size = New System.Drawing.Size(239, 530)
+        Me.tabSystem.Size = New System.Drawing.Size(239, 499)
         Me.tabSystem.TabIndex = 2
         Me.tabSystem.Text = "System Info"
         Me.tabSystem.UseVisualStyleBackColor = True
@@ -2065,7 +2069,7 @@ Partial Class frmMap
         Me.tabExclusions.Location = New System.Drawing.Point(4, 22)
         Me.tabExclusions.Name = "tabExclusions"
         Me.tabExclusions.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabExclusions.Size = New System.Drawing.Size(239, 530)
+        Me.tabExclusions.Size = New System.Drawing.Size(239, 396)
         Me.tabExclusions.TabIndex = 0
         Me.tabExclusions.Text = "Exclusions"
         Me.tabExclusions.UseVisualStyleBackColor = True
@@ -2080,7 +2084,7 @@ Partial Class frmMap
         Me.tabWaypoints.Location = New System.Drawing.Point(4, 22)
         Me.tabWaypoints.Name = "tabWaypoints"
         Me.tabWaypoints.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabWaypoints.Size = New System.Drawing.Size(239, 530)
+        Me.tabWaypoints.Size = New System.Drawing.Size(239, 396)
         Me.tabWaypoints.TabIndex = 1
         Me.tabWaypoints.Text = "Waypoints"
         Me.tabWaypoints.UseVisualStyleBackColor = True
@@ -2098,7 +2102,7 @@ Partial Class frmMap
         'lblConstMain
         '
         Me.lblConstMain.AutoSize = True
-        Me.lblConstMain.Location = New System.Drawing.Point(13, 42)
+        Me.lblConstMain.Location = New System.Drawing.Point(13, 68)
         Me.lblConstMain.Name = "lblConstMain"
         Me.lblConstMain.Size = New System.Drawing.Size(37, 13)
         Me.lblConstMain.TabIndex = 80
@@ -2107,7 +2111,7 @@ Partial Class frmMap
         'lblRegionMain
         '
         Me.lblRegionMain.AutoSize = True
-        Me.lblRegionMain.Location = New System.Drawing.Point(13, 15)
+        Me.lblRegionMain.Location = New System.Drawing.Point(13, 41)
         Me.lblRegionMain.Name = "lblRegionMain"
         Me.lblRegionMain.Size = New System.Drawing.Size(44, 13)
         Me.lblRegionMain.TabIndex = 79
@@ -2116,7 +2120,7 @@ Partial Class frmMap
         'cboConst
         '
         Me.cboConst.FormattingEnabled = True
-        Me.cboConst.Location = New System.Drawing.Point(63, 39)
+        Me.cboConst.Location = New System.Drawing.Point(63, 65)
         Me.cboConst.Name = "cboConst"
         Me.cboConst.Size = New System.Drawing.Size(176, 21)
         Me.cboConst.TabIndex = 78
@@ -2124,7 +2128,7 @@ Partial Class frmMap
         'cboRegion
         '
         Me.cboRegion.FormattingEnabled = True
-        Me.cboRegion.Location = New System.Drawing.Point(63, 12)
+        Me.cboRegion.Location = New System.Drawing.Point(63, 38)
         Me.cboRegion.Name = "cboRegion"
         Me.cboRegion.Size = New System.Drawing.Size(176, 21)
         Me.cboRegion.TabIndex = 77
@@ -2144,7 +2148,7 @@ Partial Class frmMap
         '
         Me.btnExclude.AutoSize = True
         Me.btnExclude.ContextMenuStrip = Me.ctxExclude
-        Me.btnExclude.Location = New System.Drawing.Point(121, 99)
+        Me.btnExclude.Location = New System.Drawing.Point(121, 125)
         Me.btnExclude.Name = "btnExclude"
         Me.btnExclude.Size = New System.Drawing.Size(64, 40)
         Me.btnExclude.SplitMenu = Me.ctxExclude
@@ -2153,27 +2157,51 @@ Partial Class frmMap
         Me.btnExclude.UseCompatibleTextRendering = True
         Me.btnExclude.UseVisualStyleBackColor = True
         '
+        'tsMap
+        '
+        Me.tsMap.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsUpdateData, Me.ToolStripSeparator1})
+        Me.tsMap.Location = New System.Drawing.Point(0, 0)
+        Me.tsMap.Name = "tsMap"
+        Me.tsMap.Size = New System.Drawing.Size(938, 25)
+        Me.tsMap.TabIndex = 82
+        Me.tsMap.Text = "ToolStrip1"
+        '
+        'tsUpdateData
+        '
+        Me.tsUpdateData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsUpdateData.Image = CType(resources.GetObject("tsUpdateData.Image"), System.Drawing.Image)
+        Me.tsUpdateData.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsUpdateData.Name = "tsUpdateData"
+        Me.tsUpdateData.Size = New System.Drawing.Size(72, 22)
+        Me.tsUpdateData.Text = "Update Data"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
         'frmMap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(938, 783)
-        Me.Controls.Add(Me.lblConstMain)
-        Me.Controls.Add(Me.lblRegionMain)
+        Me.Controls.Add(Me.tsMap)
         Me.Controls.Add(Me.btnSerialize)
-        Me.Controls.Add(Me.cboConst)
-        Me.Controls.Add(Me.cboRegion)
         Me.Controls.Add(Me.tabWaypointExclusions)
         Me.Controls.Add(Me.pbInfo)
         Me.Controls.Add(Me.tabMapTool)
+        Me.Controls.Add(Me.lblConstMain)
+        Me.Controls.Add(Me.lblRegionMain)
+        Me.Controls.Add(Me.cboRegion)
+        Me.Controls.Add(Me.cboConst)
+        Me.Controls.Add(Me.btnAddEnd)
+        Me.Controls.Add(Me.lblSystemMain)
+        Me.Controls.Add(Me.btnExclude)
+        Me.Controls.Add(Me.btnAddWaypoint)
         Me.Controls.Add(Me.lblEndSystem)
         Me.Controls.Add(Me.btnAddStart)
         Me.Controls.Add(Me.cboSystem)
         Me.Controls.Add(Me.lblStartSystem)
-        Me.Controls.Add(Me.lblSystemMain)
-        Me.Controls.Add(Me.btnAddEnd)
-        Me.Controls.Add(Me.btnAddWaypoint)
-        Me.Controls.Add(Me.btnExclude)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMap"
         Me.Text = "EveHQ Map Tool"
@@ -2207,6 +2235,8 @@ Partial Class frmMap
         Me.tabExclusions.ResumeLayout(False)
         Me.tabWaypoints.ResumeLayout(False)
         Me.tabWaypoints.PerformLayout()
+        Me.tsMap.ResumeLayout(False)
+        Me.tsMap.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -2415,4 +2445,7 @@ Partial Class frmMap
     Friend WithEvents ColumnHeader10 As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblIce As System.Windows.Forms.Label
     Friend WithEvents btnSerialize As System.Windows.Forms.Button
+    Friend WithEvents tsMap As System.Windows.Forms.ToolStrip
+    Friend WithEvents tsUpdateData As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
 End Class

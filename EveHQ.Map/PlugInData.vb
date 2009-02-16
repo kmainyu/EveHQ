@@ -60,25 +60,20 @@ Public Class PlugInData
 #End Region
 
 #Region "Data Loading Routines"
-    Public Shared SystemsName As New SortedList(Of String, SolarSystem)
     Public Shared SystemsID As New SortedList(Of String, SolarSystem)
+    Public Shared SystemNameToID As New SortedList(Of String, String)
     Public Shared NPCCorpList As New SortedList
     Public Shared NPCDivID As New SortedList
     Public Shared eveNames As New SortedList
     Public Shared RegionID As New SortedList(Of String, Region)
-    Public Shared RegionName As New SortedList(Of String, Region)
     Public Shared ConstellationID As New SortedList(Of String, Constellation)
-    Public Shared ConstellationName As New SortedList(Of String, Constellation)
     Public Shared AgentID As New SortedList
-    Public Shared AgentName As New SortedList
     Public Shared ServiceList As New SortedList
     Public Shared OperationList As New SortedList
     Public Shared FactionList As New SortedList
     Public Shared AllianceList As New SortedList
     Public Shared StationList As New SortedList
-    Public Shared StationName As New SortedList
     Public Shared CSStationList As New SortedList
-    Public Shared CSStationName As New SortedList
     Public Shared StationTypes As New SortedList
     Public Shared OreClassList As New SortedList
     Dim SystemJumps As New SortedList
@@ -120,7 +115,7 @@ Public Class PlugInData
             Return False
             Exit Function
         End If
-        If Me.LoadAlliances() = False Then
+        If LoadAlliances() = False Then
             ReportError("LoadAlliances failed", "Problem Loading Data")
             Return False
             Exit Function
@@ -130,7 +125,7 @@ Public Class PlugInData
             Return False
             Exit Function
         End If
-        If Me.LoadSov() = False Then
+        If LoadSov() = False Then
             ReportError("LoadSov failed", "Problem Loading Data")
             Return False
             Exit Function
@@ -160,7 +155,7 @@ Public Class PlugInData
             Return False
             Exit Function
         End If
-        If Me.LoadConq() = False Then
+        If LoadConq() = False Then
             ReportError("LoadConq failed", "Problem Loading Data")
             Return False
             Exit Function
@@ -209,34 +204,23 @@ Public Class PlugInData
             Next
         Next
         For Each cSystem As SolarSystem In PlugInData.SystemsID.Values
-            SystemsName.Add(cSystem.Name, cSystem)
+            SystemNameToID.Add(cSystem.Name, cSystem.ID.ToString)
         Next
 
         s = New FileStream(mapCacheFolder & "\Regions.bin", FileMode.Open)
         f = New BinaryFormatter
         RegionID = CType(f.Deserialize(s), SortedList(Of String, Region))
         s.Close()
-        For Each cSystem As Region In RegionID.Values
-            RegionName.Add(cSystem.regionName, cSystem)
-        Next
 
         s = New FileStream(mapCacheFolder & "\Constellations.bin", FileMode.Open)
         f = New BinaryFormatter
         ConstellationID = CType(f.Deserialize(s), SortedList(Of String, Constellation))
         s.Close()
-        For Each cSystem As Constellation In ConstellationID.Values
-            ConstellationName.Add(cSystem.constellationName, cSystem)
-        Next
 
         s = New FileStream(mapCacheFolder & "\OreClass.bin", FileMode.Open)
         f = New BinaryFormatter
         OreClassList = CType(f.Deserialize(s), SortedList)
         s.Close()
-
-        's = New FileStream(mapCacheFolder & "\Names.bin", FileMode.Open)
-        'f = New BinaryFormatter
-        'eveNames = CType(f.Deserialize(s), SortedList)
-        's.Close()
 
         s = New FileStream(mapCacheFolder & "\NPCCorps.bin", FileMode.Open)
         f = New BinaryFormatter
@@ -257,9 +241,6 @@ Public Class PlugInData
         f = New BinaryFormatter
         StationList = CType(f.Deserialize(s), SortedList)
         s.Close()
-        For Each cStation As Station In StationList.Values
-            StationName.Add(cStation.stationName, cStation)
-        Next
 
         s = New FileStream(mapCacheFolder & "\Operations.bin", FileMode.Open)
         f = New BinaryFormatter
@@ -275,17 +256,11 @@ Public Class PlugInData
         f = New BinaryFormatter
         AgentID = CType(f.Deserialize(s), SortedList)
         s.Close()
-        For Each cAgent As Agent In AgentID.Values
-            AgentName.Add(cAgent.agentName, cAgent)
-        Next
 
         s = New FileStream(mapCacheFolder & "\Conquerables.bin", FileMode.Open)
         f = New BinaryFormatter
         CSStationList = CType(f.Deserialize(s), SortedList)
         s.Close()
-        For Each cStation As ConqStat In CSStationList.Values
-            CSStationName.Add(cStation.stationName, cStation)
-        Next
 
         s = New FileStream(mapCacheFolder & "\StationTypes.bin", FileMode.Open)
         f = New BinaryFormatter
@@ -318,7 +293,6 @@ Public Class PlugInData
         Try
             If systemData IsNot Nothing Then
                 If systemData.Tables(0).Rows.Count > 0 Then
-                    PlugInData.SystemsName.Clear()
                     PlugInData.SystemsID.Clear()
                     Dim cSystem As SolarSystem = New SolarSystem
                     For solar As Integer = 0 To systemData.Tables(0).Rows.Count - 1
@@ -342,7 +316,6 @@ Public Class PlugInData
 
                         cSystem.Flag = False
                         PlugInData.SystemsID.Add(cSystem.ID.ToString, cSystem)
-                        PlugInData.SystemsName.Add(cSystem.Name, cSystem)
                     Next
                 Else
                     Return False
@@ -904,7 +877,7 @@ Public Class PlugInData
             Return False
         End Try
     End Function
-    Public Function LoadSov() As Boolean
+    Public Shared Function LoadSov() As Boolean
         Try
             ' Dimension variables
             Dim SystemDetails, AllianceDetails As XmlNodeList
@@ -1011,7 +984,7 @@ Public Class PlugInData
             Return False
         End Try
     End Function
-    Public Function LoadAlliances() As Boolean
+    Public Shared Function LoadAlliances() As Boolean
         Try
             ' Dimension variables
             Dim AllyDetails As XmlNodeList
@@ -1021,6 +994,7 @@ Public Class PlugInData
             Dim XMLDoc As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AllianceList)
             AllyDetails = XMLDoc.SelectNodes("/eveapi/result/rowset/row")
             Dim ind As Integer = 0
+            AllianceList.Clear()
             For Each AllyNode In AllyDetails
                 Dim Ally As New Alliance
                 Ally.ID = AllyNode.Attributes.GetNamedItem("allianceID").Value
@@ -1048,7 +1022,6 @@ Public Class PlugInData
             If StationData IsNot Nothing Then
                 If StationData.Tables(0).Rows.Count > 0 Then
                     StationList.Clear()
-                    StationName.Clear()
                     For stat As Integer = 0 To StationData.Tables(0).Rows.Count - 1
                         Dim cstation As Station = New Station
                         Dim skip As Boolean = False
@@ -1131,7 +1104,6 @@ Public Class PlugInData
                         cstation.Flag = False
                         If skip = False Then
                             StationList.Add(cstation.stationID, cstation)
-                            StationName.Add(cstation.stationName, cstation)
                         End If
                     Next
                 Else
@@ -1156,7 +1128,6 @@ Public Class PlugInData
             If RegionData IsNot Nothing Then
                 If RegionData.Tables(0).Rows.Count > 0 Then
                     RegionID.Clear()
-                    RegionName.Clear()
                     For Rstat As Integer = 0 To RegionData.Tables(0).Rows.Count - 1
                         Dim cRegion As Region = New Region
                         cRegion.RegionID = CInt(RegionData.Tables(0).Rows(Rstat).Item("regionID"))
@@ -1223,7 +1194,6 @@ Public Class PlugInData
                         End If
                         cRegion.Flag = False
                         RegionID.Add(CStr(cRegion.RegionID), cRegion)
-                        RegionName.Add(cRegion.regionName, cRegion)
                     Next
                 Else
                     Return False
@@ -1247,8 +1217,6 @@ Public Class PlugInData
             If ConstData IsNot Nothing Then
                 If ConstData.Tables(0).Rows.Count > 0 Then
                     ConstellationID.Clear()
-                    ConstellationName.Clear()
-
                     For Rstat As Integer = 0 To ConstData.Tables(0).Rows.Count - 1
                         Dim cConst As Constellation = New Constellation
                         cConst.regionID = CInt(ConstData.Tables(0).Rows(Rstat).Item("regionID"))
@@ -1320,7 +1288,6 @@ Public Class PlugInData
                         End If
                         cConst.Flag = False
                         ConstellationID.Add(CStr(cConst.constellationID), cConst)
-                        ConstellationName.Add(cConst.constellationName, cConst)
                     Next
                 Else
                     Return False
@@ -1404,7 +1371,6 @@ Public Class PlugInData
             If AgentData IsNot Nothing Then
                 If AgentData.Tables(0).Rows.Count > 0 Then
                     AgentID.Clear()
-                    AgentName.Clear()
                     For a As Integer = 0 To AgentData.Tables(0).Rows.Count - 1
                         Dim cAgent As Agent = New Agent
                         Dim skip As Boolean = False
@@ -1448,7 +1414,6 @@ Public Class PlugInData
                         cAgent.Flag = False
                         If skip = False Then
                             AgentID.Add(cAgent.agentID, cAgent)
-                            AgentName.Add(cAgent.agentName, cAgent)
                         End If
                     Next
                 Else
@@ -1466,7 +1431,7 @@ Public Class PlugInData
         End Try
         Return True
     End Function
-    Public Function LoadConq() As Boolean
+    Public Shared Function LoadConq() As Boolean
         Try
             ' Dimension variables
             Dim CSDetails As XmlNodeList
@@ -1474,6 +1439,7 @@ Public Class PlugInData
             ' Get the Sovereignty data
             Dim XMLDoc As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Conquerables)
             CSDetails = XMLDoc.SelectNodes("/eveapi/result/rowset/row")
+            CSStationList.Clear()
             For Each CSNode In CSDetails
                 Dim CS As New ConqStat
                 CS.stationID = CInt(CSNode.Attributes.GetNamedItem("stationID").Value)
@@ -1483,7 +1449,6 @@ Public Class PlugInData
                 CS.corporationID = CSNode.Attributes.GetNamedItem("corporationID").Value
                 CS.corporationName = CSNode.Attributes.GetNamedItem("corporationName").Value
                 CS.Flag = False
-                CSStationName.Add(CS.stationName, CS)
                 CSStationList.Add(CS.stationID, CS)
             Next
             Return True
