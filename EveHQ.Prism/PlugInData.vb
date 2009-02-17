@@ -6,6 +6,7 @@ Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
     Public Shared Items As New SortedList
     Public Shared itemFlags As New SortedList
+    Public Shared RefTypes As New SortedList
     Public Shared stations As New SortedList
     Public Shared NPCCorps As New SortedList
     Public Shared Corps As New SortedList
@@ -65,6 +66,10 @@ Public Class PlugInData
         Else
             Call Me.LoadItemFlags()
             Call Me.LoadPackedVolumes()
+            If Me.LoadRefTypes = False Then
+                Return False
+                Exit Function
+            End If
             If Me.LoadStations = False Then
                 Return False
                 Exit Function
@@ -340,6 +345,37 @@ Public Class PlugInData
         Catch ex As Exception
             MessageBox.Show("Error Loading NPC Corporation Data for Prism Plugin" & ControlChars.CrLf & ex.Message, "Prism Plug-in Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
+        End Try
+    End Function
+    Public Function LoadRefTypes() As Boolean
+        Try
+            ' Dimension variables
+            Dim x As Integer = 0
+            Dim refDetails As XmlNodeList
+            Dim refNode As XmlNode
+            Dim fileName As String = ""
+            Dim refXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.RefTypes)
+            Dim errlist As XmlNodeList = refXML.SelectNodes("/eveapi/error")
+            If errlist.Count = 0 Then
+                refDetails = refXML.SelectNodes("/eveapi/result/rowset/row")
+                If refDetails IsNot Nothing Then
+                    For Each refNode In refDetails
+                        RefTypes.Add(refNode.Attributes.GetNamedItem("refTypeID").Value, refNode.Attributes.GetNamedItem("refTypeName").Value)
+                    Next
+                End If
+            Else
+                Dim errNode As XmlNode = errlist(0)
+                ' Get error code
+                Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                Dim errMsg As String = errNode.InnerText
+                MessageBox.Show("The RefTypes API returned error " & errCode & ": " & errMsg, "RefTypes Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return False
+            End If
+            Return True
+        Catch e As Exception
+            MessageBox.Show("There was an error loading the RefTypes API. The error was: " & e.Message, "RefTypes Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+            Exit Function
         End Try
     End Function
     Public Sub CheckForConqXMLFile()

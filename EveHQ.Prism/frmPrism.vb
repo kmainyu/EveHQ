@@ -56,10 +56,15 @@ Public Class frmPrism
     Dim RigBuildData As New SortedList
     Dim SalvageList As New SortedList
 
+    Delegate Sub CheckXMLDelegate(ByVal apiXML As XmlDocument, ByVal Owner As String, ByVal Pos As Integer)
+    Private XMLDelegate As CheckXMLDelegate
+
 #End Region
 
 #Region "Form Initialisation Routines"
     Private Sub frmAssets_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        XMLDelegate = New CheckXMLDelegate(AddressOf CheckXML)
+
         Call Me.LoadFilterGroups()
         Call Me.ScanForExistingXMLs()
         Call Portfolio.SetupTypes()
@@ -222,8 +227,7 @@ Public Class frmPrism
                     Else
                         APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Green
                     End If
-                    APIOwner.SubItems(Pos).Text = Format(cache, "dd/MM/yyyy HH:MM:ss")
-
+                    APIOwner.SubItems(Pos).Text = Format(cache, "dd/MM/yyyy HH:mm:ss")
                 End If
             Else
                 APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
@@ -235,21 +239,246 @@ Public Class frmPrism
 #End Region
 
 #Region "XML Retrieval and Parsing"
+    Private Sub GetXMLData()
+        ' Start separate threads for getting each collection of assets
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCharAssets, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpAssets, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCharBalances, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpBalances, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCharJobs, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpJobs, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCharJournal, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpJournal, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCharOrders, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpOrders, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCharTransactions, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpTranactions, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpSheet, Nothing)
+    End Sub
+    Private Sub GetCharAssets(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 2})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCorpAssets(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 2})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCharBalances(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 3})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCorpBalances(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 3})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCharJobs(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 4})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCorpJobs(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 4})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCharJournal(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000, "", False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 5})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCorpJournal(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, 1000, "", False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 5})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCharOrders(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 6})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCorpOrders(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 6})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCharTransactions(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, "", False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 7})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCorpTranactions(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, "", False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 7})
+
+            End If
+        Next
+    End Sub
+    Private Sub GetCorpSheet(ByVal State As Object)
+        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim accountName As String = selPilot.Account
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+
+                ' Make a call to the EveHQ.Core.API to fetch the assets
+                Dim apiXML As New XmlDocument
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, False)
+
+                ' Update the dipsplay
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 8})
+
+            End If
+        Next
+    End Sub
+
     Private Sub GetAssets()
         lvwCurrentAPIs.Items.Clear()
         lvwCharFilter.BeginUpdate()
         lvwCharFilter.Items.Clear()
         loadedOwners.Clear()
         cboPilots.Items.Clear()
-        Call Me.GetCharAssets()
-        Call Me.GetCorpAssets()
-        Call Me.GetCorpSheet()
+        Call Me.GetCharacterAssets()
+        Call Me.GetCorporateAssets()
+        Call Me.GetCorporateSheet()
         Call Me.GetCharIsk()
         Call Me.GetCorpIsk()
         lvwCharFilter.EndUpdate()
         MessageBox.Show("Download of Assets complete. Please check the API Status for any error messages.", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
-    Private Sub GetCharAssets()
+    Private Sub GetCharacterAssets()
         ' Get Individual Assets
         For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim accountName As String = selPilot.Account
@@ -297,7 +526,7 @@ Public Class frmPrism
             End If
         Next
     End Sub
-    Private Sub GetCorpAssets()
+    Private Sub GetCorporateAssets()
         ' Get Corp Assets
         For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim accountName As String = selPilot.Account
@@ -347,7 +576,7 @@ Public Class frmPrism
             End If
         Next
     End Sub
-    Private Sub GetCorpSheet()
+    Private Sub GetCorporateSheet()
         ' Get Corp Sheet For Account/Hangar Divisions
         For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim accountName As String = selPilot.Account
@@ -486,6 +715,10 @@ Public Class frmPrism
         Dim localCacheTime As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cacheTime)
         Return localCacheTime
     End Function
+
+#End Region
+
+#Region "Assets XML Parsing"
     Private Sub PopulateAssets()
         assetList.Clear()
         tlvAssets.BeginUpdate()
@@ -2596,10 +2829,19 @@ Public Class frmPrism
 #End Region
 
 #Region "Toolbar Menu Routines"
-    Private Sub tsbDownloadAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbDownloadAssets.Click
+    Private Sub tsbDownloadAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbDownloadData.Click
         ' Flick to the API Status tab
-        TabControl1.SelectTab(tabAssetsAPI)
-        Call Me.GetAssets()
+        tabPrism.SelectTab(tabAssetsAPI)
+        ' Delete the current API Status data
+        lvwCurrentAPIs.BeginUpdate()
+        For Each Owner As ListViewItem In lvwCurrentAPIs.Items
+            For si As Integer = 2 To 8
+                Owner.SubItems(si).Text = ""
+            Next
+        Next
+        lvwCurrentAPIs.EndUpdate()
+        'Call Me.GetAssets()
+        Call Me.GetXMLData()
         cboPilots.SelectedItem = EveHQ.Core.HQ.myPilot.Name
     End Sub
     Private Sub tsbDownloadOutposts_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbDownloadOutposts.Click
@@ -2624,7 +2866,7 @@ Public Class frmPrism
             ' Populate the assets list
             Call Me.PopulateAssets()
             ' Flip to the assets tab to see it!
-            TabControl1.SelectedTab = tabAssets
+            tabPrism.SelectedTab = tabAssets
         Else
             MessageBox.Show("Please select an Asset Owner before continuing!", "Please Select Asset Owner", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
