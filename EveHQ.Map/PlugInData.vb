@@ -317,6 +317,7 @@ Public Class PlugInData
                         cSystem.Flag = False
                         PlugInData.SystemsID.Add(cSystem.ID.ToString, cSystem)
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -325,7 +326,6 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            Return True
         Catch e As Exception
             MessageBox.Show("There was an error generating the solar system data. The error was: " & ControlChars.CrLf & e.Message, "Map Tool Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -333,6 +333,7 @@ Public Class PlugInData
     End Function
 
     Public Function LoadOreData() As Boolean
+        OreClassList.Clear()
         OreClassList.Add("A", "Veldspar, Scordite")
         OreClassList.Add("B", "Veldspar, Scordite, Pyroxeres")
         OreClassList.Add("B1", "Veldspar, Scordite, Pyroxeres, Kernite")
@@ -772,6 +773,7 @@ Public Class PlugInData
                         'cSystem.Gates.Add(PlugInData.SystemsID(toSystem.ToString))
                         cSystem.Gates.Add(toSystem.ToString)
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -780,7 +782,6 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            Return True
         Catch e As Exception
             MessageBox.Show("There was an error generating the system gate data. The error was: " & ControlChars.CrLf & e.Message, "Map Tool Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -865,6 +866,7 @@ Public Class PlugInData
                         cCorp.CorpName = CStr(eveNames(cCorp.CorporationID))
                         NPCCorpList.Add(cCorp.CorporationID, cCorp)
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -873,7 +875,6 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            Return True
         Catch e As Exception
             MessageBox.Show("There was an error loading the NPC Corp data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -957,6 +958,7 @@ Public Class PlugInData
                         End If
                         FactionList.Add(cFaction.factionID, cFaction)
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -965,7 +967,6 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            Return True
         Catch e As Exception
             MessageBox.Show("There was an error loading the Faction data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -1058,6 +1059,7 @@ Public Class PlugInData
                             StationList.Add(cstation.stationID, cstation)
                         End If
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -1066,7 +1068,6 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            Return True
         Catch e As Exception
             MessageBox.Show("There was an error loading the Station data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -1091,6 +1092,7 @@ Public Class PlugInData
                         End If
                         RegionID.Add(CStr(cRegion.RegionID), cRegion)
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -1099,7 +1101,6 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            Return True
         Catch e As Exception
             MessageBox.Show("There was an error loading the REgion data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -1128,6 +1129,7 @@ Public Class PlugInData
                         End If
                         ConstellationID.Add(CStr(cConst.constellationID), cConst)
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -1136,7 +1138,6 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            Return True
         Catch e As Exception
             MessageBox.Show("There was an error loading the Constellation data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -1155,6 +1156,7 @@ Public Class PlugInData
                         cOp.serviceID = CInt(OpData.Tables(0).Rows(a).Item("serviceID"))
                         OperationList.Add(a, cOp)
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -1163,7 +1165,6 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            Return True
         Catch e As Exception
             MessageBox.Show("There was an error loading the Station Operation data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -1183,6 +1184,7 @@ Public Class PlugInData
                         CServ.serviceName = CStr(ServData.Tables(0).Rows(a).Item("serviceName"))
                         ServiceList.Add(a, CServ)
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -1191,7 +1193,6 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            Return True
         Catch e As Exception
             MessageBox.Show("There was an error loading the Station Service data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -1249,6 +1250,7 @@ Public Class PlugInData
                             AgentID.Add(cAgent.agentID, cAgent)
                         End If
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -1257,7 +1259,6 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            Return True
         Catch e As Exception
             MessageBox.Show("There was an error loading the Agent data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -1316,6 +1317,7 @@ Public Class PlugInData
                         cCSS.Flag = False
                         StationTypes.Add(cCSS.stationTypeID, cCSS)
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
@@ -1324,7 +1326,6 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            Return True
         Catch e As Exception
             MessageBox.Show("There was an error loading Station Type data. The error was: " & ControlChars.CrLf & e.Message, "Critical Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
@@ -1344,6 +1345,7 @@ Public Class PlugInData
                         cDiv.divisionName = CStr(DivData.Tables(0).Rows(a).Item("divisionName"))
                         NPCDivID.Add(cDiv.divisionID, cDiv)
                     Next
+                    Return True
                 Else
                     Return False
                     Exit Function
