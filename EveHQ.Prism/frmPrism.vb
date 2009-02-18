@@ -50,7 +50,7 @@ Public Class frmPrism
     Dim totalAssetCount As Long = 0
     Dim totalAssetBatch As Long = 0
     Dim HQFShip As New ArrayList
-    Dim IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss.fff"
+    Dim IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
 
     ' Rig Builder Variables
     Dim RigBPData As New SortedList
@@ -3572,8 +3572,7 @@ Public Class frmPrism
             If OrderXML IsNot Nothing Then
                 Dim Orders As XmlNodeList = OrderXML.SelectNodes("/eveapi/result/rowset/row")
                 For Each Order As XmlNode In Orders
-
-                    If Order.Attributes.GetNamedItem("bid").Value = "0" = False Then
+                    If Order.Attributes.GetNamedItem("bid").Value = "0" Then
                         If Order.Attributes.GetNamedItem("orderState").Value = "0" Then
                             Dim bOrder As New ListViewItem
                             Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
@@ -3582,7 +3581,7 @@ Public Class frmPrism
                             Dim quantity As Double = CDbl(Order.Attributes.GetNamedItem("volRemaining").Value)
                             bOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             bOrder.SubItems.Add(FormatNumber(Order.Attributes.GetNamedItem("price").Value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                            Dim loc As String = CStr(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value))
+                            Dim loc As String = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
                             bOrder.SubItems.Add(loc)
                             Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
                             Dim orderExpires As TimeSpan = issueDate - Now
@@ -3605,7 +3604,7 @@ Public Class frmPrism
                             Dim quantity As Double = CDbl(Order.Attributes.GetNamedItem("volRemaining").Value)
                             sOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             sOrder.SubItems.Add(FormatNumber(Order.Attributes.GetNamedItem("price").Value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                            Dim loc As String = CStr(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value))
+                            Dim loc As String = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
                             sOrder.SubItems.Add(loc)
                             Select Case CInt(Order.Attributes.GetNamedItem("range").Value)
                                 Case -1
