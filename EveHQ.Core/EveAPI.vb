@@ -202,22 +202,6 @@ Public Class EveAPI
                 remoteURL = "/char/WalletJournal.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp
                 remoteURL = "/corp/WalletJournal.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
-            Case Else
-                cLastAPIResult = APIResults.InvalidFeature
-                Return Nothing
-                Exit Function
-        End Select
-        ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID & "_" & accountKey
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly)
-    End Function
-    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal BeforeTransID As String, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
-        Dim remoteURL As String = ""
-        Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID
-        If BeforeTransID <> "" Then
-            postData &= "&beforeTransID=" & BeforeTransID
-        End If
-        Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.WalletTransChar
                 remoteURL = "/char/WalletTransactions.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.WalletTransCorp
@@ -228,7 +212,7 @@ Public Class EveAPI
                 Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID
+        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID & "_" & accountKey
         Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly)
     End Function
 

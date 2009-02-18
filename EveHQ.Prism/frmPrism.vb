@@ -214,11 +214,11 @@ Public Class frmPrism
                 Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 6)
 
                 ' Check for char transactions
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, "", True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, "", True)
                 Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 7)
 
                 ' Check for corp transactions
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, "", True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, 1000, "", True)
                 Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 7)
 
                 ' Check for corp sheets
@@ -406,7 +406,9 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, 1000, "", False)
+                For divID As Integer = 1006 To 1000 Step -1
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, divID, "", False)
+                Next
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 5})
@@ -454,7 +456,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, "", False)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, "", False)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 7})
@@ -470,7 +472,9 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, "", False)
+                For divID As Integer = 1006 To 1000 Step -1
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, divID, "", False)
+                Next
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 7})
@@ -2878,9 +2882,6 @@ Public Class frmPrism
         'Call Me.GetAssets()
         Call Me.GetXMLData()
         cboPilots.SelectedItem = EveHQ.Core.HQ.myPilot.Name
-    End Sub
-    Private Sub tsbDownloadOutposts_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbDownloadOutposts.Click
-        Call Me.GetOutposts()
     End Sub
     Private Sub tsbRefreshAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbRefreshAssets.Click
         Dim minValue As Double

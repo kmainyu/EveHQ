@@ -193,10 +193,6 @@ Public Class APIRS
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.POSList, aAccount, charID)
                                             Case "/CORP/STARBASEDETAIL.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.POSDetails, aAccount, charID)
-                                            Case "/CHAR/WALLETTRANSACTIONS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
-                                                APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, aAccount, charID, beforeTransID)
-                                            Case "/CORP/WALLETTRANSACTIONS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
-                                                APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, aAccount, charID, beforeTransID)
                                         End Select
                                         responseString = APIXML.InnerXml
                                     Case APIRSResponseTypes.IncorrectPOSTData
@@ -256,6 +252,10 @@ Public Class APIRS
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, aAccount, charID, accountKey, beforeRefID)
                                             Case "CORP/WALLETJOURNAL.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
                                                 APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, aAccount, charID, accountKey, beforeRefID)
+                                            Case "/CHAR/WALLETTRANSACTIONS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
+                                                APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, aAccount, charID, accountKey, beforeRefID)
+                                            Case "/CORP/WALLETTRANSACTIONS.XML." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension.ToUpper
+                                                APIXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, aAccount, charID, accountKey, beforeRefID)
                                         End Select
                                         responseString = APIXML.InnerXml
                                     Case APIRSResponseTypes.IncorrectPOSTData

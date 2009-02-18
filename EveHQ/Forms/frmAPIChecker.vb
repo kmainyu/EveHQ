@@ -111,19 +111,12 @@ Public Class frmAPIChecker
                 lblOtherInfo.Text = "POS ItemID:"
                 APIStyle = 5
 
-            Case EveHQ.Core.EveAPI.APIRequest.WalletTransChar, EveHQ.Core.EveAPI.APIRequest.WalletTransCorp
-                lblCharacter.Enabled = True : cboCharacter.Enabled = True
-                lblAccount.Enabled = False : cboAccount.Enabled = False
-                lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
-                lblOtherInfo.Text = "Before RefID:"
-                APIStyle = 6
-
-            Case EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp
+            Case EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, EveHQ.Core.EveAPI.APIRequest.WalletTransChar, EveHQ.Core.EveAPI.APIRequest.WalletTransCorp
                 lblCharacter.Enabled = True : cboCharacter.Enabled = True
                 lblAccount.Enabled = True : cboAccount.Enabled = True
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
                 lblOtherInfo.Text = "Before RefID:"
-                APIStyle = 7
+                APIStyle = 6
 
         End Select
     End Sub
@@ -141,7 +134,7 @@ Public Class frmAPIChecker
             Dim accountName As String = selpilot.Account
             pilotAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
         End If
-        If APIStyle = 7 Then
+        If APIStyle = 6 Then
             If cboAccount.SelectedItem Is Nothing Then
                 MessageBox.Show("You must select an account key to retrieve the requested API.", "Additional Info Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
@@ -167,8 +160,6 @@ Public Class frmAPIChecker
             Case 5
                 testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, CInt(txtOtherInfo.Text), chkReturnCached.Checked)
             Case 6
-                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, txtOtherInfo.Text, chkReturnCached.Checked)
-            Case 7
                 testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, CInt(cboAccount.SelectedItem.ToString), txtOtherInfo.Text, chkReturnCached.Checked)
         End Select
         Try
