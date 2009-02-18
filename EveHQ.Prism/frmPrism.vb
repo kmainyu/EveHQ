@@ -3569,8 +3569,8 @@ Public Class frmPrism
             Else
                 OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, True)
             End If
-            Dim Orders As XmlNodeList = OrderXML.SelectNodes("/eveapi/result/rowset/row")
-            If Orders IsNot Nothing Then
+            If OrderXML IsNot Nothing Then
+                Dim Orders As XmlNodeList = OrderXML.SelectNodes("/eveapi/result/rowset/row")
                 For Each Order As XmlNode In Orders
 
                     If Order.Attributes.GetNamedItem("bid").Value = "0" = False Then
@@ -3639,16 +3639,16 @@ Public Class frmPrism
             Dim cover As Double = buyTotal - TotalEscrow
             Dim TransTax As Double = 1 * (1 - 0.1 * (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting))))
             Dim BrokerFee As Double = 1 * (1 - 0.05 * (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations))))
-            lblorders.Text = Str(maxorders - TotalOrders) + "/" + Str(maxorders)
-            lblselltotal.Text = FormatNumber(Str(sellTotal), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk"
-            lblbuytotal.Text = FormatNumber(Str(buyTotal), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk"
-            lblescrow.Text = FormatNumber(Str(TotalEscrow), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk (additional " + FormatNumber(Str(cover), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk to cover)"
-            lblask.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Procurement)))
-            lblbid.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Marketing)))
-            lblmod.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Daytrading)))
-            lblremote.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility)))
-            lblbroker.Text = FormatNumber(BrokerFee, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + "%"
-            lbltax.Text = FormatNumber(TransTax, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + "%"
+            lblOrders.Text = (maxorders - TotalOrders).ToString + " / " + maxorders.ToString
+            lblSellTotal.Text = FormatNumber(sellTotal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk"
+            lblBuyTotal.Text = FormatNumber(buyTotal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk"
+            lblEscrow.Text = FormatNumber(TotalEscrow, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk (additional " + FormatNumber(cover, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk to cover)"
+            lblAskRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Procurement)))
+            lblBidRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Marketing)))
+            lblModRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Daytrading)))
+            lblRemoteRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility)))
+            lblBrokerFee.Text = FormatNumber(BrokerFee, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + "%"
+            lblTransTax.Text = FormatNumber(TransTax, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + "%"
 
         End If
 

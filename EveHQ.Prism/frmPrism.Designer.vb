@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.lblSelectChar = New System.Windows.Forms.Label
         Me.cboPilots = New System.Windows.Forms.ComboBox
@@ -81,7 +81,7 @@ Partial Class frmPrism
         Me.lblGroupFilters = New System.Windows.Forms.Label
         Me.lblOwnerFilters = New System.Windows.Forms.Label
         Me.txtSearch = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.lblSearchAssets = New System.Windows.Forms.Label
         Me.tabFilters = New System.Windows.Forms.TabPage
         Me.btnSelectCorp = New System.Windows.Forms.Button
         Me.btnSelectPersonal = New System.Windows.Forms.Button
@@ -176,26 +176,6 @@ Partial Class frmPrism
         Me.BuyMinVol = New System.Windows.Forms.ColumnHeader
         Me.BuyExp = New System.Windows.Forms.ColumnHeader
         Me.panelOrderInfo = New System.Windows.Forms.Panel
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.Label12 = New System.Windows.Forms.Label
-        Me.Label13 = New System.Windows.Forms.Label
-        Me.Label14 = New System.Windows.Forms.Label
-        Me.Label15 = New System.Windows.Forms.Label
-        Me.Label16 = New System.Windows.Forms.Label
-        Me.Label17 = New System.Windows.Forms.Label
-        Me.Label18 = New System.Windows.Forms.Label
-        Me.Label19 = New System.Windows.Forms.Label
-        Me.Label20 = New System.Windows.Forms.Label
-        Me.Label21 = New System.Windows.Forms.Label
-        Me.Label22 = New System.Windows.Forms.Label
-        Me.Label23 = New System.Windows.Forms.Label
-        Me.Label24 = New System.Windows.Forms.Label
-        Me.Label25 = New System.Windows.Forms.Label
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
         Me.tssLabelTotalAssetsLabel = New System.Windows.Forms.ToolStripStatusLabel
         Me.tssLabelTotalAssets = New System.Windows.Forms.ToolStripStatusLabel
@@ -221,29 +201,6 @@ Partial Class frmPrism
         Me.mnuAssetListValue = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueA = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueD = New System.Windows.Forms.ToolStripMenuItem
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.lblremote = New System.Windows.Forms.Label
-        Me.lblmod = New System.Windows.Forms.Label
-        Me.lblbid = New System.Windows.Forms.Label
-        Me.lblask = New System.Windows.Forms.Label
-        Me.lblremotelbl = New System.Windows.Forms.Label
-        Me.lblmodlbl = New System.Windows.Forms.Label
-        Me.lblbidlbl = New System.Windows.Forms.Label
-        Me.lblasklbl = New System.Windows.Forms.Label
-        Me.lblbuytotal = New System.Windows.Forms.Label
-        Me.lblselltotal = New System.Windows.Forms.Label
-        Me.lbltax = New System.Windows.Forms.Label
-        Me.lblbroker = New System.Windows.Forms.Label
-        Me.lblescrow = New System.Windows.Forms.Label
-        Me.lblorders = New System.Windows.Forms.Label
-        Me.lblbuytotallbl = New System.Windows.Forms.Label
-        Me.lblselltotallbl = New System.Windows.Forms.Label
-        Me.lbltaxlbl = New System.Windows.Forms.Label
-        Me.lblbrokerlbl = New System.Windows.Forms.Label
-        Me.lblescrowlbl = New System.Windows.Forms.Label
-        Me.lblorderslbl = New System.Windows.Forms.Label
-        Me.ListView1 = New System.Windows.Forms.ListView
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
@@ -251,12 +208,31 @@ Partial Class frmPrism
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
-        Me.ListView2 = New System.Windows.Forms.ListView
         Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
+        Me.lblRemoteRange = New System.Windows.Forms.Label
+        Me.lblModRange = New System.Windows.Forms.Label
+        Me.lblBidRange = New System.Windows.Forms.Label
+        Me.lblAskRange = New System.Windows.Forms.Label
+        Me.lblRemoteRangeLbl = New System.Windows.Forms.Label
+        Me.lblModRangeLbl = New System.Windows.Forms.Label
+        Me.lblBidRangeLbl = New System.Windows.Forms.Label
+        Me.lblAskRangeLbl = New System.Windows.Forms.Label
+        Me.lblBuyTotal = New System.Windows.Forms.Label
+        Me.lblSellTotal = New System.Windows.Forms.Label
+        Me.lblTransTax = New System.Windows.Forms.Label
+        Me.lblBrokerFee = New System.Windows.Forms.Label
+        Me.lblEscrow = New System.Windows.Forms.Label
+        Me.lblOrders = New System.Windows.Forms.Label
+        Me.lblBuyTotalLbl = New System.Windows.Forms.Label
+        Me.lblSellTotalLbl = New System.Windows.Forms.Label
+        Me.lblTransTaxLbl = New System.Windows.Forms.Label
+        Me.lblBrokerFeeLbl = New System.Windows.Forms.Label
+        Me.lblEscrowLbl = New System.Windows.Forms.Label
+        Me.lblOrdersLbl = New System.Windows.Forms.Label
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -417,68 +393,68 @@ Partial Class frmPrism
         '
         Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.mnuToolSep, Me.mnuItemRecycling})
         Me.ctxAssets.Name = "ctxAssets"
-        Me.ctxAssets.Size = New System.Drawing.Size(190, 126)
+        Me.ctxAssets.Size = New System.Drawing.Size(188, 126)
         '
         'mnuItemName
         '
         Me.mnuItemName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.mnuItemName.Name = "mnuItemName"
-        Me.mnuItemName.Size = New System.Drawing.Size(189, 22)
+        Me.mnuItemName.Size = New System.Drawing.Size(187, 22)
         Me.mnuItemName.Text = "Item Name"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(186, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(184, 6)
         '
         'mnuViewInIB
         '
         Me.mnuViewInIB.Name = "mnuViewInIB"
-        Me.mnuViewInIB.Size = New System.Drawing.Size(189, 22)
+        Me.mnuViewInIB.Size = New System.Drawing.Size(187, 22)
         Me.mnuViewInIB.Text = "View In Item Browser"
         '
         'mnuViewInHQF
         '
         Me.mnuViewInHQF.Name = "mnuViewInHQF"
-        Me.mnuViewInHQF.Size = New System.Drawing.Size(189, 22)
+        Me.mnuViewInHQF.Size = New System.Drawing.Size(187, 22)
         Me.mnuViewInHQF.Text = "Copy Setup for HQF"
         '
         'mnuModifyPrice
         '
         Me.mnuModifyPrice.Name = "mnuModifyPrice"
-        Me.mnuModifyPrice.Size = New System.Drawing.Size(189, 22)
+        Me.mnuModifyPrice.Size = New System.Drawing.Size(187, 22)
         Me.mnuModifyPrice.Text = "Modify Custom Price"
         '
         'mnuToolSep
         '
         Me.mnuToolSep.Name = "mnuToolSep"
-        Me.mnuToolSep.Size = New System.Drawing.Size(186, 6)
+        Me.mnuToolSep.Size = New System.Drawing.Size(184, 6)
         '
         'mnuItemRecycling
         '
         Me.mnuItemRecycling.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRecycleItem, Me.mnuRecycleContained, Me.mnuRecycleAll})
         Me.mnuItemRecycling.Name = "mnuItemRecycling"
-        Me.mnuItemRecycling.Size = New System.Drawing.Size(189, 22)
+        Me.mnuItemRecycling.Size = New System.Drawing.Size(187, 22)
         Me.mnuItemRecycling.Text = "Recycling Profitability"
         '
         'mnuRecycleItem
         '
         Me.mnuRecycleItem.Name = "mnuRecycleItem"
-        Me.mnuRecycleItem.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleItem.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleItem.Text = "Current Item"
         '
         'mnuRecycleContained
         '
         Me.mnuRecycleContained.Enabled = False
         Me.mnuRecycleContained.Name = "mnuRecycleContained"
-        Me.mnuRecycleContained.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleContained.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleContained.Text = "Contained Items"
         '
         'mnuRecycleAll
         '
         Me.mnuRecycleAll.Enabled = False
         Me.mnuRecycleAll.Name = "mnuRecycleAll"
-        Me.mnuRecycleAll.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleAll.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleAll.Text = "Container + Items"
         '
         'chkExcludeBPs
@@ -493,6 +469,8 @@ Partial Class frmPrism
         '
         'tvwFilter
         '
+        Me.tvwFilter.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.tvwFilter.ContextMenuStrip = Me.ctxFilter
         Me.tvwFilter.Location = New System.Drawing.Point(301, 31)
         Me.tvwFilter.Name = "tvwFilter"
@@ -503,12 +481,12 @@ Partial Class frmPrism
         '
         Me.ctxFilter.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToFilterToolStripMenuItem})
         Me.ctxFilter.Name = "ctxFilter"
-        Me.ctxFilter.Size = New System.Drawing.Size(143, 26)
+        Me.ctxFilter.Size = New System.Drawing.Size(147, 26)
         '
         'AddToFilterToolStripMenuItem
         '
         Me.AddToFilterToolStripMenuItem.Name = "AddToFilterToolStripMenuItem"
-        Me.AddToFilterToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.AddToFilterToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.AddToFilterToolStripMenuItem.Text = "Add To Filter"
         '
         'lblGroupFilter
@@ -522,6 +500,8 @@ Partial Class frmPrism
         '
         'lstFilters
         '
+        Me.lstFilters.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lstFilters.ContextMenuStrip = Me.ctxFilterList
         Me.lstFilters.FormattingEnabled = True
         Me.lstFilters.Location = New System.Drawing.Point(496, 31)
@@ -534,12 +514,12 @@ Partial Class frmPrism
         '
         Me.ctxFilterList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFilterToolStripMenuItem})
         Me.ctxFilterList.Name = "ctxFilterList"
-        Me.ctxFilterList.Size = New System.Drawing.Size(147, 26)
+        Me.ctxFilterList.Size = New System.Drawing.Size(152, 26)
         '
         'RemoveFilterToolStripMenuItem
         '
         Me.RemoveFilterToolStripMenuItem.Name = "RemoveFilterToolStripMenuItem"
-        Me.RemoveFilterToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.RemoveFilterToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.RemoveFilterToolStripMenuItem.Text = "Remove Filter"
         '
         'lblSelectedFilters
@@ -669,7 +649,7 @@ Partial Class frmPrism
         Me.tabAssets.Controls.Add(Me.lblGroupFilters)
         Me.tabAssets.Controls.Add(Me.lblOwnerFilters)
         Me.tabAssets.Controls.Add(Me.txtSearch)
-        Me.tabAssets.Controls.Add(Me.Label1)
+        Me.tabAssets.Controls.Add(Me.lblSearchAssets)
         Me.tabAssets.Controls.Add(Me.tlvAssets)
         Me.tabAssets.Controls.Add(Me.cboPilots)
         Me.tabAssets.Controls.Add(Me.lblSelectChar)
@@ -756,14 +736,14 @@ Partial Class frmPrism
         Me.txtSearch.Size = New System.Drawing.Size(215, 21)
         Me.txtSearch.TabIndex = 19
         '
-        'Label1
+        'lblSearchAssets
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 37)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(44, 13)
-        Me.Label1.TabIndex = 18
-        Me.Label1.Text = "Search:"
+        Me.lblSearchAssets.AutoSize = True
+        Me.lblSearchAssets.Location = New System.Drawing.Point(6, 37)
+        Me.lblSearchAssets.Name = "lblSearchAssets"
+        Me.lblSearchAssets.Size = New System.Drawing.Size(44, 13)
+        Me.lblSearchAssets.TabIndex = 18
+        Me.lblSearchAssets.Text = "Search:"
         '
         'tabFilters
         '
@@ -787,6 +767,7 @@ Partial Class frmPrism
         '
         'btnSelectCorp
         '
+        Me.btnSelectCorp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSelectCorp.Location = New System.Drawing.Point(54, 467)
         Me.btnSelectCorp.Name = "btnSelectCorp"
         Me.btnSelectCorp.Size = New System.Drawing.Size(75, 23)
@@ -796,6 +777,7 @@ Partial Class frmPrism
         '
         'btnSelectPersonal
         '
+        Me.btnSelectPersonal.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSelectPersonal.Location = New System.Drawing.Point(135, 467)
         Me.btnSelectPersonal.Name = "btnSelectPersonal"
         Me.btnSelectPersonal.Size = New System.Drawing.Size(75, 23)
@@ -805,6 +787,7 @@ Partial Class frmPrism
         '
         'btnAddAllOwners
         '
+        Me.btnAddAllOwners.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnAddAllOwners.Location = New System.Drawing.Point(54, 496)
         Me.btnAddAllOwners.Name = "btnAddAllOwners"
         Me.btnAddAllOwners.Size = New System.Drawing.Size(75, 23)
@@ -814,6 +797,7 @@ Partial Class frmPrism
         '
         'btnClearAllOwners
         '
+        Me.btnClearAllOwners.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnClearAllOwners.Location = New System.Drawing.Point(135, 496)
         Me.btnClearAllOwners.Name = "btnClearAllOwners"
         Me.btnClearAllOwners.Size = New System.Drawing.Size(75, 23)
@@ -823,6 +807,7 @@ Partial Class frmPrism
         '
         'btnClearGroupFilters
         '
+        Me.btnClearGroupFilters.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnClearGroupFilters.Location = New System.Drawing.Point(496, 496)
         Me.btnClearGroupFilters.Name = "btnClearGroupFilters"
         Me.btnClearGroupFilters.Size = New System.Drawing.Size(75, 23)
@@ -832,13 +817,15 @@ Partial Class frmPrism
         '
         'lvwCharFilter
         '
+        Me.lvwCharFilter.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup1.Header = "Corporation"
-        ListViewGroup1.Name = "grpCorporation"
-        ListViewGroup2.Header = "Personal"
-        ListViewGroup2.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup5.Header = "Corporation"
+        ListViewGroup5.Name = "grpCorporation"
+        ListViewGroup6.Header = "Personal"
+        ListViewGroup6.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -1585,7 +1572,7 @@ Partial Class frmPrism
         '
         Me.SellExpire.Text = "Expires In"
         Me.SellExpire.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.SellExpire.Width = 119
+        Me.SellExpire.Width = 150
         '
         'lblBuyOrders
         '
@@ -1646,259 +1633,41 @@ Partial Class frmPrism
         '
         Me.BuyMinVol.Text = "Min Volume"
         Me.BuyMinVol.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.BuyMinVol.Width = 100
         '
         'BuyExp
         '
         Me.BuyExp.Text = "Expires In"
         Me.BuyExp.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.BuyExp.Width = 150
         '
         'panelOrderInfo
         '
-        Me.panelOrderInfo.Controls.Add(Me.Label6)
-        Me.panelOrderInfo.Controls.Add(Me.Label7)
-        Me.panelOrderInfo.Controls.Add(Me.Label8)
-        Me.panelOrderInfo.Controls.Add(Me.Label9)
-        Me.panelOrderInfo.Controls.Add(Me.Label10)
-        Me.panelOrderInfo.Controls.Add(Me.Label11)
-        Me.panelOrderInfo.Controls.Add(Me.Label12)
-        Me.panelOrderInfo.Controls.Add(Me.Label13)
-        Me.panelOrderInfo.Controls.Add(Me.Label14)
-        Me.panelOrderInfo.Controls.Add(Me.Label15)
-        Me.panelOrderInfo.Controls.Add(Me.Label16)
-        Me.panelOrderInfo.Controls.Add(Me.Label17)
-        Me.panelOrderInfo.Controls.Add(Me.Label18)
-        Me.panelOrderInfo.Controls.Add(Me.Label19)
-        Me.panelOrderInfo.Controls.Add(Me.Label20)
-        Me.panelOrderInfo.Controls.Add(Me.Label21)
-        Me.panelOrderInfo.Controls.Add(Me.Label22)
-        Me.panelOrderInfo.Controls.Add(Me.Label23)
-        Me.panelOrderInfo.Controls.Add(Me.Label24)
-        Me.panelOrderInfo.Controls.Add(Me.Label25)
+        Me.panelOrderInfo.Controls.Add(Me.lblRemoteRange)
+        Me.panelOrderInfo.Controls.Add(Me.lblModRange)
+        Me.panelOrderInfo.Controls.Add(Me.lblBidRange)
+        Me.panelOrderInfo.Controls.Add(Me.lblAskRange)
+        Me.panelOrderInfo.Controls.Add(Me.lblRemoteRangeLbl)
+        Me.panelOrderInfo.Controls.Add(Me.lblModRangeLbl)
+        Me.panelOrderInfo.Controls.Add(Me.lblBidRangeLbl)
+        Me.panelOrderInfo.Controls.Add(Me.lblAskRangeLbl)
+        Me.panelOrderInfo.Controls.Add(Me.lblBuyTotal)
+        Me.panelOrderInfo.Controls.Add(Me.lblSellTotal)
+        Me.panelOrderInfo.Controls.Add(Me.lblTransTax)
+        Me.panelOrderInfo.Controls.Add(Me.lblBrokerFee)
+        Me.panelOrderInfo.Controls.Add(Me.lblEscrow)
+        Me.panelOrderInfo.Controls.Add(Me.lblOrders)
+        Me.panelOrderInfo.Controls.Add(Me.lblBuyTotalLbl)
+        Me.panelOrderInfo.Controls.Add(Me.lblSellTotalLbl)
+        Me.panelOrderInfo.Controls.Add(Me.lblTransTaxLbl)
+        Me.panelOrderInfo.Controls.Add(Me.lblBrokerFeeLbl)
+        Me.panelOrderInfo.Controls.Add(Me.lblEscrowLbl)
+        Me.panelOrderInfo.Controls.Add(Me.lblOrdersLbl)
         Me.panelOrderInfo.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.panelOrderInfo.Location = New System.Drawing.Point(0, 446)
         Me.panelOrderInfo.Name = "panelOrderInfo"
         Me.panelOrderInfo.Size = New System.Drawing.Size(1136, 95)
         Me.panelOrderInfo.TabIndex = 27
-        '
-        'Label6
-        '
-        Me.Label6.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(348, 49)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(62, 13)
-        Me.Label6.TabIndex = 42
-        Me.Label6.Text = "placeholder"
-        '
-        'Label7
-        '
-        Me.Label7.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(348, 36)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(62, 13)
-        Me.Label7.TabIndex = 41
-        Me.Label7.Text = "placeholder"
-        '
-        'Label8
-        '
-        Me.Label8.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(348, 23)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(62, 13)
-        Me.Label8.TabIndex = 40
-        Me.Label8.Text = "placeholder"
-        '
-        'Label9
-        '
-        Me.Label9.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(348, 10)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(62, 13)
-        Me.Label9.TabIndex = 39
-        Me.Label9.Text = "placeholder"
-        '
-        'Label10
-        '
-        Me.Label10.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(240, 49)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(99, 13)
-        Me.Label10.TabIndex = 38
-        Me.Label10.Text = "Remote Bid Range:"
-        '
-        'Label11
-        '
-        Me.Label11.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(240, 36)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(102, 13)
-        Me.Label11.TabIndex = 37
-        Me.Label11.Text = "Modification Range:"
-        '
-        'Label12
-        '
-        Me.Label12.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(240, 23)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(55, 13)
-        Me.Label12.TabIndex = 36
-        Me.Label12.Text = "Bid Range"
-        '
-        'Label13
-        '
-        Me.Label13.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(240, 10)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(62, 13)
-        Me.Label13.TabIndex = 35
-        Me.Label13.Text = "Ask Range:"
-        '
-        'Label14
-        '
-        Me.Label14.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(108, 75)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(62, 13)
-        Me.Label14.TabIndex = 34
-        Me.Label14.Text = "placeholder"
-        '
-        'Label15
-        '
-        Me.Label15.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(108, 62)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(62, 13)
-        Me.Label15.TabIndex = 33
-        Me.Label15.Text = "placeholder"
-        '
-        'Label16
-        '
-        Me.Label16.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(108, 49)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(62, 13)
-        Me.Label16.TabIndex = 32
-        Me.Label16.Text = "placeholder"
-        '
-        'Label17
-        '
-        Me.Label17.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(108, 36)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(62, 13)
-        Me.Label17.TabIndex = 31
-        Me.Label17.Text = "placeholder"
-        '
-        'Label18
-        '
-        Me.Label18.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(108, 23)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(62, 13)
-        Me.Label18.TabIndex = 30
-        Me.Label18.Text = "placeholder"
-        '
-        'Label19
-        '
-        Me.Label19.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(108, 10)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(62, 13)
-        Me.Label19.TabIndex = 29
-        Me.Label19.Text = "placeholder"
-        '
-        'Label20
-        '
-        Me.Label20.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(8, 75)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(92, 13)
-        Me.Label20.TabIndex = 28
-        Me.Label20.Text = "Buy Orders Total:"
-        '
-        'Label21
-        '
-        Me.Label21.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(8, 62)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(90, 13)
-        Me.Label21.TabIndex = 27
-        Me.Label21.Text = "Sell Orders Total:"
-        '
-        'Label22
-        '
-        Me.Label22.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(8, 49)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(88, 13)
-        Me.Label22.TabIndex = 26
-        Me.Label22.Text = "Transaction Tax:"
-        '
-        'Label23
-        '
-        Me.Label23.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(8, 36)
-        Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(89, 13)
-        Me.Label23.TabIndex = 25
-        Me.Label23.Text = "Base Broker Fee:"
-        '
-        'Label24
-        '
-        Me.Label24.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label24.AutoSize = True
-        Me.Label24.Location = New System.Drawing.Point(8, 23)
-        Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(83, 13)
-        Me.Label24.TabIndex = 24
-        Me.Label24.Text = "Total in Escrow:"
-        '
-        'Label25
-        '
-        Me.Label25.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label25.AutoSize = True
-        Me.Label25.Location = New System.Drawing.Point(8, 10)
-        Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(96, 13)
-        Me.Label25.TabIndex = 23
-        Me.Label25.Text = "Orders Remaining:"
         '
         'StatusStrip1
         '
@@ -1912,7 +1681,7 @@ Partial Class frmPrism
         'tssLabelTotalAssetsLabel
         '
         Me.tssLabelTotalAssetsLabel.Name = "tssLabelTotalAssetsLabel"
-        Me.tssLabelTotalAssetsLabel.Size = New System.Drawing.Size(154, 17)
+        Me.tssLabelTotalAssetsLabel.Size = New System.Drawing.Size(143, 17)
         Me.tssLabelTotalAssetsLabel.Text = "Total Displayed Asset Value:"
         '
         'tssLabelTotalAssets
@@ -1927,7 +1696,7 @@ Partial Class frmPrism
         'tssLabelSelectedAssetsLabel
         '
         Me.tssLabelSelectedAssetsLabel.Name = "tssLabelSelectedAssetsLabel"
-        Me.tssLabelSelectedAssetsLabel.Size = New System.Drawing.Size(162, 17)
+        Me.tssLabelSelectedAssetsLabel.Size = New System.Drawing.Size(153, 17)
         Me.tssLabelSelectedAssetsLabel.Text = "     Total Selected Asset Value:"
         '
         'tssLabelSelectedAssets
@@ -1954,7 +1723,7 @@ Partial Class frmPrism
         Me.tsbDownloadData.Image = CType(resources.GetObject("tsbDownloadData.Image"), System.Drawing.Image)
         Me.tsbDownloadData.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbDownloadData.Name = "tsbDownloadData"
-        Me.tsbDownloadData.Size = New System.Drawing.Size(113, 22)
+        Me.tsbDownloadData.Size = New System.Drawing.Size(104, 22)
         Me.tsbDownloadData.Text = "Download API Data"
         '
         'ToolStripSeparator1
@@ -1968,7 +1737,7 @@ Partial Class frmPrism
         Me.tsbDownloadOutposts.Image = CType(resources.GetObject("tsbDownloadOutposts.Image"), System.Drawing.Image)
         Me.tsbDownloadOutposts.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbDownloadOutposts.Name = "tsbDownloadOutposts"
-        Me.tsbDownloadOutposts.Size = New System.Drawing.Size(116, 22)
+        Me.tsbDownloadOutposts.Size = New System.Drawing.Size(105, 22)
         Me.tsbDownloadOutposts.Text = "Download Outposts"
         '
         'ToolStripSeparator3
@@ -1982,7 +1751,7 @@ Partial Class frmPrism
         Me.tsbRefreshAssets.Image = CType(resources.GetObject("tsbRefreshAssets.Image"), System.Drawing.Image)
         Me.tsbRefreshAssets.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbRefreshAssets.Name = "tsbRefreshAssets"
-        Me.tsbRefreshAssets.Size = New System.Drawing.Size(72, 22)
+        Me.tsbRefreshAssets.Size = New System.Drawing.Size(68, 22)
         Me.tsbRefreshAssets.Text = "View Assets"
         '
         'ToolStripSeparator2
@@ -1997,339 +1766,84 @@ Partial Class frmPrism
         Me.tsbReports.Image = CType(resources.GetObject("tsbReports.Image"), System.Drawing.Image)
         Me.tsbReports.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbReports.Name = "tsbReports"
-        Me.tsbReports.Size = New System.Drawing.Size(63, 22)
+        Me.tsbReports.Size = New System.Drawing.Size(61, 22)
         Me.tsbReports.Text = "Reports"
         '
         'mnuLocation
         '
         Me.mnuLocation.Name = "mnuLocation"
-        Me.mnuLocation.Size = New System.Drawing.Size(185, 22)
+        Me.mnuLocation.Size = New System.Drawing.Size(184, 22)
         Me.mnuLocation.Text = "Grouped by Location"
         '
         'mnuAssetLists
         '
         Me.mnuAssetLists.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListName, Me.mnuAssetListQuantity, Me.mnuAssetListPrice, Me.mnuAssetListValue})
         Me.mnuAssetLists.Name = "mnuAssetLists"
-        Me.mnuAssetLists.Size = New System.Drawing.Size(185, 22)
+        Me.mnuAssetLists.Size = New System.Drawing.Size(184, 22)
         Me.mnuAssetLists.Text = "Asset Lists"
         '
         'mnuAssetListName
         '
         Me.mnuAssetListName.Name = "mnuAssetListName"
-        Me.mnuAssetListName.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListName.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListName.Text = "Asset List (Name)"
         '
         'mnuAssetListQuantity
         '
         Me.mnuAssetListQuantity.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListQuantityA, Me.mnuAssetListQuantityD})
         Me.mnuAssetListQuantity.Name = "mnuAssetListQuantity"
-        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListQuantity.Text = "Asset List (Quantity)"
         '
         'mnuAssetListQuantityA
         '
         Me.mnuAssetListQuantityA.Name = "mnuAssetListQuantityA"
-        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListQuantityA.Text = "Ascending"
         '
         'mnuAssetListQuantityD
         '
         Me.mnuAssetListQuantityD.Name = "mnuAssetListQuantityD"
-        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListQuantityD.Text = "Descending"
         '
         'mnuAssetListPrice
         '
         Me.mnuAssetListPrice.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListPriceA, Me.mnuAssetListPriceD})
         Me.mnuAssetListPrice.Name = "mnuAssetListPrice"
-        Me.mnuAssetListPrice.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListPrice.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListPrice.Text = "Asset List (Unit Price)"
         '
         'mnuAssetListPriceA
         '
         Me.mnuAssetListPriceA.Name = "mnuAssetListPriceA"
-        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListPriceA.Text = "Ascending"
         '
         'mnuAssetListPriceD
         '
         Me.mnuAssetListPriceD.Name = "mnuAssetListPriceD"
-        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListPriceD.Text = "Descending"
         '
         'mnuAssetListValue
         '
         Me.mnuAssetListValue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListValueA, Me.mnuAssetListValueD})
         Me.mnuAssetListValue.Name = "mnuAssetListValue"
-        Me.mnuAssetListValue.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListValue.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListValue.Text = "Asset List (Total Value)"
         '
         'mnuAssetListValueA
         '
         Me.mnuAssetListValueA.Name = "mnuAssetListValueA"
-        Me.mnuAssetListValueA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListValueA.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListValueA.Text = "Ascending"
         '
         'mnuAssetListValueD
         '
         Me.mnuAssetListValueD.Name = "mnuAssetListValueD"
-        Me.mnuAssetListValueD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListValueD.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListValueD.Text = "Descending"
-        '
-        'Label4
-        '
-        Me.Label4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(6, 197)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(42, 13)
-        Me.Label4.TabIndex = 24
-        Me.Label4.Text = "Buying:"
-        '
-        'Label3
-        '
-        Me.Label3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(6, 10)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(41, 13)
-        Me.Label3.TabIndex = 23
-        Me.Label3.Text = "Selling:"
-        '
-        'lblremote
-        '
-        Me.lblremote.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblremote.AutoSize = True
-        Me.lblremote.Location = New System.Drawing.Point(517, 426)
-        Me.lblremote.Name = "lblremote"
-        Me.lblremote.Size = New System.Drawing.Size(62, 13)
-        Me.lblremote.TabIndex = 22
-        Me.lblremote.Text = "placeholder"
-        '
-        'lblmod
-        '
-        Me.lblmod.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblmod.AutoSize = True
-        Me.lblmod.Location = New System.Drawing.Point(519, 413)
-        Me.lblmod.Name = "lblmod"
-        Me.lblmod.Size = New System.Drawing.Size(62, 13)
-        Me.lblmod.TabIndex = 21
-        Me.lblmod.Text = "placeholder"
-        '
-        'lblbid
-        '
-        Me.lblbid.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblbid.AutoSize = True
-        Me.lblbid.Location = New System.Drawing.Point(474, 400)
-        Me.lblbid.Name = "lblbid"
-        Me.lblbid.Size = New System.Drawing.Size(62, 13)
-        Me.lblbid.TabIndex = 20
-        Me.lblbid.Text = "placeholder"
-        '
-        'lblask
-        '
-        Me.lblask.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblask.AutoSize = True
-        Me.lblask.Location = New System.Drawing.Point(480, 387)
-        Me.lblask.Name = "lblask"
-        Me.lblask.Size = New System.Drawing.Size(62, 13)
-        Me.lblask.TabIndex = 19
-        Me.lblask.Text = "placeholder"
-        '
-        'lblremotelbl
-        '
-        Me.lblremotelbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblremotelbl.AutoSize = True
-        Me.lblremotelbl.Location = New System.Drawing.Point(411, 426)
-        Me.lblremotelbl.Name = "lblremotelbl"
-        Me.lblremotelbl.Size = New System.Drawing.Size(100, 13)
-        Me.lblremotelbl.TabIndex = 18
-        Me.lblremotelbl.Text = "Remote Bid Range:"
-        '
-        'lblmodlbl
-        '
-        Me.lblmodlbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblmodlbl.AutoSize = True
-        Me.lblmodlbl.Location = New System.Drawing.Point(411, 413)
-        Me.lblmodlbl.Name = "lblmodlbl"
-        Me.lblmodlbl.Size = New System.Drawing.Size(102, 13)
-        Me.lblmodlbl.TabIndex = 17
-        Me.lblmodlbl.Text = "Modification Range:"
-        '
-        'lblbidlbl
-        '
-        Me.lblbidlbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblbidlbl.AutoSize = True
-        Me.lblbidlbl.Location = New System.Drawing.Point(411, 400)
-        Me.lblbidlbl.Name = "lblbidlbl"
-        Me.lblbidlbl.Size = New System.Drawing.Size(57, 13)
-        Me.lblbidlbl.TabIndex = 16
-        Me.lblbidlbl.Text = "Bid Range"
-        '
-        'lblasklbl
-        '
-        Me.lblasklbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblasklbl.AutoSize = True
-        Me.lblasklbl.Location = New System.Drawing.Point(411, 387)
-        Me.lblasklbl.Name = "lblasklbl"
-        Me.lblasklbl.Size = New System.Drawing.Size(63, 13)
-        Me.lblasklbl.TabIndex = 15
-        Me.lblasklbl.Text = "Ask Range:"
-        '
-        'lblbuytotal
-        '
-        Me.lblbuytotal.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblbuytotal.AutoSize = True
-        Me.lblbuytotal.Location = New System.Drawing.Point(98, 452)
-        Me.lblbuytotal.Name = "lblbuytotal"
-        Me.lblbuytotal.Size = New System.Drawing.Size(62, 13)
-        Me.lblbuytotal.TabIndex = 14
-        Me.lblbuytotal.Text = "placeholder"
-        '
-        'lblselltotal
-        '
-        Me.lblselltotal.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblselltotal.AutoSize = True
-        Me.lblselltotal.Location = New System.Drawing.Point(97, 439)
-        Me.lblselltotal.Name = "lblselltotal"
-        Me.lblselltotal.Size = New System.Drawing.Size(62, 13)
-        Me.lblselltotal.TabIndex = 13
-        Me.lblselltotal.Text = "placeholder"
-        '
-        'lbltax
-        '
-        Me.lbltax.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lbltax.AutoSize = True
-        Me.lbltax.Location = New System.Drawing.Point(96, 426)
-        Me.lbltax.Name = "lbltax"
-        Me.lbltax.Size = New System.Drawing.Size(62, 13)
-        Me.lbltax.TabIndex = 12
-        Me.lbltax.Text = "placeholder"
-        '
-        'lblbroker
-        '
-        Me.lblbroker.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblbroker.AutoSize = True
-        Me.lblbroker.Location = New System.Drawing.Point(98, 413)
-        Me.lblbroker.Name = "lblbroker"
-        Me.lblbroker.Size = New System.Drawing.Size(62, 13)
-        Me.lblbroker.TabIndex = 11
-        Me.lblbroker.Text = "placeholder"
-        '
-        'lblescrow
-        '
-        Me.lblescrow.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblescrow.AutoSize = True
-        Me.lblescrow.Location = New System.Drawing.Point(92, 400)
-        Me.lblescrow.Name = "lblescrow"
-        Me.lblescrow.Size = New System.Drawing.Size(62, 13)
-        Me.lblescrow.TabIndex = 10
-        Me.lblescrow.Text = "placeholder"
-        '
-        'lblorders
-        '
-        Me.lblorders.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblorders.AutoSize = True
-        Me.lblorders.Location = New System.Drawing.Point(103, 387)
-        Me.lblorders.Name = "lblorders"
-        Me.lblorders.Size = New System.Drawing.Size(62, 13)
-        Me.lblorders.TabIndex = 9
-        Me.lblorders.Text = "placeholder"
-        '
-        'lblbuytotallbl
-        '
-        Me.lblbuytotallbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblbuytotallbl.AutoSize = True
-        Me.lblbuytotallbl.Location = New System.Drawing.Point(3, 452)
-        Me.lblbuytotallbl.Name = "lblbuytotallbl"
-        Me.lblbuytotallbl.Size = New System.Drawing.Size(89, 13)
-        Me.lblbuytotallbl.TabIndex = 8
-        Me.lblbuytotallbl.Text = "Buy Orders Total:"
-        '
-        'lblselltotallbl
-        '
-        Me.lblselltotallbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblselltotallbl.AutoSize = True
-        Me.lblselltotallbl.Location = New System.Drawing.Point(3, 439)
-        Me.lblselltotallbl.Name = "lblselltotallbl"
-        Me.lblselltotallbl.Size = New System.Drawing.Size(88, 13)
-        Me.lblselltotallbl.TabIndex = 7
-        Me.lblselltotallbl.Text = "Sell Orders Total:"
-        '
-        'lbltaxlbl
-        '
-        Me.lbltaxlbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lbltaxlbl.AutoSize = True
-        Me.lbltaxlbl.Location = New System.Drawing.Point(3, 426)
-        Me.lbltaxlbl.Name = "lbltaxlbl"
-        Me.lbltaxlbl.Size = New System.Drawing.Size(87, 13)
-        Me.lbltaxlbl.TabIndex = 6
-        Me.lbltaxlbl.Text = "Transaction Tax:"
-        '
-        'lblbrokerlbl
-        '
-        Me.lblbrokerlbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblbrokerlbl.AutoSize = True
-        Me.lblbrokerlbl.Location = New System.Drawing.Point(3, 413)
-        Me.lblbrokerlbl.Name = "lblbrokerlbl"
-        Me.lblbrokerlbl.Size = New System.Drawing.Size(89, 13)
-        Me.lblbrokerlbl.TabIndex = 5
-        Me.lblbrokerlbl.Text = "Base Broker Fee:"
-        '
-        'lblescrowlbl
-        '
-        Me.lblescrowlbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblescrowlbl.AutoSize = True
-        Me.lblescrowlbl.Location = New System.Drawing.Point(3, 400)
-        Me.lblescrowlbl.Name = "lblescrowlbl"
-        Me.lblescrowlbl.Size = New System.Drawing.Size(83, 13)
-        Me.lblescrowlbl.TabIndex = 4
-        Me.lblescrowlbl.Text = "Total in Escrow:"
-        '
-        'lblorderslbl
-        '
-        Me.lblorderslbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblorderslbl.AutoSize = True
-        Me.lblorderslbl.Location = New System.Drawing.Point(3, 387)
-        Me.lblorderslbl.Name = "lblorderslbl"
-        Me.lblorderslbl.Size = New System.Drawing.Size(94, 13)
-        Me.lblorderslbl.TabIndex = 3
-        Me.lblorderslbl.Text = "Orders Remaining:"
-        '
-        'ListView1
-        '
-        Me.ListView1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ListView1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6, Me.ColumnHeader7})
-        Me.ListView1.GridLines = True
-        Me.ListView1.Location = New System.Drawing.Point(6, 213)
-        Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(873, 165)
-        Me.ListView1.TabIndex = 2
-        Me.ListView1.UseCompatibleStateImageBehavior = False
-        Me.ListView1.View = System.Windows.Forms.View.Details
         '
         'ColumnHeader1
         '
@@ -2370,20 +1884,6 @@ Partial Class frmPrism
         Me.ColumnHeader7.Text = "Expires In"
         Me.ColumnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'ListView2
-        '
-        Me.ListView2.AllowColumnReorder = True
-        Me.ListView2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ListView2.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader12})
-        Me.ListView2.GridLines = True
-        Me.ListView2.Location = New System.Drawing.Point(6, 26)
-        Me.ListView2.Name = "ListView2"
-        Me.ListView2.Size = New System.Drawing.Size(873, 165)
-        Me.ListView2.TabIndex = 1
-        Me.ListView2.UseCompatibleStateImageBehavior = False
-        Me.ListView2.View = System.Windows.Forms.View.Details
-        '
         'ColumnHeader8
         '
         Me.ColumnHeader8.Text = "Type"
@@ -2412,6 +1912,226 @@ Partial Class frmPrism
         Me.ColumnHeader12.Text = "Expires In"
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
+        '
+        'lblRemoteRange
+        '
+        Me.lblRemoteRange.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblRemoteRange.AutoSize = True
+        Me.lblRemoteRange.Location = New System.Drawing.Point(412, 47)
+        Me.lblRemoteRange.Name = "lblRemoteRange"
+        Me.lblRemoteRange.Size = New System.Drawing.Size(62, 13)
+        Me.lblRemoteRange.TabIndex = 42
+        Me.lblRemoteRange.Text = "placeholder"
+        '
+        'lblModRange
+        '
+        Me.lblModRange.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblModRange.AutoSize = True
+        Me.lblModRange.Location = New System.Drawing.Point(412, 34)
+        Me.lblModRange.Name = "lblModRange"
+        Me.lblModRange.Size = New System.Drawing.Size(62, 13)
+        Me.lblModRange.TabIndex = 41
+        Me.lblModRange.Text = "placeholder"
+        '
+        'lblBidRange
+        '
+        Me.lblBidRange.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblBidRange.AutoSize = True
+        Me.lblBidRange.Location = New System.Drawing.Point(412, 21)
+        Me.lblBidRange.Name = "lblBidRange"
+        Me.lblBidRange.Size = New System.Drawing.Size(62, 13)
+        Me.lblBidRange.TabIndex = 40
+        Me.lblBidRange.Text = "placeholder"
+        '
+        'lblAskRange
+        '
+        Me.lblAskRange.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblAskRange.AutoSize = True
+        Me.lblAskRange.Location = New System.Drawing.Point(412, 8)
+        Me.lblAskRange.Name = "lblAskRange"
+        Me.lblAskRange.Size = New System.Drawing.Size(62, 13)
+        Me.lblAskRange.TabIndex = 39
+        Me.lblAskRange.Text = "placeholder"
+        '
+        'lblRemoteRangeLbl
+        '
+        Me.lblRemoteRangeLbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblRemoteRangeLbl.AutoSize = True
+        Me.lblRemoteRangeLbl.Location = New System.Drawing.Point(304, 47)
+        Me.lblRemoteRangeLbl.Name = "lblRemoteRangeLbl"
+        Me.lblRemoteRangeLbl.Size = New System.Drawing.Size(99, 13)
+        Me.lblRemoteRangeLbl.TabIndex = 38
+        Me.lblRemoteRangeLbl.Text = "Remote Bid Range:"
+        '
+        'lblModRangeLbl
+        '
+        Me.lblModRangeLbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblModRangeLbl.AutoSize = True
+        Me.lblModRangeLbl.Location = New System.Drawing.Point(304, 34)
+        Me.lblModRangeLbl.Name = "lblModRangeLbl"
+        Me.lblModRangeLbl.Size = New System.Drawing.Size(102, 13)
+        Me.lblModRangeLbl.TabIndex = 37
+        Me.lblModRangeLbl.Text = "Modification Range:"
+        '
+        'lblBidRangeLbl
+        '
+        Me.lblBidRangeLbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblBidRangeLbl.AutoSize = True
+        Me.lblBidRangeLbl.Location = New System.Drawing.Point(304, 21)
+        Me.lblBidRangeLbl.Name = "lblBidRangeLbl"
+        Me.lblBidRangeLbl.Size = New System.Drawing.Size(59, 13)
+        Me.lblBidRangeLbl.TabIndex = 36
+        Me.lblBidRangeLbl.Text = "Bid Range:"
+        '
+        'lblAskRangeLbl
+        '
+        Me.lblAskRangeLbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblAskRangeLbl.AutoSize = True
+        Me.lblAskRangeLbl.Location = New System.Drawing.Point(304, 8)
+        Me.lblAskRangeLbl.Name = "lblAskRangeLbl"
+        Me.lblAskRangeLbl.Size = New System.Drawing.Size(62, 13)
+        Me.lblAskRangeLbl.TabIndex = 35
+        Me.lblAskRangeLbl.Text = "Ask Range:"
+        '
+        'lblBuyTotal
+        '
+        Me.lblBuyTotal.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblBuyTotal.AutoSize = True
+        Me.lblBuyTotal.Location = New System.Drawing.Point(108, 60)
+        Me.lblBuyTotal.Name = "lblBuyTotal"
+        Me.lblBuyTotal.Size = New System.Drawing.Size(62, 13)
+        Me.lblBuyTotal.TabIndex = 34
+        Me.lblBuyTotal.Text = "placeholder"
+        '
+        'lblSellTotal
+        '
+        Me.lblSellTotal.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblSellTotal.AutoSize = True
+        Me.lblSellTotal.Location = New System.Drawing.Point(108, 47)
+        Me.lblSellTotal.Name = "lblSellTotal"
+        Me.lblSellTotal.Size = New System.Drawing.Size(62, 13)
+        Me.lblSellTotal.TabIndex = 33
+        Me.lblSellTotal.Text = "placeholder"
+        '
+        'lblTransTax
+        '
+        Me.lblTransTax.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTransTax.AutoSize = True
+        Me.lblTransTax.Location = New System.Drawing.Point(108, 34)
+        Me.lblTransTax.Name = "lblTransTax"
+        Me.lblTransTax.Size = New System.Drawing.Size(62, 13)
+        Me.lblTransTax.TabIndex = 32
+        Me.lblTransTax.Text = "placeholder"
+        '
+        'lblBrokerFee
+        '
+        Me.lblBrokerFee.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblBrokerFee.AutoSize = True
+        Me.lblBrokerFee.Location = New System.Drawing.Point(108, 21)
+        Me.lblBrokerFee.Name = "lblBrokerFee"
+        Me.lblBrokerFee.Size = New System.Drawing.Size(62, 13)
+        Me.lblBrokerFee.TabIndex = 31
+        Me.lblBrokerFee.Text = "placeholder"
+        '
+        'lblEscrow
+        '
+        Me.lblEscrow.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblEscrow.AutoSize = True
+        Me.lblEscrow.Location = New System.Drawing.Point(108, 73)
+        Me.lblEscrow.Name = "lblEscrow"
+        Me.lblEscrow.Size = New System.Drawing.Size(62, 13)
+        Me.lblEscrow.TabIndex = 30
+        Me.lblEscrow.Text = "placeholder"
+        '
+        'lblOrders
+        '
+        Me.lblOrders.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblOrders.AutoSize = True
+        Me.lblOrders.Location = New System.Drawing.Point(108, 8)
+        Me.lblOrders.Name = "lblOrders"
+        Me.lblOrders.Size = New System.Drawing.Size(62, 13)
+        Me.lblOrders.TabIndex = 29
+        Me.lblOrders.Text = "placeholder"
+        '
+        'lblBuyTotalLbl
+        '
+        Me.lblBuyTotalLbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblBuyTotalLbl.AutoSize = True
+        Me.lblBuyTotalLbl.Location = New System.Drawing.Point(8, 60)
+        Me.lblBuyTotalLbl.Name = "lblBuyTotalLbl"
+        Me.lblBuyTotalLbl.Size = New System.Drawing.Size(92, 13)
+        Me.lblBuyTotalLbl.TabIndex = 28
+        Me.lblBuyTotalLbl.Text = "Buy Orders Total:"
+        '
+        'lblSellTotalLbl
+        '
+        Me.lblSellTotalLbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblSellTotalLbl.AutoSize = True
+        Me.lblSellTotalLbl.Location = New System.Drawing.Point(8, 47)
+        Me.lblSellTotalLbl.Name = "lblSellTotalLbl"
+        Me.lblSellTotalLbl.Size = New System.Drawing.Size(90, 13)
+        Me.lblSellTotalLbl.TabIndex = 27
+        Me.lblSellTotalLbl.Text = "Sell Orders Total:"
+        '
+        'lblTransTaxLbl
+        '
+        Me.lblTransTaxLbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTransTaxLbl.AutoSize = True
+        Me.lblTransTaxLbl.Location = New System.Drawing.Point(8, 34)
+        Me.lblTransTaxLbl.Name = "lblTransTaxLbl"
+        Me.lblTransTaxLbl.Size = New System.Drawing.Size(88, 13)
+        Me.lblTransTaxLbl.TabIndex = 26
+        Me.lblTransTaxLbl.Text = "Transaction Tax:"
+        '
+        'lblBrokerFeeLbl
+        '
+        Me.lblBrokerFeeLbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblBrokerFeeLbl.AutoSize = True
+        Me.lblBrokerFeeLbl.Location = New System.Drawing.Point(8, 21)
+        Me.lblBrokerFeeLbl.Name = "lblBrokerFeeLbl"
+        Me.lblBrokerFeeLbl.Size = New System.Drawing.Size(89, 13)
+        Me.lblBrokerFeeLbl.TabIndex = 25
+        Me.lblBrokerFeeLbl.Text = "Base Broker Fee:"
+        '
+        'lblEscrowLbl
+        '
+        Me.lblEscrowLbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblEscrowLbl.AutoSize = True
+        Me.lblEscrowLbl.Location = New System.Drawing.Point(8, 73)
+        Me.lblEscrowLbl.Name = "lblEscrowLbl"
+        Me.lblEscrowLbl.Size = New System.Drawing.Size(83, 13)
+        Me.lblEscrowLbl.TabIndex = 24
+        Me.lblEscrowLbl.Text = "Total in Escrow:"
+        '
+        'lblOrdersLbl
+        '
+        Me.lblOrdersLbl.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblOrdersLbl.AutoSize = True
+        Me.lblOrdersLbl.Location = New System.Drawing.Point(8, 8)
+        Me.lblOrdersLbl.Name = "lblOrdersLbl"
+        Me.lblOrdersLbl.Size = New System.Drawing.Size(96, 13)
+        Me.lblOrdersLbl.TabIndex = 23
+        Me.lblOrdersLbl.Text = "Orders Remaining:"
         '
         'frmPrism
         '
@@ -2493,7 +2213,7 @@ Partial Class frmPrism
     Friend WithEvents lblCharFilter As System.Windows.Forms.Label
     Friend WithEvents lvwCharFilter As System.Windows.Forms.ListView
     Friend WithEvents colOwner As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents lblSearchAssets As System.Windows.Forms.Label
     Friend WithEvents txtSearch As System.Windows.Forms.TextBox
     Friend WithEvents colOwnerName As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnClearGroupFilters As System.Windows.Forms.Button
@@ -2615,29 +2335,6 @@ Partial Class frmPrism
     Friend WithEvents colTransAPI As System.Windows.Forms.ColumnHeader
     Friend WithEvents colCorpSheetAPI As System.Windows.Forms.ColumnHeader
     Friend WithEvents tabOrders As System.Windows.Forms.TabPage
-    Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents lblremote As System.Windows.Forms.Label
-    Friend WithEvents lblmod As System.Windows.Forms.Label
-    Friend WithEvents lblbid As System.Windows.Forms.Label
-    Friend WithEvents lblask As System.Windows.Forms.Label
-    Friend WithEvents lblremotelbl As System.Windows.Forms.Label
-    Friend WithEvents lblmodlbl As System.Windows.Forms.Label
-    Friend WithEvents lblbidlbl As System.Windows.Forms.Label
-    Friend WithEvents lblasklbl As System.Windows.Forms.Label
-    Friend WithEvents lblbuytotal As System.Windows.Forms.Label
-    Friend WithEvents lblselltotal As System.Windows.Forms.Label
-    Friend WithEvents lbltax As System.Windows.Forms.Label
-    Friend WithEvents lblbroker As System.Windows.Forms.Label
-    Friend WithEvents lblescrow As System.Windows.Forms.Label
-    Friend WithEvents lblorders As System.Windows.Forms.Label
-    Friend WithEvents lblbuytotallbl As System.Windows.Forms.Label
-    Friend WithEvents lblselltotallbl As System.Windows.Forms.Label
-    Friend WithEvents lbltaxlbl As System.Windows.Forms.Label
-    Friend WithEvents lblbrokerlbl As System.Windows.Forms.Label
-    Friend WithEvents lblescrowlbl As System.Windows.Forms.Label
-    Friend WithEvents lblorderslbl As System.Windows.Forms.Label
-    Friend WithEvents ListView1 As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
@@ -2645,7 +2342,6 @@ Partial Class frmPrism
     Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ListView2 As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader9 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader10 As System.Windows.Forms.ColumnHeader
@@ -2653,26 +2349,6 @@ Partial Class frmPrism
     Friend WithEvents ColumnHeader12 As System.Windows.Forms.ColumnHeader
     Friend WithEvents panelOrderInfo As System.Windows.Forms.Panel
     Friend WithEvents scMarketOrders As System.Windows.Forms.SplitContainer
-    Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents Label7 As System.Windows.Forms.Label
-    Friend WithEvents Label8 As System.Windows.Forms.Label
-    Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents Label10 As System.Windows.Forms.Label
-    Friend WithEvents Label11 As System.Windows.Forms.Label
-    Friend WithEvents Label12 As System.Windows.Forms.Label
-    Friend WithEvents Label13 As System.Windows.Forms.Label
-    Friend WithEvents Label14 As System.Windows.Forms.Label
-    Friend WithEvents Label15 As System.Windows.Forms.Label
-    Friend WithEvents Label16 As System.Windows.Forms.Label
-    Friend WithEvents Label17 As System.Windows.Forms.Label
-    Friend WithEvents Label18 As System.Windows.Forms.Label
-    Friend WithEvents Label19 As System.Windows.Forms.Label
-    Friend WithEvents Label20 As System.Windows.Forms.Label
-    Friend WithEvents Label21 As System.Windows.Forms.Label
-    Friend WithEvents Label22 As System.Windows.Forms.Label
-    Friend WithEvents Label23 As System.Windows.Forms.Label
-    Friend WithEvents Label24 As System.Windows.Forms.Label
-    Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents lblSellOrders As System.Windows.Forms.Label
     Friend WithEvents lvwSellOrders As System.Windows.Forms.ListView
     Friend WithEvents SellType As System.Windows.Forms.ColumnHeader
@@ -2689,4 +2365,24 @@ Partial Class frmPrism
     Friend WithEvents BuyRange As System.Windows.Forms.ColumnHeader
     Friend WithEvents BuyMinVol As System.Windows.Forms.ColumnHeader
     Friend WithEvents BuyExp As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lblRemoteRange As System.Windows.Forms.Label
+    Friend WithEvents lblModRange As System.Windows.Forms.Label
+    Friend WithEvents lblBidRange As System.Windows.Forms.Label
+    Friend WithEvents lblAskRange As System.Windows.Forms.Label
+    Friend WithEvents lblRemoteRangeLbl As System.Windows.Forms.Label
+    Friend WithEvents lblModRangeLbl As System.Windows.Forms.Label
+    Friend WithEvents lblBidRangeLbl As System.Windows.Forms.Label
+    Friend WithEvents lblAskRangeLbl As System.Windows.Forms.Label
+    Friend WithEvents lblBuyTotal As System.Windows.Forms.Label
+    Friend WithEvents lblSellTotal As System.Windows.Forms.Label
+    Friend WithEvents lblTransTax As System.Windows.Forms.Label
+    Friend WithEvents lblBrokerFee As System.Windows.Forms.Label
+    Friend WithEvents lblEscrow As System.Windows.Forms.Label
+    Friend WithEvents lblOrders As System.Windows.Forms.Label
+    Friend WithEvents lblBuyTotalLbl As System.Windows.Forms.Label
+    Friend WithEvents lblSellTotalLbl As System.Windows.Forms.Label
+    Friend WithEvents lblTransTaxLbl As System.Windows.Forms.Label
+    Friend WithEvents lblBrokerFeeLbl As System.Windows.Forms.Label
+    Friend WithEvents lblEscrowLbl As System.Windows.Forms.Label
+    Friend WithEvents lblOrdersLbl As System.Windows.Forms.Label
 End Class
