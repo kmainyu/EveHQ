@@ -297,11 +297,6 @@ Public Class DataFunctions
                 End Try
             Case 1, 2 ' MSSQL, MSSQL Express
                 Try
-                    If strSQL.Contains(" LIKE ") = False Then
-                        strSQL = strSQL.Replace("'", "''")
-                        strSQL = strSQL.Replace(ControlChars.Quote, "'")
-                        strSQL = strSQL.Replace("=true", "=1")
-                    End If
                     Dim keyCommand As New SqlCommand(strSQL, customSQLConnection)
                     keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
                     keyCommand.ExecuteNonQuery()
