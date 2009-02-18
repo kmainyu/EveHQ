@@ -50,13 +50,18 @@ Public Class frmPrism
     Dim totalAssetCount As Long = 0
     Dim totalAssetBatch As Long = 0
     Dim HQFShip As New ArrayList
+    Dim IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss.fff"
 
     ' Rig Builder Variables
     Dim RigBPData As New SortedList
     Dim RigBuildData As New SortedList
     Dim SalvageList As New SortedList
 
-    Delegate Sub CheckXMLDelegate(ByVal apiXML As XmlDocument, ByVal Owner As String, ByVal Pos As Integer)
+    ' Corp API Representatives & Lists
+    Dim CorpList As New SortedList
+    Dim CorpReps As New ArrayList
+
+    Delegate Sub CheckXMLDelegate(ByVal apiXML As XmlDocument, ByVal Owner As String, ByVal Primary As String, ByVal Pos As Integer)
     Private XMLDelegate As CheckXMLDelegate
 
 #End Region
@@ -65,11 +70,30 @@ Public Class frmPrism
     Private Sub frmAssets_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         XMLDelegate = New CheckXMLDelegate(AddressOf CheckXML)
 
+        ' Build a corp list
+        Call Me.BuildCorpList()
+
+        ' Set the Corp Reps to Default
+        CorpReps.Clear()
+        For API As Integer = 0 To 6
+            CorpReps.Add(New SortedList)
+        Next
+
         Call Me.LoadFilterGroups()
         Call Me.ScanForExistingXMLs()
         Call Portfolio.SetupTypes()
         Call Me.LoadInvestments()
+
         cboPilots.SelectedItem = EveHQ.Core.HQ.myPilot.Name
+
+    End Sub
+    Private Sub BuildCorpList()
+        CorpList.Clear()
+        For Each selpilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If CorpList.ContainsKey(selpilot.Corp) = False Then
+                CorpList.Add(selpilot.Corp, selpilot.CorpID)
+            End If
+        Next
     End Sub
     Private Sub LoadFilterGroups()
         Dim newNode As TreeNode
@@ -151,55 +175,55 @@ Public Class frmPrism
 
                 ' Check for char assets
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, True)
-                Call CheckXML(apiXML, selPilot.ID, 2)
+                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 2)
 
                 ' Check for corp assets
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, True)
-                Call CheckXML(apiXML, selPilot.CorpID, 2)
+                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 2)
 
                 ' Check for char balances
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, True)
-                Call CheckXML(apiXML, selPilot.ID, 3)
+                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 3)
 
                 ' Check for corp balances
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, True)
-                Call CheckXML(apiXML, selPilot.CorpID, 3)
+                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 3)
 
                 ' Check for char jobs
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, True)
-                Call CheckXML(apiXML, selPilot.ID, 4)
+                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 4)
 
                 ' Check for corp jobs
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, True)
-                Call CheckXML(apiXML, selPilot.CorpID, 4)
+                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 4)
 
                 ' Check for char journal
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000, "", True)
-                Call CheckXML(apiXML, selPilot.ID, 5)
+                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 5)
 
                 ' Check for corp journal
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, 1000, "", True)
-                Call CheckXML(apiXML, selPilot.CorpID, 5)
+                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 5)
 
                 ' Check for char orders
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, True)
-                Call CheckXML(apiXML, selPilot.ID, 6)
+                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 6)
 
                 ' Check for corp orders
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, True)
-                Call CheckXML(apiXML, selPilot.CorpID, 6)
+                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 6)
 
                 ' Check for char transactions
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, "", True)
-                Call CheckXML(apiXML, selPilot.ID, 7)
+                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 7)
 
                 ' Check for corp transactions
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, "", True)
-                Call CheckXML(apiXML, selPilot.CorpID, 7)
+                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 7)
 
                 ' Check for corp sheets
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, True)
-                Call CheckXML(apiXML, selPilot.CorpID, 8)
+                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 8)
 
             End If
         Next
@@ -207,27 +231,34 @@ Public Class frmPrism
         lvwCharFilter.EndUpdate()
     End Sub
 
-    Private Sub CheckXML(ByVal apiXML As XmlDocument, ByVal Owner As String, ByVal Pos As Integer)
+    Private Sub CheckXML(ByVal apiXML As XmlDocument, ByVal Owner As String, ByVal Primary As String, ByVal Pos As Integer)
         Dim APIOwner As ListViewItem = lvwCurrentAPIs.Items(Owner)
         If APIOwner IsNot Nothing Then
             If apiXML IsNot Nothing Then
-                ' Check response string for any error codes?
-                Dim errlist As XmlNodeList = apiXML.SelectNodes("/eveapi/error")
-                If errlist.Count <> 0 Then
-                    Dim errNode As XmlNode = errlist(0)
-                    ' Get error code
-                    Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                    Dim errMsg As String = errNode.InnerText
-                    APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
-                    APIOwner.SubItems(Pos).Text = errCode
-                Else
-                    Dim cache As Date = CacheDate(apiXML)
-                    If cache <= Now Then
-                        APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Blue
+                ' Get the corp reps
+                Dim CorpRep As SortedList = CType(CorpReps(Pos - 2), Collections.SortedList)
+                ' If we already have a corp rep, no sense in getting a new one!
+                If CorpRep.ContainsKey(Owner) = False Then
+                    ' Check response string for any error codes?
+                    Dim errlist As XmlNodeList = apiXML.SelectNodes("/eveapi/error")
+                    If errlist.Count <> 0 Then
+                        Dim errNode As XmlNode = errlist(0)
+                        ' Get error code
+                        Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                        Dim errMsg As String = errNode.InnerText
+                        APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
+                        APIOwner.SubItems(Pos).Text = errCode
                     Else
-                        APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Green
+                        Dim cache As Date = CacheDate(apiXML)
+                        If cache <= Now Then
+                            APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Blue
+                        Else
+                            APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Green
+                        End If
+                        APIOwner.SubItems(Pos).Text = Format(cache, "dd/MM/yyyy HH:mm:ss")
+                        APIOwner.ToolTipText = "Representative: " & Primary
+                        CorpRep.Add(Owner, Primary)
                     End If
-                    APIOwner.SubItems(Pos).Text = Format(cache, "dd/MM/yyyy HH:mm:ss")
                 End If
             Else
                 APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
@@ -266,7 +297,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 2})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 2})
 
             End If
         Next
@@ -282,7 +313,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 2})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 2})
 
             End If
         Next
@@ -298,7 +329,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 3})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 3})
 
             End If
         Next
@@ -314,7 +345,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 3})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 3})
 
             End If
         Next
@@ -330,7 +361,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 4})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 4})
 
             End If
         Next
@@ -346,7 +377,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 4})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 4})
 
             End If
         Next
@@ -362,7 +393,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000, "", False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 5})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 5})
 
             End If
         Next
@@ -378,7 +409,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, 1000, "", False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 5})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 5})
 
             End If
         Next
@@ -394,7 +425,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 6})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 6})
 
             End If
         Next
@@ -410,7 +441,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 6})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 6})
 
             End If
         Next
@@ -426,7 +457,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, "", False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, 7})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 7})
 
             End If
         Next
@@ -442,7 +473,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, "", False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 7})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 7})
 
             End If
         Next
@@ -458,7 +489,7 @@ Public Class frmPrism
                 apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, False)
 
                 ' Update the dipsplay
-                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, 8})
+                Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 8})
 
             End If
         Next
@@ -1579,6 +1610,7 @@ Public Class frmPrism
         Next
         lblOwnerFilters.Text = "Owner Filter: " & cboPilots.SelectedItem.ToString
         Call Me.RefreshAssets()
+        Call Me.ParseOrders()
     End Sub
     Private Sub FilterSystemValue()
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
@@ -2830,16 +2862,19 @@ Public Class frmPrism
 
 #Region "Toolbar Menu Routines"
     Private Sub tsbDownloadAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbDownloadData.Click
+        ' Set the Corp Reps to Default
+        CorpReps.Clear()
+        For API As Integer = 0 To 6
+            CorpReps.Add(New SortedList)
+        Next
         ' Flick to the API Status tab
         tabPrism.SelectTab(tabAssetsAPI)
         ' Delete the current API Status data
-        lvwCurrentAPIs.BeginUpdate()
         For Each Owner As ListViewItem In lvwCurrentAPIs.Items
             For si As Integer = 2 To 8
                 Owner.SubItems(si).Text = ""
             Next
         Next
-        lvwCurrentAPIs.EndUpdate()
         'Call Me.GetAssets()
         Call Me.GetXMLData()
         cboPilots.SelectedItem = EveHQ.Core.HQ.myPilot.Name
@@ -3502,6 +3537,138 @@ Public Class frmPrism
         Return item.Tag.ToString
     End Function
 
+#End Region
+
+#Region "Market Orders Routines"
+
+    Private Sub ParseOrders()
+        Dim IsCorp As Boolean = False
+        ' Get the owner we will use
+        Dim owner As String = cboPilots.SelectedItem.ToString
+        ' See if this owner is a corp
+        If CorpList.ContainsKey(owner) = True Then
+            IsCorp = True
+            ' See if we have a representative
+            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                owner = CStr(CorpRep(CStr(CorpList(owner))))
+            Else
+                owner = ""
+            End If
+        End If
+
+        If owner <> "" Then
+            Dim sellTotal, buyTotal, TotalEscrow As Double
+            Dim TotalOrders As Integer = 0
+            Dim OrderXML As New XmlDocument
+            Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+            Dim accountName As String = selPilot.Account
+            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+            If IsCorp = True Then
+                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, True)
+            Else
+                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, True)
+            End If
+            Dim Orders As XmlNodeList = OrderXML.SelectNodes("/eveapi/result/rowset/row")
+            If Orders IsNot Nothing Then
+                For Each Order As XmlNode In Orders
+
+                    If Order.Attributes.GetNamedItem("bid").Value = "0" = False Then
+                        If Order.Attributes.GetNamedItem("orderState").Value = "0" Then
+                            Dim bOrder As New ListViewItem
+                            Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
+                            Dim itemName As String = CType(PlugInData.Items(itemID), Prism.ItemData).Name
+                            bOrder.Text = itemName
+                            Dim quantity As Double = CDbl(Order.Attributes.GetNamedItem("volRemaining").Value)
+                            bOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            bOrder.SubItems.Add(FormatNumber(Order.Attributes.GetNamedItem("price").Value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            Dim loc As String = CStr(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value))
+                            bOrder.SubItems.Add(loc)
+                            Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                            Dim orderExpires As TimeSpan = issueDate - Now
+                            orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
+                            If orderExpires.TotalSeconds <= 0 Then
+                                bOrder.SubItems.Add("Expired!")
+                            Else
+                                bOrder.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(orderExpires.TotalSeconds, False))
+                            End If
+                            sellTotal = sellTotal + quantity * CDbl(Order.Attributes.GetNamedItem("price").Value)
+                            TotalOrders = TotalOrders + 1
+                            lvwSellOrders.Items.Add(bOrder)
+                        End If
+                    Else
+                        If Order.Attributes.GetNamedItem("orderState").Value = "0" Then
+                            Dim sOrder As New ListViewItem
+                            Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
+                            Dim itemName As String = CType(PlugInData.Items(itemID), Prism.ItemData).Name
+                            sOrder.Text = itemName
+                            Dim quantity As Double = CDbl(Order.Attributes.GetNamedItem("volRemaining").Value)
+                            sOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            sOrder.SubItems.Add(FormatNumber(Order.Attributes.GetNamedItem("price").Value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            Dim loc As String = CStr(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value))
+                            sOrder.SubItems.Add(loc)
+                            Select Case CInt(Order.Attributes.GetNamedItem("range").Value)
+                                Case -1
+                                    sOrder.SubItems.Add("Station")
+                                Case 0
+                                    sOrder.SubItems.Add("System")
+                                Case 32767
+                                    sOrder.SubItems.Add("Region")
+                                Case Is > 0, Is < 32767
+                                    sOrder.SubItems.Add(Order.Attributes.GetNamedItem("range").Value & " Jumps")
+                            End Select
+                            sOrder.SubItems.Add(FormatNumber(CDbl(Order.Attributes.GetNamedItem("minVolume").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                            Dim orderExpires As TimeSpan = issueDate - Now
+                            orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
+                            If orderExpires.TotalSeconds <= 0 Then
+                                sOrder.SubItems.Add("Expired!")
+                            Else
+                                sOrder.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(orderExpires.TotalSeconds, False))
+                            End If
+                            buyTotal = buyTotal + quantity * CDbl(Order.Attributes.GetNamedItem("price").Value)
+                            TotalEscrow = TotalEscrow + CDbl(Order.Attributes.GetNamedItem("escrow").Value)
+                            TotalOrders = TotalOrders + 1
+                            lvwBuyOrders.Items.Add(sOrder)
+                        End If
+                    End If
+                Next
+            End If
+
+            Dim maxorders As Integer = 5 + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Trade)) * 4) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Tycoon)) * 32) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Retail)) * 8) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Wholesale)) * 16)
+            Dim cover As Double = buyTotal - TotalEscrow
+            Dim TransTax As Double = 1 * (1 - 0.1 * (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting))))
+            Dim BrokerFee As Double = 1 * (1 - 0.05 * (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations))))
+            lblorders.Text = Str(maxorders - TotalOrders) + "/" + Str(maxorders)
+            lblselltotal.Text = FormatNumber(Str(sellTotal), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk"
+            lblbuytotal.Text = FormatNumber(Str(buyTotal), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk"
+            lblescrow.Text = FormatNumber(Str(TotalEscrow), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk (additional " + FormatNumber(Str(cover), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + " isk to cover)"
+            lblask.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Procurement)))
+            lblbid.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Marketing)))
+            lblmod.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Daytrading)))
+            lblremote.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility)))
+            lblbroker.Text = FormatNumber(BrokerFee, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + "%"
+            lbltax.Text = FormatNumber(TransTax, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + "%"
+
+        End If
+
+    End Sub
+    Private Function GetOrderRange(ByVal lvl As Integer) As String
+        Select Case lvl
+            Case 0
+                Return "limited to stations"
+            Case 1
+                Return "limited to system"
+            Case 2
+                Return "limited to 5 Jumps"
+            Case 3
+                Return "limited to 10 Jumps"
+            Case 4
+                Return "limited to 20 Jumps"
+            Case Else
+                Return "limited to Region"
+        End Select
+    End Function
 #End Region
 
 

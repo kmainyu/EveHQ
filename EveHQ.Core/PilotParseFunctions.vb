@@ -283,7 +283,7 @@ Public Class PilotParseFunctions
             End If
         Next
     End Sub            'GetPilotCachedInfo
-    Private Shared Sub LoadKeySkills()
+    Public Shared Sub LoadKeySkills()
         Call ResetKeySkills()
         Dim curPilot As EveHQ.Core.Pilot
         For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
@@ -375,12 +375,35 @@ Public Class PilotParseFunctions
                     curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters) = CStr(curSkill.Level)
                 Case "Scrapmetal Processing"
                     curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScrapMetalProc) = CStr(curSkill.Level)
+                Case "Accounting"
+                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting) = CStr(curSkill.Level)
+                Case "Broker Relations"
+                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations) = CStr(curSkill.Level)
+                Case "Daytrading"
+                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Daytrading) = CStr(curSkill.Level)
+                Case "Margin Trading"
+                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MarginTrading) = CStr(curSkill.Level)
+                Case "Marketing"
+                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Marketing) = CStr(curSkill.Level)
+                Case "Procurement"
+                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Procurement) = CStr(curSkill.Level)
+                Case "Retail"
+                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Retail) = CStr(curSkill.Level)
+                Case "Trade"
+                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Trade) = CStr(curSkill.Level)
+                Case "Tycoon"
+                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Tycoon) = CStr(curSkill.Level)
+                Case "Visibility"
+                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility) = CStr(curSkill.Level)
+                Case "Wholesale"
+                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Wholesale) = CStr(curSkill.Level)
             End Select
         Next
     End Sub
     Private Shared Sub ResetKeySkills()
         Dim curPilot As EveHQ.Core.Pilot
         For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            ReDim curPilot.KeySkills([Enum].GetValues(GetType(EveHQ.Core.Pilot.KeySkill)).Length)
             For keyskill As Integer = 0 To curPilot.KeySkills.GetUpperBound(0)
                 curPilot.KeySkills(keyskill) = "0"
             Next

@@ -102,7 +102,7 @@ Imports System.Xml
     Public Updated As Boolean = False
     Public LastUpdate As String = ""
     Public Active As Boolean = True
-    Public KeySkills(40) As String
+    Public KeySkills(51) As String
     Public Enum KeySkill
         Mining = 1
         MiningUpgrades = 2
@@ -144,5 +144,16 @@ Imports System.Xml
         JumpFuelConservation = 38
         JumpFreighters = 39
         ScrapMetalProc = 40
+        Accounting = 41
+        BrokerRelations = 42
+        Daytrading = 43
+        MarginTrading = 44
+        Marketing = 45
+        Procurement = 46
+        Retail = 47
+        Trade = 48
+        Tycoon = 49
+        Visibility = 50
+        Wholesale = 51
     End Enum
 End Class

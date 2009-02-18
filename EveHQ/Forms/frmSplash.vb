@@ -270,6 +270,7 @@ Public Class frmSplash
         EveHQ.Core.HQ.mySiSiServer.Server = 1
 
         ' Update the pilot account info
+        Call EveHQ.Core.PilotParseFunctions.LoadKeySkills()
         Call frmSettings.UpdateAccounts()
         Call frmEveHQ.UpdatePilotInfo(True)
 
