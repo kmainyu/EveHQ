@@ -73,7 +73,7 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, ReturnCacheOnly)
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, ReturnCacheOnly, Feature)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal charData As String, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
         ' Accepts API features that do not have an explicit post request
@@ -93,7 +93,7 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & charData
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, ReturnCacheOnly)
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, ReturnCacheOnly, Feature)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
         Dim remoteURL As String = ""
@@ -109,7 +109,7 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly)
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly, Feature)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
         Dim remoteURL As String = ""
@@ -174,7 +174,7 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly)
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly, Feature)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal itemID As Integer, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
         Dim remoteURL As String = ""
@@ -189,7 +189,7 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID & "_" & itemID
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly)
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly, Feature)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal BeforeRefID As String, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
         Dim remoteURL As String = ""
@@ -213,10 +213,10 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID & "_" & accountKey
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly)
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly, Feature)
     End Function
 
-    Private Shared Function GetXML(ByVal remoteURL As String, ByVal postData As String, ByVal fileName As String, ByVal ReturnCacheOnly As Boolean) As XmlDocument
+    Private Shared Function GetXML(ByVal remoteURL As String, ByVal postData As String, ByVal fileName As String, ByVal ReturnCacheOnly As Boolean, ByVal feature As Integer) As XmlDocument
         Dim fileDate As String = ""
         ' Check if the file already exists
         Dim fileLoc As String = EveHQ.Core.HQ.cacheFolder & "\" & fileName & fileDate & ".xml"
@@ -258,6 +258,8 @@ Public Class EveAPI
                 Else
                     ' No error codes so save, then return new XML file
                     cLastAPIResult = APIResults.ReturnedNew
+                    ' Update the incorrect cache data
+                    Call UpdateAPICacheTime(tmpAPIXML, feature)
                     tmpAPIXML.Save(fileLoc)
                     Return tmpAPIXML
                 End If
@@ -275,6 +277,8 @@ Public Class EveAPI
                     cLastAPIResult = APIResults.APIServerDownReturnedNull
                     Return Nothing
                 Else
+                    ' Update the incorrect cache data
+                    Call UpdateAPICacheTime(APIXML, feature)
                     ' Save the XML to disk
                     APIXML.Save(fileLoc)
                     Return APIXML
@@ -360,6 +364,17 @@ Public Class EveAPI
         End Try
         Return APIXML
     End Function
+    Private Shared Sub UpdateAPICacheTime(ByRef cXML As XmlDocument, ByVal feature As Integer)
+        Dim cacheDetails As XmlNodeList = cXML.SelectNodes("/eveapi")
+        Dim APITime As DateTime = CDate(cacheDetails(0).ChildNodes(0).InnerText)
+        ' Set the cache times to the correct values (because CCP suck rhino balls)
+        Select Case feature
+            Case EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, EveHQ.Core.EveAPI.APIRequest.WalletTransChar, EveHQ.Core.EveAPI.APIRequest.WalletTransCorp
+                cacheDetails(0).ChildNodes(2).InnerText = Format(APITime.AddSeconds(3630), "yyyy-MM-dd HH:mm:ss")
+            Case EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, EveHQ.Core.EveAPI.APIRequest.OrdersChar, EveHQ.Core.EveAPI.APIRequest.OrdersCorp
+                cacheDetails(0).ChildNodes(2).InnerText = Format(APITime.AddSeconds(930), "yyyy-MM-dd HH:mm:ss")
+        End Select
+    End Sub
 
     Public Shared Function APIRSHasHeartbeat() As Boolean
         Dim webdata As String = ""

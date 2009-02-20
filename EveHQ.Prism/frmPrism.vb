@@ -269,6 +269,21 @@ Public Class frmPrism
 
 #End Region
 
+#Region "Enumerators"
+    Private Enum AssetColumn
+        Name = 0
+        Owner = 1
+        Group = 2
+        Category = 3
+        Location = 4
+        Meta = 5
+        Volume = 6
+        Quantity = 7
+        Price = 8
+        Value = 9
+    End Enum
+#End Region
+
 #Region "XML Retrieval and Parsing"
     Private Sub GetXMLData()
         ' Start separate threads for getting each collection of assets
@@ -972,9 +987,9 @@ Public Class frmPrism
                             ' Add the asset to the treelistview
                             locNode.Items.Add(newAsset)
 
-                            newAsset.SubItems(1).Text = assetOwner
-                            newAsset.SubItems(2).Text = groupName
-                            newAsset.SubItems(3).Text = catName
+                            newAsset.SubItems(AssetColumn.Owner).Text = assetOwner
+                            newAsset.SubItems(AssetColumn.Group).Text = groupName
+                            newAsset.SubItems(AssetColumn.Category).Text = catName
                             Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
                             Dim flagName As String = PlugInData.itemFlags(flagID).ToString
                             If assetOwner = selPilot.Corp And newAsset.SubItems(2).Text <> "Station Services" Then
@@ -984,22 +999,22 @@ Public Class frmPrism
                                     flagName = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
                                 End If
                             End If
-                            newAsset.SubItems(4).Text = flagName
-                            newAsset.SubItems(5).Text = metaLevel
-                            newAsset.SubItems(6).Text = volume
-                            newAsset.SubItems(7).Text = FormatNumber(loc.Attributes.GetNamedItem("quantity").Value, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            newAsset.SubItems(AssetColumn.Location).Text = flagName
+                            newAsset.SubItems(AssetColumn.Meta).Text = metaLevel
+                            newAsset.SubItems(AssetColumn.Volume).Text = volume
+                            newAsset.SubItems(AssetColumn.Quantity).Text = FormatNumber(loc.Attributes.GetNamedItem("quantity").Value, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                             If newAsset.Text.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
-                                newAsset.SubItems(8).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                newAsset.SubItems(AssetColumn.Price).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                 linePrice = 0
                             Else
-                                newAsset.SubItems(8).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(itemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                newAsset.SubItems(AssetColumn.Price).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(itemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                 If IsNumeric(newAsset.SubItems(8).Text) = True Then
                                     linePrice = CDbl(newAsset.SubItems(7).Text) * CDbl(newAsset.SubItems(8).Text)
                                 Else
                                     linePrice = 0
                                 End If
                             End If
-                            newAsset.SubItems(9).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            newAsset.SubItems(AssetColumn.Value).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
                             ' Add the asset to the list of assets
                             Dim newAssetList As New AssetItem
@@ -1034,10 +1049,10 @@ Public Class frmPrism
                 cLoc = tlvAssets.Items(cL)
                 locationPrice = 0
                 For Each cLine As ContainerListViewItem In cLoc.Items
-                    locationPrice += CDbl(cLine.SubItems(9).Text)
+                    locationPrice += CDbl(cLine.SubItems(AssetColumn.Value).Text)
                 Next
                 totalAssetValue += locationPrice
-                cLoc.SubItems(9).Text = FormatNumber(locationPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                cLoc.SubItems(AssetColumn.Value).Text = FormatNumber(locationPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 ' Delete if no child nodes at the locations
                 If cLoc.Items.Count = 0 Then
                     tlvAssets.Items.Remove(cLoc)
@@ -1053,11 +1068,11 @@ Public Class frmPrism
         Dim containerPrice As Double = 0
         Dim linePrice As Double = 0
         subLocList = loc.ChildNodes(0).ChildNodes
-        If IsNumeric(parentAsset.SubItems(8).Text) = True Then
-            containerPrice = CDbl(parentAsset.SubItems(8).Text)
+        If IsNumeric(parentAsset.SubItems(AssetColumn.Price).Text) = True Then
+            containerPrice = CDbl(parentAsset.SubItems(AssetColumn.Price).Text)
         Else
             containerPrice = 0
-            parentAsset.SubItems(8).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            parentAsset.SubItems(AssetColumn.Price).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         End If
         For Each subLoc In subLocList
             Try
@@ -1107,9 +1122,9 @@ Public Class frmPrism
                 subAsset.Tag = subLoc.Attributes.GetNamedItem("itemID").Value
                 parentAsset.Items.Add(subAsset)
                 subAsset.Text = itemName
-                subAsset.SubItems(1).Text = assetOwner
-                subAsset.SubItems(2).Text = groupName
-                subAsset.SubItems(3).Text = catName
+                subAsset.SubItems(AssetColumn.Owner).Text = assetOwner
+                subAsset.SubItems(AssetColumn.Group).Text = groupName
+                subAsset.SubItems(AssetColumn.Category).Text = catName
                 Dim subFlagID As Integer = CInt(subLoc.Attributes.GetNamedItem("flag").Value)
                 Dim subFlagName As String = PlugInData.itemFlags(subFlagID).ToString
                 If assetOwner = selPilot.Corp And subAsset.SubItems(2).Text <> "Station Services" Then
@@ -1119,24 +1134,24 @@ Public Class frmPrism
                         subFlagName = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
                     End If
                 End If
-                subAsset.SubItems(4).Text = subFlagName
-                subAsset.SubItems(5).Text = metaLevel
-                subAsset.SubItems(6).Text = volume
-                subAsset.SubItems(7).Text = FormatNumber(subLoc.Attributes.GetNamedItem("quantity").Value, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                subAsset.SubItems(AssetColumn.Location).Text = subFlagName
+                subAsset.SubItems(AssetColumn.Meta).Text = metaLevel
+                subAsset.SubItems(AssetColumn.Volume).Text = volume
+                subAsset.SubItems(AssetColumn.Quantity).Text = FormatNumber(subLoc.Attributes.GetNamedItem("quantity").Value, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 If subAsset.Text.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
-                    subAsset.SubItems(8).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    subAsset.SubItems(AssetColumn.Price).Text = FormatNumber(0, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     linePrice = 0
                 Else
-                    subAsset.SubItems(8).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(ItemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    If IsNumeric(subAsset.SubItems(8).Text) = True Then
-                        linePrice = CDbl(subAsset.SubItems(7).Text) * CDbl(subAsset.SubItems(8).Text)
+                    subAsset.SubItems(AssetColumn.Price).Text = FormatNumber(Math.Round(EveHQ.Core.DataFunctions.GetPrice(ItemID), 2), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    If IsNumeric(subAsset.SubItems(AssetColumn.Price).Text) = True Then
+                        linePrice = CDbl(subAsset.SubItems(AssetColumn.Quantity).Text) * CDbl(subAsset.SubItems(AssetColumn.Price).Text)
                     Else
                         linePrice = 0
-                        subAsset.SubItems(8).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        subAsset.SubItems(AssetColumn.Price).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     End If
                 End If
                 containerPrice += linePrice
-                subAsset.SubItems(9).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                subAsset.SubItems(AssetColumn.Value).Text = FormatNumber(linePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
                 ' Add the asset to the list of assets
                 Dim newAssetList As New AssetItem
@@ -1149,7 +1164,7 @@ Public Class frmPrism
                 newAssetList.category = catName
                 newAssetList.location = parentAsset.Text & ": " & subFlagName
                 newAssetList.quantity = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
-                newAssetList.price = CDbl(subAsset.SubItems(8).Text)
+                newAssetList.price = CDbl(subAsset.SubItems(AssetColumn.Price).Text)
                 assetList.Add(newAssetList.itemID, newAssetList)
                 totalAssetCount += newAssetList.quantity
                 If subLoc.HasChildNodes = True Then
@@ -1164,7 +1179,7 @@ Public Class frmPrism
                 MessageBox.Show(msg, "Error Parsing Assets File For " & assetOwner, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End Try
         Next
-        parentAsset.SubItems(9).Text = FormatNumber(containerPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        parentAsset.SubItems(AssetColumn.Value).Text = FormatNumber(containerPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         Return containerPrice
     End Function
     Private Sub DisplayISKAssets()
@@ -1248,10 +1263,10 @@ Public Class frmPrism
                 iskNode.Tag = pilot
                 iskNode.Text = pilot
                 personalNode.Items.Add(iskNode)
-                iskNode.SubItems(9).Text = FormatNumber(charWallets(pilot), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                iskNode.SubItems(AssetColumn.Value).Text = FormatNumber(charWallets(pilot), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 personalCash += CDbl(charWallets(pilot))
             Next
-            personalNode.SubItems(9).Text = FormatNumber(personalCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            personalNode.SubItems(AssetColumn.Value).Text = FormatNumber(personalCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             totalCash += personalCash
         End If
         ' Add the corporate balances
@@ -1274,16 +1289,16 @@ Public Class frmPrism
                     iskNode.Tag = walletDivisions(idx).ToString
                     iskNode.Text = CStr(walletDivisions(idx))
                     corpNode.Items.Add(iskNode)
-                    iskNode.SubItems(9).Text = FormatNumber(corpWalletDivisions(idx), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    iskNode.SubItems(AssetColumn.Value).Text = FormatNumber(corpWalletDivisions(idx), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     divisionCash += CDbl(corpWalletDivisions(idx))
                 Next
                 corporateCash += divisionCash
-                corpNode.SubItems(9).Text = FormatNumber(divisionCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                corpNode.SubItems(AssetColumn.Value).Text = FormatNumber(divisionCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             Next
-            corporateNode.SubItems(9).Text = FormatNumber(corporateCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            corporateNode.SubItems(AssetColumn.Value).Text = FormatNumber(corporateCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             totalCash += corporateCash
         End If
-        node.SubItems(9).Text = FormatNumber(totalCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        node.SubItems(AssetColumn.Value).Text = FormatNumber(totalCash, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         totalAssetValue += totalCash
     End Sub
     Private Sub DisplayInvestments()
@@ -1319,34 +1334,34 @@ Public Class frmPrism
                         ownerNode.Items.Add(invNode)
                         Select Case inv.Type
                             Case InvestmentType.Cash
-                                invNode.SubItems(3).Text = "Cash"
+                                invNode.SubItems(AssetColumn.Category).Text = "Cash"
                                 If inv.ValueIsCost = True Then
-                                    invNode.SubItems(9).Text = FormatNumber(inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(AssetColumn.Value).Text = FormatNumber(inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                     ownerValue += inv.CurrentCost
                                 Else
-                                    invNode.SubItems(9).Text = FormatNumber(inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(AssetColumn.Value).Text = FormatNumber(inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                     ownerValue += inv.CurrentValue
                                 End If
                             Case InvestmentType.Shares
-                                invNode.SubItems(3).Text = "Shares"
-                                invNode.SubItems(7).Text = FormatNumber(inv.CurrentQuantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                invNode.SubItems(AssetColumn.Category).Text = "Shares"
+                                invNode.SubItems(AssetColumn.Price).Text = FormatNumber(inv.CurrentQuantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                 If inv.ValueIsCost = True Then
-                                    invNode.SubItems(8).Text = FormatNumber(inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                                    invNode.SubItems(9).Text = FormatNumber(inv.CurrentQuantity * inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(AssetColumn.Price).Text = FormatNumber(inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(AssetColumn.Value).Text = FormatNumber(inv.CurrentQuantity * inv.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                     ownerValue += (inv.CurrentQuantity * inv.CurrentCost)
                                 Else
-                                    invNode.SubItems(8).Text = FormatNumber(inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                                    invNode.SubItems(9).Text = FormatNumber(inv.CurrentQuantity * inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(AssetColumn.Price).Text = FormatNumber(inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    invNode.SubItems(AssetColumn.Value).Text = FormatNumber(inv.CurrentQuantity * inv.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                     ownerValue += (inv.CurrentQuantity * inv.CurrentValue)
                                 End If
                         End Select
                     End If
                 Next
-                ownerNode.SubItems(9).Text = FormatNumber(ownerValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ownerNode.SubItems(AssetColumn.Value).Text = FormatNumber(ownerValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 totalValue += ownerValue
             End If
         Next
-        investNode.SubItems(9).Text = FormatNumber(totalValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        investNode.SubItems(AssetColumn.Value).Text = FormatNumber(totalValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         totalAssetValue += totalValue
     End Sub
 #End Region
@@ -1386,31 +1401,31 @@ Public Class frmPrism
         Do
             cLoc = tlvAssets.Items(cL)
             If cLoc.Items.Count = 0 Then
-                If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(3).Text) = False And groupFilters.Contains(cLoc.SubItems(2).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
+                If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                     tlvAssets.Items.Remove(cLoc)
                     assetList.Remove(cLoc.Tag)
-                    totalAssetCount -= CLng(cLoc.SubItems(5).Text)
+                    totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                     cL -= 1
                 End If
             Else
                 Call FilterNode(cLoc)
                 If cLoc.Items.Count = 0 Then
-                    If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(3).Text) = False And groupFilters.Contains(cLoc.SubItems(2).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
+                    If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                         tlvAssets.Items.Remove(cLoc)
-                        If IsNumeric(cLoc.SubItems(5).Text) = True Then
-                            totalAssetCount -= CLng(cLoc.SubItems(5).Text)
+                        If IsNumeric(cLoc.SubItems(AssetColumn.Quantity).Text) = True Then
+                            totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                         End If
                         'assetList.Remove(cLoc.Tag)
                         cL -= 1
                     End If
                 Else
-                    If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(3).Text) = False And groupFilters.Contains(cLoc.SubItems(2).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
-                        If IsNumeric(cLoc.SubItems(5).Text) = True Then
-                            totalAssetCount -= CLng(cLoc.SubItems(5).Text)
+                    If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
+                        If IsNumeric(cLoc.SubItems(AssetColumn.Quantity).Text) = True Then
+                            totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                         End If
                         ' Remove quantity and price information
-                        cLoc.SubItems(5).Text = ""
-                        cLoc.SubItems(6).Text = ""
+                        cLoc.SubItems(AssetColumn.Quantity).Text = ""
+                        cLoc.SubItems(AssetColumn.Price).Text = ""
                         'assetList.Remove(cLoc.Tag)
                     End If
                 End If
@@ -1425,29 +1440,29 @@ Public Class frmPrism
         Do
             cLoc = pLoc.Items(cL)
             If cLoc.Items.Count = 0 Then
-                If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(3).Text) = False And groupFilters.Contains(cLoc.SubItems(2).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
+                If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                     pLoc.Items.Remove(cLoc)
                     assetList.Remove(cLoc.Tag)
-                    totalAssetCount -= CLng(cLoc.SubItems(5).Text)
+                    totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                     cL -= 1
                 End If
             Else
                 Call FilterNode(cLoc)
                 If cLoc.Items.Count = 0 Then
-                    If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(3).Text) = False And groupFilters.Contains(cLoc.SubItems(2).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
+                    If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                         pLoc.Items.Remove(cLoc)
                         assetList.Remove(cLoc.Tag)
-                        totalAssetCount -= CLng(cLoc.SubItems(5).Text)
+                        totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                         cL -= 1
                     End If
                 Else
-                    If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(3).Text) = False And groupFilters.Contains(cLoc.SubItems(2).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
-                        If IsNumeric(cLoc.SubItems(5).Text) = True Then
-                            totalAssetCount -= CLng(cLoc.SubItems(5).Text)
+                    If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
+                        If IsNumeric(cLoc.SubItems(AssetColumn.Quantity).Text) = True Then
+                            totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                         End If
                         ' Remove quantity and price information
-                        cLoc.SubItems(5).Text = ""
-                        cLoc.SubItems(6).Text = ""
+                        cLoc.SubItems(AssetColumn.Quantity).Text = ""
+                        cLoc.SubItems(AssetColumn.Price).Text = ""
                         assetList.Remove(cLoc.Tag)
                     End If
                 End If
@@ -1462,7 +1477,7 @@ Public Class frmPrism
             ' Calculate cost of all the sub nodes
             If cLoc.Items.Count > 0 Then
                 locPrice = Me.CalcNodePrice(cLoc)
-                cLoc.SubItems(7).Text = FormatNumber(locPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                cLoc.SubItems(AssetColumn.Value).Text = FormatNumber(locPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 totalAssetValue += locPrice
             End If
         Next
@@ -1473,19 +1488,19 @@ Public Class frmPrism
         For Each cLoc As ContainerListViewItem In pLoc.Items
             If cLoc.Items.Count > 0 Then
                 Call Me.CalcNodePrice(cLoc)
-                lineValue = CDbl(cLoc.SubItems(7).Text)
+                lineValue = CDbl(cLoc.SubItems(AssetColumn.Value).Text)
                 contValue += lineValue
             Else
-                If IsNumeric(cLoc.SubItems(6).Text) = True Then
-                    lineValue = CDbl(cLoc.SubItems(5).Text) * CDbl(cLoc.SubItems(6).Text)
+                If IsNumeric(cLoc.SubItems(AssetColumn.Price).Text) = True Then
+                    lineValue = CDbl(cLoc.SubItems(AssetColumn.Quantity).Text) * CDbl(cLoc.SubItems(AssetColumn.Price).Text)
                 Else
                     lineValue = 0
                 End If
-                cLoc.SubItems(7).Text = FormatNumber(lineValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                cLoc.SubItems(AssetColumn.Value).Text = FormatNumber(lineValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 contValue += lineValue
             End If
         Next
-        pLoc.SubItems(7).Text = FormatNumber(contValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        pLoc.SubItems(AssetColumn.Value).Text = FormatNumber(contValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         Return contValue
     End Function
     Private Sub AddFilter()
@@ -1626,7 +1641,7 @@ Public Class frmPrism
         Dim cLoc As ContainerListViewItem
         Do
             cLoc = tlvAssets.Items(cL)
-            If CDbl(cLoc.SubItems(7).Text) < minValue Then
+            If CDbl(cLoc.SubItems(AssetColumn.Value).Text) < minValue Then
                 Call FilterSystemNode(cLoc)
                 If cLoc.Items.Count = 0 Then
                     tlvAssets.Items.Remove(cLoc)
@@ -1646,22 +1661,22 @@ Public Class frmPrism
             If cLoc.Items.Count = 0 Then
                 pLoc.Items.Remove(cLoc)
                 assetList.Remove(cLoc.Tag)
-                totalAssetCount -= CLng(cLoc.SubItems(5).Text)
+                totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                 cL -= 1
             Else
                 Call FilterSystemNode(cLoc)
                 If cLoc.Items.Count = 0 Then
                     pLoc.Items.Remove(cLoc)
                     assetList.Remove(cLoc.Tag)
-                    totalAssetCount -= CLng(cLoc.SubItems(5).Text)
+                    totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                     cL -= 1
                 Else
-                    If IsNumeric(cLoc.SubItems(5).Text) = True Then
-                        totalAssetCount -= CLng(cLoc.SubItems(5).Text)
+                    If IsNumeric(cLoc.SubItems(AssetColumn.Quantity).Text) = True Then
+                        totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                     End If
                     ' Remove quantity and price information
-                    cLoc.SubItems(5).Text = ""
-                    cLoc.SubItems(6).Text = ""
+                    cLoc.SubItems(AssetColumn.Quantity).Text = ""
+                    cLoc.SubItems(AssetColumn.Price).Text = ""
                     assetList.Remove(cLoc.Tag)
                 End If
             End If
@@ -1675,7 +1690,7 @@ Public Class frmPrism
             ' Calculate cost of all the sub nodes
             If cLoc.Items.Count > 0 Then
                 locPrice = Me.RecalcNodePrice(cLoc)
-                cLoc.SubItems(7).Text = FormatNumber(locPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                cLoc.SubItems(AssetColumn.Value).Text = FormatNumber(locPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 totalAssetValue += locPrice
             End If
         Next
@@ -1686,22 +1701,22 @@ Public Class frmPrism
         For Each cLoc As ContainerListViewItem In pLoc.Items
             If cLoc.Items.Count > 0 Then
                 Call Me.RecalcNodePrice(cLoc)
-                lineValue = CDbl(cLoc.SubItems(7).Text)
+                lineValue = CDbl(cLoc.SubItems(AssetColumn.Value).Text)
                 contValue += lineValue
             Else
-                If IsNumeric(cLoc.SubItems(6).Text) = True Then
-                    lineValue = CDbl(cLoc.SubItems(5).Text) * CDbl(cLoc.SubItems(6).Text)
+                If IsNumeric(cLoc.SubItems(AssetColumn.Price).Text) = True Then
+                    lineValue = CDbl(cLoc.SubItems(AssetColumn.Quantity).Text) * CDbl(cLoc.SubItems(AssetColumn.Price).Text)
                 Else
                     lineValue = 0
                 End If
-                cLoc.SubItems(7).Text = FormatNumber(lineValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                cLoc.SubItems(AssetColumn.Value).Text = FormatNumber(lineValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 contValue += lineValue
             End If
         Next
-        If IsNumeric(pLoc.SubItems(6).Text) = True Then
-            contValue += CDbl(pLoc.SubItems(6).Text)
+        If IsNumeric(pLoc.SubItems(AssetColumn.Price).Text) = True Then
+            contValue += CDbl(pLoc.SubItems(AssetColumn.Price).Text)
         End If
-        pLoc.SubItems(7).Text = FormatNumber(contValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        pLoc.SubItems(AssetColumn.Value).Text = FormatNumber(contValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         Return contValue
     End Function
     Private Sub lblOwnerFilters_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblOwnerFilters.TextChanged
@@ -1850,17 +1865,17 @@ Public Class frmPrism
             Dim assetsList As New SortedList
             Dim newAsset As New AssetItem
             For Each item As ContainerListViewItem In Loc.Items
-                If item.SubItems(2).Text <> "" Then
-                    If (filters.Count > 0 And catFilters.Contains(item.SubItems(3).Text) = False And groupFilters.Contains(item.SubItems(2).Text) = False) Or (searchText <> "" And item.Text.ToLower.Contains(searchText.ToLower) = False) Then
+                If item.SubItems(AssetColumn.Group).Text <> "" Then
+                    If (filters.Count > 0 And catFilters.Contains(item.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(item.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And item.Text.ToLower.Contains(searchText.ToLower) = False) Then
                     Else
-                        If assets.ContainsKey(item.SubItems(3).Text & "_" & item.SubItems(2).Text) = True Then
-                            assetsList = CType(assets.Item(item.SubItems(3).Text & "_" & item.SubItems(2).Text), Collections.SortedList)
+                        If assets.ContainsKey(item.SubItems(AssetColumn.Category).Text & "_" & item.SubItems(AssetColumn.Group).Text) = True Then
+                            assetsList = CType(assets.Item(item.SubItems(AssetColumn.Category).Text & "_" & item.SubItems(AssetColumn.Group).Text), Collections.SortedList)
                             assetsList.Add(item.Tag.ToString, item.Tag.ToString)
                         Else
                             Dim assetList As New SortedList
                             assetsList = New SortedList
                             assetsList.Add(item.Tag.ToString, item.Tag.ToString)
-                            assets.Add(item.SubItems(3).Text & "_" & item.SubItems(2).Text, assetsList)
+                            assets.Add(item.SubItems(AssetColumn.Category).Text & "_" & item.SubItems(AssetColumn.Group).Text, assetsList)
                         End If
                     End If
                     If item.Items.Count > 0 Then
@@ -1914,16 +1929,16 @@ Public Class frmPrism
     End Function
     Private Sub GetGroupsInNodes(ByVal parent As ContainerListViewItem, ByVal assets As SortedList, ByVal assetslist As SortedList)
         For Each item As ContainerListViewItem In parent.Items
-            If item.SubItems(2).Text <> "" Then
-                If (filters.Count > 0 And catFilters.Contains(item.SubItems(3).Text) = False And groupFilters.Contains(item.SubItems(2).Text) = False) Or (searchText <> "" And item.Text.ToLower.Contains(searchText.ToLower) = False) Then
+            If item.SubItems(AssetColumn.Group).Text <> "" Then
+                If (filters.Count > 0 And catFilters.Contains(item.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(item.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And item.Text.ToLower.Contains(searchText.ToLower) = False) Then
                 Else
-                    If assets.ContainsKey(item.SubItems(3).Text & "_" & item.SubItems(2).Text) = True Then
-                        assetslist = CType(assets.Item(item.SubItems(3).Text & "_" & item.SubItems(2).Text), Collections.SortedList)
+                    If assets.ContainsKey(item.SubItems(AssetColumn.Category).Text & "_" & item.SubItems(AssetColumn.Group).Text) = True Then
+                        assetslist = CType(assets.Item(item.SubItems(AssetColumn.Category).Text & "_" & item.SubItems(AssetColumn.Group).Text), Collections.SortedList)
                         assetslist.Add(item.Tag.ToString, item.Tag.ToString)
                     Else
                         assetslist = New SortedList
                         assetslist.Add(item.Tag.ToString, item.Tag.ToString)
-                        assets.Add(item.SubItems(3).Text & "_" & item.SubItems(2).Text, assetslist)
+                        assets.Add(item.SubItems(AssetColumn.Category).Text & "_" & item.SubItems(AssetColumn.Group).Text, assetslist)
                     End If
                 End If
                 If item.Items.Count > 0 Then
@@ -2559,14 +2574,14 @@ Public Class frmPrism
             If tlvAssets.SelectedItems.Count = 1 Then
                 Dim itemName As String = tlvAssets.SelectedItems(0).Text
                 If itemName <> "Cash Balances" And itemName <> "Investments" Then
-                    If EveHQ.Core.HQ.itemList.Contains(itemName) = True And itemName <> "Office" And tlvAssets.SelectedItems(0).SubItems(7).Text <> "" Then
+                    If EveHQ.Core.HQ.itemList.Contains(itemName) = True And itemName <> "Office" And tlvAssets.SelectedItems(0).SubItems(AssetColumn.Quantity).Text <> "" Then
                         mnuItemName.Text = itemName
                         mnuItemName.Tag = EveHQ.Core.HQ.itemList(itemName)
                         mnuViewInIB.Visible = True
                         mnuModifyPrice.Visible = True
                         mnuToolSep.Visible = True
                         mnuRecycleItem.Enabled = True
-                        If tlvAssets.SelectedItems(0).SubItems(3).Text = "Ship" Then
+                        If tlvAssets.SelectedItems(0).SubItems(AssetColumn.Category).Text = "Ship" Then
                             mnuViewInHQF.Visible = True
                         Else
                             mnuViewInHQF.Visible = False
@@ -2661,7 +2676,7 @@ Public Class frmPrism
         If tlvAssets.SelectedItems.Count > 0 Then
             Dim assetID As String = tlvAssets.SelectedItems(0).Tag.ToString
             Dim shipName As String = tlvAssets.SelectedItems(0).Text
-            Dim owner As String = tlvAssets.SelectedItems(0).SubItems(1).Text
+            Dim owner As String = tlvAssets.SelectedItems(0).SubItems(AssetColumn.Owner).Text
             HQFShip = New ArrayList
             Call Me.SearchForShip(assetID, owner)
             ' Should have got the ship by now
@@ -2850,10 +2865,10 @@ Public Class frmPrism
         If tlvAssets.SelectedItems.Count > 0 Then
             Dim volume, value, quantity As Double
             For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
-                If asset.SubItems(7).Text <> "" Then
-                    volume += CDbl(asset.SubItems(6).Text)
-                    quantity += CDbl(asset.SubItems(7).Text)
-                    value += CDbl(asset.SubItems(9).Text)
+                If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
+                    volume += CDbl(asset.SubItems(AssetColumn.Volume).Text)
+                    quantity += CDbl(asset.SubItems(AssetColumn.Quantity).Text)
+                    value += CDbl(asset.SubItems(AssetColumn.Value).Text)
                 End If
             Next
             tssLabelSelectedAssets.Text = "Volume = " & FormatNumber(volume, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³ : Value = " & FormatNumber(value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ISK"
@@ -3435,16 +3450,16 @@ Public Class frmPrism
         tempAssetList.Clear()
         For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
             If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(asset.Text)) = True Then
-                If asset.SubItems(7).Text <> "" Then
+                If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
                     If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(7).Text)
+                        recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(AssetColumn.Quantity).Text)
                         tempAssetList.Add(asset.Tag.ToString)
                     End If
                 End If
             Else
-                If asset.SubItems(7).Text <> "" Then
+                If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
                     If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(7).Text))
+                        recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(AssetColumn.Quantity).Text))
                         tempAssetList.Add(asset.Tag.ToString)
                     End If
                 End If
@@ -3480,16 +3495,16 @@ Public Class frmPrism
         For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
             If EveHQ.Core.HQ.itemList.Contains(asset.Text) = True Then
                 If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(asset.Text)) = True Then
-                    If asset.SubItems(7).Text <> "" Then
+                    If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
                         If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                            recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(7).Text)
+                            recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(AssetColumn.Quantity).Text)
                             tempAssetList.Add(asset.Tag.ToString)
                         End If
                     End If
                 Else
-                    If asset.SubItems(7).Text <> "" Then
+                    If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
                         If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                            recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(7).Text))
+                            recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(AssetColumn.Quantity).Text))
                             tempAssetList.Add(asset.Tag.ToString)
                         End If
                     End If
@@ -3510,16 +3525,16 @@ Public Class frmPrism
         For Each childItem As ContainerListViewItem In item.Items
             If EveHQ.Core.HQ.itemList.Contains(childItem.Text) = True Then
                 If assetList.ContainsKey(EveHQ.Core.HQ.itemList(childItem.Text)) = True Then
-                    If childItem.SubItems(7).Text <> "" Then
+                    If childItem.SubItems(AssetColumn.Quantity).Text <> "" Then
                         If tempAssetList.Contains(childItem.Tag.ToString) = False Then
-                            assetList(EveHQ.Core.HQ.itemList(childItem.Text)) = CLng(assetList(EveHQ.Core.HQ.itemList(childItem.Text))) + CLng(childItem.SubItems(7).Text)
+                            assetList(EveHQ.Core.HQ.itemList(childItem.Text)) = CLng(assetList(EveHQ.Core.HQ.itemList(childItem.Text))) + CLng(childItem.SubItems(AssetColumn.Quantity).Text)
                             tempAssetList.Add(childItem.Tag.ToString)
                         End If
                     End If
                 Else
-                    If childItem.SubItems(7).Text <> "" Then
+                    If childItem.SubItems(AssetColumn.Quantity).Text <> "" Then
                         If tempAssetList.Contains(childItem.Tag.ToString) = False Then
-                            assetList.Add(EveHQ.Core.HQ.itemList(childItem.Text), CLng(childItem.SubItems(7).Text))
+                            assetList.Add(EveHQ.Core.HQ.itemList(childItem.Text), CLng(childItem.SubItems(AssetColumn.Quantity).Text))
                             tempAssetList.Add(childItem.Tag.ToString)
                         End If
                     End If
