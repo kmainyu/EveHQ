@@ -2280,7 +2280,7 @@ Public Class frmMap
                 Dim agentStation As Station = CType(PlugInData.StationList(cAgent.stationId), Station)
                 Dim agentSystem As SolarSystem = CType(PlugInData.SystemsID(agentStation.solarSystemID.ToString), SolarSystem)
                 Dim agentCorp As NPCCorp = CType(PlugInData.NPCCorpList(cAgent.corporationID), NPCCorp)
-                Dim agentFaction As Faction = CType(PlugInData.FactionList(agentCorp.factionID), Faction)
+                Dim agentFaction As Faction = CType(PlugInData.FactionList(agentCorp.factionID.ToString), Faction)
                 Dim newAgent As New ListViewItem
                 newAgent.Text = cAgent.agentName
                 newAgent.SubItems.Add(agentCorp.CorpName)
@@ -2341,7 +2341,7 @@ Public Class frmMap
         Dim agsysid As Integer = agstat.solarSystemID
         Dim agsys As SolarSystem = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem)
         Dim agfid As Integer = agcorp.factionID
-        Dim agfacnam As String = CType(PlugInData.FactionList(agfid), Faction).factionName
+        Dim agfacnam As String = CType(PlugInData.FactionList(agfid.ToString), Faction).factionName
         Dim agsysnam As String = agsys.Name
         Dim agreg As String = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem).Region
         Dim agcon As String = CType(PlugInData.SystemsID(agsysid.ToString), SolarSystem).Constellation
