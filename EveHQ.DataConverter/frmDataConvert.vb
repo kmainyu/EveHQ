@@ -53,6 +53,15 @@ Public Class frmDataConvert
                 New System.Text.RegularExpressions.Regex(pattern)
         Return r.Split(oneLine)
     End Function
+    Private Function ParseLine2(ByVal oneLine As String) As String()
+        ' Returns an array containing the values of the comma-separated fields.
+        ' This pattern actually recognizes the correct commas.
+        ' The Regex.Split() command later gets text between the commas.
+        Dim pattern As String = ",(?=(?:[^" & ControlChars.Quote & "]*" & ControlChars.Quote & "[^" & ControlChars.Quote & "]*" & ControlChars.Quote & ")*(?![^" & ControlChars.Quote & "]*" & ControlChars.Quote & "))"
+        Dim r As System.Text.RegularExpressions.Regex = _
+                New System.Text.RegularExpressions.Regex(pattern)
+        Return r.Split(oneLine)
+    End Function
     Private Function AnalyseSQLFiles(ByVal worker As System.ComponentModel.BackgroundWorker, ByVal e As System.ComponentModel.DoWorkEventArgs) As Long
         Dim dataFiles As System.Collections.ObjectModel.ReadOnlyCollection(Of String)
         dataFiles = My.Computer.FileSystem.GetFiles(txtSource.Text)
@@ -1604,6 +1613,256 @@ Public Class frmDataConvert
 
         MessageBox.Show("Certificate dumping is complete!", "Dump Completed!", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
+    End Sub
 
+#Region "CSV Import Routines"
+    Private Sub btnImportSource_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportSource.Click
+        With fbd1
+            .Description = "Please select the source folder where the CSV files are located."
+            .ShowNewFolderButton = True
+            .RootFolder = Environment.SpecialFolder.MyDocuments
+            .ShowDialog()
+            txtImportSource.Text = .SelectedPath
+        End With
+    End Sub
+#End Region
+
+
+    Private Sub btnStartImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnStartImport.Click
+        If My.Computer.FileSystem.DirectoryExists(txtImportSource.Text) = True Then
+            For Each file As String In My.Computer.FileSystem.GetFiles(txtImportSource.Text)
+                Dim FI As New FileInfo(file)
+                Select Case FI.Name
+
+                    Case "config.BulkData.invmetatypes.csv"
+                        'Dim strSQL As String = "DELETE FROM invMetaTypes;"
+                        'EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '' Open the file and read the data
+                        'Dim sr As New StreamReader(file)
+                        'Dim fileData As String = sr.ReadToEnd
+                        'sr.Close()
+                        'Dim records() As String = fileData.Split(ControlChars.CrLf.ToCharArray)
+                        'For Each record As String In records
+                        '    If record <> "" Then
+                        '        Dim fields() As String = ParseLine2(record)
+                        '        strSQL = "INSERT INTO invMetaTypes (typeID, parentTypeID, metaGroupID) VALUES ("
+                        '        strSQL &= fields(0) & ", "
+                        '        strSQL &= fields(1) & ", "
+                        '        strSQL &= fields(2) & ");"
+                        '        EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '    End If
+                        'Next
+
+                    Case "config.BulkData.metagroups.csv"
+                        'Dim strSQL As String = "DELETE FROM invMetaGroups;"
+                        'EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '' Open the file and read the data
+                        'Dim sr As New StreamReader(file)
+                        'Dim fileData As String = sr.ReadToEnd
+                        'sr.Close()
+                        'Dim records() As String = fileData.Split(ControlChars.CrLf.ToCharArray)
+                        'For Each record As String In records
+                        '    If record <> "" Then
+                        '        Dim fields() As String = ParseLine2(record)
+                        '        strSQL = "INSERT INTO invMetaGroups (metaGroupID, metaGroupName, description, graphicID) VALUES ("
+                        '        strSQL &= fields(0) & ", "
+                        '        strSQL &= fields(1) & ", "
+                        '        strSQL &= fields(2) & ", "
+                        '        If fields(3) = "" Then
+                        '            strSQL &= "null);"
+                        '        Else
+                        '            strSQL &= fields(3) & ");"
+                        '        End If
+                        '        EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '    End If
+                        'Next
+
+                    Case "config.BulkData.categories.csv"
+                        'Dim strSQL As String = "DELETE FROM invCategories;"
+                        'EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '' Open the file and read the data
+                        'Dim sr As New StreamReader(file)
+                        'Dim fileData As String = sr.ReadToEnd
+                        'sr.Close()
+                        'Dim records() As String = fileData.Split(ControlChars.CrLf.ToCharArray)
+                        'For Each record As String In records
+                        '    If record <> "" Then
+                        '        Dim fields() As String = ParseLine2(record)
+                        '        strSQL = "INSERT INTO invCategories (categoryID, categoryName, description, graphicID, published) VALUES ("
+                        '        strSQL &= fields(0) & ", "
+                        '        strSQL &= fields(1) & ", "
+                        '        strSQL &= fields(2) & ", "
+                        '        If fields(3) = "" Then
+                        '            strSQL &= "null, "
+                        '        Else
+                        '            strSQL &= fields(3) & ", "
+                        '        End If
+                        '        strSQL &= fields(4) & ");"
+                        '        EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '    End If
+                        'Next
+
+                    Case "config.BulkData.dgmtypeattribs.csv"
+                        'Dim strSQL As String = "DELETE FROM dgmTypeAttributes;"
+                        'EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '' Open the file and read the data
+                        'Dim sr As New StreamReader(file)
+                        'Dim fileData As String = sr.ReadToEnd
+                        'sr.Close()
+                        'Dim records() As String = fileData.Split(ControlChars.CrLf.ToCharArray)
+                        'Dim value As Double = 0
+                        'For Each record As String In records
+                        '    If record <> "" Then
+                        '        Dim fields() As String = ParseLine2(record)
+                        '        strSQL = "INSERT INTO dgmTypeAttributes (typeID, attributeID, valueInt, valueFloat) VALUES ("
+                        '        strSQL &= fields(1) & ", "
+                        '        strSQL &= fields(2) & ", "
+                        '        strSQL &= "null, "
+                        '        strSQL &= fields(0) & ");"
+                        '        Try
+                        '            EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '        Catch ex As Exception
+                        '        End Try
+                        '    End If
+                        'Next
+
+                    Case "config.BulkData.dgmtypeeffects.csv"
+                        'Dim strSQL As String = "DELETE FROM dgmTypeEffects;"
+                        'EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '' Open the file and read the data
+                        'Dim sr As New StreamReader(file)
+                        'Dim fileData As String = sr.ReadToEnd
+                        'sr.Close()
+                        'Dim records() As String = fileData.Split(ControlChars.CrLf.ToCharArray)
+                        'Dim value As Double = 0
+                        'For Each record As String In records
+                        '    If record <> "" Then
+                        '        Dim fields() As String = ParseLine2(record)
+                        '        strSQL = "INSERT INTO dgmTypeEffects (typeID, effectID, isDefault) VALUES ("
+                        '        strSQL &= fields(0) & ", "
+                        '        strSQL &= fields(1) & ", "
+                        '        strSQL &= fields(2) & ");"
+                        '        EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '    End If
+                        'Next
+
+                    Case "config.BulkData.groups.csv"
+                        Dim strSQL As String = "DELETE FROM invGroups;"
+                        EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        ' Open the file and read the data
+                        Dim sr As New StreamReader(file)
+                        Dim fileData As String = sr.ReadToEnd
+                        sr.Close()
+                        Dim records() As String = fileData.Split(ControlChars.CrLf.ToCharArray)
+                        For Each record As String In records
+                            If record <> "" Then
+                                Dim fields() As String = ParseLine2(record)
+                                strSQL = "INSERT INTO invGroups (groupID, categoryID, groupName, description, graphicID, useBasePrice, allowManufacture, allowRecycler, anchored, anchorable, fittableNonSingleton, published) VALUES ("
+                                strSQL &= fields(0) & ", "
+                                strSQL &= fields(1) & ", "
+                                strSQL &= fields(2) & ", "
+                                strSQL &= fields(3) & ", "
+                                If fields(4) = "" Then
+                                    strSQL &= "null, "
+                                Else
+                                    strSQL &= fields(4) & ", "
+                                End If
+                                strSQL &= fields(5) & ", "
+                                strSQL &= fields(6) & ", "
+                                strSQL &= fields(7) & ", "
+                                strSQL &= fields(8) & ", "
+                                strSQL &= fields(9) & ", "
+                                strSQL &= fields(10) & ", "
+                                strSQL &= fields(11) & ");"
+
+                                EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                            End If
+                        Next
+
+                    Case "GetMarketGroups.csv"
+                        'Dim strSQL As String = "DELETE FROM invMarketGroups;"
+                        'EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '' Open the file and read the data
+                        'Dim sr As New StreamReader(file)
+                        'Dim fileData As String = sr.ReadToEnd
+                        'sr.Close()
+                        'Dim records() As String = fileData.Split(ControlChars.CrLf.ToCharArray)
+                        'For Each record As String In records
+                        '    If record <> "" Then
+                        '        Dim fields() As String = ParseLine2(record)
+                        '        strSQL = "INSERT INTO invMarketGroups (marketGroupID, parentGroupID, marketGroupName, description, graphicID, hasTypes) VALUES ("
+                        '        strSQL &= fields(1) & ", "
+                        '        If fields(0) = "" Then
+                        '            strSQL &= "null, "
+                        '        Else
+                        '            strSQL &= fields(0) & ", "
+                        '        End If
+                        '        strSQL &= fields(2) & ", "
+                        '        strSQL &= fields(3) & ", "
+                        '        If fields(4) = "" Then
+                        '            strSQL &= "null, "
+                        '        Else
+                        '            strSQL &= fields(4) & ", "
+                        '        End If
+                        '        strSQL &= fields(5) & ");"
+                        '        EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '    End If
+                        'Next
+
+                    Case "config.BulkData.types.csv"
+                        'Dim strSQL As String = "DELETE FROM invTypes;"
+                        'EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '' Open the file and read the data
+                        'Dim sr As New StreamReader(file)
+                        'Dim records As New ArrayList
+                        'Dim record As String
+                        'Do
+                        '    record = ""
+                        '    Do
+                        '        record &= sr.ReadLine
+                        '    Loop Until record.EndsWith("$$")
+                        '    records.Add(record)
+                        'Loop Until sr.EndOfStream
+                        'sr.Close()
+                        'For Each record In records
+
+                        '    ' Get a batch
+                        '    If record <> "" Then
+                        '        Dim fields() As String = ParseLine2(record)
+                        '        strSQL = "INSERT INTO invTypes (typeID, groupID, typeName, description, graphicID, radius, mass, volume, capacity, portionSize, raceID, basePrice, published, marketGroupID, chanceOfDuplicating) VALUES ("
+                        '        strSQL &= fields(0) & ", "
+                        '        strSQL &= fields(1) & ", "
+                        '        strSQL &= fields(2) & ", "
+                        '        strSQL &= fields(3) & ", "
+                        '        If fields(4) = "" Then
+                        '            strSQL &= "null, "
+                        '        Else
+                        '            strSQL &= fields(4) & ", "
+                        '        End If
+                        '        strSQL &= fields(5) & ", "
+                        '        strSQL &= fields(6) & ", "
+                        '        strSQL &= fields(7) & ", "
+                        '        strSQL &= fields(8) & ", "
+                        '        strSQL &= fields(9) & ", "
+                        '        If fields(10) = "" Then
+                        '            strSQL &= "null, "
+                        '        Else
+                        '            strSQL &= fields(10) & ", "
+                        '        End If
+                        '        strSQL &= fields(11) & ", "
+                        '        strSQL &= fields(12) & ", "
+                        '        If fields(13) = "" Then
+                        '            strSQL &= "null, "
+                        '        Else
+                        '            strSQL &= fields(13) & ", "
+                        '        End If
+                        '        strSQL &= fields(14) & ");"
+                        '        EveHQ.Core.DataFunctions.SetStaticData(strSQL)
+                        '    End If
+                        'Next
+
+                End Select
+            Next
+        End If
     End Sub
 End Class

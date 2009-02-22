@@ -458,7 +458,7 @@ Public Class frmItemBrowser
         cboAttSearch.Items.Clear()
         cboAttSearch.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboAttSearch.AutoCompleteSource = AutoCompleteSource.CustomSource
-        For Each att As String In EveHQ.Core.HQ.attributeList.GetKeyList
+        For Each att As String In PlugInData.AttributeList.GetKeyList
             cboAttSearch.AutoCompleteCustomSource.Add(att)
             cboAttSearch.Items.Add(att)
         Next
@@ -1794,7 +1794,7 @@ Public Class frmItemBrowser
 
     Private Sub cboAttSearch_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAttSearch.SelectedIndexChanged
         ' Fetch attributeID
-        Dim attID As String = EveHQ.Core.HQ.attributeList.Item(cboAttSearch.SelectedItem)
+        Dim attID As String = PlugInData.AttributeList.Item(cboAttSearch.SelectedItem)
         eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmTypeAttributes WHERE attributeID=" & attID & ";")
         Dim itemID As String = ""
         Dim itemIDX As Integer = 0

@@ -82,13 +82,18 @@ Partial Class frmDataConvert
         Me.lblDatabase = New System.Windows.Forms.Label
         Me.btnTestConnection = New System.Windows.Forms.Button
         Me.txtDatabase = New System.Windows.Forms.TextBox
-        Me.ofd1 = New System.Windows.Forms.OpenFileDialog
         Me.TabPage4 = New System.Windows.Forms.TabPage
         Me.panelCerts = New System.Windows.Forms.Panel
         Me.lblCertLocation = New System.Windows.Forms.Label
         Me.btnDecodeCertificates = New System.Windows.Forms.Button
         Me.btnFindCertficates = New System.Windows.Forms.Button
         Me.txtCertificates = New System.Windows.Forms.TextBox
+        Me.TabPage5 = New System.Windows.Forms.TabPage
+        Me.panelImport = New System.Windows.Forms.Panel
+        Me.btnStartImport = New System.Windows.Forms.Button
+        Me.txtImportSource = New System.Windows.Forms.TextBox
+        Me.btnImportSource = New System.Windows.Forms.Button
+        Me.ofd1 = New System.Windows.Forms.OpenFileDialog
         Me.grpMSSQL.SuspendLayout()
         Me.grpMySQL.SuspendLayout()
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -101,6 +106,8 @@ Partial Class frmDataConvert
         Me.panelSQL2TSQL.SuspendLayout()
         Me.TabPage4.SuspendLayout()
         Me.panelCerts.SuspendLayout()
+        Me.TabPage5.SuspendLayout()
+        Me.panelImport.SuspendLayout()
         Me.SuspendLayout()
         '
         'cboConvertType
@@ -464,6 +471,7 @@ Partial Class frmDataConvert
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Controls.Add(Me.TabPage4)
+        Me.TabControl1.Controls.Add(Me.TabPage5)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -677,10 +685,6 @@ Partial Class frmDataConvert
         Me.txtDatabase.TabIndex = 10
         Me.txtDatabase.Text = "EveHQ"
         '
-        'ofd1
-        '
-        Me.ofd1.FileName = "OpenFileDialog1"
-        '
         'TabPage4
         '
         Me.TabPage4.Controls.Add(Me.panelCerts)
@@ -738,6 +742,57 @@ Partial Class frmDataConvert
         Me.txtCertificates.Size = New System.Drawing.Size(581, 20)
         Me.txtCertificates.TabIndex = 46
         '
+        'TabPage5
+        '
+        Me.TabPage5.Controls.Add(Me.panelImport)
+        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage5.Name = "TabPage5"
+        Me.TabPage5.Size = New System.Drawing.Size(646, 437)
+        Me.TabPage5.TabIndex = 4
+        Me.TabPage5.Text = "Import CSV"
+        Me.TabPage5.UseVisualStyleBackColor = True
+        '
+        'panelImport
+        '
+        Me.panelImport.BackColor = System.Drawing.SystemColors.Control
+        Me.panelImport.Controls.Add(Me.btnStartImport)
+        Me.panelImport.Controls.Add(Me.txtImportSource)
+        Me.panelImport.Controls.Add(Me.btnImportSource)
+        Me.panelImport.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelImport.Location = New System.Drawing.Point(0, 0)
+        Me.panelImport.Name = "panelImport"
+        Me.panelImport.Size = New System.Drawing.Size(646, 437)
+        Me.panelImport.TabIndex = 0
+        '
+        'btnStartImport
+        '
+        Me.btnStartImport.Location = New System.Drawing.Point(8, 39)
+        Me.btnStartImport.Name = "btnStartImport"
+        Me.btnStartImport.Size = New System.Drawing.Size(75, 23)
+        Me.btnStartImport.TabIndex = 41
+        Me.btnStartImport.Text = "Start Import"
+        Me.btnStartImport.UseVisualStyleBackColor = True
+        '
+        'txtImportSource
+        '
+        Me.txtImportSource.Location = New System.Drawing.Point(8, 13)
+        Me.txtImportSource.Name = "txtImportSource"
+        Me.txtImportSource.Size = New System.Drawing.Size(552, 20)
+        Me.txtImportSource.TabIndex = 39
+        '
+        'btnImportSource
+        '
+        Me.btnImportSource.Location = New System.Drawing.Point(566, 11)
+        Me.btnImportSource.Name = "btnImportSource"
+        Me.btnImportSource.Size = New System.Drawing.Size(24, 23)
+        Me.btnImportSource.TabIndex = 40
+        Me.btnImportSource.Text = "..."
+        Me.btnImportSource.UseVisualStyleBackColor = True
+        '
+        'ofd1
+        '
+        Me.ofd1.FileName = "OpenFileDialog1"
+        '
         'frmDataConvert
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -766,6 +821,9 @@ Partial Class frmDataConvert
         Me.TabPage4.ResumeLayout(False)
         Me.panelCerts.ResumeLayout(False)
         Me.panelCerts.PerformLayout()
+        Me.TabPage5.ResumeLayout(False)
+        Me.panelImport.ResumeLayout(False)
+        Me.panelImport.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -835,4 +893,9 @@ Partial Class frmDataConvert
     Friend WithEvents btnDecodeCertificates As System.Windows.Forms.Button
     Friend WithEvents btnFindCertficates As System.Windows.Forms.Button
     Friend WithEvents txtCertificates As System.Windows.Forms.TextBox
+    Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
+    Friend WithEvents panelImport As System.Windows.Forms.Panel
+    Friend WithEvents txtImportSource As System.Windows.Forms.TextBox
+    Friend WithEvents btnImportSource As System.Windows.Forms.Button
+    Friend WithEvents btnStartImport As System.Windows.Forms.Button
 End Class

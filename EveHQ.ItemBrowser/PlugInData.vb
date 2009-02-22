@@ -2,6 +2,7 @@
     Implements EveHQ.Core.IEveHQPlugIn
 
     Public Shared PlugInDataObject As Object
+    Public Shared AttributeList As New SortedList
     Public Shared Event PluginDataReceived()
 
     'Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
@@ -26,6 +27,12 @@
 
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
         Try
+            ' Load attribute names
+            AttributeList.Clear()
+            Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmAttributeTypes ORDER BY attributeName;")
+            For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
+                PlugInData.AttributeList.Add(eveData.Tables(0).Rows(item).Item("attributeName").ToString.Trim, eveData.Tables(0).Rows(item).Item("attributeID").ToString.Trim)
+            Next
             Return True
         Catch ex As Exception
             Windows.Forms.MessageBox.Show(ex.Message)

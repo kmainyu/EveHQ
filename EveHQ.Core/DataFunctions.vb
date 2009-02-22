@@ -27,7 +27,6 @@ Imports System.Windows.Forms
 
 Public Class DataFunctions
 
-    Shared eveData As Data.DataSet
     Shared customMDBConnection As New OleDbConnection
     Shared customSQLConnection As New SqlConnection
     Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
@@ -242,6 +241,52 @@ Public Class DataFunctions
                 Return Nothing
         End Select
     End Function
+    Public Shared Function SetStaticData(ByVal strSQL As String) As Boolean
+        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+            Case 0 ' Access
+                Dim conn As New OleDbConnection
+                conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
+                Try
+                    conn.Open()
+                    Dim keyCommand As New OleDbCommand(strSQL, conn)
+                    keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    keyCommand.ExecuteNonQuery()
+                    Return True
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return False
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case 1, 2 ' MSSQL, MSSQL Express
+                Dim conn As New SqlConnection
+                conn.ConnectionString = EveHQ.Core.HQ.itemDBConnectionString
+                Try
+                    conn.Open()
+                    If strSQL.Contains(" LIKE ") = False Then
+                        strSQL = strSQL.Replace("'", "''")
+                        strSQL = strSQL.Replace(ControlChars.Quote, "'")
+                        strSQL = strSQL.Replace("=true", "=1")
+                    End If
+                    Dim keyCommand As New SqlCommand(strSQL, conn)
+                    keyCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+                    keyCommand.ExecuteNonQuery()
+                    Return True
+                Catch e As Exception
+                    EveHQ.Core.HQ.dataError = e.Message
+                    Return False
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case Else
+                EveHQ.Core.HQ.dataError = "Cannot Enumerate Database Format"
+                Return Nothing
+        End Select
+    End Function
     Public Shared Function SetData(ByVal strSQL As String) As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' Access
@@ -418,19 +463,25 @@ Public Class DataFunctions
         End Select
     End Function
     Public Shared Function GetBPTypeID(ByVal typeID As String) As String
-        eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invBlueprintTypes WHERE productTypeID=" & typeID & ";")
+        Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invBlueprintTypes WHERE productTypeID=" & typeID & ";")
         If eveData.Tables(0).Rows.Count = 0 Then
+            eveData.Dispose()
             Return typeID
         Else
-            Return eveData.Tables(0).Rows(0).Item("blueprintTypeID").ToString
+            typeID = eveData.Tables(0).Rows(0).Item("blueprintTypeID").ToString
+            eveData.Dispose()
+            Return typeID
         End If
     End Function
     Public Shared Function GetTypeID(ByVal bpTypeID As String) As String
-        eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invBlueprintTypes WHERE blueprintTypeID=" & bpTypeID & ";")
+        Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invBlueprintTypes WHERE blueprintTypeID=" & bpTypeID & ";")
         If eveData.Tables(0).Rows.Count = 0 Then
+            eveData.Dispose()
             Return bpTypeID
         Else
-            Return eveData.Tables(0).Rows(0).Item("productTypeID").ToString
+            bpTypeID = eveData.Tables(0).Rows(0).Item("productTypeID").ToString
+            eveData.Dispose()
+            Return bpTypeID
         End If
     End Function
     Public Shared Function GetTypeParentInfo(ByVal typeID As String) As String()
@@ -452,7 +503,7 @@ Public Class DataFunctions
         Dim strSQL As String = "SELECT *"
         strSQL &= " FROM invBlueprintTypes"
         strSQL &= " WHERE blueprintTypeID=" & typeID & ";"
-        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+        Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         For col As Integer = 3 To eveData.Tables(0).Columns.Count - 1
             ' Check for BPWF
             If eveData.Tables(0).Columns(col).Caption = "wasteFactor" Then
@@ -460,6 +511,7 @@ Public Class DataFunctions
                 Exit For
             End If
         Next
+        eveData.Dispose()
         Return BPWF
     End Function
     Public Shared Function Round(ByVal data As String, Optional ByVal places As Integer = 6) As String
@@ -477,10 +529,9 @@ Public Class DataFunctions
         EveHQ.Core.HQ.catList.Clear()
         EveHQ.Core.HQ.groupCats.Clear()
         EveHQ.Core.HQ.typeGroups.Clear()
-        EveHQ.Core.HQ.attributeList.Clear()
         EveHQ.Core.HQ.itemPublishedList.Clear()
+        Dim eveData As New DataSet
         Try
-
             Dim iKey As String = ""
             Dim iValue As String = ""
             Dim iParent As String = ""
@@ -521,21 +572,17 @@ Public Class DataFunctions
                     EveHQ.Core.HQ.BasePriceList.Add(iValue, iBasePrice)
                 End If
             Next
-            ' Load attribute names
-            eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmAttributeTypes ORDER BY attributeName;")
-            For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                iKey = eveData.Tables(0).Rows(item).Item("attributeName").ToString.Trim
-                iValue = eveData.Tables(0).Rows(item).Item("attributeID").ToString.Trim
-                EveHQ.Core.HQ.attributeList.Add(iKey, iValue)
-            Next
             If EveHQ.Core.DataFunctions.LoadUnlocks = False Then
                 Return False
+                eveData.Dispose()
                 Exit Function
             End If
             EveHQ.Core.DataFunctions.LoadMarketPricesFromDB()
             EveHQ.Core.DataFunctions.LoadCustomPricesFromDB()
+            eveData.Dispose()
             Return True
         Catch e As Exception
+            eveData.Dispose()
             Return False
             Exit Function
         End Try
@@ -726,6 +773,7 @@ Public Class DataFunctions
 #End Region ' Converts the Base CCP Data Export into something EveHQ can use
 
     Public Shared Function LoadMarketPricesFromDB() As Boolean
+        Dim eveData As New DataSet
         Try
             eveData = EveHQ.Core.DataFunctions.GetCustomData("SELECT * FROM marketPrices ORDER BY typeID;")
             If eveData IsNot Nothing Then
@@ -739,9 +787,12 @@ Public Class DataFunctions
             End If
         Catch ex As Exception
             MessageBox.Show("There was an error fetching the Market Price data. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        Finally
+            eveData.Dispose()
         End Try
     End Function
     Public Shared Function LoadCustomPricesFromDB() As Boolean
+        Dim eveData As New DataSet
         Try
             eveData = EveHQ.Core.DataFunctions.GetCustomData("SELECT * FROM customPrices ORDER BY typeID;")
             If eveData IsNot Nothing Then
@@ -755,6 +806,8 @@ Public Class DataFunctions
             End If
         Catch ex As Exception
             MessageBox.Show("There was an error fetching the Custom Price data. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        Finally
+            eveData.Dispose()
         End Try
     End Function
     Private Shared Function CreateCustomPricesTable() As Boolean

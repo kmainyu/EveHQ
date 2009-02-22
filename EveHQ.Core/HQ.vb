@@ -64,7 +64,6 @@ Public Class HQ
     Public Shared catList As SortedList = New SortedList
     Public Shared groupCats As SortedList = New SortedList
     Public Shared typeGroups As SortedList = New SortedList
-    Public Shared attributeList As SortedList = New SortedList
     Public Shared APIRequestForm As New EveHQ.Core.EveAPIStatusForm
     Public Shared LastAutoAPIResult As Boolean = True
     Public Shared LastAutoAPITime As DateTime = Now
