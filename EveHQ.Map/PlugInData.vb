@@ -889,7 +889,7 @@ Public Class PlugInData
             Dim nFaction As New Faction
             Dim nAlliance As New Alliance
             ' Get the Sovereignty data
-            Dim XMLDoc As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Sovereignty)
+            Dim XMLDoc As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Sovereignty, 0)
             SystemDetails = XMLDoc.SelectNodes("/eveapi/result/rowset/row")
             For Each SysNode In SystemDetails
                 id = CStr(CLng(SysNode.Attributes.GetNamedItem("solarSystemID").Value) - 30000000)
@@ -911,7 +911,7 @@ Public Class PlugInData
                         Else
                             ' Try to get the name from the IDToName API
                             Try
-                                Dim NameXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IDToName, solar.SovereigntyID.ToString)
+                                Dim NameXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IDToName, solar.SovereigntyID.ToString, 0)
                                 If NameXML IsNot Nothing Then
                                     AllianceDetails = NameXML.SelectNodes("/eveapi/result/rowset/row")
                                     solar.SovereigntyName = AllianceDetails(0).Attributes.GetNamedItem("name").Value
@@ -979,7 +979,7 @@ Public Class PlugInData
             Dim AllyNode As XmlNode
             AllianceList.Clear()
             ' Get the alliance data
-            Dim XMLDoc As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AllianceList)
+            Dim XMLDoc As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AllianceList, 0)
             AllyDetails = XMLDoc.SelectNodes("/eveapi/result/rowset/row")
             Dim ind As Integer = 0
             AllianceList.Clear()
@@ -1270,7 +1270,7 @@ Public Class PlugInData
             Dim CSDetails As XmlNodeList
             Dim CSNode As XmlNode
             ' Get the Sovereignty data
-            Dim XMLDoc As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Conquerables)
+            Dim XMLDoc As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Conquerables, 0)
             CSDetails = XMLDoc.SelectNodes("/eveapi/result/rowset/row")
             CSStationList.Clear()
             For Each CSNode In CSDetails

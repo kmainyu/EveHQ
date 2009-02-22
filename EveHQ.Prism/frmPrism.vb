@@ -174,55 +174,55 @@ Public Class frmPrism
                 Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
                 ' Check for char assets
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, 1)
                 Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 2)
 
                 ' Check for corp assets
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, 1)
                 Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 2)
 
                 ' Check for char balances
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, 1)
                 Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 3)
 
                 ' Check for corp balances
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, 1)
                 Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 3)
 
                 ' Check for char jobs
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, 1)
                 Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 4)
 
                 ' Check for corp jobs
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, 1)
                 Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 4)
 
                 ' Check for char journal
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000, "", True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000, "", 1)
                 Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 5)
 
                 ' Check for corp journal
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, 1000, "", True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, 1000, "", 1)
                 Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 5)
 
                 ' Check for char orders
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, 1)
                 Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 6)
 
                 ' Check for corp orders
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, 1)
                 Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 6)
 
                 ' Check for char transactions
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, "", True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, "", 1)
                 Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 7)
 
                 ' Check for corp transactions
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, 1000, "", True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, 1000, "", 1)
                 Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 7)
 
                 ' Check for corp sheets
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, True)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, 1)
                 Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 8)
 
             End If
@@ -309,7 +309,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, False)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, 0)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 2})
@@ -325,7 +325,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, False)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, 0)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 2})
@@ -341,7 +341,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, False)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, 0)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 3})
@@ -357,7 +357,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, False)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, 0)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 3})
@@ -373,7 +373,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, False)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, 0)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 4})
@@ -389,7 +389,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, False)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, 0)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 4})
@@ -405,7 +405,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000, "", False)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000, "", 0)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 5})
@@ -422,7 +422,7 @@ Public Class frmPrism
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
                 For divID As Integer = 1006 To 1000 Step -1
-                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, divID, "", False)
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, divID, "", 0)
                 Next
 
                 ' Update the dipsplay
@@ -439,7 +439,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, False)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, 0)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 6})
@@ -455,7 +455,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, False)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, 0)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 6})
@@ -469,9 +469,30 @@ Public Class frmPrism
             If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
                 Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
+                ' Setup the array of transactions
+                Dim transNodes As New ArrayList
+                Dim transID As String = ""
+
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, "", False)
+                Dim errList As XmlNodeList
+                Do
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, transID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+                    ' Check for errors
+                    errList = apiXML.SelectNodes("/eveapi/error")
+                    If errlist.Count = 0 Then
+                        ' No errors so let's strip out the lines we need
+                        Dim transList As XmlNodeList = apiXML.SelectNodes("/eveapi/result/rowset/row")
+                        For Each transNode As XmlNode In transList
+                            transNodes.Add(transNode)
+                            transID = transNode.Attributes.GetNamedItem("transactionID").Value
+                        Next
+                    End If
+                Loop Until errList.Count > 0 Or transID = ""
+
+                ' Process the lines we have obtained
+                ' TODO: Fetch the last transaction line we posted
+                'Call Me.WriteTransactionsToDB(transNodes)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 7})
@@ -488,7 +509,7 @@ Public Class frmPrism
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
                 For divID As Integer = 1006 To 1000 Step -1
-                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, divID, "", False)
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, divID, "", 0)
                 Next
 
                 ' Update the dipsplay
@@ -505,7 +526,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, False)
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, 0)
 
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 8})
@@ -537,7 +558,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim assetXML As New XmlDocument
-                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, False)
+                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, 0)
 
                 ' Setup the Assets table for a response
                 Dim newAsset As New ListViewItem
@@ -585,7 +606,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim assetXML As New XmlDocument
-                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, False)
+                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, 0)
 
                 ' Setup the Assets table for a response
                 Dim newAsset As New ListViewItem
@@ -635,7 +656,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the corp sheet
                 Dim corpXML As New XmlDocument
-                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, False)
+                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, 0)
 
                 ' Setup the Assets table for a response
                 Dim newAPI As New ListViewItem
@@ -679,7 +700,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the corp sheet
                 Dim charXML As New XmlDocument
-                charXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, False)
+                charXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, 0)
 
                 ' Setup the Assets table for a response
                 Dim newAPI As New ListViewItem
@@ -723,7 +744,7 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the corp sheet
                 Dim corpXML As New XmlDocument
-                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, False)
+                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, 0)
 
                 ' Setup the Assets table for a response
                 Dim newAPI As New ListViewItem
@@ -1372,7 +1393,7 @@ Public Class frmPrism
 
         ' Make a call to the EveHQ.Core.API to fetch the assets
         Dim stationXML As New XmlDocument
-        stationXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Conquerables, False)
+        stationXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Conquerables, 0)
 
         ' Check response string for any error codes?
         Dim errlist As XmlNodeList = stationXML.SelectNodes("/eveapi/error")
@@ -3581,9 +3602,9 @@ Public Class frmPrism
             Dim accountName As String = selPilot.Account
             Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
             If IsCorp = True Then
-                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, True)
+                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, 1)
             Else
-                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, True)
+                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, 1)
             End If
             If OrderXML IsNot Nothing Then
                 Dim Orders As XmlNodeList = OrderXML.SelectNodes("/eveapi/result/rowset/row")
@@ -3684,6 +3705,23 @@ Public Class frmPrism
                 Return "limited to Region"
         End Select
     End Function
+#End Region
+
+#Region "Wallet Database Routines"
+    Private Sub WriteTransactionsToDB(ByVal transList As ArrayList)
+        Dim lastTrans As Integer = 0
+        Dim transID As Integer = 0
+        For Each transNode As XmlNode In transList
+            transID = CInt(transNode.Attributes.GetNamedItem("transactionID").Value)
+            If transID > lastTrans Then
+                ' Write the transaction
+
+            Else
+                ' Leave the loop as there will be no more writeable transactions
+                Exit For
+            End If
+        Next
+    End Sub
 #End Region
 
 

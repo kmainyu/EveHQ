@@ -148,19 +148,23 @@ Public Class frmAPIChecker
                 End If
         End Select
         Dim testXML As New XmlDocument
+        Dim returnMethod As Integer = 0
+        If chkReturnCached.Checked = True Then
+            returnMethod = 1
+        End If
         Select Case APIStyle
             Case 1
-                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), chkReturnCached.Checked)
+                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), returnMethod)
             Case 2
-                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), txtOtherInfo.Text.Trim, chkReturnCached.Checked)
+                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), txtOtherInfo.Text.Trim, returnMethod)
             Case 3
-                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, chkReturnCached.Checked)
+                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, returnMethod)
             Case 4
-                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, chkReturnCached.Checked)
+                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, returnMethod)
             Case 5
-                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, CInt(txtOtherInfo.Text), chkReturnCached.Checked)
+                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, CInt(txtOtherInfo.Text), returnMethod)
             Case 6
-                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, CInt(cboAccount.SelectedItem.ToString), txtOtherInfo.Text, chkReturnCached.Checked)
+                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, CInt(cboAccount.SelectedItem.ToString), txtOtherInfo.Text, returnMethod)
         End Select
         Try
             wbAPI.Navigate(EveHQ.Core.EveAPI.LastAPIFileName)

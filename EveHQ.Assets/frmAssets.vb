@@ -272,7 +272,7 @@ Public Class frmAssets
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim assetXML As New XmlDocument
-                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, False)
+                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, 0)
 
                 ' Setup the Assets table for a response
                 Dim newAsset As New ListViewItem
@@ -320,7 +320,7 @@ Public Class frmAssets
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim assetXML As New XmlDocument
-                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, False)
+                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, 0)
 
                 ' Setup the Assets table for a response
                 Dim newAsset As New ListViewItem
@@ -370,7 +370,7 @@ Public Class frmAssets
 
                 ' Make a call to the EveHQ.Core.API to fetch the corp sheet
                 Dim corpXML As New XmlDocument
-                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, False)
+                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, 0)
 
                 ' Setup the Assets table for a response
                 Dim newAPI As New ListViewItem
@@ -414,7 +414,7 @@ Public Class frmAssets
 
                 ' Make a call to the EveHQ.Core.API to fetch the corp sheet
                 Dim charXML As New XmlDocument
-                charXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, False)
+                charXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, 0)
 
                 ' Setup the Assets table for a response
                 Dim newAPI As New ListViewItem
@@ -458,7 +458,7 @@ Public Class frmAssets
 
                 ' Make a call to the EveHQ.Core.API to fetch the corp sheet
                 Dim corpXML As New XmlDocument
-                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, False)
+                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, 0)
 
                 ' Setup the Assets table for a response
                 Dim newAPI As New ListViewItem
@@ -1103,7 +1103,7 @@ Public Class frmAssets
 
         ' Make a call to the EveHQ.Core.API to fetch the assets
         Dim stationXML As New XmlDocument
-        stationXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Conquerables, False)
+        stationXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Conquerables, 0)
 
         ' Check response string for any error codes?
         Dim errlist As XmlNodeList = stationXML.SelectNodes("/eveapi/error")

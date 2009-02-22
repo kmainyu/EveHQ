@@ -1,6 +1,7 @@
 ﻿Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Reflection
+Imports System.Text
 
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
@@ -66,6 +67,7 @@ Public Class PlugInData
         Else
             Call Me.LoadItemFlags()
             Call Me.LoadPackedVolumes()
+            Call Me.CheckDatabaseTables()
             If Me.LoadRefTypes = False Then
                 Return False
                 Exit Function
@@ -354,7 +356,7 @@ Public Class PlugInData
             Dim refDetails As XmlNodeList
             Dim refNode As XmlNode
             Dim fileName As String = ""
-            Dim refXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.RefTypes)
+            Dim refXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.RefTypes, 0)
             Dim errlist As XmlNodeList = refXML.SelectNodes("/eveapi/error")
             If errlist.Count = 0 Then
                 refDetails = refXML.SelectNodes("/eveapi/result/rowset/row")
@@ -454,6 +456,75 @@ Public Class PlugInData
             Next
         End If
     End Sub
+    Private Function CheckDatabaseTables() As Boolean
+        If CheckWalletTransDBTable() = False Then
+            Return False
+        Else
+            Return True
+        End If
+    End Function
+    Private Function CheckWalletTransDBTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("walletTransactions") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the Db and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
+
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            strSQL.AppendLine("CREATE TABLE walletTransactions")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  transID        int IDENTITY(1,1),")
+            strSQL.AppendLine("  transDate      datetime,")
+            strSQL.AppendLine("  transRef       int,")
+            strSQL.AppendLine("  quantity       float,")
+            strSQL.AppendLine("  typeID         int,")
+            strSQL.AppendLine("  price          float,")
+            strSQL.AppendLine("  clientID       int,")
+            strSQL.AppendLine("  clientName     nvarchar(100),")
+            strSQL.AppendLine("  charID         int,")
+            strSQL.AppendLine("  charName       nvarchar(100),")
+            strSQL.AppendLine("  ownerID        int,")
+            strSQL.AppendLine("  ownerName      nvarchar(100),")
+            strSQL.AppendLine("  stationID      int,")
+            strSQL.AppendLine("  transType      int,")  ' 1 = Buy, 2=Sell
+            strSQL.AppendLine("  transFor       int,")  ' 1 = Personal, 2 = Corporation
+            strSQL.AppendLine("  walletID       int,")
+            strSQL.AppendLine("  systemID       int,")
+            strSQL.AppendLine("  regionID       int,")
+            strSQL.AppendLine("  importDate     datetime,")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT walletTransactions_PK PRIMARY KEY CLUSTERED (transID)")
+            strSQL.AppendLine(")")
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Wallet Transactions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
+
+    End Function
 #End Region
 
 End Class

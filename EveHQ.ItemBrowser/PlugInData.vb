@@ -5,16 +5,6 @@
     Public Shared AttributeList As New SortedList
     Public Shared Event PluginDataReceived()
 
-    'Public Property SetPlugInData() As Object Implements Core.IEveHQPlugIn.SetPlugInData
-    '    Get
-    '        Return PlugInDataObject
-    '    End Get
-    '    Set(ByVal value As Object)
-    '        PlugInDataObject = value
-    '        RaiseEvent PluginDataReceived()
-    '    End Set
-    'End Property
-
     Public Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object Implements Core.IEveHQPlugIn.GetPlugInData
         Try
             PlugInDataObject = Data

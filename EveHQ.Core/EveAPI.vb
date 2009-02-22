@@ -37,7 +37,7 @@ Public Class EveAPI
         End Get
     End Property
 
-    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal ReturnMethod As Integer) As XmlDocument
         ' Accepts API features that do not have an explicit post request
         Dim remoteURL As String = ""
         Dim postdata As String = ""
@@ -73,9 +73,9 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, ReturnCacheOnly, Feature)
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, ReturnMethod, Feature)
     End Function
-    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal charData As String, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal charData As String, ByVal ReturnMethod As Integer) As XmlDocument
         ' Accepts API features that do not have an explicit post request
         Dim remoteURL As String = ""
         Dim postdata As String = ""
@@ -93,9 +93,9 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & charData
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, ReturnCacheOnly, Feature)
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, ReturnMethod, Feature)
     End Function
-    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal ReturnMethod As Integer) As XmlDocument
         Dim remoteURL As String = ""
         Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey
         Select Case Feature
@@ -109,9 +109,9 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly, Feature)
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
     End Function
-    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal ReturnMethod As Integer) As XmlDocument
         Dim remoteURL As String = ""
         Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID
         Select Case Feature
@@ -174,9 +174,9 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly, Feature)
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
     End Function
-    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal itemID As Integer, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal itemID As Integer, ByVal ReturnMethod As Integer) As XmlDocument
         Dim remoteURL As String = ""
         Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
         Select Case Feature
@@ -189,13 +189,18 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID & "_" & itemID
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly, Feature)
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
     End Function
-    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal BeforeRefID As String, Optional ByVal ReturnCacheOnly As Boolean = False) As XmlDocument
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal BeforeRefID As String, ByVal ReturnMethod As Integer) As XmlDocument
         Dim remoteURL As String = ""
         Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
         If BeforeRefID <> "" Then
-            postData &= "&beforeRefID=" & BeforeRefID
+            Select Case Feature
+                Case EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp
+                    postData &= "&beforeRefID=" & BeforeRefID
+                Case EveHQ.Core.EveAPI.APIRequest.WalletTransChar, EveHQ.Core.EveAPI.APIRequest.WalletTransCorp
+                    postData &= "&beforeTransID=" & BeforeRefID
+            End Select
         End If
         Select Case Feature
             Case EveHQ.Core.EveAPI.APIRequest.WalletJournalChar
@@ -213,10 +218,13 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID & "_" & accountKey
-        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnCacheOnly, Feature)
+        If BeforeRefID <> "" Then
+            fileName &= "_" & BeforeRefID
+        End If
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
     End Function
 
-    Private Shared Function GetXML(ByVal remoteURL As String, ByVal postData As String, ByVal fileName As String, ByVal ReturnCacheOnly As Boolean, ByVal feature As Integer) As XmlDocument
+    Private Shared Function GetXML(ByVal remoteURL As String, ByVal postData As String, ByVal fileName As String, ByVal ReturnMethod As Long, ByVal feature As Integer) As XmlDocument
         Dim fileDate As String = ""
         ' Check if the file already exists
         Dim fileLoc As String = EveHQ.Core.HQ.cacheFolder & "\" & fileName & fileDate & ".xml"
@@ -232,7 +240,7 @@ Public Class EveAPI
             Dim cacheTime As DateTime = CDate(cacheDetails(0).ChildNodes(2).InnerText)
             Dim localCacheTime As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cacheTime)
             ' Has Cache expired?
-            If localCacheTime > Now Or ReturnCacheOnly = True Then
+            If localCacheTime > Now Or ReturnMethod = APIReturnMethod.ReturnCacheOnly = True Then
                 '  Cache has not expired or a request to return cached version- return existing XML
                 cLastAPIResult = APIResults.ReturnedCached
                 Return APIXML
@@ -252,9 +260,16 @@ Public Class EveAPI
                     ' Get error code
                     Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
                     Dim errMsg As String = errNode.InnerText
-                    ' Return the old XML file
-                    cLastAPIResult = APIResults.CCPError
-                    Return APIXML
+                    If ReturnMethod = APIReturnMethod.ReturnStandard Then
+                        ' Return the old XML file
+                        cLastAPIResult = APIResults.CCPError
+                        Return APIXML
+                    Else
+                        ' Return the current one regardless
+                        cLastAPIResult = APIResults.ReturnedActual
+                        tmpAPIXML.Save(fileLoc)
+                        Return tmpAPIXML
+                    End If
                 Else
                     ' No error codes so save, then return new XML file
                     cLastAPIResult = APIResults.ReturnedNew
@@ -265,7 +280,7 @@ Public Class EveAPI
                 End If
             End If
         Else
-            If ReturnCacheOnly = True Then
+            If ReturnMethod = APIReturnMethod.ReturnCacheOnly Then
                 ' If we demand that a cached fle be returned, return nothing as the file does not exist
                 Return Nothing
             Else
@@ -281,6 +296,7 @@ Public Class EveAPI
                     Call UpdateAPICacheTime(APIXML, feature)
                     ' Save the XML to disk
                     APIXML.Save(fileLoc)
+                    cLastAPIResult = APIResults.ReturnedNew
                     Return APIXML
                 End If
             End If
@@ -472,6 +488,13 @@ Public Class EveAPI
         InvalidFeature = 4
         APIServerDownReturnedNull = 5
         APIServerDownReturnedCached = 6
+        ReturnedActual = 7
+    End Enum
+
+    Public Enum APIReturnMethod As Integer
+        ReturnStandard = 0
+        ReturnCacheOnly = 1
+        ReturnActual = 2
     End Enum
 
 End Class
