@@ -322,6 +322,7 @@ Public Class EveAPI
         Dim APIXML As New XmlDocument
         Try
             ' Create the requester
+            ServicePointManager.DefaultConnectionLimit = 20
             ServicePointManager.Expect100Continue = False
             Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(remoteURL))
             Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)

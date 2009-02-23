@@ -298,7 +298,7 @@ Public Class frmPrism
         Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCharOrders, Nothing)
         Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpOrders, Nothing)
         Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCharTransactions, Nothing)
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpTranactions, Nothing)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpTransactions, Nothing)
         Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpSheet, Nothing)
     End Sub
     Private Sub GetCharAssets(ByVal State As Object)
@@ -475,20 +475,20 @@ Public Class frmPrism
 
                 ' Make a call to the EveHQ.Core.API to fetch the assets
                 Dim apiXML As New XmlDocument
-                Dim errList As XmlNodeList
-                Do
-                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, transID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
-                    ' Check for errors
-                    errList = apiXML.SelectNodes("/eveapi/error")
-                    If errlist.Count = 0 Then
-                        ' No errors so let's strip out the lines we need
-                        Dim transList As XmlNodeList = apiXML.SelectNodes("/eveapi/result/rowset/row")
-                        For Each transNode As XmlNode In transList
-                            transNodes.Add(transNode)
-                            transID = transNode.Attributes.GetNamedItem("transactionID").Value
-                        Next
-                    End If
-                Loop Until errList.Count > 0 Or transID = ""
+                'Dim errList As XmlNodeList
+                'Do
+                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, transID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+                ' Check for errors
+                'errList = apiXML.SelectNodes("/eveapi/error")
+                'If errlist.Count = 0 Then
+                '    ' No errors so let's strip out the lines we need
+                '    Dim transList As XmlNodeList = apiXML.SelectNodes("/eveapi/result/rowset/row")
+                '    For Each transNode As XmlNode In transList
+                '        transNodes.Add(transNode)
+                '        transID = transNode.Attributes.GetNamedItem("transactionID").Value
+                '    Next
+                'End If
+                'Loop Until errList.Count > 0 Or transID = ""
 
                 ' Process the lines we have obtained
                 ' TODO: Fetch the last transaction line we posted
@@ -500,7 +500,7 @@ Public Class frmPrism
             End If
         Next
     End Sub
-    Private Sub GetCorpTranactions(ByVal State As Object)
+    Private Sub GetCorpTransactions(ByVal State As Object)
         For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim accountName As String = selPilot.Account
             If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
@@ -1651,6 +1651,7 @@ Public Class frmPrism
         lblOwnerFilters.Text = "Owner Filter: " & cboPilots.SelectedItem.ToString
         Call Me.RefreshAssets()
         Call Me.ParseOrders()
+        Call Me.ParseWalletTransactions()
     End Sub
     Private Sub FilterSystemValue()
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
@@ -3705,6 +3706,66 @@ Public Class frmPrism
                 Return "limited to Region"
         End Select
     End Function
+#End Region
+
+#Region "Wallet Transaction Routines"
+    Private Sub ParseWalletTransactions()
+        Dim IsCorp As Boolean = False
+        ' Get the owner we will use
+        Dim owner As String = cboPilots.SelectedItem.ToString
+        ' See if this owner is a corp
+        If CorpList.ContainsKey(owner) = True Then
+            IsCorp = True
+            ' See if we have a representative
+            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                owner = CStr(CorpRep(CStr(CorpList(owner))))
+            Else
+                owner = ""
+            End If
+        End If
+
+        If owner <> "" Then
+            Dim transXML As New XmlDocument
+            Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+            Dim accountName As String = selPilot.Account
+            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+            If IsCorp = True Then
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, 1000, "", 1)
+            Else
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, "", 1)
+            End If
+            If transXML IsNot Nothing Then
+                Dim Trans As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
+                Dim transItem As New ContainerListViewItem
+                Dim transDate As Date
+                Dim transP, transQ As Double
+                clvTransactions.BeginUpdate()
+                clvTransactions.Items.Clear()
+                For Each Tran As XmlNode In Trans
+                    transItem = New ContainerListViewItem
+                    If Tran.Attributes.GetNamedItem("transactionType").Value = "buy" Then
+                        transItem.ForeColor = Drawing.Color.Red
+                    Else
+                        transItem.ForeColor = Drawing.Color.Green
+                    End If
+                    transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("transactionDateTime").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                    transItem.Text = FormatDateTime(transDate, DateFormat.GeneralDate)
+                    clvTransactions.Items.Add(transItem)
+                    transItem.SubItems(1).Text = Tran.Attributes.GetNamedItem("typeName").Value
+                    transP = CDbl(Tran.Attributes.GetNamedItem("price").Value)
+                    transQ = CDbl(Tran.Attributes.GetNamedItem("quantity").Value)
+                    transItem.SubItems(2).Text = FormatNumber(transQ, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    transItem.SubItems(3).Text = FormatNumber(transP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    transItem.SubItems(4).Text = FormatNumber(transQ * transP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    transItem.SubItems(5).Text = Tran.Attributes.GetNamedItem("stationName").Value
+                    transItem.SubItems(6).Text = Tran.Attributes.GetNamedItem("clientName").Value
+                Next
+                clvTransactions.EndUpdate()
+            End If
+        End If
+
+    End Sub
 #End Region
 
 #Region "Wallet Database Routines"
