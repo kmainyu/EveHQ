@@ -51,6 +51,7 @@ Public Class frmPrism
     Dim totalAssetBatch As Long = 0
     Dim HQFShip As New ArrayList
     Dim IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+    Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
     ' Rig Builder Variables
     Dim RigBPData As New SortedList
@@ -1206,7 +1207,6 @@ Public Class frmPrism
     Private Sub DisplayISKAssets()
         Dim fileName As String = ""
         Dim corpXML As New XmlDocument
-        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
         ' Reset and parse the character wallets
         charWallets.Clear()
@@ -1323,7 +1323,6 @@ Public Class frmPrism
         totalAssetValue += totalCash
     End Sub
     Private Sub DisplayInvestments()
-        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
         ' Check for owners with investments
         Dim invOwners As New ArrayList
@@ -1654,7 +1653,6 @@ Public Class frmPrism
         Call Me.ParseWalletTransactions()
     End Sub
     Private Sub FilterSystemValue()
-        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim minValue As Double
         If Double.TryParse(txtMinSystemValue.Text, minValue) = False Then
             minValue = 0
@@ -3622,7 +3620,8 @@ Public Class frmPrism
                             bOrder.Text = itemName
                             Dim quantity As Double = CDbl(Order.Attributes.GetNamedItem("volRemaining").Value)
                             bOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                            bOrder.SubItems.Add(FormatNumber(Order.Attributes.GetNamedItem("price").Value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Number, culture)
+                            bOrder.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             Dim loc As String = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
                             bOrder.SubItems.Add(loc)
                             Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
@@ -3633,7 +3632,7 @@ Public Class frmPrism
                             Else
                                 bOrder.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(orderExpires.TotalSeconds, False))
                             End If
-                            sellTotal = sellTotal + quantity * CDbl(Order.Attributes.GetNamedItem("price").Value)
+                            sellTotal = sellTotal + quantity * price
                             TotalOrders = TotalOrders + 1
                             lvwSellOrders.Items.Add(bOrder)
                         End If
@@ -3645,7 +3644,8 @@ Public Class frmPrism
                             sOrder.Text = itemName
                             Dim quantity As Double = CDbl(Order.Attributes.GetNamedItem("volRemaining").Value)
                             sOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                            sOrder.SubItems.Add(FormatNumber(Order.Attributes.GetNamedItem("price").Value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Number, culture)
+                            sOrder.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                             Dim loc As String = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
                             sOrder.SubItems.Add(loc)
                             Select Case CInt(Order.Attributes.GetNamedItem("range").Value)
@@ -3667,7 +3667,7 @@ Public Class frmPrism
                             Else
                                 sOrder.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(orderExpires.TotalSeconds, False))
                             End If
-                            buyTotal = buyTotal + quantity * CDbl(Order.Attributes.GetNamedItem("price").Value)
+                            buyTotal = buyTotal + quantity * price
                             TotalEscrow = TotalEscrow + CDbl(Order.Attributes.GetNamedItem("escrow").Value)
                             TotalOrders = TotalOrders + 1
                             lvwBuyOrders.Items.Add(sOrder)
@@ -3759,8 +3759,8 @@ Public Class frmPrism
                     transItem.Text = FormatDateTime(transDate, DateFormat.GeneralDate)
                     clvTransactions.Items.Add(transItem)
                     transItem.SubItems(1).Text = Tran.Attributes.GetNamedItem("typeName").Value
-                    transP = CDbl(Tran.Attributes.GetNamedItem("price").Value)
-                    transQ = CDbl(Tran.Attributes.GetNamedItem("quantity").Value)
+                    transP = Double.Parse(Tran.Attributes.GetNamedItem("price").Value, culture)
+                    transQ = Double.Parse(Tran.Attributes.GetNamedItem("quantity").Value, culture)
                     transItem.SubItems(2).Text = FormatNumber(transQ, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     transItem.SubItems(3).Text = FormatNumber(transP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     transItem.SubItems(4).Text = FormatNumber(transQ * transP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
