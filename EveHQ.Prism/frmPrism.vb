@@ -1650,7 +1650,14 @@ Public Class frmPrism
         lblOwnerFilters.Text = "Owner Filter: " & cboOwner.SelectedItem.ToString
         Call Me.RefreshAssets()
         Call Me.ParseOrders()
-        Call Me.ParseWalletTransactions()
+        ' Update the Wallet Division Filters
+        Call Me.UpdateWalletDivisions()
+        ' Update the Wallet transactions
+        If cboWalletTransDivision.SelectedIndex = 0 Then
+            Call Me.ParseWalletTransactions()
+        Else
+            cboWalletTransDivision.SelectedIndex = 0
+        End If
     End Sub
     Private Sub FilterSystemValue()
         Dim minValue As Double
@@ -3720,6 +3727,7 @@ Public Class frmPrism
         ' See if this owner is a corp
         If CorpList.ContainsKey(owner) = True Then
             IsCorp = True
+            cboWalletTransDivision.Enabled = True
             ' See if we have a representative
             Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
             If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
@@ -3727,6 +3735,8 @@ Public Class frmPrism
             Else
                 owner = ""
             End If
+        Else
+            cboWalletTransDivision.Enabled = False
         End If
 
         If owner <> "" Then
@@ -3735,9 +3745,9 @@ Public Class frmPrism
             Dim accountName As String = selPilot.Account
             Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
             If IsCorp = True Then
-                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, 1000, "", 1)
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, 1000 + cboWalletTransDivision.SelectedIndex, "", 1)
             Else
-                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, "", 1)
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000 + cboWalletTransDivision.SelectedIndex, "", 1)
             End If
             If transXML IsNot Nothing Then
                 Dim Trans As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
@@ -3776,6 +3786,59 @@ Public Class frmPrism
             End If
         End If
 
+    End Sub
+
+    Private Sub cboWalletTransDivision_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWalletTransDivision.SelectedIndexChanged
+        Call ParseWalletTransactions()
+    End Sub
+
+    Private Sub UpdateWalletDivisions()
+        Dim owner As String = cboOwner.SelectedItem.ToString()
+        Dim IsCorp As Boolean = False
+        If CorpList.ContainsKey(owner) = True Then
+            IsCorp = True
+            cboWalletTransDivision.Enabled = True
+            ' See if we have a representative
+            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                owner = CStr(CorpRep(CStr(CorpList(owner))))
+            Else
+                owner = ""
+            End If
+        Else
+            cboWalletTransDivision.Enabled = False
+        End If
+        Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+        Dim accountName As String = selPilot.Account
+        Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+        If owner <> "" Then
+            cboWalletTransDivision.BeginUpdate()
+            cboWalletTransDivision.Items.Clear()
+            If IsCorp = True Then
+                Dim corpXML As New XmlDocument
+                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, 1)
+                Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
+                If errlist.Count = 0 Then
+                    ' No errors so parse the files
+                    Dim divList As XmlNodeList = corpXML.SelectNodes("/eveapi/result/rowset")
+                    For Each div As XmlNode In divList
+                        Select Case div.Attributes.GetNamedItem("name").Value
+                            Case "walletDivisions"
+                                For Each divName As XmlNode In div.ChildNodes
+                                    cboWalletTransDivision.Items.Add(divName.Attributes.GetNamedItem("description").Value)
+                                Next
+                        End Select
+                    Next
+                Else
+                    For div As Integer = 1000 To 1006
+                        cboWalletTransDivision.Items.Add(div.ToString.Trim)
+                    Next
+                End If
+            Else
+                cboWalletTransDivision.Items.Add("Personal")
+            End If
+            cboWalletTransDivision.EndUpdate()
+        End If
     End Sub
 #End Region
 

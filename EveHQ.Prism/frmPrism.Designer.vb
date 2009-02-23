@@ -195,6 +195,8 @@ Partial Class frmPrism
         Me.lblEscrowLbl = New System.Windows.Forms.Label
         Me.lblOrdersLbl = New System.Windows.Forms.Label
         Me.tabTransactions = New System.Windows.Forms.TabPage
+        Me.cboWalletTransDivision = New System.Windows.Forms.ComboBox
+        Me.lblWalletTransDivision = New System.Windows.Forms.Label
         Me.clvTransactions = New DotNetLib.Windows.Forms.ContainerListView
         Me.colWTransDate = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colWTransItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -1880,6 +1882,8 @@ Partial Class frmPrism
         '
         'tabTransactions
         '
+        Me.tabTransactions.Controls.Add(Me.cboWalletTransDivision)
+        Me.tabTransactions.Controls.Add(Me.lblWalletTransDivision)
         Me.tabTransactions.Controls.Add(Me.clvTransactions)
         Me.tabTransactions.Location = New System.Drawing.Point(4, 22)
         Me.tabTransactions.Name = "tabTransactions"
@@ -1888,17 +1892,38 @@ Partial Class frmPrism
         Me.tabTransactions.Text = "Transactions"
         Me.tabTransactions.UseVisualStyleBackColor = True
         '
+        'cboWalletTransDivision
+        '
+        Me.cboWalletTransDivision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWalletTransDivision.FormattingEnabled = True
+        Me.cboWalletTransDivision.Items.AddRange(New Object() {"1000", "1001", "1002", "1003", "1004", "1005", "1006"})
+        Me.cboWalletTransDivision.Location = New System.Drawing.Point(94, 7)
+        Me.cboWalletTransDivision.Name = "cboWalletTransDivision"
+        Me.cboWalletTransDivision.Size = New System.Drawing.Size(150, 21)
+        Me.cboWalletTransDivision.TabIndex = 2
+        '
+        'lblWalletTransDivision
+        '
+        Me.lblWalletTransDivision.AutoSize = True
+        Me.lblWalletTransDivision.Location = New System.Drawing.Point(8, 10)
+        Me.lblWalletTransDivision.Name = "lblWalletTransDivision"
+        Me.lblWalletTransDivision.Size = New System.Drawing.Size(80, 13)
+        Me.lblWalletTransDivision.TabIndex = 1
+        Me.lblWalletTransDivision.Text = "Wallet Division:"
+        '
         'clvTransactions
         '
+        Me.clvTransactions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clvTransactions.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colWTransDate, Me.colWTransItem, Me.colWTransQuantity, Me.colWTransPrice, Me.colWTransTotal, Me.colWTransLocation, Me.colWTransClient})
         Me.clvTransactions.ColumnSortColor = System.Drawing.Color.Lavender
         Me.clvTransactions.DefaultItemHeight = 16
-        Me.clvTransactions.Dock = System.Windows.Forms.DockStyle.Fill
         Me.clvTransactions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.clvTransactions.Location = New System.Drawing.Point(0, 0)
+        Me.clvTransactions.Location = New System.Drawing.Point(0, 34)
         Me.clvTransactions.MultipleColumnSort = True
         Me.clvTransactions.Name = "clvTransactions"
-        Me.clvTransactions.Size = New System.Drawing.Size(1136, 541)
+        Me.clvTransactions.Size = New System.Drawing.Size(1136, 507)
         Me.clvTransactions.TabIndex = 0
         '
         'colWTransDate
@@ -2251,6 +2276,7 @@ Partial Class frmPrism
         Me.panelOrderInfo.ResumeLayout(False)
         Me.panelOrderInfo.PerformLayout()
         Me.tabTransactions.ResumeLayout(False)
+        Me.tabTransactions.PerformLayout()
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
@@ -2474,4 +2500,6 @@ Partial Class frmPrism
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents lblOwner As System.Windows.Forms.ToolStripLabel
     Friend WithEvents cboOwner As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents cboWalletTransDivision As System.Windows.Forms.ComboBox
+    Friend WithEvents lblWalletTransDivision As System.Windows.Forms.Label
 End Class
