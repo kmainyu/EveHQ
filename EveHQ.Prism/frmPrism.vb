@@ -3609,6 +3609,10 @@ Public Class frmPrism
             End If
             If OrderXML IsNot Nothing Then
                 Dim Orders As XmlNodeList = OrderXML.SelectNodes("/eveapi/result/rowset/row")
+                lvwBuyOrders.BeginUpdate()
+                lvwSellOrders.BeginUpdate()
+                lvwBuyOrders.Items.Clear()
+                lvwSellOrders.Items.Clear()
                 For Each Order As XmlNode In Orders
                     If Order.Attributes.GetNamedItem("bid").Value = "0" Then
                         If Order.Attributes.GetNamedItem("orderState").Value = "0" Then
@@ -3670,6 +3674,8 @@ Public Class frmPrism
                         End If
                     End If
                 Next
+                lvwBuyOrders.EndUpdate()
+                lvwSellOrders.EndUpdate()
             End If
 
             Dim maxorders As Integer = 5 + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Trade)) * 4) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Tycoon)) * 32) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Retail)) * 8) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Wholesale)) * 16)
