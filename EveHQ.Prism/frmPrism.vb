@@ -85,7 +85,7 @@ Public Class frmPrism
         Call Portfolio.SetupTypes()
         Call Me.LoadInvestments()
 
-        cboPilots.SelectedItem = EveHQ.Core.HQ.myPilot.Name
+        cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
 
     End Sub
     Private Sub BuildCorpList()
@@ -123,7 +123,7 @@ Public Class frmPrism
         lvwCharFilter.BeginUpdate()
         lvwCurrentAPIs.Items.Clear()
         loadedOwners.Clear()
-        cboPilots.Items.Clear()
+        cboOwner.Items.Clear()
         lvwCharFilter.Items.Clear()
         Dim fileName As String = ""
         Dim apiXML As New XmlDocument
@@ -143,7 +143,7 @@ Public Class frmPrism
                     newOwner.SubItems(8).Text = "n/a"
                     lvwCurrentAPIs.Items.Add(newOwner)
                     loadedOwners.Add(selpilot.Name, selpilot)
-                    cboPilots.Items.Add(selpilot.Name)
+                    cboOwner.Items.Add(selpilot.Name)
                     Dim newChar As New ListViewItem(selpilot.Name, lvwCharFilter.Groups.Item("grpPersonal"))
                     lvwCharFilter.Items.Add(newChar)
                 End If
@@ -161,7 +161,7 @@ Public Class frmPrism
                         Dim newChar As New ListViewItem(selpilot.Corp, lvwCharFilter.Groups.Item("grpCorporation"))
                         If loadedOwners.Contains(selpilot.Corp) = False Then
                             loadedOwners.Add(selpilot.Corp, selpilot)
-                            cboPilots.Items.Add(selpilot.Corp)
+                            cboOwner.Items.Add(selpilot.Corp)
                             lvwCharFilter.Items.Add(newChar)
                         End If
                     End If
@@ -541,7 +541,7 @@ Public Class frmPrism
         lvwCharFilter.BeginUpdate()
         lvwCharFilter.Items.Clear()
         loadedOwners.Clear()
-        cboPilots.Items.Clear()
+        cboOwner.Items.Clear()
         Call Me.GetCharacterAssets()
         Call Me.GetCorporateAssets()
         Call Me.GetCorporateSheet()
@@ -584,7 +584,7 @@ Public Class frmPrism
                         newAsset.SubItems.Add("Loaded")
                         newAsset.SubItems.Add(Format(CacheDate(assetXML), "dd/MM/yyyy HH:MM:ss"))
                         loadedOwners.Add(selPilot.Name, selPilot)
-                        cboPilots.Items.Add(selPilot.Name)
+                        cboOwner.Items.Add(selPilot.Name)
                         Dim newChar As New ListViewItem(selPilot.Name, lvwCharFilter.Groups.Item("grpPersonal"))
                         lvwCharFilter.Items.Add(newChar)
                     End If
@@ -634,7 +634,7 @@ Public Class frmPrism
                         Dim newChar As New ListViewItem(selPilot.Corp, lvwCharFilter.Groups.Item("grpCorporation"))
                         If loadedOwners.Contains(selPilot.Corp) = False Then
                             loadedOwners.Add(selPilot.Corp, selPilot)
-                            cboPilots.Items.Add(selPilot.Corp)
+                            cboOwner.Items.Add(selPilot.Corp)
                             lvwCharFilter.Items.Add(newChar)
                         End If
                     End If
@@ -1638,16 +1638,16 @@ Public Class frmPrism
         filter = filter.TrimEnd(", ".ToCharArray)
         lblOwnerFilters.Text = filter
     End Sub
-    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
+    Private Sub cboOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboOwner.SelectedIndexChanged
         ' Automatically set the filters to just agree to this pilot
         For Each Owner As ListViewItem In lvwCharFilter.Items
-            If Owner.Text = cboPilots.SelectedItem.ToString Then
+            If Owner.Text = cboOwner.SelectedItem.ToString Then
                 Owner.Checked = True
             Else
                 Owner.Checked = False
             End If
         Next
-        lblOwnerFilters.Text = "Owner Filter: " & cboPilots.SelectedItem.ToString
+        lblOwnerFilters.Text = "Owner Filter: " & cboOwner.SelectedItem.ToString
         Call Me.RefreshAssets()
         Call Me.ParseOrders()
         Call Me.ParseWalletTransactions()
@@ -2916,7 +2916,7 @@ Public Class frmPrism
         Next
         'Call Me.GetAssets()
         Call Me.GetXMLData()
-        cboPilots.SelectedItem = EveHQ.Core.HQ.myPilot.Name
+        cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
     End Sub
     Private Sub tsbRefreshAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbRefreshAssets.Click
         Dim minValue As Double
@@ -2936,8 +2936,6 @@ Public Class frmPrism
             End If
             ' Populate the assets list
             Call Me.PopulateAssets()
-            ' Flip to the assets tab to see it!
-            tabPrism.SelectedTab = tabAssets
         Else
             MessageBox.Show("Please select an Asset Owner before continuing!", "Please Select Asset Owner", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
@@ -3488,7 +3486,7 @@ Public Class frmPrism
         tempAssetList.Clear()
         Dim myRecycler As New frmRecycleAssets
         myRecycler.AssetList = recycleList
-        myRecycler.AssetOwner = cboPilots.SelectedItem.ToString
+        myRecycler.AssetOwner = cboOwner.SelectedItem.ToString
         myRecycler.AssetLocation = GetLocationID(tlvAssets.SelectedItems(0))
         myRecycler.ShowDialog()
         myRecycler.Dispose()
@@ -3503,7 +3501,7 @@ Public Class frmPrism
         tempAssetList.Clear()
         Dim myRecycler As New frmRecycleAssets
         myRecycler.AssetList = recycleList
-        myRecycler.AssetOwner = cboPilots.SelectedItem.ToString
+        myRecycler.AssetOwner = cboOwner.SelectedItem.ToString
         myRecycler.AssetLocation = GetLocationID(tlvAssets.SelectedItems(0))
         myRecycler.ShowDialog()
         myRecycler.Dispose()
@@ -3535,7 +3533,7 @@ Public Class frmPrism
         tempAssetList.Clear()
         Dim myRecycler As New frmRecycleAssets
         myRecycler.AssetList = recycleList
-        myRecycler.AssetOwner = cboPilots.SelectedItem.ToString
+        myRecycler.AssetOwner = cboOwner.SelectedItem.ToString
         myRecycler.AssetLocation = GetLocationID(tlvAssets.SelectedItems(0))
         myRecycler.ShowDialog()
         myRecycler.Dispose()
@@ -3580,7 +3578,7 @@ Public Class frmPrism
     Private Sub ParseOrders()
         Dim IsCorp As Boolean = False
         ' Get the owner we will use
-        Dim owner As String = cboPilots.SelectedItem.ToString
+        Dim owner As String = cboOwner.SelectedItem.ToString
         ' See if this owner is a corp
         If CorpList.ContainsKey(owner) = True Then
             IsCorp = True
@@ -3718,7 +3716,7 @@ Public Class frmPrism
     Private Sub ParseWalletTransactions()
         Dim IsCorp As Boolean = False
         ' Get the owner we will use
-        Dim owner As String = cboPilots.SelectedItem.ToString
+        Dim owner As String = cboOwner.SelectedItem.ToString()
         ' See if this owner is a corp
         If CorpList.ContainsKey(owner) = True Then
             IsCorp = True
@@ -3745,15 +3743,15 @@ Public Class frmPrism
                 Dim Trans As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
                 Dim transItem As New ContainerListViewItem
                 Dim transDate As Date
-                Dim transP, transQ As Double
+                Dim transP, transQ, transV As Double
                 clvTransactions.BeginUpdate()
                 clvTransactions.Items.Clear()
                 For Each Tran As XmlNode In Trans
                     transItem = New ContainerListViewItem
-                    If Tran.Attributes.GetNamedItem("transactionType").Value = "buy" Then
-                        transItem.ForeColor = Drawing.Color.Red
+                    If IsCorp = False And Tran.Attributes.GetNamedItem("transactionFor").Value = "corporation" Then
+                        transItem.ForeColor = Drawing.Color.SlateBlue
                     Else
-                        transItem.ForeColor = Drawing.Color.Green
+                        transItem.ForeColor = Drawing.Color.Black
                     End If
                     transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("transactionDateTime").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
                     transItem.Text = FormatDateTime(transDate, DateFormat.GeneralDate)
@@ -3763,7 +3761,14 @@ Public Class frmPrism
                     transQ = Double.Parse(Tran.Attributes.GetNamedItem("quantity").Value, culture)
                     transItem.SubItems(2).Text = FormatNumber(transQ, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     transItem.SubItems(3).Text = FormatNumber(transP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    transItem.SubItems(4).Text = FormatNumber(transQ * transP, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    If Tran.Attributes.GetNamedItem("transactionType").Value = "buy" Then
+                        transItem.SubItems(4).ForeColor = Drawing.Color.Red
+                        transV = -transP * transQ
+                    Else
+                        transItem.SubItems(4).ForeColor = Drawing.Color.Green
+                        transV = transP * transQ
+                    End If
+                    transItem.SubItems(4).Text = FormatNumber(transV, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     transItem.SubItems(5).Text = Tran.Attributes.GetNamedItem("stationName").Value
                     transItem.SubItems(6).Text = Tran.Attributes.GetNamedItem("clientName").Value
                 Next
@@ -3790,8 +3795,6 @@ Public Class frmPrism
         Next
     End Sub
 #End Region
-
-
 
 End Class
 
