@@ -3198,6 +3198,90 @@ Public Class frmPrism
             End If
         End If
     End Sub
+    Private Sub tsbAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbAssets.Click
+        If tabPrism.TabPages.Contains(tabAssets) = False Then
+            tabPrism.TabPages.Add(tabAssets)
+            tabPrism.SelectedTab = tabAssets
+        Else
+            tabPrism.SelectedTab = tabAssets
+        End If
+    End Sub
+    Private Sub tsbInvestments_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbInvestments.Click
+        If tabPrism.TabPages.Contains(tabInvestments) = False Then
+            tabPrism.TabPages.Add(tabInvestments)
+            tabPrism.SelectedTab = tabInvestments
+        Else
+            tabPrism.SelectedTab = tabInvestments
+        End If
+    End Sub
+    Private Sub tsbRigBuilder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbRigBuilder.Click
+        If tabPrism.TabPages.Contains(tabRigBuilder) = False Then
+            tabPrism.TabPages.Add(tabRigBuilder)
+            tabPrism.SelectedTab = tabRigBuilder
+        Else
+            tabPrism.SelectedTab = tabRigBuilder
+        End If
+    End Sub
+    Private Sub tsbOrders_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbOrders.Click
+        If tabPrism.TabPages.Contains(tabOrders) = False Then
+            tabPrism.TabPages.Add(tabOrders)
+            tabPrism.SelectedTab = tabOrders
+        Else
+            tabPrism.SelectedTab = tabOrders
+        End If
+    End Sub
+    Private Sub tsbTransactions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbTransactions.Click
+        If tabPrism.TabPages.Contains(tabTransactions) = False Then
+            tabPrism.TabPages.Add(tabTransactions)
+            tabPrism.SelectedTab = tabTransactions
+        Else
+            tabPrism.SelectedTab = tabTransactions
+        End If
+    End Sub
+    Private Sub tsbJournal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbJournal.Click
+        If tabPrism.TabPages.Contains(tabJournal) = False Then
+            tabPrism.TabPages.Add(tabJournal)
+            tabPrism.SelectedTab = tabJournal
+        Else
+            tabPrism.SelectedTab = tabJournal
+        End If
+    End Sub
+    Private Sub ctxTabPrism_Closed(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs) Handles ctxTabPrism.Closed
+        mnuClosePrismTab.Text = "Not Valid"
+    End Sub
+    Private Sub ctxTabPrism_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxTabPrism.Opening
+        If mnuClosePrismTab.Text = "Not Valid" Or tabPrism.TabPages(CInt(tabPrism.Tag)).Text = "API Status" Then
+            e.Cancel = True
+        End If
+    End Sub
+    Private Function TabControlHitTest(ByVal TabCtrl As TabControl, ByVal pt As Drawing.Point) As Integer
+        ' Test each tabs rectangle to see if our point is contained within it.
+        For x As Integer = 0 To TabCtrl.TabPages.Count - 1
+            ' If tab contians our rectangle return it's index.
+            If TabCtrl.GetTabRect(x).Contains(pt) Then Return x
+        Next
+        ' A tab was not located at specified point.
+        Return -1
+    End Function
+    Private Sub TabPrism_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tabPrism.MouseDown
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Dim TabIndex As Integer
+            ' Get index of tab clicked
+            TabIndex = TabControlHitTest(tabPrism, e.Location)
+            ' If a tab was clicked display it's index
+            If TabIndex >= 0 Then
+                tabPrism.Tag = TabIndex
+                Dim tp As TabPage = tabPrism.TabPages(CInt(tabPrism.Tag))
+                mnuClosePrismTab.Text = "Close " & tp.Text
+            Else
+                mnuClosePrismTab.Text = "Not Valid"
+            End If
+        End If
+    End Sub
+    Private Sub mnuClosePrismTab_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuClosePrismTab.Click
+        Dim tp As TabPage = tabPrism.TabPages(CInt(tabPrism.Tag))
+        tabPrism.TabPages.Remove(tp)
+    End Sub
 
 #End Region
 
@@ -4159,99 +4243,6 @@ Public Class frmPrism
    
   
    
-    Private Sub tsbAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbAssets.Click
-        If tabPrism.TabPages.Contains(tabAssets) = False Then
-            tabPrism.TabPages.Add(tabAssets)
-            tabPrism.SelectedTab = tabAssets
-        Else
-            tabPrism.SelectedTab = tabAssets
-        End If
-    End Sub
-
-    Private Sub tsbInvestments_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbInvestments.Click
-        If tabPrism.TabPages.Contains(tabInvestments) = False Then
-            tabPrism.TabPages.Add(tabInvestments)
-            tabPrism.SelectedTab = tabInvestments
-        Else
-            tabPrism.SelectedTab = tabInvestments
-        End If
-    End Sub
-
-    Private Sub tsbRigBuilder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbRigBuilder.Click
-        If tabPrism.TabPages.Contains(tabRigBuilder) = False Then
-            tabPrism.TabPages.Add(tabRigBuilder)
-            tabPrism.SelectedTab = tabRigBuilder
-        Else
-            tabPrism.SelectedTab = tabRigBuilder
-        End If
-    End Sub
-
-    Private Sub tsbOrders_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbOrders.Click
-        If tabPrism.TabPages.Contains(tabOrders) = False Then
-            tabPrism.TabPages.Add(tabOrders)
-            tabPrism.SelectedTab = tabOrders
-        Else
-            tabPrism.SelectedTab = tabOrders
-        End If
-    End Sub
-
-    Private Sub tsbTransactions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbTransactions.Click
-        If tabPrism.TabPages.Contains(tabTransactions) = False Then
-            tabPrism.TabPages.Add(tabTransactions)
-            tabPrism.SelectedTab = tabTransactions
-        Else
-            tabPrism.SelectedTab = tabTransactions
-        End If
-    End Sub
-
-    Private Sub tsbJournal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbJournal.Click
-        If tabPrism.TabPages.Contains(tabJournal) = False Then
-            tabPrism.TabPages.Add(tabJournal)
-            tabPrism.SelectedTab = tabJournal
-        Else
-            tabPrism.SelectedTab = tabJournal
-        End If
-    End Sub
-
-    Private Sub ctxTabPrism_Closed(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs) Handles ctxTabPrism.Closed
-        mnuClosePrismTab.Text = "Not Valid"
-    End Sub
-
-    Private Sub ctxTabPrism_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxTabPrism.Opening
-        If mnuClosePrismTab.Text = "Not Valid" Or tabPrism.TabPages(CInt(tabPrism.Tag)).Text = "API Status" Then
-            e.Cancel = True
-        End If
-    End Sub
-
-    Private Function TabControlHitTest(ByVal TabCtrl As TabControl, ByVal pt As Drawing.Point) As Integer
-        ' Test each tabs rectangle to see if our point is contained within it.
-        For x As Integer = 0 To TabCtrl.TabPages.Count - 1
-            ' If tab contians our rectangle return it's index.
-            If TabCtrl.GetTabRect(x).Contains(pt) Then Return x
-        Next
-        ' A tab was not located at specified point.
-        Return -1
-    End Function
-
-    Private Sub TabPrism_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tabPrism.MouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            Dim TabIndex As Integer
-            ' Get index of tab clicked
-            TabIndex = TabControlHitTest(tabPrism, e.Location)
-            ' If a tab was clicked display it's index
-            If TabIndex >= 0 Then
-                tabPrism.Tag = TabIndex
-                Dim tp As TabPage = tabPrism.TabPages(CInt(tabPrism.Tag))
-                mnuClosePrismTab.Text = "Close " & tp.Text
-            Else
-                mnuClosePrismTab.Text = "Not Valid"
-            End If
-        End If
-    End Sub
-
-    Private Sub mnuClosePrismTab_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuClosePrismTab.Click
-        Dim tp As TabPage = tabPrism.TabPages(CInt(tabPrism.Tag))
-        tabPrism.TabPages.Remove(tp)
-    End Sub
+   
 End Class
 

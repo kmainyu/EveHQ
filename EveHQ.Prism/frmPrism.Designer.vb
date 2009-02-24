@@ -571,12 +571,12 @@ Partial Class frmPrism
         '
         Me.ctxTabPrism.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuClosePrismTab})
         Me.ctxTabPrism.Name = "ctxTabbedMDI"
-        Me.ctxTabPrism.Size = New System.Drawing.Size(153, 48)
+        Me.ctxTabPrism.Size = New System.Drawing.Size(124, 26)
         '
         'mnuClosePrismTab
         '
         Me.mnuClosePrismTab.Name = "mnuClosePrismTab"
-        Me.mnuClosePrismTab.Size = New System.Drawing.Size(152, 22)
+        Me.mnuClosePrismTab.Size = New System.Drawing.Size(123, 22)
         Me.mnuClosePrismTab.Text = "Not Valid"
         '
         'tabAPIStatus
@@ -2501,7 +2501,7 @@ Partial Class frmPrism
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmPrism"
-        Me.Text = "Prism"
+        Me.Text = "EveHQ Prism"
         Me.ctxAssets.ResumeLayout(False)
         Me.ctxFilter.ResumeLayout(False)
         Me.ctxFilterList.ResumeLayout(False)
