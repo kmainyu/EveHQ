@@ -8,26 +8,69 @@ Public Class PlugInData
 
     Dim mapFolder As String = ""
     Shared mapCacheFolder As String = ""
-    Dim UseSerializableData As Boolean = False
+    Shared UseSerializableData As Boolean = False
+    Shared LastCacheRefresh As String = "1.8.3.300"
 
 #Region "Plug-in Interface Functions"
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
         Try
             mapFolder = (EveHQ.Core.HQ.appDataFolder & "\EveHQMap").Replace("\\", "\")
+
             ' Check for cache folder
             mapCacheFolder = mapFolder & "\Cache"
             If My.Computer.FileSystem.DirectoryExists(mapCacheFolder) = True Then
-                UseSerializableData = True
-                Return Me.LoadSerializedData
+                ' Check for last cache version file
+                If My.Computer.FileSystem.FileExists(mapCacheFolder & "\version.txt") = True Then
+                    Dim sr As New StreamReader(mapCacheFolder & "\version.txt")
+                    Dim cacheVersion As String = ""
+                    sr.Close()
+                    If IsUpdateAvailable(cacheVersion, PlugInData.LastCacheRefresh) = True Then
+                        ' Delete the existing cache folder and force a rebuild
+                        My.Computer.FileSystem.DeleteDirectory(mapCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                        PlugInData.UseSerializableData = False
+                        Return Me.LoadDataFromDatabase
+                    Else
+                        PlugInData.UseSerializableData = True
+                        Return Me.LoadSerializedData
+                    End If
+                Else
+                    ' Delete the existing cache folder and force a rebuild
+                    My.Computer.FileSystem.DeleteDirectory(mapCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    PlugInData.UseSerializableData = False
+                    Return Me.LoadDataFromDatabase
+                End If
             Else
-                UseSerializableData = False
+                PlugInData.UseSerializableData = False
                 Return Me.LoadDataFromDatabase
             End If
+
             Return True
         Catch ex As Exception
             Windows.Forms.MessageBox.Show(ex.Message)
             Return False
         End Try
+    End Function
+
+    Private Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
+        If localVer = remoteVer Then
+            Return False
+        Else
+            Dim localVers() As String = localVer.Split(CChar("."))
+            Dim remoteVers() As String = remoteVer.Split(CChar("."))
+            Dim requiresUpdate As Boolean = False
+            For ver As Integer = 0 To 3
+                If CInt(remoteVers(ver)) <> CInt(localVers(ver)) Then
+                    If CInt(remoteVers(ver)) > CInt(localVers(ver)) Then
+                        requiresUpdate = True
+                        Exit For
+                    Else
+                        requiresUpdate = False
+                        Exit For
+                    End If
+                End If
+            Next
+            Return requiresUpdate
+        End If
     End Function
 
     Public Function GetEveHQPlugInInfo() As Core.PlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
@@ -1521,6 +1564,12 @@ Public Class PlugInData
         f = New BinaryFormatter
         f.Serialize(s, NPCDivID)
         s.Close()
+
+        ' Write the current version
+        Dim sw As New StreamWriter(mapCacheFolder & "\version.txt")
+        sw.Write(PlugInData.LastCacheRefresh)
+        sw.Flush()
+        sw.Close()
 
     End Sub
 #End Region
