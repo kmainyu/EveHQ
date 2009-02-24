@@ -3625,75 +3625,78 @@ Public Class frmPrism
             End If
             If OrderXML IsNot Nothing Then
                 Dim Orders As XmlNodeList = OrderXML.SelectNodes("/eveapi/result/rowset/row")
-                lvwBuyOrders.BeginUpdate()
-                lvwSellOrders.BeginUpdate()
-                lvwBuyOrders.Items.Clear()
-                lvwSellOrders.Items.Clear()
+                clvBuyOrders.BeginUpdate()
+                clvSellOrders.BeginUpdate()
+                clvBuyOrders.Items.Clear()
+                clvSellOrders.Items.Clear()
                 For Each Order As XmlNode In Orders
                     If Order.Attributes.GetNamedItem("bid").Value = "0" Then
                         If Order.Attributes.GetNamedItem("orderState").Value = "0" Then
-                            Dim bOrder As New ListViewItem
-                            Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
-                            Dim itemName As String = CType(PlugInData.Items(itemID), Prism.ItemData).Name
-                            bOrder.Text = itemName
-                            Dim quantity As Double = CDbl(Order.Attributes.GetNamedItem("volRemaining").Value)
-                            bOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                            Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Number, culture)
-                            bOrder.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                            Dim loc As String = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
-                            bOrder.SubItems.Add(loc)
-                            Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
-                            Dim orderExpires As TimeSpan = issueDate - Now
-                            orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
-                            If orderExpires.TotalSeconds <= 0 Then
-                                bOrder.SubItems.Add("Expired!")
-                            Else
-                                bOrder.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(orderExpires.TotalSeconds, False))
-                            End If
-                            sellTotal = sellTotal + quantity * price
-                            TotalOrders = TotalOrders + 1
-                            lvwSellOrders.Items.Add(bOrder)
-                        End If
-                    Else
-                        If Order.Attributes.GetNamedItem("orderState").Value = "0" Then
-                            Dim sOrder As New ListViewItem
+                            Dim sOrder As New ContainerListViewItem
+                            clvSellOrders.Items.Add(sOrder)
                             Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
                             Dim itemName As String = CType(PlugInData.Items(itemID), Prism.ItemData).Name
                             sOrder.Text = itemName
                             Dim quantity As Double = CDbl(Order.Attributes.GetNamedItem("volRemaining").Value)
-                            sOrder.SubItems.Add(FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            sOrder.SubItems(1).Text = FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                             Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Number, culture)
-                            sOrder.SubItems.Add(FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            sOrder.SubItems(2).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                             Dim loc As String = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
-                            sOrder.SubItems.Add(loc)
-                            Select Case CInt(Order.Attributes.GetNamedItem("range").Value)
-                                Case -1
-                                    sOrder.SubItems.Add("Station")
-                                Case 0
-                                    sOrder.SubItems.Add("System")
-                                Case 32767
-                                    sOrder.SubItems.Add("Region")
-                                Case Is > 0, Is < 32767
-                                    sOrder.SubItems.Add(Order.Attributes.GetNamedItem("range").Value & " Jumps")
-                            End Select
-                            sOrder.SubItems.Add(FormatNumber(CDbl(Order.Attributes.GetNamedItem("minVolume").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                            sOrder.SubItems(3).Text = loc
                             Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
                             Dim orderExpires As TimeSpan = issueDate - Now
                             orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
+                            sOrder.SubItems(4).Tag = orderExpires
                             If orderExpires.TotalSeconds <= 0 Then
-                                sOrder.SubItems.Add("Expired!")
+                                sOrder.SubItems(4).Text = "Expired!"
                             Else
-                                sOrder.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(orderExpires.TotalSeconds, False))
+                                sOrder.SubItems(4).Text = EveHQ.Core.SkillFunctions.TimeToString(orderExpires.TotalSeconds, False)
+                            End If
+                            sellTotal = sellTotal + quantity * price
+                            TotalOrders = TotalOrders + 1
+                        End If
+                    Else
+                        If Order.Attributes.GetNamedItem("orderState").Value = "0" Then
+                            Dim bOrder As New ContainerListViewItem
+                            clvBuyOrders.Items.Add(bOrder)
+                            Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
+                            Dim itemName As String = CType(PlugInData.Items(itemID), Prism.ItemData).Name
+                            bOrder.Text = itemName
+                            Dim quantity As Double = CDbl(Order.Attributes.GetNamedItem("volRemaining").Value)
+                            bOrder.SubItems(1).Text = FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Number, culture)
+                            bOrder.SubItems(2).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            Dim loc As String = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
+                            bOrder.SubItems(3).Text = loc
+                            bOrder.SubItems(4).Tag = CInt(Order.Attributes.GetNamedItem("range").Value)
+                            Select Case CInt(Order.Attributes.GetNamedItem("range").Value)
+                                Case -1
+                                    bOrder.SubItems(4).Text = "Station"
+                                Case 0
+                                    bOrder.SubItems(4).Text = "System"
+                                Case 32767
+                                    bOrder.SubItems(4).Text = "Region"
+                                Case Is > 0, Is < 32767
+                                    bOrder.SubItems(4).Text = Order.Attributes.GetNamedItem("range").Value & " Jumps"
+                            End Select
+                            bOrder.SubItems(5).Text = FormatNumber(CDbl(Order.Attributes.GetNamedItem("minVolume").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                            Dim orderExpires As TimeSpan = issueDate - Now
+                            orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
+                            bOrder.SubItems(6).Tag = orderExpires
+                            If orderExpires.TotalSeconds <= 0 Then
+                                bOrder.SubItems(6).Text = "Expired!"
+                            Else
+                                bOrder.SubItems(6).Text = EveHQ.Core.SkillFunctions.TimeToString(orderExpires.TotalSeconds, False)
                             End If
                             buyTotal = buyTotal + quantity * price
                             TotalEscrow = TotalEscrow + CDbl(Order.Attributes.GetNamedItem("escrow").Value)
                             TotalOrders = TotalOrders + 1
-                            lvwBuyOrders.Items.Add(sOrder)
                         End If
                     End If
                 Next
-                lvwBuyOrders.EndUpdate()
-                lvwSellOrders.EndUpdate()
+                clvBuyOrders.EndUpdate()
+                clvSellOrders.EndUpdate()
             End If
 
             Dim maxorders As Integer = 5 + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Trade)) * 4) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Tycoon)) * 32) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Retail)) * 8) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Wholesale)) * 16)
