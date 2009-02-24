@@ -1556,8 +1556,11 @@ Public Class frmPrism
     Private Sub tvwFilter_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwFilter.NodeMouseClick
         tvwFilter.SelectedNode = e.Node
     End Sub
-    Private Sub RemoveFilterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveFilterToolStripMenuItem.Click
+    Private Sub AddToFilterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddToFilterToolStripMenuItem.Click
         Call Me.AddFilter()
+    End Sub
+    Private Sub RemoveFilterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveFilterToolStripMenuItem.Click
+        Call Me.RemoveFilter()
     End Sub
     Private Sub lstFilters_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstFilters.MouseDoubleClick
         Call Me.RemoveFilter()
@@ -1637,6 +1640,11 @@ Public Class frmPrism
         End If
         filter = filter.TrimEnd(", ".ToCharArray)
         lblOwnerFilters.Text = filter
+    End Sub
+    Private Sub ctxFilterList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxFilterList.Opening
+        If lstFilters.SelectedItems.Count = 0 Then
+            e.Cancel = True
+        End If
     End Sub
     Private Sub cboOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboOwner.SelectedIndexChanged
         ' Automatically set the filters to just agree to this pilot
@@ -3859,5 +3867,7 @@ Public Class frmPrism
     End Sub
 #End Region
 
+   
+    
 End Class
 
