@@ -7,7 +7,7 @@ Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
     Public Shared Items As New SortedList
     Public Shared itemFlags As New SortedList
-    Public Shared RefTypes As New SortedList
+    Public Shared RefTypes As New SortedList(Of String, String)
     Public Shared stations As New SortedList
     Public Shared NPCCorps As New SortedList
     Public Shared Corps As New SortedList

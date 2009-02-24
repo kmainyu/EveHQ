@@ -1666,6 +1666,11 @@ Public Class frmPrism
         Else
             cboWalletTransDivision.SelectedIndex = 0
         End If
+        If cboWalletJournalDivision.SelectedIndex = 0 Then
+            Call Me.ParseWalletJournal()
+        Else
+            cboWalletJournalDivision.SelectedIndex = 0
+        End If
     End Sub
     Private Sub FilterSystemValue()
         Dim minValue As Double
@@ -3727,7 +3732,7 @@ Public Class frmPrism
     End Function
 #End Region
 
-#Region "Wallet Transaction Routines"
+#Region "Wallet Transaction & Journal Routines"
     Private Sub ParseWalletTransactions()
         Dim IsCorp As Boolean = False
         ' Get the owner we will use
@@ -3796,8 +3801,275 @@ Public Class frmPrism
 
     End Sub
 
+    Private Sub ParseWalletJournal()
+        Dim IsCorp As Boolean = False
+        ' Get the owner we will use
+        Dim owner As String = cboOwner.SelectedItem.ToString()
+        ' See if this owner is a corp
+        If CorpList.ContainsKey(owner) = True Then
+            IsCorp = True
+            cboWalletJournalDivision.Enabled = True
+            ' See if we have a representative
+            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                owner = CStr(CorpRep(CStr(CorpList(owner))))
+            Else
+                owner = ""
+            End If
+        Else
+            cboWalletJournalDivision.Enabled = False
+        End If
+
+        If owner <> "" Then
+            Dim transXML As New XmlDocument
+            Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+            Dim accountName As String = selPilot.Account
+            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+            If IsCorp = True Then
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, 1000 + cboWalletJournalDivision.SelectedIndex, "", 1)
+            Else
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000 + cboWalletJournalDivision.SelectedIndex, "", 1)
+            End If
+            If transXML IsNot Nothing Then
+                Dim Trans As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
+                Dim transItem As New ContainerListViewItem
+                Dim transDate As Date
+                Dim transA, transB As Double
+                Dim refType As String = ""
+                clvJournal.BeginUpdate()
+                clvJournal.Items.Clear()
+                For Each Tran As XmlNode In Trans
+                    transItem = New ContainerListViewItem
+                    transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("date").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                    transItem.Text = FormatDateTime(transDate, DateFormat.GeneralDate)
+                    clvJournal.Items.Add(transItem)
+                    refType = Tran.Attributes.GetNamedItem("refTypeID").Value
+                    transItem.SubItems(1).Text = PlugInData.RefTypes(refType)
+                    transA = Double.Parse(Tran.Attributes.GetNamedItem("amount").Value, culture)
+                    transB = Double.Parse(Tran.Attributes.GetNamedItem("balance").Value, culture)
+                    transItem.SubItems(2).Text = FormatNumber(transA, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    transItem.SubItems(3).Text = FormatNumber(transB, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    If transA < 0 Then
+                        transItem.SubItems(2).ForeColor = Drawing.Color.Red
+                    Else
+                        transItem.SubItems(2).ForeColor = Drawing.Color.Green
+                    End If
+                    If Tran.Attributes.GetNamedItem("reason").Value <> "" Then
+                        transItem.SubItems(4).Text = "[r] " & BuildJournalDescription(CInt(refType), Tran.Attributes.GetNamedItem("ownerName1").Value, Tran.Attributes.GetNamedItem("ownerName2").Value, Tran.Attributes.GetNamedItem("argID1").Value, Tran.Attributes.GetNamedItem("argName1").Value)
+                        Dim transReason As New ContainerListViewItem
+                        transItem.Items.Add(transReason)
+                        transReason.SubItems(4).Text = Tran.Attributes.GetNamedItem("reason").Value
+                    Else
+                        transItem.SubItems(4).Text = BuildJournalDescription(CInt(refType), Tran.Attributes.GetNamedItem("ownerName1").Value, Tran.Attributes.GetNamedItem("ownerName2").Value, Tran.Attributes.GetNamedItem("argID1").Value, Tran.Attributes.GetNamedItem("argName1").Value)
+                    End If
+                Next
+                clvJournal.EndUpdate()
+            End If
+        End If
+
+    End Sub
+
+    Function BuildJournalDescription(ByVal refType As Integer, ByVal owner1 As String, ByVal owner2 As String, ByVal argID1 As String, ByVal argName1 As String) As String
+        Dim misc As String = ", refType=" & CStr(refType) & ", arg1=" & argName1 & ", own1 =" & owner1 & ", own2=" & owner2
+        Dim desc As String = PlugInData.RefTypes(refType.ToString)
+        Select Case refType ' Only use items which require a change
+
+            Case 0 'undefined
+                desc = "Undefined" & misc
+            Case 1 'Player Trading
+                desc = "Direct trade between " & owner1 & " and " & owner2
+            Case 2 'Market Transaction
+                desc = "Market: " & owner1 & " bought stuff from " & owner2
+            Case 3 'GM cash transfer
+                desc = "GM Cash Transfer" & misc
+            Case 4 ' ATM Withdraw
+                desc = "ATM Withdraw" & misc
+            Case 5 ' ATM Deposit
+                desc = "ATM Deposit" & misc
+            Case 6 ' backward compatible
+                desc = "Backward Compatible" & misc
+            Case 7 ' Mission reward
+                desc = "Mission Reward" & misc
+            Case 8 ' Clone Activation
+                desc = "Clone Activation"
+            Case 9 ' Inheritance
+                desc = "Inheritance" & misc
+            Case 10 'Player Donation 
+                desc = owner1 & " deposited cash in " & owner2 & "'s account"
+            Case 11 'Corporation Payment
+                desc = "Corporation Payment" & misc
+            Case 12 'Docking Fee'
+                desc = "Docking Fee" & misc
+            Case 13 'Office Rental Fee
+                desc = "Office Rental Fee payed to" & owner2 & " by " & owner2
+            Case 14 'Factory Slot Rental Fee
+                desc = "Factory Slot Rental Fee" & misc
+            Case 15 'Repair Bill
+                desc = "Repair Bill between " & owner1 & " and " & owner2
+            Case 16 'Bounty
+                desc = "Bounty" & misc
+            Case 17 ' Bounty
+                desc = owner1 & " recieved bounty prizes for killing pirates in" & argName1
+            Case 18 ' Agents Temp
+                desc = "Agents Temporary" & misc
+            Case 19 ' Insurance
+                If CInt(argName1) > 0 Then
+                    Dim itemID As String = argName1
+                    Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
+                    Dim itemName As String = ""
+                    itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
+                    desc = "Insurance paid by EVE Central Bank to " & owner1 & " covering loss of a " & itemName
+                End If
+                If CInt(argName1) < 0 Then
+                    Dim sid As Integer = -1 * CInt(argName1)
+                    desc = "Insurance paid by " & owner1 & " to " & owner2 & "(Insurance RefID:" & CStr(sid) & ")"
+                End If
+
+            Case 20 'Mission Expiration
+                desc = "Mission Expiration" & misc
+            Case 21 'Mission Completion
+                desc = "Mission Completion" & misc
+            Case 22 'Shares
+                desc = "Shares" & misc
+            Case 23 'Courier Mission Escrow
+                desc = "Courier Mission Escrow " & misc
+            Case 24 'Mission Cost
+                desc = "Mission Cost " & misc
+            Case 25 'Agent Miscellaneous
+                desc = "Agent Miscellaneous" & misc
+            Case 26 'Miscellaneous Payment To Agent
+                desc = "Miscellaneous Payment To Agent" & misc
+            Case 27 'Agent Location Services
+                desc = "Agent Location Service" & misc
+            Case 28 'Agent Donation
+                desc = "Agent Donation" & misc
+            Case 29 'Agent Security Services
+                desc = "Agent Security Services" & misc
+            Case 30 'Agent Mission Collateral Paid
+                desc = "Agent Mission Collateral Paid " & misc
+            Case 31 'Agent Mission Collateral Refunded
+                desc = "Agent Mission Collateral Refunded " & misc
+            Case 32 'Agents_preward
+                desc = "Agents Preward " & misc
+            Case 33 'Agent Mission Reward
+                'desc = "Agent Mission Reward" & misc
+                desc = owner2 & " recieved mission reward from agent " & owner1
+            Case 34 'Agent Mission Time Bonus Reward
+                desc = owner2 & " received mission time bonus reward from agent " & owner1
+            Case 35 ' CSPA Charges
+                desc = "CSPA for communication with " & argName1
+            Case 36 'CSPAOfflineRefund
+                desc = "CSPA Offline Refund " & misc
+            Case 37 'Corp Account Withdraw
+                desc = misc
+            Case 38 'Corporation Dividend Payment
+                desc = misc
+            Case 39 'Corporation Registration Fee
+                desc = misc
+            Case 40 'Corporation Logo Change Cost
+                desc = misc
+            Case 41 'Release Of Impounded Property
+                desc = misc
+            Case 42 'market escrow
+                desc = "Market escrow authorized by " & owner1
+            Case 43 'Agent Services Rendered
+                desc = misc
+            Case 44 'Market Fine Paid
+                desc = misc
+            Case 45 'Corporation Liquidation
+                desc = misc
+            Case 46 'Broker fee
+                desc = "Brokers Fee authorized by " & owner1
+            Case 47 'Corporation Bulk Payment
+                desc = misc
+            Case 48 'Alliance Registration Fee
+                desc = misc
+            Case 49 'War Fee
+                desc = misc
+            Case 50 'Alliance Maintainance Fee
+                desc = misc
+            Case 51 'Contraband Fine 
+                desc = misc
+            Case 52 'Clone Transfer
+                desc = owner1 & " transfered clone to " & argName1
+            Case 53 'Acceleration Gate Fee
+                desc = misc
+            Case 54 ' Transaction tax
+                desc = "Sales tax paid to the SCC"
+            Case 55 'Jump Clone Installation Fee
+                desc = "Jump Clone Installation Fee " & misc
+            Case 56 ' Manufacturing
+                desc = "Manufacturing job fee between " & owner1 & " and " & owner2 & "(Job ID:" & argName1 & ")"
+            Case 57 'Researching Technology
+                desc = misc
+            Case 58 'Researching Time Productivity
+                desc = "Time productivity research job fee between " & owner1 & " and " & owner2 & " (Job ID:" & argName1 & ")"
+            Case 59 'Researching Material Productivity
+                desc = "Material productivity research job fee between " & owner1 & " and " & owner2 & " (Job ID:" & argName1 & ")"
+            Case 60 'Copying
+                desc = "Blueprint copying job fee between " & owner1 & " and " & owner2 & " (Job ID:" & argName1 & ")"
+            Case 61 'Duplicating
+                desc = misc
+            Case 62 'Reverse Engineering
+                desc = misc
+            Case 63 'Contract
+                desc = owner1 & " bid on an auction (ref:" & argName1 & ")"
+            Case 64 'Contract Auction Bid Refund
+                desc = owner2 & " received a refund on a contract aution bid (ref:" & argName1 & ")"
+            Case 65 'Contract Collateral
+                desc = misc
+            Case 66 'Contract Reward Refund
+                desc = misc
+            Case 67 'Contract Auction Sold
+                desc = "Price for Contract auction sold"
+            Case 68 'Contract Reward
+                desc = misc
+            Case 69 'Contract Collateral Refund
+                desc = misc
+            Case 70 'Contract Collateral Payout
+                desc = misc
+            Case 71 'Contract Price
+                desc = owner1 & " accepted a contract from " & owner2
+            Case 72 'Contract Brokers Fee
+                desc = "Contract Brokers Fee"
+            Case 73 'Contract Sales Tax
+                desc = "Contract Sales Tax" & misc
+            Case 74 'Contract Deposit
+                desc = "Contract Deposit"
+            Case 75 'Contract Deposit Sales Tax
+                desc = misc
+            Case 76 'Secure EVE Time Code Exchange
+                desc = misc
+            Case 77 'Contract Auction Bid (corp)
+                desc = owner1 & " bid on a contract auction for the corp (ref:" & argName1 & ")"
+            Case 78 'Contract Collateral Deposited (corp)
+                desc = misc
+            Case 79 'Contract Price Payment (corp)
+                desc = misc
+            Case 80 'Contract Brokers Fee (corp)
+                desc = misc
+            Case 81 'Contract Deposit (corp)
+                desc = misc
+            Case 82 'Contract Deposit Refund
+                desc = "Contract Deposit Refund"
+            Case 83 'Contract Reward Deposited
+                desc = misc
+            Case 84 'Contract Reward Deposited (corp)
+                desc = misc
+            Case 85 ' Bounty owner1=concord
+                desc = owner2 & " Got bounty prizes for killing pirates in " & argName1
+            Case 86 'Advertisement Listing Fee
+                desc = misc
+        End Select
+        Return desc
+    End Function
+
     Private Sub cboWalletTransDivision_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWalletTransDivision.SelectedIndexChanged
         Call ParseWalletTransactions()
+    End Sub
+
+    Private Sub cboWalletJournalDivision_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWalletJournalDivision.SelectedIndexChanged
+        Call ParseWalletJournal()
     End Sub
 
     Private Sub UpdateWalletDivisions()
@@ -3806,6 +4078,7 @@ Public Class frmPrism
         If CorpList.ContainsKey(owner) = True Then
             IsCorp = True
             cboWalletTransDivision.Enabled = True
+            cboWalletJournalDivision.Enabled = True
             ' See if we have a representative
             Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
             If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
@@ -3815,13 +4088,14 @@ Public Class frmPrism
             End If
         Else
             cboWalletTransDivision.Enabled = False
+            cboWalletJournalDivision.Enabled = False
         End If
         Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
         Dim accountName As String = selPilot.Account
         Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
         If owner <> "" Then
-            cboWalletTransDivision.BeginUpdate()
-            cboWalletTransDivision.Items.Clear()
+            cboWalletTransDivision.BeginUpdate() : cboWalletJournalDivision.BeginUpdate()
+            cboWalletTransDivision.Items.Clear() : cboWalletJournalDivision.Items.Clear()
             If IsCorp = True Then
                 Dim corpXML As New XmlDocument
                 corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, 1)
@@ -3834,18 +4108,21 @@ Public Class frmPrism
                             Case "walletDivisions"
                                 For Each divName As XmlNode In div.ChildNodes
                                     cboWalletTransDivision.Items.Add(divName.Attributes.GetNamedItem("description").Value)
+                                    cboWalletJournalDivision.Items.Add(divName.Attributes.GetNamedItem("description").Value)
                                 Next
                         End Select
                     Next
                 Else
                     For div As Integer = 1000 To 1006
                         cboWalletTransDivision.Items.Add(div.ToString.Trim)
+                        cboWalletJournalDivision.Items.Add(div.ToString.Trim)
                     Next
                 End If
             Else
                 cboWalletTransDivision.Items.Add("Personal")
+                cboWalletJournalDivision.Items.Add("Personal")
             End If
-            cboWalletTransDivision.EndUpdate()
+            cboWalletTransDivision.EndUpdate() : cboWalletJournalDivision.EndUpdate()
         End If
     End Sub
 #End Region
@@ -3868,6 +4145,6 @@ Public Class frmPrism
 #End Region
 
    
-    
+  
 End Class
 
