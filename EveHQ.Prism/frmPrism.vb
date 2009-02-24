@@ -4162,36 +4162,54 @@ Public Class frmPrism
     Private Sub tsbAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbAssets.Click
         If tabPrism.TabPages.Contains(tabAssets) = False Then
             tabPrism.TabPages.Add(tabAssets)
+            tabPrism.SelectedTab = tabAssets
+        Else
+            tabPrism.SelectedTab = tabAssets
         End If
     End Sub
 
     Private Sub tsbInvestments_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbInvestments.Click
         If tabPrism.TabPages.Contains(tabInvestments) = False Then
             tabPrism.TabPages.Add(tabInvestments)
+            tabPrism.SelectedTab = tabInvestments
+        Else
+            tabPrism.SelectedTab = tabInvestments
         End If
     End Sub
 
     Private Sub tsbRigBuilder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbRigBuilder.Click
         If tabPrism.TabPages.Contains(tabRigBuilder) = False Then
             tabPrism.TabPages.Add(tabRigBuilder)
+            tabPrism.SelectedTab = tabRigBuilder
+        Else
+            tabPrism.SelectedTab = tabRigBuilder
         End If
     End Sub
 
     Private Sub tsbOrders_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbOrders.Click
         If tabPrism.TabPages.Contains(tabOrders) = False Then
             tabPrism.TabPages.Add(tabOrders)
+            tabPrism.SelectedTab = tabOrders
+        Else
+            tabPrism.SelectedTab = tabOrders
         End If
     End Sub
 
     Private Sub tsbTransactions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbTransactions.Click
         If tabPrism.TabPages.Contains(tabTransactions) = False Then
             tabPrism.TabPages.Add(tabTransactions)
+            tabPrism.SelectedTab = tabTransactions
+        Else
+            tabPrism.SelectedTab = tabTransactions
         End If
     End Sub
 
     Private Sub tsbJournal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbJournal.Click
         If tabPrism.TabPages.Contains(tabJournal) = False Then
             tabPrism.TabPages.Add(tabJournal)
+            tabPrism.SelectedTab = tabJournal
+        Else
+            tabPrism.SelectedTab = tabJournal
         End If
     End Sub
 
