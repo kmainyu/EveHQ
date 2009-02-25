@@ -8,6 +8,8 @@ Public Class PlugInData
     Public Shared Items As New SortedList
     Public Shared itemFlags As New SortedList
     Public Shared RefTypes As New SortedList(Of String, String)
+    Public Shared Activities As New SortedList(Of String, String)
+    Public Shared Statuses As New SortedList(Of String, String)
     Public Shared stations As New SortedList
     Public Shared NPCCorps As New SortedList
     Public Shared Corps As New SortedList
@@ -66,6 +68,8 @@ Public Class PlugInData
             Return False
         Else
             Call Me.LoadItemFlags()
+            Call Me.LoadActivities()
+            Call Me.LoadStatuses()
             Call Me.LoadPackedVolumes()
             Call Me.CheckDatabaseTables()
             If Me.LoadRefTypes = False Then
@@ -264,6 +268,26 @@ Public Class PlugInData
         itemFlags.Add(120, "Corp SAG 6")
         itemFlags.Add(121, "Corp SAG 7")
         itemFlags.Add(122, "Secondary Storage")
+    End Sub
+    Private Sub LoadActivities()
+        Activities.Clear()
+        Activities.Add("1", "Manufacturing")
+        Activities.Add("2", "Research Tech")
+        Activities.Add("3", "Research PE")
+        Activities.Add("4", "Reserach ME")
+        Activities.Add("5", "Copying")
+        Activities.Add("6", "Recycling")
+        Activities.Add("7", "Reverse Eng.")
+        Activities.Add("8", "Invention")
+    End Sub
+    Private Sub LoadStatuses()
+        Statuses.Clear()
+        Statuses.Add("0", "Failed")
+        Statuses.Add("1", "Delivered")
+        Statuses.Add("2", "Aborted")
+        Statuses.Add("3", "GM Aborted")
+        Statuses.Add("4", "Unanchored")
+        Statuses.Add("5", "Destroyed")
     End Sub
     Private Function LoadStations() As Boolean
         ' Load the Station Data From the mapDenormalize table

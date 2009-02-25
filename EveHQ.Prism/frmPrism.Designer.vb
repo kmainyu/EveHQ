@@ -265,6 +265,16 @@ Partial Class frmPrism
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
+        Me.tsbJobs = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator
+        Me.tabJobs = New System.Windows.Forms.TabPage
+        Me.clvJobs = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colJobsItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colJobsActivity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colJobsLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colJobsEndTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colJobsStatus = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.btnFilters = New System.Windows.Forms.Button
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -286,6 +296,7 @@ Partial Class frmPrism
         Me.tabJournal.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
+        Me.tabJobs.SuspendLayout()
         Me.SuspendLayout()
         '
         'tlvAssets
@@ -409,68 +420,68 @@ Partial Class frmPrism
         '
         Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.mnuToolSep, Me.mnuItemRecycling})
         Me.ctxAssets.Name = "ctxAssets"
-        Me.ctxAssets.Size = New System.Drawing.Size(190, 126)
+        Me.ctxAssets.Size = New System.Drawing.Size(188, 126)
         '
         'mnuItemName
         '
         Me.mnuItemName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.mnuItemName.Name = "mnuItemName"
-        Me.mnuItemName.Size = New System.Drawing.Size(189, 22)
+        Me.mnuItemName.Size = New System.Drawing.Size(187, 22)
         Me.mnuItemName.Text = "Item Name"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(186, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(184, 6)
         '
         'mnuViewInIB
         '
         Me.mnuViewInIB.Name = "mnuViewInIB"
-        Me.mnuViewInIB.Size = New System.Drawing.Size(189, 22)
+        Me.mnuViewInIB.Size = New System.Drawing.Size(187, 22)
         Me.mnuViewInIB.Text = "View In Item Browser"
         '
         'mnuViewInHQF
         '
         Me.mnuViewInHQF.Name = "mnuViewInHQF"
-        Me.mnuViewInHQF.Size = New System.Drawing.Size(189, 22)
+        Me.mnuViewInHQF.Size = New System.Drawing.Size(187, 22)
         Me.mnuViewInHQF.Text = "Copy Setup for HQF"
         '
         'mnuModifyPrice
         '
         Me.mnuModifyPrice.Name = "mnuModifyPrice"
-        Me.mnuModifyPrice.Size = New System.Drawing.Size(189, 22)
+        Me.mnuModifyPrice.Size = New System.Drawing.Size(187, 22)
         Me.mnuModifyPrice.Text = "Modify Custom Price"
         '
         'mnuToolSep
         '
         Me.mnuToolSep.Name = "mnuToolSep"
-        Me.mnuToolSep.Size = New System.Drawing.Size(186, 6)
+        Me.mnuToolSep.Size = New System.Drawing.Size(184, 6)
         '
         'mnuItemRecycling
         '
         Me.mnuItemRecycling.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRecycleItem, Me.mnuRecycleContained, Me.mnuRecycleAll})
         Me.mnuItemRecycling.Name = "mnuItemRecycling"
-        Me.mnuItemRecycling.Size = New System.Drawing.Size(189, 22)
+        Me.mnuItemRecycling.Size = New System.Drawing.Size(187, 22)
         Me.mnuItemRecycling.Text = "Recycling Profitability"
         '
         'mnuRecycleItem
         '
         Me.mnuRecycleItem.Name = "mnuRecycleItem"
-        Me.mnuRecycleItem.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleItem.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleItem.Text = "Current Item"
         '
         'mnuRecycleContained
         '
         Me.mnuRecycleContained.Enabled = False
         Me.mnuRecycleContained.Name = "mnuRecycleContained"
-        Me.mnuRecycleContained.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleContained.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleContained.Text = "Contained Items"
         '
         'mnuRecycleAll
         '
         Me.mnuRecycleAll.Enabled = False
         Me.mnuRecycleAll.Name = "mnuRecycleAll"
-        Me.mnuRecycleAll.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleAll.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleAll.Text = "Container + Items"
         '
         'chkExcludeBPs
@@ -497,12 +508,12 @@ Partial Class frmPrism
         '
         Me.ctxFilter.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToFilterToolStripMenuItem})
         Me.ctxFilter.Name = "ctxFilter"
-        Me.ctxFilter.Size = New System.Drawing.Size(143, 26)
+        Me.ctxFilter.Size = New System.Drawing.Size(147, 26)
         '
         'AddToFilterToolStripMenuItem
         '
         Me.AddToFilterToolStripMenuItem.Name = "AddToFilterToolStripMenuItem"
-        Me.AddToFilterToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.AddToFilterToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.AddToFilterToolStripMenuItem.Text = "Add To Filter"
         '
         'lblGroupFilter
@@ -530,12 +541,12 @@ Partial Class frmPrism
         '
         Me.ctxFilterList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFilterToolStripMenuItem})
         Me.ctxFilterList.Name = "ctxFilterList"
-        Me.ctxFilterList.Size = New System.Drawing.Size(147, 26)
+        Me.ctxFilterList.Size = New System.Drawing.Size(152, 26)
         '
         'RemoveFilterToolStripMenuItem
         '
         Me.RemoveFilterToolStripMenuItem.Name = "RemoveFilterToolStripMenuItem"
-        Me.RemoveFilterToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.RemoveFilterToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.RemoveFilterToolStripMenuItem.Text = "Remove Filter"
         '
         'lblSelectedFilters
@@ -561,6 +572,7 @@ Partial Class frmPrism
         Me.tabPrism.Controls.Add(Me.tabOrders)
         Me.tabPrism.Controls.Add(Me.tabTransactions)
         Me.tabPrism.Controls.Add(Me.tabJournal)
+        Me.tabPrism.Controls.Add(Me.tabJobs)
         Me.tabPrism.Location = New System.Drawing.Point(0, 28)
         Me.tabPrism.Name = "tabPrism"
         Me.tabPrism.SelectedIndex = 0
@@ -571,12 +583,12 @@ Partial Class frmPrism
         '
         Me.ctxTabPrism.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuClosePrismTab})
         Me.ctxTabPrism.Name = "ctxTabbedMDI"
-        Me.ctxTabPrism.Size = New System.Drawing.Size(124, 26)
+        Me.ctxTabPrism.Size = New System.Drawing.Size(128, 26)
         '
         'mnuClosePrismTab
         '
         Me.mnuClosePrismTab.Name = "mnuClosePrismTab"
-        Me.mnuClosePrismTab.Size = New System.Drawing.Size(123, 22)
+        Me.mnuClosePrismTab.Size = New System.Drawing.Size(127, 22)
         Me.mnuClosePrismTab.Text = "Not Valid"
         '
         'tabAPIStatus
@@ -672,6 +684,7 @@ Partial Class frmPrism
         '
         'tabAssets
         '
+        Me.tabAssets.Controls.Add(Me.btnFilters)
         Me.tabAssets.Controls.Add(Me.btnRefreshAssets)
         Me.tabAssets.Controls.Add(Me.txtMinSystemValue)
         Me.tabAssets.Controls.Add(Me.chkMinSystemValue)
@@ -762,7 +775,7 @@ Partial Class frmPrism
         'lblOwnerFilters
         '
         Me.lblOwnerFilters.AutoSize = True
-        Me.lblOwnerFilters.Location = New System.Drawing.Point(110, 11)
+        Me.lblOwnerFilters.Location = New System.Drawing.Point(334, 11)
         Me.lblOwnerFilters.Name = "lblOwnerFilters"
         Me.lblOwnerFilters.Size = New System.Drawing.Size(98, 13)
         Me.lblOwnerFilters.TabIndex = 20
@@ -2178,7 +2191,7 @@ Partial Class frmPrism
         'tssLabelTotalAssetsLabel
         '
         Me.tssLabelTotalAssetsLabel.Name = "tssLabelTotalAssetsLabel"
-        Me.tssLabelTotalAssetsLabel.Size = New System.Drawing.Size(154, 17)
+        Me.tssLabelTotalAssetsLabel.Size = New System.Drawing.Size(143, 17)
         Me.tssLabelTotalAssetsLabel.Text = "Total Displayed Asset Value:"
         '
         'tssLabelTotalAssets
@@ -2193,7 +2206,7 @@ Partial Class frmPrism
         'tssLabelSelectedAssetsLabel
         '
         Me.tssLabelSelectedAssetsLabel.Name = "tssLabelSelectedAssetsLabel"
-        Me.tssLabelSelectedAssetsLabel.Size = New System.Drawing.Size(162, 17)
+        Me.tssLabelSelectedAssetsLabel.Size = New System.Drawing.Size(153, 17)
         Me.tssLabelSelectedAssetsLabel.Text = "     Total Selected Asset Value:"
         '
         'tssLabelSelectedAssets
@@ -2207,7 +2220,7 @@ Partial Class frmPrism
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbDownloadData, Me.ToolStripSeparator1, Me.lblOwner, Me.cboOwner, Me.ToolStripSeparator2, Me.tsbAssets, Me.ToolStripSeparator3, Me.tsbInvestments, Me.ToolStripSeparator4, Me.tsbRigBuilder, Me.ToolStripSeparator5, Me.tsbOrders, Me.ToolStripSeparator6, Me.tsbTransactions, Me.ToolStripSeparator7, Me.tsbJournal, Me.ToolStripSeparator8, Me.tsbReports})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbDownloadData, Me.ToolStripSeparator1, Me.lblOwner, Me.cboOwner, Me.ToolStripSeparator2, Me.tsbAssets, Me.ToolStripSeparator3, Me.tsbInvestments, Me.ToolStripSeparator4, Me.tsbRigBuilder, Me.ToolStripSeparator5, Me.tsbOrders, Me.ToolStripSeparator6, Me.tsbTransactions, Me.ToolStripSeparator7, Me.tsbJournal, Me.ToolStripSeparator8, Me.tsbJobs, Me.ToolStripSeparator9, Me.tsbReports})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1144, 25)
@@ -2220,7 +2233,7 @@ Partial Class frmPrism
         Me.tsbDownloadData.Image = CType(resources.GetObject("tsbDownloadData.Image"), System.Drawing.Image)
         Me.tsbDownloadData.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbDownloadData.Name = "tsbDownloadData"
-        Me.tsbDownloadData.Size = New System.Drawing.Size(113, 22)
+        Me.tsbDownloadData.Size = New System.Drawing.Size(104, 22)
         Me.tsbDownloadData.Text = "Download API Data"
         '
         'ToolStripSeparator1
@@ -2231,13 +2244,14 @@ Partial Class frmPrism
         'lblOwner
         '
         Me.lblOwner.Name = "lblOwner"
-        Me.lblOwner.Size = New System.Drawing.Size(45, 22)
+        Me.lblOwner.Size = New System.Drawing.Size(43, 22)
         Me.lblOwner.Text = "Owner:"
         '
         'cboOwner
         '
         Me.cboOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboOwner.FlatStyle = System.Windows.Forms.FlatStyle.Standard
+        Me.cboOwner.MaxDropDownItems = 12
         Me.cboOwner.Name = "cboOwner"
         Me.cboOwner.Size = New System.Drawing.Size(200, 25)
         '
@@ -2252,7 +2266,7 @@ Partial Class frmPrism
         Me.tsbAssets.Image = CType(resources.GetObject("tsbAssets.Image"), System.Drawing.Image)
         Me.tsbAssets.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbAssets.Name = "tsbAssets"
-        Me.tsbAssets.Size = New System.Drawing.Size(44, 22)
+        Me.tsbAssets.Size = New System.Drawing.Size(43, 22)
         Me.tsbAssets.Text = "Assets"
         Me.tsbAssets.ToolTipText = "Displays the Assets tab"
         '
@@ -2267,7 +2281,7 @@ Partial Class frmPrism
         Me.tsbInvestments.Image = CType(resources.GetObject("tsbInvestments.Image"), System.Drawing.Image)
         Me.tsbInvestments.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbInvestments.Name = "tsbInvestments"
-        Me.tsbInvestments.Size = New System.Drawing.Size(75, 22)
+        Me.tsbInvestments.Size = New System.Drawing.Size(71, 22)
         Me.tsbInvestments.Text = "Investments"
         Me.tsbInvestments.ToolTipText = "Displays investments"
         '
@@ -2282,7 +2296,7 @@ Partial Class frmPrism
         Me.tsbRigBuilder.Image = CType(resources.GetObject("tsbRigBuilder.Image"), System.Drawing.Image)
         Me.tsbRigBuilder.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbRigBuilder.Name = "tsbRigBuilder"
-        Me.tsbRigBuilder.Size = New System.Drawing.Size(68, 22)
+        Me.tsbRigBuilder.Size = New System.Drawing.Size(61, 22)
         Me.tsbRigBuilder.Text = "Rig Builder"
         Me.tsbRigBuilder.ToolTipText = "Displays the rig builder"
         '
@@ -2297,7 +2311,7 @@ Partial Class frmPrism
         Me.tsbOrders.Image = CType(resources.GetObject("tsbOrders.Image"), System.Drawing.Image)
         Me.tsbOrders.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbOrders.Name = "tsbOrders"
-        Me.tsbOrders.Size = New System.Drawing.Size(46, 22)
+        Me.tsbOrders.Size = New System.Drawing.Size(44, 22)
         Me.tsbOrders.Text = "Orders"
         Me.tsbOrders.ToolTipText = "Displays the market orders"
         '
@@ -2312,7 +2326,7 @@ Partial Class frmPrism
         Me.tsbTransactions.Image = CType(resources.GetObject("tsbTransactions.Image"), System.Drawing.Image)
         Me.tsbTransactions.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbTransactions.Name = "tsbTransactions"
-        Me.tsbTransactions.Size = New System.Drawing.Size(78, 22)
+        Me.tsbTransactions.Size = New System.Drawing.Size(72, 22)
         Me.tsbTransactions.Text = "Transactions"
         Me.tsbTransactions.ToolTipText = "Displays the wallet transactions"
         '
@@ -2327,7 +2341,7 @@ Partial Class frmPrism
         Me.tsbJournal.Image = CType(resources.GetObject("tsbJournal.Image"), System.Drawing.Image)
         Me.tsbJournal.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbJournal.Name = "tsbJournal"
-        Me.tsbJournal.Size = New System.Drawing.Size(49, 22)
+        Me.tsbJournal.Size = New System.Drawing.Size(46, 22)
         Me.tsbJournal.Text = "Journal"
         Me.tsbJournal.ToolTipText = "Displays the wallet journal"
         '
@@ -2343,83 +2357,83 @@ Partial Class frmPrism
         Me.tsbReports.Image = CType(resources.GetObject("tsbReports.Image"), System.Drawing.Image)
         Me.tsbReports.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbReports.Name = "tsbReports"
-        Me.tsbReports.Size = New System.Drawing.Size(63, 22)
+        Me.tsbReports.Size = New System.Drawing.Size(61, 22)
         Me.tsbReports.Text = "Reports"
         '
         'mnuLocation
         '
         Me.mnuLocation.Name = "mnuLocation"
-        Me.mnuLocation.Size = New System.Drawing.Size(185, 22)
+        Me.mnuLocation.Size = New System.Drawing.Size(184, 22)
         Me.mnuLocation.Text = "Grouped by Location"
         '
         'mnuAssetLists
         '
         Me.mnuAssetLists.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListName, Me.mnuAssetListQuantity, Me.mnuAssetListPrice, Me.mnuAssetListValue})
         Me.mnuAssetLists.Name = "mnuAssetLists"
-        Me.mnuAssetLists.Size = New System.Drawing.Size(185, 22)
+        Me.mnuAssetLists.Size = New System.Drawing.Size(184, 22)
         Me.mnuAssetLists.Text = "Asset Lists"
         '
         'mnuAssetListName
         '
         Me.mnuAssetListName.Name = "mnuAssetListName"
-        Me.mnuAssetListName.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListName.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListName.Text = "Asset List (Name)"
         '
         'mnuAssetListQuantity
         '
         Me.mnuAssetListQuantity.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListQuantityA, Me.mnuAssetListQuantityD})
         Me.mnuAssetListQuantity.Name = "mnuAssetListQuantity"
-        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListQuantity.Text = "Asset List (Quantity)"
         '
         'mnuAssetListQuantityA
         '
         Me.mnuAssetListQuantityA.Name = "mnuAssetListQuantityA"
-        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListQuantityA.Text = "Ascending"
         '
         'mnuAssetListQuantityD
         '
         Me.mnuAssetListQuantityD.Name = "mnuAssetListQuantityD"
-        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListQuantityD.Text = "Descending"
         '
         'mnuAssetListPrice
         '
         Me.mnuAssetListPrice.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListPriceA, Me.mnuAssetListPriceD})
         Me.mnuAssetListPrice.Name = "mnuAssetListPrice"
-        Me.mnuAssetListPrice.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListPrice.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListPrice.Text = "Asset List (Unit Price)"
         '
         'mnuAssetListPriceA
         '
         Me.mnuAssetListPriceA.Name = "mnuAssetListPriceA"
-        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListPriceA.Text = "Ascending"
         '
         'mnuAssetListPriceD
         '
         Me.mnuAssetListPriceD.Name = "mnuAssetListPriceD"
-        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListPriceD.Text = "Descending"
         '
         'mnuAssetListValue
         '
         Me.mnuAssetListValue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListValueA, Me.mnuAssetListValueD})
         Me.mnuAssetListValue.Name = "mnuAssetListValue"
-        Me.mnuAssetListValue.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListValue.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListValue.Text = "Asset List (Total Value)"
         '
         'mnuAssetListValueA
         '
         Me.mnuAssetListValueA.Name = "mnuAssetListValueA"
-        Me.mnuAssetListValueA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListValueA.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListValueA.Text = "Ascending"
         '
         'mnuAssetListValueD
         '
         Me.mnuAssetListValueD.Name = "mnuAssetListValueD"
-        Me.mnuAssetListValueD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListValueD.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListValueD.Text = "Descending"
         '
         'ColumnHeader1
@@ -2490,6 +2504,97 @@ Partial Class frmPrism
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
         '
+        'tsbJobs
+        '
+        Me.tsbJobs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbJobs.Image = CType(resources.GetObject("tsbJobs.Image"), System.Drawing.Image)
+        Me.tsbJobs.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbJobs.Name = "tsbJobs"
+        Me.tsbJobs.Size = New System.Drawing.Size(33, 22)
+        Me.tsbJobs.Text = "Jobs"
+        Me.tsbJobs.ToolTipText = "Displays the Blueprint jobs"
+        '
+        'ToolStripSeparator9
+        '
+        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
+        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 25)
+        '
+        'tabJobs
+        '
+        Me.tabJobs.Controls.Add(Me.clvJobs)
+        Me.tabJobs.Location = New System.Drawing.Point(4, 22)
+        Me.tabJobs.Name = "tabJobs"
+        Me.tabJobs.Size = New System.Drawing.Size(1136, 541)
+        Me.tabJobs.TabIndex = 8
+        Me.tabJobs.Text = "Jobs"
+        Me.tabJobs.UseVisualStyleBackColor = True
+        '
+        'clvJobs
+        '
+        Me.clvJobs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colJobsItem, Me.colJobsActivity, Me.colJobsLocation, Me.colJobsEndTime, Me.colJobsStatus})
+        Me.clvJobs.ColumnSortColor = System.Drawing.Color.Lavender
+        Me.clvJobs.DefaultItemHeight = 16
+        Me.clvJobs.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.clvJobs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.clvJobs.Location = New System.Drawing.Point(0, 0)
+        Me.clvJobs.MultipleColumnSort = True
+        Me.clvJobs.Name = "clvJobs"
+        Me.clvJobs.Size = New System.Drawing.Size(1136, 541)
+        Me.clvJobs.TabIndex = 4
+        '
+        'colJobsItem
+        '
+        Me.colJobsItem.CustomSortTag = Nothing
+        Me.colJobsItem.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colJobsItem.Tag = Nothing
+        Me.colJobsItem.Text = "Installed Item"
+        Me.colJobsItem.Width = 250
+        '
+        'colJobsActivity
+        '
+        Me.colJobsActivity.CustomSortTag = Nothing
+        Me.colJobsActivity.DisplayIndex = 1
+        Me.colJobsActivity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.colJobsActivity.Tag = Nothing
+        Me.colJobsActivity.Text = "Activity"
+        Me.colJobsActivity.Width = 100
+        '
+        'colJobsLocation
+        '
+        Me.colJobsLocation.CustomSortTag = Nothing
+        Me.colJobsLocation.DisplayIndex = 2
+        Me.colJobsLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colJobsLocation.Tag = Nothing
+        Me.colJobsLocation.Text = "Location"
+        Me.colJobsLocation.Width = 300
+        '
+        'colJobsEndTime
+        '
+        Me.colJobsEndTime.CustomSortTag = Nothing
+        Me.colJobsEndTime.DisplayIndex = 3
+        Me.colJobsEndTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
+        Me.colJobsEndTime.Tag = Nothing
+        Me.colJobsEndTime.Text = "End Time"
+        Me.colJobsEndTime.Width = 125
+        '
+        'colJobsStatus
+        '
+        Me.colJobsStatus.CustomSortTag = Nothing
+        Me.colJobsStatus.DisplayIndex = 4
+        Me.colJobsStatus.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colJobsStatus.Tag = Nothing
+        Me.colJobsStatus.Text = "Status"
+        Me.colJobsStatus.Width = 100
+        '
+        'btnFilters
+        '
+        Me.btnFilters.Location = New System.Drawing.Point(90, 6)
+        Me.btnFilters.Name = "btnFilters"
+        Me.btnFilters.Size = New System.Drawing.Size(75, 23)
+        Me.btnFilters.TabIndex = 28
+        Me.btnFilters.Text = "Filters"
+        Me.btnFilters.UseVisualStyleBackColor = True
+        '
         'frmPrism
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2536,6 +2641,7 @@ Partial Class frmPrism
         Me.StatusStrip1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.tabJobs.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -2779,4 +2885,14 @@ Partial Class frmPrism
     Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ctxTabPrism As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuClosePrismTab As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tsbJobs As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator9 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents tabJobs As System.Windows.Forms.TabPage
+    Friend WithEvents clvJobs As DotNetLib.Windows.Forms.ContainerListView
+    Friend WithEvents colJobsItem As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colJobsActivity As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colJobsLocation As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colJobsEndTime As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colJobsStatus As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents btnFilters As System.Windows.Forms.Button
 End Class

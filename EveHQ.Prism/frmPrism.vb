@@ -88,9 +88,10 @@ Public Class frmPrism
         tabPrism.TabPages.Remove(tabOrders)
         tabPrism.TabPages.Remove(tabTransactions)
         tabPrism.TabPages.Remove(tabJournal)
+        tabPrism.TabPages.Remove(tabJobs)
 
         'Call Me.LoadInvestments()
-        'Call Me.LoadFilterGroups()
+        Call Me.LoadFilterGroups()
         Call Me.ScanForExistingXMLs()
         Call Portfolio.SetupTypes()
 
@@ -1680,6 +1681,8 @@ Public Class frmPrism
         Else
             cboWalletJournalDivision.SelectedIndex = 0
         End If
+        ' Update the Jobs
+        Call Me.ParseIndustryJobs()
     End Sub
     Private Sub FilterSystemValue()
         Dim minValue As Double
@@ -3246,6 +3249,22 @@ Public Class frmPrism
             tabPrism.SelectedTab = tabJournal
         End If
     End Sub
+    Private Sub tsbJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbJobs.Click
+        If tabPrism.TabPages.Contains(tabJobs) = False Then
+            tabPrism.TabPages.Add(tabJobs)
+            tabPrism.SelectedTab = tabJobs
+        Else
+            tabPrism.SelectedTab = tabJobs
+        End If
+    End Sub
+    Private Sub btnFilters_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnFilters.Click
+        If tabPrism.TabPages.Contains(tabAssetFilters) = False Then
+            tabPrism.TabPages.Add(tabAssetFilters)
+            tabPrism.SelectedTab = tabAssetFilters
+        Else
+            tabPrism.SelectedTab = tabAssetFilters
+        End If
+    End Sub
     Private Sub ctxTabPrism_Closed(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs) Handles ctxTabPrism.Closed
         mnuClosePrismTab.Text = "Not Valid"
     End Sub
@@ -4240,9 +4259,75 @@ Public Class frmPrism
     End Sub
 #End Region
 
-   
-  
-   
-   
+#Region "Industry Jobs Routines"
+    Private Sub ParseIndustryJobs()
+        Dim IsCorp As Boolean = False
+        ' Get the owner we will use
+        Dim owner As String = cboOwner.SelectedItem.ToString()
+        ' See if this owner is a corp
+        If CorpList.ContainsKey(owner) = True Then
+            IsCorp = True
+            ' See if we have a representative
+            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                owner = CStr(CorpRep(CStr(CorpList(owner))))
+            Else
+                owner = ""
+            End If
+        End If
+
+        If owner <> "" Then
+            Dim transXML As New XmlDocument
+            Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+            Dim accountName As String = selPilot.Account
+            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+            If IsCorp = True Then
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, 1)
+            Else
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, 1)
+            End If
+            If transXML IsNot Nothing Then
+                Dim Trans As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
+                Dim transItem As New ContainerListViewItem
+                Dim transDate As Date
+                Dim transTypeID As String = ""
+                Dim locationID As String = ""
+                Dim completed As String = ""
+                clvJobs.BeginUpdate()
+                clvJobs.Items.Clear()
+                For Each Tran As XmlNode In Trans
+                    transItem = New ContainerListViewItem
+                    transTypeID = Tran.Attributes.GetNamedItem("installedItemTypeID").Value
+                    transItem.Text = CType(PlugInData.Items(transTypeID), ItemData).Name
+                    clvJobs.Items.Add(transItem)
+                    transItem.SubItems(1).Text = PlugInData.Activities(Tran.Attributes.GetNamedItem("activityID").Value)
+                    locationID = Tran.Attributes.GetNamedItem("installedItemLocationID").Value
+                    If PlugInData.stations.ContainsKey(locationID) = True Then
+                        transItem.SubItems(2).Text = CType(PlugInData.stations(locationID), Station).stationName
+                    Else
+                        If PlugInData.stations.ContainsKey(Tran.Attributes.GetNamedItem("outputLocationID").Value) = True Then
+                            transItem.SubItems(2).Text = CType(PlugInData.stations(Tran.Attributes.GetNamedItem("outputLocationID").Value), Station).stationName
+                        Else
+                            transItem.SubItems(2).Text = "POS in " & CType(PlugInData.stations(Tran.Attributes.GetNamedItem("installedInSolarSystemID").Value), SolarSystem).Name
+                        End If
+                    End If
+                    transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("endProductionTime").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                    transItem.SubItems(3).Text = FormatDateTime(transDate, DateFormat.GeneralDate)
+                    completed = Tran.Attributes.GetNamedItem("completed").Value
+                    If completed = "0" Then
+                        transItem.SubItems(4).Text = "In Progress"
+                    Else
+                        transItem.SubItems(4).Text = PlugInData.Statuses(Tran.Attributes.GetNamedItem("completedStatus").Value)
+                    End If
+                Next
+                clvJobs.EndUpdate()
+            End If
+        End If
+
+    End Sub
+#End Region
+
+    
+    
 End Class
 
