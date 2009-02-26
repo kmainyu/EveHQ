@@ -327,16 +327,27 @@ Public Class frmUpdater
         Next
     End Sub
 
-    Private Function DownloadFile(ByVal worker As System.ComponentModel.BackgroundWorker, ByVal FileNeeded As String) As Boolean
+    Private Function DownloadFile(ByVal worker As System.ComponentModel.BackgroundWorker, ByVal FileNeeded As String, ByVal DebugFile As Boolean) As Boolean
 
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
         'Dim count As Integer = 0
         'count += 1
-        Dim httpURI As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
-        Dim localFile As String = My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd"
-        
+        Dim httpURI As String = ""
+        Dim pdbFile As String = ""
+        Dim localFile As String = ""
+        If DebugFile = True Then
+            Dim FI As New FileInfo(FileNeeded)
+            pdbFile = FI.Name.TrimEnd(FI.Extension.ToCharArray) & ".pdf"
+            httpURI = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & pdbFile
+            localFile = My.Application.Info.DirectoryPath & "\" & pdbFile & ".upd"
+        Else
+            httpURI = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
+            localFile = My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd"
+        End If
+        ' Work out the debug file name to get
+
         ' Create the request to access the server and set credentials
         ServicePointManager.DefaultConnectionLimit = 10
         ServicePointManager.Expect100Continue = False
@@ -391,8 +402,19 @@ Public Class frmUpdater
             filesComplete.Add(FileNeeded, False)
             Return False
         End Try
+
+        If DebugFile = True Then
+            Dim FI As New FileInfo(FileNeeded)
+            FileNeeded = FI.Name.TrimEnd(FI.Extension.ToCharArray) & ".pdb"
+            If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd") = True Then
+                My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd")
+            End If
+            My.Computer.FileSystem.RenameFile(My.Application.Info.DirectoryPath & "\" & pdbFile & ".upd", FileNeeded & ".upd")
+        End If
+
         filesComplete.Add(FileNeeded, True)
         Return True
+
     End Function
 
     Private Function DownloadFile2(ByVal worker As System.ComponentModel.BackgroundWorker, ByVal FileNeeded As String) As Boolean
@@ -407,7 +429,8 @@ Public Class frmUpdater
 
     Private Sub UpdateWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim reqfile As String = CStr(e.Argument)
-        Call DownloadFile(CType(sender, System.ComponentModel.BackgroundWorker), reqfile)
+        Call DownloadFile(CType(sender, System.ComponentModel.BackgroundWorker), reqfile, False)
+        Call DownloadFile(CType(sender, System.ComponentModel.BackgroundWorker), reqfile, True)
     End Sub
 
     Private Sub UpdateWorker_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs)
@@ -429,7 +452,7 @@ Public Class frmUpdater
                 End If
             End If
         Next
-        If filesComplete.Count = filesRequired.Count Then
+        If filesComplete.Count = (filesRequired.Count * 2) Then
             lblUpdateStatus.Text = "Updating Files..."
             Call UpdateEveHQ()
             lblUpdateStatus.Text = "Status: Update Complete!"
@@ -465,7 +488,6 @@ Public Class frmUpdater
                 Else
                     ' Not the DB upgrade
                     If ofi.Exists = True Then
-
                         My.Computer.FileSystem.RenameFile(ofi.FullName, ofi.Name & ".old")
                     End If
                     ' Copy the new file as the old one
