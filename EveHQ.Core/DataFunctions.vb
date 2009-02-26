@@ -37,7 +37,7 @@ Public Class DataFunctions
                 ' Get the directory of the existing Access database to write the new one there
                 Dim FI As New FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
                 Dim outputFile As String = FI.DirectoryName & "\EveHQData.mdb"
-
+                Dim oldStrConn As String = EveHQ.Core.HQ.EveHQDataConnectionString
                 ' Try to create a new access db from resources
                 Dim fs As New FileStream(outputFile, FileMode.Create)
                 Dim bw As New BinaryWriter(fs)
@@ -46,6 +46,11 @@ Public Class DataFunctions
                     bw.Close()
                     fs.Close()
                     EveHQ.Core.HQ.EveHQSettings.DBDataFilename = outputFile
+                    If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
+                        EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename
+                    Else
+                        EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
+                    End If
                     Return True
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = "Unable to create Access database in " & outputFile & ControlChars.CrLf & ControlChars.CrLf & e.Message
@@ -53,7 +58,7 @@ Public Class DataFunctions
                 Finally
                     fs.Dispose()
                 End Try
-            Case 1, 2, 3 ' MSSQL, MSSQL Express, MySQL
+            Case 1, 2 ' MSSQL, MSSQL Express
                 Dim strSQL As String = "CREATE DATABASE EveHQData;"
                 Dim oldStrConn As String = EveHQ.Core.HQ.EveHQDataConnectionString
                 ' Set new database connection string
@@ -465,22 +470,18 @@ Public Class DataFunctions
     Public Shared Function GetBPTypeID(ByVal typeID As String) As String
         Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invBlueprintTypes WHERE productTypeID=" & typeID & ";")
         If eveData.Tables(0).Rows.Count = 0 Then
-            eveData.Dispose()
             Return typeID
         Else
             typeID = eveData.Tables(0).Rows(0).Item("blueprintTypeID").ToString
-            eveData.Dispose()
             Return typeID
         End If
     End Function
     Public Shared Function GetTypeID(ByVal bpTypeID As String) As String
         Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invBlueprintTypes WHERE blueprintTypeID=" & bpTypeID & ";")
         If eveData.Tables(0).Rows.Count = 0 Then
-            eveData.Dispose()
             Return bpTypeID
         Else
             bpTypeID = eveData.Tables(0).Rows(0).Item("productTypeID").ToString
-            eveData.Dispose()
             Return bpTypeID
         End If
     End Function
@@ -511,7 +512,9 @@ Public Class DataFunctions
                 Exit For
             End If
         Next
-        eveData.Dispose()
+        If eveData IsNot Nothing Then
+            eveData.Dispose()
+        End If
         Return BPWF
     End Function
     Public Shared Function Round(ByVal data As String, Optional ByVal places As Integer = 6) As String
@@ -573,16 +576,21 @@ Public Class DataFunctions
                 End If
             Next
             If EveHQ.Core.DataFunctions.LoadUnlocks = False Then
+                If eveData IsNot Nothing Then
+                    eveData.Dispose()
+                End If
                 Return False
-                eveData.Dispose()
-                Exit Function
             End If
             EveHQ.Core.DataFunctions.LoadMarketPricesFromDB()
             EveHQ.Core.DataFunctions.LoadCustomPricesFromDB()
-            eveData.Dispose()
+            If eveData IsNot Nothing Then
+                eveData.Dispose()
+            End If
             Return True
         Catch e As Exception
-            eveData.Dispose()
+            If eveData IsNot Nothing Then
+                eveData.Dispose()
+            End If
             Return False
             Exit Function
         End Try
@@ -788,7 +796,9 @@ Public Class DataFunctions
         Catch ex As Exception
             MessageBox.Show("There was an error fetching the Market Price data. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Finally
-            eveData.Dispose()
+            If eveData IsNot Nothing Then
+                eveData.Dispose()
+            End If
         End Try
     End Function
     Public Shared Function LoadCustomPricesFromDB() As Boolean
@@ -807,7 +817,9 @@ Public Class DataFunctions
         Catch ex As Exception
             MessageBox.Show("There was an error fetching the Custom Price data. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Finally
-            eveData.Dispose()
+            If eveData IsNot Nothing Then
+                eveData.Dispose()
+            End If
         End Try
     End Function
     Private Shared Function CreateCustomPricesTable() As Boolean

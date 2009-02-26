@@ -22,7 +22,7 @@ Public Class PlugInData
                 ' Check for last cache version file
                 If My.Computer.FileSystem.FileExists(mapCacheFolder & "\version.txt") = True Then
                     Dim sr As New StreamReader(mapCacheFolder & "\version.txt")
-                    Dim cacheVersion As String = ""
+                    Dim cacheVersion As String = sr.ReadToEnd
                     sr.Close()
                     If IsUpdateAvailable(cacheVersion, PlugInData.LastCacheRefresh) = True Then
                         ' Delete the existing cache folder and force a rebuild

@@ -178,6 +178,36 @@ Public Class frmSplash
             End If
         End If
 
+        ' Check for new database
+        lblStatus.Text = "> Checking custom data..."
+        Me.Refresh()
+        If (EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 And EveHQ.Core.HQ.EveHQSettings.DBDataFilename = "") Or (EveHQ.Core.HQ.EveHQSettings.DBFormat > 0 And EveHQ.Core.HQ.EveHQSettings.DBDataName = "") Then
+            ' Looks like it hasn't been set so let's create it - but inform the user
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        Else
+            ' Looks like it's been initialised, but let's test a connection to make sure it exists
+            If TestDataDBConnection() = False Then
+                ' Looks like it hasn't been set so let's create it - but inform the user
+                Dim msg As String = "EveHQ has detected that although the the new storage database is initialised, it cannot be located." & ControlChars.CrLf
+                msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+                msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to create the new database."
+                MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                    MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+                    MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            End If
+        End If
+
         ' Load Certificate data
         lblStatus.Text = "> Loading Certificate data..."
         Me.Refresh()
@@ -230,33 +260,7 @@ Public Class frmSplash
             End If
         End If
 
-        ' Check for new database
-        If (EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 And EveHQ.Core.HQ.EveHQSettings.DBDataFilename = "") Or (EveHQ.Core.HQ.EveHQSettings.DBFormat > 0 And EveHQ.Core.HQ.EveHQSettings.DBDataName = "") Then
-            ' Looks like it hasn't been set so let's create it - but inform the user
-            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
-            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
-            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
-            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Else
-                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
-        Else
-            ' Looks like it's been initialised, but let's test a connection to make sure it exists
-            If TestDataDBConnection() = False Then
-                ' Looks like it hasn't been set so let's create it - but inform the user
-                Dim msg As String = "EveHQ has detected that although the the new storage database is initialised, it cannot be located." & ControlChars.CrLf
-                msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
-                msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to create the new database."
-                MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
-                    MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Else
-                    MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                End If
-            End If
-        End If
+        
 
         ' Check for modules
         lblStatus.Text = "> Loading modules..."
