@@ -102,8 +102,8 @@ Partial Class frmNeuralRemap
         Me.lblDescription.Size = New System.Drawing.Size(506, 34)
         Me.lblDescription.TabIndex = 0
         Me.lblDescription.Text = "Neural Remapping allows you to respecify your starting base attributes which can " & _
-            "be used to optimise skill training in a particular area. Attributes must be betw" & _
-            "een 5 and 15." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+            "be used to optimise skill training in a particular area. Attributes cannot excee" & _
+            "d 15." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
         'PictureBox1
         '

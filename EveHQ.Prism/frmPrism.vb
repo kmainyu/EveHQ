@@ -1691,17 +1691,19 @@ Public Class frmPrism
         End If
         Dim cL As Integer = 0
         Dim cLoc As ContainerListViewItem
-        Do
-            cLoc = tlvAssets.Items(cL)
-            If CDbl(cLoc.SubItems(AssetColumn.Value).Text) < minValue Then
-                Call FilterSystemNode(cLoc)
-                If cLoc.Items.Count = 0 Then
-                    tlvAssets.Items.Remove(cLoc)
-                    cL -= 1
+        If tlvAssets.Items.Count > 0 Then
+            Do
+                cLoc = tlvAssets.Items(cL)
+                If CDbl(cLoc.SubItems(AssetColumn.Value).Text) < minValue Then
+                    Call FilterSystemNode(cLoc)
+                    If cLoc.Items.Count = 0 Then
+                        tlvAssets.Items.Remove(cLoc)
+                        cL -= 1
+                    End If
                 End If
-            End If
-            cL += 1
-        Loop Until (cL = tlvAssets.Items.Count)
+                cL += 1
+            Loop Until (cL = tlvAssets.Items.Count)
+        End If
         Call Me.RecalcAllPrices()
 
     End Sub
@@ -3807,6 +3809,18 @@ Public Class frmPrism
                         End If
                     End If
                 Next
+                If clvBuyOrders.Items.Count = 0 Then
+                    clvBuyOrders.Items.Add("No Data Available...")
+                    clvBuyOrders.Enabled = False
+                Else
+                    clvBuyOrders.Enabled = True
+                End If
+                If clvSellOrders.Items.Count = 0 Then
+                    clvSellOrders.Items.Add("No Data Available...")
+                    clvSellOrders.Enabled = False
+                Else
+                    clvSellOrders.Enabled = True
+                End If
                 clvBuyOrders.EndUpdate()
                 clvSellOrders.EndUpdate()
             End If
@@ -3825,7 +3839,27 @@ Public Class frmPrism
             lblRemoteRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility)))
             lblBrokerFee.Text = FormatNumber(BrokerFee, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + "%"
             lblTransTax.Text = FormatNumber(TransTax, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) + "%"
-
+        Else
+            clvBuyOrders.BeginUpdate()
+            clvBuyOrders.Items.Clear()
+            clvBuyOrders.Items.Add("Access Denied - check API Status")
+            clvBuyOrders.EndUpdate()
+            clvBuyOrders.Enabled = False
+            clvSellOrders.BeginUpdate()
+            clvSellOrders.Items.Clear()
+            clvSellOrders.Items.Add("Access Denied - check API Status")
+            clvSellOrders.EndUpdate()
+            clvSellOrders.Enabled = False
+            lblOrders.Text = "n/a"
+            lblSellTotal.Text = "n/a"
+            lblBuyTotal.Text = "n/a"
+            lblEscrow.Text = "n/a"
+            lblAskRange.Text = "n/a"
+            lblBidRange.Text = "n/a"
+            lblModRange.Text = "n/a"
+            lblRemoteRange.Text = "n/a"
+            lblBrokerFee.Text = "n/a"
+            lblTransTax.Text = "n/a"
         End If
 
     End Sub
@@ -3857,7 +3891,7 @@ Public Class frmPrism
             IsCorp = True
             cboWalletTransDivision.Enabled = True
             ' See if we have a representative
-            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            Dim CorpRep As SortedList = CType(CorpReps(5), Collections.SortedList)
             If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
                 owner = CStr(CorpRep(CStr(CorpList(owner))))
             Else
@@ -3910,8 +3944,20 @@ Public Class frmPrism
                     transItem.SubItems(5).Text = Tran.Attributes.GetNamedItem("stationName").Value
                     transItem.SubItems(6).Text = Tran.Attributes.GetNamedItem("clientName").Value
                 Next
+                If clvTransactions.Items.Count = 0 Then
+                    clvTransactions.Items.Add("No Data Available...")
+                    clvTransactions.Enabled = False
+                Else
+                    clvTransactions.Enabled = True
+                End If
                 clvTransactions.EndUpdate()
             End If
+        Else
+            clvTransactions.BeginUpdate()
+            clvTransactions.Items.Clear()
+            clvTransactions.Items.Add("Access Denied - check API Status")
+            clvTransactions.EndUpdate()
+            clvTransactions.Enabled = False
         End If
 
     End Sub
@@ -3925,7 +3971,7 @@ Public Class frmPrism
             IsCorp = True
             cboWalletJournalDivision.Enabled = True
             ' See if we have a representative
-            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            Dim CorpRep As SortedList = CType(CorpReps(3), Collections.SortedList)
             If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
                 owner = CStr(CorpRep(CStr(CorpList(owner))))
             Else
@@ -3978,8 +4024,20 @@ Public Class frmPrism
                         transItem.SubItems(4).Text = BuildJournalDescription(CInt(refType), Tran.Attributes.GetNamedItem("ownerName1").Value, Tran.Attributes.GetNamedItem("ownerName2").Value, Tran.Attributes.GetNamedItem("argID1").Value, Tran.Attributes.GetNamedItem("argName1").Value)
                     End If
                 Next
+                If clvJournal.Items.Count = 0 Then
+                    clvJournal.Items.Add("No Data Available...")
+                    clvJournal.Enabled = False
+                Else
+                    clvJournal.Enabled = True
+                End If
                 clvJournal.EndUpdate()
             End If
+        Else
+            clvJournal.BeginUpdate()
+            clvJournal.Items.Clear()
+            clvJournal.Items.Add("Access Denied - check API Status")
+            clvJournal.EndUpdate()
+            clvJournal.Enabled = False
         End If
 
     End Sub
@@ -4195,7 +4253,7 @@ Public Class frmPrism
             cboWalletTransDivision.Enabled = True
             cboWalletJournalDivision.Enabled = True
             ' See if we have a representative
-            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            Dim CorpRep As SortedList = CType(CorpReps(6), Collections.SortedList)
             If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
                 owner = CStr(CorpRep(CStr(CorpList(owner))))
             Else
@@ -4205,10 +4263,11 @@ Public Class frmPrism
             cboWalletTransDivision.Enabled = False
             cboWalletJournalDivision.Enabled = False
         End If
-        Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
-        Dim accountName As String = selPilot.Account
-        Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+        
         If owner <> "" Then
+            Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+            Dim accountName As String = selPilot.Account
+            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
             cboWalletTransDivision.BeginUpdate() : cboWalletJournalDivision.BeginUpdate()
             cboWalletTransDivision.Items.Clear() : cboWalletJournalDivision.Items.Clear()
             If IsCorp = True Then
@@ -4268,7 +4327,7 @@ Public Class frmPrism
         If CorpList.ContainsKey(owner) = True Then
             IsCorp = True
             ' See if we have a representative
-            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            Dim CorpRep As SortedList = CType(CorpReps(2), Collections.SortedList)
             If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
                 owner = CStr(CorpRep(CStr(CorpList(owner))))
             Else
@@ -4320,8 +4379,20 @@ Public Class frmPrism
                         transItem.SubItems(4).Text = PlugInData.Statuses(Tran.Attributes.GetNamedItem("completedStatus").Value)
                     End If
                 Next
+                If clvJobs.Items.Count = 0 Then
+                    clvJobs.Items.Add("No Data Available...")
+                    clvJobs.Enabled = False
+                Else
+                    clvJobs.Enabled = True
+                End If
                 clvJobs.EndUpdate()
             End If
+        Else
+            clvJobs.BeginUpdate()
+            clvJobs.Items.Clear()
+            clvJobs.Items.Add("Access Denied - check API Status")
+            clvJobs.EndUpdate()
+            clvJobs.Enabled = False
         End If
 
     End Sub

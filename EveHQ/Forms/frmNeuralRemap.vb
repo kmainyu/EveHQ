@@ -6,6 +6,7 @@
     Dim cQueueName As String = ""
     Dim SkillQueue As New EveHQ.Core.SkillQueue
     Dim UpdateAllBases As Boolean = False
+    Dim CMin, IMin, MMin, PMin, WMin As Integer
 
     Public Property PilotName() As String
         Get
@@ -36,8 +37,18 @@
     End Sub
 
     Private Sub InitialiseForm()
+
+        UpdateAllBases = True
+
         Me.Text = "Neural Remapping - " & iPilot.Name
         ' Create a dummy pilot with which to check new attributes & skill queues
+
+        ' Rest NUDs
+        nudIBase.Value = 5
+        nudPBase.Value = 5
+        nudCBase.Value = 5
+        nudWBase.Value = 5
+        nudMBase.Value = 5
 
         nPilot.PilotSkills = iPilot.PilotSkills
         EveHQ.Core.PilotParseFunctions.LoadKeySkillsForPilot(nPilot)
@@ -47,83 +58,120 @@
         nPilot.WAtt = iPilot.WAtt : nPilot.WImplant = iPilot.WImplant : nPilot.LWAtt = iPilot.LWAtt : nPilot.ALWAtt = iPilot.ALWAtt : nPilot.LSWAtt = iPilot.LSWAtt : nPilot.WAttT = iPilot.WAttT
         nPilot.MAtt = iPilot.MAtt : nPilot.MImplant = iPilot.MImplant : nPilot.LMAtt = iPilot.LMAtt : nPilot.ALMAtt = iPilot.ALMAtt : nPilot.LSMAtt = iPilot.LSMAtt : nPilot.MAttT = iPilot.MAttT
 
-        ' Check if any base attributes are less than 5 as this is not permitted under the remapping rules
-        Unused = 0
+        ' Set the minimum allowable units
         If nPilot.IAtt < 5 Then
-            Unused += 5 - nPilot.IAtt
-            nPilot.IAtt = 5
+            IMin = nPilot.IAtt
+        Else
+            IMin = 5
         End If
         If nPilot.PAtt < 5 Then
-            Unused += 5 - nPilot.PAtt
-            nPilot.PAtt = 5
+            PMin = nPilot.PAtt
+        Else
+            PMin = 5
         End If
         If nPilot.CAtt < 5 Then
-            Unused += 5 - nPilot.CAtt
-            nPilot.CAtt = 5
+            CMin = nPilot.CAtt
+        Else
+            CMin = 5
         End If
         If nPilot.WAtt < 5 Then
-            Unused += 5 - nPilot.WAtt
-            nPilot.WAtt = 5
+            WMin = nPilot.WAtt
+        Else
+            WMin = 5
         End If
         If nPilot.MAtt < 5 Then
-            Unused += 5 - nPilot.MAtt
-            nPilot.MAtt = 5
+            MMin = nPilot.MAtt
+        Else
+            MMin = 5
         End If
-        ' Now reallocate the unused against larger items
-        Dim available As Integer = 0
-        If Unused > 0 And nPilot.IAtt > 5 Then
-            available = nPilot.IAtt - 5
-            If available >= Unused Then
-                nPilot.IAtt = nPilot.IAtt - Unused
-                Unused = 0
-            Else
-                nPilot.IAtt = 5
-                Unused = Unused - available
-            End If
-        End If
-        If Unused > 0 And nPilot.PAtt > 5 Then
-            available = nPilot.PAtt - 5
-            If available >= Unused Then
-                nPilot.PAtt = nPilot.PAtt - Unused
-                Unused = 0
-            Else
-                nPilot.PAtt = 5
-                Unused = Unused - available
-            End If
-        End If
-        If Unused > 0 And nPilot.CAtt > 5 Then
-            available = nPilot.CAtt - 5
-            If available >= Unused Then
-                nPilot.CAtt = nPilot.CAtt - Unused
-                Unused = 0
-            Else
-                nPilot.CAtt = 5
-                Unused = Unused - available
-            End If
-        End If
-        If Unused > 0 And nPilot.WAtt > 5 Then
-            available = nPilot.WAtt - 5
-            If available >= Unused Then
-                nPilot.WAtt = nPilot.WAtt - Unused
-                Unused = 0
-            Else
-                nPilot.WAtt = 5
-                Unused = Unused - available
-            End If
-        End If
-        If Unused > 0 And nPilot.MAtt > 5 Then
-            available = nPilot.MAtt - 5
-            If available >= Unused Then
-                nPilot.MAtt = nPilot.MAtt - Unused
-                Unused = 0
-            Else
-                nPilot.MAtt = 5
-                Unused = Unused - available
-            End If
-        End If
+
+        ' Set minimums on NUDs
+        nudIBase.Minimum = IMin
+        nudPBase.Minimum = PMin
+        nudCBase.Minimum = CMin
+        nudWBase.Minimum = WMin
+        nudMBase.Minimum = MMin
+
+        ' Check if any base attributes are less than 5 as this is not permitted under the remapping rules
+        'Unused = 0
+        'If nPilot.IAtt < 5 Then
+        '    Unused += 5 - nPilot.IAtt
+        '    nPilot.IAtt = 5
+        'End If
+        'If nPilot.PAtt < 5 Then
+        '    Unused += 5 - nPilot.PAtt
+        '    nPilot.PAtt = 5
+        'End If
+        'If nPilot.CAtt < 5 Then
+        '    Unused += 5 - nPilot.CAtt
+        '    nPilot.CAtt = 5
+        'End If
+        'If nPilot.WAtt < 5 Then
+        '    Unused += 5 - nPilot.WAtt
+        '    nPilot.WAtt = 5
+        'End If
+        'If nPilot.MAtt < 5 Then
+        '    Unused += 5 - nPilot.MAtt
+        '    nPilot.MAtt = 5
+        'End If
+        '' Now reallocate the unused against larger items
+        'Dim available As Integer = 0
+        'If Unused > 0 And nPilot.IAtt > 5 Then
+        '    available = nPilot.IAtt - 5
+        '    If available >= Unused Then
+        '        nPilot.IAtt = nPilot.IAtt - Unused
+        '        Unused = 0
+        '    Else
+        '        nPilot.IAtt = 5
+        '        Unused = Unused - available
+        '    End If
+        'End If
+        'If Unused > 0 And nPilot.PAtt > 5 Then
+        '    available = nPilot.PAtt - 5
+        '    If available >= Unused Then
+        '        nPilot.PAtt = nPilot.PAtt - Unused
+        '        Unused = 0
+        '    Else
+        '        nPilot.PAtt = 5
+        '        Unused = Unused - available
+        '    End If
+        'End If
+        'If Unused > 0 And nPilot.CAtt > 5 Then
+        '    available = nPilot.CAtt - 5
+        '    If available >= Unused Then
+        '        nPilot.CAtt = nPilot.CAtt - Unused
+        '        Unused = 0
+        '    Else
+        '        nPilot.CAtt = 5
+        '        Unused = Unused - available
+        '    End If
+        'End If
+        'If Unused > 0 And nPilot.WAtt > 5 Then
+        '    available = nPilot.WAtt - 5
+        '    If available >= Unused Then
+        '        nPilot.WAtt = nPilot.WAtt - Unused
+        '        Unused = 0
+        '    Else
+        '        nPilot.WAtt = 5
+        '        Unused = Unused - available
+        '    End If
+        'End If
+        'If Unused > 0 And nPilot.MAtt > 5 Then
+        '    available = nPilot.MAtt - 5
+        '    If available >= Unused Then
+        '        nPilot.MAtt = nPilot.MAtt - Unused
+        '        Unused = 0
+        '    Else
+        '        nPilot.MAtt = 5
+        '        Unused = Unused - available
+        '    End If
+        'End If
 
         Call RecalcAttributes()
         Call DisplayAtributes()
+
+        UpdateAllBases = False
+
     End Sub
     Private Sub RecalcAttributes()
         ' Get learning skill details
@@ -270,6 +318,7 @@
             Else
                 lblTimeSaving.Text = "Time Loss: " & EveHQ.Core.SkillFunctions.TimeToString(CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime - SkillQueue.QueueTime, False)
             End If
+            btnOptimise.Enabled = True
         Else
             If Me.IsHandleCreated = True Then
                 lblActiveSkillQueue.Text = "No Queue Selected"
@@ -281,10 +330,10 @@
                 lblActiveQueueTime.Text = ""
                 lblRevisedQueueTime.Text = ""
                 lblTimeSaving.Text = ""
+                btnOptimise.Enabled = False
             End If
         End If
     End Sub
-
 
     Private Sub nudIBase_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudIBase.ValueChanged
         If UpdateAllBases = False Then
@@ -366,39 +415,34 @@
         Dim bestTime As Long = SkillQueue.QueueTime * 2
         Dim calcTime As Long = 0
         Dim count As Long = 0
-        Dim minI As Integer = 5
-        Dim minP As Integer = 5
-        Dim minC As Integer = 5
-        Dim minW As Integer = 5
-        Dim minM As Integer = 5
-        Dim bestI As Integer = 5
-        Dim bestP As Integer = 5
-        Dim bestC As Integer = 5
-        Dim bestW As Integer = 5
-        Dim bestM As Integer = 5
-        Dim MaxAvailable As Integer = 14 ' Maximum distributable points (39-(5x5))
-        Dim maxAtt As Integer = 10 ' Range from 5 to 15
+        Dim bestI As Integer = 0
+        Dim bestP As Integer = 0
+        Dim bestC As Integer = 0
+        Dim bestW As Integer = 0
+        Dim bestM As Integer = 0
+        Dim MaxAvailable As Integer = 14 ' Maximum distributable points (39 - (5 x 5))
+        Dim maxAtt As Integer = 15 ' Max = 15
 
-        For IAtt As Integer = 0 To maxAtt
-            nPilot.IAtt = IAtt + minI
-            For PAtt As Integer = 0 To maxAtt
-                nPilot.PAtt = PAtt + minP
-                For CAtt As Integer = 0 To maxAtt
-                    nPilot.CAtt = CAtt + minC
-                    For WAtt As Integer = 0 To maxAtt
-                        nPilot.WAtt = WAtt + minW
-                        For MAtt As Integer = 0 To maxAtt
-                            nPilot.MAtt = MAtt + minM
-                            If IAtt + PAtt + CAtt + WAtt + MAtt = MaxAvailable Then
+        For IAtt As Integer = IMin To maxAtt
+            nPilot.IAtt = IAtt
+            For PAtt As Integer = PMin To maxAtt
+                nPilot.PAtt = PAtt
+                For CAtt As Integer = CMin To maxAtt
+                    nPilot.CAtt = CAtt
+                    For WAtt As Integer = WMin To maxAtt
+                        nPilot.WAtt = WAtt
+                        For MAtt As Integer = PMin To maxAtt
+                            nPilot.MAtt = MAtt
+                            If IAtt + PAtt + CAtt + WAtt + MAtt = 39 Then
                                 Call RecalcAttributes()
                                 calcTime = EveHQ.Core.SkillQueueFunctions.GetQueueTime(nPilot, CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue))
                                 If calcTime <= bestTime Then
                                     bestTime = calcTime
-                                    bestI = IAtt + minI
-                                    bestP = PAtt + minP
-                                    bestC = CAtt + minC
-                                    bestW = WAtt + minW
-                                    bestM = MAtt + minM
+                                    bestI = IAtt
+                                    bestP = PAtt
+                                    bestC = CAtt
+                                    bestW = WAtt
+                                    bestM = MAtt
                                 End If
                             End If
                         Next
@@ -420,9 +464,7 @@
     End Sub
 
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
-        UpdateAllBases = True
         Call Me.InitialiseForm()
         Call Me.DisplayQueueInfo()
-        UpdateAllBases = False
     End Sub
 End Class
