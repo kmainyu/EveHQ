@@ -356,9 +356,9 @@ Public Class PlugInData
                             cSystem.SecClass = ""
                         End If
                         cSystem.Ice = GetIce(CInt(cSystem.RegionId), cSystem.Security)
-
                         cSystem.Flag = False
                         PlugInData.SystemsID.Add(cSystem.ID.ToString, cSystem)
+                        SystemNameToID.Add(cSystem.Name, cSystem.ID.ToString)
                     Next
                     Return True
                 Else

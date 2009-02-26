@@ -2555,7 +2555,7 @@ Public Class frmMap
                     Dim stationCorp As NPCCorp = CType(PlugInData.NPCCorpList(CInt(cStation.corporationID)), NPCCorp)
                     lblStationCorp.Text = stationCorp.CorpName
                     lblStationFactionLbl.Text = "Faction:"
-                    lblStationFaction.Text = CType(PlugInData.FactionList(stationCorp.factionID), Faction).factionName
+                    lblStationFaction.Text = CType(PlugInData.FactionList(stationCorp.factionID.ToString), Faction).factionName
                     lblStationServices.Text = SetStationServices(CInt(cStation.operationID))
                     Dim SID As Integer = CInt(cStation.stationID)
                     lvagnts.Items.Clear()
@@ -2565,7 +2565,7 @@ Public Class frmMap
                         If SID = xsid Then
                             lvagnts.Items.Add(cAgent.agentName)
                             lvagnts.Items(AgInd).SubItems.Add(stationCorp.CorpName)
-                            lvagnts.Items(AgInd).SubItems.Add(CType(PlugInData.FactionList(stationCorp.factionID), Faction).factionName)
+                            lvagnts.Items(AgInd).SubItems.Add(CType(PlugInData.FactionList(stationCorp.factionID.ToString), Faction).factionName)
                             lvagnts.Items(AgInd).SubItems.Add(CStr(cAgent.Level))
                             lvagnts.Items(AgInd).SubItems.Add(CStr(cAgent.Quality))
                             AgInd = AgInd + 1
