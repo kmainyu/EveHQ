@@ -33,7 +33,7 @@ Partial Class frmMarketPrices
         Me.btnEmpireRegions = New System.Windows.Forms.Button
         Me.btnNullRegions = New System.Windows.Forms.Button
         Me.btnNoRegions = New System.Windows.Forms.Button
-        Me.TabControl1 = New System.Windows.Forms.TabControl
+        Me.tabMarketPrices = New System.Windows.Forms.TabControl
         Me.tabPriceSettings = New System.Windows.Forms.TabPage
         Me.panelPrices = New System.Windows.Forms.Panel
         Me.grpMarketLogWatcher = New System.Windows.Forms.GroupBox
@@ -96,6 +96,7 @@ Partial Class frmMarketPrices
         Me.tabSnapshot = New System.Windows.Forms.TabPage
         Me.panelSnapshot = New System.Windows.Forms.Panel
         Me.gbMarketPrices = New System.Windows.Forms.GroupBox
+        Me.btnResetMarketPriceDate = New System.Windows.Forms.Button
         Me.lblMarketPriceUpdateStatus = New System.Windows.Forms.Label
         Me.btnUpdateMarketPrices = New System.Windows.Forms.Button
         Me.lblMarketPricesBy = New System.Windows.Forms.LinkLabel
@@ -103,6 +104,7 @@ Partial Class frmMarketPrices
         Me.lblLastMarketPriceUpdate = New System.Windows.Forms.Label
         Me.lblLastMarketPriceUpdateLbl = New System.Windows.Forms.Label
         Me.gbFactionPrices = New System.Windows.Forms.GroupBox
+        Me.btnResetFactionPriceData = New System.Windows.Forms.Button
         Me.lblFactionPriceUpdateStatus = New System.Windows.Forms.Label
         Me.btnUpdateFactionPrices = New System.Windows.Forms.Button
         Me.lblFactionPricesBy = New System.Windows.Forms.LinkLabel
@@ -115,9 +117,7 @@ Partial Class frmMarketPrices
         Me.colBasePrice = New System.Windows.Forms.ColumnHeader
         Me.colMarketPrice = New System.Windows.Forms.ColumnHeader
         Me.colCustomPrice = New System.Windows.Forms.ColumnHeader
-        Me.btnResetFactionPriceData = New System.Windows.Forms.Button
-        Me.btnResetMarketPriceDate = New System.Windows.Forms.Button
-        Me.TabControl1.SuspendLayout()
+        Me.tabMarketPrices.SuspendLayout()
         Me.tabPriceSettings.SuspendLayout()
         Me.panelPrices.SuspendLayout()
         Me.grpMarketLogWatcher.SuspendLayout()
@@ -221,20 +221,20 @@ Partial Class frmMarketPrices
         Me.btnNoRegions.Text = "No Regions"
         Me.btnNoRegions.UseVisualStyleBackColor = True
         '
-        'TabControl1
+        'tabMarketPrices
         '
-        Me.TabControl1.Controls.Add(Me.tabPriceSettings)
-        Me.TabControl1.Controls.Add(Me.tabDumps)
-        Me.TabControl1.Controls.Add(Me.tabMarketLogs)
-        Me.TabControl1.Controls.Add(Me.tabCustom)
-        Me.TabControl1.Controls.Add(Me.tabSnapshot)
-        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl1.Location = New System.Drawing.Point(0, 0)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.Padding = New System.Drawing.Point(0, 0)
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(717, 623)
-        Me.TabControl1.TabIndex = 17
+        Me.tabMarketPrices.Controls.Add(Me.tabPriceSettings)
+        Me.tabMarketPrices.Controls.Add(Me.tabDumps)
+        Me.tabMarketPrices.Controls.Add(Me.tabMarketLogs)
+        Me.tabMarketPrices.Controls.Add(Me.tabCustom)
+        Me.tabMarketPrices.Controls.Add(Me.tabSnapshot)
+        Me.tabMarketPrices.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tabMarketPrices.Location = New System.Drawing.Point(0, 0)
+        Me.tabMarketPrices.Name = "tabMarketPrices"
+        Me.tabMarketPrices.Padding = New System.Drawing.Point(0, 0)
+        Me.tabMarketPrices.SelectedIndex = 0
+        Me.tabMarketPrices.Size = New System.Drawing.Size(717, 623)
+        Me.tabMarketPrices.TabIndex = 17
         '
         'tabPriceSettings
         '
@@ -316,11 +316,12 @@ Partial Class frmMarketPrices
         'chkAutoUpdatePriceData
         '
         Me.chkAutoUpdatePriceData.AutoSize = True
+        Me.chkAutoUpdatePriceData.Enabled = False
         Me.chkAutoUpdatePriceData.Location = New System.Drawing.Point(198, 42)
         Me.chkAutoUpdatePriceData.Name = "chkAutoUpdatePriceData"
-        Me.chkAutoUpdatePriceData.Size = New System.Drawing.Size(140, 17)
+        Me.chkAutoUpdatePriceData.Size = New System.Drawing.Size(151, 17)
         Me.chkAutoUpdatePriceData.TabIndex = 28
-        Me.chkAutoUpdatePriceData.Text = "Auto-Update Price Data"
+        Me.chkAutoUpdatePriceData.Text = "Auto-Update Price History"
         Me.chkAutoUpdatePriceData.UseVisualStyleBackColor = True
         '
         'chkNotifyPopup
@@ -713,13 +714,13 @@ Partial Class frmMarketPrices
         '
         Me.ctxMarketExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuViewOrders})
         Me.ctxMarketExport.Name = "ctxPrices"
-        Me.ctxMarketExport.Size = New System.Drawing.Size(155, 26)
+        Me.ctxMarketExport.Size = New System.Drawing.Size(144, 26)
         '
         'mnuViewOrders
         '
         Me.mnuViewOrders.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.mnuViewOrders.Name = "mnuViewOrders"
-        Me.mnuViewOrders.Size = New System.Drawing.Size(154, 22)
+        Me.mnuViewOrders.Size = New System.Drawing.Size(143, 22)
         Me.mnuViewOrders.Text = "View Orders"
         '
         'tabCustom
@@ -873,6 +874,16 @@ Partial Class frmMarketPrices
         Me.gbMarketPrices.TabStop = False
         Me.gbMarketPrices.Text = "Market Prices"
         '
+        'btnResetMarketPriceDate
+        '
+        Me.btnResetMarketPriceDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnResetMarketPriceDate.Location = New System.Drawing.Point(537, 23)
+        Me.btnResetMarketPriceDate.Name = "btnResetMarketPriceDate"
+        Me.btnResetMarketPriceDate.Size = New System.Drawing.Size(150, 23)
+        Me.btnResetMarketPriceDate.TabIndex = 7
+        Me.btnResetMarketPriceDate.Text = "Reset Market Price Date"
+        Me.btnResetMarketPriceDate.UseVisualStyleBackColor = True
+        '
         'lblMarketPriceUpdateStatus
         '
         Me.lblMarketPriceUpdateStatus.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -946,6 +957,16 @@ Partial Class frmMarketPrices
         Me.gbFactionPrices.TabIndex = 0
         Me.gbFactionPrices.TabStop = False
         Me.gbFactionPrices.Text = "Faction Prices"
+        '
+        'btnResetFactionPriceData
+        '
+        Me.btnResetFactionPriceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnResetFactionPriceData.Location = New System.Drawing.Point(537, 23)
+        Me.btnResetFactionPriceData.Name = "btnResetFactionPriceData"
+        Me.btnResetFactionPriceData.Size = New System.Drawing.Size(150, 23)
+        Me.btnResetFactionPriceData.TabIndex = 6
+        Me.btnResetFactionPriceData.Text = "Reset Faction Price Date"
+        Me.btnResetFactionPriceData.UseVisualStyleBackColor = True
         '
         'lblFactionPriceUpdateStatus
         '
@@ -1048,37 +1069,17 @@ Partial Class frmMarketPrices
         Me.colCustomPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colCustomPrice.Width = 120
         '
-        'btnResetFactionPriceData
-        '
-        Me.btnResetFactionPriceData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnResetFactionPriceData.Location = New System.Drawing.Point(537, 23)
-        Me.btnResetFactionPriceData.Name = "btnResetFactionPriceData"
-        Me.btnResetFactionPriceData.Size = New System.Drawing.Size(150, 23)
-        Me.btnResetFactionPriceData.TabIndex = 6
-        Me.btnResetFactionPriceData.Text = "Reset Faction Price Date"
-        Me.btnResetFactionPriceData.UseVisualStyleBackColor = True
-        '
-        'btnResetMarketPriceDate
-        '
-        Me.btnResetMarketPriceDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnResetMarketPriceDate.Location = New System.Drawing.Point(537, 23)
-        Me.btnResetMarketPriceDate.Name = "btnResetMarketPriceDate"
-        Me.btnResetMarketPriceDate.Size = New System.Drawing.Size(150, 23)
-        Me.btnResetMarketPriceDate.TabIndex = 7
-        Me.btnResetMarketPriceDate.Text = "Reset Market Price Date"
-        Me.btnResetMarketPriceDate.UseVisualStyleBackColor = True
-        '
         'frmMarketPrices
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(717, 623)
-        Me.Controls.Add(Me.TabControl1)
+        Me.Controls.Add(Me.tabMarketPrices)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMarketPrices"
         Me.Text = "Market Prices"
-        Me.TabControl1.ResumeLayout(False)
+        Me.tabMarketPrices.ResumeLayout(False)
         Me.tabPriceSettings.ResumeLayout(False)
         Me.panelPrices.ResumeLayout(False)
         Me.grpMarketLogWatcher.ResumeLayout(False)
@@ -1118,7 +1119,7 @@ Partial Class frmMarketPrices
     Friend WithEvents btnEmpireRegions As System.Windows.Forms.Button
     Friend WithEvents btnNullRegions As System.Windows.Forms.Button
     Friend WithEvents btnNoRegions As System.Windows.Forms.Button
-    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents tabMarketPrices As System.Windows.Forms.TabControl
     Friend WithEvents tabDumps As System.Windows.Forms.TabPage
     Friend WithEvents panelECDumps As System.Windows.Forms.Panel
     Friend WithEvents tabPriceSettings As System.Windows.Forms.TabPage

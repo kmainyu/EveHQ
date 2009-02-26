@@ -198,7 +198,7 @@ Public Class frmUpdater
                             newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
                             Dim pbProgress As New ProgressBar
                             pbProgress.Name = newFile.Text
-                            pbProgress.Width = 100
+                            pbProgress.Width = 150
                             pbProgress.Height = 16
                             newFile.SubItems(5).ItemControl = pbProgress
                             'newFile.SubItems(5).Text = "0%"
@@ -227,7 +227,7 @@ Public Class frmUpdater
                         newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
                         Dim pbProgress As New ProgressBar
                         pbProgress.Name = newFile.Text
-                        pbProgress.Width = 100
+                        pbProgress.Width = 150
                         pbProgress.Height = 16
                         newFile.SubItems(5).ItemControl = pbProgress
                         'newFile.SubItems(5).Text = "0%"

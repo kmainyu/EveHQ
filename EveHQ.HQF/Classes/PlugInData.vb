@@ -5,7 +5,6 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
 
-
     Shared MarketGroupData As DataSet
     Shared shipGroupData As DataSet
     Shared shipNameData As DataSet
@@ -13,7 +12,7 @@ Public Class PlugInData
     Shared moduleEffectData As DataSet
     Shared moduleAttributeData As DataSet
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.8.3.245"
+    Shared LastCacheRefresh As String = "1.8.5.365"
 
 #Region "Plug-in Interface Properties and Functions"
 

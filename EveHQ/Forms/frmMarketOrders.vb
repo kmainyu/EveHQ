@@ -318,7 +318,7 @@ Public Class frmMarketOrders
         priceArray.Add(avgAll) : priceArray.Add(medAll) : priceArray.Add(minAll) : priceArray.Add(maxAll)
         typeID = oTypeID : UserPrice = CalculateUserPrice(priceArray)
         lblYourPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-        lblCurrentPrice.Text = FormatNumber(EveHQ.Core.HQ.MarketPriceList(oTypeID.ToString), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        lblCurrentPrice.Text = FormatNumber(EveHQ.Core.DataFunctions.GetPrice(oTypeID.ToString), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Draw the gay graph
         Call Me.DrawGraph(avgAll, stdAll)
@@ -340,7 +340,7 @@ Public Class frmMarketOrders
 
     Private Sub CheckIndustry()
         ' Check for the existence of the CorpHQ plug-in and try and get the standing data
-        Dim PluginName As String = "EveHQ Assets"
+        Dim PluginName As String = "EveHQ Prism"
         Industry = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
         If Industry IsNot Nothing Then
             If Industry.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
@@ -416,13 +416,15 @@ Public Class frmMarketOrders
         Return (m / (s * Math.Sqrt(2 * Math.PI))) * Math.Exp(-1 * (Math.Pow(x - m, 2) / (2 * Math.Pow(s, 2))))
     End Function
 
-    Private Sub btnSetPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetPrice.Click
+    Private Sub btnSetMarketPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetMarketPrice.Click
         ' Store the user's price in the database
         Call EveHQ.Core.DataFunctions.SetMarketPrice(typeID, UserPrice, False)
         lblCurrentPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
     End Sub
 
-    Private Sub frmMarketOrders_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+    Private Sub btnSetCustomPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetCustomPrice.Click
+        ' Store the user's price in the database
+        Call EveHQ.Core.DataFunctions.SetCustomPrice(typeID, UserPrice, False)
+        lblCurrentPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
     End Sub
 End Class

@@ -23,10 +23,10 @@ Public Class frmModifyPrice
         Select Case Me.Tag.ToString
             Case "Add"
                 ' Add the custom price
-                Call EveHQ.Core.DataFunctions.AddCustomPrice(itemID, CDbl(txtNewPrice.Text))
+                Call EveHQ.Core.DataFunctions.AddCustomPrice(itemID, CDbl(txtNewPrice.Text), False)
             Case "Edit"
                 ' Edit the custom price
-                Call EveHQ.Core.DataFunctions.EditCustomPrice(itemID, CDbl(txtNewPrice.Text))
+                Call EveHQ.Core.DataFunctions.EditCustomPrice(itemID, CDbl(txtNewPrice.Text), False)
         End Select
         
         ' Close the form

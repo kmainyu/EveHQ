@@ -71,7 +71,7 @@ Public Class PlugInData
             Call Me.LoadActivities()
             Call Me.LoadStatuses()
             Call Me.LoadPackedVolumes()
-            Call Me.CheckDatabaseTables()
+            'Call Me.CheckDatabaseTables()
             If Me.LoadRefTypes = False Then
                 Return False
                 Exit Function

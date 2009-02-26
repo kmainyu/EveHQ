@@ -23,7 +23,6 @@ Imports System.Text.RegularExpressions
 Imports System.Data
 Imports System.Data.OleDb
 Imports System.Data.Odbc
-Imports MySql.Data.MySqlClient
 Imports System.Data.SqlClient
 Imports System.IO.Compression
 Imports System.Text
@@ -161,11 +160,6 @@ Public Class frmDataConvert
                 userName = txtMSSQLUser.Text
                 password = txtMSSQLPassword.Text
                 SQLSecurity = radMSSQLDatabase.Checked
-            Case 4
-                server = txtMySQLServer.Text
-                userName = txtMySQLUser.Text
-                password = txtMySQLPassword.Text
-                SQLSecurity = False
         End Select
         btnConvert.Enabled = False
         btnCancel.Enabled = True
@@ -259,8 +253,6 @@ Public Class frmDataConvert
                     Call ConvertToSQL(False, totalLines, DataWorker, e)
                 Case 3
                     Call ConvertToSQL(True, totalLines, DataWorker, e)
-                Case 4
-                    Call ConvertToMySQL(totalLines, DataWorker, e)
             End Select
         End If
     End Sub
@@ -809,204 +801,6 @@ Public Class frmDataConvert
     End Sub
 
 #End Region
-#Region "Create MySQL Data"
-    Private Sub ConvertToMySQL(ByVal totallines As Long, ByVal worker As System.ComponentModel.BackgroundWorker, ByVal e As System.ComponentModel.DoWorkEventArgs)
-        Dim dataFiles As System.Collections.ObjectModel.ReadOnlyCollection(Of String)
-        dataFiles = My.Computer.FileSystem.GetFiles(txtSource.Text)
-
-        Try
-            Dim inputFile As String = ""
-            Dim strConn As String
-            If CreateMySQLDB("EveHQ") = False Then Exit Sub
-            strConn = "Data Source=" & server & ";Database=EveHQ;User Id=" & userName & ";Password=" & password & ";"
-            Dim lineCount As Long = 0
-            Dim connection As MySqlConnection
-            connection = New MySqlConnection(strConn)
-            connection.Open()
-            ' Write the table definitions from internal resources
-            Dim tableData As String = My.Resources.dbo_TABLES_MDB
-            ' Alter a couple of the definitions
-            tableData = tableData.Replace("dbo.", "")
-            tableData = tableData.Replace("memo", "text")
-            tableData = tableData.Replace("textry", "memory")
-            Dim command As New MySqlCommand(tableData, connection)
-            command.ExecuteNonQuery()
-
-            For Each inputFile In dataFiles
-                Dim tblName As String = ""
-                Dim keyName As String = ""
-                Dim keyColumn As String = ""
-                Dim inputFileInfo As FileInfo = My.Computer.FileSystem.GetFileInfo(inputFile)
-                Dim fileName As String = inputFileInfo.Name
-                If fileList.Count = 0 Or fileList.Contains(fileName) Then
-                    Dim sr As StreamReader = New StreamReader(inputFile)
-
-                    ' Start main iteration thru files
-                    Do
-                        If worker.CancellationPending = True Then
-                            connection.Close()
-                            e.Cancel = True
-                        Else
-                            ' Get a T-SQL "line"
-                            Dim oline As String = ""
-                            Dim line As String = ""
-                            Do
-                                line &= sr.ReadLine & ControlChars.CrLf
-                            Loop Until line.EndsWith(";" & ControlChars.CrLf) Or sr.EndOfStream = True
-                            lineCount += 1
-                            oline = line
-                            ' Replace the dbo bits of the tables
-                            line = line.Replace("dbo.", "")
-                            line = line.Replace("dbo_", "")
-                            line = line.Replace(".csv", "")
-                            ' Remove the "COMMIT;" bits
-                            line = line.Replace("COMMIT;", "")
-                            line = line.Replace(",True", ",1")
-                            line = line.Replace(",False", ",0")
-                            ' Replace blank entries with "null"
-                            Do While line.Contains(",,") = True
-                                line = line.Replace(",,", ",null,")
-                            Loop
-                            line = line.Replace("'6/13/2007 11:01:00 AM'", "null")
-                            line = line.Replace(",);", ",null);")
-
-                            If line.EndsWith(";" & ControlChars.CrLf) = True And line.StartsWith(ControlChars.CrLf & "INSERT") = True Then
-                                command = New MySqlCommand(line, connection)
-                                command.ExecuteNonQuery()
-                                If Int(lineCount / 1000) = lineCount / 1000 Then
-                                    worker.ReportProgress(CInt(lineCount / totallines * 100))
-                                End If
-                            End If
-                        End If
-                    Loop Until sr.EndOfStream = True
-
-                    GC.Collect()
-                End If
-            Next
-            Call CreateMySQLRelationships(connection)
-            Call AddMySQLRefiningData(connection)
-            Call AddMySQLAttributeGroupColumn(connection)
-            Call CorrectMySQLEveUnits(connection)
-            connection.Close()
-            conversionSuccess = True
-        Catch ex As Exception
-            Dim msg As String = "There was an error converting the data." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "The error was: " & ex.Message
-            MessageBox.Show(msg, "Error Converting to MySQL", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            conversionSuccess = False
-            Exit Sub
-        End Try
-    End Sub
-    Private Function CreateMySQLDB(ByVal dbName As String) As Boolean
-
-        Dim conn As MySqlConnection
-        Dim strConn As String
-        strConn = "Data Source=" & server & ";User Id=" & userName & ";Password=" & password & ";"
-        conn = New MySqlConnection(strConn)
-        Try
-            conn.Open()
-        Catch e As Exception
-            Dim msg As String = "There was an error connecting to the MySQL Server on " & server & "." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "Please ensure the server name, username and password are correct." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "The error was: " & e.Message
-            MessageBox.Show(msg, "Error Connecting to MySQL", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            conversionSuccess = False
-            Return False
-            Exit Function
-        End Try
-        Dim strSQL As String = ""
-        strSQL = "DROP DATABASE IF EXISTS " & dbName & "; CREATE DATABASE " & dbName & ";"
-        Dim cmd As New MySqlCommand(strSQL, conn)
-        cmd.CommandType = CommandType.Text
-        Try
-            cmd.ExecuteNonQuery()
-        Catch e As Exception
-            MessageBox.Show("Error Creating MySQL Database: " & e.Message, "Error Creating MySQL Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            conversionSuccess = False
-            Return False
-            Exit Function
-        Finally
-            cmd.Dispose()
-        End Try
-        conn.Close()
-        Return True
-
-    End Function
-    Private Sub AddMySQLPrimaryKeys(ByVal connection As MySqlConnection)
-
-        Dim strLines() As String = My.Resources.DB_Primary.Split(ControlChars.CrLf)
-        Dim command As MySqlCommand
-        Dim strSQL As String = ""
-        Dim strLinks(1) As String
-        For Each strLine As String In strLines
-            Try
-                strLinks = strLine.Split(",")
-                If strLinks(1).Trim <> "<none>" Then
-                    strSQL = "ALTER TABLE " & strLinks(0).Trim & " ADD PRIMARY KEY (" & strLinks(1).Trim & ");"
-                    command = New MySqlCommand(strSQL, connection)
-                    command.ExecuteNonQuery()
-                End If
-            Catch ex As Exception
-
-            End Try
-        Next
-
-    End Sub
-    Private Sub CreateMySQLRelationships(ByVal connection As MySqlConnection)
-
-        Dim strLines() As String = My.Resources.DB_Links.Split(ControlChars.CrLf)
-        Dim command As MySqlCommand
-        Dim strSQL As String = ""
-        Dim strLinks(3) As String
-        For Each strLine As String In strLines
-            Try
-                strLinks = strLine.Split(",")
-                strSQL = "ALTER TABLE " & strLinks(0).Trim & " ADD FOREIGN KEY (" & strLinks(1).Trim & ") REFERENCES " & strLinks(2).Trim & "(" & strLinks(3).Trim & ");"
-                command = New MySqlCommand(strSQL, connection)
-                command.ExecuteNonQuery()
-            Catch ex As Exception
-
-            End Try
-        Next
-    End Sub
-    Private Sub AddMySQLRefiningData(ByVal connection As MySqlConnection)
-        Dim line As String = My.Resources.materialsForRefining.Replace(ControlChars.CrLf, Chr(13))
-        Dim lines() As String = line.Split(Chr(13))
-        ' Read the first line which is a header line
-        For Each line In lines
-            If line.StartsWith("typeID") = False And line <> "" Then
-                Dim strSQL As String = "INSERT INTO typeActivityMaterials (typeID,activityID,requiredTypeID,quantity,damagePerJob) VALUES(" & line & ");"
-                Dim keyCommand As New MySqlCommand(strSQL, connection)
-                keyCommand.ExecuteNonQuery()
-            End If
-        Next
-    End Sub
-    Private Sub AddMySQLAttributeGroupColumn(ByVal connection As MySqlConnection)
-        Dim strSQL As String = "ALTER TABLE dgmAttributeTypes ADD attributeGroup INTEGER DEFAULT 0;"
-        Dim keyCommand As New MySqlCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-        strSQL = "UPDATE dgmAttributeTypes SET attributeGroup=0;"
-        keyCommand = New MySqlCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-        Dim line As String = My.Resources.attributeGroups.Replace(ControlChars.CrLf, Chr(13))
-        Dim lines() As String = line.Split(Chr(13))
-        ' Read the first line which is a header line
-        For Each line In lines
-            If line.StartsWith("attributeID") = False And line <> "" Then
-                Dim fields() As String = line.Split(",")
-                Dim strSQL2 As String = "UPDATE dgmAttributeTypes SET attributeGroup=" & fields(1) & " WHERE attributeID=" & fields(0) & ";"
-                Dim keyCommand2 As New MySqlCommand(strSQL2, connection)
-                keyCommand2.ExecuteNonQuery()
-            End If
-        Next
-    End Sub
-    Private Sub CorrectMySQLEveUnits(ByVal connection As MySqlConnection)
-        Dim strSQL As String = "UPDATE dgmAttributeTypes SET unitID=122 WHERE unitID IS NULL;"
-        Dim keyCommand As New MySqlCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-    End Sub
-
-#End Region
 
     Private Sub btnMap_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMap.Click
 
@@ -1016,11 +810,6 @@ Public Class frmDataConvert
                 userName = txtMSSQLUser.Text
                 password = txtMSSQLPassword.Text
                 SQLSecurity = radMSSQLDatabase.Checked
-            Case 4
-                server = txtMySQLServer.Text
-                userName = txtMySQLUser.Text
-                password = txtMySQLPassword.Text
-                SQLSecurity = False
         End Select
 
         Dim strTable As String = "CREATE TABLE mapSystemSummary "
@@ -1042,13 +831,13 @@ Public Class frmDataConvert
 
         Dim inputFile As String = ""
         Dim strConn As String
-        Dim command As MySqlCommand
+        Dim command As SqlCommand
         strConn = "Data Source=" & server & ";Database=EveHQ;User Id=" & userName & ";Password=" & password & ";"
-        Dim connection As MySqlConnection
-        connection = New MySqlConnection(strConn)
+        Dim connection As SqlConnection
+        connection = New SqlConnection(strConn)
         connection.Open()
         ' Write the table definition
-        command = New MySqlCommand(strTable, connection)
+        command = New SqlCommand(strTable, connection)
         command.ExecuteNonQuery()
 
         Dim newData As New DataSet
@@ -1103,7 +892,7 @@ Public Class frmDataConvert
             newSQL &= iBelts & ", "
             newSQL &= gates & ", "
             newSQL &= stations & ");"
-            command = New MySqlCommand(newSQL, connection)
+            command = New SqlCommand(newSQL, connection)
             command.ExecuteNonQuery()
         Next
         connection.Close()
@@ -1200,19 +989,6 @@ Public Class frmDataConvert
             sw.Close()
         Next
         MessageBox.Show("CSV Dump Completed!")
-    End Sub
-
-    Private Sub btnAddToMySQL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddToMySQL.Click
-        Dim strConn As String = "Data Source=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=EveHQ;User Id=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Password=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
-        Dim lineCount As Long = 0
-        Dim connection As MySqlConnection
-        connection = New MySqlConnection(strConn)
-        connection.Open()
-        Call AddMySQLRefiningData(connection)
-        Call AddMySQLAttributeGroupColumn(connection)
-        Call CorrectMySQLEveUnits(connection)
-        connection.Close()
-        MessageBox.Show("Additions to MySQL Database Complete")
     End Sub
 
 #Region "File Compression Routines"

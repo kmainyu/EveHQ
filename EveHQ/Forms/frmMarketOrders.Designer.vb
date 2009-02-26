@@ -25,8 +25,7 @@ Partial Class frmMarketOrders
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMarketOrders))
         Me.scOrderData = New System.Windows.Forms.SplitContainer
-        Me.btnAddPricesToData = New System.Windows.Forms.Button
-        Me.btnSetPrice = New System.Windows.Forms.Button
+        Me.btnSetMarketPrice = New System.Windows.Forms.Button
         Me.lblCurrentPrice = New System.Windows.Forms.Label
         Me.lblCurrentPriceLbl = New System.Windows.Forms.Label
         Me.lblYourPrice = New System.Windows.Forms.Label
@@ -85,6 +84,7 @@ Partial Class frmMarketOrders
         Me.ContainerListViewColumnHeader3 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ContainerListViewColumnHeader4 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.lblBuyers = New System.Windows.Forms.Label
+        Me.btnSetCustomPrice = New System.Windows.Forms.Button
         Me.scOrderData.Panel1.SuspendLayout()
         Me.scOrderData.Panel2.SuspendLayout()
         Me.scOrderData.SuspendLayout()
@@ -107,8 +107,8 @@ Partial Class frmMarketOrders
         '
         'scOrderData.Panel1
         '
-        Me.scOrderData.Panel1.Controls.Add(Me.btnAddPricesToData)
-        Me.scOrderData.Panel1.Controls.Add(Me.btnSetPrice)
+        Me.scOrderData.Panel1.Controls.Add(Me.btnSetCustomPrice)
+        Me.scOrderData.Panel1.Controls.Add(Me.btnSetMarketPrice)
         Me.scOrderData.Panel1.Controls.Add(Me.lblCurrentPrice)
         Me.scOrderData.Panel1.Controls.Add(Me.lblCurrentPriceLbl)
         Me.scOrderData.Panel1.Controls.Add(Me.lblYourPrice)
@@ -124,23 +124,14 @@ Partial Class frmMarketOrders
         Me.scOrderData.SplitterDistance = 423
         Me.scOrderData.TabIndex = 0
         '
-        'btnAddPricesToData
+        'btnSetMarketPrice
         '
-        Me.btnAddPricesToData.Location = New System.Drawing.Point(119, 391)
-        Me.btnAddPricesToData.Name = "btnAddPricesToData"
-        Me.btnAddPricesToData.Size = New System.Drawing.Size(100, 23)
-        Me.btnAddPricesToData.TabIndex = 11
-        Me.btnAddPricesToData.Text = "Add Price Data"
-        Me.btnAddPricesToData.UseVisualStyleBackColor = True
-        '
-        'btnSetPrice
-        '
-        Me.btnSetPrice.Location = New System.Drawing.Point(13, 391)
-        Me.btnSetPrice.Name = "btnSetPrice"
-        Me.btnSetPrice.Size = New System.Drawing.Size(100, 23)
-        Me.btnSetPrice.TabIndex = 10
-        Me.btnSetPrice.Text = "Set Price"
-        Me.btnSetPrice.UseVisualStyleBackColor = True
+        Me.btnSetMarketPrice.Location = New System.Drawing.Point(13, 391)
+        Me.btnSetMarketPrice.Name = "btnSetMarketPrice"
+        Me.btnSetMarketPrice.Size = New System.Drawing.Size(100, 23)
+        Me.btnSetMarketPrice.TabIndex = 10
+        Me.btnSetMarketPrice.Text = "Set Market Price"
+        Me.btnSetMarketPrice.UseVisualStyleBackColor = True
         '
         'lblCurrentPrice
         '
@@ -732,6 +723,15 @@ Partial Class frmMarketOrders
         Me.lblBuyers.TabIndex = 3
         Me.lblBuyers.Text = "BUYERS"
         '
+        'btnSetCustomPrice
+        '
+        Me.btnSetCustomPrice.Location = New System.Drawing.Point(119, 391)
+        Me.btnSetCustomPrice.Name = "btnSetCustomPrice"
+        Me.btnSetCustomPrice.Size = New System.Drawing.Size(100, 23)
+        Me.btnSetCustomPrice.TabIndex = 11
+        Me.btnSetCustomPrice.Text = "Set Custom Price"
+        Me.btnSetCustomPrice.UseVisualStyleBackColor = True
+        '
         'frmMarketOrders
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -822,6 +822,6 @@ Partial Class frmMarketOrders
     Friend WithEvents zgcPrices As ZedGraph.ZedGraphControl
     Friend WithEvents lblCurrentPrice As System.Windows.Forms.Label
     Friend WithEvents lblCurrentPriceLbl As System.Windows.Forms.Label
-    Friend WithEvents btnAddPricesToData As System.Windows.Forms.Button
-    Friend WithEvents btnSetPrice As System.Windows.Forms.Button
+    Friend WithEvents btnSetMarketPrice As System.Windows.Forms.Button
+    Friend WithEvents btnSetCustomPrice As System.Windows.Forms.Button
 End Class

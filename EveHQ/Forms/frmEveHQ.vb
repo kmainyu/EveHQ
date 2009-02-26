@@ -2143,8 +2143,6 @@ Public Class frmEveHQ
 
     Private Sub OnMarketLogCreated(ByVal source As Object, ByVal e As FileSystemEventArgs)
         ' Specify what is done when a file is created
-        'Dim wct As WatcherChangeTypes = e.ChangeType
-        'MessageBox.Show("File: " & e.FullPath & ", " & wct.ToString)
         If EveHQMLF.IsHandleCreated = True Then
             Call EveHQMLF.DisplayLogDetails(e.FullPath)
             Call EveHQMLF.ResortLogs()
@@ -2155,7 +2153,7 @@ Public Class frmEveHQ
             Dim USerPrice As Double = CDbl(priceData(12)) : Dim typeID As Long = CLng(priceData(13))
             If EveHQ.Core.HQ.EveHQSettings.MarketLogUpdatePrice = True Then
                 ' Update the market price
-                EveHQ.Core.DataFunctions.SetMarketPrice(typeID, USerPrice, False)
+                EveHQ.Core.DataFunctions.SetCustomPrice(typeID, USerPrice, False)
             End If
             If EveHQ.Core.HQ.EveHQSettings.MarketLogToolTipConfirm = True = True Then
                 iconEveHQMLW.BalloonTipTitle = "Market Export Processing Completed"

@@ -1,6 +1,148 @@
 EveHQ - Version History
 -----------------------
 
+1.8.5.365 (25/02/2009)
+---------
+New Features:
+- Prism: Introducing the new Industry plug-in containing various viewers for wallet, orders and jobs
+- Recycling: Added recycling information into the Prism plug-in
+- Certificates: Added a certificate viewer to the Pilot Info screen together with a new Certificate Details form
+- Certificate Planning: Now you are able to make skill queues to fulfil your certificate targets
+- User Database: A new database will be used to store relevant information from various EveHQ features and plug-ins 
+- Market Prices: New revamp of the market prices system to allow selective download of market prices from Eve-Central
+- Market Log Importer: Import your own Eve market logs into the EveHQ price database
+- MySQL: Support for MySQL has now been dropped due to insufficient usage
+- Plug-in Architecture: Plug-ins provide 2-way communication, allowing for common data and code use
+- Standings Extrapolation: CorpHQ gains the ability to extrapolate standings gains from averages or from an entered history of gains
+- Neural Remapping: Provides details on the best spread of base attributes for your skill queues
+- Implant Benefits: Provides details on the improvements to a current skill queue by adding implants
+
+Fixes and Improvements:
+- Core: Having non-default proxy credentials should work correctly when fetching various files
+- Core: Downloading updates should now work correctly over a proxy
+- Core: Fetching price feeds now checks for proxy settings
+- Core: Market price download time will not update unless there are no errors in the downloads
+- Core: Relabelled several UI elements in the Pilot Screen
+- Core: Added a Database Timeout setting for those on slower machines
+- Core: Fixed crash in G15LCD class when cycling with no pilots
+- Core: Activating G15LCD will now start the cycle timer if applicable
+- Core: Activating the G15LCD cycle timer now correctly starts the cycle timer
+- Core: Deactivating the G15LCD cycle timer now correctly stops the cycle timer
+- Core: Activating the G15LCD reports an error if it can't be started
+- Core: Startup now displays a warning if the G15LCD cannot be started
+- Core: Fixed casing of API request URL
+- Core: Fixed various errors with starting external processes (i.e. web browsers)
+- Core: Training status panel now sorted by training end time
+- Core: Fixed repeated opening of SQL Server connections without closing
+- Core: Added certificates to the dependancies section of the Skill Details form
+- Core: Eve Settings Backup now reports the correct section in settings to enter in Eve Folder locations
+- Core: Eve Settings Backup now takes you to the correct section if requested by the user
+- Core: Fixed manual pilots triggering API updates when Auto-API update is enabled
+- Core: Altered method of saving EveHQ settings
+- Core: Removed old code relating to the import of characters via a web browser
+- Core: Removed the Mineral Costs from settings
+- Core: Fixed layout of certain tabs padding on the Pilot Info screen
+- Core: Old plug-ins now handled better by the startup routine
+- Core: Added checkbox to API Checker form to request the return of a cached XML file
+- Core: Slight cosmetic changes to the splash screen
+- Core: Fixed WalletTransaction APIs in the EveAPI class
+- Core: EveAPI now replaces cache timers on APIs that CCP can't get right
+- Core: Removed limit of 2 downloads from EveAPI class
+- CorpHQ: Warning message for invalid cache folder now indicates which Eve folder this is referring to
+- CorpHQ: A warning message will now be displayed if there are no cache files at all
+- CorpHQ: Decimal precision can now be modified by the user and tandings now displayed at the required precision
+- CorpHQ: Fixed an issue deleting the Eve cache (machonet) folder
+- CorpHQ: Added a new context menu to the standings list for extrapolating standings
+- CorpHQ: Starting the plug-in will select a default standings owner if available
+- CorpHQ: Fixed bug in Plug-in description that would allow multiple copies to open
+- CorpHQ: Added a checkbox for selecting whether to use Base or Actual standings
+- CorpHQ: Get Standings routine will now search the protocol directories and get the latest version before parsing standings
+- HQF: Fixed crash when right-clicking on empty slot
+- HQF: Fixed crash caused when you don't have the skills for a relevant skill in a module/charge/drone
+- HQF: Fixed pirate implants giving incorrect set bonuses
+- HQF: Fixed tanking calculation of remote modules on the remote ship
+- HQF: Fixed mix-up of Role and Per-Level bonuses on Catalyst, Scythe, Vigilant and Vindicator
+- HQF: Added checks to ensure skills exist in ship roles in the context menu
+- HQF: Fixed damage multiplier of Siege Modules
+- HQF: Items in the Siege module group can now be made inactive
+- HQF: Shield ganglinks now stacking penalised
+- HQF: Damnation now only applies warfare link bonus to armor links
+- HQF: Fixed correct warfare link bonuses on Fleet Command ships
+- HQF: Fixed hybrid damage implants not working on blasters
+- HQF: Fixed projectile damage implants not working on autocannons
+- HQF: Fixed energy damage implants not working on beam lasers
+- HQF: Fixed crash caused by bringing up the Bay context menu with no items selected
+- HQF: Cargo bay context menu no longer appears if no item selected
+- HQF: Relevant skills item of Bay context menu will not show if selecting a cargo item after a drone item
+- HQF: Armor ganglinks now stacking penalised
+- HQF: Info ganglinks now stacking penalised
+- HQF: Armor rig velocity penalty now subject to stacking
+- HQF: Shield HP implant now also affects shield extenders
+- HQF: Shield warfare skill/implant now affect shield extenders
+- HQF: Reordered calculation of fleet and gang modules
+- HQF: Armor HP implant now also affects armor plates
+- HQF: Armor warfare skill/implant now affect armor plates
+- HQF: Adding or removing a remote fitting will automatically update the list of available modules
+- HQF: Added a "<None>" fitting to the available fleet ships
+- HQF: Changing implant sets now updates the entire slot control
+- HQF: Fixed potential crash in the UpdateSlotLayout routine
+- HQF: Added an Active checkbox to each of the 3 gang boosters
+- HQF: Removed stacking penalty from Trimark Armor Pumps
+- HQF: ShowInfo form now non-modal and multiple instances permitted
+- HQF: Pilot Manager form now non-modal and can be minimised
+- HQF: Altering a skill/implant now updates the open fittings where the relevant pilot is selected
+- HQF: Resetting an individual skill to it's default now resets the node colour
+- HQF: The display of the Modified Skills label in Pilot Manager now works correctly
+- HQF: Altered fittings context menu so that multiple fittings can be deleted at once
+- HQF: Fixed warp scrambler range bonus on the Ares
+- HQF: Fixed bug where module list was still disabled after viewing favourites/recents that had no items
+- HQF: Searching modules now reports if there are no matches rather than just blank
+- HQF: Capacitor label should now not state "Training Complete" instead of zero
+- HQF: Fixed ECCM modules capacitor use being affected by Triage module
+- HQF: Fixed layout of certain tabs on the ShipSlotControl
+- HQF: Fixed armor resist bonus on the Vengeance
+- HQF: Fixed crash in SlotControl when right-clicking drones after previously removing another batch
+- HQF: Fixed clipboard errors fetching data for import
+- HQF: Fixed fighter bonus on Nidhoggur using Amarr Carrier skill
+- HQF: Fixed bonuses on Crusader using Gallente Frigate skill
+- HQF: Armor resistance plating now modified by armor compensation skills
+- HQF: Fixed Armor HP Bonus on Armor Coatings
+- HQF: Mindlinks no longer affect the ship attributes if not in a gang
+- HQF: Projected ECCM added to remote effects
+- HQF: Fixed Energized Regenerative Membranes not giving armor HP bonus
+- HQF: Slave/LG Slave now affect armor plates
+- HQF: Fixed issue with cache rebuild due to typo in the Implant data
+- InEve: Removed InEve plug-in and now brought in to the main application under the Tools menu
+- Item Browser: Fixed various proxy issues
+- Map: Fixed crash caused when trying to set an End system without a Start system
+- Map: Added new toolbar and button for updating API data
+- Map: Removed a lot of duplicate data, resulting in smaller cache files and smaller memory usage (saves around 50Mb)
+- Map: Improved error messages on data building
+- Map: Fixed some startup errors where finished routines were not returning a successful flag
+- Map: Added cache refresh options into the plug-in initialisation code
+- Prism: Fixed asset reports crashing on encountering an item that isn't in the database
+- Prism: Changed margin profit in the Rig Builder to be GP%
+- Prism: Added the ability to add rigs to a build list, either manually or automatically
+- Prism: Fixed errors in rounding between reports and asset view
+- Prism: Modified context menu opening routine to correctly display menu items
+- Prism: Recycler will now attempt to get standings from the CorpHQ plugin
+- Prism: Prevented duplicate keys being adding when fetching ISK balances
+- Prism: Main asset view is now multi-select enabled
+- Prism: Added MetaLevel and Volume columns to the asset view
+- Prism: Packed ships now show their correct volumes
+- Prism: Closing an investment now keeps the investment closed
+- Prism: Added facility to reopen a closed investment
+- Prism: Removed the old API History listview from the API Status tab
+- Prism: Fixed control docking in API Status tab
+- Prism: Redesigned API Status tab to show multiple API types within a row
+- Prism: API download is now multithreaded, preventing the plug-in from locking up
+- Prism: Fixed docking of controls in the Filters tab
+- Prism: Fixed assets views from reporting incorrect info when using filters
+- Prism: Fixed parsing of API values for use in non-English cultures
+- Prism: Overhauled UI to allow for the new features
+- Prism: Fixed Add and Remove Filter options from the asset filter
+
+
 1.8.3.232 (19/12/2008)
 ---------
 New Features:

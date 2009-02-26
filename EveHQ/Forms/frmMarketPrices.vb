@@ -363,6 +363,9 @@ Public Class frmMarketPrices
 
     Private Sub frmMarketPrices_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        ' Remove the EC Dumps tab
+        tabMarketPrices.TabPages.Remove(tabDumps)
+
         startUp = True
 
         ' Check for the market cache folder
