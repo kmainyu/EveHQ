@@ -57,6 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssetItem.vb" />
+    <Compile Include="frmSelectItem.Designer.vb">
+      <DependentUpon>frmSelectItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectItem.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmAddInvestment.Designer.vb">
       <DependentUpon>frmAddInvestment.vb</DependentUpon>
     </Compile>
@@ -81,10 +87,10 @@
     <Compile Include="frmModifyPrice.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRecycleAssets.Designer.vb">
-      <DependentUpon>frmRecycleAssets.vb</DependentUpon>
+    <Compile Include="frmSelectQuantity.Designer.vb">
+      <DependentUpon>frmSelectQuantity.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmRecycleAssets.vb">
+    <Compile Include="frmSelectQuantity.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Investment.vb" />
@@ -108,6 +114,9 @@
     <Compile Include="SolarSystem.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmSelectItem.resx">
+      <DependentUpon>frmSelectItem.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAddInvestment.resx">
       <DependentUpon>frmAddInvestment.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -124,8 +133,8 @@
       <DependentUpon>frmModifyPrice.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmRecycleAssets.resx">
-      <DependentUpon>frmRecycleAssets.vb</DependentUpon>
+    <EmbeddedResource Include="frmSelectQuantity.resx">
+      <DependentUpon>frmSelectQuantity.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

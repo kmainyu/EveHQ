@@ -274,14 +274,9 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Data.Access.Components.2.8"
-                    {
-                    "Name" = "8:Microsoft Data Access Components 2.8"
-                    "ProductCode" = "8:Microsoft.Data.Access.Components.2.8"
-                    }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.2.0"
                     {
-                    "Name" = "8:.NET Framework 2.0"
+                    "Name" = "8:.NET Framework 2.0 (x86)"
                     "ProductCode" = "8:Microsoft.Net.Framework.2.0"
                     }
                 }
@@ -583,7 +578,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EveHQ"
         "ProductCode" = "8:{562394A1-0812-41C5-9C60-B12C58C93AD6}"
-        "PackageCode" = "8:{93C0E235-1245-4C5A-BB93-BC21139F6EBA}"
+        "PackageCode" = "8:{A295C06D-BF4D-4AC7-9185-233C5D930188}"
         "UpgradeCode" = "8:{5EBB0328-70C2-4A58-A4AC-225419B25E51}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
