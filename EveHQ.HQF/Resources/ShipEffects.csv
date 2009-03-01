@@ -855,7 +855,7 @@
 28659,0,0,1045,2,650,0,0,0,100,15,Tractor Beam Velocity
 28659,0,0,54,2,650,0,0,0,100,15,Tractor Beam Range
 # Panther,,,,,,,,,,,
-22440,1,3337,10013,4,576;579,0,1,0,-25,15,Large Projectile Turret ROF
+22440,1,3337,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
 22440,1,3337,10016,4,576;579,0,1,0,5,15,Large Projectile Turret Damage
 22440,1,28656,37,1,22440,0,1,0,5,15,Max Velocity
 22440,1,28656,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus

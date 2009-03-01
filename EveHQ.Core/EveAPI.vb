@@ -234,13 +234,18 @@ Public Class EveAPI
         Dim errlist As XmlNodeList
         If My.Computer.FileSystem.FileExists(fileLoc) = True Then
             ' Check cache time of file
-            APIXML.Load(fileLoc)
+            Dim failedCacheLoad As Boolean = False
+            Try
+                APIXML.Load(fileLoc)
+            Catch e As Exception
+                failedCacheLoad = True
+            End Try
             ' Get Cache time details
             Dim cacheDetails As XmlNodeList = APIXML.SelectNodes("/eveapi")
             Dim cacheTime As DateTime = CDate(cacheDetails(0).ChildNodes(2).InnerText)
             Dim localCacheTime As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cacheTime)
             ' Has Cache expired?
-            If localCacheTime > Now Or ReturnMethod = APIReturnMethod.ReturnCacheOnly = True Then
+            If (localCacheTime > Now Or ReturnMethod = APIReturnMethod.ReturnCacheOnly = True) And failedCacheLoad = False Then
                 '  Cache has not expired or a request to return cached version- return existing XML
                 cLastAPIResult = APIResults.ReturnedCached
                 Return APIXML

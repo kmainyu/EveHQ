@@ -5,21 +5,21 @@
 		<file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-			<version>1.8.5.369</version>
+			<version>1.8.5.373</version>
 			<requires></requires>
 			<description>EveHQ Executable</description>
 		</file>
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-			<version>1.8.5.369</version>
+			<version>1.8.5.373</version>
 			<requires></requires>
 			<description>EveHQ Core Library</description>
 		</file>
 		<file>
 			<name>EveHQ.CoreControls.dll</name>
 			<type>Required</type>
-			<version>1.8.5.369</version>
+			<version>1.8.5.373</version>
 			<requires></requires>
 			<description>EveHQ Controls Library</description>
 		</file>
@@ -40,50 +40,50 @@
 		<file>
 			<name>EveHQ.CorpHQ.dll</name>
 			<type>Plug-in</type>
-			<version>1.8.5.369</version>
-			<requires>1.8.5.369</requires>
+			<version>1.8.5.373</version>
+			<requires>1.8.5.373</requires>
 			<description>Corp Management Plug-in</description>
 		</file>
 		<file>
 			<name>EveHQ.Creation.dll</name>
 			<type>Plug-in</type>
-			<version>1.8.5.369</version>
-			<requires>1.8.5.369</requires>
+			<version>1.8.5.373</version>
+			<requires>1.8.5.373</requires>
 			<description>Character Creation Plug-in</description>
 		</file>
 		<file_t>
 			<name>EveHQ.DataConverter.dll</name>
 			<type>Plug-in</type>
-			<version>1.8.5.369</version>
-			<requires>1.8.5.369</requires>
+			<version>1.8.5.373</version>
+			<requires>1.8.5.373</requires>
 			<description>Data Converter Plug-in</description>
 		</file_t>
 		<file>
 			<name>EveHQ.ItemBrowser.dll</name>
 			<type>Plug-in</type>
-			<version>1.8.5.369</version>
-			<requires>1.8.5.369</requires>
+			<version>1.8.5.373</version>
+			<requires>1.8.5.373</requires>
 			<description>Item Browser Plug-in</description>
 		</file>
 		<file>
 			<name>EveHQ.Map.dll</name>
 			<type>Plug-in</type>
-			<version>1.8.5.369</version>
-			<requires>1.8.5.369</requires>
+			<version>1.8.5.373</version>
+			<requires>1.8.5.373</requires>
 			<description>Map and Routing Plug-in</description>
 		</file>
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-			<version>1.8.5.369</version>
-			<requires>1.8.5.369</requires>
+			<version>1.8.5.373</version>
+			<requires>1.8.5.373</requires>
 			<description>Ship Fitting Plug-in</description>
 		</file>
     <file>
       <name>EveHQ.Prism.dll</name>
       <type>Plug-in</type>
-      <version>1.8.5.369</version>
-      <requires>1.8.5.369</requires>
+      <version>1.8.5.373</version>
+      <requires>1.8.5.373</requires>
       <description>Science and Industry Plug-in</description>
     </file>
 	</files>

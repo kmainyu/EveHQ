@@ -66,7 +66,9 @@ Public Class frmPilotManager
         ' Add the current list of pilots to the combobox
         cboPilots.Items.Clear()
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            cboPilots.Items.Add(cPilot.Name)
+            If cPilot.Active = True Then
+                cboPilots.Items.Add(cPilot.Name)
+            End If
         Next
 
         ' Set the list to the pilot name (or the first item if pilotname is blank)

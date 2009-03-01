@@ -74,6 +74,12 @@
     <Compile Include="Forms\frmAddDamageProfile.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmBCBrowser.Designer.vb">
+      <DependentUpon>frmBCBrowser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmBCBrowser.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmDamageProfiles.Designer.vb">
       <DependentUpon>frmDamageProfiles.vb</DependentUpon>
     </Compile>
@@ -220,6 +226,9 @@
     <EmbeddedResource Include="Forms\frmAddDamageProfile.resx">
       <DependentUpon>frmAddDamageProfile.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBCBrowser.resx">
+      <DependentUpon>frmBCBrowser.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDamageProfiles.resx">
       <DependentUpon>frmDamageProfiles.vb</DependentUpon>
@@ -393,6 +402,7 @@
     <None Include="Resources\Level3.jpg" />
     <None Include="Resources\Level4.jpg" />
     <None Include="Resources\Level5.jpg" />
+    <None Include="Resources\BC.ico" />
     <Content Include="_Changelog.txt" />
   </ItemGroup>
   <ItemGroup>

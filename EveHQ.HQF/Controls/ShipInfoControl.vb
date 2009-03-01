@@ -322,12 +322,14 @@ Public Class ShipInfoControl
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            cboPilots.Items.Add(cPilot.Name)
+            If cPilot.Active = True Then
+                cboPilots.Items.Add(cPilot.Name)
+            End If
         Next
         cboPilots.EndUpdate()
         ' Look at the settings for default pilot
         If cboPilots.Items.Count > 0 Then
-            If HQF.Settings.HQFSettings.DefaultPilot <> "" Then
+            If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
                 cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
             Else
                 cboPilots.SelectedIndex = 0
@@ -343,21 +345,23 @@ Public Class ShipInfoControl
     End Sub
 
     Public Sub UpdateImplantList()
-        cboImplants.Tag = "Updating"
-        Dim oldImplants As String
-        Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
-        oldImplants = shipPilot.ImplantName(0)
-        cboImplants.BeginUpdate()
-        cboImplants.Items.Clear()
-        cboImplants.Items.Add("*Custom*")
-        For Each cImplantSet As String In HQF.Implants.implantGroups.Keys
-            cboImplants.Items.Add(cImplantSet)
-        Next
-        If cboImplants.Items.Contains(oldImplants) Then
-            cboImplants.SelectedItem = oldImplants
+        If cboPilots.SelectedItem IsNot Nothing Then
+            cboImplants.Tag = "Updating"
+            Dim oldImplants As String
+            Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+            oldImplants = shipPilot.ImplantName(0)
+            cboImplants.BeginUpdate()
+            cboImplants.Items.Clear()
+            cboImplants.Items.Add("*Custom*")
+            For Each cImplantSet As String In HQF.Implants.implantGroups.Keys
+                cboImplants.Items.Add(cImplantSet)
+            Next
+            If cboImplants.Items.Contains(oldImplants) Then
+                cboImplants.SelectedItem = oldImplants
+            End If
+            cboImplants.EndUpdate()
+            cboImplants.Tag = Nothing
         End If
-        cboImplants.EndUpdate()
-        cboImplants.Tag = Nothing
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged

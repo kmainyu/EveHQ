@@ -998,6 +998,10 @@ Public Class frmEveHQ
         If frmNeuralRemap.IsHandleCreated = True Then
             frmNeuralRemap.PilotName = curPilot
         End If
+        ' See if the Implants form is open
+        If frmImplants.IsHandleCreated = True Then
+            frmImplants.PilotName = curPilot
+        End If
     End Sub
 
     Private Sub mnuReportOpenfolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportOpenfolder.Click
@@ -2117,18 +2121,22 @@ Public Class frmEveHQ
         ' Clear the list of watchers, just in case
         Call Me.CancelWatchers()
         Dim MLFolder As String = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\logs\Marketlogs\"
-        Dim emeFSW As New FileSystemWatcher
-        emeFSW = New FileSystemWatcher
-        emeFSW.Path = MLFolder
-        emeFSW.IncludeSubdirectories = True
-        emeFSW.NotifyFilter = (NotifyFilters.LastAccess Or NotifyFilters.LastWrite Or NotifyFilters.FileName Or NotifyFilters.DirectoryName)
-        emeFSW.Filter = "*.txt"
-        AddHandler emeFSW.Created, AddressOf OnMarketLogCreated
-        emeFSW.EnableRaisingEvents = True
-        EveHQMLW.Add(MLFolder, emeFSW)
-        Me.iconEveHQMLW.Text = "EveHQ Market Export - Awaiting exports..."
-        Me.iconEveHQMLW.Visible = True
-        Return True
+        If My.Computer.FileSystem.DirectoryExists(MLFolder) = True Then
+            Dim emeFSW As New FileSystemWatcher
+            emeFSW = New FileSystemWatcher
+            emeFSW.Path = MLFolder
+            emeFSW.IncludeSubdirectories = True
+            emeFSW.NotifyFilter = (NotifyFilters.LastAccess Or NotifyFilters.LastWrite Or NotifyFilters.FileName Or NotifyFilters.DirectoryName)
+            emeFSW.Filter = "*.txt"
+            AddHandler emeFSW.Created, AddressOf OnMarketLogCreated
+            emeFSW.EnableRaisingEvents = True
+            EveHQMLW.Add(MLFolder, emeFSW)
+            Me.iconEveHQMLW.Text = "EveHQ Market Export - Awaiting exports..."
+            Me.iconEveHQMLW.Visible = True
+            Return True
+        Else
+            Return False
+        End If
     End Function
 
     Public Sub CancelWatchers()

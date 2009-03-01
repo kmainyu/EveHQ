@@ -153,39 +153,42 @@ Public Class frmPrism
 
         ' Get a list of Pilot and Corps
         For Each selpilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            If selpilot.Account <> "" Then
-                If lvwCurrentAPIs.Items.ContainsKey(selpilot.ID) = False Then
-                    Dim newOwner As New ListViewItem
-                    newOwner.UseItemStyleForSubItems = False
-                    newOwner.Name = selpilot.ID
-                    newOwner.Text = selpilot.Name
-                    newOwner.SubItems.Add("Character")
-                    For si As Integer = 2 To 8
-                        newOwner.SubItems.Add("")
-                    Next
-                    newOwner.SubItems(8).Text = "n/a"
-                    lvwCurrentAPIs.Items.Add(newOwner)
-                    loadedOwners.Add(selpilot.Name, selpilot)
-                    cboOwner.Items.Add(selpilot.Name)
-                    Dim newChar As New ListViewItem(selpilot.Name, lvwCharFilter.Groups.Item("grpPersonal"))
-                    lvwCharFilter.Items.Add(newChar)
-                End If
-                If lvwCurrentAPIs.Items.ContainsKey(selpilot.CorpID) = False Then
-                    If PlugInData.NPCCorps.Contains(selpilot.CorpID) = False Then
+            If selpilot.Active = True Then
+                If selpilot.Account <> "" Then
+                    If lvwCurrentAPIs.Items.ContainsKey(selpilot.ID) = False Then
                         Dim newOwner As New ListViewItem
                         newOwner.UseItemStyleForSubItems = False
-                        newOwner.Name = selpilot.CorpID
-                        newOwner.Text = selpilot.Corp
-                        newOwner.SubItems.Add("Corporation")
+                        newOwner.Name = selpilot.ID
+                        newOwner.Text = selpilot.Name
+                        newOwner.SubItems.Add("Character")
                         For si As Integer = 2 To 8
                             newOwner.SubItems.Add("")
                         Next
+                        newOwner.SubItems(8).Text = "n/a"
                         lvwCurrentAPIs.Items.Add(newOwner)
-                        Dim newChar As New ListViewItem(selpilot.Corp, lvwCharFilter.Groups.Item("grpCorporation"))
-                        If loadedOwners.Contains(selpilot.Corp) = False Then
-                            loadedOwners.Add(selpilot.Corp, selpilot)
-                            cboOwner.Items.Add(selpilot.Corp)
-                            lvwCharFilter.Items.Add(newChar)
+                        loadedOwners.Add(selpilot.Name, selpilot)
+                        cboOwner.Items.Add(selpilot.Name)
+                        cboRecyclePilots.Items.Add(selpilot.Name)
+                        Dim newChar As New ListViewItem(selpilot.Name, lvwCharFilter.Groups.Item("grpPersonal"))
+                        lvwCharFilter.Items.Add(newChar)
+                    End If
+                    If lvwCurrentAPIs.Items.ContainsKey(selpilot.CorpID) = False Then
+                        If PlugInData.NPCCorps.Contains(selpilot.CorpID) = False Then
+                            Dim newOwner As New ListViewItem
+                            newOwner.UseItemStyleForSubItems = False
+                            newOwner.Name = selpilot.CorpID
+                            newOwner.Text = selpilot.Corp
+                            newOwner.SubItems.Add("Corporation")
+                            For si As Integer = 2 To 8
+                                newOwner.SubItems.Add("")
+                            Next
+                            lvwCurrentAPIs.Items.Add(newOwner)
+                            Dim newChar As New ListViewItem(selpilot.Corp, lvwCharFilter.Groups.Item("grpCorporation"))
+                            If loadedOwners.Contains(selpilot.Corp) = False Then
+                                loadedOwners.Add(selpilot.Corp, selpilot)
+                                cboOwner.Items.Add(selpilot.Corp)
+                                lvwCharFilter.Items.Add(newChar)
+                            End If
                         End If
                     End If
                 End If
@@ -193,62 +196,64 @@ Public Class frmPrism
         Next
 
         For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+            If selPilot.Active = True Then
+                Dim accountName As String = selPilot.Account
+                If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
+                    Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
-                ' Check for char assets
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, 1)
-                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 2)
+                    ' Check for char assets
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, 1)
+                    Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 2)
 
-                ' Check for corp assets
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, 1)
-                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 2)
+                    ' Check for corp assets
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, 1)
+                    Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 2)
 
-                ' Check for char balances
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, 1)
-                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 3)
+                    ' Check for char balances
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, 1)
+                    Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 3)
 
-                ' Check for corp balances
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, 1)
-                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 3)
+                    ' Check for corp balances
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, 1)
+                    Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 3)
 
-                ' Check for char jobs
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, 1)
-                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 4)
+                    ' Check for char jobs
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, 1)
+                    Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 4)
 
-                ' Check for corp jobs
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, 1)
-                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 4)
+                    ' Check for corp jobs
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, 1)
+                    Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 4)
 
-                ' Check for char journal
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000, "", 1)
-                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 5)
+                    ' Check for char journal
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000, "", 1)
+                    Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 5)
 
-                ' Check for corp journal
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, 1000, "", 1)
-                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 5)
+                    ' Check for corp journal
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, 1000, "", 1)
+                    Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 5)
 
-                ' Check for char orders
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, 1)
-                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 6)
+                    ' Check for char orders
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, 1)
+                    Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 6)
 
-                ' Check for corp orders
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, 1)
-                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 6)
+                    ' Check for corp orders
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, 1)
+                    Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 6)
 
-                ' Check for char transactions
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, "", 1)
-                Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 7)
+                    ' Check for char transactions
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, "", 1)
+                    Call CheckXML(apiXML, selPilot.ID, selPilot.Name, 7)
 
-                ' Check for corp transactions
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, 1000, "", 1)
-                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 7)
+                    ' Check for corp transactions
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, 1000, "", 1)
+                    Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 7)
 
-                ' Check for corp sheets
-                apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, 1)
-                Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 8)
+                    ' Check for corp sheets
+                    apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, 1)
+                    Call CheckXML(apiXML, selPilot.CorpID, selPilot.Name, 8)
 
+                End If
             End If
         Next
         lvwCurrentAPIs.EndUpdate()
@@ -555,251 +560,6 @@ Public Class frmPrism
                 ' Update the dipsplay
                 Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 8})
 
-            End If
-        Next
-    End Sub
-
-    Private Sub GetAssets()
-        lvwCurrentAPIs.Items.Clear()
-        lvwCharFilter.BeginUpdate()
-        lvwCharFilter.Items.Clear()
-        loadedOwners.Clear()
-        cboOwner.Items.Clear()
-        Call Me.GetCharacterAssets()
-        Call Me.GetCorporateAssets()
-        Call Me.GetCorporateSheet()
-        Call Me.GetCharIsk()
-        Call Me.GetCorpIsk()
-        lvwCharFilter.EndUpdate()
-        MessageBox.Show("Download of Assets complete. Please check the API Status for any error messages.", "Download Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-    End Sub
-    Private Sub GetCharacterAssets()
-        ' Get Individual Assets
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-
-                ' Make a call to the EveHQ.Core.API to fetch the assets
-                Dim assetXML As New XmlDocument
-                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, 0)
-
-                ' Setup the Assets table for a response
-                Dim newAsset As New ListViewItem
-                newAsset.Text = selPilot.Name
-                newAsset.Name = "CharAssets_" & selPilot.Name
-                newAsset.SubItems.Add("Char Assets")
-                newAsset.Group = lvwCharFilter.Groups("grpPersonal")
-
-                ' Check response string for any error codes?
-                If assetXML IsNot Nothing Then
-                    Dim errlist As XmlNodeList = assetXML.SelectNodes("/eveapi/error")
-                    If errlist.Count <> 0 Then
-                        Dim errNode As XmlNode = errlist(0)
-                        ' Get error code
-                        Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                        Dim errMsg As String = errNode.InnerText
-                        newAsset.ForeColor = Drawing.Color.Red
-                        newAsset.SubItems.Add(errMsg)
-                        newAsset.SubItems.Add(Format(CacheDate(assetXML), "dd/MM/yyyy HH:MM:ss"))
-                    Else
-                        newAsset.ForeColor = Drawing.Color.Green
-                        newAsset.SubItems.Add("Loaded")
-                        newAsset.SubItems.Add(Format(CacheDate(assetXML), "dd/MM/yyyy HH:MM:ss"))
-                        loadedOwners.Add(selPilot.Name, selPilot)
-                        cboOwner.Items.Add(selPilot.Name)
-                        Dim newChar As New ListViewItem(selPilot.Name, lvwCharFilter.Groups.Item("grpPersonal"))
-                        lvwCharFilter.Items.Add(newChar)
-                    End If
-                Else
-                    newAsset.ForeColor = Drawing.Color.Red
-                    newAsset.SubItems.Add("Could not reach API Server (no cached file)")
-                    newAsset.SubItems.Add("n/a")
-                End If
-                lvwCurrentAPIs.Items.Add(newAsset)
-                lvwCurrentAPIs.Refresh()
-            End If
-        Next
-    End Sub
-    Private Sub GetCorporateAssets()
-        ' Get Corp Assets
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-
-                ' Make a call to the EveHQ.Core.API to fetch the assets
-                Dim assetXML As New XmlDocument
-                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, 0)
-
-                ' Setup the Assets table for a response
-                Dim newAsset As New ListViewItem
-                newAsset.Text = selPilot.Corp & " (" & selPilot.Name & ")"
-                newAsset.Name = "CorpAssets_" & selPilot.Corp
-                newAsset.SubItems.Add("Corp Assets")
-                newAsset.Group = lvwCharFilter.Groups("grpCorporation")
-
-                ' Check response string for any error codes?
-                If assetXML IsNot Nothing Then
-                    Dim errlist As XmlNodeList = assetXML.SelectNodes("/eveapi/error")
-                    If errlist.Count <> 0 Then
-                        Dim errNode As XmlNode = errlist(0)
-                        ' Get error code
-                        Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                        Dim errMsg As String = errNode.InnerText
-                        newAsset.ForeColor = Drawing.Color.Red
-                        newAsset.SubItems.Add(errMsg)
-                        newAsset.SubItems.Add(Format(CacheDate(assetXML), "dd/MM/yyyy HH:MM:ss"))
-                    Else
-                        newAsset.ForeColor = Drawing.Color.Green
-                        newAsset.SubItems.Add("Loaded")
-                        newAsset.SubItems.Add(Format(CacheDate(assetXML), "dd/MM/yyyy HH:MM:ss"))
-                        Dim newChar As New ListViewItem(selPilot.Corp, lvwCharFilter.Groups.Item("grpCorporation"))
-                        If loadedOwners.Contains(selPilot.Corp) = False Then
-                            loadedOwners.Add(selPilot.Corp, selPilot)
-                            cboOwner.Items.Add(selPilot.Corp)
-                            lvwCharFilter.Items.Add(newChar)
-                        End If
-                    End If
-                Else
-                    newAsset.ForeColor = Drawing.Color.Red
-                    newAsset.SubItems.Add("Could not reach API Server (no cached file)")
-                    newAsset.SubItems.Add("n/a")
-                End If
-                lvwCurrentAPIs.Items.Add(newAsset)
-                lvwCurrentAPIs.Refresh()
-            End If
-        Next
-    End Sub
-    Private Sub GetCorporateSheet()
-        ' Get Corp Sheet For Account/Hangar Divisions
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-
-                ' Make a call to the EveHQ.Core.API to fetch the corp sheet
-                Dim corpXML As New XmlDocument
-                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, 0)
-
-                ' Setup the Assets table for a response
-                Dim newAPI As New ListViewItem
-                newAPI.Text = selPilot.Corp & " (" & selPilot.Name & ")"
-                newAPI.Name = "CorpSheet_" & selPilot.Corp
-                newAPI.SubItems.Add("Corp Sheet")
-                newAPI.Group = lvwCharFilter.Groups("grpCorporation")
-
-                ' Check response string for any error codes?
-                If corpXML IsNot Nothing Then
-                    Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                    If errlist.Count <> 0 Then
-                        Dim errNode As XmlNode = errlist(0)
-                        ' Get error code
-                        Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                        Dim errMsg As String = errNode.InnerText
-                        newAPI.ForeColor = Drawing.Color.Red
-                        newAPI.SubItems.Add(errMsg)
-                        newAPI.SubItems.Add(Format(CacheDate(corpXML), "dd/MM/yyyy HH:MM:ss"))
-                    Else
-                        newAPI.ForeColor = Drawing.Color.Green
-                        newAPI.SubItems.Add("Loaded")
-                        newAPI.SubItems.Add(Format(CacheDate(corpXML), "dd/MM/yyyy HH:MM:ss"))
-                    End If
-                Else
-                    newAPI.ForeColor = Drawing.Color.Red
-                    newAPI.SubItems.Add("Could not reach API Server (no cached file)")
-                    newAPI.SubItems.Add("n/a")
-                End If
-                lvwCurrentAPIs.Items.Add(newAPI)
-                lvwCurrentAPIs.Refresh()
-            End If
-        Next
-    End Sub
-    Private Sub GetCharIsk()
-        ' Get Corp Sheet For Account/Hangar Divisions
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-
-                ' Make a call to the EveHQ.Core.API to fetch the corp sheet
-                Dim charXML As New XmlDocument
-                charXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, 0)
-
-                ' Setup the Assets table for a response
-                Dim newAPI As New ListViewItem
-                newAPI.Text = selPilot.Name
-                newAPI.Name = "CharBalances_" & selPilot.Name
-                newAPI.SubItems.Add("Char Balances")
-                newAPI.Group = lvwCharFilter.Groups("grpCorporation")
-
-                ' Check response string for any error codes?
-                If charXML IsNot Nothing Then
-                    Dim errlist As XmlNodeList = charXML.SelectNodes("/eveapi/error")
-                    If errlist.Count <> 0 Then
-                        Dim errNode As XmlNode = errlist(0)
-                        ' Get error code
-                        Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                        Dim errMsg As String = errNode.InnerText
-                        newAPI.ForeColor = Drawing.Color.Red
-                        newAPI.SubItems.Add(errMsg)
-                        newAPI.SubItems.Add(Format(CacheDate(charXML), "dd/MM/yyyy HH:MM:ss"))
-                    Else
-                        newAPI.ForeColor = Drawing.Color.Green
-                        newAPI.SubItems.Add("Loaded")
-                        newAPI.SubItems.Add(Format(CacheDate(charXML), "dd/MM/yyyy HH:MM:ss"))
-                    End If
-                Else
-                    newAPI.ForeColor = Drawing.Color.Red
-                    newAPI.SubItems.Add("Could not reach API Server (no cached file)")
-                    newAPI.SubItems.Add("n/a")
-                End If
-                lvwCurrentAPIs.Items.Add(newAPI)
-                lvwCurrentAPIs.Refresh()
-            End If
-        Next
-    End Sub
-    Private Sub GetCorpIsk()
-        ' Get Corp Sheet For Account/Hangar Divisions
-        For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-
-                ' Make a call to the EveHQ.Core.API to fetch the corp sheet
-                Dim corpXML As New XmlDocument
-                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, 0)
-
-                ' Setup the Assets table for a response
-                Dim newAPI As New ListViewItem
-                newAPI.Text = selPilot.Corp & " (" & selPilot.Name & ")"
-                newAPI.Name = "CorpBalances_" & selPilot.Corp
-                newAPI.SubItems.Add("Corp Balances")
-                newAPI.Group = lvwCharFilter.Groups("grpCorporation")
-
-                ' Check response string for any error codes?
-                If corpXML IsNot Nothing Then
-                    Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                    If errlist.Count <> 0 Then
-                        Dim errNode As XmlNode = errlist(0)
-                        ' Get error code
-                        Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                        Dim errMsg As String = errNode.InnerText
-                        newAPI.ForeColor = Drawing.Color.Red
-                        newAPI.SubItems.Add(errMsg)
-                        newAPI.SubItems.Add(Format(CacheDate(corpXML), "dd/MM/yyyy HH:MM:ss"))
-                    Else
-                        newAPI.ForeColor = Drawing.Color.Green
-                        newAPI.SubItems.Add("Loaded")
-                        newAPI.SubItems.Add(Format(CacheDate(corpXML), "dd/MM/yyyy HH:MM:ss"))
-                    End If
-                Else
-                    newAPI.ForeColor = Drawing.Color.Red
-                    newAPI.SubItems.Add("Could not reach API Server (no cached file)")
-                    newAPI.SubItems.Add("n/a")
-                End If
-                lvwCurrentAPIs.Items.Add(newAPI)
-                lvwCurrentAPIs.Refresh()
             End If
         Next
     End Sub
@@ -3784,7 +3544,7 @@ Public Class frmPrism
                             Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
                             Dim itemName As String = CType(PlugInData.Items(itemID), Prism.ItemData).Name
                             sOrder.Text = itemName
-                            Dim quantity As Double = CDbl(Order.Attributes.GetNamedItem("volRemaining").Value)
+                            Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
                             sOrder.SubItems(1).Text = FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                             Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Number, culture)
                             sOrder.SubItems(2).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -3809,7 +3569,7 @@ Public Class frmPrism
                             Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
                             Dim itemName As String = CType(PlugInData.Items(itemID), Prism.ItemData).Name
                             bOrder.Text = itemName
-                            Dim quantity As Double = CDbl(Order.Attributes.GetNamedItem("volRemaining").Value)
+                            Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
                             bOrder.SubItems(1).Text = FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                             Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Number, culture)
                             bOrder.SubItems(2).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -3826,7 +3586,7 @@ Public Class frmPrism
                                 Case Is > 0, Is < 32767
                                     bOrder.SubItems(4).Text = Order.Attributes.GetNamedItem("range").Value & " Jumps"
                             End Select
-                            bOrder.SubItems(5).Text = FormatNumber(CDbl(Order.Attributes.GetNamedItem("minVolume").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            bOrder.SubItems(5).Text = FormatNumber(Double.Parse(Order.Attributes.GetNamedItem("minVolume").Value, culture), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                             Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
                             Dim orderExpires As TimeSpan = issueDate - Now
                             orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
@@ -3837,7 +3597,7 @@ Public Class frmPrism
                                 bOrder.SubItems(6).Text = EveHQ.Core.SkillFunctions.TimeToString(orderExpires.TotalSeconds, False)
                             End If
                             buyTotal = buyTotal + quantity * price
-                            TotalEscrow = TotalEscrow + CDbl(Order.Attributes.GetNamedItem("escrow").Value)
+                            TotalEscrow = TotalEscrow + Double.Parse(Order.Attributes.GetNamedItem("escrow").Value, culture)
                             TotalOrders = TotalOrders + 1
                         End If
                     End If
@@ -4463,10 +4223,10 @@ Public Class frmPrism
         End With
 
         ' Load the characters into the combobox
-        cboPilots.Items.Clear()
+        cboRecyclePilots.Items.Clear()
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Active = True Then
-                cboPilots.Items.Add(cPilot.Name)
+                cboRecyclePilots.Items.Add(cPilot.Name)
             End If
         Next
 
@@ -4505,10 +4265,14 @@ Public Class frmPrism
         End If
 
         ' Set the pilot to the recycling one
-        If cboPilots.Items.Contains(RecyclerAssetOwner) Then
-            cboPilots.SelectedItem = RecyclerAssetOwner
+        If cboRecyclePilots.Items.Contains(RecyclerAssetOwner) Then
+            cboRecyclePilots.SelectedItem = RecyclerAssetOwner
         Else
-            cboPilots.SelectedIndex = 0
+            If cboRecyclePilots.Items.Contains(cboOwner.SelectedItem.ToString) Then
+                cboRecyclePilots.SelectedItem = cboOwner.SelectedItem.ToString
+            Else
+                cboRecyclePilots.SelectedIndex = 0
+            End If
         End If
 
         ' Set the recycling mode
@@ -4534,7 +4298,7 @@ Public Class frmPrism
         Dim RecycleResults As New SortedList
         Dim RecycleWaste As New SortedList
         Dim RecycleTake As New SortedList
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
         For Each asset As String In RecyclerAssetList.Keys
             itemInfo = CType(PlugInData.Items(asset), ItemData)
             If itemInfo.Category = 25 Then
@@ -4664,8 +4428,8 @@ Public Class frmPrism
         clvTotals.EndUpdate()
     End Sub
 
-    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboRecyclePilots.SelectedIndexChanged
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
         If chkPerfectRefine.Checked = True Then
             NetYield = 1
         Else
@@ -4716,7 +4480,7 @@ Public Class frmPrism
             BaseYield = StationYield
         End If
         lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
         NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
         lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         Call Me.RecalcRecycling()
@@ -4726,7 +4490,7 @@ Public Class frmPrism
         If chkOverrideBaseYield.Checked = True Then
             BaseYield = CDbl(nudBaseYield.Value) / 100
             lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
             lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
             Call Me.RecalcRecycling()
@@ -4767,7 +4531,7 @@ Public Class frmPrism
         If chkPerfectRefine.Checked = True Then
             NetYield = 1
         Else
-            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
         End If
         lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
@@ -4788,8 +4552,19 @@ Public Class frmPrism
                 If chkPerfectRefine.Checked = True Then
                     NetYield = 1
                 Else
-                    Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
-                    NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+                    Dim rPilot As New EveHQ.Core.Pilot
+                    If cboRecyclePilots.SelectedItem IsNot Nothing Then
+                        rPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+                        NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+                    Else
+                        If cboRecyclePilots.Items.Count > 0 Then
+                            cboRecyclePilots.SelectedIndex = 0
+                            rPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+                            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+                        Else
+                            NetYield = 0
+                        End If
+                    End If
                 End If
                 lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
                 If chkOverrideStandings.Checked = True Then
@@ -4806,31 +4581,31 @@ Public Class frmPrism
                 chkPerfectRefine.Enabled = True
                 nudBaseYield.Enabled = True
                 nudStandings.Enabled = True
-                cboPilots.Enabled = True
+                cboRecyclePilots.Enabled = True
             Case 1 ' Refining Array
-                BaseYield = 0.35
-                NetYield = 0.35
-                lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                lblStandings.Text = FormatNumber(10, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                chkOverrideBaseYield.Enabled = False
-                chkOverrideStandings.Enabled = False
-                chkPerfectRefine.Enabled = False
-                nudBaseYield.Enabled = False
-                nudStandings.Enabled = False
-                cboPilots.Enabled = False
+                    BaseYield = 0.35
+                    NetYield = 0.35
+                    lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                    lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                    lblStandings.Text = FormatNumber(10, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    chkOverrideBaseYield.Enabled = False
+                    chkOverrideStandings.Enabled = False
+                    chkPerfectRefine.Enabled = False
+                    nudBaseYield.Enabled = False
+                    nudStandings.Enabled = False
+                    cboRecyclePilots.Enabled = False
             Case 2 ' Intensive Refining Array
-                BaseYield = 0.75
-                NetYield = 0.75
-                lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                lblStandings.Text = FormatNumber(10, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                chkOverrideBaseYield.Enabled = False
-                chkOverrideStandings.Enabled = False
-                chkPerfectRefine.Enabled = False
-                nudBaseYield.Enabled = False
-                nudStandings.Enabled = False
-                cboPilots.Enabled = False
+                    BaseYield = 0.75
+                    NetYield = 0.75
+                    lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                    lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                    lblStandings.Text = FormatNumber(10, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    chkOverrideBaseYield.Enabled = False
+                    chkOverrideStandings.Enabled = False
+                    chkPerfectRefine.Enabled = False
+                    nudBaseYield.Enabled = False
+                    nudStandings.Enabled = False
+                    cboRecyclePilots.Enabled = False
         End Select
         Call Me.RecalcRecycling()
     End Sub

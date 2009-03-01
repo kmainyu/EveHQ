@@ -364,6 +364,13 @@ Public Class frmHQF
         Dim selShip As Ship = CType(ShipLists.shipList(shipName), Ship)
         Call DisplayShipPreview(selShip)
     End Sub
+    Private Sub mnuBattleClinicBrowser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBattleClinicBrowser.Click
+        Dim shipName As String = mnuShipBrowserShipName.Text
+        Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship)
+        Dim BCB As New frmBCBrowser
+        BCB.ShipType = bShip
+        BCB.Show()
+    End Sub
     Private Sub DisplayShipPreview(ByVal selShip As Ship)
         pbShip.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/shiptypes/128_128/" & selShip.ID & ".png"
         lblShipType.Text = selShip.Name
@@ -417,6 +424,10 @@ Public Class frmHQF
         End If
         ' Bring the Preview tab to the front
         tabHQF.SelectedTab = tabShipPreview
+
+    End Sub
+    Private Sub DisplayBCBrowser(ByVal bShip As Ship)
+        Dim URI As String = "http://www.battleclinic.com/eve_online/ship_loadout_feed.php?typeID=" & bShip.ID
 
     End Sub
     Private Sub CreateNewFitting(ByVal shipName As String)
@@ -1102,7 +1113,9 @@ Public Class frmHQF
             End If
         Next
         Me.Cursor = Cursors.Default
-        currentShipInfo.BuildMethod = BuildType.BuildEffectsMaps
+        If currentShipInfo IsNot Nothing Then
+            currentShipInfo.BuildMethod = BuildType.BuildEffectsMaps
+        End If
         HQFEvents.StartUpdateModuleList = True
     End Sub
 
@@ -2206,4 +2219,6 @@ Public Class frmHQF
         myEFTImport = Nothing
         Call Me.UpdateFittingsTree()
     End Sub
+
+    
 End Class

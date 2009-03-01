@@ -2,7 +2,7 @@
 #Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Calc Type,State,IsGang,Group,Implant Name
 1083,1,21606,265,3,6,0,0,0,Armor,Akemon's Modified 'Noble' ZET5000
 1083,1,13209,265,3,6,0,0,1,Armor,Armored Warfare Mindlink
-884,1,13209,833,1,20069;20409;22227,0,0,1,Gang,Armored Warfare Mindlink
+884,1,13209,833,1,20069;20409;22227,0,0,0,Gang,Armored Warfare Mindlink
 548,1,20121,68,2,40,0,0,0,Shield;Learning,Crystal Alpha
 548,1,20157,68,2,40,0,0,0,Shield;Learning,Crystal Beta
 548,1,20159,68,2,40,0,0,0,Shield;Learning,Crystal Delta
@@ -98,9 +98,9 @@
 312,1,27070,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Hardwiring - Inherent Implants 'Noble' ZET10
 312,1,13258,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Hardwiring - Inherent Implants 'Noble' ZET100
 312,1,19547,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Hardwiring - Inherent Implants 'Noble' ZET1000
-317,1,27071,6,4,1057;1058;1059,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET20
-317,1,17871,6,4,1057;1058;1059,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET200
-317,1,19548,6,4,1057;1058;1059,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET2000
+317,1,27071,6,2,325,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET20
+317,1,17871,6,2,325,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET200
+317,1,19548,6,2,325,0,0,0,Armor,Hardwiring - Inherent Implants 'Noble' ZET2000
 327,1,27072,9,3,6,0,0,0,Hull,Hardwiring - Inherent Implants 'Noble' ZET30
 327,1,13257,9,3,6,0,0,0,Hull,Hardwiring - Inherent Implants 'Noble' ZET300
 327,1,19549,9,3,6,0,0,0,Hull,Hardwiring - Inherent Implants 'Noble' ZET3000
@@ -272,7 +272,7 @@
 317,1,27214,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX500
 1083,1,22760,265,3,6,0,0,0,Armor,Imperial Special Ops Field Enhancer - Standard
 309,1,21889,76,3,6,0,0,1,Electronics,Information Warfare Mindlink
-884,1,21889,833,1,20406;20405;11052,0,0,1,Gang,Information Warfare Mindlink
+884,1,21889,833,1,20406;20405;11052,0,0,0,Gang,Information Warfare Mindlink
 #,1,,,,,,0,0,Learning,#Limited Cybernetic Subprocessor
 #,1,,,,,,0,0,Learning,#Limited Cybernetic Subprocessor - Beta
 #,1,,,,,,0,0,Learning,#Limited Memory Augmentation
@@ -355,7 +355,7 @@
 #,1,,,,,,0,0,Learning,#Memory Augmentation - Standard
 434,1,20700,77,4,1039;464;1040,0,0,0,Industry,Michi's Excavation Augmentor
 434,1,22559,77,2,54;464;483,0,0,1,Industry,Mining Foreman Mindlink
-884,1,22559,833,1,22553;22555;22557,0,0,1,Gang,Mining Foreman Mindlink
+884,1,22559,833,1,22553;22555;22557,0,0,0,Gang,Mining Foreman Mindlink
 #,1,,,,,,0,0,Learning,#Neural Boost - Advanced
 #,1,,,,,,0,0,Learning,#Neural Boost - Basic
 #,1,,,,,,0,0,Learning,#Neural Boost - Elite
@@ -373,9 +373,9 @@
 1084,1,22715,37,3,6,0,0,0,Navigation,Republic Special Ops Field Enhancer - Gamma
 1076,1,24669,37,3,6,0,0,0,Navigation,Shaqil's Speed Enhancer
 337,1,21888,263,3,6,0,0,1,Shield,Siege Warfare Mindlink
-884,1,21888,833,1,20124;22228;20514,0,0,1,Gang,Siege Warfare Mindlink
+884,1,21888,833,1,20124;22228;20514,0,0,0,Gang,Siege Warfare Mindlink
 315,1,21890,37,3,6,0,0,1,Navigation,Skirmish Warfare Mindlink
-884,1,21890,833,2,20070;11017;20408,0,0,1,Gang,Skirmish Warfare Mindlink
+884,1,21890,833,2,20070;11017;20408,0,0,0,Gang,Skirmish Warfare Mindlink
 335,1,20499,265,3,6,0,0,0,Armor;Learning,Slave Alpha
 335,1,20499,1159,2,329,0,0,0,Armor;Learning,Slave Alpha
 335,1,20501,265,3,6,0,0,0,Armor;Learning,Slave Beta

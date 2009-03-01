@@ -2052,6 +2052,9 @@ Public Class frmTraining
         If frmNeuralRemap.IsHandleCreated = True Then
             frmNeuralRemap.QueueName = activeQueueName
         End If
+        If frmImplants.IsHandleCreated = True Then
+            frmImplants.QueueName = activeQueueName
+        End If
     End Sub
 
     Private Sub lvQueues_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvQueues.Click

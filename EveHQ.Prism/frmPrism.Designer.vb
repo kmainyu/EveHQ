@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.tlvAssets = New DotNetLib.Windows.Forms.ContainerListView
         Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -249,7 +249,7 @@ Partial Class frmPrism
         Me.lblNetYieldLbl = New System.Windows.Forms.Label
         Me.lblBaseYieldLbl = New System.Windows.Forms.Label
         Me.chkPerfectRefine = New System.Windows.Forms.CheckBox
-        Me.cboPilots = New System.Windows.Forms.ComboBox
+        Me.cboRecyclePilots = New System.Windows.Forms.ComboBox
         Me.lblPilot = New System.Windows.Forms.Label
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.tabItems = New System.Windows.Forms.TabPage
@@ -261,6 +261,12 @@ Partial Class frmPrism
         Me.colItemPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colTotalPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colRefinePrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ctxRecycleItems = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuAddRecycleItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ctxRecycleItem = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuAlterRecycleQuantity = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuRemoveRecycleItem = New System.Windows.Forms.ToolStripMenuItem
         Me.tabTotals = New System.Windows.Forms.TabPage
         Me.clvTotals = New DotNetLib.Windows.Forms.ContainerListView
         Me.colMaterial = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -275,43 +281,27 @@ Partial Class frmPrism
         Me.tssLabelSelectedAssetsLabel = New System.Windows.Forms.ToolStripStatusLabel
         Me.tssLabelSelectedAssets = New System.Windows.Forms.ToolStripStatusLabel
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip
+        Me.tsbDownloadData = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.lblOwner = New System.Windows.Forms.ToolStripLabel
         Me.cboOwner = New System.Windows.Forms.ToolStripComboBox
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
-        Me.ctxRecycleItem = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuAlterRecycleQuantity = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuRemoveRecycleItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.tsbDownloadData = New System.Windows.Forms.ToolStripButton
         Me.tsbAssets = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbInvestments = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbRigBuilder = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbOrders = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbTransactions = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbJournal = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbJobs = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbRecycle = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbReports = New System.Windows.Forms.ToolStripSplitButton
         Me.mnuLocation = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetLists = New System.Windows.Forms.ToolStripMenuItem
@@ -325,8 +315,18 @@ Partial Class frmPrism
         Me.mnuAssetListValue = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueA = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetListValueD = New System.Windows.Forms.ToolStripMenuItem
-        Me.ctxRecycleItems = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuAddRecycleItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -352,11 +352,11 @@ Partial Class frmPrism
         CType(Me.nudBaseYield, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl1.SuspendLayout()
         Me.tabItems.SuspendLayout()
+        Me.ctxRecycleItems.SuspendLayout()
+        Me.ctxRecycleItem.SuspendLayout()
         Me.tabTotals.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.ctxRecycleItem.SuspendLayout()
-        Me.ctxRecycleItems.SuspendLayout()
         Me.SuspendLayout()
         '
         'tlvAssets
@@ -943,11 +943,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup3.Header = "Corporation"
-        ListViewGroup3.Name = "grpCorporation"
-        ListViewGroup4.Header = "Personal"
-        ListViewGroup4.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Corporation"
+        ListViewGroup1.Name = "grpCorporation"
+        ListViewGroup2.Header = "Personal"
+        ListViewGroup2.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -2341,7 +2341,7 @@ Partial Class frmPrism
         Me.tabRecycle.Controls.Add(Me.lblNetYieldLbl)
         Me.tabRecycle.Controls.Add(Me.lblBaseYieldLbl)
         Me.tabRecycle.Controls.Add(Me.chkPerfectRefine)
-        Me.tabRecycle.Controls.Add(Me.cboPilots)
+        Me.tabRecycle.Controls.Add(Me.cboRecyclePilots)
         Me.tabRecycle.Controls.Add(Me.lblPilot)
         Me.tabRecycle.Controls.Add(Me.TabControl1)
         Me.tabRecycle.Location = New System.Drawing.Point(4, 22)
@@ -2365,9 +2365,9 @@ Partial Class frmPrism
         Me.lblVolume.AutoSize = True
         Me.lblVolume.Location = New System.Drawing.Point(63, 78)
         Me.lblVolume.Name = "lblVolume"
-        Me.lblVolume.Size = New System.Drawing.Size(45, 13)
+        Me.lblVolume.Size = New System.Drawing.Size(29, 13)
         Me.lblVolume.TabIndex = 51
-        Me.lblVolume.Text = "0.00 m³"
+        Me.lblVolume.Text = "0 m³"
         '
         'lblItemsLbl
         '
@@ -2486,36 +2486,36 @@ Partial Class frmPrism
         Me.lblBaseYield.AutoSize = True
         Me.lblBaseYield.Location = New System.Drawing.Point(577, 60)
         Me.lblBaseYield.Name = "lblBaseYield"
-        Me.lblBaseYield.Size = New System.Drawing.Size(40, 13)
+        Me.lblBaseYield.Size = New System.Drawing.Size(24, 13)
         Me.lblBaseYield.TabIndex = 38
-        Me.lblBaseYield.Text = "0.00%"
+        Me.lblBaseYield.Text = "0%"
         '
         'lblNetYield
         '
         Me.lblNetYield.AutoSize = True
         Me.lblNetYield.Location = New System.Drawing.Point(577, 73)
         Me.lblNetYield.Name = "lblNetYield"
-        Me.lblNetYield.Size = New System.Drawing.Size(40, 13)
+        Me.lblNetYield.Size = New System.Drawing.Size(24, 13)
         Me.lblNetYield.TabIndex = 37
-        Me.lblNetYield.Text = "0.00%"
+        Me.lblNetYield.Text = "0%"
         '
         'lblStandings
         '
         Me.lblStandings.AutoSize = True
         Me.lblStandings.Location = New System.Drawing.Point(577, 86)
         Me.lblStandings.Name = "lblStandings"
-        Me.lblStandings.Size = New System.Drawing.Size(29, 13)
+        Me.lblStandings.Size = New System.Drawing.Size(13, 13)
         Me.lblStandings.TabIndex = 36
-        Me.lblStandings.Text = "0.00"
+        Me.lblStandings.Text = "0"
         '
         'lblStationTake
         '
         Me.lblStationTake.AutoSize = True
         Me.lblStationTake.Location = New System.Drawing.Point(577, 99)
         Me.lblStationTake.Name = "lblStationTake"
-        Me.lblStationTake.Size = New System.Drawing.Size(40, 13)
+        Me.lblStationTake.Size = New System.Drawing.Size(24, 13)
         Me.lblStationTake.TabIndex = 35
-        Me.lblStationTake.Text = "0.00%"
+        Me.lblStationTake.Text = "0%"
         '
         'lblStationTakeLbl
         '
@@ -2563,14 +2563,15 @@ Partial Class frmPrism
         Me.chkPerfectRefine.Text = "Perfect Refine"
         Me.chkPerfectRefine.UseVisualStyleBackColor = True
         '
-        'cboPilots
+        'cboRecyclePilots
         '
-        Me.cboPilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboPilots.FormattingEnabled = True
-        Me.cboPilots.Location = New System.Drawing.Point(48, 44)
-        Me.cboPilots.Name = "cboPilots"
-        Me.cboPilots.Size = New System.Drawing.Size(165, 21)
-        Me.cboPilots.TabIndex = 29
+        Me.cboRecyclePilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboRecyclePilots.FormattingEnabled = True
+        Me.cboRecyclePilots.Location = New System.Drawing.Point(48, 44)
+        Me.cboRecyclePilots.Name = "cboRecyclePilots"
+        Me.cboRecyclePilots.Size = New System.Drawing.Size(165, 21)
+        Me.cboRecyclePilots.Sorted = True
+        Me.cboRecyclePilots.TabIndex = 29
         '
         'lblPilot
         '
@@ -2684,6 +2685,41 @@ Partial Class frmPrism
         Me.colRefinePrice.Tag = Nothing
         Me.colRefinePrice.Text = "Refine Price"
         Me.colRefinePrice.Width = 100
+        '
+        'ctxRecycleItems
+        '
+        Me.ctxRecycleItems.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddRecycleItem})
+        Me.ctxRecycleItems.Name = "ctxRecycleItem"
+        Me.ctxRecycleItems.Size = New System.Drawing.Size(124, 26)
+        '
+        'mnuAddRecycleItem
+        '
+        Me.mnuAddRecycleItem.Name = "mnuAddRecycleItem"
+        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(123, 22)
+        Me.mnuAddRecycleItem.Text = "Add Item"
+        '
+        'ctxRecycleItem
+        '
+        Me.ctxRecycleItem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAlterRecycleQuantity, Me.ToolStripMenuItem2, Me.mnuRemoveRecycleItem})
+        Me.ctxRecycleItem.Name = "ctxRecycleItem"
+        Me.ctxRecycleItem.Size = New System.Drawing.Size(149, 54)
+        '
+        'mnuAlterRecycleQuantity
+        '
+        Me.mnuAlterRecycleQuantity.Name = "mnuAlterRecycleQuantity"
+        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(148, 22)
+        Me.mnuAlterRecycleQuantity.Text = "Alter Quantity"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(145, 6)
+        '
+        'mnuRemoveRecycleItem
+        '
+        Me.mnuRemoveRecycleItem.Name = "mnuRemoveRecycleItem"
+        Me.mnuRemoveRecycleItem.Size = New System.Drawing.Size(148, 22)
+        Me.mnuRemoveRecycleItem.Text = "Remove Item"
         '
         'tabTotals
         '
@@ -2812,6 +2848,15 @@ Partial Class frmPrism
         Me.ToolStrip1.TabIndex = 16
         Me.ToolStrip1.Text = "ToolStrip1"
         '
+        'tsbDownloadData
+        '
+        Me.tsbDownloadData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbDownloadData.Image = CType(resources.GetObject("tsbDownloadData.Image"), System.Drawing.Image)
+        Me.tsbDownloadData.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbDownloadData.Name = "tsbDownloadData"
+        Me.tsbDownloadData.Size = New System.Drawing.Size(113, 22)
+        Me.tsbDownloadData.Text = "Download API Data"
+        '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
@@ -2836,146 +2881,6 @@ Partial Class frmPrism
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
         '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripSeparator5
-        '
-        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripSeparator6
-        '
-        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripSeparator7
-        '
-        Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
-        Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripSeparator8
-        '
-        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripSeparator9
-        '
-        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
-        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripSeparator10
-        '
-        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
-        Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 25)
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Type"
-        Me.ColumnHeader1.Width = 222
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.Text = "Quantity"
-        Me.ColumnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader2.Width = 67
-        '
-        'ColumnHeader3
-        '
-        Me.ColumnHeader3.Text = "Price"
-        Me.ColumnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader3.Width = 104
-        '
-        'ColumnHeader4
-        '
-        Me.ColumnHeader4.Text = "Location"
-        Me.ColumnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader4.Width = 194
-        '
-        'ColumnHeader5
-        '
-        Me.ColumnHeader5.Text = "Range"
-        Me.ColumnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader5.Width = 51
-        '
-        'ColumnHeader6
-        '
-        Me.ColumnHeader6.Text = "Min Volume"
-        Me.ColumnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'ColumnHeader7
-        '
-        Me.ColumnHeader7.Text = "Expires In"
-        Me.ColumnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'ColumnHeader8
-        '
-        Me.ColumnHeader8.Text = "Type"
-        Me.ColumnHeader8.Width = 219
-        '
-        'ColumnHeader9
-        '
-        Me.ColumnHeader9.Text = "Quantity"
-        Me.ColumnHeader9.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader9.Width = 65
-        '
-        'ColumnHeader10
-        '
-        Me.ColumnHeader10.Text = "Price"
-        Me.ColumnHeader10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader10.Width = 107
-        '
-        'ColumnHeader11
-        '
-        Me.ColumnHeader11.Text = "Location"
-        Me.ColumnHeader11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader11.Width = 188
-        '
-        'ColumnHeader12
-        '
-        Me.ColumnHeader12.Text = "Expires In"
-        Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader12.Width = 119
-        '
-        'ctxRecycleItem
-        '
-        Me.ctxRecycleItem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAlterRecycleQuantity, Me.ToolStripMenuItem2, Me.mnuRemoveRecycleItem})
-        Me.ctxRecycleItem.Name = "ctxRecycleItem"
-        Me.ctxRecycleItem.Size = New System.Drawing.Size(149, 54)
-        '
-        'mnuAlterRecycleQuantity
-        '
-        Me.mnuAlterRecycleQuantity.Name = "mnuAlterRecycleQuantity"
-        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(148, 22)
-        Me.mnuAlterRecycleQuantity.Text = "Alter Quantity"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(145, 6)
-        '
-        'mnuRemoveRecycleItem
-        '
-        Me.mnuRemoveRecycleItem.Name = "mnuRemoveRecycleItem"
-        Me.mnuRemoveRecycleItem.Size = New System.Drawing.Size(148, 22)
-        Me.mnuRemoveRecycleItem.Text = "Remove Item"
-        '
-        'tsbDownloadData
-        '
-        Me.tsbDownloadData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbDownloadData.Image = CType(resources.GetObject("tsbDownloadData.Image"), System.Drawing.Image)
-        Me.tsbDownloadData.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbDownloadData.Name = "tsbDownloadData"
-        Me.tsbDownloadData.Size = New System.Drawing.Size(113, 22)
-        Me.tsbDownloadData.Text = "Download API Data"
-        '
         'tsbAssets
         '
         Me.tsbAssets.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -2985,6 +2890,11 @@ Partial Class frmPrism
         Me.tsbAssets.Size = New System.Drawing.Size(44, 22)
         Me.tsbAssets.Text = "Assets"
         Me.tsbAssets.ToolTipText = "Displays the Assets tab"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
         '
         'tsbInvestments
         '
@@ -2996,6 +2906,11 @@ Partial Class frmPrism
         Me.tsbInvestments.Text = "Investments"
         Me.tsbInvestments.ToolTipText = "Displays investments"
         '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
+        '
         'tsbRigBuilder
         '
         Me.tsbRigBuilder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -3005,6 +2920,11 @@ Partial Class frmPrism
         Me.tsbRigBuilder.Size = New System.Drawing.Size(68, 22)
         Me.tsbRigBuilder.Text = "Rig Builder"
         Me.tsbRigBuilder.ToolTipText = "Displays the rig builder"
+        '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 25)
         '
         'tsbOrders
         '
@@ -3016,6 +2936,11 @@ Partial Class frmPrism
         Me.tsbOrders.Text = "Orders"
         Me.tsbOrders.ToolTipText = "Displays the market orders"
         '
+        'ToolStripSeparator6
+        '
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 25)
+        '
         'tsbTransactions
         '
         Me.tsbTransactions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -3025,6 +2950,11 @@ Partial Class frmPrism
         Me.tsbTransactions.Size = New System.Drawing.Size(78, 22)
         Me.tsbTransactions.Text = "Transactions"
         Me.tsbTransactions.ToolTipText = "Displays the wallet transactions"
+        '
+        'ToolStripSeparator7
+        '
+        Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
+        Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 25)
         '
         'tsbJournal
         '
@@ -3036,6 +2966,11 @@ Partial Class frmPrism
         Me.tsbJournal.Text = "Journal"
         Me.tsbJournal.ToolTipText = "Displays the wallet journal"
         '
+        'ToolStripSeparator8
+        '
+        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
+        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 25)
+        '
         'tsbJobs
         '
         Me.tsbJobs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -3046,6 +2981,11 @@ Partial Class frmPrism
         Me.tsbJobs.Text = "Jobs"
         Me.tsbJobs.ToolTipText = "Displays the Blueprint jobs"
         '
+        'ToolStripSeparator9
+        '
+        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
+        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 25)
+        '
         'tsbRecycle
         '
         Me.tsbRecycle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -3055,6 +2995,11 @@ Partial Class frmPrism
         Me.tsbRecycle.Size = New System.Drawing.Size(55, 22)
         Me.tsbRecycle.Text = "Recycler"
         Me.tsbRecycle.ToolTipText = "Displays the Recycler tab"
+        '
+        'ToolStripSeparator10
+        '
+        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
+        Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 25)
         '
         'tsbReports
         '
@@ -3142,17 +3087,73 @@ Partial Class frmPrism
         Me.mnuAssetListValueD.Size = New System.Drawing.Size(136, 22)
         Me.mnuAssetListValueD.Text = "Descending"
         '
-        'ctxRecycleItems
+        'ColumnHeader1
         '
-        Me.ctxRecycleItems.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddRecycleItem})
-        Me.ctxRecycleItems.Name = "ctxRecycleItem"
-        Me.ctxRecycleItems.Size = New System.Drawing.Size(153, 48)
+        Me.ColumnHeader1.Text = "Type"
+        Me.ColumnHeader1.Width = 222
         '
-        'mnuAddRecycleItem
+        'ColumnHeader2
         '
-        Me.mnuAddRecycleItem.Name = "mnuAddRecycleItem"
-        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(152, 22)
-        Me.mnuAddRecycleItem.Text = "Add Item"
+        Me.ColumnHeader2.Text = "Quantity"
+        Me.ColumnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader2.Width = 67
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Price"
+        Me.ColumnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader3.Width = 104
+        '
+        'ColumnHeader4
+        '
+        Me.ColumnHeader4.Text = "Location"
+        Me.ColumnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader4.Width = 194
+        '
+        'ColumnHeader5
+        '
+        Me.ColumnHeader5.Text = "Range"
+        Me.ColumnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader5.Width = 51
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "Min Volume"
+        Me.ColumnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'ColumnHeader7
+        '
+        Me.ColumnHeader7.Text = "Expires In"
+        Me.ColumnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'ColumnHeader8
+        '
+        Me.ColumnHeader8.Text = "Type"
+        Me.ColumnHeader8.Width = 219
+        '
+        'ColumnHeader9
+        '
+        Me.ColumnHeader9.Text = "Quantity"
+        Me.ColumnHeader9.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader9.Width = 65
+        '
+        'ColumnHeader10
+        '
+        Me.ColumnHeader10.Text = "Price"
+        Me.ColumnHeader10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader10.Width = 107
+        '
+        'ColumnHeader11
+        '
+        Me.ColumnHeader11.Text = "Location"
+        Me.ColumnHeader11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader11.Width = 188
+        '
+        'ColumnHeader12
+        '
+        Me.ColumnHeader12.Text = "Expires In"
+        Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader12.Width = 119
         '
         'frmPrism
         '
@@ -3203,13 +3204,13 @@ Partial Class frmPrism
         CType(Me.nudBaseYield, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControl1.ResumeLayout(False)
         Me.tabItems.ResumeLayout(False)
+        Me.ctxRecycleItems.ResumeLayout(False)
+        Me.ctxRecycleItem.ResumeLayout(False)
         Me.tabTotals.ResumeLayout(False)
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        Me.ctxRecycleItem.ResumeLayout(False)
-        Me.ctxRecycleItems.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3505,7 +3506,7 @@ Partial Class frmPrism
     Friend WithEvents lblNetYieldLbl As System.Windows.Forms.Label
     Friend WithEvents lblBaseYieldLbl As System.Windows.Forms.Label
     Friend WithEvents chkPerfectRefine As System.Windows.Forms.CheckBox
-    Friend WithEvents cboPilots As System.Windows.Forms.ComboBox
+    Friend WithEvents cboRecyclePilots As System.Windows.Forms.ComboBox
     Friend WithEvents lblPilot As System.Windows.Forms.Label
     Friend WithEvents tsbRecycle As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator10 As System.Windows.Forms.ToolStripSeparator
