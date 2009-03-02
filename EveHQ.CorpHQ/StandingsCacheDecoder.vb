@@ -45,8 +45,6 @@ Public Class StandingsCacheDecoder
         Call Me.LoadOpCodes()
         Call Me.LoadStrings()
         ' Initialise the Object Types
-        Call Me.InitSimpleObjectTypes()
-        Call Me.InitRowSetObjectTypes()
         Call Me.InitUnpackedRowSetObjectTypes()
         MyStandings = New StandingsData
 
@@ -55,8 +53,6 @@ Public Class StandingsCacheDecoder
             MessageBox.Show("Unable to find cache file!", "Standings Retrieval Aborted", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return Nothing
             Exit Function
-            'Else
-            'MessageBox.Show("Using cache file: " & fileName, "Standings File Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
 
         ' Create the file stream but open the file for binary reading
@@ -113,7 +109,6 @@ Public Class StandingsCacheDecoder
         OpCodes.Add(&H21, "Unknown (&h21)")
         OpCodes.Add(&H22, "RowHeader")
         OpCodes.Add(&H23, "ResultSet")
-        '&h23, (Unknown, "PackedResultSet?")
         OpCodes.Add(&H24, "EmptyTuple")
         OpCodes.Add(&H25, "OneTuple")
         OpCodes.Add(&H26, "EmptyList")
@@ -136,21 +131,6 @@ Public Class StandingsCacheDecoder
             End If
         Next
     End Sub
-    Private Sub InitSimpleObjectTypes()
-        simpleObjectTypes.Clear()
-        simpleObjectTypes.Add("config.BulkData.types")
-        simpleObjectTypes.Add("config.BulkData.groups")
-        simpleObjectTypes.Add("config.BulkData.categories")
-        simpleObjectTypes.Add("config.BulkData.metagroups")
-        simpleObjectTypes.Add("config.BulkData.invmetatypes")
-        simpleObjectTypes.Add("config.BulkData.graphics")
-        simpleObjectTypes.Add("config.BulkData.units")
-    End Sub
-    Private Sub InitRowSetObjectTypes()
-        rowSetObjectTypes.Add("config.StaticOwners")
-        rowSetObjectTypes.Add("GetAgents")
-        'rowSetObjectTypes.Add("GetMarketGroups")
-    End Sub
     Private Sub InitUnpackedRowSetObjectTypes()
         unpackedRowSetObjectTypes.Add("GetCharStandings")
         unpackedRowSetObjectTypes.Add("GetCorpStandings")
@@ -169,7 +149,6 @@ Public Class StandingsCacheDecoder
 #Region "Decoding Routines"
     Private Function DecodeStream(ByVal br As BinaryReader) As Boolean
         Dim idx As Integer = 0
-        ' Read header & ignore
         Dim header As Byte = br.ReadByte
         Dim padding() As Byte = br.ReadBytes(4)
 
@@ -183,11 +162,9 @@ Public Class StandingsCacheDecoder
                 End If
                 Try
                     If simpleObjectTypes.Contains(currentObject) = True Then
-                        'Call Me.DecodeSimpleObject(br)
                         Call Me.DecodeItem(br)
                     Else
                         If rowSetObjectTypes.Contains(currentObject) Then
-                            'Call Me.DecodeRowSetObject(br)
                             Call Me.DecodeItem(br)
                         Else
                             Call Me.DecodeItem(br)
@@ -203,13 +180,11 @@ Public Class StandingsCacheDecoder
     Private Function DecodeItem(ByVal br As BinaryReader) As Object
         Application.DoEvents()
 
-        'indent += 1
         If CacheWorker.CancellationPending = True Then
             Return Nothing
             Exit Function
         End If
 
-        ' Read the next byte
         Dim raw As Byte = br.ReadByte
         Dim op As Byte = CByte((raw And &H3F))
         Dim flags As Byte = CByte((raw And &HC0))
@@ -292,7 +267,6 @@ Public Class StandingsCacheDecoder
                     retData = DecodeRowHeader(br)
                 Case &H23
                     retData = DecodeResultSet(br)
-                    'Case &h23 retData = DecodeUnknown(br)
                 Case &H24
                     retData = DecodeEmptyTuple(br)
                 Case &H25
@@ -321,18 +295,8 @@ Public Class StandingsCacheDecoder
                     retData = Nothing
             End Select
         Else
-            'lvwData.Items.Add("Unknown opcode " & op.ToString & " in cache:")
             retData = Nothing
         End If
-        ' Check for byte() return and check compression status
-        'If op <> &H2A And TypeOf retData Is Byte() Then
-        'If IsCompressed(CType(retData, Byte())) = True Then
-        '    Dim mr As New MemoryStream(DecompressString(CType(retData, Byte())))
-        '    Dim bbr As New BinaryReader(mr)
-        '    Call DecodeStream(bbr)
-        'End If
-        'End If
-        'indent -= 1
         Return retData
     End Function
     Private Function DecodeNone(ByVal br As BinaryReader) As Object
@@ -402,22 +366,14 @@ Public Class StandingsCacheDecoder
         Return Chr(data)
     End Function
     Private Function DecodeByteString2(ByVal br As BinaryReader) As Object
-        ' read the string length
         Dim strL As Integer = br.ReadByte
         Dim str() As Byte = br.ReadBytes(strL)
-        ' read the string
-        'If IsCompressed(str) = True Then
-        '    Dim mr As New MemoryStream(DecompressString(str))
-        '    Dim bbr As New BinaryReader(mr)
-        '    Call DecodeStream(bbr)
-        'End If
         Dim strText As New StringBuilder
         For Each b As Byte In str
             If b >= 32 Then
                 strText.Append(ChrW(b))
             End If
         Next
-        ' Check if we need to work out what type we are looking at
         If currentObject = "" Then
             If simpleObjectTypes.Contains(strText.ToString) Or rowSetObjectTypes.Contains(strText.ToString) Or unpackedRowSetObjectTypes.Contains(strText.ToString) Then
                 currentObject = strText.ToString
@@ -430,15 +386,9 @@ Public Class StandingsCacheDecoder
                 currentObject = ""
             End If
         End If
-        'If IsCompressed(str) = False Then
-        '    Return strText.ToString
-        'Else
-        '    Return str
-        'End If
         Return str
     End Function
     Private Function DecodeStringTableItem(ByVal br As BinaryReader) As Object
-        '  StringtableItem is an index into strings.txt, used as a shorthand for common strings
         Dim idx As Byte = br.ReadByte
         Try
             Return strings(idx - 1)
@@ -466,15 +416,11 @@ Public Class StandingsCacheDecoder
         Return items
     End Function
     Private Function DecodeDict(ByVal br As BinaryReader) As Object
-        ' Version 1
         Dim items As New SortedList
         Dim length As Integer = GetStreamLength(br)
         For i As Integer = 1 To length
             Dim Val As Object = DecodeItem(br)
             Dim key As Object = DecodeItem(br)
-            If key IsNot Nothing Then
-                'items.Add(key, Val)
-            End If
         Next
         Return items
     End Function
@@ -530,18 +476,15 @@ Public Class StandingsCacheDecoder
         header = br.ReadByte
         Dim length As Integer = GetStreamLength(br)
         Dim Data As Object = br.ReadBytes(length)
-        'recordCount += 1
         Dim strData As String = ""
         Return Data
     End Function
     Private Function DecodeSubStream(ByVal br As BinaryReader) As Object
         Dim length As Integer = GetStreamLength(br)
         If simpleObjectTypes.Contains(currentObject) = True Then
-            'Call Me.DecodeSimpleObject(br)
             Call Me.DecodeItem(br)
         Else
             If rowSetObjectTypes.Contains(currentObject) Then
-                'Call Me.DecodeRowSetObject(br)
                 Call Me.DecodeItem(br)
             Else
                 If unpackedRowSetObjectTypes.Contains(currentObject) Then
@@ -570,7 +513,6 @@ Public Class StandingsCacheDecoder
         Return System.Text.Encoding.Default.GetString(data)
     End Function
     Private Function DecodeVarInteger(ByVal br As BinaryReader) As Object
-        'Variable length integer
         Dim length As Integer = GetStreamLength(br)
         Dim data() As Byte = br.ReadBytes(length)
         Dim ret As Long = 0
@@ -583,311 +525,25 @@ Public Class StandingsCacheDecoder
         Next
         Return ret
     End Function
-    'Private Sub DecodeSimpleObject(ByVal br As BinaryReader)
-    '    'MessageBox.Show("Decoding the invTypes table...")
-    '    startTime = Now
-    '    recordFlag = True
-    '    Dim raw As Byte
-    '    ' Read the TwoTupleByte
-    '    raw = br.ReadByte
-    '    ' Read the ListByte
-    '    raw = br.ReadByte
-    '    Call Me.DecodeList(br) ' Discard as this is the header
-    '    raw = br.ReadByte
-    '    ' Read the next ListByte
-    '    Dim itemData As ArrayList = CType(Me.DecodeTypeList(br), ArrayList)
-    '    Dim sw As New StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\" & currentObject & ".csv")
-    '    Select Case currentObject
-    '        Case "config.BulkData.types"
-    '            Dim newType As Type
-    '            Dim item As New ArrayList
-    '            For i As Integer = 0 To itemData.Count - 1
-    '                If TypeOf itemData(i) Is ArrayList Then
-    '                    item = itemData(i)
-    '                    newType = New Type
-    '                    newType.typeID = item(0)
-    '                    newType.groupID = item(1)
-    '                    newType.typeName = item(2)
-    '                    newType.description = item(3)
-    '                    newType.graphicID = item(4)
-    '                    newType.radius = item(5)
-    '                    If IsNumeric(item(6)) = False Then
-    '                        newType.mass = 0
-    '                    Else
-    '                        newType.mass = item(6)
-    '                    End If
-    '                    newType.volume = item(7)
-    '                    newType.capacity = item(8)
-    '                    newType.portionSize = item(9)
-    '                    newType.raceID = item(10)
-    '                    newType.basePrice = item(11)
-    '                    newType.published = item(12)
-    '                    newType.marketGroupID = item(13)
-    '                    newType.chanceOfDuplicating = item(14)
-    '                    newType.dataID = item(15)
-    '                    For col As Integer = 0 To 15
-    '                        If TypeOf item(col) Is String Then
-    '                            item(col) = item(col).ToString.Replace("""", "'")
-    '                            sw.Write("""" & item(col) & """,")
-    '                        Else
-    '                            sw.Write(item(col) & ",")
-    '                        End If
-    '                    Next
-    '                    sw.Write("$$")
-    '                    sw.WriteLine("")
-    '                End If
-    '            Next
-    '        Case "config.BulkData.groups"
-    '            Dim newGroup As Group
-    '            Dim item As New ArrayList
-    '            For i As Integer = 0 To itemData.Count - 1
-    '                If TypeOf itemData(i) Is ArrayList Then
-    '                    item = itemData(i)
-    '                    newGroup = New Group
-    '                    newGroup.categoryID = item(0)
-    '                    newGroup.groupID = item(1)
-    '                    newGroup.groupName = item(2)
-    '                    newGroup.description = item(3)
-    '                    newGroup.graphicID = item(4)
-    '                    newGroup.useBasePrice = item(5)
-    '                    newGroup.allowManufacture = item(6)
-    '                    newGroup.allowRecycle = item(7)
-    '                    newGroup.anchored = item(8)
-    '                    newGroup.anchorable = item(9)
-    '                    newGroup.fittableNonSingleton = item(10)
-    '                    newGroup.published = item(11)
-    '                    newGroup.dataID = item(12)
-    '                    For col As Integer = 0 To 12
-    '                        If TypeOf item(col) Is String Then
-    '                            item(col) = item(col).ToString.Replace("""", "'")
-    '                            sw.Write("""" & item(col) & """,")
-    '                        Else
-    '                            sw.Write(item(col) & ",")
-    '                        End If
-    '                    Next
-    '                    sw.WriteLine("")
-    '                End If
-    '            Next
-    '        Case "config.BulkData.categories"
-    '            Dim newCategory As Category
-    '            Dim item As New ArrayList
-    '            For i As Integer = 0 To itemData.Count - 1
-    '                If TypeOf itemData(i) Is ArrayList Then
-    '                    item = itemData(i)
-    '                    newCategory = New Category
-    '                    newCategory.categoryID = item(0)
-    '                    newCategory.categoryName = item(1)
-    '                    newCategory.description = item(2)
-    '                    newCategory.graphicID = item(3)
-    '                    newCategory.published = item(4)
-    '                    newCategory.dataID = item(5)
-    '                    For col As Integer = 0 To 5
-    '                        If TypeOf item(col) Is String Then
-    '                            item(col) = item(col).ToString.Replace("""", "'")
-    '                            sw.Write("""" & item(col) & """,")
-    '                        Else
-    '                            sw.Write(item(col) & ",")
-    '                        End If
-    '                    Next
-    '                    sw.WriteLine("")
-    '                End If
-    '            Next
-    '        Case "config.BulkData.metagroups"
-    '            Dim newGroup As MetaGroup
-    '            Dim item As New ArrayList
-    '            For i As Integer = 0 To itemData.Count - 1
-    '                If TypeOf itemData(i) Is ArrayList Then
-    '                    item = itemData(i)
-    '                    newGroup = New MetaGroup
-    '                    newGroup.metaGroupID = item(0)
-    '                    newGroup.metaGroupName = item(1)
-    '                    newGroup.description = item(2)
-    '                    newGroup.graphicID = item(3)
-    '                    newGroup.dataID = item(4)
-    '                    For col As Integer = 0 To 4
-    '                        If TypeOf item(col) Is String Then
-    '                            item(col) = item(col).ToString.Replace("""", "'")
-    '                            sw.Write("""" & item(col) & """,")
-    '                        Else
-    '                            sw.Write(item(col) & ",")
-    '                        End If
-    '                    Next
-    '                    sw.WriteLine("")
-    '                End If
-    '            Next
-    '        Case "config.BulkData.invmetatypes"
-    '            Dim newType As MetaType
-    '            Dim item As New ArrayList
-    '            For i As Integer = 0 To itemData.Count - 1
-    '                If TypeOf itemData(i) Is ArrayList Then
-    '                    item = itemData(i)
-    '                    newType = New MetaType
-    '                    newType.typeID = item(0)
-    '                    newType.parentTypeID = item(1)
-    '                    newType.metaGroupID = item(2)
-    '                    For col As Integer = 0 To 2
-    '                        If TypeOf item(col) Is String Then
-    '                            item(col) = item(col).ToString.Replace("""", "'")
-    '                            sw.Write("""" & item(col) & """,")
-    '                        Else
-    '                            sw.Write(item(col) & ",")
-    '                        End If
-    '                    Next
-    '                    sw.WriteLine("")
-    '                End If
-    '            Next
-    '        Case "config.BulkData.graphics"
-    '            Dim newType As Graphics
-    '            Dim item As New ArrayList
-    '            For i As Integer = 0 To itemData.Count - 1
-    '                If TypeOf itemData(i) Is ArrayList Then
-    '                    item = itemData(i)
-    '                    newType = New Graphics
-    '                    newType.graphicID = item(0)
-    '                    newType.url3D = item(1)
-    '                    newType.urlWeb = item(2)
-    '                    newType.icon = item(3)
-    '                    newType.urlSound = item(4)
-    '                    newType.explosionID = item(5)
-    '                    For col As Integer = 0 To 5
-    '                        If TypeOf item(col) Is String Then
-    '                            item(col) = item(col).ToString.Replace("""", "'")
-    '                            sw.Write("""" & item(col) & """,")
-    '                        Else
-    '                            sw.Write(item(col) & ",")
-    '                        End If
-    '                    Next
-    '                    sw.WriteLine("")
-    '                End If
-    '            Next
-    '        Case "config.BulkData.units"
-    '            Dim newType As Units
-    '            Dim item As New ArrayList
-    '            For i As Integer = 0 To itemData.Count - 1
-    '                If TypeOf itemData(i) Is ArrayList Then
-    '                    item = itemData(i)
-    '                    newType = New Units
-    '                    newType.unitID = item(0)
-    '                    newType.unitName = item(1)
-    '                    newType.displayName = item(2)
-    '                    For col As Integer = 0 To 2
-    '                        If TypeOf item(col) Is String Then
-    '                            item(col) = item(col).ToString.Replace("""", "'")
-    '                            sw.Write("""" & item(col) & """,")
-    '                        Else
-    '                            sw.Write(item(col) & ",")
-    '                        End If
-    '                    Next
-    '                    sw.WriteLine("")
-    '                End If
-    '            Next
-
-    '    End Select
-    '    sw.Flush()
-    '    sw.Close()
-    '    MessageBox.Show("Finished Decoding the " & currentObject & " data!")
-    'End Sub
-    'Private Sub DecodeRowSetObject(ByVal br As BinaryReader)
-    '    'MessageBox.Show("Decoding the invTypes table...")
-    '    startTime = Now
-    '    recordFlag = True
-    '    Dim raw As Object
-    '    raw = br.ReadByte ' Read the Object Byte
-    '    raw = DecodeItem(br) ' Read the Object Name
-    '    raw = br.ReadByte ' read the Dict byte
-    '    raw = GetStreamLength(br) ' Read the dict length
-    '    raw = DecodeItem(br) ' Decode List values
-    '    raw = DecodeItem(br) ' Decode List key
-    '    raw = DecodeItem(br) ' Decode Byte value
-    '    raw = DecodeItem(br) ' Decode Byte key
-    '    raw = br.ReadByte ' read the List byte
-    '    ' Process the list
-    '    Dim itemData As ArrayList = CType(Me.DecodeTypeList(br), ArrayList)
-    '    Dim sw As New StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\" & currentObject & ".csv")
-    '    Select Case currentObject
-    '        Case "config.StaticOwners"
-    '            Dim newType As StaticOwner
-    '            Dim item As New ArrayList
-    '            For i As Integer = 0 To itemData.Count - 1
-    '                If TypeOf itemData(i) Is ArrayList Then
-    '                    item = itemData(i)
-    '                    newType = New StaticOwner
-    '                    newType.ownerID = item(0)
-    '                    newType.ownerName = item(1)
-    '                    newType.typeID = item(2)
-    '                    For col As Integer = 0 To 2
-    '                        If TypeOf item(col) Is String Then
-    '                            item(col) = item(col).ToString.Replace("""", "'")
-    '                            sw.Write("""" & item(col) & """,")
-    '                        Else
-    '                            sw.Write(item(col) & ",")
-    '                        End If
-    '                    Next
-    '                    sw.WriteLine("")
-    '                End If
-    '            Next
-    '        Case "GetAgents"
-    '            Dim newType As Agent
-    '            Dim item As New ArrayList
-    '            For i As Integer = 0 To itemData.Count - 1
-    '                If TypeOf itemData(i) Is ArrayList Then
-    '                    item = itemData(i)
-    '                    newType = New Agent
-    '                    newType.agentID = item(0)
-    '                    newType.agentTypeID = item(1)
-    '                    newType.divisionID = item(2)
-    '                    newType.level = item(3)
-    '                    newType.stationID = item(4)
-    '                    newType.bloodlineID = item(5)
-    '                    If CInt(item(6)) < 128 Then
-    '                        item(6) = CInt(item(6))
-    '                    Else
-    '                        item(6) = CInt(item(6) - 256)
-    '                    End If
-    '                    newType.corporationID = item(7)
-    '                    newType.gender = item(8)
-    '                    For col As Integer = 0 To 8
-    '                        If TypeOf item(col) Is String Then
-    '                            item(col) = item(col).ToString.Replace("""", "'")
-    '                            sw.Write("""" & item(col) & """,")
-    '                        Else
-    '                            sw.Write(item(col) & ",")
-    '                        End If
-    '                    Next
-    '                    sw.WriteLine("")
-    '                End If
-    '            Next
-    '    End Select
-    '    sw.Flush()
-    '    sw.Close()
-    '    raw = DecodeItem(br) ' Decode the List Key
-    '    MessageBox.Show("Finished Decoding the " & currentObject & " data!")
-    'End Sub
+    
     Private Sub DecodeUnpackedRowSetObject(ByVal br As BinaryReader)
-        'startTime = Now
-        'recordFlag = True
         MyStandings = New StandingsData
         Dim StandingsValues As New SortedList
         Dim StandingsNames As New SortedList
         MyStandings.OwnerID = currentPilotID
         MyStandings.CacheType = currentObject
         Dim NPCList As New StringBuilder
-        'Dim sw As New StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\" & currentObject & ".csv")
         Select Case currentObject
             Case "GetCharStandings", "GetCorpStandings"
                 Dim raw As Object
-                raw = br.ReadBytes(44) ' Read the excess stuff
-                raw = br.ReadByte ' read the List byte
+                raw = br.ReadBytes(44)
+                raw = br.ReadByte
                 Dim itemData As New ArrayList
-                'MessageBox.Show("Decoding PC Standing Values")
                 If CInt(raw) = 39 Then
-                    ' Process a one-item list
                     itemData = CType(Me.DecodeTypeOneList(br), ArrayList)
                 Else
                     If CInt(raw) = 38 Then
-                        ' Process an Empty List errr do nothing?
                     Else
-                        ' Process a list
                         itemData = CType(Me.DecodeTypeList(br), ArrayList)
                     End If
                 End If
@@ -897,33 +553,16 @@ Public Class StandingsCacheDecoder
                         If TypeOf itemData(i) Is ArrayList Then
                             item = CType(itemData(i), ArrayList)
                             StandingsValues.Add(CStr(item(0)), CStr(item(1)))
-                            'newType = New Standing
-                            'newType.ID = CStr(item(0))
-                            'newType.Value = CStr(item(1))
-                            'For col As Integer = 0 To 1
-                            '    If TypeOf item(col) Is String Then
-                            '        item(col) = item(col).ToString.Replace("""", "'")
-                            '        sw.Write("""" & CStr(item(col)) & """,")
-                            '    Else
-                            '        sw.Write(CStr(item(col)) & ",")
-                            '    End If
-                            'Next
-                            'sw.WriteLine("")
                         End If
                     Next
                 End If
-                raw = br.ReadBytes(21) ' Read Space
-                raw = br.ReadByte ' Read the List Byte
-                ' Process the next list
-                'MessageBox.Show("Decoding PC Names")
+                raw = br.ReadBytes(21)
+                raw = br.ReadByte
                 If CInt(raw) = 39 Then
-                    ' Process a one-item list
                     itemData = CType(Me.DecodeTypeOneList(br), ArrayList)
                 Else
                     If CInt(raw) = 38 Then
-                        ' Process an Empty List errr do nothing?
                     Else
-                        ' Process a list
                         itemData = CType(Me.DecodeTypeList(br), ArrayList)
                     End If
                 End If
@@ -933,32 +572,16 @@ Public Class StandingsCacheDecoder
                         If TypeOf itemData(i) Is ArrayList Then
                             item = CType(itemData(i), ArrayList)
                             StandingsNames.Add(CStr(item(0)), CStr(item(1)))
-                            'newNameType = New StandingName
-                            'newNameType.ID = CStr(item(0))
-                            'newNameType.Name = CStr(item(1))
-                            'For col As Integer = 0 To 1
-                            '    If TypeOf item(col) Is String Then
-                            '        item(col) = item(col).ToString.Replace("""", "'")
-                            '        sw.Write("""" & CStr(item(col)) & """,")
-                            '    Else
-                            '        sw.Write(CStr(item(col)) & ",")
-                            '    End If
-                            'Next
-                            'sw.WriteLine("")
                         End If
                     Next
                 End If
-                raw = br.ReadBytes(33) ' Read Space
-                raw = br.ReadByte ' Read the List Byte
-                'MessageBox.Show("Decoding NPC Standing Values")
+                raw = br.ReadBytes(33)
+                raw = br.ReadByte
                 If CInt(raw) = 39 Then
-                    ' Process a one-item list
                     itemData = CType(Me.DecodeTypeOneList(br), ArrayList)
                 Else
                     If CInt(raw) = 38 Then
-                        ' Process an Empty List errr do nothing?
                     Else
-                        ' Process a list
                         itemData = CType(Me.DecodeTypeList(br), ArrayList)
                     End If
                 End If
@@ -967,32 +590,17 @@ Public Class StandingsCacheDecoder
                     For i As Integer = 0 To itemData.Count - 1
                         If TypeOf itemData(i) Is ArrayList Then
                             item = CType(itemData(i), ArrayList)
-                            ' Check if it has been added before and change it if it has!
                             If StandingsValues.Contains(CStr(item(0))) = True Then
                                 StandingsValues(CStr(item(0))) = CStr(item(1))
                             Else
                                 StandingsValues.Add(CStr(item(0)), CStr(item(1)))
                             End If
                             NPCList.Append(CStr(item(0)) & ",")
-                            'newNPCType = New Standing
-                            'newNPCType.ID = CStr(item(0))
-                            'newNPCType.Value = CStr(item(1))
-                            'For col As Integer = 0 To 1
-                            '    If TypeOf item(col) Is String Then
-                            '        item(col) = item(col).ToString.Replace("""", "'")
-                            '        sw.Write("""" & CStr(item(col)) & """,")
-                            '    Else
-                            '        sw.Write(CStr(item(col)) & ",")
-                            '    End If
-                            'Next
-                            'sw.WriteLine("")
                         End If
                     Next
                 End If
         End Select
-        ' Query the DB for the NPCNames (if not empty)
         If NPCList.ToString <> "" Then
-            'MessageBox.Show("Getting NPC Names From DB")
             Dim strSQL As String = "SELECT * FROM eveNames WHERE itemID IN (" & NPCList.ToString.TrimEnd(",".ToCharArray) & ");"
             Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             For Each nameRow As DataRow In eveData.Tables(0).Rows
@@ -1002,27 +610,18 @@ Public Class StandingsCacheDecoder
         End If
         MyStandings.StandingNames = StandingsNames
         MyStandings.StandingValues = StandingsValues
-        'sw.Flush()
-        'sw.Close()
-        'MessageBox.Show("Finished Decoding the " & currentObject & " data!")
     End Sub
     Private Function DecodeTypeList(ByVal br As BinaryReader) As Object
         Dim item As New ArrayList
         Dim items As New ArrayList
         Dim length As Integer = GetStreamLength(br)
-        'pbProgress.Maximum = length
         Dim i As Long = 0
         If currentObject = "config.BulkData.types" Then i = i - 1
         Do
-            'currentTime = Now
-            'elapsedtime = currentTime - startTime
-            'lvwData.Items.Add("Data Row " & i)
             Try
                 item = CType(DecodeItem(br), ArrayList)
                 items.Add(item)
                 i += 1
-                'pbProgress.Value = i
-                'lblProgress.Text = "Processed " & i & " of " & length & " (" & FormatNumber(i / length * 100, 2) & "%) [" & FormatNumber(elapsedtime.TotalSeconds, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "s elapsed, " & FormatNumber((length / i * elapsedtime.TotalSeconds) - elapsedtime.TotalSeconds, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "s remaining]"
             Catch e As Exception
             End Try
         Loop Until i = length
@@ -1032,30 +631,19 @@ Public Class StandingsCacheDecoder
         Dim item As New ArrayList
         Dim items As New ArrayList
         Dim length As Integer = 1
-        'If OutputToList = True Then
-        '    lvwData.Items(lvwData.Items.Count - 1).SubItems.Add("List Length: " & length)
-        'End If
-        'pbProgress.Maximum = length
         Dim i As Long = 0
         If currentObject = "config.BulkData.types" Then i = i - 1
         Do
-            'currentTime = Now
-            'elapsedtime = currentTime - startTime
-            'lvwData.Items.Add("Data Row " & i)
             Try
                 item = CType(DecodeItem(br), ArrayList)
                 items.Add(item)
                 i += 1
-                'pbProgress.Value = i
-                'lblProgress.Text = "Processed " & i & " of " & length & " (" & FormatNumber(i / length * 100, 2) & "%) [" & FormatNumber(elapsedtime.TotalSeconds, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "s elapsed, " & FormatNumber((length / i * elapsedtime.TotalSeconds) - elapsedtime.TotalSeconds, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "s remaining]"
             Catch e As Exception
             End Try
         Loop Until i = length
         Return items
     End Function
     Private Function GetStreamLength(ByVal br As BinaryReader) As Integer
-        'Read length from the stream
-        'Normally a byte, if that byte is 0xff then the following four bytes is a ULONG length field
         Dim length As Integer
         length = br.ReadByte
         If length = &HFF Then
@@ -1065,156 +653,6 @@ Public Class StandingsCacheDecoder
     End Function
 #End Region
 
-#Region "ZLib Decompression Functions"
-    'Private Function DecompressString(ByVal bData() As Byte) As Byte()
-    '    Dim bw As New BinaryWriter(New FileStream("compressed.txt", FileMode.Create))
-    '    bw.Write(bData)
-    '    bw.Close()
-    '    Dim outFileStream As New System.IO.FileStream("decompressed.txt", System.IO.FileMode.Create)
-    '    Dim zStream As New zlib.ZOutputStream(outFileStream)
-    '    Dim inFileStream As New System.IO.FileStream("compressed.txt", System.IO.FileMode.Open)
-    '    Try
-    '        If CopyStream(inFileStream, zStream) = False Then
-    '            zStream.Close()
-    '            outFileStream.Close()
-    '            inFileStream.Close()
-    '            Return Nothing
-    '        Else
-    '            zStream.Close()
-    '            outFileStream.Close()
-    '            inFileStream.Close()
-    '            Dim fi As New FileInfo("decompressed.txt")
-    '            Dim br As New BinaryReader(New FileStream("decompressed.txt", FileMode.Open))
-    '            Dim retData() As Byte = br.ReadBytes(fi.Length)
-    '            br.Close()
-    '            Return retData
-    '        End If
-    '    Catch ex As Exception
-    '        Return Nothing
-    '    End Try
-    'End Function
-    'Private Function CopyStream(ByRef input As System.IO.Stream, ByRef output As System.IO.Stream) As Boolean
-    '    Try
-    '        Dim num1 As Integer
-    '        Dim buffer1 As Byte() = New Byte(20000 - 1) {}
-    '        num1 = input.Read(buffer1, 0, 20000)
-    '        Do While (num1 > 0)
-    '            output.Write(buffer1, 0, num1)
-    '            num1 = input.Read(buffer1, 0, 20000)
-    '        Loop
-    '        output.Flush()
-    '        Return True
-    '    Catch ex As Exception
-    '        Return False
-    '    End Try
-    'End Function
-    'Private Function IsCompressed(ByVal bData() As Byte) As Boolean
-    '    Try
-    '        If DecompressString(bData) IsNot Nothing Then
-    '            Return True
-    '        Else
-    '            Return False
-    '        End If
-    '    Catch ex As Exception
-    '        Return False
-    '    End Try
-    'End Function
-#End Region
-End Class
-
-Public Class CachedObjects
-
-End Class
-
-Public Class Type
-    Public typeID As Integer
-    Public groupID As Integer
-    Public typeName As String
-    Public description As String
-    Public graphicID As Integer
-    Public radius As Double
-    Public mass As Double
-    Public volume As Double
-    Public capacity As Double
-    Public portionSize As Integer
-    Public raceID As Integer
-    Public basePrice As Double
-    Public published As Integer
-    Public marketGroupID As Integer
-    Public chanceOfDuplicating As Double
-    Public dataID As Long
-End Class
-
-Public Class Group
-    Public categoryID As Integer
-    Public groupID As Integer
-    Public groupName As String
-    Public description As String
-    Public graphicID As Integer
-    Public useBasePrice As Integer
-    Public allowManufacture As Integer
-    Public allowRecycle As Integer
-    Public anchored As Integer
-    Public anchorable As Integer
-    Public fittableNonSingleton As Integer
-    Public published As Integer
-    Public dataID As Long
-End Class
-
-Public Class Category
-    Public categoryID As Integer
-    Public categoryName As String
-    Public description As String
-    Public graphicID As Integer
-    Public published As Integer
-    Public dataID As Long
-End Class
-
-Public Class MetaGroup
-    Public metaGroupID As Integer
-    Public metaGroupName As String
-    Public description As String
-    Public graphicID As Integer
-    Public dataID As Long
-End Class
-
-Public Class MetaType
-    Public typeID As Integer
-    Public parentTypeID As Integer
-    Public metaGroupID As Integer
-End Class
-
-Public Class Graphics
-    Public graphicID As Integer
-    Public url3D As String
-    Public urlWeb As String
-    Public icon As String
-    Public urlSound As String
-    Public explosionID As Integer
-End Class
-
-Public Class Units
-    Public unitID As Integer
-    Public unitName As String
-    Public displayName As String
-End Class
-
-Public Class StaticOwner
-    Public ownerID As Long
-    Public ownerName As String
-    Public typeID As Integer
-End Class
-
-Public Class Agent
-    Public agentID As Long
-    Public agentTypeID As Integer
-    Public divisionID As Integer
-    Public level As Integer
-    Public stationID As Long
-    Public bloodlineID As Integer
-    Public quality As Integer
-    Public corporationID As Long
-    Public gender As Integer
 End Class
 
 <Serializable()> Public Class Standing

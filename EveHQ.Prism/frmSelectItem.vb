@@ -25,11 +25,11 @@ Public Class frmSelectItem
 
         ' Fetch the data from the database
         Dim strSQL As String = "SELECT DISTINCT invTypes.typeName AS itemName"
-        strSQL &= " FROM invCategories INNER JOIN invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.typeID ON invCategories.categoryID = invGroups.categoryID"
+        strSQL &= " FROM invTypes INNER JOIN typeActivityMaterials ON invTypes.typeID = typeActivityMaterials.typeID"
         strSQL &= " WHERE typeActivityMaterials.activityID IN (6, 9)"
-        strSQL &= " ORDER BY itemName;"
-        Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+        strSQL &= " ORDER BY invTypes.typeName;"
 
+        Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Dim typeName As String = ""
         cboItems.Items.Clear()
         cboItems.AutoCompleteMode = AutoCompleteMode.SuggestAppend

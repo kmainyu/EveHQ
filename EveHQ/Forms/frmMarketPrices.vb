@@ -479,9 +479,15 @@ Public Class frmMarketPrices
         ' Get the contents of the market log folder and display them
         clvLogs.BeginUpdate()
         clvLogs.Items.Clear()
-        For Each file As String In My.Computer.FileSystem.GetFiles(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\Logs\Marketlogs", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
-            Call Me.DisplayLogDetails(file)
-        Next
+        If My.Computer.FileSystem.DirectoryExists(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\Logs\Marketlogs") = True Then
+            For Each file As String In My.Computer.FileSystem.GetFiles(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\Logs\Marketlogs", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+                Call Me.DisplayLogDetails(file)
+                clvLogs.Enabled = True
+            Next
+        Else
+            clvLogs.Items.Add("Log Directory Not Available")
+            clvLogs.Enabled = False
+        End If
         clvLogs.EndUpdate()
     End Sub
 
