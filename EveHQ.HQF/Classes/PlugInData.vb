@@ -248,7 +248,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error loading Market Group Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading Market Group Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -286,7 +286,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error loading Attribute Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading Attribute Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -348,7 +348,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error loading Skill Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading Skill Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -369,7 +369,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error loading Ship Group Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading Ship Group Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -390,7 +390,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error loading Ship Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading Ship Name Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -597,7 +597,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error loading Ship Attribute Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading Ship Attribute Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -631,7 +631,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error loading Module Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading Module Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -655,7 +655,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error loading Module Effect Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading Module Effect Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -680,7 +680,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error loading Module Attribute Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading Module Attribute Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -715,7 +715,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error loading Module Metatype Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading Module Metatype Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -825,7 +825,7 @@ Public Class PlugInData
             Next
             Return BuildModuleEffectData()
         Catch e As Exception
-            MessageBox.Show("Error building Module Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error building Module Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -891,7 +891,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error building Module Effect Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error building Module Effect Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -1080,7 +1080,7 @@ Public Class PlugInData
             End If
             Return True
         Catch e As Exception
-            MessageBox.Show("Error building Module Attribute Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error building Module Attribute Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -1117,7 +1117,7 @@ Public Class PlugInData
             Next
             Return True
         Catch e As Exception
-            MessageBox.Show("Error building Implant Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error building Implant Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -1477,7 +1477,7 @@ Public Class PlugInData
                 Return False
             End If
         Catch e As Exception
-            MessageBox.Show("Error loading NPC Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading NPC Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         End Try
     End Function

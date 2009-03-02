@@ -60,7 +60,7 @@
             Dim strTree As String = ""
             Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
             Dim curSkill As Integer = CInt(skillID)
-            Dim curLevel As Integer = 0
+            Dim curLevel As Integer = CInt(cCert.RequiredSkills(skillID))
             Dim counter As Integer = 0
             Dim curNode As TreeNode = New TreeNode
 

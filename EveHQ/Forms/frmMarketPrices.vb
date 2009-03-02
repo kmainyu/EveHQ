@@ -1056,7 +1056,6 @@ Public Class frmMarketPrices
     End Sub
 
     Private Sub chkPriceCriteria_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkPriceCriteria0.CheckedChanged, chkPriceCriteria1.CheckedChanged, chkPriceCriteria2.CheckedChanged, chkPriceCriteria3.CheckedChanged, chkPriceCriteria4.CheckedChanged, chkPriceCriteria5.CheckedChanged, chkPriceCriteria6.CheckedChanged, chkPriceCriteria7.CheckedChanged, chkPriceCriteria8.CheckedChanged, chkPriceCriteria9.CheckedChanged, chkPriceCriteria10.CheckedChanged, chkPriceCriteria11.CheckedChanged
-
         If startUp = False Then
             Dim idx As Integer = 0
             For Each chk As CheckBox In grpCriteria.Controls
