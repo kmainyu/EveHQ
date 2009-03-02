@@ -457,11 +457,11 @@
 28710,0,0,1045,2,650,0,0,0,100,15,Tractor Beam Velocity
 28710,0,0,54,2,650,0,0,0,100,15,Tractor Beam Range
 # Griffin,,,,,,,,,,,
-584,1,3334,238,2,201,0,1,0,15,15,ECM Jam Strength
-584,1,3334,239,2,201,0,1,0,15,15,ECM Jam Strength
-584,1,3334,240,2,201,0,1,0,15,15,ECM Jam Strength
-584,1,3334,241,2,201,0,1,0,15,15,ECM Jam Strength
-584,1,3334,6,2,201,0,1,0,-10,15,ECM Capacitor Need
+584,1,3330,238,2,201,0,1,0,15,15,ECM Jam Strength
+584,1,3330,239,2,201,0,1,0,15,15,ECM Jam Strength
+584,1,3330,240,2,201,0,1,0,15,15,ECM Jam Strength
+584,1,3330,241,2,201,0,1,0,15,15,ECM Jam Strength
+584,1,3330,6,2,201,0,1,0,-10,15,ECM Capacitor Need
 # Guardian,,,,,,,,,,,
 11987,1,3335,54,2,325,0,1,0,150,15,Remote Armor Repairer Range
 11987,1,3335,91,2,67,0,1,0,150,15,Energy Transfer Range

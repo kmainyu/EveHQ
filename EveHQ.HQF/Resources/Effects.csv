@@ -49,7 +49,7 @@
 292,1,12485,117,5,12485,0,1,0,0,Minmatar Drone Specialization
 292,1,12485,118,5,12485,0,1,0,0,Minmatar Drone Specialization
 39,1,3439,68,2,640,0,1,0,0,Repair Drone Operation - Shield
-39,1,3439,84,4,640,0,1,0,0,Repair Drone Operation - Armor
+39,1,3439,84,2,640,0,1,0,0,Repair Drone Operation - Armor
 459,1,3437,10007,3,6,0,1,1,0,Scout Drone Operation
 292,1,23594,114,4,911,0,1,0,0,Sentry Drone Interfacing - EM
 292,1,23594,116,4,911,0,1,0,0,Sentry Drone Interfacing - Explosive
@@ -821,11 +821,11 @@
 976,2,60,109,3,6,0,0,2,12,Hull Kin Resistance Bonus
 977,2,60,110,3,6,0,0,2,12,Hull Therm Resistance Bonus
 # Armor Energized Plating,,,,,,,,,,
+148,2,326,265,3,6,0,0,0,14,Armor Amplifiers - Armor HP Bonus
 984,2,326,267,3,6,1,0,2,14,Armor Amplifiers - Passive EM Resist
 985,2,326,268,3,6,1,0,2,14,Armor Amplifiers - Passive Exp Resist
 986,2,326,269,3,6,1,0,2,14,Armor Amplifiers - Passive Kin Resist
 987,2,326,270,3,6,1,0,2,14,Armor Amplifiers - Passive Therm Resist
-148,2,326,265,3,6,0,0,0,14,Armor Amplifiers - Armor HP Bonus
 # Cargo Expander,,,,,,,,,,
 149,2,765,10004,3,6,0,0,0,14,Cargo Capacity Bonus
 150,2,765,9,3,6,0,0,0,14,Structure HP Penalty
