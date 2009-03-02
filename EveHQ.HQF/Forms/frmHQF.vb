@@ -251,10 +251,16 @@ Public Class frmHQF
         tvwItems.Select()
     End Sub
     Private Sub SplitContainerShip_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles SplitContainerShip.Resize
-        SplitContainerShip.SplitterDistance = Settings.HQFSettings.ShipSplitterWidth
+        Try
+            SplitContainerShip.SplitterDistance = Settings.HQFSettings.ShipSplitterWidth
+        Catch ex As Exception
+        End Try
     End Sub
     Private Sub SplitContainerMod_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles SplitContainerMod.Resize
-        SplitContainerMod.SplitterDistance = Settings.HQFSettings.ModSplitterWidth
+        Try
+            SplitContainerMod.SplitterDistance = Settings.HQFSettings.ModSplitterWidth
+        Catch ex As Exception
+        End Try
     End Sub
     Private Sub LoadPilots()
         ' Loads the skills for the selected pilots
