@@ -1140,20 +1140,24 @@ Public Class frmMarketPrices
         lvwPrices.EndUpdate()
     End Sub
     Private Sub ctxPrices_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxPrices.Opening
-        Dim selItem As ListViewItem = lvwPrices.SelectedItems(0)
-        mnuPriceItemName.Text = selItem.Text
-        Dim selItemID As String = selItem.Name
-        ' Check if it exists and we can edit/delete it
-        If EveHQ.Core.HQ.CustomPriceList.Contains(selItemID) = True Then
-            ' Already in custom price list
-            mnuPriceAdd.Enabled = False
-            mnuPriceDelete.Enabled = True
-            mnuPriceEdit.Enabled = True
+        If lvwPrices.SelectedItems.Count > 0 Then
+            Dim selItem As ListViewItem = lvwPrices.SelectedItems(0)
+            mnuPriceItemName.Text = selItem.Text
+            Dim selItemID As String = selItem.Name
+            ' Check if it exists and we can edit/delete it
+            If EveHQ.Core.HQ.CustomPriceList.Contains(selItemID) = True Then
+                ' Already in custom price list
+                mnuPriceAdd.Enabled = False
+                mnuPriceDelete.Enabled = True
+                mnuPriceEdit.Enabled = True
+            Else
+                ' Not in price list
+                mnuPriceAdd.Enabled = True
+                mnuPriceDelete.Enabled = False
+                mnuPriceEdit.Enabled = False
+            End If
         Else
-            ' Not in price list
-            mnuPriceAdd.Enabled = True
-            mnuPriceDelete.Enabled = False
-            mnuPriceEdit.Enabled = False
+            e.Cancel = True
         End If
     End Sub
     Private Sub mnuPriceDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceDelete.Click
