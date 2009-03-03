@@ -1257,7 +1257,16 @@ Public Class frmMarketPrices
             End If
         Next
         If PCSet = False Then
-            Dim msg As String = "You cannot process market prices without first setting price criteria." & ControlChars.CrLf & ControlChars.CrLf
+            Dim msg As String = ""
+            'For pc As Integer = 0 To 11
+            '    msg &= "Price Criteria Settings (" & pc.ToString & "): " & EveHQ.Core.HQ.EveHQSettings.PriceCriteria(pc) & ControlChars.CrLf
+            'Next
+            'msg &= ControlChars.CrLf
+            'For pc As Integer = 0 To 11
+            '    msg &= "Price Criteria Controls (" & pc.ToString & "): " & CType(grpCriteria.Controls("chkPriceCriteria" & pc.ToString), CheckBox).Checked & ControlChars.CrLf
+            'Next
+            'msg &= ControlChars.CrLf
+            msg &= "You cannot process market prices without first setting price criteria." & ControlChars.CrLf & ControlChars.CrLf
             msg &= "This can be done from the 'Price Settings' tab."
             MessageBox.Show(msg, "Price Criteria Required!", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
