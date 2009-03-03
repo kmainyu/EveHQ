@@ -37,9 +37,10 @@ Partial Class frmBCBrowser
         Me.colDate = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxLoadout = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuViewLoadout = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuCopyURL = New System.Windows.Forms.ToolStripMenuItem
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
         Me.lblBCStatus = New System.Windows.Forms.ToolStripStatusLabel
-        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
+        Me.lblTopicAddress = New System.Windows.Forms.ToolStripStatusLabel
         Me.lblLoadoutNameLbl = New System.Windows.Forms.Label
         Me.lblLoadoutAuthorLbl = New System.Windows.Forms.Label
         Me.lblLoadoutScoreLbl = New System.Windows.Forms.Label
@@ -50,10 +51,37 @@ Partial Class frmBCBrowser
         Me.lblLoadoutScore = New System.Windows.Forms.Label
         Me.lblLoadoutDate = New System.Windows.Forms.Label
         Me.lblLoadoutTopic = New System.Windows.Forms.LinkLabel
-        Me.lblTopicAddress = New System.Windows.Forms.ToolStripStatusLabel
+        Me.gbStatistics = New System.Windows.Forms.GroupBox
+        Me.lblPilot = New System.Windows.Forms.Label
+        Me.cboPilots = New System.Windows.Forms.ComboBox
+        Me.cboProfiles = New System.Windows.Forms.ComboBox
+        Me.lblProfileName = New System.Windows.Forms.Label
+        Me.lblEHPLbl = New System.Windows.Forms.Label
+        Me.lblTankLbl = New System.Windows.Forms.Label
+        Me.lblEHP = New System.Windows.Forms.Label
+        Me.lblTank = New System.Windows.Forms.Label
+        Me.lblVolleyLbl = New System.Windows.Forms.Label
+        Me.lblDPSLbl = New System.Windows.Forms.Label
+        Me.lblDPS = New System.Windows.Forms.Label
+        Me.lblVolley = New System.Windows.Forms.Label
+        Me.lblShieldResistsLbl = New System.Windows.Forms.Label
+        Me.lblArmorResistsLbl = New System.Windows.Forms.Label
+        Me.lblShieldResists = New System.Windows.Forms.Label
+        Me.lblArmorResists = New System.Windows.Forms.Label
+        Me.lblCapLbl = New System.Windows.Forms.Label
+        Me.lblCapacitor = New System.Windows.Forms.Label
+        Me.lblVelocityLbl = New System.Windows.Forms.Label
+        Me.lblVelocity = New System.Windows.Forms.Label
+        Me.LblMaxRangeLbl = New System.Windows.Forms.Label
+        Me.lblMaxRange = New System.Windows.Forms.Label
+        Me.lblOptimalRange = New System.Windows.Forms.Label
+        Me.lblOptimalRangeLbl = New System.Windows.Forms.Label
+        Me.btnImport = New System.Windows.Forms.Button
+        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         CType(Me.pbShip, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxLoadout.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
+        Me.gbStatistics.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblShipType
@@ -125,15 +153,21 @@ Partial Class frmBCBrowser
         '
         'ctxLoadout
         '
-        Me.ctxLoadout.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuViewLoadout})
+        Me.ctxLoadout.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuViewLoadout, Me.mnuCopyURL})
         Me.ctxLoadout.Name = "ctxLoadout"
-        Me.ctxLoadout.Size = New System.Drawing.Size(147, 26)
+        Me.ctxLoadout.Size = New System.Drawing.Size(236, 48)
         '
         'mnuViewLoadout
         '
         Me.mnuViewLoadout.Name = "mnuViewLoadout"
-        Me.mnuViewLoadout.Size = New System.Drawing.Size(146, 22)
+        Me.mnuViewLoadout.Size = New System.Drawing.Size(235, 22)
         Me.mnuViewLoadout.Text = "View Loadout"
+        '
+        'mnuCopyURL
+        '
+        Me.mnuCopyURL.Name = "mnuCopyURL"
+        Me.mnuCopyURL.Size = New System.Drawing.Size(235, 22)
+        Me.mnuCopyURL.Text = "Copy Loadout URL to Clipboard"
         '
         'StatusStrip1
         '
@@ -150,26 +184,12 @@ Partial Class frmBCBrowser
         Me.lblBCStatus.Size = New System.Drawing.Size(42, 17)
         Me.lblBCStatus.Text = "Status:"
         '
-        'lvwSlots
+        'lblTopicAddress
         '
-        Me.lvwSlots.AllowDrop = True
-        Me.lvwSlots.FullRowSelect = True
-        ListViewGroup1.Header = "High Slots"
-        ListViewGroup1.Name = "lvwgHighSlots"
-        ListViewGroup2.Header = "Mid Slots"
-        ListViewGroup2.Name = "lvwgMidSlots"
-        ListViewGroup3.Header = "Low Slots"
-        ListViewGroup3.Name = "lvwgLowSlots"
-        ListViewGroup4.Header = "Rig Slots"
-        ListViewGroup4.Name = "lvwgRigSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
-        Me.lvwSlots.Location = New System.Drawing.Point(509, 147)
-        Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.Size = New System.Drawing.Size(395, 463)
-        Me.lvwSlots.TabIndex = 7
-        Me.lvwSlots.Tag = ""
-        Me.lvwSlots.UseCompatibleStateImageBehavior = False
-        Me.lvwSlots.View = System.Windows.Forms.View.Details
+        Me.lblTopicAddress.Name = "lblTopicAddress"
+        Me.lblTopicAddress.Size = New System.Drawing.Size(859, 17)
+        Me.lblTopicAddress.Spring = True
+        Me.lblTopicAddress.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'lblLoadoutNameLbl
         '
@@ -272,18 +292,296 @@ Partial Class frmBCBrowser
         Me.lblLoadoutTopic.Text = "Label1"
         Me.lblLoadoutTopic.Visible = False
         '
-        'lblTopicAddress
+        'gbStatistics
         '
-        Me.lblTopicAddress.Name = "lblTopicAddress"
-        Me.lblTopicAddress.Size = New System.Drawing.Size(859, 17)
-        Me.lblTopicAddress.Spring = True
-        Me.lblTopicAddress.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.gbStatistics.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gbStatistics.Controls.Add(Me.lblOptimalRange)
+        Me.gbStatistics.Controls.Add(Me.lblOptimalRangeLbl)
+        Me.gbStatistics.Controls.Add(Me.lblMaxRange)
+        Me.gbStatistics.Controls.Add(Me.LblMaxRangeLbl)
+        Me.gbStatistics.Controls.Add(Me.lblVelocity)
+        Me.gbStatistics.Controls.Add(Me.lblVelocityLbl)
+        Me.gbStatistics.Controls.Add(Me.lblCapacitor)
+        Me.gbStatistics.Controls.Add(Me.lblCapLbl)
+        Me.gbStatistics.Controls.Add(Me.lblArmorResists)
+        Me.gbStatistics.Controls.Add(Me.lblShieldResists)
+        Me.gbStatistics.Controls.Add(Me.lblArmorResistsLbl)
+        Me.gbStatistics.Controls.Add(Me.lblShieldResistsLbl)
+        Me.gbStatistics.Controls.Add(Me.lblVolley)
+        Me.gbStatistics.Controls.Add(Me.lblDPS)
+        Me.gbStatistics.Controls.Add(Me.lblDPSLbl)
+        Me.gbStatistics.Controls.Add(Me.lblVolleyLbl)
+        Me.gbStatistics.Controls.Add(Me.lblTank)
+        Me.gbStatistics.Controls.Add(Me.lblEHP)
+        Me.gbStatistics.Controls.Add(Me.lblTankLbl)
+        Me.gbStatistics.Controls.Add(Me.lblEHPLbl)
+        Me.gbStatistics.Controls.Add(Me.cboProfiles)
+        Me.gbStatistics.Controls.Add(Me.lblProfileName)
+        Me.gbStatistics.Controls.Add(Me.cboPilots)
+        Me.gbStatistics.Controls.Add(Me.lblPilot)
+        Me.gbStatistics.Location = New System.Drawing.Point(509, 12)
+        Me.gbStatistics.Name = "gbStatistics"
+        Me.gbStatistics.Size = New System.Drawing.Size(395, 128)
+        Me.gbStatistics.TabIndex = 19
+        Me.gbStatistics.TabStop = False
+        Me.gbStatistics.Text = "Statistics"
+        Me.gbStatistics.Visible = False
+        '
+        'lblPilot
+        '
+        Me.lblPilot.AutoSize = True
+        Me.lblPilot.Location = New System.Drawing.Point(6, 16)
+        Me.lblPilot.Name = "lblPilot"
+        Me.lblPilot.Size = New System.Drawing.Size(61, 13)
+        Me.lblPilot.TabIndex = 0
+        Me.lblPilot.Text = "Pilot Name:"
+        '
+        'cboPilots
+        '
+        Me.cboPilots.FormattingEnabled = True
+        Me.cboPilots.Location = New System.Drawing.Point(9, 32)
+        Me.cboPilots.Name = "cboPilots"
+        Me.cboPilots.Size = New System.Drawing.Size(146, 21)
+        Me.cboPilots.TabIndex = 1
+        '
+        'cboProfiles
+        '
+        Me.cboProfiles.FormattingEnabled = True
+        Me.cboProfiles.Location = New System.Drawing.Point(194, 32)
+        Me.cboProfiles.Name = "cboProfiles"
+        Me.cboProfiles.Size = New System.Drawing.Size(146, 21)
+        Me.cboProfiles.TabIndex = 3
+        '
+        'lblProfileName
+        '
+        Me.lblProfileName.AutoSize = True
+        Me.lblProfileName.Location = New System.Drawing.Point(191, 16)
+        Me.lblProfileName.Name = "lblProfileName"
+        Me.lblProfileName.Size = New System.Drawing.Size(71, 13)
+        Me.lblProfileName.TabIndex = 2
+        Me.lblProfileName.Text = "Profile Name:"
+        '
+        'lblEHPLbl
+        '
+        Me.lblEHPLbl.AutoSize = True
+        Me.lblEHPLbl.Location = New System.Drawing.Point(6, 58)
+        Me.lblEHPLbl.Name = "lblEHPLbl"
+        Me.lblEHPLbl.Size = New System.Drawing.Size(70, 13)
+        Me.lblEHPLbl.TabIndex = 4
+        Me.lblEHPLbl.Text = "Effective HP:"
+        '
+        'lblTankLbl
+        '
+        Me.lblTankLbl.AutoSize = True
+        Me.lblTankLbl.Location = New System.Drawing.Point(191, 58)
+        Me.lblTankLbl.Name = "lblTankLbl"
+        Me.lblTankLbl.Size = New System.Drawing.Size(57, 13)
+        Me.lblTankLbl.TabIndex = 5
+        Me.lblTankLbl.Text = "Max Tank:"
+        '
+        'lblEHP
+        '
+        Me.lblEHP.AutoSize = True
+        Me.lblEHP.Location = New System.Drawing.Point(93, 58)
+        Me.lblEHP.Name = "lblEHP"
+        Me.lblEHP.Size = New System.Drawing.Size(13, 13)
+        Me.lblEHP.TabIndex = 6
+        Me.lblEHP.Text = "0"
+        '
+        'lblTank
+        '
+        Me.lblTank.AutoSize = True
+        Me.lblTank.Location = New System.Drawing.Point(278, 56)
+        Me.lblTank.Name = "lblTank"
+        Me.lblTank.Size = New System.Drawing.Size(13, 13)
+        Me.lblTank.TabIndex = 7
+        Me.lblTank.Text = "0"
+        '
+        'lblVolleyLbl
+        '
+        Me.lblVolleyLbl.AutoSize = True
+        Me.lblVolleyLbl.Location = New System.Drawing.Point(6, 71)
+        Me.lblVolleyLbl.Name = "lblVolleyLbl"
+        Me.lblVolleyLbl.Size = New System.Drawing.Size(81, 13)
+        Me.lblVolleyLbl.TabIndex = 8
+        Me.lblVolleyLbl.Text = "Volley Damage:"
+        '
+        'lblDPSLbl
+        '
+        Me.lblDPSLbl.AutoSize = True
+        Me.lblDPSLbl.Location = New System.Drawing.Point(191, 71)
+        Me.lblDPSLbl.Name = "lblDPSLbl"
+        Me.lblDPSLbl.Size = New System.Drawing.Size(58, 13)
+        Me.lblDPSLbl.TabIndex = 9
+        Me.lblDPSLbl.Text = "DPS Dealt:"
+        '
+        'lblDPS
+        '
+        Me.lblDPS.AutoSize = True
+        Me.lblDPS.Location = New System.Drawing.Point(278, 71)
+        Me.lblDPS.Name = "lblDPS"
+        Me.lblDPS.Size = New System.Drawing.Size(13, 13)
+        Me.lblDPS.TabIndex = 10
+        Me.lblDPS.Text = "0"
+        '
+        'lblVolley
+        '
+        Me.lblVolley.AutoSize = True
+        Me.lblVolley.Location = New System.Drawing.Point(93, 71)
+        Me.lblVolley.Name = "lblVolley"
+        Me.lblVolley.Size = New System.Drawing.Size(13, 13)
+        Me.lblVolley.TabIndex = 11
+        Me.lblVolley.Text = "0"
+        '
+        'lblShieldResistsLbl
+        '
+        Me.lblShieldResistsLbl.AutoSize = True
+        Me.lblShieldResistsLbl.Location = New System.Drawing.Point(6, 84)
+        Me.lblShieldResistsLbl.Name = "lblShieldResistsLbl"
+        Me.lblShieldResistsLbl.Size = New System.Drawing.Size(76, 13)
+        Me.lblShieldResistsLbl.TabIndex = 12
+        Me.lblShieldResistsLbl.Text = "Shield Resists:"
+        '
+        'lblArmorResistsLbl
+        '
+        Me.lblArmorResistsLbl.AutoSize = True
+        Me.lblArmorResistsLbl.Location = New System.Drawing.Point(191, 84)
+        Me.lblArmorResistsLbl.Name = "lblArmorResistsLbl"
+        Me.lblArmorResistsLbl.Size = New System.Drawing.Size(77, 13)
+        Me.lblArmorResistsLbl.TabIndex = 13
+        Me.lblArmorResistsLbl.Text = "Armor Resists:"
+        '
+        'lblShieldResists
+        '
+        Me.lblShieldResists.AutoSize = True
+        Me.lblShieldResists.Location = New System.Drawing.Point(93, 84)
+        Me.lblShieldResists.Name = "lblShieldResists"
+        Me.lblShieldResists.Size = New System.Drawing.Size(13, 13)
+        Me.lblShieldResists.TabIndex = 14
+        Me.lblShieldResists.Text = "0"
+        '
+        'lblArmorResists
+        '
+        Me.lblArmorResists.AutoSize = True
+        Me.lblArmorResists.Location = New System.Drawing.Point(278, 84)
+        Me.lblArmorResists.Name = "lblArmorResists"
+        Me.lblArmorResists.Size = New System.Drawing.Size(13, 13)
+        Me.lblArmorResists.TabIndex = 15
+        Me.lblArmorResists.Text = "0"
+        '
+        'lblCapLbl
+        '
+        Me.lblCapLbl.AutoSize = True
+        Me.lblCapLbl.Location = New System.Drawing.Point(6, 97)
+        Me.lblCapLbl.Name = "lblCapLbl"
+        Me.lblCapLbl.Size = New System.Drawing.Size(57, 13)
+        Me.lblCapLbl.TabIndex = 16
+        Me.lblCapLbl.Text = "Capacitor:"
+        '
+        'lblCapacitor
+        '
+        Me.lblCapacitor.AutoSize = True
+        Me.lblCapacitor.Location = New System.Drawing.Point(93, 97)
+        Me.lblCapacitor.Name = "lblCapacitor"
+        Me.lblCapacitor.Size = New System.Drawing.Size(13, 13)
+        Me.lblCapacitor.TabIndex = 17
+        Me.lblCapacitor.Text = "0"
+        '
+        'lblVelocityLbl
+        '
+        Me.lblVelocityLbl.AutoSize = True
+        Me.lblVelocityLbl.Location = New System.Drawing.Point(191, 97)
+        Me.lblVelocityLbl.Name = "lblVelocityLbl"
+        Me.lblVelocityLbl.Size = New System.Drawing.Size(48, 13)
+        Me.lblVelocityLbl.TabIndex = 18
+        Me.lblVelocityLbl.Text = "Velocity:"
+        '
+        'lblVelocity
+        '
+        Me.lblVelocity.AutoSize = True
+        Me.lblVelocity.Location = New System.Drawing.Point(278, 97)
+        Me.lblVelocity.Name = "lblVelocity"
+        Me.lblVelocity.Size = New System.Drawing.Size(13, 13)
+        Me.lblVelocity.TabIndex = 19
+        Me.lblVelocity.Text = "0"
+        '
+        'LblMaxRangeLbl
+        '
+        Me.LblMaxRangeLbl.AutoSize = True
+        Me.LblMaxRangeLbl.Location = New System.Drawing.Point(6, 110)
+        Me.LblMaxRangeLbl.Name = "LblMaxRangeLbl"
+        Me.LblMaxRangeLbl.Size = New System.Drawing.Size(77, 13)
+        Me.LblMaxRangeLbl.TabIndex = 20
+        Me.LblMaxRangeLbl.Text = "Target Range:"
+        '
+        'lblMaxRange
+        '
+        Me.lblMaxRange.AutoSize = True
+        Me.lblMaxRange.Location = New System.Drawing.Point(93, 110)
+        Me.lblMaxRange.Name = "lblMaxRange"
+        Me.lblMaxRange.Size = New System.Drawing.Size(13, 13)
+        Me.lblMaxRange.TabIndex = 21
+        Me.lblMaxRange.Text = "0"
+        '
+        'lblOptimalRange
+        '
+        Me.lblOptimalRange.AutoSize = True
+        Me.lblOptimalRange.Location = New System.Drawing.Point(278, 110)
+        Me.lblOptimalRange.Name = "lblOptimalRange"
+        Me.lblOptimalRange.Size = New System.Drawing.Size(13, 13)
+        Me.lblOptimalRange.TabIndex = 23
+        Me.lblOptimalRange.Text = "0"
+        '
+        'lblOptimalRangeLbl
+        '
+        Me.lblOptimalRangeLbl.AutoSize = True
+        Me.lblOptimalRangeLbl.Location = New System.Drawing.Point(191, 110)
+        Me.lblOptimalRangeLbl.Name = "lblOptimalRangeLbl"
+        Me.lblOptimalRangeLbl.Size = New System.Drawing.Size(81, 13)
+        Me.lblOptimalRangeLbl.TabIndex = 22
+        Me.lblOptimalRangeLbl.Text = "Optimal Range:"
+        '
+        'btnImport
+        '
+        Me.btnImport.Enabled = False
+        Me.btnImport.Location = New System.Drawing.Point(428, 117)
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Size = New System.Drawing.Size(75, 23)
+        Me.btnImport.TabIndex = 20
+        Me.btnImport.Text = "Import"
+        Me.btnImport.UseVisualStyleBackColor = True
+        '
+        'lvwSlots
+        '
+        Me.lvwSlots.AllowDrop = True
+        Me.lvwSlots.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwSlots.FullRowSelect = True
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
+        Me.lvwSlots.Location = New System.Drawing.Point(509, 147)
+        Me.lvwSlots.Name = "lvwSlots"
+        Me.lvwSlots.Size = New System.Drawing.Size(395, 463)
+        Me.lvwSlots.TabIndex = 7
+        Me.lvwSlots.Tag = ""
+        Me.lvwSlots.UseCompatibleStateImageBehavior = False
+        Me.lvwSlots.View = System.Windows.Forms.View.Details
         '
         'frmBCBrowser
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(916, 635)
+        Me.Controls.Add(Me.btnImport)
+        Me.Controls.Add(Me.gbStatistics)
         Me.Controls.Add(Me.lblLoadoutTopic)
         Me.Controls.Add(Me.lblLoadoutDate)
         Me.Controls.Add(Me.lblLoadoutScore)
@@ -308,6 +606,8 @@ Partial Class frmBCBrowser
         Me.ctxLoadout.ResumeLayout(False)
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
+        Me.gbStatistics.ResumeLayout(False)
+        Me.gbStatistics.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -335,4 +635,31 @@ Partial Class frmBCBrowser
     Friend WithEvents lblLoadoutDate As System.Windows.Forms.Label
     Friend WithEvents lblLoadoutTopic As System.Windows.Forms.LinkLabel
     Friend WithEvents lblTopicAddress As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents mnuCopyURL As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents gbStatistics As System.Windows.Forms.GroupBox
+    Friend WithEvents cboPilots As System.Windows.Forms.ComboBox
+    Friend WithEvents lblPilot As System.Windows.Forms.Label
+    Friend WithEvents cboProfiles As System.Windows.Forms.ComboBox
+    Friend WithEvents lblProfileName As System.Windows.Forms.Label
+    Friend WithEvents lblEHPLbl As System.Windows.Forms.Label
+    Friend WithEvents lblTank As System.Windows.Forms.Label
+    Friend WithEvents lblEHP As System.Windows.Forms.Label
+    Friend WithEvents lblTankLbl As System.Windows.Forms.Label
+    Friend WithEvents lblVolleyLbl As System.Windows.Forms.Label
+    Friend WithEvents lblVelocity As System.Windows.Forms.Label
+    Friend WithEvents lblVelocityLbl As System.Windows.Forms.Label
+    Friend WithEvents lblCapacitor As System.Windows.Forms.Label
+    Friend WithEvents lblCapLbl As System.Windows.Forms.Label
+    Friend WithEvents lblArmorResists As System.Windows.Forms.Label
+    Friend WithEvents lblShieldResists As System.Windows.Forms.Label
+    Friend WithEvents lblArmorResistsLbl As System.Windows.Forms.Label
+    Friend WithEvents lblShieldResistsLbl As System.Windows.Forms.Label
+    Friend WithEvents lblVolley As System.Windows.Forms.Label
+    Friend WithEvents lblDPS As System.Windows.Forms.Label
+    Friend WithEvents lblDPSLbl As System.Windows.Forms.Label
+    Friend WithEvents lblOptimalRange As System.Windows.Forms.Label
+    Friend WithEvents lblOptimalRangeLbl As System.Windows.Forms.Label
+    Friend WithEvents lblMaxRange As System.Windows.Forms.Label
+    Friend WithEvents LblMaxRangeLbl As System.Windows.Forms.Label
+    Friend WithEvents btnImport As System.Windows.Forms.Button
 End Class

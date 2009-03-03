@@ -1,6 +1,7 @@
 ﻿Public Class HQFEvents
     Public Shared Event FindModule(ByVal modData As ArrayList)
     Public Shared Event UpdateFitting()
+    Public Shared Event UpdateFittingList()
     Public Shared Event UpdateModuleList()
     Public Shared Event UpdateShipInfo(ByVal pilotName As String)
 
@@ -15,6 +16,13 @@
         Set(ByVal value As Boolean)
             If value = True Then
                 RaiseEvent UpdateFitting()
+            End If
+        End Set
+    End Property
+    Shared WriteOnly Property StartUpdateFittingList() As Boolean
+        Set(ByVal value As Boolean)
+            If value = True Then
+                RaiseEvent UpdateFittingList()
             End If
         End Set
     End Property

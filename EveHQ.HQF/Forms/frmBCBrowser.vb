@@ -9,6 +9,7 @@ Imports DotNetLib.Windows.Forms
 Public Class frmBCBrowser
 
     Dim currentShip As Ship
+    Dim currentFit As New ArrayList
     Dim BCLoadoutCache As String = EveHQ.Core.HQ.appDataFolder & "\BCLoadoutCache"
 
     Public Property ShipType() As Ship
@@ -17,20 +18,10 @@ Public Class frmBCBrowser
         End Get
         Set(ByVal value As Ship)
             currentShip = value
+            pbShip.ImageLocation = "http://www.evehq.net/images/eve/shiptypes/128_128/" & currentShip.ID & ".png"
             Call GetBCShipLoadouts()
         End Set
     End Property
-
-    Private Sub frmBCBrowser_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' Create the fittings cache if it doesn't exist!
-        Try
-            If My.Computer.FileSystem.DirectoryExists(BCLoadoutCache) = False Then
-                My.Computer.FileSystem.CreateDirectory(BCLoadoutCache)
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Unable to create the Loadout cache folder. Caching will be disabled which may affect loadout downloads.", "Error Creating Folder", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Try
-    End Sub
 
     Private Sub UpdateSlotColumns()
         ' Clear the columns
@@ -200,9 +191,9 @@ Public Class frmBCBrowser
         Dim loadoutXML As New XmlDocument
         Dim UseCacheFile As Boolean = False
         If My.Computer.FileSystem.DirectoryExists(BCLoadoutCache) Then
-            If My.Computer.FileSystem.FileExists(BCLoadoutCache & "\" & LoadoutID & ".xml") Then
+            If My.Computer.FileSystem.FileExists(BCLoadoutCache & "\" & currentShip.ID.ToString & "-" & LoadoutID & ".xml") Then
                 ' Open the file and check the cache time
-                loadoutXML.Load(BCLoadoutCache & "\" & LoadoutID & ".xml")
+                loadoutXML.Load(BCLoadoutCache & "\" & currentShip.ID.ToString & "-" & LoadoutID & ".xml")
                 Dim cacheNode As XmlNode = loadoutXML.SelectSingleNode("/loadouts/cacheExpires")
                 Dim cacheTime As DateTime = DateTime.Parse(cacheNode.InnerText)
                 If Now > cacheTime Then
@@ -216,7 +207,7 @@ Public Class frmBCBrowser
 
         If UseCacheFile = False Then
             lblBCStatus.Text = "Retrieving " & LoadoutName & "(" & currentShip.Name & ") from BattleClinic..." : StatusStrip1.Refresh()
-            Dim remoteURL As String = "http://www.battleclinic.com/eve_online/ship_loadout_feed.php?typeID=" & LoadoutID
+            Dim remoteURL As String = "http://www.battleclinic.com/eve_online/ship_loadout_feed.php?typeID=" & currentShip.ID.ToString & "&id=" & LoadoutID
             Try
                 ' Create the requester
                 ServicePointManager.DefaultConnectionLimit = 20
@@ -253,7 +244,7 @@ Public Class frmBCBrowser
         Dim loadoutList As XmlNodeList = loadoutXML.SelectNodes("/loadouts/race/ship/loadout/slot")
         If loadoutList.Count > 0 Then
             Call ClearShipSlots()
-            Dim fittingList, moduleList, ammoList As New ArrayList
+            Dim moduleList, ammoList As New ArrayList
             For Each loadout As XmlNode In loadoutList
                 If loadout.InnerText <> "0" Then
                     Select Case loadout.Attributes("type").Value
@@ -265,20 +256,23 @@ Public Class frmBCBrowser
                 End If
             Next
             ' Try and match the ammo to the modules
+            Dim BaseFit As String = ""
             Dim RevisedFit As String = ""
+            currentFit.Clear()
             For Each fittedMod As String In moduleList
                 Dim fModule As ShipModule = CType(ModuleLists.moduleList(fittedMod), ShipModule)
-                RevisedFit = fModule.Name
-                If fModule.Charges.Count <> 0 Then
-                    For Each ammo As String In ammoList
-                        If fModule.Charges.Contains(CType(ModuleLists.moduleList(ammo), ShipModule).DatabaseGroup) Then
-                            RevisedFit &= "," & CType(ModuleLists.moduleList(ammo), ShipModule).Name
-                            Exit For
-                        End If
-                    Next
-                    fittingList.Add(RevisedFit)
-                Else
-                    fittingList.Add(fModule.Name)
+                If fModule IsNot Nothing Then
+                    BaseFit = fModule.Name : RevisedFit = BaseFit
+                    If fModule.Charges.Count <> 0 Then
+                        For Each ammo As String In ammoList
+                            If fModule.Charges.Contains(CType(ModuleLists.moduleList(ammo), ShipModule).DatabaseGroup) Then
+                                RevisedFit = BaseFit & "," & CType(ModuleLists.moduleList(ammo), ShipModule).Name
+                            End If
+                        Next
+                        currentFit.Add(RevisedFit)
+                    Else
+                        currentFit.Add(fModule.Name)
+                    End If
                 End If
             Next
             lblLoadoutName.Text = LoadoutName : lblLoadoutName.Visible = True : lblLoadoutNameLbl.Visible = True
@@ -288,12 +282,15 @@ Public Class frmBCBrowser
             lblLoadoutTopic.Text = "BattleClinic Topic" : lblLoadoutTopic.Visible = True : LblLoadoutTopicLbl.Visible = True
             lblLoadoutTopic.Tag = LoadoutTopic
             lblBCStatus.Text = "Download of loadout completed!" : StatusStrip1.Refresh()
+            btnImport.Enabled = True
             ' Save the XML into the cache
             If UseCacheFile = False Then
-                loadoutXML.Save(BCLoadoutCache & "\" & LoadoutID & ".xml")
+                loadoutXML.Save(BCLoadoutCache & "\" & currentShip.ID.ToString & "-" & LoadoutID & ".xml")
             End If
-            pbShip.ImageLocation = "http://www.evehq.net/images/eve/shiptypes/128_128/" & currentShip.ID & ".png"
-            currentShip = Engine.UpdateShipDataFromFittingList(currentShip, fittingList)
+            currentShip = Engine.UpdateShipDataFromFittingList(currentShip, currentFit)
+            ' Generate fitting data
+            Call Me.GenerateFittingData()
+            gbStatistics.Visible = True
         Else
             lblBCStatus.Text = "There seems to be no fittings for this loadout!" : StatusStrip1.Refresh()
         End If
@@ -347,4 +344,128 @@ Public Class frmBCBrowser
         lblTopicAddress.Text = ""
     End Sub
 
+    Private Sub mnuCopyURL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyURL.Click
+        Dim cLoadout As ContainerListViewItem = clvLoadouts.SelectedItems(0)
+        Try
+            Clipboard.SetText("http://www.battleclinic.com/forum/index.php/topic," & cLoadout.SubItems(1).Tag.ToString & ".0.html")
+        Catch ex As Exception
+            MessageBox.Show("There was an error copying data to the cliboard: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf & "Please try again.", "Copy to Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
+    End Sub
+
+    Public Sub New()
+
+        ' This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        ' Create the fittings cache if it doesn't exist!
+        Try
+            If My.Computer.FileSystem.DirectoryExists(BCLoadoutCache) = False Then
+                My.Computer.FileSystem.CreateDirectory(BCLoadoutCache)
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Unable to create the Loadout cache folder. Caching will be disabled which may affect loadout downloads.", "Error Creating Folder", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
+
+        ' Add the current list of pilots to the combobox
+        cboPilots.BeginUpdate()
+        cboPilots.Items.Clear()
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If cPilot.Active = True Then
+                cboPilots.Items.Add(cPilot.Name)
+            End If
+        Next
+        cboPilots.EndUpdate()
+        ' Look at the settings for default pilot
+        If cboPilots.Items.Count > 0 Then
+            If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
+                cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
+            Else
+                cboPilots.SelectedIndex = 0
+            End If
+        End If
+
+        ' Add the profiles
+        cboProfiles.BeginUpdate()
+        cboProfiles.Items.Clear()
+        For Each newProfile As DamageProfile In DamageProfiles.ProfileList.Values
+            cboProfiles.Items.Add(newProfile.Name)
+        Next
+        cboProfiles.EndUpdate()
+        ' Select the default profile
+        cboProfiles.SelectedItem = "<Omni-Damage>"
+
+    End Sub
+
+    Private Sub GenerateFittingData()
+        ' Let's try and generate a fitting and get some damage info
+        If currentShip IsNot Nothing Then
+            Dim loadoutPilot As HQF.HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
+            Dim loadoutProfile As HQF.DamageProfile = CType(HQF.DamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString), DamageProfile)
+
+            currentShip.DamageProfile = loadoutProfile
+            Dim loadoutShip As Ship = Engine.ApplyFitting(currentShip, loadoutPilot)
+
+            lblEHP.Text = FormatNumber(loadoutShip.EffectiveHP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            lblTank.Text = FormatNumber(CDbl(loadoutShip.Attributes("10062")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " DPS"
+            lblVolley.Text = FormatNumber(CDbl(loadoutShip.Attributes("10028")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            lblDPS.Text = FormatNumber(CDbl(loadoutShip.Attributes("10029")), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            lblShieldResists.Text = FormatNumber(loadoutShip.ShieldEMResist, 0) & "/" & FormatNumber(loadoutShip.ShieldExResist, 0) & "/" & FormatNumber(loadoutShip.ShieldKiResist, 0) & "/" & FormatNumber(loadoutShip.ShieldThResist, 0)
+            lblArmorResists.Text = FormatNumber(loadoutShip.ArmorEMResist, 0) & "/" & FormatNumber(loadoutShip.ArmorExResist, 0) & "/" & FormatNumber(loadoutShip.ArmorKiResist, 0) & "/" & FormatNumber(loadoutShip.ArmorThResist, 0)
+            Dim cap As Double = Engine.CalculateCapStatistics(loadoutShip)
+            If cap > 0 Then
+                cap = cap / loadoutShip.CapCapacity * 100
+                lblCapacitor.Text = "Stable at " & FormatNumber(cap, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            Else
+                lblCapacitor.Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(-cap, False)
+            End If
+            lblVelocity.Text = FormatNumber(loadoutShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
+            lblMaxRange.Text = FormatNumber(loadoutShip.MaxTargetRange, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
+
+            Dim maxOpt As Double = 0
+            For slot As Integer = 1 To loadoutShip.HiSlots
+                Dim shipMod As ShipModule = loadoutShip.HiSlot(slot)
+                If shipMod IsNot Nothing Then
+                    If shipMod.Attributes.Contains("54") Then
+                        maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes("54")))
+                    End If
+                End If
+            Next
+            lblOptimalRange.Text = FormatNumber(maxOpt, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
+
+        End If
+
+    End Sub
+
+    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
+        Call GenerateFittingData()
+    End Sub
+
+    Private Sub cboProfiles_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboProfiles.SelectedIndexChanged
+        Call GenerateFittingData()
+    End Sub
+
+    Private Sub btnImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImport.Click
+        Dim shipName As String = lblShipType.Text
+        Dim fittingName As String = lblLoadoutName.Text
+        ' If the fitting exists, add a number onto the end
+        If Fittings.FittingList.ContainsKey(shipName & ", " & fittingName) = True Then
+            Dim response As Integer = MessageBox.Show("Fitting name already exists. Are you sure you wish to import the fitting?", "Confirm Import for " & shipName, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If response = Windows.Forms.DialogResult.Yes Then
+                Dim newFittingName As String = ""
+                Dim revision As Integer = 1
+                Do
+                    revision += 1
+                    newFittingName = fittingName & " " & revision.ToString
+                Loop Until Fittings.FittingList.ContainsKey(shipName & ", " & newFittingName) = False
+                fittingName = newFittingName
+                MessageBox.Show("New fitting name is '" & fittingName & "'.", "New Fitting Imported", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                Exit Sub
+            End If
+        End If
+        ' Lets create the fitting
+        Fittings.FittingList.Add(shipName & ", " & fittingName, currentFit)
+        HQFEvents.StartUpdateFittingList = True
+    End Sub
 End Class

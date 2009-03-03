@@ -102,11 +102,13 @@ Public Class frmHQF
         RemoveHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
         RemoveHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
         RemoveHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFittings
+        RemoveHandler HQFEvents.UpdateFittingList, AddressOf Me.UpdateFilteredShips
         RemoveHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
-
+        
         AddHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
         AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
         AddHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFittings
+        AddHandler HQFEvents.UpdateFittingList, AddressOf Me.UpdateFilteredShips
         AddHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
         AddHandler HQFEvents.UpdateShipInfo, AddressOf Me.UpdateShipInfo
 
@@ -1471,6 +1473,7 @@ Public Class frmHQF
                         mnuFittingsFittingName.Tag = parentNode.Text
                         mnuFittingsCreateFitting.Text = "Create New " & parentNode.Text & " Fitting"
                         mnuFittingsCreateFitting.Enabled = True
+                        mnuFittingsBCBrowser.Enabled = True
                         mnuFittingsCopyFitting.Enabled = True
                         mnuFittingsDeleteFitting.Enabled = True
                         mnuFittingsRenameFitting.Enabled = True
@@ -1481,6 +1484,7 @@ Public Class frmHQF
                         mnuFittingsFittingName.Tag = curNode.Text
                         mnuFittingsCreateFitting.Text = "Create New " & curNode.Text & " Fitting"
                         mnuFittingsCreateFitting.Enabled = True
+                        mnuFittingsBCBrowser.Enabled = True
                         mnuFittingsCopyFitting.Enabled = False
                         mnuFittingsDeleteFitting.Enabled = False
                         mnuFittingsRenameFitting.Enabled = False
@@ -1496,6 +1500,7 @@ Public Class frmHQF
             mnuFittingsFittingName.Tag = "[Multiple Selection]"
             mnuFittingsCreateFitting.Text = "[Multiple Selection]"
             mnuFittingsCreateFitting.Enabled = False
+            mnuFittingsBCBrowser.Enabled = False
             mnuFittingsCopyFitting.Enabled = False
             mnuFittingsDeleteFitting.Enabled = True
             mnuFittingsRenameFitting.Enabled = False
@@ -1675,6 +1680,14 @@ Public Class frmHQF
             msg &= "Please add an API account or manual pilot in the main EveHQ Settings before opening or creating a fitting."
             MessageBox.Show(msg, "Pilots Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
+    End Sub
+    Private Sub mnuFittingsBCBrowser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsBCBrowser.Click
+        Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
+        Dim shipName As String = mnuFittingsFittingName.Tag.ToString
+        Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship)
+        Dim BCB As New frmBCBrowser
+        BCB.ShipType = bShip
+        BCB.Show()
     End Sub
 #End Region
 
@@ -2227,4 +2240,5 @@ Public Class frmHQF
     End Sub
 
     
+ 
 End Class
