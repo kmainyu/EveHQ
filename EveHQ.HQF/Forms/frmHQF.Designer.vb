@@ -285,7 +285,7 @@ Partial Class frmHQF
         Me.ToolStripButton3.Image = CType(resources.GetObject("ToolStripButton3.Image"), System.Drawing.Image)
         Me.ToolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton3.Name = "ToolStripButton3"
-        Me.ToolStripButton3.Size = New System.Drawing.Size(82, 22)
+        Me.ToolStripButton3.Size = New System.Drawing.Size(87, 22)
         Me.ToolStripButton3.Text = "Check Data"
         Me.ToolStripButton3.Visible = False
         '
@@ -294,7 +294,7 @@ Partial Class frmHQF
         Me.tsbOptions.Image = CType(resources.GetObject("tsbOptions.Image"), System.Drawing.Image)
         Me.tsbOptions.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbOptions.Name = "tsbOptions"
-        Me.tsbOptions.Size = New System.Drawing.Size(64, 22)
+        Me.tsbOptions.Size = New System.Drawing.Size(69, 22)
         Me.tsbOptions.Text = "Options"
         '
         'ToolStripSeparator3
@@ -308,7 +308,7 @@ Partial Class frmHQF
         Me.btnPilotManager.Image = CType(resources.GetObject("btnPilotManager.Image"), System.Drawing.Image)
         Me.btnPilotManager.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnPilotManager.Name = "btnPilotManager"
-        Me.btnPilotManager.Size = New System.Drawing.Size(92, 22)
+        Me.btnPilotManager.Size = New System.Drawing.Size(101, 22)
         Me.btnPilotManager.Text = "Pilot Manager"
         '
         'ToolStripSeparator1
@@ -323,36 +323,36 @@ Partial Class frmHQF
         Me.btnCopy.Image = CType(resources.GetObject("btnCopy.Image"), System.Drawing.Image)
         Me.btnCopy.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnCopy.Name = "btnCopy"
-        Me.btnCopy.Size = New System.Drawing.Size(104, 22)
+        Me.btnCopy.Size = New System.Drawing.Size(109, 22)
         Me.btnCopy.Text = "Export Fitting"
         '
         'mnuCopyForHQF
         '
         Me.mnuCopyForHQF.Name = "mnuCopyForHQF"
-        Me.mnuCopyForHQF.Size = New System.Drawing.Size(179, 22)
+        Me.mnuCopyForHQF.Size = New System.Drawing.Size(177, 22)
         Me.mnuCopyForHQF.Text = "Copy For HQF"
         '
         'mnuCopyForEFT
         '
         Me.mnuCopyForEFT.Name = "mnuCopyForEFT"
-        Me.mnuCopyForEFT.Size = New System.Drawing.Size(179, 22)
+        Me.mnuCopyForEFT.Size = New System.Drawing.Size(177, 22)
         Me.mnuCopyForEFT.Text = "Copy For EFT"
         '
         'mnuCopyForForums
         '
         Me.mnuCopyForForums.Name = "mnuCopyForForums"
-        Me.mnuCopyForForums.Size = New System.Drawing.Size(179, 22)
+        Me.mnuCopyForForums.Size = New System.Drawing.Size(177, 22)
         Me.mnuCopyForForums.Text = "Copy For Forums"
         '
         'ToolStripMenuItem7
         '
         Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(176, 6)
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(174, 6)
         '
         'mnuShipStats
         '
         Me.mnuShipStats.Name = "mnuShipStats"
-        Me.mnuShipStats.Size = New System.Drawing.Size(179, 22)
+        Me.mnuShipStats.Size = New System.Drawing.Size(177, 22)
         Me.mnuShipStats.Text = "Copy Ship Statistics"
         '
         'btnScreenshot
@@ -381,7 +381,7 @@ Partial Class frmHQF
         Me.btnImportEFT.Image = CType(resources.GetObject("btnImportEFT.Image"), System.Drawing.Image)
         Me.btnImportEFT.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnImportEFT.Name = "btnImportEFT"
-        Me.btnImportEFT.Size = New System.Drawing.Size(118, 22)
+        Me.btnImportEFT.Size = New System.Drawing.Size(127, 22)
         Me.btnImportEFT.Text = "Import EFT Fittings"
         '
         'ToolStripSeparator7
@@ -395,7 +395,7 @@ Partial Class frmHQF
         Me.btnClipboardPaste.Image = CType(resources.GetObject("btnClipboardPaste.Image"), System.Drawing.Image)
         Me.btnClipboardPaste.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnClipboardPaste.Name = "btnClipboardPaste"
-        Me.btnClipboardPaste.Size = New System.Drawing.Size(132, 22)
+        Me.btnClipboardPaste.Size = New System.Drawing.Size(147, 22)
         Me.btnClipboardPaste.Text = "Import from Clipboard"
         '
         'ToolStripSeparator4
@@ -463,81 +463,81 @@ Partial Class frmHQF
         '
         Me.ctxFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFittingsFittingName, Me.ToolStripMenuItem4, Me.mnuFittingsShowFitting, Me.ToolStripMenuItem1, Me.mnuFittingsRenameFitting, Me.mnuFittingsCopyFitting, Me.mnuFittingsDeleteFitting, Me.ToolStripMenuItem3, Me.mnuFittingsCreateFitting, Me.mnuFittingsBCBrowser, Me.ToolStripMenuItem5, Me.mnuPreviewShip2, Me.mnuCompareFittings})
         Me.ctxFittings.Name = "ctxFittings"
-        Me.ctxFittings.Size = New System.Drawing.Size(182, 226)
+        Me.ctxFittings.Size = New System.Drawing.Size(180, 226)
         '
         'mnuFittingsFittingName
         '
         Me.mnuFittingsFittingName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.mnuFittingsFittingName.Name = "mnuFittingsFittingName"
-        Me.mnuFittingsFittingName.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsFittingName.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsFittingName.Text = "Fitting Name"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(176, 6)
         '
         'mnuFittingsShowFitting
         '
         Me.mnuFittingsShowFitting.Name = "mnuFittingsShowFitting"
-        Me.mnuFittingsShowFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsShowFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsShowFitting.Text = "Show Fitting"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(176, 6)
         '
         'mnuFittingsRenameFitting
         '
         Me.mnuFittingsRenameFitting.Name = "mnuFittingsRenameFitting"
-        Me.mnuFittingsRenameFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsRenameFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsRenameFitting.Text = "Rename Fitting"
         '
         'mnuFittingsCopyFitting
         '
         Me.mnuFittingsCopyFitting.Name = "mnuFittingsCopyFitting"
-        Me.mnuFittingsCopyFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsCopyFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsCopyFitting.Text = "Copy Fitting"
         '
         'mnuFittingsDeleteFitting
         '
         Me.mnuFittingsDeleteFitting.Name = "mnuFittingsDeleteFitting"
-        Me.mnuFittingsDeleteFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsDeleteFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsDeleteFitting.Text = "Delete Fitting"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(176, 6)
         '
         'mnuFittingsCreateFitting
         '
         Me.mnuFittingsCreateFitting.Name = "mnuFittingsCreateFitting"
-        Me.mnuFittingsCreateFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsCreateFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsCreateFitting.Text = "Create New Fitting"
         '
         'mnuFittingsBCBrowser
         '
         Me.mnuFittingsBCBrowser.Name = "mnuFittingsBCBrowser"
-        Me.mnuFittingsBCBrowser.Size = New System.Drawing.Size(181, 22)
+        Me.mnuFittingsBCBrowser.Size = New System.Drawing.Size(179, 22)
         Me.mnuFittingsBCBrowser.Text = "BattleClinic Browser"
         '
         'ToolStripMenuItem5
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(176, 6)
         '
         'mnuPreviewShip2
         '
         Me.mnuPreviewShip2.Name = "mnuPreviewShip2"
-        Me.mnuPreviewShip2.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPreviewShip2.Size = New System.Drawing.Size(179, 22)
         Me.mnuPreviewShip2.Text = "Preview Ship Details"
         '
         'mnuCompareFittings
         '
         Me.mnuCompareFittings.Name = "mnuCompareFittings"
-        Me.mnuCompareFittings.Size = New System.Drawing.Size(181, 22)
+        Me.mnuCompareFittings.Size = New System.Drawing.Size(179, 22)
         Me.mnuCompareFittings.Text = "Compare Fittings"
         '
         'pbSearchShips
@@ -585,43 +585,43 @@ Partial Class frmHQF
         '
         Me.ctxShipBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShipBrowserShipName, Me.ToolStripMenuItem2, Me.mnuPreviewShip, Me.mnuCreateNewFitting, Me.ToolStripMenuItem6, Me.mnuBattleClinicBrowser})
         Me.ctxShipBrowser.Name = "ctxShipBrowser"
-        Me.ctxShipBrowser.Size = New System.Drawing.Size(182, 104)
+        Me.ctxShipBrowser.Size = New System.Drawing.Size(180, 104)
         '
         'mnuShipBrowserShipName
         '
         Me.mnuShipBrowserShipName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuShipBrowserShipName.Name = "mnuShipBrowserShipName"
-        Me.mnuShipBrowserShipName.Size = New System.Drawing.Size(181, 22)
+        Me.mnuShipBrowserShipName.Size = New System.Drawing.Size(179, 22)
         Me.mnuShipBrowserShipName.Text = "Ship Name"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(176, 6)
         '
         'mnuPreviewShip
         '
         Me.mnuPreviewShip.Name = "mnuPreviewShip"
-        Me.mnuPreviewShip.Size = New System.Drawing.Size(181, 22)
+        Me.mnuPreviewShip.Size = New System.Drawing.Size(179, 22)
         Me.mnuPreviewShip.Text = "Preview Ship Details"
         Me.mnuPreviewShip.ToolTipText = "View Ship Stats and Attributes"
         '
         'mnuCreateNewFitting
         '
         Me.mnuCreateNewFitting.Name = "mnuCreateNewFitting"
-        Me.mnuCreateNewFitting.Size = New System.Drawing.Size(181, 22)
+        Me.mnuCreateNewFitting.Size = New System.Drawing.Size(179, 22)
         Me.mnuCreateNewFitting.Text = "Create New Fitting"
         Me.mnuCreateNewFitting.ToolTipText = "Create a new fitting for this ship type"
         '
         'ToolStripMenuItem6
         '
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(178, 6)
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(176, 6)
         '
         'mnuBattleClinicBrowser
         '
         Me.mnuBattleClinicBrowser.Name = "mnuBattleClinicBrowser"
-        Me.mnuBattleClinicBrowser.Size = New System.Drawing.Size(181, 22)
+        Me.mnuBattleClinicBrowser.Size = New System.Drawing.Size(179, 22)
         Me.mnuBattleClinicBrowser.Text = "Battleclinic Browser"
         Me.mnuBattleClinicBrowser.ToolTipText = "View Ship Loadouts from BattleClinic"
         '
@@ -862,40 +862,40 @@ Partial Class frmHQF
         '
         Me.ctxModuleList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowModuleInfo, Me.mnuSep1, Me.mnuAddToFavourites_List, Me.mnuRemoveFromFavourites, Me.mnuSep2, Me.mnuShowModuleMarketGroup})
         Me.ctxModuleList.Name = "ctxModuleList"
-        Me.ctxModuleList.Size = New System.Drawing.Size(217, 104)
+        Me.ctxModuleList.Size = New System.Drawing.Size(224, 104)
         '
         'mnuShowModuleInfo
         '
         Me.mnuShowModuleInfo.Name = "mnuShowModuleInfo"
-        Me.mnuShowModuleInfo.Size = New System.Drawing.Size(216, 22)
+        Me.mnuShowModuleInfo.Size = New System.Drawing.Size(223, 22)
         Me.mnuShowModuleInfo.Text = "Show Info"
         '
         'mnuSep1
         '
         Me.mnuSep1.Name = "mnuSep1"
-        Me.mnuSep1.Size = New System.Drawing.Size(213, 6)
+        Me.mnuSep1.Size = New System.Drawing.Size(220, 6)
         '
         'mnuAddToFavourites_List
         '
         Me.mnuAddToFavourites_List.Name = "mnuAddToFavourites_List"
-        Me.mnuAddToFavourites_List.Size = New System.Drawing.Size(216, 22)
+        Me.mnuAddToFavourites_List.Size = New System.Drawing.Size(223, 22)
         Me.mnuAddToFavourites_List.Text = "Add To Favourites"
         '
         'mnuRemoveFromFavourites
         '
         Me.mnuRemoveFromFavourites.Name = "mnuRemoveFromFavourites"
-        Me.mnuRemoveFromFavourites.Size = New System.Drawing.Size(216, 22)
+        Me.mnuRemoveFromFavourites.Size = New System.Drawing.Size(223, 22)
         Me.mnuRemoveFromFavourites.Text = "Remove From Favourites"
         '
         'mnuSep2
         '
         Me.mnuSep2.Name = "mnuSep2"
-        Me.mnuSep2.Size = New System.Drawing.Size(213, 6)
+        Me.mnuSep2.Size = New System.Drawing.Size(220, 6)
         '
         'mnuShowModuleMarketGroup
         '
         Me.mnuShowModuleMarketGroup.Name = "mnuShowModuleMarketGroup"
-        Me.mnuShowModuleMarketGroup.Size = New System.Drawing.Size(216, 22)
+        Me.mnuShowModuleMarketGroup.Size = New System.Drawing.Size(223, 22)
         Me.mnuShowModuleMarketGroup.Text = "Show Module Market Group"
         '
         'imgAttributes
@@ -911,12 +911,12 @@ Partial Class frmHQF
         '
         Me.ctxTabHQF.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCloseHQFTab})
         Me.ctxTabHQF.Name = "ctxTabbedMDI"
-        Me.ctxTabHQF.Size = New System.Drawing.Size(128, 26)
+        Me.ctxTabHQF.Size = New System.Drawing.Size(124, 26)
         '
         'mnuCloseHQFTab
         '
         Me.mnuCloseHQFTab.Name = "mnuCloseHQFTab"
-        Me.mnuCloseHQFTab.Size = New System.Drawing.Size(127, 22)
+        Me.mnuCloseHQFTab.Size = New System.Drawing.Size(123, 22)
         Me.mnuCloseHQFTab.Text = "Not Valid"
         '
         'tmrClipboard
