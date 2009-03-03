@@ -2061,10 +2061,14 @@ Public Class Engine
                         ' Check if module is a drone
                         If sMod.IsDrone = True Then
                             Dim active As Boolean = False
-                            If modData(1).EndsWith("a") = True Then
-                                active = True
+                            If modData.Length > 1 Then
+                                If modData(1).EndsWith("a") = True Then
+                                    active = True
+                                End If
+                                Call Engine.AddDrone(currentship, sMod, CInt(modData(1).Substring(0, Len(modData(1)) - 1)), active)
+                            Else
+                                Call Engine.AddDrone(currentship, sMod, 1, active)
                             End If
-                            Call Engine.AddDrone(currentship, sMod, CInt(modData(1).Substring(0, Len(modData(1)) - 1)), active)
                         Else
                             ' Check if module is a charge
                             If sMod.IsCharge = True Then
