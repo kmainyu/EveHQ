@@ -30,17 +30,18 @@ Public Class frmHQF
     Dim dataCheckList As New SortedList
     Dim currentShipSlot As ShipSlotControl
     Dim currentShipInfo As ShipInfoControl
-    Shared LastSlotFitting As New ArrayList
-    Shared LastModuleResults As New SortedList
+    Dim LastSlotFitting As New ArrayList
+    Dim LastModuleResults As New SortedList
     Dim myPilotManager As New frmPilotManager
+    Dim myBCBrowser As New frmBCBrowser
 
 #Region "Class Wide Variables"
 
     Dim itemCount As Integer = 0
     Dim startUp As Boolean = False
 
-    Shared cModuleDisplay As String = ""
-    Public Shared Property ModuleDisplay() As String
+    Dim cModuleDisplay As String = ""
+    Public Property ModuleDisplay() As String
         Get
             Return cModuleDisplay
         End Get
@@ -54,27 +55,26 @@ Public Class frmHQF
 #Region "Form Initialisation & Closing Routines"
 
     Private Sub frmHQF_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+
+        ' Close any open windows
+        If myPilotManager.IsHandleCreated Then myPilotManager.Close()
+        If myBCBrowser.IsHandleCreated Then myBCBrowser.Close()
+
         ' Save the panel widths
         Settings.HQFSettings.ShipPanelWidth = SplitContainerShip.Width
         Settings.HQFSettings.ModPanelWidth = SplitContainerMod.Width
         Settings.HQFSettings.ShipSplitterWidth = SplitContainerShip.SplitterDistance
         Settings.HQFSettings.ModSplitterWidth = SplitContainerMod.SplitterDistance
+
         ' Save fittings
         Call Me.SaveFittings()
+
         ' Save pilots
         Call HQFPilotCollection.SaveHQFPilotData()
+
         ' Save the Settings
         Call Settings.HQFSettings.SaveHQFSettings()
-        ' Destroy the tab settings
-        Me.tabHQF.Dispose()
-        ' Destroy the panels
-        Me.SplitContainerShip.Dispose()
-        Me.SplitContainerMod.Dispose()
-        Me.lvwItems.Dispose()
-        Me.tvwItems.Dispose()
-        LastModuleResults.Clear()
-        LastSlotFitting.Clear()
-        ModuleDisplay = ""
+        
     End Sub
     Private Sub frmHQF_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
@@ -375,9 +375,14 @@ Public Class frmHQF
     Private Sub mnuBattleClinicBrowser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBattleClinicBrowser.Click
         Dim shipName As String = mnuShipBrowserShipName.Text
         Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship)
-        Dim BCB As New frmBCBrowser
-        BCB.ShipType = bShip
-        BCB.Show()
+        If myBCBrowser.IsHandleCreated = True Then
+            myBCBrowser.ShipType = bShip
+            myBCBrowser.BringToFront()
+        Else
+            myBCBrowser = New frmBCBrowser
+            myBCBrowser.ShipType = bShip
+            myBCBrowser.Show()
+        End If
     End Sub
     Private Sub DisplayShipPreview(ByVal selShip As Ship)
         pbShip.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/shiptypes/128_128/" & selShip.ID & ".png"
@@ -1685,9 +1690,14 @@ Public Class frmHQF
         Dim curNode As ContainerListViewItem = clvFittings.SelectedItems(0)
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
         Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship)
-        Dim BCB As New frmBCBrowser
-        BCB.ShipType = bShip
-        BCB.Show()
+        If myBCBrowser.IsHandleCreated = True Then
+            myBCBrowser.ShipType = bShip
+            myBCBrowser.BringToFront()
+        Else
+            myBCBrowser = New frmBCBrowser
+            myBCBrowser.ShipType = bShip
+            myBCBrowser.Show()
+        End If
     End Sub
 #End Region
 

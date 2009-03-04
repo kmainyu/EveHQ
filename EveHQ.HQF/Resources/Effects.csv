@@ -220,7 +220,7 @@
 # INDUSTRY,,,,,,,,,,
 #,1,25544,,,,0,1,0,0,Gas Cloud Harvesting
 780,1,16281,73,4,1038,0,1,0,0,Ice Harvesting
-885,1,28585,714,1,28583,0,1,0,0,Industrial Reconfiguration
+885,1,28585,714,1,28583,0,1,8,0,Industrial Reconfiguration
 434,1,3386,77,4,1039,0,1,0,0,Mining - Mining Laser
 434,1,3386,77,4,1040,0,1,0,0,Mining - Strip Miner
 927,1,22578,1082,2,546,0,1,0,0,Mining Upgrades
