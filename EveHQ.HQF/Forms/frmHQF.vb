@@ -99,16 +99,10 @@ Public Class frmHQF
         Me.Show()
         Me.Refresh()
 
-        RemoveHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
-        RemoveHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
-        RemoveHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFittings
-        RemoveHandler HQFEvents.UpdateFittingList, AddressOf Me.UpdateFilteredShips
-        RemoveHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
-        
         AddHandler ShipModule.ShowModuleMarketGroup, AddressOf Me.UpdateMarketGroup
         AddHandler HQFEvents.FindModule, AddressOf Me.UpdateModulesThatWillFit
         AddHandler HQFEvents.UpdateFitting, AddressOf Me.UpdateFittings
-        AddHandler HQFEvents.UpdateFittingList, AddressOf Me.UpdateFilteredShips
+        AddHandler HQFEvents.UpdateFittingList, AddressOf Me.UpdateShipFittings
         AddHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
         AddHandler HQFEvents.UpdateShipInfo, AddressOf Me.UpdateShipInfo
 
@@ -165,7 +159,7 @@ Public Class frmHQF
             Fittings.FittingList = CType(f.Deserialize(s), SortedList)
             s.Close()
         End If
-        Call Me.UpdateFittingsTree()
+        Call Me.UpdateFittingsTree(True)
     End Sub
     Private Sub SaveFittings()
         ' Save ships
@@ -511,6 +505,13 @@ Public Class frmHQF
                     fitResults.Add(sFit, sFit)
                 End If
             Next
+            ' Get Current List of "open" nodes
+            Dim openNodes As New ArrayList
+            For Each shipNode As ContainerListViewItem In clvFittings.Items
+                If shipNode.Expanded = True Then
+                    openNodes.Add(shipNode.Text)
+                End If
+            Next
             clvFittings.BeginUpdate()
             clvFittings.SelectedItems.Clear()
             clvFittings.Items.Clear()
@@ -535,18 +536,78 @@ Public Class frmHQF
                 ' Add the details to the Node, checking for duplicates
                 containsShip.Items.Add(New ContainerListViewItem(fittingName))
             Next
+            ' Open the previously opened nodes
+            For Each shipNode As ContainerListViewItem In clvFittings.Items
+                If openNodes.Contains(shipNode.Text) Then
+                    shipNode.Expand()
+                End If
+            Next
             clvFittings.EndUpdate()
             Call Me.UpdateFittingsCombo()
         Else
             txtShipSearch.Text = ""
             Call Me.ShowShipGroups()
-            Call Me.UpdateFittingsTree()
+            Call Me.UpdateFittingsTree(False)
+        End If
+    End Sub
+    Private Sub UpdateShipFittings()
+        If Len(txtShipSearch.Text) > 0 Then
+            Dim strSearch As String = txtShipSearch.Text.Trim.ToLower
+
+            ' Redraw the fitting tree
+            Dim fitResults As New SortedList(Of String, String)
+            For Each sFit As String In Fittings.FittingList.Keys
+                If sFit.ToLower.Contains(strSearch) Then
+                    fitResults.Add(sFit, sFit)
+                End If
+            Next
+            ' Get Current List of "open" nodes
+            Dim openNodes As New ArrayList
+            For Each shipNode As ContainerListViewItem In clvFittings.Items
+                If shipNode.Expanded = True Then
+                    openNodes.Add(shipNode.Text)
+                End If
+            Next
+            clvFittings.BeginUpdate()
+            clvFittings.SelectedItems.Clear()
+            clvFittings.Items.Clear()
+            Dim shipName As String = ""
+            Dim fittingName As String = ""
+            Dim fittingSep As Integer = 0
+            For Each item As String In fitResults.Values
+                fittingSep = item.IndexOf(", ")
+                shipName = item.Substring(0, fittingSep)
+                fittingName = item.Substring(fittingSep + 2)
+                ' Create the ship node if it's not already present
+                Dim containsShip As New ContainerListViewItem
+                For Each ship As ContainerListViewItem In clvFittings.Items
+                    If ship.Text = shipName Then
+                        containsShip = ship
+                    End If
+                Next
+                If containsShip.Text = "" Then
+                    containsShip.Text = shipName
+                    clvFittings.Items.Add(containsShip)
+                End If
+                ' Add the details to the Node, checking for duplicates
+                containsShip.Items.Add(New ContainerListViewItem(fittingName))
+            Next
+            ' Open the previously opened nodes
+            For Each shipNode As ContainerListViewItem In clvFittings.Items
+                If openNodes.Contains(shipNode.Text) Then
+                    shipNode.Expand()
+                End If
+            Next
+            clvFittings.EndUpdate()
+            Call Me.UpdateFittingsCombo()
+        Else
+            Call Me.UpdateFittingsTree(False)
         End If
     End Sub
     Private Sub btnResetShips_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetShips.Click
         txtShipSearch.Text = ""
         Call Me.ShowShipGroups()
-        Call Me.UpdateFittingsTree()
+        Call Me.UpdateFittingsTree(True)
     End Sub
 #End Region
 
@@ -1342,21 +1403,23 @@ Public Class frmHQF
             End If
         Next
         Fittings.FittingList.Add(shipName & ", " & fittingName, newFit)
-        Call Me.UpdateFittingsTree()
+        Call Me.UpdateFittingsTree(False)
     End Sub
 #End Region
 
 #Region "Fitting Panel Routines"
 
-    Private Sub UpdateFittingsTree()
+    Private Sub UpdateFittingsTree(ByVal CollapseAllNodes As Boolean)
         clvFittings.BeginUpdate()
-        ' Get Current List of "open" nodes
+        ' Get current list of "open" nodes if we need the feature
         Dim openNodes As New ArrayList
-        For Each shipNode As ContainerListViewItem In clvFittings.Items
-            If shipNode.Expanded = True Then
-                openNodes.Add(shipNode.Text)
-            End If
-        Next
+        If CollapseAllNodes = False Then
+            For Each shipNode As ContainerListViewItem In clvFittings.Items
+                If shipNode.Expanded = True Then
+                    openNodes.Add(shipNode.Text)
+                End If
+            Next
+        End If
         ' Redraw the tree
         clvFittings.SelectedItems.Clear()
         clvFittings.Items.Clear()
@@ -1394,15 +1457,21 @@ Public Class frmHQF
                 containsShip.Items.Add(containsFitting)
             End If
         Next
-        For Each shipNode As ContainerListViewItem In clvFittings.Items
-            If openNodes.Contains(shipNode.Text) Then
-                shipNode.Expand()
-            End If
-        Next
+        ' Open the previously opened nodes
+        If CollapseAllNodes = False Then
+            For Each shipNode As ContainerListViewItem In clvFittings.Items
+                If openNodes.Contains(shipNode.Text) Then
+                    shipNode.Expand()
+                End If
+            Next
+        End If
         clvFittings.EndUpdate()
         Call Me.UpdateFittingsCombo()
     End Sub
     Private Sub UpdateFittingsCombo()
+        If cboFittings.IsDisposed Then ' Required due to some obscure bug when updating fittings from the BCBrowser
+            cboFittings = New ToolStripComboBox
+        End If
         cboFittings.BeginUpdate()
         cboFittings.Items.Clear()
         For Each fitting As String In Fittings.FittingList.Keys
@@ -2169,7 +2238,7 @@ Public Class frmHQF
         Dim mySettings As New frmHQFSettings
         mySettings.ShowDialog()
         mySettings = Nothing
-        Call Me.UpdateFittingsTree()
+        Call Me.UpdateFittingsTree(False)
         Call Me.CheckOpenTabs()
     End Sub
     Private Sub CheckOpenTabs()
@@ -2246,7 +2315,7 @@ Public Class frmHQF
         Dim myEFTImport As New frmEFTImport
         myEFTImport.ShowDialog()
         myEFTImport = Nothing
-        Call Me.UpdateFittingsTree()
+        Call Me.UpdateFittingsTree(False)
     End Sub
 
     

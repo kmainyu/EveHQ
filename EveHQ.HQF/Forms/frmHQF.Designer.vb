@@ -585,7 +585,7 @@ Partial Class frmHQF
         '
         Me.ctxShipBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShipBrowserShipName, Me.ToolStripMenuItem2, Me.mnuPreviewShip, Me.mnuCreateNewFitting, Me.ToolStripMenuItem6, Me.mnuBattleClinicBrowser})
         Me.ctxShipBrowser.Name = "ctxShipBrowser"
-        Me.ctxShipBrowser.Size = New System.Drawing.Size(180, 126)
+        Me.ctxShipBrowser.Size = New System.Drawing.Size(180, 104)
         '
         'mnuShipBrowserShipName
         '
