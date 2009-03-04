@@ -325,6 +325,7 @@ Public Class frmEveHQ
         AddHandler EveHQ.Core.PilotParseFunctions.RefreshPilots, AddressOf Me.RemoteRefreshPilots
         AddHandler EveHQ.Core.G15LCDB.UpdateAPI, AddressOf Me.RemoteUpdate
         AddHandler EveHQ.Core.HQ.CloseInfoPanel, AddressOf Me.CloseInfoPanel
+        AddHandler EveHQ.Core.HQ.ShutDownEveHQ, AddressOf Me.ShutdownRoutine
 
         ' Check if "Hide When Minimised" is active
         HideWhenMinimisedToolStripMenuItem.Checked = EveHQ.Core.HQ.EveHQSettings.AutoHide
@@ -485,7 +486,7 @@ Public Class frmEveHQ
         End Select
         Me.TopMost = False
     End Sub
-    Private Sub ShutdownRoutine()
+    Public Sub ShutdownRoutine()
         tsProgramStatus.Text = "Saving Settings..."
         Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
 

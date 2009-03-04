@@ -85,6 +85,7 @@
     <Compile Include="EveAPIStatusForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="EveItem.vb" />
     <Compile Include="EveServer.vb" />
     <Compile Include="EveSettings.vb" />
     <Compile Include="FTPAccount.vb" />

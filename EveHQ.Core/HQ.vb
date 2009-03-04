@@ -59,6 +59,7 @@ Public Class HQ
     Public Shared logonStatusText As String = ""
     Public Shared MaxLogonAttempts As Integer = 3
     Public Shared itemList As SortedList = New SortedList
+    Public Shared itemData As SortedList = New SortedList
     Public Shared itemPublishedList As SortedList = New SortedList
     Public Shared groupList As SortedList = New SortedList
     Public Shared catList As SortedList = New SortedList
@@ -79,6 +80,7 @@ Public Class HQ
     Public Shared CertificateClasses As New SortedList
     Public Shared Certificates As New SortedList
     Public Shared Event CloseInfoPanel()
+    Public Shared Event ShutDownEveHQ()
 
     Shared Property StartCloseInfoPanel() As Boolean
         Get
@@ -86,6 +88,16 @@ Public Class HQ
         Set(ByVal value As Boolean)
             If value = True Then
                 RaiseEvent CloseInfoPanel()
+            End If
+        End Set
+    End Property
+
+    Shared Property StartShutdownEveHQ() As Boolean
+        Get
+        End Get
+        Set(ByVal value As Boolean)
+            If value = True Then
+                RaiseEvent ShutDownEveHQ()
             End If
         End Set
     End Property

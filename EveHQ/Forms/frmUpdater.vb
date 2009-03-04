@@ -462,7 +462,8 @@ Public Class frmUpdater
             If result = DialogResult.No Then
                 Me.Close()
             Else
-                Application.Exit()
+                EveHQ.Core.HQ.StartShutdownEveHQ = True
+                Me.Close()
             End If
         End If
     End Sub
