@@ -12,6 +12,50 @@ Public Class frmBCBrowser
     Dim currentFit As New ArrayList
     Dim BCLoadoutCache As String = EveHQ.Core.HQ.appDataFolder & "\BCLoadoutCache"
 
+    Public Sub New()
+
+        ' This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        ' Create the fittings cache if it doesn't exist!
+        Try
+            If My.Computer.FileSystem.DirectoryExists(BCLoadoutCache) = False Then
+                My.Computer.FileSystem.CreateDirectory(BCLoadoutCache)
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Unable to create the Loadout cache folder. Caching will be disabled which may affect loadout downloads.", "Error Creating Folder", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
+
+        ' Add the current list of pilots to the combobox
+        cboPilots.BeginUpdate()
+        cboPilots.Items.Clear()
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If cPilot.Active = True Then
+                cboPilots.Items.Add(cPilot.Name)
+            End If
+        Next
+        cboPilots.EndUpdate()
+        ' Look at the settings for default pilot
+        If cboPilots.Items.Count > 0 Then
+            If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
+                cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
+            Else
+                cboPilots.SelectedIndex = 0
+            End If
+        End If
+
+        ' Add the profiles
+        cboProfiles.BeginUpdate()
+        cboProfiles.Items.Clear()
+        For Each newProfile As DamageProfile In DamageProfiles.ProfileList.Values
+            cboProfiles.Items.Add(newProfile.Name)
+        Next
+        cboProfiles.EndUpdate()
+        ' Select the default profile
+        cboProfiles.SelectedItem = "<Omni-Damage>"
+
+    End Sub
+
     Public Property ShipType() As Ship
         Get
             Return currentShip
@@ -23,75 +67,7 @@ Public Class frmBCBrowser
         End Set
     End Property
 
-    Private Sub UpdateSlotColumns()
-        ' Clear the columns
-        lvwSlots.Columns.Clear()
-        ' Add the module name column
-        lvwSlots.Columns.Add("colName", "Module Name", 175, HorizontalAlignment.Left, "")
-        lvwSlots.Columns.Add("Charge", "Charge Name", 175, HorizontalAlignment.Left, "")
-    End Sub
-
-    Private Sub UpdateSlotLayout()
-        If currentShip IsNot Nothing Then
-            lvwSlots.BeginUpdate()
-            lvwSlots.Items.Clear()
-            ' Produce high slots
-            For slot As Integer = 1 To currentShip.HiSlots
-                Dim newSlot As New ListViewItem
-                newSlot.Name = "8_" & slot
-                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
-                newSlot.ForeColor = Color.Black
-                newSlot.Group = lvwSlots.Groups.Item("lvwgHighSlots")
-                Call Me.AddUserColumns(currentShip.HiSlot(slot), newSlot)
-                lvwSlots.Items.Add(newSlot)
-            Next
-            For slot As Integer = 1 To currentShip.MidSlots
-                Dim newSlot As New ListViewItem
-                newSlot.Name = "4_" & slot
-                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
-                newSlot.ForeColor = Color.Black
-                newSlot.Group = lvwSlots.Groups.Item("lvwgMidSlots")
-                Call Me.AddUserColumns(currentShip.MidSlot(slot), newSlot)
-                lvwSlots.Items.Add(newSlot)
-            Next
-            For slot As Integer = 1 To currentShip.LowSlots
-                Dim newSlot As New ListViewItem
-                newSlot.Name = "2_" & slot
-                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
-                newSlot.ForeColor = Color.Black
-                newSlot.Group = lvwSlots.Groups.Item("lvwgLowSlots")
-                Call Me.AddUserColumns(currentShip.LowSlot(slot), newSlot)
-                lvwSlots.Items.Add(newSlot)
-            Next
-            For slot As Integer = 1 To currentShip.RigSlots
-                Dim newSlot As New ListViewItem
-                newSlot.Name = "1_" & slot
-                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
-                newSlot.ForeColor = Color.Black
-                newSlot.Group = lvwSlots.Groups.Item("lvwgRigSlots")
-                Call Me.AddUserColumns(currentShip.RigSlot(slot), newSlot)
-                lvwSlots.Items.Add(newSlot)
-            Next
-            lvwSlots.EndUpdate()
-        End If
-    End Sub
-
-    Private Sub AddUserColumns(ByVal shipMod As ShipModule, ByVal slotName As ListViewItem)
-        ' Add subitems based on the user selected columns
-        If shipMod IsNot Nothing Then
-            Dim colName As String = ""
-            ' Add in the module name
-            slotName.Text = shipMod.Name
-            If shipMod.LoadedCharge IsNot Nothing Then
-                slotName.SubItems.Add(shipMod.LoadedCharge.Name)
-            Else
-                slotName.SubItems.Add("")
-            End If
-        Else
-            slotName.Text = "<Empty>"
-            slotName.SubItems.Add("")
-        End If
-    End Sub
+#Region "BC Routines"
 
     Private Sub GetBCShipLoadouts()
 
@@ -300,12 +276,80 @@ Public Class frmBCBrowser
 
     End Sub
 
-    Private Sub mnuViewLoadout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewLoadout.Click
-        Dim cLoadout As ContainerListViewItem = clvLoadouts.SelectedItems(0)
-        Call GetBCShipLoadout(cLoadout)
+#End Region
+
+#Region "Ship Fitting routines"
+
+    Private Sub UpdateSlotColumns()
+        ' Clear the columns
+        lvwSlots.Columns.Clear()
+        ' Add the module name column
+        lvwSlots.Columns.Add("colName", "Module Name", 175, HorizontalAlignment.Left, "")
+        lvwSlots.Columns.Add("Charge", "Charge Name", 175, HorizontalAlignment.Left, "")
     End Sub
 
-#Region "Clearing routines"
+    Private Sub UpdateSlotLayout()
+        If currentShip IsNot Nothing Then
+            lvwSlots.BeginUpdate()
+            lvwSlots.Items.Clear()
+            ' Produce high slots
+            For slot As Integer = 1 To currentShip.HiSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "8_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgHighSlots")
+                Call Me.AddUserColumns(currentShip.HiSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            For slot As Integer = 1 To currentShip.MidSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "4_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgMidSlots")
+                Call Me.AddUserColumns(currentShip.MidSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            For slot As Integer = 1 To currentShip.LowSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "2_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgLowSlots")
+                Call Me.AddUserColumns(currentShip.LowSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            For slot As Integer = 1 To currentShip.RigSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "1_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgRigSlots")
+                Call Me.AddUserColumns(currentShip.RigSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            lvwSlots.EndUpdate()
+        End If
+    End Sub
+
+    Private Sub AddUserColumns(ByVal shipMod As ShipModule, ByVal slotName As ListViewItem)
+        ' Add subitems based on the user selected columns
+        If shipMod IsNot Nothing Then
+            Dim colName As String = ""
+            ' Add in the module name
+            slotName.Text = shipMod.Name
+            If shipMod.LoadedCharge IsNot Nothing Then
+                slotName.SubItems.Add(shipMod.LoadedCharge.Name)
+            Else
+                slotName.SubItems.Add("")
+            End If
+        Else
+            slotName.Text = "<Empty>"
+            slotName.SubItems.Add("")
+        End If
+    End Sub
+
     Private Sub ClearShipSlots()
         If currentShip IsNot Nothing Then
             For slot As Integer = 1 To currentShip.HiSlots
@@ -326,77 +370,6 @@ Public Class frmBCBrowser
             currentShip.CargoBay_Used = 0
         End If
     End Sub
-#End Region
-
-    Private Sub lblLoadoutTopic_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblLoadoutTopic.LinkClicked
-        Try
-            Process.Start("http://www.battleclinic.com/forum/index.php/topic," & lblLoadoutTopic.Tag.ToString & ".0.html")
-        Catch ex As Exception
-            MessageBox.Show("Unable to start default web browser. Please check your browser settings.", "Error Starting Web Browser", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        End Try
-    End Sub
-
-    Private Sub lblLoadoutTopic_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblLoadoutTopic.MouseEnter
-        lblTopicAddress.Text = "http://www.battleclinic.com/forum/index.php/topic," & lblLoadoutTopic.Tag.ToString & ".0.html"
-    End Sub
-
-    Private Sub lblLoadoutTopic_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblLoadoutTopic.MouseLeave
-        lblTopicAddress.Text = ""
-    End Sub
-
-    Private Sub mnuCopyURL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyURL.Click
-        Dim cLoadout As ContainerListViewItem = clvLoadouts.SelectedItems(0)
-        Try
-            Clipboard.SetText("http://www.battleclinic.com/forum/index.php/topic," & cLoadout.SubItems(1).Tag.ToString & ".0.html")
-        Catch ex As Exception
-            MessageBox.Show("There was an error copying data to the cliboard: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf & "Please try again.", "Copy to Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Try
-    End Sub
-
-    Public Sub New()
-
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
-
-        ' Create the fittings cache if it doesn't exist!
-        Try
-            If My.Computer.FileSystem.DirectoryExists(BCLoadoutCache) = False Then
-                My.Computer.FileSystem.CreateDirectory(BCLoadoutCache)
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Unable to create the Loadout cache folder. Caching will be disabled which may affect loadout downloads.", "Error Creating Folder", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Try
-
-        ' Add the current list of pilots to the combobox
-        cboPilots.BeginUpdate()
-        cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            If cPilot.Active = True Then
-                cboPilots.Items.Add(cPilot.Name)
-            End If
-        Next
-        cboPilots.EndUpdate()
-        ' Look at the settings for default pilot
-        If cboPilots.Items.Count > 0 Then
-            If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
-                cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
-            Else
-                cboPilots.SelectedIndex = 0
-            End If
-        End If
-
-        ' Add the profiles
-        cboProfiles.BeginUpdate()
-        cboProfiles.Items.Clear()
-        For Each newProfile As DamageProfile In DamageProfiles.ProfileList.Values
-            cboProfiles.Items.Add(newProfile.Name)
-        Next
-        cboProfiles.EndUpdate()
-        ' Select the default profile
-        cboProfiles.SelectedItem = "<Omni-Damage>"
-
-    End Sub
-
     Private Sub GenerateFittingData()
         ' Let's try and generate a fitting and get some damage info
         If currentShip IsNot Nothing Then
@@ -468,4 +441,47 @@ Public Class frmBCBrowser
         Fittings.FittingList.Add(shipName & ", " & fittingName, currentFit)
         HQFEvents.StartUpdateFittingList = True
     End Sub
+
+#End Region
+
+#Region "UI Routines"
+
+    Private Sub mnuViewLoadout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewLoadout.Click
+        Dim cLoadout As ContainerListViewItem = clvLoadouts.SelectedItems(0)
+        Call GetBCShipLoadout(cLoadout)
+    End Sub
+    Private Sub lblLoadoutTopic_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblLoadoutTopic.LinkClicked
+        Try
+            Process.Start("http://www.battleclinic.com/forum/index.php/topic," & lblLoadoutTopic.Tag.ToString & ".0.html")
+        Catch ex As Exception
+            MessageBox.Show("Unable to start default web browser. Please check your browser settings.", "Error Starting Web Browser", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
+    End Sub
+
+    Private Sub lblLoadoutTopic_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblLoadoutTopic.MouseEnter
+        lblTopicAddress.Text = "http://www.battleclinic.com/forum/index.php/topic," & lblLoadoutTopic.Tag.ToString & ".0.html"
+    End Sub
+
+    Private Sub lblLoadoutTopic_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblLoadoutTopic.MouseLeave
+        lblTopicAddress.Text = ""
+    End Sub
+
+    Private Sub mnuCopyURL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyURL.Click
+        Dim cLoadout As ContainerListViewItem = clvLoadouts.SelectedItems(0)
+        Try
+            Clipboard.SetText("http://www.battleclinic.com/forum/index.php/topic," & cLoadout.SubItems(1).Tag.ToString & ".0.html")
+        Catch ex As Exception
+            MessageBox.Show("There was an error copying data to the cliboard: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf & "Please try again.", "Copy to Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
+    End Sub
+
+    Private Sub clvLoadouts_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles clvLoadouts.MouseDoubleClick
+        If clvLoadouts.SelectedItems.Count > 0 Then
+            Dim cLoadout As ContainerListViewItem = clvLoadouts.SelectedItems(0)
+            Call GetBCShipLoadout(cLoadout)
+        End If
+    End Sub
+
+#End Region
+
 End Class
