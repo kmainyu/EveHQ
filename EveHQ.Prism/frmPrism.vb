@@ -4469,8 +4469,8 @@ Public Class frmPrism
         Else
             BaseYield = StationYield
         End If
-        lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+        lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
         lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         Call Me.RecalcRecycling()
@@ -4597,7 +4597,12 @@ Public Class frmPrism
                     nudStandings.Enabled = False
                     cboRecyclePilots.Enabled = False
         End Select
-        Call Me.RecalcRecycling()
+        ' Set the base yield if no station
+        If lblStation.Text = "n/a" Then
+            chkOverrideBaseYield.Checked = True
+        Else
+            Call Me.RecalcRecycling()
+        End If
     End Sub
 #End Region
 
