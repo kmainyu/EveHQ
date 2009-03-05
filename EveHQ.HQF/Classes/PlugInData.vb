@@ -1182,9 +1182,9 @@ Public Class PlugInData
                             End If
                         End If
                     Case EffectType.Group
-                        AffectingName = CStr(EveHQ.Core.HQ.groupList.GetKey(EveHQ.Core.HQ.groupList.IndexOfValue(newEffect.AffectingID.ToString))) & ";Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                        AffectingName = CStr(EveHQ.Core.HQ.itemGroups(newEffect.AffectingID.ToString)) & ";Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                     Case EffectType.Category
-                        AffectingName = CStr(EveHQ.Core.HQ.catList.GetKey(EveHQ.Core.HQ.catList.IndexOfValue(newEffect.AffectingID.ToString))) & ";Category;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                        AffectingName = CStr(EveHQ.Core.HQ.itemCats(newEffect.AffectingID.ToString)) & ";Category;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                     Case EffectType.MarketGroup
                         AffectingName = CStr(HQF.Market.MarketGroupList(newEffect.AffectingID.ToString)) & ";Market Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                 End Select

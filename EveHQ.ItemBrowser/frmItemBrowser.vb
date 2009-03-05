@@ -88,8 +88,8 @@ Public Class frmItemBrowser
         itemTypeName = eveData.Tables(0).Rows(0).Item("typeName")
         itemGroupID = eveData.Tables(0).Rows(0).Item("groupID")
         itemCatID = EveHQ.Core.HQ.groupCats(itemGroupID)
-        itemGroupName = EveHQ.Core.HQ.groupList.GetKey(EveHQ.Core.HQ.groupList.IndexOfValue(itemGroupID))
-        itemCatName = EveHQ.Core.HQ.catList.GetKey(EveHQ.Core.HQ.catList.IndexOfValue(itemCatID))
+        itemGroupName = EveHQ.Core.HQ.itemGroups(itemGroupID)
+        itemCatName = EveHQ.Core.HQ.itemCats(itemCatID)
         lblItem.Text = itemTypeName
         ssLblID.Text = "ID: " & itemCatID & "/" & itemGroupID & "/" & itemTypeID
         lblDescription.Text = eveData.Tables(0).Rows(0).Item("description")
@@ -292,7 +292,7 @@ Public Class frmItemBrowser
                             newItem.ForeColor = Color.Red
                         End If
                         newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
-                        newItem.SubItems.Add(EveHQ.Core.HQ.groupList.GetKey(EveHQ.Core.HQ.groupList.IndexOfValue(groupID)))
+                        newItem.SubItems.Add(EveHQ.Core.HQ.itemGroups(groupID))
                         newItem.SubItems.Add("Level " & lvl)
                         lvwDepend.Items.Add(newItem)
                     Next
@@ -478,17 +478,17 @@ Public Class frmItemBrowser
         tvwBrowse.BeginUpdate()
         tvwBrowse.Nodes.Clear()
         ' Load up the Browser with categories
-        For Each cat As String In EveHQ.Core.HQ.catList.GetKeyList
+        For Each cat As String In EveHQ.Core.HQ.itemCats.GetKeyList
             newNode = New TreeNode
-            newNode.Text = cat
-            newNode.Name = EveHQ.Core.HQ.catList(cat)
+            newNode.Name = cat
+            newNode.Text = EveHQ.Core.HQ.itemCats(cat)
             tvwBrowse.Nodes.Add(newNode)
         Next
         ' Load up the Browser with groups
-        For Each group As String In EveHQ.Core.HQ.groupList.GetKeyList
+        For Each group As String In EveHQ.Core.HQ.itemGroups.GetKeyList
             newNode = New TreeNode
-            newNode.Text = group
-            newNode.Name = EveHQ.Core.HQ.groupList(group)
+            newNode.Name = group
+            newNode.Text = EveHQ.Core.HQ.itemGroups(group)
             newNode.Nodes.Add("Loading...")
             tvwBrowse.Nodes(EveHQ.Core.HQ.groupCats(newNode.Name).ToString).Nodes.Add(newNode)
         Next
@@ -1591,16 +1591,16 @@ Public Class frmItemBrowser
                     e.Nodes.Clear()
                     ' Load the Browser with items
                     Dim newNode As TreeNode
-                    For Each item As String In EveHQ.Core.HQ.itemList.GetKeyList
+                    For Each item As String In EveHQ.Core.HQ.itemList.Keys
                         newNode = New TreeNode
-                        newNode.Text = item
-                        newNode.Name = EveHQ.Core.HQ.itemList(item)
-                        If e.Name = EveHQ.Core.HQ.typeGroups(newNode.Name).ToString Then
+                        newNode.Text = item ' Name
+                        newNode.Name = CStr(EveHQ.Core.HQ.itemList(item)) ' ID
+                        If e.Name = CType(EveHQ.Core.HQ.itemData(newNode.Name), EveHQ.Core.EveItem).Group.ToString Then
                             ' Check published flag
                             If Me.nonPublishedFlag = True Then
                                 e.Nodes.Add(newNode)
                             Else
-                                If EveHQ.Core.HQ.itemPublishedList(item) = True Then
+                                If CType(EveHQ.Core.HQ.itemData(newNode.Name), EveHQ.Core.EveItem).Published = True Then
                                     e.Nodes.Add(newNode)
                                 End If
                             End If

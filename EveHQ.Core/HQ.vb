@@ -60,11 +60,9 @@ Public Class HQ
     Public Shared MaxLogonAttempts As Integer = 3
     Public Shared itemList As SortedList = New SortedList
     Public Shared itemData As SortedList = New SortedList
-    Public Shared itemPublishedList As SortedList = New SortedList
-    Public Shared groupList As SortedList = New SortedList
-    Public Shared catList As SortedList = New SortedList
+    Public Shared itemGroups As SortedList = New SortedList
+    Public Shared itemCats As SortedList = New SortedList
     Public Shared groupCats As SortedList = New SortedList
-    Public Shared typeGroups As SortedList = New SortedList
     Public Shared APIRequestForm As New EveHQ.Core.EveAPIStatusForm
     Public Shared LastAutoAPIResult As Boolean = True
     Public Shared LastAutoAPITime As DateTime = Now

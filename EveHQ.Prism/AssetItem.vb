@@ -30,14 +30,3 @@ Public Class AssetItem
     Public price As Double
 End Class
 
-Public Class ItemData
-    Public ID As Long
-    Public Name As String
-    Public Group As Integer
-    Public Category As Integer
-    Public MarketGroup As Integer
-    Public Published As Integer
-    Public Volume As Double
-    Public MetaLevel As Integer = 1
-    Public PortionSize As Integer
-End Class

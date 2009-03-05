@@ -1084,14 +1084,15 @@ Public Class frmMarketPrices
         lvwPrices.Items.Clear()
         Dim lvItem As New ListViewItem
         Dim itemID As String = ""
+        Dim itemData As New EveHQ.Core.EveItem
         Dim price As Double = 0
         If chkShowOnlyCustom.Checked = True Then
-            For Each item As String In EveHQ.Core.HQ.CustomPriceList.Keys
-                If item.ToLower.Contains(search) = True Then
-                    If CBool(EveHQ.Core.HQ.itemPublishedList(item)) = True Then
+            For Each itemID In EveHQ.Core.HQ.CustomPriceList.Keys ' ID
+                itemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                If itemData.Name.ToLower.Contains(search) = True Then
+                    If itemData.Published = True Then
                         lvItem = New ListViewItem
-                        itemID = CStr(EveHQ.Core.HQ.itemList(item))
-                        lvItem.Text = item
+                        lvItem.Text = itemData.Name
                         lvItem.Name = itemID
                         lvItem.SubItems.Add(FormatNumber(EveHQ.Core.HQ.BasePriceList(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                         If EveHQ.Core.HQ.MarketPriceList.Contains(itemID) Then
@@ -1113,11 +1114,12 @@ Public Class frmMarketPrices
         Else
             For Each item As String In EveHQ.Core.HQ.itemList.Keys
                 If item.ToLower.Contains(search) = True Then
-                    If CBool(EveHQ.Core.HQ.itemPublishedList(item)) = True Then
+                    itemID = CStr(EveHQ.Core.HQ.itemList(item))
+                    itemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                    If itemData.Published = True Then
                         lvItem = New ListViewItem
-                        itemID = CStr(EveHQ.Core.HQ.itemList(item))
-                        lvItem.Text = item
-                        lvItem.Name = itemID
+                        lvItem.Text = itemData.Name
+                        lvItem.Name = CStr(itemData.ID)
                         lvItem.SubItems.Add(FormatNumber(EveHQ.Core.HQ.BasePriceList(itemID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                         If EveHQ.Core.HQ.MarketPriceList.Contains(itemID) Then
                             price = CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))

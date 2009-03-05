@@ -481,8 +481,7 @@ Public Class frmShowInfo
                         newItem.SubItems.Add("n/a")
                     End If
                 Case "groupID"
-                    idx = EveHQ.Core.HQ.groupList.IndexOfValue(stdItem.Attributes.Item(att).ToString)
-                    newItem.SubItems.Add(EveHQ.Core.HQ.groupList.GetKey(idx))
+                    newItem.SubItems.Add(EveHQ.Core.HQ.itemGroups(stdItem.Attributes.Item(att).ToString))
                 Case Else
                     newItem.SubItems.Add(stdItem.Attributes.Item(att) & " " & attData.UnitName)
             End Select
@@ -497,8 +496,7 @@ Public Class frmShowInfo
                         newItem.SubItems.Add("n/a")
                     End If
                 Case "groupID"
-                    idx = EveHQ.Core.HQ.groupList.IndexOfValue(itemObject.Attributes.Item(att).ToString)
-                    itemData = EveHQ.Core.HQ.groupList.GetKey(idx)
+                    itemData = EveHQ.Core.HQ.itemGroups(itemObject.Attributes.Item(att).ToString)
                 Case Else
                     itemData = itemObject.Attributes.Item(att) & " " & attData.UnitName
             End Select

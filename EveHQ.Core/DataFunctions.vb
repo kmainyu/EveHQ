@@ -526,13 +526,89 @@ Public Class DataFunctions
             Return data
         End If
     End Function
+    Public Shared Function LoadItemData() As Boolean
+        Dim itemData As New DataSet
+        Try
+            EveHQ.Core.HQ.itemData.Clear()
+            Dim strSQL As String = "SELECT invGroups.categoryID, invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.volume, invTypes.portionSize, invTypes.published, invTypes.marketGroupID FROM invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID;"
+            itemData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            Dim newItem As New EveItem
+            If itemData IsNot Nothing Then
+                If itemData.Tables(0).Rows.Count > 0 Then
+                    For Each itemRow As DataRow In itemData.Tables(0).Rows
+                        newItem = New EveItem
+                        newItem.ID = CLng(itemRow.Item("typeID"))
+                        newItem.Name = CStr(itemRow.Item("typeName"))
+                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+                            Case 0, 3 ' Access & MySQL
+                                newItem.Group = CInt(itemRow.Item("groupID"))
+                                newItem.Published = CBool(itemRow.Item("published"))
+                            Case 1, 2 ' SQL
+                                newItem.Group = CInt(itemRow.Item("groupID"))
+                                newItem.Published = CBool(itemRow.Item("published"))
+                        End Select
+                        newItem.Category = CInt(itemRow.Item("categoryID"))
+                        If IsDBNull(itemRow.Item("marketGroupID")) = False Then
+                            newItem.MarketGroup = CInt(itemRow.Item("marketGroupID"))
+                        Else
+                            newItem.MarketGroup = 0
+                        End If
+                        newItem.Volume = CDbl(itemRow.Item("volume"))
+                        newItem.PortionSize = CInt(itemRow.Item("portionSize"))
+                        EveHQ.Core.HQ.itemData.Add(newItem.ID.ToString, newItem)
+                    Next
+                    ' Get the MetaLevel data
+                    strSQL = "SELECT * FROM dgmTypeAttributes WHERE attributeID=633;"
+                    itemData = EveHQ.Core.DataFunctions.GetData(strSQL)
+                    If itemData.Tables(0).Rows.Count > 0 Then
+                        For Each itemRow As DataRow In itemData.Tables(0).Rows
+                            newItem = CType(EveHQ.Core.HQ.itemData(CStr(itemRow.Item("typeID"))), EveItem)
+                            If IsDBNull(itemRow.Item("valueInt")) = False Then
+                                newItem.MetaLevel = CInt(itemRow.Item("valueInt"))
+                            Else
+                                newItem.MetaLevel = CInt(itemRow.Item("valueFloat"))
+                            End If
+                        Next
+                        If itemData IsNot Nothing Then
+                            itemData.Dispose()
+                        End If
+                        GC.Collect()
+                        Return True
+                    Else
+                        If itemData IsNot Nothing Then
+                            itemData.Dispose()
+                        End If
+                        Return False
+                    End If
+                Else
+                    If itemData IsNot Nothing Then
+                        itemData.Dispose()
+                    End If
+                    Return False
+                End If
+            Else
+                If itemData IsNot Nothing Then
+                    itemData.Dispose()
+                End If
+                Return False
+            End If
+        Catch ex As Exception
+            If itemData IsNot Nothing Then
+                itemData.Dispose()
+            End If
+            MessageBox.Show("Error Loading Item Data for Assets Plugin" & ControlChars.CrLf & ex.Message, "Assets Plug-in Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End Try
+    End Function
     Public Shared Function LoadItems() As Boolean
+
+        ' Initally load the new item data routine
+        Call LoadItemData()
+
         EveHQ.Core.HQ.itemList.Clear()
-        EveHQ.Core.HQ.groupList.Clear()
-        EveHQ.Core.HQ.catList.Clear()
+        EveHQ.Core.HQ.itemGroups.Clear()
+        EveHQ.Core.HQ.itemCats.Clear()
         EveHQ.Core.HQ.groupCats.Clear()
-        EveHQ.Core.HQ.typeGroups.Clear()
-        EveHQ.Core.HQ.itemPublishedList.Clear()
         Dim eveData As New DataSet
         Try
             Dim iKey As String = ""
@@ -543,18 +619,18 @@ Public Class DataFunctions
             ' Load categories
             eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invCategories ORDER BY categoryName;")
             For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                iKey = eveData.Tables(0).Rows(item).Item("categoryName").ToString.Trim
-                iValue = eveData.Tables(0).Rows(item).Item("categoryID").ToString.Trim
-                EveHQ.Core.HQ.catList.Add(iKey, iValue)
+                iValue = eveData.Tables(0).Rows(item).Item("categoryName").ToString.Trim
+                iKey = eveData.Tables(0).Rows(item).Item("categoryID").ToString.Trim
+                EveHQ.Core.HQ.itemCats.Add(iKey, iValue)
             Next
             ' Load groups
             eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invGroups ORDER BY groupName;")
             For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                iKey = eveData.Tables(0).Rows(item).Item("groupName").ToString.Trim
-                iValue = eveData.Tables(0).Rows(item).Item("groupID").ToString.Trim
+                iValue = eveData.Tables(0).Rows(item).Item("groupName").ToString.Trim
+                iKey = eveData.Tables(0).Rows(item).Item("groupID").ToString.Trim
                 iParent = eveData.Tables(0).Rows(item).Item("categoryID").ToString.Trim
-                EveHQ.Core.HQ.groupList.Add(iKey, iValue)
-                EveHQ.Core.HQ.groupCats.Add(iValue, iParent)
+                EveHQ.Core.HQ.itemGroups.Add(iKey, iValue)
+                EveHQ.Core.HQ.groupCats.Add(iKey, iParent)
             Next
             ' Load items
             eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invTypes ORDER BY typeName;")
@@ -566,10 +642,6 @@ Public Class DataFunctions
                 iPublished = CBool(eveData.Tables(0).Rows(item).Item("published"))
                 If EveHQ.Core.HQ.itemList.Contains(iKey) = False Then
                     EveHQ.Core.HQ.itemList.Add(iKey, iValue)
-                End If
-                EveHQ.Core.HQ.typeGroups.Add(iValue, iParent)
-                If EveHQ.Core.HQ.itemPublishedList.Contains(iKey) = False Then
-                    EveHQ.Core.HQ.itemPublishedList.Add(iKey, iPublished)
                 End If
                 If EveHQ.Core.HQ.BasePriceList.Contains(iValue) = False Then
                     EveHQ.Core.HQ.BasePriceList.Add(iValue, iBasePrice)

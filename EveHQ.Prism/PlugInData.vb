@@ -5,7 +5,6 @@ Imports System.Text
 
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
-    Public Shared Items As New SortedList
     Public Shared itemFlags As New SortedList
     Public Shared RefTypes As New SortedList(Of String, String)
     Public Shared Activities As New SortedList(Of String, String)
@@ -88,70 +87,9 @@ Public Class PlugInData
                 Return False
                 Exit Function
             End If
-            If Me.LoadItems = False Then
-                Return False
-                Exit Function
-            End If
             Call Me.CheckForConqXMLFile()
             Return True
         End If
-    End Function
-    Private Function LoadItems() As Boolean
-        Try
-            Items.Clear()
-            Dim strSQL As String = "SELECT * FROM invGroups INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID;"
-            Dim itemData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-            Dim newItem As New ItemData
-            If itemData IsNot Nothing Then
-                If itemData.Tables(0).Rows.Count > 0 Then
-                    For Each itemRow As DataRow In itemData.Tables(0).Rows
-                        newItem = New ItemData
-                        newItem.ID = CLng(itemRow.Item("typeID"))
-                        newItem.Name = CStr(itemRow.Item("typeName"))
-                        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
-                            Case 0, 3 ' Access & MySQL
-                                newItem.Group = CInt(itemRow.Item("invGroups.groupID"))
-                                newItem.Published = CInt(itemRow.Item("invTypes.published"))
-                            Case 1, 2 ' SQL
-                                newItem.Group = CInt(itemRow.Item("groupID"))
-                                newItem.Published = CInt(itemRow.Item("published"))
-                        End Select
-                        newItem.Category = CInt(itemRow.Item("categoryID"))
-                        If IsDBNull(itemRow.Item("marketGroupID")) = False Then
-                            newItem.MarketGroup = CInt(itemRow.Item("marketGroupID"))
-                        Else
-                            newItem.MarketGroup = 0
-                        End If
-                        newItem.Volume = CDbl(itemRow.Item("volume"))
-                        newItem.PortionSize = CInt(itemRow.Item("portionSize"))
-                        Items.Add(newItem.ID.ToString, newItem)
-                    Next
-                    ' Get the MetaLevel data
-                    strSQL = "SELECT * FROM dgmTypeAttributes WHERE attributeID=633;"
-                    itemData = EveHQ.Core.DataFunctions.GetData(strSQL)
-                    If itemData.Tables(0).Rows.Count > 0 Then
-                        For Each itemRow As DataRow In itemData.Tables(0).Rows
-                            newItem = CType(Items(CStr(itemRow.Item("typeID"))), Prism.ItemData)
-                            If IsDBNull(itemRow.Item("valueInt")) = False Then
-                                newItem.MetaLevel = CInt(itemRow.Item("valueInt"))
-                            Else
-                                newItem.MetaLevel = CInt(itemRow.Item("valueFloat"))
-                            End If
-                        Next
-                        Return True
-                    Else
-                        Return False
-                    End If
-                Else
-                    Return False
-                End If
-            Else
-                Return False
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error Loading Item Data for Assets Plugin" & ControlChars.CrLf & ex.Message, "Assets Plug-in Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
     End Function
     Private Sub LoadPackedVolumes()
         PackedVolumes.Clear()
