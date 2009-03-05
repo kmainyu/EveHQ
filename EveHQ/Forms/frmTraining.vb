@@ -60,6 +60,7 @@ Public Class frmTraining
             Call Me.RefreshAllTrainingQueues()
             Call Me.ResetQueueButtons()
             Call Me.LoadSkillTree()
+            Call Me.LoadCertificateTree()
         End If
     End Sub
 
@@ -1521,7 +1522,7 @@ Public Class frmTraining
             End Select
             If addCert = True Then
                 Dim certNode As New TreeNode
-                certNode.Text = CType(Core.HQ.CertificateClasses(newCert.ClassID.ToString), Core.CertificateClass).Name & " (" & newCert.Grade & ")"
+                certNode.Text = CType(Core.HQ.CertificateClasses(newCert.ClassID.ToString), Core.CertificateClass).Name & " (" & newCert.Grade & " - " & CertGrades(newCert.Grade) & ")"
                 certNode.Name = newCert.ID.ToString
                 If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = True Then
                     certNode.ImageIndex = newCert.Grade
@@ -1603,12 +1604,18 @@ Public Class frmTraining
         certDetails.ShowCertDetails(certID)
     End Sub
 
-    Private Sub mnuAddCertToQueue1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCertToQueue1.Click, mnuAddCertToQueue2.Click, mnuAddCertToQueue3.Click, mnuAddCertToQueue4.Click, mnuAddCertToQueue5.Click
+    Private Sub mnuAddCertToQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCertToQueue1.Click, mnuAddCertToQueue2.Click, mnuAddCertToQueue3.Click, mnuAddCertToQueue4.Click, mnuAddCertToQueue5.Click
         ' Get the certificate details
+        Dim grade As Integer = CInt(CType(sender, ToolStripItem).Name.Substring(CType(sender, ToolStripItem).Name.Length - 1, 1))
         Dim certID As String = mnuCertName.Tag.ToString
-        Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
-        ' Get a list of skills that we need to add to the skill queue (iterative routine)
-        Call AddCertSkills(cert)
+        Dim certClass As Integer = CType(EveHQ.Core.HQ.Certificates(certID), EveHQ.Core.Certificate).ClassID
+        For Each cert As EveHQ.Core.Certificate In EveHQ.Core.HQ.Certificates.Values
+            If cert.ClassID = certClass Then
+                If cert.Grade = grade Then
+                    Call AddCertSkills(cert)
+                End If
+            End If
+        Next
         ' Refresh our training queue
         Call Me.RefreshTraining(activeQueueName)
     End Sub
@@ -1624,7 +1631,7 @@ Public Class frmTraining
         Next
     End Sub
 
-    Private Sub mnuAddCertGroupToQueue1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCertGroupToQueue1.Click, mnuAddCertGroupToQueue2.Click, mnuAddCertGroupToQueue3.Click, mnuAddCertGroupToQueue4.Click, mnuAddCertGroupToQueue5.Click
+    Private Sub mnuAddCertGroupToQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCertGroupToQueue1.Click, mnuAddCertGroupToQueue2.Click, mnuAddCertGroupToQueue3.Click, mnuAddCertGroupToQueue4.Click, mnuAddCertGroupToQueue5.Click
         ' Get the Grade required
         Dim grade As Integer = CInt(CType(sender, ToolStripItem).Name.Substring(CType(sender, ToolStripItem).Name.Length - 1, 1))
         Dim certCat As String = mnuCertName.Tag.ToString
