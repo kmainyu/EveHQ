@@ -503,25 +503,27 @@ Public Class frmMarketPrices
         Dim logDate As Date = Now
         FI = New FileInfo(file)
         info = FI.Name.TrimEnd(".txt".ToCharArray).Split("-".ToCharArray)
-        region = "" : item = ""
-        idx = -1
-        Do
-            idx += 1
-            region &= info(idx).Trim & "-"
-            ' Repeat until we have a valid
-        Loop Until regions.ContainsKey(region.TrimEnd("-".ToCharArray))
-        region = region.TrimEnd("-".ToCharArray)
-        For idx = idx + 1 To info.Length - 2
-            item &= info(idx) & "-"
-        Next
-        item = item.TrimEnd("-".ToCharArray).Trim
-        logDate = DateTime.ParseExact(info(info.Length - 1).Trim, TimeFormat, Nothing, Globalization.DateTimeStyles.None)
-        LogItem = New ContainerListViewItem
-        LogItem.Tag = file
-        LogItem.Text = region
-        clvLogs.Items.Add(LogItem)
-        LogItem.SubItems(1).Text = item
-        LogItem.SubItems(2).Text = FormatDateTime(logDate, DateFormat.GeneralDate)
+        If info(0).Trim <> "My orders" Then
+            region = "" : item = ""
+            idx = -1
+            Do
+                idx += 1
+                region &= info(idx).Trim & "-"
+                ' Repeat until we have a valid
+            Loop Until regions.ContainsKey(region.TrimEnd("-".ToCharArray))
+            region = region.TrimEnd("-".ToCharArray)
+            For idx = idx + 1 To info.Length - 2
+                item &= info(idx) & "-"
+            Next
+            item = item.TrimEnd("-".ToCharArray).Trim
+            logDate = DateTime.ParseExact(info(info.Length - 1).Trim, TimeFormat, Nothing, Globalization.DateTimeStyles.None)
+            LogItem = New ContainerListViewItem
+            LogItem.Tag = file
+            LogItem.Text = region
+            clvLogs.Items.Add(LogItem)
+            LogItem.SubItems(1).Text = item
+            LogItem.SubItems(2).Text = FormatDateTime(logDate, DateFormat.GeneralDate)
+        End If
     End Sub
 
     Public Sub ResortLogs()

@@ -90,6 +90,7 @@ Public Class frmMarketOrders
         Dim orderDetails(), oDate As String
         Dim issueDate As Date
         Dim TimeFormat As String = "yyyy-MM-dd HH:mm:ss.fff"
+        Dim OldTimeFormat As String = "yyyy-MM-dd"
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim orderExpires As TimeSpan
         Dim orderExpiry As String = ""
@@ -145,7 +146,9 @@ Public Class frmMarketOrders
             oJumps = CInt(orderDetails(13).Trim)
 
             ' Display the order (irrespective of whether we process it)
-            issueDate = DateTime.ParseExact(oDate, TimeFormat, Nothing, Globalization.DateTimeStyles.None)
+            If DateTime.TryParseExact(oDate, TimeFormat, Nothing, Globalization.DateTimeStyles.None, issueDate) = False Then
+                issueDate = DateTime.ParseExact(oDate, OldTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+            End If
             orderExpires = issueDate - Now
             orderExpires = orderExpires.Add(New TimeSpan(oDuration, 0, 0, 0))
             If orderExpires.TotalSeconds <= 0 Then
@@ -320,8 +323,10 @@ Public Class frmMarketOrders
         lblYourPrice.Text = FormatNumber(UserPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         lblCurrentPrice.Text = FormatNumber(EveHQ.Core.DataFunctions.GetPrice(oTypeID.ToString), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
-        ' Draw the gay graph
-        Call Me.DrawGraph(avgAll, stdAll)
+        ' Draw the graph
+        If avgAll <> 0 And stdAll <> 0 Then
+            Call Me.DrawGraph(avgAll, stdAll)
+        End If
 
     End Sub
 
