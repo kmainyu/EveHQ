@@ -106,6 +106,8 @@ Partial Class frmBCBrowser
         '
         'clvLoadouts
         '
+        Me.clvLoadouts.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.clvLoadouts.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colName, Me.colAuthor, Me.colRating, Me.colDate})
         Me.clvLoadouts.DefaultItemHeight = 20
         Me.clvLoadouts.ItemContextMenu = Me.ctxLoadout
@@ -555,7 +557,8 @@ Partial Class frmBCBrowser
         'lvwSlots
         '
         Me.lvwSlots.AllowDrop = True
-        Me.lvwSlots.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.lvwSlots.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lvwSlots.FullRowSelect = True
         ListViewGroup1.Header = "High Slots"
