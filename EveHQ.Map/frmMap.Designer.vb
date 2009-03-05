@@ -112,28 +112,6 @@ Partial Class frmMap
         Me.lblMaxSec = New System.Windows.Forms.Label
         Me.lblMinSec = New System.Windows.Forms.Label
         Me.tabMapTool = New System.Windows.Forms.TabControl
-        Me.tabCelestial = New System.Windows.Forms.TabPage
-        Me.lvIce = New System.Windows.Forms.ListView
-        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
-        Me.lblIce = New System.Windows.Forms.Label
-        Me.lvOres = New System.Windows.Forms.ListView
-        Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
-        Me.lblOres = New System.Windows.Forms.Label
-        Me.radCelRegion = New System.Windows.Forms.RadioButton
-        Me.radCelConst = New System.Windows.Forms.RadioButton
-        Me.radCelSystem = New System.Windows.Forms.RadioButton
-        Me.SearchCelestial = New System.Windows.Forms.Button
-        Me.lblCelBelts = New System.Windows.Forms.Label
-        Me.lblCelMoons = New System.Windows.Forms.Label
-        Me.lblCelPlanets = New System.Windows.Forms.Label
-        Me.lvBelts = New System.Windows.Forms.ListView
-        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
-        Me.lvMoons = New System.Windows.Forms.ListView
-        Me.CoplMoonsName = New System.Windows.Forms.ColumnHeader
-        Me.lvPlanets = New System.Windows.Forms.ListView
-        Me.CoPlName = New System.Windows.Forms.ColumnHeader
         Me.tabStations = New System.Windows.Forms.TabPage
         Me.Label1 = New System.Windows.Forms.Label
         Me.cboStation = New System.Windows.Forms.ComboBox
@@ -239,7 +217,6 @@ Partial Class frmMap
         CType(Me.nudMaxSec, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudMinSec, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabMapTool.SuspendLayout()
-        Me.tabCelestial.SuspendLayout()
         Me.tabStations.SuspendLayout()
         Me.tabStationSearch.SuspendLayout()
         Me.tabAgentSearch.SuspendLayout()
@@ -672,7 +649,7 @@ Partial Class frmMap
         Me.tabMap.Location = New System.Drawing.Point(4, 22)
         Me.tabMap.Name = "tabMap"
         Me.tabMap.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabMap.Size = New System.Drawing.Size(657, 684)
+        Me.tabMap.Size = New System.Drawing.Size(657, 725)
         Me.tabMap.TabIndex = 0
         Me.tabMap.Text = "Map View"
         Me.tabMap.UseVisualStyleBackColor = True
@@ -1016,12 +993,12 @@ Partial Class frmMap
         '
         Me.ctxRoute.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyToClipboard})
         Me.ctxRoute.Name = "ctxRoute"
-        Me.ctxRoute.Size = New System.Drawing.Size(174, 26)
+        Me.ctxRoute.Size = New System.Drawing.Size(175, 26)
         '
         'mnuCopyToClipboard
         '
         Me.mnuCopyToClipboard.Name = "mnuCopyToClipboard"
-        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(173, 22)
+        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(174, 22)
         Me.mnuCopyToClipboard.Text = "Copy To Clipboard"
         '
         'lblTimeTaken
@@ -1127,7 +1104,6 @@ Partial Class frmMap
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tabMapTool.Controls.Add(Me.tabRoute)
         Me.tabMapTool.Controls.Add(Me.tabMap)
-        Me.tabMapTool.Controls.Add(Me.tabCelestial)
         Me.tabMapTool.Controls.Add(Me.tabStations)
         Me.tabMapTool.Controls.Add(Me.tabStationSearch)
         Me.tabMapTool.Controls.Add(Me.tabAgentSearch)
@@ -1136,216 +1112,6 @@ Partial Class frmMap
         Me.tabMapTool.SelectedIndex = 0
         Me.tabMapTool.Size = New System.Drawing.Size(665, 751)
         Me.tabMapTool.TabIndex = 37
-        '
-        'tabCelestial
-        '
-        Me.tabCelestial.Controls.Add(Me.lvIce)
-        Me.tabCelestial.Controls.Add(Me.lblIce)
-        Me.tabCelestial.Controls.Add(Me.lvOres)
-        Me.tabCelestial.Controls.Add(Me.lblOres)
-        Me.tabCelestial.Controls.Add(Me.radCelRegion)
-        Me.tabCelestial.Controls.Add(Me.radCelConst)
-        Me.tabCelestial.Controls.Add(Me.radCelSystem)
-        Me.tabCelestial.Controls.Add(Me.SearchCelestial)
-        Me.tabCelestial.Controls.Add(Me.lblCelBelts)
-        Me.tabCelestial.Controls.Add(Me.lblCelMoons)
-        Me.tabCelestial.Controls.Add(Me.lblCelPlanets)
-        Me.tabCelestial.Controls.Add(Me.lvBelts)
-        Me.tabCelestial.Controls.Add(Me.lvMoons)
-        Me.tabCelestial.Controls.Add(Me.lvPlanets)
-        Me.tabCelestial.Location = New System.Drawing.Point(4, 22)
-        Me.tabCelestial.Name = "tabCelestial"
-        Me.tabCelestial.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabCelestial.Size = New System.Drawing.Size(657, 684)
-        Me.tabCelestial.TabIndex = 2
-        Me.tabCelestial.Text = "Celestial"
-        Me.tabCelestial.UseVisualStyleBackColor = True
-        '
-        'lvIce
-        '
-        Me.lvIce.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader9, Me.ColumnHeader10})
-        Me.lvIce.GridLines = True
-        Me.lvIce.Location = New System.Drawing.Point(17, 599)
-        Me.lvIce.Name = "lvIce"
-        Me.lvIce.Size = New System.Drawing.Size(514, 110)
-        Me.lvIce.TabIndex = 36
-        Me.lvIce.UseCompatibleStateImageBehavior = False
-        Me.lvIce.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader9
-        '
-        Me.ColumnHeader9.Text = "System"
-        Me.ColumnHeader9.Width = 115
-        '
-        'ColumnHeader10
-        '
-        Me.ColumnHeader10.Text = "Ice"
-        Me.ColumnHeader10.Width = 383
-        '
-        'lblIce
-        '
-        Me.lblIce.AutoSize = True
-        Me.lblIce.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblIce.Location = New System.Drawing.Point(15, 580)
-        Me.lblIce.Name = "lblIce"
-        Me.lblIce.Size = New System.Drawing.Size(26, 16)
-        Me.lblIce.TabIndex = 35
-        Me.lblIce.Text = "Ice"
-        Me.lblIce.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'lvOres
-        '
-        Me.lvOres.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader5, Me.ColumnHeader6})
-        Me.lvOres.GridLines = True
-        Me.lvOres.Location = New System.Drawing.Point(17, 467)
-        Me.lvOres.Name = "lvOres"
-        Me.lvOres.Size = New System.Drawing.Size(514, 110)
-        Me.lvOres.TabIndex = 34
-        Me.lvOres.UseCompatibleStateImageBehavior = False
-        Me.lvOres.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader5
-        '
-        Me.ColumnHeader5.Text = "System"
-        Me.ColumnHeader5.Width = 115
-        '
-        'ColumnHeader6
-        '
-        Me.ColumnHeader6.Text = "Ores"
-        Me.ColumnHeader6.Width = 383
-        '
-        'lblOres
-        '
-        Me.lblOres.AutoSize = True
-        Me.lblOres.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblOres.Location = New System.Drawing.Point(14, 448)
-        Me.lblOres.Name = "lblOres"
-        Me.lblOres.Size = New System.Drawing.Size(37, 16)
-        Me.lblOres.TabIndex = 33
-        Me.lblOres.Text = "Ores"
-        Me.lblOres.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'radCelRegion
-        '
-        Me.radCelRegion.AutoSize = True
-        Me.radCelRegion.Location = New System.Drawing.Point(335, 13)
-        Me.radCelRegion.Name = "radCelRegion"
-        Me.radCelRegion.Size = New System.Drawing.Size(96, 17)
-        Me.radCelRegion.TabIndex = 32
-        Me.radCelRegion.Text = "Search Region"
-        Me.radCelRegion.UseVisualStyleBackColor = True
-        '
-        'radCelConst
-        '
-        Me.radCelConst.AutoSize = True
-        Me.radCelConst.Location = New System.Drawing.Point(160, 13)
-        Me.radCelConst.Name = "radCelConst"
-        Me.radCelConst.Size = New System.Drawing.Size(122, 17)
-        Me.radCelConst.TabIndex = 31
-        Me.radCelConst.Text = "Search Constellation"
-        Me.radCelConst.UseVisualStyleBackColor = True
-        '
-        'radCelSystem
-        '
-        Me.radCelSystem.AutoSize = True
-        Me.radCelSystem.Checked = True
-        Me.radCelSystem.Location = New System.Drawing.Point(17, 13)
-        Me.radCelSystem.Name = "radCelSystem"
-        Me.radCelSystem.Size = New System.Drawing.Size(96, 17)
-        Me.radCelSystem.TabIndex = 30
-        Me.radCelSystem.TabStop = True
-        Me.radCelSystem.Text = "Search System"
-        Me.radCelSystem.UseVisualStyleBackColor = True
-        '
-        'SearchCelestial
-        '
-        Me.SearchCelestial.Location = New System.Drawing.Point(455, 10)
-        Me.SearchCelestial.Name = "SearchCelestial"
-        Me.SearchCelestial.Size = New System.Drawing.Size(75, 23)
-        Me.SearchCelestial.TabIndex = 29
-        Me.SearchCelestial.Text = "Search"
-        Me.SearchCelestial.UseVisualStyleBackColor = True
-        '
-        'lblCelBelts
-        '
-        Me.lblCelBelts.AutoSize = True
-        Me.lblCelBelts.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCelBelts.Location = New System.Drawing.Point(14, 316)
-        Me.lblCelBelts.Name = "lblCelBelts"
-        Me.lblCelBelts.Size = New System.Drawing.Size(38, 16)
-        Me.lblCelBelts.TabIndex = 28
-        Me.lblCelBelts.Text = "Belts"
-        Me.lblCelBelts.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'lblCelMoons
-        '
-        Me.lblCelMoons.AutoSize = True
-        Me.lblCelMoons.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCelMoons.Location = New System.Drawing.Point(13, 183)
-        Me.lblCelMoons.Name = "lblCelMoons"
-        Me.lblCelMoons.Size = New System.Drawing.Size(49, 16)
-        Me.lblCelMoons.TabIndex = 27
-        Me.lblCelMoons.Text = "Moons"
-        Me.lblCelMoons.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'lblCelPlanets
-        '
-        Me.lblCelPlanets.AutoSize = True
-        Me.lblCelPlanets.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCelPlanets.Location = New System.Drawing.Point(14, 56)
-        Me.lblCelPlanets.Name = "lblCelPlanets"
-        Me.lblCelPlanets.Size = New System.Drawing.Size(53, 16)
-        Me.lblCelPlanets.TabIndex = 26
-        Me.lblCelPlanets.Text = "Planets"
-        Me.lblCelPlanets.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        '
-        'lvBelts
-        '
-        Me.lvBelts.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader4})
-        Me.lvBelts.GridLines = True
-        Me.lvBelts.Location = New System.Drawing.Point(16, 335)
-        Me.lvBelts.Name = "lvBelts"
-        Me.lvBelts.Size = New System.Drawing.Size(514, 110)
-        Me.lvBelts.TabIndex = 25
-        Me.lvBelts.UseCompatibleStateImageBehavior = False
-        Me.lvBelts.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader4
-        '
-        Me.ColumnHeader4.Text = "Name"
-        Me.ColumnHeader4.Width = 424
-        '
-        'lvMoons
-        '
-        Me.lvMoons.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.CoplMoonsName})
-        Me.lvMoons.GridLines = True
-        Me.lvMoons.Location = New System.Drawing.Point(16, 212)
-        Me.lvMoons.Name = "lvMoons"
-        Me.lvMoons.Size = New System.Drawing.Size(514, 101)
-        Me.lvMoons.TabIndex = 24
-        Me.lvMoons.UseCompatibleStateImageBehavior = False
-        Me.lvMoons.View = System.Windows.Forms.View.Details
-        '
-        'CoplMoonsName
-        '
-        Me.CoplMoonsName.Text = "Name"
-        Me.CoplMoonsName.Width = 421
-        '
-        'lvPlanets
-        '
-        Me.lvPlanets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.CoPlName})
-        Me.lvPlanets.GridLines = True
-        Me.lvPlanets.Location = New System.Drawing.Point(16, 75)
-        Me.lvPlanets.Name = "lvPlanets"
-        Me.lvPlanets.Size = New System.Drawing.Size(514, 105)
-        Me.lvPlanets.TabIndex = 23
-        Me.lvPlanets.UseCompatibleStateImageBehavior = False
-        Me.lvPlanets.View = System.Windows.Forms.View.Details
-        '
-        'CoPlName
-        '
-        Me.CoPlName.Text = "Name"
-        Me.CoPlName.Width = 419
         '
         'tabStations
         '
@@ -1361,7 +1127,7 @@ Partial Class frmMap
         Me.tabStations.Controls.Add(Me.lblStationCorp)
         Me.tabStations.Location = New System.Drawing.Point(4, 22)
         Me.tabStations.Name = "tabStations"
-        Me.tabStations.Size = New System.Drawing.Size(657, 684)
+        Me.tabStations.Size = New System.Drawing.Size(657, 725)
         Me.tabStations.TabIndex = 3
         Me.tabStations.Text = "Stations"
         Me.tabStations.UseVisualStyleBackColor = True
@@ -1506,7 +1272,7 @@ Partial Class frmMap
         Me.tabStationSearch.Controls.Add(Me.cbstssys)
         Me.tabStationSearch.Location = New System.Drawing.Point(4, 22)
         Me.tabStationSearch.Name = "tabStationSearch"
-        Me.tabStationSearch.Size = New System.Drawing.Size(657, 684)
+        Me.tabStationSearch.Size = New System.Drawing.Size(657, 725)
         Me.tabStationSearch.TabIndex = 4
         Me.tabStationSearch.Text = "Station Search"
         Me.tabStationSearch.UseVisualStyleBackColor = True
@@ -1697,7 +1463,7 @@ Partial Class frmMap
         Me.tabAgentSearch.Controls.Add(Me.lvwAgents)
         Me.tabAgentSearch.Location = New System.Drawing.Point(4, 22)
         Me.tabAgentSearch.Name = "tabAgentSearch"
-        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 684)
+        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 725)
         Me.tabAgentSearch.TabIndex = 5
         Me.tabAgentSearch.Text = "Agent Search"
         Me.tabAgentSearch.UseVisualStyleBackColor = True
@@ -2009,24 +1775,24 @@ Partial Class frmMap
         '
         Me.ctxExclude.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExcludeSystem, Me.mnuExcludeConstellation, Me.mnuExcludeRegion})
         Me.ctxExclude.Name = "ctxExclude"
-        Me.ctxExclude.Size = New System.Drawing.Size(148, 70)
+        Me.ctxExclude.Size = New System.Drawing.Size(145, 70)
         '
         'mnuExcludeSystem
         '
         Me.mnuExcludeSystem.Name = "mnuExcludeSystem"
-        Me.mnuExcludeSystem.Size = New System.Drawing.Size(147, 22)
+        Me.mnuExcludeSystem.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeSystem.Text = "Solar System"
         '
         'mnuExcludeConstellation
         '
         Me.mnuExcludeConstellation.Name = "mnuExcludeConstellation"
-        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(147, 22)
+        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeConstellation.Text = "Constellation"
         '
         'mnuExcludeRegion
         '
         Me.mnuExcludeRegion.Name = "mnuExcludeRegion"
-        Me.mnuExcludeRegion.Size = New System.Drawing.Size(147, 22)
+        Me.mnuExcludeRegion.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeRegion.Text = "Region"
         '
         'btnRemoveExclusion
@@ -2069,7 +1835,7 @@ Partial Class frmMap
         Me.tabExclusions.Location = New System.Drawing.Point(4, 22)
         Me.tabExclusions.Name = "tabExclusions"
         Me.tabExclusions.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabExclusions.Size = New System.Drawing.Size(239, 396)
+        Me.tabExclusions.Size = New System.Drawing.Size(239, 499)
         Me.tabExclusions.TabIndex = 0
         Me.tabExclusions.Text = "Exclusions"
         Me.tabExclusions.UseVisualStyleBackColor = True
@@ -2084,7 +1850,7 @@ Partial Class frmMap
         Me.tabWaypoints.Location = New System.Drawing.Point(4, 22)
         Me.tabWaypoints.Name = "tabWaypoints"
         Me.tabWaypoints.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabWaypoints.Size = New System.Drawing.Size(239, 396)
+        Me.tabWaypoints.Size = New System.Drawing.Size(239, 499)
         Me.tabWaypoints.TabIndex = 1
         Me.tabWaypoints.Text = "Waypoints"
         Me.tabWaypoints.UseVisualStyleBackColor = True
@@ -2172,7 +1938,7 @@ Partial Class frmMap
         Me.tsUpdateData.Image = CType(resources.GetObject("tsUpdateData.Image"), System.Drawing.Image)
         Me.tsUpdateData.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsUpdateData.Name = "tsUpdateData"
-        Me.tsUpdateData.Size = New System.Drawing.Size(72, 22)
+        Me.tsUpdateData.Size = New System.Drawing.Size(76, 22)
         Me.tsUpdateData.Text = "Update Data"
         '
         'ToolStripSeparator1
@@ -2220,8 +1986,6 @@ Partial Class frmMap
         CType(Me.nudMaxSec, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudMinSec, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabMapTool.ResumeLayout(False)
-        Me.tabCelestial.ResumeLayout(False)
-        Me.tabCelestial.PerformLayout()
         Me.tabStations.ResumeLayout(False)
         Me.tabStations.PerformLayout()
         Me.tabStationSearch.ResumeLayout(False)
@@ -2331,20 +2095,6 @@ Partial Class frmMap
     Friend WithEvents tabExclusions As System.Windows.Forms.TabPage
     Friend WithEvents tabWaypoints As System.Windows.Forms.TabPage
     Friend WithEvents btnClearWP As System.Windows.Forms.Button
-    Friend WithEvents tabCelestial As System.Windows.Forms.TabPage
-    Friend WithEvents radCelRegion As System.Windows.Forms.RadioButton
-    Friend WithEvents radCelConst As System.Windows.Forms.RadioButton
-    Friend WithEvents radCelSystem As System.Windows.Forms.RadioButton
-    Friend WithEvents SearchCelestial As System.Windows.Forms.Button
-    Friend WithEvents lblCelBelts As System.Windows.Forms.Label
-    Friend WithEvents lblCelMoons As System.Windows.Forms.Label
-    Friend WithEvents lblCelPlanets As System.Windows.Forms.Label
-    Friend WithEvents lvBelts As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lvMoons As System.Windows.Forms.ListView
-    Friend WithEvents CoplMoonsName As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lvPlanets As System.Windows.Forms.ListView
-    Friend WithEvents CoPlName As System.Windows.Forms.ColumnHeader
     Friend WithEvents tabStations As System.Windows.Forms.TabPage
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents cboStation As System.Windows.Forms.ComboBox
@@ -2436,14 +2186,6 @@ Partial Class frmMap
     Friend WithEvents lblPlanetsLbl As System.Windows.Forms.Label
     Friend WithEvents lgagstype As System.Windows.Forms.ColumnHeader
     Friend WithEvents colSov As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lblOres As System.Windows.Forms.Label
-    Friend WithEvents lvOres As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader6 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lvIce As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader9 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader10 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents lblIce As System.Windows.Forms.Label
     Friend WithEvents btnSerialize As System.Windows.Forms.Button
     Friend WithEvents tsMap As System.Windows.Forms.ToolStrip
     Friend WithEvents tsUpdateData As System.Windows.Forms.ToolStripButton

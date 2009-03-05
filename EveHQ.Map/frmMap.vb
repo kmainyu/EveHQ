@@ -1334,7 +1334,21 @@ Public Class frmMap
             lblPlanets.Text = CStr(cSystem.Planets)
             lblMoons.Text = CStr(cSystem.Moons)
             lblABelts.Text = CStr(cSystem.ABelts)
+            If cSystem.ABelts > 0 Then
+                ToolTip1.SetToolTip(lblABeltsLbl, CStr(PlugInData.OreClassList(cSystem.SecClass)))
+                ToolTip1.SetToolTip(lblABelts, CStr(PlugInData.OreClassList(cSystem.SecClass)))
+            Else
+                ToolTip1.SetToolTip(lblABeltsLbl, "No Asteroid Belts")
+                ToolTip1.SetToolTip(lblABelts, "No Asteroid Belts")
+            End If
             lblIBelts.Text = CStr(cSystem.IBelts)
+            If cSystem.IBelts > 0 Then
+                ToolTip1.SetToolTip(lblIBeltsLbl, cSystem.Ice)
+                ToolTip1.SetToolTip(lblIBelts, cSystem.Ice)
+            Else
+                ToolTip1.SetToolTip(lblIBeltsLbl, "No Ice Belts")
+                ToolTip1.SetToolTip(lblIBelts, "No Ice Belts")
+            End If
             lblStations.Text = CStr(cSystem.Stations.Count)
             For Each cCS As ConqStat In PlugInData.CSStationList.Values
                 If cSystem.ID = cCS.solarSystemID Then
@@ -2461,80 +2475,6 @@ Public Class frmMap
     End Sub
 #End Region
 
-#Region "Celestial Routines"
-    Private Sub SearchCelestial_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchCelestial.Click
-        Call Me.PopulateCelestialLists()
-    End Sub
-    Private Sub PopulateCelestialLists()
-
-        Dim systemArray As New ArrayList
-        If radCelSystem.Checked = True Then
-            systemArray.Add(cboSystem.SelectedItem)
-        Else
-            For Each searchSys As SolarSystem In PlugInData.SystemsID.Values
-                If radCelConst.Checked = True And searchSys.Constellation = cboConst.SelectedItem.ToString Then
-                    systemArray.Add(searchSys.Name)
-                Else
-                    If radCelRegion.Checked = True And searchSys.Region = cboRegion.SelectedItem.ToString Then
-                        systemArray.Add(searchSys.Name)
-                    End If
-                End If
-            Next
-        End If
-        lvPlanets.BeginUpdate()
-        lvPlanets.Sorting = SortOrder.None
-        lvPlanets.Items.Clear()
-        lvMoons.BeginUpdate()
-        lvMoons.Sorting = SortOrder.None
-        lvMoons.Items.Clear()
-        lvBelts.BeginUpdate()
-        lvBelts.Sorting = SortOrder.None
-        lvBelts.Items.Clear()
-        lvOres.BeginUpdate()
-        lvOres.Sorting = SortOrder.None
-        lvOres.Items.Clear()
-        lvIce.BeginUpdate()
-        lvIce.Sorting = SortOrder.None
-        lvIce.Items.Clear()
-        Dim OreId As Integer = 0
-        Dim IceId As Integer = 0
-        For Each sys As String In systemArray
-            Dim Icepresent As Boolean = False
-            Dim celSystem As SolarSystem = CType(PlugInData.SystemsID(PlugInData.SystemNameToID(sys)), SolarSystem)
-            'For Each celBody As String In celSystem.Planets.Values
-            '    lvPlanets.Items.Add(celBody)
-            'Next
-            'For Each celBody As String In celSystem.Moons.Values
-            '    lvMoons.Items.Add(celBody)
-            'Next
-            'For Each celBody As String In celSystem.ABelts.Values
-            '    lvBelts.Items.Add(celBody)
-            'Next
-            'For Each celBody As String In celSystem.IBelts.Values
-            '    lvIce.Items.Add(celBody)
-            '    lvIce.Items(IceId).SubItems.Add(celSystem.Ice)
-            '    IceId = IceId + 1
-            'Next
-            lvOres.Items.Add(celSystem.Name)
-            lvOres.Items(OreId).SubItems.Add(CStr(PlugInData.OreClassList(celSystem.SecClass)))
-            OreId = OreId + 1
-        Next
-        lvPlanets.Sorting = SortOrder.Ascending
-        lvPlanets.EndUpdate()
-        lvMoons.Sorting = SortOrder.Ascending
-        lvMoons.EndUpdate()
-        lvBelts.Sorting = SortOrder.Ascending
-        lvBelts.EndUpdate()
-        lvOres.Sorting = SortOrder.Ascending
-        lvOres.EndUpdate()
-        lvIce.Sorting = SortOrder.Ascending
-        lvIce.EndUpdate()
-        lblCelPlanets.Text = "Planets (" & FormatNumber(lvPlanets.Items.Count, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " found)"
-        lblCelMoons.Text = "Moons (" & FormatNumber(lvMoons.Items.Count, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " found)"
-        lblCelBelts.Text = "Belts (" & FormatNumber(lvBelts.Items.Count, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " found)"
-    End Sub
-#End Region
-
 #Region "Station Routines"
     Private Sub cboStation_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboStation.SelectedIndexChanged
         Call Me.SetStationInfo(cboStation.SelectedItem.ToString)
@@ -2627,6 +2567,7 @@ Public Class frmMap
         Call PlugInData.LoadConq()
         Call PlugInData.LoadSov()
     End Sub
+
 End Class
 
 
