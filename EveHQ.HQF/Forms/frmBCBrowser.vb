@@ -394,6 +394,16 @@ Public Class frmBCBrowser
             End If
             lblVelocity.Text = FormatNumber(loadoutShip.MaxVelocity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m/s"
             lblMaxRange.Text = FormatNumber(loadoutShip.MaxTargetRange, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "m"
+            Dim CPU As Double = loadoutShip.CPU_Used / loadoutShip.CPU * 100
+            lblCPU.Text = FormatNumber(CPU, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            If CPU > 100 Then
+                lblCPU.ForeColor = Color.Red
+            End If
+            Dim PG As Double = loadoutShip.PG_Used / loadoutShip.PG * 100
+            lblPG.Text = FormatNumber(PG, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            If PG > 100 Then
+                lblPG.ForeColor = Color.Red
+            End If
 
             Dim maxOpt As Double = 0
             For slot As Integer = 1 To loadoutShip.HiSlots

@@ -1884,14 +1884,21 @@ Public Class frmHQF
 
     Private Sub btnScreenshot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnScreenshot.Click
         ' Determine co-ords of current main panel
-        Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-        Dim xy As Point = tp.PointToScreen(New Point(0, 0))
-        Dim sx As Integer = xy.X
-        Dim sy As Integer = xy.Y
-        Dim fittingImage As Bitmap = ScreenGrab.GrabScreen(New Rectangle(sx, sy, tp.Width, tp.Height))
-        Clipboard.SetDataObject(fittingImage)
-        Dim filename As String = "HQF_" & tp.Text & "_" & Format(Now, "yyyy-MM-dd-HH-mm-ss") & ".png"
-        fittingImage.Save(EveHQ.Core.HQ.reportFolder & "\" & filename, System.Drawing.Imaging.ImageFormat.Png)
+        Try
+            Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
+            Dim xy As Point = tp.PointToScreen(New Point(0, 0))
+            Dim sx As Integer = xy.X
+            Dim sy As Integer = xy.Y
+            Dim fittingImage As Bitmap = ScreenGrab.GrabScreen(New Rectangle(sx, sy, tp.Width, tp.Height))
+            Clipboard.SetDataObject(fittingImage)
+            Dim rgPattern As String = "[\\\/:\*\?""'<>|]"
+            Dim objRegEx As New System.Text.RegularExpressions.Regex(rgPattern)
+            Dim fittingName As String = objRegEx.Replace(tp.Text, "_")
+            Dim filename As String = "HQF_" & fittingName & "_" & Format(Now, "yyyy-MM-dd-HH-mm-ss") & ".png"
+            fittingImage.Save(EveHQ.Core.HQ.reportFolder & "\" & filename, System.Drawing.Imaging.ImageFormat.Png)
+        Catch ex As Exception
+            MessageBox.Show("There was an error taking a screenshot of the current fitting. The error was: " & ControlChars.CrLf & ControlChars.CrLf & ex.Message, "Error Taking Screenshot", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
     End Sub
 
     Private Sub mnuCopyForHQF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyForHQF.Click

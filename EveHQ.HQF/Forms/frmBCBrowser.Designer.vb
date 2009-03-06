@@ -78,6 +78,10 @@ Partial Class frmBCBrowser
         Me.lblPilot = New System.Windows.Forms.Label
         Me.btnImport = New System.Windows.Forms.Button
         Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
+        Me.lblCPULbl = New System.Windows.Forms.Label
+        Me.lblCPU = New System.Windows.Forms.Label
+        Me.lblPGLbl = New System.Windows.Forms.Label
+        Me.lblPG = New System.Windows.Forms.Label
         CType(Me.pbShip, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxLoadout.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -157,18 +161,18 @@ Partial Class frmBCBrowser
         '
         Me.ctxLoadout.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuViewLoadout, Me.mnuCopyURL})
         Me.ctxLoadout.Name = "ctxLoadout"
-        Me.ctxLoadout.Size = New System.Drawing.Size(243, 48)
+        Me.ctxLoadout.Size = New System.Drawing.Size(236, 48)
         '
         'mnuViewLoadout
         '
         Me.mnuViewLoadout.Name = "mnuViewLoadout"
-        Me.mnuViewLoadout.Size = New System.Drawing.Size(242, 22)
+        Me.mnuViewLoadout.Size = New System.Drawing.Size(235, 22)
         Me.mnuViewLoadout.Text = "View Loadout"
         '
         'mnuCopyURL
         '
         Me.mnuCopyURL.Name = "mnuCopyURL"
-        Me.mnuCopyURL.Size = New System.Drawing.Size(242, 22)
+        Me.mnuCopyURL.Size = New System.Drawing.Size(235, 22)
         Me.mnuCopyURL.Text = "Copy Loadout URL to Clipboard"
         '
         'StatusStrip1
@@ -298,12 +302,16 @@ Partial Class frmBCBrowser
         '
         Me.gbStatistics.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gbStatistics.Controls.Add(Me.lblPG)
         Me.gbStatistics.Controls.Add(Me.lblOptimalRange)
         Me.gbStatistics.Controls.Add(Me.lblOptimalRangeLbl)
         Me.gbStatistics.Controls.Add(Me.lblMaxRange)
+        Me.gbStatistics.Controls.Add(Me.lblPGLbl)
         Me.gbStatistics.Controls.Add(Me.LblMaxRangeLbl)
+        Me.gbStatistics.Controls.Add(Me.lblCPU)
         Me.gbStatistics.Controls.Add(Me.lblVelocity)
         Me.gbStatistics.Controls.Add(Me.lblVelocityLbl)
+        Me.gbStatistics.Controls.Add(Me.lblCPULbl)
         Me.gbStatistics.Controls.Add(Me.lblCapacitor)
         Me.gbStatistics.Controls.Add(Me.lblCapLbl)
         Me.gbStatistics.Controls.Add(Me.lblArmorResists)
@@ -322,9 +330,9 @@ Partial Class frmBCBrowser
         Me.gbStatistics.Controls.Add(Me.lblProfileName)
         Me.gbStatistics.Controls.Add(Me.cboPilots)
         Me.gbStatistics.Controls.Add(Me.lblPilot)
-        Me.gbStatistics.Location = New System.Drawing.Point(509, 12)
+        Me.gbStatistics.Location = New System.Drawing.Point(509, 3)
         Me.gbStatistics.Name = "gbStatistics"
-        Me.gbStatistics.Size = New System.Drawing.Size(395, 128)
+        Me.gbStatistics.Size = New System.Drawing.Size(395, 140)
         Me.gbStatistics.TabIndex = 19
         Me.gbStatistics.TabStop = False
         Me.gbStatistics.Text = "Statistics"
@@ -333,7 +341,7 @@ Partial Class frmBCBrowser
         'lblOptimalRange
         '
         Me.lblOptimalRange.AutoSize = True
-        Me.lblOptimalRange.Location = New System.Drawing.Point(278, 110)
+        Me.lblOptimalRange.Location = New System.Drawing.Point(278, 121)
         Me.lblOptimalRange.Name = "lblOptimalRange"
         Me.lblOptimalRange.Size = New System.Drawing.Size(13, 13)
         Me.lblOptimalRange.TabIndex = 23
@@ -342,7 +350,7 @@ Partial Class frmBCBrowser
         'lblOptimalRangeLbl
         '
         Me.lblOptimalRangeLbl.AutoSize = True
-        Me.lblOptimalRangeLbl.Location = New System.Drawing.Point(191, 110)
+        Me.lblOptimalRangeLbl.Location = New System.Drawing.Point(191, 121)
         Me.lblOptimalRangeLbl.Name = "lblOptimalRangeLbl"
         Me.lblOptimalRangeLbl.Size = New System.Drawing.Size(81, 13)
         Me.lblOptimalRangeLbl.TabIndex = 22
@@ -351,7 +359,7 @@ Partial Class frmBCBrowser
         'lblMaxRange
         '
         Me.lblMaxRange.AutoSize = True
-        Me.lblMaxRange.Location = New System.Drawing.Point(93, 110)
+        Me.lblMaxRange.Location = New System.Drawing.Point(93, 121)
         Me.lblMaxRange.Name = "lblMaxRange"
         Me.lblMaxRange.Size = New System.Drawing.Size(13, 13)
         Me.lblMaxRange.TabIndex = 21
@@ -360,7 +368,7 @@ Partial Class frmBCBrowser
         'LblMaxRangeLbl
         '
         Me.LblMaxRangeLbl.AutoSize = True
-        Me.LblMaxRangeLbl.Location = New System.Drawing.Point(6, 110)
+        Me.LblMaxRangeLbl.Location = New System.Drawing.Point(6, 121)
         Me.LblMaxRangeLbl.Name = "LblMaxRangeLbl"
         Me.LblMaxRangeLbl.Size = New System.Drawing.Size(77, 13)
         Me.LblMaxRangeLbl.TabIndex = 20
@@ -369,7 +377,7 @@ Partial Class frmBCBrowser
         'lblVelocity
         '
         Me.lblVelocity.AutoSize = True
-        Me.lblVelocity.Location = New System.Drawing.Point(278, 97)
+        Me.lblVelocity.Location = New System.Drawing.Point(278, 108)
         Me.lblVelocity.Name = "lblVelocity"
         Me.lblVelocity.Size = New System.Drawing.Size(13, 13)
         Me.lblVelocity.TabIndex = 19
@@ -378,7 +386,7 @@ Partial Class frmBCBrowser
         'lblVelocityLbl
         '
         Me.lblVelocityLbl.AutoSize = True
-        Me.lblVelocityLbl.Location = New System.Drawing.Point(191, 97)
+        Me.lblVelocityLbl.Location = New System.Drawing.Point(191, 108)
         Me.lblVelocityLbl.Name = "lblVelocityLbl"
         Me.lblVelocityLbl.Size = New System.Drawing.Size(48, 13)
         Me.lblVelocityLbl.TabIndex = 18
@@ -387,7 +395,7 @@ Partial Class frmBCBrowser
         'lblCapacitor
         '
         Me.lblCapacitor.AutoSize = True
-        Me.lblCapacitor.Location = New System.Drawing.Point(93, 97)
+        Me.lblCapacitor.Location = New System.Drawing.Point(93, 108)
         Me.lblCapacitor.Name = "lblCapacitor"
         Me.lblCapacitor.Size = New System.Drawing.Size(13, 13)
         Me.lblCapacitor.TabIndex = 17
@@ -396,7 +404,7 @@ Partial Class frmBCBrowser
         'lblCapLbl
         '
         Me.lblCapLbl.AutoSize = True
-        Me.lblCapLbl.Location = New System.Drawing.Point(6, 97)
+        Me.lblCapLbl.Location = New System.Drawing.Point(6, 108)
         Me.lblCapLbl.Name = "lblCapLbl"
         Me.lblCapLbl.Size = New System.Drawing.Size(57, 13)
         Me.lblCapLbl.TabIndex = 16
@@ -405,7 +413,7 @@ Partial Class frmBCBrowser
         'lblArmorResists
         '
         Me.lblArmorResists.AutoSize = True
-        Me.lblArmorResists.Location = New System.Drawing.Point(278, 84)
+        Me.lblArmorResists.Location = New System.Drawing.Point(278, 95)
         Me.lblArmorResists.Name = "lblArmorResists"
         Me.lblArmorResists.Size = New System.Drawing.Size(13, 13)
         Me.lblArmorResists.TabIndex = 15
@@ -414,7 +422,7 @@ Partial Class frmBCBrowser
         'lblShieldResists
         '
         Me.lblShieldResists.AutoSize = True
-        Me.lblShieldResists.Location = New System.Drawing.Point(93, 84)
+        Me.lblShieldResists.Location = New System.Drawing.Point(93, 95)
         Me.lblShieldResists.Name = "lblShieldResists"
         Me.lblShieldResists.Size = New System.Drawing.Size(13, 13)
         Me.lblShieldResists.TabIndex = 14
@@ -423,7 +431,7 @@ Partial Class frmBCBrowser
         'lblArmorResistsLbl
         '
         Me.lblArmorResistsLbl.AutoSize = True
-        Me.lblArmorResistsLbl.Location = New System.Drawing.Point(191, 84)
+        Me.lblArmorResistsLbl.Location = New System.Drawing.Point(191, 95)
         Me.lblArmorResistsLbl.Name = "lblArmorResistsLbl"
         Me.lblArmorResistsLbl.Size = New System.Drawing.Size(77, 13)
         Me.lblArmorResistsLbl.TabIndex = 13
@@ -432,7 +440,7 @@ Partial Class frmBCBrowser
         'lblShieldResistsLbl
         '
         Me.lblShieldResistsLbl.AutoSize = True
-        Me.lblShieldResistsLbl.Location = New System.Drawing.Point(6, 84)
+        Me.lblShieldResistsLbl.Location = New System.Drawing.Point(6, 95)
         Me.lblShieldResistsLbl.Name = "lblShieldResistsLbl"
         Me.lblShieldResistsLbl.Size = New System.Drawing.Size(76, 13)
         Me.lblShieldResistsLbl.TabIndex = 12
@@ -441,7 +449,7 @@ Partial Class frmBCBrowser
         'lblVolley
         '
         Me.lblVolley.AutoSize = True
-        Me.lblVolley.Location = New System.Drawing.Point(93, 71)
+        Me.lblVolley.Location = New System.Drawing.Point(93, 82)
         Me.lblVolley.Name = "lblVolley"
         Me.lblVolley.Size = New System.Drawing.Size(13, 13)
         Me.lblVolley.TabIndex = 11
@@ -450,7 +458,7 @@ Partial Class frmBCBrowser
         'lblDPS
         '
         Me.lblDPS.AutoSize = True
-        Me.lblDPS.Location = New System.Drawing.Point(278, 71)
+        Me.lblDPS.Location = New System.Drawing.Point(278, 82)
         Me.lblDPS.Name = "lblDPS"
         Me.lblDPS.Size = New System.Drawing.Size(13, 13)
         Me.lblDPS.TabIndex = 10
@@ -459,7 +467,7 @@ Partial Class frmBCBrowser
         'lblDPSLbl
         '
         Me.lblDPSLbl.AutoSize = True
-        Me.lblDPSLbl.Location = New System.Drawing.Point(191, 71)
+        Me.lblDPSLbl.Location = New System.Drawing.Point(191, 82)
         Me.lblDPSLbl.Name = "lblDPSLbl"
         Me.lblDPSLbl.Size = New System.Drawing.Size(58, 13)
         Me.lblDPSLbl.TabIndex = 9
@@ -468,7 +476,7 @@ Partial Class frmBCBrowser
         'lblVolleyLbl
         '
         Me.lblVolleyLbl.AutoSize = True
-        Me.lblVolleyLbl.Location = New System.Drawing.Point(6, 71)
+        Me.lblVolleyLbl.Location = New System.Drawing.Point(6, 82)
         Me.lblVolleyLbl.Name = "lblVolleyLbl"
         Me.lblVolleyLbl.Size = New System.Drawing.Size(81, 13)
         Me.lblVolleyLbl.TabIndex = 8
@@ -477,7 +485,7 @@ Partial Class frmBCBrowser
         'lblTank
         '
         Me.lblTank.AutoSize = True
-        Me.lblTank.Location = New System.Drawing.Point(278, 56)
+        Me.lblTank.Location = New System.Drawing.Point(278, 67)
         Me.lblTank.Name = "lblTank"
         Me.lblTank.Size = New System.Drawing.Size(13, 13)
         Me.lblTank.TabIndex = 7
@@ -486,7 +494,7 @@ Partial Class frmBCBrowser
         'lblEHP
         '
         Me.lblEHP.AutoSize = True
-        Me.lblEHP.Location = New System.Drawing.Point(93, 58)
+        Me.lblEHP.Location = New System.Drawing.Point(93, 69)
         Me.lblEHP.Name = "lblEHP"
         Me.lblEHP.Size = New System.Drawing.Size(13, 13)
         Me.lblEHP.TabIndex = 6
@@ -495,7 +503,7 @@ Partial Class frmBCBrowser
         'lblTankLbl
         '
         Me.lblTankLbl.AutoSize = True
-        Me.lblTankLbl.Location = New System.Drawing.Point(191, 58)
+        Me.lblTankLbl.Location = New System.Drawing.Point(191, 69)
         Me.lblTankLbl.Name = "lblTankLbl"
         Me.lblTankLbl.Size = New System.Drawing.Size(57, 13)
         Me.lblTankLbl.TabIndex = 5
@@ -504,7 +512,7 @@ Partial Class frmBCBrowser
         'lblEHPLbl
         '
         Me.lblEHPLbl.AutoSize = True
-        Me.lblEHPLbl.Location = New System.Drawing.Point(6, 58)
+        Me.lblEHPLbl.Location = New System.Drawing.Point(6, 69)
         Me.lblEHPLbl.Name = "lblEHPLbl"
         Me.lblEHPLbl.Size = New System.Drawing.Size(70, 13)
         Me.lblEHPLbl.TabIndex = 4
@@ -578,14 +586,50 @@ Partial Class frmBCBrowser
         Me.lvwSlots.UseCompatibleStateImageBehavior = False
         Me.lvwSlots.View = System.Windows.Forms.View.Details
         '
+        'lblCPULbl
+        '
+        Me.lblCPULbl.AutoSize = True
+        Me.lblCPULbl.Location = New System.Drawing.Point(6, 56)
+        Me.lblCPULbl.Name = "lblCPULbl"
+        Me.lblCPULbl.Size = New System.Drawing.Size(31, 13)
+        Me.lblCPULbl.TabIndex = 24
+        Me.lblCPULbl.Text = "CPU:"
+        '
+        'lblCPU
+        '
+        Me.lblCPU.AutoSize = True
+        Me.lblCPU.Location = New System.Drawing.Point(93, 57)
+        Me.lblCPU.Name = "lblCPU"
+        Me.lblCPU.Size = New System.Drawing.Size(13, 13)
+        Me.lblCPU.TabIndex = 25
+        Me.lblCPU.Text = "0"
+        '
+        'lblPGLbl
+        '
+        Me.lblPGLbl.AutoSize = True
+        Me.lblPGLbl.Location = New System.Drawing.Point(191, 56)
+        Me.lblPGLbl.Name = "lblPGLbl"
+        Me.lblPGLbl.Size = New System.Drawing.Size(59, 13)
+        Me.lblPGLbl.TabIndex = 26
+        Me.lblPGLbl.Text = "Powergrid:"
+        '
+        'lblPG
+        '
+        Me.lblPG.AutoSize = True
+        Me.lblPG.Location = New System.Drawing.Point(278, 56)
+        Me.lblPG.Name = "lblPG"
+        Me.lblPG.Size = New System.Drawing.Size(13, 13)
+        Me.lblPG.TabIndex = 27
+        Me.lblPG.Text = "0"
+        '
         'frmBCBrowser
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(916, 635)
         Me.Controls.Add(Me.btnImport)
-        Me.Controls.Add(Me.gbStatistics)
         Me.Controls.Add(Me.lblLoadoutTopic)
+        Me.Controls.Add(Me.gbStatistics)
         Me.Controls.Add(Me.lblLoadoutDate)
         Me.Controls.Add(Me.lblLoadoutScore)
         Me.Controls.Add(Me.lblLoadoutAuthor)
@@ -665,4 +709,8 @@ Partial Class frmBCBrowser
     Friend WithEvents lblMaxRange As System.Windows.Forms.Label
     Friend WithEvents LblMaxRangeLbl As System.Windows.Forms.Label
     Friend WithEvents btnImport As System.Windows.Forms.Button
+    Friend WithEvents lblCPU As System.Windows.Forms.Label
+    Friend WithEvents lblCPULbl As System.Windows.Forms.Label
+    Friend WithEvents lblPG As System.Windows.Forms.Label
+    Friend WithEvents lblPGLbl As System.Windows.Forms.Label
 End Class
