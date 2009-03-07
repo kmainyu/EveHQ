@@ -145,7 +145,16 @@ Imports System.Diagnostics
     Private cMarketLogPopupConfirm As Boolean = False
     Private cMarketLogUpdatePrice As Boolean = False
     Private cMarketLogUpdateData As Boolean = False
+    Private cShowCompletedSkills As Boolean = False
 
+    Public Property ShowCompletedSkills() As Boolean
+        Get
+            Return cShowCompletedSkills
+        End Get
+        Set(ByVal value As Boolean)
+            cShowCompletedSkills = value
+        End Set
+    End Property
     Public Property MarketRegionList() As ArrayList
         Get
             If cMarketRegionList Is Nothing Then
@@ -1021,7 +1030,6 @@ Imports System.Diagnostics
         End Get
         Set(ByVal value As Integer)
             cIGBPort = value
-            EveHQ.Core.HQ.myIGB.IGBPort = value
         End Set
     End Property
     Public Property IGBAutoStart() As Boolean

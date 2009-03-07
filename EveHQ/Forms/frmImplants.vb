@@ -126,11 +126,23 @@
             lblActiveSkillQueue.Text = "No Queue Selected"
             lblSkillQueuePointsAnalysis.Text = "Skill Queue Points Analysis"
             lblActiveSkillQueue.Text = SkillQueue.Name
-            lblActiveQueueTime.Text = "Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(SkillQueue.QueueTime)
+            Dim iQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(iPilot, CType(iPilot.TrainingQueues(cQueueName), Core.SkillQueue))
+            Dim iTime As Long = CType(iPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime
+            If CType(iPilot.TrainingQueues(cQueueName), Core.SkillQueue).IncCurrentTraining = True Then
+                iTime += iPilot.TrainingCurrentTime
+            End If
+            lblActiveQueueTime.Text = "Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(iTime)
             If nPilot.TrainingQueues.ContainsKey(cQueueName) = False Then
                 nPilot.TrainingQueues.Add(cQueueName, SkillQueue.Clone)
             End If
+            Call Me.SyncTraining()
+            ' Add the pilot training info!
             Dim nQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue))
+            Dim nTime As Long = CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime
+            If CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).IncCurrentTraining = True Then
+                nTime += nPilot.TrainingCurrentTime
+            End If
+            lblRevisedQueueTime.Text = "Revised Time: " & EveHQ.Core.SkillFunctions.TimeToString(nTime)
             Dim pointScores(4, 1) As Long
             For a As Integer = 0 To 4
                 pointScores(a, 0) = a
@@ -186,11 +198,10 @@
                 End Select
                 Me.gbSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = FormatNumber(pointScores(tagArray(att), 1), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             Next
-            lblRevisedQueueTime.Text = "Revised Time: " & EveHQ.Core.SkillFunctions.TimeToString(CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime)
-            If CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime <= SkillQueue.QueueTime Then
-                lblTimeSaving.Text = "Time Saving: " & EveHQ.Core.SkillFunctions.TimeToString(SkillQueue.QueueTime - CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime, False)
+            If nTime <= iTime Then
+                lblTimeSaving.Text = "Time Saving: " & EveHQ.Core.SkillFunctions.TimeToString(iTime - nTime, False)
             Else
-                lblTimeSaving.Text = "Time Loss: " & EveHQ.Core.SkillFunctions.TimeToString(CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime - SkillQueue.QueueTime, False)
+                lblTimeSaving.Text = "Time Loss: " & EveHQ.Core.SkillFunctions.TimeToString(nTime - iTime, False)
             End If
         Else
             If Me.IsHandleCreated = True Then
@@ -205,6 +216,19 @@
                 lblTimeSaving.Text = ""
             End If
         End If
+    End Sub
+
+    Private Sub SyncTraining()
+        nPilot.Training = iPilot.Training
+        nPilot.TrainingCurrentSP = iPilot.TrainingCurrentSP
+        nPilot.TrainingCurrentTime = iPilot.TrainingCurrentTime
+        nPilot.TrainingSkillID = iPilot.TrainingSkillID
+        nPilot.TrainingSkillName = iPilot.TrainingSkillName
+        nPilot.TrainingSkillLevel = iPilot.TrainingSkillLevel
+        nPilot.TrainingStartSP = iPilot.TrainingStartSP
+        nPilot.TrainingEndSP = iPilot.TrainingEndSP
+        nPilot.TrainingStartTime = iPilot.TrainingStartTime
+        nPilot.TrainingEndTime = iPilot.TrainingEndTime
     End Sub
 
     Private Sub nudIImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudIImplant.ValueChanged

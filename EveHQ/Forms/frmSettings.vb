@@ -863,19 +863,15 @@ Public Class frmSettings
     End Sub
 
     Private Sub chkContinueTraining_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkContinueTraining.CheckedChanged
-        If chkContinueTraining.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.ContinueTraining = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.ContinueTraining = False
-        End If
+        EveHQ.Core.HQ.EveHQSettings.ContinueTraining = chkContinueTraining.Checked
+    End Sub
+
+    Private Sub chkShowCompletedSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowCompletedSkills.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.ShowCompletedSkills = chkShowCompletedSkills.Checked
     End Sub
 
     Private Sub chkDeleteCompletedSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDeleteCompletedSkills.CheckedChanged
-        If Me.chkDeleteCompletedSkills.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.DeleteSkills = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.DeleteSkills = False
-        End If
+        EveHQ.Core.HQ.EveHQSettings.DeleteSkills = chkDeleteCompletedSkills.Checked
     End Sub
 
     Private Sub UpdateTrainingQueueOptions()
@@ -926,6 +922,7 @@ Public Class frmSettings
         Next
         Me.chkContinueTraining.Checked = EveHQ.Core.HQ.EveHQSettings.ContinueTraining
         Me.chkDeleteCompletedSkills.Checked = EveHQ.Core.HQ.EveHQSettings.DeleteSkills
+        Me.chkShowCompletedSkills.Checked = EveHQ.Core.HQ.EveHQSettings.ShowCompletedSkills
         Dim IColor As Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.IsPreReqColor))
         Me.pbIsPreReqColour.BackColor = IColor
         Dim HColor As Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.HasPreReqColor))
@@ -2094,5 +2091,6 @@ Public Class frmSettings
     End Sub
 
 #End Region
+
 
 End Class

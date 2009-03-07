@@ -570,126 +570,128 @@ Public Class frmTraining
             For Each qItem In arrQueue
                 Dim newskill As ListViewItem = New ListViewItem
                 newskill.Name = qItem.Key
-                If qItem.Done = True Then newskill.Font = doneFont
-                If qItem.IsPrereq = True Then
-                    newskill.ToolTipText = qItem.Prereq
-                    If qItem.HasPrereq = True Then
-                        newskill.ToolTipText &= ControlChars.CrLf & qItem.Reqs
-                        newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.BothPreReqColor))
-                    Else
-                        newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.IsPreReqColor))
-                    End If
-                Else
-                    If qItem.HasPrereq = True Then
-                        newskill.ToolTipText = qItem.Reqs
-                        newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.HasPreReqColor))
-                    Else
-                        If qItem.PartTrained = True Then
-                            newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PartialTrainColor))
+                If qItem.Done = False Or (qItem.Done = True And EveHQ.Core.HQ.EveHQSettings.ShowCompletedSkills = True) Then
+                    If qItem.Done = True Then newskill.Font = doneFont
+                    If qItem.IsPrereq = True Then
+                        newskill.ToolTipText = qItem.Prereq
+                        If qItem.HasPrereq = True Then
+                            newskill.ToolTipText &= ControlChars.CrLf & qItem.Reqs
+                            newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.BothPreReqColor))
                         Else
-                            newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.ReadySkillColor))
+                            newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.IsPreReqColor))
+                        End If
+                    Else
+                        If qItem.HasPrereq = True Then
+                            newskill.ToolTipText = qItem.Reqs
+                            newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.HasPreReqColor))
+                        Else
+                            If qItem.PartTrained = True Then
+                                newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PartialTrainColor))
+                            Else
+                                newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.ReadySkillColor))
+                            End If
                         End If
                     End If
-                End If
-                If qItem.IsTraining = True Then
-                    newskill.BackColor = Color.LimeGreen
-                    ' Set a flag in the listview of the listviewitem name for later checking
-                    lvwQueue.Tag = newskill.Name
-                End If
-                Dim clashTime As DateTime = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(qItem.DateFinished)
-                If clashTime.Hour = 11 Then
-                    newskill.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DTClashColor))
-                    If newskill.ToolTipText <> "" Then
-                        newskill.ToolTipText &= ControlChars.CrLf & ControlChars.CrLf
+                    If qItem.IsTraining = True Then
+                        newskill.BackColor = Color.LimeGreen
+                        ' Set a flag in the listview of the listviewitem name for later checking
+                        lvwQueue.Tag = newskill.Name
                     End If
-                    newskill.ToolTipText &= "WARNING: Skill end time occurs during Eve Downtime"
-                End If
-                ' Do some additional calcs
-                totalSP += CLng(qItem.SPTrained)
-                totalTime += CLng(qItem.TrainTime)
-                ' Add the first 6 standard items
-                newskill.Text = qItem.Name
-                newskill.Tag = qItem.ID
-                Dim newSI As New ListViewItem.ListViewSubItem
-                newSI.Name = qItem.CurLevel : newSI.Text = qItem.CurLevel : newskill.SubItems.Add(newSI)
-                newSI = New ListViewItem.ListViewSubItem
-                newSI.Name = qItem.FromLevel : newSI.Text = qItem.FromLevel : newskill.SubItems.Add(newSI)
-                newSI = New ListViewItem.ListViewSubItem
-                newSI.Name = qItem.ToLevel : newSI.Text = qItem.ToLevel : newskill.SubItems.Add(newSI)
-                newSI = New ListViewItem.ListViewSubItem
-                newSI.Name = qItem.Percent : newSI.Text = qItem.Percent : newskill.SubItems.Add(newSI)
-                newSI = New ListViewItem.ListViewSubItem
-                newSI.Name = qItem.TrainTime : newSI.Tag = qItem.TrainTime : newSI.Text = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qItem.TrainTime)) : newskill.SubItems.Add(newSI)
-                ' Now add the others as required
-                For a As Integer = 6 To 16
-                    If CBool(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1)) = True Then
-                        newSI = New ListViewItem.ListViewSubItem
-                        Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
-                            Case "Date"
-                                newSI.Name = qItem.DateFinished.ToBinary.ToString
-                                newSI.Text = Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate)
-                            Case "Rank"
-                                newSI.Name = qItem.Rank
-                                newSI.Text = qItem.Rank
-                            Case "PAtt"
-                                newSI.Name = qItem.PAtt
-                                newSI.Text = qItem.PAtt
-                            Case "SAtt"
-                                newSI.Name = qItem.SAtt
-                                newSI.Text = qItem.SAtt
-                            Case "SPRH"
-                                newSI.Name = qItem.SPRate
-                                newSI.Text = FormatNumber(qItem.SPRate, 0, , , TriState.True)
-                            Case "SPRD"
-                                newSI.Name = CStr(CDbl(qItem.SPRate) * 24)
-                                newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24, 0, , , TriState.True)
-                            Case "SPRW"
-                                newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 7)
-                                newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 7, 0, , , TriState.True)
-                            Case "SPRM"
-                                newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 30)
-                                newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 30, 0, , , TriState.True)
-                            Case "SPRY"
-                                newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 365)
-                                newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 365, 0, , , TriState.True)
-                            Case "SPAd"
-                                newSI.Name = qItem.SPTrained
-                                newSI.Text = FormatNumber(qItem.SPTrained, 0, , , TriState.True)
-                            Case "SPTo"
-                                newSI.Name = CStr(totalSP)
-                                newSI.Text = FormatNumber(totalSP, 0, , , TriState.True)
-                        End Select
-                        newskill.SubItems.Add(newSI)
+                    Dim clashTime As DateTime = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(qItem.DateFinished)
+                    If clashTime.Hour = 11 Then
+                        newskill.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DTClashColor))
+                        If newskill.ToolTipText <> "" Then
+                            newskill.ToolTipText &= ControlChars.CrLf & ControlChars.CrLf
+                        End If
+                        newskill.ToolTipText &= "WARNING: Skill end time occurs during Eve Downtime"
                     End If
-                Next
-                lvwQueue.Items.Add(newskill)
+                    ' Do some additional calcs
+                    totalSP += CLng(qItem.SPTrained)
+                    totalTime += CLng(qItem.TrainTime)
+                    ' Add the first 6 standard items
+                    newskill.Text = qItem.Name
+                    newskill.Tag = qItem.ID
+                    Dim newSI As New ListViewItem.ListViewSubItem
+                    newSI.Name = qItem.CurLevel : newSI.Text = qItem.CurLevel : newskill.SubItems.Add(newSI)
+                    newSI = New ListViewItem.ListViewSubItem
+                    newSI.Name = qItem.FromLevel : newSI.Text = qItem.FromLevel : newskill.SubItems.Add(newSI)
+                    newSI = New ListViewItem.ListViewSubItem
+                    newSI.Name = qItem.ToLevel : newSI.Text = qItem.ToLevel : newskill.SubItems.Add(newSI)
+                    newSI = New ListViewItem.ListViewSubItem
+                    newSI.Name = qItem.Percent : newSI.Text = qItem.Percent : newskill.SubItems.Add(newSI)
+                    newSI = New ListViewItem.ListViewSubItem
+                    newSI.Name = qItem.TrainTime : newSI.Tag = qItem.TrainTime : newSI.Text = EveHQ.Core.SkillFunctions.TimeToString(CDbl(qItem.TrainTime)) : newskill.SubItems.Add(newSI)
+                    ' Now add the others as required
+                    For a As Integer = 6 To 16
+                        If CBool(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1)) = True Then
+                            newSI = New ListViewItem.ListViewSubItem
+                            Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
+                                Case "Date"
+                                    newSI.Name = qItem.DateFinished.ToBinary.ToString
+                                    newSI.Text = Format(qItem.DateFinished, "ddd") & " " & FormatDateTime(qItem.DateFinished, DateFormat.GeneralDate)
+                                Case "Rank"
+                                    newSI.Name = qItem.Rank
+                                    newSI.Text = qItem.Rank
+                                Case "PAtt"
+                                    newSI.Name = qItem.PAtt
+                                    newSI.Text = qItem.PAtt
+                                Case "SAtt"
+                                    newSI.Name = qItem.SAtt
+                                    newSI.Text = qItem.SAtt
+                                Case "SPRH"
+                                    newSI.Name = qItem.SPRate
+                                    newSI.Text = FormatNumber(qItem.SPRate, 0, , , TriState.True)
+                                Case "SPRD"
+                                    newSI.Name = CStr(CDbl(qItem.SPRate) * 24)
+                                    newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24, 0, , , TriState.True)
+                                Case "SPRW"
+                                    newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 7)
+                                    newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 7, 0, , , TriState.True)
+                                Case "SPRM"
+                                    newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 30)
+                                    newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 30, 0, , , TriState.True)
+                                Case "SPRY"
+                                    newSI.Name = CStr(CDbl(qItem.SPRate) * 24 * 365)
+                                    newSI.Text = FormatNumber(CDbl(qItem.SPRate) * 24 * 365, 0, , , TriState.True)
+                                Case "SPAd"
+                                    newSI.Name = qItem.SPTrained
+                                    newSI.Text = FormatNumber(qItem.SPTrained, 0, , , TriState.True)
+                                Case "SPTo"
+                                    newSI.Name = CStr(totalSP)
+                                    newSI.Text = FormatNumber(totalSP, 0, , , TriState.True)
+                            End Select
+                            newskill.SubItems.Add(newSI)
+                        End If
+                    Next
+                    lvwQueue.Items.Add(newskill)
+                End If
             Next
 
-            Dim lblQueue As Label = CType(Me.tabQueues.Controls(QueueName).Controls("T" & QueueName), Label)
-            lblQueue.Tag = totalTime.ToString
-            lblQueue.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
+        Dim lblQueue As Label = CType(Me.tabQueues.Controls(QueueName).Controls("T" & QueueName), Label)
+        lblQueue.Tag = totalTime.ToString
+        lblQueue.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
 
-            ' Tidy up afterwards
-            lvwQueue.EndUpdate()
-            Call EveHQ.Core.SkillQueueFunctions.TidyQueue(EveHQ.Core.HQ.myPilot, aq, arrQueue)
-            Call Me.RedrawOptions()
-            'Call Me.DrawQueueSummary()
-            'Call Me.LoadSkillTree()
-            ' Get a suggestion for a quicker skill queue
-            Dim suggestingQueue As String = aq.Name
-            Dim suggestionWorker As New System.ComponentModel.BackgroundWorker
-            AddHandler suggestionWorker.DoWork, AddressOf Me.SuggestionWorker_DoWork
-            AddHandler suggestionWorker.RunWorkerCompleted, AddressOf Me.SuggestionWorker_RunWorkerCompleted
-            If suggestionWorker.IsBusy = False Then
-                Dim activePB As PictureBox = CType(Me.tabQueues.Controls(QueueName).Controls("P" & QueueName), PictureBox)
-                activePB.Image = My.Resources.info_grey
-                activePB.Enabled = False
-                activePB.Visible = True
-                Dim activeLabel As Label = CType(Me.tabQueues.Controls(QueueName).Controls("S" & QueueName), Label)
-                activeLabel.Text = "Calculating, Please Wait..."
-                activeLabel.Visible = True
-                suggestionWorker.RunWorkerAsync(suggestingQueue)
-            End If
+        ' Tidy up afterwards
+        lvwQueue.EndUpdate()
+        Call EveHQ.Core.SkillQueueFunctions.TidyQueue(EveHQ.Core.HQ.myPilot, aq, arrQueue)
+        Call Me.RedrawOptions()
+        'Call Me.DrawQueueSummary()
+        'Call Me.LoadSkillTree()
+        ' Get a suggestion for a quicker skill queue
+        Dim suggestingQueue As String = aq.Name
+        Dim suggestionWorker As New System.ComponentModel.BackgroundWorker
+        AddHandler suggestionWorker.DoWork, AddressOf Me.SuggestionWorker_DoWork
+        AddHandler suggestionWorker.RunWorkerCompleted, AddressOf Me.SuggestionWorker_RunWorkerCompleted
+        If suggestionWorker.IsBusy = False Then
+            Dim activePB As PictureBox = CType(Me.tabQueues.Controls(QueueName).Controls("P" & QueueName), PictureBox)
+            activePB.Image = My.Resources.info_grey
+            activePB.Enabled = False
+            activePB.Visible = True
+            Dim activeLabel As Label = CType(Me.tabQueues.Controls(QueueName).Controls("S" & QueueName), Label)
+            activeLabel.Text = "Calculating, Please Wait..."
+            activeLabel.Visible = True
+            suggestionWorker.RunWorkerAsync(suggestingQueue)
+        End If
         End If
     End Sub
 
@@ -2481,8 +2483,8 @@ Public Class frmTraining
                     Dim activeLabel As Label = CType(Me.tabQueues.Controls(sugQueue).Controls("S" & sugQueue), Label)
                     Dim origQueue As EveHQ.Core.SkillQueue = CType(suggestingQueues(sugQueue), Core.SkillQueue)
                     Dim newQueue As EveHQ.Core.SkillQueue = CType(suggestedQueues(sugQueue), Core.SkillQueue)
-                    If newQueue IsNot Nothing And origQueue IsNot Nothing Then
-                        If newQueue.QueueTime < origQueue.QueueTime Then
+                    If newQueue IsNot Nothing And origQueue IsNot Nothing Then ' only if improvement is by 10s or more!
+                        If newQueue.QueueTime < origQueue.QueueTime - 10 Then
                             Me.suggestionsTaken = False
                             activePB.Image = My.Resources.info_icon
                             activePB.Enabled = True

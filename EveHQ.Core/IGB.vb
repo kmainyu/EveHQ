@@ -34,18 +34,9 @@ Public Class IGB
     Shared timeTaken As TimeSpan
     Const maxActivities As Integer = 9
     Private EveIcons As Collection = New Collection
-    Private cIGBPort As Integer
     Private cTQPlayers, cSisiPlayers As Long
     Shared pdaStyle As Boolean = False
 
-    Public Property IGBPort() As Integer
-        Get
-            Return cIGBPort
-        End Get
-        Set(ByVal value As Integer)
-            cIGBPort = value
-        End Set
-    End Property
     Public Property TQPlayers() As Long
         Get
             Return cTQPlayers
@@ -64,7 +55,7 @@ Public Class IGB
     End Property
     Public Sub RunIGB(ByVal worker As BackgroundWorker, ByVal e As DoWorkEventArgs)
         Dim prefixes(0) As String
-        prefixes(0) = "http://*:" & cIGBPort & "/"
+        prefixes(0) = "http://*:" & EveHQ.Core.HQ.EveHQSettings.IGBPort & "/"
 
         ' URI prefixes are required,
         If prefixes Is Nothing OrElse prefixes.Length = 0 Then

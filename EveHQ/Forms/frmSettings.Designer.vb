@@ -315,6 +315,7 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
+        Me.chkShowCompletedSkills = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1590,6 +1591,7 @@ Partial Public Class frmSettings
         '
         'gbTrainingQueue
         '
+        Me.gbTrainingQueue.Controls.Add(Me.chkShowCompletedSkills)
         Me.gbTrainingQueue.Controls.Add(Me.pbPartiallyTrainedColour)
         Me.gbTrainingQueue.Controls.Add(Me.lblPartiallyTrainedColour)
         Me.gbTrainingQueue.Controls.Add(Me.chkDeleteCompletedSkills)
@@ -1607,9 +1609,9 @@ Partial Public Class frmSettings
         Me.gbTrainingQueue.Controls.Add(Me.chkContinueTraining)
         Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
         Me.gbTrainingQueue.Controls.Add(Me.clbColumns)
-        Me.gbTrainingQueue.Location = New System.Drawing.Point(575, 219)
+        Me.gbTrainingQueue.Location = New System.Drawing.Point(194, 12)
         Me.gbTrainingQueue.Name = "gbTrainingQueue"
-        Me.gbTrainingQueue.Size = New System.Drawing.Size(100, 34)
+        Me.gbTrainingQueue.Size = New System.Drawing.Size(695, 504)
         Me.gbTrainingQueue.TabIndex = 3
         Me.gbTrainingQueue.TabStop = False
         Me.gbTrainingQueue.Text = "Training Queue"
@@ -1786,9 +1788,9 @@ Partial Public Class frmSettings
         Me.gbDatabaseFormat.Controls.Add(Me.btnTestDB)
         Me.gbDatabaseFormat.Controls.Add(Me.cboFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(194, 12)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(207, 149)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(695, 487)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(132, 31)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
@@ -3198,13 +3200,23 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
+        'chkShowCompletedSkills
+        '
+        Me.chkShowCompletedSkills.AutoSize = True
+        Me.chkShowCompletedSkills.Location = New System.Drawing.Point(9, 406)
+        Me.chkShowCompletedSkills.Name = "chkShowCompletedSkills"
+        Me.chkShowCompletedSkills.Size = New System.Drawing.Size(194, 17)
+        Me.chkShowCompletedSkills.TabIndex = 33
+        Me.chkShowCompletedSkills.Text = "Show completed skills in skill queue"
+        Me.chkShowCompletedSkills.UseVisualStyleBackColor = True
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbColours)
@@ -3597,4 +3609,5 @@ Partial Public Class frmSettings
     Friend WithEvents btnBrowseMDB2 As System.Windows.Forms.Button
     Friend WithEvents txtMDBServer2 As System.Windows.Forms.TextBox
     Friend WithEvents lblMDBFilename2 As System.Windows.Forms.Label
+    Friend WithEvents chkShowCompletedSkills As System.Windows.Forms.CheckBox
 End Class

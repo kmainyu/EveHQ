@@ -297,10 +297,13 @@ Public Class SkillQueueFunctions
                         ' Check if the skill is currently being trained and strike it out if it is!
                         If qPilot.Training = True Then
                             If myskill.ID = qPilot.TrainingSkillID Then
-                                If curLevel = fromLevel And qPilot.TrainingSkillLevel = toLevel Then
-                                    qItem.Done = True
-                                    percent = 100
-                                    cTime = 0
+                                ' Take account of whether the current training skill has been added to the queue
+                                If bQueue.IncCurrentTraining = True Then
+                                    If curLevel = fromLevel And qPilot.TrainingSkillLevel = toLevel Then
+                                        qItem.Done = True
+                                        percent = 100
+                                        cTime = 0
+                                    End If
                                 End If
                             End If
                         End If
