@@ -397,9 +397,6 @@ Public Class frmEveHQ
                 Me.tabMDI.Appearance = TabAppearance.Normal
         End Select
 
-        tsProgramStatus.Text = "Welcome to EveHQ"
-        Me.Refresh()
-
         ' Close the splash screen
         frmSplash.Close()
 
@@ -487,7 +484,6 @@ Public Class frmEveHQ
         Me.TopMost = False
     End Sub
     Public Sub ShutdownRoutine()
-        tsProgramStatus.Text = "Saving Settings..."
         Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
 
         ' Check if Shutdown Notification is active
@@ -526,8 +522,6 @@ Public Class frmEveHQ
 
         ' Close the training overlay form if it is still open
         frmTrainingInfo.Close()
-
-        tsProgramStatus.Text = "Exiting Program..."
 
         ' Close the tabs if they are open, forcing the correct closure of each plug-in and form
         For Each tp As TabPage In tabMDI.TabPages
@@ -589,17 +583,14 @@ Public Class frmEveHQ
             End Select
         End If
         ' Check for an API update if applicable
-        ' check if the API form is active and cancel if so
-        If EveHQ.Core.HQ.APIRequestForm.IsHandleCreated = False Then
-            If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.myPilot.Account <> "" And EveHQ.Core.HQ.EveHQSettings.AutoAPI = True Then
-                If EveHQ.Core.HQ.LastAutoAPIResult = True Or (EveHQ.Core.HQ.LastAutoAPIResult = False And EveHQ.Core.HQ.LastAutoAPITime.AddMinutes(5) < Now) Then
-                    Dim cacheDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.CacheExpirationTime)
-                    Dim cacheTimeLeft As TimeSpan = cacheDate - Now
-                    Dim cacheText As String = (Format(cacheDate, "ddd") & " " & cacheDate & " (" & EveHQ.Core.SkillFunctions.CacheTimeToString(cacheTimeLeft.TotalSeconds) & ")")
-                    If cacheDate < Now Then
-                        ' Invoke the API Caller
-                        Call QueryMyEveServer()
-                    End If
+        If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.myPilot.Account <> "" And EveHQ.Core.HQ.EveHQSettings.AutoAPI = True Then
+            If EveHQ.Core.HQ.LastAutoAPIResult = True Or (EveHQ.Core.HQ.LastAutoAPIResult = False And EveHQ.Core.HQ.LastAutoAPITime.AddMinutes(5) < Now) Then
+                Dim cacheDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.CacheExpirationTime)
+                Dim cacheTimeLeft As TimeSpan = cacheDate - Now
+                Dim cacheText As String = (Format(cacheDate, "ddd") & " " & cacheDate & " (" & EveHQ.Core.SkillFunctions.CacheTimeToString(cacheTimeLeft.TotalSeconds) & ")")
+                If cacheDate < Now Then
+                    ' Invoke the API Caller
+                    Call QueryMyEveServer()
                 End If
             End If
         End If
@@ -819,33 +810,56 @@ Public Class frmEveHQ
 
         ' If we have accounts to query then get the data for them
         If EveHQ.Core.HQ.EveHQSettings.Accounts.Count = 0 Then
-            tsLogonStatus.Text = "Logon Status: No accounts!! (" & Now.ToString & ")"
+            tsAPIStatus.Text = "API Status: No accounts entered into settings!! (" & Now.ToString & ")"
             Exit Sub
         Else
-            ' Do we show the APIStatusForm or not?
-            If EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm = True Then
-                EveHQ.Core.HQ.APIRequestForm.ShowDialog()
+            tsAPIStatus.Text = "API Status: Fetching Character Data..."
+            EveHQStatusStrip.Refresh()
+            Me.Cursor = Cursors.WaitCursor
+            ' Clear the current list of pilots
+            EveHQ.Core.HQ.TPilots.Clear()
+            EveHQ.Core.HQ.APIResults.Clear()
+            ' get the details for the account
+            Dim CurrentAccount As New EveHQ.Core.EveAccount
+            For Each CurrentAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+                tsAPIStatus.Text = "API Status: Updating Account '" & CurrentAccount.FriendlyName & "' (ID=" & CurrentAccount.userID & ")..."
+                EveHQStatusStrip.Refresh()
+                Call EveHQ.Core.PilotParseFunctions.GetCharactersInAccount(CurrentAccount)
+            Next
+            Call EveHQ.Core.PilotParseFunctions.CopyTempPilotsToMain()
+            Me.Cursor = Cursors.Default
+        End If
+
+        ' Determine API responses and display appropriate message
+        Dim AllCached As Boolean = True
+        Dim ContainsNew As Boolean = False
+        Dim ContainsErrors As Boolean = False
+        For Each result As Integer In EveHQ.Core.HQ.APIResults.Values
+            If result = 0 Then ContainsNew = True
+            If result <> 1 Then AllCached = False
+            Select Case result
+                Case 2, 3, 4, 5, 8, 9
+                    ContainsErrors = True
+                Case Is < 0
+                    ContainsErrors = True
+            End Select
+        Next
+
+        ' Display the results
+        If ContainsErrors = True Then
+            tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (Errors occured, click here for details)"
+        Else
+            If AllCached = True Then
+                tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (No new updates)"
             Else
-                tsLogonStatus.Text = "Fetching Character Data..."
-                StatusStrip1.Refresh()
-                Me.Cursor = Cursors.WaitCursor
-                Call EveHQ.Core.PilotParseFunctions.GetCharacterData()
-                Me.Cursor = Cursors.Default
+                tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (Update successful)"
             End If
         End If
 
-        ' Determine response from server and display appropriate message
-        Select Case EveHQ.Core.HQ.logonStatus
-            Case EveHQ.Core.HQ.LogonState.Invalid
-                tsLogonStatus.Text = "Logon Status: Error in logon (" & Now.ToString & ")"
-            Case EveHQ.Core.HQ.LogonState.Successful
-                tsLogonStatus.Text = "Logon Status: Login successful (" & Now.ToString & ")"
-                Call UpdatePilotInfo()
-            Case EveHQ.Core.HQ.LogonState.TimedOut
-                tsLogonStatus.Text = "Logon Status: Server Timeout (" & Now.ToString & ")"
-            Case EveHQ.Core.HQ.LogonState.Unavailable
-                tsLogonStatus.Text = "Logon Status: XML Unavailable (" & Now.ToString & ")"
-        End Select
+        ' Update if we have retrieved new data
+        If ContainsNew = True Then
+            Call UpdatePilotInfo()
+        End If
 
         ' Show details of pilot if previously selected
         If cboPilots.Items.Contains(curSelPilot) Then
@@ -1297,9 +1311,9 @@ Public Class frmEveHQ
         Call frmBackup.CalcNextBackup()
         Call frmBackup.ScanBackups()
         If EveHQ.Core.HQ.EveHQSettings.BackupLastResult = -1 Then
-            tsLogonStatus.Text = "Settings Backup Successful: " & Format(EveHQ.Core.HQ.EveHQSettings.BackupLast, "dd/MM/yyyy HH:mm")
+            tsAPIStatus.Text = "Settings Backup Successful: " & Format(EveHQ.Core.HQ.EveHQSettings.BackupLast, "dd/MM/yyyy HH:mm")
         Else
-            tsLogonStatus.Text = "Settings Backup Aborted - No Source Folders"
+            tsAPIStatus.Text = "Settings Backup Aborted - No Source Folders"
         End If
     End Sub
 
@@ -2051,8 +2065,8 @@ Public Class frmEveHQ
         ' Stop the timer from reporting multiple errors
         tmrSkillUpdate.Enabled = False
         Dim cXML, tXML As New XmlDocument
-        cXML.Load(EveHQ.Core.HQ.cacheFolder & "\c" & EveHQ.Core.HQ.myPilot.ID & ".xml")
-        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\t" & EveHQ.Core.HQ.myPilot.ID & ".xml")
+        cXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_5_" & EveHQ.Core.HQ.myPilot.Account & "_" & EveHQ.Core.HQ.myPilot.ID & ".xml")
+        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_6_" & EveHQ.Core.HQ.myPilot.Account & "_" & EveHQ.Core.HQ.myPilot.ID & ".xml")
         Dim msg As New StringBuilder
         msg.Append("EveHQ has detected that the skill that " & EveHQ.Core.HQ.myPilot.Name & " is supposedly training is not in the list of their skills. ")
         msg.AppendLine("This could be due to a corrupt cache file or a conflict with another skill training application. The relevant data was:")

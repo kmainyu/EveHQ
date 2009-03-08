@@ -145,11 +145,10 @@ Partial Public Class frmEveHQ
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
         Me.ctxAbout = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxExit = New System.Windows.Forms.ToolStripMenuItem
-        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
+        Me.EveHQStatusStrip = New System.Windows.Forms.StatusStrip
         Me.tsTQStatus = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsSisiStatus = New System.Windows.Forms.ToolStripStatusLabel
-        Me.tsLogonStatus = New System.Windows.Forms.ToolStripStatusLabel
-        Me.tsProgramStatus = New System.Windows.Forms.ToolStripStatusLabel
+        Me.tsAPIStatus = New System.Windows.Forms.ToolStripStatusLabel
         Me.tmrSkillUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.tmrBackup = New System.Windows.Forms.Timer(Me.components)
         Me.tmrModules = New System.Windows.Forms.Timer(Me.components)
@@ -169,7 +168,7 @@ Partial Public Class frmEveHQ
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
-        Me.StatusStrip1.SuspendLayout()
+        Me.EveHQStatusStrip.SuspendLayout()
         Me.ctxTabbedMDI.SuspendLayout()
         Me.ctxPlugin.SuspendLayout()
         Me.XPanderList1.SuspendLayout()
@@ -238,7 +237,7 @@ Partial Public Class frmEveHQ
         Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnTogglePanel, Me.ToolStripSeparator10, Me.btnAddAccount, Me.ToolStripSeparator14, Me.ToolStripLabel1, Me.ToolStripSeparator12, Me.cboPilots, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.tsbWebBrowser, Me.tsbTrainingOverlay, Me.tsbSettingsBackup, Me.tsbSettings, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator6, Me.tsbCheckUpdates, Me.ToolStripSeparator9, Me.tsbAbout, Me.ToolStripSeparator7})
         Me.ToolStrip.Location = New System.Drawing.Point(0, 24)
         Me.ToolStrip.Name = "ToolStrip"
-        Me.ToolStrip.Size = New System.Drawing.Size(917, 25)
+        Me.ToolStrip.Size = New System.Drawing.Size(1033, 25)
         Me.ToolStrip.TabIndex = 6
         Me.ToolStrip.Text = "ToolStrip"
         '
@@ -443,7 +442,7 @@ Partial Public Class frmEveHQ
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.MdiWindowListItem = Me.WindowsMenu
         Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(917, 24)
+        Me.MenuStrip.Size = New System.Drawing.Size(1033, 24)
         Me.MenuStrip.TabIndex = 5
         Me.MenuStrip.Text = "MenuStrip"
         '
@@ -993,14 +992,14 @@ Partial Public Class frmEveHQ
         Me.ctxExit.Size = New System.Drawing.Size(192, 22)
         Me.ctxExit.Text = "Exit"
         '
-        'StatusStrip1
+        'EveHQStatusStrip
         '
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsTQStatus, Me.tsSisiStatus, Me.tsLogonStatus, Me.tsProgramStatus})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 631)
-        Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(917, 25)
-        Me.StatusStrip1.TabIndex = 10
-        Me.StatusStrip1.Text = "StatusStrip1"
+        Me.EveHQStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsTQStatus, Me.tsSisiStatus, Me.tsAPIStatus})
+        Me.EveHQStatusStrip.Location = New System.Drawing.Point(0, 631)
+        Me.EveHQStatusStrip.Name = "EveHQStatusStrip"
+        Me.EveHQStatusStrip.Size = New System.Drawing.Size(1033, 25)
+        Me.EveHQStatusStrip.TabIndex = 10
+        Me.EveHQStatusStrip.Text = "StatusStrip1"
         '
         'tsTQStatus
         '
@@ -1028,30 +1027,19 @@ Partial Public Class frmEveHQ
         Me.tsSisiStatus.Text = "Status"
         Me.tsSisiStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'tsLogonStatus
+        'tsAPIStatus
         '
-        Me.tsLogonStatus.AutoSize = False
-        Me.tsLogonStatus.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+        Me.tsAPIStatus.AutoSize = False
+        Me.tsAPIStatus.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
                     Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
                     Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
-        Me.tsLogonStatus.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
-        Me.tsLogonStatus.Name = "tsLogonStatus"
-        Me.tsLogonStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.tsLogonStatus.Size = New System.Drawing.Size(300, 20)
-        Me.tsLogonStatus.Text = "Logon Status:"
-        Me.tsLogonStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'tsProgramStatus
-        '
-        Me.tsProgramStatus.AutoSize = False
-        Me.tsProgramStatus.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
-        Me.tsProgramStatus.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
-        Me.tsProgramStatus.Name = "tsProgramStatus"
-        Me.tsProgramStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.tsProgramStatus.Size = New System.Drawing.Size(150, 20)
-        Me.tsProgramStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.tsAPIStatus.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
+        Me.tsAPIStatus.Name = "tsAPIStatus"
+        Me.tsAPIStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.tsAPIStatus.Size = New System.Drawing.Size(487, 20)
+        Me.tsAPIStatus.Spring = True
+        Me.tsAPIStatus.Text = "API Status:"
+        Me.tsAPIStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'tmrSkillUpdate
         '
@@ -1074,7 +1062,7 @@ Partial Public Class frmEveHQ
         Me.tabMDI.Location = New System.Drawing.Point(200, 49)
         Me.tabMDI.Name = "tabMDI"
         Me.tabMDI.SelectedIndex = 0
-        Me.tabMDI.Size = New System.Drawing.Size(717, 22)
+        Me.tabMDI.Size = New System.Drawing.Size(833, 22)
         Me.tabMDI.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight
         Me.tabMDI.TabIndex = 16
         '
@@ -1240,11 +1228,11 @@ Partial Public Class frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(917, 656)
+        Me.ClientSize = New System.Drawing.Size(1033, 656)
         Me.Controls.Add(Me.tabMDI)
         Me.Controls.Add(Me.XPanderList1)
         Me.Controls.Add(Me.ToolStrip)
-        Me.Controls.Add(Me.StatusStrip1)
+        Me.Controls.Add(Me.EveHQStatusStrip)
         Me.Controls.Add(Me.MenuStrip)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.IsMdiContainer = True
@@ -1257,8 +1245,8 @@ Partial Public Class frmEveHQ
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         Me.EveIconMenu.ResumeLayout(False)
-        Me.StatusStrip1.ResumeLayout(False)
-        Me.StatusStrip1.PerformLayout()
+        Me.EveHQStatusStrip.ResumeLayout(False)
+        Me.EveHQStatusStrip.PerformLayout()
         Me.ctxTabbedMDI.ResumeLayout(False)
         Me.ctxPlugin.ResumeLayout(False)
         Me.XPanderList1.ResumeLayout(False)
@@ -1291,16 +1279,15 @@ Partial Public Class frmEveHQ
     Friend WithEvents HideWhenMinimisedToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ctxAbout As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ctxExit As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
+    Friend WithEvents EveHQStatusStrip As System.Windows.Forms.StatusStrip
     Friend WithEvents tsTQStatus As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents tsSisiStatus As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents tsLogonStatus As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents tsAPIStatus As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents PilotInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RunIGBToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tmrSkillUpdate As System.Windows.Forms.Timer
     Friend WithEvents WebBrowserToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator11 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents tsProgramStatus As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents cboPilots As System.Windows.Forms.ToolStripComboBox
     Friend WithEvents ToolStripSeparator12 As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel

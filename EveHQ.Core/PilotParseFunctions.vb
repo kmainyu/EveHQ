@@ -44,75 +44,6 @@ Public Class PilotParseFunctions
         End Set
     End Property
 
-    Private Shared Sub GetPilotInfo(ByVal ECC As CookieContainer, ByVal cAccount As EveAccount)
-        Dim RemoteURL As String
-        Dim request As HttpWebRequest
-
-        Dim cPilot, nPilot As New EveHQ.Core.Pilot
-        Dim XMLDoc As New XmlDocument
-        For Each cPilot In EveHQ.Core.HQ.TPilots
-            If cPilot.Account = cAccount.userID Then
-                ' Set the URL and create the requester
-                RemoteURL = "http://myeve.eve-online.com/character/xml.asp?characterID=" & cPilot.ID
-                request = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
-
-                ' Setup request parameters
-                request.CookieContainer = ECC
-                request.ContentType = "application/x-www-form-urlencoded"
-                request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
-                request.KeepAlive = True
-                request.AllowAutoRedirect = True
-                request.MaximumAutomaticRedirections = 10
-
-                ' Prepare for a response from the server
-                Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-                ' Get the stream associated with the response.
-                Dim receiveStream As Stream = response.GetResponseStream()
-                ' Pipes the stream to a higher level stream reader with the required encoding format. 
-                Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
-                Dim WebData As String = readStream.ReadToEnd()
-                ' Save the response in the pilotdata area for later retrieval
-                XMLDoc.LoadXml(WebData)
-                ' Also save a copy in the cache folder for later retrievel
-                XMLDoc.Save(EveHQ.Core.HQ.cacheFolder & "\c" & cPilot.ID & ".xml")
-                ' Close the connections
-                response.Close()
-                readStream.Close()
-            End If
-        Next
-
-        For Each cPilot In EveHQ.Core.HQ.TPilots
-            If cPilot.Account = cAccount.userID Then
-                ' Set the URL and create the requester
-                RemoteURL = "http://myeve.eve-online.com/character/xml.asp?characterID=" & cPilot.ID & "&m=t"
-                request = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
-
-                ' Setup request parameters
-                request.CookieContainer = ECC
-                request.ContentType = "application/x-www-form-urlencoded"
-                request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
-                request.KeepAlive = True
-                request.AllowAutoRedirect = True
-                request.MaximumAutomaticRedirections = 10
-
-                ' Prepare for a response from the server
-                Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-                ' Get the stream associated with the response.
-                Dim receiveStream As Stream = response.GetResponseStream()
-                ' Pipes the stream to a higher level stream reader with the required encoding format. 
-                Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
-                Dim WebData As String = readStream.ReadToEnd()
-                ' Save the response in the pilotdata area for later retrieval
-                XMLDoc.LoadXml(WebData)
-                ' Also save a copy in the cache folder for later retrievel
-                XMLDoc.Save(EveHQ.Core.HQ.cacheFolder & "\t" & cPilot.ID & ".xml")
-                ' Close the connections
-                response.Close()
-                readStream.Close()
-            End If
-        Next
-
-    End Sub                 'GetPilotInfo
     Public Shared Sub BuildAttributeData(ByRef cpilot As EveHQ.Core.Pilot)
         ' Learning Skill = 3374 = "Learning"
         ' Basic Willpower = 3375 = "Iron Will"
@@ -201,8 +132,9 @@ Public Class PilotParseFunctions
         cpilot.LSPAtt = PT * (learningFactor / 50)
         cpilot.PAttT = PT + cpilot.LSPAtt
 
-    End Sub           'BuildAttributeData     
-    Private Shared Sub CopyTempPilotsToMain()
+    End Sub           'BuildAttributeData    
+
+    Public Shared Sub CopyTempPilotsToMain()
 
         ' Save pilot specific data first!!
         Call EveHQ.Core.EveHQSettingsFunctions.SaveTraining()
@@ -252,21 +184,22 @@ Public Class PilotParseFunctions
             Dim cXML As Boolean = False
             Dim tXML As Boolean = False
             Dim cXMLDoc, tXMLDoc As New XmlDocument
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\c" & currentPilot.ID & ".xml") = True Then
+            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_5_" & currentPilot.Account & "_" & currentPilot.ID & ".xml") = True Then
                 cXML = True
             End If
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\t" & currentPilot.ID & ".xml") = True Then
+            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_6_" & currentPilot.Account & "_" & currentPilot.ID & ".xml") = True Then
                 tXML = True
             End If
 
             ' Only load in and parse if both files are available
             If cXML = True Then
-                cXMLDoc.Load(EveHQ.Core.HQ.cacheFolder & "\c" & currentPilot.ID & ".xml")
+                cXMLDoc.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_5_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")
                 If tXML = True Then
-                    tXMLDoc.Load(EveHQ.Core.HQ.cacheFolder & "\t" & currentPilot.ID & ".xml")
+                    tXMLDoc.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_6_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")
                 End If
                 Call ParsePilotSkills(currentPilot, cXMLDoc)
-                Call ParsePilotXML(currentPilot, cXMLDoc, tXMLDoc)
+                Call ParsePilotXML(currentPilot, cXMLDoc)
+                Call ParseTrainingXML(currentPilot, tXMLDoc)
                 Call BuildAttributeData(currentPilot)
             Else
                 Dim msg As String = ""
@@ -412,352 +345,94 @@ Public Class PilotParseFunctions
 
 #Region "Eve API Retrieval Methods"
 
-    Public Shared Sub GetCharacterData()
-        ' Clear the current list of pilots
-        EveHQ.Core.HQ.TPilots.Clear()
-        EveHQ.Core.HQ.logonStatus = 0
-        With EveHQ.Core.HQ.APIRequestForm
+    Public Shared Function GetCharactersInAccount(ByVal cAccount As EveAccount) As Integer
 
-            .lstStatus.Items.Clear()
-
-            Dim CurrentAccount As New EveAccount
-            For Each CurrentAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
-                Dim newLine As New ListViewItem
-                newLine.Name = "A" & CurrentAccount.userID
-                newLine.Text = "Enumerating Account '" & CurrentAccount.FriendlyName & "' (ID=" & CurrentAccount.userID & ")"
-                .lstStatus.Items.Add(newLine)
-                .Refresh()
-                Dim newIndex As Integer = .lstStatus.Items.IndexOfKey(newLine.Name)
-
-                Dim EveID As String = ""
-
-                If EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.TimedOut Then Exit Sub
-
-                .lstStatus.Items(newIndex).SubItems.Add("Working...")
-                .Refresh()
-                Call GetPilotDetails(CurrentAccount)
-
-                Select Case EveHQ.Core.HQ.logonStatus
-                    Case EveHQ.Core.HQ.LogonState.Unavailable
-                        Exit Sub
-                    Case EveHQ.Core.HQ.LogonState.Successful
-                        .lstStatus.Items(newIndex).SubItems(1).Text = "Successful"
-                        .lstStatus.Items(newIndex).Tag = "Operation Successful!"
-                        .Refresh()
-                        Call GetPilotInfo(CurrentAccount)
-                    Case Else
-                        .lstStatus.Items(newIndex).SubItems(1).Text = ("Failed: Error code: " & EveHQ.Core.HQ.logonStatus)
-                        .lstStatus.Items(newIndex).Tag = "Failed Reason: " & EveHQ.Core.HQ.logonStatusText
-                        .ContainsError = True
-                        .Refresh()
-                End Select
-
-            Next
-
-            Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-            Dim cXML, tXML As New XmlDocument
-            For Each currentPilot In EveHQ.Core.HQ.TPilots
-                cXML.Load(EveHQ.Core.HQ.cacheFolder & "\c" & currentPilot.ID & ".xml")
-                tXML.Load(EveHQ.Core.HQ.cacheFolder & "\t" & currentPilot.ID & ".xml")
-                Call ParsePilotSkills(currentPilot, cXML)
-                Call ParsePilotXML(currentPilot, cXML, tXML)
-                Call BuildAttributeData(currentPilot)
-            Next
-            Call CopyTempPilotsToMain()
-
-            .btnClose.Enabled = True
-        End With
-
-    End Sub
-    Public Shared Function GetPilotDetails(ByVal cAccount As EveAccount) As Integer
-
-        EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.Invalid
-
-        ' Set URL to the eve-online site
-        Dim webdata As String = ""
-        Try
-
-            ' Determine if we use the APIRS or CCP API Server
-            Dim APIServer As String = ""
-            If EveHQ.Core.HQ.EveHQSettings.UseAPIRS = True Then
-                APIServer = EveHQ.Core.HQ.EveHQSettings.APIRSAddress
-                ' Check for APIRS heartbeart
-                If EveHQ.Core.EveAPI.APIRSHasHeartbeat() = False Then
-                    If EveHQ.Core.HQ.EveHQSettings.UseCCPAPIBackup = True Then
-                        APIServer = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
-                    End If
-                End If
-            Else
-                APIServer = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
-            End If
-
-            Dim RemoteURL As String = APIServer & "/account/Characters.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
-            ' Set up data for the HTTP "POST" method
-            ServicePointManager.Expect100Continue = False
-            Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(RemoteURL))
-            Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey
-            ' Create the requester
-            Dim request As HttpWebRequest = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
-            ' Setup proxy server (if required)
-            If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-                Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-                If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                    EveHQProxy.UseDefaultCredentials = True
-                Else
-                    EveHQProxy.UseDefaultCredentials = False
-                    EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-                End If
-                request.Proxy = EveHQProxy
-            End If
-            ' Setup request parameters
-            request.Method = "POST"
-            request.ContentLength = postData.Length
-            request.ContentType = "application/x-www-form-urlencoded"
-            request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
-            ' Setup a stream to write the HTTP "POST" data
-            Dim WebEncoding As New ASCIIEncoding()
-            Dim byte1 As Byte() = WebEncoding.GetBytes(postData)
-            Dim newStream As Stream = request.GetRequestStream()
-            newStream.Write(byte1, 0, byte1.Length)
-            newStream.Close()
-            ' Prepare for a response from the server
-            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-            ' Get the stream associated with the response.
-            Dim receiveStream As Stream = response.GetResponseStream()
-            ' Pipes the stream to a higher level stream reader with the required encoding format. 
-            Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
-            webdata = readStream.ReadToEnd()
-            ' Check response string for any error codes?
-            Dim errXML As New XmlDocument
-            errXML.LoadXml(webdata)
-            Dim errlist As XmlNodeList = errXML.SelectNodes("/eveapi/error")
-            If errlist.Count <> 0 Then
-                Dim errNode As XmlNode = errlist(0)
-                ' Get error code
-                Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                Dim errMsg As String = errNode.InnerText
-                EveHQ.Core.HQ.logonStatus = CInt(errCode)
-                EveHQ.Core.HQ.logonStatusText = errMsg
-            Else
-                EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.Successful
-                EveHQ.Core.HQ.logonStatusText = "Logon Successful"
-            End If
-        Catch e As Exception
-            If e.Message.Contains("timed out") = True Then
-                EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.TimedOut
-                EveHQ.Core.HQ.logonStatusText = "Logon Timed Out"
-            Else
-                EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.Invalid
-                EveHQ.Core.HQ.logonStatusText = "Invalid Logon"
-            End If
-        End Try
-
-        If EveHQ.Core.HQ.logonStatus <> -1 Then
-            Return EveHQ.Core.HQ.logonStatus
-            Exit Function
+        ' Fetch the characters on account XML file
+        Dim accountXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Characters, cAccount, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+        If EveHQ.Core.EveAPI.LastAPIResult = EveAPI.APIResults.CCPError Then
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID.ToString, -EveAPI.LastAPIError)
+        Else
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID.ToString, EveAPI.LastAPIResult)
         End If
 
-        ' Set up XML document
-        Dim charXML As New XmlDocument
-        charXML.LoadXml(webdata)
-        ' Get characters
-        Dim charlist As XmlNodeList
-        Dim toon As XmlNode
-        Dim curr_toon As Integer = 0
+        If EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedActual Or EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedCached Or EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedNew Then
 
-        ' Get the list of characters and the character IDs
-        charlist = charXML.SelectNodes("/eveapi/result/rowset/row")
-        For Each toon In charlist
-            curr_toon += 1
-            ' Add the pilot details into the collection
-            Dim newPilot As New EveHQ.Core.Pilot
-            newPilot.Name = toon.Attributes.GetNamedItem("name").Value
-            newPilot.ID = toon.Attributes.GetNamedItem("characterID").Value
-            newPilot.AccountPosition = CStr(curr_toon)
-            newPilot.Account = cAccount.userID
-            ' Check if the pilot already exists and whether the cache expiration time has passed
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(newPilot.Name) = True Then
-                Dim cachePilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(newPilot.Name), Pilot)
-                Dim cacheDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.CacheExpirationTime)
-                If cacheDate < Now Then
-                    ' Ok to download!
-                    EveHQ.Core.HQ.TPilots.Add(newPilot, newPilot.Name)
-                End If
-            Else
+            ' Get characters
+            Dim charlist As XmlNodeList
+            Dim toon As XmlNode
+            Dim curr_toon As Integer = 0
+
+            ' Get the list of characters and the character IDs
+            charlist = accountXML.SelectNodes("/eveapi/result/rowset/row")
+            For Each toon In charlist
+                curr_toon += 1
+                ' Add the pilot details into the collection
+                Dim newPilot As New EveHQ.Core.Pilot
+                newPilot.Name = toon.Attributes.GetNamedItem("name").Value
+                newPilot.ID = toon.Attributes.GetNamedItem("characterID").Value
+                newPilot.AccountPosition = CStr(curr_toon)
+                newPilot.Account = cAccount.userID
                 EveHQ.Core.HQ.TPilots.Add(newPilot, newPilot.Name)
-            End If
-        Next
-
-        ' Check if we have any old pilots that the account does not have anymore
-        Dim oldPilots As String = ""
-        Dim oldPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        For Each oldPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            If oldPilot.Account = cAccount.userID Then
-                Dim validPilot As Boolean = False
-                For Each toon In charlist
-                    If toon.Attributes.GetNamedItem("name").Value = oldPilot.Name Then
-                        validPilot = True
-                        Exit For
-                    End If
-                Next
-                If validPilot = False Then
-                    oldPilots &= oldPilot.Name & ","
-                    oldPilot.Account = ""
-                    oldPilot.AccountPosition = "0"
-                End If
-            End If
-        Next
-        oldPilots = oldPilots.Trim(CChar(","))
-        If oldPilots <> "" Then
-            Dim msg As String = ""
-            msg &= "You have pilots registered in EveHQ that were previously assigned to account '" & cAccount.userID & "'" & ControlChars.CrLf
-            msg &= "but are no longer part of that account. The following pilots have been converted to manual pilots:" & ControlChars.CrLf & ControlChars.CrLf
-            Dim olderPilots() As String = oldPilots.Split(CChar(","))
-            Dim dPilot As String = ""
-            For Each dPilot In olderPilots
-                msg &= dPilot & ControlChars.CrLf
+                Call GetCharacterXMLs(cAccount, newPilot)
             Next
-            MessageBox.Show(msg, "Unused Pilots", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
 
-        Return EveHQ.Core.HQ.logonStatus
+            ' Check if we have any old pilots that the account does not have anymore
+            Dim oldPilots As String = ""
+            Dim oldPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
+            For Each oldPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                If oldPilot.Account = cAccount.userID Then
+                    Dim validPilot As Boolean = False
+                    For Each toon In charlist
+                        If toon.Attributes.GetNamedItem("name").Value = oldPilot.Name Then
+                            validPilot = True
+                            Exit For
+                        End If
+                    Next
+                    If validPilot = False Then
+                        oldPilots &= oldPilot.Name & ","
+                        oldPilot.Account = ""
+                        oldPilot.AccountPosition = "0"
+                    End If
+                End If
+            Next
+            oldPilots = oldPilots.Trim(CChar(","))
+            If oldPilots <> "" Then
+                Dim msg As String = ""
+                msg &= "You have pilots registered in EveHQ that were previously assigned to account '" & cAccount.userID & "'" & ControlChars.CrLf
+                msg &= "but are no longer part of that account. The following pilots have been converted to manual pilots:" & ControlChars.CrLf & ControlChars.CrLf
+                Dim olderPilots() As String = oldPilots.Split(CChar(","))
+                Dim dPilot As String = ""
+                For Each dPilot In olderPilots
+                    msg &= dPilot & ControlChars.CrLf
+                Next
+                MessageBox.Show(msg, "Unused Pilots", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+
+        End If
+        Return EveAPI.LastAPIResult
 
     End Function
-    Private Shared Sub GetPilotInfo(ByVal cAccount As EveAccount)
-        Dim RemoteURL As String
-        Dim request As HttpWebRequest
-        Dim cPilot, nPilot As New EveHQ.Core.Pilot
-        Dim XMLDoc As New XmlDocument
+    Private Shared Sub GetCharacterXMLs(ByVal cAccount As EveAccount, ByVal cPilot As EveHQ.Core.Pilot)
 
-        ' Determine if we use the APIRS or CCP API Server
-        Dim APIServer As String = ""
-        If EveHQ.Core.HQ.EveHQSettings.UseAPIRS = True Then
-            APIServer = EveHQ.Core.HQ.EveHQSettings.APIRSAddress
-            ' Check for APIRS heartbeart
-            If EveHQ.Core.EveAPI.APIRSHasHeartbeat() = False Then
-                If EveHQ.Core.HQ.EveHQSettings.UseCCPAPIBackup = True Then
-                    APIServer = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
-                End If
-            End If
+        Dim cXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CharacterSheet, cAccount, cPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+        If EveHQ.Core.EveAPI.LastAPIResult = EveAPI.APIResults.CCPError Then
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.ID & "_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString, -EveHQ.Core.EveAPI.LastAPIError)
         Else
-            APIServer = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.ID & "_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString, EveHQ.Core.EveAPI.LastAPIResult)
         End If
+        Dim tXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.SkillTraining, cAccount, cPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+        If EveHQ.Core.EveAPI.LastAPIResult = EveAPI.APIResults.CCPError Then
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.ID & "_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString, -EveHQ.Core.EveAPI.LastAPIError)
+        Else
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.ID & "_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString, EveHQ.Core.EveAPI.LastAPIResult)
+        End If
+        Call ParsePilotSkills(cPilot, cXML)
+        Call ParsePilotXML(cPilot, cXML)
+        Call ParseTrainingXML(cPilot, tXML)
+        Call BuildAttributeData(cPilot)
 
-        For Each cPilot In EveHQ.Core.HQ.TPilots
-            If cPilot.Account = cAccount.userID Then
-                Dim webdata As String = ""
-                Try
-                    RemoteURL = APIServer & "/char/charactersheet.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
-                    ' Set up data for the HTTP "POST" method
-                    ServicePointManager.Expect100Continue = False
-                    Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(RemoteURL))
-                    Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & cPilot.ID
-                    ' Create the requester
-                    request = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
-                    ' Setup proxy server (if required)
-                    If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-                        Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-                        If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                            EveHQProxy.UseDefaultCredentials = True
-                        Else
-                            EveHQProxy.UseDefaultCredentials = False
-                            EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-                        End If
-                        request.Proxy = EveHQProxy
-                    End If
-                    ' Setup request parameters
-                    request.Method = "POST"
-                    request.ContentLength = postData.Length
-                    request.ContentType = "application/x-www-form-urlencoded"
-                    request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
-                    ' Setup a stream to write the HTTP "POST" data
-                    Dim WebEncoding As New ASCIIEncoding()
-                    Dim byte1 As Byte() = WebEncoding.GetBytes(postData)
-                    Dim newStream As Stream = request.GetRequestStream()
-                    newStream.Write(byte1, 0, byte1.Length)
-                    newStream.Close()
-                    ' Prepare for a response from the server
-                    Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-                    ' Get the stream associated with the response.
-                    Dim receiveStream As Stream = response.GetResponseStream()
-                    ' Pipes the stream to a higher level stream reader with the required encoding format. 
-                    Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
-                    webdata = readStream.ReadToEnd()
-                    'MessageBox.Show(webdata)
-                    ' Save the response in the pilotdata area for later retrieval
-                    XMLDoc.LoadXml(webdata)
-                    ' Also save a copy in the cache folder for later retrievel
-                    XMLDoc.Save(EveHQ.Core.HQ.cacheFolder & "\c" & cPilot.ID & ".xml")
-                    ' Close the connections
-                    response.Close()
-                    readStream.Close()
-                Catch e As Exception
-                    If e.Message.Contains("timed out") = True Then
-                        EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.TimedOut
-                    Else
-                        EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.Invalid
-                    End If
-                End Try
-            End If
-        Next
-
-        For Each cPilot In EveHQ.Core.HQ.TPilots
-            If cPilot.Account = cAccount.userID Then
-                Dim webdata As String = ""
-                Try
-                    RemoteURL = APIServer & "/char/skillintraining.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
-                    ' Set up data for the HTTP "POST" method
-                    Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & cPilot.ID
-                    ' Create the requester
-                    request = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
-                    ' Setup proxy server (if required)
-                    If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-                        Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-                        If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                            EveHQProxy.UseDefaultCredentials = True
-                        Else
-                            EveHQProxy.UseDefaultCredentials = False
-                            EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-                        End If
-                        request.Proxy = EveHQProxy
-                    End If
-                    ' Setup request parameters
-                    request.Method = "POST"
-                    request.ContentLength = postData.Length
-                    request.ContentType = "application/x-www-form-urlencoded"
-                    request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
-                    ' Setup a stream to write the HTTP "POST" data
-                    Dim WebEncoding As New ASCIIEncoding()
-                    Dim byte1 As Byte() = WebEncoding.GetBytes(postData)
-                    Dim newStream As Stream = request.GetRequestStream()
-                    newStream.Write(byte1, 0, byte1.Length)
-                    newStream.Close()
-                    ' Prepare for a response from the server
-                    Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-                    ' Get the stream associated with the response.
-                    Dim receiveStream As Stream = response.GetResponseStream()
-                    ' Pipes the stream to a higher level stream reader with the required encoding format. 
-                    Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
-                    webdata = readStream.ReadToEnd()
-                    ' Save the response in the pilotdata area for later retrieval
-                    XMLDoc.LoadXml(webdata)
-                    ' Also save a copy in the cache folder for later retrievel
-                    XMLDoc.Save(EveHQ.Core.HQ.cacheFolder & "\t" & cPilot.ID & ".xml")
-                    ' Close the connections
-                    response.Close()
-                    readStream.Close()
-                Catch e As Exception
-                    If e.Message.Contains("timed out") = True Then
-                        EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.TimedOut
-                    Else
-                        EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.Invalid
-                    End If
-                End Try
-            End If
-        Next
-
-    End Sub                 'GetPilotInfo
-    Private Shared Sub ParsePilotXML(ByRef cPilot As EveHQ.Core.Pilot, ByVal CXMLDoc As XmlDocument, ByVal TXMLDoc As XmlDocument)
+    End Sub
+    Private Shared Sub ParsePilotXML(ByRef cPilot As EveHQ.Core.Pilot, ByVal CXMLDoc As XmlDocument)
 
         Dim CharDetails As XmlNodeList
         Dim toon As XmlNode
@@ -765,7 +440,6 @@ Public Class PilotParseFunctions
         Dim toonNo As Integer = 0
 
         Dim name As XmlNodeList = CXMLDoc.GetElementsByTagName("name")
-        'MessageBox.Show(name(0).InnerXml)
 
         Dim nPilot As New EveHQ.Core.Pilot
         CharDetails = CXMLDoc.SelectNodes("/eveapi/result")
@@ -850,8 +524,12 @@ Public Class PilotParseFunctions
         cPilot.CacheFileTime = CDate(CharDetails(0).ChildNodes(0).InnerText)
         cPilot.CacheExpirationTime = CDate(CharDetails(0).ChildNodes(2).InnerText)
 
+    End Sub                'ParsePilotXML
+    Private Shared Sub ParseTrainingXML(ByRef cPilot As EveHQ.Core.Pilot, ByVal TXMLDoc As XmlDocument)
         ' Get the training details
         If TXMLDoc IsNot Nothing Then
+            Dim CharDetails As XmlNodeList
+            Dim toon As XmlNode
             CharDetails = TXMLDoc.SelectNodes("/eveapi/result")
             ' Check if a training file has been loaded!
             If CharDetails.Count <> 0 Then
@@ -884,10 +562,7 @@ Public Class PilotParseFunctions
         Else
             cPilot.Training = False
         End If
-
-        'Next
-
-    End Sub                'ParsePilotXML
+    End Sub
     Private Shared Sub ParsePilotSkills(ByRef cPilot As EveHQ.Core.Pilot, ByVal XMLDoc As XmlDocument)
         Dim CharDetails As XmlNodeList
         Dim toon As XmlNode
@@ -1030,16 +705,16 @@ Public Class PilotParseFunctions
                 newPilot.Updated = True
                 EveHQ.Core.HQ.TPilots.Clear()
                 EveHQ.Core.HQ.TPilots.Add(newPilot)
-
-                pilotXML.Save(EveHQ.Core.HQ.cacheFolder & "\c" & newPilot.ID & ".xml")
+                pilotXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_5_" & newPilot.Account & "_" & newPilot.ID & ".xml")
                 If pilotTXML IsNot Nothing Then
-                    pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\t" & newPilot.ID & ".xml")
+                    pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_6_" & newPilot.Account & "_" & newPilot.ID & ".xml")
                 End If
 
                 Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
                 For Each currentPilot In EveHQ.Core.HQ.TPilots
                     Call EveHQ.Core.PilotParseFunctions.ParsePilotSkills(currentPilot, pilotXML)
-                    Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot, pilotXML, pilotTXML)
+                    Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot, pilotXML)
+                    Call EveHQ.Core.PilotParseFunctions.ParseTrainingXML(currentPilot, pilotTXML)
                     Call EveHQ.Core.PilotParseFunctions.BuildAttributeData(currentPilot)
                     Call EveHQ.Core.PilotParseFunctions.CopyTempPilotsToMain()
                 Next
@@ -1124,18 +799,18 @@ Public Class PilotParseFunctions
                 newPilot.AccountPosition = "0"
                 EveHQ.Core.HQ.TPilots.Clear()
                 EveHQ.Core.HQ.TPilots.Add(newPilot)
-
-                pilotXML.Save(EveHQ.Core.HQ.cacheFolder & "\c" & newPilot.ID & ".xml")
+                pilotXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_5_" & newPilot.Account & "_" & newPilot.ID & ".xml")
                 If pilotTXML IsNot Nothing Then
                     If pilotTXML.InnerText <> "" Then
-                        pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\t" & newPilot.ID & ".xml")
+                        pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_6_" & newPilot.Account & "_" & newPilot.ID & ".xml")
                     End If
                 End If
 
                 Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
                 For Each currentPilot In EveHQ.Core.HQ.TPilots
                     Call EveHQ.Core.PilotParseFunctions.ParsePilotSkills(currentPilot, pilotXML)
-                    Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot, pilotXML, pilotTXML)
+                    Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot, pilotXML)
+                    Call EveHQ.Core.PilotParseFunctions.ParseTrainingXML(currentPilot, pilotTXML)
                     Call EveHQ.Core.PilotParseFunctions.BuildAttributeData(currentPilot)
                     Call EveHQ.Core.PilotParseFunctions.CopyTempPilotsToMain()
                 Next

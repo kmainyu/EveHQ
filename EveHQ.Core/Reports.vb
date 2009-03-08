@@ -1000,13 +1000,13 @@ Public Class Reports
 
     Public Shared Sub GenerateCharXML(ByVal rPilot As EveHQ.Core.Pilot)
         Dim cXML As New XmlDocument
-        cXML.Load(EveHQ.Core.HQ.cacheFolder & "\c" & rPilot.ID & ".xml")
+        cXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_5_" & rPilot.Account & "_" & rPilot.ID & ".xml")
         cXML.Save(EveHQ.Core.HQ.reportFolder & "\CharXML (" & rPilot.Name & ").xml")
     End Sub
 
     Public Shared Sub GenerateTrainXML(ByVal rPilot As EveHQ.Core.Pilot)
         Dim tXML As New XmlDocument
-        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\t" & rPilot.ID & ".xml")
+        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_6_" & rPilot.Account & "_" & rPilot.ID & ".xml")
         tXML.Save(EveHQ.Core.HQ.reportFolder & "\TrainingXML (" & rPilot.Name & ").xml")
     End Sub
 

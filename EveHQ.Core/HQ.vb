@@ -55,15 +55,13 @@ Public Class HQ
     Public Shared APIRSActive As Boolean = False
     Public Shared TFTPAccounts As Collection = New Collection
     Public Shared MineralPrices(8) As Double
-    Public Shared logonStatus As Integer = 0
-    Public Shared logonStatusText As String = ""
+    Public Shared APIResults As New SortedList
     Public Shared MaxLogonAttempts As Integer = 3
     Public Shared itemList As SortedList = New SortedList
     Public Shared itemData As SortedList = New SortedList
     Public Shared itemGroups As SortedList = New SortedList
     Public Shared itemCats As SortedList = New SortedList
     Public Shared groupCats As SortedList = New SortedList
-    Public Shared APIRequestForm As New EveHQ.Core.EveAPIStatusForm
     Public Shared LastAutoAPIResult As Boolean = True
     Public Shared LastAutoAPITime As DateTime = Now
     Public Shared EveHQLCD As New G15LCD(AddressOf EveHQ.Core.G15LCDB.ButtonPress, AddressOf EveHQ.Core.G15LCDB.ConfigureOptions)
@@ -100,12 +98,6 @@ Public Class HQ
         End Set
     End Property
 
-    Public Enum LogonState As Integer
-        Successful = -1
-        Invalid = 0
-        TimedOut = 1
-        Unavailable = 2
-    End Enum
     Public Enum DBFormat As Integer
         Access = 0
         MSSQL = 1

@@ -25,10 +25,22 @@ Imports System.IO
 
 Public Class EveAPI
     Private Shared cLastAPIResult As Integer
+    Private Shared cLastAPIError As Integer
+    Private Shared cLastAPIErrorText As String
     Private Shared cLastAPIFileName As String
-    Public ReadOnly Property LastAPIResult() As Integer
+    Public Shared ReadOnly Property LastAPIResult() As Integer
         Get
             Return cLastAPIResult
+        End Get
+    End Property
+    Public Shared ReadOnly Property LastAPIError() As Integer
+        Get
+            Return cLastAPIError
+        End Get
+    End Property
+    Public Shared ReadOnly Property LastAPIErrorText() As String
+        Get
+            Return cLastAPIErrorText
         End Get
     End Property
     Public Shared ReadOnly Property LastAPIFileName() As String
@@ -266,8 +278,10 @@ Public Class EveAPI
                     Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
                     Dim errMsg As String = errNode.InnerText
                     If ReturnMethod = APIReturnMethod.ReturnStandard Then
-                        ' Return the old XML file
+                        ' Return the old XML file but report the error
                         cLastAPIResult = APIResults.CCPError
+                        cLastAPIError = CInt(errCode)
+                        cLastAPIErrorText = errMsg
                         Return APIXML
                     Else
                         ' Return the current one regardless
@@ -342,7 +356,6 @@ Public Class EveAPI
                 End If
                 request.Proxy = EveHQProxy
             End If
-
             ' Setup request parameters
             request.Method = "POST"
             request.ContentLength = postData.Length
@@ -369,19 +382,21 @@ Public Class EveAPI
                 ' Get error code
                 Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
                 Dim errMsg As String = errNode.InnerText
-                EveHQ.Core.HQ.logonStatus = CInt(errCode)
-                EveHQ.Core.HQ.logonStatusText = errMsg
+                cLastAPIResult = APIResults.CCPError
+                cLastAPIError = CInt(errCode)
+                cLastAPIErrorText = errMsg
             Else
-                EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.Successful
-                EveHQ.Core.HQ.logonStatusText = "Logon Successful"
+                ' Result will be given in the calling sub
             End If
         Catch e As Exception
             If e.Message.Contains("timed out") = True Then
-                EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.TimedOut
-                EveHQ.Core.HQ.logonStatusText = "Logon Timed Out"
+                cLastAPIResult = APIResults.TimedOut
+                cLastAPIError = 0
+                cLastAPIErrorText = e.Message
             Else
-                EveHQ.Core.HQ.logonStatus = EveHQ.Core.HQ.LogonState.Invalid
-                EveHQ.Core.HQ.logonStatusText = "Invalid Logon"
+                cLastAPIResult = APIResults.UnknownError
+                cLastAPIError = 0
+                cLastAPIErrorText = e.Message
             End If
         End Try
         Return APIXML
@@ -495,6 +510,8 @@ Public Class EveAPI
         APIServerDownReturnedNull = 5
         APIServerDownReturnedCached = 6
         ReturnedActual = 7
+        TimedOut = 8
+        UnknownError = 9
     End Enum
 
     Public Enum APIReturnMethod As Integer
