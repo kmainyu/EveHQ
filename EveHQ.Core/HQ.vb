@@ -56,6 +56,7 @@ Public Class HQ
     Public Shared TFTPAccounts As Collection = New Collection
     Public Shared MineralPrices(8) As Double
     Public Shared APIResults As New SortedList
+    Public Shared APIErrors As New SortedList
     Public Shared MaxLogonAttempts As Integer = 3
     Public Shared itemList As SortedList = New SortedList
     Public Shared itemData As SortedList = New SortedList

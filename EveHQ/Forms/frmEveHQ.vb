@@ -838,7 +838,7 @@ Public Class frmEveHQ
             If result = 0 Then ContainsNew = True
             If result <> 1 Then AllCached = False
             Select Case result
-                Case 2, 3, 4, 5, 8, 9
+                Case 2, 3, 4, 5, 6, 8, 9
                     ContainsErrors = True
                 Case Is < 0
                     ContainsErrors = True
@@ -847,7 +847,7 @@ Public Class frmEveHQ
 
         ' Display the results
         If ContainsErrors = True Then
-            tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (Errors occured, click here for details)"
+            tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (Errors occured - double-click for details)"
         Else
             If AllCached = True Then
                 tsAPIStatus.Text = "API Status: Last Download - " & Now.ToString & " (No new updates)"
@@ -2194,5 +2194,12 @@ Public Class frmEveHQ
   
 #End Region
 
+    Private Sub tsAPIStatus_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsAPIStatus.DoubleClick
+        If EveHQ.Core.HQ.APIResults.Count > 0 Then
+            Dim APIStatus As New EveHQ.Core.EveAPIStatusForm
+            APIStatus.ShowDialog()
+            APIStatus.Dispose()
+        End If
+    End Sub
 End Class
 

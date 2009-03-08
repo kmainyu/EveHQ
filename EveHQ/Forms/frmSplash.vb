@@ -260,8 +260,6 @@ Public Class frmSplash
             End If
         End If
 
-        
-
         ' Check for modules
         lblStatus.Text = "> Loading modules..."
         Me.Refresh()
@@ -277,6 +275,17 @@ Public Class frmSplash
         Call EveHQ.Core.PilotParseFunctions.LoadKeySkills()
         Call frmSettings.UpdateAccounts()
         Call frmEveHQ.UpdatePilotInfo(True)
+
+        ' Load the API Errors
+        Dim ErrorXML As New Xml.XmlDocument
+        ErrorXML.LoadXml(My.Resources.Errors)
+        Dim ErrList As Xml.XmlNodeList = ErrorXML.SelectNodes("/eveapi/result/rowset/row")
+        If ErrList.Count <> 0 Then
+            EveHQ.Core.HQ.APIErrors.Clear()
+            For Each ErrNode As Xml.XmlNode In ErrList
+                EveHQ.Core.HQ.APIErrors.Add(ErrNode.Attributes.GetNamedItem("errorCode").Value, ErrNode.Attributes.GetNamedItem("errorText").Value)
+            Next
+        End If
 
         ' Check if we need to start the market watcher
         If EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcherAtStartup = True Then

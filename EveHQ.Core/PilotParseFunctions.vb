@@ -416,15 +416,15 @@ Public Class PilotParseFunctions
 
         Dim cXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CharacterSheet, cAccount, cPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
         If EveHQ.Core.EveAPI.LastAPIResult = EveAPI.APIResults.CCPError Then
-            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.ID & "_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString, -EveHQ.Core.EveAPI.LastAPIError)
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet, -EveHQ.Core.EveAPI.LastAPIError)
         Else
-            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.ID & "_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString, EveHQ.Core.EveAPI.LastAPIResult)
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet, EveHQ.Core.EveAPI.LastAPIResult)
         End If
         Dim tXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.SkillTraining, cAccount, cPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
         If EveHQ.Core.EveAPI.LastAPIResult = EveAPI.APIResults.CCPError Then
-            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.ID & "_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString, -EveHQ.Core.EveAPI.LastAPIError)
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining, -EveHQ.Core.EveAPI.LastAPIError)
         Else
-            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.ID & "_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString, EveHQ.Core.EveAPI.LastAPIResult)
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining, EveHQ.Core.EveAPI.LastAPIResult)
         End If
         Call ParsePilotSkills(cPilot, cXML)
         Call ParsePilotXML(cPilot, cXML)
