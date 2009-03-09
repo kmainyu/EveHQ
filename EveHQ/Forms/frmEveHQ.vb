@@ -857,9 +857,9 @@ Public Class frmEveHQ
         End If
 
         ' Update if we have retrieved new data
-        If ContainsNew = True Then
-            Call UpdatePilotInfo()
-        End If
+        'If ContainsNew = True Then
+        Call UpdatePilotInfo()
+        'End If
 
         ' Show details of pilot if previously selected
         If cboPilots.Items.Contains(curSelPilot) Then

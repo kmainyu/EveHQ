@@ -208,6 +208,11 @@ Public Class frmPilot
                 lvTraining.Items.Add("XML Expiration")
                 If EveHQ.Core.HQ.myPilot.Training = True Then
                     Dim currentSkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.Skills)
+                    If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)) = True Then
+                        currentSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.Skills)
+                    Else
+                        MessageBox.Show("Missing the training skill from the skills!!")
+                    End If
                     lvTraining.Items(0).SubItems.Add("Yes")
                     lvTraining.Items(1).SubItems.Add(currentSkill.Name & " (Level " & EveHQ.Core.SkillFunctions.Roman(EveHQ.Core.HQ.myPilot.TrainingSkillLevel) & ")")
                     lvTraining.Items(2).SubItems.Add("Rank " & currentSkill.Rank & " @ " & FormatNumber(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListName(currentSkill.Name), Core.SkillList)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP/Hr")

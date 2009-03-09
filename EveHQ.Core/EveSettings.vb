@@ -118,7 +118,6 @@ Imports System.Diagnostics
     Private cWantedList As New SortedList
     Private cUpdateURL As String = "http://www.evehq.net/update/"
     Private cOmitCurrentSkill As Boolean = False
-    Private cUseAPIStatusForm As Boolean = True
     Private cUseAppDirectoryForDB As Boolean = False
     Private cAPIFileExtension As String = "aspx"
     Private cECMDefaultLocation As String = ""
@@ -367,14 +366,6 @@ Imports System.Diagnostics
         End Get
         Set(ByVal value As Boolean)
             cUseAppDirectoryForDB = value
-        End Set
-    End Property
-    Public Property UseAPIStatusForm() As Boolean
-        Get
-            Return cUseAPIStatusForm
-        End Get
-        Set(ByVal value As Boolean)
-            cUseAPIStatusForm = value
         End Set
     End Property
     Public Property OmitCurrentSkill() As Boolean
@@ -1409,7 +1400,6 @@ Public Class EveHQSettingsFunctions
         XMLS &= Chr(9) & Chr(9) & "<useCCPAPIBackup>" & EveHQ.Core.HQ.EveHQSettings.UseCCPAPIBackup & "</useCCPAPIBackup>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<updateURL>" & EveHQ.Core.HQ.EveHQSettings.UpdateURL & "</updateURL>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<omitCurrentSkill>" & EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill & "</omitCurrentSkill>" & vbCrLf
-        XMLS &= Chr(9) & Chr(9) & "<useAPIStatusForm>" & EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm & "</useAPIStatusForm>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<useAppDirForDB>" & EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB & "</useAppDirForDB>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<APIFileExtension>" & EveHQ.Core.HQ.EveHQSettings.APIFileExtension & "</APIFileExtension>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<ECMDefaultLocation>" & EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation & "</ECMDefaultLocation>" & vbCrLf
@@ -1764,7 +1754,6 @@ Public Class EveHQSettingsFunctions
                         EveHQ.Core.HQ.EveHQSettings.UseCCPAPIBackup = CBool(accountSettings.ChildNodes(117).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.UpdateURL = accountSettings.ChildNodes(118).InnerText
                         EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = CBool(accountSettings.ChildNodes(119).InnerText)
-                        EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm = CBool(accountSettings.ChildNodes(120).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = CBool(accountSettings.ChildNodes(121).InnerText)
                         EveHQ.Core.HQ.EveHQSettings.APIFileExtension = accountSettings.ChildNodes(122).InnerText
                         EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation = accountSettings.ChildNodes(123).InnerText

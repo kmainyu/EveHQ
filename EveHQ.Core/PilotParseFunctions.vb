@@ -551,6 +551,7 @@ Public Class PilotParseFunctions
                             .TrainingStartSP = CInt(toon.ChildNodes(4).InnerText)
                             .TrainingEndSP = CInt(toon.ChildNodes(5).InnerText)
                             .TrainingSkillLevel = CInt(toon.ChildNodes(6).InnerText)
+                            Call CheckMissingTrainingSkill(cPilot)
                         Else
                             .Training = False
                         End If
@@ -668,6 +669,25 @@ Public Class PilotParseFunctions
 
 
     End Sub             'ParsePilotSkills
+    Private Shared Sub CheckMissingTrainingSkill(ByRef cPilot As EveHQ.Core.Pilot)
+        Dim pilotSkill As New EveHQ.Core.Skills
+        If cPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(cPilot.TrainingSkillID)) = False Then
+            ' The pilot doesn't have this skill so let's add it manually
+            Dim baseSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(cPilot.TrainingSkillID), Core.SkillList)
+            pilotSkill.ID = baseSkill.ID
+            pilotSkill.Name = baseSkill.Name
+            pilotSkill.Flag = 0
+            pilotSkill.Rank = baseSkill.Rank
+            pilotSkill.GroupID = baseSkill.GroupID
+            pilotSkill.Level = cPilot.TrainingSkillLevel - 1
+            For l As Integer = 0 To 5
+                pilotSkill.LevelUp(l) = baseSkill.LevelUp(l)
+            Next
+            pilotSkill.SP = cPilot.TrainingStartSP
+            cPilot.PilotSkills.Add(pilotSkill, pilotSkill.Name)
+        End If
+
+    End Sub
 
 #End Region
 

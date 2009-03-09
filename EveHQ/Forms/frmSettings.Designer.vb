@@ -155,6 +155,7 @@ Partial Public Class frmSettings
         Me.btnEveDir1 = New System.Windows.Forms.Button
         Me.btnClear1 = New System.Windows.Forms.Button
         Me.gbTrainingQueue = New System.Windows.Forms.GroupBox
+        Me.chkShowCompletedSkills = New System.Windows.Forms.CheckBox
         Me.pbPartiallyTrainedColour = New System.Windows.Forms.PictureBox
         Me.lblPartiallyTrainedColour = New System.Windows.Forms.Label
         Me.chkDeleteCompletedSkills = New System.Windows.Forms.CheckBox
@@ -216,7 +217,6 @@ Partial Public Class frmSettings
         Me.radUseDefaultCreds = New System.Windows.Forms.RadioButton
         Me.chkUseProxy = New System.Windows.Forms.CheckBox
         Me.gbEveServer = New System.Windows.Forms.GroupBox
-        Me.chkShowAPIStatusForm = New System.Windows.Forms.CheckBox
         Me.gbAPIServer = New System.Windows.Forms.GroupBox
         Me.txtAPIFileExtension = New System.Windows.Forms.TextBox
         Me.lblAPIFileExtension = New System.Windows.Forms.Label
@@ -315,7 +315,6 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
-        Me.chkShowCompletedSkills = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1609,13 +1608,23 @@ Partial Public Class frmSettings
         Me.gbTrainingQueue.Controls.Add(Me.chkContinueTraining)
         Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
         Me.gbTrainingQueue.Controls.Add(Me.clbColumns)
-        Me.gbTrainingQueue.Location = New System.Drawing.Point(194, 12)
+        Me.gbTrainingQueue.Location = New System.Drawing.Point(546, 200)
         Me.gbTrainingQueue.Name = "gbTrainingQueue"
-        Me.gbTrainingQueue.Size = New System.Drawing.Size(695, 504)
+        Me.gbTrainingQueue.Size = New System.Drawing.Size(138, 43)
         Me.gbTrainingQueue.TabIndex = 3
         Me.gbTrainingQueue.TabStop = False
         Me.gbTrainingQueue.Text = "Training Queue"
         Me.gbTrainingQueue.Visible = False
+        '
+        'chkShowCompletedSkills
+        '
+        Me.chkShowCompletedSkills.AutoSize = True
+        Me.chkShowCompletedSkills.Location = New System.Drawing.Point(9, 406)
+        Me.chkShowCompletedSkills.Name = "chkShowCompletedSkills"
+        Me.chkShowCompletedSkills.Size = New System.Drawing.Size(194, 17)
+        Me.chkShowCompletedSkills.TabIndex = 33
+        Me.chkShowCompletedSkills.Text = "Show completed skills in skill queue"
+        Me.chkShowCompletedSkills.UseVisualStyleBackColor = True
         '
         'pbPartiallyTrainedColour
         '
@@ -2204,30 +2213,19 @@ Partial Public Class frmSettings
         '
         'gbEveServer
         '
-        Me.gbEveServer.Controls.Add(Me.chkShowAPIStatusForm)
         Me.gbEveServer.Controls.Add(Me.gbAPIServer)
         Me.gbEveServer.Controls.Add(Me.gbAPIRelayServer)
         Me.gbEveServer.Controls.Add(Me.chkEnableEveStatus)
         Me.gbEveServer.Controls.Add(Me.lblCurrentOffset)
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.trackServerOffset)
-        Me.gbEveServer.Location = New System.Drawing.Point(703, 72)
+        Me.gbEveServer.Location = New System.Drawing.Point(194, 12)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(102, 29)
+        Me.gbEveServer.Size = New System.Drawing.Size(695, 494)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
         Me.gbEveServer.Visible = False
-        '
-        'chkShowAPIStatusForm
-        '
-        Me.chkShowAPIStatusForm.AutoSize = True
-        Me.chkShowAPIStatusForm.Location = New System.Drawing.Point(19, 149)
-        Me.chkShowAPIStatusForm.Name = "chkShowAPIStatusForm"
-        Me.chkShowAPIStatusForm.Size = New System.Drawing.Size(277, 17)
-        Me.chkShowAPIStatusForm.TabIndex = 21
-        Me.chkShowAPIStatusForm.Text = "Show API Status Form When Fetching Character API"
-        Me.chkShowAPIStatusForm.UseVisualStyleBackColor = True
         '
         'gbAPIServer
         '
@@ -2240,7 +2238,7 @@ Partial Public Class frmSettings
         Me.gbAPIServer.Controls.Add(Me.txtCCPAPIServer)
         Me.gbAPIServer.Controls.Add(Me.lblCCPAPIServer)
         Me.gbAPIServer.Controls.Add(Me.chkAutoAPI)
-        Me.gbAPIServer.Location = New System.Drawing.Point(6, 172)
+        Me.gbAPIServer.Location = New System.Drawing.Point(6, 152)
         Me.gbAPIServer.Name = "gbAPIServer"
         Me.gbAPIServer.Size = New System.Drawing.Size(668, 161)
         Me.gbAPIServer.TabIndex = 20
@@ -2331,7 +2329,7 @@ Partial Public Class frmSettings
         Me.gbAPIRelayServer.Controls.Add(Me.nudAPIRSPort)
         Me.gbAPIRelayServer.Controls.Add(Me.lblAPIRSPort)
         Me.gbAPIRelayServer.Controls.Add(Me.chkActivateAPIRS)
-        Me.gbAPIRelayServer.Location = New System.Drawing.Point(6, 342)
+        Me.gbAPIRelayServer.Location = New System.Drawing.Point(6, 319)
         Me.gbAPIRelayServer.Name = "gbAPIRelayServer"
         Me.gbAPIRelayServer.Size = New System.Drawing.Size(668, 114)
         Me.gbAPIRelayServer.TabIndex = 15
@@ -3200,23 +3198,14 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
-        'chkShowCompletedSkills
-        '
-        Me.chkShowCompletedSkills.AutoSize = True
-        Me.chkShowCompletedSkills.Location = New System.Drawing.Point(9, 406)
-        Me.chkShowCompletedSkills.Name = "chkShowCompletedSkills"
-        Me.chkShowCompletedSkills.Size = New System.Drawing.Size(194, 17)
-        Me.chkShowCompletedSkills.TabIndex = 33
-        Me.chkShowCompletedSkills.Text = "Show completed skills in skill queue"
-        Me.chkShowCompletedSkills.UseVisualStyleBackColor = True
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbTrainingQueue)
+        Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbDatabaseFormat)
+        Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbColours)
@@ -3224,7 +3213,6 @@ Partial Public Class frmSettings
         Me.Controls.Add(Me.gbTaskbarIcon)
         Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbPilots)
-        Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbEveFolders)
         Me.Controls.Add(Me.gbProxyServer)
@@ -3580,7 +3568,6 @@ Partial Public Class frmSettings
     Friend WithEvents chkUseAPIRSServer As System.Windows.Forms.CheckBox
     Friend WithEvents lblUpdateLocation As System.Windows.Forms.Label
     Friend WithEvents txtUpdateLocation As System.Windows.Forms.TextBox
-    Friend WithEvents chkShowAPIStatusForm As System.Windows.Forms.CheckBox
     Friend WithEvents chkUseAppDirForDB As System.Windows.Forms.CheckBox
     Friend WithEvents txtAPIFileExtension As System.Windows.Forms.TextBox
     Friend WithEvents lblAPIFileExtension As System.Windows.Forms.Label

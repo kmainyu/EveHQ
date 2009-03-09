@@ -1079,7 +1079,9 @@ Public Class ShipSlotControl
                         AddHandler FindModuleMenuItem.Click, AddressOf Me.FindModuleToFit
                         ctxSlots.Items.Add(FindModuleMenuItem)
                     Else
-                        chargeName = lvwSlots.SelectedItems(0).SubItems(1).Text
+                        If currentMod.LoadedCharge IsNot Nothing Then
+                            chargeName = currentMod.LoadedCharge.Name
+                        End If
                         ' Add the Show Info menu item
                         Dim showInfoMenuItem As New ToolStripMenuItem
                         showInfoMenuItem.Name = currentMod.Name
@@ -1122,7 +1124,7 @@ Public Class ShipSlotControl
                                 End If
                             End If
                         Next
-                        RelModuleSkills.Sort
+                        RelModuleSkills.Sort()
                         If currentMod.LoadedCharge IsNot Nothing Then
                             For Each Affect As String In currentMod.LoadedCharge.Affects
                                 If Affect.Contains(";Skill;") = True Then

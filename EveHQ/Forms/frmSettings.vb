@@ -213,8 +213,8 @@ Public Class frmSettings
                 cboStartupPilot.Items.Add(myPilot.Name)
             End If
         Next
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = False Then
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 Then
+        If cboStartupPilot.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = False Then
+            If cboStartupPilot.Items.Count > 0 Then
                 cboStartupPilot.SelectedIndex = 0
             End If
         Else
@@ -1307,7 +1307,6 @@ Public Class frmSettings
             chkUseCCPBackup.Enabled = True
             txtAPIRSServer.Enabled = True
         End If
-        chkShowAPIStatusForm.Checked = EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm
         txtAPIFileExtension.Text = EveHQ.Core.HQ.EveHQSettings.APIFileExtension
     End Sub
     Private Sub trackServerOffset_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles trackServerOffset.ValueChanged
@@ -1408,9 +1407,6 @@ Public Class frmSettings
     End Sub
     Private Sub txtAPIRSServer_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtAPIRSServer.TextChanged
         EveHQ.Core.HQ.EveHQSettings.APIRSAddress = txtAPIRSServer.Text
-    End Sub
-    Private Sub chkShowAPIStatusForm_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowAPIStatusForm.CheckedChanged
-        EveHQ.Core.HQ.EveHQSettings.UseAPIStatusForm = chkShowAPIStatusForm.Checked
     End Sub
     Private Sub txtAPIFileExtension_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtAPIFileExtension.TextChanged
         EveHQ.Core.HQ.EveHQSettings.APIFileExtension = txtAPIFileExtension.Text
