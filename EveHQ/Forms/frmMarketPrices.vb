@@ -1502,4 +1502,12 @@ Public Class frmMarketPrices
             lblMarketPriceUpdateStatus.Text = "Status: Inactive due to 24 hour feed restriction."
         End If
     End Sub
+
+    Private Sub clvLogs_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles clvLogs.MouseDoubleClick
+        Dim marketOrders As New frmMarketOrders
+        marketOrders.OrdersFile = clvLogs.SelectedItems(0).Tag.ToString
+        marketOrders.Text = "Market Orders - " & clvLogs.SelectedItems(0).SubItems(1).Text & " (" & clvLogs.SelectedItems(0).Text & ") - " & clvLogs.SelectedItems(0).SubItems(2).Text
+        marketOrders.ShowDialog()
+    End Sub
+
 End Class
