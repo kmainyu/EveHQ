@@ -455,8 +455,6 @@ Public Class frmTraining
         Return newItem
     End Function
 
-
-
     Private Sub activeLVW_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim skillID As String
         skillID = EveHQ.Core.SkillFunctions.SkillNameToID(activeLVW.SelectedItems(0).Text)
@@ -1904,7 +1902,7 @@ Public Class frmTraining
         For toLevel As Integer = 1 To 5
             Dim newGroup As ListViewItem = New ListViewItem
             newGroup.Text = toLevel.ToString
-            Dim SP As Long = CLng(EveHQ.Core.SkillFunctions.CalculateSPLevel(cSkill.Rank, toLevel))
+            Dim SP As Long = CLng(Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSPLevel(cSkill.Rank, toLevel)))
             newGroup.SubItems.Add(FormatNumber(SP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
             newGroup.SubItems.Add(FormatNumber(SP - lastSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
             lastSP = SP

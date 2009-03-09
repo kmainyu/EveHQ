@@ -62,8 +62,15 @@ Public Class DragAndDropListView
                 If EveHQ.Core.HQ.myPilot.Training = False Then
                     di += 1
                 End If
+                Dim din As String = MyBase.Items(di).Text & MyBase.Items(di).SubItems(2).Text & MyBase.Items(di).SubItems(3).Text
+                Dim dIDX As Integer = 0
+                For Each moveSkill As EveHQ.Core.SkillQueueItem In EveHQ.Core.HQ.myPilot.ActiveQueue.Queue
+                    dIDX += 1
+                    If moveSkill.Key = din Then Exit For
+                Next
+
                 ' This is a skill being dragged from the treeview
-                EveHQ.Core.HQ.myPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, testItem.Text.Trim("#".ToCharArray), di, EveHQ.Core.HQ.myPilot.ActiveQueue)
+                EveHQ.Core.HQ.myPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, testItem.Text.Trim("#".ToCharArray), dIDX, EveHQ.Core.HQ.myPilot.ActiveQueue)
 
             Else
                 ' This is a skill being moved in the queue
@@ -97,23 +104,33 @@ Public Class DragAndDropListView
 
                     ' Move all the items up or down depending on position
                     If si > di Then
+                        ' Move an item up the queue
                         Dim moveSkill As EveHQ.Core.SkillQueueItem
+                        Dim sIDX As Integer = 0
                         For Each moveSkill In EveHQ.Core.HQ.myPilot.ActiveQueue.Queue
-                            If moveSkill.Pos >= di And moveSkill.Pos < si Then
-                                moveSkill.Pos += 1
-                            End If
+                            sIDX += 1
+                            If moveSkill.Key = sin Then Exit For
                         Next
+                        Do
+                            sIDX -= 1
+                            CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Pos += 1
+                        Loop Until CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Key = din
+                        CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sin), Core.SkillQueueItem).Pos = sIDX
                     Else
+                        'Move an item down the queue
                         Dim moveSkill As EveHQ.Core.SkillQueueItem
+                        Dim sIDX As Integer = 0
                         For Each moveSkill In EveHQ.Core.HQ.myPilot.ActiveQueue.Queue
-                            If moveSkill.Pos > si And moveSkill.Pos <= di Then
-                                moveSkill.Pos -= 1
-                            End If
+                            sIDX += 1
+                            If moveSkill.Key = sin Then Exit For
                         Next
+                        Do
+                            sIDX += 1
+                            CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Pos -= 1
+                        Loop Until CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Key = din
+                        CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sin), Core.SkillQueueItem).Pos = sIDX
 
                     End If
-                    ' Set the source skill to the new location
-                    mySSkill.Pos = di
                 End If
             End If
             If (Not Me.m_previousItem Is Nothing) Then

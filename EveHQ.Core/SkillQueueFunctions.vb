@@ -67,6 +67,7 @@ Public Class SkillQueueFunctions
             If QuickBuild = False Then Call CheckSkillOrder(qPilot, bQueue)
             ' Check if we need to covertly delete skills!
             ' Deletes completed skills if appropriate
+            'If QuickBuild = False Then Call RemoveTrainedSkills(qPilot, bQueue)
             If EveHQ.Core.HQ.EveHQSettings.DeleteSkills = True Then
                 EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(qPilot, bQueue)
             End If
@@ -83,7 +84,7 @@ Public Class SkillQueueFunctions
         Dim endtime As Date = Now
         Try
             If qPilot.Training = True And bQueue.IncCurrentTraining = True Then
-                Dim mypos As Integer = 0
+                'Dim mypos As Integer = 0
                 Dim mySkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(qPilot.TrainingSkillID), SkillList)
                 Dim clevel As Integer = qPilot.TrainingSkillLevel
                 Dim cTime As Double = qPilot.TrainingCurrentTime
@@ -258,7 +259,7 @@ Public Class SkillQueueFunctions
                                     percent = 100
                                 Case Else
                                     ' Whole skill line percent
-                                    percent = (Math.Min(Math.Max(Int((myCurSkill.SP - myCurSkill.LevelUp(fromLevel)) / (myCurSkill.LevelUp(toLevel) - myCurSkill.LevelUp(fromLevel)) * 100), 0), 100))
+                                    percent = (Math.Min(Math.Max(CDbl((myCurSkill.SP - myCurSkill.LevelUp(fromLevel)) / (myCurSkill.LevelUp(toLevel) - myCurSkill.LevelUp(fromLevel)) * 100), 0), 100))
                             End Select
                         End If
                     Else
@@ -327,14 +328,13 @@ Public Class SkillQueueFunctions
                             qItem.Reqs = "Requires: " & Requires
                         End If
                         Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
-
                         qItem.Key = myskill.Name & fromLevel & toLevel
                         qItem.ID = myskill.ID
                         qItem.Name = myskill.Name
                         qItem.CurLevel = CStr(curLevel)
                         qItem.FromLevel = CStr(fromLevel)
                         qItem.ToLevel = CStr(toLevel)
-                        qItem.Percent = CStr(CInt(percent))
+                        qItem.Percent = CStr(Int(percent))
                         If percent > 0 And percent < 100 Then
                             qItem.PartTrained = True
                         Else
@@ -492,6 +492,10 @@ Public Class SkillQueueFunctions
                         bQueue.Queue.Remove(oldKey)
                         bQueue.Queue.Add(curSkill, keyName)
                     End If
+                Else
+                    ' Clear the trained skill
+                    Dim keyName As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
+                    bQueue.Queue.Remove(keyName)
                 End If
             End If
         Next
@@ -518,7 +522,6 @@ Public Class SkillQueueFunctions
                         bQueue.Queue.Remove(oldKey)
                         bQueue.Queue.Add(curSkill, keyName)
                         bQueue.Queue.Add(newskill, newKey)
-
                     End If
                 End If
             Next

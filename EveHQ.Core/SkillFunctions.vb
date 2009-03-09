@@ -425,7 +425,7 @@ Public Class SkillFunctions
             End If
             ' Calculate the levels
             For a As Integer = 0 To 5
-                currentSkill.LevelUp(a) = CInt(EveHQ.Core.SkillFunctions.CalculateSPLevel(currentSkill.Rank, a))
+                currentSkill.LevelUp(a) = CInt(Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSPLevel(currentSkill.Rank, a)))
             Next
             ' Add the currentskill to the name list
             EveHQ.Core.HQ.SkillListName.Add(currentSkill, currentSkill.Name)

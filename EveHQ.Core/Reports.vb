@@ -2008,7 +2008,7 @@ Public Class Reports
             End If
             strHTML &= "<tr><td>&nbsp;</td>"
             For level As Integer = 1 To 5
-                strHTML &= "<td align=center>" & FormatNumber(EveHQ.Core.SkillFunctions.CalculateSPLevel(rank, level), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>"
+                strHTML &= "<td align=center>" & FormatNumber(Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSPLevel(rank, level)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>"
             Next
             strHTML &= "</tr>"
         Next
