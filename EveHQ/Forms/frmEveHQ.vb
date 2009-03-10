@@ -584,13 +584,14 @@ Public Class frmEveHQ
         End If
         ' Check for an API update if applicable
         If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.myPilot.Account <> "" And EveHQ.Core.HQ.EveHQSettings.AutoAPI = True Then
-            If EveHQ.Core.HQ.LastAutoAPIResult = True Or (EveHQ.Core.HQ.LastAutoAPIResult = False And EveHQ.Core.HQ.LastAutoAPITime.AddMinutes(5) < Now) Then
+            If EveHQ.Core.HQ.LastAutoAPITime.AddMinutes(5) < Now Then
                 Dim cacheDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.CacheExpirationTime)
                 Dim cacheTimeLeft As TimeSpan = cacheDate - Now
                 Dim cacheText As String = (Format(cacheDate, "ddd") & " " & cacheDate & " (" & EveHQ.Core.SkillFunctions.CacheTimeToString(cacheTimeLeft.TotalSeconds) & ")")
                 If cacheDate < Now Then
                     ' Invoke the API Caller
                     Call QueryMyEveServer()
+                    EveHQ.Core.HQ.LastAutoAPITime = Now
                 End If
             End If
         End If
@@ -857,9 +858,9 @@ Public Class frmEveHQ
         End If
 
         ' Update if we have retrieved new data
-        'If ContainsNew = True Then
-        Call UpdatePilotInfo()
-        'End If
+        If ContainsNew = True Then
+            Call UpdatePilotInfo()
+        End If
 
         ' Show details of pilot if previously selected
         If cboPilots.Items.Contains(curSelPilot) Then

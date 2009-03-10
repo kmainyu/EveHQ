@@ -65,6 +65,11 @@ Public Class SkillQueueFunctions
             Call CheckReqOrder(qPilot, bQueue)
             ' Check the skill order of the existing skills
             If QuickBuild = False Then Call CheckSkillOrder(qPilot, bQueue)
+            ' Check if we need to covertly delete skills!
+            ' Deletes completed skills if appropriate
+            If EveHQ.Core.HQ.EveHQSettings.DeleteSkills = True Then
+                EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(qPilot, bQueue)
+            End If
         Catch ex As Exception
             MessageBox.Show("Error occurs in Queue Building", "BuildQueue Error")
             Return Nothing
@@ -486,10 +491,10 @@ Public Class SkillQueueFunctions
                         bQueue.Queue.Remove(oldKey)
                         bQueue.Queue.Add(curSkill, keyName)
                     End If
-                Else
-                    ' Clear the trained skill
-                    Dim keyName As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
-                    bQueue.Queue.Remove(keyName)
+                    'Else
+                    '    ' Clear the trained skill
+                    '    Dim keyName As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
+                    '    bQueue.Queue.Remove(keyName)
                 End If
             End If
         Next
