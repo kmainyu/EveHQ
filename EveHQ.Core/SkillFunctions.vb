@@ -435,92 +435,54 @@ Public Class SkillFunctions
     End Function              'LoadEveSkillData
     Public Shared Sub LoadEveSkillDataFromAPI()
         Try
-
-            ' Determine if we use the APIRS or CCP API Server
-            Dim APIServer As String = ""
-            If EveHQ.Core.HQ.EveHQSettings.UseAPIRS = True Then
-                APIServer = EveHQ.Core.HQ.EveHQSettings.APIRSAddress
-                ' Check for APIRS heartbeart
-                If EveHQ.Core.EveAPI.APIRSHasHeartbeat() = False Then
-                    If EveHQ.Core.HQ.EveHQSettings.UseCCPAPIBackup = True Then
-                        APIServer = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
-                    End If
-                End If
-            Else
-                APIServer = EveHQ.Core.HQ.EveHQSettings.CCPAPIServerAddress
-            End If
-
-            Dim RemoteURL As String = APIServer & "/eve/SkillTree.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
-            ' Create the requester
-            Dim request As HttpWebRequest = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
-            ' Setup proxy server (if required)
-            If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
-                Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
-                If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
-                    EveHQProxy.UseDefaultCredentials = True
-                Else
-                    EveHQProxy.UseDefaultCredentials = False
-                    EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
-                End If
-                request.Proxy = EveHQProxy
-            End If
-            ' Setup request parameters
-            request.ContentType = "application/x-www-form-urlencoded"
-            request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
-            ' Prepare for a response from the server
-            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-            ' Get the stream associated with the response.
-            Dim receiveStream As Stream = response.GetResponseStream()
-            ' Pipes the stream to a higher level stream reader with the required encoding format. 
-            Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
-            Dim webdata As String = readStream.ReadToEnd()
-            'MessageBox.Show(webdata)
-            Dim skillXML As New XmlDocument
-            skillXML.LoadXml(webdata)
+            ' Get the XML data from the API
+            Dim skillXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.SkillTree, EveAPI.APIReturnMethod.ReturnStandard)
 
             ' Load the skills!
-            Dim skillDetails As XmlNodeList
-            Dim skill As XmlNode
-            skillDetails = skillXML.SelectNodes("/eveapi/result/rowset/row/rowset/row")
-            For Each skill In skillDetails
-                If EveHQ.Core.HQ.SkillListID.Contains(skill.Attributes.GetNamedItem("typeID").Value) = False Then
-                    Dim newSkill As New EveHQ.Core.SkillList
-                    newSkill.ID = skill.Attributes.GetNamedItem("typeID").Value
-                    newSkill.Name = skill.Attributes.GetNamedItem("typeName").Value
-                    newSkill.GroupID = skill.Attributes.GetNamedItem("groupID").Value
-                    newSkill.Description = skill.ChildNodes(0).InnerText
-                    newSkill.Published = True
-                    newSkill.Rank = CInt(skill.ChildNodes(1).InnerText)
-                    If skill.ChildNodes(2).ChildNodes.Count <> 0 Then
-                        Select Case skill.ChildNodes(2).ChildNodes.Count
-                            Case 1
-                                newSkill.PS = skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("typeID").Value
-                                newSkill.PSL = CInt(skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("skillLevel").Value)
-                            Case 2
-                                newSkill.PS = skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("typeID").Value
-                                newSkill.PSL = CInt(skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("skillLevel").Value)
-                                newSkill.SS = skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("typeID").Value
-                                newSkill.SSL = CInt(skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("skillLevel").Value)
-                            Case 3
-                                newSkill.PS = skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("typeID").Value
-                                newSkill.PSL = CInt(skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("skillLevel").Value)
-                                newSkill.SS = skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("typeID").Value
-                                newSkill.SSL = CInt(skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("skillLevel").Value)
-                                newSkill.TS = skill.ChildNodes(2).ChildNodes(2).Attributes.GetNamedItem("typeID").Value
-                                newSkill.TSL = CInt(skill.ChildNodes(2).ChildNodes(2).Attributes.GetNamedItem("skillLevel").Value)
-                        End Select
+            If skillXML IsNot Nothing Then
+                Dim skillDetails As XmlNodeList
+                Dim skill As XmlNode
+                skillDetails = skillXML.SelectNodes("/eveapi/result/rowset/row/rowset/row")
+                For Each skill In skillDetails
+                    If EveHQ.Core.HQ.SkillListID.Contains(skill.Attributes.GetNamedItem("typeID").Value) = False Then
+                        Dim newSkill As New EveHQ.Core.SkillList
+                        newSkill.ID = skill.Attributes.GetNamedItem("typeID").Value
+                        newSkill.Name = skill.Attributes.GetNamedItem("typeName").Value
+                        newSkill.GroupID = skill.Attributes.GetNamedItem("groupID").Value
+                        newSkill.Description = skill.ChildNodes(0).InnerText
+                        newSkill.Published = True
+                        newSkill.Rank = CInt(skill.ChildNodes(1).InnerText)
+                        If skill.ChildNodes(2).ChildNodes.Count <> 0 Then
+                            Select Case skill.ChildNodes(2).ChildNodes.Count
+                                Case 1
+                                    newSkill.PS = skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("typeID").Value
+                                    newSkill.PSL = CInt(skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("skillLevel").Value)
+                                Case 2
+                                    newSkill.PS = skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("typeID").Value
+                                    newSkill.PSL = CInt(skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("skillLevel").Value)
+                                    newSkill.SS = skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("typeID").Value
+                                    newSkill.SSL = CInt(skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("skillLevel").Value)
+                                Case 3
+                                    newSkill.PS = skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("typeID").Value
+                                    newSkill.PSL = CInt(skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("skillLevel").Value)
+                                    newSkill.SS = skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("typeID").Value
+                                    newSkill.SSL = CInt(skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("skillLevel").Value)
+                                    newSkill.TS = skill.ChildNodes(2).ChildNodes(2).Attributes.GetNamedItem("typeID").Value
+                                    newSkill.TSL = CInt(skill.ChildNodes(2).ChildNodes(2).Attributes.GetNamedItem("skillLevel").Value)
+                            End Select
+                        End If
+                        newSkill.PA = StrConv(skill.ChildNodes(3).ChildNodes(0).InnerText, VbStrConv.ProperCase)
+                        newSkill.SA = StrConv(skill.ChildNodes(3).ChildNodes(1).InnerText, VbStrConv.ProperCase)
+                        ' Calculate the levels
+                        For a As Integer = 0 To 5
+                            newSkill.LevelUp(a) = CInt(EveHQ.Core.SkillFunctions.CalculateSPLevel(newSkill.Rank, a))
+                        Next
+                        ' Add the currentskill to the name list
+                        EveHQ.Core.HQ.SkillListID.Add(newSkill, newSkill.ID)
+                        EveHQ.Core.HQ.SkillListName.Add(newSkill, newSkill.Name)
                     End If
-                    newSkill.PA = StrConv(skill.ChildNodes(3).ChildNodes(0).InnerText, VbStrConv.ProperCase)
-                    newSkill.SA = StrConv(skill.ChildNodes(3).ChildNodes(1).InnerText, VbStrConv.ProperCase)
-                    ' Calculate the levels
-                    For a As Integer = 0 To 5
-                        newSkill.LevelUp(a) = CInt(EveHQ.Core.SkillFunctions.CalculateSPLevel(newSkill.Rank, a))
-                    Next
-                    ' Add the currentskill to the name list
-                    EveHQ.Core.HQ.SkillListID.Add(newSkill, newSkill.ID)
-                    EveHQ.Core.HQ.SkillListName.Add(newSkill, newSkill.Name)
-                End If
-            Next
+                Next
+            End If
         Catch e As Exception
             Exit Sub
         End Try

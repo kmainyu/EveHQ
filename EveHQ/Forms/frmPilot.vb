@@ -443,13 +443,15 @@ Public Class frmPilot
         ' Filter out the lower end certificates
         Dim certList As New SortedList
         For Each cCertID As String In EveHQ.Core.HQ.myPilot.Certificates
-            cCert = CType(EveHQ.Core.HQ.Certificates(cCertID), Core.Certificate)
-            If certList.Contains(cCert.ClassID) = False Then
-                certList.Add(cCert.ClassID, cCert)
-            Else
-                Dim storedGrade As Integer = CType(certList(cCert.ClassID), Core.Certificate).Grade
-                If cCert.Grade > storedGrade Then
-                    certList(cCert.ClassID) = cCert
+            If EveHQ.Core.HQ.Certificates.ContainsKey(cCertID) Then
+                cCert = CType(EveHQ.Core.HQ.Certificates(cCertID), Core.Certificate)
+                If certList.Contains(cCert.ClassID) = False Then
+                    certList.Add(cCert.ClassID, cCert)
+                Else
+                    Dim storedGrade As Integer = CType(certList(cCert.ClassID), Core.Certificate).Grade
+                    If cCert.Grade > storedGrade Then
+                        certList(cCert.ClassID) = cCert
+                    End If
                 End If
             End If
         Next
