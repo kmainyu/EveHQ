@@ -133,7 +133,7 @@ Imports System.Diagnostics
     Private cDBDataFilename As String = ""
     Private cDBDataName As String = ""
     Private cIgnoreSellOrders As Boolean = False
-    Private cIgnoreBuyOrders As Boolean = False
+    Private cIgnoreBuyOrders As Boolean = True
     Private cIgnoreSellOrderLimit As Double = 1000
     Private cIgnoreBuyOrderLimit As Double = 1
     Private cMarketRegionList As New ArrayList

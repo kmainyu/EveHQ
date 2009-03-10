@@ -382,8 +382,6 @@ Partial Class frmMarketPrices
         'chkIgnoreBuyOrders
         '
         Me.chkIgnoreBuyOrders.AutoSize = True
-        Me.chkIgnoreBuyOrders.Checked = True
-        Me.chkIgnoreBuyOrders.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkIgnoreBuyOrders.Location = New System.Drawing.Point(8, 19)
         Me.chkIgnoreBuyOrders.Name = "chkIgnoreBuyOrders"
         Me.chkIgnoreBuyOrders.Size = New System.Drawing.Size(170, 17)
@@ -394,8 +392,6 @@ Partial Class frmMarketPrices
         'chkIgnoreSellOrders
         '
         Me.chkIgnoreSellOrders.AutoSize = True
-        Me.chkIgnoreSellOrders.Checked = True
-        Me.chkIgnoreSellOrders.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkIgnoreSellOrders.Location = New System.Drawing.Point(308, 19)
         Me.chkIgnoreSellOrders.Name = "chkIgnoreSellOrders"
         Me.chkIgnoreSellOrders.Size = New System.Drawing.Size(171, 17)

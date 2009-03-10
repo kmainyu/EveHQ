@@ -1975,36 +1975,40 @@ Public Class frmSettings
         End If
     End Sub
 
-    Private Function CheckLUA(ByVal chkLUA As CheckBox, ByVal folder As Integer) As Boolean
+    Private Sub CheckLUA(ByVal chkLUA As CheckBox, ByVal folder As Integer)
         ' If selected, check the program files directory for the settings, otherwise check the user directory
         If chkLUA.Checked = True Then
             EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folder) = True
             ' Check program files
-            Dim cacheDir As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder) & "\cache"
-            Dim settingsDir As String = cacheDir & "\settings"
-            Dim prefsFile As String = cacheDir & "\prefs.ini"
-            Dim browserDir As String = cacheDir & "\browser"
-            Dim machoDIR As String = cacheDir & "\machonet"
-            If My.Computer.FileSystem.DirectoryExists(cacheDir) = True And My.Computer.FileSystem.FileExists(prefsFile) = True Then
-                MessageBox.Show("Confirmed /LUA:off active on this folder.", "LUA Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                MessageBox.Show("Warning: /LUA:off does not appear active on this folder.", "LUA Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If startup = False Then
+                Dim cacheDir As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder) & "\cache"
+                Dim settingsDir As String = cacheDir & "\settings"
+                Dim prefsFile As String = cacheDir & "\prefs.ini"
+                Dim browserDir As String = cacheDir & "\browser"
+                Dim machoDIR As String = cacheDir & "\machonet"
+                If My.Computer.FileSystem.DirectoryExists(cacheDir) = True And My.Computer.FileSystem.FileExists(prefsFile) = True Then
+                    MessageBox.Show("Confirmed /LUA:off active on this folder.", "LUA Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    MessageBox.Show("Warning: /LUA:off does not appear active on this folder.", "LUA Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
             End If
         Else
             EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folder) = False
             ' Check the application directory for the user
-            Dim cacheDir As String = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\cache").Replace("\\", "\")
-            Dim settingsDir As String = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\settings").Replace("\\", "\")
-            Dim prefsFile As String = settingsDir & "\prefs.ini"
-            Dim browserDir As String = cacheDir & "\browser"
-            Dim machoDIR As String = cacheDir & "\machonet"
-            If My.Computer.FileSystem.DirectoryExists(cacheDir) = True And My.Computer.FileSystem.FileExists(prefsFile) = True Then
-                MessageBox.Show("Confirmed shared settings are active.", "LUA Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                MessageBox.Show("No shared settings found.", "LUA Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If startup = False Then
+                Dim cacheDir As String = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\cache").Replace("\\", "\")
+                Dim settingsDir As String = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\settings").Replace("\\", "\")
+                Dim prefsFile As String = settingsDir & "\prefs.ini"
+                Dim browserDir As String = cacheDir & "\browser"
+                Dim machoDIR As String = cacheDir & "\machonet"
+                If My.Computer.FileSystem.DirectoryExists(cacheDir) = True And My.Computer.FileSystem.FileExists(prefsFile) = True Then
+                    MessageBox.Show("Confirmed shared settings are active.", "LUA Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    MessageBox.Show("No shared settings found.", "LUA Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
             End If
         End If
-    End Function
+    End Sub
 
     Private Sub txtFriendlyName_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtFriendlyName1.TextChanged, txtFriendlyName2.TextChanged, txtFriendlyName3.TextChanged, txtFriendlyName4.TextChanged
         Dim txtFName As TextBox = CType(sender, TextBox)

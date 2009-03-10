@@ -838,7 +838,7 @@ Public Class frmEveHQ
             For Each CurrentAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
                 tsAPIStatus.Text = "API Status: Updating Account '" & CurrentAccount.FriendlyName & "' (ID=" & CurrentAccount.userID & ")..."
                 EveHQStatusStrip.Refresh()
-                Call EveHQ.Core.PilotParseFunctions.GetCharactersInAccount(CurrentAccount)
+                EveHQ.Core.PilotParseFunctions.GetCharactersInAccount(CurrentAccount)
             Next
             Call EveHQ.Core.PilotParseFunctions.CopyTempPilotsToMain()
             Me.Cursor = Cursors.Default
@@ -879,6 +879,10 @@ Public Class frmEveHQ
         If cboPilots.Items.Contains(curSelPilot) Then
             cboPilots.SelectedItem = curSelPilot
         End If
+
+    End Sub
+
+    Private Sub RetreiveCharacterInfo(ByVal state As Object)
 
     End Sub
 
@@ -2202,10 +2206,10 @@ Public Class frmEveHQ
                 MessageBox.Show("The file: " & e.Name & " has been successfully processed!", "Market Export Processing Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
-        
+
     End Sub
 
-  
+
 #End Region
 
     Private Sub tsAPIStatus_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsAPIStatus.DoubleClick
