@@ -560,6 +560,10 @@ Public Class PilotParseFunctions
             Else
                 cPilot.Training = False
             End If
+            ' Get Cache details
+            CharDetails = TXMLDoc.SelectNodes("/eveapi")
+            cPilot.TrainingFileTime = CDate(CharDetails(0).ChildNodes(0).InnerText)
+            cPilot.TrainingExpirationTime = CDate(CharDetails(0).ChildNodes(2).InnerText)
         Else
             cPilot.Training = False
         End If

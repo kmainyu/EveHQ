@@ -583,17 +583,30 @@ Public Class frmEveHQ
             End Select
         End If
         ' Check for an API update if applicable
-        If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.myPilot.Account <> "" And EveHQ.Core.HQ.EveHQSettings.AutoAPI = True Then
-            If EveHQ.Core.HQ.LastAutoAPITime.AddMinutes(5) < Now Then
-                Dim cacheDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.CacheExpirationTime)
-                Dim cacheTimeLeft As TimeSpan = cacheDate - Now
-                Dim cacheText As String = (Format(cacheDate, "ddd") & " " & cacheDate & " (" & EveHQ.Core.SkillFunctions.CacheTimeToString(cacheTimeLeft.TotalSeconds) & ")")
-                If cacheDate < Now Then
+        If EveHQ.Core.HQ.EveHQSettings.AutoAPI = True Then
+            If EveHQ.Core.HQ.LastAutoAPITime.AddSeconds(EveHQ.Core.HQ.AutoAPITimeSpan) < Now Then
+                Dim updateRequired As Boolean = False
+                For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                    If cPilot.Name <> "" And cPilot.Account <> "" Then
+                        Dim cacheCDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.CacheExpirationTime)
+                        Dim cacheTDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingExpirationTime)
+                        If cacheCDate < Now Or cacheTDate < Now Then
+                            updateRequired = True
+                            Exit For
+                        End If
+                    End If
+                Next
+                If updateRequired = True Then
                     ' Invoke the API Caller
                     Call QueryMyEveServer()
                     EveHQ.Core.HQ.LastAutoAPITime = Now
                 End If
             End If
+            ' Display time until autoAPI download
+            Dim TimeLeft As TimeSpan = EveHQ.Core.HQ.LastAutoAPITime.AddSeconds(EveHQ.Core.HQ.AutoAPITimeSpan) - Now
+            tsAPITime.Text = EveHQ.Core.SkillFunctions.TimeToString(TimeLeft.TotalSeconds, False)
+        Else
+            tsAPITime.Text = ""
         End If
     End Sub
     Private Sub tmrSkillUpdate_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrSkillUpdate.Tick

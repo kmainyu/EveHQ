@@ -97,8 +97,9 @@ Imports System.Xml
     <NonSerialized()> Public TrainingQueues As New SortedList
     Public Blueprints As New Collection
     Public CacheFileTime As Date
-    Public CacheExpiration As Long
     Public CacheExpirationTime As Date
+    Public TrainingFileTime As Date
+    Public TrainingExpirationTime As Date
     Public Updated As Boolean = False
     Public LastUpdate As String = ""
     Public Active As Boolean = True
