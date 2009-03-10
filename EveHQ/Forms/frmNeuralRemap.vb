@@ -43,7 +43,7 @@
         Me.Text = "Neural Remapping - " & iPilot.Name
         ' Create a dummy pilot with which to check new attributes & skill queues
 
-        ' Rest NUDs
+        ' Reset NUDs
         nudIBase.Value = 5
         nudPBase.Value = 5
         nudCBase.Value = 5
@@ -59,31 +59,11 @@
         nPilot.MAtt = iPilot.MAtt : nPilot.MImplant = iPilot.MImplant : nPilot.LMAtt = iPilot.LMAtt : nPilot.ALMAtt = iPilot.ALMAtt : nPilot.LSMAtt = iPilot.LSMAtt : nPilot.MAttT = iPilot.MAttT
 
         ' Set the minimum allowable units
-        If nPilot.IAtt < 5 Then
-            IMin = nPilot.IAtt
-        Else
-            IMin = 5
-        End If
-        If nPilot.PAtt < 5 Then
-            PMin = nPilot.PAtt
-        Else
-            PMin = 5
-        End If
-        If nPilot.CAtt < 5 Then
-            CMin = nPilot.CAtt
-        Else
-            CMin = 5
-        End If
-        If nPilot.WAtt < 5 Then
-            WMin = nPilot.WAtt
-        Else
-            WMin = 5
-        End If
-        If nPilot.MAtt < 5 Then
-            MMin = nPilot.MAtt
-        Else
-            MMin = 5
-        End If
+        IMin = 5
+        PMin = 5
+        CMin = 5
+        WMin = 5
+        MMin = 5
 
         ' Set minimums on NUDs
         nudIBase.Minimum = IMin
@@ -93,79 +73,79 @@
         nudMBase.Minimum = MMin
 
         ' Check if any base attributes are less than 5 as this is not permitted under the remapping rules
-        'Unused = 0
-        'If nPilot.IAtt < 5 Then
-        '    Unused += 5 - nPilot.IAtt
-        '    nPilot.IAtt = 5
-        'End If
-        'If nPilot.PAtt < 5 Then
-        '    Unused += 5 - nPilot.PAtt
-        '    nPilot.PAtt = 5
-        'End If
-        'If nPilot.CAtt < 5 Then
-        '    Unused += 5 - nPilot.CAtt
-        '    nPilot.CAtt = 5
-        'End If
-        'If nPilot.WAtt < 5 Then
-        '    Unused += 5 - nPilot.WAtt
-        '    nPilot.WAtt = 5
-        'End If
-        'If nPilot.MAtt < 5 Then
-        '    Unused += 5 - nPilot.MAtt
-        '    nPilot.MAtt = 5
-        'End If
-        '' Now reallocate the unused against larger items
-        'Dim available As Integer = 0
-        'If Unused > 0 And nPilot.IAtt > 5 Then
-        '    available = nPilot.IAtt - 5
-        '    If available >= Unused Then
-        '        nPilot.IAtt = nPilot.IAtt - Unused
-        '        Unused = 0
-        '    Else
-        '        nPilot.IAtt = 5
-        '        Unused = Unused - available
-        '    End If
-        'End If
-        'If Unused > 0 And nPilot.PAtt > 5 Then
-        '    available = nPilot.PAtt - 5
-        '    If available >= Unused Then
-        '        nPilot.PAtt = nPilot.PAtt - Unused
-        '        Unused = 0
-        '    Else
-        '        nPilot.PAtt = 5
-        '        Unused = Unused - available
-        '    End If
-        'End If
-        'If Unused > 0 And nPilot.CAtt > 5 Then
-        '    available = nPilot.CAtt - 5
-        '    If available >= Unused Then
-        '        nPilot.CAtt = nPilot.CAtt - Unused
-        '        Unused = 0
-        '    Else
-        '        nPilot.CAtt = 5
-        '        Unused = Unused - available
-        '    End If
-        'End If
-        'If Unused > 0 And nPilot.WAtt > 5 Then
-        '    available = nPilot.WAtt - 5
-        '    If available >= Unused Then
-        '        nPilot.WAtt = nPilot.WAtt - Unused
-        '        Unused = 0
-        '    Else
-        '        nPilot.WAtt = 5
-        '        Unused = Unused - available
-        '    End If
-        'End If
-        'If Unused > 0 And nPilot.MAtt > 5 Then
-        '    available = nPilot.MAtt - 5
-        '    If available >= Unused Then
-        '        nPilot.MAtt = nPilot.MAtt - Unused
-        '        Unused = 0
-        '    Else
-        '        nPilot.MAtt = 5
-        '        Unused = Unused - available
-        '    End If
-        'End If
+        Unused = 0
+        If nPilot.IAtt < 5 Then
+            Unused += 5 - nPilot.IAtt
+            nPilot.IAtt = 5
+        End If
+        If nPilot.PAtt < 5 Then
+            Unused += 5 - nPilot.PAtt
+            nPilot.PAtt = 5
+        End If
+        If nPilot.CAtt < 5 Then
+            Unused += 5 - nPilot.CAtt
+            nPilot.CAtt = 5
+        End If
+        If nPilot.WAtt < 5 Then
+            Unused += 5 - nPilot.WAtt
+            nPilot.WAtt = 5
+        End If
+        If nPilot.MAtt < 5 Then
+            Unused += 5 - nPilot.MAtt
+            nPilot.MAtt = 5
+        End If
+        ' Now reallocate the unused against larger items
+        Dim available As Integer = 0
+        If Unused > 0 And nPilot.IAtt > 5 Then
+            available = nPilot.IAtt - 5
+            If available >= Unused Then
+                nPilot.IAtt = nPilot.IAtt - Unused
+                Unused = 0
+            Else
+                nPilot.IAtt = 5
+                Unused = Unused - available
+            End If
+        End If
+        If Unused > 0 And nPilot.PAtt > 5 Then
+            available = nPilot.PAtt - 5
+            If available >= Unused Then
+                nPilot.PAtt = nPilot.PAtt - Unused
+                Unused = 0
+            Else
+                nPilot.PAtt = 5
+                Unused = Unused - available
+            End If
+        End If
+        If Unused > 0 And nPilot.CAtt > 5 Then
+            available = nPilot.CAtt - 5
+            If available >= Unused Then
+                nPilot.CAtt = nPilot.CAtt - Unused
+                Unused = 0
+            Else
+                nPilot.CAtt = 5
+                Unused = Unused - available
+            End If
+        End If
+        If Unused > 0 And nPilot.WAtt > 5 Then
+            available = nPilot.WAtt - 5
+            If available >= Unused Then
+                nPilot.WAtt = nPilot.WAtt - Unused
+                Unused = 0
+            Else
+                nPilot.WAtt = 5
+                Unused = Unused - available
+            End If
+        End If
+        If Unused > 0 And nPilot.MAtt > 5 Then
+            available = nPilot.MAtt - 5
+            If available >= Unused Then
+                nPilot.MAtt = nPilot.MAtt - Unused
+                Unused = 0
+            Else
+                nPilot.MAtt = 5
+                Unused = Unused - available
+            End If
+        End If
 
         Call RecalcAttributes()
         Call DisplayAtributes()

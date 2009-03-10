@@ -39,7 +39,7 @@ Public Class SkillQueueFunctions
     Public Shared Function BuildQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal qQueue As EveHQ.Core.SkillQueue, Optional ByVal QuickBuild As Boolean = False) As ArrayList
         Dim trainingBonus As Double = 2
         Dim currentBonus As Double = 1
-        Dim trainingBonusLimit As Double = 0
+        Dim trainingBonusLimit As Double = 1600000
 
         Dim bQueue As EveHQ.Core.SkillQueue = CType(qQueue.Clone, SkillQueue)
 
@@ -65,12 +65,6 @@ Public Class SkillQueueFunctions
             Call CheckReqOrder(qPilot, bQueue)
             ' Check the skill order of the existing skills
             If QuickBuild = False Then Call CheckSkillOrder(qPilot, bQueue)
-            ' Check if we need to covertly delete skills!
-            ' Deletes completed skills if appropriate
-            'If QuickBuild = False Then Call RemoveTrainedSkills(qPilot, bQueue)
-            If EveHQ.Core.HQ.EveHQSettings.DeleteSkills = True Then
-                EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(qPilot, bQueue)
-            End If
         Catch ex As Exception
             MessageBox.Show("Error occurs in Queue Building", "BuildQueue Error")
             Return Nothing
