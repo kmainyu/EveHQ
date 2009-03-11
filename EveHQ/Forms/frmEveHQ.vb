@@ -818,7 +818,7 @@ Public Class frmEveHQ
 
         Dim curSelPilot As String = ""
         ' If a pilot is selected, make a note of it for later viewing
-        If cboPilots.SelectedIndex <> -1 Then
+        If cboPilots.SelectedItem IsNot Nothing Then
             curSelPilot = cboPilots.SelectedItem.ToString
         End If
 
