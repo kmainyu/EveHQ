@@ -2468,7 +2468,7 @@ Public Class frmPrism
                 plugInForm.MdiParent = EveHQ.Core.HQ.MainForm
                 plugInForm.Show()
             End If
-            myPlugIn.Instance.GetPlugInData(itemID)
+            myPlugIn.Instance.GetPlugInData(itemID, 0)
         Else
             ' Plug-in is not loaded so best not try to access it!
             Dim msg As String = ""
@@ -4467,7 +4467,7 @@ Public Class frmPrism
             Dim PlugInData As New ArrayList
             PlugInData.Add(pilotName)
             PlugInData.Add(corpID)
-            Return CDbl(myPlugIn.Instance.GetPlugInData(PlugInData))
+            Return CDbl(myPlugIn.Instance.GetPlugInData(PlugInData, 0))
         Else
             ' Plug-in is not loaded so best not try to access it!
             Dim msg As String = ""

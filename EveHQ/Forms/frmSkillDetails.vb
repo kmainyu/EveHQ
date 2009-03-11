@@ -423,7 +423,7 @@ Public Class frmSkillDetails
             frmEveHQ.tabMDI.SelectTab(PluginName)
         End If
 
-        runPlugIn.GetPlugInData(itemID)
+        runPlugIn.GetPlugInData(itemID, 0)
     End Sub
     Private Sub ctxDepend_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxDepend.Opening
         If ctxDepend.SourceControl Is Me.lvwDepend Then

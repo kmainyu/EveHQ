@@ -158,7 +158,7 @@ Public Class frmMarketOrders
             End If
             Dim newOrder As New ContainerListViewItem
             If IndustryPluginAvailable = True Then
-                newOrder.Text = CStr(Industry.Instance.GetPlugInData(oStation))
+                newOrder.Text = CStr(Industry.Instance.GetPlugInData(oStation, 0))
             Else
                 newOrder.Text = oStation.ToString
             End If

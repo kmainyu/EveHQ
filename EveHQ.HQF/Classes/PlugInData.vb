@@ -16,7 +16,7 @@ Public Class PlugInData
 
 #Region "Plug-in Interface Properties and Functions"
 
-    Public Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+    Public Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
         Return Nothing
     End Function
 

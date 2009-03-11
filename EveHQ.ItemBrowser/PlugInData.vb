@@ -5,10 +5,13 @@
     Public Shared AttributeList As New SortedList
     Public Shared Event PluginDataReceived()
 
-    Public Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+    Public Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
         Try
-            PlugInDataObject = Data
-            RaiseEvent PluginDataReceived()
+            Select Case DataType
+                Case 0 ' Item ID
+                    PlugInDataObject = Data
+                    RaiseEvent PluginDataReceived()
+            End Select
             Return True
         Catch e As Exception
             Return False

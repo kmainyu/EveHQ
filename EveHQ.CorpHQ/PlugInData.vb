@@ -31,7 +31,7 @@ Public Class PlugInData
     Public Function RunEveHQPlugIn() As System.Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
         Return New frmCorpHQ
     End Function
-    Public Function GetPlugInData(ByVal Data As Object, Optional ByVal DataType As Integer = 0) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+    Public Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
         Select Case DataType
             Case 0 ' Return a standing
                 ' Check the data in an Arraylist and contains 2 items - pilotName and corpID
