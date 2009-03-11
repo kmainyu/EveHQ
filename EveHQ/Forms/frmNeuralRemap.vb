@@ -51,6 +51,7 @@
         nudMBase.Value = 5
 
         nPilot.PilotSkills = iPilot.PilotSkills
+        nPilot.SkillPoints = iPilot.SkillPoints
         EveHQ.Core.PilotParseFunctions.LoadKeySkillsForPilot(nPilot)
         nPilot.IAtt = iPilot.IAtt : nPilot.IImplant = iPilot.IImplant : nPilot.LIAtt = iPilot.LIAtt : nPilot.ALIAtt = iPilot.ALIAtt : nPilot.LSIAtt = iPilot.LSIAtt : nPilot.IAttT = iPilot.IAttT
         nPilot.PAtt = iPilot.PAtt : nPilot.PImplant = iPilot.PImplant : nPilot.LPAtt = iPilot.LPAtt : nPilot.ALPAtt = iPilot.ALPAtt : nPilot.LSPAtt = iPilot.LSPAtt : nPilot.PAttT = iPilot.PAttT
