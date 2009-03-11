@@ -403,7 +403,9 @@ Public Class frmTraining
                     End Select
                     If addSkill = True Then
                         If omitQueuedSkills = False Then
-                            groupNode.Nodes.Add(skillNode)
+                            If groupNode IsNot Nothing Then
+                                groupNode.Nodes.Add(skillNode)
+                            End If
                         Else
                             Dim inQ As Boolean = False
                             For Each skillQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
@@ -417,7 +419,9 @@ Public Class frmTraining
                                 Next
                             Next
                             If inQ = False Then
-                                groupNode.Nodes.Add(skillNode)
+                                If groupNode IsNot Nothing Then
+                                    groupNode.Nodes.Add(skillNode)
+                                End If
                             End If
                         End If
                     End If
@@ -1669,7 +1673,11 @@ Public Class frmTraining
         With Me.lvwDetails
             Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
             Dim myGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-            myGroup = CType(EveHQ.Core.HQ.SkillGroups(cSkill.GroupID), Core.SkillGroup)
+            If EveHQ.Core.HQ.SkillGroups.Contains(cSkill.GroupID) = True Then
+                myGroup = CType(EveHQ.Core.HQ.SkillGroups(cSkill.GroupID), Core.SkillGroup)
+            Else
+                myGroup = Nothing
+            End If
             Dim cLevel, cSP, cTime, cRate As String
             If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
                 If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) = False Then
@@ -1696,7 +1704,11 @@ Public Class frmTraining
 
             .Items(0).SubItems(1).Text = (cSkill.Name)
             .Items(1).SubItems(1).Text = CStr((cSkill.Rank))
-            .Items(2).SubItems(1).Text = (myGroup.Name)
+            If myGroup IsNot Nothing Then
+                .Items(2).SubItems(1).Text = (myGroup.Name)
+            Else
+                .Items(2).SubItems(1).Text = "<Unknown>"
+            End If
             .Items(3).SubItems(1).Text = FormatNumber(cSkill.BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             .Items(4).SubItems(1).Text = (cSkill.PA)
             .Items(5).SubItems(1).Text = (cSkill.SA)

@@ -45,7 +45,11 @@ Public Class frmSkillDetails
         With Me.lvwDetails
             Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
             Dim myGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-            myGroup = CType(EveHQ.Core.HQ.SkillGroups(cSkill.GroupID), Core.SkillGroup)
+            If EveHQ.Core.HQ.SkillGroups.Contains(cSkill.GroupID) = True Then
+                myGroup = CType(EveHQ.Core.HQ.SkillGroups(cSkill.GroupID), Core.SkillGroup)
+            Else
+                myGroup = Nothing
+            End If
             Dim cLevel, cSP, cTime, cRate As String
             If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
                 If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) = False Then
@@ -72,7 +76,11 @@ Public Class frmSkillDetails
 
             .Items(0).SubItems(1).Text = (cSkill.Name)
             .Items(1).SubItems(1).Text = CStr((cSkill.Rank))
-            .Items(2).SubItems(1).Text = (myGroup.Name)
+            If myGroup IsNot Nothing Then
+                .Items(2).SubItems(1).Text = (myGroup.Name)
+            Else
+                .Items(2).SubItems(1).Text = "<Unknown>"
+            End If
             .Items(3).SubItems(1).Text = FormatNumber(cSkill.BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             .Items(4).SubItems(1).Text = (cSkill.PA)
             .Items(5).SubItems(1).Text = (cSkill.SA)
