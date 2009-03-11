@@ -42,7 +42,9 @@ Partial Class frmHQF
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
         Me.btnScreenshot = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
-        Me.btnImportEFT = New System.Windows.Forms.ToolStripButton
+        Me.btnImportFittings = New System.Windows.Forms.ToolStripSplitButton
+        Me.mnuImportEveFittings = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuImportEFTFittings = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator
         Me.btnClipboardPaste = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
@@ -90,6 +92,11 @@ Partial Class frmHQF
         Me.lblModuleDisplayType = New System.Windows.Forms.Label
         Me.txtSearchModules = New System.Windows.Forms.TextBox
         Me.lblSearchModules = New System.Windows.Forms.Label
+        Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
+        Me.colModuleName = New System.Windows.Forms.ColumnHeader
+        Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
+        Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
+        Me.colModulePG = New System.Windows.Forms.ColumnHeader
         Me.ctxModuleList = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuShowModuleInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuSep1 = New System.Windows.Forms.ToolStripSeparator
@@ -181,11 +188,6 @@ Partial Class frmHQF
         Me.panelShipInfo = New System.Windows.Forms.Panel
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.Splitter2 = New System.Windows.Forms.Splitter
-        Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
-        Me.colModuleName = New System.Windows.Forms.ColumnHeader
-        Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
-        Me.colModuleCPU = New System.Windows.Forms.ColumnHeader
-        Me.colModulePG = New System.Windows.Forms.ColumnHeader
         Me.ToolStrip1.SuspendLayout()
         Me.SplitContainerShip.Panel1.SuspendLayout()
         Me.SplitContainerShip.Panel2.SuspendLayout()
@@ -243,7 +245,7 @@ Partial Class frmHQF
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnShipPanel, Me.btnItemPanel, Me.ToolStripSeparator5, Me.ToolStripButton3, Me.tsbOptions, Me.ToolStripSeparator3, Me.btnPilotManager, Me.ToolStripSeparator1, Me.btnCopy, Me.ToolStripSeparator6, Me.btnScreenshot, Me.ToolStripSeparator2, Me.btnImportEFT, Me.ToolStripSeparator7, Me.btnClipboardPaste, Me.ToolStripSeparator4, Me.cboFittings})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnShipPanel, Me.btnItemPanel, Me.ToolStripSeparator5, Me.ToolStripButton3, Me.tsbOptions, Me.ToolStripSeparator3, Me.btnPilotManager, Me.ToolStripSeparator1, Me.btnCopy, Me.ToolStripSeparator6, Me.btnScreenshot, Me.ToolStripSeparator2, Me.btnImportFittings, Me.ToolStripSeparator7, Me.btnClipboardPaste, Me.ToolStripSeparator4, Me.cboFittings})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1099, 25)
@@ -377,13 +379,27 @@ Partial Class frmHQF
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
         '
-        'btnImportEFT
+        'btnImportFittings
         '
-        Me.btnImportEFT.Image = CType(resources.GetObject("btnImportEFT.Image"), System.Drawing.Image)
-        Me.btnImportEFT.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnImportEFT.Name = "btnImportEFT"
-        Me.btnImportEFT.Size = New System.Drawing.Size(127, 22)
-        Me.btnImportEFT.Text = "Import EFT Fittings"
+        Me.btnImportFittings.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuImportEveFittings, Me.mnuImportEFTFittings})
+        Me.btnImportFittings.Image = CType(resources.GetObject("btnImportFittings.Image"), System.Drawing.Image)
+        Me.btnImportFittings.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.btnImportFittings.Name = "btnImportFittings"
+        Me.btnImportFittings.Size = New System.Drawing.Size(117, 22)
+        Me.btnImportFittings.Text = "Import Fittings"
+        '
+        'mnuImportEveFittings
+        '
+        Me.mnuImportEveFittings.Enabled = False
+        Me.mnuImportEveFittings.Name = "mnuImportEveFittings"
+        Me.mnuImportEveFittings.Size = New System.Drawing.Size(174, 22)
+        Me.mnuImportEveFittings.Text = "Import Eve Fittings"
+        '
+        'mnuImportEFTFittings
+        '
+        Me.mnuImportEFTFittings.Name = "mnuImportEFTFittings"
+        Me.mnuImportEFTFittings.Size = New System.Drawing.Size(174, 22)
+        Me.mnuImportEFTFittings.Text = "Import EFT Fittings"
         '
         'ToolStripSeparator7
         '
@@ -825,6 +841,45 @@ Partial Class frmHQF
         Me.lblSearchModules.Size = New System.Drawing.Size(44, 13)
         Me.lblSearchModules.TabIndex = 18
         Me.lblSearchModules.Text = "Search:"
+        '
+        'lvwItems
+        '
+        Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG})
+        Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
+        Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwItems.FullRowSelect = True
+        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
+        Me.lvwItems.MultiSelect = False
+        Me.lvwItems.Name = "lvwItems"
+        Me.lvwItems.ShowItemToolTips = True
+        Me.lvwItems.Size = New System.Drawing.Size(287, 343)
+        Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwItems.TabIndex = 0
+        Me.lvwItems.UseCompatibleStateImageBehavior = False
+        Me.lvwItems.View = System.Windows.Forms.View.Details
+        '
+        'colModuleName
+        '
+        Me.colModuleName.Text = "Module"
+        Me.colModuleName.Width = 150
+        '
+        'colModuleMetaType
+        '
+        Me.colModuleMetaType.Text = "Meta"
+        Me.colModuleMetaType.Width = 40
+        '
+        'colModuleCPU
+        '
+        Me.colModuleCPU.Text = "CPU"
+        Me.colModuleCPU.Width = 40
+        '
+        'colModulePG
+        '
+        Me.colModulePG.Text = "PG"
+        Me.colModulePG.Width = 40
         '
         'ctxModuleList
         '
@@ -1755,45 +1810,6 @@ Partial Class frmHQF
         Me.Splitter2.TabIndex = 8
         Me.Splitter2.TabStop = False
         '
-        'lvwItems
-        '
-        Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwItems.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colModuleName, Me.colModuleMetaType, Me.colModuleCPU, Me.colModulePG})
-        Me.lvwItems.ContextMenuStrip = Me.ctxModuleList
-        Me.lvwItems.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwItems.FullRowSelect = True
-        Me.lvwItems.Location = New System.Drawing.Point(0, 29)
-        Me.lvwItems.MultiSelect = False
-        Me.lvwItems.Name = "lvwItems"
-        Me.lvwItems.ShowItemToolTips = True
-        Me.lvwItems.Size = New System.Drawing.Size(287, 343)
-        Me.lvwItems.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvwItems.TabIndex = 0
-        Me.lvwItems.UseCompatibleStateImageBehavior = False
-        Me.lvwItems.View = System.Windows.Forms.View.Details
-        '
-        'colModuleName
-        '
-        Me.colModuleName.Text = "Module"
-        Me.colModuleName.Width = 150
-        '
-        'colModuleMetaType
-        '
-        Me.colModuleMetaType.Text = "Meta"
-        Me.colModuleMetaType.Width = 40
-        '
-        'colModuleCPU
-        '
-        Me.colModuleCPU.Text = "CPU"
-        Me.colModuleCPU.Width = 40
-        '
-        'colModulePG
-        '
-        Me.colModulePG.Text = "PG"
-        Me.colModulePG.Width = 40
-        '
         'frmHQF
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2031,7 +2047,6 @@ Partial Class frmHQF
     Friend WithEvents clvFittings As DotNetLib.Windows.Forms.ContainerListView
     Friend WithEvents ContainerListViewColumnHeader1 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents mnuCompareFittings As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents btnImportEFT As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator7 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents panelPreview As System.Windows.Forms.Panel
     Friend WithEvents lblDroneBandwidth As System.Windows.Forms.Label
@@ -2039,4 +2054,7 @@ Partial Class frmHQF
     Friend WithEvents mnuFittingsBCBrowser As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem6 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuExportToEve As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents btnImportFittings As System.Windows.Forms.ToolStripSplitButton
+    Friend WithEvents mnuImportEveFittings As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuImportEFTFittings As System.Windows.Forms.ToolStripMenuItem
 End Class
