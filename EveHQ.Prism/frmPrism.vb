@@ -3532,7 +3532,12 @@ Public Class frmPrism
                             Dim sOrder As New ContainerListViewItem
                             clvSellOrders.Items.Add(sOrder)
                             Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
-                            Dim itemName As String = CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Name
+                            Dim itemName As String = ""
+                            If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
+                                itemName = CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Name
+                            Else
+                                itemName = "Unknown Item ID:" & itemID
+                            End If
                             sOrder.Text = itemName
                             Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
                             sOrder.SubItems(1).Text = FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -3557,7 +3562,12 @@ Public Class frmPrism
                             Dim bOrder As New ContainerListViewItem
                             clvBuyOrders.Items.Add(bOrder)
                             Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
-                            Dim itemName As String = CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Name
+                            Dim itemName As String = ""
+                            If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
+                                itemName = CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Name
+                            Else
+                                itemName = "Unknown Item ID:" & itemID
+                            End If
                             bOrder.Text = itemName
                             Dim quantity As Double = Double.Parse(Order.Attributes.GetNamedItem("volRemaining").Value, culture)
                             bOrder.SubItems(1).Text = FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -3870,17 +3880,18 @@ Public Class frmPrism
                 desc = "Agents Temporary" & misc
             Case 19 ' Insurance
                 If CInt(argName1) > 0 Then
-                    Dim itemID As String = argName1
-                    Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
                     Dim itemName As String = ""
-                    itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
+                    If EveHQ.Core.HQ.itemData.ContainsKey(argName1) = True Then
+                        itemName = CType(EveHQ.Core.HQ.itemData(argName1), EveHQ.Core.EveItem).Name
+                    Else
+                        itemName = "ship"
+                    End If
                     desc = "Insurance paid by EVE Central Bank to " & owner1 & " covering loss of a " & itemName
                 End If
                 If CInt(argName1) < 0 Then
                     Dim sid As Integer = -1 * CInt(argName1)
                     desc = "Insurance paid by " & owner1 & " to " & owner2 & "(Insurance RefID:" & CStr(sid) & ")"
                 End If
-
             Case 20 'Mission Expiration
                 desc = "Mission Expiration" & misc
             Case 21 'Mission Completion
@@ -4140,7 +4151,11 @@ Public Class frmPrism
                 For Each Tran As XmlNode In Trans
                     transItem = New ContainerListViewItem
                     transTypeID = Tran.Attributes.GetNamedItem("installedItemTypeID").Value
-                    transItem.Text = CType(EveHQ.Core.HQ.itemData(transTypeID), EveHQ.Core.EveItem).Name
+                    If EveHQ.Core.HQ.itemData.ContainsKey(transTypeID) = True Then
+                        transItem.Text = CType(EveHQ.Core.HQ.itemData(transTypeID), EveHQ.Core.EveItem).Name
+                    Else
+                        transItem.Text = "Unknown Item ID:" & transTypeID
+                    End If
                     clvJobs.Items.Add(transItem)
                     transItem.SubItems(1).Text = PlugInData.Activities(Tran.Attributes.GetNamedItem("activityID").Value)
                     locationID = Tran.Attributes.GetNamedItem("installedItemLocationID").Value

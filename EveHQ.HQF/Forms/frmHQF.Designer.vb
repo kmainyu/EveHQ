@@ -53,6 +53,7 @@ Partial Class frmHQF
         Me.ctxFittings = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuFittingsFittingName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuPreviewShip2 = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuFittingsShowFitting = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuFittingsRenameFitting = New System.Windows.Forms.ToolStripMenuItem
@@ -62,8 +63,8 @@ Partial Class frmHQF
         Me.mnuFittingsCreateFitting = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuFittingsBCBrowser = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
-        Me.mnuPreviewShip2 = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuCompareFittings = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuExportToEve = New System.Windows.Forms.ToolStripMenuItem
         Me.pbSearchShips = New System.Windows.Forms.PictureBox
         Me.txtShipSearch = New System.Windows.Forms.TextBox
         Me.btnResetShips = New System.Windows.Forms.Button
@@ -180,7 +181,6 @@ Partial Class frmHQF
         Me.panelShipInfo = New System.Windows.Forms.Panel
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.Splitter2 = New System.Windows.Forms.Splitter
-        Me.mnuExportToEve = New System.Windows.Forms.ToolStripMenuItem
         Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
         Me.colModuleName = New System.Windows.Forms.ColumnHeader
         Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
@@ -464,7 +464,7 @@ Partial Class frmHQF
         '
         Me.ctxFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFittingsFittingName, Me.ToolStripMenuItem4, Me.mnuPreviewShip2, Me.mnuFittingsShowFitting, Me.ToolStripMenuItem1, Me.mnuFittingsRenameFitting, Me.mnuFittingsCopyFitting, Me.mnuFittingsDeleteFitting, Me.ToolStripMenuItem3, Me.mnuFittingsCreateFitting, Me.mnuFittingsBCBrowser, Me.ToolStripMenuItem5, Me.mnuCompareFittings, Me.mnuExportToEve})
         Me.ctxFittings.Name = "ctxFittings"
-        Me.ctxFittings.Size = New System.Drawing.Size(180, 270)
+        Me.ctxFittings.Size = New System.Drawing.Size(180, 248)
         '
         'mnuFittingsFittingName
         '
@@ -477,6 +477,12 @@ Partial Class frmHQF
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
         Me.ToolStripMenuItem4.Size = New System.Drawing.Size(176, 6)
+        '
+        'mnuPreviewShip2
+        '
+        Me.mnuPreviewShip2.Name = "mnuPreviewShip2"
+        Me.mnuPreviewShip2.Size = New System.Drawing.Size(179, 22)
+        Me.mnuPreviewShip2.Text = "Preview Ship Details"
         '
         'mnuFittingsShowFitting
         '
@@ -529,17 +535,17 @@ Partial Class frmHQF
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
         Me.ToolStripMenuItem5.Size = New System.Drawing.Size(176, 6)
         '
-        'mnuPreviewShip2
-        '
-        Me.mnuPreviewShip2.Name = "mnuPreviewShip2"
-        Me.mnuPreviewShip2.Size = New System.Drawing.Size(179, 22)
-        Me.mnuPreviewShip2.Text = "Preview Ship Details"
-        '
         'mnuCompareFittings
         '
         Me.mnuCompareFittings.Name = "mnuCompareFittings"
         Me.mnuCompareFittings.Size = New System.Drawing.Size(179, 22)
         Me.mnuCompareFittings.Text = "Compare Fittings"
+        '
+        'mnuExportToEve
+        '
+        Me.mnuExportToEve.Name = "mnuExportToEve"
+        Me.mnuExportToEve.Size = New System.Drawing.Size(179, 22)
+        Me.mnuExportToEve.Text = "Export To Eve"
         '
         'pbSearchShips
         '
@@ -893,9 +899,11 @@ Partial Class frmHQF
         Me.tabHQF.Controls.Add(Me.tabFit)
         Me.tabHQF.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabHQF.Location = New System.Drawing.Point(203, 25)
+        Me.tabHQF.Multiline = True
         Me.tabHQF.Name = "tabHQF"
         Me.tabHQF.SelectedIndex = 0
         Me.tabHQF.Size = New System.Drawing.Size(602, 696)
+        Me.tabHQF.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight
         Me.tabHQF.TabIndex = 0
         '
         'tabShipPreview
@@ -1746,12 +1754,6 @@ Partial Class frmHQF
         Me.Splitter2.Size = New System.Drawing.Size(3, 696)
         Me.Splitter2.TabIndex = 8
         Me.Splitter2.TabStop = False
-        '
-        'mnuExportToEve
-        '
-        Me.mnuExportToEve.Name = "mnuExportToEve"
-        Me.mnuExportToEve.Size = New System.Drawing.Size(179, 22)
-        Me.mnuExportToEve.Text = "Export To Eve"
         '
         'lvwItems
         '

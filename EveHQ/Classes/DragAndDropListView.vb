@@ -62,15 +62,20 @@ Public Class DragAndDropListView
                 If EveHQ.Core.HQ.myPilot.Training = False Then
                     di += 1
                 End If
-                Dim din As String = MyBase.Items(di).Text & MyBase.Items(di).SubItems(2).Text & MyBase.Items(di).SubItems(3).Text
-                Dim dIDX As Integer = 0
-                For Each moveSkill As EveHQ.Core.SkillQueueItem In EveHQ.Core.HQ.myPilot.ActiveQueue.Queue
-                    dIDX += 1
-                    If moveSkill.Key = din Then Exit For
-                Next
 
-                ' This is a skill being dragged from the treeview
-                EveHQ.Core.HQ.myPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, testItem.Text.Trim("#".ToCharArray), dIDX, EveHQ.Core.HQ.myPilot.ActiveQueue)
+                If di < MyBase.Items.Count Then
+                    Dim din As String = MyBase.Items(di).Text & MyBase.Items(di).SubItems(2).Text & MyBase.Items(di).SubItems(3).Text
+                    Dim dIDX As Integer = 0
+                    For Each moveSkill As EveHQ.Core.SkillQueueItem In EveHQ.Core.HQ.myPilot.ActiveQueue.Queue
+                        dIDX += 1
+                        If moveSkill.Key = din Then Exit For
+                    Next
+                    ' This is a skill being dragged from the treeview
+                    EveHQ.Core.HQ.myPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, testItem.Text.Trim("#".ToCharArray), dIDX, EveHQ.Core.HQ.myPilot.ActiveQueue)
+                Else
+                    ' Set the skill's destination to the bottom of the list
+                    EveHQ.Core.HQ.myPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, testItem.Text.Trim("#".ToCharArray), EveHQ.Core.HQ.myPilot.ActiveQueue.Queue.Count + 1, EveHQ.Core.HQ.myPilot.ActiveQueue)
+                End If
 
             Else
                 ' This is a skill being moved in the queue
@@ -133,12 +138,12 @@ Public Class DragAndDropListView
                     End If
                 End If
             End If
-            If (Not Me.m_previousItem Is Nothing) Then
-                Me.m_previousItem = Nothing
+                If (Not Me.m_previousItem Is Nothing) Then
+                    Me.m_previousItem = Nothing
+                End If
+                MyBase.Invalidate()
+                MyBase.OnDragDrop(drgevent)
             End If
-            MyBase.Invalidate()
-            MyBase.OnDragDrop(drgevent)
-        End If
     End Sub
     Protected Overrides Sub OnDragEnter(ByVal drgevent As DragEventArgs)
         If Not Me.m_allowReorder Then
