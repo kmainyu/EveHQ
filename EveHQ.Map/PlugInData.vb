@@ -936,42 +936,44 @@ Public Class PlugInData
             SystemDetails = XMLDoc.SelectNodes("/eveapi/result/rowset/row")
             For Each SysNode In SystemDetails
                 id = CStr(CLng(SysNode.Attributes.GetNamedItem("solarSystemID").Value) - 30000000)
-                Dim solar As SolarSystem = CType(PlugInData.SystemsID(id), SolarSystem)
-                If SysNode.Attributes.GetNamedItem("factionID").Value <> "0" Then
-                    ' This is a faction
-                    solar.SovereigntyID = CInt(SysNode.Attributes.GetNamedItem("factionID").Value)
-                    nFaction = CType(FactionList(solar.SovereigntyID.ToString), Faction)
-                    solar.SovereigntyName = nFaction.factionName
-                Else
-                    If SysNode.Attributes.GetNamedItem("allianceID").Value <> "0" Then
-                        ' This is an alliance
-                        solar.SovereigntyID = CInt(SysNode.Attributes.GetNamedItem("allianceID").Value)
-                        nAlliance = CType(AllianceList(solar.SovereigntyID.ToString), Alliance)
-                        If nAlliance IsNot Nothing Then
-                            solar.SovereigntyName = nAlliance.name
-                            solar.sovereigntyLevel = CInt(SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value)
-                            solar.constellationSovereignty = CInt(SysNode.Attributes.GetNamedItem("constellationSovereignty").Value)
-                        Else
-                            ' Try to get the name from the IDToName API
-                            Try
-                                Dim NameXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IDToName, solar.SovereigntyID.ToString, 0)
-                                If NameXML IsNot Nothing Then
-                                    AllianceDetails = NameXML.SelectNodes("/eveapi/result/rowset/row")
-                                    solar.SovereigntyName = AllianceDetails(0).Attributes.GetNamedItem("name").Value
-                                Else
-                                    solar.SovereigntyName = "<Alliance " & solar.SovereigntyID & ">"
-                                End If
-                            Catch e As Exception
-                                solar.SovereigntyName = "<Alliance " & solar.SovereigntyID & ">"
-                            End Try
-                            solar.sovereigntyLevel = CInt(SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value)
-                            solar.constellationSovereignty = CInt(SysNode.Attributes.GetNamedItem("constellationSovereignty").Value)
-                        End If
+                If PlugInData.SystemsID.ContainsKey(id) = True Then
+                    Dim solar As SolarSystem = CType(PlugInData.SystemsID(id), SolarSystem)
+                    If SysNode.Attributes.GetNamedItem("factionID").Value <> "0" Then
+                        ' This is a faction
+                        solar.SovereigntyID = CInt(SysNode.Attributes.GetNamedItem("factionID").Value)
+                        nFaction = CType(FactionList(solar.SovereigntyID.ToString), Faction)
+                        solar.SovereigntyName = nFaction.factionName
                     Else
-                        solar.SovereigntyID = 0
-                        solar.SovereigntyName = ""
-                        solar.sovereigntyLevel = 0
-                        solar.constellationSovereignty = 0
+                        If SysNode.Attributes.GetNamedItem("allianceID").Value <> "0" Then
+                            ' This is an alliance
+                            solar.SovereigntyID = CInt(SysNode.Attributes.GetNamedItem("allianceID").Value)
+                            nAlliance = CType(AllianceList(solar.SovereigntyID.ToString), Alliance)
+                            If nAlliance IsNot Nothing Then
+                                solar.SovereigntyName = nAlliance.name
+                                solar.sovereigntyLevel = CInt(SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value)
+                                solar.constellationSovereignty = CInt(SysNode.Attributes.GetNamedItem("constellationSovereignty").Value)
+                            Else
+                                ' Try to get the name from the IDToName API
+                                Try
+                                    Dim NameXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IDToName, solar.SovereigntyID.ToString, 0)
+                                    If NameXML IsNot Nothing Then
+                                        AllianceDetails = NameXML.SelectNodes("/eveapi/result/rowset/row")
+                                        solar.SovereigntyName = AllianceDetails(0).Attributes.GetNamedItem("name").Value
+                                    Else
+                                        solar.SovereigntyName = "<Alliance " & solar.SovereigntyID & ">"
+                                    End If
+                                Catch e As Exception
+                                    solar.SovereigntyName = "<Alliance " & solar.SovereigntyID & ">"
+                                End Try
+                                solar.sovereigntyLevel = CInt(SysNode.Attributes.GetNamedItem("sovereigntyLevel").Value)
+                                solar.constellationSovereignty = CInt(SysNode.Attributes.GetNamedItem("constellationSovereignty").Value)
+                            End If
+                        Else
+                            solar.SovereigntyID = 0
+                            solar.SovereigntyName = ""
+                            solar.sovereigntyLevel = 0
+                            solar.constellationSovereignty = 0
+                        End If
                     End If
                 End If
             Next
