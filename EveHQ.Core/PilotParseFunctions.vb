@@ -673,8 +673,20 @@ Public Class PilotParseFunctions
 
 
     End Sub             'ParsePilotSkills
+    Public Shared Sub CheckMissingTrainingSkills()
+        Dim curPilot As EveHQ.Core.Pilot
+        For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If curPilot.TrainingSkillID <> "" Then
+                Call CheckMissingTrainingSkill(curPilot)
+            End If
+        Next
+    End Sub
     Private Shared Sub CheckMissingTrainingSkill(ByRef cPilot As EveHQ.Core.Pilot)
         Dim pilotSkill As New EveHQ.Core.Skills
+        ' Check if the main skill list has the skill we are checking for
+        If EveHQ.Core.HQ.SkillListID.Contains(cPilot.TrainingSkillID) = False Then
+            Call EveHQ.Core.SkillFunctions.LoadEveSkillDataFromAPI()
+        End If
         If cPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(cPilot.TrainingSkillID)) = False Then
             ' The pilot doesn't have this skill so let's add it manually
             Dim baseSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(cPilot.TrainingSkillID), Core.SkillList)

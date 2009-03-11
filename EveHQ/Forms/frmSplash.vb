@@ -273,6 +273,7 @@ Public Class frmSplash
 
         ' Update the pilot account info
         Call EveHQ.Core.PilotParseFunctions.LoadKeySkills()
+        Call EveHQ.Core.PilotParseFunctions.CheckMissingTrainingSkills()
         Call frmSettings.UpdateAccounts()
         Call frmEveHQ.UpdatePilotInfo(True)
 
