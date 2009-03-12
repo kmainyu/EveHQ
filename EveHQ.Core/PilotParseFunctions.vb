@@ -670,15 +670,16 @@ Public Class PilotParseFunctions
             msg &= "Please check the EveHQ website for any available update."
             MessageBox.Show(msg, "Missing Skill Details", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
-
-
     End Sub             'ParsePilotSkills
     Public Shared Sub CheckMissingTrainingSkills()
         Dim curPilot As EveHQ.Core.Pilot
         For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            If curPilot.TrainingSkillID <> "" Then
-                Call CheckMissingTrainingSkill(curPilot)
-            End If
+            For Each cSkill As EveHQ.Core.Skills In curPilot.PilotSkills
+                If EveHQ.Core.HQ.SkillListID.Contains(cSkill.ID) = False Then
+                    Call EveHQ.Core.SkillFunctions.LoadEveSkillDataFromAPI()
+                    Exit Sub
+                End If
+            Next
         Next
     End Sub
     Private Shared Sub CheckMissingTrainingSkill(ByRef cPilot As EveHQ.Core.Pilot)
