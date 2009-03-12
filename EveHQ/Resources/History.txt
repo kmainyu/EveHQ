@@ -22,7 +22,7 @@ New Features:
 - API Status Form Improvements: No longer intrusive and provides detailed API status information across all accounts
 - Assist In Development: Added debug output into the installer, updater and zip files to assist in locating unhandled errors
 - HQF: Eve Fittings Import/Export: Transfer setups between Eve and HQF
-- HQF: BattleClinic Browser: Bbrowse loadouts and import them into HQF
+- HQF: BattleClinic Browser: Browse loadouts and import them into HQF
 
 Fixes and Improvements:
 - Core: Having non-default proxy credentials should work correctly when fetching various files

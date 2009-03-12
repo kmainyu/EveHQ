@@ -139,6 +139,8 @@ Public Class EveAPI
                 remoteURL = "/corp/MemberTracking.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.SkillTraining
                 remoteURL = "/char/SkillInTraining.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.SkillQueue
+                remoteURL = "/char/SkillQueue.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.AssetsChar
                 remoteURL = "/char/AssetList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.AssetsCorp
@@ -499,6 +501,7 @@ Public Class EveAPI
         MedalsReceived = 45
         MedalsAvailable = 46
         MemberMedals = 47
+        SkillQueue = 48
     End Enum
 
     Public Enum APIResults As Integer

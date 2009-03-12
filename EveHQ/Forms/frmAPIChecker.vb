@@ -79,6 +79,7 @@ Public Class frmAPIChecker
             EveHQ.Core.EveAPI.APIRequest.CorpSheet, _
             EveHQ.Core.EveAPI.APIRequest.CorpMemberTracking, _
             EveHQ.Core.EveAPI.APIRequest.SkillTraining, _
+            EveHQ.Core.EveAPI.APIRequest.SkillQueue, _
             EveHQ.Core.EveAPI.APIRequest.AssetsChar, _
             EveHQ.Core.EveAPI.APIRequest.AssetsCorp, _
             EveHQ.Core.EveAPI.APIRequest.KillLogChar, _
