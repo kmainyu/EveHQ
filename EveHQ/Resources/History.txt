@@ -1,7 +1,7 @@
 EveHQ - Version History
 -----------------------
 
-1.8.5.365 (25/02/2009)
+1.8.5.420 (11/03/2009)
 ---------
 New Features:
 - Prism: Introducing the new Industry plug-in containing various viewers for wallet, orders and jobs
@@ -16,6 +16,13 @@ New Features:
 - Standings Extrapolation: CorpHQ gains the ability to extrapolate standings gains from averages or from an entered history of gains
 - Neural Remapping: Provides details on the best spread of base attributes for your skill queues
 - Implant Benefits: Provides details on the improvements to a current skill queue by adding implants
+- Separated Character APIs: Training XML no longer depends on the character XML having the correct skill
+- Individual Character API Cache: The Training XML will now update every 15 minutes as per the allowed cache timer
+- Accelerated Skill Training: Skill queues take account of accelerated skill training up to 1.6 million skillpoints
+- API Status Form Improvements: No longer intrusive and provides detailed API status information across all accounts
+- Assist In Development: Added debug output into the installer, updater and zip files to assist in locating unhandled errors
+- HQF: Eve Fittings Import/Export: Transfer setups between Eve and HQF
+- HQF: BattleClinic Browser: Bbrowse loadouts and import them into HQF
 
 Fixes and Improvements:
 - Core: Having non-default proxy credentials should work correctly when fetching various files
@@ -47,7 +54,34 @@ Fixes and Improvements:
 - Core: Slight cosmetic changes to the splash screen
 - Core: Fixed WalletTransaction APIs in the EveAPI class
 - Core: EveAPI now replaces cache timers on APIs that CCP can't get right
-- Core: Removed limit of 2 downloads from EveAPI class
+- Core: Removed limit of 2 concurrent downloads from EveAPI class
+- Core: Fixed potential startup crashes caused by attempting to access data that was null
+- Core: Fixed crashes in the price routines where an itemID was null or invalid
+- Core: Handled cases where cached XML files are blank or corrupt
+- Core: Fixed crash with Custom Price context menu when no item is selected
+- Core: Fixed certificates showing incorrect colouring for pre-requisite skills
+- Core: Closing EveHQ after an update will force EveHQ closed regardless of the minimise to tray setting
+- Core: Fixed custom prices not being displayed with filter
+- Core: Fixed bug in IGB Server routines that caused startup to fail with wrong port numbers
+- Core: Added new setting for showing completed skills in the skill queue (default = false)
+- Core: Fixed skill queue routines to include the training skill in the queue if the ICT option is disabled
+- Core: Fixed issue with opening Settings form with no active pilots
+- Core: Fixed skillpoint level report showing incorrect values for certain ranks at certain levels
+- Core: "LevelUp" on skills now rounded and displayed correctly in the various skill details screens
+- Core: Fixed display of partially trained skills in the skills queue
+- Core: Updated queue logic for handling movements onto and within a skill queue
+- Core: Skill queue tabs now uses multi-line instead of scolling
+- Core: Last Auto API time now updated after it has been triggered
+- Core: Added a default time limit to when the Auto API can trigger a download (5 minutes)
+- Core: Added a countdown timer to the EveHQ Status bar if using the Auto API
+- Core: A check is now made for valid certificates before displaying them for the pilot
+- Core: Opening settings will no longer pop up a message about the /LUA:off status if that option is select
+- Core: Opening the Market Prices form will no longer reset the Buy/Sell order filters
+- Core: Added the “Subsystems” group to the groups within the Pilot skills
+- Core: Caught errors where the skill group was unknown in the Skill Details and Training forms
+- Core: Check now made for missing pilot skills on startup
+- Core: Fixed issue with invalid index in the main Pilot dropdown when updating character API
+- Core: Altered plug-in interface to remove optional parameter
 - CorpHQ: Warning message for invalid cache folder now indicates which Eve folder this is referring to
 - CorpHQ: A warning message will now be displayed if there are no cache files at all
 - CorpHQ: Decimal precision can now be modified by the user and tandings now displayed at the required precision
@@ -112,6 +146,26 @@ Fixes and Improvements:
 - HQF: Fixed Energized Regenerative Membranes not giving armor HP bonus
 - HQF: Slave/LG Slave now affect armor plates
 - HQF: Fixed issue with cache rebuild due to typo in the Implant data
+- HQF: Added check to see if a pilot exists before updating the implant list
+- HQF: Fixed crash caused by changing skills with no open fitting
+- HQF: Fixed crash when updating implant list when opening a fitting
+- HQF: ZET20x series implants now affect capital remote armor repairers
+- HQF: Inactive pilots no longer added to the list of available pilots
+- HQF: Panther ROF bonus corrected from 25% to 5%
+- HQF: Mindlinks now give correct bonuses to warfare links
+- HQF: Fixed Griffin using the Caldari Cruiser skill instead of the Caldari Frigate skill
+- HQF: Fixed Repair Drone Operation skill affecting standard missile launchers
+- HQF: Improved error messages on plug-in loading
+- HQF: Fixed errors when resizing HQF
+- HQF: Fixed bonus of Industrial Reconfiguration on fuel consumption of Industrial Cores
+- HQF: Closing HQF will now close the Pilot Manager
+- HQF: Adding fittings will no longer close open ship nodes
+- HQF: Fixed crash caused by invalid characters in screenshot filename
+- HQF: Fixed toolbar separators located incorrectly
+- HQF: Fixed bug with context menu picking up incorrect charge name
+- HQF: Fixed issue with pilot skills not being present in the default skill lists
+- HQF: Warp Disruption Field Generator optimal range now added into the relevant column
+- HQF: Ship Fitting tabs now use multiline instead of scrolling
 - InEve: Removed InEve plug-in and now brought in to the main application under the Tools menu
 - Item Browser: Fixed various proxy issues
 - Map: Fixed crash caused when trying to set an End system without a Start system
@@ -120,6 +174,12 @@ Fixes and Improvements:
 - Map: Improved error messages on data building
 - Map: Fixed some startup errors where finished routines were not returning a successful flag
 - Map: Added cache refresh options into the plug-in initialisation code
+- Map: Fixed error reading the cache version file
+- Map: Fixed crash caused by critical data being blank after a cache rebuild
+- Map: Fixed crashes with invalid references to Factions
+- Map: Removed Celestial tab and associated data to conserve memory
+- Map: Labels for ice and asteroid belts in the System info now show the relevant ice/ores for that system
+- Map: Fixed issues with Wormhole systems present in the API
 - Prism: Fixed asset reports crashing on encountering an item that isn't in the database
 - Prism: Changed margin profit in the Rig Builder to be GP%
 - Prism: Added the ability to add rigs to a build list, either manually or automatically
@@ -141,6 +201,12 @@ Fixes and Improvements:
 - Prism: Fixed parsing of API values for use in non-English cultures
 - Prism: Overhauled UI to allow for the new features
 - Prism: Fixed Add and Remove Filter options from the asset filter
+- Prism: Fixed crash when trying to filter system values when there are no items
+- Prism: If there is no data available, the relevant display will state this
+- Prism: If corp access rights are restricted, a message to that effect is displayed in the relevant tab
+- Prism: Fixed crash updating the wallet divisions with no valid corp roles
+- Prism: Reset default label variables to non-English specific values
+- Prism: Inactive pilots no longer added to the list of available pilots and XMLs
 
 
 1.8.3.232 (19/12/2008)
