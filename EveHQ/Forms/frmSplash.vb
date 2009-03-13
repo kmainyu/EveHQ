@@ -33,10 +33,6 @@ Public Class frmSplash
         lblCopyright.Text = My.Application.Info.Copyright
         lblDate.Text = My.Application.Info.Trademark
 
-        ' Set the progress bars
-        pb1.Minimum = 0 : pb1.Maximum = 100 : pb1.Value = 0
-        pb2.Minimum = 0 : pb2.Maximum = 250 : pb2.Value = 0
-
         ' Set the image for the splash screen
         Panel1.BackgroundImage = My.Resources.Splashv5
 
@@ -64,13 +60,11 @@ Public Class frmSplash
             Dim nfi As New IO.FileInfo(newFile)
             My.Computer.FileSystem.DeleteFile(nfi.FullName)
         Next
-        Call UpdateProgressBars(2)
 
         ' Set the application folder
         lblStatus.Text = "> Setting application directory..."
         Me.Refresh()
         EveHQ.Core.HQ.appFolder = Application.StartupPath
-        Call UpdateProgressBars(4)
 
         ' Check for existence of an application folder in the application directory
         If isLocal = False Then
@@ -87,7 +81,6 @@ Public Class frmSplash
         Else
             EveHQ.Core.HQ.appDataFolder = EveHQ.Core.HQ.appFolder
         End If
-        Call UpdateProgressBars(6)
 
         ' Check for existence of a cache folder in the application directory
         lblStatus.Text = "> Checking cache directory..."
@@ -104,7 +97,6 @@ Public Class frmSplash
             ' Create the cache folder if it doesn't exist
             My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.cacheFolder)
         End If
-        Call UpdateProgressBars(8)
 
         ' Check for existence of a report folder in the application directory
         lblStatus.Text = "> Checking report folder..."
@@ -121,7 +113,6 @@ Public Class frmSplash
             ' Create the cache folder if it doesn't exist
             My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.reportFolder)
         End If
-        Call UpdateProgressBars(10)
 
         ' Check for existence of a data folder in the application directory
         lblStatus.Text = "> Checking data directory..."
@@ -138,7 +129,6 @@ Public Class frmSplash
             ' Create the cache folder if it doesn't exist
             My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.dataFolder)
         End If
-        Call UpdateProgressBars(12)
 
         ' Check for existence of a backup folder in the application directory
         lblStatus.Text = "> Checking backup directory..."
@@ -155,7 +145,6 @@ Public Class frmSplash
             ' Create the cache folder if it doesn't exist
             My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.backupFolder)
         End If
-        Call UpdateProgressBars(14)
 
         ' Load user settings - this is needed to work out data connection type & update requirements
         lblStatus.Text = "> Loading settings..."
@@ -171,7 +160,6 @@ Public Class frmSplash
             End If
             frmSettings.ShowDialog()
         Loop
-        Call UpdateProgressBars(25)
 
         ' Start the G15 if applicable
         If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True Then
@@ -189,7 +177,6 @@ Public Class frmSplash
                 End If
             End If
         End If
-        Call UpdateProgressBars(28)
 
         ' Check for new database
         lblStatus.Text = "> Checking custom data..."
@@ -220,7 +207,6 @@ Public Class frmSplash
                 End If
             End If
         End If
-        Call UpdateProgressBars(30)
 
         ' Load Certificate data
         lblStatus.Text = "> Loading Certificate data..."
@@ -237,7 +223,6 @@ Public Class frmSplash
         f = New BinaryFormatter
         EveHQ.Core.HQ.Certificates = CType(f.Deserialize(s), SortedList)
         s.Close()
-        Call UpdateProgressBars(40)
 
         ' Load skill data and item data
         lblStatus.Text = "> Loading skills && items..."
@@ -252,7 +237,6 @@ Public Class frmSplash
             End If
             frmSettings.ShowDialog()
         Loop
-        Call UpdateProgressBars(50)
 
         ' If we get this far we have loaded a DB so check for SQL format and check the custom data
         lblStatus.Text = "> Checking database..."
@@ -275,27 +259,23 @@ Public Class frmSplash
                 End If
             End If
         End If
-        Call UpdateProgressBars(60)
 
         ' Check for modules
         lblStatus.Text = "> Loading modules..."
         Me.Refresh()
         Call LoadModules()
-        Call UpdateProgressBars(75)
 
         'Set the servers to their server details
         lblStatus.Text = "> Setting Eve Server details..."
         Me.Refresh()
         EveHQ.Core.HQ.myTQServer.Server = 0
         EveHQ.Core.HQ.mySiSiServer.Server = 1
-        Call UpdateProgressBars(80)
 
         ' Update the pilot account info
         Call EveHQ.Core.PilotParseFunctions.LoadKeySkills()
         Call EveHQ.Core.PilotParseFunctions.CheckMissingTrainingSkills()
         Call frmSettings.UpdateAccounts()
         Call frmEveHQ.UpdatePilotInfo(True)
-        Call UpdateProgressBars(90)
 
         ' Load the API Errors
         Dim ErrorXML As New Xml.XmlDocument
@@ -307,7 +287,6 @@ Public Class frmSplash
                 EveHQ.Core.HQ.APIErrors.Add(ErrNode.Attributes.GetNamedItem("errorCode").Value, ErrNode.Attributes.GetNamedItem("errorText").Value)
             Next
         End If
-        Call UpdateProgressBars(95)
 
         ' Check if we need to start the market watcher
         If EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcherAtStartup = True Then
@@ -320,8 +299,7 @@ Public Class frmSplash
         Else
             EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = False
         End If
-        Call UpdateProgressBars(100)
-
+       
         ' Show the main form
         lblStatus.Text = "> Initialising EveHQ..."
         Me.Refresh()
@@ -432,17 +410,5 @@ Public Class frmSplash
                 End Try
         End Select
     End Function
-
-    Private Sub UpdateProgressBars(ByVal percent As Integer)
-        'PB1 = 100, PB2 = 250, Total = 350
-        If Int(percent / 100 * (pb1.Maximum + pb2.Maximum)) > pb1.Maximum Then
-            pb1.Value = pb1.Maximum
-            pb2.Value = CInt(Int(percent / 100 * (pb1.Maximum + pb2.Maximum)) - pb1.Maximum)
-        Else
-            pb1.Value = CInt(Int(percent / 100 * (pb1.Maximum + pb2.Maximum)))
-            pb2.Value = 0
-        End If
-        Me.Refresh()
-    End Sub
 
 End Class

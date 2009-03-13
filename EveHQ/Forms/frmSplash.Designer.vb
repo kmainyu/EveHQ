@@ -24,16 +24,12 @@ Partial Class frmSplash
         Me.lblDate = New System.Windows.Forms.Label
         Me.lblStatus = New System.Windows.Forms.Label
         Me.lblVersion = New System.Windows.Forms.Label
-        Me.pb1 = New System.Windows.Forms.ProgressBar
-        Me.pb2 = New System.Windows.Forms.ProgressBar
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
         '
         Me.Panel1.BackgroundImage = Global.EveHQ.My.Resources.Resources.Splashv5
-        Me.Panel1.Controls.Add(Me.pb2)
-        Me.Panel1.Controls.Add(Me.pb1)
         Me.Panel1.Controls.Add(Me.lblCopyright)
         Me.Panel1.Controls.Add(Me.lblDate)
         Me.Panel1.Controls.Add(Me.lblStatus)
@@ -95,20 +91,6 @@ Partial Class frmSplash
         Me.lblVersion.Text = "Version"
         Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
-        'pb1
-        '
-        Me.pb1.Location = New System.Drawing.Point(159, 195)
-        Me.pb1.Name = "pb1"
-        Me.pb1.Size = New System.Drawing.Size(280, 10)
-        Me.pb1.TabIndex = 4
-        '
-        'pb2
-        '
-        Me.pb2.Location = New System.Drawing.Point(159, 211)
-        Me.pb2.Name = "pb2"
-        Me.pb2.Size = New System.Drawing.Size(280, 10)
-        Me.pb2.TabIndex = 5
-        '
         'frmSplash
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -131,6 +113,4 @@ Partial Class frmSplash
     Friend WithEvents lblStatus As System.Windows.Forms.Label
     Friend WithEvents lblCopyright As System.Windows.Forms.Label
     Friend WithEvents lblDate As System.Windows.Forms.Label
-    Friend WithEvents pb2 As System.Windows.Forms.ProgressBar
-    Friend WithEvents pb1 As System.Windows.Forms.ProgressBar
 End Class
