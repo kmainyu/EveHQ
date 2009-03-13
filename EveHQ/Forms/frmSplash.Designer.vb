@@ -20,16 +20,20 @@ Partial Class frmSplash
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel
+        Me.lblCopyright = New System.Windows.Forms.Label
+        Me.lblDate = New System.Windows.Forms.Label
         Me.lblStatus = New System.Windows.Forms.Label
         Me.lblVersion = New System.Windows.Forms.Label
-        Me.lblDate = New System.Windows.Forms.Label
-        Me.lblCopyright = New System.Windows.Forms.Label
+        Me.pb1 = New System.Windows.Forms.ProgressBar
+        Me.pb2 = New System.Windows.Forms.ProgressBar
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
         '
         Me.Panel1.BackgroundImage = Global.EveHQ.My.Resources.Resources.Splashv5
+        Me.Panel1.Controls.Add(Me.pb2)
+        Me.Panel1.Controls.Add(Me.pb1)
         Me.Panel1.Controls.Add(Me.lblCopyright)
         Me.Panel1.Controls.Add(Me.lblDate)
         Me.Panel1.Controls.Add(Me.lblStatus)
@@ -40,36 +44,24 @@ Partial Class frmSplash
         Me.Panel1.Size = New System.Drawing.Size(600, 400)
         Me.Panel1.TabIndex = 0
         '
-        'lblStatus
+        'lblCopyright
         '
-        Me.lblStatus.AutoSize = True
-        Me.lblStatus.BackColor = System.Drawing.Color.Transparent
-        Me.lblStatus.Font = New System.Drawing.Font("Courier New", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStatus.ForeColor = System.Drawing.Color.White
-        Me.lblStatus.Location = New System.Drawing.Point(3, 360)
-        Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(70, 15)
-        Me.lblStatus.TabIndex = 1
-        Me.lblStatus.Text = "> Status:"
-        '
-        'lblVersion
-        '
-        Me.lblVersion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblVersion.BackColor = System.Drawing.Color.Transparent
-        Me.lblVersion.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVersion.ForeColor = System.Drawing.Color.White
-        Me.lblVersion.Location = New System.Drawing.Point(397, 360)
-        Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(200, 13)
-        Me.lblVersion.TabIndex = 0
-        Me.lblVersion.Text = "Version"
-        Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight
+        Me.lblCopyright.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblCopyright.BackColor = System.Drawing.Color.Transparent
+        Me.lblCopyright.Font = New System.Drawing.Font("Tahoma", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, CType(0, Byte))
+        Me.lblCopyright.ForeColor = System.Drawing.Color.Turquoise
+        Me.lblCopyright.Location = New System.Drawing.Point(397, 386)
+        Me.lblCopyright.Name = "lblCopyright"
+        Me.lblCopyright.Size = New System.Drawing.Size(200, 13)
+        Me.lblCopyright.TabIndex = 3
+        Me.lblCopyright.Text = "Copyright"
+        Me.lblCopyright.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblDate
         '
         Me.lblDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDate.BackColor = System.Drawing.Color.Transparent
-        Me.lblDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDate.Font = New System.Drawing.Font("Tahoma", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, CType(0, Byte))
         Me.lblDate.ForeColor = System.Drawing.Color.White
         Me.lblDate.Location = New System.Drawing.Point(397, 373)
         Me.lblDate.Name = "lblDate"
@@ -78,18 +70,44 @@ Partial Class frmSplash
         Me.lblDate.Text = "Date"
         Me.lblDate.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
-        'lblCopyright
+        'lblStatus
         '
-        Me.lblCopyright.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblCopyright.BackColor = System.Drawing.Color.Transparent
-        Me.lblCopyright.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCopyright.ForeColor = System.Drawing.Color.White
-        Me.lblCopyright.Location = New System.Drawing.Point(397, 386)
-        Me.lblCopyright.Name = "lblCopyright"
-        Me.lblCopyright.Size = New System.Drawing.Size(200, 13)
-        Me.lblCopyright.TabIndex = 3
-        Me.lblCopyright.Text = "Copyright"
-        Me.lblCopyright.TextAlign = System.Drawing.ContentAlignment.TopRight
+        Me.lblStatus.AutoSize = True
+        Me.lblStatus.BackColor = System.Drawing.Color.Transparent
+        Me.lblStatus.Font = New System.Drawing.Font("Courier New", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, CType(0, Byte))
+        Me.lblStatus.ForeColor = System.Drawing.Color.White
+        Me.lblStatus.Location = New System.Drawing.Point(3, 360)
+        Me.lblStatus.Name = "lblStatus"
+        Me.lblStatus.Size = New System.Drawing.Size(70, 14)
+        Me.lblStatus.TabIndex = 1
+        Me.lblStatus.Text = "> Status:"
+        '
+        'lblVersion
+        '
+        Me.lblVersion.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblVersion.BackColor = System.Drawing.Color.Transparent
+        Me.lblVersion.Font = New System.Drawing.Font("Tahoma", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, CType(0, Byte))
+        Me.lblVersion.ForeColor = System.Drawing.Color.White
+        Me.lblVersion.Location = New System.Drawing.Point(397, 360)
+        Me.lblVersion.Name = "lblVersion"
+        Me.lblVersion.Size = New System.Drawing.Size(200, 13)
+        Me.lblVersion.TabIndex = 0
+        Me.lblVersion.Text = "Version"
+        Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'pb1
+        '
+        Me.pb1.Location = New System.Drawing.Point(159, 195)
+        Me.pb1.Name = "pb1"
+        Me.pb1.Size = New System.Drawing.Size(280, 10)
+        Me.pb1.TabIndex = 4
+        '
+        'pb2
+        '
+        Me.pb2.Location = New System.Drawing.Point(159, 211)
+        Me.pb2.Name = "pb2"
+        Me.pb2.Size = New System.Drawing.Size(280, 10)
+        Me.pb2.TabIndex = 5
         '
         'frmSplash
         '
@@ -113,4 +131,6 @@ Partial Class frmSplash
     Friend WithEvents lblStatus As System.Windows.Forms.Label
     Friend WithEvents lblCopyright As System.Windows.Forms.Label
     Friend WithEvents lblDate As System.Windows.Forms.Label
+    Friend WithEvents pb2 As System.Windows.Forms.ProgressBar
+    Friend WithEvents pb1 As System.Windows.Forms.ProgressBar
 End Class

@@ -339,7 +339,7 @@ Public Class frmUpdater
         Dim localFile As String = ""
         If DebugFile = True Then
             Dim FI As New FileInfo(FileNeeded)
-            pdbFile = FI.Name.TrimEnd(FI.Extension.ToCharArray) & ".pdf"
+            pdbFile = FI.Name.TrimEnd(FI.Extension.ToCharArray) & ".pdb"
             httpURI = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & pdbFile
             localFile = My.Application.Info.DirectoryPath & "\" & pdbFile & ".upd"
         Else
@@ -406,10 +406,10 @@ Public Class frmUpdater
         If DebugFile = True Then
             Dim FI As New FileInfo(FileNeeded)
             FileNeeded = FI.Name.TrimEnd(FI.Extension.ToCharArray) & ".pdb"
-            If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd") = True Then
-                My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd")
-            End If
-            My.Computer.FileSystem.RenameFile(My.Application.Info.DirectoryPath & "\" & pdbFile & ".upd", FileNeeded & ".upd")
+            '    If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd") = True Then
+            '        My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd")
+            '    End If
+            '    My.Computer.FileSystem.RenameFile(My.Application.Info.DirectoryPath & "\" & pdbFile & ".upd", FileNeeded & ".upd")
         End If
 
         filesComplete.Add(FileNeeded, True)

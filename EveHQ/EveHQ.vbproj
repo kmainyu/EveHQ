@@ -595,6 +595,7 @@
     <None Include="Resources\Certificates.bin" />
     <None Include="Resources\doh3.wav" />
     <None Include="Resources\Errors.txt" />
+    <None Include="Resources\vessper_new_v4c.jpg" />
     <Content Include="_latest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />

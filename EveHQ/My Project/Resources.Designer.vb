@@ -191,7 +191,7 @@ Namespace My.Resources
         '''  Looks up a localized string similar to EveHQ - Version History
         '''-----------------------
         '''
-        '''1.8.5.365 (25/02/2009)
+        '''1.8.5.420 (11/03/2009)
         '''---------
         '''New Features:
         '''- Prism: Introducing the new Industry plug-in containing various viewers for wallet, orders and jobs
@@ -328,6 +328,13 @@ Namespace My.Resources
         Friend ReadOnly Property Splashv5() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Splashv5", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property Splashv9() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Splashv9", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
