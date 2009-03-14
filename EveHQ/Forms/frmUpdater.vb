@@ -393,27 +393,25 @@ Public Class frmUpdater
                 End Using
                 response.Close()
             End Using
+            If DebugFile = True Then
+                Dim FI As New FileInfo(FileNeeded)
+                FileNeeded = FI.Name.TrimEnd(FI.Extension.ToCharArray) & ".pdb"
+                '    If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd") = True Then
+                '        My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd")
+                '    End If
+                '    My.Computer.FileSystem.RenameFile(My.Application.Info.DirectoryPath & "\" & pdbFile & ".upd", FileNeeded & ".upd")
+            End If
+            filesComplete.Add(FileNeeded, True)
+            Return True
         Catch e As WebException
             Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
             errMsg &= "Status: " & e.Status & ControlChars.CrLf
             errMsg &= "Message: " & e.Message & ControlChars.CrLf
-            MessageBox.Show(errMsg, "Error Uploading File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show(errMsg, "Error Downloading File", MessageBoxButtons.OK, MessageBoxIcon.Information)
             worker.CancelAsync()
             filesComplete.Add(FileNeeded, False)
             Return False
         End Try
-
-        If DebugFile = True Then
-            Dim FI As New FileInfo(FileNeeded)
-            FileNeeded = FI.Name.TrimEnd(FI.Extension.ToCharArray) & ".pdb"
-            '    If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd") = True Then
-            '        My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd")
-            '    End If
-            '    My.Computer.FileSystem.RenameFile(My.Application.Info.DirectoryPath & "\" & pdbFile & ".upd", FileNeeded & ".upd")
-        End If
-
-        filesComplete.Add(FileNeeded, True)
-        Return True
 
     End Function
 

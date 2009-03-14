@@ -57,6 +57,10 @@ Public Class frmEveImport
 
     End Sub
 
+    Private Sub frmEveImport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Call GetEveFittings()
+    End Sub
+
 #Region "Ship Fitting routines"
 
     Private Sub UpdateSlotColumns()
@@ -255,9 +259,7 @@ Public Class frmEveImport
 
 #End Region
 
-    Private Sub frmEveImport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Call GetEveFittings()
-    End Sub
+#Region "Eve Import Routines"
 
     Private Sub GetEveFittings()
         Dim files As New ArrayList
@@ -371,5 +373,7 @@ Public Class frmEveImport
             End If
         Next
     End Sub
+
+#End Region
 
 End Class

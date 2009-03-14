@@ -430,6 +430,9 @@ Public Class frmEveHQ
         tmrSkillUpdate.Enabled = True
         tmrModules.Enabled = True
 
+        Call EveHQ.Core.HQ.ReduceMemory()
+        tmrMemory.Enabled = True
+
     End Sub
     Private Sub frmEveHQ_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
         If HideWhenMinimisedToolStripMenuItem.Checked = True Then
@@ -541,16 +544,15 @@ Public Class frmEveHQ
 #Region "Skill Display Updater Routines"
 
     Private Sub SkillWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles SkillWorker.DoWork
-
         EveHQ.Core.HQ.myPilot.TrainingCurrentSP = CInt(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(EveHQ.Core.HQ.myPilot))
         EveHQ.Core.HQ.myPilot.TrainingCurrentTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(EveHQ.Core.HQ.myPilot)
-
     End Sub
     Private Sub SkillWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles SkillWorker.RunWorkerCompleted
 
         Call UpdateTrainingStatus()
 
         Call CheckNotifications()
+
         If EveHQ.Core.HQ.EveHQSettings.ContinueTraining = True Then
             Call UpdateToNextLevel()
         End If
@@ -625,12 +627,10 @@ Public Class frmEveHQ
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Training = True Then
                 If cPilot.Active = True Then
-                    defer += 1
-                    If pilotTimes.ContainsKey(Format(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot), "00000000")) = True Then
-                        pilotTimes.Add(Format(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot) + defer, "00000000"), cPilot)
-                    Else
-                        pilotTimes.Add(Format(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot), "00000000"), cPilot)
-                    End If
+                    Do While pilotTimes.ContainsKey(Format(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot) + defer, "00000000")) = True
+                        defer += 1
+                    Loop
+                    pilotTimes.Add(Format(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot) + defer, "00000000"), cPilot)
                 End If
                 accounts.Add(cPilot.Account)
             End If
@@ -741,7 +741,6 @@ Public Class frmEveHQ
         End Try
 
     End Sub
-
     Public Sub UpdateToNextLevel()
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Training = True Then
@@ -1416,6 +1415,8 @@ Public Class frmEveHQ
                 plugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Active
                 modMenu.Enabled = True
             End If
+            ' Clean up after loading the plugin
+            Call EveHQ.Core.HQ.ReduceMemory()
         Catch ex As Exception
             MessageBox.Show("Unable to load plugin: " & plugInInfo.Name & ControlChars.CrLf & ex.Message, "Plugin error")
             modStatus.Image = My.Resources.Status_red
@@ -2219,5 +2220,10 @@ Public Class frmEveHQ
             APIStatus.Dispose()
         End If
     End Sub
+
+    Private Sub tmrMemory_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrMemory.Tick
+        Call EveHQ.Core.HQ.ReduceMemory()
+    End Sub
+
 End Class
 

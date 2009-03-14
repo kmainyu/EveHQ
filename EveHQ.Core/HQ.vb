@@ -21,6 +21,8 @@ Imports System.Windows.Forms
 
 Public Class HQ
 
+    Private Declare Auto Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal procHandle As IntPtr, ByVal min As Int32, ByVal max As Int32) As Boolean
+
     Public Shared MainForm As Form
     Public Shared logonCookie As New System.Net.CookieContainer
     Public Shared logonSID As String
@@ -106,6 +108,14 @@ Public Class HQ
         MSSQLE = 2
         MySQL = 3
     End Enum
+
+    Public Shared Sub ReduceMemory()
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+        If (Environment.OSVersion.Platform = PlatformID.Win32NT) Then
+            SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1)
+        End If
+    End Sub
 
 End Class
 Class ListViewItemComparerA

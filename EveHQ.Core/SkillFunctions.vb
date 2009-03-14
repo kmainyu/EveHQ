@@ -26,6 +26,13 @@ Imports System.Xml
 Public Class SkillFunctions
 
     Shared eveData As Data.DataSet
+
+    ' Shared variables for repeated usage
+    Shared sTime, eTime, cTime As Date
+    Shared tSec, eSec, fSec As Long
+    Shared sSP, eSP, cSP As Integer
+    Shared localzone As TimeZone
+    Shared LocalTime As DateTime
    
     Public Shared Function Roman(ByVal dec As Integer) As String
 
@@ -194,8 +201,6 @@ Public Class SkillFunctions
 
     End Function             'TimeToString
     Public Shared Function ConvertEveTimeToLocal(ByVal EveTime As Date) As Date
-        Dim localzone As TimeZone
-        Dim LocalTime As DateTime
         ' Calculate time offset from Eve Time (if applicable)
         localzone = TimeZone.CurrentTimeZone
         ' Calculate the local time and UTC offset.
@@ -213,8 +218,6 @@ Public Class SkillFunctions
     End Function
     Public Shared Function CalcCurrentSkillTime(ByRef myPilot As EveHQ.Core.Pilot) As Long
         If myPilot.Training = True Then
-            Dim sTime, eTime, cTime As Date
-            Dim tSec, eSec, fSec As Long
             sTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingStartTime)
             eTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingEndTime)
             cTime = Now
@@ -229,9 +232,6 @@ Public Class SkillFunctions
     End Function     'CalcCurrentSkillTime
     Public Shared Function CalcCurrentSkillPoints(ByRef myPilot As EveHQ.Core.Pilot) As Long
         If myPilot.Training = True Then
-            Dim sTime, eTime, cTime As Date
-            Dim tSec, eSec, fSec As Long
-            Dim sSP, eSP, cSP As Integer
             sTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingStartTime)
             eTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingEndTime)
             cTime = Now
