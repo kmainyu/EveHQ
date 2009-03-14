@@ -112,6 +112,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property Eve() As System.Drawing.Icon
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Eve", resourceCulture)
+                Return CType(obj,System.Drawing.Icon)
+            End Get
+        End Property
+        
         Friend ReadOnly Property imgArmor() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("imgArmor", resourceCulture)
@@ -425,7 +432,7 @@ Namespace My.Resources
         '''#Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Calc Type,State,IsGang,Group,Implant Name
         '''1083,1,21606,265,3,6,0,0,0,Armor,Akemon&apos;s Modified &apos;Noble&apos; ZET5000
         '''1083,1,13209,265,3,6,0,0,1,Armor,Armored Warfare Mindlink
-        '''884,1,13209,833,1,20069;20409;22227,0,0,1,Gang,Armored Warfare Mindlink
+        '''884,1,13209,833,1,20069;20409;22227,0,0,0,Gang,Armored Warfare Mindlink
         '''548,1,20121,68,2,40,0,0,0,Shield;Learning,Crystal Alpha
         '''548,1,20157,68,2,40,0,0,0,Shield;Learning,Crystal Beta
         '''548,1,20159,68,2,40,0,0, [rest of string was truncated]&quot;;.

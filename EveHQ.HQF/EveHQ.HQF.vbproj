@@ -68,6 +68,12 @@
     <Compile Include="Classes\PlugInData.vb" />
     <Compile Include="Classes\Settings.vb" />
     <Compile Include="Classes\Fittings.vb" />
+    <Compile Include="Forms\frmEveImport.Designer.vb">
+      <DependentUpon>frmEveImport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmEveImport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmAddDamageProfile.Designer.vb">
       <DependentUpon>frmAddDamageProfile.vb</DependentUpon>
     </Compile>
@@ -229,6 +235,9 @@
     <Compile Include="Classes\Skills.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\frmEveImport.resx">
+      <DependentUpon>frmEveImport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAddDamageProfile.resx">
       <DependentUpon>frmAddDamageProfile.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -412,6 +421,7 @@
     <None Include="Resources\Level4.jpg" />
     <None Include="Resources\Level5.jpg" />
     <None Include="Resources\BC.ico" />
+    <None Include="Resources\Eve.ico" />
     <Content Include="_Changelog.txt" />
   </ItemGroup>
   <ItemGroup>

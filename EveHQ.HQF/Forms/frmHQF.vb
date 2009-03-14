@@ -34,6 +34,7 @@ Public Class frmHQF
     Dim LastModuleResults As New SortedList
     Dim myPilotManager As New frmPilotManager
     Dim myBCBrowser As New frmBCBrowser
+    Dim myEveImport As New frmEveImport
 
 #Region "Class Wide Variables"
 
@@ -2358,7 +2359,12 @@ Public Class frmHQF
 #End Region
 
     Private Sub mnuImportEveFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuImportEveFittings.Click
-
+        If myEveImport.IsHandleCreated = True Then
+            myEveImport.BringToFront()
+        Else
+            myEveImport = New frmEveImport
+            myEveImport.Show()
+        End If
     End Sub
 
     Private Sub mnuImportEFTFittings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuImportEFTFittings.Click
