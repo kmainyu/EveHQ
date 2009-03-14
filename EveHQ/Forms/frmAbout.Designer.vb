@@ -20,16 +20,16 @@ Partial Class frmAbout
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel
+        Me.lblInfo2 = New System.Windows.Forms.Label
         Me.lblEveHQLink = New System.Windows.Forms.LinkLabel
         Me.lblInfo1 = New System.Windows.Forms.Label
         Me.lblVersion = New System.Windows.Forms.Label
-        Me.lblInfo2 = New System.Windows.Forms.Label
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
         '
-        Me.Panel1.BackgroundImage = Global.EveHQ.My.Resources.Resources.Splashv5
+        Me.Panel1.BackgroundImage = Global.EveHQ.My.Resources.Resources.Splashv4
         Me.Panel1.Controls.Add(Me.lblInfo2)
         Me.Panel1.Controls.Add(Me.lblEveHQLink)
         Me.Panel1.Controls.Add(Me.lblInfo1)
@@ -38,6 +38,18 @@ Partial Class frmAbout
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(600, 400)
         Me.Panel1.TabIndex = 0
+        '
+        'lblInfo2
+        '
+        Me.lblInfo2.AutoSize = True
+        Me.lblInfo2.BackColor = System.Drawing.Color.Transparent
+        Me.lblInfo2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblInfo2.ForeColor = System.Drawing.Color.PaleTurquoise
+        Me.lblInfo2.Location = New System.Drawing.Point(29, 377)
+        Me.lblInfo2.Name = "lblInfo2"
+        Me.lblInfo2.Size = New System.Drawing.Size(299, 16)
+        Me.lblInfo2.TabIndex = 5
+        Me.lblInfo2.Text = "Additional Coding: Darkwolf, Darmed Khan, Mdram"
         '
         'lblEveHQLink
         '
@@ -48,7 +60,7 @@ Partial Class frmAbout
         Me.lblEveHQLink.ForeColor = System.Drawing.Color.PaleTurquoise
         Me.lblEveHQLink.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
         Me.lblEveHQLink.LinkColor = System.Drawing.Color.PaleTurquoise
-        Me.lblEveHQLink.Location = New System.Drawing.Point(261, 9)
+        Me.lblEveHQLink.Location = New System.Drawing.Point(261, 339)
         Me.lblEveHQLink.Name = "lblEveHQLink"
         Me.lblEveHQLink.Size = New System.Drawing.Size(336, 13)
         Me.lblEveHQLink.TabIndex = 4
@@ -74,23 +86,11 @@ Partial Class frmAbout
         Me.lblVersion.BackColor = System.Drawing.Color.Transparent
         Me.lblVersion.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblVersion.ForeColor = System.Drawing.Color.PaleTurquoise
-        Me.lblVersion.Location = New System.Drawing.Point(140, 197)
+        Me.lblVersion.Location = New System.Drawing.Point(452, 361)
         Me.lblVersion.Name = "lblVersion"
         Me.lblVersion.Size = New System.Drawing.Size(47, 14)
         Me.lblVersion.TabIndex = 1
         Me.lblVersion.Text = "Version"
-        '
-        'lblInfo2
-        '
-        Me.lblInfo2.AutoSize = True
-        Me.lblInfo2.BackColor = System.Drawing.Color.Transparent
-        Me.lblInfo2.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblInfo2.ForeColor = System.Drawing.Color.PaleTurquoise
-        Me.lblInfo2.Location = New System.Drawing.Point(29, 377)
-        Me.lblInfo2.Name = "lblInfo2"
-        Me.lblInfo2.Size = New System.Drawing.Size(299, 16)
-        Me.lblInfo2.TabIndex = 5
-        Me.lblInfo2.Text = "Additional Coding: Darkwolf, Darmed Khan, Mdram"
         '
         'frmAbout
         '

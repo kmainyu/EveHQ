@@ -34,7 +34,10 @@ Public Class frmSplash
         lblDate.Text = My.Application.Info.Trademark
 
         ' Set the image for the splash screen
-        Panel1.BackgroundImage = My.Resources.Splashv5
+        Dim r As New Random
+        Dim img As Integer = r.Next(1, 5)
+        'Panel1.BackgroundImage = My.Resources.Splashv4
+        Panel1.BackgroundImage = CType(My.Resources.ResourceManager.GetObject("Splashv" & img.ToString), Image)
 
         ' Check for any commandline parameters that we need to account for
         For Each param As String In System.Environment.GetCommandLineArgs
@@ -299,6 +302,8 @@ Public Class frmSplash
         Else
             EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = False
         End If
+
+
        
         ' Show the main form
         lblStatus.Text = "> Initialising EveHQ..."

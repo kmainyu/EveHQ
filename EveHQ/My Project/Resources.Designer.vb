@@ -325,9 +325,30 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property Splashv5() As System.Drawing.Bitmap
+        Friend ReadOnly Property Splashv1() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("Splashv5", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("Splashv1", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property Splashv2() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Splashv2", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property Splashv3() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Splashv3", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property Splashv4() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Splashv4", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
