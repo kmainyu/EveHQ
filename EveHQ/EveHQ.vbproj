@@ -586,6 +586,7 @@
     <None Include="Resources\Splashv1.jpg" />
     <None Include="Resources\Splashv2.jpg" />
     <None Include="Resources\Splashv3.jpg" />
+    <None Include="Resources\Splashv5.jpg" />
     <Content Include="_latest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />

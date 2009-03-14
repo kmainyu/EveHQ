@@ -23,6 +23,8 @@ Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class frmSplash
 
+    Private Declare Auto Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal procHandle As IntPtr, ByVal min As Int32, ByVal max As Int32) As Boolean
+
     Dim isLocal As Boolean = False
     Dim showSplash As Boolean = True
 
@@ -35,7 +37,7 @@ Public Class frmSplash
 
         ' Set the image for the splash screen
         Dim r As New Random
-        Dim img As Integer = r.Next(1, 5)
+        Dim img As Integer = r.Next(1, 6)
         'Panel1.BackgroundImage = My.Resources.Splashv4
         Panel1.BackgroundImage = CType(My.Resources.ResourceManager.GetObject("Splashv" & img.ToString), Image)
 
@@ -323,7 +325,15 @@ Public Class frmSplash
             myUpdater.ShowDialog()
         End If
 
+        Call ReduceMemory()
+    End Sub
+
+    Private Sub ReduceMemory()
         GC.Collect()
+        GC.WaitForPendingFinalizers()
+        If (Environment.OSVersion.Platform = PlatformID.Win32NT) Then
+            SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1)
+        End If
     End Sub
 
     Private Sub LoadModules()

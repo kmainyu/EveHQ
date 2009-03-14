@@ -353,6 +353,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property Splashv5() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Splashv5", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property Status_green() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Status_green", resourceCulture)
