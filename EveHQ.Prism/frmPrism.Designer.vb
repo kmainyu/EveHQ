@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.tlvAssets = New DotNetLib.Windows.Forms.ContainerListView
         Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -327,6 +327,12 @@ Partial Class frmPrism
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
+        Me.btnExportTransactions = New System.Windows.Forms.Button
+        Me.btnExportJournal = New System.Windows.Forms.Button
+        Me.btnExportJobs = New System.Windows.Forms.Button
+        Me.btnExportOrders = New System.Windows.Forms.Button
+        Me.btnExportRigBuildList = New System.Windows.Forms.Button
+        Me.btnExportRigList = New System.Windows.Forms.Button
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -943,11 +949,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup1.Header = "Corporation"
-        ListViewGroup1.Name = "grpCorporation"
-        ListViewGroup2.Header = "Personal"
-        ListViewGroup2.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup3.Header = "Corporation"
+        ListViewGroup3.Name = "grpCorporation"
+        ListViewGroup4.Header = "Personal"
+        ListViewGroup4.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -1208,6 +1214,8 @@ Partial Class frmPrism
         '
         'tabRigBuilder
         '
+        Me.tabRigBuilder.Controls.Add(Me.btnExportRigList)
+        Me.tabRigBuilder.Controls.Add(Me.btnExportRigBuildList)
         Me.tabRigBuilder.Controls.Add(Me.lblTotalRigMargin)
         Me.tabRigBuilder.Controls.Add(Me.lblTotalRigProfit)
         Me.tabRigBuilder.Controls.Add(Me.lblTotalRigSalePrice)
@@ -1369,7 +1377,7 @@ Partial Class frmPrism
         Me.lvwRigBuildList.Location = New System.Drawing.Point(8, 327)
         Me.lvwRigBuildList.MultipleColumnSort = True
         Me.lvwRigBuildList.Name = "lvwRigBuildList"
-        Me.lvwRigBuildList.Size = New System.Drawing.Size(1102, 211)
+        Me.lvwRigBuildList.Size = New System.Drawing.Size(1120, 211)
         Me.lvwRigBuildList.TabIndex = 27
         '
         'ContainerListViewColumnHeader9
@@ -1480,7 +1488,7 @@ Partial Class frmPrism
         Me.lvwRigs.Location = New System.Drawing.Point(8, 106)
         Me.lvwRigs.MultipleColumnSort = True
         Me.lvwRigs.Name = "lvwRigs"
-        Me.lvwRigs.Size = New System.Drawing.Size(1102, 193)
+        Me.lvwRigs.Size = New System.Drawing.Size(1120, 193)
         Me.lvwRigs.TabIndex = 26
         '
         'colRigType
@@ -1801,6 +1809,7 @@ Partial Class frmPrism
         '
         'panelOrderInfo
         '
+        Me.panelOrderInfo.Controls.Add(Me.btnExportOrders)
         Me.panelOrderInfo.Controls.Add(Me.lblRemoteRange)
         Me.panelOrderInfo.Controls.Add(Me.lblModRange)
         Me.panelOrderInfo.Controls.Add(Me.lblBidRange)
@@ -2049,6 +2058,7 @@ Partial Class frmPrism
         '
         'tabTransactions
         '
+        Me.tabTransactions.Controls.Add(Me.btnExportTransactions)
         Me.tabTransactions.Controls.Add(Me.cboWalletTransDivision)
         Me.tabTransactions.Controls.Add(Me.lblWalletTransDivision)
         Me.tabTransactions.Controls.Add(Me.clvTransactions)
@@ -2159,6 +2169,7 @@ Partial Class frmPrism
         '
         'tabJournal
         '
+        Me.tabJournal.Controls.Add(Me.btnExportJournal)
         Me.tabJournal.Controls.Add(Me.cboWalletJournalDivision)
         Me.tabJournal.Controls.Add(Me.lblWalletJournalDivision)
         Me.tabJournal.Controls.Add(Me.clvJournal)
@@ -2251,6 +2262,7 @@ Partial Class frmPrism
         '
         'tabJobs
         '
+        Me.tabJobs.Controls.Add(Me.btnExportJobs)
         Me.tabJobs.Controls.Add(Me.clvJobs)
         Me.tabJobs.Location = New System.Drawing.Point(4, 22)
         Me.tabJobs.Name = "tabJobs"
@@ -2261,15 +2273,17 @@ Partial Class frmPrism
         '
         'clvJobs
         '
+        Me.clvJobs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.clvJobs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colJobsItem, Me.colJobsActivity, Me.colJobsLocation, Me.colJobsEndTime, Me.colJobsStatus})
         Me.clvJobs.ColumnSortColor = System.Drawing.Color.Lavender
         Me.clvJobs.DefaultItemHeight = 16
-        Me.clvJobs.Dock = System.Windows.Forms.DockStyle.Fill
         Me.clvJobs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.clvJobs.Location = New System.Drawing.Point(0, 0)
+        Me.clvJobs.Location = New System.Drawing.Point(0, 34)
         Me.clvJobs.MultipleColumnSort = True
         Me.clvJobs.Name = "clvJobs"
-        Me.clvJobs.Size = New System.Drawing.Size(1136, 541)
+        Me.clvJobs.Size = New System.Drawing.Size(1136, 508)
         Me.clvJobs.TabIndex = 4
         '
         'colJobsItem
@@ -3155,6 +3169,66 @@ Partial Class frmPrism
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
         '
+        'btnExportTransactions
+        '
+        Me.btnExportTransactions.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportTransactions.Location = New System.Drawing.Point(1053, 5)
+        Me.btnExportTransactions.Name = "btnExportTransactions"
+        Me.btnExportTransactions.Size = New System.Drawing.Size(75, 23)
+        Me.btnExportTransactions.TabIndex = 3
+        Me.btnExportTransactions.Text = "Export"
+        Me.btnExportTransactions.UseVisualStyleBackColor = True
+        '
+        'btnExportJournal
+        '
+        Me.btnExportJournal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportJournal.Location = New System.Drawing.Point(1053, 5)
+        Me.btnExportJournal.Name = "btnExportJournal"
+        Me.btnExportJournal.Size = New System.Drawing.Size(75, 23)
+        Me.btnExportJournal.TabIndex = 6
+        Me.btnExportJournal.Text = "Export"
+        Me.btnExportJournal.UseVisualStyleBackColor = True
+        '
+        'btnExportJobs
+        '
+        Me.btnExportJobs.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportJobs.Location = New System.Drawing.Point(1053, 5)
+        Me.btnExportJobs.Name = "btnExportJobs"
+        Me.btnExportJobs.Size = New System.Drawing.Size(75, 23)
+        Me.btnExportJobs.TabIndex = 5
+        Me.btnExportJobs.Text = "Export"
+        Me.btnExportJobs.UseVisualStyleBackColor = True
+        '
+        'btnExportOrders
+        '
+        Me.btnExportOrders.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportOrders.Location = New System.Drawing.Point(1053, 6)
+        Me.btnExportOrders.Name = "btnExportOrders"
+        Me.btnExportOrders.Size = New System.Drawing.Size(75, 23)
+        Me.btnExportOrders.TabIndex = 43
+        Me.btnExportOrders.Text = "Export"
+        Me.btnExportOrders.UseVisualStyleBackColor = True
+        '
+        'btnExportRigBuildList
+        '
+        Me.btnExportRigBuildList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportRigBuildList.Location = New System.Drawing.Point(1028, 77)
+        Me.btnExportRigBuildList.Name = "btnExportRigBuildList"
+        Me.btnExportRigBuildList.Size = New System.Drawing.Size(100, 23)
+        Me.btnExportRigBuildList.TabIndex = 44
+        Me.btnExportRigBuildList.Text = "Export Build List"
+        Me.btnExportRigBuildList.UseVisualStyleBackColor = True
+        '
+        'btnExportRigList
+        '
+        Me.btnExportRigList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportRigList.Location = New System.Drawing.Point(1028, 48)
+        Me.btnExportRigList.Name = "btnExportRigList"
+        Me.btnExportRigList.Size = New System.Drawing.Size(100, 23)
+        Me.btnExportRigList.TabIndex = 45
+        Me.btnExportRigList.Text = "Export Rig List"
+        Me.btnExportRigList.UseVisualStyleBackColor = True
+        '
         'frmPrism
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3516,4 +3590,10 @@ Partial Class frmPrism
     Friend WithEvents mnuRemoveRecycleItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ctxRecycleItems As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuAddRecycleItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents btnExportTransactions As System.Windows.Forms.Button
+    Friend WithEvents btnExportJournal As System.Windows.Forms.Button
+    Friend WithEvents btnExportJobs As System.Windows.Forms.Button
+    Friend WithEvents btnExportOrders As System.Windows.Forms.Button
+    Friend WithEvents btnExportRigList As System.Windows.Forms.Button
+    Friend WithEvents btnExportRigBuildList As System.Windows.Forms.Button
 End Class

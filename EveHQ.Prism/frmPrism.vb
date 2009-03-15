@@ -4651,10 +4651,76 @@ Public Class frmPrism
 
 #End Region
     
-    
+#Region "CSV Export Routines"
+
+    Private Sub btnExportTransactions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportTransactions.Click
+        Call Me.GenerateCSVFileFromCLV("Wallet Transactions", clvTransactions)
+    End Sub
+
+    Private Sub btnExportJournal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportJournal.Click
+        Call Me.GenerateCSVFileFromCLV("Wallet Journal", clvJournal)
+    End Sub
+
+    Private Sub btnExportJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportJobs.Click
+        Call Me.GenerateCSVFileFromCLV("Industry Jobs", clvJobs)
+    End Sub
+
+    Private Sub btnExportOrders_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportOrders.Click
+        Call Me.GenerateCSVFileFromCLV("Sell Orders", clvSellOrders)
+        Call Me.GenerateCSVFileFromCLV("Buy Orders", clvBuyOrders)
+    End Sub
+
+    Private Sub btnExportRigList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportRigList.Click
+        Call Me.GenerateCSVFileFromCLV("Rig List", lvwRigs)
+    End Sub
+
+    Private Sub btnExportRigBuildList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportRigBuildList.Click
+        Call Me.GenerateCSVFileFromCLV("Rig Build List", lvwRigBuildList)
+    End Sub
+
+    Private Sub GenerateCSVFileFromCLV(ByVal Description As String, ByVal cListView As ContainerListView)
+        If cboOwner.SelectedItem IsNot Nothing Then
+            Try
+                Dim csvFile As String = EveHQ.Core.HQ.reportFolder & "\" & Description.Replace(" ", "") & " - " & cboOwner.SelectedItem.ToString & " (" & Format(Now, "yyyy-MM-dd HH-mm-ss") & ").csv"
+                Dim csvText As New StringBuilder
+                With cListView
+                    For col As Integer = 0 To .Columns.Count - 1
+                        csvText.Append(.Columns(col).Text)
+                        If col <> .Columns.Count - 1 Then
+                            csvText.Append(",")
+                        End If
+                    Next
+                    csvText.AppendLine("")
+                    For Each row As ContainerListViewItem In .Items
+                        For col As Integer = 0 To .Columns.Count - 1
+                            csvText.Append("""" & row.SubItems(col).Text & """")
+                            If col <> .Columns.Count - 1 Then
+                                csvText.Append(",")
+                            End If
+                        Next
+                        csvText.AppendLine("")
+                    Next
+                End With
+                Dim sw As New StreamWriter(csvFile)
+                sw.Write(csvText.ToString)
+                sw.Flush()
+                sw.Close()
+                MessageBox.Show(Description & " successfully exported to " & csvFile, "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Catch ex As Exception
+                MessageBox.Show("There was an error writing the " & Description & " File. The error was: " & ControlChars.CrLf & ControlChars.CrLf & ex.Message, "Error Writing File", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
+    End Sub
+
+#End Region
    
     
    
    
+
+   
+   
+   
+    
 End Class
 
