@@ -36,6 +36,14 @@ Public Class frmPilotManager
         End Set
     End Property
 
+    Private WriteOnly Property ForceImplantUpdate() As Boolean
+        Set(ByVal value As Boolean)
+            If value = True And StartUp = False Then
+                HQFEvents.StartUpdateAllImplantLists = True
+            End If
+        End Set
+    End Property
+
 #Region "Form Loading & Closing Routines"
 
     Private Sub frmPilotManager_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
@@ -622,6 +630,7 @@ Public Class frmPilotManager
         Dim oldImplantGroup As String = cboImplantGroup.SelectedItem.ToString
         Call Me.LoadImplantGroups()
         cboImplantGroup.SelectedItem = oldImplantGroup
+        ForceImplantUpdate = True
     End Sub
     Private Sub btnEditImplantGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditImplantGroup.Click
         ' Check for some selection on the listview
@@ -643,6 +652,7 @@ Public Class frmPilotManager
             ' Redraw implant groups in the implant selection combobox
             Dim newImplantGroup As String = myGroup.txtGroupName.Tag.ToString
             Call Me.LoadImplantGroups()
+            ForceImplantUpdate = True
             If Implants.implantGroups.ContainsKey(oldImplantGroup) = True Then
                 cboImplantGroup.SelectedItem = oldImplantGroup
             Else
@@ -669,6 +679,7 @@ Public Class frmPilotManager
                 Call Me.ShowImplantManagerGroups()
                 ' Redraw implant groups in the implant selection combobox
                 Call Me.LoadImplantGroups()
+                ForceImplantUpdate = True
                 If Implants.implantGroups.ContainsKey(oldImplantGroup) = True Then
                     cboImplantGroup.SelectedItem = oldImplantGroup
                 Else

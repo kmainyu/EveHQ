@@ -4,6 +4,7 @@
     Public Shared Event UpdateFittingList()
     Public Shared Event UpdateModuleList()
     Public Shared Event UpdateShipInfo(ByVal pilotName As String)
+    Public Shared Event UpdateAllImplantLists()
 
     Shared WriteOnly Property StartFindModule() As ArrayList
         Set(ByVal value As ArrayList)
@@ -40,4 +41,12 @@
             End If
         End Set
     End Property
+    Shared WriteOnly Property StartUpdateAllImplantLists() As Boolean
+        Set(ByVal value As Boolean)
+            If value = True Then
+                RaiseEvent UpdateAllImplantLists()
+            End If
+        End Set
+    End Property
+
 End Class

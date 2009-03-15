@@ -106,6 +106,7 @@ Public Class frmHQF
         AddHandler HQFEvents.UpdateFittingList, AddressOf Me.UpdateShipFittings
         AddHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
         AddHandler HQFEvents.UpdateShipInfo, AddressOf Me.UpdateShipInfo
+        AddHandler HQFEvents.UpdateAllImplantLists, AddressOf Me.UpdateAllImplantLists
 
         ' Load the Profiles - stored separately from settings for distibution!
         Call Settings.HQFSettings.LoadProfiles()
@@ -1152,6 +1153,22 @@ Public Class frmHQF
                     Dim thisShipSlotControl As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
                     Dim thisShipInfoControl As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
                     thisShipSlotControl.UpdateEverything()
+                End If
+            End If
+        Next
+        Me.Cursor = Cursors.Default
+    End Sub
+
+    Public Sub UpdateAllImplantLists()
+        Me.Cursor = Cursors.WaitCursor
+        ' Updates all the open fittings
+        For Each openTab As String In Fittings.FittingTabList
+            Dim thisTab As TabPage = tabHQF.TabPages(openTab)
+            If thisTab IsNot Nothing Then
+                If thisTab.Controls.Count > 0 Then
+                    Dim thisShipSlotControl As ShipSlotControl = CType(thisTab.Controls("panelShipSlot").Controls("shipSlot"), ShipSlotControl)
+                    Dim thisShipInfoControl As ShipInfoControl = CType(thisTab.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
+                    thisShipInfoControl.UpdateImplantList()
                 End If
             End If
         Next
