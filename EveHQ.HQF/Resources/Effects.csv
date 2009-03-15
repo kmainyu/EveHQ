@@ -972,10 +972,10 @@
 1322,1,20406,767,2,291,1,0,0,16,IWL - Electronic Superiority (Tracking Disruption)
 1323,1,20406,554,2,379,1,0,0,16,IWL - Electronic Superiority (Target Painters)
 833,1,20405,54,2,201;208;291;379,0,0,0,16,IWL - Recon Operation
-833,1,11052,211,3,6,0,0,0,16,IWL - Sensor Integrity (Grav Strength)
-833,1,11052,209,3,6,0,0,0,16,IWL - Sensor Integrity (Ladar Strength)
-833,1,11052,210,3,6,0,0,0,16,IWL - Sensor Integrity (Mag Strength)
-833,1,11052,208,3,6,0,0,0,16,IWL - Sensor Integrity (Radar Strength)
+833,1,11052,211,3,6,1,0,0,16,IWL - Sensor Integrity (Grav Strength)
+833,1,11052,209,3,6,1,0,0,16,IWL - Sensor Integrity (Ladar Strength)
+833,1,11052,210,3,6,1,0,0,16,IWL - Sensor Integrity (Mag Strength)
+833,1,11052,208,3,6,1,0,0,16,IWL - Sensor Integrity (Radar Strength)
 833,1,22553,6,4,1037;1038;1039;1040,0,0,0,16,MFL - Harvester Capacitor Efficiency
 833,1,22557,73,4,1037;1038;1039;1040,0,0,0,16,MFL - Laser Optimization
 833,1,22555,54,4,1037;1038;1039;1040,0,0,0,16,MFL - Mining Laser Field Enhancement
