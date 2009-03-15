@@ -5,21 +5,21 @@
 		<file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-			<version>1.8.5.422</version>
+			<version>1.8.5.433</version>
 			<requires></requires>
 			<description>EveHQ Executable</description>
 		</file>
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-      <version>1.8.5.422</version>
+      <version>1.8.5.433</version>
       <requires></requires>
 			<description>EveHQ Core Library</description>
 		</file>
 		<file>
 			<name>EveHQ.CoreControls.dll</name>
 			<type>Required</type>
-      <version>1.8.5.422</version>
+      <version>1.8.5.433</version>
       <requires></requires>
 			<description>EveHQ Controls Library</description>
 		</file>
@@ -75,15 +75,15 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-      <version>1.8.5.420</version>
-      <requires>1.8.5.420</requires>
+      <version>1.8.5.433</version>
+      <requires>1.8.5.433</requires>
       <description>Ship Fitting Plug-in</description>
 		</file>
     <file>
       <name>EveHQ.Prism.dll</name>
       <type>Plug-in</type>
-      <version>1.8.5.420</version>
-      <requires>1.8.5.420</requires>
+      <version>1.8.5.433</version>
+      <requires>1.8.5.433</requires>
       <description>Science and Industry Plug-in</description>
     </file>
 	</files>

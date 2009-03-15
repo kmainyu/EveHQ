@@ -15,6 +15,7 @@ Public Class frmUpdater
     Dim CurrentComponents As New SortedList
     Dim filesRequired As New SortedList
     Dim filesComplete As New SortedList
+    Dim filesTried As Integer = 0
     Dim DatabaseUpgradeAvailable As Boolean = False
     Public startupTest As Boolean = False
 
@@ -292,6 +293,7 @@ Public Class frmUpdater
     Private Sub btnStartUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnStartUpdate.Click
 
         btnStartUpdate.Enabled = False
+        filesTried = 0
 
         ' Reset the progress bars
         For Each pb As ProgressBar In pbControls.Values
@@ -332,8 +334,6 @@ Public Class frmUpdater
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
-        'Dim count As Integer = 0
-        'count += 1
         Dim httpURI As String = ""
         Dim pdbFile As String = ""
         Dim localFile As String = ""
@@ -402,14 +402,15 @@ Public Class frmUpdater
                 '    My.Computer.FileSystem.RenameFile(My.Application.Info.DirectoryPath & "\" & pdbFile & ".upd", FileNeeded & ".upd")
             End If
             filesComplete.Add(FileNeeded, True)
+            filesTried += 1
             Return True
         Catch e As WebException
             Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
             errMsg &= "Status: " & e.Status & ControlChars.CrLf
             errMsg &= "Message: " & e.Message & ControlChars.CrLf
             MessageBox.Show(errMsg, "Error Downloading File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            filesTried += 1
             worker.CancelAsync()
-            filesComplete.Add(FileNeeded, False)
             Return False
         End Try
 
@@ -428,7 +429,7 @@ Public Class frmUpdater
     Private Sub UpdateWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim reqfile As String = CStr(e.Argument)
         Call DownloadFile(CType(sender, System.ComponentModel.BackgroundWorker), reqfile, False)
-        Call DownloadFile(CType(sender, System.ComponentModel.BackgroundWorker), reqfile, True)
+        'Call DownloadFile(CType(sender, System.ComponentModel.BackgroundWorker), reqfile, True) ' For PDB file
     End Sub
 
     Private Sub UpdateWorker_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs)
@@ -450,17 +451,23 @@ Public Class frmUpdater
                 End If
             End If
         Next
-        If filesComplete.Count = (filesRequired.Count * 2) Then
-            lblUpdateStatus.Text = "Updating Files..."
-            Call UpdateEveHQ()
-            lblUpdateStatus.Text = "Status: Update Complete!"
-            Dim msg As String = "All Updates Completed! EveHQ needs to be restarted to use the new updates." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "Would you like to close EveHQ now?"
-            Dim result As Integer = MessageBox.Show(msg, "Update Complete!", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If result = DialogResult.No Then
-                Me.Close()
+        If filesTried = filesRequired.Count Then
+            'If filesComplete.Count = filesRequired.Count * 2 Then ' Use for when we activate the PDB downloads
+            If filesComplete.Count = filesRequired.Count Then
+                lblUpdateStatus.Text = "Updating Files..."
+                Call UpdateEveHQ()
+                lblUpdateStatus.Text = "Status: Update Complete!"
+                Dim msg As String = "All Updates Completed! EveHQ needs to be restarted to use the new updates." & ControlChars.CrLf & ControlChars.CrLf
+                msg &= "Would you like to close EveHQ now?"
+                Dim result As Integer = MessageBox.Show(msg, "Update Complete!", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.No Then
+                    Me.Close()
+                Else
+                    EveHQ.Core.HQ.StartShutdownEveHQ = True
+                    Me.Close()
+                End If
             Else
-                EveHQ.Core.HQ.StartShutdownEveHQ = True
+                MessageBox.Show("There was an error downloading the update files so the process has been aborted. Please try again and if the update continues to fail, please post a bug report.", "Update Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Me.Close()
             End If
         End If

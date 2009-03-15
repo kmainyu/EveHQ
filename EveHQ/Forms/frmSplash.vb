@@ -303,8 +303,6 @@ Public Class frmSplash
             EveHQ.Core.HQ.EveHQSettings.EnableMarketLogWatcher = False
         End If
 
-
-       
         ' Show the main form
         lblStatus.Text = "> Initialising EveHQ..."
         Me.Refresh()
