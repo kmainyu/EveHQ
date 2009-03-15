@@ -183,6 +183,8 @@ Partial Class frmHQF
         Me.panelShipInfo = New System.Windows.Forms.Panel
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.Splitter2 = New System.Windows.Forms.Splitter
+        Me.cboFlyable = New System.Windows.Forms.ComboBox
+        Me.lblFlyable = New System.Windows.Forms.Label
         Me.lvwItems = New EveHQ.HQF.ListViewNoFlicker
         Me.colModuleName = New System.Windows.Forms.ColumnHeader
         Me.colModuleMetaType = New System.Windows.Forms.ColumnHeader
@@ -442,6 +444,8 @@ Partial Class frmHQF
         '
         'SplitContainerShip.Panel2
         '
+        Me.SplitContainerShip.Panel2.Controls.Add(Me.lblFlyable)
+        Me.SplitContainerShip.Panel2.Controls.Add(Me.cboFlyable)
         Me.SplitContainerShip.Panel2.Controls.Add(Me.pbSearchShips)
         Me.SplitContainerShip.Panel2.Controls.Add(Me.txtShipSearch)
         Me.SplitContainerShip.Panel2.Controls.Add(Me.btnResetShips)
@@ -598,9 +602,9 @@ Partial Class frmHQF
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tvwShips.ContextMenuStrip = Me.ctxShipBrowser
         Me.tvwShips.FullRowSelect = True
-        Me.tvwShips.Location = New System.Drawing.Point(0, 28)
+        Me.tvwShips.Location = New System.Drawing.Point(0, 55)
         Me.tvwShips.Name = "tvwShips"
-        Me.tvwShips.Size = New System.Drawing.Size(196, 364)
+        Me.tvwShips.Size = New System.Drawing.Size(196, 339)
         Me.tvwShips.TabIndex = 0
         '
         'ctxShipBrowser
@@ -1770,6 +1774,28 @@ Partial Class frmHQF
         Me.Splitter2.TabIndex = 8
         Me.Splitter2.TabStop = False
         '
+        'cboFlyable
+        '
+        Me.cboFlyable.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cboFlyable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFlyable.FormattingEnabled = True
+        Me.cboFlyable.Location = New System.Drawing.Point(51, 28)
+        Me.cboFlyable.Name = "cboFlyable"
+        Me.cboFlyable.Size = New System.Drawing.Size(144, 21)
+        Me.cboFlyable.TabIndex = 5
+        '
+        'lblFlyable
+        '
+        Me.lblFlyable.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblFlyable.AutoSize = True
+        Me.lblFlyable.Location = New System.Drawing.Point(3, 31)
+        Me.lblFlyable.Name = "lblFlyable"
+        Me.lblFlyable.Size = New System.Drawing.Size(45, 13)
+        Me.lblFlyable.TabIndex = 6
+        Me.lblFlyable.Text = "Flyable:"
+        '
         'lvwItems
         '
         Me.lvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -2056,4 +2082,6 @@ Partial Class frmHQF
     Friend WithEvents btnImportFittings As System.Windows.Forms.ToolStripSplitButton
     Friend WithEvents mnuImportEveFittings As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuImportEFTFittings As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lblFlyable As System.Windows.Forms.Label
+    Friend WithEvents cboFlyable As System.Windows.Forms.ComboBox
 End Class

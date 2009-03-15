@@ -1985,6 +1985,24 @@ Public Class Engine
         Next
         Return usable
     End Function
+    Public Shared Function IsFlyable(ByVal hPilot As HQFPilot, ByVal testShip As Ship) As Boolean
+        Dim usable As Boolean = True
+        Dim rSkill As HQFSkill
+        For Each reqSkill As ItemSkills In testShip.RequiredSkills.Values
+            If hPilot.SkillSet.Contains(reqSkill.Name) = True Then
+                rSkill = CType(hPilot.SkillSet.Item(reqSkill.Name), HQFSkill)
+                If rSkill.Level < reqSkill.Level Then
+                    usable = False
+                    Exit For
+                End If
+            Else
+                usable = False
+                Exit For
+            End If
+        Next
+        Return usable
+    End Function
+
     Public Shared Function IsFittable(ByVal cMod As ShipModule, ByVal cShip As Ship) As Boolean
         If cMod.CPU <= cShip.CPU - cShip.CPU_Used Then
             If cMod.PG <= cShip.PG - cShip.PG_Used Then

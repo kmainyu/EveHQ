@@ -172,29 +172,63 @@ Public Class frmHQF
         s.Close()
         'MessageBox.Show("Confirmed saving of fittings file contained " & Fittings.FittingList.Count & " objects to " & HQF.Settings.HQFFolder & "\HQFFittings.bin", "Save Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
-
     Private Sub ShowShipGroups()
         Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\ShipGroups.bin")
         Dim ShipGroups As String = sr.ReadToEnd
         Dim PathLines() As String = ShipGroups.Split(ControlChars.CrLf.ToCharArray)
         Dim nodes() As String
         Dim cNode As New TreeNode
+        Dim rNode As New TreeNode
+        Dim isFlyable As Boolean = True
         sr.Close()
-        tvwShips.BeginUpdate()
-        tvwShips.Nodes.Clear()
         For Each pathline As String In PathLines
             If pathline <> "" Then
                 If pathline.Contains("\") = False Then
-                    tvwShips.Nodes.Add(pathline, pathline)
+                    rNode.Nodes.Add(pathline, pathline)
                 Else
                     nodes = pathline.Split("\".ToCharArray)
-                    cNode = tvwShips.Nodes(nodes(0))
-                    For node As Integer = 1 To nodes.GetUpperBound(0) - 1
-                        cNode = cNode.Nodes(nodes(node))
-                    Next
-                    cNode.Nodes.Add(nodes(nodes.GetUpperBound(0)), nodes(nodes.GetUpperBound(0)))
+                    If nodes.Length = 3 And cboFlyable.SelectedIndex > 0 Then
+                        isFlyable = IsShipFlyable(nodes(2), cboFlyable.SelectedItem.ToString)
+                    Else
+                        isFlyable = True
+                    End If
+                    If isFlyable = True Then
+                        cNode = rNode.Nodes(nodes(0))
+                        For node As Integer = 1 To nodes.GetUpperBound(0) - 1
+                            cNode = cNode.Nodes(nodes(node))
+                        Next
+                        cNode.Nodes.Add(nodes(nodes.GetUpperBound(0)), nodes(nodes.GetUpperBound(0)))
+                    End If
                 End If
             End If
+        Next
+        ' Remove any groups that have no children
+        Dim pNode As Integer = 0
+        Dim sNode As Integer = 0
+        Do
+            sNode = 0
+            Do
+                If rNode.Nodes(pNode).Nodes(sNode).Nodes.Count = 0 Then
+                    rNode.Nodes(pNode).Nodes.RemoveAt(sNode)
+                    sNode -= 1
+                End If
+                sNode += 1
+            Loop Until sNode = rNode.Nodes(pNode).Nodes.Count
+            pNode += 1
+        Loop Until pNode = rNode.Nodes.Count
+        pNode = 0
+        Do
+            If rNode.Nodes(pNode).Nodes.Count = 0 Then
+                rNode.Nodes.RemoveAt(pNode)
+                pNode -= 1
+            End If
+            pNode += 1
+        Loop Until pNode = rNode.Nodes.Count
+        ' Finalise and update the list
+        tvwShips.BeginUpdate()
+        tvwShips.Nodes.Clear()
+        For Each cNode In rNode.Nodes
+            tvwShips.Nodes.Add(cNode)
         Next
         tvwShips.Sorted = True
         tvwShips.EndUpdate()
@@ -312,9 +346,20 @@ Public Class frmHQF
             Call HQFPilotCollection.SaveHQFPilotData()
         End If
 
+
         If HQFPilotCollection.HQFPilots.Count > 0 Then
             btnPilotManager.Enabled = True
         End If
+
+        ' Update the ship filter
+        cboFlyable.BeginUpdate()
+        cboFlyable.Items.Clear()
+        cboFlyable.Items.Add("<All Ships>")
+        For Each pilotName As String In HQFPilotCollection.HQFPilots.Keys
+            cboFlyable.Items.Add(pilotName)
+        Next
+        cboFlyable.EndUpdate()
+        cboFlyable.SelectedIndex = 0
 
     End Sub
     Private Sub SetMetaTypeFilters()
@@ -485,9 +530,17 @@ Public Class frmHQF
 
             ' Redraw the ships tree
             Dim shipResults As New SortedList(Of String, String)
+            Dim isFlyable As Boolean = True
             For Each sShip As String In ShipLists.shipList.Keys
                 If sShip.ToLower.Contains(strSearch) Then
-                    shipResults.Add(sShip, sShip)
+                    If cboFlyable.SelectedIndex > 0 Then
+                        isFlyable = IsShipFlyable(sShip, cboFlyable.SelectedItem.ToString)
+                    Else
+                        isFlyable = True
+                    End If
+                    If isFlyable = True Then
+                        shipResults.Add(sShip, sShip)
+                    End If
                 End If
             Next
             tvwShips.BeginUpdate()
@@ -501,12 +554,26 @@ Public Class frmHQF
             tvwShips.EndUpdate()
 
             ' Redraw the fitting tree
+
+            Dim shipName As String = ""
+            Dim fittingName As String = ""
+            Dim fittingSep As Integer = 0
             Dim fitResults As New SortedList(Of String, String)
             For Each sFit As String In Fittings.FittingList.Keys
                 If sFit.ToLower.Contains(strSearch) Then
-                    fitResults.Add(sFit, sFit)
+                    fittingSep = sFit.IndexOf(", ")
+                    shipName = sFit.Substring(0, fittingSep)
+                    If cboFlyable.SelectedIndex > 0 Then
+                        isFlyable = IsShipFlyable(shipName, cboFlyable.SelectedItem.ToString)
+                    Else
+                        isFlyable = True
+                    End If
+                    If isFlyable = True Then
+                        fitResults.Add(sFit, sFit)
+                    End If
                 End If
             Next
+
             ' Get Current List of "open" nodes
             Dim openNodes As New ArrayList
             For Each shipNode As ContainerListViewItem In clvFittings.Items
@@ -517,9 +584,6 @@ Public Class frmHQF
             clvFittings.BeginUpdate()
             clvFittings.SelectedItems.Clear()
             clvFittings.Items.Clear()
-            Dim shipName As String = ""
-            Dim fittingName As String = ""
-            Dim fittingSep As Integer = 0
             For Each item As String In fitResults.Values
                 fittingSep = item.IndexOf(", ")
                 shipName = item.Substring(0, fittingSep)
@@ -608,9 +672,26 @@ Public Class frmHQF
     End Sub
     Private Sub btnResetShips_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetShips.Click
         txtShipSearch.Text = ""
-        Call Me.ShowShipGroups()
-        Call Me.UpdateFittingsTree(True)
+        If cboFlyable.SelectedIndex > 0 Then
+            cboFlyable.SelectedIndex = 0
+        Else
+            Call Me.ShowShipGroups()
+            Call Me.UpdateFittingsTree(True)
+        End If
     End Sub
+    Private Sub cboFlyable_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFlyable.SelectedIndexChanged
+        If startUp = False Then
+            Call ShowShipGroups()
+            Call Me.UpdateFittingsTree(False)
+        End If
+    End Sub
+    Private Function IsShipFlyable(ByVal shipName As String, ByVal pilotName As String) As Boolean
+        Dim testShip As Ship = CType(ShipLists.shipList(shipName), Ship)
+        Dim testPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
+        Return Engine.IsFlyable(testPilot, testShip)
+    End Function
+
+
 #End Region
 
 #Region "Module Display, Filter and Search Options"
@@ -1444,6 +1525,7 @@ Public Class frmHQF
         Dim shipName As String = ""
         Dim fittingName As String = ""
         Dim fittingSep As Integer = 0
+        Dim isFlyable As Boolean = True
         For Each fitting As String In Fittings.FittingList.Keys
             fittingSep = fitting.IndexOf(", ")
             shipName = fitting.Substring(0, fittingSep)
@@ -1462,19 +1544,35 @@ Public Class frmHQF
             End If
 
             ' Add the details to the Node, checking for duplicates
-            Dim containsFitting As New ContainerListViewItem
-            For Each fit As ContainerListViewItem In containsShip.Items
-                If fit.Text = fittingName Then
-                    MessageBox.Show("Duplicate fitting found for " & shipName & ", and omitted", "Duplicate Fitting Found!", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    containsFitting = Nothing
-                    Exit For
+            If cboFlyable.SelectedIndex > 0 Then
+                isFlyable = IsShipFlyable(shipName, cboFlyable.SelectedItem.ToString)
+            Else
+                isFlyable = True
+            End If
+            If isFlyable = True Then
+                Dim containsFitting As New ContainerListViewItem
+                For Each fit As ContainerListViewItem In containsShip.Items
+                    If fit.Text = fittingName Then
+                        MessageBox.Show("Duplicate fitting found for " & shipName & ", and omitted", "Duplicate Fitting Found!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        containsFitting = Nothing
+                        Exit For
+                    End If
+                Next
+                If containsFitting IsNot Nothing Then
+                    containsFitting.Text = fittingName
+                    containsShip.Items.Add(containsFitting)
                 End If
-            Next
-            If containsFitting IsNot Nothing Then
-                containsFitting.Text = fittingName
-                containsShip.Items.Add(containsFitting)
             End If
         Next
+        ' Remove any parent nodes with no children
+        Dim fNodeID As Integer = 0
+        Do
+            If clvFittings.Items(fNodeID).Items.Count = 0 Then
+                clvFittings.Items.Remove(clvFittings.Items(fNodeID))
+                fNodeID -= 1
+            End If
+            fNodeID += 1
+        Loop Until fNodeID = clvFittings.Items.Count
         ' Open the previously opened nodes
         If CollapseAllNodes = False Then
             For Each shipNode As ContainerListViewItem In clvFittings.Items
@@ -2390,4 +2488,6 @@ Public Class frmHQF
         myEFTImport = Nothing
         Call Me.UpdateFittingsTree(False)
     End Sub
+
+
 End Class
