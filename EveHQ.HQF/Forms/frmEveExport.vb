@@ -3,7 +3,7 @@ Imports System.Xml
 
 Public Class frmEveExport
 
-    Dim EveFolder As String = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\fittings"
+    Dim EveFolder As String = (My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\fittings").Replace("\\", "\")
     Dim EveFile As String = ""
     Dim cFittingList As New ArrayList
 
@@ -72,7 +72,13 @@ Public Class frmEveExport
             ' Check for the fittings directory and create it
             Try
                 If My.Computer.FileSystem.DirectoryExists(EveFolder) = False Then
-                    My.Computer.FileSystem.CreateDirectory(EveFolder)
+                    Dim reply As Integer = MessageBox.Show("The Eve fittings folder is not present on your system and is required for the saving of fittings. Would you like to create this folder now?", "Create Fittings Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    If reply = DialogResult.No Then
+                        MessageBox.Show("Unable to export HQF fittings due to missing folder.", "Export Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Return False
+                    Else
+                        My.Computer.FileSystem.CreateDirectory(EveFolder)
+                    End If
                 End If
                 fitXML.Save(EveFile)
                 MessageBox.Show("Export of HQF Fittings to " & EveFile & " completed", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)

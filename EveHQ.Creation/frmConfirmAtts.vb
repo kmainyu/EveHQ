@@ -86,8 +86,8 @@ Public Class frmConfirmAtts
         nPilot.Updated = True
 
         ' Write the XML files
-        Dim xmlFile As String = EveHQ.Core.HQ.cacheFolder & "\c" & nPilot.ID & ".xml"
-        Dim txmlFile As String = EveHQ.Core.HQ.cacheFolder & "\t" & nPilot.ID & ".xml"
+        Dim xmlFile As String = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_5_" & nPilot.Account & "_" & nPilot.ID & ".xml"
+        Dim txmlFile As String = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_6_" & nPilot.Account & "_" & nPilot.ID & ".xml"
         Dim strXML As String = ""
         Dim sw As IO.StreamWriter
 

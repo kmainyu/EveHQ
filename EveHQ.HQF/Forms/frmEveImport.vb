@@ -8,24 +8,15 @@ Imports DotNetLib.Windows.Forms
 
 Public Class frmEveImport
 
+    Dim EveFolder As String = (My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\fittings").Replace("\\", "\")
     Dim currentShip As Ship
     Dim currentFit As New ArrayList
     Dim currentFitName As String = ""
-    Dim BCLoadoutCache As String = EveHQ.Core.HQ.appDataFolder & "\BCLoadoutCache"
 
     Public Sub New()
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
-
-        ' Create the fittings cache if it doesn't exist!
-        Try
-            If My.Computer.FileSystem.DirectoryExists(BCLoadoutCache) = False Then
-                My.Computer.FileSystem.CreateDirectory(BCLoadoutCache)
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Unable to create the Loadout cache folder. Caching will be disabled which may affect loadout downloads.", "Error Creating Folder", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Try
 
         ' Add the current list of pilots to the combobox
         cboPilots.BeginUpdate()
@@ -70,7 +61,6 @@ Public Class frmEveImport
         lvwSlots.Columns.Add("colName", "Module Name", 175, HorizontalAlignment.Left, "")
         lvwSlots.Columns.Add("Charge", "Charge Name", 175, HorizontalAlignment.Left, "")
     End Sub
-
     Private Sub UpdateSlotLayout()
         If currentShip IsNot Nothing Then
             lvwSlots.BeginUpdate()
@@ -115,7 +105,6 @@ Public Class frmEveImport
             lvwSlots.EndUpdate()
         End If
     End Sub
-
     Private Sub AddUserColumns(ByVal shipMod As ShipModule, ByVal slotName As ListViewItem)
         ' Add subitems based on the user selected columns
         If shipMod IsNot Nothing Then
@@ -132,7 +121,6 @@ Public Class frmEveImport
             slotName.SubItems.Add("")
         End If
     End Sub
-
     Private Sub ClearShipSlots()
         If currentShip IsNot Nothing Then
             For slot As Integer = 1 To currentShip.HiSlots
@@ -262,6 +250,14 @@ Public Class frmEveImport
 #Region "Eve Import Routines"
 
     Private Sub GetEveFittings()
+
+        ' Check for the fittings directory and create it
+        If My.Computer.FileSystem.DirectoryExists(EveFolder) = False Then
+            MessageBox.Show("The Eve fittings folder is not present on your system and is required for this feature to work. You will need some fittings present in this folder either exported from Eve or EveHQ before proceeding.", "Fittings Folder Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Me.Close()
+            Exit Sub
+        End If
+
         Dim files As New ArrayList
         Dim Ships As New SortedList
         Dim ShipFittings As New SortedList

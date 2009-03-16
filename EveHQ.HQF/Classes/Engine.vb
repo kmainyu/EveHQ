@@ -558,7 +558,7 @@ Public Class Engine
         pStages(2) = "Building Implant Effects: "
         pStages(3) = "Building Ship Effects: "
         pStages(4) = "Applying Skill Effects to Ship: "
-        pStages(5) = "Aplpying Skill Effects to Modules: "
+        pStages(5) = "Applying Skill Effects to Modules: "
         pStages(6) = "Applying Skill Effects to Drones: "
         pStages(7) = "Build Charge Effects: "
         pStages(8) = "Applying Charge Effects to Modules: "
@@ -591,17 +591,17 @@ Public Class Engine
                 Engine.ApplySkillEffectsToDrones(newShip)
                 pStageTime(6) = Now
                 Engine.BuildChargeEffects(newShip)
-                pStageTime(10) = Now
-                Engine.ApplyChargeEffectsToModules(newShip)
-                pStageTime(11) = Now
-                Engine.ApplyChargeEffectsToShip(newShip)
-                pStageTime(12) = Now
-                Engine.BuildModuleEffects(newShip)
                 pStageTime(7) = Now
-                Call Engine.ApplyStackingPenalties()
+                Engine.ApplyChargeEffectsToModules(newShip)
                 pStageTime(8) = Now
-                Engine.ApplyModuleEffectsToModules(newShip)
+                Engine.ApplyChargeEffectsToShip(newShip)
                 pStageTime(9) = Now
+                Engine.BuildModuleEffects(newShip)
+                pStageTime(10) = Now
+                Call Engine.ApplyStackingPenalties()
+                pStageTime(11) = Now
+                Engine.ApplyModuleEffectsToModules(newShip)
+                pStageTime(12) = Now
                 Engine.BuildModuleEffects(newShip)
                 pStageTime(13) = Now
                 Call Engine.ApplyStackingPenalties()
@@ -671,17 +671,17 @@ Public Class Engine
                 Engine.ApplySkillEffectsToDrones(newShip)
                 pStageTime(6) = Now
                 Engine.BuildChargeEffects(newShip)
-                pStageTime(10) = Now
-                Engine.ApplyChargeEffectsToModules(newShip)
-                pStageTime(11) = Now
-                Engine.ApplyChargeEffectsToShip(newShip)
-                pStageTime(12) = Now
-                Engine.BuildModuleEffects(newShip)
                 pStageTime(7) = Now
-                Engine.ApplyStackingPenalties()
+                Engine.ApplyChargeEffectsToModules(newShip)
                 pStageTime(8) = Now
-                Engine.ApplyModuleEffectsToModules(newShip)
+                Engine.ApplyChargeEffectsToShip(newShip)
                 pStageTime(9) = Now
+                Engine.BuildModuleEffects(newShip)
+                pStageTime(10) = Now
+                Engine.ApplyStackingPenalties()
+                pStageTime(11) = Now
+                Engine.ApplyModuleEffectsToModules(newShip)
+                pStageTime(12) = Now
                 Engine.BuildModuleEffects(newShip)
                 pStageTime(13) = Now
                 Engine.ApplyStackingPenalties()

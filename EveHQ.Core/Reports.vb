@@ -2255,7 +2255,7 @@ Public Class Reports
 
         If rpilot.Training = True Then
             strXML &= tabs(0) & "<eveapi version=""1"">" & vbCrLf
-            strXML &= tabs(1) & "<currentTime>" & Format(rpilot.CacheFileTime, "yyyy-mm-dd HH:MM:ss") & "</currentTime>" & vbCrLf
+            strXML &= tabs(1) & "<currentTime>" & Format(rpilot.CacheFileTime, "yyyy-MM-dd HH:mm:ss") & "</currentTime>" & vbCrLf
             strXML &= tabs(1) & "<result>"
             strXML &= tabs(2) & "<currentTQTime offset=""-8"">" & Format(Now.AddSeconds(-8), "yyyy-MM-dd HH:mm:ss") & "</currentTQTime>"
             strXML &= tabs(2) & "<trainingEndTime>" & Format(rpilot.TrainingEndTimeActual, "yyyy-MM-dd HH:mm:ss") & "</trainingEndTime>" & vbCrLf
@@ -2270,7 +2270,7 @@ Public Class Reports
             strXML &= tabs(0) & "</eveapi>" & vbCrLf
         Else
             strXML &= tabs(0) & "<eveapi version=""1"">" & vbCrLf
-            strXML &= tabs(1) & "<currentTime>" & Format(Now, "yyyy-mm-dd HH:MM:ss") & "</currentTime>" & vbCrLf
+            strXML &= tabs(1) & "<currentTime>" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "</currentTime>" & vbCrLf
             strXML &= tabs(1) & "<result>"
             strXML &= tabs(2) & "<currentTQTime offset=""-8"">" & Format(Now.AddSeconds(-8), "yyyy-MM-dd hh:mm:ss") & "</currentTQTime>"
             strXML &= tabs(2) & "<skillInTraining>0</skillInTraining>" & vbCrLf
