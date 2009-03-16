@@ -1220,7 +1220,7 @@ Public Class frmMarketPrices
 #Region "Market & Faction Price Feed Routines"
 
     Private Sub btnUpdateFactionPrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateFactionPrices.Click
-        If GetPriceFeed("FactionPrices", "http://www.eve-prices.net/xml/today.xml", lblFactionPriceUpdateStatus, False) = True Then
+        If GetPriceFeed("FactionPrices", "http://www.eve-prices.net/xml/today.xml", lblFactionPriceUpdateStatus, 0, False) = True Then
             ' Open a persistant DB connection
             If EveHQ.Core.DataFunctions.OpenCustomDatabase = True Then
                 Call Me.ParseFactionPriceFeed("FactionPrices", lblFactionPriceUpdateStatus)
@@ -1312,8 +1312,8 @@ Public Class frmMarketPrices
                             End If
                         Next
                         lblMarketPriceUpdateStatus.Text = "Parsing Batch: " & count.ToString & " of " & Int((priceData.Tables(0).Rows.Count - 1) / 20) + 1 & "..." : lblMarketPriceUpdateStatus.Refresh()
-                        If GetPriceFeed("MarketPrices", ecURL, lblMarketPriceUpdateStatus, True) = True Then
-                            Call Me.ParseMarketPriceFeed("MarketPrices", lblMarketPriceUpdateStatus)
+                        If GetPriceFeed("MarketPrices", ecURL, lblMarketPriceUpdateStatus, count, True) = True Then
+                            Call Me.ParseMarketPriceFeed("MarketPrices", count, lblMarketPriceUpdateStatus)
                         End If
                     Next
                     EveHQ.Core.HQ.EveHQSettings.LastMarketPriceUpdate = Now
@@ -1341,7 +1341,7 @@ Public Class frmMarketPrices
             MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
     End Sub
-    Private Function GetPriceFeed(ByVal FeedName As String, ByVal URL As String, ByVal StatusLabel As Label, ByVal SupressProgress As Boolean) As Boolean
+    Private Function GetPriceFeed(ByVal FeedName As String, ByVal URL As String, ByVal StatusLabel As Label, ByVal index As Integer, ByVal SupressProgress As Boolean) As Boolean
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
@@ -1349,7 +1349,7 @@ Public Class frmMarketPrices
         If SupressProgress = False Then
             StatusLabel.Text = "Setting '" & FeedName & "' Server Address..." : StatusLabel.Refresh()
         End If
-        Dim localfile As String = EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml"
+        Dim localfile As String = EveHQ.Core.HQ.cacheFolder & "\" & FeedName & index.ToString & ".xml"
         ServicePointManager.DefaultConnectionLimit = 10
         ServicePointManager.Expect100Continue = False
         Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(URL))
@@ -1436,12 +1436,12 @@ Public Class frmMarketPrices
             End Try
         End If
     End Sub
-    Private Sub ParseMarketPriceFeed(ByVal FeedName As String, ByVal StatusLabel As Label)
+    Private Sub ParseMarketPriceFeed(ByVal FeedName As String, ByVal index As Integer, ByVal StatusLabel As Label)
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim feedXML As New XmlDocument
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
+        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & index.ToString & ".xml") = True Then
             Try
-                feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+                feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & index.ToString & ".xml")
                 Dim Items As XmlNodeList
                 Items = feedXML.SelectNodes("/evec_api/marketstat/type")
                 For Each Item As XmlNode In Items
