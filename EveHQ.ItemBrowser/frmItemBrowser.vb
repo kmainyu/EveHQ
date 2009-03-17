@@ -493,6 +493,7 @@ Public Class frmItemBrowser
             tvwBrowse.Nodes(EveHQ.Core.HQ.groupCats(newNode.Name).ToString).Nodes.Add(newNode)
         Next
         ' Update the browser
+        tvwBrowse.Sorted = True
         tvwBrowse.EndUpdate()
     End Sub
     Private Sub lstVariations_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lstVariations.DoubleClick
