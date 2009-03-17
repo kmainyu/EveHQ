@@ -751,29 +751,6 @@ Public Class frmPilot
 
 #Region "Portrait Related Routines"
 
-    Private Sub LoadPortrait()
-        ' If double-clicked, see if we can get it from the eve portrait folder
-        For folder As Integer = 1 To 4
-            Dim folderName As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder) & "\cache\Pictures\Portraits"
-            If My.Computer.FileSystem.DirectoryExists(folderName) = True Then
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles(folderName, FileIO.SearchOption.SearchTopLevelOnly, "*.png")
-                    If foundFile.Contains(EveHQ.Core.HQ.myPilot.ID & "_") = True Then
-                        ' Get the dimensions of the file
-                        Dim myFile As New FileInfo(foundFile)
-                        Dim fileData As String() = myFile.Name.Split(New Char(1) {CChar("_"), CChar(".")})
-                        If CInt(fileData(1)) >= 128 Then
-                            picPilot.ImageLocation = foundFile
-                            Exit Sub
-                        End If
-                    End If
-                Next
-            End If
-        Next
-        ' If we haven't found a matching image then get it from the server
-        If EveHQ.Core.HQ.myPilot.ID <> "" Then
-            picPilot.ImageLocation = "http://img.eve.is/serv.asp?s=64&c=" & EveHQ.Core.HQ.myPilot.ID
-        End If
-    End Sub
     Private Sub mnuCtxPicGetPortraitFromServer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCtxPicGetPortraitFromServer.Click
         If EveHQ.Core.HQ.myPilot.ID <> "" Then
             picPilot.ImageLocation = "http://img.eve.is/serv.asp?s=256&c=" & EveHQ.Core.HQ.myPilot.ID
@@ -782,7 +759,14 @@ Public Class frmPilot
     Private Sub mnuCtxPicGetPortraitFromLocal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCtxPicGetPortraitFromLocal.Click
         ' If double-clicked, see if we can get it from the eve portrait folder
         For folder As Integer = 1 To 4
-            Dim folderName As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder) & "\cache\Pictures\Portraits"
+            Dim folderName As String
+            If EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folder) = False Then
+                Dim eveSettingsFolder As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder)
+                eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower & "_tranquility"
+                folderName = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\" & eveSettingsFolder & "\cache\Pictures\Portraits").Replace("\\", "\")
+            Else
+                folderName = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder) & "\cache\Pictures\Portraits"
+            End If
             If My.Computer.FileSystem.DirectoryExists(folderName) = True Then
                 For Each foundFile As String In My.Computer.FileSystem.GetFiles(folderName, FileIO.SearchOption.SearchTopLevelOnly, "*.png")
                     If foundFile.Contains(EveHQ.Core.HQ.myPilot.ID & "_") = True Then
@@ -797,6 +781,7 @@ Public Class frmPilot
                 Next
             End If
         Next
+        MessageBox.Show("The requested portrait was not found within the Eve cache locations.", "Portrait Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
     Private Sub mnuSavePortrait_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSavePortrait.Click
         Dim imgFilename As String = "i" & EveHQ.Core.HQ.myPilot.ID & ".png"
