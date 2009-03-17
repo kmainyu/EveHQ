@@ -438,6 +438,20 @@ Public Class frmTraining
         Next
     End Sub
 
+    Private Sub tvwSkillList_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwSkillList.AfterSelect
+        btnLevelUp.Enabled = False
+        btnLevelDown.Enabled = False
+        btnDeleteSkill.Enabled = False
+        btnMoveUp.Enabled = False
+        btnMoveDown.Enabled = False
+        btnShowDetails.Enabled = True
+        btnAddSkill.Enabled = True
+        If e.Node.Parent IsNot Nothing Or (e.Node.Parent Is Nothing And usingFilter = False) Then
+            Dim skillID As String = e.Node.Name
+            Call Me.ShowSkillDetails(skillID)
+        End If
+    End Sub
+
     Private Sub tvwSkillList_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles tvwSkillList.DoubleClick
         If tvwSkillList.SelectedNode.Level = 1 Or (tvwSkillList.SelectedNode.Level = 0 And usingFilter = False) Then
             Dim skillID As String
@@ -843,17 +857,6 @@ Public Class frmTraining
 
     Private Sub tvwSkillList_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwSkillList.NodeMouseClick
         tvwSkillList.SelectedNode = e.Node
-        btnLevelUp.Enabled = False
-        btnLevelDown.Enabled = False
-        btnDeleteSkill.Enabled = False
-        btnMoveUp.Enabled = False
-        btnMoveDown.Enabled = False
-        btnShowDetails.Enabled = True
-        btnAddSkill.Enabled = True
-        If e.Node.Parent IsNot Nothing Or (e.Node.Parent Is Nothing And usingFilter = False) Then
-            Dim skillID As String = e.Node.Name
-            Call Me.ShowSkillDetails(skillID)
-        End If
     End Sub
 
     Private Sub ctxQueue_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxQueue.Opening
