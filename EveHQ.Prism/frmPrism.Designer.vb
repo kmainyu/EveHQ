@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.tlvAssets = New DotNetLib.Windows.Forms.ContainerListView
         Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -123,6 +123,8 @@ Partial Class frmPrism
         Me.colInvCIncome = New System.Windows.Forms.ColumnHeader
         Me.colInvCYield = New System.Windows.Forms.ColumnHeader
         Me.tabRigBuilder = New System.Windows.Forms.TabPage
+        Me.btnExportRigList = New System.Windows.Forms.Button
+        Me.btnExportRigBuildList = New System.Windows.Forms.Button
         Me.lblTotalRigMargin = New System.Windows.Forms.Label
         Me.lblTotalRigProfit = New System.Windows.Forms.Label
         Me.lblTotalRigSalePrice = New System.Windows.Forms.Label
@@ -178,6 +180,7 @@ Partial Class frmPrism
         Me.colBOExpiresIn = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.lblBuyOrders = New System.Windows.Forms.Label
         Me.panelOrderInfo = New System.Windows.Forms.Panel
+        Me.btnExportOrders = New System.Windows.Forms.Button
         Me.lblRemoteRange = New System.Windows.Forms.Label
         Me.lblModRange = New System.Windows.Forms.Label
         Me.lblBidRange = New System.Windows.Forms.Label
@@ -199,6 +202,7 @@ Partial Class frmPrism
         Me.lblEscrowLbl = New System.Windows.Forms.Label
         Me.lblOrdersLbl = New System.Windows.Forms.Label
         Me.tabTransactions = New System.Windows.Forms.TabPage
+        Me.btnExportTransactions = New System.Windows.Forms.Button
         Me.cboWalletTransDivision = New System.Windows.Forms.ComboBox
         Me.lblWalletTransDivision = New System.Windows.Forms.Label
         Me.clvTransactions = New DotNetLib.Windows.Forms.ContainerListView
@@ -210,6 +214,7 @@ Partial Class frmPrism
         Me.colWTransLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colWTransClient = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.tabJournal = New System.Windows.Forms.TabPage
+        Me.btnExportJournal = New System.Windows.Forms.Button
         Me.cboWalletJournalDivision = New System.Windows.Forms.ComboBox
         Me.lblWalletJournalDivision = New System.Windows.Forms.Label
         Me.clvJournal = New DotNetLib.Windows.Forms.ContainerListView
@@ -219,6 +224,7 @@ Partial Class frmPrism
         Me.colWalletJournalBalance = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colWalletJournalDescription = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.tabJobs = New System.Windows.Forms.TabPage
+        Me.btnExportJobs = New System.Windows.Forms.Button
         Me.clvJobs = New DotNetLib.Windows.Forms.ContainerListView
         Me.colJobsItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colJobsActivity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -327,12 +333,6 @@ Partial Class frmPrism
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
-        Me.btnExportTransactions = New System.Windows.Forms.Button
-        Me.btnExportJournal = New System.Windows.Forms.Button
-        Me.btnExportJobs = New System.Windows.Forms.Button
-        Me.btnExportOrders = New System.Windows.Forms.Button
-        Me.btnExportRigBuildList = New System.Windows.Forms.Button
-        Me.btnExportRigList = New System.Windows.Forms.Button
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -486,68 +486,68 @@ Partial Class frmPrism
         '
         Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.mnuToolSep, Me.mnuItemRecycling})
         Me.ctxAssets.Name = "ctxAssets"
-        Me.ctxAssets.Size = New System.Drawing.Size(190, 126)
+        Me.ctxAssets.Size = New System.Drawing.Size(188, 126)
         '
         'mnuItemName
         '
         Me.mnuItemName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.mnuItemName.Name = "mnuItemName"
-        Me.mnuItemName.Size = New System.Drawing.Size(189, 22)
+        Me.mnuItemName.Size = New System.Drawing.Size(187, 22)
         Me.mnuItemName.Text = "Item Name"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(186, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(184, 6)
         '
         'mnuViewInIB
         '
         Me.mnuViewInIB.Name = "mnuViewInIB"
-        Me.mnuViewInIB.Size = New System.Drawing.Size(189, 22)
+        Me.mnuViewInIB.Size = New System.Drawing.Size(187, 22)
         Me.mnuViewInIB.Text = "View In Item Browser"
         '
         'mnuViewInHQF
         '
         Me.mnuViewInHQF.Name = "mnuViewInHQF"
-        Me.mnuViewInHQF.Size = New System.Drawing.Size(189, 22)
+        Me.mnuViewInHQF.Size = New System.Drawing.Size(187, 22)
         Me.mnuViewInHQF.Text = "Copy Setup for HQF"
         '
         'mnuModifyPrice
         '
         Me.mnuModifyPrice.Name = "mnuModifyPrice"
-        Me.mnuModifyPrice.Size = New System.Drawing.Size(189, 22)
+        Me.mnuModifyPrice.Size = New System.Drawing.Size(187, 22)
         Me.mnuModifyPrice.Text = "Modify Custom Price"
         '
         'mnuToolSep
         '
         Me.mnuToolSep.Name = "mnuToolSep"
-        Me.mnuToolSep.Size = New System.Drawing.Size(186, 6)
+        Me.mnuToolSep.Size = New System.Drawing.Size(184, 6)
         '
         'mnuItemRecycling
         '
         Me.mnuItemRecycling.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRecycleItem, Me.mnuRecycleContained, Me.mnuRecycleAll})
         Me.mnuItemRecycling.Name = "mnuItemRecycling"
-        Me.mnuItemRecycling.Size = New System.Drawing.Size(189, 22)
+        Me.mnuItemRecycling.Size = New System.Drawing.Size(187, 22)
         Me.mnuItemRecycling.Text = "Recycling Profitability"
         '
         'mnuRecycleItem
         '
         Me.mnuRecycleItem.Name = "mnuRecycleItem"
-        Me.mnuRecycleItem.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleItem.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleItem.Text = "Current Item"
         '
         'mnuRecycleContained
         '
         Me.mnuRecycleContained.Enabled = False
         Me.mnuRecycleContained.Name = "mnuRecycleContained"
-        Me.mnuRecycleContained.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleContained.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleContained.Text = "Contained Items"
         '
         'mnuRecycleAll
         '
         Me.mnuRecycleAll.Enabled = False
         Me.mnuRecycleAll.Name = "mnuRecycleAll"
-        Me.mnuRecycleAll.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleAll.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleAll.Text = "Container + Items"
         '
         'chkExcludeBPs
@@ -574,12 +574,12 @@ Partial Class frmPrism
         '
         Me.ctxFilter.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToFilterToolStripMenuItem})
         Me.ctxFilter.Name = "ctxFilter"
-        Me.ctxFilter.Size = New System.Drawing.Size(143, 26)
+        Me.ctxFilter.Size = New System.Drawing.Size(147, 26)
         '
         'AddToFilterToolStripMenuItem
         '
         Me.AddToFilterToolStripMenuItem.Name = "AddToFilterToolStripMenuItem"
-        Me.AddToFilterToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.AddToFilterToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.AddToFilterToolStripMenuItem.Text = "Add To Filter"
         '
         'lblGroupFilter
@@ -607,12 +607,12 @@ Partial Class frmPrism
         '
         Me.ctxFilterList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFilterToolStripMenuItem})
         Me.ctxFilterList.Name = "ctxFilterList"
-        Me.ctxFilterList.Size = New System.Drawing.Size(147, 26)
+        Me.ctxFilterList.Size = New System.Drawing.Size(152, 26)
         '
         'RemoveFilterToolStripMenuItem
         '
         Me.RemoveFilterToolStripMenuItem.Name = "RemoveFilterToolStripMenuItem"
-        Me.RemoveFilterToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.RemoveFilterToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.RemoveFilterToolStripMenuItem.Text = "Remove Filter"
         '
         'lblSelectedFilters
@@ -650,12 +650,12 @@ Partial Class frmPrism
         '
         Me.ctxTabPrism.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuClosePrismTab})
         Me.ctxTabPrism.Name = "ctxTabbedMDI"
-        Me.ctxTabPrism.Size = New System.Drawing.Size(124, 26)
+        Me.ctxTabPrism.Size = New System.Drawing.Size(128, 26)
         '
         'mnuClosePrismTab
         '
         Me.mnuClosePrismTab.Name = "mnuClosePrismTab"
-        Me.mnuClosePrismTab.Size = New System.Drawing.Size(123, 22)
+        Me.mnuClosePrismTab.Size = New System.Drawing.Size(127, 22)
         Me.mnuClosePrismTab.Text = "Not Valid"
         '
         'tabAPIStatus
@@ -949,11 +949,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup3.Header = "Corporation"
-        ListViewGroup3.Name = "grpCorporation"
-        ListViewGroup4.Header = "Personal"
-        ListViewGroup4.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Corporation"
+        ListViewGroup1.Name = "grpCorporation"
+        ListViewGroup2.Header = "Personal"
+        ListViewGroup2.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -1233,6 +1233,26 @@ Partial Class frmPrism
         Me.tabRigBuilder.TabIndex = 4
         Me.tabRigBuilder.Text = "Rig Builder"
         Me.tabRigBuilder.UseVisualStyleBackColor = True
+        '
+        'btnExportRigList
+        '
+        Me.btnExportRigList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportRigList.Location = New System.Drawing.Point(1028, 48)
+        Me.btnExportRigList.Name = "btnExportRigList"
+        Me.btnExportRigList.Size = New System.Drawing.Size(100, 23)
+        Me.btnExportRigList.TabIndex = 45
+        Me.btnExportRigList.Text = "Export Rig List"
+        Me.btnExportRigList.UseVisualStyleBackColor = True
+        '
+        'btnExportRigBuildList
+        '
+        Me.btnExportRigBuildList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportRigBuildList.Location = New System.Drawing.Point(1028, 77)
+        Me.btnExportRigBuildList.Name = "btnExportRigBuildList"
+        Me.btnExportRigBuildList.Size = New System.Drawing.Size(100, 23)
+        Me.btnExportRigBuildList.TabIndex = 44
+        Me.btnExportRigBuildList.Text = "Export Build List"
+        Me.btnExportRigBuildList.UseVisualStyleBackColor = True
         '
         'lblTotalRigMargin
         '
@@ -1836,6 +1856,16 @@ Partial Class frmPrism
         Me.panelOrderInfo.Size = New System.Drawing.Size(1136, 95)
         Me.panelOrderInfo.TabIndex = 27
         '
+        'btnExportOrders
+        '
+        Me.btnExportOrders.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportOrders.Location = New System.Drawing.Point(1053, 6)
+        Me.btnExportOrders.Name = "btnExportOrders"
+        Me.btnExportOrders.Size = New System.Drawing.Size(75, 23)
+        Me.btnExportOrders.TabIndex = 43
+        Me.btnExportOrders.Text = "Export"
+        Me.btnExportOrders.UseVisualStyleBackColor = True
+        '
         'lblRemoteRange
         '
         Me.lblRemoteRange.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -2069,6 +2099,16 @@ Partial Class frmPrism
         Me.tabTransactions.Text = "Transactions"
         Me.tabTransactions.UseVisualStyleBackColor = True
         '
+        'btnExportTransactions
+        '
+        Me.btnExportTransactions.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportTransactions.Location = New System.Drawing.Point(1053, 5)
+        Me.btnExportTransactions.Name = "btnExportTransactions"
+        Me.btnExportTransactions.Size = New System.Drawing.Size(75, 23)
+        Me.btnExportTransactions.TabIndex = 3
+        Me.btnExportTransactions.Text = "Export"
+        Me.btnExportTransactions.UseVisualStyleBackColor = True
+        '
         'cboWalletTransDivision
         '
         Me.cboWalletTransDivision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -2180,6 +2220,16 @@ Partial Class frmPrism
         Me.tabJournal.Text = "Journal"
         Me.tabJournal.UseVisualStyleBackColor = True
         '
+        'btnExportJournal
+        '
+        Me.btnExportJournal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportJournal.Location = New System.Drawing.Point(1053, 5)
+        Me.btnExportJournal.Name = "btnExportJournal"
+        Me.btnExportJournal.Size = New System.Drawing.Size(75, 23)
+        Me.btnExportJournal.TabIndex = 6
+        Me.btnExportJournal.Text = "Export"
+        Me.btnExportJournal.UseVisualStyleBackColor = True
+        '
         'cboWalletJournalDivision
         '
         Me.cboWalletJournalDivision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -2270,6 +2320,16 @@ Partial Class frmPrism
         Me.tabJobs.TabIndex = 8
         Me.tabJobs.Text = "Jobs"
         Me.tabJobs.UseVisualStyleBackColor = True
+        '
+        'btnExportJobs
+        '
+        Me.btnExportJobs.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportJobs.Location = New System.Drawing.Point(1053, 5)
+        Me.btnExportJobs.Name = "btnExportJobs"
+        Me.btnExportJobs.Size = New System.Drawing.Size(75, 23)
+        Me.btnExportJobs.TabIndex = 5
+        Me.btnExportJobs.Text = "Export"
+        Me.btnExportJobs.UseVisualStyleBackColor = True
         '
         'clvJobs
         '
@@ -2704,35 +2764,35 @@ Partial Class frmPrism
         '
         Me.ctxRecycleItems.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddRecycleItem})
         Me.ctxRecycleItems.Name = "ctxRecycleItem"
-        Me.ctxRecycleItems.Size = New System.Drawing.Size(124, 26)
+        Me.ctxRecycleItems.Size = New System.Drawing.Size(130, 26)
         '
         'mnuAddRecycleItem
         '
         Me.mnuAddRecycleItem.Name = "mnuAddRecycleItem"
-        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(123, 22)
+        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(129, 22)
         Me.mnuAddRecycleItem.Text = "Add Item"
         '
         'ctxRecycleItem
         '
         Me.ctxRecycleItem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAlterRecycleQuantity, Me.ToolStripMenuItem2, Me.mnuRemoveRecycleItem})
         Me.ctxRecycleItem.Name = "ctxRecycleItem"
-        Me.ctxRecycleItem.Size = New System.Drawing.Size(149, 54)
+        Me.ctxRecycleItem.Size = New System.Drawing.Size(154, 54)
         '
         'mnuAlterRecycleQuantity
         '
         Me.mnuAlterRecycleQuantity.Name = "mnuAlterRecycleQuantity"
-        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(148, 22)
+        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(153, 22)
         Me.mnuAlterRecycleQuantity.Text = "Alter Quantity"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(145, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(150, 6)
         '
         'mnuRemoveRecycleItem
         '
         Me.mnuRemoveRecycleItem.Name = "mnuRemoveRecycleItem"
-        Me.mnuRemoveRecycleItem.Size = New System.Drawing.Size(148, 22)
+        Me.mnuRemoveRecycleItem.Size = New System.Drawing.Size(153, 22)
         Me.mnuRemoveRecycleItem.Text = "Remove Item"
         '
         'tabTotals
@@ -2826,7 +2886,7 @@ Partial Class frmPrism
         'tssLabelTotalAssetsLabel
         '
         Me.tssLabelTotalAssetsLabel.Name = "tssLabelTotalAssetsLabel"
-        Me.tssLabelTotalAssetsLabel.Size = New System.Drawing.Size(154, 17)
+        Me.tssLabelTotalAssetsLabel.Size = New System.Drawing.Size(143, 17)
         Me.tssLabelTotalAssetsLabel.Text = "Total Displayed Asset Value:"
         '
         'tssLabelTotalAssets
@@ -2841,7 +2901,7 @@ Partial Class frmPrism
         'tssLabelSelectedAssetsLabel
         '
         Me.tssLabelSelectedAssetsLabel.Name = "tssLabelSelectedAssetsLabel"
-        Me.tssLabelSelectedAssetsLabel.Size = New System.Drawing.Size(162, 17)
+        Me.tssLabelSelectedAssetsLabel.Size = New System.Drawing.Size(153, 17)
         Me.tssLabelSelectedAssetsLabel.Text = "     Total Selected Asset Value:"
         '
         'tssLabelSelectedAssets
@@ -2868,7 +2928,7 @@ Partial Class frmPrism
         Me.tsbDownloadData.Image = CType(resources.GetObject("tsbDownloadData.Image"), System.Drawing.Image)
         Me.tsbDownloadData.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbDownloadData.Name = "tsbDownloadData"
-        Me.tsbDownloadData.Size = New System.Drawing.Size(113, 22)
+        Me.tsbDownloadData.Size = New System.Drawing.Size(104, 22)
         Me.tsbDownloadData.Text = "Download API Data"
         '
         'ToolStripSeparator1
@@ -2879,7 +2939,7 @@ Partial Class frmPrism
         'lblOwner
         '
         Me.lblOwner.Name = "lblOwner"
-        Me.lblOwner.Size = New System.Drawing.Size(45, 22)
+        Me.lblOwner.Size = New System.Drawing.Size(43, 22)
         Me.lblOwner.Text = "Owner:"
         '
         'cboOwner
@@ -2901,7 +2961,7 @@ Partial Class frmPrism
         Me.tsbAssets.Image = CType(resources.GetObject("tsbAssets.Image"), System.Drawing.Image)
         Me.tsbAssets.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbAssets.Name = "tsbAssets"
-        Me.tsbAssets.Size = New System.Drawing.Size(44, 22)
+        Me.tsbAssets.Size = New System.Drawing.Size(43, 22)
         Me.tsbAssets.Text = "Assets"
         Me.tsbAssets.ToolTipText = "Displays the Assets tab"
         '
@@ -2916,7 +2976,7 @@ Partial Class frmPrism
         Me.tsbInvestments.Image = CType(resources.GetObject("tsbInvestments.Image"), System.Drawing.Image)
         Me.tsbInvestments.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbInvestments.Name = "tsbInvestments"
-        Me.tsbInvestments.Size = New System.Drawing.Size(75, 22)
+        Me.tsbInvestments.Size = New System.Drawing.Size(71, 22)
         Me.tsbInvestments.Text = "Investments"
         Me.tsbInvestments.ToolTipText = "Displays investments"
         '
@@ -2931,7 +2991,7 @@ Partial Class frmPrism
         Me.tsbRigBuilder.Image = CType(resources.GetObject("tsbRigBuilder.Image"), System.Drawing.Image)
         Me.tsbRigBuilder.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbRigBuilder.Name = "tsbRigBuilder"
-        Me.tsbRigBuilder.Size = New System.Drawing.Size(68, 22)
+        Me.tsbRigBuilder.Size = New System.Drawing.Size(61, 22)
         Me.tsbRigBuilder.Text = "Rig Builder"
         Me.tsbRigBuilder.ToolTipText = "Displays the rig builder"
         '
@@ -2946,7 +3006,7 @@ Partial Class frmPrism
         Me.tsbOrders.Image = CType(resources.GetObject("tsbOrders.Image"), System.Drawing.Image)
         Me.tsbOrders.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbOrders.Name = "tsbOrders"
-        Me.tsbOrders.Size = New System.Drawing.Size(46, 22)
+        Me.tsbOrders.Size = New System.Drawing.Size(44, 22)
         Me.tsbOrders.Text = "Orders"
         Me.tsbOrders.ToolTipText = "Displays the market orders"
         '
@@ -2961,7 +3021,7 @@ Partial Class frmPrism
         Me.tsbTransactions.Image = CType(resources.GetObject("tsbTransactions.Image"), System.Drawing.Image)
         Me.tsbTransactions.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbTransactions.Name = "tsbTransactions"
-        Me.tsbTransactions.Size = New System.Drawing.Size(78, 22)
+        Me.tsbTransactions.Size = New System.Drawing.Size(72, 22)
         Me.tsbTransactions.Text = "Transactions"
         Me.tsbTransactions.ToolTipText = "Displays the wallet transactions"
         '
@@ -2976,7 +3036,7 @@ Partial Class frmPrism
         Me.tsbJournal.Image = CType(resources.GetObject("tsbJournal.Image"), System.Drawing.Image)
         Me.tsbJournal.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbJournal.Name = "tsbJournal"
-        Me.tsbJournal.Size = New System.Drawing.Size(49, 22)
+        Me.tsbJournal.Size = New System.Drawing.Size(46, 22)
         Me.tsbJournal.Text = "Journal"
         Me.tsbJournal.ToolTipText = "Displays the wallet journal"
         '
@@ -2991,7 +3051,7 @@ Partial Class frmPrism
         Me.tsbJobs.Image = CType(resources.GetObject("tsbJobs.Image"), System.Drawing.Image)
         Me.tsbJobs.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbJobs.Name = "tsbJobs"
-        Me.tsbJobs.Size = New System.Drawing.Size(34, 22)
+        Me.tsbJobs.Size = New System.Drawing.Size(33, 22)
         Me.tsbJobs.Text = "Jobs"
         Me.tsbJobs.ToolTipText = "Displays the Blueprint jobs"
         '
@@ -3006,7 +3066,7 @@ Partial Class frmPrism
         Me.tsbRecycle.Image = CType(resources.GetObject("tsbRecycle.Image"), System.Drawing.Image)
         Me.tsbRecycle.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbRecycle.Name = "tsbRecycle"
-        Me.tsbRecycle.Size = New System.Drawing.Size(55, 22)
+        Me.tsbRecycle.Size = New System.Drawing.Size(52, 22)
         Me.tsbRecycle.Text = "Recycler"
         Me.tsbRecycle.ToolTipText = "Displays the Recycler tab"
         '
@@ -3022,83 +3082,83 @@ Partial Class frmPrism
         Me.tsbReports.Image = CType(resources.GetObject("tsbReports.Image"), System.Drawing.Image)
         Me.tsbReports.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbReports.Name = "tsbReports"
-        Me.tsbReports.Size = New System.Drawing.Size(63, 22)
+        Me.tsbReports.Size = New System.Drawing.Size(61, 22)
         Me.tsbReports.Text = "Reports"
         '
         'mnuLocation
         '
         Me.mnuLocation.Name = "mnuLocation"
-        Me.mnuLocation.Size = New System.Drawing.Size(185, 22)
+        Me.mnuLocation.Size = New System.Drawing.Size(184, 22)
         Me.mnuLocation.Text = "Grouped by Location"
         '
         'mnuAssetLists
         '
         Me.mnuAssetLists.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListName, Me.mnuAssetListQuantity, Me.mnuAssetListPrice, Me.mnuAssetListValue})
         Me.mnuAssetLists.Name = "mnuAssetLists"
-        Me.mnuAssetLists.Size = New System.Drawing.Size(185, 22)
+        Me.mnuAssetLists.Size = New System.Drawing.Size(184, 22)
         Me.mnuAssetLists.Text = "Asset Lists"
         '
         'mnuAssetListName
         '
         Me.mnuAssetListName.Name = "mnuAssetListName"
-        Me.mnuAssetListName.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListName.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListName.Text = "Asset List (Name)"
         '
         'mnuAssetListQuantity
         '
         Me.mnuAssetListQuantity.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListQuantityA, Me.mnuAssetListQuantityD})
         Me.mnuAssetListQuantity.Name = "mnuAssetListQuantity"
-        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListQuantity.Text = "Asset List (Quantity)"
         '
         'mnuAssetListQuantityA
         '
         Me.mnuAssetListQuantityA.Name = "mnuAssetListQuantityA"
-        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListQuantityA.Text = "Ascending"
         '
         'mnuAssetListQuantityD
         '
         Me.mnuAssetListQuantityD.Name = "mnuAssetListQuantityD"
-        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListQuantityD.Text = "Descending"
         '
         'mnuAssetListPrice
         '
         Me.mnuAssetListPrice.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListPriceA, Me.mnuAssetListPriceD})
         Me.mnuAssetListPrice.Name = "mnuAssetListPrice"
-        Me.mnuAssetListPrice.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListPrice.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListPrice.Text = "Asset List (Unit Price)"
         '
         'mnuAssetListPriceA
         '
         Me.mnuAssetListPriceA.Name = "mnuAssetListPriceA"
-        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListPriceA.Text = "Ascending"
         '
         'mnuAssetListPriceD
         '
         Me.mnuAssetListPriceD.Name = "mnuAssetListPriceD"
-        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListPriceD.Text = "Descending"
         '
         'mnuAssetListValue
         '
         Me.mnuAssetListValue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListValueA, Me.mnuAssetListValueD})
         Me.mnuAssetListValue.Name = "mnuAssetListValue"
-        Me.mnuAssetListValue.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListValue.Size = New System.Drawing.Size(195, 22)
         Me.mnuAssetListValue.Text = "Asset List (Total Value)"
         '
         'mnuAssetListValueA
         '
         Me.mnuAssetListValueA.Name = "mnuAssetListValueA"
-        Me.mnuAssetListValueA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListValueA.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListValueA.Text = "Ascending"
         '
         'mnuAssetListValueD
         '
         Me.mnuAssetListValueD.Name = "mnuAssetListValueD"
-        Me.mnuAssetListValueD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListValueD.Size = New System.Drawing.Size(140, 22)
         Me.mnuAssetListValueD.Text = "Descending"
         '
         'ColumnHeader1
@@ -3168,66 +3228,6 @@ Partial Class frmPrism
         Me.ColumnHeader12.Text = "Expires In"
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
-        '
-        'btnExportTransactions
-        '
-        Me.btnExportTransactions.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportTransactions.Location = New System.Drawing.Point(1053, 5)
-        Me.btnExportTransactions.Name = "btnExportTransactions"
-        Me.btnExportTransactions.Size = New System.Drawing.Size(75, 23)
-        Me.btnExportTransactions.TabIndex = 3
-        Me.btnExportTransactions.Text = "Export"
-        Me.btnExportTransactions.UseVisualStyleBackColor = True
-        '
-        'btnExportJournal
-        '
-        Me.btnExportJournal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportJournal.Location = New System.Drawing.Point(1053, 5)
-        Me.btnExportJournal.Name = "btnExportJournal"
-        Me.btnExportJournal.Size = New System.Drawing.Size(75, 23)
-        Me.btnExportJournal.TabIndex = 6
-        Me.btnExportJournal.Text = "Export"
-        Me.btnExportJournal.UseVisualStyleBackColor = True
-        '
-        'btnExportJobs
-        '
-        Me.btnExportJobs.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportJobs.Location = New System.Drawing.Point(1053, 5)
-        Me.btnExportJobs.Name = "btnExportJobs"
-        Me.btnExportJobs.Size = New System.Drawing.Size(75, 23)
-        Me.btnExportJobs.TabIndex = 5
-        Me.btnExportJobs.Text = "Export"
-        Me.btnExportJobs.UseVisualStyleBackColor = True
-        '
-        'btnExportOrders
-        '
-        Me.btnExportOrders.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportOrders.Location = New System.Drawing.Point(1053, 6)
-        Me.btnExportOrders.Name = "btnExportOrders"
-        Me.btnExportOrders.Size = New System.Drawing.Size(75, 23)
-        Me.btnExportOrders.TabIndex = 43
-        Me.btnExportOrders.Text = "Export"
-        Me.btnExportOrders.UseVisualStyleBackColor = True
-        '
-        'btnExportRigBuildList
-        '
-        Me.btnExportRigBuildList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportRigBuildList.Location = New System.Drawing.Point(1028, 77)
-        Me.btnExportRigBuildList.Name = "btnExportRigBuildList"
-        Me.btnExportRigBuildList.Size = New System.Drawing.Size(100, 23)
-        Me.btnExportRigBuildList.TabIndex = 44
-        Me.btnExportRigBuildList.Text = "Export Build List"
-        Me.btnExportRigBuildList.UseVisualStyleBackColor = True
-        '
-        'btnExportRigList
-        '
-        Me.btnExportRigList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportRigList.Location = New System.Drawing.Point(1028, 48)
-        Me.btnExportRigList.Name = "btnExportRigList"
-        Me.btnExportRigList.Size = New System.Drawing.Size(100, 23)
-        Me.btnExportRigList.TabIndex = 45
-        Me.btnExportRigList.Text = "Export Rig List"
-        Me.btnExportRigList.UseVisualStyleBackColor = True
         '
         'frmPrism
         '

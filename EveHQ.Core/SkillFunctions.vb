@@ -899,7 +899,7 @@ Public Class SkillFunctions
                 ' Write Character XML
                 strXML = ""
                 strXML &= EveHQ.Core.Reports.CurrentPilotXML_New(skillPilot)
-                sw = New IO.StreamWriter(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_5_" & skillPilot.Account & "_" & skillPilot.ID & ".xml")
+                sw = New IO.StreamWriter(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & skillPilot.Account & "_" & skillPilot.ID & ".xml")
                 sw.Write(strXML)
                 sw.Flush()
                 sw.Close()
@@ -907,7 +907,7 @@ Public Class SkillFunctions
                 ' Write Training XML
                 strXML = ""
                 strXML &= EveHQ.Core.Reports.CurrentTrainingXML_New(skillPilot)
-                sw = New IO.StreamWriter(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_6_" & skillPilot.Account & "_" & skillPilot.ID & ".xml")
+                sw = New IO.StreamWriter(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString & "_" & skillPilot.Account & "_" & skillPilot.ID & ".xml")
                 sw.Write(strXML)
                 sw.Flush()
                 sw.Close()

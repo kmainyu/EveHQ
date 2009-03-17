@@ -2084,8 +2084,8 @@ Public Class frmEveHQ
         ' Stop the timer from reporting multiple errors
         tmrSkillUpdate.Enabled = False
         Dim cXML, tXML As New XmlDocument
-        cXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_5_" & EveHQ.Core.HQ.myPilot.Account & "_" & EveHQ.Core.HQ.myPilot.ID & ".xml")
-        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_6_" & EveHQ.Core.HQ.myPilot.Account & "_" & EveHQ.Core.HQ.myPilot.ID & ".xml")
+        cXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & EveHQ.Core.HQ.myPilot.Account & "_" & EveHQ.Core.HQ.myPilot.ID & ".xml")
+        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString & "_" & EveHQ.Core.HQ.myPilot.Account & "_" & EveHQ.Core.HQ.myPilot.ID & ".xml")
         Dim msg As New StringBuilder
         msg.Append("EveHQ has detected that the skill that " & EveHQ.Core.HQ.myPilot.Name & " is supposedly training is not in the list of their skills. ")
         msg.AppendLine("This could be due to a corrupt cache file or a conflict with another skill training application. The relevant data was:")

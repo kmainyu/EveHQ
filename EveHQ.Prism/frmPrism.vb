@@ -603,7 +603,6 @@ Public Class frmPrism
         tlvAssets.EndUpdate()
     End Sub
     Private Sub ParseCorpSheets()
-        Dim fileName As String = ""
         Dim corpXML As New XmlDocument
         ' Reset the lists of divisions and wallets
         divisions.Clear()
@@ -613,11 +612,9 @@ Public Class frmPrism
             Dim accountName As String = selPilot.Account
             If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
                 Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-
                 ' Check for corp sheets
-                fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_19_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
-                If My.Computer.FileSystem.FileExists(fileName) = True Then
-                    corpXML.Load(fileName)
+                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                If corpXML IsNot Nothing Then
                     ' Check response string for any error codes?
                     Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
                     If errlist.Count = 0 Then
@@ -650,30 +647,32 @@ Public Class frmPrism
 
         Dim assetOwner As String = ""
         For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
-            ' Check in the cache folder for a valid file
-            'Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(cboPilots.SelectedItem), Core.Pilot)
-            Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(cPilot.Text), Core.Pilot)
-            Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-                Dim fileName As String = ""
-                Dim processFile As Boolean = True
-                If cPilot.Text = selPilot.Corp Then
-                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_15_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
-                    assetOwner = selPilot.Corp
-                    If PlugInData.NPCCorps.Contains(selPilot.CorpID) = True Then processFile = False
+
+            Dim owner As String = cPilot.Text
+            Dim IsCorp As Boolean = False
+            ' See if this owner is a corp
+            If CorpList.ContainsKey(Owner) = True Then
+                IsCorp = True
+                ' See if we have a representative
+                Dim CorpRep As SortedList = CType(CorpReps(2), Collections.SortedList)
+                If CorpRep.ContainsKey(CStr(CorpList(Owner))) = True Then
+                    Owner = CStr(CorpRep(CStr(CorpList(Owner))))
                 Else
-                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_14_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
-                    assetOwner = selPilot.Name
+                    Owner = ""
                 End If
-                If processFile = True Then
-                    If My.Computer.FileSystem.FileExists(fileName) = False Then
-                        MessageBox.Show("Unable to load assets file for " & selPilot.Name & ".", "Error Loading Assets", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        Exit Sub
-                    End If
-                    ' File found so lets see what we have!
-                    Dim assetXML As New XmlDocument
-                    assetXML.Load(fileName)
+            End If
+
+            If Owner <> "" Then
+                Dim assetXML As New XmlDocument
+                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(Owner), Core.Pilot)
+                Dim accountName As String = selPilot.Account
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+                If IsCorp = True Then
+                    assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                Else
+                    assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                End If
+                If assetXML IsNot Nothing Then
                     Dim locList As XmlNodeList
                     Dim loc As XmlNode
                     locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
@@ -978,7 +977,6 @@ Public Class frmPrism
         Return containerPrice
     End Function
     Private Sub DisplayISKAssets()
-        Dim fileName As String = ""
         Dim corpXML As New XmlDocument
 
         ' Reset and parse the character wallets
@@ -986,54 +984,63 @@ Public Class frmPrism
         corpWallets.Clear()
         corpWalletDivisions.Clear()
         For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
-            Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(cPilot.Text), Core.Pilot)
-            Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-
-                ' Check for corp wallets
-                If cPilot.Text = selPilot.Corp Then
-                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_12_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
-                    If My.Computer.FileSystem.FileExists(fileName) = True Then
-                        corpXML.Load(fileName)
-                        ' Check response string for any error codes?
-                        Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                        If errlist.Count = 0 Then
-                            ' No errors so parse the files
-                            Dim accountList As XmlNodeList
-                            Dim account As XmlNode
-                            If corpWallets.Contains(selPilot.Corp) = False Then
-                                corpWallets.Add(selPilot.Corp, selPilot.CorpID)
-                                accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
-                                For Each account In accountList
-                                    Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Number, culture)
-                                    Dim accountKey As String = account.Attributes.GetNamedItem("accountKey").Value
-                                    If corpWalletDivisions.ContainsKey(selPilot.CorpID & "_" & accountKey) = False Then
-                                        corpWalletDivisions.Add(selPilot.CorpID & "_" & accountKey, isk)
-                                    End If
-                                Next
-                            End If
-                        End If
-                    End If
+            Dim IsCorp As Boolean = False
+            ' Get the owner we will use
+            Dim owner As String = cPilot.Text
+            ' See if this owner is a corp
+            If CorpList.ContainsKey(owner) = True Then
+                IsCorp = True
+                ' See if we have a representative
+                Dim CorpRep As SortedList = CType(CorpReps(2), Collections.SortedList)
+                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(CorpList(owner))))
                 Else
-                    ' Check for char wallets
-                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_11_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
-                    If My.Computer.FileSystem.FileExists(fileName) = True Then
-                        corpXML.Load(fileName)
-                        ' Check response string for any error codes?
-                        Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                        If errlist.Count = 0 Then
-                            ' No errors so parse the files
-                            Dim accountList As XmlNodeList
-                            Dim account As XmlNode
+                    owner = ""
+                End If
+            End If
+            Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+            Dim accountName As String = selPilot.Account
+            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+            ' Check for corp wallets
+            If IsCorp = True Then
+                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                If corpXML IsNot Nothing Then
+                    ' Check response string for any error codes?
+                    Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
+                    If errlist.Count = 0 Then
+                        ' No errors so parse the files
+                        Dim accountList As XmlNodeList
+                        Dim account As XmlNode
+                        If corpWallets.Contains(selPilot.Corp) = False Then
+                            corpWallets.Add(selPilot.Corp, selPilot.CorpID)
                             accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
                             For Each account In accountList
                                 Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Number, culture)
-                                If charWallets.Contains(selPilot.Name) = False Then
-                                    charWallets.Add(selPilot.Name, isk)
+                                Dim accountKey As String = account.Attributes.GetNamedItem("accountKey").Value
+                                If corpWalletDivisions.ContainsKey(selPilot.CorpID & "_" & accountKey) = False Then
+                                    corpWalletDivisions.Add(selPilot.CorpID & "_" & accountKey, isk)
                                 End If
                             Next
                         End If
+                    End If
+                End If
+            Else
+                ' Check for char wallets
+                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                If corpXML IsNot Nothing Then
+                    ' Check response string for any error codes?
+                    Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
+                    If errlist.Count = 0 Then
+                        ' No errors so parse the files
+                        Dim accountList As XmlNodeList
+                        Dim account As XmlNode
+                        accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
+                        For Each account In accountList
+                            Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Number, culture)
+                            If charWallets.Contains(selPilot.Name) = False Then
+                                charWallets.Add(selPilot.Name, isk)
+                            End If
+                        Next
                     End If
                 End If
             End If
@@ -2564,69 +2571,74 @@ Public Class frmPrism
     End Sub
     Private Sub SearchForShip(ByVal assetID As String, ByVal owner As String)
 
-        Dim assetOwner As String = ""
         For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
-            ' Check in the cache folder for a valid file
-            Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(owner), Core.Pilot)
-            Dim accountName As String = selPilot.Account
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-                Dim fileName As String = ""
-                If cPilot.Text = selPilot.Corp Then
-                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_15_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
-                    assetOwner = selPilot.Corp
+
+            Dim IsCorp As Boolean = False
+            ' See if this owner is a corp
+            If CorpList.ContainsKey(owner) = True Then
+                IsCorp = True
+                ' See if we have a representative
+                Dim CorpRep As SortedList = CType(CorpReps(2), Collections.SortedList)
+                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(CorpList(owner))))
                 Else
-                    fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_14_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
-                    assetOwner = selPilot.Name
+                    owner = ""
                 End If
-                If My.Computer.FileSystem.FileExists(fileName) = False Then
-                    MessageBox.Show("Unable to load assets file for " & assetOwner & ".", "Error Loading Assets", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End If
-                ' File found so lets see what we have!
+            End If
+
+            If owner <> "" Then
                 Dim assetXML As New XmlDocument
-                assetXML.Load(fileName)
-                Dim locList As XmlNodeList
-                Dim loc As XmlNode
-                locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                If locList.Count > 0 Then
-                    For Each loc In locList
-                        ' Let's search for our asset!
-                        If loc.Attributes.GetNamedItem("itemID").Value = assetID Then
-                            ' We found our ship so extract the subitem data
-                            Dim groupID As String = ""
-                            Dim catID As String = ""
-                            Dim modList As XmlNodeList
-                            Dim mods As XmlNode
-                            If loc.ChildNodes.Count > 0 Then
-                                modList = loc.ChildNodes(0).ChildNodes
-                                For Each mods In modList
-                                    Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
-                                    Dim itemName As String = ""
-                                    If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                                        Dim itemData As EveHQ.Core.EveItem = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
-                                        itemName = itemData.Name
-                                        groupID = itemData.Group.ToString
-                                        catID = itemData.Category.ToString
-                                        Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
-                                        Dim flagName As String = PlugInData.itemFlags(flagID).ToString
-                                        Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
-                                        HQFShip.Add(flagName & "," & itemName & "," & quantity & "," & catID)
-                                    Else
-                                        ' Can't find the item in the database
-                                        itemName = "ItemID: " & itemID.ToString
-                                    End If
-                                Next
+                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+                Dim accountName As String = selPilot.Account
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+                If IsCorp = True Then
+                    assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                Else
+                    assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                End If
+                If assetXML IsNot Nothing Then
+                    Dim locList As XmlNodeList
+                    Dim loc As XmlNode
+                    locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
+                    If locList.Count > 0 Then
+                        For Each loc In locList
+                            ' Let's search for our asset!
+                            If loc.Attributes.GetNamedItem("itemID").Value = assetID Then
+                                ' We found our ship so extract the subitem data
+                                Dim groupID As String = ""
+                                Dim catID As String = ""
+                                Dim modList As XmlNodeList
+                                Dim mods As XmlNode
+                                If loc.ChildNodes.Count > 0 Then
+                                    modList = loc.ChildNodes(0).ChildNodes
+                                    For Each mods In modList
+                                        Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
+                                        Dim itemName As String = ""
+                                        If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
+                                            Dim itemData As EveHQ.Core.EveItem = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                                            itemName = itemData.Name
+                                            groupID = itemData.Group.ToString
+                                            catID = itemData.Category.ToString
+                                            Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
+                                            Dim flagName As String = PlugInData.itemFlags(flagID).ToString
+                                            Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
+                                            HQFShip.Add(flagName & "," & itemName & "," & quantity & "," & catID)
+                                        Else
+                                            ' Can't find the item in the database
+                                            itemName = "ItemID: " & itemID.ToString
+                                        End If
+                                    Next
+                                End If
+                                Exit Sub
+                            Else
+                                ' Check if this row has child nodes and repeat
+                                If loc.HasChildNodes = True Then
+                                    Call Me.SearchForShipNode(loc, assetID)
+                                    If HQFShip.Count > 0 Then Exit Sub
+                                End If
                             End If
-                            Exit Sub
-                        Else
-                            ' Check if this row has child nodes and repeat
-                            If loc.HasChildNodes = True Then
-                                Call Me.SearchForShipNode(loc, assetID)
-                                If HQFShip.Count > 0 Then Exit Sub
-                            End If
-                        End If
-                    Next
+                        Next
+                    End If
                 End If
             End If
         Next
@@ -2711,7 +2723,6 @@ Public Class frmPrism
                 Owner.SubItems(si).Text = ""
             Next
         Next
-        'Call Me.GetAssets()
         Call Me.GetXMLData()
         cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
     End Sub
@@ -3082,56 +3093,60 @@ Public Class frmPrism
         Call Me.GetSalvage()
     End Sub
     Private Sub GetSalvage()
-
-        SalvageList = New SortedList
-
-        Dim assetOwner As String = ""
         For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
-            ' Check in the cache folder for a valid file
-            Dim selPilot As EveHQ.Core.Pilot = CType(loadedOwners(cPilot.Text), Core.Pilot)
-            Dim accountName As String = selPilot.Account
-            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-            Dim fileName As String = ""
-            If cPilot.Text = selPilot.Corp Then
-                fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_15_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
-                assetOwner = selPilot.Corp
-            Else
-                fileName = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_14_" & pilotAccount.userID & "_" & selPilot.ID & ".xml"
-                assetOwner = selPilot.Name
+            Dim IsCorp As Boolean = False
+            ' Get the owner we will use
+            Dim owner As String = cboOwner.SelectedItem.ToString()
+            ' See if this owner is a corp
+            If CorpList.ContainsKey(owner) = True Then
+                IsCorp = True
+                ' See if we have a representative
+                Dim CorpRep As SortedList = CType(CorpReps(0), Collections.SortedList)
+                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                Else
+                    owner = ""
+                End If
             End If
-            If My.Computer.FileSystem.FileExists(fileName) = False Then
-                MessageBox.Show("Unable to load assets file for " & selPilot.Name & ".", "Error Loading Assets", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End If
-            ' File found so lets see what we have!
-            Dim assetXML As New XmlDocument
-            assetXML.Load(fileName)
-            Dim locList As XmlNodeList
-            Dim loc As XmlNode
-            locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-            If locList.Count > 0 Then
-                For Each loc In locList
-                    Dim itemID As String = loc.Attributes.GetNamedItem("typeID").Value
-                    If EveHQ.Core.HQ.itemData.Contains(itemID) = True Then
-                        Dim groupID As String = CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Group.ToString
-                        If CLng(groupID) = 754 Then
+            If owner <> "" Then
+                Dim assetXML As New XmlDocument
+                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+                Dim accountName As String = selPilot.Account
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+                If IsCorp = True Then
+                    assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                Else
+                    assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                End If
+                If assetXML IsNot Nothing Then
+                    Dim locList As XmlNodeList
+                    Dim loc As XmlNode
+                    locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
+                    If locList.Count > 0 Then
+                        For Each loc In locList
+                            Dim itemID As String = loc.Attributes.GetNamedItem("typeID").Value
+                            If EveHQ.Core.HQ.itemData.Contains(itemID) = True Then
+                                Dim groupID As String = CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Group.ToString
+                                If CLng(groupID) = 754 Then
 
-                            Dim quantity As Long = CLng(loc.Attributes.GetNamedItem("quantity").Value)
-                            Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
-                            Dim itemName As String = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
-                            If SalvageList.Contains(itemName) = False Then
-                                SalvageList.Add(itemName, quantity)
-                            Else
-                                SalvageList.Item(itemName) = CLng(SalvageList.Item(itemName)) + quantity
+                                    Dim quantity As Long = CLng(loc.Attributes.GetNamedItem("quantity").Value)
+                                    Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
+                                    Dim itemName As String = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
+                                    If SalvageList.Contains(itemName) = False Then
+                                        SalvageList.Add(itemName, quantity)
+                                    Else
+                                        SalvageList.Item(itemName) = CLng(SalvageList.Item(itemName)) + quantity
+                                    End If
+                                End If
                             End If
-                        End If
-                    End If
 
-                    ' Check if this row has child nodes and repeat
-                    If loc.HasChildNodes = True Then
-                        Call Me.GetSalvageNode(SalvageList, loc, assetOwner, selPilot)
+                            ' Check if this row has child nodes and repeat
+                            If loc.HasChildNodes = True Then
+                                Call Me.GetSalvageNode(SalvageList, loc, owner, selPilot)
+                            End If
+                        Next
                     End If
-                Next
+                End If
             End If
         Next
 
@@ -3516,9 +3531,9 @@ Public Class frmPrism
             Dim accountName As String = selPilot.Account
             Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
             If IsCorp = True Then
-                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, 1)
+                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
             Else
-                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, 1)
+                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
             End If
             If OrderXML IsNot Nothing Then
                 Dim Orders As XmlNodeList = OrderXML.SelectNodes("/eveapi/result/rowset/row")
@@ -3656,6 +3671,7 @@ Public Class frmPrism
         End If
 
     End Sub
+
     Private Function GetOrderRange(ByVal lvl As Integer) As String
         Select Case lvl
             Case 0
@@ -3672,6 +3688,7 @@ Public Class frmPrism
                 Return "limited to Region"
         End Select
     End Function
+
 #End Region
 
 #Region "Wallet Transaction & Journal Routines"
@@ -3700,9 +3717,9 @@ Public Class frmPrism
             Dim accountName As String = selPilot.Account
             Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
             If IsCorp = True Then
-                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, 1000 + cboWalletTransDivision.SelectedIndex, "", 1)
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransCorp, pilotAccount, selPilot.ID, 1000 + cboWalletTransDivision.SelectedIndex, "", EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
             Else
-                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000 + cboWalletTransDivision.SelectedIndex, "", 1)
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000 + cboWalletTransDivision.SelectedIndex, "", EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
             End If
             If transXML IsNot Nothing Then
                 Dim Trans As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
@@ -3780,9 +3797,9 @@ Public Class frmPrism
             Dim accountName As String = selPilot.Account
             Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
             If IsCorp = True Then
-                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, 1000 + cboWalletJournalDivision.SelectedIndex, "", 1)
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalCorp, pilotAccount, selPilot.ID, 1000 + cboWalletJournalDivision.SelectedIndex, "", EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
             Else
-                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000 + cboWalletJournalDivision.SelectedIndex, "", 1)
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000 + cboWalletJournalDivision.SelectedIndex, "", EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
             End If
             If transXML IsNot Nothing Then
                 Dim Trans As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
@@ -4135,9 +4152,9 @@ Public Class frmPrism
             Dim accountName As String = selPilot.Account
             Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
             If IsCorp = True Then
-                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, 1)
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
             Else
-                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, 1)
+                transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
             End If
             If transXML IsNot Nothing Then
                 Dim Trans As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
@@ -4713,14 +4730,6 @@ Public Class frmPrism
     End Sub
 
 #End Region
-   
-    
-   
-   
 
-   
-   
-   
-    
 End Class
 

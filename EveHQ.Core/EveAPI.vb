@@ -84,7 +84,7 @@ Public Class EveAPI
                 Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & Feature.ToString
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(EveHQ.Core.EveAPI.APIRequest), Feature)
         Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, ReturnMethod, Feature)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal charData As String, ByVal ReturnMethod As Integer) As XmlDocument
@@ -104,7 +104,7 @@ Public Class EveAPI
                 Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & charData
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(EveHQ.Core.EveAPI.APIRequest), Feature) & "_" & charData
         Return EveHQ.Core.EveAPI.GetXML(remoteURL, postdata, fileName, ReturnMethod, Feature)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal ReturnMethod As Integer) As XmlDocument
@@ -120,7 +120,7 @@ Public Class EveAPI
                 Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(EveHQ.Core.EveAPI.APIRequest), Feature) & "_" & cAccount.userID
         Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal ReturnMethod As Integer) As XmlDocument
@@ -187,7 +187,7 @@ Public Class EveAPI
                 Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(EveHQ.Core.EveAPI.APIRequest), Feature) & "_" & cAccount.userID & "_" & charID
         Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal itemID As Integer, ByVal ReturnMethod As Integer) As XmlDocument
@@ -202,7 +202,7 @@ Public Class EveAPI
                 Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID & "_" & itemID
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(EveHQ.Core.EveAPI.APIRequest), Feature) & "_" & cAccount.userID & "_" & charID & "_" & itemID
         Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal BeforeRefID As String, ByVal ReturnMethod As Integer) As XmlDocument
@@ -231,7 +231,7 @@ Public Class EveAPI
                 Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & Feature.ToString & "_" & cAccount.userID & "_" & charID & "_" & accountKey
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(EveHQ.Core.EveAPI.APIRequest), Feature) & "_" & cAccount.userID & "_" & charID & "_" & accountKey
         If BeforeRefID <> "" Then
             fileName &= "_" & BeforeRefID
         End If
