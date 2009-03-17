@@ -346,21 +346,37 @@ Public Class frmHQF
             Call HQFPilotCollection.SaveHQFPilotData()
         End If
 
+        ' Remove old HQF Pilots
+        Dim removePilotList As New ArrayList
+        For Each hPilot As String In HQFPilotCollection.HQFPilots.Keys
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(hPilot) = False Then
+                removePilotList.Add(hPilot)
+            End If
+        Next
+        For Each hpilot As String In removePilotList
+            HQFPilotCollection.HQFPilots.Remove(hpilot)
+        Next
+        removePilotList.Clear()
 
         If HQFPilotCollection.HQFPilots.Count > 0 Then
             btnPilotManager.Enabled = True
         End If
 
         ' Update the ship filter
+        Call Me.UpdateShipFilter()
+
+    End Sub
+    Private Sub UpdateShipFilter()
         cboFlyable.BeginUpdate()
         cboFlyable.Items.Clear()
         cboFlyable.Items.Add("<All Ships>")
-        For Each pilotName As String In HQFPilotCollection.HQFPilots.Keys
-            cboFlyable.Items.Add(pilotName)
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If cPilot.Active = True Then
+                cboFlyable.Items.Add(cPilot.Name)
+            End If
         Next
         cboFlyable.EndUpdate()
         cboFlyable.SelectedIndex = 0
-
     End Sub
     Private Sub SetMetaTypeFilters()
         Dim filters() As Integer = {1, 2, 4, 8, 16, 32}
@@ -672,12 +688,7 @@ Public Class frmHQF
     End Sub
     Private Sub btnResetShips_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetShips.Click
         txtShipSearch.Text = ""
-        If cboFlyable.SelectedIndex > 0 Then
-            cboFlyable.SelectedIndex = 0
-        Else
-            Call Me.ShowShipGroups()
-            Call Me.UpdateFittingsTree(True)
-        End If
+        Call Me.UpdateShipFilter()
     End Sub
     Private Sub cboFlyable_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFlyable.SelectedIndexChanged
         If startUp = False Then
@@ -690,7 +701,6 @@ Public Class frmHQF
         Dim testPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
         Return Engine.IsFlyable(testPilot, testShip)
     End Function
-
 
 #End Region
 
