@@ -281,7 +281,7 @@ Partial Class frmMap
         Me.gbSystemInfo.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gbSystemInfo.Location = New System.Drawing.Point(0, 0)
         Me.gbSystemInfo.Name = "gbSystemInfo"
-        Me.gbSystemInfo.Size = New System.Drawing.Size(239, 499)
+        Me.gbSystemInfo.Size = New System.Drawing.Size(239, 317)
         Me.gbSystemInfo.TabIndex = 2
         Me.gbSystemInfo.TabStop = False
         Me.gbSystemInfo.Text = "System Information"
@@ -649,7 +649,7 @@ Partial Class frmMap
         Me.tabMap.Location = New System.Drawing.Point(4, 22)
         Me.tabMap.Name = "tabMap"
         Me.tabMap.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabMap.Size = New System.Drawing.Size(657, 725)
+        Me.tabMap.Size = New System.Drawing.Size(657, 543)
         Me.tabMap.TabIndex = 0
         Me.tabMap.Text = "Map View"
         Me.tabMap.UseVisualStyleBackColor = True
@@ -658,7 +658,7 @@ Partial Class frmMap
         '
         Me.lblZoom.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblZoom.AutoSize = True
-        Me.lblZoom.Location = New System.Drawing.Point(390, 720)
+        Me.lblZoom.Location = New System.Drawing.Point(391, 520)
         Me.lblZoom.Name = "lblZoom"
         Me.lblZoom.Size = New System.Drawing.Size(81, 13)
         Me.lblZoom.TabIndex = 22
@@ -676,7 +676,7 @@ Partial Class frmMap
         'btnShowRoute
         '
         Me.btnShowRoute.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnShowRoute.Location = New System.Drawing.Point(6, 715)
+        Me.btnShowRoute.Location = New System.Drawing.Point(7, 515)
         Me.btnShowRoute.Name = "btnShowRoute"
         Me.btnShowRoute.Size = New System.Drawing.Size(97, 22)
         Me.btnShowRoute.TabIndex = 20
@@ -689,7 +689,7 @@ Partial Class frmMap
         Me.chkRoute.AutoSize = True
         Me.chkRoute.Checked = True
         Me.chkRoute.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkRoute.Location = New System.Drawing.Point(109, 719)
+        Me.chkRoute.Location = New System.Drawing.Point(110, 519)
         Me.chkRoute.Name = "chkRoute"
         Me.chkRoute.Size = New System.Drawing.Size(85, 17)
         Me.chkRoute.TabIndex = 19
@@ -700,7 +700,7 @@ Partial Class frmMap
         '
         Me.lblPointerAccuracy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblPointerAccuracy.AutoSize = True
-        Me.lblPointerAccuracy.Location = New System.Drawing.Point(285, 720)
+        Me.lblPointerAccuracy.Location = New System.Drawing.Point(286, 520)
         Me.lblPointerAccuracy.Name = "lblPointerAccuracy"
         Me.lblPointerAccuracy.Size = New System.Drawing.Size(55, 13)
         Me.lblPointerAccuracy.TabIndex = 18
@@ -709,7 +709,7 @@ Partial Class frmMap
         'nudAccuracy
         '
         Me.nudAccuracy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.nudAccuracy.Location = New System.Drawing.Point(346, 718)
+        Me.nudAccuracy.Location = New System.Drawing.Point(347, 518)
         Me.nudAccuracy.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.nudAccuracy.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudAccuracy.Name = "nudAccuracy"
@@ -720,7 +720,7 @@ Partial Class frmMap
         'btnReset
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Location = New System.Drawing.Point(204, 714)
+        Me.btnReset.Location = New System.Drawing.Point(205, 514)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(75, 23)
         Me.btnReset.TabIndex = 16
@@ -993,12 +993,12 @@ Partial Class frmMap
         '
         Me.ctxRoute.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyToClipboard})
         Me.ctxRoute.Name = "ctxRoute"
-        Me.ctxRoute.Size = New System.Drawing.Size(175, 26)
+        Me.ctxRoute.Size = New System.Drawing.Size(174, 26)
         '
         'mnuCopyToClipboard
         '
         Me.mnuCopyToClipboard.Name = "mnuCopyToClipboard"
-        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(174, 22)
+        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(173, 22)
         Me.mnuCopyToClipboard.Text = "Copy To Clipboard"
         '
         'lblTimeTaken
@@ -1110,7 +1110,7 @@ Partial Class frmMap
         Me.tabMapTool.Location = New System.Drawing.Point(261, 28)
         Me.tabMapTool.Name = "tabMapTool"
         Me.tabMapTool.SelectedIndex = 0
-        Me.tabMapTool.Size = New System.Drawing.Size(665, 751)
+        Me.tabMapTool.Size = New System.Drawing.Size(665, 569)
         Me.tabMapTool.TabIndex = 37
         '
         'tabStations
@@ -1739,7 +1739,7 @@ Partial Class frmMap
         '
         Me.pbInfo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.pbInfo.Image = CType(resources.GetObject("pbInfo.Image"), System.Drawing.Image)
-        Me.pbInfo.Location = New System.Drawing.Point(8, 747)
+        Me.pbInfo.Location = New System.Drawing.Point(8, 565)
         Me.pbInfo.Name = "pbInfo"
         Me.pbInfo.Size = New System.Drawing.Size(32, 32)
         Me.pbInfo.TabIndex = 66
@@ -1775,24 +1775,24 @@ Partial Class frmMap
         '
         Me.ctxExclude.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExcludeSystem, Me.mnuExcludeConstellation, Me.mnuExcludeRegion})
         Me.ctxExclude.Name = "ctxExclude"
-        Me.ctxExclude.Size = New System.Drawing.Size(145, 70)
+        Me.ctxExclude.Size = New System.Drawing.Size(148, 70)
         '
         'mnuExcludeSystem
         '
         Me.mnuExcludeSystem.Name = "mnuExcludeSystem"
-        Me.mnuExcludeSystem.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeSystem.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeSystem.Text = "Solar System"
         '
         'mnuExcludeConstellation
         '
         Me.mnuExcludeConstellation.Name = "mnuExcludeConstellation"
-        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeConstellation.Text = "Constellation"
         '
         'mnuExcludeRegion
         '
         Me.mnuExcludeRegion.Name = "mnuExcludeRegion"
-        Me.mnuExcludeRegion.Size = New System.Drawing.Size(144, 22)
+        Me.mnuExcludeRegion.Size = New System.Drawing.Size(147, 22)
         Me.mnuExcludeRegion.Text = "Region"
         '
         'btnRemoveExclusion
@@ -1815,7 +1815,7 @@ Partial Class frmMap
         Me.tabWaypointExclusions.Location = New System.Drawing.Point(8, 216)
         Me.tabWaypointExclusions.Name = "tabWaypointExclusions"
         Me.tabWaypointExclusions.SelectedIndex = 0
-        Me.tabWaypointExclusions.Size = New System.Drawing.Size(247, 525)
+        Me.tabWaypointExclusions.Size = New System.Drawing.Size(247, 343)
         Me.tabWaypointExclusions.TabIndex = 68
         '
         'tabSystem
@@ -1823,7 +1823,7 @@ Partial Class frmMap
         Me.tabSystem.Controls.Add(Me.gbSystemInfo)
         Me.tabSystem.Location = New System.Drawing.Point(4, 22)
         Me.tabSystem.Name = "tabSystem"
-        Me.tabSystem.Size = New System.Drawing.Size(239, 499)
+        Me.tabSystem.Size = New System.Drawing.Size(239, 317)
         Me.tabSystem.TabIndex = 2
         Me.tabSystem.Text = "System Info"
         Me.tabSystem.UseVisualStyleBackColor = True
@@ -1902,7 +1902,7 @@ Partial Class frmMap
         'btnSerialize
         '
         Me.btnSerialize.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSerialize.Location = New System.Drawing.Point(46, 752)
+        Me.btnSerialize.Location = New System.Drawing.Point(46, 570)
         Me.btnSerialize.Name = "btnSerialize"
         Me.btnSerialize.Size = New System.Drawing.Size(75, 23)
         Me.btnSerialize.TabIndex = 81
@@ -1938,7 +1938,7 @@ Partial Class frmMap
         Me.tsUpdateData.Image = CType(resources.GetObject("tsUpdateData.Image"), System.Drawing.Image)
         Me.tsUpdateData.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsUpdateData.Name = "tsUpdateData"
-        Me.tsUpdateData.Size = New System.Drawing.Size(76, 22)
+        Me.tsUpdateData.Size = New System.Drawing.Size(72, 22)
         Me.tsUpdateData.Text = "Update Data"
         '
         'ToolStripSeparator1
@@ -1950,7 +1950,7 @@ Partial Class frmMap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(938, 783)
+        Me.ClientSize = New System.Drawing.Size(938, 601)
         Me.Controls.Add(Me.tsMap)
         Me.Controls.Add(Me.btnSerialize)
         Me.Controls.Add(Me.tabWaypointExclusions)
