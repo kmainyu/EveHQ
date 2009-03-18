@@ -38,28 +38,28 @@ CREATE TABLE dbo.crtCertificates
 
 CREATE TABLE dbo.staOperations
 (
-  activityID             integer         NOT NULL,
+  activityID             integer         NULL,
   operationID            integer         NOT NULL,
-  operationName          text(100)       NOT NULL,
-  description            memo		     NOT NULL,
-  fringe                 integer         NOT NULL DEFAULT 0,
-  corridor               integer         NOT NULL DEFAULT 0,
-  hub                    integer         NOT NULL DEFAULT 0,
-  border                 integer         NOT NULL DEFAULT 0,
-  ratio                  integer         NOT NULL DEFAULT 0,
-  caldariStationTypeID   integer        NULL,
-  minmatarStationTypeID  integer        NULL,
-  amarrStationTypeID     integer        NULL,
-  gallenteStationTypeID  integer        NULL,
-  joveStationTypeID      integer        NULL,
+  operationName          text(100)       NULL,
+  description            memo		     NULL,
+  fringe                 integer         NULL DEFAULT 0,
+  corridor               integer         NULL DEFAULT 0,
+  hub                    integer         NULL DEFAULT 0,
+  border                 integer         NULL DEFAULT 0,
+  ratio                  integer         NULL DEFAULT 0,
+  caldariStationTypeID   integer         NULL,
+  minmatarStationTypeID  integer         NULL,
+  amarrStationTypeID     integer         NULL,
+  gallenteStationTypeID  integer         NULL,
+  joveStationTypeID      integer         NULL,
   CONSTRAINT pk_staOperations PRIMARY KEY (operationID)
 );
 
 CREATE TABLE dbo.staServices
 (
   serviceID      integer             NOT NULL,
-  serviceName    text(100)			 NOT NULL,
-  description    memo			 NOT NULL,
+  serviceName    text(100)			 NULL,
+  description    memo				 NULL,
   CONSTRAINT pk_staServices PRIMARY KEY (serviceID)
 );
 
@@ -71,64 +71,64 @@ CREATE TABLE dbo.staOperationServices
 
 CREATE TABLE dbo.staStationTypes
 (
-  stationTypeID           integer  NOT NULL,
-  dockingBayGraphicID     integer  NULL,
-  hangarGraphicID         integer  NULL,
-  dockEntryX              double     NOT NULL DEFAULT 0.0,
-  dockEntryY              double     NOT NULL DEFAULT 0.0,
-  dockEntryZ              double     NOT NULL DEFAULT 0.0,
-  dockOrientationX        double     NOT NULL DEFAULT 0.0,
-  dockOrientationY        double     NOT NULL DEFAULT 0.0,
-  dockOrientationZ        double     NOT NULL DEFAULT -1.0,
-  operationID             integer   NULL,
-  officeSlots             integer   NULL,
+  stationTypeID           integer    NOT NULL,
+  dockingBayGraphicID     integer    NULL,
+  hangarGraphicID         integer    NULL,
+  dockEntryX              double     NULL DEFAULT 0.0,
+  dockEntryY              double     NULL DEFAULT 0.0,
+  dockEntryZ              double     NULL DEFAULT 0.0,
+  dockOrientationX        double     NULL DEFAULT 0.0,
+  dockOrientationY        double     NULL DEFAULT 0.0,
+  dockOrientationZ        double     NULL DEFAULT -1.0,
+  operationID             integer    NULL,
+  officeSlots             integer    NULL,
   reprocessingEfficiency  double     NULL,
-  conquerable             integer       NOT NULL DEFAULT 0,
+  conquerable             integer    NULL DEFAULT 0,
   CONSTRAINT pk_staStationTypes PRIMARY KEY  (stationTypeID)
 );
 
 CREATE TABLE dbo.staStations
 (
-  stationID                 integer            NOT NULL,
-  security                  integer       NOT NULL DEFAULT 500,
-  dockingCostPerVolume      double          NOT NULL DEFAULT 0.0,
-  maxShipVolumeDockable     double          NOT NULL DEFAULT 1150000.0,
-  officeRentalCost          integer            NOT NULL DEFAULT 0,
-  operationID               integer        NULL,
-  stationTypeID             integer       NULL,
-  corporationID             integer            NULL,
-  solarSystemID             integer            NULL,
-  constellationID           integer            NULL,
-  regionID                  integer            NULL,
-  stationName               text(100)		NOT NULL,
-  x                         double          NOT NULL DEFAULT 0.0,
-  y                         double          NOT NULL DEFAULT 0.0,
-  z                         double          NOT NULL DEFAULT 0.0,
-  reprocessingEfficiency    double          NOT NULL DEFAULT 0.5,
-  reprocessingStationsTake  double          NOT NULL DEFAULT 0.025,
-  reprocessingHangarFlag    integer        NOT NULL DEFAULT 4,
+  stationID                 integer         NOT NULL,
+  security                  integer         NULL DEFAULT 500,
+  dockingCostPerVolume      double          NULL DEFAULT 0.0,
+  maxShipVolumeDockable     double          NULL DEFAULT 1150000.0,
+  officeRentalCost          integer         NULL DEFAULT 0,
+  operationID               integer         NULL,
+  stationTypeID             integer         NULL,
+  corporationID             integer         NULL,
+  solarSystemID             integer         NULL,
+  constellationID           integer         NULL,
+  regionID                  integer         NULL,
+  stationName               text(100)		NULL,
+  x                         double          NULL DEFAULT 0.0,
+  y                         double          NULL DEFAULT 0.0,
+  z                         double          NULL DEFAULT 0.0,
+  reprocessingEfficiency    double          NULL DEFAULT 0.5,
+  reprocessingStationsTake  double          NULL DEFAULT 0.025,
+  reprocessingHangarFlag    integer         NULL DEFAULT 4,
   CONSTRAINT pk_staStations PRIMARY KEY (stationID)
 );
 
 CREATE TABLE dbo.ramActivities
 (
   activityID     integer         NOT NULL,
-  activityName   text(100)	     NOT NULL,
+  activityName   text(100)	     NULL,
   iconNo         text(5)         NULL,
-  description    memo		     NOT NULL,
-  published      integer         NOT NULL,
+  description    memo		     NULL,
+  published      integer         NULL,
   CONSTRAINT pk_ramActivities PRIMARY KEY  (activityID)
 );
 
 CREATE TABLE dbo.ramAssemblyLineTypes
 (
-  assemblyLineTypeID      integer         NOT NULL,
-  assemblyLineTypeName    text(100)		  NOT NULL,
-  description             memo			  NOT NULL,
-  baseTimeMultiplier      double           NOT NULL,
-  baseMaterialMultiplier  double           NOT NULL,
-  volume                  double           NOT NULL,
-  activityID              integer         NOT NULL DEFAULT 0,
+  assemblyLineTypeID      integer          NOT NULL,
+  assemblyLineTypeName    text(100)		   NULL,
+  description             memo			   NULL,
+  baseTimeMultiplier      double           NULL,
+  baseMaterialMultiplier  double           NULL,
+  volume                  double           NULL,
+  activityID              integer          NULL DEFAULT 0,
   minCostPerHour          double           NULL,
   CONSTRAINT pk_ramAssemblyLineTypes PRIMARY KEY  (assemblyLineTypeID)
 );
@@ -137,16 +137,16 @@ CREATE TABLE dbo.ramAssemblyLineTypeDetailPerCategory
 (
   assemblyLineTypeID  integer  NOT NULL,
   categoryID          integer  NOT NULL,
-  timeMultiplier      double    NOT NULL,
-  materialMultiplier  double    NOT NULL
+  timeMultiplier      double   NULL,
+  materialMultiplier  double   NULL
 );
 
 CREATE TABLE dbo.ramAssemblyLineTypeDetailPerGroup
 (
   assemblyLineTypeID  integer   NOT NULL,
-  groupID             integer  NOT NULL,
-  timeMultiplier      double     NOT NULL,
-  materialMultiplier  double     NOT NULL
+  groupID             integer   NOT NULL,
+  timeMultiplier      double    NULL,
+  materialMultiplier  double    NULL
 );
 
 CREATE TABLE dbo.ramInstallationTypeDefaultContents
@@ -169,35 +169,35 @@ CREATE TABLE dbo.ramInstallationTypeDefaultContents
 
 CREATE TABLE dbo.ramAssemblyLines
 (
-  assemblyLineID                integer            NOT NULL,
-  assemblyLineTypeID            integer        NOT NULL,
-  containerID                   integer            NULL,
-  nextFreeTime                  memo  NULL,
-  UIGroupingID                  integer        NOT NULL,
-  costInstall                   double          NOT NULL,
-  costPerHour                   double          NOT NULL,
-  restrictionMask               integer        NOT NULL,
-  discountPerGoodStandingPoint  double          NOT NULL,
-  surchargePerBadStandingPoint  double          NOT NULL,
-  minimumStanding               double          NOT NULL,
-  minimumCharSecurity           double          NOT NULL,
-  minimumCorpSecurity           double          NOT NULL,
-  maximumCharSecurity           double          NOT NULL,
-  maximumCorpSecurity           double          NOT NULL,
-  ownerID                       integer            NULL,
-  activityID                    integer        NULL,
+  assemblyLineID                integer         NOT NULL,
+  assemblyLineTypeID            integer         NULL,
+  containerID                   integer         NULL,
+  nextFreeTime                  memo			NULL,
+  UIGroupingID                  integer         NULL,
+  costInstall                   double          NULL,
+  costPerHour                   double          NULL,
+  restrictionMask               integer         NULL,
+  discountPerGoodStandingPoint  double          NULL,
+  surchargePerBadStandingPoint  double          NULL,
+  minimumStanding               double          NULL,
+  minimumCharSecurity           double          NULL,
+  minimumCorpSecurity           double          NULL,
+  maximumCharSecurity           double          NULL,
+  maximumCorpSecurity           double          NULL,
+  ownerID                       integer         NULL,
+  activityID                    integer         NULL,
   CONSTRAINT pk_ramAssemblyLines PRIMARY KEY  (assemblyLineID)
 );
 
 CREATE TABLE dbo.ramAssemblyLineStations
 (
   stationID           integer       NOT NULL,
-  assemblyLineTypeID  integer   NOT NULL,
-  quantity            integer   NOT NULL,
-  stationTypeID       integer  NOT NULL,
-  ownerID             integer       NOT NULL,
-  solarSystemID       integer       NOT NULL,
-  regionID            integer       NOT NULL
+  assemblyLineTypeID  integer		NOT NULL,
+  quantity            integer		NULL,
+  stationTypeID       integer		NULL,
+  ownerID             integer       NULL,
+  solarSystemID       integer       NULL,
+  regionID            integer       NULL
 );
 
 CREATE TABLE dbo.ramAssemblyLineStationCostLogs
@@ -479,7 +479,6 @@ CREATE TABLE dbo.invBlueprintTypes
   productivityModifier        integer       NOT NULL DEFAULT 0,
   materialModifier            integer  NOT NULL DEFAULT 0,
   wasteFactor                 integer  NOT NULL DEFAULT 100,
-  chanceOfReverseEngineering  double     NOT NULL DEFAULT 0.0,
   maxProductionLimit          integer       NOT NULL DEFAULT 1000,
   CONSTRAINT pk_invBlueprintTypes PRIMARY KEY  (blueprintTypeID)
 );
@@ -642,6 +641,7 @@ CREATE TABLE dbo.crpNPCCorporations
   sizeFactor                    double           NOT NULL,
   stationCount                  integer        NOT NULL DEFAULT 0,
   stationSystemCount            integer        NOT NULL DEFAULT 0,
+  description					memo			NULL,			
   CONSTRAINT pk_crpNPCCorporations PRIMARY KEY  (corporationID)
 );
 
@@ -894,8 +894,8 @@ CREATE TABLE dbo.typeActivityMaterials
   typeID  			integer			NOT NULL,
   activityID  		integer			NOT NULL,
   requiredTypeID	integer			NOT NULL,
-  quantity			integer			NOT NULL,
-  damagePerJob		double			NOT NULL,
+  quantity			integer			NULL,
+  damagePerJob		double			NULL,
   recycle           integer         NULL
 );
 
