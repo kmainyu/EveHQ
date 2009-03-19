@@ -96,6 +96,7 @@ Public Class frmAddTransaction
             ' We are editing a transaction - will need to recalculate!
             newTransaction = CType(Portfolio.Transactions(CLng(txtTransactionID.Text)), InvestmentTransaction)
             newTransaction.Type = cboType.SelectedIndex
+            newTransaction.TransDate = CDate(dtpDate.Value)
             newTransaction.Quantity = CDbl(txtQuantity.Text)
             newTransaction.UnitValue = CDbl(txtUnitValue.Text)
             ' Replace the transaction under the investment

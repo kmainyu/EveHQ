@@ -105,7 +105,7 @@ Public Class frmPrism
         tabPrism.TabPages.Remove(tabJobs)
         tabPrism.TabPages.Remove(tabRecycle)
 
-        'Call Me.LoadInvestments()
+        Call Me.LoadInvestments()
         Call Me.LoadFilterGroups()
         Call Portfolio.SetupTypes()
         Call Me.ScanForExistingXMLs()
@@ -2154,6 +2154,7 @@ Public Class frmPrism
                 lvwTransactions.Items.Add(newTrans)
             Next
             lvwTransactions.EndUpdate()
+            lblTransactionView.Text = "Viewing Transactions: " & myInvestment.Name & " (" & myInvestment.Owner & ")"
             If myInvestment.DateClosed.Year > 1 Then
                 btnAddTransaction.Enabled = False
                 btnEditTransaction.Enabled = False
