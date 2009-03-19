@@ -124,6 +124,8 @@ Public Class frmHQFSettings
         Me.pbLowSlotColour.BackColor = LColor
         Dim RColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.RigSlotColour))
         Me.pbRigSlotColour.BackColor = RColor
+        Dim SColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.SubSlotColour))
+        Me.pbSubSlotColour.BackColor = SColor
         redrawColumns = True
         Call Me.RedrawSlotColumnList()
         redrawColumns = False
@@ -285,6 +287,22 @@ Public Class frmHQFSettings
         Else
             Me.pbRigSlotColour.BackColor = cd1.Color
             Settings.HQFSettings.RigSlotColour = cd1.Color.ToArgb
+        End If
+    End Sub
+
+    Private Sub pbSubSlotColour_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbSubSlotColour.Click
+        Dim dlgResult As Integer = 0
+        With cd1
+            .AllowFullOpen = True
+            .AnyColor = True
+            .FullOpen = True
+            dlgResult = .ShowDialog()
+        End With
+        If dlgResult = Windows.Forms.DialogResult.Cancel Then
+            Exit Sub
+        Else
+            Me.pbSubSlotColour.BackColor = cd1.Color
+            Settings.HQFSettings.SubSlotColour = cd1.Color.ToArgb
         End If
     End Sub
 

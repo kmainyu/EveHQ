@@ -44,6 +44,7 @@ Imports System.Runtime.Serialization
     Private cMidSlots As Integer
     Private cLowSlots As Integer
     Private cRigSlots As Integer
+    Private cSubSlots As Integer
     Private cTurretSlots As Integer
     Private cLauncherSlots As Integer
     Private cCalibration As Integer
@@ -117,6 +118,7 @@ Imports System.Runtime.Serialization
     Private cMidSlot(8) As ShipModule
     Private cLowSlot(8) As ShipModule
     Private cRigSlot(8) As ShipModule
+    Private cSubSlot(5) As ShipModule
 
     ' Skills
     Private cRequiredSkills As New SortedList
@@ -130,6 +132,7 @@ Imports System.Runtime.Serialization
     Private cMidSlots_Used As Integer
     Private cLowSlots_Used As Integer
     Private cRigSlots_Used As Integer
+    Private cSubSlots_Used As Integer
     Private cTurretSlots_Used As Integer
     Private cLauncherSlots_Used As Integer
     Private cCalibration_Used As Integer
@@ -310,6 +313,14 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As Integer)
             cRigSlots = value
+        End Set
+    End Property
+    Public Property SubSlots() As Integer
+        Get
+            Return cSubSlots
+        End Get
+        Set(ByVal value As Integer)
+            cSubSlots = value
         End Set
     End Property
     Public Property TurretSlots() As Integer
@@ -901,6 +912,39 @@ Imports System.Runtime.Serialization
             End If
         End Set
     End Property
+    Public Property SubSlot(ByVal index As Integer) As ShipModule
+        Get
+            If index < 1 Or index > cSubSlots Then
+                MessageBox.Show("Subsystem Slot index must be in the range 1 to " & cSubSlots & " for " & cName, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return Nothing
+            Else
+                Return cSubSlot(index)
+            End If
+        End Get
+        Set(ByVal value As ShipModule)
+            If index < 1 Or index > cSubSlots Then
+                MessageBox.Show("Subsystem Slot index must be in the range 1 to " & cSubSlots & " for " & cName, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                If value Is Nothing Then
+                    If cSubSlot(index) IsNot Nothing Then
+                        cSubSlots_Used -= 1
+                        cFittingBasePrice -= cSubSlot(index).BasePrice
+                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cSubSlot(index).ID)
+                    End If
+                Else
+                    If cSubSlot(index) IsNot Nothing Then
+                        cSubSlots_Used -= 1
+                        cFittingBasePrice -= cSubSlot(index).BasePrice
+                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cSubSlot(index).ID)
+                    End If
+                    cSubSlots_Used += 1
+                    cFittingBasePrice += value.BasePrice
+                    cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
+                End If
+                cSubSlot(index) = value
+            End If
+        End Set
+    End Property
 
     ' Skills
     Public Property RequiredSkills() As SortedList
@@ -961,6 +1005,14 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As Integer)
             cRigSlots_Used = value
+        End Set
+    End Property
+    Public Property SubSlots_Used() As Integer
+        Get
+            Return cSubSlots_Used
+        End Get
+        Set(ByVal value As Integer)
+            cSubSlots_Used = value
         End Set
     End Property
     Public Property TurretSlots_Used() As Integer
@@ -1449,6 +1501,8 @@ Imports System.Runtime.Serialization
                     End If
                 Case 1137
                     newShip.RigSlots = CInt(attValue)
+                Case 1367
+                    newShip.SubSlots = CInt(attValue)
                 Case 15
                     newShip.PG_Used = attValue
                 Case 1132

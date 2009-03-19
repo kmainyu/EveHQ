@@ -379,7 +379,7 @@ Public Class frmHQF
         cboFlyable.SelectedIndex = 0
     End Sub
     Private Sub SetMetaTypeFilters()
-        Dim filters() As Integer = {1, 2, 4, 8, 16, 32}
+        Dim filters() As Integer = {1, 2, 4, 8, 16, 32, 8192}
         For Each filter As Integer In filters
             Dim chkBox As CheckBox = CType(Me.SplitContainerMod.Panel1.Controls.Item("chkFilter" & filter.ToString), CheckBox)
             If (HQF.Settings.HQFSettings.ModuleFilter And filter) = filter Then
@@ -713,7 +713,7 @@ Public Class frmHQF
             Call Me.CalculateFilteredModules(e.Node)
         End If
     End Sub
-    Private Sub MetaFilterChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFilter1.CheckedChanged, chkFilter2.CheckedChanged, chkFilter4.CheckedChanged, chkFilter8.CheckedChanged, chkFilter16.CheckedChanged, chkFilter32.CheckedChanged
+    Private Sub MetaFilterChange(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFilter1.CheckedChanged, chkFilter2.CheckedChanged, chkFilter4.CheckedChanged, chkFilter8.CheckedChanged, chkFilter16.CheckedChanged, chkFilter32.CheckedChanged, chkFilter8192.CheckedChanged
         If startUp = False Then
             Dim chkBox As CheckBox = CType(sender, CheckBox)
             Dim changedFilter As Integer = CInt(chkBox.Tag)
@@ -887,6 +887,7 @@ Public Class frmHQF
         chkFilter8.ForeColor = Color.Red
         chkFilter16.ForeColor = Color.Red
         chkFilter32.ForeColor = Color.Red
+        chkFilter8192.ForeColor = Color.Red
 
         lvwItems.BeginUpdate()
         lvwItems.Items.Clear()
@@ -901,6 +902,9 @@ Public Class frmHQF
                 newModule.SubItems.Add(shipMod.CPU.ToString)
                 newModule.SubItems.Add(shipMod.PG.ToString)
                 Select Case shipMod.SlotType
+                    Case 16 ' Subsystem
+                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
+                        'newModule.ImageKey = "subSlot"
                     Case 8 ' High
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
                         'newModule.ImageKey = "hiSlot"
@@ -992,6 +996,7 @@ Public Class frmHQF
         chkFilter8.ForeColor = Color.Red
         chkFilter16.ForeColor = Color.Red
         chkFilter32.ForeColor = Color.Red
+        chkFilter8192.ForeColor = Color.Red
 
         lvwItems.BeginUpdate()
         lvwItems.Items.Clear()
@@ -1007,6 +1012,9 @@ Public Class frmHQF
                     newModule.SubItems.Add(shipMod.CPU.ToString)
                     newModule.SubItems.Add(shipMod.PG.ToString)
                     Select Case shipMod.SlotType
+                        Case 16 ' Subsystem
+                            newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
+                            'newModule.ImageKey = "subSlot"
                         Case 8 ' High
                             newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
                             'newModule.ImageKey = "hiSlot"
@@ -1120,6 +1128,7 @@ Public Class frmHQF
         chkFilter8.ForeColor = Color.Red
         chkFilter16.ForeColor = Color.Red
         chkFilter32.ForeColor = Color.Red
+        chkFilter8192.ForeColor = Color.Red
 
         lvwItems.BeginUpdate()
         lvwItems.Items.Clear()
@@ -1133,6 +1142,9 @@ Public Class frmHQF
                 newModule.SubItems.Add(shipMod.CPU.ToString)
                 newModule.SubItems.Add(shipMod.PG.ToString)
                 Select Case shipMod.SlotType
+                    Case 16 ' Subsystem
+                        newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
+                        'newModule.ImageKey = "subSlot"
                     Case 8 ' High
                         newModule.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
                         'newModule.ImageKey = "hiSlot"

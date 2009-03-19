@@ -71,6 +71,8 @@ Partial Public Class frmHQFSettings
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.pbSubSlotColour = New System.Windows.Forms.PictureBox
+        Me.lblSubSlotColour = New System.Windows.Forms.Label
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,6 +84,7 @@ Partial Public Class frmHQFSettings
         CType(Me.nudMissileRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbSubSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -266,6 +269,8 @@ Partial Public Class frmHQFSettings
         '
         'gbSlotFormat
         '
+        Me.gbSlotFormat.Controls.Add(Me.lblSubSlotColour)
+        Me.gbSlotFormat.Controls.Add(Me.pbSubSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.btnMoveDown)
         Me.gbSlotFormat.Controls.Add(Me.btnMoveUp)
         Me.gbSlotFormat.Controls.Add(Me.lvwColumns)
@@ -278,9 +283,9 @@ Partial Public Class frmHQFSettings
         Me.gbSlotFormat.Controls.Add(Me.pbHiSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblMidSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblHiSlotColour)
-        Me.gbSlotFormat.Location = New System.Drawing.Point(481, 157)
+        Me.gbSlotFormat.Location = New System.Drawing.Point(194, 12)
         Me.gbSlotFormat.Name = "gbSlotFormat"
-        Me.gbSlotFormat.Size = New System.Drawing.Size(82, 43)
+        Me.gbSlotFormat.Size = New System.Drawing.Size(498, 497)
         Me.gbSlotFormat.TabIndex = 3
         Me.gbSlotFormat.TabStop = False
         Me.gbSlotFormat.Text = "Slot Layout"
@@ -341,9 +346,9 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
         Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
-        Me.gbCache.Location = New System.Drawing.Point(199, 12)
+        Me.gbCache.Location = New System.Drawing.Point(219, 211)
         Me.gbCache.Name = "gbCache"
-        Me.gbCache.Size = New System.Drawing.Size(493, 497)
+        Me.gbCache.Size = New System.Drawing.Size(170, 53)
         Me.gbCache.TabIndex = 29
         Me.gbCache.TabStop = False
         Me.gbCache.Text = "Data and Cache Settings"
@@ -547,14 +552,33 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         Me.ToolTip1.SetToolTip(Me.lblCapRecharge, "Defines the peak recharge rate of the capacitor (max = 2.50 x average)")
         '
+        'pbSubSlotColour
+        '
+        Me.pbSubSlotColour.BackColor = System.Drawing.Color.DarkSeaGreen
+        Me.pbSubSlotColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbSubSlotColour.Location = New System.Drawing.Point(411, 214)
+        Me.pbSubSlotColour.Name = "pbSubSlotColour"
+        Me.pbSubSlotColour.Size = New System.Drawing.Size(24, 24)
+        Me.pbSubSlotColour.TabIndex = 32
+        Me.pbSubSlotColour.TabStop = False
+        '
+        'lblSubSlotColour
+        '
+        Me.lblSubSlotColour.AutoSize = True
+        Me.lblSubSlotColour.Location = New System.Drawing.Point(284, 221)
+        Me.lblSubSlotColour.Name = "lblSubSlotColour"
+        Me.lblSubSlotColour.Size = New System.Drawing.Size(114, 13)
+        Me.lblSubSlotColour.TabIndex = 33
+        Me.lblSubSlotColour.Text = "Subsystem Slot Colour"
+        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
+        Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.gbCache)
         Me.Controls.Add(Me.gbConstants)
-        Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
@@ -581,6 +605,7 @@ Partial Public Class frmHQFSettings
         CType(Me.nudMissileRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbSubSlotColour, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -630,4 +655,6 @@ Partial Public Class frmHQFSettings
     Friend WithEvents lblMissileRangeUnit As System.Windows.Forms.Label
     Friend WithEvents lblCapRechargeUnit As System.Windows.Forms.Label
     Friend WithEvents lblShieldRechargeUnit As System.Windows.Forms.Label
+    Friend WithEvents lblSubSlotColour As System.Windows.Forms.Label
+    Friend WithEvents pbSubSlotColour As System.Windows.Forms.PictureBox
 End Class

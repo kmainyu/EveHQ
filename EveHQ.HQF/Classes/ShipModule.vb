@@ -46,7 +46,7 @@ Imports System.Runtime.Serialization
     Private cIcon As String
 
     ' Fitting Details
-    Private cSlotType As Integer ' 1=Rig, 2=Low, 4=Mid, 8=High
+    Private cSlotType As Integer ' 1=Rig, 2=Low, 4=Mid, 8=High, 16=Subsystem
     Private cSlotNo As Integer
     Private cImplantSlot As Integer
     Private cBoosterSlot As Integer

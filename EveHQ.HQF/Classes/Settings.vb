@@ -37,6 +37,7 @@ Public Class Settings
     Private cMidSlotColour As Long = System.Drawing.Color.LightSteelBlue.ToArgb
     Private cLowSlotColour As Long = System.Drawing.Color.Thistle.ToArgb
     Private cRigSlotColour As Long = System.Drawing.Color.LightGreen.ToArgb
+    Private cSubSlotColour As Long = System.Drawing.Color.DarkSeaGreen.ToArgb
     Private cDefaultPilot As String = ""
     Private cRestoreLastSession As Boolean = False
     Private cLastPriceUpdate As DateTime
@@ -250,6 +251,14 @@ Public Class Settings
             cRigSlotColour = value
         End Set
     End Property
+    Public Property SubSlotColour() As Long
+        Get
+            Return cSubSlotColour
+        End Get
+        Set(ByVal value As Long)
+            cSubSlotColour = value
+        End Set
+    End Property
 
     Public Sub SaveHQFSettings()
         Dim XMLdoc As XmlDocument = New XmlDocument
@@ -279,6 +288,7 @@ Public Class Settings
         XMLS &= Chr(9) & Chr(9) & "<shipSplitterWidth>" & HQFSettings.ShipSplitterWidth & "</shipSplitterWidth>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<modSplitterWidth>" & HQFSettings.ModSplitterWidth & "</modSplitterWidth>" & vbCrLf
         XMLS &= Chr(9) & Chr(9) & "<missileRangeConst>" & HQFSettings.MissileRangeConstant & "</missileRangeConst>" & vbCrLf
+        XMLS &= Chr(9) & Chr(9) & "<subSlotColour>" & HQFSettings.SubSlotColour & "</subSlotColour>" & vbCrLf
         XMLS &= Chr(9) & "</general>" & vbCrLf
 
         ' Save the slot layout
@@ -362,6 +372,7 @@ Public Class Settings
                         HQFSettings.ShipSplitterWidth = CInt(settingSettings.ChildNodes(15).InnerText)
                         HQFSettings.ModSplitterWidth = CInt(settingSettings.ChildNodes(16).InnerText)
                         HQFSettings.MissileRangeConstant = CDbl(settingSettings.ChildNodes(17).InnerText)
+                        HQFSettings.SubSlotColour = CLng(settingSettings.ChildNodes(18).InnerText)
                     End If
                 End If
             Catch

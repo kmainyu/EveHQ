@@ -616,7 +616,7 @@ Public Class PlugInData
             Dim strSQL As String = ""
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.marketGroupID, eveGraphics.icon"
             strSQL &= " FROM eveGraphics INNER JOIN (invCategories INNER JOIN (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) ON invCategories.categoryID = invGroups.categoryID) ON (eveGraphics.graphicID = invTypes.graphicID)"
-            strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20)) AND ((invTypes.published)=1))"
+            strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20,32)) AND ((invTypes.published)=1))"
             strSQL &= " ORDER BY invTypes.typeName;"
             PlugInData.moduleData = EveHQ.Core.DataFunctions.GetData(strSQL)
             If PlugInData.moduleData IsNot Nothing Then
@@ -640,7 +640,7 @@ Public Class PlugInData
             Dim strSQL As String = ""
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.marketGroupID, dgmTypeEffects.effectID"
             strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeEffects ON invTypes.typeID=dgmTypeEffects.typeID"
-            strSQL &= " WHERE(invCategories.categoryID In (7,8,18,20) And invTypes.published=true)"
+            strSQL &= " WHERE(invCategories.categoryID In (7,8,18,20,32) And invTypes.published=true)"
             strSQL &= " ORDER BY typeName, effectID;"
             PlugInData.moduleEffectData = EveHQ.Core.DataFunctions.GetData(strSQL)
             If PlugInData.moduleEffectData IsNot Nothing Then
@@ -664,7 +664,7 @@ Public Class PlugInData
             Dim strSQL As String = ""
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.marketGroupID, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, dgmAttributeTypes.attributeName, dgmAttributeTypes.displayName, dgmAttributeTypes.unitID, eveUnits.unitName, eveUnits.displayName"
             strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN (eveUnits INNER JOIN (dgmAttributeTypes INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID = dgmTypeAttributes.attributeID) ON eveUnits.unitID = dgmAttributeTypes.unitID) ON invTypes.typeID = dgmTypeAttributes.typeID) ON invCategories.categoryID = invGroups.categoryID"
-            strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20)) AND ((invTypes.published)=1))"
+            strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20,32)) AND ((invTypes.published)=1))"
             strSQL &= " ORDER BY invTypes.typeName, dgmTypeAttributes.attributeID;"
 
             PlugInData.moduleAttributeData = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -689,7 +689,7 @@ Public Class PlugInData
             Dim strSQL As String = ""
             strSQL &= "SELECT invTypes.typeID AS invTypes_typeID, invMetaTypes.parentTypeID, invMetaGroups.metaGroupID AS invMetaGroups_metaGroupID"
             strSQL &= " FROM (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN (invMetaGroups INNER JOIN invMetaTypes ON invMetaGroups.metaGroupID = invMetaTypes.metaGroupID) ON invTypes.typeID = invMetaTypes.typeID"
-            strSQL &= " WHERE (((invGroups.categoryID) In (7,8,18,20)) AND (invTypes.published=true));"
+            strSQL &= " WHERE (((invGroups.categoryID) In (7,8,18,20,32)) AND (invTypes.published=true));"
             Dim metaTypeData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             If metaTypeData IsNot Nothing Then
                 If metaTypeData.Tables(0).Rows.Count <> 0 Then
@@ -702,7 +702,7 @@ Public Class PlugInData
                         End If
                         If ModuleLists.moduleMetaTypes.Contains(row.Item("parentTypeID").ToString) = False Then
                             ModuleLists.moduleMetaTypes.Add(row.Item("parentTypeID").ToString, row.Item("parentTypeID").ToString)
-                            ModuleLists.moduleMetaGroups.Add(row.Item("parentTypeID").ToString, "1")
+                            ModuleLists.moduleMetaGroups.Add(row.Item("parentTypeID").ToString, "0")
                         End If
                     Next
                     Return True
@@ -740,11 +740,6 @@ Public Class PlugInData
                     newModule.MarketGroup = row.Item("marketGroupID").ToString
                 Else
                     newModule.MarketGroup = "0"
-                End If
-                If ModuleLists.moduleMetaGroups.Contains(newModule.ID) = True Then
-                    newModule.MetaType = CInt(2 ^ (CInt(ModuleLists.moduleMetaGroups(newModule.ID)) - 1))
-                Else
-                    newModule.MetaType = 1
                 End If
                 newModule.CPU = 0
                 newModule.PG = 0
@@ -844,6 +839,8 @@ Public Class PlugInData
                         effMod.SlotType = 4
                     Case 2663 ' Rig slot
                         effMod.SlotType = 1
+                    Case 3772 ' Sub slot
+                        effMod.SlotType = 16
                     Case 101
                         If effMod.DatabaseGroup <> "481" Then
                             effMod.IsLauncher = True
@@ -1063,6 +1060,30 @@ Public Class PlugInData
                 'If attMod.IsCharge = True And Charges.ChargeGroups.Contains(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize) = False Then
                 '    Charges.ChargeGroups.Add(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize)
                 'End If
+            Next
+            ' Build the metaType data
+            For Each cMod As ShipModule In ModuleLists.moduleList.Values
+                If ModuleLists.moduleMetaGroups.Contains(cMod.ID) = True Then
+                    If cMod.Name = "Legion Defensive - Adaptive Augmenter" Then
+                        MessageBox.Show("Found it!")
+                    End If
+                    If CStr(ModuleLists.moduleMetaGroups(cMod.ID)) = "0" Then
+                        Select Case CInt(cMod.Attributes("422"))
+                            Case 1
+                                cMod.MetaType = CInt(2 ^ 0)
+                            Case 2
+                                cMod.MetaType = CInt(2 ^ 1)
+                            Case 3
+                                cMod.MetaType = CInt(2 ^ 13)
+                            Case Else
+                                cMod.MetaType = CInt(2 ^ 0)
+                        End Select
+                    Else
+                        cMod.MetaType = CInt(2 ^ (CInt(ModuleLists.moduleMetaGroups(cMod.ID)) - 1))
+                    End If
+                Else
+                    cMod.MetaType = 1
+                End If
             Next
             ' Build charge data
             For Each cMod As ShipModule In ModuleLists.moduleList.Values
