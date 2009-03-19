@@ -624,13 +624,15 @@ Public Class frmEveHQ
         ' Check each pilot
         Dim pilotTimes As New SortedList
         Dim defer As Integer = 0
+        Dim pilotTime As Long = 0
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Training = True Then
                 If cPilot.Active = True Then
-                    Do While pilotTimes.ContainsKey(Format(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot) + defer, "00000000")) = True
+                    Do
                         defer += 1
-                    Loop
-                    pilotTimes.Add(Format(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot) + defer, "00000000"), cPilot)
+                        pilotTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot) + defer
+                    Loop Until pilotTimes.ContainsKey(Format(pilotTime, "00000000")) = False
+                    pilotTimes.Add(Format(pilotTime, "00000000"), cPilot)
                 End If
                 accounts.Add(cPilot.Account)
             End If

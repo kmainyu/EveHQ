@@ -2486,38 +2486,40 @@ Public Class frmTraining
     Private Sub SuggestionWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs)
         ' Find the queue which has completed
         Dim sugQueue As String = ""
-        For QueueNo As Integer = 0 To EveHQ.Core.SkillQueueFunctions.SuggestionStatus.Count - 1
-            sugQueue = CStr(EveHQ.Core.SkillQueueFunctions.SuggestionStatus.GetKey(QueueNo))
-            'For Each sugQueue In EveHQ.Core.SkillQueueFunctions.SuggestionStatus.Keys
-            If CStr(EveHQ.Core.SkillQueueFunctions.SuggestionStatus.Item(sugQueue)) = "Completed" Then
-                EveHQ.Core.SkillQueueFunctions.SuggestionStatus(sugQueue) = ""
-                If Me.tabQueues.Controls(sugQueue) IsNot Nothing Then
-                    Dim activePB As PictureBox = CType(Me.tabQueues.Controls(sugQueue).Controls("P" & sugQueue), PictureBox)
-                    Dim activeLabel As Label = CType(Me.tabQueues.Controls(sugQueue).Controls("S" & sugQueue), Label)
-                    Dim origQueue As EveHQ.Core.SkillQueue = CType(suggestingQueues(sugQueue), Core.SkillQueue)
-                    Dim newQueue As EveHQ.Core.SkillQueue = CType(suggestedQueues(sugQueue), Core.SkillQueue)
-                    If newQueue IsNot Nothing And origQueue IsNot Nothing Then ' only if improvement is by 10s or more!
-                        If newQueue.QueueTime < origQueue.QueueTime - 10 Then
-                            Me.suggestionsTaken = False
-                            activePB.Image = My.Resources.info_icon
-                            activePB.Enabled = True
-                            activePB.Visible = True
-                            endTime = Now
-                            Dim timeTaken As TimeSpan = endTime - startTime
-                            activeLabel.Text = "EveHQ can help decrease your training time, click the icon for more details..."
-                            activeLabel.Visible = True
+        If EveHQ.Core.SkillQueueFunctions.SuggestionStatus.Count > 0 Then
+            For QueueNo As Integer = 0 To EveHQ.Core.SkillQueueFunctions.SuggestionStatus.Count - 1
+                sugQueue = CStr(EveHQ.Core.SkillQueueFunctions.SuggestionStatus.GetKey(QueueNo))
+                'For Each sugQueue In EveHQ.Core.SkillQueueFunctions.SuggestionStatus.Keys
+                If CStr(EveHQ.Core.SkillQueueFunctions.SuggestionStatus.Item(sugQueue)) = "Completed" Then
+                    EveHQ.Core.SkillQueueFunctions.SuggestionStatus(sugQueue) = ""
+                    If Me.tabQueues.Controls(sugQueue) IsNot Nothing Then
+                        Dim activePB As PictureBox = CType(Me.tabQueues.Controls(sugQueue).Controls("P" & sugQueue), PictureBox)
+                        Dim activeLabel As Label = CType(Me.tabQueues.Controls(sugQueue).Controls("S" & sugQueue), Label)
+                        Dim origQueue As EveHQ.Core.SkillQueue = CType(suggestingQueues(sugQueue), Core.SkillQueue)
+                        Dim newQueue As EveHQ.Core.SkillQueue = CType(suggestedQueues(sugQueue), Core.SkillQueue)
+                        If newQueue IsNot Nothing And origQueue IsNot Nothing Then ' only if improvement is by 10s or more!
+                            If newQueue.QueueTime < origQueue.QueueTime - 10 Then
+                                Me.suggestionsTaken = False
+                                activePB.Image = My.Resources.info_icon
+                                activePB.Enabled = True
+                                activePB.Visible = True
+                                endTime = Now
+                                Dim timeTaken As TimeSpan = endTime - startTime
+                                activeLabel.Text = "EveHQ can help decrease your training time, click the icon for more details..."
+                                activeLabel.Visible = True
+                            Else
+                                activePB.Visible = False
+                                activeLabel.Visible = False
+                            End If
+                            Exit Sub
                         Else
                             activePB.Visible = False
                             activeLabel.Visible = False
                         End If
-                        Exit Sub
-                    Else
-                        activePB.Visible = False
-                        activeLabel.Visible = False
                     End If
                 End If
-            End If
-        Next
+            Next
+        End If
     End Sub
     Private Sub SuggestionIconClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim sugQueue As EveHQ.Core.SkillQueue = CType(suggestedQueues(activeQueueName), Core.SkillQueue)
