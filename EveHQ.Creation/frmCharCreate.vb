@@ -190,9 +190,9 @@ Public Class frmCharCreate
     Private Sub cboAncestry_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAncestry.SelectedIndexChanged
 
         ' If we have chosen something, then activate the next control
-        If cboAncestry.SelectedIndex > -1 Then
-            lblStep4.Enabled = True : cboCareer.Enabled = True
-        End If
+        'If cboAncestry.SelectedIndex > -1 Then
+        '    lblStep4.Enabled = True : cboCareer.Enabled = True
+        'End If
 
         ' Clear any subsequent controls as these will no longer be relevant
         lblStep5.Enabled = False
@@ -233,7 +233,7 @@ Public Class frmCharCreate
         lblSP.Text = "Skillpoints: " & FormatNumber(skillPoints, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
 
         ' Disable the transfer character button
-        Me.btnAddPilot.Enabled = False
+        Me.btnAddPilot.Enabled = True
 
     End Sub
     Private Sub cboCareer_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboCareer.SelectedIndexChanged
@@ -258,7 +258,7 @@ Public Class frmCharCreate
             Me.cboSpec.Items.Add(specName)
         Next
 
-        Call CalcCareerSkills(CStr(sCareerID))
+        'Call CalcCareerSkills(CStr(sCareerID))
 
         ' No change in skills at this point so display those from the ancestry
         ' Display skills
@@ -280,7 +280,7 @@ Public Class frmCharCreate
         sSpecName = CStr(cboSpec.SelectedItem)
         sSpecID = CInt(eveSpecs.Item(sSpecName))
 
-        Call CalcSpecSkills(CStr(sSpecID))
+        'Call CalcSpecSkills(CStr(sSpecID))
 
         ' Display skills
         lvwSkills.Items.Clear()
@@ -358,80 +358,80 @@ Public Class frmCharCreate
             skillsAncestry.Add(skill, skill.Text)
         Next
     End Sub
-    Private Sub CalcCareerSkills(ByVal careerID As String)
+    'Private Sub CalcCareerSkills(ByVal careerID As String)
 
-        ' Get list of skills acquired
-        skillsCareer.Clear()
-        For Each skill As ListViewItem In skillsAncestry
-            skillsCareer.Add(skill, skill.Text)
-        Next
+    '    ' Get list of skills acquired
+    '    skillsCareer.Clear()
+    '    For Each skill As ListViewItem In skillsAncestry
+    '        skillsCareer.Add(skill, skill.Text)
+    '    Next
 
-        ' Load up the skills for the selected race
-        Dim skillRows() As DataRow
-        skillRows = PlugInData.careerSkillData.Tables(0).Select("careerID = " & careerID)
-        Dim skillID As String = ""
-        Dim skillName As String = ""
-        Dim skillLevel As Integer = 0
-        Dim skillPoints As Long = 0
-        For skillNo As Integer = 0 To skillRows.GetUpperBound(0)
-            skillID = CStr(skillRows(skillNo).Item("skillTypeID"))
-            skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillID)
-            skillLevel = CInt(skillRows(skillNo).Item("levels"))
-            skillPoints = CLng(Math.Round(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, skillLevel), 0))
-            Dim skillItem As New ListViewItem
-            skillItem.Text = skillName
-            skillItem.Name = skillID
-            skillItem.SubItems.Add(skillLevel.ToString)
-            skillItem.SubItems.Add(skillPoints.ToString)
-            If skillsCareer.Contains(skillName) = True Then
-                ' Extract old item
-                Dim existSkill As ListViewItem = CType(skillsCareer.Item(skillName), ListViewItem)
-                skillsCareer.Remove(skillName)
-                skillItem.SubItems(1).Text = CStr(Math.Min((CDbl(existSkill.SubItems(1).Text) + skillLevel), 5))
-                skillItem.SubItems(2).Text = CStr(Math.Round(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, CInt(skillItem.SubItems(1).Text)), 0))
-                skillsCareer.Add(skillItem, skillName)
-            Else
-                skillsCareer.Add(skillItem, skillName)
-            End If
-        Next
-    End Sub
-    Private Sub CalcSpecSkills(ByVal specID As String)
+    '    ' Load up the skills for the selected race
+    '    Dim skillRows() As DataRow
+    '    skillRows = PlugInData.careerSkillData.Tables(0).Select("careerID = " & careerID)
+    '    Dim skillID As String = ""
+    '    Dim skillName As String = ""
+    '    Dim skillLevel As Integer = 0
+    '    Dim skillPoints As Long = 0
+    '    For skillNo As Integer = 0 To skillRows.GetUpperBound(0)
+    '        skillID = CStr(skillRows(skillNo).Item("skillTypeID"))
+    '        skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillID)
+    '        skillLevel = CInt(skillRows(skillNo).Item("levels"))
+    '        skillPoints = CLng(Math.Round(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, skillLevel), 0))
+    '        Dim skillItem As New ListViewItem
+    '        skillItem.Text = skillName
+    '        skillItem.Name = skillID
+    '        skillItem.SubItems.Add(skillLevel.ToString)
+    '        skillItem.SubItems.Add(skillPoints.ToString)
+    '        If skillsCareer.Contains(skillName) = True Then
+    '            ' Extract old item
+    '            Dim existSkill As ListViewItem = CType(skillsCareer.Item(skillName), ListViewItem)
+    '            skillsCareer.Remove(skillName)
+    '            skillItem.SubItems(1).Text = CStr(Math.Min((CDbl(existSkill.SubItems(1).Text) + skillLevel), 5))
+    '            skillItem.SubItems(2).Text = CStr(Math.Round(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, CInt(skillItem.SubItems(1).Text)), 0))
+    '            skillsCareer.Add(skillItem, skillName)
+    '        Else
+    '            skillsCareer.Add(skillItem, skillName)
+    '        End If
+    '    Next
+    'End Sub
+    'Private Sub CalcSpecSkills(ByVal specID As String)
 
-        ' Get list of skills acquired
-        skillsSpec.Clear()
-        For Each skill As ListViewItem In skillsCareer
-            skillsSpec.Add(skill, skill.Text)
-        Next
+    '    ' Get list of skills acquired
+    '    skillsSpec.Clear()
+    '    For Each skill As ListViewItem In skillsCareer
+    '        skillsSpec.Add(skill, skill.Text)
+    '    Next
 
-        ' Load up the skills for the selected race
-        Dim skillRows() As DataRow
-        skillRows = PlugInData.specSkillData.Tables(0).Select("specialityID = " & specID)
-        Dim skillID As String = ""
-        Dim skillName As String = ""
-        Dim skillLevel As Integer = 0
-        Dim skillPoints As Long = 0
-        For skillNo As Integer = 0 To skillRows.GetUpperBound(0)
-            skillID = CStr(skillRows(skillNo).Item("skillTypeID"))
-            skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillID)
-            skillLevel = CInt(skillRows(skillNo).Item("levels"))
-            skillPoints = CLng(Math.Round(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, skillLevel), 0))
-            Dim skillItem As New ListViewItem
-            skillItem.Text = skillName
-            skillItem.Name = skillID
-            skillItem.SubItems.Add(skillLevel.ToString)
-            skillItem.SubItems.Add(skillPoints.ToString)
-            If skillsSpec.Contains(skillName) = True Then
-                ' Extract old item
-                Dim existSkill As ListViewItem = CType(skillsSpec.Item(skillName), ListViewItem)
-                skillsSpec.Remove(skillName)
-                skillItem.SubItems(1).Text = CStr(Math.Min((CDbl(existSkill.SubItems(1).Text) + skillLevel), 5))
-                skillItem.SubItems(2).Text = CStr(Math.Round(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, CInt(skillItem.SubItems(1).Text)), 0))
-                skillsSpec.Add(skillItem, skillName)
-            Else
-                skillsSpec.Add(skillItem, skillName)
-            End If
-        Next
-    End Sub
+    '    ' Load up the skills for the selected race
+    '    Dim skillRows() As DataRow
+    '    skillRows = PlugInData.specSkillData.Tables(0).Select("specialityID = " & specID)
+    '    Dim skillID As String = ""
+    '    Dim skillName As String = ""
+    '    Dim skillLevel As Integer = 0
+    '    Dim skillPoints As Long = 0
+    '    For skillNo As Integer = 0 To skillRows.GetUpperBound(0)
+    '        skillID = CStr(skillRows(skillNo).Item("skillTypeID"))
+    '        skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillID)
+    '        skillLevel = CInt(skillRows(skillNo).Item("levels"))
+    '        skillPoints = CLng(Math.Round(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, skillLevel), 0))
+    '        Dim skillItem As New ListViewItem
+    '        skillItem.Text = skillName
+    '        skillItem.Name = skillID
+    '        skillItem.SubItems.Add(skillLevel.ToString)
+    '        skillItem.SubItems.Add(skillPoints.ToString)
+    '        If skillsSpec.Contains(skillName) = True Then
+    '            ' Extract old item
+    '            Dim existSkill As ListViewItem = CType(skillsSpec.Item(skillName), ListViewItem)
+    '            skillsSpec.Remove(skillName)
+    '            skillItem.SubItems(1).Text = CStr(Math.Min((CDbl(existSkill.SubItems(1).Text) + skillLevel), 5))
+    '            skillItem.SubItems(2).Text = CStr(Math.Round(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, CInt(skillItem.SubItems(1).Text)), 0))
+    '            skillsSpec.Add(skillItem, skillName)
+    '        Else
+    '            skillsSpec.Add(skillItem, skillName)
+    '        End If
+    '    Next
+    'End Sub
 
    
     Private Sub LoadOptions()
@@ -470,8 +470,8 @@ Public Class frmCharCreate
                                 Call CalcRaceSkills(raceID)
                                 Call CalcBloodlineAttributes(bloodID)
                                 Call CalcAncestryAttributes(ancestryID)
-                                Call CalcCareerSkills(careerID)
-                                Call CalcSpecSkills(specID)
+                                'Call CalcCareerSkills(careerID)
+                                'Call CalcSpecSkills(specID)
                                 count += 1
                                 ' Add this to the retained list of characters for later use if required
                                 Dim newChar As New NewCharacter
@@ -662,7 +662,7 @@ Public Class frmCharCreate
             .ancestry = sAncestryName
             .career = sCareerName
             .spec = sSpecName
-            .skills = skillsSpec
+            .skills = skillsRace
             .ShowDialog()
         End With
     End Sub

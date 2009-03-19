@@ -1,4 +1,6 @@
-﻿Public Class PlugInData
+﻿Imports System.Windows.Forms
+
+Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
 
 
@@ -43,47 +45,87 @@
 
     Private Function LoadData() As Boolean
         raceData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrRaces")
-        If raceData Is Nothing Or raceData.Tables(0).Rows.Count = 0 Then
+        If raceData Is Nothing Then
+            MessageBox.Show("chrRaces table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
-            Exit Function
+        Else
+            If raceData.Tables(0).Rows.Count = 0 Then
+                MessageBox.Show("chrRaces table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
         End If
         bloodData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrBloodlines")
-        If bloodData Is Nothing Or bloodData.Tables(0).Rows.Count = 0 Then
+        If bloodData Is Nothing Then
+            MessageBox.Show("chrBloodlines table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
-            Exit Function
+        Else
+            If bloodData.Tables(0).Rows.Count = 0 Then
+                MessageBox.Show("chrBloodlines table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
         End If
         ancestryData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrAncestries")
-        If ancestryData Is Nothing Or ancestryData.Tables(0).Rows.Count = 0 Then
+        If ancestryData Is Nothing Then
+            MessageBox.Show("chrAncestries table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
-            Exit Function
+        Else
+            If ancestryData.Tables(0).Rows.Count = 0 Then
+                MessageBox.Show("chrAncestries table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
         End If
         careerData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareers")
-        If careerData Is Nothing Or careerData.Tables(0).Rows.Count = 0 Then
+        If careerData Is Nothing Then
+            MessageBox.Show("chrCareers table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
-            Exit Function
+        Else
+            If careerData.Tables(0).Rows.Count = 0 Then
+                MessageBox.Show("chrCareers table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
         End If
         specData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSpecialities")
-        If specData Is Nothing Or specData.Tables(0).Rows.Count = 0 Then
+        If specData Is Nothing Then
+            MessageBox.Show("chrCareerSpec table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
-            Exit Function
+        Else
+            If specData.Tables(0).Rows.Count = 0 Then
+                MessageBox.Show("chrCareerSpec table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
         End If
         raceSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrRaceSkills")
-        If raceSkillData Is Nothing Or raceSkillData.Tables(0).Rows.Count = 0 Then
+        If raceSkillData Is Nothing Then
+            MessageBox.Show("chrRaceSkills table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
-            Exit Function
+        Else
+            If raceSkillData.Tables(0).Rows.Count = 0 Then
+                MessageBox.Show("chrRaceSkills table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
         End If
-        careerSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSkills")
-        If careerSkillData Is Nothing Or careerSkillData.Tables(0).Rows.Count = 0 Then
-            Return False
-            Exit Function
-        End If
-        specSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSpecialitySkills")
-        If specSkillData Is Nothing Or specSkillData.Tables(0).Rows.Count = 0 Then
-            Return False
-            Exit Function
-        End If
+        'careerSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSkills")
+        'If careerSkillData Is Nothing Then
+        '    MessageBox.Show("chrCareerSkills table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '    Return False
+        'Else
+        '    If careerSkillData.Tables(0).Rows.Count = 0 Then
+        '        MessageBox.Show("chrCareerSkills table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        Return False
+        '    End If
+        'End If
+        'specSkillData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrCareerSpecialitySkills")
+        'If specSkillData Is Nothing Then
+        '    MessageBox.Show("chrCareerSpecSkills table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '    Return False
+        'Else
+        '    If specSkillData.Tables(0).Rows.Count = 0 Then
+        '        MessageBox.Show("chrCareerSpecSkills table returned no rows.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '        Return False
+        '    End If
+        'End If
         Return True
     End Function
 
-  
+
 End Class

@@ -201,7 +201,6 @@ Partial Class frmMap
         Me.lblRegionMain = New System.Windows.Forms.Label
         Me.cboConst = New System.Windows.Forms.ComboBox
         Me.cboRegion = New System.Windows.Forms.ComboBox
-        Me.btnSerialize = New System.Windows.Forms.Button
         Me.btnExclude = New EveHQ.Map.SplitButton
         Me.tsMap = New System.Windows.Forms.ToolStrip
         Me.tsUpdateData = New System.Windows.Forms.ToolStripButton
@@ -747,7 +746,7 @@ Partial Class frmMap
         Me.tabRoute.Location = New System.Drawing.Point(4, 22)
         Me.tabRoute.Name = "tabRoute"
         Me.tabRoute.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabRoute.Size = New System.Drawing.Size(657, 725)
+        Me.tabRoute.Size = New System.Drawing.Size(657, 543)
         Me.tabRoute.TabIndex = 1
         Me.tabRoute.Text = "Route Calculator"
         Me.tabRoute.UseVisualStyleBackColor = True
@@ -993,12 +992,12 @@ Partial Class frmMap
         '
         Me.ctxRoute.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCopyToClipboard})
         Me.ctxRoute.Name = "ctxRoute"
-        Me.ctxRoute.Size = New System.Drawing.Size(174, 26)
+        Me.ctxRoute.Size = New System.Drawing.Size(175, 26)
         '
         'mnuCopyToClipboard
         '
         Me.mnuCopyToClipboard.Name = "mnuCopyToClipboard"
-        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(173, 22)
+        Me.mnuCopyToClipboard.Size = New System.Drawing.Size(174, 22)
         Me.mnuCopyToClipboard.Text = "Copy To Clipboard"
         '
         'lblTimeTaken
@@ -1127,7 +1126,7 @@ Partial Class frmMap
         Me.tabStations.Controls.Add(Me.lblStationCorp)
         Me.tabStations.Location = New System.Drawing.Point(4, 22)
         Me.tabStations.Name = "tabStations"
-        Me.tabStations.Size = New System.Drawing.Size(657, 725)
+        Me.tabStations.Size = New System.Drawing.Size(657, 543)
         Me.tabStations.TabIndex = 3
         Me.tabStations.Text = "Stations"
         Me.tabStations.UseVisualStyleBackColor = True
@@ -1272,7 +1271,7 @@ Partial Class frmMap
         Me.tabStationSearch.Controls.Add(Me.cbstssys)
         Me.tabStationSearch.Location = New System.Drawing.Point(4, 22)
         Me.tabStationSearch.Name = "tabStationSearch"
-        Me.tabStationSearch.Size = New System.Drawing.Size(657, 725)
+        Me.tabStationSearch.Size = New System.Drawing.Size(657, 543)
         Me.tabStationSearch.TabIndex = 4
         Me.tabStationSearch.Text = "Station Search"
         Me.tabStationSearch.UseVisualStyleBackColor = True
@@ -1463,7 +1462,7 @@ Partial Class frmMap
         Me.tabAgentSearch.Controls.Add(Me.lvwAgents)
         Me.tabAgentSearch.Location = New System.Drawing.Point(4, 22)
         Me.tabAgentSearch.Name = "tabAgentSearch"
-        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 725)
+        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 543)
         Me.tabAgentSearch.TabIndex = 5
         Me.tabAgentSearch.Text = "Agent Search"
         Me.tabAgentSearch.UseVisualStyleBackColor = True
@@ -1775,24 +1774,24 @@ Partial Class frmMap
         '
         Me.ctxExclude.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExcludeSystem, Me.mnuExcludeConstellation, Me.mnuExcludeRegion})
         Me.ctxExclude.Name = "ctxExclude"
-        Me.ctxExclude.Size = New System.Drawing.Size(148, 70)
+        Me.ctxExclude.Size = New System.Drawing.Size(145, 70)
         '
         'mnuExcludeSystem
         '
         Me.mnuExcludeSystem.Name = "mnuExcludeSystem"
-        Me.mnuExcludeSystem.Size = New System.Drawing.Size(147, 22)
+        Me.mnuExcludeSystem.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeSystem.Text = "Solar System"
         '
         'mnuExcludeConstellation
         '
         Me.mnuExcludeConstellation.Name = "mnuExcludeConstellation"
-        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(147, 22)
+        Me.mnuExcludeConstellation.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeConstellation.Text = "Constellation"
         '
         'mnuExcludeRegion
         '
         Me.mnuExcludeRegion.Name = "mnuExcludeRegion"
-        Me.mnuExcludeRegion.Size = New System.Drawing.Size(147, 22)
+        Me.mnuExcludeRegion.Size = New System.Drawing.Size(144, 22)
         Me.mnuExcludeRegion.Text = "Region"
         '
         'btnRemoveExclusion
@@ -1835,7 +1834,7 @@ Partial Class frmMap
         Me.tabExclusions.Location = New System.Drawing.Point(4, 22)
         Me.tabExclusions.Name = "tabExclusions"
         Me.tabExclusions.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabExclusions.Size = New System.Drawing.Size(239, 499)
+        Me.tabExclusions.Size = New System.Drawing.Size(239, 317)
         Me.tabExclusions.TabIndex = 0
         Me.tabExclusions.Text = "Exclusions"
         Me.tabExclusions.UseVisualStyleBackColor = True
@@ -1850,7 +1849,7 @@ Partial Class frmMap
         Me.tabWaypoints.Location = New System.Drawing.Point(4, 22)
         Me.tabWaypoints.Name = "tabWaypoints"
         Me.tabWaypoints.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabWaypoints.Size = New System.Drawing.Size(239, 499)
+        Me.tabWaypoints.Size = New System.Drawing.Size(239, 317)
         Me.tabWaypoints.TabIndex = 1
         Me.tabWaypoints.Text = "Waypoints"
         Me.tabWaypoints.UseVisualStyleBackColor = True
@@ -1885,30 +1884,23 @@ Partial Class frmMap
         '
         'cboConst
         '
+        Me.cboConst.Enabled = False
         Me.cboConst.FormattingEnabled = True
         Me.cboConst.Location = New System.Drawing.Point(63, 65)
         Me.cboConst.Name = "cboConst"
         Me.cboConst.Size = New System.Drawing.Size(176, 21)
+        Me.cboConst.Sorted = True
         Me.cboConst.TabIndex = 78
         '
         'cboRegion
         '
+        Me.cboRegion.Enabled = False
         Me.cboRegion.FormattingEnabled = True
         Me.cboRegion.Location = New System.Drawing.Point(63, 38)
         Me.cboRegion.Name = "cboRegion"
         Me.cboRegion.Size = New System.Drawing.Size(176, 21)
+        Me.cboRegion.Sorted = True
         Me.cboRegion.TabIndex = 77
-        '
-        'btnSerialize
-        '
-        Me.btnSerialize.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSerialize.Location = New System.Drawing.Point(46, 570)
-        Me.btnSerialize.Name = "btnSerialize"
-        Me.btnSerialize.Size = New System.Drawing.Size(75, 23)
-        Me.btnSerialize.TabIndex = 81
-        Me.btnSerialize.Text = "Serialize"
-        Me.btnSerialize.UseVisualStyleBackColor = True
-        Me.btnSerialize.Visible = False
         '
         'btnExclude
         '
@@ -1938,7 +1930,7 @@ Partial Class frmMap
         Me.tsUpdateData.Image = CType(resources.GetObject("tsUpdateData.Image"), System.Drawing.Image)
         Me.tsUpdateData.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsUpdateData.Name = "tsUpdateData"
-        Me.tsUpdateData.Size = New System.Drawing.Size(72, 22)
+        Me.tsUpdateData.Size = New System.Drawing.Size(76, 22)
         Me.tsUpdateData.Text = "Update Data"
         '
         'ToolStripSeparator1
@@ -1952,7 +1944,6 @@ Partial Class frmMap
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(938, 601)
         Me.Controls.Add(Me.tsMap)
-        Me.Controls.Add(Me.btnSerialize)
         Me.Controls.Add(Me.tabWaypointExclusions)
         Me.Controls.Add(Me.pbInfo)
         Me.Controls.Add(Me.tabMapTool)
@@ -2186,7 +2177,6 @@ Partial Class frmMap
     Friend WithEvents lblPlanetsLbl As System.Windows.Forms.Label
     Friend WithEvents lgagstype As System.Windows.Forms.ColumnHeader
     Friend WithEvents colSov As System.Windows.Forms.ColumnHeader
-    Friend WithEvents btnSerialize As System.Windows.Forms.Button
     Friend WithEvents tsMap As System.Windows.Forms.ToolStrip
     Friend WithEvents tsUpdateData As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator

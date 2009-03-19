@@ -331,7 +331,8 @@ Public Class PlugInData
     End Sub
     Public Function LoadSystems() As Boolean
         Dim strSQL As String = "SELECT mapSolarSystems.regionID AS mapSolarSystems_regionID, mapSolarSystems.constellationID AS mapSolarSystems_constellationID, mapSolarSystems.solarSystemID, mapSolarSystems.solarSystemName, mapSolarSystems.x, mapSolarSystems.y, mapSolarSystems.z, mapSolarSystems.xMin, mapSolarSystems.xMax, mapSolarSystems.yMin, mapSolarSystems.yMax, mapSolarSystems.zMin, mapSolarSystems.zMax, mapSolarSystems.luminosity, mapSolarSystems.border, mapSolarSystems.fringe, mapSolarSystems.corridor, mapSolarSystems.hub, mapSolarSystems.international, mapSolarSystems.regional, mapSolarSystems.constellation, mapSolarSystems.security, mapSolarSystems.factionID, mapSolarSystems.radius, mapSolarSystems.sunTypeID, mapSolarSystems.securityClass, mapRegions.regionID AS mapRegions_regionID, mapRegions.regionName, mapConstellations.constellationID AS mapConstellations_constellationID, mapConstellations.constellationName"
-        strSQL &= " FROM (mapRegions INNER JOIN mapConstellations ON mapRegions.regionID = mapConstellations.regionID) INNER JOIN mapSolarSystems ON mapConstellations.constellationID = mapSolarSystems.constellationID;"
+        strSQL &= " FROM (mapRegions INNER JOIN mapConstellations ON mapRegions.regionID = mapConstellations.regionID) INNER JOIN mapSolarSystems ON mapConstellations.constellationID = mapSolarSystems.constellationID"
+        strSQL &= " WHERE solarSystemID < 31000000;"
         Dim systemData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Try
             If systemData IsNot Nothing Then
@@ -341,24 +342,26 @@ Public Class PlugInData
                     For solar As Integer = 0 To systemData.Tables(0).Rows.Count - 1
                         cSystem = New SolarSystem
                         cSystem.ID = CInt(systemData.Tables(0).Rows(solar).Item("solarSystemID")) - 30000000
-                        cSystem.Name = CStr(systemData.Tables(0).Rows(solar).Item("solarSystemName"))
-                        cSystem.Region = CStr(systemData.Tables(0).Rows(solar).Item("regionName"))
-                        cSystem.RegionID = CInt(systemData.Tables(0).Rows(solar).Item("mapSolarSystems_regionID"))
-                        cSystem.Constellation = CStr(systemData.Tables(0).Rows(solar).Item("constellationName"))
-                        cSystem.x = CDbl(systemData.Tables(0).Rows(solar).Item("x"))
-                        cSystem.y = CDbl(systemData.Tables(0).Rows(solar).Item("y"))
-                        cSystem.z = CDbl(systemData.Tables(0).Rows(solar).Item("z"))
-                        cSystem.Security = CDbl(systemData.Tables(0).Rows(solar).Item("security"))
-                        cSystem.EveSec = Math.Max(Int((cSystem.Security * 10) + 0.5) / 10, 0)
-                        If IsDBNull(systemData.Tables(0).Rows(solar).Item("securityClass")) = False Then
-                            cSystem.SecClass = CStr(systemData.Tables(0).Rows(solar).Item("securityClass"))
-                        Else
-                            cSystem.SecClass = ""
+                        If cSystem.ID < 1000000 Then
+                            cSystem.Name = CStr(systemData.Tables(0).Rows(solar).Item("solarSystemName"))
+                            cSystem.Region = CStr(systemData.Tables(0).Rows(solar).Item("regionName"))
+                            cSystem.RegionID = CInt(systemData.Tables(0).Rows(solar).Item("mapSolarSystems_regionID"))
+                            cSystem.Constellation = CStr(systemData.Tables(0).Rows(solar).Item("constellationName"))
+                            cSystem.x = CDbl(systemData.Tables(0).Rows(solar).Item("x"))
+                            cSystem.y = CDbl(systemData.Tables(0).Rows(solar).Item("y"))
+                            cSystem.z = CDbl(systemData.Tables(0).Rows(solar).Item("z"))
+                            cSystem.Security = CDbl(systemData.Tables(0).Rows(solar).Item("security"))
+                            cSystem.EveSec = Math.Max(Int((cSystem.Security * 10) + 0.5) / 10, 0)
+                            If IsDBNull(systemData.Tables(0).Rows(solar).Item("securityClass")) = False Then
+                                cSystem.SecClass = CStr(systemData.Tables(0).Rows(solar).Item("securityClass"))
+                            Else
+                                cSystem.SecClass = ""
+                            End If
+                            cSystem.Ice = GetIce(CInt(cSystem.RegionID), cSystem.Security)
+                            cSystem.Flag = False
+                            PlugInData.SystemsID.Add(cSystem.ID.ToString, cSystem)
+                            SystemNameToID.Add(cSystem.Name, cSystem.ID.ToString)
                         End If
-                        cSystem.Ice = GetIce(CInt(cSystem.RegionId), cSystem.Security)
-                        cSystem.Flag = False
-                        PlugInData.SystemsID.Add(cSystem.ID.ToString, cSystem)
-                        SystemNameToID.Add(cSystem.Name, cSystem.ID.ToString)
                     Next
                     Return True
                 Else
@@ -1135,7 +1138,9 @@ Public Class PlugInData
                         Else
                             cRegion.regionName = ""
                         End If
-                        RegionID.Add(CStr(cRegion.RegionID), cRegion)
+                        If cRegion.regionName <> "Unknown" Then
+                            RegionID.Add(CStr(cRegion.RegionID), cRegion)
+                        End If
                     Next
                     Return True
                 Else
@@ -1172,7 +1177,9 @@ Public Class PlugInData
                         Else
                             cConst.constellationName = " "
                         End If
-                        ConstellationID.Add(CStr(cConst.constellationID), cConst)
+                        If cConst.constellationName <> "Unknown" Then
+                            ConstellationID.Add(CStr(cConst.constellationID), cConst)
+                        End If
                     Next
                     Return True
                 Else
@@ -1405,7 +1412,7 @@ Public Class PlugInData
         End Try
     End Function
     Public Function LoadCB() As Boolean
-        Dim strSQL As String = "SELECT * FROM mapDenormalize ORDER BY solarSystemID;"
+        Dim strSQL As String = "SELECT * FROM mapDenormalize WHERE solarSystemID < 31000000 ORDER BY solarSystemID;"
         Dim cbData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Try
             If cbData IsNot Nothing Then
@@ -1415,6 +1422,7 @@ Public Class PlugInData
                     For Each mapRow As DataRow In cbData.Tables(0).Rows
                         'For stat As Integer = 0 To cbData.Tables(0).Rows.Count - 1
                         If IsDBNull(mapRow.Item("solarSystemID")) = False Then
+
                             If lastSystemNo <> CInt(mapRow.Item("solarSystemID")) - 30000000 Then
                                 lastSystemNo = CInt(mapRow.Item("solarSystemID")) - 30000000
                                 lastSystem = CType(PlugInData.SystemsID(lastSystemNo.ToString), SolarSystem)

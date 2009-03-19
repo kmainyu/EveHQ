@@ -41,7 +41,7 @@ Public Class frmDataConvert
     Dim password As String
     Dim conversionSuccess As Boolean = False
     Dim fileList As New ArrayList
-    Dim DBVersion As String = "1.8.0.0"
+    Dim DBVersion As String = "1.9.0.0"
 
     Private Function ParseLine(ByVal oneLine As String) As String()
         ' Returns an array containing the values of the comma-separated fields.
@@ -686,6 +686,8 @@ Public Class frmDataConvert
         Call CreateRelationships()
         Call AddMDBRefiningData()
         Call AddMDBAttributeGroupColumn()
+        Call AddMDBWHData()
+        Call AddEntityData()
         Call CorrectMDBEveUnits()
         Call AddMDBVersionTable()
         conversionSuccess = True
@@ -750,6 +752,44 @@ Public Class frmDataConvert
                 Dim keyCommand As New OleDbCommand(strSQL, connection)
                 keyCommand.ExecuteNonQuery()
             End If
+        Next
+        connection.Close()
+    End Sub
+    Private Sub AddMDBWHData()
+        Dim line As String = My.Resources.WHAttribs.Replace(ControlChars.CrLf, Chr(13))
+        Dim lines() As String = line.Split(Chr(13))
+        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
+        connection.Open()
+        ' Read the first line which is a header line
+        For Each line In lines
+            Try
+                If line.StartsWith("typeID") = False And line <> "" Then
+                    Dim strSQL As String = "INSERT INTO dgmTypeAttributes (typeID,attributeID,valueInt,valueFloat) VALUES(" & line & ");"
+                    Dim keyCommand As New OleDbCommand(strSQL, connection)
+                    keyCommand.ExecuteNonQuery()
+                End If
+            Catch e As Exception
+            End Try
+        Next
+        connection.Close()
+    End Sub
+    Private Sub AddEntityData()
+        Dim line As String = My.Resources.EntityData.Replace(ControlChars.CrLf, Chr(13))
+        Dim lines() As String = line.Split(Chr(13))
+        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
+        connection.Open()
+        ' Read the first line which is a header line
+        For Each line In lines
+            Try
+                If line.StartsWith("typeID") = False And line <> "" Then
+                    Dim strSQL As String = "INSERT INTO dgmTypeAttributes (typeID,attributeID,valueInt,valueFloat) VALUES(" & line & ");"
+                    Dim keyCommand As New OleDbCommand(strSQL, connection)
+                    keyCommand.ExecuteNonQuery()
+                End If
+            Catch e As Exception
+            End Try
         Next
         connection.Close()
     End Sub

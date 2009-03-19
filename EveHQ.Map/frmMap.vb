@@ -2558,10 +2558,6 @@ Public Class frmMap
     End Function
 #End Region
 
-    Private Sub btnSerialize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSerialize.Click
-        Call PlugInData.SaveSerializedData()
-    End Sub
-
     Private Sub tsUpdateData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsUpdateData.Click
         Call PlugInData.LoadAlliances()
         Call PlugInData.LoadConq()

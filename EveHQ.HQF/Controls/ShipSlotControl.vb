@@ -625,6 +625,7 @@ Public Class ShipSlotControl
                         MessageBox.Show("Ship Module is unrecognised.", "Add Ship Module Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     End If
                 Else
+                    MessageBox.Show("The '" & modData(0) & "' is not a valid module. This module will be removed from the setup.", "Unrecognised Module Detected.", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     currentFit.Remove(modData(0))
                 End If
             End If

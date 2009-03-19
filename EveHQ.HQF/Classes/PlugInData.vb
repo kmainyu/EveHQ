@@ -1469,12 +1469,12 @@ Public Class PlugInData
                     NPCs.NPCList.Add(newNPC.Name, newNPC)
                     Return True
                 Else
-                    MessageBox.Show("NPC Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Return False
+                    MessageBox.Show("Warning: NPC Data returned no rows but HQF can continue to load. Please remember to set damage profiles manually.", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Return True
                 End If
             Else
-                MessageBox.Show("NPC Data returned a null dataset", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Return False
+                MessageBox.Show("Warning: NPC Data returned a null dataset but HQF can continue to load. Please remember to set damage profiles manually.", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return True
             End If
         Catch e As Exception
             MessageBox.Show("Error loading NPC Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)

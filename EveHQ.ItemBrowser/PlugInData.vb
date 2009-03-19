@@ -24,7 +24,9 @@
             AttributeList.Clear()
             Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmAttributeTypes ORDER BY attributeName;")
             For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                PlugInData.AttributeList.Add(eveData.Tables(0).Rows(item).Item("attributeName").ToString.Trim, eveData.Tables(0).Rows(item).Item("attributeID").ToString.Trim)
+                If PlugInData.AttributeList.ContainsKey(eveData.Tables(0).Rows(item).Item("attributeName").ToString.Trim) = False Then
+                    PlugInData.AttributeList.Add(eveData.Tables(0).Rows(item).Item("attributeName").ToString.Trim, eveData.Tables(0).Rows(item).Item("attributeID").ToString.Trim)
+                End If
             Next
             Return True
         Catch ex As Exception
@@ -39,7 +41,7 @@
         EveHQPlugIn.Description = "Shows Data on all Eve ingame items"
         EveHQPlugIn.Author = "Vessper"
         EveHQPlugIn.MainMenuText = "Item Browser"
-        EveHQPlugIn.RunAtStartup = False
+        EveHQPlugIn.RunAtStartup = True
         EveHQPlugIn.RunInIGB = False
         EveHQPlugIn.MenuImage = My.Resources.plugin_icon
         EveHQPlugIn.Version = My.Application.Info.Version.ToString
