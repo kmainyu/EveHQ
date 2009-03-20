@@ -43,6 +43,7 @@ Imports System.Runtime.Serialization
     Private cMarketPrice As Double
     Private cMetaType As Integer
     Private cMetaLevel As Integer
+    Private cRaceID As Integer
     Private cIcon As String
 
     ' Fitting Details
@@ -174,6 +175,14 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As Integer)
             cMetaLevel = value
+        End Set
+    End Property
+    Public Property RaceID() As Integer
+        Get
+            Return cRaceID
+        End Get
+        Set(ByVal value As Integer)
+            cRaceID = value
         End Set
     End Property
     Public Property Icon() As String

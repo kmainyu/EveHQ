@@ -35,6 +35,7 @@ Imports System.Runtime.Serialization
     Private cDescription As String
     Private cBasePrice As Double
     Private cMarketPrice As Double
+    Private cRaceID As Integer
     Private cIcon As String
     Private cFittingBasePrice As Double
     Private cFittingMarketPrice As Double
@@ -255,6 +256,14 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As Double)
             cMarketPrice = value
+        End Set
+    End Property
+    Public Property RaceID() As Integer
+        Get
+            Return cRaceID
+        End Get
+        Set(ByVal value As Integer)
+            cRaceID = value
         End Set
     End Property
     Public Property Icon() As String

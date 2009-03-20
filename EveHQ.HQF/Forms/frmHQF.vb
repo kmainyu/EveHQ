@@ -2511,5 +2511,4 @@ Public Class frmHQF
         Call Me.UpdateFittingsTree(False)
     End Sub
 
-
 End Class

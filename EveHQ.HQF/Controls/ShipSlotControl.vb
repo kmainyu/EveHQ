@@ -184,6 +184,15 @@ Public Class ShipSlotControl
                 Call Me.AddUserColumns(currentShip.RigSlot(slot), newSlot)
                 lvwSlots.Items.Add(newSlot)
             Next
+            For slot As Integer = 1 To currentShip.SubSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "16_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgSubSlots")
+                Call Me.AddUserColumns(currentShip.SubSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
             lvwSlots.EndUpdate()
             Call UpdateSlotNumbers()
             Call UpdatePrices()
@@ -194,6 +203,7 @@ Public Class ShipSlotControl
         lblMidSlots.Text = "Mid: " & currentShip.MidSlots_Used & "/" & currentShip.MidSlots
         lblLowSlots.Text = "Low: " & currentShip.LowSlots_Used & "/" & currentShip.LowSlots
         lblRigSlots.Text = "Rig: " & currentShip.RigSlots_Used & "/" & currentShip.RigSlots
+        lblSubSlots.Text = "Sub: " & currentShip.SubSlots_Used & "/" & currentShip.SubSlots
         lblLauncherSlots.Text = "Launchers: " & currentShip.LauncherSlots_Used & "/" & currentShip.LauncherSlots
         lblTurretSlots.Text = "Turrets: " & currentShip.TurretSlots_Used & "/" & currentShip.TurretSlots
     End Sub
@@ -238,6 +248,11 @@ Public Class ShipSlotControl
                     UpdateSlotLocation(fittedShip.RigSlot(slot), slot)
                 End If
             Next
+            For slot As Integer = 1 To fittedShip.SubSlots
+                If fittedShip.SubSlot(slot) IsNot Nothing Then
+                    UpdateSlotLocation(fittedShip.SubSlot(slot), slot)
+                End If
+            Next
             Call Me.RedrawCargoBayCapacity()
             Call Me.RedrawDroneBayCapacity()
         End If
@@ -254,6 +269,8 @@ Public Class ShipSlotControl
                     shipMod = fittedShip.MidSlot(slotNo)
                 Case 8 ' High
                     shipMod = fittedShip.HiSlot(slotNo)
+                Case 16 ' Subsystem
+                    shipMod = fittedShip.SubSlot(slotNo)
             End Select
             If shipMod IsNot Nothing Then
                 shipMod.ModuleState = oldMod.ModuleState
@@ -679,6 +696,17 @@ Public Class ShipSlotControl
             End If
         Next
 
+        For slot As Integer = 1 To currentShip.SubSlots
+            If currentShip.SubSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.SubSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.SubSlot(slot).LoadedCharge IsNot Nothing Then
+                    currentFit.Add(currentShip.SubSlot(slot).Name & "_" & state & ", " & currentShip.SubSlot(slot).LoadedCharge.Name)
+                Else
+                    currentFit.Add(currentShip.SubSlot(slot).Name & "_" & state)
+                End If
+            End If
+        Next
+
         For Each DBI As DroneBayItem In currentShip.DroneBayItems.Values
             If DBI.IsActive = True Then
                 currentFit.Add(DBI.DroneType.Name & ", " & DBI.Quantity & "a")
@@ -709,6 +737,9 @@ Public Class ShipSlotControl
             For slot As Integer = 1 To currentShip.RigSlots
                 currentShip.RigSlot(slot) = Nothing
             Next
+            For slot As Integer = 1 To currentShip.SubSlots
+                currentShip.SubSlot(slot) = Nothing
+            Next
         End If
     End Sub
     Private Sub ClearDroneBay()
@@ -729,6 +760,10 @@ Public Class ShipSlotControl
     Public Sub AddModule(ByVal shipMod As ShipModule, ByVal slotNo As Integer, ByVal updateShip As Boolean, ByVal repMod As ShipModule)
         ' Check slot availability
         If IsSlotAvailable(shipMod, repMod) = False Then
+            Exit Sub
+        End If
+        ' Check fitting constraints
+        If IsModulePermitted(shipMod) = False Then
             Exit Sub
         End If
         ' Add Module to the next slot
@@ -829,8 +864,28 @@ Public Class ShipSlotControl
             End If
         End If
     End Sub
+    Private Function IsModulePermitted(ByVal shipMod As ShipModule) As Boolean
+        ' Check for subsystem restrictions
+        If shipMod.DatabaseCategory = "32" Then
+            ' Check for subsystem type restriction
+            If CStr(shipMod.Attributes("1380")) <> CStr(currentShip.ID) Then
+                MessageBox.Show("You cannot fit a subsystem module designed for a " & CType(EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes("1380"))), EveHQ.Core.EveItem).Name & " to your " & CType(EveHQ.Core.HQ.itemData(CStr(currentShip.ID)), EveHQ.Core.EveItem).Name & ".", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return False
+            End If
+            ' Check for subsystem group restriction
+            For s As Integer = 1 To currentShip.SubSlots
+                If currentShip.SubSlot(s) IsNot Nothing Then
+                    If CStr(shipMod.Attributes("1366")) = CStr(currentShip.SubSlot(s).Attributes("1366")) Then
+                        MessageBox.Show("You already have a subsystem of this type fitted to your ship.", "Subsystem Group Duplication", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Return False
+                    End If
+                End If
+            Next
+        End If
+        Return True
+    End Function
     Private Function IsSlotAvailable(ByVal shipMod As ShipModule, Optional ByVal repShipMod As ShipModule = Nothing) As Boolean
-        Dim cRig, cLow, cMid, cHi, cTurret, cLauncher As Integer
+        Dim cSub, cRig, cLow, cMid, cHi, cTurret, cLauncher As Integer
 
         If repShipMod IsNot Nothing Then
             Select Case repShipMod.SlotType
@@ -842,6 +897,8 @@ Public Class ShipSlotControl
                     cMid = currentShip.MidSlots_Used - 1
                 Case 8 ' High
                     cHi = currentShip.HiSlots_Used - 1
+                Case 16 ' High
+                    cSub = currentShip.SubSlots_Used - 1
             End Select
             If repShipMod.IsTurret = True Then
                 cTurret = currentShip.TurretSlots_Used - 1
@@ -850,6 +907,7 @@ Public Class ShipSlotControl
                 cLauncher = currentShip.LauncherSlots_Used - 1
             End If
         Else
+            cSub = currentShip.SubSlots_Used
             cRig = currentShip.RigSlots_Used
             cLow = currentShip.LowSlots_Used
             cMid = currentShip.MidSlots_Used
@@ -877,6 +935,11 @@ Public Class ShipSlotControl
             Case 8 ' High
                 If cHi = currentShip.HiSlots Then
                     MessageBox.Show("There are no available high slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Return False
+                End If
+            Case 16 ' Subsystem
+                If cSub = currentShip.SubSlots Then
+                    MessageBox.Show("There are no available subsystem slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
         End Select
@@ -937,6 +1000,15 @@ Public Class ShipSlotControl
                     End If
                 Next
                 MessageBox.Show("There was an error finding the next available high slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Case 16 ' Subsystem
+                For slotNo As Integer = 1 To 5
+                    If currentShip.SubSlot(slotNo) Is Nothing Then
+                        currentShip.SubSlot(slotNo) = shipMod
+                        shipMod.SlotNo = slotNo
+                        Return slotNo
+                    End If
+                Next
+                MessageBox.Show("There was an error finding the next available high slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Select
         Return 0
     End Function
@@ -956,6 +1028,10 @@ Public Class ShipSlotControl
                 Return slotNo
             Case 8 ' High
                 currentShip.HiSlot(slotNo) = shipMod
+                shipMod.SlotNo = slotNo
+                Return slotNo
+            Case 16 ' Subsystem
+                currentShip.SubSlot(slotNo) = shipMod
                 shipMod.SlotNo = slotNo
                 Return slotNo
         End Select
@@ -988,8 +1064,9 @@ Public Class ShipSlotControl
         lvwSlots.BeginUpdate()
         For Each slot As ListViewItem In lvwSlots.SelectedItems
             If slot.Text <> "<Empty>" Then
-                Dim slotType As Integer = CInt(slot.Name.Substring(0, 1))
-                Dim slotNo As Integer = CInt(slot.Name.Substring(2, 1))
+                Dim sep As Integer = slot.Name.LastIndexOf("_")
+                Dim slotType As Integer = CInt(slot.Name.Substring(0, sep))
+                Dim slotNo As Integer = CInt(slot.Name.Substring(sep + 1, 1))
                 Select Case slotType
                     Case 1 ' Rig
                         currentShip.RigSlot(slotNo) = Nothing
@@ -999,6 +1076,8 @@ Public Class ShipSlotControl
                         currentShip.MidSlot(slotNo) = Nothing
                     Case 8 ' High
                         currentShip.HiSlot(slotNo) = Nothing
+                    Case 16 ' Subsystem
+                        currentShip.SubSlot(slotNo) = Nothing
                 End Select
                 For Each si As ListViewItem.ListViewSubItem In slot.SubItems
                     si.Text = ""
@@ -1015,8 +1094,9 @@ Public Class ShipSlotControl
     End Sub
     Private Sub RemoveModule(ByVal slot As ListViewItem, ByVal updateShip As Boolean)
         ' Get name of the "slot" which has slot type and number
-        Dim slotType As Integer = CInt(slot.Name.Substring(0, 1))
-        Dim slotNo As Integer = CInt(slot.Name.Substring(2, 1))
+        Dim sep As Integer = slot.Name.LastIndexOf("_")
+        Dim slotType As Integer = CInt(slot.Name.Substring(0, sep))
+        Dim slotNo As Integer = CInt(slot.Name.Substring(sep + 1, 1))
         Select Case slotType
             Case 1 ' Rig
                 currentShip.RigSlot(slotNo) = Nothing
@@ -1026,6 +1106,8 @@ Public Class ShipSlotControl
                 currentShip.MidSlot(slotNo) = Nothing
             Case 8 ' High
                 currentShip.HiSlot(slotNo) = Nothing
+            Case 16 ' High
+                currentShip.SubSlot(slotNo) = Nothing
         End Select
         lvwSlots.BeginUpdate()
         For Each si As ListViewItem.ListViewSubItem In slot.SubItems
@@ -1065,8 +1147,9 @@ Public Class ShipSlotControl
                 If lvwSlots.SelectedItems.Count = 1 Then
                     ' Get the module details
                     Dim modID As String = CStr(ModuleLists.moduleListName.Item(lvwSlots.SelectedItems(0).Text))
-                    Dim slotType As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(0, 1))
-                    Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
+                    Dim sep As Integer = lvwSlots.SelectedItems(0).Name.LastIndexOf("_")
+                    Dim slotType As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(0, sep))
+                    Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(sep + 1, 1))
                     Select Case slotType
                         Case 1 ' Rig
                             currentMod = currentShip.RigSlot(slotNo)
@@ -1076,10 +1159,13 @@ Public Class ShipSlotControl
                             currentMod = currentShip.MidSlot(slotNo)
                         Case 8 ' High
                             currentMod = currentShip.HiSlot(slotNo)
+                        Case 16 ' Subsystem
+                            currentMod = currentShip.SubSlot(slotNo)
                     End Select
                     If currentMod Is Nothing Then
                         Dim FindModuleMenuItem As New ToolStripMenuItem
-                        FindModuleMenuItem.Name = lvwSlots.SelectedItems(0).Name.Substring(0, 1)
+                        Dim sSep As Integer = lvwSlots.SelectedItems(0).Name.LastIndexOf("_")
+                        FindModuleMenuItem.Name = lvwSlots.SelectedItems(0).Name.Substring(0, sSep)
                         FindModuleMenuItem.Text = "Find Module To Fit"
                         AddHandler FindModuleMenuItem.Click, AddressOf Me.FindModuleToFit
                         ctxSlots.Items.Add(FindModuleMenuItem)
@@ -1296,8 +1382,9 @@ Public Class ShipSlotControl
                         If slot.Text <> "<Empty>" Then
                             modulesPresent = True
                             Dim modID As String = CStr(ModuleLists.moduleListName.Item(slot.Text))
-                            Dim slotType As Integer = CInt(slot.Name.Substring(0, 1))
-                            Dim slotNo As Integer = CInt(slot.Name.Substring(2, 1))
+                            Dim sep As Integer = slot.Name.LastIndexOf("_")
+                            Dim slotType As Integer = CInt(slot.Name.Substring(0, sep))
+                            Dim slotNo As Integer = CInt(slot.Name.Substring(sep + 1, 1))
                             Select Case slotType
                                 Case 1 ' Rig
                                     currentMod = currentShip.RigSlot(slotNo)
@@ -1307,6 +1394,8 @@ Public Class ShipSlotControl
                                     currentMod = currentShip.MidSlot(slotNo)
                                 Case 8 ' High
                                     currentMod = currentShip.HiSlot(slotNo)
+                                Case 16 ' High
+                                    currentMod = currentShip.SubSlot(slotNo)
                             End Select
                             chargeName = slot.SubItems(1).Text
                             Exit For
@@ -1467,6 +1556,8 @@ Public Class ShipSlotControl
                 sModule = fittedShip.MidSlot(CInt(slotInfo(1)))
             Case 8 ' High
                 sModule = fittedShip.HiSlot(CInt(slotInfo(1)))
+            Case 16 ' Subsystem
+                sModule = fittedShip.SubSlot(CInt(slotInfo(1)))
         End Select
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.Pilot
@@ -1490,6 +1581,8 @@ Public Class ShipSlotControl
                 sModule = fittedShip.MidSlot(CInt(slotInfo(1))).LoadedCharge
             Case 8 ' High
                 sModule = fittedShip.HiSlot(CInt(slotInfo(1))).LoadedCharge
+            Case 16 ' Subsystem
+                sModule = fittedShip.SubSlot(CInt(slotInfo(1))).LoadedCharge
         End Select
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.Pilot
@@ -1549,7 +1642,8 @@ Public Class ShipSlotControl
     Private Sub SetModuleOffline(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim sModule As ShipModule = CType(menuItem.Tag, ShipModule)
-        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
+        Dim sep As Integer = lvwSlots.SelectedItems(0).Name.LastIndexOf("_")
+        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(sep + 1, 1))
         sModule.ModuleState = ModuleStates.Offline
         currentInfo.ShipType = currentShip
         currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
@@ -1558,7 +1652,8 @@ Public Class ShipSlotControl
     Private Sub SetModuleInactive(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim sModule As ShipModule = CType(menuItem.Tag, ShipModule)
-        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
+        Dim sep As Integer = lvwSlots.SelectedItems(0).Name.LastIndexOf("_")
+        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(sep + 1, 1))
         sModule.ModuleState = ModuleStates.Inactive
         currentInfo.ShipType = currentShip
         currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
@@ -1567,7 +1662,8 @@ Public Class ShipSlotControl
     Private Sub SetModuleActive(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim sModule As ShipModule = CType(menuItem.Tag, ShipModule)
-        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
+        Dim sep As Integer = lvwSlots.SelectedItems(0).Name.LastIndexOf("_")
+        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(sep + 1, 1))
         sModule.ModuleState = ModuleStates.Active
         currentInfo.ShipType = currentShip
         currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
@@ -1576,7 +1672,8 @@ Public Class ShipSlotControl
     Private Sub SetModuleOverload(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim sModule As ShipModule = CType(menuItem.Tag, ShipModule)
-        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(2, 1))
+        Dim sep As Integer = lvwSlots.SelectedItems(0).Name.LastIndexOf("_")
+        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(sep + 1, 1))
         sModule.ModuleState = ModuleStates.Overloaded
         currentInfo.ShipType = currentShip
         currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
@@ -1588,8 +1685,9 @@ Public Class ShipSlotControl
 #Region "Load/Remove Charges"
     Private Sub RemoveChargeFromModule(ByVal sender As Object, ByVal e As System.EventArgs)
         For Each selItem As ListViewItem In lvwSlots.SelectedItems
-            Dim slotType As Integer = CInt(selItem.Name.Substring(0, 1))
-            Dim slotNo As Integer = CInt(selItem.Name.Substring(2, 1))
+            Dim sep As Integer = selItem.Name.LastIndexOf("_")
+            Dim slotType As Integer = CInt(selItem.Name.Substring(0, sep))
+            Dim slotNo As Integer = CInt(selItem.Name.Substring(sep + 1, 1))
             Dim LoadedModule As New ShipModule
             Select Case slotType
                 Case 1 ' Rig
@@ -1600,6 +1698,8 @@ Public Class ShipSlotControl
                     LoadedModule = currentShip.MidSlot(slotNo)
                 Case 8 ' High
                     LoadedModule = currentShip.HiSlot(slotNo)
+                Case 16 ' Subsystem
+                    LoadedModule = currentShip.SubSlot(slotNo)
             End Select
             LoadedModule.LoadedCharge = Nothing
         Next
@@ -1614,8 +1714,9 @@ Public Class ShipSlotControl
         For Each selItem As ListViewItem In lvwSlots.SelectedItems
             If selItem.Text <> "<Empty>" Then
                 Dim Charge As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule).Clone
-                Dim slotType As Integer = CInt(selItem.Name.Substring(0, 1))
-                Dim slotNo As Integer = CInt(selItem.Name.Substring(2, 1))
+                Dim sep As Integer = selItem.Name.LastIndexOf("_")
+                Dim slotType As Integer = CInt(selItem.Name.Substring(0, sep))
+                Dim slotNo As Integer = CInt(selItem.Name.Substring(sep + 1, 1))
                 Dim LoadedModule As New ShipModule
                 Select Case slotType
                     Case 1 ' Rig
@@ -1626,6 +1727,8 @@ Public Class ShipSlotControl
                         LoadedModule = currentShip.MidSlot(slotNo)
                     Case 8 ' High
                         LoadedModule = currentShip.HiSlot(slotNo)
+                    Case 16 ' Subsystem
+                        LoadedModule = currentShip.SubSlot(slotNo)
                 End Select
                 LoadedModule.LoadedCharge = Charge
             End If
@@ -2130,8 +2233,9 @@ Public Class ShipSlotControl
                     ' Get the module details
                     Dim modID As String = CStr(ModuleLists.moduleListName.Item(hti.Item.Text))
                     Dim currentMod As New ShipModule
-                    Dim slotType As Integer = CInt(hti.Item.Name.Substring(0, 1))
-                    Dim slotNo As Integer = CInt(hti.Item.Name.Substring(2, 1))
+                    Dim sep As Integer = hti.Item.Name.LastIndexOf("_")
+                    Dim slotType As Integer = CInt(hti.Item.Name.Substring(0, sep))
+                    Dim slotNo As Integer = CInt(hti.Item.Name.Substring(sep + 1, 1))
                     Dim canOffline As Boolean = True
                     Select Case slotType
                         Case 1 ' Rig
@@ -2143,6 +2247,9 @@ Public Class ShipSlotControl
                             currentMod = currentShip.MidSlot(slotNo)
                         Case 8 ' High
                             currentMod = currentShip.HiSlot(slotNo)
+                        Case 16 ' Subsystem
+                            currentMod = currentShip.SubSlot(slotNo)
+                            canOffline = False
                     End Select
 
                     If currentMod IsNot Nothing Then
@@ -2198,16 +2305,18 @@ Public Class ShipSlotControl
         Dim oLVI As ListViewItem = CType(e.Data.GetData(GetType(ListViewItem)), ListViewItem)
         Dim oModID As String = CStr(ModuleLists.moduleListName.Item(oLVI.Text))
         Dim oMod As New ShipModule
-        Dim oSlotType As Integer = CInt(oLVI.Name.Substring(0, 1))
-        Dim oslotNo As Integer = CInt(oLVI.Name.Substring(2, 1))
+        Dim oSep As Integer = oLVI.Name.LastIndexOf("_")
+        Dim oSlotType As Integer = CInt(oLVI.Name.Substring(0, oSep))
+        Dim oslotNo As Integer = CInt(oLVI.Name.Substring(oSep + 1, 1))
 
         Dim p As Point = lvwSlots.PointToClient(New Point(e.X, e.Y))
         Dim nLVI As ListViewItem = lvwSlots.GetItemAt(p.X, p.Y)
         If nLVI IsNot Nothing Then
             Dim nModID As String = CStr(ModuleLists.moduleListName.Item(nLVI.Text))
             Dim nMod As New ShipModule
-            Dim nSlotType As Integer = CInt(nLVI.Name.Substring(0, 1))
-            Dim nslotNo As Integer = CInt(nLVI.Name.Substring(2, 1))
+            Dim nSep As Integer = nLVI.Name.LastIndexOf("_")
+            Dim nSlotType As Integer = CInt(nLVI.Name.Substring(0, nSep))
+            Dim nslotNo As Integer = CInt(nLVI.Name.Substring(nSep + 1, 1))
             If oSlotType <> nSlotType Then
                 e.Effect = DragDropEffects.None
             Else
@@ -2231,15 +2340,17 @@ Public Class ShipSlotControl
         Dim oLVI As ListViewItem = CType(e.Data.GetData(GetType(ListViewItem)), ListViewItem)
         Dim oModID As String = CStr(ModuleLists.moduleListName.Item(oLVI.Text))
 
-        Dim oSlotType As Integer = CInt(oLVI.Name.Substring(0, 1))
-        Dim oslotNo As Integer = CInt(oLVI.Name.Substring(2, 1))
+        Dim oSep As Integer = oLVI.Name.LastIndexOf("_")
+        Dim oSlotType As Integer = CInt(oLVI.Name.Substring(0, oSep))
+        Dim oslotNo As Integer = CInt(oLVI.Name.Substring(oSep + 1, 1))
 
         Dim p As Point = lvwSlots.PointToClient(New Point(e.X, e.Y))
         Dim nLVI As ListViewItem = lvwSlots.GetItemAt(p.X, p.Y)
         Dim nModID As String = CStr(ModuleLists.moduleListName.Item(nLVI.Text))
 
-        Dim nSlotType As Integer = CInt(nLVI.Name.Substring(0, 1))
-        Dim nslotNo As Integer = CInt(nLVI.Name.Substring(2, 1))
+        Dim nSep As Integer = nLVI.Name.LastIndexOf("_")
+        Dim nSlotType As Integer = CInt(nLVI.Name.Substring(0, nSep))
+        Dim nslotNo As Integer = CInt(nLVI.Name.Substring(nSep + 1, 1))
 
         Dim ocMod As New ShipModule
         Dim ncMod As New ShipModule
@@ -2269,6 +2380,9 @@ Public Class ShipSlotControl
                         Case 8 ' High
                             ocMod = currentShip.HiSlot(oslotNo).Clone
                             ofMod = fittedShip.HiSlot(oslotNo).Clone
+                        Case 16 ' Subsystem
+                            ocMod = currentShip.SubSlot(oslotNo).Clone
+                            ofMod = fittedShip.SubSlot(oslotNo).Clone
                     End Select
                 End If
 
@@ -2289,6 +2403,9 @@ Public Class ShipSlotControl
                         Case 8 ' High
                             ncMod = currentShip.HiSlot(nslotNo).Clone
                             nfMod = fittedShip.HiSlot(nslotNo).Clone
+                        Case 16 ' Subsystem
+                            ncMod = currentShip.SubSlot(nslotNo).Clone
+                            nfMod = fittedShip.SubSlot(nslotNo).Clone
                     End Select
                 End If
                 If e.Effect = DragDropEffects.Move Then ' Mouse button released?
@@ -2310,6 +2427,9 @@ Public Class ShipSlotControl
                             Case 8 ' High
                                 currentShip.HiSlot(nslotNo) = ocMod
                                 fittedShip.HiSlot(nslotNo) = ofMod
+                            Case 16 ' subsystem
+                                currentShip.SubSlot(nslotNo) = ocMod
+                                fittedShip.SubSlot(nslotNo) = ofMod
                         End Select
                     End If
                     If ncMod Is Nothing Then
@@ -2329,6 +2449,9 @@ Public Class ShipSlotControl
                             Case 8 ' High
                                 currentShip.HiSlot(oslotNo) = ncMod
                                 fittedShip.HiSlot(oslotNo) = nfMod
+                            Case 16 ' Subsystem
+                                currentShip.SubSlot(oslotNo) = ncMod
+                                fittedShip.SubSlot(oslotNo) = nfMod
                         End Select
                     End If
                     Call Me.UpdateSlotLocation(ofMod, nslotNo)

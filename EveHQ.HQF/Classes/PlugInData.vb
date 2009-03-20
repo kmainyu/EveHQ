@@ -400,7 +400,7 @@ Public Class PlugInData
             ' Get details of ship data from database
             Dim strSQL As String = ""
             Dim pSkillName As String = "" : Dim sSkillName As String = "" : Dim tSkillName As String = ""
-            strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.marketGroupID, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
+            strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.raceID, invTypes.marketGroupID, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
             strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeAttributes ON invTypes.typeID=dgmTypeAttributes.typeID"
             strSQL &= " WHERE (invCategories.categoryID=6 AND invTypes.published=true) ORDER BY typeName, attributeID;"
             Dim shipData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
@@ -479,7 +479,13 @@ Public Class PlugInData
                             newShip.Mass = CDbl(shipRow.Item("mass"))
                             newShip.Volume = CDbl(shipRow.Item("volume"))
                             newShip.CargoBay = CDbl(shipRow.Item("capacity"))
+                            If IsDBNull(shipRow.Item("raceID")) = False Then
+                                newShip.RaceID = CInt(shipRow.Item("raceID"))
+                            Else
+                                newShip.RaceID = 0
+                            End If
                         End If
+
                         ' Now get, modify (if applicable) and add the "attribute"
 
                         If IsDBNull(shipRow.Item("valueInt")) = True Then
@@ -614,7 +620,7 @@ Public Class PlugInData
     Private Function LoadModuleData() As Boolean
         Try
             Dim strSQL As String = ""
-            strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.marketGroupID, eveGraphics.icon"
+            strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.radius, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.raceID, invTypes.marketGroupID, eveGraphics.icon"
             strSQL &= " FROM eveGraphics INNER JOIN (invCategories INNER JOIN (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) ON invCategories.categoryID = invGroups.categoryID) ON (eveGraphics.graphicID = invTypes.graphicID)"
             strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20,32)) AND ((invTypes.published)=1))"
             strSQL &= " ORDER BY invTypes.typeName;"
@@ -734,6 +740,11 @@ Public Class PlugInData
                 newModule.BasePrice = CDbl(row.Item("baseprice"))
                 newModule.Volume = CDbl(row.Item("volume"))
                 newModule.Capacity = CDbl(row.Item("capacity"))
+                If IsDBNull(row.Item("raceID")) = False Then
+                    newModule.RaceID = CInt(row.Item("raceID"))
+                Else
+                    newModule.RaceID = 0
+                End If
                 newModule.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newModule.ID)
                 newModule.Icon = row.Item("icon").ToString
                 If IsDBNull(row.Item("marketGroupID")) = False Then
@@ -1064,9 +1075,6 @@ Public Class PlugInData
             ' Build the metaType data
             For Each cMod As ShipModule In ModuleLists.moduleList.Values
                 If ModuleLists.moduleMetaGroups.Contains(cMod.ID) = True Then
-                    If cMod.Name = "Legion Defensive - Adaptive Augmenter" Then
-                        MessageBox.Show("Found it!")
-                    End If
                     If CStr(ModuleLists.moduleMetaGroups(cMod.ID)) = "0" Then
                         Select Case CInt(cMod.Attributes("422"))
                             Case 1
