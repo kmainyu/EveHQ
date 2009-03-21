@@ -128,6 +128,7 @@ Public Class PlugInData
         PackedVolumes.Add("237", 2500)
     End Sub
     Private Sub LoadItemFlags()
+        itemFlags.Clear()
         itemFlags.Add(0, "None")
         itemFlags.Add(1, "Wallet")
         itemFlags.Add(4, "Hangar")
@@ -234,6 +235,7 @@ Public Class PlugInData
             Dim locationData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             If locationData IsNot Nothing Then
                 If locationData.Tables(0).Rows.Count > 0 Then
+                    stations.Clear()
                     For Each locationRow As DataRow In locationData.Tables(0).Rows
                         Dim newStation As New Station
                         newStation.stationID = CLng(locationRow.Item("stationID"))
@@ -295,6 +297,7 @@ Public Class PlugInData
             Dim strSQL As String = "SELECT itemID, itemName FROM eveNames WHERE typeID=2;"
             Dim corpData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             If corpData IsNot Nothing Then
+                NPCCorps.Clear()
                 If corpData.Tables(0).Rows.Count > 0 Then
                     For Each corpRow As DataRow In corpData.Tables(0).Rows
                         NPCCorps.Add(CStr(corpRow.Item("itemID")), CStr(corpRow.Item("itemname")))
@@ -318,26 +321,32 @@ Public Class PlugInData
             Dim refDetails As XmlNodeList
             Dim refNode As XmlNode
             Dim fileName As String = ""
-            Dim refXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.RefTypes, 0)
-            Dim errlist As XmlNodeList = refXML.SelectNodes("/eveapi/error")
-            If errlist.Count = 0 Then
-                refDetails = refXML.SelectNodes("/eveapi/result/rowset/row")
-                If refDetails IsNot Nothing Then
-                    For Each refNode In refDetails
-                        RefTypes.Add(refNode.Attributes.GetNamedItem("refTypeID").Value, refNode.Attributes.GetNamedItem("refTypeName").Value)
-                    Next
+            Dim refXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.RefTypes, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+            If refXML IsNot Nothing Then
+                Dim errlist As XmlNodeList = refXML.SelectNodes("/eveapi/error")
+                If errlist.Count = 0 Then
+                    refDetails = refXML.SelectNodes("/eveapi/result/rowset/row")
+                    If refDetails IsNot Nothing Then
+                        RefTypes.Clear()
+                        For Each refNode In refDetails
+                            RefTypes.Add(refNode.Attributes.GetNamedItem("refTypeID").Value, refNode.Attributes.GetNamedItem("refTypeName").Value)
+                        Next
+                    End If
+                Else
+                    Dim errNode As XmlNode = errlist(0)
+                    ' Get error code
+                    Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                    Dim errMsg As String = errNode.InnerText
+                    MessageBox.Show("The RefTypes API returned error " & errCode & ": " & errMsg, "RefTypes Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Return False
                 End If
+                Return True
             Else
-                Dim errNode As XmlNode = errlist(0)
-                ' Get error code
-                Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                Dim errMsg As String = errNode.InnerText
-                MessageBox.Show("The RefTypes API returned error " & errCode & ": " & errMsg, "RefTypes Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("There was an error loading the RefTypes API and it would appear there is a problem with the API server. Please try again later.", "Prism RefTypes Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Return False
             End If
-            Return True
         Catch e As Exception
-            MessageBox.Show("There was an error loading the RefTypes API. The error was: " & e.Message, "RefTypes Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("There was an error loading the RefTypes API. The error was: " & e.Message, "Prism RefTypes Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
             Exit Function
         End Try
