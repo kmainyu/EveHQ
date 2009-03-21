@@ -1514,7 +1514,7 @@ Public Class EveHQSettingsFunctions
         For Each currentPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If currentPilot.TrainingQueues IsNot Nothing Then
                 XMLS = ("<?xml version=""1.0"" encoding=""iso-8859-1"" ?>") & vbCrLf
-                XMLS &= "<training>" & vbCrLf
+                XMLS &= "<training version=""" & My.Application.Info.Version.Major.ToString & "." & My.Application.Info.Version.Minor.ToString & """>" & vbCrLf
                 For Each currentQueue In currentPilot.TrainingQueues.Values
                     XMLS &= Chr(9) & "<queue name=""" & HttpUtility.HtmlEncode(currentQueue.Name) & """ ICT=""" & currentQueue.IncCurrentTraining & """ primary=""" & currentQueue.Primary & """ >"
                     Dim mySkillQueue As EveHQ.Core.SkillQueueItem
@@ -1918,6 +1918,12 @@ Public Class EveHQSettingsFunctions
                         currentPilot.TrainingQueues.Add(newQ.Name, newQ)
                     Else
                         ' Try for the post 1.3 version
+                        ' Get version
+                        Dim rootNode As XmlNode = XMLdoc.SelectSingleNode("/training")
+                        Dim version As Double = 0
+                        If rootNode.Attributes.Count > 0 Then
+                            version = CDbl(rootNode.Attributes("version").Value)
+                        End If
                         QueueList = XMLdoc.SelectNodes("/training/queue")
                         If QueueList.Count > 0 Then
                             For Each Queuedetails In QueueList
@@ -1940,6 +1946,15 @@ Public Class EveHQSettingsFunctions
                                     For Each trainingDetails In Queuedetails.ChildNodes
                                         Dim myskill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
                                         myskill.Name = trainingDetails.ChildNodes(0).InnerText
+                                        ' Adjust for the 1.9 version
+                                        If version < 1.9 Then
+                                            If myskill.Name = "Astrometric Triangulation" Then
+                                                myskill.Name = "Astrometric Acquisition"
+                                            End If
+                                            If myskill.Name = "Signal Acquisition" Then
+                                                myskill.Name = "Astrometric Triangulation"
+                                            End If
+                                        End If
                                         myskill.FromLevel = CInt(trainingDetails.ChildNodes(1).InnerText)
                                         myskill.ToLevel = CInt(trainingDetails.ChildNodes(2).InnerText)
                                         myskill.Pos = CInt(trainingDetails.ChildNodes(3).InnerText)

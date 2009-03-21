@@ -420,6 +420,7 @@ Public Class SkillQueueFunctions
 
         Dim skill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
         For Each skill In bQueue.Queue
+
             Dim myPreReqs As String = GetSkillReqs(qPilot, EveHQ.Core.SkillFunctions.SkillNameToID(skill.Name))
             Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
             For Each preReq As String In preReqs
@@ -634,20 +635,22 @@ Public Class SkillQueueFunctions
         Dim curSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
         For Each curSkill In bQueue.Queue
             ' Work out if Skill pre-requisites are needed and add them to the queue
-            Dim myPreReqs As String = GetSkillReqs(qPilot, EveHQ.Core.SkillFunctions.SkillNameToID(curSkill.Name))
-            Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
-            Dim preReq As String
-            For Each preReq In preReqs
-                If preReq.Length <> 0 Then
-                    Dim pilotLevel As String = preReq.Substring(preReq.Length - 1, 1)
-                    Dim reqLevel As String = preReq.Substring(preReq.Length - 2, 1)
-                    Dim reqSkill As String = preReq.Substring(0, preReq.Length - 2)
-                    If pilotLevel <> "Y" Then
-                        ' Skill is not trained, check training queue
-                        bQueue = AddPreReqSkillToQueue(qPilot, bQueue, reqSkill, CInt(pilotLevel), CInt(reqLevel))
+            If EveHQ.Core.SkillFunctions.SkillNameToID(curSkill.Name) <> "" Then
+                Dim myPreReqs As String = GetSkillReqs(qPilot, EveHQ.Core.SkillFunctions.SkillNameToID(curSkill.Name))
+                Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
+                Dim preReq As String
+                For Each preReq In preReqs
+                    If preReq.Length <> 0 Then
+                        Dim pilotLevel As String = preReq.Substring(preReq.Length - 1, 1)
+                        Dim reqLevel As String = preReq.Substring(preReq.Length - 2, 1)
+                        Dim reqSkill As String = preReq.Substring(0, preReq.Length - 2)
+                        If pilotLevel <> "Y" Then
+                            ' Skill is not trained, check training queue
+                            bQueue = AddPreReqSkillToQueue(qPilot, bQueue, reqSkill, CInt(pilotLevel), CInt(reqLevel))
+                        End If
                     End If
-                End If
-            Next
+                Next
+            End If
         Next
     End Sub
 
@@ -708,54 +711,56 @@ Public Class SkillQueueFunctions
             Dim curPOS As Integer = curSkill.Pos
 
             ' Get the list of pre-reqs for the current skill
-            Dim myPreReqs As String = GetSkillReqs(qPilot, EveHQ.Core.SkillFunctions.SkillNameToID(curSkill.Name))
-            Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
+            If EveHQ.Core.SkillFunctions.SkillNameToID(curSkill.Name) <> "" Then
+                Dim myPreReqs As String = GetSkillReqs(qPilot, EveHQ.Core.SkillFunctions.SkillNameToID(curSkill.Name))
+                Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
 
-            ' Iterate thru the pre-reqs starting at the lowest pre-req first
-            For Each preReq As String In preReqs
-                If preReq.Length <> 0 Then
-                    Dim pilotLevel As String = preReq.Substring(preReq.Length - 1, 1)
-                    Dim reqLevel As String = preReq.Substring(preReq.Length - 2, 1)
-                    Dim reqSkill As String = preReq.Substring(0, preReq.Length - 2)
-                    Dim checkSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-                    Dim lowestKey As String = ""
-                    Dim lowestLevel As Integer = CInt(reqLevel)
-                    Dim moveNeeded As Boolean = False
+                ' Iterate thru the pre-reqs starting at the lowest pre-req first
+                For Each preReq As String In preReqs
+                    If preReq.Length <> 0 Then
+                        Dim pilotLevel As String = preReq.Substring(preReq.Length - 1, 1)
+                        Dim reqLevel As String = preReq.Substring(preReq.Length - 2, 1)
+                        Dim reqSkill As String = preReq.Substring(0, preReq.Length - 2)
+                        Dim checkSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+                        Dim lowestKey As String = ""
+                        Dim lowestLevel As Integer = CInt(reqLevel)
+                        Dim moveNeeded As Boolean = False
 
-                    Do
-                        moveNeeded = False
-                        For Each checkSkill In bQueue.Queue
-                            ' See if the checkSkill is one of our pre-reqs and is after our skill
-                            If checkSkill.Name = reqSkill And checkSkill.Pos > curSkill.Pos And checkSkill.FromLevel < lowestLevel And checkSkill.ToLevel >= lowestLevel Then
-                                ' We've found one but we need to check for others so we can move the lowest one
-                                lowestKey = checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel
-                                lowestLevel = CInt(reqLevel)
-                                moveNeeded = True
-                            End If
-                        Next
-
-                        If moveNeeded = True Then
-                            ' We should have the key of the lowest skill now
-                            Dim moveSkill As EveHQ.Core.SkillQueueItem = CType(bQueue.Queue(lowestKey), SkillQueueItem)
-                            Dim movePOS As Integer = moveSkill.Pos
-
-                            Dim nudgeSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-                            For Each nudgeSkill In bQueue.Queue
-                                If nudgeSkill.Pos >= curPOS Then
-                                    If nudgeSkill.Pos = movePOS Then
-                                        nudgeSkill.Pos = curPOS
-                                    Else
-                                        nudgeSkill.Pos += 1
-                                    End If
+                        Do
+                            moveNeeded = False
+                            For Each checkSkill In bQueue.Queue
+                                ' See if the checkSkill is one of our pre-reqs and is after our skill
+                                If checkSkill.Name = reqSkill And checkSkill.Pos > curSkill.Pos And checkSkill.FromLevel < lowestLevel And checkSkill.ToLevel >= lowestLevel Then
+                                    ' We've found one but we need to check for others so we can move the lowest one
+                                    lowestKey = checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel
+                                    lowestLevel = CInt(reqLevel)
+                                    moveNeeded = True
                                 End If
                             Next
-                            curPOS += 1
-                        End If
 
-                        ' Repeat again until we have all the skills moved
-                    Loop Until moveNeeded = False
-                End If
-            Next
+                            If moveNeeded = True Then
+                                ' We should have the key of the lowest skill now
+                                Dim moveSkill As EveHQ.Core.SkillQueueItem = CType(bQueue.Queue(lowestKey), SkillQueueItem)
+                                Dim movePOS As Integer = moveSkill.Pos
+
+                                Dim nudgeSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+                                For Each nudgeSkill In bQueue.Queue
+                                    If nudgeSkill.Pos >= curPOS Then
+                                        If nudgeSkill.Pos = movePOS Then
+                                            nudgeSkill.Pos = curPOS
+                                        Else
+                                            nudgeSkill.Pos += 1
+                                        End If
+                                    End If
+                                Next
+                                curPOS += 1
+                            End If
+
+                            ' Repeat again until we have all the skills moved
+                        Loop Until moveNeeded = False
+                    End If
+                Next
+            End If
         Next
 
     End Sub
