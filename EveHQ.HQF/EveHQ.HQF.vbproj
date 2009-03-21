@@ -360,6 +360,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Attributes.csv" />
+    <None Include="Resources\Subsystems.csv" />
     <None Include="Resources\ImplantEffects.csv" />
     <None Include="Resources\ShipEffects.csv" />
     <None Include="Resources\Effects.csv" />

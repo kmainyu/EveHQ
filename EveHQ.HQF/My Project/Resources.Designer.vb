@@ -599,5 +599,21 @@ Namespace My.Resources
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to #HQF Subsystem Bonus Mapping Table,,,,,,,,,,,
+        '''#Type ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Status,Description
+        '''# Defensive Subsystems,,,,,,,,,,,
+        '''# Legion Defensive - Adaptive Augmenter,,,,,,,,,,,
+        '''29964,1,30532,267,1,29986,0,1,2,5,15,Armor EM Resistance
+        '''29964,1,30532,268,1,29986,0,1,2,5,15,Armor Explosive Resistance
+        '''29964,1,30532,269,1,29986,0,1,2,5,15,Armor Kinetic Resistance
+        '''29964,1,30532,270,1,29986,0,1,2,5,15,Armor Thermal Re [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property Subsystems() As String
+            Get
+                Return ResourceManager.GetString("Subsystems", resourceCulture)
+            End Get
+        End Property
     End Module
 End Namespace
