@@ -37,6 +37,8 @@ Public Class frmAbout
         credits.Append("<tr><td>Other Development</td><td align='right'>Darkwolf</td></tr>")
         credits.Append("<tr><td></td><td align='right'>Darmed Khan</td></tr>")
         credits.Append("<tr><td></td><td align='right'>Mdram</td></tr>")
+        credits.Append("<tr><td></td><td align='right'>MoWe79</td></tr>")
+        credits.Append("<tr><td></td><td align='right'>Nauvus3x7</td></tr>")
         credits.Append("<tr><td>Images</td><td align='right'><a href='http://jadeo.hexium.net' target='_blank'>JadeO</a></td></tr>")
         credits.Append("</table></body></html>")
         wbCredits.DocumentText = credits.ToString
