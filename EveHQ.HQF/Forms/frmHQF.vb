@@ -1073,6 +1073,16 @@ Public Class frmHQF
             End If
             If sMod.SlotType = slotType Then
                 Select Case slotType
+                    Case 16 ' Subsystem Slot
+                        If CStr(Int(sMod.Attributes("1380"))) = CStr(currentShipSlot.ShipCurrent.ID) Then
+                            If chkOnlyShowUsable.Checked = True Then
+                                If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                    results.Add(sMod.Name, sMod)
+                                End If
+                            Else
+                                results.Add(sMod.Name, sMod)
+                            End If
+                        End If
                     Case 1 ' Rig Slot
                         If sMod.Calibration <= Calibration Then
                             If chkOnlyShowUsable.Checked = True Then
@@ -1168,6 +1178,14 @@ Public Class frmHQF
                 chkFilter.ForeColor = Color.LimeGreen
             End If
         Next
+        If lvwItems.Items.Count = 0 Then
+            lvwItems.Items.Add("<Empty - no matches found>")
+            lvwItems.Enabled = False
+            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (0 items)"
+        Else
+            lvwItems.Enabled = True
+            lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
+        End If
         lvwItems.EndUpdate()
         ModuleDisplay = "Fitted"
         lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & lvwItems.Items.Count & " items)"
@@ -1548,60 +1566,62 @@ Public Class frmHQF
         Dim fittingName As String = ""
         Dim fittingSep As Integer = 0
         Dim isFlyable As Boolean = True
-        For Each fitting As String In Fittings.FittingList.Keys
-            fittingSep = fitting.IndexOf(", ")
-            shipName = fitting.Substring(0, fittingSep)
-            fittingName = fitting.Substring(fittingSep + 2)
+        If Fittings.FittingList.Count > 0 Then
+            For Each fitting As String In Fittings.FittingList.Keys
+                fittingSep = fitting.IndexOf(", ")
+                shipName = fitting.Substring(0, fittingSep)
+                fittingName = fitting.Substring(fittingSep + 2)
 
-            ' Create the ship node if it's not already present
-            Dim containsShip As New ContainerListViewItem
-            For Each ship As ContainerListViewItem In clvFittings.Items
-                If ship.Text = shipName Then
-                    containsShip = ship
-                End If
-            Next
-            If containsShip.Text = "" Then
-                containsShip.Text = shipName
-                clvFittings.Items.Add(containsShip)
-            End If
-
-            ' Add the details to the Node, checking for duplicates
-            If cboFlyable.SelectedIndex > 0 Then
-                isFlyable = IsShipFlyable(shipName, cboFlyable.SelectedItem.ToString)
-            Else
-                isFlyable = True
-            End If
-            If isFlyable = True Then
-                Dim containsFitting As New ContainerListViewItem
-                For Each fit As ContainerListViewItem In containsShip.Items
-                    If fit.Text = fittingName Then
-                        MessageBox.Show("Duplicate fitting found for " & shipName & ", and omitted", "Duplicate Fitting Found!", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        containsFitting = Nothing
-                        Exit For
+                ' Create the ship node if it's not already present
+                Dim containsShip As New ContainerListViewItem
+                For Each ship As ContainerListViewItem In clvFittings.Items
+                    If ship.Text = shipName Then
+                        containsShip = ship
                     End If
                 Next
-                If containsFitting IsNot Nothing Then
-                    containsFitting.Text = fittingName
-                    containsShip.Items.Add(containsFitting)
+                If containsShip.Text = "" Then
+                    containsShip.Text = shipName
+                    clvFittings.Items.Add(containsShip)
                 End If
-            End If
-        Next
-        ' Remove any parent nodes with no children
-        Dim fNodeID As Integer = 0
-        Do
-            If clvFittings.Items(fNodeID).Items.Count = 0 Then
-                clvFittings.Items.Remove(clvFittings.Items(fNodeID))
-                fNodeID -= 1
-            End If
-            fNodeID += 1
-        Loop Until fNodeID = clvFittings.Items.Count
-        ' Open the previously opened nodes
-        If CollapseAllNodes = False Then
-            For Each shipNode As ContainerListViewItem In clvFittings.Items
-                If openNodes.Contains(shipNode.Text) Then
-                    shipNode.Expand()
+
+                ' Add the details to the Node, checking for duplicates
+                If cboFlyable.SelectedIndex > 0 Then
+                    isFlyable = IsShipFlyable(shipName, cboFlyable.SelectedItem.ToString)
+                Else
+                    isFlyable = True
+                End If
+                If isFlyable = True Then
+                    Dim containsFitting As New ContainerListViewItem
+                    For Each fit As ContainerListViewItem In containsShip.Items
+                        If fit.Text = fittingName Then
+                            MessageBox.Show("Duplicate fitting found for " & shipName & ", and omitted", "Duplicate Fitting Found!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            containsFitting = Nothing
+                            Exit For
+                        End If
+                    Next
+                    If containsFitting IsNot Nothing Then
+                        containsFitting.Text = fittingName
+                        containsShip.Items.Add(containsFitting)
+                    End If
                 End If
             Next
+            ' Remove any parent nodes with no children
+            Dim fNodeID As Integer = 0
+            Do
+                If clvFittings.Items(fNodeID).Items.Count = 0 Then
+                    clvFittings.Items.Remove(clvFittings.Items(fNodeID))
+                    fNodeID -= 1
+                End If
+                fNodeID += 1
+            Loop Until fNodeID = clvFittings.Items.Count
+            ' Open the previously opened nodes
+            If CollapseAllNodes = False Then
+                For Each shipNode As ContainerListViewItem In clvFittings.Items
+                    If openNodes.Contains(shipNode.Text) Then
+                        shipNode.Expand()
+                    End If
+                Next
+            End If
         End If
         clvFittings.EndUpdate()
         Call Me.UpdateFittingsCombo()
