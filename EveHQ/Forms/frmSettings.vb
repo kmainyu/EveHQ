@@ -1342,6 +1342,7 @@ Public Class frmSettings
     Private Sub chkAutoAPI_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoAPI.CheckedChanged
         If chkAutoAPI.Checked = True Then
             EveHQ.Core.HQ.EveHQSettings.AutoAPI = True
+            EveHQ.Core.HQ.NextAutoAPITime = Now.AddMinutes(60)
         Else
             EveHQ.Core.HQ.EveHQSettings.AutoAPI = False
         End If

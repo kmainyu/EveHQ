@@ -586,27 +586,43 @@ Public Class frmEveHQ
         End If
         ' Check for an API update if applicable
         If EveHQ.Core.HQ.EveHQSettings.AutoAPI = True Then
-            If EveHQ.Core.HQ.LastAutoAPITime.AddSeconds(EveHQ.Core.HQ.AutoAPITimeSpan) < Now Then
-                Dim updateRequired As Boolean = False
-                For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-                    If cPilot.Name <> "" And cPilot.Account <> "" Then
-                        Dim cacheCDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.CacheExpirationTime)
-                        Dim cacheTDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingExpirationTime)
-                        If cacheCDate < Now Or cacheTDate < Now Then
-                            updateRequired = True
-                            Exit For
+
+            Dim updateRequired As Boolean = False
+            For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                If cPilot.Name <> "" And cPilot.Account <> "" Then
+                    Dim cacheCDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.CacheExpirationTime)
+                    Dim cacheTDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingExpirationTime)
+                    If cacheCDate < Now Or cacheTDate < Now Then
+                        updateRequired = True
+                        Exit For
+                    Else
+                        If cacheCDate < EveHQ.Core.HQ.NextAutoAPITime Then
+                            EveHQ.Core.HQ.NextAutoAPITime = cacheCDate
+                        End If
+                        If cacheTDate < EveHQ.Core.HQ.NextAutoAPITime Then
+                            EveHQ.Core.HQ.NextAutoAPITime = cacheTDate
+                        End If
+                        If EveHQ.Core.HQ.AutoRetryAPITime > EveHQ.Core.HQ.NextAutoAPITime Then
+                            EveHQ.Core.HQ.NextAutoAPITime = EveHQ.Core.HQ.AutoRetryAPITime
                         End If
                     End If
-                Next
+                End If
+            Next
+            If Now > EveHQ.Core.HQ.AutoRetryAPITime Then
                 If updateRequired = True Then
                     ' Invoke the API Caller
                     Call QueryMyEveServer()
-                    EveHQ.Core.HQ.LastAutoAPITime = Now
+                    EveHQ.Core.HQ.NextAutoAPITime = Now.AddMinutes(60)
+                    EveHQ.Core.HQ.AutoRetryAPITime = Now.AddMinutes(5)
                 End If
+                ' Display time until autoAPI download
+                Dim TimeLeft As TimeSpan = EveHQ.Core.HQ.NextAutoAPITime - Now
+                tsAPITime.Text = EveHQ.Core.SkillFunctions.TimeToString(TimeLeft.TotalSeconds, False)
+            Else
+                Dim TimeLeft As TimeSpan = EveHQ.Core.HQ.NextAutoAPITime - Now
+                Dim TimeLeft2 As TimeSpan = EveHQ.Core.HQ.AutoRetryAPITime - Now
+                tsAPITime.Text = EveHQ.Core.SkillFunctions.TimeToString(Math.Max(TimeLeft.TotalSeconds, TimeLeft2.TotalSeconds), False)
             End If
-            ' Display time until autoAPI download
-            Dim TimeLeft As TimeSpan = EveHQ.Core.HQ.LastAutoAPITime.AddSeconds(EveHQ.Core.HQ.AutoAPITimeSpan) - Now
-            tsAPITime.Text = EveHQ.Core.SkillFunctions.TimeToString(TimeLeft.TotalSeconds, False)
         Else
             tsAPITime.Text = ""
         End If

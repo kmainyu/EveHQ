@@ -66,8 +66,8 @@ Public Class HQ
     Public Shared itemCats As SortedList = New SortedList
     Public Shared groupCats As SortedList = New SortedList
     Public Shared LastAutoAPIResult As Boolean = True
-    Public Shared LastAutoAPITime As DateTime = Now.AddMinutes(-60)
-    Public Shared AutoAPITimeSpan As Integer = 300
+    Public Shared NextAutoAPITime As DateTime = Now.AddMinutes(60)
+    Public Shared AutoRetryAPITime As DateTime = Now.AddMinutes(5) ' Minimum retry time if an error occurs
     Public Shared EveHQLCD As New G15LCD(AddressOf EveHQ.Core.G15LCDB.ButtonPress, AddressOf EveHQ.Core.G15LCDB.ConfigureOptions)
     Public Shared IsG15LCDActive As Boolean = False
     Public Shared lcdPilot As String = ""

@@ -1114,7 +1114,7 @@ Partial Public Class frmEveHQ
         '
         'tmrMemory
         '
-        Me.tmrMemory.Interval = 60000
+        Me.tmrMemory.Interval = 300000
         '
         'XPanderList1
         '

@@ -2373,43 +2373,47 @@ Public Class frmTraining
     End Sub
 
     Private Sub GetSelectedQueueTimes()
-        Dim newQueue As New EveHQ.Core.SkillQueue
-        newQueue.Name = "tempMerge"
-        newQueue.IncCurrentTraining = True
-        newQueue.Primary = False
-        newQueue.Queue = New Collection
-        For Each item As ListViewItem In lvQueues.SelectedItems
-            Dim queueName As String = item.Name
-            Dim oldQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(queueName), EveHQ.Core.SkillQueue)
-            If oldQueue.Primary = True Then newQueue.Primary = True
-            For Each queueItem As EveHQ.Core.SkillQueueItem In oldQueue.Queue
-                Dim keyName As String = queueItem.Name & queueItem.FromLevel & queueItem.ToLevel
-                If newQueue.Queue.Contains(keyName) = False Then
-                    newQueue.Queue.Add(queueItem, keyName)
+        Try
+            Dim newQueue As New EveHQ.Core.SkillQueue
+            newQueue.Name = "tempMerge"
+            newQueue.IncCurrentTraining = True
+            newQueue.Primary = False
+            newQueue.Queue = New Collection
+            For Each item As ListViewItem In lvQueues.SelectedItems
+                Dim queueName As String = item.Name
+                Dim oldQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(queueName), EveHQ.Core.SkillQueue)
+                If oldQueue.Primary = True Then newQueue.Primary = True
+                For Each queueItem As EveHQ.Core.SkillQueueItem In oldQueue.Queue
+                    Dim keyName As String = queueItem.Name & queueItem.FromLevel & queueItem.ToLevel
+                    If newQueue.Queue.Contains(keyName) = False Then
+                        newQueue.Queue.Add(queueItem, keyName)
+                    End If
+                Next
+            Next
+            Dim curSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+            For Each curSkill In newQueue.Queue
+                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(curSkill.Name) Then
+                    Dim fromLevel As Integer = curSkill.FromLevel
+                    Dim toLevel As Integer = curSkill.ToLevel
+                    Dim mySkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills(curSkill.Name), Core.Skills)
+                    Dim pilotLevel As Integer = mySkill.Level
+                    If pilotLevel >= toLevel Then
+                        Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
+                        newQueue.Queue.Remove(oldKey)
+                    End If
                 End If
             Next
-        Next
-        Dim curSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-        For Each curSkill In newQueue.Queue
-            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(curSkill.Name) Then
-                Dim fromLevel As Integer = curSkill.FromLevel
-                Dim toLevel As Integer = curSkill.ToLevel
-                Dim mySkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills(curSkill.Name), Core.Skills)
-                Dim pilotLevel As Integer = mySkill.Level
-                If pilotLevel >= toLevel Then
-                    Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
-                    newQueue.Queue.Remove(oldKey)
-                End If
-            End If
-        Next
-        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(EveHQ.Core.HQ.myPilot, newQueue)
-        Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
-        Dim QTime As Double = 0
-        For Each qItem In arrQueue
-            QTime += CLng(qItem.TrainTime)
-        Next
-        Me.selQTime = QTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-        lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
+            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(EveHQ.Core.HQ.myPilot, newQueue)
+            Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
+            Dim QTime As Double = 0
+            For Each qItem In arrQueue
+                QTime += CLng(qItem.TrainTime)
+            Next
+            Me.selQTime = QTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+            lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
+        Catch e As Exception
+            MessageBox.Show("There was an error calculating the selected queue times.", "Calculation Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
     End Sub
 
     Private Sub GetAllQueueTimes()

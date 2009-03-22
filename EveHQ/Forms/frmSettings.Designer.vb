@@ -2318,9 +2318,9 @@ Partial Public Class frmSettings
         Me.chkAutoAPI.AutoSize = True
         Me.chkAutoAPI.Location = New System.Drawing.Point(12, 130)
         Me.chkAutoAPI.Name = "chkAutoAPI"
-        Me.chkAutoAPI.Size = New System.Drawing.Size(309, 17)
+        Me.chkAutoAPI.Size = New System.Drawing.Size(205, 17)
         Me.chkAutoAPI.TabIndex = 20
-        Me.chkAutoAPI.Text = "Automatically Retrieve Character Data When Cache Expires"
+        Me.chkAutoAPI.Text = "Automatically Check for XML Updates"
         Me.chkAutoAPI.UseVisualStyleBackColor = True
         '
         'gbAPIRelayServer
