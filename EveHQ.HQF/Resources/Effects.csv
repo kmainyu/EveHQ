@@ -1099,3 +1099,36 @@
 337,2,774,263,3,6,0,0,0,15,Core Defence Field Extender
 338,2,774,479,3,6,0,0,0,15,Core Defence Field Purger
 312,2,774,73,2,40,0,0,0,15,Core Defence Operational Solidifer
+# SUBSYSTEMS,,,,,,,,,,
+11,3,32,11,3,6,0,0,1,15,PG Output
+37,3,32,37,3,6,0,0,1,15,Max Velocity
+48,3,32,48,3,6,0,0,1,15,CPU Output
+55,3,32,55,3,6,0,0,1,15,Capacitor Recharge
+70,3,32,70,3,6,0,0,1,15,Inertia
+76,3,32,76,3,6,0,0,1,15,Max Targeting Range
+208,3,32,208,3,6,0,0,1,15,Radar Sensor Strength
+209,3,32,209,3,6,0,0,1,15,Ladar Sensor Strength
+210,3,32,210,3,6,0,0,1,15,Mag Sensor Strength
+211,3,32,211,3,6,0,0,1,15,Grav Sensor Strength
+263,3,32,263,3,6,0,0,1,15,Shield Capacity
+283,3,32,283,3,6,0,0,1,15,Drone Capacity
+479,3,32,479,3,6,0,0,1,15,Shield Recharge
+482,3,32,482,3,6,0,0,1,15,Capacitor Capacity
+552,3,32,552,3,6,0,0,1,15,Signature Radius
+564,3,32,564,3,6,0,0,1,15,Scan Resolution
+1159,3,32,265,3,6,0,0,1,15,Armor HP Bonus
+1271,3,32,1271,3,6,0,0,1,15,Drone Bandwidth
+1368,3,32,102,3,6,0,0,1,15,Turret Slot Modifier
+1369,3,32,101,3,6,0,0,1,15,Launcher Slot Modifier
+1374,3,32,14,3,6,0,0,1,15,Hi Slot Modifier
+1375,3,32,13,3,6,0,0,1,15,Mid Slot Modifier
+1376,3,32,12,3,6,0,0,1,15,Low Slot Modifier
+1418,3,32,267,3,6,0,0,1,15,Armor EM Resist
+1419,3,32,270,3,6,0,0,1,15,Armor Thermal Resist
+1420,3,32,269,3,6,0,0,1,15,Armor Kinetic Resist
+1421,3,32,268,3,6,0,0,1,15,Armor Explosive Resist
+1422,3,32,272,3,6,0,0,1,15,Shield Explosive Resist
+1423,3,32,271,3,6,0,0,1,15,Shield EM Resist
+1424,3,32,273,3,6,0,0,1,15,Shield Kinetic Resist
+1425,3,32,274,3,6,0,0,1,15,Shield Thermal Resist
+10004,3,32,10004,3,6,0,0,1,15,Cargo Capacity

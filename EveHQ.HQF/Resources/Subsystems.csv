@@ -41,9 +41,9 @@
 29969,1,30544,274,1,29984,0,1,2,5,15,Therm Shield Resist
 29969,1,30544,68,2,41,0,1,0,10,15,Shield Transporter Amount
 # Tengu Defensive - Amplification Node,,,,,,,,,,,
-29969,1,30544,68,2,40,0,1,0,10,15,Shield Booster Boost
+29970,1,30544,68,2,40,0,1,0,10,15,Shield Booster Boost
 # Tengu Defensive - Supplemental Screening,,,,,,,,,,,
-29969,1,30544,263,1,29984,0,1,0,10,15,Shield HP
+29971,1,30544,263,1,29984,0,1,0,10,15,Shield HP
 # Electronics Subsystems,,,,,,,,,,,
 # Legion Electronics - Energy Parasitic Complex,,,,,,,,,,,
 30036,1,30536,90,2,68,0,1,0,10,15,Nos Drain Amount

@@ -26,6 +26,7 @@ Public Class Engine
 
     Public Shared EffectsMap As New SortedList
     Public Shared ShipEffectsMap As New SortedList
+    Public Shared SubSystemEffectsMap As New SortedList
     Public Shared FleetEffectsMap As New SortedList
     Public Shared ImplantEffectsMap As New SortedList
     Public Shared SkillEffectsTable As New SortedList
@@ -157,6 +158,50 @@ Public Class Engine
             End If
         Next
     End Sub
+    Public Shared Sub BuildSubSystemBonusMap()
+        ' Fetch the Effects list
+        Dim EffectFile As String = My.Resources.Subsystems.ToString
+        ' Break the Effects down into separate lines
+        Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
+        ' Go through lines and break each one down
+        Dim EffectData() As String
+        ' Build the map
+        SubSystemEffectsMap.Clear()
+        Dim shipEffectClassList As New ArrayList
+        Dim newEffect As New ShipEffect
+        Dim IDs() As String
+        For Each EffectLine As String In EffectLines
+            If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
+                EffectData = EffectLine.Split(",".ToCharArray)
+                newEffect = New ShipEffect
+                If SubSystemEffectsMap.Contains((EffectData(0))) = True Then
+                    shipEffectClassList = CType(SubSystemEffectsMap(EffectData(0)), ArrayList)
+                Else
+                    shipEffectClassList = New ArrayList
+                    SubSystemEffectsMap.Add(EffectData(0), shipEffectClassList)
+                End If
+                newEffect.ShipID = CInt(EffectData(0))
+                newEffect.AffectingType = CInt(EffectData(1))
+                newEffect.AffectingID = CInt(EffectData(2))
+                newEffect.AffectedAtt = CInt(EffectData(3))
+                newEffect.AffectedType = CInt(EffectData(4))
+                If EffectData(5).Contains(";") = True Then
+                    IDs = EffectData(5).Split(";".ToCharArray)
+                    For Each ID As String In IDs
+                        newEffect.AffectedID.Add(ID)
+                    Next
+                Else
+                    newEffect.AffectedID.Add(EffectData(5))
+                End If
+                newEffect.StackNerf = CBool(EffectData(6))
+                newEffect.IsPerLevel = CBool(EffectData(7))
+                newEffect.CalcType = CInt(EffectData(8))
+                newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
+                newEffect.Status = CInt(EffectData(10))
+                shipEffectClassList.Add(newEffect)
+            End If
+        Next
+    End Sub
     Public Shared Sub BuildImplantEffectsMap()
         ' Fetch the Effects list
         Dim EffectFile As String = My.Resources.ImplantEffects.ToString
@@ -220,6 +265,197 @@ Public Class Engine
             End If
         Next
     End Sub
+    Public Shared Function BuildSubSystemEffects(ByVal cShip As Ship) As Ship
+
+        Dim newShip As Ship = CType(ShipLists.shipList(cShip.Name), Ship).Clone
+
+        If newShip.SubSlots > 0 Then
+            For slot As Integer = 1 To newShip.SubSlots
+                newShip.SubSlot(slot) = cShip.SubSlot(slot)
+            Next
+        End If
+
+        Dim sTime, eTime As Date
+        sTime = Now
+        ' Clear the Effects Table
+        Dim SSEffectsTable As New SortedList
+        ' Go through all the skills and see what needs to be mapped
+        Dim att As String = ""
+        Dim attData As New ArrayList
+        Dim fEffect As New FinalEffect
+        Dim fEffectList As New ArrayList
+        Dim aModule As New ShipModule
+        Dim processData As Boolean = False
+        If newShip.SubSlots > 0 Then
+            For s As Integer = 1 To newShip.SubSlots
+                aModule = newShip.SubSlot(s)
+                If aModule IsNot Nothing Then
+                    For Each att In aModule.Attributes.Keys
+                        If EffectsMap.Contains(att) = True Then
+                            For Each chkEffect As Effect In CType(EffectsMap(att), ArrayList)
+                                processData = False
+                                Select Case chkEffect.AffectingType
+                                    Case EffectType.All
+                                        processData = True
+                                    Case EffectType.Item
+                                        If chkEffect.AffectingID.ToString = aModule.ID Then
+                                            processData = True
+                                        End If
+                                    Case EffectType.Group
+                                        If chkEffect.AffectingID.ToString = aModule.DatabaseGroup Then
+                                            processData = True
+                                        End If
+                                    Case EffectType.Category
+                                        If chkEffect.AffectingID.ToString = aModule.DatabaseCategory Then
+                                            processData = True
+                                        End If
+                                    Case EffectType.MarketGroup
+                                        If chkEffect.AffectingID.ToString = aModule.MarketGroup Then
+                                            processData = True
+                                        End If
+                                    Case EffectType.Skill
+                                        If aModule.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
+                                            processData = True
+                                        End If
+                                    Case EffectType.Slot
+                                        processData = True
+                                    Case EffectType.Attribute
+                                        If aModule.Attributes.Contains(chkEffect.AffectingID.ToString) Then
+                                            processData = True
+                                        End If
+                                End Select
+                                If processData = True And (aModule.ModuleState And chkEffect.Status) = aModule.ModuleState Then
+                                    fEffect = New FinalEffect
+                                    fEffect.AffectedAtt = chkEffect.AffectedAtt
+                                    fEffect.AffectedType = chkEffect.AffectedType
+                                    If chkEffect.AffectedType = EffectType.Slot Then
+                                        fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
+                                    Else
+                                        fEffect.AffectedID = chkEffect.AffectedID
+                                    End If
+                                    fEffect.AffectedValue = CDbl(aModule.Attributes(att))
+                                    fEffect.StackNerf = chkEffect.StackNerf
+                                    fEffect.Cause = aModule.Name
+                                    fEffect.CalcType = chkEffect.CalcType
+                                    If SSEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                        fEffectList = New ArrayList
+                                        SSEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                    Else
+                                        fEffectList = CType(SSEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                                    End If
+                                    fEffectList.Add(fEffect)
+                                End If
+                            Next
+                        End If
+                    Next
+                End If
+            Next
+        End If
+
+        Dim log As String = ""
+        Dim oldAtt As String = ""
+        Dim processAtt As Boolean = False
+        For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
+            att = CStr(newShip.Attributes.GetKey(attNo))
+            If SSEffectsTable.Contains(att) = True Then
+                For Each fEffect In CType(SSEffectsTable(att), ArrayList)
+                    processAtt = False
+                    log = ""
+                    Select Case fEffect.AffectedType
+                        Case EffectType.All
+                            processAtt = True
+                        Case EffectType.Item
+                            If fEffect.AffectedID.Contains(newShip.ID) Then
+                                processAtt = True
+                            End If
+                        Case EffectType.Group
+                            If fEffect.AffectedID.Contains(newShip.DatabaseGroup) Then
+                                processAtt = True
+                            End If
+                        Case EffectType.Category
+                            If fEffect.AffectedID.Contains(newShip.DatabaseCategory) Then
+                                processAtt = True
+                            End If
+                        Case EffectType.MarketGroup
+                            If fEffect.AffectedID.Contains(newShip.MarketGroup) Then
+                                processAtt = True
+                            End If
+                        Case EffectType.Skill
+                            If newShip.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(fEffect.AffectedID(0)))) Then
+                                processAtt = True
+                            End If
+                        Case EffectType.Attribute
+                            If newShip.Attributes.Contains(CStr(fEffect.AffectedID(0))) Then
+                                processAtt = True
+                            End If
+                    End Select
+                    If processAtt = True Then
+                        log &= Attributes.AttributeQuickList(att).ToString & "# " & fEffect.Cause
+                        oldAtt = newShip.Attributes(att).ToString()
+                        log &= "# " & oldAtt
+                        Select Case fEffect.CalcType
+                            Case EffectCalcType.Percentage
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * (1 + (fEffect.AffectedValue / 100))
+                            Case EffectCalcType.Addition
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
+                            Case EffectCalcType.Difference ' Used for resistances
+                                newShip.Attributes(att) = ((100 - CDbl(newShip.Attributes(att))) * (-fEffect.AffectedValue / 100)) + CDbl(newShip.Attributes(att))
+                            Case EffectCalcType.Velocity
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + (CDbl(newShip.Attributes(att)) * (CDbl(newShip.Attributes("10010")) / CDbl(newShip.Attributes("10002")) * (fEffect.AffectedValue / 100)))
+                            Case EffectCalcType.Absolute
+                                newShip.Attributes(att) = fEffect.AffectedValue
+                            Case EffectCalcType.Multiplier
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) * fEffect.AffectedValue
+                            Case EffectCalcType.AddPositive
+                                If fEffect.AffectedValue > 0 Then
+                                    newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
+                                End If
+                            Case EffectCalcType.AddNegative
+                                If fEffect.AffectedValue < 0 Then
+                                    newShip.Attributes(att) = CDbl(newShip.Attributes(att)) + fEffect.AffectedValue
+                                End If
+                            Case EffectCalcType.Subtraction
+                                newShip.Attributes(att) = CDbl(newShip.Attributes(att)) - fEffect.AffectedValue
+                            Case EffectCalcType.CloakedVelocity
+                                newShip.Attributes(att) = -100 + ((100 + CDbl(newShip.Attributes(att))) * (fEffect.AffectedValue / 100))
+                        End Select
+                        log &= "# " & newShip.Attributes(att).ToString
+                        newShip.AuditLog.Add(log)
+                    End If
+                Next
+            End If
+        Next
+        Ship.MapShipAttributes(newShip)
+        eTime = Now
+        Dim dTime As TimeSpan = eTime - sTime
+
+        ' Copy the fittings from the old ship
+        If newShip.HiSlots > 0 Then
+            For slot As Integer = 1 To Math.Min(cShip.HiSlots, newShip.HiSlots)
+                newShip.HiSlot(slot) = cShip.HiSlot(slot)
+            Next
+        End If
+        If newShip.MidSlots > 0 Then
+            For slot As Integer = 1 To Math.Min(cShip.MidSlots, newShip.MidSlots)
+                newShip.MidSlot(slot) = cShip.MidSlot(slot)
+            Next
+        End If
+        If newShip.LowSlots > 0 Then
+            For slot As Integer = 1 To Math.Min(cShip.LowSlots, newShip.LowSlots)
+                newShip.LowSlot(slot) = cShip.LowSlot(slot)
+            Next
+        End If
+        If newShip.RigSlots > 0 Then
+            For slot As Integer = 1 To Math.Min(cShip.RigSlots, newShip.RigSlots)
+                newShip.RigSlot(slot) = cShip.RigSlot(slot)
+            Next
+        End If
+        newShip.CargoBayItems = CType(cShip.CargoBayItems.Clone, Collections.SortedList)
+        newShip.DroneBayItems = CType(cShip.DroneBayItems.Clone, Collections.SortedList)
+        newShip.DamageProfile = cShip.DamageProfile
+
+        Return newShip
+    End Function
     Public Shared Sub BuildSkillEffects(ByVal hPilot As HQFPilot)
         Dim sTime, eTime As Date
         sTime = Now
@@ -356,7 +592,6 @@ Public Class Engine
             Dim sTime, eTime As Date
             sTime = Now
             ' Go through all the skills and see what needs to be mapped
-            ' Reset the SkillEffectsTable
             Dim shipRoles As New ArrayList
             Dim hSkill As New HQFSkill
             Dim fEffect As New FinalEffect
@@ -391,6 +626,46 @@ Public Class Engine
                             fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
                         End If
                         fEffectList.Add(fEffect)
+                    End If
+                Next
+            End If
+            ' Get the bonuses from the subsystems
+            If hShip.SubSlots_Used > 0 Then
+                For slot As Integer = 1 To hShip.SubSlots
+                    If hShip.SubSlot(slot) IsNot Nothing Then
+                        shipRoles = CType(SubSystemEffectsMap(hShip.SubSlot(slot).ID), ArrayList)
+                        If shipRoles IsNot Nothing Then
+                            For Each chkEffect As ShipEffect In shipRoles
+                                If chkEffect.Status <> 16 Then
+                                    fEffect = New FinalEffect
+                                    If hPilot.SkillSet.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))) = True Then
+                                        hSkill = CType(hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), HQFSkill)
+                                        If chkEffect.IsPerLevel = True Then
+                                            fEffect.AffectedValue = chkEffect.Value * hSkill.Level
+                                            fEffect.Cause = "Ship Bonus - " & hSkill.Name & " (Level " & hSkill.Level & ")"
+                                        Else
+                                            fEffect.AffectedValue = chkEffect.Value
+                                            fEffect.Cause = "Ship Role - "
+                                        End If
+                                    Else
+                                        fEffect.AffectedValue = chkEffect.Value
+                                        fEffect.Cause = "Ship Role - "
+                                    End If
+                                    fEffect.AffectedAtt = chkEffect.AffectedAtt
+                                    fEffect.AffectedType = chkEffect.AffectedType
+                                    fEffect.AffectedID = chkEffect.AffectedID
+                                    fEffect.StackNerf = chkEffect.StackNerf
+                                    fEffect.CalcType = chkEffect.CalcType
+                                    If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                        fEffectList = New ArrayList
+                                        SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                    Else
+                                        fEffectList = CType(SkillEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                                    End If
+                                    fEffectList.Add(fEffect)
+                                End If
+                            Next
+                        End If
                     End If
                 Next
             End If

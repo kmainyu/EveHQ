@@ -59,6 +59,7 @@ Public Class PlugInData
             Engine.BuildPirateImplants()
             Engine.BuildEffectsMap()
             Engine.BuildShipEffectsMap()
+            Engine.BuildSubSystemBonusMap()
             ' Check for the existence of the binary data
             If PlugInData.UseSerializableData = True Then
                 If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\attributes.bin") = True Then
@@ -131,6 +132,7 @@ Public Class PlugInData
                                                                 Call Me.BuildModuleEffects()
                                                                 Call Me.BuildImplantEffects()
                                                                 Call Me.BuildShipEffects()
+                                                                Call Me.BuildSubsystemEffects()
                                                                 ' Save the HQF data
                                                                 Call Me.SaveHQFCacheData()
                                                                 Call Me.CleanUpData()
@@ -460,6 +462,12 @@ Public Class PlugInData
                                 newShip.Attributes.Add("10061", 0)
                                 newShip.Attributes.Add("10062", 0)
                                 newShip.Attributes.Add("10063", 1)
+                                ' Check for slot attributes (missing for T3)
+                                If newShip.Attributes.ContainsKey("12") = False Then
+                                    newShip.Attributes.Add("12", 0)
+                                    newShip.Attributes.Add("13", 0)
+                                    newShip.Attributes.Add("14", 0)
+                                End If
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
                                 ShipLists.shipList.Add(newShip.Name, newShip)
@@ -591,6 +599,12 @@ Public Class PlugInData
                     newShip.Attributes.Add("10063", 1)
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
+                    ' Check for slot attributes (missing for T3)
+                    If newShip.Attributes.ContainsKey("12") = False Then
+                        newShip.Attributes.Add("12", 0)
+                        newShip.Attributes.Add("13", 0)
+                        newShip.Attributes.Add("14", 0)
+                    End If
                     ' Perform the last addition for the last ship type
                     ShipLists.shipList.Add(newShip.Name, newShip)
                     Return True
@@ -1349,6 +1363,88 @@ Public Class PlugInData
 
         ' Fetch the Effects list
         Dim EffectFile As String = My.Resources.ShipEffects.ToString
+        ' Break the Effects down into separate lines
+        Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
+        ' Go through lines and break each one down
+        Dim EffectData() As String
+
+        Dim shipEffectClassList As New ArrayList
+        Dim newEffect As New ShipEffect
+        Dim IDs() As String
+        Dim AffectingName As String = ""
+        For Each EffectLine As String In EffectLines
+            If EffectLine.Trim <> "" And EffectLine.StartsWith("#") = False Then
+                EffectData = EffectLine.Split(",".ToCharArray)
+                newEffect = New ShipEffect
+                newEffect.ShipID = CInt(EffectData(0))
+                newEffect.AffectingType = CInt(EffectData(1))
+                newEffect.AffectingID = CInt(EffectData(2))
+                newEffect.AffectedAtt = CInt(EffectData(3))
+                newEffect.AffectedType = CInt(EffectData(4))
+                If EffectData(5).Contains(";") = True Then
+                    IDs = EffectData(5).Split(";".ToCharArray)
+                    For Each ID As String In IDs
+                        newEffect.AffectedID.Add(ID)
+                    Next
+                Else
+                    newEffect.AffectedID.Add(EffectData(5))
+                End If
+                newEffect.StackNerf = CBool(EffectData(6))
+                newEffect.IsPerLevel = CBool(EffectData(7))
+                newEffect.CalcType = CInt(EffectData(8))
+                newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
+                newEffect.Status = CInt(EffectData(10))
+                shipEffectClassList.Add(newEffect)
+
+                AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.ShipID.ToString)))
+                If newEffect.IsPerLevel = False Then
+                    AffectingName &= ";Ship Role;"
+                Else
+                    AffectingName &= ";Ship Bonus;"
+                End If
+                AffectingName &= HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                If newEffect.IsPerLevel = False Then
+                    AffectingName &= ";"
+                Else
+                    AffectingName &= ";" & CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectingID.ToString)))
+                End If
+
+                For Each cModule As ShipModule In ModuleLists.moduleList.Values
+                    Select Case newEffect.AffectedType
+                        Case EffectType.All
+                            If newEffect.AffectingID <> 0 Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        Case EffectType.Item
+                            If newEffect.AffectedID.Contains(cModule.ID) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        Case EffectType.Group
+                            If newEffect.AffectedID.Contains(cModule.DatabaseGroup) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        Case EffectType.Category
+                            If newEffect.AffectedID.Contains(cModule.DatabaseCategory) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        Case EffectType.MarketGroup
+                            If newEffect.AffectedID.Contains(cModule.MarketGroup) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        Case EffectType.Attribute
+                            If cModule.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                    End Select
+                Next
+            End If
+        Next
+    End Sub
+    Private Sub BuildSubsystemEffects()
+        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+
+        ' Fetch the Effects list
+        Dim EffectFile As String = My.Resources.Subsystems.ToString
         ' Break the Effects down into separate lines
         Dim EffectLines() As String = EffectFile.Split(ControlChars.CrLf.ToCharArray)
         ' Go through lines and break each one down

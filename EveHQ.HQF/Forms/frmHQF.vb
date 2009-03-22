@@ -2053,6 +2053,17 @@ Public Class frmHQF
         Dim state As Integer
         Dim fitting As New System.Text.StringBuilder
         fitting.AppendLine("[" & tp.Text & "]")
+        For slot As Integer = 1 To currentShip.SubSlots
+            If currentShip.SubSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.SubSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.SubSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentShip.SubSlot(slot).Name & "_" & state & ", " & currentShip.SubSlot(slot).LoadedCharge.Name)
+                Else
+                    fitting.AppendLine(currentShip.SubSlot(slot).Name & "_" & state)
+                End If
+            End If
+        Next
+        fitting.AppendLine("")
         For slot As Integer = 1 To currentShip.HiSlots
             If currentShip.HiSlot(slot) IsNot Nothing Then
                 state = CInt(Math.Log(currentShip.HiSlot(slot).ModuleState) / Math.Log(2))
@@ -2121,6 +2132,16 @@ Public Class frmHQF
         Dim cModule As New ShipModule
         Dim fitting As New System.Text.StringBuilder
         fitting.AppendLine("[" & tp.Text & "]")
+        For slot As Integer = 1 To currentship.SubSlots
+            If currentship.SubSlot(slot) IsNot Nothing Then
+                If currentship.SubSlot(slot).LoadedCharge IsNot Nothing Then
+                    fitting.AppendLine(currentship.SubSlot(slot).Name & ", " & currentship.SubSlot(slot).LoadedCharge.Name)
+                Else
+                    fitting.AppendLine(currentship.SubSlot(slot).Name)
+                End If
+            End If
+        Next
+        fitting.AppendLine("")
         For slot As Integer = 1 To currentship.LowSlots
             If currentship.LowSlot(slot) IsNot Nothing Then
                 If currentship.LowSlot(slot).LoadedCharge IsNot Nothing Then
@@ -2183,6 +2204,40 @@ Public Class frmHQF
         Dim fitting As New System.Text.StringBuilder
 
         slots = New Dictionary(Of String, Integer)
+        For slot As Integer = 1 To currentship.SubSlots
+            If currentship.SubSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentship.SubSlot(slot).ModuleState) / Math.Log(2))
+                If currentship.SubSlot(slot).LoadedCharge IsNot Nothing Then
+                    If slotList.Contains(currentship.SubSlot(slot).Name & " (" & currentship.SubSlot(slot).LoadedCharge.Name & ")") = True Then
+                        ' Get the dictionary item
+                        slotCount = slots(currentship.SubSlot(slot).Name & " (" & currentship.SubSlot(slot).LoadedCharge.Name & ")")
+                        slots(currentship.SubSlot(slot).Name & " (" & currentship.SubSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                    Else
+                        slotList.Add(currentship.SubSlot(slot).Name & " (" & currentship.SubSlot(slot).LoadedCharge.Name & ")")
+                        slots.Add(currentship.SubSlot(slot).Name & " (" & currentship.SubSlot(slot).LoadedCharge.Name & ")", 1)
+                    End If
+                Else
+                    If slotList.Contains(currentship.SubSlot(slot).Name) = True Then
+                        slotCount = slots(currentship.SubSlot(slot).Name)
+                        slots(currentship.SubSlot(slot).Name) = slotCount + 1
+                    Else
+                        slotList.Add(currentship.SubSlot(slot).Name)
+                        slots.Add(currentship.SubSlot(slot).Name, 1)
+                    End If
+                End If
+            End If
+        Next
+        If slots.Count > 0 Then
+            For Each cMod As String In slots.Keys
+                If CInt(slots(cMod)) > 1 Then
+                    fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
+                Else
+                    fitting.AppendLine(cMod)
+                End If
+            Next
+        End If
+
+        slots = New Dictionary(Of String, Integer)
         For slot As Integer = 1 To currentship.HiSlots
             If currentship.HiSlot(slot) IsNot Nothing Then
                 state = CInt(Math.Log(currentship.HiSlot(slot).ModuleState) / Math.Log(2))
@@ -2207,6 +2262,7 @@ Public Class frmHQF
             End If
         Next
         If slots.Count > 0 Then
+            fitting.AppendLine("")
             For Each cMod As String In slots.Keys
                 If CInt(slots(cMod)) > 1 Then
                     fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
@@ -2511,4 +2567,7 @@ Public Class frmHQF
         Call Me.UpdateFittingsTree(False)
     End Sub
 
+    Private Sub lvwItems_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
 End Class

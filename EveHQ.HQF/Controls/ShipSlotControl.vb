@@ -110,6 +110,8 @@ Public Class ShipSlotControl
     Public Sub UpdateEverything()
         ' Update the slot layout
         currentShip = CType(ShipLists.fittedShipList(cShipFit), Ship)
+        ' Build Subsystems
+        currentShip = Engine.BuildSubSystemEffects(currentShip)
         UpdateAll = True
         Call Me.UpdateSlotColumns()
         lvwCargoBay.BeginUpdate()
@@ -118,7 +120,6 @@ Public Class ShipSlotControl
         Me.ClearShipSlots()
         Me.ClearDroneBay()
         Me.ClearCargoBay()
-        Me.UpdateSlotLayout()
         Me.UpdateShipDataFromFittingList()
         lvwCargoBay.EndUpdate()
         lvwDroneBay.EndUpdate()
@@ -128,6 +129,7 @@ Public Class ShipSlotControl
         currentInfo.UpdateImplantList()
         currentInfo.BuildMethod = BuildType.BuildEverything
         If fittedShip IsNot Nothing Then
+            Me.UpdateSlotLayout()
             Me.UpdateAllSlotLocations()
             Me.UpdateShipDetails()
             Me.RedrawDroneBay()
@@ -652,6 +654,17 @@ Public Class ShipSlotControl
         currentFit.Clear()
         Dim state As Integer
 
+        For slot As Integer = 1 To currentShip.SubSlots
+            If currentShip.SubSlot(slot) IsNot Nothing Then
+                state = CInt(Math.Log(currentShip.SubSlot(slot).ModuleState) / Math.Log(2))
+                If currentShip.SubSlot(slot).LoadedCharge IsNot Nothing Then
+                    currentFit.Add(currentShip.SubSlot(slot).Name & "_" & state & ", " & currentShip.SubSlot(slot).LoadedCharge.Name)
+                Else
+                    currentFit.Add(currentShip.SubSlot(slot).Name & "_" & state)
+                End If
+            End If
+        Next
+
         For slot As Integer = 1 To currentShip.HiSlots
             If currentShip.HiSlot(slot) IsNot Nothing Then
                 state = CInt(Math.Log(currentShip.HiSlot(slot).ModuleState) / Math.Log(2))
@@ -692,17 +705,6 @@ Public Class ShipSlotControl
                     currentFit.Add(currentShip.RigSlot(slot).Name & "_" & state & ", " & currentShip.RigSlot(slot).LoadedCharge.Name)
                 Else
                     currentFit.Add(currentShip.RigSlot(slot).Name & "_" & state)
-                End If
-            End If
-        Next
-
-        For slot As Integer = 1 To currentShip.SubSlots
-            If currentShip.SubSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentShip.SubSlot(slot).ModuleState) / Math.Log(2))
-                If currentShip.SubSlot(slot).LoadedCharge IsNot Nothing Then
-                    currentFit.Add(currentShip.SubSlot(slot).Name & "_" & state & ", " & currentShip.SubSlot(slot).LoadedCharge.Name)
-                Else
-                    currentFit.Add(currentShip.SubSlot(slot).Name & "_" & state)
                 End If
             End If
         Next
@@ -773,10 +775,22 @@ Public Class ShipSlotControl
             AddModuleInSpecifiedSlot(CType(shipMod.Clone, ShipModule), slotNo)
         End If
         If UpdateAll = False And updateShip = True Then
-            currentInfo.ShipType = currentShip
-            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-            'Call UpdateSlotLocation(shipMod, slotNo)
+            ' What sort of update do we need? Check for subsystems enabled
+            If CDbl(shipMod.DatabaseCategory) = 32 Then
+                currentShip = Engine.BuildSubSystemEffects(currentShip)
+                currentInfo.ShipType = currentShip
+                currentInfo.BuildMethod = BuildType.BuildEverything
+                Me.UpdateSlotLayout()
+            Else
+                currentInfo.ShipType = currentShip
+                currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+            End If
             Call Me.UpdateAllSlotLocations()
+        Else
+            ' Need to rebuild the ship in order to account for the new modules as they're being added
+            If CDbl(shipMod.DatabaseCategory) = 32 Then
+                currentShip = Engine.BuildSubSystemEffects(currentShip)
+            End If
         End If
     End Sub
     Public Sub AddDrone(ByVal Drone As ShipModule, ByVal Qty As Integer, ByVal Active As Boolean)
@@ -1061,6 +1075,7 @@ Public Class ShipSlotControl
         End If
     End Sub
     Private Sub RemoveModules(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim removedSubsystems As Boolean = False
         lvwSlots.BeginUpdate()
         For Each slot As ListViewItem In lvwSlots.SelectedItems
             If slot.Text <> "<Empty>" Then
@@ -1078,6 +1093,7 @@ Public Class ShipSlotControl
                         currentShip.HiSlot(slotNo) = Nothing
                     Case 16 ' Subsystem
                         currentShip.SubSlot(slotNo) = Nothing
+                        removedSubsystems = True
                 End Select
                 For Each si As ListViewItem.ListViewSubItem In slot.SubItems
                     si.Text = ""
@@ -1087,9 +1103,17 @@ Public Class ShipSlotControl
             End If
         Next
         lvwSlots.EndUpdate()
-        currentInfo.ShipType = currentShip
-        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-        Call UpdateShipDetails()
+        If removedSubsystems = True Then
+            currentShip = Engine.BuildSubSystemEffects(currentShip)
+            currentInfo.ShipType = currentShip
+            currentInfo.BuildMethod = BuildType.BuildEverything
+            Me.UpdateSlotLayout()
+            Call UpdateShipDetails()
+        Else
+            currentInfo.ShipType = currentShip
+            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+            Call UpdateShipDetails()
+        End If
         Call Me.UpdateAllSlotLocations()
     End Sub
     Private Sub RemoveModule(ByVal slot As ListViewItem, ByVal updateShip As Boolean)
@@ -1117,9 +1141,17 @@ Public Class ShipSlotControl
         slot.ImageIndex = -1
         lvwSlots.EndUpdate()
         If updateShip = True Then
-            currentInfo.ShipType = currentShip
-            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-            Call UpdateShipDetails()
+            If slotType = 16 Then
+                currentShip = Engine.BuildSubSystemEffects(currentShip)
+                currentInfo.ShipType = currentShip
+                currentInfo.BuildMethod = BuildType.BuildEverything
+                Me.UpdateSlotLayout()
+                Call UpdateShipDetails()
+            Else
+                currentInfo.ShipType = currentShip
+                currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+                Call UpdateShipDetails()
+            End If
             Call Me.UpdateAllSlotLocations()
         End If
     End Sub
