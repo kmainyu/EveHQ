@@ -754,6 +754,8 @@ Public Class PlugInData
                 newModule.BasePrice = CDbl(row.Item("baseprice"))
                 newModule.Volume = CDbl(row.Item("volume"))
                 newModule.Capacity = CDbl(row.Item("capacity"))
+                newModule.Attributes.Add("10004", CDbl(row.Item("capacity")))
+                newModule.Attributes.Add("10002", CDbl(row.Item("mass")))
                 If IsDBNull(row.Item("raceID")) = False Then
                     newModule.RaceID = CInt(row.Item("raceID"))
                 Else
@@ -1480,9 +1482,9 @@ Public Class PlugInData
 
                 AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.ShipID.ToString)))
                 If newEffect.IsPerLevel = False Then
-                    AffectingName &= ";Ship Role;"
+                    AffectingName &= ";Subsystem Role;"
                 Else
-                    AffectingName &= ";Ship Bonus;"
+                    AffectingName &= ";Subsystem;"
                 End If
                 AffectingName &= HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                 If newEffect.IsPerLevel = False Then

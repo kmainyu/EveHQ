@@ -1249,6 +1249,12 @@ Public Class ShipSlotControl
                                     End If
                                 End If
                             End If
+                            If Affect.Contains(";Subsystem;") = True Then
+                                Affects = Affect.Split((";").ToCharArray)
+                                If RelModuleSkills.Contains(Affects(3)) = False Then
+                                    RelModuleSkills.Add(Affects(3))
+                                End If
+                            End If
                         Next
                         RelModuleSkills.Sort()
                         If currentMod.LoadedCharge IsNot Nothing Then
@@ -1265,6 +1271,12 @@ Public Class ShipSlotControl
                                         If RelChargeSkills.Contains(Affects(3)) = False Then
                                             RelChargeSkills.Add(Affects(3))
                                         End If
+                                    End If
+                                End If
+                                If Affect.Contains(";Subsystem;") = True Then
+                                    Affects = Affect.Split((";").ToCharArray)
+                                    If RelChargeSkills.Contains(Affects(3)) = False Then
+                                        RelChargeSkills.Add(Affects(3))
                                     End If
                                 End If
                             Next
