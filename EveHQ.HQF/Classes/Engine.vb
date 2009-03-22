@@ -452,7 +452,13 @@ Public Class Engine
         End If
         newShip.CargoBayItems = CType(cShip.CargoBayItems.Clone, Collections.SortedList)
         newShip.DroneBayItems = CType(cShip.DroneBayItems.Clone, Collections.SortedList)
-        newShip.DamageProfile = cShip.DamageProfile
+        newShip.FleetSlotCollection = CType(cShip.FleetSlotCollection.Clone, ArrayList)
+        newShip.RemoteSlotCollection = CType(cShip.RemoteSlotCollection.Clone, ArrayList)
+        If cShip.DamageProfile IsNot Nothing Then
+            newShip.DamageProfile = cShip.DamageProfile
+        Else
+            newShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
+        End If
 
         Return newShip
     End Function
@@ -2384,11 +2390,15 @@ Public Class Engine
         Next
         Return currentship
     End Function
-    Public Shared Sub AddModule(ByVal currentship As Ship, ByVal shipMod As ShipModule)
+    Public Shared Sub AddModule(ByRef currentship As Ship, ByVal shipMod As ShipModule)
         ' Check slot availability
         If IsSlotAvailable(currentship, shipMod) = True Then
             ' Add Module to the next slot
             Dim slotNo As Integer = AddModuleInNextSlot(currentship, CType(shipMod.Clone, ShipModule))
+            ' Need to rebuild the ship in order to account for the new modules as they're being added
+            If CDbl(shipMod.DatabaseCategory) = 32 Then
+                currentship = Engine.BuildSubSystemEffects(currentship)
+            End If
         End If
     End Sub
     Public Shared Sub AddDrone(ByVal currentShip As Ship, ByVal Drone As ShipModule, ByVal Qty As Integer, ByVal Active As Boolean)
@@ -2500,7 +2510,7 @@ Public Class Engine
                         Return slotNo
                     End If
                 Next
-                MessageBox.Show("There was an error finding the next available rig slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There was an error finding the next available rig slot.", "Engine Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Case 2 ' Low
                 For slotNo As Integer = 1 To 8
                     If currentShip.LowSlot(slotNo) Is Nothing Then
@@ -2509,7 +2519,7 @@ Public Class Engine
                         Return slotNo
                     End If
                 Next
-                MessageBox.Show("There was an error finding the next available low slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There was an error finding the next available low slot.", "Engine Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Case 4 ' Mid
                 For slotNo As Integer = 1 To 8
                     If currentShip.MidSlot(slotNo) Is Nothing Then
@@ -2518,7 +2528,7 @@ Public Class Engine
                         Return slotNo
                     End If
                 Next
-                MessageBox.Show("There was an error finding the next available mid slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There was an error finding the next available mid slot.", "Engine Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Case 8 ' High
                 For slotNo As Integer = 1 To 8
                     If currentShip.HiSlot(slotNo) Is Nothing Then
@@ -2527,7 +2537,16 @@ Public Class Engine
                         Return slotNo
                     End If
                 Next
-                MessageBox.Show("There was an error finding the next available high slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There was an error finding the next available high slot.", "Engine Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Case 16 ' Subsystem
+                For slotNo As Integer = 1 To 5
+                    If currentShip.SubSlot(slotNo) Is Nothing Then
+                        currentShip.SubSlot(slotNo) = shipMod
+                        shipMod.SlotNo = slotNo
+                        Return slotNo
+                    End If
+                Next
+                MessageBox.Show("There was an error finding the next available high slot.", "Engine Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Select
         Return 0
     End Function

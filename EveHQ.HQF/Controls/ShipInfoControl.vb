@@ -61,6 +61,8 @@ Public Class ShipInfoControl
         Set(ByVal value As Integer)
             cBuildMethod = value
             If currentShip IsNot Nothing Then
+                currentShip = Engine.BuildSubSystemEffects(currentShip)
+                ShipSlot.ShipCurrent = currentShip
                 If cboPilots.SelectedItem IsNot Nothing Then
                     Select Case cBuildMethod
                         Case BuildType.BuildEverything

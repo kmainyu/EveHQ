@@ -88,10 +88,13 @@ Public Class ShipSlotControl
         End Set
     End Property
 
-    Public ReadOnly Property ShipCurrent() As Ship
+    Public Property ShipCurrent() As Ship
         Get
             Return currentShip
         End Get
+        Set(ByVal value As Ship)
+            currentShip = value
+        End Set
     End Property
 
     Public Property UpdateAllSlots() As Boolean
@@ -2567,6 +2570,10 @@ Public Class ShipSlotControl
             lvwRemoteEffects.Tag = ""
             ' Update the mapping effects back to the current pilot
             currentInfo.BuildMethod = BuildType.BuildEffectsMaps
+        Else
+            lvwRemoteEffects.BeginUpdate()
+            lvwRemoteEffects.Items.Clear()
+            lvwRemoteEffects.EndUpdate()
         End If
     End Sub
 
