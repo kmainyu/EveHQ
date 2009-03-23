@@ -961,67 +961,50 @@ Public Class SkillQueueFunctions
         curNode.Text = cSkill.Name
         Dim skillTrained As Boolean = False
 
-        Do Until level = 0
-            ' Start @ root!
-            cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), EveHQ.Core.EveSkill)
-
-            ' Read pointer @ level
-            Select Case pointer(level)
-                Case 1
-                    pointer(level) = 2
-                    curSkill = CInt(cSkill.PS)
-                    curLevel = cSkill.PSL
-                Case 2
-                    pointer(level) = 3
-                    curSkill = CInt(cSkill.SS)
-                    curLevel = cSkill.SSL
-                Case 3
-                    pointer(level) = 4
-                    curSkill = CInt(cSkill.TS)
-                    curLevel = cSkill.TSL
-                Case 4
-                    curSkill = 0
-            End Select
-            If curSkill = 0 Then
-                level -= 1
-                curSkill = parent(level)
-                curNode = curNode.Parent
-            Else
-                level += 1
-                parent(level) = curSkill
-                pointer(level) = 1
-                Dim newSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
-                newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), EveHQ.Core.EveSkill)
-                skillName(level) = newSkill.Name
-                skillLevel(level) = CStr(curLevel)
-                Dim newNode As TreeNode = New TreeNode
-                counter += 1
-                newNode.Name = CStr(counter)
-                newNode.Text = newSkill.Name & curLevel
-                ' Check if the current pilot has the skill
-                skillTrained = False
-                Dim myLevel As Integer = 0
-                If qPilot.PilotSkills.Contains(newSkill.Name) Then
-                    Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                    mySkill = CType(qPilot.PilotSkills(newSkill.Name), EveHQ.Core.PilotSkill)
-                    myLevel = CInt(mySkill.Level)
-                    If myLevel >= curLevel Then skillTrained = True
-                End If
-                If skillTrained = True Then
-                    newNode.Text &= "Y"
-                    newNode.ForeColor = Color.LimeGreen
-                Else
-                    newNode.Text &= myLevel
-                    newNode.ForeColor = Color.Red
-                End If
-                curNode.Nodes.Add(newNode)
-                strReqs = newNode.Text & ControlChars.Cr & strReqs
-                curNode = newNode
-            End If
-        Loop
+        If cSkill.PreReqSkills.Count > 0 Then
+            Dim subSkill As EveHQ.Core.EveSkill
+            For Each subSkillID As String In cSkill.PreReqSkills.Keys
+                subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                Call GetSkillPreReqs(qPilot, subSkill, cSkill.PreReqSkills(subSkillID), curNode, strReqs)
+            Next
+        End If
         Return strReqs
 
     End Function
+
+    Private Shared Sub GetSkillPreReqs(ByVal qPilot As EveHQ.Core.Pilot, ByVal newskill As EveHQ.Core.EveSkill, ByVal curLevel As Integer, ByVal curNode As TreeNode, ByRef strReqs As String)
+        ' Check if the current pilot has the skill
+        Dim newNode As TreeNode = New TreeNode
+        newNode.Text = newskill.Name & curLevel
+        Dim skillTrained As Boolean = False
+        Dim myLevel As Integer = 0
+        If qPilot.PilotSkills.Contains(newskill.Name) Then
+            Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+            mySkill = CType(qPilot.PilotSkills(newskill.Name), EveHQ.Core.PilotSkill)
+            myLevel = CInt(mySkill.Level)
+            If myLevel >= curLevel Then skillTrained = True
+        End If
+        If skillTrained = True Then
+            newNode.Text &= "Y"
+            newNode.ForeColor = Color.LimeGreen
+        Else
+            newNode.Text &= myLevel
+            newNode.ForeColor = Color.Red
+        End If
+        curNode.Nodes.Add(newNode)
+        strReqs = newNode.Text & ControlChars.Cr & strReqs
+        curNode = newNode
+
+        If newskill.PreReqSkills.Count > 0 Then
+            Dim subSkill As EveHQ.Core.EveSkill
+            For Each subSkillID As String In newskill.PreReqSkills.Keys
+                subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                Call GetSkillPreReqs(qPilot, subSkill, newskill.PreReqSkills(subSkillID), curNode, strReqs)
+            Next
+        End If
+    End Sub
+
+
 
     Public Shared Function IsPlanned(ByVal qPilot As EveHQ.Core.Pilot, ByVal skillName As String, ByVal level As Integer) As Integer
 

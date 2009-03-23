@@ -397,13 +397,10 @@ Public Class SkillFunctions
                     Case 275
                         newSkill.Rank = CInt(attValue)
                     Case 182
-                        newSkill.PS = CStr(attValue)
                         PreReqSkills(1) = CStr(attValue)
                     Case 183
-                        newSkill.SS = CStr(attValue)
                         PreReqSkills(2) = CStr(attValue)
                     Case 184
-                        newSkill.TS = CStr(attValue)
                         PreReqSkills(3) = CStr(attValue)
                     Case 1285
                         PreReqSkills(4) = CStr(attValue)
@@ -412,13 +409,10 @@ Public Class SkillFunctions
                     Case 1290
                         PreReqSkills(6) = CStr(attValue)
                     Case 277
-                        newSkill.PSL = CInt(attValue)
                         PreReqSkillLevels(1) = CInt(attValue)
                     Case 278
-                        newSkill.SSL = CInt(attValue)
                         PreReqSkillLevels(2) = CInt(attValue)
                     Case 279
-                        newSkill.TSL = CInt(attValue)
                         PreReqSkillLevels(3) = CInt(attValue)
                     Case 1286
                         PreReqSkillLevels(4) = CInt(attValue)
@@ -1035,12 +1029,6 @@ End Class
     Public PA As String
     Public SA As String
     Public PreReqSkills As New Dictionary(Of String, Integer)
-    Public PS As String
-    Public PSL As Integer
-    Public SS As String
-    Public SSL As Integer
-    Public TS As String
-    Public TSL As Integer
     Public BasePrice As Double
     Public Function Clone() As Object Implements System.ICloneable.Clone
         Dim R As EveSkill = CType(Me.MemberwiseClone, EveSkill)
