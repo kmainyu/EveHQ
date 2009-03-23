@@ -1429,7 +1429,7 @@ Imports System.Runtime.Serialization
             pointer(level) = 1
             parent(level) = CInt(skillID)
 
-            Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
             Dim curSkill As Integer = CInt(skillID)
             Dim curLevel As Integer = genSkill.Level
 
@@ -1444,7 +1444,7 @@ Imports System.Runtime.Serialization
 
             Do Until level = 0
                 ' Start @ root!
-                cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+                cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
 
                 ' Read pointer @ level
                 Select Case pointer(level)
@@ -1473,8 +1473,8 @@ Imports System.Runtime.Serialization
                     level += 1
                     parent(level) = curSkill
                     pointer(level) = 1
-                    Dim newSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-                    newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+                    Dim newSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+                    newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
                     If cRequiredSkillList.Contains(newSkill.Name) = False Then
                         cRequiredSkillList.Add(newSkill.Name, curLevel)
                     Else

@@ -36,8 +36,8 @@ Public Class frmSkillDetails
 
     Private Sub PrepareDetails(ByVal skillID As String)
 
-        Dim cSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+        Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
 
         Me.Text = "Skill Details - " & cSkill.Name
         lvwDetails.Groups(1).Header = "Pilot Specific - " & EveHQ.Core.HQ.myPilot.Name
@@ -104,7 +104,7 @@ Public Class frmSkillDetails
         parent(level) = CInt(skillID)
 
         Dim strTree As String = ""
-        Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+        Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
         Dim curSkill As Integer = CInt(skillID)
         Dim curLevel As Integer = 0
         Dim counter As Integer = 0
@@ -157,7 +157,7 @@ Public Class frmSkillDetails
 
         Do Until level = 0
             ' Start @ root!
-            cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+            cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
 
             ' Read pointer @ level
             Select Case pointer(level)
@@ -187,8 +187,8 @@ Public Class frmSkillDetails
                 level += 1
                 parent(level) = curSkill
                 pointer(level) = 1
-                Dim newSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-                newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+                Dim newSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+                newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
                 skillName(level) = newSkill.Name
                 skillLevel(level) = CStr(curLevel)
                 Dim newNode As TreeNode = New TreeNode
@@ -332,16 +332,16 @@ Public Class frmSkillDetails
     End Sub
 
     Private Sub PrepareDescription(ByVal skillID As String)
-        Dim cSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+        Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
         Me.lblDescription.Text = cSkill.Description
 
     End Sub
 
     Private Sub PrepareSPs(ByVal skillID As String)
         lvwSPs.Items.Clear()
-        Dim cSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+        Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
         Dim lastSP As Long = 0
         For toLevel As Integer = 1 To 5
             Dim newGroup As ListViewItem = New ListViewItem
@@ -358,8 +358,8 @@ Public Class frmSkillDetails
         lvwTimes.Items.Clear()
 
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
-            Dim cskill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-            cskill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+            Dim cskill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+            cskill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
 
             Dim timeToTrain As Long = 0
 
@@ -455,7 +455,7 @@ Public Class frmSkillDetails
     End Sub
     Public Sub UpdateSkillDetails()
         If EveHQ.Core.HQ.myPilot.Training = True Then
-            Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.SkillList)
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.EveSkill)
             If EveHQ.Core.HQ.myPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = EveHQ.Core.HQ.myPilot.TrainingSkillName Then
                 lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
                 Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)

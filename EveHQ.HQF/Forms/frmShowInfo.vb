@@ -80,7 +80,7 @@ Public Class frmShowInfo
         parent(level) = CInt(skillID)
 
         Dim strTree As String = ""
-        Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+        Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
         Dim curSkill As Integer = CInt(skillID)
         Dim curLevel As Integer = 0
         Dim counter As Integer = 0
@@ -133,7 +133,7 @@ Public Class frmShowInfo
 
         Do Until level = 0
             ' Start @ root!
-            cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+            cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
 
             ' Read pointer @ level
             Select Case pointer(level)
@@ -163,8 +163,8 @@ Public Class frmShowInfo
                 level += 1
                 parent(level) = curSkill
                 pointer(level) = 1
-                Dim newSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-                newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+                Dim newSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+                newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
                 skillName(level) = newSkill.Name
                 skillLevel(level) = CStr(curLevel)
                 Dim newNode As TreeNode = New TreeNode
@@ -251,7 +251,7 @@ Public Class frmShowInfo
                     parent(level) = CInt(skillID)
 
                     Dim strTree As String = ""
-                    Dim cSkill As EveHQ.Core.SkillList = EveHQ.Core.HQ.SkillListID(skillID)
+                    Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
                     Dim curSkill As Integer = CInt(skillID)
                     Dim curLevel As Integer = itemSkill.Level
                     Dim counter As Integer = 0
@@ -308,7 +308,7 @@ Public Class frmShowInfo
 
                     Do Until level = 0
                         ' Start @ root!
-                        cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+                        cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
 
                         ' Read pointer @ level
                         Select Case pointer(level)
@@ -338,8 +338,8 @@ Public Class frmShowInfo
                             level += 1
                             parent(level) = curSkill
                             pointer(level) = 1
-                            Dim newSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-                            newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+                            Dim newSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+                            newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
                             skillName(level) = newSkill.Name
                             skillLevel(level) = curLevel
                             Dim newNode As TreeNode = New TreeNode
@@ -425,7 +425,7 @@ Public Class frmShowInfo
                     For Each skill As String In skillsNeeded
                         Dim skillName As String = skill.Substring(0, skill.Length - 1)
                         Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                        Dim cSkill As EveHQ.Core.SkillList = EveHQ.Core.HQ.SkillListName(skillName)
+                        Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(skillName)
                         usableTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(hPilot, cSkill, skillLvl)
                     Next
                     lblUsable.Text = hPilot.Name & " doesn't have the skills to use this item."

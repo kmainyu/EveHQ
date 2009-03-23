@@ -99,7 +99,7 @@ Public Class frmRequiredSkills
 
     Private Sub DisplaySubSkills(ByVal parentSkill As ContainerListViewItem, ByVal pSkillID As String)
         Dim aSkill As EveHQ.Core.PilotSkill
-        Dim pSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(pSkillID), Core.SkillList)
+        Dim pSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(pSkillID), Core.EveSkill)
         If pSkill.PS <> "" Then
             If EveHQ.Core.HQ.SkillListID.Contains(pSkill.PS) Then
                 Dim newSkill As New ContainerListViewItem

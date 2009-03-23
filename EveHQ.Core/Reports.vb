@@ -300,7 +300,7 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cSkill.Name), SkillList), 0))
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cSkill.Name), EveHQ.Core.EveSkill), 0))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
 
                     If rpilot.Training = True Then
@@ -433,8 +433,8 @@ Public Class Reports
             Dim i As Integer
             For i = 0 To tagArray.Length - 1
                 Dim cskill As EveHQ.Core.PilotSkill
-                Dim askill As EveHQ.Core.SkillList
-                askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                Dim askill As EveHQ.Core.EveSkill
+                askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), EveHQ.Core.EveSkill)
                 cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
                 If cskill.Level >= CDbl(repGroup(groupCount, 1)) And cskill.Level <= CDbl(repGroup(groupCount, 2)) Then
                     skillCount += 1
@@ -443,8 +443,8 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 1) = cskill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cskill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
-                    Dim curTime As Double = EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0)
-                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0)
+                    Dim curTime As Double = EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0)
+                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0)
                     repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(curTime)
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
                     repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
@@ -552,10 +552,10 @@ Public Class Reports
                 If curSkill.ID = rpilot.TrainingSkillID Then
                     sortSkill(count, 1) = rpilot.TrainingCurrentTime
                 Else
-                    sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                    sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 0) - redTime, 0))
                 End If
             Else
-                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 0) - redTime, 0))
             End If
             sortSkill(count, 0) = CLng(curSkill.ID)
             count += 1
@@ -602,17 +602,17 @@ Public Class Reports
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
                     Dim cskill As EveHQ.Core.PilotSkill
-                    Dim askill As EveHQ.Core.SkillList
-                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                    Dim askill As EveHQ.Core.EveSkill
+                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), EveHQ.Core.EveSkill)
                     cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
                     skillCount += 1
-                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0)
+                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0)
                     SPCount += cskill.SP
                     repSkill(groupCount, CInt(skillCount), 0) = cskill.ID
                     repSkill(groupCount, CInt(skillCount), 1) = cskill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cskill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0))
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
                     repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
@@ -712,7 +712,7 @@ Public Class Reports
         End If
 
         Dim sortSkill(EveHQ.Core.HQ.SkillListID.Count, 1) As Long
-        Dim curSkill As EveHQ.Core.SkillList
+        Dim curSkill As EveHQ.Core.EveSkill
         Dim count As Integer
         Dim redTime As Long = 0
         For Each curSkill In EveHQ.Core.HQ.SkillListID
@@ -766,8 +766,8 @@ Public Class Reports
             For i = 0 To tagArray.Length - 1
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
-                    Dim askill As EveHQ.Core.SkillList
-                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                    Dim askill As EveHQ.Core.EveSkill
+                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), EveHQ.Core.EveSkill)
                     skillCount += 1
                     TotalTime += skillTimeLeft
                     SPCount += askill.SP
@@ -876,9 +876,9 @@ Public Class Reports
         For Each curSkill In rpilot.PilotSkills
             ' Determine if the skill is being trained
             If rpilot.Training = True Then
-                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 5) - redTime, 0))
+                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 5) - redTime, 0))
             Else
-                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 5) - redTime, 0))
+                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 5) - redTime, 0))
             End If
             sortSkill(count, 0) = CLng(curSkill.ID)
             count += 1
@@ -925,17 +925,17 @@ Public Class Reports
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
                     Dim cskill As EveHQ.Core.PilotSkill
-                    Dim askill As EveHQ.Core.SkillList
-                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                    Dim askill As EveHQ.Core.EveSkill
+                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), EveHQ.Core.EveSkill)
                     cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
                     skillCount += 1
-                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 5)
+                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 5)
                     SPCount += cskill.SP
                     repSkill(groupCount, CInt(skillCount), 0) = cskill.ID
                     repSkill(groupCount, CInt(skillCount), 1) = cskill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cskill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 5))
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 5))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
                     repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
@@ -1156,7 +1156,7 @@ Public Class Reports
 
         Dim totalCost As Double = 0
         For Each skillName As String In skillPriceList
-            Dim cSkill As SkillList = CType(EveHQ.Core.HQ.SkillListName(skillName), Core.SkillList)
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(skillName), Core.EveSkill)
             strHTML &= "<tr height=20px>"
             strHTML &= "<td width=350px>" & skillName & "</td>"
             strHTML &= "<td align=left>" & FormatNumber(cSkill.BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "</td>"
@@ -1226,13 +1226,13 @@ Public Class Reports
         End If
 
         Dim trainable As Boolean = False
-        For Each skill As EveHQ.Core.SkillList In EveHQ.Core.HQ.SkillListName
+        For Each skill As EveHQ.Core.EveSkill In EveHQ.Core.HQ.SkillListName
             trainable = False
             If rpilot.PilotSkills.Contains(skill.Name) = False And skill.Published = True Then
                 trainable = True
 
                 If skill.PS IsNot Nothing AndAlso CDbl(skill.PS) <> 0 Then
-                    Dim ps As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skill.PS), SkillList)
+                    Dim ps As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.PS), EveHQ.Core.EveSkill)
                     If rpilot.PilotSkills.Contains(ps.Name) = True Then
                         Dim psp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ps.Name), EveHQ.Core.PilotSkill)
                         If psp.Level < skill.PSL Then
@@ -1244,7 +1244,7 @@ Public Class Reports
                 End If
 
                 If skill.SS IsNot Nothing AndAlso CDbl(skill.SS) <> 0 Then
-                    Dim ss As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skill.SS), SkillList)
+                    Dim ss As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.SS), EveHQ.Core.EveSkill)
                     If rpilot.PilotSkills.Contains(ss.Name) = True Then
                         Dim ssp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ss.Name), EveHQ.Core.PilotSkill)
                         If ssp.Level < skill.SSL Then
@@ -1256,7 +1256,7 @@ Public Class Reports
                 End If
 
                 If skill.TS IsNot Nothing AndAlso CDbl(skill.TS) <> 0 Then
-                    Dim ts As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skill.TS), SkillList)
+                    Dim ts As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.TS), EveHQ.Core.EveSkill)
                     If rpilot.PilotSkills.Contains(ts.Name) = True Then
                         Dim tsp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ts.Name), EveHQ.Core.PilotSkill)
                         If tsp.Level < skill.TSL Then
@@ -2320,7 +2320,7 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cSkill.Name), EveHQ.Core.SkillList), 0))
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cSkill.Name), EveHQ.Core.EveSkill), 0))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
 
                     If rpilot.Training = True Then
@@ -2449,7 +2449,7 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cSkill.Name), SkillList), 0))
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cSkill.Name), EveHQ.Core.EveSkill), 0))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
 
                     If rpilot.Training = True Then
@@ -2525,10 +2525,10 @@ Public Class Reports
                 If curSkill.ID = rpilot.TrainingSkillID Then
                     sortSkill(count, 1) = rpilot.TrainingCurrentTime
                 Else
-                    sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                    sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 0) - redTime, 0))
                 End If
             Else
-                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 0) - redTime, 0))
             End If
             sortSkill(count, 0) = CLng(curSkill.ID)
             count += 1
@@ -2575,17 +2575,17 @@ Public Class Reports
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
                     Dim cskill As EveHQ.Core.PilotSkill
-                    Dim askill As EveHQ.Core.SkillList
-                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                    Dim askill As EveHQ.Core.EveSkill
+                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), EveHQ.Core.EveSkill)
                     cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
                     skillCount += 1
-                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0)
+                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0)
                     SPCount += cskill.SP
                     repSkill(groupCount, CInt(skillCount), 0) = cskill.ID
                     repSkill(groupCount, CInt(skillCount), 1) = cskill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cskill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0))
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
                     repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
@@ -2663,9 +2663,9 @@ Public Class Reports
         For Each curSkill In rpilot.PilotSkills
             ' Determine if the skill is being trained
             If rpilot.Training = True Then
-                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 5) - redTime, 0))
+                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 5) - redTime, 0))
             Else
-                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 5) - redTime, 0))
+                sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 5) - redTime, 0))
             End If
             sortSkill(count, 0) = CLng(curSkill.ID)
             count += 1
@@ -2712,17 +2712,17 @@ Public Class Reports
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
                     Dim cskill As EveHQ.Core.PilotSkill
-                    Dim askill As EveHQ.Core.SkillList
-                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                    Dim askill As EveHQ.Core.EveSkill
+                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), EveHQ.Core.EveSkill)
                     cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
                     skillCount += 1
-                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 5)
+                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 5)
                     SPCount += cskill.SP
                     repSkill(groupCount, CInt(skillCount), 0) = cskill.ID
                     repSkill(groupCount, CInt(skillCount), 1) = cskill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cskill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 5))
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 5))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
                     repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
@@ -2827,8 +2827,8 @@ Public Class Reports
             Dim i As Integer
             For i = 0 To tagArray.Length - 1
                 Dim cskill As EveHQ.Core.PilotSkill
-                Dim askill As EveHQ.Core.SkillList
-                askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                Dim askill As EveHQ.Core.EveSkill
+                askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), EveHQ.Core.EveSkill)
                 cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
                 If cskill.Level >= CDbl(repGroup(groupCount, 1)) And cskill.Level <= CDbl(repGroup(groupCount, 2)) Then
                     skillCount += 1
@@ -2837,8 +2837,8 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 1) = cskill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cskill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
-                    Dim curTime As Double = EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0)
-                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0)
+                    Dim curTime As Double = EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0)
+                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0)
                     repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(curTime)
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
                     repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
@@ -2912,13 +2912,13 @@ Public Class Reports
         strText.AppendLine(String.Format("{0,-45} {1,-25} {2,-10}", "----------", "-----------", "----------"))
 
         Dim trainable As Boolean = False
-        For Each skill As EveHQ.Core.SkillList In EveHQ.Core.HQ.SkillListName
+        For Each skill As EveHQ.Core.EveSkill In EveHQ.Core.HQ.SkillListName
             trainable = False
             If rpilot.PilotSkills.Contains(skill.Name) = False And skill.Published = True Then
                 trainable = True
 
                 If skill.PS IsNot Nothing AndAlso CDbl(skill.PS) <> 0 Then
-                    Dim ps As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skill.PS), SkillList)
+                    Dim ps As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.PS), EveHQ.Core.EveSkill)
                     If rpilot.PilotSkills.Contains(ps.Name) = True Then
                         Dim psp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ps.Name), EveHQ.Core.PilotSkill)
                         If psp.Level < skill.PSL Then
@@ -2930,7 +2930,7 @@ Public Class Reports
                 End If
 
                 If skill.SS IsNot Nothing AndAlso CDbl(skill.SS) <> 0 Then
-                    Dim ss As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skill.SS), SkillList)
+                    Dim ss As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.SS), EveHQ.Core.EveSkill)
                     If rpilot.PilotSkills.Contains(ss.Name) = True Then
                         Dim ssp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ss.Name), EveHQ.Core.PilotSkill)
                         If ssp.Level < skill.SSL Then
@@ -2942,7 +2942,7 @@ Public Class Reports
                 End If
 
                 If skill.TS IsNot Nothing AndAlso CDbl(skill.TS) <> 0 Then
-                    Dim ts As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skill.TS), SkillList)
+                    Dim ts As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.TS), EveHQ.Core.EveSkill)
                     If rpilot.PilotSkills.Contains(ts.Name) = True Then
                         Dim tsp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ts.Name), EveHQ.Core.PilotSkill)
                         If tsp.Level < skill.TSL Then
@@ -2994,7 +2994,7 @@ Public Class Reports
         End If
 
         Dim sortSkill(EveHQ.Core.HQ.SkillListID.Count, 1) As Long
-        Dim curSkill As EveHQ.Core.SkillList
+        Dim curSkill As EveHQ.Core.EveSkill
         Dim count As Integer
         Dim redTime As Long = 0
         For Each curSkill In EveHQ.Core.HQ.SkillListID
@@ -3048,8 +3048,8 @@ Public Class Reports
             For i = 0 To tagArray.Length - 1
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
-                    Dim askill As EveHQ.Core.SkillList
-                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                    Dim askill As EveHQ.Core.EveSkill
+                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), EveHQ.Core.EveSkill)
                     skillCount += 1
                     TotalTime += skillTimeLeft
                     SPCount += askill.SP
@@ -3207,7 +3207,7 @@ Public Class Reports
 
         Dim totalCost As Double = 0
         For Each skillName As String In skillPriceList
-            Dim cSkill As SkillList = CType(EveHQ.Core.HQ.SkillListName(skillName), Core.SkillList)
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(skillName), EveHQ.Core.EveSkill)
             txtData(0) = skillName
             txtData(1) = FormatNumber(cSkill.BasePrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             strText.AppendLine(String.Format("{0,-45} {1,-10}", txtData))
@@ -3271,10 +3271,10 @@ Public Class Reports
                     If curSkill.ID = rpilot.TrainingSkillID Then
                         sortSkill(count, 1) = rpilot.TrainingCurrentTime
                     Else
-                        sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                        sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 0) - redTime, 0))
                     End If
                 Else
-                    sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                    sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 0) - redTime, 0))
                 End If
                 sortSkill(count, 0) = CLng(curSkill.ID)
                 count += 1
@@ -3322,17 +3322,17 @@ Public Class Reports
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
                     Dim cskill As EveHQ.Core.PilotSkill
-                    Dim askill As EveHQ.Core.SkillList
-                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                    Dim askill As EveHQ.Core.EveSkill
+                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), EveHQ.Core.EveSkill)
                     cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
                     skillCount += 1
-                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0)
+                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0)
                     SPCount += cskill.SP
                     repSkill(groupCount, CInt(skillCount), 0) = cskill.ID
                     repSkill(groupCount, CInt(skillCount), 1) = cskill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cskill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0))
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
                     repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
@@ -3447,10 +3447,10 @@ Public Class Reports
                     If curSkill.ID = rpilot.TrainingSkillID Then
                         sortSkill(count, 1) = rpilot.TrainingCurrentTime
                     Else
-                        sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                        sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 0) - redTime, 0))
                     End If
                 Else
-                    sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), SkillList), 0) - redTime, 0))
+                    sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(curSkill.Name), EveHQ.Core.EveSkill), 0) - redTime, 0))
                 End If
                 sortSkill(count, 0) = CLng(curSkill.ID)
                 count += 1
@@ -3498,17 +3498,17 @@ Public Class Reports
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
                     Dim cskill As EveHQ.Core.PilotSkill
-                    Dim askill As EveHQ.Core.SkillList
-                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), SkillList)
+                    Dim askill As EveHQ.Core.EveSkill
+                    askill = CType(EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0))), EveHQ.Core.EveSkill)
                     cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
                     skillCount += 1
-                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0)
+                    TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0)
                     SPCount += cskill.SP
                     repSkill(groupCount, CInt(skillCount), 0) = cskill.ID
                     repSkill(groupCount, CInt(skillCount), 1) = cskill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cskill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), SkillList), 0))
+                    repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, CType(EveHQ.Core.HQ.SkillListName(cskill.Name), EveHQ.Core.EveSkill), 0))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
                     repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 

@@ -778,7 +778,7 @@ Public Class frmCharCreate
     End Sub
 
     Private Sub LoadFilteredSkills()
-        Dim newSkill As EveHQ.Core.SkillList
+        Dim newSkill As EveHQ.Core.EveSkill
         For Each newSkill In EveHQ.Core.HQ.SkillListID
             Dim gID As String = newSkill.GroupID
             If gID <> "505" Then
@@ -787,7 +787,7 @@ Public Class frmCharCreate
                     Dim skillNode As TreeNode = New TreeNode
                     skillNode.Text = newSkill.Name
                     skillNode.Name = newSkill.ID
-                    
+
                     tvwSkillList.Nodes(gID).Nodes.Add(skillNode)
                 End If
             End If
@@ -911,7 +911,7 @@ Public Class frmCharCreate
                 newSkill.Name = skillName
                 newSkill.ID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
                 newSkill.Level = CInt(skillLevel)
-                Dim refSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), Core.SkillList)
+                Dim refSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), Core.EveSkill)
                 newSkill.Rank = refSkill.Rank
                 newSkill.SP = CInt(EveHQ.Core.SkillFunctions.CalculateSPLevel(newSkill.Rank, newSkill.Level))
                 nPilot.PilotSkills.Add(newSkill, newSkill.Name)

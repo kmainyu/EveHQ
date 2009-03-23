@@ -134,7 +134,7 @@ Public Class frmPilotManager
             clvSkills.BeginUpdate()
             clvSkills.Items.Clear()
             Dim newSkillGroup As EveHQ.Core.SkillGroup
-            Dim newSkill As EveHQ.Core.SkillList
+            Dim newSkill As EveHQ.Core.EveSkill
             Dim SkillsModified As Boolean = False
             For Each newSkillGroup In EveHQ.Core.HQ.SkillGroups
                 If newSkillGroup.ID <> "505" Then

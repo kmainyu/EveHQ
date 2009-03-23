@@ -77,8 +77,8 @@ Public Class SkillFunctions
         Return SP
     End Function         'CalculateSPLevel
     Public Shared Function CalculateSkillSPLevel(ByVal skillID As String, ByVal Level As Integer) As Double
-        Dim cSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), SkillList)
+        Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), EveHQ.Core.EveSkill)
         Dim rank As Integer = cSkill.Rank
         Return CalculateSPLevel(rank, Level)
     End Function
@@ -120,7 +120,7 @@ Public Class SkillFunctions
             End If
         End If
 
-            Return strTime.Trim(" ".ToCharArray)
+        Return strTime.Trim(" ".ToCharArray)
 
     End Function             'TimeToString
     Public Shared Function TimeToStringAll(ByVal sTime As Double) As String
@@ -332,9 +332,9 @@ Public Class SkillFunctions
         Dim attValue As Double = 0
         For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
             ' Check if the typeID already exists
-            Dim newSkill As EveHQ.Core.SkillList
+            Dim newSkill As EveHQ.Core.EveSkill
             If EveHQ.Core.HQ.SkillListID.Contains(eveData.Tables(0).Rows(row).Item("typeID").ToString) = False Then
-                newSkill = New EveHQ.Core.SkillList
+                newSkill = New EveHQ.Core.EveSkill
                 If IsDBNull(eveData.Tables(0).Rows(row).Item("description")) = False Then
                     newSkill.Description = eveData.Tables(0).Rows(row).Item("description").ToString.Trim
                 Else
@@ -352,7 +352,7 @@ Public Class SkillFunctions
                 End If
                 EveHQ.Core.HQ.SkillListID.Add(newSkill, newSkill.ID)
             Else
-                newSkill = CType(EveHQ.Core.HQ.SkillListID(eveData.Tables(0).Rows(row).Item("typeID").ToString), SkillList)
+                newSkill = CType(EveHQ.Core.HQ.SkillListID(eveData.Tables(0).Rows(row).Item("typeID").ToString), EveHQ.Core.EveSkill)
             End If
             If IsDBNull(eveData.Tables(0).Rows(row).Item("valueInt")) = False Then
                 attValue = CDbl(eveData.Tables(0).Rows(row).Item("valueInt"))
@@ -402,7 +402,7 @@ Public Class SkillFunctions
                     newSkill.TSL = CInt(attValue)
             End Select
         Next
-        Dim currentSkill As EveHQ.Core.SkillList
+        Dim currentSkill As EveHQ.Core.EveSkill
         For Each currentSkill In EveHQ.Core.HQ.SkillListID
             ' Check for missing primary/secondary skill but available secondary/tertiary skill
             If CInt(currentSkill.PS) = 0 And CInt(currentSkill.SS) <> 0 Then
@@ -445,7 +445,7 @@ Public Class SkillFunctions
                 skillDetails = skillXML.SelectNodes("/eveapi/result/rowset/row/rowset/row")
                 For Each skill In skillDetails
                     If EveHQ.Core.HQ.SkillListID.Contains(skill.Attributes.GetNamedItem("typeID").Value) = False Then
-                        Dim newSkill As New EveHQ.Core.SkillList
+                        Dim newSkill As New EveHQ.Core.EveSkill
                         newSkill.ID = skill.Attributes.GetNamedItem("typeID").Value
                         newSkill.Name = skill.Attributes.GetNamedItem("typeName").Value
                         newSkill.GroupID = skill.Attributes.GetNamedItem("groupID").Value
@@ -487,7 +487,7 @@ Public Class SkillFunctions
             Exit Sub
         End Try
     End Sub
-    Public Shared Function CalculateSPRate(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.SkillList, Optional ByVal modifiers() As Integer = Nothing, Optional ByVal TrainingBonus As Double = 1) As Integer
+    Public Shared Function CalculateSPRate(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, Optional ByVal modifiers() As Integer = Nothing, Optional ByVal TrainingBonus As Double = 1) As Integer
         Dim PA, SA As Double
         Dim Rate As Integer
 
@@ -538,7 +538,7 @@ Public Class SkillFunctions
         Return Rate
 
     End Function          'CalculateSPRate
-    Public Shared Function CalculateSP(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.SkillList, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1) As Long
+    Public Shared Function CalculateSP(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1) As Long
 
         Dim Rank, StartSP, EndSP As Double
         Dim SP As Long
@@ -573,7 +573,7 @@ Public Class SkillFunctions
         Return SP
 
     End Function              'CalculateSP
-    Public Shared Function CalcTimeToLevel(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.SkillList, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1, Optional ByVal modifiers() As Integer = Nothing, Optional ByVal TrainingBonus As Double = 1) As Double
+    Public Shared Function CalcTimeToLevel(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1, Optional ByVal modifiers() As Integer = Nothing, Optional ByVal TrainingBonus As Double = 1) As Double
 
         'NB Level = 0 indicates to train to the next available level
 
@@ -707,7 +707,7 @@ Public Class SkillFunctions
     Public Shared Function SkillNameToID(ByVal Name As String) As String
         Dim ID As String = ""
         If EveHQ.Core.HQ.SkillListName.Contains(Name) = True Then
-            Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListName(Name), SkillList)
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(Name), EveHQ.Core.EveSkill)
             ID = cSkill.ID
         Else
             ID = ""
@@ -717,14 +717,14 @@ Public Class SkillFunctions
     Public Shared Function SkillIDToName(ByVal ID As String) As String
         Dim Name As String = ""
         If EveHQ.Core.HQ.SkillListID.Contains(ID) = True Then
-            Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(ID), SkillList)
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(ID), EveHQ.Core.EveSkill)
             Name = cSkill.Name
         Else
             Name = ""
         End If
         Return Name
     End Function            'SkillIDToName  
-    Public Shared Function CalcNextLevel(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.SkillList) As Integer
+    Public Shared Function CalcNextLevel(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill) As Integer
 
         Dim cLevel As Integer = 0
 
@@ -740,7 +740,7 @@ Public Class SkillFunctions
         Return cLevel
 
     End Function            'CalcTimeToLevel
-    Public Shared Function CalcCurrentLevel(ByVal cpilot As EveHQ.Core.Pilot, ByVal cskill As EveHQ.Core.SkillList) As Integer
+    Public Shared Function CalcCurrentLevel(ByVal cpilot As EveHQ.Core.Pilot, ByVal cskill As EveHQ.Core.EveSkill) As Integer
         Dim cLevel As Integer = 0
 
         ' Get current skill level
@@ -754,7 +754,7 @@ Public Class SkillFunctions
         Return cLevel
     End Function
     Public Shared Function CalcLevelFromSP(ByVal skillID As String, ByVal SP As Integer) As Integer
-        Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skillID), SkillList)
+        Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), EveHQ.Core.EveSkill)
         Dim curLevel As Integer = 0
         For level As Integer = 0 To 5
             If SP >= cSkill.LevelUp(level) Then
@@ -845,7 +845,7 @@ Public Class SkillFunctions
             If confirmforce = Windows.Forms.DialogResult.No Then
                 Exit Function
             Else
-                Dim newSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skillID), SkillList)
+                Dim newSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), EveHQ.Core.EveSkill)
                 ' Set the skill up if it's not already trained
                 If setupSkill = True Then
                     Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -938,7 +938,7 @@ Public Class SkillFunctions
     End Function
     Public Shared Function TimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.Pilot, ByVal parentSkillID As String) As Double
 
-        Dim parentSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(parentSkillID), SkillList)
+        Dim parentSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(parentSkillID), EveHQ.Core.EveSkill)
         Dim ItemUsable As Boolean = True
         Dim itemSkillID As String = ""
         Dim itemSkillLevel As Integer
@@ -972,7 +972,7 @@ Public Class SkillFunctions
                     parent(level) = CInt(skillID)
 
                     Dim strTree As String = ""
-                    Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skillID), SkillList)
+                    Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), EveHQ.Core.EveSkill)
                     Dim curSkill As Integer = CInt(skillID)
                     Dim curLevel As Integer = itemSkillLevel
                     Dim counter As Integer = 0
@@ -1001,7 +1001,7 @@ Public Class SkillFunctions
 
                     Do Until level = 0
                         ' Start @ root!
-                        cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), SkillList)
+                        cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), EveHQ.Core.EveSkill)
 
                         ' Read pointer @ level
                         Select Case pointer(level)
@@ -1031,8 +1031,8 @@ Public Class SkillFunctions
                             level += 1
                             parent(level) = curSkill
                             pointer(level) = 1
-                            Dim newSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-                            newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), SkillList)
+                            Dim newSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+                            newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), EveHQ.Core.EveSkill)
                             skillName(level) = newSkill.Name
                             skillLevel(level) = CStr(curLevel)
                             Dim newNode As TreeNode = New TreeNode
@@ -1101,7 +1101,7 @@ Public Class SkillFunctions
                     For Each skill As String In skillsNeeded
                         Dim skillName As String = skill.Substring(0, skill.Length - 1)
                         Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                        Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListName(skillName), SkillList)
+                        Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(skillName), EveHQ.Core.EveSkill)
                         usableTime = CLng(usableTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(rPilot, cSkill, skillLvl))
                     Next
                     Return usableTime
@@ -1117,9 +1117,7 @@ Public Class SkillFunctions
 
 End Class
 
-
-
-<Serializable()> Public Class SkillList
+<Serializable()> Public Class EveSkill
     Implements System.ICloneable
     Public ID As String
     Public Name As String
@@ -1140,7 +1138,7 @@ End Class
     Public TSL As Integer
     Public BasePrice As Double
     Public Function Clone() As Object Implements System.ICloneable.Clone
-        Dim R As SkillList = CType(Me.MemberwiseClone, SkillList)
+        Dim R As EveSkill = CType(Me.MemberwiseClone, EveSkill)
         Return R
     End Function
 End Class

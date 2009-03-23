@@ -215,7 +215,7 @@ Public Class frmPilot
                     End If
                     lvTraining.Items(0).SubItems.Add("Yes")
                     lvTraining.Items(1).SubItems.Add(currentSkill.Name & " (Level " & EveHQ.Core.SkillFunctions.Roman(EveHQ.Core.HQ.myPilot.TrainingSkillLevel) & ")")
-                    lvTraining.Items(2).SubItems.Add("Rank " & currentSkill.Rank & " @ " & FormatNumber(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListName(currentSkill.Name), Core.SkillList)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP/Hr")
+                    lvTraining.Items(2).SubItems.Add("Rank " & currentSkill.Rank & " @ " & FormatNumber(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListName(currentSkill.Name), Core.EveSkill)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP/Hr")
                     Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.TrainingEndTime)
                     lvTraining.Items(3).SubItems.Add(Format(localdate, "ddd") & " " & localdate & " (" & EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & ")")
                 Else
@@ -381,8 +381,8 @@ Public Class frmPilot
                     TrainingSkill = newCLVItem
                     TrainingGroup = groupCLV
                 Else
-                    TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListID(cSkill.ID), EveHQ.Core.SkillList), 0))
-                    currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListID(cSkill.ID), EveHQ.Core.SkillList), 0))
+                    TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListID(cSkill.ID), EveHQ.Core.EveSkill), 0))
+                    currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListID(cSkill.ID), EveHQ.Core.EveSkill), 0))
                 End If
                 If currentTime = 0 Then currentTime = 9999999999
                 newCLVItem.SubItems(5).Tag = currentTime.ToString

@@ -1129,7 +1129,7 @@ Public Class frmItemBrowser
                     parent(level) = skillID
 
                     Dim strTree As String = ""
-                    Dim cSkill As EveHQ.Core.SkillList = EveHQ.Core.HQ.SkillListID(skillID)
+                    Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
                     Dim curSkill As Integer = CInt(skillID)
                     Dim curLevel As Integer = itemSkills(skillNo, 1)
                     Dim counter As Integer = 0
@@ -1216,7 +1216,7 @@ Public Class frmItemBrowser
                             level += 1
                             parent(level) = curSkill
                             pointer(level) = 1
-                            Dim newSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
+                            Dim newSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
                             newSkill = EveHQ.Core.HQ.SkillListID(CStr(curSkill))
                             skillName(level) = newSkill.Name
                             skillLevel(level) = curLevel
@@ -1308,7 +1308,7 @@ Public Class frmItemBrowser
                     For Each skill As String In skillsNeeded
                         Dim skillName As String = skill.Substring(0, skill.Length - 1)
                         Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                        Dim cSkill As EveHQ.Core.SkillList = EveHQ.Core.HQ.SkillListName(skillName)
+                        Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(skillName)
                         usableTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, skillLvl)
                     Next
                     lblUsable.Text = EveHQ.Core.HQ.myPilot.Name & " doesn't have the skills to use this item."

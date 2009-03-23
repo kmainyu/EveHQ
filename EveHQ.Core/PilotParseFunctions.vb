@@ -610,7 +610,7 @@ Public Class PilotParseFunctions
                         End If
 
                         If EveHQ.Core.HQ.SkillListID.Contains(newSkill.ID) = True Then
-                            Dim thisSkill As SkillList = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), SkillList)
+                            Dim thisSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), EveHQ.Core.EveSkill)
                             newSkill.Name = thisSkill.Name
                             newSkill.GroupID = thisSkill.GroupID
                             newSkill.Flag = 0
@@ -624,7 +624,7 @@ Public Class PilotParseFunctions
                             cPilot.PilotSkills.Add(newSkill, newSkill.Name)
                             ' Check if a pilot skill is missing from the global skill list
                         Else
-                            Dim missingSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
+                            Dim missingSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
                             missingSkill.ID = newSkill.ID
                             missingSkill.Name = "Skill " & newSkill.ID
                             newSkill.Name = "Skill " & newSkill.ID         ' temp line to avoid error
@@ -650,7 +650,7 @@ Public Class PilotParseFunctions
                         End If
                         ' Check if the skillID is present but the skillname is different (CCP changing bloody skill names!!!)
                         If EveHQ.Core.HQ.SkillListID.Contains(newSkill.ID) = True And EveHQ.Core.HQ.SkillListName.Contains(newSkill.Name) = False Then
-                            Dim changeSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), SkillList)
+                            Dim changeSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), EveHQ.Core.EveSkill)
                             Dim oldName As String = changeSkill.Name
                             changeSkill.Name = newSkill.Name
                             EveHQ.Core.HQ.SkillListID.Remove(newSkill.ID) : EveHQ.Core.HQ.SkillListID.Add(changeSkill, changeSkill.ID)
@@ -697,7 +697,7 @@ Public Class PilotParseFunctions
         End If
         If cPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(cPilot.TrainingSkillID)) = False Then
             ' The pilot doesn't have this skill so let's add it manually
-            Dim baseSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(cPilot.TrainingSkillID), Core.SkillList)
+            Dim baseSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(cPilot.TrainingSkillID), Core.EveSkill)
             pilotSkill.ID = baseSkill.ID
             pilotSkill.Name = baseSkill.Name
             pilotSkill.Flag = 0

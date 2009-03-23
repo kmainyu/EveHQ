@@ -250,7 +250,7 @@ Public Class frmTraining
     End Sub
 
     Private Sub LoadFilteredSkills(ByVal filter As Integer)
-        Dim newSkill As EveHQ.Core.SkillList
+        Dim newSkill As EveHQ.Core.EveSkill
         Dim groupNode As New TreeNode
         For Each newSkill In EveHQ.Core.HQ.SkillListID
             Dim gID As String = newSkill.GroupID
@@ -294,7 +294,7 @@ Public Class frmTraining
                                 trainable = True
 
                                 If newSkill.PS IsNot Nothing AndAlso CDbl(newSkill.PS) <> 0 Then
-                                    Dim ps As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(newSkill.PS), EveHQ.Core.SkillList)
+                                    Dim ps As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(newSkill.PS), EveHQ.Core.EveSkill)
                                     If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(ps.Name) = True Then
                                         Dim psp As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(ps.Name), EveHQ.Core.PilotSkill)
                                         If psp.Level < newSkill.PSL Then
@@ -306,7 +306,7 @@ Public Class frmTraining
                                 End If
 
                                 If newSkill.SS IsNot Nothing AndAlso CDbl(newSkill.SS) <> 0 Then
-                                    Dim ss As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(newSkill.SS), EveHQ.Core.SkillList)
+                                    Dim ss As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(newSkill.SS), EveHQ.Core.EveSkill)
                                     If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(ss.Name) = True Then
                                         Dim ssp As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(ss.Name), EveHQ.Core.PilotSkill)
                                         If ssp.Level < newSkill.SSL Then
@@ -318,7 +318,7 @@ Public Class frmTraining
                                 End If
 
                                 If newSkill.TS IsNot Nothing AndAlso CDbl(newSkill.TS) <> 0 Then
-                                    Dim ts As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(newSkill.TS), EveHQ.Core.SkillList)
+                                    Dim ts As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(newSkill.TS), EveHQ.Core.EveSkill)
                                     If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(ts.Name) = True Then
                                         Dim tsp As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(ts.Name), EveHQ.Core.PilotSkill)
                                         If tsp.Level < newSkill.TSL Then
@@ -749,7 +749,7 @@ Public Class frmTraining
                     End If
                 Next
             End If
-            Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.SkillList)
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.EveSkill)
             If EveHQ.Core.HQ.myPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = EveHQ.Core.HQ.myPilot.TrainingSkillName Then
                 lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
                 Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
@@ -803,13 +803,13 @@ Public Class frmTraining
 
         Dim strTree As String = ""
 
-        Dim cSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
+        Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
         Dim curSkill As Integer = CInt(skillID)
         Dim curLevel As Integer = 0
 
         Do Until level = 0
             ' Start @ root!
-            cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+            cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
 
             ' Read PS
             Select Case pointer(level)
@@ -835,8 +835,8 @@ Public Class frmTraining
                 level += 1
                 parent(level) = curSkill
                 pointer(level) = 1
-                Dim newSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-                newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+                Dim newSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+                newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
                 skillName(level) = newSkill.Name
                 skillLevel(level) = CStr(curLevel)
                 If forTreeView = False Then
@@ -1671,8 +1671,8 @@ Public Class frmTraining
     End Sub
     Private Sub PrepareDetails(ByVal skillID As String)
 
-        Dim cSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+        Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
         lvwDetails.Groups(1).Header = "Pilot Specific - " & EveHQ.Core.HQ.myPilot.Name
 
         With Me.lvwDetails
@@ -1736,7 +1736,7 @@ Public Class frmTraining
         parent(level) = CInt(skillID)
 
         Dim strTree As String = ""
-        Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+        Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
         Dim curSkill As Integer = CInt(skillID)
         Dim curLevel As Integer = 0
         Dim counter As Integer = 0
@@ -1789,7 +1789,7 @@ Public Class frmTraining
 
         Do Until level = 0
             ' Start @ root!
-            cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+            cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
 
             ' Read pointer @ level
             Select Case pointer(level)
@@ -1819,8 +1819,8 @@ Public Class frmTraining
                 level += 1
                 parent(level) = curSkill
                 pointer(level) = 1
-                Dim newSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-                newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.SkillList)
+                Dim newSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+                newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), Core.EveSkill)
                 skillName(level) = newSkill.Name
                 skillLevel(level) = CStr(curLevel)
                 Dim newNode As TreeNode = New TreeNode
@@ -1906,15 +1906,15 @@ Public Class frmTraining
         Next
     End Sub
     Private Sub PrepareDescription(ByVal skillID As String)
-        Dim cSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+        Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
         Me.lblDescription.Text = cSkill.Description
 
     End Sub
     Private Sub PrepareSPs(ByVal skillID As String)
         lvwSPs.Items.Clear()
-        Dim cSkill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+        Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
         Dim lastSP As Long = 0
         For toLevel As Integer = 1 To 5
             Dim newGroup As ListViewItem = New ListViewItem
@@ -1930,8 +1930,8 @@ Public Class frmTraining
         lvwTimes.Items.Clear()
 
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
-            Dim cskill As EveHQ.Core.SkillList = New EveHQ.Core.SkillList
-            cskill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.SkillList)
+            Dim cskill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
+            cskill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
 
             Dim timeToTrain As Long = 0
 
@@ -2019,7 +2019,7 @@ Public Class frmTraining
     End Sub
     Public Sub UpdateSkillDetails()
         If EveHQ.Core.HQ.myPilot.Training = True Then
-            Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.SkillList)
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.EveSkill)
             If EveHQ.Core.HQ.myPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = EveHQ.Core.HQ.myPilot.TrainingSkillName Then
                 lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
                 Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
@@ -2624,7 +2624,7 @@ Public Class frmTraining
         If Len(cboFilter.Text) > 1 Then
             Dim strSearch As String = cboFilter.Text.Trim.ToLower
             Dim results As New SortedList(Of String, String)
-            Dim newSkill As New EveHQ.Core.SkillList
+            Dim newSkill As New EveHQ.Core.EveSkill
             For Each newSkill In EveHQ.Core.HQ.SkillListID
                 If newSkill.Name.ToLower.Contains(strSearch) Then
                     results.Add(newSkill.Name, newSkill.Name)
@@ -2634,7 +2634,7 @@ Public Class frmTraining
             tvwSkillList.BeginUpdate()
             tvwSkillList.Nodes.Clear()
             For Each item As String In results.Values
-                newSkill = CType(EveHQ.Core.HQ.SkillListName(item), Core.SkillList)
+                newSkill = CType(EveHQ.Core.HQ.SkillListName(item), Core.EveSkill)
                 If newSkill.GroupID <> "505" And newSkill.Published = True Then
                     Dim skillNode As TreeNode = New TreeNode
                     skillNode.Text = newSkill.Name

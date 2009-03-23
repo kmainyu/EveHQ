@@ -520,21 +520,21 @@ Public Class PlugInData
                         ' Map only the skill attributes
                         Select Case CInt(shipRow.Item("attributeID"))
                             Case 182
-                                Dim pSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.SkillList)
+                                Dim pSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = pSkill.ID
                                 nSkill.Name = pSkill.Name
                                 pSkillName = pSkill.Name
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
                             Case 183
-                                Dim sSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.SkillList)
+                                Dim sSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = sSkill.ID
                                 nSkill.Name = sSkill.Name
                                 sSkillName = sSkill.Name
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
                             Case 184
-                                Dim tSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.SkillList)
+                                Dim tSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = tSkill.ID
                                 nSkill.Name = tSkill.Name
@@ -1041,21 +1041,21 @@ Public Class PlugInData
                     Case 1087 ' Slot Type For Boosters
                         attMod.BoosterSlot = CInt(attValue)
                     Case 182
-                        Dim pSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.SkillList)
+                        Dim pSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
                         Dim nSkill As New ItemSkills
                         nSkill.ID = pSkill.ID
                         nSkill.Name = pSkill.Name
                         pSkillName = pSkill.Name
                         attMod.RequiredSkills.Add(nSkill.Name, nSkill)
                     Case 183
-                        Dim sSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.SkillList)
+                        Dim sSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
                         Dim nSkill As New ItemSkills
                         nSkill.ID = sSkill.ID
                         nSkill.Name = sSkill.Name
                         sSkillName = sSkill.Name
                         attMod.RequiredSkills.Add(nSkill.Name, nSkill)
                     Case 184
-                        Dim tSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.SkillList)
+                        Dim tSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
                         Dim nSkill As New ItemSkills
                         nSkill.ID = tSkill.ID
                         nSkill.Name = tSkill.Name
