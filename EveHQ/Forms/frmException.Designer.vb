@@ -116,6 +116,7 @@ Partial Class frmException
         Me.btnSend.TabIndex = 3
         Me.btnSend.Text = "Send Error Report"
         Me.btnSend.UseVisualStyleBackColor = True
+        Me.btnSend.Visible = False
         '
         'btnCopyText
         '

@@ -9,7 +9,7 @@ Public Class PlugInData
     Dim mapFolder As String = ""
     Shared mapCacheFolder As String = ""
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.9.0.456"
+    Shared LastCacheRefresh As String = "1.9.0.467"
 
 #Region "Plug-in Interface Functions"
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp

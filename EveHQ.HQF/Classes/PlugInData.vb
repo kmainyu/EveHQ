@@ -12,7 +12,7 @@ Public Class PlugInData
     Shared moduleEffectData As DataSet
     Shared moduleAttributeData As DataSet
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.9.0.456"
+    Shared LastCacheRefresh As String = "1.9.0.467"
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -1596,11 +1596,11 @@ Public Class PlugInData
                     NPCs.NPCList.Add(newNPC.Name, newNPC)
                     Return True
                 Else
-                    MessageBox.Show("Warning: NPC Data returned no rows but HQF can continue to load. Please remember to set damage profiles manually.", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show("Warning: NPC Data returned no rows but HQF can continue to load. Please remember to set damage profiles manually.", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return True
                 End If
             Else
-                MessageBox.Show("Warning: NPC Data returned a null dataset but HQF can continue to load. Please remember to set damage profiles manually.", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Warning: NPC Data returned a null dataset but HQF can continue to load. Please remember to set damage profiles manually.", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return True
             End If
         Catch e As Exception
