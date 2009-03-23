@@ -153,7 +153,7 @@ Public Class frmPilotManager
                                 skillNode.Tag = newSkill.ID
                                 hSkill = CType(currentPilot.SkillSet.Item(newSkill.Name), HQFSkill)
                                 If cPilot.PilotSkills.Contains(newSkill.Name) = True Then
-                                    Dim mySkill As EveHQ.Core.Skills = CType(cPilot.PilotSkills(newSkill.Name), Core.Skills)
+                                    Dim mySkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                                     skillNode.ImageIndex = mySkill.Level
                                     skillNode.SelectedImageIndex = mySkill.Level
                                     groupNode.Items.Add(skillNode)

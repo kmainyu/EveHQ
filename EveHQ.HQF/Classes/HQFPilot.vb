@@ -88,7 +88,7 @@ End Class
                     MyHQFSkill.ID = newSkill.ID
                     MyHQFSkill.Name = newSkill.Name
                     If cpilot.PilotSkills.Contains(newSkill.Name) = True Then
-                        Dim mySkill As EveHQ.Core.Skills = CType(cpilot.PilotSkills(newSkill.Name), Core.Skills)
+                        Dim mySkill As EveHQ.Core.PilotSkill = CType(cpilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                         MyHQFSkill.Level = mySkill.Level
                     Else
                         MyHQFSkill.Level = 0
@@ -107,7 +107,7 @@ End Class
             MyHQFSkill.ID = newSkill.ID
             MyHQFSkill.Name = newSkill.Name
             If cpilot.PilotSkills.Contains(newSkill.Name) = True Then
-                Dim mySkill As EveHQ.Core.Skills = CType(cpilot.PilotSkills(newSkill.Name), Core.Skills)
+                Dim mySkill As EveHQ.Core.PilotSkill = CType(cpilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                 MyHQFSkill.Level = mySkill.Level
             Else
                 MyHQFSkill.Level = 0
@@ -130,7 +130,7 @@ End Class
                 If hPilot.SkillSet.Contains(newSkill.Name) = True Then
                     Dim MyHQFSkill As HQFSkill = CType(hPilot.SkillSet(newSkill.Name), HQFSkill)
                     If cpilot.PilotSkills.Contains(newSkill.Name) = True Then
-                        Dim mySkill As EveHQ.Core.Skills = CType(cpilot.PilotSkills(newSkill.Name), Core.Skills)
+                        Dim mySkill As EveHQ.Core.PilotSkill = CType(cpilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                         If MyHQFSkill.Level < mySkill.Level Then
                             MyHQFSkill.Level = mySkill.Level
                         End If

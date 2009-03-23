@@ -71,8 +71,8 @@
             skillTrained = False
             If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
                 If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) Then
-                    Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
-                    mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.Skills)
+                    Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                    mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
                     myLevel = CInt(mySkill.Level)
                     If myLevel >= curLevel Then skillTrained = True
                     If skillTrained = True Then
@@ -154,8 +154,8 @@
                         skillTrained = False
                         myLevel = 0
                         If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) Then
-                            Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
-                            mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.Skills)
+                            Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                            mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                             myLevel = CInt(mySkill.Level)
                             If myLevel >= curLevel Then skillTrained = True
                         End If

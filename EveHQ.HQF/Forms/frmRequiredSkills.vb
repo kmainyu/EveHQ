@@ -55,7 +55,7 @@ Public Class frmRequiredSkills
 #Region "Skill Display Routines"
 
     Private Sub DrawSkillsTable()
-        Dim aSkill As EveHQ.Core.Skills
+        Dim aSkill As EveHQ.Core.PilotSkill
         Dim aLevel As Integer = 0
 
         ' Compress the list of required skills into the smallest possible list
@@ -75,7 +75,7 @@ Public Class frmRequiredSkills
             newSkill.Text = rSkill.Name
             newSkill.SubItems(1).Text = rSkill.ReqLevel.ToString
             If reqPilot.PilotSkills.Contains(rSkill.Name) = True Then
-                aSkill = CType(reqPilot.PilotSkills(rSkill.Name), Core.Skills)
+                aSkill = CType(reqPilot.PilotSkills(rSkill.Name), Core.PilotSkill)
                 newSkill.SubItems(2).Text = aSkill.Level.ToString
             Else
                 newSkill.SubItems(2).Text = "0"
@@ -98,7 +98,7 @@ Public Class frmRequiredSkills
     End Sub
 
     Private Sub DisplaySubSkills(ByVal parentSkill As ContainerListViewItem, ByVal pSkillID As String)
-        Dim aSkill As EveHQ.Core.Skills
+        Dim aSkill As EveHQ.Core.PilotSkill
         Dim pSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(pSkillID), Core.SkillList)
         If pSkill.PS <> "" Then
             If EveHQ.Core.HQ.SkillListID.Contains(pSkill.PS) Then
@@ -108,7 +108,7 @@ Public Class frmRequiredSkills
                 Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
                 newSkill.SubItems(1).Text = pSkill.PSL.ToString
                 If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
-                    aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
+                    aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.PilotSkill)
                     newSkill.SubItems(2).Text = aSkill.Level.ToString
                 Else
                     newSkill.SubItems(2).Text = "0"
@@ -130,7 +130,7 @@ Public Class frmRequiredSkills
                 Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
                 newSkill.SubItems(1).Text = pSkill.SSL.ToString
                 If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
-                    aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
+                    aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.PilotSkill)
                     newSkill.SubItems(2).Text = aSkill.Level.ToString
                 Else
                     newSkill.SubItems(2).Text = "0"
@@ -152,7 +152,7 @@ Public Class frmRequiredSkills
                 Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
                 newSkill.SubItems(1).Text = pSkill.TSL.ToString
                 If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
-                    aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.Skills)
+                    aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.PilotSkill)
                     newSkill.SubItems(2).Text = aSkill.Level.ToString
                 Else
                     newSkill.SubItems(2).Text = "0"

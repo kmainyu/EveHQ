@@ -164,7 +164,7 @@
         ' Get learning skill details
         Dim learningFactor As Integer = 0
         If nPilot.PilotSkills.Contains("Learning") = True Then
-            learningFactor = CType(nPilot.PilotSkills("Learning"), EveHQ.Core.Skills).Level
+            learningFactor = CType(nPilot.PilotSkills("Learning"), EveHQ.Core.PilotSkill).Level
         End If
 
         ' Calculate learning skill increase

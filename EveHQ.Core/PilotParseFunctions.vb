@@ -57,56 +57,56 @@ Public Class PilotParseFunctions
         ' Memory = 12385 = "Eidetic Memory"
         ' Perception = 12387 = "Clarity"
 
-        Dim basicSkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
+        Dim basicSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
 
         ' Process Basic Learning Skills
         If cpilot.PilotSkills.Contains("Iron Will") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Iron Will"), Skills)
+            basicSkill = CType(cpilot.PilotSkills("Iron Will"), EveHQ.Core.PilotSkill)
             cpilot.LWAtt = basicSkill.Level
         End If
         If cpilot.PilotSkills.Contains("Empathy") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Empathy"), Skills)
+            basicSkill = CType(cpilot.PilotSkills("Empathy"), EveHQ.Core.PilotSkill)
             cpilot.LCAtt = basicSkill.Level
         End If
         If cpilot.PilotSkills.Contains("Analytical Mind") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Analytical Mind"), Skills)
+            basicSkill = CType(cpilot.PilotSkills("Analytical Mind"), EveHQ.Core.PilotSkill)
             cpilot.LIAtt = basicSkill.Level
         End If
         If cpilot.PilotSkills.Contains("Instant Recall") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Instant Recall"), Skills)
+            basicSkill = CType(cpilot.PilotSkills("Instant Recall"), EveHQ.Core.PilotSkill)
             cpilot.LMAtt = basicSkill.Level
         End If
         If cpilot.PilotSkills.Contains("Spatial Awareness") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Spatial Awareness"), Skills)
+            basicSkill = CType(cpilot.PilotSkills("Spatial Awareness"), EveHQ.Core.PilotSkill)
             cpilot.LPAtt = basicSkill.Level
         End If
 
         ' Process Advanced Learning Skills
         If cpilot.PilotSkills.Contains("Focus") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Focus"), Skills)
+            basicSkill = CType(cpilot.PilotSkills("Focus"), EveHQ.Core.PilotSkill)
             cpilot.ALWAtt = basicSkill.Level
         End If
         If cpilot.PilotSkills.Contains("Presence") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Presence"), Skills)
+            basicSkill = CType(cpilot.PilotSkills("Presence"), EveHQ.Core.PilotSkill)
             cpilot.ALCAtt = basicSkill.Level
         End If
         If cpilot.PilotSkills.Contains("Logic") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Logic"), Skills)
+            basicSkill = CType(cpilot.PilotSkills("Logic"), EveHQ.Core.PilotSkill)
             cpilot.ALIAtt = basicSkill.Level
         End If
         If cpilot.PilotSkills.Contains("Eidetic Memory") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Eidetic Memory"), Skills)
+            basicSkill = CType(cpilot.PilotSkills("Eidetic Memory"), EveHQ.Core.PilotSkill)
             cpilot.ALMAtt = basicSkill.Level
         End If
         If cpilot.PilotSkills.Contains("Clarity") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Clarity"), Skills)
+            basicSkill = CType(cpilot.PilotSkills("Clarity"), EveHQ.Core.PilotSkill)
             cpilot.ALPAtt = basicSkill.Level
         End If
 
         ' Get learning skill details
         Dim learningFactor As Integer = 0
         If cpilot.PilotSkills.Contains("Learning") = True Then
-            basicSkill = CType(cpilot.PilotSkills("Learning"), Skills)
+            basicSkill = CType(cpilot.PilotSkills("Learning"), EveHQ.Core.PilotSkill)
             learningFactor = basicSkill.Level
         End If
 
@@ -216,123 +216,130 @@ Public Class PilotParseFunctions
             End If
         Next
     End Sub            'GetPilotCachedInfo
-    Public Shared Sub LoadKeySkills()
+    Public Shared Function LoadKeySkills() As Boolean
         Call ResetKeySkills()
         Dim curPilot As EveHQ.Core.Pilot
         For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            Call LoadKeySkillsForPilot(curPilot)
+            If LoadKeySkillsForPilot(curPilot) = False Then
+                Return False
+            End If
         Next
-    End Sub
-    Public Shared Sub LoadKeySkillsForPilot(ByVal curPilot As EveHQ.Core.Pilot)
-
-        Dim curSkill As EveHQ.Core.Skills
-        For Each curSkill In curPilot.PilotSkills
-            Select Case curSkill.Name
-                Case "Mining"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Mining) = CStr(curSkill.Level)
-                Case "Mining Upgrades"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningUpgrades) = CStr(curSkill.Level)
-                Case "Astrogeology"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Astrogeology) = CStr(curSkill.Level)
-                Case "Mining Barge"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningBarge) = CStr(curSkill.Level)
-                Case "Mining Drone Operation"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningDrone) = CStr(curSkill.Level)
-                Case "Exhumers"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Exhumers) = CStr(curSkill.Level)
-                Case "Refining"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining) = CStr(curSkill.Level)
-                Case "Refinery Efficiency"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency) = CStr(curSkill.Level)
-                Case "Metallurgy"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Metallurgy) = CStr(curSkill.Level)
-                Case "Research"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Research) = CStr(curSkill.Level)
-                Case "Science"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Science) = CStr(curSkill.Level)
-                Case "Industry"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Industry) = CStr(curSkill.Level)
-                Case "Production Efficiency"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency) = CStr(curSkill.Level)
-                Case "Arkonor Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ArkonorProc) = CStr(curSkill.Level)
-                Case "Bistot Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BistotProc) = CStr(curSkill.Level)
-                Case "Crokite Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.CrokiteProc) = CStr(curSkill.Level)
-                Case "Dark Ochre Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DarkOchreProc) = CStr(curSkill.Level)
-                Case "Gneiss Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.GneissProc) = CStr(curSkill.Level)
-                Case "Hedbergite Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HedbergiteProc) = CStr(curSkill.Level)
-                Case "Hemorphite Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HemorphiteProc) = CStr(curSkill.Level)
-                Case "Jaspet Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JaspetProc) = CStr(curSkill.Level)
-                Case "Kernite Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.KerniteProc) = CStr(curSkill.Level)
-                Case "Mercoxit Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MercoxitProc) = CStr(curSkill.Level)
-                Case "Omber Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.OmberProc) = CStr(curSkill.Level)
-                Case "Plagioclase Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PlagioclaseProc) = CStr(curSkill.Level)
-                Case "Pyroxeres Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PyroxeresProc) = CStr(curSkill.Level)
-                Case "Scordite Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScorditeProc) = CStr(curSkill.Level)
-                Case "Spodumain Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.SpodumainProc) = CStr(curSkill.Level)
-                Case "Veldspar Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.VeldsparProc) = CStr(curSkill.Level)
-                Case "Ice Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceProc) = CStr(curSkill.Level)
-                Case "Ice Harvesting"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceHarvesting) = CStr(curSkill.Level)
-                Case "Deep Core Mining"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DeepCoreMining) = CStr(curSkill.Level)
-                Case "Mining Foreman"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningForeman) = CStr(curSkill.Level)
-                Case "Mining Director"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningDirector) = CStr(curSkill.Level)
-                Case "Learning"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Learning) = CStr(curSkill.Level)
-                Case "Jump Drive Operation"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveOperation) = CStr(curSkill.Level)
-                Case "Jump Drive Calibration"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration) = CStr(curSkill.Level)
-                Case "Jump Fuel Conservation"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation) = CStr(curSkill.Level)
-                Case "Jump Freighters"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters) = CStr(curSkill.Level)
-                Case "Scrapmetal Processing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScrapMetalProc) = CStr(curSkill.Level)
-                Case "Accounting"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting) = CStr(curSkill.Level)
-                Case "Broker Relations"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations) = CStr(curSkill.Level)
-                Case "Daytrading"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Daytrading) = CStr(curSkill.Level)
-                Case "Margin Trading"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MarginTrading) = CStr(curSkill.Level)
-                Case "Marketing"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Marketing) = CStr(curSkill.Level)
-                Case "Procurement"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Procurement) = CStr(curSkill.Level)
-                Case "Retail"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Retail) = CStr(curSkill.Level)
-                Case "Trade"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Trade) = CStr(curSkill.Level)
-                Case "Tycoon"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Tycoon) = CStr(curSkill.Level)
-                Case "Visibility"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility) = CStr(curSkill.Level)
-                Case "Wholesale"
-                    curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Wholesale) = CStr(curSkill.Level)
-            End Select
-        Next
-    End Sub
+        Return True
+    End Function
+    Public Shared Function LoadKeySkillsForPilot(ByVal curPilot As EveHQ.Core.Pilot) As Boolean
+        Try
+            Dim curSkill As EveHQ.Core.PilotSkill
+            For Each curSkill In curPilot.PilotSkills
+                Select Case curSkill.Name
+                    Case "Mining"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Mining) = CStr(curSkill.Level)
+                    Case "Mining Upgrades"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningUpgrades) = CStr(curSkill.Level)
+                    Case "Astrogeology"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Astrogeology) = CStr(curSkill.Level)
+                    Case "Mining Barge"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningBarge) = CStr(curSkill.Level)
+                    Case "Mining Drone Operation"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningDrone) = CStr(curSkill.Level)
+                    Case "Exhumers"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Exhumers) = CStr(curSkill.Level)
+                    Case "Refining"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining) = CStr(curSkill.Level)
+                    Case "Refinery Efficiency"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency) = CStr(curSkill.Level)
+                    Case "Metallurgy"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Metallurgy) = CStr(curSkill.Level)
+                    Case "Research"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Research) = CStr(curSkill.Level)
+                    Case "Science"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Science) = CStr(curSkill.Level)
+                    Case "Industry"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Industry) = CStr(curSkill.Level)
+                    Case "Production Efficiency"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency) = CStr(curSkill.Level)
+                    Case "Arkonor Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ArkonorProc) = CStr(curSkill.Level)
+                    Case "Bistot Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BistotProc) = CStr(curSkill.Level)
+                    Case "Crokite Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.CrokiteProc) = CStr(curSkill.Level)
+                    Case "Dark Ochre Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DarkOchreProc) = CStr(curSkill.Level)
+                    Case "Gneiss Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.GneissProc) = CStr(curSkill.Level)
+                    Case "Hedbergite Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HedbergiteProc) = CStr(curSkill.Level)
+                    Case "Hemorphite Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HemorphiteProc) = CStr(curSkill.Level)
+                    Case "Jaspet Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JaspetProc) = CStr(curSkill.Level)
+                    Case "Kernite Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.KerniteProc) = CStr(curSkill.Level)
+                    Case "Mercoxit Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MercoxitProc) = CStr(curSkill.Level)
+                    Case "Omber Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.OmberProc) = CStr(curSkill.Level)
+                    Case "Plagioclase Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PlagioclaseProc) = CStr(curSkill.Level)
+                    Case "Pyroxeres Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PyroxeresProc) = CStr(curSkill.Level)
+                    Case "Scordite Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScorditeProc) = CStr(curSkill.Level)
+                    Case "Spodumain Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.SpodumainProc) = CStr(curSkill.Level)
+                    Case "Veldspar Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.VeldsparProc) = CStr(curSkill.Level)
+                    Case "Ice Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceProc) = CStr(curSkill.Level)
+                    Case "Ice Harvesting"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceHarvesting) = CStr(curSkill.Level)
+                    Case "Deep Core Mining"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DeepCoreMining) = CStr(curSkill.Level)
+                    Case "Mining Foreman"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningForeman) = CStr(curSkill.Level)
+                    Case "Mining Director"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningDirector) = CStr(curSkill.Level)
+                    Case "Learning"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Learning) = CStr(curSkill.Level)
+                    Case "Jump Drive Operation"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveOperation) = CStr(curSkill.Level)
+                    Case "Jump Drive Calibration"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration) = CStr(curSkill.Level)
+                    Case "Jump Fuel Conservation"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation) = CStr(curSkill.Level)
+                    Case "Jump Freighters"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters) = CStr(curSkill.Level)
+                    Case "Scrapmetal Processing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScrapMetalProc) = CStr(curSkill.Level)
+                    Case "Accounting"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting) = CStr(curSkill.Level)
+                    Case "Broker Relations"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations) = CStr(curSkill.Level)
+                    Case "Daytrading"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Daytrading) = CStr(curSkill.Level)
+                    Case "Margin Trading"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MarginTrading) = CStr(curSkill.Level)
+                    Case "Marketing"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Marketing) = CStr(curSkill.Level)
+                    Case "Procurement"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Procurement) = CStr(curSkill.Level)
+                    Case "Retail"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Retail) = CStr(curSkill.Level)
+                    Case "Trade"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Trade) = CStr(curSkill.Level)
+                    Case "Tycoon"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Tycoon) = CStr(curSkill.Level)
+                    Case "Visibility"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility) = CStr(curSkill.Level)
+                    Case "Wholesale"
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Wholesale) = CStr(curSkill.Level)
+                End Select
+            Next
+            Return True
+        Catch e As Exception
+            Return False
+        End Try
+    End Function
     Private Shared Sub ResetKeySkills()
         Dim curPilot As EveHQ.Core.Pilot
         For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
@@ -584,7 +591,7 @@ Public Class PilotParseFunctions
                     sp = 0
                     ' Get list of skills within the groups!
                     For a As Integer = 0 To toon.ChildNodes.Count - 1
-                        Dim newSkill As New EveHQ.Core.Skills
+                        Dim newSkill As New EveHQ.Core.PilotSkill
                         ' Check if the skill exists in the database we have
 
                         newSkill.ID = toon.ChildNodes.Item(a).Attributes.GetNamedItem("typeID").Value
@@ -674,7 +681,7 @@ Public Class PilotParseFunctions
     Public Shared Sub CheckMissingTrainingSkills()
         Dim curPilot As EveHQ.Core.Pilot
         For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            For Each cSkill As EveHQ.Core.Skills In curPilot.PilotSkills
+            For Each cSkill As EveHQ.Core.PilotSkill In curPilot.PilotSkills
                 If EveHQ.Core.HQ.SkillListID.Contains(cSkill.ID) = False Then
                     Call EveHQ.Core.SkillFunctions.LoadEveSkillDataFromAPI()
                     Exit Sub
@@ -683,7 +690,7 @@ Public Class PilotParseFunctions
         Next
     End Sub
     Private Shared Sub CheckMissingTrainingSkill(ByRef cPilot As EveHQ.Core.Pilot)
-        Dim pilotSkill As New EveHQ.Core.Skills
+        Dim pilotSkill As New EveHQ.Core.PilotSkill
         ' Check if the main skill list has the skill we are checking for
         If EveHQ.Core.HQ.SkillListID.Contains(cPilot.TrainingSkillID) = False Then
             Call EveHQ.Core.SkillFunctions.LoadEveSkillDataFromAPI()

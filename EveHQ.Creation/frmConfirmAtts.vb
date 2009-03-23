@@ -76,7 +76,7 @@ Public Class frmConfirmAtts
         nPilot.CloneName = "Clone Grade Alpha"
         nPilot.CloneSP = "900000"
         For Each skillItem As ListViewItem In skills
-            Dim pilotSkill As New EveHQ.Core.Skills
+            Dim pilotSkill As New EveHQ.Core.PilotSkill
             pilotSkill.ID = skillItem.Name
             pilotSkill.Name = skillItem.Text
             pilotSkill.Level = CInt(skillItem.SubItems(1).Text)

@@ -550,7 +550,7 @@ Public Class SkillFunctions
         Dim startLevel As Integer = 0
         If fromLevel = -1 Then
             If cPilot.PilotSkills.Contains(cSkill.Name) = True Then
-                Dim sSkill As EveHQ.Core.Skills = CType(cPilot.PilotSkills(cSkill.Name), Skills)
+                Dim sSkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(cSkill.Name), EveHQ.Core.PilotSkill)
                 startLevel = sSkill.Level
                 StartSP = sSkill.SP
                 If cPilot.Training = True And cPilot.TrainingSkillName = cSkill.Name Then
@@ -606,7 +606,7 @@ Public Class SkillFunctions
         Dim startLevel As Integer = 0
         If fromLevel = -1 Then
             If cPilot.PilotSkills.Contains(cSkill.Name) = True Then
-                Dim sSkill As EveHQ.Core.Skills = CType(cPilot.PilotSkills(cSkill.Name), Skills)
+                Dim sSkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(cSkill.Name), EveHQ.Core.PilotSkill)
                 startLevel = sSkill.Level
                 StartSP = sSkill.SP
                 If cPilot.Training = True And cPilot.TrainingSkillName = cSkill.Name Then
@@ -730,7 +730,7 @@ Public Class SkillFunctions
 
         ' Get current skill level
         If cPilot.PilotSkills.Contains(cSkill.Name) = True Then
-            Dim sSkill As EveHQ.Core.Skills = CType(cPilot.PilotSkills(cSkill.Name), Skills)
+            Dim sSkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(cSkill.Name), EveHQ.Core.PilotSkill)
             cLevel = sSkill.Level + 1
             If cLevel = 6 Then cLevel = 0
         Else
@@ -745,7 +745,7 @@ Public Class SkillFunctions
 
         ' Get current skill level
         If cpilot.PilotSkills.Contains(cskill.Name) = True Then
-            Dim sSkill As EveHQ.Core.Skills = CType(cpilot.PilotSkills(cskill.Name), Skills)
+            Dim sSkill As EveHQ.Core.PilotSkill = CType(cpilot.PilotSkills(cskill.Name), EveHQ.Core.PilotSkill)
             cLevel = sSkill.Level
         Else
             cLevel = 0
@@ -792,7 +792,7 @@ Public Class SkillFunctions
         If Trainable = True Then
             Dim skillName As String = EveHQ.Core.SkillFunctions.SkillIDToName(skillID)
             If skillPilot.PilotSkills.Contains(skillName) = True Then
-                Dim mySkill As EveHQ.Core.Skills = CType(skillPilot.PilotSkills(skillName), Skills)
+                Dim mySkill As EveHQ.Core.PilotSkill = CType(skillPilot.PilotSkills(skillName), EveHQ.Core.PilotSkill)
                 ' Check if we are already have it to Level 5
                 Dim maxxedOut As Boolean = False
                 Dim timedOut As Boolean = False
@@ -848,7 +848,7 @@ Public Class SkillFunctions
                 Dim newSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListID(skillID), SkillList)
                 ' Set the skill up if it's not already trained
                 If setupSkill = True Then
-                    Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
+                    Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
                     mySkill.ID = newSkill.ID
                     mySkill.GroupID = newSkill.GroupID
                     mySkill.Name = newSkill.Name
@@ -866,7 +866,7 @@ Public Class SkillFunctions
                 End If
                 ' Finish off training of the old skill
                 If skillPilot.Training = True Then
-                    Dim oldSkill As EveHQ.Core.Skills = CType(skillPilot.PilotSkills(skillPilot.TrainingSkillName), Skills)
+                    Dim oldSkill As EveHQ.Core.PilotSkill = CType(skillPilot.PilotSkills(skillPilot.TrainingSkillName), EveHQ.Core.PilotSkill)
                     oldSkill.Flag = 7
                     oldSkill.SP += skillPilot.TrainingCurrentSP
                     If skillPilot.TrainingCurrentTime <= 0 And oldSkill.Level <> skillPilot.TrainingSkillLevel Then
@@ -876,7 +876,7 @@ Public Class SkillFunctions
                     End If
                 End If
                 ' Start training of the new skill
-                Dim trainSkill As EveHQ.Core.Skills = CType(skillPilot.PilotSkills(skillName), Skills)
+                Dim trainSkill As EveHQ.Core.PilotSkill = CType(skillPilot.PilotSkills(skillName), EveHQ.Core.PilotSkill)
                 trainSkill.Flag = 61
                 With skillPilot
                     .Training = True
@@ -920,11 +920,11 @@ Public Class SkillFunctions
                 MessageBox.Show(strMsg, "Force Skill Training", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
             Return False
-            End If
+        End If
     End Function
     Public Shared Function IsSkillTrained(ByVal cPilot As EveHQ.Core.Pilot, ByVal skillName As String, Optional ByVal toLevel As Integer = 0) As Boolean
         If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(skillName) Then
-            Dim mySkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills(skillName), Skills)
+            Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(skillName), EveHQ.Core.PilotSkill)
             Dim myLevel As Integer = CInt(mySkill.Level)
             If myLevel >= toLevel Then
                 Return True
@@ -985,8 +985,8 @@ Public Class SkillFunctions
                     skillTrained = False
                     If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And rPilot.Updated = True Then
                         If rPilot.PilotSkills.Contains(cSkill.Name) Then
-                            Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
-                            mySkill = CType(rPilot.PilotSkills(cSkill.Name), Skills)
+                            Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                            mySkill = CType(rPilot.PilotSkills(cSkill.Name), EveHQ.Core.PilotSkill)
                             myLevel = CInt(mySkill.Level)
                             If myLevel >= curLevel Then skillTrained = True
                             If skillTrained = False Then
@@ -1044,8 +1044,8 @@ Public Class SkillFunctions
                                 skillTrained = False
                                 myLevel = 0
                                 If rPilot.PilotSkills.Contains(newSkill.Name) Then
-                                    Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
-                                    mySkill = CType(rPilot.PilotSkills(newSkill.Name), Skills)
+                                    Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                                    mySkill = CType(rPilot.PilotSkills(newSkill.Name), EveHQ.Core.PilotSkill)
                                     myLevel = CInt(mySkill.Level)
                                     If myLevel >= curLevel Then skillTrained = True
                                 End If
@@ -1117,21 +1117,7 @@ Public Class SkillFunctions
 
 End Class
 
-<Serializable()> Public Class Skills
-    Implements System.ICloneable
-    Public ID As String
-    Public Name As String
-    Public GroupID As String
-    Public Flag As Integer
-    Public Rank As Integer
-    Public SP As Integer
-    Public Level As Integer
-    Public LevelUp(5) As Integer
-    Public Function Clone() As Object Implements System.ICloneable.Clone
-        Dim R As Skills = CType(Me.MemberwiseClone, Skills)
-        Return R
-    End Function
-End Class
+
 
 <Serializable()> Public Class SkillList
     Implements System.ICloneable

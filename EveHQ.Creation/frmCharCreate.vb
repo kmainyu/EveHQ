@@ -905,7 +905,7 @@ Public Class frmCharCreate
             nPilot.PilotSkills.Clear()
             nPilot.Updated = True
             For Each pilotSkill As String In startChar.Skills
-                Dim newSkill As New EveHQ.Core.Skills
+                Dim newSkill As New EveHQ.Core.PilotSkill
                 Dim skillName As String = pilotSkill.Substring(0, pilotSkill.Length - 1)
                 Dim skillLevel As String = pilotSkill.Substring(pilotSkill.Length - 1, 1)
                 newSkill.Name = skillName

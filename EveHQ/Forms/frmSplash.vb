@@ -275,7 +275,15 @@ Public Class frmSplash
         EveHQ.Core.HQ.mySiSiServer.Server = 1
 
         ' Update the pilot account info
-        Call EveHQ.Core.PilotParseFunctions.LoadKeySkills()
+        If EveHQ.Core.PilotParseFunctions.LoadKeySkills() = False Then
+            Dim msg As String = "There was an error parsing your character skill data. This will be reset. Please connect to the API to download the latest data."
+            MessageBox.Show(msg, "Error Parsing Pilot Skills", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            For Each rPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                rPilot.PilotSkills = New Collection
+                rPilot.SkillPoints = 0
+            Next
+        End If
+
         Call EveHQ.Core.PilotParseFunctions.CheckMissingTrainingSkills()
         Call frmSettings.UpdateAccounts()
         Call frmEveHQ.UpdatePilotInfo(True)

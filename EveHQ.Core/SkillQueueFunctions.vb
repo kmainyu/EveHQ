@@ -92,7 +92,7 @@ Public Class SkillQueueFunctions
 
                 Dim curLevel As Integer = 0
                 Dim percent As Integer = 0
-                Dim myCurSkill As EveHQ.Core.Skills = CType(qPilot.PilotSkills(mySkill.Name), Skills)
+                Dim myCurSkill As EveHQ.Core.PilotSkill = CType(qPilot.PilotSkills(mySkill.Name), EveHQ.Core.PilotSkill)
                 curLevel = myCurSkill.Level
                 percent = CInt((myCurSkill.SP + qPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100)
 
@@ -239,7 +239,7 @@ Public Class SkillQueueFunctions
                 Dim percent As Double = 0
                 Try
                     If qPilot.PilotSkills.Contains(myskill.Name) = True Then
-                        Dim myCurSkill As EveHQ.Core.Skills = CType(qPilot.PilotSkills(myskill.Name), Skills)
+                        Dim myCurSkill As EveHQ.Core.PilotSkill = CType(qPilot.PilotSkills(myskill.Name), EveHQ.Core.PilotSkill)
                         curLevel = myCurSkill.Level
                         If curLevel = fromLevel Then
                             partiallyTrained = True
@@ -482,7 +482,7 @@ Public Class SkillQueueFunctions
             If qPilot.PilotSkills.Contains(curSkill.Name) Then
                 Dim fromLevel As Integer = curSkill.FromLevel
                 Dim toLevel As Integer = curSkill.ToLevel
-                Dim mySkill As EveHQ.Core.Skills = CType(qPilot.PilotSkills(curSkill.Name), Skills)
+                Dim mySkill As EveHQ.Core.PilotSkill = CType(qPilot.PilotSkills(curSkill.Name), EveHQ.Core.PilotSkill)
                 Dim pilotLevel As Integer = mySkill.Level
                 If pilotLevel < toLevel Then
                     If fromLevel < pilotLevel Then
@@ -503,7 +503,7 @@ Public Class SkillQueueFunctions
 
     Private Shared Sub CheckAlreadyTraining(ByVal qPilot As EveHQ.Core.Pilot, ByVal bQueue As EveHQ.Core.SkillQueue)
         If qPilot.Training = True Then
-            Dim trainSkill As EveHQ.Core.Skills = CType(qPilot.PilotSkills(qPilot.TrainingSkillName), Skills)
+            Dim trainSkill As EveHQ.Core.PilotSkill = CType(qPilot.PilotSkills(qPilot.TrainingSkillName), EveHQ.Core.PilotSkill)
             Dim curSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
             For Each curSkill In bQueue.Queue
                 If curSkill.Name = trainSkill.Name Then
@@ -538,9 +538,9 @@ Public Class SkillQueueFunctions
                 curSkill = CType(bQueue.Queue(count), SkillQueueItem)
                 If skillsChecked.Contains(curSkill.Name) = False Then
                     Dim pilotLevel As Integer = 0
-                    Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
+                    Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
                     If qPilot.PilotSkills.Contains(curSkill.Name) Then
-                        mySkill = CType(qPilot.PilotSkills(curSkill.Name), Skills)
+                        mySkill = CType(qPilot.PilotSkills(curSkill.Name), EveHQ.Core.PilotSkill)
                         ' Check if the skill is being trained, therefore the current level is actually
                         ' going to be the end level of the current skill
                         If qPilot.Training = True And mySkill.Name = qPilot.TrainingSkillName Then
@@ -781,12 +781,12 @@ Public Class SkillQueueFunctions
             Return qQueue
             Exit Function
         End If
-      
+
         Dim nQueue As EveHQ.Core.SkillQueue = qQueue
 
         ' See if the pilot already has that skill and optional exit if already trained
         If qPilot.PilotSkills.Contains(newSkill.Text) = True Then
-            Dim mySkill As EveHQ.Core.Skills = CType(qPilot.PilotSkills(newSkill.Text), Skills)
+            Dim mySkill As EveHQ.Core.PilotSkill = CType(qPilot.PilotSkills(newSkill.Text), EveHQ.Core.PilotSkill)
             Dim myLevel As Integer = mySkill.Level
             If myLevel >= 5 Then
                 If silent = False Then
@@ -1002,8 +1002,8 @@ Public Class SkillQueueFunctions
                 skillTrained = False
                 Dim myLevel As Integer = 0
                 If qPilot.PilotSkills.Contains(newSkill.Name) Then
-                    Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
-                    mySkill = CType(qPilot.PilotSkills(newSkill.Name), Skills)
+                    Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                    mySkill = CType(qPilot.PilotSkills(newSkill.Name), EveHQ.Core.PilotSkill)
                     myLevel = CInt(mySkill.Level)
                     If myLevel >= curLevel Then skillTrained = True
                 End If
@@ -1024,7 +1024,7 @@ Public Class SkillQueueFunctions
     End Function
 
     Public Shared Function IsPlanned(ByVal qPilot As EveHQ.Core.Pilot, ByVal skillName As String, ByVal level As Integer) As Integer
-        
+
         ' Need to go through all the queues!
         Dim curSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
         Dim planLevel As Integer = 0
@@ -1045,7 +1045,7 @@ Public Class SkillQueueFunctions
             If qPilot.PilotSkills.Contains(curSkill.Name) Then
                 Dim fromLevel As Integer = curSkill.FromLevel
                 Dim toLevel As Integer = curSkill.ToLevel
-                Dim mySkill As EveHQ.Core.Skills = CType(qPilot.PilotSkills(curSkill.Name), Core.Skills)
+                Dim mySkill As EveHQ.Core.PilotSkill = CType(qPilot.PilotSkills(curSkill.Name), Core.PilotSkill)
                 Dim pilotLevel As Integer = mySkill.Level
                 If pilotLevel >= toLevel Then
                     Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
@@ -1272,10 +1272,10 @@ Public Class SkillQueueFunctions
                 myskill = CType(EveHQ.Core.HQ.SkillListName(myTSkill.Name), SkillList)
                 fromLevel = myTSkill.FromLevel
                 toLevel = myTSkill.ToLevel
-                
+
                 ' Check if we already have the skill and therefore the time taken
                 If qPilot.PilotSkills.Contains(myskill.Name) = True Then
-                    Dim myCurSkill As EveHQ.Core.Skills = CType(qPilot.PilotSkills(myskill.Name), Skills)
+                    Dim myCurSkill As EveHQ.Core.PilotSkill = CType(qPilot.PilotSkills(myskill.Name), EveHQ.Core.PilotSkill)
                     curLevel = myCurSkill.Level
                     If curLevel = fromLevel Then
                         cTime = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(qPilot, myskill, toLevel, -1, attModifiers))

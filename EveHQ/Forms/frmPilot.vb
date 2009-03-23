@@ -207,9 +207,9 @@ Public Class frmPilot
                 lvTraining.Items.Add("Training End Time")
                 lvTraining.Items.Add("XML Expiration")
                 If EveHQ.Core.HQ.myPilot.Training = True Then
-                    Dim currentSkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.Skills)
+                    Dim currentSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.PilotSkill)
                     If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)) = True Then
-                        currentSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.Skills)
+                        currentSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.PilotSkill)
                     Else
                         MessageBox.Show("Missing the training skill from the skills!!")
                     End If
@@ -312,7 +312,7 @@ Public Class frmPilot
         End If
 
         ' Set up items
-        For Each cSkill As EveHQ.Core.Skills In EveHQ.Core.HQ.myPilot.PilotSkills
+        For Each cSkill As EveHQ.Core.PilotSkill In EveHQ.Core.HQ.myPilot.PilotSkills
             Try
                 Dim groupCLV As ContainerListViewItem = CType(groupStructure(cSkill.GroupID), ContainerListViewItem)
                 Dim newCLVItem As New ContainerListViewItem
@@ -544,7 +544,7 @@ Public Class frmPilot
             If EveHQ.Core.HQ.myPilot.Training = True Then
                 lvPilot.Items("Skill Points").SubItems(1).Text = (FormatNumber(EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, , , TriState.True))
                 If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)) = True Then
-                    Dim cSkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.Skills)
+                    Dim cSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.PilotSkill)
                     Dim percent As Double
                     If cSkill.Level = 5 Then
                         percent = 100

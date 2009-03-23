@@ -93,7 +93,7 @@ Public Class PlugInData
                 ' Check if this is a character and whether we need to get the Connections and Diplomacy skills
                 If MyStandings.CacheType = "GetCharStandings" Then
                     Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(ownerName), Core.Pilot)
-                    For Each cSkill As EveHQ.Core.Skills In cPilot.PilotSkills
+                    For Each cSkill As EveHQ.Core.PilotSkill In cPilot.PilotSkills
                         If cSkill.Name = "Diplomacy" Then
                             DiplomacyLevel = cSkill.Level
                         End If

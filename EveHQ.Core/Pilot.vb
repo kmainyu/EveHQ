@@ -158,3 +158,19 @@ Imports System.Xml
         Wholesale = 51
     End Enum
 End Class
+
+<Serializable()> Public Class PilotSkill
+    Implements System.ICloneable
+    Public ID As String
+    Public Name As String
+    Public GroupID As String
+    Public Flag As Integer
+    Public Rank As Integer
+    Public SP As Integer
+    Public Level As Integer
+    Public LevelUp(5) As Integer
+    Public Function Clone() As Object Implements System.ICloneable.Clone
+        Dim R As EveHQ.Core.PilotSkill = CType(Me.MemberwiseClone, EveHQ.Core.PilotSkill)
+        Return R
+    End Function
+End Class

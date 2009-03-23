@@ -43,7 +43,7 @@ Public Class frmSkillDetails
         lvwDetails.Groups(1).Header = "Pilot Specific - " & EveHQ.Core.HQ.myPilot.Name
 
         With Me.lvwDetails
-            Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
+            Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
             Dim myGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
             If EveHQ.Core.HQ.SkillGroups.Contains(cSkill.GroupID) = True Then
                 myGroup = CType(EveHQ.Core.HQ.SkillGroups(cSkill.GroupID), Core.SkillGroup)
@@ -56,7 +56,7 @@ Public Class frmSkillDetails
                     cLevel = "0" : cSP = "0" : cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, 1))
                     cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, cSkill))
                 Else
-                    mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.Skills)
+                    mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
                     cLevel = CStr(mySkill.Level)
                     If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.myPilot.TrainingSkillID = EveHQ.Core.SkillFunctions.SkillNameToID(cSkill.Name) Then
                         cSP = CStr(mySkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP)
@@ -117,8 +117,8 @@ Public Class frmSkillDetails
         skillTrained = False
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
             If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) Then
-                Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
-                mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.Skills)
+                Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
                 If skillTrained = True Then
@@ -200,8 +200,8 @@ Public Class frmSkillDetails
                     skillTrained = False
                     myLevel = 0
                     If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) Then
-                        Dim mySkill As EveHQ.Core.Skills = New EveHQ.Core.Skills
-                        mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.Skills)
+                        Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                        mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                         myLevel = CInt(mySkill.Level)
                         If myLevel >= curLevel Then skillTrained = True
                     End If
@@ -458,7 +458,7 @@ Public Class frmSkillDetails
             Dim cSkill As EveHQ.Core.SkillList = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.SkillList)
             If EveHQ.Core.HQ.myPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = EveHQ.Core.HQ.myPilot.TrainingSkillName Then
                 lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
-                Dim mySkill As EveHQ.Core.Skills = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.Skills)
+                Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
                 lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 Dim totalTime As Long = 0
                 For toLevel As Integer = 1 To 5

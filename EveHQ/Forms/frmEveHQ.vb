@@ -763,7 +763,7 @@ Public Class frmEveHQ
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If cPilot.Training = True Then
                 If cPilot.PilotSkills.Contains(cPilot.TrainingSkillName) = True Then
-                    Dim trainSkill As EveHQ.Core.Skills = CType(cPilot.PilotSkills(cPilot.TrainingSkillName), Core.Skills)
+                    Dim trainSkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(cPilot.TrainingSkillName), Core.PilotSkill)
                     Dim trainingTime As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
                     ' See if we need to "update" this level
                     If trainingTime <= 0 And cPilot.TrainingSkillLevel <> trainSkill.Level Then
