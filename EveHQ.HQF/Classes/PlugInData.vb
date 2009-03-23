@@ -380,7 +380,7 @@ Public Class PlugInData
             Dim strSQL As String = ""
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.published, invTypes.raceID, invTypes.marketGroupID"
             strSQL &= " FROM (invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID"
-            strSQL &= " WHERE (invCategories.categoryID=6 AND invTypes.published=true) ORDER BY typeName;"
+            strSQL &= " WHERE (invCategories.categoryID=6 AND invTypes.published=true AND invTypes.typeID<>30842) ORDER BY typeName;"
             PlugInData.shipNameData = EveHQ.Core.DataFunctions.GetData(strSQL)
             If PlugInData.shipNameData IsNot Nothing Then
                 If PlugInData.shipNameData.Tables(0).Rows.Count <> 0 Then
@@ -624,9 +624,9 @@ Public Class PlugInData
     Private Sub PopulateShipLists()
         ShipLists.shipListKeyName.Clear()
         ShipLists.shipListKeyID.Clear()
-        For Each shipRow As DataRow In PlugInData.shipNameData.Tables(0).Rows
-            ShipLists.shipListKeyName.Add(CStr(shipRow.Item("typeName")), CStr(shipRow.Item("typeID")))
-            ShipLists.shipListKeyID.Add(CStr(shipRow.Item("typeID")), CStr(shipRow.Item("typeName")))
+        For Each baseShip As Ship In ShipLists.shipList.Values
+            ShipLists.shipListKeyName.Add(baseShip.Name, baseShip.ID)
+            ShipLists.shipListKeyName.Add(baseShip.ID, baseShip.Name)
         Next
     End Sub
 

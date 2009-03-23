@@ -699,7 +699,11 @@ Public Class frmHQF
     Private Function IsShipFlyable(ByVal shipName As String, ByVal pilotName As String) As Boolean
         Dim testShip As Ship = CType(ShipLists.shipList(shipName), Ship)
         Dim testPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
-        Return Engine.IsFlyable(testPilot, testShip)
+        If testShip IsNot Nothing And testPilot IsNot Nothing Then
+            Return Engine.IsFlyable(testPilot, testShip)
+        Else
+            Return False
+        End If
     End Function
 
 #End Region
