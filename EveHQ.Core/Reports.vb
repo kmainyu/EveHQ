@@ -1230,42 +1230,21 @@ Public Class Reports
             trainable = False
             If rpilot.PilotSkills.Contains(skill.Name) = False And skill.Published = True Then
                 trainable = True
-
-                If skill.PS IsNot Nothing AndAlso CDbl(skill.PS) <> 0 Then
-                    Dim ps As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.PS), EveHQ.Core.EveSkill)
-                    If rpilot.PilotSkills.Contains(ps.Name) = True Then
-                        Dim psp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ps.Name), EveHQ.Core.PilotSkill)
-                        If psp.Level < skill.PSL Then
+                For Each preReq As String In skill.PreReqSkills.Keys
+                    If skill.PreReqSkills(preReq) <> 0 Then
+                        Dim ps As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(preReq), EveHQ.Core.EveSkill)
+                        If rpilot.PilotSkills.Contains(ps.Name) = True Then
+                            Dim psp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ps.Name), EveHQ.Core.PilotSkill)
+                            If psp.Level < skill.PreReqSkills(preReq) Then
+                                trainable = False
+                                Exit For
+                            End If
+                        Else
                             trainable = False
+                            Exit For
                         End If
-                    Else
-                        trainable = False
                     End If
-                End If
-
-                If skill.SS IsNot Nothing AndAlso CDbl(skill.SS) <> 0 Then
-                    Dim ss As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.SS), EveHQ.Core.EveSkill)
-                    If rpilot.PilotSkills.Contains(ss.Name) = True Then
-                        Dim ssp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ss.Name), EveHQ.Core.PilotSkill)
-                        If ssp.Level < skill.SSL Then
-                            trainable = False
-                        End If
-                    Else
-                        trainable = False
-                    End If
-                End If
-
-                If skill.TS IsNot Nothing AndAlso CDbl(skill.TS) <> 0 Then
-                    Dim ts As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.TS), EveHQ.Core.EveSkill)
-                    If rpilot.PilotSkills.Contains(ts.Name) = True Then
-                        Dim tsp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ts.Name), EveHQ.Core.PilotSkill)
-                        If tsp.Level < skill.TSL Then
-                            trainable = False
-                        End If
-                    Else
-                        trainable = False
-                    End If
-                End If
+                Next
             End If
 
             If trainable = True Then
@@ -2916,42 +2895,21 @@ Public Class Reports
             trainable = False
             If rpilot.PilotSkills.Contains(skill.Name) = False And skill.Published = True Then
                 trainable = True
-
-                If skill.PS IsNot Nothing AndAlso CDbl(skill.PS) <> 0 Then
-                    Dim ps As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.PS), EveHQ.Core.EveSkill)
-                    If rpilot.PilotSkills.Contains(ps.Name) = True Then
-                        Dim psp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ps.Name), EveHQ.Core.PilotSkill)
-                        If psp.Level < skill.PSL Then
+                For Each preReq As String In skill.PreReqSkills.Keys
+                    If skill.PreReqSkills(preReq) <> 0 Then
+                        Dim ps As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(preReq), EveHQ.Core.EveSkill)
+                        If rpilot.PilotSkills.Contains(ps.Name) = True Then
+                            Dim psp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ps.Name), EveHQ.Core.PilotSkill)
+                            If psp.Level < skill.PreReqSkills(preReq) Then
+                                trainable = False
+                                Exit For
+                            End If
+                        Else
                             trainable = False
+                            Exit For
                         End If
-                    Else
-                        trainable = False
                     End If
-                End If
-
-                If skill.SS IsNot Nothing AndAlso CDbl(skill.SS) <> 0 Then
-                    Dim ss As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.SS), EveHQ.Core.EveSkill)
-                    If rpilot.PilotSkills.Contains(ss.Name) = True Then
-                        Dim ssp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ss.Name), EveHQ.Core.PilotSkill)
-                        If ssp.Level < skill.SSL Then
-                            trainable = False
-                        End If
-                    Else
-                        trainable = False
-                    End If
-                End If
-
-                If skill.TS IsNot Nothing AndAlso CDbl(skill.TS) <> 0 Then
-                    Dim ts As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skill.TS), EveHQ.Core.EveSkill)
-                    If rpilot.PilotSkills.Contains(ts.Name) = True Then
-                        Dim tsp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ts.Name), EveHQ.Core.PilotSkill)
-                        If tsp.Level < skill.TSL Then
-                            trainable = False
-                        End If
-                    Else
-                        trainable = False
-                    End If
-                End If
+                Next
             End If
 
             If trainable = True Then

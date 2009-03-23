@@ -354,82 +354,94 @@ Public Class SkillFunctions
             Else
                 newSkill = CType(EveHQ.Core.HQ.SkillListID(eveData.Tables(0).Rows(row).Item("typeID").ToString), EveHQ.Core.EveSkill)
             End If
-            If IsDBNull(eveData.Tables(0).Rows(row).Item("valueInt")) = False Then
-                attValue = CDbl(eveData.Tables(0).Rows(row).Item("valueInt"))
-            Else
-                attValue = CDbl(eveData.Tables(0).Rows(row).Item("valueFloat"))
-            End If
-            Select Case CInt(eveData.Tables(0).Rows(row).Item("attributeID"))
-                Case 180
-                    Select Case CInt(attValue)
-                        Case 164
-                            newSkill.PA = "Charisma"
-                        Case 165
-                            newSkill.PA = "Intelligence"
-                        Case 166
-                            newSkill.PA = "Memory"
-                        Case 167
-                            newSkill.PA = "Perception"
-                        Case 168
-                            newSkill.PA = "Willpower"
-                    End Select
-                Case 181
-                    Select Case CInt(attValue)
-                        Case 164
-                            newSkill.SA = "Charisma"
-                        Case 165
-                            newSkill.SA = "Intelligence"
-                        Case 166
-                            newSkill.SA = "Memory"
-                        Case 167
-                            newSkill.SA = "Perception"
-                        Case 168
-                            newSkill.SA = "Willpower"
-                    End Select
-                Case 182
-                    newSkill.PS = CStr(attValue)
-                Case 183
-                    newSkill.SS = CStr(attValue)
-                Case 184
-                    newSkill.TS = CStr(attValue)
-                Case 275
-                    newSkill.Rank = CInt(attValue)
-                Case 277
-                    newSkill.PSL = CInt(attValue)
-                Case 278
-                    newSkill.SSL = CInt(attValue)
-                Case 279
-                    newSkill.TSL = CInt(attValue)
-            End Select
         Next
-        Dim currentSkill As EveHQ.Core.EveSkill
-        For Each currentSkill In EveHQ.Core.HQ.SkillListID
-            ' Check for missing primary/secondary skill but available secondary/tertiary skill
-            If CInt(currentSkill.PS) = 0 And CInt(currentSkill.SS) <> 0 Then
-                Dim tmpSkill, tmpLevel As Integer
-                tmpSkill = CInt(currentSkill.PS)
-                tmpLevel = currentSkill.PSL
-                currentSkill.PS = currentSkill.SS
-                currentSkill.PSL = currentSkill.SSL
-                currentSkill.SS = tmpSkill.ToString
-                currentSkill.SSL = tmpLevel
-            End If
-            If CInt(currentSkill.SS) = 0 And CInt(currentSkill.TS) <> 0 Then
-                Dim tmpSkill, tmpLevel As Integer
-                tmpSkill = CInt(currentSkill.SS)
-                tmpLevel = currentSkill.SSL
-                currentSkill.SS = currentSkill.TS
-                currentSkill.SSL = currentSkill.TSL
-                currentSkill.TS = tmpSkill.ToString
-                currentSkill.TSL = tmpLevel
-            End If
+
+        Dim MaxPreReqs As Integer = 10
+        For Each newSkill As EveHQ.Core.EveSkill In EveHQ.Core.HQ.SkillListID
+            Dim PreReqSkills(MaxPreReqs) As String
+            Dim PreReqSkillLevels(MaxPreReqs) As Integer
+            Dim attRows() As DataRow = eveData.Tables(0).Select("typeID=" & newSkill.ID)
+            For Each attRow As DataRow In attRows
+                If IsDBNull(attRow.Item("valueInt")) = False Then
+                    attValue = CDbl(attRow.Item("valueInt"))
+                Else
+                    attValue = CDbl(attRow.Item("valueFloat"))
+                End If
+                Select Case CInt(attRow.Item("attributeID"))
+                    Case 180
+                        Select Case CInt(attValue)
+                            Case 164
+                                newSkill.PA = "Charisma"
+                            Case 165
+                                newSkill.PA = "Intelligence"
+                            Case 166
+                                newSkill.PA = "Memory"
+                            Case 167
+                                newSkill.PA = "Perception"
+                            Case 168
+                                newSkill.PA = "Willpower"
+                        End Select
+                    Case 181
+                        Select Case CInt(attValue)
+                            Case 164
+                                newSkill.SA = "Charisma"
+                            Case 165
+                                newSkill.SA = "Intelligence"
+                            Case 166
+                                newSkill.SA = "Memory"
+                            Case 167
+                                newSkill.SA = "Perception"
+                            Case 168
+                                newSkill.SA = "Willpower"
+                        End Select
+                    Case 275
+                        newSkill.Rank = CInt(attValue)
+                    Case 182
+                        newSkill.PS = CStr(attValue)
+                        PreReqSkills(1) = CStr(attValue)
+                    Case 183
+                        newSkill.SS = CStr(attValue)
+                        PreReqSkills(2) = CStr(attValue)
+                    Case 184
+                        newSkill.TS = CStr(attValue)
+                        PreReqSkills(3) = CStr(attValue)
+                    Case 1285
+                        PreReqSkills(4) = CStr(attValue)
+                    Case 1289
+                        PreReqSkills(5) = CStr(attValue)
+                    Case 1290
+                        PreReqSkills(6) = CStr(attValue)
+                    Case 277
+                        newSkill.PSL = CInt(attValue)
+                        PreReqSkillLevels(1) = CInt(attValue)
+                    Case 278
+                        newSkill.SSL = CInt(attValue)
+                        PreReqSkillLevels(2) = CInt(attValue)
+                    Case 279
+                        newSkill.TSL = CInt(attValue)
+                        PreReqSkillLevels(3) = CInt(attValue)
+                    Case 1286
+                        PreReqSkillLevels(4) = CInt(attValue)
+                    Case 1287
+                        PreReqSkillLevels(5) = CInt(attValue)
+                    Case 1288
+                        PreReqSkillLevels(6) = CInt(attValue)
+                End Select
+            Next
+            ' Add the pre-reqs into the list
+            For prereq As Integer = 1 To MaxPreReqs
+                If PreReqSkills(prereq) <> "" Then
+                    newSkill.PreReqSkills.Add(PreReqSkills(prereq), PreReqSkillLevels(prereq))
+                End If
+            Next
             ' Calculate the levels
             For a As Integer = 0 To 5
-                currentSkill.LevelUp(a) = CInt(Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSPLevel(currentSkill.Rank, a)))
+                newSkill.LevelUp(a) = CInt(Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSPLevel(newSkill.Rank, a)))
             Next
             ' Add the currentskill to the name list
-            EveHQ.Core.HQ.SkillListName.Add(currentSkill, currentSkill.Name)
+            EveHQ.Core.HQ.SkillListName.Add(newSkill, newSkill.Name)
         Next
+        
         ' All is Ok!
         Return True
     End Function              'LoadEveSkillData
@@ -453,23 +465,9 @@ Public Class SkillFunctions
                         newSkill.Published = True
                         newSkill.Rank = CInt(skill.ChildNodes(1).InnerText)
                         If skill.ChildNodes(2).ChildNodes.Count <> 0 Then
-                            Select Case skill.ChildNodes(2).ChildNodes.Count
-                                Case 1
-                                    newSkill.PS = skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("typeID").Value
-                                    newSkill.PSL = CInt(skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("skillLevel").Value)
-                                Case 2
-                                    newSkill.PS = skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("typeID").Value
-                                    newSkill.PSL = CInt(skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("skillLevel").Value)
-                                    newSkill.SS = skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("typeID").Value
-                                    newSkill.SSL = CInt(skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("skillLevel").Value)
-                                Case 3
-                                    newSkill.PS = skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("typeID").Value
-                                    newSkill.PSL = CInt(skill.ChildNodes(2).ChildNodes(0).Attributes.GetNamedItem("skillLevel").Value)
-                                    newSkill.SS = skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("typeID").Value
-                                    newSkill.SSL = CInt(skill.ChildNodes(2).ChildNodes(1).Attributes.GetNamedItem("skillLevel").Value)
-                                    newSkill.TS = skill.ChildNodes(2).ChildNodes(2).Attributes.GetNamedItem("typeID").Value
-                                    newSkill.TSL = CInt(skill.ChildNodes(2).ChildNodes(2).Attributes.GetNamedItem("skillLevel").Value)
-                            End Select
+                            For skillNode As Integer = 0 To skill.ChildNodes(2).ChildNodes.Count
+                                newSkill.PreReqSkills.Add(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("typeID").Value, CInt(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("skillLevel").Value))
+                            Next
                         End If
                         newSkill.PA = StrConv(skill.ChildNodes(3).ChildNodes(0).InnerText, VbStrConv.ProperCase)
                         newSkill.SA = StrConv(skill.ChildNodes(3).ChildNodes(1).InnerText, VbStrConv.ProperCase)
@@ -939,173 +937,50 @@ Public Class SkillFunctions
     Public Shared Function TimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.Pilot, ByVal parentSkillID As String) As Double
 
         Dim parentSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(parentSkillID), EveHQ.Core.EveSkill)
-        Dim ItemUsable As Boolean = True
-        Dim itemSkillID As String = ""
-        Dim itemSkillLevel As Integer
+        Dim itemSkillLevel As Integer = 0
         Dim skillsNeeded As New ArrayList
+        Call PreReqTimeBeforeCanTrain(rPilot, parentSkill, 0, skillsNeeded, True)
 
-        Dim skillsRequired As Boolean = False
-
-        For skillNo As Integer = 1 To 3
-            Select Case skillNo
-                Case 1
-                    itemSkillID = parentSkill.PS
-                    itemSkillLevel = parentSkill.PSL
-                Case 2
-                    itemSkillID = parentSkill.SS
-                    itemSkillLevel = parentSkill.SSL
-                Case 3
-                    itemSkillID = parentSkill.TS
-                    itemSkillLevel = parentSkill.TSL
-            End Select
-            If itemSkillLevel <> 0 Then
-                If itemSkillID <> "" Then
-                    skillsRequired = True
-                    Dim skillID As String = itemSkillID
-
-                    Dim level As Integer = 1
-                    Dim pointer(20) As Integer
-                    Dim parent(20) As Integer
-                    Dim skillName(20) As String
-                    Dim skillLevel(20) As String
-                    pointer(level) = 1
-                    parent(level) = CInt(skillID)
-
-                    Dim strTree As String = ""
-                    Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), EveHQ.Core.EveSkill)
-                    Dim curSkill As Integer = CInt(skillID)
-                    Dim curLevel As Integer = itemSkillLevel
-                    Dim counter As Integer = 0
-                    Dim curNode As TreeNode = New TreeNode
-
-                    ' Write the skill we are querying as the first (parent) node
-                    curNode.Text = cSkill.Name & " (Level " & curLevel & ")"
-                    Dim skillTrained As Boolean = False
-                    Dim myLevel As Integer = 0
-                    skillTrained = False
-                    If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And rPilot.Updated = True Then
-                        If rPilot.PilotSkills.Contains(cSkill.Name) Then
-                            Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                            mySkill = CType(rPilot.PilotSkills(cSkill.Name), EveHQ.Core.PilotSkill)
-                            myLevel = CInt(mySkill.Level)
-                            If myLevel >= curLevel Then skillTrained = True
-                            If skillTrained = False Then
-                                skillsNeeded.Add(cSkill.Name & curLevel)
-                                ItemUsable = False
-                            End If
-                        Else
-                            skillsNeeded.Add(cSkill.Name & curLevel)
-                            ItemUsable = False
-                        End If
-                    End If
-
-                    Do Until level = 0
-                        ' Start @ root!
-                        cSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), EveHQ.Core.EveSkill)
-
-                        ' Read pointer @ level
-                        Select Case pointer(level)
-                            Case 1
-                                If CDbl(cSkill.PS) = curSkill Then Exit Do
-                                pointer(level) = 2
-                                curSkill = CInt(cSkill.PS)
-                                curLevel = cSkill.PSL
-                            Case 2
-                                If CDbl(cSkill.SS) = curSkill Then Exit Do
-                                pointer(level) = 3
-                                curSkill = CInt(cSkill.SS)
-                                curLevel = cSkill.SSL
-                            Case 3
-                                If CDbl(cSkill.TS) = curSkill Then Exit Do
-                                pointer(level) = 4
-                                curSkill = CInt(cSkill.TS)
-                                curLevel = cSkill.TSL
-                            Case 4
-                                curSkill = 0
-                        End Select
-                        If curSkill = 0 Then
-                            level -= 1
-                            curSkill = parent(level)
-                            curNode = curNode.Parent
-                        Else
-                            level += 1
-                            parent(level) = curSkill
-                            pointer(level) = 1
-                            Dim newSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
-                            newSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(curSkill)), EveHQ.Core.EveSkill)
-                            skillName(level) = newSkill.Name
-                            skillLevel(level) = CStr(curLevel)
-                            Dim newNode As TreeNode = New TreeNode
-                            counter += 1
-                            newNode.Name = CStr(counter)
-                            newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
-                            ' Check if the current pilot has the skill
-                            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And rPilot.Updated = True Then
-                                skillTrained = False
-                                myLevel = 0
-                                If rPilot.PilotSkills.Contains(newSkill.Name) Then
-                                    Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                                    mySkill = CType(rPilot.PilotSkills(newSkill.Name), EveHQ.Core.PilotSkill)
-                                    myLevel = CInt(mySkill.Level)
-                                    If myLevel >= curLevel Then skillTrained = True
-                                End If
-                                If skillTrained = False Then
-                                    skillsNeeded.Add(newSkill.Name & curLevel)
-                                    ItemUsable = False
-                                End If
-                            End If
-                            curNode.Nodes.Add(newNode)
-                            curNode = newNode
-                        End If
-                    Loop
-                End If
-            End If
-        Next
-
-        If skillsRequired = True Then
+        If skillsNeeded.Count > 0 Then
             If rPilot.Name <> "" Then
-                If ItemUsable = True Then
-                    Return 0
-                Else
-                    Dim usableTime As Long = 0
-                    Dim skillNo As Integer = 0
-                    If skillsNeeded.Count > 1 Then
-                        Do
-                            Dim skill As String = CStr(skillsNeeded(skillNo))
-                            Dim skillName As String = skill.Substring(0, skill.Length - 1)
-                            Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                            Dim highestLevel As Integer = 0
-                            Dim skillno2 As Integer = skillNo + 1
-                            Do
-                                If skillno2 < skillsNeeded.Count Then
-                                    Dim skill2 As String = CStr(skillsNeeded(skillno2))
-                                    Dim skillName2 As String = skill2.Substring(0, skill2.Length - 1)
-                                    Dim skillLvl2 As Integer = CInt(skill2.Substring(skill2.Length - 1, 1))
-                                    If skillName = skillName2 Then
-                                        If skillLvl >= skillLvl2 Then
-                                            skillsNeeded.RemoveAt(skillno2)
-                                        Else
-                                            skillsNeeded.RemoveAt(skillNo)
-                                            skillNo = -1 : skillno2 = 0
-                                            Exit Do
-                                        End If
-                                    Else
-                                        skillno2 += 1
-                                    End If
-                                End If
-                            Loop Until skillno2 >= skillsNeeded.Count
-                            skillNo += 1
-                        Loop Until skillNo >= skillsNeeded.Count - 1
-                    End If
-                    skillsNeeded.Reverse()
-                    For Each skill As String In skillsNeeded
+                Dim usableTime As Long = 0
+                Dim skillNo As Integer = 0
+                If skillsNeeded.Count > 1 Then
+                    Do
+                        Dim skill As String = CStr(skillsNeeded(skillNo))
                         Dim skillName As String = skill.Substring(0, skill.Length - 1)
                         Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                        Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(skillName), EveHQ.Core.EveSkill)
-                        usableTime = CLng(usableTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(rPilot, cSkill, skillLvl))
-                    Next
-                    Return usableTime
+                        Dim highestLevel As Integer = 0
+                        Dim skillno2 As Integer = skillNo + 1
+                        Do
+                            If skillno2 < skillsNeeded.Count Then
+                                Dim skill2 As String = CStr(skillsNeeded(skillno2))
+                                Dim skillName2 As String = skill2.Substring(0, skill2.Length - 1)
+                                Dim skillLvl2 As Integer = CInt(skill2.Substring(skill2.Length - 1, 1))
+                                If skillName = skillName2 Then
+                                    If skillLvl >= skillLvl2 Then
+                                        skillsNeeded.RemoveAt(skillno2)
+                                    Else
+                                        skillsNeeded.RemoveAt(skillNo)
+                                        skillNo = -1 : skillno2 = 0
+                                        Exit Do
+                                    End If
+                                Else
+                                    skillno2 += 1
+                                End If
+                            End If
+                        Loop Until skillno2 >= skillsNeeded.Count
+                        skillNo += 1
+                    Loop Until skillNo >= skillsNeeded.Count - 1
+                    skillsNeeded.Reverse()
                 End If
+                For Each skill As String In skillsNeeded
+                    Dim skillName As String = skill.Substring(0, skill.Length - 1)
+                    Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
+                    Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(skillName), EveHQ.Core.EveSkill)
+                    usableTime = CLng(usableTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(rPilot, cSkill, skillLvl))
+                Next
+                Return usableTime
             Else
                 Return 0
             End If
@@ -1114,6 +989,35 @@ Public Class SkillFunctions
         End If
 
     End Function
+
+    Private Shared Sub PreReqTimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal curLevel As Integer, ByRef skillsNeeded As ArrayList, ByVal rootSkill As Boolean)
+        ' Write the skill we are querying as the first (parent) node
+        Dim skillTrained As Boolean = False
+        Dim myLevel As Integer = 0
+        skillTrained = False
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And rPilot.Updated = True Then
+            If rPilot.PilotSkills.Contains(cSkill.Name) = True Then
+                Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                mySkill = CType(rPilot.PilotSkills(cSkill.Name), EveHQ.Core.PilotSkill)
+                myLevel = CInt(mySkill.Level)
+                If myLevel >= curLevel Then skillTrained = True
+                If skillTrained = False Then
+                    skillsNeeded.Add(cSkill.Name & curLevel)
+                End If
+            Else
+                If rootSkill = False Then
+                    skillsNeeded.Add(cSkill.Name & curLevel)
+                End If
+            End If
+        End If
+        If cSkill.PreReqSkills.Count > 0 Then
+            Dim subSkill As EveHQ.Core.EveSkill
+            For Each subSkillID As String In cSkill.PreReqSkills.Keys
+                subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                Call PreReqTimeBeforeCanTrain(rPilot, subSkill, cSkill.PreReqSkills(subSkillID), skillsNeeded, False)
+            Next
+        End If
+    End Sub
 
 End Class
 
@@ -1130,6 +1034,7 @@ End Class
     Public LevelUp(5) As Integer
     Public PA As String
     Public SA As String
+    Public PreReqSkills As New Dictionary(Of String, Integer)
     Public PS As String
     Public PSL As Integer
     Public SS As String
