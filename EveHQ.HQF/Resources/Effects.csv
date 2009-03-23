@@ -1048,7 +1048,7 @@
 # RIGS - ENERGY GRID,,,,,,,,,,
 313,2,781,11,3,6,0,0,0,15,Ancilliary Current Router
 314,2,781,55,3,6,0,0,0,15,Capacitor Control Circuit
-317,2,781,6,5,3423,0,0,0,15,Egress Port Maximizer
+317,2,781,6,2,67;71,0,0,0,15,Egress Port Maximizer
 310,2,781,50,5,3413,0,0,0,15,Powergrid Subroutine Maximizer
 1079,2,781,482,3,6,0,0,0,15,Semiconductor Memory Cell
 # RIGS - ENERGY WEAPON,,,,,,,,,,
