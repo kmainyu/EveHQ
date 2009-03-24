@@ -1921,8 +1921,9 @@ Public Class EveHQSettingsFunctions
                         ' Get version
                         Dim rootNode As XmlNode = XMLdoc.SelectSingleNode("/training")
                         Dim version As Double = 0
+                        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
                         If rootNode.Attributes.Count > 0 Then
-                            version = CDbl(rootNode.Attributes("version").Value)
+                            version = Double.Parse(rootNode.Attributes("version").Value, Globalization.NumberStyles.Number, culture)
                         End If
                         QueueList = XMLdoc.SelectNodes("/training/queue")
                         If QueueList.Count > 0 Then

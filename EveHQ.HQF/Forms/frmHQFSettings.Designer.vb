@@ -46,12 +46,15 @@ Partial Public Class frmHQFSettings
         Me.lblRigSlotColour = New System.Windows.Forms.Label
         Me.pbRigSlotColour = New System.Windows.Forms.PictureBox
         Me.gbSlotFormat = New System.Windows.Forms.GroupBox
+        Me.lblSubSlotColour = New System.Windows.Forms.Label
+        Me.pbSubSlotColour = New System.Windows.Forms.PictureBox
         Me.btnMoveDown = New System.Windows.Forms.Button
         Me.btnMoveUp = New System.Windows.Forms.Button
         Me.lvwColumns = New System.Windows.Forms.ListView
         Me.colSlotColumns = New System.Windows.Forms.ColumnHeader
         Me.lblSlotColumns = New System.Windows.Forms.Label
         Me.gbCache = New System.Windows.Forms.GroupBox
+        Me.btnCheckMarket = New System.Windows.Forms.Button
         Me.btnExportShipBonuses = New System.Windows.Forms.Button
         Me.btnExportImplantEffects = New System.Windows.Forms.Button
         Me.btnExportEffects = New System.Windows.Forms.Button
@@ -71,20 +74,18 @@ Partial Public Class frmHQFSettings
         Me.nudCapRecharge = New System.Windows.Forms.NumericUpDown
         Me.lblCapRecharge = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.pbSubSlotColour = New System.Windows.Forms.PictureBox
-        Me.lblSubSlotColour = New System.Windows.Forms.Label
         Me.gbGeneral.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbMidSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbLowSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbRigSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbSlotFormat.SuspendLayout()
+        CType(Me.pbSubSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbCache.SuspendLayout()
         Me.gbConstants.SuspendLayout()
         CType(Me.nudMissileRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbSubSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -283,13 +284,32 @@ Partial Public Class frmHQFSettings
         Me.gbSlotFormat.Controls.Add(Me.pbHiSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblMidSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblHiSlotColour)
-        Me.gbSlotFormat.Location = New System.Drawing.Point(194, 12)
+        Me.gbSlotFormat.Location = New System.Drawing.Point(465, 211)
         Me.gbSlotFormat.Name = "gbSlotFormat"
-        Me.gbSlotFormat.Size = New System.Drawing.Size(498, 497)
+        Me.gbSlotFormat.Size = New System.Drawing.Size(107, 35)
         Me.gbSlotFormat.TabIndex = 3
         Me.gbSlotFormat.TabStop = False
         Me.gbSlotFormat.Text = "Slot Layout"
         Me.gbSlotFormat.Visible = False
+        '
+        'lblSubSlotColour
+        '
+        Me.lblSubSlotColour.AutoSize = True
+        Me.lblSubSlotColour.Location = New System.Drawing.Point(284, 221)
+        Me.lblSubSlotColour.Name = "lblSubSlotColour"
+        Me.lblSubSlotColour.Size = New System.Drawing.Size(114, 13)
+        Me.lblSubSlotColour.TabIndex = 33
+        Me.lblSubSlotColour.Text = "Subsystem Slot Colour"
+        '
+        'pbSubSlotColour
+        '
+        Me.pbSubSlotColour.BackColor = System.Drawing.Color.DarkSeaGreen
+        Me.pbSubSlotColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbSubSlotColour.Location = New System.Drawing.Point(411, 214)
+        Me.pbSubSlotColour.Name = "pbSubSlotColour"
+        Me.pbSubSlotColour.Size = New System.Drawing.Size(24, 24)
+        Me.pbSubSlotColour.TabIndex = 32
+        Me.pbSubSlotColour.TabStop = False
         '
         'btnMoveDown
         '
@@ -338,6 +358,7 @@ Partial Public Class frmHQFSettings
         '
         'gbCache
         '
+        Me.gbCache.Controls.Add(Me.btnCheckMarket)
         Me.gbCache.Controls.Add(Me.btnExportShipBonuses)
         Me.gbCache.Controls.Add(Me.btnExportImplantEffects)
         Me.gbCache.Controls.Add(Me.btnExportEffects)
@@ -346,13 +367,23 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
         Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
-        Me.gbCache.Location = New System.Drawing.Point(219, 211)
+        Me.gbCache.Location = New System.Drawing.Point(194, 12)
         Me.gbCache.Name = "gbCache"
-        Me.gbCache.Size = New System.Drawing.Size(170, 53)
+        Me.gbCache.Size = New System.Drawing.Size(498, 500)
         Me.gbCache.TabIndex = 29
         Me.gbCache.TabStop = False
         Me.gbCache.Text = "Data and Cache Settings"
         Me.gbCache.Visible = False
+        '
+        'btnCheckMarket
+        '
+        Me.btnCheckMarket.Location = New System.Drawing.Point(330, 458)
+        Me.btnCheckMarket.Name = "btnCheckMarket"
+        Me.btnCheckMarket.Size = New System.Drawing.Size(105, 33)
+        Me.btnCheckMarket.TabIndex = 9
+        Me.btnCheckMarket.Text = "Check Market"
+        Me.btnCheckMarket.UseVisualStyleBackColor = True
+        Me.btnCheckMarket.Visible = False
         '
         'btnExportShipBonuses
         '
@@ -552,32 +583,13 @@ Partial Public Class frmHQFSettings
         Me.lblCapRecharge.Text = "Capacitor Recharge Constant:"
         Me.ToolTip1.SetToolTip(Me.lblCapRecharge, "Defines the peak recharge rate of the capacitor (max = 2.50 x average)")
         '
-        'pbSubSlotColour
-        '
-        Me.pbSubSlotColour.BackColor = System.Drawing.Color.DarkSeaGreen
-        Me.pbSubSlotColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbSubSlotColour.Location = New System.Drawing.Point(411, 214)
-        Me.pbSubSlotColour.Name = "pbSubSlotColour"
-        Me.pbSubSlotColour.Size = New System.Drawing.Size(24, 24)
-        Me.pbSubSlotColour.TabIndex = 32
-        Me.pbSubSlotColour.TabStop = False
-        '
-        'lblSubSlotColour
-        '
-        Me.lblSubSlotColour.AutoSize = True
-        Me.lblSubSlotColour.Location = New System.Drawing.Point(284, 221)
-        Me.lblSubSlotColour.Name = "lblSubSlotColour"
-        Me.lblSubSlotColour.Size = New System.Drawing.Size(114, 13)
-        Me.lblSubSlotColour.TabIndex = 33
-        Me.lblSubSlotColour.Text = "Subsystem Slot Colour"
-        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
-        Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.gbCache)
+        Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.gbConstants)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.tvwSettings)
@@ -599,13 +611,13 @@ Partial Public Class frmHQFSettings
         CType(Me.pbRigSlotColour, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbSlotFormat.ResumeLayout(False)
         Me.gbSlotFormat.PerformLayout()
+        CType(Me.pbSubSlotColour, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbCache.ResumeLayout(False)
         Me.gbConstants.ResumeLayout(False)
         Me.gbConstants.PerformLayout()
         CType(Me.nudMissileRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbSubSlotColour, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -657,4 +669,5 @@ Partial Public Class frmHQFSettings
     Friend WithEvents lblShieldRechargeUnit As System.Windows.Forms.Label
     Friend WithEvents lblSubSlotColour As System.Windows.Forms.Label
     Friend WithEvents pbSubSlotColour As System.Windows.Forms.PictureBox
+    Friend WithEvents btnCheckMarket As System.Windows.Forms.Button
 End Class

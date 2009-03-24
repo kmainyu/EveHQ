@@ -2828,9 +2828,9 @@ Public Class ShipSlotControl
                         Case "Skirmish Warfare"
                             If CInt(FleetSkill(0, skill)) = 6 Then
                                 fleetModule.Name = "Skirmish Warfare Mindlink (" & FleetSkill(Commanders.Count + 1, skill) & ")"
-                                fleetModule.Attributes.Add("151", 15)
+                                fleetModule.Attributes.Add("151", -15)
                             Else
-                                fleetModule.Attributes.Add("151", 2 * CInt(FleetSkill(0, skill)))
+                                fleetModule.Attributes.Add("151", -2 * CInt(FleetSkill(0, skill)))
                             End If
                     End Select
                     currentShip.FleetSlotCollection.Add(fleetModule)

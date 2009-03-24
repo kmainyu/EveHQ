@@ -2083,19 +2083,22 @@ Public Class frmPrism
         s.Close()
     End Sub
     Private Sub LoadInvestments()
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.dataFolder & "\investments.txt") = True Then
-            Dim s As New FileStream(EveHQ.Core.HQ.dataFolder & "\investments.txt", FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            Portfolio.Investments = CType(f.Deserialize(s), SortedList)
-            s.Close()
-        End If
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.dataFolder & "\investmentTransactions.txt") = True Then
-            Dim s As New FileStream(EveHQ.Core.HQ.dataFolder & "\investmentTransactions.txt", FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            Portfolio.Transactions = CType(f.Deserialize(s), SortedList)
-            s.Close()
-        End If
-        Call Me.ListInvestments()
+        Try
+            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.dataFolder & "\investments.txt") = True Then
+                Dim s As New FileStream(EveHQ.Core.HQ.dataFolder & "\investments.txt", FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                Portfolio.Investments = CType(f.Deserialize(s), SortedList)
+                s.Close()
+            End If
+            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.dataFolder & "\investmentTransactions.txt") = True Then
+                Dim s As New FileStream(EveHQ.Core.HQ.dataFolder & "\investmentTransactions.txt", FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                Portfolio.Transactions = CType(f.Deserialize(s), SortedList)
+                s.Close()
+            End If
+            Call Me.ListInvestments()
+        Catch e As Exception
+        End Try
     End Sub
 
     Private Sub btnAddTransaction_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddTransaction.Click
@@ -4157,7 +4160,7 @@ Public Class frmPrism
             cboWalletTransDivision.Enabled = False
             cboWalletJournalDivision.Enabled = False
         End If
-        
+
         If owner <> "" Then
             Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
             Dim accountName As String = selPilot.Account
@@ -4688,29 +4691,29 @@ Public Class frmPrism
                 nudStandings.Enabled = True
                 cboRecyclePilots.Enabled = True
             Case 1 ' Refining Array
-                    BaseYield = 0.35
-                    NetYield = 0.35
-                    lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                    lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                    lblStandings.Text = FormatNumber(10, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    chkOverrideBaseYield.Enabled = False
-                    chkOverrideStandings.Enabled = False
-                    chkPerfectRefine.Enabled = False
-                    nudBaseYield.Enabled = False
-                    nudStandings.Enabled = False
-                    cboRecyclePilots.Enabled = False
+                BaseYield = 0.35
+                NetYield = 0.35
+                lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                lblStandings.Text = FormatNumber(10, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                chkOverrideBaseYield.Enabled = False
+                chkOverrideStandings.Enabled = False
+                chkPerfectRefine.Enabled = False
+                nudBaseYield.Enabled = False
+                nudStandings.Enabled = False
+                cboRecyclePilots.Enabled = False
             Case 2 ' Intensive Refining Array
-                    BaseYield = 0.75
-                    NetYield = 0.75
-                    lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                    lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-                    lblStandings.Text = FormatNumber(10, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    chkOverrideBaseYield.Enabled = False
-                    chkOverrideStandings.Enabled = False
-                    chkPerfectRefine.Enabled = False
-                    nudBaseYield.Enabled = False
-                    nudStandings.Enabled = False
-                    cboRecyclePilots.Enabled = False
+                BaseYield = 0.75
+                NetYield = 0.75
+                lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+                lblStandings.Text = FormatNumber(10, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                chkOverrideBaseYield.Enabled = False
+                chkOverrideStandings.Enabled = False
+                chkPerfectRefine.Enabled = False
+                nudBaseYield.Enabled = False
+                nudStandings.Enabled = False
+                cboRecyclePilots.Enabled = False
         End Select
         ' Set the base yield if no station
         If lblStation.Text = "n/a" Then
@@ -4750,7 +4753,7 @@ Public Class frmPrism
     End Sub
 
 #End Region
-    
+
 #Region "CSV Export Routines"
 
     Private Sub btnExportTransactions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportTransactions.Click

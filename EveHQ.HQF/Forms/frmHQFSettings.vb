@@ -424,9 +424,11 @@ Public Class frmHQFSettings
         Dim items As Integer = ModuleLists.moduleList.Count
         ' Check MarketGroups
         Dim marketError As Integer = 0
+        Dim sw As New StreamWriter(EveHQ.Core.HQ.reportFolder & "\HQFErrors.txt")
         For Each item As ShipModule In ModuleLists.moduleList.Values
             If Market.MarketGroupList.ContainsKey(item.MarketGroup) = False Then
                 marketError += 1
+                sw.WriteLine("Market Error: " & item.Name)
                 'MessageBox.Show(item.Name)
             End If
         Next
@@ -435,10 +437,13 @@ Public Class frmHQFSettings
         For Each item As ShipModule In ModuleLists.moduleList.Values
             If ModuleLists.moduleMetaGroups.ContainsKey(item.ID) = False Then
                 metaError += 1
+                sw.WriteLine("Meta Type Error: " & item.Name)
                 'MessageBox.Show(item.Name)
             End If
         Next
 
+        sw.Flush()
+        sw.Close()
         Dim msg As String = ""
         msg &= "Total items: " & items & ControlChars.CrLf
         msg &= "Orphaned market items: " & marketError & ControlChars.CrLf
@@ -453,15 +458,15 @@ Public Class frmHQFSettings
         'Next
 
         ' Write missing items to a file
-        Dim sw As New IO.StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\missingItems.csv")
+        Dim sw2 As New IO.StreamWriter(EveHQ.Core.HQ.reportFolder & "\HQFmissingItems.csv")
         For Each shipMod As ShipModule In ModuleLists.moduleList.Values
             If dataCheckList.Contains(shipMod.ID) = False Then
-                sw.WriteLine(shipMod.ID & "," & shipMod.Name)
+                sw2.WriteLine(shipMod.ID & "," & shipMod.Name)
                 dataCheckList.Add(shipMod.ID, shipMod.Name)
             End If
         Next
-        sw.Flush()
-        sw.Close()
+        sw2.Flush()
+        sw2.Close()
 
         MessageBox.Show("Total traversed items: " & itemCount, "Tree Walk Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
@@ -547,6 +552,16 @@ Public Class frmHQFSettings
         End Try
     End Sub
 
-   
-   
+    Private Sub btnCheckMarket_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCheckMarket.Click
+        Dim chargeGroups As New ArrayList
+        Dim chargeGroupData() As String
+        Dim chargeItems As New SortedList
+        Dim groupName As String = ""
+        For Each chargeGroup As String In Charges.ChargeGroups
+            chargeGroupData = chargeGroup.Split("_".ToCharArray)
+            If chargeGroupData(0) = "0" Then
+                MessageBox.Show(chargeGroupData(2))
+            End If
+        Next
+    End Sub
 End Class

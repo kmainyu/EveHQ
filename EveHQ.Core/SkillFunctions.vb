@@ -459,7 +459,7 @@ Public Class SkillFunctions
                         newSkill.Published = True
                         newSkill.Rank = CInt(skill.ChildNodes(1).InnerText)
                         If skill.ChildNodes(2).ChildNodes.Count <> 0 Then
-                            For skillNode As Integer = 0 To skill.ChildNodes(2).ChildNodes.Count
+                            For skillNode As Integer = 0 To skill.ChildNodes(2).ChildNodes.Count - 1
                                 newSkill.PreReqSkills.Add(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("typeID").Value, CInt(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("skillLevel").Value))
                             Next
                         End If
