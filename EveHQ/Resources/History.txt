@@ -1,9 +1,10 @@
 EveHQ - Version History
 -----------------------
 
-1.8.5.420 (11/03/2009)
+1.8.5.468 (23/03/2009)
 ---------
 New Features:
+- New Apocrypha Database
 - Prism: Introducing the new Industry plug-in containing various viewers for wallet, orders and jobs
 - Recycling: Added recycling information into the Prism plug-in
 - Certificates: Added a certificate viewer to the Pilot Info screen together with a new Certificate Details form
@@ -17,12 +18,13 @@ New Features:
 - Neural Remapping: Provides details on the best spread of base attributes for your skill queues
 - Implant Benefits: Provides details on the improvements to a current skill queue by adding implants
 - Separated Character APIs: Training XML no longer depends on the character XML having the correct skill
-- Individual Character API Cache: The Training XML will now update every 15 minutes as per the allowed cache timer
+- Individual Character API Cache: The Training XML will now update as per the allowed cache timer
 - Accelerated Skill Training: Skill queues take account of accelerated skill training up to 1.6 million skillpoints
 - API Status Form Improvements: No longer intrusive and provides detailed API status information across all accounts
 - Assist In Development: Added debug output into the installer, updater and zip files to assist in locating unhandled errors
 - HQF: Eve Fittings Import/Export: Transfer setups between Eve and HQF
 - HQF: BattleClinic Browser: Browse loadouts and import them into HQF
+- HQF: Tech III!
 
 Fixes and Improvements:
 - Core: Having non-default proxy credentials should work correctly when fetching various files
@@ -82,6 +84,22 @@ Fixes and Improvements:
 - Core: Check now made for missing pilot skills on startup
 - Core: Fixed issue with invalid index in the main Pilot dropdown when updating character API
 - Core: Altered plug-in interface to remove optional parameter
+- Core: Added SkillQueue API into the EveAPI class
+- Core: Added SkillQueue API into the API Checker
+- Core: Added new randomised splash screen images
+- Core: Added additional credits in the About screen
+- Core: Improved updater error messages
+- Core: Using cursor keys now triggers an update of the relevant skill information in the training form.
+- Core: Altered EVEAPI cache filenames to use feature names instead of IDs
+- Core: Fixed locations of cache portraits in the Pilot Info screen
+- Core: Added error messages to local portrait search if the image could not be found
+- Core: Fixed errors with pilot skills not being in DB
+- Core: Fixed error with null skill queues
+- Core: Fixed errors with queues having old skill names
+- Core: Added versioning to skill queue files
+- Core: Fixed Auto API timer routines
+- Core: Fixed restriction in the number of skill pre-requisites for skills and items
+- Core: Disabled Integrated Error reporting button until the new system is up and running
 - CorpHQ: Warning message for invalid cache folder now indicates which Eve folder this is referring to
 - CorpHQ: A warning message will now be displayed if there are no cache files at all
 - CorpHQ: Decimal precision can now be modified by the user and tandings now displayed at the required precision
@@ -91,6 +109,7 @@ Fixes and Improvements:
 - CorpHQ: Fixed bug in Plug-in description that would allow multiple copies to open
 - CorpHQ: Added a checkbox for selecting whether to use Base or Actual standings
 - CorpHQ: Get Standings routine will now search the protocol directories and get the latest version before parsing standings
+- Creation: Amended routines for Apocrypha character creation
 - HQF: Fixed crash when right-clicking on empty slot
 - HQF: Fixed crash caused when you don't have the skills for a relevant skill in a module/charge/drone
 - HQF: Fixed pirate implants giving incorrect set bonuses
@@ -166,8 +185,23 @@ Fixes and Improvements:
 - HQF: Fixed issue with pilot skills not being present in the default skill lists
 - HQF: Warp Disruption Field Generator optimal range now added into the relevant column
 - HQF: Ship Fitting tabs now use multiline instead of scrolling
+- HQF: Adding, editing or removing implants sets now updates the implants in open fittings
+- HQF: Fixed stacking of Sensory Integrity IWL
+- HQF: Added new combobox filter for ships a pilot can fly
+- HQF: Fixed typos in performance details display
+- HQF: Fixed allocation of timing in performance to the correct position
+- HQF: Old characters not in the main pilots will no longer appear in HQF
+- HQF: Handled errors with NPC data not being in the database
+- HQF: Added message to opening fitting where a module was no longer valid
+- HQF: Rebuilt cache routines for better handling of metaType data
+- HQF: Remote module list will now update when there's no fittings left
+- HQF: Fixed crash caused by having no fittings to display in the fittings panel
+- HQF: FindModule now enables the list view is it has previously been disabled for having no items
+- HQF: Fixed Egress Port Maximizer affecting NOS cap transfer rate
 - InEve: Removed InEve plug-in and now brought in to the main application under the Tools menu
 - Item Browser: Fixed various proxy issues
+- Item Browser: Item Browser now sorted on category/group/item name
+- Item Browser: Fixed duplication of attributes in the startup routine
 - Map: Fixed crash caused when trying to set an End system without a Start system
 - Map: Added new toolbar and button for updating API data
 - Map: Removed a lot of duplicate data, resulting in smaller cache files and smaller memory usage (saves around 50Mb)
@@ -180,6 +214,9 @@ Fixes and Improvements:
 - Map: Removed Celestial tab and associated data to conserve memory
 - Map: Labels for ice and asteroid belts in the System info now show the relevant ice/ores for that system
 - Map: Fixed issues with Wormhole systems present in the API
+- Map: Fixed control docking on map tab
+- Map: Ignored systems, constellations and regions relating to wormhole systems
+- Map: Disabled the region and constellation combo boxes (unused)
 - Prism: Fixed asset reports crashing on encountering an item that isn't in the database
 - Prism: Changed margin profit in the Rig Builder to be GP%
 - Prism: Added the ability to add rigs to a build list, either manually or automatically

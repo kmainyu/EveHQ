@@ -400,26 +400,28 @@ Public Class frmMarketPrices
             regions.Clear()
             For Each regionRow As DataRow In regionSet.Tables(0).Rows
                 ' Create a batch of checkboxes for the regions
-                Dim chk As New CheckBox
-                chk.Text = CStr(regionRow.Item("regionName"))
-                chk.Name = CStr(regionRow.Item("regionID"))
-                regions.Add(CStr(regionRow.Item("regionName")), CStr(regionRow.Item("regionID")))
-                AddHandler chk.CheckedChanged, AddressOf Me.MarketRegionChanged
-                If IsDBNull(regionRow.Item("factionID")) Then
-                    chk.Tag = 0
-                Else
-                    If CInt(regionRow.Item("factionID")) > 500008 Then
+                If CStr(regionRow.Item("regionName")) <> "Unknown" Then
+                    Dim chk As New CheckBox
+                    chk.Text = CStr(regionRow.Item("regionName"))
+                    chk.Name = CStr(regionRow.Item("regionID"))
+                    regions.Add(CStr(regionRow.Item("regionName")), CStr(regionRow.Item("regionID")))
+                    AddHandler chk.CheckedChanged, AddressOf Me.MarketRegionChanged
+                    If IsDBNull(regionRow.Item("factionID")) Then
                         chk.Tag = 0
                     Else
-                        chk.Tag = CInt(regionRow.Item("factionID"))
+                        If CInt(regionRow.Item("factionID")) > 500008 Then
+                            chk.Tag = 0
+                        Else
+                            chk.Tag = CInt(regionRow.Item("factionID"))
+                        End If
                     End If
-                End If
-                If CInt(chk.Tag) <> 500005 Then ' Ignore the Jove systems
-                    chk.Location = New Point(x, y) : chk.Width = 145 : chk.Height = 18
-                    grpRegions.Controls.Add(chk)
-                    x += 150
-                    If x > 600 Then
-                        x = 10 : y += 18
+                    If CInt(chk.Tag) <> 500005 Then ' Ignore the Jove systems
+                        chk.Location = New Point(x, y) : chk.Width = 145 : chk.Height = 18
+                        grpRegions.Controls.Add(chk)
+                        x += 150
+                        If x > 600 Then
+                            x = 10 : y += 18
+                        End If
                     End If
                 End If
             Next

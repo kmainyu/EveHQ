@@ -1364,12 +1364,12 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub VersionHistoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VersionHistoryToolStripMenuItem.Click
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.appDataFolder & "History.txt")
+        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\History.txt")
         sw.Write(My.Resources.History)
         sw.Flush()
         sw.Close()
         Dim newReport As New frmReportViewer
-        newReport.wbReport.Navigate(EveHQ.Core.HQ.appDataFolder & "History.txt")
+        newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\History.txt")
         DisplayReport(newReport, "EveHQ Version History")
     End Sub
 
