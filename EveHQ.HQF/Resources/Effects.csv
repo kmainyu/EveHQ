@@ -113,7 +113,7 @@
 988,1,12367,995,2,77,0,1,5,0,Explosive Shield Compensation - Acitve
 958,1,12366,986,2,295,0,1,0,0,Kinetic Shield Compensation - Passive
 988,1,12366,996,2,77,0,1,5,0,Kinetic Shield Compensation - Active
-851,1,21059,6,2,40,0,1,0,0,Shield Compensation
+851,1,21059,6,4,609;610;611;612,0,1,0,0,Shield Compensation
 317,1,3422,6,4,604,0,1,0,0,Shield Emission Systems - Micro
 317,1,3422,6,4,603,0,1,0,0,Shield Emission Systems - Small
 317,1,3422,6,4,602,0,1,0,0,Shield Emission Systems - Medium
