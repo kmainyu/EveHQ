@@ -1059,14 +1059,14 @@ Public Class frmSettings
     Private Sub cboFormat_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFormat.SelectedIndexChanged
         Select Case cboFormat.SelectedIndex
             Case 0
-                gbAccess.Left = 6 : gbAccess.Top = 80 : gbAccess.Width = 400 : gbAccess.Height = 175
+                gbAccess.Left = 6 : gbAccess.Top = 80 : gbAccess.Width = 500 : gbAccess.Height = 250
                 txtMDBServer.Text = EveHQ.Core.HQ.EveHQSettings.DBFilename
                 txtMDBServer2.Text = EveHQ.Core.HQ.EveHQSettings.DBDataFilename
                 txtMDBUsername.Text = EveHQ.Core.HQ.EveHQSettings.DBUsername
                 txtMDBPassword.Text = EveHQ.Core.HQ.EveHQSettings.DBPassword
                 gbAccess.Visible = True : gbMSSQL.Visible = False
             Case 1, 2
-                gbMSSQL.Left = 6 : gbMSSQL.Top = 80 : gbMSSQL.Width = 400 : gbMSSQL.Height = 175
+                gbMSSQL.Left = 6 : gbMSSQL.Top = 80 : gbMSSQL.Width = 500 : gbMSSQL.Height = 250
                 txtMSSQLServer.Text = EveHQ.Core.HQ.EveHQSettings.DBServer
                 txtMSSQLDatabase.Text = EveHQ.Core.HQ.EveHQSettings.DBName
                 txtMSSQLDatabase2.Text = EveHQ.Core.HQ.EveHQSettings.DBDataName

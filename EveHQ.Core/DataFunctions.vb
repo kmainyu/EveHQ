@@ -35,9 +35,25 @@ Public Class DataFunctions
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' Access
                 ' Get the directory of the existing Access database to write the new one there
-                Dim FI As New FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                Dim outputFile As String = FI.DirectoryName & "\EveHQData.mdb"
-                Dim oldStrConn As String = EveHQ.Core.HQ.EveHQDataConnectionString
+                Dim outputFile As String = ""
+                If EveHQ.Core.HQ.EveHQSettings.DBDataFilename <> "" Then
+                    outputFile = EveHQ.Core.HQ.EveHQSettings.DBDataFilename.Replace("\\", "\")
+                    MessageBox.Show("Creating database using existing path: " & outputFile, "Custom Database Location")
+                Else
+                    If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Or EveHQ.Core.HQ.IsUsingLocalFolders = True Then
+                        outputFile = (EveHQ.Core.HQ.appFolder & "\EveHQData.mdb").Replace("\\", "\")
+                        If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
+                            MessageBox.Show("/local switch active - Location: " & outputFile, "Custom Database Location")
+                        Else
+                            If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = True Then
+                                MessageBox.Show("Using application directory for database - Location: " & outputFile, "Custom Database Location")
+                            End If
+                        End If
+                    Else
+                        outputFile = (EveHQ.Core.HQ.appDataFolder & "\EveHQData.mdb").Replace("\\", "\")
+                        MessageBox.Show("Creating database in users EveHQ Applciation Data folder: " & outputFile, "Custom Database Location")
+                    End If
+                End If
                 ' Try to create a new access db from resources
                 Dim fs As New FileStream(outputFile, FileMode.Create)
                 Dim bw As New BinaryWriter(fs)
@@ -46,11 +62,7 @@ Public Class DataFunctions
                     bw.Close()
                     fs.Close()
                     EveHQ.Core.HQ.EveHQSettings.DBDataFilename = outputFile
-                    If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
-                        EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename
-                    Else
-                        EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
-                    End If
+                    EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & outputFile
                     Return True
                 Catch e As Exception
                     EveHQ.Core.HQ.dataError = "Unable to create Access database in " & outputFile & ControlChars.CrLf & ControlChars.CrLf & e.Message
@@ -172,7 +184,7 @@ Public Class DataFunctions
                 If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
                     EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename
                 Else
-                    Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                    Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBDataFilename)
                     EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
                 End If
             Case 1
