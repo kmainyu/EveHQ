@@ -1444,7 +1444,9 @@ Public Class ShipSlotControl
                                 Case 16 ' High
                                     currentMod = currentShip.SubSlot(slotNo)
                             End Select
-                            chargeName = slot.SubItems(1).Text
+                            If currentMod.LoadedCharge IsNot Nothing Then
+                                chargeName = currentMod.LoadedCharge.Name
+                            End If
                             Exit For
                         End If
                     Next

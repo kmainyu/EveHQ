@@ -1,12 +1,13 @@
 EveHQ - Version History
 -----------------------
 
-1.9.1.471 (24/03/2009)
+1.9.1.472 (24/03/2009)
 ---------
 Fixes and Improvements:
 - Core: Fixed parsing of XML in foreign cultures for Skill Training
 - Core: Fixed checking of Eve API skill data where there are missing skills
 - HQF: Fixed missing market groups for Sisters Probes
+- HQF: Fixed error in opening slot context menu for customised columns
 - Prism: Handled error with old investments files
 
 
