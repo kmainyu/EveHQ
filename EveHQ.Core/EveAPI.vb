@@ -244,9 +244,9 @@ Public Class EveAPI
         Dim fileLoc As String = EveHQ.Core.HQ.cacheFolder & "\" & fileName & fileDate & ".xml"
         cLastAPIFileName = fileLoc
         Dim APIXML As New XmlDocument
-        Dim tmpAPIXML As New XmlDocument
         Dim errlist As XmlNodeList
         If My.Computer.FileSystem.FileExists(fileLoc) = True Then
+            Dim tmpAPIXML As New XmlDocument
             ' Check cache time of file
             Dim failedCacheLoad As Boolean = False
             Try
@@ -277,20 +277,28 @@ Public Class EveAPI
                 If errlist.Count <> 0 Then
                     Dim errNode As XmlNode = errlist(0)
                     ' Get error code
-                    Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                    Dim errMsg As String = errNode.InnerText
-                    If ReturnMethod = APIReturnMethod.ReturnStandard Then
-                        ' Return the old XML file but report the error
+                    Try
+                        Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                        Dim errMsg As String = errNode.InnerText
+                        If ReturnMethod = APIReturnMethod.ReturnStandard Then
+                            ' Return the old XML file but report the error
+                            cLastAPIResult = APIResults.CCPError
+                            cLastAPIError = CInt(errCode)
+                            cLastAPIErrorText = errMsg
+                            Return APIXML
+                        Else
+                            ' Return the current one regardless
+                            cLastAPIResult = APIResults.ReturnedActual
+                            tmpAPIXML.Save(fileLoc)
+                            Return tmpAPIXML
+                        End If
+                    Catch e As Exception
+                        ' Return the old XML file but report a general error - usually as a result of a API Server error
                         cLastAPIResult = APIResults.CCPError
-                        cLastAPIError = CInt(errCode)
-                        cLastAPIErrorText = errMsg
+                        cLastAPIError = 0
+                        cLastAPIErrorText = "A General Error occurred"
                         Return APIXML
-                    Else
-                        ' Return the current one regardless
-                        cLastAPIResult = APIResults.ReturnedActual
-                        tmpAPIXML.Save(fileLoc)
-                        Return tmpAPIXML
-                    End If
+                    End Try
                 Else
                     ' No error codes so save, then return new XML file
                     cLastAPIResult = APIResults.ReturnedNew
@@ -313,12 +321,41 @@ Public Class EveAPI
                     cLastAPIResult = APIResults.APIServerDownReturnedNull
                     Return Nothing
                 Else
-                    ' Update the incorrect cache data
-                    Call UpdateAPICacheTime(APIXML, feature)
-                    ' Save the XML to disk
-                    APIXML.Save(fileLoc)
-                    cLastAPIResult = APIResults.ReturnedNew
-                    Return APIXML
+                    ' Check for error codes
+                    errlist = APIXML.SelectNodes("/eveapi/error")
+                    If errlist.Count <> 0 Then
+                        Dim errNode As XmlNode = errlist(0)
+                        ' Get error code
+                        Try
+                            Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                            Dim errMsg As String = errNode.InnerText
+                            If ReturnMethod = APIReturnMethod.ReturnStandard Then
+                                ' Return nothing as we have an error
+                                cLastAPIResult = APIResults.CCPError
+                                cLastAPIError = CInt(errCode)
+                                cLastAPIErrorText = errMsg
+                                Return Nothing
+                            Else
+                                ' Return the current one regardless
+                                cLastAPIResult = APIResults.ReturnedActual
+                                APIXML.Save(fileLoc)
+                                Return APIXML
+                            End If
+                        Catch e As Exception
+                            ' Return nothing and report a general error - usually as a result of a API Server error
+                            cLastAPIResult = APIResults.CCPError
+                            cLastAPIError = 0
+                            cLastAPIErrorText = "A General Error occurred"
+                            Return Nothing
+                        End Try
+                    Else
+                        ' Update the incorrect cache data
+                        Call UpdateAPICacheTime(APIXML, feature)
+                        ' Save the XML to disk
+                        APIXML.Save(fileLoc)
+                        cLastAPIResult = APIResults.ReturnedNew
+                        Return APIXML
+                    End If
                 End If
             End If
         End If
