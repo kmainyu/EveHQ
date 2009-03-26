@@ -758,7 +758,7 @@ Public Class frmItemBrowser
         Next
 
         ' Do skill & fitting requirements adjustment & "math.rounding" here
-        Dim skillLvl As String = ""
+        Dim skillLvl As String = "1"
         itemFitting.Clear()
         For att As Integer = 1 To attNo
             If attributes(att, 4) = " typeID" Then
