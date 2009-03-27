@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.tlvAssets = New DotNetLib.Windows.Forms.ContainerListView
         Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -94,6 +94,7 @@ Partial Class frmPrism
         Me.colOwnerName = New System.Windows.Forms.ColumnHeader
         Me.lblCharFilter = New System.Windows.Forms.Label
         Me.tabInvestments = New System.Windows.Forms.TabPage
+        Me.lblTransactionView = New System.Windows.Forms.Label
         Me.btnReOpenInvestment = New System.Windows.Forms.Button
         Me.chkViewClosedInvestments = New System.Windows.Forms.CheckBox
         Me.btnCloseInvestment = New System.Windows.Forms.Button
@@ -260,9 +261,9 @@ Partial Class frmPrism
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.tabItems = New System.Windows.Forms.TabPage
         Me.clvRecycle = New DotNetLib.Windows.Forms.ContainerListView
-        Me.ContainerListViewColumnHeader1 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader2 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader3 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colRecycleItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colRecycleMetaLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colRecycleQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colBatches = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colItemPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colTotalPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -333,7 +334,14 @@ Partial Class frmPrism
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
-        Me.lblTransactionView = New System.Windows.Forms.Label
+        Me.chkOverrideBrokerFee = New System.Windows.Forms.CheckBox
+        Me.chkOverrideTax = New System.Windows.Forms.CheckBox
+        Me.nudBrokerFee = New System.Windows.Forms.NumericUpDown
+        Me.nudTax = New System.Windows.Forms.NumericUpDown
+        Me.lblTotalFeesLbl = New System.Windows.Forms.Label
+        Me.lblTotalFees = New System.Windows.Forms.Label
+        Me.colFees = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colSalePrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -364,6 +372,8 @@ Partial Class frmPrism
         Me.tabTotals.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
+        CType(Me.nudBrokerFee, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudTax, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'tlvAssets
@@ -950,11 +960,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup5.Header = "Corporation"
-        ListViewGroup5.Name = "grpCorporation"
-        ListViewGroup6.Header = "Personal"
-        ListViewGroup6.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
+        ListViewGroup1.Header = "Corporation"
+        ListViewGroup1.Name = "grpCorporation"
+        ListViewGroup2.Header = "Personal"
+        ListViewGroup2.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -999,6 +1009,15 @@ Partial Class frmPrism
         Me.tabInvestments.TabIndex = 3
         Me.tabInvestments.Text = "Investments"
         Me.tabInvestments.UseVisualStyleBackColor = True
+        '
+        'lblTransactionView
+        '
+        Me.lblTransactionView.AutoSize = True
+        Me.lblTransactionView.Location = New System.Drawing.Point(8, 257)
+        Me.lblTransactionView.Name = "lblTransactionView"
+        Me.lblTransactionView.Size = New System.Drawing.Size(139, 13)
+        Me.lblTransactionView.TabIndex = 14
+        Me.lblTransactionView.Text = "Viewing Transactions: None"
         '
         'btnReOpenInvestment
         '
@@ -2398,6 +2417,12 @@ Partial Class frmPrism
         '
         'tabRecycle
         '
+        Me.tabRecycle.Controls.Add(Me.lblTotalFees)
+        Me.tabRecycle.Controls.Add(Me.lblTotalFeesLbl)
+        Me.tabRecycle.Controls.Add(Me.nudTax)
+        Me.tabRecycle.Controls.Add(Me.nudBrokerFee)
+        Me.tabRecycle.Controls.Add(Me.chkOverrideTax)
+        Me.tabRecycle.Controls.Add(Me.chkOverrideBrokerFee)
         Me.tabRecycle.Controls.Add(Me.lblItems)
         Me.tabRecycle.Controls.Add(Me.lblVolume)
         Me.tabRecycle.Controls.Add(Me.lblItemsLbl)
@@ -2489,7 +2514,7 @@ Partial Class frmPrism
         'chkOverrideStandings
         '
         Me.chkOverrideStandings.AutoSize = True
-        Me.chkOverrideStandings.Location = New System.Drawing.Point(259, 98)
+        Me.chkOverrideStandings.Location = New System.Drawing.Point(259, 73)
         Me.chkOverrideStandings.Name = "chkOverrideStandings"
         Me.chkOverrideStandings.Size = New System.Drawing.Size(118, 17)
         Me.chkOverrideStandings.TabIndex = 46
@@ -2499,7 +2524,7 @@ Partial Class frmPrism
         'chkOverrideBaseYield
         '
         Me.chkOverrideBaseYield.AutoSize = True
-        Me.chkOverrideBaseYield.Location = New System.Drawing.Point(259, 72)
+        Me.chkOverrideBaseYield.Location = New System.Drawing.Point(384, 46)
         Me.chkOverrideBaseYield.Name = "chkOverrideBaseYield"
         Me.chkOverrideBaseYield.Size = New System.Drawing.Size(119, 17)
         Me.chkOverrideBaseYield.TabIndex = 45
@@ -2509,7 +2534,7 @@ Partial Class frmPrism
         'nudStandings
         '
         Me.nudStandings.DecimalPlaces = 4
-        Me.nudStandings.Location = New System.Drawing.Point(384, 97)
+        Me.nudStandings.Location = New System.Drawing.Point(410, 72)
         Me.nudStandings.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.nudStandings.Name = "nudStandings"
         Me.nudStandings.Size = New System.Drawing.Size(74, 21)
@@ -2518,7 +2543,7 @@ Partial Class frmPrism
         'nudBaseYield
         '
         Me.nudBaseYield.DecimalPlaces = 2
-        Me.nudBaseYield.Location = New System.Drawing.Point(384, 71)
+        Me.nudBaseYield.Location = New System.Drawing.Point(509, 45)
         Me.nudBaseYield.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
         Me.nudBaseYield.Name = "nudBaseYield"
         Me.nudBaseYield.Size = New System.Drawing.Size(74, 21)
@@ -2564,7 +2589,7 @@ Partial Class frmPrism
         'lblBaseYield
         '
         Me.lblBaseYield.AutoSize = True
-        Me.lblBaseYield.Location = New System.Drawing.Point(577, 60)
+        Me.lblBaseYield.Location = New System.Drawing.Point(601, 78)
         Me.lblBaseYield.Name = "lblBaseYield"
         Me.lblBaseYield.Size = New System.Drawing.Size(24, 13)
         Me.lblBaseYield.TabIndex = 38
@@ -2573,7 +2598,7 @@ Partial Class frmPrism
         'lblNetYield
         '
         Me.lblNetYield.AutoSize = True
-        Me.lblNetYield.Location = New System.Drawing.Point(577, 73)
+        Me.lblNetYield.Location = New System.Drawing.Point(601, 91)
         Me.lblNetYield.Name = "lblNetYield"
         Me.lblNetYield.Size = New System.Drawing.Size(24, 13)
         Me.lblNetYield.TabIndex = 37
@@ -2582,7 +2607,7 @@ Partial Class frmPrism
         'lblStandings
         '
         Me.lblStandings.AutoSize = True
-        Me.lblStandings.Location = New System.Drawing.Point(577, 86)
+        Me.lblStandings.Location = New System.Drawing.Point(601, 104)
         Me.lblStandings.Name = "lblStandings"
         Me.lblStandings.Size = New System.Drawing.Size(13, 13)
         Me.lblStandings.TabIndex = 36
@@ -2591,7 +2616,7 @@ Partial Class frmPrism
         'lblStationTake
         '
         Me.lblStationTake.AutoSize = True
-        Me.lblStationTake.Location = New System.Drawing.Point(577, 99)
+        Me.lblStationTake.Location = New System.Drawing.Point(601, 117)
         Me.lblStationTake.Name = "lblStationTake"
         Me.lblStationTake.Size = New System.Drawing.Size(24, 13)
         Me.lblStationTake.TabIndex = 35
@@ -2600,7 +2625,7 @@ Partial Class frmPrism
         'lblStationTakeLbl
         '
         Me.lblStationTakeLbl.AutoSize = True
-        Me.lblStationTakeLbl.Location = New System.Drawing.Point(500, 99)
+        Me.lblStationTakeLbl.Location = New System.Drawing.Point(524, 117)
         Me.lblStationTakeLbl.Name = "lblStationTakeLbl"
         Me.lblStationTakeLbl.Size = New System.Drawing.Size(71, 13)
         Me.lblStationTakeLbl.TabIndex = 34
@@ -2609,7 +2634,7 @@ Partial Class frmPrism
         'lblStandingsLbl
         '
         Me.lblStandingsLbl.AutoSize = True
-        Me.lblStandingsLbl.Location = New System.Drawing.Point(500, 86)
+        Me.lblStandingsLbl.Location = New System.Drawing.Point(524, 104)
         Me.lblStandingsLbl.Name = "lblStandingsLbl"
         Me.lblStandingsLbl.Size = New System.Drawing.Size(58, 13)
         Me.lblStandingsLbl.TabIndex = 33
@@ -2618,7 +2643,7 @@ Partial Class frmPrism
         'lblNetYieldLbl
         '
         Me.lblNetYieldLbl.AutoSize = True
-        Me.lblNetYieldLbl.Location = New System.Drawing.Point(500, 73)
+        Me.lblNetYieldLbl.Location = New System.Drawing.Point(524, 91)
         Me.lblNetYieldLbl.Name = "lblNetYieldLbl"
         Me.lblNetYieldLbl.Size = New System.Drawing.Size(53, 13)
         Me.lblNetYieldLbl.TabIndex = 32
@@ -2627,7 +2652,7 @@ Partial Class frmPrism
         'lblBaseYieldLbl
         '
         Me.lblBaseYieldLbl.AutoSize = True
-        Me.lblBaseYieldLbl.Location = New System.Drawing.Point(500, 60)
+        Me.lblBaseYieldLbl.Location = New System.Drawing.Point(524, 78)
         Me.lblBaseYieldLbl.Name = "lblBaseYieldLbl"
         Me.lblBaseYieldLbl.Size = New System.Drawing.Size(59, 13)
         Me.lblBaseYieldLbl.TabIndex = 31
@@ -2669,10 +2694,10 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControl1.Controls.Add(Me.tabItems)
         Me.TabControl1.Controls.Add(Me.tabTotals)
-        Me.TabControl1.Location = New System.Drawing.Point(3, 124)
+        Me.TabControl1.Location = New System.Drawing.Point(3, 152)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1130, 417)
+        Me.TabControl1.Size = New System.Drawing.Size(1130, 389)
         Me.TabControl1.TabIndex = 27
         '
         'tabItems
@@ -2681,14 +2706,14 @@ Partial Class frmPrism
         Me.tabItems.Location = New System.Drawing.Point(4, 22)
         Me.tabItems.Name = "tabItems"
         Me.tabItems.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabItems.Size = New System.Drawing.Size(1122, 391)
+        Me.tabItems.Size = New System.Drawing.Size(1122, 363)
         Me.tabItems.TabIndex = 0
         Me.tabItems.Text = "Item Analysis"
         Me.tabItems.UseVisualStyleBackColor = True
         '
         'clvRecycle
         '
-        Me.clvRecycle.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader1, Me.ContainerListViewColumnHeader2, Me.ContainerListViewColumnHeader3, Me.colBatches, Me.colItemPrice, Me.colTotalPrice, Me.colRefinePrice})
+        Me.clvRecycle.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRecycleItem, Me.colRecycleMetaLevel, Me.colRecycleQuantity, Me.colBatches, Me.colItemPrice, Me.colTotalPrice, Me.colFees, Me.colSalePrice, Me.colRefinePrice})
         Me.clvRecycle.ContextMenuStrip = Me.ctxRecycleItems
         Me.clvRecycle.DefaultItemHeight = 20
         Me.clvRecycle.Dock = System.Windows.Forms.DockStyle.Fill
@@ -2697,42 +2722,42 @@ Partial Class frmPrism
         Me.clvRecycle.Location = New System.Drawing.Point(3, 3)
         Me.clvRecycle.MultipleColumnSort = True
         Me.clvRecycle.Name = "clvRecycle"
-        Me.clvRecycle.Size = New System.Drawing.Size(1116, 385)
+        Me.clvRecycle.Size = New System.Drawing.Size(1116, 357)
         Me.clvRecycle.TabIndex = 0
         '
-        'ContainerListViewColumnHeader1
+        'colRecycleItem
         '
-        Me.ContainerListViewColumnHeader1.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader1.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.ContainerListViewColumnHeader1.Tag = Nothing
-        Me.ContainerListViewColumnHeader1.Text = "Item"
-        Me.ContainerListViewColumnHeader1.Width = 300
+        Me.colRecycleItem.CustomSortTag = Nothing
+        Me.colRecycleItem.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colRecycleItem.Tag = Nothing
+        Me.colRecycleItem.Text = "Item"
+        Me.colRecycleItem.Width = 300
         '
-        'ContainerListViewColumnHeader2
+        'colRecycleMetaLevel
         '
-        Me.ContainerListViewColumnHeader2.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.ContainerListViewColumnHeader2.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader2.DisplayIndex = 1
-        Me.ContainerListViewColumnHeader2.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
-        Me.ContainerListViewColumnHeader2.Tag = Nothing
-        Me.ContainerListViewColumnHeader2.Text = "Meta Level"
+        Me.colRecycleMetaLevel.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.colRecycleMetaLevel.CustomSortTag = Nothing
+        Me.colRecycleMetaLevel.DisplayIndex = 1
+        Me.colRecycleMetaLevel.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colRecycleMetaLevel.Tag = Nothing
+        Me.colRecycleMetaLevel.Text = "Meta Level"
         '
-        'ContainerListViewColumnHeader3
+        'colRecycleQuantity
         '
-        Me.ContainerListViewColumnHeader3.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.ContainerListViewColumnHeader3.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader3.DisplayIndex = 2
-        Me.ContainerListViewColumnHeader3.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
-        Me.ContainerListViewColumnHeader3.Tag = Nothing
-        Me.ContainerListViewColumnHeader3.Text = "Quantity"
-        Me.ContainerListViewColumnHeader3.Width = 75
+        Me.colRecycleQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.colRecycleQuantity.CustomSortTag = Nothing
+        Me.colRecycleQuantity.DisplayIndex = 2
+        Me.colRecycleQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colRecycleQuantity.Tag = Nothing
+        Me.colRecycleQuantity.Text = "Quantity"
+        Me.colRecycleQuantity.Width = 75
         '
         'colBatches
         '
         Me.colBatches.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.colBatches.CustomSortTag = Nothing
         Me.colBatches.DisplayIndex = 3
-        Me.colBatches.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.colBatches.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
         Me.colBatches.Tag = Nothing
         Me.colBatches.Text = "Batches"
         '
@@ -2760,7 +2785,7 @@ Partial Class frmPrism
         '
         Me.colRefinePrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.colRefinePrice.CustomSortTag = Nothing
-        Me.colRefinePrice.DisplayIndex = 6
+        Me.colRefinePrice.DisplayIndex = 8
         Me.colRefinePrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
         Me.colRefinePrice.Tag = Nothing
         Me.colRefinePrice.Text = "Refine Price"
@@ -3235,14 +3260,83 @@ Partial Class frmPrism
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
         '
-        'lblTransactionView
+        'chkOverrideBrokerFee
         '
-        Me.lblTransactionView.AutoSize = True
-        Me.lblTransactionView.Location = New System.Drawing.Point(8, 257)
-        Me.lblTransactionView.Name = "lblTransactionView"
-        Me.lblTransactionView.Size = New System.Drawing.Size(139, 13)
-        Me.lblTransactionView.TabIndex = 14
-        Me.lblTransactionView.Text = "Viewing Transactions: None"
+        Me.chkOverrideBrokerFee.AutoSize = True
+        Me.chkOverrideBrokerFee.Location = New System.Drawing.Point(259, 100)
+        Me.chkOverrideBrokerFee.Name = "chkOverrideBrokerFee"
+        Me.chkOverrideBrokerFee.Size = New System.Drawing.Size(145, 17)
+        Me.chkOverrideBrokerFee.TabIndex = 53
+        Me.chkOverrideBrokerFee.Text = "Override Broker Fee (%)"
+        Me.chkOverrideBrokerFee.UseVisualStyleBackColor = True
+        '
+        'chkOverrideTax
+        '
+        Me.chkOverrideTax.AutoSize = True
+        Me.chkOverrideTax.Location = New System.Drawing.Point(259, 129)
+        Me.chkOverrideTax.Name = "chkOverrideTax"
+        Me.chkOverrideTax.Size = New System.Drawing.Size(111, 17)
+        Me.chkOverrideTax.TabIndex = 54
+        Me.chkOverrideTax.Text = "Override Tax (%)"
+        Me.chkOverrideTax.UseVisualStyleBackColor = True
+        '
+        'nudBrokerFee
+        '
+        Me.nudBrokerFee.DecimalPlaces = 4
+        Me.nudBrokerFee.Increment = New Decimal(New Integer() {5, 0, 0, 131072})
+        Me.nudBrokerFee.Location = New System.Drawing.Point(410, 99)
+        Me.nudBrokerFee.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudBrokerFee.Name = "nudBrokerFee"
+        Me.nudBrokerFee.Size = New System.Drawing.Size(74, 21)
+        Me.nudBrokerFee.TabIndex = 55
+        '
+        'nudTax
+        '
+        Me.nudTax.DecimalPlaces = 4
+        Me.nudTax.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.nudTax.Location = New System.Drawing.Point(410, 126)
+        Me.nudTax.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudTax.Name = "nudTax"
+        Me.nudTax.Size = New System.Drawing.Size(74, 21)
+        Me.nudTax.TabIndex = 56
+        '
+        'lblTotalFeesLbl
+        '
+        Me.lblTotalFeesLbl.AutoSize = True
+        Me.lblTotalFeesLbl.Location = New System.Drawing.Point(524, 130)
+        Me.lblTotalFeesLbl.Name = "lblTotalFeesLbl"
+        Me.lblTotalFeesLbl.Size = New System.Drawing.Size(61, 13)
+        Me.lblTotalFeesLbl.TabIndex = 57
+        Me.lblTotalFeesLbl.Text = "Total Fees:"
+        '
+        'lblTotalFees
+        '
+        Me.lblTotalFees.AutoSize = True
+        Me.lblTotalFees.Location = New System.Drawing.Point(601, 130)
+        Me.lblTotalFees.Name = "lblTotalFees"
+        Me.lblTotalFees.Size = New System.Drawing.Size(24, 13)
+        Me.lblTotalFees.TabIndex = 58
+        Me.lblTotalFees.Text = "0%"
+        '
+        'colFees
+        '
+        Me.colFees.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colFees.CustomSortTag = Nothing
+        Me.colFees.DisplayIndex = 6
+        Me.colFees.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colFees.Tag = Nothing
+        Me.colFees.Text = "Fees"
+        Me.colFees.Width = 100
+        '
+        'colSalePrice
+        '
+        Me.colSalePrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colSalePrice.CustomSortTag = Nothing
+        Me.colSalePrice.DisplayIndex = 7
+        Me.colSalePrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colSalePrice.Tag = Nothing
+        Me.colSalePrice.Text = "Sale Price"
+        Me.colSalePrice.Width = 100
         '
         'frmPrism
         '
@@ -3300,6 +3394,8 @@ Partial Class frmPrism
         Me.StatusStrip1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        CType(Me.nudBrokerFee, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudTax, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3557,9 +3653,9 @@ Partial Class frmPrism
     Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
     Friend WithEvents tabItems As System.Windows.Forms.TabPage
     Friend WithEvents clvRecycle As DotNetLib.Windows.Forms.ContainerListView
-    Friend WithEvents ContainerListViewColumnHeader1 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader2 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader3 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colRecycleItem As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colRecycleMetaLevel As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colRecycleQuantity As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colBatches As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colItemPrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colTotalPrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -3612,4 +3708,12 @@ Partial Class frmPrism
     Friend WithEvents btnExportRigList As System.Windows.Forms.Button
     Friend WithEvents btnExportRigBuildList As System.Windows.Forms.Button
     Friend WithEvents lblTransactionView As System.Windows.Forms.Label
+    Friend WithEvents lblTotalFees As System.Windows.Forms.Label
+    Friend WithEvents lblTotalFeesLbl As System.Windows.Forms.Label
+    Friend WithEvents nudTax As System.Windows.Forms.NumericUpDown
+    Friend WithEvents nudBrokerFee As System.Windows.Forms.NumericUpDown
+    Friend WithEvents chkOverrideTax As System.Windows.Forms.CheckBox
+    Friend WithEvents chkOverrideBrokerFee As System.Windows.Forms.CheckBox
+    Friend WithEvents colFees As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colSalePrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
 End Class
