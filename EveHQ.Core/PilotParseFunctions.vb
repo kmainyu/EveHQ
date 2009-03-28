@@ -187,7 +187,7 @@ Public Class PilotParseFunctions
             If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml") = True Then
                 cXML = True
             End If
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml") = True Then
+            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml") = True Then
                 tXML = True
             End If
 
@@ -195,7 +195,7 @@ Public Class PilotParseFunctions
             If cXML = True Then
                 cXMLDoc.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")
                 If tXML = True Then
-                    tXMLDoc.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")
+                    tXMLDoc.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")
                 End If
                 Call ParsePilotSkills(currentPilot, cXMLDoc)
                 Call ParsePilotXML(currentPilot, cXMLDoc)
@@ -427,11 +427,11 @@ Public Class PilotParseFunctions
         Else
             EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet, EveHQ.Core.EveAPI.LastAPIResult)
         End If
-        Dim tXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.SkillTraining, cAccount, cPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+        Dim tXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.SkillQueue, cAccount, cPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
         If EveHQ.Core.EveAPI.LastAPIResult = EveAPI.APIResults.CCPError Then
-            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining, -EveHQ.Core.EveAPI.LastAPIError)
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue, -EveHQ.Core.EveAPI.LastAPIError)
         Else
-            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining, EveHQ.Core.EveAPI.LastAPIResult)
+            EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue, EveHQ.Core.EveAPI.LastAPIResult)
         End If
         Call ParsePilotSkills(cPilot, cXML)
         Call ParsePilotXML(cPilot, cXML)
@@ -535,42 +535,36 @@ Public Class PilotParseFunctions
     Private Shared Sub ParseTrainingXML(ByRef cPilot As EveHQ.Core.Pilot, ByVal TXMLDoc As XmlDocument)
         ' Get the training details
         If TXMLDoc IsNot Nothing Then
-            Dim CharDetails As XmlNodeList
-            Dim toon As XmlNode
-            CharDetails = TXMLDoc.SelectNodes("/eveapi/result")
+            Dim TrainingDetails As XmlNodeList
+            Dim trainingNode As XmlNode
+            TrainingDetails = TXMLDoc.SelectNodes("/eveapi/result/rowset/row")
             ' Check if a training file has been loaded!
-            If CharDetails.Count <> 0 Then
-                ' Get the relevant node!
-                toon = CharDetails(0)       ' This is zero because there is only 1 occurence of the skillTraining node in each XML doc
-                If toon.HasChildNodes Then
-                    With cPilot
-                        If toon.ChildNodes.Count = 8 Then
-                            Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-US")
-                            .Training = True
-                            .TrainingSkillID = toon.ChildNodes(3).InnerText
-                            .TrainingSkillName = EveHQ.Core.SkillFunctions.SkillIDToName(.TrainingSkillID)
-                            Dim dt As DateTime = DateTime.Parse(toon.ChildNodes(2).InnerText, culture, System.Globalization.DateTimeStyles.NoCurrentDateDefault)
-                            .TrainingStartTimeActual = CDate(dt.ToString)
-                            .TrainingStartTime = .TrainingStartTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
-                            dt = DateTime.Parse(toon.ChildNodes(1).InnerText, culture, System.Globalization.DateTimeStyles.NoCurrentDateDefault)
-                            .TrainingEndTimeActual = CDate(dt.ToString)
-                            .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
-                            .TrainingStartSP = CInt(toon.ChildNodes(4).InnerText)
-                            .TrainingEndSP = CInt(toon.ChildNodes(5).InnerText)
-                            .TrainingSkillLevel = CInt(toon.ChildNodes(6).InnerText)
-                            Call CheckMissingTrainingSkill(cPilot)
-                        Else
-                            .Training = False
-                        End If
-                    End With
-                End If
+            If TrainingDetails.Count > 0 Then
+                ' Get the first node i.e. the current training skill
+                trainingNode = TrainingDetails(0)       ' This is zero because there is only 1 occurence of the skillTraining node in each XML doc
+                With cPilot
+                    Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-US")
+                    .Training = True
+                    .TrainingSkillID = trainingNode.Attributes("typeID").Value
+                    .TrainingSkillName = EveHQ.Core.SkillFunctions.SkillIDToName(.TrainingSkillID)
+                    Dim dt As DateTime = DateTime.Parse(trainingNode.Attributes("startTime").Value, culture, System.Globalization.DateTimeStyles.NoCurrentDateDefault)
+                    .TrainingStartTimeActual = CDate(dt.ToString)
+                    .TrainingStartTime = .TrainingStartTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                    dt = DateTime.Parse(trainingNode.Attributes("endTime").Value, culture, System.Globalization.DateTimeStyles.NoCurrentDateDefault)
+                    .TrainingEndTimeActual = CDate(dt.ToString)
+                    .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                    .TrainingStartSP = CInt(trainingNode.Attributes("startSP").Value)
+                    .TrainingEndSP = CInt(trainingNode.Attributes("endSP").Value)
+                    .TrainingSkillLevel = CInt(trainingNode.Attributes("level").Value)
+                    Call CheckMissingTrainingSkill(cPilot)
+                End With
             Else
                 cPilot.Training = False
             End If
             ' Get Cache details
-            CharDetails = TXMLDoc.SelectNodes("/eveapi")
-            cPilot.TrainingFileTime = CDate(CharDetails(0).ChildNodes(0).InnerText)
-            cPilot.TrainingExpirationTime = CDate(CharDetails(0).ChildNodes(2).InnerText)
+            TrainingDetails = TXMLDoc.SelectNodes("/eveapi")
+            cPilot.TrainingFileTime = CDate(TrainingDetails(0).ChildNodes(0).InnerText)
+            cPilot.TrainingExpirationTime = CDate(TrainingDetails(0).ChildNodes(2).InnerText)
         Else
             cPilot.Training = False
         End If
@@ -751,7 +745,7 @@ Public Class PilotParseFunctions
                 EveHQ.Core.HQ.TPilots.Add(newPilot)
                 pilotXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml")
                 If pilotTXML IsNot Nothing Then
-                    pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml")
+                    pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml")
                 End If
 
                 Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
@@ -846,7 +840,7 @@ Public Class PilotParseFunctions
                 pilotXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml")
                 If pilotTXML IsNot Nothing Then
                     If pilotTXML.InnerText <> "" Then
-                        pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml")
+                        pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml")
                     End If
                 End If
 

@@ -78,7 +78,7 @@ Public Class EveAPIStatusForm
                         Call DisplayAPIResult(3, CInt(EveHQ.Core.HQ.APIResults(result)), itemResult)
                     End If
                     ' Add Result for training XML
-                    If CInt(results(2)) = EveHQ.Core.EveAPI.APIRequest.SkillTraining Then
+                    If CInt(results(2)) = EveHQ.Core.EveAPI.APIRequest.SkillQueue Then
                         Call DisplayAPIResult(4, CInt(EveHQ.Core.HQ.APIResults(result)), itemResult)
                     End If
                 End If

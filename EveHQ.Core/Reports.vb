@@ -1006,7 +1006,7 @@ Public Class Reports
 
     Public Shared Sub GenerateTrainXML(ByVal rPilot As EveHQ.Core.Pilot)
         Dim tXML As New XmlDocument
-        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml")
+        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml")
         tXML.Save(EveHQ.Core.HQ.reportFolder & "\TrainingXML (" & rPilot.Name & ").xml")
     End Sub
 
@@ -2232,31 +2232,23 @@ Public Class Reports
 
         Dim strXML As String = "<?xml version=""1.0"" encoding=""iso-8859-1"" ?>" & vbCrLf
 
+        strXML &= tabs(0) & "<eveapi version=""2"">" & vbCrLf
+        strXML &= tabs(1) & "<currentTime>" & Format(rpilot.CacheFileTime, "yyyy-MM-dd HH:mm:ss") & "</currentTime>" & vbCrLf
+        strXML &= tabs(1) & "<result>" & vbCrLf
+        strXML &= tabs(2) & "<rowset name=""skillqueue"" key=""queuePosition"" columns=""queuePosition,typeID,level,startSP,endSP,startTime,endTime"">" & vbCrLf
         If rpilot.Training = True Then
-            strXML &= tabs(0) & "<eveapi version=""1"">" & vbCrLf
-            strXML &= tabs(1) & "<currentTime>" & Format(rpilot.CacheFileTime, "yyyy-MM-dd HH:mm:ss") & "</currentTime>" & vbCrLf
-            strXML &= tabs(1) & "<result>"
-            strXML &= tabs(2) & "<currentTQTime offset=""-8"">" & Format(Now.AddSeconds(-8), "yyyy-MM-dd HH:mm:ss") & "</currentTQTime>"
-            strXML &= tabs(2) & "<trainingEndTime>" & Format(rpilot.TrainingEndTimeActual, "yyyy-MM-dd HH:mm:ss") & "</trainingEndTime>" & vbCrLf
-            strXML &= tabs(2) & "<trainingStartTime>" & Format(rpilot.TrainingStartTimeActual, "yyyy-MM-dd HH:mm:ss") & "</trainingStartTime>" & vbCrLf
-            strXML &= tabs(2) & "<trainingTypeID>" & rpilot.TrainingSkillID & "</trainingTypeID>" & vbCrLf
-            strXML &= tabs(2) & "<trainingStartSP>" & rpilot.TrainingStartSP & "</trainingStartSP>" & vbCrLf
-            strXML &= tabs(2) & "<trainingDestinationSP>" & rpilot.TrainingEndSP & "</trainingDestinationSP>" & vbCrLf
-            strXML &= tabs(2) & "<trainingToLevel>" & rpilot.TrainingSkillLevel & "</trainingToLevel>" & vbCrLf
-            strXML &= tabs(2) & "<skillInTraining>1</skillInTraining>" & vbCrLf
-            strXML &= tabs(1) & "</result>" & vbCrLf
-            strXML &= tabs(1) & "<cachedUntil>" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "</cachedUntil>" & vbCrLf
-            strXML &= tabs(0) & "</eveapi>" & vbCrLf
-        Else
-            strXML &= tabs(0) & "<eveapi version=""1"">" & vbCrLf
-            strXML &= tabs(1) & "<currentTime>" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "</currentTime>" & vbCrLf
-            strXML &= tabs(1) & "<result>"
-            strXML &= tabs(2) & "<currentTQTime offset=""-8"">" & Format(Now.AddSeconds(-8), "yyyy-MM-dd hh:mm:ss") & "</currentTQTime>"
-            strXML &= tabs(2) & "<skillInTraining>0</skillInTraining>" & vbCrLf
-            strXML &= tabs(1) & "</result>" & vbCrLf
-            strXML &= tabs(1) & "<cachedUntil>" & Format(rpilot.CacheExpirationTime, "yyyy-MM-dd HH:mm:ss") & "</cachedUntil>" & vbCrLf
-            strXML &= tabs(0) & "</eveapi>" & vbCrLf
+            strXML &= tabs(3) & "<row queuePosition=""1"""
+            strXML &= " typeID=""" & rpilot.TrainingSkillID & """"
+            strXML &= " level=""" & rpilot.TrainingSkillLevel & """"
+            strXML &= " startSP=""" & rpilot.TrainingStartSP & """"
+            strXML &= " endSP=""" & rpilot.TrainingEndSP & """"
+            strXML &= " startTime=""" & Format(rpilot.TrainingStartTimeActual, "yyyy-MM-dd HH:mm:ss") & """"
+            strXML &= " endTime=""" & Format(rpilot.TrainingEndTimeActual, "yyyy-MM-dd HH:mm:ss") & """"
+            strXML &= " />" & vbCrLf
         End If
+        strXML &= tabs(1) & "</result>" & vbCrLf
+        strXML &= tabs(1) & "<cachedUntil>" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "</cachedUntil>" & vbCrLf
+        strXML &= tabs(0) & "</eveapi>" & vbCrLf
 
         Return strXML
 

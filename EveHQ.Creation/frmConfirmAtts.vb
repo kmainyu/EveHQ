@@ -87,7 +87,7 @@ Public Class frmConfirmAtts
 
         ' Write the XML files
         Dim xmlFile As String = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml"
-        Dim txmlFile As String = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml"
+        Dim txmlFile As String = EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml"
         Dim strXML As String = ""
         Dim sw As IO.StreamWriter
 
