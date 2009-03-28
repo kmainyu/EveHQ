@@ -871,7 +871,6 @@ Public Class frmPrism
                             Else
                                 newAsset.Text = itemName
                             End If
-
                             newAsset.SubItems(AssetColumn.Owner).Text = owner
                             newAsset.SubItems(AssetColumn.Group).Text = groupName
                             newAsset.SubItems(AssetColumn.Category).Text = catName
@@ -1007,7 +1006,6 @@ Public Class frmPrism
                 Else
                     subAsset.Text = itemName
                 End If
-                subAsset.Text = itemName
                 subAsset.SubItems(AssetColumn.Owner).Text = assetOwner
                 subAsset.SubItems(AssetColumn.Group).Text = groupName
                 subAsset.SubItems(AssetColumn.Category).Text = catName

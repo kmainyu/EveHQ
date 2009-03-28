@@ -1,6 +1,27 @@
 EveHQ - Version History
 -----------------------
 
+1.9.2.484 (24/03/2009)
+---------
+Fixes and Improvements:
+- Core: EveHQ now uses the SkillQueue API to get current training information
+- Core: Added Eve skill queue information into the Pilot Info Screen
+- Core: Improvements made in creating and handling the custom database
+- Core: Added additional checking for when API errors are returned with no error code
+- Core: Fixed issue with dependancies not picking up the correct DB column
+- Core: Dependancies now includes all skills, not just primary, secondary and tertiary
+- Creation: Updated plug-in to handle new skill training info
+- HQF: Shield compensation skill no longer affects capital shield boosters
+- Item Browser: Fixed skills issue in Item Browser
+- Prism: All columns in Recycler now sort correctly
+- Prism: Added Broker Fees and Tax to the sale price calculations in the Recycler
+- Prism: Added a best price column to the recycler
+- Prism: Added totals for sale/refine/best prices
+- Prism: Added options in Recycler to select whether fees are taken into account
+- Prism: Added facility for customising names of Assets
+- Prism: Fixed crash when dealing with assets after closing tabs
+
+
 1.9.1.472 (24/03/2009)
 ---------
 Fixes and Improvements:
