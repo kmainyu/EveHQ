@@ -4409,6 +4409,9 @@ Public Class frmPrism
         Dim items As Long = 0
         Dim volume As Double = 0
         Dim tempNetYield As Double = 0
+        Dim bestPriceTotal As Double = 0
+        Dim salePriceTotal As Double = 0
+        Dim refinePriceTotal As Double = 0
         Dim RecycleResults As New SortedList
         Dim RecycleWaste As New SortedList
         Dim RecycleTake As New SortedList
@@ -4467,15 +4470,19 @@ Public Class frmPrism
             volume += itemInfo.Volume * quant
             items += CLng(quant)
             value = price * quant
-            fees = value * (RTotalFees / 100)
+            fees = Math.Round(value * (RTotalFees / 100), 2)
             sale = value - fees
             newCLVItem.SubItems(1).Text = FormatNumber(itemInfo.MetaLevel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             newCLVItem.SubItems(2).Text = FormatNumber(quant, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             newCLVItem.SubItems(3).Text = FormatNumber(batches, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             newCLVItem.SubItems(4).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             newCLVItem.SubItems(5).Text = FormatNumber(value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            newCLVItem.SubItems(6).Text = FormatNumber(fees, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            newCLVItem.SubItems(7).Text = FormatNumber(sale, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            If chkFeesOnItems.Checked = True Then
+                newCLVItem.SubItems(6).Text = FormatNumber(fees, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                newCLVItem.SubItems(7).Text = FormatNumber(sale, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Else
+                newCLVItem.SubItems(7).Text = FormatNumber(value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            End If
             recycleTotal = 0
             If matList IsNot Nothing Then ' i.e. it can be refined
                 For Each mat As String In matList.Keys
@@ -4486,7 +4493,7 @@ Public Class frmPrism
                     taken = CLng(quant * (StationTake / 100))
                     quant = quant - taken
                     value = price * quant
-                    fees = value * (RTotalFees / 100)
+                    fees = Math.Round(value * (RTotalFees / 100), 2)
                     sale = value - fees
                     newCLVSubItem = New ContainerListViewItem
                     newCLVSubItem.Text = mat
@@ -4495,10 +4502,14 @@ Public Class frmPrism
                     newCLVSubItem.SubItems(3).Text = FormatNumber(quant, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     newCLVSubItem.SubItems(4).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     newCLVSubItem.SubItems(5).Text = FormatNumber(value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    'newCLVSubItem.SubItems(6).Text = FormatNumber(fees, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    'newCLVSubItem.SubItems(7).Text = FormatNumber(sale, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                    newCLVSubItem.SubItems(8).Text = newCLVSubItem.SubItems(5).Text
-                    recycleTotal += price * quant
+                    If chkFeesOnRefine.Checked = True Then
+                        newCLVSubItem.SubItems(6).Text = FormatNumber(fees, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        newCLVSubItem.SubItems(8).Text = FormatNumber(sale, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        recycleTotal += sale
+                    Else
+                        newCLVSubItem.SubItems(8).Text = newCLVSubItem.SubItems(5).Text
+                        recycleTotal += value
+                    End If
                     ' Save the perfect refining quantity
                     If RecycleResults.Contains(mat) = False Then
                         RecycleResults.Add(mat, quant)
@@ -4522,8 +4533,15 @@ Public Class frmPrism
             newCLVItem.SubItems(8).Text = FormatNumber(recycleTotal, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             If CDbl(newCLVItem.SubItems(8).Text) > CDbl(newCLVItem.SubItems(7).Text) Then
                 newCLVItem.BackColor = Drawing.Color.LightGreen
+                newCLVItem.SubItems(9).Text = newCLVItem.SubItems(8).Text
+            Else
+                newCLVItem.SubItems(9).Text = newCLVItem.SubItems(7).Text
             End If
+            salePriceTotal += CDbl(newCLVItem.SubItems(7).Text)
+            refinePriceTotal += CDbl(newCLVItem.SubItems(8).Text)
+            bestPriceTotal += CDbl(newCLVItem.SubItems(9).Text)
         Next
+        lblPriceTotals.Text = "Sale / Refine / Best Totals: " & FormatNumber(salePriceTotal, 2) & " / " & FormatNumber(refinePriceTotal, 2) & " / " & FormatNumber(bestPriceTotal, 2)
         clvRecycle.Sort(0, SortOrder.Ascending, True)
         clvRecycle.EndUpdate()
         lblVolume.Text = FormatNumber(volume, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
@@ -4579,15 +4597,25 @@ Public Class frmPrism
         ' Update Broker Fee
         If chkOverrideBrokerFee.Checked = False Then
             RBrokerFee = 1 * (1 - 0.05 * (CInt(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations))))
-            nudBrokerFee.Value = CDec(RBrokerFee)
+        Else
+            RBrokerFee = nudBrokerFee.Value
         End If
         ' Update Trans Tax
         If chkOverrideTax.Checked = False Then
             RTransTax = 1 * (1 - 0.1 * (CInt(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting))))
-            nudTax.Value = CDec(RTransTax)
+        Else
+            RTransTax = nudTax.Value
         End If
         RTotalFees = RBrokerFee + RTransTax
         lblTotalFees.Text = FormatNumber(RTotalFees, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        Call Me.RecalcRecycling()
+    End Sub
+
+    Private Sub chkFeesOnRefine_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFeesOnRefine.CheckedChanged
+        Call Me.RecalcRecycling()
+    End Sub
+
+    Private Sub chkFeesOnItems_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFeesOnItems.CheckedChanged
         Call Me.RecalcRecycling()
     End Sub
 
@@ -4673,6 +4701,47 @@ Public Class frmPrism
         End If
         lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
         Call Me.RecalcRecycling()
+    End Sub
+#End Region
+
+#Region "Overrdie Fees functions"
+    Private Sub chkOverrideBrokerFee_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideBrokerFee.CheckedChanged
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+        If chkOverrideBrokerFee.Checked = False Then
+            RBrokerFee = 1 * (1 - 0.05 * (CInt(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations))))
+        Else
+            RBrokerFee = nudBrokerFee.Value
+        End If
+        RTotalFees = RBrokerFee + RTransTax
+        lblTotalFees.Text = FormatNumber(RTotalFees, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        Call Me.RecalcRecycling()
+    End Sub
+    Private Sub chkOverrideTax_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideTax.CheckedChanged
+        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+        If chkOverrideTax.Checked = False Then
+            RTransTax = 1 * (1 - 0.1 * (CInt(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting))))
+        Else
+            RTransTax = nudTax.Value
+        End If
+        RTotalFees = RBrokerFee + RTransTax
+        lblTotalFees.Text = FormatNumber(RTotalFees, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+        Call Me.RecalcRecycling()
+    End Sub
+    Private Sub nudBrokerFee_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudBrokerFee.ValueChanged
+        If chkOverrideBrokerFee.Checked = True Then
+            RBrokerFee = nudBrokerFee.Value
+            RTotalFees = RBrokerFee + RTransTax
+            lblTotalFees.Text = FormatNumber(RTotalFees, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            Call Me.RecalcRecycling()
+        End If
+    End Sub
+    Private Sub nudTax_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudTax.ValueChanged
+        If chkOverrideTax.Checked = True Then
+            RTransTax = nudTax.Value
+            RTotalFees = RBrokerFee + RTransTax
+            lblTotalFees.Text = FormatNumber(RTotalFees, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            Call Me.RecalcRecycling()
+        End If
     End Sub
 #End Region
 
@@ -4846,5 +4915,6 @@ Public Class frmPrism
 
 #End Region
 
+   
 End Class
 
