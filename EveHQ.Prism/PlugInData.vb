@@ -13,6 +13,7 @@ Public Class PlugInData
     Public Shared NPCCorps As New SortedList
     Public Shared Corps As New SortedList
     Public Shared PackedVolumes As New SortedList
+    Public Shared AssetItemNames As New SortedList(Of String, String)
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -66,11 +67,12 @@ Public Class PlugInData
         If Me.CheckVersion = False Then
             Return False
         Else
+            Call Me.CheckDatabaseTables()
             Call Me.LoadItemFlags()
             Call Me.LoadActivities()
             Call Me.LoadStatuses()
             Call Me.LoadPackedVolumes()
-            'Call Me.CheckDatabaseTables()
+            Call Me.LoadAssetItemNames()
             If Me.LoadRefTypes = False Then
                 Return False
                 Exit Function
@@ -91,6 +93,23 @@ Public Class PlugInData
             Return True
         End If
     End Function
+    Private Sub LoadAssetItemNames()
+        Try
+            Dim strSQL As String = "SELECT * FROM assetItemNames;"
+            Dim nameData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+            AssetItemNames.Clear()
+            If nameData IsNot Nothing Then
+                If nameData.Tables(0).Rows.Count > 0 Then
+                    For Each nameRow As DataRow In nameData.Tables(0).Rows
+                        AssetItemNames.Add(CStr(nameRow.Item("itemID")), CStr(nameRow.Item("itemName")))
+                    Next
+                End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show("There was an error retrieving the Asset Item Names data from the custom database. The error was: " & ex.Message, "Prism Data Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            AssetItemNames.Clear()
+        End Try
+    End Sub
     Private Sub LoadPackedVolumes()
         PackedVolumes.Clear()
         PackedVolumes.Add("31", 500)
@@ -427,7 +446,7 @@ Public Class PlugInData
         End If
     End Sub
     Private Function CheckDatabaseTables() As Boolean
-        If CheckWalletTransDBTable() = False Then
+        If CheckAssetItemNameDBTable() = False Then
             Return False
         Else
             Return True
@@ -490,6 +509,51 @@ Public Class PlugInData
                 Return True
             Else
                 MessageBox.Show("There was an error creating the Wallet Transactions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End If
+        End If
+
+    End Function
+    Private Function CheckAssetItemNameDBTable() As Boolean
+        Dim CreateTable As Boolean = False
+        Dim tables As ArrayList = EveHQ.Core.DataFunctions.GetDatabaseTables
+        If tables IsNot Nothing Then
+            If tables.Contains("assetItemNames") = False Then
+                ' The DB exists but the table doesn't so we'll create this
+                CreateTable = True
+            Else
+                ' We have the Db and table so we can return a good result
+                Return True
+            End If
+        Else
+            ' Database doesn't exist?
+            Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
+            msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
+            msg &= "Defaults will be setup that you can amend later via the Database Settings. Click OK to initialise the new database."
+            MessageBox.Show(msg, "EveHQ Database Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If EveHQ.Core.DataFunctions.CreateEveHQDataDB = False Then
+                MessageBox.Show("There was an error creating the EveHQData database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                CreateTable = True
+            End If
+        End If
+
+        ' Create the database table 
+        If CreateTable = True Then
+            Dim strSQL As New StringBuilder
+            strSQL.AppendLine("CREATE TABLE assetItemNames")
+            strSQL.AppendLine("(")
+            strSQL.AppendLine("  itemID         int,")
+            strSQL.AppendLine("  itemName       nvarchar(100),")
+            strSQL.AppendLine("")
+            strSQL.AppendLine("  CONSTRAINT assetItemNames_PK PRIMARY KEY CLUSTERED (itemID)")
+            strSQL.AppendLine(")")
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = True Then
+                Return True
+            Else
+                MessageBox.Show("There was an error creating the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             End If
         End If

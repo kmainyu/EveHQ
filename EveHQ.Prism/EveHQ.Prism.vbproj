@@ -59,6 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssetItem.vb" />
+    <Compile Include="frmAssetItemName.Designer.vb">
+      <DependentUpon>frmAssetItemName.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAssetItemName.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmSelectItem.Designer.vb">
       <DependentUpon>frmSelectItem.vb</DependentUpon>
     </Compile>
@@ -116,6 +122,9 @@
     <Compile Include="SolarSystem.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmAssetItemName.resx">
+      <DependentUpon>frmAssetItemName.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmSelectItem.resx">
       <DependentUpon>frmSelectItem.vb</DependentUpon>
     </EmbeddedResource>

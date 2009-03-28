@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.tlvAssets = New DotNetLib.Windows.Forms.ContainerListView
         Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -346,6 +346,7 @@ Partial Class frmPrism
         Me.chkFeesOnRefine = New System.Windows.Forms.CheckBox
         Me.lblPriceTotals = New System.Windows.Forms.Label
         Me.chkFeesOnItems = New System.Windows.Forms.CheckBox
+        Me.mnuAddCustomName = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -499,9 +500,9 @@ Partial Class frmPrism
         '
         'ctxAssets
         '
-        Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.mnuToolSep, Me.mnuItemRecycling})
+        Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuAddCustomName, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.mnuToolSep, Me.mnuItemRecycling})
         Me.ctxAssets.Name = "ctxAssets"
-        Me.ctxAssets.Size = New System.Drawing.Size(190, 126)
+        Me.ctxAssets.Size = New System.Drawing.Size(190, 170)
         '
         'mnuItemName
         '
@@ -964,11 +965,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup15.Header = "Corporation"
-        ListViewGroup15.Name = "grpCorporation"
-        ListViewGroup16.Header = "Personal"
-        ListViewGroup16.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
+        ListViewGroup3.Header = "Corporation"
+        ListViewGroup3.Name = "grpCorporation"
+        ListViewGroup4.Header = "Personal"
+        ListViewGroup4.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -3385,6 +3386,12 @@ Partial Class frmPrism
         Me.chkFeesOnItems.Text = "Fees on Items"
         Me.chkFeesOnItems.UseVisualStyleBackColor = True
         '
+        'mnuAddCustomName
+        '
+        Me.mnuAddCustomName.Name = "mnuAddCustomName"
+        Me.mnuAddCustomName.Size = New System.Drawing.Size(189, 22)
+        Me.mnuAddCustomName.Text = "Add Custom Name"
+        '
         'frmPrism
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3767,4 +3774,5 @@ Partial Class frmPrism
     Friend WithEvents chkFeesOnRefine As System.Windows.Forms.CheckBox
     Friend WithEvents lblPriceTotals As System.Windows.Forms.Label
     Friend WithEvents chkFeesOnItems As System.Windows.Forms.CheckBox
+    Friend WithEvents mnuAddCustomName As System.Windows.Forms.ToolStripMenuItem
 End Class

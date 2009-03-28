@@ -820,6 +820,7 @@ Public Class frmPrism
                                         End If
                                     End If
                                 End If
+                                locNode.SubItems(0).Tag = locNode.Text
                                 tlvAssets.Items.Add(locNode)
                             End If
 
@@ -862,9 +863,14 @@ Public Class frmPrism
 
                             Dim newAsset As New ContainerListViewItem
                             newAsset.Tag = loc.Attributes.GetNamedItem("itemID").Value
-                            newAsset.Text = itemName
                             ' Add the asset to the treelistview
                             locNode.Items.Add(newAsset)
+                            newAsset.SubItems(0).Tag = itemName
+                            If PlugInData.AssetItemNames.ContainsKey(newAsset.Tag.ToString) = True Then
+                                newAsset.Text = PlugInData.AssetItemNames(newAsset.Tag.ToString)
+                            Else
+                                newAsset.Text = itemName
+                            End If
 
                             newAsset.SubItems(AssetColumn.Owner).Text = owner
                             newAsset.SubItems(AssetColumn.Group).Text = groupName
@@ -995,6 +1001,12 @@ Public Class frmPrism
                 Dim subAsset As New ContainerListViewItem
                 subAsset.Tag = subLoc.Attributes.GetNamedItem("itemID").Value
                 parentAsset.Items.Add(subAsset)
+                subAsset.SubItems(0).Tag = itemName
+                If PlugInData.AssetItemNames.ContainsKey(subAsset.Tag.ToString) = True Then
+                    subAsset.Text = PlugInData.AssetItemNames(subAsset.Tag.ToString)
+                Else
+                    subAsset.Text = itemName
+                End If
                 subAsset.Text = itemName
                 subAsset.SubItems(AssetColumn.Owner).Text = assetOwner
                 subAsset.SubItems(AssetColumn.Group).Text = groupName
@@ -2483,11 +2495,14 @@ Public Class frmPrism
     Private Sub ctxAssets_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxAssets.Opening
         If tlvAssets.SelectedItems.Count > 0 Then
             If tlvAssets.SelectedItems.Count = 1 Then
-                Dim itemName As String = tlvAssets.SelectedItems(0).Text
+                Dim itemName As String = tlvAssets.SelectedItems(0).SubItems(0).Tag.ToString
+                Dim itemText As String = tlvAssets.SelectedItems(0).Text
+                Dim itemID As String = tlvAssets.SelectedItems(0).Tag.ToString
                 If itemName <> "Cash Balances" And itemName <> "Investments" Then
                     If EveHQ.Core.HQ.itemList.Contains(itemName) = True And itemName <> "Office" And tlvAssets.SelectedItems(0).SubItems(AssetColumn.Quantity).Text <> "" Then
                         mnuItemName.Text = itemName
                         mnuItemName.Tag = EveHQ.Core.HQ.itemList(itemName)
+                        mnuAddCustomName.Visible = True
                         mnuViewInIB.Visible = True
                         mnuModifyPrice.Visible = True
                         mnuToolSep.Visible = True
@@ -2504,8 +2519,15 @@ Public Class frmPrism
                             mnuRecycleContained.Enabled = False
                             mnuRecycleAll.Enabled = False
                         End If
+                        If PlugInData.AssetItemNames.ContainsKey(itemID) = True Then
+                            mnuAddCustomName.Text = "Edit Custom Name"
+                        Else
+                            mnuAddCustomName.Text = "Add Custom Name"
+                        End If
+                        mnuAddCustomName.Tag = itemID
                     Else
                         mnuItemName.Text = itemName
+                        mnuAddCustomName.Visible = False
                         mnuViewInIB.Visible = False
                         mnuViewInHQF.Visible = False
                         mnuModifyPrice.Visible = False
@@ -2524,6 +2546,7 @@ Public Class frmPrism
             Else
                 mnuItemName.Text = "Multiple Items"
                 mnuItemName.Tag = ""
+                mnuAddCustomName.Visible = False
                 mnuViewInIB.Visible = False
                 mnuViewInHQF.Visible = False
                 mnuModifyPrice.Visible = False
@@ -2792,7 +2815,25 @@ Public Class frmPrism
             tssLabelSelectedAssets.Text = ""
         End If
     End Sub
-
+    Private Sub mnuAddCustomName_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCustomName.Click
+        Dim assetID As String = mnuAddCustomName.Tag.ToString
+        Dim assetName As String = mnuItemName.Text
+        Dim newCustomName As New frmAssetItemName
+        If PlugInData.AssetItemNames.ContainsKey(assetID) = True Then
+            newCustomName.Text = "Edit Custom Asset Name"
+            newCustomName.EditMode = True
+        Else
+            newCustomName.Text = "Add Custom Asset Name"
+            newCustomName.EditMode = False
+        End If
+        newCustomName.AssetID = assetID
+        newCustomName.AssetName = assetName
+        newCustomName.ShowDialog()
+        If newCustomName.AssetItemName <> "" Then
+            tlvAssets.SelectedItems(0).Text = newCustomName.AssetItemName
+        End If
+        newCustomName.Dispose()
+    End Sub
 #End Region
 
 #Region "Toolbar Menu Routines"
@@ -3173,6 +3214,7 @@ Public Class frmPrism
     Private Sub mnuClosePrismTab_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuClosePrismTab.Click
         Dim tp As TabPage = tabPrism.TabPages(CInt(tabPrism.Tag))
         tabPrism.TabPages.Remove(tp)
+        tabPrism.Tag = 0
     End Sub
 
 #End Region
@@ -3474,19 +3516,21 @@ Public Class frmPrism
 
     Private Sub mnuRecycleItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecycleItem.Click
         Dim recycleList As New SortedList
+        Dim assetName As String = ""
         tempAssetList.Clear()
         For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
-            If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(asset.Text)) = True Then
+            assetName = asset.SubItems(0).Tag.ToString
+            If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(assetName)) = True Then
                 If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
                     If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(AssetColumn.Quantity).Text)
+                        recycleList(EveHQ.Core.HQ.itemList(assetName)) = CLng(recycleList(EveHQ.Core.HQ.itemList(assetName))) + CLng(asset.SubItems(AssetColumn.Quantity).Text)
                         tempAssetList.Add(asset.Tag.ToString)
                     End If
                 End If
             Else
                 If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
                     If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(AssetColumn.Quantity).Text))
+                        recycleList.Add(EveHQ.Core.HQ.itemList(assetName), CLng(asset.SubItems(AssetColumn.Quantity).Text))
                         tempAssetList.Add(asset.Tag.ToString)
                     End If
                 End If
@@ -3526,20 +3570,22 @@ Public Class frmPrism
 
     Private Sub mnuRecycleAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecycleAll.Click
         Dim recycleList As New SortedList
+        Dim assetName As String = ""
         tempAssetList.Clear()
         For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
-            If EveHQ.Core.HQ.itemList.Contains(asset.Text) = True Then
-                If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(asset.Text)) = True Then
+            assetName = asset.SubItems(0).Tag.ToString
+            If EveHQ.Core.HQ.itemList.Contains(assetName) = True Then
+                If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(assetName)) = True Then
                     If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
                         If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                            recycleList(EveHQ.Core.HQ.itemList(asset.Text)) = CLng(recycleList(EveHQ.Core.HQ.itemList(asset.Text))) + CLng(asset.SubItems(AssetColumn.Quantity).Text)
+                            recycleList(EveHQ.Core.HQ.itemList(assetName)) = CLng(recycleList(EveHQ.Core.HQ.itemList(assetName))) + CLng(asset.SubItems(AssetColumn.Quantity).Text)
                             tempAssetList.Add(asset.Tag.ToString)
                         End If
                     End If
                 Else
                     If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
                         If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                            recycleList.Add(EveHQ.Core.HQ.itemList(asset.Text), CLng(asset.SubItems(AssetColumn.Quantity).Text))
+                            recycleList.Add(EveHQ.Core.HQ.itemList(assetName), CLng(asset.SubItems(AssetColumn.Quantity).Text))
                             tempAssetList.Add(asset.Tag.ToString)
                         End If
                     End If
