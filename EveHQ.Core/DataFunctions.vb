@@ -680,27 +680,66 @@ Public Class DataFunctions
         End Try
     End Function
     Public Shared Function LoadUnlocks() As Boolean
+        Dim skillIDs(), skillLevels() As String
+        skillIDs = New String() {"182", "183", "184", "1285", "1289", "1290"}
+        skillLevels = New String() {"277", "278", "279", "1286", "1287", "1288"}
         Try
             Dim strSQL As String = ""
-            strSQL &= "SELECT invTypes.typeID AS invTypeID, invTypes.groupID, invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, invTypes.published"
+            strSQL &= "SELECT invTypes.typeID AS invTypeID, invTypes.groupID, invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, invTypes.published"
             strSQL &= " FROM invTypes INNER JOIN dgmTypeAttributes ON invTypes.typeID = dgmTypeAttributes.typeID"
-            strSQL &= " WHERE (((dgmTypeAttributes.attributeID) IN (182,183,184,277,278,279)) AND ((invTypes.published)=true))"
+            strSQL &= " WHERE (((dgmTypeAttributes.attributeID) IN (182,183,184,277,278,279,1285,1286,1287,1288,1289,1290)) AND ((invTypes.published)=true))"
             strSQL &= " ORDER BY invTypes.typeID, dgmTypeAttributes.attributeID;"
             Dim attData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             Dim lastAtt As String = "0"
             Dim skillIDLevel As String = ""
             Dim atts As Double = 0
             Dim itemList As New ArrayList
+            Dim attValue As Double
             For row As Integer = 0 To attData.Tables(0).Rows.Count - 1
                 If attData.Tables(0).Rows(row).Item("invTypeID").ToString <> lastAtt Then
                     Dim attRows() As DataRow = attData.Tables(0).Select("invTypeID=" & attData.Tables(0).Rows(row).Item("invtypeID").ToString)
-                    atts = (attRows.GetUpperBound(0) + 1) / 2
-                    If atts = Int(atts) Then
-                        For attributes As Integer = 0 To CInt(atts - 1)
-                            skillIDLevel = attRows(attributes).Item("valueInt").ToString & "." & attRows(CInt(attributes + atts)).Item("valueInt").ToString
+                    Dim MaxPreReqs As Integer = 10
+                    Dim PreReqSkills(MaxPreReqs) As String
+                    Dim PreReqSkillLevels(MaxPreReqs) As Integer
+                    For Each attRow As DataRow In attRows
+                        If IsDBNull(attRow.Item("valueInt")) = False Then
+                            attValue = CDbl(attRow.Item("valueInt"))
+                        Else
+                            attValue = CDbl(attRow.Item("valueFloat"))
+                        End If
+                        Select Case CInt(attRow.Item("attributeID"))
+                            Case 182
+                                PreReqSkills(1) = CStr(attValue)
+                            Case 183
+                                PreReqSkills(2) = CStr(attValue)
+                            Case 184
+                                PreReqSkills(3) = CStr(attValue)
+                            Case 1285
+                                PreReqSkills(4) = CStr(attValue)
+                            Case 1289
+                                PreReqSkills(5) = CStr(attValue)
+                            Case 1290
+                                PreReqSkills(6) = CStr(attValue)
+                            Case 277
+                                PreReqSkillLevels(1) = CInt(attValue)
+                            Case 278
+                                PreReqSkillLevels(2) = CInt(attValue)
+                            Case 279
+                                PreReqSkillLevels(3) = CInt(attValue)
+                            Case 1286
+                                PreReqSkillLevels(4) = CInt(attValue)
+                            Case 1287
+                                PreReqSkillLevels(5) = CInt(attValue)
+                            Case 1288
+                                PreReqSkillLevels(6) = CInt(attValue)
+                        End Select
+                    Next
+                    For prereq As Integer = 1 To MaxPreReqs
+                        If PreReqSkills(prereq) <> "" Then
+                            skillIDLevel = PreReqSkills(prereq) & "." & PreReqSkillLevels(prereq).ToString
                             itemList.Add(skillIDLevel & "_" & attData.Tables(0).Rows(row).Item("invtypeID").ToString & "_" & attData.Tables(0).Rows(row).Item("groupID").ToString)
-                        Next
-                    End If
+                        End If
+                    Next
                     lastAtt = CStr(attData.Tables(0).Rows(row).Item("invtypeID"))
                 End If
             Next
