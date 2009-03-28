@@ -240,9 +240,10 @@ Public Class frmPilot
                 If frmEveHQ.CacheErrorHandler() = True Then Exit Sub
             End Try
 
-            ' Display Skills
+            ' Display skills & stuff
             Call Me.DisplaySkills()
             Call Me.DisplayCertificates()
+            Call Me.DisplaySkillQueue()
 
         Else
             lvPilot.Items.Clear()
@@ -536,6 +537,22 @@ Public Class frmPilot
 
         clvCerts.Sort(0, SortOrder.Ascending, True)
         clvCerts.EndUpdate()
+    End Sub
+
+    Private Sub DisplaySkillQueue()
+        clvQueue.BeginUpdate()
+        clvQueue.Items.Clear()
+        If EveHQ.Core.HQ.myPilot.QueuedSkills IsNot Nothing Then
+            For Each QueuedSkill As EveHQ.Core.PilotQueuedSkill In EveHQ.Core.HQ.myPilot.QueuedSkills.Values
+                Dim newitem As New ContainerListViewItem
+                newitem.Text = EveHQ.Core.SkillFunctions.SkillIDToName(QueuedSkill.SkillID.ToString)
+                clvQueue.Items.Add(newitem)
+                newitem.SubItems(1).Text = QueuedSkill.Level.ToString
+                newitem.SubItems(2).Text = FormatDateTime(QueuedSkill.StartTime, DateFormat.GeneralDate)
+                newitem.SubItems(3).Text = FormatDateTime(QueuedSkill.EndTime, DateFormat.GeneralDate)
+            Next
+        End If
+        clvQueue.EndUpdate()
     End Sub
 
 #Region "Skill Update Routine"

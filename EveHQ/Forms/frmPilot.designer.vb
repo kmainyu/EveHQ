@@ -66,6 +66,12 @@ Partial Public Class frmPilot
         Me.mnuCertName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuViewCertDetails = New System.Windows.Forms.ToolStripMenuItem
+        Me.tabSkillQueue = New System.Windows.Forms.TabPage
+        Me.clvQueue = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colSkillName = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colToLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colStartTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colEndTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.lvTraining = New EveHQ.ListViewNoFlicker
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
@@ -80,41 +86,42 @@ Partial Public Class frmPilot
         Me.tabCerts.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.ctxCerts.SuspendLayout()
+        Me.tabSkillQueue.SuspendLayout()
         Me.SuspendLayout()
         '
         'ctxSkills
         '
         Me.ctxSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuViewDetails, Me.ToolStripMenuItem1, Me.mnuForceTraining})
         Me.ctxSkills.Name = "ctxSkills"
-        Me.ctxSkills.Size = New System.Drawing.Size(174, 82)
+        Me.ctxSkills.Size = New System.Drawing.Size(175, 82)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(173, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(174, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(170, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(171, 6)
         '
         'mnuViewDetails
         '
         Me.mnuViewDetails.Name = "mnuViewDetails"
-        Me.mnuViewDetails.Size = New System.Drawing.Size(173, 22)
+        Me.mnuViewDetails.Size = New System.Drawing.Size(174, 22)
         Me.mnuViewDetails.Text = "View Details"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(170, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(171, 6)
         '
         'mnuForceTraining
         '
         Me.mnuForceTraining.Name = "mnuForceTraining"
-        Me.mnuForceTraining.Size = New System.Drawing.Size(173, 22)
+        Me.mnuForceTraining.Size = New System.Drawing.Size(174, 22)
         Me.mnuForceTraining.Text = "Force Skill Training"
         '
         'picPilot
@@ -134,24 +141,24 @@ Partial Public Class frmPilot
         '
         Me.ctxPic.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCtxPicGetPortraitFromServer, Me.mnuCtxPicGetPortraitFromLocal, Me.mnuSavePortrait})
         Me.ctxPic.Name = "ctxPic"
-        Me.ctxPic.Size = New System.Drawing.Size(244, 70)
+        Me.ctxPic.Size = New System.Drawing.Size(246, 70)
         '
         'mnuCtxPicGetPortraitFromServer
         '
         Me.mnuCtxPicGetPortraitFromServer.Name = "mnuCtxPicGetPortraitFromServer"
-        Me.mnuCtxPicGetPortraitFromServer.Size = New System.Drawing.Size(243, 22)
+        Me.mnuCtxPicGetPortraitFromServer.Size = New System.Drawing.Size(245, 22)
         Me.mnuCtxPicGetPortraitFromServer.Text = "Get Portrait from Eve Server"
         '
         'mnuCtxPicGetPortraitFromLocal
         '
         Me.mnuCtxPicGetPortraitFromLocal.Name = "mnuCtxPicGetPortraitFromLocal"
-        Me.mnuCtxPicGetPortraitFromLocal.Size = New System.Drawing.Size(243, 22)
+        Me.mnuCtxPicGetPortraitFromLocal.Size = New System.Drawing.Size(245, 22)
         Me.mnuCtxPicGetPortraitFromLocal.Text = "Get Portrait from Eve Installation"
         '
         'mnuSavePortrait
         '
         Me.mnuSavePortrait.Name = "mnuSavePortrait"
-        Me.mnuSavePortrait.Size = New System.Drawing.Size(243, 22)
+        Me.mnuSavePortrait.Size = New System.Drawing.Size(245, 22)
         Me.mnuSavePortrait.Text = "Save Portrait into EveHQ Cache"
         '
         'lvImplants
@@ -369,6 +376,7 @@ Partial Public Class frmPilot
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tcSkills.Controls.Add(Me.tabSkills)
         Me.tcSkills.Controls.Add(Me.tabCerts)
+        Me.tcSkills.Controls.Add(Me.tabSkillQueue)
         Me.tcSkills.Location = New System.Drawing.Point(156, 311)
         Me.tcSkills.Name = "tcSkills"
         Me.tcSkills.SelectedIndex = 0
@@ -453,25 +461,89 @@ Partial Public Class frmPilot
         '
         Me.ctxCerts.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator2, Me.mnuViewCertDetails})
         Me.ctxCerts.Name = "ctxSkills"
-        Me.ctxCerts.Size = New System.Drawing.Size(144, 54)
+        Me.ctxCerts.Size = New System.Drawing.Size(138, 54)
         '
         'mnuCertName
         '
         Me.mnuCertName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuCertName.Name = "mnuCertName"
-        Me.mnuCertName.Size = New System.Drawing.Size(143, 22)
+        Me.mnuCertName.Size = New System.Drawing.Size(137, 22)
         Me.mnuCertName.Text = "Skill Name"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(140, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(134, 6)
         '
         'mnuViewCertDetails
         '
         Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
-        Me.mnuViewCertDetails.Size = New System.Drawing.Size(143, 22)
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(137, 22)
         Me.mnuViewCertDetails.Text = "View Details"
+        '
+        'tabSkillQueue
+        '
+        Me.tabSkillQueue.Controls.Add(Me.clvQueue)
+        Me.tabSkillQueue.Location = New System.Drawing.Point(4, 22)
+        Me.tabSkillQueue.Name = "tabSkillQueue"
+        Me.tabSkillQueue.Size = New System.Drawing.Size(725, 210)
+        Me.tabSkillQueue.TabIndex = 2
+        Me.tabSkillQueue.Text = "Skill Queue"
+        Me.tabSkillQueue.UseVisualStyleBackColor = True
+        '
+        'clvQueue
+        '
+        Me.clvQueue.AllowColumnResize = False
+        Me.clvQueue.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colSkillName, Me.colToLevel, Me.colStartTime, Me.colEndTime})
+        Me.clvQueue.DefaultItemHeight = 18
+        Me.clvQueue.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.clvQueue.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.clvQueue.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.clvQueue.ItemContextMenu = Me.ctxCerts
+        Me.clvQueue.Location = New System.Drawing.Point(0, 0)
+        Me.clvQueue.Name = "clvQueue"
+        Me.clvQueue.Size = New System.Drawing.Size(725, 210)
+        Me.clvQueue.TabIndex = 51
+        '
+        'colSkillName
+        '
+        Me.colSkillName.CustomSortTag = Nothing
+        Me.colSkillName.MinimumWidth = 50
+        Me.colSkillName.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colSkillName.Tag = Nothing
+        Me.colSkillName.Text = "Skill Name"
+        Me.colSkillName.Width = 300
+        '
+        'colToLevel
+        '
+        Me.colToLevel.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.colToLevel.CustomSortTag = Nothing
+        Me.colToLevel.DisplayIndex = 1
+        Me.colToLevel.MinimumWidth = 50
+        Me.colToLevel.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colToLevel.Tag = Nothing
+        Me.colToLevel.Text = "Level"
+        Me.colToLevel.Width = 60
+        '
+        'colStartTime
+        '
+        Me.colStartTime.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.colStartTime.CustomSortTag = Nothing
+        Me.colStartTime.DisplayIndex = 2
+        Me.colStartTime.MinimumWidth = 50
+        Me.colStartTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colStartTime.Tag = Nothing
+        Me.colStartTime.Text = "Start Time"
+        Me.colStartTime.Width = 120
+        '
+        'colEndTime
+        '
+        Me.colEndTime.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.colEndTime.CustomSortTag = Nothing
+        Me.colEndTime.DisplayIndex = 3
+        Me.colEndTime.Tag = Nothing
+        Me.colEndTime.Text = "End Time"
+        Me.colEndTime.Width = 120
         '
         'lvTraining
         '
@@ -559,6 +631,7 @@ Partial Public Class frmPilot
         Me.tabCerts.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.ctxCerts.ResumeLayout(False)
+        Me.tabSkillQueue.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -614,5 +687,11 @@ Partial Public Class frmPilot
     Friend WithEvents mnuCertName As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuViewCertDetails As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tabSkillQueue As System.Windows.Forms.TabPage
+    Friend WithEvents clvQueue As DotNetLib.Windows.Forms.ContainerListView
+    Friend WithEvents colSkillName As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colToLevel As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colStartTime As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colEndTime As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
 
 End Class

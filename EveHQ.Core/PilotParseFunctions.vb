@@ -537,13 +537,13 @@ Public Class PilotParseFunctions
         If TXMLDoc IsNot Nothing Then
             Dim TrainingDetails As XmlNodeList
             Dim trainingNode As XmlNode
+            Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-US")
             TrainingDetails = TXMLDoc.SelectNodes("/eveapi/result/rowset/row")
             ' Check if a training file has been loaded!
             If TrainingDetails.Count > 0 Then
                 ' Get the first node i.e. the current training skill
                 trainingNode = TrainingDetails(0)       ' This is zero because there is only 1 occurence of the skillTraining node in each XML doc
                 With cPilot
-                    Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-US")
                     .Training = True
                     .TrainingSkillID = trainingNode.Attributes("typeID").Value
                     .TrainingSkillName = EveHQ.Core.SkillFunctions.SkillIDToName(.TrainingSkillID)
@@ -558,8 +558,25 @@ Public Class PilotParseFunctions
                     .TrainingSkillLevel = CInt(trainingNode.Attributes("level").Value)
                     Call CheckMissingTrainingSkill(cPilot)
                 End With
+                ' Now get any additional results and add them to the pilot queued skills
+                cPilot.QueuedSkills.Clear()
+                If TrainingDetails.Count > 1 Then
+                    For queuedSkillNo As Integer = 1 To TrainingDetails.Count - 1
+                        trainingNode = TrainingDetails(queuedSkillNo)
+                        Dim QueuedSkill As New PilotQueuedSkill
+                        QueuedSkill.Position = CInt(trainingNode.Attributes("queuePosition").Value)
+                        QueuedSkill.SkillID = CInt(trainingNode.Attributes("typeID").Value)
+                        QueuedSkill.StartTime = DateTime.Parse(trainingNode.Attributes("startTime").Value, culture, System.Globalization.DateTimeStyles.NoCurrentDateDefault).AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                        QueuedSkill.EndTime = DateTime.Parse(trainingNode.Attributes("endTime").Value, culture, System.Globalization.DateTimeStyles.NoCurrentDateDefault).AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                        QueuedSkill.StartSP = CLng(trainingNode.Attributes("startSP").Value)
+                        QueuedSkill.EndSP = CLng(trainingNode.Attributes("endSP").Value)
+                        QueuedSkill.Level = CInt(trainingNode.Attributes("level").Value)
+                        cPilot.QueuedSkills.Add(QueuedSkill.Position, QueuedSkill)
+                    Next
+                End If
             Else
                 cPilot.Training = False
+                cPilot.QueuedSkills.Clear()
             End If
             ' Get Cache details
             TrainingDetails = TXMLDoc.SelectNodes("/eveapi")

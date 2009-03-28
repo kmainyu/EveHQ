@@ -90,6 +90,7 @@ Imports System.Xml
     Public PAttT As Double = 0
     Public WAttT As Double = 0
     Public PilotSkills As New Collection
+    Public QueuedSkills As New SortedList(Of Long, PilotQueuedSkill)
     Public Certificates As New ArrayList
     Public PrimaryQueue As String = ""
     Public ActiveQueue As New EveHQ.Core.SkillQueue
@@ -173,4 +174,14 @@ End Class
         Dim R As EveHQ.Core.PilotSkill = CType(Me.MemberwiseClone, EveHQ.Core.PilotSkill)
         Return R
     End Function
+End Class
+
+<Serializable()> Public Class PilotQueuedSkill
+    Public Position As Integer
+    Public SkillID As Integer
+    Public Level As Integer
+    Public StartSP As Long
+    Public EndSP As Long
+    Public StartTime As DateTime
+    Public EndTime As DateTime
 End Class
