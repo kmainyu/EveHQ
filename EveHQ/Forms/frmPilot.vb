@@ -548,8 +548,9 @@ Public Class frmPilot
                 newitem.Text = EveHQ.Core.SkillFunctions.SkillIDToName(QueuedSkill.SkillID.ToString)
                 clvQueue.Items.Add(newitem)
                 newitem.SubItems(1).Text = QueuedSkill.Level.ToString
-                newitem.SubItems(2).Text = FormatDateTime(QueuedSkill.StartTime, DateFormat.GeneralDate)
-                newitem.SubItems(3).Text = FormatDateTime(QueuedSkill.EndTime, DateFormat.GeneralDate)
+                Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.TrainingEndTime)
+                newitem.SubItems(2).Text = FormatDateTime(EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.StartTime), DateFormat.GeneralDate)
+                newitem.SubItems(3).Text = FormatDateTime(EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime), DateFormat.GeneralDate)
             Next
         End If
         clvQueue.EndUpdate()

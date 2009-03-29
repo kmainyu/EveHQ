@@ -1831,15 +1831,18 @@ namespace DotNetLib.Windows.Forms
 				}
 				else if (e.Delta < 0)
 				{
-					if (_vScrollBar.Visible)
-						_vScrollBar.Value = (_vScrollBar.Value - _vScrollBar.SmallChange * (e.Delta / 100) > _vScrollBar.Maximum - _vScrollBar.LargeChange ? _vScrollBar.Maximum - _vScrollBar.LargeChange : _vScrollBar.Value - _vScrollBar.SmallChange * (e.Delta / 100));
-					else if (_hScrollBar.Visible)
-						_hScrollBar.Value = (_hScrollBar.Value - _hScrollBar.SmallChange * (e.Delta / 100) > _hScrollBar.Maximum - _hScrollBar.LargeChange ? _hScrollBar.Maximum - _hScrollBar.LargeChange : _hScrollBar.Value - _hScrollBar.SmallChange * (e.Delta / 100));
+                    if (_vScrollBar.Visible)
+                    {
+                        if (_vScrollBar.Maximum - _vScrollBar.LargeChange >= 0)
+                            _vScrollBar.Value = (_vScrollBar.Value - _vScrollBar.SmallChange * (e.Delta / 100) > _vScrollBar.Maximum - _vScrollBar.LargeChange ? _vScrollBar.Maximum - _vScrollBar.LargeChange : _vScrollBar.Value - _vScrollBar.SmallChange * (e.Delta / 100));
+                    }
+                    else if (_hScrollBar.Visible)
+                        _hScrollBar.Value = (_hScrollBar.Value - _hScrollBar.SmallChange * (e.Delta / 100) > _hScrollBar.Maximum - _hScrollBar.LargeChange ? _hScrollBar.Maximum - _hScrollBar.LargeChange : _hScrollBar.Value - _hScrollBar.SmallChange * (e.Delta / 100));
 				}
 			}
 			catch (ArgumentException ex)
 			{
-				System.Diagnostics.Debug.Assert(false, "Problem setting scrollbar value:" + ex.Message);
+				System.Diagnostics.Debug.Assert(true, "Problem setting scrollbar value:" + ex.Message);
 			}
 		}
 
