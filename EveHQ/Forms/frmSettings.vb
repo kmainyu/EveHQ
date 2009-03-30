@@ -914,8 +914,9 @@ Public Class frmSettings
                 Case "SPTo"
                     Me.clbColumns.Items.Add("SP Total")
             End Select
-            If CBool(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1)) = True Then
-                Me.clbColumns.SetItemChecked(a, True)
+            Dim validCol As Boolean = False
+            If Boolean.TryParse(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1), validCol) = True Then
+                Me.clbColumns.SetItemChecked(a, validCol)
             Else
                 Me.clbColumns.SetItemChecked(a, False)
             End If

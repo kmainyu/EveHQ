@@ -1044,7 +1044,10 @@
 22456,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF
 22456,0,0,50,1,22782,0,0,0,-99,15,Sphere Launcher CPU
 # Sacrilege,,,,,,,,,,,
-12019,1,3335,37,2,772;654,0,1,0,10,15,"Heavy, Assault Missile Velocity"
+12019,1,3335,114,2,772;654,0,1,0,5,15,EM Assault Missile Damage
+12019,1,3335,116,2,772;654,0,1,0,5,15,Explosive Assault Missile Damage
+12019,1,3335,117,2,772;654,0,1,0,5,15,Kinetic Assault Missile Damage
+12019,1,3335,118,2,772;654,0,1,0,5,15,Thermal Assault Missile Damage
 12019,1,3335,267,1,12019,0,1,2,5,15,Armor EM Resistance
 12019,1,3335,268,1,12019,0,1,2,5,15,Armor Explosive Resistance
 12019,1,3335,269,1,12019,0,1,2,5,15,Armor Kinetic Resistance
