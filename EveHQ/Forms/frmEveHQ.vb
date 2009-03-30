@@ -635,8 +635,7 @@ Public Class frmEveHQ
     End Sub
     Private Sub UpdateTrainingStatus()
         Dim accounts As New ArrayList
-        lblTrainingStatus.Text = ""
-        Dim notifyText As String = ""
+        Dim statusText As New StringBuilder
         ' Check each pilot
         Dim pilotTimes As New SortedList
         Dim defer As Integer = 0
@@ -654,19 +653,19 @@ Public Class frmEveHQ
             End If
         Next
         For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
-            lblTrainingStatus.Text &= cPilot.Name & ":" & ControlChars.CrLf
-            lblTrainingStatus.Text &= cPilot.TrainingSkillName
-            lblTrainingStatus.Text &= " (Lvl " & cPilot.TrainingSkillLevel & ")" & ControlChars.CrLf
-            Dim trainingTime As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
-            Dim skillpoints As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(cPilot)
-            lblTrainingStatus.Text &= EveHQ.Core.SkillFunctions.TimeToString(trainingTime) & ControlChars.CrLf & ControlChars.CrLf
+            statusText.AppendLine(cPilot.Name & ":")
+            statusText.AppendLine(cPilot.TrainingSkillName & " (Lvl " & cPilot.TrainingSkillLevel & ")")
+            statusText.AppendLine(EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime))
+            statusText.AppendLine("")
         Next
         ' Check each account to see if something is training.
         For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
             If accounts.Contains(cAccount.userID) = False Then
-                lblTrainingStatus.Text &= "Account '" & cAccount.FriendlyName & "' is not training!" & ControlChars.CrLf & ControlChars.CrLf
+                statusText.AppendLine("Account '" & cAccount.FriendlyName & "' is not training!")
+                statusText.AppendLine("")
             End If
         Next
+        lblTrainingStatus.Text = statusText.ToString
         ' Check for label size and adjust if need be
         If XPTraining.IsExpanded = True Then
             If XPTraining.Height <> lblTrainingStatus.Height + 40 Then
