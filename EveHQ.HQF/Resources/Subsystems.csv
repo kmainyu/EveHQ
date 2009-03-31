@@ -11,6 +11,7 @@
 29965,1,30532,84,2,62,0,1,0,10,15,Armor Repair Amount
 # Legion Defensive - Augmented Plating,,,,,,,,,,,
 29966,1,30532,265,1,29986,0,1,0,10,15,Armor HP
+29966,1,30532,1159,2,329,0,1,0,10,15,Armor Plate HP
 # Loki Defensive - Adaptive Shielding,,,,,,,,,,,
 29974,1,30545,271,1,29990,0,1,2,5,15,EM Shield Resist
 29974,1,30545,272,1,29990,0,1,2,5,15,Exp Shield Resist
@@ -34,6 +35,7 @@
 29980,1,30540,84,2,62,0,1,0,10,15,Armor Repair Amount
 # Proteus Defensive - Augmented Plating,,,,,,,,,,,
 29981,1,30540,265,1,29988,0,1,0,10,15,Armor HP
+29981,1,30540,1159,2,329,0,1,0,10,15,Armor Plate HP
 # Tengu Defensive - Adaptive Shielding,,,,,,,,,,,
 29969,1,30544,271,1,29984,0,1,2,5,15,EM Shield Resist
 29969,1,30544,272,1,29984,0,1,2,5,15,Exp Shield Resist
@@ -44,6 +46,7 @@
 29970,1,30544,68,2,40,0,1,0,10,15,Shield Booster Boost
 # Tengu Defensive - Supplemental Screening,,,,,,,,,,,
 29971,1,30544,263,1,29984,0,1,0,10,15,Shield HP
+29971,1,30544,72,2,38,0,1,0,10,15,Shield Extender HP
 # Electronics Subsystems,,,,,,,,,,,
 # Legion Electronics - Energy Parasitic Complex,,,,,,,,,,,
 30036,1,30536,90,2,68,0,1,0,10,15,Nos Drain Amount
