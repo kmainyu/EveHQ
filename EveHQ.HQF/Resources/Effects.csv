@@ -1104,7 +1104,7 @@
 37,3,32,37,3,6,0,0,1,15,Max Velocity
 48,3,32,48,3,6,0,0,1,15,CPU Output
 55,3,32,55,3,6,0,0,1,15,Capacitor Recharge
-70,3,32,70,3,6,0,0,1,15,Inertia
+70,3,32,70,3,6,0,0,4,15,Inertia
 76,3,32,76,3,6,0,0,1,15,Max Targeting Range
 208,3,32,208,3,6,0,0,1,15,Radar Sensor Strength
 209,3,32,209,3,6,0,0,1,15,Ladar Sensor Strength

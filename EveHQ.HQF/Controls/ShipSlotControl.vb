@@ -602,7 +602,7 @@ Public Class ShipSlotControl
                 End If
                 ' Check if the module exists
                 If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
-                    Dim modID As String = ModuleLists.moduleListName(modData(0).Trim).ToString
+                    Dim modID As String = ModuleLists.moduleListName(modData(0)).ToString
                     Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
                     If modData.GetUpperBound(0) > 0 Then
                         ' Check if a charge (will be a valid item)
