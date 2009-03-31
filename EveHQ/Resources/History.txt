@@ -1,6 +1,23 @@
 EveHQ - Version History
 -----------------------
 
+1.9.3.492 (31/03/2009)
+---------
+Fixes and Improvements:
+- Core: Eve Skill queue times now shown as local, not Eve Time
+- Core: Fixed scrolling issues with various listviews
+- Core: Handled errors in attempting to delete .old files after an Update
+- HQF: Fixed damage bonus on the Sacrilege
+- HQF: Fixed Highwall HY-x implants calculating the bonus incorrectly
+- HQF: Tengu Defensive - Supplemental Screening bonus now covers shield extenders
+- HQF: Legion Defensive - Augmented Plating bonus now covers armor plates
+- HQF: Proteus Defensive - Augmented Plating bonus now covers armor plates
+- HQF: Inertia modifier on T3 subsystems are now absolute, not relative
+- Prism: Fixed issue with custom item names not displaying in sub-nodes on the Assets view
+- Prism: Added a remove custom name menu item
+- Prism: Relabelled "Exclude Blueprints" to be more specific
+
+
 1.9.2.484 (24/03/2009)
 ---------
 Fixes and Improvements:
