@@ -40,6 +40,7 @@ Partial Class frmPrism
         Me.ctxAssets = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuAddCustomName = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuViewInIB = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuViewInHQF = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuModifyPrice = New System.Windows.Forms.ToolStripMenuItem
@@ -233,6 +234,9 @@ Partial Class frmPrism
         Me.colJobsEndTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colJobsStatus = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.tabRecycle = New System.Windows.Forms.TabPage
+        Me.chkFeesOnItems = New System.Windows.Forms.CheckBox
+        Me.lblPriceTotals = New System.Windows.Forms.Label
+        Me.chkFeesOnRefine = New System.Windows.Forms.CheckBox
         Me.lblTotalFees = New System.Windows.Forms.Label
         Me.lblTotalFeesLbl = New System.Windows.Forms.Label
         Me.nudTax = New System.Windows.Forms.NumericUpDown
@@ -276,6 +280,7 @@ Partial Class frmPrism
         Me.colFees = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colSalePrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colRefinePrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBestPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxRecycleItems = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuAddRecycleItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxRecycleItem = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -342,11 +347,8 @@ Partial Class frmPrism
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
-        Me.colBestPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.chkFeesOnRefine = New System.Windows.Forms.CheckBox
-        Me.lblPriceTotals = New System.Windows.Forms.Label
-        Me.chkFeesOnItems = New System.Windows.Forms.CheckBox
-        Me.mnuAddCustomName = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuRemoveCustomName = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -500,50 +502,56 @@ Partial Class frmPrism
         '
         'ctxAssets
         '
-        Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuAddCustomName, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.mnuToolSep, Me.mnuItemRecycling})
+        Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuAddCustomName, Me.mnuRemoveCustomName, Me.ToolStripMenuItem3, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.mnuToolSep, Me.mnuItemRecycling})
         Me.ctxAssets.Name = "ctxAssets"
-        Me.ctxAssets.Size = New System.Drawing.Size(190, 170)
+        Me.ctxAssets.Size = New System.Drawing.Size(198, 198)
         '
         'mnuItemName
         '
         Me.mnuItemName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.mnuItemName.Name = "mnuItemName"
-        Me.mnuItemName.Size = New System.Drawing.Size(189, 22)
+        Me.mnuItemName.Size = New System.Drawing.Size(197, 22)
         Me.mnuItemName.Text = "Item Name"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(186, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(194, 6)
+        '
+        'mnuAddCustomName
+        '
+        Me.mnuAddCustomName.Name = "mnuAddCustomName"
+        Me.mnuAddCustomName.Size = New System.Drawing.Size(197, 22)
+        Me.mnuAddCustomName.Text = "Add Custom Name"
         '
         'mnuViewInIB
         '
         Me.mnuViewInIB.Name = "mnuViewInIB"
-        Me.mnuViewInIB.Size = New System.Drawing.Size(189, 22)
+        Me.mnuViewInIB.Size = New System.Drawing.Size(197, 22)
         Me.mnuViewInIB.Text = "View In Item Browser"
         '
         'mnuViewInHQF
         '
         Me.mnuViewInHQF.Name = "mnuViewInHQF"
-        Me.mnuViewInHQF.Size = New System.Drawing.Size(189, 22)
+        Me.mnuViewInHQF.Size = New System.Drawing.Size(197, 22)
         Me.mnuViewInHQF.Text = "Copy Setup for HQF"
         '
         'mnuModifyPrice
         '
         Me.mnuModifyPrice.Name = "mnuModifyPrice"
-        Me.mnuModifyPrice.Size = New System.Drawing.Size(189, 22)
+        Me.mnuModifyPrice.Size = New System.Drawing.Size(197, 22)
         Me.mnuModifyPrice.Text = "Modify Custom Price"
         '
         'mnuToolSep
         '
         Me.mnuToolSep.Name = "mnuToolSep"
-        Me.mnuToolSep.Size = New System.Drawing.Size(186, 6)
+        Me.mnuToolSep.Size = New System.Drawing.Size(194, 6)
         '
         'mnuItemRecycling
         '
         Me.mnuItemRecycling.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRecycleItem, Me.mnuRecycleContained, Me.mnuRecycleAll})
         Me.mnuItemRecycling.Name = "mnuItemRecycling"
-        Me.mnuItemRecycling.Size = New System.Drawing.Size(189, 22)
+        Me.mnuItemRecycling.Size = New System.Drawing.Size(197, 22)
         Me.mnuItemRecycling.Text = "Recycling Profitability"
         '
         'mnuRecycleItem
@@ -571,9 +579,9 @@ Partial Class frmPrism
         Me.chkExcludeBPs.AutoSize = True
         Me.chkExcludeBPs.Location = New System.Drawing.Point(107, 60)
         Me.chkExcludeBPs.Name = "chkExcludeBPs"
-        Me.chkExcludeBPs.Size = New System.Drawing.Size(113, 17)
+        Me.chkExcludeBPs.Size = New System.Drawing.Size(112, 17)
         Me.chkExcludeBPs.TabIndex = 7
-        Me.chkExcludeBPs.Text = "Exclude Blueprints"
+        Me.chkExcludeBPs.Text = "Exclude BP Values"
         Me.chkExcludeBPs.UseVisualStyleBackColor = True
         '
         'tvwFilter
@@ -2464,6 +2472,36 @@ Partial Class frmPrism
         Me.tabRecycle.Text = "Recycler"
         Me.tabRecycle.UseVisualStyleBackColor = True
         '
+        'chkFeesOnItems
+        '
+        Me.chkFeesOnItems.AutoSize = True
+        Me.chkFeesOnItems.Location = New System.Drawing.Point(517, 43)
+        Me.chkFeesOnItems.Name = "chkFeesOnItems"
+        Me.chkFeesOnItems.Size = New System.Drawing.Size(94, 17)
+        Me.chkFeesOnItems.TabIndex = 61
+        Me.chkFeesOnItems.Text = "Fees on Items"
+        Me.chkFeesOnItems.UseVisualStyleBackColor = True
+        '
+        'lblPriceTotals
+        '
+        Me.lblPriceTotals.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblPriceTotals.AutoSize = True
+        Me.lblPriceTotals.Location = New System.Drawing.Point(7, 522)
+        Me.lblPriceTotals.Name = "lblPriceTotals"
+        Me.lblPriceTotals.Size = New System.Drawing.Size(135, 13)
+        Me.lblPriceTotals.TabIndex = 60
+        Me.lblPriceTotals.Text = "Sale / Refine / Best Totals:"
+        '
+        'chkFeesOnRefine
+        '
+        Me.chkFeesOnRefine.AutoSize = True
+        Me.chkFeesOnRefine.Location = New System.Drawing.Point(644, 43)
+        Me.chkFeesOnRefine.Name = "chkFeesOnRefine"
+        Me.chkFeesOnRefine.Size = New System.Drawing.Size(98, 17)
+        Me.chkFeesOnRefine.TabIndex = 59
+        Me.chkFeesOnRefine.Text = "Fees on Refine"
+        Me.chkFeesOnRefine.UseVisualStyleBackColor = True
+        '
         'lblTotalFees
         '
         Me.lblTotalFees.AutoSize = True
@@ -2877,6 +2915,16 @@ Partial Class frmPrism
         Me.colRefinePrice.Text = "Refine Price"
         Me.colRefinePrice.Width = 100
         '
+        'colBestPrice
+        '
+        Me.colBestPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colBestPrice.CustomSortTag = Nothing
+        Me.colBestPrice.DisplayIndex = 9
+        Me.colBestPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colBestPrice.Tag = Nothing
+        Me.colBestPrice.Text = "Best Price"
+        Me.colBestPrice.Width = 100
+        '
         'ctxRecycleItems
         '
         Me.ctxRecycleItems.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddRecycleItem})
@@ -2918,7 +2966,7 @@ Partial Class frmPrism
         Me.tabTotals.Location = New System.Drawing.Point(4, 22)
         Me.tabTotals.Name = "tabTotals"
         Me.tabTotals.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabTotals.Size = New System.Drawing.Size(1122, 363)
+        Me.tabTotals.Size = New System.Drawing.Size(1122, 371)
         Me.tabTotals.TabIndex = 1
         Me.tabTotals.Text = "Recycling Totals"
         Me.tabTotals.UseVisualStyleBackColor = True
@@ -2932,7 +2980,7 @@ Partial Class frmPrism
         Me.clvTotals.Location = New System.Drawing.Point(3, 3)
         Me.clvTotals.MultipleColumnSort = True
         Me.clvTotals.Name = "clvTotals"
-        Me.clvTotals.Size = New System.Drawing.Size(1116, 357)
+        Me.clvTotals.Size = New System.Drawing.Size(1116, 365)
         Me.clvTotals.TabIndex = 1
         '
         'colMaterial
@@ -3346,51 +3394,16 @@ Partial Class frmPrism
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
         '
-        'colBestPrice
+        'mnuRemoveCustomName
         '
-        Me.colBestPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colBestPrice.CustomSortTag = Nothing
-        Me.colBestPrice.DisplayIndex = 9
-        Me.colBestPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colBestPrice.Tag = Nothing
-        Me.colBestPrice.Text = "Best Price"
-        Me.colBestPrice.Width = 100
+        Me.mnuRemoveCustomName.Name = "mnuRemoveCustomName"
+        Me.mnuRemoveCustomName.Size = New System.Drawing.Size(197, 22)
+        Me.mnuRemoveCustomName.Text = "Remove Custom Name"
         '
-        'chkFeesOnRefine
+        'ToolStripMenuItem3
         '
-        Me.chkFeesOnRefine.AutoSize = True
-        Me.chkFeesOnRefine.Location = New System.Drawing.Point(644, 43)
-        Me.chkFeesOnRefine.Name = "chkFeesOnRefine"
-        Me.chkFeesOnRefine.Size = New System.Drawing.Size(98, 17)
-        Me.chkFeesOnRefine.TabIndex = 59
-        Me.chkFeesOnRefine.Text = "Fees on Refine"
-        Me.chkFeesOnRefine.UseVisualStyleBackColor = True
-        '
-        'lblPriceTotals
-        '
-        Me.lblPriceTotals.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblPriceTotals.AutoSize = True
-        Me.lblPriceTotals.Location = New System.Drawing.Point(7, 522)
-        Me.lblPriceTotals.Name = "lblPriceTotals"
-        Me.lblPriceTotals.Size = New System.Drawing.Size(135, 13)
-        Me.lblPriceTotals.TabIndex = 60
-        Me.lblPriceTotals.Text = "Sale / Refine / Best Totals:"
-        '
-        'chkFeesOnItems
-        '
-        Me.chkFeesOnItems.AutoSize = True
-        Me.chkFeesOnItems.Location = New System.Drawing.Point(517, 43)
-        Me.chkFeesOnItems.Name = "chkFeesOnItems"
-        Me.chkFeesOnItems.Size = New System.Drawing.Size(94, 17)
-        Me.chkFeesOnItems.TabIndex = 61
-        Me.chkFeesOnItems.Text = "Fees on Items"
-        Me.chkFeesOnItems.UseVisualStyleBackColor = True
-        '
-        'mnuAddCustomName
-        '
-        Me.mnuAddCustomName.Name = "mnuAddCustomName"
-        Me.mnuAddCustomName.Size = New System.Drawing.Size(189, 22)
-        Me.mnuAddCustomName.Text = "Add Custom Name"
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(194, 6)
         '
         'frmPrism
         '
@@ -3775,4 +3788,6 @@ Partial Class frmPrism
     Friend WithEvents lblPriceTotals As System.Windows.Forms.Label
     Friend WithEvents chkFeesOnItems As System.Windows.Forms.CheckBox
     Friend WithEvents mnuAddCustomName As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuRemoveCustomName As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
 End Class

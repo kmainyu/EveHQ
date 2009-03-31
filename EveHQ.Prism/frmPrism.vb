@@ -2519,13 +2519,16 @@ Public Class frmPrism
                         End If
                         If PlugInData.AssetItemNames.ContainsKey(itemID) = True Then
                             mnuAddCustomName.Text = "Edit Custom Name"
+                            mnuRemoveCustomName.Visible = True
                         Else
                             mnuAddCustomName.Text = "Add Custom Name"
+                            mnuRemoveCustomName.Visible = False
                         End If
                         mnuAddCustomName.Tag = itemID
                     Else
                         mnuItemName.Text = itemName
                         mnuAddCustomName.Visible = False
+                        mnuRemoveCustomName.Visible = False
                         mnuViewInIB.Visible = False
                         mnuViewInHQF.Visible = False
                         mnuModifyPrice.Visible = False
@@ -2831,6 +2834,17 @@ Public Class frmPrism
             tlvAssets.SelectedItems(0).Text = newCustomName.AssetItemName
         End If
         newCustomName.Dispose()
+    End Sub
+    Private Sub mnuRemoveCustomName_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveCustomName.Click
+        Dim assetID As String = mnuAddCustomName.Tag.ToString
+        Dim itemName As String = mnuItemName.Text
+        Dim assetSQL As String = "DELETE FROM assetItemNames WHERE itemID=" & assetID & ";"
+        If EveHQ.Core.DataFunctions.SetData(assetSQL) = False Then
+            MessageBox.Show("There was an error deleting the record from the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        Else
+            PlugInData.AssetItemNames.Remove(assetID)
+            tlvAssets.SelectedItems(0).Text = itemName
+        End If
     End Sub
 #End Region
 
