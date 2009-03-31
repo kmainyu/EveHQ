@@ -28,12 +28,8 @@ Public Class SkillFunctions
     Shared eveData As Data.DataSet
 
     ' Shared variables for repeated usage
-    Shared sTime, eTime, cTime As Date
-    Shared tSec, eSec, fSec As Long
-    Shared sSP, eSP, cSP As Integer
-    Shared localzone As TimeZone
-    Shared LocalTime As DateTime
-   
+    Shared sTimeSpan, eTimeSpan, tTimeSpan As TimeSpan
+
     Public Shared Function Roman(ByVal dec As Integer) As String
 
         Roman = ""
@@ -79,8 +75,7 @@ Public Class SkillFunctions
     Public Shared Function CalculateSkillSPLevel(ByVal skillID As String, ByVal Level As Integer) As Double
         Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
         cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), EveHQ.Core.EveSkill)
-        Dim rank As Integer = cSkill.Rank
-        Return CalculateSPLevel(rank, Level)
+        Return CalculateSPLevel(cSkill.Rank, Level)
     End Function
     Public Shared Function TimeToString(ByVal sTime As Double, Optional ByVal skillTime As Boolean = True) As String
 
@@ -201,48 +196,28 @@ Public Class SkillFunctions
 
     End Function             'TimeToString
     Public Shared Function ConvertEveTimeToLocal(ByVal EveTime As Date) As Date
-        ' Calculate time offset from Eve Time (if applicable)
-        localzone = TimeZone.CurrentTimeZone
         ' Calculate the local time and UTC offset.
-        LocalTime = localzone.ToLocalTime(EveTime)
-        Return LocalTime
+        Return TimeZone.CurrentTimeZone.ToLocalTime(EveTime)
     End Function    'ConvertEveTimeToLocal
     Public Shared Function ConvertLocalTimeToEve(ByVal LocalTime As Date) As Date
-        Dim localzone As TimeZone
-        Dim eveTime As DateTime
-        ' Calculate time offset from Eve Time (if applicable)
-        localzone = TimeZone.CurrentTimeZone
         ' Calculate the local time and UTC offset.
-        eveTime = localzone.ToUniversalTime(LocalTime)
-        Return eveTime
+        Return TimeZone.CurrentTimeZone.ToUniversalTime(LocalTime)
     End Function
     Public Shared Function CalcCurrentSkillTime(ByRef myPilot As EveHQ.Core.Pilot) As Long
         If myPilot.Training = True Then
-            sTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingStartTime)
-            eTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingEndTime)
-            cTime = Now
-            tSec = DateDiff(DateInterval.Second, sTime, eTime)
-            eSec = DateDiff(DateInterval.Second, sTime, cTime)
-            fSec = Math.Max(tSec - eSec, 0)
-            myPilot.TrainingCurrentTime = fSec
-            Return fSec
+            eTimeSpan = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingEndTime) - Now
+            myPilot.TrainingCurrentTime = CLng(Math.Max(eTimeSpan.TotalSeconds, 0))
+            Return myPilot.TrainingCurrentTime
         Else
             Return 0
         End If
     End Function     'CalcCurrentSkillTime
     Public Shared Function CalcCurrentSkillPoints(ByRef myPilot As EveHQ.Core.Pilot) As Long
         If myPilot.Training = True Then
-            sTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingStartTime)
-            eTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingEndTime)
-            cTime = Now
-            tSec = DateDiff(DateInterval.Second, sTime, eTime)
-            eSec = DateDiff(DateInterval.Second, sTime, cTime)
-            fSec = Math.Max(tSec - eSec, 0)
-            sSP = myPilot.TrainingStartSP
-            eSP = myPilot.TrainingEndSP
-            cSP = CInt(((tSec - fSec) / tSec) * (eSP - sSP))
-            myPilot.TrainingCurrentSP = cSP
-            Return cSP
+            tTimeSpan = myPilot.TrainingEndTime - myPilot.TrainingStartTime
+            sTimeSpan = Now - EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingStartTime)
+            myPilot.TrainingCurrentSP = CInt(sTimeSpan.TotalSeconds / tTimeSpan.TotalSeconds * (myPilot.TrainingEndSP - myPilot.TrainingStartSP))
+            Return myPilot.TrainingCurrentSP
         Else
             Return 0
         End If
@@ -983,7 +958,6 @@ Public Class SkillFunctions
         End If
 
     End Function
-
     Private Shared Sub PreReqTimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal curLevel As Integer, ByRef skillsNeeded As ArrayList, ByVal rootSkill As Boolean)
         ' Write the skill we are querying as the first (parent) node
         Dim skillTrained As Boolean = False
