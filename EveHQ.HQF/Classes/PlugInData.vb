@@ -12,7 +12,7 @@ Public Class PlugInData
     Shared moduleEffectData As DataSet
     Shared moduleAttributeData As DataSet
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.9.3.492"
+    Shared LastCacheRefresh As String = "1.9.3.493"
 
 #Region "Plug-in Interface Properties and Functions"
 

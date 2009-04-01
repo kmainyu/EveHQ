@@ -306,10 +306,10 @@
 848,1,20312,654,2,655,0,1,0,0,Guided Missile Precision - T2 Heavy
 848,1,20312,654,2,653,0,1,0,0,Guided Missile Precision - T2 Light
 293,1,25718,51,5,25718,0,1,0,0,Heavy Assault Missile Specialization
-292,1,25719,114,2,772;376,0,1,0,0,Heavy Assault Missiles - EM
-292,1,25719,116,2,772;376,0,1,0,0,Heavy Assault Missiles - Explosive
-292,1,25719,117,2,772;376,0,1,0,0,Heavy Assault Missiles - Kinetic
-292,1,25719,118,2,772;376,0,1,0,0,Heavy Assault Missiles- Thermal
+292,1,25719,114,2,772;654,0,1,0,0,Heavy Assault Missiles - EM
+292,1,25719,116,2,772;654,0,1,0,0,Heavy Assault Missiles - Explosive
+292,1,25719,117,2,772;654,0,1,0,0,Heavy Assault Missiles - Kinetic
+292,1,25719,118,2,772;654,0,1,0,0,Heavy Assault Missiles- Thermal
 293,1,20211,51,5,20211,0,1,0,0,Heavy Missile Specialization
 292,1,3324,114,2,385;655,0,1,0,0,Heavy Missiles - EM
 292,1,3324,116,2,385;655,0,1,0,0,Heavy Missiles - Explosive
