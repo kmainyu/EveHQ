@@ -24,7 +24,6 @@ Public Class SkillQueueFunctions
 
     Public Shared Event RefreshQueue()
     Private Shared optimalTraining As New ArrayList
-    Public Shared SuggestionStatus As New SortedList
 
     Shared Property StartQueueRefresh() As Boolean
         Get
@@ -407,6 +406,9 @@ Public Class SkillQueueFunctions
             ' Add the totaltime and skills to the queue data
             qQueue.QueueTime = totalTime
             qQueue.QueueSkills = totalSkills
+        Else
+            qQueue.QueueTime = 0
+            qQueue.QueueSkills = 0
         End If
 
         Return arrQueue
@@ -1152,12 +1154,6 @@ Public Class SkillQueueFunctions
         Dim newQueueTime As Long = 0
         Dim skillSuggestions As New ArrayList
 
-        If qQueue.Queue.Count = 0 Then
-            EveHQ.Core.SkillQueueFunctions.SuggestionStatus(qQueue.Name) = "Completed"
-            Return qQueue
-            Exit Function
-        End If
-
         Dim newQueue As EveHQ.Core.SkillQueue = CType(qQueue.Clone, Core.SkillQueue)
 
         Dim opSkill As String = ""
@@ -1227,7 +1223,6 @@ Public Class SkillQueueFunctions
         newQueueTime = newQueue.QueueTime
 
         Dim msg As String = ""
-        EveHQ.Core.SkillQueueFunctions.SuggestionStatus(qQueue.Name) = "Completed"
         If newQueueTime < originalQueueTime Then
             Return newQueue
         Else
