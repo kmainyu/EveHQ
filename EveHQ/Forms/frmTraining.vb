@@ -41,6 +41,7 @@ Public Class frmTraining
     Dim certListNodes As New SortedList
     Dim CertGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
 
+#Region "Form Loading and Setup Routines"
     Private Sub frmTraining_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         cboFilter.SelectedIndex = 0
         cboCertFilter.SelectedIndex = 0
@@ -51,64 +52,6 @@ Public Class frmTraining
         AddHandler EveHQ.Core.SkillQueueFunctions.RefreshQueue, AddressOf Me.RefreshAllTraining
         ' Set the first initial primary one as active
     End Sub
-
-    Public Sub RefreshAllTraining()
-        If Me.IsHandleCreated = True Then
-            suggestedQueues.Clear()
-            suggestingQueues.Clear()
-            cSuggestingQueue = ""
-            suggestionsTaken = False
-            Call Me.SetupQueues()
-            Call Me.RefreshAllTrainingQueues()
-            Call Me.ResetQueueButtons()
-            Call Me.LoadSkillTree()
-            Call Me.LoadCertificateTree()
-        End If
-    End Sub
-
-    Private Sub DrawQueueSummary()
-        ' Check if we have a Primary Queue
-        If EveHQ.Core.HQ.myPilot.TrainingQueues.Count > 0 Then
-            If EveHQ.Core.HQ.myPilot.PrimaryQueue = "" Then
-                EveHQ.Core.HQ.myPilot.PrimaryQueue = EveHQ.Core.HQ.myPilot.TrainingQueues.GetKey(0).ToString
-                Dim selQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(EveHQ.Core.HQ.myPilot.PrimaryQueue), EveHQ.Core.SkillQueue)
-                selQueue.Primary = True
-            End If
-        End If
-        ' Setup the summary column
-        lvQueues.Items.Clear()
-        Dim totalQTime As Double = 0
-        For Each newQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
-            Dim newItem As New ListViewItem
-            Dim PrimaryFont As Font = New Font(newItem.Font, FontStyle.Bold)
-            newItem.Name = newQ.Name
-            newItem.Text = newQ.Name
-            If newQ.Primary = True Then
-                newItem.Font = PrimaryFont
-            End If
-            newItem.SubItems.Add(newQ.Queue.Count.ToString)
-            Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
-            Dim tTimeItem As New ListViewItem.ListViewSubItem
-            tTimeItem.Tag = tTime
-            tTimeItem.Text = EveHQ.Core.SkillFunctions.TimeToString(tTime)
-            newItem.SubItems.Add(tTimeItem)
-            Dim qTime As Double = 0
-            If EveHQ.Core.HQ.myPilot.Training = True And newQ.IncCurrentTraining = True Then
-                qTime = tTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-            Else
-                qTime = tTime
-            End If
-            Dim qTimeItem As New ListViewItem.ListViewSubItem
-            qTimeItem.Tag = tTime
-            qTimeItem.Text = EveHQ.Core.SkillFunctions.TimeToString(qTime)
-            newItem.SubItems.Add(qTimeItem)
-            totalQTime += qTime
-            Dim eTime As Date = Now.AddSeconds(tTime)
-            newItem.SubItems.Add(Format(eTime, "ddd") & " " & FormatDateTime(eTime, DateFormat.GeneralDate))
-            lvQueues.Items.Add(newItem)
-        Next
-    End Sub
-
     Public Sub SetupQueues()
 
         ' Remove all but the summary tab on the tabQueues
@@ -203,11 +146,139 @@ Public Class frmTraining
             tabQueues.TabPages.Add(newQTab)
         Next
     End Sub
+    Private Sub DrawColumns(ByVal lv As EveHQ.DragAndDropListView)
 
-    Private Sub cboFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFilter.SelectedIndexChanged
-        Call LoadSkillTree()
+        lv.Columns.Clear()
+        ' Add the 6 standard columns
+        lv.Columns.Add("Name", "Skill Name", 180, HorizontalAlignment.Left, "")
+        lv.Columns.Add("Curl", "Cur Lvl", 50, HorizontalAlignment.Center, "")
+        lv.Columns.Add("From", "From Lvl", 55, HorizontalAlignment.Center, "")
+        lv.Columns.Add("Tole", "To Lvl", 55, HorizontalAlignment.Center, "")
+        lv.Columns.Add("Perc", "%", 30, HorizontalAlignment.Center, "")
+        lv.Columns.Add("Trai", "Training Time", 100, HorizontalAlignment.Left, "")
+        ' Now find the other ones
+        For a As Integer = 6 To 16
+            If CBool(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1)) = True Then
+                Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
+                    Case "Date"
+                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Date Completed", 150, HorizontalAlignment.Left, "")
+                    Case "Rank"
+                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Rank", 60, HorizontalAlignment.Center, "")
+                    Case "PAtt"
+                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Pri Attr", 60, HorizontalAlignment.Center, "")
+                    Case "SAtt"
+                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Sec Attr", 60, HorizontalAlignment.Center, "")
+                    Case "SPRH"
+                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /hour", 60, HorizontalAlignment.Center, "")
+                    Case "SPRD"
+                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /day", 60, HorizontalAlignment.Center, "")
+                    Case "SPRW"
+                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /week", 60, HorizontalAlignment.Center, "")
+                    Case "SPRM"
+                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /mnth", 60, HorizontalAlignment.Center, "")
+                    Case "SPRY"
+                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /year", 60, HorizontalAlignment.Center, "")
+                    Case "SPAd"
+                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP Added", 100, HorizontalAlignment.Center, "")
+                    Case "SPTo"
+                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP @ End", 100, HorizontalAlignment.Center, "")
+                End Select
+            End If
+        Next
+
     End Sub
+    Public Sub RefreshAllTrainingQueues()
+        For Each newQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
+            Call Me.RefreshTraining(newQ.Name)
+        Next
+        Call Me.DrawQueueSummary()
+    End Sub
+    Private Sub DrawQueueSummary()
+        ' Check if we have a Primary Queue
+        If EveHQ.Core.HQ.myPilot.TrainingQueues.Count > 0 Then
+            If EveHQ.Core.HQ.myPilot.PrimaryQueue = "" Then
+                EveHQ.Core.HQ.myPilot.PrimaryQueue = EveHQ.Core.HQ.myPilot.TrainingQueues.GetKey(0).ToString
+                Dim selQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(EveHQ.Core.HQ.myPilot.PrimaryQueue), EveHQ.Core.SkillQueue)
+                selQueue.Primary = True
+            End If
+        End If
+        ' Setup the summary column
+        lvQueues.Items.Clear()
+        Dim totalQTime As Double = 0
+        For Each newQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
+            Dim newItem As New ListViewItem
+            Dim PrimaryFont As Font = New Font(newItem.Font, FontStyle.Bold)
+            newItem.Name = newQ.Name
+            newItem.Text = newQ.Name
+            If newQ.Primary = True Then
+                newItem.Font = PrimaryFont
+            End If
+            newItem.SubItems.Add(newQ.Queue.Count.ToString)
+            Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
+            Dim tTimeItem As New ListViewItem.ListViewSubItem
+            tTimeItem.Tag = tTime
+            tTimeItem.Text = EveHQ.Core.SkillFunctions.TimeToString(tTime)
+            newItem.SubItems.Add(tTimeItem)
+            Dim qTime As Double = 0
+            If EveHQ.Core.HQ.myPilot.Training = True And newQ.IncCurrentTraining = True Then
+                qTime = tTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+            Else
+                qTime = tTime
+            End If
+            Dim qTimeItem As New ListViewItem.ListViewSubItem
+            qTimeItem.Tag = tTime
+            qTimeItem.Text = EveHQ.Core.SkillFunctions.TimeToString(qTime)
+            newItem.SubItems.Add(qTimeItem)
+            totalQTime += qTime
+            Dim eTime As Date = Now.AddSeconds(tTime)
+            newItem.SubItems.Add(Format(eTime, "ddd") & " " & FormatDateTime(eTime, DateFormat.GeneralDate))
+            lvQueues.Items.Add(newItem)
+        Next
+    End Sub
+    Private Sub tabQueues_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabQueues.SelectedIndexChanged
+        If tabQueues.SelectedTab.Name <> "tabSummary" Then
+            activeQueueName = tabQueues.SelectedTab.Name
+            EveHQ.Core.HQ.myPilot.ActiveQueueName = activeQueueName
+            Dim aq As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(activeQueueName), Core.SkillQueue)
+            activeQueue = aq
+            EveHQ.Core.HQ.myPilot.ActiveQueue = activeQueue
+            activeTime = CType(Me.tabQueues.TabPages(activeQueueName).Controls("T" & activeQueueName), Label)
+            activeLVW = CType(Me.tabQueues.TabPages(activeQueueName).Controls("Q" & activeQueueName), EveHQ.DragAndDropListView)
+            activeLVW.IncludeCurrentTraining = aq.IncCurrentTraining
+            Call RedrawOptions()
+            tsQueueOptions.Enabled = True
+            activeLVW.Select()
+            mnuAddToQueue.Enabled = True
+        Else
+            activeQueueName = ""
+            activeQueue = Nothing
+            EveHQ.Core.HQ.myPilot.ActiveQueueName = activeQueueName
+            tsQueueOptions.Enabled = False
+            mnuAddToQueue.Enabled = False
+        End If
+        If frmNeuralRemap.IsHandleCreated = True Then
+            frmNeuralRemap.QueueName = activeQueueName
+        End If
+        If frmImplants.IsHandleCreated = True Then
+            frmImplants.QueueName = activeQueueName
+        End If
+    End Sub
+#End Region
 
+#Region "Training Refresh Routines"
+    Public Sub RefreshAllTraining()
+        If Me.IsHandleCreated = True Then
+            suggestedQueues.Clear()
+            suggestingQueues.Clear()
+            cSuggestingQueue = ""
+            suggestionsTaken = False
+            Call Me.SetupQueues()
+            Call Me.RefreshAllTrainingQueues()
+            Call Me.ResetQueueButtons()
+            Call Me.LoadSkillTree()
+            Call Me.LoadCertificateTree()
+        End If
+    End Sub
     Public Sub LoadSkillTree()
         Dim filter As Integer = cboFilter.SelectedIndex
         ' Save current open nodes
@@ -235,7 +306,6 @@ Public Class frmTraining
             btnShowDetails.Enabled = False
         End If
     End Sub
-
     Private Sub LoadSkillGroups()
         skillListNodes.Clear()
         Dim newSkillGroup As EveHQ.Core.SkillGroup
@@ -250,7 +320,6 @@ Public Class frmTraining
             End If
         Next
     End Sub
-
     Private Sub LoadFilteredSkills(ByVal filter As Integer)
         Dim newSkill As EveHQ.Core.EveSkill
         Dim groupNode As New TreeNode
@@ -410,7 +479,6 @@ Public Class frmTraining
             End If
         Next
     End Sub
-
     Private Sub ShowSkillGroups()
         For Each groupNode As TreeNode In skillListNodes.Values
             If groupNode.Nodes.Count > 0 Then
@@ -418,130 +486,6 @@ Public Class frmTraining
             End If
         Next
     End Sub
-
-    Private Sub tvwSkillList_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwSkillList.AfterSelect
-        btnLevelUp.Enabled = False
-        btnLevelDown.Enabled = False
-        btnDeleteSkill.Enabled = False
-        btnMoveUp.Enabled = False
-        btnMoveDown.Enabled = False
-        btnShowDetails.Enabled = True
-        btnAddSkill.Enabled = True
-        If e.Node.Parent IsNot Nothing Or (e.Node.Parent Is Nothing And usingFilter = False) Then
-            Dim skillID As String = e.Node.Name
-            Call Me.ShowSkillDetails(skillID)
-        End If
-    End Sub
-
-    Private Sub tvwSkillList_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles tvwSkillList.DoubleClick
-        If tvwSkillList.SelectedNode.Level = 1 Or (tvwSkillList.SelectedNode.Level = 0 And usingFilter = False) Then
-            Dim skillID As String
-            skillID = tvwSkillList.SelectedNode.Name
-            Call frmSkillDetails.ShowSkillDetails(skillID)
-        End If
-    End Sub
-
-    Private Sub tvwSkillList_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles tvwSkillList.ItemDrag
-        Dim addSkill As DragItemData = New DragItemData(Me.activeLVW)
-        Dim newLVItem As ListViewItem = ConvertTreeNode(CType(e.Item, TreeNode))
-        addSkill.DragItems.Add(newLVItem)
-        DoDragDrop(addSkill, (DragDropEffects.Move Or (DragDropEffects.Copy Or DragDropEffects.Scroll)))
-    End Sub
-
-    Private Function ConvertTreeNode(ByVal skillNode As TreeNode) As ListViewItem
-        Dim newItem As ListViewItem = New ListViewItem
-        newItem.Text = "##" & skillNode.Text
-        Return newItem
-    End Function
-
-    Private Sub activeLVW_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs)
-        Dim skillID As String
-        skillID = EveHQ.Core.SkillFunctions.SkillNameToID(activeLVW.SelectedItems(0).Text)
-        Call frmSkillDetails.ShowSkillDetails(skillID)
-    End Sub
-
-    Private Sub activeLVW_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs)
-
-        Me.RefreshTraining(activeQueueName)
-
-    End Sub
-
-    Private Sub activeLVW_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs)
-        ' Make sure that the format is a treenode
-        If e.Data.GetDataPresent("System.Windows.Forms.TreeNode", False) = True Or e.Data.GetDataPresent("System.Windows.Forms.ListViewItem", False) = True Then
-            ' Allow drop.
-            e.Effect = DragDropEffects.Copy
-        Else
-            ' Do not allow drop.
-            e.Effect = DragDropEffects.None
-        End If
-    End Sub
-
-    Private Sub activeLVW_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs)
-        DoDragDrop(e.Item, DragDropEffects.Copy)
-    End Sub
-
-    Private Sub activeLVW_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs)
-        If CInt(activeLVW.SortColumn) = e.Column Then
-            Me.activeLVW.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Name(e.Column, Windows.Forms.SortOrder.Ascending)
-            activeLVW.SortColumn = -1
-        Else
-            Me.activeLVW.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Name(e.Column, Windows.Forms.SortOrder.Descending)
-            activeLVW.SortColumn = e.Column
-        End If
-        ' Call the sort method to manually sort.
-        activeLVW.Sort()
-    End Sub
-
-    Private Sub DrawColumns(ByVal lv As EveHQ.DragAndDropListView)
-
-        lv.Columns.Clear()
-        ' Add the 6 standard columns
-        lv.Columns.Add("Name", "Skill Name", 180, HorizontalAlignment.Left, "")
-        lv.Columns.Add("Curl", "Cur Lvl", 50, HorizontalAlignment.Center, "")
-        lv.Columns.Add("From", "From Lvl", 55, HorizontalAlignment.Center, "")
-        lv.Columns.Add("Tole", "To Lvl", 55, HorizontalAlignment.Center, "")
-        lv.Columns.Add("Perc", "%", 30, HorizontalAlignment.Center, "")
-        lv.Columns.Add("Trai", "Training Time", 100, HorizontalAlignment.Left, "")
-        ' Now find the other ones
-        For a As Integer = 6 To 16
-            If CBool(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1)) = True Then
-                Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
-                    Case "Date"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Date Completed", 150, HorizontalAlignment.Left, "")
-                    Case "Rank"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Rank", 60, HorizontalAlignment.Center, "")
-                    Case "PAtt"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Pri Attr", 60, HorizontalAlignment.Center, "")
-                    Case "SAtt"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Sec Attr", 60, HorizontalAlignment.Center, "")
-                    Case "SPRH"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /hour", 60, HorizontalAlignment.Center, "")
-                    Case "SPRD"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /day", 60, HorizontalAlignment.Center, "")
-                    Case "SPRW"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /week", 60, HorizontalAlignment.Center, "")
-                    Case "SPRM"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /mnth", 60, HorizontalAlignment.Center, "")
-                    Case "SPRY"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /year", 60, HorizontalAlignment.Center, "")
-                    Case "SPAd"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP Added", 100, HorizontalAlignment.Center, "")
-                    Case "SPTo"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP @ End", 100, HorizontalAlignment.Center, "")
-                End Select
-            End If
-        Next
-
-    End Sub
-
-    Public Sub RefreshAllTrainingQueues()
-        For Each newQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
-            Call Me.RefreshTraining(newQ.Name)
-        Next
-        Call Me.DrawQueueSummary()
-    End Sub
-
     Public Sub RefreshTraining(ByVal QueueName As String)
 
         Dim lvwQueue As EveHQ.DragAndDropListView = CType(Me.tabQueues.Controls(QueueName).Controls("Q" & QueueName), EveHQ.DragAndDropListView)
@@ -693,477 +637,6 @@ Public Class frmTraining
             End If
         End If
     End Sub
-
-    Public Sub UpdateTraining()
-        'If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = False Then
-        If EveHQ.Core.HQ.myPilot.Training = True Then
-            If Me.tabQueues.TabPages.Count > 1 Then
-                For Each tp As TabPage In Me.tabQueues.TabPages
-                    If tp.Name <> "tabSummary" Then
-                        Dim cLabel As Label = CType(Me.tabQueues.TabPages(tp.Name).Controls("T" & tp.Name), Label)
-                        Dim cLVW As EveHQ.DragAndDropListView = CType(Me.tabQueues.TabPages(tp.Name).Controls("Q" & tp.Name), EveHQ.DragAndDropListView)
-                        If cLVW.IncludeCurrentTraining = True Then
-                            If cLVW.Items.Count > 0 Then
-                                Dim myCurSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.PilotSkill)
-                                Dim clevel As Integer = EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                                Dim cTime As Double = EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-                                Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
-                                Dim endtime As Date = EveHQ.Core.HQ.myPilot.TrainingEndTime
-                                Dim percent As Integer = 0
-                                percent = CInt(Int((myCurSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
-
-                                cLVW.Items(cLVW.Tag.ToString).SubItems(4).Text = CStr(percent)
-                                cLVW.Items(cLVW.Tag.ToString).SubItems(5).Tag = cTime
-                                cLVW.Items(cLVW.Tag.ToString).SubItems(5).Text = strTime
-
-                                ' Calculate total time
-                                If cLVW.Items.Count > 0 Then
-                                    Dim totalTime As Double = 0
-                                    For count As Integer = 0 To cLVW.Items.Count - 1
-                                        totalTime += CLng(cLVW.Items(count).SubItems(5).Tag)
-                                    Next
-                                    cLabel.Tag = totalTime.ToString
-                                    cLabel.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
-                                End If
-                            End If
-                        End If
-                    End If
-                Next
-            End If
-            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.EveSkill)
-            If EveHQ.Core.HQ.myPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = EveHQ.Core.HQ.myPilot.TrainingSkillName Then
-                lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
-                Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
-                lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                Dim totalTime As Long = 0
-                For toLevel As Integer = 1 To 5
-                    Select Case toLevel
-                        Case EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                            totalTime += EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-                        Case Is > EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                            totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, toLevel, toLevel - 1, , TrainingBonus))
-                    End Select
-                    lvwTimes.Items(toLevel - 1).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
-                Next
-            End If
-            ' Update the queue summary data
-            For Each newQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
-                Try
-                    Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
-                    lvQueues.Items(newQ.Name).SubItems(2).Tag = tTime
-                    lvQueues.Items(newQ.Name).SubItems(2).Text = (EveHQ.Core.SkillFunctions.TimeToString(tTime))
-                    Dim qTime As Double = tTime
-                    If newQ.IncCurrentTraining = True Then
-                        qTime = tTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-                    End If
-                    lvQueues.Items(newQ.Name).SubItems(3).Tag = qTime
-                    lvQueues.Items(newQ.Name).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(qTime)
-                    Dim eTime As Date = Now.AddSeconds(tTime)
-                    lvQueues.Items(newQ.Name).SubItems(4).Text = (Format(eTime, "ddd") & " " & FormatDateTime(eTime, DateFormat.GeneralDate))
-                Catch e As Exception
-                    ' Error will most likely be if a skill queue is in the process of deletion.
-                End Try
-            Next
-            If Me.selQTime > 0 Then
-                lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
-            Else
-                lblTotalQueueTime.Text = "No Queue Selected"
-            End If
-        End If
-
-    End Sub
-
-    Private Sub tvwSkillList_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwSkillList.NodeMouseClick
-        tvwSkillList.SelectedNode = e.Node
-    End Sub
-
-    Private Sub ctxQueue_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxQueue.Opening
-        ' Cancel the menu opening if there are no skills selected
-        If activeLVW.SelectedItems.Count = 0 Then
-            e.Cancel = True
-            Exit Sub
-        End If
-        ' Determine enabled menu items of adding to queue
-        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
-        Dim skillName As String = mnuSkillName.Text
-        Dim currentLevel As Integer = 0
-        If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(skillName) = True Then
-            Dim cSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(skillName), Core.PilotSkill)
-            currentLevel = cSkill.Level
-        End If
-        For a As Integer = 1 To 5
-            If a <= CInt(fromLevel) Then
-                mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = False
-            Else
-                mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = True
-            End If
-        Next
-        If currentLevel = 4 Then
-            mnuChangeLevel.Enabled = False
-        Else
-            mnuChangeLevel.Enabled = True
-        End If
-    End Sub
-    Private Sub ctxDetails_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxDetails.Opening
-        Dim curNode As TreeNode = New TreeNode
-        curNode = tvwSkillList.SelectedNode
-        If curNode IsNot Nothing Then
-            Dim skillName As String = ""
-            Dim skillID As String = ""
-            skillName = curNode.Text
-            skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
-            mnuSkillName2.Text = skillName
-            mnuSkillName2.Tag = skillID
-            ' Determine if this is a parent node or not
-            If curNode.Parent Is Nothing Then
-                ' Group Node
-                mnuAddGroupToQueue.Visible = True
-                mnuAddToQueue.Visible = False
-            Else
-                ' Skill Node
-                mnuAddGroupToQueue.Visible = False
-                mnuAddToQueue.Visible = True
-            End If
-            If activeQueueName = "" Then
-                mnuAddGroupToQueue.Enabled = False
-                mnuAddToQueue.Enabled = False
-            Else
-                mnuAddGroupToQueue.Enabled = True
-                mnuAddToQueue.Enabled = True
-                ' Determine enabled menu items of adding to queue
-                Dim currentLevel As Integer = 0
-                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(skillName) = True Then
-                    Dim cSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(skillName), Core.PilotSkill)
-                    currentLevel = cSkill.Level
-                End If
-                For a As Integer = 1 To 5
-                    If a <= currentLevel Then
-                        mnuAddToQueue.DropDownItems("mnuAddToQueue" & a).Enabled = False
-                    Else
-                        mnuAddToQueue.DropDownItems("mnuAddToQueue" & a).Enabled = True
-                    End If
-                Next
-                If currentLevel = 5 Then
-                    mnuAddToQueueNext.Enabled = False
-                    mnuAddToQueue.Enabled = False
-                Else
-                    mnuAddToQueueNext.Enabled = True
-                    mnuAddToQueue.Enabled = True
-                End If
-            End If
-        End If
-    End Sub
-
-    Private Sub mnuViewDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewDetails.Click
-        Dim skillID As String
-        skillID = mnuSkillName.Tag.ToString
-        Call frmSkillDetails.ShowSkillDetails(skillID)
-    End Sub
-    Private Sub mnuViewDetails2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewDetails2.Click
-        Dim skillID As String
-        skillID = mnuSkillName2.Tag.ToString
-        Call frmSkillDetails.ShowSkillDetails(skillID)
-    End Sub
-    Private Sub btnShowDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShowDetails.Click
-        ' Find out which control it relates to!
-        Dim skillName As String = ""
-        Dim skillID As String = ""
-        If activeLVW.Focused = False Then
-            Dim curNode As TreeNode = New TreeNode
-            curNode = tvwSkillList.SelectedNode
-            If curNode IsNot Nothing Then
-                skillName = curNode.Text
-            End If
-        Else
-            skillName = activeLVW.SelectedItems(0).Text
-        End If
-        If skillName <> "" Then
-            skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
-            Call frmSkillDetails.ShowSkillDetails(skillID)
-        End If
-    End Sub
-
-    Private Sub btnAddSkill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddSkill.Click
-        Call Me.AddSkillToQueueOption()
-    End Sub
-    Private Sub AddSkillToQueueOption()
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue)
-        Call Me.RefreshTraining(activeQueueName)
-    End Sub
-
-    Private Sub mnuDeleteFromQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuDeleteFromQueue.Click
-        Call Me.DeleteFromQueueOption()
-    End Sub
-    Private Sub btnDeleteSkill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteSkill.Click
-        Call Me.DeleteFromQueueOption()
-    End Sub
-    Private Sub DeleteFromQueueOption()
-        ' Get the skill name and levels
-        For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
-            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
-            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
-            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
-            Dim keyName As String = skillName & fromLevel & toLevel
-            ' Remove it from the queue
-            Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-            mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-            ' Delete the Skill
-            Call Me.DeleteFromQueue(mySkill)
-        Next
-        ' Refresh the training view!
-        Call Me.RefreshTraining(activeQueueName)
-    End Sub
-    Private Sub DeleteFromQueue(ByVal mySkill As EveHQ.Core.SkillQueueItem)
-        Dim delPOS As Integer = mySkill.Pos
-        activeQueue.Queue.Remove(mySkill.Name & mySkill.FromLevel & mySkill.ToLevel)
-        ' Reshuffle all the positions below
-        For Each mySkill In activeQueue.Queue
-            If mySkill.Pos > delPOS Then
-                mySkill.Pos -= 1
-            End If
-        Next
-    End Sub
-
-    Private Sub mnuIncreaseLevel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuIncreaseLevel.Click
-        Call Me.IncreaseLevel()
-    End Sub
-    Private Sub btnLevelUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLevelUp.Click
-        Call Me.IncreaseLevel()
-    End Sub
-    Private Sub IncreaseLevel()
-        ' Store the index being used
-        Dim oldIndex As Integer = activeLVW.SelectedItems(0).Index
-        ' Get the skill name
-        Dim skillName As String = activeLVW.SelectedItems(0).Text
-        Dim curLevel As String = activeLVW.SelectedItems(0).SubItems(1).Text
-        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
-        Dim toLevel As String = activeLVW.SelectedItems(0).SubItems(3).Text
-        Dim keyName As String = skillName & fromLevel & toLevel
-        Dim myTSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-        myTSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-
-        ' Check if we have another skill that can be affected by us increasing the level i.e. the same skill!
-        Dim checkSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-        For Each checkSkill In activeQueue.Queue
-            If myTSkill.Name = checkSkill.Name Then
-                ' Check the "from" skill level matches
-                If checkSkill.FromLevel = myTSkill.ToLevel Then
-                    ' We have to decide what to do here, either increase the levels or merge
-                    If checkSkill.ToLevel = checkSkill.FromLevel + 1 Then
-                        ' We have to merge the items here so delete the new found one
-                        Call Me.DeleteFromQueue(checkSkill)
-                    Else
-                        ' We have to increase the levels so decrease the new found one
-                        ' Delete the existing item
-                        activeQueue.Queue.Remove(checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
-                        ' Adjust the "to" level
-                        checkSkill.FromLevel += 1
-                        ' Add the item back in at its new levels
-                        activeQueue.Queue.Add(checkSkill, checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
-                    End If
-                End If
-            End If
-        Next
-
-        ' Check if the skill has been trained and we wish to increase it to the next level
-        If activeLVW.SelectedItems(0).Font.Strikeout = True Then
-            myTSkill.FromLevel = Math.Max(CInt(curLevel), myTSkill.FromLevel)
-        End If
-
-        ' Delete the existing item
-        activeQueue.Queue.Remove(keyName)
-        ' Adjust the "to" level
-        myTSkill.ToLevel += 1
-        ' Add the item back in at its new levels
-        activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
-        Call Me.RefreshTraining(activeQueueName)
-        activeLVW.Items(oldIndex).Selected = True
-    End Sub
-
-    Private Sub mnuDecreaseLevel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuDecreaseLevel.Click
-        Call Me.DecreaseLevel()
-    End Sub
-    Private Sub btnLevelDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLevelDown.Click
-        Call Me.DecreaseLevel()
-    End Sub
-    Private Sub DecreaseLevel()
-        ' Store the index being used
-        Dim oldIndex As Integer = activeLVW.SelectedItems(0).Index
-        ' Get the skill name
-        Dim skillName As String = activeLVW.SelectedItems(0).Text
-        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
-        Dim toLevel As String = activeLVW.SelectedItems(0).SubItems(3).Text
-        Dim keyName As String = skillName & fromLevel & toLevel
-        Dim myTSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-        myTSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-        ' Delete the existing item
-        activeQueue.Queue.Remove(keyName)
-        ' Adjust the "to" level
-        myTSkill.ToLevel -= 1
-        ' Add the item back in at its new levels
-        activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
-        Call Me.RefreshTraining(activeQueueName)
-        activeLVW.Items(oldIndex).Selected = True
-    End Sub
-
-    Private Sub mnuMoveUpQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuMoveUpQueue.Click
-        Call Me.MoveUpQueue()
-    End Sub
-    Private Sub btnMoveUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMoveUp.Click
-        Call Me.MoveUpQueue()
-    End Sub
-    Private Sub MoveUpQueue()
-        ' Store the keyname being used
-        Dim keyName As String = activeLVW.SelectedItems(0).Name
-        Dim sourceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-        sourceSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-        Dim oldPOS As Integer = sourceSkill.Pos
-        Dim queueJump As Integer = 0
-        Dim maxJump As Integer = 0
-        If EveHQ.Core.HQ.myPilot.Training = True Then
-            maxJump = 1
-        Else
-            maxJump = 0
-        End If
-        Dim si As Integer = 0
-        Dim di As Integer = 0
-        Dim newPOS As Integer = 0
-        Do
-            queueJump += 1
-            si = sourceSkill.Pos
-            di = si - queueJump
-            Dim destSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-            For Each destSkill In activeQueue.Queue
-                If destSkill.Pos = di Then Exit For
-            Next
-
-            Dim din As String = destSkill.Name & destSkill.FromLevel & destSkill.ToLevel
-            Dim sin As String = sourceSkill.Name & sourceSkill.FromLevel & sourceSkill.ToLevel
-
-            Dim mySSkill As EveHQ.Core.SkillQueueItem
-            mySSkill = CType(activeQueue.Queue(sin), Core.SkillQueueItem)
-            ' Move all the items up or down depending on position
-            If si > di Then
-                Dim moveSkill As EveHQ.Core.SkillQueueItem
-                For Each moveSkill In activeQueue.Queue
-                    If moveSkill.Pos >= di And moveSkill.Pos < si Then
-                        moveSkill.Pos += 1
-                    End If
-                Next
-            Else
-                Dim moveSkill As EveHQ.Core.SkillQueueItem
-                For Each moveSkill In activeQueue.Queue
-                    If moveSkill.Pos > si And moveSkill.Pos <= di Then
-                        moveSkill.Pos -= 1
-                    End If
-                Next
-
-            End If
-            ' Set the source skill to the new location
-            mySSkill.Pos = di
-
-            ' Check for movement in the queue
-            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(EveHQ.Core.HQ.myPilot, activeQueue)
-            Dim posSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-            posSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-            newPOS = posSkill.Pos
-
-        Loop Until oldPOS <> newPOS Or di = maxJump
-
-        Call Me.RefreshTraining(activeQueueName)
-        activeLVW.Items(keyName).Selected = True
-    End Sub
-
-    Private Sub mnuMoveDownQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuMoveDownQueue.Click
-        Call Me.MoveDownQueue()
-    End Sub
-    Private Sub btnMoveDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMoveDown.Click
-        Call Me.MoveDownQueue()
-    End Sub
-    Private Sub MoveDownQueue()
-        ' Store the keyname being used
-        Dim keyName As String = activeLVW.SelectedItems(0).Name
-        Dim sourceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-        sourceSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-        Dim oldpos As Integer = sourceSkill.Pos
-        Dim newpos As Integer = 0
-        Dim di As Integer = 0
-        Dim maxJump As Integer = activeQueue.Queue.Count
-        Dim queueJump As Integer = 0
-        Do
-            queueJump += 1
-            Dim si As Integer = sourceSkill.Pos
-            di = si + queueJump
-            Dim destSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-            For Each destSkill In activeQueue.Queue
-                If destSkill.Pos = di Then Exit For
-            Next
-
-            Dim din As String = destSkill.Name & destSkill.FromLevel & destSkill.ToLevel
-            Dim sin As String = sourceSkill.Name & sourceSkill.FromLevel & sourceSkill.ToLevel
-
-            Dim mySSkill As EveHQ.Core.SkillQueueItem
-            mySSkill = CType(activeQueue.Queue(sin), Core.SkillQueueItem)
-            ' Move all the items up or down depending on position
-            If si > di Then
-                Dim moveSkill As EveHQ.Core.SkillQueueItem
-                For Each moveSkill In activeQueue.Queue
-                    If moveSkill.Pos >= di And moveSkill.Pos < si Then
-                        moveSkill.Pos += 1
-                    End If
-                Next
-            Else
-                Dim moveSkill As EveHQ.Core.SkillQueueItem
-                For Each moveSkill In activeQueue.Queue
-                    If moveSkill.Pos > si And moveSkill.Pos <= di Then
-                        moveSkill.Pos -= 1
-                    End If
-                Next
-
-            End If
-            ' Set the source skill to the new location
-            mySSkill.Pos = di
-
-            ' Check for movement in the queue
-            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(EveHQ.Core.HQ.myPilot, activeQueue)
-            Dim posSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-            posSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-            newpos = posSkill.Pos
-
-        Loop Until oldpos <> newpos Or di = maxJump
-
-        Call Me.RefreshTraining(activeQueueName)
-        activeLVW.Items(keyName).Selected = True
-    End Sub
-
-    Private Sub btnClearQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearQueue.Click
-        Call Me.ClearTrainingQueue()
-    End Sub
-    Private Sub mnuClearTrainingQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuClearTrainingQueue.Click
-        Call Me.ClearTrainingQueue()
-    End Sub
-    Private Sub ClearTrainingQueue()
-        Dim reply As Integer
-        reply = MessageBox.Show("Are you sure you want to delete the entire training queue?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-        If reply = Windows.Forms.DialogResult.No Then
-            Exit Sub
-        Else
-            activeQueue.Queue.Clear()
-            Call Me.RefreshTraining(activeQueueName)
-        End If
-    End Sub
-
-    Private Sub activeLVW_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        Call Me.RedrawOptions()
-    End Sub
-    Private Sub activeLVW_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
-        If activeLVW.SelectedItems.Count <> 0 Then
-            Call Me.RedrawOptions()
-            Dim skillName As String = activeLVW.SelectedItems(0).Text
-            Dim skillID As String = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
-            Call Me.ShowSkillDetails(skillID)
-        End If
-    End Sub
     Private Sub RedrawOptions()
         ' Determines what buttons and menus are available from the listview!
         If activeLVW IsNot Nothing Then
@@ -1292,89 +765,125 @@ Public Class frmTraining
             btnICT.Enabled = False
         End If
     End Sub
+    Public Sub UpdateTraining()
+        'If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = False Then
+        If EveHQ.Core.HQ.myPilot.Training = True Then
+            If Me.tabQueues.TabPages.Count > 1 Then
+                For Each tp As TabPage In Me.tabQueues.TabPages
+                    If tp.Name <> "tabSummary" Then
+                        Dim cLabel As Label = CType(Me.tabQueues.TabPages(tp.Name).Controls("T" & tp.Name), Label)
+                        Dim cLVW As EveHQ.DragAndDropListView = CType(Me.tabQueues.TabPages(tp.Name).Controls("Q" & tp.Name), EveHQ.DragAndDropListView)
+                        If cLVW.IncludeCurrentTraining = True Then
+                            If cLVW.Items.Count > 0 Then
+                                Dim myCurSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.PilotSkill)
+                                Dim clevel As Integer = EveHQ.Core.HQ.myPilot.TrainingSkillLevel
+                                Dim cTime As Double = EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                                Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
+                                Dim endtime As Date = EveHQ.Core.HQ.myPilot.TrainingEndTime
+                                Dim percent As Integer = 0
+                                percent = CInt(Int((myCurSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
 
-    Private Sub mnuForceTraining_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuForceTraining.Click
-        Dim skillID As String
-        skillID = mnuSkillName.Tag.ToString
-        If EveHQ.Core.SkillFunctions.ForceSkillTraining(EveHQ.Core.HQ.myPilot, skillID, False) = True Then
-            Call frmPilot.UpdatePilotInfo()
-            Call Me.LoadSkillTree()
-        End If
-    End Sub
+                                cLVW.Items(cLVW.Tag.ToString).SubItems(4).Text = CStr(percent)
+                                cLVW.Items(cLVW.Tag.ToString).SubItems(5).Tag = cTime
+                                cLVW.Items(cLVW.Tag.ToString).SubItems(5).Text = strTime
 
-    Private Sub mnuForceTraining2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuForceTraining2.Click
-        Dim skillID As String
-        skillID = mnuSkillName2.Tag.ToString
-        If EveHQ.Core.SkillFunctions.ForceSkillTraining(EveHQ.Core.HQ.myPilot, skillID, False) = True Then
-            Call frmPilot.UpdatePilotInfo()
-            Call Me.LoadSkillTree()
-        End If
-    End Sub
-
-    Private Sub mnuSeparateAllLevels_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSeparateAllLevels.Click
-        For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
-            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
-            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
-            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
-            Dim keyName As String = skillName & fromLevel & toLevel
-
-            If activeQueue.Queue.Contains(keyName) = True Then
-                ' Remove it from the queue
-                Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-                mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-                Dim mySkillPos As Integer = mySkill.Pos - 1
-                Call Me.DeleteFromQueue(mySkill)
-
-                ' Add all the sublevels
-                For level As Integer = CInt(fromLevel) To CInt(toLevel) - 1
-                    mySkillPos += 1
-                    activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos, activeQueue, level + 1)
+                                ' Calculate total time
+                                If cLVW.Items.Count > 0 Then
+                                    Dim totalTime As Double = 0
+                                    For count As Integer = 0 To cLVW.Items.Count - 1
+                                        totalTime += CLng(cLVW.Items(count).SubItems(5).Tag)
+                                    Next
+                                    cLabel.Tag = totalTime.ToString
+                                    cLabel.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
+                                End If
+                            End If
+                        End If
+                    End If
                 Next
             End If
-        Next selItem
-        Call Me.RefreshTraining(activeQueueName)
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.EveSkill)
+            If EveHQ.Core.HQ.myPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = EveHQ.Core.HQ.myPilot.TrainingSkillName Then
+                lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
+                Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
+                lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                Dim totalTime As Long = 0
+                For toLevel As Integer = 1 To 5
+                    Select Case toLevel
+                        Case EveHQ.Core.HQ.myPilot.TrainingSkillLevel
+                            totalTime += EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                        Case Is > EveHQ.Core.HQ.myPilot.TrainingSkillLevel
+                            totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, toLevel, toLevel - 1, , TrainingBonus))
+                    End Select
+                    lvwTimes.Items(toLevel - 1).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
+                Next
+            End If
+            ' Update the queue summary data
+            For Each newQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
+                Try
+                    Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
+                    lvQueues.Items(newQ.Name).SubItems(2).Tag = tTime
+                    lvQueues.Items(newQ.Name).SubItems(2).Text = (EveHQ.Core.SkillFunctions.TimeToString(tTime))
+                    Dim qTime As Double = tTime
+                    If newQ.IncCurrentTraining = True Then
+                        qTime = tTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                    End If
+                    lvQueues.Items(newQ.Name).SubItems(3).Tag = qTime
+                    lvQueues.Items(newQ.Name).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(qTime)
+                    Dim eTime As Date = Now.AddSeconds(tTime)
+                    lvQueues.Items(newQ.Name).SubItems(4).Text = (Format(eTime, "ddd") & " " & FormatDateTime(eTime, DateFormat.GeneralDate))
+                Catch e As Exception
+                    ' Error will most likely be if a skill queue is in the process of deletion.
+                End Try
+            Next
+            If Me.selQTime > 0 Then
+                lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
+            Else
+                lblTotalQueueTime.Text = "No Queue Selected"
+            End If
+        End If
+
     End Sub
+#End Region
 
-    Private Sub mnuSeparateTopLevel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSeparateTopLevel.Click
-        For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
-            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
-            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
-            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
-            Dim keyName As String = skillName & fromLevel & toLevel
-
-            ' Remove it from the queue
-            Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-            mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-            Dim mySkillPos As Integer = mySkill.Pos
-            Call Me.DeleteFromQueue(mySkill)
-
-            ' Add the new levels, 
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos, activeQueue, CInt(toLevel) - 1)
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos + 1, activeQueue, CInt(toLevel))
-        Next selItem
-
-        Call Me.RefreshTraining(activeQueueName)
+#Region "Skill Tree UI Functions"
+    Private Sub cboFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboFilter.SelectedIndexChanged
+        Call LoadSkillTree()
     End Sub
-
-    Private Sub mnuSeparateBottomLevel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSeparateBottomLevel.Click
-        For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
-            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
-            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
-            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
-            Dim keyName As String = skillName & fromLevel & toLevel
-
-            ' Remove it from the queue
-            Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-            mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-            Dim mySkillPos As Integer = mySkill.Pos
-            Call Me.DeleteFromQueue(mySkill)
-
-            ' Add the new levels, 
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos, activeQueue, CInt(fromLevel) + 1)
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos + 1, activeQueue, CInt(toLevel))
-        Next selItem
-        Call Me.RefreshTraining(activeQueueName)
+    Private Sub tvwSkillList_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwSkillList.AfterSelect
+        btnLevelUp.Enabled = False
+        btnLevelDown.Enabled = False
+        btnDeleteSkill.Enabled = False
+        btnMoveUp.Enabled = False
+        btnMoveDown.Enabled = False
+        btnShowDetails.Enabled = True
+        btnAddSkill.Enabled = True
+        If e.Node.Parent IsNot Nothing Or (e.Node.Parent Is Nothing And usingFilter = False) Then
+            Dim skillID As String = e.Node.Name
+            Call Me.ShowSkillDetails(skillID)
+        End If
     End Sub
+    Private Sub tvwSkillList_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles tvwSkillList.DoubleClick
+        If tvwSkillList.SelectedNode.Level = 1 Or (tvwSkillList.SelectedNode.Level = 0 And usingFilter = False) Then
+            Dim skillID As String
+            skillID = tvwSkillList.SelectedNode.Name
+            Call frmSkillDetails.ShowSkillDetails(skillID)
+        End If
+    End Sub
+    Private Sub tvwSkillList_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles tvwSkillList.ItemDrag
+        Dim addSkill As DragItemData = New DragItemData(Me.activeLVW)
+        Dim newLVItem As ListViewItem = ConvertTreeNode(CType(e.Item, TreeNode))
+        addSkill.DragItems.Add(newLVItem)
+        DoDragDrop(addSkill, (DragDropEffects.Move Or (DragDropEffects.Copy Or DragDropEffects.Scroll)))
+    End Sub
+    Private Sub tvwSkillList_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwSkillList.NodeMouseClick
+        tvwSkillList.SelectedNode = e.Node
+    End Sub
+    Private Function ConvertTreeNode(ByVal skillNode As TreeNode) As ListViewItem
+        Dim newItem As ListViewItem = New ListViewItem
+        newItem.Text = "##" & skillNode.Text
+        Return newItem
+    End Function
+#End Region
 
 #Region "Certificate Planning"
 
@@ -1930,91 +1439,371 @@ Public Class frmTraining
 
 #End Region
 
-    Private Sub mnuRemoveTrainedSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveTrainedSkills.Click
+#Region "Skill Queue Modification Functions"
+    Private Sub AddSkillToQueueOption()
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue)
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+    Private Sub DeleteFromQueueOption()
+        ' Get the skill name and levels
+        For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
+            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
+            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
+            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
+            Dim keyName As String = skillName & fromLevel & toLevel
+            ' Remove it from the queue
+            Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+            mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+            ' Delete the Skill
+            Call Me.DeleteFromQueue(mySkill)
+        Next
+        ' Refresh the training view!
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+    Private Sub DeleteFromQueue(ByVal mySkill As EveHQ.Core.SkillQueueItem)
+        Dim delPOS As Integer = mySkill.Pos
+        activeQueue.Queue.Remove(mySkill.Name & mySkill.FromLevel & mySkill.ToLevel)
+        ' Reshuffle all the positions below
+        For Each mySkill In activeQueue.Queue
+            If mySkill.Pos > delPOS Then
+                mySkill.Pos -= 1
+            End If
+        Next
+    End Sub
+    Private Sub IncreaseLevel()
+        ' Store the index being used
+        Dim oldIndex As Integer = activeLVW.SelectedItems(0).Index
+        ' Get the skill name
+        Dim skillName As String = activeLVW.SelectedItems(0).Text
+        Dim curLevel As String = activeLVW.SelectedItems(0).SubItems(1).Text
+        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
+        Dim toLevel As String = activeLVW.SelectedItems(0).SubItems(3).Text
+        Dim keyName As String = skillName & fromLevel & toLevel
+        Dim myTSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+        myTSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+
+        ' Check if we have another skill that can be affected by us increasing the level i.e. the same skill!
+        Dim checkSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+        For Each checkSkill In activeQueue.Queue
+            If myTSkill.Name = checkSkill.Name Then
+                ' Check the "from" skill level matches
+                If checkSkill.FromLevel = myTSkill.ToLevel Then
+                    ' We have to decide what to do here, either increase the levels or merge
+                    If checkSkill.ToLevel = checkSkill.FromLevel + 1 Then
+                        ' We have to merge the items here so delete the new found one
+                        Call Me.DeleteFromQueue(checkSkill)
+                    Else
+                        ' We have to increase the levels so decrease the new found one
+                        ' Delete the existing item
+                        activeQueue.Queue.Remove(checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
+                        ' Adjust the "to" level
+                        checkSkill.FromLevel += 1
+                        ' Add the item back in at its new levels
+                        activeQueue.Queue.Add(checkSkill, checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
+                    End If
+                End If
+            End If
+        Next
+
+        ' Check if the skill has been trained and we wish to increase it to the next level
+        If activeLVW.SelectedItems(0).Font.Strikeout = True Then
+            myTSkill.FromLevel = Math.Max(CInt(curLevel), myTSkill.FromLevel)
+        End If
+
+        ' Delete the existing item
+        activeQueue.Queue.Remove(keyName)
+        ' Adjust the "to" level
+        myTSkill.ToLevel += 1
+        ' Add the item back in at its new levels
+        activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
+        Call Me.RefreshTraining(activeQueueName)
+        activeLVW.Items(oldIndex).Selected = True
+    End Sub
+    Private Sub DecreaseLevel()
+        ' Store the index being used
+        Dim oldIndex As Integer = activeLVW.SelectedItems(0).Index
+        ' Get the skill name
+        Dim skillName As String = activeLVW.SelectedItems(0).Text
+        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
+        Dim toLevel As String = activeLVW.SelectedItems(0).SubItems(3).Text
+        Dim keyName As String = skillName & fromLevel & toLevel
+        Dim myTSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+        myTSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+        ' Delete the existing item
+        activeQueue.Queue.Remove(keyName)
+        ' Adjust the "to" level
+        myTSkill.ToLevel -= 1
+        ' Add the item back in at its new levels
+        activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
+        Call Me.RefreshTraining(activeQueueName)
+        activeLVW.Items(oldIndex).Selected = True
+    End Sub
+    Private Sub MoveUpQueue()
+        ' Store the keyname being used
+        Dim keyName As String = activeLVW.SelectedItems(0).Name
+        Dim sourceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+        sourceSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+        Dim oldPOS As Integer = sourceSkill.Pos
+        Dim queueJump As Integer = 0
+        Dim maxJump As Integer = 0
+        If EveHQ.Core.HQ.myPilot.Training = True Then
+            maxJump = 1
+        Else
+            maxJump = 0
+        End If
+        Dim si As Integer = 0
+        Dim di As Integer = 0
+        Dim newPOS As Integer = 0
+        Do
+            queueJump += 1
+            si = sourceSkill.Pos
+            di = si - queueJump
+            Dim destSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+            For Each destSkill In activeQueue.Queue
+                If destSkill.Pos = di Then Exit For
+            Next
+
+            Dim din As String = destSkill.Name & destSkill.FromLevel & destSkill.ToLevel
+            Dim sin As String = sourceSkill.Name & sourceSkill.FromLevel & sourceSkill.ToLevel
+
+            Dim mySSkill As EveHQ.Core.SkillQueueItem
+            mySSkill = CType(activeQueue.Queue(sin), Core.SkillQueueItem)
+            ' Move all the items up or down depending on position
+            If si > di Then
+                Dim moveSkill As EveHQ.Core.SkillQueueItem
+                For Each moveSkill In activeQueue.Queue
+                    If moveSkill.Pos >= di And moveSkill.Pos < si Then
+                        moveSkill.Pos += 1
+                    End If
+                Next
+            Else
+                Dim moveSkill As EveHQ.Core.SkillQueueItem
+                For Each moveSkill In activeQueue.Queue
+                    If moveSkill.Pos > si And moveSkill.Pos <= di Then
+                        moveSkill.Pos -= 1
+                    End If
+                Next
+
+            End If
+            ' Set the source skill to the new location
+            mySSkill.Pos = di
+
+            ' Check for movement in the queue
+            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(EveHQ.Core.HQ.myPilot, activeQueue)
+            Dim posSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+            posSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+            newPOS = posSkill.Pos
+
+        Loop Until oldPOS <> newPOS Or di = maxJump
+
+        Call Me.RefreshTraining(activeQueueName)
+        activeLVW.Items(keyName).Selected = True
+    End Sub
+    Private Sub MoveDownQueue()
+        ' Store the keyname being used
+        Dim keyName As String = activeLVW.SelectedItems(0).Name
+        Dim sourceSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+        sourceSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+        Dim oldpos As Integer = sourceSkill.Pos
+        Dim newpos As Integer = 0
+        Dim di As Integer = 0
+        Dim maxJump As Integer = activeQueue.Queue.Count
+        Dim queueJump As Integer = 0
+        Do
+            queueJump += 1
+            Dim si As Integer = sourceSkill.Pos
+            di = si + queueJump
+            Dim destSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+            For Each destSkill In activeQueue.Queue
+                If destSkill.Pos = di Then Exit For
+            Next
+
+            Dim din As String = destSkill.Name & destSkill.FromLevel & destSkill.ToLevel
+            Dim sin As String = sourceSkill.Name & sourceSkill.FromLevel & sourceSkill.ToLevel
+
+            Dim mySSkill As EveHQ.Core.SkillQueueItem
+            mySSkill = CType(activeQueue.Queue(sin), Core.SkillQueueItem)
+            ' Move all the items up or down depending on position
+            If si > di Then
+                Dim moveSkill As EveHQ.Core.SkillQueueItem
+                For Each moveSkill In activeQueue.Queue
+                    If moveSkill.Pos >= di And moveSkill.Pos < si Then
+                        moveSkill.Pos += 1
+                    End If
+                Next
+            Else
+                Dim moveSkill As EveHQ.Core.SkillQueueItem
+                For Each moveSkill In activeQueue.Queue
+                    If moveSkill.Pos > si And moveSkill.Pos <= di Then
+                        moveSkill.Pos -= 1
+                    End If
+                Next
+
+            End If
+            ' Set the source skill to the new location
+            mySSkill.Pos = di
+
+            ' Check for movement in the queue
+            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(EveHQ.Core.HQ.myPilot, activeQueue)
+            Dim posSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+            posSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+            newpos = posSkill.Pos
+
+        Loop Until oldpos <> newpos Or di = maxJump
+
+        Call Me.RefreshTraining(activeQueueName)
+        activeLVW.Items(keyName).Selected = True
+    End Sub
+    Private Sub ClearTrainingQueue()
         Dim reply As Integer
-        reply = MessageBox.Show("Are you sure you want to remove trained skills from the queue?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        reply = MessageBox.Show("Are you sure you want to delete the entire training queue?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If reply = Windows.Forms.DialogResult.No Then
             Exit Sub
         Else
-            Call EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(EveHQ.Core.HQ.myPilot, activeQueue)
-            ' Refresh the training view!
+            activeQueue.Queue.Clear()
             Call Me.RefreshTraining(activeQueueName)
         End If
     End Sub
+    Private Sub ChangeLevel(ByVal selectedLevel As Integer)
+        ' Store the index being used
+        Dim oldIndex As Integer = activeLVW.SelectedItems(0).Index
+        ' Get the skill name
+        Dim skillName As String = activeLVW.SelectedItems(0).Text
+        Dim curLevel As String = activeLVW.SelectedItems(0).SubItems(1).Text
+        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
+        Dim toLevel As String = activeLVW.SelectedItems(0).SubItems(3).Text
+        Dim keyName As String = skillName & fromLevel & toLevel
+        Dim myTSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+        If activeQueue.Queue.Contains(keyName) = True Then
+            myTSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+            If selectedLevel < CInt(toLevel) Then
+                ' Delete the existing item
+                activeQueue.Queue.Remove(keyName)
+                ' Adjust the "to" level
+                myTSkill.ToLevel = selectedLevel
+                ' Add the item back in at its new levels
+                activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
+                Call Me.RefreshTraining(activeQueueName)
+                activeLVW.Items(oldIndex).Selected = True
+            End If
+            If selectedLevel > CInt(toLevel) Then
+                ' Check if we have another skill that can be affected by us increasing the level i.e. the same skill!
+                Dim checkSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+                For Each checkSkill In activeQueue.Queue
+                    If myTSkill.Name = checkSkill.Name Then ' Matched skill name
+                        ' Check the "from" skill level matches
+                        If checkSkill.FromLevel >= myTSkill.ToLevel Then
+                            ' We have to decide what to do here, either increase the levels or merge
+                            If checkSkill.ToLevel <= selectedLevel Then
+                                ' We have to merge the items here so delete the new found one
+                                Call Me.DeleteFromQueue(checkSkill)
+                            Else
+                                ' We have to increase the levels so decrease the new found one
+                                ' Delete the existing item
+                                activeQueue.Queue.Remove(checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
+                                ' Adjust the "to" level
+                                checkSkill.FromLevel = selectedLevel + 1
+                                ' Add the item back in at its new levels
+                                activeQueue.Queue.Add(checkSkill, checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
+                            End If
+                        End If
+                    End If
+                Next
 
-    Private Sub tabQueues_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabQueues.SelectedIndexChanged
-        If tabQueues.SelectedTab.Name <> "tabSummary" Then
-            activeQueueName = tabQueues.SelectedTab.Name
-            EveHQ.Core.HQ.myPilot.ActiveQueueName = activeQueueName
-            Dim aq As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(activeQueueName), Core.SkillQueue)
-            activeQueue = aq
-            EveHQ.Core.HQ.myPilot.ActiveQueue = activeQueue
-            activeTime = CType(Me.tabQueues.TabPages(activeQueueName).Controls("T" & activeQueueName), Label)
-            activeLVW = CType(Me.tabQueues.TabPages(activeQueueName).Controls("Q" & activeQueueName), EveHQ.DragAndDropListView)
-            activeLVW.IncludeCurrentTraining = aq.IncCurrentTraining
-            Call RedrawOptions()
-            tsQueueOptions.Enabled = True
-            activeLVW.Select()
-            mnuAddToQueue.Enabled = True
+                ' Check if the skill has been trained and we wish to increase it to the next level
+                If activeLVW.SelectedItems(0).Font.Strikeout = True Then
+                    myTSkill.FromLevel = Math.Max(CInt(curLevel), myTSkill.FromLevel)
+                End If
+
+                ' Delete the existing item
+                activeQueue.Queue.Remove(keyName)
+                ' Adjust the "to" level
+                myTSkill.ToLevel = selectedLevel
+                ' Add the item back in at its new levels
+                activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
+                Call Me.RefreshTraining(activeQueueName)
+                activeLVW.Items(oldIndex).Selected = True
+            End If
+        End If
+    End Sub
+#End Region
+
+#Region "Skill Tree UI Functions"
+    Private Sub cboFilter_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboFilter.TextChanged
+        If cboFilter.Items.Contains(cboFilter.Text) = True Then
+            usingFilter = True
         Else
-            activeQueueName = ""
-            activeQueue = Nothing
-            EveHQ.Core.HQ.myPilot.ActiveQueueName = activeQueueName
-            tsQueueOptions.Enabled = False
-            mnuAddToQueue.Enabled = False
-        End If
-        If frmNeuralRemap.IsHandleCreated = True Then
-            frmNeuralRemap.QueueName = activeQueueName
-        End If
-        If frmImplants.IsHandleCreated = True Then
-            frmImplants.QueueName = activeQueueName
+            usingFilter = False
+            Call Me.LoadSkillTreeSearch()
         End If
     End Sub
-
-    Private Sub lvQueues_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvQueues.Click
-        Select Case lvQueues.SelectedItems.Count
-            Case 0
-                Call ResetQueueButtons()
-                Me.selQTime = 0
-                lblTotalQueueTime.Text = "No Queue Selected"
-            Case 1
-                btnAddQueue.Enabled = True
-                btnEditQueue.Enabled = True
-                btnDeleteQueue.Enabled = True
-                btnCopyQueue.Enabled = True
-                btnCopyToPilot.Enabled = True
-                btnMergeQueues.Enabled = False
-                btnSetPrimary.Enabled = True
-                Me.selQTime = CDbl(Me.lvQueues.Items(Me.lvQueues.SelectedIndices(0)).SubItems(2).Tag) - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-                lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
-            Case Is > 1
-                btnAddQueue.Enabled = True
-                btnEditQueue.Enabled = False
-                btnDeleteQueue.Enabled = False
-                btnCopyQueue.Enabled = False
-                btnCopyToPilot.Enabled = False
-                btnMergeQueues.Enabled = True
-                btnSetPrimary.Enabled = False
-                Call Me.GetSelectedQueueTimes()
-        End Select
+    Private Sub chkOmitQueuesSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOmitQueuesSkills.CheckedChanged
+        If Me.chkOmitQueuesSkills.Checked = True Then
+            omitQueuedSkills = True
+        Else
+            omitQueuedSkills = False
+        End If
+        If usingFilter = True Then
+            Call Me.LoadSkillTree()
+        Else
+            Call Me.LoadSkillTreeSearch()
+        End If
     End Sub
+    Private Sub LoadSkillTreeSearch()
+        If Len(cboFilter.Text) > 1 Then
+            Dim strSearch As String = cboFilter.Text.Trim.ToLower
+            Dim results As New SortedList(Of String, String)
+            Dim newSkill As New EveHQ.Core.EveSkill
+            For Each newSkill In EveHQ.Core.HQ.SkillListID
+                If newSkill.Name.ToLower.Contains(strSearch) Then
+                    results.Add(newSkill.Name, newSkill.Name)
+                End If
+            Next
 
-    Private Sub lvQueues_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvQueues.DoubleClick
-        Dim selQ As String = lvQueues.SelectedItems(0).Text
-        Dim tp As TabPage = Me.tabQueues.TabPages(selQ)
-        Me.tabQueues.SelectedTab = tp
+            tvwSkillList.BeginUpdate()
+            tvwSkillList.Nodes.Clear()
+            For Each item As String In results.Values
+                newSkill = CType(EveHQ.Core.HQ.SkillListName(item), Core.EveSkill)
+                If newSkill.GroupID <> "505" And newSkill.Published = True Then
+                    Dim skillNode As TreeNode = New TreeNode
+                    skillNode.Text = newSkill.Name
+                    skillNode.Name = newSkill.ID
+                    If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) = True Then
+                        Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                        skillNode.ImageIndex = mySkill.Level
+                        skillNode.SelectedImageIndex = mySkill.Level
+                    Else
+                        skillNode.ImageIndex = 10
+                        skillNode.SelectedImageIndex = 10
+                    End If
+
+                    If omitQueuedSkills = False Then
+                        tvwSkillList.Nodes.Add(skillNode)
+                    Else
+                        Dim inQ As Boolean = False
+                        For Each skillQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
+                            If inQ = True Then Exit For
+                            Dim sQ As Collection = skillQ.Queue
+                            For Each skillQueueItem As EveHQ.Core.SkillQueueItem In sQ
+                                If newSkill.Name = skillQueueItem.Name Then
+                                    inQ = True
+                                    Exit For
+                                End If
+                            Next
+                        Next
+                        If inQ = False Then
+                            tvwSkillList.Nodes.Add(skillNode)
+                        End If
+                    End If
+
+                End If
+            Next
+            tvwSkillList.EndUpdate()
+        End If
     End Sub
+#End Region
 
-    Public Sub ResetQueueButtons()
-        btnAddQueue.Enabled = True
-        btnEditQueue.Enabled = False
-        btnDeleteQueue.Enabled = False
-        btnCopyQueue.Enabled = False
-        btnCopyToPilot.Enabled = False
-        btnMergeQueues.Enabled = False
-        btnSetPrimary.Enabled = False
-    End Sub
-
+#Region "Skill Queue Summary UI Functions"
     Private Sub btnDeleteQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteQueue.Click
         ' Check for some selection on the listview
         If lvQueues.SelectedItems.Count = 0 Then
@@ -2045,7 +1834,6 @@ Public Class frmTraining
             End If
         End If
     End Sub
-
     Private Sub btnAddQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddQueue.Click
         ' Clear the text boxes
         Dim myQueue As frmModifyQueues = New frmModifyQueues
@@ -2057,7 +1845,6 @@ Public Class frmTraining
         End With
         Call Me.RefreshAllTraining()
     End Sub
-
     Private Sub btnEditQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditQueue.Click
         ' Check for some selection on the listview
         If lvQueues.SelectedItems.Count = 0 Then
@@ -2076,7 +1863,6 @@ Public Class frmTraining
             Call Me.RefreshAllTraining()
         End If
     End Sub
-
     Private Sub btnCopyQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopyQueue.Click
         ' Check for some selection on the listview
         If lvQueues.SelectedItems.Count = 0 Then
@@ -2095,7 +1881,6 @@ Public Class frmTraining
             Call Me.RefreshAllTraining()
         End If
     End Sub
-
     Private Sub btnMergeQueues_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMergeQueues.Click
         If lvQueues.SelectedItems.Count < 2 Then
             MessageBox.Show("Please select 2 or more Queues to merge!", "Cannot Merge Queues", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -2111,7 +1896,6 @@ Public Class frmTraining
             Call Me.RefreshAllTraining()
         End If
     End Sub
-
     Private Sub btnImportEveMon_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportEveMon.Click
         ' Set recalc flag
         Dim RecalcQueues As Boolean = False
@@ -2215,7 +1999,6 @@ Public Class frmTraining
             End Try
         End If
     End Sub
-
     Private Sub btnSetPrimary_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetPrimary.Click
         If lvQueues.SelectedItems.Count = 0 Then
             MessageBox.Show("Please select a Queue to call Primary!", "Cannot Set Primary Queue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -2232,7 +2015,6 @@ Public Class frmTraining
             Call Me.DrawQueueSummary()
         End If
     End Sub
-
     Private Sub btnCopyToPilot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopyToPilot.Click
         ' Check for some selection on the listview
         If lvQueues.SelectedItems.Count = 0 Then
@@ -2248,20 +2030,6 @@ Public Class frmTraining
             End With
         End If
     End Sub
-
-    Private Sub chkOmitQueuesSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOmitQueuesSkills.CheckedChanged
-        If Me.chkOmitQueuesSkills.Checked = True Then
-            omitQueuedSkills = True
-        Else
-            omitQueuedSkills = False
-        End If
-        If usingFilter = True Then
-            Call Me.LoadSkillTree()
-        Else
-            Call Me.LoadSkillTreeSearch()
-        End If
-    End Sub
-
     Private Sub GetSelectedQueueTimes()
         Try
             Dim newQueue As New EveHQ.Core.SkillQueue
@@ -2305,7 +2073,6 @@ Public Class frmTraining
             MessageBox.Show("There was an error calculating the selected queue times.", "Calculation Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
     End Sub
-
     Private Sub GetAllQueueTimes()
         Dim newQueue As New EveHQ.Core.SkillQueue
         newQueue.Name = "tempMerge"
@@ -2344,18 +2111,48 @@ Public Class frmTraining
         Me.totalQTime = QTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
         lblTotalQueueTime.Text = "Total Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.totalQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.totalQTime) & ")"
     End Sub
-
-    Private Sub mnuAddGroupToQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddGroupLevel1.Click, mnuAddGroupLevel2.Click, mnuAddGroupLevel3.Click, mnuAddGroupLevel4.Click, mnuAddGroupLevel5.Click
-        Dim menu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
-        Dim level As Integer = CInt(menu.Text.Replace("To Level ", ""))
-        Dim parentNode As New TreeNode
-        Dim curNode As New TreeNode
-        parentNode = tvwSkillList.SelectedNode
-        For Each curNode In parentNode.Nodes
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, curNode.Text, activeQueue.Queue.Count + 1, activeQueue, level, True, True)
-        Next
-        Call Me.RefreshTraining(activeQueueName)
+    Private Sub lvQueues_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvQueues.Click
+        Select Case lvQueues.SelectedItems.Count
+            Case 0
+                Call ResetQueueButtons()
+                Me.selQTime = 0
+                lblTotalQueueTime.Text = "No Queue Selected"
+            Case 1
+                btnAddQueue.Enabled = True
+                btnEditQueue.Enabled = True
+                btnDeleteQueue.Enabled = True
+                btnCopyQueue.Enabled = True
+                btnCopyToPilot.Enabled = True
+                btnMergeQueues.Enabled = False
+                btnSetPrimary.Enabled = True
+                Me.selQTime = CDbl(Me.lvQueues.Items(Me.lvQueues.SelectedIndices(0)).SubItems(2).Tag) - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
+            Case Is > 1
+                btnAddQueue.Enabled = True
+                btnEditQueue.Enabled = False
+                btnDeleteQueue.Enabled = False
+                btnCopyQueue.Enabled = False
+                btnCopyToPilot.Enabled = False
+                btnMergeQueues.Enabled = True
+                btnSetPrimary.Enabled = False
+                Call Me.GetSelectedQueueTimes()
+        End Select
     End Sub
+    Private Sub lvQueues_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvQueues.DoubleClick
+        Dim selQ As String = lvQueues.SelectedItems(0).Text
+        Dim tp As TabPage = Me.tabQueues.TabPages(selQ)
+        Me.tabQueues.SelectedTab = tp
+    End Sub
+    Public Sub ResetQueueButtons()
+        btnAddQueue.Enabled = True
+        btnEditQueue.Enabled = False
+        btnDeleteQueue.Enabled = False
+        btnCopyQueue.Enabled = False
+        btnCopyToPilot.Enabled = False
+        btnMergeQueues.Enabled = False
+        btnSetPrimary.Enabled = False
+    End Sub
+#End Region
 
 #Region "Skill Suggestion Functions"
 
@@ -2470,16 +2267,322 @@ Public Class frmTraining
     End Sub
 #End Region
 
-    Private Sub mnuViewItemDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetails.Click
-        Dim skillID As String = mnuItemName.Tag.ToString
+#Region "Skill Toolbar Functions"
+    Private Sub btnShowDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShowDetails.Click
+        ' Find out which control it relates to!
+        Dim skillName As String = ""
+        Dim skillID As String = ""
+        If activeLVW.Focused = False Then
+            Dim curNode As TreeNode = New TreeNode
+            curNode = tvwSkillList.SelectedNode
+            If curNode IsNot Nothing Then
+                skillName = curNode.Text
+            End If
+        Else
+            skillName = activeLVW.SelectedItems(0).Text
+        End If
+        If skillName <> "" Then
+            skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
+            Call frmSkillDetails.ShowSkillDetails(skillID)
+        End If
+    End Sub
+    Private Sub btnAddSkill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddSkill.Click
+        Call Me.AddSkillToQueueOption()
+    End Sub
+    Private Sub btnDeleteSkill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteSkill.Click
+        Call Me.DeleteFromQueueOption()
+    End Sub
+    Private Sub btnLevelUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLevelUp.Click
+        Call Me.IncreaseLevel()
+    End Sub
+    Private Sub btnLevelDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLevelDown.Click
+        Call Me.DecreaseLevel()
+    End Sub
+    Private Sub btnMoveUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMoveUp.Click
+        Call Me.MoveUpQueue()
+    End Sub
+    Private Sub btnMoveDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMoveDown.Click
+        Call Me.MoveDownQueue()
+    End Sub
+    Private Sub btnClearQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearQueue.Click
+        Call Me.ClearTrainingQueue()
+    End Sub
+    Private Sub btnICT_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnICT.CheckedChanged
+        activeLVW.IncludeCurrentTraining = btnICT.Checked
+        activeQueue.IncCurrentTraining = btnICT.Checked
+        If activeQueue.Name IsNot Nothing Then
+            RefreshTraining(activeQueue.Name)
+        End If
+    End Sub
+    Private Sub tsbNeuralRemap_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbNeuralRemap.Click
+        If frmNeuralRemap.IsHandleCreated = True Then
+            frmNeuralRemap.Select()
+        Else
+            frmNeuralRemap.PilotName = EveHQ.Core.HQ.myPilot.Name
+            frmNeuralRemap.QueueName = activeQueueName
+            frmNeuralRemap.Show()
+        End If
+    End Sub
+    Private Sub tsbImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbImplants.Click
+        If frmImplants.IsHandleCreated = True Then
+            frmImplants.Select()
+        Else
+            frmImplants.PilotName = EveHQ.Core.HQ.myPilot.Name
+            frmImplants.QueueName = activeQueueName
+            frmImplants.Show()
+        End If
+    End Sub
+#End Region
+
+#Region "Skill Tree Context Menu Functions"
+    Private Sub ctxDetails_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxDetails.Opening
+        Dim curNode As TreeNode = New TreeNode
+        curNode = tvwSkillList.SelectedNode
+        If curNode IsNot Nothing Then
+            Dim skillName As String = ""
+            Dim skillID As String = ""
+            skillName = curNode.Text
+            skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
+            mnuSkillName2.Text = skillName
+            mnuSkillName2.Tag = skillID
+            ' Determine if this is a parent node or not
+            If curNode.Parent Is Nothing Then
+                ' Group Node
+                mnuAddGroupToQueue.Visible = True
+                mnuAddToQueue.Visible = False
+            Else
+                ' Skill Node
+                mnuAddGroupToQueue.Visible = False
+                mnuAddToQueue.Visible = True
+            End If
+            If activeQueueName = "" Then
+                mnuAddGroupToQueue.Enabled = False
+                mnuAddToQueue.Enabled = False
+            Else
+                mnuAddGroupToQueue.Enabled = True
+                mnuAddToQueue.Enabled = True
+                ' Determine enabled menu items of adding to queue
+                Dim currentLevel As Integer = 0
+                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(skillName) = True Then
+                    Dim cSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(skillName), Core.PilotSkill)
+                    currentLevel = cSkill.Level
+                End If
+                For a As Integer = 1 To 5
+                    If a <= currentLevel Then
+                        mnuAddToQueue.DropDownItems("mnuAddToQueue" & a).Enabled = False
+                    Else
+                        mnuAddToQueue.DropDownItems("mnuAddToQueue" & a).Enabled = True
+                    End If
+                Next
+                If currentLevel = 5 Then
+                    mnuAddToQueueNext.Enabled = False
+                    mnuAddToQueue.Enabled = False
+                Else
+                    mnuAddToQueueNext.Enabled = True
+                    mnuAddToQueue.Enabled = True
+                End If
+            End If
+        End If
+    End Sub
+    Private Sub mnuViewDetails2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewDetails2.Click
+        Dim skillID As String
+        skillID = mnuSkillName2.Tag.ToString
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
-
-    Private Sub mnuViewItemDetailsHere_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetailsHere.Click
-        Dim skillID As String = mnuItemName.Tag.ToString
-        Call Me.ShowSkillDetails(skillID)
+    Private Sub mnuForceTraining2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuForceTraining2.Click
+        Dim skillID As String
+        skillID = mnuSkillName2.Tag.ToString
+        If EveHQ.Core.SkillFunctions.ForceSkillTraining(EveHQ.Core.HQ.myPilot, skillID, False) = True Then
+            Call frmPilot.UpdatePilotInfo()
+            Call Me.LoadSkillTree()
+        End If
     End Sub
+    Private Sub mnuAddToQueueNext_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueueNext.Click
+        Call Me.AddSkillToQueueOption()
+    End Sub
+    Private Sub mnuAddToQueue1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue1.Click
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 1)
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+    Private Sub mnuAddToQueue2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue2.Click
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 2)
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+    Private Sub mnuAddToQueue3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue3.Click
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 3)
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+    Private Sub mnuAddToQueue4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue4.Click
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 4)
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+    Private Sub mnuAddToQueue5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue5.Click
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 5)
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+    Private Sub mnuAddGroupToQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddGroupLevel1.Click, mnuAddGroupLevel2.Click, mnuAddGroupLevel3.Click, mnuAddGroupLevel4.Click, mnuAddGroupLevel5.Click
+        Dim menu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim level As Integer = CInt(menu.Text.Replace("To Level ", ""))
+        Dim parentNode As New TreeNode
+        Dim curNode As New TreeNode
+        parentNode = tvwSkillList.SelectedNode
+        For Each curNode In parentNode.Nodes
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, curNode.Text, activeQueue.Queue.Count + 1, activeQueue, level, True, True)
+        Next
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+#End Region
 
+#Region "Skill ListView Context Menu Functions"
+    Private Sub ctxQueue_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxQueue.Opening
+        ' Cancel the menu opening if there are no skills selected
+        If activeLVW.SelectedItems.Count = 0 Then
+            e.Cancel = True
+            Exit Sub
+        End If
+        ' Determine enabled menu items of adding to queue
+        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
+        Dim skillName As String = mnuSkillName.Text
+        Dim currentLevel As Integer = 0
+        If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(skillName) = True Then
+            Dim cSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(skillName), Core.PilotSkill)
+            currentLevel = cSkill.Level
+        End If
+        For a As Integer = 1 To 5
+            If a <= CInt(fromLevel) Then
+                mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = False
+            Else
+                mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = True
+            End If
+        Next
+        If currentLevel = 4 Then
+            mnuChangeLevel.Enabled = False
+        Else
+            mnuChangeLevel.Enabled = True
+        End If
+    End Sub
+    Private Sub mnuChangeLevel1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuChangeLevel1.Click
+        Call Me.ChangeLevel(1)
+    End Sub
+    Private Sub mnuChangeLevel2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuChangeLevel2.Click
+        Call Me.ChangeLevel(2)
+    End Sub
+    Private Sub mnuChangeLevel3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuChangeLevel3.Click
+        Call Me.ChangeLevel(3)
+    End Sub
+    Private Sub mnuChangeLevel4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuChangeLevel4.Click
+        Call Me.ChangeLevel(4)
+    End Sub
+    Private Sub mnuChangeLevel5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuChangeLevel5.Click
+        Call Me.ChangeLevel(5)
+    End Sub
+    Private Sub mnuIncreaseLevel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuIncreaseLevel.Click
+        Call Me.IncreaseLevel()
+    End Sub
+    Private Sub mnuDecreaseLevel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuDecreaseLevel.Click
+        Call Me.DecreaseLevel()
+    End Sub
+    Private Sub mnuMoveUpQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuMoveUpQueue.Click
+        Call Me.MoveUpQueue()
+    End Sub
+    Private Sub mnuMoveDownQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuMoveDownQueue.Click
+        Call Me.MoveDownQueue()
+    End Sub
+    Private Sub mnuSeparateAllLevels_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSeparateAllLevels.Click
+        For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
+            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
+            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
+            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
+            Dim keyName As String = skillName & fromLevel & toLevel
+
+            If activeQueue.Queue.Contains(keyName) = True Then
+                ' Remove it from the queue
+                Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+                mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+                Dim mySkillPos As Integer = mySkill.Pos - 1
+                Call Me.DeleteFromQueue(mySkill)
+
+                ' Add all the sublevels
+                For level As Integer = CInt(fromLevel) To CInt(toLevel) - 1
+                    mySkillPos += 1
+                    activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos, activeQueue, level + 1)
+                Next
+            End If
+        Next selItem
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+    Private Sub mnuSeparateTopLevel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSeparateTopLevel.Click
+        For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
+            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
+            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
+            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
+            Dim keyName As String = skillName & fromLevel & toLevel
+
+            ' Remove it from the queue
+            Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+            mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+            Dim mySkillPos As Integer = mySkill.Pos
+            Call Me.DeleteFromQueue(mySkill)
+
+            ' Add the new levels, 
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos, activeQueue, CInt(toLevel) - 1)
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos + 1, activeQueue, CInt(toLevel))
+        Next selItem
+
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+    Private Sub mnuSeparateBottomLevel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSeparateBottomLevel.Click
+        For selItem As Integer = 0 To activeLVW.SelectedItems.Count - 1
+            Dim skillName As String = activeLVW.SelectedItems(selItem).Text
+            Dim fromLevel As String = activeLVW.SelectedItems(selItem).SubItems(2).Text
+            Dim toLevel As String = activeLVW.SelectedItems(selItem).SubItems(3).Text
+            Dim keyName As String = skillName & fromLevel & toLevel
+
+            ' Remove it from the queue
+            Dim mySkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+            mySkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
+            Dim mySkillPos As Integer = mySkill.Pos
+            Call Me.DeleteFromQueue(mySkill)
+
+            ' Add the new levels, 
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos, activeQueue, CInt(fromLevel) + 1)
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos + 1, activeQueue, CInt(toLevel))
+        Next selItem
+        Call Me.RefreshTraining(activeQueueName)
+    End Sub
+    Private Sub mnuDeleteFromQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuDeleteFromQueue.Click
+        Call Me.DeleteFromQueueOption()
+    End Sub
+    Private Sub mnuRemoveTrainedSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveTrainedSkills.Click
+        Dim reply As Integer
+        reply = MessageBox.Show("Are you sure you want to remove trained skills from the queue?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If reply = Windows.Forms.DialogResult.No Then
+            Exit Sub
+        Else
+            Call EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(EveHQ.Core.HQ.myPilot, activeQueue)
+            ' Refresh the training view!
+            Call Me.RefreshTraining(activeQueueName)
+        End If
+    End Sub
+    Private Sub mnuClearTrainingQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuClearTrainingQueue.Click
+        Call Me.ClearTrainingQueue()
+    End Sub
+    Private Sub mnuViewDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewDetails.Click
+        Dim skillID As String
+        skillID = mnuSkillName.Tag.ToString
+        Call frmSkillDetails.ShowSkillDetails(skillID)
+    End Sub
+    Private Sub mnuForceTraining_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuForceTraining.Click
+        Dim skillID As String
+        skillID = mnuSkillName.Tag.ToString
+        If EveHQ.Core.SkillFunctions.ForceSkillTraining(EveHQ.Core.HQ.myPilot, skillID, False) = True Then
+            Call frmPilot.UpdatePilotInfo()
+            Call Me.LoadSkillTree()
+        End If
+    End Sub
+#End Region
+
+#Region "Skill Info Context Menu Functions"
     Private Sub ctxReqs_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxReqs.Opening
         Dim curNode As TreeNode = New TreeNode
         curNode = tvwReqs.SelectedNode
@@ -2493,215 +2596,32 @@ Public Class frmTraining
         mnuReqsSkillName.Text = skillName
         mnuReqsSkillName.Tag = skillID
     End Sub
-
+    Private Sub mnuViewItemDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetails.Click
+        Dim skillID As String = mnuItemName.Tag.ToString
+        Call frmSkillDetails.ShowSkillDetails(skillID)
+    End Sub
+    Private Sub mnuViewItemDetailsHere_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetailsHere.Click
+        Dim skillID As String = mnuItemName.Tag.ToString
+        Call Me.ShowSkillDetails(skillID)
+    End Sub
     Private Sub mnuReqsViewDetailsHere_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReqsViewDetailsHere.Click
         Dim skillID As String = mnuReqsSkillName.Tag.ToString
         Call Me.ShowSkillDetails(skillID)
     End Sub
-
     Private Sub mnuReqsViewDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReqsViewDetails.Click
         Dim skillID As String = mnuReqsSkillName.Tag.ToString
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
+#End Region
 
-    Private Sub cboFilter_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboFilter.TextChanged
-        If cboFilter.Items.Contains(cboFilter.Text) = True Then
-            usingFilter = True
-        Else
-            usingFilter = False
-            Call Me.LoadSkillTreeSearch()
-        End If
-    End Sub
-    Private Sub LoadSkillTreeSearch()
-        If Len(cboFilter.Text) > 1 Then
-            Dim strSearch As String = cboFilter.Text.Trim.ToLower
-            Dim results As New SortedList(Of String, String)
-            Dim newSkill As New EveHQ.Core.EveSkill
-            For Each newSkill In EveHQ.Core.HQ.SkillListID
-                If newSkill.Name.ToLower.Contains(strSearch) Then
-                    results.Add(newSkill.Name, newSkill.Name)
-                End If
-            Next
 
-            tvwSkillList.BeginUpdate()
-            tvwSkillList.Nodes.Clear()
-            For Each item As String In results.Values
-                newSkill = CType(EveHQ.Core.HQ.SkillListName(item), Core.EveSkill)
-                If newSkill.GroupID <> "505" And newSkill.Published = True Then
-                    Dim skillNode As TreeNode = New TreeNode
-                    skillNode.Text = newSkill.Name
-                    skillNode.Name = newSkill.ID
-                    If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) = True Then
-                        Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
-                        skillNode.ImageIndex = mySkill.Level
-                        skillNode.SelectedImageIndex = mySkill.Level
-                    Else
-                        skillNode.ImageIndex = 10
-                        skillNode.SelectedImageIndex = 10
-                    End If
+   
 
-                    If omitQueuedSkills = False Then
-                        tvwSkillList.Nodes.Add(skillNode)
-                    Else
-                        Dim inQ As Boolean = False
-                        For Each skillQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
-                            If inQ = True Then Exit For
-                            Dim sQ As Collection = skillQ.Queue
-                            For Each skillQueueItem As EveHQ.Core.SkillQueueItem In sQ
-                                If newSkill.Name = skillQueueItem.Name Then
-                                    inQ = True
-                                    Exit For
-                                End If
-                            Next
-                        Next
-                        If inQ = False Then
-                            tvwSkillList.Nodes.Add(skillNode)
-                        End If
-                    End If
+   
 
-                End If
-            Next
-            tvwSkillList.EndUpdate()
-        End If
-    End Sub
+ 
 
-    Private Sub mnuAddToQueueNext_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueueNext.Click
-        Call Me.AddSkillToQueueOption()
-    End Sub
+   
+  
 
-    Private Sub mnuAddToQueue1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue1.Click
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 1)
-        Call Me.RefreshTraining(activeQueueName)
-    End Sub
-
-    Private Sub mnuAddToQueue2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue2.Click
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 2)
-        Call Me.RefreshTraining(activeQueueName)
-    End Sub
-
-    Private Sub mnuAddToQueue3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue3.Click
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 3)
-        Call Me.RefreshTraining(activeQueueName)
-    End Sub
-
-    Private Sub mnuAddToQueue4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue4.Click
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 4)
-        Call Me.RefreshTraining(activeQueueName)
-    End Sub
-
-    Private Sub mnuAddToQueue5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue5.Click
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 5)
-        Call Me.RefreshTraining(activeQueueName)
-    End Sub
-
-    Private Sub mnuChangeLevel1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuChangeLevel1.Click
-        Call Me.ChangeLevel(1)
-    End Sub
-
-    Private Sub mnuChangeLevel2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuChangeLevel2.Click
-        Call Me.ChangeLevel(2)
-    End Sub
-
-    Private Sub mnuChangeLevel3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuChangeLevel3.Click
-        Call Me.ChangeLevel(3)
-    End Sub
-
-    Private Sub mnuChangeLevel4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuChangeLevel4.Click
-        Call Me.ChangeLevel(4)
-    End Sub
-
-    Private Sub mnuChangeLevel5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuChangeLevel5.Click
-        Call Me.ChangeLevel(5)
-    End Sub
-
-    Private Sub ChangeLevel(ByVal selectedLevel As Integer)
-        ' Store the index being used
-        Dim oldIndex As Integer = activeLVW.SelectedItems(0).Index
-        ' Get the skill name
-        Dim skillName As String = activeLVW.SelectedItems(0).Text
-        Dim curLevel As String = activeLVW.SelectedItems(0).SubItems(1).Text
-        Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
-        Dim toLevel As String = activeLVW.SelectedItems(0).SubItems(3).Text
-        Dim keyName As String = skillName & fromLevel & toLevel
-        Dim myTSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-        If activeQueue.Queue.Contains(keyName) = True Then
-            myTSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
-            If selectedLevel < CInt(toLevel) Then
-                ' Delete the existing item
-                activeQueue.Queue.Remove(keyName)
-                ' Adjust the "to" level
-                myTSkill.ToLevel = selectedLevel
-                ' Add the item back in at its new levels
-                activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
-                Call Me.RefreshTraining(activeQueueName)
-                activeLVW.Items(oldIndex).Selected = True
-            End If
-            If selectedLevel > CInt(toLevel) Then
-                ' Check if we have another skill that can be affected by us increasing the level i.e. the same skill!
-                Dim checkSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-                For Each checkSkill In activeQueue.Queue
-                    If myTSkill.Name = checkSkill.Name Then ' Matched skill name
-                        ' Check the "from" skill level matches
-                        If checkSkill.FromLevel >= myTSkill.ToLevel Then
-                            ' We have to decide what to do here, either increase the levels or merge
-                            If checkSkill.ToLevel <= selectedLevel Then
-                                ' We have to merge the items here so delete the new found one
-                                Call Me.DeleteFromQueue(checkSkill)
-                            Else
-                                ' We have to increase the levels so decrease the new found one
-                                ' Delete the existing item
-                                activeQueue.Queue.Remove(checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
-                                ' Adjust the "to" level
-                                checkSkill.FromLevel = selectedLevel + 1
-                                ' Add the item back in at its new levels
-                                activeQueue.Queue.Add(checkSkill, checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel)
-                            End If
-                        End If
-                    End If
-                Next
-
-                ' Check if the skill has been trained and we wish to increase it to the next level
-                If activeLVW.SelectedItems(0).Font.Strikeout = True Then
-                    myTSkill.FromLevel = Math.Max(CInt(curLevel), myTSkill.FromLevel)
-                End If
-
-                ' Delete the existing item
-                activeQueue.Queue.Remove(keyName)
-                ' Adjust the "to" level
-                myTSkill.ToLevel = selectedLevel
-                ' Add the item back in at its new levels
-                activeQueue.Queue.Add(myTSkill, myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel)
-                Call Me.RefreshTraining(activeQueueName)
-                activeLVW.Items(oldIndex).Selected = True
-            End If
-        End If
-    End Sub
-
-    Private Sub btnICT_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnICT.CheckedChanged
-        activeLVW.IncludeCurrentTraining = btnICT.Checked
-        activeQueue.IncCurrentTraining = btnICT.Checked
-        If activeQueue.Name IsNot Nothing Then
-            RefreshTraining(activeQueue.Name)
-        End If
-    End Sub
-
-    Private Sub tsbNeuralRemap_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbNeuralRemap.Click
-        If frmNeuralRemap.IsHandleCreated = True Then
-            frmNeuralRemap.Select()
-        Else
-            frmNeuralRemap.PilotName = EveHQ.Core.HQ.myPilot.Name
-            frmNeuralRemap.QueueName = activeQueueName
-            frmNeuralRemap.Show()
-        End If
-    End Sub
-
-    Private Sub tsbImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbImplants.Click
-        If frmImplants.IsHandleCreated = True Then
-            frmImplants.Select()
-        Else
-            frmImplants.PilotName = EveHQ.Core.HQ.myPilot.Name
-            frmImplants.QueueName = activeQueueName
-            frmImplants.Show()
-        End If
-    End Sub
 End Class
