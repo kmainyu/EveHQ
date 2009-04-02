@@ -20,8 +20,14 @@
 Public Class frmSkillDetails
 
     Dim oldNodeIndex As Integer = -1
+    Dim TrainingThreshold As Integer = 1600000
+    Dim TrainingBonus As Double = 1
 
     Public Sub ShowSkillDetails(ByVal skillID As String)
+
+        If EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP < TrainingThreshold Then
+            TrainingBonus = 2
+        End If
 
         Call Me.PrepareDetails(skillID)
         Call Me.PrepareTree(skillID)
@@ -53,7 +59,7 @@ Public Class frmSkillDetails
             Dim cLevel, cSP, cTime, cRate As String
             If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
                 If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) = False Then
-                    cLevel = "0" : cSP = "0" : cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, 1))
+                    cLevel = "0" : cSP = "0" : cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, 1, , , TrainingBonus))
                     cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, cSkill))
                 Else
                     mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
@@ -66,7 +72,7 @@ Public Class frmSkillDetails
                     If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.myPilot.TrainingSkillName = cSkill.Name Then
                         cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
                     Else
-                        cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, 0))
+                        cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, 0, , , TrainingBonus))
                     End If
                     cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, cSkill))
                 End If
@@ -336,9 +342,9 @@ Public Class frmSkillDetails
             For toLevel As Integer = 1 To 5
                 Dim newGroup As ListViewItem = New ListViewItem
                 newGroup.Text = toLevel.ToString
-                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, toLevel - 1)))
-                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, 0)))
-                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, -1)))
+                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, toLevel - 1, , TrainingBonus)))
+                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, 0, , TrainingBonus)))
+                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, -1, , TrainingBonus)))
                 lvwTimes.Items.Add(newGroup)
             Next
         Else
@@ -436,7 +442,7 @@ Public Class frmSkillDetails
                         Case EveHQ.Core.HQ.myPilot.TrainingSkillLevel
                             totalTime += EveHQ.Core.HQ.myPilot.TrainingCurrentTime
                         Case Is > EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                            totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, toLevel, toLevel - 1))
+                            totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, toLevel, toLevel - 1, , TrainingBonus))
                     End Select
                     lvwTimes.Items(toLevel - 1).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
                 Next
