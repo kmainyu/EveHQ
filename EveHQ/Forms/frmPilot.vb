@@ -313,6 +313,12 @@ Public Class frmPilot
         End If
 
         ' Set up items
+        Dim TrainingBonus As Double = 1
+        Dim TrainingThreshold As Long = 1600000
+
+        If EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP < TrainingThreshold Then
+            TrainingBonus = 2
+        End If
         For Each cSkill As EveHQ.Core.PilotSkill In EveHQ.Core.HQ.myPilot.PilotSkills
             Try
                 Dim groupCLV As ContainerListViewItem = CType(groupStructure(cSkill.GroupID), ContainerListViewItem)
@@ -382,8 +388,8 @@ Public Class frmPilot
                     TrainingSkill = newCLVItem
                     TrainingGroup = groupCLV
                 Else
-                    TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListID(cSkill.ID), EveHQ.Core.EveSkill), 0))
-                    currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListID(cSkill.ID), EveHQ.Core.EveSkill), 0))
+                    currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListID(cSkill.ID), EveHQ.Core.EveSkill), 0, , , TrainingBonus))
+                    TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(currentTime)
                 End If
                 If currentTime = 0 Then currentTime = 9999999999
                 newCLVItem.SubItems(5).Tag = currentTime.ToString
