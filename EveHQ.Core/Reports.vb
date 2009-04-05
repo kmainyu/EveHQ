@@ -1873,39 +1873,11 @@ Public Class Reports
     End Sub
     Public Shared Function CharSummary(ByVal forIGB As Boolean) As String
         Dim strHTML As String = ""
+        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSP As String = "0"
+        Dim currentTime As String = "n/a"
 
         Dim rPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        Dim repLines(EveHQ.Core.HQ.EveHQSettings.Pilots.Count, 6) As String
-        Dim curPilot As Integer = 0
-        For Each rPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            curPilot += 1
-
-            Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-            Dim currentSP As String = "0"
-            Dim currentTime As String = "n/a"
-            If rPilot.Training = True Then
-                currentSkill = CType(rPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rPilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
-                currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rPilot))
-                currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rPilot))
-            End If
-
-            If rPilot.Updated = True Then
-                repLines(curPilot, 1) = "http://img.eve.is/serv.asp?s=64&c=" & rPilot.ID
-                repLines(curPilot, 2) = rPilot.Name
-                repLines(curPilot, 3) = rPilot.Corp
-                repLines(curPilot, 4) = CStr(rPilot.Isk)
-                repLines(curPilot, 5) = CStr(rPilot.SkillPoints + CDbl(currentSP))
-                repLines(curPilot, 6) = currentSkill.Name & "<br>" & currentTime
-            Else
-                repLines(curPilot, 1) = "http://img.eve.is/serv.asp?s=64&c=" & rPilot.ID
-                repLines(curPilot, 2) = rPilot.Name
-                repLines(curPilot, 3) = "???"
-                repLines(curPilot, 4) = "???"
-                repLines(curPilot, 5) = "???"
-                repLines(curPilot, 6) = "???"
-            End If
-        Next
-
         If forIGB = False Then
             strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
         Else
@@ -1927,18 +1899,28 @@ Public Class Reports
             strHTML &= "<td width=165px>Corporation</td>"
             strHTML &= "<td width=125px align=right>Wealth</td>"
             strHTML &= "<td width=125px align=right>Skillpoints</td>"
-            strHTML &= "<td width=150px align=right>Current Training</td>"
+            strHTML &= "<td width=200px align=right>Current Training</td>"
             strHTML &= "</tr>"
         End If
-        For curPilot = 1 To EveHQ.Core.HQ.EveHQSettings.Pilots.Count
-            strHTML &= "<tr height=75px>"
-            strHTML &= "<td width=70px><img src='" & repLines(curPilot, 1) & "' style='border:0px;width:64px;height:64px;' alt='" & repLines(curPilot, 2) & "'></td>"
-            strHTML &= "<td width=165px>" & repLines(curPilot, 2) & "</td>"
-            strHTML &= "<td width=165px>" & repLines(curPilot, 3) & "</td>"
-            strHTML &= "<td width=125px align=right>" & Format(CDbl(repLines(curPilot, 4)), "Standard") & "</td>"
-            strHTML &= "<td width=125px align=right>" & FormatNumber(CLng(repLines(curPilot, 5)), 0, , , ) & "</td>"
-            strHTML &= "<td width=150px align=right>" & repLines(curPilot, 6) & "</td>"
-            strHTML &= "</tr>"
+        For Each rPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If rPilot.Active = True Then
+                strHTML &= "<tr height=75px>"
+                strHTML &= "<td width=70px><img src='http://img.eve.is/serv.asp?s=64&c=" & rPilot.ID & "' style='border:0px;width:64px;height:64px;' alt='" & rPilot.Name & "'></td>"
+                strHTML &= "<td width=165px>" & rPilot.Name & "</td>"
+                strHTML &= "<td width=165px>" & rPilot.Corp & "</td>"
+                strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.Isk, 2) & "</td>"
+                If rPilot.Training = True Then
+                    currentSkill = CType(rPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rPilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+                    currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rPilot))
+                    currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rPilot))
+                    strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.SkillPoints + rPilot.TrainingCurrentSP, 0) & "</td>"
+                    strHTML &= "<td width=200px align=right>" & currentSkill.Name & "<br>" & currentTime & "</td>"
+                Else
+                    strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.SkillPoints, 0) & "</td>"
+                    strHTML &= "<td width=200px align=right>n/a</td>"
+                End If
+                strHTML &= "</tr>"
+            End If
         Next
         strHTML &= "</table><p></p>"
 
