@@ -886,7 +886,7 @@ Public Class ShipSlotControl
         If shipMod.DatabaseCategory = "32" Then
             ' Check for subsystem type restriction
             If CStr(shipMod.Attributes("1380")) <> CStr(currentShip.ID) Then
-                MessageBox.Show("You cannot fit a subsystem module designed for a " & CType(EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes("1380"))), EveHQ.Core.EveItem).Name & " to your " & CType(EveHQ.Core.HQ.itemData(CStr(currentShip.ID)), EveHQ.Core.EveItem).Name & ".", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("You cannot fit a subsystem module designed for a " & CType(EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes("1380"))), EveHQ.Core.EveItem).Name & " to your " & currentShip.Name & ".", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
             End If
             ' Check for subsystem group restriction
@@ -899,7 +899,73 @@ Public Class ShipSlotControl
                 End If
             Next
         End If
+
+        ' Check for ship group restrictions
+        Dim ShipGroups As New ArrayList
+        For att As Integer = 1298 To 1301
+            If shipMod.Attributes.ContainsKey(att.ToString) = True Then
+                ShipGroups.Add(CStr(shipMod.Attributes(att.ToString)))
+            End If
+        Next
+        If ShipGroups.Count > 0 And ShipGroups.Contains(currentShip.DatabaseGroup) = False Then
+            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & currentShip.Name & ".", "Ship Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return False
+        End If
+        ShipGroups.Clear()
+
+        ' Check for ship type restrictions
+        Dim ShipTypes As New ArrayList
+        For att As Integer = 1302 To 1305
+            If shipMod.Attributes.ContainsKey(att.ToString) = True Then
+                ShipTypes.Add(CStr(shipMod.Attributes(att.ToString)))
+            End If
+        Next
+        If ShipTypes.Count > 0 And ShipTypes.Contains(currentShip.ID) = False Then
+            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & currentShip.Name & ".", "Ship Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return False
+        End If
+
+        ' Check for maxGroupActive flag
+        If shipMod.Attributes.ContainsKey("763") = True Then
+            If CountActiveGroupModules(shipMod.DatabaseGroup) >= CInt(shipMod.Attributes("763")) Then
+                ' Set the module offline
+                shipMod.ModuleState = 2
+            End If
+        End If
+
         Return True
+    End Function
+    Private Function CountActiveGroupModules(ByVal groupID As String) As Integer
+        Dim count As Integer = 0
+        For slot As Integer = 1 To currentShip.HiSlots
+            If currentShip.HiSlot(slot) IsNot Nothing Then
+                If currentShip.HiSlot(slot).DatabaseGroup = groupID And currentShip.HiSlot(slot).ModuleState >= 4 Then
+                    count += 1
+                End If
+            End If
+        Next
+        For slot As Integer = 1 To currentShip.MidSlots
+            If currentShip.MidSlot(slot) IsNot Nothing Then
+                If currentShip.MidSlot(slot).DatabaseGroup = groupID And currentShip.MidSlot(slot).ModuleState >= 4 Then
+                    count += 1
+                End If
+            End If
+        Next
+        For slot As Integer = 1 To currentShip.LowSlots
+            If currentShip.LowSlot(slot) IsNot Nothing Then
+                If currentShip.LowSlot(slot).DatabaseGroup = groupID And currentShip.LowSlot(slot).ModuleState >= 4 Then
+                    count += 1
+                End If
+            End If
+        Next
+        For slot As Integer = 1 To currentShip.RigSlots
+            If currentShip.RigSlot(slot) IsNot Nothing Then
+                If currentShip.RigSlot(slot).DatabaseGroup = groupID And currentShip.RigSlot(slot).ModuleState >= 4 Then
+                    count += 1
+                End If
+            End If
+        Next
+        Return count
     End Function
     Private Function IsSlotAvailable(ByVal shipMod As ShipModule, Optional ByVal repShipMod As ShipModule = Nothing) As Boolean
         Dim cSub, cRig, cLow, cMid, cHi, cTurret, cLauncher As Integer
@@ -1367,7 +1433,7 @@ Public Class ShipSlotControl
                         AddHandler RemoveModuleMenuItem.Click, AddressOf Me.RemoveModules
                         ctxSlots.Items.Add(RemoveModuleMenuItem)
                         ' Add the Status menu item
-                        If rigGroups.Contains(CInt(currentMod.DatabaseGroup)) = False Then
+                        If slotType <> 1 And slotType <> 16 Then
                             Dim canDeactivate As Boolean = False
                             Dim canOverload As Boolean = False
                             ctxSlots.Items.Add("-")
@@ -1691,42 +1757,54 @@ Public Class ShipSlotControl
     Private Sub SetModuleOffline(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim sModule As ShipModule = CType(menuItem.Tag, ShipModule)
-        Dim sep As Integer = lvwSlots.SelectedItems(0).Name.LastIndexOf("_")
-        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(sep + 1, 1))
         sModule.ModuleState = ModuleStates.Offline
         currentInfo.ShipType = currentShip
         currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-        Call Me.UpdateSlotLocation(sModule, slotNo)
+        Call Me.UpdateAllSlotLocations()
     End Sub
     Private Sub SetModuleInactive(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim sModule As ShipModule = CType(menuItem.Tag, ShipModule)
-        Dim sep As Integer = lvwSlots.SelectedItems(0).Name.LastIndexOf("_")
-        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(sep + 1, 1))
         sModule.ModuleState = ModuleStates.Inactive
         currentInfo.ShipType = currentShip
         currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-        Call Me.UpdateSlotLocation(sModule, slotNo)
+        Call Me.UpdateAllSlotLocations()
     End Sub
     Private Sub SetModuleActive(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim sModule As ShipModule = CType(menuItem.Tag, ShipModule)
-        Dim sep As Integer = lvwSlots.SelectedItems(0).Name.LastIndexOf("_")
-        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(sep + 1, 1))
+        Dim oldState As Integer = sModule.ModuleState
         sModule.ModuleState = ModuleStates.Active
+        ' Check for maxGroupActive flag
+        If sModule.Attributes.ContainsKey("763") = True Then
+            If CountActiveGroupModules(sModule.DatabaseGroup) > CInt(sModule.Attributes("763")) Then
+                ' Set the module offline
+                MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                sModule.ModuleState = oldState
+                Exit Sub
+            End If
+        End If
         currentInfo.ShipType = currentShip
         currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-        Call Me.UpdateSlotLocation(sModule, slotNo)
+        Call Me.UpdateAllSlotLocations()
     End Sub
     Private Sub SetModuleOverload(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim sModule As ShipModule = CType(menuItem.Tag, ShipModule)
-        Dim sep As Integer = lvwSlots.SelectedItems(0).Name.LastIndexOf("_")
-        Dim slotNo As Integer = CInt(lvwSlots.SelectedItems(0).Name.Substring(sep + 1, 1))
+        Dim oldState As Integer = sModule.ModuleState
         sModule.ModuleState = ModuleStates.Overloaded
+        ' Check for maxGroupActive flag
+        If sModule.Attributes.ContainsKey("763") = True Then
+            If CountActiveGroupModules(sModule.DatabaseGroup) > CInt(sModule.Attributes("763")) Then
+                ' Set the module offline
+                MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                sModule.ModuleState = oldState
+                Exit Sub
+            End If
+        End If
         currentInfo.ShipType = currentShip
         currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-        Call Me.UpdateSlotLocation(sModule, slotNo)
+        Call Me.UpdateAllSlotLocations()
     End Sub
 
 #End Region
@@ -2336,7 +2414,17 @@ Public Class ShipSlotControl
 
                         ' Update only if the module state has changed
                         If currentstate <> currentMod.ModuleState Then
+                            Dim oldState As Integer = currentMod.ModuleState
                             currentMod.ModuleState = currentstate
+                            ' Check for maxGroupActive flag
+                            If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey("763") = True Then
+                                If CountActiveGroupModules(currentMod.DatabaseGroup) > CInt(currentMod.Attributes("763")) Then
+                                    ' Set the module offline
+                                    MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                    currentMod.ModuleState = oldState
+                                    Exit Sub
+                                End If
+                            End If
                             currentInfo.ShipType = currentShip
                             currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
                             Call Me.UpdateAllSlotLocations()

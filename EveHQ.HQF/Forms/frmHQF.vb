@@ -771,14 +771,51 @@ Public Class frmHQF
         If groupNode.Name = "Favourites" Then
             ModuleDisplay = "Favourites"
             For Each modName As String In Settings.HQFSettings.Favourites
-                cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
-                ' Add results in by name, module
-                If chkApplySkills.Checked = True Then
-                    sMod = Engine.ApplySkillEffectsToModule(cMod)
-                Else
-                    sMod = cMod.Clone
+                If HQF.ModuleLists.moduleListName.Contains(modName) = True Then
+                    cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
+                    ' Add results in by name, module
+                    If chkApplySkills.Checked = True Then
+                        sMod = Engine.ApplySkillEffectsToModule(cMod)
+                    Else
+                        sMod = cMod.Clone
+                    End If
+                    If currentShipInfo IsNot Nothing Then
+                        If chkOnlyShowUsable.Checked = True Then
+                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                If chkOnlyShowFittable.Checked = True Then
+                                    If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                        results.Add(sMod.Name, sMod)
+                                    End If
+                                Else
+                                    results.Add(sMod.Name, sMod)
+                                End If
+                            End If
+                        Else
+                            If chkOnlyShowFittable.Checked = True Then
+                                If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                    results.Add(sMod.Name, sMod)
+                                End If
+                            Else
+                                results.Add(sMod.Name, sMod)
+                            End If
+                        End If
+                    Else
+                        results.Add(sMod.Name, sMod)
+                    End If
                 End If
-                If currentShipInfo IsNot Nothing Then
+            Next
+            lblModuleDisplayType.Tag = "Displaying: Favourites"
+        ElseIf groupNode.Name = "Recently Used" Then
+            ModuleDisplay = "Recently Used"
+            For Each modName As String In Settings.HQFSettings.MRUModules
+                If HQF.ModuleLists.moduleListName.Contains(modName) = True Then
+                    cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
+                    ' Add results in by name, module
+                    If chkApplySkills.Checked = True Then
+                        sMod = Engine.ApplySkillEffectsToModule(cMod)
+                    Else
+                        sMod = cMod.Clone
+                    End If
                     If chkOnlyShowUsable.Checked = True Then
                         If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                             If chkOnlyShowFittable.Checked = True Then
@@ -797,39 +834,6 @@ Public Class frmHQF
                         Else
                             results.Add(sMod.Name, sMod)
                         End If
-                    End If
-                Else
-                    results.Add(sMod.Name, sMod)
-                End If
-            Next
-            lblModuleDisplayType.Tag = "Displaying: Favourites"
-        ElseIf groupNode.Name = "Recently Used" Then
-            ModuleDisplay = "Recently Used"
-            For Each modName As String In Settings.HQFSettings.MRUModules
-                cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
-                ' Add results in by name, module
-                If chkApplySkills.Checked = True Then
-                    sMod = Engine.ApplySkillEffectsToModule(cMod)
-                Else
-                    sMod = cMod.Clone
-                End If
-                If chkOnlyShowUsable.Checked = True Then
-                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
-                        If chkOnlyShowFittable.Checked = True Then
-                            If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
-                                results.Add(sMod.Name, sMod)
-                            End If
-                        Else
-                            results.Add(sMod.Name, sMod)
-                        End If
-                    End If
-                Else
-                    If chkOnlyShowFittable.Checked = True Then
-                        If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
-                            results.Add(sMod.Name, sMod)
-                        End If
-                    Else
-                        results.Add(sMod.Name, sMod)
                     End If
                 End If
             Next

@@ -38,7 +38,7 @@ Public Class Engine
 
     Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
-#Region "New Routines"
+#Region "Fitting Routines"
     Public Shared Sub BuildPirateImplants()
         Dim PirateImplantComponents As New ArrayList
         PirateImplantGroups.Clear()
@@ -553,7 +553,7 @@ Public Class Engine
         ' Go through all the implants and see what needs to be mapped
         Dim fEffect As New FinalEffect
         Dim fEffectList As New ArrayList
-        
+
         For slotNo As Integer = 1 To 10
             hImplant = hPilot.ImplantName(slotNo)
             If hImplant <> "" Then
