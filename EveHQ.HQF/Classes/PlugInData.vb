@@ -324,6 +324,7 @@ Public Class PlugInData
             skillData = EveHQ.Core.DataFunctions.GetData(strSQL)
             If skillData IsNot Nothing Then
                 If skillData.Tables(0).Rows.Count <> 0 Then
+                    HQF.SkillLists.SkillList.Clear()
                     For Each skillRow As DataRow In skillData.Tables(0).Rows
                         ' Check if the typeID already exists
                         Dim newSkill As HQF.Skill

@@ -3236,6 +3236,7 @@ Public Class frmPrism
         Call Me.GetSalvage()
     End Sub
     Private Sub GetSalvage()
+        SalvageList.Clear()
         For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
             Dim IsCorp As Boolean = False
             ' Get the owner we will use
@@ -4453,6 +4454,7 @@ Public Class frmPrism
         clvRecycle.Items.Clear()
         Dim price As Double = 0
         Dim perfect As Long = 0
+        Dim quantity As Long = 0
         Dim quant As Long = 0
         Dim wastage As Long = 0
         Dim taken As Long = 0
@@ -4466,6 +4468,7 @@ Public Class frmPrism
         Dim batches As Integer = 0
         Dim items As Long = 0
         Dim volume As Double = 0
+        Dim benefit As Double = 0
         Dim tempNetYield As Double = 0
         Dim bestPriceTotal As Double = 0
         Dim salePriceTotal As Double = 0
@@ -4524,14 +4527,14 @@ Public Class frmPrism
             clvRecycle.Items.Add(newCLVItem)
             price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(asset), 2)
             batches = CInt(Int(CLng(RecyclerAssetList(itemInfo.ID.ToString)) / itemInfo.PortionSize))
-            quant = CLng(RecyclerAssetList(asset))
-            volume += itemInfo.Volume * quant
-            items += CLng(quant)
-            value = price * quant
+            quantity = CLng(RecyclerAssetList(asset))
+            volume += itemInfo.Volume * quantity
+            items += CLng(quantity)
+            value = price * quantity
             fees = Math.Round(value * (RTotalFees / 100), 2)
             sale = value - fees
             newCLVItem.SubItems(1).Text = FormatNumber(itemInfo.MetaLevel, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-            newCLVItem.SubItems(2).Text = FormatNumber(quant, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            newCLVItem.SubItems(2).Text = FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             newCLVItem.SubItems(3).Text = FormatNumber(batches, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             newCLVItem.SubItems(4).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             newCLVItem.SubItems(5).Text = FormatNumber(value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
@@ -4595,6 +4598,11 @@ Public Class frmPrism
             Else
                 newCLVItem.SubItems(9).Text = newCLVItem.SubItems(7).Text
             End If
+            benefit = CDbl(newCLVItem.SubItems(8).Text) - CDbl(newCLVItem.SubItems(7).Text)
+            newCLVItem.SubItems(10).Tag = benefit
+            newCLVItem.SubItems(10).Text = FormatNumber(benefit, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            newCLVItem.SubItems(11).Tag = (benefit / quantity)
+            newCLVItem.SubItems(11).Text = FormatNumber(benefit / quantity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
             salePriceTotal += CDbl(newCLVItem.SubItems(7).Text)
             refinePriceTotal += CDbl(newCLVItem.SubItems(8).Text)
             bestPriceTotal += CDbl(newCLVItem.SubItems(9).Text)

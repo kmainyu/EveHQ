@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.tlvAssets = New DotNetLib.Windows.Forms.ContainerListView
         Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -41,6 +41,8 @@ Partial Class frmPrism
         Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuAddCustomName = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuRemoveCustomName = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuViewInIB = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuViewInHQF = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuModifyPrice = New System.Windows.Forms.ToolStripMenuItem
@@ -347,8 +349,8 @@ Partial Class frmPrism
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
-        Me.mnuRemoveCustomName = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
+        Me.colTotalBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colUnitBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -504,7 +506,7 @@ Partial Class frmPrism
         '
         Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuAddCustomName, Me.mnuRemoveCustomName, Me.ToolStripMenuItem3, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.mnuToolSep, Me.mnuItemRecycling})
         Me.ctxAssets.Name = "ctxAssets"
-        Me.ctxAssets.Size = New System.Drawing.Size(198, 198)
+        Me.ctxAssets.Size = New System.Drawing.Size(198, 176)
         '
         'mnuItemName
         '
@@ -523,6 +525,17 @@ Partial Class frmPrism
         Me.mnuAddCustomName.Name = "mnuAddCustomName"
         Me.mnuAddCustomName.Size = New System.Drawing.Size(197, 22)
         Me.mnuAddCustomName.Text = "Add Custom Name"
+        '
+        'mnuRemoveCustomName
+        '
+        Me.mnuRemoveCustomName.Name = "mnuRemoveCustomName"
+        Me.mnuRemoveCustomName.Size = New System.Drawing.Size(197, 22)
+        Me.mnuRemoveCustomName.Text = "Remove Custom Name"
+        '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(194, 6)
         '
         'mnuViewInIB
         '
@@ -973,11 +986,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup3.Header = "Corporation"
-        ListViewGroup3.Name = "grpCorporation"
-        ListViewGroup4.Header = "Personal"
-        ListViewGroup4.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Corporation"
+        ListViewGroup1.Name = "grpCorporation"
+        ListViewGroup2.Header = "Personal"
+        ListViewGroup2.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -2817,7 +2830,7 @@ Partial Class frmPrism
         '
         'clvRecycle
         '
-        Me.clvRecycle.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRecycleItem, Me.colRecycleMetaLevel, Me.colRecycleQuantity, Me.colBatches, Me.colItemPrice, Me.colTotalPrice, Me.colFees, Me.colSalePrice, Me.colRefinePrice, Me.colBestPrice})
+        Me.clvRecycle.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRecycleItem, Me.colRecycleMetaLevel, Me.colRecycleQuantity, Me.colBatches, Me.colItemPrice, Me.colTotalPrice, Me.colFees, Me.colSalePrice, Me.colRefinePrice, Me.colBestPrice, Me.colTotalBenefit, Me.colUnitBenefit})
         Me.clvRecycle.ContextMenuStrip = Me.ctxRecycleItems
         Me.clvRecycle.DefaultItemHeight = 20
         Me.clvRecycle.Dock = System.Windows.Forms.DockStyle.Fill
@@ -3394,16 +3407,25 @@ Partial Class frmPrism
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
         '
-        'mnuRemoveCustomName
+        'colTotalBenefit
         '
-        Me.mnuRemoveCustomName.Name = "mnuRemoveCustomName"
-        Me.mnuRemoveCustomName.Size = New System.Drawing.Size(197, 22)
-        Me.mnuRemoveCustomName.Text = "Remove Custom Name"
+        Me.colTotalBenefit.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colTotalBenefit.CustomSortTag = Nothing
+        Me.colTotalBenefit.DisplayIndex = 10
+        Me.colTotalBenefit.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colTotalBenefit.Tag = Nothing
+        Me.colTotalBenefit.Text = "Total Benefit"
+        Me.colTotalBenefit.Width = 100
         '
-        'ToolStripMenuItem3
+        'colUnitBenefit
         '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(194, 6)
+        Me.colUnitBenefit.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colUnitBenefit.CustomSortTag = Nothing
+        Me.colUnitBenefit.DisplayIndex = 11
+        Me.colUnitBenefit.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colUnitBenefit.Tag = Nothing
+        Me.colUnitBenefit.Text = "Unit Benefit"
+        Me.colUnitBenefit.Width = 100
         '
         'frmPrism
         '
@@ -3790,4 +3812,6 @@ Partial Class frmPrism
     Friend WithEvents mnuAddCustomName As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuRemoveCustomName As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents colTotalBenefit As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colUnitBenefit As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
 End Class
