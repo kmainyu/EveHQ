@@ -1375,7 +1375,7 @@ Public Class ShipSlotControl
                             statusMenuItem.Name = lvwSlots.SelectedItems(0).Name
                             statusMenuItem.Text = "Set Module Status"
                             ' Check for activation cost
-                            If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.DatabaseGroup = "515" Then
+                            If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.Contains("713") Then
                                 canDeactivate = True
                             End If
                             If currentMod.Attributes.Contains("1211") = True Then
@@ -2276,9 +2276,8 @@ Public Class ShipSlotControl
     Private Sub lvwSlots_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvwSlots.MouseDown
         Dim hti As ListViewHitTestInfo = lvwSlots.HitTest(e.X, e.Y)
         If hti.Item IsNot Nothing Then
-            If e.Button = Windows.Forms.MouseButtons.Right Then
-                If hti.Location = ListViewHitTestLocations.Image Then
-                    cancelSlotMenu = True ' Should cancel the menu and any double-click event?
+            If e.Button = Windows.Forms.MouseButtons.Middle Then
+                If hti.Location = ListViewHitTestLocations.Image Or hti.Location = ListViewHitTestLocations.Label Or hti.Location = ListViewHitTestLocations.RightOfClientArea Then
                     ' Get the module details
                     Dim modID As String = CStr(ModuleLists.moduleListName.Item(hti.Item.Text))
                     Dim currentMod As New ShipModule
@@ -2307,7 +2306,7 @@ Public Class ShipSlotControl
                         Dim canDeactivate As Boolean = False
                         Dim canOverload As Boolean = False
                         ' Check for activation cost
-                        If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.DatabaseGroup = "515" Then
+                        If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.Contains("713") Then
                             canDeactivate = True
                         End If
                         If currentMod.Attributes.Contains("1211") = True Then
@@ -2343,8 +2342,6 @@ Public Class ShipSlotControl
                             Call Me.UpdateAllSlotLocations()
                         End If
                     End If
-                Else
-                    cancelSlotMenu = False
                 End If
             End If
         End If

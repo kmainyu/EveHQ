@@ -701,10 +701,10 @@
 20,2,641,37,3,6,0,0,0,16,SW Drone - Max Velocity
 # ELECTRONIC WARFARE,,,,,,,,,,
 # ECCM,,,,,,,,,,
-1027,2,202,211,3,6,1,0,0,14,Grav Strength
-1028,2,202,209,3,6,1,0,0,14,Ladar Strength
-1029,2,202,210,3,6,1,0,0,14,Mag Strength
-1030,2,202,208,3,6,1,0,0,14,Radar Strength
+1027,2,202,211,3,6,1,0,0,12,Grav Strength
+1028,2,202,209,3,6,1,0,0,12,Ladar Strength
+1029,2,202,210,3,6,1,0,0,12,Mag Strength
+1030,2,202,208,3,6,1,0,0,12,Radar Strength
 # ECM,,,,,,,,,,
 #238,2,201,,3,6,0,0,0,14,Grav Strength
 #239,2,201,,3,6,0,0,0,14,Ladar Strength
