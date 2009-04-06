@@ -199,7 +199,7 @@ Public Class IGB
                 End Try
             Loop
         Catch ex As HttpListenerException
-            Console.WriteLine(ex.Message)
+            MessageBox.Show("There was an error using the IGB server. The error was: " & ex.Message, "IGB Server Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Finally
             ' Stop listening for requests.
             listener.Close()

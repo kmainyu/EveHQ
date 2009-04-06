@@ -107,7 +107,6 @@ Public Class frmEveHQ
         Call OpenPilotInfoForm()
     End Sub
     Private Sub RunIGBToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RunIGBToolStripMenuItem.Click, tsbIGB.Click
-
         If RunIGBToolStripMenuItem.Checked = False Then
             If IGBWorker.CancellationPending = True Then
                 MessageBox.Show("The IGB Server is still shutting down. Please wait a few moments", "IGB Server Busy", MessageBoxButtons.OK, MessageBoxIcon.Information)
