@@ -1088,49 +1088,52 @@ Public Class frmPrism
                     owner = ""
                 End If
             End If
-            Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
-            Dim accountName As String = selPilot.Account
-            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
-            ' Check for corp wallets
-            If IsCorp = True Then
-                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
-                If corpXML IsNot Nothing Then
-                    ' Check response string for any error codes?
-                    Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                    If errlist.Count = 0 Then
-                        ' No errors so parse the files
-                        Dim accountList As XmlNodeList
-                        Dim account As XmlNode
-                        If corpWallets.Contains(selPilot.Corp) = False Then
-                            corpWallets.Add(selPilot.Corp, selPilot.CorpID)
+
+            If owner <> "" Then
+                Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+                Dim accountName As String = selPilot.Account
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+                ' Check for corp wallets
+                If IsCorp = True Then
+                    corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                    If corpXML IsNot Nothing Then
+                        ' Check response string for any error codes?
+                        Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
+                        If errlist.Count = 0 Then
+                            ' No errors so parse the files
+                            Dim accountList As XmlNodeList
+                            Dim account As XmlNode
+                            If corpWallets.Contains(selPilot.Corp) = False Then
+                                corpWallets.Add(selPilot.Corp, selPilot.CorpID)
+                                accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
+                                For Each account In accountList
+                                    Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Number, culture)
+                                    Dim accountKey As String = account.Attributes.GetNamedItem("accountKey").Value
+                                    If corpWalletDivisions.ContainsKey(selPilot.CorpID & "_" & accountKey) = False Then
+                                        corpWalletDivisions.Add(selPilot.CorpID & "_" & accountKey, isk)
+                                    End If
+                                Next
+                            End If
+                        End If
+                    End If
+                Else
+                    ' Check for char wallets
+                    corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+                    If corpXML IsNot Nothing Then
+                        ' Check response string for any error codes?
+                        Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
+                        If errlist.Count = 0 Then
+                            ' No errors so parse the files
+                            Dim accountList As XmlNodeList
+                            Dim account As XmlNode
                             accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
                             For Each account In accountList
                                 Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Number, culture)
-                                Dim accountKey As String = account.Attributes.GetNamedItem("accountKey").Value
-                                If corpWalletDivisions.ContainsKey(selPilot.CorpID & "_" & accountKey) = False Then
-                                    corpWalletDivisions.Add(selPilot.CorpID & "_" & accountKey, isk)
+                                If charWallets.Contains(selPilot.Name) = False Then
+                                    charWallets.Add(selPilot.Name, isk)
                                 End If
                             Next
                         End If
-                    End If
-                End If
-            Else
-                ' Check for char wallets
-                corpXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
-                If corpXML IsNot Nothing Then
-                    ' Check response string for any error codes?
-                    Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                    If errlist.Count = 0 Then
-                        ' No errors so parse the files
-                        Dim accountList As XmlNodeList
-                        Dim account As XmlNode
-                        accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
-                        For Each account In accountList
-                            Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Number, culture)
-                            If charWallets.Contains(selPilot.Name) = False Then
-                                charWallets.Add(selPilot.Name, isk)
-                            End If
-                        Next
                     End If
                 End If
             End If
@@ -3676,13 +3679,16 @@ Public Class frmPrism
             IsCorp = True
             ' See if we have a representative
             Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
-            If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                owner = CStr(CorpRep(CStr(CorpList(owner))))
+            If CorpRep IsNot Nothing Then
+                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                Else
+                    owner = ""
+                End If
             Else
                 owner = ""
             End If
         End If
-
         If owner <> "" Then
             Dim sellTotal, buyTotal, TotalEscrow As Double
             Dim TotalOrders As Integer = 0
@@ -3862,15 +3868,18 @@ Public Class frmPrism
             cboWalletTransDivision.Enabled = True
             ' See if we have a representative
             Dim CorpRep As SortedList = CType(CorpReps(5), Collections.SortedList)
-            If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                owner = CStr(CorpRep(CStr(CorpList(owner))))
+            If CorpRep IsNot Nothing Then
+                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                Else
+                    owner = ""
+                End If
             Else
                 owner = ""
             End If
         Else
             cboWalletTransDivision.Enabled = False
         End If
-
         If owner <> "" Then
             Dim transXML As New XmlDocument
             Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
@@ -3942,8 +3951,12 @@ Public Class frmPrism
             cboWalletJournalDivision.Enabled = True
             ' See if we have a representative
             Dim CorpRep As SortedList = CType(CorpReps(3), Collections.SortedList)
-            If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                owner = CStr(CorpRep(CStr(CorpList(owner))))
+            If CorpRep IsNot Nothing Then
+                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                Else
+                    owner = ""
+                End If
             Else
                 owner = ""
             End If
@@ -4299,8 +4312,12 @@ Public Class frmPrism
             IsCorp = True
             ' See if we have a representative
             Dim CorpRep As SortedList = CType(CorpReps(2), Collections.SortedList)
-            If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                owner = CStr(CorpRep(CStr(CorpList(owner))))
+            If CorpRep IsNot Nothing Then
+                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                Else
+                    owner = ""
+                End If
             Else
                 owner = ""
             End If

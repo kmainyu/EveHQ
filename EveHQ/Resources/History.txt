@@ -1,6 +1,42 @@
 EveHQ - Version History
 -----------------------
 
+1.9.4.505 (07/04/2009)
+---------
+Fixes and Improvements:
+- Core: Time to next level in Pilot Info screen now shows correct times for SP < 1.6m
+- Core: Time to next level in Training screen now shows correct times for SP < 1.6m
+- Core: Time to next level in Skill Details screen now shows correct times for SP < 1.6m
+- Core: Skill queue times will no longer report an incorrect time after resetting the queue
+- Core: Reworked entire skill queue suggestion thread code
+- Core: Character Summary report now ignores non active pilots
+- Core: Displayed error message if one occurs starting the IGB Server
+- Core: Removed static image from About Form
+- Core: Removed unssed Windows main menu item
+- Core: Middle-button (wheel) can now be used to exit tabs
+- Core: Removed the Web Browser and associated code from EveHQ
+- HQF: Fixed mapping of T2 missile damage from Heavy Assault Missile Skills
+- HQF: Added code to clear skill list when rebuilding cache data
+- HQF: ECCM modules now only gives bonuses when active
+- HQF: All modules that consume material resources should now be available as inactive in the slot control
+- HQF: Module state can now be cycled by clicking anywhere on the module, not just the state image
+- HQF: Middle-button (wheel) now used to set module state
+- HQF: Middle-button (wheel) can now be used to exit tabs
+- HQF: It's no longer possible to offline Subsystems
+- HQF: Checked that the module exists before adding it to favourites and MRU lists
+- HQF: Setting a module status now updates all slot locations
+- HQF: Added ship group restriction checking for modules when adding
+- HQF: Added ship type restriction checking for modules when adding
+- HQF: Added maxGroupActive restriction checking for modules when adding
+- HQF: Added maxGroupActive restriction checking for modules when using menu to update module state
+- HQF: Added maxGroupActive restriction checking for modules when clicking to update module state
+- Prism: Fixed rig builder duplicating salvage when building salvage list
+- Prism: Middle-button (wheel) can now be used to exit tabs
+- Prism: Fixed error parsing dates in the orders, journal and transactions XML for various regional settings
+- Prism: Fixed error in balances where access is denied
+- Prism: Added checking for where Corp Reps returns null
+
+
 1.9.3.492 (31/03/2009)
 ---------
 Fixes and Improvements:
