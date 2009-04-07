@@ -1450,21 +1450,37 @@ Public Class frmHQF
         Return -1
     End Function
     Private Sub TabHQF_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tabHQF.MouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            Dim TabIndex As Integer
-            ' Get index of tab clicked
-            TabIndex = TabControlHitTest(tabHQF, e.Location)
-            ' If a tab was clicked display it's index
-            If TabIndex >= 0 Then
-                tabHQF.Tag = TabIndex
-                Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
-                mnuCloseHQFTab.Text = "Close " & tp.Text
-            Else
-                mnuCloseHQFTab.Text = "Not Valid"
-            End If
-        End If
+        Select Case e.Button
+            Case Windows.Forms.MouseButtons.Right
+                Dim TabIndex As Integer
+                ' Get index of tab clicked
+                TabIndex = TabControlHitTest(tabHQF, e.Location)
+                ' If a tab was clicked display it's index
+                If TabIndex >= 0 Then
+                    tabHQF.Tag = TabIndex
+                    Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
+                    mnuCloseHQFTab.Text = "Close " & tp.Text
+                Else
+                    mnuCloseHQFTab.Text = "Not Valid"
+                End If
+            Case Windows.Forms.MouseButtons.Middle
+                Dim TabIndex As Integer
+                ' Get index of tab clicked
+                TabIndex = TabControlHitTest(tabHQF, e.Location)
+                ' If a tab was clicked display it's index
+                If TabIndex >= 0 Then
+                    tabHQF.Tag = TabIndex
+                    Dim tp As TabPage = tabHQF.TabPages(CInt(tabHQF.Tag))
+                    Fittings.FittingTabList.Remove(tp.Text)
+                    ShipLists.fittedShipList.Remove(tp.Text)
+                    tabHQF.TabPages.Remove(tp)
+                    If Fittings.FittingTabList.Count = 0 Then
+                        currentShipInfo = Nothing
+                        currentShipSlot = Nothing
+                    End If
+                End If
+        End Select
     End Sub
-
     Private Sub ctxTabHQF_Closed(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs) Handles ctxTabHQF.Closed
         mnuCloseHQFTab.Text = "Not Valid"
     End Sub

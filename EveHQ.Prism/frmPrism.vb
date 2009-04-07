@@ -85,7 +85,7 @@ Public Class frmPrism
 #End Region
 
 #Region "Form Initialisation Routines"
-    Private Sub frmAssets_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmPrism_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         XMLDelegate = New CheckXMLDelegate(AddressOf CheckXML)
 
         ' Build a corp list
@@ -3209,19 +3209,31 @@ Public Class frmPrism
         Return -1
     End Function
     Private Sub TabPrism_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tabPrism.MouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            Dim TabIndex As Integer
-            ' Get index of tab clicked
-            TabIndex = TabControlHitTest(tabPrism, e.Location)
-            ' If a tab was clicked display it's index
-            If TabIndex >= 0 Then
-                tabPrism.Tag = TabIndex
-                Dim tp As TabPage = tabPrism.TabPages(CInt(tabPrism.Tag))
-                mnuClosePrismTab.Text = "Close " & tp.Text
-            Else
-                mnuClosePrismTab.Text = "Not Valid"
-            End If
-        End If
+        Select Case e.Button
+            Case Windows.Forms.MouseButtons.Right
+                Dim TabIndex As Integer
+                ' Get index of tab clicked
+                TabIndex = TabControlHitTest(tabPrism, e.Location)
+                ' If a tab was clicked display it's index
+                If TabIndex >= 0 Then
+                    tabPrism.Tag = TabIndex
+                    Dim tp As TabPage = tabPrism.TabPages(CInt(tabPrism.Tag))
+                    mnuClosePrismTab.Text = "Close " & tp.Text
+                Else
+                    mnuClosePrismTab.Text = "Not Valid"
+                End If
+            Case Windows.Forms.MouseButtons.Middle
+                Dim TabIndex As Integer
+                ' Get index of tab clicked
+                TabIndex = TabControlHitTest(tabPrism, e.Location)
+                ' If a tab was clicked display it's index
+                If TabIndex > 0 Then
+                    tabPrism.Tag = TabIndex
+                    Dim tp As TabPage = tabPrism.TabPages(CInt(tabPrism.Tag))
+                    tabPrism.TabPages.Remove(tp)
+                    tabPrism.Tag = 0
+                End If
+        End Select
     End Sub
     Private Sub mnuClosePrismTab_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuClosePrismTab.Click
         Dim tp As TabPage = tabPrism.TabPages(CInt(tabPrism.Tag))
@@ -3708,7 +3720,7 @@ Public Class frmPrism
                             sOrder.SubItems(2).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                             Dim loc As String = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
                             sOrder.SubItems(3).Text = loc
-                            Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                            Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
                             Dim orderExpires As TimeSpan = issueDate - Now
                             orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
                             sOrder.SubItems(4).Tag = orderExpires
@@ -3750,7 +3762,7 @@ Public Class frmPrism
                                     bOrder.SubItems(4).Text = Order.Attributes.GetNamedItem("range").Value & " Jumps"
                             End Select
                             bOrder.SubItems(5).Text = FormatNumber(Double.Parse(Order.Attributes.GetNamedItem("minVolume").Value, culture), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                            Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                            Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
                             Dim orderExpires As TimeSpan = issueDate - Now
                             orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
                             bOrder.SubItems(6).Tag = orderExpires
@@ -3883,7 +3895,7 @@ Public Class frmPrism
                     Else
                         transItem.ForeColor = Drawing.Color.Black
                     End If
-                    transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("transactionDateTime").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                    transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("transactionDateTime").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
                     transItem.Text = FormatDateTime(transDate, DateFormat.GeneralDate)
                     clvTransactions.Items.Add(transItem)
                     transItem.SubItems(1).Text = Tran.Attributes.GetNamedItem("typeName").Value
@@ -3959,7 +3971,7 @@ Public Class frmPrism
                 clvJournal.Items.Clear()
                 For Each Tran As XmlNode In Trans
                     transItem = New ContainerListViewItem
-                    transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("date").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                    transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("date").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
                     transItem.Text = FormatDateTime(transDate, DateFormat.GeneralDate)
                     clvJournal.Items.Add(transItem)
                     refType = Tran.Attributes.GetNamedItem("refTypeID").Value
@@ -4333,7 +4345,7 @@ Public Class frmPrism
                             transItem.SubItems(2).Text = "POS in " & CType(PlugInData.stations(Tran.Attributes.GetNamedItem("installedInSolarSystemID").Value), SolarSystem).Name
                         End If
                     End If
-                    transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("endProductionTime").Value, IndustryTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+                    transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("endProductionTime").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
                     transItem.SubItems(3).Text = FormatDateTime(transDate, DateFormat.GeneralDate)
                     completed = Tran.Attributes.GetNamedItem("completed").Value
                     If completed = "0" Then

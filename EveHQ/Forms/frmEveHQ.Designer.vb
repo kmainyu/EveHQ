@@ -22,14 +22,6 @@ Partial Public Class frmEveHQ
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEveHQ))
-        Me.ArrangeIconsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.CloseAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.NewWindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.WindowsMenu = New System.Windows.Forms.ToolStripMenuItem
-        Me.CascadeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.TileVerticalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.TileHorizontalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.ToolStrip = New System.Windows.Forms.ToolStrip
@@ -45,7 +37,6 @@ Partial Public Class frmEveHQ
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbPilotInfo = New System.Windows.Forms.ToolStripButton
         Me.tsbSkillTraining = New System.Windows.Forms.ToolStripButton
-        Me.tsbWebBrowser = New System.Windows.Forms.ToolStripButton
         Me.tsbTrainingOverlay = New System.Windows.Forms.ToolStripButton
         Me.tsbSettingsBackup = New System.Windows.Forms.ToolStripButton
         Me.tsbSettings = New System.Windows.Forms.ToolStripButton
@@ -61,7 +52,6 @@ Partial Public Class frmEveHQ
         Me.MenuStrip = New System.Windows.Forms.MenuStrip
         Me.ViewMenu = New System.Windows.Forms.ToolStripMenuItem
         Me.PilotInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.WebBrowserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SkillTrainingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TrainingInformationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolsMenu = New System.Windows.Forms.ToolStripMenuItem
@@ -177,55 +167,6 @@ Partial Public Class frmEveHQ
         Me.XPTraining.SuspendLayout()
         Me.SuspendLayout()
         '
-        'ArrangeIconsToolStripMenuItem
-        '
-        Me.ArrangeIconsToolStripMenuItem.Name = "ArrangeIconsToolStripMenuItem"
-        Me.ArrangeIconsToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.ArrangeIconsToolStripMenuItem.Text = "&Arrange Icons"
-        Me.ArrangeIconsToolStripMenuItem.Visible = False
-        '
-        'CloseAllToolStripMenuItem
-        '
-        Me.CloseAllToolStripMenuItem.Name = "CloseAllToolStripMenuItem"
-        Me.CloseAllToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.CloseAllToolStripMenuItem.Text = "C&lose All"
-        '
-        'NewWindowToolStripMenuItem
-        '
-        Me.NewWindowToolStripMenuItem.Name = "NewWindowToolStripMenuItem"
-        Me.NewWindowToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.NewWindowToolStripMenuItem.Text = "&New Window"
-        '
-        'WindowsMenu
-        '
-        Me.WindowsMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewWindowToolStripMenuItem, Me.CascadeToolStripMenuItem, Me.TileVerticalToolStripMenuItem, Me.TileHorizontalToolStripMenuItem, Me.CloseAllToolStripMenuItem, Me.ArrangeIconsToolStripMenuItem, Me.ToolStripSeparator11})
-        Me.WindowsMenu.Name = "WindowsMenu"
-        Me.WindowsMenu.Size = New System.Drawing.Size(68, 20)
-        Me.WindowsMenu.Text = "&Windows"
-        '
-        'CascadeToolStripMenuItem
-        '
-        Me.CascadeToolStripMenuItem.Name = "CascadeToolStripMenuItem"
-        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.CascadeToolStripMenuItem.Text = "&Cascade"
-        '
-        'TileVerticalToolStripMenuItem
-        '
-        Me.TileVerticalToolStripMenuItem.Name = "TileVerticalToolStripMenuItem"
-        Me.TileVerticalToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.TileVerticalToolStripMenuItem.Text = "Tile &Vertical"
-        '
-        'TileHorizontalToolStripMenuItem
-        '
-        Me.TileHorizontalToolStripMenuItem.Name = "TileHorizontalToolStripMenuItem"
-        Me.TileHorizontalToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
-        Me.TileHorizontalToolStripMenuItem.Text = "Tile &Horizontal"
-        '
-        'ToolStripSeparator11
-        '
-        Me.ToolStripSeparator11.Name = "ToolStripSeparator11"
-        Me.ToolStripSeparator11.Size = New System.Drawing.Size(148, 6)
-        '
         'OptionsToolStripMenuItem
         '
         Me.OptionsToolStripMenuItem.Image = CType(resources.GetObject("OptionsToolStripMenuItem.Image"), System.Drawing.Image)
@@ -236,7 +177,7 @@ Partial Public Class frmEveHQ
         '
         'ToolStrip
         '
-        Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnTogglePanel, Me.ToolStripSeparator10, Me.btnAddAccount, Me.ToolStripSeparator14, Me.ToolStripLabel1, Me.ToolStripSeparator12, Me.cboPilots, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.tsbWebBrowser, Me.tsbTrainingOverlay, Me.tsbSettingsBackup, Me.tsbSettings, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator6, Me.tsbCheckUpdates, Me.ToolStripSeparator9, Me.tsbAbout, Me.ToolStripSeparator7})
+        Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnTogglePanel, Me.ToolStripSeparator10, Me.btnAddAccount, Me.ToolStripSeparator14, Me.ToolStripLabel1, Me.ToolStripSeparator12, Me.cboPilots, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.tsbTrainingOverlay, Me.tsbSettingsBackup, Me.tsbSettings, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator6, Me.tsbCheckUpdates, Me.ToolStripSeparator9, Me.tsbAbout, Me.ToolStripSeparator7})
         Me.ToolStrip.Location = New System.Drawing.Point(0, 24)
         Me.ToolStrip.Name = "ToolStrip"
         Me.ToolStrip.Size = New System.Drawing.Size(1033, 25)
@@ -333,16 +274,6 @@ Partial Public Class frmEveHQ
         Me.tsbSkillTraining.Text = "ToolStripButton3"
         Me.tsbSkillTraining.ToolTipText = "View Skill Training"
         '
-        'tsbWebBrowser
-        '
-        Me.tsbWebBrowser.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.tsbWebBrowser.Image = CType(resources.GetObject("tsbWebBrowser.Image"), System.Drawing.Image)
-        Me.tsbWebBrowser.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbWebBrowser.Name = "tsbWebBrowser"
-        Me.tsbWebBrowser.Size = New System.Drawing.Size(23, 22)
-        Me.tsbWebBrowser.Text = "ToolStripButton4"
-        Me.tsbWebBrowser.ToolTipText = "View Web Browser"
-        '
         'tsbTrainingOverlay
         '
         Me.tsbTrainingOverlay.CheckOnClick = True
@@ -365,6 +296,7 @@ Partial Public Class frmEveHQ
         '
         'tsbSettings
         '
+        Me.tsbSettings.BackColor = System.Drawing.SystemColors.Control
         Me.tsbSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.tsbSettings.Image = CType(resources.GetObject("tsbSettings.Image"), System.Drawing.Image)
         Me.tsbSettings.ImageTransparentColor = System.Drawing.Color.Magenta
@@ -440,9 +372,8 @@ Partial Public Class frmEveHQ
         '
         'MenuStrip
         '
-        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileMenu, Me.ViewMenu, Me.ToolsMenu, Me.mnuModules, Me.mnuReports, Me.WindowsMenu, Me.mnuHelp})
+        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileMenu, Me.ViewMenu, Me.ToolsMenu, Me.mnuModules, Me.mnuReports, Me.mnuHelp})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip.MdiWindowListItem = Me.WindowsMenu
         Me.MenuStrip.Name = "MenuStrip"
         Me.MenuStrip.Size = New System.Drawing.Size(1033, 24)
         Me.MenuStrip.TabIndex = 5
@@ -450,7 +381,7 @@ Partial Public Class frmEveHQ
         '
         'ViewMenu
         '
-        Me.ViewMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PilotInfoToolStripMenuItem, Me.WebBrowserToolStripMenuItem, Me.SkillTrainingToolStripMenuItem, Me.TrainingInformationToolStripMenuItem})
+        Me.ViewMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PilotInfoToolStripMenuItem, Me.SkillTrainingToolStripMenuItem, Me.TrainingInformationToolStripMenuItem})
         Me.ViewMenu.Name = "ViewMenu"
         Me.ViewMenu.Size = New System.Drawing.Size(44, 20)
         Me.ViewMenu.Text = "&View"
@@ -460,23 +391,15 @@ Partial Public Class frmEveHQ
         Me.PilotInfoToolStripMenuItem.Image = CType(resources.GetObject("PilotInfoToolStripMenuItem.Image"), System.Drawing.Image)
         Me.PilotInfoToolStripMenuItem.Name = "PilotInfoToolStripMenuItem"
         Me.PilotInfoToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.PilotInfoToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.PilotInfoToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
         Me.PilotInfoToolStripMenuItem.Text = "Pilot Info"
-        '
-        'WebBrowserToolStripMenuItem
-        '
-        Me.WebBrowserToolStripMenuItem.Image = CType(resources.GetObject("WebBrowserToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.WebBrowserToolStripMenuItem.Name = "WebBrowserToolStripMenuItem"
-        Me.WebBrowserToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
-        Me.WebBrowserToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
-        Me.WebBrowserToolStripMenuItem.Text = "Web Browser"
         '
         'SkillTrainingToolStripMenuItem
         '
         Me.SkillTrainingToolStripMenuItem.Image = CType(resources.GetObject("SkillTrainingToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SkillTrainingToolStripMenuItem.Name = "SkillTrainingToolStripMenuItem"
         Me.SkillTrainingToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.SkillTrainingToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.SkillTrainingToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
         Me.SkillTrainingToolStripMenuItem.Text = "Skill Training"
         '
         'TrainingInformationToolStripMenuItem
@@ -484,7 +407,7 @@ Partial Public Class frmEveHQ
         Me.TrainingInformationToolStripMenuItem.CheckOnClick = True
         Me.TrainingInformationToolStripMenuItem.Image = CType(resources.GetObject("TrainingInformationToolStripMenuItem.Image"), System.Drawing.Image)
         Me.TrainingInformationToolStripMenuItem.Name = "TrainingInformationToolStripMenuItem"
-        Me.TrainingInformationToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.TrainingInformationToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
         Me.TrainingInformationToolStripMenuItem.Text = "Training Overlay"
         '
         'ToolsMenu
@@ -1274,13 +1197,6 @@ Partial Public Class frmEveHQ
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents ArrangeIconsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CloseAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents NewWindowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents WindowsMenu As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CascadeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TileVerticalToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TileHorizontalToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OptionsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolTip As System.Windows.Forms.ToolTip
     Friend WithEvents ToolStrip As System.Windows.Forms.ToolStrip
@@ -1304,8 +1220,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents PilotInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RunIGBToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tmrSkillUpdate As System.Windows.Forms.Timer
-    Friend WithEvents WebBrowserToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator11 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents cboPilots As System.Windows.Forms.ToolStripComboBox
     Friend WithEvents ToolStripSeparator12 As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel
@@ -1358,7 +1272,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents tsbPilotInfo As System.Windows.Forms.ToolStripButton
     Friend WithEvents tsbSkillTraining As System.Windows.Forms.ToolStripButton
-    Friend WithEvents tsbWebBrowser As System.Windows.Forms.ToolStripButton
     Friend WithEvents tsbTrainingOverlay As System.Windows.Forms.ToolStripButton
     Friend WithEvents tsbSettingsBackup As System.Windows.Forms.ToolStripButton
     Friend WithEvents tsbSettings As System.Windows.Forms.ToolStripButton

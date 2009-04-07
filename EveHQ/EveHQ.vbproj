@@ -273,13 +273,6 @@
     <Compile Include="Forms\frmUpdater.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmWebBrowser.Designer.vb">
-      <DependentUpon>frmWebBrowser.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmWebBrowser.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Classes\HTML-XML.vb" />
     <Compile Include="Forms\frmSplash.Designer.vb">
       <DependentUpon>frmSplash.vb</DependentUpon>
     </Compile>
@@ -414,10 +407,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmUpdater.resx">
       <DependentUpon>frmUpdater.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmWebBrowser.resx">
-      <DependentUpon>frmWebBrowser.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSplash.resx">

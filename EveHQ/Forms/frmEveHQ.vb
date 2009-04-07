@@ -82,19 +82,19 @@ Public Class frmEveHQ
     Private Sub ExitToolsStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ExitToolStripMenuItem.Click
         Global.System.Windows.Forms.Application.Exit()
     End Sub
-    Private Sub CascadeToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles CascadeToolStripMenuItem.Click
+    Private Sub CascadeToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         Me.LayoutMdi(MdiLayout.Cascade)
     End Sub
-    Private Sub TileVerticleToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TileVerticalToolStripMenuItem.Click
+    Private Sub TileVerticleToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         Me.LayoutMdi(MdiLayout.TileVertical)
     End Sub
-    Private Sub TileHorizontalToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TileHorizontalToolStripMenuItem.Click
+    Private Sub TileHorizontalToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         Me.LayoutMdi(MdiLayout.TileHorizontal)
     End Sub
-    Private Sub ArrangeIconsToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ArrangeIconsToolStripMenuItem.Click
+    Private Sub ArrangeIconsToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         Me.LayoutMdi(MdiLayout.ArrangeIcons)
     End Sub
-    Private Sub CloseAllToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles CloseAllToolStripMenuItem.Click
+    Private Sub CloseAllToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         ' Close all child forms of the parent.
         For Each ChildForm As Form In Me.MdiChildren
             ChildForm.Close()
@@ -139,9 +139,6 @@ Public Class frmEveHQ
             frmSettings.chkAutoHide.Checked = True
             EveHQ.Core.HQ.EveHQSettings.AutoHide = True
         End If
-    End Sub
-    Private Sub WebBrowserToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WebBrowserToolStripMenuItem.Click, tsbWebBrowser.Click
-        Call OpenWebBrowserForm()
     End Sub
     Private Sub mnuToolsGetAccountInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuToolsGetAccountInfo.Click, tsbRetrieveData.Click
         Call QueryMyEveServer()
@@ -1598,14 +1595,6 @@ Public Class frmEveHQ
             tabMDI.SelectTab(frmTraining.Text)
         End If
     End Sub
-    Private Sub OpenWebBrowserForm()
-        If tabMDI.TabPages.ContainsKey(frmWebBrowser.Text) = False Then
-            frmWebBrowser.MdiParent = Me
-            frmWebBrowser.Show()
-        Else
-            tabMDI.SelectTab(frmWebBrowser.Text)
-        End If
-    End Sub
     Private Sub OpenBackUpForm()
         If tabMDI.TabPages.ContainsKey(frmBackup.Text) = False Then
             frmBackup.MdiParent = Me
@@ -1662,17 +1651,28 @@ Public Class frmEveHQ
         Return -1
     End Function
     Private Sub TabMDI_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tabMDI.MouseDown
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            Dim TabIndex As Integer
-            ' Get index of tab clicked
-            TabIndex = TabControlHitTest(tabMDI, e.Location)
-            ' If a tab was clicked display it's index
-            If TabIndex >= 0 Then
-                tabMDI.Tag = TabIndex
-                Dim tp As TabPage = tabMDI.TabPages(CInt(tabMDI.Tag))
-                mnuCloseMDITab.Text = "Close " & tp.Text
-            End If
-        End If
+        Select Case e.Button
+            Case Windows.Forms.MouseButtons.Right
+                Dim TabIndex As Integer
+                ' Get index of tab clicked
+                TabIndex = TabControlHitTest(tabMDI, e.Location)
+                ' If a tab was clicked display it's index
+                If TabIndex >= 0 Then
+                    tabMDI.Tag = TabIndex
+                    Dim tp As TabPage = tabMDI.TabPages(CInt(tabMDI.Tag))
+                    mnuCloseMDITab.Text = "Close " & tp.Text
+                End If
+            Case Windows.Forms.MouseButtons.Middle
+                Dim TabIndex As Integer
+                ' Get index of tab clicked
+                TabIndex = TabControlHitTest(tabMDI, e.Location)
+                ' If a tab was clicked display it's index
+                If TabIndex >= 0 Then
+                    tabMDI.Tag = TabIndex
+                    Dim tp As TabPage = tabMDI.TabPages(CInt(tabMDI.Tag))
+                    TryCast(tp.Tag, Form).Close()
+                End If
+        End Select
     End Sub
 
 #End Region
@@ -2240,6 +2240,5 @@ Public Class frmEveHQ
     Private Sub tmrMemory_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrMemory.Tick
         Call EveHQ.Core.HQ.ReduceMemory()
     End Sub
-
 End Class
 
