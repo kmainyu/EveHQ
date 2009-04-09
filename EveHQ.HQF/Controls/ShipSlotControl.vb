@@ -927,9 +927,16 @@ Public Class ShipSlotControl
 
         ' Check for maxGroupActive flag
         If shipMod.Attributes.ContainsKey("763") = True Then
-            If CountActiveGroupModules(shipMod.DatabaseGroup) >= CInt(shipMod.Attributes("763")) Then
-                ' Set the module offline
-                shipMod.ModuleState = 2
+            If shipMod.DatabaseGroup <> "316" Then
+                If CountActiveGroupModules(shipMod.DatabaseGroup) >= CInt(shipMod.Attributes("763")) Then
+                    ' Set the module offline
+                    shipMod.ModuleState = 2
+                End If
+            Else
+                If CountActiveTypeModules(shipMod.ID) >= CInt(shipMod.Attributes("763")) Then
+                    ' Set the module offline
+                    shipMod.ModuleState = 2
+                End If
             End If
         End If
 
@@ -961,6 +968,38 @@ Public Class ShipSlotControl
         For slot As Integer = 1 To currentShip.RigSlots
             If currentShip.RigSlot(slot) IsNot Nothing Then
                 If currentShip.RigSlot(slot).DatabaseGroup = groupID And currentShip.RigSlot(slot).ModuleState >= 4 Then
+                    count += 1
+                End If
+            End If
+        Next
+        Return count
+    End Function
+    Private Function CountActiveTypeModules(ByVal typeID As String) As Integer
+        Dim count As Integer = 0
+        For slot As Integer = 1 To currentShip.HiSlots
+            If currentShip.HiSlot(slot) IsNot Nothing Then
+                If currentShip.HiSlot(slot).ID = typeID And currentShip.HiSlot(slot).ModuleState >= 4 Then
+                    count += 1
+                End If
+            End If
+        Next
+        For slot As Integer = 1 To currentShip.MidSlots
+            If currentShip.MidSlot(slot) IsNot Nothing Then
+                If currentShip.MidSlot(slot).ID = typeID And currentShip.MidSlot(slot).ModuleState >= 4 Then
+                    count += 1
+                End If
+            End If
+        Next
+        For slot As Integer = 1 To currentShip.LowSlots
+            If currentShip.LowSlot(slot) IsNot Nothing Then
+                If currentShip.LowSlot(slot).ID = typeID And currentShip.LowSlot(slot).ModuleState >= 4 Then
+                    count += 1
+                End If
+            End If
+        Next
+        For slot As Integer = 1 To currentShip.RigSlots
+            If currentShip.RigSlot(slot) IsNot Nothing Then
+                If currentShip.RigSlot(slot).ID = typeID And currentShip.RigSlot(slot).ModuleState >= 4 Then
                     count += 1
                 End If
             End If
@@ -1129,7 +1168,6 @@ Public Class ShipSlotControl
             lvwSlots.SelectedItems.Clear()
         End If
     End Sub
-
     Private Sub lvwSlots_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwSlots.ColumnClick
         lvwSlots.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize)
     End Sub
@@ -1777,11 +1815,20 @@ Public Class ShipSlotControl
         sModule.ModuleState = ModuleStates.Active
         ' Check for maxGroupActive flag
         If sModule.Attributes.ContainsKey("763") = True Then
-            If CountActiveGroupModules(sModule.DatabaseGroup) > CInt(sModule.Attributes("763")) Then
-                ' Set the module offline
-                MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                sModule.ModuleState = oldState
-                Exit Sub
+            If sModule.DatabaseGroup <> "316" Then
+                If CountActiveGroupModules(sModule.DatabaseGroup) > CInt(sModule.Attributes("763")) Then
+                    ' Set the module offline
+                    MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    sModule.ModuleState = oldState
+                    Exit Sub
+                End If
+            Else
+                If CountActiveTypeModules(sModule.ID) > CInt(sModule.Attributes("763")) Then
+                    ' Set the module offline
+                    MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    sModule.ModuleState = oldState
+                    Exit Sub
+                End If
             End If
         End If
         currentInfo.ShipType = currentShip
@@ -1795,11 +1842,20 @@ Public Class ShipSlotControl
         sModule.ModuleState = ModuleStates.Overloaded
         ' Check for maxGroupActive flag
         If sModule.Attributes.ContainsKey("763") = True Then
-            If CountActiveGroupModules(sModule.DatabaseGroup) > CInt(sModule.Attributes("763")) Then
-                ' Set the module offline
-                MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                sModule.ModuleState = oldState
-                Exit Sub
+            If sModule.DatabaseGroup <> "316" Then
+                If CountActiveGroupModules(sModule.DatabaseGroup) > CInt(sModule.Attributes("763")) Then
+                    ' Set the module offline
+                    MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    sModule.ModuleState = oldState
+                    Exit Sub
+                End If
+            Else
+                If CountActiveTypeModules(sModule.ID) > CInt(sModule.Attributes("763")) Then
+                    ' Set the module offline
+                    MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    sModule.ModuleState = oldState
+                    Exit Sub
+                End If
             End If
         End If
         currentInfo.ShipType = currentShip
@@ -2418,11 +2474,20 @@ Public Class ShipSlotControl
                             currentMod.ModuleState = currentstate
                             ' Check for maxGroupActive flag
                             If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey("763") = True Then
-                                If CountActiveGroupModules(currentMod.DatabaseGroup) > CInt(currentMod.Attributes("763")) Then
-                                    ' Set the module offline
-                                    MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                    currentMod.ModuleState = oldState
-                                    Exit Sub
+                                If currentMod.DatabaseGroup <> "316" Then
+                                    If CountActiveGroupModules(currentMod.DatabaseGroup) > CInt(currentMod.Attributes("763")) Then
+                                        ' Set the module offline
+                                        MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                        currentMod.ModuleState = oldState
+                                        Exit Sub
+                                    End If
+                                Else
+                                    If CountActiveTypeModules(currentMod.ID) > CInt(currentMod.Attributes("763")) Then
+                                        ' Set the module offline
+                                        MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                        currentMod.ModuleState = oldState
+                                        Exit Sub
+                                    End If
                                 End If
                             End If
                             currentInfo.ShipType = currentShip
