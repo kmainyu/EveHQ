@@ -1120,6 +1120,8 @@ Public Class frmTraining
 
         If EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP < TrainingThreshold Then
             TrainingBonus = 2
+        Else
+            TrainingBonus = 1
         End If
 
         Call Me.PrepareDetails(skillID)
