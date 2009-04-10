@@ -35,6 +35,7 @@ Public Class frmHQF
     Dim myPilotManager As New frmPilotManager
     Dim myBCBrowser As New frmBCBrowser
     Dim myEveImport As New frmEveImport
+    Dim shutdownComplete As Boolean = False
 
 #Region "Class Wide Variables"
 
@@ -57,25 +58,30 @@ Public Class frmHQF
 
     Private Sub frmHQF_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
 
-        ' Close any open windows
-        If myPilotManager.IsHandleCreated Then myPilotManager.Close()
-        If myBCBrowser.IsHandleCreated Then myBCBrowser.Close()
+        If shutdownComplete = False Then
+            ' Close any open windows
+            If myPilotManager.IsHandleCreated Then myPilotManager.Close()
+            If myBCBrowser.IsHandleCreated Then myBCBrowser.Close()
 
-        ' Save the panel widths
-        Settings.HQFSettings.ShipPanelWidth = SplitContainerShip.Width
-        Settings.HQFSettings.ModPanelWidth = SplitContainerMod.Width
-        Settings.HQFSettings.ShipSplitterWidth = SplitContainerShip.SplitterDistance
-        Settings.HQFSettings.ModSplitterWidth = SplitContainerMod.SplitterDistance
+            ' Save the panel widths
+            Settings.HQFSettings.ShipPanelWidth = SplitContainerShip.Width
+            Settings.HQFSettings.ModPanelWidth = SplitContainerMod.Width
+            Settings.HQFSettings.ShipSplitterWidth = SplitContainerShip.SplitterDistance
+            Settings.HQFSettings.ModSplitterWidth = SplitContainerMod.SplitterDistance
 
-        ' Save fittings
-        Call Me.SaveFittings()
+            ' Save fittings
+            'MessageBox.Show("HQF is about to enter the routine to save the fittings file. There are " & Fittings.FittingList.Count & " fittings detected.", "Save Fittings Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Call Me.SaveFittings()
 
-        ' Save pilots
-        Call HQFPilotCollection.SaveHQFPilotData()
+            ' Save pilots
+            Call HQFPilotCollection.SaveHQFPilotData()
 
-        ' Save the Settings
-        Call Settings.HQFSettings.SaveHQFSettings()
-        
+            ' Save the Settings
+            Call Settings.HQFSettings.SaveHQFSettings()
+
+            shutdownComplete = True
+        End If
+
     End Sub
     Private Sub frmHQF_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
@@ -164,13 +170,18 @@ Public Class frmHQF
         Call Me.UpdateFittingsTree(True)
     End Sub
     Private Sub SaveFittings()
-        ' Save ships
-        Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFFittings.bin", FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, Fittings.FittingList)
-        s.Flush()
-        s.Close()
-        'MessageBox.Show("Confirmed saving of fittings file contained " & Fittings.FittingList.Count & " objects to " & HQF.Settings.HQFFolder & "\HQFFittings.bin", "Save Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Try
+            ' Save ships
+            'MessageBox.Show("HQF is about to dump the fittings file. There are " & Fittings.FittingList.Count & " fittings detected.", "Save Fittings Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFFittings.bin", FileMode.Create)
+            Dim f As New BinaryFormatter
+            f.Serialize(s, Fittings.FittingList)
+            s.Flush()
+            s.Close()
+            'MessageBox.Show("Confirmed saving of fittings file contained " & Fittings.FittingList.Count & " objects to " & HQF.Settings.HQFFolder & "\HQFFittings.bin", "Save Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("There was an error saving the fittings file. The error was: " & ex.Message, "Save Fittings Failed :(", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Try
     End Sub
     Private Sub ShowShipGroups()
         Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\ShipGroups.bin")

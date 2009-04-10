@@ -994,7 +994,7 @@
 263,1,-1,263,3,6,0,0,0,16,Gang Shield HP
 552,1,-1,552,3,6,0,0,0,16,Gang Signature Radius
 # RIGS - ARMOR,,,,,,,,,,
-1138,2,773,37,3,6,1,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,2,773,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 984,2,773,267,3,6,1,0,2,15,Anti-EM Pump
 985,2,773,268,3,6,1,0,2,15,Anti-Explosive Pump
 986,2,773,269,3,6,1,0,2,15,Anti-Kinetic Pump

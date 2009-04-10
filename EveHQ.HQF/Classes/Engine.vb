@@ -106,7 +106,7 @@ Public Class Engine
                 Else
                     newEffect.AffectedID.Add(EffectData(5))
                 End If
-                newEffect.StackNerf = CBool(EffectData(6))
+                newEffect.StackNerf = CInt(EffectData(6))
                 newEffect.IsPerLevel = CBool(EffectData(7))
                 newEffect.CalcType = CInt(EffectData(8))
                 newEffect.Status = CInt(EffectData(9))
@@ -149,7 +149,7 @@ Public Class Engine
                 Else
                     newEffect.AffectedID.Add(EffectData(5))
                 End If
-                newEffect.StackNerf = CBool(EffectData(6))
+                newEffect.StackNerf = CInt(EffectData(6))
                 newEffect.IsPerLevel = CBool(EffectData(7))
                 newEffect.CalcType = CInt(EffectData(8))
                 newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
@@ -193,7 +193,7 @@ Public Class Engine
                 Else
                     newEffect.AffectedID.Add(EffectData(5))
                 End If
-                newEffect.StackNerf = CBool(EffectData(6))
+                newEffect.StackNerf = CInt(EffectData(6))
                 newEffect.IsPerLevel = CBool(EffectData(7))
                 newEffect.CalcType = CInt(EffectData(8))
                 newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
@@ -575,7 +575,7 @@ Public Class Engine
                                     fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString))
                                     fEffect.Cause = aImplant.Name
                                 End If
-                                fEffect.StackNerf = False
+                                fEffect.StackNerf = 0
                                 fEffect.CalcType = chkEffect.CalcType
                                 If SkillEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
                                     fEffectList = New ArrayList
@@ -1897,24 +1897,33 @@ Public Class Engine
         Dim finalEffectList As New ArrayList
         Dim tempPEffectList As New SortedList
         Dim tempNEffectList As New SortedList
+        Dim groupPEffectList As New SortedList
+        Dim groupNEffectList As New SortedList
         Dim attOrder(,) As Double
         Dim att As String
         For attNumber As Integer = 0 To ModuleEffectsTable.Keys.Count - 1
             att = CStr(ModuleEffectsTable.GetKey(attNumber))
             baseEffectList = CType(ModuleEffectsTable(att), ArrayList)
-            tempPEffectList.Clear()
-            tempNEffectList.Clear()
+            tempPEffectList.Clear() : tempNEffectList.Clear()
+            groupPEffectList.Clear() : groupNEffectList.Clear()
             finalEffectList = New ArrayList
             For Each fEffect As FinalEffect In baseEffectList
-                If fEffect.StackNerf = True Then
-                    If fEffect.AffectedValue >= 0 Then
-                        tempPEffectList.Add(tempPEffectList.Count.ToString, fEffect)
-                    Else
-                        tempNEffectList.Add(tempNEffectList.Count.ToString, fEffect)
-                    End If
-                Else
-                    finalEffectList.Add(fEffect)
-                End If
+                Select Case fEffect.StackNerf
+                    Case StackType.None
+                        finalEffectList.Add(fEffect)
+                    Case StackType.Standard
+                        If fEffect.AffectedValue >= 0 Then
+                            tempPEffectList.Add(tempPEffectList.Count.ToString, fEffect)
+                        Else
+                            tempNEffectList.Add(tempNEffectList.Count.ToString, fEffect)
+                        End If
+                    Case StackType.Group
+                        If fEffect.AffectedValue >= 0 Then
+                            groupPEffectList.Add(groupPEffectList.Count.ToString, fEffect)
+                        Else
+                            groupNEffectList.Add(groupNEffectList.Count.ToString, fEffect)
+                        End If
+                End Select
             Next
             If tempPEffectList.Count > 0 Then
                 ReDim attOrder(tempPEffectList.Count - 1, 1)
@@ -1972,6 +1981,73 @@ Public Class Engine
                 For i As Integer = 0 To tagArray.Length - 1
                     idx = tagArray(i)
                     sEffect = CType(tempNEffectList(idx.ToString), FinalEffect)
+                    penalty = Math.Exp(-(i ^ 2 / 7.1289))
+                    Select Case sEffect.CalcType
+                        Case EffectCalcType.Multiplier
+                            sEffect.AffectedValue = ((sEffect.AffectedValue - 1) * penalty) + 1
+                        Case Else
+                            sEffect.AffectedValue = sEffect.AffectedValue * penalty
+                    End Select
+                    sEffect.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+                    finalEffectList.Add(sEffect)
+                Next
+            End If
+            If groupPEffectList.Count > 0 Then
+                ReDim attOrder(groupPEffectList.Count - 1, 1)
+                Dim sEffect As FinalEffect
+                For Each attNo As String In groupPEffectList.Keys
+                    sEffect = CType(groupPEffectList(attNo), FinalEffect)
+                    attOrder(CInt(attNo), 0) = CDbl(attNo)
+                    attOrder(CInt(attNo), 1) = sEffect.AffectedValue
+                Next
+                ' Create a tag array ready to sort the skill times
+                Dim tagArray(groupPEffectList.Count - 1) As Integer
+                For a As Integer = 0 To groupPEffectList.Count - 1
+                    tagArray(a) = a
+                Next
+                ' Initialize the comparer and sort
+                Dim myComparer As New EveHQ.Core.Reports.ArrayComparerDouble(attOrder)
+                Array.Sort(tagArray, myComparer)
+                Array.Reverse(tagArray)
+                ' Go through the data and apply the stacking penalty
+                Dim idx As Integer = 0
+                Dim penalty As Double = 0
+                For i As Integer = 0 To tagArray.Length - 1
+                    idx = tagArray(i)
+                    sEffect = CType(groupPEffectList(idx.ToString), FinalEffect)
+                    penalty = Math.Exp(-(i ^ 2 / 7.1289))
+                    Select Case sEffect.CalcType
+                        Case EffectCalcType.Multiplier
+                            sEffect.AffectedValue = ((sEffect.AffectedValue - 1) * penalty) + 1
+                        Case Else
+                            sEffect.AffectedValue = sEffect.AffectedValue * penalty
+                    End Select
+                    sEffect.Cause &= " (Stacking - " & FormatNumber(penalty * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%)"
+                    finalEffectList.Add(sEffect)
+                Next
+            End If
+            If groupNEffectList.Count > 0 Then
+                ReDim attOrder(groupNEffectList.Count - 1, 1)
+                Dim sEffect As FinalEffect
+                For Each attNo As String In groupNEffectList.Keys
+                    sEffect = CType(groupNEffectList(attNo), FinalEffect)
+                    attOrder(CInt(attNo), 0) = CDbl(attNo)
+                    attOrder(CInt(attNo), 1) = sEffect.AffectedValue
+                Next
+                ' Create a tag array ready to sort the skill times
+                Dim tagArray(groupNEffectList.Count - 1) As Integer
+                For a As Integer = 0 To groupNEffectList.Count - 1
+                    tagArray(a) = a
+                Next
+                ' Initialize the comparer and sort
+                Dim myComparer As New EveHQ.Core.Reports.ArrayComparerDouble(attOrder)
+                Array.Sort(tagArray, myComparer)
+                ' Go through the data and apply the stacking penalty
+                Dim idx As Integer = 0
+                Dim penalty As Double = 0
+                For i As Integer = 0 To tagArray.Length - 1
+                    idx = tagArray(i)
+                    sEffect = CType(groupNEffectList(idx.ToString), FinalEffect)
                     penalty = Math.Exp(-(i ^ 2 / 7.1289))
                     Select Case sEffect.CalcType
                         Case EffectCalcType.Multiplier
@@ -2561,7 +2637,7 @@ Public Class Effect
     Public AffectedAtt As Integer
     Public AffectedType As Integer
     Public AffectedID As New ArrayList
-    Public StackNerf As Boolean
+    Public StackNerf As Integer
     Public IsPerLevel As Boolean
     Public CalcType As Integer
     Public Status As Integer
@@ -2574,7 +2650,7 @@ Public Class ShipEffect
     Public AffectedAtt As Integer
     Public AffectedType As Integer
     Public AffectedID As New ArrayList
-    Public StackNerf As Boolean
+    Public StackNerf As Integer
     Public IsPerLevel As Boolean
     Public CalcType As Integer
     Public Status As Integer
@@ -2599,13 +2675,13 @@ End Class
     Public AffectedType As Integer
     Public AffectedID As New ArrayList
     Public AffectedValue As Double
-    Public StackNerf As Boolean
+    Public StackNerf As Integer
     Public Cause As String
     Public CalcType As Integer
     Public Status As Integer
 End Class
 
-Public Enum EffectType
+Public Enum EffectType As Integer
     All = 0
     Item = 1
     Group = 2
@@ -2616,7 +2692,7 @@ Public Enum EffectType
     Attribute = 7
 End Enum
 
-Public Enum EffectCalcType
+Public Enum EffectCalcType As Integer
     Percentage = 0 ' Simply percentage variation (+/-)
     Addition = 1 ' For adding values
     Difference = 2 ' For resistances
@@ -2629,8 +2705,15 @@ Public Enum EffectCalcType
     CloakedVelocity = 9 ' Bonus for dealing with cloaked velocity
 End Enum
 
-Public Enum BuildType
+Public Enum BuildType As Integer
     BuildEverything = 0
     BuildEffectsMaps = 1
     BuildFromEffectsMaps = 2
+End Enum
+
+Public Enum StackType As Integer
+    None = 0
+    Standard = 1
+    Group = 2
+    Item = 3
 End Enum

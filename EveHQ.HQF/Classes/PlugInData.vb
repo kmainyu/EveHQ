@@ -1209,7 +1209,7 @@ Public Class PlugInData
                 Else
                     newEffect.AffectedID.Add(EffectData(5))
                 End If
-                newEffect.StackNerf = CBool(EffectData(6))
+                newEffect.StackNerf = CInt(EffectData(6))
                 newEffect.IsPerLevel = CBool(EffectData(7))
                 newEffect.CalcType = CInt(EffectData(8))
                 newEffect.Status = CInt(EffectData(9))
@@ -1392,7 +1392,7 @@ Public Class PlugInData
                 Else
                     newEffect.AffectedID.Add(EffectData(5))
                 End If
-                newEffect.StackNerf = CBool(EffectData(6))
+                newEffect.StackNerf = CInt(EffectData(6))
                 newEffect.IsPerLevel = CBool(EffectData(7))
                 newEffect.CalcType = CInt(EffectData(8))
                 newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
@@ -1474,7 +1474,7 @@ Public Class PlugInData
                 Else
                     newEffect.AffectedID.Add(EffectData(5))
                 End If
-                newEffect.StackNerf = CBool(EffectData(6))
+                newEffect.StackNerf = CInt(EffectData(6))
                 newEffect.IsPerLevel = CBool(EffectData(7))
                 newEffect.CalcType = CInt(EffectData(8))
                 newEffect.Value = Double.Parse(EffectData(9), Globalization.NumberStyles.Number, culture)
