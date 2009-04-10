@@ -284,16 +284,24 @@ Public Class ShipInfoControl
         End If
 
         ' Mining
-        lblMining.Text = FormatNumber(fittedShip.OreTotalAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3 / " & FormatNumber(fittedShip.OreTotalRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3/s"
-        If fittedShip.OreTotalAmount > 0 Then
+        lblMining.Text = FormatNumber(fittedShip.OreTotalAmount + fittedShip.IceTotalAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3 / " & FormatNumber(fittedShip.OreTotalRate + fittedShip.IceTotalRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m3/s"
+        If fittedShip.OreTotalAmount > 0 Or fittedShip.IceTotalAmount > 0 Then
             ttt = ""
             If fittedShip.OreTurretAmount > 0 Then
-                ttt &= "Turret Yield: " & FormatNumber(fittedShip.OreTurretAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ttt &= "Mining Turret Yield: " & FormatNumber(fittedShip.OreTurretAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 ttt &= " (m3/s: " & FormatNumber(fittedShip.OreTurretRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
             End If
             If fittedShip.OreDroneAmount > 0 Then
-                ttt &= "Drone Yield: " & FormatNumber(fittedShip.OreDroneAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ttt &= "Mining Drone Yield: " & FormatNumber(fittedShip.OreDroneAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 ttt &= " (m3/s: " & FormatNumber(fittedShip.OreDroneRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+            End If
+            If fittedShip.IceTurretAmount > 0 Then
+                ttt &= "Ice Turret Yield: " & FormatNumber(fittedShip.IceTurretAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ttt &= " (m3/s: " & FormatNumber(fittedShip.IceTurretRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
+            End If
+            If fittedShip.IceDroneAmount > 0 Then
+                ttt &= "Ice Drone Yield: " & FormatNumber(fittedShip.IceDroneAmount, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                ttt &= " (m3/s: " & FormatNumber(fittedShip.IceDroneRate, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ")" & ControlChars.CrLf
             End If
             ToolTip1.SetToolTip(lblMining, ttt)
         End If
@@ -710,14 +718,14 @@ Public Class ShipInfoControl
         myAuditLog.lvwAudit.BeginUpdate()
         For Each log As String In fittedShip.AuditLog
             logData = log.Split("#".ToCharArray)
-            If logData(2).Trim <> logData(3).Trim Then
-                newLog = New ListViewItem
-                newLog.Text = logData(0).Trim
-                newLog.SubItems.Add(logData(1).Trim)
-                newLog.SubItems.Add(FormatNumber(logData(2).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                newLog.SubItems.Add(FormatNumber(logData(3).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                myAuditLog.lvwAudit.Items.Add(newLog)
-            End If
+            'If logData(2).Trim <> logData(3).Trim Then
+            newLog = New ListViewItem
+            newLog.Text = logData(0).Trim
+            newLog.SubItems.Add(logData(1).Trim)
+            newLog.SubItems.Add(FormatNumber(logData(2).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+            newLog.SubItems.Add(FormatNumber(logData(3).Trim, 3, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+            myAuditLog.lvwAudit.Items.Add(newLog)
+            'End If
         Next
         myAuditLog.lvwAudit.EndUpdate()
         myAuditLog.ShowDialog()
