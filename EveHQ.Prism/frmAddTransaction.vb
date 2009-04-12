@@ -19,6 +19,7 @@ Public Class frmAddTransaction
             End If
             If CDbl(txtQuantity.Text) <= 0 Then
                 MessageBox.Show("You cannot enter a negative or nil Transaction Quantity.", "Error Creating Transaction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
             End If
         End If
         If IsNumeric(txtUnitValue.Text) = False Then

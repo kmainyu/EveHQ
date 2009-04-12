@@ -55,6 +55,9 @@ Public Class frmPrism
     Dim IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
+    ' Investment variables
+    Dim InvestmentID As String
+
     ' Rig Builder Variables
     Dim RigBPData As New SortedList
     Dim RigBuildData As New SortedList
@@ -385,7 +388,9 @@ Public Class frmPrism
                     apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, 0)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 2})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 2})
+                    End If
 
                 End If
             End If
@@ -403,7 +408,9 @@ Public Class frmPrism
                     apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, 0)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 2})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 2})
+                    End If
 
                 End If
             End If
@@ -421,7 +428,10 @@ Public Class frmPrism
                     apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesChar, pilotAccount, selPilot.ID, 0)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 3})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 3})
+                    End If
+
                 End If
             End If
         Next
@@ -438,7 +448,9 @@ Public Class frmPrism
                     apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AccountBalancesCorp, pilotAccount, selPilot.ID, 0)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 3})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 3})
+                    End If
 
                 End If
             End If
@@ -456,7 +468,9 @@ Public Class frmPrism
                     apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, 0)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 4})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 4})
+                    End If
 
                 End If
             End If
@@ -474,7 +488,9 @@ Public Class frmPrism
                     apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryCorp, pilotAccount, selPilot.ID, 0)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 4})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 4})
+                    End If
 
                 End If
             End If
@@ -492,7 +508,9 @@ Public Class frmPrism
                     apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletJournalChar, pilotAccount, selPilot.ID, 1000, "", 0)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 5})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 5})
+                    End If
 
                 End If
             End If
@@ -512,7 +530,9 @@ Public Class frmPrism
                     Next
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 5})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 5})
+                    End If
 
                 End If
             End If
@@ -530,7 +550,9 @@ Public Class frmPrism
                     apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, 0)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 6})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 6})
+                    End If
 
                 End If
             End If
@@ -548,7 +570,9 @@ Public Class frmPrism
                     apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, 0)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 6})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 6})
+                    End If
 
                 End If
             End If
@@ -570,7 +594,9 @@ Public Class frmPrism
                     apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.WalletTransChar, pilotAccount, selPilot.ID, 1000, transID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 7})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.ID, selPilot.Name, 7})
+                    End If
 
                 End If
             End If
@@ -590,7 +616,9 @@ Public Class frmPrism
                     Next
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 7})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 7})
+                    End If
 
                 End If
             End If
@@ -608,7 +636,9 @@ Public Class frmPrism
                     apiXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CorpSheet, pilotAccount, selPilot.ID, 0)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 8})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {apiXML, selPilot.CorpID, selPilot.Name, 8})
+                    End If
 
                 End If
             End If
@@ -622,7 +652,9 @@ Public Class frmPrism
                     Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
 
                     ' Update the display
-                    Me.Invoke(XMLDelegate, New Object() {Nothing, selPilot.ID, selPilot.Name, 8})
+                    If Me.IsHandleCreated = True Then
+                        Me.Invoke(XMLDelegate, New Object() {Nothing, selPilot.ID, selPilot.Name, 8})
+                    End If
 
                 End If
             End If
@@ -1291,40 +1323,42 @@ Public Class frmPrism
     Private Sub FilterTree()
         Dim cL As Integer = 0
         Dim cLoc As ContainerListViewItem
-        Do
-            cLoc = tlvAssets.Items(cL)
-            If cLoc.Items.Count = 0 Then
-                If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
-                    tlvAssets.Items.Remove(cLoc)
-                    assetList.Remove(cLoc.Tag)
-                    totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
-                    cL -= 1
-                End If
-            Else
-                Call FilterNode(cLoc)
+        If tlvAssets.Items.Count > 0 Then
+            Do
+                cLoc = tlvAssets.Items(cL)
                 If cLoc.Items.Count = 0 Then
                     If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                         tlvAssets.Items.Remove(cLoc)
-                        If IsNumeric(cLoc.SubItems(AssetColumn.Quantity).Text) = True Then
-                            totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
-                        End If
-                        'assetList.Remove(cLoc.Tag)
+                        assetList.Remove(cLoc.Tag)
+                        totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
                         cL -= 1
                     End If
                 Else
-                    If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
-                        If IsNumeric(cLoc.SubItems(AssetColumn.Quantity).Text) = True Then
-                            totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
+                    Call FilterNode(cLoc)
+                    If cLoc.Items.Count = 0 Then
+                        If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
+                            tlvAssets.Items.Remove(cLoc)
+                            If IsNumeric(cLoc.SubItems(AssetColumn.Quantity).Text) = True Then
+                                totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
+                            End If
+                            'assetList.Remove(cLoc.Tag)
+                            cL -= 1
                         End If
-                        ' Remove quantity and price information
-                        cLoc.SubItems(AssetColumn.Quantity).Text = ""
-                        cLoc.SubItems(AssetColumn.Price).Text = ""
-                        'assetList.Remove(cLoc.Tag)
+                    Else
+                        If (filters.Count > 0 And catFilters.Contains(cLoc.SubItems(AssetColumn.Category).Text) = False And groupFilters.Contains(cLoc.SubItems(AssetColumn.Group).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
+                            If IsNumeric(cLoc.SubItems(AssetColumn.Quantity).Text) = True Then
+                                totalAssetCount -= CLng(cLoc.SubItems(AssetColumn.Quantity).Text)
+                            End If
+                            ' Remove quantity and price information
+                            cLoc.SubItems(AssetColumn.Quantity).Text = ""
+                            cLoc.SubItems(AssetColumn.Price).Text = ""
+                            'assetList.Remove(cLoc.Tag)
+                        End If
                     End If
                 End If
-            End If
-            cL += 1
-        Loop Until (cL = tlvAssets.Items.Count)
+                cL += 1
+            Loop Until (cL = tlvAssets.Items.Count)
+        End If
         Call Me.CalcFilteredPrices()
     End Sub
     Private Sub FilterNode(ByVal pLoc As ContainerListViewItem)
@@ -2159,7 +2193,8 @@ Public Class frmPrism
     Private Sub UpdateTransactions()
         ' Get investment
         If lvwInvestments.SelectedItems.Count = 1 Then
-            Dim myInvestment As Investment = CType(Portfolio.Investments(CLng(lvwInvestments.SelectedItems(0).Text)), Investment)
+            InvestmentID = lvwInvestments.SelectedItems(0).Text
+            Dim myInvestment As Investment = CType(Portfolio.Investments(CLng(InvestmentID)), Investment)
             lvwTransactions.BeginUpdate()
             lvwTransactions.Items.Clear()
             For Each myTransaction As InvestmentTransaction In myInvestment.Transactions.Values
@@ -2174,6 +2209,7 @@ Public Class frmPrism
             Next
             lvwTransactions.EndUpdate()
             lblTransactionView.Text = "Viewing Transactions: " & myInvestment.Name & " (" & myInvestment.Owner & ")"
+
             If myInvestment.DateClosed.Year > 1 Then
                 btnAddTransaction.Enabled = False
                 btnEditTransaction.Enabled = False
@@ -2400,7 +2436,7 @@ Public Class frmPrism
             Else
                 Dim NewTransaction As New frmAddTransaction
                 Dim editTrans As InvestmentTransaction = CType(Portfolio.Transactions(CLng(lvwTransactions.SelectedItems(0).Text)), InvestmentTransaction)
-                Dim editInv As Investment = CType(Portfolio.Investments(CLng(lvwInvestments.SelectedItems(0).Text)), Investment)
+                Dim editInv As Investment = CType(Portfolio.Investments(CLng(InvestmentID)), Investment)
                 NewTransaction.txtTransactionID.Text = CStr(editTrans.ID)
                 NewTransaction.txtInvestmentID.Text = CStr(editInv.ID)
                 NewTransaction.txtInvestmentName.Text = editInv.Name
