@@ -183,7 +183,6 @@ Partial Class frmMap
         Me.lgagssys = New System.Windows.Forms.ColumnHeader
         Me.lgagsstat = New System.Windows.Forms.ColumnHeader
         Me.lgagstype = New System.Windows.Forms.ColumnHeader
-        Me.pbInfo = New System.Windows.Forms.PictureBox
         Me.lvwExclusions = New System.Windows.Forms.ListView
         Me.colExcludedName = New System.Windows.Forms.ColumnHeader
         Me.colExcludedType = New System.Windows.Forms.ColumnHeader
@@ -219,7 +218,6 @@ Partial Class frmMap
         Me.tabStations.SuspendLayout()
         Me.tabStationSearch.SuspendLayout()
         Me.tabAgentSearch.SuspendLayout()
-        CType(Me.pbInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxExclude.SuspendLayout()
         Me.tabWaypointExclusions.SuspendLayout()
         Me.tabSystem.SuspendLayout()
@@ -280,7 +278,7 @@ Partial Class frmMap
         Me.gbSystemInfo.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gbSystemInfo.Location = New System.Drawing.Point(0, 0)
         Me.gbSystemInfo.Name = "gbSystemInfo"
-        Me.gbSystemInfo.Size = New System.Drawing.Size(239, 317)
+        Me.gbSystemInfo.Size = New System.Drawing.Size(239, 355)
         Me.gbSystemInfo.TabIndex = 2
         Me.gbSystemInfo.TabStop = False
         Me.gbSystemInfo.Text = "System Information"
@@ -588,7 +586,7 @@ Partial Class frmMap
         Me.chkAutoCalcRoute.AutoSize = True
         Me.chkAutoCalcRoute.Checked = True
         Me.chkAutoCalcRoute.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkAutoCalcRoute.Location = New System.Drawing.Point(5, 508)
+        Me.chkAutoCalcRoute.Location = New System.Drawing.Point(5, 587)
         Me.chkAutoCalcRoute.Name = "chkAutoCalcRoute"
         Me.chkAutoCalcRoute.Size = New System.Drawing.Size(167, 17)
         Me.chkAutoCalcRoute.TabIndex = 6
@@ -598,7 +596,7 @@ Partial Class frmMap
         'btnOptimalWP
         '
         Me.btnOptimalWP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnOptimalWP.Location = New System.Drawing.Point(176, 483)
+        Me.btnOptimalWP.Location = New System.Drawing.Point(172, 368)
         Me.btnOptimalWP.Name = "btnOptimalWP"
         Me.btnOptimalWP.Size = New System.Drawing.Size(58, 23)
         Me.btnOptimalWP.TabIndex = 5
@@ -609,7 +607,7 @@ Partial Class frmMap
         'btnRemoveWaypoint
         '
         Me.btnRemoveWaypoint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnRemoveWaypoint.Location = New System.Drawing.Point(4, 483)
+        Me.btnRemoveWaypoint.Location = New System.Drawing.Point(4, 368)
         Me.btnRemoveWaypoint.Name = "btnRemoveWaypoint"
         Me.btnRemoveWaypoint.Size = New System.Drawing.Size(80, 23)
         Me.btnRemoveWaypoint.TabIndex = 4
@@ -624,7 +622,7 @@ Partial Class frmMap
         Me.lstWaypoints.FormattingEnabled = True
         Me.lstWaypoints.Location = New System.Drawing.Point(4, 6)
         Me.lstWaypoints.Name = "lstWaypoints"
-        Me.lstWaypoints.Size = New System.Drawing.Size(229, 472)
+        Me.lstWaypoints.Size = New System.Drawing.Size(229, 355)
         Me.lstWaypoints.TabIndex = 3
         '
         'btnAddWaypoint
@@ -648,7 +646,7 @@ Partial Class frmMap
         Me.tabMap.Location = New System.Drawing.Point(4, 22)
         Me.tabMap.Name = "tabMap"
         Me.tabMap.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabMap.Size = New System.Drawing.Size(657, 543)
+        Me.tabMap.Size = New System.Drawing.Size(657, 584)
         Me.tabMap.TabIndex = 0
         Me.tabMap.Text = "Map View"
         Me.tabMap.UseVisualStyleBackColor = True
@@ -657,7 +655,7 @@ Partial Class frmMap
         '
         Me.lblZoom.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblZoom.AutoSize = True
-        Me.lblZoom.Location = New System.Drawing.Point(391, 520)
+        Me.lblZoom.Location = New System.Drawing.Point(391, 561)
         Me.lblZoom.Name = "lblZoom"
         Me.lblZoom.Size = New System.Drawing.Size(81, 13)
         Me.lblZoom.TabIndex = 22
@@ -675,7 +673,7 @@ Partial Class frmMap
         'btnShowRoute
         '
         Me.btnShowRoute.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnShowRoute.Location = New System.Drawing.Point(7, 515)
+        Me.btnShowRoute.Location = New System.Drawing.Point(7, 556)
         Me.btnShowRoute.Name = "btnShowRoute"
         Me.btnShowRoute.Size = New System.Drawing.Size(97, 22)
         Me.btnShowRoute.TabIndex = 20
@@ -688,7 +686,7 @@ Partial Class frmMap
         Me.chkRoute.AutoSize = True
         Me.chkRoute.Checked = True
         Me.chkRoute.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkRoute.Location = New System.Drawing.Point(110, 519)
+        Me.chkRoute.Location = New System.Drawing.Point(110, 560)
         Me.chkRoute.Name = "chkRoute"
         Me.chkRoute.Size = New System.Drawing.Size(85, 17)
         Me.chkRoute.TabIndex = 19
@@ -699,7 +697,7 @@ Partial Class frmMap
         '
         Me.lblPointerAccuracy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblPointerAccuracy.AutoSize = True
-        Me.lblPointerAccuracy.Location = New System.Drawing.Point(286, 520)
+        Me.lblPointerAccuracy.Location = New System.Drawing.Point(286, 561)
         Me.lblPointerAccuracy.Name = "lblPointerAccuracy"
         Me.lblPointerAccuracy.Size = New System.Drawing.Size(55, 13)
         Me.lblPointerAccuracy.TabIndex = 18
@@ -708,7 +706,7 @@ Partial Class frmMap
         'nudAccuracy
         '
         Me.nudAccuracy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.nudAccuracy.Location = New System.Drawing.Point(347, 518)
+        Me.nudAccuracy.Location = New System.Drawing.Point(347, 559)
         Me.nudAccuracy.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.nudAccuracy.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudAccuracy.Name = "nudAccuracy"
@@ -719,7 +717,7 @@ Partial Class frmMap
         'btnReset
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Location = New System.Drawing.Point(205, 514)
+        Me.btnReset.Location = New System.Drawing.Point(205, 555)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(75, 23)
         Me.btnReset.TabIndex = 16
@@ -746,7 +744,7 @@ Partial Class frmMap
         Me.tabRoute.Location = New System.Drawing.Point(4, 22)
         Me.tabRoute.Name = "tabRoute"
         Me.tabRoute.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabRoute.Size = New System.Drawing.Size(657, 543)
+        Me.tabRoute.Size = New System.Drawing.Size(657, 956)
         Me.tabRoute.TabIndex = 1
         Me.tabRoute.Text = "Route Calculator"
         Me.tabRoute.UseVisualStyleBackColor = True
@@ -755,7 +753,7 @@ Partial Class frmMap
         '
         Me.lblTotalFuel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblTotalFuel.AutoSize = True
-        Me.lblTotalFuel.Location = New System.Drawing.Point(269, 704)
+        Me.lblTotalFuel.Location = New System.Drawing.Point(269, 1117)
         Me.lblTotalFuel.Name = "lblTotalFuel"
         Me.lblTotalFuel.Size = New System.Drawing.Size(57, 13)
         Me.lblTotalFuel.TabIndex = 66
@@ -765,7 +763,7 @@ Partial Class frmMap
         '
         Me.lblEuclideanDistance.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblEuclideanDistance.AutoSize = True
-        Me.lblEuclideanDistance.Location = New System.Drawing.Point(6, 704)
+        Me.lblEuclideanDistance.Location = New System.Drawing.Point(6, 1117)
         Me.lblEuclideanDistance.Name = "lblEuclideanDistance"
         Me.lblEuclideanDistance.Size = New System.Drawing.Size(102, 13)
         Me.lblEuclideanDistance.TabIndex = 65
@@ -921,7 +919,7 @@ Partial Class frmMap
         '
         Me.lblTotalDistance.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblTotalDistance.AutoSize = True
-        Me.lblTotalDistance.Location = New System.Drawing.Point(6, 688)
+        Me.lblTotalDistance.Location = New System.Drawing.Point(6, 1101)
         Me.lblTotalDistance.Name = "lblTotalDistance"
         Me.lblTotalDistance.Size = New System.Drawing.Size(79, 13)
         Me.lblTotalDistance.TabIndex = 59
@@ -939,7 +937,7 @@ Partial Class frmMap
         Me.lvwRoute.GridLines = True
         Me.lvwRoute.Location = New System.Drawing.Point(6, 215)
         Me.lvwRoute.Name = "lvwRoute"
-        Me.lvwRoute.Size = New System.Drawing.Size(645, 470)
+        Me.lvwRoute.Size = New System.Drawing.Size(645, 883)
         Me.lvwRoute.TabIndex = 58
         Me.lvwRoute.UseCompatibleStateImageBehavior = False
         Me.lvwRoute.View = System.Windows.Forms.View.Details
@@ -1004,7 +1002,7 @@ Partial Class frmMap
         '
         Me.lblTimeTaken.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblTimeTaken.AutoSize = True
-        Me.lblTimeTaken.Location = New System.Drawing.Point(269, 688)
+        Me.lblTimeTaken.Location = New System.Drawing.Point(269, 1101)
         Me.lblTimeTaken.Name = "lblTimeTaken"
         Me.lblTimeTaken.Size = New System.Drawing.Size(67, 13)
         Me.lblTimeTaken.TabIndex = 57
@@ -1109,7 +1107,7 @@ Partial Class frmMap
         Me.tabMapTool.Location = New System.Drawing.Point(261, 28)
         Me.tabMapTool.Name = "tabMapTool"
         Me.tabMapTool.SelectedIndex = 0
-        Me.tabMapTool.Size = New System.Drawing.Size(665, 569)
+        Me.tabMapTool.Size = New System.Drawing.Size(665, 610)
         Me.tabMapTool.TabIndex = 37
         '
         'tabStations
@@ -1462,7 +1460,7 @@ Partial Class frmMap
         Me.tabAgentSearch.Controls.Add(Me.lvwAgents)
         Me.tabAgentSearch.Location = New System.Drawing.Point(4, 22)
         Me.tabAgentSearch.Name = "tabAgentSearch"
-        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 543)
+        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 956)
         Me.tabAgentSearch.TabIndex = 5
         Me.tabAgentSearch.Text = "Agent Search"
         Me.tabAgentSearch.UseVisualStyleBackColor = True
@@ -1673,7 +1671,7 @@ Partial Class frmMap
         Me.lvwAgents.Location = New System.Drawing.Point(3, 197)
         Me.lvwAgents.MultiSelect = False
         Me.lvwAgents.Name = "lvwAgents"
-        Me.lvwAgents.Size = New System.Drawing.Size(651, 542)
+        Me.lvwAgents.Size = New System.Drawing.Size(651, 955)
         Me.lvwAgents.TabIndex = 125
         Me.lvwAgents.UseCompatibleStateImageBehavior = False
         Me.lvwAgents.View = System.Windows.Forms.View.Details
@@ -1734,16 +1732,6 @@ Partial Class frmMap
         '
         Me.lgagstype.Text = "Agent Type"
         '
-        'pbInfo
-        '
-        Me.pbInfo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.pbInfo.Image = CType(resources.GetObject("pbInfo.Image"), System.Drawing.Image)
-        Me.pbInfo.Location = New System.Drawing.Point(8, 565)
-        Me.pbInfo.Name = "pbInfo"
-        Me.pbInfo.Size = New System.Drawing.Size(32, 32)
-        Me.pbInfo.TabIndex = 66
-        Me.pbInfo.TabStop = False
-        '
         'lvwExclusions
         '
         Me.lvwExclusions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1752,9 +1740,9 @@ Partial Class frmMap
         Me.lvwExclusions.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colExcludedName, Me.colExcludedType})
         Me.lvwExclusions.FullRowSelect = True
         Me.lvwExclusions.GridLines = True
-        Me.lvwExclusions.Location = New System.Drawing.Point(3, 6)
+        Me.lvwExclusions.Location = New System.Drawing.Point(3, 3)
         Me.lvwExclusions.Name = "lvwExclusions"
-        Me.lvwExclusions.Size = New System.Drawing.Size(231, 489)
+        Me.lvwExclusions.Size = New System.Drawing.Size(231, 358)
         Me.lvwExclusions.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwExclusions.TabIndex = 68
         Me.lvwExclusions.UseCompatibleStateImageBehavior = False
@@ -1797,7 +1785,7 @@ Partial Class frmMap
         'btnRemoveExclusion
         '
         Me.btnRemoveExclusion.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRemoveExclusion.Location = New System.Drawing.Point(128, 501)
+        Me.btnRemoveExclusion.Location = New System.Drawing.Point(130, 367)
         Me.btnRemoveExclusion.Name = "btnRemoveExclusion"
         Me.btnRemoveExclusion.Size = New System.Drawing.Size(106, 23)
         Me.btnRemoveExclusion.TabIndex = 69
@@ -1814,7 +1802,7 @@ Partial Class frmMap
         Me.tabWaypointExclusions.Location = New System.Drawing.Point(8, 216)
         Me.tabWaypointExclusions.Name = "tabWaypointExclusions"
         Me.tabWaypointExclusions.SelectedIndex = 0
-        Me.tabWaypointExclusions.Size = New System.Drawing.Size(247, 343)
+        Me.tabWaypointExclusions.Size = New System.Drawing.Size(247, 422)
         Me.tabWaypointExclusions.TabIndex = 68
         '
         'tabSystem
@@ -1822,7 +1810,7 @@ Partial Class frmMap
         Me.tabSystem.Controls.Add(Me.gbSystemInfo)
         Me.tabSystem.Location = New System.Drawing.Point(4, 22)
         Me.tabSystem.Name = "tabSystem"
-        Me.tabSystem.Size = New System.Drawing.Size(239, 317)
+        Me.tabSystem.Size = New System.Drawing.Size(239, 355)
         Me.tabSystem.TabIndex = 2
         Me.tabSystem.Text = "System Info"
         Me.tabSystem.UseVisualStyleBackColor = True
@@ -1834,7 +1822,7 @@ Partial Class frmMap
         Me.tabExclusions.Location = New System.Drawing.Point(4, 22)
         Me.tabExclusions.Name = "tabExclusions"
         Me.tabExclusions.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabExclusions.Size = New System.Drawing.Size(239, 317)
+        Me.tabExclusions.Size = New System.Drawing.Size(239, 396)
         Me.tabExclusions.TabIndex = 0
         Me.tabExclusions.Text = "Exclusions"
         Me.tabExclusions.UseVisualStyleBackColor = True
@@ -1849,7 +1837,7 @@ Partial Class frmMap
         Me.tabWaypoints.Location = New System.Drawing.Point(4, 22)
         Me.tabWaypoints.Name = "tabWaypoints"
         Me.tabWaypoints.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabWaypoints.Size = New System.Drawing.Size(239, 317)
+        Me.tabWaypoints.Size = New System.Drawing.Size(239, 396)
         Me.tabWaypoints.TabIndex = 1
         Me.tabWaypoints.Text = "Waypoints"
         Me.tabWaypoints.UseVisualStyleBackColor = True
@@ -1857,7 +1845,7 @@ Partial Class frmMap
         'btnClearWP
         '
         Me.btnClearWP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnClearWP.Location = New System.Drawing.Point(90, 483)
+        Me.btnClearWP.Location = New System.Drawing.Point(90, 368)
         Me.btnClearWP.Name = "btnClearWP"
         Me.btnClearWP.Size = New System.Drawing.Size(76, 23)
         Me.btnClearWP.TabIndex = 7
@@ -1942,10 +1930,9 @@ Partial Class frmMap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(938, 601)
+        Me.ClientSize = New System.Drawing.Size(938, 642)
         Me.Controls.Add(Me.tsMap)
         Me.Controls.Add(Me.tabWaypointExclusions)
-        Me.Controls.Add(Me.pbInfo)
         Me.Controls.Add(Me.tabMapTool)
         Me.Controls.Add(Me.lblConstMain)
         Me.Controls.Add(Me.lblRegionMain)
@@ -1983,7 +1970,6 @@ Partial Class frmMap
         Me.tabStationSearch.PerformLayout()
         Me.tabAgentSearch.ResumeLayout(False)
         Me.tabAgentSearch.PerformLayout()
-        CType(Me.pbInfo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxExclude.ResumeLayout(False)
         Me.tabWaypointExclusions.ResumeLayout(False)
         Me.tabSystem.ResumeLayout(False)
@@ -2065,7 +2051,6 @@ Partial Class frmMap
     Friend WithEvents lblTotalFuel As System.Windows.Forms.Label
     Friend WithEvents colCargo As System.Windows.Forms.ColumnHeader
     Friend WithEvents lblZoom As System.Windows.Forms.Label
-    Friend WithEvents pbInfo As System.Windows.Forms.PictureBox
     Friend WithEvents ctxRoute As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuCopyToClipboard As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents colConstellation As System.Windows.Forms.ColumnHeader

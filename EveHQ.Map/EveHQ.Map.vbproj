@@ -65,12 +65,6 @@
     <Compile Include="Constellation.vb" />
     <Compile Include="Dijkstra.vb" />
     <Compile Include="Faction.vb" />
-    <Compile Include="frmAbout.Designer.vb">
-      <DependentUpon>frmAbout.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmAbout.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frmMap.Designer.vb">
       <DependentUpon>frmMap.vb</DependentUpon>
     </Compile>
@@ -107,10 +101,6 @@
     <Compile Include="StType.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="frmAbout.resx">
-      <DependentUpon>frmAbout.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmMap.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmMap.vb</DependentUpon>

@@ -260,14 +260,6 @@ Public Class frmMap
 
 #End Region
 
-#Region "About Form Routines"
-    Private Sub pbInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbInfo.Click
-        Dim aboutForm As New frmAbout
-        aboutForm.ShowDialog()
-        aboutForm = Nothing
-    End Sub
-#End Region
-
 #Region "Main Region, Const & System Selection Routines"
 
     Private Sub cboRegion_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboRegion.SelectedIndexChanged
