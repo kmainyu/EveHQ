@@ -2095,9 +2095,24 @@ Public Class EveHQSettingsFunctions
     Public Shared Function LoadEveSettings2() As Boolean
         If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.bin") = True Then
             Dim s As New FileStream(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.bin", FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            EveHQ.Core.HQ.EveHQSettings = CType(f.Deserialize(s), EveSettings)
-            s.Close()
+            Try
+                Dim f As BinaryFormatter = New BinaryFormatter
+                EveHQ.Core.HQ.EveHQSettings = CType(f.Deserialize(s), EveSettings)
+                s.Close()
+            Catch ex As Exception
+                Dim msg As String = "There was an error trying to load the settings file and it appears that this file is corrupt." & ControlChars.CrLf & ControlChars.CrLf
+                msg &= "EveHQ will delete this file and re-initialise the settings. This means you will need to re-enter your API information but your skill queues and fittings should be intact and available once the API data has been downloaded." & ControlChars.CrLf & ControlChars.CrLf
+                msg &= "Press OK to reset the settings." & ControlChars.CrLf
+                MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Try
+                    s.Close()
+                    My.Computer.FileSystem.DeleteFile(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.bin")
+                Catch e As Exception
+                    MessageBox.Show("Unable to delete the EveHQSettings.bin file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Application.Exit()
+                End Try
+                Return LoadEveSettings()
+            End Try
         Else
             Return LoadEveSettings()
         End If
