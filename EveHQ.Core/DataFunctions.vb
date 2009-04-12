@@ -38,20 +38,20 @@ Public Class DataFunctions
                 Dim outputFile As String = ""
                 If EveHQ.Core.HQ.EveHQSettings.DBDataFilename <> "" Then
                     outputFile = EveHQ.Core.HQ.EveHQSettings.DBDataFilename.Replace("\\", "\")
-                    MessageBox.Show("Creating database using existing path: " & outputFile, "Custom Database Location")
+                    MessageBox.Show("Creating database using existing path: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Or EveHQ.Core.HQ.IsUsingLocalFolders = True Then
+                    If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = True Or EveHQ.Core.HQ.IsUsingLocalFolders = True Then
                         outputFile = (EveHQ.Core.HQ.appFolder & "\EveHQData.mdb").Replace("\\", "\")
                         If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
-                            MessageBox.Show("/local switch active - Location: " & outputFile, "Custom Database Location")
+                            MessageBox.Show("/local switch active - Location: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
                             If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = True Then
-                                MessageBox.Show("Using application directory for database - Location: " & outputFile, "Custom Database Location")
+                                MessageBox.Show("Using application directory for database - Location: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             End If
                         End If
                     Else
                         outputFile = (EveHQ.Core.HQ.appDataFolder & "\EveHQData.mdb").Replace("\\", "\")
-                        MessageBox.Show("Creating database in users EveHQ Applciation Data folder: " & outputFile, "Custom Database Location")
+                        MessageBox.Show("Creating database in users EveHQ Applciation Data folder: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                 End If
                 ' Try to create a new access db from resources

@@ -278,10 +278,12 @@ Public Class SkillFunctions
         strSQL &= "SELECT * FROM invGroups WHERE invGroups.categoryID=16 ORDER BY groupName;"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
         If eveData Is Nothing Then
+            MessageBox.Show("The Database returned a null dataset when trying to load the Eve skill data. The error returned was: " & EveHQ.Core.HQ.dataError, "Load Eve Skill Data error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
             Exit Function
         Else
             If eveData.Tables(0).Rows.Count = 0 Then
+                MessageBox.Show("The Database returned a no rows when trying to load the Eve skill data." & EveHQ.Core.HQ.dataError, "Load Eve Skill Data error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Return False
                 Exit Function
             End If

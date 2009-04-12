@@ -80,7 +80,7 @@ Public Class frmEveHQ
 #Region "Menu Click Routines"
 
     Private Sub ExitToolsStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ExitToolStripMenuItem.Click
-        Global.System.Windows.Forms.Application.Exit()
+        End
     End Sub
     Private Sub CascadeToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         Me.LayoutMdi(MdiLayout.Cascade)

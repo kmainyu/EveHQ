@@ -1833,7 +1833,8 @@ Public Class EveHQSettingsFunctions
             Dim fileExists As Boolean = False
             Do
                 If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBFilename) = False Then
-                    Dim msg As String = "EveHQ needs a database in order to work correctly." & ControlChars.CrLf
+                    Dim msg As String = "EveHQ is trying to establish an initial connection to the item database that was set to " & EveHQ.Core.HQ.EveHQSettings.DBFilename & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "At this point, EveHQ is only testing for the existence of this database and needs it in order to work correctly." & ControlChars.CrLf & ControlChars.CrLf
                     msg &= "If you do not select a valid DB file, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf
                     msg &= "Would you like to select a file now?" & ControlChars.CrLf
                     Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -1845,7 +1846,7 @@ Public Class EveHQSettingsFunctions
                     With ofd1
                         .Title = "Select Access Data file"
                         .FileName = ""
-                        .InitialDirectory = "c:\"
+                        .InitialDirectory = EveHQ.Core.HQ.appFolder
                         .Filter = "Access Data files (*.mdb)|*.mdb|All files (*.*)|*.*"
                         .FilterIndex = 1
                         .RestoreDirectory = True
