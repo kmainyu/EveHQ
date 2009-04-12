@@ -786,7 +786,7 @@ Public Class frmHQF
                     cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
                     ' Add results in by name, module
                     If chkApplySkills.Checked = True Then
-                        sMod = Engine.ApplySkillEffectsToModule(cMod)
+                        Engine.ApplySkillEffectsToModule(cMod.Clone, True)
                     Else
                         sMod = cMod.Clone
                     End If
@@ -823,7 +823,7 @@ Public Class frmHQF
                     cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
                     ' Add results in by name, module
                     If chkApplySkills.Checked = True Then
-                        sMod = Engine.ApplySkillEffectsToModule(cMod)
+                        Engine.ApplySkillEffectsToModule(cMod.Clone, True)
                     Else
                         sMod = cMod.Clone
                     End If
@@ -861,7 +861,7 @@ Public Class frmHQF
                 If shipMod.MarketGroup = groupID Then
                     ' Add results in by name, module
                     If chkApplySkills.Checked = True Then
-                        sMod = Engine.ApplySkillEffectsToModule(shipMod)
+                        Engine.ApplySkillEffectsToModule(shipMod.Clone, True)
                     Else
                         sMod = shipMod.Clone
                     End If
@@ -971,7 +971,7 @@ Public Class frmHQF
                     ' Add results in by name, module
                     cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(item)), ShipModule)
                     If chkApplySkills.Checked = True Then
-                        sMod = Engine.ApplySkillEffectsToModule(cMod)
+                        Engine.ApplySkillEffectsToModule(cMod.Clone, True)
                     Else
                         sMod = cMod.Clone
                     End If
@@ -1086,7 +1086,7 @@ Public Class frmHQF
         Dim sMod As New ShipModule
         For Each cMod As ShipModule In HQF.ModuleLists.moduleList.Values
             If chkApplySkills.Checked = True Then
-                sMod = Engine.ApplySkillEffectsToModule(cMod)
+                Engine.ApplySkillEffectsToModule(cMod.Clone, True)
             Else
                 sMod = cMod.Clone
             End If

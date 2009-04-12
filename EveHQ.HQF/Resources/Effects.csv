@@ -2,7 +2,7 @@
 #Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,State,Description
 # SKILL ATTRIBUTE MAPPING,,,,,,,,,,
 # DRONES,,,,,,,,,,
-#,1,24613,,,,0,1,0,0,Advanced Drone Interfacing
+280,1,24613,763,2,407,0,1,10,0,Advanced Drone Interfacing
 292,1,12484,114,5,12484,0,1,0,0,Amarr Drone Specialization - EM
 292,1,12484,116,5,12484,0,1,0,0,Amarr Drone Specialization - Explosive
 292,1,12484,117,5,12484,0,1,0,0,Amarr Drone Specialization - Kinetic

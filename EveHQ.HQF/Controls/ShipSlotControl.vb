@@ -113,6 +113,8 @@ Public Class ShipSlotControl
     Public Sub UpdateEverything()
         ' Update the slot layout
         currentShip = CType(ShipLists.fittedShipList(cShipFit), Ship)
+        ' Build Skills
+        Engine.BuildSkillEffects(CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot))
         ' Build Subsystems
         currentShip = Engine.BuildSubSystemEffects(currentShip)
         UpdateAll = True
@@ -928,7 +930,7 @@ Public Class ShipSlotControl
         ' Check for maxGroupActive flag
         If shipMod.Attributes.ContainsKey("763") = True Then
             If shipMod.DatabaseGroup <> "316" Then
-                If CountActiveGroupModules(shipMod.DatabaseGroup) >= CInt(shipMod.Attributes("763")) Then
+                If IsModuleGroupLimitExceeded(shipMod, True) = True Then
                     ' Set the module offline
                     shipMod.ModuleState = 2
                 End If
@@ -942,37 +944,52 @@ Public Class ShipSlotControl
 
         Return True
     End Function
-    Private Function CountActiveGroupModules(ByVal groupID As String) As Integer
+    Private Function IsModuleGroupLimitExceeded(ByVal testMod As ShipModule, ByVal excludeTestMod As Boolean) As Boolean
         Dim count As Integer = 0
+        Dim fittedMod As ShipModule = testMod.Clone
+        Engine.ApplySkillEffectsToModule(fittedMod, True)
+        Dim maxAllowed As Integer = CInt(fittedMod.Attributes("763"))
         For slot As Integer = 1 To currentShip.HiSlots
             If currentShip.HiSlot(slot) IsNot Nothing Then
-                If currentShip.HiSlot(slot).DatabaseGroup = groupID And currentShip.HiSlot(slot).ModuleState >= 4 Then
+                If currentShip.HiSlot(slot).DatabaseGroup = testMod.DatabaseGroup And currentShip.HiSlot(slot).ModuleState >= 4 Then
                     count += 1
                 End If
             End If
         Next
         For slot As Integer = 1 To currentShip.MidSlots
             If currentShip.MidSlot(slot) IsNot Nothing Then
-                If currentShip.MidSlot(slot).DatabaseGroup = groupID And currentShip.MidSlot(slot).ModuleState >= 4 Then
+                If currentShip.MidSlot(slot).DatabaseGroup = testMod.DatabaseGroup And currentShip.MidSlot(slot).ModuleState >= 4 Then
                     count += 1
                 End If
             End If
         Next
         For slot As Integer = 1 To currentShip.LowSlots
             If currentShip.LowSlot(slot) IsNot Nothing Then
-                If currentShip.LowSlot(slot).DatabaseGroup = groupID And currentShip.LowSlot(slot).ModuleState >= 4 Then
+                If currentShip.LowSlot(slot).DatabaseGroup = testMod.DatabaseGroup And currentShip.LowSlot(slot).ModuleState >= 4 Then
                     count += 1
                 End If
             End If
         Next
         For slot As Integer = 1 To currentShip.RigSlots
             If currentShip.RigSlot(slot) IsNot Nothing Then
-                If currentShip.RigSlot(slot).DatabaseGroup = groupID And currentShip.RigSlot(slot).ModuleState >= 4 Then
+                If currentShip.RigSlot(slot).DatabaseGroup = testMod.DatabaseGroup And currentShip.RigSlot(slot).ModuleState >= 4 Then
                     count += 1
                 End If
             End If
         Next
-        Return count
+        If excludeTestMod = True Then
+            If count >= maxAllowed Then
+                Return True
+            Else
+                Return False
+            End If
+        Else
+            If count > maxAllowed Then
+                Return True
+            Else
+                Return False
+            End If
+        End If
     End Function
     Private Function CountActiveTypeModules(ByVal typeID As String) As Integer
         Dim count As Integer = 0
@@ -1159,6 +1176,105 @@ Public Class ShipSlotControl
         End Select
         Return 0
     End Function
+    Private Sub lvwSlots_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvwSlots.MouseDown
+        Dim hti As ListViewHitTestInfo = lvwSlots.HitTest(e.X, e.Y)
+        If hti.Item IsNot Nothing Then
+            If e.Button = Windows.Forms.MouseButtons.Middle Then
+                If hti.Location = ListViewHitTestLocations.Image Or hti.Location = ListViewHitTestLocations.Label Or hti.Location = ListViewHitTestLocations.RightOfClientArea Then
+                    ' Get the module details
+                    Dim modID As String = CStr(ModuleLists.moduleListName.Item(hti.Item.Text))
+                    Dim currentMod As New ShipModule
+                    Dim fittedMod As New ShipModule
+                    Dim sep As Integer = hti.Item.Name.LastIndexOf("_")
+                    Dim slotType As Integer = CInt(hti.Item.Name.Substring(0, sep))
+                    Dim slotNo As Integer = CInt(hti.Item.Name.Substring(sep + 1, 1))
+                    Dim canOffline As Boolean = True
+                    Select Case slotType
+                        Case 1 ' Rig
+                            currentMod = currentShip.RigSlot(slotNo)
+                            fittedMod = fittedShip.RigSlot(slotNo)
+                            canOffline = False
+                        Case 2 ' Low
+                            currentMod = currentShip.LowSlot(slotNo)
+                            fittedMod = fittedShip.LowSlot(slotNo)
+                        Case 4 ' Mid
+                            currentMod = currentShip.MidSlot(slotNo)
+                            fittedMod = fittedShip.MidSlot(slotNo)
+                        Case 8 ' High
+                            currentMod = currentShip.HiSlot(slotNo)
+                            fittedMod = fittedShip.HiSlot(slotNo)
+                        Case 16 ' Subsystem
+                            currentMod = currentShip.SubSlot(slotNo)
+                            fittedMod = fittedShip.SubSlot(slotNo)
+                            canOffline = False
+                    End Select
+
+                    If currentMod IsNot Nothing Then
+                        Dim currentstate As Integer = currentMod.ModuleState
+                        ' Check for status
+                        Dim canDeactivate As Boolean = False
+                        Dim canOverload As Boolean = False
+                        ' Check for activation cost
+                        If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.Contains("713") Then
+                            canDeactivate = True
+                        End If
+                        If currentMod.Attributes.Contains("1211") = True Then
+                            canOverload = True
+                        End If
+                        currentstate *= 2
+                        Dim changedstate As Boolean = False
+                        Do
+                            changedstate = False
+                            If currentstate > 8 Then
+                                currentstate = 1
+                                changedstate = True
+                            End If
+                            If currentstate = ModuleStates.Offline And canOffline = False Then
+                                currentstate *= 2
+                                changedstate = True
+                            End If
+                            If currentstate = ModuleStates.Inactive And canDeactivate = False Then
+                                currentstate *= 2
+                                changedstate = True
+                            End If
+                            If currentstate = ModuleStates.Overloaded And canOverload = False Then
+                                currentstate *= 2
+                                changedstate = True
+                            End If
+                        Loop Until changedstate = False
+
+                        ' Update only if the module state has changed
+                        If currentstate <> currentMod.ModuleState Then
+                            Dim oldState As Integer = currentMod.ModuleState
+                            currentMod.ModuleState = currentstate
+                            ' Check for maxGroupActive flag
+                            If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey("763") = True Then
+                                If currentMod.DatabaseGroup <> "316" Then
+                                    If IsModuleGroupLimitExceeded(fittedMod, False) = True Then
+                                        ' Set the module offline
+                                        MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                        currentMod.ModuleState = oldState
+                                        Exit Sub
+                                    End If
+                                Else
+                                    If CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes("763")) Then
+                                        ' Set the module offline
+                                        MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                        currentMod.ModuleState = oldState
+                                        Exit Sub
+                                    End If
+                                End If
+                            End If
+                            currentInfo.ShipType = currentShip
+                            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+                            Call Me.UpdateAllSlotLocations()
+                        End If
+                    End If
+                End If
+            End If
+        End If
+    End Sub
+
 #End Region
 
 #Region "Removing Mods/Drones/Items"
@@ -1811,19 +1927,32 @@ Public Class ShipSlotControl
     Private Sub SetModuleActive(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim sModule As ShipModule = CType(menuItem.Tag, ShipModule)
+        Dim fModule As New ShipModule
+        Select Case sModule.SlotType
+            Case 1 ' Rig
+                fModule = fittedShip.RigSlot(sModule.SlotNo)
+            Case 2 ' Low
+                fModule = fittedShip.LowSlot(sModule.SlotNo)
+            Case 4 ' Mid
+                fModule = fittedShip.MidSlot(sModule.SlotNo)
+            Case 8 ' High
+                fModule = fittedShip.HiSlot(sModule.SlotNo)
+            Case 16 ' Subsystem
+                fModule = fittedShip.SubSlot(sModule.SlotNo)
+        End Select
         Dim oldState As Integer = sModule.ModuleState
         sModule.ModuleState = ModuleStates.Active
         ' Check for maxGroupActive flag
         If sModule.Attributes.ContainsKey("763") = True Then
             If sModule.DatabaseGroup <> "316" Then
-                If CountActiveGroupModules(sModule.DatabaseGroup) > CInt(sModule.Attributes("763")) Then
+                If IsModuleGroupLimitExceeded(sModule, False) = True Then
                     ' Set the module offline
                     MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     sModule.ModuleState = oldState
                     Exit Sub
                 End If
             Else
-                If CountActiveTypeModules(sModule.ID) > CInt(sModule.Attributes("763")) Then
+                If CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes("763")) Then
                     ' Set the module offline
                     MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     sModule.ModuleState = oldState
@@ -1838,19 +1967,32 @@ Public Class ShipSlotControl
     Private Sub SetModuleOverload(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         Dim sModule As ShipModule = CType(menuItem.Tag, ShipModule)
+        Dim fModule As New ShipModule
+        Select Case sModule.SlotType
+            Case 1 ' Rig
+                fModule = fittedShip.RigSlot(sModule.SlotNo)
+            Case 2 ' Low
+                fModule = fittedShip.LowSlot(sModule.SlotNo)
+            Case 4 ' Mid
+                fModule = fittedShip.MidSlot(sModule.SlotNo)
+            Case 8 ' High
+                fModule = fittedShip.HiSlot(sModule.SlotNo)
+            Case 16 ' Subsystem
+                fModule = fittedShip.SubSlot(sModule.SlotNo)
+        End Select
         Dim oldState As Integer = sModule.ModuleState
         sModule.ModuleState = ModuleStates.Overloaded
         ' Check for maxGroupActive flag
         If sModule.Attributes.ContainsKey("763") = True Then
             If sModule.DatabaseGroup <> "316" Then
-                If CountActiveGroupModules(sModule.DatabaseGroup) > CInt(sModule.Attributes("763")) Then
+                If IsModuleGroupLimitExceeded(sModule, False) = True Then
                     ' Set the module offline
                     MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     sModule.ModuleState = oldState
                     Exit Sub
                 End If
             Else
-                If CountActiveTypeModules(sModule.ID) > CInt(sModule.Attributes("763")) Then
+                If CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes("763")) Then
                     ' Set the module offline
                     MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     sModule.ModuleState = oldState
@@ -2406,99 +2548,6 @@ Public Class ShipSlotControl
 #End Region
 
 #Region "Slot Drag/Drop Routines"
-
-    Private Sub lvwSlots_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvwSlots.MouseDown
-        Dim hti As ListViewHitTestInfo = lvwSlots.HitTest(e.X, e.Y)
-        If hti.Item IsNot Nothing Then
-            If e.Button = Windows.Forms.MouseButtons.Middle Then
-                If hti.Location = ListViewHitTestLocations.Image Or hti.Location = ListViewHitTestLocations.Label Or hti.Location = ListViewHitTestLocations.RightOfClientArea Then
-                    ' Get the module details
-                    Dim modID As String = CStr(ModuleLists.moduleListName.Item(hti.Item.Text))
-                    Dim currentMod As New ShipModule
-                    Dim sep As Integer = hti.Item.Name.LastIndexOf("_")
-                    Dim slotType As Integer = CInt(hti.Item.Name.Substring(0, sep))
-                    Dim slotNo As Integer = CInt(hti.Item.Name.Substring(sep + 1, 1))
-                    Dim canOffline As Boolean = True
-                    Select Case slotType
-                        Case 1 ' Rig
-                            currentMod = currentShip.RigSlot(slotNo)
-                            canOffline = False
-                        Case 2 ' Low
-                            currentMod = currentShip.LowSlot(slotNo)
-                        Case 4 ' Mid
-                            currentMod = currentShip.MidSlot(slotNo)
-                        Case 8 ' High
-                            currentMod = currentShip.HiSlot(slotNo)
-                        Case 16 ' Subsystem
-                            currentMod = currentShip.SubSlot(slotNo)
-                            canOffline = False
-                    End Select
-
-                    If currentMod IsNot Nothing Then
-                        Dim currentstate As Integer = currentMod.ModuleState
-                        ' Check for status
-                        Dim canDeactivate As Boolean = False
-                        Dim canOverload As Boolean = False
-                        ' Check for activation cost
-                        If currentMod.Attributes.Contains("6") = True Or currentMod.Attributes.Contains("669") Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.Contains("713") Then
-                            canDeactivate = True
-                        End If
-                        If currentMod.Attributes.Contains("1211") = True Then
-                            canOverload = True
-                        End If
-                        currentstate *= 2
-                        Dim changedstate As Boolean = False
-                        Do
-                            changedstate = False
-                            If currentstate > 8 Then
-                                currentstate = 1
-                                changedstate = True
-                            End If
-                            If currentstate = ModuleStates.Offline And canOffline = False Then
-                                currentstate *= 2
-                                changedstate = True
-                            End If
-                            If currentstate = ModuleStates.Inactive And canDeactivate = False Then
-                                currentstate *= 2
-                                changedstate = True
-                            End If
-                            If currentstate = ModuleStates.Overloaded And canOverload = False Then
-                                currentstate *= 2
-                                changedstate = True
-                            End If
-                        Loop Until changedstate = False
-
-                        ' Update only if the module state has changed
-                        If currentstate <> currentMod.ModuleState Then
-                            Dim oldState As Integer = currentMod.ModuleState
-                            currentMod.ModuleState = currentstate
-                            ' Check for maxGroupActive flag
-                            If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey("763") = True Then
-                                If currentMod.DatabaseGroup <> "316" Then
-                                    If CountActiveGroupModules(currentMod.DatabaseGroup) > CInt(currentMod.Attributes("763")) Then
-                                        ' Set the module offline
-                                        MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                        currentMod.ModuleState = oldState
-                                        Exit Sub
-                                    End If
-                                Else
-                                    If CountActiveTypeModules(currentMod.ID) > CInt(currentMod.Attributes("763")) Then
-                                        ' Set the module offline
-                                        MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                                        currentMod.ModuleState = oldState
-                                        Exit Sub
-                                    End If
-                                End If
-                            End If
-                            currentInfo.ShipType = currentShip
-                            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-                            Call Me.UpdateAllSlotLocations()
-                        End If
-                    End If
-                End If
-            End If
-        End If
-    End Sub
 
     Private Sub lvwSlots_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles lvwSlots.DragOver
         Dim oLVI As ListViewItem = CType(e.Data.GetData(GetType(ListViewItem)), ListViewItem)
