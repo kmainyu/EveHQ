@@ -34,14 +34,14 @@ Public Class frmShowInfo
 
         If TypeOf itemObject Is Ship Then
             itemType = CType(itemObject, Ship)
-            picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/shiptypes/128_128/" & itemObject.ID & ".png"
+            picItem.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & itemObject.ID & ".png"
         Else
             If TypeOf itemObject Is ShipModule Then
                 itemType = CType(itemObject, ShipModule)
                 If itemType.IsDrone = True Then
-                    picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/dronetypes/128_128/" & itemObject.ID & ".png"
+                    picItem.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & itemObject.ID & ".png"
                 Else
-                    picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/icon" & itemObject.Icon & ".png"
+                    picItem.ImageLocation = "http://www.evehq.net/eve/images/icons/64_64/icon" & itemObject.Icon & ".png"
                 End If
             End If
         End If

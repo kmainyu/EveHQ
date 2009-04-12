@@ -453,7 +453,7 @@ Public Class frmHQF
         End If
     End Sub
     Private Sub DisplayShipPreview(ByVal selShip As Ship)
-        pbShip.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/shiptypes/128_128/" & selShip.ID & ".png"
+        pbShip.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & selShip.ID & ".png"
         lblShipType.Text = selShip.Name
         txtShipDescription.Text = selShip.Description
         lblShieldHP.Text = FormatNumber(selShip.ShieldCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP"

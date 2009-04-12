@@ -519,7 +519,7 @@ Public Class frmItemBrowser
         If pInfo(4) = 9 Then
             Dim typeID2 As String = EveHQ.Core.DataFunctions.GetTypeID(bpTypeID)
             If bpTypeID <> typeID2 Then
-                picBP.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/icon27_01.png"
+                picBP.ImageLocation = "http://www.evehq.net/eve/images/icons/64_64/icon27_01.png"
                 picBP.Tag = typeID2
                 ItemToolTip1.SetToolTip(Me.picBP, "Show Product Type")
                 picBP.Visible = True
@@ -528,7 +528,7 @@ Public Class frmItemBrowser
             End If
         Else
             If bpTypeID <> typeID Then
-                picBP.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/blueprinttypes/64_64/" & bpTypeID & ".png"
+                picBP.ImageLocation = "http://www.evehq.net/eve/images/blueprints/64_64/" & bpTypeID & ".png"
                 picBP.Tag = bpTypeID
                 ItemToolTip1.SetToolTip(Me.picBP, "Show Blueprint")
                 picBP.Visible = True
@@ -548,15 +548,15 @@ Public Class frmItemBrowser
         If iconData.Tables(0).Rows.Count > 0 Then
             Select Case pInfo(4)
                 Case 6
-                    picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/shiptypes/128_128/" & typeID & ".png"
+                    picItem.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & typeID & ".png"
                 Case 9
-                    picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/blueprinttypes/64_64/" & typeID & ".png"
+                    picItem.ImageLocation = "http://www.evehq.net/eve/images/blueprints/64_64/" & typeID & ".png"
                 Case 18
-                    picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/dronetypes/128_128/" & typeID & ".png"
+                    picItem.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & typeID & ".png"
                 Case 23
-                    picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/structuretypes/128_128/" & typeID & ".png"
+                    picItem.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & typeID & ".png"
                 Case Else
-                    picItem.ImageLocation = "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/icon" & iconData.Tables(0).Rows(0).Item("icon").ToString & ".png"
+                    picItem.ImageLocation = "http://www.evehq.net/eve/images/icons/64_64/icon" & iconData.Tables(0).Rows(0).Item("icon").ToString & ".png"
             End Select
         Else
             picItem.Image = My.Resources.noitem
@@ -1747,7 +1747,6 @@ Public Class frmItemBrowser
         ' Alter navigation
         Call Me.AddToNavigation(itemTypeName)
     End Sub
-
 
 #Region "Navigation Routines"
     Private Sub AddToNavigation(ByVal itemName As String)
