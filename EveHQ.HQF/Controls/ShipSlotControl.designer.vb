@@ -53,7 +53,11 @@ Partial Class ShipSlotControl
         Me.mnuShowRemoteModInfo = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnToggleStorage = New System.Windows.Forms.Button
+        Me.pbShip = New System.Windows.Forms.PictureBox
+        Me.ctxShipSkills = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuAlterRelevantSkills = New System.Windows.Forms.ToolStripMenuItem
         Me.panelFunctions = New System.Windows.Forms.Panel
+        Me.lblSubSlots = New System.Windows.Forms.Label
         Me.pbShipInfo = New System.Windows.Forms.PictureBox
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
@@ -106,11 +110,12 @@ Partial Class ShipSlotControl
         Me.lblFleetStatusLabel = New System.Windows.Forms.Label
         Me.cboWCShip = New System.Windows.Forms.ComboBox
         Me.cboFCShip = New System.Windows.Forms.ComboBox
-        Me.lblSubSlots = New System.Windows.Forms.Label
         Me.ctxSlots.SuspendLayout()
         Me.ctxBays.SuspendLayout()
         Me.ctxRemoteFittings.SuspendLayout()
         Me.ctxRemoteModule.SuspendLayout()
+        CType(Me.pbShip, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ctxShipSkills.SuspendLayout()
         Me.panelFunctions.SuspendLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -130,7 +135,7 @@ Partial Class ShipSlotControl
         'lblFittingMarketPrice
         '
         Me.lblFittingMarketPrice.AutoSize = True
-        Me.lblFittingMarketPrice.Location = New System.Drawing.Point(78, 18)
+        Me.lblFittingMarketPrice.Location = New System.Drawing.Point(117, 18)
         Me.lblFittingMarketPrice.Name = "lblFittingMarketPrice"
         Me.lblFittingMarketPrice.Size = New System.Drawing.Size(208, 13)
         Me.lblFittingMarketPrice.TabIndex = 10
@@ -139,7 +144,7 @@ Partial Class ShipSlotControl
         'lblShipMarketPrice
         '
         Me.lblShipMarketPrice.AutoSize = True
-        Me.lblShipMarketPrice.Location = New System.Drawing.Point(292, 18)
+        Me.lblShipMarketPrice.Location = New System.Drawing.Point(331, 18)
         Me.lblShipMarketPrice.Name = "lblShipMarketPrice"
         Me.lblShipMarketPrice.Size = New System.Drawing.Size(201, 13)
         Me.lblShipMarketPrice.TabIndex = 8
@@ -148,7 +153,7 @@ Partial Class ShipSlotControl
         'lblTurretSlots
         '
         Me.lblTurretSlots.AutoSize = True
-        Me.lblTurretSlots.Location = New System.Drawing.Point(423, 5)
+        Me.lblTurretSlots.Location = New System.Drawing.Point(462, 5)
         Me.lblTurretSlots.Name = "lblTurretSlots"
         Me.lblTurretSlots.Size = New System.Drawing.Size(63, 13)
         Me.lblTurretSlots.TabIndex = 6
@@ -157,7 +162,7 @@ Partial Class ShipSlotControl
         'lblLauncherSlots
         '
         Me.lblLauncherSlots.AutoSize = True
-        Me.lblLauncherSlots.Location = New System.Drawing.Point(337, 5)
+        Me.lblLauncherSlots.Location = New System.Drawing.Point(376, 5)
         Me.lblLauncherSlots.Name = "lblLauncherSlots"
         Me.lblLauncherSlots.Size = New System.Drawing.Size(80, 13)
         Me.lblLauncherSlots.TabIndex = 5
@@ -166,7 +171,7 @@ Partial Class ShipSlotControl
         'lblRigSlots
         '
         Me.lblRigSlots.AutoSize = True
-        Me.lblRigSlots.Location = New System.Drawing.Point(233, 5)
+        Me.lblRigSlots.Location = New System.Drawing.Point(272, 5)
         Me.lblRigSlots.Name = "lblRigSlots"
         Me.lblRigSlots.Size = New System.Drawing.Size(46, 13)
         Me.lblRigSlots.TabIndex = 4
@@ -175,7 +180,7 @@ Partial Class ShipSlotControl
         'lblLowSlots
         '
         Me.lblLowSlots.AutoSize = True
-        Me.lblLowSlots.Location = New System.Drawing.Point(177, 5)
+        Me.lblLowSlots.Location = New System.Drawing.Point(216, 5)
         Me.lblLowSlots.Name = "lblLowSlots"
         Me.lblLowSlots.Size = New System.Drawing.Size(50, 13)
         Me.lblLowSlots.TabIndex = 3
@@ -184,7 +189,7 @@ Partial Class ShipSlotControl
         'lblMidSlots
         '
         Me.lblMidSlots.AutoSize = True
-        Me.lblMidSlots.Location = New System.Drawing.Point(124, 5)
+        Me.lblMidSlots.Location = New System.Drawing.Point(163, 5)
         Me.lblMidSlots.Name = "lblMidSlots"
         Me.lblMidSlots.Size = New System.Drawing.Size(47, 13)
         Me.lblMidSlots.TabIndex = 2
@@ -193,7 +198,7 @@ Partial Class ShipSlotControl
         'lblHighSlots
         '
         Me.lblHighSlots.AutoSize = True
-        Me.lblHighSlots.Location = New System.Drawing.Point(78, 5)
+        Me.lblHighSlots.Location = New System.Drawing.Point(117, 5)
         Me.lblHighSlots.Name = "lblHighSlots"
         Me.lblHighSlots.Size = New System.Drawing.Size(40, 13)
         Me.lblHighSlots.TabIndex = 1
@@ -291,17 +296,42 @@ Partial Class ShipSlotControl
         'btnToggleStorage
         '
         Me.btnToggleStorage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCargo
-        Me.btnToggleStorage.Location = New System.Drawing.Point(40, 2)
+        Me.btnToggleStorage.Location = New System.Drawing.Point(79, 2)
         Me.btnToggleStorage.Name = "btnToggleStorage"
         Me.btnToggleStorage.Size = New System.Drawing.Size(32, 32)
         Me.btnToggleStorage.TabIndex = 11
         Me.ToolTip1.SetToolTip(Me.btnToggleStorage, "Toggle Storage Bays")
         Me.btnToggleStorage.UseVisualStyleBackColor = True
         '
+        'pbShip
+        '
+        Me.pbShip.ContextMenuStrip = Me.ctxShipSkills
+        Me.pbShip.InitialImage = Global.EveHQ.HQF.My.Resources.Resources.imgInfo2
+        Me.pbShip.Location = New System.Drawing.Point(3, 2)
+        Me.pbShip.Name = "pbShip"
+        Me.pbShip.Size = New System.Drawing.Size(32, 32)
+        Me.pbShip.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbShip.TabIndex = 13
+        Me.pbShip.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbShip, "Right-click to set relevant skills provided by bonuses on this ship")
+        '
+        'ctxShipSkills
+        '
+        Me.ctxShipSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAlterRelevantSkills})
+        Me.ctxShipSkills.Name = "ctxShipSkills"
+        Me.ctxShipSkills.Size = New System.Drawing.Size(177, 48)
+        '
+        'mnuAlterRelevantSkills
+        '
+        Me.mnuAlterRelevantSkills.Name = "mnuAlterRelevantSkills"
+        Me.mnuAlterRelevantSkills.Size = New System.Drawing.Size(176, 22)
+        Me.mnuAlterRelevantSkills.Text = "Alter Relevant Skills"
+        '
         'panelFunctions
         '
         Me.panelFunctions.BackColor = System.Drawing.Color.Transparent
         Me.panelFunctions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.panelFunctions.Controls.Add(Me.pbShip)
         Me.panelFunctions.Controls.Add(Me.lblSubSlots)
         Me.panelFunctions.Controls.Add(Me.lblFittingMarketPrice)
         Me.panelFunctions.Controls.Add(Me.pbShipInfo)
@@ -319,10 +349,20 @@ Partial Class ShipSlotControl
         Me.panelFunctions.Size = New System.Drawing.Size(676, 38)
         Me.panelFunctions.TabIndex = 2
         '
+        'lblSubSlots
+        '
+        Me.lblSubSlots.AutoSize = True
+        Me.lblSubSlots.Location = New System.Drawing.Point(324, 5)
+        Me.lblSubSlots.Name = "lblSubSlots"
+        Me.lblSubSlots.Size = New System.Drawing.Size(46, 13)
+        Me.lblSubSlots.TabIndex = 12
+        Me.lblSubSlots.Text = "Rig: 0/0"
+        '
         'pbShipInfo
         '
+        Me.pbShipInfo.ContextMenuStrip = Me.ctxShipSkills
         Me.pbShipInfo.Image = Global.EveHQ.HQF.My.Resources.Resources.imgInfo1
-        Me.pbShipInfo.Location = New System.Drawing.Point(2, 2)
+        Me.pbShipInfo.Location = New System.Drawing.Point(41, 2)
         Me.pbShipInfo.Name = "pbShipInfo"
         Me.pbShipInfo.Size = New System.Drawing.Size(32, 32)
         Me.pbShipInfo.TabIndex = 0
@@ -895,15 +935,6 @@ Partial Class ShipSlotControl
         Me.cboFCShip.Size = New System.Drawing.Size(187, 21)
         Me.cboFCShip.TabIndex = 20
         '
-        'lblSubSlots
-        '
-        Me.lblSubSlots.AutoSize = True
-        Me.lblSubSlots.Location = New System.Drawing.Point(285, 5)
-        Me.lblSubSlots.Name = "lblSubSlots"
-        Me.lblSubSlots.Size = New System.Drawing.Size(46, 13)
-        Me.lblSubSlots.TabIndex = 12
-        Me.lblSubSlots.Text = "Rig: 0/0"
-        '
         'ShipSlotControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -916,6 +947,8 @@ Partial Class ShipSlotControl
         Me.ctxBays.ResumeLayout(False)
         Me.ctxRemoteFittings.ResumeLayout(False)
         Me.ctxRemoteModule.ResumeLayout(False)
+        CType(Me.pbShip, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ctxShipSkills.ResumeLayout(False)
         Me.panelFunctions.ResumeLayout(False)
         Me.panelFunctions.PerformLayout()
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1065,4 +1098,7 @@ Partial Class ShipSlotControl
     Friend WithEvents chkWCActive As System.Windows.Forms.CheckBox
     Friend WithEvents chkSCActive As System.Windows.Forms.CheckBox
     Friend WithEvents lblSubSlots As System.Windows.Forms.Label
+    Friend WithEvents pbShip As System.Windows.Forms.PictureBox
+    Friend WithEvents ctxShipSkills As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuAlterRelevantSkills As System.Windows.Forms.ToolStripMenuItem
 End Class

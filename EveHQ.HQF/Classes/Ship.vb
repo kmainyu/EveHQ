@@ -190,6 +190,10 @@ Imports System.Runtime.Serialization
     Private cTh As Double
     Private cEMExKiTh As Double
 
+    ' Affected by
+    Private cAffects As New ArrayList
+    Private cGlobalAffects As New ArrayList
+
 #End Region
 
 #Region "Properties"
@@ -1377,6 +1381,24 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As Double)
             cTh = value
+        End Set
+    End Property
+
+    ' Affected by
+    Public Property Affects() As ArrayList
+        Get
+            Return cAffects
+        End Get
+        Set(ByVal value As ArrayList)
+            cAffects = value
+        End Set
+    End Property
+    Public Property GlobalAffects() As ArrayList
+        Get
+            Return cGlobalAffects
+        End Get
+        Set(ByVal value As ArrayList)
+            cGlobalAffects = value
         End Set
     End Property
 

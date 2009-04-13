@@ -1412,6 +1412,7 @@ Public Class PlugInData
                     AffectingName &= ";" & CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectingID.ToString)))
                 End If
 
+                ' Add the skills into the ship modules
                 For Each cModule As ShipModule In ModuleLists.moduleList.Values
                     Select Case newEffect.AffectedType
                         Case EffectType.All
@@ -1440,6 +1441,48 @@ Public Class PlugInData
                             End If
                     End Select
                 Next
+
+                ' Add the skills into the ship
+                If newEffect.Status < 16 Then
+                    For Each cShip As Ship In ShipLists.shipList.Values
+                        Select Case newEffect.AffectedType
+                            Case EffectType.All
+                                If newEffect.AffectingID <> 0 Then
+                                    cShip.Affects.Add(AffectingName)
+                                End If
+                            Case EffectType.Item
+                                If newEffect.AffectedID.Contains(cShip.ID) Then
+                                    cShip.Affects.Add(AffectingName)
+                                End If
+                            Case EffectType.Group
+                                If newEffect.AffectedID.Contains(cShip.DatabaseGroup) Then
+                                    cShip.Affects.Add(AffectingName)
+                                End If
+                            Case EffectType.Category
+                                If newEffect.AffectedID.Contains(cShip.DatabaseCategory) Then
+                                    cShip.Affects.Add(AffectingName)
+                                End If
+                            Case EffectType.MarketGroup
+                                If newEffect.AffectedID.Contains(cShip.MarketGroup) Then
+                                    cShip.Affects.Add(AffectingName)
+                                End If
+                            Case EffectType.Attribute
+                                If cShip.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
+                                    cShip.Affects.Add(AffectingName)
+                                End If
+                        End Select
+                    Next
+                End If
+
+                ' Add the skills into the ship global skills
+                If newEffect.Status < 16 Then
+                    For Each cShip As Ship In ShipLists.shipList.Values
+                        If newEffect.ShipID = CDbl(cShip.ID) Then
+                            cShip.GlobalAffects.Add(AffectingName)
+                        End If
+                    Next
+                End If
+
             End If
         Next
     End Sub
