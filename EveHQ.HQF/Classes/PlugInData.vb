@@ -12,7 +12,7 @@ Public Class PlugInData
     Shared moduleEffectData As DataSet
     Shared moduleAttributeData As DataSet
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.9.5.518"
+    Shared LastCacheRefresh As String = "1.9.5.520"
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -1268,6 +1268,41 @@ Public Class PlugInData
                             End If
                     End Select
                 Next
+
+                ' Add the skills into the ship
+                If newEffect.Status < 16 Then
+                    If AffectingName.Contains(";Skill;") = True Then
+                        For Each cShip As Ship In ShipLists.shipList.Values
+                            Select Case newEffect.AffectedType
+                                Case EffectType.All
+                                    If newEffect.AffectingID <> 0 Then
+                                        cShip.Affects.Add(AffectingName)
+                                    End If
+                                Case EffectType.Item
+                                    If newEffect.AffectedID.Contains(cShip.ID) Then
+                                        cShip.Affects.Add(AffectingName)
+                                    End If
+                                Case EffectType.Group
+                                    If newEffect.AffectedID.Contains(cShip.DatabaseGroup) Then
+                                        cShip.Affects.Add(AffectingName)
+                                    End If
+                                Case EffectType.Category
+                                    If newEffect.AffectedID.Contains(cShip.DatabaseCategory) Then
+                                        cShip.Affects.Add(AffectingName)
+                                    End If
+                                Case EffectType.MarketGroup
+                                    If newEffect.AffectedID.Contains(cShip.MarketGroup) Then
+                                        cShip.Affects.Add(AffectingName)
+                                    End If
+                                Case EffectType.Attribute
+                                    If cShip.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
+                                        cShip.Affects.Add(AffectingName)
+                                    End If
+                            End Select
+                        Next
+                    End If
+                End If
+
             End If
         Next
     End Sub
@@ -1442,38 +1477,6 @@ Public Class PlugInData
                     End Select
                 Next
 
-                ' Add the skills into the ship
-                If newEffect.Status < 16 Then
-                    For Each cShip As Ship In ShipLists.shipList.Values
-                        Select Case newEffect.AffectedType
-                            Case EffectType.All
-                                If newEffect.AffectingID <> 0 Then
-                                    cShip.Affects.Add(AffectingName)
-                                End If
-                            Case EffectType.Item
-                                If newEffect.AffectedID.Contains(cShip.ID) Then
-                                    cShip.Affects.Add(AffectingName)
-                                End If
-                            Case EffectType.Group
-                                If newEffect.AffectedID.Contains(cShip.DatabaseGroup) Then
-                                    cShip.Affects.Add(AffectingName)
-                                End If
-                            Case EffectType.Category
-                                If newEffect.AffectedID.Contains(cShip.DatabaseCategory) Then
-                                    cShip.Affects.Add(AffectingName)
-                                End If
-                            Case EffectType.MarketGroup
-                                If newEffect.AffectedID.Contains(cShip.MarketGroup) Then
-                                    cShip.Affects.Add(AffectingName)
-                                End If
-                            Case EffectType.Attribute
-                                If cShip.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
-                                    cShip.Affects.Add(AffectingName)
-                                End If
-                        End Select
-                    Next
-                End If
-
                 ' Add the skills into the ship global skills
                 If newEffect.Status < 16 Then
                     For Each cShip As Ship In ShipLists.shipList.Values
@@ -1486,6 +1489,7 @@ Public Class PlugInData
             End If
         Next
     End Sub
+
     Private Sub BuildSubsystemEffects()
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 

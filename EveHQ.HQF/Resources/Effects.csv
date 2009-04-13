@@ -461,9 +461,9 @@
 151,1,3453,70,3,6,0,1,0,0,Evasive Maneuvering
 317,1,3451,6,4,542,0,1,0,0,Fuel Conservation
 216,1,3454,6,4,131,0,1,0,0,High Speed Maneuvering
-870,1,21611,867,3,6,0,1,0,0,Jump Drive Calibration
-899,1,3456,898,3,6,0,1,0,0,Jump Drive Operation
-1296,1,21610,868,3,6,0,1,0,0,Jump Fuel Conservation
+870,1,21611,867,2,30;485;547;659;883;898;902,0,1,0,0,Jump Drive Calibration
+899,1,3456,898,2,30;485;547;659;883;898;902,0,1,0,0,Jump Drive Operation
+1296,1,21610,868,2,30;485;547;659;883;898;902,0,1,0,0,Jump Fuel Conservation
 315,1,3449,37,3,6,0,1,0,0,Navigation
 319,1,3455,153,3,6,0,1,0,0,Warp Drive Operation
 # SCIENCE,,,,,,,,,,

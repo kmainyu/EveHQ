@@ -3318,6 +3318,7 @@ Public Class ShipSlotControl
     Private Sub ctxShipSkills_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxShipSkills.Opening
         ' Check for Relevant Skills in Modules/Charges
         Dim RelGlobalSkills As New ArrayList
+        Dim ShipSkills As New ArrayList
         Dim Affects(10) As String
         ctxShipSkills.Items.Clear()
         For Each Affect As String In currentShip.GlobalAffects
@@ -3343,11 +3344,37 @@ Public Class ShipSlotControl
             End If
         Next
         RelGlobalSkills.Sort()
+        For Each Affect As String In currentShip.Affects
+            If Affect.Contains(";Skill;") = True Then
+                Affects = Affect.Split((";").ToCharArray)
+                If ShipSkills.Contains(Affects(0)) = False Then
+                    ShipSkills.Add(Affects(0))
+                End If
+            End If
+            If Affect.Contains(";Ship Bonus;") = True Then
+                Affects = Affect.Split((";").ToCharArray)
+                If ShipCurrent.Name = Affects(0) Then
+                    If ShipSkills.Contains(Affects(3)) = False Then
+                        ShipSkills.Add(Affects(3))
+                    End If
+                End If
+            End If
+            If Affect.Contains(";Subsystem;") = True Then
+                Affects = Affect.Split((";").ToCharArray)
+                If ShipSkills.Contains(Affects(3)) = False Then
+                    ShipSkills.Add(Affects(3))
+                End If
+            End If
+        Next
+        ShipSkills.Sort()
+
+        ' Add the Main menu item
+        Dim AlterRelevantSkills As New ToolStripMenuItem
+        AlterRelevantSkills.Name = currentShip.Name
+        AlterRelevantSkills.Text = "Alter Relevant Skills"
+
+        ' Add the bonus skills
         If RelGlobalSkills.Count > 0 Then
-            ' Add the Main menu item
-            Dim AlterRelevantSkills As New ToolStripMenuItem
-            AlterRelevantSkills.Name = currentShip.Name
-            AlterRelevantSkills.Text = "Alter Relevant Skills"
             For Each relSkill As String In RelGlobalSkills
                 Dim newRelSkill As New ToolStripMenuItem
                 newRelSkill.Name = relSkill
@@ -3381,8 +3408,52 @@ Public Class ShipSlotControl
                 newRelSkill.DropDownItems.Add(newRelSkillDefault)
                 AlterRelevantSkills.DropDownItems.Add(newRelSkill)
             Next
-            ctxShipSkills.Items.Add(AlterRelevantSkills)
         End If
+
+        ' Add a divider if relevant
+        If RelGlobalSkills.Count > 0 And ShipSkills.Count > 0 Then
+            AlterRelevantSkills.DropDownItems.Add("-")
+        End If
+
+        ' Add the ship skills
+        If ShipSkills.Count > 0 Then
+            For Each shipskill As String In ShipSkills
+                Dim newShipSkill As New ToolStripMenuItem
+                newShipSkill.Name = shipskill
+                newShipSkill.Text = shipskill
+                Dim pilotLevel As Integer = 0
+                If CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet.Contains(shipskill) Then
+                    pilotLevel = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(shipskill), HQFSkill).Level
+                Else
+                    MessageBox.Show("There is a mis-match of roles for the " & currentShip.Name & ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+                newShipSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
+                For skillLevel As Integer = 0 To 5
+                    Dim newRelSkillLevel As New ToolStripMenuItem
+                    newRelSkillLevel.Name = shipskill & skillLevel.ToString
+                    newRelSkillLevel.Text = "Level " & skillLevel.ToString
+                    If skillLevel = pilotLevel Then
+                        newRelSkillLevel.Checked = True
+                    End If
+                    AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotSkillLevel
+                    newShipSkill.DropDownItems.Add(newRelSkillLevel)
+                Next
+                newShipSkill.DropDownItems.Add("-")
+                Dim defaultLevel As Integer = 0
+                If CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(shipskill) = True Then
+                    defaultLevel = CType(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(shipskill), EveHQ.Core.PilotSkill).Level
+                End If
+                Dim newRelSkillDefault As New ToolStripMenuItem
+                newRelSkillDefault.Name = shipskill & defaultLevel.ToString
+                newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
+                AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
+                newShipSkill.DropDownItems.Add(newRelSkillDefault)
+                AlterRelevantSkills.DropDownItems.Add(newShipSkill)
+            Next
+        End If
+
+        ctxShipSkills.Items.Add(AlterRelevantSkills)
+
     End Sub
 #End Region
 End Class
