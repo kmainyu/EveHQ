@@ -3385,6 +3385,4 @@ Public Class ShipSlotControl
         End If
     End Sub
 #End Region
-
-   
 End Class

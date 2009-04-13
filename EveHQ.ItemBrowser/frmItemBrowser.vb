@@ -519,7 +519,7 @@ Public Class frmItemBrowser
         If pInfo(4) = 9 Then
             Dim typeID2 As String = EveHQ.Core.DataFunctions.GetTypeID(bpTypeID)
             If bpTypeID <> typeID2 Then
-                picBP.ImageLocation = "http://www.evehq.net/eve/images/icons/64_64/icon27_01.png"
+                picBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation("27_01", EveHQ.Core.ImageHandler.ImageType.Icons)
                 picBP.Tag = typeID2
                 ItemToolTip1.SetToolTip(Me.picBP, "Show Product Type")
                 picBP.Visible = True
@@ -528,7 +528,7 @@ Public Class frmItemBrowser
             End If
         Else
             If bpTypeID <> typeID Then
-                picBP.ImageLocation = "http://www.evehq.net/eve/images/blueprints/64_64/" & bpTypeID & ".png"
+                picBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(bpTypeID.ToString, EveHQ.Core.ImageHandler.ImageType.Blueprints)
                 picBP.Tag = bpTypeID
                 ItemToolTip1.SetToolTip(Me.picBP, "Show Blueprint")
                 picBP.Visible = True
@@ -544,19 +544,15 @@ Public Class frmItemBrowser
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
         Dim iconData As System.Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT invTypes.typeID, eveGraphics.icon FROM eveGraphics INNER JOIN invTypes ON eveGraphics.graphicID = invTypes.graphicID WHERE typeID=" & typeID & ";")
 
-        ' Load picture?
+        ' Load picture
         If iconData.Tables(0).Rows.Count > 0 Then
             Select Case pInfo(4)
-                Case 6
-                    picItem.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & typeID & ".png"
+                Case 6, 18, 23
+                    picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(typeID.ToString, EveHQ.Core.ImageHandler.ImageType.Types)
                 Case 9
-                    picItem.ImageLocation = "http://www.evehq.net/eve/images/blueprints/64_64/" & typeID & ".png"
-                Case 18
-                    picItem.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & typeID & ".png"
-                Case 23
-                    picItem.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & typeID & ".png"
+                    picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(typeID.ToString, EveHQ.Core.ImageHandler.ImageType.Blueprints)
                 Case Else
-                    picItem.ImageLocation = "http://www.evehq.net/eve/images/icons/64_64/icon" & iconData.Tables(0).Rows(0).Item("icon").ToString & ".png"
+                    picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(iconData.Tables(0).Rows(0).Item("icon").ToString, EveHQ.Core.ImageHandler.ImageType.Icons)
             End Select
         Else
             picItem.Image = My.Resources.noitem

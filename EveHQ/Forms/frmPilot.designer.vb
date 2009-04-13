@@ -141,7 +141,7 @@ Partial Public Class frmPilot
         '
         Me.ctxPic.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCtxPicGetPortraitFromServer, Me.mnuCtxPicGetPortraitFromLocal, Me.mnuSavePortrait})
         Me.ctxPic.Name = "ctxPic"
-        Me.ctxPic.Size = New System.Drawing.Size(246, 70)
+        Me.ctxPic.Size = New System.Drawing.Size(246, 92)
         '
         'mnuCtxPicGetPortraitFromServer
         '
@@ -159,7 +159,7 @@ Partial Public Class frmPilot
         '
         Me.mnuSavePortrait.Name = "mnuSavePortrait"
         Me.mnuSavePortrait.Size = New System.Drawing.Size(245, 22)
-        Me.mnuSavePortrait.Text = "Save Portrait into EveHQ Cache"
+        Me.mnuSavePortrait.Text = "Save Portrait into Image Cache"
         '
         'lvImplants
         '

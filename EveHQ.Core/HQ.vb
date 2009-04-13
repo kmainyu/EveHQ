@@ -47,6 +47,7 @@ Public Class HQ
     Public Shared appDataFolder As String = ""
     Public Shared appFolder As String = ""
     Public Shared cacheFolder As String = ""
+    Public Shared imageCacheFolder As String = ""
     Public Shared reportFolder As String = ""
     Public Shared dataFolder As String = ""
     Public Shared backupFolder As String = ""

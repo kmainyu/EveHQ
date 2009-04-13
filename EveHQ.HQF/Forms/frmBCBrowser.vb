@@ -62,7 +62,7 @@ Public Class frmBCBrowser
         End Get
         Set(ByVal value As Ship)
             currentShip = value
-            pbShip.ImageLocation = "http://www.evehq.net/images/eve/shiptypes/128_128/" & currentShip.ID & ".png"
+            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
             Call GetBCShipLoadouts()
         End Set
     End Property
@@ -143,7 +143,7 @@ Public Class frmBCBrowser
             clvLoadouts.EndUpdate()
             lblShipType.Text = currentShip.Name
             lblBCStatus.Text = "Update of loudouts completed!"
-            pbShip.ImageLocation = "http://www.evehq.net/images/eve/shiptypes/128_128/" & currentShip.ID & ".png"
+            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
             ' Save the XML into the cache
             If UseCacheFile = False Then
                 loadoutXML.Save(BCLoadoutCache & "\" & currentShip.ID & ".xml")

@@ -34,20 +34,20 @@ Public Class frmShowInfo
 
         If TypeOf itemObject Is Ship Then
             itemType = CType(itemObject, Ship)
-            picItem.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & itemObject.ID & ".png"
+            picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(itemObject.ID, EveHQ.Core.ImageHandler.ImageType.Types)
         Else
             If TypeOf itemObject Is ShipModule Then
                 itemType = CType(itemObject, ShipModule)
                 If itemType.IsDrone = True Then
-                    picItem.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & itemObject.ID & ".png"
+                    picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(itemObject.ID, EveHQ.Core.ImageHandler.ImageType.Types)
                 Else
-                    picItem.ImageLocation = "http://www.evehq.net/eve/images/icons/64_64/icon" & itemObject.Icon & ".png"
+                    picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(itemObject.Icon, EveHQ.Core.ImageHandler.ImageType.Icons)
                 End If
             End If
         End If
 
         ' Get image from cache 
-        Dim imgFilename As String = EveHQ.Core.HQ.cacheFolder & "\i" & hPilot.ID & ".png"
+        Dim imgFilename As String = EveHQ.Core.HQ.imageCacheFolder & "\" & hPilot.ID & ".png"
         If My.Computer.FileSystem.FileExists(imgFilename) = True Then
             pbPilot.ImageLocation = imgFilename
         Else

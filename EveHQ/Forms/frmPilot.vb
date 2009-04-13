@@ -42,7 +42,7 @@ Public Class frmPilot
 
             ' Get image from cache
             Try
-                Dim imgFilename As String = EveHQ.Core.HQ.cacheFolder & "\i" & EveHQ.Core.HQ.myPilot.ID & ".png"
+                Dim imgFilename As String = EveHQ.Core.HQ.imageCacheFolder & "\" & EveHQ.Core.HQ.myPilot.ID & ".png"
                 If My.Computer.FileSystem.FileExists(imgFilename) = True Then
                     picPilot.ImageLocation = imgFilename
                 Else
@@ -808,8 +808,8 @@ Public Class frmPilot
         MessageBox.Show("The requested portrait was not found within the Eve cache locations.", "Portrait Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
     Private Sub mnuSavePortrait_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSavePortrait.Click
-        Dim imgFilename As String = "i" & EveHQ.Core.HQ.myPilot.ID & ".png"
-        picPilot.Image.Save(EveHQ.Core.HQ.cacheFolder & "\" & imgFilename)
+        Dim imgFilename As String = EveHQ.Core.HQ.myPilot.ID & ".png"
+        picPilot.Image.Save(EveHQ.Core.HQ.imageCacheFolder & "\" & imgFilename)
     End Sub
 #End Region
 

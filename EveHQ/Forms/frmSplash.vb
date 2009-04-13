@@ -106,6 +106,22 @@ Public Class frmSplash
             My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.cacheFolder)
         End If
 
+        ' Check for existence of a cache folder in the application directory
+        lblStatus.Text = "> Checking image cache directory..."
+        Me.Refresh()
+        If isLocal = False Then
+            EveHQ.Core.HQ.imageCacheFolder = (EveHQ.Core.HQ.appDataFolder & "\ImageCache").Replace("\\", "\")
+        Else
+            EveHQ.Core.HQ.imageCacheFolder = (Application.StartupPath & "\ImageCache").Replace("\\", "\")
+        End If
+        If EveHQ.Core.HQ.imageCacheFolder.StartsWith("\") = True Then
+            EveHQ.Core.HQ.imageCacheFolder = "\" & EveHQ.Core.HQ.imageCacheFolder
+        End If
+        If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.imageCacheFolder) = False Then
+            ' Create the cache folder if it doesn't exist
+            My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.imageCacheFolder)
+        End If
+
         ' Check for existence of a report folder in the application directory
         lblStatus.Text = "> Checking report folder..."
         Me.Refresh()

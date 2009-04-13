@@ -128,7 +128,7 @@
                 pb.Width = 64 : pb.Height = 64
                 pb.Location = New Point(20, 20 + (65 * charCount))
                 pb.SizeMode = PictureBoxSizeMode.StretchImage
-                Dim imgFilename As String = EveHQ.Core.HQ.cacheFolder & "\i" & dPilot.ID & ".png"
+                Dim imgFilename As String = EveHQ.Core.HQ.imageCacheFolder & "\" & dPilot.ID & ".png"
                 pb.ImageLocation = imgFilename
                 AGP1.Controls.Add(pb)
                 textY = 20 + (65 * charCount)

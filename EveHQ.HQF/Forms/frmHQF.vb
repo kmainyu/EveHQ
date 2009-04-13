@@ -453,7 +453,7 @@ Public Class frmHQF
         End If
     End Sub
     Private Sub DisplayShipPreview(ByVal selShip As Ship)
-        pbShip.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & selShip.ID & ".png"
+        pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(selShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
         lblShipType.Text = selShip.Name
         txtShipDescription.Text = selShip.Description
         lblShieldHP.Text = FormatNumber(selShip.ShieldCapacity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " HP"
@@ -1714,7 +1714,7 @@ Public Class frmHQF
         shipSlot.Location = New Point(0, 0)
         shipSlot.Dock = DockStyle.Fill
         pSS.Controls.Add(shipSlot)
-        shipSlot.pbShip.ImageLocation = "http://www.evehq.net/eve/images/types/128_128/" & curShip.ID & ".png"
+        shipSlot.pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(curShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
 
         Dim shipInfo As New ShipInfoControl
         shipInfo.Name = "shipInfo"
