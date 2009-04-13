@@ -1427,7 +1427,7 @@ Public Class Reports
             strHTML &= "<td width=35px></td>"
             strHTML &= "<td width=165px></td>"
             For min As Integer = 1 To 8
-                strHTML &= "<td width=75px align=center><img src=" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "></td>"
+                strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
             Next
             strHTML &= "</tr>"
             strHTML &= "<tr>"
@@ -1602,7 +1602,7 @@ Public Class Reports
             strHTML &= "<td width=35px></td>"
             strHTML &= "<td width=165px></td>"
             For min As Integer = 1 To 8
-                strHTML &= "<td width=75px align=center><img src=" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "></td>"
+                strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
             Next
             strHTML &= "</tr>"
             strHTML &= "<tr>"
@@ -1769,7 +1769,7 @@ Public Class Reports
             strHTML &= "<td width=35px></td>"
             strHTML &= "<td width=165px></td>"
             For min As Integer = 1 To 7
-                strHTML &= "<td width=75px align=center><img src=" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "></td>"
+                strHTML &= "<td width=75px align=center><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
             Next
             strHTML &= "</tr>"
             strHTML &= "<tr>"
