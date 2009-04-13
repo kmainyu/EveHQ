@@ -1422,15 +1422,12 @@ Public Class Reports
 
         If forIGB = False Then
 
-            Dim iconLoc As String = "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/"
-            Dim iconLoc2 As String = "http://www.eve-online.com/bitmaps/icons/itemdb/black/32_32/"
-
             strHTML &= "<table width=800px align=center>"
             strHTML &= "<tr>"
             strHTML &= "<td width=35px></td>"
             strHTML &= "<td width=165px></td>"
             For min As Integer = 1 To 8
-                strHTML &= "<td width=75px align=center><img src=" & iconLoc & "icon" & minIcons(min) & ".png></td>"
+                strHTML &= "<td width=75px align=center><img src=" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "></td>"
             Next
             strHTML &= "</tr>"
             strHTML &= "<tr>"
@@ -1451,7 +1448,7 @@ Public Class Reports
                 For oreType As Integer = 1 To 12
                     strHTML &= "<tr>"
                     strHTML &= "<td width=35px>"
-                    strHTML &= "<img src='" & iconLoc2 & "icon" & oreIcons(groupType, oreType) & ".png'>"
+                    strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'>"
                     strHTML &= "</td>"
                     strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
                     For minType As Integer = 1 To 8
@@ -1600,15 +1597,12 @@ Public Class Reports
 
         If forIGB = False Then
 
-            Dim iconLoc As String = "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/"
-            Dim iconLoc2 As String = "http://www.eve-online.com/bitmaps/icons/itemdb/black/32_32/"
-
             strHTML &= "<table width=800px align=center>"
             strHTML &= "<tr>"
             strHTML &= "<td width=35px></td>"
             strHTML &= "<td width=165px></td>"
             For min As Integer = 1 To 8
-                strHTML &= "<td width=75px align=center><img src=" & iconLoc & "icon" & minIcons(min) & ".png></td>"
+                strHTML &= "<td width=75px align=center><img src=" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "></td>"
             Next
             strHTML &= "</tr>"
             strHTML &= "<tr>"
@@ -1629,7 +1623,7 @@ Public Class Reports
                 For oreType As Integer = 1 To 3
                     strHTML &= "<tr>"
                     strHTML &= "<td width=35px>"
-                    strHTML &= "<img src='" & iconLoc2 & "icon" & oreIcons(groupType, oreType) & ".png'>"
+                    strHTML &= "<img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'>"
                     strHTML &= "</td>"
                     strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
                     For minType As Integer = 1 To 8
@@ -1770,15 +1764,12 @@ Public Class Reports
 
         If forIGB = False Then
 
-            Dim iconLoc As String = "http://www.eve-online.com/bitmaps/icons/itemdb/black/64_64/"
-            Dim iconLoc2 As String = "http://www.eve-online.com/bitmaps/icons/itemdb/black/32_32/"
-
             strHTML &= "<table width=800px align=center>"
             strHTML &= "<tr>"
             strHTML &= "<td width=35px></td>"
             strHTML &= "<td width=165px></td>"
             For min As Integer = 1 To 7
-                strHTML &= "<td width=80px align=center><img src=" & iconLoc & "icon" & minIcons(min) & ".png></td>"
+                strHTML &= "<td width=75px align=center><img src=" & EveHQ.Core.ImageHandler.GetImageLocation(minIcons(min), EveHQ.Core.ImageHandler.ImageType.Icons) & "></td>"
             Next
             strHTML &= "</tr>"
             strHTML &= "<tr>"
@@ -1796,7 +1787,7 @@ Public Class Reports
             For groupType As Integer = 1 To 1
                 strHTML &= "<tr><td colspan=9 class=thead>" & oreMaterials(groupType, 0, 0) & "</td></tr>"
                 For oreType As Integer = 1 To 12
-                    strHTML &= "<tr><td width=35px><img src=" & iconLoc2 & "icon" & oreIcons(groupType, oreType) & ".png></td>"
+                    strHTML &= "<tr><td width=35px><img src='" & EveHQ.Core.ImageHandler.GetImageLocation(oreIcons(groupType, oreType), EveHQ.Core.ImageHandler.ImageType.Icons) & "'></td>"
                     strHTML &= "<td width=165px>" & oreMaterials(groupType, oreType, 0) & "</td>"
                     For minType As Integer = 1 To 7
                         strHTML &= "<td width=80px align=center>" & oreMaterials(groupType, oreType, minType) & "</td>"

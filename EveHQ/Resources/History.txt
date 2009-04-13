@@ -1,6 +1,29 @@
 EveHQ - Version History
 -----------------------
 
+1.9.5.518 (13/04/2009)
+---------
+- Core: Fixed issue with increased training speed applying to details in the training form when changing characters
+- Core: Added extra checking into the initial routines for establishing database connections
+- Core: Exiting EveHQ from the menu option should now trigger the correct form shutdown routines
+- Core: Added routine to check for corrupted EveHQSettings.bin file when loading settings
+- Core: Added code for handling image downloads and saving to the image cache
+- Core: Updated the location of the character image cache
+- HQF: Fixed issues with ganglinks not being permitted to activate
+- HQF: Fixed ice mining info not appearing on the ShipInfoControl
+- HQF: Armor Rig penalty now stacked independantly of other velocity penalties
+- HQF: Fixed mapping of the Advanced Drone Interfacing skill
+- HQF: Updated routines for handling the exceeding of active group items
+- HQF: Exhumers now get their 7.5% shield resistance bonus per Mining Barge level
+- HQF: Added new ship image on the main toolbar for altering relevant ship skills
+- HQF: Altered image retrieving to use the new image handler
+- IB: Altered image retrieving to use the new image handler
+- Map: Fixed control docking for waypoints and exclusions
+- Map: Removed About form
+- Prism: Fixed error when searching for items with no items available to search
+- Prism: Fixed errors when closing down Prism when the API is still downloading
+
+
 1.9.4.505 (07/04/2009)
 ---------
 Fixes and Improvements:
