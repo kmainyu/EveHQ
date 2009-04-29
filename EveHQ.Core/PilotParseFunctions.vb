@@ -433,10 +433,17 @@ Public Class PilotParseFunctions
         Else
             EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue, EveHQ.Core.EveAPI.LastAPIResult)
         End If
-        Call ParsePilotSkills(cPilot, cXML)
-        Call ParsePilotXML(cPilot, cXML)
-        Call ParseTrainingXML(cPilot, tXML)
-        Call BuildAttributeData(cPilot)
+        If cXML IsNot Nothing And tXML IsNot Nothing Then
+            Call ParsePilotSkills(cPilot, cXML)
+            Call ParsePilotXML(cPilot, cXML)
+            Call ParseTrainingXML(cPilot, tXML)
+            Call BuildAttributeData(cPilot)
+        Else
+            Dim msg As String = "There was a error retrieving the character data for " & cPilot.Name & " from the API server. The error returned was: " & ControlChars.CrLf & ControlChars.CrLf
+            msg &= EveHQ.Core.EveAPI.LastAPIErrorText & ControlChars.CrLf & ControlChars.CrLf
+            msg &= "Please check the status of the API server."
+            MessageBox.Show(msg, "API Error - " & cPilot.Name, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
 
     End Sub
     Private Shared Sub ParsePilotXML(ByRef cPilot As EveHQ.Core.Pilot, ByVal CXMLDoc As XmlDocument)

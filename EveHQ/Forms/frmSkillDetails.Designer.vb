@@ -55,6 +55,7 @@ Partial Class frmSkillDetails
         Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuViewItemDetails = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewCertDetails = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuViewItemDetailsInIB = New System.Windows.Forms.ToolStripMenuItem
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage3 = New System.Windows.Forms.TabPage
@@ -70,16 +71,15 @@ Partial Class frmSkillDetails
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.TabPage4 = New System.Windows.Forms.TabPage
-        Me.SkillToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.lvwTimes = New EveHQ.ListViewNoFlicker
         Me.ToLevel = New System.Windows.Forms.ColumnHeader
         Me.Standard = New System.Windows.Forms.ColumnHeader
         Me.Current = New System.Windows.Forms.ColumnHeader
         Me.Cumulative = New System.Windows.Forms.ColumnHeader
+        Me.SkillToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.lvwDetails = New EveHQ.ListViewNoFlicker
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.mnuViewCertDetails = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxReqs.SuspendLayout()
         Me.ctxDepend.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -132,7 +132,7 @@ Partial Class frmSkillDetails
         Me.ctxDepend.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxDepend.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripSeparator1, Me.mnuViewItemDetails, Me.mnuViewCertDetails, Me.mnuViewItemDetailsInIB})
         Me.ctxDepend.Name = "ctxDepend"
-        Me.ctxDepend.Size = New System.Drawing.Size(212, 120)
+        Me.ctxDepend.Size = New System.Drawing.Size(212, 98)
         '
         'mnuItemName
         '
@@ -151,6 +151,13 @@ Partial Class frmSkillDetails
         Me.mnuViewItemDetails.Name = "mnuViewItemDetails"
         Me.mnuViewItemDetails.Size = New System.Drawing.Size(211, 22)
         Me.mnuViewItemDetails.Text = "View Details"
+        '
+        'mnuViewCertDetails
+        '
+        Me.mnuViewCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
+        Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(211, 22)
+        Me.mnuViewCertDetails.Text = "View Certificate Details"
         '
         'mnuViewItemDetailsInIB
         '
@@ -389,13 +396,6 @@ Partial Class frmSkillDetails
         '
         Me.ColumnHeader2.Width = 200
         '
-        'mnuViewCertDetails
-        '
-        Me.mnuViewCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
-        Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
-        Me.mnuViewCertDetails.Size = New System.Drawing.Size(211, 22)
-        Me.mnuViewCertDetails.Text = "View Certificate Details"
-        '
         'frmSkillDetails
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -408,7 +408,6 @@ Partial Class frmSkillDetails
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmSkillDetails"
-        Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Skill Details"
         Me.ctxReqs.ResumeLayout(False)

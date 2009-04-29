@@ -10,7 +10,12 @@
         Call Me.PrepareTree(certID)
         Call Me.PrepareCerts(certID)
         Call Me.PrepareDepends(certID)
-        Me.ShowDialog()
+
+        If Me.IsHandleCreated = False Then
+            Me.Show()
+        Else
+            Me.BringToFront()
+        End If
 
     End Sub
 

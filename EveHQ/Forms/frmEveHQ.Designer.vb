@@ -64,6 +64,8 @@ Partial Public Class frmEveHQ
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuToolsTriggerError = New System.Windows.Forms.ToolStripMenuItem
         Me.ClearEveHQCache = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuClearCharacterXML = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuClearImageCache = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuModules = New System.Windows.Forms.ToolStripMenuItem
         Me.NoModulesLoadedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReports = New System.Windows.Forms.ToolStripMenuItem
@@ -157,6 +159,8 @@ Partial Public Class frmEveHQ
         Me.XPTraining = New EveHQ.XPander
         Me.lblTrainingStatus = New System.Windows.Forms.Label
         Me.XPModules = New EveHQ.XPander
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuClearAllXMLCache = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -471,9 +475,22 @@ Partial Public Class frmEveHQ
         '
         'ClearEveHQCache
         '
+        Me.ClearEveHQCache.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuClearCharacterXML, Me.mnuClearAllXMLCache, Me.ToolStripMenuItem2, Me.mnuClearImageCache})
         Me.ClearEveHQCache.Name = "ClearEveHQCache"
         Me.ClearEveHQCache.Size = New System.Drawing.Size(202, 22)
         Me.ClearEveHQCache.Text = "Clear EveHQ Cache"
+        '
+        'mnuClearCharacterXML
+        '
+        Me.mnuClearCharacterXML.Name = "mnuClearCharacterXML"
+        Me.mnuClearCharacterXML.Size = New System.Drawing.Size(218, 22)
+        Me.mnuClearCharacterXML.Text = "Clear Character XML Cache"
+        '
+        'mnuClearImageCache
+        '
+        Me.mnuClearImageCache.Name = "mnuClearImageCache"
+        Me.mnuClearImageCache.Size = New System.Drawing.Size(218, 22)
+        Me.mnuClearImageCache.Text = "Clear Image Cache"
         '
         'mnuModules
         '
@@ -1165,6 +1182,17 @@ Partial Public Class frmEveHQ
         Me.XPModules.Tag = 2
         Me.XPModules.TooltipText = Nothing
         '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(215, 6)
+        '
+        'mnuClearAllXMLCache
+        '
+        Me.mnuClearAllXMLCache.Name = "mnuClearAllXMLCache"
+        Me.mnuClearAllXMLCache.Size = New System.Drawing.Size(218, 22)
+        Me.mnuClearAllXMLCache.Text = "Clear All Cached XML Data"
+        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1332,5 +1360,9 @@ Partial Public Class frmEveHQ
     Friend WithEvents iconEveHQMLW As System.Windows.Forms.NotifyIcon
     Friend WithEvents tsAPITime As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents tmrMemory As System.Windows.Forms.Timer
+    Friend WithEvents mnuClearCharacterXML As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuClearImageCache As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuClearAllXMLCache As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
 
 End Class

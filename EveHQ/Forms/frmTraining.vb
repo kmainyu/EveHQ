@@ -1066,8 +1066,7 @@ Public Class frmTraining
 
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
         Dim certID As String = mnuCertName.Tag.ToString
-        Dim certDetails As New frmCertificateDetails
-        certDetails.ShowCertDetails(certID)
+        frmCertificateDetails.ShowCertDetails(certID)
     End Sub
 
     Private Sub mnuAddCertToQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCertToQueue1.Click, mnuAddCertToQueue2.Click, mnuAddCertToQueue3.Click, mnuAddCertToQueue4.Click, mnuAddCertToQueue5.Click

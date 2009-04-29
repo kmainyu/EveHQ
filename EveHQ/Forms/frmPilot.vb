@@ -919,9 +919,8 @@ Public Class frmPilot
 
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
         Dim certID As String = mnuCertName.Tag.ToString
-        Dim certDetails As New frmCertificateDetails
-        certDetails.Text = mnuCertName.Text
-        certDetails.ShowCertDetails(certID)
+        frmCertificateDetails.Text = mnuCertName.Text
+        frmCertificateDetails.ShowCertDetails(certID)
     End Sub
 End Class
 

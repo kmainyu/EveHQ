@@ -36,7 +36,11 @@ Public Class frmSkillDetails
         Call Me.PrepareSPs(skillID)
         Call Me.PrepareTimes(skillID)
 
-        Me.ShowDialog()
+        If Me.IsHandleCreated = False Then
+            Me.Show()
+        Else
+            Me.BringToFront()
+        End If
 
     End Sub
 
@@ -486,8 +490,7 @@ Public Class frmSkillDetails
 
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
         Dim certID As String = mnuItemName.Tag.ToString
-        Dim certDetails As New frmCertificateDetails
-        certDetails.Text = mnuItemName.Text
-        certDetails.ShowCertDetails(certID)
+        frmCertificateDetails.Text = mnuItemName.Text
+        frmCertificateDetails.ShowCertDetails(certID)
     End Sub
 End Class

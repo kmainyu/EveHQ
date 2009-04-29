@@ -2035,7 +2035,9 @@ Public Class frmEveHQ
 
 #End Region
 
-    Private Sub ClearEveHQCache_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearEveHQCache.Click
+#Region "Cache Clearing Routines"
+
+    Private Sub mnuClearAllXMLCache_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuClearAllXMLCache.Click
         Dim msg As String = "This will delete the entire contents of the cache folder, clear the pilot data and reconnect to the API." & ControlChars.CrLf & ControlChars.CrLf & "Are you sure you wish to continue?"
         Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Cache", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If reply = DialogResult.Yes Then
@@ -2083,6 +2085,93 @@ Public Class frmEveHQ
             End Try
         End If
     End Sub
+
+    Private Sub mnuClearCharacterXML_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuClearCharacterXML.Click
+        Dim msg As String = "This will delete the character specific XML files, clear the pilot data and reconnect to the API." & ControlChars.CrLf & ControlChars.CrLf & "Are you sure you wish to continue?"
+        Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Cache", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If reply = DialogResult.Yes Then
+            Try
+                ' Close all open forms
+                For Each tp As TabPage In tabMDI.TabPages
+                    TryCast(tp.Tag, Form).Close()
+                Next
+
+                ' Clear the character XML files
+                Try
+                    For Each charFile As String In My.Computer.FileSystem.GetFiles(EveHQ.Core.HQ.cacheFolder, FileIO.SearchOption.SearchTopLevelOnly, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "*")
+                        My.Computer.FileSystem.DeleteFile(charFile)
+                    Next
+                Catch ex As Exception
+                End Try
+
+                ' Clear the skill training XML files
+                Try
+                    For Each charFile As String In My.Computer.FileSystem.GetFiles(EveHQ.Core.HQ.cacheFolder, FileIO.SearchOption.SearchTopLevelOnly, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillTraining.ToString & "*")
+                        My.Computer.FileSystem.DeleteFile(charFile)
+                    Next
+                Catch ex As Exception
+                End Try
+
+                ' Clear the skill queue XML files
+                Try
+                    For Each charFile As String In My.Computer.FileSystem.GetFiles(EveHQ.Core.HQ.cacheFolder, FileIO.SearchOption.SearchTopLevelOnly, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "*")
+                        My.Computer.FileSystem.DeleteFile(charFile)
+                    Next
+                Catch ex As Exception
+                End Try
+
+                ' Clear the EveHQ Pilot Data
+                Try
+                    EveHQ.Core.HQ.EveHQSettings.Pilots.Clear()
+                    EveHQ.Core.HQ.TPilots.Clear()
+                    EveHQ.Core.HQ.myPilot = Nothing
+                Catch ex As Exception
+                End Try
+
+                ' Update the pilot lists
+                Call Me.UpdatePilotInfo(True)
+
+                ' Restart the timer
+                tmrSkillUpdate.Enabled = True
+
+                ' Call the API
+                Call Me.QueryMyEveServer()
+
+            Catch ex As Exception
+                MessageBox.Show("Error Deleting the EveHQ Cache Folder, please try to delete the following location manually: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.cacheFolder, "Error Deleting Cache", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+        End If
+    End Sub
+
+    Private Sub mnuClearImageCache_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuClearImageCache.Click
+        Dim msg As String = "This will delete the entire contents of the image cache folder." & ControlChars.CrLf & ControlChars.CrLf & "Are you sure you wish to continue?"
+        Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Image Cache", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If reply = DialogResult.Yes Then
+            Try
+                ' Clear the EveHQ image cache
+                Try
+                    If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.imageCacheFolder) Then
+                        My.Computer.FileSystem.DeleteDirectory(EveHQ.Core.HQ.imageCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    End If
+                Catch ex As Exception
+                End Try
+
+                ' Recreate the EveHQ image cache folder
+                Try
+                    If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.imageCacheFolder) = False Then
+                        My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.imageCacheFolder)
+                    End If
+                Catch ex As Exception
+                End Try
+
+            Catch ex As Exception
+                MessageBox.Show("Error Deleting the EveHQ Image Cache Folder, please try to delete the following location manually: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.imageCacheFolder, "Error Deleting Cache", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+        End If
+    End Sub
+
+#End Region
+
 
     Private Sub mnuToolsTriggerError_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuToolsTriggerError.Click
         Dim errPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots("O M G"), Core.Pilot)
@@ -2240,5 +2329,8 @@ Public Class frmEveHQ
     Private Sub tmrMemory_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrMemory.Tick
         Call EveHQ.Core.HQ.ReduceMemory()
     End Sub
+
+    
+   
 End Class
 
