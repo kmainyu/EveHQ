@@ -134,15 +134,15 @@
 780,1,27103,73,4,1038,0,0,0,Industry,Hardwiring - Inherent Implants 'Yeti' BX-0
 780,1,22570,73,4,1038,0,0,0,Industry,Hardwiring - Inherent Implants 'Yeti' BX-1
 780,1,22571,73,4,1038,0,0,0,Industry,Hardwiring - Inherent Implants 'Yeti' BX-2
-1156,1,27191,788,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-0
-1156,1,27186,788,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-1
-1156,1,27190,788,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-2
-846,1,27193,208,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-0
-846,1,27187,208,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-1
-846,1,27192,208,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-2
-66,1,27195,73,2,481,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-0
-66,1,27188,73,2,481,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-1
-66,1,27194,73,2,481,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-2
+1156,1,27191,1372,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-0
+1156,1,27186,1372,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-1
+1156,1,27190,1372,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPF-2
+846,1,27193,73,2,481,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-0
+846,1,27187,73,2,481,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-1
+846,1,27192,73,2,481,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPG-2
+66,1,27195,1371,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-0
+66,1,27188,1371,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-1
+66,1,27194,1371,2,479,0,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPH-2
 #1160,1,27196,,,,,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPW-1
 #1160,1,27197,,,,,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPX-1
 #902,1,27198,,,,,0,0,Science,Hardwiring - Poteque Pharmaceuticals 'Prospector' PPY-1
@@ -342,11 +342,11 @@
 66,1,22135,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Epsilon
 66,1,22136,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Gamma
 #,1,22137,,,,,0,0,Science,#Low-grade Talisman Omega
-846,1,28808,208;209;210;211,2,479,0,0,0,Science;Learning,Low-grade Virtue Alpha
-846,1,28809,208;209;210;211,2,479,0,0,0,Science;Learning,Low-grade Virtue Beta
-846,1,28810,208;209;210;211,2,479,0,0,0,Science;Learning,Low-grade Virtue Delta
-846,1,28811,208;209;210;211,2,479,0,0,0,Science;Learning,Low-grade Virtue Epsilon
-846,1,28812,208;209;210;211,2,479,0,0,0,Science;Learning,Low-grade Virtue Gamma
+846,1,28808,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Alpha
+846,1,28809,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Beta
+846,1,28810,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Delta
+846,1,28811,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Epsilon
+846,1,28812,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Gamma
 #,1,28813,,,,,0,0,Science,#Low-grade Virtue Omega
 #,1,,,,,,0,0,Learning,#Memory Augmentation - Advanced
 #,1,,,,,,0,0,Learning,#Memory Augmentation - Basic

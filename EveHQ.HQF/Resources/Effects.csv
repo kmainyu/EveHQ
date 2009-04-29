@@ -469,11 +469,9 @@
 # SCIENCE,,,,,,,,,,
 434,1,3410,77,4,1039,0,1,0,0,Astrogeology - Mining Laser
 434,1,3410,77,4,1040,0,1,0,0,Astrogeology - Strip Miner
-1156,1,25810,788,2,479,0,1,0,0,Astrometric Pinpointing
-846,1,25811,208,2,479,0,1,0,0,Astrometric Triangulation - Radar Strength
-846,1,25811,209,2,479,0,1,0,0,Astrometric Triangulation - Ladar Strength
-846,1,25811,210,2,479,0,1,0,0,Astrometric Triangulation - Mag Strength
-846,1,25811,211,2,479,0,1,0,0,Astrometric Triangulation - Grav Strength
+66,1,25811,73,2,481,0,1,0,0,Astrometric Acquisition - Scan Time
+1156,1,25810,1372,2,479,0,1,0,0,Astrometric Pinpointing - Base Maximum Deviation
+846,1,25739,1371,2,479,0,1,0,0,Astrometric Rangefinding - Base Strength
 #,1,3412,,,,0,1,0,0,Astrometrics
 #,1,24606,,,,0,1,0,0,Cloning Facility Operation
 292,1,24563,118,2,588,0,1,0,0,Doomsday Operation - Thermal
@@ -481,7 +479,6 @@
 292,1,24563,114,2,588,0,1,0,0,Doomsday Operation - EM
 292,1,24563,117,2,588,0,1,0,0,Doomsday Operation - Kinetic
 885,1,24562,714,2,590,0,1,0,0,Jump Portal Generation
-66,1,25739,73,2,481,0,1,0,0,Signal Acquisition
 1229,1,28164,1211,7,1211,0,1,0,0,Thermodynamics
 # SPACESHIP COMMAND,,,,,,,,,,
 151,1,20342,70,2,547,0,1,0,0,Advanced Spaceship Command

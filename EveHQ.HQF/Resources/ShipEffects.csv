@@ -41,7 +41,7 @@
 11188,1,3331,55,1,11188,0,1,0,-5,15,Capacitor Recharge Rate
 11188,0,0,50,2,330,0,0,0,-97.5,15,Cloaking Device CPU
 11188,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
-11188,1,12093,73,5,3412,0,1,0,-10,15,Astrometrics Module Duration
+11188,1,12093,1371,2,479,0,1,0,10,15,Probe Scan Strength Bonus
 # Anshar,,,,,,,,,,,
 28848,1,20527,10004,1,28848,0,1,0,5,15,Cargo Capacity
 28848,1,20527,70,1,28848,0,1,0,5,15,Agility
@@ -198,7 +198,7 @@
 11192,1,3330,51,2,511;862;524;506;510;771;507;508;501;509,0,1,0,-5,15,Missile ROF
 11192,0,0,50,2,330,0,0,0,-97.5,15,Cloaking Device CPU
 11192,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
-11192,1,12093,73,5,3412,0,1,0,-10,15,Astrometrics Module Duration
+11192,1,12093,1371,2,479,0,1,0,10,15,Probe Scan Strength Bonus
 # Caldari Navy Hookbill,,,,,,,,,,,
 17619,1,3330,263,1,17619,0,1,0,10,15,Shield HP
 17619,1,3330,54,4,561;564,0,1,0,10,15,Small Hybrid Turret Optimal Range
@@ -232,7 +232,7 @@
 11182,1,3329,54,4,574;577,0,1,0,10,15,Small Projectile Turret Optimal Range
 11182,0,0,50,2,330,0,0,0,-97.5,15,Cloaking Device CPU
 11182,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
-11182,1,12093,73,5,3412,0,1,0,-10,15,Astrometrics Module Duration
+11182,1,12093,1371,2,479,0,1,0,10,15,Probe Scan Strength Bonus
 # Chimera,,,,,,,,,,,
 23915,1,24312,91,4,910,0,1,0,50,15,Capital Energy Transfer Range
 23915,1,24312,87,4,600,0,1,0,50,15,Capital Shield Transfer Range
@@ -503,7 +503,7 @@
 11172,1,3328,118,4,837,0,1,0,10,15,Scout Drone Thermal Damage
 11172,0,0,50,2,330,0,0,0,-97.5,15,Cloaking Device CPU
 11172,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
-11172,1,12093,73,5,3412,0,1,0,-10,15,Astrometrics Module Duration
+11172,1,12093,1371,2,479,0,1,0,10,15,Probe Scan Strength Bonus
 # Heretic,,,,,,,,,,,
 22452,1,12097,114,2,387;648,0,1,0,5,15,Rocket Damage - EM
 22452,1,12097,116,2,387;648,0,1,0,5,15,Rocket Damage - Exp
@@ -515,7 +515,7 @@
 22452,0,0,50,1,22782,0,0,0,-99,15,Sphere Launcher CPU,,
 # Heron,,,,,,,,,,,,,
 605,1,3330,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,5,15,Missile Kinetic Damage,,
-605,1,3330,73,5,3412,0,1,0,-5,15,Astrometrics Module Duration,,
+605,1,3330,1371,2,479,0,1,0,5,15,Probe Scan Strength Bonus,,
 # Hoarder,,,,,,,,,,,,,
 651,1,3341,10004,1,651,0,1,0,5,15,Cargo Capacity,,
 651,1,3341,37,1,651,0,1,0,5,15,Max Velocity,,
@@ -542,7 +542,7 @@
 22544,1,17940,272,1,22544,0,1,2,7.5,15,Shield Explosive Resistance
 22544,1,17940,273,1,22544,0,1,2,7.5,15,Shield Kinetic Resistance
 22544,1,17940,274,1,22544,0,1,2,7.5,15,Shield Thermal Resistance
-22544,1,22551,77,4,1040,0,1,0,7.5,15,Strip Miner Mining Yield
+22544,1,22551,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
 22544,1,22551,73,4,1038,0,1,0,-3,15,Ice Harvester Duration
 # Hurricane,,,,,,,,,,,
 24702,1,12099,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
@@ -558,7 +558,7 @@
 24690,1,3336,84,2,62,0,1,0,7.5,15,Armor Repair Amount
 # Imicus,,,,,,,,,,,
 607,1,3328,10007,1,607,0,1,0,5,15,Drone Control Range 
-607,1,3328,73,5,3412,0,1,0,-5,15,Astrometrics Module Duration
+607,1,3328,1371,2,479,0,1,0,5,15,Probe Scan Strength Bonus
 # Impel,,,,,,,,,,,
 12753,1,3343,10004,1,12753,0,1,0,5,15,Cargo Capacity
 12753,1,3343,37,1,12753,0,1,0,5,15,Max Velocity
@@ -669,7 +669,7 @@
 24694,1,3337,68,2,40,0,1,0,7.5,15,Shield Booster Boost
 # Magnate,,,,,,,,,,,
 29248,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Cap Use
-29248,1,3331,73,5,3412,0,1,0,-5,15,Astrometrics Module Duration
+29248,1,3331,1371,2,479,0,1,0,5,15,Probe Scan Strength Bonus
 # Malediction,,,,,,,,,,,
 11186,1,3331,114,2,387;648,0,1,0,5,15,Rocket Damage - EM
 11186,1,3331,116,2,387;648,0,1,0,5,15,Rocket Damage - Exp
@@ -904,7 +904,7 @@
 11965,0,0,73,2,658,0,0,0,-50,15,Cyno Field Duration
 # Probe,,,,,,,,,,,
 586,1,3329,10004,1,586,0,1,0,5,15,Cargo Capacity
-586,1,3329,73,5,3412,0,1,0,-5,15,Astrometrics Module Duration
+586,1,3329,1371,2,479,0,1,0,5,15,Probe Scan Strength Bonus
 # Procurer,,,,,,,,,,,
 17480,0,0,50,4,1038;1040,0,0,0,-99.5,15,Ice Harvester/Strip Miner CPU Need
 17480,1,17940,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
