@@ -241,8 +241,10 @@ Public Class frmBCBrowser
                     BaseFit = fModule.Name : RevisedFit = BaseFit
                     If fModule.Charges.Count <> 0 Then
                         For Each ammo As String In ammoList
-                            If fModule.Charges.Contains(CType(ModuleLists.moduleList(ammo), ShipModule).DatabaseGroup) Then
-                                RevisedFit = BaseFit & "," & CType(ModuleLists.moduleList(ammo), ShipModule).Name
+                            If ModuleLists.moduleList.ContainsKey(ammo) = True Then
+                                If fModule.Charges.Contains(CType(ModuleLists.moduleList(ammo), ShipModule).DatabaseGroup) Then
+                                    RevisedFit = BaseFit & "," & CType(ModuleLists.moduleList(ammo), ShipModule).Name
+                                End If
                             End If
                         Next
                         currentFit.Add(RevisedFit)
