@@ -712,6 +712,7 @@
 846,2,514,239,2,201,1,0,0,15,Ladar Strength
 846,2,514,240,2,201,1,0,0,15,Mag Strength
 846,2,514,241,2,201,1,0,0,15,Radar Strength
+1536,2,514,54,2,201,1,0,0,15,ECM Range
 # Sensor Backup Arrays,,,,,,,,,,
 1027,2,203,211,3,6,1,0,0,14,Grav Strength
 1028,2,203,209,3,6,1,0,0,14,Ladar Strength

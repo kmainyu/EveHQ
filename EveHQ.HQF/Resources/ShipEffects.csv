@@ -166,7 +166,8 @@
 632,1,3334,239,2,201,0,1,0,15,15,ECM Jam Strength
 632,1,3334,240,2,201,0,1,0,15,15,ECM Jam Strength
 632,1,3334,241,2,201,0,1,0,15,15,ECM Jam Strength
-632,1,3334,54,2,201,0,1,0,20,15,ECM Optimal Range
+632,1,3334,54,2,201,0,1,0,10,15,ECM Optimal Range
+632,1,3334,158,2,201,0,1,0,10,15,ECM Falloff
 # Breacher,,,,,,,,,,,
 598,1,3329,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,5,15,EM Missile Damage
 598,1,3329,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,1,0,10,15,Exp Missile Damage
@@ -414,11 +415,11 @@
 29344,1,3332,10012,4,562;565,0,1,0,-5,15,Medium Hybrid Turret ROF
 # Falcon,,,,,,,,,,,
 11957,1,3334,6,2,201,0,1,0,-10,15,ECM Capacitor Use
-11957,1,3334,54,2,201,0,1,0,20,15,ECM Optimal Range
-11957,1,22761,238,2,201,0,1,0,20,15,ECM Jam Strength
-11957,1,22761,239,2,201,0,1,0,20,15,ECM Jam Strength
-11957,1,22761,240,2,201,0,1,0,20,15,ECM Jam Strength
-11957,1,22761,241,2,201,0,1,0,20,15,ECM Jam Strength
+11957,1,3334,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
+11957,1,22761,238,2,201,0,1,0,30,15,ECM Jam Strength
+11957,1,22761,239,2,201,0,1,0,30,15,ECM Jam Strength
+11957,1,22761,240,2,201,0,1,0,30,15,ECM Jam Strength
+11957,1,22761,241,2,201,0,1,0,30,15,ECM Jam Strength
 11957,0,0,50,2,330,0,0,0,-95,15,Cloaking Device CPU
 11957,1,22761,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11957,0,0,714,2,658,0,0,0,-80,15,Cyno Field Fuel
@@ -520,15 +521,14 @@
 651,1,3341,10004,1,651,0,1,0,5,15,Cargo Capacity,,
 651,1,3341,37,1,651,0,1,0,5,15,Max Velocity,,
 # Hound,,,,,,,,,,,,,
-12034,1,3329,114,2,656;386,0,1,0,5,15,EM Cruise Damage,,
-12034,1,3329,116,2,656;386,0,1,0,5,15,Explosive Cruise Damage,,
-12034,1,3329,117,2,656;386,0,1,0,5,15,Kinetic Cruise Damage,,
-12034,1,3329,118,2,656;386,0,1,0,5,15,Thermal Cruise Damage,,
-12034,1,3329,654,2,656;386,0,1,0,-16.66,15,Cruise Missile Explosion Radius,,
-12034,1,12093,116,2,656;386;90,0,1,0,5,15,Explosive Cruise & Bomb Damage,,
-12034,1,12093,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus
-12034,0,0,30,2,506,0,0,0,-99,15,Cruise Missile PG Need
+12034,1,3329,653,2,89;657,0,1,0,10,15,Torpedo Explosion Velocity,,
+12034,1,3329,281,2,89;657,0,1,0,10,15,Torpedo Flight Time,,
+12034,1,3329,37,2,89;657,0,1,0,20,15,Torpedo Velocity,,
+12034,1,12093,116,2,89;657,0,1,0,15,15,Explosive Torpedo Damage,,
+12034,1,12093,116,2,90,0,1,0,5,15,Explosive Bomb Damage,,
+12034,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need,,
 12034,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
+12034,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
 12034,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Huginn,,,,,,,,,,,
 11961,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
@@ -692,15 +692,14 @@
 652,1,3341,10004,1,652,0,1,0,5,15,Cargo Capacity
 652,1,3341,37,1,652,0,1,0,5,15,Max Velocity
 # Manticore,,,,,,,,,,,
-12032,1,3330,114,2,656;386,0,1,0,5,15,EM Cruise Damage
-12032,1,3330,116,2,656;386,0,1,0,5,15,Explosive Cruise Damage
-12032,1,3330,117,2,656;386,0,1,0,5,15,Kinetic Cruise Damage
-12032,1,3330,118,2,656;386,0,1,0,5,15,Thermal Cruise Damage
-12032,1,3330,654,2,656;386,0,1,0,-16.66,15,Cruise Missile Explosion Radius
-12032,1,12093,117,2,656;386;90,0,1,0,5,15,Kinetic Cruise & Bomb Damage
-12032,1,12093,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus
-12032,0,0,30,2,506,0,0,0,-99,15,Cruise Missile PG Need
+12032,1,3330,653,2,89;657,0,1,0,10,15,Torpedo Explosion Velocity
+12032,1,3330,281,2,89;657,0,1,0,10,15,Torpedo Flight Time
+12032,1,3330,37,2,89;657,0,1,0,20,15,Torpedo Velocity
+12032,1,12093,117,2,89;657,0,1,0,15,15,Kinetic Torpedo Damage
+12032,1,12093,117,2,90,0,1,0,5,15,Kinetic Bomb Damage
+12032,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
 12032,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
+12032,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
 12032,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Mastodon,,,,,,,,,,,
 12747,1,3341,10004,1,12747,0,1,0,5,15,Cargo Capacity
@@ -760,15 +759,14 @@
 592,1,3328,77,2,54,0,1,0,20,15,Mining Laser Yield
 592,0,0,6,2,54,0,0,0,-60,15,Mining Laser Cap Use
 # Nemesis,,,,,,,,,,,
-11377,1,3328,114,2,656;386,0,1,0,5,15,EM Cruise Damage
-11377,1,3328,116,2,656;386,0,1,0,5,15,Explosive Cruise Damage
-11377,1,3328,117,2,656;386,0,1,0,5,15,Kinetic Cruise Damage
-11377,1,3328,118,2,656;386,0,1,0,5,15,Thermal Cruise Damage
-11377,1,3328,654,2,656;386,0,1,0,-16.66,15,Cruise Missile Explosion Radius
-11377,1,12093,118,2,656;386;90,0,1,0,5,15,Thermal Cruise & Bomb Damage
-11377,1,12093,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus
-11377,0,0,30,2,506,0,0,0,-99,15,Cruise Missile PG Need
+11377,1,3328,653,2,89;657,0,1,0,10,15,Torpedo Explosion Velocity
+11377,1,3328,281,2,89;657,0,1,0,10,15,Torpedo Flight Time
+11377,1,3328,37,2,89;657,0,1,0,20,15,Torpedo Velocity
+11377,1,12093,118,2,89;657,0,1,0,15,15,Thermal Torpedo Damage
+11377,1,12093,118,2,90,0,1,0,5,15,Thermal Bomb Damage
+11377,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
 11377,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
+11377,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
 11377,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Nidhoggur,,,,,,,,,,,
 24483,1,24314,54,4,1056,0,1,0,50,15,Capital Armor Transfer Range
@@ -939,15 +937,14 @@
 597,1,3331,269,1,597,0,1,2,5,15,Armor Kinetic Resistance
 597,1,3331,270,1,597,0,1,2,5,15,Armor Thermal Resistance
 # Purifier,,,,,,,,,,,
-12038,1,3331,114,2,656;386,0,1,0,5,15,EM Cruise Damage
-12038,1,3331,116,2,656;386,0,1,0,5,15,Explosive Cruise Damage
-12038,1,3331,117,2,656;386,0,1,0,5,15,Kinetic Cruise Damage
-12038,1,3331,118,2,656;386,0,1,0,5,15,Thermal Cruise Damage
-12038,1,3331,654,2,656;386,0,1,0,-16.66,15,Cruise Missile Explosion Radius
-12038,1,12093,114,2,656;386;90,0,1,0,5,15,EM Cruise & Bomb Damage
-12038,1,12093,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus
-12038,0,0,30,2,506,0,0,0,-99,15,Cruise Missile PG Need
+12038,1,3331,653,2,89;657,0,1,0,10,15,Torpedo Explosion Velocity
+12038,1,3331,281,2,89;657,0,1,0,10,15,Torpedo Flight Time
+12038,1,3331,37,2,89;657,0,1,0,20,15,Torpedo Velocity
+12038,1,12093,114,2,89;657,0,1,0,15,15,EM Torpedo Damage
+12038,1,12093,114,2,90,0,1,0,5,15,EM Bomb Damage
+12038,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
 12038,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
+12038,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
 12038,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Ragnarok,,,,,,,,,,,
 23773,1,3345,10013,4,775;776,0,1,0,-5,15,Capital Projectile Turret ROF
@@ -1024,36 +1021,36 @@
 24688,1,3338,274,1,24688,0,1,2,5,15,Shield Thermal Resistance
 # Rook,,,,,,,,,,,
 11959,1,3334,6,2,201,0,1,0,-10,15,ECM Capacitor Use
-11959,1,3334,54,2,201,0,1,0,20,15,ECM Optimal Range
-11959,1,22761,238,2,201,0,1,0,20,15,ECM Jam Strength
-11959,1,22761,239,2,201,0,1,0,20,15,ECM Jam Strength
-11959,1,22761,240,2,201,0,1,0,20,15,ECM Jam Strength
-11959,1,22761,241,2,201,0,1,0,20,15,ECM Jam Strength
-11959,1,22761,117,2,384;653;385;655,0,1,0,5,15,"Light, Heavy Missile Kinetic Damage"
-# Rorqual,,,,,,,,,,,
-28352,1,28374,87,4,600,0,1,0,50,15,Capital Shield Transfer Range
-28352,1,28374,263,3,18,0,1,0,20,15,Drone Shield HP
-28352,1,28374,265,3,18,0,1,0,20,15,Drone Armor HP
-28352,1,28374,9,3,18,0,1,0,20,15,Drone Hull HP
-28352,1,28374,64,3,18,0,1,0,20,15,Drone Damage
-28352,1,28374,714,1,28583,0,1,0,-5,15,Industrial Core Fuel Need
-28352,0,0,197,2,49,0,0,0,900,15,Survey Scanner Range
+11959,1,3334,51,2,510;771,0,1,0,-5,15,Heavy & Heavy Assault Launcher ROF
+11959,1,22761,238,2,201,0,1,0,30,15,ECM Jam Strength
+11959,1,22761,239,2,201,0,1,0,30,15,ECM Jam Strength,,
+11959,1,22761,240,2,201,0,1,0,30,15,ECM Jam Strength,,
+11959,1,22761,241,2,201,0,1,0,30,15,ECM Jam Strength,,
+11959,1,22761,117,2,384;653;385;655,0,1,0,5,15,"Light, Heavy Missile Kinetic Damage",,
+# Rorqual,,,,,,,,,,,,,
+28352,1,28374,87,4,600,0,1,0,50,15,Capital Shield Transfer Range,,
+28352,1,28374,263,3,18,0,1,0,20,15,Drone Shield HP,,
+28352,1,28374,265,3,18,0,1,0,20,15,Drone Armor HP,,
+28352,1,28374,9,3,18,0,1,0,20,15,Drone Hull HP,,
+28352,1,28374,64,3,18,0,1,0,20,15,Drone Damage,,
+28352,1,28374,714,1,28583,0,1,0,-5,15,Industrial Core Fuel Need,,
+28352,0,0,197,2,49,0,0,0,900,15,Survey Scanner Range,,
 28352,0,0,126,2,47,0,0,0,200,15,Cargo Scanner Range,,
 28352,0,0,50,2,815,0,0,0,-99,15,Clone VAT Bay CPU Use,,
 28352,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408,0,0,0,-99,15,Warfare Link Module CPU Use,,
 28352,0,0,10063,1,28352,0,0,1,2,15,Warfare Link Use,,
-# Rupture,,,,,,,,,,,,,
-629,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF,,
-629,1,3333,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage,,
-# Sabre,,,,,,,,,,,,,
-22456,1,12097,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage,,
-22456,1,12097,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking,,
-22456,1,12098,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff,,
-22456,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF,,
-22456,0,0,50,1,22782,0,0,0,-99,15,Sphere Launcher CPU,,
-# Sacrilege,,,,,,,,,,,,,
-12019,1,3335,114,2,772;654,0,1,0,5,15,EM Assault Missile Damage,,
-12019,1,3335,116,2,772;654,0,1,0,5,15,Explosive Assault Missile Damage,,
+# Rupture,,,,,,,,,,,
+629,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
+629,1,3333,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage
+# Sabre,,,,,,,,,,,
+22456,1,12097,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
+22456,1,12097,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking
+22456,1,12098,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff
+22456,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF
+22456,0,0,50,1,22782,0,0,0,-99,15,Sphere Launcher CPU
+# Sacrilege,,,,,,,,,,,
+12019,1,3335,114,2,772;654,0,1,0,5,15,EM Assault Missile Damage
+12019,1,3335,116,2,772;654,0,1,0,5,15,Explosive Assault Missile Damage
 12019,1,3335,117,2,772;654,0,1,0,5,15,Kinetic Assault Missile Damage
 12019,1,3335,118,2,772;654,0,1,0,5,15,Thermal Assault Missile Damage
 12019,1,3335,267,1,12019,0,1,2,5,15,Armor EM Resistance
@@ -1072,6 +1069,7 @@
 11978,0,0,50,2,41,0,0,0,-50,15,Shield Transporter CPU
 # Scorpion,,,,,,,,,,,
 640,1,3338,54,2,201,0,1,0,20,15,ECM Optimal Range
+640,1,3338,158,2,201,0,1,0,20,15,ECM Falloff
 640,1,3338,238,2,201,0,1,0,15,15,ECM Jam Strength
 640,1,3338,239,2,201,0,1,0,15,15,ECM Jam Strength
 640,1,3338,240,2,201,0,1,0,15,15,ECM Jam Strength
@@ -1253,10 +1251,10 @@
 # Widow,,,,,,,,,,,
 22436,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Siege ROF
 22436,1,3338,37,2,656;657;386;89,0,1,0,10,15,Cruise & Torpedo Velocity
-22436,1,28656,238,2,201,0,1,0,20,15,ECM Jam Strength
-22436,1,28656,239,2,201,0,1,0,20,15,ECM Jam Strength
-22436,1,28656,240,2,201,0,1,0,20,15,ECM Jam Strength
-22436,1,28656,241,2,201,0,1,0,20,15,ECM Jam Strength
+22436,1,28656,238,2,201,0,1,0,30,15,ECM Jam Strength
+22436,1,28656,239,2,201,0,1,0,30,15,ECM Jam Strength
+22436,1,28656,240,2,201,0,1,0,30,15,ECM Jam Strength
+22436,1,28656,241,2,201,0,1,0,30,15,ECM Jam Strength
 22436,1,28656,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus
 22436,0,0,50,2,658,0,0,0,-99,15,Cynosural Field Generator CPU Need
 22436,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus

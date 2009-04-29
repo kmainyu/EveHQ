@@ -41,7 +41,7 @@ Public Class frmDataConvert
     Dim password As String
     Dim conversionSuccess As Boolean = False
     Dim fileList As New ArrayList
-    Dim DBVersion As String = "1.9.0.0"
+    Dim DBVersion As String = "1.10.0.0"
 
     Private Function ParseLine(ByVal oneLine As String) As String()
         ' Returns an array containing the values of the comma-separated fields.
