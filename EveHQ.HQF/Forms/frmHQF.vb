@@ -860,10 +860,9 @@ Public Class frmHQF
             For Each shipMod As ShipModule In HQF.ModuleLists.moduleList.Values
                 If shipMod.MarketGroup = groupID Then
                     ' Add results in by name, module
+                    sMod = shipMod.Clone
                     If chkApplySkills.Checked = True Then
-                        Engine.ApplySkillEffectsToModule(shipMod.Clone, True)
-                    Else
-                        sMod = shipMod.Clone
+                        Engine.ApplySkillEffectsToModule(sMod, True)
                     End If
                     If chkOnlyShowUsable.Checked = True And currentShipInfo IsNot Nothing Then
                         If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
