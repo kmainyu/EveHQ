@@ -429,7 +429,7 @@ Public Class frmUpdater
     Private Sub UpdateWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim reqfile As String = CStr(e.Argument)
         Call DownloadFile(CType(sender, System.ComponentModel.BackgroundWorker), reqfile, False)
-        'Call DownloadFile(CType(sender, System.ComponentModel.BackgroundWorker), reqfile, True) ' For PDB file
+        Call DownloadFile(CType(sender, System.ComponentModel.BackgroundWorker), reqfile, True) ' For PDB file
     End Sub
 
     Private Sub UpdateWorker_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs)
@@ -451,9 +451,10 @@ Public Class frmUpdater
                 End If
             End If
         Next
-        If filesTried = filesRequired.Count Then
-            'If filesComplete.Count = filesRequired.Count * 2 Then ' Use for when we activate the PDB downloads
-            If filesComplete.Count = filesRequired.Count Then
+        'If filesTried = filesRequired.Count Then
+        'If filesComplete.Count = filesRequired.Count Then
+        If filesTried = filesRequired.Count * 2 Then ' Use for when we activate the PDB downloads
+            If filesComplete.Count = filesRequired.Count * 2 Then ' Use for when we activate the PDB downloads
                 lblUpdateStatus.Text = "Updating Files..."
                 Call UpdateEveHQ()
                 lblUpdateStatus.Text = "Status: Update Complete!"
