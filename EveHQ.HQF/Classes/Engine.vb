@@ -2215,26 +2215,28 @@ Public Class Engine
                                     newShip.Attributes("10058") = CDbl(newShip.Attributes("10058")) + CDbl(cModule.Attributes("10054"))
                                 ElseIf cModule.DatabaseGroup = "862" Then
                                     ' Do Bomb Launcher Code
-                                    dgmMod = 1
-                                    ROF = CDbl(cModule.Attributes("51"))
-                                    cModule.Attributes("10017") = CDbl(cModule.LoadedCharge.Attributes("114")) + CDbl(cModule.LoadedCharge.Attributes("116")) + CDbl(cModule.LoadedCharge.Attributes("117")) + CDbl(cModule.LoadedCharge.Attributes("118"))
-                                    cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
-                                    cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
-                                    newShip.Attributes("10021") = CDbl(newShip.Attributes("10021")) + CDbl(cModule.Attributes("10018"))
-                                    newShip.Attributes("10025") = CDbl(newShip.Attributes("10025")) + CDbl(cModule.Attributes("10019"))
-                                    newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
-                                    newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
                                     If cModule.LoadedCharge IsNot Nothing Then
-                                        cModule.Attributes("54") = CDbl(cModule.LoadedCharge.Attributes("37")) * CDbl(cModule.LoadedCharge.Attributes("281")) * HQF.Settings.HQFSettings.MissileRangeConstant
+                                        dgmMod = 1
+                                        ROF = CDbl(cModule.Attributes("51"))
+                                        cModule.Attributes("10017") = CDbl(cModule.LoadedCharge.Attributes("114")) + CDbl(cModule.LoadedCharge.Attributes("116")) + CDbl(cModule.LoadedCharge.Attributes("117")) + CDbl(cModule.LoadedCharge.Attributes("118"))
+                                        cModule.Attributes("10018") = dgmMod * CDbl(cModule.Attributes("10017"))
+                                        cModule.Attributes("10019") = CDbl(cModule.Attributes("10018")) / ROF
+                                        newShip.Attributes("10021") = CDbl(newShip.Attributes("10021")) + CDbl(cModule.Attributes("10018"))
+                                        newShip.Attributes("10025") = CDbl(newShip.Attributes("10025")) + CDbl(cModule.Attributes("10019"))
+                                        newShip.Attributes("10028") = CDbl(newShip.Attributes("10028")) + CDbl(cModule.Attributes("10018"))
+                                        newShip.Attributes("10029") = CDbl(newShip.Attributes("10029")) + CDbl(cModule.Attributes("10019"))
+                                        If cModule.LoadedCharge IsNot Nothing Then
+                                            cModule.Attributes("54") = CDbl(cModule.LoadedCharge.Attributes("37")) * CDbl(cModule.LoadedCharge.Attributes("281")) * HQF.Settings.HQFSettings.MissileRangeConstant
+                                        End If
+                                        cModule.Attributes("10051") = CDbl(cModule.LoadedCharge.Attributes("114")) * dgmMod
+                                        cModule.Attributes("10052") = CDbl(cModule.LoadedCharge.Attributes("116")) * dgmMod
+                                        cModule.Attributes("10053") = CDbl(cModule.LoadedCharge.Attributes("117")) * dgmMod
+                                        cModule.Attributes("10054") = CDbl(cModule.LoadedCharge.Attributes("118")) * dgmMod
+                                        newShip.Attributes("10055") = CDbl(newShip.Attributes("10055")) + CDbl(cModule.Attributes("10051"))
+                                        newShip.Attributes("10056") = CDbl(newShip.Attributes("10056")) + CDbl(cModule.Attributes("10052"))
+                                        newShip.Attributes("10057") = CDbl(newShip.Attributes("10057")) + CDbl(cModule.Attributes("10053"))
+                                        newShip.Attributes("10058") = CDbl(newShip.Attributes("10058")) + CDbl(cModule.Attributes("10054"))
                                     End If
-                                    cModule.Attributes("10051") = CDbl(cModule.LoadedCharge.Attributes("114")) * dgmMod
-                                    cModule.Attributes("10052") = CDbl(cModule.LoadedCharge.Attributes("116")) * dgmMod
-                                    cModule.Attributes("10053") = CDbl(cModule.LoadedCharge.Attributes("117")) * dgmMod
-                                    cModule.Attributes("10054") = CDbl(cModule.LoadedCharge.Attributes("118")) * dgmMod
-                                    newShip.Attributes("10055") = CDbl(newShip.Attributes("10055")) + CDbl(cModule.Attributes("10051"))
-                                    newShip.Attributes("10056") = CDbl(newShip.Attributes("10056")) + CDbl(cModule.Attributes("10052"))
-                                    newShip.Attributes("10057") = CDbl(newShip.Attributes("10057")) + CDbl(cModule.Attributes("10053"))
-                                    newShip.Attributes("10058") = CDbl(newShip.Attributes("10058")) + CDbl(cModule.Attributes("10054"))
                                 End If
                             End If
                     End Select
