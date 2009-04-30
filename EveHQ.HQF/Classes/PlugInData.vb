@@ -12,7 +12,7 @@ Public Class PlugInData
     Shared moduleEffectData As DataSet
     Shared moduleAttributeData As DataSet
     Shared UseSerializableData As Boolean = False
-    Shared LastCacheRefresh As String = "1.10.0.528"
+    Shared LastCacheRefresh As String = "1.10.0.529"
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -869,7 +869,7 @@ Public Class PlugInData
                         effMod.SlotType = 1
                     Case 3772 ' Sub slot
                         effMod.SlotType = 16
-                    Case 101
+                    Case 40
                         If effMod.DatabaseGroup <> "481" Then
                             effMod.IsLauncher = True
                         End If
@@ -877,7 +877,7 @@ Public Class PlugInData
                         effMod.IsTurret = True
                 End Select
                 ' Add custom attributes
-                If effMod.IsDrone = True Or effMod.IsLauncher = True Or effMod.IsTurret = True Or effMod.DatabaseGroup = "72" Then
+                If effMod.IsDrone = True Or effMod.IsLauncher = True Or effMod.IsTurret = True Or effMod.DatabaseGroup = "72" Or effMod.DatabaseGroup = "862" Then
                     If effMod.Attributes.Contains("10017") = False Then
                         effMod.Attributes.Add("10017", 0)
                         effMod.Attributes.Add("10018", 0)
