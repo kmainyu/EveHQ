@@ -1,6 +1,42 @@
 EveHQ - Version History
 -----------------------
 
+1.10.0.528 (30/04/2009)
+---------
+- Core: Fixed URLs in reports where spaces were included
+- Core: Fixed crash caused by general API errors when downloading character information
+- Core: Split "Clear Cache" into separate cache clearing routines
+- Core: Skill Details form now non-modal and appears in the task bar
+- Core: Certificate Details form now non-modal and a single instance form only
+- Core: Uploaded new icons from Apoc 1.1
+- Core: Updated database to Apoc 1.1
+- HQF: Crow now correctly uses the Caldari Frigate skill for its bonus instead of the Minmatar Frigate skill
+- HQF: Relevant skills for ships now includes all skills that will affect a ship (e.g. Electronics, Engineering)
+- HQF: Fixed crash when having the Apply Skills filter checked
+- HQF: Fixed crash in the BattleClinic Browser where old fittings contain ammo that no longer exists
+- HQF: Mining yield bonus for Hulk now corrected to 3% from 7.5%
+- HQF: Legion Offensive - Assault Optimization bonuses updated for Apoc 1.1
+- HQF: Corrected bonus and target attributes for Astrometric Acquisition
+- HQF: Corrected bonus and target attributes for Astrometric Pinpointing
+- HQF: Corrected bonus and target attributes for Astrometric Rangefinding
+- HQF: Fixed Poteque PPF-x implant attribute mapping
+- HQF: Fixed Poteque PPG-x implant attribute mapping
+- HQF: Fixed Poteque PPH-x implant attribute mapping
+- HQF: LG Virtue implants now affect the correct attribute
+- HQF: Fixed scan strength bonus on Covert Ops ships
+- HQF: Fixed scan strength bonus on astrometrics frigates
+- HQF: Added the fourth T3 subsystems in each category into Subsystems.csv
+- HQF: ECM Strength bonus on the Falcon increased to 30%
+- HQF: ECM Optimal range bonus on the Falcon changed to a 5% hybrid turret damage bonus
+- HQF: ECM Strength bonus on the Rook increased to 30%
+- HQF: ECM Optimal range bonus on the Rook changed to a missile ROF bonus
+- HQF: ECM Falloff bonus added to the Scorpion
+- HQF: ECM Falloff bonus added to the Blackbird
+- HQF: ECM Range bonus on the Blackbird reduced from 20% to 10%
+- HQF: ECM Strength bonus on the Widow increased to 30%
+- HQF: Bonuses to Stealth Bombers changed in line with Apoc 1.1
+
+
 1.9.5.518 (13/04/2009)
 ---------
 - Core: Fixed issue with increased training speed applying to details in the training form when changing characters
