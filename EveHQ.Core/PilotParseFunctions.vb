@@ -438,11 +438,11 @@ Public Class PilotParseFunctions
             Call ParsePilotXML(cPilot, cXML)
             Call ParseTrainingXML(cPilot, tXML)
             Call BuildAttributeData(cPilot)
-        Else
-            Dim msg As String = "There was a error retrieving the character data for " & cPilot.Name & " from the API server. The error returned was: " & ControlChars.CrLf & ControlChars.CrLf
-            msg &= EveHQ.Core.EveAPI.LastAPIErrorText & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "Please check the status of the API server."
-            MessageBox.Show(msg, "API Error - " & cPilot.Name, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            'Else
+            'Dim msg As String = "There was a error retrieving the character data for " & cPilot.Name & " from the API server. The error returned was: " & ControlChars.CrLf & ControlChars.CrLf
+            'msg &= EveHQ.Core.EveAPI.LastAPIErrorText & ControlChars.CrLf & ControlChars.CrLf
+            'msg &= "Please check the status of the API server."
+            'MessageBox.Show(msg, "API Error - " & cPilot.Name, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
 
     End Sub

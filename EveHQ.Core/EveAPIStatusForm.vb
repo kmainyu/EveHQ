@@ -151,7 +151,7 @@ Public Class EveAPIStatusForm
                 LVItem.SubItems(idx).Text = "Unknown"
             Case Is < 0
                 LVItem.SubItems(idx).ForeColor = Drawing.Color.Red
-                LVItem.SubItems(idx).Text = "API Error" & Math.Abs(result).ToString
+                LVItem.SubItems(idx).Text = "API Error " & Math.Abs(result).ToString
         End Select
     End Sub
 

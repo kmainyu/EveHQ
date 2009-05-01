@@ -607,9 +607,9 @@ Public Class frmEveHQ
             If Now > EveHQ.Core.HQ.AutoRetryAPITime Then
                 If updateRequired = True Then
                     ' Invoke the API Caller
-                    Call QueryMyEveServer()
                     EveHQ.Core.HQ.NextAutoAPITime = Now.AddMinutes(60)
                     EveHQ.Core.HQ.AutoRetryAPITime = Now.AddMinutes(5)
+                    Call QueryMyEveServer()
                 End If
                 ' Display time until autoAPI download
                 Dim TimeLeft As TimeSpan = EveHQ.Core.HQ.NextAutoAPITime - Now

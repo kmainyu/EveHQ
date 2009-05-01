@@ -273,64 +273,6 @@ Public Class frmPrism
 
     End Sub
 
-    Private Sub CheckXML(ByVal apiXML As XmlDocument, ByVal Owner As String, ByVal Primary As String, ByVal Pos As Integer)
-        Dim APIOwner As ListViewItem = lvwCurrentAPIs.Items(Owner)
-        If APIOwner IsNot Nothing Then
-            If apiXML IsNot Nothing Then
-                ' Get the corp reps
-                Dim CorpRep As SortedList = CType(CorpReps(Pos - 2), Collections.SortedList)
-                ' If we already have a corp rep, no sense in getting a new one!
-                If CorpRep.ContainsKey(Owner) = False Then
-                    APIOwner.ToolTipText = "Representative: " & Primary
-                    ' Check response string for any error codes?
-                    Dim errlist As XmlNodeList = apiXML.SelectNodes("/eveapi/error")
-                    If errlist.Count <> 0 Then
-                        Dim errNode As XmlNode = errlist(0)
-                        ' Get error code
-                        Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                        Dim errMsg As String = errNode.InnerText
-                        APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
-                        APIOwner.SubItems(Pos).Text = errCode
-                    Else
-                        Dim cache As Date = CacheDate(apiXML)
-                        If cache <= Now Then
-                            APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Blue
-                        Else
-                            APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Green
-                        End If
-                        APIOwner.SubItems(Pos).Text = Format(cache, "dd/MM/yyyy HH:mm:ss")
-                        CorpRep.Add(Owner, Primary)
-                    End If
-                End If
-            Else
-                If Pos = 8 Then
-                    APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Black
-                    APIOwner.SubItems(Pos).Text = "n/a"
-                Else
-                    APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
-                    APIOwner.SubItems(Pos).Text = "missing"
-                End If
-
-            End If
-        End If
-        ProcessXMLCount += 1
-        If ProcessXMLCount = ProcessXMLMax Then
-            'cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
-            If cboOwner.SelectedItem IsNot Nothing Then
-                If cboOwner.SelectedItem.ToString = EveHQ.Core.HQ.myPilot.Name Then
-                    ' Just refresh
-                    Call Me.UpdatePrismInfo()
-                Else
-                    ' Set the pilot
-                    cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
-                End If
-            Else
-                ' Set the pilot
-                cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
-            End If
-        End If
-    End Sub
-
 #End Region
 
 #Region "Enumerators"
@@ -375,6 +317,65 @@ Public Class frmPrism
         Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpTransactions, Nothing)
         Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetCorpSheet, Nothing)
         Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.UpdateNullCorpSheet, Nothing)
+    End Sub
+    Private Sub CheckXML(ByVal apiXML As XmlDocument, ByVal Owner As String, ByVal Primary As String, ByVal Pos As Integer)
+        Dim APIOwner As ListViewItem = lvwCurrentAPIs.Items(Owner)
+        If APIOwner IsNot Nothing Then
+            ' Get the corp reps
+            Dim CorpRep As SortedList = CType(CorpReps(Pos - 2), Collections.SortedList)
+            If apiXML IsNot Nothing Then
+                ' If we already have a corp rep, no sense in getting a new one!
+                If CorpRep.ContainsKey(Owner) = False Then
+                    APIOwner.ToolTipText = "Representative: " & Primary
+                    ' Check response string for any error codes?
+                    Dim errlist As XmlNodeList = apiXML.SelectNodes("/eveapi/error")
+                    If errlist.Count <> 0 Then
+                        Dim errNode As XmlNode = errlist(0)
+                        ' Get error code
+                        Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                        Dim errMsg As String = errNode.InnerText
+                        APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
+                        APIOwner.SubItems(Pos).Text = errCode
+                    Else
+                        Dim cache As Date = CacheDate(apiXML)
+                        If cache <= Now Then
+                            APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Blue
+                        Else
+                            APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Green
+                        End If
+                        APIOwner.SubItems(Pos).Text = Format(cache, "dd/MM/yyyy HH:mm:ss")
+                        CorpRep.Add(Owner, Primary)
+                    End If
+                End If
+            Else
+                If Pos = 8 Then
+                    APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Black
+                    APIOwner.SubItems(Pos).Text = "n/a"
+                Else
+                    If CorpRep.ContainsKey(Owner) = False Then
+                        APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
+                        APIOwner.SubItems(Pos).Text = "missing"
+                    End If
+                End If
+
+            End If
+        End If
+        ProcessXMLCount += 1
+        If ProcessXMLCount = ProcessXMLMax Then
+            'cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
+            If cboOwner.SelectedItem IsNot Nothing Then
+                If cboOwner.SelectedItem.ToString = EveHQ.Core.HQ.myPilot.Name Then
+                    ' Just refresh
+                    Call Me.UpdatePrismInfo()
+                Else
+                    ' Set the pilot
+                    cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
+                End If
+            Else
+                ' Set the pilot
+                cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
+            End If
+        End If
     End Sub
     Private Sub GetCharAssets(ByVal State As Object)
         For Each selPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots

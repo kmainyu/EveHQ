@@ -295,8 +295,8 @@ Public Class EveAPI
                             End If
                         Catch e As Exception
                             ' Return the old XML file but report a general error - usually as a result of a API Server error
-                            cLastAPIResult = APIResults.CCPError
-                            cLastAPIError = 0
+                            cLastAPIResult = APIResults.UnknownError
+                            cLastAPIError = 999
                             cLastAPIErrorText = "A General Error occurred"
                             Return APIXML
                         End Try
@@ -344,7 +344,7 @@ Public Class EveAPI
                                 End If
                             Catch e As Exception
                                 ' Return nothing and report a general error - usually as a result of a API Server error
-                                cLastAPIResult = APIResults.CCPError
+                                cLastAPIResult = APIResults.UnknownError
                                 cLastAPIError = 0
                                 cLastAPIErrorText = "A General Error occurred"
                                 Return Nothing

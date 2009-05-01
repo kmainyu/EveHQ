@@ -1867,7 +1867,9 @@ Public Class frmSettings
         If chkCyclePilots.Checked = True Then
             EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True
             EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHQSettings.CycleG15Time)
-            EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Enabled = True
+            If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True Then
+                EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Enabled = True
+            End If
         Else
             EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = False
             EveHQ.Core.HQ.EveHQLCD.tmrLCDChar.Enabled = False
