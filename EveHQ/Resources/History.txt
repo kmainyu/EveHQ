@@ -1,8 +1,24 @@
 EveHQ - Version History
 -----------------------
 
+1.10.1.533 (02/05/2009)
+---------
+Fixes and Improvements:
+- Core: Changed API General Errors from CCPError to UnknownError
+- Core: Slight text formatting corrections in the API Status Form
+- Core: Removed the API General error messagebox - details now indicated in the API Status Form
+- Core: API Auto-Update times now amended prior to downloading the API data
+- Core: G15LCD should no longer try and draw to the LCD if the feature is disabled by cycle pilots is enabled
+- Core: Character summary report now sorted alphabetically
+- Core: Handled error when trying to display market log file details
+- HQF: Bomb Launchers no longer require a launcher slot
+- HQF: Updated Engine DamageCalculations to rework bombs
+- Prism: Fixed issue with API Status saying missing for certain APIs
+
+
 1.10.0.528 (30/04/2009)
 ---------
+Fixes and Improvements:
 - Core: Fixed URLs in reports where spaces were included
 - Core: Fixed crash caused by general API errors when downloading character information
 - Core: Split "Clear Cache" into separate cache clearing routines
@@ -39,6 +55,7 @@ EveHQ - Version History
 
 1.9.5.518 (13/04/2009)
 ---------
+Fixes and Improvements:
 - Core: Fixed issue with increased training speed applying to details in the training form when changing characters
 - Core: Added extra checking into the initial routines for establishing database connections
 - Core: Exiting EveHQ from the menu option should now trigger the correct form shutdown routines
