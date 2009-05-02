@@ -117,20 +117,22 @@ Public Class frmSettings
         chkAutoHide.Checked = EveHQ.Core.HQ.EveHQSettings.AutoHide
         chkAutoRun.Checked = EveHQ.Core.HQ.EveHQSettings.AutoStart
         chkAutoMinimise.Checked = EveHQ.Core.HQ.EveHQSettings.AutoMinimise
-        chkAutoCheck.Checked = EveHQ.Core.HQ.EveHQSettings.AutoCheck
         chkMinimiseOnExit.Checked = EveHQ.Core.HQ.EveHQSettings.MinimiseExit
         If cboStartupView.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupView) = True Then
             cboStartupView.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupView
         Else
             cboStartupView.SelectedIndex = 0
         End If
-        
         txtUpdateLocation.Text = EveHQ.Core.HQ.EveHQSettings.UpdateURL
         txtUpdateLocation.Enabled = False
         chkErrorReporting.Checked = EveHQ.Core.HQ.EveHQSettings.ErrorReportingEnabled
         txtErrorRepName.Text = EveHQ.Core.HQ.EveHQSettings.ErrorReportingName
         txtErrorRepEmail.Text = EveHQ.Core.HQ.EveHQSettings.ErrorReportingEmail
-
+        If EveHQ.Core.HQ.EveHQSettings.MDITabPosition IsNot Nothing Then
+            cboMDITabPosition.SelectedItem = EveHQ.Core.HQ.EveHQSettings.MDITabPosition
+        Else
+            cboMDITabPosition.SelectedItem = "Top"
+        End If
     End Sub
 
     Private Sub chkAutoHide_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkAutoHide.CheckedChanged
@@ -166,14 +168,6 @@ Public Class frmSettings
             EveHQ.Core.HQ.EveHQSettings.MinimiseExit = True
         Else
             EveHQ.Core.HQ.EveHQSettings.MinimiseExit = False
-        End If
-    End Sub
-
-    Private Sub chkAutoCheck_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoCheck.CheckedChanged
-        If chkAutoCheck.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.AutoCheck = True
-        Else
-            EveHQ.Core.HQ.EveHQSettings.AutoCheck = False
         End If
     End Sub
 
@@ -253,24 +247,22 @@ Public Class frmSettings
         EveHQ.Core.HQ.EveHQSettings.ErrorReportingEmail = txtErrorRepEmail.Text
     End Sub
 
+    Private Sub cboMDITabPosition_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboMDITabPosition.SelectedIndexChanged
+        EveHQ.Core.HQ.EveHQSettings.MDITabPosition = cboMDITabPosition.SelectedItem.ToString
+        Select Case EveHQ.Core.HQ.EveHQSettings.MDITabPosition
+            Case "Top"
+                frmEveHQ.tabMDI.Dock = DockStyle.Top
+            Case "Bottom"
+                frmEveHQ.tabMDI.Dock = DockStyle.Bottom
+        End Select
+    End Sub
+
 #End Region
 
 #Region "Colour Settings"
     Private Sub UpdateColourOptions()
-        ' Update the panel colours
-        Call Me.UpdatePBPanelColours()
         ' Update the pilot colours
         Call Me.UpdatePBPilotColours()
-    End Sub
-    Private Sub UpdatePBPanelColours()
-        pbPanelBackground.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBackgroundColor))
-        pbPanelBottomRight.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBottomRightColor))
-        pbPanelHighlight.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelHighlightColor))
-        pbPanelLeft.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelLeftColor))
-        pbPanelOutline.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelOutlineColor))
-        pbPanelRight.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelRightColor))
-        pbPanelText.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTextColor))
-        pbPanelTopLeft.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTopLeftColor))
     End Sub
 
     Private Sub UpdatePBPilotColours()
@@ -282,60 +274,6 @@ Public Class frmSettings
         pbPilotGroupText.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor))
         pbPilotSkillText.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor))
         pbPilotSkillHighlight.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor))
-    End Sub
-
-    Private Sub pbPanelColours_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbPanelBackground.Click, pbPanelBottomRight.Click, pbPanelHighlight.Click, pbPanelLeft.Click, pbPanelOutline.Click, pbPanelRight.Click, pbPanelText.Click, pbPanelTopLeft.Click
-        Dim thisPB As PictureBox = CType(sender, PictureBox)
-        Dim dlgResult As Integer = 0
-        With cd1
-            .AllowFullOpen = True
-            .AnyColor = True
-            .FullOpen = True
-            Select Case thisPB.Name
-                Case "pbPanelBackground"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBackgroundColor))
-                Case "pbPanelBottomRight"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBottomRightColor))
-                Case "pbPanelHighlight"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelHighlightColor))
-                Case "pbPanelLeft"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelLeftColor))
-                Case "pbPanelOutline"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelOutlineColor))
-                Case "pbPanelRight"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelRightColor))
-                Case "pbPanelText"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTextColor))
-                Case "pbPanelTopLeft"
-                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTopLeftColor))
-            End Select
-            dlgResult = .ShowDialog()
-        End With
-        If dlgResult = Windows.Forms.DialogResult.Cancel Then
-            Exit Sub
-        Else
-            thisPB.BackColor = cd1.Color
-            Select Case thisPB.Name
-                Case "pbPanelBackground"
-                    EveHQ.Core.HQ.EveHQSettings.PanelBackgroundColor = cd1.Color.ToArgb
-                Case "pbPanelBottomRight"
-                    EveHQ.Core.HQ.EveHQSettings.PanelBottomRightColor = cd1.Color.ToArgb
-                Case "pbPanelHighlight"
-                    EveHQ.Core.HQ.EveHQSettings.PanelHighlightColor = cd1.Color.ToArgb
-                Case "pbPanelLeft"
-                    EveHQ.Core.HQ.EveHQSettings.PanelLeftColor = cd1.Color.ToArgb
-                Case "pbPanelOutline"
-                    EveHQ.Core.HQ.EveHQSettings.PanelOutlineColor = cd1.Color.ToArgb
-                Case "pbPanelRight"
-                    EveHQ.Core.HQ.EveHQSettings.PanelRightColor = cd1.Color.ToArgb
-                Case "pbPanelText"
-                    EveHQ.Core.HQ.EveHQSettings.PanelTextColor = cd1.Color.ToArgb
-                Case "pbPanelTopLeft"
-                    EveHQ.Core.HQ.EveHQSettings.PanelTopLeftColor = cd1.Color.ToArgb
-            End Select
-            ' Update the colours
-            Call frmEveHQ.UpdatePanelColours()
-        End If
     End Sub
 
     Private Sub pbPilotColours_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbPilotGroupBG.Click, pbPilotGroupText.Click, pbPilotSkillText.Click, pbPilotSkillHighlight.Click, pbPilotCurrent.Click, pbPilotLevel5.Click, pbPilotPartial.Click, pbPilotStandard.Click
@@ -390,22 +328,6 @@ Public Class frmSettings
             ' Update the colours
             frmPilot.clvSkills.Refresh()
         End If
-    End Sub
-
-    Private Sub btnResetPanelColours_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetPanelColours.Click
-        ' Resets the panel colours to the default values
-        EveHQ.Core.HQ.EveHQSettings.PanelBackgroundColor = System.Drawing.Color.Navy.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.PanelOutlineColor = System.Drawing.Color.SteelBlue.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.PanelTopLeftColor = System.Drawing.Color.LightSteelBlue.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.PanelBottomRightColor = System.Drawing.Color.LightSteelBlue.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.PanelLeftColor = System.Drawing.Color.RoyalBlue.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.PanelRightColor = System.Drawing.Color.LightSteelBlue.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.PanelTextColor = System.Drawing.Color.Black.ToArgb
-        EveHQ.Core.HQ.EveHQSettings.PanelHighlightColor = System.Drawing.Color.LightSteelBlue.ToArgb
-        ' Update the colours
-        Call frmEveHQ.UpdatePanelColours()
-        ' Update the PBPanel Colours
-        Call Me.UpdatePBPanelColours()
     End Sub
 
     Private Sub btnResetPilotColours_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetPilotColours.Click
@@ -2096,5 +2018,5 @@ Public Class frmSettings
 
 #End Region
 
-
+   
 End Class

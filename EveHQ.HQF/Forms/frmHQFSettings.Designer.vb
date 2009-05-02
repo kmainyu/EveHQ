@@ -26,7 +26,6 @@ Partial Public Class frmHQFSettings
         Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Layout")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHQFSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
-        Me.chkCloseInfoPanel = New System.Windows.Forms.CheckBox
         Me.chkShowPerformance = New System.Windows.Forms.CheckBox
         Me.chkAutoUpdateHQFSkills = New System.Windows.Forms.CheckBox
         Me.chkRestoreLastSession = New System.Windows.Forms.CheckBox
@@ -90,29 +89,18 @@ Partial Public Class frmHQFSettings
         '
         'gbGeneral
         '
-        Me.gbGeneral.Controls.Add(Me.chkCloseInfoPanel)
         Me.gbGeneral.Controls.Add(Me.chkShowPerformance)
         Me.gbGeneral.Controls.Add(Me.chkAutoUpdateHQFSkills)
         Me.gbGeneral.Controls.Add(Me.chkRestoreLastSession)
         Me.gbGeneral.Controls.Add(Me.cboStartupPilot)
         Me.gbGeneral.Controls.Add(Me.lblDefaultPilot)
-        Me.gbGeneral.Location = New System.Drawing.Point(444, 373)
+        Me.gbGeneral.Location = New System.Drawing.Point(194, 12)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(128, 50)
+        Me.gbGeneral.Size = New System.Drawing.Size(498, 500)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
         Me.gbGeneral.Visible = False
-        '
-        'chkCloseInfoPanel
-        '
-        Me.chkCloseInfoPanel.AutoSize = True
-        Me.chkCloseInfoPanel.Location = New System.Drawing.Point(25, 142)
-        Me.chkCloseInfoPanel.Name = "chkCloseInfoPanel"
-        Me.chkCloseInfoPanel.Size = New System.Drawing.Size(242, 17)
-        Me.chkCloseInfoPanel.TabIndex = 11
-        Me.chkCloseInfoPanel.Text = "Close EveHQ ""Info Panel"" when opening HQF"
-        Me.chkCloseInfoPanel.UseVisualStyleBackColor = True
         '
         'chkShowPerformance
         '
@@ -367,9 +355,9 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
         Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
-        Me.gbCache.Location = New System.Drawing.Point(194, 12)
+        Me.gbCache.Location = New System.Drawing.Point(272, 186)
         Me.gbCache.Name = "gbCache"
-        Me.gbCache.Size = New System.Drawing.Size(498, 500)
+        Me.gbCache.Size = New System.Drawing.Size(97, 60)
         Me.gbCache.TabIndex = 29
         Me.gbCache.TabStop = False
         Me.gbCache.Text = "Data and Cache Settings"
@@ -588,10 +576,10 @@ Partial Public Class frmHQFSettings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(704, 524)
+        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbCache)
         Me.Controls.Add(Me.gbSlotFormat)
         Me.Controls.Add(Me.gbConstants)
-        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -643,7 +631,6 @@ Partial Public Class frmHQFSettings
     Friend WithEvents btnDeleteCache As System.Windows.Forms.Button
     Friend WithEvents chkAutoUpdateHQFSkills As System.Windows.Forms.CheckBox
     Friend WithEvents chkShowPerformance As System.Windows.Forms.CheckBox
-    Friend WithEvents chkCloseInfoPanel As System.Windows.Forms.CheckBox
     Friend WithEvents gbConstants As System.Windows.Forms.GroupBox
     Friend WithEvents nudShieldRecharge As System.Windows.Forms.NumericUpDown
     Friend WithEvents lblShieldRecharge As System.Windows.Forms.Label

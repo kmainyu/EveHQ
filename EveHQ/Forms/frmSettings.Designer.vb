@@ -38,6 +38,8 @@ Partial Public Class frmSettings
         Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
+        Me.lblMDITabPosition = New System.Windows.Forms.Label
+        Me.cboMDITabPosition = New System.Windows.Forms.ComboBox
         Me.txtErrorRepEmail = New System.Windows.Forms.TextBox
         Me.lblErrorRepEmail = New System.Windows.Forms.Label
         Me.txtErrorRepName = New System.Windows.Forms.TextBox
@@ -53,7 +55,6 @@ Partial Public Class frmSettings
         Me.Label3 = New System.Windows.Forms.Label
         Me.cboStartupView = New System.Windows.Forms.ComboBox
         Me.Label2 = New System.Windows.Forms.Label
-        Me.chkAutoCheck = New System.Windows.Forms.CheckBox
         Me.chkAutoMinimise = New System.Windows.Forms.CheckBox
         Me.chkAutoRun = New System.Windows.Forms.CheckBox
         Me.chkAutoHide = New System.Windows.Forms.CheckBox
@@ -75,24 +76,6 @@ Partial Public Class frmSettings
         Me.lblPilotCurrentColour = New System.Windows.Forms.Label
         Me.pbPilotStandard = New System.Windows.Forms.PictureBox
         Me.lblPilotStandardColour = New System.Windows.Forms.Label
-        Me.gbPanelColours = New System.Windows.Forms.GroupBox
-        Me.btnResetPanelColours = New System.Windows.Forms.Button
-        Me.pbPanelHighlight = New System.Windows.Forms.PictureBox
-        Me.lblPanelHighlight = New System.Windows.Forms.Label
-        Me.pbPanelText = New System.Windows.Forms.PictureBox
-        Me.lblPanelText = New System.Windows.Forms.Label
-        Me.pbPanelRight = New System.Windows.Forms.PictureBox
-        Me.lblPanelRight = New System.Windows.Forms.Label
-        Me.pbPanelLeft = New System.Windows.Forms.PictureBox
-        Me.lblPanelLeft = New System.Windows.Forms.Label
-        Me.pbPanelBottomRight = New System.Windows.Forms.PictureBox
-        Me.lblPanelBottomRight = New System.Windows.Forms.Label
-        Me.pbPanelTopLeft = New System.Windows.Forms.PictureBox
-        Me.lblPanelTopLeft = New System.Windows.Forms.Label
-        Me.pbPanelOutline = New System.Windows.Forms.PictureBox
-        Me.lblPanelOutline = New System.Windows.Forms.Label
-        Me.pbPanelBackground = New System.Windows.Forms.PictureBox
-        Me.lblPanelBackground = New System.Windows.Forms.Label
         Me.gbEveAccounts = New System.Windows.Forms.GroupBox
         Me.btnGetData = New System.Windows.Forms.Button
         Me.btnDeleteAccount = New System.Windows.Forms.Button
@@ -325,15 +308,6 @@ Partial Public Class frmSettings
         CType(Me.pbPilotPartial, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPilotCurrent, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPilotStandard, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbPanelColours.SuspendLayout()
-        CType(Me.pbPanelHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPanelText, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPanelRight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPanelLeft, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPanelBottomRight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPanelTopLeft, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPanelOutline, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.pbPanelBackground, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbEveAccounts.SuspendLayout()
         Me.gbPilots.SuspendLayout()
         Me.gbIGB.SuspendLayout()
@@ -383,6 +357,8 @@ Partial Public Class frmSettings
         '
         'gbGeneral
         '
+        Me.gbGeneral.Controls.Add(Me.lblMDITabPosition)
+        Me.gbGeneral.Controls.Add(Me.cboMDITabPosition)
         Me.gbGeneral.Controls.Add(Me.txtErrorRepEmail)
         Me.gbGeneral.Controls.Add(Me.lblErrorRepEmail)
         Me.gbGeneral.Controls.Add(Me.txtErrorRepName)
@@ -398,17 +374,36 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.Label3)
         Me.gbGeneral.Controls.Add(Me.cboStartupView)
         Me.gbGeneral.Controls.Add(Me.Label2)
-        Me.gbGeneral.Controls.Add(Me.chkAutoCheck)
         Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
         Me.gbGeneral.Controls.Add(Me.chkAutoRun)
         Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-        Me.gbGeneral.Location = New System.Drawing.Point(284, 293)
+        Me.gbGeneral.Location = New System.Drawing.Point(212, 295)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(95, 46)
+        Me.gbGeneral.Size = New System.Drawing.Size(187, 45)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
         Me.gbGeneral.Visible = False
+        '
+        'lblMDITabPosition
+        '
+        Me.lblMDITabPosition.AutoSize = True
+        Me.lblMDITabPosition.Location = New System.Drawing.Point(313, 116)
+        Me.lblMDITabPosition.Name = "lblMDITabPosition"
+        Me.lblMDITabPosition.Size = New System.Drawing.Size(92, 13)
+        Me.lblMDITabPosition.TabIndex = 46
+        Me.lblMDITabPosition.Text = "MDI Tab Position:"
+        '
+        'cboMDITabPosition
+        '
+        Me.cboMDITabPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboMDITabPosition.FormattingEnabled = True
+        Me.cboMDITabPosition.Items.AddRange(New Object() {"Bottom", "Top"})
+        Me.cboMDITabPosition.Location = New System.Drawing.Point(411, 113)
+        Me.cboMDITabPosition.Name = "cboMDITabPosition"
+        Me.cboMDITabPosition.Size = New System.Drawing.Size(161, 21)
+        Me.cboMDITabPosition.Sorted = True
+        Me.cboMDITabPosition.TabIndex = 45
         '
         'txtErrorRepEmail
         '
@@ -496,7 +491,7 @@ Partial Public Class frmSettings
         Me.cboMDITabStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboMDITabStyle.FormattingEnabled = True
         Me.cboMDITabStyle.Items.AddRange(New Object() {"Flat Buttons", "Raised Buttons", "Tabs"})
-        Me.cboMDITabStyle.Location = New System.Drawing.Point(404, 86)
+        Me.cboMDITabStyle.Location = New System.Drawing.Point(411, 86)
         Me.cboMDITabStyle.Name = "cboMDITabStyle"
         Me.cboMDITabStyle.Size = New System.Drawing.Size(161, 21)
         Me.cboMDITabStyle.Sorted = True
@@ -516,7 +511,7 @@ Partial Public Class frmSettings
         '
         Me.cboStartupPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboStartupPilot.FormattingEnabled = True
-        Me.cboStartupPilot.Location = New System.Drawing.Point(404, 59)
+        Me.cboStartupPilot.Location = New System.Drawing.Point(411, 59)
         Me.cboStartupPilot.Name = "cboStartupPilot"
         Me.cboStartupPilot.Size = New System.Drawing.Size(161, 21)
         Me.cboStartupPilot.Sorted = True
@@ -536,7 +531,7 @@ Partial Public Class frmSettings
         Me.cboStartupView.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboStartupView.FormattingEnabled = True
         Me.cboStartupView.Items.AddRange(New Object() {"Pilot Information", "Pilot Summary Report", "Skill Training"})
-        Me.cboStartupView.Location = New System.Drawing.Point(404, 32)
+        Me.cboStartupView.Location = New System.Drawing.Point(411, 32)
         Me.cboStartupView.Name = "cboStartupView"
         Me.cboStartupView.Size = New System.Drawing.Size(161, 21)
         Me.cboStartupView.Sorted = True
@@ -550,16 +545,6 @@ Partial Public Class frmSettings
         Me.Label2.Size = New System.Drawing.Size(85, 13)
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "View on Startup:"
-        '
-        'chkAutoCheck
-        '
-        Me.chkAutoCheck.AutoSize = True
-        Me.chkAutoCheck.Location = New System.Drawing.Point(24, 149)
-        Me.chkAutoCheck.Name = "chkAutoCheck"
-        Me.chkAutoCheck.Size = New System.Drawing.Size(215, 17)
-        Me.chkAutoCheck.TabIndex = 3
-        Me.chkAutoCheck.Text = "Check for Updates When EveHQ Starts"
-        Me.chkAutoCheck.UseVisualStyleBackColor = True
         '
         'chkAutoMinimise
         '
@@ -610,7 +595,7 @@ Partial Public Class frmSettings
         Me.gbPilotScreenColours.Controls.Add(Me.lblPilotCurrentColour)
         Me.gbPilotScreenColours.Controls.Add(Me.pbPilotStandard)
         Me.gbPilotScreenColours.Controls.Add(Me.lblPilotStandardColour)
-        Me.gbPilotScreenColours.Location = New System.Drawing.Point(239, 21)
+        Me.gbPilotScreenColours.Location = New System.Drawing.Point(17, 26)
         Me.gbPilotScreenColours.Name = "gbPilotScreenColours"
         Me.gbPilotScreenColours.Size = New System.Drawing.Size(215, 257)
         Me.gbPilotScreenColours.TabIndex = 37
@@ -777,193 +762,6 @@ Partial Public Class frmSettings
         Me.lblPilotStandardColour.Size = New System.Drawing.Size(72, 13)
         Me.lblPilotStandardColour.TabIndex = 36
         Me.lblPilotStandardColour.Text = "Standard Skill"
-        '
-        'gbPanelColours
-        '
-        Me.gbPanelColours.Controls.Add(Me.btnResetPanelColours)
-        Me.gbPanelColours.Controls.Add(Me.pbPanelHighlight)
-        Me.gbPanelColours.Controls.Add(Me.lblPanelHighlight)
-        Me.gbPanelColours.Controls.Add(Me.pbPanelText)
-        Me.gbPanelColours.Controls.Add(Me.lblPanelText)
-        Me.gbPanelColours.Controls.Add(Me.pbPanelRight)
-        Me.gbPanelColours.Controls.Add(Me.lblPanelRight)
-        Me.gbPanelColours.Controls.Add(Me.pbPanelLeft)
-        Me.gbPanelColours.Controls.Add(Me.lblPanelLeft)
-        Me.gbPanelColours.Controls.Add(Me.pbPanelBottomRight)
-        Me.gbPanelColours.Controls.Add(Me.lblPanelBottomRight)
-        Me.gbPanelColours.Controls.Add(Me.pbPanelTopLeft)
-        Me.gbPanelColours.Controls.Add(Me.lblPanelTopLeft)
-        Me.gbPanelColours.Controls.Add(Me.pbPanelOutline)
-        Me.gbPanelColours.Controls.Add(Me.lblPanelOutline)
-        Me.gbPanelColours.Controls.Add(Me.pbPanelBackground)
-        Me.gbPanelColours.Controls.Add(Me.lblPanelBackground)
-        Me.gbPanelColours.Location = New System.Drawing.Point(13, 21)
-        Me.gbPanelColours.Name = "gbPanelColours"
-        Me.gbPanelColours.Size = New System.Drawing.Size(215, 257)
-        Me.gbPanelColours.TabIndex = 36
-        Me.gbPanelColours.TabStop = False
-        Me.gbPanelColours.Text = "Panel Colours"
-        '
-        'btnResetPanelColours
-        '
-        Me.btnResetPanelColours.Location = New System.Drawing.Point(38, 222)
-        Me.btnResetPanelColours.Name = "btnResetPanelColours"
-        Me.btnResetPanelColours.Size = New System.Drawing.Size(145, 23)
-        Me.btnResetPanelColours.TabIndex = 52
-        Me.btnResetPanelColours.Text = "Reset To Defaults"
-        Me.btnResetPanelColours.UseVisualStyleBackColor = True
-        '
-        'pbPanelHighlight
-        '
-        Me.pbPanelHighlight.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.pbPanelHighlight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPanelHighlight.Location = New System.Drawing.Point(160, 192)
-        Me.pbPanelHighlight.Name = "pbPanelHighlight"
-        Me.pbPanelHighlight.Size = New System.Drawing.Size(24, 24)
-        Me.pbPanelHighlight.TabIndex = 51
-        Me.pbPanelHighlight.TabStop = False
-        '
-        'lblPanelHighlight
-        '
-        Me.lblPanelHighlight.AutoSize = True
-        Me.lblPanelHighlight.Location = New System.Drawing.Point(14, 195)
-        Me.lblPanelHighlight.Name = "lblPanelHighlight"
-        Me.lblPanelHighlight.Size = New System.Drawing.Size(111, 13)
-        Me.lblPanelHighlight.TabIndex = 50
-        Me.lblPanelHighlight.Text = "Caption Text Highlight"
-        '
-        'pbPanelText
-        '
-        Me.pbPanelText.BackColor = System.Drawing.Color.Black
-        Me.pbPanelText.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPanelText.Location = New System.Drawing.Point(160, 168)
-        Me.pbPanelText.Name = "pbPanelText"
-        Me.pbPanelText.Size = New System.Drawing.Size(24, 24)
-        Me.pbPanelText.TabIndex = 49
-        Me.pbPanelText.TabStop = False
-        '
-        'lblPanelText
-        '
-        Me.lblPanelText.AutoSize = True
-        Me.lblPanelText.Location = New System.Drawing.Point(14, 171)
-        Me.lblPanelText.Name = "lblPanelText"
-        Me.lblPanelText.Size = New System.Drawing.Size(67, 13)
-        Me.lblPanelText.TabIndex = 48
-        Me.lblPanelText.Text = "Caption Text"
-        '
-        'pbPanelRight
-        '
-        Me.pbPanelRight.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.pbPanelRight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPanelRight.Location = New System.Drawing.Point(160, 144)
-        Me.pbPanelRight.Name = "pbPanelRight"
-        Me.pbPanelRight.Size = New System.Drawing.Size(24, 24)
-        Me.pbPanelRight.TabIndex = 47
-        Me.pbPanelRight.TabStop = False
-        '
-        'lblPanelRight
-        '
-        Me.lblPanelRight.AutoSize = True
-        Me.lblPanelRight.Location = New System.Drawing.Point(14, 147)
-        Me.lblPanelRight.Name = "lblPanelRight"
-        Me.lblPanelRight.Size = New System.Drawing.Size(101, 13)
-        Me.lblPanelRight.TabIndex = 46
-        Me.lblPanelRight.Text = "Caption Panel Right"
-        '
-        'pbPanelLeft
-        '
-        Me.pbPanelLeft.BackColor = System.Drawing.Color.RoyalBlue
-        Me.pbPanelLeft.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPanelLeft.Location = New System.Drawing.Point(160, 120)
-        Me.pbPanelLeft.Name = "pbPanelLeft"
-        Me.pbPanelLeft.Size = New System.Drawing.Size(24, 24)
-        Me.pbPanelLeft.TabIndex = 45
-        Me.pbPanelLeft.TabStop = False
-        '
-        'lblPanelLeft
-        '
-        Me.lblPanelLeft.AutoSize = True
-        Me.lblPanelLeft.Location = New System.Drawing.Point(14, 123)
-        Me.lblPanelLeft.Name = "lblPanelLeft"
-        Me.lblPanelLeft.Size = New System.Drawing.Size(94, 13)
-        Me.lblPanelLeft.TabIndex = 44
-        Me.lblPanelLeft.Text = "Caption Panel Left"
-        '
-        'pbPanelBottomRight
-        '
-        Me.pbPanelBottomRight.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.pbPanelBottomRight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPanelBottomRight.Location = New System.Drawing.Point(160, 96)
-        Me.pbPanelBottomRight.Name = "pbPanelBottomRight"
-        Me.pbPanelBottomRight.Size = New System.Drawing.Size(24, 24)
-        Me.pbPanelBottomRight.TabIndex = 43
-        Me.pbPanelBottomRight.TabStop = False
-        '
-        'lblPanelBottomRight
-        '
-        Me.lblPanelBottomRight.AutoSize = True
-        Me.lblPanelBottomRight.Location = New System.Drawing.Point(14, 99)
-        Me.lblPanelBottomRight.Name = "lblPanelBottomRight"
-        Me.lblPanelBottomRight.Size = New System.Drawing.Size(124, 13)
-        Me.lblPanelBottomRight.TabIndex = 42
-        Me.lblPanelBottomRight.Text = "Main Panel Bottom Right"
-        '
-        'pbPanelTopLeft
-        '
-        Me.pbPanelTopLeft.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.pbPanelTopLeft.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPanelTopLeft.Location = New System.Drawing.Point(160, 72)
-        Me.pbPanelTopLeft.Name = "pbPanelTopLeft"
-        Me.pbPanelTopLeft.Size = New System.Drawing.Size(24, 24)
-        Me.pbPanelTopLeft.TabIndex = 41
-        Me.pbPanelTopLeft.TabStop = False
-        '
-        'lblPanelTopLeft
-        '
-        Me.lblPanelTopLeft.AutoSize = True
-        Me.lblPanelTopLeft.Location = New System.Drawing.Point(14, 75)
-        Me.lblPanelTopLeft.Name = "lblPanelTopLeft"
-        Me.lblPanelTopLeft.Size = New System.Drawing.Size(103, 13)
-        Me.lblPanelTopLeft.TabIndex = 40
-        Me.lblPanelTopLeft.Text = "Main Panel Top Left"
-        '
-        'pbPanelOutline
-        '
-        Me.pbPanelOutline.BackColor = System.Drawing.Color.SteelBlue
-        Me.pbPanelOutline.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPanelOutline.Location = New System.Drawing.Point(160, 48)
-        Me.pbPanelOutline.Name = "pbPanelOutline"
-        Me.pbPanelOutline.Size = New System.Drawing.Size(24, 24)
-        Me.pbPanelOutline.TabIndex = 39
-        Me.pbPanelOutline.TabStop = False
-        '
-        'lblPanelOutline
-        '
-        Me.lblPanelOutline.AutoSize = True
-        Me.lblPanelOutline.Location = New System.Drawing.Point(14, 51)
-        Me.lblPanelOutline.Name = "lblPanelOutline"
-        Me.lblPanelOutline.Size = New System.Drawing.Size(70, 13)
-        Me.lblPanelOutline.TabIndex = 38
-        Me.lblPanelOutline.Text = "Panel Outline"
-        '
-        'pbPanelBackground
-        '
-        Me.pbPanelBackground.BackColor = System.Drawing.Color.Navy
-        Me.pbPanelBackground.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pbPanelBackground.Location = New System.Drawing.Point(160, 24)
-        Me.pbPanelBackground.Name = "pbPanelBackground"
-        Me.pbPanelBackground.Size = New System.Drawing.Size(24, 24)
-        Me.pbPanelBackground.TabIndex = 37
-        Me.pbPanelBackground.TabStop = False
-        '
-        'lblPanelBackground
-        '
-        Me.lblPanelBackground.AutoSize = True
-        Me.lblPanelBackground.Location = New System.Drawing.Point(14, 27)
-        Me.lblPanelBackground.Name = "lblPanelBackground"
-        Me.lblPanelBackground.Size = New System.Drawing.Size(95, 13)
-        Me.lblPanelBackground.TabIndex = 36
-        Me.lblPanelBackground.Text = "Panel Background"
         '
         'gbEveAccounts
         '
@@ -1797,9 +1595,9 @@ Partial Public Class frmSettings
         Me.gbDatabaseFormat.Controls.Add(Me.btnTestDB)
         Me.gbDatabaseFormat.Controls.Add(Me.cboFormat)
         Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(194, 12)
+        Me.gbDatabaseFormat.Location = New System.Drawing.Point(626, 65)
         Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(693, 498)
+        Me.gbDatabaseFormat.Size = New System.Drawing.Size(187, 38)
         Me.gbDatabaseFormat.TabIndex = 18
         Me.gbDatabaseFormat.TabStop = False
         Me.gbDatabaseFormat.Text = "Database Format"
@@ -2839,11 +2637,10 @@ Partial Public Class frmSettings
         '
         'gbColours
         '
-        Me.gbColours.Controls.Add(Me.gbPanelColours)
         Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
-        Me.gbColours.Location = New System.Drawing.Point(703, 286)
+        Me.gbColours.Location = New System.Drawing.Point(194, 12)
         Me.gbColours.Name = "gbColours"
-        Me.gbColours.Size = New System.Drawing.Size(132, 39)
+        Me.gbColours.Size = New System.Drawing.Size(693, 486)
         Me.gbColours.TabIndex = 28
         Me.gbColours.TabStop = False
         Me.gbColours.Text = "Colours"
@@ -3203,13 +3000,13 @@ Partial Public Class frmSettings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbDatabaseFormat)
+        Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbEveServer)
+        Me.Controls.Add(Me.gbGeneral)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)
-        Me.Controls.Add(Me.gbColours)
-        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbTaskbarIcon)
         Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbPilots)
@@ -3241,16 +3038,6 @@ Partial Public Class frmSettings
         CType(Me.pbPilotPartial, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPilotCurrent, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbPilotStandard, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbPanelColours.ResumeLayout(False)
-        Me.gbPanelColours.PerformLayout()
-        CType(Me.pbPanelHighlight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPanelText, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPanelRight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPanelLeft, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPanelBottomRight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPanelTopLeft, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPanelOutline, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.pbPanelBackground, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbEveAccounts.ResumeLayout(False)
         Me.gbPilots.ResumeLayout(False)
         Me.gbIGB.ResumeLayout(False)
@@ -3346,7 +3133,6 @@ Partial Public Class frmSettings
     Friend WithEvents chkAutoHide As System.Windows.Forms.CheckBox
     Friend WithEvents chkAutoMinimise As System.Windows.Forms.CheckBox
     Friend WithEvents fbd1 As System.Windows.Forms.FolderBrowserDialog
-    Friend WithEvents chkAutoCheck As System.Windows.Forms.CheckBox
     Friend WithEvents gbEveFolders As System.Windows.Forms.GroupBox
     Friend WithEvents btnClear4 As System.Windows.Forms.Button
     Friend WithEvents btnClear3 As System.Windows.Forms.Button
@@ -3517,24 +3303,6 @@ Partial Public Class frmSettings
     Friend WithEvents mnuPriceAdd As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuPriceEdit As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuPriceDelete As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents gbPanelColours As System.Windows.Forms.GroupBox
-    Friend WithEvents pbPanelHighlight As System.Windows.Forms.PictureBox
-    Friend WithEvents lblPanelHighlight As System.Windows.Forms.Label
-    Friend WithEvents pbPanelText As System.Windows.Forms.PictureBox
-    Friend WithEvents lblPanelText As System.Windows.Forms.Label
-    Friend WithEvents pbPanelRight As System.Windows.Forms.PictureBox
-    Friend WithEvents lblPanelRight As System.Windows.Forms.Label
-    Friend WithEvents pbPanelLeft As System.Windows.Forms.PictureBox
-    Friend WithEvents lblPanelLeft As System.Windows.Forms.Label
-    Friend WithEvents pbPanelBottomRight As System.Windows.Forms.PictureBox
-    Friend WithEvents lblPanelBottomRight As System.Windows.Forms.Label
-    Friend WithEvents pbPanelTopLeft As System.Windows.Forms.PictureBox
-    Friend WithEvents lblPanelTopLeft As System.Windows.Forms.Label
-    Friend WithEvents pbPanelOutline As System.Windows.Forms.PictureBox
-    Friend WithEvents lblPanelOutline As System.Windows.Forms.Label
-    Friend WithEvents pbPanelBackground As System.Windows.Forms.PictureBox
-    Friend WithEvents lblPanelBackground As System.Windows.Forms.Label
-    Friend WithEvents btnResetPanelColours As System.Windows.Forms.Button
     Friend WithEvents gbPilotScreenColours As System.Windows.Forms.GroupBox
     Friend WithEvents btnResetPilotColours As System.Windows.Forms.Button
     Friend WithEvents pbPilotLevel5 As System.Windows.Forms.PictureBox
@@ -3597,4 +3365,6 @@ Partial Public Class frmSettings
     Friend WithEvents txtMDBServer2 As System.Windows.Forms.TextBox
     Friend WithEvents lblMDBFilename2 As System.Windows.Forms.Label
     Friend WithEvents chkShowCompletedSkills As System.Windows.Forms.CheckBox
+    Friend WithEvents lblMDITabPosition As System.Windows.Forms.Label
+    Friend WithEvents cboMDITabPosition As System.Windows.Forms.ComboBox
 End Class

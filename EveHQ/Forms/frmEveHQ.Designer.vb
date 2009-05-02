@@ -25,8 +25,6 @@ Partial Public Class frmEveHQ
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.ToolStrip = New System.Windows.Forms.ToolStrip
-        Me.btnTogglePanel = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator
         Me.btnAddAccount = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator14 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel
@@ -117,6 +115,7 @@ Partial Public Class frmEveHQ
         Me.VersionHistoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuHelpAbout = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuUpdate = New System.Windows.Forms.ToolStripMenuItem
         Me.tmrEve = New System.Windows.Forms.Timer(Me.components)
         Me.EveStatusIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.EveIconMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -152,23 +151,13 @@ Partial Public Class frmEveHQ
         Me.mnuCloseMDITab = New System.Windows.Forms.ToolStripMenuItem
         Me.fbd1 = New System.Windows.Forms.FolderBrowserDialog
         Me.tmrEveWindow = New System.Windows.Forms.Timer(Me.components)
-        Me.ctxPlugin = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuLoadPlugin = New System.Windows.Forms.ToolStripMenuItem
         Me.iconEveHQMLW = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.tmrMemory = New System.Windows.Forms.Timer(Me.components)
-        Me.XPanderList1 = New EveHQ.XPanderList
-        Me.XPPilots = New EveHQ.XPander
-        Me.XPTraining = New EveHQ.XPander
-        Me.lblTrainingStatus = New System.Windows.Forms.Label
-        Me.XPModules = New EveHQ.XPander
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
         Me.EveHQStatusStrip.SuspendLayout()
         Me.ctxTabbedMDI.SuspendLayout()
-        Me.ctxPlugin.SuspendLayout()
-        Me.XPanderList1.SuspendLayout()
-        Me.XPTraining.SuspendLayout()
         Me.SuspendLayout()
         '
         'OptionsToolStripMenuItem
@@ -181,37 +170,20 @@ Partial Public Class frmEveHQ
         '
         'ToolStrip
         '
-        Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnTogglePanel, Me.ToolStripSeparator10, Me.btnAddAccount, Me.ToolStripSeparator14, Me.ToolStripLabel1, Me.ToolStripSeparator12, Me.cboPilots, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.tsbTrainingOverlay, Me.tsbSettingsBackup, Me.tsbSettings, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator6, Me.tsbCheckUpdates, Me.ToolStripSeparator9, Me.tsbAbout, Me.ToolStripSeparator7})
+        Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnAddAccount, Me.ToolStripSeparator14, Me.ToolStripLabel1, Me.ToolStripSeparator12, Me.cboPilots, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.tsbTrainingOverlay, Me.tsbSettingsBackup, Me.tsbSettings, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator6, Me.tsbCheckUpdates, Me.ToolStripSeparator9, Me.tsbAbout, Me.ToolStripSeparator7})
         Me.ToolStrip.Location = New System.Drawing.Point(0, 24)
         Me.ToolStrip.Name = "ToolStrip"
         Me.ToolStrip.Size = New System.Drawing.Size(1033, 25)
         Me.ToolStrip.TabIndex = 6
         Me.ToolStrip.Text = "ToolStrip"
         '
-        'btnTogglePanel
-        '
-        Me.btnTogglePanel.Checked = True
-        Me.btnTogglePanel.CheckOnClick = True
-        Me.btnTogglePanel.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.btnTogglePanel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.btnTogglePanel.Image = CType(resources.GetObject("btnTogglePanel.Image"), System.Drawing.Image)
-        Me.btnTogglePanel.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.btnTogglePanel.Name = "btnTogglePanel"
-        Me.btnTogglePanel.Size = New System.Drawing.Size(23, 22)
-        Me.btnTogglePanel.Text = "Toggle InfoPanel"
-        '
-        'ToolStripSeparator10
-        '
-        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
-        Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 25)
-        '
         'btnAddAccount
         '
         Me.btnAddAccount.Image = CType(resources.GetObject("btnAddAccount.Image"), System.Drawing.Image)
         Me.btnAddAccount.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnAddAccount.Name = "btnAddAccount"
-        Me.btnAddAccount.Size = New System.Drawing.Size(118, 22)
-        Me.btnAddAccount.Text = "Add API Account"
+        Me.btnAddAccount.Size = New System.Drawing.Size(23, 22)
+        Me.btnAddAccount.ToolTipText = "Add API Account"
         '
         'ToolStripSeparator14
         '
@@ -235,7 +207,7 @@ Partial Public Class frmEveHQ
         Me.cboPilots.FlatStyle = System.Windows.Forms.FlatStyle.Standard
         Me.cboPilots.Name = "cboPilots"
         Me.cboPilots.Padding = New System.Windows.Forms.Padding(0, 1, 0, 0)
-        Me.cboPilots.Size = New System.Drawing.Size(180, 25)
+        Me.cboPilots.Size = New System.Drawing.Size(148, 25)
         Me.cboPilots.Sorted = True
         '
         'ToolStripSeparator13
@@ -376,7 +348,7 @@ Partial Public Class frmEveHQ
         '
         'MenuStrip
         '
-        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileMenu, Me.ViewMenu, Me.ToolsMenu, Me.mnuModules, Me.mnuReports, Me.mnuHelp})
+        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileMenu, Me.ViewMenu, Me.ToolsMenu, Me.mnuModules, Me.mnuReports, Me.mnuHelp, Me.mnuUpdate})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
         Me.MenuStrip.Size = New System.Drawing.Size(1033, 24)
@@ -811,6 +783,13 @@ Partial Public Class frmEveHQ
         Me.mnuHelpAbout.Size = New System.Drawing.Size(171, 22)
         Me.mnuHelpAbout.Text = "&About..."
         '
+        'mnuUpdate
+        '
+        Me.mnuUpdate.Enabled = False
+        Me.mnuUpdate.Name = "mnuUpdate"
+        Me.mnuUpdate.Size = New System.Drawing.Size(57, 20)
+        Me.mnuUpdate.Text = "&Update"
+        '
         'tmrEve
         '
         Me.tmrEve.Interval = 3000
@@ -1024,10 +1003,10 @@ Partial Public Class frmEveHQ
         Me.tabMDI.Appearance = System.Windows.Forms.TabAppearance.FlatButtons
         Me.tabMDI.ContextMenuStrip = Me.ctxTabbedMDI
         Me.tabMDI.Dock = System.Windows.Forms.DockStyle.Top
-        Me.tabMDI.Location = New System.Drawing.Point(200, 49)
+        Me.tabMDI.Location = New System.Drawing.Point(0, 49)
         Me.tabMDI.Name = "tabMDI"
         Me.tabMDI.SelectedIndex = 0
-        Me.tabMDI.Size = New System.Drawing.Size(833, 22)
+        Me.tabMDI.Size = New System.Drawing.Size(1033, 22)
         Me.tabMDI.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight
         Me.tabMDI.TabIndex = 16
         '
@@ -1047,18 +1026,6 @@ Partial Public Class frmEveHQ
         '
         Me.tmrEveWindow.Interval = 500
         '
-        'ctxPlugin
-        '
-        Me.ctxPlugin.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuLoadPlugin})
-        Me.ctxPlugin.Name = "ctxPlugin"
-        Me.ctxPlugin.Size = New System.Drawing.Size(143, 26)
-        '
-        'mnuLoadPlugin
-        '
-        Me.mnuLoadPlugin.Name = "mnuLoadPlugin"
-        Me.mnuLoadPlugin.Size = New System.Drawing.Size(142, 22)
-        Me.mnuLoadPlugin.Text = "Load Plug-in"
-        '
         'iconEveHQMLW
         '
         Me.iconEveHQMLW.Icon = CType(resources.GetObject("iconEveHQMLW.Icon"), System.Drawing.Icon)
@@ -1067,139 +1034,12 @@ Partial Public Class frmEveHQ
         '
         Me.tmrMemory.Interval = 300000
         '
-        'XPanderList1
-        '
-        Me.XPanderList1.AutoScroll = True
-        Me.XPanderList1.BackColor = System.Drawing.Color.Navy
-        Me.XPanderList1.BackColorDark = System.Drawing.Color.Navy
-        Me.XPanderList1.BackColorLight = System.Drawing.Color.Navy
-        Me.XPanderList1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.XPanderList1.Controls.Add(Me.XPPilots)
-        Me.XPanderList1.Controls.Add(Me.XPTraining)
-        Me.XPanderList1.Controls.Add(Me.XPModules)
-        Me.XPanderList1.Dock = System.Windows.Forms.DockStyle.Left
-        Me.XPanderList1.Location = New System.Drawing.Point(0, 49)
-        Me.XPanderList1.Name = "XPanderList1"
-        Me.XPanderList1.Size = New System.Drawing.Size(200, 582)
-        Me.XPanderList1.TabIndex = 14
-        '
-        'XPPilots
-        '
-        Me.XPPilots.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.XPPilots.Animated = True
-        Me.XPPilots.AnimationTime = 50
-        Me.XPPilots.BackColor = System.Drawing.Color.Transparent
-        Me.XPPilots.BorderStyle = System.Windows.Forms.Border3DStyle.Flat
-        Me.XPPilots.CaptionFont = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.XPPilots.CaptionFormatFlag = EveHQ.XPander.FormatFlag.NoWrap
-        Me.XPPilots.CaptionLeftColor = System.Drawing.Color.RoyalBlue
-        Me.XPPilots.CaptionRightColor = System.Drawing.Color.LightSteelBlue
-        Me.XPPilots.CaptionStyle = EveHQ.XPander.CaptionStyleEnum.Normal
-        Me.XPPilots.CaptionText = "Available Pilots"
-        Me.XPPilots.CaptionTextAlign = EveHQ.XPander.CaptionTextAlignment.Left
-        Me.XPPilots.CaptionTextColor = System.Drawing.Color.Black
-        Me.XPPilots.CaptionTextHighlightColor = System.Drawing.Color.LightSteelBlue
-        Me.XPPilots.ChevronStyle = EveHQ.XPander.ChevronStyleEnum.Image
-        Me.XPPilots.CollapsedHighlightImage = CType(resources.GetObject("XPPilots.CollapsedHighlightImage"), System.Drawing.Bitmap)
-        Me.XPPilots.CollapsedImage = CType(resources.GetObject("XPPilots.CollapsedImage"), System.Drawing.Bitmap)
-        Me.XPPilots.ExpandedHighlightImage = CType(resources.GetObject("XPPilots.ExpandedHighlightImage"), System.Drawing.Bitmap)
-        Me.XPPilots.ExpandedImage = CType(resources.GetObject("XPPilots.ExpandedImage"), System.Drawing.Bitmap)
-        Me.XPPilots.Location = New System.Drawing.Point(4, 273)
-        Me.XPPilots.Name = "XPPilots"
-        Me.XPPilots.Padding = New System.Windows.Forms.Padding(0, 25, 0, 0)
-        Me.XPPilots.PaneBottomRightColor = System.Drawing.Color.LightSteelBlue
-        Me.XPPilots.PaneOutlineColor = System.Drawing.Color.SteelBlue
-        Me.XPPilots.PaneTopLeftColor = System.Drawing.Color.LightSteelBlue
-        Me.XPPilots.Size = New System.Drawing.Size(189, 177)
-        Me.XPPilots.TabIndex = 2
-        Me.XPPilots.Tag = 0
-        Me.XPPilots.TooltipText = Nothing
-        '
-        'XPTraining
-        '
-        Me.XPTraining.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.XPTraining.Animated = True
-        Me.XPTraining.AnimationTime = 50
-        Me.XPTraining.BackColor = System.Drawing.Color.Transparent
-        Me.XPTraining.BorderStyle = System.Windows.Forms.Border3DStyle.Flat
-        Me.XPTraining.CaptionFont = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.XPTraining.CaptionFormatFlag = EveHQ.XPander.FormatFlag.NoWrap
-        Me.XPTraining.CaptionLeftColor = System.Drawing.Color.RoyalBlue
-        Me.XPTraining.CaptionRightColor = System.Drawing.Color.LightSteelBlue
-        Me.XPTraining.CaptionStyle = EveHQ.XPander.CaptionStyleEnum.Normal
-        Me.XPTraining.CaptionText = "Training Status"
-        Me.XPTraining.CaptionTextAlign = EveHQ.XPander.CaptionTextAlignment.Left
-        Me.XPTraining.CaptionTextColor = System.Drawing.Color.Black
-        Me.XPTraining.CaptionTextHighlightColor = System.Drawing.Color.LightSteelBlue
-        Me.XPTraining.ChevronStyle = EveHQ.XPander.ChevronStyleEnum.Image
-        Me.XPTraining.CollapsedHighlightImage = CType(resources.GetObject("XPTraining.CollapsedHighlightImage"), System.Drawing.Bitmap)
-        Me.XPTraining.CollapsedImage = CType(resources.GetObject("XPTraining.CollapsedImage"), System.Drawing.Bitmap)
-        Me.XPTraining.Controls.Add(Me.lblTrainingStatus)
-        Me.XPTraining.ExpandedHighlightImage = CType(resources.GetObject("XPTraining.ExpandedHighlightImage"), System.Drawing.Bitmap)
-        Me.XPTraining.ExpandedImage = CType(resources.GetObject("XPTraining.ExpandedImage"), System.Drawing.Bitmap)
-        Me.XPTraining.Location = New System.Drawing.Point(4, 160)
-        Me.XPTraining.Name = "XPTraining"
-        Me.XPTraining.Padding = New System.Windows.Forms.Padding(0, 25, 0, 0)
-        Me.XPTraining.PaneBottomRightColor = System.Drawing.Color.LightSteelBlue
-        Me.XPTraining.PaneOutlineColor = System.Drawing.Color.SteelBlue
-        Me.XPTraining.PaneTopLeftColor = System.Drawing.Color.LightSteelBlue
-        Me.XPTraining.Size = New System.Drawing.Size(189, 107)
-        Me.XPTraining.TabIndex = 1
-        Me.XPTraining.Tag = 1
-        Me.XPTraining.TooltipText = Nothing
-        '
-        'lblTrainingStatus
-        '
-        Me.lblTrainingStatus.AutoSize = True
-        Me.lblTrainingStatus.Location = New System.Drawing.Point(6, 36)
-        Me.lblTrainingStatus.MaximumSize = New System.Drawing.Size(175, 0)
-        Me.lblTrainingStatus.Name = "lblTrainingStatus"
-        Me.lblTrainingStatus.Size = New System.Drawing.Size(68, 13)
-        Me.lblTrainingStatus.TabIndex = 1
-        Me.lblTrainingStatus.Text = "Calculating..."
-        '
-        'XPModules
-        '
-        Me.XPModules.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.XPModules.Animated = True
-        Me.XPModules.AnimationTime = 50
-        Me.XPModules.BackColor = System.Drawing.Color.Transparent
-        Me.XPModules.BorderStyle = System.Windows.Forms.Border3DStyle.Flat
-        Me.XPModules.CaptionFont = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.XPModules.CaptionFormatFlag = EveHQ.XPander.FormatFlag.NoWrap
-        Me.XPModules.CaptionLeftColor = System.Drawing.Color.RoyalBlue
-        Me.XPModules.CaptionRightColor = System.Drawing.Color.LightSteelBlue
-        Me.XPModules.CaptionStyle = EveHQ.XPander.CaptionStyleEnum.Normal
-        Me.XPModules.CaptionText = "EveHQ Module Status"
-        Me.XPModules.CaptionTextAlign = EveHQ.XPander.CaptionTextAlignment.Left
-        Me.XPModules.CaptionTextColor = System.Drawing.Color.Black
-        Me.XPModules.CaptionTextHighlightColor = System.Drawing.Color.LightSteelBlue
-        Me.XPModules.ChevronStyle = EveHQ.XPander.ChevronStyleEnum.Image
-        Me.XPModules.CollapsedHighlightImage = CType(resources.GetObject("XPModules.CollapsedHighlightImage"), System.Drawing.Bitmap)
-        Me.XPModules.CollapsedImage = CType(resources.GetObject("XPModules.CollapsedImage"), System.Drawing.Bitmap)
-        Me.XPModules.ExpandedHighlightImage = CType(resources.GetObject("XPModules.ExpandedHighlightImage"), System.Drawing.Bitmap)
-        Me.XPModules.ExpandedImage = CType(resources.GetObject("XPModules.ExpandedImage"), System.Drawing.Bitmap)
-        Me.XPModules.Location = New System.Drawing.Point(4, 4)
-        Me.XPModules.Name = "XPModules"
-        Me.XPModules.Padding = New System.Windows.Forms.Padding(0, 25, 0, 0)
-        Me.XPModules.PaneBottomRightColor = System.Drawing.Color.LightSteelBlue
-        Me.XPModules.PaneOutlineColor = System.Drawing.Color.SteelBlue
-        Me.XPModules.PaneTopLeftColor = System.Drawing.Color.LightSteelBlue
-        Me.XPModules.Size = New System.Drawing.Size(189, 150)
-        Me.XPModules.TabIndex = 0
-        Me.XPModules.Tag = 2
-        Me.XPModules.TooltipText = Nothing
-        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1033, 656)
         Me.Controls.Add(Me.tabMDI)
-        Me.Controls.Add(Me.XPanderList1)
         Me.Controls.Add(Me.ToolStrip)
         Me.Controls.Add(Me.EveHQStatusStrip)
         Me.Controls.Add(Me.MenuStrip)
@@ -1217,10 +1057,6 @@ Partial Public Class frmEveHQ
         Me.EveHQStatusStrip.ResumeLayout(False)
         Me.EveHQStatusStrip.PerformLayout()
         Me.ctxTabbedMDI.ResumeLayout(False)
-        Me.ctxPlugin.ResumeLayout(False)
-        Me.XPanderList1.ResumeLayout(False)
-        Me.XPTraining.ResumeLayout(False)
-        Me.XPTraining.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1287,11 +1123,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuModules As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents NoModulesLoadedToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportCurrentCharXMLOld As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents XPanderList1 As XPanderList
-    Friend WithEvents XPModules As XPander
-    Friend WithEvents XPTraining As XPander
-    Friend WithEvents lblTrainingStatus As System.Windows.Forms.Label
-    Friend WithEvents XPPilots As EveHQ.XPander
     Friend WithEvents mnuReportCurrentCharXMLNew As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportTimeToLevel5 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tabMDI As System.Windows.Forms.TabControl
@@ -1310,8 +1141,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents tsbCheckUpdates As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator9 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripSeparator7 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents btnTogglePanel As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator10 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ctxTabbedMDI As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuCloseMDITab As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportCurrentTrainingXMLOld As System.Windows.Forms.ToolStripMenuItem
@@ -1344,8 +1173,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents tmrEveWindow As System.Windows.Forms.Timer
     Friend WithEvents mnuReportQueueShoppingList As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportsTextShoppingList As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ctxPlugin As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents mnuLoadPlugin As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuToolsAPIChecker As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportPartiallyTrainedSkills As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportsTextPartiallyTrainedSkills As System.Windows.Forms.ToolStripMenuItem
@@ -1364,5 +1191,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuClearImageCache As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuClearAllXMLCache As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuUpdate As System.Windows.Forms.ToolStripMenuItem
 
 End Class

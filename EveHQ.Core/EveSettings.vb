@@ -145,7 +145,16 @@ Imports System.Diagnostics
     Private cMarketLogUpdatePrice As Boolean = False
     Private cMarketLogUpdateData As Boolean = False
     Private cShowCompletedSkills As Boolean = False
+    Private cMDITabPosition As String = "Top"
 
+    Public Property MDITabPosition() As String
+        Get
+            Return cMDITabPosition
+        End Get
+        Set(ByVal value As String)
+            cMDITabPosition = value
+        End Set
+    End Property
     Public Property ShowCompletedSkills() As Boolean
         Get
             Return cShowCompletedSkills

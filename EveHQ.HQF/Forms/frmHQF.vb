@@ -86,17 +86,11 @@ Public Class frmHQF
     Private Sub frmHQF_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         startUp = True
+        ModuleDisplay = ""
+        LastModuleResults.Clear()
 
         ' Load the settings!
         Call Settings.HQFSettings.LoadHQFSettings()
-
-        ' Close the EveHQ InfoPanel if opted to
-        If Settings.HQFSettings.CloseInfoPanel = True Then
-            EveHQ.Core.HQ.StartCloseInfoPanel = True
-            Me.WindowState = FormWindowState.Maximized
-        End If
-        ModuleDisplay = ""
-        LastModuleResults.Clear()
 
         ' Clear tabs and fitted ship lists, results list
         ShipLists.fittedShipList.Clear()
@@ -1504,6 +1498,7 @@ Public Class frmHQF
         Fittings.FittingTabList.Remove(tp.Text)
         ShipLists.fittedShipList.Remove(tp.Text)
         tabHQF.TabPages.Remove(tp)
+        tp.Dispose()
         If Fittings.FittingTabList.Count = 0 Then
             currentShipInfo = Nothing
             currentShipSlot = Nothing

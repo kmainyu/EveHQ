@@ -80,18 +80,7 @@ Public Class HQ
     Public Shared CertificateCategories As New SortedList
     Public Shared CertificateClasses As New SortedList
     Public Shared Certificates As New SortedList
-    Public Shared Event CloseInfoPanel()
     Public Shared Event ShutDownEveHQ()
-
-    Shared Property StartCloseInfoPanel() As Boolean
-        Get
-        End Get
-        Set(ByVal value As Boolean)
-            If value = True Then
-                RaiseEvent CloseInfoPanel()
-            End If
-        End Set
-    End Property
 
     Shared Property StartShutdownEveHQ() As Boolean
         Get

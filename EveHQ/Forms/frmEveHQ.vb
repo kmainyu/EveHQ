@@ -320,7 +320,6 @@ Public Class frmEveHQ
         ' Add the pilot refresh handler
         AddHandler EveHQ.Core.PilotParseFunctions.RefreshPilots, AddressOf Me.RemoteRefreshPilots
         AddHandler EveHQ.Core.G15LCDB.UpdateAPI, AddressOf Me.RemoteUpdate
-        AddHandler EveHQ.Core.HQ.CloseInfoPanel, AddressOf Me.CloseInfoPanel
         AddHandler EveHQ.Core.HQ.ShutDownEveHQ, AddressOf Me.ShutdownRoutine
 
         ' Check if "Hide When Minimised" is active
@@ -353,9 +352,6 @@ Public Class frmEveHQ
                 EveHQ.Core.HQ.APIRSActive = True
             End If
         End If
-
-        ' Update the panel colours
-        Call Me.UpdatePanelColours()
 
         ' Determine which view to display!
         Select Case EveHQ.Core.HQ.EveHQSettings.StartupView
@@ -393,6 +389,14 @@ Public Class frmEveHQ
                 Me.tabMDI.Appearance = TabAppearance.Normal
         End Select
 
+        ' Set the tab position
+        Select Case EveHQ.Core.HQ.EveHQSettings.MDITabPosition
+            Case "Top"
+                Me.tabMDI.Dock = DockStyle.Top
+            Case "Bottom"
+                Me.tabMDI.Dock = DockStyle.Bottom
+        End Select
+
         ' Close the splash screen
         frmSplash.Close()
 
@@ -428,6 +432,9 @@ Public Class frmEveHQ
 
         Call EveHQ.Core.HQ.ReduceMemory()
         tmrMemory.Enabled = True
+
+        ' Start the update check on a new thread
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.CheckForUpdates)
 
     End Sub
     Private Sub frmEveHQ_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
@@ -545,8 +552,6 @@ Public Class frmEveHQ
     End Sub
     Private Sub SkillWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles SkillWorker.RunWorkerCompleted
 
-        Call UpdateTrainingStatus()
-
         Call CheckNotifications()
 
         If EveHQ.Core.HQ.EveHQSettings.ContinueTraining = True Then
@@ -627,47 +632,6 @@ Public Class frmEveHQ
         If SkillWorker.IsBusy = False Then
             SkillWorker.RunWorkerAsync()
             tmrSkillUpdate.Interval = 1000
-        End If
-    End Sub
-    Private Sub UpdateTrainingStatus()
-        Dim accounts As New ArrayList
-        Dim statusText As New StringBuilder
-        ' Check each pilot
-        Dim pilotTimes As New SortedList
-        Dim defer As Integer = 0
-        Dim pilotTime As Long = 0
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            If cPilot.Training = True Then
-                If cPilot.Active = True Then
-                    Do
-                        defer += 1
-                        pilotTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot) + defer
-                    Loop Until pilotTimes.ContainsKey(Format(pilotTime, "00000000")) = False
-                    pilotTimes.Add(Format(pilotTime, "00000000"), cPilot)
-                End If
-                accounts.Add(cPilot.Account)
-            End If
-        Next
-        For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
-            statusText.AppendLine(cPilot.Name & ":")
-            statusText.AppendLine(cPilot.TrainingSkillName & " (Lvl " & cPilot.TrainingSkillLevel & ")")
-            statusText.AppendLine(EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime))
-            statusText.AppendLine("")
-        Next
-        ' Check each account to see if something is training.
-        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
-            If accounts.Contains(cAccount.userID) = False Then
-                statusText.AppendLine("Account '" & cAccount.FriendlyName & "' is not training!")
-                statusText.AppendLine("")
-            End If
-        Next
-        lblTrainingStatus.Text = statusText.ToString
-        ' Check for label size and adjust if need be
-        If XPTraining.IsExpanded = True Then
-            If XPTraining.Height <> lblTrainingStatus.Height + 40 Then
-                XPTraining.Height = lblTrainingStatus.Height + 40
-                XPPilots.Top = XPTraining.Top + XPTraining.Height + 10
-            End If
         End If
     End Sub
     Private Sub CheckNotifications()
@@ -790,38 +754,6 @@ Public Class frmEveHQ
 
 #End Region
 
-#Region "Panel Colour Routines"
-    Public Sub UpdatePanelColours()
-        ' Update Panel Background
-        XPanderList1.BackColorDark = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBackgroundColor))
-        XPanderList1.BackColorLight = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBackgroundColor))
-        ' Update XPModules
-        XPModules.PaneOutlineColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelOutlineColor))
-        XPModules.PaneBottomRightColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBottomRightColor))
-        XPModules.PaneTopLeftColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTopLeftColor))
-        XPModules.CaptionLeftColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelLeftColor))
-        XPModules.CaptionRightColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelRightColor))
-        XPModules.CaptionTextColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTextColor))
-        XPModules.CaptionTextHighlightColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelHighlightColor))
-        ' Update XPTraining
-        XPTraining.PaneOutlineColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelOutlineColor))
-        XPTraining.PaneBottomRightColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBottomRightColor))
-        XPTraining.PaneTopLeftColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTopLeftColor))
-        XPTraining.CaptionLeftColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelLeftColor))
-        XPTraining.CaptionRightColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelRightColor))
-        XPTraining.CaptionTextColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTextColor))
-        XPTraining.CaptionTextHighlightColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelHighlightColor))
-        ' Update XPPilots
-        XPPilots.PaneOutlineColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelOutlineColor))
-        XPPilots.PaneBottomRightColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelBottomRightColor))
-        XPPilots.PaneTopLeftColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTopLeftColor))
-        XPPilots.CaptionLeftColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelLeftColor))
-        XPPilots.CaptionRightColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelRightColor))
-        XPPilots.CaptionTextColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelTextColor))
-        XPPilots.CaptionTextHighlightColor = Drawing.Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PanelHighlightColor))
-    End Sub
-#End Region
-
     Private Sub RemoteUpdate()
         Me.Invoke(New QueryMyEveServerDelegate(AddressOf QueryMyEveServer))
     End Sub
@@ -934,24 +866,6 @@ Public Class frmEveHQ
             End If
         Next
         cboPilots.EndUpdate()
-
-        Dim pilotCount As Integer = 0
-        XPPilots.Controls.Clear()
-        For Each pilotName As String In allPilots.Values
-            ' Add a label to the active pilots list in the task bar
-            pilotCount += 1
-            Dim newPilot As New LinkLabel
-            AddHandler newPilot.Click, AddressOf Me.XPPilotLabels_Click
-            newPilot.Name = "lblPilot" & pilotName
-            newPilot.Text = pilotName
-            newPilot.TextAlign = ContentAlignment.MiddleLeft
-            newPilot.ImageAlign = ContentAlignment.MiddleLeft
-            newPilot.Left = 8
-            newPilot.Top = 20 + (20 * pilotCount)
-            newPilot.Height = 13
-            XPPilots.Controls.Add(newPilot)
-        Next
-        XPPilots.Height = 50 + (20 * pilotCount)
 
         ' Restore the pilot if it still in the list
         If oldPilot <> Nothing Then
@@ -1406,58 +1320,35 @@ Public Class frmEveHQ
         Dim t As Type = myAssembly.GetType(plugInInfo.FileType)
         plugInInfo.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
         Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = plugInInfo.Instance
-        Dim modStatus As Label = CType(XPModules.Controls("lblMod" & plugInInfo.Name), Label)
-        modStatus.Image = My.Resources.Status_yellow
-        modStatus.ContextMenuStrip = Nothing
+        Dim modMenu As ToolStripMenuItem = CType(mnuModules.DropDownItems(plugInInfo.Name), ToolStripMenuItem)
+        Dim tsbMenu As ToolStripButton = CType(ToolStrip.Items(plugInInfo.Name), ToolStripButton)
+        modMenu.DropDownItems(0).Enabled = False
+        modMenu.DropDownItems(1).Enabled = False
+        tsbMenu.BackColor = Color.FromArgb(255, 255, 255, 110)
         plugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Loading
         Try
             Dim PlugInResponse As String = ""
             PlugInResponse = runPlugIn.EveHQStartUp().ToString
             If CBool(PlugInResponse) = False Then
-                modStatus.Image = My.Resources.Status_red
-                modStatus.ContextMenuStrip = ctxPlugin
+                modMenu.DropDownItems(0).Enabled = True
+                modMenu.DropDownItems(1).Enabled = False
                 plugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Failed
             Else
-                modStatus.Image = My.Resources.Status_green
-                modStatus.ContextMenuStrip = Nothing
-                Dim modMenu As ToolStripMenuItem = CType(mnuModules.DropDownItems(plugInInfo.Name), ToolStripMenuItem)
                 If ToolStrip.Items.ContainsKey(plugInInfo.Name) = True Then
-                    Dim tsbMenu As ToolStripButton = CType(ToolStrip.Items(plugInInfo.Name), ToolStripButton)
+                    tsbMenu.BackColor = Color.FromKnownColor(KnownColor.Control)
                     tsbMenu.Enabled = True
                 End If
                 plugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Active
-                modMenu.Enabled = True
+                modMenu.DropDownItems(0).Enabled = False
+                modMenu.DropDownItems(1).Enabled = True
             End If
             ' Clean up after loading the plugin
             Call EveHQ.Core.HQ.ReduceMemory()
         Catch ex As Exception
             MessageBox.Show("Unable to load plugin: " & plugInInfo.Name & ControlChars.CrLf & ex.Message, "Plugin error")
-            modStatus.Image = My.Resources.Status_red
-            modStatus.ContextMenuStrip = ctxPlugin
+            modMenu.DropDownItems(0).Enabled = True
+            modMenu.DropDownItems(1).Enabled = False
         End Try
-    End Sub
-    Private Sub ctxPlugin_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxPlugin.Opening
-        ' Changes the menu to show the correct plug-in name
-        Dim lbl As Label = CType(ctxPlugin.SourceControl, Label)
-        mnuLoadPlugin.Tag = lbl.Tag
-        mnuLoadPlugin.Text = "Load " & lbl.Text.Trim
-    End Sub
-    Private Sub mnuLoadPlugin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuLoadPlugin.Click
-        Dim PlugInInfo As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins.Item(mnuLoadPlugin.Tag), Core.PlugIn)
-        If PlugInInfo.RunAtStartup = True Then
-            ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
-        Else
-            Dim modStatus As Label = CType(ctxPlugin.SourceControl, Label)
-            modStatus.Image = My.Resources.Status_green
-            modStatus.ContextMenuStrip = Nothing
-            Dim modMenu As ToolStripMenuItem = CType(mnuModules.DropDownItems(PlugInInfo.Name), ToolStripMenuItem)
-            If ToolStrip.Items.ContainsKey(PlugInInfo.Name) = True Then
-                Dim tsbMenu As ToolStripButton = CType(ToolStrip.Items(PlugInInfo.Name), ToolStripButton)
-                tsbMenu.Enabled = True
-            End If
-            PlugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Active
-            modMenu.Enabled = True
-        End If
     End Sub
 #End Region
 
@@ -1470,33 +1361,33 @@ Public Class frmEveHQ
                 'If PlugInInfo.Available = True And PlugInInfo.Disabled = False Then
                 If PlugInInfo.Available = True Then
                     modCount += 1
-                    Dim newModuleMenu As ToolStripMenuItem = New ToolStripMenuItem(PlugInInfo.MainMenuText, Nothing, New System.EventHandler(AddressOf ModuleMenuItemClick), PlugInInfo.Name)
-                    Dim newModuleStatus As New Label
+                    Dim newModuleMenu As ToolStripMenuItem = New ToolStripMenuItem(PlugInInfo.MainMenuText, Nothing, Nothing, PlugInInfo.Name)
                     Dim newTSBItem As ToolStripButton = New ToolStripButton(PlugInInfo.MainMenuText, PlugInInfo.MenuImage, New System.EventHandler(AddressOf ModuleTSBClick), PlugInInfo.Name)
                     newTSBItem.ToolTipText = PlugInInfo.MainMenuText
                     newTSBItem.DisplayStyle = ToolStripItemDisplayStyle.Image
+                    AddHandler newTSBItem.DoubleClick, AddressOf Me.mnuUpdate_Click
                     newModuleMenu.Text = PlugInInfo.MainMenuText
-                    newModuleMenu.ToolTipText = PlugInInfo.Description
                     newModuleMenu.Image = PlugInInfo.MenuImage
                     newModuleMenu.Tag = PlugInInfo.Name
+                    newModuleMenu.DropDownItems.Add("Load", Nothing, AddressOf Me.LoadPlugin)
+                    newModuleMenu.DropDownItems.Add("Run", Nothing, AddressOf Me.RunPlugin)
+                    newModuleMenu.DropDownItems(0).Name = PlugInInfo.Name
+                    newModuleMenu.DropDownItems(1).Name = PlugInInfo.Name
                     If PlugInInfo.RunAtStartup = True Then
-                        newModuleMenu.Enabled = False
+                        newModuleMenu.DropDownItems(0).Enabled = True
+                        newModuleMenu.DropDownItems(1).Enabled = False
                         newTSBItem.Enabled = False
-                        newModuleStatus.Image = My.Resources.Status_red
-                        newModuleStatus.ContextMenuStrip = ctxPlugin
                         PlugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Uninitialised
                     Else
                         If PlugInInfo.Disabled = False Then
-                            newModuleMenu.Enabled = True
+                            newModuleMenu.DropDownItems(0).Enabled = False
+                            newModuleMenu.DropDownItems(1).Enabled = True
                             newTSBItem.Enabled = True
-                            newModuleStatus.Image = My.Resources.Status_green
-                            newModuleStatus.ContextMenuStrip = Nothing
                             PlugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Active
                         Else
-                            newModuleMenu.Enabled = False
+                            newModuleMenu.DropDownItems(0).Enabled = True
+                            newModuleMenu.DropDownItems(1).Enabled = False
                             newTSBItem.Enabled = False
-                            newModuleStatus.Image = My.Resources.Status_red
-                            newModuleStatus.ContextMenuStrip = ctxPlugin
                             PlugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Uninitialised
                         End If
                     End If
@@ -1505,19 +1396,6 @@ Public Class frmEveHQ
                     If PlugInInfo.MenuImage IsNot Nothing Then
                         ToolStrip.Items.Add(newTSBItem)
                     End If
-                    newModuleStatus.Name = "lblMod" & PlugInInfo.Name
-                    newModuleStatus.Text = "    " & PlugInInfo.MainMenuText
-                    newModuleStatus.Tag = PlugInInfo.Name
-                    newModuleStatus.TextAlign = ContentAlignment.MiddleLeft
-                    newModuleStatus.ImageAlign = ContentAlignment.MiddleLeft
-                    newModuleStatus.Left = 8
-                    newModuleStatus.Top = 20 + (20 * modCount)
-                    newModuleStatus.Height = 13
-                    newModuleStatus.Width = 125
-                    XPModules.Controls.Add(newModuleStatus)
-                    XPModules.Height = 50 + (20 * modCount)
-                    XPTraining.Top = XPModules.Top + XPModules.Height + 10
-                    XPPilots.Top = XPTraining.Top + XPTraining.Height + 10
                 Else
                     ' Need anything here if the plug-in is disabled?
                 End If
@@ -1547,6 +1425,34 @@ Public Class frmEveHQ
         End If
 
     End Sub
+    Private Sub LoadPlugin(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim mnu As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+        Dim PlugInInfo As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins.Item(mnu.Name), Core.PlugIn)
+        If PlugInInfo.RunAtStartup = True Then
+            ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
+        Else
+            Dim modMenu As ToolStripMenuItem = CType(mnuModules.DropDownItems(PlugInInfo.Name), ToolStripMenuItem)
+            If ToolStrip.Items.ContainsKey(PlugInInfo.Name) = True Then
+                Dim tsbMenu As ToolStripButton = CType(ToolStrip.Items(PlugInInfo.Name), ToolStripButton)
+                tsbMenu.Enabled = True
+            End If
+            PlugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Active
+            modMenu.DropDownItems(0).Enabled = False
+            modMenu.DropDownItems(1).Enabled = True
+        End If
+    End Sub
+    Private Sub RunPlugin(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim mnu As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+        If tabMDI.TabPages.ContainsKey(mnu.Name) = True Then
+            tabMDI.SelectTab(mnu.Name)
+        Else
+            Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(mnu.Name), Core.PlugIn)
+            Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
+            plugInForm.MdiParent = Me
+            plugInForm.Show()
+        End If
+    End Sub
+
 #End Region
 
 #Region "TabbedMDI Window Routines"
@@ -1740,24 +1646,6 @@ Public Class frmEveHQ
     End Sub
     Private Sub RemoteRefreshPilots()
         Call Me.UpdatePilotInfo()
-    End Sub
-
-    Private Sub btnTogglePanel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTogglePanel.Click
-        If btnTogglePanel.Checked = True Then
-            ' If the panel is open
-            btnTogglePanel.Image = My.Resources.panel_close
-            XPanderList1.Visible = True
-        Else
-            ' If the panel is closed
-            btnTogglePanel.Image = My.Resources.panel_open
-            XPanderList1.Visible = False
-        End If
-    End Sub
-
-    Private Sub CloseInfoPanel()
-        btnTogglePanel.Image = My.Resources.panel_open
-        XPanderList1.Visible = False
-        btnTogglePanel.Checked = False
     End Sub
 
     Private Sub mnuECMExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuECMExport.Click
@@ -2172,7 +2060,6 @@ Public Class frmEveHQ
 
 #End Region
 
-
     Private Sub mnuToolsTriggerError_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuToolsTriggerError.Click
         Dim errPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots("O M G"), Core.Pilot)
         MessageBox.Show(errPilot.Name)
@@ -2330,7 +2217,210 @@ Public Class frmEveHQ
         Call EveHQ.Core.HQ.ReduceMemory()
     End Sub
 
-    
+#Region "Update Check & Menu"
+    Private Sub CheckForUpdates(ByVal state As Object)
+        Dim DatabaseUpgradeAvailable As Boolean = False
+        Dim CurrentComponents As New SortedList
+        Dim UpdateXML As XmlDocument = FetchUpdateXML()
+        If UpdateXML Is Nothing Then
+            Exit Sub
+        Else
+            Dim UpdateRequired As Boolean = False
+            ' Get a current list of components
+            CurrentComponents.Clear()
+            Dim msg As String = ""
+            For Each myAssembly As AssemblyName In Assembly.GetExecutingAssembly().GetReferencedAssemblies()
+                If CurrentComponents.Contains(myAssembly.Name & ".dll") = False Then
+                    CurrentComponents.Add(myAssembly.Name & ".dll", myAssembly.Version.ToString)
+                    msg &= myAssembly.Name & ".dll (" & myAssembly.Version.ToString & ")" & ControlChars.CrLf
+                End If
+                If myAssembly.Name = "EveHQ.Core" Or myAssembly.Name = "EveHQ.CoreControls" Then
+                    ' Check the references for these
+                    Dim subAssembly As Assembly = Assembly.ReflectionOnlyLoad(myAssembly.Name)
+                    For Each subAssemblyName As AssemblyName In subAssembly.GetReferencedAssemblies
+                        If CurrentComponents.Contains(subAssemblyName.Name & ".dll") = False Then
+                            CurrentComponents.Add(subAssemblyName.Name & ".dll", subAssemblyName.Version.ToString)
+                            msg &= subAssemblyName.Name & ".dll (" & subAssemblyName.Version.ToString & ")" & ControlChars.CrLf
+                        End If
+                    Next
+                End If
+            Next
+            ' Add to that a list of the plug-ins used
+            For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
+                If myPlugIn.ShortFileName IsNot Nothing Then
+                    If CurrentComponents.Contains(myPlugIn.ShortFileName) = False Then
+                        CurrentComponents.Add(myPlugIn.ShortFileName, myPlugIn.Version)
+                        msg &= myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")" & ControlChars.CrLf
+                    End If
+                End If
+            Next
+            ' Add the current executable!
+            CurrentComponents.Add("EveHQ.exe", My.Application.Info.Version.ToString)
+            msg &= "EveHQ.exe (" & My.Application.Info.Version.ToString & ")" & ControlChars.CrLf
+            ' Add the EveHQPatcher if available?
+            If My.Computer.FileSystem.FileExists(Application.StartupPath & "\EveHQPatcher.exe") = True Then
+                Dim myAssembly As Assembly = Assembly.ReflectionOnlyLoadFrom(Application.StartupPath & "\EveHQPatcher.exe")
+                CurrentComponents.Add("EveHQPatcher.exe", myAssembly.GetName.Version.ToString)
+                msg &= "EveHQPatcher.exe (" & myAssembly.GetName.Version.ToString & ")" & ControlChars.CrLf
+            Else
+                CurrentComponents.Add("EveHQPatcher.exe", "Not Present")
+                msg &= "EveHQPatcher.exe (Not Present)" & ControlChars.CrLf
+            End If
+            ' Add the LgLcd.dll - unique as not a .Net assembly
+            If My.Computer.FileSystem.FileExists(Application.StartupPath & "\LgLcd.dll") = True Then
+                CurrentComponents.Add("LgLcd.dll", "Any")
+                msg &= "LgLcd.dll (Any)" & ControlChars.CrLf
+            Else
+                CurrentComponents.Add("LgLcd.dll", "Not Present")
+                msg &= "LgLcd.dll (Not Present)" & ControlChars.CrLf
+            End If
+            ' Try and add the database version (if using Access)
+            Dim DBData As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/database")
+            Dim localDBVersion As String = ""
+            Dim remoteDBVersion As String = ""
+            If DBData.Count > 0 Then
+                remoteDBVersion = DBData(0).ChildNodes(0).InnerText
+            End If
+            If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
+                Dim databaseData As Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM EveHQVersion;")
+                If databaseData IsNot Nothing Then
+                    If databaseData.Tables(0).Rows.Count > 0 Then
+                        localDBVersion = databaseData.Tables(0).Rows(0).Item("Version").ToString
+                        If IsUpdateAvailable(localDBVersion, remoteDBVersion) = True Then
+                            DatabaseUpgradeAvailable = True
+                        Else
+                            DatabaseUpgradeAvailable = False
+                        End If
+                    Else
+                        If remoteDBVersion <> "" Then
+                            DatabaseUpgradeAvailable = True
+                        Else
+                            DatabaseUpgradeAvailable = False
+                        End If
+                    End If
+                Else
+                    If remoteDBVersion <> "" Then
+                        DatabaseUpgradeAvailable = True
+                    Else
+                        DatabaseUpgradeAvailable = False
+                    End If
+                End If
+            Else
+                DatabaseUpgradeAvailable = False
+            End If
+            ' Try parsing the update file 
+            Try
+                Dim updateDetails As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/lastUpdated")
+                Dim lastUpdate As String = updateDetails(0).InnerText
+                Dim requiredFiles As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/files/file")
+                For Each updateFile As XmlNode In requiredFiles
+                    ' Check if the plug-in is available
+                    If CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)) IsNot Nothing Then
+                        ' Check which is the later version
+                        If IsUpdateAvailable(CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)), updateFile.ChildNodes(2).InnerText) = True Then
+                            UpdateRequired = True
+                        End If
+                    Else
+                        UpdateRequired = True
+                    End If
+                Next
+                If UpdateRequired = True Then
+                    mnuUpdate.Enabled = True
+                    Dim reply As Integer = MessageBox.Show("There are updates available. Would you like to update EveHQ now?", "Update EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    If reply = DialogResult.No Then
+                        Exit Sub
+                    Else
+                        Dim myUpdater As New frmUpdater
+                        myUpdater.ShowDialog()
+                    End If
+                Else
+                    If DatabaseUpgradeAvailable = True Then
+                        mnuUpdate.Enabled = True
+                        Dim reply As Integer = MessageBox.Show("There are updates available. Would you like to update EveHQ now?", "Update EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                        If reply = DialogResult.No Then
+                            Exit Sub
+                        Else
+                            Dim myUpdater As New frmUpdater
+                            myUpdater.ShowDialog()
+                        End If
+                    Else
+                        mnuUpdate.Enabled = False
+                    End If
+                End If
+            Catch ex As Exception
+            End Try
+        End If
+    End Sub
+    Private Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
+        If localVer = "Not Used" Then
+            Return False
+        Else
+            If localVer = remoteVer Then
+                Return False
+            Else
+                Dim localVers() As String = localVer.Split(CChar("."))
+                Dim remoteVers() As String = remoteVer.Split(CChar("."))
+                Dim requiresUpdate As Boolean = False
+                For ver As Integer = 0 To 3
+                    If CInt(remoteVers(ver)) <> CInt(localVers(ver)) Then
+                        If CInt(remoteVers(ver)) > CInt(localVers(ver)) Then
+                            requiresUpdate = True
+                            Exit For
+                        Else
+                            requiresUpdate = False
+                            Exit For
+                        End If
+                    End If
+                Next
+                Return requiresUpdate
+            End If
+        End If
+    End Function
+    Private Function FetchUpdateXML() As XmlDocument
+        ' Set a default policy level for the "http:" and "https" schemes.
+        Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
+        Dim UpdateServer As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL
+        Dim remoteURL As String = UpdateServer & "/_latest.xml"
+        Dim webdata As String = ""
+        Dim UpdateXML As New XmlDocument
+        Try
+            ' Create the requester
+            ServicePointManager.DefaultConnectionLimit = 10
+            ServicePointManager.Expect100Continue = False
+            Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(remoteURL))
+            Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
+            request.CachePolicy = policy
+            ' Setup proxy server (if required)
+            If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
+                Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
+                If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
+                    EveHQProxy.UseDefaultCredentials = True
+                Else
+                    EveHQProxy.UseDefaultCredentials = False
+                    EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
+                End If
+                request.Proxy = EveHQProxy
+            End If
+            ' Prepare for a response from the server
+            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+            ' Get the stream associated with the response.
+            Dim receiveStream As Stream = response.GetResponseStream()
+            ' Pipes the stream to a higher level stream reader with the required encoding format. 
+            Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
+            webdata = readStream.ReadToEnd()
+            ' Check response string for any error codes?
+            UpdateXML.LoadXml(webdata)
+            Return UpdateXML
+        Catch e As Exception
+            Return Nothing
+        End Try
+    End Function
+    Private Sub mnuUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuUpdate.Click
+        Dim myUpdater As New frmUpdater
+        myUpdater.ShowDialog()
+    End Sub
+#End Region
    
+    
 End Class
 

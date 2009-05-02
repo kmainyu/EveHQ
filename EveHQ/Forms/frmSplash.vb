@@ -341,15 +341,6 @@ Public Class frmSplash
         ' Activate the lcdPilot
         EveHQ.Core.HQ.lcdPilot = EveHQ.Core.HQ.myPilot.Name
 
-        ' Check for updates if required
-        If EveHQ.Core.HQ.EveHQSettings.AutoCheck = True Then
-            lblStatus.Text = "> Checking for updates..."
-            Me.Refresh()
-            Dim myUpdater As New frmUpdater
-            myUpdater.startupTest = True
-            myUpdater.ShowDialog()
-        End If
-
     End Sub
 
     Private Sub LoadModules()

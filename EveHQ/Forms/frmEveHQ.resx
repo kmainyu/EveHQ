@@ -142,21 +142,6 @@
   <metadata name="ToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="btnTogglePanel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAfJJREFUOE/F0t9r
-        0lEYx/H9I0EE0U2XQRBBf8EuRGvWNq3mRkNrc6aghhFDFowkZDkaFbOZ8p1ulMzKzTJoxdZGI2ubc1YX
-        aZtrFNWu/ME7z/cbXqRdVBc98Lk5cF7nOc85TU3/WqpeyXhlIrvjDGVxBKsJZLDfTmMbXcZ66w2Wmyn6
-        Rpbovf6SHt8CpqF5HL7ZHbFPPtsdSVa88U3+NEeuJisyIE7+m3QNPkEGHIF1MiyzLmeFLKu8Yw1dWEMi
-        85Ct7wVKlRK/VsfAIwWwj63VgHTlNf3PnTJw1N9MfCVG4dtmQ+Cke/onUB2Y6EDEHO9GJ2lIbk3TEWgl
-        lopS+FoFyvUd6C49UAAxbbHZOmPi/H0jroSN1lE1xpCB2FKUjS8bFMvFuiu0uWIKIJ7qdESLeaob36IH
-        78IgnrkBOv16JucjfPycb9jBiQtRBbDceCV30CXpMQTb0fu1HHIdoH2khfAzidx2riGgddxVgJ7hxdoM
-        NNeaOXzxIO+rK/vP7iMyO05+O0+xVH8FjTWiAOeGXtSA1XIK3fBxGdjbuYdg8g65Tx8adqC2jCuAyTtX
-        A8Q/eEtaBnbrdhFIjP0WUPVJCqAyh6QznqeIn2W4/JhT7hn0/XHaXFOIQWmd92ixT3LMNoHGGkZtkVCZ
-        RUKSDPz3+gFJAW1Zuhr/vAAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="btnAddAccount.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -579,9 +564,6 @@
   <metadata name="tmrEveWindow.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>467, 54</value>
   </metadata>
-  <metadata name="ctxPlugin.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>593, 54</value>
-  </metadata>
   <metadata name="iconEveHQMLW.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>689, 54</value>
   </metadata>
@@ -630,69 +612,6 @@
   <metadata name="tmrMemory.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>829, 54</value>
   </metadata>
-  <metadata name="XPPilots.ExpandedHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>177</value>
-  </metadata>
-  <data name="XPPilots.CollapsedHighlightImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        R0lGODlhCQAJAPIAAAAA/1+Kxf///8zMzGZmZgAAAAAAAAAAACwAAAAACQAJAAADHUi6WiQwCifGAHbQ
-        EUCwFCCK2sN5oHllWwYWcBwnADs=
-</value>
-  </data>
-  <data name="XPPilots.CollapsedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>R0lGODlhCQAJAPEAAP///8bDxoCAgAAAACwAAAAACQAJAAACFJSPoRu2s5yCyo17m3hxz850CFIAADs=</value>
-  </data>
-  <data name="XPPilots.ExpandedHighlightImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        R0lGODlhCQAJAPIAAAAA/1+Kxf///8zMzGZmZgAAAAAAAAAAACwAAAAACQAJAAADGki6WiQwCieGvTRo
-        PSj4X/dc2EiK1VmsbJsAADs=
-</value>
-  </data>
-  <data name="XPPilots.ExpandedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>R0lGODlhCQAJAPEAAP///8bDxoCAgAAAACwAAAAACQAJAAACEZSPoRvG614TYVg7ZZbxoS8UADs=</value>
-  </data>
-  <metadata name="XPTraining.ExpandedHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>107</value>
-  </metadata>
-  <data name="XPTraining.CollapsedHighlightImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        R0lGODlhCQAJAPIAAAAA/1+Kxf///8zMzGZmZgAAAAAAAAAAACwAAAAACQAJAAADHUi6WiQwCifGAHbQ
-        EUCwFCCK2sN5oHllWwYWcBwnADs=
-</value>
-  </data>
-  <data name="XPTraining.CollapsedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>R0lGODlhCQAJAPEAAP///8bDxoCAgAAAACwAAAAACQAJAAACFJSPoRu2s5yCyo17m3hxz850CFIAADs=</value>
-  </data>
-  <data name="XPTraining.ExpandedHighlightImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        R0lGODlhCQAJAPIAAAAA/1+Kxf///8zMzGZmZgAAAAAAAAAAACwAAAAACQAJAAADGki6WiQwCieGvTRo
-        PSj4X/dc2EiK1VmsbJsAADs=
-</value>
-  </data>
-  <data name="XPTraining.ExpandedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>R0lGODlhCQAJAPEAAP///8bDxoCAgAAAACwAAAAACQAJAAACEZSPoRvG614TYVg7ZZbxoS8UADs=</value>
-  </data>
-  <metadata name="XPModules.ExpandedHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>150</value>
-  </metadata>
-  <data name="XPModules.CollapsedHighlightImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        R0lGODlhCQAJAPIAAAAA/1+Kxf///8zMzGZmZgAAAAAAAAAAACwAAAAACQAJAAADHUi6WiQwCifGAHbQ
-        EUCwFCCK2sN5oHllWwYWcBwnADs=
-</value>
-  </data>
-  <data name="XPModules.CollapsedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>R0lGODlhCQAJAPEAAP///8bDxoCAgAAAACwAAAAACQAJAAACFJSPoRu2s5yCyo17m3hxz850CFIAADs=</value>
-  </data>
-  <data name="XPModules.ExpandedHighlightImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        R0lGODlhCQAJAPIAAAAA/1+Kxf///8zMzGZmZgAAAAAAAAAAACwAAAAACQAJAAADGki6WiQwCieGvTRo
-        PSj4X/dc2EiK1VmsbJsAADs=
-</value>
-  </data>
-  <data name="XPModules.ExpandedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>R0lGODlhCQAJAPEAAP///8bDxoCAgAAAACwAAAAACQAJAAACEZSPoRvG614TYVg7ZZbxoS8UADs=</value>
-  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>92</value>
   </metadata>

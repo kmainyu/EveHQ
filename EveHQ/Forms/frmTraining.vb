@@ -60,6 +60,7 @@ Public Class frmTraining
         For Each tp As TabPage In Me.tabQueues.TabPages
             If tp.Name <> "tabSummary" Then
                 Me.tabQueues.TabPages.Remove(tp)
+                tp.Dispose()
             End If
         Next
 

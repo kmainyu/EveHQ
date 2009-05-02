@@ -94,7 +94,6 @@ Public Class frmHQFSettings
         chkRestoreLastSession.Checked = Settings.HQFSettings.RestoreLastSession
         chkAutoUpdateHQFSkills.Checked = Settings.HQFSettings.AutoUpdateHQFSkills
         chkShowPerformance.Checked = Settings.HQFSettings.ShowPerformanceData
-        chkCloseInfoPanel.Checked = Settings.HQFSettings.CloseInfoPanel
     End Sub
     Private Sub cboStartupPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboStartupPilot.SelectedIndexChanged
         Settings.HQFSettings.DefaultPilot = CStr(cboStartupPilot.SelectedItem)
@@ -107,9 +106,6 @@ Public Class frmHQFSettings
     End Sub
     Private Sub chkShowPerformance_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowPerformance.CheckedChanged
         Settings.HQFSettings.ShowPerformanceData = chkShowPerformance.Checked
-    End Sub
-    Private Sub chkCloseInfoPanel_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCloseInfoPanel.CheckedChanged
-        Settings.HQFSettings.CloseInfoPanel = chkCloseInfoPanel.Checked
     End Sub
 #End Region
 
