@@ -1893,7 +1893,13 @@ Public Class Reports
             strHTML &= "<td width=200px align=right>Current Training</td>"
             strHTML &= "</tr>"
         End If
+        Dim sortedPilots As New SortedList
         For Each rPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If rPilot.Active = True Then
+                sortedPilots.Add(rPilot.Name, rPilot)
+            End If
+        Next
+        For Each rPilot In sortedPilots.Values
             If rPilot.Active = True Then
                 strHTML &= "<tr height=75px>"
                 strHTML &= "<td width=70px><img src='http://img.eve.is/serv.asp?s=64&c=" & rPilot.ID & "' style='border:0px;width:64px;height:64px;' alt='" & rPilot.Name & "'></td>"
