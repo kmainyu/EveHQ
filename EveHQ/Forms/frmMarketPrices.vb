@@ -506,7 +506,7 @@ Public Class frmMarketPrices
         Try
             FI = New FileInfo(file)
             info = FI.Name.TrimEnd(".txt".ToCharArray).Split("-".ToCharArray)
-            If info(0).Trim <> "My orders" Then
+            If info.Length > 2 Then
                 region = "" : item = ""
                 idx = -1
                 Do
