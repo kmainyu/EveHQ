@@ -1013,8 +1013,8 @@ Public Class SkillQueueFunctions
         ' Need to go through all the queues!
         Dim curSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
         Dim planLevel As Integer = 0
-        For Each qName As String In EveHQ.Core.HQ.myPilot.TrainingQueues.Keys
-            Dim nQ As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(qName), SkillQueue)
+        For Each qName As String In qPilot.TrainingQueues.Keys
+            Dim nQ As EveHQ.Core.SkillQueue = CType(qPilot.TrainingQueues(qName), SkillQueue)
             For Each curSkill In nQ.Queue
                 If curSkill.Name = skillName Then
                     planLevel = Math.Max(planLevel, curSkill.ToLevel)

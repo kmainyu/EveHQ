@@ -54,6 +54,8 @@ Public Class frmItemBrowser
     Dim CompMatrix(,,) As String
     Dim bEveCentralDataFound As Boolean = False
     Dim nonPublishedFlag As Boolean = True
+    Dim displayPilot As EveHQ.Core.Pilot
+    Dim startup As Boolean = False
 
     ' BP Variables
     Dim BPWF As Double = 0
@@ -279,7 +281,7 @@ Public Class frmItemBrowser
                             If skillData(0) <> typeID Then
                                 newItem.ToolTipText &= skillName & " (Level " & skillData(1) & "), "
                             End If
-                            If EveHQ.Core.SkillFunctions.IsSkillTrained(EveHQ.Core.HQ.myPilot, skillName, CInt(skillData(1))) = False Then
+                            If EveHQ.Core.SkillFunctions.IsSkillTrained(displayPilot, skillName, CInt(skillData(1))) = False Then
                                 allTrained = False
                             End If
                         Next
@@ -430,6 +432,9 @@ Public Class frmItemBrowser
 
     Private Sub frmItemBrowser_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        ' Set the startup flag
+        startup = True
+
         ' Add an event handler for the changing data
         AddHandler PlugInData.PluginDataReceived, AddressOf PluginDataHandler
 
@@ -450,6 +455,9 @@ Public Class frmItemBrowser
         ' Load the browser
         Call Me.LoadBrowserGroups()
 
+        ' Load the Pilots
+        Call Me.UpdatePilots()
+
         ' Load the Wanted List
         Call Me.DrawWantedList()
 
@@ -463,8 +471,12 @@ Public Class frmItemBrowser
             cboAttSearch.Items.Add(att)
         Next
         cboAttSearch.EndUpdate()
+
         ' Reset the list of navigated items
         navigated.Clear()
+
+        ' Clear the startup flag
+        startup = False
     End Sub
     Private Sub PluginDataHandler()
         Dim myPlugInData As Object = PlugInData.PlugInDataObject
@@ -495,6 +507,32 @@ Public Class frmItemBrowser
         ' Update the browser
         tvwBrowse.Sorted = True
         tvwBrowse.EndUpdate()
+    End Sub
+    Public Sub UpdatePilots()
+        cboPilots.BeginUpdate()
+        cboPilots.Items.Clear()
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If cPilot.Active = True Then
+                cboPilots.Items.Add(cPilot.Name)
+            End If
+        Next
+        cboPilots.EndUpdate()
+
+        If cboPilots.Items.Count > 0 Then
+            If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
+                cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
+            Else
+                cboPilots.SelectedIndex = 0
+            End If
+        End If
+    End Sub
+    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
+            displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+            If startup = False Then
+                Call LoadItemID(itemTypeID)
+            End If
+        End If
     End Sub
     Private Sub lstVariations_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lstVariations.DoubleClick
         Dim selItem As String = lstVariations.SelectedItems(0).Tag
@@ -534,7 +572,7 @@ Public Class frmItemBrowser
                 picBP.Visible = True
                 BPWF = EveHQ.Core.DataFunctions.GetBPWF(bpTypeID)
                 BPWFM = ((1 / BPWF) / (1 + nudMELevel.Value))
-                BPWFP = BPWFM + (0.25 - (0.05 * EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
             Else
                 picBP.Visible = False
             End If
@@ -688,7 +726,7 @@ Public Class frmItemBrowser
                 If attributes(attNo, 2) = "wasteFactor" Then
                     BPWF = (attributes(attNo, 3))
                     BPWFM = ((1 / BPWF) / (1 + nudMELevel.Value))
-                    BPWFP = BPWFM + (0.25 - (0.05 * EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                    BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
                 End If
             Next
             attributes(14, 3) = EveHQ.Core.SkillFunctions.TimeToString(attributes(14, 3))
@@ -1143,7 +1181,7 @@ Public Class frmItemBrowser
                                         ' Do we need the BPWF here? I think so!
                                         BPWFC = EveHQ.Core.DataFunctions.GetBPWF(materials(item, 1))
                                         BPWFMC = ((1 / BPWFC) / (1 + nudMELevelC.Value))
-                                        BPWFPC = BPWFMC + (0.25 - (0.05 * EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                                        BPWFPC = BPWFMC + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
                                         newItem.SubItems.Add(EveHQ.Core.DataFunctions.Round(CDbl(1 + BPWFMC) * CDbl(materials(item, 3)), 0))
                                         newItem.SubItems.Add(EveHQ.Core.DataFunctions.Round(CDbl(1 + BPWFPC) * CDbl(materials(item, 3)), 0))
                                     Else
@@ -1204,17 +1242,17 @@ Public Class frmItemBrowser
             Dim skillTrained As Boolean = False
             Dim myLevel As Integer = 0
             skillTrained = False
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
-                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) Then
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+                If displayPilot.PilotSkills.Contains(cSkill.Name) Then
                     Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                    mySkill = EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name)
+                    mySkill = displayPilot.PilotSkills(cSkill.Name)
                     myLevel = CInt(mySkill.Level)
                     If myLevel >= curLevel Then skillTrained = True
                     If skillTrained = True Then
                         curNode.ForeColor = Color.LimeGreen
                         curNode.ToolTipText = "Already Trained"
                     Else
-                        Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                        Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
                         If planLevel = 0 Then
                             curNode.ForeColor = Color.Red
                             curNode.ToolTipText = "Not trained & no planned training"
@@ -1230,7 +1268,7 @@ Public Class frmItemBrowser
                         ItemUsable = False
                     End If
                 Else
-                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
                     If planLevel = 0 Then
                         curNode.ForeColor = Color.Red
                         curNode.ToolTipText = "Not trained & no planned training"
@@ -1262,9 +1300,9 @@ Public Class frmItemBrowser
             If Me.tabItem.TabPages.Contains(Me.tabSkills) = False Then
                 Me.tabItem.TabPages.Add(Me.tabSkills)
             End If
-            If EveHQ.Core.HQ.myPilot.Name <> "" Then
+            If displayPilot.Name <> "" Then
                 If ItemUsable = True Then
-                    lblUsable.Text = EveHQ.Core.HQ.myPilot.Name & " has the skills to use this item."
+                    lblUsable.Text = displayPilot.Name & " has the skills to use this item."
                     lblUsableTime.Text = ""
                     btnAddSkills.Enabled = False
                     btnViewSkills.Enabled = False
@@ -1304,9 +1342,9 @@ Public Class frmItemBrowser
                         Dim skillName As String = skill.Substring(0, skill.Length - 1)
                         Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
                         Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(skillName)
-                        usableTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, skillLvl)
+                        usableTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, skillLvl)
                     Next
-                    lblUsable.Text = EveHQ.Core.HQ.myPilot.Name & " doesn't have the skills to use this item."
+                    lblUsable.Text = displayPilot.Name & " doesn't have the skills to use this item."
                     lblUsableTime.Text = "Training Time: " & EveHQ.Core.SkillFunctions.TimeToString(usableTime)
                     btnAddSkills.Enabled = True
                     btnViewSkills.Enabled = True
@@ -1336,12 +1374,12 @@ Public Class frmItemBrowser
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
-            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) Then
+            If displayPilot.PilotSkills.Contains(newSkill.Name) Then
                 Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                mySkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
             End If
@@ -1349,7 +1387,7 @@ Public Class frmItemBrowser
                 newNode.ForeColor = Color.LimeGreen
                 newNode.ToolTipText = "Already Trained"
             Else
-                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, newSkill.Name, curLevel)
+                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, newSkill.Name, curLevel)
                 If planLevel = 0 Then
                     newNode.ForeColor = Color.Red
                     newNode.ToolTipText = "Not trained & no planned training"
@@ -1461,10 +1499,6 @@ Public Class frmItemBrowser
         Call Me.AddToNavigation(itemTypeName)
     End Sub
 
-    Private Sub picRefresh_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles picRefresh.DoubleClick
-        Call LoadItemID(itemTypeID)
-    End Sub
-
     Private Sub btnAddSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddSkills.Click
         Call Me.AddNeededSkillsToQueue()
     End Sub
@@ -1474,13 +1508,14 @@ Public Class frmItemBrowser
         selQ.itemTypeID = itemTypeID
         selQ.itemTypeName = itemTypeName
         selQ.skillsNeeded = skillsNeeded
+        selQ.DisplayPilotName = displayPilot.Name
         selQ.ShowDialog()
         EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
         Call Me.GenerateSkills(itemTypeID, itemTypeName)
     End Sub
 
     Private Sub btnViewSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnViewSkills.Click
-        If EveHQ.Core.HQ.myPilot.Name <> "" Then
+        If displayPilot.Name <> "" Then
             If skillsNeeded.Count <> 0 Then
                 Dim msg As String = ""
                 For Each skill As String In skillsNeeded
@@ -1488,9 +1523,9 @@ Public Class frmItemBrowser
                     Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
                     msg &= skillName & " - Lvl " & skillLvl & ControlChars.CrLf
                 Next
-                MessageBox.Show(msg, EveHQ.Core.HQ.myPilot.Name & "'s Skills Required For " & itemTypeName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(msg, displayPilot.Name & "'s Skills Required For " & itemTypeName, MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                MessageBox.Show(EveHQ.Core.HQ.myPilot.Name & " has already trained all necessary skills to use this item.", "Already Trained!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(displayPilot.Name & " has already trained all necessary skills to use this item.", "Already Trained!", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         Else
             MessageBox.Show("There is no pilot selected to show skill information", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1570,7 +1605,7 @@ Public Class frmItemBrowser
         Else
             BPWFM = ((1 / BPWF) * (1 - nudMELevel.Value))
         End If
-        BPWFP = BPWFM + (0.25 - (0.05 * EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+        BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
         Call Me.GetMaterials(itemTypeID, itemTypeName)
     End Sub
 
@@ -1685,7 +1720,7 @@ Public Class frmItemBrowser
         Me.colC1ME.Text = "ME " & nudMELevelC.Value
         ' re-calcualte the new waste factors
         BPWFMC = ((1 / BPWF) / (1 + nudMELevelC.Value))
-        BPWFPC = BPWFMC + (0.25 - (0.05 * EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+        BPWFPC = BPWFMC + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
         Call Me.GetComponents(itemTypeID, itemTypeName)
     End Sub
 

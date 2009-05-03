@@ -339,7 +339,7 @@ Public Class frmSplash
         frmEveHQ.Show()
 
         ' Activate the lcdPilot
-        EveHQ.Core.HQ.lcdPilot = EveHQ.Core.HQ.myPilot.Name
+        EveHQ.Core.HQ.lcdPilot = EveHQ.Core.HQ.EveHQSettings.StartupPilot
 
     End Sub
 

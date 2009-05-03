@@ -32,8 +32,8 @@ Public Class frmCorpHQ
             Call PlugInData.LoadStandings()
         End If
         Call Me.UpdateOwners()
-        If cboOwner.Items.Contains(EveHQ.Core.HQ.myPilot.Name) = True Then
-            cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
+        If cboOwner.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
+            cboOwner.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
         Else
             If cboOwner.Items.Count > 0 Then
                 cboOwner.SelectedIndex = 0

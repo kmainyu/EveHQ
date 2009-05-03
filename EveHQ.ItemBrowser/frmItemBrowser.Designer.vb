@@ -42,7 +42,6 @@ Partial Class frmItemBrowser
         Me.ssDBLocation = New System.Windows.Forms.ToolStripStatusLabel
         Me.ssLblID = New System.Windows.Forms.ToolStripStatusLabel
         Me.ItemToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.picRefresh = New System.Windows.Forms.PictureBox
         Me.SkillToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.picBP = New System.Windows.Forms.PictureBox
         Me.tabMaterials = New System.Windows.Forms.TabPage
@@ -237,9 +236,10 @@ Partial Class frmItemBrowser
         Me.btnWantedAdd = New System.Windows.Forms.Button
         Me.sbtnBack = New EveHQ.ItemBrowser.SplitButton
         Me.sbtnForward = New EveHQ.ItemBrowser.SplitButton
+        Me.cboPilots = New System.Windows.Forms.ComboBox
+        Me.lblPilot = New System.Windows.Forms.Label
         Me.ctxSkills.SuspendLayout()
         Me.ssData.SuspendLayout()
-        CType(Me.picRefresh, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picBP, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabMaterials.SuspendLayout()
         Me.tabMaterial.SuspendLayout()
@@ -351,22 +351,10 @@ Partial Class frmItemBrowser
         Me.ssLblID.Text = "ID:"
         Me.ssLblID.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'picRefresh
-        '
-        Me.picRefresh.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.picRefresh.Image = Global.EveHQ.ItemBrowser.My.Resources.Resources.refresh
-        Me.picRefresh.Location = New System.Drawing.Point(661, 7)
-        Me.picRefresh.Name = "picRefresh"
-        Me.picRefresh.Size = New System.Drawing.Size(32, 32)
-        Me.picRefresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.picRefresh.TabIndex = 8
-        Me.picRefresh.TabStop = False
-        Me.ItemToolTip1.SetToolTip(Me.picRefresh, "Refresh for Current Pilot")
-        '
         'picBP
         '
         Me.picBP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.picBP.Location = New System.Drawing.Point(699, 7)
+        Me.picBP.Location = New System.Drawing.Point(544, 7)
         Me.picBP.Name = "picBP"
         Me.picBP.Size = New System.Drawing.Size(32, 32)
         Me.picBP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -2162,7 +2150,7 @@ Partial Class frmItemBrowser
         '
         'btnWantedAdd
         '
-        Me.btnWantedAdd.Location = New System.Drawing.Point(543, 12)
+        Me.btnWantedAdd.Location = New System.Drawing.Point(823, 12)
         Me.btnWantedAdd.Name = "btnWantedAdd"
         Me.btnWantedAdd.Size = New System.Drawing.Size(100, 23)
         Me.btnWantedAdd.TabIndex = 14
@@ -2195,23 +2183,43 @@ Partial Class frmItemBrowser
         Me.sbtnForward.Text = "Forward"
         Me.sbtnForward.UseVisualStyleBackColor = True
         '
+        'cboPilots
+        '
+        Me.cboPilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboPilots.FormattingEnabled = True
+        Me.cboPilots.Location = New System.Drawing.Point(632, 14)
+        Me.cboPilots.Name = "cboPilots"
+        Me.cboPilots.Size = New System.Drawing.Size(175, 21)
+        Me.cboPilots.Sorted = True
+        Me.cboPilots.TabIndex = 43
+        '
+        'lblPilot
+        '
+        Me.lblPilot.AutoSize = True
+        Me.lblPilot.Location = New System.Drawing.Point(596, 17)
+        Me.lblPilot.Name = "lblPilot"
+        Me.lblPilot.Size = New System.Drawing.Size(30, 13)
+        Me.lblPilot.TabIndex = 42
+        Me.lblPilot.Text = "Pilot:"
+        '
         'frmItemBrowser
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(997, 560)
-        Me.Controls.Add(Me.btnWantedAdd)
         Me.Controls.Add(Me.tabBrowser)
         Me.Controls.Add(Me.ssData)
         Me.Controls.Add(Me.tabItem)
+        Me.Controls.Add(Me.cboPilots)
+        Me.Controls.Add(Me.lblPilot)
         Me.Controls.Add(Me.lblUsableTime)
         Me.Controls.Add(Me.sbtnBack)
         Me.Controls.Add(Me.sbtnForward)
+        Me.Controls.Add(Me.btnWantedAdd)
         Me.Controls.Add(Me.picItem)
         Me.Controls.Add(Me.lblUsable)
-        Me.Controls.Add(Me.picBP)
-        Me.Controls.Add(Me.picRefresh)
         Me.Controls.Add(Me.lblItem)
+        Me.Controls.Add(Me.picBP)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(760, 530)
         Me.Name = "frmItemBrowser"
@@ -2220,7 +2228,6 @@ Partial Class frmItemBrowser
         Me.ctxSkills.ResumeLayout(False)
         Me.ssData.ResumeLayout(False)
         Me.ssData.PerformLayout()
-        CType(Me.picRefresh, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picBP, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabMaterials.ResumeLayout(False)
         Me.tabMaterial.ResumeLayout(False)
@@ -2359,7 +2366,6 @@ Partial Class frmItemBrowser
     Friend WithEvents picItem As System.Windows.Forms.PictureBox
     Friend WithEvents lblItem As System.Windows.Forms.Label
     Friend WithEvents lblUsable As System.Windows.Forms.Label
-    Friend WithEvents picRefresh As System.Windows.Forms.PictureBox
     Friend WithEvents tabBrowser As System.Windows.Forms.TabControl
     Friend WithEvents tabSearch As System.Windows.Forms.TabPage
     Friend WithEvents lstSearch As System.Windows.Forms.ListBox
@@ -2489,4 +2495,6 @@ Partial Class frmItemBrowser
     Friend WithEvents btnClearWantedList As System.Windows.Forms.Button
     Friend WithEvents colWantedPrice As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnRefreshWantedList As System.Windows.Forms.Button
+    Friend WithEvents cboPilots As System.Windows.Forms.ComboBox
+    Friend WithEvents lblPilot As System.Windows.Forms.Label
 End Class

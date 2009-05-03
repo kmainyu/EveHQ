@@ -364,16 +364,16 @@ Public Class frmPrism
         If ProcessXMLCount = ProcessXMLMax Then
             'cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
             If cboOwner.SelectedItem IsNot Nothing Then
-                If cboOwner.SelectedItem.ToString = EveHQ.Core.HQ.myPilot.Name Then
+                If cboOwner.SelectedItem.ToString = EveHQ.Core.HQ.EveHQSettings.StartupPilot Then
                     ' Just refresh
                     Call Me.UpdatePrismInfo()
                 Else
                     ' Set the pilot
-                    cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
+                    cboOwner.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
                 End If
             Else
                 ' Set the pilot
-                cboOwner.SelectedItem = EveHQ.Core.HQ.myPilot.Name
+                cboOwner.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
             End If
         End If
     End Sub

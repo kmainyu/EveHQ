@@ -1833,7 +1833,11 @@ Public Class ShipSlotControl
         If currentInfo IsNot Nothing Then
             hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
         Else
-            hPilot = EveHQ.Core.HQ.myPilot
+            If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+            Else
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), Core.Pilot)
+            End If
         End If
         showInfo.ShowItemDetails(sModule, hPilot)
     End Sub
@@ -1858,7 +1862,11 @@ Public Class ShipSlotControl
         If currentInfo IsNot Nothing Then
             hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
         Else
-            hPilot = EveHQ.Core.HQ.myPilot
+            If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+            Else
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), Core.Pilot)
+            End If
         End If
 
         showInfo.ShowItemDetails(sModule, hPilot)
@@ -2380,7 +2388,11 @@ Public Class ShipSlotControl
         If currentInfo IsNot Nothing Then
             hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem), Core.Pilot)
         Else
-            hPilot = EveHQ.Core.HQ.myPilot
+            If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+            Else
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), Core.Pilot)
+            End If
         End If
         showInfo.ShowItemDetails(sModule, hPilot)
     End Sub

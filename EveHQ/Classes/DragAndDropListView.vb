@@ -25,6 +25,8 @@ Public Class DragAndDropListView
     Public Sub New()
         Me.m_allowReorder = True
         Me.m_lineColor = Color.Red
+        Me.m_displayPilotName = frmTraining.DisplayPilotName
+        displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(m_displayPilotName), Core.Pilot)
         Me.SetStyle(ControlStyles.OptimizedDoubleBuffer Or ControlStyles.AllPaintingInWmPaint, True)
         Me.SetStyle(ControlStyles.EnableNotifyMessage, True)
     End Sub
@@ -59,22 +61,22 @@ Public Class DragAndDropListView
             Dim testData As DragItemData = CType(drgevent.Data.GetData(GetType(DragItemData).ToString), DragItemData)
             Dim testItem As ListViewItem = CType(testData.DragItems.Item(0), ListViewItem)
             If testItem.Text.Substring(0, 2) = "##" Then
-                If EveHQ.Core.HQ.myPilot.Training = False Then
+                If displayPilot.Training = False Then
                     di += 1
                 End If
 
                 If di < MyBase.Items.Count Then
                     Dim din As String = MyBase.Items(di).Text & MyBase.Items(di).SubItems(2).Text & MyBase.Items(di).SubItems(3).Text
                     Dim dIDX As Integer = 0
-                    For Each moveSkill As EveHQ.Core.SkillQueueItem In EveHQ.Core.HQ.myPilot.ActiveQueue.Queue
+                    For Each moveSkill As EveHQ.Core.SkillQueueItem In displayPilot.ActiveQueue.Queue
                         dIDX += 1
                         If moveSkill.Key = din Then Exit For
                     Next
                     ' This is a skill being dragged from the treeview
-                    EveHQ.Core.HQ.myPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, testItem.Text.Trim("#".ToCharArray), dIDX, EveHQ.Core.HQ.myPilot.ActiveQueue)
+                    displayPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, testItem.Text.Trim("#".ToCharArray), dIDX, displayPilot.ActiveQueue)
                 Else
                     ' Set the skill's destination to the bottom of the list
-                    EveHQ.Core.HQ.myPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, testItem.Text.Trim("#".ToCharArray), EveHQ.Core.HQ.myPilot.ActiveQueue.Queue.Count + 1, EveHQ.Core.HQ.myPilot.ActiveQueue)
+                    displayPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, testItem.Text.Trim("#".ToCharArray), displayPilot.ActiveQueue.Queue.Count + 1, displayPilot.ActiveQueue)
                 End If
 
             Else
@@ -97,7 +99,7 @@ Public Class DragAndDropListView
                     'msg &= "Destination: " & din & " (" & di & ")" & ControlChars.CrLf
                     'MessageBox.Show(msg)
 
-                    If EveHQ.Core.HQ.myPilot.Training = False Or m_includeCurrentTrining = False Then
+                    If displayPilot.Training = False Or m_includeCurrentTrining = False Then
                         di += 1
                         si += 1
                     Else
@@ -105,35 +107,35 @@ Public Class DragAndDropListView
                         If di = 0 Then Exit Sub
                     End If
                     Dim mySSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
-                    mySSkill = CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sin), Core.SkillQueueItem)
+                    mySSkill = CType(displayPilot.ActiveQueue.Queue(sin), Core.SkillQueueItem)
 
                     ' Move all the items up or down depending on position
                     If si > di Then
                         ' Move an item up the queue
                         Dim moveSkill As EveHQ.Core.SkillQueueItem
                         Dim sIDX As Integer = 0
-                        For Each moveSkill In EveHQ.Core.HQ.myPilot.ActiveQueue.Queue
+                        For Each moveSkill In displayPilot.ActiveQueue.Queue
                             sIDX += 1
                             If moveSkill.Key = sin Then Exit For
                         Next
                         Do
                             sIDX -= 1
-                            CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Pos += 1
-                        Loop Until CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Key = din
-                        CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sin), Core.SkillQueueItem).Pos = sIDX
+                            CType(displayPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Pos += 1
+                        Loop Until CType(displayPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Key = din
+                        CType(displayPilot.ActiveQueue.Queue(sin), Core.SkillQueueItem).Pos = sIDX
                     Else
                         'Move an item down the queue
                         Dim moveSkill As EveHQ.Core.SkillQueueItem
                         Dim sIDX As Integer = 0
-                        For Each moveSkill In EveHQ.Core.HQ.myPilot.ActiveQueue.Queue
+                        For Each moveSkill In displayPilot.ActiveQueue.Queue
                             sIDX += 1
                             If moveSkill.Key = sin Then Exit For
                         Next
                         Do
                             sIDX += 1
-                            CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Pos -= 1
-                        Loop Until CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Key = din
-                        CType(EveHQ.Core.HQ.myPilot.ActiveQueue.Queue(sin), Core.SkillQueueItem).Pos = sIDX
+                            CType(displayPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Pos -= 1
+                        Loop Until CType(displayPilot.ActiveQueue.Queue(sIDX), Core.SkillQueueItem).Key = din
+                        CType(displayPilot.ActiveQueue.Queue(sin), Core.SkillQueueItem).Pos = sIDX
 
                     End If
                 End If
@@ -281,6 +283,8 @@ Public Class DragAndDropListView
     Private m_lineColor As Color
     Private m_includeCurrentTrining As Boolean
     Private m_previousItem As ListViewItem
+    Private m_displayPilotName As String
+    Private displayPilot As EveHQ.Core.Pilot
 
 End Class
 

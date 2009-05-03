@@ -29,7 +29,6 @@ Public Class HQ
     Public Shared TAccounts As Collection = New Collection
     Public Shared TPilots As Collection = New Collection
     Public Shared EveHQSettings As New EveSettings
-    Public Shared myPilot As New EveHQ.Core.Pilot
     Public Shared myIGB As New IGB
     Public Shared myAPIRS As New APIRS
     Public Shared myTQServer As EveServer = New EveServer

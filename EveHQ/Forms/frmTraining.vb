@@ -27,7 +27,7 @@ Public Class frmTraining
     Dim activeQueueName As String = ""
     Dim activeQueue As New EveHQ.Core.SkillQueue
     Dim activeTime As Label
-    Dim activeLVW As New EveHQ.DragAndDropListView
+    Dim activeLVW As EveHQ.DragAndDropListView
     Dim startTime As DateTime
     Dim endTime As DateTime
     Dim TrainingThreshold As Integer = 1600000
@@ -37,14 +37,30 @@ Public Class frmTraining
     Dim skillListNodes As New SortedList
     Dim certListNodes As New SortedList
     Dim CertGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
+    Dim displayPilot As New EveHQ.Core.Pilot
+    Dim startup As Boolean = False
 
     Delegate Sub UpdateSuggestionUIDelegate(ByVal ActQueueName As String)
     Private SetSuggUIToCalc As UpdateSuggestionUIDelegate = New UpdateSuggestionUIDelegate(AddressOf SetSuggestionUIToCalc)
     Delegate Sub FinaliseSuggestionUIDelegate(ByVal ActQueueName As String, ByVal ActQueueTime As Double, ByVal sugQueueTime As Double)
     Private SetSuggUIResult As FinaliseSuggestionUIDelegate = New FinaliseSuggestionUIDelegate(AddressOf SetSuggestionUIResult)
 
+    Public ReadOnly Property DisplayPilotName() As String
+        Get
+            Return displayPilot.Name
+        End Get
+    End Property
+
 #Region "Form Loading and Setup Routines"
     Private Sub frmTraining_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        ' Set the startup flag
+        startup = True
+
+        ' Load the pilots
+        Call UpdatePilots()
+
+        ' Set up the queue information
         cboFilter.SelectedIndex = 0
         cboCertFilter.SelectedIndex = 0
         Call Me.SetupQueues()
@@ -53,7 +69,49 @@ Public Class frmTraining
         mnuAddToQueue.Enabled = False
         AddHandler EveHQ.Core.SkillQueueFunctions.RefreshQueue, AddressOf Me.RefreshAllTraining
         ' Set the first initial primary one as active
+
+        ' Disable the startup flag
+        startup = False
+
     End Sub
+
+    Public Sub UpdatePilots()
+        cboPilots.BeginUpdate()
+        cboPilots.Items.Clear()
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If cPilot.Active = True Then
+                cboPilots.Items.Add(cPilot.Name)
+            End If
+        Next
+        cboPilots.EndUpdate()
+
+        If cboPilots.Items.Count > 0 Then
+            If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
+                cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
+            Else
+                cboPilots.SelectedIndex = 0
+            End If
+        End If
+    End Sub
+
+    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
+            displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+            ' Only update if we are not starting up
+            If startup = False Then
+                Call Me.RefreshAllTraining()
+                ' See if the Neural Remapping form is open
+                If frmNeuralRemap.IsHandleCreated = True Then
+                    frmNeuralRemap.PilotName = displayPilot.Name
+                End If
+                ' See if the Implants form is open
+                If frmImplants.IsHandleCreated = True Then
+                    frmImplants.PilotName = displayPilot.Name
+                End If
+            End If
+        End If
+    End Sub
+
     Public Sub SetupQueues()
 
         ' Remove all but the summary tab on the tabQueues
@@ -67,7 +125,7 @@ Public Class frmTraining
         ' Delete the Shared SuggestionStatus
         suggestedQueues.Clear()
 
-        For Each newQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
+        For Each newQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
             Dim newQTab As New TabPage
             newQTab.Name = newQ.Name
             newQTab.Text = newQ.Name
@@ -189,24 +247,24 @@ Public Class frmTraining
 
     End Sub
     Public Sub RefreshAllTrainingQueues()
-        For Each newQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
+        For Each newQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
             Call Me.RefreshTraining(newQ.Name)
         Next
         Call Me.DrawQueueSummary()
     End Sub
     Private Sub DrawQueueSummary()
         ' Check if we have a Primary Queue
-        If EveHQ.Core.HQ.myPilot.TrainingQueues.Count > 0 Then
-            If EveHQ.Core.HQ.myPilot.PrimaryQueue = "" Then
-                EveHQ.Core.HQ.myPilot.PrimaryQueue = EveHQ.Core.HQ.myPilot.TrainingQueues.GetKey(0).ToString
-                Dim selQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(EveHQ.Core.HQ.myPilot.PrimaryQueue), EveHQ.Core.SkillQueue)
+        If displayPilot.TrainingQueues.Count > 0 Then
+            If displayPilot.PrimaryQueue = "" Then
+                displayPilot.PrimaryQueue = displayPilot.TrainingQueues.GetKey(0).ToString
+                Dim selQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(displayPilot.PrimaryQueue), EveHQ.Core.SkillQueue)
                 selQueue.Primary = True
             End If
         End If
         ' Setup the summary column
         lvQueues.Items.Clear()
         Dim totalQTime As Double = 0
-        For Each newQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
+        For Each newQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
             Dim newItem As New ListViewItem
             Dim PrimaryFont As Font = New Font(newItem.Font, FontStyle.Bold)
             newItem.Name = newQ.Name
@@ -221,8 +279,8 @@ Public Class frmTraining
             tTimeItem.Text = EveHQ.Core.SkillFunctions.TimeToString(tTime)
             newItem.SubItems.Add(tTimeItem)
             Dim qTime As Double = 0
-            If EveHQ.Core.HQ.myPilot.Training = True And newQ.IncCurrentTraining = True Then
-                qTime = tTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+            If displayPilot.Training = True And newQ.IncCurrentTraining = True Then
+                qTime = tTime - displayPilot.TrainingCurrentTime
             Else
                 qTime = tTime
             End If
@@ -239,10 +297,10 @@ Public Class frmTraining
     Private Sub tabQueues_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabQueues.SelectedIndexChanged
         If tabQueues.SelectedTab.Name <> "tabSummary" Then
             activeQueueName = tabQueues.SelectedTab.Name
-            EveHQ.Core.HQ.myPilot.ActiveQueueName = activeQueueName
-            Dim aq As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(activeQueueName), Core.SkillQueue)
+            displayPilot.ActiveQueueName = activeQueueName
+            Dim aq As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(activeQueueName), Core.SkillQueue)
             activeQueue = aq
-            EveHQ.Core.HQ.myPilot.ActiveQueue = activeQueue
+            displayPilot.ActiveQueue = activeQueue
             activeTime = CType(Me.tabQueues.TabPages(activeQueueName).Controls("T" & activeQueueName), Label)
             activeLVW = CType(Me.tabQueues.TabPages(activeQueueName).Controls("Q" & activeQueueName), EveHQ.DragAndDropListView)
             activeLVW.IncludeCurrentTraining = aq.IncCurrentTraining
@@ -253,7 +311,7 @@ Public Class frmTraining
         Else
             activeQueueName = ""
             activeQueue = Nothing
-            EveHQ.Core.HQ.myPilot.ActiveQueueName = activeQueueName
+            displayPilot.ActiveQueueName = activeQueueName
             tsQueueOptions.Enabled = False
             mnuAddToQueue.Enabled = False
         End If
@@ -328,15 +386,15 @@ Public Class frmTraining
                 Dim skillNode As TreeNode = New TreeNode
                 skillNode.Text = newSkill.Name
                 skillNode.Name = newSkill.ID
-                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) = True Then
-                    Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                If displayPilot.PilotSkills.Contains(newSkill.Name) = True Then
+                    Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                     skillNode.ImageIndex = mySkill.Level
                     skillNode.SelectedImageIndex = mySkill.Level
                 Else
                     skillNode.ImageIndex = 10
                     skillNode.SelectedImageIndex = 10
                 End If
-                If EveHQ.Core.HQ.myPilot.Name <> "" Then
+                If displayPilot.Name <> "" Then
                     Dim addSkill As Boolean = False
                     Select Case filter
                         Case 0
@@ -350,22 +408,22 @@ Public Class frmTraining
                                 addSkill = True
                             End If
                         Case 3
-                            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) = True Then
+                            If displayPilot.PilotSkills.Contains(newSkill.Name) = True Then
                                 addSkill = True
                             End If
                         Case 4
-                            If newSkill.Published = True And EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) = False Then
+                            If newSkill.Published = True And displayPilot.PilotSkills.Contains(newSkill.Name) = False Then
                                 addSkill = True
                             End If
                         Case 5
                             Dim trainable As Boolean = False
-                            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) = False And newSkill.Published = True Then
+                            If displayPilot.PilotSkills.Contains(newSkill.Name) = False And newSkill.Published = True Then
                                 trainable = True
                                 For Each preReq As String In newSkill.PreReqSkills.Keys
                                     If newSkill.PreReqSkills(preReq) <> 0 Then
                                         Dim ps As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(preReq), EveHQ.Core.EveSkill)
-                                        If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(ps.Name) = True Then
-                                            Dim psp As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(ps.Name), EveHQ.Core.PilotSkill)
+                                        If displayPilot.PilotSkills.Contains(ps.Name) = True Then
+                                            Dim psp As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(ps.Name), EveHQ.Core.PilotSkill)
                                             If psp.Level < newSkill.PreReqSkills(preReq) Then
                                                 trainable = False
                                                 Exit For
@@ -383,8 +441,8 @@ Public Class frmTraining
 
                         Case 6 To 7
                             ' 6 = exact level, 7 = partially trained
-                            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) = True Then
-                                Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                            If displayPilot.PilotSkills.Contains(newSkill.Name) = True Then
+                                Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                                 Dim partTrained As Boolean = True
                                 For level As Integer = 0 To 5
                                     If mySkill.SP = newSkill.LevelUp(level) Or mySkill.SP = newSkill.LevelUp(level) + 1 Then
@@ -398,8 +456,8 @@ Public Class frmTraining
                             End If
                         Case 8 To 12
                             Dim requiredLevel As Integer = filter - 8
-                            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) = True Then
-                                Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                            If displayPilot.PilotSkills.Contains(newSkill.Name) = True Then
+                                Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                                 If requiredLevel = mySkill.Level Then
                                     addSkill = True
                                 End If
@@ -456,7 +514,7 @@ Public Class frmTraining
                             End If
                         Else
                             Dim inQ As Boolean = False
-                            For Each skillQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
+                            For Each skillQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
                                 If inQ = True Then Exit For
                                 Dim sQ As Collection = skillQ.Queue
                                 For Each skillQueueItem As EveHQ.Core.SkillQueueItem In sQ
@@ -488,7 +546,7 @@ Public Class frmTraining
 
         Dim lvwQueue As EveHQ.DragAndDropListView = CType(Me.tabQueues.Controls(QueueName).Controls("Q" & QueueName), EveHQ.DragAndDropListView)
 
-        If EveHQ.Core.HQ.myPilot.PilotSkills.Count <> 0 Then
+        If displayPilot.PilotSkills.Count <> 0 Then
             ' Clear the visible training queue
             lvwQueue.BeginUpdate()
             lvwQueue.Items.Clear()
@@ -497,11 +555,11 @@ Public Class frmTraining
             Dim doneFont As Font = New Font("MS Sans Serif", 8, FontStyle.Strikeout)
 
             ' Call the main procedure
-            Dim aq As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(QueueName), Core.SkillQueue)
-            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(EveHQ.Core.HQ.myPilot, aq)
+            Dim aq As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(QueueName), Core.SkillQueue)
+            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(displayPilot, aq)
             Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
             Dim totalTime As Long = 0
-            Dim totalSP As Long = EveHQ.Core.HQ.myPilot.SkillPoints
+            Dim totalSP As Long = displayPilot.SkillPoints
 
             ' Create the columns according to the selection in the settings
             Call Me.DrawColumns(lvwQueue)
@@ -614,7 +672,7 @@ Public Class frmTraining
 
             ' Tidy up afterwards
             lvwQueue.EndUpdate()
-            Call EveHQ.Core.SkillQueueFunctions.TidyQueue(EveHQ.Core.HQ.myPilot, aq, arrQueue)
+            Call EveHQ.Core.SkillQueueFunctions.TidyQueue(displayPilot, aq, arrQueue)
             Call Me.RedrawOptions()
 
             ' Get a suggestion for a quicker skill queue
@@ -643,10 +701,10 @@ Public Class frmTraining
                         curFLevel = CInt(activeLVW.SelectedItems(0).SubItems(2).Text)
                         curTLevel = CInt(activeLVW.SelectedItems(0).SubItems(3).Text)
                         Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                        If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(skillName) = False Then
+                        If displayPilot.PilotSkills.Contains(skillName) = False Then
                             curLevel = 0
                         Else
-                            mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(skillName), Core.PilotSkill)
+                            mySkill = CType(displayPilot.PilotSkills(skillName), Core.PilotSkill)
                             curLevel = mySkill.Level
                         End If
                         mnuIncreaseLevel.Enabled = True : btnLevelUp.Enabled = True
@@ -705,7 +763,7 @@ Public Class frmTraining
                         End If
 
                         ' Adjust for if the training skill
-                        If EveHQ.Core.HQ.myPilot.Training = True And activeLVW.IncludeCurrentTraining = True Then
+                        If displayPilot.Training = True And activeLVW.IncludeCurrentTraining = True Then
                             If activeLVW.SelectedItems(0).Index = 0 Then
                                 mnuIncreaseLevel.Enabled = False : btnLevelUp.Enabled = False
                                 mnuDecreaseLevel.Enabled = False : btnLevelDown.Enabled = False
@@ -751,8 +809,8 @@ Public Class frmTraining
         End If
     End Sub
     Public Sub UpdateTraining()
-        'If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = False Then
-        If EveHQ.Core.HQ.myPilot.Training = True Then
+        'If displayPilot.Training = True And EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = False Then
+        If displayPilot.Training = True Then
             If Me.tabQueues.TabPages.Count > 1 Then
                 For Each tp As TabPage In Me.tabQueues.TabPages
                     If tp.Name <> "tabSummary" Then
@@ -760,13 +818,13 @@ Public Class frmTraining
                         Dim cLVW As EveHQ.DragAndDropListView = CType(Me.tabQueues.TabPages(tp.Name).Controls("Q" & tp.Name), EveHQ.DragAndDropListView)
                         If cLVW.IncludeCurrentTraining = True Then
                             If cLVW.Items.Count > 0 Then
-                                Dim myCurSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.PilotSkill)
-                                Dim clevel As Integer = EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                                Dim cTime As Double = EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                                Dim myCurSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
+                                Dim clevel As Integer = displayPilot.TrainingSkillLevel
+                                Dim cTime As Double = displayPilot.TrainingCurrentTime
                                 Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
-                                Dim endtime As Date = EveHQ.Core.HQ.myPilot.TrainingEndTime
+                                Dim endtime As Date = displayPilot.TrainingEndTime
                                 Dim percent As Integer = 0
-                                percent = CInt(Int((myCurSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
+                                percent = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
 
                                 cLVW.Items(cLVW.Tag.ToString).SubItems(4).Text = CStr(percent)
                                 cLVW.Items(cLVW.Tag.ToString).SubItems(5).Tag = cTime
@@ -786,31 +844,31 @@ Public Class frmTraining
                     End If
                 Next
             End If
-            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.EveSkill)
-            If EveHQ.Core.HQ.myPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = EveHQ.Core.HQ.myPilot.TrainingSkillName Then
-                lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
-                Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
-                lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(displayPilot.TrainingSkillName), Core.EveSkill)
+            If displayPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = displayPilot.TrainingSkillName Then
+                lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
+                Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
+                lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + displayPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 Dim totalTime As Long = 0
                 For toLevel As Integer = 1 To 5
                     Select Case toLevel
-                        Case EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                            totalTime += EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-                        Case Is > EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                            totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, toLevel, toLevel - 1, , TrainingBonus))
+                        Case displayPilot.TrainingSkillLevel
+                            totalTime += displayPilot.TrainingCurrentTime
+                        Case Is > displayPilot.TrainingSkillLevel
+                            totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, toLevel, toLevel - 1, , TrainingBonus))
                     End Select
                     lvwTimes.Items(toLevel - 1).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
                 Next
             End If
             ' Update the queue summary data
-            For Each newQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
+            For Each newQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
                 Try
                     Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
                     lvQueues.Items(newQ.Name).SubItems(2).Tag = tTime
                     lvQueues.Items(newQ.Name).SubItems(2).Text = (EveHQ.Core.SkillFunctions.TimeToString(tTime))
                     Dim qTime As Double = tTime
                     If newQ.IncCurrentTraining = True Then
-                        qTime = tTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                        qTime = tTime - displayPilot.TrainingCurrentTime
                     End If
                     lvQueues.Items(newQ.Name).SubItems(3).Tag = qTime
                     lvQueues.Items(newQ.Name).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(qTime)
@@ -821,7 +879,7 @@ Public Class frmTraining
                 End Try
             Next
             If Me.selQTime > 0 Then
-                lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
+                lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + displayPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
             Else
                 lblTotalQueueTime.Text = "No Queue Selected"
             End If
@@ -851,6 +909,7 @@ Public Class frmTraining
         If tvwSkillList.SelectedNode.Level = 1 Or (tvwSkillList.SelectedNode.Level = 0 And usingFilter = False) Then
             Dim skillID As String
             skillID = tvwSkillList.SelectedNode.Name
+            frmSkillDetails.DisplayPilotName = displayPilot.Name
             Call frmSkillDetails.ShowSkillDetails(skillID)
         End If
     End Sub
@@ -874,6 +933,7 @@ Public Class frmTraining
     Private Sub activeLVW_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim skillID As String
         skillID = EveHQ.Core.SkillFunctions.SkillNameToID(activeLVW.SelectedItems(0).Text)
+        frmSkillDetails.DisplayPilotName = displayPilot.Name
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
     Private Sub activeLVW_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs)
@@ -971,11 +1031,11 @@ Public Class frmTraining
                 Case 0
                     addCert = True
                 Case 1
-                    If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = True Then
+                    If displayPilot.Certificates.Contains(newCert.ID.ToString) = True Then
                         addCert = True
                     End If
                 Case 2
-                    If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = False Then
+                    If displayPilot.Certificates.Contains(newCert.ID.ToString) = False Then
                         addCert = True
                     End If
                 Case 3 To 7
@@ -983,7 +1043,7 @@ Public Class frmTraining
                         addCert = True
                     End If
                 Case 8 To 12
-                    If newCert.Grade = filter - 7 And EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = False Then
+                    If newCert.Grade = filter - 7 And displayPilot.Certificates.Contains(newCert.ID.ToString) = False Then
                         addCert = True
                     End If
             End Select
@@ -991,7 +1051,7 @@ Public Class frmTraining
                 Dim certNode As New TreeNode
                 certNode.Text = CType(Core.HQ.CertificateClasses(newCert.ClassID.ToString), Core.CertificateClass).Name & " (" & newCert.Grade & " - " & CertGrades(newCert.Grade) & ")"
                 certNode.Name = newCert.ID.ToString
-                If EveHQ.Core.HQ.myPilot.Certificates.Contains(newCert.ID.ToString) = True Then
+                If displayPilot.Certificates.Contains(newCert.ID.ToString) = True Then
                     certNode.ImageIndex = newCert.Grade
                     certNode.SelectedImageIndex = newCert.Grade
                 Else
@@ -1054,7 +1114,7 @@ Public Class frmTraining
                 For Each testCert As EveHQ.Core.Certificate In EveHQ.Core.HQ.Certificates.Values
                     If testCert.ClassID = selCertClass Then
                         ' Check if the pilot has it
-                        If EveHQ.Core.HQ.myPilot.Certificates.Contains(testCert.ID.ToString) = False Then
+                        If displayPilot.Certificates.Contains(testCert.ID.ToString) = False Then
                             mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & testCert.Grade).Enabled = True
                         Else
                             mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & testCert.Grade).Enabled = False
@@ -1067,6 +1127,7 @@ Public Class frmTraining
 
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
         Dim certID As String = mnuCertName.Tag.ToString
+        frmCertificateDetails.DisplayPilotName = displayPilot.Name
         frmCertificateDetails.ShowCertDetails(certID)
     End Sub
 
@@ -1089,7 +1150,7 @@ Public Class frmTraining
     Private Sub AddCertSkills(ByVal cert As EveHQ.Core.Certificate)
         Dim reqSkills As SortedList = cert.RequiredSkills
         For Each reqSkill As String In reqSkills.Keys
-            EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, CStr(EveHQ.Core.SkillFunctions.SkillIDToName(reqSkill)), activeQueue.Queue.Count + 1, activeQueue, CInt(reqSkills(reqSkill)), True, True)
+            EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, CStr(EveHQ.Core.SkillFunctions.SkillIDToName(reqSkill)), activeQueue.Queue.Count + 1, activeQueue, CInt(reqSkills(reqSkill)), True, True)
         Next
         ' Get a list of the certs that are required
         For Each reqCertID As String In cert.RequiredCerts.Keys
@@ -1118,7 +1179,7 @@ Public Class frmTraining
 
     Private Sub ShowSkillDetails(ByVal skillID As String)
 
-        If EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP < TrainingThreshold Then
+        If displayPilot.SkillPoints + displayPilot.TrainingCurrentSP < TrainingThreshold Then
             TrainingBonus = 2
         Else
             TrainingBonus = 1
@@ -1136,7 +1197,7 @@ Public Class frmTraining
 
         Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
         cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
-        lvwDetails.Groups(1).Header = "Pilot Specific - " & EveHQ.Core.HQ.myPilot.Name
+        lvwDetails.Groups(1).Header = "Pilot Specific - " & displayPilot.Name
 
         With Me.lvwDetails
             Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -1147,24 +1208,24 @@ Public Class frmTraining
                 myGroup = Nothing
             End If
             Dim cLevel, cSP, cTime, cRate As String
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
-                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) = False Then
-                    cLevel = "0" : cSP = "0" : cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, 1, , , TrainingBonus))
-                    cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, cSkill))
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+                If displayPilot.PilotSkills.Contains(cSkill.Name) = False Then
+                    cLevel = "0" : cSP = "0" : cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, 1, , , TrainingBonus))
+                    cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, cSkill))
                 Else
-                    mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
+                    mySkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
                     cLevel = mySkill.Level.ToString
-                    If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.myPilot.TrainingSkillID = EveHQ.Core.SkillFunctions.SkillNameToID(cSkill.Name) Then
-                        cSP = CStr(mySkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP)
+                    If displayPilot.Training = True And displayPilot.TrainingSkillID = EveHQ.Core.SkillFunctions.SkillNameToID(cSkill.Name) Then
+                        cSP = CStr(mySkill.SP + displayPilot.TrainingCurrentSP)
                     Else
                         cSP = mySkill.SP.ToString
                     End If
-                    If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.myPilot.TrainingSkillName = cSkill.Name Then
-                        cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
+                    If displayPilot.Training = True And displayPilot.TrainingSkillName = cSkill.Name Then
+                        cTime = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
                     Else
-                        cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, 0, , , TrainingBonus))
+                        cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, 0, , , TrainingBonus))
                     End If
-                    cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, cSkill))
+                    cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, cSkill))
                 End If
             Else
                 cLevel = "n/a" : cSP = "0" : cTime = "n/a" : cRate = "0"
@@ -1200,17 +1261,17 @@ Public Class frmTraining
         curNode.Text = cSkill.Name
         Dim skillTrained As Boolean = False
         Dim myLevel As Integer = 0
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
-            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+            If displayPilot.PilotSkills.Contains(cSkill.Name) Then
                 Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
+                mySkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
                 If skillTrained = True Then
                     curNode.ForeColor = Color.LimeGreen
                     curNode.ToolTipText = "Already Trained"
                 Else
-                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
                     If planLevel = 0 Then
                         curNode.ForeColor = Color.Red
                         curNode.ToolTipText = "Not trained & no planned training"
@@ -1224,7 +1285,7 @@ Public Class frmTraining
                     End If
                 End If
             Else
-                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
                 If planLevel = 0 Then
                     curNode.ForeColor = Color.Red
                     curNode.ToolTipText = "Not trained & no planned training"
@@ -1256,12 +1317,12 @@ Public Class frmTraining
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
-            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) Then
+            If displayPilot.PilotSkills.Contains(newSkill.Name) Then
                 Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                mySkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
             End If
@@ -1269,7 +1330,7 @@ Public Class frmTraining
                 newNode.ForeColor = Color.LimeGreen
                 newNode.ToolTipText = "Already Trained"
             Else
-                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, newSkill.Name, curLevel)
+                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, newSkill.Name, curLevel)
                 If planLevel = 0 Then
                     newNode.ForeColor = Color.Red
                     newNode.ToolTipText = "Not trained & no planned training"
@@ -1319,7 +1380,7 @@ Public Class frmTraining
                         If skillData(0) <> skillID Then
                             newItem.ToolTipText &= skillName & " (Level " & skillData(1) & "), "
                         End If
-                        If EveHQ.Core.SkillFunctions.IsSkillTrained(EveHQ.Core.HQ.myPilot, skillName, CInt(skillData(1))) = False Then
+                        If EveHQ.Core.SkillFunctions.IsSkillTrained(displayPilot, skillName, CInt(skillData(1))) = False Then
                             allTrained = False
                         End If
                     Next
@@ -1362,7 +1423,7 @@ Public Class frmTraining
     Private Sub PrepareTimes(ByVal skillID As String)
         lvwTimes.Items.Clear()
 
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
             Dim cskill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
             cskill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
 
@@ -1371,9 +1432,9 @@ Public Class frmTraining
             For toLevel As Integer = 1 To 5
                 Dim newGroup As ListViewItem = New ListViewItem
                 newGroup.Text = toLevel.ToString
-                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, toLevel - 1, , TrainingBonus)))
-                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, 0, , TrainingBonus)))
-                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, -1, , TrainingBonus)))
+                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cskill, toLevel, toLevel - 1, , TrainingBonus)))
+                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cskill, toLevel, 0, , TrainingBonus)))
+                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cskill, toLevel, -1, , TrainingBonus)))
                 lvwTimes.Items.Add(newGroup)
             Next
         Else
@@ -1451,19 +1512,19 @@ Public Class frmTraining
         End If
     End Sub
     Public Sub UpdateSkillDetails()
-        If EveHQ.Core.HQ.myPilot.Training = True Then
-            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.EveSkill)
-            If EveHQ.Core.HQ.myPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = EveHQ.Core.HQ.myPilot.TrainingSkillName Then
-                lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
-                Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
-                lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        If displayPilot.Training = True Then
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(displayPilot.TrainingSkillName), Core.EveSkill)
+            If displayPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = displayPilot.TrainingSkillName Then
+                lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
+                Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
+                lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + displayPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 Dim totalTime As Long = 0
                 For toLevel As Integer = 1 To 5
                     Select Case toLevel
-                        Case EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                            totalTime += EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-                        Case Is > EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                            totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, toLevel, toLevel - 1, , TrainingBonus))
+                        Case displayPilot.TrainingSkillLevel
+                            totalTime += displayPilot.TrainingCurrentTime
+                        Case Is > displayPilot.TrainingSkillLevel
+                            totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, toLevel, toLevel - 1, , TrainingBonus))
                     End Select
                     lvwTimes.Items(toLevel - 1).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
                 Next
@@ -1475,7 +1536,7 @@ Public Class frmTraining
 
 #Region "Skill Queue Modification Functions"
     Private Sub AddSkillToQueueOption()
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue)
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue)
         Call Me.RefreshTraining(activeQueueName)
     End Sub
     Private Sub DeleteFromQueueOption()
@@ -1580,7 +1641,7 @@ Public Class frmTraining
         Dim oldPOS As Integer = sourceSkill.Pos
         Dim queueJump As Integer = 0
         Dim maxJump As Integer = 0
-        If EveHQ.Core.HQ.myPilot.Training = True Then
+        If displayPilot.Training = True Then
             maxJump = 1
         Else
             maxJump = 0
@@ -1623,7 +1684,7 @@ Public Class frmTraining
             mySSkill.Pos = di
 
             ' Check for movement in the queue
-            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(EveHQ.Core.HQ.myPilot, activeQueue)
+            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(displayPilot, activeQueue)
             Dim posSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
             posSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
             newPOS = posSkill.Pos
@@ -1678,7 +1739,7 @@ Public Class frmTraining
             mySSkill.Pos = di
 
             ' Check for movement in the queue
-            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(EveHQ.Core.HQ.myPilot, activeQueue)
+            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(displayPilot, activeQueue)
             Dim posSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
             posSkill = CType(activeQueue.Queue(keyName), Core.SkillQueueItem)
             newpos = posSkill.Pos
@@ -1802,8 +1863,8 @@ Public Class frmTraining
                     Dim skillNode As TreeNode = New TreeNode
                     skillNode.Text = newSkill.Name
                     skillNode.Name = newSkill.ID
-                    If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) = True Then
-                        Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                    If displayPilot.PilotSkills.Contains(newSkill.Name) = True Then
+                        Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                         skillNode.ImageIndex = mySkill.Level
                         skillNode.SelectedImageIndex = mySkill.Level
                     Else
@@ -1815,7 +1876,7 @@ Public Class frmTraining
                         tvwSkillList.Nodes.Add(skillNode)
                     Else
                         Dim inQ As Boolean = False
-                        For Each skillQ As EveHQ.Core.SkillQueue In EveHQ.Core.HQ.myPilot.TrainingQueues.Values
+                        For Each skillQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
                             If inQ = True Then Exit For
                             Dim sQ As Collection = skillQ.Queue
                             For Each skillQueueItem As EveHQ.Core.SkillQueueItem In sQ
@@ -1851,14 +1912,14 @@ Public Class frmTraining
             Dim confirm As Integer = MessageBox.Show(msg, "Confirm Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If confirm = Windows.Forms.DialogResult.Yes Then
                 ' Delete the queue the accounts collection
-                EveHQ.Core.HQ.myPilot.TrainingQueues.Remove(selQ)
-                If EveHQ.Core.HQ.myPilot.PrimaryQueue = selQ Then
-                    EveHQ.Core.HQ.myPilot.PrimaryQueue = ""
+                displayPilot.TrainingQueues.Remove(selQ)
+                If displayPilot.PrimaryQueue = selQ Then
+                    displayPilot.PrimaryQueue = ""
                 End If
-                If EveHQ.Core.HQ.myPilot.TrainingQueues.Count = 0 Then
-                    EveHQ.Core.HQ.myPilot.PrimaryQueue = ""
-                    EveHQ.Core.HQ.myPilot.ActiveQueueName = ""
-                    EveHQ.Core.HQ.myPilot.ActiveQueue = Nothing
+                If displayPilot.TrainingQueues.Count = 0 Then
+                    displayPilot.PrimaryQueue = ""
+                    displayPilot.ActiveQueueName = ""
+                    displayPilot.ActiveQueue = Nothing
                 End If
                 ' Remove the item from the list
                 Call Me.RefreshAllTraining()
@@ -1875,6 +1936,7 @@ Public Class frmTraining
             .txtQueueName.Text = "" : .txtQueueName.Enabled = True
             .btnAccept.Text = "Add" : .Tag = "Add"
             .Text = "Add New Queue"
+            .DisplayPilotName = displayPilot.Name
             .ShowDialog()           ' New Queue checking and adding is done on the modal form!
         End With
         Call Me.RefreshAllTraining()
@@ -1888,10 +1950,11 @@ Public Class frmTraining
             Dim myQueue As frmModifyQueues = New frmModifyQueues
             With myQueue
                 ' Load the account details into the text boxes
-                Dim selQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(lvQueues.SelectedItems(0).Name), EveHQ.Core.SkillQueue)
+                Dim selQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name), EveHQ.Core.SkillQueue)
                 .txtQueueName.Text = selQueue.Name : .txtQueueName.Tag = selQueue.Name
                 .btnAccept.Text = "Edit" : .Tag = "Edit"
                 .Text = "Edit '" & selQueue.Name & "' Queue Details"
+                .DisplayPilotName = displayPilot.Name
                 .ShowDialog()
             End With
             Call Me.RefreshAllTraining()
@@ -1906,10 +1969,11 @@ Public Class frmTraining
             Dim myQueue As frmModifyQueues = New frmModifyQueues
             With myQueue
                 ' Load the account details into the text boxes
-                Dim selQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(lvQueues.SelectedItems(0).Name), EveHQ.Core.SkillQueue)
+                Dim selQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name), EveHQ.Core.SkillQueue)
                 .txtQueueName.Text = selQueue.Name : .txtQueueName.Tag = selQueue.Name
                 .btnAccept.Text = "Copy" : .Tag = "Copy"
                 .Text = "Copy '" & selQueue.Name & "' Queue Details"
+                .DisplayPilotName = displayPilot.Name
                 .ShowDialog()
             End With
             Call Me.RefreshAllTraining()
@@ -1925,6 +1989,7 @@ Public Class frmTraining
                 .txtQueueName.Text = "" : .txtQueueName.Tag = lvQueues.SelectedItems
                 .btnAccept.Text = "Merge" : .Tag = "Merge"
                 .Text = "Merge Skill Queues"
+                .DisplayPilotName = displayPilot.Name
                 .ShowDialog()           ' Queue checking and merging is done on the modal form!
             End With
             Call Me.RefreshAllTraining()
@@ -2039,13 +2104,13 @@ Public Class frmTraining
             lvQueues.Select()
         Else
             ' Remove the current primary queue
-            Dim oldPQ As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(EveHQ.Core.HQ.myPilot.PrimaryQueue), EveHQ.Core.SkillQueue)
+            Dim oldPQ As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(displayPilot.PrimaryQueue), EveHQ.Core.SkillQueue)
             oldPQ.Primary = False
-            EveHQ.Core.HQ.myPilot.PrimaryQueue = ""
+            displayPilot.PrimaryQueue = ""
             ' Select the new primary queue
-            Dim selQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(lvQueues.SelectedItems(0).Name), EveHQ.Core.SkillQueue)
+            Dim selQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name), EveHQ.Core.SkillQueue)
             selQueue.Primary = True
-            EveHQ.Core.HQ.myPilot.PrimaryQueue = selQueue.Name
+            displayPilot.PrimaryQueue = selQueue.Name
             Call Me.DrawQueueSummary()
         End If
     End Sub
@@ -2058,7 +2123,8 @@ Public Class frmTraining
             Dim myQueue As frmSelectQueuePilot = New frmSelectQueuePilot
             With myQueue
                 ' Load the account details into the text boxes
-                Dim selQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(lvQueues.SelectedItems(0).Name), EveHQ.Core.SkillQueue)
+                Dim selQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name), EveHQ.Core.SkillQueue)
+                .DisplayPilotName = displayPilot.Name
                 .cboPilots.Tag = selQueue.Name
                 .ShowDialog()
             End With
@@ -2073,7 +2139,7 @@ Public Class frmTraining
             newQueue.Queue = New Collection
             For Each item As ListViewItem In lvQueues.SelectedItems
                 Dim queueName As String = item.Name
-                Dim oldQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(queueName), EveHQ.Core.SkillQueue)
+                Dim oldQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(queueName), EveHQ.Core.SkillQueue)
                 If oldQueue.Primary = True Then newQueue.Primary = True
                 For Each queueItem As EveHQ.Core.SkillQueueItem In oldQueue.Queue
                     Dim keyName As String = queueItem.Name & queueItem.FromLevel & queueItem.ToLevel
@@ -2084,10 +2150,10 @@ Public Class frmTraining
             Next
             Dim curSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
             For Each curSkill In newQueue.Queue
-                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(curSkill.Name) Then
+                If displayPilot.PilotSkills.Contains(curSkill.Name) Then
                     Dim fromLevel As Integer = curSkill.FromLevel
                     Dim toLevel As Integer = curSkill.ToLevel
-                    Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(curSkill.Name), Core.PilotSkill)
+                    Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(curSkill.Name), Core.PilotSkill)
                     Dim pilotLevel As Integer = mySkill.Level
                     If pilotLevel >= toLevel Then
                         Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
@@ -2095,14 +2161,14 @@ Public Class frmTraining
                     End If
                 End If
             Next
-            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(EveHQ.Core.HQ.myPilot, newQueue)
+            Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(displayPilot, newQueue)
             Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
             Dim QTime As Double = 0
             For Each qItem In arrQueue
                 QTime += CLng(qItem.TrainTime)
             Next
-            Me.selQTime = QTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-            lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
+            Me.selQTime = QTime - displayPilot.TrainingCurrentTime
+            lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + displayPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
         Catch e As Exception
             MessageBox.Show("There was an error calculating the selected queue times.", "Calculation Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
@@ -2115,7 +2181,7 @@ Public Class frmTraining
         newQueue.Queue = New Collection
         For Each item As ListViewItem In lvQueues.Items
             Dim queueName As String = item.Name
-            Dim oldQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(queueName), EveHQ.Core.SkillQueue)
+            Dim oldQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(queueName), EveHQ.Core.SkillQueue)
             For Each queueItem As EveHQ.Core.SkillQueueItem In oldQueue.Queue
                 Dim keyName As String = queueItem.Name & queueItem.FromLevel & queueItem.ToLevel
                 If newQueue.Queue.Contains(keyName) = False Then
@@ -2125,10 +2191,10 @@ Public Class frmTraining
         Next
         Dim curSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
         For Each curSkill In newQueue.Queue
-            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(curSkill.Name) Then
+            If displayPilot.PilotSkills.Contains(curSkill.Name) Then
                 Dim fromLevel As Integer = curSkill.FromLevel
                 Dim toLevel As Integer = curSkill.ToLevel
-                Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(curSkill.Name), Core.PilotSkill)
+                Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(curSkill.Name), Core.PilotSkill)
                 Dim pilotLevel As Integer = mySkill.Level
                 If pilotLevel >= toLevel Then
                     Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
@@ -2136,14 +2202,14 @@ Public Class frmTraining
                 End If
             End If
         Next
-        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(EveHQ.Core.HQ.myPilot, newQueue)
+        Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(displayPilot, newQueue)
         Dim qItem As EveHQ.Core.SortedQueue = New EveHQ.Core.SortedQueue
         Dim QTime As Double = 0
         For Each qItem In arrQueue
             QTime += CLng(qItem.TrainTime)
         Next
-        Me.totalQTime = QTime - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-        lblTotalQueueTime.Text = "Total Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.totalQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.totalQTime) & ")"
+        Me.totalQTime = QTime - displayPilot.TrainingCurrentTime
+        lblTotalQueueTime.Text = "Total Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.totalQTime + displayPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.totalQTime) & ")"
     End Sub
     Private Sub lvQueues_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvQueues.Click
         Select Case lvQueues.SelectedItems.Count
@@ -2159,8 +2225,8 @@ Public Class frmTraining
                 btnCopyToPilot.Enabled = True
                 btnMergeQueues.Enabled = False
                 btnSetPrimary.Enabled = True
-                Me.selQTime = CDbl(Me.lvQueues.Items(Me.lvQueues.SelectedIndices(0)).SubItems(2).Tag) - EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-                lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
+                Me.selQTime = CDbl(Me.lvQueues.Items(Me.lvQueues.SelectedIndices(0)).SubItems(2).Tag) - displayPilot.TrainingCurrentTime
+                lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + displayPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
             Case Is > 1
                 btnAddQueue.Enabled = True
                 btnEditQueue.Enabled = False
@@ -2194,7 +2260,7 @@ Public Class frmTraining
         Dim ActQueue As EveHQ.Core.SkillQueue = CType(objActQueue, EveHQ.Core.SkillQueue)
         'If ActQueue.QueueSkills > 0 Then
         Me.Invoke(SetSuggUIToCalc, New Object() {ActQueue.Name})
-        Dim sugQueue As EveHQ.Core.SkillQueue = EveHQ.Core.SkillQueueFunctions.FindSuggestions(EveHQ.Core.HQ.myPilot, CType(ActQueue.Clone, Core.SkillQueue))
+        Dim sugQueue As EveHQ.Core.SkillQueue = EveHQ.Core.SkillQueueFunctions.FindSuggestions(displayPilot, CType(ActQueue.Clone, Core.SkillQueue))
         If suggestedQueues.ContainsKey(ActQueue.Name) = False Then
             suggestedQueues.Add(ActQueue.Name, sugQueue)
         Else
@@ -2240,8 +2306,8 @@ Public Class frmTraining
             Dim reply As Integer = MessageBox.Show(msg, "Time Savings Available", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
             If reply = Windows.Forms.DialogResult.Yes Then
                 activeQueue = CType(newQueue.Clone, Core.SkillQueue)
-                EveHQ.Core.HQ.myPilot.ActiveQueue = activeQueue
-                EveHQ.Core.HQ.myPilot.TrainingQueues(activeQueue.Name) = activeQueue
+                displayPilot.ActiveQueue = activeQueue
+                displayPilot.TrainingQueues(activeQueue.Name) = activeQueue
                 Call Me.RefreshTraining(activeQueueName)
                 Dim activePB As PictureBox = CType(Me.tabQueues.Controls(activeQueueName).Controls("P" & activeQueueName), PictureBox)
                 activePB.Visible = False
@@ -2250,7 +2316,7 @@ Public Class frmTraining
             End If
         End If
     End Sub
-   
+
 #End Region
 
 #Region "Skill Toolbar Functions"
@@ -2269,6 +2335,7 @@ Public Class frmTraining
         End If
         If skillName <> "" Then
             skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
+            frmSkillDetails.DisplayPilotName = displayPilot.Name
             Call frmSkillDetails.ShowSkillDetails(skillID)
         End If
     End Sub
@@ -2304,7 +2371,7 @@ Public Class frmTraining
         If frmNeuralRemap.IsHandleCreated = True Then
             frmNeuralRemap.Select()
         Else
-            frmNeuralRemap.PilotName = EveHQ.Core.HQ.myPilot.Name
+            frmNeuralRemap.PilotName = displayPilot.Name
             frmNeuralRemap.QueueName = activeQueueName
             frmNeuralRemap.Show()
         End If
@@ -2313,7 +2380,7 @@ Public Class frmTraining
         If frmImplants.IsHandleCreated = True Then
             frmImplants.Select()
         Else
-            frmImplants.PilotName = EveHQ.Core.HQ.myPilot.Name
+            frmImplants.PilotName = displayPilot.Name
             frmImplants.QueueName = activeQueueName
             frmImplants.Show()
         End If
@@ -2349,8 +2416,8 @@ Public Class frmTraining
                 mnuAddToQueue.Enabled = True
                 ' Determine enabled menu items of adding to queue
                 Dim currentLevel As Integer = 0
-                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(skillName) = True Then
-                    Dim cSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(skillName), Core.PilotSkill)
+                If displayPilot.PilotSkills.Contains(skillName) = True Then
+                    Dim cSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(skillName), Core.PilotSkill)
                     currentLevel = cSkill.Level
                 End If
                 For a As Integer = 1 To 5
@@ -2373,12 +2440,13 @@ Public Class frmTraining
     Private Sub mnuViewDetails2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewDetails2.Click
         Dim skillID As String
         skillID = mnuSkillName2.Tag.ToString
+        frmSkillDetails.DisplayPilotName = displayPilot.Name
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
     Private Sub mnuForceTraining2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuForceTraining2.Click
         Dim skillID As String
         skillID = mnuSkillName2.Tag.ToString
-        If EveHQ.Core.SkillFunctions.ForceSkillTraining(EveHQ.Core.HQ.myPilot, skillID, False) = True Then
+        If EveHQ.Core.SkillFunctions.ForceSkillTraining(displayPilot, skillID, False) = True Then
             Call frmPilot.UpdatePilotInfo()
             Call Me.LoadSkillTree()
         End If
@@ -2387,23 +2455,23 @@ Public Class frmTraining
         Call Me.AddSkillToQueueOption()
     End Sub
     Private Sub mnuAddToQueue1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue1.Click
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 1)
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 1)
         Call Me.RefreshTraining(activeQueueName)
     End Sub
     Private Sub mnuAddToQueue2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue2.Click
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 2)
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 2)
         Call Me.RefreshTraining(activeQueueName)
     End Sub
     Private Sub mnuAddToQueue3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue3.Click
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 3)
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 3)
         Call Me.RefreshTraining(activeQueueName)
     End Sub
     Private Sub mnuAddToQueue4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue4.Click
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 4)
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 4)
         Call Me.RefreshTraining(activeQueueName)
     End Sub
     Private Sub mnuAddToQueue5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue5.Click
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 5)
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 5)
         Call Me.RefreshTraining(activeQueueName)
     End Sub
     Private Sub mnuAddGroupToQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddGroupLevel1.Click, mnuAddGroupLevel2.Click, mnuAddGroupLevel3.Click, mnuAddGroupLevel4.Click, mnuAddGroupLevel5.Click
@@ -2413,7 +2481,7 @@ Public Class frmTraining
         Dim curNode As New TreeNode
         parentNode = tvwSkillList.SelectedNode
         For Each curNode In parentNode.Nodes
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, curNode.Text, activeQueue.Queue.Count + 1, activeQueue, level, True, True)
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, curNode.Text, activeQueue.Queue.Count + 1, activeQueue, level, True, True)
         Next
         Call Me.RefreshTraining(activeQueueName)
     End Sub
@@ -2430,8 +2498,8 @@ Public Class frmTraining
         Dim fromLevel As String = activeLVW.SelectedItems(0).SubItems(2).Text
         Dim skillName As String = mnuSkillName.Text
         Dim currentLevel As Integer = 0
-        If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(skillName) = True Then
-            Dim cSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(skillName), Core.PilotSkill)
+        If displayPilot.PilotSkills.Contains(skillName) = True Then
+            Dim cSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(skillName), Core.PilotSkill)
             currentLevel = cSkill.Level
         End If
         For a As Integer = 1 To 5
@@ -2491,7 +2559,7 @@ Public Class frmTraining
                 ' Add all the sublevels
                 For level As Integer = CInt(fromLevel) To CInt(toLevel) - 1
                     mySkillPos += 1
-                    activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos, activeQueue, level + 1)
+                    activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos, activeQueue, level + 1)
                 Next
             End If
         Next selItem
@@ -2511,8 +2579,8 @@ Public Class frmTraining
             Call Me.DeleteFromQueue(mySkill)
 
             ' Add the new levels, 
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos, activeQueue, CInt(toLevel) - 1)
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos + 1, activeQueue, CInt(toLevel))
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos, activeQueue, CInt(toLevel) - 1)
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos + 1, activeQueue, CInt(toLevel))
         Next selItem
 
         Call Me.RefreshTraining(activeQueueName)
@@ -2531,8 +2599,8 @@ Public Class frmTraining
             Call Me.DeleteFromQueue(mySkill)
 
             ' Add the new levels, 
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos, activeQueue, CInt(fromLevel) + 1)
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, mySkillPos + 1, activeQueue, CInt(toLevel))
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos, activeQueue, CInt(fromLevel) + 1)
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos + 1, activeQueue, CInt(toLevel))
         Next selItem
         Call Me.RefreshTraining(activeQueueName)
     End Sub
@@ -2545,7 +2613,7 @@ Public Class frmTraining
         If reply = Windows.Forms.DialogResult.No Then
             Exit Sub
         Else
-            Call EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(EveHQ.Core.HQ.myPilot, activeQueue)
+            Call EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(displayPilot, activeQueue)
             ' Refresh the training view!
             Call Me.RefreshTraining(activeQueueName)
         End If
@@ -2556,12 +2624,13 @@ Public Class frmTraining
     Private Sub mnuViewDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewDetails.Click
         Dim skillID As String
         skillID = mnuSkillName.Tag.ToString
+        frmSkillDetails.DisplayPilotName = displayPilot.Name
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
     Private Sub mnuForceTraining_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuForceTraining.Click
         Dim skillID As String
         skillID = mnuSkillName.Tag.ToString
-        If EveHQ.Core.SkillFunctions.ForceSkillTraining(EveHQ.Core.HQ.myPilot, skillID, False) = True Then
+        If EveHQ.Core.SkillFunctions.ForceSkillTraining(displayPilot, skillID, False) = True Then
             Call frmPilot.UpdatePilotInfo()
             Call Me.LoadSkillTree()
         End If
@@ -2584,6 +2653,7 @@ Public Class frmTraining
     End Sub
     Private Sub mnuViewItemDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetails.Click
         Dim skillID As String = mnuItemName.Tag.ToString
+        frmSkillDetails.DisplayPilotName = displayPilot.Name
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
     Private Sub mnuViewItemDetailsHere_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetailsHere.Click
@@ -2596,6 +2666,7 @@ Public Class frmTraining
     End Sub
     Private Sub mnuReqsViewDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReqsViewDetails.Click
         Dim skillID As String = mnuReqsSkillName.Tag.ToString
+        frmSkillDetails.DisplayPilotName = displayPilot.Name
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
 #End Region

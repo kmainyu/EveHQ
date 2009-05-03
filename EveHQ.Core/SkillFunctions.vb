@@ -892,8 +892,8 @@ Public Class SkillFunctions
         End If
     End Function
     Public Shared Function IsSkillTrained(ByVal cPilot As EveHQ.Core.Pilot, ByVal skillName As String, Optional ByVal toLevel As Integer = 0) As Boolean
-        If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(skillName) Then
-            Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(skillName), EveHQ.Core.PilotSkill)
+        If cPilot.PilotSkills.Contains(skillName) Then
+            Dim mySkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(skillName), EveHQ.Core.PilotSkill)
             Dim myLevel As Integer = CInt(mySkill.Level)
             If myLevel >= toLevel Then
                 Return True

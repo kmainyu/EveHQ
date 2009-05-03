@@ -1,6 +1,17 @@
 ﻿Public Class frmCertificateDetails
 
     Dim CertGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
+    Dim cDisplayPilotName As String
+    Dim displayPilot As New EveHQ.Core.Pilot
+    Public Property DisplayPilotName() As String
+        Get
+            Return cDisplayPilotName
+        End Get
+        Set(ByVal value As String)
+            cDisplayPilotName = value
+            DisplayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(value), Core.Pilot)
+        End Set
+    End Property
 
     Public Sub ShowCertDetails(ByVal certID As String)
 
@@ -37,7 +48,7 @@
             newCert.Text = CType(EveHQ.Core.HQ.CertificateClasses(cRCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
             newCert.Name = cRCert.ID.ToString
             newCert.SubItems.Add(CertGrades(cRCert.Grade))
-            If EveHQ.Core.HQ.myPilot.Certificates.Contains(cRCert.ID.ToString) = True Then
+            If displayPilot.Certificates.Contains(cRCert.ID.ToString) = True Then
                 newCert.ForeColor = Color.Green
             Else
                 newCert.ForeColor = Color.Red
@@ -74,17 +85,17 @@
             Dim skillTrained As Boolean = False
             Dim myLevel As Integer = 0
             skillTrained = False
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
-                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) Then
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+                If displayPilot.PilotSkills.Contains(cSkill.Name) Then
                     Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                    mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
+                    mySkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
                     myLevel = CInt(mySkill.Level)
                     If myLevel >= curLevel Then skillTrained = True
                     If skillTrained = True Then
                         curNode.ForeColor = Color.LimeGreen
                         curNode.ToolTipText = "Already Trained"
                     Else
-                        Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                        Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
                         If planLevel = 0 Then
                             curNode.ForeColor = Color.Red
                             curNode.ToolTipText = "Not trained & no planned training"
@@ -98,7 +109,7 @@
                         End If
                     End If
                 Else
-                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
                     If planLevel = 0 Then
                         curNode.ForeColor = Color.Red
                         curNode.ToolTipText = "Not trained & no planned training"
@@ -132,12 +143,12 @@
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
-            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) Then
+            If displayPilot.PilotSkills.Contains(newSkill.Name) Then
                 Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                mySkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
             End If
@@ -145,7 +156,7 @@
                 newNode.ForeColor = Color.LimeGreen
                 newNode.ToolTipText = "Already Trained"
             Else
-                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, newSkill.Name, curLevel)
+                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, newSkill.Name, curLevel)
                 If planLevel = 0 Then
                     newNode.ForeColor = Color.Red
                     newNode.ToolTipText = "Not trained & no planned training"
@@ -194,7 +205,7 @@
                     newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
                     newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
                 End If
-                If EveHQ.Core.HQ.myPilot.Certificates.Contains(cert.ID.ToString) = True Then
+                If displayPilot.Certificates.Contains(cert.ID.ToString) = True Then
                     newItem.ForeColor = Color.Green
                 Else
                     newItem.ForeColor = Color.Red
@@ -224,6 +235,7 @@
 
     Private Sub mnuViewSkillDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSkillDetails.Click
         Dim skillID As String = mnuSkillName.Tag.ToString
+        frmSkillDetails.DisplayPilotName = cDisplayPilotName
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
 

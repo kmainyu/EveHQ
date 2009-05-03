@@ -24,6 +24,17 @@ Public Class frmSelectQueue
     Public itemTypeID As String
     Public itemTypeName As String
     Public skillsNeeded As New ArrayList
+    Dim cDisplayPilotName As String
+    Dim displayPilot As New EveHQ.Core.Pilot
+    Public Property DisplayPilotName() As String
+        Get
+            Return cDisplayPilotName
+        End Get
+        Set(ByVal value As String)
+            cDisplayPilotName = value
+            DisplayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(value), Core.Pilot)
+        End Set
+    End Property
 
     Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
         Dim qName As String = ""
@@ -35,7 +46,7 @@ Public Class frmSelectQueue
                 Exit Sub
             End If
             qName = txtQueueName.Text
-            If EveHQ.Core.HQ.myPilot.TrainingQueues.Contains(txtQueueName.Text) Then
+            If displayPilot.TrainingQueues.Contains(txtQueueName.Text) Then
                 Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Creating Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                 If reply = Windows.Forms.DialogResult.Retry Then
                     Exit Sub
@@ -49,24 +60,24 @@ Public Class frmSelectQueue
             qQueue.IncCurrentTraining = True
             qQueue.Primary = False
             qQueue.Queue = New Collection
-            EveHQ.Core.HQ.myPilot.TrainingQueues.Add(qQueue.Name, qQueue)
+            displayPilot.TrainingQueues.Add(qQueue.Name, qQueue)
         Else
             If cboQueueName.SelectedItem = "" Then
                 MessageBox.Show("A valid Skill Queue must be selected for this pilot!", "Error Creating Queue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             qName = cboQueueName.SelectedItem
-            QQueue = EveHQ.Core.HQ.myPilot.TrainingQueues(qName)
+            qQueue = displayPilot.TrainingQueues(qName)
         End If
-        If EveHQ.Core.HQ.myPilot.Name <> "" Then
+        If displayPilot.Name <> "" Then
             If skillsNeeded.Count <> 0 Then
                 For Each skill As String In skillsNeeded
                     Dim skillName As String = skill.Substring(0, skill.Length - 1)
                     Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                    qQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(EveHQ.Core.HQ.myPilot, skillName, qQueue.Queue.Count + 1, qQueue, skillLvl)
+                    qQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, qQueue.Queue.Count + 1, qQueue, skillLvl)
                 Next
             Else
-                MessageBox.Show(EveHQ.Core.HQ.myPilot.Name & " has already trained all necessary skills to use this item.", "Already Trained!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(displayPilot.Name & " has already trained all necessary skills to use this item.", "Already Trained!", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         Else
             MessageBox.Show("There is no pilot selected to add the skills to.", "Cannot Add Skills to Training Queue", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -81,7 +92,7 @@ Public Class frmSelectQueue
     Private Sub frmModifyQueues_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Load up existing queues
         cboQueueName.Items.Clear()
-        For Each qName As String In EveHQ.Core.HQ.myPilot.TrainingQueues.GetKeyList
+        For Each qName As String In displayPilot.TrainingQueues.GetKeyList
             cboQueueName.Items.Add(qName)
         Next
 

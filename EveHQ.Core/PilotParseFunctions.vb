@@ -955,23 +955,23 @@ Public Class PilotParseFunctions
         Loop Until Retry = False
         Return pilotXML
     End Function
-    Public Shared Sub SwitchImplants()
+    Public Shared Sub SwitchImplants(ByVal iPilot As EveHQ.Core.Pilot)
         ' Decide whether to use Auto or Manual Implants
-        If EveHQ.Core.HQ.myPilot.UseManualImplants = True Then
-            EveHQ.Core.HQ.myPilot.CImplant = EveHQ.Core.HQ.myPilot.CImplantM
-            EveHQ.Core.HQ.myPilot.IImplant = EveHQ.Core.HQ.myPilot.IImplantM
-            EveHQ.Core.HQ.myPilot.MImplant = EveHQ.Core.HQ.myPilot.MImplantM
-            EveHQ.Core.HQ.myPilot.PImplant = EveHQ.Core.HQ.myPilot.PImplantM
-            EveHQ.Core.HQ.myPilot.WImplant = EveHQ.Core.HQ.myPilot.WImplantM
+        If iPilot.UseManualImplants = True Then
+            iPilot.CImplant = iPilot.CImplantM
+            iPilot.IImplant = iPilot.IImplantM
+            iPilot.MImplant = iPilot.MImplantM
+            iPilot.PImplant = iPilot.PImplantM
+            iPilot.WImplant = iPilot.WImplantM
         Else
-            EveHQ.Core.HQ.myPilot.CImplant = EveHQ.Core.HQ.myPilot.CImplantA
-            EveHQ.Core.HQ.myPilot.IImplant = EveHQ.Core.HQ.myPilot.IImplantA
-            EveHQ.Core.HQ.myPilot.MImplant = EveHQ.Core.HQ.myPilot.MImplantA
-            EveHQ.Core.HQ.myPilot.PImplant = EveHQ.Core.HQ.myPilot.PImplantA
-            EveHQ.Core.HQ.myPilot.WImplant = EveHQ.Core.HQ.myPilot.WImplantA
+            iPilot.CImplant = iPilot.CImplantA
+            iPilot.IImplant = iPilot.IImplantA
+            iPilot.MImplant = iPilot.MImplantA
+            iPilot.PImplant = iPilot.PImplantA
+            iPilot.WImplant = iPilot.WImplantA
         End If
         ' Rebuild the attribute data
-        Call EveHQ.Core.PilotParseFunctions.BuildAttributeData(EveHQ.Core.HQ.myPilot)
+        Call EveHQ.Core.PilotParseFunctions.BuildAttributeData(iPilot)
     End Sub
 
 End Class

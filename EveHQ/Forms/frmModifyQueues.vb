@@ -19,6 +19,18 @@
 '=========================================================================
 Public Class frmModifyQueues
 
+    Dim cDisplayPilotName As String
+    Dim displayPilot As New EveHQ.Core.Pilot
+    Public Property DisplayPilotName() As String
+        Get
+            Return cDisplayPilotName
+        End Get
+        Set(ByVal value As String)
+            cDisplayPilotName = value
+            DisplayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(value), Core.Pilot)
+        End Set
+    End Property
+
     Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
         ' Check if the input is valid i.e. not blank
         If txtQueueName.Text = "" Then
@@ -35,7 +47,7 @@ Public Class frmModifyQueues
             Case "Add"
                 ' Add the account to the accounts collection
                 ' First check if the account already exists
-                If EveHQ.Core.HQ.myPilot.TrainingQueues.Contains(txtQueueName.Text) Then
+                If displayPilot.TrainingQueues.Contains(txtQueueName.Text) Then
                     Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Creating Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub
@@ -47,15 +59,15 @@ Public Class frmModifyQueues
                 Dim newQueue As New EveHQ.Core.SkillQueue
                 newQueue.Name = txtQueueName.Text
                 newQueue.IncCurrentTraining = True
-                If EveHQ.Core.HQ.myPilot.TrainingQueues.Count = 0 Then
+                If displayPilot.TrainingQueues.Count = 0 Then
                     newQueue.Primary = True
                 Else
                     newQueue.Primary = False
                 End If
                 newQueue.Queue = New Collection
-                EveHQ.Core.HQ.myPilot.TrainingQueues.Add(newQueue.Name, newQueue)
+                displayPilot.TrainingQueues.Add(newQueue.Name, newQueue)
             Case "Edit"
-                If EveHQ.Core.HQ.myPilot.TrainingQueues.Contains(txtQueueName.Text) Then
+                If displayPilot.TrainingQueues.Contains(txtQueueName.Text) Then
                     Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Editing Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub
@@ -65,18 +77,18 @@ Public Class frmModifyQueues
                     End If
                 End If
                 ' Fetch the account from the collection
-                Dim oldQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(txtQueueName.Tag), EveHQ.Core.SkillQueue)
+                Dim oldQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(txtQueueName.Tag), EveHQ.Core.SkillQueue)
                 Dim newQueue As New EveHQ.Core.SkillQueue
                 newQueue.Name = txtQueueName.Text
                 newQueue.IncCurrentTraining = oldQueue.IncCurrentTraining
                 newQueue.Primary = oldQueue.Primary
                 newQueue.Queue = oldQueue.Queue
                 ' Remove the old queue
-                EveHQ.Core.HQ.myPilot.TrainingQueues.Remove(txtQueueName.Tag)
+                displayPilot.TrainingQueues.Remove(txtQueueName.Tag)
                 ' Add the new queue
-                EveHQ.Core.HQ.myPilot.TrainingQueues.Add(newQueue.Name, newQueue)
+                displayPilot.TrainingQueues.Add(newQueue.Name, newQueue)
             Case "Copy"
-                If EveHQ.Core.HQ.myPilot.TrainingQueues.Contains(txtQueueName.Text) Then
+                If displayPilot.TrainingQueues.Contains(txtQueueName.Text) Then
                     Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Copying Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub
@@ -85,7 +97,7 @@ Public Class frmModifyQueues
                         Exit Sub
                     End If
                 End If
-                Dim oldQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(txtQueueName.Tag), EveHQ.Core.SkillQueue)
+                Dim oldQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(txtQueueName.Tag), EveHQ.Core.SkillQueue)
                 Dim newQueue As New EveHQ.Core.SkillQueue
                 newQueue.Name = txtQueueName.Text
                 newQueue.IncCurrentTraining = oldQueue.IncCurrentTraining
@@ -102,9 +114,9 @@ Public Class frmModifyQueues
                 Next
                 newQueue.Queue = newQ
                 ' Add the new queue
-                EveHQ.Core.HQ.myPilot.TrainingQueues.Add(newQueue.Name, newQueue)
+                displayPilot.TrainingQueues.Add(newQueue.Name, newQueue)
             Case "Merge"
-                If EveHQ.Core.HQ.myPilot.TrainingQueues.Contains(txtQueueName.Text) Then
+                If displayPilot.TrainingQueues.Contains(txtQueueName.Text) Then
                     Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Copying Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub
@@ -121,7 +133,7 @@ Public Class frmModifyQueues
                 newQueue.Queue = New Collection
                 For Each item As ListViewItem In mergeQueues
                     Dim queueName As String = item.Name
-                    Dim oldQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(queueName), EveHQ.Core.SkillQueue)
+                    Dim oldQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(queueName), EveHQ.Core.SkillQueue)
                     If oldQueue.Primary = True Then newQueue.Primary = True
                     For Each queueItem As EveHQ.Core.SkillQueueItem In oldQueue.Queue
                         Dim keyName As String = queueItem.Name & queueItem.FromLevel & queueItem.ToLevel
@@ -130,7 +142,7 @@ Public Class frmModifyQueues
                         End If
                     Next
                 Next
-                EveHQ.Core.HQ.myPilot.TrainingQueues.Add(newQueue.Name, newQueue)
+                displayPilot.TrainingQueues.Add(newQueue.Name, newQueue)
         End Select
         Me.Close()
     End Sub

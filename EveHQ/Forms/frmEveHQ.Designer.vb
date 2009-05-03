@@ -26,10 +26,7 @@ Partial Public Class frmEveHQ
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.ToolStrip = New System.Windows.Forms.ToolStrip
         Me.btnAddAccount = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator14 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel
         Me.ToolStripSeparator12 = New System.Windows.Forms.ToolStripLabel
-        Me.cboPilots = New System.Windows.Forms.ToolStripComboBox
         Me.ToolStripSeparator13 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbRetrieveData = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
@@ -153,6 +150,7 @@ Partial Public Class frmEveHQ
         Me.tmrEveWindow = New System.Windows.Forms.Timer(Me.components)
         Me.iconEveHQMLW = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.tmrMemory = New System.Windows.Forms.Timer(Me.components)
+        Me.ECMExportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -170,10 +168,14 @@ Partial Public Class frmEveHQ
         '
         'ToolStrip
         '
-        Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnAddAccount, Me.ToolStripSeparator14, Me.ToolStripLabel1, Me.ToolStripSeparator12, Me.cboPilots, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.tsbTrainingOverlay, Me.tsbSettingsBackup, Me.tsbSettings, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator6, Me.tsbCheckUpdates, Me.ToolStripSeparator9, Me.tsbAbout, Me.ToolStripSeparator7})
+        Me.ToolStrip.AutoSize = False
+        Me.ToolStrip.Dock = System.Windows.Forms.DockStyle.Left
+        Me.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
+        Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnAddAccount, Me.ToolStripSeparator12, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.tsbTrainingOverlay, Me.tsbSettingsBackup, Me.tsbSettings, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator6, Me.tsbCheckUpdates, Me.ToolStripSeparator9, Me.tsbAbout, Me.ToolStripSeparator7})
+        Me.ToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
         Me.ToolStrip.Location = New System.Drawing.Point(0, 24)
         Me.ToolStrip.Name = "ToolStrip"
-        Me.ToolStrip.Size = New System.Drawing.Size(1033, 25)
+        Me.ToolStrip.Size = New System.Drawing.Size(32, 607)
         Me.ToolStrip.TabIndex = 6
         Me.ToolStrip.Text = "ToolStrip"
         '
@@ -185,30 +187,10 @@ Partial Public Class frmEveHQ
         Me.btnAddAccount.Size = New System.Drawing.Size(23, 22)
         Me.btnAddAccount.ToolTipText = "Add API Account"
         '
-        'ToolStripSeparator14
-        '
-        Me.ToolStripSeparator14.Name = "ToolStripSeparator14"
-        Me.ToolStripSeparator14.Size = New System.Drawing.Size(6, 25)
-        '
-        'ToolStripLabel1
-        '
-        Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(70, 22)
-        Me.ToolStripLabel1.Text = "Active Pilot:"
-        '
         'ToolStripSeparator12
         '
         Me.ToolStripSeparator12.Name = "ToolStripSeparator12"
         Me.ToolStripSeparator12.Size = New System.Drawing.Size(0, 22)
-        '
-        'cboPilots
-        '
-        Me.cboPilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboPilots.FlatStyle = System.Windows.Forms.FlatStyle.Standard
-        Me.cboPilots.Name = "cboPilots"
-        Me.cboPilots.Padding = New System.Windows.Forms.Padding(0, 1, 0, 0)
-        Me.cboPilots.Size = New System.Drawing.Size(148, 25)
-        Me.cboPilots.Sorted = True
         '
         'ToolStripSeparator13
         '
@@ -679,7 +661,7 @@ Partial Public Class frmEveHQ
         '
         'mnuReportsXMLChar
         '
-        Me.mnuReportsXMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportCharXML, Me.mnuReportTrainXML, Me.mnuReportCurrentCharXMLOld, Me.mnuReportCurrentCharXMLNew, Me.mnuReportCurrentTrainingXMLOld})
+        Me.mnuReportsXMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportCharXML, Me.mnuReportTrainXML, Me.mnuReportCurrentCharXMLOld, Me.mnuReportCurrentCharXMLNew, Me.mnuReportCurrentTrainingXMLOld, Me.ECMExportToolStripMenuItem})
         Me.mnuReportsXMLChar.Name = "mnuReportsXMLChar"
         Me.mnuReportsXMLChar.Size = New System.Drawing.Size(214, 22)
         Me.mnuReportsXMLChar.Text = "Character"
@@ -1003,10 +985,10 @@ Partial Public Class frmEveHQ
         Me.tabMDI.Appearance = System.Windows.Forms.TabAppearance.FlatButtons
         Me.tabMDI.ContextMenuStrip = Me.ctxTabbedMDI
         Me.tabMDI.Dock = System.Windows.Forms.DockStyle.Top
-        Me.tabMDI.Location = New System.Drawing.Point(0, 49)
+        Me.tabMDI.Location = New System.Drawing.Point(32, 24)
         Me.tabMDI.Name = "tabMDI"
         Me.tabMDI.SelectedIndex = 0
-        Me.tabMDI.Size = New System.Drawing.Size(1033, 22)
+        Me.tabMDI.Size = New System.Drawing.Size(1001, 22)
         Me.tabMDI.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight
         Me.tabMDI.TabIndex = 16
         '
@@ -1033,6 +1015,12 @@ Partial Public Class frmEveHQ
         'tmrMemory
         '
         Me.tmrMemory.Interval = 300000
+        '
+        'ECMExportToolStripMenuItem
+        '
+        Me.ECMExportToolStripMenuItem.Name = "ECMExportToolStripMenuItem"
+        Me.ECMExportToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
+        Me.ECMExportToolStripMenuItem.Text = "ECM Export"
         '
         'frmEveHQ
         '
@@ -1084,9 +1072,7 @@ Partial Public Class frmEveHQ
     Friend WithEvents PilotInfoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RunIGBToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tmrSkillUpdate As System.Windows.Forms.Timer
-    Friend WithEvents cboPilots As System.Windows.Forms.ToolStripComboBox
     Friend WithEvents ToolStripSeparator12 As System.Windows.Forms.ToolStripLabel
-    Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripSeparator13 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuToolsGetAccountInfo As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SkillTrainingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -1181,7 +1167,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuToolsTriggerError As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportAsteroidAlloys As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents btnAddAccount As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator14 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuToolsMarketPrices As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuInEveUploader As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents iconEveHQMLW As System.Windows.Forms.NotifyIcon
@@ -1192,5 +1177,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuClearAllXMLCache As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuUpdate As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ECMExportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

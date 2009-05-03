@@ -322,7 +322,7 @@ Public Class IGB
         Else
             strHTML &= "<table width=240px border=0 bgcolor=#000000><tr><td width=240px>"
             strHTML &= "<img src=""http://" & context.Request.Headers("Host") & "/logo.jpg"" alt=""EveHQ Logo"" />"
-            strHTML &= "Greetings " & EveHQ.Core.HQ.myPilot.Name & "<br>"
+            strHTML &= "Greetings Pilot!<br>"
             strHTML &= "There are " & EveHQ.Core.HQ.myTQServer.Players & " pilots on-line (" & EveHQ.Core.HQ.mySiSiServer.Players & " on test server)<hr>"
             strHTML &= "</td></tr><tr><td width=240px align=center>Search Item Database: "
             strHTML &= "<form method=""GET"" action=""/searchResults"">"
@@ -999,7 +999,7 @@ Public Class IGB
                         strHTML &= "selected='selected'"
                     End If
                 Else
-                    If pilotName = EveHQ.Core.HQ.myPilot.Name Then
+                    If pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), EveHQ.Core.Pilot).Name Then
                         strHTML &= "selected='selected'"
                     End If
                 End If

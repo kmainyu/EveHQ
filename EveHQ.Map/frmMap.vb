@@ -122,9 +122,9 @@ Public Class frmMap
         Me.cboRouteMode.Text = Me.cboRouteMode.Items.Item(0).ToString
         Me.cboSystem.Text = Me.cboSystem.Items.Item(0).ToString
         Me.cboShips.SelectedIndex = 0
-        cboJDC.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration))
-        cboJFC.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation))
-        cboJF.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters))
+        cboJDC.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration))
+        cboJFC.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation))
+        cboJF.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters))
         Me.BringToFront()
         bHaveMouse = False
         bHaveScan = False
@@ -163,8 +163,12 @@ Public Class frmMap
                 Me.cboPilot.Items.Add(cPilot.Name)
             End If
         Next
-        If EveHQ.Core.HQ.myPilot IsNot Nothing Then
-            Me.cboPilot.SelectedItem = EveHQ.Core.HQ.myPilot.Name
+        If Me.cboPilot.Items.Count > 0 Then
+            If Me.cboPilot.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
+                Me.cboPilot.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
+            Else
+                Me.cboPilot.SelectedIndex = 0
+            End If
         End If
     End Sub
 
@@ -616,8 +620,8 @@ Public Class frmMap
         If chkOverrideJDC.Checked = True Then
             cboJDC.Enabled = True
         Else
-            If EveHQ.Core.HQ.myPilot IsNot Nothing Then
-                cboJDC.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration))
+            If csPilot IsNot Nothing Then
+                cboJDC.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration))
                 cboJDC.Enabled = False
             End If
         End If
@@ -626,8 +630,8 @@ Public Class frmMap
         If chkOverrideJFC.Checked = True Then
             cboJFC.Enabled = True
         Else
-            If EveHQ.Core.HQ.myPilot IsNot Nothing Then
-                cboJFC.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation))
+            If csPilot IsNot Nothing Then
+                cboJFC.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation))
                 cboJFC.Enabled = False
             End If
         End If
@@ -636,8 +640,8 @@ Public Class frmMap
         If chkOverrideJF.Checked = True Then
             cboJF.Enabled = True
         Else
-            If EveHQ.Core.HQ.myPilot IsNot Nothing Then
-                cboJF.SelectedIndex = CInt(EveHQ.Core.HQ.myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters))
+            If csPilot IsNot Nothing Then
+                cboJF.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters))
                 cboJF.Enabled = False
             End If
         End If

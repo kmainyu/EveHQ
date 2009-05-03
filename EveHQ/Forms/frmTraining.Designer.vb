@@ -21,30 +21,30 @@ Partial Class frmTraining
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmTraining))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Containers", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Materials", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Accessories", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Ships", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Charges", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Blueprints", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Skills", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Drones", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Implants", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mobile Disruptors", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("POS Equipment", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Pilot Specific", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Name", ""}, -1)
-        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Rank", ""}, -1)
-        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Group", ""}, -1)
-        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Price", ""}, -1)
-        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Primary Attribute", ""}, -1)
-        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Secondary Attribute", ""}, -1)
-        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current Level", ""}, -1)
-        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current SP", ""}, -1)
-        Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Time to Next Level", ""}, -1)
-        Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Training Rate (SP/Hr)", ""}, -1)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Containers", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Materials", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Accessories", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Ships", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Modules", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Charges", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Blueprints", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Skills", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Drones", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Implants", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup27 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mobile Disruptors", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup28 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("POS Equipment", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Pilot Specific", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewItem21 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Name", ""}, -1)
+        Dim ListViewItem22 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Rank", ""}, -1)
+        Dim ListViewItem23 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Group", ""}, -1)
+        Dim ListViewItem24 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Price", ""}, -1)
+        Dim ListViewItem25 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Primary Attribute", ""}, -1)
+        Dim ListViewItem26 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Secondary Attribute", ""}, -1)
+        Dim ListViewItem27 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current Level", ""}, -1)
+        Dim ListViewItem28 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current SP", ""}, -1)
+        Dim ListViewItem29 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Time to Next Level", ""}, -1)
+        Dim ListViewItem30 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Training Rate (SP/Hr)", ""}, -1)
         Me.tvwSkillList = New System.Windows.Forms.TreeView
         Me.ctxDetails = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuSkillName2 = New System.Windows.Forms.ToolStripMenuItem
@@ -199,6 +199,8 @@ Partial Class frmTraining
         Me.lvwDetails = New EveHQ.ListViewNoFlicker
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.cboPilots = New System.Windows.Forms.ComboBox
+        Me.lblPilot = New System.Windows.Forms.Label
         Me.ctxDetails.SuspendLayout()
         Me.ctxQueue.SuspendLayout()
         Me.tsQueueOptions.SuspendLayout()
@@ -234,7 +236,7 @@ Partial Class frmTraining
         Me.tvwSkillList.Location = New System.Drawing.Point(9, 32)
         Me.tvwSkillList.Name = "tvwSkillList"
         Me.tvwSkillList.SelectedImageIndex = 6
-        Me.tvwSkillList.Size = New System.Drawing.Size(239, 302)
+        Me.tvwSkillList.Size = New System.Drawing.Size(239, 278)
         Me.tvwSkillList.TabIndex = 0
         '
         'ctxDetails
@@ -242,66 +244,66 @@ Partial Class frmTraining
         Me.ctxDetails.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxDetails.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName2, Me.ToolStripSeparator5, Me.mnuAddToQueue, Me.mnuAddGroupToQueue, Me.ToolStripSeparator6, Me.mnuForceTraining2, Me.ToolStripMenuItem1, Me.mnuViewDetails2})
         Me.ctxDetails.Name = "ctxDepend"
-        Me.ctxDetails.Size = New System.Drawing.Size(228, 132)
+        Me.ctxDetails.Size = New System.Drawing.Size(217, 132)
         '
         'mnuSkillName2
         '
         Me.mnuSkillName2.Name = "mnuSkillName2"
-        Me.mnuSkillName2.Size = New System.Drawing.Size(227, 22)
+        Me.mnuSkillName2.Size = New System.Drawing.Size(216, 22)
         Me.mnuSkillName2.Text = "Skill Name"
         '
         'ToolStripSeparator5
         '
         Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(224, 6)
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(213, 6)
         '
         'mnuAddToQueue
         '
         Me.mnuAddToQueue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddToQueueNext, Me.ToolStripMenuItem4, Me.mnuAddToQueue1, Me.mnuAddToQueue2, Me.mnuAddToQueue3, Me.mnuAddToQueue4, Me.mnuAddToQueue5})
         Me.mnuAddToQueue.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuAddToQueue.Name = "mnuAddToQueue"
-        Me.mnuAddToQueue.Size = New System.Drawing.Size(227, 22)
+        Me.mnuAddToQueue.Size = New System.Drawing.Size(216, 22)
         Me.mnuAddToQueue.Text = "Add to Training Queue"
         '
         'mnuAddToQueueNext
         '
         Me.mnuAddToQueueNext.Name = "mnuAddToQueueNext"
-        Me.mnuAddToQueueNext.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddToQueueNext.Size = New System.Drawing.Size(125, 22)
         Me.mnuAddToQueueNext.Text = "Next Level"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(122, 6)
         '
         'mnuAddToQueue1
         '
         Me.mnuAddToQueue1.Name = "mnuAddToQueue1"
-        Me.mnuAddToQueue1.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddToQueue1.Size = New System.Drawing.Size(125, 22)
         Me.mnuAddToQueue1.Text = "Level 1"
         '
         'mnuAddToQueue2
         '
         Me.mnuAddToQueue2.Name = "mnuAddToQueue2"
-        Me.mnuAddToQueue2.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddToQueue2.Size = New System.Drawing.Size(125, 22)
         Me.mnuAddToQueue2.Text = "Level 2"
         '
         'mnuAddToQueue3
         '
         Me.mnuAddToQueue3.Name = "mnuAddToQueue3"
-        Me.mnuAddToQueue3.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddToQueue3.Size = New System.Drawing.Size(125, 22)
         Me.mnuAddToQueue3.Text = "Level 3"
         '
         'mnuAddToQueue4
         '
         Me.mnuAddToQueue4.Name = "mnuAddToQueue4"
-        Me.mnuAddToQueue4.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddToQueue4.Size = New System.Drawing.Size(125, 22)
         Me.mnuAddToQueue4.Text = "Level 4"
         '
         'mnuAddToQueue5
         '
         Me.mnuAddToQueue5.Name = "mnuAddToQueue5"
-        Me.mnuAddToQueue5.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddToQueue5.Size = New System.Drawing.Size(125, 22)
         Me.mnuAddToQueue5.Text = "Level 5"
         '
         'mnuAddGroupToQueue
@@ -309,61 +311,61 @@ Partial Class frmTraining
         Me.mnuAddGroupToQueue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddGroupLevel1, Me.mnuAddGroupLevel2, Me.mnuAddGroupLevel3, Me.mnuAddGroupLevel4, Me.mnuAddGroupLevel5})
         Me.mnuAddGroupToQueue.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuAddGroupToQueue.Name = "mnuAddGroupToQueue"
-        Me.mnuAddGroupToQueue.Size = New System.Drawing.Size(227, 22)
+        Me.mnuAddGroupToQueue.Size = New System.Drawing.Size(216, 22)
         Me.mnuAddGroupToQueue.Text = "Add Group To Training Queue"
         '
         'mnuAddGroupLevel1
         '
         Me.mnuAddGroupLevel1.Name = "mnuAddGroupLevel1"
-        Me.mnuAddGroupLevel1.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddGroupLevel1.Size = New System.Drawing.Size(123, 22)
         Me.mnuAddGroupLevel1.Text = "To Level 1"
         '
         'mnuAddGroupLevel2
         '
         Me.mnuAddGroupLevel2.Name = "mnuAddGroupLevel2"
-        Me.mnuAddGroupLevel2.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddGroupLevel2.Size = New System.Drawing.Size(123, 22)
         Me.mnuAddGroupLevel2.Text = "To Level 2"
         '
         'mnuAddGroupLevel3
         '
         Me.mnuAddGroupLevel3.Name = "mnuAddGroupLevel3"
-        Me.mnuAddGroupLevel3.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddGroupLevel3.Size = New System.Drawing.Size(123, 22)
         Me.mnuAddGroupLevel3.Text = "To Level 3"
         '
         'mnuAddGroupLevel4
         '
         Me.mnuAddGroupLevel4.Name = "mnuAddGroupLevel4"
-        Me.mnuAddGroupLevel4.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddGroupLevel4.Size = New System.Drawing.Size(123, 22)
         Me.mnuAddGroupLevel4.Text = "To Level 4"
         '
         'mnuAddGroupLevel5
         '
         Me.mnuAddGroupLevel5.Name = "mnuAddGroupLevel5"
-        Me.mnuAddGroupLevel5.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddGroupLevel5.Size = New System.Drawing.Size(123, 22)
         Me.mnuAddGroupLevel5.Text = "To Level 5"
         '
         'ToolStripSeparator6
         '
         Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-        Me.ToolStripSeparator6.Size = New System.Drawing.Size(224, 6)
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(213, 6)
         '
         'mnuForceTraining2
         '
         Me.mnuForceTraining2.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuForceTraining2.Name = "mnuForceTraining2"
-        Me.mnuForceTraining2.Size = New System.Drawing.Size(227, 22)
+        Me.mnuForceTraining2.Size = New System.Drawing.Size(216, 22)
         Me.mnuForceTraining2.Text = "Force Skill Training"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(224, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(213, 6)
         '
         'mnuViewDetails2
         '
         Me.mnuViewDetails2.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewDetails2.Name = "mnuViewDetails2"
-        Me.mnuViewDetails2.Size = New System.Drawing.Size(227, 22)
+        Me.mnuViewDetails2.Size = New System.Drawing.Size(216, 22)
         Me.mnuViewDetails2.Text = "View Details"
         '
         'ImageList1
@@ -387,169 +389,169 @@ Partial Class frmTraining
         Me.ctxQueue.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxQueue.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuChangeLevel, Me.mnuIncreaseLevel, Me.mnuDecreaseLevel, Me.ToolStripSeparator3, Me.mnuMoveUpQueue, Me.mnuMoveDownQueue, Me.ToolStripMenuItem3, Me.mnuSeparateLevels, Me.mnuSeperateLevelSep, Me.mnuDeleteFromQueue, Me.mnuRemoveTrainedSkills, Me.mnuClearTrainingQueue, Me.ToolStripSeparator2, Me.mnuViewDetails, Me.ToolStripMenuItem2, Me.mnuForceTraining})
         Me.ctxQueue.Name = "ctxDepend"
-        Me.ctxQueue.Size = New System.Drawing.Size(218, 304)
+        Me.ctxQueue.Size = New System.Drawing.Size(207, 304)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(217, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(206, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(214, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(203, 6)
         '
         'mnuChangeLevel
         '
         Me.mnuChangeLevel.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuChangeLevel1, Me.mnuChangeLevel2, Me.mnuChangeLevel3, Me.mnuChangeLevel4, Me.mnuChangeLevel5})
         Me.mnuChangeLevel.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuChangeLevel.Name = "mnuChangeLevel"
-        Me.mnuChangeLevel.Size = New System.Drawing.Size(217, 22)
+        Me.mnuChangeLevel.Size = New System.Drawing.Size(206, 22)
         Me.mnuChangeLevel.Text = "Change To Level"
         '
         'mnuChangeLevel1
         '
         Me.mnuChangeLevel1.Name = "mnuChangeLevel1"
-        Me.mnuChangeLevel1.Size = New System.Drawing.Size(152, 22)
+        Me.mnuChangeLevel1.Size = New System.Drawing.Size(108, 22)
         Me.mnuChangeLevel1.Text = "Level 1"
         '
         'mnuChangeLevel2
         '
         Me.mnuChangeLevel2.Name = "mnuChangeLevel2"
-        Me.mnuChangeLevel2.Size = New System.Drawing.Size(152, 22)
+        Me.mnuChangeLevel2.Size = New System.Drawing.Size(108, 22)
         Me.mnuChangeLevel2.Text = "Level 2"
         '
         'mnuChangeLevel3
         '
         Me.mnuChangeLevel3.Name = "mnuChangeLevel3"
-        Me.mnuChangeLevel3.Size = New System.Drawing.Size(152, 22)
+        Me.mnuChangeLevel3.Size = New System.Drawing.Size(108, 22)
         Me.mnuChangeLevel3.Text = "Level 3"
         '
         'mnuChangeLevel4
         '
         Me.mnuChangeLevel4.Name = "mnuChangeLevel4"
-        Me.mnuChangeLevel4.Size = New System.Drawing.Size(152, 22)
+        Me.mnuChangeLevel4.Size = New System.Drawing.Size(108, 22)
         Me.mnuChangeLevel4.Text = "Level 4"
         '
         'mnuChangeLevel5
         '
         Me.mnuChangeLevel5.Name = "mnuChangeLevel5"
-        Me.mnuChangeLevel5.Size = New System.Drawing.Size(152, 22)
+        Me.mnuChangeLevel5.Size = New System.Drawing.Size(108, 22)
         Me.mnuChangeLevel5.Text = "Level 5"
         '
         'mnuIncreaseLevel
         '
         Me.mnuIncreaseLevel.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuIncreaseLevel.Name = "mnuIncreaseLevel"
-        Me.mnuIncreaseLevel.Size = New System.Drawing.Size(217, 22)
+        Me.mnuIncreaseLevel.Size = New System.Drawing.Size(206, 22)
         Me.mnuIncreaseLevel.Text = "Increase Skill Level"
         '
         'mnuDecreaseLevel
         '
         Me.mnuDecreaseLevel.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuDecreaseLevel.Name = "mnuDecreaseLevel"
-        Me.mnuDecreaseLevel.Size = New System.Drawing.Size(217, 22)
+        Me.mnuDecreaseLevel.Size = New System.Drawing.Size(206, 22)
         Me.mnuDecreaseLevel.Text = "Decrease Skill Level"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(214, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(203, 6)
         '
         'mnuMoveUpQueue
         '
         Me.mnuMoveUpQueue.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuMoveUpQueue.Name = "mnuMoveUpQueue"
-        Me.mnuMoveUpQueue.Size = New System.Drawing.Size(217, 22)
+        Me.mnuMoveUpQueue.Size = New System.Drawing.Size(206, 22)
         Me.mnuMoveUpQueue.Text = "Move Skill Up Queue"
         '
         'mnuMoveDownQueue
         '
         Me.mnuMoveDownQueue.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuMoveDownQueue.Name = "mnuMoveDownQueue"
-        Me.mnuMoveDownQueue.Size = New System.Drawing.Size(217, 22)
+        Me.mnuMoveDownQueue.Size = New System.Drawing.Size(206, 22)
         Me.mnuMoveDownQueue.Text = "Move Skill Down Queue"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(214, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(203, 6)
         '
         'mnuSeparateLevels
         '
         Me.mnuSeparateLevels.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSeparateAllLevels, Me.mnuSeparateTopLevel, Me.mnuSeparateBottomLevel})
         Me.mnuSeparateLevels.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuSeparateLevels.Name = "mnuSeparateLevels"
-        Me.mnuSeparateLevels.Size = New System.Drawing.Size(217, 22)
+        Me.mnuSeparateLevels.Size = New System.Drawing.Size(206, 22)
         Me.mnuSeparateLevels.Text = "Separate Levels"
         '
         'mnuSeparateAllLevels
         '
         Me.mnuSeparateAllLevels.Name = "mnuSeparateAllLevels"
-        Me.mnuSeparateAllLevels.Size = New System.Drawing.Size(194, 22)
+        Me.mnuSeparateAllLevels.Size = New System.Drawing.Size(183, 22)
         Me.mnuSeparateAllLevels.Text = "Separate All Levels"
         '
         'mnuSeparateTopLevel
         '
         Me.mnuSeparateTopLevel.Name = "mnuSeparateTopLevel"
-        Me.mnuSeparateTopLevel.Size = New System.Drawing.Size(194, 22)
+        Me.mnuSeparateTopLevel.Size = New System.Drawing.Size(183, 22)
         Me.mnuSeparateTopLevel.Text = "Separate Top Level"
         '
         'mnuSeparateBottomLevel
         '
         Me.mnuSeparateBottomLevel.Name = "mnuSeparateBottomLevel"
-        Me.mnuSeparateBottomLevel.Size = New System.Drawing.Size(194, 22)
+        Me.mnuSeparateBottomLevel.Size = New System.Drawing.Size(183, 22)
         Me.mnuSeparateBottomLevel.Text = "Separate Bottom Level"
         '
         'mnuSeperateLevelSep
         '
         Me.mnuSeperateLevelSep.Name = "mnuSeperateLevelSep"
-        Me.mnuSeperateLevelSep.Size = New System.Drawing.Size(214, 6)
+        Me.mnuSeperateLevelSep.Size = New System.Drawing.Size(203, 6)
         '
         'mnuDeleteFromQueue
         '
         Me.mnuDeleteFromQueue.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuDeleteFromQueue.Name = "mnuDeleteFromQueue"
-        Me.mnuDeleteFromQueue.Size = New System.Drawing.Size(217, 22)
+        Me.mnuDeleteFromQueue.Size = New System.Drawing.Size(206, 22)
         Me.mnuDeleteFromQueue.Text = "Delete from Training Queue"
         '
         'mnuRemoveTrainedSkills
         '
         Me.mnuRemoveTrainedSkills.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuRemoveTrainedSkills.Name = "mnuRemoveTrainedSkills"
-        Me.mnuRemoveTrainedSkills.Size = New System.Drawing.Size(217, 22)
+        Me.mnuRemoveTrainedSkills.Size = New System.Drawing.Size(206, 22)
         Me.mnuRemoveTrainedSkills.Text = "Remove Trained Skills"
         '
         'mnuClearTrainingQueue
         '
         Me.mnuClearTrainingQueue.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuClearTrainingQueue.Name = "mnuClearTrainingQueue"
-        Me.mnuClearTrainingQueue.Size = New System.Drawing.Size(217, 22)
+        Me.mnuClearTrainingQueue.Size = New System.Drawing.Size(206, 22)
         Me.mnuClearTrainingQueue.Text = "Clear Training Queue"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(214, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(203, 6)
         '
         'mnuViewDetails
         '
         Me.mnuViewDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewDetails.Name = "mnuViewDetails"
-        Me.mnuViewDetails.Size = New System.Drawing.Size(217, 22)
+        Me.mnuViewDetails.Size = New System.Drawing.Size(206, 22)
         Me.mnuViewDetails.Text = "View Details"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(214, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(203, 6)
         '
         'mnuForceTraining
         '
         Me.mnuForceTraining.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuForceTraining.Name = "mnuForceTraining"
-        Me.mnuForceTraining.Size = New System.Drawing.Size(217, 22)
+        Me.mnuForceTraining.Size = New System.Drawing.Size(206, 22)
         Me.mnuForceTraining.Text = "Force Skill Training"
         '
         'tsQueueOptions
@@ -568,7 +570,7 @@ Partial Class frmTraining
         Me.btnICT.Image = CType(resources.GetObject("btnICT.Image"), System.Drawing.Image)
         Me.btnICT.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnICT.Name = "btnICT"
-        Me.btnICT.Size = New System.Drawing.Size(87, 36)
+        Me.btnICT.Size = New System.Drawing.Size(97, 36)
         Me.btnICT.Text = "Include Training"
         '
         'ToolStripSeparator14
@@ -614,7 +616,7 @@ Partial Class frmTraining
         Me.btnShowDetails.Image = CType(resources.GetObject("btnShowDetails.Image"), System.Drawing.Image)
         Me.btnShowDetails.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnShowDetails.Name = "btnShowDetails"
-        Me.btnShowDetails.Size = New System.Drawing.Size(92, 36)
+        Me.btnShowDetails.Size = New System.Drawing.Size(102, 36)
         Me.btnShowDetails.Text = "Show Skill Details"
         '
         'ToolStripSeparator7
@@ -628,7 +630,7 @@ Partial Class frmTraining
         Me.btnAddSkill.Image = CType(resources.GetObject("btnAddSkill.Image"), System.Drawing.Image)
         Me.btnAddSkill.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnAddSkill.Name = "btnAddSkill"
-        Me.btnAddSkill.Size = New System.Drawing.Size(50, 36)
+        Me.btnAddSkill.Size = New System.Drawing.Size(57, 36)
         Me.btnAddSkill.Text = "Add Skill"
         '
         'ToolStripSeparator8
@@ -643,7 +645,7 @@ Partial Class frmTraining
         Me.btnDeleteSkill.Image = CType(resources.GetObject("btnDeleteSkill.Image"), System.Drawing.Image)
         Me.btnDeleteSkill.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnDeleteSkill.Name = "btnDeleteSkill"
-        Me.btnDeleteSkill.Size = New System.Drawing.Size(62, 36)
+        Me.btnDeleteSkill.Size = New System.Drawing.Size(68, 36)
         Me.btnDeleteSkill.Text = "Delete Skill"
         '
         'ToolStripSeparator9
@@ -658,7 +660,7 @@ Partial Class frmTraining
         Me.btnLevelUp.Image = CType(resources.GetObject("btnLevelUp.Image"), System.Drawing.Image)
         Me.btnLevelUp.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnLevelUp.Name = "btnLevelUp"
-        Me.btnLevelUp.Size = New System.Drawing.Size(81, 36)
+        Me.btnLevelUp.Size = New System.Drawing.Size(84, 36)
         Me.btnLevelUp.Text = "Increase Level"
         '
         'ToolStripSeparator10
@@ -673,7 +675,7 @@ Partial Class frmTraining
         Me.btnLevelDown.Image = CType(resources.GetObject("btnLevelDown.Image"), System.Drawing.Image)
         Me.btnLevelDown.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnLevelDown.Name = "btnLevelDown"
-        Me.btnLevelDown.Size = New System.Drawing.Size(84, 36)
+        Me.btnLevelDown.Size = New System.Drawing.Size(88, 36)
         Me.btnLevelDown.Text = "Decrease Level"
         '
         'ToolStripSeparator11
@@ -688,7 +690,7 @@ Partial Class frmTraining
         Me.btnMoveUp.Image = CType(resources.GetObject("btnMoveUp.Image"), System.Drawing.Image)
         Me.btnMoveUp.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnMoveUp.Name = "btnMoveUp"
-        Me.btnMoveUp.Size = New System.Drawing.Size(88, 36)
+        Me.btnMoveUp.Size = New System.Drawing.Size(97, 36)
         Me.btnMoveUp.Text = "Move Up Queue"
         '
         'ToolStripSeparator13
@@ -703,7 +705,7 @@ Partial Class frmTraining
         Me.btnMoveDown.Image = CType(resources.GetObject("btnMoveDown.Image"), System.Drawing.Image)
         Me.btnMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnMoveDown.Name = "btnMoveDown"
-        Me.btnMoveDown.Size = New System.Drawing.Size(102, 36)
+        Me.btnMoveDown.Size = New System.Drawing.Size(113, 36)
         Me.btnMoveDown.Text = "Move Down Queue"
         '
         'ToolStripSeparator12
@@ -717,7 +719,7 @@ Partial Class frmTraining
         Me.btnClearQueue.Image = CType(resources.GetObject("btnClearQueue.Image"), System.Drawing.Image)
         Me.btnClearQueue.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.btnClearQueue.Name = "btnClearQueue"
-        Me.btnClearQueue.Size = New System.Drawing.Size(71, 36)
+        Me.btnClearQueue.Size = New System.Drawing.Size(76, 36)
         Me.btnClearQueue.Text = "Clear Queue"
         '
         'lblFilter
@@ -803,31 +805,31 @@ Partial Class frmTraining
         Me.ctxReqs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxReqs.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReqsSkillName, Me.ToolStripSeparator15, Me.mnuReqsViewDetailsHere, Me.mnuReqsViewDetails})
         Me.ctxReqs.Name = "ctxDepend"
-        Me.ctxReqs.Size = New System.Drawing.Size(212, 76)
+        Me.ctxReqs.Size = New System.Drawing.Size(201, 76)
         '
         'mnuReqsSkillName
         '
         Me.mnuReqsSkillName.Name = "mnuReqsSkillName"
-        Me.mnuReqsSkillName.Size = New System.Drawing.Size(211, 22)
+        Me.mnuReqsSkillName.Size = New System.Drawing.Size(200, 22)
         Me.mnuReqsSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator15
         '
         Me.ToolStripSeparator15.Name = "ToolStripSeparator15"
-        Me.ToolStripSeparator15.Size = New System.Drawing.Size(208, 6)
+        Me.ToolStripSeparator15.Size = New System.Drawing.Size(197, 6)
         '
         'mnuReqsViewDetailsHere
         '
         Me.mnuReqsViewDetailsHere.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuReqsViewDetailsHere.Name = "mnuReqsViewDetailsHere"
-        Me.mnuReqsViewDetailsHere.Size = New System.Drawing.Size(211, 22)
+        Me.mnuReqsViewDetailsHere.Size = New System.Drawing.Size(200, 22)
         Me.mnuReqsViewDetailsHere.Text = "View Details Here"
         '
         'mnuReqsViewDetails
         '
         Me.mnuReqsViewDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuReqsViewDetails.Name = "mnuReqsViewDetails"
-        Me.mnuReqsViewDetails.Size = New System.Drawing.Size(211, 22)
+        Me.mnuReqsViewDetails.Size = New System.Drawing.Size(200, 22)
         Me.mnuReqsViewDetails.Text = "View Details In Skill Screen"
         '
         'tabDepends
@@ -847,31 +849,31 @@ Partial Class frmTraining
         Me.lvwDepend.ContextMenuStrip = Me.ctxDepend
         Me.lvwDepend.FullRowSelect = True
         Me.lvwDepend.GridLines = True
-        ListViewGroup1.Header = "Containers"
-        ListViewGroup1.Name = "Cat2"
-        ListViewGroup2.Header = "Materials"
-        ListViewGroup2.Name = "Cat4"
-        ListViewGroup3.Header = "Accessories"
-        ListViewGroup3.Name = "Cat5"
-        ListViewGroup4.Header = "Ships"
-        ListViewGroup4.Name = "Cat6"
-        ListViewGroup5.Header = "Modules"
-        ListViewGroup5.Name = "Cat7"
-        ListViewGroup6.Header = "Charges"
-        ListViewGroup6.Name = "Cat8"
-        ListViewGroup7.Header = "Blueprints"
-        ListViewGroup7.Name = "Cat9"
-        ListViewGroup8.Header = "Skills"
-        ListViewGroup8.Name = "Cat16"
-        ListViewGroup9.Header = "Drones"
-        ListViewGroup9.Name = "Cat18"
-        ListViewGroup10.Header = "Implants"
-        ListViewGroup10.Name = "Cat20"
-        ListViewGroup11.Header = "Mobile Disruptors"
-        ListViewGroup11.Name = "Cat22"
-        ListViewGroup12.Header = "POS Equipment"
-        ListViewGroup12.Name = "Cat23"
-        Me.lvwDepend.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8, ListViewGroup9, ListViewGroup10, ListViewGroup11, ListViewGroup12})
+        ListViewGroup3.Header = "Containers"
+        ListViewGroup3.Name = "Cat2"
+        ListViewGroup4.Header = "Materials"
+        ListViewGroup4.Name = "Cat4"
+        ListViewGroup5.Header = "Accessories"
+        ListViewGroup5.Name = "Cat5"
+        ListViewGroup6.Header = "Ships"
+        ListViewGroup6.Name = "Cat6"
+        ListViewGroup7.Header = "Modules"
+        ListViewGroup7.Name = "Cat7"
+        ListViewGroup8.Header = "Charges"
+        ListViewGroup8.Name = "Cat8"
+        ListViewGroup9.Header = "Blueprints"
+        ListViewGroup9.Name = "Cat9"
+        ListViewGroup10.Header = "Skills"
+        ListViewGroup10.Name = "Cat16"
+        ListViewGroup11.Header = "Drones"
+        ListViewGroup11.Name = "Cat18"
+        ListViewGroup12.Header = "Implants"
+        ListViewGroup12.Name = "Cat20"
+        ListViewGroup27.Header = "Mobile Disruptors"
+        ListViewGroup27.Name = "Cat22"
+        ListViewGroup28.Header = "POS Equipment"
+        ListViewGroup28.Name = "Cat23"
+        Me.lvwDepend.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4, ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8, ListViewGroup9, ListViewGroup10, ListViewGroup11, ListViewGroup12, ListViewGroup27, ListViewGroup28})
         Me.lvwDepend.Location = New System.Drawing.Point(3, 3)
         Me.lvwDepend.Name = "lvwDepend"
         Me.lvwDepend.ShowItemToolTips = True
@@ -896,38 +898,38 @@ Partial Class frmTraining
         Me.ctxDepend.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxDepend.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripSeparator4, Me.mnuViewItemDetailsHere, Me.mnuViewItemDetails, Me.mnuViewItemDetailsInIB})
         Me.ctxDepend.Name = "ctxDepend"
-        Me.ctxDepend.Size = New System.Drawing.Size(223, 98)
+        Me.ctxDepend.Size = New System.Drawing.Size(212, 98)
         '
         'mnuItemName
         '
         Me.mnuItemName.Name = "mnuItemName"
-        Me.mnuItemName.Size = New System.Drawing.Size(222, 22)
+        Me.mnuItemName.Size = New System.Drawing.Size(211, 22)
         Me.mnuItemName.Text = "Item Name"
         '
         'ToolStripSeparator4
         '
         Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(219, 6)
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(208, 6)
         '
         'mnuViewItemDetailsHere
         '
         Me.mnuViewItemDetailsHere.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewItemDetailsHere.Name = "mnuViewItemDetailsHere"
-        Me.mnuViewItemDetailsHere.Size = New System.Drawing.Size(222, 22)
+        Me.mnuViewItemDetailsHere.Size = New System.Drawing.Size(211, 22)
         Me.mnuViewItemDetailsHere.Text = "View Details Here"
         '
         'mnuViewItemDetails
         '
         Me.mnuViewItemDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewItemDetails.Name = "mnuViewItemDetails"
-        Me.mnuViewItemDetails.Size = New System.Drawing.Size(222, 22)
+        Me.mnuViewItemDetails.Size = New System.Drawing.Size(211, 22)
         Me.mnuViewItemDetails.Text = "View Details In Skill Screen"
         '
         'mnuViewItemDetailsInIB
         '
         Me.mnuViewItemDetailsInIB.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewItemDetailsInIB.Name = "mnuViewItemDetailsInIB"
-        Me.mnuViewItemDetailsInIB.Size = New System.Drawing.Size(222, 22)
+        Me.mnuViewItemDetailsInIB.Size = New System.Drawing.Size(211, 22)
         Me.mnuViewItemDetailsInIB.Text = "View Details In Item Browser"
         '
         'tabSP
@@ -1176,7 +1178,7 @@ Partial Class frmTraining
         '
         Me.chkOmitQueuesSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.chkOmitQueuesSkills.AutoSize = True
-        Me.chkOmitQueuesSkills.Location = New System.Drawing.Point(9, 340)
+        Me.chkOmitQueuesSkills.Location = New System.Drawing.Point(9, 316)
         Me.chkOmitQueuesSkills.Name = "chkOmitQueuesSkills"
         Me.chkOmitQueuesSkills.Size = New System.Drawing.Size(115, 17)
         Me.chkOmitQueuesSkills.TabIndex = 18
@@ -1189,10 +1191,10 @@ Partial Class frmTraining
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.tabQueueMode.Controls.Add(Me.tabSkillMode)
         Me.tabQueueMode.Controls.Add(Me.tabCertMode)
-        Me.tabQueueMode.Location = New System.Drawing.Point(12, 42)
+        Me.tabQueueMode.Location = New System.Drawing.Point(12, 66)
         Me.tabQueueMode.Name = "tabQueueMode"
         Me.tabQueueMode.SelectedIndex = 0
-        Me.tabQueueMode.Size = New System.Drawing.Size(271, 395)
+        Me.tabQueueMode.Size = New System.Drawing.Size(271, 371)
         Me.tabQueueMode.TabIndex = 19
         '
         'tabSkillMode
@@ -1202,7 +1204,7 @@ Partial Class frmTraining
         Me.tabSkillMode.Location = New System.Drawing.Point(4, 22)
         Me.tabSkillMode.Name = "tabSkillMode"
         Me.tabSkillMode.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabSkillMode.Size = New System.Drawing.Size(263, 369)
+        Me.tabSkillMode.Size = New System.Drawing.Size(263, 345)
         Me.tabSkillMode.TabIndex = 0
         Me.tabSkillMode.Text = "Skill Planning"
         Me.tabSkillMode.UseVisualStyleBackColor = True
@@ -1217,7 +1219,7 @@ Partial Class frmTraining
         Me.panelSkillPlanning.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelSkillPlanning.Location = New System.Drawing.Point(3, 3)
         Me.panelSkillPlanning.Name = "panelSkillPlanning"
-        Me.panelSkillPlanning.Size = New System.Drawing.Size(257, 363)
+        Me.panelSkillPlanning.Size = New System.Drawing.Size(257, 339)
         Me.panelSkillPlanning.TabIndex = 0
         '
         'tabCertMode
@@ -1286,46 +1288,46 @@ Partial Class frmTraining
         Me.ctxCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxCertDetails.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator16, Me.mnuAddCertToQueue, Me.mnuAddCertGroupToQueue, Me.ToolStripSeparator18, Me.mnuViewCertDetails})
         Me.ctxCertDetails.Name = "ctxDepend"
-        Me.ctxCertDetails.Size = New System.Drawing.Size(228, 104)
+        Me.ctxCertDetails.Size = New System.Drawing.Size(217, 104)
         '
         'mnuCertName
         '
         Me.mnuCertName.Name = "mnuCertName"
-        Me.mnuCertName.Size = New System.Drawing.Size(227, 22)
+        Me.mnuCertName.Size = New System.Drawing.Size(216, 22)
         Me.mnuCertName.Text = "Skill Name"
         '
         'ToolStripSeparator16
         '
         Me.ToolStripSeparator16.Name = "ToolStripSeparator16"
-        Me.ToolStripSeparator16.Size = New System.Drawing.Size(224, 6)
+        Me.ToolStripSeparator16.Size = New System.Drawing.Size(213, 6)
         '
         'mnuAddCertToQueue
         '
         Me.mnuAddCertToQueue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddCertToQueueNext, Me.ToolStripSeparator17, Me.mnuAddCertToQueue1, Me.mnuAddCertToQueue2, Me.mnuAddCertToQueue3, Me.mnuAddCertToQueue4, Me.mnuAddCertToQueue5})
         Me.mnuAddCertToQueue.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuAddCertToQueue.Name = "mnuAddCertToQueue"
-        Me.mnuAddCertToQueue.Size = New System.Drawing.Size(227, 22)
+        Me.mnuAddCertToQueue.Size = New System.Drawing.Size(216, 22)
         Me.mnuAddCertToQueue.Text = "Add to Training Queue"
         '
         'mnuAddCertToQueueNext
         '
         Me.mnuAddCertToQueueNext.Enabled = False
         Me.mnuAddCertToQueueNext.Name = "mnuAddCertToQueueNext"
-        Me.mnuAddCertToQueueNext.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueueNext.Size = New System.Drawing.Size(129, 22)
         Me.mnuAddCertToQueueNext.Text = "Next Grade"
         Me.mnuAddCertToQueueNext.Visible = False
         '
         'ToolStripSeparator17
         '
         Me.ToolStripSeparator17.Name = "ToolStripSeparator17"
-        Me.ToolStripSeparator17.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripSeparator17.Size = New System.Drawing.Size(126, 6)
         Me.ToolStripSeparator17.Visible = False
         '
         'mnuAddCertToQueue1
         '
         Me.mnuAddCertToQueue1.Enabled = False
         Me.mnuAddCertToQueue1.Name = "mnuAddCertToQueue1"
-        Me.mnuAddCertToQueue1.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueue1.Size = New System.Drawing.Size(129, 22)
         Me.mnuAddCertToQueue1.Tag = "1"
         Me.mnuAddCertToQueue1.Text = "Basic"
         '
@@ -1333,7 +1335,7 @@ Partial Class frmTraining
         '
         Me.mnuAddCertToQueue2.Enabled = False
         Me.mnuAddCertToQueue2.Name = "mnuAddCertToQueue2"
-        Me.mnuAddCertToQueue2.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueue2.Size = New System.Drawing.Size(129, 22)
         Me.mnuAddCertToQueue2.Tag = "2"
         Me.mnuAddCertToQueue2.Text = "Standard"
         '
@@ -1341,7 +1343,7 @@ Partial Class frmTraining
         '
         Me.mnuAddCertToQueue3.Enabled = False
         Me.mnuAddCertToQueue3.Name = "mnuAddCertToQueue3"
-        Me.mnuAddCertToQueue3.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueue3.Size = New System.Drawing.Size(129, 22)
         Me.mnuAddCertToQueue3.Tag = "3"
         Me.mnuAddCertToQueue3.Text = "Improved"
         '
@@ -1349,7 +1351,7 @@ Partial Class frmTraining
         '
         Me.mnuAddCertToQueue4.Enabled = False
         Me.mnuAddCertToQueue4.Name = "mnuAddCertToQueue4"
-        Me.mnuAddCertToQueue4.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueue4.Size = New System.Drawing.Size(129, 22)
         Me.mnuAddCertToQueue4.Tag = "4"
         Me.mnuAddCertToQueue4.Text = "Advanced"
         '
@@ -1357,7 +1359,7 @@ Partial Class frmTraining
         '
         Me.mnuAddCertToQueue5.Enabled = False
         Me.mnuAddCertToQueue5.Name = "mnuAddCertToQueue5"
-        Me.mnuAddCertToQueue5.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertToQueue5.Size = New System.Drawing.Size(129, 22)
         Me.mnuAddCertToQueue5.Tag = "5"
         Me.mnuAddCertToQueue5.Text = "Elite"
         '
@@ -1366,27 +1368,27 @@ Partial Class frmTraining
         Me.mnuAddCertGroupToQueue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddCertGroupToQueue1, Me.mnuAddCertGroupToQueue2, Me.mnuAddCertGroupToQueue3, Me.mnuAddCertGroupToQueue4, Me.mnuAddCertGroupToQueue5})
         Me.mnuAddCertGroupToQueue.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuAddCertGroupToQueue.Name = "mnuAddCertGroupToQueue"
-        Me.mnuAddCertGroupToQueue.Size = New System.Drawing.Size(227, 22)
+        Me.mnuAddCertGroupToQueue.Size = New System.Drawing.Size(216, 22)
         Me.mnuAddCertGroupToQueue.Text = "Add Group To Training Queue"
         '
         'mnuAddCertGroupToQueue1
         '
         Me.mnuAddCertGroupToQueue1.Name = "mnuAddCertGroupToQueue1"
-        Me.mnuAddCertGroupToQueue1.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertGroupToQueue1.Size = New System.Drawing.Size(137, 22)
         Me.mnuAddCertGroupToQueue1.Tag = "1"
         Me.mnuAddCertGroupToQueue1.Text = "To Basic"
         '
         'mnuAddCertGroupToQueue2
         '
         Me.mnuAddCertGroupToQueue2.Name = "mnuAddCertGroupToQueue2"
-        Me.mnuAddCertGroupToQueue2.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertGroupToQueue2.Size = New System.Drawing.Size(137, 22)
         Me.mnuAddCertGroupToQueue2.Tag = "2"
         Me.mnuAddCertGroupToQueue2.Text = "To Standard"
         '
         'mnuAddCertGroupToQueue3
         '
         Me.mnuAddCertGroupToQueue3.Name = "mnuAddCertGroupToQueue3"
-        Me.mnuAddCertGroupToQueue3.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertGroupToQueue3.Size = New System.Drawing.Size(137, 22)
         Me.mnuAddCertGroupToQueue3.Tag = "3"
         Me.mnuAddCertGroupToQueue3.Text = "To Improved"
         '
@@ -1394,27 +1396,27 @@ Partial Class frmTraining
         '
         Me.mnuAddCertGroupToQueue4.Enabled = False
         Me.mnuAddCertGroupToQueue4.Name = "mnuAddCertGroupToQueue4"
-        Me.mnuAddCertGroupToQueue4.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertGroupToQueue4.Size = New System.Drawing.Size(137, 22)
         Me.mnuAddCertGroupToQueue4.Tag = "4"
         Me.mnuAddCertGroupToQueue4.Text = "To Advanced"
         '
         'mnuAddCertGroupToQueue5
         '
         Me.mnuAddCertGroupToQueue5.Name = "mnuAddCertGroupToQueue5"
-        Me.mnuAddCertGroupToQueue5.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddCertGroupToQueue5.Size = New System.Drawing.Size(137, 22)
         Me.mnuAddCertGroupToQueue5.Tag = "5"
         Me.mnuAddCertGroupToQueue5.Text = "To Elite"
         '
         'ToolStripSeparator18
         '
         Me.ToolStripSeparator18.Name = "ToolStripSeparator18"
-        Me.ToolStripSeparator18.Size = New System.Drawing.Size(224, 6)
+        Me.ToolStripSeparator18.Size = New System.Drawing.Size(213, 6)
         '
         'mnuViewCertDetails
         '
         Me.mnuViewCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
-        Me.mnuViewCertDetails.Size = New System.Drawing.Size(227, 22)
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(216, 22)
         Me.mnuViewCertDetails.Text = "View Details"
         '
         'lvwDetails
@@ -1423,23 +1425,23 @@ Partial Class frmTraining
         Me.lvwDetails.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lvwDetails.FullRowSelect = True
         Me.lvwDetails.GridLines = True
-        ListViewGroup13.Header = "General"
-        ListViewGroup13.Name = "General"
-        ListViewGroup14.Header = "Pilot Specific"
-        ListViewGroup14.Name = "Specific"
-        Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
+        ListViewGroup15.Header = "General"
+        ListViewGroup15.Name = "General"
+        ListViewGroup16.Header = "Pilot Specific"
+        ListViewGroup16.Name = "Specific"
+        Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
         Me.lvwDetails.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem1.Group = ListViewGroup13
-        ListViewItem2.Group = ListViewGroup13
-        ListViewItem3.Group = ListViewGroup13
-        ListViewItem4.Group = ListViewGroup13
-        ListViewItem5.Group = ListViewGroup13
-        ListViewItem6.Group = ListViewGroup13
-        ListViewItem7.Group = ListViewGroup14
-        ListViewItem8.Group = ListViewGroup14
-        ListViewItem9.Group = ListViewGroup14
-        ListViewItem10.Group = ListViewGroup14
-        Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10})
+        ListViewItem21.Group = ListViewGroup15
+        ListViewItem22.Group = ListViewGroup15
+        ListViewItem23.Group = ListViewGroup15
+        ListViewItem24.Group = ListViewGroup15
+        ListViewItem25.Group = ListViewGroup15
+        ListViewItem26.Group = ListViewGroup15
+        ListViewItem27.Group = ListViewGroup16
+        ListViewItem28.Group = ListViewGroup16
+        ListViewItem29.Group = ListViewGroup16
+        ListViewItem30.Group = ListViewGroup16
+        Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem21, ListViewItem22, ListViewItem23, ListViewItem24, ListViewItem25, ListViewItem26, ListViewItem27, ListViewItem28, ListViewItem29, ListViewItem30})
         Me.lvwDetails.Location = New System.Drawing.Point(12, 443)
         Me.lvwDetails.MultiSelect = False
         Me.lvwDetails.Name = "lvwDetails"
@@ -1457,11 +1459,32 @@ Partial Class frmTraining
         '
         Me.ColumnHeader2.Width = 200
         '
+        'cboPilots
+        '
+        Me.cboPilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboPilots.FormattingEnabled = True
+        Me.cboPilots.Location = New System.Drawing.Point(45, 39)
+        Me.cboPilots.Name = "cboPilots"
+        Me.cboPilots.Size = New System.Drawing.Size(175, 21)
+        Me.cboPilots.Sorted = True
+        Me.cboPilots.TabIndex = 43
+        '
+        'lblPilot
+        '
+        Me.lblPilot.AutoSize = True
+        Me.lblPilot.Location = New System.Drawing.Point(9, 42)
+        Me.lblPilot.Name = "lblPilot"
+        Me.lblPilot.Size = New System.Drawing.Size(30, 13)
+        Me.lblPilot.TabIndex = 42
+        Me.lblPilot.Text = "Pilot:"
+        '
         'frmTraining
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1079, 688)
+        Me.Controls.Add(Me.cboPilots)
+        Me.Controls.Add(Me.lblPilot)
         Me.Controls.Add(Me.tabQueueMode)
         Me.Controls.Add(Me.tabQueues)
         Me.Controls.Add(Me.lvwDetails)
@@ -1650,4 +1673,6 @@ Partial Class frmTraining
     Friend WithEvents ToolStripSeparator19 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents tsbImplants As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator20 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents cboPilots As System.Windows.Forms.ComboBox
+    Friend WithEvents lblPilot As System.Windows.Forms.Label
 End Class

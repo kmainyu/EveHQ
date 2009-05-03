@@ -1,5 +1,5 @@
 ﻿Public Class frmImplants
-    Dim iPilot As EveHQ.Core.Pilot = EveHQ.Core.HQ.myPilot
+    Dim iPilot As New EveHQ.Core.Pilot
     Dim nPilot As New EveHQ.Core.Pilot
     Dim Unused As Integer = 0
     Dim cPilotName As String = ""

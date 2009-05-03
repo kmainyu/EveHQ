@@ -356,7 +356,7 @@ Public Class frmEveHQ
         ' Determine which view to display!
         Select Case EveHQ.Core.HQ.EveHQSettings.StartupView
             Case "Pilot Information"
-                If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.myPilot.PilotSkills.Count <> 0 Then
+                If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
                     ' Open the pilot info form
                     Call OpenPilotInfoForm()
                 End If
@@ -367,7 +367,7 @@ Public Class frmEveHQ
                 newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\PilotSummary.html")
                 Call DisplayReport(newReport, "Pilot Summary")
             Case "Skill Training"
-                If EveHQ.Core.HQ.myPilot.Name <> "" And EveHQ.Core.HQ.myPilot.PilotSkills.Count <> 0 Then
+                If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
                     ' Open the skill training form
                     Call OpenSkillTrainingForm()
                 End If
@@ -547,8 +547,12 @@ Public Class frmEveHQ
 #Region "Skill Display Updater Routines"
 
     Private Sub SkillWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles SkillWorker.DoWork
-        EveHQ.Core.HQ.myPilot.TrainingCurrentSP = CInt(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(EveHQ.Core.HQ.myPilot))
-        EveHQ.Core.HQ.myPilot.TrainingCurrentTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(EveHQ.Core.HQ.myPilot)
+        For Each tPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If tPilot.Active = True Then
+                tPilot.TrainingCurrentSP = CInt(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(tPilot))
+                tPilot.TrainingCurrentTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(tPilot)
+            End If
+        Next
     End Sub
     Private Sub SkillWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles SkillWorker.RunWorkerCompleted
 
@@ -566,9 +570,6 @@ Public Class frmEveHQ
         End If
         If frmSkillDetails.IsHandleCreated = True Then
             Call frmSkillDetails.UpdateSkillDetails()
-        End If
-        If frmSettings.IsHandleCreated = True Then
-            Call frmSettings.UpdateTimeOffset()
         End If
         If frmTrainingInfo.IsHandleCreated = True Then
             Call frmTrainingInfo.UpdateTraining()
@@ -761,10 +762,6 @@ Public Class frmEveHQ
     Public Sub QueryMyEveServer()
 
         Dim curSelPilot As String = ""
-        ' If a pilot is selected, make a note of it for later viewing
-        If cboPilots.SelectedItem IsNot Nothing Then
-            curSelPilot = cboPilots.SelectedItem.ToString
-        End If
 
         ' If we have accounts to query then get the data for them
         If EveHQ.Core.HQ.EveHQSettings.Accounts.Count = 0 Then
@@ -819,11 +816,6 @@ Public Class frmEveHQ
             Call UpdatePilotInfo()
         End If
 
-        ' Show details of pilot if previously selected
-        If cboPilots.Items.Contains(curSelPilot) Then
-            cboPilots.SelectedItem = curSelPilot
-        End If
-
     End Sub
 
     Private Sub RetreiveCharacterInfo(ByVal state As Object)
@@ -832,62 +824,19 @@ Public Class frmEveHQ
 
     Public Sub UpdatePilotInfo(Optional ByVal startUp As Boolean = False)
         ' Creates a list of all available pilots and enters it into the pilot selection area
-        ' Note the name of the current pilot displayed
-        Dim oldPilot As String = ""
-        If cboPilots.Items.Count > 0 Then
-            If cboPilots.SelectedItem IsNot Nothing Then
-                oldPilot = cboPilots.SelectedItem.ToString()
-            End If
-        End If
         Dim currentPilot As New EveHQ.Core.Pilot
         Dim allPilots As SortedList = New SortedList
-
-        ' Make a list of all the current pilots in the list
-        Dim cList As New ArrayList
-        For Each pilot As String In cboPilots.Items
-            cList.Add(pilot)
-        Next
-        cboPilots.BeginUpdate()
         For Each currentPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If currentPilot.Active = True Then
                 allPilots.Add(currentPilot.Name, currentPilot.Name)
-                If cboPilots.Items.Contains(currentPilot.Name) = False Then
-                    Me.cboPilots.Items.Add(currentPilot.Name)
-                End If
-                If cList.Contains(currentPilot.Name) = True Then
-                    cList.Remove(currentPilot.Name)
-                End If
             End If
         Next
-        ' Get rid of pilots still in the list that we don't need
-        For Each pilot As String In cList
-            If cboPilots.Items.Contains(pilot) = True Then
-                cboPilots.Items.Remove(pilot)
-            End If
-        Next
-        cboPilots.EndUpdate()
 
-        ' Restore the pilot if it still in the list
-        If oldPilot <> Nothing Then
-            If cboPilots.Items.Contains(oldPilot) Then
-                cboPilots.SelectedItem = oldPilot
-            Else
-                If cboPilots.Items.Count > 0 Then
-                    cboPilots.SelectedIndex = 0
-                End If
-            End If
-        Else
-            If cboPilots.Items.Count > 0 Then
-                If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
-                    cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
-                Else
-                    cboPilots.SelectedIndex = 0
-                End If
-            End If
-        End If
+        ' Update the cbopilots in the pilot form and the training form
+        frmPilot.UpdatePilots()
+        frmTraining.UpdatePilots()
 
-        If cboPilots.Items.Count = 0 Then
-            EveHQ.Core.HQ.myPilot = New EveHQ.Core.Pilot
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count = 0 Then
             tsbPilotInfo.Enabled = False
             tsbSkillTraining.Enabled = False
             If frmPilot IsNot Nothing Then
@@ -903,10 +852,6 @@ Public Class frmEveHQ
         Else
             tsbPilotInfo.Enabled = True
             tsbSkillTraining.Enabled = True
-            If startUp = False Then
-                EveHQ.Core.HQ.myPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.myPilot.Name), Core.Pilot)
-                Call frmPilot.UpdatePilotInfo()
-            End If
         End If
 
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Count = 0 Then
@@ -918,49 +863,6 @@ Public Class frmEveHQ
         ' Redraw Reports menu with new pilots and queues options?
         Call Me.DrawReportsMenu(allPilots)
 
-    End Sub
-
-    Private Sub XPPilotLabels_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        Dim clickedLabel As Label = CType(sender, Label)
-        Me.cboPilots.SelectedItem = clickedLabel.Text
-    End Sub
-
-    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        Dim curPilot As String = cboPilots.SelectedItem.ToString
-        EveHQ.Core.HQ.myPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(curPilot), Core.Pilot)
-        ' Update the info on the pilot form
-        Call frmPilot.UpdatePilotInfo()
-        ' Check if there is anything we need to disable
-        If EveHQ.Core.HQ.myPilot.Updated = False Then
-            mnuReportsHTMLChar.Enabled = False
-        Else
-            mnuReportsHTMLChar.Enabled = True
-        End If
-        If EveHQ.Core.HQ.myPilot.PilotSkills.Count = 0 Then
-            Me.PilotInfoToolStripMenuItem.Enabled = False
-            Me.SkillTrainingToolStripMenuItem.Enabled = False
-            Me.tsbPilotInfo.Enabled = False
-            Me.tsbSkillTraining.Enabled = False
-            If frmTraining.IsHandleCreated = True Then
-                frmTraining.Close()
-            End If
-            If frmPilot.IsHandleCreated = True Then
-                frmPilot.Close()
-            End If
-        Else
-            Me.PilotInfoToolStripMenuItem.Enabled = True
-            Me.SkillTrainingToolStripMenuItem.Enabled = True
-            Me.tsbPilotInfo.Enabled = True
-            Me.tsbSkillTraining.Enabled = True
-        End If
-        ' See if the Neural Remapping form is open
-        If frmNeuralRemap.IsHandleCreated = True Then
-            frmNeuralRemap.PilotName = curPilot
-        End If
-        ' See if the Implants form is open
-        If frmImplants.IsHandleCreated = True Then
-            frmImplants.PilotName = curPilot
-        End If
     End Sub
 
     Private Sub mnuReportOpenfolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportOpenfolder.Click
@@ -1649,42 +1551,42 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub mnuECMExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuECMExport.Click
-        Dim ECMLocation As String = ""
-        Dim result As Integer = 0
-        With fbd1
-            .ShowNewFolderButton = False
-            If EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation <> "" Then
-                If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation) = True Then
-                    .Description = "Please select the folder where the ECM XML files are located..." & ControlChars.CrLf & "Default is: " & EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
-                    .SelectedPath = EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
-                Else
-                    .Description = "Please select the folder where the ECM XML files are located..."
-                    .RootFolder = Environment.SpecialFolder.Desktop
-                End If
-            Else
-                .Description = "Please select the folder where the ECM XML files are located..."
-                .RootFolder = Environment.SpecialFolder.Desktop
-            End If
-            result = .ShowDialog()
-            ECMLocation = .SelectedPath
-        End With
+        'Dim ECMLocation As String = ""
+        'Dim result As Integer = 0
+        'With fbd1
+        '    .ShowNewFolderButton = False
+        '    If EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation <> "" Then
+        '        If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation) = True Then
+        '            .Description = "Please select the folder where the ECM XML files are located..." & ControlChars.CrLf & "Default is: " & EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
+        '            .SelectedPath = EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
+        '        Else
+        '            .Description = "Please select the folder where the ECM XML files are located..."
+        '            .RootFolder = Environment.SpecialFolder.Desktop
+        '        End If
+        '    Else
+        '        .Description = "Please select the folder where the ECM XML files are located..."
+        '        .RootFolder = Environment.SpecialFolder.Desktop
+        '    End If
+        '    result = .ShowDialog()
+        '    ECMLocation = .SelectedPath
+        'End With
 
-        If ECMLocation <> "" And result = 1 Then
+        'If ECMLocation <> "" And result = 1 Then
 
-            ' Generate the Old Style XML Report
-            Call EveHQ.Core.Reports.GenerateCurrentPilotXML_Old(EveHQ.Core.HQ.myPilot)
-            ' Generate the Old Style Training XML
-            Call EveHQ.Core.Reports.GenerateCurrentTrainingXML_Old(EveHQ.Core.HQ.myPilot)
+        '    ' Generate the Old Style XML Report
+        '    Call EveHQ.Core.Reports.GenerateCurrentPilotXML_Old(EveHQ.Core.HQ.myPilot)
+        '    ' Generate the Old Style Training XML
+        '    Call EveHQ.Core.Reports.GenerateCurrentTrainingXML_Old(EveHQ.Core.HQ.myPilot)
 
-            ' Copy these to the selected folder
-            My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\CurrentXML - Old (" & EveHQ.Core.HQ.myPilot.Name & ").xml", ECMLocation & "\" & EveHQ.Core.HQ.myPilot.ID.ToString & ".xml", True)
-            My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\TrainingXML - Old (" & EveHQ.Core.HQ.myPilot.Name & ").xml", ECMLocation & "\" & EveHQ.Core.HQ.myPilot.ID.ToString & ".training.xml", True)
-            EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation = ECMLocation
-            MessageBox.Show("Export of ECM-compatible files completed!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Else
+        '    ' Copy these to the selected folder
+        '    My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\CurrentXML - Old (" & EveHQ.Core.HQ.myPilot.Name & ").xml", ECMLocation & "\" & EveHQ.Core.HQ.myPilot.ID.ToString & ".xml", True)
+        '    My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\TrainingXML - Old (" & EveHQ.Core.HQ.myPilot.Name & ").xml", ECMLocation & "\" & EveHQ.Core.HQ.myPilot.ID.ToString & ".training.xml", True)
+        '    EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation = ECMLocation
+        '    MessageBox.Show("Export of ECM-compatible files completed!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'Else
 
-            MessageBox.Show("Export of ECM-compatible aborted!", "Export Aborted", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
+        '    MessageBox.Show("Export of ECM-compatible aborted!", "Export Aborted", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'End If
 
     End Sub
 
@@ -1955,7 +1857,6 @@ Public Class frmEveHQ
                 Try
                     EveHQ.Core.HQ.EveHQSettings.Pilots.Clear()
                     EveHQ.Core.HQ.TPilots.Clear()
-                    EveHQ.Core.HQ.myPilot = Nothing
                 Catch ex As Exception
                 End Try
 
@@ -2012,7 +1913,6 @@ Public Class frmEveHQ
                 Try
                     EveHQ.Core.HQ.EveHQSettings.Pilots.Clear()
                     EveHQ.Core.HQ.TPilots.Clear()
-                    EveHQ.Core.HQ.myPilot = Nothing
                 Catch ex As Exception
                 End Try
 
@@ -2075,24 +1975,12 @@ Public Class frmEveHQ
     Public Function CacheErrorHandler() As Boolean
         ' Stop the timer from reporting multiple errors
         tmrSkillUpdate.Enabled = False
-        Dim cXML, tXML As New XmlDocument
-        cXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & EveHQ.Core.HQ.myPilot.Account & "_" & EveHQ.Core.HQ.myPilot.ID & ".xml")
-        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & EveHQ.Core.HQ.myPilot.Account & "_" & EveHQ.Core.HQ.myPilot.ID & ".xml")
         Dim msg As New StringBuilder
-        msg.Append("EveHQ has detected that the skill that " & EveHQ.Core.HQ.myPilot.Name & " is supposedly training is not in the list of their skills. ")
-        msg.AppendLine("This could be due to a corrupt cache file or a conflict with another skill training application. The relevant data was:")
-        msg.AppendLine("")
-        msg.AppendLine("Skill ID: " & EveHQ.Core.HQ.myPilot.TrainingSkillID.ToString)
-        msg.AppendLine("Skill Name: " & EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID))
-        msg.AppendLine("")
-        msg.AppendLine("This data, together with the character and training XML have been copied to the clipboard. If you would like to assist in trying to correct this error, please copy the details into an email to the EveHQ Developers.")
+        msg.Append("EveHQ has detected that there is an error in the character cache files. ")
+        msg.AppendLine("This could be due to a corrupt cache file or a conflict with another skill training application.")
         msg.AppendLine("")
         msg.AppendLine("The issue may be resolved by clearing the EveHQ cache and connecting back to the API. Would you like to do this now?")
         msg.AppendLine("")
-        Try
-            Clipboard.SetText(msg.ToString & cXML.InnerXml & ControlChars.CrLf & ControlChars.CrLf & tXML.InnerXml)
-        Catch e As Exception
-        End Try
 
         Dim reply As Integer = MessageBox.Show(msg.ToString, "Skill Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If reply = DialogResult.No Then
@@ -2125,7 +2013,6 @@ Public Class frmEveHQ
             Try
                 EveHQ.Core.HQ.EveHQSettings.Pilots.Clear()
                 EveHQ.Core.HQ.TPilots.Clear()
-                EveHQ.Core.HQ.myPilot = Nothing
             Catch ex As Exception
             End Try
 
@@ -2420,7 +2307,6 @@ Public Class frmEveHQ
         myUpdater.ShowDialog()
     End Sub
 #End Region
-   
-    
+
 End Class
 

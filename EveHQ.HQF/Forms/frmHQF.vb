@@ -2043,7 +2043,11 @@ Public Class frmHQF
         If currentShipInfo IsNot Nothing Then
             hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentShipInfo.cboPilots.SelectedItem), Core.Pilot)
         Else
-            hPilot = EveHQ.Core.HQ.myPilot
+            If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+            Else
+                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), Core.Pilot)
+            End If
         End If
         showInfo.ShowItemDetails(cModule, hPilot)
     End Sub
@@ -2478,7 +2482,11 @@ Public Class frmHQF
             If currentShipInfo IsNot Nothing Then
                 myPilotManager.pilotName = currentShipInfo.cboPilots.SelectedItem.ToString
             Else
-                myPilotManager.pilotName = EveHQ.Core.HQ.myPilot.Name
+                If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
+                    myPilotManager.pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot).Name
+                Else
+                    myPilotManager.pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(0), Core.Pilot).Name
+                End If
             End If
             myPilotManager.Show()
         Else

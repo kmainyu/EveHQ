@@ -19,12 +19,24 @@
 '=========================================================================
 Public Class frmSelectQueuePilot
 
+    Dim cDisplayPilotName As String
+    Dim displayPilot As New EveHQ.Core.Pilot
+    Public Property DisplayPilotName() As String
+        Get
+            Return cDisplayPilotName
+        End Get
+        Set(ByVal value As String)
+            cDisplayPilotName = value
+            DisplayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(value), Core.Pilot)
+        End Set
+    End Property
+
     Private Sub frmSelectQueuePilot_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Populate the combo box
         cboPilots.Items.Clear()
         For Each nPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If nPilot.Active = True Then
-                If nPilot.Name <> EveHQ.Core.HQ.myPilot.Name Then
+                If nPilot.Name <> displayPilot.Name Then
                     cboPilots.Items.Add(nPilot.Name)
                 End If
             End If
@@ -41,7 +53,7 @@ Public Class frmSelectQueuePilot
             MessageBox.Show("Please select a pilot to continue.", "Copy Queue to Pilot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim oldQueue As EveHQ.Core.SkillQueue = CType(EveHQ.Core.HQ.myPilot.TrainingQueues(cboPilots.Tag.ToString), EveHQ.Core.SkillQueue)
+        Dim oldQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(cboPilots.Tag.ToString), EveHQ.Core.SkillQueue)
         Dim newPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
         Dim newQueue As New EveHQ.Core.SkillQueue
         Dim reply As Integer = 0

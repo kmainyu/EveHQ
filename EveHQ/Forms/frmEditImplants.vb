@@ -19,24 +19,37 @@
 '=========================================================================
 Public Class frmEditImplants
 
+    Dim cDisplayPilotName As String
+    Dim DisplayPilot As EveHQ.Core.Pilot
+
+    Public Property DisplayPilotName() As String
+        Get
+            Return cDisplayPilotName
+        End Get
+        Set(ByVal value As String)
+            cDisplayPilotName = value
+            DisplayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(value), Core.Pilot)
+        End Set
+    End Property
+
     Private Sub nudC_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudC.ValueChanged
-        EveHQ.Core.HQ.myPilot.CImplantM = CInt(nudC.Value)
+        DisplayPilot.CImplantM = CInt(nudC.Value)
     End Sub
 
     Private Sub nudI_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudI.ValueChanged
-        EveHQ.Core.HQ.myPilot.IImplantM = CInt(nudI.Value)
+        DisplayPilot.IImplantM = CInt(nudI.Value)
     End Sub
 
     Private Sub nudM_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudM.ValueChanged
-        EveHQ.Core.HQ.myPilot.MImplantM = CInt(nudM.Value)
+        DisplayPilot.MImplantM = CInt(nudM.Value)
     End Sub
 
     Private Sub nudP_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudP.ValueChanged
-        EveHQ.Core.HQ.myPilot.PImplantM = CInt(nudP.Value)
+        DisplayPilot.PImplantM = CInt(nudP.Value)
     End Sub
 
     Private Sub nudW_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudW.ValueChanged
-        EveHQ.Core.HQ.myPilot.WImplantM = CInt(nudW.Value)
+        DisplayPilot.WImplantM = CInt(nudW.Value)
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -44,10 +57,10 @@ Public Class frmEditImplants
     End Sub
 
     Private Sub frmEditImplants_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        nudC.Value = EveHQ.Core.HQ.myPilot.CImplantM
-        nudI.Value = EveHQ.Core.HQ.myPilot.IImplantM
-        nudM.Value = EveHQ.Core.HQ.myPilot.MImplantM
-        nudP.Value = EveHQ.Core.HQ.myPilot.PImplantM
-        nudW.Value = EveHQ.Core.HQ.myPilot.WImplantM
+        nudC.Value = DisplayPilot.CImplantM
+        nudI.Value = DisplayPilot.IImplantM
+        nudM.Value = DisplayPilot.MImplantM
+        nudP.Value = DisplayPilot.PImplantM
+        nudW.Value = DisplayPilot.WImplantM
     End Sub
 End Class

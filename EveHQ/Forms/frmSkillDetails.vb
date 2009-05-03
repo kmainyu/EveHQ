@@ -22,10 +22,21 @@ Public Class frmSkillDetails
     Dim oldNodeIndex As Integer = -1
     Dim TrainingThreshold As Integer = 1600000
     Dim TrainingBonus As Double = 1
+    Dim cDisplayPilotName As String
+    Dim displayPilot As New EveHQ.Core.Pilot
+    Public Property DisplayPilotName() As String
+        Get
+            Return cDisplayPilotName
+        End Get
+        Set(ByVal value As String)
+            cDisplayPilotName = value
+            DisplayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(value), Core.Pilot)
+        End Set
+    End Property
 
     Public Sub ShowSkillDetails(ByVal skillID As String)
 
-        If EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP < TrainingThreshold Then
+        If displayPilot.SkillPoints + displayPilot.TrainingCurrentSP < TrainingThreshold Then
             TrainingBonus = 2
         End If
 
@@ -50,7 +61,7 @@ Public Class frmSkillDetails
         cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
 
         Me.Text = "Skill Details - " & cSkill.Name
-        lvwDetails.Groups(1).Header = "Pilot Specific - " & EveHQ.Core.HQ.myPilot.Name
+        lvwDetails.Groups(1).Header = "Pilot Specific - " & displayPilot.Name
 
         With Me.lvwDetails
             Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
@@ -61,24 +72,24 @@ Public Class frmSkillDetails
                 myGroup = Nothing
             End If
             Dim cLevel, cSP, cTime, cRate As String
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
-                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) = False Then
-                    cLevel = "0" : cSP = "0" : cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, 1, , , TrainingBonus))
-                    cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, cSkill))
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+                If displayPilot.PilotSkills.Contains(cSkill.Name) = False Then
+                    cLevel = "0" : cSP = "0" : cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, 1, , , TrainingBonus))
+                    cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, cSkill))
                 Else
-                    mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
+                    mySkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
                     cLevel = CStr(mySkill.Level)
-                    If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.myPilot.TrainingSkillID = EveHQ.Core.SkillFunctions.SkillNameToID(cSkill.Name) Then
-                        cSP = CStr(mySkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP)
+                    If displayPilot.Training = True And displayPilot.TrainingSkillID = EveHQ.Core.SkillFunctions.SkillNameToID(cSkill.Name) Then
+                        cSP = CStr(mySkill.SP + displayPilot.TrainingCurrentSP)
                     Else
                         cSP = CStr(mySkill.SP)
                     End If
-                    If EveHQ.Core.HQ.myPilot.Training = True And EveHQ.Core.HQ.myPilot.TrainingSkillName = cSkill.Name Then
-                        cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
+                    If displayPilot.Training = True And displayPilot.TrainingSkillName = cSkill.Name Then
+                        cTime = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
                     Else
-                        cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, 0, , , TrainingBonus))
+                        cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, 0, , , TrainingBonus))
                     End If
-                    cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, cSkill))
+                    cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, cSkill))
                 End If
             Else
                 cLevel = "n/a" : cSP = "0" : cTime = "n/a" : cRate = "0"
@@ -115,17 +126,17 @@ Public Class frmSkillDetails
         curNode.Text = cSkill.Name
         Dim skillTrained As Boolean = False
         Dim myLevel As Integer = 0
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
-            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(cSkill.Name) Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+            If displayPilot.PilotSkills.Contains(cSkill.Name) Then
                 Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
+                mySkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
                 If skillTrained = True Then
                     curNode.ForeColor = Color.LimeGreen
                     curNode.ToolTipText = "Already Trained"
                 Else
-                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
                     If planLevel = 0 Then
                         curNode.ForeColor = Color.Red
                         curNode.ToolTipText = "Not trained & no planned training"
@@ -139,7 +150,7 @@ Public Class frmSkillDetails
                     End If
                 End If
             Else
-                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, cSkill.Name, curLevel)
+                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
                 If planLevel = 0 Then
                     curNode.ForeColor = Color.Red
                     curNode.ToolTipText = "Not trained & no planned training"
@@ -171,12 +182,12 @@ Public Class frmSkillDetails
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
-            If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(newSkill.Name) Then
+            If displayPilot.PilotSkills.Contains(newSkill.Name) Then
                 Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                mySkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
             End If
@@ -184,7 +195,7 @@ Public Class frmSkillDetails
                 newNode.ForeColor = Color.LimeGreen
                 newNode.ToolTipText = "Already Trained"
             Else
-                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(EveHQ.Core.HQ.myPilot, newSkill.Name, curLevel)
+                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, newSkill.Name, curLevel)
                 If planLevel = 0 Then
                     newNode.ForeColor = Color.Red
                     newNode.ToolTipText = "Not trained & no planned training"
@@ -238,7 +249,7 @@ Public Class frmSkillDetails
                         If skillData(0) <> skillID Then
                             newItem.ToolTipText &= skillName & " (Level " & skillData(1) & "), "
                         End If
-                        If EveHQ.Core.SkillFunctions.IsSkillTrained(EveHQ.Core.HQ.myPilot, skillName, CInt(skillData(1))) = False Then
+                        If EveHQ.Core.SkillFunctions.IsSkillTrained(displayPilot, skillName, CInt(skillData(1))) = False Then
                             allTrained = False
                         End If
                     Next
@@ -297,7 +308,7 @@ Public Class frmSkillDetails
                         newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
                         newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
                     End If
-                    If EveHQ.Core.HQ.myPilot.Certificates.Contains(cert.ID.ToString) = True Then
+                    If displayPilot.Certificates.Contains(cert.ID.ToString) = True Then
                         newItem.ForeColor = Color.Green
                     Else
                         newItem.ForeColor = Color.Red
@@ -337,7 +348,7 @@ Public Class frmSkillDetails
     Private Sub PrepareTimes(ByVal skillID As String)
         lvwTimes.Items.Clear()
 
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And EveHQ.Core.HQ.myPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
             Dim cskill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
             cskill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
 
@@ -346,9 +357,9 @@ Public Class frmSkillDetails
             For toLevel As Integer = 1 To 5
                 Dim newGroup As ListViewItem = New ListViewItem
                 newGroup.Text = toLevel.ToString
-                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, toLevel - 1, , TrainingBonus)))
-                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, 0, , TrainingBonus)))
-                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cskill, toLevel, -1, , TrainingBonus)))
+                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cskill, toLevel, toLevel - 1, , TrainingBonus)))
+                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cskill, toLevel, 0, , TrainingBonus)))
+                newGroup.SubItems.Add(EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cskill, toLevel, -1, , TrainingBonus)))
                 lvwTimes.Items.Add(newGroup)
             Next
         Else
@@ -434,19 +445,19 @@ Public Class frmSkillDetails
         End If
     End Sub
     Public Sub UpdateSkillDetails()
-        If EveHQ.Core.HQ.myPilot.Training = True Then
-            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(EveHQ.Core.HQ.myPilot.TrainingSkillName), Core.EveSkill)
-            If EveHQ.Core.HQ.myPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = EveHQ.Core.HQ.myPilot.TrainingSkillName Then
-                lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
-                Dim mySkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
-                lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        If displayPilot.Training = True Then
+            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(displayPilot.TrainingSkillName), Core.EveSkill)
+            If displayPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = displayPilot.TrainingSkillName Then
+                lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
+                Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
+                lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + displayPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 Dim totalTime As Long = 0
                 For toLevel As Integer = 1 To 5
                     Select Case toLevel
-                        Case EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                            totalTime += EveHQ.Core.HQ.myPilot.TrainingCurrentTime
-                        Case Is > EveHQ.Core.HQ.myPilot.TrainingSkillLevel
-                            totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, cSkill, toLevel, toLevel - 1, , TrainingBonus))
+                        Case displayPilot.TrainingSkillLevel
+                            totalTime += displayPilot.TrainingCurrentTime
+                        Case Is > displayPilot.TrainingSkillLevel
+                            totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, toLevel, toLevel - 1, , TrainingBonus))
                     End Select
                     lvwTimes.Items(toLevel - 1).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
                 Next
@@ -491,6 +502,7 @@ Public Class frmSkillDetails
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
         Dim certID As String = mnuItemName.Tag.ToString
         frmCertificateDetails.Text = mnuItemName.Text
+        frmCertificateDetails.DisplayPilotName = cDisplayPilotName
         frmCertificateDetails.ShowCertDetails(certID)
     End Sub
 End Class

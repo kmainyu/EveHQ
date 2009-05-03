@@ -425,10 +425,6 @@ Public Class frmSettings
                 For Each dPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                     If dPilot.Account = selAccount Then
                         EveHQ.Core.HQ.EveHQSettings.Pilots.Remove(dPilot.Name)
-                        If dPilot.Name = EveHQ.Core.HQ.myPilot.Name Then
-                            EveHQ.Core.HQ.myPilot = New EveHQ.Core.Pilot
-                            Call frmPilot.UpdatePilotInfo()
-                        End If
                     End If
                 Next
                 Call frmEveHQ.UpdatePilotInfo()
@@ -1238,17 +1234,8 @@ Public Class frmSettings
             newPilot.TrainingEndTime = newPilot.TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
             newPilot.TrainingStartTime = newPilot.TrainingStartTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
         Next
-        Call UpdateTimeOffset()
-    End Sub
-    Public Sub UpdateTimeOffset()
         Dim offset As String = EveHQ.Core.SkillFunctions.TimeToStringAll(trackServerOffset.Value)
-        Dim skillOffset As String = ""
-        If EveHQ.Core.HQ.myPilot.Training = True Then
-            skillOffset = " (Skill Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & ")"
-        Else
-            skillOffset = ""
-        End If
-        lblCurrentOffset.Text = "Current Offset: " & offset & skillOffset
+        lblCurrentOffset.Text = "Current Offset: " & offset
     End Sub
     Private Sub chkEnableEveStatus_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEnableEveStatus.CheckedChanged
         If chkEnableEveStatus.Checked = True Then

@@ -30,33 +30,50 @@ Imports DotNetLib.Windows.Forms
 Public Class frmPilot
     Dim TrainingSkill As ContainerListViewItem
     Dim TrainingGroup As ContainerListViewItem
+    Dim displayPilot As New EveHQ.Core.Pilot
 
     Private Sub frmPilot_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Call UpdatePilotInfo()
+        Call UpdatePilots()
+    End Sub
+
+    Public Sub UpdatePilots()
+        cboPilots.BeginUpdate()
+        cboPilots.Items.Clear()
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If cPilot.Active = True Then
+                cboPilots.Items.Add(cPilot.Name)
+            End If
+        Next
+        cboPilots.EndUpdate()
+
+        If cboPilots.Items.Count > 0 Then
+            If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
+                cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
+            Else
+                cboPilots.SelectedIndex = 0
+            End If
+        End If
     End Sub
 
     Public Sub UpdatePilotInfo()
         ' Check if the pilot has had data and therefore able to be displayed properly
 
-        If EveHQ.Core.HQ.myPilot.PilotSkills.Count > 0 Then
+        If displayPilot.PilotSkills.Count > 0 Then
 
             ' Get image from cache
             Try
-                Dim imgFilename As String = EveHQ.Core.HQ.imageCacheFolder & "\" & EveHQ.Core.HQ.myPilot.ID & ".png"
+                Dim imgFilename As String = EveHQ.Core.HQ.imageCacheFolder & "\" & displayPilot.ID & ".png"
                 If My.Computer.FileSystem.FileExists(imgFilename) = True Then
                     picPilot.ImageLocation = imgFilename
                 Else
                     picPilot.Image = My.Resources.noitem
                 End If
 
-                Call EveHQ.Core.PilotParseFunctions.SwitchImplants()
+                Call EveHQ.Core.PilotParseFunctions.SwitchImplants(displayPilot)
 
-                If frmTraining.IsHandleCreated = True Then
-                    Call frmTraining.RefreshAllTraining()
-                End If
             Catch e As Exception
                 Dim msg As String = "An error has occurred:" & ControlChars.CrLf & ControlChars.CrLf & e.Message & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Pilot Name: " & EveHQ.Core.HQ.myPilot.Name
+                msg &= "Pilot Name: " & displayPilot.Name
                 MessageBox.Show(msg, "Error Retrieving Cached Image", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
 
@@ -64,35 +81,35 @@ Public Class frmPilot
             Try
                 lvPilot.Items.Clear()
                 Dim newCharItem As New ListViewItem
-                newCharItem.Name = "Name" : newCharItem.Text = "Name" : newCharItem.SubItems.Add(EveHQ.Core.HQ.myPilot.Name)
+                newCharItem.Name = "Name" : newCharItem.Text = "Name" : newCharItem.SubItems.Add(displayPilot.Name)
                 lvPilot.Items.Add(newCharItem)
                 newCharItem = New ListViewItem
-                newCharItem.Name = "ID" : newCharItem.Text = "ID" : newCharItem.SubItems.Add(EveHQ.Core.HQ.myPilot.ID)
+                newCharItem.Name = "ID" : newCharItem.Text = "ID" : newCharItem.SubItems.Add(displayPilot.ID)
                 lvPilot.Items.Add(newCharItem)
                 newCharItem = New ListViewItem
-                newCharItem.Name = "Race" : newCharItem.Text = "Race" : newCharItem.SubItems.Add(EveHQ.Core.HQ.myPilot.Race & " (" & EveHQ.Core.HQ.myPilot.Blood & ")")
+                newCharItem.Name = "Race" : newCharItem.Text = "Race" : newCharItem.SubItems.Add(displayPilot.Race & " (" & displayPilot.Blood & ")")
                 lvPilot.Items.Add(newCharItem)
                 newCharItem = New ListViewItem
-                newCharItem.Name = "Corp" : newCharItem.Text = "Corp" : newCharItem.SubItems.Add(EveHQ.Core.HQ.myPilot.Corp)
+                newCharItem.Name = "Corp" : newCharItem.Text = "Corp" : newCharItem.SubItems.Add(displayPilot.Corp)
                 lvPilot.Items.Add(newCharItem)
                 newCharItem = New ListViewItem
-                newCharItem.Name = "Wealth" : newCharItem.Text = "Wealth" : newCharItem.SubItems.Add(FormatNumber(EveHQ.Core.HQ.myPilot.Isk, 2, , , TriState.True))
+                newCharItem.Name = "Wealth" : newCharItem.Text = "Wealth" : newCharItem.SubItems.Add(FormatNumber(displayPilot.Isk, 2, , , TriState.True))
                 lvPilot.Items.Add(newCharItem)
                 newCharItem = New ListViewItem
-                newCharItem.Name = "Skill Points" : newCharItem.Text = "Skill Points" : newCharItem.SubItems.Add(FormatNumber(EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(EveHQ.Core.HQ.myPilot), 0, , , TriState.True))
+                newCharItem.Name = "Skill Points" : newCharItem.Text = "Skill Points" : newCharItem.SubItems.Add(FormatNumber(displayPilot.SkillPoints + EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(displayPilot), 0, , , TriState.True))
                 lvPilot.Items.Add(newCharItem)
                 newCharItem = New ListViewItem
-                newCharItem.Name = "Clone" : newCharItem.Text = "Clone" : newCharItem.SubItems.Add(EveHQ.Core.HQ.myPilot.CloneName & " (" & FormatNumber(EveHQ.Core.HQ.myPilot.CloneSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP)")
+                newCharItem.Name = "Clone" : newCharItem.Text = "Clone" : newCharItem.SubItems.Add(displayPilot.CloneName & " (" & FormatNumber(displayPilot.CloneSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP)")
                 lvPilot.Items.Add(newCharItem)
                 ' Check Clone
-                If (EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP) > CLng(EveHQ.Core.HQ.myPilot.CloneSP) Then
+                If (displayPilot.SkillPoints + displayPilot.TrainingCurrentSP) > CLng(displayPilot.CloneSP) Then
                     lvPilot.Items("Clone").ForeColor = Color.Red
                 Else
                     lvPilot.Items("Clone").ForeColor = Color.Black
                 End If
             Catch e As Exception
                 Dim msg As String = "An error has occurred:" & ControlChars.CrLf & ControlChars.CrLf & e.Message & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Pilot Name: " & EveHQ.Core.HQ.myPilot.Name
+                msg &= "Pilot Name: " & displayPilot.Name
                 MessageBox.Show(msg, "Error Displaying Pilot Information", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
 
@@ -100,23 +117,23 @@ Public Class frmPilot
             Try
                 lvImplants.Items.Clear()
                 lvImplants.Items.Add("Charisma")
-                lvImplants.Items(0).SubItems.Add("+" & EveHQ.Core.HQ.myPilot.CImplant)
+                lvImplants.Items(0).SubItems.Add("+" & displayPilot.CImplant)
                 lvImplants.Items.Add("Intelligence")
-                lvImplants.Items(1).SubItems.Add("+" & EveHQ.Core.HQ.myPilot.IImplant)
+                lvImplants.Items(1).SubItems.Add("+" & displayPilot.IImplant)
                 lvImplants.Items.Add("Memory")
-                lvImplants.Items(2).SubItems.Add("+" & EveHQ.Core.HQ.myPilot.MImplant)
+                lvImplants.Items(2).SubItems.Add("+" & displayPilot.MImplant)
                 lvImplants.Items.Add("Perception")
-                lvImplants.Items(3).SubItems.Add("+" & EveHQ.Core.HQ.myPilot.PImplant)
+                lvImplants.Items(3).SubItems.Add("+" & displayPilot.PImplant)
                 lvImplants.Items.Add("Willpower")
-                lvImplants.Items(4).SubItems.Add("+" & EveHQ.Core.HQ.myPilot.WImplant)
+                lvImplants.Items(4).SubItems.Add("+" & displayPilot.WImplant)
             Catch e As Exception
                 Dim msg As String = "An error has occurred:" & ControlChars.CrLf & ControlChars.CrLf & e.Message & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Pilot Name: " & EveHQ.Core.HQ.myPilot.Name
+                msg &= "Pilot Name: " & displayPilot.Name
                 MessageBox.Show(msg, "Error Displaying Pilot Implants", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
 
             ' Display Implant method
-            If EveHQ.Core.HQ.myPilot.UseManualImplants = True Then
+            If displayPilot.UseManualImplants = True Then
                 Me.chkManualImplants.Checked = True
             Else
                 Me.chkManualImplants.Checked = False
@@ -126,18 +143,18 @@ Public Class frmPilot
             Try
                 lvAttributes.Items.Clear()
                 lvAttributes.Items.Add("Charisma")
-                lvAttributes.Items(0).SubItems.Add("+" & FormatNumber(EveHQ.Core.HQ.myPilot.CAttT, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                lvAttributes.Items(0).SubItems.Add("+" & FormatNumber(displayPilot.CAttT, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 lvAttributes.Items.Add("Intelligence")
-                lvAttributes.Items(1).SubItems.Add("+" & FormatNumber(EveHQ.Core.HQ.myPilot.IAttT, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                lvAttributes.Items(1).SubItems.Add("+" & FormatNumber(displayPilot.IAttT, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 lvAttributes.Items.Add("Memory")
-                lvAttributes.Items(2).SubItems.Add("+" & FormatNumber(EveHQ.Core.HQ.myPilot.MAttT, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                lvAttributes.Items(2).SubItems.Add("+" & FormatNumber(displayPilot.MAttT, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 lvAttributes.Items.Add("Perception")
-                lvAttributes.Items(3).SubItems.Add("+" & FormatNumber(EveHQ.Core.HQ.myPilot.PAttT, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                lvAttributes.Items(3).SubItems.Add("+" & FormatNumber(displayPilot.PAttT, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 lvAttributes.Items.Add("Willpower")
-                lvAttributes.Items(4).SubItems.Add("+" & FormatNumber(EveHQ.Core.HQ.myPilot.WAttT, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                lvAttributes.Items(4).SubItems.Add("+" & FormatNumber(displayPilot.WAttT, 1, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
             Catch e As Exception
                 Dim msg As String = "An error has occurred:" & ControlChars.CrLf & ControlChars.CrLf & e.Message & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Pilot Name: " & EveHQ.Core.HQ.myPilot.Name
+                msg &= "Pilot Name: " & displayPilot.Name
                 MessageBox.Show(msg, "Error Displaying Pilot Attributes", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
 
@@ -147,54 +164,54 @@ Public Class frmPilot
                     Select Case lvAttributes.Items(a).Text
                         Case ("Charisma")
                             msg = "Charisma Attribute Breakdown" & vbCrLf & vbCrLf
-                            msg &= "Starting Attribute: " & EveHQ.Core.HQ.myPilot.CAtt & vbCrLf
-                            msg &= "Basic Learning: " & EveHQ.Core.HQ.myPilot.LCAtt & vbCrLf
-                            msg &= "Advanced Learning: " & EveHQ.Core.HQ.myPilot.ALCAtt & vbCrLf
-                            msg &= "Implant: " & EveHQ.Core.HQ.myPilot.CImplant & vbCrLf
-                            msg &= "Learning Skill: " & EveHQ.Core.HQ.myPilot.LSCAtt & vbCrLf
-                            msg &= "TOTAL: " & EveHQ.Core.HQ.myPilot.CAttT
+                            msg &= "Starting Attribute: " & displayPilot.CAtt & vbCrLf
+                            msg &= "Basic Learning: " & displayPilot.LCAtt & vbCrLf
+                            msg &= "Advanced Learning: " & displayPilot.ALCAtt & vbCrLf
+                            msg &= "Implant: " & displayPilot.CImplant & vbCrLf
+                            msg &= "Learning Skill: " & displayPilot.LSCAtt & vbCrLf
+                            msg &= "TOTAL: " & displayPilot.CAttT
                             lvAttributes.Items(a).ToolTipText = msg
                         Case ("Intelligence")
                             msg = "Intelligence Attribute Breakdown" & vbCrLf & vbCrLf
-                            msg &= "Starting Attribute: " & EveHQ.Core.HQ.myPilot.IAtt & vbCrLf
-                            msg &= "Basic Learning: " & EveHQ.Core.HQ.myPilot.LIAtt & vbCrLf
-                            msg &= "Advanced Learning: " & EveHQ.Core.HQ.myPilot.ALIAtt & vbCrLf
-                            msg &= "Implant: " & EveHQ.Core.HQ.myPilot.IImplant & vbCrLf
-                            msg &= "Learning Skill: " & EveHQ.Core.HQ.myPilot.LSIAtt & vbCrLf
-                            msg &= "TOTAL: " & EveHQ.Core.HQ.myPilot.IAttT
+                            msg &= "Starting Attribute: " & displayPilot.IAtt & vbCrLf
+                            msg &= "Basic Learning: " & displayPilot.LIAtt & vbCrLf
+                            msg &= "Advanced Learning: " & displayPilot.ALIAtt & vbCrLf
+                            msg &= "Implant: " & displayPilot.IImplant & vbCrLf
+                            msg &= "Learning Skill: " & displayPilot.LSIAtt & vbCrLf
+                            msg &= "TOTAL: " & displayPilot.IAttT
                             lvAttributes.Items(a).ToolTipText = msg
                         Case ("Memory")
                             msg = "Memory Attribute Breakdown" & vbCrLf & vbCrLf
-                            msg &= "Starting Attribute: " & EveHQ.Core.HQ.myPilot.MAtt & vbCrLf
-                            msg &= "Basic Learning: " & EveHQ.Core.HQ.myPilot.LMAtt & vbCrLf
-                            msg &= "Advanced Learning: " & EveHQ.Core.HQ.myPilot.ALMAtt & vbCrLf
-                            msg &= "Implant: " & EveHQ.Core.HQ.myPilot.MImplant & vbCrLf
-                            msg &= "Learning Skill: " & EveHQ.Core.HQ.myPilot.LSMAtt & vbCrLf
-                            msg &= "TOTAL: " & EveHQ.Core.HQ.myPilot.MAttT
+                            msg &= "Starting Attribute: " & displayPilot.MAtt & vbCrLf
+                            msg &= "Basic Learning: " & displayPilot.LMAtt & vbCrLf
+                            msg &= "Advanced Learning: " & displayPilot.ALMAtt & vbCrLf
+                            msg &= "Implant: " & displayPilot.MImplant & vbCrLf
+                            msg &= "Learning Skill: " & displayPilot.LSMAtt & vbCrLf
+                            msg &= "TOTAL: " & displayPilot.MAttT
                             lvAttributes.Items(a).ToolTipText = msg
                         Case ("Perception")
                             msg = "Perception Attribute Breakdown" & vbCrLf & vbCrLf
-                            msg &= "Starting Attribute: " & EveHQ.Core.HQ.myPilot.PAtt & vbCrLf
-                            msg &= "Basic Learning: " & EveHQ.Core.HQ.myPilot.LPAtt & vbCrLf
-                            msg &= "Advanced Learning: " & EveHQ.Core.HQ.myPilot.ALPAtt & vbCrLf
-                            msg &= "Implant: " & EveHQ.Core.HQ.myPilot.PImplant & vbCrLf
-                            msg &= "Learning Skill: " & EveHQ.Core.HQ.myPilot.LSPAtt & vbCrLf
-                            msg &= "TOTAL: " & EveHQ.Core.HQ.myPilot.PAttT
+                            msg &= "Starting Attribute: " & displayPilot.PAtt & vbCrLf
+                            msg &= "Basic Learning: " & displayPilot.LPAtt & vbCrLf
+                            msg &= "Advanced Learning: " & displayPilot.ALPAtt & vbCrLf
+                            msg &= "Implant: " & displayPilot.PImplant & vbCrLf
+                            msg &= "Learning Skill: " & displayPilot.LSPAtt & vbCrLf
+                            msg &= "TOTAL: " & displayPilot.PAttT
                             lvAttributes.Items(a).ToolTipText = msg
                         Case ("Willpower")
                             msg = "Willpower Attribute Breakdown" & vbCrLf & vbCrLf
-                            msg &= "Starting Attribute: " & EveHQ.Core.HQ.myPilot.WAtt & vbCrLf
-                            msg &= "Basic Learning: " & EveHQ.Core.HQ.myPilot.LWAtt & vbCrLf
-                            msg &= "Advanced Learning: " & EveHQ.Core.HQ.myPilot.ALWAtt & vbCrLf
-                            msg &= "Implant: " & EveHQ.Core.HQ.myPilot.WImplant & vbCrLf
-                            msg &= "Learning Skill: " & EveHQ.Core.HQ.myPilot.LSWAtt & vbCrLf
-                            msg &= "TOTAL: " & EveHQ.Core.HQ.myPilot.WAttT
+                            msg &= "Starting Attribute: " & displayPilot.WAtt & vbCrLf
+                            msg &= "Basic Learning: " & displayPilot.LWAtt & vbCrLf
+                            msg &= "Advanced Learning: " & displayPilot.ALWAtt & vbCrLf
+                            msg &= "Implant: " & displayPilot.WImplant & vbCrLf
+                            msg &= "Learning Skill: " & displayPilot.LSWAtt & vbCrLf
+                            msg &= "TOTAL: " & displayPilot.WAttT
                             lvAttributes.Items(a).ToolTipText = msg
                     End Select
                 Next
             Catch e As Exception
                 Dim msg As String = "An error has occurred:" & ControlChars.CrLf & ControlChars.CrLf & e.Message & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Pilot Name: " & EveHQ.Core.HQ.myPilot.Name
+                msg &= "Pilot Name: " & displayPilot.Name
                 MessageBox.Show(msg, "Error Displaying Pilot Attribute Tooltips", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
 
@@ -206,25 +223,25 @@ Public Class frmPilot
                 lvTraining.Items.Add("Skill Rank/Rate")
                 lvTraining.Items.Add("Training End Time")
                 lvTraining.Items.Add("XML Expiration")
-                If EveHQ.Core.HQ.myPilot.Training = True Then
-                    Dim currentSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.PilotSkill)
-                    If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)) = True Then
-                        currentSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.PilotSkill)
+                If displayPilot.Training = True Then
+                    Dim currentSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
+                    If displayPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)) = True Then
+                        currentSkill = CType(displayPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
                     Else
                         MessageBox.Show("Missing the training skill from the skills!!")
                     End If
                     lvTraining.Items(0).SubItems.Add("Yes")
-                    lvTraining.Items(1).SubItems.Add(currentSkill.Name & " (Level " & EveHQ.Core.SkillFunctions.Roman(EveHQ.Core.HQ.myPilot.TrainingSkillLevel) & ")")
-                    lvTraining.Items(2).SubItems.Add("Rank " & currentSkill.Rank & " @ " & FormatNumber(EveHQ.Core.SkillFunctions.CalculateSPRate(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListName(currentSkill.Name), Core.EveSkill)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP/Hr")
-                    Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.TrainingEndTime)
-                    lvTraining.Items(3).SubItems.Add(Format(localdate, "ddd") & " " & localdate & " (" & EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & ")")
+                    lvTraining.Items(1).SubItems.Add(currentSkill.Name & " (Level " & EveHQ.Core.SkillFunctions.Roman(displayPilot.TrainingSkillLevel) & ")")
+                    lvTraining.Items(2).SubItems.Add("Rank " & currentSkill.Rank & " @ " & FormatNumber(EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, CType(EveHQ.Core.HQ.SkillListName(currentSkill.Name), Core.EveSkill)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP/Hr")
+                    Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(displayPilot.TrainingEndTime)
+                    lvTraining.Items(3).SubItems.Add(Format(localdate, "ddd") & " " & localdate & " (" & EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime) & ")")
                 Else
                     lvTraining.Items(0).SubItems.Add("No")
                     lvTraining.Items(1).SubItems.Add("n/a")
                     lvTraining.Items(2).SubItems.Add("n/a")
                     lvTraining.Items(3).SubItems.Add("n/a")
                 End If
-                Dim cacheDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.CacheExpirationTime)
+                Dim cacheDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(displayPilot.CacheExpirationTime)
                 Dim cacheItem As New ListViewItem.ListViewSubItem
                 cacheItem.Text = (Format(cacheDate, "ddd") & " " & cacheDate)
                 If cacheDate < Now Then
@@ -253,7 +270,7 @@ Public Class frmPilot
             clvSkills.Items.Clear()
             clvCerts.Items.Clear()
             ' Get image from cache
-            If EveHQ.Core.HQ.myPilot.ID = "" Then
+            If displayPilot.ID = "" Then
                 picPilot.Image = My.Resources.noitem
             End If
         End If
@@ -316,10 +333,10 @@ Public Class frmPilot
         Dim TrainingBonus As Double = 1
         Dim TrainingThreshold As Long = 1600000
 
-        If EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP < TrainingThreshold Then
+        If displayPilot.SkillPoints + displayPilot.TrainingCurrentSP < TrainingThreshold Then
             TrainingBonus = 2
         End If
-        For Each cSkill As EveHQ.Core.PilotSkill In EveHQ.Core.HQ.myPilot.PilotSkills
+        For Each cSkill As EveHQ.Core.PilotSkill In displayPilot.PilotSkills
             Try
                 Dim groupCLV As ContainerListViewItem = CType(groupStructure(cSkill.GroupID), ContainerListViewItem)
                 Dim newCLVItem As New ContainerListViewItem
@@ -344,9 +361,9 @@ Public Class frmPilot
                 If cSkill.Level = 5 Then
                     percent = 100
                 Else
-                    If EveHQ.Core.HQ.myPilot.TrainingSkillID = cSkill.ID Then
-                        percent = CDbl((cSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100)
-                        If cSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP > cSkill.LevelUp(cSkill.Level) + 1 Then
+                    If displayPilot.TrainingSkillID = cSkill.ID Then
+                        percent = CDbl((cSkill.SP + displayPilot.TrainingCurrentSP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100)
+                        If cSkill.SP + displayPilot.TrainingCurrentSP > cSkill.LevelUp(cSkill.Level) + 1 Then
                             partially = True
                         End If
                     Else
@@ -381,14 +398,14 @@ Public Class frmPilot
                 ' Write time to next level - adjusted if 0 to put completed skills to the bottom
                 Dim TimeSubItem As New ListViewItem.ListViewSubItem
                 Dim currentTime As Long = 0
-                If EveHQ.Core.HQ.myPilot.TrainingSkillID = cSkill.ID Then
-                    TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
-                    currentTime = EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                If displayPilot.TrainingSkillID = cSkill.ID Then
+                    TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
+                    currentTime = displayPilot.TrainingCurrentTime
                     pb.Image = CType(My.Resources.ResourceManager.GetObject("level" & (cSkill.Level + 1).ToString & "_act"), Image)
                     TrainingSkill = newCLVItem
                     TrainingGroup = groupCLV
                 Else
-                    currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(EveHQ.Core.HQ.myPilot, CType(EveHQ.Core.HQ.SkillListID(cSkill.ID), EveHQ.Core.EveSkill), 0, , , TrainingBonus))
+                    currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, CType(EveHQ.Core.HQ.SkillListID(cSkill.ID), EveHQ.Core.EveSkill), 0, , , TrainingBonus))
                     TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(currentTime)
                 End If
                 If currentTime = 0 Then currentTime = 9999999999
@@ -400,7 +417,7 @@ Public Class frmPilot
                 If cSkill.Level = 5 Then
                     newCLVItem.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotLevel5SkillColor))
                 Else
-                    If EveHQ.Core.HQ.myPilot.TrainingSkillID = cSkill.ID Then
+                    If displayPilot.TrainingSkillID = cSkill.ID Then
                         Dim lvFont As Font = New Font(clvSkills.Font, FontStyle.Bold)
                         newCLVItem.Font = lvFont
                         newCLVItem.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotCurrentTrainSkillColor))
@@ -438,7 +455,7 @@ Public Class frmPilot
         clvSkills.EndUpdate()
         If chkGroupSkills.Checked = True Then
             If TrainingGroup IsNot Nothing Then
-                TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + displayPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                 TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"
                 TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
             End If
@@ -451,7 +468,7 @@ Public Class frmPilot
 
         ' Filter out the lower end certificates
         Dim certList As New SortedList
-        For Each cCertID As String In EveHQ.Core.HQ.myPilot.Certificates
+        For Each cCertID As String In displayPilot.Certificates
             If EveHQ.Core.HQ.Certificates.ContainsKey(cCertID) Then
                 cCert = CType(EveHQ.Core.HQ.Certificates(cCertID), Core.Certificate)
                 If certList.Contains(cCert.ClassID) = False Then
@@ -548,13 +565,13 @@ Public Class frmPilot
     Private Sub DisplaySkillQueue()
         clvQueue.BeginUpdate()
         clvQueue.Items.Clear()
-        If EveHQ.Core.HQ.myPilot.QueuedSkills IsNot Nothing Then
-            For Each QueuedSkill As EveHQ.Core.PilotQueuedSkill In EveHQ.Core.HQ.myPilot.QueuedSkills.Values
+        If displayPilot.QueuedSkills IsNot Nothing Then
+            For Each QueuedSkill As EveHQ.Core.PilotQueuedSkill In displayPilot.QueuedSkills.Values
                 Dim newitem As New ContainerListViewItem
                 newitem.Text = EveHQ.Core.SkillFunctions.SkillIDToName(QueuedSkill.SkillID.ToString)
                 clvQueue.Items.Add(newitem)
                 newitem.SubItems(1).Text = QueuedSkill.Level.ToString
-                Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.TrainingEndTime)
+                Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(displayPilot.TrainingEndTime)
                 newitem.SubItems(2).Text = FormatDateTime(EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.StartTime), DateFormat.GeneralDate)
                 newitem.SubItems(3).Text = FormatDateTime(EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime), DateFormat.GeneralDate)
             Next
@@ -564,36 +581,36 @@ Public Class frmPilot
 
 #Region "Skill Update Routine"
     Public Sub UpdateSkillInfo()
-        If EveHQ.Core.HQ.myPilot.PilotSkills.Count <> 0 Then
-            If EveHQ.Core.HQ.myPilot.Training = True Then
-                lvPilot.Items("Skill Points").SubItems(1).Text = (FormatNumber(EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, , , TriState.True))
-                If EveHQ.Core.HQ.myPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)) = True Then
-                    Dim cSkill As EveHQ.Core.PilotSkill = CType(EveHQ.Core.HQ.myPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(EveHQ.Core.HQ.myPilot.TrainingSkillID)), Core.PilotSkill)
+        If displayPilot.PilotSkills.Count <> 0 Then
+            If displayPilot.Training = True Then
+                lvPilot.Items("Skill Points").SubItems(1).Text = (FormatNumber(displayPilot.SkillPoints + displayPilot.TrainingCurrentSP, 0, , , TriState.True))
+                If displayPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)) = True Then
+                    Dim cSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
                     Dim percent As Double
                     If cSkill.Level = 5 Then
                         percent = 100
                     Else
-                        If EveHQ.Core.HQ.myPilot.TrainingSkillID = cSkill.ID Then
-                            percent = CDbl((cSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100)
+                        If displayPilot.TrainingSkillID = cSkill.ID Then
+                            percent = CDbl((cSkill.SP + displayPilot.TrainingCurrentSP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100)
                         Else
                             percent = (Math.Min(Math.Max(CDbl((cSkill.SP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100), 0), 100))
                         End If
                     End If
                     TrainingSkill.SubItems(3).Text = FormatNumber(percent, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
                     TrainingSkill.SubItems(3).Tag = percent
-                    TrainingSkill.SubItems(4).Text = FormatNumber(cSkill.SP + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    TrainingSkill.SubItems(4).Text = FormatNumber(cSkill.SP + displayPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     TrainingSkill.SubItems(4).Tag = cSkill.SP
-                    TrainingSkill.SubItems(5).Text = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime)
-                    TrainingSkill.SubItems(5).Tag = EveHQ.Core.HQ.myPilot.TrainingCurrentTime
+                    TrainingSkill.SubItems(5).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
+                    TrainingSkill.SubItems(5).Tag = displayPilot.TrainingCurrentTime
                     TrainingSkill.SubItems(2).ItemControl.Refresh()
                     If chkGroupSkills.Checked = True Then
-                        TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + EveHQ.Core.HQ.myPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        TrainingGroup.SubItems(4).Text = FormatNumber(CLng(TrainingGroup.SubItems(4).Tag) + displayPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                         TrainingGroup.Text = TrainingGroup.Tag.ToString & " - Training"
                         TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
                     End If
-                    Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.TrainingEndTime)
-                    lvTraining.Items(3).SubItems(1).Text = Format(localdate, "ddd") & " " & localdate & " (" & EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.HQ.myPilot.TrainingCurrentTime) & ")"
-                    If EveHQ.Core.HQ.myPilot.TrainingCurrentTime = 0 Then
+                    Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(displayPilot.TrainingEndTime)
+                    lvTraining.Items(3).SubItems(1).Text = Format(localdate, "ddd") & " " & localdate & " (" & EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime) & ")"
+                    If displayPilot.TrainingCurrentTime = 0 Then
                         lvTraining.Items(0).SubItems(1).Text = ("Finished")
                         lvTraining.Items(1).Text = "Just Finished Training"
                         lvTraining.Items(2).Text = "Trained To"
@@ -605,14 +622,14 @@ Public Class frmPilot
             End If
 
             ' Check Clone
-            If (EveHQ.Core.HQ.myPilot.SkillPoints + EveHQ.Core.HQ.myPilot.TrainingCurrentSP) > CLng(EveHQ.Core.HQ.myPilot.CloneSP) Then
+            If (displayPilot.SkillPoints + displayPilot.TrainingCurrentSP) > CLng(displayPilot.CloneSP) Then
                 lvPilot.Items("Clone").ForeColor = Color.Red
             Else
                 lvPilot.Items("Clone").ForeColor = Color.Black
             End If
 
             ' Check Cache details!
-            Dim cacheDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(EveHQ.Core.HQ.myPilot.CacheExpirationTime)
+            Dim cacheDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(displayPilot.CacheExpirationTime)
             Dim cacheTimeLeft As TimeSpan = cacheDate - Now
             Dim cacheText As String = (Format(cacheDate, "ddd") & " " & cacheDate & " (" & EveHQ.Core.SkillFunctions.CacheTimeToString(cacheTimeLeft.TotalSeconds) & ")")
             If cacheDate < Now Then
@@ -633,7 +650,7 @@ Public Class frmPilot
     Private Sub mnuForceTraining_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuForceTraining.Click
         Dim skillID As String
         skillID = mnuSkillName.Tag.ToString
-        If EveHQ.Core.SkillFunctions.ForceSkillTraining(EveHQ.Core.HQ.myPilot, skillID, False) = True Then
+        If EveHQ.Core.SkillFunctions.ForceSkillTraining(displayPilot, skillID, False) = True Then
             Call Me.UpdatePilotInfo()
             If frmTraining.IsHandleCreated = True Then
                 Call frmTraining.RefreshAllTrainingQueues()
@@ -645,6 +662,7 @@ Public Class frmPilot
     Private Sub mnuViewDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewDetails.Click
         Dim skillID As String
         skillID = mnuSkillName.Tag.ToString
+        frmSkillDetails.DisplayPilotName = displayPilot.Name
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
 
@@ -669,28 +687,29 @@ Public Class frmPilot
         If clvSkills.SelectedItems(0).Depth = 2 Then
             Dim skillID As String = ""
             skillID = EveHQ.Core.SkillFunctions.SkillNameToID(clvSkills.SelectedItems(0).Text)
+            frmSkillDetails.DisplayPilotName = displayPilot.Name
             Call frmSkillDetails.ShowSkillDetails(skillID)
         End If
     End Sub
 
     Private Sub btnCharXML_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCharXML.Click
-        If EveHQ.Core.HQ.myPilot.PilotSkills.Count = 0 Then
+        If displayPilot.PilotSkills.Count = 0 Then
             MessageBox.Show("Please select the pilot whose XML you wish to view", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             Dim newReport As New frmReportViewer
-            Call EveHQ.Core.Reports.GenerateCharXML(EveHQ.Core.HQ.myPilot)
-            newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\CharXML (" & EveHQ.Core.HQ.myPilot.Name & ").xml")
-            frmEveHQ.DisplayReport(newReport, "Imported Character XML - " & EveHQ.Core.HQ.myPilot.Name)
+            Call EveHQ.Core.Reports.GenerateCharXML(displayPilot)
+            newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\CharXML (" & displayPilot.Name & ").xml")
+            frmEveHQ.DisplayReport(newReport, "Imported Character XML - " & displayPilot.Name)
         End If
     End Sub
     Private Sub btnTrainingXML_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTrainingXML.Click
-        If EveHQ.Core.HQ.myPilot.PilotSkills.Count = 0 Then
+        If displayPilot.PilotSkills.Count = 0 Then
             MessageBox.Show("Please select the pilot whose XML you wish to view", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             Dim newReport As New frmReportViewer
-            Call EveHQ.Core.Reports.GenerateTrainXML(EveHQ.Core.HQ.myPilot)
-            newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\TrainingXML (" & EveHQ.Core.HQ.myPilot.Name & ").xml")
-            frmEveHQ.DisplayReport(newReport, "Imported Training XML - " & EveHQ.Core.HQ.myPilot.Name)
+            Call EveHQ.Core.Reports.GenerateTrainXML(displayPilot)
+            newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\TrainingXML (" & displayPilot.Name & ").xml")
+            frmEveHQ.DisplayReport(newReport, "Imported Training XML - " & displayPilot.Name)
         End If
     End Sub
 
@@ -700,44 +719,44 @@ Public Class frmPilot
 
         Select Case lvAttributes.SelectedItems(0).Text
             Case ("Charisma")
-                msg = "Starting Attribute: " & EveHQ.Core.HQ.myPilot.CAtt & vbCrLf
-                msg = msg & "Basic Learning: " & EveHQ.Core.HQ.myPilot.LCAtt & vbCrLf
-                msg = msg & "Advanced Learning: " & EveHQ.Core.HQ.myPilot.ALCAtt & vbCrLf
-                msg = msg & "Implant: " & EveHQ.Core.HQ.myPilot.CImplant & vbCrLf
-                msg = msg & "Learning Skill: " & EveHQ.Core.HQ.myPilot.LSCAtt & vbCrLf
-                msg = msg & "TOTAL: " & EveHQ.Core.HQ.myPilot.CAttT
+                msg = "Starting Attribute: " & displayPilot.CAtt & vbCrLf
+                msg = msg & "Basic Learning: " & displayPilot.LCAtt & vbCrLf
+                msg = msg & "Advanced Learning: " & displayPilot.ALCAtt & vbCrLf
+                msg = msg & "Implant: " & displayPilot.CImplant & vbCrLf
+                msg = msg & "Learning Skill: " & displayPilot.LSCAtt & vbCrLf
+                msg = msg & "TOTAL: " & displayPilot.CAttT
                 caption = "Charisma Attribute Breakdown"
             Case ("Intelligence")
-                msg = "Starting Attribute: " & EveHQ.Core.HQ.myPilot.IAtt & vbCrLf
-                msg = msg & "Basic Learning: " & EveHQ.Core.HQ.myPilot.LIAtt & vbCrLf
-                msg = msg & "Advanced Learning: " & EveHQ.Core.HQ.myPilot.ALIAtt & vbCrLf
-                msg = msg & "Implant: " & EveHQ.Core.HQ.myPilot.IImplant & vbCrLf
-                msg = msg & "Learning Skill: " & EveHQ.Core.HQ.myPilot.LSIAtt & vbCrLf
-                msg = msg & "TOTAL: " & EveHQ.Core.HQ.myPilot.IAttT
+                msg = "Starting Attribute: " & displayPilot.IAtt & vbCrLf
+                msg = msg & "Basic Learning: " & displayPilot.LIAtt & vbCrLf
+                msg = msg & "Advanced Learning: " & displayPilot.ALIAtt & vbCrLf
+                msg = msg & "Implant: " & displayPilot.IImplant & vbCrLf
+                msg = msg & "Learning Skill: " & displayPilot.LSIAtt & vbCrLf
+                msg = msg & "TOTAL: " & displayPilot.IAttT
                 caption = "Intelligence Attribute Breakdown"
             Case ("Memory")
-                msg = "Starting Attribute: " & EveHQ.Core.HQ.myPilot.MAtt & vbCrLf
-                msg = msg & "Basic Learning: " & EveHQ.Core.HQ.myPilot.LMAtt & vbCrLf
-                msg = msg & "Advanced Learning: " & EveHQ.Core.HQ.myPilot.ALMAtt & vbCrLf
-                msg = msg & "Implant: " & EveHQ.Core.HQ.myPilot.MImplant & vbCrLf
-                msg = msg & "Learning Skill: " & EveHQ.Core.HQ.myPilot.LSMAtt & vbCrLf
-                msg = msg & "TOTAL: " & EveHQ.Core.HQ.myPilot.MAttT
+                msg = "Starting Attribute: " & displayPilot.MAtt & vbCrLf
+                msg = msg & "Basic Learning: " & displayPilot.LMAtt & vbCrLf
+                msg = msg & "Advanced Learning: " & displayPilot.ALMAtt & vbCrLf
+                msg = msg & "Implant: " & displayPilot.MImplant & vbCrLf
+                msg = msg & "Learning Skill: " & displayPilot.LSMAtt & vbCrLf
+                msg = msg & "TOTAL: " & displayPilot.MAttT
                 caption = "Memory Attribute Breakdown"
             Case ("Perception")
-                msg = "Starting Attribute: " & EveHQ.Core.HQ.myPilot.PAtt & vbCrLf
-                msg = msg & "Basic Learning: " & EveHQ.Core.HQ.myPilot.LPAtt & vbCrLf
-                msg = msg & "Advanced Learning: " & EveHQ.Core.HQ.myPilot.ALPAtt & vbCrLf
-                msg = msg & "Implant: " & EveHQ.Core.HQ.myPilot.PImplant & vbCrLf
-                msg = msg & "Learning Skill: " & EveHQ.Core.HQ.myPilot.LSPAtt & vbCrLf
-                msg = msg & "TOTAL: " & EveHQ.Core.HQ.myPilot.PAttT
+                msg = "Starting Attribute: " & displayPilot.PAtt & vbCrLf
+                msg = msg & "Basic Learning: " & displayPilot.LPAtt & vbCrLf
+                msg = msg & "Advanced Learning: " & displayPilot.ALPAtt & vbCrLf
+                msg = msg & "Implant: " & displayPilot.PImplant & vbCrLf
+                msg = msg & "Learning Skill: " & displayPilot.LSPAtt & vbCrLf
+                msg = msg & "TOTAL: " & displayPilot.PAttT
                 caption = "Perception Attribute Breakdown"
             Case ("Willpower")
-                msg = "Starting Attribute: " & EveHQ.Core.HQ.myPilot.WAtt & vbCrLf
-                msg = msg & "Basic Learning: " & EveHQ.Core.HQ.myPilot.LWAtt & vbCrLf
-                msg = msg & "Advanced Learning: " & EveHQ.Core.HQ.myPilot.ALWAtt & vbCrLf
-                msg = msg & "Implant: " & EveHQ.Core.HQ.myPilot.WImplant & vbCrLf
-                msg = msg & "Learning Skill: " & EveHQ.Core.HQ.myPilot.LSWAtt & vbCrLf
-                msg = msg & "TOTAL: " & EveHQ.Core.HQ.myPilot.WAttT
+                msg = "Starting Attribute: " & displayPilot.WAtt & vbCrLf
+                msg = msg & "Basic Learning: " & displayPilot.LWAtt & vbCrLf
+                msg = msg & "Advanced Learning: " & displayPilot.ALWAtt & vbCrLf
+                msg = msg & "Implant: " & displayPilot.WImplant & vbCrLf
+                msg = msg & "Learning Skill: " & displayPilot.LSWAtt & vbCrLf
+                msg = msg & "TOTAL: " & displayPilot.WAttT
                 caption = "Willpower Attribute Breakdown"
         End Select
         MessageBox.Show(msg, caption)
@@ -749,26 +768,27 @@ Public Class frmPilot
 
     Private Sub chkManualImplants_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkManualImplants.CheckedChanged
         If chkManualImplants.Checked = True Then
-            EveHQ.Core.HQ.myPilot.UseManualImplants = True
+            displayPilot.UseManualImplants = True
             btnEditImplants.Enabled = True
         Else
-            EveHQ.Core.HQ.myPilot.UseManualImplants = False
+            displayPilot.UseManualImplants = False
             btnEditImplants.Enabled = False
         End If
         Call Me.UpdatePilotInfo()
     End Sub
 
     Private Sub btnEditImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditImplants.Click
+        frmEditImplants.DisplayPilotName = displayPilot.Name
         frmEditImplants.ShowDialog()
         Call Me.UpdatePilotInfo()
     End Sub
 
     Private Sub UpdateImplants()
-        lvImplants.Items(0).SubItems(1).Text = ("+" & EveHQ.Core.HQ.myPilot.CImplant)
-        lvImplants.Items(1).SubItems(1).Text = ("+" & EveHQ.Core.HQ.myPilot.IImplant)
-        lvImplants.Items(2).SubItems(1).Text = ("+" & EveHQ.Core.HQ.myPilot.MImplant)
-        lvImplants.Items(3).SubItems(1).Text = ("+" & EveHQ.Core.HQ.myPilot.PImplant)
-        lvImplants.Items(4).SubItems(1).Text = ("+" & EveHQ.Core.HQ.myPilot.WImplant)
+        lvImplants.Items(0).SubItems(1).Text = ("+" & displayPilot.CImplant)
+        lvImplants.Items(1).SubItems(1).Text = ("+" & displayPilot.IImplant)
+        lvImplants.Items(2).SubItems(1).Text = ("+" & displayPilot.MImplant)
+        lvImplants.Items(3).SubItems(1).Text = ("+" & displayPilot.PImplant)
+        lvImplants.Items(4).SubItems(1).Text = ("+" & displayPilot.WImplant)
     End Sub
 
 #End Region
@@ -776,8 +796,8 @@ Public Class frmPilot
 #Region "Portrait Related Routines"
 
     Private Sub mnuCtxPicGetPortraitFromServer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCtxPicGetPortraitFromServer.Click
-        If EveHQ.Core.HQ.myPilot.ID <> "" Then
-            picPilot.ImageLocation = "http://img.eve.is/serv.asp?s=256&c=" & EveHQ.Core.HQ.myPilot.ID
+        If displayPilot.ID <> "" Then
+            picPilot.ImageLocation = "http://img.eve.is/serv.asp?s=256&c=" & displayPilot.ID
         End If
     End Sub
     Private Sub mnuCtxPicGetPortraitFromLocal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCtxPicGetPortraitFromLocal.Click
@@ -793,7 +813,7 @@ Public Class frmPilot
             End If
             If My.Computer.FileSystem.DirectoryExists(folderName) = True Then
                 For Each foundFile As String In My.Computer.FileSystem.GetFiles(folderName, FileIO.SearchOption.SearchTopLevelOnly, "*.png")
-                    If foundFile.Contains(EveHQ.Core.HQ.myPilot.ID & "_") = True Then
+                    If foundFile.Contains(displayPilot.ID & "_") = True Then
                         ' Get the dimensions of the file
                         Dim myFile As New FileInfo(foundFile)
                         Dim fileData As String() = myFile.Name.Split(New Char(1) {CChar("_"), CChar(".")})
@@ -808,7 +828,7 @@ Public Class frmPilot
         MessageBox.Show("The requested portrait was not found within the Eve cache locations.", "Portrait Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
     Private Sub mnuSavePortrait_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSavePortrait.Click
-        Dim imgFilename As String = EveHQ.Core.HQ.myPilot.ID & ".png"
+        Dim imgFilename As String = displayPilot.ID & ".png"
         picPilot.Image.Save(EveHQ.Core.HQ.imageCacheFolder & "\" & imgFilename)
     End Sub
 #End Region
@@ -920,7 +940,15 @@ Public Class frmPilot
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
         Dim certID As String = mnuCertName.Tag.ToString
         frmCertificateDetails.Text = mnuCertName.Text
+        frmCertificateDetails.DisplayPilotName = displayPilot.Name
         frmCertificateDetails.ShowCertDetails(certID)
+    End Sub
+
+    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
+            displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+            Call UpdatePilotInfo()
+        End If
     End Sub
 End Class
 
