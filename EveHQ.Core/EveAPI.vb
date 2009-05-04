@@ -145,10 +145,6 @@ Public Class EveAPI
                 remoteURL = "/char/AssetList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.AssetsCorp
                 remoteURL = "/corp/AssetList.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
-            Case EveHQ.Core.EveAPI.APIRequest.KillLogChar
-                remoteURL = "/char/Killlog.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
-            Case EveHQ.Core.EveAPI.APIRequest.KillLogCorp
-                remoteURL = "/corp/Killlog.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.IndustryChar
                 remoteURL = "/char/IndustryJobs.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
             Case EveHQ.Core.EveAPI.APIRequest.IndustryCorp
@@ -203,6 +199,32 @@ Public Class EveAPI
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(EveHQ.Core.EveAPI.APIRequest), Feature) & "_" & cAccount.userID & "_" & charID & "_" & itemID
+        Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
+    End Function
+    Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal BeforeRefID As String, ByVal ReturnMethod As Integer) As XmlDocument
+        Dim remoteURL As String = ""
+        Dim postData As String = "userID=" & cAccount.userID & "&apiKey=" & cAccount.APIKey & "&characterID=" & charID
+        If BeforeRefID <> "" Then
+            Select Case Feature
+                Case EveHQ.Core.EveAPI.APIRequest.KillLogChar, EveHQ.Core.EveAPI.APIRequest.KillLogCorp
+                    postData &= "&beforeKillID=" & BeforeRefID
+            End Select
+        End If
+        Select Case Feature
+            Case EveHQ.Core.EveAPI.APIRequest.KillLogChar
+                remoteURL = "/char/Killlog.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case EveHQ.Core.EveAPI.APIRequest.KillLogCorp
+                remoteURL = "/corp/Killlog.xml." & EveHQ.Core.HQ.EveHQSettings.APIFileExtension
+            Case Else
+                cLastAPIResult = APIResults.InvalidFeature
+                Return Nothing
+                Exit Function
+        End Select
+        ' Determine filename of cache
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(EveHQ.Core.EveAPI.APIRequest), Feature) & "_" & cAccount.userID & "_" & charID
+        If BeforeRefID <> "" Then
+            fileName &= "_" & BeforeRefID
+        End If
         Return EveHQ.Core.EveAPI.GetXML(remoteURL, postData, fileName, ReturnMethod, Feature)
     End Function
     Overloads Shared Function GetAPIXML(ByVal Feature As Integer, ByVal cAccount As EveHQ.Core.EveAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal BeforeRefID As String, ByVal ReturnMethod As Integer) As XmlDocument

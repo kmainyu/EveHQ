@@ -82,8 +82,6 @@ Public Class frmAPIChecker
             EveHQ.Core.EveAPI.APIRequest.SkillQueue, _
             EveHQ.Core.EveAPI.APIRequest.AssetsChar, _
             EveHQ.Core.EveAPI.APIRequest.AssetsCorp, _
-            EveHQ.Core.EveAPI.APIRequest.KillLogChar, _
-            EveHQ.Core.EveAPI.APIRequest.KillLogCorp, _
             EveHQ.Core.EveAPI.APIRequest.IndustryChar, _
             EveHQ.Core.EveAPI.APIRequest.IndustryCorp, _
             EveHQ.Core.EveAPI.APIRequest.OrdersChar, _
@@ -118,6 +116,13 @@ Public Class frmAPIChecker
                 lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
                 lblOtherInfo.Text = "Before RefID:"
                 APIStyle = 6
+
+            Case EveHQ.Core.EveAPI.APIRequest.KillLogChar, EveHQ.Core.EveAPI.APIRequest.KillLogChar
+                lblCharacter.Enabled = True : cboCharacter.Enabled = True
+                lblAccount.Enabled = False : cboAccount.Enabled = False
+                lblOtherInfo.Enabled = True : txtOtherInfo.Enabled = True
+                lblOtherInfo.Text = "Before KillID:"
+                APIStyle = 7
 
         End Select
     End Sub
@@ -166,6 +171,8 @@ Public Class frmAPIChecker
                 testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, CInt(txtOtherInfo.Text), returnMethod)
             Case 6
                 testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, CInt(cboAccount.SelectedItem.ToString), txtOtherInfo.Text, returnMethod)
+            Case 7
+                testXML = EveHQ.Core.EveAPI.GetAPIXML(CInt(APIMethods.Item(cboAPIMethod.SelectedItem.ToString)), pilotAccount, selpilot.ID, txtOtherInfo.Text, returnMethod)
         End Select
         Try
             wbAPI.Navigate(EveHQ.Core.EveAPI.LastAPIFileName)
