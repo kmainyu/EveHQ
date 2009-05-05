@@ -133,6 +133,16 @@ Public Class frmSettings
         Else
             cboMDITabPosition.SelectedItem = "Top"
         End If
+        If EveHQ.Core.HQ.EveHQSettings.ToolbarPosition IsNot Nothing Then
+            cboToolbarPosition.SelectedItem = EveHQ.Core.HQ.EveHQSettings.ToolbarPosition
+        Else
+            cboToolbarPosition.SelectedItem = "Left"
+        End If
+        If EveHQ.Core.HQ.EveHQSettings.TrainingBarPosition IsNot Nothing Then
+            cboTrainingBarPosition.SelectedItem = EveHQ.Core.HQ.EveHQSettings.TrainingBarPosition
+        Else
+            cboTrainingBarPosition.SelectedItem = "Bottom"
+        End If
     End Sub
 
     Private Sub chkAutoHide_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkAutoHide.CheckedChanged
@@ -254,6 +264,49 @@ Public Class frmSettings
                 frmEveHQ.tabMDI.Dock = DockStyle.Top
             Case "Bottom"
                 frmEveHQ.tabMDI.Dock = DockStyle.Bottom
+        End Select
+    End Sub
+
+    Private Sub cboToolbarPosition_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboToolbarPosition.SelectedIndexChanged
+        EveHQ.Core.HQ.EveHQSettings.ToolbarPosition = cboToolbarPosition.SelectedItem.ToString
+        Select Case EveHQ.Core.HQ.EveHQSettings.ToolbarPosition
+            Case "Top"
+                frmEveHQ.EveHQToolStrip.Dock = DockStyle.Top
+            Case "Bottom"
+                frmEveHQ.EveHQToolStrip.Dock = DockStyle.Bottom
+            Case "Left"
+                frmEveHQ.EveHQToolStrip.Dock = DockStyle.Left
+            Case "Right"
+                frmEveHQ.EveHQToolStrip.Dock = DockStyle.Right
+        End Select
+    End Sub
+
+    Private Sub cboTrainingBarPosition_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboTrainingBarPosition.SelectedIndexChanged
+        EveHQ.Core.HQ.EveHQSettings.TrainingBarPosition = cboTrainingBarPosition.SelectedItem.ToString
+        Select Case EveHQ.Core.HQ.EveHQSettings.TrainingBarPosition
+            Case "Top"
+                frmEveHQ.panelTrainingStatus.Visible = True
+                frmEveHQ.ssTraining.Visible = True
+                frmEveHQ.panelTrainingStatus.Dock = DockStyle.Top
+                frmEveHQ.ssTraining.Dock = DockStyle.Top
+            Case "Bottom"
+                frmEveHQ.panelTrainingStatus.Visible = True
+                frmEveHQ.ssTraining.Visible = True
+                frmEveHQ.panelTrainingStatus.Dock = DockStyle.Bottom
+                frmEveHQ.ssTraining.Dock = DockStyle.Bottom
+            Case "Left"
+                frmEveHQ.panelTrainingStatus.Visible = True
+                frmEveHQ.ssTraining.Visible = True
+                frmEveHQ.panelTrainingStatus.Dock = DockStyle.Left
+                frmEveHQ.ssTraining.Dock = DockStyle.Left
+            Case "Right"
+                frmEveHQ.panelTrainingStatus.Visible = True
+                frmEveHQ.ssTraining.Visible = True
+                frmEveHQ.panelTrainingStatus.Dock = DockStyle.Right
+                frmEveHQ.ssTraining.Dock = DockStyle.Right
+            Case "None"
+                frmEveHQ.panelTrainingStatus.Visible = False
+                frmEveHQ.ssTraining.Visible = False
         End Select
     End Sub
 
@@ -2005,5 +2058,4 @@ Public Class frmSettings
 
 #End Region
 
-   
 End Class

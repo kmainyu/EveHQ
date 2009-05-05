@@ -397,6 +397,37 @@ Public Class frmEveHQ
                 Me.tabMDI.Dock = DockStyle.Bottom
         End Select
 
+        ' Set the toolbar position
+        Select Case EveHQ.Core.HQ.EveHQSettings.ToolbarPosition
+            Case "Top"
+                Me.EveHQToolStrip.Dock = DockStyle.Top
+            Case "Bottom"
+                Me.EveHQToolStrip.Dock = DockStyle.Bottom
+            Case "Left"
+                Me.EveHQToolStrip.Dock = DockStyle.Left
+            Case "Right"
+                Me.EveHQToolStrip.Dock = DockStyle.Right
+        End Select
+
+        ' Set the training bar position
+        Select Case EveHQ.Core.HQ.EveHQSettings.TrainingBarPosition
+            Case "Top"
+                Me.panelTrainingStatus.Dock = DockStyle.Top
+                Me.ssTraining.Dock = DockStyle.Top
+            Case "Bottom"
+                Me.panelTrainingStatus.Dock = DockStyle.Bottom
+                Me.ssTraining.Dock = DockStyle.Bottom
+            Case "Left"
+                Me.panelTrainingStatus.Dock = DockStyle.Left
+                Me.ssTraining.Dock = DockStyle.Left
+            Case "Right"
+                Me.panelTrainingStatus.Dock = DockStyle.Right
+                Me.ssTraining.Dock = DockStyle.Right
+            Case "None"
+                Me.panelTrainingStatus.Visible = False
+                Me.ssTraining.Visible = False
+        End Select
+
         ' Close the splash screen
         frmSplash.Close()
 
@@ -557,6 +588,8 @@ Public Class frmEveHQ
     Private Sub SkillWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles SkillWorker.RunWorkerCompleted
 
         Call CheckNotifications()
+
+        Call Me.UpdateTrainingStatus()
 
         If EveHQ.Core.HQ.EveHQSettings.ContinueTraining = True Then
             Call UpdateToNextLevel()
@@ -832,6 +865,9 @@ Public Class frmEveHQ
             End If
         Next
 
+        ' Setup the Training Status Bar
+        Call Me.SetupTrainingStatus()
+
         ' Update the cbopilots in the pilot form and the training form
         frmPilot.UpdatePilots()
         frmTraining.UpdatePilots()
@@ -863,6 +899,102 @@ Public Class frmEveHQ
         ' Redraw Reports menu with new pilots and queues options?
         Call Me.DrawReportsMenu(allPilots)
 
+    End Sub
+
+    Private Sub SetupTrainingStatus()
+
+        ' Clear the list of Status Labels
+        ssTraining.Items.Clear()
+
+        Dim accounts As New ArrayList
+        Dim pilotCount As Integer = 0
+        Dim pilotTimes As New SortedList
+        Dim pilotTime As Long = 0
+
+        ' Get a list of the training pilots and build some status panels
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If cPilot.Training = True Then
+                If cPilot.Active = True Then
+                    ' Build a status panel
+                    Dim newSSLabel As New ToolStripStatusLabel
+                    newSSLabel.Name = "TrainingStatus" & pilotCount.ToString
+                    newSSLabel.TextAlign = ContentAlignment.MiddleLeft
+                    newSSLabel.IsLink = True
+                    newSSLabel.LinkColor = Color.Black
+                    newSSLabel.LinkBehavior = LinkBehavior.HoverUnderline
+                    Dim ssPadding As New Padding(16, 2, 16, 2)
+                    newSSLabel.Padding = ssPadding
+                    pilotTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
+                    pilotTimes.Add(Format(pilotTime, "0000000000") & "_" & cPilot.ID, cPilot)
+                    pilotCount += 1
+                    ssTraining.Items.Add(newSSLabel)
+                End If
+                accounts.Add(cPilot.Account)
+            End If
+        Next
+
+        ' Check each account to see if something is training. 
+        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+            If accounts.Contains(cAccount.userID) = False Then
+                ' Build a status panel
+                Dim newSSLabel As New ToolStripStatusLabel
+                newSSLabel.Name = "TrainingStatus" & pilotCount.ToString
+                newSSLabel.TextAlign = ContentAlignment.MiddleLeft
+                newSSLabel.Text = "Account: " & cAccount.FriendlyName & ControlChars.CrLf & "NOT CURRENTLY TRAINING!"
+                newSSLabel.IsLink = True
+                newSSLabel.LinkColor = Color.Red
+                newSSLabel.LinkBehavior = LinkBehavior.HoverUnderline
+                Dim ssPadding As New Padding(16, 2, 16, 2)
+                newSSLabel.Padding = ssPadding
+                pilotCount += 1
+                ssTraining.Items.Add(newSSLabel)
+            End If
+        Next
+
+        ' Put the details into the training panels
+        pilotCount = 0
+        For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
+            Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
+            newSSLabel.Text = cPilot.Name & ControlChars.CrLf & cPilot.TrainingSkillName & " (Lvl " & cPilot.TrainingSkillLevel.ToString & ")" & ControlChars.CrLf & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+            pilotCount += 1
+        Next
+    End Sub
+
+    Private Sub UpdateTrainingStatus()
+
+        Dim accounts As New ArrayList
+        Dim statusText As New StringBuilder
+        Dim pilotTimes As New SortedList
+        Dim pilotTime As Long = 0
+
+        ' Get a list of the training pilots and record training times
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If cPilot.Training = True Then
+                If cPilot.Active = True Then
+                    pilotTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
+                    pilotTimes.Add(Format(pilotTime, "0000000000") & "_" & cPilot.ID, cPilot)
+                End If
+                accounts.Add(cPilot.Account)
+            End If
+        Next
+
+        ' Put the details into the training panels
+        Dim pilotCount As Integer = 0
+        For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
+            Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
+            newSSLabel.Text = cPilot.Name & ControlChars.CrLf & cPilot.TrainingSkillName & " (Lvl " & cPilot.TrainingSkillLevel.ToString & ")" & ControlChars.CrLf & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+            pilotCount += 1
+        Next
+
+        ' Check each account to see if something is training. 
+        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+            If accounts.Contains(cAccount.userID) = False Then
+                ' Build a status panel
+                Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
+                newSSLabel.Text = "Account: " & cAccount.FriendlyName & ControlChars.CrLf & "NOT CURRENTLY TRAINING!"
+                pilotCount += 1
+            End If
+        Next
     End Sub
 
     Private Sub mnuReportOpenfolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportOpenfolder.Click
@@ -1223,7 +1355,7 @@ Public Class frmEveHQ
         plugInInfo.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
         Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = plugInInfo.Instance
         Dim modMenu As ToolStripMenuItem = CType(mnuModules.DropDownItems(plugInInfo.Name), ToolStripMenuItem)
-        Dim tsbMenu As ToolStripButton = CType(ToolStrip.Items(plugInInfo.Name), ToolStripButton)
+        Dim tsbMenu As ToolStripButton = CType(EveHQToolStrip.Items(plugInInfo.Name), ToolStripButton)
         modMenu.DropDownItems(0).Enabled = False
         modMenu.DropDownItems(1).Enabled = False
         tsbMenu.BackColor = Color.FromArgb(255, 255, 255, 110)
@@ -1236,7 +1368,7 @@ Public Class frmEveHQ
                 modMenu.DropDownItems(1).Enabled = False
                 plugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Failed
             Else
-                If ToolStrip.Items.ContainsKey(plugInInfo.Name) = True Then
+                If EveHQToolStrip.Items.ContainsKey(plugInInfo.Name) = True Then
                     tsbMenu.BackColor = Color.FromKnownColor(KnownColor.Control)
                     tsbMenu.Enabled = True
                 End If
@@ -1299,7 +1431,7 @@ Public Class frmEveHQ
                     mnuModules.DropDownItems.Add(newModuleMenu)
                     ' Only add if we have an image
                     If PlugInInfo.MenuImage IsNot Nothing Then
-                        ToolStrip.Items.Add(newTSBItem)
+                        EveHQToolStrip.Items.Add(newTSBItem)
                     End If
                 Else
                     ' Need anything here if the plug-in is disabled?
@@ -1337,8 +1469,8 @@ Public Class frmEveHQ
             ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
         Else
             Dim modMenu As ToolStripMenuItem = CType(mnuModules.DropDownItems(PlugInInfo.Name), ToolStripMenuItem)
-            If ToolStrip.Items.ContainsKey(PlugInInfo.Name) = True Then
-                Dim tsbMenu As ToolStripButton = CType(ToolStrip.Items(PlugInInfo.Name), ToolStripButton)
+            If EveHQToolStrip.Items.ContainsKey(PlugInInfo.Name) = True Then
+                Dim tsbMenu As ToolStripButton = CType(EveHQToolStrip.Items(PlugInInfo.Name), ToolStripButton)
                 tsbMenu.Enabled = True
             End If
             PlugInInfo.Status = EveHQ.Core.PlugIn.PlugInStatus.Active

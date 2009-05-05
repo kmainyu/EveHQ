@@ -146,7 +146,25 @@ Imports System.Diagnostics
     Private cMarketLogUpdateData As Boolean = False
     Private cShowCompletedSkills As Boolean = False
     Private cMDITabPosition As String = "Top"
+    Private cToolbarPosition As String = "Left"
+    Private cTrainingBarPosition As String = "Bottom"
 
+    Public Property TrainingBarPosition() As String
+        Get
+            Return cTrainingBarPosition
+        End Get
+        Set(ByVal value As String)
+            cTrainingBarPosition = value
+        End Set
+    End Property
+    Public Property ToolbarPosition() As String
+        Get
+            Return cToolbarPosition
+        End Get
+        Set(ByVal value As String)
+            cToolbarPosition = value
+        End Set
+    End Property
     Public Property MDITabPosition() As String
         Get
             Return cMDITabPosition

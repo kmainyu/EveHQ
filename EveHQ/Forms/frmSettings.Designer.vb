@@ -298,6 +298,10 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
+        Me.lblToolbarPosition = New System.Windows.Forms.Label
+        Me.cboToolbarPosition = New System.Windows.Forms.ComboBox
+        Me.lblTrainingBarPosition = New System.Windows.Forms.Label
+        Me.cboTrainingBarPosition = New System.Windows.Forms.ComboBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -357,6 +361,10 @@ Partial Public Class frmSettings
         '
         'gbGeneral
         '
+        Me.gbGeneral.Controls.Add(Me.lblTrainingBarPosition)
+        Me.gbGeneral.Controls.Add(Me.cboTrainingBarPosition)
+        Me.gbGeneral.Controls.Add(Me.lblToolbarPosition)
+        Me.gbGeneral.Controls.Add(Me.cboToolbarPosition)
         Me.gbGeneral.Controls.Add(Me.lblMDITabPosition)
         Me.gbGeneral.Controls.Add(Me.cboMDITabPosition)
         Me.gbGeneral.Controls.Add(Me.txtErrorRepEmail)
@@ -377,9 +385,9 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
         Me.gbGeneral.Controls.Add(Me.chkAutoRun)
         Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-        Me.gbGeneral.Location = New System.Drawing.Point(212, 295)
+        Me.gbGeneral.Location = New System.Drawing.Point(194, 12)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(187, 45)
+        Me.gbGeneral.Size = New System.Drawing.Size(693, 498)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -408,7 +416,7 @@ Partial Public Class frmSettings
         'txtErrorRepEmail
         '
         Me.txtErrorRepEmail.Enabled = False
-        Me.txtErrorRepEmail.Location = New System.Drawing.Point(144, 273)
+        Me.txtErrorRepEmail.Location = New System.Drawing.Point(144, 317)
         Me.txtErrorRepEmail.Name = "txtErrorRepEmail"
         Me.txtErrorRepEmail.Size = New System.Drawing.Size(247, 20)
         Me.txtErrorRepEmail.TabIndex = 44
@@ -417,7 +425,7 @@ Partial Public Class frmSettings
         '
         Me.lblErrorRepEmail.AutoSize = True
         Me.lblErrorRepEmail.Enabled = False
-        Me.lblErrorRepEmail.Location = New System.Drawing.Point(56, 276)
+        Me.lblErrorRepEmail.Location = New System.Drawing.Point(56, 320)
         Me.lblErrorRepEmail.Name = "lblErrorRepEmail"
         Me.lblErrorRepEmail.Size = New System.Drawing.Size(83, 13)
         Me.lblErrorRepEmail.TabIndex = 43
@@ -426,7 +434,7 @@ Partial Public Class frmSettings
         'txtErrorRepName
         '
         Me.txtErrorRepName.Enabled = False
-        Me.txtErrorRepName.Location = New System.Drawing.Point(144, 247)
+        Me.txtErrorRepName.Location = New System.Drawing.Point(144, 291)
         Me.txtErrorRepName.Name = "txtErrorRepName"
         Me.txtErrorRepName.Size = New System.Drawing.Size(247, 20)
         Me.txtErrorRepName.TabIndex = 42
@@ -435,7 +443,7 @@ Partial Public Class frmSettings
         '
         Me.lblErrorRepName.AutoSize = True
         Me.lblErrorRepName.Enabled = False
-        Me.lblErrorRepName.Location = New System.Drawing.Point(56, 250)
+        Me.lblErrorRepName.Location = New System.Drawing.Point(56, 294)
         Me.lblErrorRepName.Name = "lblErrorRepName"
         Me.lblErrorRepName.Size = New System.Drawing.Size(86, 13)
         Me.lblErrorRepName.TabIndex = 41
@@ -444,7 +452,7 @@ Partial Public Class frmSettings
         'chkErrorReporting
         '
         Me.chkErrorReporting.AutoSize = True
-        Me.chkErrorReporting.Location = New System.Drawing.Point(24, 224)
+        Me.chkErrorReporting.Location = New System.Drawing.Point(24, 268)
         Me.chkErrorReporting.Name = "chkErrorReporting"
         Me.chkErrorReporting.Size = New System.Drawing.Size(184, 17)
         Me.chkErrorReporting.TabIndex = 40
@@ -453,7 +461,7 @@ Partial Public Class frmSettings
         '
         'txtUpdateLocation
         '
-        Me.txtUpdateLocation.Location = New System.Drawing.Point(116, 182)
+        Me.txtUpdateLocation.Location = New System.Drawing.Point(116, 226)
         Me.txtUpdateLocation.Name = "txtUpdateLocation"
         Me.txtUpdateLocation.Size = New System.Drawing.Size(449, 20)
         Me.txtUpdateLocation.TabIndex = 39
@@ -461,7 +469,7 @@ Partial Public Class frmSettings
         'lblUpdateLocation
         '
         Me.lblUpdateLocation.AutoSize = True
-        Me.lblUpdateLocation.Location = New System.Drawing.Point(21, 185)
+        Me.lblUpdateLocation.Location = New System.Drawing.Point(21, 229)
         Me.lblUpdateLocation.Name = "lblUpdateLocation"
         Me.lblUpdateLocation.Size = New System.Drawing.Size(89, 13)
         Me.lblUpdateLocation.TabIndex = 38
@@ -2638,9 +2646,9 @@ Partial Public Class frmSettings
         'gbColours
         '
         Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
-        Me.gbColours.Location = New System.Drawing.Point(194, 12)
+        Me.gbColours.Location = New System.Drawing.Point(671, 271)
         Me.gbColours.Name = "gbColours"
-        Me.gbColours.Size = New System.Drawing.Size(693, 486)
+        Me.gbColours.Size = New System.Drawing.Size(127, 51)
         Me.gbColours.TabIndex = 28
         Me.gbColours.TabStop = False
         Me.gbColours.Text = "Colours"
@@ -2995,14 +3003,54 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
+        'lblToolbarPosition
+        '
+        Me.lblToolbarPosition.AutoSize = True
+        Me.lblToolbarPosition.Location = New System.Drawing.Point(313, 143)
+        Me.lblToolbarPosition.Name = "lblToolbarPosition"
+        Me.lblToolbarPosition.Size = New System.Drawing.Size(86, 13)
+        Me.lblToolbarPosition.TabIndex = 48
+        Me.lblToolbarPosition.Text = "Toolbar Position:"
+        '
+        'cboToolbarPosition
+        '
+        Me.cboToolbarPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboToolbarPosition.FormattingEnabled = True
+        Me.cboToolbarPosition.Items.AddRange(New Object() {"Bottom", "Left", "Right", "Top"})
+        Me.cboToolbarPosition.Location = New System.Drawing.Point(411, 140)
+        Me.cboToolbarPosition.Name = "cboToolbarPosition"
+        Me.cboToolbarPosition.Size = New System.Drawing.Size(161, 21)
+        Me.cboToolbarPosition.Sorted = True
+        Me.cboToolbarPosition.TabIndex = 47
+        '
+        'lblTrainingBarPosition
+        '
+        Me.lblTrainingBarPosition.AutoSize = True
+        Me.lblTrainingBarPosition.Location = New System.Drawing.Point(313, 170)
+        Me.lblTrainingBarPosition.Name = "lblTrainingBarPosition"
+        Me.lblTrainingBarPosition.Size = New System.Drawing.Size(88, 13)
+        Me.lblTrainingBarPosition.TabIndex = 50
+        Me.lblTrainingBarPosition.Text = "Training Position:"
+        '
+        'cboTrainingBarPosition
+        '
+        Me.cboTrainingBarPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboTrainingBarPosition.FormattingEnabled = True
+        Me.cboTrainingBarPosition.Items.AddRange(New Object() {"Bottom", "Left", "None", "Right", "Top"})
+        Me.cboTrainingBarPosition.Location = New System.Drawing.Point(411, 167)
+        Me.cboTrainingBarPosition.Name = "cboTrainingBarPosition"
+        Me.cboTrainingBarPosition.Size = New System.Drawing.Size(161, 21)
+        Me.cboTrainingBarPosition.Sorted = True
+        Me.cboTrainingBarPosition.TabIndex = 49
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbColours)
-        Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbGeneral)
+        Me.Controls.Add(Me.gbEveServer)
+        Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbG15)
@@ -3367,4 +3415,8 @@ Partial Public Class frmSettings
     Friend WithEvents chkShowCompletedSkills As System.Windows.Forms.CheckBox
     Friend WithEvents lblMDITabPosition As System.Windows.Forms.Label
     Friend WithEvents cboMDITabPosition As System.Windows.Forms.ComboBox
+    Friend WithEvents lblTrainingBarPosition As System.Windows.Forms.Label
+    Friend WithEvents cboTrainingBarPosition As System.Windows.Forms.ComboBox
+    Friend WithEvents lblToolbarPosition As System.Windows.Forms.Label
+    Friend WithEvents cboToolbarPosition As System.Windows.Forms.ComboBox
 End Class
