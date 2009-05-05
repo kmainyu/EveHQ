@@ -30,7 +30,7 @@ Public Class PlugInData
         EveHQPlugIn.MainMenuText = "Character Creation"
         EveHQPlugIn.RunAtStartup = True
         EveHQPlugIn.RunInIGB = False
-        EveHQPlugIn.MenuImage = My.Resources.plugin_logo
+        EveHQPlugIn.MenuImage = My.Resources.plugin_icon
         EveHQPlugIn.Version = My.Application.Info.Version.ToString
         Return EveHQPlugIn
     End Function

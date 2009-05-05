@@ -26,7 +26,6 @@ Public Class frmTrainingInfo
     Dim updateRequired As Boolean = True
 
     Private Sub Panel1_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles Panel1.DoubleClick
-        frmEveHQ.tsbTrainingOverlay.Checked = False
         frmEveHQ.TrainingInformationToolStripMenuItem.Checked = False
         Me.Close()
     End Sub

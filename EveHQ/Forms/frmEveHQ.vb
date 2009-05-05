@@ -100,7 +100,7 @@ Public Class frmEveHQ
             ChildForm.Close()
         Next
     End Sub
-    Private Sub OptionsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptionsToolStripMenuItem.Click, tsbSettings.Click
+    Private Sub OptionsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptionsToolStripMenuItem.Click
         frmSettings.ShowDialog()
     End Sub
     Private Sub PilotInfoToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PilotInfoToolStripMenuItem.Click, tsbPilotInfo.Click
@@ -1114,7 +1114,7 @@ Public Class frmEveHQ
         End If
     End Sub
 
-    Private Sub mnuBackup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBackup.Click, tsbSettingsBackup.Click
+    Private Sub mnuBackup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBackup.Click
         Call Me.OpenBackUpForm()
     End Sub
 
@@ -1165,11 +1165,11 @@ Public Class frmEveHQ
 
 #End Region
 
-    Private Sub mnuHelpAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuHelpAbout.Click, tsbAbout.Click
+    Private Sub mnuHelpAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuHelpAbout.Click
         frmAbout.ShowDialog()
     End Sub
 
-    Private Sub mnuHelpCheckUpdates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuHelpCheckUpdates.Click, tsbCheckUpdates.Click
+    Private Sub mnuHelpCheckUpdates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuHelpCheckUpdates.Click
         Dim myUpdater As New frmUpdater
         myUpdater.ShowDialog()
     End Sub
@@ -1266,7 +1266,10 @@ Public Class frmEveHQ
                     Dim newModuleMenu As ToolStripMenuItem = New ToolStripMenuItem(PlugInInfo.MainMenuText, Nothing, Nothing, PlugInInfo.Name)
                     Dim newTSBItem As ToolStripButton = New ToolStripButton(PlugInInfo.MainMenuText, PlugInInfo.MenuImage, New System.EventHandler(AddressOf ModuleTSBClick), PlugInInfo.Name)
                     newTSBItem.ToolTipText = PlugInInfo.MainMenuText
+                    newTSBItem.AutoSize = False
+                    newTSBItem.Width = 36 : newTSBItem.Height = 36
                     newTSBItem.DisplayStyle = ToolStripItemDisplayStyle.Image
+                    newTSBItem.ImageScaling = ToolStripItemImageScaling.None
                     AddHandler newTSBItem.DoubleClick, AddressOf Me.mnuUpdate_Click
                     newModuleMenu.Text = PlugInInfo.MainMenuText
                     newModuleMenu.Image = PlugInInfo.MenuImage
@@ -1485,38 +1488,6 @@ Public Class frmEveHQ
 
 #End Region
 
-    Private Sub TrainingInformationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TrainingInformationToolStripMenuItem.Click
-        If TrainingInformationToolStripMenuItem.Checked = True Then
-            If frmTrainingInfo.IsHandleCreated = False Then
-                tsbTrainingOverlay.Checked = True
-                TrainingInformationToolStripMenuItem.Checked = True
-                Call Me.ShowTrainingOverlay()
-                Me.Select()
-            End If
-        Else
-            If frmTrainingInfo.IsHandleCreated = True Then
-                tsbTrainingOverlay.Checked = False
-                TrainingInformationToolStripMenuItem.Checked = False
-                frmTrainingInfo.Close()
-            End If
-        End If
-    End Sub
-    Private Sub tsbTrainingOverlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbTrainingOverlay.Click
-        If tsbTrainingOverlay.Checked = True Then
-            If frmTrainingInfo.IsHandleCreated = False Then
-                tsbTrainingOverlay.Checked = True
-                TrainingInformationToolStripMenuItem.Checked = True
-                Call Me.ShowTrainingOverlay()
-                Me.Select()
-            End If
-        Else
-            If frmTrainingInfo.IsHandleCreated = True Then
-                tsbTrainingOverlay.Checked = False
-                TrainingInformationToolStripMenuItem.Checked = False
-                frmTrainingInfo.Close()
-            End If
-        End If
-    End Sub
     Private Sub ShowTrainingOverlay()
         ' Get x,y co-ords
         Dim wx As Integer = Screen.PrimaryScreen.WorkingArea.Right

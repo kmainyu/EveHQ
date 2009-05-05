@@ -126,8 +126,10 @@
   <ItemGroup>
     <None Include="Resources\dbo_TABLES_MySQL.sql" />
     <None Include="Resources\EntityData.csv" />
-    <None Include="Resources\table_key.png" />
     <None Include="Resources\WHAttribs.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon84_08.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

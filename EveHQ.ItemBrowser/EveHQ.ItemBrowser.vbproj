@@ -120,16 +120,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\refresh.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\noitem.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icon12_03.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icon12_07.png" />
+    <None Include="Resources\icon34_07.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
