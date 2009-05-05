@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.CoreControls", "EveHQ
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EveHQ.Prism", "EveHQ.Prism\EveHQ.Prism.vbproj", "{0BB966AE-268C-4C9B-AB50-C3F2D8201FDA}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EveHQ.KillMailViewer", "EveHQ.KillMailViewer\EveHQ.KillMailViewer.vbproj", "{8B03AD2B-8399-4702-8915-335E5AD5D667}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -197,6 +199,18 @@ Global
 		{0BB966AE-268C-4C9B-AB50-C3F2D8201FDA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0BB966AE-268C-4C9B-AB50-C3F2D8201FDA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0BB966AE-268C-4C9B-AB50-C3F2D8201FDA}.Release|Win32.ActiveCfg = Release|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Release|.NET.ActiveCfg = Release|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8B03AD2B-8399-4702-8915-335E5AD5D667}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
