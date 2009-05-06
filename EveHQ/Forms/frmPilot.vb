@@ -37,6 +37,14 @@ Public Class frmPilot
     End Sub
 
     Public Sub UpdatePilots()
+
+        ' Save old Pilot info
+        Dim oldPilot As String = ""
+        If cboPilots.SelectedItem IsNot Nothing Then
+            oldPilot = cboPilots.SelectedItem.ToString
+        End If
+
+        ' Update the pilots combo box
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
@@ -46,13 +54,25 @@ Public Class frmPilot
         Next
         cboPilots.EndUpdate()
 
-        If cboPilots.Items.Count > 0 Then
-            If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
-                cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
-            Else
-                cboPilots.SelectedIndex = 0
+        ' Select a pilot
+        If oldPilot = "" Then
+            If cboPilots.Items.Count > 0 Then
+                If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
+                    cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
+                Else
+                    cboPilots.SelectedIndex = 0
+                End If
+            End If
+        Else
+            If cboPilots.Items.Count > 0 Then
+                If cboPilots.Items.Contains(oldPilot) = True Then
+                    cboPilots.SelectedItem = oldPilot
+                Else
+                    cboPilots.SelectedIndex = 0
+                End If
             End If
         End If
+
     End Sub
 
     Public Sub UpdatePilotInfo()
