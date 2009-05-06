@@ -32,6 +32,17 @@ Public Class frmPilot
     Dim TrainingGroup As ContainerListViewItem
     Dim displayPilot As New EveHQ.Core.Pilot
 
+    Public Property DisplayPilotName() As String
+        Get
+            Return displayPilot.Name
+        End Get
+        Set(ByVal value As String)
+            If cboPilots.Items.Contains(value) Then
+                cboPilots.SelectedItem = value
+            End If
+        End Set
+    End Property
+
     Private Sub frmPilot_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Call UpdatePilots()
     End Sub

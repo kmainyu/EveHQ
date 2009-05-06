@@ -45,10 +45,15 @@ Public Class frmTraining
     Delegate Sub FinaliseSuggestionUIDelegate(ByVal ActQueueName As String, ByVal ActQueueTime As Double, ByVal sugQueueTime As Double)
     Private SetSuggUIResult As FinaliseSuggestionUIDelegate = New FinaliseSuggestionUIDelegate(AddressOf SetSuggestionUIResult)
 
-    Public ReadOnly Property DisplayPilotName() As String
+    Public Property DisplayPilotName() As String
         Get
             Return displayPilot.Name
         End Get
+        Set(ByVal value As String)
+            If cboPilots.Items.Contains(value) Then
+                cboPilots.SelectedItem = value
+            End If
+        End Set
     End Property
 
 #Region "Form Loading and Setup Routines"
@@ -2289,38 +2294,46 @@ Public Class frmTraining
     Private Sub MakeQueueSuggestions(ByVal objActQueue As Object)
         Dim ActQueue As EveHQ.Core.SkillQueue = CType(objActQueue, EveHQ.Core.SkillQueue)
         'If ActQueue.QueueSkills > 0 Then
-        Me.Invoke(SetSuggUIToCalc, New Object() {ActQueue.Name})
-        Dim sugQueue As EveHQ.Core.SkillQueue = EveHQ.Core.SkillQueueFunctions.FindSuggestions(displayPilot, CType(ActQueue.Clone, Core.SkillQueue))
-        If suggestedQueues.ContainsKey(ActQueue.Name) = False Then
-            suggestedQueues.Add(ActQueue.Name, sugQueue)
+        If displayPilot.TrainingQueues.ContainsKey(ActQueue.Name) = True Then
+            Me.Invoke(SetSuggUIToCalc, New Object() {ActQueue.Name})
+            Dim sugQueue As EveHQ.Core.SkillQueue = EveHQ.Core.SkillQueueFunctions.FindSuggestions(displayPilot, CType(ActQueue.Clone, Core.SkillQueue))
+            If suggestedQueues.ContainsKey(ActQueue.Name) = False Then
+                suggestedQueues.Add(ActQueue.Name, sugQueue)
+            Else
+                suggestedQueues(ActQueue.Name) = sugQueue
+            End If
+            Me.Invoke(SetSuggUIResult, New Object() {ActQueue.Name, ActQueue.QueueTime, sugQueue.QueueTime})
+            'End If
         Else
-            suggestedQueues(ActQueue.Name) = sugQueue
+            ' Pilot changed before thread processing began therefore disregard the queue routine entirely
         End If
-        Me.Invoke(SetSuggUIResult, New Object() {ActQueue.Name, ActQueue.QueueTime, sugQueue.QueueTime})
-        'End If
     End Sub
     Private Sub SetSuggestionUIToCalc(ByVal QueueName As String)
-        Dim activePB As PictureBox = CType(Me.tabQueues.Controls(QueueName).Controls("P" & QueueName), PictureBox)
-        Dim activeLabel As Label = CType(Me.tabQueues.Controls(QueueName).Controls("S" & QueueName), Label)
-        activePB.Image = My.Resources.info_grey
-        activePB.Enabled = False
-        activePB.Visible = True
-        activeLabel.Text = "Calculating, Please Wait..."
-        activeLabel.Visible = True
+        If Me.tabQueues.Controls.ContainsKey(QueueName) = True Then
+            Dim activePB As PictureBox = CType(Me.tabQueues.Controls(QueueName).Controls("P" & QueueName), PictureBox)
+            Dim activeLabel As Label = CType(Me.tabQueues.Controls(QueueName).Controls("S" & QueueName), Label)
+            activePB.Image = My.Resources.info_grey
+            activePB.Enabled = False
+            activePB.Visible = True
+            activeLabel.Text = "Calculating, Please Wait..."
+            activeLabel.Visible = True
+        End If
     End Sub
     Private Sub SetSuggestionUIResult(ByVal QueueName As String, ByVal ActQueueTime As Double, ByVal SugQueueTime As Double)
-        Dim activePB As PictureBox = CType(Me.tabQueues.Controls(QueueName).Controls("P" & QueueName), PictureBox)
-        Dim activeLabel As Label = CType(Me.tabQueues.Controls(QueueName).Controls("S" & QueueName), Label)
-        If SugQueueTime < ActQueueTime - 10 Then
-            activePB.Image = My.Resources.info_icon
-            activePB.Enabled = True
-            activePB.Visible = True
-            activeLabel.Text = "EveHQ can help decrease your training time, click the icon for more details..."
-            activeLabel.Visible = True
-        Else
-            suggestedQueues.Remove(QueueName)
-            activePB.Visible = False
-            activeLabel.Visible = False
+        If Me.tabQueues.Controls.ContainsKey(QueueName) = True Then
+            Dim activePB As PictureBox = CType(Me.tabQueues.Controls(QueueName).Controls("P" & QueueName), PictureBox)
+            Dim activeLabel As Label = CType(Me.tabQueues.Controls(QueueName).Controls("S" & QueueName), Label)
+            If SugQueueTime < ActQueueTime - 10 Then
+                activePB.Image = My.Resources.info_icon
+                activePB.Enabled = True
+                activePB.Visible = True
+                activeLabel.Text = "EveHQ can help decrease your training time, click the icon for more details..."
+                activeLabel.Visible = True
+            Else
+                suggestedQueues.Remove(QueueName)
+                activePB.Visible = False
+                activeLabel.Visible = False
+            End If
         End If
     End Sub
     Private Sub SuggestionIconClick(ByVal sender As System.Object, ByVal e As System.EventArgs)

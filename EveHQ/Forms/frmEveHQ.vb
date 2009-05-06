@@ -851,10 +851,6 @@ Public Class frmEveHQ
 
     End Sub
 
-    Private Sub RetreiveCharacterInfo(ByVal state As Object)
-
-    End Sub
-
     Public Sub UpdatePilotInfo(Optional ByVal startUp As Boolean = False)
         ' Creates a list of all available pilots and enters it into the pilot selection area
         Dim currentPilot As New EveHQ.Core.Pilot
@@ -869,8 +865,12 @@ Public Class frmEveHQ
         Call Me.SetupTrainingStatus()
 
         ' Update the cbopilots in the pilot form and the training form
-        frmPilot.UpdatePilots()
-        frmTraining.UpdatePilots()
+        If frmPilot.IsHandleCreated = True Then
+            frmPilot.UpdatePilots()
+        End If
+        If frmTraining.IsHandleCreated = True Then
+            frmTraining.UpdatePilots()
+        End If
 
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Count = 0 Then
             tsbPilotInfo.Enabled = False
@@ -922,6 +922,8 @@ Public Class frmEveHQ
                     newSSLabel.IsLink = True
                     newSSLabel.LinkColor = Color.Black
                     newSSLabel.LinkBehavior = LinkBehavior.HoverUnderline
+                    newSSLabel.Tag = cPilot.Name
+                    AddHandler newSSLabel.Click, AddressOf Me.TrainingStatusLabelClick
                     Dim ssPadding As New Padding(16, 2, 16, 2)
                     newSSLabel.Padding = ssPadding
                     pilotTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
@@ -983,6 +985,7 @@ Public Class frmEveHQ
         For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
             Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
             newSSLabel.Text = cPilot.Name & ControlChars.CrLf & cPilot.TrainingSkillName & " (Lvl " & cPilot.TrainingSkillLevel.ToString & ")" & ControlChars.CrLf & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+            newSSLabel.Tag = cPilot.Name
             pilotCount += 1
         Next
 
@@ -995,6 +998,14 @@ Public Class frmEveHQ
                 pilotCount += 1
             End If
         Next
+    End Sub
+
+    Private Sub TrainingStatusLabelClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim selectedLabel As ToolStripStatusLabel = CType(sender, ToolStripStatusLabel)
+        Call Me.OpenSkillTrainingForm()
+        If selectedLabel.Tag IsNot Nothing Then
+            frmTraining.DisplayPilotName = selectedLabel.Tag.ToString
+        End If
     End Sub
 
     Private Sub mnuReportOpenfolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportOpenfolder.Click
