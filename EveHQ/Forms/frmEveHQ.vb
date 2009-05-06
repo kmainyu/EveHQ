@@ -922,7 +922,6 @@ Public Class frmEveHQ
                     newSSLabel.IsLink = True
                     newSSLabel.LinkColor = Color.Black
                     newSSLabel.LinkBehavior = LinkBehavior.HoverUnderline
-                    newSSLabel.Tag = cPilot.Name
                     AddHandler newSSLabel.Click, AddressOf Me.TrainingStatusLabelClick
                     Dim ssPadding As New Padding(16, 2, 16, 2)
                     newSSLabel.Padding = ssPadding
@@ -957,7 +956,9 @@ Public Class frmEveHQ
         pilotCount = 0
         For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
             Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
-            newSSLabel.Text = cPilot.Name & ControlChars.CrLf & cPilot.TrainingSkillName & " (Lvl " & cPilot.TrainingSkillLevel.ToString & ")" & ControlChars.CrLf & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+            newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+            newSSLabel.ToolTipText = "Click to view skill training for " & cPilot.Name
+            newSSLabel.Tag = cPilot.Name
             pilotCount += 1
         Next
     End Sub
@@ -984,7 +985,8 @@ Public Class frmEveHQ
         Dim pilotCount As Integer = 0
         For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
             Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
-            newSSLabel.Text = cPilot.Name & ControlChars.CrLf & cPilot.TrainingSkillName & " (Lvl " & cPilot.TrainingSkillLevel.ToString & ")" & ControlChars.CrLf & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+            newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+            newSSLabel.ToolTipText = "Click to view skill training for " & cPilot.Name
             newSSLabel.Tag = cPilot.Name
             pilotCount += 1
         Next
@@ -1408,7 +1410,7 @@ Public Class frmEveHQ
                     modCount += 1
                     Dim newModuleMenu As ToolStripMenuItem = New ToolStripMenuItem(PlugInInfo.MainMenuText, Nothing, Nothing, PlugInInfo.Name)
                     Dim newTSBItem As ToolStripButton = New ToolStripButton(PlugInInfo.MainMenuText, PlugInInfo.MenuImage, New System.EventHandler(AddressOf ModuleTSBClick), PlugInInfo.Name)
-                    newTSBItem.ToolTipText = PlugInInfo.MainMenuText
+                    newTSBItem.ToolTipText = PlugInInfo.MainMenuText & ": " & PlugInInfo.Description
                     newTSBItem.AutoSize = False
                     newTSBItem.Width = 36 : newTSBItem.Height = 36
                     newTSBItem.DisplayStyle = ToolStripItemDisplayStyle.Image
