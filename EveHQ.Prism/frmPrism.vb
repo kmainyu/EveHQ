@@ -348,11 +348,11 @@ Public Class frmPrism
                     End If
                 End If
             Else
-                If Pos = 8 Then
-                    APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Black
-                    APIOwner.SubItems(Pos).Text = "n/a"
-                Else
-                    If CorpRep.ContainsKey(Owner) = False Then
+                If CorpRep.ContainsKey(Owner) = False Then
+                    If Pos = 8 Then
+                        APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Black
+                        APIOwner.SubItems(Pos).Text = "n/a"
+                    Else
                         APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
                         APIOwner.SubItems(Pos).Text = "missing"
                     End If
@@ -711,7 +711,7 @@ Public Class frmPrism
             If CorpList.ContainsKey(owner) = True Then
                 IsCorp = True
                 ' See if we have a representative
-                Dim CorpRep As SortedList = CType(CorpReps(2), Collections.SortedList)
+                Dim CorpRep As SortedList = CType(CorpReps(6), Collections.SortedList)
                 If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
                     owner = CStr(CorpRep(CStr(CorpList(owner))))
                 Else
@@ -765,7 +765,7 @@ Public Class frmPrism
             If CorpList.ContainsKey(owner) = True Then
                 IsCorp = True
                 ' See if we have a representative
-                Dim CorpRep As SortedList = CType(CorpReps(2), Collections.SortedList)
+                Dim CorpRep As SortedList = CType(CorpReps(0), Collections.SortedList)
                 If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
                     rep = CStr(CorpRep(CStr(CorpList(owner))))
                 Else
@@ -1114,7 +1114,7 @@ Public Class frmPrism
             If CorpList.ContainsKey(owner) = True Then
                 IsCorp = True
                 ' See if we have a representative
-                Dim CorpRep As SortedList = CType(CorpReps(2), Collections.SortedList)
+                Dim CorpRep As SortedList = CType(CorpReps(1), Collections.SortedList)
                 If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
                     owner = CStr(CorpRep(CStr(CorpList(owner))))
                 Else
