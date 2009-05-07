@@ -1867,6 +1867,7 @@ Public Class Reports
         Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
         Dim currentSP As String = "0"
         Dim currentTime As String = "n/a"
+        Dim totalIsk As Double = 0
 
         Dim rPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
         If forIGB = False Then
@@ -1906,6 +1907,7 @@ Public Class Reports
                 strHTML &= "<td width=165px>" & rPilot.Name & "</td>"
                 strHTML &= "<td width=165px>" & rPilot.Corp & "</td>"
                 strHTML &= "<td width=125px align=right>" & FormatNumber(rPilot.Isk, 2) & "</td>"
+                totalIsk += rPilot.Isk
                 If rPilot.Training = True Then
                     currentSkill = CType(rPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rPilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
                     currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rPilot))
@@ -1919,6 +1921,8 @@ Public Class Reports
                 strHTML &= "</tr>"
             End If
         Next
+        ' Write the total wealth line
+        strHTML &= "<tr height=75px><td colspan=2></td><td>Total Wealth:</td><td align=right>" & FormatNumber(totalIsk, 2) & "</td><td colspan=2></tr>"
         strHTML &= "</table><p></p>"
 
         Return strHTML

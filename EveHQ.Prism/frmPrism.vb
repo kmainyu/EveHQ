@@ -343,7 +343,7 @@ Public Class frmPrism
                         Else
                             APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Green
                         End If
-                        APIOwner.SubItems(Pos).Text = Format(cache, "dd/MM/yyyy HH:mm:ss")
+                        APIOwner.SubItems(Pos).Text = FormatDateTime(cache, DateFormat.GeneralDate)
                         CorpRep.Add(Owner, Primary)
                     End If
                 End If
