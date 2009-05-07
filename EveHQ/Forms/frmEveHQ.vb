@@ -984,20 +984,24 @@ Public Class frmEveHQ
         ' Put the details into the training panels
         Dim pilotCount As Integer = 0
         For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
-            Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
-            newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
-            newSSLabel.ToolTipText = "Click to view skill training for " & cPilot.Name
-            newSSLabel.Tag = cPilot.Name
-            pilotCount += 1
+            If pilotCount < ssTraining.Items.Count Then
+                Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
+                newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+                newSSLabel.ToolTipText = "Click to view skill training for " & cPilot.Name
+                newSSLabel.Tag = cPilot.Name
+                pilotCount += 1
+            End If
         Next
 
         ' Check each account to see if something is training. 
         For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
-            If accounts.Contains(cAccount.userID) = False Then
-                ' Build a status panel
-                Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
-                newSSLabel.Text = "Account: " & cAccount.FriendlyName & ControlChars.CrLf & "NOT CURRENTLY TRAINING!"
-                pilotCount += 1
+            If pilotCount < ssTraining.Items.Count Then
+                If accounts.Contains(cAccount.userID) = False Then
+                    ' Build a status panel
+                    Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
+                    newSSLabel.Text = "Account: " & cAccount.FriendlyName & ControlChars.CrLf & "NOT CURRENTLY TRAINING!"
+                    pilotCount += 1
+                End If
             End If
         Next
     End Sub

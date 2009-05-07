@@ -32,11 +32,12 @@ Public Class frmAbout
         Dim credits As New System.Text.StringBuilder
         credits.Append("<html><body>")
         credits.Append("<table style='font-family: Arial; font-size: 10px;'>")
-        credits.Append("<tr><td colspan=2 style='font-family: Arial; font-size: 12px;'><b>EveHQ Credits</b></td><tr>")
+        credits.Append("<tr><td colspan=2 style='font-family: Arial; font-size: 12px;'><b><u>EveHQ Credits</u></b></td><tr>")
         credits.Append("<tr><td>Lead Developer</td><td align='right'>Vessper</td></tr>")
         credits.Append("<tr><td>Other Development</td><td align='right'>Darkwolf</td></tr>")
         credits.Append("<tr><td></td><td align='right'>Darmed Khan</td></tr>")
         credits.Append("<tr><td></td><td align='right'>Mdram</td></tr>")
+        credits.Append("<tr><td></td><td align='right'>Modescond</td></tr>")
         credits.Append("<tr><td></td><td align='right'>MoWe79</td></tr>")
         credits.Append("<tr><td></td><td align='right'>Nauvus3x7</td></tr>")
         credits.Append("<tr><td>Images</td><td align='right'><a href='http://jadeo.hexium.net' target='_blank'>JadeO</a></td></tr>")
