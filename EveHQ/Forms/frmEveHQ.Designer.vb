@@ -992,8 +992,8 @@ Partial Public Class frmEveHQ
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1033, 656)
-        Me.Controls.Add(Me.panelTrainingStatus)
         Me.Controls.Add(Me.tabMDI)
+        Me.Controls.Add(Me.panelTrainingStatus)
         Me.Controls.Add(Me.EveHQToolStrip)
         Me.Controls.Add(Me.EveHQStatusStrip)
         Me.Controls.Add(Me.MenuStrip)
