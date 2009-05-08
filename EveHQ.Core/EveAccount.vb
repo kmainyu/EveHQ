@@ -22,6 +22,7 @@
     Private cUserID As String
     Private cAPIkey As String
     Private cFriendlyName As String
+    Private cCharacters As New ArrayList
 
     Public Property userID() As String
         Get
@@ -47,5 +48,12 @@
             cFriendlyName = value
         End Set
     End Property
-
+    Public Property Characters() As ArrayList
+        Get
+            Return cCharacters
+        End Get
+        Set(ByVal value As ArrayList)
+            cCharacters = value
+        End Set
+    End Property
 End Class

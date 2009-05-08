@@ -371,6 +371,8 @@ Public Class PilotParseFunctions
 
             ' Get the list of characters and the character IDs
             charlist = accountXML.SelectNodes("/eveapi/result/rowset/row")
+            ' Clear the current characters on the account
+            cAccount.Characters = New ArrayList
             For Each toon In charlist
                 curr_toon += 1
                 ' Add the pilot details into the collection
@@ -380,6 +382,7 @@ Public Class PilotParseFunctions
                 newPilot.AccountPosition = CStr(curr_toon)
                 newPilot.Account = cAccount.userID
                 EveHQ.Core.HQ.TPilots.Add(newPilot, newPilot.Name)
+                cAccount.Characters.Add(newPilot.Name)
                 Call GetCharacterXMLs(cAccount, newPilot)
             Next
 

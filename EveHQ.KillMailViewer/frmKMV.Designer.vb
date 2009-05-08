@@ -30,23 +30,30 @@ Partial Class frmKMV
         Me.txtUserID = New System.Windows.Forms.TextBox
         Me.lblUserID = New System.Windows.Forms.Label
         Me.gbCharacters = New System.Windows.Forms.GroupBox
+        Me.chkUseCorp = New System.Windows.Forms.CheckBox
         Me.lvwCharacters = New System.Windows.Forms.ListView
         Me.colCharacterName = New System.Windows.Forms.ColumnHeader
         Me.btnFetchKillMails = New System.Windows.Forms.Button
         Me.lblKMSummary = New System.Windows.Forms.Label
         Me.lvwKillMails = New System.Windows.Forms.ListView
+        Me.colVictim = New System.Windows.Forms.ColumnHeader
         Me.colShip = New System.Windows.Forms.ColumnHeader
         Me.colKillTime = New System.Windows.Forms.ColumnHeader
-        Me.colVictim = New System.Windows.Forms.ColumnHeader
         Me.lblKillmailDetails = New System.Windows.Forms.Label
         Me.txtKillMailDetails = New System.Windows.Forms.TextBox
-        Me.chkUseCorp = New System.Windows.Forms.CheckBox
+        Me.radUseAccount = New System.Windows.Forms.RadioButton
+        Me.radUseAPI = New System.Windows.Forms.RadioButton
+        Me.cboAccount = New System.Windows.Forms.ComboBox
+        Me.btnUploadToBC = New System.Windows.Forms.Button
         Me.gbAPIInfo.SuspendLayout()
         Me.gbCharacters.SuspendLayout()
         Me.SuspendLayout()
         '
         'gbAPIInfo
         '
+        Me.gbAPIInfo.Controls.Add(Me.cboAccount)
+        Me.gbAPIInfo.Controls.Add(Me.radUseAPI)
+        Me.gbAPIInfo.Controls.Add(Me.radUseAccount)
         Me.gbAPIInfo.Controls.Add(Me.lblAPIStatus)
         Me.gbAPIInfo.Controls.Add(Me.btnGetCharacters)
         Me.gbAPIInfo.Controls.Add(Me.txtAPIKey)
@@ -55,7 +62,7 @@ Partial Class frmKMV
         Me.gbAPIInfo.Controls.Add(Me.lblUserID)
         Me.gbAPIInfo.Location = New System.Drawing.Point(12, 12)
         Me.gbAPIInfo.Name = "gbAPIInfo"
-        Me.gbAPIInfo.Size = New System.Drawing.Size(503, 124)
+        Me.gbAPIInfo.Size = New System.Drawing.Size(532, 147)
         Me.gbAPIInfo.TabIndex = 0
         Me.gbAPIInfo.TabStop = False
         Me.gbAPIInfo.Text = "Character API Information"
@@ -63,7 +70,8 @@ Partial Class frmKMV
         'lblAPIStatus
         '
         Me.lblAPIStatus.AutoSize = True
-        Me.lblAPIStatus.Location = New System.Drawing.Point(72, 74)
+        Me.lblAPIStatus.Enabled = False
+        Me.lblAPIStatus.Location = New System.Drawing.Point(102, 121)
         Me.lblAPIStatus.Name = "lblAPIStatus"
         Me.lblAPIStatus.Size = New System.Drawing.Size(154, 13)
         Me.lblAPIStatus.TabIndex = 5
@@ -71,7 +79,8 @@ Partial Class frmKMV
         '
         'btnGetCharacters
         '
-        Me.btnGetCharacters.Location = New System.Drawing.Point(392, 94)
+        Me.btnGetCharacters.Enabled = False
+        Me.btnGetCharacters.Location = New System.Drawing.Point(422, 116)
         Me.btnGetCharacters.Name = "btnGetCharacters"
         Me.btnGetCharacters.Size = New System.Drawing.Size(100, 23)
         Me.btnGetCharacters.TabIndex = 4
@@ -80,7 +89,8 @@ Partial Class frmKMV
         '
         'txtAPIKey
         '
-        Me.txtAPIKey.Location = New System.Drawing.Point(72, 45)
+        Me.txtAPIKey.Enabled = False
+        Me.txtAPIKey.Location = New System.Drawing.Point(102, 92)
         Me.txtAPIKey.Name = "txtAPIKey"
         Me.txtAPIKey.Size = New System.Drawing.Size(420, 21)
         Me.txtAPIKey.TabIndex = 3
@@ -88,7 +98,8 @@ Partial Class frmKMV
         'lblAPIKey
         '
         Me.lblAPIKey.AutoSize = True
-        Me.lblAPIKey.Location = New System.Drawing.Point(9, 48)
+        Me.lblAPIKey.Enabled = False
+        Me.lblAPIKey.Location = New System.Drawing.Point(39, 95)
         Me.lblAPIKey.Name = "lblAPIKey"
         Me.lblAPIKey.Size = New System.Drawing.Size(49, 13)
         Me.lblAPIKey.TabIndex = 2
@@ -96,7 +107,8 @@ Partial Class frmKMV
         '
         'txtUserID
         '
-        Me.txtUserID.Location = New System.Drawing.Point(72, 19)
+        Me.txtUserID.Enabled = False
+        Me.txtUserID.Location = New System.Drawing.Point(102, 66)
         Me.txtUserID.Name = "txtUserID"
         Me.txtUserID.Size = New System.Drawing.Size(100, 21)
         Me.txtUserID.TabIndex = 1
@@ -104,7 +116,8 @@ Partial Class frmKMV
         'lblUserID
         '
         Me.lblUserID.AutoSize = True
-        Me.lblUserID.Location = New System.Drawing.Point(9, 22)
+        Me.lblUserID.Enabled = False
+        Me.lblUserID.Location = New System.Drawing.Point(39, 69)
         Me.lblUserID.Name = "lblUserID"
         Me.lblUserID.Size = New System.Drawing.Size(44, 13)
         Me.lblUserID.TabIndex = 0
@@ -115,12 +128,22 @@ Partial Class frmKMV
         Me.gbCharacters.Controls.Add(Me.chkUseCorp)
         Me.gbCharacters.Controls.Add(Me.lvwCharacters)
         Me.gbCharacters.Controls.Add(Me.btnFetchKillMails)
-        Me.gbCharacters.Location = New System.Drawing.Point(521, 12)
+        Me.gbCharacters.Location = New System.Drawing.Point(550, 12)
         Me.gbCharacters.Name = "gbCharacters"
-        Me.gbCharacters.Size = New System.Drawing.Size(279, 124)
+        Me.gbCharacters.Size = New System.Drawing.Size(279, 147)
         Me.gbCharacters.TabIndex = 1
         Me.gbCharacters.TabStop = False
         Me.gbCharacters.Text = "Available Characters"
+        '
+        'chkUseCorp
+        '
+        Me.chkUseCorp.AutoSize = True
+        Me.chkUseCorp.Location = New System.Drawing.Point(6, 94)
+        Me.chkUseCorp.Name = "chkUseCorp"
+        Me.chkUseCorp.Size = New System.Drawing.Size(107, 17)
+        Me.chkUseCorp.TabIndex = 7
+        Me.chkUseCorp.Text = "Get Corp Killmails"
+        Me.chkUseCorp.UseVisualStyleBackColor = True
         '
         'lvwCharacters
         '
@@ -143,7 +166,7 @@ Partial Class frmKMV
         'btnFetchKillMails
         '
         Me.btnFetchKillMails.Enabled = False
-        Me.btnFetchKillMails.Location = New System.Drawing.Point(173, 94)
+        Me.btnFetchKillMails.Location = New System.Drawing.Point(173, 116)
         Me.btnFetchKillMails.Name = "btnFetchKillMails"
         Me.btnFetchKillMails.Size = New System.Drawing.Size(100, 23)
         Me.btnFetchKillMails.TabIndex = 5
@@ -153,7 +176,7 @@ Partial Class frmKMV
         'lblKMSummary
         '
         Me.lblKMSummary.AutoSize = True
-        Me.lblKMSummary.Location = New System.Drawing.Point(12, 148)
+        Me.lblKMSummary.Location = New System.Drawing.Point(12, 172)
         Me.lblKMSummary.Name = "lblKMSummary"
         Me.lblKMSummary.Size = New System.Drawing.Size(84, 13)
         Me.lblKMSummary.TabIndex = 2
@@ -167,13 +190,18 @@ Partial Class frmKMV
         Me.lvwKillMails.FullRowSelect = True
         Me.lvwKillMails.GridLines = True
         Me.lvwKillMails.HideSelection = False
-        Me.lvwKillMails.Location = New System.Drawing.Point(12, 164)
+        Me.lvwKillMails.Location = New System.Drawing.Point(12, 188)
         Me.lvwKillMails.Name = "lvwKillMails"
         Me.lvwKillMails.ShowItemToolTips = True
-        Me.lvwKillMails.Size = New System.Drawing.Size(405, 400)
+        Me.lvwKillMails.Size = New System.Drawing.Size(405, 411)
         Me.lvwKillMails.TabIndex = 3
         Me.lvwKillMails.UseCompatibleStateImageBehavior = False
         Me.lvwKillMails.View = System.Windows.Forms.View.Details
+        '
+        'colVictim
+        '
+        Me.colVictim.Text = "Victim"
+        Me.colVictim.Width = 125
         '
         'colShip
         '
@@ -185,15 +213,10 @@ Partial Class frmKMV
         Me.colKillTime.Text = "Kill Time"
         Me.colKillTime.Width = 125
         '
-        'colVictim
-        '
-        Me.colVictim.Text = "Victim"
-        Me.colVictim.Width = 125
-        '
         'lblKillmailDetails
         '
         Me.lblKillmailDetails.AutoSize = True
-        Me.lblKillmailDetails.Location = New System.Drawing.Point(420, 148)
+        Me.lblKillmailDetails.Location = New System.Drawing.Point(420, 172)
         Me.lblKillmailDetails.Name = "lblKillmailDetails"
         Me.lblKillmailDetails.Size = New System.Drawing.Size(72, 13)
         Me.lblKillmailDetails.TabIndex = 5
@@ -204,29 +227,60 @@ Partial Class frmKMV
         Me.txtKillMailDetails.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtKillMailDetails.Location = New System.Drawing.Point(423, 164)
+        Me.txtKillMailDetails.Location = New System.Drawing.Point(423, 188)
         Me.txtKillMailDetails.Multiline = True
         Me.txtKillMailDetails.Name = "txtKillMailDetails"
         Me.txtKillMailDetails.ReadOnly = True
         Me.txtKillMailDetails.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtKillMailDetails.Size = New System.Drawing.Size(445, 400)
+        Me.txtKillMailDetails.Size = New System.Drawing.Size(445, 440)
         Me.txtKillMailDetails.TabIndex = 6
         '
-        'chkUseCorp
+        'radUseAccount
         '
-        Me.chkUseCorp.AutoSize = True
-        Me.chkUseCorp.Location = New System.Drawing.Point(6, 94)
-        Me.chkUseCorp.Name = "chkUseCorp"
-        Me.chkUseCorp.Size = New System.Drawing.Size(107, 17)
-        Me.chkUseCorp.TabIndex = 7
-        Me.chkUseCorp.Text = "Get Corp Killmails"
-        Me.chkUseCorp.UseVisualStyleBackColor = True
+        Me.radUseAccount.AutoSize = True
+        Me.radUseAccount.Checked = True
+        Me.radUseAccount.Location = New System.Drawing.Point(17, 20)
+        Me.radUseAccount.Name = "radUseAccount"
+        Me.radUseAccount.Size = New System.Drawing.Size(129, 17)
+        Me.radUseAccount.TabIndex = 6
+        Me.radUseAccount.Text = "Use Existing Account:"
+        Me.radUseAccount.UseVisualStyleBackColor = True
+        '
+        'radUseAPI
+        '
+        Me.radUseAPI.AutoSize = True
+        Me.radUseAPI.Location = New System.Drawing.Point(17, 43)
+        Me.radUseAPI.Name = "radUseAPI"
+        Me.radUseAPI.Size = New System.Drawing.Size(106, 17)
+        Me.radUseAPI.TabIndex = 7
+        Me.radUseAPI.Text = "Use Specific API:"
+        Me.radUseAPI.UseVisualStyleBackColor = True
+        '
+        'cboAccount
+        '
+        Me.cboAccount.FormattingEnabled = True
+        Me.cboAccount.Location = New System.Drawing.Point(152, 19)
+        Me.cboAccount.Name = "cboAccount"
+        Me.cboAccount.Size = New System.Drawing.Size(146, 21)
+        Me.cboAccount.Sorted = True
+        Me.cboAccount.TabIndex = 8
+        '
+        'btnUploadToBC
+        '
+        Me.btnUploadToBC.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUploadToBC.Location = New System.Drawing.Point(12, 605)
+        Me.btnUploadToBC.Name = "btnUploadToBC"
+        Me.btnUploadToBC.Size = New System.Drawing.Size(123, 23)
+        Me.btnUploadToBC.TabIndex = 7
+        Me.btnUploadToBC.Text = "Upload to BattleClinic"
+        Me.btnUploadToBC.UseVisualStyleBackColor = True
         '
         'frmKMV
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(880, 576)
+        Me.ClientSize = New System.Drawing.Size(880, 640)
+        Me.Controls.Add(Me.btnUploadToBC)
         Me.Controls.Add(Me.txtKillMailDetails)
         Me.Controls.Add(Me.lblKillmailDetails)
         Me.Controls.Add(Me.lvwKillMails)
@@ -263,4 +317,8 @@ Partial Class frmKMV
     Friend WithEvents lblKillmailDetails As System.Windows.Forms.Label
     Friend WithEvents txtKillMailDetails As System.Windows.Forms.TextBox
     Friend WithEvents chkUseCorp As System.Windows.Forms.CheckBox
+    Friend WithEvents radUseAPI As System.Windows.Forms.RadioButton
+    Friend WithEvents radUseAccount As System.Windows.Forms.RadioButton
+    Friend WithEvents cboAccount As System.Windows.Forms.ComboBox
+    Friend WithEvents btnUploadToBC As System.Windows.Forms.Button
 End Class

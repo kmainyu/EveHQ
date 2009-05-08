@@ -1,6 +1,8 @@
 ﻿Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Text
+Imports System.IO
+Imports System.Net
 
 Public Class frmKMV
 
@@ -10,6 +12,69 @@ Public Class frmKMV
     Dim charName As String = ""
     Dim charID As String = ""
     Dim KMs As New SortedList
+
+#Region "Form Loading Routines"
+    Private Sub frmKMV_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Call Me.UpdateAccounts()
+    End Sub
+    Private Sub UpdateAccounts()
+        cboAccount.BeginUpdate()
+        cboAccount.Items.Clear()
+        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+            If cAccount.FriendlyName <> "" Then
+                cboAccount.Items.Add(cAccount.FriendlyName)
+            Else
+                cboAccount.Items.Add(cAccount.userID)
+            End If
+        Next
+        cboAccount.EndUpdate()
+    End Sub
+#End Region
+
+#Region "Account Select Method Routines"
+    Private Sub radUseAccount_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radUseAccount.CheckedChanged
+        cboAccount.Enabled = radUseAccount.Checked
+    End Sub
+
+    Private Sub radUseAPI_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radUseAPI.CheckedChanged
+        lblUserID.Enabled = radUseAPI.Checked
+        txtUserID.Enabled = radUseAPI.Checked
+        lblAPIKey.Enabled = radUseAPI.Checked
+        txtAPIKey.Enabled = radUseAPI.Checked
+        lblAPIStatus.Enabled = radUseAPI.Checked
+        btnGetCharacters.Enabled = radUseAPI.Checked
+    End Sub
+
+    Private Sub cboAccount_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAccount.SelectedIndexChanged
+
+        ' Get the accountID and pilots
+        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+            If cAccount.FriendlyName = cboAccount.SelectedItem.ToString Or cAccount.userID = cboAccount.SelectedItem.ToString Then
+                KMAccount = cAccount
+                ' Get the list of characters and the character IDs
+                If cAccount.Characters IsNot Nothing Then
+                    lvwCharacters.BeginUpdate()
+                    lvwCharacters.Items.Clear()
+                    For Each Character As String In cAccount.Characters
+                        Dim newPilot As New ListViewItem
+                        newPilot.Text = Character
+                        newPilot.Name = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(Character), EveHQ.Core.Pilot).ID
+                        lvwCharacters.Items.Add(newPilot)
+                    Next
+                    lvwCharacters.Sort()
+                    lvwCharacters.EndUpdate()
+                    ' Enable the Fetch Killmails button
+                    btnFetchKillMails.Enabled = True
+                    Exit For
+                Else
+                    MessageBox.Show("The list of characaters in this account is blank. Please connect to the API to get the latest character information.", "Characters required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            End If
+        Next
+
+    End Sub
+
+#End Region
 
 #Region "Character Retrieval Routines"
 
@@ -247,6 +312,12 @@ Public Class frmKMV
 
     Private Sub DrawKMDetail(ByVal selKM As KillMail)
 
+        ' Write the killmail text to the label
+        txtKillMailDetails.Text = BuildKMDetails(selKM)
+
+    End Sub
+
+    Private Function BuildKMDetails(ByVal selKM As KillMail) As String
         Dim KMText As New StringBuilder
 
         ' Write the time
@@ -380,12 +451,89 @@ Public Class frmKMV
             KMText.AppendLine("")
         End If
 
-        ' Write the killmail text to the label
-        txtKillMailDetails.Text = KMText.ToString
+        Return KMText.ToString
+
+    End Function
+#End Region
+
+#Region "Killmail Upload Routines"
+    Private Sub btnUploadToBC_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUploadToBC.Click
+        ' Only do selected KM for now for testing purposes
+        Dim URI As String = "http://www.battleclinic.com/eve_online/pk/submit.php"
+
+        If lvwKillMails.SelectedItems.Count > 0 Then
+            ' Get the killID of the selected Killmail
+            Dim killID As String = lvwKillMails.SelectedItems(0).Name
+            Dim selKM As KillMail = CType(KMs(killID), KillMail)
+            ' Check for valid attackers (i.e. not all NPC ones)
+            Dim validKM As Boolean = False
+            For Each Attacker As KMAttacker In selKM.Attackers.Values
+                If Attacker.charName <> "" Then
+                    validKM = True
+                    Exit For
+                End If
+            Next
+            If validKM = False Then
+                MessageBox.Show("There does not appear to be any valid Attackers on this killmail other than NPCs. The killmail will therefore not be uploaded.", "Non-NPC Attackers Required.", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                ' Write the killmail detail
+                Call Me.UploadKillmail(URI, BuildKMDetails(selKM))
+            End If
+        End If
 
     End Sub
 
-#End Region
+    Private Function UploadKillmail(ByVal RemoteURL As String, ByVal KMText As String) As Boolean
 
+        ' Build the POST data
+        Dim postData As String = ""
+        postData &= "mail=" & KMText
+        postData &= "&option=return"
+        postData &= "&Submit=Submit"
+        Try
+            ' Create the requester
+            ServicePointManager.DefaultConnectionLimit = 20
+            ServicePointManager.Expect100Continue = False
+            Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(RemoteURL))
+            Dim request As HttpWebRequest = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
+            ' Setup proxy server (if required)
+            If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
+                Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
+                If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
+                    EveHQProxy.UseDefaultCredentials = True
+                Else
+                    EveHQProxy.UseDefaultCredentials = False
+                    EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
+                End If
+                request.Proxy = EveHQProxy
+            End If
+            ' Setup request parameters
+            request.Method = "POST"
+            request.ContentLength = postData.Length
+            request.ContentType = "application/x-www-form-urlencoded"
+            request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
+            ' Setup a stream to write the HTTP "POST" data
+            Dim WebEncoding As New ASCIIEncoding()
+            Dim byte1 As Byte() = WebEncoding.GetBytes(postData)
+            Dim newStream As Stream = request.GetRequestStream()
+            newStream.Write(byte1, 0, byte1.Length)
+            newStream.Close()
+            ' Prepare for a response from the server
+            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+            ' Get the stream associated with the response.
+            Dim receiveStream As Stream = response.GetResponseStream()
+            ' Pipes the stream to a higher level stream reader with the required encoding format. 
+            Dim readStream As New StreamReader(receiveStream, System.Text.Encoding.UTF8)
+            Dim webdata As String = readStream.ReadToEnd()
+            ' Need to check here for bad responses!
+
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+    End Function
+
+
+#End Region
 
 End Class
