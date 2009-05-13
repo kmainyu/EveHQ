@@ -655,14 +655,14 @@ Public Class Engine
                                         hSkill = CType(hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), HQFSkill)
                                         If chkEffect.IsPerLevel = True Then
                                             fEffect.AffectedValue = chkEffect.Value * hSkill.Level
-                                            fEffect.Cause = "Ship Bonus - " & hSkill.Name & " (Level " & hSkill.Level & ")"
+                                            fEffect.Cause = "Subsystem Bonus - " & hSkill.Name & " (Level " & hSkill.Level & ")"
                                         Else
                                             fEffect.AffectedValue = chkEffect.Value
-                                            fEffect.Cause = "Ship Role - "
+                                            fEffect.Cause = "Subsystem Role - "
                                         End If
                                     Else
                                         fEffect.AffectedValue = chkEffect.Value
-                                        fEffect.Cause = "Ship Role - "
+                                        fEffect.Cause = "Subsystem Role - "
                                     End If
                                     fEffect.AffectedAtt = chkEffect.AffectedAtt
                                     fEffect.AffectedType = chkEffect.AffectedType
