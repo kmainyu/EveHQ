@@ -373,7 +373,7 @@ Public Class PlugInData
     Public Sub CheckForConqXMLFile()
         ' Check for the Conquerable XML file in the cache
         Dim stationXML As New XmlDocument
-        stationXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Conquerables, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+        stationXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Conquerables, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
         If stationXML IsNot Nothing Then
             Call ParseConquerableXML(stationXML)
         End If

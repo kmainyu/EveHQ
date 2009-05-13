@@ -3761,7 +3761,12 @@ Public Class frmPrism
                             sOrder.SubItems(1).Text = FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                             Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Number, culture)
                             sOrder.SubItems(2).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                            Dim loc As String = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
+                            Dim loc As String = ""
+                            If PlugInData.stations.Contains(Order.Attributes.GetNamedItem("stationID").Value) = True Then
+                                loc = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
+                            Else
+                                loc = "StationID: " & Order.Attributes.GetNamedItem("stationID").Value
+                            End If
                             sOrder.SubItems(3).Text = loc
                             Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
                             Dim orderExpires As TimeSpan = issueDate - Now
@@ -3791,7 +3796,12 @@ Public Class frmPrism
                             bOrder.SubItems(1).Text = FormatNumber(quantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(CDbl(Order.Attributes.GetNamedItem("volEntered").Value), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                             Dim price As Double = Double.Parse(Order.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Number, culture)
                             bOrder.SubItems(2).Text = FormatNumber(price, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                            Dim loc As String = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
+                            Dim loc As String = ""
+                            If PlugInData.stations.Contains(Order.Attributes.GetNamedItem("stationID").Value) = True Then
+                                loc = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
+                            Else
+                                loc = "StationID: " & Order.Attributes.GetNamedItem("stationID").Value
+                            End If
                             bOrder.SubItems(3).Text = loc
                             bOrder.SubItems(4).Tag = CInt(Order.Attributes.GetNamedItem("range").Value)
                             Select Case CInt(Order.Attributes.GetNamedItem("range").Value)
