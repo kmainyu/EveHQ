@@ -1071,19 +1071,21 @@ Public Class SkillQueueFunctions
         ' Rewrite the list!
         Dim nQueue As New Collection
         Dim count As Integer = 1
-        For Each qItem As EveHQ.Core.SortedQueue In qList
-            If qItem.IsTraining = False Then
-                Dim newSkill As New EveHQ.Core.SkillQueueItem
-                newSkill.FromLevel = CInt(qItem.FromLevel)
-                newSkill.ToLevel = CInt(qItem.ToLevel)
-                newSkill.Name = qItem.Name
-                newSkill.Key = qItem.Key
-                newSkill.Pos = count
-                nQueue.Add(newSkill, newSkill.Key)
-                count += 1
-            End If
-        Next
-        aQueue.Queue = nQueue
+        If qList IsNot Nothing Then
+            For Each qItem As EveHQ.Core.SortedQueue In qList
+                If qItem.IsTraining = False Then
+                    Dim newSkill As New EveHQ.Core.SkillQueueItem
+                    newSkill.FromLevel = CInt(qItem.FromLevel)
+                    newSkill.ToLevel = CInt(qItem.ToLevel)
+                    newSkill.Name = qItem.Name
+                    newSkill.Key = qItem.Key
+                    newSkill.Pos = count
+                    nQueue.Add(newSkill, newSkill.Key)
+                    count += 1
+                End If
+            Next
+            aQueue.Queue = nQueue
+        End If
         Return aQueue
     End Function
 
