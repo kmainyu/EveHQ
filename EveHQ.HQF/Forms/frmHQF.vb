@@ -770,19 +770,17 @@ Public Class frmHQF
     End Sub
     Private Sub CalculateFilteredModules(ByVal groupNode As TreeNode)
         Me.Cursor = Cursors.WaitCursor
-        Dim cMod, sMod As New ShipModule
+        Dim sMod As New ShipModule
         Dim groupID As String
         Dim results As New SortedList
         If groupNode.Name = "Favourites" Then
             ModuleDisplay = "Favourites"
             For Each modName As String In Settings.HQFSettings.Favourites
                 If HQF.ModuleLists.moduleListName.Contains(modName) = True Then
-                    cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
+                    sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule).Clone
                     ' Add results in by name, module
                     If chkApplySkills.Checked = True Then
-                        Engine.ApplySkillEffectsToModule(cMod.Clone, True)
-                    Else
-                        sMod = cMod.Clone
+                        Engine.ApplySkillEffectsToModule(sMod, True)
                     End If
                     If currentShipInfo IsNot Nothing Then
                         If chkOnlyShowUsable.Checked = True Then
@@ -814,15 +812,23 @@ Public Class frmHQF
             ModuleDisplay = "Recently Used"
             For Each modName As String In Settings.HQFSettings.MRUModules
                 If HQF.ModuleLists.moduleListName.Contains(modName) = True Then
-                    cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
+                    sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule).Clone
                     ' Add results in by name, module
                     If chkApplySkills.Checked = True Then
-                        Engine.ApplySkillEffectsToModule(cMod.Clone, True)
-                    Else
-                        sMod = cMod.Clone
+                        Engine.ApplySkillEffectsToModule(sMod, True)
                     End If
-                    If chkOnlyShowUsable.Checked = True Then
-                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                    If currentShipInfo IsNot Nothing Then
+                        If chkOnlyShowUsable.Checked = True Then
+                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                If chkOnlyShowFittable.Checked = True Then
+                                    If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                        results.Add(sMod.Name, sMod)
+                                    End If
+                                Else
+                                    results.Add(sMod.Name, sMod)
+                                End If
+                            End If
+                        Else
                             If chkOnlyShowFittable.Checked = True Then
                                 If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
                                     results.Add(sMod.Name, sMod)
@@ -832,13 +838,7 @@ Public Class frmHQF
                             End If
                         End If
                     Else
-                        If chkOnlyShowFittable.Checked = True Then
-                            If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
-                                results.Add(sMod.Name, sMod)
-                            End If
-                        Else
-                            results.Add(sMod.Name, sMod)
-                        End If
+                        results.Add(sMod.Name, sMod)
                     End If
                 End If
             Next
@@ -858,10 +858,24 @@ Public Class frmHQF
                     If chkApplySkills.Checked = True Then
                         Engine.ApplySkillEffectsToModule(sMod, True)
                     End If
-                    If chkOnlyShowUsable.Checked = True And currentShipInfo IsNot Nothing Then
-                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                    If currentShipInfo IsNot Nothing Then
+                        If chkOnlyShowUsable.Checked = True Then
+                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                If chkOnlyShowFittable.Checked = True Then
+                                    If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                        results.Add(sMod.Name, sMod)
+                                    End If
+                                Else
+                                    results.Add(sMod.Name, sMod)
+                                End If
+                            End If
+                        Else
                             If chkOnlyShowFittable.Checked = True Then
-                                If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                If currentShipSlot IsNot Nothing Then
+                                    If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                        results.Add(sMod.Name, sMod)
+                                    End If
+                                Else
                                     results.Add(sMod.Name, sMod)
                                 End If
                             Else
@@ -869,17 +883,7 @@ Public Class frmHQF
                             End If
                         End If
                     Else
-                        If chkOnlyShowFittable.Checked = True Then
-                            If currentShipSlot IsNot Nothing Then
-                                If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
-                                    results.Add(sMod.Name, sMod)
-                                End If
-                            Else
-                                results.Add(sMod.Name, sMod)
-                            End If
-                        Else
-                            results.Add(sMod.Name, sMod)
-                        End If
+                        results.Add(sMod.Name, sMod)
                     End If
                 End If
             Next
@@ -955,22 +959,30 @@ Public Class frmHQF
     End Sub
     Private Sub CalculateSearchedModules()
         Me.Cursor = Cursors.WaitCursor
-        Dim cMod, sMod As New ShipModule
+        Dim sMod As New ShipModule
         If Len(txtSearchModules.Text) > 2 Then
             Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
             Dim results As New SortedList
             For Each item As String In HQF.ModuleLists.moduleListName.Keys
                 If item.ToLower.Contains(strSearch) Then
                     ' Add results in by name, module
-                    cMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(item)), ShipModule)
+                    sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(item)), ShipModule).Clone
                     If chkApplySkills.Checked = True Then
-                        Engine.ApplySkillEffectsToModule(cMod.Clone, True)
-                    Else
-                        sMod = cMod.Clone
+                        Engine.ApplySkillEffectsToModule(sMod, True)
                     End If
-                    If chkOnlyShowUsable.Checked = True And currentShipInfo IsNot Nothing Then
+                    If currentShipInfo IsNot Nothing Then
                         If currentShipInfo.cboPilots.SelectedItem IsNot Nothing Then
-                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                            If chkOnlyShowUsable.Checked = True Then
+                                If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(currentShipInfo.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                    If chkOnlyShowFittable.Checked = True Then
+                                        If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
+                                            results.Add(sMod.Name, sMod)
+                                        End If
+                                    Else
+                                        results.Add(sMod.Name, sMod)
+                                    End If
+                                End If
+                            Else
                                 If chkOnlyShowFittable.Checked = True Then
                                     If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
                                         results.Add(sMod.Name, sMod)
@@ -980,13 +992,7 @@ Public Class frmHQF
                                 End If
                             End If
                         Else
-                            If chkOnlyShowFittable.Checked = True Then
-                                If Engine.IsFittable(sMod, currentShipSlot.ShipFitted) Then
-                                    results.Add(sMod.Name, sMod)
-                                End If
-                            Else
-                                results.Add(sMod.Name, sMod)
-                            End If
+                            results.Add(sMod.Name, sMod)
                         End If
                     Else
                         results.Add(sMod.Name, sMod)
@@ -1078,10 +1084,9 @@ Public Class frmHQF
         Dim results As New SortedList
         Dim sMod As New ShipModule
         For Each cMod As ShipModule In HQF.ModuleLists.moduleList.Values
+            sMod = cMod.Clone
             If chkApplySkills.Checked = True Then
-                Engine.ApplySkillEffectsToModule(cMod.Clone, True)
-            Else
-                sMod = cMod.Clone
+                Engine.ApplySkillEffectsToModule(sMod, True)
             End If
             If sMod.SlotType = slotType Then
                 Select Case slotType
