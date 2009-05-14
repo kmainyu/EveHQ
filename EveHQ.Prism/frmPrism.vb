@@ -4381,7 +4381,50 @@ Public Class frmPrism
                 transXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.IndustryChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
             End If
             If transXML IsNot Nothing Then
+                Dim pilotIDs As New SortedList
+                ' Get a list of pilot IDs and names for our installer routines
+                For Each iPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                    pilotIDs.Add(iPilot.ID, iPilot.Name)
+                Next
+
+                ' Get the Node List
                 Dim Trans As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
+
+                ' Initialise the installer filter
+                cboInstallerFilter.Tag = True
+                Dim oldFilter As String = ""
+                If cboInstallerFilter.SelectedItem IsNot Nothing Then
+                    oldFilter = cboInstallerFilter.SelectedItem.ToString
+                End If
+                cboInstallerFilter.Items.Clear()
+                cboInstallerFilter.BeginUpdate()
+                cboInstallerFilter.Items.Add("<All Installers>")
+                Dim installerID As String = ""
+                Dim installerName As String = ""
+                For Each Tran As XmlNode In Trans
+                    installerID = Tran.Attributes.GetNamedItem("installerID").Value
+                    If pilotIDs.Contains(installerID) = True Then
+                        installerName = CStr(pilotIDs(installerID))
+                    Else
+                        installerName = installerID
+                    End If
+                    If cboInstallerFilter.Items.Contains(installerName) = False Then
+                        cboInstallerFilter.Items.Add(installerName)
+                    End If
+                Next
+                If oldFilter = "" Then
+                    cboInstallerFilter.SelectedIndex = 0
+                Else
+                    If cboInstallerFilter.Items.Contains(oldFilter) = True Then
+                        cboInstallerFilter.SelectedItem = oldFilter
+                    Else
+                        cboInstallerFilter.SelectedIndex = 0
+                    End If
+                End If
+                cboInstallerFilter.EndUpdate()
+                cboInstallerFilter.Tag = False
+
+                ' Parse the XML
                 Dim transItem As New ContainerListViewItem
                 Dim transDate As Date
                 Dim transTypeID As String = ""
@@ -4390,32 +4433,42 @@ Public Class frmPrism
                 clvJobs.BeginUpdate()
                 clvJobs.Items.Clear()
                 For Each Tran As XmlNode In Trans
-                    transItem = New ContainerListViewItem
-                    transTypeID = Tran.Attributes.GetNamedItem("installedItemTypeID").Value
-                    If EveHQ.Core.HQ.itemData.ContainsKey(transTypeID) = True Then
-                        transItem.Text = CType(EveHQ.Core.HQ.itemData(transTypeID), EveHQ.Core.EveItem).Name
+                    installerID = Tran.Attributes.GetNamedItem("installerID").Value
+                    If pilotIDs.Contains(installerID) = True Then
+                        installerName = CStr(pilotIDs(installerID))
                     Else
-                        transItem.Text = "Unknown Item ID:" & transTypeID
+                        installerName = installerID
                     End If
-                    clvJobs.Items.Add(transItem)
-                    transItem.SubItems(1).Text = PlugInData.Activities(Tran.Attributes.GetNamedItem("activityID").Value)
-                    locationID = Tran.Attributes.GetNamedItem("installedItemLocationID").Value
-                    If PlugInData.stations.ContainsKey(locationID) = True Then
-                        transItem.SubItems(2).Text = CType(PlugInData.stations(locationID), Station).stationName
-                    Else
-                        If PlugInData.stations.ContainsKey(Tran.Attributes.GetNamedItem("outputLocationID").Value) = True Then
-                            transItem.SubItems(2).Text = CType(PlugInData.stations(Tran.Attributes.GetNamedItem("outputLocationID").Value), Station).stationName
+                    If cboInstallerFilter.SelectedIndex = 0 Or (cboInstallerFilter.SelectedIndex > 0 And installerName = cboInstallerFilter.SelectedItem.ToString) Then
+                        transItem = New ContainerListViewItem
+                        transTypeID = Tran.Attributes.GetNamedItem("installedItemTypeID").Value
+                        If EveHQ.Core.HQ.itemData.ContainsKey(transTypeID) = True Then
+                            transItem.Text = CType(EveHQ.Core.HQ.itemData(transTypeID), EveHQ.Core.EveItem).Name
                         Else
-                            transItem.SubItems(2).Text = "POS in " & CType(PlugInData.stations(Tran.Attributes.GetNamedItem("installedInSolarSystemID").Value), SolarSystem).Name
+                            transItem.Text = "Unknown Item ID:" & transTypeID
                         End If
-                    End If
-                    transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("endProductionTime").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
-                    transItem.SubItems(3).Text = FormatDateTime(transDate, DateFormat.GeneralDate)
-                    completed = Tran.Attributes.GetNamedItem("completed").Value
-                    If completed = "0" Then
-                        transItem.SubItems(4).Text = "In Progress"
-                    Else
-                        transItem.SubItems(4).Text = PlugInData.Statuses(Tran.Attributes.GetNamedItem("completedStatus").Value)
+                        clvJobs.Items.Add(transItem)
+                        transItem.SubItems(1).Text = PlugInData.Activities(Tran.Attributes.GetNamedItem("activityID").Value)
+
+                        transItem.SubItems(2).Text = installerName
+                        locationID = Tran.Attributes.GetNamedItem("installedItemLocationID").Value
+                        If PlugInData.stations.ContainsKey(locationID) = True Then
+                            transItem.SubItems(3).Text = CType(PlugInData.stations(locationID), Station).stationName
+                        Else
+                            If PlugInData.stations.ContainsKey(Tran.Attributes.GetNamedItem("outputLocationID").Value) = True Then
+                                transItem.SubItems(3).Text = CType(PlugInData.stations(Tran.Attributes.GetNamedItem("outputLocationID").Value), Station).stationName
+                            Else
+                                transItem.SubItems(3).Text = "POS in " & CType(PlugInData.stations(Tran.Attributes.GetNamedItem("installedInSolarSystemID").Value), SolarSystem).Name
+                            End If
+                        End If
+                        transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("endProductionTime").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
+                        transItem.SubItems(4).Text = FormatDateTime(transDate, DateFormat.GeneralDate)
+                        completed = Tran.Attributes.GetNamedItem("completed").Value
+                        If completed = "0" Then
+                            transItem.SubItems(5).Text = "In Progress"
+                        Else
+                            transItem.SubItems(5).Text = PlugInData.Statuses(Tran.Attributes.GetNamedItem("completedStatus").Value)
+                        End If
                     End If
                 Next
                 If clvJobs.Items.Count = 0 Then
@@ -4433,8 +4486,15 @@ Public Class frmPrism
             clvJobs.EndUpdate()
             clvJobs.Enabled = False
         End If
-
     End Sub
+
+    Private Sub cboInstallerFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboInstallerFilter.SelectedIndexChanged
+        If CBool(cboInstallerFilter.Tag) = False Then
+            ' We are not triggering a change in the selected item from the main drawing routine
+            Call ParseIndustryJobs()
+        End If
+    End Sub
+
 #End Region
 
 #Region "Recycler Routines"
@@ -5057,6 +5117,7 @@ Public Class frmPrism
 
 #End Region
 
+   
    
 End Class
 

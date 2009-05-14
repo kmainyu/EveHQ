@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.tlvAssets = New DotNetLib.Windows.Forms.ContainerListView
         Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -283,6 +283,8 @@ Partial Class frmPrism
         Me.colSalePrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colRefinePrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colBestPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colTotalBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colUnitBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxRecycleItems = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuAddRecycleItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxRecycleItem = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -349,8 +351,9 @@ Partial Class frmPrism
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
-        Me.colTotalBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colUnitBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colJobsInstaller = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.lblJobInstallerFilter = New System.Windows.Forms.Label
+        Me.cboInstallerFilter = New System.Windows.Forms.ComboBox
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -986,11 +989,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup1.Header = "Corporation"
-        ListViewGroup1.Name = "grpCorporation"
-        ListViewGroup2.Header = "Personal"
-        ListViewGroup2.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup3.Header = "Corporation"
+        ListViewGroup3.Name = "grpCorporation"
+        ListViewGroup4.Header = "Personal"
+        ListViewGroup4.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -2363,6 +2366,8 @@ Partial Class frmPrism
         '
         'tabJobs
         '
+        Me.tabJobs.Controls.Add(Me.cboInstallerFilter)
+        Me.tabJobs.Controls.Add(Me.lblJobInstallerFilter)
         Me.tabJobs.Controls.Add(Me.btnExportJobs)
         Me.tabJobs.Controls.Add(Me.clvJobs)
         Me.tabJobs.Location = New System.Drawing.Point(4, 22)
@@ -2387,7 +2392,7 @@ Partial Class frmPrism
         Me.clvJobs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvJobs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colJobsItem, Me.colJobsActivity, Me.colJobsLocation, Me.colJobsEndTime, Me.colJobsStatus})
+        Me.clvJobs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colJobsItem, Me.colJobsActivity, Me.colJobsInstaller, Me.colJobsLocation, Me.colJobsEndTime, Me.colJobsStatus})
         Me.clvJobs.ColumnSortColor = System.Drawing.Color.Lavender
         Me.clvJobs.DefaultItemHeight = 16
         Me.clvJobs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2417,7 +2422,7 @@ Partial Class frmPrism
         'colJobsLocation
         '
         Me.colJobsLocation.CustomSortTag = Nothing
-        Me.colJobsLocation.DisplayIndex = 2
+        Me.colJobsLocation.DisplayIndex = 3
         Me.colJobsLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.colJobsLocation.Tag = Nothing
         Me.colJobsLocation.Text = "Location"
@@ -2426,7 +2431,7 @@ Partial Class frmPrism
         'colJobsEndTime
         '
         Me.colJobsEndTime.CustomSortTag = Nothing
-        Me.colJobsEndTime.DisplayIndex = 3
+        Me.colJobsEndTime.DisplayIndex = 4
         Me.colJobsEndTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
         Me.colJobsEndTime.Tag = Nothing
         Me.colJobsEndTime.Text = "End Time"
@@ -2435,7 +2440,7 @@ Partial Class frmPrism
         'colJobsStatus
         '
         Me.colJobsStatus.CustomSortTag = Nothing
-        Me.colJobsStatus.DisplayIndex = 4
+        Me.colJobsStatus.DisplayIndex = 5
         Me.colJobsStatus.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.colJobsStatus.Tag = Nothing
         Me.colJobsStatus.Text = "Status"
@@ -2938,6 +2943,26 @@ Partial Class frmPrism
         Me.colBestPrice.Text = "Best Price"
         Me.colBestPrice.Width = 100
         '
+        'colTotalBenefit
+        '
+        Me.colTotalBenefit.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colTotalBenefit.CustomSortTag = Nothing
+        Me.colTotalBenefit.DisplayIndex = 10
+        Me.colTotalBenefit.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colTotalBenefit.Tag = Nothing
+        Me.colTotalBenefit.Text = "Total Benefit"
+        Me.colTotalBenefit.Width = 100
+        '
+        'colUnitBenefit
+        '
+        Me.colUnitBenefit.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colUnitBenefit.CustomSortTag = Nothing
+        Me.colUnitBenefit.DisplayIndex = 11
+        Me.colUnitBenefit.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colUnitBenefit.Tag = Nothing
+        Me.colUnitBenefit.Text = "Unit Benefit"
+        Me.colUnitBenefit.Width = 100
+        '
         'ctxRecycleItems
         '
         Me.ctxRecycleItems.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddRecycleItem})
@@ -3407,25 +3432,31 @@ Partial Class frmPrism
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
         '
-        'colTotalBenefit
+        'colJobsInstaller
         '
-        Me.colTotalBenefit.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colTotalBenefit.CustomSortTag = Nothing
-        Me.colTotalBenefit.DisplayIndex = 10
-        Me.colTotalBenefit.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
-        Me.colTotalBenefit.Tag = Nothing
-        Me.colTotalBenefit.Text = "Total Benefit"
-        Me.colTotalBenefit.Width = 100
+        Me.colJobsInstaller.CustomSortTag = Nothing
+        Me.colJobsInstaller.DisplayIndex = 2
+        Me.colJobsInstaller.Tag = Nothing
+        Me.colJobsInstaller.Text = "Installer"
+        Me.colJobsInstaller.Width = 120
         '
-        'colUnitBenefit
+        'lblJobInstallerFilter
         '
-        Me.colUnitBenefit.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colUnitBenefit.CustomSortTag = Nothing
-        Me.colUnitBenefit.DisplayIndex = 11
-        Me.colUnitBenefit.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
-        Me.colUnitBenefit.Tag = Nothing
-        Me.colUnitBenefit.Text = "Unit Benefit"
-        Me.colUnitBenefit.Width = 100
+        Me.lblJobInstallerFilter.AutoSize = True
+        Me.lblJobInstallerFilter.Location = New System.Drawing.Point(8, 10)
+        Me.lblJobInstallerFilter.Name = "lblJobInstallerFilter"
+        Me.lblJobInstallerFilter.Size = New System.Drawing.Size(92, 13)
+        Me.lblJobInstallerFilter.TabIndex = 6
+        Me.lblJobInstallerFilter.Text = "Filter By Installer:"
+        '
+        'cboInstallerFilter
+        '
+        Me.cboInstallerFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboInstallerFilter.FormattingEnabled = True
+        Me.cboInstallerFilter.Location = New System.Drawing.Point(106, 7)
+        Me.cboInstallerFilter.Name = "cboInstallerFilter"
+        Me.cboInstallerFilter.Size = New System.Drawing.Size(200, 21)
+        Me.cboInstallerFilter.TabIndex = 7
         '
         'frmPrism
         '
@@ -3470,6 +3501,7 @@ Partial Class frmPrism
         Me.tabJournal.ResumeLayout(False)
         Me.tabJournal.PerformLayout()
         Me.tabJobs.ResumeLayout(False)
+        Me.tabJobs.PerformLayout()
         Me.tabRecycle.ResumeLayout(False)
         Me.tabRecycle.PerformLayout()
         CType(Me.nudTax, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3814,4 +3846,7 @@ Partial Class frmPrism
     Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents colTotalBenefit As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents colUnitBenefit As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colJobsInstaller As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents cboInstallerFilter As System.Windows.Forms.ComboBox
+    Friend WithEvents lblJobInstallerFilter As System.Windows.Forms.Label
 End Class
