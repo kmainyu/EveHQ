@@ -25,12 +25,12 @@ Partial Class EveAPIStatusForm
         Me.components = New System.ComponentModel.Container
         Me.lvwStatus = New System.Windows.Forms.ListView
         Me.colAccount = New System.Windows.Forms.ColumnHeader
+        Me.colPilot = New System.Windows.Forms.ColumnHeader
         Me.colAccountXML = New System.Windows.Forms.ColumnHeader
-        Me.btnClose = New System.Windows.Forms.Button
-        Me.tmrClose = New System.Windows.Forms.Timer(Me.components)
         Me.colCharacterXML = New System.Windows.Forms.ColumnHeader
         Me.colTrainingXML = New System.Windows.Forms.ColumnHeader
-        Me.colPilot = New System.Windows.Forms.ColumnHeader
+        Me.btnClose = New System.Windows.Forms.Button
+        Me.tmrClose = New System.Windows.Forms.Timer(Me.components)
         Me.lblErrorDetailsLbl = New System.Windows.Forms.Label
         Me.lblErrorDetails = New System.Windows.Forms.Label
         Me.SuspendLayout()
@@ -38,6 +38,7 @@ Partial Class EveAPIStatusForm
         'lvwStatus
         '
         Me.lvwStatus.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colAccount, Me.colPilot, Me.colAccountXML, Me.colCharacterXML, Me.colTrainingXML})
+        Me.lvwStatus.FullRowSelect = True
         Me.lvwStatus.GridLines = True
         Me.lvwStatus.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.lvwStatus.Location = New System.Drawing.Point(13, 13)
@@ -52,11 +53,28 @@ Partial Class EveAPIStatusForm
         Me.colAccount.Text = "Account"
         Me.colAccount.Width = 200
         '
+        'colPilot
+        '
+        Me.colPilot.Text = "Character"
+        Me.colPilot.Width = 200
+        '
         'colAccountXML
         '
         Me.colAccountXML.Text = "Account XML"
         Me.colAccountXML.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.colAccountXML.Width = 100
+        '
+        'colCharacterXML
+        '
+        Me.colCharacterXML.Text = "Character XML"
+        Me.colCharacterXML.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.colCharacterXML.Width = 100
+        '
+        'colTrainingXML
+        '
+        Me.colTrainingXML.Text = "Training XML"
+        Me.colTrainingXML.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.colTrainingXML.Width = 100
         '
         'btnClose
         '
@@ -71,32 +89,15 @@ Partial Class EveAPIStatusForm
         '
         Me.tmrClose.Interval = 1000
         '
-        'colCharacterXML
-        '
-        Me.colCharacterXML.Text = "Character XML"
-        Me.colCharacterXML.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.colCharacterXML.Width = 100
-        '
-        'colTrainingXML
-        '
-        Me.colTrainingXML.Text = "Training XML"
-        Me.colTrainingXML.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.colTrainingXML.Width = 100
-        '
-        'colPilot
-        '
-        Me.colPilot.Text = "Character"
-        Me.colPilot.Width = 200
-        '
         'lblErrorDetailsLbl
         '
         Me.lblErrorDetailsLbl.AutoSize = True
         Me.lblErrorDetailsLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblErrorDetailsLbl.Location = New System.Drawing.Point(10, 293)
         Me.lblErrorDetailsLbl.Name = "lblErrorDetailsLbl"
-        Me.lblErrorDetailsLbl.Size = New System.Drawing.Size(80, 13)
+        Me.lblErrorDetailsLbl.Size = New System.Drawing.Size(134, 13)
         Me.lblErrorDetailsLbl.TabIndex = 4
-        Me.lblErrorDetailsLbl.Text = "Error Details:"
+        Me.lblErrorDetailsLbl.Text = "API Error Code Details:"
         '
         'lblErrorDetails
         '
