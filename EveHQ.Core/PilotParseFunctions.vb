@@ -32,6 +32,8 @@ Imports System.Windows.Forms
 
 Public Class PilotParseFunctions
 
+    Shared SkillTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+    Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
     Public Shared Event RefreshPilots()
 
     Shared Property StartPilotRefresh() As Boolean
@@ -472,7 +474,6 @@ Public Class PilotParseFunctions
             .CorpID = toon.ChildNodes.Item(6).InnerText
             .CloneName = toon.ChildNodes.Item(7).InnerText
             .CloneSP = toon.ChildNodes.Item(8).InnerText
-            Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
             Dim isk As Double = Double.Parse(toon.ChildNodes.Item(9).InnerText, Globalization.NumberStyles.Number, culture)
             .Isk = isk
             ' Put cache info here??
@@ -547,7 +548,6 @@ Public Class PilotParseFunctions
         If TXMLDoc IsNot Nothing Then
             Dim TrainingDetails As XmlNodeList
             Dim trainingNode As XmlNode
-            Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-US")
             TrainingDetails = TXMLDoc.SelectNodes("/eveapi/result/rowset/row")
             ' Check if a training file has been loaded!
             If TrainingDetails.Count > 0 Then
@@ -557,10 +557,10 @@ Public Class PilotParseFunctions
                     .Training = True
                     .TrainingSkillID = trainingNode.Attributes("typeID").Value
                     .TrainingSkillName = EveHQ.Core.SkillFunctions.SkillIDToName(.TrainingSkillID)
-                    Dim dt As DateTime = DateTime.Parse(trainingNode.Attributes("startTime").Value, culture, System.Globalization.DateTimeStyles.NoCurrentDateDefault)
+                    Dim dt As Date = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
                     .TrainingStartTimeActual = CDate(dt.ToString)
                     .TrainingStartTime = .TrainingStartTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
-                    dt = DateTime.Parse(trainingNode.Attributes("endTime").Value, culture, System.Globalization.DateTimeStyles.NoCurrentDateDefault)
+                    dt = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
                     .TrainingEndTimeActual = CDate(dt.ToString)
                     .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
                     .TrainingStartSP = CInt(trainingNode.Attributes("startSP").Value)
@@ -576,8 +576,8 @@ Public Class PilotParseFunctions
                         Dim QueuedSkill As New PilotQueuedSkill
                         QueuedSkill.Position = CInt(trainingNode.Attributes("queuePosition").Value)
                         QueuedSkill.SkillID = CInt(trainingNode.Attributes("typeID").Value)
-                        QueuedSkill.StartTime = DateTime.Parse(trainingNode.Attributes("startTime").Value, culture, System.Globalization.DateTimeStyles.NoCurrentDateDefault).AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
-                        QueuedSkill.EndTime = DateTime.Parse(trainingNode.Attributes("endTime").Value, culture, System.Globalization.DateTimeStyles.NoCurrentDateDefault).AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                        QueuedSkill.StartTime = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None).AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                        QueuedSkill.EndTime = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None).AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
                         QueuedSkill.StartSP = CLng(trainingNode.Attributes("startSP").Value)
                         QueuedSkill.EndSP = CLng(trainingNode.Attributes("endSP").Value)
                         QueuedSkill.Level = CInt(trainingNode.Attributes("level").Value)
