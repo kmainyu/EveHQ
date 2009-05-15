@@ -23,6 +23,9 @@ Partial Class frmKMV
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.gbAPIInfo = New System.Windows.Forms.GroupBox
+        Me.cboAccount = New System.Windows.Forms.ComboBox
+        Me.radUseAPI = New System.Windows.Forms.RadioButton
+        Me.radUseAccount = New System.Windows.Forms.RadioButton
         Me.lblAPIStatus = New System.Windows.Forms.Label
         Me.btnGetCharacters = New System.Windows.Forms.Button
         Me.txtAPIKey = New System.Windows.Forms.TextBox
@@ -41,9 +44,6 @@ Partial Class frmKMV
         Me.colKillTime = New System.Windows.Forms.ColumnHeader
         Me.lblKillmailDetails = New System.Windows.Forms.Label
         Me.txtKillMailDetails = New System.Windows.Forms.TextBox
-        Me.radUseAccount = New System.Windows.Forms.RadioButton
-        Me.radUseAPI = New System.Windows.Forms.RadioButton
-        Me.cboAccount = New System.Windows.Forms.ComboBox
         Me.btnUploadToBC = New System.Windows.Forms.Button
         Me.gbAPIInfo.SuspendLayout()
         Me.gbCharacters.SuspendLayout()
@@ -66,6 +66,37 @@ Partial Class frmKMV
         Me.gbAPIInfo.TabIndex = 0
         Me.gbAPIInfo.TabStop = False
         Me.gbAPIInfo.Text = "Character API Information"
+        '
+        'cboAccount
+        '
+        Me.cboAccount.FormattingEnabled = True
+        Me.cboAccount.Location = New System.Drawing.Point(152, 19)
+        Me.cboAccount.Name = "cboAccount"
+        Me.cboAccount.Size = New System.Drawing.Size(146, 21)
+        Me.cboAccount.Sorted = True
+        Me.cboAccount.TabIndex = 8
+        '
+        'radUseAPI
+        '
+        Me.radUseAPI.AutoSize = True
+        Me.radUseAPI.Location = New System.Drawing.Point(17, 43)
+        Me.radUseAPI.Name = "radUseAPI"
+        Me.radUseAPI.Size = New System.Drawing.Size(106, 17)
+        Me.radUseAPI.TabIndex = 7
+        Me.radUseAPI.Text = "Use Specific API:"
+        Me.radUseAPI.UseVisualStyleBackColor = True
+        '
+        'radUseAccount
+        '
+        Me.radUseAccount.AutoSize = True
+        Me.radUseAccount.Checked = True
+        Me.radUseAccount.Location = New System.Drawing.Point(17, 20)
+        Me.radUseAccount.Name = "radUseAccount"
+        Me.radUseAccount.Size = New System.Drawing.Size(129, 17)
+        Me.radUseAccount.TabIndex = 6
+        Me.radUseAccount.TabStop = True
+        Me.radUseAccount.Text = "Use Existing Account:"
+        Me.radUseAccount.UseVisualStyleBackColor = True
         '
         'lblAPIStatus
         '
@@ -193,7 +224,7 @@ Partial Class frmKMV
         Me.lvwKillMails.Location = New System.Drawing.Point(12, 188)
         Me.lvwKillMails.Name = "lvwKillMails"
         Me.lvwKillMails.ShowItemToolTips = True
-        Me.lvwKillMails.Size = New System.Drawing.Size(405, 411)
+        Me.lvwKillMails.Size = New System.Drawing.Size(405, 440)
         Me.lvwKillMails.TabIndex = 3
         Me.lvwKillMails.UseCompatibleStateImageBehavior = False
         Me.lvwKillMails.View = System.Windows.Forms.View.Details
@@ -235,45 +266,16 @@ Partial Class frmKMV
         Me.txtKillMailDetails.Size = New System.Drawing.Size(445, 440)
         Me.txtKillMailDetails.TabIndex = 6
         '
-        'radUseAccount
-        '
-        Me.radUseAccount.AutoSize = True
-        Me.radUseAccount.Checked = True
-        Me.radUseAccount.Location = New System.Drawing.Point(17, 20)
-        Me.radUseAccount.Name = "radUseAccount"
-        Me.radUseAccount.Size = New System.Drawing.Size(129, 17)
-        Me.radUseAccount.TabIndex = 6
-        Me.radUseAccount.Text = "Use Existing Account:"
-        Me.radUseAccount.UseVisualStyleBackColor = True
-        '
-        'radUseAPI
-        '
-        Me.radUseAPI.AutoSize = True
-        Me.radUseAPI.Location = New System.Drawing.Point(17, 43)
-        Me.radUseAPI.Name = "radUseAPI"
-        Me.radUseAPI.Size = New System.Drawing.Size(106, 17)
-        Me.radUseAPI.TabIndex = 7
-        Me.radUseAPI.Text = "Use Specific API:"
-        Me.radUseAPI.UseVisualStyleBackColor = True
-        '
-        'cboAccount
-        '
-        Me.cboAccount.FormattingEnabled = True
-        Me.cboAccount.Location = New System.Drawing.Point(152, 19)
-        Me.cboAccount.Name = "cboAccount"
-        Me.cboAccount.Size = New System.Drawing.Size(146, 21)
-        Me.cboAccount.Sorted = True
-        Me.cboAccount.TabIndex = 8
-        '
         'btnUploadToBC
         '
         Me.btnUploadToBC.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUploadToBC.Location = New System.Drawing.Point(12, 605)
+        Me.btnUploadToBC.Location = New System.Drawing.Point(291, 162)
         Me.btnUploadToBC.Name = "btnUploadToBC"
         Me.btnUploadToBC.Size = New System.Drawing.Size(123, 23)
         Me.btnUploadToBC.TabIndex = 7
         Me.btnUploadToBC.Text = "Upload to BattleClinic"
         Me.btnUploadToBC.UseVisualStyleBackColor = True
+        Me.btnUploadToBC.Visible = False
         '
         'frmKMV
         '
