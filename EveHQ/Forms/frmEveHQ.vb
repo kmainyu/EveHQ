@@ -1267,6 +1267,10 @@ Public Class frmEveHQ
         Call Me.OpenBackUpForm()
     End Sub
 
+    Private Sub DashboardToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DashboardToolStripMenuItem.Click
+        Call Me.OpenDashboard()
+    End Sub
+
     Private Sub mnuToolsAPIChecker_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuToolsAPIChecker.Click
         Call Me.OpenAPICheckerForm()
     End Sub
@@ -1586,6 +1590,14 @@ Public Class frmEveHQ
             frmInEveUploader.Show()
         Else
             tabMDI.SelectTab(frmInEveUploader.Text)
+        End If
+    End Sub
+    Private Sub OpenDashboard()
+        If tabMDI.TabPages.ContainsKey(frmDashboard.Text) = False Then
+            frmDashboard.MdiParent = Me
+            frmDashboard.Show()
+        Else
+            tabMDI.SelectTab(frmDashboard.Text)
         End If
     End Sub
     Public Sub DisplayReport(ByRef reportForm As EveHQ.frmReportViewer, ByVal reportText As String)
@@ -2428,5 +2440,6 @@ Public Class frmEveHQ
     End Sub
 #End Region
 
+   
 End Class
 
