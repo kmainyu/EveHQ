@@ -2203,6 +2203,8 @@ Public Class ShipSlotControl
             Dim newCargoItem As New ListViewItem(SBI.ShipType.Name)
             newCargoItem.Name = CStr(lvwShipBay.Items.Count)
             newCargoItem.SubItems.Add(CStr(SBI.Quantity))
+            newCargoItem.SubItems.Add(FormatNumber(SBI.ShipType.Volume, 0))
+            newCargoItem.SubItems.Add(FormatNumber(SBI.ShipType.Volume * SBI.Quantity, 0))
             currentShip.ShipBayItems.Add(lvwShipBay.Items.Count, SBI)
             currentShip.ShipBay_Used += SBI.ShipType.Volume * SBI.Quantity
             lvwShipBay.Items.Add(newCargoItem)
@@ -2318,142 +2320,158 @@ Public Class ShipSlotControl
 
     Private Sub ctxBays_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxBays.Opening
         Dim lvwBay As ListView = CType(ctxBays.SourceControl, ListView)
-        If lvwBay Is lvwCargoBay Then
-            If lvwBay.SelectedItems.Count > 0 Then
-                ctxShowBayInfoItem.Text = "Show Item Info"
-                If ctxBays.Items.ContainsKey("Drone Skills") = True Then
-                    ctxBays.Items.RemoveByKey("Drone Skills")
+        Select Case lvwBay.Name
+            Case "lvwCargoBay"
+                If lvwBay.SelectedItems.Count > 0 Then
+                    ctxShowBayInfoItem.Text = "Show Item Info"
+                    If ctxBays.Items.ContainsKey("Drone Skills") = True Then
+                        ctxBays.Items.RemoveByKey("Drone Skills")
+                    End If
+                    ctxSplitBatch.Enabled = False
+                    ctxShowBayInfoItem.Enabled = True
+                Else
+                    e.Cancel = True
                 End If
-            Else
-                e.Cancel = True
-            End If
-        Else
-            If lvwBay.SelectedItems.Count > 0 Then
-                ctxShowBayInfoItem.Text = "Show Drone Info"
-                Dim selItem As ListViewItem = lvwBay.SelectedItems(0)
-                Dim idx As Integer = CInt(selItem.Name)
-                Dim DBI As DroneBayItem = CType(currentShip.DroneBayItems.Item(idx), DroneBayItem)
-                Dim currentMod As ShipModule = DBI.DroneType
+            Case "lvwShipBay"
+                If lvwBay.SelectedItems.Count > 0 Then
+                    ctxShowBayInfoItem.Text = "Show Ship Info"
+                    If ctxBays.Items.ContainsKey("Drone Skills") = True Then
+                        ctxBays.Items.RemoveByKey("Drone Skills")
+                    End If
+                    ctxSplitBatch.Enabled = False
+                    ctxShowBayInfoItem.Enabled = False
+                Else
+                    e.Cancel = True
+                End If
+            Case "lvwDroneBay"
+                If lvwBay.SelectedItems.Count > 0 Then
+                    ctxShowBayInfoItem.Text = "Show Drone Info"
+                    ctxShowBayInfoItem.Enabled = True
+                    ctxSplitBatch.Enabled = True
+                    Dim selItem As ListViewItem = lvwBay.SelectedItems(0)
+                    Dim idx As Integer = CInt(selItem.Name)
+                    Dim DBI As DroneBayItem = CType(currentShip.DroneBayItems.Item(idx), DroneBayItem)
+                    Dim currentMod As ShipModule = DBI.DroneType
 
-                ' Check for Relevant Skills in Modules/Charges
-                Dim RelModuleSkills, RelChargeSkills As New ArrayList
-                Dim Affects(3) As String
-                For Each Affect As String In currentMod.Affects
-                    If Affect.Contains(";Skill;") = True Then
-                        Affects = Affect.Split((";").ToCharArray)
-                        If RelModuleSkills.Contains(Affects(0)) = False Then
-                            RelModuleSkills.Add(Affects(0))
-                        End If
-                    End If
-                    If Affect.Contains(";Ship Bonus;") = True Then
-                        Affects = Affect.Split((";").ToCharArray)
-                        If ShipCurrent.Name = Affects(0) Then
-                            If RelModuleSkills.Contains(Affects(3)) = False Then
-                                RelModuleSkills.Add(Affects(3))
-                            End If
-                        End If
-                    End If
-                Next
-                RelModuleSkills.Sort()
-                If currentMod.LoadedCharge IsNot Nothing Then
-                    For Each Affect As String In currentMod.LoadedCharge.Affects
+                    ' Check for Relevant Skills in Modules/Charges
+                    Dim RelModuleSkills, RelChargeSkills As New ArrayList
+                    Dim Affects(3) As String
+                    For Each Affect As String In currentMod.Affects
                         If Affect.Contains(";Skill;") = True Then
                             Affects = Affect.Split((";").ToCharArray)
-                            If RelChargeSkills.Contains(Affects(0)) = False Then
-                                RelChargeSkills.Add(Affects(0))
+                            If RelModuleSkills.Contains(Affects(0)) = False Then
+                                RelModuleSkills.Add(Affects(0))
                             End If
                         End If
                         If Affect.Contains(";Ship Bonus;") = True Then
                             Affects = Affect.Split((";").ToCharArray)
                             If ShipCurrent.Name = Affects(0) Then
-                                If RelChargeSkills.Contains(Affects(3)) = False Then
-                                    RelChargeSkills.Add(Affects(3))
+                                If RelModuleSkills.Contains(Affects(3)) = False Then
+                                    RelModuleSkills.Add(Affects(3))
                                 End If
                             End If
                         End If
                     Next
-                End If
-                RelChargeSkills.Sort()
-                If RelModuleSkills.Count > 0 Or RelChargeSkills.Count > 0 Then
-                    ' Add the Main menu item
-                    Dim AlterRelevantSkills As New ToolStripMenuItem
-                    AlterRelevantSkills.Name = "Drone Skills"
-                    AlterRelevantSkills.Text = "Alter Relevant Skills"
-                    For Each relSkill As String In RelModuleSkills
-                        Dim newRelSkill As New ToolStripMenuItem
-                        newRelSkill.Name = relSkill
-                        newRelSkill.Text = relSkill
-                        Dim pilotLevel As Integer = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
-                        newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
-                        For skillLevel As Integer = 0 To 5
-                            Dim newRelSkillLevel As New ToolStripMenuItem
-                            newRelSkillLevel.Name = relSkill & skillLevel.ToString
-                            newRelSkillLevel.Text = "Level " & skillLevel.ToString
-                            If skillLevel = pilotLevel Then
-                                newRelSkillLevel.Checked = True
+                    RelModuleSkills.Sort()
+                    If currentMod.LoadedCharge IsNot Nothing Then
+                        For Each Affect As String In currentMod.LoadedCharge.Affects
+                            If Affect.Contains(";Skill;") = True Then
+                                Affects = Affect.Split((";").ToCharArray)
+                                If RelChargeSkills.Contains(Affects(0)) = False Then
+                                    RelChargeSkills.Add(Affects(0))
+                                End If
                             End If
-                            AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotSkillLevel
-                            newRelSkill.DropDownItems.Add(newRelSkillLevel)
-                        Next
-                        newRelSkill.DropDownItems.Add("-")
-                        Dim defaultLevel As Integer = 0
-                        If CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
-                            defaultLevel = CType(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.PilotSkill).Level
-                        End If
-                        Dim newRelSkillDefault As New ToolStripMenuItem
-                        newRelSkillDefault.Name = relSkill & defaultLevel.ToString
-                        newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
-                        AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
-                        newRelSkill.DropDownItems.Add(newRelSkillDefault)
-                        AlterRelevantSkills.DropDownItems.Add(newRelSkill)
-                    Next
-                    If AlterRelevantSkills.DropDownItems.Count > 0 And RelChargeSkills.Count > 0 Then
-                        AlterRelevantSkills.DropDownItems.Add("-")
-                    End If
-                    For Each relSkill As String In RelChargeSkills
-                        Dim newRelSkill As New ToolStripMenuItem
-                        newRelSkill.Name = relSkill
-                        newRelSkill.Text = relSkill
-                        Dim pilotLevel As Integer = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
-                        newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
-                        For skillLevel As Integer = 0 To 5
-                            Dim newRelSkillLevel As New ToolStripMenuItem
-                            newRelSkillLevel.Name = relSkill & skillLevel.ToString
-                            newRelSkillLevel.Text = "Level " & skillLevel.ToString
-                            If skillLevel = pilotLevel Then
-                                newRelSkillLevel.Checked = True
+                            If Affect.Contains(";Ship Bonus;") = True Then
+                                Affects = Affect.Split((";").ToCharArray)
+                                If ShipCurrent.Name = Affects(0) Then
+                                    If RelChargeSkills.Contains(Affects(3)) = False Then
+                                        RelChargeSkills.Add(Affects(3))
+                                    End If
+                                End If
                             End If
-                            AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotSkillLevel
-                            newRelSkill.DropDownItems.Add(newRelSkillLevel)
                         Next
-                        newRelSkill.DropDownItems.Add("-")
-                        Dim defaultLevel As Integer = 0
-                        If CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
-                            defaultLevel = CType(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.PilotSkill).Level
-                        End If
-                        Dim newRelSkillDefault As New ToolStripMenuItem
-                        newRelSkillDefault.Name = relSkill & defaultLevel.ToString
-                        newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
-                        AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
-                        newRelSkill.DropDownItems.Add(newRelSkillDefault)
-                        AlterRelevantSkills.DropDownItems.Add(newRelSkill)
-                    Next
-                    If ctxBays.Items.ContainsKey("Drone Skills") = True Then
-                        ctxBays.Items.RemoveByKey("Drone Skills")
                     End If
-                    ctxBays.Items.Add(AlterRelevantSkills)
-                End If
-                If lvwBay.SelectedItems.Count > 1 Then
-                    ctxAlterQuantity.Enabled = False
-                    ctxSplitBatch.Enabled = False
+                    RelChargeSkills.Sort()
+                    If RelModuleSkills.Count > 0 Or RelChargeSkills.Count > 0 Then
+                        ' Add the Main menu item
+                        Dim AlterRelevantSkills As New ToolStripMenuItem
+                        AlterRelevantSkills.Name = "Drone Skills"
+                        AlterRelevantSkills.Text = "Alter Relevant Skills"
+                        For Each relSkill As String In RelModuleSkills
+                            Dim newRelSkill As New ToolStripMenuItem
+                            newRelSkill.Name = relSkill
+                            newRelSkill.Text = relSkill
+                            Dim pilotLevel As Integer = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
+                            newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
+                            For skillLevel As Integer = 0 To 5
+                                Dim newRelSkillLevel As New ToolStripMenuItem
+                                newRelSkillLevel.Name = relSkill & skillLevel.ToString
+                                newRelSkillLevel.Text = "Level " & skillLevel.ToString
+                                If skillLevel = pilotLevel Then
+                                    newRelSkillLevel.Checked = True
+                                End If
+                                AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotSkillLevel
+                                newRelSkill.DropDownItems.Add(newRelSkillLevel)
+                            Next
+                            newRelSkill.DropDownItems.Add("-")
+                            Dim defaultLevel As Integer = 0
+                            If CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
+                                defaultLevel = CType(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.PilotSkill).Level
+                            End If
+                            Dim newRelSkillDefault As New ToolStripMenuItem
+                            newRelSkillDefault.Name = relSkill & defaultLevel.ToString
+                            newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
+                            AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
+                            newRelSkill.DropDownItems.Add(newRelSkillDefault)
+                            AlterRelevantSkills.DropDownItems.Add(newRelSkill)
+                        Next
+                        If AlterRelevantSkills.DropDownItems.Count > 0 And RelChargeSkills.Count > 0 Then
+                            AlterRelevantSkills.DropDownItems.Add("-")
+                        End If
+                        For Each relSkill As String In RelChargeSkills
+                            Dim newRelSkill As New ToolStripMenuItem
+                            newRelSkill.Name = relSkill
+                            newRelSkill.Text = relSkill
+                            Dim pilotLevel As Integer = CType(CType(HQF.HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQF.HQFPilot).SkillSet(relSkill), HQFSkill).Level
+                            newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
+                            For skillLevel As Integer = 0 To 5
+                                Dim newRelSkillLevel As New ToolStripMenuItem
+                                newRelSkillLevel.Name = relSkill & skillLevel.ToString
+                                newRelSkillLevel.Text = "Level " & skillLevel.ToString
+                                If skillLevel = pilotLevel Then
+                                    newRelSkillLevel.Checked = True
+                                End If
+                                AddHandler newRelSkillLevel.Click, AddressOf Me.SetPilotSkillLevel
+                                newRelSkill.DropDownItems.Add(newRelSkillLevel)
+                            Next
+                            newRelSkill.DropDownItems.Add("-")
+                            Dim defaultLevel As Integer = 0
+                            If CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills.Contains(relSkill) = True Then
+                                defaultLevel = CType(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), EveHQ.Core.Pilot).PilotSkills(relSkill), EveHQ.Core.PilotSkill).Level
+                            End If
+                            Dim newRelSkillDefault As New ToolStripMenuItem
+                            newRelSkillDefault.Name = relSkill & defaultLevel.ToString
+                            newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
+                            AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
+                            newRelSkill.DropDownItems.Add(newRelSkillDefault)
+                            AlterRelevantSkills.DropDownItems.Add(newRelSkill)
+                        Next
+                        If ctxBays.Items.ContainsKey("Drone Skills") = True Then
+                            ctxBays.Items.RemoveByKey("Drone Skills")
+                        End If
+                        ctxBays.Items.Add(AlterRelevantSkills)
+                    End If
+                    If lvwBay.SelectedItems.Count > 1 Then
+                        ctxAlterQuantity.Enabled = False
+                        ctxSplitBatch.Enabled = False
+                    Else
+                        ctxAlterQuantity.Enabled = True
+                        ctxSplitBatch.Enabled = True
+                    End If
                 Else
-                    ctxAlterQuantity.Enabled = True
-                    ctxSplitBatch.Enabled = True
+                    e.Cancel = True
                 End If
-            Else
-                e.Cancel = True
-            End If
-        End If
+        End Select
     End Sub
 
     Private Sub ctxRemoveItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxRemoveItem.Click
@@ -2467,6 +2485,14 @@ Public Class ShipSlotControl
                 Next
                 Call Me.UpdateFittingListFromShipData()
                 Call RedrawCargoBay()
+            Case "lvwShipBay"
+                ' Removes the item from the cargo bay
+                For Each remItem As ListViewItem In lvwShipBay.SelectedItems
+                    currentShip.ShipBayItems.Remove(CInt(remItem.Name))
+                    lvwShipBay.Items.RemoveByKey(remItem.Name)
+                Next
+                Call Me.UpdateFittingListFromShipData()
+                Call RedrawShipBay()
             Case "lvwDroneBay"
                 ' Removes the item from the drone bay
                 For Each remItem As ListViewItem In lvwDroneBay.SelectedItems
@@ -2483,19 +2509,19 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub ctxShowBayInfoItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxShowBayInfoItem.Click
-        Dim selItem As ListViewItem
+        Dim lvwBay As ListView = CType(ctxBays.SourceControl, ListView)
+        Dim selItem As ListViewItem = lvwBay.SelectedItems(0)
         Dim sModule As ShipModule
-        If ctxShowBayInfoItem.Text = "Show Item Info" Then
-            selItem = lvwCargoBay.SelectedItems(0)
-            Dim idx As Integer = CInt(selItem.Name)
-            Dim DBI As CargoBayItem = CType(fittedShip.CargoBayItems.Item(idx), CargoBayItem)
-            sModule = DBI.ItemType
-        Else
-            selItem = lvwDroneBay.SelectedItems(0)
-            Dim idx As Integer = CInt(selItem.Name)
-            Dim DBI As DroneBayItem = CType(fittedShip.DroneBayItems.Item(idx), DroneBayItem)
-            sModule = DBI.DroneType
-        End If
+        Select Case lvwBay.Name
+            Case "lvwCargoBay"
+                Dim idx As Integer = CInt(selItem.Name)
+                Dim DBI As CargoBayItem = CType(fittedShip.CargoBayItems.Item(idx), CargoBayItem)
+                sModule = DBI.ItemType
+            Case "lvwDroneBay"
+                Dim idx As Integer = CInt(selItem.Name)
+                Dim DBI As DroneBayItem = CType(fittedShip.DroneBayItems.Item(idx), DroneBayItem)
+                sModule = DBI.DroneType
+        End Select
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.Pilot
         If currentInfo IsNot Nothing Then
@@ -2520,7 +2546,7 @@ Public Class ShipSlotControl
                 Dim newSelectForm As New frmSelectQuantity
                 newSelectForm.fittedShip = fittedShip
                 newSelectForm.CBI = CBI
-                newSelectForm.IsDroneBay = False
+                newSelectForm.BayType = frmSelectQuantity.BayTypes.CargoBay
                 newSelectForm.IsSplit = False
                 newSelectForm.nudQuantity.Minimum = 1
                 newSelectForm.nudQuantity.Maximum = CBI.Quantity + CInt(Int((fittedShip.CargoBay - currentShip.CargoBay_Used) / CBI.ItemType.Volume))
@@ -2529,6 +2555,22 @@ Public Class ShipSlotControl
                 newSelectForm.Dispose()
                 Call Me.UpdateFittingListFromShipData()
                 Call RedrawCargoBay()
+            Case "lvwShipBay"
+                Dim selItem As ListViewItem = lvwShipBay.SelectedItems(0)
+                Dim idx As Integer = CInt(selItem.Name)
+                Dim SBI As ShipBayItem = CType(currentShip.ShipBayItems.Item(idx), ShipBayItem)
+                Dim newSelectForm As New frmSelectQuantity
+                newSelectForm.fittedShip = fittedShip
+                newSelectForm.SBI = SBI
+                newSelectForm.BayType = frmSelectQuantity.BayTypes.ShipBay
+                newSelectForm.IsSplit = False
+                newSelectForm.nudQuantity.Minimum = 1
+                newSelectForm.nudQuantity.Maximum = SBI.Quantity + CInt(Int((fittedShip.ShipBay - currentShip.ShipBay_Used) / SBI.ShipType.Volume))
+                newSelectForm.nudQuantity.Value = SBI.Quantity
+                newSelectForm.ShowDialog()
+                newSelectForm.Dispose()
+                Call Me.UpdateFittingListFromShipData()
+                Call RedrawShipBay()
             Case "lvwDroneBay"
                 Dim selItem As ListViewItem = lvwDroneBay.SelectedItems(0)
                 Dim idx As Integer = CInt(selItem.Name)
@@ -2536,7 +2578,7 @@ Public Class ShipSlotControl
                 Dim newSelectForm As New frmSelectQuantity
                 newSelectForm.fittedShip = fittedShip
                 newSelectForm.DBI = DBI
-                newSelectForm.IsDroneBay = True
+                newSelectForm.BayType = frmSelectQuantity.BayTypes.DroneBay
                 newSelectForm.IsSplit = False
                 newSelectForm.nudQuantity.Minimum = 1
                 newSelectForm.nudQuantity.Maximum = DBI.Quantity + CInt(Int((fittedShip.DroneBay - currentShip.DroneBay_Used) / DBI.DroneType.Volume))
@@ -2563,7 +2605,7 @@ Public Class ShipSlotControl
                 newSelectForm.fittedShip = fittedShip
                 newSelectForm.currentShip = currentShip
                 newSelectForm.CBI = CBI
-                newSelectForm.IsDroneBay = False
+                newSelectForm.BayType = frmSelectQuantity.BayTypes.CargoBay
                 newSelectForm.IsSplit = True
                 newSelectForm.nudQuantity.Value = 1
                 newSelectForm.nudQuantity.Minimum = 1
@@ -2572,6 +2614,23 @@ Public Class ShipSlotControl
                 newSelectForm.Dispose()
                 Call Me.UpdateFittingListFromShipData()
                 Call RedrawCargoBay()
+            Case "lvwShipBay"
+                Dim selItem As ListViewItem = lvwShipBay.SelectedItems(0)
+                Dim idx As Integer = CInt(selItem.Name)
+                Dim SBI As ShipBayItem = CType(currentShip.ShipBayItems.Item(idx), ShipBayItem)
+                Dim newSelectForm As New frmSelectQuantity
+                newSelectForm.fittedShip = fittedShip
+                newSelectForm.currentShip = currentShip
+                newSelectForm.SBI = SBI
+                newSelectForm.BayType = frmSelectQuantity.BayTypes.ShipBay
+                newSelectForm.IsSplit = True
+                newSelectForm.nudQuantity.Value = 1
+                newSelectForm.nudQuantity.Minimum = 1
+                newSelectForm.nudQuantity.Maximum = SBI.Quantity - 1
+                newSelectForm.ShowDialog()
+                newSelectForm.Dispose()
+                Call Me.UpdateFittingListFromShipData()
+                Call RedrawShipBay()
             Case "lvwDroneBay"
                 Dim selItem As ListViewItem = lvwDroneBay.SelectedItems(0)
                 Dim idx As Integer = CInt(selItem.Name)
@@ -2580,7 +2639,7 @@ Public Class ShipSlotControl
                 newSelectForm.fittedShip = fittedShip
                 newSelectForm.currentShip = currentShip
                 newSelectForm.DBI = DBI
-                newSelectForm.IsDroneBay = True
+                newSelectForm.BayType = frmSelectQuantity.BayTypes.DroneBay
                 newSelectForm.IsSplit = True
                 newSelectForm.nudQuantity.Value = 1
                 newSelectForm.nudQuantity.Minimum = 1
@@ -3581,4 +3640,5 @@ Public Class ShipSlotControl
 
     End Sub
 #End Region
+
 End Class
