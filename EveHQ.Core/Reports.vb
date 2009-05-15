@@ -2229,8 +2229,9 @@ Public Class Reports
             strXML &= " endTime=""" & Format(rpilot.TrainingEndTimeActual, "yyyy-MM-dd HH:mm:ss") & """"
             strXML &= " />" & vbCrLf
         End If
+        strXML &= tabs(2) & "</rowset>" & vbCrLf
         strXML &= tabs(1) & "</result>" & vbCrLf
-        strXML &= tabs(1) & "<cachedUntil>" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "</cachedUntil>" & vbCrLf
+        strXML &= tabs(1) & "<cachedUntil>" & Format(EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now), "yyyy-MM-dd HH:mm:ss") & "</cachedUntil>" & vbCrLf
         strXML &= tabs(0) & "</eveapi>" & vbCrLf
 
         Return strXML
