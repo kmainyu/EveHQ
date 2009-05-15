@@ -93,6 +93,9 @@ Imports System.Runtime.Serialization
     Private cUsedDrones As Integer
     Private cMaxDrones As Integer
 
+    ' Ship Bay
+    Private cShipBay As Double
+
     ' Targeting
     Private cMaxLockedTargets As Double
     Private cMaxTargetRange As Double
@@ -141,9 +144,11 @@ Imports System.Runtime.Serialization
     Private cPG_Used As Double
     Private cCargoBay_Used As Double
     Private cDroneBay_Used As Double
+    Private cShipBay_Used As Double
     Private cDroneBandwidth_Used As Double
     Private cCargoBayItems As New SortedList
     Private cDroneBayItems As New SortedList
+    Private cShipBayItems As New SortedList
 
     ' Effective Resists
     Private cEffectiveShieldHP As Double
@@ -636,6 +641,16 @@ Imports System.Runtime.Serialization
         End Set
     End Property
 
+    ' Ship Bay
+    Public Property ShipBay() As Double
+        Get
+            Return cShipBay
+        End Get
+        Set(ByVal value As Double)
+            cShipBay = value
+        End Set
+    End Property
+
     ' Targeting
     Public Property MaxLockedTargets() As Double
         Get
@@ -1084,6 +1099,14 @@ Imports System.Runtime.Serialization
             cDroneBay_Used = value
         End Set
     End Property
+    Public Property ShipBay_Used() As Double
+        Get
+            Return cShipBay_Used
+        End Get
+        Set(ByVal value As Double)
+            cShipBay_Used = value
+        End Set
+    End Property
     Public Property DroneBandwidth_Used() As Double
         Get
             Return cDroneBandwidth_Used
@@ -1106,6 +1129,14 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As SortedList)
             cDroneBayItems = value
+        End Set
+    End Property
+    Public Property ShipBayItems() As SortedList
+        Get
+            Return cShipBayItems
+        End Get
+        Set(ByVal value As SortedList)
+            cShipBayItems = value
         End Set
     End Property
 
@@ -1546,6 +1577,8 @@ Imports System.Runtime.Serialization
                     End If
                 Case 283
                     newShip.DroneBay = attValue
+                Case 908
+                    newShip.ShipBay = attValue
                 Case 1271
                     newShip.DroneBandwidth = attValue
                 Case 10002
@@ -1624,6 +1657,11 @@ End Class
 
 <Serializable()> Public Class CargoBayItem
     Public ItemType As ShipModule
+    Public Quantity As Integer
+End Class
+
+<Serializable()> Public Class ShipBayItem
+    Public ShipType As Ship
     Public Quantity As Integer
 End Class
 

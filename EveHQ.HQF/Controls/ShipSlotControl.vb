@@ -125,6 +125,7 @@ Public Class ShipSlotControl
         Me.ClearShipSlots()
         Me.ClearDroneBay()
         Me.ClearCargoBay()
+        Me.ClearShipBay()
         Me.UpdateShipDataFromFittingList()
         lvwCargoBay.EndUpdate()
         lvwDroneBay.EndUpdate()
@@ -139,6 +140,7 @@ Public Class ShipSlotControl
             Me.UpdateShipDetails()
             Me.RedrawDroneBay()
             Me.RedrawCargoBay()
+            Me.RedrawShipBay()
         Else
             MessageBox.Show("The fitting for " & cShipFit & " failed to produce a calculated setup.", "Error Calculating Fitting", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -262,6 +264,7 @@ Public Class ShipSlotControl
             Next
             Call Me.RedrawCargoBayCapacity()
             Call Me.RedrawDroneBayCapacity()
+            Call Me.RedrawShipBayCapacity()
         End If
     End Sub
     Private Sub UpdateSlotLocation(ByVal oldMod As ShipModule, ByVal slotNo As Integer)
@@ -649,8 +652,18 @@ Public Class ShipSlotControl
                         MessageBox.Show("Ship Module is unrecognised.", "Add Ship Module Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     End If
                 Else
-                    MessageBox.Show("The '" & modData(0) & "' is not a valid module. This module will be removed from the setup.", "Unrecognised Module Detected.", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    currentFit.Remove(modData(0))
+                    ' Check if this is a ship from the maintenance bay
+                    If ShipLists.shipList.ContainsKey(modData(0)) Then
+                        Dim sShip As Ship = CType(ShipLists.shipList(modData(0)), Ship).Clone
+                        If modData.GetUpperBound(0) > 0 Then
+                            itemQuantity = CInt(modData(1))
+                        End If
+                        Call Me.AddShip(sShip, itemQuantity)
+                    Else
+                        MessageBox.Show("The '" & modData(0) & "' is not a valid module or ship. This item will be removed from the setup.", "Unrecognised Module Detected.", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        currentFit.Remove(modData(0))
+                    End If
+                    
                 End If
             End If
         Next
@@ -725,6 +738,11 @@ Public Class ShipSlotControl
         For Each CBI As CargoBayItem In currentShip.CargoBayItems.Values
             currentFit.Add(CBI.ItemType.Name & ", " & CBI.Quantity)
         Next
+
+        For Each sBI As ShipBayItem In currentShip.ShipBayItems.Values
+            currentFit.Add(sBI.ShipType.Name & ", " & sBI.Quantity)
+        Next
+
     End Sub
 
 #End Region
@@ -759,6 +777,16 @@ Public Class ShipSlotControl
         If currentShip IsNot Nothing Then
             currentShip.CargoBayItems.Clear()
             currentShip.CargoBay_Used = 0
+        End If
+    End Sub
+    Private Sub ClearShipBay()
+        If currentShip IsNot Nothing Then
+            currentShip.ShipBayItems.Clear()
+            currentShip.ShipBay_Used = 0
+        End If
+        ' Remove the Ship Maintenance Bay tab if we don't need it (to avoid confusion)
+        If currentShip.ShipBay = 0 Then
+            tabStorage.TabPages.Remove(tabShipBay)
         End If
     End Sub
 #End Region
@@ -880,6 +908,47 @@ Public Class ShipSlotControl
                 End If
             Else
                 MessageBox.Show("There is not enough space in the Cargo Bay to hold 1 unit of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End If
+    End Sub
+    Public Sub AddShip(ByVal Item As Ship, ByVal Qty As Integer)
+        If currentShip IsNot Nothing Then
+            ' Set grouping flag
+            Dim grouped As Boolean = False
+            ' See if there is sufficient space
+            Dim vol As Double = Item.Volume
+            Dim myShip As New Ship
+            If fittedShip IsNot Nothing Then
+                myShip = fittedShip
+            Else
+                myShip = currentShip
+            End If
+            If myShip.ShipBay - currentShip.ShipBay_Used >= vol Then
+                ' Scan through existing items and see if we can group this new one
+                For Each itemGroup As ShipBayItem In currentShip.ShipBayItems.Values
+                    If Item.Name = itemGroup.ShipType.Name And UpdateAll = False Then
+                        ' Add to existing drone group
+                        itemGroup.Quantity += Qty
+                        grouped = True
+                        Exit For
+                    End If
+                Next
+                ' Put the item into the cargo bay if not grouped
+                If grouped = False Then
+                    Dim sBI As New ShipBayItem
+                    sBI.ShipType = Item
+                    sBI.Quantity = Qty
+                    currentShip.ShipBayItems.Add(currentShip.ShipBayItems.Count, sBI)
+                End If
+                ' Update stuff
+                If UpdateAll = False Then
+                    currentInfo.ShipType = currentShip
+                    currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+                    Call Me.RedrawShipBay()
+                    Call UpdateFittingListFromShipData()
+                End If
+            Else
+                MessageBox.Show("There is not enough space in the Ship Maintenance Bay to hold 1 unit of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
     End Sub
@@ -2072,7 +2141,7 @@ Public Class ShipSlotControl
     End Sub
 #End Region
 
-#Region "Cargo & Drone Bay Routines"
+#Region "Storage Bay Routines"
     Private Sub RedrawCargoBay()
         lvwCargoBay.BeginUpdate()
         lvwCargoBay.Items.Clear()
@@ -2120,6 +2189,28 @@ Public Class ShipSlotControl
         Call Me.RedrawDroneBayCapacity()
     End Sub
 
+    Private Sub RedrawShipBay()
+        lvwShipBay.BeginUpdate()
+        lvwShipBay.Items.Clear()
+        currentShip.ShipBay_Used = 0
+        Dim SBI As ShipBayItem
+        Dim HoldingBay As New SortedList
+        For Each SBI In currentShip.ShipBayItems.Values
+            HoldingBay.Add(HoldingBay.Count, SBI)
+        Next
+        currentShip.ShipBayItems.Clear()
+        For Each SBI In HoldingBay.Values
+            Dim newCargoItem As New ListViewItem(SBI.ShipType.Name)
+            newCargoItem.Name = CStr(lvwShipBay.Items.Count)
+            newCargoItem.SubItems.Add(CStr(SBI.Quantity))
+            currentShip.ShipBayItems.Add(lvwShipBay.Items.Count, SBI)
+            currentShip.ShipBay_Used += SBI.ShipType.Volume * SBI.Quantity
+            lvwShipBay.Items.Add(newCargoItem)
+        Next
+        lvwShipBay.EndUpdate()
+        Call Me.RedrawshipbayCapacity()
+    End Sub
+
     Private Sub RedrawCargoBayCapacity()
         lblCargoBay.Text = FormatNumber(currentShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
         If fittedShip.CargoBay > 0 Then
@@ -2162,6 +2253,28 @@ Public Class ShipSlotControl
             pbDroneBay.EndColor = Drawing.Color.LimeGreen
             pbDroneBay.HighlightColor = Drawing.Color.White
             pbDroneBay.GlowColor = Drawing.Color.LightGreen
+        End If
+    End Sub
+
+    Private Sub RedrawShipBayCapacity()
+        lblShipBay.Text = FormatNumber(currentShip.ShipBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.ShipBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        If fittedShip.ShipBay > 0 Then
+            pbShipBay.MaxValue = CInt(fittedShip.ShipBay)
+        Else
+            pbShipBay.MaxValue = 1
+        End If
+        If currentShip.ShipBay_Used > fittedShip.ShipBay Then
+            pbShipBay.Value = CInt(fittedShip.ShipBay)
+            pbShipBay.StartColor = Drawing.Color.Red
+            pbShipBay.EndColor = Drawing.Color.Red
+            pbShipBay.HighlightColor = Drawing.Color.White
+            pbShipBay.GlowColor = Drawing.Color.LightPink
+        Else
+            pbShipBay.Value = CInt(currentShip.ShipBay_Used)
+            pbShipBay.StartColor = Drawing.Color.LimeGreen
+            pbShipBay.EndColor = Drawing.Color.LimeGreen
+            pbShipBay.HighlightColor = Drawing.Color.White
+            pbShipBay.GlowColor = Drawing.Color.LightGreen
         End If
     End Sub
 

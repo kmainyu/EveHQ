@@ -417,6 +417,16 @@ Public Class frmHQF
             If curNode.Nodes.Count = 0 Then ' If has no child nodes, therefore a ship not group
                 Dim shipName As String = curNode.Text
                 mnuShipBrowserShipName.Text = shipName
+                ' Check for a current ship and whether there is a ship bay
+                If currentShipSlot IsNot Nothing Then
+                    If currentShipSlot.ShipFitted.ShipBay > 0 Then
+                        mnuAddToShipBay.Enabled = True
+                    Else
+                        mnuAddToShipBay.Enabled = False
+                    End If
+                Else
+                    mnuAddToShipBay.Enabled = False
+                End If
             Else
                 e.Cancel = True
             End If
@@ -2630,7 +2640,12 @@ Public Class frmHQF
         Call Me.UpdateFittingsTree(False)
     End Sub
 
-    Private Sub lvwItems_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
+    Private Sub mnuAddToShipBay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToShipBay.Click
+        If currentShipSlot IsNot Nothing Then
+            Dim shipName As String = mnuShipBrowserShipName.Text
+            ' Add the ship to the maintenance bay
+            Dim shipType As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+            currentShipSlot.AddShip(shipType, 1)
+        End If
     End Sub
 End Class

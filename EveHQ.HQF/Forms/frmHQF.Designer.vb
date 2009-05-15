@@ -78,6 +78,7 @@ Partial Class frmHQF
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuPreviewShip = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuCreateNewFitting = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAddToShipBay = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuBattleClinicBrowser = New System.Windows.Forms.ToolStripMenuItem
         Me.SplitContainerMod = New System.Windows.Forms.SplitContainer
@@ -632,45 +633,51 @@ Partial Class frmHQF
         '
         'ctxShipBrowser
         '
-        Me.ctxShipBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShipBrowserShipName, Me.ToolStripMenuItem2, Me.mnuPreviewShip, Me.mnuCreateNewFitting, Me.ToolStripMenuItem6, Me.mnuBattleClinicBrowser})
+        Me.ctxShipBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShipBrowserShipName, Me.ToolStripMenuItem2, Me.mnuPreviewShip, Me.mnuCreateNewFitting, Me.mnuAddToShipBay, Me.ToolStripMenuItem6, Me.mnuBattleClinicBrowser})
         Me.ctxShipBrowser.Name = "ctxShipBrowser"
-        Me.ctxShipBrowser.Size = New System.Drawing.Size(180, 104)
+        Me.ctxShipBrowser.Size = New System.Drawing.Size(231, 148)
         '
         'mnuShipBrowserShipName
         '
         Me.mnuShipBrowserShipName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.mnuShipBrowserShipName.Name = "mnuShipBrowserShipName"
-        Me.mnuShipBrowserShipName.Size = New System.Drawing.Size(179, 22)
+        Me.mnuShipBrowserShipName.Size = New System.Drawing.Size(230, 22)
         Me.mnuShipBrowserShipName.Text = "Ship Name"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(176, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(227, 6)
         '
         'mnuPreviewShip
         '
         Me.mnuPreviewShip.Name = "mnuPreviewShip"
-        Me.mnuPreviewShip.Size = New System.Drawing.Size(179, 22)
+        Me.mnuPreviewShip.Size = New System.Drawing.Size(230, 22)
         Me.mnuPreviewShip.Text = "Preview Ship Details"
         Me.mnuPreviewShip.ToolTipText = "View Ship Stats and Attributes"
         '
         'mnuCreateNewFitting
         '
         Me.mnuCreateNewFitting.Name = "mnuCreateNewFitting"
-        Me.mnuCreateNewFitting.Size = New System.Drawing.Size(179, 22)
+        Me.mnuCreateNewFitting.Size = New System.Drawing.Size(230, 22)
         Me.mnuCreateNewFitting.Text = "Create New Fitting"
         Me.mnuCreateNewFitting.ToolTipText = "Create a new fitting for this ship type"
+        '
+        'mnuAddToShipBay
+        '
+        Me.mnuAddToShipBay.Name = "mnuAddToShipBay"
+        Me.mnuAddToShipBay.Size = New System.Drawing.Size(230, 22)
+        Me.mnuAddToShipBay.Text = "Add to Ship Maintenance Bay"
         '
         'ToolStripMenuItem6
         '
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(176, 6)
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(227, 6)
         '
         'mnuBattleClinicBrowser
         '
         Me.mnuBattleClinicBrowser.Name = "mnuBattleClinicBrowser"
-        Me.mnuBattleClinicBrowser.Size = New System.Drawing.Size(179, 22)
+        Me.mnuBattleClinicBrowser.Size = New System.Drawing.Size(230, 22)
         Me.mnuBattleClinicBrowser.Text = "Battleclinic Browser"
         Me.mnuBattleClinicBrowser.ToolTipText = "View Ship Loadouts from BattleClinic"
         '
@@ -2101,4 +2108,5 @@ Partial Class frmHQF
     Friend WithEvents lblFlyable As System.Windows.Forms.Label
     Friend WithEvents cboFlyable As System.Windows.Forms.ComboBox
     Friend WithEvents chkFilter8192 As System.Windows.Forms.CheckBox
+    Friend WithEvents mnuAddToShipBay As System.Windows.Forms.ToolStripMenuItem
 End Class

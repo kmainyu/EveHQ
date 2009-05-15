@@ -60,6 +60,7 @@ Partial Class ShipSlotControl
         Me.lblSubSlots = New System.Windows.Forms.Label
         Me.pbShipInfo = New System.Windows.Forms.PictureBox
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.tabStorage = New System.Windows.Forms.TabControl
         Me.tabDroneBay = New System.Windows.Forms.TabPage
         Me.panelDrone = New System.Windows.Forms.Panel
@@ -109,7 +110,14 @@ Partial Class ShipSlotControl
         Me.lblFleetStatusLabel = New System.Windows.Forms.Label
         Me.cboWCShip = New System.Windows.Forms.ComboBox
         Me.cboFCShip = New System.Windows.Forms.ComboBox
-        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
+        Me.tabShipBay = New System.Windows.Forms.TabPage
+        Me.panelShipBay = New System.Windows.Forms.Panel
+        Me.pbShipBay = New VistaStyleProgressBar.ProgressBar
+        Me.lblShipBay = New System.Windows.Forms.Label
+        Me.btnMergeShips = New System.Windows.Forms.Button
+        Me.lvwShipBay = New System.Windows.Forms.ListView
+        Me.colShipBayShip = New System.Windows.Forms.ColumnHeader
+        Me.colShipBayQuantity = New System.Windows.Forms.ColumnHeader
         Me.ctxSlots.SuspendLayout()
         Me.ctxBays.SuspendLayout()
         Me.ctxRemoteFittings.SuspendLayout()
@@ -130,6 +138,8 @@ Partial Class ShipSlotControl
         Me.panelRemote.SuspendLayout()
         Me.tabFleet.SuspendLayout()
         Me.panelFleet.SuspendLayout()
+        Me.tabShipBay.SuspendLayout()
+        Me.panelShipBay.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblFittingMarketPrice
@@ -389,10 +399,37 @@ Partial Class ShipSlotControl
         Me.SplitContainer1.SplitterDistance = 275
         Me.SplitContainer1.TabIndex = 1
         '
+        'lvwSlots
+        '
+        Me.lvwSlots.AllowDrop = True
+        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
+        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwSlots.FullRowSelect = True
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        ListViewGroup5.Header = "Subsystem Slots"
+        ListViewGroup5.Name = "lvwgSubSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5})
+        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
+        Me.lvwSlots.Name = "lvwSlots"
+        Me.lvwSlots.Size = New System.Drawing.Size(676, 275)
+        Me.lvwSlots.SmallImageList = Me.imgState
+        Me.lvwSlots.TabIndex = 0
+        Me.lvwSlots.Tag = ""
+        Me.lvwSlots.UseCompatibleStateImageBehavior = False
+        Me.lvwSlots.View = System.Windows.Forms.View.Details
+        '
         'tabStorage
         '
         Me.tabStorage.Controls.Add(Me.tabDroneBay)
         Me.tabStorage.Controls.Add(Me.tabCargoBay)
+        Me.tabStorage.Controls.Add(Me.tabShipBay)
         Me.tabStorage.Controls.Add(Me.tabRemote)
         Me.tabStorage.Controls.Add(Me.tabFleet)
         Me.tabStorage.Dock = System.Windows.Forms.DockStyle.Fill
@@ -909,31 +946,89 @@ Partial Class ShipSlotControl
         Me.cboFCShip.Size = New System.Drawing.Size(187, 21)
         Me.cboFCShip.TabIndex = 20
         '
-        'lvwSlots
+        'tabShipBay
         '
-        Me.lvwSlots.AllowDrop = True
-        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
-        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwSlots.FullRowSelect = True
-        ListViewGroup1.Header = "High Slots"
-        ListViewGroup1.Name = "lvwgHighSlots"
-        ListViewGroup2.Header = "Mid Slots"
-        ListViewGroup2.Name = "lvwgMidSlots"
-        ListViewGroup3.Header = "Low Slots"
-        ListViewGroup3.Name = "lvwgLowSlots"
-        ListViewGroup4.Header = "Rig Slots"
-        ListViewGroup4.Name = "lvwgRigSlots"
-        ListViewGroup5.Header = "Subsystem Slots"
-        ListViewGroup5.Name = "lvwgSubSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5})
-        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
-        Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.Size = New System.Drawing.Size(676, 275)
-        Me.lvwSlots.SmallImageList = Me.imgState
-        Me.lvwSlots.TabIndex = 0
-        Me.lvwSlots.Tag = ""
-        Me.lvwSlots.UseCompatibleStateImageBehavior = False
-        Me.lvwSlots.View = System.Windows.Forms.View.Details
+        Me.tabShipBay.Controls.Add(Me.panelShipBay)
+        Me.tabShipBay.Location = New System.Drawing.Point(4, 22)
+        Me.tabShipBay.Name = "tabShipBay"
+        Me.tabShipBay.Size = New System.Drawing.Size(668, 216)
+        Me.tabShipBay.TabIndex = 4
+        Me.tabShipBay.Text = "Ship Maintenance Bay"
+        Me.tabShipBay.UseVisualStyleBackColor = True
+        '
+        'panelShipBay
+        '
+        Me.panelShipBay.BackColor = System.Drawing.SystemColors.Control
+        Me.panelShipBay.Controls.Add(Me.pbShipBay)
+        Me.panelShipBay.Controls.Add(Me.lblShipBay)
+        Me.panelShipBay.Controls.Add(Me.btnMergeShips)
+        Me.panelShipBay.Controls.Add(Me.lvwShipBay)
+        Me.panelShipBay.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelShipBay.Location = New System.Drawing.Point(0, 0)
+        Me.panelShipBay.Name = "panelShipBay"
+        Me.panelShipBay.Size = New System.Drawing.Size(668, 216)
+        Me.panelShipBay.TabIndex = 34
+        '
+        'pbShipBay
+        '
+        Me.pbShipBay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pbShipBay.BackColor = System.Drawing.Color.Transparent
+        Me.pbShipBay.EndColor = System.Drawing.Color.LimeGreen
+        Me.pbShipBay.GlowColor = System.Drawing.Color.LightGreen
+        Me.pbShipBay.Location = New System.Drawing.Point(3, 21)
+        Me.pbShipBay.Name = "pbShipBay"
+        Me.pbShipBay.Size = New System.Drawing.Size(566, 10)
+        Me.pbShipBay.StartColor = System.Drawing.Color.LimeGreen
+        Me.pbShipBay.TabIndex = 32
+        Me.pbShipBay.Value = 50
+        '
+        'lblShipBay
+        '
+        Me.lblShipBay.AutoSize = True
+        Me.lblShipBay.Location = New System.Drawing.Point(3, 5)
+        Me.lblShipBay.Name = "lblShipBay"
+        Me.lblShipBay.Size = New System.Drawing.Size(86, 13)
+        Me.lblShipBay.TabIndex = 3
+        Me.lblShipBay.Text = "0.00 / 000.00 m³"
+        '
+        'btnMergeShips
+        '
+        Me.btnMergeShips.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMergeShips.Location = New System.Drawing.Point(575, 8)
+        Me.btnMergeShips.Name = "btnMergeShips"
+        Me.btnMergeShips.Size = New System.Drawing.Size(90, 23)
+        Me.btnMergeShips.TabIndex = 6
+        Me.btnMergeShips.Text = "Merge Ships"
+        Me.btnMergeShips.UseVisualStyleBackColor = True
+        '
+        'lvwShipBay
+        '
+        Me.lvwShipBay.AllowDrop = True
+        Me.lvwShipBay.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwShipBay.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colShipBayShip, Me.colShipBayQuantity})
+        Me.lvwShipBay.ContextMenuStrip = Me.ctxBays
+        Me.lvwShipBay.FullRowSelect = True
+        Me.lvwShipBay.GridLines = True
+        Me.lvwShipBay.Location = New System.Drawing.Point(3, 35)
+        Me.lvwShipBay.Name = "lvwShipBay"
+        Me.lvwShipBay.Size = New System.Drawing.Size(662, 178)
+        Me.lvwShipBay.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwShipBay.TabIndex = 5
+        Me.lvwShipBay.UseCompatibleStateImageBehavior = False
+        Me.lvwShipBay.View = System.Windows.Forms.View.Details
+        '
+        'colShipBayShip
+        '
+        Me.colShipBayShip.Text = "Ship Type"
+        Me.colShipBayShip.Width = 225
+        '
+        'colShipBayQuantity
+        '
+        Me.colShipBayQuantity.Text = "Qty"
+        Me.colShipBayQuantity.Width = 35
         '
         'ShipSlotControl
         '
@@ -968,6 +1063,9 @@ Partial Class ShipSlotControl
         Me.tabFleet.ResumeLayout(False)
         Me.panelFleet.ResumeLayout(False)
         Me.panelFleet.PerformLayout()
+        Me.tabShipBay.ResumeLayout(False)
+        Me.panelShipBay.ResumeLayout(False)
+        Me.panelShipBay.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1101,4 +1199,12 @@ Partial Class ShipSlotControl
     Friend WithEvents pbShip As System.Windows.Forms.PictureBox
     Friend WithEvents ctxShipSkills As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuAlterRelevantSkills As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tabShipBay As System.Windows.Forms.TabPage
+    Friend WithEvents panelShipBay As System.Windows.Forms.Panel
+    Friend WithEvents pbShipBay As VistaStyleProgressBar.ProgressBar
+    Friend WithEvents lblShipBay As System.Windows.Forms.Label
+    Friend WithEvents btnMergeShips As System.Windows.Forms.Button
+    Friend WithEvents lvwShipBay As System.Windows.Forms.ListView
+    Friend WithEvents colShipBayShip As System.Windows.Forms.ColumnHeader
+    Friend WithEvents colShipBayQuantity As System.Windows.Forms.ColumnHeader
 End Class
