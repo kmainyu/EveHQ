@@ -138,8 +138,10 @@ Public Class frmCorpHQ
             PlugInData.AllStandings.Clear()
             For Each cachefile As String In cacheFileList
                 MyStandings = StandingsDecoder.FetchStandings(cachefile)
-                If PlugInData.AllStandings.ContainsKey(MyStandings.OwnerID) = False Then
-                    PlugInData.AllStandings.Add(MyStandings.OwnerID, MyStandings)
+                If MyStandings.OwnerID IsNot Nothing Then
+                    If PlugInData.AllStandings.ContainsKey(MyStandings.OwnerID) = False Then
+                        PlugInData.AllStandings.Add(MyStandings.OwnerID, MyStandings)
+                    End If
                 End If
             Next
             Call Me.SaveStandings()

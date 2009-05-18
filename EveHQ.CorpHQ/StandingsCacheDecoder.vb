@@ -47,6 +47,8 @@ Public Class StandingsCacheDecoder
         ' Initialise the Object Types
         Call Me.InitUnpackedRowSetObjectTypes()
         MyStandings = New StandingsData
+        currentObject = ""
+        currentPilotID = ""
 
         ' Double-Check the file exists
         If My.Computer.FileSystem.FileExists(fileName) = False Then
@@ -233,8 +235,8 @@ Public Class StandingsCacheDecoder
                     retData = DecodeStringTableItem(br)
                 Case &H12
                     retData = DecodeUnknown(br)
-                Case &H13
-                    retData = DecodeUnknown(br)
+                Case &H13 ' Was unknown
+                    retData = DecodeByteString2(br)
                 Case &H14
                     retData = DecodeTuple(br)
                 Case &H15
@@ -374,9 +376,10 @@ Public Class StandingsCacheDecoder
                 strText.Append(ChrW(b))
             End If
         Next
+        Dim strData As String = strText.ToString
         If currentObject = "" Then
-            If simpleObjectTypes.Contains(strText.ToString) Or rowSetObjectTypes.Contains(strText.ToString) Or unpackedRowSetObjectTypes.Contains(strText.ToString) Then
-                currentObject = strText.ToString
+            If simpleObjectTypes.Contains(strData) Or rowSetObjectTypes.Contains(strData) Or unpackedRowSetObjectTypes.Contains(strData) Then
+                currentObject = strData
                 If unpackedRowSetObjectTypes.Contains(currentObject) = True Then
                     currentPilotID = CStr(DecodeItem(br))
                 End If
