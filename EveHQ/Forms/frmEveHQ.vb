@@ -904,6 +904,7 @@ Public Class frmEveHQ
     Private Sub SetupTrainingStatus()
 
         ' Clear the list of Status Labels
+        ssTraining.SuspendLayout()
         ssTraining.Items.Clear()
 
         Dim accounts As New ArrayList
@@ -956,11 +957,15 @@ Public Class frmEveHQ
         pilotCount = 0
         For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
             Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
-            newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+            newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & _
+             "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime) & _
+             CStr(IIf(cPilot.QueuedSkillTime <= 0, "", ControlChars.CrLf & "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime)))
             newSSLabel.ToolTipText = "Click to view skill training for " & cPilot.Name
             newSSLabel.Tag = cPilot.Name
             pilotCount += 1
         Next
+
+        ssTraining.ResumeLayout()
     End Sub
 
     Private Sub UpdateTrainingStatus()
@@ -986,7 +991,9 @@ Public Class frmEveHQ
         For Each cPilot As EveHQ.Core.Pilot In pilotTimes.Values
             If pilotCount < ssTraining.Items.Count Then
                 Dim newSSLabel As ToolStripStatusLabel = CType(ssTraining.Items(pilotCount), ToolStripStatusLabel)
-                newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+                newSSLabel.Text = cPilot.Name & " - " & cPilot.TrainingSkillName & ControlChars.CrLf & _
+                 "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime) & _
+                 CStr(IIf(cPilot.QueuedSkillTime <= 0, "", ControlChars.CrLf & "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime)))
                 newSSLabel.ToolTipText = "Click to view skill training for " & cPilot.Name
                 newSSLabel.Tag = cPilot.Name
                 pilotCount += 1
@@ -1171,8 +1178,9 @@ Public Class frmEveHQ
                 Call EveHQ.Core.Reports.GenerateTextPartialSkills(rPilot)
                 newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\PartialSkills (" & rPilot.Name & ").txt")
                 DisplayReport(newReport, "Partially Trained Skills - " & rPilot.Name)
+            Case "mnuReportECMExport"
+                Call EveHQ.Core.Reports.GenerateECMExportReports(rPilot)
         End Select
-
     End Sub
 
     Private Sub mnuRepCharSummary_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRepCharSummary.Click
@@ -1680,46 +1688,6 @@ Public Class frmEveHQ
     End Sub
     Private Sub RemoteRefreshPilots()
         Call Me.UpdatePilotInfo()
-    End Sub
-
-    Private Sub mnuECMExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuECMExport.Click
-        'Dim ECMLocation As String = ""
-        'Dim result As Integer = 0
-        'With fbd1
-        '    .ShowNewFolderButton = False
-        '    If EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation <> "" Then
-        '        If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation) = True Then
-        '            .Description = "Please select the folder where the ECM XML files are located..." & ControlChars.CrLf & "Default is: " & EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
-        '            .SelectedPath = EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
-        '        Else
-        '            .Description = "Please select the folder where the ECM XML files are located..."
-        '            .RootFolder = Environment.SpecialFolder.Desktop
-        '        End If
-        '    Else
-        '        .Description = "Please select the folder where the ECM XML files are located..."
-        '        .RootFolder = Environment.SpecialFolder.Desktop
-        '    End If
-        '    result = .ShowDialog()
-        '    ECMLocation = .SelectedPath
-        'End With
-
-        'If ECMLocation <> "" And result = 1 Then
-
-        '    ' Generate the Old Style XML Report
-        '    Call EveHQ.Core.Reports.GenerateCurrentPilotXML_Old(EveHQ.Core.HQ.myPilot)
-        '    ' Generate the Old Style Training XML
-        '    Call EveHQ.Core.Reports.GenerateCurrentTrainingXML_Old(EveHQ.Core.HQ.myPilot)
-
-        '    ' Copy these to the selected folder
-        '    My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\CurrentXML - Old (" & EveHQ.Core.HQ.myPilot.Name & ").xml", ECMLocation & "\" & EveHQ.Core.HQ.myPilot.ID.ToString & ".xml", True)
-        '    My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\TrainingXML - Old (" & EveHQ.Core.HQ.myPilot.Name & ").xml", ECMLocation & "\" & EveHQ.Core.HQ.myPilot.ID.ToString & ".training.xml", True)
-        '    EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation = ECMLocation
-        '    MessageBox.Show("Export of ECM-compatible files completed!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        'Else
-
-        '    MessageBox.Show("Export of ECM-compatible aborted!", "Export Aborted", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        'End If
-
     End Sub
 
     Public Sub DisplayChartReport(ByRef chartForm As EveHQ.frmChartViewer, ByVal formTitle As String)
@@ -2440,6 +2408,6 @@ Public Class frmEveHQ
     End Sub
 #End Region
 
-   
+
 End Class
 

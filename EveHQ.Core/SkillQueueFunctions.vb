@@ -23,7 +23,6 @@ Imports System.Windows.Forms
 Public Class SkillQueueFunctions
 
     Public Shared Event RefreshQueue()
-    Private Shared optimalTraining As New ArrayList
 
     Shared Property StartQueueRefresh() As Boolean
         Get
@@ -1089,7 +1088,8 @@ Public Class SkillQueueFunctions
         Return aQueue
     End Function
 
-    Private Shared Sub LoadOptimalTraining()
+    Private Shared Function LoadOptimalTraining() As ArrayList
+        Dim optimalTraining As New ArrayList
         optimalTraining.Clear()
         optimalTraining.Add("Instant Recall1")
         optimalTraining.Add("Analytical Mind1")
@@ -1147,10 +1147,11 @@ Public Class SkillQueueFunctions
         optimalTraining.Add("Focus5")
         optimalTraining.Add("Clarity5")
         optimalTraining.Add("Presence5")
-    End Sub
+        Return optimalTraining
+    End Function
     Public Shared Function FindSuggestions(ByVal qPilot As EveHQ.Core.Pilot, ByVal qQueue As EveHQ.Core.SkillQueue) As EveHQ.Core.SkillQueue
 
-        Call LoadOptimalTraining()
+        Dim optimalTraining As ArrayList = LoadOptimalTraining()
         Dim oldQueueTime As Long = qQueue.QueueTime
         Dim originalQueueTime As Long = oldQueueTime
         Dim newQueueTime As Long = 0
@@ -1302,6 +1303,7 @@ Public Class SkillQueueFunctions
         End If
 
     End Function
+
 End Class
 
 <Serializable()> Public Class SkillQueueItem

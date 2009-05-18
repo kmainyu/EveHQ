@@ -91,6 +91,7 @@ Imports System.Xml
     Public WAttT As Double = 0
     Public PilotSkills As New Collection
     Public QueuedSkills As New SortedList(Of Long, PilotQueuedSkill)
+    Public QueuedSkillTime As Long
     Public Certificates As New ArrayList
     Public PrimaryQueue As String = ""
     Public ActiveQueue As New EveHQ.Core.SkillQueue

@@ -145,6 +145,9 @@ Public Class XPander
     'UserControl overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
+            If Not (m_Tooltip Is Nothing) Then
+                m_Tooltip.Dispose()
+            End If
             If Not (components Is Nothing) Then
                 components.Dispose()
             End If

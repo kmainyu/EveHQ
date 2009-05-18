@@ -95,8 +95,7 @@ Partial Public Class frmEveHQ
         Me.mnuReportCurrentCharXMLOld = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportCurrentCharXMLNew = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportCurrentTrainingXMLOld = New System.Windows.Forms.ToolStripMenuItem
-        Me.ECMExportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.mnuECMExport = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuReportECMExport = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportsCharts = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportsChartsChar = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuReportSkillGroupChart = New System.Windows.Forms.ToolStripMenuItem
@@ -545,7 +544,7 @@ Partial Public Class frmEveHQ
         '
         Me.mnuReportsTextChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextCharSheet, Me.mnuReportsTextTrainTimes, Me.mnuReportsTextTimeToLevel5, Me.mnuReportsTextSkillLevels, Me.mnuReportsTextTrainingQueue, Me.mnuReportsTextShoppingList, Me.mnuReportsTextSkillsAvailable, Me.mnuReportsTextSkillsNotTrained, Me.mnuReportsTextPartiallyTrainedSkills})
         Me.mnuReportsTextChar.Name = "mnuReportsTextChar"
-        Me.mnuReportsTextChar.Size = New System.Drawing.Size(125, 22)
+        Me.mnuReportsTextChar.Size = New System.Drawing.Size(152, 22)
         Me.mnuReportsTextChar.Text = "Character"
         '
         'mnuReportsTextCharSheet
@@ -604,16 +603,16 @@ Partial Public Class frmEveHQ
         '
         'mnuReportsXML
         '
-        Me.mnuReportsXML.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsXMLChar, Me.mnuECMExport})
+        Me.mnuReportsXML.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsXMLChar})
         Me.mnuReportsXML.Name = "mnuReportsXML"
         Me.mnuReportsXML.Size = New System.Drawing.Size(177, 22)
         Me.mnuReportsXML.Text = "XML Reports"
         '
         'mnuReportsXMLChar
         '
-        Me.mnuReportsXMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportCharXML, Me.mnuReportTrainXML, Me.mnuReportCurrentCharXMLOld, Me.mnuReportCurrentCharXMLNew, Me.mnuReportCurrentTrainingXMLOld, Me.ECMExportToolStripMenuItem})
+        Me.mnuReportsXMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportCharXML, Me.mnuReportTrainXML, Me.mnuReportCurrentCharXMLOld, Me.mnuReportCurrentCharXMLNew, Me.mnuReportCurrentTrainingXMLOld, Me.mnuReportECMExport})
         Me.mnuReportsXMLChar.Name = "mnuReportsXMLChar"
-        Me.mnuReportsXMLChar.Size = New System.Drawing.Size(214, 22)
+        Me.mnuReportsXMLChar.Size = New System.Drawing.Size(152, 22)
         Me.mnuReportsXMLChar.Text = "Character"
         '
         'mnuReportCharXML
@@ -646,17 +645,11 @@ Partial Public Class frmEveHQ
         Me.mnuReportCurrentTrainingXMLOld.Size = New System.Drawing.Size(258, 22)
         Me.mnuReportCurrentTrainingXMLOld.Text = "Current Training XML (Old Style)"
         '
-        'ECMExportToolStripMenuItem
+        'mnuReportECMExport
         '
-        Me.ECMExportToolStripMenuItem.Name = "ECMExportToolStripMenuItem"
-        Me.ECMExportToolStripMenuItem.Size = New System.Drawing.Size(258, 22)
-        Me.ECMExportToolStripMenuItem.Text = "ECM Export"
-        '
-        'mnuECMExport
-        '
-        Me.mnuECMExport.Name = "mnuECMExport"
-        Me.mnuECMExport.Size = New System.Drawing.Size(214, 22)
-        Me.mnuECMExport.Text = "ECM Export (Current Char)"
+        Me.mnuReportECMExport.Name = "mnuReportECMExport"
+        Me.mnuReportECMExport.Size = New System.Drawing.Size(258, 22)
+        Me.mnuReportECMExport.Text = "ECM Export"
         '
         'mnuReportsCharts
         '
@@ -1099,7 +1092,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents ctxTabbedMDI As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuCloseMDITab As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportCurrentTrainingXMLOld As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnuECMExport As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents fbd1 As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents mnuReportSkillGroupChart As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuReportSkillsNotTrained As System.Windows.Forms.ToolStripMenuItem
@@ -1146,7 +1138,7 @@ Partial Public Class frmEveHQ
     Friend WithEvents mnuClearAllXMLCache As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuUpdate As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ECMExportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuReportECMExport As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ssTraining As System.Windows.Forms.StatusStrip
     Friend WithEvents panelTrainingStatus As System.Windows.Forms.Panel
     Friend WithEvents DashboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

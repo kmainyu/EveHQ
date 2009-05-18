@@ -381,7 +381,6 @@ Public Class frmPilot
                 newCLVItem.SubItems(1).Text = cSkill.Rank.ToString
 
                 Dim pb As New PictureBox
-                pb.Image = My.Resources.level2_act
                 pb.Image = CType(My.Resources.ResourceManager.GetObject("level" & cSkill.Level.ToString), Image)
                 pb.Width = 48 : pb.Height = 8
                 newCLVItem.SubItems(2).ItemControl = pb
@@ -565,7 +564,6 @@ Public Class frmPilot
             End Select
 
             Dim pb As New PictureBox
-            pb.Image = My.Resources.level2_act
             pb.Image = CType(My.Resources.ResourceManager.GetObject("level" & cCert.Grade.ToString), Image)
             pb.Width = 48 : pb.Height = 8
             newCLVItem.SubItems(2).ItemControl = pb

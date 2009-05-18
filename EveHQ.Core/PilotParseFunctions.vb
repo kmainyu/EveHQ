@@ -463,84 +463,90 @@ Public Class PilotParseFunctions
         Dim nPilot As New EveHQ.Core.Pilot
         CharDetails = CXMLDoc.SelectNodes("/eveapi/result")
         toon = CharDetails(toonNo)
-        ' Get the Pilot name & charID in the character node
-        With cPilot
-            ' Get the additional pilot data nodes
-            .Name = toon.ChildNodes.Item(1).InnerText
-            .Race = toon.ChildNodes.Item(2).InnerText
-            .Blood = toon.ChildNodes.Item(3).InnerText
-            .Gender = toon.ChildNodes.Item(4).InnerText
-            .Corp = toon.ChildNodes.Item(5).InnerText
-            .CorpID = toon.ChildNodes.Item(6).InnerText
-            .CloneName = toon.ChildNodes.Item(7).InnerText
-            .CloneSP = toon.ChildNodes.Item(8).InnerText
-            Dim isk As Double = Double.Parse(toon.ChildNodes.Item(9).InnerText, Globalization.NumberStyles.Number, culture)
-            .Isk = isk
-            ' Put cache info here??
-        End With
+        If toon IsNot Nothing Then
+            ' Get the Pilot name & charID in the character node
+            With cPilot
+                ' Get the additional pilot data nodes
+                .Name = toon.ChildNodes.Item(1).InnerText
+                .Race = toon.ChildNodes.Item(2).InnerText
+                .Blood = toon.ChildNodes.Item(3).InnerText
+                .Gender = toon.ChildNodes.Item(4).InnerText
+                .Corp = toon.ChildNodes.Item(5).InnerText
+                .CorpID = toon.ChildNodes.Item(6).InnerText
+                .CloneName = toon.ChildNodes.Item(7).InnerText
+                .CloneSP = toon.ChildNodes.Item(8).InnerText
+                Dim isk As Double = Double.Parse(toon.ChildNodes.Item(9).InnerText, Globalization.NumberStyles.Number, culture)
+                .Isk = isk
+                ' Put cache info here??
+            End With
 
-        ' Get the implant details
-        CharDetails = CXMLDoc.SelectNodes("/eveapi/result/attributeEnhancers")
-        ' Get the relevant node!
-        toon = CharDetails(0)       ' This is zero because there is only 1 occurence of the attributeEnhancers node in each XML doc
-        If toon.HasChildNodes Then
-            For implant As Integer = 0 To toon.ChildNodes.Count - 1
-                Select Case toon.ChildNodes(implant).Name
-                    ' Save it in the Automatic implant sections
-                    Case "perceptionBonus"
-                        cPilot.PImplantA = CInt(toon.ChildNodes(implant).ChildNodes.Item(1).InnerText)
-                    Case "willpowerBonus"
-                        cPilot.WImplantA = CInt(toon.ChildNodes(implant).ChildNodes.Item(1).InnerText)
-                    Case "intelligenceBonus"
-                        cPilot.IImplantA = CInt(toon.ChildNodes(implant).ChildNodes.Item(1).InnerText)
-                    Case "memoryBonus"
-                        cPilot.MImplantA = CInt(toon.ChildNodes(implant).ChildNodes.Item(1).InnerText)
-                    Case "charismaBonus"
-                        cPilot.CImplantA = CInt(toon.ChildNodes(implant).ChildNodes.Item(1).InnerText)
-                End Select
-            Next
-        End If
+            ' Get the implant details
+            CharDetails = CXMLDoc.SelectNodes("/eveapi/result/attributeEnhancers")
+            ' Get the relevant node!
+            toon = CharDetails(0)       ' This is zero because there is only 1 occurence of the attributeEnhancers node in each XML doc
+            If toon.HasChildNodes Then
+                For implant As Integer = 0 To toon.ChildNodes.Count - 1
+                    Select Case toon.ChildNodes(implant).Name
+                        ' Save it in the Automatic implant sections
+                        Case "perceptionBonus"
+                            cPilot.PImplantA = CInt(toon.ChildNodes(implant).ChildNodes.Item(1).InnerText)
+                        Case "willpowerBonus"
+                            cPilot.WImplantA = CInt(toon.ChildNodes(implant).ChildNodes.Item(1).InnerText)
+                        Case "intelligenceBonus"
+                            cPilot.IImplantA = CInt(toon.ChildNodes(implant).ChildNodes.Item(1).InnerText)
+                        Case "memoryBonus"
+                            cPilot.MImplantA = CInt(toon.ChildNodes(implant).ChildNodes.Item(1).InnerText)
+                        Case "charismaBonus"
+                            cPilot.CImplantA = CInt(toon.ChildNodes(implant).ChildNodes.Item(1).InnerText)
+                    End Select
+                Next
+            End If
 
-        ' Decide whether to use Auto or Manual Implants
-        If cPilot.UseManualImplants = True Then
-            cPilot.CImplant = cPilot.CImplantM
-            cPilot.IImplant = cPilot.IImplantM
-            cPilot.MImplant = cPilot.MImplantM
-            cPilot.PImplant = cPilot.PImplantM
-            cPilot.WImplant = cPilot.WImplantM
+            ' Decide whether to use Auto or Manual Implants
+            If cPilot.UseManualImplants = True Then
+                cPilot.CImplant = cPilot.CImplantM
+                cPilot.IImplant = cPilot.IImplantM
+                cPilot.MImplant = cPilot.MImplantM
+                cPilot.PImplant = cPilot.PImplantM
+                cPilot.WImplant = cPilot.WImplantM
+            Else
+                cPilot.CImplant = cPilot.CImplantA
+                cPilot.IImplant = cPilot.IImplantA
+                cPilot.MImplant = cPilot.MImplantA
+                cPilot.PImplant = cPilot.PImplantA
+                cPilot.WImplant = cPilot.WImplantA
+            End If
+
+            ' Get the attribute details
+            CharDetails = CXMLDoc.SelectNodes("/eveapi/result/attributes")
+            ' Get the relevant node!
+            toon = CharDetails(0)       ' This is zero because there is only 1 occurence of the attributes node in each XML doc
+            If toon.HasChildNodes Then
+                For implant As Integer = 0 To toon.ChildNodes.Count - 1
+                    Select Case toon.ChildNodes(implant).Name
+                        Case "perception"
+                            cPilot.PAtt = CInt(toon.ChildNodes(implant).ChildNodes.Item(0).InnerText)
+                        Case "willpower"
+                            cPilot.WAtt = CInt(toon.ChildNodes(implant).ChildNodes.Item(0).InnerText)
+                        Case "intelligence"
+                            cPilot.IAtt = CInt(toon.ChildNodes(implant).ChildNodes.Item(0).InnerText)
+                        Case "memory"
+                            cPilot.MAtt = CInt(toon.ChildNodes(implant).ChildNodes.Item(0).InnerText)
+                        Case "charisma"
+                            cPilot.CAtt = CInt(toon.ChildNodes(implant).ChildNodes.Item(0).InnerText)
+                    End Select
+                Next
+            End If
+
+            ' Get Cache details
+            CharDetails = CXMLDoc.SelectNodes("/eveapi")
+            cPilot.CacheFileTime = CDate(CharDetails(0).ChildNodes(0).InnerText)
+            cPilot.CacheExpirationTime = CDate(CharDetails(0).ChildNodes(2).InnerText)
         Else
-            cPilot.CImplant = cPilot.CImplantA
-            cPilot.IImplant = cPilot.IImplantA
-            cPilot.MImplant = cPilot.MImplantA
-            cPilot.PImplant = cPilot.PImplantA
-            cPilot.WImplant = cPilot.WImplantA
+            cPilot.Name = cPilot.Name & " - ERROR!"
+            cPilot.CacheFileTime = DateTime.Now.AddHours(1)
+            cPilot.CacheExpirationTime = DateTime.Now.AddHours(1)
         End If
-
-        ' Get the attribute details
-        CharDetails = CXMLDoc.SelectNodes("/eveapi/result/attributes")
-        ' Get the relevant node!
-        toon = CharDetails(0)       ' This is zero because there is only 1 occurence of the attributes node in each XML doc
-        If toon.HasChildNodes Then
-            For implant As Integer = 0 To toon.ChildNodes.Count - 1
-                Select Case toon.ChildNodes(implant).Name
-                    Case "perception"
-                        cPilot.PAtt = CInt(toon.ChildNodes(implant).ChildNodes.Item(0).InnerText)
-                    Case "willpower"
-                        cPilot.WAtt = CInt(toon.ChildNodes(implant).ChildNodes.Item(0).InnerText)
-                    Case "intelligence"
-                        cPilot.IAtt = CInt(toon.ChildNodes(implant).ChildNodes.Item(0).InnerText)
-                    Case "memory"
-                        cPilot.MAtt = CInt(toon.ChildNodes(implant).ChildNodes.Item(0).InnerText)
-                    Case "charisma"
-                        cPilot.CAtt = CInt(toon.ChildNodes(implant).ChildNodes.Item(0).InnerText)
-                End Select
-            Next
-        End If
-
-        ' Get Cache details
-        CharDetails = CXMLDoc.SelectNodes("/eveapi")
-        cPilot.CacheFileTime = CDate(CharDetails(0).ChildNodes(0).InnerText)
-        cPilot.CacheExpirationTime = CDate(CharDetails(0).ChildNodes(2).InnerText)
 
     End Sub                'ParsePilotXML
     Private Shared Sub ParseTrainingXML(ByRef cPilot As EveHQ.Core.Pilot, ByVal TXMLDoc As XmlDocument)
@@ -582,11 +588,13 @@ Public Class PilotParseFunctions
                         QueuedSkill.EndSP = CLng(trainingNode.Attributes("endSP").Value)
                         QueuedSkill.Level = CInt(trainingNode.Attributes("level").Value)
                         cPilot.QueuedSkills.Add(QueuedSkill.Position, QueuedSkill)
+                        cPilot.QueuedSkillTime = CLng((QueuedSkill.EndTime - cPilot.TrainingEndTime).TotalSeconds)
                     Next
                 End If
             Else
                 cPilot.Training = False
                 cPilot.QueuedSkills.Clear()
+                cPilot.QueuedSkillTime = 0
             End If
             ' Get Cache details
             TrainingDetails = TXMLDoc.SelectNodes("/eveapi")
