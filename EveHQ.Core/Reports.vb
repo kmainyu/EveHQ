@@ -22,6 +22,7 @@ Imports System.Data
 Imports System.Drawing
 Imports System.Text
 Imports System.Xml
+Imports System.Windows.Forms
 
 Public Class Reports
     Shared www As String = "http://www.evehq.net"
@@ -3482,6 +3483,49 @@ Public Class Reports
 
         Return strText.ToString
     End Function
+#End Region
+
+#Region "ECM Export"
+    Public Shared Sub GenerateECMExportReports(ByVal rpilot As EveHQ.Core.Pilot)
+        Dim ECMLocation As String = ""
+        Dim result As Integer = 0
+        Dim fbd1 As New FolderBrowserDialog
+        With fbd1
+            .ShowNewFolderButton = False
+            If EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation <> "" Then
+                If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation) = True Then
+                    .Description = "Please select the folder where the ECM XML files are located..." & ControlChars.CrLf & "Default is: " & EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
+                    .SelectedPath = EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
+                Else
+                    .Description = "Please select the folder where the ECM XML files are located..."
+                    .RootFolder = Environment.SpecialFolder.Desktop
+                End If
+            Else
+                .Description = "Please select the folder where the ECM XML files are located..."
+                .RootFolder = Environment.SpecialFolder.Desktop
+            End If
+            result = .ShowDialog()
+            ECMLocation = .SelectedPath
+        End With
+
+        If ECMLocation <> "" And result = 1 Then
+
+            ' Generate the Old Style XML Report
+            Call EveHQ.Core.Reports.GenerateCurrentPilotXML_Old(rpilot)
+            ' Generate the Old Style Training XML
+            Call EveHQ.Core.Reports.GenerateCurrentTrainingXML_Old(rpilot)
+
+            ' Copy these to the selected folder
+            My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\CurrentXML - Old (" & rpilot.Name & ").xml", ECMLocation & "\" & rpilot.ID.ToString & ".xml", True)
+            My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\TrainingXML - Old (" & rpilot.Name & ").xml", ECMLocation & "\" & rpilot.ID.ToString & ".training.xml", True)
+            EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation = ECMLocation
+            MessageBox.Show("Export of ECM-compatible files completed!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Else
+
+            MessageBox.Show("Export of ECM-compatible aborted!", "Export Aborted", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
 #End Region
 
 End Class
