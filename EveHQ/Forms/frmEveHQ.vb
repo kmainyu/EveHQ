@@ -1840,30 +1840,30 @@ Public Class frmEveHQ
 
             Case 1 ' Enhanced (form)
                 EveStatusIcon.Text = ""
-                If frmToolTrayIconPopup.IsHandleCreated = False Then
-                    frmToolTrayIconPopup.ConfigureForm()
-                    Dim workingRectangle As System.Drawing.Rectangle = Screen.PrimaryScreen.WorkingArea
-                    Dim TaskBarLocation As String = Me.GetTaskbarLocation
-                    Select Case TaskBarLocation
-                        Case "Bottom"
-                            frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
-                        Case "Top"
-                            frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Y + 5)
-                        Case "Left"
-                            frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.X + 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
-                        Case "Right"
-                            frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
-                        Case Else
-                            Exit Sub
-                    End Select
-                    Try
+                 Try
+                    If frmToolTrayIconPopup.IsHandleCreated = False Then
+                        frmToolTrayIconPopup.ConfigureForm()
+                        Dim workingRectangle As System.Drawing.Rectangle = Screen.PrimaryScreen.WorkingArea
+                        Dim TaskBarLocation As String = Me.GetTaskbarLocation
+                        Select Case TaskBarLocation
+                            Case "Bottom"
+                                frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
+                            Case "Top"
+                                frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Y + 5)
+                            Case "Left"
+                                frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.X + 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
+                            Case "Right"
+                                frmToolTrayIconPopup.Location = New System.Drawing.Point(workingRectangle.Width - frmToolTrayIconPopup.Width - 5, workingRectangle.Height - frmToolTrayIconPopup.Height - 5)
+                            Case Else
+                                Exit Sub
+                        End Select
                         frmToolTrayIconPopup.Show()
-                    Catch ex As Exception
-                    End Try
-                Else
-                    frmToolTrayIconPopup.tmrSkill.Stop()
-                    frmToolTrayIconPopup.tmrSkill.Start()
-                End If
+                    Else
+                        frmToolTrayIconPopup.tmrSkill.Stop()
+                        frmToolTrayIconPopup.tmrSkill.Start()
+                    End If
+                Catch ex As Exception
+                End Try
         End Select
 
     End Sub
