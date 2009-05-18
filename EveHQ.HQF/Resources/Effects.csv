@@ -247,6 +247,11 @@
 151,1,-3349,70,3,6,0,0,0,32,Skirmish Warfare
 277,1,11572,833,1,20070;11017;20408,0,1,5,0,Skirmish Warfare Specialist
 850,1,3354,833,2,316,0,1,0,0,Warfare Link Specialist
+850,1,3354,1310,2,316,0,1,0,0,Warfare Link Specialist
+850,1,3354,1320,2,316,0,1,0,0,Warfare Link Specialist
+850,1,3354,1321,2,316,0,1,0,0,Warfare Link Specialist
+850,1,3354,1322,2,316,0,1,0,0,Warfare Link Specialist
+850,1,3354,1323,2,316,0,1,0,0,Warfare Link Specialist
 #,1,11574,,,,0,1,0,0,Wing Command
 # MECHANIC,,,,,,,,,,
 1139,1,26253,1138,2,773,0,1,0,0,Armor Rigging
