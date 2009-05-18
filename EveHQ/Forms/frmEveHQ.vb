@@ -530,9 +530,15 @@ Public Class frmEveHQ
             Dim strCharNotify As String = ""
             For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                 If cPilot.Training = True Then
-                    Dim timeRemaining As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
-                    If timeRemaining <= EveHQ.Core.HQ.EveHQSettings.ShutdownNotifyPeriod * 60 * 60 Then
-                        strCharNotify &= cPilot.Name & " - " & cPilot.TrainingSkillName & " (" & EveHQ.Core.SkillFunctions.TimeToString(timeRemaining) & ")" & ControlChars.CrLf
+                    Dim timeLimit As Date = Now.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ShutdownNotifyPeriod * 3600)
+                    If cPilot.TrainingEndTime < timeLimit Then
+                        If cPilot.QueuedSkillTime > 0 Then
+                            If cPilot.TrainingEndTime.AddSeconds(cPilot.QueuedSkillTime) < timeLimit Then
+                                strCharNotify &= cPilot.Name & " - " & cPilot.TrainingSkillName & " (Skill Queue ends in " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime) & ")" & ControlChars.CrLf
+                            End If
+                        Else
+                            strCharNotify &= cPilot.Name & " - " & cPilot.TrainingSkillName & " (Training ends in " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime) & ")" & ControlChars.CrLf
+                        End If
                     End If
                     accounts.Add(cPilot.Account)
                 End If
