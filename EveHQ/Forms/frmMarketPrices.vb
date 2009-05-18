@@ -1226,7 +1226,7 @@ Public Class frmMarketPrices
 #Region "Market & Faction Price Feed Routines"
 
     Private Sub btnUpdateFactionPrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateFactionPrices.Click
-        If GetPriceFeed("FactionPrices", "http://www.eve-prices.net/xml/today.xml", lblFactionPriceUpdateStatus, 0, False) = True Then
+        If GetPriceFeed("FactionPrices", "http://www.evehq.net/prices/factionprices.xml", lblFactionPriceUpdateStatus, 0, False) = True Then
             ' Open a persistant DB connection
             If EveHQ.Core.DataFunctions.OpenCustomDatabase = True Then
                 Call Me.ParseFactionPriceFeed("FactionPrices", lblFactionPriceUpdateStatus)
@@ -1251,7 +1251,7 @@ Public Class frmMarketPrices
     End Sub
     Private Sub lblFactionPricesBy_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblFactionPricesBy.LinkClicked
         Try
-            Process.Start("http://www.eve-prices.net")
+            Process.Start("http://www.evehq.net")
         Catch ex As Exception
             MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try

@@ -1030,10 +1030,10 @@ Partial Class frmMarketPrices
         Me.lblFactionPricesBy.AutoSize = True
         Me.lblFactionPricesBy.Location = New System.Drawing.Point(164, 88)
         Me.lblFactionPricesBy.Name = "lblFactionPricesBy"
-        Me.lblFactionPricesBy.Size = New System.Drawing.Size(137, 13)
+        Me.lblFactionPricesBy.Size = New System.Drawing.Size(117, 13)
         Me.lblFactionPricesBy.TabIndex = 3
         Me.lblFactionPricesBy.TabStop = True
-        Me.lblFactionPricesBy.Text = "http://www.eve-prices.net"
+        Me.lblFactionPricesBy.Text = "http://www.evehq.net"
         '
         'lblFactionPricesByLbl
         '
