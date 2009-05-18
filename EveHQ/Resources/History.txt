@@ -1,6 +1,82 @@
 EveHQ - Version History
 -----------------------
 
+1.11.0.575 (18/05/2009)
+----------
+Major Changes:
+- New UI: Revamped the main UI to provide a cleaner and more flexible interface
+- "Current Pilot" Removed: All core features and plug-ins now have their own pilot selection dropdown
+- InfoPanel Removed: No longer taking up space on your desktop to provide more room for the core and plug-ins
+- New Training Bar: Provides training details on your accounts
+- Automatic Update Notification: no longer optional and checks will be made on startup
+- Database upgraded to Apocrypha 1.2
+
+Fixes and Improvements:
+- Core: Added new setting to determine location of MDI tabs
+- Core: Added new setting to determine location of the main toolbar
+- Core: Upgraded toolbar icons for the main application and all plug-ins
+- Core: Added new Update menu item
+- Core: Improved Plug-in menu to allow loading or running of plug-ins
+- Core: Plug-in icons on toolbar now colour-coded when loading
+- Core: Fixed handle leak in Training Form when closing tab pages
+- Core: SkillWorker will now update SP and times of all active pilots
+- Core: Removed the skill training time in the TQ Time Offset settings
+- Core: Importing market log file info now looks for number of sections rather than just "My Orders"
+- Core: EveAPI now uses beforeKillID for the KillLogChar and KillLogCorp APIs
+- Core: APIChecker form now uses beforeKillID for the KillLogChar and KillLogCorp APIs
+- Core: Redrawing pilot comboboxes now remembers the previously used pilot
+- Core: Updating the skillqueues now remembers the previously used skill queue
+- Core: Checks are now made for window handles before updating pilot comboboxes
+- Core: Improved skill suggestion thread code to check for existence of pilot's skill queue before processing
+- Core: Improved skill suggestion thread code to check for existence of controls before invoking UI changes
+- Core: Added tooltips to training labels
+- Core: Improved tooltips of plug-in icons
+- Core: Total wealth amount added to Character Summary report
+- Core: Updated EveHQ credits
+- Core: Fixed crash caused when tidying an empty skillqueue
+- Core: API Status form now shows all error code info without the need for clicking a line
+- Core: Parsing the Skill Queue XML should now use the correct time format
+- Core: The Drone Control (Elite) certificate no longer requires the Specialist Drone Operator certificate
+- Core: The Harvesting Comptroller (Improved) certificate now requires the Warfare Link Specialist skill
+- Core: The Harvesting Comptroller (Improved) certificate no longer requires the Battleship Technician certificate
+- Core: The Refining Foreman (Standard) certificate no longer requires the Scrapmetal Processing skill
+- Core: The Refining Foreman (Improved) certificate no longer requires the Scrapmetal Processing skill
+- Core: Fixed an error generating an XML document for Skill Training
+- Core: Moved the ECMExport to underneath the character XML reports
+- Core: Fixed case where a null pilot XML node would be returned
+- Core: Fixed OptimalTraining suggestions returning old suggestions
+- Core: Fixed disposing in the XPander control
+- Core: Removed duplicate image assignment in the Pilot Info screen
+- Core: Shutdown notification will now check the skill queue when working out when skill training expires
+- Core: Updated Faction Prices location to EveHQ.net
+- Core: Error handling added to the tooltray popup form
+- CorpHQ: Fixed various decoding errors
+- DataConverter: Updated MDB version to 1.11.0
+- ItemBrowser: Added a new combobox to the Item Browser for selecting pilots
+- HQF: Fixed handle leak when closing tab pages
+- HQF: Removed the option for closing the main EveHQ panel when starting HQF
+- HQF: Energy Management skill now affects capacitor batteries
+- HQF: "Apply Skills" filter should no longer crash HQF when a fitting is not open
+- HQF: "Fittable" filter will now work correctly on searched modules without the "Usable" filter checked
+- HQF: CPU bonus on Warfare Processor subsystems now changed from a per-level bonus to a role bonus
+- HQF: Module and Ship audit logs now correctly specify subsystem effects instead of additional ship effects
+- HQF: Naglfar Citadel Launcher bonus changed to Capital Projectile Turret bonus
+- HQF: Added a Ship Maintenance Bay tab to the storage section of the ShipSlotControl
+- HQF: Fixed null reference of ShipModule when displaying the ShowInfo form
+- HQF: Fixed Warfare Link Specialist skill not giving bonuses to IW-ES ganglink
+- HQF: Fixed Information Warfare Mindlink implant not giving bonuses to IW-ES ganglink
+- HQF: Fixed EOS not giving bonuses to IW-ES ganglink
+- KMV: New Killmail Viewer plug-in
+- Map: Map now uses the correct pilot for skills instead of the default
+- Prism: Date format of cache times changed to general date format
+- Prism: Corrected corp rep array references for assets, balances and corp sheets
+- Prism: Corrected corp rep check if there is a null XMLDocument
+- Prism: Fixed crash in ParseOrders where stationID is not recognised
+- Prism: On startup, Prism now gets the correct Conquerable XML file
+- Prism: Added an "Installer" column to the jobs tab
+- Prism: Added an "Installer" filter combobox to the jobs tab to filter out those specific installers
+
+
 1.10.1.533 (02/05/2009)
 ---------
 Fixes and Improvements:

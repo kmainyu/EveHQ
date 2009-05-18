@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQUpdate>
-	<lastUpdated>30/04/2009 19:00:00</lastUpdated>
+	<lastUpdated>18/05/2009 22:00:00</lastUpdated>
 	<files>
 		<file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-			<version>1.10.1.533</version>
+			<version>1.11.0.573</version>
 			<requires></requires>
 			<description>EveHQ Executable</description>
 		</file>
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-      <version>1.10.1.533</version>
+      <version>1.11.0.573</version>
       <requires></requires>
 			<description>EveHQ Core Library</description>
 		</file>
 		<file>
 			<name>EveHQ.CoreControls.dll</name>
 			<type>Required</type>
-      <version>1.10.1.533</version>
+      <version>1.11.0.573</version>
       <requires></requires>
 			<description>EveHQ Controls Library</description>
 		</file>
@@ -40,55 +40,54 @@
 		<file>
 			<name>EveHQ.CorpHQ.dll</name>
 			<type>Plug-in</type>
-      <version>1.10.0.528</version>
-      <requires>1.10.0.528</requires>
-			<description>Corp Management Plug-in</description>
+      <version>1.11.0.573</version>
+   		<description>Corp Management Plug-in</description>
 		</file>
 		<file>
 			<name>EveHQ.Creation.dll</name>
 			<type>Plug-in</type>
-      <version>1.10.0.528</version>
-      <requires>1.10.0.528</requires>
+      <version>1.11.0.573</version>
       <description>Character Creation Plug-in</description>
 		</file>
 		<file_t>
 			<name>EveHQ.DataConverter.dll</name>
 			<type>Plug-in</type>
-      <version>1.10.0.528</version>
-      <requires>1.10.0.528</requires>
+      <version>1.11.0.573</version>
       <description>Data Converter Plug-in</description>
 		</file_t>
 		<file>
 			<name>EveHQ.ItemBrowser.dll</name>
 			<type>Plug-in</type>
-      <version>1.10.0.528</version>
-      <requires>1.10.0.528</requires>
+      <version>1.11.0.573</version>
       <description>Item Browser Plug-in</description>
 		</file>
+    <file>
+      <name>EveHQ.KillMailViewer.dll</name>
+      <type>Plug-in</type>
+      <version>1.11.0.573</version>
+      <description>Killmail Viewer and Parser</description>
+    </file>
 		<file>
 			<name>EveHQ.Map.dll</name>
 			<type>Plug-in</type>
-      <version>1.10.0.528</version>
-      <requires>1.10.0.528</requires>
+      <version>1.11.0.573</version>
       <description>Map and Routing Plug-in</description>
 		</file>
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-      <version>1.10.1.533</version>
-      <requires>1.10.1.533</requires>
+      <version>1.11.0.574</version>
       <description>Ship Fitting Plug-in</description>
 		</file>
     <file>
       <name>EveHQ.Prism.dll</name>
       <type>Plug-in</type>
-      <version>1.10.1.533</version>
-      <requires>1.10.1.533</requires>
+      <version>1.11.0.573</version>
       <description>Science and Industry Plug-in</description>
     </file>
 	</files>
 	<database>
-		<version>1.10.0.0</version>
+		<version>1.11.0.0</version>
 		<description>EveHQ Access Database</description>
 	</database>
 </eveHQUpdate>
