@@ -2511,7 +2511,7 @@ Public Class ShipSlotControl
     Private Sub ctxShowBayInfoItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxShowBayInfoItem.Click
         Dim lvwBay As ListView = CType(ctxBays.SourceControl, ListView)
         Dim selItem As ListViewItem = lvwBay.SelectedItems(0)
-        Dim sModule As ShipModule
+        Dim sModule As New ShipModule
         Select Case lvwBay.Name
             Case "lvwCargoBay"
                 Dim idx As Integer = CInt(selItem.Name)
