@@ -300,24 +300,24 @@ Partial Class frmItemBrowser
         Me.ctxSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuViewDetails})
         Me.ctxSkills.Name = "ctxDepend"
-        Me.ctxSkills.Size = New System.Drawing.Size(133, 54)
+        Me.ctxSkills.Size = New System.Drawing.Size(144, 54)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(132, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(143, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(129, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(140, 6)
         '
         'mnuViewDetails
         '
         Me.mnuViewDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewDetails.Name = "mnuViewDetails"
-        Me.mnuViewDetails.Size = New System.Drawing.Size(132, 22)
+        Me.mnuViewDetails.Size = New System.Drawing.Size(143, 22)
         Me.mnuViewDetails.Text = "View Details"
         '
         'ssData
@@ -331,14 +331,14 @@ Partial Class frmItemBrowser
         'ssLabel
         '
         Me.ssLabel.Name = "ssLabel"
-        Me.ssLabel.Size = New System.Drawing.Size(96, 17)
+        Me.ssLabel.Size = New System.Drawing.Size(91, 17)
         Me.ssLabel.Text = "Awaiting query..."
         '
         'ssDBLocation
         '
         Me.ssDBLocation.DoubleClickEnabled = True
         Me.ssDBLocation.Name = "ssDBLocation"
-        Me.ssDBLocation.Size = New System.Drawing.Size(865, 17)
+        Me.ssDBLocation.Size = New System.Drawing.Size(869, 17)
         Me.ssDBLocation.Spring = True
         Me.ssDBLocation.Text = "Location:"
         '
@@ -347,7 +347,7 @@ Partial Class frmItemBrowser
         Me.ssLblID.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.ssLblID.DoubleClickEnabled = True
         Me.ssLblID.Name = "ssLblID"
-        Me.ssLblID.Size = New System.Drawing.Size(21, 17)
+        Me.ssLblID.Size = New System.Drawing.Size(22, 17)
         Me.ssLblID.Text = "ID:"
         Me.ssLblID.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -2185,8 +2185,10 @@ Partial Class frmItemBrowser
         '
         'cboPilots
         '
+        Me.cboPilots.DropDownHeight = 250
         Me.cboPilots.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboPilots.FormattingEnabled = True
+        Me.cboPilots.IntegralHeight = False
         Me.cboPilots.Location = New System.Drawing.Point(632, 14)
         Me.cboPilots.Name = "cboPilots"
         Me.cboPilots.Size = New System.Drawing.Size(175, 21)

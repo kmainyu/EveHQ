@@ -944,8 +944,10 @@ Public Class frmPilot
 #End Region
 
     Private Sub chkGroupSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkGroupSkills.CheckedChanged
-        Call Me.DisplaySkills()
-        Call Me.DisplayCertificates()
+        If DisplayPilotName <> "" Then
+            Call Me.DisplaySkills()
+            Call Me.DisplayCertificates()
+        End If
     End Sub
 
     Private Sub ctxCerts_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxCerts.Opening
