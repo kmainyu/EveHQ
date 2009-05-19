@@ -1781,14 +1781,16 @@ Public Class ShipSlotControl
                     For Each chargeGroup As String In Charges.ChargeGroups
                         chargeGroupData = chargeGroup.Split("_".ToCharArray)
                         If currentMod.Charges.Contains(chargeGroupData(1)) = True Then
-                            Select Case Market.MarketGroupList.Item(chargeGroupData(0)).ToString
-                                Case "Small", "Medium", "Large", "Extra Large"
-                                    Dim pathLine As String = CStr(Market.MarketGroupPath(chargeGroupData(0)))
-                                    Dim paths() As String = pathLine.Split("\".ToCharArray)
-                                    groupName = paths(paths.GetUpperBound(0) - 1)
-                                Case Else
-                                    groupName = Market.MarketGroupList.Item(chargeGroupData(0)).ToString
-                            End Select
+                            If Market.MarketGroupList.ContainsKey(chargeGroupData(0)) = True Then
+                                Select Case Market.MarketGroupList.Item(chargeGroupData(0)).ToString
+                                    Case "Small", "Medium", "Large", "Extra Large"
+                                        Dim pathLine As String = CStr(Market.MarketGroupPath(chargeGroupData(0)))
+                                        Dim paths() As String = pathLine.Split("\".ToCharArray)
+                                        groupName = paths(paths.GetUpperBound(0) - 1)
+                                    Case Else
+                                        groupName = Market.MarketGroupList.Item(chargeGroupData(0)).ToString
+                                End Select
+                            End If
                             If chargeGroups.Contains(groupName) = False Then
                                 chargeGroups.Add(groupName)
                             End If
