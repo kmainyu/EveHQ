@@ -46,6 +46,12 @@
         "Entry"
         {
         "MsmKey" = "8:_4097A4571739E97CFC38A5F4DE68DC5D"
+        "OwnerKey" = "8:_781A1EDC299A47A19331EED9F56768C6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4097A4571739E97CFC38A5F4DE68DC5D"
         "OwnerKey" = "8:_F5C3A3E0189842F09E8C917B2B37561B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -77,6 +83,12 @@
         {
         "MsmKey" = "8:_41CC4A9DFC17D12428166FEA6C23D93C"
         "OwnerKey" = "8:_4097A4571739E97CFC38A5F4DE68DC5D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_41CC4A9DFC17D12428166FEA6C23D93C"
+        "OwnerKey" = "8:_781A1EDC299A47A19331EED9F56768C6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -129,6 +141,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_781A1EDC299A47A19331EED9F56768C6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -149,6 +167,12 @@
         {
         "MsmKey" = "8:_E578E43E3A61DD768D329E848B43E985"
         "OwnerKey" = "8:_4097A4571739E97CFC38A5F4DE68DC5D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E578E43E3A61DD768D329E848B43E985"
+        "OwnerKey" = "8:_781A1EDC299A47A19331EED9F56768C6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -197,6 +221,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F5C3A3E0189842F09E8C917B2B37561B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_781A1EDC299A47A19331EED9F56768C6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -401,7 +431,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=1.10.0.528, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=1.11.0.574, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_4097A4571739E97CFC38A5F4DE68DC5D"
@@ -483,7 +513,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=1.10.0.528, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=1.11.0.574, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E578E43E3A61DD768D329E848B43E985"
@@ -577,14 +607,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EveHQ"
-        "ProductCode" = "8:{30468E96-A7F7-43F4-BE21-5E2A215E367D}"
-        "PackageCode" = "8:{4EC445FC-C0B4-45D8-86FF-3866FC53B866}"
+        "ProductCode" = "8:{873408DF-2737-4598-8D2A-D4BBD3016835}"
+        "PackageCode" = "8:{06B3367D-FFEE-432D-B72D-A8267E7AF74A}"
         "UpgradeCode" = "8:{5EBB0328-70C2-4A58-A4AC-225419B25E51}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.10.0"
+        "ProductVersion" = "8:1.11.0"
         "Manufacturer" = "8:Indicium Technologies"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1124,6 +1154,34 @@
         }
         "ProjectOutput"
         {
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_03E05E25587A4A6A90A4BDA76766CB85"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_100E614210DC43C68E5140647F446FA1"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Symbols"
+            "OutputProjectGuid" = "8:{8B03AD2B-8399-4702-8915-335E5AD5D667}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_044624C47F664B89A62ACBAA4D51DB55"
             {
             "SourcePath" = "8:"
@@ -1343,6 +1401,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Symbols"
             "OutputProjectGuid" = "8:{16CDA693-2A09-4A2B-8058-EA3109246155}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_781A1EDC299A47A19331EED9F56768C6"
+            {
+            "SourcePath" = "8:..\\EveHQ.KillMailViewer\\obj\\Debug\\EveHQ.KillMailViewer.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_100E614210DC43C68E5140647F446FA1"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{8B03AD2B-8399-4702-8915-335E5AD5D667}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
