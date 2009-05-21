@@ -408,9 +408,9 @@ Public Class frmKMV
                     End If
                 Else
                     If item.flag = 0 Then
-                        destroyedItems.Add(itemName & ", Qty:" & item.qtyDestroyed.ToString)
+                        destroyedItems.Add(itemName & ", Qty: " & item.qtyDestroyed.ToString)
                     Else
-                        destroyedItems.Add(itemName & ", Qty:" & item.qtyDestroyed.ToString & " (Cargo)")
+                        destroyedItems.Add(itemName & ", Qty: " & item.qtyDestroyed.ToString & " (Cargo)")
                     End If
                 End If
             End If
@@ -423,9 +423,9 @@ Public Class frmKMV
                     End If
                 Else
                     If item.flag = 0 Then
-                        droppedItems.Add(itemName & ", Qty:" & item.qtyDropped.ToString)
+                        droppedItems.Add(itemName & ", Qty: " & item.qtyDropped.ToString)
                     Else
-                        droppedItems.Add(itemName & ", Qty:" & item.qtyDropped.ToString & " (Cargo)")
+                        droppedItems.Add(itemName & ", Qty: " & item.qtyDropped.ToString & " (Cargo)")
                     End If
                 End If
             End If

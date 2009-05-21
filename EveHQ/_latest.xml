@@ -64,7 +64,7 @@
     <file>
       <name>EveHQ.KillMailViewer.dll</name>
       <type>Plug-in</type>
-      <version>1.11.0.575</version>
+      <version>1.11.0.578</version>
       <description>Killmail Viewer and Parser</description>
     </file>
 		<file>
