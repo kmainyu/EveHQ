@@ -23,20 +23,9 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
-        Me.tlvAssets = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colOwner = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colGroup = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colCategory = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colMetaLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colVolume = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colValue = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxAssets = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
@@ -127,11 +116,9 @@ Partial Class frmPrism
         Me.colInvCIncome = New System.Windows.Forms.ColumnHeader
         Me.colInvCYield = New System.Windows.Forms.ColumnHeader
         Me.tabRigBuilder = New System.Windows.Forms.TabPage
+        Me.scRigBuilder = New System.Windows.Forms.SplitContainer
         Me.btnExportRigList = New System.Windows.Forms.Button
         Me.btnExportRigBuildList = New System.Windows.Forms.Button
-        Me.lblTotalRigMargin = New System.Windows.Forms.Label
-        Me.lblTotalRigProfit = New System.Windows.Forms.Label
-        Me.lblTotalRigSalePrice = New System.Windows.Forms.Label
         Me.bgAutoRig = New System.Windows.Forms.GroupBox
         Me.radTotalProfit = New System.Windows.Forms.RadioButton
         Me.radTotalSalePrice = New System.Windows.Forms.RadioButton
@@ -140,48 +127,17 @@ Partial Class frmPrism
         Me.radRigSaleprice = New System.Windows.Forms.RadioButton
         Me.lblAutoRigCriteria = New System.Windows.Forms.Label
         Me.btnAutoRig = New System.Windows.Forms.Button
-        Me.lblRigBuildList = New System.Windows.Forms.Label
-        Me.lvwRigBuildList = New DotNetLib.Windows.Forms.ContainerListView
-        Me.ContainerListViewColumnHeader9 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader10 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader11 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader12 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader13 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader14 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader15 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader16 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.ContainerListViewColumnHeader17 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.lvwRigs = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colRigType = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colRigQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colRigMarketPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colSalvageMarketPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colBuildBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colTotalRigValue = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colTotalSalvageValue = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colTotalBuildBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colMargin = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.nudRigMELevel = New System.Windows.Forms.NumericUpDown
         Me.lblRigMELevel = New System.Windows.Forms.Label
         Me.btnBuildRigs = New System.Windows.Forms.Button
         Me.lblRigOwnerFilter = New System.Windows.Forms.Label
+        Me.lblTotalRigMargin = New System.Windows.Forms.Label
+        Me.lblTotalRigProfit = New System.Windows.Forms.Label
+        Me.lblTotalRigSalePrice = New System.Windows.Forms.Label
+        Me.lblRigBuildList = New System.Windows.Forms.Label
         Me.tabOrders = New System.Windows.Forms.TabPage
         Me.scMarketOrders = New System.Windows.Forms.SplitContainer
-        Me.clvSellOrders = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colSOType = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colSOQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colSOPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colSOLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colSOExpiresIn = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.lblSellOrders = New System.Windows.Forms.Label
-        Me.clvBuyOrders = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colBOType = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colBOQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colBOPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colBOLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colBORange = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colBOMinVol = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colBOExpiresIn = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.lblBuyOrders = New System.Windows.Forms.Label
         Me.panelOrderInfo = New System.Windows.Forms.Panel
         Me.btnExportOrders = New System.Windows.Forms.Button
@@ -209,32 +165,14 @@ Partial Class frmPrism
         Me.btnExportTransactions = New System.Windows.Forms.Button
         Me.cboWalletTransDivision = New System.Windows.Forms.ComboBox
         Me.lblWalletTransDivision = New System.Windows.Forms.Label
-        Me.clvTransactions = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colWTransDate = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colWTransItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colWTransQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colWTransPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colWTransTotal = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colWTransLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colWTransClient = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.tabJournal = New System.Windows.Forms.TabPage
         Me.btnExportJournal = New System.Windows.Forms.Button
         Me.cboWalletJournalDivision = New System.Windows.Forms.ComboBox
         Me.lblWalletJournalDivision = New System.Windows.Forms.Label
-        Me.clvJournal = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colWalletJournalDate = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colWalletJournalType = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colWalletJournalAmount = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colWalletJournalBalance = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colWalletJournalDescription = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.tabJobs = New System.Windows.Forms.TabPage
+        Me.cboInstallerFilter = New System.Windows.Forms.ComboBox
+        Me.lblJobInstallerFilter = New System.Windows.Forms.Label
         Me.btnExportJobs = New System.Windows.Forms.Button
-        Me.clvJobs = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colJobsItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colJobsActivity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colJobsLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colJobsEndTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colJobsStatus = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.tabRecycle = New System.Windows.Forms.TabPage
         Me.chkFeesOnItems = New System.Windows.Forms.CheckBox
         Me.lblPriceTotals = New System.Windows.Forms.Label
@@ -272,19 +210,6 @@ Partial Class frmPrism
         Me.lblPilot = New System.Windows.Forms.Label
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.tabItems = New System.Windows.Forms.TabPage
-        Me.clvRecycle = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colRecycleItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colRecycleMetaLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colRecycleQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colBatches = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colItemPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colTotalPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colFees = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colSalePrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colRefinePrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colBestPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colTotalBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colUnitBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxRecycleItems = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuAddRecycleItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ctxRecycleItem = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -292,13 +217,6 @@ Partial Class frmPrism
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuRemoveRecycleItem = New System.Windows.Forms.ToolStripMenuItem
         Me.tabTotals = New System.Windows.Forms.TabPage
-        Me.clvTotals = New DotNetLib.Windows.Forms.ContainerListView
-        Me.colMaterial = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colStationTake = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colWaste = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colReceive = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colMatPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.colMatTotal = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
         Me.tssLabelTotalAssetsLabel = New System.Windows.Forms.ToolStripStatusLabel
         Me.tssLabelTotalAssets = New System.Windows.Forms.ToolStripStatusLabel
@@ -351,9 +269,92 @@ Partial Class frmPrism
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
+        Me.tlvAssets = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colOwner = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colGroup = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colCategory = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colMetaLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colVolume = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colValue = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.lvwRigs = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colRigType = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colRigQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colRigMarketPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colSalvageMarketPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBuildBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colTotalRigValue = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colTotalSalvageValue = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colTotalBuildBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colMargin = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.lvwRigBuildList = New DotNetLib.Windows.Forms.ContainerListView
+        Me.ContainerListViewColumnHeader9 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader10 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader11 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader12 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader13 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader14 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader15 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader16 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ContainerListViewColumnHeader17 = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.clvSellOrders = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colSOType = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colSOQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colSOPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colSOLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colSOExpiresIn = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.clvBuyOrders = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colBOType = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBOQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBOPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBOLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBORange = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBOMinVol = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBOExpiresIn = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.clvTransactions = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colWTransDate = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWTransItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWTransQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWTransPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWTransTotal = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWTransLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWTransClient = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.clvJournal = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colWalletJournalDate = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWalletJournalType = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWalletJournalAmount = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWalletJournalBalance = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWalletJournalDescription = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.clvJobs = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colJobsItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colJobsActivity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colJobsInstaller = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-        Me.lblJobInstallerFilter = New System.Windows.Forms.Label
-        Me.cboInstallerFilter = New System.Windows.Forms.ComboBox
+        Me.colJobsLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colJobsEndTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colJobsStatus = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.clvRecycle = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colRecycleItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colRecycleMetaLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colRecycleQuantity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBatches = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colItemPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colTotalPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colFees = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colSalePrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colRefinePrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBestPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colTotalBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colUnitBenefit = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.clvTotals = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colMaterial = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colStationTake = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colWaste = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colReceive = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colMatPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colMatTotal = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -364,6 +365,9 @@ Partial Class frmPrism
         Me.tabAssetFilters.SuspendLayout()
         Me.tabInvestments.SuspendLayout()
         Me.tabRigBuilder.SuspendLayout()
+        Me.scRigBuilder.Panel1.SuspendLayout()
+        Me.scRigBuilder.Panel2.SuspendLayout()
+        Me.scRigBuilder.SuspendLayout()
         Me.bgAutoRig.SuspendLayout()
         CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabOrders.SuspendLayout()
@@ -388,206 +392,89 @@ Partial Class frmPrism
         Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
-        'tlvAssets
-        '
-        Me.tlvAssets.AllowMultiSelect = True
-        Me.tlvAssets.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.tlvAssets.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colItem, Me.colOwner, Me.colGroup, Me.colCategory, Me.colLocation, Me.colMetaLevel, Me.colVolume, Me.colQuantity, Me.colPrice, Me.colValue})
-        Me.tlvAssets.ColumnSortColor = System.Drawing.Color.AliceBlue
-        Me.tlvAssets.ColumnTracking = True
-        Me.tlvAssets.ColumnTrackingColor = System.Drawing.Color.LightCyan
-        Me.tlvAssets.DefaultItemHeight = 20
-        Me.tlvAssets.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tlvAssets.ItemContextMenu = Me.ctxAssets
-        Me.tlvAssets.ItemSelectedColor = System.Drawing.Color.LimeGreen
-        Me.tlvAssets.ItemTracking = True
-        Me.tlvAssets.ItemTrackingColor = System.Drawing.Color.PaleGreen
-        Me.tlvAssets.Location = New System.Drawing.Point(3, 83)
-        Me.tlvAssets.MultipleColumnSort = True
-        Me.tlvAssets.Name = "tlvAssets"
-        Me.tlvAssets.ShowPlusMinus = True
-        Me.tlvAssets.ShowRootTreeLines = True
-        Me.tlvAssets.ShowTreeLines = True
-        Me.tlvAssets.Size = New System.Drawing.Size(1130, 455)
-        Me.tlvAssets.TabIndex = 6
-        '
-        'colItem
-        '
-        Me.colItem.CustomSortTag = Nothing
-        Me.colItem.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colItem.Tag = Nothing
-        Me.colItem.Text = "Location/ItemName"
-        Me.colItem.Width = 300
-        Me.colItem.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
-        '
-        'colOwner
-        '
-        Me.colOwner.CustomSortTag = Nothing
-        Me.colOwner.DisplayIndex = 1
-        Me.colOwner.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colOwner.Tag = Nothing
-        Me.colOwner.Text = "Owner"
-        Me.colOwner.Width = 100
-        '
-        'colGroup
-        '
-        Me.colGroup.CustomSortTag = Nothing
-        Me.colGroup.DisplayIndex = 2
-        Me.colGroup.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colGroup.Tag = Nothing
-        Me.colGroup.Text = "Group"
-        '
-        'colCategory
-        '
-        Me.colCategory.CustomSortTag = Nothing
-        Me.colCategory.DisplayIndex = 3
-        Me.colCategory.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colCategory.Tag = Nothing
-        Me.colCategory.Text = "Category"
-        '
-        'colLocation
-        '
-        Me.colLocation.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.colLocation.CustomSortTag = Nothing
-        Me.colLocation.DisplayIndex = 4
-        Me.colLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colLocation.Tag = Nothing
-        Me.colLocation.Text = "Specific Location"
-        Me.colLocation.Width = 150
-        '
-        'colMetaLevel
-        '
-        Me.colMetaLevel.CustomSortTag = Nothing
-        Me.colMetaLevel.DisplayIndex = 5
-        Me.colMetaLevel.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
-        Me.colMetaLevel.Tag = Nothing
-        Me.colMetaLevel.Text = "Meta"
-        Me.colMetaLevel.Width = 60
-        '
-        'colVolume
-        '
-        Me.colVolume.CustomSortTag = Nothing
-        Me.colVolume.DisplayIndex = 6
-        Me.colVolume.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colVolume.Tag = Nothing
-        Me.colVolume.Text = "Volume"
-        '
-        'colQuantity
-        '
-        Me.colQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colQuantity.CustomSortTag = Nothing
-        Me.colQuantity.DisplayIndex = 7
-        Me.colQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colQuantity.Tag = Nothing
-        Me.colQuantity.Text = "Quantity"
-        Me.colQuantity.Width = 100
-        Me.colQuantity.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
-        '
-        'colPrice
-        '
-        Me.colPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colPrice.CustomSortTag = Nothing
-        Me.colPrice.DisplayIndex = 8
-        Me.colPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colPrice.Tag = Nothing
-        Me.colPrice.Text = "Price"
-        Me.colPrice.Width = 125
-        '
-        'colValue
-        '
-        Me.colValue.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colValue.CustomSortTag = Nothing
-        Me.colValue.DisplayIndex = 9
-        Me.colValue.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colValue.Tag = Nothing
-        Me.colValue.Text = "Total Value"
-        Me.colValue.Width = 125
-        '
         'ctxAssets
         '
         Me.ctxAssets.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripMenuItem1, Me.mnuAddCustomName, Me.mnuRemoveCustomName, Me.ToolStripMenuItem3, Me.mnuViewInIB, Me.mnuViewInHQF, Me.mnuModifyPrice, Me.mnuToolSep, Me.mnuItemRecycling})
         Me.ctxAssets.Name = "ctxAssets"
-        Me.ctxAssets.Size = New System.Drawing.Size(198, 176)
+        Me.ctxAssets.Size = New System.Drawing.Size(194, 176)
         '
         'mnuItemName
         '
-        Me.mnuItemName.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.mnuItemName.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold)
         Me.mnuItemName.Name = "mnuItemName"
-        Me.mnuItemName.Size = New System.Drawing.Size(197, 22)
+        Me.mnuItemName.Size = New System.Drawing.Size(193, 22)
         Me.mnuItemName.Text = "Item Name"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(194, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(190, 6)
         '
         'mnuAddCustomName
         '
         Me.mnuAddCustomName.Name = "mnuAddCustomName"
-        Me.mnuAddCustomName.Size = New System.Drawing.Size(197, 22)
+        Me.mnuAddCustomName.Size = New System.Drawing.Size(193, 22)
         Me.mnuAddCustomName.Text = "Add Custom Name"
         '
         'mnuRemoveCustomName
         '
         Me.mnuRemoveCustomName.Name = "mnuRemoveCustomName"
-        Me.mnuRemoveCustomName.Size = New System.Drawing.Size(197, 22)
+        Me.mnuRemoveCustomName.Size = New System.Drawing.Size(193, 22)
         Me.mnuRemoveCustomName.Text = "Remove Custom Name"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(194, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(190, 6)
         '
         'mnuViewInIB
         '
         Me.mnuViewInIB.Name = "mnuViewInIB"
-        Me.mnuViewInIB.Size = New System.Drawing.Size(197, 22)
+        Me.mnuViewInIB.Size = New System.Drawing.Size(193, 22)
         Me.mnuViewInIB.Text = "View In Item Browser"
         '
         'mnuViewInHQF
         '
         Me.mnuViewInHQF.Name = "mnuViewInHQF"
-        Me.mnuViewInHQF.Size = New System.Drawing.Size(197, 22)
+        Me.mnuViewInHQF.Size = New System.Drawing.Size(193, 22)
         Me.mnuViewInHQF.Text = "Copy Setup for HQF"
         '
         'mnuModifyPrice
         '
         Me.mnuModifyPrice.Name = "mnuModifyPrice"
-        Me.mnuModifyPrice.Size = New System.Drawing.Size(197, 22)
+        Me.mnuModifyPrice.Size = New System.Drawing.Size(193, 22)
         Me.mnuModifyPrice.Text = "Modify Custom Price"
         '
         'mnuToolSep
         '
         Me.mnuToolSep.Name = "mnuToolSep"
-        Me.mnuToolSep.Size = New System.Drawing.Size(194, 6)
+        Me.mnuToolSep.Size = New System.Drawing.Size(190, 6)
         '
         'mnuItemRecycling
         '
         Me.mnuItemRecycling.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRecycleItem, Me.mnuRecycleContained, Me.mnuRecycleAll})
         Me.mnuItemRecycling.Name = "mnuItemRecycling"
-        Me.mnuItemRecycling.Size = New System.Drawing.Size(197, 22)
+        Me.mnuItemRecycling.Size = New System.Drawing.Size(193, 22)
         Me.mnuItemRecycling.Text = "Recycling Profitability"
         '
         'mnuRecycleItem
         '
         Me.mnuRecycleItem.Name = "mnuRecycleItem"
-        Me.mnuRecycleItem.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleItem.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleItem.Text = "Current Item"
         '
         'mnuRecycleContained
         '
         Me.mnuRecycleContained.Enabled = False
         Me.mnuRecycleContained.Name = "mnuRecycleContained"
-        Me.mnuRecycleContained.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleContained.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleContained.Text = "Contained Items"
         '
         'mnuRecycleAll
         '
         Me.mnuRecycleAll.Enabled = False
         Me.mnuRecycleAll.Name = "mnuRecycleAll"
-        Me.mnuRecycleAll.Size = New System.Drawing.Size(169, 22)
+        Me.mnuRecycleAll.Size = New System.Drawing.Size(173, 22)
         Me.mnuRecycleAll.Text = "Container + Items"
         '
         'chkExcludeBPs
@@ -614,12 +501,12 @@ Partial Class frmPrism
         '
         Me.ctxFilter.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToFilterToolStripMenuItem})
         Me.ctxFilter.Name = "ctxFilter"
-        Me.ctxFilter.Size = New System.Drawing.Size(143, 26)
+        Me.ctxFilter.Size = New System.Drawing.Size(147, 26)
         '
         'AddToFilterToolStripMenuItem
         '
         Me.AddToFilterToolStripMenuItem.Name = "AddToFilterToolStripMenuItem"
-        Me.AddToFilterToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.AddToFilterToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.AddToFilterToolStripMenuItem.Text = "Add To Filter"
         '
         'lblGroupFilter
@@ -647,12 +534,12 @@ Partial Class frmPrism
         '
         Me.ctxFilterList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFilterToolStripMenuItem})
         Me.ctxFilterList.Name = "ctxFilterList"
-        Me.ctxFilterList.Size = New System.Drawing.Size(147, 26)
+        Me.ctxFilterList.Size = New System.Drawing.Size(152, 26)
         '
         'RemoveFilterToolStripMenuItem
         '
         Me.RemoveFilterToolStripMenuItem.Name = "RemoveFilterToolStripMenuItem"
-        Me.RemoveFilterToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.RemoveFilterToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.RemoveFilterToolStripMenuItem.Text = "Remove Filter"
         '
         'lblSelectedFilters
@@ -690,12 +577,12 @@ Partial Class frmPrism
         '
         Me.ctxTabPrism.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuClosePrismTab})
         Me.ctxTabPrism.Name = "ctxTabbedMDI"
-        Me.ctxTabPrism.Size = New System.Drawing.Size(124, 26)
+        Me.ctxTabPrism.Size = New System.Drawing.Size(128, 26)
         '
         'mnuClosePrismTab
         '
         Me.mnuClosePrismTab.Name = "mnuClosePrismTab"
-        Me.mnuClosePrismTab.Size = New System.Drawing.Size(123, 22)
+        Me.mnuClosePrismTab.Size = New System.Drawing.Size(127, 22)
         Me.mnuClosePrismTab.Text = "Not Valid"
         '
         'tabAPIStatus
@@ -802,8 +689,8 @@ Partial Class frmPrism
         Me.tabAssets.Controls.Add(Me.lblOwnerFilters)
         Me.tabAssets.Controls.Add(Me.txtSearch)
         Me.tabAssets.Controls.Add(Me.lblSearchAssets)
-        Me.tabAssets.Controls.Add(Me.tlvAssets)
         Me.tabAssets.Controls.Add(Me.chkExcludeBPs)
+        Me.tabAssets.Controls.Add(Me.tlvAssets)
         Me.tabAssets.Location = New System.Drawing.Point(4, 22)
         Me.tabAssets.Name = "tabAssets"
         Me.tabAssets.Padding = New System.Windows.Forms.Padding(3)
@@ -989,11 +876,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup3.Header = "Corporation"
-        ListViewGroup3.Name = "grpCorporation"
-        ListViewGroup4.Header = "Personal"
-        ListViewGroup4.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup5.Header = "Corporation"
+        ListViewGroup5.Name = "grpCorporation"
+        ListViewGroup6.Header = "Personal"
+        ListViewGroup6.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -1268,19 +1155,7 @@ Partial Class frmPrism
         '
         'tabRigBuilder
         '
-        Me.tabRigBuilder.Controls.Add(Me.btnExportRigList)
-        Me.tabRigBuilder.Controls.Add(Me.btnExportRigBuildList)
-        Me.tabRigBuilder.Controls.Add(Me.lblTotalRigMargin)
-        Me.tabRigBuilder.Controls.Add(Me.lblTotalRigProfit)
-        Me.tabRigBuilder.Controls.Add(Me.lblTotalRigSalePrice)
-        Me.tabRigBuilder.Controls.Add(Me.bgAutoRig)
-        Me.tabRigBuilder.Controls.Add(Me.lblRigBuildList)
-        Me.tabRigBuilder.Controls.Add(Me.lvwRigBuildList)
-        Me.tabRigBuilder.Controls.Add(Me.lvwRigs)
-        Me.tabRigBuilder.Controls.Add(Me.nudRigMELevel)
-        Me.tabRigBuilder.Controls.Add(Me.lblRigMELevel)
-        Me.tabRigBuilder.Controls.Add(Me.btnBuildRigs)
-        Me.tabRigBuilder.Controls.Add(Me.lblRigOwnerFilter)
+        Me.tabRigBuilder.Controls.Add(Me.scRigBuilder)
         Me.tabRigBuilder.Location = New System.Drawing.Point(4, 22)
         Me.tabRigBuilder.Name = "tabRigBuilder"
         Me.tabRigBuilder.Size = New System.Drawing.Size(1136, 541)
@@ -1288,55 +1163,55 @@ Partial Class frmPrism
         Me.tabRigBuilder.Text = "Rig Builder"
         Me.tabRigBuilder.UseVisualStyleBackColor = True
         '
+        'scRigBuilder
+        '
+        Me.scRigBuilder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.scRigBuilder.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.scRigBuilder.Location = New System.Drawing.Point(0, 0)
+        Me.scRigBuilder.Name = "scRigBuilder"
+        Me.scRigBuilder.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'scRigBuilder.Panel1
+        '
+        Me.scRigBuilder.Panel1.Controls.Add(Me.lvwRigs)
+        Me.scRigBuilder.Panel1.Controls.Add(Me.btnExportRigList)
+        Me.scRigBuilder.Panel1.Controls.Add(Me.btnExportRigBuildList)
+        Me.scRigBuilder.Panel1.Controls.Add(Me.bgAutoRig)
+        Me.scRigBuilder.Panel1.Controls.Add(Me.nudRigMELevel)
+        Me.scRigBuilder.Panel1.Controls.Add(Me.lblRigMELevel)
+        Me.scRigBuilder.Panel1.Controls.Add(Me.btnBuildRigs)
+        Me.scRigBuilder.Panel1.Controls.Add(Me.lblRigOwnerFilter)
+        '
+        'scRigBuilder.Panel2
+        '
+        Me.scRigBuilder.Panel2.Controls.Add(Me.lblTotalRigMargin)
+        Me.scRigBuilder.Panel2.Controls.Add(Me.lblTotalRigProfit)
+        Me.scRigBuilder.Panel2.Controls.Add(Me.lblTotalRigSalePrice)
+        Me.scRigBuilder.Panel2.Controls.Add(Me.lblRigBuildList)
+        Me.scRigBuilder.Panel2.Controls.Add(Me.lvwRigBuildList)
+        Me.scRigBuilder.Size = New System.Drawing.Size(1136, 541)
+        Me.scRigBuilder.SplitterDistance = 298
+        Me.scRigBuilder.TabIndex = 46
+        '
         'btnExportRigList
         '
         Me.btnExportRigList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportRigList.Location = New System.Drawing.Point(1028, 48)
+        Me.btnExportRigList.Location = New System.Drawing.Point(1026, 40)
         Me.btnExportRigList.Name = "btnExportRigList"
         Me.btnExportRigList.Size = New System.Drawing.Size(100, 23)
-        Me.btnExportRigList.TabIndex = 45
+        Me.btnExportRigList.TabIndex = 52
         Me.btnExportRigList.Text = "Export Rig List"
         Me.btnExportRigList.UseVisualStyleBackColor = True
         '
         'btnExportRigBuildList
         '
         Me.btnExportRigBuildList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportRigBuildList.Location = New System.Drawing.Point(1028, 77)
+        Me.btnExportRigBuildList.Location = New System.Drawing.Point(1026, 69)
         Me.btnExportRigBuildList.Name = "btnExportRigBuildList"
         Me.btnExportRigBuildList.Size = New System.Drawing.Size(100, 23)
-        Me.btnExportRigBuildList.TabIndex = 44
+        Me.btnExportRigBuildList.TabIndex = 51
         Me.btnExportRigBuildList.Text = "Export Build List"
         Me.btnExportRigBuildList.UseVisualStyleBackColor = True
-        '
-        'lblTotalRigMargin
-        '
-        Me.lblTotalRigMargin.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblTotalRigMargin.AutoSize = True
-        Me.lblTotalRigMargin.Location = New System.Drawing.Point(553, 311)
-        Me.lblTotalRigMargin.Name = "lblTotalRigMargin"
-        Me.lblTotalRigMargin.Size = New System.Drawing.Size(43, 13)
-        Me.lblTotalRigMargin.TabIndex = 33
-        Me.lblTotalRigMargin.Text = "Margin:"
-        '
-        'lblTotalRigProfit
-        '
-        Me.lblTotalRigProfit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblTotalRigProfit.AutoSize = True
-        Me.lblTotalRigProfit.Location = New System.Drawing.Point(350, 311)
-        Me.lblTotalRigProfit.Name = "lblTotalRigProfit"
-        Me.lblTotalRigProfit.Size = New System.Drawing.Size(64, 13)
-        Me.lblTotalRigProfit.TabIndex = 32
-        Me.lblTotalRigProfit.Text = "Total Profit:"
-        '
-        'lblTotalRigSalePrice
-        '
-        Me.lblTotalRigSalePrice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblTotalRigSalePrice.AutoSize = True
-        Me.lblTotalRigSalePrice.Location = New System.Drawing.Point(138, 311)
-        Me.lblTotalRigSalePrice.Name = "lblTotalRigSalePrice"
-        Me.lblTotalRigSalePrice.Size = New System.Drawing.Size(84, 13)
-        Me.lblTotalRigSalePrice.TabIndex = 31
-        Me.lblTotalRigSalePrice.Text = "Total Sale Price:"
         '
         'bgAutoRig
         '
@@ -1347,10 +1222,10 @@ Partial Class frmPrism
         Me.bgAutoRig.Controls.Add(Me.radRigSaleprice)
         Me.bgAutoRig.Controls.Add(Me.lblAutoRigCriteria)
         Me.bgAutoRig.Controls.Add(Me.btnAutoRig)
-        Me.bgAutoRig.Location = New System.Drawing.Point(216, 39)
+        Me.bgAutoRig.Location = New System.Drawing.Point(218, 31)
         Me.bgAutoRig.Name = "bgAutoRig"
         Me.bgAutoRig.Size = New System.Drawing.Size(469, 61)
-        Me.bgAutoRig.TabIndex = 30
+        Me.bgAutoRig.TabIndex = 50
         Me.bgAutoRig.TabStop = False
         Me.bgAutoRig.Text = "Automatic Rig Availability Options"
         '
@@ -1424,271 +1299,84 @@ Partial Class frmPrism
         Me.btnAutoRig.Text = "Auto Rig Availability"
         Me.btnAutoRig.UseVisualStyleBackColor = True
         '
-        'lblRigBuildList
-        '
-        Me.lblRigBuildList.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblRigBuildList.AutoSize = True
-        Me.lblRigBuildList.Location = New System.Drawing.Point(5, 311)
-        Me.lblRigBuildList.Name = "lblRigBuildList"
-        Me.lblRigBuildList.Size = New System.Drawing.Size(70, 13)
-        Me.lblRigBuildList.TabIndex = 28
-        Me.lblRigBuildList.Text = "Rig Build List:"
-        '
-        'lvwRigBuildList
-        '
-        Me.lvwRigBuildList.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwRigBuildList.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader9, Me.ContainerListViewColumnHeader10, Me.ContainerListViewColumnHeader11, Me.ContainerListViewColumnHeader12, Me.ContainerListViewColumnHeader13, Me.ContainerListViewColumnHeader14, Me.ContainerListViewColumnHeader15, Me.ContainerListViewColumnHeader16, Me.ContainerListViewColumnHeader17})
-        Me.lvwRigBuildList.ColumnSortColor = System.Drawing.Color.AliceBlue
-        Me.lvwRigBuildList.ColumnTracking = True
-        Me.lvwRigBuildList.ColumnTrackingColor = System.Drawing.Color.LightCyan
-        Me.lvwRigBuildList.DefaultItemHeight = 20
-        Me.lvwRigBuildList.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwRigBuildList.ItemContextMenu = Me.ctxAssets
-        Me.lvwRigBuildList.ItemSelectedColor = System.Drawing.Color.LimeGreen
-        Me.lvwRigBuildList.ItemTracking = True
-        Me.lvwRigBuildList.ItemTrackingColor = System.Drawing.Color.PaleGreen
-        Me.lvwRigBuildList.Location = New System.Drawing.Point(8, 327)
-        Me.lvwRigBuildList.MultipleColumnSort = True
-        Me.lvwRigBuildList.Name = "lvwRigBuildList"
-        Me.lvwRigBuildList.Size = New System.Drawing.Size(1120, 211)
-        Me.lvwRigBuildList.TabIndex = 27
-        '
-        'ContainerListViewColumnHeader9
-        '
-        Me.ContainerListViewColumnHeader9.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader9.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.ContainerListViewColumnHeader9.Tag = Nothing
-        Me.ContainerListViewColumnHeader9.Text = "Rig Type"
-        Me.ContainerListViewColumnHeader9.Width = 200
-        Me.ContainerListViewColumnHeader9.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
-        '
-        'ContainerListViewColumnHeader10
-        '
-        Me.ContainerListViewColumnHeader10.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader10.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader10.DisplayIndex = 1
-        Me.ContainerListViewColumnHeader10.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader10.Tag = Nothing
-        Me.ContainerListViewColumnHeader10.Text = "Quantity"
-        Me.ContainerListViewColumnHeader10.Width = 100
-        '
-        'ContainerListViewColumnHeader11
-        '
-        Me.ContainerListViewColumnHeader11.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader11.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader11.DisplayIndex = 2
-        Me.ContainerListViewColumnHeader11.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader11.Tag = Nothing
-        Me.ContainerListViewColumnHeader11.Text = "Rig Market Price"
-        Me.ContainerListViewColumnHeader11.Width = 120
-        '
-        'ContainerListViewColumnHeader12
-        '
-        Me.ContainerListViewColumnHeader12.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader12.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader12.DisplayIndex = 3
-        Me.ContainerListViewColumnHeader12.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader12.Tag = Nothing
-        Me.ContainerListViewColumnHeader12.Text = "Salv. Market Price"
-        Me.ContainerListViewColumnHeader12.Width = 120
-        '
-        'ContainerListViewColumnHeader13
-        '
-        Me.ContainerListViewColumnHeader13.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader13.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader13.DisplayIndex = 4
-        Me.ContainerListViewColumnHeader13.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader13.Tag = Nothing
-        Me.ContainerListViewColumnHeader13.Text = "Build Benefit"
-        Me.ContainerListViewColumnHeader13.Width = 120
-        '
-        'ContainerListViewColumnHeader14
-        '
-        Me.ContainerListViewColumnHeader14.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader14.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader14.DisplayIndex = 5
-        Me.ContainerListViewColumnHeader14.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader14.Tag = Nothing
-        Me.ContainerListViewColumnHeader14.Text = "Total Rig Value"
-        Me.ContainerListViewColumnHeader14.Width = 120
-        Me.ContainerListViewColumnHeader14.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
-        '
-        'ContainerListViewColumnHeader15
-        '
-        Me.ContainerListViewColumnHeader15.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader15.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader15.DisplayIndex = 6
-        Me.ContainerListViewColumnHeader15.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader15.Tag = Nothing
-        Me.ContainerListViewColumnHeader15.Text = "Total Salv. Value"
-        Me.ContainerListViewColumnHeader15.Width = 120
-        '
-        'ContainerListViewColumnHeader16
-        '
-        Me.ContainerListViewColumnHeader16.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader16.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader16.DisplayIndex = 7
-        Me.ContainerListViewColumnHeader16.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader16.Tag = Nothing
-        Me.ContainerListViewColumnHeader16.Text = "Total Build Benefit"
-        Me.ContainerListViewColumnHeader16.Width = 120
-        '
-        'ContainerListViewColumnHeader17
-        '
-        Me.ContainerListViewColumnHeader17.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ContainerListViewColumnHeader17.CustomSortTag = Nothing
-        Me.ContainerListViewColumnHeader17.DisplayIndex = 8
-        Me.ContainerListViewColumnHeader17.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.ContainerListViewColumnHeader17.Tag = Nothing
-        Me.ContainerListViewColumnHeader17.Text = "% Margin"
-        Me.ContainerListViewColumnHeader17.Width = 100
-        '
-        'lvwRigs
-        '
-        Me.lvwRigs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwRigs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRigType, Me.colRigQuantity, Me.colRigMarketPrice, Me.colSalvageMarketPrice, Me.colBuildBenefit, Me.colTotalRigValue, Me.colTotalSalvageValue, Me.colTotalBuildBenefit, Me.colMargin})
-        Me.lvwRigs.ColumnSortColor = System.Drawing.Color.AliceBlue
-        Me.lvwRigs.ColumnTracking = True
-        Me.lvwRigs.ColumnTrackingColor = System.Drawing.Color.LightCyan
-        Me.lvwRigs.DefaultItemHeight = 20
-        Me.lvwRigs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvwRigs.ItemContextMenu = Me.ctxAssets
-        Me.lvwRigs.ItemSelectedColor = System.Drawing.Color.LimeGreen
-        Me.lvwRigs.ItemTracking = True
-        Me.lvwRigs.ItemTrackingColor = System.Drawing.Color.PaleGreen
-        Me.lvwRigs.Location = New System.Drawing.Point(8, 106)
-        Me.lvwRigs.MultipleColumnSort = True
-        Me.lvwRigs.Name = "lvwRigs"
-        Me.lvwRigs.Size = New System.Drawing.Size(1120, 193)
-        Me.lvwRigs.TabIndex = 26
-        '
-        'colRigType
-        '
-        Me.colRigType.CustomSortTag = Nothing
-        Me.colRigType.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colRigType.Tag = Nothing
-        Me.colRigType.Text = "Rig Type"
-        Me.colRigType.Width = 200
-        Me.colRigType.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
-        '
-        'colRigQuantity
-        '
-        Me.colRigQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colRigQuantity.CustomSortTag = Nothing
-        Me.colRigQuantity.DisplayIndex = 1
-        Me.colRigQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colRigQuantity.Tag = Nothing
-        Me.colRigQuantity.Text = "Quantity"
-        Me.colRigQuantity.Width = 100
-        '
-        'colRigMarketPrice
-        '
-        Me.colRigMarketPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colRigMarketPrice.CustomSortTag = Nothing
-        Me.colRigMarketPrice.DisplayIndex = 2
-        Me.colRigMarketPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colRigMarketPrice.Tag = Nothing
-        Me.colRigMarketPrice.Text = "Rig Market Price"
-        Me.colRigMarketPrice.Width = 120
-        '
-        'colSalvageMarketPrice
-        '
-        Me.colSalvageMarketPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colSalvageMarketPrice.CustomSortTag = Nothing
-        Me.colSalvageMarketPrice.DisplayIndex = 3
-        Me.colSalvageMarketPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colSalvageMarketPrice.Tag = Nothing
-        Me.colSalvageMarketPrice.Text = "Salv. Market Price"
-        Me.colSalvageMarketPrice.Width = 120
-        '
-        'colBuildBenefit
-        '
-        Me.colBuildBenefit.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colBuildBenefit.CustomSortTag = Nothing
-        Me.colBuildBenefit.DisplayIndex = 4
-        Me.colBuildBenefit.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colBuildBenefit.Tag = Nothing
-        Me.colBuildBenefit.Text = "Build Benefit"
-        Me.colBuildBenefit.Width = 120
-        '
-        'colTotalRigValue
-        '
-        Me.colTotalRigValue.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colTotalRigValue.CustomSortTag = Nothing
-        Me.colTotalRigValue.DisplayIndex = 5
-        Me.colTotalRigValue.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colTotalRigValue.Tag = Nothing
-        Me.colTotalRigValue.Text = "Total Rig Value"
-        Me.colTotalRigValue.Width = 120
-        Me.colTotalRigValue.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
-        '
-        'colTotalSalvageValue
-        '
-        Me.colTotalSalvageValue.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colTotalSalvageValue.CustomSortTag = Nothing
-        Me.colTotalSalvageValue.DisplayIndex = 6
-        Me.colTotalSalvageValue.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colTotalSalvageValue.Tag = Nothing
-        Me.colTotalSalvageValue.Text = "Total Salv. Value"
-        Me.colTotalSalvageValue.Width = 120
-        '
-        'colTotalBuildBenefit
-        '
-        Me.colTotalBuildBenefit.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colTotalBuildBenefit.CustomSortTag = Nothing
-        Me.colTotalBuildBenefit.DisplayIndex = 7
-        Me.colTotalBuildBenefit.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colTotalBuildBenefit.Tag = Nothing
-        Me.colTotalBuildBenefit.Text = "Total Build Benefit"
-        Me.colTotalBuildBenefit.Width = 120
-        '
-        'colMargin
-        '
-        Me.colMargin.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colMargin.CustomSortTag = Nothing
-        Me.colMargin.DisplayIndex = 8
-        Me.colMargin.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colMargin.Tag = Nothing
-        Me.colMargin.Text = "% Margin"
-        Me.colMargin.Width = 100
-        '
         'nudRigMELevel
         '
-        Me.nudRigMELevel.Location = New System.Drawing.Point(85, 45)
+        Me.nudRigMELevel.Location = New System.Drawing.Point(87, 37)
         Me.nudRigMELevel.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
         Me.nudRigMELevel.Name = "nudRigMELevel"
         Me.nudRigMELevel.Size = New System.Drawing.Size(70, 21)
-        Me.nudRigMELevel.TabIndex = 25
+        Me.nudRigMELevel.TabIndex = 49
         '
         'lblRigMELevel
         '
         Me.lblRigMELevel.AutoSize = True
-        Me.lblRigMELevel.Location = New System.Drawing.Point(5, 47)
+        Me.lblRigMELevel.Location = New System.Drawing.Point(7, 39)
         Me.lblRigMELevel.Name = "lblRigMELevel"
         Me.lblRigMELevel.Size = New System.Drawing.Size(71, 13)
-        Me.lblRigMELevel.TabIndex = 24
+        Me.lblRigMELevel.TabIndex = 48
         Me.lblRigMELevel.Text = "Rig ME Level:"
         '
         'btnBuildRigs
         '
-        Me.btnBuildRigs.Location = New System.Drawing.Point(8, 71)
+        Me.btnBuildRigs.Location = New System.Drawing.Point(10, 63)
         Me.btnBuildRigs.Name = "btnBuildRigs"
         Me.btnBuildRigs.Size = New System.Drawing.Size(125, 23)
-        Me.btnBuildRigs.TabIndex = 23
+        Me.btnBuildRigs.TabIndex = 47
         Me.btnBuildRigs.Text = "Display Rig Availability"
         Me.btnBuildRigs.UseVisualStyleBackColor = True
         '
         'lblRigOwnerFilter
         '
         Me.lblRigOwnerFilter.AutoSize = True
-        Me.lblRigOwnerFilter.Location = New System.Drawing.Point(5, 20)
+        Me.lblRigOwnerFilter.Location = New System.Drawing.Point(7, 12)
         Me.lblRigOwnerFilter.Name = "lblRigOwnerFilter"
         Me.lblRigOwnerFilter.Size = New System.Drawing.Size(98, 13)
-        Me.lblRigOwnerFilter.TabIndex = 21
+        Me.lblRigOwnerFilter.TabIndex = 46
         Me.lblRigOwnerFilter.Text = "Owner Filter: None"
+        '
+        'lblTotalRigMargin
+        '
+        Me.lblTotalRigMargin.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalRigMargin.AutoSize = True
+        Me.lblTotalRigMargin.Location = New System.Drawing.Point(549, 2)
+        Me.lblTotalRigMargin.Name = "lblTotalRigMargin"
+        Me.lblTotalRigMargin.Size = New System.Drawing.Size(43, 13)
+        Me.lblTotalRigMargin.TabIndex = 38
+        Me.lblTotalRigMargin.Text = "Margin:"
+        '
+        'lblTotalRigProfit
+        '
+        Me.lblTotalRigProfit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalRigProfit.AutoSize = True
+        Me.lblTotalRigProfit.Location = New System.Drawing.Point(349, 2)
+        Me.lblTotalRigProfit.Name = "lblTotalRigProfit"
+        Me.lblTotalRigProfit.Size = New System.Drawing.Size(64, 13)
+        Me.lblTotalRigProfit.TabIndex = 37
+        Me.lblTotalRigProfit.Text = "Total Profit:"
+        '
+        'lblTotalRigSalePrice
+        '
+        Me.lblTotalRigSalePrice.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalRigSalePrice.AutoSize = True
+        Me.lblTotalRigSalePrice.Location = New System.Drawing.Point(140, 2)
+        Me.lblTotalRigSalePrice.Name = "lblTotalRigSalePrice"
+        Me.lblTotalRigSalePrice.Size = New System.Drawing.Size(84, 13)
+        Me.lblTotalRigSalePrice.TabIndex = 36
+        Me.lblTotalRigSalePrice.Text = "Total Sale Price:"
+        '
+        'lblRigBuildList
+        '
+        Me.lblRigBuildList.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblRigBuildList.AutoSize = True
+        Me.lblRigBuildList.Location = New System.Drawing.Point(8, 2)
+        Me.lblRigBuildList.Name = "lblRigBuildList"
+        Me.lblRigBuildList.Size = New System.Drawing.Size(70, 13)
+        Me.lblRigBuildList.TabIndex = 35
+        Me.lblRigBuildList.Text = "Rig Build List:"
         '
         'tabOrders
         '
@@ -1719,66 +1407,8 @@ Partial Class frmPrism
         Me.scMarketOrders.Panel2.Controls.Add(Me.clvBuyOrders)
         Me.scMarketOrders.Panel2.Controls.Add(Me.lblBuyOrders)
         Me.scMarketOrders.Size = New System.Drawing.Size(1136, 446)
-        Me.scMarketOrders.SplitterDistance = 225
+        Me.scMarketOrders.SplitterDistance = 242
         Me.scMarketOrders.TabIndex = 28
-        '
-        'clvSellOrders
-        '
-        Me.clvSellOrders.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvSellOrders.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colSOType, Me.colSOQuantity, Me.colSOPrice, Me.colSOLocation, Me.colSOExpiresIn})
-        Me.clvSellOrders.DefaultItemHeight = 20
-        Me.clvSellOrders.Location = New System.Drawing.Point(8, 21)
-        Me.clvSellOrders.Name = "clvSellOrders"
-        Me.clvSellOrders.Size = New System.Drawing.Size(1118, 197)
-        Me.clvSellOrders.TabIndex = 26
-        '
-        'colSOType
-        '
-        Me.colSOType.CustomSortTag = Nothing
-        Me.colSOType.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colSOType.Tag = Nothing
-        Me.colSOType.Text = "Type"
-        Me.colSOType.Width = 250
-        '
-        'colSOQuantity
-        '
-        Me.colSOQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colSOQuantity.CustomSortTag = Nothing
-        Me.colSOQuantity.DisplayIndex = 1
-        Me.colSOQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colSOQuantity.Tag = Nothing
-        Me.colSOQuantity.Text = "Quantity"
-        Me.colSOQuantity.Width = 125
-        '
-        'colSOPrice
-        '
-        Me.colSOPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colSOPrice.CustomSortTag = Nothing
-        Me.colSOPrice.DisplayIndex = 2
-        Me.colSOPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colSOPrice.Tag = Nothing
-        Me.colSOPrice.Text = "Price"
-        Me.colSOPrice.Width = 125
-        '
-        'colSOLocation
-        '
-        Me.colSOLocation.CustomSortTag = Nothing
-        Me.colSOLocation.DisplayIndex = 3
-        Me.colSOLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colSOLocation.Tag = Nothing
-        Me.colSOLocation.Text = "Location"
-        Me.colSOLocation.Width = 300
-        '
-        'colSOExpiresIn
-        '
-        Me.colSOExpiresIn.CustomSortTag = Nothing
-        Me.colSOExpiresIn.DisplayIndex = 4
-        Me.colSOExpiresIn.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
-        Me.colSOExpiresIn.Tag = Nothing
-        Me.colSOExpiresIn.Text = "Expires In"
-        Me.colSOExpiresIn.Width = 125
         '
         'lblSellOrders
         '
@@ -1791,83 +1421,6 @@ Partial Class frmPrism
         Me.lblSellOrders.Size = New System.Drawing.Size(47, 13)
         Me.lblSellOrders.TabIndex = 25
         Me.lblSellOrders.Text = "Selling:"
-        '
-        'clvBuyOrders
-        '
-        Me.clvBuyOrders.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvBuyOrders.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colBOType, Me.colBOQuantity, Me.colBOPrice, Me.colBOLocation, Me.colBORange, Me.colBOMinVol, Me.colBOExpiresIn})
-        Me.clvBuyOrders.DefaultItemHeight = 20
-        Me.clvBuyOrders.Location = New System.Drawing.Point(8, 21)
-        Me.clvBuyOrders.Name = "clvBuyOrders"
-        Me.clvBuyOrders.Size = New System.Drawing.Size(1118, 188)
-        Me.clvBuyOrders.TabIndex = 27
-        '
-        'colBOType
-        '
-        Me.colBOType.CustomSortTag = Nothing
-        Me.colBOType.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colBOType.Tag = Nothing
-        Me.colBOType.Text = "Type"
-        Me.colBOType.Width = 250
-        '
-        'colBOQuantity
-        '
-        Me.colBOQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colBOQuantity.CustomSortTag = Nothing
-        Me.colBOQuantity.DisplayIndex = 1
-        Me.colBOQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colBOQuantity.Tag = Nothing
-        Me.colBOQuantity.Text = "Quantity"
-        Me.colBOQuantity.Width = 125
-        '
-        'colBOPrice
-        '
-        Me.colBOPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colBOPrice.CustomSortTag = Nothing
-        Me.colBOPrice.DisplayIndex = 2
-        Me.colBOPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colBOPrice.Tag = Nothing
-        Me.colBOPrice.Text = "Price"
-        Me.colBOPrice.Width = 125
-        '
-        'colBOLocation
-        '
-        Me.colBOLocation.CustomSortTag = Nothing
-        Me.colBOLocation.DisplayIndex = 3
-        Me.colBOLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colBOLocation.Tag = Nothing
-        Me.colBOLocation.Text = "Location"
-        Me.colBOLocation.Width = 300
-        '
-        'colBORange
-        '
-        Me.colBORange.CustomSortTag = Nothing
-        Me.colBORange.DisplayIndex = 4
-        Me.colBORange.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
-        Me.colBORange.Tag = Nothing
-        Me.colBORange.Text = "Range"
-        Me.colBORange.Width = 75
-        '
-        'colBOMinVol
-        '
-        Me.colBOMinVol.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colBOMinVol.CustomSortTag = Nothing
-        Me.colBOMinVol.DisplayIndex = 5
-        Me.colBOMinVol.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colBOMinVol.Tag = Nothing
-        Me.colBOMinVol.Text = "Min Volume"
-        Me.colBOMinVol.Width = 100
-        '
-        'colBOExpiresIn
-        '
-        Me.colBOExpiresIn.CustomSortTag = Nothing
-        Me.colBOExpiresIn.DisplayIndex = 6
-        Me.colBOExpiresIn.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
-        Me.colBOExpiresIn.Tag = Nothing
-        Me.colBOExpiresIn.Text = "Expires In"
-        Me.colBOExpiresIn.Width = 125
         '
         'lblBuyOrders
         '
@@ -2182,85 +1735,6 @@ Partial Class frmPrism
         Me.lblWalletTransDivision.TabIndex = 1
         Me.lblWalletTransDivision.Text = "Wallet Division:"
         '
-        'clvTransactions
-        '
-        Me.clvTransactions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvTransactions.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colWTransDate, Me.colWTransItem, Me.colWTransQuantity, Me.colWTransPrice, Me.colWTransTotal, Me.colWTransLocation, Me.colWTransClient})
-        Me.clvTransactions.ColumnSortColor = System.Drawing.Color.Lavender
-        Me.clvTransactions.DefaultItemHeight = 16
-        Me.clvTransactions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.clvTransactions.Location = New System.Drawing.Point(0, 34)
-        Me.clvTransactions.MultipleColumnSort = True
-        Me.clvTransactions.Name = "clvTransactions"
-        Me.clvTransactions.Size = New System.Drawing.Size(1136, 507)
-        Me.clvTransactions.TabIndex = 0
-        '
-        'colWTransDate
-        '
-        Me.colWTransDate.CustomSortTag = Nothing
-        Me.colWTransDate.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
-        Me.colWTransDate.Tag = Nothing
-        Me.colWTransDate.Text = "Date"
-        Me.colWTransDate.Width = 125
-        '
-        'colWTransItem
-        '
-        Me.colWTransItem.CustomSortTag = Nothing
-        Me.colWTransItem.DisplayIndex = 1
-        Me.colWTransItem.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colWTransItem.Tag = Nothing
-        Me.colWTransItem.Text = "Item"
-        Me.colWTransItem.Width = 175
-        '
-        'colWTransQuantity
-        '
-        Me.colWTransQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colWTransQuantity.CustomSortTag = Nothing
-        Me.colWTransQuantity.DisplayIndex = 2
-        Me.colWTransQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colWTransQuantity.Tag = Nothing
-        Me.colWTransQuantity.Text = "Quantity"
-        '
-        'colWTransPrice
-        '
-        Me.colWTransPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colWTransPrice.CustomSortTag = Nothing
-        Me.colWTransPrice.DisplayIndex = 3
-        Me.colWTransPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colWTransPrice.Tag = Nothing
-        Me.colWTransPrice.Text = "Price"
-        Me.colWTransPrice.Width = 125
-        '
-        'colWTransTotal
-        '
-        Me.colWTransTotal.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colWTransTotal.CustomSortTag = Nothing
-        Me.colWTransTotal.DisplayIndex = 4
-        Me.colWTransTotal.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colWTransTotal.Tag = Nothing
-        Me.colWTransTotal.Text = "Total"
-        Me.colWTransTotal.Width = 125
-        '
-        'colWTransLocation
-        '
-        Me.colWTransLocation.CustomSortTag = Nothing
-        Me.colWTransLocation.DisplayIndex = 5
-        Me.colWTransLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colWTransLocation.Tag = Nothing
-        Me.colWTransLocation.Text = "Location"
-        Me.colWTransLocation.Width = 300
-        '
-        'colWTransClient
-        '
-        Me.colWTransClient.CustomSortTag = Nothing
-        Me.colWTransClient.DisplayIndex = 6
-        Me.colWTransClient.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colWTransClient.Tag = Nothing
-        Me.colWTransClient.Text = "Client"
-        Me.colWTransClient.Width = 150
-        '
         'tabJournal
         '
         Me.tabJournal.Controls.Add(Me.btnExportJournal)
@@ -2303,67 +1777,6 @@ Partial Class frmPrism
         Me.lblWalletJournalDivision.TabIndex = 4
         Me.lblWalletJournalDivision.Text = "Wallet Division:"
         '
-        'clvJournal
-        '
-        Me.clvJournal.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvJournal.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colWalletJournalDate, Me.colWalletJournalType, Me.colWalletJournalAmount, Me.colWalletJournalBalance, Me.colWalletJournalDescription})
-        Me.clvJournal.ColumnSortColor = System.Drawing.Color.Lavender
-        Me.clvJournal.DefaultItemHeight = 16
-        Me.clvJournal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.clvJournal.Location = New System.Drawing.Point(0, 34)
-        Me.clvJournal.MultipleColumnSort = True
-        Me.clvJournal.Name = "clvJournal"
-        Me.clvJournal.Size = New System.Drawing.Size(1136, 507)
-        Me.clvJournal.TabIndex = 3
-        '
-        'colWalletJournalDate
-        '
-        Me.colWalletJournalDate.CustomSortTag = Nothing
-        Me.colWalletJournalDate.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
-        Me.colWalletJournalDate.Tag = Nothing
-        Me.colWalletJournalDate.Text = "Date"
-        Me.colWalletJournalDate.Width = 125
-        '
-        'colWalletJournalType
-        '
-        Me.colWalletJournalType.CustomSortTag = Nothing
-        Me.colWalletJournalType.DisplayIndex = 1
-        Me.colWalletJournalType.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colWalletJournalType.Tag = Nothing
-        Me.colWalletJournalType.Text = "Type"
-        Me.colWalletJournalType.Width = 175
-        '
-        'colWalletJournalAmount
-        '
-        Me.colWalletJournalAmount.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colWalletJournalAmount.CustomSortTag = Nothing
-        Me.colWalletJournalAmount.DisplayIndex = 2
-        Me.colWalletJournalAmount.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colWalletJournalAmount.Tag = Nothing
-        Me.colWalletJournalAmount.Text = "Amount"
-        Me.colWalletJournalAmount.Width = 150
-        '
-        'colWalletJournalBalance
-        '
-        Me.colWalletJournalBalance.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.colWalletJournalBalance.CustomSortTag = Nothing
-        Me.colWalletJournalBalance.DisplayIndex = 3
-        Me.colWalletJournalBalance.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
-        Me.colWalletJournalBalance.Tag = Nothing
-        Me.colWalletJournalBalance.Text = "Balance"
-        Me.colWalletJournalBalance.Width = 150
-        '
-        'colWalletJournalDescription
-        '
-        Me.colWalletJournalDescription.CustomSortTag = Nothing
-        Me.colWalletJournalDescription.DisplayIndex = 4
-        Me.colWalletJournalDescription.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colWalletJournalDescription.Tag = Nothing
-        Me.colWalletJournalDescription.Text = "Description"
-        Me.colWalletJournalDescription.Width = 500
-        '
         'tabJobs
         '
         Me.tabJobs.Controls.Add(Me.cboInstallerFilter)
@@ -2377,6 +1790,24 @@ Partial Class frmPrism
         Me.tabJobs.Text = "Jobs"
         Me.tabJobs.UseVisualStyleBackColor = True
         '
+        'cboInstallerFilter
+        '
+        Me.cboInstallerFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboInstallerFilter.FormattingEnabled = True
+        Me.cboInstallerFilter.Location = New System.Drawing.Point(106, 7)
+        Me.cboInstallerFilter.Name = "cboInstallerFilter"
+        Me.cboInstallerFilter.Size = New System.Drawing.Size(200, 21)
+        Me.cboInstallerFilter.TabIndex = 7
+        '
+        'lblJobInstallerFilter
+        '
+        Me.lblJobInstallerFilter.AutoSize = True
+        Me.lblJobInstallerFilter.Location = New System.Drawing.Point(8, 10)
+        Me.lblJobInstallerFilter.Name = "lblJobInstallerFilter"
+        Me.lblJobInstallerFilter.Size = New System.Drawing.Size(92, 13)
+        Me.lblJobInstallerFilter.TabIndex = 6
+        Me.lblJobInstallerFilter.Text = "Filter By Installer:"
+        '
         'btnExportJobs
         '
         Me.btnExportJobs.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -2386,65 +1817,6 @@ Partial Class frmPrism
         Me.btnExportJobs.TabIndex = 5
         Me.btnExportJobs.Text = "Export"
         Me.btnExportJobs.UseVisualStyleBackColor = True
-        '
-        'clvJobs
-        '
-        Me.clvJobs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvJobs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colJobsItem, Me.colJobsActivity, Me.colJobsInstaller, Me.colJobsLocation, Me.colJobsEndTime, Me.colJobsStatus})
-        Me.clvJobs.ColumnSortColor = System.Drawing.Color.Lavender
-        Me.clvJobs.DefaultItemHeight = 16
-        Me.clvJobs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.clvJobs.Location = New System.Drawing.Point(0, 34)
-        Me.clvJobs.MultipleColumnSort = True
-        Me.clvJobs.Name = "clvJobs"
-        Me.clvJobs.Size = New System.Drawing.Size(1136, 508)
-        Me.clvJobs.TabIndex = 4
-        '
-        'colJobsItem
-        '
-        Me.colJobsItem.CustomSortTag = Nothing
-        Me.colJobsItem.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colJobsItem.Tag = Nothing
-        Me.colJobsItem.Text = "Installed Item"
-        Me.colJobsItem.Width = 250
-        '
-        'colJobsActivity
-        '
-        Me.colJobsActivity.CustomSortTag = Nothing
-        Me.colJobsActivity.DisplayIndex = 1
-        Me.colJobsActivity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
-        Me.colJobsActivity.Tag = Nothing
-        Me.colJobsActivity.Text = "Activity"
-        Me.colJobsActivity.Width = 100
-        '
-        'colJobsLocation
-        '
-        Me.colJobsLocation.CustomSortTag = Nothing
-        Me.colJobsLocation.DisplayIndex = 3
-        Me.colJobsLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colJobsLocation.Tag = Nothing
-        Me.colJobsLocation.Text = "Location"
-        Me.colJobsLocation.Width = 300
-        '
-        'colJobsEndTime
-        '
-        Me.colJobsEndTime.CustomSortTag = Nothing
-        Me.colJobsEndTime.DisplayIndex = 4
-        Me.colJobsEndTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
-        Me.colJobsEndTime.Tag = Nothing
-        Me.colJobsEndTime.Text = "End Time"
-        Me.colJobsEndTime.Width = 125
-        '
-        'colJobsStatus
-        '
-        Me.colJobsStatus.CustomSortTag = Nothing
-        Me.colJobsStatus.DisplayIndex = 5
-        Me.colJobsStatus.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
-        Me.colJobsStatus.Tag = Nothing
-        Me.colJobsStatus.Text = "Status"
-        Me.colJobsStatus.Width = 100
         '
         'tabRecycle
         '
@@ -2833,6 +2205,1088 @@ Partial Class frmPrism
         Me.tabItems.Text = "Item Analysis"
         Me.tabItems.UseVisualStyleBackColor = True
         '
+        'ctxRecycleItems
+        '
+        Me.ctxRecycleItems.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddRecycleItem})
+        Me.ctxRecycleItems.Name = "ctxRecycleItem"
+        Me.ctxRecycleItems.Size = New System.Drawing.Size(130, 26)
+        '
+        'mnuAddRecycleItem
+        '
+        Me.mnuAddRecycleItem.Name = "mnuAddRecycleItem"
+        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(129, 22)
+        Me.mnuAddRecycleItem.Text = "Add Item"
+        '
+        'ctxRecycleItem
+        '
+        Me.ctxRecycleItem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAlterRecycleQuantity, Me.ToolStripMenuItem2, Me.mnuRemoveRecycleItem})
+        Me.ctxRecycleItem.Name = "ctxRecycleItem"
+        Me.ctxRecycleItem.Size = New System.Drawing.Size(154, 54)
+        '
+        'mnuAlterRecycleQuantity
+        '
+        Me.mnuAlterRecycleQuantity.Name = "mnuAlterRecycleQuantity"
+        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(153, 22)
+        Me.mnuAlterRecycleQuantity.Text = "Alter Quantity"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(150, 6)
+        '
+        'mnuRemoveRecycleItem
+        '
+        Me.mnuRemoveRecycleItem.Name = "mnuRemoveRecycleItem"
+        Me.mnuRemoveRecycleItem.Size = New System.Drawing.Size(153, 22)
+        Me.mnuRemoveRecycleItem.Text = "Remove Item"
+        '
+        'tabTotals
+        '
+        Me.tabTotals.Controls.Add(Me.clvTotals)
+        Me.tabTotals.Location = New System.Drawing.Point(4, 22)
+        Me.tabTotals.Name = "tabTotals"
+        Me.tabTotals.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabTotals.Size = New System.Drawing.Size(1122, 371)
+        Me.tabTotals.TabIndex = 1
+        Me.tabTotals.Text = "Recycling Totals"
+        Me.tabTotals.UseVisualStyleBackColor = True
+        '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tssLabelTotalAssetsLabel, Me.tssLabelTotalAssets, Me.tssLabelSelectedAssetsLabel, Me.tssLabelSelectedAssets})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 598)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(1144, 22)
+        Me.StatusStrip1.TabIndex = 15
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'tssLabelTotalAssetsLabel
+        '
+        Me.tssLabelTotalAssetsLabel.Name = "tssLabelTotalAssetsLabel"
+        Me.tssLabelTotalAssetsLabel.Size = New System.Drawing.Size(143, 17)
+        Me.tssLabelTotalAssetsLabel.Text = "Total Displayed Asset Value:"
+        '
+        'tssLabelTotalAssets
+        '
+        Me.tssLabelTotalAssets.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.tssLabelTotalAssets.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
+        Me.tssLabelTotalAssets.Name = "tssLabelTotalAssets"
+        Me.tssLabelTotalAssets.Size = New System.Drawing.Size(4, 17)
+        '
+        'tssLabelSelectedAssetsLabel
+        '
+        Me.tssLabelSelectedAssetsLabel.Name = "tssLabelSelectedAssetsLabel"
+        Me.tssLabelSelectedAssetsLabel.Size = New System.Drawing.Size(153, 17)
+        Me.tssLabelSelectedAssetsLabel.Text = "     Total Selected Asset Value:"
+        '
+        'tssLabelSelectedAssets
+        '
+        Me.tssLabelSelectedAssets.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.tssLabelSelectedAssets.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
+        Me.tssLabelSelectedAssets.Name = "tssLabelSelectedAssets"
+        Me.tssLabelSelectedAssets.Size = New System.Drawing.Size(4, 17)
+        '
+        'ToolStrip1
+        '
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbDownloadData, Me.ToolStripSeparator1, Me.lblOwner, Me.cboOwner, Me.ToolStripSeparator2, Me.tsbAssets, Me.ToolStripSeparator3, Me.tsbInvestments, Me.ToolStripSeparator4, Me.tsbRigBuilder, Me.ToolStripSeparator5, Me.tsbOrders, Me.ToolStripSeparator6, Me.tsbTransactions, Me.ToolStripSeparator7, Me.tsbJournal, Me.ToolStripSeparator8, Me.tsbJobs, Me.ToolStripSeparator9, Me.tsbRecycle, Me.ToolStripSeparator10, Me.tsbReports})
+        Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStrip1.Name = "ToolStrip1"
+        Me.ToolStrip1.Size = New System.Drawing.Size(1144, 25)
+        Me.ToolStrip1.TabIndex = 16
+        Me.ToolStrip1.Text = "ToolStrip1"
+        '
+        'tsbDownloadData
+        '
+        Me.tsbDownloadData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbDownloadData.Image = CType(resources.GetObject("tsbDownloadData.Image"), System.Drawing.Image)
+        Me.tsbDownloadData.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbDownloadData.Name = "tsbDownloadData"
+        Me.tsbDownloadData.Size = New System.Drawing.Size(104, 22)
+        Me.tsbDownloadData.Text = "Download API Data"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'lblOwner
+        '
+        Me.lblOwner.Name = "lblOwner"
+        Me.lblOwner.Size = New System.Drawing.Size(43, 22)
+        Me.lblOwner.Text = "Owner:"
+        '
+        'cboOwner
+        '
+        Me.cboOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboOwner.FlatStyle = System.Windows.Forms.FlatStyle.Standard
+        Me.cboOwner.MaxDropDownItems = 12
+        Me.cboOwner.Name = "cboOwner"
+        Me.cboOwner.Size = New System.Drawing.Size(200, 25)
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbAssets
+        '
+        Me.tsbAssets.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbAssets.Image = CType(resources.GetObject("tsbAssets.Image"), System.Drawing.Image)
+        Me.tsbAssets.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbAssets.Name = "tsbAssets"
+        Me.tsbAssets.Size = New System.Drawing.Size(43, 22)
+        Me.tsbAssets.Text = "Assets"
+        Me.tsbAssets.ToolTipText = "Displays the Assets tab"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbInvestments
+        '
+        Me.tsbInvestments.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbInvestments.Image = CType(resources.GetObject("tsbInvestments.Image"), System.Drawing.Image)
+        Me.tsbInvestments.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbInvestments.Name = "tsbInvestments"
+        Me.tsbInvestments.Size = New System.Drawing.Size(71, 22)
+        Me.tsbInvestments.Text = "Investments"
+        Me.tsbInvestments.ToolTipText = "Displays investments"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbRigBuilder
+        '
+        Me.tsbRigBuilder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbRigBuilder.Image = CType(resources.GetObject("tsbRigBuilder.Image"), System.Drawing.Image)
+        Me.tsbRigBuilder.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbRigBuilder.Name = "tsbRigBuilder"
+        Me.tsbRigBuilder.Size = New System.Drawing.Size(61, 22)
+        Me.tsbRigBuilder.Text = "Rig Builder"
+        Me.tsbRigBuilder.ToolTipText = "Displays the rig builder"
+        '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbOrders
+        '
+        Me.tsbOrders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbOrders.Image = CType(resources.GetObject("tsbOrders.Image"), System.Drawing.Image)
+        Me.tsbOrders.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbOrders.Name = "tsbOrders"
+        Me.tsbOrders.Size = New System.Drawing.Size(44, 22)
+        Me.tsbOrders.Text = "Orders"
+        Me.tsbOrders.ToolTipText = "Displays the market orders"
+        '
+        'ToolStripSeparator6
+        '
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbTransactions
+        '
+        Me.tsbTransactions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbTransactions.Image = CType(resources.GetObject("tsbTransactions.Image"), System.Drawing.Image)
+        Me.tsbTransactions.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbTransactions.Name = "tsbTransactions"
+        Me.tsbTransactions.Size = New System.Drawing.Size(72, 22)
+        Me.tsbTransactions.Text = "Transactions"
+        Me.tsbTransactions.ToolTipText = "Displays the wallet transactions"
+        '
+        'ToolStripSeparator7
+        '
+        Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
+        Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbJournal
+        '
+        Me.tsbJournal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbJournal.Image = CType(resources.GetObject("tsbJournal.Image"), System.Drawing.Image)
+        Me.tsbJournal.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbJournal.Name = "tsbJournal"
+        Me.tsbJournal.Size = New System.Drawing.Size(46, 22)
+        Me.tsbJournal.Text = "Journal"
+        Me.tsbJournal.ToolTipText = "Displays the wallet journal"
+        '
+        'ToolStripSeparator8
+        '
+        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
+        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbJobs
+        '
+        Me.tsbJobs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbJobs.Image = CType(resources.GetObject("tsbJobs.Image"), System.Drawing.Image)
+        Me.tsbJobs.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbJobs.Name = "tsbJobs"
+        Me.tsbJobs.Size = New System.Drawing.Size(33, 22)
+        Me.tsbJobs.Text = "Jobs"
+        Me.tsbJobs.ToolTipText = "Displays the Blueprint jobs"
+        '
+        'ToolStripSeparator9
+        '
+        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
+        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbRecycle
+        '
+        Me.tsbRecycle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbRecycle.Image = CType(resources.GetObject("tsbRecycle.Image"), System.Drawing.Image)
+        Me.tsbRecycle.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbRecycle.Name = "tsbRecycle"
+        Me.tsbRecycle.Size = New System.Drawing.Size(52, 22)
+        Me.tsbRecycle.Text = "Recycler"
+        Me.tsbRecycle.ToolTipText = "Displays the Recycler tab"
+        '
+        'ToolStripSeparator10
+        '
+        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
+        Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbReports
+        '
+        Me.tsbReports.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuLocation, Me.mnuAssetLists})
+        Me.tsbReports.Image = CType(resources.GetObject("tsbReports.Image"), System.Drawing.Image)
+        Me.tsbReports.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbReports.Name = "tsbReports"
+        Me.tsbReports.Size = New System.Drawing.Size(61, 22)
+        Me.tsbReports.Text = "Reports"
+        '
+        'mnuLocation
+        '
+        Me.mnuLocation.Name = "mnuLocation"
+        Me.mnuLocation.Size = New System.Drawing.Size(184, 22)
+        Me.mnuLocation.Text = "Grouped by Location"
+        '
+        'mnuAssetLists
+        '
+        Me.mnuAssetLists.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListName, Me.mnuAssetListQuantity, Me.mnuAssetListPrice, Me.mnuAssetListValue})
+        Me.mnuAssetLists.Name = "mnuAssetLists"
+        Me.mnuAssetLists.Size = New System.Drawing.Size(184, 22)
+        Me.mnuAssetLists.Text = "Asset Lists"
+        '
+        'mnuAssetListName
+        '
+        Me.mnuAssetListName.Name = "mnuAssetListName"
+        Me.mnuAssetListName.Size = New System.Drawing.Size(195, 22)
+        Me.mnuAssetListName.Text = "Asset List (Name)"
+        '
+        'mnuAssetListQuantity
+        '
+        Me.mnuAssetListQuantity.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListQuantityA, Me.mnuAssetListQuantityD})
+        Me.mnuAssetListQuantity.Name = "mnuAssetListQuantity"
+        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(195, 22)
+        Me.mnuAssetListQuantity.Text = "Asset List (Quantity)"
+        '
+        'mnuAssetListQuantityA
+        '
+        Me.mnuAssetListQuantityA.Name = "mnuAssetListQuantityA"
+        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListQuantityA.Text = "Ascending"
+        '
+        'mnuAssetListQuantityD
+        '
+        Me.mnuAssetListQuantityD.Name = "mnuAssetListQuantityD"
+        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListQuantityD.Text = "Descending"
+        '
+        'mnuAssetListPrice
+        '
+        Me.mnuAssetListPrice.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListPriceA, Me.mnuAssetListPriceD})
+        Me.mnuAssetListPrice.Name = "mnuAssetListPrice"
+        Me.mnuAssetListPrice.Size = New System.Drawing.Size(195, 22)
+        Me.mnuAssetListPrice.Text = "Asset List (Unit Price)"
+        '
+        'mnuAssetListPriceA
+        '
+        Me.mnuAssetListPriceA.Name = "mnuAssetListPriceA"
+        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListPriceA.Text = "Ascending"
+        '
+        'mnuAssetListPriceD
+        '
+        Me.mnuAssetListPriceD.Name = "mnuAssetListPriceD"
+        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListPriceD.Text = "Descending"
+        '
+        'mnuAssetListValue
+        '
+        Me.mnuAssetListValue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListValueA, Me.mnuAssetListValueD})
+        Me.mnuAssetListValue.Name = "mnuAssetListValue"
+        Me.mnuAssetListValue.Size = New System.Drawing.Size(195, 22)
+        Me.mnuAssetListValue.Text = "Asset List (Total Value)"
+        '
+        'mnuAssetListValueA
+        '
+        Me.mnuAssetListValueA.Name = "mnuAssetListValueA"
+        Me.mnuAssetListValueA.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListValueA.Text = "Ascending"
+        '
+        'mnuAssetListValueD
+        '
+        Me.mnuAssetListValueD.Name = "mnuAssetListValueD"
+        Me.mnuAssetListValueD.Size = New System.Drawing.Size(140, 22)
+        Me.mnuAssetListValueD.Text = "Descending"
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Type"
+        Me.ColumnHeader1.Width = 222
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Quantity"
+        Me.ColumnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader2.Width = 67
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Price"
+        Me.ColumnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader3.Width = 104
+        '
+        'ColumnHeader4
+        '
+        Me.ColumnHeader4.Text = "Location"
+        Me.ColumnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader4.Width = 194
+        '
+        'ColumnHeader5
+        '
+        Me.ColumnHeader5.Text = "Range"
+        Me.ColumnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader5.Width = 51
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "Min Volume"
+        Me.ColumnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'ColumnHeader7
+        '
+        Me.ColumnHeader7.Text = "Expires In"
+        Me.ColumnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'ColumnHeader8
+        '
+        Me.ColumnHeader8.Text = "Type"
+        Me.ColumnHeader8.Width = 219
+        '
+        'ColumnHeader9
+        '
+        Me.ColumnHeader9.Text = "Quantity"
+        Me.ColumnHeader9.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader9.Width = 65
+        '
+        'ColumnHeader10
+        '
+        Me.ColumnHeader10.Text = "Price"
+        Me.ColumnHeader10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader10.Width = 107
+        '
+        'ColumnHeader11
+        '
+        Me.ColumnHeader11.Text = "Location"
+        Me.ColumnHeader11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader11.Width = 188
+        '
+        'ColumnHeader12
+        '
+        Me.ColumnHeader12.Text = "Expires In"
+        Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader12.Width = 119
+        '
+        'tlvAssets
+        '
+        Me.tlvAssets.AllowMultiSelect = True
+        Me.tlvAssets.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.tlvAssets.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colItem, Me.colOwner, Me.colGroup, Me.colCategory, Me.colLocation, Me.colMetaLevel, Me.colVolume, Me.colQuantity, Me.colPrice, Me.colValue})
+        Me.tlvAssets.ColumnSortColor = System.Drawing.Color.AliceBlue
+        Me.tlvAssets.ColumnTracking = True
+        Me.tlvAssets.ColumnTrackingColor = System.Drawing.Color.LightCyan
+        Me.tlvAssets.DefaultItemHeight = 20
+        Me.tlvAssets.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tlvAssets.ItemContextMenu = Me.ctxAssets
+        Me.tlvAssets.ItemSelectedColor = System.Drawing.Color.LimeGreen
+        Me.tlvAssets.ItemTracking = True
+        Me.tlvAssets.ItemTrackingColor = System.Drawing.Color.PaleGreen
+        Me.tlvAssets.Location = New System.Drawing.Point(3, 83)
+        Me.tlvAssets.MultipleColumnSort = True
+        Me.tlvAssets.Name = "tlvAssets"
+        Me.tlvAssets.ShowPlusMinus = True
+        Me.tlvAssets.ShowRootTreeLines = True
+        Me.tlvAssets.ShowTreeLines = True
+        Me.tlvAssets.Size = New System.Drawing.Size(1130, 455)
+        Me.tlvAssets.TabIndex = 6
+        '
+        'colItem
+        '
+        Me.colItem.CustomSortTag = Nothing
+        Me.colItem.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colItem.Tag = Nothing
+        Me.colItem.Text = "Location/ItemName"
+        Me.colItem.Width = 300
+        Me.colItem.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
+        '
+        'colOwner
+        '
+        Me.colOwner.CustomSortTag = Nothing
+        Me.colOwner.DisplayIndex = 1
+        Me.colOwner.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colOwner.Tag = Nothing
+        Me.colOwner.Text = "Owner"
+        Me.colOwner.Width = 100
+        '
+        'colGroup
+        '
+        Me.colGroup.CustomSortTag = Nothing
+        Me.colGroup.DisplayIndex = 2
+        Me.colGroup.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colGroup.Tag = Nothing
+        Me.colGroup.Text = "Group"
+        '
+        'colCategory
+        '
+        Me.colCategory.CustomSortTag = Nothing
+        Me.colCategory.DisplayIndex = 3
+        Me.colCategory.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colCategory.Tag = Nothing
+        Me.colCategory.Text = "Category"
+        '
+        'colLocation
+        '
+        Me.colLocation.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.colLocation.CustomSortTag = Nothing
+        Me.colLocation.DisplayIndex = 4
+        Me.colLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colLocation.Tag = Nothing
+        Me.colLocation.Text = "Specific Location"
+        Me.colLocation.Width = 150
+        '
+        'colMetaLevel
+        '
+        Me.colMetaLevel.CustomSortTag = Nothing
+        Me.colMetaLevel.DisplayIndex = 5
+        Me.colMetaLevel.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.colMetaLevel.Tag = Nothing
+        Me.colMetaLevel.Text = "Meta"
+        Me.colMetaLevel.Width = 60
+        '
+        'colVolume
+        '
+        Me.colVolume.CustomSortTag = Nothing
+        Me.colVolume.DisplayIndex = 6
+        Me.colVolume.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colVolume.Tag = Nothing
+        Me.colVolume.Text = "Volume"
+        '
+        'colQuantity
+        '
+        Me.colQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colQuantity.CustomSortTag = Nothing
+        Me.colQuantity.DisplayIndex = 7
+        Me.colQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colQuantity.Tag = Nothing
+        Me.colQuantity.Text = "Quantity"
+        Me.colQuantity.Width = 100
+        Me.colQuantity.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
+        '
+        'colPrice
+        '
+        Me.colPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colPrice.CustomSortTag = Nothing
+        Me.colPrice.DisplayIndex = 8
+        Me.colPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colPrice.Tag = Nothing
+        Me.colPrice.Text = "Price"
+        Me.colPrice.Width = 125
+        '
+        'colValue
+        '
+        Me.colValue.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colValue.CustomSortTag = Nothing
+        Me.colValue.DisplayIndex = 9
+        Me.colValue.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colValue.Tag = Nothing
+        Me.colValue.Text = "Total Value"
+        Me.colValue.Width = 125
+        '
+        'lvwRigs
+        '
+        Me.lvwRigs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwRigs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRigType, Me.colRigQuantity, Me.colRigMarketPrice, Me.colSalvageMarketPrice, Me.colBuildBenefit, Me.colTotalRigValue, Me.colTotalSalvageValue, Me.colTotalBuildBenefit, Me.colMargin})
+        Me.lvwRigs.ColumnSortColor = System.Drawing.Color.AliceBlue
+        Me.lvwRigs.ColumnTracking = True
+        Me.lvwRigs.ColumnTrackingColor = System.Drawing.Color.LightCyan
+        Me.lvwRigs.DefaultItemHeight = 20
+        Me.lvwRigs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwRigs.ItemContextMenu = Me.ctxAssets
+        Me.lvwRigs.ItemSelectedColor = System.Drawing.Color.LimeGreen
+        Me.lvwRigs.ItemTracking = True
+        Me.lvwRigs.ItemTrackingColor = System.Drawing.Color.PaleGreen
+        Me.lvwRigs.Location = New System.Drawing.Point(8, 101)
+        Me.lvwRigs.MultipleColumnSort = True
+        Me.lvwRigs.Name = "lvwRigs"
+        Me.lvwRigs.Size = New System.Drawing.Size(1116, 190)
+        Me.lvwRigs.TabIndex = 53
+        '
+        'colRigType
+        '
+        Me.colRigType.CustomSortTag = Nothing
+        Me.colRigType.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colRigType.Tag = Nothing
+        Me.colRigType.Text = "Rig Type"
+        Me.colRigType.Width = 200
+        Me.colRigType.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
+        '
+        'colRigQuantity
+        '
+        Me.colRigQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colRigQuantity.CustomSortTag = Nothing
+        Me.colRigQuantity.DisplayIndex = 1
+        Me.colRigQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colRigQuantity.Tag = Nothing
+        Me.colRigQuantity.Text = "Quantity"
+        Me.colRigQuantity.Width = 100
+        '
+        'colRigMarketPrice
+        '
+        Me.colRigMarketPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colRigMarketPrice.CustomSortTag = Nothing
+        Me.colRigMarketPrice.DisplayIndex = 2
+        Me.colRigMarketPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colRigMarketPrice.Tag = Nothing
+        Me.colRigMarketPrice.Text = "Rig Market Price"
+        Me.colRigMarketPrice.Width = 120
+        '
+        'colSalvageMarketPrice
+        '
+        Me.colSalvageMarketPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colSalvageMarketPrice.CustomSortTag = Nothing
+        Me.colSalvageMarketPrice.DisplayIndex = 3
+        Me.colSalvageMarketPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colSalvageMarketPrice.Tag = Nothing
+        Me.colSalvageMarketPrice.Text = "Salv. Market Price"
+        Me.colSalvageMarketPrice.Width = 120
+        '
+        'colBuildBenefit
+        '
+        Me.colBuildBenefit.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colBuildBenefit.CustomSortTag = Nothing
+        Me.colBuildBenefit.DisplayIndex = 4
+        Me.colBuildBenefit.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colBuildBenefit.Tag = Nothing
+        Me.colBuildBenefit.Text = "Build Benefit"
+        Me.colBuildBenefit.Width = 120
+        '
+        'colTotalRigValue
+        '
+        Me.colTotalRigValue.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colTotalRigValue.CustomSortTag = Nothing
+        Me.colTotalRigValue.DisplayIndex = 5
+        Me.colTotalRigValue.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colTotalRigValue.Tag = Nothing
+        Me.colTotalRigValue.Text = "Total Rig Value"
+        Me.colTotalRigValue.Width = 120
+        Me.colTotalRigValue.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
+        '
+        'colTotalSalvageValue
+        '
+        Me.colTotalSalvageValue.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colTotalSalvageValue.CustomSortTag = Nothing
+        Me.colTotalSalvageValue.DisplayIndex = 6
+        Me.colTotalSalvageValue.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colTotalSalvageValue.Tag = Nothing
+        Me.colTotalSalvageValue.Text = "Total Salv. Value"
+        Me.colTotalSalvageValue.Width = 120
+        '
+        'colTotalBuildBenefit
+        '
+        Me.colTotalBuildBenefit.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colTotalBuildBenefit.CustomSortTag = Nothing
+        Me.colTotalBuildBenefit.DisplayIndex = 7
+        Me.colTotalBuildBenefit.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colTotalBuildBenefit.Tag = Nothing
+        Me.colTotalBuildBenefit.Text = "Total Build Benefit"
+        Me.colTotalBuildBenefit.Width = 120
+        '
+        'colMargin
+        '
+        Me.colMargin.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colMargin.CustomSortTag = Nothing
+        Me.colMargin.DisplayIndex = 8
+        Me.colMargin.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colMargin.Tag = Nothing
+        Me.colMargin.Text = "% Margin"
+        Me.colMargin.Width = 100
+        '
+        'lvwRigBuildList
+        '
+        Me.lvwRigBuildList.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lvwRigBuildList.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.ContainerListViewColumnHeader9, Me.ContainerListViewColumnHeader10, Me.ContainerListViewColumnHeader11, Me.ContainerListViewColumnHeader12, Me.ContainerListViewColumnHeader13, Me.ContainerListViewColumnHeader14, Me.ContainerListViewColumnHeader15, Me.ContainerListViewColumnHeader16, Me.ContainerListViewColumnHeader17})
+        Me.lvwRigBuildList.ColumnSortColor = System.Drawing.Color.AliceBlue
+        Me.lvwRigBuildList.ColumnTracking = True
+        Me.lvwRigBuildList.ColumnTrackingColor = System.Drawing.Color.LightCyan
+        Me.lvwRigBuildList.DefaultItemHeight = 20
+        Me.lvwRigBuildList.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvwRigBuildList.ItemContextMenu = Me.ctxAssets
+        Me.lvwRigBuildList.ItemSelectedColor = System.Drawing.Color.LimeGreen
+        Me.lvwRigBuildList.ItemTracking = True
+        Me.lvwRigBuildList.ItemTrackingColor = System.Drawing.Color.PaleGreen
+        Me.lvwRigBuildList.Location = New System.Drawing.Point(6, 18)
+        Me.lvwRigBuildList.MultipleColumnSort = True
+        Me.lvwRigBuildList.Name = "lvwRigBuildList"
+        Me.lvwRigBuildList.Size = New System.Drawing.Size(1116, 219)
+        Me.lvwRigBuildList.TabIndex = 34
+        '
+        'ContainerListViewColumnHeader9
+        '
+        Me.ContainerListViewColumnHeader9.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader9.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.ContainerListViewColumnHeader9.Tag = Nothing
+        Me.ContainerListViewColumnHeader9.Text = "Rig Type"
+        Me.ContainerListViewColumnHeader9.Width = 200
+        Me.ContainerListViewColumnHeader9.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
+        '
+        'ContainerListViewColumnHeader10
+        '
+        Me.ContainerListViewColumnHeader10.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ContainerListViewColumnHeader10.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader10.DisplayIndex = 1
+        Me.ContainerListViewColumnHeader10.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.ContainerListViewColumnHeader10.Tag = Nothing
+        Me.ContainerListViewColumnHeader10.Text = "Quantity"
+        Me.ContainerListViewColumnHeader10.Width = 100
+        '
+        'ContainerListViewColumnHeader11
+        '
+        Me.ContainerListViewColumnHeader11.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ContainerListViewColumnHeader11.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader11.DisplayIndex = 2
+        Me.ContainerListViewColumnHeader11.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.ContainerListViewColumnHeader11.Tag = Nothing
+        Me.ContainerListViewColumnHeader11.Text = "Rig Market Price"
+        Me.ContainerListViewColumnHeader11.Width = 120
+        '
+        'ContainerListViewColumnHeader12
+        '
+        Me.ContainerListViewColumnHeader12.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ContainerListViewColumnHeader12.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader12.DisplayIndex = 3
+        Me.ContainerListViewColumnHeader12.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.ContainerListViewColumnHeader12.Tag = Nothing
+        Me.ContainerListViewColumnHeader12.Text = "Salv. Market Price"
+        Me.ContainerListViewColumnHeader12.Width = 120
+        '
+        'ContainerListViewColumnHeader13
+        '
+        Me.ContainerListViewColumnHeader13.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ContainerListViewColumnHeader13.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader13.DisplayIndex = 4
+        Me.ContainerListViewColumnHeader13.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.ContainerListViewColumnHeader13.Tag = Nothing
+        Me.ContainerListViewColumnHeader13.Text = "Build Benefit"
+        Me.ContainerListViewColumnHeader13.Width = 120
+        '
+        'ContainerListViewColumnHeader14
+        '
+        Me.ContainerListViewColumnHeader14.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ContainerListViewColumnHeader14.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader14.DisplayIndex = 5
+        Me.ContainerListViewColumnHeader14.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.ContainerListViewColumnHeader14.Tag = Nothing
+        Me.ContainerListViewColumnHeader14.Text = "Total Rig Value"
+        Me.ContainerListViewColumnHeader14.Width = 120
+        Me.ContainerListViewColumnHeader14.WidthBehavior = DotNetLib.Windows.Forms.ColumnWidthBehavior.Fill
+        '
+        'ContainerListViewColumnHeader15
+        '
+        Me.ContainerListViewColumnHeader15.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ContainerListViewColumnHeader15.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader15.DisplayIndex = 6
+        Me.ContainerListViewColumnHeader15.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.ContainerListViewColumnHeader15.Tag = Nothing
+        Me.ContainerListViewColumnHeader15.Text = "Total Salv. Value"
+        Me.ContainerListViewColumnHeader15.Width = 120
+        '
+        'ContainerListViewColumnHeader16
+        '
+        Me.ContainerListViewColumnHeader16.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ContainerListViewColumnHeader16.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader16.DisplayIndex = 7
+        Me.ContainerListViewColumnHeader16.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.ContainerListViewColumnHeader16.Tag = Nothing
+        Me.ContainerListViewColumnHeader16.Text = "Total Build Benefit"
+        Me.ContainerListViewColumnHeader16.Width = 120
+        '
+        'ContainerListViewColumnHeader17
+        '
+        Me.ContainerListViewColumnHeader17.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ContainerListViewColumnHeader17.CustomSortTag = Nothing
+        Me.ContainerListViewColumnHeader17.DisplayIndex = 8
+        Me.ContainerListViewColumnHeader17.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.ContainerListViewColumnHeader17.Tag = Nothing
+        Me.ContainerListViewColumnHeader17.Text = "% Margin"
+        Me.ContainerListViewColumnHeader17.Width = 100
+        '
+        'clvSellOrders
+        '
+        Me.clvSellOrders.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.clvSellOrders.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colSOType, Me.colSOQuantity, Me.colSOPrice, Me.colSOLocation, Me.colSOExpiresIn})
+        Me.clvSellOrders.DefaultItemHeight = 20
+        Me.clvSellOrders.Location = New System.Drawing.Point(8, 21)
+        Me.clvSellOrders.Name = "clvSellOrders"
+        Me.clvSellOrders.Size = New System.Drawing.Size(1118, 214)
+        Me.clvSellOrders.TabIndex = 26
+        '
+        'colSOType
+        '
+        Me.colSOType.CustomSortTag = Nothing
+        Me.colSOType.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colSOType.Tag = Nothing
+        Me.colSOType.Text = "Type"
+        Me.colSOType.Width = 250
+        '
+        'colSOQuantity
+        '
+        Me.colSOQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colSOQuantity.CustomSortTag = Nothing
+        Me.colSOQuantity.DisplayIndex = 1
+        Me.colSOQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colSOQuantity.Tag = Nothing
+        Me.colSOQuantity.Text = "Quantity"
+        Me.colSOQuantity.Width = 125
+        '
+        'colSOPrice
+        '
+        Me.colSOPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colSOPrice.CustomSortTag = Nothing
+        Me.colSOPrice.DisplayIndex = 2
+        Me.colSOPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colSOPrice.Tag = Nothing
+        Me.colSOPrice.Text = "Price"
+        Me.colSOPrice.Width = 125
+        '
+        'colSOLocation
+        '
+        Me.colSOLocation.CustomSortTag = Nothing
+        Me.colSOLocation.DisplayIndex = 3
+        Me.colSOLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colSOLocation.Tag = Nothing
+        Me.colSOLocation.Text = "Location"
+        Me.colSOLocation.Width = 300
+        '
+        'colSOExpiresIn
+        '
+        Me.colSOExpiresIn.CustomSortTag = Nothing
+        Me.colSOExpiresIn.DisplayIndex = 4
+        Me.colSOExpiresIn.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colSOExpiresIn.Tag = Nothing
+        Me.colSOExpiresIn.Text = "Expires In"
+        Me.colSOExpiresIn.Width = 125
+        '
+        'clvBuyOrders
+        '
+        Me.clvBuyOrders.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.clvBuyOrders.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colBOType, Me.colBOQuantity, Me.colBOPrice, Me.colBOLocation, Me.colBORange, Me.colBOMinVol, Me.colBOExpiresIn})
+        Me.clvBuyOrders.DefaultItemHeight = 20
+        Me.clvBuyOrders.Location = New System.Drawing.Point(8, 21)
+        Me.clvBuyOrders.Name = "clvBuyOrders"
+        Me.clvBuyOrders.Size = New System.Drawing.Size(1118, 171)
+        Me.clvBuyOrders.TabIndex = 27
+        '
+        'colBOType
+        '
+        Me.colBOType.CustomSortTag = Nothing
+        Me.colBOType.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colBOType.Tag = Nothing
+        Me.colBOType.Text = "Type"
+        Me.colBOType.Width = 250
+        '
+        'colBOQuantity
+        '
+        Me.colBOQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colBOQuantity.CustomSortTag = Nothing
+        Me.colBOQuantity.DisplayIndex = 1
+        Me.colBOQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colBOQuantity.Tag = Nothing
+        Me.colBOQuantity.Text = "Quantity"
+        Me.colBOQuantity.Width = 125
+        '
+        'colBOPrice
+        '
+        Me.colBOPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colBOPrice.CustomSortTag = Nothing
+        Me.colBOPrice.DisplayIndex = 2
+        Me.colBOPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colBOPrice.Tag = Nothing
+        Me.colBOPrice.Text = "Price"
+        Me.colBOPrice.Width = 125
+        '
+        'colBOLocation
+        '
+        Me.colBOLocation.CustomSortTag = Nothing
+        Me.colBOLocation.DisplayIndex = 3
+        Me.colBOLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colBOLocation.Tag = Nothing
+        Me.colBOLocation.Text = "Location"
+        Me.colBOLocation.Width = 300
+        '
+        'colBORange
+        '
+        Me.colBORange.CustomSortTag = Nothing
+        Me.colBORange.DisplayIndex = 4
+        Me.colBORange.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colBORange.Tag = Nothing
+        Me.colBORange.Text = "Range"
+        Me.colBORange.Width = 75
+        '
+        'colBOMinVol
+        '
+        Me.colBOMinVol.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colBOMinVol.CustomSortTag = Nothing
+        Me.colBOMinVol.DisplayIndex = 5
+        Me.colBOMinVol.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colBOMinVol.Tag = Nothing
+        Me.colBOMinVol.Text = "Min Volume"
+        Me.colBOMinVol.Width = 100
+        '
+        'colBOExpiresIn
+        '
+        Me.colBOExpiresIn.CustomSortTag = Nothing
+        Me.colBOExpiresIn.DisplayIndex = 6
+        Me.colBOExpiresIn.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colBOExpiresIn.Tag = Nothing
+        Me.colBOExpiresIn.Text = "Expires In"
+        Me.colBOExpiresIn.Width = 125
+        '
+        'clvTransactions
+        '
+        Me.clvTransactions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.clvTransactions.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colWTransDate, Me.colWTransItem, Me.colWTransQuantity, Me.colWTransPrice, Me.colWTransTotal, Me.colWTransLocation, Me.colWTransClient})
+        Me.clvTransactions.ColumnSortColor = System.Drawing.Color.Lavender
+        Me.clvTransactions.DefaultItemHeight = 16
+        Me.clvTransactions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.clvTransactions.Location = New System.Drawing.Point(0, 34)
+        Me.clvTransactions.MultipleColumnSort = True
+        Me.clvTransactions.Name = "clvTransactions"
+        Me.clvTransactions.Size = New System.Drawing.Size(1136, 507)
+        Me.clvTransactions.TabIndex = 0
+        '
+        'colWTransDate
+        '
+        Me.colWTransDate.CustomSortTag = Nothing
+        Me.colWTransDate.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
+        Me.colWTransDate.Tag = Nothing
+        Me.colWTransDate.Text = "Date"
+        Me.colWTransDate.Width = 125
+        '
+        'colWTransItem
+        '
+        Me.colWTransItem.CustomSortTag = Nothing
+        Me.colWTransItem.DisplayIndex = 1
+        Me.colWTransItem.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colWTransItem.Tag = Nothing
+        Me.colWTransItem.Text = "Item"
+        Me.colWTransItem.Width = 175
+        '
+        'colWTransQuantity
+        '
+        Me.colWTransQuantity.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colWTransQuantity.CustomSortTag = Nothing
+        Me.colWTransQuantity.DisplayIndex = 2
+        Me.colWTransQuantity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colWTransQuantity.Tag = Nothing
+        Me.colWTransQuantity.Text = "Quantity"
+        '
+        'colWTransPrice
+        '
+        Me.colWTransPrice.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colWTransPrice.CustomSortTag = Nothing
+        Me.colWTransPrice.DisplayIndex = 3
+        Me.colWTransPrice.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colWTransPrice.Tag = Nothing
+        Me.colWTransPrice.Text = "Price"
+        Me.colWTransPrice.Width = 125
+        '
+        'colWTransTotal
+        '
+        Me.colWTransTotal.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colWTransTotal.CustomSortTag = Nothing
+        Me.colWTransTotal.DisplayIndex = 4
+        Me.colWTransTotal.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colWTransTotal.Tag = Nothing
+        Me.colWTransTotal.Text = "Total"
+        Me.colWTransTotal.Width = 125
+        '
+        'colWTransLocation
+        '
+        Me.colWTransLocation.CustomSortTag = Nothing
+        Me.colWTransLocation.DisplayIndex = 5
+        Me.colWTransLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colWTransLocation.Tag = Nothing
+        Me.colWTransLocation.Text = "Location"
+        Me.colWTransLocation.Width = 300
+        '
+        'colWTransClient
+        '
+        Me.colWTransClient.CustomSortTag = Nothing
+        Me.colWTransClient.DisplayIndex = 6
+        Me.colWTransClient.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colWTransClient.Tag = Nothing
+        Me.colWTransClient.Text = "Client"
+        Me.colWTransClient.Width = 150
+        '
+        'clvJournal
+        '
+        Me.clvJournal.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.clvJournal.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colWalletJournalDate, Me.colWalletJournalType, Me.colWalletJournalAmount, Me.colWalletJournalBalance, Me.colWalletJournalDescription})
+        Me.clvJournal.ColumnSortColor = System.Drawing.Color.Lavender
+        Me.clvJournal.DefaultItemHeight = 16
+        Me.clvJournal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.clvJournal.Location = New System.Drawing.Point(0, 34)
+        Me.clvJournal.MultipleColumnSort = True
+        Me.clvJournal.Name = "clvJournal"
+        Me.clvJournal.Size = New System.Drawing.Size(1136, 507)
+        Me.clvJournal.TabIndex = 3
+        '
+        'colWalletJournalDate
+        '
+        Me.colWalletJournalDate.CustomSortTag = Nothing
+        Me.colWalletJournalDate.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
+        Me.colWalletJournalDate.Tag = Nothing
+        Me.colWalletJournalDate.Text = "Date"
+        Me.colWalletJournalDate.Width = 125
+        '
+        'colWalletJournalType
+        '
+        Me.colWalletJournalType.CustomSortTag = Nothing
+        Me.colWalletJournalType.DisplayIndex = 1
+        Me.colWalletJournalType.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colWalletJournalType.Tag = Nothing
+        Me.colWalletJournalType.Text = "Type"
+        Me.colWalletJournalType.Width = 175
+        '
+        'colWalletJournalAmount
+        '
+        Me.colWalletJournalAmount.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colWalletJournalAmount.CustomSortTag = Nothing
+        Me.colWalletJournalAmount.DisplayIndex = 2
+        Me.colWalletJournalAmount.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colWalletJournalAmount.Tag = Nothing
+        Me.colWalletJournalAmount.Text = "Amount"
+        Me.colWalletJournalAmount.Width = 150
+        '
+        'colWalletJournalBalance
+        '
+        Me.colWalletJournalBalance.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colWalletJournalBalance.CustomSortTag = Nothing
+        Me.colWalletJournalBalance.DisplayIndex = 3
+        Me.colWalletJournalBalance.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colWalletJournalBalance.Tag = Nothing
+        Me.colWalletJournalBalance.Text = "Balance"
+        Me.colWalletJournalBalance.Width = 150
+        '
+        'colWalletJournalDescription
+        '
+        Me.colWalletJournalDescription.CustomSortTag = Nothing
+        Me.colWalletJournalDescription.DisplayIndex = 4
+        Me.colWalletJournalDescription.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colWalletJournalDescription.Tag = Nothing
+        Me.colWalletJournalDescription.Text = "Description"
+        Me.colWalletJournalDescription.Width = 500
+        '
+        'clvJobs
+        '
+        Me.clvJobs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.clvJobs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colJobsItem, Me.colJobsActivity, Me.colJobsInstaller, Me.colJobsLocation, Me.colJobsEndTime, Me.colJobsStatus})
+        Me.clvJobs.ColumnSortColor = System.Drawing.Color.Lavender
+        Me.clvJobs.DefaultItemHeight = 16
+        Me.clvJobs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.clvJobs.Location = New System.Drawing.Point(0, 34)
+        Me.clvJobs.MultipleColumnSort = True
+        Me.clvJobs.Name = "clvJobs"
+        Me.clvJobs.Size = New System.Drawing.Size(1136, 508)
+        Me.clvJobs.TabIndex = 4
+        '
+        'colJobsItem
+        '
+        Me.colJobsItem.CustomSortTag = Nothing
+        Me.colJobsItem.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colJobsItem.Tag = Nothing
+        Me.colJobsItem.Text = "Installed Item"
+        Me.colJobsItem.Width = 250
+        '
+        'colJobsActivity
+        '
+        Me.colJobsActivity.CustomSortTag = Nothing
+        Me.colJobsActivity.DisplayIndex = 1
+        Me.colJobsActivity.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.colJobsActivity.Tag = Nothing
+        Me.colJobsActivity.Text = "Activity"
+        Me.colJobsActivity.Width = 100
+        '
+        'colJobsInstaller
+        '
+        Me.colJobsInstaller.CustomSortTag = Nothing
+        Me.colJobsInstaller.DisplayIndex = 2
+        Me.colJobsInstaller.Tag = Nothing
+        Me.colJobsInstaller.Text = "Installer"
+        Me.colJobsInstaller.Width = 120
+        '
+        'colJobsLocation
+        '
+        Me.colJobsLocation.CustomSortTag = Nothing
+        Me.colJobsLocation.DisplayIndex = 3
+        Me.colJobsLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colJobsLocation.Tag = Nothing
+        Me.colJobsLocation.Text = "Location"
+        Me.colJobsLocation.Width = 300
+        '
+        'colJobsEndTime
+        '
+        Me.colJobsEndTime.CustomSortTag = Nothing
+        Me.colJobsEndTime.DisplayIndex = 4
+        Me.colJobsEndTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
+        Me.colJobsEndTime.Tag = Nothing
+        Me.colJobsEndTime.Text = "End Time"
+        Me.colJobsEndTime.Width = 125
+        '
+        'colJobsStatus
+        '
+        Me.colJobsStatus.CustomSortTag = Nothing
+        Me.colJobsStatus.DisplayIndex = 5
+        Me.colJobsStatus.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colJobsStatus.Tag = Nothing
+        Me.colJobsStatus.Text = "Status"
+        Me.colJobsStatus.Width = 100
+        '
         'clvRecycle
         '
         Me.clvRecycle.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colRecycleItem, Me.colRecycleMetaLevel, Me.colRecycleQuantity, Me.colBatches, Me.colItemPrice, Me.colTotalPrice, Me.colFees, Me.colSalePrice, Me.colRefinePrice, Me.colBestPrice, Me.colTotalBenefit, Me.colUnitBenefit})
@@ -2963,52 +3417,6 @@ Partial Class frmPrism
         Me.colUnitBenefit.Text = "Unit Benefit"
         Me.colUnitBenefit.Width = 100
         '
-        'ctxRecycleItems
-        '
-        Me.ctxRecycleItems.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddRecycleItem})
-        Me.ctxRecycleItems.Name = "ctxRecycleItem"
-        Me.ctxRecycleItems.Size = New System.Drawing.Size(124, 26)
-        '
-        'mnuAddRecycleItem
-        '
-        Me.mnuAddRecycleItem.Name = "mnuAddRecycleItem"
-        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(123, 22)
-        Me.mnuAddRecycleItem.Text = "Add Item"
-        '
-        'ctxRecycleItem
-        '
-        Me.ctxRecycleItem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAlterRecycleQuantity, Me.ToolStripMenuItem2, Me.mnuRemoveRecycleItem})
-        Me.ctxRecycleItem.Name = "ctxRecycleItem"
-        Me.ctxRecycleItem.Size = New System.Drawing.Size(149, 54)
-        '
-        'mnuAlterRecycleQuantity
-        '
-        Me.mnuAlterRecycleQuantity.Name = "mnuAlterRecycleQuantity"
-        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(148, 22)
-        Me.mnuAlterRecycleQuantity.Text = "Alter Quantity"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(145, 6)
-        '
-        'mnuRemoveRecycleItem
-        '
-        Me.mnuRemoveRecycleItem.Name = "mnuRemoveRecycleItem"
-        Me.mnuRemoveRecycleItem.Size = New System.Drawing.Size(148, 22)
-        Me.mnuRemoveRecycleItem.Text = "Remove Item"
-        '
-        'tabTotals
-        '
-        Me.tabTotals.Controls.Add(Me.clvTotals)
-        Me.tabTotals.Location = New System.Drawing.Point(4, 22)
-        Me.tabTotals.Name = "tabTotals"
-        Me.tabTotals.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabTotals.Size = New System.Drawing.Size(1122, 371)
-        Me.tabTotals.TabIndex = 1
-        Me.tabTotals.Text = "Recycling Totals"
-        Me.tabTotals.UseVisualStyleBackColor = True
-        '
         'clvTotals
         '
         Me.clvTotals.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colMaterial, Me.colStationTake, Me.colWaste, Me.colReceive, Me.colMatPrice, Me.colMatTotal})
@@ -3077,387 +3485,6 @@ Partial Class frmPrism
         Me.colMatTotal.Tag = Nothing
         Me.colMatTotal.Text = "Total"
         '
-        'StatusStrip1
-        '
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tssLabelTotalAssetsLabel, Me.tssLabelTotalAssets, Me.tssLabelSelectedAssetsLabel, Me.tssLabelSelectedAssets})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 598)
-        Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(1144, 22)
-        Me.StatusStrip1.TabIndex = 15
-        Me.StatusStrip1.Text = "StatusStrip1"
-        '
-        'tssLabelTotalAssetsLabel
-        '
-        Me.tssLabelTotalAssetsLabel.Name = "tssLabelTotalAssetsLabel"
-        Me.tssLabelTotalAssetsLabel.Size = New System.Drawing.Size(154, 17)
-        Me.tssLabelTotalAssetsLabel.Text = "Total Displayed Asset Value:"
-        '
-        'tssLabelTotalAssets
-        '
-        Me.tssLabelTotalAssets.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
-        Me.tssLabelTotalAssets.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
-        Me.tssLabelTotalAssets.Name = "tssLabelTotalAssets"
-        Me.tssLabelTotalAssets.Size = New System.Drawing.Size(4, 17)
-        '
-        'tssLabelSelectedAssetsLabel
-        '
-        Me.tssLabelSelectedAssetsLabel.Name = "tssLabelSelectedAssetsLabel"
-        Me.tssLabelSelectedAssetsLabel.Size = New System.Drawing.Size(162, 17)
-        Me.tssLabelSelectedAssetsLabel.Text = "     Total Selected Asset Value:"
-        '
-        'tssLabelSelectedAssets
-        '
-        Me.tssLabelSelectedAssets.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
-                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
-        Me.tssLabelSelectedAssets.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
-        Me.tssLabelSelectedAssets.Name = "tssLabelSelectedAssets"
-        Me.tssLabelSelectedAssets.Size = New System.Drawing.Size(4, 17)
-        '
-        'ToolStrip1
-        '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbDownloadData, Me.ToolStripSeparator1, Me.lblOwner, Me.cboOwner, Me.ToolStripSeparator2, Me.tsbAssets, Me.ToolStripSeparator3, Me.tsbInvestments, Me.ToolStripSeparator4, Me.tsbRigBuilder, Me.ToolStripSeparator5, Me.tsbOrders, Me.ToolStripSeparator6, Me.tsbTransactions, Me.ToolStripSeparator7, Me.tsbJournal, Me.ToolStripSeparator8, Me.tsbJobs, Me.ToolStripSeparator9, Me.tsbRecycle, Me.ToolStripSeparator10, Me.tsbReports})
-        Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(1144, 25)
-        Me.ToolStrip1.TabIndex = 16
-        Me.ToolStrip1.Text = "ToolStrip1"
-        '
-        'tsbDownloadData
-        '
-        Me.tsbDownloadData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbDownloadData.Image = CType(resources.GetObject("tsbDownloadData.Image"), System.Drawing.Image)
-        Me.tsbDownloadData.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbDownloadData.Name = "tsbDownloadData"
-        Me.tsbDownloadData.Size = New System.Drawing.Size(113, 22)
-        Me.tsbDownloadData.Text = "Download API Data"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'lblOwner
-        '
-        Me.lblOwner.Name = "lblOwner"
-        Me.lblOwner.Size = New System.Drawing.Size(45, 22)
-        Me.lblOwner.Text = "Owner:"
-        '
-        'cboOwner
-        '
-        Me.cboOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboOwner.FlatStyle = System.Windows.Forms.FlatStyle.Standard
-        Me.cboOwner.MaxDropDownItems = 12
-        Me.cboOwner.Name = "cboOwner"
-        Me.cboOwner.Size = New System.Drawing.Size(200, 25)
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbAssets
-        '
-        Me.tsbAssets.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbAssets.Image = CType(resources.GetObject("tsbAssets.Image"), System.Drawing.Image)
-        Me.tsbAssets.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbAssets.Name = "tsbAssets"
-        Me.tsbAssets.Size = New System.Drawing.Size(44, 22)
-        Me.tsbAssets.Text = "Assets"
-        Me.tsbAssets.ToolTipText = "Displays the Assets tab"
-        '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbInvestments
-        '
-        Me.tsbInvestments.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbInvestments.Image = CType(resources.GetObject("tsbInvestments.Image"), System.Drawing.Image)
-        Me.tsbInvestments.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbInvestments.Name = "tsbInvestments"
-        Me.tsbInvestments.Size = New System.Drawing.Size(75, 22)
-        Me.tsbInvestments.Text = "Investments"
-        Me.tsbInvestments.ToolTipText = "Displays investments"
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbRigBuilder
-        '
-        Me.tsbRigBuilder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbRigBuilder.Image = CType(resources.GetObject("tsbRigBuilder.Image"), System.Drawing.Image)
-        Me.tsbRigBuilder.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbRigBuilder.Name = "tsbRigBuilder"
-        Me.tsbRigBuilder.Size = New System.Drawing.Size(68, 22)
-        Me.tsbRigBuilder.Text = "Rig Builder"
-        Me.tsbRigBuilder.ToolTipText = "Displays the rig builder"
-        '
-        'ToolStripSeparator5
-        '
-        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbOrders
-        '
-        Me.tsbOrders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbOrders.Image = CType(resources.GetObject("tsbOrders.Image"), System.Drawing.Image)
-        Me.tsbOrders.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbOrders.Name = "tsbOrders"
-        Me.tsbOrders.Size = New System.Drawing.Size(46, 22)
-        Me.tsbOrders.Text = "Orders"
-        Me.tsbOrders.ToolTipText = "Displays the market orders"
-        '
-        'ToolStripSeparator6
-        '
-        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbTransactions
-        '
-        Me.tsbTransactions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbTransactions.Image = CType(resources.GetObject("tsbTransactions.Image"), System.Drawing.Image)
-        Me.tsbTransactions.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbTransactions.Name = "tsbTransactions"
-        Me.tsbTransactions.Size = New System.Drawing.Size(78, 22)
-        Me.tsbTransactions.Text = "Transactions"
-        Me.tsbTransactions.ToolTipText = "Displays the wallet transactions"
-        '
-        'ToolStripSeparator7
-        '
-        Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
-        Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbJournal
-        '
-        Me.tsbJournal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbJournal.Image = CType(resources.GetObject("tsbJournal.Image"), System.Drawing.Image)
-        Me.tsbJournal.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbJournal.Name = "tsbJournal"
-        Me.tsbJournal.Size = New System.Drawing.Size(49, 22)
-        Me.tsbJournal.Text = "Journal"
-        Me.tsbJournal.ToolTipText = "Displays the wallet journal"
-        '
-        'ToolStripSeparator8
-        '
-        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbJobs
-        '
-        Me.tsbJobs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbJobs.Image = CType(resources.GetObject("tsbJobs.Image"), System.Drawing.Image)
-        Me.tsbJobs.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbJobs.Name = "tsbJobs"
-        Me.tsbJobs.Size = New System.Drawing.Size(34, 22)
-        Me.tsbJobs.Text = "Jobs"
-        Me.tsbJobs.ToolTipText = "Displays the Blueprint jobs"
-        '
-        'ToolStripSeparator9
-        '
-        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
-        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbRecycle
-        '
-        Me.tsbRecycle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbRecycle.Image = CType(resources.GetObject("tsbRecycle.Image"), System.Drawing.Image)
-        Me.tsbRecycle.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbRecycle.Name = "tsbRecycle"
-        Me.tsbRecycle.Size = New System.Drawing.Size(55, 22)
-        Me.tsbRecycle.Text = "Recycler"
-        Me.tsbRecycle.ToolTipText = "Displays the Recycler tab"
-        '
-        'ToolStripSeparator10
-        '
-        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
-        Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbReports
-        '
-        Me.tsbReports.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuLocation, Me.mnuAssetLists})
-        Me.tsbReports.Image = CType(resources.GetObject("tsbReports.Image"), System.Drawing.Image)
-        Me.tsbReports.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbReports.Name = "tsbReports"
-        Me.tsbReports.Size = New System.Drawing.Size(63, 22)
-        Me.tsbReports.Text = "Reports"
-        '
-        'mnuLocation
-        '
-        Me.mnuLocation.Name = "mnuLocation"
-        Me.mnuLocation.Size = New System.Drawing.Size(185, 22)
-        Me.mnuLocation.Text = "Grouped by Location"
-        '
-        'mnuAssetLists
-        '
-        Me.mnuAssetLists.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListName, Me.mnuAssetListQuantity, Me.mnuAssetListPrice, Me.mnuAssetListValue})
-        Me.mnuAssetLists.Name = "mnuAssetLists"
-        Me.mnuAssetLists.Size = New System.Drawing.Size(185, 22)
-        Me.mnuAssetLists.Text = "Asset Lists"
-        '
-        'mnuAssetListName
-        '
-        Me.mnuAssetListName.Name = "mnuAssetListName"
-        Me.mnuAssetListName.Size = New System.Drawing.Size(193, 22)
-        Me.mnuAssetListName.Text = "Asset List (Name)"
-        '
-        'mnuAssetListQuantity
-        '
-        Me.mnuAssetListQuantity.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListQuantityA, Me.mnuAssetListQuantityD})
-        Me.mnuAssetListQuantity.Name = "mnuAssetListQuantity"
-        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(193, 22)
-        Me.mnuAssetListQuantity.Text = "Asset List (Quantity)"
-        '
-        'mnuAssetListQuantityA
-        '
-        Me.mnuAssetListQuantityA.Name = "mnuAssetListQuantityA"
-        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(136, 22)
-        Me.mnuAssetListQuantityA.Text = "Ascending"
-        '
-        'mnuAssetListQuantityD
-        '
-        Me.mnuAssetListQuantityD.Name = "mnuAssetListQuantityD"
-        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(136, 22)
-        Me.mnuAssetListQuantityD.Text = "Descending"
-        '
-        'mnuAssetListPrice
-        '
-        Me.mnuAssetListPrice.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListPriceA, Me.mnuAssetListPriceD})
-        Me.mnuAssetListPrice.Name = "mnuAssetListPrice"
-        Me.mnuAssetListPrice.Size = New System.Drawing.Size(193, 22)
-        Me.mnuAssetListPrice.Text = "Asset List (Unit Price)"
-        '
-        'mnuAssetListPriceA
-        '
-        Me.mnuAssetListPriceA.Name = "mnuAssetListPriceA"
-        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(136, 22)
-        Me.mnuAssetListPriceA.Text = "Ascending"
-        '
-        'mnuAssetListPriceD
-        '
-        Me.mnuAssetListPriceD.Name = "mnuAssetListPriceD"
-        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(136, 22)
-        Me.mnuAssetListPriceD.Text = "Descending"
-        '
-        'mnuAssetListValue
-        '
-        Me.mnuAssetListValue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListValueA, Me.mnuAssetListValueD})
-        Me.mnuAssetListValue.Name = "mnuAssetListValue"
-        Me.mnuAssetListValue.Size = New System.Drawing.Size(193, 22)
-        Me.mnuAssetListValue.Text = "Asset List (Total Value)"
-        '
-        'mnuAssetListValueA
-        '
-        Me.mnuAssetListValueA.Name = "mnuAssetListValueA"
-        Me.mnuAssetListValueA.Size = New System.Drawing.Size(136, 22)
-        Me.mnuAssetListValueA.Text = "Ascending"
-        '
-        'mnuAssetListValueD
-        '
-        Me.mnuAssetListValueD.Name = "mnuAssetListValueD"
-        Me.mnuAssetListValueD.Size = New System.Drawing.Size(136, 22)
-        Me.mnuAssetListValueD.Text = "Descending"
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Type"
-        Me.ColumnHeader1.Width = 222
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.Text = "Quantity"
-        Me.ColumnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader2.Width = 67
-        '
-        'ColumnHeader3
-        '
-        Me.ColumnHeader3.Text = "Price"
-        Me.ColumnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader3.Width = 104
-        '
-        'ColumnHeader4
-        '
-        Me.ColumnHeader4.Text = "Location"
-        Me.ColumnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader4.Width = 194
-        '
-        'ColumnHeader5
-        '
-        Me.ColumnHeader5.Text = "Range"
-        Me.ColumnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader5.Width = 51
-        '
-        'ColumnHeader6
-        '
-        Me.ColumnHeader6.Text = "Min Volume"
-        Me.ColumnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'ColumnHeader7
-        '
-        Me.ColumnHeader7.Text = "Expires In"
-        Me.ColumnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'ColumnHeader8
-        '
-        Me.ColumnHeader8.Text = "Type"
-        Me.ColumnHeader8.Width = 219
-        '
-        'ColumnHeader9
-        '
-        Me.ColumnHeader9.Text = "Quantity"
-        Me.ColumnHeader9.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader9.Width = 65
-        '
-        'ColumnHeader10
-        '
-        Me.ColumnHeader10.Text = "Price"
-        Me.ColumnHeader10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader10.Width = 107
-        '
-        'ColumnHeader11
-        '
-        Me.ColumnHeader11.Text = "Location"
-        Me.ColumnHeader11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader11.Width = 188
-        '
-        'ColumnHeader12
-        '
-        Me.ColumnHeader12.Text = "Expires In"
-        Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader12.Width = 119
-        '
-        'colJobsInstaller
-        '
-        Me.colJobsInstaller.CustomSortTag = Nothing
-        Me.colJobsInstaller.DisplayIndex = 2
-        Me.colJobsInstaller.Tag = Nothing
-        Me.colJobsInstaller.Text = "Installer"
-        Me.colJobsInstaller.Width = 120
-        '
-        'lblJobInstallerFilter
-        '
-        Me.lblJobInstallerFilter.AutoSize = True
-        Me.lblJobInstallerFilter.Location = New System.Drawing.Point(8, 10)
-        Me.lblJobInstallerFilter.Name = "lblJobInstallerFilter"
-        Me.lblJobInstallerFilter.Size = New System.Drawing.Size(92, 13)
-        Me.lblJobInstallerFilter.TabIndex = 6
-        Me.lblJobInstallerFilter.Text = "Filter By Installer:"
-        '
-        'cboInstallerFilter
-        '
-        Me.cboInstallerFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboInstallerFilter.FormattingEnabled = True
-        Me.cboInstallerFilter.Location = New System.Drawing.Point(106, 7)
-        Me.cboInstallerFilter.Name = "cboInstallerFilter"
-        Me.cboInstallerFilter.Size = New System.Drawing.Size(200, 21)
-        Me.cboInstallerFilter.TabIndex = 7
-        '
         'frmPrism
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3484,7 +3511,11 @@ Partial Class frmPrism
         Me.tabInvestments.ResumeLayout(False)
         Me.tabInvestments.PerformLayout()
         Me.tabRigBuilder.ResumeLayout(False)
-        Me.tabRigBuilder.PerformLayout()
+        Me.scRigBuilder.Panel1.ResumeLayout(False)
+        Me.scRigBuilder.Panel1.PerformLayout()
+        Me.scRigBuilder.Panel2.ResumeLayout(False)
+        Me.scRigBuilder.Panel2.PerformLayout()
+        Me.scRigBuilder.ResumeLayout(False)
         Me.bgAutoRig.ResumeLayout(False)
         Me.bgAutoRig.PerformLayout()
         CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3617,46 +3648,10 @@ Partial Class frmPrism
     Friend WithEvents btnEditInvestment As System.Windows.Forms.Button
     Friend WithEvents colInvCTotalValue As System.Windows.Forms.ColumnHeader
     Friend WithEvents tabRigBuilder As System.Windows.Forms.TabPage
-    Friend WithEvents lblRigOwnerFilter As System.Windows.Forms.Label
-    Friend WithEvents btnBuildRigs As System.Windows.Forms.Button
-    Friend WithEvents nudRigMELevel As System.Windows.Forms.NumericUpDown
-    Friend WithEvents lblRigMELevel As System.Windows.Forms.Label
-    Friend WithEvents lvwRigs As DotNetLib.Windows.Forms.ContainerListView
-    Friend WithEvents colRigType As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colRigQuantity As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colRigMarketPrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colSalvageMarketPrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colBuildBenefit As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colTotalRigValue As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colTotalSalvageValue As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colTotalBuildBenefit As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents colMargin As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents btnCloseInvestment As System.Windows.Forms.Button
     Friend WithEvents chkViewClosedInvestments As System.Windows.Forms.CheckBox
     Friend WithEvents chkMinSystemValue As System.Windows.Forms.CheckBox
     Friend WithEvents txtMinSystemValue As System.Windows.Forms.TextBox
-    Friend WithEvents lblRigBuildList As System.Windows.Forms.Label
-    Friend WithEvents lvwRigBuildList As DotNetLib.Windows.Forms.ContainerListView
-    Friend WithEvents ContainerListViewColumnHeader9 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader10 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader11 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader12 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader13 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader14 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader15 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader16 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents ContainerListViewColumnHeader17 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
-    Friend WithEvents btnAutoRig As System.Windows.Forms.Button
-    Friend WithEvents bgAutoRig As System.Windows.Forms.GroupBox
-    Friend WithEvents radRigSaleprice As System.Windows.Forms.RadioButton
-    Friend WithEvents lblAutoRigCriteria As System.Windows.Forms.Label
-    Friend WithEvents radRigMargin As System.Windows.Forms.RadioButton
-    Friend WithEvents radRigProfit As System.Windows.Forms.RadioButton
-    Friend WithEvents radTotalProfit As System.Windows.Forms.RadioButton
-    Friend WithEvents radTotalSalePrice As System.Windows.Forms.RadioButton
-    Friend WithEvents lblTotalRigProfit As System.Windows.Forms.Label
-    Friend WithEvents lblTotalRigSalePrice As System.Windows.Forms.Label
-    Friend WithEvents lblTotalRigMargin As System.Windows.Forms.Label
     Friend WithEvents mnuToolSep As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuItemRecycling As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuRecycleItem As System.Windows.Forms.ToolStripMenuItem
@@ -3826,8 +3821,6 @@ Partial Class frmPrism
     Friend WithEvents btnExportJournal As System.Windows.Forms.Button
     Friend WithEvents btnExportJobs As System.Windows.Forms.Button
     Friend WithEvents btnExportOrders As System.Windows.Forms.Button
-    Friend WithEvents btnExportRigList As System.Windows.Forms.Button
-    Friend WithEvents btnExportRigBuildList As System.Windows.Forms.Button
     Friend WithEvents lblTransactionView As System.Windows.Forms.Label
     Friend WithEvents lblTotalFees As System.Windows.Forms.Label
     Friend WithEvents lblTotalFeesLbl As System.Windows.Forms.Label
@@ -3849,4 +3842,43 @@ Partial Class frmPrism
     Friend WithEvents colJobsInstaller As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents cboInstallerFilter As System.Windows.Forms.ComboBox
     Friend WithEvents lblJobInstallerFilter As System.Windows.Forms.Label
+    Friend WithEvents scRigBuilder As System.Windows.Forms.SplitContainer
+    Friend WithEvents lvwRigs As DotNetLib.Windows.Forms.ContainerListView
+    Friend WithEvents colRigType As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colRigQuantity As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colRigMarketPrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colSalvageMarketPrice As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colBuildBenefit As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colTotalRigValue As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colTotalSalvageValue As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colTotalBuildBenefit As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colMargin As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents btnExportRigList As System.Windows.Forms.Button
+    Friend WithEvents btnExportRigBuildList As System.Windows.Forms.Button
+    Friend WithEvents bgAutoRig As System.Windows.Forms.GroupBox
+    Friend WithEvents radTotalProfit As System.Windows.Forms.RadioButton
+    Friend WithEvents radTotalSalePrice As System.Windows.Forms.RadioButton
+    Friend WithEvents radRigMargin As System.Windows.Forms.RadioButton
+    Friend WithEvents radRigProfit As System.Windows.Forms.RadioButton
+    Friend WithEvents radRigSaleprice As System.Windows.Forms.RadioButton
+    Friend WithEvents lblAutoRigCriteria As System.Windows.Forms.Label
+    Friend WithEvents btnAutoRig As System.Windows.Forms.Button
+    Friend WithEvents nudRigMELevel As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblRigMELevel As System.Windows.Forms.Label
+    Friend WithEvents btnBuildRigs As System.Windows.Forms.Button
+    Friend WithEvents lblRigOwnerFilter As System.Windows.Forms.Label
+    Friend WithEvents lblTotalRigMargin As System.Windows.Forms.Label
+    Friend WithEvents lblTotalRigProfit As System.Windows.Forms.Label
+    Friend WithEvents lblTotalRigSalePrice As System.Windows.Forms.Label
+    Friend WithEvents lblRigBuildList As System.Windows.Forms.Label
+    Friend WithEvents lvwRigBuildList As DotNetLib.Windows.Forms.ContainerListView
+    Friend WithEvents ContainerListViewColumnHeader9 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader10 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader11 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader12 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader13 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader14 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader15 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader16 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents ContainerListViewColumnHeader17 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
 End Class

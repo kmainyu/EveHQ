@@ -3284,9 +3284,6 @@ Public Class frmPrism
 #End Region
 
 #Region "Rig Builder Routines"
-    Private Sub btnGetSalvage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Call Me.GetSalvage()
-    End Sub
     Private Sub GetSalvage()
         SalvageList.Clear()
         For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
@@ -4465,7 +4462,12 @@ Public Class frmPrism
                         transItem.SubItems(4).Text = FormatDateTime(transDate, DateFormat.GeneralDate)
                         completed = Tran.Attributes.GetNamedItem("completed").Value
                         If completed = "0" Then
-                            transItem.SubItems(5).Text = "In Progress"
+                            If transDate < DateTime.Now.ToUniversalTime Then
+                                transItem.SubItems(5).Text = "Finished but not Delivered"
+                            Else
+                                transItem.SubItems(5).Text = "In Progress"
+                            End If
+
                         Else
                             transItem.SubItems(5).Text = PlugInData.Statuses(Tran.Attributes.GetNamedItem("completedStatus").Value)
                         End If
@@ -5117,7 +5119,6 @@ Public Class frmPrism
 
 #End Region
 
-   
-   
+
 End Class
 
