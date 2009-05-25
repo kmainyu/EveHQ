@@ -532,7 +532,6 @@
 12034,1,12093,116,2,89;657,0,1,0,15,15,Explosive Torpedo Damage,,
 12034,1,12093,116,2,90,0,1,0,5,15,Explosive Bomb Damage,,
 12034,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need,,
-12034,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
 12034,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
 12034,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Huginn,,,,,,,,,,,
@@ -703,7 +702,6 @@
 12032,1,12093,117,2,89;657,0,1,0,15,15,Kinetic Torpedo Damage
 12032,1,12093,117,2,90,0,1,0,5,15,Kinetic Bomb Damage
 12032,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
-12032,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
 12032,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
 12032,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Mastodon,,,,,,,,,,,
@@ -770,7 +768,6 @@
 11377,1,12093,118,2,89;657,0,1,0,15,15,Thermal Torpedo Damage
 11377,1,12093,118,2,90,0,1,0,5,15,Thermal Bomb Damage
 11377,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
-11377,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
 11377,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
 11377,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Nidhoggur,,,,,,,,,,,
@@ -948,7 +945,6 @@
 12038,1,12093,114,2,89;657,0,1,0,15,15,EM Torpedo Damage
 12038,1,12093,114,2,90,0,1,0,5,15,EM Bomb Damage
 12038,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
-12038,0,0,50,2,862,0,0,0,-99,15,Bomb Launcher CPU Need
 12038,0,0,50,2,330,0,0,0,-99.5,15,Cloaking Device CPU
 12038,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Ragnarok,,,,,,,,,,,
