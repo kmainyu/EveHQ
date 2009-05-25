@@ -2648,4 +2648,12 @@ Public Class frmHQF
             currentShipSlot.AddShip(shipType, 1)
         End If
     End Sub
+
+    Private Sub btnImportFittings_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportFittings.ButtonClick
+        btnImportFittings.ShowDropDown()
+    End Sub
+
+    Private Sub btnCopy_ButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopy.ButtonClick
+        btnCopy.ShowDropDown()
+    End Sub
 End Class
