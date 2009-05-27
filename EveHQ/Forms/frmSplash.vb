@@ -25,6 +25,7 @@ Public Class frmSplash
 
     Dim isLocal As Boolean = False
     Dim showSplash As Boolean = True
+    Dim showSettings As Boolean = False
 
     Private Sub frmSplash_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -52,9 +53,12 @@ Public Class frmSplash
                 showSplash = False
                 EveHQ.Core.HQ.IsSplashFormDisabled = True
             End If
+            If param = "/settings" Then
+                showSettings = True
+            End If
         Next
 
-        If showSplash = True Then
+        If showSplash = True And showSettings = False Then
             Me.Show()
         End If
 
@@ -67,7 +71,6 @@ Public Class frmSplash
         Catch ex As Exception
             MessageBox.Show("Unable to delete update files, please delete any .old files manually that exist in the installation folder.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
-
 
         ' Set the application folder
         lblStatus.Text = "> Setting application directory..."
@@ -168,6 +171,16 @@ Public Class frmSplash
         If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.backupFolder) = False Then
             ' Create the cache folder if it doesn't exist
             My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.backupFolder)
+        End If
+
+        If showSettings = True Then
+            EveHQ.Core.EveHQSettingsFunctions.LoadSettings()
+            frmSettings.ShowDialog()
+            ' Remove the icons
+            frmEveHQ.EveStatusIcon.Visible = False : frmEveHQ.iconEveHQMLW.Visible = False
+            frmEveHQ.EveStatusIcon.Icon = Nothing : frmEveHQ.iconEveHQMLW.Icon = Nothing
+            frmEveHQ.EveStatusIcon.Dispose() : frmEveHQ.iconEveHQMLW.Dispose()
+            End
         End If
 
         ' Load user settings - this is needed to work out data connection type & update requirements

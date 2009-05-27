@@ -1889,8 +1889,12 @@ Public Class EveHQSettingsFunctions
             EveHQ.Core.HQ.EveHQSettings.DBPassword = ""
         End If
 
-        Call EveHQ.Core.DataFunctions.SetEveHQConnectionString()
-        Call EveHQ.Core.DataFunctions.SetEveHQDataConnectionString()
+        If EveHQ.Core.DataFunctions.SetEveHQConnectionString() = False Then
+            Return False
+        End If
+        If EveHQ.Core.DataFunctions.SetEveHQDataConnectionString() = False Then
+            Return False
+        End If
 
         ' Load the skill data before attempting to load in the EveHQ.Core.Pilot skill data
         If EveHQ.Core.SkillFunctions.LoadEveSkillData() = False Then
@@ -2181,8 +2185,12 @@ Public Class EveHQSettingsFunctions
             EveHQ.Core.HQ.EveHQSettings.DBPassword = ""
         End If
 
-        Call EveHQ.Core.DataFunctions.SetEveHQConnectionString()
-        Call EveHQ.Core.DataFunctions.SetEveHQDataConnectionString()
+        If EveHQ.Core.DataFunctions.SetEveHQConnectionString() = False Then
+            Return False
+        End If
+        If EveHQ.Core.DataFunctions.SetEveHQDataConnectionString() = False Then
+            Return False
+        End If
 
         ' Load the skill data before attempting to load in the EveHQ.Core.Pilot skill data
         If EveHQ.Core.SkillFunctions.LoadEveSkillData() = False Then

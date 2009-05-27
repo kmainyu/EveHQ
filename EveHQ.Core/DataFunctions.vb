@@ -148,15 +148,20 @@ Public Class DataFunctions
                 Return Nothing
         End Select
     End Function
-    Public Shared Sub SetEveHQConnectionString()
+    Public Shared Function SetEveHQConnectionString() As Boolean
 
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0
                 If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
                     EveHQ.Core.HQ.itemDBConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBFilename
                 Else
-                    Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                    EveHQ.Core.HQ.itemDBConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
+                    Try
+                        Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
+                        EveHQ.Core.HQ.itemDBConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
+                    Catch e As Exception
+                        MessageBox.Show("There was an error setting the EveHQ connection string: " & e.Message, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Return False
+                    End Try
                 End If
             Case 1
                 EveHQ.Core.HQ.itemDBConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
@@ -175,17 +180,23 @@ Public Class DataFunctions
             Case 3
                 EveHQ.Core.HQ.itemDBConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBName.ToLower & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
         End Select
+        Return True
 
-    End Sub
-    Public Shared Sub SetEveHQDataConnectionString()
+    End Function
+    Public Shared Function SetEveHQDataConnectionString() As Boolean
 
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0
                 If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = False Then
                     EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename
                 Else
-                    Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBDataFilename)
-                    EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
+                    Try
+                        Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBDataFilename)
+                        EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
+                    Catch e As Exception
+                        MessageBox.Show("There was an error setting the EveHQData connection string: " & e.Message, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Return False
+                    End Try
                 End If
             Case 1
                 EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer
@@ -204,8 +215,9 @@ Public Class DataFunctions
             Case 3
                 EveHQ.Core.HQ.EveHQDataConnectionString = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & ";Database=" & EveHQ.Core.HQ.EveHQSettings.DBDataName.ToLower & ";Uid=" & EveHQ.Core.HQ.EveHQSettings.DBUsername & ";Pwd=" & EveHQ.Core.HQ.EveHQSettings.DBPassword & ";"
         End Select
+        Return True
 
-    End Sub
+    End Function
     Public Shared Function OpenCustomDatabase() As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
             Case 0 ' Access
