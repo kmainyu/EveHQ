@@ -38,6 +38,10 @@ Partial Public Class frmSettings
         Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
+        Me.lblTrainingBarPosition = New System.Windows.Forms.Label
+        Me.cboTrainingBarPosition = New System.Windows.Forms.ComboBox
+        Me.lblToolbarPosition = New System.Windows.Forms.Label
+        Me.cboToolbarPosition = New System.Windows.Forms.ComboBox
         Me.lblMDITabPosition = New System.Windows.Forms.Label
         Me.cboMDITabPosition = New System.Windows.Forms.ComboBox
         Me.txtErrorRepEmail = New System.Windows.Forms.TextBox
@@ -153,7 +157,6 @@ Partial Public Class frmSettings
         Me.lblHasPreReqColour = New System.Windows.Forms.Label
         Me.lblIsPreReqColour = New System.Windows.Forms.Label
         Me.lblSkillQueueColours = New System.Windows.Forms.Label
-        Me.chkContinueTraining = New System.Windows.Forms.CheckBox
         Me.lblQueueColumns = New System.Windows.Forms.Label
         Me.clbColumns = New System.Windows.Forms.CheckedListBox
         Me.gbDatabaseFormat = New System.Windows.Forms.GroupBox
@@ -298,10 +301,6 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
-        Me.lblToolbarPosition = New System.Windows.Forms.Label
-        Me.cboToolbarPosition = New System.Windows.Forms.ComboBox
-        Me.lblTrainingBarPosition = New System.Windows.Forms.Label
-        Me.cboTrainingBarPosition = New System.Windows.Forms.ComboBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -385,13 +384,53 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
         Me.gbGeneral.Controls.Add(Me.chkAutoRun)
         Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-        Me.gbGeneral.Location = New System.Drawing.Point(194, 12)
+        Me.gbGeneral.Location = New System.Drawing.Point(461, 59)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(693, 498)
+        Me.gbGeneral.Size = New System.Drawing.Size(95, 44)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
         Me.gbGeneral.Visible = False
+        '
+        'lblTrainingBarPosition
+        '
+        Me.lblTrainingBarPosition.AutoSize = True
+        Me.lblTrainingBarPosition.Location = New System.Drawing.Point(313, 170)
+        Me.lblTrainingBarPosition.Name = "lblTrainingBarPosition"
+        Me.lblTrainingBarPosition.Size = New System.Drawing.Size(88, 13)
+        Me.lblTrainingBarPosition.TabIndex = 50
+        Me.lblTrainingBarPosition.Text = "Training Position:"
+        '
+        'cboTrainingBarPosition
+        '
+        Me.cboTrainingBarPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboTrainingBarPosition.FormattingEnabled = True
+        Me.cboTrainingBarPosition.Items.AddRange(New Object() {"Bottom", "Left", "None", "Right", "Top"})
+        Me.cboTrainingBarPosition.Location = New System.Drawing.Point(411, 167)
+        Me.cboTrainingBarPosition.Name = "cboTrainingBarPosition"
+        Me.cboTrainingBarPosition.Size = New System.Drawing.Size(161, 21)
+        Me.cboTrainingBarPosition.Sorted = True
+        Me.cboTrainingBarPosition.TabIndex = 49
+        '
+        'lblToolbarPosition
+        '
+        Me.lblToolbarPosition.AutoSize = True
+        Me.lblToolbarPosition.Location = New System.Drawing.Point(313, 143)
+        Me.lblToolbarPosition.Name = "lblToolbarPosition"
+        Me.lblToolbarPosition.Size = New System.Drawing.Size(86, 13)
+        Me.lblToolbarPosition.TabIndex = 48
+        Me.lblToolbarPosition.Text = "Toolbar Position:"
+        '
+        'cboToolbarPosition
+        '
+        Me.cboToolbarPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboToolbarPosition.FormattingEnabled = True
+        Me.cboToolbarPosition.Items.AddRange(New Object() {"Bottom", "Left", "Right", "Top"})
+        Me.cboToolbarPosition.Location = New System.Drawing.Point(411, 140)
+        Me.cboToolbarPosition.Name = "cboToolbarPosition"
+        Me.cboToolbarPosition.Size = New System.Drawing.Size(161, 21)
+        Me.cboToolbarPosition.Sorted = True
+        Me.cboToolbarPosition.TabIndex = 47
         '
         'lblMDITabPosition
         '
@@ -1411,12 +1450,11 @@ Partial Public Class frmSettings
         Me.gbTrainingQueue.Controls.Add(Me.lblHasPreReqColour)
         Me.gbTrainingQueue.Controls.Add(Me.lblIsPreReqColour)
         Me.gbTrainingQueue.Controls.Add(Me.lblSkillQueueColours)
-        Me.gbTrainingQueue.Controls.Add(Me.chkContinueTraining)
         Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
         Me.gbTrainingQueue.Controls.Add(Me.clbColumns)
-        Me.gbTrainingQueue.Location = New System.Drawing.Point(546, 200)
+        Me.gbTrainingQueue.Location = New System.Drawing.Point(194, 12)
         Me.gbTrainingQueue.Name = "gbTrainingQueue"
-        Me.gbTrainingQueue.Size = New System.Drawing.Size(138, 43)
+        Me.gbTrainingQueue.Size = New System.Drawing.Size(695, 493)
         Me.gbTrainingQueue.TabIndex = 3
         Me.gbTrainingQueue.TabStop = False
         Me.gbTrainingQueue.Text = "Training Queue"
@@ -1564,16 +1602,6 @@ Partial Public Class frmSettings
         Me.lblSkillQueueColours.Size = New System.Drawing.Size(102, 13)
         Me.lblSkillQueueColours.TabIndex = 4
         Me.lblSkillQueueColours.Text = "Skill Queue Colours:"
-        '
-        'chkContinueTraining
-        '
-        Me.chkContinueTraining.AutoSize = True
-        Me.chkContinueTraining.Location = New System.Drawing.Point(9, 359)
-        Me.chkContinueTraining.Name = "chkContinueTraining"
-        Me.chkContinueTraining.Size = New System.Drawing.Size(247, 17)
-        Me.chkContinueTraining.TabIndex = 3
-        Me.chkContinueTraining.Text = "Continue training skill queue on skill completion"
-        Me.chkContinueTraining.UseVisualStyleBackColor = True
         '
         'lblQueueColumns
         '
@@ -3003,56 +3031,16 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
-        'lblToolbarPosition
-        '
-        Me.lblToolbarPosition.AutoSize = True
-        Me.lblToolbarPosition.Location = New System.Drawing.Point(313, 143)
-        Me.lblToolbarPosition.Name = "lblToolbarPosition"
-        Me.lblToolbarPosition.Size = New System.Drawing.Size(86, 13)
-        Me.lblToolbarPosition.TabIndex = 48
-        Me.lblToolbarPosition.Text = "Toolbar Position:"
-        '
-        'cboToolbarPosition
-        '
-        Me.cboToolbarPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboToolbarPosition.FormattingEnabled = True
-        Me.cboToolbarPosition.Items.AddRange(New Object() {"Bottom", "Left", "Right", "Top"})
-        Me.cboToolbarPosition.Location = New System.Drawing.Point(411, 140)
-        Me.cboToolbarPosition.Name = "cboToolbarPosition"
-        Me.cboToolbarPosition.Size = New System.Drawing.Size(161, 21)
-        Me.cboToolbarPosition.Sorted = True
-        Me.cboToolbarPosition.TabIndex = 47
-        '
-        'lblTrainingBarPosition
-        '
-        Me.lblTrainingBarPosition.AutoSize = True
-        Me.lblTrainingBarPosition.Location = New System.Drawing.Point(313, 170)
-        Me.lblTrainingBarPosition.Name = "lblTrainingBarPosition"
-        Me.lblTrainingBarPosition.Size = New System.Drawing.Size(88, 13)
-        Me.lblTrainingBarPosition.TabIndex = 50
-        Me.lblTrainingBarPosition.Text = "Training Position:"
-        '
-        'cboTrainingBarPosition
-        '
-        Me.cboTrainingBarPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboTrainingBarPosition.FormattingEnabled = True
-        Me.cboTrainingBarPosition.Items.AddRange(New Object() {"Bottom", "Left", "None", "Right", "Top"})
-        Me.cboTrainingBarPosition.Location = New System.Drawing.Point(411, 167)
-        Me.cboTrainingBarPosition.Name = "cboTrainingBarPosition"
-        Me.cboTrainingBarPosition.Size = New System.Drawing.Size(161, 21)
-        Me.cboTrainingBarPosition.Sorted = True
-        Me.cboTrainingBarPosition.TabIndex = 49
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbGeneral)
+        Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbEveServer)
+        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbDatabaseFormat)
-        Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbTaskbarIcon)
@@ -3273,7 +3261,6 @@ Partial Public Class frmSettings
     Friend WithEvents lblNotifyOffset As System.Windows.Forms.Label
     Friend WithEvents trackNotifyOffset As System.Windows.Forms.TrackBar
     Friend WithEvents btnTestEmail As System.Windows.Forms.Button
-    Friend WithEvents chkContinueTraining As System.Windows.Forms.CheckBox
     Friend WithEvents tvwSettings As System.Windows.Forms.TreeView
     Friend WithEvents gbColours As System.Windows.Forms.GroupBox
     Friend WithEvents cd1 As System.Windows.Forms.ColorDialog

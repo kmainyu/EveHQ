@@ -597,10 +597,6 @@ Public Class frmEveHQ
 
         Call Me.UpdateTrainingStatus()
 
-        'If EveHQ.Core.HQ.EveHQSettings.ContinueTraining = True Then
-        '    Call UpdateToNextLevel()
-        'End If
-
         If frmPilot.IsHandleCreated = True Then
             Call frmPilot.UpdateSkillInfo()
         End If

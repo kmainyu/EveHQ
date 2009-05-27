@@ -833,10 +833,6 @@ Public Class frmSettings
         End If
     End Sub
 
-    Private Sub chkContinueTraining_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkContinueTraining.CheckedChanged
-        EveHQ.Core.HQ.EveHQSettings.ContinueTraining = chkContinueTraining.Checked
-    End Sub
-
     Private Sub chkShowCompletedSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowCompletedSkills.CheckedChanged
         EveHQ.Core.HQ.EveHQSettings.ShowCompletedSkills = chkShowCompletedSkills.Checked
     End Sub
@@ -892,7 +888,6 @@ Public Class frmSettings
                 Me.clbColumns.SetItemChecked(a, False)
             End If
         Next
-        Me.chkContinueTraining.Checked = EveHQ.Core.HQ.EveHQSettings.ContinueTraining
         Me.chkDeleteCompletedSkills.Checked = EveHQ.Core.HQ.EveHQSettings.DeleteSkills
         Me.chkShowCompletedSkills.Checked = EveHQ.Core.HQ.EveHQSettings.ShowCompletedSkills
         Dim IColor As Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.IsPreReqColor))
