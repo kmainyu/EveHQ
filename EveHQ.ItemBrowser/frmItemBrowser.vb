@@ -56,6 +56,7 @@ Public Class frmItemBrowser
     Dim nonPublishedFlag As Boolean = True
     Dim displayPilot As EveHQ.Core.Pilot
     Dim startup As Boolean = False
+    Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
     ' BP Variables
     Dim BPWF As Double = 0
@@ -417,7 +418,7 @@ Public Class frmItemBrowser
             For node As Integer = 0 To 11
                 Dim nodeText As String = MarketItem.ChildNodes(node + 1).InnerText
                 If IsNumeric(nodeText) = True Then
-                    lstEveCentral.Items(node).SubItems.Add(FormatNumber(nodeText, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    lstEveCentral.Items(node).SubItems.Add(FormatNumber(Double.Parse(nodeText, Globalization.NumberStyles.Number, culture), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                 Else
                     Me.EveCentralDataFound = False
                     Exit Sub
