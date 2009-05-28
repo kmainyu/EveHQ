@@ -125,6 +125,11 @@ Public Class frmEFTImport
         Dim newFit As New ArrayList
         For Each ShipMod As String In mods
             If ShipMod.StartsWith("[") = False And ShipMod <> "" Then
+                ' Check for "Drones_" label
+                If ShipMod.StartsWith("Drones_") Then
+                    ShipMod = ShipMod.TrimStart(CChar("Drones_Active="))
+                    ShipMod = ShipMod.TrimStart(CChar("Drones_Inactive="))
+                End If
                 newFit.Add(ShipMod)
             End If
         Next
