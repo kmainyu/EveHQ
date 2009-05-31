@@ -365,61 +365,62 @@ Public Class PilotParseFunctions
         End If
 
         If EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedActual Or EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedCached Or EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedNew Then
+            If accountXML IsNot Nothing Then
+                ' Get characters
+                Dim charlist As XmlNodeList
+                Dim toon As XmlNode
+                Dim curr_toon As Integer = 0
 
-            ' Get characters
-            Dim charlist As XmlNodeList
-            Dim toon As XmlNode
-            Dim curr_toon As Integer = 0
-
-            ' Get the list of characters and the character IDs
-            charlist = accountXML.SelectNodes("/eveapi/result/rowset/row")
-            ' Clear the current characters on the account
-            cAccount.Characters = New ArrayList
-            For Each toon In charlist
-                curr_toon += 1
-                ' Add the pilot details into the collection
-                Dim newPilot As New EveHQ.Core.Pilot
-                newPilot.Name = toon.Attributes.GetNamedItem("name").Value
-                newPilot.ID = toon.Attributes.GetNamedItem("characterID").Value
-                newPilot.AccountPosition = CStr(curr_toon)
-                newPilot.Account = cAccount.userID
-                EveHQ.Core.HQ.TPilots.Add(newPilot, newPilot.Name)
-                cAccount.Characters.Add(newPilot.Name)
-                Call GetCharacterXMLs(cAccount, newPilot)
-            Next
-
-            ' Check if we have any old pilots that the account does not have anymore
-            Dim oldPilots As String = ""
-            Dim oldPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-            For Each oldPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-                If oldPilot.Account = cAccount.userID Then
-                    Dim validPilot As Boolean = False
-                    For Each toon In charlist
-                        If toon.Attributes.GetNamedItem("name").Value = oldPilot.Name Then
-                            validPilot = True
-                            Exit For
-                        End If
-                    Next
-                    If validPilot = False Then
-                        oldPilots &= oldPilot.Name & ","
-                        oldPilot.Account = ""
-                        oldPilot.AccountPosition = "0"
-                    End If
-                End If
-            Next
-            oldPilots = oldPilots.Trim(CChar(","))
-            If oldPilots <> "" Then
-                Dim msg As String = ""
-                msg &= "You have pilots registered in EveHQ that were previously assigned to account '" & cAccount.userID & "'" & ControlChars.CrLf
-                msg &= "but are no longer part of that account. The following pilots have been converted to manual pilots:" & ControlChars.CrLf & ControlChars.CrLf
-                Dim olderPilots() As String = oldPilots.Split(CChar(","))
-                Dim dPilot As String = ""
-                For Each dPilot In olderPilots
-                    msg &= dPilot & ControlChars.CrLf
+                ' Get the list of characters and the character IDs
+                charlist = accountXML.SelectNodes("/eveapi/result/rowset/row")
+                ' Clear the current characters on the account
+                cAccount.Characters = New ArrayList
+                For Each toon In charlist
+                    curr_toon += 1
+                    ' Add the pilot details into the collection
+                    Dim newPilot As New EveHQ.Core.Pilot
+                    newPilot.Name = toon.Attributes.GetNamedItem("name").Value
+                    newPilot.ID = toon.Attributes.GetNamedItem("characterID").Value
+                    newPilot.AccountPosition = CStr(curr_toon)
+                    newPilot.Account = cAccount.userID
+                    EveHQ.Core.HQ.TPilots.Add(newPilot, newPilot.Name)
+                    cAccount.Characters.Add(newPilot.Name)
+                    Call GetCharacterXMLs(cAccount, newPilot)
                 Next
-                MessageBox.Show(msg, "Unused Pilots", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
 
+                ' Check if we have any old pilots that the account does not have anymore
+                Dim oldPilots As String = ""
+                Dim oldPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
+                For Each oldPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                    If oldPilot.Account = cAccount.userID Then
+                        Dim validPilot As Boolean = False
+                        For Each toon In charlist
+                            If toon.Attributes.GetNamedItem("name").Value = oldPilot.Name Then
+                                validPilot = True
+                                Exit For
+                            End If
+                        Next
+                        If validPilot = False Then
+                            oldPilots &= oldPilot.Name & ","
+                            oldPilot.Account = ""
+                            oldPilot.AccountPosition = "0"
+                        End If
+                    End If
+                Next
+                oldPilots = oldPilots.Trim(CChar(","))
+                If oldPilots <> "" Then
+                    Dim msg As String = ""
+                    msg &= "You have pilots registered in EveHQ that were previously assigned to account '" & cAccount.userID & "'" & ControlChars.CrLf
+                    msg &= "but are no longer part of that account. The following pilots have been converted to manual pilots:" & ControlChars.CrLf & ControlChars.CrLf
+                    Dim olderPilots() As String = oldPilots.Split(CChar(","))
+                    Dim dPilot As String = ""
+                    For Each dPilot In olderPilots
+                        msg &= dPilot & ControlChars.CrLf
+                    Next
+                    MessageBox.Show(msg, "Unused Pilots", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+
+            End If
         End If
         Return EveAPI.LastAPIResult
 
