@@ -1,6 +1,33 @@
 EveHQ - Version History
 -----------------------
 
+1.11.1.597 (31/05/2009)
+----------
+Fixes and Improvements:
+- Core: Fixed crash in pilot form when displaying skills with no pilot
+- Core: Increased size of pilot drop-downs
+- Core: Checks now made for errors in setting the EveHQ DB connections
+- Core: Removed the Continue Skill Training feature
+- Core: Handled cases with the EveSettingsFolder name was null when trying to check local cache for portraits
+- Core: Fixed crash when a null XML was retrieved in the GetCharactersInAccount routine
+- HQF: Fixed errors with market group for Sisters scan probes
+- HQF: Fixed missing attribute from Information Warfare Mindlink bonus
+- HQF: Fixed missing attribute from Eos bonus to Information Warfare Modules
+- HQF: Clicking split buttons now expands the menu options
+- HQF: Removed Bomb Launcher CPU reduction from Stealth Bomber roles
+- HQF: Fixed mapping of Amarr Battleship bonus for the Nightmare
+- HQF: Armor Compensation skills now have an effect on active hardeners in a passive state
+- HQF: Fixed EFT imports for Drone labels
+- HQF: Fixed rounding issues in CPU/PG display
+- HQF: Added patch to include cargo containers in the market items and to calculate additional cargo storage
+- HQF: Fixed issues with cargo/drone/ship bay not calculating after modifying capacities
+- IB: Fixed parsing of Eve-Central data
+- IB: Increased size of pilot drop-downs
+- KMV: Fixed spacing after item quantities
+- Prism: Job Status now indicates if the job has finished but not been delivered
+- Prism: Splitter control added to the rig builder
+
+
 1.11.0.575 (18/05/2009)
 ----------
 Major Changes:

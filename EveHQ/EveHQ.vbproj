@@ -448,7 +448,6 @@
     <None Include="Resources\EveHQ_starting.ico" />
     <None Include="Resources\EveHQ_offline.ico" />
     <None Include="Resources\History.txt" />
-    <None Include="_latest.txt" />
     <None Include="_ChangeLog.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -544,7 +544,7 @@ Partial Public Class frmEveHQ
         '
         Me.mnuReportsTextChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextCharSheet, Me.mnuReportsTextTrainTimes, Me.mnuReportsTextTimeToLevel5, Me.mnuReportsTextSkillLevels, Me.mnuReportsTextTrainingQueue, Me.mnuReportsTextShoppingList, Me.mnuReportsTextSkillsAvailable, Me.mnuReportsTextSkillsNotTrained, Me.mnuReportsTextPartiallyTrainedSkills})
         Me.mnuReportsTextChar.Name = "mnuReportsTextChar"
-        Me.mnuReportsTextChar.Size = New System.Drawing.Size(152, 22)
+        Me.mnuReportsTextChar.Size = New System.Drawing.Size(125, 22)
         Me.mnuReportsTextChar.Text = "Character"
         '
         'mnuReportsTextCharSheet
@@ -612,7 +612,7 @@ Partial Public Class frmEveHQ
         '
         Me.mnuReportsXMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportCharXML, Me.mnuReportTrainXML, Me.mnuReportCurrentCharXMLOld, Me.mnuReportCurrentCharXMLNew, Me.mnuReportCurrentTrainingXMLOld, Me.mnuReportECMExport})
         Me.mnuReportsXMLChar.Name = "mnuReportsXMLChar"
-        Me.mnuReportsXMLChar.Size = New System.Drawing.Size(152, 22)
+        Me.mnuReportsXMLChar.Size = New System.Drawing.Size(125, 22)
         Me.mnuReportsXMLChar.Text = "Character"
         '
         'mnuReportCharXML
@@ -720,6 +720,7 @@ Partial Public Class frmEveHQ
         Me.mnuUpdate.Name = "mnuUpdate"
         Me.mnuUpdate.Size = New System.Drawing.Size(57, 20)
         Me.mnuUpdate.Text = "&Update"
+        Me.mnuUpdate.Visible = False
         '
         'tmrEve
         '

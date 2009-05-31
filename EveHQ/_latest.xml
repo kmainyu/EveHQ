@@ -5,21 +5,21 @@
 		<file>
 			<name>EveHQ.exe</name>
 			<type>Required</type>
-			<version>1.11.0.575</version>
+			<version>1.11.1.597</version>
 			<requires></requires>
 			<description>EveHQ Executable</description>
 		</file>
 		<file>
 			<name>EveHQ.Core.dll</name>
 			<type>Required</type>
-      <version>1.11.0.575</version>
+      <version>1.11.1.597</version>
       <requires></requires>
 			<description>EveHQ Core Library</description>
 		</file>
 		<file>
 			<name>EveHQ.CoreControls.dll</name>
 			<type>Required</type>
-      <version>1.11.0.575</version>
+      <version>1.11.1.597</version>
       <requires></requires>
 			<description>EveHQ Controls Library</description>
 		</file>
@@ -58,13 +58,13 @@
 		<file>
 			<name>EveHQ.ItemBrowser.dll</name>
 			<type>Plug-in</type>
-      <version>1.11.0.575</version>
+      <version>1.11.1.597</version>
       <description>Item Browser Plug-in</description>
 		</file>
     <file>
       <name>EveHQ.KillMailViewer.dll</name>
       <type>Plug-in</type>
-      <version>1.11.0.578</version>
+      <version>1.11.1.597</version>
       <description>Killmail Viewer and Parser</description>
     </file>
 		<file>
@@ -76,13 +76,13 @@
 		<file>
 			<name>EveHQ.HQF.dll</name>
 			<type>Plug-in</type>
-      <version>1.11.0.577</version>
+      <version>1.11.1.597</version>
       <description>Ship Fitting Plug-in</description>
 		</file>
     <file>
       <name>EveHQ.Prism.dll</name>
       <type>Plug-in</type>
-      <version>1.11.0.575</version>
+      <version>1.11.1.597</version>
       <description>Science and Industry Plug-in</description>
     </file>
 	</files>
