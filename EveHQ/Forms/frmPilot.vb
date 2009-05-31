@@ -835,8 +835,12 @@ Public Class frmPilot
             Dim folderName As String
             If EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folder) = False Then
                 Dim eveSettingsFolder As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder)
-                eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower & "_tranquility"
-                folderName = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\" & eveSettingsFolder & "\cache\Pictures\Portraits").Replace("\\", "\")
+                If eveSettingsFolder IsNot Nothing Then
+                    eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower & "_tranquility"
+                    folderName = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\" & eveSettingsFolder & "\cache\Pictures\Portraits").Replace("\\", "\")
+                Else
+                    folderName = ""
+                End If
             Else
                 folderName = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder) & "\cache\Pictures\Portraits"
             End If
