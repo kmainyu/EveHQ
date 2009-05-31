@@ -107,7 +107,7 @@ Public Class ShipInfoControl
             progCPU.MaxValue = 1
         End If
         progCPU.Value = Math.Min(CInt(fittedShip.CPU_Used), CInt(fittedShip.CPU))
-        If fittedShip.CPU_Used > fittedShip.CPU Then
+        If Math.Round(fittedShip.CPU_Used, 3) > fittedShip.CPU Then
             progCPU.StartColor = Drawing.Color.Red
             progCPU.EndColor = Drawing.Color.Red
             progCPU.HighlightColor = Drawing.Color.White
@@ -128,7 +128,7 @@ Public Class ShipInfoControl
             progPG.MaxValue = 1
         End If
         progPG.Value = Math.Min(CInt(fittedShip.PG_Used), CInt(fittedShip.PG))
-        If fittedShip.PG_Used > fittedShip.PG Then
+        If Math.Round(fittedShip.PG_Used, 3) > fittedShip.PG Then
             progPG.StartColor = Drawing.Color.Red
             progPG.EndColor = Drawing.Color.Red
             progPG.HighlightColor = Drawing.Color.White
