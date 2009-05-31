@@ -262,9 +262,9 @@ Public Class ShipSlotControl
                     UpdateSlotLocation(fittedShip.SubSlot(slot), slot)
                 End If
             Next
-            Call Me.RedrawCargoBayCapacity()
-            Call Me.RedrawDroneBayCapacity()
-            Call Me.RedrawShipBayCapacity()
+            Call Me.RedrawCargoBay()
+            Call Me.RedrawDroneBay()
+            Call Me.RedrawShipBay()
         End If
     End Sub
     Private Sub UpdateSlotLocation(ByVal oldMod As ShipModule, ByVal slotNo As Integer)
@@ -636,7 +636,7 @@ Public Class ShipSlotControl
                             Call Me.AddDrone(sMod, itemQuantity, active)
                         Else
                             ' Check if module is a charge
-                            If sMod.IsCharge = True Then
+                            If sMod.IsCharge = True Or sMod.IsContainer Then
                                 If modData.GetUpperBound(0) > 0 Then
                                     itemQuantity = CInt(modData(1))
                                 End If
@@ -663,7 +663,7 @@ Public Class ShipSlotControl
                         MessageBox.Show("The '" & modData(0) & "' is not a valid module or ship. This item will be removed from the setup.", "Unrecognised Module Detected.", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         currentFit.Remove(modData(0))
                     End If
-                    
+
                 End If
             End If
         Next
@@ -777,6 +777,7 @@ Public Class ShipSlotControl
         If currentShip IsNot Nothing Then
             currentShip.CargoBayItems.Clear()
             currentShip.CargoBay_Used = 0
+            currentShip.CargoBay_Additional = 0
         End If
     End Sub
     Private Sub ClearShipBay()
@@ -2148,6 +2149,7 @@ Public Class ShipSlotControl
         lvwCargoBay.BeginUpdate()
         lvwCargoBay.Items.Clear()
         currentShip.CargoBay_Used = 0
+        currentShip.CargoBay_Additional = 0
         Dim CBI As CargoBayItem
         Dim HoldingBay As New SortedList
         For Each CBI In currentShip.CargoBayItems.Values
@@ -2160,6 +2162,7 @@ Public Class ShipSlotControl
             newCargoItem.SubItems.Add(CStr(CBI.Quantity))
             currentShip.CargoBayItems.Add(lvwCargoBay.Items.Count, CBI)
             currentShip.CargoBay_Used += CBI.ItemType.Volume * CBI.Quantity
+            If CBI.ItemType.IsContainer Then currentShip.CargoBay_Additional += (CBI.ItemType.Capacity - CBI.ItemType.Volume) * CBI.Quantity
             lvwCargoBay.Items.Add(newCargoItem)
         Next
         lvwCargoBay.EndUpdate()
@@ -2212,11 +2215,18 @@ Public Class ShipSlotControl
             lvwShipBay.Items.Add(newCargoItem)
         Next
         lvwShipBay.EndUpdate()
-        Call Me.RedrawshipbayCapacity()
+        Call Me.RedrawShipBayCapacity()
     End Sub
 
     Private Sub RedrawCargoBayCapacity()
-        lblCargoBay.Text = FormatNumber(currentShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " / " & FormatNumber(fittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        If currentShip.CargoBay_Additional > 0 Then
+            lblCargoBay.Text = FormatNumber(currentShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & _
+                            " / " & FormatNumber(fittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & _
+                            " (" & FormatNumber(fittedShip.CargoBay + currentShip.CargoBay_Additional, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & ") m³"
+        Else
+            lblCargoBay.Text = FormatNumber(currentShip.CargoBay_Used, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & _
+                            " / " & FormatNumber(fittedShip.CargoBay, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³"
+        End If
         If fittedShip.CargoBay > 0 Then
             pbCargoBay.MaxValue = CInt(fittedShip.CargoBay)
         Else
@@ -2701,6 +2711,7 @@ Public Class ShipSlotControl
         lvwCargoBay.BeginUpdate()
         lvwCargoBay.Items.Clear()
         currentShip.CargoBay_Used = 0
+        currentShip.CargoBay_Additional = 0
         Dim CBI As CargoBayItem
         Dim HoldingBay As New SortedList
         Dim CargoQuantities As New SortedList
@@ -2725,6 +2736,7 @@ Public Class ShipSlotControl
             newCargoItem.SubItems.Add(CStr(CBI.Quantity))
             currentShip.CargoBayItems.Add(lvwCargoBay.Items.Count, CBI)
             currentShip.CargoBay_Used += CBI.ItemType.Volume * CBI.Quantity
+            If CBI.ItemType.IsContainer Then currentShip.CargoBay_Additional += (CBI.ItemType.Capacity - CBI.ItemType.Volume) * CBI.Quantity
             lvwCargoBay.Items.Add(newCargoItem)
         Next
         lvwCargoBay.EndUpdate()

@@ -2431,7 +2431,7 @@ Public Class Engine
                             End If
                         Else
                             ' Check if module is a charge
-                            If sMod.IsCharge = True Then
+                            If sMod.IsCharge = True Or sMod.IsContainer Then
                                 Call Engine.AddItem(currentship, sMod, CInt(modData(1)))
                             Else
                                 ' Must be a proper module then!

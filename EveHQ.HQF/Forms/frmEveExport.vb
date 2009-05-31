@@ -161,7 +161,7 @@ Public Class frmEveExport
                             'Call Me.AddDrone(sMod, itemQuantity, active)
                         Else
                             ' Check if module is a charge
-                            If sMod.IsCharge = True Then
+                            If sMod.IsCharge = True Or sMod.IsContainer Then
                                 If modData.GetUpperBound(0) > 0 Then
                                     itemQuantity = CInt(modData(1))
                                 End If

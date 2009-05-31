@@ -65,6 +65,7 @@ Imports System.Runtime.Serialization
     Private cIsCharge As Boolean
     Private cIsImplant As Boolean
     Private cIsBooster As Boolean
+    Private cIsContainer As Boolean
 
     ' Skills
     Private cRequiredSkills As New SortedList
@@ -340,7 +341,14 @@ Imports System.Runtime.Serialization
             cIsBooster = value
         End Set
     End Property
-
+    Public Property IsContainer() As Boolean
+        Get
+            Return cIsContainer
+        End Get
+        Set(ByVal value As Boolean)
+            cIsContainer = value
+        End Set
+    End Property
     ' Skills
     Public Property RequiredSkills() As SortedList
         Get

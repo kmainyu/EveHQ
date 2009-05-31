@@ -143,6 +143,7 @@ Imports System.Runtime.Serialization
     Private cCPU_Used As Double
     Private cPG_Used As Double
     Private cCargoBay_Used As Double
+    Private cCargoBay_Additional As Double
     Private cDroneBay_Used As Double
     Private cShipBay_Used As Double
     Private cDroneBandwidth_Used As Double
@@ -1089,6 +1090,14 @@ Imports System.Runtime.Serialization
         End Get
         Set(ByVal value As Double)
             cCargoBay_Used = value
+        End Set
+    End Property
+    Public Property CargoBay_Additional() As Double
+        Get
+            Return cCargoBay_Additional
+        End Get
+        Set(ByVal value As Double)
+            cCargoBay_Additional = value
         End Set
     End Property
     Public Property DroneBay_Used() As Double

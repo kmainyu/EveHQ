@@ -1248,7 +1248,7 @@ Public Class frmHQF
                     Call currentShipSlot.AddDrone(shipMod, 1, False)
                 Else
                     ' Check if module is a charge
-                    If shipMod.IsCharge = True Then
+                    If shipMod.IsCharge = True or shipMod.IsContainer Then
                         currentShipSlot.AddItem(shipMod, 1)
                     Else
                         ' Must be a proper module then!
