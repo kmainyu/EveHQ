@@ -453,8 +453,11 @@ Public Class Engine
             Next
         End If
         newShip.CargoBayItems = CType(cShip.CargoBayItems.Clone, Collections.SortedList)
+        newShip.CargoBay_Used = cShip.CargoBay_Used
         newShip.DroneBayItems = CType(cShip.DroneBayItems.Clone, Collections.SortedList)
+        newShip.DroneBay_Used = cShip.DroneBay_Used
         newShip.ShipBayItems = CType(cShip.ShipBayItems.Clone, Collections.SortedList)
+        newShip.ShipBay_Used = cShip.ShipBay_Used
         newShip.FleetSlotCollection = CType(cShip.FleetSlotCollection.Clone, ArrayList)
         newShip.RemoteSlotCollection = CType(cShip.RemoteSlotCollection.Clone, ArrayList)
         If cShip.DamageProfile IsNot Nothing Then

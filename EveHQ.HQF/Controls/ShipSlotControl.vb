@@ -262,9 +262,9 @@ Public Class ShipSlotControl
                     UpdateSlotLocation(fittedShip.SubSlot(slot), slot)
                 End If
             Next
-            Call Me.RedrawCargoBay()
-            Call Me.RedrawDroneBay()
-            Call Me.RedrawShipBay()
+            Call Me.RedrawCargoBayCapacity()
+            Call Me.RedrawDroneBayCapacity()
+            Call Me.RedrawShipBayCapacity()
         End If
     End Sub
     Private Sub UpdateSlotLocation(ByVal oldMod As ShipModule, ByVal slotNo As Integer)
