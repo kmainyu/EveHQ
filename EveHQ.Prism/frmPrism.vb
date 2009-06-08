@@ -4381,7 +4381,9 @@ Public Class frmPrism
                 Dim pilotIDs As New SortedList
                 ' Get a list of pilot IDs and names for our installer routines
                 For Each iPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-                    pilotIDs.Add(iPilot.ID, iPilot.Name)
+                    If pilotIDs.ContainsKey(iPilot.ID) = False Then
+                        pilotIDs.Add(iPilot.ID, iPilot.Name)
+                    End If
                 Next
 
                 ' Get the Node List
