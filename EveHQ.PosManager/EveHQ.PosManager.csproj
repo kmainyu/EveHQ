@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{52141196-08FD-4E6D-A454-13618A5BED45}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EveHQ.PosManager</RootNamespace>
+    <AssemblyName>EveHQ.PosManager</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ApplicationIcon>EveHQ.ICO</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\EveHq\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data Classes\DamageProfile.cs" />
+    <Compile Include="Data Classes\ConfigData.cs" />
+    <Compile Include="Data Classes\Configuration.cs" />
+    <Compile Include="Data Classes\API_Data.cs" />
+    <Compile Include="Data Classes\API_List.cs" />
+    <Compile Include="Data Classes\CategoryItem.cs" />
+    <Compile Include="Data Classes\CategoryList.cs" />
+    <Compile Include="Data Classes\Charge.cs" />
+    <Compile Include="Data Classes\CT_Bonus.cs" />
+    <Compile Include="Data Classes\Defense.cs" />
+    <Compile Include="Data Classes\FuelBay.cs" />
+    <Compile Include="Data Classes\FuelType.cs" />
+    <Compile Include="Data Classes\Module.cs" />
+    <Compile Include="Data Classes\ModuleListing.cs" />
+    <Compile Include="Data Classes\MT_Bonus.cs" />
+    <Compile Include="Data Classes\POS.cs" />
+    <Compile Include="Data Classes\POSDesigns.cs" />
+    <Compile Include="Data Classes\DPListing.cs" />
+    <Compile Include="Forms\PoSManMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PoSManMainForm.Designer.cs">
+      <DependentUpon>PoSManMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MonitorListSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MonitorListSelect.Designer.cs">
+      <DependentUpon>MonitorListSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data Classes\PlugInData.cs" />
+    <Compile Include="Data Classes\POSMonitorList.cs" />
+    <Compile Include="Forms\PoS_Item.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\PoS_Item.Designer.cs">
+      <DependentUpon>PoS_Item.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\POS_Name.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\POS_Name.Designer.cs">
+      <DependentUpon>POS_Name.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PopulateTowersFromAPI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PopulateTowersFromAPI.Designer.cs">
+      <DependentUpon>PopulateTowersFromAPI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Data Classes\Tower.cs" />
+    <Compile Include="Data Classes\TowerListing.cs" />
+    <Compile Include="Forms\Tower_API_Linker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Tower_API_Linker.Designer.cs">
+      <DependentUpon>Tower_API_Linker.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
+      <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
+      <Name>EveHQ.CoreControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.Core\EveHQ.Core.vbproj">
+      <Project>{AD4AA9C0-F258-44D8-9D71-07493198B580}</Project>
+      <Name>EveHQ.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\PoSManMainForm.resx">
+      <DependentUpon>PoSManMainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MonitorListSelect.resx">
+      <DependentUpon>MonitorListSelect.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PoS_Item.resx">
+      <DependentUpon>PoS_Item.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\POS_Name.resx">
+      <DependentUpon>POS_Name.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PopulateTowersFromAPI.resx">
+      <DependentUpon>PopulateTowersFromAPI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Tower_API_Linker.resx">
+      <DependentUpon>Tower_API_Linker.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Caldari_3232.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Black_BG.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon22_17.png" />
+    <None Include="Resources\icon22_18.png" />
+    <None Include="Resources\icon22_20.png" />
+    <None Include="Resources\icon22_19.png" />
+    <None Include="Resources\icon04_12.png" />
+    <None Include="Resources\icon03_13.png" />
+    <None Include="Resources\icon02_07.png" />
+    <None Include="Resources\icon02_12.png" />
+    <None Include="Resources\icon12_07.png" />
+    <None Include="Resources\icon22_06.png" />
+    <None Include="Resources\icon22_07.png" />
+    <None Include="Resources\icon17_04.png" />
+    <None Include="Resources\icon09_09.png" />
+    <None Include="Resources\icon10_10.png" />
+    <None Include="Resources\icon03_131.png" />
+    <None Include="Resources\anchor.png" />
+    <None Include="Resources\anchor1.png" />
+    <None Include="Resources\fuel_cost.png" />
+    <None Include="Resources\fuel_stront_cost.png" />
+    <None Include="Resources\icon07_12.png" />
+    <None Include="Resources\enrUran.png" />
+    <None Include="Resources\MechParts.png" />
+    <None Include="Resources\Coolant.png" />
+    <None Include="Resources\Isotope.png" />
+    <None Include="Resources\LiqOzone.png" />
+    <None Include="Resources\Charter.png" />
+    <None Include="Resources\HvyWater.png" />
+    <None Include="Resources\NitgIso.png" />
+    <None Include="Resources\HeIso.png" />
+    <None Include="Resources\H2Iso.png" />
+    <None Include="Resources\EHP.png" />
+    <None Include="Resources\DPS.png" />
+    <None Include="Resources\FuelStrontium.png" />
+    <None Include="Resources\Fitting.png" />
+    <None Include="Resources\Delete.png" />
+    <None Include="Resources\Insure.png" />
+    <None Include="Resources\Bounty.png" />
+    <None Include="Resources\APIUpdate.png" />
+    <None Include="Resources\CloneBay.PNG" />
+    <Content Include="EveHQ.ICO" />
+    <Content Include="Resources\noitem.jpg" />
+    <None Include="Resources\Offline_btn.png" />
+    <None Include="Resources\Reinforce_btn.png" />
+    <None Include="Resources\online_btn.png" />
+    <None Include="Resources\Repair.png" />
+    <None Include="Resources\ShieldCharge.png" />
+    <None Include="Resources\Shield.png" />
+    <None Include="Resources\OxIso.png" />
+    <None Include="Resources\Robotics.png" />
+    <None Include="Resources\Strontium.png" />
+    <None Include="Resources\Oxygen.png" />
+    <None Include="Resources\un_anchor1.png" />
+    <None Include="Resources\online_anchor.png" />
+    <None Include="Resources\online1.png" />
+    <None Include="Resources\un_anchor.png" />
+    <None Include="Resources\online.png" />
+    <None Include="Resources\PosShield.JPG" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
