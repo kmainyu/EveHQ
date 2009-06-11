@@ -38,6 +38,7 @@ Partial Public Class frmSettings
         Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox
+        Me.chkDisableAutoConnections = New System.Windows.Forms.CheckBox
         Me.lblTrainingBarPosition = New System.Windows.Forms.Label
         Me.cboTrainingBarPosition = New System.Windows.Forms.ComboBox
         Me.lblToolbarPosition = New System.Windows.Forms.Label
@@ -301,7 +302,6 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
-        Me.chkDisableAutoConnections = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -393,6 +393,16 @@ Partial Public Class frmSettings
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
         Me.gbGeneral.Visible = False
+        '
+        'chkDisableAutoConnections
+        '
+        Me.chkDisableAutoConnections.AutoSize = True
+        Me.chkDisableAutoConnections.Location = New System.Drawing.Point(24, 149)
+        Me.chkDisableAutoConnections.Name = "chkDisableAutoConnections"
+        Me.chkDisableAutoConnections.Size = New System.Drawing.Size(199, 17)
+        Me.chkDisableAutoConnections.TabIndex = 51
+        Me.chkDisableAutoConnections.Text = "Disable Automatic Web Connections"
+        Me.chkDisableAutoConnections.UseVisualStyleBackColor = True
         '
         'lblTrainingBarPosition
         '
@@ -2342,9 +2352,9 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(418, 399)
+        Me.gbNotifications.Location = New System.Drawing.Point(194, 12)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(95, 34)
+        Me.gbNotifications.Size = New System.Drawing.Size(693, 493)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
@@ -3033,21 +3043,12 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
-        'chkDisableAutoConnections
-        '
-        Me.chkDisableAutoConnections.AutoSize = True
-        Me.chkDisableAutoConnections.Location = New System.Drawing.Point(24, 149)
-        Me.chkDisableAutoConnections.Name = "chkDisableAutoConnections"
-        Me.chkDisableAutoConnections.Size = New System.Drawing.Size(199, 17)
-        Me.chkDisableAutoConnections.TabIndex = 51
-        Me.chkDisableAutoConnections.Text = "Disable Automatic Web Connections"
-        Me.chkDisableAutoConnections.UseVisualStyleBackColor = True
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
+        Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbTrainingQueue)
@@ -3056,7 +3057,6 @@ Partial Public Class frmSettings
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbTaskbarIcon)
-        Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbPilots)
         Me.Controls.Add(Me.gbEveAccounts)
         Me.Controls.Add(Me.gbEveFolders)

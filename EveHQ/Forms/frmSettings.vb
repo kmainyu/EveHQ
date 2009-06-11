@@ -1555,24 +1555,82 @@ Public Class frmSettings
     End Sub
 
     Private Sub btnTestEmail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTestEmail.Click
-        Dim eveHQMail As New System.Net.Mail.SmtpClient
-        Try
-            eveHQMail.Host = EveHQ.Core.HQ.EveHQSettings.EMailServer
-            eveHQMail.Port = EveHQ.Core.HQ.EveHQSettings.EMailPort
-            If EveHQ.Core.HQ.EveHQSettings.UseSMTPAuth = True Then
-                Dim newCredentials As New System.Net.NetworkCredential
-                newCredentials.UserName = EveHQ.Core.HQ.EveHQSettings.EMailUsername
-                newCredentials.Password = EveHQ.Core.HQ.EveHQSettings.EMailPassword
-                eveHQMail.Credentials = newCredentials
+
+        ' Only do this if at least one notification is enabled
+        Dim notifyText As String = ""
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If cPilot.Active = True And cPilot.Training = True Then
+                notifyText = ""
+                Dim trainingTime As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
+                Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+                strTime = strTime.Replace("s", " seconds").Replace("m", " minutes")
+                notifyText &= cPilot.Name & " has approximately " & strTime & " before training of " & cPilot.TrainingSkillName & " to Level " & cPilot.TrainingSkillLevel & " completes." & ControlChars.CrLf
+                cPilot.TrainingNotifiedEarly = True : cPilot.TrainingNotifiedNow = False
+                ' Show the notifications
+                If notifyText <> "" Then
+                    ' Expand the details with some additional information
+                    If cPilot.QueuedSkills.Count > 0 Then
+                        notifyText &= ControlChars.CrLf
+                        notifyText &= "Next skill in Eve skill queue: " & EveHQ.Core.SkillFunctions.SkillIDToName(CStr(cPilot.QueuedSkills(0).SkillID)) & " " & EveHQ.Core.SkillFunctions.Roman(cPilot.QueuedSkills(0).Level)
+                        notifyText &= ControlChars.CrLf
+                    Else
+                        notifyText &= ControlChars.CrLf
+                        notifyText &= "Next skill in Eve skill queue: No skill queued"
+                        notifyText &= ControlChars.CrLf
+                    End If
+                    If cPilot.TrainingQueues.Count > 0 Then
+                        notifyText &= ControlChars.CrLf
+                        notifyText &= "EveHQ Skill Queue Info: " & ControlChars.CrLf
+                        For Each sq As EveHQ.Core.SkillQueue In cPilot.TrainingQueues.Values
+                            Dim nq As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(cPilot, sq, )
+                            If sq.IncCurrentTraining = True Then
+                                If nq.Count > 1 Then
+                                    For q As Integer = 1 To nq.Count - 1
+                                        If CType(nq(1), EveHQ.Core.SortedQueue).Done = False Then
+                                            notifyText &= sq.Name & ": " & CType(nq(q), EveHQ.Core.SortedQueue).Name
+                                            notifyText &= " (" & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueue).FromLevel))
+                                            notifyText &= " to " & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueue).FromLevel) + 1) & ")" & ControlChars.CrLf
+                                            Exit For
+                                        End If
+                                    Next
+                                End If
+                            Else
+                                If nq.Count > 0 Then
+                                    For q As Integer = 0 To nq.Count - 1
+                                        If CType(nq(1), EveHQ.Core.SortedQueue).Done = False Then
+                                            notifyText &= sq.Name & ": " & CType(nq(q), EveHQ.Core.SortedQueue).Name
+                                            notifyText &= " (" & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueue).FromLevel))
+                                            notifyText &= " to " & EveHQ.Core.SkillFunctions.Roman(CInt(CType(nq(q), EveHQ.Core.SortedQueue).FromLevel) + 1) & ")" & ControlChars.CrLf
+                                            Exit For
+                                        End If
+                                    Next
+                                End If
+                            End If
+                        Next
+                    End If
+                    Dim eveHQMail As New System.Net.Mail.SmtpClient
+                    Try
+                        eveHQMail.Host = EveHQ.Core.HQ.EveHQSettings.EMailServer
+                        eveHQMail.Port = EveHQ.Core.HQ.EveHQSettings.EMailPort
+                        If EveHQ.Core.HQ.EveHQSettings.UseSMTPAuth = True Then
+                            Dim newCredentials As New System.Net.NetworkCredential
+                            newCredentials.UserName = EveHQ.Core.HQ.EveHQSettings.EMailUsername
+                            newCredentials.Password = EveHQ.Core.HQ.EveHQSettings.EMailPassword
+                            eveHQMail.Credentials = newCredentials
+                        End If
+                        Dim eveHQMsg As New System.Net.Mail.MailMessage("notifications@evehq.net", EveHQ.Core.HQ.EveHQSettings.EMailAddress)
+                        eveHQMsg.Subject = "Eve Training Notification: " & cPilot.Name & " (" & cPilot.TrainingSkillName & " " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel) & ")"
+                        eveHQMsg.Body = notifyText
+                        eveHQMail.Send(eveHQMsg)
+                        MessageBox.Show("Test message sent successfully. Please check your inbox for confirmation.", "EveHQ Test Email Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        ' Exit after the first mail
+                        Exit Sub
+                    Catch ex As Exception
+                        MessageBox.Show("The mail sending process failed. Please check that the server, address, username and password are correct." & ControlChars.CrLf & ControlChars.CrLf & "The error was: " & ex.Message, "EveHQ Test Email Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    End Try
+                End If
             End If
-            Dim eveHQMsg As New System.Net.Mail.MailMessage("notifications@evehq.net", EveHQ.Core.HQ.EveHQSettings.EMailAddress)
-            eveHQMsg.Subject = "Test Mail From EveHQ"
-            eveHQMsg.Body = "This confirms that EveHQ is correctly setup to deliver skill completion notifcations."
-            eveHQMail.Send(eveHQMsg)
-            MessageBox.Show("Test message sent successfully. Please check your inbox for confirmation.", "EveHQ Test Email Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Catch ex As Exception
-            MessageBox.Show("The mail sending process failed. Please check that the server, address, username and password are correct." & ControlChars.CrLf & ControlChars.CrLf & "The error was: " & ex.Message, "EveHQ Test Email Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        End Try
+        Next
     End Sub
 
     Private Sub btnSelectSoundFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSelectSoundFile.Click
