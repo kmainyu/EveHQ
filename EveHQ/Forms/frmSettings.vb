@@ -118,6 +118,7 @@ Public Class frmSettings
         chkAutoRun.Checked = EveHQ.Core.HQ.EveHQSettings.AutoStart
         chkAutoMinimise.Checked = EveHQ.Core.HQ.EveHQSettings.AutoMinimise
         chkMinimiseOnExit.Checked = EveHQ.Core.HQ.EveHQSettings.MinimiseExit
+        chkDisableAutoConnections.Checked = EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections
         If cboStartupView.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupView) = True Then
             cboStartupView.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupView
         Else
@@ -186,6 +187,15 @@ Public Class frmSettings
             EveHQ.Core.HQ.EveHQSettings.EncryptSettings = True
         Else
             EveHQ.Core.HQ.EveHQSettings.EncryptSettings = False
+        End If
+    End Sub
+    Private Sub chkDisableAutoConnections_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDisableAutoConnections.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections = chkDisableAutoConnections.Checked
+        If EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections = True Then
+            chkAutoAPI.Enabled = False
+            chkAutoAPI.Checked = False
+        Else
+            chkAutoAPI.Enabled = True
         End If
     End Sub
 
@@ -2053,4 +2063,5 @@ Public Class frmSettings
 
 #End Region
 
+    
 End Class

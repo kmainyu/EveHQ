@@ -301,6 +301,7 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
+        Me.chkDisableAutoConnections = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -360,6 +361,7 @@ Partial Public Class frmSettings
         '
         'gbGeneral
         '
+        Me.gbGeneral.Controls.Add(Me.chkDisableAutoConnections)
         Me.gbGeneral.Controls.Add(Me.lblTrainingBarPosition)
         Me.gbGeneral.Controls.Add(Me.cboTrainingBarPosition)
         Me.gbGeneral.Controls.Add(Me.lblToolbarPosition)
@@ -384,9 +386,9 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
         Me.gbGeneral.Controls.Add(Me.chkAutoRun)
         Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-        Me.gbGeneral.Location = New System.Drawing.Point(461, 59)
+        Me.gbGeneral.Location = New System.Drawing.Point(499, 176)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(95, 44)
+        Me.gbGeneral.Size = New System.Drawing.Size(132, 35)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -823,7 +825,7 @@ Partial Public Class frmSettings
         Me.gbEveAccounts.Size = New System.Drawing.Size(93, 45)
         Me.gbEveAccounts.TabIndex = 16
         Me.gbEveAccounts.TabStop = False
-        Me.gbEveAccounts.Text = "Accounts"
+        Me.gbEveAccounts.Text = "API Account Management"
         Me.gbEveAccounts.Visible = False
         '
         'btnGetData
@@ -894,7 +896,7 @@ Partial Public Class frmSettings
         Me.gbPilots.Size = New System.Drawing.Size(115, 48)
         Me.gbPilots.TabIndex = 17
         Me.gbPilots.TabStop = False
-        Me.gbPilots.Text = "Pilots"
+        Me.gbPilots.Text = "Pilot Management"
         Me.gbPilots.Visible = False
         '
         'btnAddPilotFromXML
@@ -1452,9 +1454,9 @@ Partial Public Class frmSettings
         Me.gbTrainingQueue.Controls.Add(Me.lblSkillQueueColours)
         Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
         Me.gbTrainingQueue.Controls.Add(Me.clbColumns)
-        Me.gbTrainingQueue.Location = New System.Drawing.Point(194, 12)
+        Me.gbTrainingQueue.Location = New System.Drawing.Point(645, 208)
         Me.gbTrainingQueue.Name = "gbTrainingQueue"
-        Me.gbTrainingQueue.Size = New System.Drawing.Size(695, 493)
+        Me.gbTrainingQueue.Size = New System.Drawing.Size(110, 31)
         Me.gbTrainingQueue.TabIndex = 3
         Me.gbTrainingQueue.TabStop = False
         Me.gbTrainingQueue.Text = "Training Queue"
@@ -3031,14 +3033,24 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
+        'chkDisableAutoConnections
+        '
+        Me.chkDisableAutoConnections.AutoSize = True
+        Me.chkDisableAutoConnections.Location = New System.Drawing.Point(24, 149)
+        Me.chkDisableAutoConnections.Name = "chkDisableAutoConnections"
+        Me.chkDisableAutoConnections.Size = New System.Drawing.Size(199, 17)
+        Me.chkDisableAutoConnections.TabIndex = 51
+        Me.chkDisableAutoConnections.Text = "Disable Automatic Web Connections"
+        Me.chkDisableAutoConnections.UseVisualStyleBackColor = True
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbTrainingQueue)
-        Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbGeneral)
+        Me.Controls.Add(Me.gbEveServer)
+        Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbG15)
@@ -3406,4 +3418,5 @@ Partial Public Class frmSettings
     Friend WithEvents cboTrainingBarPosition As System.Windows.Forms.ComboBox
     Friend WithEvents lblToolbarPosition As System.Windows.Forms.Label
     Friend WithEvents cboToolbarPosition As System.Windows.Forms.ComboBox
+    Friend WithEvents chkDisableAutoConnections As System.Windows.Forms.CheckBox
 End Class

@@ -465,7 +465,9 @@ Public Class frmEveHQ
         tmrMemory.Enabled = True
 
         ' Start the update check on a new thread
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.CheckForUpdates)
+        If EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections = False Then
+            Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.CheckForUpdates)
+        End If
 
     End Sub
     Private Sub frmEveHQ_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize

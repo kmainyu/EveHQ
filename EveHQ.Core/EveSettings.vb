@@ -148,7 +148,16 @@ Imports System.Diagnostics
     Private cMDITabPosition As String = "Top"
     Private cToolbarPosition As String = "Left"
     Private cTrainingBarPosition As String = "Bottom"
+    Private cDisableAutoWebConnections As Boolean = False
 
+    Public Property DisableAutoWebConnections() As Boolean
+        Get
+            Return cDisableAutoWebConnections
+        End Get
+        Set(ByVal value As Boolean)
+            cDisableAutoWebConnections = value
+        End Set
+    End Property
     Public Property TrainingBarPosition() As String
         Get
             Return cTrainingBarPosition
