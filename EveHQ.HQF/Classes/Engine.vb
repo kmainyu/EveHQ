@@ -460,6 +460,7 @@ Public Class Engine
         newShip.ShipBay_Used = cShip.ShipBay_Used
         newShip.FleetSlotCollection = CType(cShip.FleetSlotCollection.Clone, ArrayList)
         newShip.RemoteSlotCollection = CType(cShip.RemoteSlotCollection.Clone, ArrayList)
+        newShip.EnviroSlotCollection = CType(cShip.EnviroSlotCollection.Clone, ArrayList)
         If cShip.DamageProfile IsNot Nothing Then
             newShip.DamageProfile = cShip.DamageProfile
         Else
@@ -1019,6 +1020,11 @@ Public Class Engine
         For Each FleetObject As Object In newShip.FleetSlotCollection
             If TypeOf FleetObject Is ShipModule Then
                 newShip.SlotCollection.Add(FleetObject)
+            End If
+        Next
+        For Each EnviroObject As Object In newShip.EnviroSlotCollection
+            If TypeOf EnviroObject Is ShipModule Then
+                newShip.SlotCollection.Add(EnviroObject)
             End If
         Next
         For slot As Integer = 1 To newShip.HiSlots

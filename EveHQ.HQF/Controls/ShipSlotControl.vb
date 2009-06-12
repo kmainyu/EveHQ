@@ -3512,6 +3512,10 @@ Public Class ShipSlotControl
 
 #End Region
 
+#Region "Wormhole Effects"
+
+#End Region
+
 #Region "Ship Skill Context Menu"
     Private Sub ctxShipSkills_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxShipSkills.Opening
         ' Check for Relevant Skills in Modules/Charges
@@ -3655,4 +3659,42 @@ Public Class ShipSlotControl
     End Sub
 #End Region
 
+    Private Sub cboWHEffect_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWHEffect.SelectedIndexChanged
+        ' Clear the current effect
+        currentShip.EnviroSlotCollection.Clear()
+        ' Set the WH Class combo if it's not activated
+        If cboWHEffect.SelectedIndex > 0 Then
+            If cboWHClass.SelectedIndex = -1 Then
+                cboWHClass.SelectedIndex = 0
+                Exit Sub
+            Else
+                Dim modName As String = ""
+                If cboWHEffect.SelectedItem.ToString = "Red Giant" Then
+                    modName = cboWHEffect.SelectedItem.ToString & " Beacon Class " & cboWHClass.SelectedItem.ToString
+                Else
+                    modName = cboWHEffect.SelectedItem.ToString & " Effect Beacon Class " & cboWHClass.SelectedItem.ToString
+                End If
+                Dim modID As String = CStr(ModuleLists.moduleListName(modName))
+                Dim eMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                currentShip.EnviroSlotCollection.Add(eMod)
+            End If
+        End If
+        currentInfo.ShipType = currentShip
+        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+        Call Me.UpdateAllSlotLocations()
+    End Sub
+
+    Private Sub cboWHClass_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWHClass.SelectedIndexChanged
+        If cboWHEffect.SelectedIndex > 0 Then
+            ' Clear the current effect
+            currentShip.EnviroSlotCollection.Clear()
+            Dim modName As String = cboWHEffect.SelectedItem.ToString & " Effect Beacon Class " & cboWHClass.SelectedItem.ToString
+            Dim modID As String = CStr(ModuleLists.moduleListName(modName))
+            Dim eMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+            currentShip.EnviroSlotCollection.Add(eMod)
+            currentInfo.ShipType = currentShip
+            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+            Call Me.UpdateAllSlotLocations()
+        End If
+    End Sub
 End Class

@@ -24,11 +24,11 @@ Partial Class ShipSlotControl
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShipSlotControl))
-        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Subsystem Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("High Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Subsystem Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Me.lblFittingMarketPrice = New System.Windows.Forms.Label
         Me.lblShipMarketPrice = New System.Windows.Forms.Label
         Me.lblTurretSlots = New System.Windows.Forms.Label
@@ -84,6 +84,8 @@ Partial Class ShipSlotControl
         Me.lvwShipBay = New System.Windows.Forms.ListView
         Me.colShipBayShip = New System.Windows.Forms.ColumnHeader
         Me.colShipBayQuantity = New System.Windows.Forms.ColumnHeader
+        Me.colShipBayVolume = New System.Windows.Forms.ColumnHeader
+        Me.colShipBayTotalVolume = New System.Windows.Forms.ColumnHeader
         Me.tabRemote = New System.Windows.Forms.TabPage
         Me.panelRemote = New System.Windows.Forms.Panel
         Me.cboFitting = New System.Windows.Forms.ComboBox
@@ -116,9 +118,13 @@ Partial Class ShipSlotControl
         Me.lblFleetStatusLabel = New System.Windows.Forms.Label
         Me.cboWCShip = New System.Windows.Forms.ComboBox
         Me.cboFCShip = New System.Windows.Forms.ComboBox
-        Me.colShipBayVolume = New System.Windows.Forms.ColumnHeader
+        Me.tabEnvironment = New System.Windows.Forms.TabPage
+        Me.Panel1 = New System.Windows.Forms.Panel
+        Me.lblWHClass = New System.Windows.Forms.Label
+        Me.cboWHClass = New System.Windows.Forms.ComboBox
+        Me.lblWHEffect = New System.Windows.Forms.Label
+        Me.cboWHEffect = New System.Windows.Forms.ComboBox
         Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
-        Me.colShipBayTotalVolume = New System.Windows.Forms.ColumnHeader
         Me.ctxSlots.SuspendLayout()
         Me.ctxBays.SuspendLayout()
         Me.ctxRemoteFittings.SuspendLayout()
@@ -141,6 +147,8 @@ Partial Class ShipSlotControl
         Me.panelRemote.SuspendLayout()
         Me.tabFleet.SuspendLayout()
         Me.panelFleet.SuspendLayout()
+        Me.tabEnvironment.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblFittingMarketPrice
@@ -407,6 +415,7 @@ Partial Class ShipSlotControl
         Me.tabStorage.Controls.Add(Me.tabShipBay)
         Me.tabStorage.Controls.Add(Me.tabRemote)
         Me.tabStorage.Controls.Add(Me.tabFleet)
+        Me.tabStorage.Controls.Add(Me.tabEnvironment)
         Me.tabStorage.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tabStorage.Location = New System.Drawing.Point(0, 0)
         Me.tabStorage.Multiline = True
@@ -659,6 +668,18 @@ Partial Class ShipSlotControl
         Me.colShipBayQuantity.Text = "Qty"
         Me.colShipBayQuantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.colShipBayQuantity.Width = 50
+        '
+        'colShipBayVolume
+        '
+        Me.colShipBayVolume.Text = "Ship Volume (m³)"
+        Me.colShipBayVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colShipBayVolume.Width = 100
+        '
+        'colShipBayTotalVolume
+        '
+        Me.colShipBayTotalVolume.Text = "Total Volume (m³)"
+        Me.colShipBayTotalVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.colShipBayTotalVolume.Width = 100
         '
         'tabRemote
         '
@@ -997,11 +1018,66 @@ Partial Class ShipSlotControl
         Me.cboFCShip.Size = New System.Drawing.Size(187, 21)
         Me.cboFCShip.TabIndex = 20
         '
-        'colShipBayVolume
+        'tabEnvironment
         '
-        Me.colShipBayVolume.Text = "Ship Volume (m³)"
-        Me.colShipBayVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colShipBayVolume.Width = 100
+        Me.tabEnvironment.Controls.Add(Me.Panel1)
+        Me.tabEnvironment.Location = New System.Drawing.Point(4, 22)
+        Me.tabEnvironment.Name = "tabEnvironment"
+        Me.tabEnvironment.Size = New System.Drawing.Size(668, 216)
+        Me.tabEnvironment.TabIndex = 5
+        Me.tabEnvironment.Text = "WH Effects"
+        Me.tabEnvironment.UseVisualStyleBackColor = True
+        '
+        'Panel1
+        '
+        Me.Panel1.BackColor = System.Drawing.SystemColors.Control
+        Me.Panel1.Controls.Add(Me.lblWHClass)
+        Me.Panel1.Controls.Add(Me.cboWHClass)
+        Me.Panel1.Controls.Add(Me.lblWHEffect)
+        Me.Panel1.Controls.Add(Me.cboWHEffect)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Location = New System.Drawing.Point(0, 0)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(668, 216)
+        Me.Panel1.TabIndex = 26
+        '
+        'lblWHClass
+        '
+        Me.lblWHClass.AutoSize = True
+        Me.lblWHClass.Location = New System.Drawing.Point(286, 15)
+        Me.lblWHClass.Name = "lblWHClass"
+        Me.lblWHClass.Size = New System.Drawing.Size(86, 13)
+        Me.lblWHClass.TabIndex = 14
+        Me.lblWHClass.Text = "Wormhole Class:"
+        '
+        'cboWHClass
+        '
+        Me.cboWHClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWHClass.FormattingEnabled = True
+        Me.cboWHClass.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6"})
+        Me.cboWHClass.Location = New System.Drawing.Point(374, 12)
+        Me.cboWHClass.Name = "cboWHClass"
+        Me.cboWHClass.Size = New System.Drawing.Size(59, 21)
+        Me.cboWHClass.TabIndex = 13
+        '
+        'lblWHEffect
+        '
+        Me.lblWHEffect.AutoSize = True
+        Me.lblWHEffect.Location = New System.Drawing.Point(10, 15)
+        Me.lblWHEffect.Name = "lblWHEffect"
+        Me.lblWHEffect.Size = New System.Drawing.Size(89, 13)
+        Me.lblWHEffect.TabIndex = 12
+        Me.lblWHEffect.Text = "Wormhole Effect:"
+        '
+        'cboWHEffect
+        '
+        Me.cboWHEffect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWHEffect.FormattingEnabled = True
+        Me.cboWHEffect.Items.AddRange(New Object() {"<None>", "Black Hole", "Cataclysmic Variable", "Magnetar", "Pulsar", "Red Giant", "Wolf Rayet"})
+        Me.cboWHEffect.Location = New System.Drawing.Point(105, 12)
+        Me.cboWHEffect.Name = "cboWHEffect"
+        Me.cboWHEffect.Size = New System.Drawing.Size(148, 21)
+        Me.cboWHEffect.TabIndex = 10
         '
         'lvwSlots
         '
@@ -1009,17 +1085,17 @@ Partial Class ShipSlotControl
         Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
         Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvwSlots.FullRowSelect = True
-        ListViewGroup6.Header = "High Slots"
-        ListViewGroup6.Name = "lvwgHighSlots"
-        ListViewGroup7.Header = "Mid Slots"
-        ListViewGroup7.Name = "lvwgMidSlots"
-        ListViewGroup8.Header = "Low Slots"
-        ListViewGroup8.Name = "lvwgLowSlots"
-        ListViewGroup9.Header = "Rig Slots"
-        ListViewGroup9.Name = "lvwgRigSlots"
-        ListViewGroup10.Header = "Subsystem Slots"
-        ListViewGroup10.Name = "lvwgSubSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup6, ListViewGroup7, ListViewGroup8, ListViewGroup9, ListViewGroup10})
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        ListViewGroup5.Header = "Subsystem Slots"
+        ListViewGroup5.Name = "lvwgSubSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5})
         Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
         Me.lvwSlots.Name = "lvwSlots"
         Me.lvwSlots.Size = New System.Drawing.Size(676, 275)
@@ -1028,12 +1104,6 @@ Partial Class ShipSlotControl
         Me.lvwSlots.Tag = ""
         Me.lvwSlots.UseCompatibleStateImageBehavior = False
         Me.lvwSlots.View = System.Windows.Forms.View.Details
-        '
-        'colShipBayTotalVolume
-        '
-        Me.colShipBayTotalVolume.Text = "Total Volume (m³)"
-        Me.colShipBayTotalVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.colShipBayTotalVolume.Width = 100
         '
         'ShipSlotControl
         '
@@ -1071,6 +1141,9 @@ Partial Class ShipSlotControl
         Me.tabFleet.ResumeLayout(False)
         Me.panelFleet.ResumeLayout(False)
         Me.panelFleet.PerformLayout()
+        Me.tabEnvironment.ResumeLayout(False)
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1213,4 +1286,10 @@ Partial Class ShipSlotControl
     Friend WithEvents colShipBayQuantity As System.Windows.Forms.ColumnHeader
     Friend WithEvents colShipBayVolume As System.Windows.Forms.ColumnHeader
     Friend WithEvents colShipBayTotalVolume As System.Windows.Forms.ColumnHeader
+    Friend WithEvents tabEnvironment As System.Windows.Forms.TabPage
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents lblWHClass As System.Windows.Forms.Label
+    Friend WithEvents cboWHClass As System.Windows.Forms.ComboBox
+    Friend WithEvents lblWHEffect As System.Windows.Forms.Label
+    Friend WithEvents cboWHEffect As System.Windows.Forms.ComboBox
 End Class
