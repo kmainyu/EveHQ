@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -27,12 +27,16 @@ namespace EveHQ.PosManager
         public bool UseSerializableData = false;
         public string LastCacheRefresh = "1.10.1.155";
         public static ManualResetEvent[] resetEvents;
+        public SystemSovList SL;
+        public AllianceList AL;
 
         public Boolean EveHQStartUp()
         {
             StreamReader sr;
             string cacheVers;
-            resetEvents = new ManualResetEvent[3];
+            resetEvents = new ManualResetEvent[5];
+            SL = new SystemSovList();
+            AL = new AllianceList();
             DateTime startT, endT;
             TimeSpan runT;
 
@@ -74,21 +78,33 @@ namespace EveHQ.PosManager
                 }
             }
 
+            startT = DateTime.Now;
             if (!UseSerializableData)
             {
-                startT = DateTime.Now;
                 resetEvents[0] = new ManualResetEvent(false);
                 resetEvents[1] = new ManualResetEvent(false);
                 resetEvents[2] = new ManualResetEvent(false);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(TL.PopulateTowerListing), LastCacheRefresh);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ML.PopulateModuleListing));
                 ThreadPool.QueueUserWorkItem(new WaitCallback(CL.PopulateCategoryList));
-                WaitHandle.WaitAll(resetEvents);
-                
-                endT = DateTime.Now;
-                runT = endT.Subtract(startT);
+            }
+            else
+            {
+                resetEvents[0] = new ManualResetEvent(true);
+                resetEvents[1] = new ManualResetEvent(true);
+                resetEvents[2] = new ManualResetEvent(true);
             }
 
+            // Load any API data - it could be updated, so check
+            resetEvents[3] = new ManualResetEvent(false);
+            resetEvents[4] = new ManualResetEvent(false);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(SL.LoadSovListFromAPI));
+            ThreadPool.QueueUserWorkItem(new WaitCallback(AL.LoadAllianceListFromAPI));
+
+            WaitHandle.WaitAll(resetEvents);
+
+            endT = DateTime.Now;
+            runT = endT.Subtract(startT);
             return true;
         }
 

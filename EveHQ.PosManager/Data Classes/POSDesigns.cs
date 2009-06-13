@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -143,7 +143,7 @@ namespace EveHQ.PosManager
             AddDesignToList(des);
         }
 
-        public void CalculatePOSFuelRunTimes(API_List APIL)
+        public void CalculatePOSFuelRunTimes(API_List APIL, FuelBay fb)
         {
             // This function will calculate the fuel run times for the current
             // monitored POS list if the PoS has a timestamp for monitoring set.
@@ -151,7 +151,7 @@ namespace EveHQ.PosManager
             {
                 if (pl.Monitored)
                 {
-                    pl.CalculatePOSFuelRunTime(APIL);
+                    pl.CalculatePOSFuelRunTime(APIL, fb);
                 }
             }
             // To be added at some point will be input from a Corp API download for

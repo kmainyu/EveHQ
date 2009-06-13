@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -22,6 +22,8 @@ namespace EveHQ.PosManager
         public SortOrder MonSortOrder;
         public ArrayList Extra;
         public string SelPos;
+        public bool maintChart, maintStront;
+        public decimal maintTP, maintPV;
 
         public ConfigData()
         {
@@ -31,6 +33,10 @@ namespace EveHQ.PosManager
             MonSelIndex = 0;
             SelPos = "";
             MonSortOrder = SortOrder.Ascending;
+            maintChart = true;
+            maintStront = true;
+            maintTP = 0;
+            maintPV = 1;
         }
     }
 }

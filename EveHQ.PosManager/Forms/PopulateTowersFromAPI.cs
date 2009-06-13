@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -82,7 +82,7 @@ namespace EveHQ.PosManager
                         if(tName.Contains(apid.itemID.ToString()))
                         {
                             // Found the correct one, now add it
-                            tName = apid.corpName + " --> " + apid.locName + ", " + apid.towerName;
+                            tName = apid.corpName + "-->" + apid.towerName;
                             APITower = new POS(tName);
 
                             // I have the name. Need to add the tower object to the POS
@@ -94,11 +94,16 @@ namespace EveHQ.PosManager
                                     break;
                                 }
                             }
-                            
+
+                            APITower.CorpName = apid.corpName;
+                            APITower.System = apid.locName;
+
                             // Need to set tower as Linked to the API by default
                             APITower.itemID = apid.itemID;
                             APITower.locID = apid.towerLocation;
                             APITower.PosTower.State = st;
+                            APITower.PosTower.CPU_Used = APITower.PosTower.CPU;
+                            APITower.PosTower.Power_Used = APITower.PosTower.Power;
 
                             // Also need to set Fuel Data Amounts
                             APITower.PosTower.Fuel.EnrUran.Qty = apid.EnrUr;

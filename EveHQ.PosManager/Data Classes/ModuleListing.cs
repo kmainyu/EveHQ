@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -63,11 +63,11 @@ namespace EveHQ.PosManager
         {
             double retVal = -1;
 
-            try
+            if (!dr.ItemArray[aI_1].Equals(System.DBNull.Value))
             {
                 retVal = Convert.ToDouble(dr.ItemArray[aI_1]);
             }
-            catch
+            else
             {
                 retVal = Convert.ToDouble(dr.ItemArray[aI_2]);
             }
@@ -79,11 +79,11 @@ namespace EveHQ.PosManager
         {
             decimal retVal = 0;
 
-            try
+            if (!dr.ItemArray[aI_1].Equals(System.DBNull.Value))
             {
                 retVal = Convert.ToDecimal(dr.ItemArray[aI_1]);
             }
-            catch
+            else
             {
                 retVal = Convert.ToDecimal(dr.ItemArray[aI_2]);
             }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -28,18 +28,37 @@ namespace EveHQ.PosManager
         private FuelBay D_Fuel = new FuelBay();         // Fuel Bay to be used for the Designer
         public API_List API_D = new API_List();         // API Tower Listing (if it Exists)
         public DPListing DPLst = new DPListing();       // Damage Profile Listing
+        public AllianceList AL = new AllianceList();
+        public SystemSovList SL = new SystemSovList();
         Configuration Config = new Configuration();
         PoS_Item api;
+        FuelBay tt = null;
         bool load = false;
         bool update = false;
         bool PosChanged = false;
         private int Mon_dg_indx = 0;
+        private int Fil_dg_indx = 0;
         private string Mon_dg_Pos = "";
-        private string selName;
+        private string selName, AllPosFillText, SelPosFillText;
         public string CurrentName = "", NewName = "";
-        enum MonDG {Name, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt };
+        enum MonDG {Name, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC };
         enum dgPM {Name, Qty, State, Opt, fOff, dmg, rof, dps, trk, prox, swDly, Chg, cost };
-
+        enum fillDG { Name, Loc, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt };
+        enum fuelDG { type, amount, vol, cost };
+        public string[] fuelI = { "EnrUran",
+                                  "Oxygen",
+                                  "MechPart",
+                                  "Coolant",
+                                  "Robotics",
+                                  "HeIso",
+                                  "H2Iso",
+                                  "N2Iso",
+                                  "O2Iso",
+                                  "HvyWater",
+                                  "LiqOzone",
+                                  "Charters",
+                                  "Strontium"
+                                };
     
 #region Main Form Handlers
 
@@ -60,8 +79,10 @@ namespace EveHQ.PosManager
             POSList.LoadDesignListing();    // Loads Desgined POS's from Disk
             API_D.LoadAPIListing(TL);       // Load Tower API Data from Disk
             DPLst.LoadDPListing();          // Load Damage Profile List
+            SL.LoadSovListFromDisk();
+            AL.LoadAllianceListFromDisk();
             PopulateDPList("Omni-Type");
-
+            PopulateSystemList();
 
             // Add PoS designes into the Designer Combo-Box pull down list for Selection
             cb_PoSName.Items.Clear();
@@ -78,7 +99,7 @@ namespace EveHQ.PosManager
             }
             BuildPOSListForMonitoring();
 
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
 
             GetTowerItemListData();
             PopulateMonitoredPoSDisplay();
@@ -113,9 +134,11 @@ namespace EveHQ.PosManager
                 dg_MonitoredTowers_SelectionChanged(o, ea);
             }
 
+            // Set default time period to FILL
+            tscb_TimePeriod.SelectedIndex = (int)Config.data.maintTP;
+            nud_PeriodValue.Value = Config.data.maintPV;
+
             load = false;
-            if(cb_PoSName.Items.Count > 0)
-                cb_PoSName.SelectedIndex = 0;
         }
 
         private void tb_PosManager_SelectedIndexChanged(object sender, EventArgs e)
@@ -127,6 +150,17 @@ namespace EveHQ.PosManager
             {
                 if (cb_PoSName.Items.Contains(selName))
                     cb_PoSName.SelectedItem = selName;
+            }
+            else if (tb_PosManager.SelectedIndex == 2)
+            {
+                PopulateTowerFillDG();
+                if (dg_TowerFuelList.Rows.Count > Fil_dg_indx)
+                {
+                    dg_TowerFuelList.CurrentCell = dg_TowerFuelList.Rows[Fil_dg_indx].Cells[(int)fillDG.Name];
+                    Object o = new Object();
+                    EventArgs ea = new EventArgs();
+                    dg_TowerFuelList_SelectionChanged(o, ea);
+                }
             }
         }
 
@@ -157,6 +191,23 @@ namespace EveHQ.PosManager
                     PosChanged = false;
                 }
             }
+            Config.SaveConfiguration();
+        }
+
+        private void PopulateSystemList()
+        {
+            ArrayList syst = new ArrayList();
+
+            cb_System.Items.Clear();
+
+            foreach (Sov_Data sd in SL.SovList)
+                syst.Add(sd.systemName);
+
+            syst.Sort();
+
+            cb_System.Items.AddRange(syst.ToArray());
+
+            cb_System.SelectedIndex = 0;
         }
 
 #endregion
@@ -208,7 +259,7 @@ namespace EveHQ.PosManager
                     retVal = day;
             }
 
-            if (hours > 0)
+            if (hours >= 1)
             {
                 if (retVal.Length > 0)
                     retVal += ", " + hour;
@@ -223,6 +274,8 @@ namespace EveHQ.PosManager
         {
             string retVal = "";
             int days;
+
+            hours = Math.Floor(hours);
 
             days = Convert.ToInt32(Math.Truncate(hours / 24));
 
@@ -269,7 +322,7 @@ namespace EveHQ.PosManager
                 secs = secs - (mins * 60);
             }
 
-            if (secs > 0)
+            if (secs >= 1)
             {
                 if ((hours > 0) || (mins > 0))
                     retVal += ", " + String.Format("{0:0}", secs) + " s";
@@ -1150,139 +1203,73 @@ namespace EveHQ.PosManager
 
         private void CalculateAndDisplayDesignFuelData()
         {
-            decimal fbu, sbu, fuelCost, strontCost, tFuelCost = 0;
+            decimal fbu, sbu;
             string lin1, lin2;
             string run_time;
 
-            Design.CalculatePOSDesignFuelValues();
+            Design.CalculatePOSDesignFuelValues(Config.data.FuelCosts);
 
             // Display Calculated Data
             l_EnrUranium.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.EnrUran.Qty);
-            if (Config.data.FuelCosts.EnrUran.Cost > 0)
-                fuelCost = (Design.PosTower.D_Fuel.EnrUran.Qty * Config.data.FuelCosts.EnrUran.Cost);
-            else
-                fuelCost = (Design.PosTower.D_Fuel.EnrUran.Qty * Design.PosTower.D_Fuel.EnrUran.Cost);
-            l_EnrUrn_C.Text = String.Format("{0:#,0.#}", fuelCost);
-            tFuelCost += fuelCost;
+            l_EnrUrn_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.EnrUran.CostForQty);
 
             l_Oxygen.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Oxygen.Qty);
-            if (Config.data.FuelCosts.Oxygen.Cost > 0)
-                fuelCost = (Design.PosTower.D_Fuel.Oxygen.Qty * Config.data.FuelCosts.Oxygen.Cost);
-            else
-                fuelCost = (Design.PosTower.D_Fuel.Oxygen.Qty * Design.PosTower.D_Fuel.Oxygen.Cost);
-            l_Oxygen_C.Text = String.Format("{0:#,0.#}", fuelCost);
-            tFuelCost += fuelCost;
+            l_Oxygen_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Oxygen.CostForQty);
 
             l_MechParts.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.MechPart.Qty);
-            if (Config.data.FuelCosts.MechPart.Cost > 0)
-                fuelCost = (Design.PosTower.D_Fuel.MechPart.Qty * Config.data.FuelCosts.MechPart.Cost);
-            else
-                fuelCost = (Design.PosTower.D_Fuel.MechPart.Qty * Design.PosTower.D_Fuel.MechPart.Cost);
-            l_McP_C.Text = String.Format("{0:#,0.#}", fuelCost);
-            tFuelCost += fuelCost;
+            l_McP_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.MechPart.CostForQty);
 
             l_Coolant.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Coolant.Qty);
-            if (Config.data.FuelCosts.Coolant.Cost > 0)
-                fuelCost = (Design.PosTower.D_Fuel.Coolant.Qty * Config.data.FuelCosts.Coolant.Cost);
-            else
-                fuelCost = (Design.PosTower.D_Fuel.Coolant.Qty * Design.PosTower.D_Fuel.Coolant.Cost);
-            l_Cool_C.Text = String.Format("{0:#,0.#}", fuelCost);
-            tFuelCost += fuelCost;
+            l_Cool_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Coolant.CostForQty);
 
             l_Robotics.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Robotics.Qty);
-            if (Config.data.FuelCosts.Robotics.Cost > 0)
-                fuelCost = (Design.PosTower.D_Fuel.Robotics.Qty * Config.data.FuelCosts.Robotics.Cost);
-            else
-                fuelCost = (Design.PosTower.D_Fuel.Robotics.Qty * Design.PosTower.D_Fuel.Robotics.Cost);
-            l_Robt_C.Text = String.Format("{0:#,0.#}", fuelCost);
-            tFuelCost += fuelCost;
+            l_Robt_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Robotics.CostForQty);
 
             l_HeavyWater.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.HvyWater.Qty);
-            if (Config.data.FuelCosts.HvyWater.Cost > 0)
-                fuelCost = (Design.PosTower.D_Fuel.HvyWater.Qty * Config.data.FuelCosts.HvyWater.Cost);
-            else
-                fuelCost = (Design.PosTower.D_Fuel.HvyWater.Qty * Design.PosTower.D_Fuel.HvyWater.Cost);
-            l_HvyW_C.Text = String.Format("{0:#,0.#}", fuelCost);
-            tFuelCost += fuelCost;
+            l_HvyW_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.HvyWater.CostForQty);
 
             l_LiquidOzone.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.LiqOzone.Qty);
-            if (Config.data.FuelCosts.LiqOzone.Cost > 0)
-                fuelCost = (Design.PosTower.D_Fuel.LiqOzone.Qty * Config.data.FuelCosts.LiqOzone.Cost);
-            else
-                fuelCost = (Design.PosTower.D_Fuel.LiqOzone.Qty * Design.PosTower.D_Fuel.LiqOzone.Cost);
-            l_LiqO_C.Text = String.Format("{0:#,0.#}", fuelCost);
-            tFuelCost += fuelCost;
+            l_LiqO_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.LiqOzone.CostForQty);
 
             l_FactionCharters.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Charters.Qty);
-            if (Config.data.FuelCosts.Charters.Cost > 0)
-                fuelCost = (Design.PosTower.D_Fuel.Charters.Qty * Config.data.FuelCosts.Charters.Cost);
-            else
-                fuelCost = (Design.PosTower.D_Fuel.Charters.Qty * Design.PosTower.D_Fuel.Charters.Cost);
-            l_Chart_C.Text = String.Format("{0:#,0.#}", fuelCost);
-            tFuelCost += fuelCost;
+            l_Chart_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Charters.CostForQty);
 
             l_Stront_D.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Strontium.Qty);
-            if (Config.data.FuelCosts.Strontium.Cost > 0)
-                strontCost = (Design.PosTower.D_Fuel.Strontium.Qty * Config.data.FuelCosts.Strontium.Cost);
-            else
-                strontCost = (Design.PosTower.D_Fuel.Strontium.Qty * Design.PosTower.D_Fuel.Strontium.Cost);
-            l_Strnt_C.Text = String.Format("{0:#,0.#}", strontCost);
+            l_Strnt_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.Strontium.CostForQty);
 
             if (Design.PosTower.D_Fuel.N2Iso.Qty > 0)
             {
                 l_Isotopes.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.N2Iso.Qty);
                 l_IsotopeType.Text = "N2 Iso";
-                if (Config.data.FuelCosts.N2Iso.Cost > 0)
-                    fuelCost = (Design.PosTower.D_Fuel.N2Iso.Qty * Config.data.FuelCosts.N2Iso.Cost);
-                else
-                    fuelCost = (Design.PosTower.D_Fuel.N2Iso.Qty * Design.PosTower.D_Fuel.N2Iso.Cost);
-                l_Iso_C.Text = String.Format("{0:#,0.#}", fuelCost);
-                tFuelCost += fuelCost;
+                l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.N2Iso.CostForQty);
             }
             else if (Design.PosTower.D_Fuel.H2Iso.Qty > 0)
             {
                 l_Isotopes.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.H2Iso.Qty);
                 l_IsotopeType.Text = "H2 Iso";
-                if (Config.data.FuelCosts.H2Iso.Cost > 0)
-                    fuelCost = (Design.PosTower.D_Fuel.H2Iso.Qty * Config.data.FuelCosts.H2Iso.Cost);
-                else
-                    fuelCost = (Design.PosTower.D_Fuel.H2Iso.Qty * Design.PosTower.D_Fuel.H2Iso.Cost);
-                l_Iso_C.Text = String.Format("{0:#,0.#}", fuelCost);
-                tFuelCost += fuelCost;
+                l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.H2Iso.CostForQty);
             }
             else if (Design.PosTower.D_Fuel.HeIso.Qty > 0)
             {
                 l_Isotopes.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.HeIso.Qty);
                 l_IsotopeType.Text = "He Iso";
-                if (Config.data.FuelCosts.HeIso.Cost > 0)
-                    fuelCost = (Design.PosTower.D_Fuel.HeIso.Qty * Config.data.FuelCosts.HeIso.Cost);
-                else
-                    fuelCost = (Design.PosTower.D_Fuel.HeIso.Qty * Design.PosTower.D_Fuel.HeIso.Cost);
-                l_Iso_C.Text = String.Format("{0:#,0.#}", fuelCost);
-                tFuelCost += fuelCost;
+                l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.HeIso.CostForQty);
             }
             else if (Design.PosTower.D_Fuel.O2Iso.Qty > 0)
             {
                 l_Isotopes.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.O2Iso.Qty);
                 l_IsotopeType.Text = "O2 Iso";
-                if (Config.data.FuelCosts.O2Iso.Cost > 0)
-                    fuelCost = (Design.PosTower.D_Fuel.O2Iso.Qty * Config.data.FuelCosts.O2Iso.Cost);
-                else
-                    fuelCost = (Design.PosTower.D_Fuel.O2Iso.Qty * Design.PosTower.D_Fuel.O2Iso.Cost);
-                l_Iso_C.Text = String.Format("{0:#,0.#}", fuelCost);
-                tFuelCost += fuelCost;
+                l_Iso_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.O2Iso.CostForQty);
             }
             else
             {
                 l_Isotopes.Text = "0";
                 l_IsotopeType.Text = "Unknown";
-                fuelCost = 0;
-                l_Iso_C.Text = String.Format("{0:#,0.#}", fuelCost);
-                tFuelCost += fuelCost;
+                l_Iso_C.Text = String.Format("{0:#,0.#}", 0);
             }
 
-            l_Fuel_C.Text = String.Format("{0:#,0.#}", tFuelCost);
-            l_FuelStront_C.Text = String.Format("{0:#,0.#}", (tFuelCost + strontCost));
+            l_Fuel_C.Text = String.Format("{0:#,0.#}", Design.PosTower.D_Fuel.FuelCost);
+            l_FuelStront_C.Text = String.Format("{0:#,0.#}", (Design.PosTower.D_Fuel.FuelCost + Design.PosTower.D_Fuel.Strontium.CostForQty));
 
             fbu = ComputeBayPercentage(Design.PosTower.D_Fuel.FuelUsed, Design.PosTower.D_Fuel.FuelCap);
             sbu = ComputeBayPercentage(Design.PosTower.D_Fuel.StrontUsed, Design.PosTower.D_Fuel.StrontCap);
@@ -1829,7 +1816,7 @@ namespace EveHQ.PosManager
 
                     POSList.SaveDesignListing();
                     BuildPOSListForMonitoring();
-                    POSList.CalculatePOSFuelRunTimes(API_D);
+                    POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
                     PosChanged = false;
                 }
                 else
@@ -1918,6 +1905,10 @@ namespace EveHQ.PosManager
                 cb_Interval.SelectedIndex = 1;
                 nud_StrontInterval.Value = 0;
             }
+
+            cb_SovLevel.SelectedIndex = Design.SovLevel;
+            cb_System.Text = Design.System;
+
             load = false;
             CalculatePOSData();
         }
@@ -1962,6 +1953,25 @@ namespace EveHQ.PosManager
             return retVal;
         }
 
+        private void cb_SovLevel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Design.SovLevel = cb_SovLevel.SelectedIndex;
+
+            if (!load)
+                PosChanged = true;
+            CalculatePOSData();
+        }
+
+        private void cb_System_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Design.System = cb_System.Text;
+
+            if (!load)
+                PosChanged = true;
+            CalculatePOSData();
+        }
+
+
 #endregion
 
 
@@ -2005,7 +2015,7 @@ namespace EveHQ.PosManager
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Name].Value = p.Name;
                     line = ConvertHoursToTextDisplay(p.PosTower.F_RunTime);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.FuelR].Value = line;
-                    line = ConvertHoursToTextDisplay(p.PosTower.S_RunTime);
+                    line = ConvertHoursToTextDisplay(p.PosTower.Fuel.Strontium.RunTime);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.StrontR].Value = line;
 
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Value = p.PosTower.State;
@@ -2087,8 +2097,9 @@ namespace EveHQ.PosManager
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.HvW].Style.BackColor = Color.Red;
                         if (p.PosTower.Fuel.LiqOzone.RunTime < 24)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.LqO].Style.BackColor = Color.Red;
-                        if (p.PosTower.Fuel.Charters.RunTime < 24)
-                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cht].Style.BackColor = Color.Red;
+                        if (p.UseChart)
+                            if (p.PosTower.Fuel.Charters.RunTime < 24)
+                                dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cht].Style.BackColor = Color.Red;
                         if (p.PosTower.Fuel.Strontium.RunTime < 4)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Strt].Style.BackColor = Color.Red;
 
@@ -2111,6 +2122,9 @@ namespace EveHQ.PosManager
                         if (p.PosTower.S_RunTime < 4)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.StrontR].Style.BackColor = Color.Red;
                     }
+
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.useC].Value = p.UseChart;
+
                 }
             }
 
@@ -2156,7 +2170,6 @@ namespace EveHQ.PosManager
                 Mon_dg_Pos = selName;
                 Mon_dg_indx = dg_MonitoredTowers.CurrentRow.Index;
                
-
                 foreach (POS pl in POSList.Designs)
                 {
                     if (selName == pl.Name)
@@ -2191,9 +2204,11 @@ namespace EveHQ.PosManager
 
         private void UpdateTowerMonitorDisplay()
         {
+            FuelBay nud_fuel;
             string selName;
             decimal bay_p;
             decimal cpu_u, power_u;
+            decimal sov_mod, increment;
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
@@ -2203,21 +2218,24 @@ namespace EveHQ.PosManager
                 {
                     if (selName == pl.Name)
                     {
-                        pl.PosTower.A_Fuel.EnrUran.Qty = nud_EnrUran.Value;
-                        pl.PosTower.A_Fuel.Oxygen.Qty = nud_Oxy.Value;
-                        pl.PosTower.A_Fuel.MechPart.Qty = nud_MechPart.Value;
-                        pl.PosTower.A_Fuel.Robotics.Qty = nud_Robotic.Value;
-                        pl.PosTower.A_Fuel.Coolant.Qty = nud_Coolant.Value;
-                        pl.PosTower.A_Fuel.HvyWater.Qty = nud_HvyWtr.Value;
-                        pl.PosTower.A_Fuel.LiqOzone.Qty = nud_LiqOzn.Value;
-                        pl.PosTower.A_Fuel.Charters.Qty = nud_Charter.Value;
-                        pl.PosTower.A_Fuel.HeIso.Qty = nud_Isotope.Value;
-                        pl.PosTower.A_Fuel.H2Iso.Qty = nud_Isotope.Value;
-                        pl.PosTower.A_Fuel.N2Iso.Qty = nud_Isotope.Value;
-                        pl.PosTower.A_Fuel.O2Iso.Qty = nud_Isotope.Value;
-                        pl.PosTower.A_Fuel.Strontium.Qty = nud_Stront.Value;
+                        nud_fuel = new FuelBay(pl.PosTower.Fuel);
+                        nud_fuel.EnrUran.Qty = nud_EnrUran.Value;
+                        nud_fuel.Oxygen.Qty = nud_Oxy.Value;
+                        nud_fuel.MechPart.Qty = nud_MechPart.Value;
+                        nud_fuel.Robotics.Qty = nud_Robotic.Value;
+                        nud_fuel.Coolant.Qty = nud_Coolant.Value;
+                        nud_fuel.HvyWater.Qty = nud_HvyWtr.Value;
+                        nud_fuel.LiqOzone.Qty = nud_LiqOzn.Value;
+                        nud_fuel.Charters.Qty = nud_Charter.Value;
+                        nud_fuel.HeIso.Qty = nud_Isotope.Value;
+                        nud_fuel.H2Iso.Qty = nud_Isotope.Value;
+                        nud_fuel.N2Iso.Qty = nud_Isotope.Value;
+                        nud_fuel.O2Iso.Qty = nud_Isotope.Value;
+                        nud_fuel.Strontium.Qty = nud_Stront.Value;
 
-                        pl.CalculatePOSAdjustRunTime();
+                        pl.CalculatePOSAdjustRunTime(Config.data.FuelCosts, nud_fuel);
+
+                        sov_mod = pl.GetSovMultiple();
 
                         power_u = pl.GetModifierTime(pl.PosTower.Power_Used, pl.PosTower.Power);
                         cpu_u = pl.GetModifierTime(pl.PosTower.CPU_Used, pl.PosTower.CPU);
@@ -2225,8 +2243,9 @@ namespace EveHQ.PosManager
                         // Enr Uranium
                         l_C_EnUr.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.EnrUran.Qty);
                         l_R_EnUr.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.EnrUran.RunTime);
-                        nud_EnrUran.Increment = Convert.ToDecimal(pl.PosTower.Fuel.EnrUran.PeriodQty);
-                        l_QH_EnUr.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.EnrUran.PeriodQty);
+                        increment = Math.Ceiling(pl.PosTower.Fuel.EnrUran.PeriodQty * sov_mod);
+                        nud_EnrUran.Increment = Convert.ToDecimal(increment);
+                        l_QH_EnUr.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_EnUr.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.EnrUran.RunTime);
                         l_AQ_EnUr.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.EnrUran.Qty));
                         if (pl.PosTower.A_Fuel.EnrUran.RunTime < pl.PosTower.Fuel.EnrUran.RunTime)
@@ -2245,8 +2264,9 @@ namespace EveHQ.PosManager
                         // Oxygen
                         l_C_Oxyg.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Oxygen.Qty);
                         l_R_Oxyg.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Oxygen.RunTime);
-                        nud_Oxy.Increment = Convert.ToDecimal(pl.PosTower.Fuel.Oxygen.PeriodQty);
-                        l_QH_Oxyg.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Oxygen.PeriodQty);
+                        increment = Math.Ceiling(pl.PosTower.Fuel.Oxygen.PeriodQty * sov_mod);
+                        nud_Oxy.Increment = Convert.ToDecimal(increment);
+                        l_QH_Oxyg.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_Oxyg.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Oxygen.RunTime);
                         l_AQ_Oxyg.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.Oxygen.Qty));
                         if (pl.PosTower.A_Fuel.Oxygen.RunTime < pl.PosTower.Fuel.Oxygen.RunTime)
@@ -2265,8 +2285,9 @@ namespace EveHQ.PosManager
                         // Mechanical Parts
                         l_C_McP.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.MechPart.Qty);
                         l_R_McP.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.MechPart.RunTime);
-                        nud_MechPart.Increment = Convert.ToDecimal(pl.PosTower.Fuel.MechPart.PeriodQty);
-                        l_QH_McP.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.MechPart.PeriodQty);
+                        increment = Math.Ceiling(pl.PosTower.Fuel.MechPart.PeriodQty * sov_mod);
+                        nud_MechPart.Increment = Convert.ToDecimal(increment);
+                        l_QH_McP.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_McP.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.MechPart.RunTime);
                         l_AQ_McP.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.MechPart.Qty));
                         if (pl.PosTower.A_Fuel.MechPart.RunTime < pl.PosTower.Fuel.MechPart.RunTime)
@@ -2285,8 +2306,9 @@ namespace EveHQ.PosManager
                         // Coolant
                         l_C_Cool.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Coolant.Qty);
                         l_R_Cool.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Coolant.RunTime);
-                        nud_Coolant.Increment = Convert.ToDecimal(pl.PosTower.Fuel.Coolant.PeriodQty);
-                        l_QH_Cool.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Coolant.PeriodQty);
+                        increment = Math.Ceiling(pl.PosTower.Fuel.Coolant.PeriodQty * sov_mod);
+                        nud_Coolant.Increment = Convert.ToDecimal(increment);
+                        l_QH_Cool.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_Cool.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Coolant.RunTime);
                         l_AQ_Cool.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.Coolant.Qty));
                         if (pl.PosTower.A_Fuel.Coolant.RunTime < pl.PosTower.Fuel.Coolant.RunTime)
@@ -2305,8 +2327,9 @@ namespace EveHQ.PosManager
                         // Robotics
                         l_C_Robt.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Robotics.Qty);
                         l_R_Robt.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Robotics.RunTime);
-                        nud_Robotic.Increment = Convert.ToDecimal(pl.PosTower.Fuel.Robotics.PeriodQty);
-                        l_QH_Robt.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Robotics.PeriodQty);
+                        increment = Math.Ceiling(pl.PosTower.Fuel.Robotics.PeriodQty * sov_mod);
+                        nud_Robotic.Increment = Convert.ToDecimal(increment);
+                        l_QH_Robt.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_Robt.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Robotics.RunTime);
                         l_AQ_Robt.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.Robotics.Qty));
                         if (pl.PosTower.A_Fuel.Robotics.RunTime < pl.PosTower.Fuel.Robotics.RunTime)
@@ -2325,8 +2348,9 @@ namespace EveHQ.PosManager
                         // Faction Charters
                         l_C_Chrt.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Charters.Qty);
                         l_R_Chrt.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Charters.RunTime);
-                        nud_Charter.Increment = Convert.ToDecimal(pl.PosTower.Fuel.Charters.PeriodQty);
-                        l_QH_Chrt.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Charters.PeriodQty);
+                        increment = Math.Ceiling(pl.PosTower.Fuel.Charters.PeriodQty * sov_mod);
+                        nud_Charter.Increment = Convert.ToDecimal(increment);
+                        l_QH_Chrt.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_Chrt.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Charters.RunTime);
                         l_AQ_Chrt.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.Charters.Qty));
                         if (pl.PosTower.A_Fuel.Charters.RunTime < pl.PosTower.Fuel.Charters.RunTime)
@@ -2345,8 +2369,9 @@ namespace EveHQ.PosManager
                         // Strontium
                         l_C_Strn.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Strontium.Qty);
                         l_R_Strn.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Strontium.RunTime);
-                        nud_Stront.Increment = Convert.ToDecimal(pl.PosTower.Fuel.Strontium.PeriodQty);
-                        l_QH_Strn.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Strontium.PeriodQty);
+                        increment = Math.Ceiling(pl.PosTower.Fuel.Strontium.PeriodQty * sov_mod);
+                        nud_Stront.Increment = Convert.ToDecimal(increment);
+                        l_QH_Strn.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_Strn.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Strontium.RunTime);
                         l_AQ_Strn.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.Strontium.Qty));
                         if (pl.PosTower.A_Fuel.Strontium.RunTime < pl.PosTower.Fuel.Strontium.RunTime)
@@ -2365,8 +2390,9 @@ namespace EveHQ.PosManager
                         // Heavy Water
                         l_C_HvyW.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.HvyWater.Qty);
                         l_R_HvyW.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.HvyWater.RunTime);
-                        nud_HvyWtr.Increment = Convert.ToDecimal(Math.Ceiling(pl.PosTower.Fuel.HvyWater.PeriodQty * cpu_u));
-                        l_QH_HvyW.Text = String.Format("{0:#,0.#}", Math.Ceiling(pl.PosTower.Fuel.HvyWater.PeriodQty * cpu_u));
+                        increment = Math.Ceiling(pl.PosTower.Fuel.HvyWater.PeriodQty * sov_mod);
+                        nud_HvyWtr.Increment = Convert.ToDecimal(Math.Ceiling(increment * cpu_u));
+                        l_QH_HvyW.Text = String.Format("{0:#,0.#}", Math.Ceiling(increment * cpu_u));
                         l_AR_HvyW.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.HvyWater.RunTime);
                         l_AQ_HvyW.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.HvyWater.Qty));
                         if (pl.PosTower.A_Fuel.HvyWater.RunTime < pl.PosTower.Fuel.HvyWater.RunTime)
@@ -2385,8 +2411,9 @@ namespace EveHQ.PosManager
                         // Liquid Ozone
                         l_C_LiqO.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.LiqOzone.Qty);
                         l_R_LiqO.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.LiqOzone.RunTime);
-                        nud_LiqOzn.Increment = Convert.ToDecimal(Math.Ceiling(pl.PosTower.Fuel.LiqOzone.PeriodQty * power_u));
-                        l_QH_LiqO.Text = String.Format("{0:#,0.#}", Math.Ceiling(pl.PosTower.Fuel.LiqOzone.PeriodQty * power_u));
+                        increment = Math.Ceiling(pl.PosTower.Fuel.LiqOzone.PeriodQty * sov_mod);
+                        nud_LiqOzn.Increment = Convert.ToDecimal(Math.Ceiling(increment * power_u));
+                        l_QH_LiqO.Text = String.Format("{0:#,0.#}", Math.Ceiling(increment * power_u));
                         l_AR_LiqO.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.LiqOzone.RunTime);
                         l_AQ_LiqO.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.LiqOzone.Qty));
                         if (pl.PosTower.A_Fuel.LiqOzone.RunTime < pl.PosTower.Fuel.LiqOzone.RunTime)
@@ -2408,8 +2435,9 @@ namespace EveHQ.PosManager
                             l_M_IsoType.Text = "N2";
                             l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.N2Iso.Qty);
                             l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.N2Iso.RunTime);
-                            nud_Isotope.Increment = Convert.ToDecimal(pl.PosTower.Fuel.N2Iso.PeriodQty);
-                            l_QH_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.N2Iso.PeriodQty);
+                            increment = Math.Ceiling(pl.PosTower.Fuel.N2Iso.PeriodQty * sov_mod);
+                            nud_Isotope.Increment = Convert.ToDecimal(increment);
+                            l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
                             l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.N2Iso.RunTime);
                             l_AQ_Iso.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.N2Iso.Qty));
                             if (pl.PosTower.A_Fuel.N2Iso.RunTime < pl.PosTower.Fuel.N2Iso.RunTime)
@@ -2422,8 +2450,9 @@ namespace EveHQ.PosManager
                             l_M_IsoType.Text = "H2";
                             l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.H2Iso.Qty);
                             l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.H2Iso.RunTime);
-                            nud_Isotope.Increment = Convert.ToDecimal(pl.PosTower.Fuel.H2Iso.PeriodQty);
-                            l_QH_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.H2Iso.PeriodQty);
+                            increment = Math.Ceiling(pl.PosTower.Fuel.H2Iso.PeriodQty * sov_mod);
+                            nud_Isotope.Increment = Convert.ToDecimal(increment);
+                            l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
                             l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.H2Iso.RunTime);
                             l_AQ_Iso.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.H2Iso.Qty));
                             if (pl.PosTower.A_Fuel.H2Iso.RunTime < pl.PosTower.Fuel.H2Iso.RunTime)
@@ -2436,8 +2465,9 @@ namespace EveHQ.PosManager
                             l_M_IsoType.Text = "O2";
                             l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.O2Iso.Qty);
                             l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.O2Iso.RunTime);
-                            nud_Isotope.Increment = Convert.ToDecimal(pl.PosTower.Fuel.O2Iso.PeriodQty);
-                            l_QH_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.O2Iso.PeriodQty);
+                            increment = Math.Ceiling(pl.PosTower.Fuel.O2Iso.PeriodQty * sov_mod);
+                            nud_Isotope.Increment = Convert.ToDecimal(increment);
+                            l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
                             l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.O2Iso.RunTime);
                             l_AQ_Iso.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.O2Iso.Qty));
                             if (pl.PosTower.A_Fuel.O2Iso.RunTime < pl.PosTower.Fuel.O2Iso.RunTime)
@@ -2450,8 +2480,9 @@ namespace EveHQ.PosManager
                             l_M_IsoType.Text = "He";
                             l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.HeIso.Qty);
                             l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.HeIso.RunTime);
-                            nud_Isotope.Increment = Convert.ToDecimal(pl.PosTower.Fuel.HeIso.PeriodQty);
-                            l_QH_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.HeIso.PeriodQty);
+                            increment = Math.Ceiling(pl.PosTower.Fuel.HeIso.PeriodQty * sov_mod);
+                            nud_Isotope.Increment = Convert.ToDecimal(increment);
+                            l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
                             l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.HeIso.RunTime);
                             l_AQ_Iso.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.HeIso.Qty));
                             if (pl.PosTower.A_Fuel.HeIso.RunTime < pl.PosTower.Fuel.HeIso.RunTime)
@@ -2485,6 +2516,8 @@ namespace EveHQ.PosManager
 
                         bay_p = ComputeBayPercentage(pl.PosTower.A_Fuel.StrontUsed, pl.PosTower.A_Fuel.StrontCap);
                         pb_StrontBayFill.Value = Convert.ToInt32(bay_p);
+
+                        break;
                     }
                 }
             }
@@ -2492,7 +2525,7 @@ namespace EveHQ.PosManager
 
         private void UdateMonitorInformation(object sender, EventArgs e)
         {
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
         }
 
         private void UpdateMonitoredTowerState(string state)
@@ -2520,6 +2553,31 @@ namespace EveHQ.PosManager
             }
 
             update = false;
+        }
+
+        private void dg_MonitoredTowers_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 18)
+            {
+                foreach (POS pl in POSList.Designs)
+                {
+                    if (selName == pl.Name)
+                    {
+                        if (!(bool)dg_MonitoredTowers.Rows[e.RowIndex].Cells[e.ColumnIndex].Value)
+                        {
+                            dg_MonitoredTowers.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = true;
+                            pl.UseChart = true;
+                        }
+                        else
+                        {
+                            dg_MonitoredTowers.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = false;
+                            pl.UseChart = false;
+                        }
+                        break;
+                    }
+                }
+                POSList.SaveDesignListing();
+            }
         }
 
 
@@ -2623,7 +2681,8 @@ namespace EveHQ.PosManager
             POSList.SaveDesignListing();
             PosChanged = false;
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            PopulateMonitoredPoSDisplay();
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             cb_PoSName.Text = pli.Name;
         }
 
@@ -2751,7 +2810,7 @@ namespace EveHQ.PosManager
                 cb_PoSName.Items.Add(pl.Name);
             }
             cb_PoSName.SelectedItem = CurrentName;
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
             PosChanged = false;
         }
@@ -2789,7 +2848,7 @@ namespace EveHQ.PosManager
                 cb_PoSName.Items.Add(pl.Name);
             }
             cb_PoSName.SelectedItem = CurrentName;
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
             PosChanged = false;
         }
@@ -2803,6 +2862,8 @@ namespace EveHQ.PosManager
             CpyPos.ShowDialog();
 
             if (CurrentName.Equals(NewName))
+                return;
+            if (NewName.Length <= 0)
                 return;
 
             Design.Name = NewName;
@@ -2821,7 +2882,7 @@ namespace EveHQ.PosManager
                 cb_PoSName.Items.Add(pl.Name);
             }
             cb_PoSName.SelectedItem = CurrentName;
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
             PosChanged = false;
         }
@@ -2885,17 +2946,13 @@ namespace EveHQ.PosManager
             cb_PoSName.Items.Remove(cb_PoSName.Text);
             Design.ClearAllPOSData();
 
-            if (POSList.Designs.Count < 1)
-            {
-                POSList.Designs.Add(new POS("New POS"));
-            }
-
             cb_PoSName.Items.Clear();
             foreach (POS p in POSList.Designs)
             {
                 cb_PoSName.Items.Add(p.Name);
             }
-            cb_PoSName.SelectedIndex = 0;
+            if (cb_PoSName.Items.Count > 0)
+                cb_PoSName.SelectedIndex = 0;
 
             CalculatePOSData();
 
@@ -2907,7 +2964,7 @@ namespace EveHQ.PosManager
             ClearModListing();
             PosChanged = false;
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
@@ -2919,7 +2976,7 @@ namespace EveHQ.PosManager
 
             POSList.SaveDesignListing();
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
@@ -2990,7 +3047,7 @@ namespace EveHQ.PosManager
 
             update = false;
 
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             POSList.LoadDesignListing();
             BuildPOSListForMonitoring();
             UpdateTowerMonitorDisplay();
@@ -3004,7 +3061,7 @@ namespace EveHQ.PosManager
 
             UpdateMonitoredTowerState("Reinforced");
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
@@ -3015,7 +3072,7 @@ namespace EveHQ.PosManager
 
             UpdateMonitoredTowerState("Offline");
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
@@ -3026,10 +3083,258 @@ namespace EveHQ.PosManager
 
             UpdateMonitoredTowerState("Online");
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
+
+#endregion
+
+
+#region POS Maintenance
+
+        private void b_CopySelected_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(SelPosFillText);
+        }
+
+        private void b_CopyAllPos_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(AllPosFillText);
+        }
+
+        private void ApplyFillData(object sender, EventArgs e)
+        {
+            Config.data.maintTP = tscb_TimePeriod.SelectedIndex;
+            Config.data.maintPV = nud_PeriodValue.Value;
+            Config.SaveConfiguration();
+
+            PopulateTowerFillDG();
+        }
+
+        private void UpdateSelectedTowerList()
+        {
+            if (dg_TowerFuelList.Rows.Count > Fil_dg_indx)
+            {
+                dg_TowerFuelList.CurrentCell = dg_TowerFuelList.Rows[Fil_dg_indx].Cells[(int)fillDG.Name];
+                Object o = new Object();
+                EventArgs ea = new EventArgs();
+                dg_TowerFuelList_SelectionChanged(o, ea);
+            }
+
+        }
+
+        private void dg_TowerFuelList_SelectionChanged(object sender, EventArgs e)
+        {
+            string maintName, paddStr;
+            int dgi;
+            decimal totVol, totCost;
+            string[,] fVal;
+            FuelBay sfb;
+
+            if (dg_TowerFuelList.CurrentRow.Cells[(int)fillDG.Name].Value != null)
+            {
+                SelPosFillText = "";
+                Fil_dg_indx = dg_TowerFuelList.CurrentRow.Index;
+                maintName = dg_TowerFuelList.CurrentRow.Cells[(int)fillDG.Name].Value.ToString();
+                SelPosFillText = maintName + " < " + dg_TowerFuelList.CurrentRow.Cells[(int)fillDG.Loc].Value.ToString() + " >\n";
+                foreach (POS pl in POSList.Designs)
+                {
+                    if (maintName == pl.Name)
+                    {
+                        sfb = new FuelBay(pl.PosTower.T_Fuel);
+                        sfb.SetCurrentFuelVolumes();
+                        sfb.SetCurrentFuelCosts(Config.data.FuelCosts);
+                        fVal = sfb.GetFuelBayTotals();
+
+                        dg_SelectedFuel.Rows.Clear();
+                        totCost = 0;
+                        totVol = 0;
+
+                        for (int x = 0; x < 13; x++)
+                        {
+                            if ((!Config.data.maintChart) && (x == 11))
+                                continue;
+                            if ((!Config.data.maintStront) && (x == 12))
+                                continue;
+
+                            paddStr = fVal[x, 0].PadRight(40, ' ');
+                            SelPosFillText += paddStr + "\t[" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + "]<" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3>{" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + "isk}\n";
+                            dgi = dg_SelectedFuel.Rows.Add();
+                            dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.type].Value = fVal[x, 0];
+                            dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.amount].Value = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
+                            totVol += Convert.ToDecimal(fVal[x, 2]);
+                            dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.vol].Value = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + " m3";
+                            totCost += Convert.ToDecimal(fVal[x, 3]);
+                            dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.cost].Value = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + " isk";
+                        }
+                        dgi = dg_SelectedFuel.Rows.Add();
+                        dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.type].Value = "Total Volume & Cost";
+                        dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.vol].Value = String.Format("{0:#,0.#}", totVol) + " m3";
+                        dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.cost].Value = String.Format("{0:#,0.#}", totCost) + " isk";
+                        paddStr = ("Total Volume & Cost").PadRight(40, ' ');
+                        SelPosFillText += paddStr + "\t<" + String.Format("{0:#,0.#}", totVol) + "m3>{" + String.Format("{0:#,0.#}", totCost) + "isk}";
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void PopulateTotalsDG()
+        {
+            int dgi;
+            decimal totVol, totCost;
+            string[,] fVal;
+            string paddStr;
+
+            tt.SetCurrentFuelVolumes();
+            tt.SetCurrentFuelCosts(Config.data.FuelCosts);
+            dg_TotalFuel.Rows.Clear();
+            fVal = tt.GetFuelBayTotals();
+
+            totVol = 0;
+            totCost = 0;
+            AllPosFillText = "Total Fill Values for < All POS's >\n";
+            for (int x = 0; x < 13; x++)
+            {
+                if ((!Config.data.maintChart) && (x == 11))
+                    continue;
+                if ((!Config.data.maintStront) && (x == 12))
+                    continue;
+
+                paddStr = fVal[x, 0].PadRight(40, ' ');
+                AllPosFillText += paddStr + "\t[" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + "]<" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3>{" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + "isk}\n";
+                dgi = dg_TotalFuel.Rows.Add();
+                dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.type].Value = fVal[x, 0];
+                dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.amount].Value = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
+                totVol += Convert.ToDecimal(fVal[x, 2]);
+                dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.vol].Value = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + " m3";
+                totCost += Convert.ToDecimal(fVal[x, 3]);
+                dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.cost].Value = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + " isk";
+            }
+            dgi = dg_TotalFuel.Rows.Add();
+            dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.type].Value = "Total Volume & Cost";
+            dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.vol].Value = String.Format("{0:#,0.#}", totVol) + " m3";
+            dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.cost].Value = String.Format("{0:#,0.#}", totCost) + " isk";
+            paddStr = ("Total Volume & Cost").PadRight(40, ' ');
+            AllPosFillText += paddStr + "\t<" + String.Format("{0:#,0.#}", totVol) + "m3>{" + String.Format("{0:#,0.#}", totCost) + "isk}";
+        }
+
+        private void PopulateTowerFillDG()
+        {
+            int dgi;
+
+            tt = null;
+            dg_TowerFuelList.Rows.Clear();
+            update = true;
+            cb_FactChartTotal.Checked = Config.data.maintChart;
+            cb_UseStrontTotals.Checked = Config.data.maintStront;
+            update = false;
+            foreach (POS p in POSList.Designs)
+            {
+                if (tt == null)
+                    tt = new FuelBay(p.PosTower.Fuel);
+
+                p.ComputePosFuelUsageForFillTracking((int)Config.data.maintTP, Config.data.maintPV, Config.data.FuelCosts);
+
+                dgi = dg_TowerFuelList.Rows.Add();
+
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Name].Value = p.Name;
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Loc].Value = p.System;
+
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.EnrUr].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.EnrUran.Qty);
+                tt.EnrUran.Qty += p.PosTower.T_Fuel.EnrUran.Qty;
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Oxy].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.Oxygen.Qty);
+                tt.Oxygen.Qty += p.PosTower.T_Fuel.Oxygen.Qty;
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.McP].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.MechPart.Qty);
+                tt.MechPart.Qty += p.PosTower.T_Fuel.MechPart.Qty;
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Cool].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.Coolant.Qty);
+                tt.Coolant.Qty += p.PosTower.T_Fuel.Coolant.Qty;
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Rbt].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.Robotics.Qty);
+                tt.Robotics.Qty += p.PosTower.T_Fuel.Robotics.Qty;
+
+                if (p.PosTower.T_Fuel.N2Iso.Name != "")
+                {
+                    dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Iso].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.N2Iso.Qty) + " N2";
+                    tt.N2Iso.Qty += p.PosTower.T_Fuel.N2Iso.Qty;
+                }
+                else if (p.PosTower.T_Fuel.H2Iso.Name != "")
+                {
+                    dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Iso].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.H2Iso.Qty) + " H2";
+                    tt.H2Iso.Qty += p.PosTower.T_Fuel.H2Iso.Qty;
+                }
+                else if (p.PosTower.T_Fuel.O2Iso.Name != "")
+                {
+                    dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Iso].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.O2Iso.Qty) + " O2";
+                    tt.O2Iso.Qty += p.PosTower.T_Fuel.O2Iso.Qty;
+                }
+                else if (p.PosTower.T_Fuel.HeIso.Name != "")
+                {
+                    dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Iso].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.HeIso.Qty) + " He";
+                    tt.HeIso.Qty += p.PosTower.T_Fuel.HeIso.Qty;
+                }
+                else
+                {
+                    dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Iso].Value = "No F'in Clue";
+                }
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.HvW].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.HvyWater.Qty);
+                tt.HvyWater.Qty += p.PosTower.T_Fuel.HvyWater.Qty;
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.LqO].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.LiqOzone.Qty);
+                tt.LiqOzone.Qty += p.PosTower.T_Fuel.LiqOzone.Qty;
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Cht].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.Charters.Qty);
+                tt.Charters.Qty += p.PosTower.T_Fuel.Charters.Qty;
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Strt].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.Strontium.Qty);
+                tt.Strontium.Qty += p.PosTower.T_Fuel.Strontium.Qty;
+
+                if (p.PosTower.Fuel.H2Iso.Cost > tt.H2Iso.Cost)
+                    tt.H2Iso.Cost = p.PosTower.Fuel.H2Iso.Cost;
+                if (p.PosTower.Fuel.HeIso.Cost > tt.HeIso.Cost)
+                    tt.HeIso.Cost = p.PosTower.Fuel.HeIso.Cost;
+                if (p.PosTower.Fuel.N2Iso.Cost > tt.N2Iso.Cost)
+                    tt.N2Iso.Cost = p.PosTower.Fuel.N2Iso.Cost;
+                if (p.PosTower.Fuel.O2Iso.Cost > tt.O2Iso.Cost)
+                    tt.O2Iso.Cost = p.PosTower.Fuel.O2Iso.Cost;
+
+                if (p.PosTower.Fuel.H2Iso.BaseVol > tt.H2Iso.BaseVol)
+                    tt.H2Iso.BaseVol = p.PosTower.Fuel.H2Iso.BaseVol;
+                if (p.PosTower.Fuel.HeIso.BaseVol > tt.HeIso.BaseVol)
+                    tt.HeIso.BaseVol = p.PosTower.Fuel.HeIso.BaseVol;
+                if (p.PosTower.Fuel.N2Iso.BaseVol > tt.N2Iso.BaseVol)
+                    tt.N2Iso.BaseVol = p.PosTower.Fuel.N2Iso.BaseVol;
+                if (p.PosTower.Fuel.O2Iso.BaseVol > tt.O2Iso.BaseVol)
+                    tt.O2Iso.BaseVol = p.PosTower.Fuel.O2Iso.BaseVol;
+
+                if (p.PosTower.Fuel.H2Iso.QtyVol > tt.H2Iso.QtyVol)
+                    tt.H2Iso.QtyVol = p.PosTower.Fuel.H2Iso.QtyVol;
+                if (p.PosTower.Fuel.HeIso.QtyVol > tt.HeIso.QtyVol)
+                    tt.HeIso.QtyVol = p.PosTower.Fuel.HeIso.QtyVol;
+                if (p.PosTower.Fuel.N2Iso.QtyVol > tt.N2Iso.QtyVol)
+                    tt.N2Iso.QtyVol = p.PosTower.Fuel.N2Iso.QtyVol;
+                if (p.PosTower.Fuel.O2Iso.QtyVol > tt.O2Iso.QtyVol)
+                    tt.O2Iso.QtyVol = p.PosTower.Fuel.O2Iso.QtyVol;
+            }
+            PopulateTotalsDG();
+        }
+
+        private void cb_FactChartTotal_CheckedChanged(object sender, EventArgs e)
+        {
+            if (update)
+                return;
+            Config.data.maintChart = cb_FactChartTotal.Checked;
+            Config.SaveConfiguration();
+            PopulateTotalsDG();
+            UpdateSelectedTowerList();
+        }
+
+        private void cb_UseStrontTotals_CheckedChanged(object sender, EventArgs e)
+        {
+            if (update)
+                return;
+            Config.data.maintStront = cb_UseStrontTotals.Checked;
+            Config.SaveConfiguration();
+            PopulateTotalsDG();
+            UpdateSelectedTowerList();
+        }
 
 #endregion
 
@@ -3056,66 +3361,24 @@ namespace EveHQ.PosManager
             CalculateAndDisplayDesignFuelData();
         }
 
-
-        private void nud_Stront_ValueChanged(object sender, EventArgs e)
-        {
-            if(!update)
-                UpdateTowerMonitorDisplay();
-        }
-
-        private void nud_Oxy_ValueChanged(object sender, EventArgs e)
+        private void MonitoredFuelChange(object sender, EventArgs e)
         {
             if (!update)
                 UpdateTowerMonitorDisplay();
         }
 
-        private void nud_MechPart_ValueChanged(object sender, EventArgs e)
+        private void tsb_DisplayFuelFill_Click(object sender, EventArgs e)
         {
-            if (!update)
-                UpdateTowerMonitorDisplay();
+            // This functionality needs to (for each monitored POS):
+            // 1. Determine the amount of fuel needed to Fill the fuel bay (from current amounts)
+            // 2. Determine the volume and cost for this fuel
+            // 3. Display an itemized listing of what is needed to fill each Tower
+            //      a. Amount of each fuel type
+            //      b. Total cost for the Tower
+            //      c. Valume of Cargo needed to be Moved to that Tower
+
         }
 
-        private void nud_Coolant_ValueChanged(object sender, EventArgs e)
-        {
-            if (!update)
-                UpdateTowerMonitorDisplay();
-        }
-
-        private void nud_Robotic_ValueChanged(object sender, EventArgs e)
-        {
-            if (!update)
-                UpdateTowerMonitorDisplay();
-        }
-
-        private void nud_Isotope_ValueChanged(object sender, EventArgs e)
-        {
-            if (!update)
-                UpdateTowerMonitorDisplay();
-        }
-
-        private void nud_HvyWtr_ValueChanged(object sender, EventArgs e)
-        {
-            if (!update)
-                UpdateTowerMonitorDisplay();
-        }
-
-        private void nud_LiqOzn_ValueChanged(object sender, EventArgs e)
-        {
-            if (!update)
-                UpdateTowerMonitorDisplay();
-        }
-
-        private void nud_Charter_ValueChanged(object sender, EventArgs e)
-        {
-            if (!update)
-                UpdateTowerMonitorDisplay();
-        }
-
-        private void nud_EnrUran_ValueChanged(object sender, EventArgs e)
-        {
-            if (!update)
-                UpdateTowerMonitorDisplay();
-        }
 
 #endregion
 
@@ -3137,7 +3400,7 @@ namespace EveHQ.PosManager
             POSList.SaveDesignListing();
             PosChanged = false;
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
@@ -3148,17 +3411,18 @@ namespace EveHQ.PosManager
             TowerLink.ShowDialog();
             API_D.SaveAPIListing();
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
         private void b_UpdateAPIData_Click(object sender, EventArgs e)
         {
-
             DownloadAndUpdateAPI();
+            SL.LoadSovListFromAPI(1);
+            AL.LoadAllianceListFromAPI(1);
             API_D.LoadAPIListing(TL);
             BuildPOSListForMonitoring();
-            POSList.CalculatePOSFuelRunTimes(API_D);
+            POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
@@ -3166,10 +3430,15 @@ namespace EveHQ.PosManager
         {
             //ThreadPool.QueueUserWorkItem(new WaitCallback(GetCorpAssets));
             //ThreadPool.QueueUserWorkItem(new WaitCallback(GetCorpSheet));
-            // Needs Pop-Up confirmation
             MessageBox.Show("Updating Tower API - Please Wait.", "Wait for Update", MessageBoxButtons.OK);
+             
             GetCorpAssets(1);
-            GetCorpSheet(1);          
+            GetCorpSheet(1);
+            GetAllySovLists();
+        }
+
+        private void GetAllySovLists()
+        {
         }
 
         private void GetCorpAssets(Object state)
@@ -3314,7 +3583,7 @@ namespace EveHQ.PosManager
 
 #endregion
 
- 
+   
      }
 
 

@@ -1,4 +1,4 @@
-namespace EveHQ.PosManager
+﻿namespace EveHQ.PosManager
 {
     partial class MonitorListSelect
     {

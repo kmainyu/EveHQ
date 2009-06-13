@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -60,11 +60,11 @@ namespace EveHQ.PosManager
         {
             double retVal = -1;
 
-            try
+            if (!dr.ItemArray[aI_1].Equals(System.DBNull.Value))
             {
                 retVal = Convert.ToDouble(dr.ItemArray[aI_1]);
             }
-            catch
+            else
             {
                 retVal = Convert.ToDouble(dr.ItemArray[aI_2]);
             }
@@ -76,11 +76,11 @@ namespace EveHQ.PosManager
         {
             decimal retVal = 0;
 
-            try
+            if (!dr.ItemArray[aI_1].Equals(System.DBNull.Value))
             {
                 retVal = Convert.ToDecimal(dr.ItemArray[aI_1]);
             }
-            catch
+            else
             {
                 retVal = Convert.ToDecimal(dr.ItemArray[aI_2]);
             }
@@ -120,6 +120,7 @@ namespace EveHQ.PosManager
                     switch (Convert.ToInt32(row.ItemArray[1]))
                     {
                         case 44:    // Enr Uranium
+                            nt.Fuel.EnrUran.Name = row.ItemArray[10].ToString();
                             nt.Fuel.EnrUran.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.EnrUran.PeriodQty = nt.Fuel.EnrUran.BaseQty;
                             nt.Fuel.EnrUran.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -128,6 +129,7 @@ namespace EveHQ.PosManager
                             nt.Fuel.EnrUran.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 3683:  // Oxygen
+                            nt.Fuel.Oxygen.Name = row.ItemArray[10].ToString();
                             nt.Fuel.Oxygen.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.Oxygen.PeriodQty = nt.Fuel.Oxygen.BaseQty;
                             nt.Fuel.Oxygen.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -136,6 +138,7 @@ namespace EveHQ.PosManager
                             nt.Fuel.Oxygen.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 3689:  // Mech Parts
+                            nt.Fuel.MechPart.Name = row.ItemArray[10].ToString();
                             nt.Fuel.MechPart.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.MechPart.PeriodQty = nt.Fuel.MechPart.BaseQty;
                             nt.Fuel.MechPart.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -144,6 +147,7 @@ namespace EveHQ.PosManager
                             nt.Fuel.MechPart.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 9832:  // Coolant
+                            nt.Fuel.Coolant.Name = row.ItemArray[10].ToString();
                             nt.Fuel.Coolant.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.Coolant.PeriodQty = nt.Fuel.Coolant.BaseQty;
                             nt.Fuel.Coolant.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -152,6 +156,7 @@ namespace EveHQ.PosManager
                             nt.Fuel.Coolant.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 9848:  // Robotics
+                            nt.Fuel.Robotics.Name = row.ItemArray[10].ToString();
                             nt.Fuel.Robotics.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.Robotics.PeriodQty = nt.Fuel.Robotics.BaseQty;
                             nt.Fuel.Robotics.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -160,6 +165,7 @@ namespace EveHQ.PosManager
                             nt.Fuel.Robotics.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 16272: // Heavy Water
+                            nt.Fuel.HvyWater.Name = row.ItemArray[10].ToString();
                             nt.Fuel.HvyWater.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.HvyWater.PeriodQty = nt.Fuel.HvyWater.BaseQty;
                             nt.Fuel.HvyWater.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -168,6 +174,7 @@ namespace EveHQ.PosManager
                             nt.Fuel.HvyWater.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 16273: // Liquid Ozone
+                            nt.Fuel.LiqOzone.Name = row.ItemArray[10].ToString();
                             nt.Fuel.LiqOzone.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.LiqOzone.PeriodQty = nt.Fuel.LiqOzone.BaseQty;
                             nt.Fuel.LiqOzone.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -181,6 +188,7 @@ namespace EveHQ.PosManager
                         case 24595: // Charter
                         case 24596: // Charter
                         case 24597: // Charter
+                            nt.Fuel.Charters.Name = "Faction Charters";
                             nt.Fuel.Charters.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.Charters.PeriodQty = nt.Fuel.Charters.BaseQty;
                             nt.Fuel.Charters.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -189,6 +197,7 @@ namespace EveHQ.PosManager
                             nt.Fuel.Charters.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 17888: // Nitrogen Isotopes
+                            nt.Fuel.N2Iso.Name = row.ItemArray[10].ToString();
                             nt.Fuel.N2Iso.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.N2Iso.PeriodQty = nt.Fuel.N2Iso.BaseQty;
                             nt.Fuel.N2Iso.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -197,6 +206,7 @@ namespace EveHQ.PosManager
                             nt.Fuel.N2Iso.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 16274: // Helium Isotopes
+                            nt.Fuel.HeIso.Name = row.ItemArray[10].ToString();
                             nt.Fuel.HeIso.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.HeIso.PeriodQty = nt.Fuel.HeIso.BaseQty;
                             nt.Fuel.HeIso.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -205,6 +215,7 @@ namespace EveHQ.PosManager
                             nt.Fuel.HeIso.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 17889: // Hydrogen Isotopes
+                            nt.Fuel.H2Iso.Name = row.ItemArray[10].ToString();
                             nt.Fuel.H2Iso.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.H2Iso.PeriodQty = nt.Fuel.H2Iso.BaseQty;
                             nt.Fuel.H2Iso.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -213,6 +224,7 @@ namespace EveHQ.PosManager
                             nt.Fuel.H2Iso.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 17887: // Oxygen Isotopes
+                            nt.Fuel.O2Iso.Name = row.ItemArray[10].ToString();
                             nt.Fuel.O2Iso.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.O2Iso.PeriodQty = nt.Fuel.O2Iso.BaseQty;
                             nt.Fuel.O2Iso.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -221,6 +233,7 @@ namespace EveHQ.PosManager
                             nt.Fuel.O2Iso.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 16275: // Strontium
+                            nt.Fuel.Strontium.Name = row.ItemArray[10].ToString();
                             nt.Fuel.Strontium.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.Strontium.PeriodQty = nt.Fuel.Strontium.BaseQty;
                             nt.Fuel.Strontium.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
@@ -412,6 +425,7 @@ namespace EveHQ.PosManager
 
             nt.D_Fuel = new FuelBay(nt.Fuel);
             nt.A_Fuel = new FuelBay(nt.Fuel);
+            nt.T_Fuel = new FuelBay(nt.Fuel);
 
             Towers.Add(nt);
         }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -95,6 +95,8 @@ namespace EveHQ.PosManager
                 apid = myData.API_D.GetAPIDataMemberForTowerID(itemID);
                 pli.itemID = itemID;
                 pli.locID = apid.towerLocation;
+                pli.CorpName = apid.corpName;
+                pli.System = apid.locName;
                 PopulatePOSListView();
             }
             else
@@ -181,6 +183,7 @@ namespace EveHQ.PosManager
                     loc = locData.Tables[0].Rows[0].ItemArray[0].ToString();
                     apid.locName = loc;
                     myData.API_D.UpdateListAPI(apid);
+                    myData.API_D.SaveAPIListing();
                 }
                 else
                     loc = apid.locName;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -18,15 +18,15 @@ namespace EveHQ.PosManager
     {
         public Defense Armor, Shield, Struct;
         public CT_Bonus Bonuses;
-        public FuelBay Fuel, D_Fuel, A_Fuel;
+        public FuelBay Fuel, D_Fuel, A_Fuel, T_Fuel;
         public int typeID, groupID;
-        public string State, Desc, OtherInfo, Name;
+        public string  State, Desc, OtherInfo, Name;
         public decimal CPU, Power, CPU_Used, Power_Used, SigRad;
         public decimal Anchor_Time, Online_Time, UnAnchor_Time;
         public decimal Volume, Cost, Capacity, Cycle_Period;
         public decimal Design_Interval, Design_Int_Qty, Design_Stront_Qty;
         public decimal F_RunTime, S_RunTime;
-        public string Location, Category, Low_Fuel;
+        public string  Location, Category, Low_Fuel;
         public ArrayList Extra;
 
         public Tower()
@@ -37,6 +37,7 @@ namespace EveHQ.PosManager
             Fuel    = new FuelBay();
             D_Fuel = new FuelBay();
             A_Fuel = new FuelBay();
+            T_Fuel = new FuelBay();
             Bonuses = new CT_Bonus();
             typeID = 0;
             groupID = 0;
@@ -75,6 +76,7 @@ namespace EveHQ.PosManager
             Fuel = new FuelBay(t.Fuel);
             D_Fuel = new FuelBay(t.D_Fuel);
             A_Fuel = new FuelBay(t.A_Fuel);
+            T_Fuel = new FuelBay(t.T_Fuel);
             Bonuses = new CT_Bonus(t.Bonuses);
             typeID = t.typeID;
             groupID = t.groupID;

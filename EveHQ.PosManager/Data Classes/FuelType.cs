@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -20,6 +20,7 @@ namespace EveHQ.PosManager
         public decimal BaseVol, QtyVol;
         public decimal Cost;
         public decimal Qty, BaseQty, PeriodQty, RunTime;
+        public decimal VolForQty, CostForQty;
         public ArrayList Extra;
 
         public FuelType()
@@ -33,21 +34,9 @@ namespace EveHQ.PosManager
             BaseQty = 0;
             PeriodQty = 0;
             RunTime = 0;
+            VolForQty = 0;
+            CostForQty = 0;
             Extra = new ArrayList();
-        }
-
-        public FuelType(string n, string uf, decimal v, decimal qv, decimal c, decimal q, decimal bq, decimal pq, decimal rt, ArrayList ext)
-        {
-            Name = n;
-            UsedFor = uf;
-            BaseVol = v;
-            QtyVol = qv;
-            Cost = c;
-            Qty = q;
-            BaseQty = bq;
-            PeriodQty = pq;
-            RunTime = rt;
-            Extra = new ArrayList(ext);
         }
 
         public FuelType(FuelType ft)
@@ -61,7 +50,70 @@ namespace EveHQ.PosManager
             BaseQty = ft.BaseQty;
             PeriodQty = ft.PeriodQty;
             RunTime = ft.RunTime;
+            VolForQty = ft.VolForQty;
+            CostForQty = ft.CostForQty;
             Extra = new ArrayList(ft.Extra);
         }
+
+        public void SetFuelRunTime(decimal mod, decimal sov_mod)
+        {
+            decimal perQ;
+
+            if (mod > 0)
+                perQ = Math.Ceiling(PeriodQty * mod);
+            else
+                perQ = PeriodQty;
+
+            perQ = Math.Ceiling(perQ * sov_mod);
+
+            if (perQ > 0)
+                RunTime = (Qty / perQ);
+            else
+                RunTime = 0;
+        }
+
+        public decimal SetAndReturnFuelRunTime(decimal mod, decimal sov_mod)
+        {
+            decimal perQ;
+
+            if (mod > 0)
+                perQ = Math.Ceiling(PeriodQty * mod);
+            else
+                perQ = PeriodQty;
+
+            perQ = Math.Ceiling(perQ * sov_mod);
+
+            if (perQ > 0)
+                RunTime = (Qty / perQ);
+            else
+                RunTime = 0;
+
+            return RunTime;
+        }
+
+        public ArrayList SetAndReturnFuelRunTimeAndName(decimal mod, decimal sov_mod)
+        {
+            ArrayList retVal = new ArrayList();
+            decimal perQ;
+
+            if (mod > 0)
+                perQ = Math.Ceiling(PeriodQty * mod);
+            else
+                perQ = PeriodQty;
+
+            perQ = Math.Ceiling(perQ * sov_mod);
+
+            if (perQ > 0)
+                RunTime = (Qty / perQ);
+            else
+                RunTime = 0;
+
+            retVal.Add(RunTime);
+            retVal.Add(Name);
+
+            return retVal;
+        }
+
+
     }
 }

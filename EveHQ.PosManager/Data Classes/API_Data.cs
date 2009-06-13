@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -75,6 +75,33 @@ namespace EveHQ.PosManager
             cacheUntil = ap.cacheUntil;
             locName = ap.locName;
         }
-  
+
+        public API_Data(API_Data ap)
+        {
+            itemID = ap.itemID;
+            corpID = ap.corpID;
+            towerID = ap.towerID;
+            towerLocation = ap.towerLocation;
+            EnrUr = ap.EnrUr;
+            Oxygn = ap.Oxygn;
+            MechP = ap.MechP;
+            Coolt = ap.Coolt;
+            Robot = ap.Robot;
+            HeIso = ap.HeIso;
+            N2Iso = ap.N2Iso;
+            H2Iso = ap.H2Iso;
+            O2Iso = ap.O2Iso;
+            LiqOz = ap.LiqOz;
+            HvyWt = ap.HvyWt;
+            Charters = ap.Charters;
+            Stront = ap.Stront;
+            corpName = ap.corpName;
+            ceoName = ap.ceoName;
+            towerName = ap.towerName;
+            cacheDate = ap.cacheDate;
+            cacheUntil = ap.cacheUntil;
+            locName = ap.locName;
+        }
+
     }
 }
