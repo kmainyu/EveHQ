@@ -27,16 +27,14 @@ namespace EveHQ.PosManager
         public bool UseSerializableData = false;
         public string LastCacheRefresh = "1.10.1.155";
         public static ManualResetEvent[] resetEvents;
-        public SystemSovList SL;
-        public AllianceList AL;
+        SystemSovList SL = new SystemSovList();
+        AllianceList AL = new AllianceList();
 
         public Boolean EveHQStartUp()
         {
             StreamReader sr;
             string cacheVers;
             resetEvents = new ManualResetEvent[5];
-            SL = new SystemSovList();
-            AL = new AllianceList();
             DateTime startT, endT;
             TimeSpan runT;
 
