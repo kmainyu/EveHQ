@@ -561,35 +561,43 @@ Public Class PilotParseFunctions
                 ' Get the first node i.e. the current training skill
                 trainingNode = TrainingDetails(0)       ' This is zero because there is only 1 occurence of the skillTraining node in each XML doc
                 With cPilot
-                    .Training = True
-                    .TrainingSkillID = trainingNode.Attributes("typeID").Value
-                    .TrainingSkillName = EveHQ.Core.SkillFunctions.SkillIDToName(.TrainingSkillID)
-                    Dim dt As Date = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
-                    .TrainingStartTimeActual = CDate(dt.ToString)
-                    .TrainingStartTime = .TrainingStartTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
-                    dt = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
-                    .TrainingEndTimeActual = CDate(dt.ToString)
-                    .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
-                    .TrainingStartSP = CInt(trainingNode.Attributes("startSP").Value)
-                    .TrainingEndSP = CInt(trainingNode.Attributes("endSP").Value)
-                    .TrainingSkillLevel = CInt(trainingNode.Attributes("level").Value)
-                    Call CheckMissingTrainingSkill(cPilot)
+                    If trainingNode.Attributes("startTime").Value <> "" And trainingNode.Attributes("endTime").Value <> "" Then
+                        .Training = True
+                        .TrainingSkillID = trainingNode.Attributes("typeID").Value
+                        .TrainingSkillName = EveHQ.Core.SkillFunctions.SkillIDToName(.TrainingSkillID)
+                        Dim dt As Date = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
+                        .TrainingStartTimeActual = CDate(dt.ToString)
+                        .TrainingStartTime = .TrainingStartTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                        dt = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
+                        .TrainingEndTimeActual = CDate(dt.ToString)
+                        .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                        .TrainingStartSP = CInt(trainingNode.Attributes("startSP").Value)
+                        .TrainingEndSP = CInt(trainingNode.Attributes("endSP").Value)
+                        .TrainingSkillLevel = CInt(trainingNode.Attributes("level").Value)
+                        Call CheckMissingTrainingSkill(cPilot)
+                    Else
+                        cPilot.Training = False
+                        cPilot.QueuedSkills.Clear()
+                        cPilot.QueuedSkillTime = 0
+                    End If
                 End With
                 ' Now get any additional results and add them to the pilot queued skills
                 cPilot.QueuedSkills.Clear()
                 If TrainingDetails.Count > 1 Then
                     For queuedSkillNo As Integer = 1 To TrainingDetails.Count - 1
                         trainingNode = TrainingDetails(queuedSkillNo)
-                        Dim QueuedSkill As New PilotQueuedSkill
-                        QueuedSkill.Position = CInt(trainingNode.Attributes("queuePosition").Value)
-                        QueuedSkill.SkillID = CInt(trainingNode.Attributes("typeID").Value)
-                        QueuedSkill.StartTime = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None).AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
-                        QueuedSkill.EndTime = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None).AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
-                        QueuedSkill.StartSP = CLng(trainingNode.Attributes("startSP").Value)
-                        QueuedSkill.EndSP = CLng(trainingNode.Attributes("endSP").Value)
-                        QueuedSkill.Level = CInt(trainingNode.Attributes("level").Value)
-                        cPilot.QueuedSkills.Add(QueuedSkill.Position, QueuedSkill)
-                        cPilot.QueuedSkillTime = CLng((QueuedSkill.EndTime - cPilot.TrainingEndTime).TotalSeconds)
+                        If trainingNode.Attributes("startTime").Value <> "" And trainingNode.Attributes("endTime").Value <> "" Then
+                            Dim QueuedSkill As New PilotQueuedSkill
+                            QueuedSkill.Position = CInt(trainingNode.Attributes("queuePosition").Value)
+                            QueuedSkill.SkillID = CInt(trainingNode.Attributes("typeID").Value)
+                            QueuedSkill.StartTime = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None).AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                            QueuedSkill.EndTime = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None).AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                            QueuedSkill.StartSP = CLng(trainingNode.Attributes("startSP").Value)
+                            QueuedSkill.EndSP = CLng(trainingNode.Attributes("endSP").Value)
+                            QueuedSkill.Level = CInt(trainingNode.Attributes("level").Value)
+                            cPilot.QueuedSkills.Add(QueuedSkill.Position, QueuedSkill)
+                            cPilot.QueuedSkillTime = CLng((QueuedSkill.EndTime - cPilot.TrainingEndTime).TotalSeconds)
+                        End If
                     Next
                 End If
             Else
