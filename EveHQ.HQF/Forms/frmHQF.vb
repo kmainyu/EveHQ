@@ -510,7 +510,7 @@ Public Class frmHQF
 
     End Sub
     Private Sub DisplayBCBrowser(ByVal bShip As Ship)
-        Dim URI As String = "http://www.battleclinic.com/eve_online/ship_loadout_feed.php?typeID=" & bShip.ID
+        Dim URI As String = "http://eve.battleclinic.com/ship_loadout_feed.php?typeID=" & bShip.ID
 
     End Sub
     Private Sub CreateNewFitting(ByVal shipName As String)

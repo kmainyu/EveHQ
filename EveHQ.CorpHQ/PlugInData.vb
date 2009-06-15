@@ -70,8 +70,8 @@ Public Class PlugInData
 #Region "Plug-in Supplementary Routines"
 
     Shared Sub LoadStandings()
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\Standings.bin") = True Then
-            Dim s As New FileStream(EveHQ.Core.HQ.cacheFolder & "\Standings.bin", FileMode.Open)
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, "Standings.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.cacheFolder, "Standings.bin"), FileMode.Open)
             Dim f As BinaryFormatter = New BinaryFormatter
             PlugInData.AllStandings.Clear()
             Try

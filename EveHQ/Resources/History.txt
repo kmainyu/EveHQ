@@ -1,6 +1,22 @@
 EveHQ - Version History
 -----------------------
 
+1.11.2.612 (15/06/2009)
+---------
+Fixes and Improvements:
+- Core: Added setting to disable auto connections to the web
+- Core: Renamed Accounts section of settings to API Account Management
+- Core: Renamed "API Account" icon tooltip
+- Core: Improved email notifications for skill training events
+- Core: Added option for disabling visual themes
+- Core: Altered file access to use Path.Combine
+- Core: Fixed error caused by null training times in the skill queue XML
+- HQF: Fixed issues with cargo/drone/ship bay not calculating after modifying module status/layouts
+- HQF: Added Wormhole Effects to the ShipSlotControl
+- HQF: Fixed URLs for the BattleClinic Browser
+- Prism: Fixed potential duplication of pilotIDs in the Industry Jobs dropdown
+
+
 1.11.1.597 (31/05/2009)
 ----------
 Fixes and Improvements:

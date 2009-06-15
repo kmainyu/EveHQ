@@ -459,7 +459,7 @@ Public Class frmKMV
 #Region "Killmail Upload Routines"
     Private Sub btnUploadToBC_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUploadToBC.Click
         ' Only do selected KM for now for testing purposes
-        Dim URI As String = "http://www.battleclinic.com/eve_online/pk/submit.php"
+        Dim URI As String = "http://eve.battleclinic.com/killboard/index.php"
 
         If lvwKillMails.SelectedItems.Count > 0 Then
             ' Get the killID of the selected Killmail

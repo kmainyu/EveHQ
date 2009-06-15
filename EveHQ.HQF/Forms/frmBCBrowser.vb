@@ -92,7 +92,7 @@ Public Class frmBCBrowser
 
         If UseCacheFile = False Then
             lblBCStatus.Text = "Retrieving " & currentShip.Name & " loadouts from BattleClinic..."
-            Dim remoteURL As String = "http://www.battleclinic.com/eve_online/ship_loadout_feed.php?typeID=" & currentShip.ID
+            Dim remoteURL As String = "http://eve.battleclinic.com/ship_loadout_feed.php?typeID=" & currentShip.ID
             Try
                 ' Create the requester
                 ServicePointManager.DefaultConnectionLimit = 20
@@ -183,7 +183,7 @@ Public Class frmBCBrowser
 
         If UseCacheFile = False Then
             lblBCStatus.Text = "Retrieving " & LoadoutName & "(" & currentShip.Name & ") from BattleClinic..." : StatusStrip1.Refresh()
-            Dim remoteURL As String = "http://www.battleclinic.com/eve_online/ship_loadout_feed.php?typeID=" & currentShip.ID.ToString & "&id=" & LoadoutID
+            Dim remoteURL As String = "http://eve.battleclinic.com/ship_loadout_feed.php?typeID=" & currentShip.ID.ToString & "&id=" & LoadoutID
             Try
                 ' Create the requester
                 ServicePointManager.DefaultConnectionLimit = 20
@@ -467,14 +467,14 @@ Public Class frmBCBrowser
     End Sub
     Private Sub lblLoadoutTopic_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblLoadoutTopic.LinkClicked
         Try
-            Process.Start("http://www.battleclinic.com/forum/index.php/topic," & lblLoadoutTopic.Tag.ToString & ".0.html")
+            Process.Start("http://forum.battleclinic.com/index.php/topic," & lblLoadoutTopic.Tag.ToString & ".0.html")
         Catch ex As Exception
             MessageBox.Show("Unable to start default web browser. Please check your browser settings.", "Error Starting Web Browser", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
     End Sub
 
     Private Sub lblLoadoutTopic_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblLoadoutTopic.MouseEnter
-        lblTopicAddress.Text = "http://www.battleclinic.com/forum/index.php/topic," & lblLoadoutTopic.Tag.ToString & ".0.html"
+        lblTopicAddress.Text = "http://forum.battleclinic.com/index.php/topic," & lblLoadoutTopic.Tag.ToString & ".0.html"
     End Sub
 
     Private Sub lblLoadoutTopic_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblLoadoutTopic.MouseLeave
@@ -484,7 +484,7 @@ Public Class frmBCBrowser
     Private Sub mnuCopyURL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCopyURL.Click
         Dim cLoadout As ContainerListViewItem = clvLoadouts.SelectedItems(0)
         Try
-            Clipboard.SetText("http://www.battleclinic.com/forum/index.php/topic," & cLoadout.SubItems(1).Tag.ToString & ".0.html")
+            Clipboard.SetText("http://forum.battleclinic.com/index.php/topic," & cLoadout.SubItems(1).Tag.ToString & ".0.html")
         Catch ex As Exception
             MessageBox.Show("There was an error copying data to the cliboard: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf & "Please try again.", "Copy to Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try

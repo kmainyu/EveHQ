@@ -46,7 +46,7 @@ Public Class frmCorpHQ
     End Sub
 
     Private Sub SaveStandings()
-        Dim s As New FileStream(EveHQ.Core.HQ.cacheFolder & "\Standings.bin", FileMode.Create)
+        Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.cacheFolder, "Standings.bin"), FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, PlugInData.AllStandings)
         s.Close()
@@ -73,15 +73,17 @@ Public Class frmCorpHQ
                 If EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folderNo) = True Then
                     EveClient = New DirectoryInfo(EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo))
                     baseCacheDir = EveClient.FullName
-                    cacheDir = baseCacheDir & "\cache\machonet\87.237.38.200\"
+                    cacheDir = Path.Combine(Path.Combine(Path.Combine(baseCacheDir, "cache"), "machonet"), "87.237.38.200")
                 Else
-                    baseCacheDir = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\")
+                    baseCacheDir = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "EVE")
                     ' Check the location
                     folder = EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo)
                     folder = folder.Replace(":", "")
                     folder = folder.Replace(" ", "_")
                     folder = folder.Replace("\", "_")
-                    cacheDir = baseCacheDir & folder & "_tranquility\cache\machonet\87.237.38.200\"
+                    cacheDir = Path.Combine(baseCacheDir, folder)
+                    cacheDir = Path.Combine(cacheDir, "_tranquility")
+                    cacheDir = Path.Combine(Path.Combine(Path.Combine(cacheDir, "cache"), "machonet"), "87.237.38.200")
                 End If
                 ' Search the cache dir for files containing the text "GetCharStandings"
                 If My.Computer.FileSystem.DirectoryExists(cacheDir) = True Then
@@ -217,7 +219,7 @@ Public Class frmCorpHQ
             If cboOwner.SelectedItem IsNot Nothing Then
                 If lvwStandings.Items.Count > 0 Then
                     ' Export the current list of standings
-                    Dim sw As New StreamWriter(EveHQ.Core.HQ.reportFolder & "\Standings (" & cboOwner.SelectedItem.ToString & ").csv")
+                    Dim sw As New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "Standings (" & cboOwner.SelectedItem.ToString & ").csv"))
                     sw.WriteLine("Standings Export for " & cboOwner.SelectedItem.ToString & " (dated: " & FormatDateTime(Now, DateFormat.GeneralDate) & ")")
                     sw.WriteLine("Entity Name,Entity ID,Entity Type,Raw Standing Value,Actual Standing Value")
                     For Each iStanding As ListViewItem In lvwStandings.Items
@@ -255,15 +257,17 @@ Public Class frmCorpHQ
                     If EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folderNo) = True Then
                         EveClient = New DirectoryInfo(EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo))
                         baseCacheDir = EveClient.FullName
-                        cacheDir = baseCacheDir & "\cache\machonet\87.237.38.200\"
+                        cacheDir = Path.Combine(Path.Combine(Path.Combine(baseCacheDir, "cache"), "machonet"), "87.237.38.200")
                     Else
-                        baseCacheDir = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\")
+                        baseCacheDir = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "EVE")
                         ' Check the location
                         folder = EveHQ.Core.HQ.EveHQSettings.EveFolder(folderNo)
                         folder = folder.Replace(":", "")
                         folder = folder.Replace(" ", "_")
                         folder = folder.Replace("\", "_")
-                        cacheDir = baseCacheDir & folder & "_tranquility\cache\machonet\87.237.38.200"
+                        cacheDir = Path.Combine(baseCacheDir, folder)
+                        cacheDir = Path.Combine(cacheDir, "_tranquility")
+                        cacheDir = Path.Combine(Path.Combine(Path.Combine(cacheDir, "cache"), "machonet"), "87.237.38.200")
                     End If
                     ' Search the cache dir for files containing the text "GetCharStandings"
                     If My.Computer.FileSystem.DirectoryExists(cacheDir) = True Then
