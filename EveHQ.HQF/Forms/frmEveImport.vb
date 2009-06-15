@@ -8,7 +8,7 @@ Imports DotNetLib.Windows.Forms
 
 Public Class frmEveImport
 
-    Dim EveFolder As String = (My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\fittings").Replace("\\", "\")
+    Dim EveFolder As String = Path.Combine(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "Eve"), "fittings")
     Dim currentShip As Ship
     Dim currentFit As New ArrayList
     Dim currentFitName As String = ""
@@ -261,7 +261,7 @@ Public Class frmEveImport
         Dim files As New ArrayList
         Dim Ships As New SortedList
         Dim ShipFittings As New SortedList
-        For Each fileName As String In My.Computer.FileSystem.GetFiles(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\fittings", FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
+        For Each fileName As String In My.Computer.FileSystem.GetFiles(EveFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
             files.Add(fileName)
         Next
         Dim fitXML As New XmlDocument

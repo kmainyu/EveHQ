@@ -186,18 +186,18 @@ Public Class PilotParseFunctions
             Dim cXML As Boolean = False
             Dim tXML As Boolean = False
             Dim cXMLDoc, tXMLDoc As New XmlDocument
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml") = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
                 cXML = True
             End If
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml") = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
                 tXML = True
             End If
 
             ' Only load in and parse if both files are available
             If cXML = True Then
-                cXMLDoc.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")
+                cXMLDoc.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
                 If tXML = True Then
-                    tXMLDoc.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")
+                    tXMLDoc.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
                 End If
                 Call ParsePilotSkills(currentPilot, cXMLDoc)
                 Call ParsePilotXML(currentPilot, cXMLDoc)
@@ -779,9 +779,9 @@ Public Class PilotParseFunctions
                 newPilot.Updated = True
                 EveHQ.Core.HQ.TPilots.Clear()
                 EveHQ.Core.HQ.TPilots.Add(newPilot)
-                pilotXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml")
+                pilotXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 If pilotTXML IsNot Nothing Then
-                    pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml")
+                    pilotTXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 End If
 
                 Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
@@ -873,10 +873,10 @@ Public Class PilotParseFunctions
                 newPilot.AccountPosition = "0"
                 EveHQ.Core.HQ.TPilots.Clear()
                 EveHQ.Core.HQ.TPilots.Add(newPilot)
-                pilotXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml")
+                pilotXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 If pilotTXML IsNot Nothing Then
                     If pilotTXML.InnerText <> "" Then
-                        pilotTXML.Save(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml")
+                        pilotTXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                     End If
                 End If
 

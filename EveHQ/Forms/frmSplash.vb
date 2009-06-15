@@ -81,10 +81,7 @@ Public Class frmSplash
         If isLocal = False Then
             lblStatus.Text = "> Checking app data directory..."
             Me.Refresh()
-            EveHQ.Core.HQ.appDataFolder = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) & "\EveHQ").Replace("\\", "\")
-            If EveHQ.Core.HQ.appDataFolder.StartsWith("\") = True Then
-                EveHQ.Core.HQ.appDataFolder = "\" & EveHQ.Core.HQ.appDataFolder
-            End If
+            EveHQ.Core.HQ.appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ")
             If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.appDataFolder) = False Then
                 ' Create the cache folder if it doesn't exist
                 My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.appDataFolder)
@@ -97,12 +94,9 @@ Public Class frmSplash
         lblStatus.Text = "> Checking cache directory..."
         Me.Refresh()
         If isLocal = False Then
-            EveHQ.Core.HQ.cacheFolder = (EveHQ.Core.HQ.appDataFolder & "\Cache").Replace("\\", "\")
+            EveHQ.Core.HQ.cacheFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "Cache")
         Else
-            EveHQ.Core.HQ.cacheFolder = (Application.StartupPath & "\Cache").Replace("\\", "\")
-        End If
-        If EveHQ.Core.HQ.cacheFolder.StartsWith("\") = True Then
-            EveHQ.Core.HQ.cacheFolder = "\" & EveHQ.Core.HQ.cacheFolder
+            EveHQ.Core.HQ.cacheFolder = Path.Combine(Application.StartupPath, "Cache")
         End If
         If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.cacheFolder) = False Then
             ' Create the cache folder if it doesn't exist
@@ -113,12 +107,9 @@ Public Class frmSplash
         lblStatus.Text = "> Checking image cache directory..."
         Me.Refresh()
         If isLocal = False Then
-            EveHQ.Core.HQ.imageCacheFolder = (EveHQ.Core.HQ.appDataFolder & "\ImageCache").Replace("\\", "\")
+            EveHQ.Core.HQ.imageCacheFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "ImageCache")
         Else
-            EveHQ.Core.HQ.imageCacheFolder = (Application.StartupPath & "\ImageCache").Replace("\\", "\")
-        End If
-        If EveHQ.Core.HQ.imageCacheFolder.StartsWith("\") = True Then
-            EveHQ.Core.HQ.imageCacheFolder = "\" & EveHQ.Core.HQ.imageCacheFolder
+            EveHQ.Core.HQ.imageCacheFolder = Path.Combine(Application.StartupPath, "ImageCache")
         End If
         If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.imageCacheFolder) = False Then
             ' Create the cache folder if it doesn't exist
@@ -129,12 +120,10 @@ Public Class frmSplash
         lblStatus.Text = "> Checking report folder..."
         Me.Refresh()
         If isLocal = False Then
-            EveHQ.Core.HQ.reportFolder = (Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\EveHQ\Reports").Replace("\\", "\")
+            EveHQ.Core.HQ.reportFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "EveHQ")
+            EveHQ.Core.HQ.reportFolder = Path.Combine(EveHQ.Core.HQ.reportFolder, "Reports")
         Else
-            EveHQ.Core.HQ.reportFolder = (Application.StartupPath & "\Reports").Replace("\\", "\")
-        End If
-        If EveHQ.Core.HQ.reportFolder.StartsWith("\") = True Then
-            EveHQ.Core.HQ.reportFolder = "\" & EveHQ.Core.HQ.reportFolder
+            EveHQ.Core.HQ.reportFolder = Path.Combine(Application.StartupPath, "Reports")
         End If
         If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.reportFolder) = False Then
             ' Create the cache folder if it doesn't exist
@@ -145,12 +134,9 @@ Public Class frmSplash
         lblStatus.Text = "> Checking data directory..."
         Me.Refresh()
         If isLocal = False Then
-            EveHQ.Core.HQ.dataFolder = (EveHQ.Core.HQ.appDataFolder & "\Data").Replace("\\", "\")
+            EveHQ.Core.HQ.dataFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "Data")
         Else
-            EveHQ.Core.HQ.dataFolder = (Application.StartupPath & "\Data").Replace("\\", "\")
-        End If
-        If EveHQ.Core.HQ.dataFolder.StartsWith("\") = True Then
-            EveHQ.Core.HQ.dataFolder = "\" & EveHQ.Core.HQ.dataFolder
+            EveHQ.Core.HQ.dataFolder = Path.Combine(Application.StartupPath, "Data")
         End If
         If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.dataFolder) = False Then
             ' Create the cache folder if it doesn't exist
@@ -161,12 +147,10 @@ Public Class frmSplash
         lblStatus.Text = "> Checking backup directory..."
         Me.Refresh()
         If isLocal = False Then
-            EveHQ.Core.HQ.backupFolder = (Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\EveHQ\Backups").Replace("\\", "\")
+            EveHQ.Core.HQ.backupFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "EveHQ")
+            EveHQ.Core.HQ.backupFolder = Path.Combine(EveHQ.Core.HQ.backupFolder, "Backups")
         Else
-            EveHQ.Core.HQ.backupFolder = (Application.StartupPath & "\Backups").Replace("\\", "\")
-        End If
-        If EveHQ.Core.HQ.backupFolder.StartsWith("\") = True Then
-            EveHQ.Core.HQ.backupFolder = "\" & EveHQ.Core.HQ.backupFolder
+            EveHQ.Core.HQ.backupFolder = Path.Combine(Application.StartupPath, "Backups")
         End If
         If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.backupFolder) = False Then
             ' Create the cache folder if it doesn't exist
@@ -197,6 +181,13 @@ Public Class frmSplash
             End If
             frmSettings.ShowDialog()
         Loop
+
+        ' Determine the visual style
+        If EveHQ.Core.HQ.EveHQSettings.DisableVisualStyles = True Then
+            Application.VisualStyleState = VisualStyles.VisualStyleState.NoneEnabled
+        Else
+            Application.VisualStyleState = VisualStyles.VisualStyleState.ClientAndNonClientAreasEnabled
+        End If
 
         ' Start the G15 if applicable
         If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True Then

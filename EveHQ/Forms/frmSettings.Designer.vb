@@ -21,7 +21,7 @@ Partial Public Class frmSettings
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("General")
-        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Colours")
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Colours & Styles")
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Database Format")
         Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Accounts")
         Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Folders")
@@ -302,6 +302,7 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
+        Me.chkDisableVisualStyles = New System.Windows.Forms.CheckBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2352,9 +2353,9 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(194, 12)
+        Me.gbNotifications.Location = New System.Drawing.Point(432, 52)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(693, 493)
+        Me.gbNotifications.Size = New System.Drawing.Size(157, 36)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
@@ -2650,7 +2651,7 @@ Partial Public Class frmSettings
         TreeNode1.Name = "nodeGeneral"
         TreeNode1.Text = "General"
         TreeNode2.Name = "nodeColours"
-        TreeNode2.Text = "Colours"
+        TreeNode2.Text = "Colours & Styles"
         TreeNode3.Name = "nodeDatabaseFormat"
         TreeNode3.Text = "Database Format"
         TreeNode4.Name = "nodeEveAccounts"
@@ -2685,10 +2686,11 @@ Partial Public Class frmSettings
         '
         'gbColours
         '
+        Me.gbColours.Controls.Add(Me.chkDisableVisualStyles)
         Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
-        Me.gbColours.Location = New System.Drawing.Point(671, 271)
+        Me.gbColours.Location = New System.Drawing.Point(194, 12)
         Me.gbColours.Name = "gbColours"
-        Me.gbColours.Size = New System.Drawing.Size(127, 51)
+        Me.gbColours.Size = New System.Drawing.Size(693, 501)
         Me.gbColours.TabIndex = 28
         Me.gbColours.TabStop = False
         Me.gbColours.Text = "Colours"
@@ -3043,16 +3045,26 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
+        'chkDisableVisualStyles
+        '
+        Me.chkDisableVisualStyles.AutoSize = True
+        Me.chkDisableVisualStyles.Location = New System.Drawing.Point(19, 305)
+        Me.chkDisableVisualStyles.Name = "chkDisableVisualStyles"
+        Me.chkDisableVisualStyles.Size = New System.Drawing.Size(123, 17)
+        Me.chkDisableVisualStyles.TabIndex = 38
+        Me.chkDisableVisualStyles.Text = "Disable Visual Styles"
+        Me.chkDisableVisualStyles.UseVisualStyleBackColor = True
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbNotifications)
+        Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbGeneral)
+        Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbTrainingQueue)
-        Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)
@@ -3137,6 +3149,7 @@ Partial Public Class frmSettings
         Me.gbEmailOptions.PerformLayout()
         CType(Me.nudShutdownNotifyPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbColours.ResumeLayout(False)
+        Me.gbColours.PerformLayout()
         Me.gbTrainingOverlay.ResumeLayout(False)
         Me.gbTrainingOverlay.PerformLayout()
         CType(Me.pbFontColour, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3419,4 +3432,5 @@ Partial Public Class frmSettings
     Friend WithEvents lblToolbarPosition As System.Windows.Forms.Label
     Friend WithEvents cboToolbarPosition As System.Windows.Forms.ComboBox
     Friend WithEvents chkDisableAutoConnections As System.Windows.Forms.CheckBox
+    Friend WithEvents chkDisableVisualStyles As System.Windows.Forms.CheckBox
 End Class

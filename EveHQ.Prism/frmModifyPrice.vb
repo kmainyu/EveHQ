@@ -1,4 +1,5 @@
 ﻿Imports System.Windows.Forms
+Imports System.IO
 
 Public Class frmModifyPrice
 
@@ -23,7 +24,7 @@ Public Class frmModifyPrice
 
         ' Save the prices
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-        Dim sw As New IO.StreamWriter(EveHQ.Core.HQ.cacheFolder & "\CustomPrices.txt")
+        Dim sw As New IO.StreamWriter(Path.Combine(EveHQ.Core.HQ.cacheFolder, "CustomPrices.txt"))
         Dim price As Double = 0
         For Each marketPrice As String In EveHQ.Core.HQ.CustomPriceList.Keys
             price = Double.Parse(EveHQ.Core.HQ.CustomPriceList(marketPrice).ToString, Globalization.NumberStyles.Number)

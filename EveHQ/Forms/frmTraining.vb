@@ -16,7 +16,9 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-'=========================================================================
+'=========================================================================#
+Imports System.IO
+
 Public Class frmTraining
 
     Dim oldNodeIndex As Integer = -1
@@ -2034,7 +2036,7 @@ Public Class frmTraining
         ' Set recalc flag
         Dim RecalcQueues As Boolean = False
         ' Try to find the EveMon settings file
-        Dim EveMonLocation As String = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) & "\EveMon\Settings.xml".Replace("\\", "\")
+        Dim EveMonLocation As String = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveMon"), "Settings.xml")
         If My.Computer.FileSystem.FileExists(EveMonLocation) = False Then
             MessageBox.Show("EveMon Settings File Not Found." & ControlChars.CrLf & ControlChars.CrLf & "Please check the EveMon installation.", "EveMon Settings Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub

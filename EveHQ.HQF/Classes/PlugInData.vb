@@ -24,20 +24,20 @@ Public Class PlugInData
         Try
             ' Check for existance of HQF folder & create if not existing
             If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
-                Settings.HQFFolder = (EveHQ.Core.HQ.appDataFolder & "\HQF").Replace("\\", "\")
+                Settings.HQFFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "HQF")
             Else
-                Settings.HQFFolder = (Application.StartupPath & "\HQF").Replace("\\", "\")
+                Settings.HQFFolder = Path.Combine(Application.StartupPath, "HQF")
             End If
             If My.Computer.FileSystem.DirectoryExists(Settings.HQFFolder) = False Then
                 My.Computer.FileSystem.CreateDirectory(Settings.HQFFolder)
             End If
 
             ' Check for cache folder
-            Settings.HQFCacheFolder = Settings.HQFFolder & "\Cache"
+            Settings.HQFCacheFolder = Path.Combine(Settings.HQFFolder, "Cache")
             If My.Computer.FileSystem.DirectoryExists(Settings.HQFCacheFolder) = True Then
                 ' Check for last cache version file
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\version.txt") = True Then
-                    Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\version.txt")
+                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "version.txt")) = True Then
+                    Dim sr As New StreamReader(Path.Combine(HQF.Settings.HQFCacheFolder, "version.txt"))
                     Dim cacheVersion As String = sr.ReadToEnd
                     sr.Close()
                     If IsUpdateAvailable(cacheVersion, PlugInData.LastCacheRefresh) = True Then
@@ -62,14 +62,14 @@ Public Class PlugInData
             Engine.BuildSubSystemBonusMap()
             ' Check for the existence of the binary data
             If PlugInData.UseSerializableData = True Then
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\attributes.bin") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.bin", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "attributes.bin")) = True Then
+                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "attributes.bin"), FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     Attributes.AttributeList = CType(f.Deserialize(s), SortedList)
                     s.Close()
                 End If
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\ships.bin") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\ships.bin", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin")) = True Then
+                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin"), FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     ShipLists.shipList = CType(f.Deserialize(s), SortedList)
                     s.Close()
@@ -78,8 +78,8 @@ Public Class PlugInData
                         ShipLists.shipListKeyID.Add(cShip.Name, cShip.ID)
                     Next
                 End If
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\modules.bin") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\modules.bin", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "modules.bin")) = True Then
+                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "modules.bin"), FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     ModuleLists.moduleList = CType(f.Deserialize(s), SortedList)
                     s.Close()
@@ -92,20 +92,20 @@ Public Class PlugInData
                         End If
                     Next
                 End If
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\implants.bin") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\implants.bin", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "implants.bin")) = True Then
+                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "implants.bin"), FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     Implants.implantList = CType(f.Deserialize(s), SortedList)
                     s.Close()
                 End If
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\skills.bin") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\skills.bin", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "skills.bin")) = True Then
+                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "skills.bin"), FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     SkillLists.SkillList = CType(f.Deserialize(s), SortedList)
                     s.Close()
                 End If
-                If My.Computer.FileSystem.FileExists(HQF.Settings.HQFCacheFolder & "\NPCs.bin") = True Then
-                    Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\NPCs.bin", FileMode.Open)
+                If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "NPCs.bin")) = True Then
+                    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "NPCs.bin"), FileMode.Open)
                     Dim f As BinaryFormatter = New BinaryFormatter
                     NPCs.NPCList = CType(f.Deserialize(s), SortedList)
                     s.Close()
@@ -1666,37 +1666,37 @@ Public Class PlugInData
         End If
         My.Computer.FileSystem.CreateDirectory(Settings.HQFCacheFolder)
         ' Save ships
-        Dim s As New FileStream(HQF.Settings.HQFCacheFolder & "\ships.bin", FileMode.Create)
+        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin"), FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, ShipLists.shipList)
         s.Flush()
         s.Close()
         ' Save modules
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\modules.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "modules.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, ModuleLists.moduleList)
         s.Flush()
         s.Close()
         ' Save implants
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\implants.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "implants.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, Implants.implantList)
         s.Flush()
         s.Close()
         ' Save skills
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\skills.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "skills.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, SkillLists.SkillList)
         s.Flush()
         s.Close()
         ' Save attributes
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\attributes.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "attributes.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, Attributes.AttributeList)
         s.Flush()
         s.Close()
         ' Save NPCs
-        s = New FileStream(HQF.Settings.HQFCacheFolder & "\NPCs.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "NPCs.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, NPCs.NPCList)
         s.Flush()
@@ -1709,7 +1709,7 @@ Public Class PlugInData
         Call Me.BuildItemMarketGroups()
 
         ' Write the current version
-        Dim sw As New StreamWriter(HQF.Settings.HQFCacheFolder & "\version.txt")
+        Dim sw As New StreamWriter(Path.Combine(HQF.Settings.HQFCacheFolder, "version.txt"))
         sw.Write(PlugInData.LastCacheRefresh)
         sw.Flush()
         sw.Close()
@@ -1840,7 +1840,7 @@ Public Class PlugInData
         Next
     End Sub
     Private Sub WriteShipGroups(ByVal tvwShips As TreeView)
-        Dim sw As New IO.StreamWriter(HQF.Settings.HQFCacheFolder & "\ShipGroups.bin")
+        Dim sw As New IO.StreamWriter(Path.Combine(HQF.Settings.HQFCacheFolder, "ShipGroups.bin"))
         For Each rootNode As TreeNode In tvwShips.Nodes
             WriteShipNodes(rootNode, sw)
         Next
@@ -1848,7 +1848,7 @@ Public Class PlugInData
         sw.Close()
     End Sub
     Private Sub WriteItemGroups(ByVal tvwItems As TreeView)
-        Dim sw As New IO.StreamWriter(HQF.Settings.HQFCacheFolder & "\ItemGroups.bin")
+        Dim sw As New IO.StreamWriter(Path.Combine(HQF.Settings.HQFCacheFolder, "ItemGroups.bin"))
         For Each rootNode As TreeNode In tvwItems.Nodes
             WriteGroupNodes(rootNode, sw)
         Next

@@ -364,7 +364,7 @@ Public Class frmEveHQ
                 ' Show the pilot summary report form!
                 Dim newReport As New EveHQ.frmReportViewer
                 Call EveHQ.Core.Reports.GenerateCharSummary()
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\PilotSummary.html")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "PilotSummary.html"))
                 Call DisplayReport(newReport, "Pilot Summary")
             Case "Skill Training"
                 If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
@@ -375,7 +375,7 @@ Public Class frmEveHQ
                 ' Show the pilot summary report form!
                 Dim newReport As New EveHQ.frmReportViewer
                 Call EveHQ.Core.Reports.GenerateCharSummary()
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\PilotSummary.html")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "PilotSummary.html"))
                 Call DisplayReport(newReport, "Pilot Summary")
         End Select
 
@@ -1121,57 +1121,57 @@ Public Class frmEveHQ
         Select Case menuParts(0)
             Case "mnuReportsCharCharsheet"
                 Call EveHQ.Core.Reports.GenerateCharSheet(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\CharSheet (" & rPilot.Name & ").html")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "CharSheet (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Character Sheet - " & rPilot.Name)
             Case "mnuReportCharTraintimes"
                 Call EveHQ.Core.Reports.GenerateTrainingTime(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\TrainTime (" & rPilot.Name & ").html")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainTime (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Training Times - " & rPilot.Name)
             Case "mnuReportTimeToLevel5"
                 Call EveHQ.Core.Reports.GenerateTimeToLevel5(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\TimeToLevel5 (" & rPilot.Name & ").html")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "TimeToLevel5 (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Time To Level 5 - " & rPilot.Name)
             Case "mnureportCharSkillLevels"
                 Call EveHQ.Core.Reports.GenerateSkillLevels(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\SkillLevels (" & rPilot.Name & ").html")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillLevels (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Skill Levels - " & rPilot.Name)
             Case "mnuReportCharXML"
                 Call EveHQ.Core.Reports.GenerateCharXML(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\CharXML (" & rPilot.Name & ").xml")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "CharXML (" & rPilot.Name & ").xml"))
                 DisplayReport(newReport, "Imported Character XML - " & rPilot.Name)
             Case "mnuReportTrainXML"
                 Call EveHQ.Core.Reports.GenerateTrainXML(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\TrainingXML (" & rPilot.Name & ").xml")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainingXML (" & rPilot.Name & ").xml"))
                 DisplayReport(newReport, "Imported Training XML - " & rPilot.Name)
             Case "mnuReportTrainingQueue"
                 Dim rQueue As EveHQ.Core.SkillQueue = CType(rPilot.TrainingQueues(menuParts(2)), Core.SkillQueue)
                 Call EveHQ.Core.Reports.GenerateTrainQueue(rPilot, rQueue)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").html")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Training Queue - " & rPilot.Name & " (" & rQueue.Name & ")")
             Case "mnuReportQueueShoppingList"
                 Dim rQueue As EveHQ.Core.SkillQueue = CType(rPilot.TrainingQueues(menuParts(2)), Core.SkillQueue)
                 Call EveHQ.Core.Reports.GenerateShoppingList(rPilot, rQueue)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").html")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Shopping List - " & rPilot.Name & " (" & rQueue.Name & ")")
             Case "mnuReportSkillsAvailable"
                 Call EveHQ.Core.Reports.GenerateSkillsAvailable(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\SkillsToTrain (" & rPilot.Name & ").html")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsToTrain (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Skills Available to Train - " & rPilot.Name)
             Case "mnuReportSkillsNotTrained"
                 Call EveHQ.Core.Reports.GenerateSkillsNotTrained(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\SkillsNotTrained (" & rPilot.Name & ").html")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsNotTrained (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Skills Not Trained - " & rPilot.Name)
             Case "mnuReportCurrentCharXMLOld"
                 Call EveHQ.Core.Reports.GenerateCurrentPilotXML_Old(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\CurrentXML - Old (" & rPilot.Name & ").xml")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "CurrentXML - Old (" & rPilot.Name & ").xml"))
                 DisplayReport(newReport, "Old Style Character XML - " & rPilot.Name)
             Case "mnuReportCurrentCharXMLNew"
                 Call EveHQ.Core.Reports.GenerateCurrentPilotXML_New(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\CurrentXML - New (" & rPilot.Name & ").xml")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "CurrentXML - New (" & rPilot.Name & ").xml"))
                 DisplayReport(newReport, "Current Character XML - " & rPilot.Name)
             Case "mnuReportCurrentTrainingXMLOld"
                 Call EveHQ.Core.Reports.GenerateCurrentTrainingXML_Old(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\TrainingXML - Old (" & rPilot.Name & ").xml")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainingXML - Old (" & rPilot.Name & ").xml"))
                 DisplayReport(newReport, "Old Style Training XML - " & rPilot.Name)
             Case "mnuReportSkillGroupChart"
                 Dim newChartForm As New frmChartViewer
@@ -1179,45 +1179,45 @@ Public Class frmEveHQ
                 Call Me.DisplayChartReport(newChartForm, "Skill Group Chart - " & rPilot.Name)
             Case "mnuReportsTextCharSheet"
                 Call EveHQ.Core.Reports.GenerateTextCharSheet(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\CharSheet (" & rPilot.Name & ").txt")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "CharSheet (" & rPilot.Name & ").txt"))
                 DisplayReport(newReport, "Character Sheet - " & rPilot.Name)
             Case "mnuReportsTextTrainTimes"
                 Call EveHQ.Core.Reports.GenerateTextTrainingTime(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\TrainTime (" & rPilot.Name & ").txt")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainTime (" & rPilot.Name & ").txt"))
                 DisplayReport(newReport, "Training Times - " & rPilot.Name)
             Case "mnuReportsTextTimeToLevel5"
                 Call EveHQ.Core.Reports.GenerateTextTimeToLevel5(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\TimeToLevel5 (" & rPilot.Name & ").txt")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "TimeToLevel5 (" & rPilot.Name & ").txt"))
                 DisplayReport(newReport, "Time To Level 5 - " & rPilot.Name)
             Case "mnuReportsTextSkillLevels"
                 Call EveHQ.Core.Reports.GenerateTextSkillLevels(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\SkillLevels (" & rPilot.Name & ").txt")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillLevels (" & rPilot.Name & ").txt"))
                 DisplayReport(newReport, "Skill Levels - " & rPilot.Name)
             Case "mnuReportsTextSkillsAvailable"
                 Call EveHQ.Core.Reports.GenerateTextSkillsAvailable(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\SkillsToTrain (" & rPilot.Name & ").txt")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsToTrain (" & rPilot.Name & ").txt"))
                 DisplayReport(newReport, "Skills Available to Train - " & rPilot.Name)
             Case "mnuReportsTextSkillsNotTrained"
                 Call EveHQ.Core.Reports.GenerateTextSkillsNotTrained(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\SkillsNotTrained (" & rPilot.Name & ").txt")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsNotTrained (" & rPilot.Name & ").txt"))
                 DisplayReport(newReport, "Skills Not Trained - " & rPilot.Name)
             Case "mnuReportsTextTrainingQueue"
                 Dim rQueue As EveHQ.Core.SkillQueue = CType(rPilot.TrainingQueues(menuParts(2)), Core.SkillQueue)
                 Call EveHQ.Core.Reports.GenerateTextTrainQueue(rPilot, rQueue)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").txt")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").txt"))
                 DisplayReport(newReport, "Training Queue - " & rPilot.Name & " (" & rQueue.Name & ")")
             Case "mnuReportsTextShoppingList"
                 Dim rQueue As EveHQ.Core.SkillQueue = CType(rPilot.TrainingQueues(menuParts(2)), Core.SkillQueue)
                 Call EveHQ.Core.Reports.GenerateTextShoppingList(rPilot, rQueue)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").txt")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").txt"))
                 DisplayReport(newReport, "Shopping List - " & rPilot.Name & " (" & rQueue.Name & ")")
             Case "mnuReportPartiallyTrainedSkills"
                 Call EveHQ.Core.Reports.GeneratePartialSkills(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\PartialSkills (" & rPilot.Name & ").html")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "PartialSkills (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Partially Trained Skills - " & rPilot.Name)
             Case "mnuReportsTextPartiallyTrainedSkills"
                 Call EveHQ.Core.Reports.GenerateTextPartialSkills(rPilot)
-                newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\PartialSkills (" & rPilot.Name & ").txt")
+                newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "PartialSkills (" & rPilot.Name & ").txt"))
                 DisplayReport(newReport, "Partially Trained Skills - " & rPilot.Name)
             Case "mnuReportECMExport"
                 Call EveHQ.Core.Reports.GenerateECMExportReports(rPilot)
@@ -1227,42 +1227,42 @@ Public Class frmEveHQ
     Private Sub mnuRepCharSummary_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRepCharSummary.Click
         Dim newReport As New frmReportViewer
         Call EveHQ.Core.Reports.GenerateCharSummary()
-        newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\PilotSummary.html")
+        newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "PilotSummary.html"))
         DisplayReport(newReport, "Pilot Summary")
     End Sub
 
     Private Sub mnuReportSPSummary_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportSPSummary.Click
         Dim newReport As New frmReportViewer
         Call EveHQ.Core.Reports.GenerateSPSummary()
-        newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\SPSummary.html")
+        newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "SPSummary.html"))
         DisplayReport(newReport, "Skill Point Summary")
     End Sub
 
     Private Sub mnuReportAsteroidAlloys_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportAsteroidAlloys.Click
         Dim newReport As New frmReportViewer
         Call EveHQ.Core.Reports.GenerateAlloyReport()
-        newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\AlloyReport.html")
+        newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "AlloyReport.html"))
         DisplayReport(newReport, "Alloy Composition")
     End Sub
 
     Private Sub mnuReportAsteroidRocks_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportAsteroidRocks.Click
         Dim newReport As New frmReportViewer
         Call EveHQ.Core.Reports.GenerateRockReport()
-        newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\OreReport.html")
+        newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "OreReport.html"))
         DisplayReport(newReport, "Asteroid Composition")
     End Sub
 
     Private Sub mnuReportAsteroidIce_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuReportAsteroidIce.Click
         Dim newReport As New frmReportViewer
         Call EveHQ.Core.Reports.GenerateIceReport()
-        newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\IceReport.html")
+        newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "IceReport.html"))
         DisplayReport(newReport, "Ice Composition")
     End Sub
 
 #End Region
 
     Private Sub EveIconMenu_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles EveIconMenu.Opening
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.EveFolder(1) & "\Eve.exe") = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(1) = False Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(1), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(1) = False Then
             If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(1) <> "" Then
                 ctxmnuLaunchEve1.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(1) & ")"
             End If
@@ -1274,7 +1274,7 @@ Public Class frmEveHQ
             ctxLaunchEve1Full.Visible = False
             ctxLaunchEve1Normal.Visible = False
         End If
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.EveFolder(2) & "\Eve.exe") = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(2) = False Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(2), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(2) = False Then
             If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(2) <> "" Then
                 ctxmnuLaunchEve2.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(2) & ")"
             End If
@@ -1286,7 +1286,7 @@ Public Class frmEveHQ
             ctxLaunchEve2Full.Visible = False
             ctxLaunchEve2Normal.Visible = False
         End If
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.EveFolder(3) & "\Eve.exe") = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(3) = False Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(3), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(3) = False Then
             If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(3) <> "" Then
                 ctxmnuLaunchEve3.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(3) & ")"
             End If
@@ -1298,7 +1298,7 @@ Public Class frmEveHQ
             ctxLaunchEve3Full.Visible = False
             ctxLaunchEve3Normal.Visible = False
         End If
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.EveFolder(4) & "\Eve.exe") = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(4) = False Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(4), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(4) = False Then
             If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(4) <> "" Then
                 ctxmnuLaunchEve4.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(4) & ")"
             End If
@@ -1377,12 +1377,12 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub VersionHistoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VersionHistoryToolStripMenuItem.Click
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\History.txt")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "History.txt"))
         sw.Write(My.Resources.History)
         sw.Flush()
         sw.Close()
         Dim newReport As New frmReportViewer
-        newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\History.txt")
+        newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "History.txt"))
         DisplayReport(newReport, "EveHQ Version History")
     End Sub
 
@@ -1744,7 +1744,7 @@ Public Class frmEveHQ
     Private Sub ctxLaunchEve1Normal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxLaunchEve1Normal.Click
         Me.WindowState = FormWindowState.Minimized
         Try
-            Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(1) & "\Eve.exe")
+            Process.Start(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(1), "Eve.exe"))
         Catch ex As Exception
             MessageBox.Show("Unable to start Eve. Please ensure that the location is correctly specified in the EveHQ settings.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
@@ -1753,7 +1753,7 @@ Public Class frmEveHQ
     Private Sub ctxLaunchEve2Normal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxLaunchEve2Normal.Click
         Me.WindowState = FormWindowState.Minimized
         Try
-            Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(2) & "\Eve.exe")
+            Process.Start(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(2), "Eve.exe"))
         Catch ex As Exception
             MessageBox.Show("Unable to start Eve. Please ensure that the location is correctly specified in the EveHQ settings.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
@@ -1762,7 +1762,7 @@ Public Class frmEveHQ
     Private Sub ctxLaunchEve3Normal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxLaunchEve3Normal.Click
         Me.WindowState = FormWindowState.Minimized
         Try
-            Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(3) & "\Eve.exe")
+            Process.Start(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(3), "Eve.exe"))
         Catch ex As Exception
             MessageBox.Show("Unable to start Eve. Please ensure that the location is correctly specified in the EveHQ settings.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
@@ -1771,7 +1771,7 @@ Public Class frmEveHQ
     Private Sub ctxLaunchEve4Normal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ctxLaunchEve4Normal.Click
         Me.WindowState = FormWindowState.Minimized
         Try
-            Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(4) & "\Eve.exe")
+            Process.Start(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(4), "Eve.exe"))
         Catch ex As Exception
             MessageBox.Show("Unable to start Eve. Please ensure that the location is correctly specified in the EveHQ settings.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
@@ -1796,7 +1796,7 @@ Public Class frmEveHQ
     Private Sub CheckEveHandle(ByVal EveFolder As Integer)
         Me.WindowState = FormWindowState.Minimized
         Try
-            Process.Start(EveHQ.Core.HQ.EveHQSettings.EveFolder(EveFolder) & "\Eve.exe")
+            Process.Start(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(EveFolder), "Eve.exe"))
         Catch ex As Exception
             MessageBox.Show("Unable to start Eve. Please ensure that the location is correctly specified in the EveHQ settings.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
@@ -1810,7 +1810,8 @@ Public Class frmEveHQ
         For Each process As Process In processes
             If process.MainWindowTitle = "EVE" Then
                 If tmrEveWindow.Tag.ToString <> "" Then
-                    If process.MainModule.FileName.ToUpper = (EveHQ.Core.HQ.EveHQSettings.EveFolder(CInt(tmrEveWindow.Tag)) & "\bin\Exefile.exe").ToUpper Then
+                    Dim EvePath As String = Path.Combine(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(CInt(tmrEveWindow.Tag)), "bin"), "Exefile.exe")
+                    If process.MainModule.FileName.ToUpper = EvePath.ToUpper Then
                         Dim screenW As Integer = My.Computer.Screen.Bounds.Width
                         Dim screenH As Integer = My.Computer.Screen.Bounds.Height
                         Dim windowRect, clientRect As RECT
@@ -2174,7 +2175,7 @@ Public Class frmEveHQ
     Public Function InitialiseWatchers() As Boolean
         ' Clear the list of watchers, just in case
         Call Me.CancelWatchers()
-        Dim MLFolder As String = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\logs\Marketlogs\"
+        Dim MLFolder As String = Path.Combine(Path.Combine(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "Eve"), "logs"), "Marketlogs")
         If My.Computer.FileSystem.DirectoryExists(MLFolder) = True Then
             Dim emeFSW As New FileSystemWatcher
             emeFSW = New FileSystemWatcher
@@ -2286,8 +2287,8 @@ Public Class frmEveHQ
             CurrentComponents.Add("EveHQ.exe", My.Application.Info.Version.ToString)
             msg &= "EveHQ.exe (" & My.Application.Info.Version.ToString & ")" & ControlChars.CrLf
             ' Add the EveHQPatcher if available?
-            If My.Computer.FileSystem.FileExists(Application.StartupPath & "\EveHQPatcher.exe") = True Then
-                Dim myAssembly As Assembly = Assembly.ReflectionOnlyLoadFrom(Application.StartupPath & "\EveHQPatcher.exe")
+            If My.Computer.FileSystem.FileExists(Path.Combine(Application.StartupPath, "EveHQPatcher.exe")) = True Then
+                Dim myAssembly As Assembly = Assembly.ReflectionOnlyLoadFrom(Path.Combine(Application.StartupPath, "EveHQPatcher.exe"))
                 CurrentComponents.Add("EveHQPatcher.exe", myAssembly.GetName.Version.ToString)
                 msg &= "EveHQPatcher.exe (" & myAssembly.GetName.Version.ToString & ")" & ControlChars.CrLf
             Else
@@ -2295,7 +2296,7 @@ Public Class frmEveHQ
                 msg &= "EveHQPatcher.exe (Not Present)" & ControlChars.CrLf
             End If
             ' Add the LgLcd.dll - unique as not a .Net assembly
-            If My.Computer.FileSystem.FileExists(Application.StartupPath & "\LgLcd.dll") = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(Application.StartupPath, "LgLcd.dll")) = True Then
                 CurrentComponents.Add("LgLcd.dll", "Any")
                 msg &= "LgLcd.dll (Any)" & ControlChars.CrLf
             Else

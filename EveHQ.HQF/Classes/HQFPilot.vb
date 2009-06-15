@@ -141,7 +141,7 @@ End Class
     End Sub
 
     Public Shared Sub SaveHQFPilotData()
-        Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFPilotSettings.bin", FileMode.Create)
+        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, HQFPilotCollection.HQFPilots)
         s.Flush()
@@ -149,8 +149,8 @@ End Class
     End Sub
 
     Public Shared Sub LoadHQFPilotData()
-        If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFPilotSettings.bin") = True Then
-            Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFPilotSettings.bin", FileMode.Open)
+        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Open)
             Dim f As BinaryFormatter = New BinaryFormatter
             HQFPilotCollection.HQFPilots = CType(f.Deserialize(s), SortedList)
             s.Close()

@@ -20,6 +20,7 @@
 Option Strict Off
 Imports System.Windows.Forms
 Imports System.Drawing
+Imports System.IO
 
 
 Public Class frmShowInfo
@@ -47,7 +48,7 @@ Public Class frmShowInfo
         End If
 
         ' Get image from cache 
-        Dim imgFilename As String = EveHQ.Core.HQ.imageCacheFolder & "\" & hPilot.ID & ".png"
+        Dim imgFilename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, hPilot.ID & ".png")
         If My.Computer.FileSystem.FileExists(imgFilename) = True Then
             pbPilot.ImageLocation = imgFilename
         Else

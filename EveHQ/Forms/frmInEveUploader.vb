@@ -81,13 +81,13 @@ Public Class frmInEveUploader
 
         Dim strXML As String = ""
         strXML &= EveHQ.Core.Reports.CurrentPilotXML_New(rPilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\CurrentXML - New (" & rPilot.Name & ").xml")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "CurrentXML - New (" & rPilot.Name & ").xml"))
         sw.Write(strXML)
         sw.Flush()
         sw.Close()
 
         ' Stage 2 - Upload the XML data
-        Call Me.UploadSkillsFile(rPilot, EveHQ.Core.HQ.reportFolder & "\CurrentXML - New (" & rPilot.Name & ").xml")
+        Call Me.UploadSkillsFile(rPilot, Path.Combine(EveHQ.Core.HQ.reportFolder, "CurrentXML - New (" & rPilot.Name & ").xml"))
         strXML = Nothing
     End Sub
 
@@ -261,14 +261,14 @@ Public Class frmInEveUploader
         Dim XMLdoc As XmlDocument = New XmlDocument
         Try
             XMLdoc.LoadXml(Me.queueXML)
-            XMLdoc.Save(EveHQ.Core.HQ.reportFolder & "\InEveQ_" & uPilot.Name & ".xml")
+            XMLdoc.Save(Path.Combine(EveHQ.Core.HQ.reportFolder, "InEveQ_" & uPilot.Name & ".xml"))
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Error Saving Training Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End Try
 
         ' Upload the file to the website
-        Call Me.UploadQueueFile(uPilot, EveHQ.Core.HQ.reportFolder & "\InEveQ_" & uPilot.Name & ".xml")
+        Call Me.UploadQueueFile(uPilot, Path.Combine(EveHQ.Core.HQ.reportFolder, "InEveQ_" & uPilot.Name & ".xml"))
 
     End Sub
 

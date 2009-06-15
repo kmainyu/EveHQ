@@ -20,6 +20,7 @@
 Imports System.Data
 Imports System.Drawing
 Imports System.Windows.Forms
+Imports System.IO
 
 Public Class frmMap
     Dim EnableJumps As Boolean
@@ -1739,7 +1740,7 @@ Public Class frmMap
                 strHTML &= "<p>Number " & no & "</p>"
             Case "/EVEHQMAPTOOL/MAPOVERVIEW.PNG", "/EVEHQMAPTOOL/MAPOVERVIEW.PNG/"
                 Call CreateIGBMap(300, True)
-                strHTML = EveHQ.Core.IGB.GetImage(EveHQ.Core.HQ.cacheFolder & "\MapOverview.png")
+                strHTML = EveHQ.Core.IGB.GetImage(Path.Combine(EveHQ.Core.HQ.cacheFolder, "MapOverview.png"))
         End Select
         Return strHTML
     End Function
@@ -1795,7 +1796,7 @@ Public Class frmMap
 
         'Call Me.DrawRoute()
         Call DrawIGBLocation(MapContext.Request.Headers("Eve.solarsystemname"))
-        IGBMap.Save(EveHQ.Core.HQ.cacheFolder & "\MapOverview.png", System.Drawing.Imaging.ImageFormat.Png)
+        IGBMap.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "MapOverview.png"), System.Drawing.Imaging.ImageFormat.Png)
 
     End Sub
     Private Sub DrawIGBLinks()

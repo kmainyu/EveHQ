@@ -125,9 +125,9 @@ Public Class frmBackup
         backupDirs = My.Computer.FileSystem.GetDirectories(EveHQ.Core.HQ.backupFolder)
         Dim backupDir As String = ""
         For Each backupDir In backupDirs
-            Dim backupFile As String = backupDir & "\backup.txt"
+            Dim backupFile As String = System.IO.Path.Combine(backupDir, "backup.txt")
             If My.Computer.FileSystem.FileExists(backupFile) = True Then
-                Dim sr As StreamReader = New StreamReader(backupDir & "\backup.txt")
+                Dim sr As StreamReader = New StreamReader(System.IO.Path.Combine(backupDir, "backup.txt"))
                 Dim newLine As ListViewItem = New ListViewItem
                 newLine.Name = backupDir
                 newLine.Text = sr.ReadLine
@@ -185,24 +185,27 @@ Public Class frmBackup
                     Dim passed As Boolean = False
 
                     ' Check for correct cache locations
-                    Dim cacheDir As String
-                    Dim prefsFile As String
-                    Dim settingsDir As String
-                    Dim browserDir As String
+                    Dim cacheDir As String = ""
+                    Dim prefsFile As String = ""
+                    Dim settingsDir As String = ""
+                    Dim browserDir As String = ""
+                    Dim eveFolder As String = ""
                     If EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(location) = True Then
-                        cacheDir = EveHQ.Core.HQ.EveHQSettings.EveFolder(location) & "\cache"
-                        settingsDir = EveHQ.Core.HQ.EveHQSettings.EveFolder(location) & "\settings"
-                        prefsFile = cacheDir & "\prefs.ini"
-                        browserDir = cacheDir & "\browser"
+                        cacheDir = System.IO.Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(location), "cache")
+                        settingsDir = System.IO.Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(location), "settings")
+                        prefsFile = System.IO.Path.Combine(cacheDir, "prefs.ini")
+                        browserDir = System.IO.Path.Combine(cacheDir, "browser")
                     Else
                         ' Trinity 1.1 introduced (yet) another location :( Try to recreate this from the "location"
                         Dim eveSettingsFolder As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(location)
                         eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower
                         eveSettingsFolder &= "_tranquility"
-                        cacheDir = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\" & eveSettingsFolder & "\cache").Replace("\\", "\")
-                        settingsDir = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\" & eveSettingsFolder & "\settings").Replace("\\", "\")
-                        prefsFile = settingsDir & "\prefs.ini"
-                        browserDir = cacheDir & "\browser"
+                        eveFolder = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "Eve")
+                        eveFolder = System.IO.Path.Combine(eveFolder, eveSettingsFolder)
+                        cacheDir = System.IO.Path.Combine(eveFolder, "cache")
+                        settingsDir = System.IO.Path.Combine(eveFolder, "settings")
+                        prefsFile = System.IO.Path.Combine(settingsDir, "prefs.ini")
+                        browserDir = System.IO.Path.Combine(cacheDir, "browser")
                     End If
 
                     ' Stage 1
@@ -221,11 +224,11 @@ Public Class frmBackup
 
                     If passed = True Then
                         ' Start the backup procedure
-                        Dim destDir As String = EveHQ.Core.HQ.backupFolder & "\Location " & location & " (" & timeStamp & ")"
-                        Dim destPrefs As String = destDir & "\prefs.ini"
-                        Dim destText As String = destDir & "\backup.txt"
-                        Dim destSettings As String = destDir & "\Settings"
-                        Dim destBrowser As String = destDir & "\Browser"
+                        Dim destDir As String = System.IO.Path.Combine(EveHQ.Core.HQ.backupFolder, "Location " & location & " (" & timeStamp & ")")
+                        Dim destPrefs As String = System.IO.Path.Combine(destDir, "prefs.ini")
+                        Dim destText As String = System.IO.Path.Combine(destDir, "backup.txt")
+                        Dim destSettings As String = System.IO.Path.Combine(destDir, "Settings")
+                        Dim destBrowser As String = System.IO.Path.Combine(destDir, "Browser")
 
                         ' Copy the existing files
                         If My.Computer.FileSystem.DirectoryExists(destDir) = False Then
@@ -283,23 +286,23 @@ Public Class frmBackup
 
             ' Start the restore procedure
             'Dim cacheDir As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(location) & "\cache"
-            Dim prefsFile As String = sourceDir & "\prefs.ini"
-            Dim settingsDir As String = sourceDir & "\settings"
-            Dim browserDir As String = sourceDir & "\browser"
+            Dim prefsFile As String = System.IO.Path.Combine(sourceDir, "prefs.ini")
+            Dim settingsDir As String = System.IO.Path.Combine(sourceDir, "settings")
+            Dim browserDir As String = System.IO.Path.Combine(sourceDir, "browser")
             Dim destCache As String = ""
             Dim destPrefs As String = ""
             Dim destSettings As String = ""
             Dim destBrowser As String = ""
             If EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(CInt(location)) = True Then
-                destCache = destDir & "\cache"
-                destSettings = destDir & "\settings"
-                destPrefs = destCache & "\prefs.ini"
-                destBrowser = destCache & "\Browser"
+                destCache = System.IO.Path.Combine(destDir, "cache")
+                destSettings = System.IO.Path.Combine(destDir, "settings")
+                destPrefs = System.IO.Path.Combine(destCache, "prefs.ini")
+                destBrowser = System.IO.Path.Combine(destCache, "Browser")
             Else
-                destCache = destDir & "\cache"
-                destSettings = destDir & "\settings"
-                destPrefs = destSettings & "\prefs.ini"
-                destBrowser = destCache & "\Browser"
+                destCache = System.IO.Path.Combine(destDir, "cache")
+                destSettings = System.IO.Path.Combine(destDir, "settings")
+                destPrefs = System.IO.Path.Combine(destSettings, "prefs.ini")
+                destBrowser = System.IO.Path.Combine(destCache, "Browser")
             End If
             My.Computer.FileSystem.CopyDirectory(settingsDir, destSettings, True)
             My.Computer.FileSystem.CopyFile(prefsFile, destPrefs, True)

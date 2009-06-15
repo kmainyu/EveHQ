@@ -505,7 +505,7 @@ Public Class frmDataConvert
                 Dim inputFileInfo As FileInfo = My.Computer.FileSystem.GetFileInfo(inputFile)
                 Dim fileName As String = inputFileInfo.Name
                 If fileList.Count = 0 Or fileList.Contains(fileName) Then
-                    Dim outputFile As String = txtTarget.Text & "\" & inputFileInfo.Name & ".csv"
+                    Dim outputFile As String = Path.Combine(txtTarget.Text, inputFileInfo.Name & ".csv")
                     Dim sr As StreamReader = New StreamReader(inputFile)
                     Dim sw As StreamWriter = New StreamWriter(outputFile, False)
 
@@ -570,7 +570,7 @@ Public Class frmDataConvert
     Private Sub AddCSVRefiningData()
         Dim line As String = My.Resources.materialsForRefining.Replace(ControlChars.CrLf, Chr(13))
         Dim lines() As String = line.Split(Chr(13))
-        Dim sw As StreamWriter = New StreamWriter(txtTarget.Text & "\dbo_typeActivityMaterials.sql.csv", True)
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(txtTarget.Text, "dbo_typeActivityMaterials.sql.csv"), True)
         ' Read each line and write if not header
         For Each line In lines
             If line.StartsWith("typeID") = False And line <> "" Then
@@ -586,7 +586,7 @@ Public Class frmDataConvert
     Private Sub ConvertToMDB(ByVal totalLines As Long, ByVal worker As System.ComponentModel.BackgroundWorker, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim dataFiles As System.Collections.ObjectModel.ReadOnlyCollection(Of String)
         dataFiles = My.Computer.FileSystem.GetFiles(txtSource.Text)
-        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
 
         Dim inputFile As String = ""
         Dim lineCount As Long = 0
@@ -694,7 +694,7 @@ Public Class frmDataConvert
 
     End Sub
     Private Sub AddPrimaryKeys()
-        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
         Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
         Dim strLines() As String = My.Resources.DB_Primary.Split(ControlChars.CrLf)
         Dim command As OleDbCommand
@@ -717,7 +717,7 @@ Public Class frmDataConvert
         connection.Close()
     End Sub
     Private Sub CreateRelationships()
-        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
         Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
         Dim strLines() As String = My.Resources.DB_Links.Split(ControlChars.CrLf)
         Dim command As OleDbCommand
@@ -742,7 +742,7 @@ Public Class frmDataConvert
     Private Sub AddMDBRefiningData()
         Dim line As String = My.Resources.materialsForRefining.Replace(ControlChars.CrLf, Chr(13))
         Dim lines() As String = line.Split(Chr(13))
-        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
         Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
         connection.Open()
         ' Read the first line which is a header line
@@ -758,7 +758,7 @@ Public Class frmDataConvert
     Private Sub AddMDBWHData()
         Dim line As String = My.Resources.WHAttribs.Replace(ControlChars.CrLf, Chr(13))
         Dim lines() As String = line.Split(Chr(13))
-        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
         Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
         connection.Open()
         ' Read the first line which is a header line
@@ -777,7 +777,7 @@ Public Class frmDataConvert
     Private Sub AddEntityData()
         Dim line As String = My.Resources.EntityData.Replace(ControlChars.CrLf, Chr(13))
         Dim lines() As String = line.Split(Chr(13))
-        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
         Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
         connection.Open()
         ' Read the first line which is a header line
@@ -794,7 +794,7 @@ Public Class frmDataConvert
         connection.Close()
     End Sub
     Private Sub AddMDBAttributeGroupColumn()
-        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
         Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
         connection.Open()
         Dim strSQL As String = "ALTER TABLE dgmAttributeTypes ADD COLUMN attributeGroup INTEGER;"
@@ -817,7 +817,7 @@ Public Class frmDataConvert
         connection.Close()
     End Sub
     Private Sub CorrectMDBEveUnits()
-        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
         Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
         connection.Open()
         Dim strSQL As String = "UPDATE dgmAttributeTypes SET unitID=122 WHERE unitID IS NULL;"
@@ -826,7 +826,7 @@ Public Class frmDataConvert
         connection.Close()
     End Sub
     Private Sub AddMDBVersionTable()
-        Dim outputFile As String = txtTarget.Text & "\EveHQ.mdb"
+        Dim outputFile As String = Path.Combine(txtTarget.Text, "EveHQ.mdb")
         Dim connection As New OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" & outputFile & "'")
         connection.Open()
         ' Create the table
@@ -943,8 +943,8 @@ Public Class frmDataConvert
         Dim newData As DataSet = EveHQ.Core.DataFunctions.GetData(bpSQL)
         Dim materialData As DataSet = New DataSet
 
-        Dim sw As StreamWriter = New StreamWriter("c:\eveHQ_bpDump.csv")
-        Dim sw2 As StreamWriter = New StreamWriter("c:\eveHQ_bpDump2.csv")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "eveHQ_bpDump.csv"))
+        Dim sw2 As StreamWriter = New StreamWriter(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "eveHQ_bpDump2.csv"))
         Dim strBPS As String = ""
         strBPS = "Item Type,Tech Level,Production Time,Research Productivity Time,Research Material Time,Research Copy Time,Research Tech Time,Productivity Modifier,Material Modifier,Waste Factor,Max Production Limit"
         sw.WriteLine(strBPS)
@@ -1005,7 +1005,7 @@ Public Class frmDataConvert
         For Each tableName As String In tableNames
             strSQL = "SELECT * FROM " & tableName & ";"
             newData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            Dim newFile As String = csvPath & "\" & tableName & ".csv"
+            Dim newFile As String = Path.Combine(csvPath, tableName & ".csv")
             Dim sw As StreamWriter = New StreamWriter(newFile)
             ' Write column headings
             colRow = ""
@@ -1036,7 +1036,7 @@ Public Class frmDataConvert
         With ofd1
             .Title = "Select Access Data file"
             .FileName = ""
-            .InitialDirectory = "c:\"
+            .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
             .Filter = "Access Data files (*.mdb)|*.mdb|All files (*.*)|*.*"
             .FilterIndex = 1
             .RestoreDirectory = True
@@ -1231,7 +1231,7 @@ Public Class frmDataConvert
                 ' Get the whole table of information
                 Dim eveSQL As String = "SELECT * FROM " & DataTable
                 Dim EveData As DataSet = GetData(eveSQL, strConnection)
-                Dim sw As New StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\SQL2TSQL\" & DataTable & ".sql")
+                Dim sw As New StreamWriter(Path.Combine(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "SQL2TSQL"), DataTable & ".sql"))
                 sw.WriteLine("")
                 For Each eveRow As DataRow In EveData.Tables(0).Rows
                     strData = New StringBuilder
@@ -1409,19 +1409,19 @@ Public Class frmDataConvert
         Dim FI As New FileInfo(txtCertificates.Text)
         Dim saveDir As String = FI.DirectoryName
         ' Save categories
-        Dim s As New FileStream(saveDir & "\CertificateCategories.bin", FileMode.Create)
+        Dim s As New FileStream(Path.Combine(saveDir, "CertificateCategories.bin"), FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, Categories)
         s.Flush()
         s.Close()
         ' Save classes
-        s = New FileStream(saveDir & "\CertificateClasses.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(saveDir, "CertificateClasses.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, Classes)
         s.Flush()
         s.Close()
         ' Save certificates
-        s = New FileStream(saveDir & "\Certificates.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(saveDir, "Certificates.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, Certificates)
         s.Flush()

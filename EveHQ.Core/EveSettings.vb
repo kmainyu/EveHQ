@@ -149,7 +149,16 @@ Imports System.Diagnostics
     Private cToolbarPosition As String = "Left"
     Private cTrainingBarPosition As String = "Bottom"
     Private cDisableAutoWebConnections As Boolean = False
+    Private cDisableVisualStyles As Boolean = False
 
+    Public Property DisableVisualStyles() As Boolean
+        Get
+            Return cDisableVisualStyles
+        End Get
+        Set(ByVal value As Boolean)
+            cDisableVisualStyles = value
+        End Set
+    End Property
     Public Property DisableAutoWebConnections() As Boolean
         Get
             Return cDisableAutoWebConnections
@@ -1532,7 +1541,7 @@ Public Class EveHQSettingsFunctions
                 Call EncryptSettingsXML(XMLdoc)
             End If
 
-            XMLdoc.Save(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.xml")
+            XMLdoc.Save(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.xml"))
 
         Catch e As Exception
             'Console.WriteLine(e.Message)
@@ -1546,6 +1555,7 @@ Public Class EveHQSettingsFunctions
         Dim currentQueue As New EveHQ.Core.SkillQueue
         Dim XMLdoc As XmlDocument = New XmlDocument
         Dim XMLS As String = ""
+        Dim tFileName As String = ""
 
         For Each currentPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             If currentPilot.TrainingQueues IsNot Nothing Then
@@ -1567,7 +1577,8 @@ Public Class EveHQSettingsFunctions
                 XMLS &= "</training>" & vbCrLf
                 Try
                     XMLdoc.LoadXml(XMLS)
-                    XMLdoc.Save(EveHQ.Core.HQ.dataFolder & "\Q_" & currentPilot.Name & ".xml")
+                    tFileName = "Q_" & currentPilot.Name & ".xml"
+                    XMLdoc.Save(Path.Combine(EveHQ.Core.HQ.dataFolder, tFileName))
                 Catch e As Exception
                     MessageBox.Show(e.Message, "Error Saving Training Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Exit Sub
@@ -1580,8 +1591,8 @@ Public Class EveHQSettingsFunctions
         Dim currentaccount As EveAccount = New EveAccount
         Dim XMLdoc As XmlDocument = New XmlDocument
 
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.xml") = True Then
-            XMLdoc.Load(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.xml")
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.xml")) = True Then
+            XMLdoc.Load(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.xml"))
             Dim accountDetails As XmlNodeList
             Dim accountSettings As XmlNode
             ' Check if it encrypted
@@ -1864,7 +1875,7 @@ Public Class EveHQSettingsFunctions
         ' Determine if a database format has been chosen before and set it if not
         If EveHQ.Core.HQ.EveHQSettings.DBFormat = -1 Then
             EveHQ.Core.HQ.EveHQSettings.DBFormat = 0
-            EveHQ.Core.HQ.EveHQSettings.DBFilename = EveHQ.Core.HQ.appFolder & "\EveHQ.mdb"
+            EveHQ.Core.HQ.EveHQSettings.DBFilename = Path.Combine(EveHQ.Core.HQ.appFolder, "EveHQ.mdb")
             ' Check for this file!
             Dim fileExists As Boolean = False
             Do
@@ -1921,6 +1932,7 @@ Public Class EveHQSettingsFunctions
         Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
         Dim XMLdoc As XmlDocument = New XmlDocument
         Dim XMLS As String = ""
+        Dim tFileName As String = ""
 
         Dim trainingList, QueueList As XmlNodeList
         Dim trainingDetails, Queuedetails As XmlNode
@@ -1931,9 +1943,11 @@ Public Class EveHQSettingsFunctions
             currentPilot.TrainingQueues = New SortedList
             currentPilot.TrainingQueues.Clear()
             currentPilot.PrimaryQueue = ""
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.dataFolder & "\Q_" & currentPilot.Name & ".xml") = True Then
+
+            tFileName = "Q_" & currentPilot.Name & ".xml"
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.dataFolder, tFileName)) = True Then
                 Try
-                    XMLdoc.Load(EveHQ.Core.HQ.dataFolder & "\Q_" & currentPilot.Name & ".xml")
+                    XMLdoc.Load(Path.Combine(EveHQ.Core.HQ.dataFolder, tFileName))
 
                     ' Get the EveHQ.Core.Pilot details
                     trainingList = XMLdoc.SelectNodes("/training/skill")
@@ -2125,7 +2139,7 @@ Public Class EveHQSettingsFunctions
 
     Public Shared Sub SaveEveSettings2()
         ' Write a serial version?
-        Dim s As New FileStream(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.bin", FileMode.Create)
+        Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.bin"), FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, EveHQ.Core.HQ.EveHQSettings)
         s.Flush()
@@ -2133,8 +2147,8 @@ Public Class EveHQSettingsFunctions
     End Sub
 
     Public Shared Function LoadEveSettings2() As Boolean
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.bin") = True Then
-            Dim s As New FileStream(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.bin", FileMode.Open)
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.bin"), FileMode.Open)
             Try
                 Dim f As BinaryFormatter = New BinaryFormatter
                 EveHQ.Core.HQ.EveHQSettings = CType(f.Deserialize(s), EveSettings)
@@ -2146,7 +2160,7 @@ Public Class EveHQSettingsFunctions
                 MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Try
                     s.Close()
-                    My.Computer.FileSystem.DeleteFile(EveHQ.Core.HQ.appDataFolder & "\EveHQSettings.bin")
+                    My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.bin"))
                 Catch e As Exception
                     MessageBox.Show("Unable to delete the EveHQSettings.bin file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Application.Exit()
@@ -2161,7 +2175,7 @@ Public Class EveHQSettingsFunctions
         ' Determine if a database format has been chosen before and set it if not
         If EveHQ.Core.HQ.EveHQSettings.DBFormat = -1 Then
             EveHQ.Core.HQ.EveHQSettings.DBFormat = 0
-            EveHQ.Core.HQ.EveHQSettings.DBFilename = EveHQ.Core.HQ.appFolder & "\EveHQ.mdb"
+            EveHQ.Core.HQ.EveHQSettings.DBFilename = Path.Combine(EveHQ.Core.HQ.appFolder, "EveHQ.mdb")
             ' Check for this file!
             Dim fileExists As Boolean = False
             Do
@@ -2178,7 +2192,7 @@ Public Class EveHQSettingsFunctions
                     With ofd1
                         .Title = "Select Access Data file"
                         .FileName = ""
-                        .InitialDirectory = "c:\"
+                        .InitialDirectory = EveHQ.Core.HQ.appFolder
                         .Filter = "Access Data files (*.mdb)|*.mdb|All files (*.*)|*.*"
                         .FilterIndex = 1
                         .RestoreDirectory = True

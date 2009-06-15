@@ -2124,25 +2124,25 @@ Public Class frmPrism
     End Sub
 
     Private Sub SaveInvestments()
-        Dim s As New FileStream(EveHQ.Core.HQ.dataFolder & "\investments.txt", FileMode.Create)
+        Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.dataFolder, "investments.txt"), FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, Portfolio.Investments)
         s.Close()
-        s = New FileStream(EveHQ.Core.HQ.dataFolder & "\investmentTransactions.txt", FileMode.Create)
+        s = New FileStream(Path.Combine(EveHQ.Core.HQ.dataFolder, "investmentTransactions.txt"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, Portfolio.Transactions)
         s.Close()
     End Sub
     Private Sub LoadInvestments()
         Try
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.dataFolder & "\investments.txt") = True Then
-                Dim s As New FileStream(EveHQ.Core.HQ.dataFolder & "\investments.txt", FileMode.Open)
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.dataFolder, "investments.txt")) = True Then
+                Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.dataFolder, "investments.txt"), FileMode.Open)
                 Dim f As BinaryFormatter = New BinaryFormatter
                 Portfolio.Investments = CType(f.Deserialize(s), SortedList)
                 s.Close()
             End If
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.dataFolder & "\investmentTransactions.txt") = True Then
-                Dim s As New FileStream(EveHQ.Core.HQ.dataFolder & "\investmentTransactions.txt", FileMode.Open)
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.dataFolder, "investmentTransactions.txt")) = True Then
+                Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.dataFolder, "investmentTransactions.txt"), FileMode.Open)
                 Dim f As BinaryFormatter = New BinaryFormatter
                 Portfolio.Transactions = CType(f.Deserialize(s), SortedList)
                 s.Close()
@@ -2936,16 +2936,16 @@ Public Class frmPrism
         strHTML.Append(HTMLTitle("Assets By Location", False))
         strHTML.Append(AssetLocationReport())
         strHTML.Append(HTMLFooter(False))
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\AssetLocations.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetLocations.html"))
 
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
         strHTML = Nothing
 
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetLocations.html") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetLocations.html")) = True Then
             Try
-                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetLocations.html")
+                Process.Start(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetLocations.html"))
             Catch ex As Exception
                 MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try
@@ -2962,20 +2962,19 @@ Public Class frmPrism
         strHTML.Append(HTMLTitle("Asset List", False))
         strHTML.Append(AssetListReportByName())
         strHTML.Append(HTMLFooter(False))
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\AssetList.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetList.html"))
 
         sw.Write(strHTML.ToString)
         sw.Flush()
         sw.Close()
         strHTML = Nothing
 
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetList.html") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetList.html")) = True Then
             Try
-                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetList.html")
+                Process.Start(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetList.html"))
             Catch ex As Exception
                 MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try
-
         Else
             MessageBox.Show("Unable to locate the Asset List file, please try again!", "Error Finding File")
         End If
@@ -2989,16 +2988,16 @@ Public Class frmPrism
         strHTML.Append(HTMLTitle("Asset List (By Ascending Quantity)", False))
         strHTML.Append(AssetListReportByNumeric(1, False))
         strHTML.Append(HTMLFooter(False))
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityA.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListQuantityA.html"))
 
         sw.Write(strHTML.ToString)
         sw.Flush()
         sw.Close()
         strHTML = Nothing
 
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityA.html") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListQuantityA.html")) = True Then
             Try
-                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityA.html")
+                Process.Start(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListQuantityA.html"))
             Catch ex As Exception
                 MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try
@@ -3016,16 +3015,16 @@ Public Class frmPrism
         strHTML.Append(HTMLTitle("Asset List (By Descending Quantity)", False))
         strHTML.Append(AssetListReportByNumeric(1, True))
         strHTML.Append(HTMLFooter(False))
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityD.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListQuantityD.html"))
 
         sw.Write(strHTML.ToString)
         sw.Flush()
         sw.Close()
         strHTML = Nothing
 
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityD.html") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListQuantityD.html")) = True Then
             Try
-                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListQuantityD.html")
+                Process.Start(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListQuantityD.html"))
             Catch ex As Exception
                 MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try
@@ -3043,16 +3042,16 @@ Public Class frmPrism
         strHTML.Append(HTMLTitle("Asset List (By Ascending Unit Price)", False))
         strHTML.Append(AssetListReportByNumeric(2, False))
         strHTML.Append(HTMLFooter(False))
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\AssetListPriceA.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListPriceA.html"))
 
         sw.Write(strHTML.ToString)
         sw.Flush()
         sw.Close()
         strHTML = Nothing
 
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListPriceA.html") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListPriceA.html")) = True Then
             Try
-                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListPriceA.html")
+                Process.Start(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListPriceA.html"))
             Catch ex As Exception
                 MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try
@@ -3070,16 +3069,16 @@ Public Class frmPrism
         strHTML.Append(HTMLTitle("Asset List (By Descending Unit Price)", False))
         strHTML.Append(AssetListReportByNumeric(2, True))
         strHTML.Append(HTMLFooter(False))
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\AssetListPriceD.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListPriceD.html"))
 
         sw.Write(strHTML.ToString)
         sw.Flush()
         sw.Close()
         strHTML = Nothing
 
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListPriceD.html") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListPriceD.html")) = True Then
             Try
-                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListPriceD.html")
+                Process.Start(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListPriceD.html"))
             Catch ex As Exception
                 MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try
@@ -3097,16 +3096,16 @@ Public Class frmPrism
         strHTML.Append(HTMLTitle("Asset List (By Ascending Value)", False))
         strHTML.Append(AssetListReportByNumeric(3, False))
         strHTML.Append(HTMLFooter(False))
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\AssetListValueA.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListValueA.html"))
 
         sw.Write(strHTML.ToString)
         sw.Flush()
         sw.Close()
         strHTML = Nothing
 
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListValueA.html") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListValueA.html")) = True Then
             Try
-                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListValueA.html")
+                Process.Start(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListValueA.html"))
             Catch ex As Exception
                 MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try
@@ -3124,16 +3123,16 @@ Public Class frmPrism
         strHTML.Append(HTMLTitle("Asset List (By Descending Value)", False))
         strHTML.Append(AssetListReportByNumeric(3, True))
         strHTML.Append(HTMLFooter(False))
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\AssetListValueD.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListValueD.html"))
 
         sw.Write(strHTML.ToString)
         sw.Flush()
         sw.Close()
         strHTML = Nothing
 
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.reportFolder & "\AssetListValueD.html") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListValueD.html")) = True Then
             Try
-                Process.Start(EveHQ.Core.HQ.reportFolder & "\AssetListValueD.html")
+                Process.Start(Path.Combine(EveHQ.Core.HQ.reportFolder, "AssetListValueD.html"))
             Catch ex As Exception
                 MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the html filetype is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try
@@ -5088,7 +5087,7 @@ Public Class frmPrism
     Private Sub GenerateCSVFileFromCLV(ByVal Description As String, ByVal cListView As ContainerListView)
         If cboOwner.SelectedItem IsNot Nothing Then
             Try
-                Dim csvFile As String = EveHQ.Core.HQ.reportFolder & "\" & Description.Replace(" ", "") & " - " & cboOwner.SelectedItem.ToString & " (" & Format(Now, "yyyy-MM-dd HH-mm-ss") & ").csv"
+                Dim csvFile As String = Path.Combine(EveHQ.Core.HQ.reportFolder, Description.Replace(" ", "") & " - " & cboOwner.SelectedItem.ToString & " (" & Format(Now, "yyyy-MM-dd HH-mm-ss") & ").csv")
                 Dim csvText As New StringBuilder
                 With cListView
                     For col As Integer = 0 To .Columns.Count - 1

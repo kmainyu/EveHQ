@@ -272,7 +272,7 @@ Public Class EveServer
         Try
             Dim file As System.IO.StreamWriter
             Dim fw As String
-            file = My.Computer.FileSystem.OpenTextFileWriter(EveHQ.Core.HQ.reportFolder & "\EveServer.log", True)
+            file = My.Computer.FileSystem.OpenTextFileWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "EveServer.log"), True)
             fw = Now & ", " & ServerName & ", " & StatusText & ", " & Version & ", " & Players
             file.WriteLine(fw)
             file.Flush()

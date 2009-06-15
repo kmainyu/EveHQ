@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Windows.Forms
+Imports System.IO
 
 Public Class frmDamageProfiles
 
@@ -141,8 +142,8 @@ Public Class frmDamageProfiles
             Dim cResponse As Integer = MessageBox.Show("Are you really sure you wish to proceed?", "Confirm Reset ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If cResponse = Windows.Forms.DialogResult.Yes Then
                 Try
-                    If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFProfiles.bin") = True Then
-                        My.Computer.FileSystem.DeleteFile(HQF.Settings.HQFFolder & "\HQFProfiles.bin", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin")) = True Then
+                        My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
                     End If
                     DamageProfiles.ProfileList.Clear()
                     Settings.HQFSettings.LoadProfiles()

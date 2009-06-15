@@ -93,7 +93,7 @@ Public Class frmPilot
 
             ' Get image from cache
             Try
-                Dim imgFilename As String = EveHQ.Core.HQ.imageCacheFolder & "\" & displayPilot.ID & ".png"
+                Dim imgFilename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, displayPilot.ID & ".png")
                 If My.Computer.FileSystem.FileExists(imgFilename) = True Then
                     picPilot.ImageLocation = imgFilename
                 Else
@@ -727,7 +727,7 @@ Public Class frmPilot
         Else
             Dim newReport As New frmReportViewer
             Call EveHQ.Core.Reports.GenerateCharXML(displayPilot)
-            newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\CharXML (" & displayPilot.Name & ").xml")
+            newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "CharXML (" & displayPilot.Name & ").xml"))
             frmEveHQ.DisplayReport(newReport, "Imported Character XML - " & displayPilot.Name)
         End If
     End Sub
@@ -737,7 +737,7 @@ Public Class frmPilot
         Else
             Dim newReport As New frmReportViewer
             Call EveHQ.Core.Reports.GenerateTrainXML(displayPilot)
-            newReport.wbReport.Navigate(EveHQ.Core.HQ.reportFolder & "\TrainingXML (" & displayPilot.Name & ").xml")
+            newReport.wbReport.Navigate(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainingXML (" & displayPilot.Name & ").xml"))
             frmEveHQ.DisplayReport(newReport, "Imported Training XML - " & displayPilot.Name)
         End If
     End Sub
@@ -837,12 +837,13 @@ Public Class frmPilot
                 Dim eveSettingsFolder As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder)
                 If eveSettingsFolder IsNot Nothing Then
                     eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower & "_tranquility"
-                    folderName = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\" & eveSettingsFolder & "\cache\Pictures\Portraits").Replace("\\", "\")
+                    Dim eveFolder As String = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "EVE")
+                    folderName = Path.Combine(Path.Combine(Path.Combine(Path.Combine(eveFolder, eveSettingsFolder), "cache"), "Pictures"), "Portraits")
                 Else
                     folderName = ""
                 End If
             Else
-                folderName = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder) & "\cache\Pictures\Portraits"
+                folderName = Path.Combine(Path.Combine(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(folder), "cache"), "Pictures"), "Portraits")
             End If
             If My.Computer.FileSystem.DirectoryExists(folderName) = True Then
                 For Each foundFile As String In My.Computer.FileSystem.GetFiles(folderName, FileIO.SearchOption.SearchTopLevelOnly, "*.png")
@@ -862,7 +863,7 @@ Public Class frmPilot
     End Sub
     Private Sub mnuSavePortrait_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSavePortrait.Click
         Dim imgFilename As String = displayPilot.ID & ".png"
-        picPilot.Image.Save(EveHQ.Core.HQ.imageCacheFolder & "\" & imgFilename)
+        picPilot.Image.Save(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, imgFilename))
     End Sub
 #End Region
 

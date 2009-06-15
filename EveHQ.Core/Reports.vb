@@ -260,7 +260,7 @@ Public Class Reports
         strHTML &= HTMLCharacterDetails(rpilot, False)
         strHTML &= CharacterSheet(rpilot, False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\CharSheet (" & rpilot.Name & ").html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "CharSheet (" & rpilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -371,7 +371,7 @@ Public Class Reports
         strHTML &= HTMLCharacterDetails(rPilot, False)
         strHTML &= SkillLevels(rPilot, False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\SkillLevels (" & rPilot.Name & ").html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillLevels (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -520,7 +520,7 @@ Public Class Reports
         strHTML &= HTMLCharacterDetails(rPilot, False)
         strHTML &= TrainingTime(rPilot, False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\TrainTime (" & rPilot.Name & ").html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainTime (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -691,7 +691,7 @@ Public Class Reports
         strHTML &= HTMLCharacterDetails(rPilot, False)
         strHTML &= SkillsNotTrained(rPilot, False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\SkillsNotTrained (" & rPilot.Name & ").html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsNotTrained (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -847,7 +847,7 @@ Public Class Reports
         strHTML &= HTMLCharacterDetails(rPilot, False)
         strHTML &= TimeToLevel5(rPilot, False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\TimeToLevel5 (" & rPilot.Name & ").html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "TimeToLevel5 (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -1001,14 +1001,14 @@ Public Class Reports
 
     Public Shared Sub GenerateCharXML(ByVal rPilot As EveHQ.Core.Pilot)
         Dim cXML As New XmlDocument
-        cXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml")
-        cXML.Save(EveHQ.Core.HQ.reportFolder & "\CharXML (" & rPilot.Name & ").xml")
+        cXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
+        cXML.Save(Path.Combine(EveHQ.Core.HQ.reportFolder, "CharXML (" & rPilot.Name & ").xml"))
     End Sub
 
     Public Shared Sub GenerateTrainXML(ByVal rPilot As EveHQ.Core.Pilot)
         Dim tXML As New XmlDocument
-        tXML.Load(EveHQ.Core.HQ.cacheFolder & "\EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml")
-        tXML.Save(EveHQ.Core.HQ.reportFolder & "\TrainingXML (" & rPilot.Name & ").xml")
+        tXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
+        tXML.Save(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainingXML (" & rPilot.Name & ").xml"))
     End Sub
 
 #End Region
@@ -1023,7 +1023,7 @@ Public Class Reports
         strHTML &= HTMLCharacterDetails(rPilot, False)
         strHTML &= TrainQueue(rPilot, rQueue, False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -1107,7 +1107,7 @@ Public Class Reports
         strHTML &= HTMLCharacterDetails(rPilot, False)
         strHTML &= ShoppingList(rPilot, rQueue, False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -1188,7 +1188,7 @@ Public Class Reports
         strHTML &= HTMLCharacterDetails(rPilot, False)
         strHTML &= SkillsAvailable(rPilot, False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\SkillsToTrain (" & rPilot.Name & ").html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsToTrain (" & rPilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -1341,7 +1341,7 @@ Public Class Reports
         strHTML &= AlloyReport(False)
         strHTML &= HTMLFooter(False)
 
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\AlloyReport.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "AlloyReport.html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -1516,7 +1516,7 @@ Public Class Reports
         strHTML &= RockReport(False)
         strHTML &= HTMLFooter(False)
 
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\OreReport.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "OreReport.html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -1687,7 +1687,7 @@ Public Class Reports
         strHTML &= IceReport(False)
         strHTML &= HTMLFooter(False)
 
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\IceReport.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "IceReport.html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -1852,7 +1852,7 @@ Public Class Reports
         strHTML &= HTMLTitle("Pilot Summary", False)
         strHTML &= CharSummary(False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\PilotSummary.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "PilotSummary.html"))
 
         sw.Write(strHTML)
         sw.Flush()
@@ -1937,7 +1937,7 @@ Public Class Reports
         strHTML &= NonCharHTMLHeader("Skill Level Table", "")
         strHTML &= SPSummary(False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\SPSummary.html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SPSummary.html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -1989,7 +1989,7 @@ Public Class Reports
 
         Dim strXML As String = ""
         strXML &= CurrentPilotXML_Old(rPilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\CurrentXML - Old (" & rPilot.Name & ").xml")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "CurrentXML - Old (" & rPilot.Name & ").xml"))
         sw.Write(strXML)
         sw.Flush()
         sw.Close()
@@ -2078,7 +2078,7 @@ Public Class Reports
 
         Dim strXML As String = ""
         strXML &= CurrentTrainingXML_Old(rPilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\TrainingXML - Old (" & rPilot.Name & ").xml")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainingXML - Old (" & rPilot.Name & ").xml"))
         sw.Write(strXML)
         sw.Flush()
         sw.Close()
@@ -2137,7 +2137,7 @@ Public Class Reports
 
         Dim strXML As String = ""
         strXML &= CurrentPilotXML_New(rPilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\CurrentXML - New (" & rPilot.Name & ").xml")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "CurrentXML - New (" & rPilot.Name & ").xml"))
         sw.Write(strXML)
         sw.Flush()
         sw.Close()
@@ -2364,7 +2364,7 @@ Public Class Reports
         Dim strText As String = ""
         strText &= TextCharacterDetails("Character Sheet", rpilot)
         strText &= TextCharacterSheet(rpilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\CharSheet (" & rpilot.Name & ").txt")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "CharSheet (" & rpilot.Name & ").txt"))
         sw.Write(strText)
         sw.Flush()
         sw.Close()
@@ -2448,7 +2448,7 @@ Public Class Reports
         Dim strText As String = ""
         strText &= TextCharacterDetails("Training Times", rPilot)
         strText &= TextTrainingTime(rPilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\TrainTime (" & rPilot.Name & ").txt")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainTime (" & rPilot.Name & ").txt"))
         sw.Write(strText)
         sw.Flush()
         sw.Close()
@@ -2589,7 +2589,7 @@ Public Class Reports
         Dim strText As String = ""
         strText &= TextCharacterDetails("Time To Level 5", rPilot)
         strText &= TextTimeToLevel5(rPilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\TimeToLevel5 (" & rPilot.Name & ").txt")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "TimeToLevel5 (" & rPilot.Name & ").txt"))
         sw.Write(strText)
         sw.Flush()
         sw.Close()
@@ -2720,7 +2720,7 @@ Public Class Reports
         Dim strHTML As String = ""
         strHTML &= TextCharacterDetails("Skill Levels", rPilot)
         strHTML &= TextSkillLevels(rPilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\SkillLevels (" & rPilot.Name & ").txt")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillLevels (" & rPilot.Name & ").txt"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -2842,7 +2842,7 @@ Public Class Reports
         Dim strText As String = ""
         strText &= TextCharacterDetails("Skills Available To Train", rPilot)
         strText &= TextSkillsAvailable(rPilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\SkillsToTrain (" & rPilot.Name & ").txt")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsToTrain (" & rPilot.Name & ").txt"))
         sw.Write(strText)
         sw.Flush()
         sw.Close()
@@ -2906,7 +2906,7 @@ Public Class Reports
         Dim strText As String = ""
         strText &= TextCharacterDetails("Skills Not Trained", rPilot)
         strText &= TextSkillsNotTrained(rPilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\SkillsNotTrained (" & rPilot.Name & ").txt")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "SkillsNotTrained (" & rPilot.Name & ").txt"))
         sw.Write(strText)
         sw.Flush()
         sw.Close()
@@ -3029,7 +3029,7 @@ Public Class Reports
         Dim strText As String = ""
         strText &= TextCharacterDetails(rQueue.Name & " Training Queue", rPilot)
         strText &= TextTrainQueue(rPilot, rQueue)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").txt")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").txt"))
         sw.Write(strText)
         sw.Flush()
         sw.Close()
@@ -3097,7 +3097,7 @@ Public Class Reports
         Dim strText As String = ""
         strText &= TextCharacterDetails(rQueue.Name & " Training Queue", rPilot)
         strText &= TextShoppingList(rPilot, rQueue)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").txt")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").txt"))
         sw.Write(strText)
         sw.Flush()
         sw.Close()
@@ -3166,7 +3166,7 @@ Public Class Reports
         strHTML &= HTMLCharacterDetails(rpilot, False)
         strHTML &= PartialSkills(rpilot, False)
         strHTML &= HTMLFooter(False)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\PartialSkills (" & rpilot.Name & ").html")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "PartialSkills (" & rpilot.Name & ").html"))
         sw.Write(strHTML)
         sw.Flush()
         sw.Close()
@@ -3341,7 +3341,7 @@ Public Class Reports
         Dim strText As String = ""
         strText &= TextCharacterDetails("Partially Trained Skills", rPilot)
         strText &= TextPartialSkills(rPilot)
-        Dim sw As StreamWriter = New StreamWriter(EveHQ.Core.HQ.reportFolder & "\PartialSkills (" & rPilot.Name & ").txt")
+        Dim sw As StreamWriter = New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "PartialSkills (" & rPilot.Name & ").txt"))
         sw.Write(strText)
         sw.Flush()
         sw.Close()
@@ -3516,8 +3516,8 @@ Public Class Reports
             Call EveHQ.Core.Reports.GenerateCurrentTrainingXML_Old(rpilot)
 
             ' Copy these to the selected folder
-            My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\CurrentXML - Old (" & rpilot.Name & ").xml", ECMLocation & "\" & rpilot.ID.ToString & ".xml", True)
-            My.Computer.FileSystem.CopyFile(EveHQ.Core.HQ.reportFolder & "\TrainingXML - Old (" & rpilot.Name & ").xml", ECMLocation & "\" & rpilot.ID.ToString & ".training.xml", True)
+            My.Computer.FileSystem.CopyFile(Path.Combine(EveHQ.Core.HQ.reportFolder, "CurrentXML - Old (" & rpilot.Name & ").xml"), Path.Combine(ECMLocation, rpilot.ID.ToString & ".xml"), True)
+            My.Computer.FileSystem.CopyFile(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainingXML - Old (" & rpilot.Name & ").xml"), Path.Combine(ECMLocation, rpilot.ID.ToString & ".training.xml"), True)
             EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation = ECMLocation
             MessageBox.Show("Export of ECM-compatible files completed!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else

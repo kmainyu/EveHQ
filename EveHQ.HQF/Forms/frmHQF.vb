@@ -155,8 +155,8 @@ Public Class frmHQF
     End Sub
     Private Sub LoadFittings()
         Fittings.FittingList.Clear()
-        If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFFittings.bin") = True Then
-            Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFFittings.bin", FileMode.Open)
+        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileMode.Open)
             Dim f As BinaryFormatter = New BinaryFormatter
             Fittings.FittingList = CType(f.Deserialize(s), SortedList)
             s.Close()
@@ -166,19 +166,17 @@ Public Class frmHQF
     Private Sub SaveFittings()
         Try
             ' Save ships
-            'MessageBox.Show("HQF is about to dump the fittings file. There are " & Fittings.FittingList.Count & " fittings detected.", "Save Fittings Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Dim s As New FileStream(HQF.Settings.HQFFolder & "\HQFFittings.bin", FileMode.Create)
+            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileMode.Create)
             Dim f As New BinaryFormatter
             f.Serialize(s, Fittings.FittingList)
             s.Flush()
             s.Close()
-            'MessageBox.Show("Confirmed saving of fittings file contained " & Fittings.FittingList.Count & " objects to " & HQF.Settings.HQFFolder & "\HQFFittings.bin", "Save Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
             MessageBox.Show("There was an error saving the fittings file. The error was: " & ex.Message, "Save Fittings Failed :(", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
     End Sub
     Private Sub ShowShipGroups()
-        Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\ShipGroups.bin")
+        Dim sr As New StreamReader(Path.Combine(HQF.Settings.HQFCacheFolder, "ShipGroups.bin"))
         Dim ShipGroups As String = sr.ReadToEnd
         Dim PathLines() As String = ShipGroups.Split(ControlChars.CrLf.ToCharArray)
         Dim nodes() As String
@@ -239,7 +237,7 @@ Public Class frmHQF
         tvwShips.EndUpdate()
     End Sub
     Private Sub ShowMarketGroups()
-        Dim sr As New StreamReader(HQF.Settings.HQFCacheFolder & "\ItemGroups.bin")
+        Dim sr As New StreamReader(Path.Combine(HQF.Settings.HQFCacheFolder, "ItemGroups.bin"))
         Dim ShipGroups As String = sr.ReadToEnd
         Dim PathLines() As String = ShipGroups.Split(ControlChars.CrLf.ToCharArray)
         Dim nodes() As String
@@ -302,7 +300,7 @@ Public Class frmHQF
     Private Sub LoadPilots()
         ' Loads the skills for the selected pilots
         ' Check for a valid HQFPilotSettings.xml file
-        If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFPilotSettings.bin") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
             Call HQFPilotCollection.LoadHQFPilotData()
             ' Check we have all the available pilots!
             Dim morePilots As Boolean = False
@@ -1393,7 +1391,7 @@ Public Class frmHQF
         Next
 
         ' Write missing items to a file
-        Dim sw As New IO.StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\missingItems.csv")
+        Dim sw As New IO.StreamWriter(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "missingItems.csv"))
         For Each shipMod As ShipModule In ModuleLists.moduleList.Values
             If dataCheckList.Contains(shipMod.ID) = False Then
                 sw.WriteLine(shipMod.ID & "," & shipMod.Name)
@@ -2113,7 +2111,7 @@ Public Class frmHQF
             Dim objRegEx As New System.Text.RegularExpressions.Regex(rgPattern)
             Dim fittingName As String = objRegEx.Replace(tp.Text, "_")
             Dim filename As String = "HQF_" & fittingName & "_" & Format(Now, "yyyy-MM-dd-HH-mm-ss") & ".png"
-            fittingImage.Save(EveHQ.Core.HQ.reportFolder & "\" & filename, System.Drawing.Imaging.ImageFormat.Png)
+            fittingImage.Save(Path.Combine(EveHQ.Core.HQ.reportFolder, filename), System.Drawing.Imaging.ImageFormat.Png)
         Catch ex As Exception
             MessageBox.Show("There was an error taking a screenshot of the current fitting. The error was: " & ControlChars.CrLf & ControlChars.CrLf & ex.Message, "Error Taking Screenshot", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try

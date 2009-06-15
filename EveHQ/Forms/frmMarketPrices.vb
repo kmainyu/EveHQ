@@ -8,7 +8,7 @@ Imports System.IO.Compression
 Imports DotNetLib.Windows.Forms
 
 Public Class frmMarketPrices
-    Dim saveLoc As String = My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\MarketXMLs"
+    Dim saveLoc As String = Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "MarketXMLs")
     Dim insertStat As String = "INSERT INTO marketStats (statDate, typeID, regionID, systemID, volAll, avgAll, maxAll, minAll, stdAll, medAll, volBuy, avgBuy, maxBuy, minBuy, stdBuy, medBuy, volSell, avgSell, maxSell, minSell, stdSell, medSell) "
     Dim regions As New SortedList
     Dim strSQL As String = ""
@@ -369,16 +369,16 @@ Public Class frmMarketPrices
         startUp = True
 
         ' Check for the market cache folder
-        If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.appDataFolder & "\MarketCache") = False Then
+        If My.Computer.FileSystem.DirectoryExists(Path.Combine(EveHQ.Core.HQ.appDataFolder, "MarketCache")) = False Then
             Try
-                My.Computer.FileSystem.CreateDirectory(EveHQ.Core.HQ.appDataFolder & "\MarketCache")
-                marketCacheFolder = EveHQ.Core.HQ.appDataFolder & "\MarketCache\"
+                marketCacheFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "MarketCache")
+                My.Computer.FileSystem.CreateDirectory(marketCacheFolder)
             Catch ex As Exception
                 MessageBox.Show("An error occured while attempting to create the Market Cache folder: " & ex.Message, "Error Creating Market Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End Try
         Else
-            marketCacheFolder = EveHQ.Core.HQ.appDataFolder & "\MarketCache\"
+            marketCacheFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "MarketCache")
         End If
 
         ' Check we have the EveHQDB Database and MarketStats table available
@@ -481,8 +481,9 @@ Public Class frmMarketPrices
         ' Get the contents of the market log folder and display them
         clvLogs.BeginUpdate()
         clvLogs.Items.Clear()
-        If My.Computer.FileSystem.DirectoryExists(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\Logs\Marketlogs") = True Then
-            For Each file As String In My.Computer.FileSystem.GetFiles(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\Logs\Marketlogs", FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
+        Dim EveMLFolder As String = Path.Combine(Path.Combine(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "Eve"), "Logs"), "Marketlogs")
+        If My.Computer.FileSystem.DirectoryExists(EveMLFolder) = True Then
+            For Each file As String In My.Computer.FileSystem.GetFiles(EveMLFolder, FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                 Call Me.DisplayLogDetails(file)
                 clvLogs.Enabled = True
             Next
@@ -1355,7 +1356,7 @@ Public Class frmMarketPrices
         If SupressProgress = False Then
             StatusLabel.Text = "Setting '" & FeedName & "' Server Address..." : StatusLabel.Refresh()
         End If
-        Dim localfile As String = EveHQ.Core.HQ.cacheFolder & "\" & FeedName & index.ToString & ".xml"
+        Dim localfile As String = Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & index.ToString & ".xml")
         ServicePointManager.DefaultConnectionLimit = 10
         ServicePointManager.Expect100Continue = False
         Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(URL))
@@ -1424,9 +1425,9 @@ Public Class frmMarketPrices
     Private Sub ParseFactionPriceFeed(ByVal FeedName As String, ByVal StatusLabel As Label)
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim feedXML As New XmlDocument
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml")) = True Then
             Try
-                feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+                feedXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml"))
                 Dim Items As XmlNodeList
                 Dim Item As XmlNode
                 Items = feedXML.SelectNodes("/factionPriceData/items/item")
@@ -1436,8 +1437,8 @@ Public Class frmMarketPrices
                 Next
             Catch e As Exception
                 MessageBox.Show("Unable to parse Faction Price feed:" & ControlChars.CrLf & e.Message, "Error in Price Feed", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
-                    My.Computer.FileSystem.DeleteFile(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+                If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml")) = True Then
+                    My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml"))
                 End If
             End Try
         End If
@@ -1445,9 +1446,9 @@ Public Class frmMarketPrices
     Private Sub ParseMarketPriceFeed(ByVal FeedName As String, ByVal index As Integer, ByVal StatusLabel As Label)
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim feedXML As New XmlDocument
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & index.ToString & ".xml") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & index.ToString & ".xml")) = True Then
             Try
-                feedXML.Load(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & index.ToString & ".xml")
+                feedXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & index.ToString & ".xml"))
                 Dim Items As XmlNodeList
                 Items = feedXML.SelectNodes("/evec_api/marketstat/type")
                 For Each Item As XmlNode In Items
@@ -1477,8 +1478,8 @@ Public Class frmMarketPrices
                 Next
             Catch e As Exception
                 MessageBox.Show("Unable to parse Market Price feed:" & ControlChars.CrLf & e.Message, "Error in Price Feed", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml") = True Then
-                    My.Computer.FileSystem.DeleteFile(EveHQ.Core.HQ.cacheFolder & "\" & FeedName & ".xml")
+                If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml")) = True Then
+                    My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml"))
                 End If
             End Try
         End If

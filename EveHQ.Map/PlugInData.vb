@@ -14,14 +14,14 @@ Public Class PlugInData
 #Region "Plug-in Interface Functions"
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
         Try
-            mapFolder = (EveHQ.Core.HQ.appDataFolder & "\EveHQMap").Replace("\\", "\")
+            mapFolder = (Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQMap"))
 
             ' Check for cache folder
-            mapCacheFolder = mapFolder & "\Cache"
+            mapCacheFolder = Path.Combine(mapFolder, "Cache")
             If My.Computer.FileSystem.DirectoryExists(mapCacheFolder) = True Then
                 ' Check for last cache version file
-                If My.Computer.FileSystem.FileExists(mapCacheFolder & "\version.txt") = True Then
-                    Dim sr As New StreamReader(mapCacheFolder & "\version.txt")
+                If My.Computer.FileSystem.FileExists(Path.Combine(mapCacheFolder, "version.txt")) = True Then
+                    Dim sr As New StreamReader(Path.Combine(mapCacheFolder, "version.txt"))
                     Dim cacheVersion As String = sr.ReadToEnd
                     sr.Close()
                     If IsUpdateAvailable(cacheVersion, PlugInData.LastCacheRefresh) = True Then
@@ -238,7 +238,7 @@ Public Class PlugInData
         Dim sysLists(20) As SortedList
         PlugInData.SystemsID.Clear()
         For sysList As Integer = 0 To 20
-            s = New FileStream(mapCacheFolder & "\SolarSystems" & sysList & ".bin", FileMode.Open)
+            s = New FileStream(Path.Combine(mapCacheFolder, "SolarSystems" & sysList & ".bin"), FileMode.Open)
             f = New BinaryFormatter
             sysLists(sysList) = CType(f.Deserialize(s), SortedList)
             s.Close()
@@ -250,67 +250,67 @@ Public Class PlugInData
             SystemNameToID.Add(cSystem.Name, cSystem.ID.ToString)
         Next
 
-        s = New FileStream(mapCacheFolder & "\Regions.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Regions.bin"), FileMode.Open)
         f = New BinaryFormatter
         RegionID = CType(f.Deserialize(s), SortedList(Of String, Region))
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Constellations.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Constellations.bin"), FileMode.Open)
         f = New BinaryFormatter
         ConstellationID = CType(f.Deserialize(s), SortedList(Of String, Constellation))
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\OreClass.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "OreClass.bin"), FileMode.Open)
         f = New BinaryFormatter
         OreClassList = CType(f.Deserialize(s), SortedList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\NPCCorps.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "NPCCorps.bin"), FileMode.Open)
         f = New BinaryFormatter
         NPCCorpList = CType(f.Deserialize(s), SortedList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Factions.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Factions.bin"), FileMode.Open)
         f = New BinaryFormatter
         FactionList = CType(f.Deserialize(s), SortedList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Alliances.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Alliances.bin"), FileMode.Open)
         f = New BinaryFormatter
         AllianceList = CType(f.Deserialize(s), SortedList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Stations.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Stations.bin"), FileMode.Open)
         f = New BinaryFormatter
         StationList = CType(f.Deserialize(s), SortedList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Operations.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Operations.bin"), FileMode.Open)
         f = New BinaryFormatter
         OperationList = CType(f.Deserialize(s), SortedList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Services.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Services.bin"), FileMode.Open)
         f = New BinaryFormatter
         ServiceList = CType(f.Deserialize(s), SortedList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Agents.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Agents.bin"), FileMode.Open)
         f = New BinaryFormatter
         AgentID = CType(f.Deserialize(s), SortedList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Conquerables.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Conquerables.bin"), FileMode.Open)
         f = New BinaryFormatter
         CSStationList = CType(f.Deserialize(s), SortedList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\StationTypes.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "StationTypes.bin"), FileMode.Open)
         f = New BinaryFormatter
         StationTypes = CType(f.Deserialize(s), SortedList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\NPCDivs.bin", FileMode.Open)
+        s = New FileStream(Path.Combine(mapCacheFolder, "NPCDivs.bin"), FileMode.Open)
         f = New BinaryFormatter
         NPCDivID = CType(f.Deserialize(s), SortedList)
         s.Close()
@@ -1501,7 +1501,7 @@ Public Class PlugInData
             sysLists(CInt(Int(sSystem.Security * 10) + 10)).Add(sSystem.Name, sSystem)
         Next
         For sysList As Integer = 0 To 20
-            s = New FileStream(mapCacheFolder & "\SolarSystems" & sysList & ".bin", FileMode.Create)
+            s = New FileStream(Path.Combine(mapCacheFolder, "SolarSystems" & sysList & ".bin"), FileMode.Create)
             f = New BinaryFormatter
             Dim ss As SortedList = sysLists(sysList)
             f.Serialize(s, ss)
@@ -1509,74 +1509,74 @@ Public Class PlugInData
         Next
 
         ' Save Constellations
-        s = New FileStream(mapCacheFolder & "\Constellations.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Constellations.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, ConstellationID)
         s.Close()
 
         ' Save Regions
-        s = New FileStream(mapCacheFolder & "\Regions.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Regions.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, RegionID)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\OreClass.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "OreClass.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, OreClassList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\NPCCorps.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "NPCCorps.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, NPCCorpList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Factions.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Factions.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, FactionList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Alliances.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Alliances.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, AllianceList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Stations.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Stations.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, StationList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Operations.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Operations.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, OperationList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Services.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Services.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, ServiceList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Agents.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Agents.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, AgentID)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\Conquerables.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "Conquerables.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, CSStationList)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\StationTypes.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "StationTypes.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, StationTypes)
         s.Close()
 
-        s = New FileStream(mapCacheFolder & "\NPCDivs.bin", FileMode.Create)
+        s = New FileStream(Path.Combine(mapCacheFolder, "NPCDivs.bin"), FileMode.Create)
         f = New BinaryFormatter
         f.Serialize(s, NPCDivID)
         s.Close()
 
         ' Write the current version
-        Dim sw As New StreamWriter(mapCacheFolder & "\version.txt")
+        Dim sw As New StreamWriter(Path.Combine(mapCacheFolder, "version.txt"))
         sw.Write(PlugInData.LastCacheRefresh)
         sw.Flush()
         sw.Close()

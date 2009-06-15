@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Runtime.InteropServices
+Imports System.IO
 
 Public Class frmTrainingInfo
 
@@ -37,7 +38,7 @@ Public Class frmTrainingInfo
         If displayPilot > 0 And displayPilot <= EveHQ.Core.HQ.EveHQSettings.Pilots.Count Then
             Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots.Item(displayPilot), Core.Pilot)
             If pbPilot.Image Is Nothing Then
-                Dim imgFilename As String = EveHQ.Core.HQ.imageCacheFolder & "\" & cpilot.ID & ".png"
+                Dim imgFilename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, cpilot.ID & ".png")
                 If My.Computer.FileSystem.FileExists(imgFilename) = True Then
                     pbPilot.ImageLocation = imgFilename
                 Else
@@ -76,7 +77,7 @@ Public Class frmTrainingInfo
         Loop Until cpilot.Active = True
         updateRequired = True
         lblPilot.Text = cpilot.Name
-        Dim imgFilename As String = EveHQ.Core.HQ.imageCacheFolder & "\" & cpilot.ID & ".png"
+        Dim imgFilename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, cpilot.ID & ".png")
         If My.Computer.FileSystem.FileExists(imgFilename) = True Then
             pbPilot.ImageLocation = imgFilename
         Else

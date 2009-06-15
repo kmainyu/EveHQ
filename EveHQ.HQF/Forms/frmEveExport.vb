@@ -1,9 +1,10 @@
 ﻿Imports System.Windows.Forms
 Imports System.Xml
+Imports System.IO
 
 Public Class frmEveExport
 
-    Dim EveFolder As String = (My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\Eve\fittings").Replace("\\", "\")
+    Dim EveFolder As String = Path.Combine(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "Eve"), "fittings")
     Dim EveFile As String = ""
     Dim cFittingList As New ArrayList
 
@@ -235,7 +236,7 @@ Public Class frmEveExport
             MessageBox.Show("Filename contains invalid characters. Please try again.", "Filename Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
-        EveFile = EveFolder & "\" & txtFilename.Text & ".xml"
+        EveFile = Path.Combine(EveFolder, txtFilename.Text & ".xml")
         If My.Computer.FileSystem.FileExists(EveFile) = True Then
             Dim reply As Integer = MessageBox.Show("The chosen filename already exists - do you want to overwrite it?", "Confirm Overwrite", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If reply = DialogResult.No Then

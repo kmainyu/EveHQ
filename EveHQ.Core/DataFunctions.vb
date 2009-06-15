@@ -41,7 +41,7 @@ Public Class DataFunctions
                     MessageBox.Show("Creating database using existing path: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
                     If EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB = True Or EveHQ.Core.HQ.IsUsingLocalFolders = True Then
-                        outputFile = (EveHQ.Core.HQ.appFolder & "\EveHQData.mdb").Replace("\\", "\")
+                        outputFile = (Path.Combine(EveHQ.Core.HQ.appFolder, "EveHQData.mdb"))
                         If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
                             MessageBox.Show("/local switch active - Location: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
@@ -50,7 +50,7 @@ Public Class DataFunctions
                             End If
                         End If
                     Else
-                        outputFile = (EveHQ.Core.HQ.appDataFolder & "\EveHQData.mdb").Replace("\\", "\")
+                        outputFile = (Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.mdb"))
                         MessageBox.Show("Creating database in users EveHQ Applciation Data folder: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                 End If
@@ -157,7 +157,7 @@ Public Class DataFunctions
                 Else
                     Try
                         Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                        EveHQ.Core.HQ.itemDBConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
+                        EveHQ.Core.HQ.itemDBConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name)
                     Catch e As Exception
                         MessageBox.Show("There was an error setting the EveHQ connection string: " & e.Message, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Return False
@@ -192,7 +192,7 @@ Public Class DataFunctions
                 Else
                     Try
                         Dim FI As New IO.FileInfo(EveHQ.Core.HQ.EveHQSettings.DBDataFilename)
-                        EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.appFolder & "\" & FI.Name
+                        EveHQ.Core.HQ.EveHQDataConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & Path.Combine(EveHQ.Core.HQ.appFolder, FI.Name)
                     Catch e As Exception
                         MessageBox.Show("There was an error setting the EveHQData connection string: " & e.Message, "Error Forming DB Connection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Return False

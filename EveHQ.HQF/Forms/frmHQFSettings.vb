@@ -341,8 +341,8 @@ Public Class frmHQFSettings
             Dim cResponse As Integer = MessageBox.Show("Are you really sure you wish to proceed?", "Confirm Delete ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If cResponse = Windows.Forms.DialogResult.Yes Then
                 Try
-                    If My.Computer.FileSystem.FileExists(HQF.Settings.HQFFolder & "\HQFFittings.bin") = True Then
-                        My.Computer.FileSystem.DeleteFile(HQF.Settings.HQFFolder & "\HQFFittings.bin", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin")) = True Then
+                        My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
                     End If
                     Fittings.FittingList.Clear()
                     Fittings.FittingTabList.Clear()
@@ -420,7 +420,7 @@ Public Class frmHQFSettings
         Dim items As Integer = ModuleLists.moduleList.Count
         ' Check MarketGroups
         Dim marketError As Integer = 0
-        Dim sw As New StreamWriter(EveHQ.Core.HQ.reportFolder & "\HQFErrors.txt")
+        Dim sw As New StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "HQFErrors.txt"))
         For Each item As ShipModule In ModuleLists.moduleList.Values
             If Market.MarketGroupList.ContainsKey(item.MarketGroup) = False Then
                 marketError += 1
@@ -454,7 +454,7 @@ Public Class frmHQFSettings
         'Next
 
         ' Write missing items to a file
-        Dim sw2 As New IO.StreamWriter(EveHQ.Core.HQ.reportFolder & "\HQFmissingItems.csv")
+        Dim sw2 As New IO.StreamWriter(Path.Combine(EveHQ.Core.HQ.reportFolder, "HQFmissingItems.csv"))
         For Each shipMod As ShipModule In ModuleLists.moduleList.Values
             If dataCheckList.Contains(shipMod.ID) = False Then
                 sw2.WriteLine(shipMod.ID & "," & shipMod.Name)

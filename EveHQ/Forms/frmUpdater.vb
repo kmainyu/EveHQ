@@ -116,8 +116,8 @@ Public Class frmUpdater
             CurrentComponents.Add("EveHQ.exe", My.Application.Info.Version.ToString)
             msg &= "EveHQ.exe (" & My.Application.Info.Version.ToString & ")" & ControlChars.CrLf
             ' Add the EveHQPatcher if available?
-            If My.Computer.FileSystem.FileExists(Application.StartupPath & "\EveHQPatcher.exe") = True Then
-                Dim myAssembly As Assembly = Assembly.ReflectionOnlyLoadFrom(Application.StartupPath & "\EveHQPatcher.exe")
+            If My.Computer.FileSystem.FileExists(Path.Combine(Application.StartupPath, "EveHQPatcher.exe")) = True Then
+                Dim myAssembly As Assembly = Assembly.ReflectionOnlyLoadFrom(Path.Combine(Application.StartupPath, "EveHQPatcher.exe"))
                 CurrentComponents.Add("EveHQPatcher.exe", myAssembly.GetName.Version.ToString)
                 msg &= "EveHQPatcher.exe (" & myAssembly.GetName.Version.ToString & ")" & ControlChars.CrLf
             Else
@@ -125,7 +125,7 @@ Public Class frmUpdater
                 msg &= "EveHQPatcher.exe (Not Present)" & ControlChars.CrLf
             End If
             ' Add the LgLcd.dll - unique as not a .Net assembly
-            If My.Computer.FileSystem.FileExists(Application.StartupPath & "\LgLcd.dll") = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(Application.StartupPath, "LgLcd.dll")) = True Then
                 CurrentComponents.Add("LgLcd.dll", "Any")
                 msg &= "LgLcd.dll (Any)" & ControlChars.CrLf
             Else
@@ -341,10 +341,10 @@ Public Class frmUpdater
             Dim FI As New FileInfo(FileNeeded)
             pdbFile = FI.Name.TrimEnd(FI.Extension.ToCharArray) & ".pdb"
             httpURI = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & pdbFile
-            localFile = My.Application.Info.DirectoryPath & "\" & pdbFile & ".upd"
+            localFile = Path.Combine(My.Application.Info.DirectoryPath, pdbFile & ".upd")
         Else
             httpURI = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
-            localFile = My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd"
+            localFile = Path.Combine(My.Application.Info.DirectoryPath, FileNeeded & ".upd")
         End If
         ' Work out the debug file name to get
 
@@ -396,10 +396,6 @@ Public Class frmUpdater
             If DebugFile = True Then
                 Dim FI As New FileInfo(FileNeeded)
                 FileNeeded = FI.Name.TrimEnd(FI.Extension.ToCharArray) & ".pdb"
-                '    If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd") = True Then
-                '        My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath & "\" & FileNeeded & ".upd")
-                '    End If
-                '    My.Computer.FileSystem.RenameFile(My.Application.Info.DirectoryPath & "\" & pdbFile & ".upd", FileNeeded & ".upd")
             End If
             filesComplete.Add(FileNeeded, True)
             filesTried += 1

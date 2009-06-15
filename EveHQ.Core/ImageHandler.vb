@@ -1,13 +1,14 @@
 ﻿Imports System.Net
 Imports System.Drawing
+Imports System.IO
 
 Public Class ImageHandler
 
     Public Shared Function GetImageLocation(ByVal imageName As String, ByVal imageType As Integer) As String
         ' Check EveHQ image cache folder for the image
-        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.imageCacheFolder & "\" & imageName & ".png") = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, imageName & ".png")) = True Then
             ' Return the cached image location
-            Return EveHQ.Core.HQ.imageCacheFolder & "\" & imageName & ".png"
+            Return Path.Combine(EveHQ.Core.HQ.imageCacheFolder, imageName & ".png")
         Else
             ' Calculate the remote URL
             Dim remoteURL As String = ""
@@ -36,7 +37,7 @@ Public Class ImageHandler
             Dim ResponsePic As WebResponse = RequestPic.GetResponse
             Dim WebImage As Image = Image.FromStream(ResponsePic.GetResponseStream())
             ' Save the image into the cache
-            WebImage.Save(EveHQ.Core.HQ.imageCacheFolder & "\" & imageName & ".png", System.Drawing.Imaging.ImageFormat.Png)
+            WebImage.Save(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, imageName & ".png"), System.Drawing.Imaging.ImageFormat.Png)
         Catch ex As Exception
             ' Assume this is because the image was not found - which happens for a lot of the database items
             ' No need to do anything with the error, just carry on

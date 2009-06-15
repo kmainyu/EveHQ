@@ -263,7 +263,7 @@ Public Class EveAPI
     Private Shared Function GetXML(ByVal remoteURL As String, ByVal postData As String, ByVal fileName As String, ByVal ReturnMethod As Long, ByVal feature As Integer) As XmlDocument
         Dim fileDate As String = ""
         ' Check if the file already exists
-        Dim fileLoc As String = EveHQ.Core.HQ.cacheFolder & "\" & fileName & fileDate & ".xml"
+        Dim fileLoc As String = Path.Combine(EveHQ.Core.HQ.cacheFolder, fileName & fileDate & ".xml")
         cLastAPIFileName = fileLoc
         Dim APIXML As New XmlDocument
         Dim errlist As XmlNodeList

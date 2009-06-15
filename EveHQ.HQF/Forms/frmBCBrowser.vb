@@ -10,7 +10,7 @@ Public Class frmBCBrowser
 
     Dim currentShip As Ship
     Dim currentFit As New ArrayList
-    Dim BCLoadoutCache As String = EveHQ.Core.HQ.appDataFolder & "\BCLoadoutCache"
+    Dim BCLoadoutCache As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "BCLoadoutCache")
 
     Public Sub New()
 
@@ -76,9 +76,9 @@ Public Class frmBCBrowser
         Dim loadoutXML As New XmlDocument
         Dim UseCacheFile As Boolean = False
         If My.Computer.FileSystem.DirectoryExists(BCLoadoutCache) Then
-            If My.Computer.FileSystem.FileExists(BCLoadoutCache & "\" & currentShip.ID & ".xml") Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(BCLoadoutCache, currentShip.ID & ".xml")) Then
                 ' Open the file and check the cache time
-                loadoutXML.Load(BCLoadoutCache & "\" & currentShip.ID & ".xml")
+                loadoutXML.Load(Path.Combine(BCLoadoutCache, currentShip.ID & ".xml"))
                 Dim cacheNode As XmlNode = loadoutXML.SelectSingleNode("/loadouts/cacheExpires")
                 Dim cacheTime As DateTime = DateTime.Parse(cacheNode.InnerText)
                 If Now > cacheTime Then
@@ -146,7 +146,7 @@ Public Class frmBCBrowser
             pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID, EveHQ.Core.ImageHandler.ImageType.Types)
             ' Save the XML into the cache
             If UseCacheFile = False Then
-                loadoutXML.Save(BCLoadoutCache & "\" & currentShip.ID & ".xml")
+                loadoutXML.Save(Path.Combine(BCLoadoutCache, currentShip.ID & ".xml"))
             End If
         Else
             lblBCStatus.Text = "There are no fittings available for this ship!"
@@ -167,9 +167,9 @@ Public Class frmBCBrowser
         Dim loadoutXML As New XmlDocument
         Dim UseCacheFile As Boolean = False
         If My.Computer.FileSystem.DirectoryExists(BCLoadoutCache) Then
-            If My.Computer.FileSystem.FileExists(BCLoadoutCache & "\" & currentShip.ID.ToString & "-" & LoadoutID & ".xml") Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(BCLoadoutCache, currentShip.ID.ToString & "-" & LoadoutID & ".xml")) Then
                 ' Open the file and check the cache time
-                loadoutXML.Load(BCLoadoutCache & "\" & currentShip.ID.ToString & "-" & LoadoutID & ".xml")
+                loadoutXML.Load(Path.Combine(BCLoadoutCache, currentShip.ID.ToString & "-" & LoadoutID & ".xml"))
                 Dim cacheNode As XmlNode = loadoutXML.SelectSingleNode("/loadouts/cacheExpires")
                 Dim cacheTime As DateTime = DateTime.Parse(cacheNode.InnerText)
                 If Now > cacheTime Then
@@ -263,7 +263,7 @@ Public Class frmBCBrowser
             btnImport.Enabled = True
             ' Save the XML into the cache
             If UseCacheFile = False Then
-                loadoutXML.Save(BCLoadoutCache & "\" & currentShip.ID.ToString & "-" & LoadoutID & ".xml")
+                loadoutXML.Save(Path.Combine(BCLoadoutCache, currentShip.ID.ToString & "-" & LoadoutID & ".xml"))
             End If
             currentShip = Engine.UpdateShipDataFromFittingList(currentShip, currentFit)
             ' Generate fitting data

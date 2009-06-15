@@ -161,7 +161,7 @@ Public Class frmPatcher
 
     Private Function StartEveHQ() As Boolean
         Try
-            Process.Start(My.Application.Info.DirectoryPath & "\EveHQ.exe")
+            Process.Start(Path.Combine(My.Application.Info.DirectoryPath, "EveHQ.exe"))
             Return True
         Catch e As Exception
             Return False

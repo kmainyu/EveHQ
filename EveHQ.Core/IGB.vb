@@ -123,8 +123,8 @@ Public Class IGB
                                 responseString &= CreateQueueReport()
                             Case "/LOGO.JPG"
                                 context.Response.ContentType = "image/jpeg"
-                                My.Resources.EveHQ_IGBLogo.Save(EveHQ.Core.HQ.cacheFolder & "\logo.jpg")
-                                responseString = GetImage(EveHQ.Core.HQ.cacheFolder & "\logo.jpg")
+                                My.Resources.EveHQ_IGBLogo.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "logo.jpg"))
+                                responseString = GetImage(Path.Combine(EveHQ.Core.HQ.cacheFolder, "logo.jpg"))
                             Case "/TEST.GIF"
                                 context.Response.ContentType = "image/gif"
                                 responseString = GetImage("c:/test.gif")

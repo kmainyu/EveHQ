@@ -326,6 +326,7 @@ Public Class frmSettings
     Private Sub UpdateColourOptions()
         ' Update the pilot colours
         Call Me.UpdatePBPilotColours()
+        chkDisableVisualStyles.Checked = EveHQ.Core.HQ.EveHQSettings.DisableVisualStyles
     End Sub
 
     Private Sub UpdatePBPilotColours()
@@ -407,6 +408,15 @@ Public Class frmSettings
         frmPilot.clvSkills.Refresh()
         ' Update the PBPilot Colours
         Call Me.UpdatePBPilotColours()
+    End Sub
+
+    Private Sub chkDisableVisualStyles_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDisableVisualStyles.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.DisableVisualStyles = chkDisableVisualStyles.Checked
+        If chkDisableVisualStyles.Checked = True Then
+            Application.VisualStyleState = VisualStyles.VisualStyleState.NoneEnabled
+        Else
+            Application.VisualStyleState = VisualStyles.VisualStyleState.ClientAndNonClientAreasEnabled
+        End If
     End Sub
 #End Region
 
@@ -823,7 +833,7 @@ Public Class frmSettings
         Dim localPath As String = EveHQ.Core.HQ.reportFolder
 
         Dim myFTP As EveFTP = New EveFTP
-        myFTP.UploadFile(localPath & "\" & fileName, selAccount.Server, selAccount.Path)
+        myFTP.UploadFile(Path.Combine(localPath, fileName), selAccount.Server, selAccount.Path)
     End Sub
 #End Region
 
@@ -1065,7 +1075,7 @@ Public Class frmSettings
         With ofd1
             .Title = "Select Access Data file"
             .FileName = ""
-            .InitialDirectory = "c:\"
+            .InitialDirectory = EveHQ.Core.HQ.appFolder
             .Filter = "Access Data files (*.mdb)|*.mdb|All files (*.*)|*.*"
             .FilterIndex = 1
             .RestoreDirectory = True
@@ -1079,7 +1089,7 @@ Public Class frmSettings
         With ofd1
             .Title = "Select Access Data file"
             .FileName = ""
-            .InitialDirectory = "c:\"
+            .InitialDirectory = EveHQ.Core.HQ.appFolder
             .Filter = "Access Data files (*.mdb)|*.mdb|All files (*.*)|*.*"
             .FilterIndex = 1
             .RestoreDirectory = True
@@ -1637,7 +1647,7 @@ Public Class frmSettings
         With ofd1
             .Title = "Please select a valid .wav file"
             .FileName = ""
-            .InitialDirectory = "c:\"
+            .InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             .Filter = "Wave files (*.wav)|*.wav|All files (*.*)|*.*"
             .FilterIndex = 1
             .RestoreDirectory = True
@@ -1959,7 +1969,7 @@ Public Class frmSettings
             .ShowDialog()
             Dim gbFolderHost As GroupBox = CType(Me.gbEveFolders.Controls("gbLocation" & CStr(folder).Trim), GroupBox)
             Dim lblEveDir As Label = CType(gbFolderHost.Controls("lblEveDir" & CStr(folder).Trim), Label)
-            If My.Computer.FileSystem.FileExists(.SelectedPath & "\eve.exe") = False Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(.SelectedPath, "eve.exe")) = False Then
                 MessageBox.Show("This folder does not contain the Eve.exe file.", "Directory Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Else
                 lblEveDir.Text = .SelectedPath
@@ -2010,11 +2020,11 @@ Public Class frmSettings
             EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folder) = True
             ' Check program files
             If startup = False Then
-                Dim cacheDir As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder) & "\cache"
-                Dim settingsDir As String = cacheDir & "\settings"
-                Dim prefsFile As String = cacheDir & "\prefs.ini"
-                Dim browserDir As String = cacheDir & "\browser"
-                Dim machoDIR As String = cacheDir & "\machonet"
+                Dim cacheDir As String = Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(folder), "cache")
+                Dim settingsDir As String = Path.Combine(cacheDir, "settings")
+                Dim prefsFile As String = Path.Combine(cacheDir, "prefs.ini")
+                Dim browserDir As String = Path.Combine(cacheDir, "browser")
+                Dim machoDIR As String = Path.Combine(cacheDir, "machonet")
                 If My.Computer.FileSystem.DirectoryExists(cacheDir) = True And My.Computer.FileSystem.FileExists(prefsFile) = True Then
                     MessageBox.Show("Confirmed /LUA:off active on this folder.", "LUA Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
@@ -2025,11 +2035,12 @@ Public Class frmSettings
             EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folder) = False
             ' Check the application directory for the user
             If startup = False Then
-                Dim cacheDir As String = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\cache").Replace("\\", "\")
-                Dim settingsDir As String = (Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\CCP\EVE\settings").Replace("\\", "\")
-                Dim prefsFile As String = settingsDir & "\prefs.ini"
-                Dim browserDir As String = cacheDir & "\browser"
-                Dim machoDIR As String = cacheDir & "\machonet"
+                Dim eveDir As String = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "Eve")
+                Dim cacheDir As String = Path.Combine(eveDir, "cache")
+                Dim settingsDir As String = Path.Combine(eveDir, "settings")
+                Dim prefsFile As String = Path.Combine(settingsDir, "prefs.ini")
+                Dim browserDir As String = Path.Combine(cacheDir, "browser")
+                Dim machoDIR As String = Path.Combine(cacheDir, "prefs.machonet")
                 If My.Computer.FileSystem.DirectoryExists(cacheDir) = True And My.Computer.FileSystem.FileExists(prefsFile) = True Then
                     MessageBox.Show("Confirmed shared settings are active.", "LUA Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
@@ -2121,5 +2132,6 @@ Public Class frmSettings
 
 #End Region
 
+    
     
 End Class

@@ -1,4 +1,6 @@
-﻿Public Class frmToolTrayIconPopup
+﻿Imports System.IO
+
+Public Class frmToolTrayIconPopup
     Private Declare Function SHAppBarMessage Lib "shell32.dll" Alias "SHAppBarMessage" (ByVal dwMessage As Int32, ByRef pData As APPBARDATA) As Int32
 
     Friend Structure RECT
@@ -128,7 +130,7 @@
                 pb.Width = 64 : pb.Height = 64
                 pb.Location = New Point(20, 20 + (65 * charCount))
                 pb.SizeMode = PictureBoxSizeMode.StretchImage
-                Dim imgFilename As String = EveHQ.Core.HQ.imageCacheFolder & "\" & dPilot.ID & ".png"
+                Dim imgFilename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, dPilot.ID & ".png")
                 pb.ImageLocation = imgFilename
                 AGP1.Controls.Add(pb)
                 textY = 20 + (65 * charCount)
