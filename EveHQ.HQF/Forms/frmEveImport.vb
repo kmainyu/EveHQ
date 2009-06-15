@@ -245,6 +245,16 @@ Public Class frmEveImport
         End If
     End Sub
 
+    Private Sub clvLoadouts_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles clvLoadouts.SelectedItemsChanged
+        If clvLoadouts.SelectedItems.Count = 1 Then
+            If clvLoadouts.SelectedItems(0).Tag IsNot Nothing Then
+                lblEveImportStatus.Text = clvLoadouts.SelectedItems(0).Text & ": " & clvLoadouts.SelectedItems(0).Tag.ToString
+            Else
+                lblEveImportStatus.Text = ""
+            End If
+        End If
+    End Sub
+
 #End Region
 
 #Region "Eve Import Routines"
@@ -372,4 +382,5 @@ Public Class frmEveImport
 
 #End Region
 
+  
 End Class
