@@ -386,9 +386,10 @@ Public Class frmCorpHQ
                                 newStanding.SubItems.Add(actualStanding)
                                 lvwStandings.Items.Add(newStanding)
                             Catch e As Exception
-                                Dim msg As String = "There was an error processing the standings details for:" & ControlChars.CrLf & "Standing ID: " & iStanding & ControlChars.CrLf
-                                msg &= "If this continues, please clear the Eve cache and retry."
-                                MessageBox.Show(msg, "Standings Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                ' Assume a null agent/corp etc and move on
+                                'Dim msg As String = "There was an error processing the standings details for:" & ControlChars.CrLf & "Standing ID: " & iStanding & ControlChars.CrLf
+                                'msg &= "If this continues, please clear the Eve cache and retry."
+                                'MessageBox.Show(msg, "Standings Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             End Try
                         End If
                     Next
