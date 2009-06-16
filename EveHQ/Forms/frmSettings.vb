@@ -327,6 +327,7 @@ Public Class frmSettings
         ' Update the pilot colours
         Call Me.UpdatePBPilotColours()
         chkDisableVisualStyles.Checked = EveHQ.Core.HQ.EveHQSettings.DisableVisualStyles
+        txtCSVSeparator.Text = EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar
     End Sub
 
     Private Sub UpdatePBPilotColours()
@@ -417,6 +418,10 @@ Public Class frmSettings
         Else
             Application.VisualStyleState = VisualStyles.VisualStyleState.ClientAndNonClientAreasEnabled
         End If
+    End Sub
+
+    Private Sub txtCSVSeparator_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtCSVSeparator.TextChanged
+        EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar = txtCSVSeparator.Text
     End Sub
 #End Region
 
@@ -2132,6 +2137,7 @@ Public Class frmSettings
 
 #End Region
 
+    
     
     
 End Class

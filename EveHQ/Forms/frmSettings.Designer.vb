@@ -265,6 +265,7 @@ Partial Public Class frmSettings
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog
         Me.tvwSettings = New System.Windows.Forms.TreeView
         Me.gbColours = New System.Windows.Forms.GroupBox
+        Me.chkDisableVisualStyles = New System.Windows.Forms.CheckBox
         Me.cd1 = New System.Windows.Forms.ColorDialog
         Me.gbTrainingOverlay = New System.Windows.Forms.GroupBox
         Me.chkClickThroughOverlay = New System.Windows.Forms.CheckBox
@@ -302,7 +303,8 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
-        Me.chkDisableVisualStyles = New System.Windows.Forms.CheckBox
+        Me.lblCSVSeparatorChar = New System.Windows.Forms.Label
+        Me.txtCSVSeparator = New System.Windows.Forms.TextBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2686,6 +2688,8 @@ Partial Public Class frmSettings
         '
         'gbColours
         '
+        Me.gbColours.Controls.Add(Me.txtCSVSeparator)
+        Me.gbColours.Controls.Add(Me.lblCSVSeparatorChar)
         Me.gbColours.Controls.Add(Me.chkDisableVisualStyles)
         Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
         Me.gbColours.Location = New System.Drawing.Point(194, 12)
@@ -2695,6 +2699,16 @@ Partial Public Class frmSettings
         Me.gbColours.TabStop = False
         Me.gbColours.Text = "Colours"
         Me.gbColours.Visible = False
+        '
+        'chkDisableVisualStyles
+        '
+        Me.chkDisableVisualStyles.AutoSize = True
+        Me.chkDisableVisualStyles.Location = New System.Drawing.Point(19, 305)
+        Me.chkDisableVisualStyles.Name = "chkDisableVisualStyles"
+        Me.chkDisableVisualStyles.Size = New System.Drawing.Size(123, 17)
+        Me.chkDisableVisualStyles.TabIndex = 38
+        Me.chkDisableVisualStyles.Text = "Disable Visual Styles"
+        Me.chkDisableVisualStyles.UseVisualStyleBackColor = True
         '
         'gbTrainingOverlay
         '
@@ -3045,15 +3059,23 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
-        'chkDisableVisualStyles
+        'lblCSVSeparatorChar
         '
-        Me.chkDisableVisualStyles.AutoSize = True
-        Me.chkDisableVisualStyles.Location = New System.Drawing.Point(19, 305)
-        Me.chkDisableVisualStyles.Name = "chkDisableVisualStyles"
-        Me.chkDisableVisualStyles.Size = New System.Drawing.Size(123, 17)
-        Me.chkDisableVisualStyles.TabIndex = 38
-        Me.chkDisableVisualStyles.Text = "Disable Visual Styles"
-        Me.chkDisableVisualStyles.UseVisualStyleBackColor = True
+        Me.lblCSVSeparatorChar.AutoSize = True
+        Me.lblCSVSeparatorChar.Location = New System.Drawing.Point(16, 332)
+        Me.lblCSVSeparatorChar.Name = "lblCSVSeparatorChar"
+        Me.lblCSVSeparatorChar.Size = New System.Drawing.Size(77, 13)
+        Me.lblCSVSeparatorChar.TabIndex = 39
+        Me.lblCSVSeparatorChar.Text = "CSV Separator"
+        '
+        'txtCSVSeparator
+        '
+        Me.txtCSVSeparator.Location = New System.Drawing.Point(99, 329)
+        Me.txtCSVSeparator.MaxLength = 1
+        Me.txtCSVSeparator.Name = "txtCSVSeparator"
+        Me.txtCSVSeparator.ShortcutsEnabled = False
+        Me.txtCSVSeparator.Size = New System.Drawing.Size(46, 20)
+        Me.txtCSVSeparator.TabIndex = 40
         '
         'frmSettings
         '
@@ -3433,4 +3455,6 @@ Partial Public Class frmSettings
     Friend WithEvents cboToolbarPosition As System.Windows.Forms.ComboBox
     Friend WithEvents chkDisableAutoConnections As System.Windows.Forms.CheckBox
     Friend WithEvents chkDisableVisualStyles As System.Windows.Forms.CheckBox
+    Friend WithEvents lblCSVSeparatorChar As System.Windows.Forms.Label
+    Friend WithEvents txtCSVSeparator As System.Windows.Forms.TextBox
 End Class

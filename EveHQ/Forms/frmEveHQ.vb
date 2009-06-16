@@ -1262,53 +1262,65 @@ Public Class frmEveHQ
 #End Region
 
     Private Sub EveIconMenu_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles EveIconMenu.Opening
-        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(1), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(1) = False Then
-            If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(1) <> "" Then
-                ctxmnuLaunchEve1.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(1) & ")"
+
+        If EveHQ.Core.HQ.EveHQSettings.EveFolder(1) IsNot Nothing Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(1), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(1) = False Then
+                If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(1) <> "" Then
+                    ctxmnuLaunchEve1.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(1) & ")"
+                End If
+                ctxmnuLaunchEve1.Enabled = True
+                ctxLaunchEve1Full.Visible = True
+                ctxLaunchEve1Normal.Visible = True
+            Else
+                ctxmnuLaunchEve1.Enabled = False
+                ctxLaunchEve1Full.Visible = False
+                ctxLaunchEve1Normal.Visible = False
             End If
-            ctxmnuLaunchEve1.Enabled = True
-            ctxLaunchEve1Full.Visible = True
-            ctxLaunchEve1Normal.Visible = True
-        Else
-            ctxmnuLaunchEve1.Enabled = False
-            ctxLaunchEve1Full.Visible = False
-            ctxLaunchEve1Normal.Visible = False
         End If
-        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(2), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(2) = False Then
-            If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(2) <> "" Then
-                ctxmnuLaunchEve2.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(2) & ")"
+
+        If EveHQ.Core.HQ.EveHQSettings.EveFolder(2) IsNot Nothing Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(2), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(2) = False Then
+                If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(2) <> "" Then
+                    ctxmnuLaunchEve2.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(2) & ")"
+                End If
+                ctxmnuLaunchEve2.Enabled = True
+                ctxLaunchEve2Full.Visible = True
+                ctxLaunchEve2Normal.Visible = True
+            Else
+                ctxmnuLaunchEve2.Enabled = False
+                ctxLaunchEve2Full.Visible = False
+                ctxLaunchEve2Normal.Visible = False
             End If
-            ctxmnuLaunchEve2.Enabled = True
-            ctxLaunchEve2Full.Visible = True
-            ctxLaunchEve2Normal.Visible = True
-        Else
-            ctxmnuLaunchEve2.Enabled = False
-            ctxLaunchEve2Full.Visible = False
-            ctxLaunchEve2Normal.Visible = False
         End If
-        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(3), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(3) = False Then
-            If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(3) <> "" Then
-                ctxmnuLaunchEve3.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(3) & ")"
+
+        If EveHQ.Core.HQ.EveHQSettings.EveFolder(3) IsNot Nothing Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(3), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(3) = False Then
+                If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(3) <> "" Then
+                    ctxmnuLaunchEve3.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(3) & ")"
+                End If
+                ctxmnuLaunchEve3.Enabled = True
+                ctxLaunchEve3Full.Visible = True
+                ctxLaunchEve3Normal.Visible = True
+            Else
+                ctxmnuLaunchEve3.Enabled = False
+                ctxLaunchEve3Full.Visible = False
+                ctxLaunchEve3Normal.Visible = False
             End If
-            ctxmnuLaunchEve3.Enabled = True
-            ctxLaunchEve3Full.Visible = True
-            ctxLaunchEve3Normal.Visible = True
-        Else
-            ctxmnuLaunchEve3.Enabled = False
-            ctxLaunchEve3Full.Visible = False
-            ctxLaunchEve3Normal.Visible = False
         End If
-        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(4), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(4) = False Then
-            If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(4) <> "" Then
-                ctxmnuLaunchEve4.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(4) & ")"
+
+        If EveHQ.Core.HQ.EveHQSettings.EveFolder(4) IsNot Nothing Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(4), "Eve.exe")) = True And EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(4) = False Then
+                If EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(4) <> "" Then
+                    ctxmnuLaunchEve4.Text = "Launch Eve (" & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(4) & ")"
+                End If
+                ctxmnuLaunchEve4.Enabled = True
+                ctxLaunchEve4Full.Visible = True
+                ctxLaunchEve4Normal.Visible = True
+            Else
+                ctxmnuLaunchEve4.Enabled = False
+                ctxLaunchEve4Full.Visible = False
+                ctxLaunchEve4Normal.Visible = False
             End If
-            ctxmnuLaunchEve4.Enabled = True
-            ctxLaunchEve4Full.Visible = True
-            ctxLaunchEve4Normal.Visible = True
-        Else
-            ctxmnuLaunchEve4.Enabled = False
-            ctxLaunchEve4Full.Visible = False
-            ctxLaunchEve4Normal.Visible = False
         End If
     End Sub
 

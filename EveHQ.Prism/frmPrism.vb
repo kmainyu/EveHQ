@@ -2843,12 +2843,31 @@ Public Class frmPrism
     End Sub
     Private Sub tlvAssets_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tlvAssets.SelectedItemsChanged
         If tlvAssets.SelectedItems.Count > 0 Then
-            Dim volume, value, quantity As Double
+            Dim volume, lineValue, value, quantity As Double
+            Dim chkParent As New ContainerListViewItem
+            Dim parentFlag As Boolean = False
             For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
-                If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
-                    volume += CDbl(asset.SubItems(AssetColumn.Volume).Text)
-                    quantity += CDbl(asset.SubItems(AssetColumn.Quantity).Text)
-                    value += CDbl(asset.SubItems(AssetColumn.Value).Text)
+                parentFlag = False
+                chkParent = asset.ParentItem
+                Do While chkParent IsNot Nothing
+                    If chkParent.Selected = True Then
+                        parentFlag = True
+                        Exit Do
+                    End If
+                    chkParent = chkParent.ParentItem
+                Loop
+                If parentFlag = False Then
+                    If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
+                        volume += CDbl(asset.SubItems(AssetColumn.Volume).Text)
+                        quantity += CDbl(asset.SubItems(AssetColumn.Quantity).Text)
+                        lineValue = CDbl(asset.SubItems(AssetColumn.Value).Text)
+                        value += lineValue
+                    Else
+                        If asset.SubItems(AssetColumn.Value).Text <> "" Then
+                            lineValue = CDbl(asset.SubItems(AssetColumn.Value).Text)
+                            value += lineValue
+                        End If
+                    End If
                 End If
             Next
             tssLabelSelectedAssets.Text = "Volume = " & FormatNumber(volume, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " m³ : Value = " & FormatNumber(value, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ISK"
@@ -5090,18 +5109,24 @@ Public Class frmPrism
                 Dim csvFile As String = Path.Combine(EveHQ.Core.HQ.reportFolder, Description.Replace(" ", "") & " - " & cboOwner.SelectedItem.ToString & " (" & Format(Now, "yyyy-MM-dd HH-mm-ss") & ").csv")
                 Dim csvText As New StringBuilder
                 With cListView
+                    ' Write the columns
                     For col As Integer = 0 To .Columns.Count - 1
                         csvText.Append(.Columns(col).Text)
                         If col <> .Columns.Count - 1 Then
-                            csvText.Append(",")
+                            csvText.Append(EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
                         End If
                     Next
                     csvText.AppendLine("")
+                    ' Write the data
                     For Each row As ContainerListViewItem In .Items
                         For col As Integer = 0 To .Columns.Count - 1
-                            csvText.Append("""" & row.SubItems(col).Text & """")
+                            If IsNumeric(row.SubItems(col).Text) = True Then
+                                csvText.Append(CDbl(row.SubItems(col).Text).ToString)
+                            Else
+                                csvText.Append("""" & row.SubItems(col).Text & """")
+                            End If
                             If col <> .Columns.Count - 1 Then
-                                csvText.Append(",")
+                                csvText.Append(EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
                             End If
                         Next
                         csvText.AppendLine("")

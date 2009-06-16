@@ -150,7 +150,19 @@ Imports System.Diagnostics
     Private cTrainingBarPosition As String = "Bottom"
     Private cDisableAutoWebConnections As Boolean = False
     Private cDisableVisualStyles As Boolean = False
+    Private cCSVSeparatorChar As String = ","
 
+    Public Property CSVSeparatorChar() As String
+        Get
+            If cCSVSeparatorChar Is Nothing Then
+                cCSVSeparatorChar = ","
+            End If
+            Return cCSVSeparatorChar
+        End Get
+        Set(ByVal value As String)
+            cCSVSeparatorChar = value
+        End Set
+    End Property
     Public Property DisableVisualStyles() As Boolean
         Get
             Return cDisableVisualStyles
