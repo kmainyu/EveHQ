@@ -81,8 +81,8 @@ Public Class frmCorpHQ
                     folder = folder.Replace(":", "")
                     folder = folder.Replace(" ", "_")
                     folder = folder.Replace("\", "_")
+                    folder &= "_tranquility"
                     cacheDir = Path.Combine(baseCacheDir, folder)
-                    cacheDir = Path.Combine(cacheDir, "_tranquility")
                     cacheDir = Path.Combine(Path.Combine(Path.Combine(cacheDir, "cache"), "machonet"), "87.237.38.200")
                 End If
                 ' Search the cache dir for files containing the text "GetCharStandings"
@@ -129,7 +129,10 @@ Public Class frmCorpHQ
                     End If
                 Else
                     Cursor = Cursors.Default
-                    MessageBox.Show("Unable to locate cache folder for your " & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(folderNo) & " installation. Please check the location of your Eve Client and/or log in to Eve to create it.", "Missing Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Dim msg As String = "Unable to locate cache folder for your " & EveHQ.Core.HQ.EveHQSettings.EveFolderLabel(folderNo) & " installation." & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "CorpHQ is checking the location: " & cacheDir & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "Please check the location of your Eve Client and/or log in to Eve to create it. If you think this message is in error, please file a bug report."
+                    MessageBox.Show(msg, "Missing Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             End If
         Next
@@ -265,8 +268,8 @@ Public Class frmCorpHQ
                         folder = folder.Replace(":", "")
                         folder = folder.Replace(" ", "_")
                         folder = folder.Replace("\", "_")
+                        folder &= "_tranquility"
                         cacheDir = Path.Combine(baseCacheDir, folder)
-                        cacheDir = Path.Combine(cacheDir, "_tranquility")
                         cacheDir = Path.Combine(Path.Combine(Path.Combine(cacheDir, "cache"), "machonet"), "87.237.38.200")
                     End If
                     ' Search the cache dir for files containing the text "GetCharStandings"
