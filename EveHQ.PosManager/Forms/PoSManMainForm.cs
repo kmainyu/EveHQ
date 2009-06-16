@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Resources;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
@@ -31,6 +34,7 @@ namespace EveHQ.PosManager
         public AllianceList AL = new AllianceList();
         public SystemSovList SL = new SystemSovList();
         Configuration Config = new Configuration();
+        public static BackgroundWorker apiWorker;
         PoS_Item api;
         FuelBay tt = null;
         bool load = false;
@@ -84,6 +88,12 @@ namespace EveHQ.PosManager
             PopulateDPList("Omni-Type");
             PopulateSystemList();
 
+            // Build corp selection listing
+            cb_CorpName.Items.Clear();
+            cb_CorpName.Items.Add("Undefined");
+            foreach (API_Data cd in API_D.apic)
+                cb_CorpName.Items.Add(cd.corpName);
+
             // Add PoS designes into the Designer Combo-Box pull down list for Selection
             cb_PoSName.Items.Clear();
             if (POSList.Designs.Count < 1)
@@ -98,6 +108,7 @@ namespace EveHQ.PosManager
                 }
             }
             BuildPOSListForMonitoring();
+            UpdateAllTowerSovLevels();
 
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
 
@@ -1908,6 +1919,7 @@ namespace EveHQ.PosManager
 
             cb_SovLevel.SelectedIndex = Design.SovLevel;
             cb_System.Text = Design.System;
+            cb_CorpName.Text = Design.CorpName;
 
             load = false;
             CalculatePOSData();
@@ -1968,6 +1980,26 @@ namespace EveHQ.PosManager
 
             if (!load)
                 PosChanged = true;
+
+            CalculatePOSData();
+        }
+
+        private void cb_CorpName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Design.CorpName = cb_CorpName.Text;
+
+            foreach (API_Data cn in API_D.apic)
+                if (cn.corpName == Design.CorpName)
+                {
+                    Design.corpID = cn.corpID;
+                    break;
+                }
+
+            UpdateLinkedTowerSovLevel(Design);
+
+            if (!load)
+                PosChanged = true;
+
             CalculatePOSData();
         }
 
@@ -1977,6 +2009,49 @@ namespace EveHQ.PosManager
 
 #region PoS Monitor Routines
 
+        private void UpdateAllTowerSovLevels()
+        {
+            foreach (POS p in POSList.Designs)
+            {
+                UpdateLinkedTowerSovLevel(p);
+            }
+        }
+
+        private void UpdateLinkedTowerSovLevel(POS p)
+        {
+            decimal corpID;
+            bool foundIt = false;
+
+            if (p.corpID != 0)
+            {
+                // This POS is Linked
+                corpID = p.corpID;
+
+                foreach (Alliance_Data ad in AL.alliances)
+                {
+                    if (foundIt)
+                        break;
+
+                    foreach (decimal cid in ad.corps)
+                    {
+                        if (cid == corpID)
+                        {
+                            // Corp is in an alliance
+                            // Find system in system list, update SOV level accordingly
+                            foreach (Sov_Data sd in SL.SovList)
+                            {
+                                if ((sd.allianceID == ad.allianceID) && (p.System == sd.systemName))
+                                {
+                                    // Found the correct system and alliance ID
+                                    p.SovLevel = (int)sd.sovLevel;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
         public POS GetPoSListingForPoS(string name)
         {
@@ -1992,8 +2067,7 @@ namespace EveHQ.PosManager
         {
             MonSel_L.Clear();
             foreach (POS pl in POSList.Designs)
-                if (pl.Name != "New POS")
-                    MonSel_L.Add(pl.Name);
+                MonSel_L.Add(pl.Name);
         }
         
         private void PopulateMonitoredPoSDisplay()
@@ -2012,7 +2086,8 @@ namespace EveHQ.PosManager
                     // Add data to DG
                     dg_ind = dg_MonitoredTowers.Rows.Add();
 
-                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Name].Value = p.Name;
+                    line = p.Name + " < " + p.System + " >[" + p.SovLevel + "]";
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Name].Value = line;
                     line = ConvertHoursToTextDisplay(p.PosTower.F_RunTime);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.FuelR].Value = line;
                     line = ConvertHoursToTextDisplay(p.PosTower.Fuel.Strontium.RunTime);
@@ -2162,12 +2237,14 @@ namespace EveHQ.PosManager
         private void dg_MonitoredTowers_SelectionChanged(object sender, EventArgs e)
         {
             decimal qty;
-            string posItm;
+            string posItm, posName;
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
                 selName = dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value.ToString();
-                Mon_dg_Pos = selName;
+                posName = selName.Substring(0, selName.IndexOf(" <"));
+                selName = posName;
+                Mon_dg_Pos = posName;
                 Mon_dg_indx = dg_MonitoredTowers.CurrentRow.Index;
                
                 foreach (POS pl in POSList.Designs)
@@ -2205,15 +2282,12 @@ namespace EveHQ.PosManager
         private void UpdateTowerMonitorDisplay()
         {
             FuelBay nud_fuel;
-            string selName;
             decimal bay_p;
             decimal cpu_u, power_u;
             decimal sov_mod, increment;
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
-                selName = dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value.ToString();
-
                 foreach (POS pl in POSList.Designs)
                 {
                     if (selName == pl.Name)
@@ -2530,14 +2604,10 @@ namespace EveHQ.PosManager
 
         private void UpdateMonitoredTowerState(string state)
         {
-            string selName;
-
             update = true;
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
-                selName = dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value.ToString();
-
                 foreach (POS pl in POSList.Designs)
                 {
                     if (selName == pl.Name)
@@ -2982,14 +3052,10 @@ namespace EveHQ.PosManager
 
         private void b_FuelUpdate_Click(object sender, EventArgs e)
         {
-            string selName;
-
             update = true;
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
-                selName = dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value.ToString();
-
                 foreach (POS pl in POSList.Designs)
                 {
                     if (selName == pl.Name)
@@ -3110,6 +3176,7 @@ namespace EveHQ.PosManager
             Config.SaveConfiguration();
 
             PopulateTowerFillDG();
+            UpdateSelectedTowerList();
         }
 
         private void UpdateSelectedTowerList()
@@ -3126,7 +3193,7 @@ namespace EveHQ.PosManager
 
         private void dg_TowerFuelList_SelectionChanged(object sender, EventArgs e)
         {
-            string maintName, paddStr;
+            string maintName, paddStr, padCnt, padVol, padIsk;
             int dgi;
             decimal totVol, totCost;
             string[,] fVal;
@@ -3158,8 +3225,11 @@ namespace EveHQ.PosManager
                             if ((!Config.data.maintStront) && (x == 12))
                                 continue;
 
-                            paddStr = fVal[x, 0].PadRight(40, ' ');
-                            SelPosFillText += paddStr + "\t[" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + "]<" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3>{" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + "isk}\n";
+                            paddStr = fVal[x, 0].PadRight(20, ' ') + "|";
+                            padCnt = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])).PadLeft(11, ' ') + "|";
+                            padVol = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])).PadLeft(13, ' ') + "m3|";
+                            padIsk = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])).PadLeft(17, ' ') + "isk|\n";
+                            SelPosFillText += paddStr + padCnt + padVol + padIsk;
                             dgi = dg_SelectedFuel.Rows.Add();
                             dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.type].Value = fVal[x, 0];
                             dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.amount].Value = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
@@ -3172,8 +3242,10 @@ namespace EveHQ.PosManager
                         dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.type].Value = "Total Volume & Cost";
                         dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.vol].Value = String.Format("{0:#,0.#}", totVol) + " m3";
                         dg_SelectedFuel.Rows[dgi].Cells[(int)fuelDG.cost].Value = String.Format("{0:#,0.#}", totCost) + " isk";
-                        paddStr = ("Total Volume & Cost").PadRight(40, ' ');
-                        SelPosFillText += paddStr + "\t<" + String.Format("{0:#,0.#}", totVol) + "m3>{" + String.Format("{0:#,0.#}", totCost) + "isk}";
+                        paddStr = ("Total Volume & Cost").PadRight(20, ' ') + "|";
+                        padVol = String.Format("{0:#,0.#}", totVol).PadLeft(25, ' ') + "m3|";
+                        padIsk = String.Format("{0:#,0.#}", totCost).PadLeft(17, ' ') + "isk|";
+                        SelPosFillText += paddStr + padVol + padIsk;
                         break;
                     }
                 }
@@ -3185,7 +3257,7 @@ namespace EveHQ.PosManager
             int dgi;
             decimal totVol, totCost;
             string[,] fVal;
-            string paddStr;
+            string paddStr, padCnt, padVol, padIsk;
 
             tt.SetCurrentFuelVolumes();
             tt.SetCurrentFuelCosts(Config.data.FuelCosts);
@@ -3202,8 +3274,11 @@ namespace EveHQ.PosManager
                 if ((!Config.data.maintStront) && (x == 12))
                     continue;
 
-                paddStr = fVal[x, 0].PadRight(40, ' ');
-                AllPosFillText += paddStr + "\t[" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])) + "]<" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])) + "m3>{" + String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])) + "isk}\n";
+                paddStr = fVal[x, 0].PadRight(20, ' ') + "|";
+                padCnt = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1])).PadLeft(11, ' ') + "|";
+                padVol = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 2])).PadLeft(13, ' ') + "m3|";
+                padIsk = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 3])).PadLeft(17, ' ') + "isk|\n";
+                AllPosFillText += paddStr + padCnt + padVol + padIsk;
                 dgi = dg_TotalFuel.Rows.Add();
                 dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.type].Value = fVal[x, 0];
                 dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.amount].Value = String.Format("{0:#,0.#}", Convert.ToDecimal(fVal[x, 1]));
@@ -3216,8 +3291,10 @@ namespace EveHQ.PosManager
             dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.type].Value = "Total Volume & Cost";
             dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.vol].Value = String.Format("{0:#,0.#}", totVol) + " m3";
             dg_TotalFuel.Rows[dgi].Cells[(int)fuelDG.cost].Value = String.Format("{0:#,0.#}", totCost) + " isk";
-            paddStr = ("Total Volume & Cost").PadRight(40, ' ');
-            AllPosFillText += paddStr + "\t<" + String.Format("{0:#,0.#}", totVol) + "m3>{" + String.Format("{0:#,0.#}", totCost) + "isk}";
+            paddStr = ("Total Volume & Cost").PadRight(20, ' ') + "|";
+            padVol = String.Format("{0:#,0.#}", totVol).PadLeft(25, ' ') + "m3|";
+            padIsk = String.Format("{0:#,0.#}", totCost).PadLeft(17, ' ') + "isk|";
+            AllPosFillText += paddStr + padVol + padIsk;
         }
 
         private void PopulateTowerFillDG()
@@ -3230,6 +3307,7 @@ namespace EveHQ.PosManager
             cb_FactChartTotal.Checked = Config.data.maintChart;
             cb_UseStrontTotals.Checked = Config.data.maintStront;
             update = false;
+
             foreach (POS p in POSList.Designs)
             {
                 if (tt == null)
@@ -3422,26 +3500,49 @@ namespace EveHQ.PosManager
             AL.LoadAllianceListFromAPI(1);
             API_D.LoadAPIListing(TL);
             BuildPOSListForMonitoring();
+            UpdateAllTowerSovLevels();
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
         }
 
         private void DownloadAndUpdateAPI()
         {
-            //ThreadPool.QueueUserWorkItem(new WaitCallback(GetCorpAssets));
-            //ThreadPool.QueueUserWorkItem(new WaitCallback(GetCorpSheet));
-            MessageBox.Show("Updating Tower API - Please Wait.", "Wait for Update", MessageBoxButtons.OK);
-             
-            GetCorpAssets(1);
-            GetCorpSheet(1);
-            GetAllySovLists();
+            apiWorker = new BackgroundWorker();
+
+            this.Cursor = Cursors.WaitCursor;
+            apiWorker.WorkerReportsProgress = true;
+            apiWorker.DoWork += GetCorpAssets;
+            apiWorker.DoWork += GetCorpSheet;
+            apiWorker.DoWork += GetAllySovLists;
+            apiWorker.RunWorkerCompleted += apiWorker_WorkComplete;
+
+            apiWorker.RunWorkerAsync();
         }
 
-        private void GetAllySovLists()
+        private void apiWorker_WorkComplete(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.Cursor = Cursors.Default;
+        }
+
+        private void apiWorker_ProgChange(object sender, RunWorkerCompletedEventArgs e)
         {
         }
 
-        private void GetCorpAssets(Object state)
+        private void GetAllySovLists(object sender, DoWorkEventArgs e)
+        {
+            XmlDocument apiXML;
+            AL = new AllianceList();
+            SL = new SystemSovList();
+
+            apiXML = EveHQ.Core.EveAPI.GetAPIXML((int)EveHQ.Core.EveAPI.APIRequest.AllianceList, 0);
+            apiXML = EveHQ.Core.EveAPI.GetAPIXML((int)EveHQ.Core.EveAPI.APIRequest.Sovereignty, 0);
+            AL.LoadAllianceListFromActiveAPI(1);
+            SL.LoadSovListFromActiveAPI(1);
+
+            e.Result = 123;
+        }
+
+        private void GetCorpAssets(object sender, DoWorkEventArgs e)
         {
             string acctName;
             int sel;
@@ -3465,9 +3566,10 @@ namespace EveHQ.PosManager
                     }
                 }
             }
+            e.Result = 123;
         }
 
-        private void GetCorpSheet(Object state)
+        private void GetCorpSheet(object sender, DoWorkEventArgs e)
         {
             string acctName;
             int sel;
@@ -3491,6 +3593,7 @@ namespace EveHQ.PosManager
                     }
                 }
             }
+            e.Result = 123;
         }
 
         private bool CheckXML(XmlDocument apiXML)
@@ -3583,7 +3686,7 @@ namespace EveHQ.PosManager
 
 #endregion
 
-   
+    
      }
 
 

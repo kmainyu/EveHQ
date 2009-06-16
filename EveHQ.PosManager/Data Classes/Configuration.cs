@@ -35,13 +35,13 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSSave_Path = PoSManage_Path + @"\PoSData";
+            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
+            PoSSave_Path = Path.Combine(PoSManage_Path ,"PoSData");
 
             if (!Directory.Exists(PoSSave_Path))
                 Directory.CreateDirectory(PoSSave_Path);
 
-            fname = PoSSave_Path + @"\PM_Config.bin";
+            fname = Path.Combine(PoSSave_Path ,"PM_Config.bin");
 
             // Save the Serialized data to Disk
             Stream pStream = File.Create(fname);
@@ -64,15 +64,15 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSSave_Path = PoSManage_Path + @"\PoSData";
+            PoSManage_Path = Path.Combine(PoSBase_Path, "PoSManage");
+            PoSSave_Path = Path.Combine(PoSManage_Path, "PoSData");
 
             if (!Directory.Exists(PoSManage_Path))
                 return;
             if (!Directory.Exists(PoSSave_Path))
                 return;
 
-            fname = PoSSave_Path + @"\PM_Config.bin";
+            fname = Path.Combine(PoSSave_Path, "PM_Config.bin");
             // Load the Data from Disk
             if (File.Exists(fname))
             {

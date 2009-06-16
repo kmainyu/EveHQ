@@ -3,6 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Threading;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
@@ -17,10 +18,12 @@ namespace EveHQ.PosManager
     public class API_List
     {
         public ArrayList apid;
+        public ArrayList apic;
 
         public API_List()
         {
             apid = new ArrayList();
+            apic = new ArrayList();
         }
 
         public void SaveAPIListing()
@@ -35,8 +38,8 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSCache_Path = PoSManage_Path + @"\Cache";
+            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
+            PoSCache_Path = Path.Combine(PoSManage_Path , "Cache");
 
             if (!Directory.Exists(PoSManage_Path))
                 Directory.CreateDirectory(PoSManage_Path);
@@ -44,12 +47,20 @@ namespace EveHQ.PosManager
             if (!Directory.Exists(PoSCache_Path))
                 Directory.CreateDirectory(PoSCache_Path);
 
-            fname = PoSCache_Path + @"\API_Towers.bin";
+            fname = Path.Combine(PoSCache_Path, "API_Towers.bin");
 
             // Save the Serialized data to Disk
             Stream pStream = File.Create(fname);
             BinaryFormatter pBF = new BinaryFormatter();
             pBF.Serialize(pStream, apid);
+            pStream.Close();
+
+            fname = Path.Combine(PoSCache_Path, "API_Corps.bin");
+
+            // Save the Serialized data to Disk
+            pStream = File.Create(fname);
+            pBF = new BinaryFormatter();
+            pBF.Serialize(pStream, apic);
             pStream.Close();
         }
 
@@ -67,8 +78,8 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSCache_Path = PoSManage_Path + @"\Cache";
+            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
+            PoSCache_Path = Path.Combine(PoSManage_Path, "Cache");
 
             if (!Directory.Exists(PoSManage_Path))
                 Directory.CreateDirectory(PoSManage_Path);
@@ -76,7 +87,7 @@ namespace EveHQ.PosManager
             if (!Directory.Exists(PoSCache_Path))
                 Directory.CreateDirectory(PoSCache_Path);
 
-            fname = PoSCache_Path + @"\API_Towers.bin";
+            fname = Path.Combine(PoSCache_Path, "API_Towers.bin");
 
             // Load the Data from Disk
             if (File.Exists(fname))
@@ -88,6 +99,26 @@ namespace EveHQ.PosManager
                 try
                 {
                     apid = (ArrayList)myBf.Deserialize(cStr);
+                    cStr.Close();
+                }
+                catch
+                {
+                    cStr.Close();
+                }
+            }
+
+            fname = Path.Combine(PoSCache_Path, "API_Corps.bin");
+
+            // Load the Data from Disk
+            if (File.Exists(fname))
+            {
+                // We have a configuration data file
+                cStr = File.OpenRead(fname);
+                myBf = new BinaryFormatter();
+
+                try
+                {
+                    apic = (ArrayList)myBf.Deserialize(cStr);
                     cStr.Close();
                 }
                 catch
@@ -125,6 +156,41 @@ namespace EveHQ.PosManager
             int ind = 0;
 
             foreach (API_Data p in apid)
+            {
+                if (p.itemID == ap.itemID)
+                {
+                    p.CopyData(ap);
+                    break;
+                }
+                ind++;
+            }
+        }
+
+        public void AddCorpAPIToList(API_Data ap)
+        {
+            apic.Add(ap);
+        }
+
+        public void RemoveCorpAPIFromList(API_Data ap)
+        {
+            int ind = 0;
+
+            foreach (API_Data p in apic)
+            {
+                if (p.itemID == ap.itemID)
+                {
+                    apic.RemoveAt(ind);
+                    break;
+                }
+                ind++;
+            }
+        }
+
+        public void UpdateCorpListAPI(API_Data ap)
+        {
+            int ind = 0;
+
+            foreach (API_Data p in apic)
             {
                 if (p.itemID == ap.itemID)
                 {
@@ -208,11 +274,24 @@ namespace EveHQ.PosManager
             return true;
         }
 
+        public API_Data GetCorpAPIDataMemberForCorpID(int corpID)
+        {
+            foreach (API_Data ap in apic)
+            {
+                if (ap.corpID == corpID)
+                {
+                    return ap;
+                }
+            }
+
+            return null;
+        }
+
         private void LoadCorpTowerDataFromAPI(TowerListing TL)
         {
             XmlDocument apiCorpSheet, apiCorpAssets;
             XmlNodeList corpSheet, corpAssets, subList;
-            API_Data ap;
+            API_Data ap, ac;
             string PoSBase_Path, API_File_Path, fname;
             decimal qty;
             string ceoName, corpName, cacheDate, cacheUntil;
@@ -231,7 +310,7 @@ namespace EveHQ.PosManager
             else
             {
                 PoSBase_Path = Application.StartupPath;
-                API_File_Path = PoSBase_Path + @"\Cache";
+                API_File_Path = Path.Combine(PoSBase_Path , "Cache");
             }
 
             if (!Directory.Exists(API_File_Path))
@@ -248,21 +327,37 @@ namespace EveHQ.PosManager
                     // Have a CorpSheet, need to parse out Char/etc... ID numbers
                     fname = s.Replace("CorpSheet", "AssetsCorp");
 
+                    apiCorpSheet.Load(s);
+                    if (!CheckXML(apiCorpSheet))
+                        continue;
+
+                    corpSheet = apiCorpSheet.SelectNodes("/eveapi");
+
+                    corpSheet = apiCorpSheet.SelectNodes("/eveapi/result");
+                    corpName = corpSheet[0].ChildNodes[1].InnerText;
+                    corpID = Convert.ToInt32(corpSheet[0].ChildNodes[0].InnerText);
+                    ceoName = corpSheet[0].ChildNodes[4].InnerText;
+
+                    ac = GetCorpAPIDataMemberForCorpID(corpID);
+                    if (ac == null)
+                    {
+                        ac = new API_Data();
+                        ac.corpID = corpID;
+                        ac.corpName = corpName;
+                        ac.ceoName = ceoName;
+                        AddCorpAPIToList(ac);
+                    }
+                    //else
+                    //{
+                    //    ac.corpID = corpID;
+                    //    ac.corpName = corpName;
+                    //    ac.ceoName = ceoName;
+                    //    UpdateCorpListAPI(ac);
+                    //}
+
                     if (File.Exists(fname))
                     {
                         // Found a CorpSheet_AssetsCorp File Pair
-
-                        apiCorpSheet.Load(s);
-                        if (!CheckXML(apiCorpSheet))
-                            continue;
-
-                        corpSheet = apiCorpSheet.SelectNodes("/eveapi");
-
-                        corpSheet = apiCorpSheet.SelectNodes("/eveapi/result");
-                        corpName = corpSheet[0].ChildNodes[1].InnerText;
-                        corpID = Convert.ToInt32(corpSheet[0].ChildNodes[0].InnerText);
-                        ceoName = corpSheet[0].ChildNodes[4].InnerText;
-
                         apiCorpAssets.Load(fname);
                         if (!CheckXML(apiCorpAssets))
                             continue;
@@ -385,5 +480,6 @@ namespace EveHQ.PosManager
                 }
             }
         }
+
     }
 }

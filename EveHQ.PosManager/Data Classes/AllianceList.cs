@@ -43,8 +43,8 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSCache_Path = PoSManage_Path + @"\Cache";
+            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
+            PoSCache_Path = Path.Combine(PoSManage_Path , "Cache");
 
             if (!Directory.Exists(PoSManage_Path))
                 Directory.CreateDirectory(PoSManage_Path);
@@ -52,7 +52,7 @@ namespace EveHQ.PosManager
             if (!Directory.Exists(PoSCache_Path))
                 Directory.CreateDirectory(PoSCache_Path);
 
-            fname = PoSCache_Path + @"\API_Alliance.bin";
+            fname = Path.Combine(PoSCache_Path , "API_Alliance.bin");
 
             // Save the Serialized data to Disk
             Stream pStream = File.Create(fname);
@@ -64,6 +64,13 @@ namespace EveHQ.PosManager
         public void LoadAllianceListFromAPI(Object o)
         {
             LoadAllianceListFromDisk();
+            LoadAllianceDataFromAPI();
+            SaveAllianceListing();
+            PlugInData.resetEvents[4].Set();
+        }
+
+        public void LoadAllianceListFromActiveAPI(Object o)
+        {
             LoadAllianceDataFromAPI();
             SaveAllianceListing();
             PlugInData.resetEvents[4].Set();
@@ -83,8 +90,8 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSCache_Path = PoSManage_Path + @"\Cache";
+            PoSManage_Path = Path.Combine(PoSBase_Path, "PoSManage");
+            PoSCache_Path = Path.Combine(PoSManage_Path, "Cache");
 
             if (!Directory.Exists(PoSManage_Path))
                 Directory.CreateDirectory(PoSManage_Path);
@@ -92,7 +99,7 @@ namespace EveHQ.PosManager
             if (!Directory.Exists(PoSCache_Path))
                 Directory.CreateDirectory(PoSCache_Path);
 
-            fname = PoSCache_Path + @"\API_Alliance.bin";
+            fname = Path.Combine(PoSCache_Path, "API_Alliance.bin");
 
             // Load the Data from Disk
             if (File.Exists(fname))
@@ -104,12 +111,11 @@ namespace EveHQ.PosManager
                 try
                 {
                     alliances = (ArrayList)myBf.Deserialize(cStr);
-                    cStr.Close();
                 }
                 catch
                 {
-                    cStr.Close();
                 }
+                cStr.Close();
             }
         }
 
@@ -233,7 +239,7 @@ namespace EveHQ.PosManager
             else
             {
                 PoSBase_Path = Application.StartupPath;
-                API_File_Path = PoSBase_Path + @"\Cache";
+                API_File_Path = Path.Combine(PoSBase_Path , "Cache");
             }
 
             if (!Directory.Exists(API_File_Path))
@@ -241,7 +247,7 @@ namespace EveHQ.PosManager
 
             // When a tower gets linked to the API and vice versa, the towerItemID will be
             // stored in the POS data itself. This will allow for easy import of the fuel data.
-            fname = API_File_Path + @"\EVEHQAPI_AllianceList.xml";
+            fname = Path.Combine(API_File_Path , "EVEHQAPI_AllianceList.xml");
 
             if(!File.Exists(fname))
                 return;

@@ -23,7 +23,6 @@ namespace EveHQ.PosManager
         public string PoSManage_Path;
         public string PoSBase_Path;
         public string PoSCache_Path;
-        public ArrayList API_D = new ArrayList();
         public bool UseSerializableData = false;
         public string LastCacheRefresh = "1.10.1.155";
         public static ManualResetEvent[] resetEvents;
@@ -46,8 +45,8 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSCache_Path = PoSManage_Path + @"\Cache";
+            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
+            PoSCache_Path = Path.Combine(PoSManage_Path, "Cache");
             if (!Directory.Exists(PoSManage_Path))
                 Directory.CreateDirectory(PoSManage_Path);
 
@@ -55,9 +54,9 @@ namespace EveHQ.PosManager
             if (Directory.Exists(PoSCache_Path))
             {
                 // Check for Last Version Text File
-                if(File.Exists(PoSCache_Path + @"\version.txt"))
+                if(File.Exists(Path.Combine(PoSCache_Path , "version.txt")))
                 {
-                    sr = new StreamReader(PoSCache_Path + @"\version.txt");
+                    sr = new StreamReader(Path.Combine(PoSCache_Path , "version.txt"));
                     cacheVers = sr.ReadToEnd();
                     sr.Close();
 

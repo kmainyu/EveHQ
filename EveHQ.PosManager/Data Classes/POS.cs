@@ -22,7 +22,7 @@ namespace EveHQ.PosManager
         public ArrayList Extra;
 
         public string Name, System, CorpName;
-        public int itemID, locID, SovLevel;
+        public int itemID, locID, SovLevel, corpID;
         public bool Monitored;
         public bool FillCheck;
         public bool UseChart;
@@ -35,6 +35,7 @@ namespace EveHQ.PosManager
             CorpName = "";
             itemID = 0;
             locID = 0;
+            corpID = 0;
             SovLevel = 0;
             Modules = new ArrayList();
             Monitored = false;
@@ -55,6 +56,7 @@ namespace EveHQ.PosManager
             itemID = 0;
             locID = 0;
             SovLevel = 0;
+            corpID = 0;
             Modules = new ArrayList();
             Monitored = false;
             Fuel_TS = DateTime.Now;
@@ -73,6 +75,7 @@ namespace EveHQ.PosManager
             CorpName = p.CorpName;
             itemID = p.itemID;
             locID = p.locID;
+            corpID = p.corpID;
             SovLevel = p.SovLevel;
             Modules = new ArrayList(p.Modules);
             Monitored = p.Monitored;
@@ -92,6 +95,7 @@ namespace EveHQ.PosManager
             CorpName = p.CorpName;
             itemID = p.itemID;
             locID = p.locID;
+            corpID = p.corpID;
             SovLevel = p.SovLevel;
             Modules = new ArrayList(p.Modules);
             Monitored = p.Monitored;
@@ -112,6 +116,7 @@ namespace EveHQ.PosManager
             itemID = 0;
             locID = 0;
             SovLevel = 0;
+            corpID = 0;
             Modules.Clear();
             Monitored = false;
             Fuel_TS = DateTime.Now;
@@ -132,6 +137,7 @@ namespace EveHQ.PosManager
             p.CorpName = CorpName;
             p.itemID = itemID;
             p.locID = locID;
+            p.corpID = corpID;
             p.SovLevel = SovLevel;
             p.Modules = new ArrayList(Modules);
             p.Monitored = Monitored;
@@ -487,23 +493,29 @@ namespace EveHQ.PosManager
             {
                 case 0:     // Hours
                     run_perd = value;
+                    run_time = run_perd;
                     break;
                 case 1:     // Days
                     run_perd = 24 * value;
+                    run_time = run_perd;
                     break;
                 case 2:     // Weeks
                     run_perd = (24 * 7) * value;
+                    run_time = run_perd;
                     break;
-                case 3:     // Fill
+                case 3:     // Months
+                    run_perd = (24 * 30) * value;
+                    run_time = run_perd;
+                    break;
+                case 4:     // Fill
                     run_perd = 9999;
+                    run_time = ComputeMaxPosRunTimeForPeriod(run_perd);
                     break;
                 default:
                     run_perd = 9999;
+                    run_time = run_perd;
                     break;
             }
-
-            // 1. Compute difference in Fuel or to Max if interval does such
-            run_time = ComputeMaxPosRunTimeForPeriod(run_perd);
 
             // 3. Compute fuel vols, etc for the period
             if (PosTower.T_Fuel == null)

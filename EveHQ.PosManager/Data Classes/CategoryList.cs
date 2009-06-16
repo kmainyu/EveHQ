@@ -64,15 +64,15 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSCache_Path = PoSManage_Path + @"\Cache";
+            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
+            PoSCache_Path = Path.Combine(PoSManage_Path, "Cache");
 
             if (!Directory.Exists(PoSManage_Path))
                 return;
             if (!Directory.Exists(PoSCache_Path))
                 return;
 
-            fname = PoSCache_Path + @"\Cat_List.bin";
+            fname = Path.Combine(PoSCache_Path , "Cat_List.bin");
             // Load the Data from Disk
             if (File.Exists(fname))
             {
@@ -104,8 +104,8 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSCache_Path = PoSManage_Path + @"\Cache";
+            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
+            PoSCache_Path = Path.Combine(PoSManage_Path , "Cache");
 
             if (!Directory.Exists(PoSManage_Path))
                 Directory.CreateDirectory(PoSManage_Path);
@@ -113,7 +113,7 @@ namespace EveHQ.PosManager
             if (!Directory.Exists(PoSCache_Path))
                 Directory.CreateDirectory(PoSCache_Path);
 
-            fname = PoSCache_Path + @"\Cat_List.bin";
+            fname = Path.Combine(PoSCache_Path , "Cat_List.bin");
 
             // Save the Serialized data to Disk
             Stream pStream = File.Create(fname);

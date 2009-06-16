@@ -29,34 +29,6 @@ namespace EveHQ.PosManager
 
         private void GetItemData(int typeID, int groupID)
         {
-            //string strSQL;
-
-            //// Get Table With Tower or Tower Item Information
-            //strSQL = "SELECT * FROM invTypes WHERE invTypes.typeID=" + typeID + ";";
-            //invTypeData = EveHQ.Core.DataFunctions.GetData(strSQL);
-
-            //// Get Table With Tower or Tower Item Details
-            //strSQL = "SELECT * FROM dgmTypeAttributes INNER JOIN dgmAttributeTypes ON dgmTypeAttributes.attributeID = dgmAttributeTypes.attributeID WHERE dgmTypeAttributes.typeID=" + typeID + ";";
-            //towerStatData = EveHQ.Core.DataFunctions.GetData(strSQL);
-
-            //// Get Table with Tower Fuel Usage Information
-            //if (invTypeData.Tables[0].Rows[0].ItemArray[2].ToString().Contains("Tower"))
-            //{
-            //    strSQL = "SELECT * FROM ((invControlTowerResources INNER JOIN invControlTowerResourcePurposes" +
-            //                              " ON invControlTowerResources.purpose = invControlTowerResourcePurposes.purpose)" +
-            //                              " INNER JOIN invTypes ON invControlTowerResources.resourceTypeID = invTypes.typeID)" +
-            //                              " WHERE invControlTowerResources.controlTowerTypeID=" + typeID + ";";
-            //    towerFuelData = EveHQ.Core.DataFunctions.GetData(strSQL);
-            //}
-            //else
-            //{
-            //    if (towerFuelData != null)
-            //    {
-            //        towerFuelData.Clear();
-            //        towerFuelData.Dispose();
-            //        towerFuelData = null;
-            //    }
-            //}
         }
 
         private double GetDoubleFromVariableIA(DataRow dr, int aI_1, int aI_2)
@@ -570,8 +542,8 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSCache_Path = PoSManage_Path + @"\Cache";
+            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
+            PoSCache_Path = Path.Combine(PoSManage_Path , "Cache");
 
             if (!Directory.Exists(PoSManage_Path))
                 Directory.CreateDirectory(PoSManage_Path);
@@ -579,7 +551,7 @@ namespace EveHQ.PosManager
             if (!Directory.Exists(PoSCache_Path))
                 Directory.CreateDirectory(PoSCache_Path);
 
-            fname = PoSCache_Path + @"\Module_List.bin";
+            fname = Path.Combine(PoSCache_Path , "Module_List.bin");
 
             // Save the Serialized data to Disk
             Stream pStream = File.Create(fname);
@@ -602,15 +574,15 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSCache_Path = PoSManage_Path + @"\Cache";
+            PoSManage_Path = Path.Combine(PoSBase_Path, "PoSManage");
+            PoSCache_Path = Path.Combine(PoSManage_Path, "Cache");
 
             if (!Directory.Exists(PoSManage_Path))
                 return;
             if (!Directory.Exists(PoSCache_Path))
                 return;
 
-            fname = PoSCache_Path + @"\Module_List.bin";
+            fname = Path.Combine(PoSCache_Path, "Module_List.bin");
             // Load the Data from Disk
             if (File.Exists(fname))
             {

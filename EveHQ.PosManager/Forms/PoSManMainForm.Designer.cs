@@ -33,17 +33,17 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoSManMainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoSManMainForm));
             this.tb_PosManager = new System.Windows.Forms.TabControl();
             this.tp_POSMonitor = new System.Windows.Forms.TabPage();
             this.label61 = new System.Windows.Forms.Label();
@@ -149,6 +149,25 @@
             this.nud_HvyWtr = new System.Windows.Forms.NumericUpDown();
             this.nud_Isotope = new System.Windows.Forms.NumericUpDown();
             this.dg_MonitoredTowers = new System.Windows.Forms.DataGridView();
+            this.dg_POSName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_RunTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_ReinfTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_TowerStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_Linked = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.APICache = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Power = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EnUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Oxyg = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.McP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cool = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Robt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Iso = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HvyW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LiqO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Chrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Strn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IgnoreCharters = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tp_POSDesign = new System.Windows.Forms.TabPage();
             this.dg_PosMods = new System.Windows.Forms.DataGridView();
             this.Module = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -364,8 +383,22 @@
             this.tsm_Qty_10 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_SetModuleCharge = new System.Windows.Forms.ToolStripMenuItem();
             this.tp_POSMaintenance = new System.Windows.Forms.TabPage();
+            this.b_CopySelected = new System.Windows.Forms.Button();
+            this.b_CopyAllPos = new System.Windows.Forms.Button();
+            this.cb_FactChartTotal = new System.Windows.Forms.CheckBox();
+            this.cb_UseStrontTotals = new System.Windows.Forms.CheckBox();
             this.gb_AllPos = new System.Windows.Forms.GroupBox();
+            this.dg_TotalFuel = new System.Windows.Forms.DataGridView();
+            this.FuelName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FuelVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gb_SelPos = new System.Windows.Forms.GroupBox();
+            this.dg_SelectedFuel = new System.Windows.Forms.DataGridView();
+            this.SelFuelType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SelFuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SelFuelVol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SelFuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dg_TowerFuelList = new System.Windows.Forms.DataGridView();
             this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -389,39 +422,8 @@
             this.il_FetchList = new System.Windows.Forms.ImageList(this.components);
             this.t_MonitorUpdate = new System.Windows.Forms.Timer(this.components);
             this.tt_InfoTips = new System.Windows.Forms.ToolTip(this.components);
-            this.dg_TotalFuel = new System.Windows.Forms.DataGridView();
-            this.dg_SelectedFuel = new System.Windows.Forms.DataGridView();
-            this.cb_UseStrontTotals = new System.Windows.Forms.CheckBox();
-            this.FuelName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FuelVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SelFuelType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SelFuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SelFuelVol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SelFuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cb_FactChartTotal = new System.Windows.Forms.CheckBox();
-            this.dg_POSName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_RunTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_ReinfTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_TowerStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_Linked = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.APICache = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Power = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EnUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Oxyg = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.McP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cool = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Robt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Iso = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HvyW = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LiqO = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Chrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Strn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IgnoreCharters = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.b_CopySelected = new System.Windows.Forms.Button();
-            this.b_CopyAllPos = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cb_CorpName = new System.Windows.Forms.ComboBox();
             this.poS_Item51 = new EveHQ.PosManager.PoS_Item();
             this.poS_Item52 = new EveHQ.PosManager.PoS_Item();
             this.poS_Item49 = new EveHQ.PosManager.PoS_Item();
@@ -586,11 +588,11 @@
             this.cms_PosItem.SuspendLayout();
             this.tp_POSMaintenance.SuspendLayout();
             this.gb_AllPos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).BeginInit();
             this.gb_SelPos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).BeginInit();
             this.SuspendLayout();
             // 
             // tb_PosManager
@@ -851,7 +853,7 @@
             // 
             this.b_FuelUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.b_FuelUpdate.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
-            this.b_FuelUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.b_FuelUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.b_FuelUpdate.ForeColor = System.Drawing.Color.Cyan;
             this.b_FuelUpdate.Location = new System.Drawing.Point(578, 3);
             this.b_FuelUpdate.Name = "b_FuelUpdate";
@@ -2175,6 +2177,145 @@
             this.dg_MonitoredTowers.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dg_MonitoredTowers_ColumnHeaderMouseClick);
             this.dg_MonitoredTowers.SelectionChanged += new System.EventHandler(this.dg_MonitoredTowers_SelectionChanged);
             this.dg_MonitoredTowers.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_MonitoredTowers_CellContentClick);
+            // 
+            // dg_POSName
+            // 
+            this.dg_POSName.HeaderText = "POS Name";
+            this.dg_POSName.Name = "dg_POSName";
+            this.dg_POSName.ReadOnly = true;
+            this.dg_POSName.Width = 85;
+            // 
+            // dg_RunTime
+            // 
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            this.dg_RunTime.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dg_RunTime.HeaderText = "Fuel Run Time";
+            this.dg_RunTime.Name = "dg_RunTime";
+            this.dg_RunTime.ReadOnly = true;
+            this.dg_RunTime.Width = 101;
+            // 
+            // dg_ReinfTime
+            // 
+            this.dg_ReinfTime.HeaderText = "Reinforce Time";
+            this.dg_ReinfTime.Name = "dg_ReinfTime";
+            this.dg_ReinfTime.ReadOnly = true;
+            this.dg_ReinfTime.Width = 104;
+            // 
+            // dg_TowerStatus
+            // 
+            this.dg_TowerStatus.HeaderText = "Tower Status";
+            this.dg_TowerStatus.Name = "dg_TowerStatus";
+            this.dg_TowerStatus.ReadOnly = true;
+            this.dg_TowerStatus.Width = 95;
+            // 
+            // dg_Linked
+            // 
+            this.dg_Linked.HeaderText = "Tower API Link";
+            this.dg_Linked.Name = "dg_Linked";
+            this.dg_Linked.ReadOnly = true;
+            this.dg_Linked.Width = 105;
+            // 
+            // APICache
+            // 
+            this.APICache.HeaderText = "API Cache Time";
+            this.APICache.Name = "APICache";
+            this.APICache.ReadOnly = true;
+            this.APICache.Width = 109;
+            // 
+            // CPU
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CPU.DefaultCellStyle = dataGridViewCellStyle3;
+            this.CPU.HeaderText = "CPU Usage";
+            this.CPU.Name = "CPU";
+            this.CPU.ReadOnly = true;
+            this.CPU.Width = 88;
+            // 
+            // Power
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Power.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Power.HeaderText = "Power Usage";
+            this.Power.Name = "Power";
+            this.Power.ReadOnly = true;
+            this.Power.Width = 96;
+            // 
+            // EnUr
+            // 
+            this.EnUr.HeaderText = "Enr Uranium";
+            this.EnUr.Name = "EnUr";
+            this.EnUr.ReadOnly = true;
+            this.EnUr.Width = 90;
+            // 
+            // Oxyg
+            // 
+            this.Oxyg.HeaderText = "Oxygen";
+            this.Oxyg.Name = "Oxyg";
+            this.Oxyg.ReadOnly = true;
+            this.Oxyg.Width = 68;
+            // 
+            // McP
+            // 
+            this.McP.HeaderText = "Mech Parts";
+            this.McP.Name = "McP";
+            this.McP.ReadOnly = true;
+            this.McP.Width = 86;
+            // 
+            // Cool
+            // 
+            this.Cool.HeaderText = "Coolant";
+            this.Cool.Name = "Cool";
+            this.Cool.ReadOnly = true;
+            this.Cool.Width = 68;
+            // 
+            // Robt
+            // 
+            this.Robt.HeaderText = "Robotics";
+            this.Robt.Name = "Robt";
+            this.Robt.ReadOnly = true;
+            this.Robt.Width = 74;
+            // 
+            // Iso
+            // 
+            this.Iso.HeaderText = "Isotopes";
+            this.Iso.Name = "Iso";
+            this.Iso.ReadOnly = true;
+            this.Iso.Width = 72;
+            // 
+            // HvyW
+            // 
+            this.HvyW.HeaderText = "Hvy Water";
+            this.HvyW.Name = "HvyW";
+            this.HvyW.ReadOnly = true;
+            this.HvyW.Width = 83;
+            // 
+            // LiqO
+            // 
+            this.LiqO.HeaderText = "Liq Ozone";
+            this.LiqO.Name = "LiqO";
+            this.LiqO.ReadOnly = true;
+            this.LiqO.Width = 80;
+            // 
+            // Chrt
+            // 
+            this.Chrt.HeaderText = "Charters";
+            this.Chrt.Name = "Chrt";
+            this.Chrt.ReadOnly = true;
+            this.Chrt.Width = 71;
+            // 
+            // Strn
+            // 
+            this.Strn.HeaderText = "Strontium";
+            this.Strn.Name = "Strn";
+            this.Strn.ReadOnly = true;
+            this.Strn.Width = 76;
+            // 
+            // IgnoreCharters
+            // 
+            this.IgnoreCharters.HeaderText = "Use Charters";
+            this.IgnoreCharters.Name = "IgnoreCharters";
+            this.IgnoreCharters.Width = 74;
             // 
             // tp_POSDesign
             // 
@@ -4312,6 +4453,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.p_Top.BackColor = System.Drawing.SystemColors.Control;
             this.p_Top.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.p_Top.Controls.Add(this.cb_CorpName);
             this.p_Top.Controls.Add(this.cb_SovLevel);
             this.p_Top.Controls.Add(this.cb_System);
             this.p_Top.Controls.Add(this.b_CopyPOS);
@@ -4372,6 +4514,7 @@
             this.cb_SovLevel.Size = new System.Drawing.Size(134, 21);
             this.cb_SovLevel.TabIndex = 131;
             this.cb_SovLevel.Text = "Select Sovereignty";
+            this.tt_InfoTips.SetToolTip(this.cb_SovLevel, "Select Sov Level for Tower System");
             this.cb_SovLevel.SelectedIndexChanged += new System.EventHandler(this.cb_SovLevel_SelectedIndexChanged);
             // 
             // cb_System
@@ -4383,6 +4526,7 @@
             this.cb_System.Size = new System.Drawing.Size(134, 21);
             this.cb_System.TabIndex = 130;
             this.cb_System.Text = "Select Tower System";
+            this.tt_InfoTips.SetToolTip(this.cb_System, "Select System that the Tower is In");
             this.cb_System.SelectedIndexChanged += new System.EventHandler(this.cb_System_SelectedIndexChanged);
             // 
             // b_CopyPOS
@@ -4959,27 +5103,27 @@
             this.quantityToolStripMenuItem,
             this.tsm_SetModuleCharge});
             this.cms_PosItem.Name = "cms_PosItem";
-            this.cms_PosItem.Size = new System.Drawing.Size(142, 114);
+            this.cms_PosItem.Size = new System.Drawing.Size(146, 114);
             this.cms_PosItem.Opening += new System.ComponentModel.CancelEventHandler(this.cms_PosItem_Opening);
             // 
             // tsm_Online
             // 
             this.tsm_Online.Name = "tsm_Online";
-            this.tsm_Online.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Online.Size = new System.Drawing.Size(145, 22);
             this.tsm_Online.Text = "Pace Online";
             this.tsm_Online.Click += new System.EventHandler(this.tsm_Online_Click);
             // 
             // tsm_Offline
             // 
             this.tsm_Offline.Name = "tsm_Offline";
-            this.tsm_Offline.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Offline.Size = new System.Drawing.Size(145, 22);
             this.tsm_Offline.Text = "Place Offline";
             this.tsm_Offline.Click += new System.EventHandler(this.tsm_Offline_Click);
             // 
             // tsm_Remove
             // 
             this.tsm_Remove.Name = "tsm_Remove";
-            this.tsm_Remove.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Remove.Size = new System.Drawing.Size(145, 22);
             this.tsm_Remove.Text = "Remove";
             this.tsm_Remove.Click += new System.EventHandler(this.tsm_Remove_Click);
             // 
@@ -4997,89 +5141,90 @@
             this.tsm_Qty_9,
             this.tsm_Qty_10});
             this.quantityToolStripMenuItem.Name = "quantityToolStripMenuItem";
-            this.quantityToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.quantityToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.quantityToolStripMenuItem.Text = "Quantity";
             // 
             // tsm_Qty_1
             // 
             this.tsm_Qty_1.Name = "tsm_Qty_1";
-            this.tsm_Qty_1.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_1.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_1.Text = "1";
             this.tsm_Qty_1.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_2
             // 
             this.tsm_Qty_2.Name = "tsm_Qty_2";
-            this.tsm_Qty_2.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_2.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_2.Text = "2";
             this.tsm_Qty_2.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_3
             // 
             this.tsm_Qty_3.Name = "tsm_Qty_3";
-            this.tsm_Qty_3.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_3.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_3.Text = "3";
             this.tsm_Qty_3.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_4
             // 
             this.tsm_Qty_4.Name = "tsm_Qty_4";
-            this.tsm_Qty_4.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_4.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_4.Text = "4";
             this.tsm_Qty_4.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_5
             // 
             this.tsm_Qty_5.Name = "tsm_Qty_5";
-            this.tsm_Qty_5.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_5.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_5.Text = "5";
             this.tsm_Qty_5.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_6
             // 
             this.tsm_Qty_6.Name = "tsm_Qty_6";
-            this.tsm_Qty_6.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_6.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_6.Text = "6";
             this.tsm_Qty_6.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_7
             // 
             this.tsm_Qty_7.Name = "tsm_Qty_7";
-            this.tsm_Qty_7.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_7.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_7.Text = "7";
             this.tsm_Qty_7.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_8
             // 
             this.tsm_Qty_8.Name = "tsm_Qty_8";
-            this.tsm_Qty_8.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_8.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_8.Text = "8";
             this.tsm_Qty_8.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_9
             // 
             this.tsm_Qty_9.Name = "tsm_Qty_9";
-            this.tsm_Qty_9.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_9.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_9.Text = "9";
             this.tsm_Qty_9.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_10
             // 
             this.tsm_Qty_10.Name = "tsm_Qty_10";
-            this.tsm_Qty_10.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_10.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_10.Text = "10";
             this.tsm_Qty_10.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_SetModuleCharge
             // 
             this.tsm_SetModuleCharge.Name = "tsm_SetModuleCharge";
-            this.tsm_SetModuleCharge.Size = new System.Drawing.Size(141, 22);
+            this.tsm_SetModuleCharge.Size = new System.Drawing.Size(145, 22);
             this.tsm_SetModuleCharge.Text = "Set Charge";
             this.tsm_SetModuleCharge.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tsm_SetModuleCharge_DropDownItemClicked);
             this.tsm_SetModuleCharge.Click += new System.EventHandler(this.tsm_SetModuleCharge_Click);
             // 
             // tp_POSMaintenance
             // 
+            this.tp_POSMaintenance.Controls.Add(this.label5);
             this.tp_POSMaintenance.Controls.Add(this.b_CopySelected);
             this.tp_POSMaintenance.Controls.Add(this.b_CopyAllPos);
             this.tp_POSMaintenance.Controls.Add(this.cb_FactChartTotal);
@@ -5100,6 +5245,62 @@
             this.tp_POSMaintenance.Text = "POS Maintenance";
             this.tp_POSMaintenance.UseVisualStyleBackColor = true;
             // 
+            // b_CopySelected
+            // 
+            this.b_CopySelected.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Fitting;
+            this.b_CopySelected.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.b_CopySelected.ForeColor = System.Drawing.Color.Cyan;
+            this.b_CopySelected.Location = new System.Drawing.Point(8, 2);
+            this.b_CopySelected.Name = "b_CopySelected";
+            this.b_CopySelected.Size = new System.Drawing.Size(60, 35);
+            this.b_CopySelected.TabIndex = 180;
+            this.b_CopySelected.Text = "Copy Selected";
+            this.b_CopySelected.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_CopySelected, "Copy Selected POS Fill Data to the Clipboard");
+            this.b_CopySelected.UseVisualStyleBackColor = true;
+            this.b_CopySelected.Click += new System.EventHandler(this.b_CopySelected_Click);
+            // 
+            // b_CopyAllPos
+            // 
+            this.b_CopyAllPos.BackColor = System.Drawing.Color.Transparent;
+            this.b_CopyAllPos.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Delete;
+            this.b_CopyAllPos.ForeColor = System.Drawing.Color.Cyan;
+            this.b_CopyAllPos.Location = new System.Drawing.Point(98, 2);
+            this.b_CopyAllPos.Name = "b_CopyAllPos";
+            this.b_CopyAllPos.Size = new System.Drawing.Size(60, 35);
+            this.b_CopyAllPos.TabIndex = 179;
+            this.b_CopyAllPos.Text = "Copy All";
+            this.b_CopyAllPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_CopyAllPos, "Copy All POS Fill Data to the Clipboard");
+            this.b_CopyAllPos.UseVisualStyleBackColor = false;
+            this.b_CopyAllPos.Click += new System.EventHandler(this.b_CopyAllPos_Click);
+            // 
+            // cb_FactChartTotal
+            // 
+            this.cb_FactChartTotal.AutoSize = true;
+            this.cb_FactChartTotal.Checked = true;
+            this.cb_FactChartTotal.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_FactChartTotal.Location = new System.Drawing.Point(798, 26);
+            this.cb_FactChartTotal.Name = "cb_FactChartTotal";
+            this.cb_FactChartTotal.Size = new System.Drawing.Size(146, 17);
+            this.cb_FactChartTotal.TabIndex = 178;
+            this.cb_FactChartTotal.Text = "Include Charters in Totals";
+            this.cb_FactChartTotal.UseVisualStyleBackColor = true;
+            this.cb_FactChartTotal.CheckedChanged += new System.EventHandler(this.cb_FactChartTotal_CheckedChanged);
+            // 
+            // cb_UseStrontTotals
+            // 
+            this.cb_UseStrontTotals.AutoSize = true;
+            this.cb_UseStrontTotals.Checked = true;
+            this.cb_UseStrontTotals.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_UseStrontTotals.Location = new System.Drawing.Point(798, 10);
+            this.cb_UseStrontTotals.Name = "cb_UseStrontTotals";
+            this.cb_UseStrontTotals.Size = new System.Drawing.Size(135, 17);
+            this.cb_UseStrontTotals.TabIndex = 177;
+            this.cb_UseStrontTotals.Text = "Include Stront in Totals";
+            this.cb_UseStrontTotals.UseVisualStyleBackColor = true;
+            this.cb_UseStrontTotals.CheckedChanged += new System.EventHandler(this.cb_UseStrontTotals_CheckedChanged);
+            // 
             // gb_AllPos
             // 
             this.gb_AllPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -5113,6 +5314,52 @@
             this.gb_AllPos.TabStop = false;
             this.gb_AllPos.Text = "All POS";
             // 
+            // dg_TotalFuel
+            // 
+            this.dg_TotalFuel.AllowUserToAddRows = false;
+            this.dg_TotalFuel.AllowUserToDeleteRows = false;
+            this.dg_TotalFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_TotalFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FuelName,
+            this.FuelAmount,
+            this.FuelVolume,
+            this.FuelCost});
+            this.dg_TotalFuel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dg_TotalFuel.Location = new System.Drawing.Point(3, 16);
+            this.dg_TotalFuel.Name = "dg_TotalFuel";
+            this.dg_TotalFuel.RowHeadersVisible = false;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_TotalFuel.Size = new System.Drawing.Size(491, 231);
+            this.dg_TotalFuel.TabIndex = 0;
+            // 
+            // FuelName
+            // 
+            this.FuelName.HeaderText = "Fuel";
+            this.FuelName.Name = "FuelName";
+            this.FuelName.ReadOnly = true;
+            this.FuelName.Width = 145;
+            // 
+            // FuelAmount
+            // 
+            this.FuelAmount.HeaderText = "Amount";
+            this.FuelAmount.Name = "FuelAmount";
+            this.FuelAmount.ReadOnly = true;
+            // 
+            // FuelVolume
+            // 
+            this.FuelVolume.HeaderText = "Volume";
+            this.FuelVolume.Name = "FuelVolume";
+            this.FuelVolume.ReadOnly = true;
+            // 
+            // FuelCost
+            // 
+            this.FuelCost.HeaderText = "Cost";
+            this.FuelCost.Name = "FuelCost";
+            this.FuelCost.ReadOnly = true;
+            this.FuelCost.Width = 125;
+            // 
             // gb_SelPos
             // 
             this.gb_SelPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -5125,6 +5372,52 @@
             this.gb_SelPos.TabIndex = 175;
             this.gb_SelPos.TabStop = false;
             this.gb_SelPos.Text = "Selected POS";
+            // 
+            // dg_SelectedFuel
+            // 
+            this.dg_SelectedFuel.AllowUserToAddRows = false;
+            this.dg_SelectedFuel.AllowUserToDeleteRows = false;
+            this.dg_SelectedFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_SelectedFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SelFuelType,
+            this.SelFuelAmount,
+            this.SelFuelVol,
+            this.SelFuelCost});
+            this.dg_SelectedFuel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dg_SelectedFuel.Location = new System.Drawing.Point(3, 16);
+            this.dg_SelectedFuel.Name = "dg_SelectedFuel";
+            this.dg_SelectedFuel.RowHeadersVisible = false;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_SelectedFuel.Size = new System.Drawing.Size(491, 231);
+            this.dg_SelectedFuel.TabIndex = 1;
+            // 
+            // SelFuelType
+            // 
+            this.SelFuelType.HeaderText = "Type";
+            this.SelFuelType.Name = "SelFuelType";
+            this.SelFuelType.ReadOnly = true;
+            this.SelFuelType.Width = 145;
+            // 
+            // SelFuelAmount
+            // 
+            this.SelFuelAmount.HeaderText = "Amount";
+            this.SelFuelAmount.Name = "SelFuelAmount";
+            this.SelFuelAmount.ReadOnly = true;
+            // 
+            // SelFuelVol
+            // 
+            this.SelFuelVol.HeaderText = "Volume";
+            this.SelFuelVol.Name = "SelFuelVol";
+            this.SelFuelVol.ReadOnly = true;
+            // 
+            // SelFuelCost
+            // 
+            this.SelFuelCost.HeaderText = "Cost";
+            this.SelFuelCost.Name = "SelFuelCost";
+            this.SelFuelCost.ReadOnly = true;
+            this.SelFuelCost.Width = 125;
             // 
             // dg_TowerFuelList
             // 
@@ -5255,9 +5548,9 @@
             this.b_ApplyIntervalPeriod.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
             this.b_ApplyIntervalPeriod.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.b_ApplyIntervalPeriod.ForeColor = System.Drawing.Color.Cyan;
-            this.b_ApplyIntervalPeriod.Location = new System.Drawing.Point(669, 2);
+            this.b_ApplyIntervalPeriod.Location = new System.Drawing.Point(733, 5);
             this.b_ApplyIntervalPeriod.Name = "b_ApplyIntervalPeriod";
-            this.b_ApplyIntervalPeriod.Size = new System.Drawing.Size(60, 33);
+            this.b_ApplyIntervalPeriod.Size = new System.Drawing.Size(59, 45);
             this.b_ApplyIntervalPeriod.TabIndex = 173;
             this.b_ApplyIntervalPeriod.Text = "Apply";
             this.b_ApplyIntervalPeriod.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -5269,7 +5562,7 @@
             this.label7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(481, 9);
+            this.label7.Location = new System.Drawing.Point(546, 30);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(61, 18);
             this.label7.TabIndex = 172;
@@ -5281,18 +5574,18 @@
             this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(271, 9);
+            this.label6.Location = new System.Drawing.Point(546, 7);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(77, 18);
+            this.label6.Size = new System.Drawing.Size(61, 18);
             this.label6.TabIndex = 171;
             this.label6.Text = "Interval";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // nud_PeriodValue
             // 
-            this.nud_PeriodValue.Location = new System.Drawing.Point(545, 8);
+            this.nud_PeriodValue.Location = new System.Drawing.Point(609, 29);
             this.nud_PeriodValue.Name = "nud_PeriodValue";
-            this.nud_PeriodValue.Size = new System.Drawing.Size(120, 20);
+            this.nud_PeriodValue.Size = new System.Drawing.Size(121, 20);
             this.nud_PeriodValue.TabIndex = 170;
             // 
             // tscb_TimePeriod
@@ -5302,8 +5595,9 @@
             "Hours",
             "Days",
             "Weeks",
+            "Months",
             "Fill"});
-            this.tscb_TimePeriod.Location = new System.Drawing.Point(351, 8);
+            this.tscb_TimePeriod.Location = new System.Drawing.Point(609, 6);
             this.tscb_TimePeriod.Name = "tscb_TimePeriod";
             this.tscb_TimePeriod.Size = new System.Drawing.Size(121, 21);
             this.tscb_TimePeriod.TabIndex = 169;
@@ -5354,292 +5648,35 @@
             // 
             this.tt_InfoTips.IsBalloon = true;
             // 
-            // dg_TotalFuel
-            // 
-            this.dg_TotalFuel.AllowUserToAddRows = false;
-            this.dg_TotalFuel.AllowUserToDeleteRows = false;
-            this.dg_TotalFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_TotalFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FuelName,
-            this.FuelAmount,
-            this.FuelVolume,
-            this.FuelCost});
-            this.dg_TotalFuel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dg_TotalFuel.Location = new System.Drawing.Point(3, 16);
-            this.dg_TotalFuel.Name = "dg_TotalFuel";
-            this.dg_TotalFuel.RowHeadersVisible = false;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle11;
-            this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TotalFuel.Size = new System.Drawing.Size(491, 231);
-            this.dg_TotalFuel.TabIndex = 0;
-            // 
-            // dg_SelectedFuel
-            // 
-            this.dg_SelectedFuel.AllowUserToAddRows = false;
-            this.dg_SelectedFuel.AllowUserToDeleteRows = false;
-            this.dg_SelectedFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_SelectedFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.SelFuelType,
-            this.SelFuelAmount,
-            this.SelFuelVol,
-            this.SelFuelCost});
-            this.dg_SelectedFuel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dg_SelectedFuel.Location = new System.Drawing.Point(3, 16);
-            this.dg_SelectedFuel.Name = "dg_SelectedFuel";
-            this.dg_SelectedFuel.RowHeadersVisible = false;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle12;
-            this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_SelectedFuel.Size = new System.Drawing.Size(491, 231);
-            this.dg_SelectedFuel.TabIndex = 1;
-            // 
-            // cb_UseStrontTotals
-            // 
-            this.cb_UseStrontTotals.AutoSize = true;
-            this.cb_UseStrontTotals.Checked = true;
-            this.cb_UseStrontTotals.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_UseStrontTotals.Location = new System.Drawing.Point(749, 4);
-            this.cb_UseStrontTotals.Name = "cb_UseStrontTotals";
-            this.cb_UseStrontTotals.Size = new System.Drawing.Size(135, 17);
-            this.cb_UseStrontTotals.TabIndex = 177;
-            this.cb_UseStrontTotals.Text = "Include Stront in Totals";
-            this.cb_UseStrontTotals.UseVisualStyleBackColor = true;
-            this.cb_UseStrontTotals.CheckedChanged += new System.EventHandler(this.cb_UseStrontTotals_CheckedChanged);
-            // 
-            // FuelName
-            // 
-            this.FuelName.HeaderText = "Fuel";
-            this.FuelName.Name = "FuelName";
-            this.FuelName.ReadOnly = true;
-            this.FuelName.Width = 145;
-            // 
-            // FuelAmount
-            // 
-            this.FuelAmount.HeaderText = "Amount";
-            this.FuelAmount.Name = "FuelAmount";
-            this.FuelAmount.ReadOnly = true;
-            // 
-            // FuelVolume
-            // 
-            this.FuelVolume.HeaderText = "Volume";
-            this.FuelVolume.Name = "FuelVolume";
-            this.FuelVolume.ReadOnly = true;
-            // 
-            // FuelCost
-            // 
-            this.FuelCost.HeaderText = "Cost";
-            this.FuelCost.Name = "FuelCost";
-            this.FuelCost.ReadOnly = true;
-            this.FuelCost.Width = 125;
-            // 
-            // SelFuelType
-            // 
-            this.SelFuelType.HeaderText = "Type";
-            this.SelFuelType.Name = "SelFuelType";
-            this.SelFuelType.ReadOnly = true;
-            this.SelFuelType.Width = 145;
-            // 
-            // SelFuelAmount
-            // 
-            this.SelFuelAmount.HeaderText = "Amount";
-            this.SelFuelAmount.Name = "SelFuelAmount";
-            this.SelFuelAmount.ReadOnly = true;
-            // 
-            // SelFuelVol
-            // 
-            this.SelFuelVol.HeaderText = "Volume";
-            this.SelFuelVol.Name = "SelFuelVol";
-            this.SelFuelVol.ReadOnly = true;
-            // 
-            // SelFuelCost
-            // 
-            this.SelFuelCost.HeaderText = "Cost";
-            this.SelFuelCost.Name = "SelFuelCost";
-            this.SelFuelCost.ReadOnly = true;
-            this.SelFuelCost.Width = 125;
-            // 
-            // cb_FactChartTotal
-            // 
-            this.cb_FactChartTotal.AutoSize = true;
-            this.cb_FactChartTotal.Checked = true;
-            this.cb_FactChartTotal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_FactChartTotal.Location = new System.Drawing.Point(749, 20);
-            this.cb_FactChartTotal.Name = "cb_FactChartTotal";
-            this.cb_FactChartTotal.Size = new System.Drawing.Size(146, 17);
-            this.cb_FactChartTotal.TabIndex = 178;
-            this.cb_FactChartTotal.Text = "Include Charters in Totals";
-            this.cb_FactChartTotal.UseVisualStyleBackColor = true;
-            this.cb_FactChartTotal.CheckedChanged += new System.EventHandler(this.cb_FactChartTotal_CheckedChanged);
-            // 
-            // dg_POSName
-            // 
-            this.dg_POSName.HeaderText = "POS Name";
-            this.dg_POSName.Name = "dg_POSName";
-            this.dg_POSName.ReadOnly = true;
-            this.dg_POSName.Width = 85;
-            // 
-            // dg_RunTime
-            // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            this.dg_RunTime.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dg_RunTime.HeaderText = "Fuel Run Time";
-            this.dg_RunTime.Name = "dg_RunTime";
-            this.dg_RunTime.ReadOnly = true;
-            this.dg_RunTime.Width = 101;
-            // 
-            // dg_ReinfTime
-            // 
-            this.dg_ReinfTime.HeaderText = "Reinforce Time";
-            this.dg_ReinfTime.Name = "dg_ReinfTime";
-            this.dg_ReinfTime.ReadOnly = true;
-            this.dg_ReinfTime.Width = 104;
-            // 
-            // dg_TowerStatus
-            // 
-            this.dg_TowerStatus.HeaderText = "Tower Status";
-            this.dg_TowerStatus.Name = "dg_TowerStatus";
-            this.dg_TowerStatus.ReadOnly = true;
-            this.dg_TowerStatus.Width = 95;
-            // 
-            // dg_Linked
-            // 
-            this.dg_Linked.HeaderText = "Tower API Link";
-            this.dg_Linked.Name = "dg_Linked";
-            this.dg_Linked.ReadOnly = true;
-            this.dg_Linked.Width = 105;
-            // 
-            // APICache
-            // 
-            this.APICache.HeaderText = "API Cache Time";
-            this.APICache.Name = "APICache";
-            this.APICache.ReadOnly = true;
-            this.APICache.Width = 109;
-            // 
-            // CPU
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CPU.DefaultCellStyle = dataGridViewCellStyle3;
-            this.CPU.HeaderText = "CPU Usage";
-            this.CPU.Name = "CPU";
-            this.CPU.ReadOnly = true;
-            this.CPU.Width = 88;
-            // 
-            // Power
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Power.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Power.HeaderText = "Power Usage";
-            this.Power.Name = "Power";
-            this.Power.ReadOnly = true;
-            this.Power.Width = 96;
-            // 
-            // EnUr
-            // 
-            this.EnUr.HeaderText = "Enr Uranium";
-            this.EnUr.Name = "EnUr";
-            this.EnUr.ReadOnly = true;
-            this.EnUr.Width = 90;
-            // 
-            // Oxyg
-            // 
-            this.Oxyg.HeaderText = "Oxygen";
-            this.Oxyg.Name = "Oxyg";
-            this.Oxyg.ReadOnly = true;
-            this.Oxyg.Width = 68;
-            // 
-            // McP
-            // 
-            this.McP.HeaderText = "Mech Parts";
-            this.McP.Name = "McP";
-            this.McP.ReadOnly = true;
-            this.McP.Width = 86;
-            // 
-            // Cool
-            // 
-            this.Cool.HeaderText = "Coolant";
-            this.Cool.Name = "Cool";
-            this.Cool.ReadOnly = true;
-            this.Cool.Width = 68;
-            // 
-            // Robt
-            // 
-            this.Robt.HeaderText = "Robotics";
-            this.Robt.Name = "Robt";
-            this.Robt.ReadOnly = true;
-            this.Robt.Width = 74;
-            // 
-            // Iso
-            // 
-            this.Iso.HeaderText = "Isotopes";
-            this.Iso.Name = "Iso";
-            this.Iso.ReadOnly = true;
-            this.Iso.Width = 72;
-            // 
-            // HvyW
-            // 
-            this.HvyW.HeaderText = "Hvy Water";
-            this.HvyW.Name = "HvyW";
-            this.HvyW.ReadOnly = true;
-            this.HvyW.Width = 83;
-            // 
-            // LiqO
-            // 
-            this.LiqO.HeaderText = "Liq Ozone";
-            this.LiqO.Name = "LiqO";
-            this.LiqO.ReadOnly = true;
-            this.LiqO.Width = 80;
-            // 
-            // Chrt
-            // 
-            this.Chrt.HeaderText = "Charters";
-            this.Chrt.Name = "Chrt";
-            this.Chrt.ReadOnly = true;
-            this.Chrt.Width = 71;
-            // 
-            // Strn
-            // 
-            this.Strn.HeaderText = "Strontium";
-            this.Strn.Name = "Strn";
-            this.Strn.ReadOnly = true;
-            this.Strn.Width = 76;
-            // 
-            // IgnoreCharters
-            // 
-            this.IgnoreCharters.HeaderText = "Use Charters";
-            this.IgnoreCharters.Name = "IgnoreCharters";
-            this.IgnoreCharters.Width = 74;
-            // 
-            // b_CopySelected
-            // 
-            this.b_CopySelected.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Fitting;
-            this.b_CopySelected.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_CopySelected.ForeColor = System.Drawing.Color.Cyan;
-            this.b_CopySelected.Location = new System.Drawing.Point(8, 0);
-            this.b_CopySelected.Name = "b_CopySelected";
-            this.b_CopySelected.Size = new System.Drawing.Size(60, 35);
-            this.b_CopySelected.TabIndex = 180;
-            this.b_CopySelected.Text = "Copy Selected";
-            this.b_CopySelected.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_CopySelected, "Copy Selected POS Fill Data (You can then paste to any Text)");
-            this.b_CopySelected.UseVisualStyleBackColor = true;
-            this.b_CopySelected.Click += new System.EventHandler(this.b_CopySelected_Click);
-            // 
-            // b_CopyAllPos
-            // 
-            this.b_CopyAllPos.BackColor = System.Drawing.Color.Transparent;
-            this.b_CopyAllPos.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Delete;
-            this.b_CopyAllPos.ForeColor = System.Drawing.Color.Cyan;
-            this.b_CopyAllPos.Location = new System.Drawing.Point(98, 0);
-            this.b_CopyAllPos.Name = "b_CopyAllPos";
-            this.b_CopyAllPos.Size = new System.Drawing.Size(60, 35);
-            this.b_CopyAllPos.TabIndex = 179;
-            this.b_CopyAllPos.Text = "Copy All";
-            this.b_CopyAllPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_CopyAllPos, "Copy All POS Fill Data (You can then paste to any Text)");
-            this.b_CopyAllPos.UseVisualStyleBackColor = false;
-            this.b_CopyAllPos.Click += new System.EventHandler(this.b_CopyAllPos_Click);
+            // label5
+            // 
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label5.ForeColor = System.Drawing.Color.Blue;
+            this.label5.Location = new System.Drawing.Point(358, 7);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(180, 42);
+            this.label5.TabIndex = 181;
+            this.label5.Text = "The \'Fill\' interval will CAP each POS to the maximum fuel it can hold. The other " +
+                "intervals will not do this.";
+            // 
+            // cb_CorpName
+            // 
+            this.cb_CorpName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_CorpName.FormattingEnabled = true;
+            this.cb_CorpName.Items.AddRange(new object[] {
+            "No Sov",
+            "Sov Level 1",
+            "Sov Level 2",
+            "Sov Level 3",
+            "Sov Level 4",
+            "Constellation Sov"});
+            this.cb_CorpName.Location = new System.Drawing.Point(420, 49);
+            this.cb_CorpName.Name = "cb_CorpName";
+            this.cb_CorpName.Size = new System.Drawing.Size(134, 21);
+            this.cb_CorpName.TabIndex = 132;
+            this.cb_CorpName.Text = "Select Corporation";
+            this.tt_InfoTips.SetToolTip(this.cb_CorpName, "Select Sov Level for Tower System");
+            this.cb_CorpName.SelectedIndexChanged += new System.EventHandler(this.cb_CorpName_SelectedIndexChanged);
             // 
             // poS_Item51
             // 
@@ -6762,11 +6799,11 @@
             this.tp_POSMaintenance.ResumeLayout(false);
             this.tp_POSMaintenance.PerformLayout();
             this.gb_AllPos.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).EndInit();
             this.gb_SelPos.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -7200,5 +7237,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn IgnoreCharters;
         private System.Windows.Forms.Button b_CopySelected;
         private System.Windows.Forms.Button b_CopyAllPos;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cb_CorpName;
     }
 }

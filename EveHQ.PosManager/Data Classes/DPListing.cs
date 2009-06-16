@@ -40,8 +40,8 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSData_Path = PoSManage_Path + @"\PoSData";
+            PoSManage_Path = Path.Combine(PoSBase_Path , "PoSManage");
+            PoSData_Path = Path.Combine(PoSManage_Path , "PoSData");
 
             if (!Directory.Exists(PoSManage_Path))
                 Directory.CreateDirectory(PoSManage_Path);
@@ -49,7 +49,7 @@ namespace EveHQ.PosManager
             if (!Directory.Exists(PoSData_Path))
                 Directory.CreateDirectory(PoSData_Path);
 
-            fname = PoSData_Path + @"\DP_List.bin";
+            fname = Path.Combine(PoSData_Path , "DP_List.bin");
 
             // Save the Serialized data to Disk
             Stream pStream = File.Create(fname);
@@ -93,8 +93,8 @@ namespace EveHQ.PosManager
             {
                 PoSBase_Path = Application.StartupPath;
             }
-            PoSManage_Path = PoSBase_Path + @"\PoSManage";
-            PoSData_Path = PoSManage_Path + @"\PoSData";
+            PoSManage_Path = Path.Combine(PoSBase_Path, "PoSManage");
+            PoSData_Path = Path.Combine(PoSManage_Path, "PoSData");
 
             if ((!Directory.Exists(PoSManage_Path)) || (!Directory.Exists(PoSData_Path)))
             {
@@ -102,7 +102,7 @@ namespace EveHQ.PosManager
                 return;
             }
 
-            fname = PoSData_Path + @"\DP_List.bin";
+            fname = Path.Combine(PoSData_Path, "DP_List.bin");
             // Load the Data from Disk
             if (File.Exists(fname))
             {
