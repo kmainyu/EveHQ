@@ -869,50 +869,52 @@ Public Class frmSettings
     Private Sub UpdateTrainingQueueOptions()
         ' Add the Queue columns
         Me.clbColumns.Items.Clear()
-        For a As Integer = 0 To 16
-            Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
-                Case "Name"
-                    Me.clbColumns.Items.Add("Skill Name")
-                Case "Curr"
-                    Me.clbColumns.Items.Add("Current Level")
-                Case "From"
-                    Me.clbColumns.Items.Add("From Level")
-                Case "Tole"
-                    Me.clbColumns.Items.Add("To Level")
-                Case "Perc"
-                    Me.clbColumns.Items.Add("% Complete")
-                Case "Trai"
-                    Me.clbColumns.Items.Add("Training Time")
-                Case "Date"
-                    Me.clbColumns.Items.Add("Date Completed")
-                Case "Rank"
-                    Me.clbColumns.Items.Add("Skill Rank")
-                Case "PAtt"
-                    Me.clbColumns.Items.Add("Primary Attribute")
-                Case "SAtt"
-                    Me.clbColumns.Items.Add("Secondary Atribute")
-                Case "SPRH"
-                    Me.clbColumns.Items.Add("SP Rate/Hour")
-                Case "SPRD"
-                    Me.clbColumns.Items.Add("SP Rate/Day")
-                Case "SPRW"
-                    Me.clbColumns.Items.Add("SP Rate/Week")
-                Case "SPRM"
-                    Me.clbColumns.Items.Add("SP Rate/Month")
-                Case "SPRY"
-                    Me.clbColumns.Items.Add("SP Rate/Year")
-                Case "SPAd"
-                    Me.clbColumns.Items.Add("SP Earned")
-                Case "SPTo"
-                    Me.clbColumns.Items.Add("SP Total")
-            End Select
-            Dim validCol As Boolean = False
-            If Boolean.TryParse(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1), validCol) = True Then
-                Me.clbColumns.SetItemChecked(a, validCol)
-            Else
-                Me.clbColumns.SetItemChecked(a, False)
-            End If
-        Next
+        If Me.clbColumns.Items.Count > 0 Then
+            For a As Integer = 0 To 16
+                Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
+                    Case "Name"
+                        Me.clbColumns.Items.Add("Skill Name")
+                    Case "Curr"
+                        Me.clbColumns.Items.Add("Current Level")
+                    Case "From"
+                        Me.clbColumns.Items.Add("From Level")
+                    Case "Tole"
+                        Me.clbColumns.Items.Add("To Level")
+                    Case "Perc"
+                        Me.clbColumns.Items.Add("% Complete")
+                    Case "Trai"
+                        Me.clbColumns.Items.Add("Training Time")
+                    Case "Date"
+                        Me.clbColumns.Items.Add("Date Completed")
+                    Case "Rank"
+                        Me.clbColumns.Items.Add("Skill Rank")
+                    Case "PAtt"
+                        Me.clbColumns.Items.Add("Primary Attribute")
+                    Case "SAtt"
+                        Me.clbColumns.Items.Add("Secondary Atribute")
+                    Case "SPRH"
+                        Me.clbColumns.Items.Add("SP Rate/Hour")
+                    Case "SPRD"
+                        Me.clbColumns.Items.Add("SP Rate/Day")
+                    Case "SPRW"
+                        Me.clbColumns.Items.Add("SP Rate/Week")
+                    Case "SPRM"
+                        Me.clbColumns.Items.Add("SP Rate/Month")
+                    Case "SPRY"
+                        Me.clbColumns.Items.Add("SP Rate/Year")
+                    Case "SPAd"
+                        Me.clbColumns.Items.Add("SP Earned")
+                    Case "SPTo"
+                        Me.clbColumns.Items.Add("SP Total")
+                End Select
+                Dim validCol As Boolean = False
+                If Boolean.TryParse(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1), validCol) = True Then
+                    Me.clbColumns.SetItemChecked(a, validCol)
+                Else
+                    Me.clbColumns.SetItemChecked(a, False)
+                End If
+            Next
+        End If
         Me.chkDeleteCompletedSkills.Checked = EveHQ.Core.HQ.EveHQSettings.DeleteSkills
         Me.chkShowCompletedSkills.Checked = EveHQ.Core.HQ.EveHQSettings.ShowCompletedSkills
         Dim IColor As Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.IsPreReqColor))

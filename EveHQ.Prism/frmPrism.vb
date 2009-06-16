@@ -696,6 +696,9 @@ Public Class frmPrism
         If chkExcludeInvestments.Checked = False Then
             Call Me.DisplayInvestments()
         End If
+        If chkExcludeOrders.Checked = False Then
+            Call Me.DisplayOrders()
+        End If
         tssLabelTotalAssets.Text = FormatNumber(totalAssetValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " ISK  (" & FormatNumber(totalAssetCount, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " total quantity)"
         tlvAssets.Sort(0, System.Windows.Forms.SortOrder.Ascending, True)
         tlvAssets.EndUpdate()
@@ -1289,6 +1292,72 @@ Public Class frmPrism
         Next
         investNode.SubItems(AssetColumn.Value).Text = FormatNumber(totalValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
         totalAssetValue += totalValue
+    End Sub
+    Private Sub DisplayOrders()
+
+        ' Add the balances to the assets schedule
+        Dim ordersNode As New ContainerListViewItem
+        Dim buyOrders As New ContainerListViewItem
+        Dim sellOrders As New ContainerListViewItem
+        Dim buyValue, sellValue As Double
+        ordersNode.Tag = "Orders"
+        ordersNode.Text = "Market Orders"
+        tlvAssets.Items.Add(ordersNode)
+        ' Add the Buy Orders node
+        buyOrders.Text = "Buy Orders"
+        buyOrders.Tag = "Buy Orders"
+        ordersNode.Items.Add(buyOrders)
+        ' Add the Sell Orders node
+        sellOrders.Text = "Sell Orders"
+        sellOrders.Tag = "Sell Orders"
+        ordersNode.Items.Add(sellOrders)
+
+        For Each cPilot As ListViewItem In lvwCharFilter.CheckedItems
+            Dim IsCorp As Boolean = False
+            ' Get the owner we will use
+            Dim owner As String = cPilot.Text
+            ' Get the orders
+            Dim orderCollection As MarketOrdersCollection = ParseMarketOrders(owner)
+            ' Add the orders (outstanding ones only)
+            Dim category, group As String
+            For Each ownerOrder As MarketOrder In orderCollection.MarketOrders
+                If ownerOrder.OrderState = MarketOrderState.Open Then
+                    Dim orderNode As New ContainerListViewItem
+                    orderNode.Tag = ownerOrder.TypeID
+                    Dim orderItem As EveHQ.Core.EveItem = CType(EveHQ.Core.HQ.itemData(ownerOrder.TypeID.ToString), Core.EveItem)
+                    category = CStr(EveHQ.Core.HQ.itemCats(orderItem.Category.ToString))
+                    group = CStr(EveHQ.Core.HQ.itemGroups(orderItem.Group.ToString))
+                    ' Check for search criteria
+                    If Not ((filters.Count > 0 And catFilters.Contains(category) = False And groupFilters.Contains(group) = False) Or (searchText <> "" And orderItem.Name.ToLower.Contains(searchText.ToLower) = False)) Then
+                        orderNode.Text = orderItem.Name
+                        If ownerOrder.Bid = 0 Then
+                            sellOrders.Items.Add(orderNode)
+                            sellValue += ownerOrder.Price * ownerOrder.VolRemaining
+                        Else
+                            buyOrders.Items.Add(orderNode)
+                            buyValue += ownerOrder.Price * ownerOrder.VolRemaining
+                        End If
+                        orderNode.SubItems(AssetColumn.Owner).Text = owner
+                        orderNode.SubItems(AssetColumn.Group).Text = group
+                        orderNode.SubItems(AssetColumn.Category).Text = category
+                        If PlugInData.stations.Contains(ownerOrder.StationID) = True Then
+                            orderNode.SubItems(AssetColumn.Location).Text = CType(PlugInData.stations(ownerOrder.StationID), Station).stationName
+                        Else
+                            orderNode.SubItems(AssetColumn.Location).Text = "StationID: " & ownerOrder.StationID
+                        End If
+                        orderNode.SubItems(AssetColumn.Meta).Text = FormatNumber(orderItem.MetaLevel.ToString, 0)
+                        orderNode.SubItems(AssetColumn.Volume).Text = FormatNumber(orderItem.Volume.ToString, 2)
+                        orderNode.SubItems(AssetColumn.Quantity).Text = FormatNumber(ownerOrder.VolRemaining, 0)
+                        orderNode.SubItems(AssetColumn.Price).Text = FormatNumber(ownerOrder.Price, 2)
+                        orderNode.SubItems(AssetColumn.Value).Text = FormatNumber(ownerOrder.Price * ownerOrder.VolRemaining, 2)
+                    End If
+                End If
+            Next
+        Next
+        buyOrders.SubItems(AssetColumn.Value).Text = FormatNumber(buyValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        sellOrders.SubItems(AssetColumn.Value).Text = FormatNumber(sellValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        ordersNode.SubItems(AssetColumn.Value).Text = FormatNumber(buyValue + sellValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        totalAssetValue += buyValue + sellValue
     End Sub
 #End Region
 
@@ -2858,8 +2927,8 @@ Public Class frmPrism
                 Loop
                 If parentFlag = False Then
                     If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
-                        volume += CDbl(asset.SubItems(AssetColumn.Volume).Text)
                         quantity += CDbl(asset.SubItems(AssetColumn.Quantity).Text)
+                        volume += CDbl(asset.SubItems(AssetColumn.Volume).Text) * quantity
                         lineValue = CDbl(asset.SubItems(AssetColumn.Value).Text)
                         value += lineValue
                     Else
@@ -3721,11 +3790,79 @@ Public Class frmPrism
 #End Region
 
 #Region "Market Orders Routines"
+    
+    Private Function ParseMarketOrders(ByVal owner As String) As MarketOrdersCollection
+
+        Dim newOrderCollection As New MarketOrdersCollection
+
+        Dim IsCorp As Boolean = False
+        ' See if this owner is a corp
+        If CorpList.ContainsKey(owner) = True Then
+            IsCorp = True
+            ' See if we have a representative
+            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            If CorpRep IsNot Nothing Then
+                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                Else
+                    owner = ""
+                End If
+            Else
+                owner = ""
+            End If
+        End If
+
+        If owner <> "" Then
+            Dim OrderXML As New XmlDocument
+            Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+            Dim accountName As String = selPilot.Account
+            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+            If IsCorp = True Then
+                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+            Else
+                OrderXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.OrdersChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+            End If
+            If OrderXML IsNot Nothing Then
+                Dim Orders As XmlNodeList = OrderXML.SelectNodes("/eveapi/result/rowset/row")
+                For Each Order As XmlNode In Orders
+                    Dim newOrder As New MarketOrder
+                    newOrder.OrderID = Order.Attributes.GetNamedItem("orderID").Value
+                    newOrder.CharID = Order.Attributes.GetNamedItem("charID").Value
+                    newOrder.StationID = Order.Attributes.GetNamedItem("stationID").Value
+                    newOrder.VolEntered = CLng(Order.Attributes.GetNamedItem("volEntered").Value)
+                    newOrder.VolRemaining = CLng(Order.Attributes.GetNamedItem("volRemaining").Value)
+                    newOrder.MinVolume = CLng(Order.Attributes.GetNamedItem("minVolume").Value)
+                    newOrder.OrderState = CInt(Order.Attributes.GetNamedItem("orderState").Value)
+                    newOrder.TypeID = CInt(Order.Attributes.GetNamedItem("typeID").Value)
+                    newOrder.Range = CInt(Order.Attributes.GetNamedItem("range").Value)
+                    newOrder.AccountKey = CInt(Order.Attributes.GetNamedItem("accountKey").Value)
+                    newOrder.Duration = CInt(Order.Attributes.GetNamedItem("duration").Value)
+                    newOrder.Escrow = CDbl(Order.Attributes.GetNamedItem("escrow").Value)
+                    newOrder.Price = CDbl(Order.Attributes.GetNamedItem("price").Value)
+                    newOrder.Bid = CInt(Order.Attributes.GetNamedItem("bid").Value)
+                    newOrder.Issued = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
+                    newOrderCollection.MarketOrders.Add(newOrder)
+                    If newOrder.Bid = 0 Then ' Sell Order
+                        newOrderCollection.SellOrders += 1
+                        newOrderCollection.SellOrderValue += (newOrder.VolRemaining * newOrder.Price)
+                    Else ' Buy Order (=1)
+                        newOrderCollection.BuyOrders += 1
+                        newOrderCollection.BuyOrderValue += (newOrder.VolRemaining * newOrder.Price)
+                        newOrderCollection.EscrowValue += newOrder.Escrow
+                    End If
+                Next
+                newOrderCollection.TotalOrders = newOrderCollection.BuyOrders + newOrderCollection.SellOrders
+            End If
+        End If
+
+        Return newOrderCollection
+
+    End Function
 
     Private Sub ParseOrders()
-        Dim IsCorp As Boolean = False
         ' Get the owner we will use
         Dim owner As String = cboOwner.SelectedItem.ToString
+        Dim IsCorp As Boolean = False
         ' See if this owner is a corp
         If CorpList.ContainsKey(owner) = True Then
             IsCorp = True

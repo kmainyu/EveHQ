@@ -52,8 +52,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>EveHQ.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
     <Optimize>false</Optimize>
@@ -66,8 +65,7 @@
     <DefineTrace>false</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>EveHQ.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
