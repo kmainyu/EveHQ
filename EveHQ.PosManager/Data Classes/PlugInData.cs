@@ -20,11 +20,12 @@ namespace EveHQ.PosManager
         TowerListing TL = new TowerListing();
         ModuleListing ML = new ModuleListing();
         CategoryList CL = new CategoryList();
+        SystemList SLs = new SystemList();
         public string PoSManage_Path;
         public string PoSBase_Path;
         public string PoSCache_Path;
         public bool UseSerializableData = false;
-        public string LastCacheRefresh = "1.10.1.155";
+        public string LastCacheRefresh = "1.10.1.161";
         public static ManualResetEvent[] resetEvents;
         SystemSovList SL = new SystemSovList();
         AllianceList AL = new AllianceList();
@@ -33,7 +34,7 @@ namespace EveHQ.PosManager
         {
             StreamReader sr;
             string cacheVers;
-            resetEvents = new ManualResetEvent[5];
+            resetEvents = new ManualResetEvent[6];
             DateTime startT, endT;
             TimeSpan runT;
 
@@ -81,18 +82,21 @@ namespace EveHQ.PosManager
                 resetEvents[0] = new ManualResetEvent(false);
                 resetEvents[1] = new ManualResetEvent(false);
                 resetEvents[2] = new ManualResetEvent(false);
+                resetEvents[5] = new ManualResetEvent(false);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(TL.PopulateTowerListing), LastCacheRefresh);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ML.PopulateModuleListing));
                 ThreadPool.QueueUserWorkItem(new WaitCallback(CL.PopulateCategoryList));
+                ThreadPool.QueueUserWorkItem(new WaitCallback(SLs.PopulateSystemListing));
             }
             else
             {
                 resetEvents[0] = new ManualResetEvent(true);
                 resetEvents[1] = new ManualResetEvent(true);
                 resetEvents[2] = new ManualResetEvent(true);
+                resetEvents[5] = new ManualResetEvent(true);
             }
 
-            // Load any API data - it could be updated, so check
+            // Load any API data - it could be updated or time for an update, so check
             resetEvents[3] = new ManualResetEvent(false);
             resetEvents[4] = new ManualResetEvent(false);
             ThreadPool.QueueUserWorkItem(new WaitCallback(SL.LoadSovListFromAPI));

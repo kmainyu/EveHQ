@@ -12,7 +12,7 @@
     <AssemblyName>EveHQ.PosManager</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ApplicationIcon>EveHQ.ICO</ApplicationIcon>
+    <ApplicationIcon>Resources\EveHQ.ICO</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,6 +63,7 @@
     <Compile Include="Data Classes\POSDesigns.cs" />
     <Compile Include="Data Classes\DPListing.cs" />
     <Compile Include="Data Classes\Sov_Data.cs" />
+    <Compile Include="Data Classes\SystemList.cs" />
     <Compile Include="Forms\PoSManMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,7 +202,7 @@
     <None Include="Resources\Bounty.png" />
     <None Include="Resources\APIUpdate.png" />
     <None Include="Resources\CloneBay.PNG" />
-    <Content Include="EveHQ.ICO" />
+    <Content Include="Resources\EveHQ.ICO" />
     <Content Include="Resources\noitem.jpg" />
     <None Include="Resources\Offline_btn.png" />
     <None Include="Resources\Reinforce_btn.png" />

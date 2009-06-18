@@ -16,19 +16,11 @@ namespace EveHQ.PosManager
     [Serializable]
     public class AllianceList
     {
-        public ArrayList alliances;
+        public SortedList alliances;
 
         public AllianceList()
         {
-            alliances = new ArrayList();
-        }
-        public AllianceList(AllianceList al)
-        {
-            alliances = new ArrayList(al.alliances);
-        }
-        public void CopyList(AllianceList al)
-        {
-            alliances = new ArrayList(al.alliances);
+            alliances = new SortedList();
         }
 
         public void SaveAllianceListing()
@@ -69,13 +61,6 @@ namespace EveHQ.PosManager
             PlugInData.resetEvents[4].Set();
         }
 
-        public void LoadAllianceListFromActiveAPI(Object o)
-        {
-            LoadAllianceDataFromAPI();
-            SaveAllianceListing();
-            PlugInData.resetEvents[4].Set();
-        }
-
         public void LoadAllianceListFromDisk()
         {
             string PoSBase_Path, PoSManage_Path, PoSCache_Path, fname;
@@ -110,61 +95,13 @@ namespace EveHQ.PosManager
 
                 try
                 {
-                    alliances = (ArrayList)myBf.Deserialize(cStr);
+                    alliances = (SortedList)myBf.Deserialize(cStr);
                 }
                 catch
                 {
                 }
                 cStr.Close();
             }
-        }
-
-        public void AddAllianceToList(Alliance_Data ap)
-        {
-            alliances.Add(ap);
-        }
-
-        public void RemoveAllianceFromList(Alliance_Data ap)
-        {
-            int ind = 0;
-
-            foreach (Alliance_Data ad in alliances)
-            {
-                if (ad.allianceID == ap.allianceID)
-                {
-                    alliances.RemoveAt(ind);
-                    break;
-                }
-                ind++;
-            }
-        }
-
-        public void UpdateListAPI(Alliance_Data ap)
-        {
-            int ind = 0;
-
-            foreach (Alliance_Data p in alliances)
-            {
-                if (p.allianceID == ap.allianceID)
-                {
-                    p.CopyData(ap);
-                    break;
-                }
-                ind++;
-            }
-        }
-
-        public Alliance_Data GetAPIDataMemberForAllianceID(decimal allianceID)
-        {
-            foreach (Alliance_Data ad in alliances)
-            {
-                if (ad.allianceID == allianceID)
-                {
-                    return ad;
-                }
-            }
-
-            return null;
         }
 
         private bool IsAllianceDataTimestampCurrent(string cacheUntil)
@@ -178,7 +115,7 @@ namespace EveHQ.PosManager
             if (alliances.Count <= 0)
                 return false;
 
-            ap = (Alliance_Data)alliances[0];
+            ap = (Alliance_Data)alliances.GetByIndex(0);
 
             if (ap == null)
                 return false;
@@ -194,16 +131,6 @@ namespace EveHQ.PosManager
                 return true;
             else
                 return false;
-        }
-
-        private string GetAllianceNameForAllianceID(int allianceID, AllianceList AL)
-        {
-            foreach (Alliance_Data t in AL.alliances)
-            {
-                if (allianceID == t.allianceID)
-                    return t.name;
-            }
-            return "Unknown Alliance";
         }
 
         private bool CheckXML(XmlDocument apiXML)
@@ -225,34 +152,13 @@ namespace EveHQ.PosManager
             XmlDocument allianceData;
             XmlNodeList allyList, dateList, corpList;
             Alliance_Data ad;
-            string PoSBase_Path, API_File_Path, fname;
             string cacheDate, cacheUntil;
             decimal corpID;
 
             allianceData = new XmlDocument();
-
-            if (EveHQ.Core.HQ.IsUsingLocalFolders == false)
-            {
-                PoSBase_Path = EveHQ.Core.HQ.appDataFolder;
-                API_File_Path = EveHQ.Core.HQ.cacheFolder;
-            }
-            else
-            {
-                PoSBase_Path = Application.StartupPath;
-                API_File_Path = Path.Combine(PoSBase_Path , "Cache");
-            }
-
-            if (!Directory.Exists(API_File_Path))
-                return;
-
             // When a tower gets linked to the API and vice versa, the towerItemID will be
             // stored in the POS data itself. This will allow for easy import of the fuel data.
-            fname = Path.Combine(API_File_Path , "EVEHQAPI_AllianceList.xml");
-
-            if(!File.Exists(fname))
-                return;
-                
-            allianceData.Load(fname);
+            allianceData = EveHQ.Core.EveAPI.GetAPIXML((int)EveHQ.Core.EveAPI.APIRequest.AllianceList, 0);
 
             if (!CheckXML(allianceData))
                 return;
@@ -292,8 +198,9 @@ namespace EveHQ.PosManager
                 {
                     corpID = Convert.ToDecimal(cid.Attributes.GetNamedItem("corporationID").Value.ToString());
                     ad.corps.Add(corpID);
+                    alliances.Add(corpID, ad);
                 }
-                AddAllianceToList(ad);
+                
             }
         }
 

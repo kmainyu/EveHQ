@@ -347,13 +347,6 @@ namespace EveHQ.PosManager
                         ac.ceoName = ceoName;
                         AddCorpAPIToList(ac);
                     }
-                    //else
-                    //{
-                    //    ac.corpID = corpID;
-                    //    ac.corpName = corpName;
-                    //    ac.ceoName = ceoName;
-                    //    UpdateCorpListAPI(ac);
-                    //}
 
                     if (File.Exists(fname))
                     {

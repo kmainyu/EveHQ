@@ -32,7 +32,7 @@ namespace EveHQ.PosManager
         public API_List API_D = new API_List();         // API Tower Listing (if it Exists)
         public DPListing DPLst = new DPListing();       // Damage Profile Listing
         public AllianceList AL = new AllianceList();
-        public SystemSovList SL = new SystemSovList();
+        public SystemList SL = new SystemList();
         Configuration Config = new Configuration();
         public static BackgroundWorker apiWorker;
         PoS_Item api;
@@ -49,20 +49,6 @@ namespace EveHQ.PosManager
         enum dgPM {Name, Qty, State, Opt, fOff, dmg, rof, dps, trk, prox, swDly, Chg, cost };
         enum fillDG { Name, Loc, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt };
         enum fuelDG { type, amount, vol, cost };
-        public string[] fuelI = { "EnrUran",
-                                  "Oxygen",
-                                  "MechPart",
-                                  "Coolant",
-                                  "Robotics",
-                                  "HeIso",
-                                  "H2Iso",
-                                  "N2Iso",
-                                  "O2Iso",
-                                  "HvyWater",
-                                  "LiqOzone",
-                                  "Charters",
-                                  "Strontium"
-                                };
     
 #region Main Form Handlers
 
@@ -83,7 +69,7 @@ namespace EveHQ.PosManager
             POSList.LoadDesignListing();    // Loads Desgined POS's from Disk
             API_D.LoadAPIListing(TL);       // Load Tower API Data from Disk
             DPLst.LoadDPListing();          // Load Damage Profile List
-            SL.LoadSovListFromDisk();
+            SL.LoadSystemListFromDisk();
             AL.LoadAllianceListFromDisk();
             PopulateDPList("Omni-Type");
             PopulateSystemList();
@@ -211,8 +197,11 @@ namespace EveHQ.PosManager
 
             cb_System.Items.Clear();
 
-            foreach (Sov_Data sd in SL.SovList)
-                syst.Add(sd.systemName);
+            foreach (string key in SL.Systems.Keys)
+                syst.Add(key);
+
+            if (syst.Count > 0)
+                syst.Add("No Systems Found - Update API");
 
             syst.Sort();
 
@@ -1986,14 +1975,22 @@ namespace EveHQ.PosManager
 
         private void cb_CorpName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Design.CorpName = cb_CorpName.Text;
+            if (Design.CorpName != cb_CorpName.Text)
+            {
+                Design.CorpName = cb_CorpName.Text;
 
-            foreach (API_Data cn in API_D.apic)
-                if (cn.corpName == Design.CorpName)
-                {
-                    Design.corpID = cn.corpID;
-                    break;
-                }
+                foreach (API_Data cn in API_D.apic)
+                    if (cn.corpName == Design.CorpName)
+                    {
+                        if (Design.corpID != cn.corpID)
+                        {
+                            // Update the corpID for the POS and Save to Disk
+                            Design.corpID = cn.corpID;
+                            POSList.SaveDesignListing();
+                        }
+                        break;
+                    }
+            }
 
             UpdateLinkedTowerSovLevel(Design);
 
@@ -2020,34 +2017,24 @@ namespace EveHQ.PosManager
         private void UpdateLinkedTowerSovLevel(POS p)
         {
             decimal corpID;
-            bool foundIt = false;
+            Sov_Data sd;
+            Alliance_Data ad;
 
             if (p.corpID != 0)
             {
                 // This POS is Linked
                 corpID = p.corpID;
 
-                foreach (Alliance_Data ad in AL.alliances)
+                ad = (Alliance_Data)AL.alliances[corpID];
+                if (ad != null)
                 {
-                    if (foundIt)
-                        break;
-
-                    foreach (decimal cid in ad.corps)
+                    // Corp is in an alliance
+                    // Find system in system list, update SOV level accordingly
+                    sd = (Sov_Data)SL.Systems[p.System];
+                    if (sd.allianceID == ad.allianceID)
                     {
-                        if (cid == corpID)
-                        {
-                            // Corp is in an alliance
-                            // Find system in system list, update SOV level accordingly
-                            foreach (Sov_Data sd in SL.SovList)
-                            {
-                                if ((sd.allianceID == ad.allianceID) && (p.System == sd.systemName))
-                                {
-                                    // Found the correct system and alliance ID
-                                    p.SovLevel = (int)sd.sovLevel;
-                                }
-                            }
-                            break;
-                        }
+                        // Found the correct system and alliance ID
+                        p.SovLevel = (int)sd.sovLevel;
                     }
                 }
             }
@@ -2708,6 +2695,18 @@ namespace EveHQ.PosManager
         {
             POS pli;
 
+            if ((cb_PoSName.Text == "") && (NewName == ""))
+            {
+                // No name - request one from user
+                POS_Name NewPos = new POS_Name();
+                NewPos.myData = this;
+                NewPos.NewPOS = true;
+                NewPos.ShowDialog();
+            }
+
+            if ((cb_PoSName.Text == "") && (NewName == ""))
+                return;
+
             if (cb_PoSName.Text == "")
             {
                 POS_Name NewPos = new POS_Name();
@@ -2868,21 +2867,25 @@ namespace EveHQ.PosManager
             NewPos.NewPOS = true;
             NewPos.ShowDialog();
 
+            // The user did not enter a new name, just get out
+            if (NewName == "")
+                return;
+
             CurrentName = NewName;
             NewName = "";
             this.Focus();
             POSList.AddDesignToList(new POS(CurrentName));
             POSList.SaveDesignListing();
             BuildPOSListForMonitoring();
-            cb_PoSName.Items.Clear();
-            foreach (POS pl in POSList.Designs)
-            {
-                cb_PoSName.Items.Add(pl.Name);
-            }
+            cb_PoSName.Items.Add(CurrentName);
+            PosChanged = false;
             cb_PoSName.SelectedItem = CurrentName;
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
-            PosChanged = false;
+
+            cb_System.Text = "Select POS System";
+            cb_SovLevel.Text = "Select Sov Level";
+            cb_CorpName.Text = "Select Corp Name";
         }
 
         private void b_RenamePos_Click(object sender, EventArgs e)
@@ -3259,6 +3262,9 @@ namespace EveHQ.PosManager
             string[,] fVal;
             string paddStr, padCnt, padVol, padIsk;
 
+            if (tt == null)
+                return;
+
             tt.SetCurrentFuelVolumes();
             tt.SetCurrentFuelCosts(Config.data.FuelCosts);
             dg_TotalFuel.Rows.Clear();
@@ -3495,8 +3501,11 @@ namespace EveHQ.PosManager
 
         private void b_UpdateAPIData_Click(object sender, EventArgs e)
         {
+            SystemSovList SSL = new SystemSovList();
+
             DownloadAndUpdateAPI();
-            SL.LoadSovListFromAPI(1);
+            SSL.LoadSovListFromAPI(1);
+            SL.LoadSystemListFromDisk();
             AL.LoadAllianceListFromAPI(1);
             API_D.LoadAPIListing(TL);
             BuildPOSListForMonitoring();
@@ -3531,13 +3540,14 @@ namespace EveHQ.PosManager
         private void GetAllySovLists(object sender, DoWorkEventArgs e)
         {
             XmlDocument apiXML;
+            SystemSovList SSL = new SystemSovList();
+
             AL = new AllianceList();
-            SL = new SystemSovList();
 
             apiXML = EveHQ.Core.EveAPI.GetAPIXML((int)EveHQ.Core.EveAPI.APIRequest.AllianceList, 0);
             apiXML = EveHQ.Core.EveAPI.GetAPIXML((int)EveHQ.Core.EveAPI.APIRequest.Sovereignty, 0);
-            AL.LoadAllianceListFromActiveAPI(1);
-            SL.LoadSovListFromActiveAPI(1);
+            AL.LoadAllianceListFromAPI(1);
+            SSL.LoadSovListFromAPI(1);
 
             e.Result = 123;
         }
