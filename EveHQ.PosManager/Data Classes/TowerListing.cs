@@ -33,7 +33,10 @@ namespace EveHQ.PosManager
             invTypeData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             // Get Table With Tower or Tower Item Details
-            strSQL = "SELECT * FROM dgmTypeAttributes INNER JOIN dgmAttributeTypes ON dgmTypeAttributes.attributeID = dgmAttributeTypes.attributeID WHERE dgmTypeAttributes.typeID=" + typeID + ";";
+            strSQL = "SELECT * FROM ((dgmTypeAttributes INNER JOIN dgmAttributeTypes ON " +
+                     "dgmTypeAttributes.attributeID = dgmAttributeTypes.attributeID) INNER JOIN " +
+                     "eveUnits ON eveUnits.unitID = dgmAttributeTypes.unitID) WHERE "+
+                     "dgmTypeAttributes.typeID=" + typeID + ";";
             towerStatData = EveHQ.Core.DataFunctions.GetData(strSQL);
 
             // Get Table with Tower Fuel Usage Information
@@ -93,7 +96,8 @@ namespace EveHQ.PosManager
             Tower nt;
             DataRow row;
             int numItem;
-            string oVal, oiLin, oinf = "", extL = "";
+            string extL = "";
+            string extT = "";
             double timVal;
             nt = new Tower();
 
@@ -287,53 +291,26 @@ namespace EveHQ.PosManager
                         nt.Shield.Thermal = (100 - (100 * GetDoubleFromVariableIA(row, 2, 3)));
                         break;
                     case 479:           // Shield Regen
-                        extL = (GetDoubleFromVariableIA(row, 2, 3)/1000).ToString();
+                        extL = (GetDoubleFromVariableIA(row, 2, 3) / 1000).ToString();
                         nt.Shield.Extra.Add(extL);
                         break;
                     case 552:           // Signature Radius
-                        nt.SigRad = GetDecimalFromVariableIA(row, 2, 3); 
+                        nt.SigRad = GetDecimalFromVariableIA(row, 2, 3);
                         break;
                     case 556:   // Anchor
                         timVal = GetDoubleFromVariableIA(row, 2, 3);
                         timVal = timVal / 1000; // convert ms to seconds
                         nt.Anchor_Time = Convert.ToDecimal(timVal);
-
-                        oVal = row.ItemArray[10].ToString();
-                        if (oVal.Length > 0)
-                        {
-                            oiLin = oVal + "\n";
-                            oiLin += String.Format("{0:0,0.#}", timVal) + "s\n";
-                            oinf += oiLin;
-                        }
-                        nt.OtherInfo = oinf;
                         break;
                     case 676:   // UnAnchor
                         timVal = GetDoubleFromVariableIA(row, 2, 3);
                         timVal = timVal / 1000; // convert ms to seconds
                         nt.UnAnchor_Time = Convert.ToDecimal(timVal);
-
-                        oVal = row.ItemArray[10].ToString();
-                        if (oVal.Length > 0)
-                        {
-                            oiLin = oVal + "\n";
-                            oiLin += String.Format("{0:0,0.#}", timVal) + "s\n";
-                            oinf += oiLin;
-                        }
-                        nt.OtherInfo = oinf;
                         break;
                     case 677:   // Online
                         timVal = GetDoubleFromVariableIA(row, 2, 3);
                         timVal = timVal / 1000; // convert ms to seconds
                         nt.Online_Time = Convert.ToDecimal(timVal);
-
-                        oVal = row.ItemArray[10].ToString();
-                        if (oVal.Length > 0)
-                        {
-                            oiLin = oVal + "\n";
-                            oiLin += String.Format("{0:0,0.#}", timVal) + "s\n";
-                            oinf += oiLin;
-                        }
-                        nt.OtherInfo = oinf;
                         break;
                     case 722:   // Tower Period
                         // Comes in as ms, convert to Minutes (60000ms per minute)
@@ -403,22 +380,67 @@ namespace EveHQ.PosManager
                         nt.Fuel.StrontCap = GetDecimalFromVariableIA(row, 2, 3);
                         break;
                     default:    // All other information
-                        oVal = row.ItemArray[10].ToString();
-                        if (oVal.Length > 0)
-                        {
-                            oiLin = oVal + " --> " + Convert.ToInt32(row.ItemArray[1]) + "\n";
-                            //oiLin = oVal + "\n";
-                            oVal = row.ItemArray[2].ToString();
-                            if (oVal.Length > 0)
-                                oiLin += row.ItemArray[2].ToString() + "\n";
-                            oVal = row.ItemArray[3].ToString();
-                            if (oVal.Length > 0)
-                                oiLin += row.ItemArray[3].ToString() + "\n";
+                        break;
+                }
+                extT = row.ItemArray[10].ToString();
+                if (extT.Length <= 0)
+                    extT = row.ItemArray[5].ToString();
 
-                            if (oiLin.Length > 0)
-                                oinf += oiLin;
-                        }
-                        nt.OtherInfo = oinf;
+                // Now build data display for item selection information
+                switch (Convert.ToInt32(row.ItemArray[1]))
+                {
+                    case 9:     // Structure HP - dec
+                    case 11:    // Power Grid - double
+                    case 30:    // Power Need - double
+                    case 48:    // CPU - double
+                    case 50:    // CPU Need - double
+                    case 263:   // Shield HP - float
+                    case 265:   // Armor HP - double
+                    case 271:   // Shield EM Res - float
+                    case 272:   // Shield Exp Res - float
+                    case 273:   // Shield Kin Res - float
+                    case 274:   // Shield Thermal Res - float
+                    case 728:   // Laser Dmg Bonus
+                    case 750:   // Laser Optimal Bonus
+                    case 751:   // Hybrid Optimal Bonus
+                    case 752:   // Projectile Optimal Bonus
+                    case 753:   // Projectile FallOff Bonus
+                    case 754:   // Projectile ROF Bonus
+                    case 755:   // Missile ROF Bonus
+                    case 756:   // Moon Harvest CPU Bonus
+                    case 757:   // Silo Capacity Bonus
+                    case 760:   // Laser Prox Range Bonus
+                    case 761:   // Projectile Prox Range Bonus
+                    case 762:   // Hybrid Prox Range Bonus
+                    case 764:   // EW ROF Bonus
+                    case 766:   // Hybrid Dmg Bonus
+                    case 770:   // EW Target Switch Bonus
+                    case 792:   // Missile Velocity Bonus
+                    case 974:   // Hull EM Res - float
+                    case 975:   // Hull Exp Res - float
+                    case 976:   // Hull Kin Res - float
+                    case 977:   // Hull Thermal Res - float
+                    case 1233:  // Strontium Bay
+                        break;
+                    case 479:   // Shield Regen
+                    case 556:   // Anchor
+                    case 676:   // UnAnchor
+                    case 677:   // Online
+                        extL = (GetDoubleFromVariableIA(row, 2, 3)/1000).ToString();
+                        nt.Extra.Add(extT + "\n" + extL + "<" + Convert.ToInt32(row.ItemArray[1]) + ">\n");
+                        nt.OtherInfo += extT + " <" + extL + " s>\n";
+                        break;
+                    case 722:   // Tower Period
+                        // Comes in as ms, convert to Minutes (60000ms per minute)
+                        extL = (GetDecimalFromVariableIA(row, 2, 3) / 60000).ToString();
+                        nt.Extra.Add(extT + "\n" + extL + "<" + Convert.ToInt32(row.ItemArray[1]) + ">\n");
+                        nt.OtherInfo += extT + " <" + extL + " min>\n";
+                        break;
+                    case 552:   // Signature Radius
+                    default:    // All other information
+                        extL = (GetDecimalFromVariableIA(row, 2, 3)).ToString();
+                        nt.Extra.Add(extT + "\n" + extL + "<" + Convert.ToInt32(row.ItemArray[1]) + ">\n");
+                        nt.OtherInfo += extT + " <" + extL + " " + row.ItemArray[18].ToString() + ">\n";
                         break;
                 }
             }

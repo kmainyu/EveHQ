@@ -207,7 +207,7 @@ namespace EveHQ.PosManager
         public void PopulateModuleData()
         {
             decimal timVal;
-            string oVal, oiLin, oinf = "";
+            string extT = "", extV = "";
             int curTID = 0, typeID = 0;
             bool first = true;
             Module nt;
@@ -225,7 +225,6 @@ namespace EveHQ.PosManager
                         // This will pick up every module except for the last one.
                         PopulateModuleChargeData(nt);
                         nt = new Module();
-                        oinf = "";
                     }
                     curTID = typeID;
                     // Get item specific information - ie: first row data
@@ -273,43 +272,16 @@ namespace EveHQ.PosManager
                         timVal = GetDecimalFromVariableIA(row, (int)modA.valI, (int)modA.valF);
                         timVal = timVal / 1000; // convert ms to seconds
                         nt.Anchor_Time = Convert.ToDecimal(timVal);
-
-                        oVal = row.ItemArray[(int)modA.dspNm].ToString();
-                        if (oVal.Length > 0)
-                        {
-                            oiLin = oVal + "\n";
-                            oiLin += String.Format("{0:0,0.#}", timVal) + "s\n";
-                            oinf += oiLin;
-                        }
-                        nt.OtherInfo = oinf;
                         break;
                     case 676:   // UnAnchor
                         timVal = GetDecimalFromVariableIA(row, (int)modA.valI, (int)modA.valF);
                         timVal = timVal / 1000; // convert ms to seconds
                         nt.UnAnchor_Time = Convert.ToDecimal(timVal);
-
-                        oVal = row.ItemArray[(int)modA.dspNm].ToString();
-                        if (oVal.Length > 0)
-                        {
-                            oiLin = oVal + "\n";
-                            oiLin += String.Format("{0:0,0.#}", timVal) + "s\n";
-                            oinf += oiLin;
-                        }
-                        nt.OtherInfo = oinf;
                         break;
                     case 677:   // Online
                         timVal = GetDecimalFromVariableIA(row, (int)modA.valI, (int)modA.valF);
                         timVal = timVal / 1000; // convert ms to seconds
                         nt.Online_Time = Convert.ToDecimal(timVal);
-
-                        oVal = row.ItemArray[(int)modA.dspNm].ToString();
-                        if (oVal.Length > 0)
-                        {
-                            oiLin = oVal + "\n";
-                            oiLin += String.Format("{0:0,0.#}", timVal) + "s\n";
-                            oinf += oiLin;
-                        }
-                        nt.OtherInfo = oinf;
                         break;
                     case 113:           // Hull EM Res - float
                         nt.Struct.EMP = (100 - (100 * GetDoubleFromVariableIA(row, (int)modA.valI, (int)modA.valF)));
@@ -477,25 +449,93 @@ namespace EveHQ.PosManager
                         nt.SwitchDelay = Convert.ToDecimal(GetDecimalFromVariableIA(row, (int)modA.valI, (int)modA.valF) / 1000);
                         break;
                     default:            // All other information
-                        oVal = row.ItemArray[(int)modA.dspNm].ToString();
-                        if (oVal.Length > 0)
-                        {
-                            oiLin = oVal + " --> " + Convert.ToInt32(row.ItemArray[(int)modA.attID]) + "\n";
-                            //oiLin = oVal + "\n";
-                            oVal = row.ItemArray[(int)modA.valI].ToString();
-                            if (oVal.Length > 0)
-                                oiLin += oVal + "\n";
-                            oVal = row.ItemArray[(int)modA.valF].ToString();
-                            if (oVal.Length > 0)
-                                oiLin += oVal + "\n";
+                        break;
+                }
 
-                            if (oiLin.Length > 0)
-                            {
-                                nt.Extra.Add(oiLin);
-                                oinf += oiLin;
-                            }
-                        }
-                        nt.OtherInfo = oinf;
+                extT = row.ItemArray[(int)modA.dspNm].ToString();
+                if(extT.Length <= 0)
+                    extT = row.ItemArray[(int)modA.attNm].ToString();
+
+                // Build Item Selection Information DAF
+                switch (Convert.ToInt32(row.ItemArray[(int)modA.attID]))
+                {
+                    case 556:   // Anchor
+                    case 676:   // UnAnchor
+                    case 677:   // Online
+                        extV = (GetDecimalFromVariableIA(row, (int)modA.valI, (int)modA.valF) / 1000).ToString();
+                        nt.Extra.Add(extT + "\n" + extV + "<" + Convert.ToInt32(row.ItemArray[(int)modA.attID]) + ">\n");
+                        nt.OtherInfo += extT + " <" + extV + " s>\n";
+                        break;
+                    case 9:             // Structure HP - dec
+                    case 11:            // Power Grid - double
+                    case 30:            // Power Need - double
+                    case 48:            // CPU - double
+                    case 50:            // CPU Need - double
+                    case 263:           // Shield HP - float
+                    case 265:           // Armor HP - double
+                    case 113:           // Hull EM Res - float
+                    case 604:           // Chargegroup
+                    case 111:           // Hull Exp Res - float
+                    case 109:           // Hull Kin Res - float
+                    case 110:           // Hull Thermal Res - float
+                    case 182:           // Primary Skill Required
+                    case 277:           // Primary Skill Level Required
+                        break;
+                    case 552:           // Signature Radius
+                    case 51:            // Rate of Fire
+                    case 64:            // Damage Modifier
+                    case 506:
+                    case 54:            // Optimal
+                    case 98:            // Optimal - Max Neut Range
+                    case 103:           // Optimal - Max Warp Scram Range
+                    case 73:            // Activation Time
+                    case 97:            // Energy Neutralized
+                    case 128:           // Charge Size
+                    case 154:           // Activation Prox
+                    case 158:           // FallOff
+                    case 160:           // Tracking Speed
+                    case 192:           // Max Locked Targets
+                    case 564:           // Scan resolution
+                    case 620:           // Signature Resolution (pref Target Size)
+                    case 771:           // Cargo, Ammo, Etc... Capacity
+                    case 212:           // Missile Damage Bonus
+                    case 645:           // Missile Velocity Bonus
+                    case 646:           // Missile Flight Time Bonus
+                    case 858:           // Missile Explosion Radius Bonus
+                    case 859:           // Missile Explosion Velocity Bonus
+                    case 767:           // Turret Tracking speed Bonus
+                    case 769:           // Turret Optimal Range Bonus
+                    case 130:           // Thermal Resist Bonus
+                    case 131:           // Kinetic Resist Bonus
+                    case 132:           // Explosive Resist Bonus
+                    case 133:           // EMP Resist Bonus
+                    case 466:           // Combine Fire Chance
+                    case 697:           // Target Cycle Speed
+                    case 238:           // Gravitic Jam Strength
+                    case 239:           // Ladar Jam Strength
+                    case 240:           // Magnetometric Jam Strength
+                    case 241:           // Combine Fire Chance
+                    case 1185:           // Sov Level Rquired
+                    case 867:           // Max Jump Range
+                    case 1032:           // Sec Level - Max Allowed
+                    case 717:           // Refining Yield
+                    case 842:           // Reaction 1
+                    case 843:           // Reaction 2
+                    case 866:           // Jump Fuel Type
+                    case 868:           // Jump Fuel per LY
+                    case 1001:           // Jump Fuel Mass Multiplier
+                    case 1195:           // Max Module per System
+                    case 237:           // Target Range Modifier
+                    case 242:           // Target Speed Modifier
+                    case 20:           // Target Max Speed Modifier
+                    case 235:           // Target Max Targets Modifier
+                    case 105:           // Warp Scram Strength
+                    case 479:           // Shield recharge Time
+                    case 691:           // Target Cycling Speed
+                    default:            // All other information
+                        extV = (GetDecimalFromVariableIA(row, (int)modA.valI, (int)modA.valF)).ToString();
+                        nt.Extra.Add(extT + "\n" + extV + "<" + Convert.ToInt32(row.ItemArray[(int)modA.attID]) + ">\n");
+                        nt.OtherInfo += extT + " <" + extV + " " + row.ItemArray[(int)modA.unDNm].ToString() + ">\n";
                         break;
                 }
             }
