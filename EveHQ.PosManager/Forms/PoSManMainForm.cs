@@ -123,18 +123,19 @@ namespace EveHQ.PosManager
             if (Mon_dg_indx >= dg_MonitoredTowers.RowCount)
                 Mon_dg_indx = dg_MonitoredTowers.RowCount - 1;
 
+            // Set default time period to FILL
+            tscb_TimePeriod.SelectedIndex = (int)Config.data.maintTP;
+            nud_PeriodValue.Value = Config.data.maintPV;
+
+
             if (Mon_dg_indx >= 0)
             {
                 dg_MonitoredTowers.CurrentCell = dg_MonitoredTowers.Rows[Mon_dg_indx].Cells[(int)MonDG.Name];
                 Object o = new Object();
                 EventArgs ea = new EventArgs();
+                load = false;
                 dg_MonitoredTowers_SelectionChanged(o, ea);
             }
-
-            // Set default time period to FILL
-            tscb_TimePeriod.SelectedIndex = (int)Config.data.maintTP;
-            nud_PeriodValue.Value = Config.data.maintPV;
-
             load = false;
         }
 
@@ -1909,6 +1910,7 @@ namespace EveHQ.PosManager
             cb_SovLevel.SelectedIndex = Design.SovLevel;
             cb_System.Text = Design.System;
             cb_CorpName.Text = Design.CorpName;
+            cb_systemMoon.Text = Design.Moon;
 
             load = false;
             CalculatePOSData();
@@ -1963,6 +1965,14 @@ namespace EveHQ.PosManager
             CalculatePOSData();
         }
 
+        private void cb_systemMoon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Design.Moon = cb_systemMoon.Text;
+
+            if (!load)
+                PosChanged = true;
+        }
+
         private void cb_System_SelectedIndexChanged(object sender, EventArgs e)
         {
             Design.System = cb_System.Text;
@@ -1970,7 +1980,31 @@ namespace EveHQ.PosManager
             if (!load)
                 PosChanged = true;
 
+            FindAndGetSystemMoons();
             CalculatePOSData();
+        }
+
+        private void FindAndGetSystemMoons()
+        {
+            string strSQL;
+            decimal sysID;
+            Sov_Data sd;
+            DataSet ml;
+            
+            sd = (Sov_Data)SL.Systems[Design.System];
+            sysID = sd.systemID;
+            
+            strSQL = "SELECT mapDenormalize.itemName FROM mapDenormalize WHERE (mapDenormalize.solarSystemID=" + sysID + " AND mapDenormalize.groupID=8);";
+            ml = EveHQ.Core.DataFunctions.GetData(strSQL);
+
+            cb_systemMoon.Items.Clear();
+            if (ml.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ml.Tables[0].Rows)
+                {
+                    cb_systemMoon.Items.Add(dr[0].ToString());
+                }
+            }
         }
 
         private void cb_CorpName_SelectedIndexChanged(object sender, EventArgs e)
@@ -2073,7 +2107,7 @@ namespace EveHQ.PosManager
                     // Add data to DG
                     dg_ind = dg_MonitoredTowers.Rows.Add();
 
-                    line = p.Name + " < " + p.System + " >[" + p.SovLevel + "]";
+                    line = p.Name + " < " + p.System + " >[" + p.SovLevel + "]{" + p.Moon + "}";
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Name].Value = line;
                     line = ConvertHoursToTextDisplay(p.PosTower.F_RunTime);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.FuelR].Value = line;
@@ -2254,6 +2288,25 @@ namespace EveHQ.PosManager
                             posItm += " <" + m.State + ">";
                             lb_PoSModuleList.Items.Add(posItm);
                         }
+                        // Set up Default NUD Fuel Values to make calculations work correctly
+                        nud_EnrUran.Value = pl.PosTower.Fuel.EnrUran.Qty;
+                        nud_Oxy.Value = pl.PosTower.Fuel.Oxygen.Qty;
+                        nud_MechPart.Value = pl.PosTower.Fuel.MechPart.Qty;
+                        nud_Robotic.Value = pl.PosTower.Fuel.Robotics.Qty;
+                        nud_Coolant.Value = pl.PosTower.Fuel.Coolant.Qty;
+                        nud_HvyWtr.Value = pl.PosTower.Fuel.HvyWater.Qty;
+                        nud_LiqOzn.Value = pl.PosTower.Fuel.LiqOzone.Qty;
+                        nud_Charter.Value = pl.PosTower.Fuel.Charters.Qty;
+                        nud_Stront.Value = pl.PosTower.Fuel.Strontium.Qty;
+                        if (pl.PosTower.Fuel.HeIso.PeriodQty > 0)
+                            nud_Isotope.Value = pl.PosTower.Fuel.HeIso.Qty;
+                        if (pl.PosTower.Fuel.H2Iso.PeriodQty > 0)
+                            nud_Isotope.Value = pl.PosTower.Fuel.H2Iso.Qty;
+                        if (pl.PosTower.Fuel.O2Iso.PeriodQty > 0)
+                            nud_Isotope.Value = pl.PosTower.Fuel.O2Iso.Qty;
+                        if (pl.PosTower.Fuel.N2Iso.PeriodQty > 0)
+                            nud_Isotope.Value = pl.PosTower.Fuel.N2Iso.Qty;
+
                         UpdateTowerMonitorDisplay();
                     }
                 }
@@ -2270,8 +2323,10 @@ namespace EveHQ.PosManager
         {
             FuelBay nud_fuel;
             decimal bay_p;
-            decimal cpu_u, power_u;
             decimal sov_mod, increment;
+
+            if (load)
+                return;
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
@@ -2298,197 +2353,167 @@ namespace EveHQ.PosManager
 
                         sov_mod = pl.GetSovMultiple();
 
-                        power_u = pl.GetModifierTime(pl.PosTower.Power_Used, pl.PosTower.Power);
-                        cpu_u = pl.GetModifierTime(pl.PosTower.CPU_Used, pl.PosTower.CPU);
-
                         // Enr Uranium
                         l_C_EnUr.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.EnrUran.Qty);
                         l_R_EnUr.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.EnrUran.RunTime);
-                        increment = Math.Ceiling(pl.PosTower.Fuel.EnrUran.PeriodQty * sov_mod);
+                        increment = pl.PosTower.Fuel.EnrUran.GetFuelQtyForPeriod(sov_mod, 1, 1);
                         nud_EnrUran.Increment = Convert.ToDecimal(increment);
                         l_QH_EnUr.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_EnUr.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.EnrUran.RunTime);
-                        l_AQ_EnUr.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.EnrUran.Qty));
                         if (pl.PosTower.A_Fuel.EnrUran.RunTime < pl.PosTower.Fuel.EnrUran.RunTime)
                             l_AR_EnUr.ForeColor = Color.Red;
                         else
                             l_AR_EnUr.ForeColor = Color.Green;
-                        if (nud_EnrUran.Value >= 0)
+                        if (nud_EnrUran.Value < pl.PosTower.Fuel.EnrUran.Qty)
+                            nud_EnrUran.ForeColor = Color.Red;
+                        else if (nud_EnrUran.Value > pl.PosTower.Fuel.EnrUran.Qty)
                             nud_EnrUran.ForeColor = Color.Green;
                         else
-                            nud_EnrUran.ForeColor = Color.Red;
-                        if (nud_EnrUran.Value < 0)
-                            l_AQ_EnUr.ForeColor = Color.Red;
-                        else
-                            l_AQ_EnUr.ForeColor = Color.Green;
+                            nud_EnrUran.ForeColor = Color.Blue;
 
                         // Oxygen
                         l_C_Oxyg.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Oxygen.Qty);
                         l_R_Oxyg.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Oxygen.RunTime);
-                        increment = Math.Ceiling(pl.PosTower.Fuel.Oxygen.PeriodQty * sov_mod);
+                        increment = pl.PosTower.Fuel.Oxygen.GetFuelQtyForPeriod(sov_mod, 1, 1);
                         nud_Oxy.Increment = Convert.ToDecimal(increment);
                         l_QH_Oxyg.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_Oxyg.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Oxygen.RunTime);
-                        l_AQ_Oxyg.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.Oxygen.Qty));
                         if (pl.PosTower.A_Fuel.Oxygen.RunTime < pl.PosTower.Fuel.Oxygen.RunTime)
                             l_AR_Oxyg.ForeColor = Color.Red;
                         else
                             l_AR_Oxyg.ForeColor = Color.Green;
-                        if (nud_Oxy.Value >= 0)
+                        if (nud_Oxy.Value > pl.PosTower.Fuel.Oxygen.Qty)
                             nud_Oxy.ForeColor = Color.Green;
-                        else
+                        else if (nud_Oxy.Value < pl.PosTower.Fuel.Oxygen.Qty)
                             nud_Oxy.ForeColor = Color.Red;
-                        if (nud_Oxy.Value < 0)
-                            l_AQ_Oxyg.ForeColor = Color.Red;
                         else
-                            l_AQ_Oxyg.ForeColor = Color.Green;
+                            nud_Oxy.ForeColor = Color.Blue;
 
                         // Mechanical Parts
                         l_C_McP.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.MechPart.Qty);
                         l_R_McP.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.MechPart.RunTime);
-                        increment = Math.Ceiling(pl.PosTower.Fuel.MechPart.PeriodQty * sov_mod);
+                        increment = pl.PosTower.Fuel.MechPart.GetFuelQtyForPeriod(sov_mod, 1, 1);
                         nud_MechPart.Increment = Convert.ToDecimal(increment);
                         l_QH_McP.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_McP.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.MechPart.RunTime);
-                        l_AQ_McP.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.MechPart.Qty));
                         if (pl.PosTower.A_Fuel.MechPart.RunTime < pl.PosTower.Fuel.MechPart.RunTime)
                             l_AR_McP.ForeColor = Color.Red;
                         else
                             l_AR_McP.ForeColor = Color.Green;
-                        if (nud_MechPart.Value >= 0)
+                        if (nud_MechPart.Value > pl.PosTower.Fuel.MechPart.Qty)
                             nud_MechPart.ForeColor = Color.Green;
-                        else
+                        else if (nud_MechPart.Value < pl.PosTower.Fuel.MechPart.Qty)
                             nud_MechPart.ForeColor = Color.Red;
-                        if (nud_MechPart.Value < 0)
-                            l_AQ_McP.ForeColor = Color.Red;
                         else
-                            l_AQ_McP.ForeColor = Color.Green;
+                            nud_MechPart.ForeColor = Color.Blue;
 
                         // Coolant
                         l_C_Cool.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Coolant.Qty);
                         l_R_Cool.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Coolant.RunTime);
-                        increment = Math.Ceiling(pl.PosTower.Fuel.Coolant.PeriodQty * sov_mod);
+                        increment = pl.PosTower.Fuel.Coolant.GetFuelQtyForPeriod(sov_mod, 1, 1);
                         nud_Coolant.Increment = Convert.ToDecimal(increment);
                         l_QH_Cool.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_Cool.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Coolant.RunTime);
-                        l_AQ_Cool.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.Coolant.Qty));
                         if (pl.PosTower.A_Fuel.Coolant.RunTime < pl.PosTower.Fuel.Coolant.RunTime)
                             l_AR_Cool.ForeColor = Color.Red;
                         else
                             l_AR_Cool.ForeColor = Color.Green;
-                        if (nud_Coolant.Value >= 0)
+                        if (nud_Coolant.Value > pl.PosTower.Fuel.Coolant.Qty)
                             nud_Coolant.ForeColor = Color.Green;
-                        else
+                        else if (nud_Coolant.Value < pl.PosTower.Fuel.Coolant.Qty)
                             nud_Coolant.ForeColor = Color.Red;
-                        if (nud_Coolant.Value < 0)
-                            l_AQ_Cool.ForeColor = Color.Red;
                         else
-                            l_AQ_Cool.ForeColor = Color.Green;
+                            nud_Coolant.ForeColor = Color.Blue;
 
                         // Robotics
                         l_C_Robt.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Robotics.Qty);
                         l_R_Robt.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Robotics.RunTime);
-                        increment = Math.Ceiling(pl.PosTower.Fuel.Robotics.PeriodQty * sov_mod);
+                        increment = pl.PosTower.Fuel.Robotics.GetFuelQtyForPeriod(sov_mod, 1, 1);
                         nud_Robotic.Increment = Convert.ToDecimal(increment);
                         l_QH_Robt.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_Robt.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Robotics.RunTime);
-                        l_AQ_Robt.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.Robotics.Qty));
                         if (pl.PosTower.A_Fuel.Robotics.RunTime < pl.PosTower.Fuel.Robotics.RunTime)
                             l_AR_Robt.ForeColor = Color.Red;
                         else
                             l_AR_Robt.ForeColor = Color.Green;
-                        if (nud_Robotic.Value >= 0)
+                        if (nud_Robotic.Value > pl.PosTower.Fuel.Robotics.Qty)
                             nud_Robotic.ForeColor = Color.Green;
-                        else
+                        else if (nud_Robotic.Value < pl.PosTower.Fuel.Robotics.Qty)
                             nud_Robotic.ForeColor = Color.Red;
-                        if (nud_Robotic.Value < 0)
-                            l_AQ_Robt.ForeColor = Color.Red;
                         else
-                            l_AQ_Robt.ForeColor = Color.Green;
+                            nud_Robotic.ForeColor = Color.Blue;
 
                         // Faction Charters
                         l_C_Chrt.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Charters.Qty);
                         l_R_Chrt.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Charters.RunTime);
-                        increment = Math.Ceiling(pl.PosTower.Fuel.Charters.PeriodQty * sov_mod);
+                        increment = pl.PosTower.Fuel.Charters.GetFuelQtyForPeriod(sov_mod, 1, 1);
                         nud_Charter.Increment = Convert.ToDecimal(increment);
                         l_QH_Chrt.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_Chrt.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Charters.RunTime);
-                        l_AQ_Chrt.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.Charters.Qty));
                         if (pl.PosTower.A_Fuel.Charters.RunTime < pl.PosTower.Fuel.Charters.RunTime)
                             l_AR_Chrt.ForeColor = Color.Red;
                         else
                             l_AR_Chrt.ForeColor = Color.Green;
-                        if (nud_Charter.Value >= 0)
+                        if (nud_Charter.Value > pl.PosTower.Fuel.Charters.Qty)
                             nud_Charter.ForeColor = Color.Green;
-                        else
+                        if (nud_Charter.Value < pl.PosTower.Fuel.Charters.Qty)
                             nud_Charter.ForeColor = Color.Red;
-                        if (nud_Charter.Value < 0)
-                            l_AQ_Chrt.ForeColor = Color.Red;
                         else
-                            l_AQ_Chrt.ForeColor = Color.Green;
+                            nud_Charter.ForeColor = Color.Blue;
 
                         // Strontium
                         l_C_Strn.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.Strontium.Qty);
                         l_R_Strn.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.Strontium.RunTime);
-                        increment = Math.Ceiling(pl.PosTower.Fuel.Strontium.PeriodQty * sov_mod);
+                        increment = pl.PosTower.Fuel.Strontium.GetFuelQtyForPeriod(sov_mod, 1, 1);
                         nud_Stront.Increment = Convert.ToDecimal(increment);
                         l_QH_Strn.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_Strn.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.Strontium.RunTime);
-                        l_AQ_Strn.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.Strontium.Qty));
                         if (pl.PosTower.A_Fuel.Strontium.RunTime < pl.PosTower.Fuel.Strontium.RunTime)
                             l_AR_Strn.ForeColor = Color.Red;
                         else
                             l_AR_Strn.ForeColor = Color.Green;
-                        if (nud_Stront.Value >= 0)
+                        if (nud_Stront.Value > pl.PosTower.Fuel.Strontium.Qty)
                             nud_Stront.ForeColor = Color.Green;
-                        else
+                        else if (nud_Stront.Value < pl.PosTower.Fuel.Strontium.Qty)
                             nud_Stront.ForeColor = Color.Red;
-                        if (nud_Stront.Value < 0)
-                            l_AQ_Strn.ForeColor = Color.Red;
                         else
-                            l_AQ_Strn.ForeColor = Color.Green;
+                            nud_Stront.ForeColor = Color.Blue;
 
                         // Heavy Water
                         l_C_HvyW.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.HvyWater.Qty);
                         l_R_HvyW.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.HvyWater.RunTime);
-                        increment = Math.Ceiling(pl.PosTower.Fuel.HvyWater.PeriodQty * sov_mod);
-                        nud_HvyWtr.Increment = Convert.ToDecimal(Math.Ceiling(increment * cpu_u));
-                        l_QH_HvyW.Text = String.Format("{0:#,0.#}", Math.Ceiling(increment * cpu_u));
+                        increment = pl.PosTower.Fuel.HvyWater.GetFuelQtyForPeriod(sov_mod, pl.PosTower.CPU, pl.PosTower.CPU_Used);
+                        nud_HvyWtr.Increment = increment;
+                        l_QH_HvyW.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_HvyW.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.HvyWater.RunTime);
-                        l_AQ_HvyW.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.HvyWater.Qty));
                         if (pl.PosTower.A_Fuel.HvyWater.RunTime < pl.PosTower.Fuel.HvyWater.RunTime)
                             l_AR_HvyW.ForeColor = Color.Red;
                         else
                             l_AR_HvyW.ForeColor = Color.Green;
-                        if (nud_HvyWtr.Value >= 0)
+                        if (nud_HvyWtr.Value > pl.PosTower.Fuel.HvyWater.Qty)
                             nud_HvyWtr.ForeColor = Color.Green;
-                        else
+                        else if (nud_HvyWtr.Value < pl.PosTower.Fuel.HvyWater.Qty)
                             nud_HvyWtr.ForeColor = Color.Red;
-                        if (nud_HvyWtr.Value < 0)
-                            l_AQ_HvyW.ForeColor = Color.Red;
                         else
-                            l_AQ_HvyW.ForeColor = Color.Green;
+                            nud_HvyWtr.ForeColor = Color.Blue;
 
                         // Liquid Ozone
                         l_C_LiqO.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.LiqOzone.Qty);
                         l_R_LiqO.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.LiqOzone.RunTime);
-                        increment = Math.Ceiling(pl.PosTower.Fuel.LiqOzone.PeriodQty * sov_mod);
-                        nud_LiqOzn.Increment = Convert.ToDecimal(Math.Ceiling(increment * power_u));
-                        l_QH_LiqO.Text = String.Format("{0:#,0.#}", Math.Ceiling(increment * power_u));
+                        increment = pl.PosTower.Fuel.LiqOzone.GetFuelQtyForPeriod(sov_mod, pl.PosTower.Power, pl.PosTower.Power_Used);
+                        nud_LiqOzn.Increment = increment;
+                        l_QH_LiqO.Text = String.Format("{0:#,0.#}", increment);
                         l_AR_LiqO.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.LiqOzone.RunTime);
-                        l_AQ_LiqO.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.LiqOzone.Qty));
                         if (pl.PosTower.A_Fuel.LiqOzone.RunTime < pl.PosTower.Fuel.LiqOzone.RunTime)
                             l_AR_LiqO.ForeColor = Color.Red;
                         else
                             l_AR_LiqO.ForeColor = Color.Green;
-                        if (nud_LiqOzn.Value >= 0)
+                        if (nud_LiqOzn.Value > pl.PosTower.Fuel.LiqOzone.Qty)
                             nud_LiqOzn.ForeColor = Color.Green;
-                        else
+                        else if (nud_LiqOzn.Value < pl.PosTower.Fuel.LiqOzone.Qty)
                             nud_LiqOzn.ForeColor = Color.Red;
-                        if (nud_LiqOzn.Value < 0)
-                            l_AQ_LiqO.ForeColor = Color.Red;
                         else
-                            l_AQ_LiqO.ForeColor = Color.Green;
+                            nud_LiqOzn.ForeColor = Color.Blue;
 
                         // Isotopes
                         if (pl.PosTower.Fuel.N2Iso.PeriodQty > 0)
@@ -2496,60 +2521,80 @@ namespace EveHQ.PosManager
                             l_M_IsoType.Text = "N2";
                             l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.N2Iso.Qty);
                             l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.N2Iso.RunTime);
-                            increment = Math.Ceiling(pl.PosTower.Fuel.N2Iso.PeriodQty * sov_mod);
+                            increment = pl.PosTower.Fuel.N2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1);
                             nud_Isotope.Increment = Convert.ToDecimal(increment);
                             l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
                             l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.N2Iso.RunTime);
-                            l_AQ_Iso.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.N2Iso.Qty));
                             if (pl.PosTower.A_Fuel.N2Iso.RunTime < pl.PosTower.Fuel.N2Iso.RunTime)
                                 l_AR_Iso.ForeColor = Color.Red;
                             else
                                 l_AR_Iso.ForeColor = Color.Green;
+                            if (nud_Isotope.Value > pl.PosTower.Fuel.N2Iso.Qty)
+                                nud_Isotope.ForeColor = Color.Green;
+                            else if (nud_Isotope.Value < pl.PosTower.Fuel.N2Iso.Qty)
+                                nud_Isotope.ForeColor = Color.Red;
+                            else
+                                nud_Isotope.ForeColor = Color.Blue;
                         }
                         else if (pl.PosTower.Fuel.H2Iso.PeriodQty > 0)
                         {
                             l_M_IsoType.Text = "H2";
                             l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.H2Iso.Qty);
                             l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.H2Iso.RunTime);
-                            increment = Math.Ceiling(pl.PosTower.Fuel.H2Iso.PeriodQty * sov_mod);
+                            increment = pl.PosTower.Fuel.H2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1);
                             nud_Isotope.Increment = Convert.ToDecimal(increment);
                             l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
                             l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.H2Iso.RunTime);
-                            l_AQ_Iso.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.H2Iso.Qty));
                             if (pl.PosTower.A_Fuel.H2Iso.RunTime < pl.PosTower.Fuel.H2Iso.RunTime)
                                 l_AR_Iso.ForeColor = Color.Red;
                             else
                                 l_AR_Iso.ForeColor = Color.Green;
+                            if (nud_Isotope.Value > pl.PosTower.Fuel.H2Iso.Qty)
+                                nud_Isotope.ForeColor = Color.Green;
+                            else if (nud_Isotope.Value < pl.PosTower.Fuel.H2Iso.Qty)
+                                nud_Isotope.ForeColor = Color.Red;
+                            else
+                                nud_Isotope.ForeColor = Color.Blue;
                         }
                         else if (pl.PosTower.Fuel.O2Iso.PeriodQty > 0)
                         {
                             l_M_IsoType.Text = "O2";
                             l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.O2Iso.Qty);
                             l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.O2Iso.RunTime);
-                            increment = Math.Ceiling(pl.PosTower.Fuel.O2Iso.PeriodQty * sov_mod);
+                            increment = pl.PosTower.Fuel.O2Iso.GetFuelQtyForPeriod(sov_mod, 1, 1);
                             nud_Isotope.Increment = Convert.ToDecimal(increment);
                             l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
                             l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.O2Iso.RunTime);
-                            l_AQ_Iso.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.O2Iso.Qty));
                             if (pl.PosTower.A_Fuel.O2Iso.RunTime < pl.PosTower.Fuel.O2Iso.RunTime)
                                 l_AR_Iso.ForeColor = Color.Red;
                             else
                                 l_AR_Iso.ForeColor = Color.Green;
+                            if (nud_Isotope.Value > pl.PosTower.Fuel.O2Iso.Qty)
+                                nud_Isotope.ForeColor = Color.Green;
+                            else if (nud_Isotope.Value < pl.PosTower.Fuel.O2Iso.Qty)
+                                nud_Isotope.ForeColor = Color.Red;
+                            else
+                                nud_Isotope.ForeColor = Color.Blue;
                         }
                         else if (pl.PosTower.Fuel.HeIso.PeriodQty > 0)
                         {
                             l_M_IsoType.Text = "He";
                             l_C_Iso.Text = String.Format("{0:#,0.#}", pl.PosTower.Fuel.HeIso.Qty);
                             l_R_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.Fuel.HeIso.RunTime);
-                            increment = Math.Ceiling(pl.PosTower.Fuel.HeIso.PeriodQty * sov_mod);
+                            increment = pl.PosTower.Fuel.HeIso.GetFuelQtyForPeriod(sov_mod, 1, 1);
                             nud_Isotope.Increment = Convert.ToDecimal(increment);
                             l_QH_Iso.Text = String.Format("{0:#,0.#}", increment);
                             l_AR_Iso.Text = ConvertHoursToTextDisplay(pl.PosTower.A_Fuel.HeIso.RunTime);
-                            l_AQ_Iso.Text = String.Format("{0:#,0.#}", (pl.PosTower.A_Fuel.HeIso.Qty));
                             if (pl.PosTower.A_Fuel.HeIso.RunTime < pl.PosTower.Fuel.HeIso.RunTime)
                                 l_AR_Iso.ForeColor = Color.Red;
                             else
                                 l_AR_Iso.ForeColor = Color.Green;
+                            if (nud_Isotope.Value > pl.PosTower.Fuel.HeIso.Qty)
+                                nud_Isotope.ForeColor = Color.Green;
+                            else if (nud_Isotope.Value < pl.PosTower.Fuel.HeIso.Qty)
+                                nud_Isotope.ForeColor = Color.Red;
+                            else
+                                nud_Isotope.ForeColor = Color.Blue;
                         }
                         else
                         {
@@ -2558,19 +2603,10 @@ namespace EveHQ.PosManager
                             l_R_Iso.Text = ConvertHoursToTextDisplay(0);
                             l_QH_Iso.Text = "0";
                             l_AR_Iso.Text = ConvertHoursToTextDisplay(0);
-                            l_AQ_Iso.Text = "0";
                             l_AR_Iso.ForeColor = Color.Green;
                             nud_Isotope.Increment = 0;
+                            nud_Isotope.ForeColor = Color.Blue;
                         }
-
-                        if (nud_Isotope.Value >= 0)
-                            nud_Isotope.ForeColor = Color.Green;
-                        else
-                            nud_Isotope.ForeColor = Color.Red;
-                        if (nud_Isotope.Value < 0)
-                            l_AQ_Iso.ForeColor = Color.Red;
-                        else
-                            l_AQ_Iso.ForeColor = Color.Green;
 
                         bay_p = ComputeBayPercentage(pl.PosTower.A_Fuel.FuelUsed, pl.PosTower.A_Fuel.FuelCap);
                         pb_FuelBayFill.Value = Convert.ToInt32(bay_p);
@@ -3420,6 +3456,28 @@ namespace EveHQ.PosManager
             UpdateSelectedTowerList();
         }
 
+        private void b_SetSelectedFull_Click(object sender, EventArgs e)
+        {
+            string maintName;
+
+            if (dg_TowerFuelList.CurrentRow.Cells[(int)fillDG.Name].Value != null)
+            {
+                maintName = dg_TowerFuelList.CurrentRow.Cells[(int)fillDG.Name].Value.ToString();
+                foreach (POS pl in POSList.Designs)
+                {
+                    if (maintName == pl.Name)
+                    {
+                        pl.PosTower.Fuel.AddFuelQty(pl.PosTower.T_Fuel);
+                        break;
+                    }
+                }
+            }
+            PopulateTotalsDG();
+            UpdateSelectedTowerList();
+            PopulateMonitoredPoSDisplay();
+        }
+
+
 #endregion
 
 
@@ -3508,9 +3566,11 @@ namespace EveHQ.PosManager
             SL.LoadSystemListFromDisk();
             AL.LoadAllianceListFromAPI(1);
             API_D.LoadAPIListing(TL);
+            POSList.SaveDesignListing();
             BuildPOSListForMonitoring();
             UpdateAllTowerSovLevels();
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            GetTowerItemListData();
             PopulateMonitoredPoSDisplay();
         }
 

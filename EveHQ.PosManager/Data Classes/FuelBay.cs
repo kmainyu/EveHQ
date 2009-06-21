@@ -202,6 +202,23 @@ namespace EveHQ.PosManager
             Strontium.Qty += fb.Strontium.Qty;
         }
 
+        public void SetFuelQty(FuelBay fb)
+        {
+            EnrUran.Qty = fb.EnrUran.Qty;
+            Oxygen.Qty = fb.Oxygen.Qty;
+            MechPart.Qty = fb.MechPart.Qty;
+            Coolant.Qty = fb.Coolant.Qty;
+            Robotics.Qty = fb.Robotics.Qty;
+            HvyWater.Qty = fb.HvyWater.Qty;
+            LiqOzone.Qty = fb.LiqOzone.Qty;
+            Charters.Qty = fb.Charters.Qty;
+            N2Iso.Qty = fb.N2Iso.Qty;
+            HeIso.Qty = fb.HeIso.Qty;
+            H2Iso.Qty = fb.H2Iso.Qty;
+            O2Iso.Qty = fb.O2Iso.Qty;
+            Strontium.Qty = fb.Strontium.Qty;
+        }
+
         public void SubtractFuelQty(FuelBay fb)
         {
             EnrUran.Qty -= fb.EnrUran.Qty;
@@ -219,20 +236,20 @@ namespace EveHQ.PosManager
             Strontium.Qty -= fb.Strontium.Qty;
         }
 
-        public void SetFuelQtyForPeriod(decimal period, decimal sov_mult, decimal cpu_m, decimal pow_m)
+        public void SetFuelQtyForPeriod(decimal period, decimal sov_mult, decimal cpu_b, decimal cpu_u, decimal pow_b, decimal pow_u)
         {
-            EnrUran.Qty = Math.Ceiling(EnrUran.PeriodQty * sov_mult) * period;
-            Oxygen.Qty = Math.Ceiling(Oxygen.PeriodQty * sov_mult) * period;
-            MechPart.Qty = Math.Ceiling(MechPart.PeriodQty * sov_mult) * period;
-            Coolant.Qty = Math.Ceiling(Coolant.PeriodQty * sov_mult) * period;
-            Robotics.Qty = Math.Ceiling(Robotics.PeriodQty * sov_mult) * period;
-            HvyWater.Qty = Math.Ceiling(Math.Ceiling(HvyWater.PeriodQty * cpu_m) * sov_mult) * period;
-            LiqOzone.Qty = Math.Ceiling(Math.Ceiling(LiqOzone.PeriodQty * pow_m) * sov_mult) * period;
-            Charters.Qty = Math.Ceiling(Charters.PeriodQty * sov_mult) * period;
-            N2Iso.Qty = Math.Ceiling(N2Iso.PeriodQty * sov_mult) * period;
-            HeIso.Qty = Math.Ceiling(HeIso.PeriodQty * sov_mult) * period;
-            H2Iso.Qty = Math.Ceiling(H2Iso.PeriodQty * sov_mult) * period;
-            O2Iso.Qty = Math.Ceiling(O2Iso.PeriodQty * sov_mult) * period;
+            EnrUran.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            Oxygen.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            MechPart.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            Coolant.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            Robotics.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            HvyWater.SetFuelQtyForPeriod(sov_mult, cpu_b, cpu_u, period);
+            LiqOzone.SetFuelQtyForPeriod(sov_mult, pow_b, pow_u, period);
+            Charters.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            N2Iso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            HeIso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            H2Iso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+            O2Iso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
         }
 
         public void SetStrontQtyForPeriod(decimal period, decimal sov_mult)
@@ -259,20 +276,23 @@ namespace EveHQ.PosManager
             }
         }
 
-        public void DecrementFuelQtyForPeriod(decimal period, decimal sov_mult, decimal cpu_m, decimal pow_m)
+        public void DecrementFuelQtyForPeriod(decimal period, decimal sov_mult, decimal cpu_b, decimal cpu_u, decimal pow_b, decimal pow_u, bool useChart)
         {
-            EnrUran.Qty -= Math.Max((Math.Ceiling(EnrUran.PeriodQty * sov_mult) * period), 0);
-            Oxygen.Qty -= Math.Max((Math.Ceiling(Oxygen.PeriodQty * sov_mult) * period), 0);
-            MechPart.Qty -= Math.Max((Math.Ceiling(MechPart.PeriodQty * sov_mult) * period), 0);
-            Coolant.Qty -= Math.Max((Math.Ceiling(Coolant.PeriodQty * sov_mult) * period), 0);
-            Robotics.Qty -= Math.Max((Math.Ceiling(Robotics.PeriodQty * sov_mult) * period), 0);
-            HvyWater.Qty -= Math.Max((Math.Ceiling(Math.Ceiling(HvyWater.PeriodQty * cpu_m) * sov_mult) * period), 0);
-            LiqOzone.Qty -= Math.Max((Math.Ceiling(Math.Ceiling(LiqOzone.PeriodQty * pow_m) * sov_mult) * period), 0);
-            Charters.Qty -= Math.Max((Math.Ceiling(Charters.PeriodQty * sov_mult) * period), 0);
-            N2Iso.Qty -= Math.Max((Math.Ceiling(N2Iso.PeriodQty * sov_mult) * period), 0);
-            HeIso.Qty -= Math.Max((Math.Ceiling(HeIso.PeriodQty * sov_mult) * period), 0);
-            H2Iso.Qty -= Math.Max((Math.Ceiling(H2Iso.PeriodQty * sov_mult) * period), 0);
-            O2Iso.Qty -= Math.Max((Math.Ceiling(O2Iso.PeriodQty * sov_mult) * period), 0);
+            EnrUran.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+            Oxygen.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+            MechPart.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+            Coolant.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+            Robotics.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+            HvyWater.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+            LiqOzone.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+            
+            if (useChart)
+                Charters.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+
+            N2Iso.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+            HeIso.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+            H2Iso.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+            O2Iso.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
         }
 
         public void DecrementStrontQtyForPeriod(decimal period, decimal sov_mult)
@@ -280,31 +300,31 @@ namespace EveHQ.PosManager
             Strontium.Qty -= Math.Max((Math.Ceiling(Strontium.PeriodQty * sov_mult) * period), 0);
         }
 
-        public void SetFuelRunTimes(decimal cpu_m, decimal pow_m, decimal sov_mult)
+        public void SetFuelRunTimes(decimal cpu_b, decimal cpu_u, decimal pow_b, decimal pow_u, decimal sov_mult)
         {
-            EnrUran.SetFuelRunTime(0, sov_mult);
-            Oxygen.SetFuelRunTime(0, sov_mult);
-            MechPart.SetFuelRunTime(0, sov_mult);
-            Coolant.SetFuelRunTime(0, sov_mult);
-            Robotics.SetFuelRunTime(0, sov_mult);
-            HeIso.SetFuelRunTime(0, sov_mult);
-            H2Iso.SetFuelRunTime(0, sov_mult);
-            N2Iso.SetFuelRunTime(0, sov_mult);
-            O2Iso.SetFuelRunTime(0, sov_mult);
-            HvyWater.SetFuelRunTime(cpu_m, sov_mult);
-            LiqOzone.SetFuelRunTime(pow_m, sov_mult);
-            Charters.SetFuelRunTime(0, 1);
-            Strontium.SetFuelRunTime(0, sov_mult);
+            EnrUran.SetFuelRunTime(sov_mult, 1, 1);
+            Oxygen.SetFuelRunTime(sov_mult, 1, 1);
+            MechPart.SetFuelRunTime(sov_mult, 1, 1);
+            Coolant.SetFuelRunTime(sov_mult, 1, 1);
+            Robotics.SetFuelRunTime(sov_mult, 1, 1);
+            HeIso.SetFuelRunTime(sov_mult, 1, 1);
+            H2Iso.SetFuelRunTime(sov_mult, 1, 1);
+            N2Iso.SetFuelRunTime(sov_mult, 1, 1);
+            O2Iso.SetFuelRunTime(sov_mult, 1, 1);
+            HvyWater.SetFuelRunTime(sov_mult, cpu_b, cpu_u);
+            LiqOzone.SetFuelRunTime(sov_mult, pow_b, pow_u);
+            Charters.SetFuelRunTime(1, 1, 1);
+            Strontium.SetFuelRunTime(sov_mult, 1, 1);
         }
 
-        public ArrayList GetShortestFuelRunTimeAndName(decimal cpu_m, decimal pow_m, decimal sov_mod, bool useChart)
+        public ArrayList GetShortestFuelRunTimeAndName(decimal cpu_b, decimal cpu_u, decimal pow_b, decimal pow_u, decimal sov_mod, bool useChart)
         {
             ArrayList rt_nm;
             ArrayList retList = new ArrayList();
             decimal f_run;
             decimal m_run = 9999999999999999;
 
-            rt_nm = EnrUran.SetAndReturnFuelRunTimeAndName(0, sov_mod);
+            rt_nm = EnrUran.SetAndReturnFuelRunTimeAndName(sov_mod, 1, 1);
             f_run = (decimal)(rt_nm[0]);
             if (f_run < m_run)
             {
@@ -312,7 +332,7 @@ namespace EveHQ.PosManager
                 retList = new ArrayList(rt_nm);
             }
 
-            rt_nm = Oxygen.SetAndReturnFuelRunTimeAndName(0, sov_mod);
+            rt_nm = Oxygen.SetAndReturnFuelRunTimeAndName(sov_mod, 1, 1);
             f_run = (decimal)(rt_nm[0]);
             if (f_run < m_run)
             {
@@ -320,7 +340,7 @@ namespace EveHQ.PosManager
                 retList = new ArrayList(rt_nm);
             }
 
-            rt_nm = MechPart.SetAndReturnFuelRunTimeAndName(0, sov_mod);
+            rt_nm = MechPart.SetAndReturnFuelRunTimeAndName(sov_mod, 1, 1);
             f_run = (decimal)(rt_nm[0]);
             if (f_run < m_run)
             {
@@ -328,7 +348,7 @@ namespace EveHQ.PosManager
                 retList = new ArrayList(rt_nm);
             }
 
-            rt_nm = Coolant.SetAndReturnFuelRunTimeAndName(0, sov_mod);
+            rt_nm = Coolant.SetAndReturnFuelRunTimeAndName(sov_mod, 1, 1);
             f_run = (decimal)(rt_nm[0]);
             if (f_run < m_run)
             {
@@ -336,7 +356,7 @@ namespace EveHQ.PosManager
                 retList = new ArrayList(rt_nm);
             }
 
-            rt_nm = Robotics.SetAndReturnFuelRunTimeAndName(0, sov_mod);
+            rt_nm = Robotics.SetAndReturnFuelRunTimeAndName(sov_mod, 1, 1);
             f_run = (decimal)(rt_nm[0]);
             if (f_run < m_run)
             {
@@ -344,7 +364,7 @@ namespace EveHQ.PosManager
                 retList = new ArrayList(rt_nm);
             }
 
-            rt_nm = HeIso.SetAndReturnFuelRunTimeAndName(0, sov_mod);
+            rt_nm = HeIso.SetAndReturnFuelRunTimeAndName(sov_mod, 1, 1);
             f_run = (decimal)(rt_nm[0]);
             if ((f_run < m_run) && ((string)rt_nm[1] != ""))
             {
@@ -352,7 +372,7 @@ namespace EveHQ.PosManager
                 retList = new ArrayList(rt_nm);
             }
 
-            rt_nm = H2Iso.SetAndReturnFuelRunTimeAndName(0, sov_mod);
+            rt_nm = H2Iso.SetAndReturnFuelRunTimeAndName(sov_mod, 1, 1);
             f_run = (decimal)(rt_nm[0]);
             if ((f_run < m_run) && ((string)rt_nm[1] != ""))
             {
@@ -360,7 +380,7 @@ namespace EveHQ.PosManager
                 retList = new ArrayList(rt_nm);
             }
 
-            rt_nm = N2Iso.SetAndReturnFuelRunTimeAndName(0, sov_mod);
+            rt_nm = N2Iso.SetAndReturnFuelRunTimeAndName(sov_mod, 1, 1);
             f_run = (decimal)(rt_nm[0]);
             if ((f_run < m_run) && ((string)rt_nm[1] != ""))
             {
@@ -368,7 +388,7 @@ namespace EveHQ.PosManager
                 retList = new ArrayList(rt_nm);
             }
 
-            rt_nm = O2Iso.SetAndReturnFuelRunTimeAndName(0, sov_mod);
+            rt_nm = O2Iso.SetAndReturnFuelRunTimeAndName(sov_mod, 1, 1);
             f_run = (decimal)(rt_nm[0]);
             if ((f_run < m_run) && ((string)rt_nm[1] != ""))
             {
@@ -376,7 +396,7 @@ namespace EveHQ.PosManager
                 retList = new ArrayList(rt_nm);
             }
 
-            rt_nm = HvyWater.SetAndReturnFuelRunTimeAndName(cpu_m, sov_mod);
+            rt_nm = HvyWater.SetAndReturnFuelRunTimeAndName(sov_mod, cpu_b, cpu_u);
             f_run = (decimal)(rt_nm[0]);
             if (f_run < m_run)
             {
@@ -384,7 +404,7 @@ namespace EveHQ.PosManager
                 retList = new ArrayList(rt_nm);
             }
 
-            rt_nm = LiqOzone.SetAndReturnFuelRunTimeAndName(pow_m, sov_mod);
+            rt_nm = LiqOzone.SetAndReturnFuelRunTimeAndName(sov_mod, pow_b, pow_u);
             f_run = (decimal)(rt_nm[0]);
             if (f_run < m_run)
             {
@@ -394,7 +414,7 @@ namespace EveHQ.PosManager
 
             if (useChart)
             {
-                rt_nm = Charters.SetAndReturnFuelRunTimeAndName(0, 1);
+                rt_nm = Charters.SetAndReturnFuelRunTimeAndName(1, 1, 1);
                 f_run = (decimal)(rt_nm[0]);
                 if (f_run < m_run)
                 {
@@ -476,5 +496,6 @@ namespace EveHQ.PosManager
 
             return retVal;
         }
+
     }
 }

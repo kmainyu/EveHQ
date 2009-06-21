@@ -21,6 +21,7 @@ namespace EveHQ.PosManager
 
         private void b_Cancel_Click(object sender, EventArgs e)
         {
+            myData.NewName = myData.CurrentName;
             Dispose();
         }
 

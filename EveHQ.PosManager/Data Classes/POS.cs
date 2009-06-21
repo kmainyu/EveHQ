@@ -21,7 +21,7 @@ namespace EveHQ.PosManager
         public DateTime Fuel_TS, Stront_TS, API_TS;
         public ArrayList Extra;
 
-        public string Name, System, CorpName;
+        public string Name, System, CorpName, Moon;
         public int itemID, locID, SovLevel, corpID;
         public bool Monitored;
         public bool FillCheck;
@@ -33,6 +33,7 @@ namespace EveHQ.PosManager
             Name = "";
             System = "";
             CorpName = "";
+            Moon = "";
             itemID = 0;
             locID = 0;
             corpID = 0;
@@ -53,6 +54,7 @@ namespace EveHQ.PosManager
             Name = nm;
             System = "";
             CorpName = "";
+            Moon = "";
             itemID = 0;
             locID = 0;
             SovLevel = 0;
@@ -73,6 +75,7 @@ namespace EveHQ.PosManager
             Name = p.Name;
             System = p.System;
             CorpName = p.CorpName;
+            Moon = p.Moon;
             itemID = p.itemID;
             locID = p.locID;
             corpID = p.corpID;
@@ -93,6 +96,7 @@ namespace EveHQ.PosManager
             Name = nm;
             System = p.System;
             CorpName = p.CorpName;
+            Moon = p.Moon;
             itemID = p.itemID;
             locID = p.locID;
             corpID = p.corpID;
@@ -113,6 +117,7 @@ namespace EveHQ.PosManager
             Name = "";
             System = "";
             CorpName = "";
+            Moon = "";
             itemID = 0;
             locID = 0;
             SovLevel = 0;
@@ -135,6 +140,7 @@ namespace EveHQ.PosManager
             p.Name = Name;
             p.System = System;
             p.CorpName = CorpName;
+            p.Moon = Moon;
             p.itemID = itemID;
             p.locID = locID;
             p.corpID = corpID;
@@ -169,13 +175,45 @@ namespace EveHQ.PosManager
                 return 0;
         }
 
-        public decimal GetModifierTime(decimal used, decimal cap)
-        {
-            if (cap > 0)
-                return (used / cap);
-            else
-                return 1;
-        }
+        //public decimal GetModifierTime(decimal used, decimal cap)
+        //{
+        //    if (cap > 0)
+        //        return (used / cap);
+
+        //    return 1;
+        //}
+
+        //public decimal GetModifiedFuelIncrement(int typ, decimal sov, decimal bVal)
+        //{
+        //    decimal ret, pcMult;
+
+        //    switch (typ)
+        //    {
+        //        case 1:
+        //            // CPU
+        //            if (PosTower.CPU > 0)
+        //                pcMult = (PosTower.CPU_Used / PosTower.CPU);
+        //            else
+        //                pcMult = 1;
+
+        //            ret = Math.Floor((pcMult * sov * bVal) + 1);
+        //            break;
+        //        case 2:
+        //            // Power
+        //            if(PosTower.Power > 0)
+        //                pcMult = (PosTower.Power_Used / PosTower.Power);
+        //            else
+        //                pcMult=1;
+
+        //            ret = Math.Floor((pcMult * sov * bVal) + 1);
+        //            break;
+        //        default:
+        //            ret = bVal;
+        //            break;
+        //    }
+
+        //    return ret;
+        //}
 
         public decimal GetSovMultiple()
         {
@@ -200,8 +238,6 @@ namespace EveHQ.PosManager
             API_Data apid = new API_Data();
             FuelBay fb = new FuelBay(PosTower.Fuel);
             ArrayList shortRun;
-            decimal cpu, cpu_used, power, power_used;
-            decimal cpu_mod, power_mod;
             int F_HourDiff = 0, S_HourDiff = 0;
             int F_DayDiff = 0, F_MinDiff = 0, S_DayDiff = 0, S_MinDiff = 0;
             decimal sov_mult;
@@ -289,34 +325,23 @@ namespace EveHQ.PosManager
             }
 
             // Determine actual CPU and POWER Fuel qty #s based upon CPU and Power usage of design
-            cpu = PosTower.CPU;
-            cpu_used = PosTower.CPU_Used;
-
-            power = PosTower.Power;
-            power_used = PosTower.Power_Used;
-
-            cpu_mod = GetModifierTime(cpu_used, cpu);
-            power_mod = GetModifierTime(power_used, power);
-
-            PosTower.Fuel.DecrementFuelQtyForPeriod(F_HourDiff, sov_mult, cpu_mod, power_mod);
+            PosTower.Fuel.DecrementFuelQtyForPeriod(F_HourDiff, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
 
             // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
             PosTower.Fuel.SetCurrentFuelVolumes();
 
-            shortRun = PosTower.Fuel.GetShortestFuelRunTimeAndName(cpu_mod, power_mod, sov_mult, UseChart);
+            shortRun = PosTower.Fuel.GetShortestFuelRunTimeAndName(PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, sov_mult, UseChart);
 
             PosTower.F_RunTime = (decimal)shortRun[0];
             PosTower.Low_Fuel = (string)shortRun[1];
             PosTower.Fuel.SetCurrentFuelCosts(fbay);
-            PosTower.Fuel.SetFuelRunTimes(cpu_mod, power_mod, sov_mult);
+            PosTower.Fuel.SetFuelRunTimes(PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, sov_mult);
         }
 
         public decimal ComputeMaxPosRunTimeForLoad()
         {
             FuelBay fb = new FuelBay(PosTower.Fuel);
             decimal fuel_cap = 0;
-            decimal cpu, cpu_used, power, power_used;
-            decimal cpu_mod, power_mod;
             decimal period = 0;
             decimal sov_mult;
 
@@ -327,18 +352,8 @@ namespace EveHQ.PosManager
             {
                 period++;
 
-                // Determine actual CPU and POWER Fuel qty #s based upon CPU and Power usage of design
-                cpu = PosTower.CPU;
-                cpu_used = PosTower.CPU_Used;
-
-                power = PosTower.Power;
-                power_used = PosTower.Power_Used;
-
-                cpu_mod = GetModifierTime(cpu_used, cpu);
-                power_mod = GetModifierTime(power_used, power);
-
                 // Modify POS Fuel Numbers on amount (multiplicative)
-                fb.SetFuelQtyForPeriod(period, sov_mult, cpu_mod, power_mod);
+                fb.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used);
 
                 // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
                 fb.SetCurrentFuelVolumes();
@@ -349,8 +364,6 @@ namespace EveHQ.PosManager
 
         public void CalculatePOSDesignFuelValues(FuelBay fb)
         {
-            decimal cpu, cpu_used, power, power_used;
-            decimal cpu_mod, power_mod;
             decimal period, s_period;
             decimal sov_mult;
 
@@ -381,16 +394,7 @@ namespace EveHQ.PosManager
             s_period = PosTower.Design_Stront_Qty;
 
             // Determine actual CPU and POWER Fuel qty #s based upon CPU and Power usage of design
-            cpu = PosTower.CPU;
-            cpu_used = PosTower.CPU_Used;
-
-            power = PosTower.Power;
-            power_used = PosTower.Power_Used;
-
-            cpu_mod = GetModifierTime(cpu_used, cpu);
-            power_mod = GetModifierTime(power_used, power);
-
-            PosTower.D_Fuel.SetFuelQtyForPeriod(period, sov_mult, cpu_mod, power_mod);
+            PosTower.D_Fuel.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used);
             PosTower.D_Fuel.SetStrontQtyForPeriod(s_period, sov_mult);
           
             // Set Fuel Run Times
@@ -415,28 +419,16 @@ namespace EveHQ.PosManager
 
         public void CalculatePOSAdjustRunTime(FuelBay fbay, FuelBay nud_fuel)
         {
-            decimal cpu, cpu_used, power, power_used;
-            decimal cpu_mod, power_mod;
             decimal sov_mult;
 
             PosTower.A_Fuel = new FuelBay(PosTower.Fuel);
 
             sov_mult = GetSovMultiple();
 
-            PosTower.A_Fuel.AddFuelQty(nud_fuel);
-
-            // Determine actual CPU and POWER Fuel usage
-            cpu = PosTower.CPU;
-            cpu_used = PosTower.CPU_Used;
-
-            power = PosTower.Power;
-            power_used = PosTower.Power_Used;
-
-            cpu_mod = GetModifierTime(cpu_used, cpu);
-            power_mod = GetModifierTime(power_used, power);
+            PosTower.A_Fuel.SetFuelQty(nud_fuel);
 
             // Compute Fuel Run Times
-            PosTower.A_Fuel.SetFuelRunTimes(cpu_mod, power_mod, sov_mult);
+            PosTower.A_Fuel.SetFuelRunTimes(PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, sov_mult);
 
             // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
             PosTower.A_Fuel.SetCurrentFuelVolumes();
@@ -446,8 +438,6 @@ namespace EveHQ.PosManager
         public decimal ComputeMaxPosRunTimeForPeriod(decimal per)
         {
             decimal fuel_use = 0, fuel_cap = 0;
-            decimal cpu, cpu_used, power, power_used;
-            decimal cpu_mod, power_mod;
             decimal period = 0;
             decimal sov_mult;
             FuelBay fb = new FuelBay(PosTower.D_Fuel);
@@ -460,17 +450,7 @@ namespace EveHQ.PosManager
             {
                 period++;
 
-                // Determine actual CPU and POWER Fuel qty #s based upon CPU and Power usage of design
-                cpu = PosTower.CPU;
-                cpu_used = PosTower.CPU_Used;
-
-                power = PosTower.Power;
-                power_used = PosTower.Power_Used;
-
-                cpu_mod = GetModifierTime(cpu_used, cpu);
-                power_mod = GetModifierTime(power_used, power);
-
-                fb.SetFuelQtyForPeriod(period, sov_mult, cpu_mod, power_mod);
+                fb.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used);
                 fb.SetCurrentFuelVolumes();
 
                 // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
@@ -482,8 +462,6 @@ namespace EveHQ.PosManager
 
         public void ComputePosFuelUsageForFillTracking(int period, decimal value, FuelBay fb)
         {
-            decimal cpu, cpu_used, power, power_used;
-            decimal cpu_mod, power_mod;
             decimal run_time, run_perd;
             decimal sov_mult;
 
@@ -521,17 +499,7 @@ namespace EveHQ.PosManager
             if (PosTower.T_Fuel == null)
                 PosTower.T_Fuel = new FuelBay();
 
-            // Determine actual CPU and POWER Fuel qty #s based upon CPU and Power usage of design
-            cpu = PosTower.CPU;
-            cpu_used = PosTower.CPU_Used;
-
-            power = PosTower.Power;
-            power_used = PosTower.Power_Used;
-
-            cpu_mod = GetModifierTime(cpu_used, cpu);
-            power_mod = GetModifierTime(power_used, power);
-
-            PosTower.T_Fuel.SetFuelQtyForPeriod(run_time, sov_mult, cpu_mod, power_mod);
+            PosTower.T_Fuel.SetFuelQtyForPeriod(run_time, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used);
             PosTower.T_Fuel.SetStrontQtyForPeriodOrMax(run_time, sov_mult);
 
             // Modify numbers based upon current bay quantities
