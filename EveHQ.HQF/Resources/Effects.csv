@@ -992,6 +992,7 @@
 833,1,20070,552,3,6,0,0,0,16,SkWL - Evasive Maneuvers
 833,1,11017,54,2,52;65,0,0,0,16,SkWL - Interdiction Maneuvers
 833,1,20408,567,2,46,0,0,0,16,SkWL - Rapid Deployment
+435,1,11014,10063,3,6,0,0,1,12,Command Processor
 # FLEET SHIP EFFECTS,,,,,,,,,,
 55,1,-1,55,3,6,0,0,0,16,Gang Capacitor Recharge Rate
 265,1,-1,265,3,6,0,0,0,16,Gang Armor HP

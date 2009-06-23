@@ -1005,9 +1005,15 @@ Public Class ShipSlotControl
                     shipMod.ModuleState = 2
                 End If
             Else
-                If CountActiveTypeModules(shipMod.ID) >= CInt(shipMod.Attributes("763")) Then
+                ' Check active command relay bonus (attID=435) on ship
+                If IsModuleGroupLimitExceeded(shipMod, True) = True Then
                     ' Set the module offline
                     shipMod.ModuleState = 2
+                Else
+                    If CountActiveTypeModules(shipMod.ID) >= CInt(shipMod.Attributes("763")) Then
+                        ' Set the module offline
+                        shipMod.ModuleState = 2
+                    End If
                 End If
             End If
         End If
@@ -1018,7 +1024,16 @@ Public Class ShipSlotControl
         Dim count As Integer = 0
         Dim fittedMod As ShipModule = testMod.Clone
         Engine.ApplySkillEffectsToModule(fittedMod, True)
-        Dim maxAllowed As Integer = CInt(fittedMod.Attributes("763"))
+        Dim maxAllowed As Integer = 0
+        If fittedMod.DatabaseGroup = "316" Then
+            If fittedShip IsNot Nothing Then
+                maxAllowed = CInt(fittedShip.Attributes("10063"))
+            Else
+                maxAllowed = CInt(currentShip.Attributes("10063")) + CInt(currentShip.Attributes("435"))
+            End If
+        Else
+            maxAllowed = CInt(fittedMod.Attributes("763"))
+        End If
         For slot As Integer = 1 To currentShip.HiSlots
             If currentShip.HiSlot(slot) IsNot Nothing Then
                 If currentShip.HiSlot(slot).DatabaseGroup = testMod.DatabaseGroup And currentShip.HiSlot(slot).ModuleState >= 4 Then
@@ -1028,8 +1043,10 @@ Public Class ShipSlotControl
         Next
         For slot As Integer = 1 To currentShip.MidSlots
             If currentShip.MidSlot(slot) IsNot Nothing Then
-                If currentShip.MidSlot(slot).DatabaseGroup = testMod.DatabaseGroup And currentShip.MidSlot(slot).ModuleState >= 4 Then
-                    count += 1
+                If currentShip.MidSlot(slot).ID <> "11014" Then
+                    If currentShip.MidSlot(slot).DatabaseGroup = testMod.DatabaseGroup And currentShip.MidSlot(slot).ModuleState >= 4 Then
+                        count += 1
+                    End If
                 End If
             End If
         Next
@@ -1327,11 +1344,18 @@ Public Class ShipSlotControl
                                         Exit Sub
                                     End If
                                 Else
-                                    If CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes("763")) Then
+                                    If IsModuleGroupLimitExceeded(fittedMod, False) = True Then
                                         ' Set the module offline
-                                        MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                        MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                         currentMod.ModuleState = oldState
                                         Exit Sub
+                                    Else
+                                        If CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes("763")) Then
+                                            ' Set the module offline
+                                            MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                            currentMod.ModuleState = oldState
+                                            Exit Sub
+                                        End If
                                     End If
                                 End If
                             End If
@@ -2032,17 +2056,24 @@ Public Class ShipSlotControl
                     Exit Sub
                 End If
             Else
-                If CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes("763")) Then
+                If IsModuleGroupLimitExceeded(sModule, False) = True Then
                     ' Set the module offline
-                    MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     sModule.ModuleState = oldState
                     Exit Sub
+                Else
+                    If CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes("763")) Then
+                        ' Set the module offline
+                        MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        sModule.ModuleState = oldState
+                        Exit Sub
+                    End If
                 End If
             End If
         End If
-        currentInfo.ShipType = currentShip
-        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-        Call Me.UpdateAllSlotLocations()
+            currentInfo.ShipType = currentShip
+            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+            Call Me.UpdateAllSlotLocations()
     End Sub
     Private Sub SetModuleOverload(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim menuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
@@ -2072,17 +2103,24 @@ Public Class ShipSlotControl
                     Exit Sub
                 End If
             Else
-                If CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes("763")) Then
+                If IsModuleGroupLimitExceeded(sModule, False) = True Then
                     ' Set the module offline
-                    MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     sModule.ModuleState = oldState
                     Exit Sub
+                Else
+                    If CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes("763")) Then
+                        ' Set the module offline
+                        MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        sModule.ModuleState = oldState
+                        Exit Sub
+                    End If
                 End If
             End If
         End If
-        currentInfo.ShipType = currentShip
-        currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
-        Call Me.UpdateAllSlotLocations()
+            currentInfo.ShipType = currentShip
+            currentInfo.BuildMethod = BuildType.BuildFromEffectsMaps
+            Call Me.UpdateAllSlotLocations()
     End Sub
 
 #End Region
