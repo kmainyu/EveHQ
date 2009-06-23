@@ -1409,8 +1409,10 @@ Public Class frmItemBrowser
         If newSkill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In newSkill.PreReqSkills.Keys
-                subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
-                Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode, itemUsable)
+                If subSkillID <> newSkill.ID Then
+                    subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                    Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode, itemUsable)
+                End If
             Next
         End If
     End Sub
