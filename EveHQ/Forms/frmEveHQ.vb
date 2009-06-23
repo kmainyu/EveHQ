@@ -80,7 +80,7 @@ Public Class frmEveHQ
 #Region "Menu Click Routines"
 
     Private Sub ExitToolsStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ExitToolStripMenuItem.Click
-        End
+        Me.Close()
     End Sub
     Private Sub CascadeToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         Me.LayoutMdi(MdiLayout.Cascade)
@@ -295,6 +295,10 @@ Public Class frmEveHQ
 #End Region
 
 #Region "Form Opening & Closing & Resizing (+ Icon)"
+
+    Private Sub frmEveHQ_FormClosed(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
+        ' Dummy sub to force the FormClosing routine from the menu - unsure why it behaves like this but it works!
+    End Sub
 
     Private Sub frmEveHQ_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
 
@@ -539,7 +543,11 @@ Public Class frmEveHQ
                                 strCharNotify &= cPilot.Name & " - " & cPilot.TrainingSkillName & " (Skill Queue ends in " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.QueuedSkillTime) & ")" & ControlChars.CrLf
                             End If
                         Else
-                            strCharNotify &= cPilot.Name & " - " & cPilot.TrainingSkillName & " (Training ends in " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime) & ")" & ControlChars.CrLf
+                            If cPilot.TrainingCurrentTime > 0 Then
+                                strCharNotify &= cPilot.Name & " - " & cPilot.TrainingSkillName & " (Training ends in " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime) & ")" & ControlChars.CrLf
+                            Else
+                                strCharNotify &= cPilot.Name & " - " & cPilot.TrainingSkillName & " (Training already complete)" & ControlChars.CrLf
+                            End If
                         End If
                     End If
                     accounts.Add(cPilot.Account)
@@ -553,7 +561,11 @@ Public Class frmEveHQ
             Dim strAccountNotify As String = ""
             For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
                 If accounts.Contains(cAccount.userID) = False Then
-                    strAccountNotify &= cAccount.userID & ControlChars.CrLf
+                    If cAccount.FriendlyName <> "" Then
+                        strAccountNotify &= cAccount.FriendlyName & " (UserID: " & cAccount.userID & ")" & ControlChars.CrLf
+                    Else
+                        strAccountNotify &= "UserID: " & cAccount.userID & ControlChars.CrLf
+                    End If
                 End If
             Next
             If strAccountNotify <> "" Then
