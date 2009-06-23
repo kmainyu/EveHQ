@@ -265,6 +265,8 @@ Partial Public Class frmSettings
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog
         Me.tvwSettings = New System.Windows.Forms.TreeView
         Me.gbColours = New System.Windows.Forms.GroupBox
+        Me.txtCSVSeparator = New System.Windows.Forms.TextBox
+        Me.lblCSVSeparatorChar = New System.Windows.Forms.Label
         Me.chkDisableVisualStyles = New System.Windows.Forms.CheckBox
         Me.cd1 = New System.Windows.Forms.ColorDialog
         Me.gbTrainingOverlay = New System.Windows.Forms.GroupBox
@@ -303,8 +305,6 @@ Partial Public Class frmSettings
         Me.gbTaskbarIcon = New System.Windows.Forms.GroupBox
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
-        Me.lblCSVSeparatorChar = New System.Windows.Forms.Label
-        Me.txtCSVSeparator = New System.Windows.Forms.TextBox
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2355,9 +2355,9 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(432, 52)
+        Me.gbNotifications.Location = New System.Drawing.Point(194, 12)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(157, 36)
+        Me.gbNotifications.Size = New System.Drawing.Size(696, 497)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
@@ -2443,7 +2443,7 @@ Partial Public Class frmSettings
         '
         Me.trackNotifyOffset.BackColor = System.Drawing.SystemColors.Control
         Me.trackNotifyOffset.Location = New System.Drawing.Point(21, 200)
-        Me.trackNotifyOffset.Maximum = 900
+        Me.trackNotifyOffset.Maximum = 9000
         Me.trackNotifyOffset.Name = "trackNotifyOffset"
         Me.trackNotifyOffset.Size = New System.Drawing.Size(450, 45)
         Me.trackNotifyOffset.TabIndex = 12
@@ -2692,13 +2692,31 @@ Partial Public Class frmSettings
         Me.gbColours.Controls.Add(Me.lblCSVSeparatorChar)
         Me.gbColours.Controls.Add(Me.chkDisableVisualStyles)
         Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
-        Me.gbColours.Location = New System.Drawing.Point(194, 12)
+        Me.gbColours.Location = New System.Drawing.Point(479, 407)
         Me.gbColours.Name = "gbColours"
-        Me.gbColours.Size = New System.Drawing.Size(693, 501)
+        Me.gbColours.Size = New System.Drawing.Size(74, 31)
         Me.gbColours.TabIndex = 28
         Me.gbColours.TabStop = False
         Me.gbColours.Text = "Colours"
         Me.gbColours.Visible = False
+        '
+        'txtCSVSeparator
+        '
+        Me.txtCSVSeparator.Location = New System.Drawing.Point(99, 329)
+        Me.txtCSVSeparator.MaxLength = 1
+        Me.txtCSVSeparator.Name = "txtCSVSeparator"
+        Me.txtCSVSeparator.ShortcutsEnabled = False
+        Me.txtCSVSeparator.Size = New System.Drawing.Size(46, 20)
+        Me.txtCSVSeparator.TabIndex = 40
+        '
+        'lblCSVSeparatorChar
+        '
+        Me.lblCSVSeparatorChar.AutoSize = True
+        Me.lblCSVSeparatorChar.Location = New System.Drawing.Point(16, 332)
+        Me.lblCSVSeparatorChar.Name = "lblCSVSeparatorChar"
+        Me.lblCSVSeparatorChar.Size = New System.Drawing.Size(77, 13)
+        Me.lblCSVSeparatorChar.TabIndex = 39
+        Me.lblCSVSeparatorChar.Text = "CSV Separator"
         '
         'chkDisableVisualStyles
         '
@@ -3059,32 +3077,14 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
-        'lblCSVSeparatorChar
-        '
-        Me.lblCSVSeparatorChar.AutoSize = True
-        Me.lblCSVSeparatorChar.Location = New System.Drawing.Point(16, 332)
-        Me.lblCSVSeparatorChar.Name = "lblCSVSeparatorChar"
-        Me.lblCSVSeparatorChar.Size = New System.Drawing.Size(77, 13)
-        Me.lblCSVSeparatorChar.TabIndex = 39
-        Me.lblCSVSeparatorChar.Text = "CSV Separator"
-        '
-        'txtCSVSeparator
-        '
-        Me.txtCSVSeparator.Location = New System.Drawing.Point(99, 329)
-        Me.txtCSVSeparator.MaxLength = 1
-        Me.txtCSVSeparator.Name = "txtCSVSeparator"
-        Me.txtCSVSeparator.ShortcutsEnabled = False
-        Me.txtCSVSeparator.Size = New System.Drawing.Size(46, 20)
-        Me.txtCSVSeparator.TabIndex = 40
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbColours)
-        Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbNotifications)
+        Me.Controls.Add(Me.gbGeneral)
+        Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbEveServer)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbDatabaseFormat)

@@ -728,7 +728,7 @@ Public Class frmEveHQ
                                 ' Expand the details with some additional information
                                 If cPilot.QueuedSkills.Count > 0 Then
                                     notifyText &= ControlChars.CrLf
-                                    notifyText &= "Next skill in Eve skill queue: " & EveHQ.Core.SkillFunctions.SkillIDToName(CStr(cPilot.QueuedSkills(0).SkillID)) & " " & EveHQ.Core.SkillFunctions.Roman(cPilot.QueuedSkills(0).Level)
+                                    notifyText &= "Next skill in Eve skill queue: " & EveHQ.Core.SkillFunctions.SkillIDToName(CStr(cPilot.QueuedSkills.Values(0).SkillID)) & " " & EveHQ.Core.SkillFunctions.Roman(cPilot.QueuedSkills.Values(0).Level)
                                     notifyText &= ControlChars.CrLf
                                 Else
                                     notifyText &= ControlChars.CrLf
@@ -739,7 +739,7 @@ Public Class frmEveHQ
                                     notifyText &= ControlChars.CrLf
                                     notifyText &= "EveHQ Skill Queue Info: " & ControlChars.CrLf
                                     For Each sq As EveHQ.Core.SkillQueue In cPilot.TrainingQueues.Values
-                                        Dim nq As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(cPilot, sq, )
+                                        Dim nq As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(cPilot, sq)
                                         If sq.IncCurrentTraining = True Then
                                             If nq.Count > 1 Then
                                                 For q As Integer = 1 To nq.Count - 1
