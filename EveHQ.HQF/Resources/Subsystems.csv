@@ -227,15 +227,15 @@
 # Legion Propulsion - Wake Limiter,,,,,,,,,,,
 30080,1,30538,554,2,46,0,1,0,-5,15,MWD Signature Radius Penalty
 # Legion Propulsion - Interdiction Nullifier,,,,,,,,,,,
-30082,1,30538,70,1,29986,0,1,0,5,15,Agility
+30082,1,30538,70,1,29986,0,1,0,-5,15,Agility
 # Loki Propulsion - Chassis Optimization,,,,,,,,,,,
 30106,1,30554,37,1,29990,0,1,0,5,15,Max Velocity
 # Loki Propulsion - Intercalated Nanofibers,,,,,,,,,,,
-30108,1,30554,70,1,29990,0,1,0,5,15,Agility
+30108,1,30554,70,1,29990,0,1,0,-5,15,Agility
 # Loki Propulsion - Fuel Catalyst,,,,,,,,,,,
 30110,1,30554,20,4,542,0,1,0,10,15,Afterburner Velocity
 # Loki Propulsion - Interdiction Nullifier,,,,,,,,,,,
-30112,1,30554,70,1,29990,0,1,0,5,15,Agility
+30112,1,30554,70,1,29990,0,1,0,-5,15,Agility
 # Proteus Propulsion - Wake Limiter,,,,,,,,,,,
 30096,1,30553,554,2,46,0,1,0,-5,15,MWD Signature Radius Penalty
 # Proteus Propulsion - Localized Injectors,,,,,,,,,,,
@@ -244,13 +244,13 @@
 30100,1,30553,153,1,29988,0,1,0,-15,15,Warp Capacitor Need
 30100,1,30553,600,1,29988,0,1,0,15,15,Warp Speed
 # Proteus Propulsion - Interdiction Nullifier,,,,,,,,,,,
-30102,1,30553,70,1,29988,0,1,0,5,15,Agility
+30102,1,30553,70,1,29988,0,1,0,-5,15,Agility
 # Tengu Propulsion - Intercalated Nanofibers,,,,,,,,,,,
-30086,1,30552,70,1,29984,0,1,0,5,15,Agility
+30086,1,30552,70,1,29984,0,1,0,-5,15,Agility
 # Tengu Propulsion - Gravitational Capacitor,,,,,,,,,,,
 30088,1,30552,153,1,29984,0,1,0,-15,15,Warp Capacitor Need
 30088,1,30552,600,1,29984,0,1,0,15,15,Warp Speed
 # Tengu Propulsion - Fuel Catalyst,,,,,,,,,,,
 30090,1,30552,20,4,542,0,1,0,10,15,Afterburner Velocity
 # Tengu Propulsion - Interdiction Nullifier,,,,,,,,,,,
-30092,1,30552,70,1,29984,0,1,0,5,15,Agility
+30092,1,30552,70,1,29984,0,1,0,-5,15,Agility
