@@ -116,6 +116,20 @@ Public Class frmPrism
         Call Portfolio.SetupTypes()
         Call Me.ScanForExistingXMLs()
 
+        ' Set the refining info
+        ' Set the pilot to the recycling one
+        If cboRecyclePilots.Items.Contains(RecyclerAssetOwner) Then
+            cboRecyclePilots.SelectedItem = RecyclerAssetOwner
+        Else
+            If cboRecyclePilots.Items.Contains(cboOwner.SelectedItem.ToString) Then
+                cboRecyclePilots.SelectedItem = cboOwner.SelectedItem.ToString
+            Else
+                cboRecyclePilots.SelectedIndex = 0
+            End If
+        End If
+        ' Set the recycling mode
+        cboRefineMode.SelectedIndex = 0
+
     End Sub
     Private Sub BuildCorpList()
         CorpList.Clear()
