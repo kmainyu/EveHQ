@@ -85,10 +85,4 @@ Public Class frmModifyFittingName
         Me.Close()
     End Sub
 
-    'Private Sub txtFittingName_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtFittingName.KeyPress
-    '    Dim myMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(e.KeyChar, "^[0-9a-zA-Z\x20\x08]*$")
-    '    If myMatch.Success = False Then
-    '        e.KeyChar = CChar("")
-    '    End If
-    'End Sub
 End Class

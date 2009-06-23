@@ -1582,8 +1582,8 @@ Public Class frmHQF
             If ShipMod.StartsWith("[") = False And ShipMod <> "" Then
                 ' Check for "Drones_" label
                 If ShipMod.StartsWith("Drones_") Then
-                    ShipMod = ShipMod.TrimStart(CChar("Drones_Active="))
-                    ShipMod = ShipMod.TrimStart(CChar("Drones_Inactive="))
+                    ShipMod = ShipMod.TrimStart("Drones_Active=".ToCharArray)
+                    ShipMod = ShipMod.TrimStart("Drones_Inactive=".ToCharArray)
                 End If
                 newFit.Add(ShipMod)
             End If
