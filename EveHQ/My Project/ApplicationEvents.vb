@@ -70,6 +70,14 @@ Namespace My
                     trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
                 End If
             Next
+            trace.AppendLine("")
+            trace.AppendLine("")
+            trace.AppendLine("========= System Info =========")
+            trace.AppendLine("")
+            trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
+            trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
+            trace.AppendLine("EveHQ Location: " & EveHQ.Core.HQ.appFolder)
+            trace.AppendLine("EveHQ Cache Locations: " & EveHQ.Core.HQ.appDataFolder)
             myException.txtStackTrace.Text = trace.ToString
             Dim result As Integer = myException.ShowDialog()
             If result = DialogResult.Ignore Then
