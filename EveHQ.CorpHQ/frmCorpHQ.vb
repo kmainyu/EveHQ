@@ -226,7 +226,10 @@ Public Class frmCorpHQ
                     sw.WriteLine("Standings Export for " & cboOwner.SelectedItem.ToString & " (dated: " & FormatDateTime(Now, DateFormat.GeneralDate) & ")")
                     sw.WriteLine("Entity Name,Entity ID,Entity Type,Raw Standing Value,Actual Standing Value")
                     For Each iStanding As ListViewItem In lvwStandings.Items
-                        sw.WriteLine(iStanding.Text & "," & iStanding.SubItems(1).Text & "," & iStanding.SubItems(2).Text & "," & iStanding.SubItems(3).Text & "," & iStanding.SubItems(4).Text)
+                        sw.Write(iStanding.Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+                        sw.Write(iStanding.SubItems(1).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+                        sw.Write(iStanding.SubItems(2).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+                        sw.WriteLine(iStanding.SubItems(3).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar & iStanding.SubItems(4).Text)
                     Next
                     sw.Flush()
                     sw.Close()
