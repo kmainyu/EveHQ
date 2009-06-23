@@ -2140,16 +2140,18 @@ Public Class frmTraining
             MessageBox.Show("Please select a Queue to call Primary!", "Cannot Set Primary Queue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             lvQueues.Select()
         Else
-            ' Remove the current primary queue
+            ' Remove the current primary queue (if exists!)
             Dim oldPQ As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(displayPilot.PrimaryQueue), EveHQ.Core.SkillQueue)
-            oldPQ.Primary = False
+            If oldPQ IsNot Nothing Then
+                oldPQ.Primary = False
+            End If
             displayPilot.PrimaryQueue = ""
             ' Select the new primary queue
             Dim selQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name), EveHQ.Core.SkillQueue)
             selQueue.Primary = True
             displayPilot.PrimaryQueue = selQueue.Name
             Call Me.DrawQueueSummary()
-        End If
+            End If
     End Sub
     Private Sub btnCopyToPilot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopyToPilot.Click
         ' Check for some selection on the listview

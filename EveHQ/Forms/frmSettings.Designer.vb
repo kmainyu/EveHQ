@@ -2443,7 +2443,7 @@ Partial Public Class frmSettings
         '
         Me.trackNotifyOffset.BackColor = System.Drawing.SystemColors.Control
         Me.trackNotifyOffset.Location = New System.Drawing.Point(21, 200)
-        Me.trackNotifyOffset.Maximum = 9000
+        Me.trackNotifyOffset.Maximum = 1800
         Me.trackNotifyOffset.Name = "trackNotifyOffset"
         Me.trackNotifyOffset.Size = New System.Drawing.Size(450, 45)
         Me.trackNotifyOffset.TabIndex = 12
