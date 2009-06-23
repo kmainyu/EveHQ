@@ -1230,7 +1230,7 @@ Public Class frmMarketPrices
         If GetPriceFeed("FactionPrices", "http://www.evehq.net/prices/factionprices.xml", lblFactionPriceUpdateStatus, 0, False) = True Then
             ' Open a persistant DB connection
             If EveHQ.Core.DataFunctions.OpenCustomDatabase = True Then
-                Call Me.ParseFactionPriceFeed("FactionPrices", lblFactionPriceUpdateStatus)
+                Call Me.ParseFactionPriceFeed("FactionPrices", 0, lblFactionPriceUpdateStatus)
                 ' Close the connection
                 EveHQ.Core.DataFunctions.CloseCustomDatabase()
                 EveHQ.Core.HQ.EveHQSettings.LastFactionPriceUpdate = Now
@@ -1422,12 +1422,12 @@ Public Class frmMarketPrices
             Return False
         End Try
     End Function
-    Private Sub ParseFactionPriceFeed(ByVal FeedName As String, ByVal StatusLabel As Label)
+    Private Sub ParseFactionPriceFeed(ByVal FeedName As String, ByVal index As Integer, ByVal StatusLabel As Label)
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim feedXML As New XmlDocument
-        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml")) = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & index.ToString & ".xml")) = True Then
             Try
-                feedXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & ".xml"))
+                feedXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, FeedName & index.ToString & ".xml"))
                 Dim Items As XmlNodeList
                 Dim Item As XmlNode
                 Items = feedXML.SelectNodes("/factionPriceData/items/item")
