@@ -370,6 +370,19 @@ namespace DotNetLib.Windows.Forms
 				item.Focused = false;
 				item.OwnerListView = null;
 
+                for (int childIndex = 0; childIndex < item.Items.Count; ++childIndex)
+                {
+                    for (int subIndex = 0; subIndex < item.Items[childIndex].SubItems.Count; ++subIndex)
+                    {
+                        if (item.Items[childIndex].SubItems[subIndex].ItemControl != null)
+                        {
+                            item.Items[childIndex].SubItems[subIndex].ItemControl.Parent = null;
+                            item.Items[childIndex].SubItems[subIndex].ItemControl.Visible = false;
+                            item.Items[childIndex].SubItems[subIndex].ItemControl = null;
+                        }
+                    }
+                }
+
 				for(int subIndex = 0; subIndex < item.SubItems.Count; ++subIndex)
 				{
 					if (item.SubItems[subIndex].ItemControl != null)
