@@ -1512,9 +1512,11 @@ Public Class frmMarketPrices
 
     Private Sub clvLogs_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles clvLogs.MouseDoubleClick
         Dim marketOrders As New frmMarketOrders
-        marketOrders.OrdersFile = clvLogs.SelectedItems(0).Tag.ToString
-        marketOrders.Text = "Market Orders - " & clvLogs.SelectedItems(0).SubItems(1).Text & " (" & clvLogs.SelectedItems(0).Text & ") - " & clvLogs.SelectedItems(0).SubItems(2).Text
-        marketOrders.ShowDialog()
+        If clvLogs.SelectedItems.Count > 0 Then
+            marketOrders.OrdersFile = clvLogs.SelectedItems(0).Tag.ToString
+            marketOrders.Text = "Market Orders - " & clvLogs.SelectedItems(0).SubItems(1).Text & " (" & clvLogs.SelectedItems(0).Text & ") - " & clvLogs.SelectedItems(0).SubItems(2).Text
+            marketOrders.ShowDialog()
+        End If
     End Sub
 
 End Class
