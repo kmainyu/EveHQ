@@ -2912,7 +2912,7 @@ Public Class frmPrism
     End Sub
     Private Sub tlvAssets_SelectedItemsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tlvAssets.SelectedItemsChanged
         If tlvAssets.SelectedItems.Count > 0 Then
-            Dim volume, lineValue, value, quantity As Double
+            Dim volume, lineValue, value As Double
             Dim chkParent As New ContainerListViewItem
             Dim parentFlag As Boolean = False
             For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
@@ -2927,8 +2927,7 @@ Public Class frmPrism
                 Loop
                 If parentFlag = False Then
                     If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
-                        quantity += CDbl(asset.SubItems(AssetColumn.Quantity).Text)
-                        volume += CDbl(asset.SubItems(AssetColumn.Volume).Text) * quantity
+                        volume += CDbl(asset.SubItems(AssetColumn.Volume).Text)
                         lineValue = CDbl(asset.SubItems(AssetColumn.Value).Text)
                         value += lineValue
                     Else
