@@ -276,6 +276,9 @@ Public Class EveAPI
                     APIXML.Load(fileLoc)
                 Catch e As Exception
                     failedCacheLoad = True
+                    ' Attempt to get a new XML and save
+                    APIXML = FetchXMLFromWeb(remoteURL, postData)
+                    APIXML.Save(fileLoc)
                 End Try
                 ' Get Cache time details
                 Dim cacheDetails As XmlNodeList = APIXML.SelectNodes("/eveapi")
