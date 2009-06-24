@@ -1509,6 +1509,8 @@ namespace DotNetLib.Windows.Forms
 				DrawGridLines(g, clientRectangle);
 			}
 
+            RecalculateLayout(true, false);
+
 			if (_vScrollBar.Visible && _hScrollBar.Visible)
 			{
 				Rectangle extraRect = new Rectangle(_vScrollBar.Left, _hScrollBar.Top, _vScrollBar.Width, _hScrollBar.Height);
