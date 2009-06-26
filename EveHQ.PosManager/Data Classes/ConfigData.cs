@@ -23,12 +23,15 @@ namespace EveHQ.PosManager
         public ArrayList Extra;
         public string SelPos;
         public bool maintChart, maintStront;
+        public ArrayList dgMonBool, dgDesBool;
         public decimal maintTP, maintPV;
 
         public ConfigData()
         {
             FuelCosts = new FuelBay();
             Extra = new ArrayList();
+            dgMonBool = new ArrayList();
+            dgDesBool = new ArrayList();
             SortedColumnIndex = 3;
             MonSelIndex = 0;
             SelPos = "";

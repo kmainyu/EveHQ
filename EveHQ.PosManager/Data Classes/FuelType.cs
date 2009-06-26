@@ -84,7 +84,11 @@ namespace EveHQ.PosManager
                     pcMult = (used / cap);
                 else
                     pcMult = 1;
-                ret = Math.Floor((pcMult * sov * PeriodQty) + 1);
+
+                if(used > 0)
+                    ret = Math.Floor((pcMult * sov * PeriodQty) + 1);
+                else
+                    ret = Math.Floor(pcMult * sov * PeriodQty);
             }
 
 
@@ -99,7 +103,7 @@ namespace EveHQ.PosManager
             if (perQ > 0)
                 RunTime = (Qty / perQ);
             else
-                RunTime = 0;
+                RunTime = 999999;
         }
 
         public decimal SetAndReturnFuelRunTime(decimal sov, decimal cap, decimal used)
@@ -110,7 +114,7 @@ namespace EveHQ.PosManager
             if (perQ > 0)
                 RunTime = (Qty / perQ);
             else
-                RunTime = 0;
+                RunTime = 999999;
 
             return RunTime;
         }
@@ -125,7 +129,7 @@ namespace EveHQ.PosManager
             if (perQ > 0)
                 RunTime = (Qty / perQ);
             else
-                RunTime = 0;
+                RunTime = 999999;
 
             retVal.Add(RunTime);
             retVal.Add(Name);

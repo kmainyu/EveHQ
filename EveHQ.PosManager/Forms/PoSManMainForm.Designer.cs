@@ -30,19 +30,28 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoSManMainForm));
             this.tb_PosManager = new System.Windows.Forms.TabControl();
             this.tp_POSMonitor = new System.Windows.Forms.TabPage();
@@ -157,6 +166,11 @@
             this.Chrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Strn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IgnoreCharters = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.HiddenFuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenStront = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenCPU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenPower = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HiddenIso = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tp_POSDesign = new System.Windows.Forms.TabPage();
             this.dg_PosMods = new System.Windows.Forms.DataGridView();
             this.Module = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -172,6 +186,7 @@
             this.Switch = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Charge = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tc_StatFuel = new System.Windows.Forms.TabControl();
             this.tp_stats = new System.Windows.Forms.TabPage();
             this.pictureBox28 = new System.Windows.Forms.PictureBox();
@@ -282,35 +297,6 @@
             this.l_OnlineTime = new System.Windows.Forms.Label();
             this.pictureBox32 = new System.Windows.Forms.PictureBox();
             this.l_AnchorTime = new System.Windows.Forms.Label();
-            this.tp_SetFuelCost = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nud_O2_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_H2_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_N2_FC = new System.Windows.Forms.NumericUpDown();
-            this.b_SaveFuelCosts = new System.Windows.Forms.Button();
-            this.nud_ST_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_CH_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_LO_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_HW_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_HE_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_RB_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_CL_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_MP_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_OX_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_ER_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox36 = new System.Windows.Forms.PictureBox();
-            this.pictureBox42 = new System.Windows.Forms.PictureBox();
-            this.pictureBox43 = new System.Windows.Forms.PictureBox();
-            this.pictureBox44 = new System.Windows.Forms.PictureBox();
-            this.pictureBox11 = new System.Windows.Forms.PictureBox();
-            this.pictureBox33 = new System.Windows.Forms.PictureBox();
-            this.pictureBox34 = new System.Windows.Forms.PictureBox();
-            this.pictureBox35 = new System.Windows.Forms.PictureBox();
-            this.pictureBox37 = new System.Windows.Forms.PictureBox();
-            this.pictureBox38 = new System.Windows.Forms.PictureBox();
-            this.pictureBox39 = new System.Windows.Forms.PictureBox();
-            this.pictureBox40 = new System.Windows.Forms.PictureBox();
-            this.pictureBox41 = new System.Windows.Forms.PictureBox();
             this.p_Select = new System.Windows.Forms.Panel();
             this.cb_ItemType = new System.Windows.Forms.ComboBox();
             this.lv_ItemSelList = new System.Windows.Forms.ListView();
@@ -357,7 +343,6 @@
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
             this.p_Tower = new System.Windows.Forms.Panel();
-            this.poS_Item51 = new EveHQ.PosManager.PoS_Item();
             this.cms_PosItem = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsm_Online = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_Offline = new System.Windows.Forms.ToolStripMenuItem();
@@ -374,6 +359,124 @@
             this.tsm_Qty_9 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_Qty_10 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_SetModuleCharge = new System.Windows.Forms.ToolStripMenuItem();
+            this.tp_POSMaintenance = new System.Windows.Forms.TabPage();
+            this.b_SetSelectedFull = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.b_CopySelected = new System.Windows.Forms.Button();
+            this.b_CopyAllPos = new System.Windows.Forms.Button();
+            this.cb_FactChartTotal = new System.Windows.Forms.CheckBox();
+            this.cb_UseStrontTotals = new System.Windows.Forms.CheckBox();
+            this.gb_AllPos = new System.Windows.Forms.GroupBox();
+            this.dg_TotalFuel = new System.Windows.Forms.DataGridView();
+            this.FuelName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FuelVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gb_SelPos = new System.Windows.Forms.GroupBox();
+            this.dg_SelectedFuel = new System.Windows.Forms.DataGridView();
+            this.SelFuelType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SelFuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SelFuelVol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SelFuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dg_TowerFuelList = new System.Windows.Forms.DataGridView();
+            this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EnrUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Oxygen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MechP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Coolant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Robot = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Isotope = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HvyWater = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LiqOz = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Charter = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Stront = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.b_ApplyIntervalPeriod = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.nud_PeriodValue = new System.Windows.Forms.NumericUpDown();
+            this.tscb_TimePeriod = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tb_PMConfig = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.nud_O2_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_H2_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_N2_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_ST_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_CH_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_LO_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_HW_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_HE_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_RB_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_CL_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_MP_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_OX_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_ER_FC = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox36 = new System.Windows.Forms.PictureBox();
+            this.pictureBox42 = new System.Windows.Forms.PictureBox();
+            this.pictureBox43 = new System.Windows.Forms.PictureBox();
+            this.pictureBox44 = new System.Windows.Forms.PictureBox();
+            this.pictureBox11 = new System.Windows.Forms.PictureBox();
+            this.pictureBox33 = new System.Windows.Forms.PictureBox();
+            this.pictureBox34 = new System.Windows.Forms.PictureBox();
+            this.pictureBox35 = new System.Windows.Forms.PictureBox();
+            this.pictureBox37 = new System.Windows.Forms.PictureBox();
+            this.pictureBox38 = new System.Windows.Forms.PictureBox();
+            this.pictureBox39 = new System.Windows.Forms.PictureBox();
+            this.pictureBox40 = new System.Windows.Forms.PictureBox();
+            this.pictureBox41 = new System.Windows.Forms.PictureBox();
+            this.gb_PosDesignShow = new System.Windows.Forms.GroupBox();
+            this.checkBox44 = new System.Windows.Forms.CheckBox();
+            this.checkBox43 = new System.Windows.Forms.CheckBox();
+            this.checkBox42 = new System.Windows.Forms.CheckBox();
+            this.checkBox41 = new System.Windows.Forms.CheckBox();
+            this.checkBox40 = new System.Windows.Forms.CheckBox();
+            this.checkBox39 = new System.Windows.Forms.CheckBox();
+            this.checkBox38 = new System.Windows.Forms.CheckBox();
+            this.checkBox37 = new System.Windows.Forms.CheckBox();
+            this.checkBox36 = new System.Windows.Forms.CheckBox();
+            this.checkBox35 = new System.Windows.Forms.CheckBox();
+            this.checkBox34 = new System.Windows.Forms.CheckBox();
+            this.checkBox33 = new System.Windows.Forms.CheckBox();
+            this.checkBox32 = new System.Windows.Forms.CheckBox();
+            this.checkBox31 = new System.Windows.Forms.CheckBox();
+            this.checkBox30 = new System.Windows.Forms.CheckBox();
+            this.checkBox29 = new System.Windows.Forms.CheckBox();
+            this.checkBox28 = new System.Windows.Forms.CheckBox();
+            this.checkBox27 = new System.Windows.Forms.CheckBox();
+            this.checkBox26 = new System.Windows.Forms.CheckBox();
+            this.checkBox25 = new System.Windows.Forms.CheckBox();
+            this.gb_MonPosCol = new System.Windows.Forms.GroupBox();
+            this.checkBox13 = new System.Windows.Forms.CheckBox();
+            this.checkBox14 = new System.Windows.Forms.CheckBox();
+            this.checkBox15 = new System.Windows.Forms.CheckBox();
+            this.checkBox16 = new System.Windows.Forms.CheckBox();
+            this.checkBox17 = new System.Windows.Forms.CheckBox();
+            this.checkBox18 = new System.Windows.Forms.CheckBox();
+            this.checkBox19 = new System.Windows.Forms.CheckBox();
+            this.checkBox20 = new System.Windows.Forms.CheckBox();
+            this.checkBox21 = new System.Windows.Forms.CheckBox();
+            this.checkBox22 = new System.Windows.Forms.CheckBox();
+            this.checkBox23 = new System.Windows.Forms.CheckBox();
+            this.checkBox24 = new System.Windows.Forms.CheckBox();
+            this.checkBox12 = new System.Windows.Forms.CheckBox();
+            this.checkBox11 = new System.Windows.Forms.CheckBox();
+            this.checkBox10 = new System.Windows.Forms.CheckBox();
+            this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.checkBox7 = new System.Windows.Forms.CheckBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.il_system = new System.Windows.Forms.ImageList(this.components);
+            this.il_FetchList = new System.Windows.Forms.ImageList(this.components);
+            this.t_MonitorUpdate = new System.Windows.Forms.Timer(this.components);
+            this.tt_InfoTips = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.poS_Item51 = new EveHQ.PosManager.PoS_Item();
             this.poS_Item52 = new EveHQ.PosManager.PoS_Item();
             this.poS_Item49 = new EveHQ.PosManager.PoS_Item();
             this.poS_Item50 = new EveHQ.PosManager.PoS_Item();
@@ -422,48 +525,6 @@
             this.poS_Item2 = new EveHQ.PosManager.PoS_Item();
             this.poS_Item1 = new EveHQ.PosManager.PoS_Item();
             this.pi_Tower = new EveHQ.PosManager.PoS_Item();
-            this.tp_POSMaintenance = new System.Windows.Forms.TabPage();
-            this.b_SetSelectedFull = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.b_CopySelected = new System.Windows.Forms.Button();
-            this.b_CopyAllPos = new System.Windows.Forms.Button();
-            this.cb_FactChartTotal = new System.Windows.Forms.CheckBox();
-            this.cb_UseStrontTotals = new System.Windows.Forms.CheckBox();
-            this.gb_AllPos = new System.Windows.Forms.GroupBox();
-            this.dg_TotalFuel = new System.Windows.Forms.DataGridView();
-            this.FuelName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FuelVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gb_SelPos = new System.Windows.Forms.GroupBox();
-            this.dg_SelectedFuel = new System.Windows.Forms.DataGridView();
-            this.SelFuelType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SelFuelAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SelFuelVol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SelFuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dg_TowerFuelList = new System.Windows.Forms.DataGridView();
-            this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EnrUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Oxygen = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MechP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Coolant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Robot = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Isotope = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HvyWater = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LiqOz = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Charter = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Stront = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.b_ApplyIntervalPeriod = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.nud_PeriodValue = new System.Windows.Forms.NumericUpDown();
-            this.tscb_TimePeriod = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.il_system = new System.Windows.Forms.ImageList(this.components);
-            this.il_FetchList = new System.Windows.Forms.ImageList(this.components);
-            this.t_MonitorUpdate = new System.Windows.Forms.Timer(this.components);
-            this.tt_InfoTips = new System.Windows.Forms.ToolTip(this.components);
             this.tb_PosManager.SuspendLayout();
             this.tp_POSMonitor.SuspendLayout();
             this.ts_MonitorControl.SuspendLayout();
@@ -537,7 +598,27 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox31)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox32)).BeginInit();
-            this.tp_SetFuelCost.SuspendLayout();
+            this.p_Select.SuspendLayout();
+            this.p_Top.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
+            this.p_Tower.SuspendLayout();
+            this.cms_PosItem.SuspendLayout();
+            this.tp_POSMaintenance.SuspendLayout();
+            this.gb_AllPos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).BeginInit();
+            this.gb_SelPos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).BeginInit();
+            this.tb_PMConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_O2_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_H2_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_N2_FC)).BeginInit();
@@ -564,26 +645,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox39)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox40)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox41)).BeginInit();
-            this.p_Select.SuspendLayout();
-            this.p_Top.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
-            this.p_Tower.SuspendLayout();
-            this.cms_PosItem.SuspendLayout();
-            this.tp_POSMaintenance.SuspendLayout();
-            this.gb_AllPos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).BeginInit();
-            this.gb_SelPos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).BeginInit();
+            this.gb_PosDesignShow.SuspendLayout();
+            this.gb_MonPosCol.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tb_PosManager
@@ -595,6 +659,7 @@
             this.tb_PosManager.Controls.Add(this.tp_POSMonitor);
             this.tb_PosManager.Controls.Add(this.tp_POSDesign);
             this.tb_PosManager.Controls.Add(this.tp_POSMaintenance);
+            this.tb_PosManager.Controls.Add(this.tb_PMConfig);
             this.tb_PosManager.Location = new System.Drawing.Point(0, 0);
             this.tb_PosManager.Name = "tb_PosManager";
             this.tb_PosManager.SelectedIndex = 0;
@@ -1976,33 +2041,38 @@
             this.LiqO,
             this.Chrt,
             this.Strn,
-            this.IgnoreCharters});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg_MonitoredTowers.DefaultCellStyle = dataGridViewCellStyle5;
+            this.IgnoreCharters,
+            this.HiddenFuel,
+            this.HiddenStront,
+            this.HiddenCPU,
+            this.HiddenPower,
+            this.HiddenIso});
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg_MonitoredTowers.DefaultCellStyle = dataGridViewCellStyle14;
             this.dg_MonitoredTowers.Location = new System.Drawing.Point(1, 37);
             this.dg_MonitoredTowers.MultiSelect = false;
             this.dg_MonitoredTowers.Name = "dg_MonitoredTowers";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg_MonitoredTowers.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dg_MonitoredTowers.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.dg_MonitoredTowers.RowHeadersWidth = 20;
             this.dg_MonitoredTowers.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
-            this.dg_MonitoredTowers.RowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.Black;
+            this.dg_MonitoredTowers.RowsDefaultCellStyle = dataGridViewCellStyle16;
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.SystemColors.Control;
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
@@ -2030,6 +2100,7 @@
             this.dg_RunTime.HeaderText = "Fuel Run Time";
             this.dg_RunTime.Name = "dg_RunTime";
             this.dg_RunTime.ReadOnly = true;
+            this.dg_RunTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.dg_RunTime.Width = 101;
             // 
             // dg_ReinfTime
@@ -2037,6 +2108,7 @@
             this.dg_ReinfTime.HeaderText = "Reinforce Time";
             this.dg_ReinfTime.Name = "dg_ReinfTime";
             this.dg_ReinfTime.ReadOnly = true;
+            this.dg_ReinfTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.dg_ReinfTime.Width = 104;
             // 
             // dg_TowerStatus
@@ -2067,6 +2139,7 @@
             this.CPU.HeaderText = "CPU Usage";
             this.CPU.Name = "CPU";
             this.CPU.ReadOnly = true;
+            this.CPU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.CPU.Width = 88;
             // 
             // Power
@@ -2076,10 +2149,14 @@
             this.Power.HeaderText = "Power Usage";
             this.Power.Name = "Power";
             this.Power.ReadOnly = true;
+            this.Power.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.Power.Width = 96;
             // 
             // EnUr
             // 
+            dataGridViewCellStyle5.Format = "N0";
+            dataGridViewCellStyle5.NullValue = null;
+            this.EnUr.DefaultCellStyle = dataGridViewCellStyle5;
             this.EnUr.HeaderText = "Enr Uranium";
             this.EnUr.Name = "EnUr";
             this.EnUr.ReadOnly = true;
@@ -2087,6 +2164,9 @@
             // 
             // Oxyg
             // 
+            dataGridViewCellStyle6.Format = "N0";
+            dataGridViewCellStyle6.NullValue = null;
+            this.Oxyg.DefaultCellStyle = dataGridViewCellStyle6;
             this.Oxyg.HeaderText = "Oxygen";
             this.Oxyg.Name = "Oxyg";
             this.Oxyg.ReadOnly = true;
@@ -2094,6 +2174,9 @@
             // 
             // McP
             // 
+            dataGridViewCellStyle7.Format = "N0";
+            dataGridViewCellStyle7.NullValue = null;
+            this.McP.DefaultCellStyle = dataGridViewCellStyle7;
             this.McP.HeaderText = "Mech Parts";
             this.McP.Name = "McP";
             this.McP.ReadOnly = true;
@@ -2108,6 +2191,9 @@
             // 
             // Robt
             // 
+            dataGridViewCellStyle8.Format = "N0";
+            dataGridViewCellStyle8.NullValue = null;
+            this.Robt.DefaultCellStyle = dataGridViewCellStyle8;
             this.Robt.HeaderText = "Robotics";
             this.Robt.Name = "Robt";
             this.Robt.ReadOnly = true;
@@ -2115,13 +2201,20 @@
             // 
             // Iso
             // 
+            dataGridViewCellStyle9.Format = "N0";
+            dataGridViewCellStyle9.NullValue = null;
+            this.Iso.DefaultCellStyle = dataGridViewCellStyle9;
             this.Iso.HeaderText = "Isotopes";
             this.Iso.Name = "Iso";
             this.Iso.ReadOnly = true;
+            this.Iso.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.Iso.Width = 72;
             // 
             // HvyW
             // 
+            dataGridViewCellStyle10.Format = "N0";
+            dataGridViewCellStyle10.NullValue = null;
+            this.HvyW.DefaultCellStyle = dataGridViewCellStyle10;
             this.HvyW.HeaderText = "Hvy Water";
             this.HvyW.Name = "HvyW";
             this.HvyW.ReadOnly = true;
@@ -2129,6 +2222,9 @@
             // 
             // LiqO
             // 
+            dataGridViewCellStyle11.Format = "N0";
+            dataGridViewCellStyle11.NullValue = null;
+            this.LiqO.DefaultCellStyle = dataGridViewCellStyle11;
             this.LiqO.HeaderText = "Liq Ozone";
             this.LiqO.Name = "LiqO";
             this.LiqO.ReadOnly = true;
@@ -2136,6 +2232,9 @@
             // 
             // Chrt
             // 
+            dataGridViewCellStyle12.Format = "N0";
+            dataGridViewCellStyle12.NullValue = null;
+            this.Chrt.DefaultCellStyle = dataGridViewCellStyle12;
             this.Chrt.HeaderText = "Charters";
             this.Chrt.Name = "Chrt";
             this.Chrt.ReadOnly = true;
@@ -2143,6 +2242,9 @@
             // 
             // Strn
             // 
+            dataGridViewCellStyle13.Format = "N0";
+            dataGridViewCellStyle13.NullValue = null;
+            this.Strn.DefaultCellStyle = dataGridViewCellStyle13;
             this.Strn.HeaderText = "Strontium";
             this.Strn.Name = "Strn";
             this.Strn.ReadOnly = true;
@@ -2153,6 +2255,46 @@
             this.IgnoreCharters.HeaderText = "Use Charters";
             this.IgnoreCharters.Name = "IgnoreCharters";
             this.IgnoreCharters.Width = 74;
+            // 
+            // HiddenFuel
+            // 
+            this.HiddenFuel.HeaderText = "HiddenFuel";
+            this.HiddenFuel.Name = "HiddenFuel";
+            this.HiddenFuel.ReadOnly = true;
+            this.HiddenFuel.Visible = false;
+            this.HiddenFuel.Width = 86;
+            // 
+            // HiddenStront
+            // 
+            this.HiddenStront.HeaderText = "HiddenStront";
+            this.HiddenStront.Name = "HiddenStront";
+            this.HiddenStront.ReadOnly = true;
+            this.HiddenStront.Visible = false;
+            this.HiddenStront.Width = 94;
+            // 
+            // HiddenCPU
+            // 
+            this.HiddenCPU.HeaderText = "HiddenCPU";
+            this.HiddenCPU.Name = "HiddenCPU";
+            this.HiddenCPU.ReadOnly = true;
+            this.HiddenCPU.Visible = false;
+            this.HiddenCPU.Width = 88;
+            // 
+            // HiddenPower
+            // 
+            this.HiddenPower.HeaderText = "HiddenPower";
+            this.HiddenPower.Name = "HiddenPower";
+            this.HiddenPower.ReadOnly = true;
+            this.HiddenPower.Visible = false;
+            this.HiddenPower.Width = 96;
+            // 
+            // HiddenIso
+            // 
+            this.HiddenIso.HeaderText = "HiddenIso";
+            this.HiddenIso.Name = "HiddenIso";
+            this.HiddenIso.ReadOnly = true;
+            this.HiddenIso.Visible = false;
+            this.HiddenIso.Width = 80;
             // 
             // tp_POSDesign
             // 
@@ -2179,14 +2321,14 @@
             this.dg_PosMods.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg_PosMods.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dg_PosMods.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
             this.dg_PosMods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg_PosMods.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Module,
@@ -2201,27 +2343,28 @@
             this.ProxRange,
             this.Switch,
             this.Charge,
-            this.Cost});
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg_PosMods.DefaultCellStyle = dataGridViewCellStyle9;
+            this.Cost,
+            this.Cap});
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg_PosMods.DefaultCellStyle = dataGridViewCellStyle18;
             this.dg_PosMods.Location = new System.Drawing.Point(307, 559);
             this.dg_PosMods.MultiSelect = false;
             this.dg_PosMods.Name = "dg_PosMods";
             this.dg_PosMods.ReadOnly = true;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg_PosMods.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dg_PosMods.RowHeadersDefaultCellStyle = dataGridViewCellStyle19;
             this.dg_PosMods.RowHeadersVisible = false;
             this.dg_PosMods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg_PosMods.Size = new System.Drawing.Size(690, 144);
@@ -2317,6 +2460,12 @@
             this.Cost.Name = "Cost";
             this.Cost.ReadOnly = true;
             // 
+            // Cap
+            // 
+            this.Cap.HeaderText = "Capacity";
+            this.Cap.Name = "Cap";
+            this.Cap.ReadOnly = true;
+            // 
             // tc_StatFuel
             // 
             this.tc_StatFuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -2325,14 +2474,12 @@
             this.tc_StatFuel.Controls.Add(this.tp_stats);
             this.tc_StatFuel.Controls.Add(this.tp_Fuel);
             this.tc_StatFuel.Controls.Add(this.tp_PosStats);
-            this.tc_StatFuel.Controls.Add(this.tp_SetFuelCost);
             this.tc_StatFuel.Location = new System.Drawing.Point(-2, 100);
             this.tc_StatFuel.Name = "tc_StatFuel";
             this.tc_StatFuel.Padding = new System.Drawing.Point(5, 2);
             this.tc_StatFuel.SelectedIndex = 0;
             this.tc_StatFuel.Size = new System.Drawing.Size(313, 600);
             this.tc_StatFuel.TabIndex = 48;
-            this.tc_StatFuel.SelectedIndexChanged += new System.EventHandler(this.tc_StatFuel_SelectedIndexChanged);
             // 
             // tp_stats
             // 
@@ -3788,439 +3935,6 @@
             this.l_AnchorTime.Text = "Anchor Time";
             this.l_AnchorTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tp_SetFuelCost
-            // 
-            this.tp_SetFuelCost.Controls.Add(this.label1);
-            this.tp_SetFuelCost.Controls.Add(this.nud_O2_FC);
-            this.tp_SetFuelCost.Controls.Add(this.nud_H2_FC);
-            this.tp_SetFuelCost.Controls.Add(this.nud_N2_FC);
-            this.tp_SetFuelCost.Controls.Add(this.b_SaveFuelCosts);
-            this.tp_SetFuelCost.Controls.Add(this.nud_ST_FC);
-            this.tp_SetFuelCost.Controls.Add(this.nud_CH_FC);
-            this.tp_SetFuelCost.Controls.Add(this.nud_LO_FC);
-            this.tp_SetFuelCost.Controls.Add(this.nud_HW_FC);
-            this.tp_SetFuelCost.Controls.Add(this.nud_HE_FC);
-            this.tp_SetFuelCost.Controls.Add(this.nud_RB_FC);
-            this.tp_SetFuelCost.Controls.Add(this.nud_CL_FC);
-            this.tp_SetFuelCost.Controls.Add(this.nud_MP_FC);
-            this.tp_SetFuelCost.Controls.Add(this.nud_OX_FC);
-            this.tp_SetFuelCost.Controls.Add(this.nud_ER_FC);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox36);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox42);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox43);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox44);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox11);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox33);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox34);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox35);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox37);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox38);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox39);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox40);
-            this.tp_SetFuelCost.Controls.Add(this.pictureBox41);
-            this.tp_SetFuelCost.Location = new System.Drawing.Point(4, 23);
-            this.tp_SetFuelCost.Name = "tp_SetFuelCost";
-            this.tp_SetFuelCost.Size = new System.Drawing.Size(305, 573);
-            this.tp_SetFuelCost.TabIndex = 2;
-            this.tp_SetFuelCost.Text = "Set Costs";
-            this.tp_SetFuelCost.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(171, 65);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(128, 44);
-            this.label1.TabIndex = 149;
-            this.label1.Text = "** A value of \'0\' means the default standard fuel cost will be used.";
-            // 
-            // nud_O2_FC
-            // 
-            this.nud_O2_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_O2_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_O2_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_O2_FC.Location = new System.Drawing.Point(42, 291);
-            this.nud_O2_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_O2_FC.Name = "nud_O2_FC";
-            this.nud_O2_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_O2_FC.TabIndex = 63;
-            this.nud_O2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_O2_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_O2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_H2_FC
-            // 
-            this.nud_H2_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_H2_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_H2_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_H2_FC.Location = new System.Drawing.Point(42, 256);
-            this.nud_H2_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_H2_FC.Name = "nud_H2_FC";
-            this.nud_H2_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_H2_FC.TabIndex = 61;
-            this.nud_H2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_H2_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_H2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_N2_FC
-            // 
-            this.nud_N2_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_N2_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_N2_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_N2_FC.Location = new System.Drawing.Point(42, 186);
-            this.nud_N2_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_N2_FC.Name = "nud_N2_FC";
-            this.nud_N2_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_N2_FC.TabIndex = 59;
-            this.nud_N2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_N2_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_N2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // b_SaveFuelCosts
-            // 
-            this.b_SaveFuelCosts.ForeColor = System.Drawing.Color.Black;
-            this.b_SaveFuelCosts.Location = new System.Drawing.Point(225, 3);
-            this.b_SaveFuelCosts.Name = "b_SaveFuelCosts";
-            this.b_SaveFuelCosts.Size = new System.Drawing.Size(75, 53);
-            this.b_SaveFuelCosts.TabIndex = 57;
-            this.b_SaveFuelCosts.Text = "Set && Save Fuel Costs";
-            this.b_SaveFuelCosts.UseVisualStyleBackColor = true;
-            this.b_SaveFuelCosts.Click += new System.EventHandler(this.b_SaveFuelCosts_Click);
-            // 
-            // nud_ST_FC
-            // 
-            this.nud_ST_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_ST_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_ST_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_ST_FC.Location = new System.Drawing.Point(42, 431);
-            this.nud_ST_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_ST_FC.Name = "nud_ST_FC";
-            this.nud_ST_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_ST_FC.TabIndex = 56;
-            this.nud_ST_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_ST_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_ST_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_CH_FC
-            // 
-            this.nud_CH_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_CH_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_CH_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_CH_FC.Location = new System.Drawing.Point(42, 396);
-            this.nud_CH_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_CH_FC.Name = "nud_CH_FC";
-            this.nud_CH_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_CH_FC.TabIndex = 55;
-            this.nud_CH_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_CH_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_CH_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_LO_FC
-            // 
-            this.nud_LO_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_LO_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_LO_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_LO_FC.Location = new System.Drawing.Point(42, 361);
-            this.nud_LO_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_LO_FC.Name = "nud_LO_FC";
-            this.nud_LO_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_LO_FC.TabIndex = 54;
-            this.nud_LO_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_LO_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_LO_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_HW_FC
-            // 
-            this.nud_HW_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_HW_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_HW_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_HW_FC.Location = new System.Drawing.Point(42, 326);
-            this.nud_HW_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_HW_FC.Name = "nud_HW_FC";
-            this.nud_HW_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_HW_FC.TabIndex = 53;
-            this.nud_HW_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_HW_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_HW_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_HE_FC
-            // 
-            this.nud_HE_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_HE_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_HE_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_HE_FC.Location = new System.Drawing.Point(42, 221);
-            this.nud_HE_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_HE_FC.Name = "nud_HE_FC";
-            this.nud_HE_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_HE_FC.TabIndex = 52;
-            this.nud_HE_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_HE_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_HE_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_RB_FC
-            // 
-            this.nud_RB_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_RB_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_RB_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_RB_FC.Location = new System.Drawing.Point(42, 151);
-            this.nud_RB_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_RB_FC.Name = "nud_RB_FC";
-            this.nud_RB_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_RB_FC.TabIndex = 51;
-            this.nud_RB_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_RB_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_RB_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_CL_FC
-            // 
-            this.nud_CL_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_CL_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_CL_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_CL_FC.Location = new System.Drawing.Point(42, 116);
-            this.nud_CL_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_CL_FC.Name = "nud_CL_FC";
-            this.nud_CL_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_CL_FC.TabIndex = 50;
-            this.nud_CL_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_CL_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_CL_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_MP_FC
-            // 
-            this.nud_MP_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_MP_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_MP_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_MP_FC.Location = new System.Drawing.Point(42, 81);
-            this.nud_MP_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_MP_FC.Name = "nud_MP_FC";
-            this.nud_MP_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_MP_FC.TabIndex = 49;
-            this.nud_MP_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_MP_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_MP_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_OX_FC
-            // 
-            this.nud_OX_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_OX_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_OX_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_OX_FC.Location = new System.Drawing.Point(42, 46);
-            this.nud_OX_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_OX_FC.Name = "nud_OX_FC";
-            this.nud_OX_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_OX_FC.TabIndex = 48;
-            this.nud_OX_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_OX_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_OX_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // nud_ER_FC
-            // 
-            this.nud_ER_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_ER_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_ER_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_ER_FC.Location = new System.Drawing.Point(42, 11);
-            this.nud_ER_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_ER_FC.Name = "nud_ER_FC";
-            this.nud_ER_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_ER_FC.TabIndex = 47;
-            this.nud_ER_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_ER_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_ER_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
-            // pictureBox36
-            // 
-            this.pictureBox36.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.OxIso;
-            this.pictureBox36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox36.Location = new System.Drawing.Point(5, 284);
-            this.pictureBox36.Name = "pictureBox36";
-            this.pictureBox36.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox36.TabIndex = 148;
-            this.pictureBox36.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox36, "Oxygen Isotopes");
-            // 
-            // pictureBox42
-            // 
-            this.pictureBox42.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.H2Iso;
-            this.pictureBox42.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox42.Location = new System.Drawing.Point(5, 249);
-            this.pictureBox42.Name = "pictureBox42";
-            this.pictureBox42.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox42.TabIndex = 147;
-            this.pictureBox42.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox42, "Hydrogen Isotopes");
-            // 
-            // pictureBox43
-            // 
-            this.pictureBox43.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HeIso;
-            this.pictureBox43.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox43.Location = new System.Drawing.Point(5, 214);
-            this.pictureBox43.Name = "pictureBox43";
-            this.pictureBox43.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox43.TabIndex = 146;
-            this.pictureBox43.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox43, "Helium Isotopes");
-            // 
-            // pictureBox44
-            // 
-            this.pictureBox44.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.NitgIso;
-            this.pictureBox44.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox44.Location = new System.Drawing.Point(5, 179);
-            this.pictureBox44.Name = "pictureBox44";
-            this.pictureBox44.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox44.TabIndex = 145;
-            this.pictureBox44.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox44, "Nitrogen Isotopes");
-            // 
-            // pictureBox11
-            // 
-            this.pictureBox11.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
-            this.pictureBox11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox11.Location = new System.Drawing.Point(5, 424);
-            this.pictureBox11.Name = "pictureBox11";
-            this.pictureBox11.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox11.TabIndex = 144;
-            this.pictureBox11.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox11, "Strontium Clathrates");
-            // 
-            // pictureBox33
-            // 
-            this.pictureBox33.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Charter;
-            this.pictureBox33.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox33.Location = new System.Drawing.Point(5, 389);
-            this.pictureBox33.Name = "pictureBox33";
-            this.pictureBox33.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox33.TabIndex = 143;
-            this.pictureBox33.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox33, "Faction Charters");
-            // 
-            // pictureBox34
-            // 
-            this.pictureBox34.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.LiqOzone;
-            this.pictureBox34.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox34.Location = new System.Drawing.Point(5, 354);
-            this.pictureBox34.Name = "pictureBox34";
-            this.pictureBox34.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox34.TabIndex = 142;
-            this.pictureBox34.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox34, "Liquid Ozone");
-            // 
-            // pictureBox35
-            // 
-            this.pictureBox35.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HvyWater;
-            this.pictureBox35.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox35.Location = new System.Drawing.Point(5, 319);
-            this.pictureBox35.Name = "pictureBox35";
-            this.pictureBox35.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox35.TabIndex = 141;
-            this.pictureBox35.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox35, "Heavy Water");
-            // 
-            // pictureBox37
-            // 
-            this.pictureBox37.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Robotics;
-            this.pictureBox37.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox37.Location = new System.Drawing.Point(5, 144);
-            this.pictureBox37.Name = "pictureBox37";
-            this.pictureBox37.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox37.TabIndex = 139;
-            this.pictureBox37.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox37, "Robotics");
-            // 
-            // pictureBox38
-            // 
-            this.pictureBox38.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Coolant;
-            this.pictureBox38.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox38.Location = new System.Drawing.Point(5, 109);
-            this.pictureBox38.Name = "pictureBox38";
-            this.pictureBox38.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox38.TabIndex = 138;
-            this.pictureBox38.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox38, "Coolant");
-            // 
-            // pictureBox39
-            // 
-            this.pictureBox39.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.MechParts;
-            this.pictureBox39.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox39.Location = new System.Drawing.Point(5, 74);
-            this.pictureBox39.Name = "pictureBox39";
-            this.pictureBox39.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox39.TabIndex = 137;
-            this.pictureBox39.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox39, "Mechanical Parts");
-            // 
-            // pictureBox40
-            // 
-            this.pictureBox40.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Oxygen;
-            this.pictureBox40.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox40.Location = new System.Drawing.Point(5, 39);
-            this.pictureBox40.Name = "pictureBox40";
-            this.pictureBox40.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox40.TabIndex = 136;
-            this.pictureBox40.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox40, "Oxygen");
-            // 
-            // pictureBox41
-            // 
-            this.pictureBox41.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.enrUran;
-            this.pictureBox41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox41.Location = new System.Drawing.Point(5, 4);
-            this.pictureBox41.Name = "pictureBox41";
-            this.pictureBox41.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox41.TabIndex = 135;
-            this.pictureBox41.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox41, "Enriched Uranium");
-            // 
             // p_Select
             // 
             this.p_Select.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -4963,26 +4677,6 @@
             this.p_Tower.Size = new System.Drawing.Size(542, 460);
             this.p_Tower.TabIndex = 3;
             // 
-            // poS_Item51
-            // 
-            this.poS_Item51.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.poS_Item51.BackColor = System.Drawing.Color.Transparent;
-            this.poS_Item51.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.poS_Item51.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.poS_Item51.ContextMenuStrip = this.cms_PosItem;
-            this.poS_Item51.DfltBackgroundColor = System.Drawing.Color.Transparent;
-            this.poS_Item51.ItemNumber = 0;
-            this.poS_Item51.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
-            this.poS_Item51.Location = new System.Drawing.Point(493, 231);
-            this.poS_Item51.Name = "poS_Item51";
-            this.poS_Item51.OfflineColor = System.Drawing.Color.Red;
-            this.poS_Item51.OnlineColor = System.Drawing.Color.Lime;
-            this.poS_Item51.QuantityColor = System.Drawing.Color.Blue;
-            this.poS_Item51.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.poS_Item51.Size = new System.Drawing.Size(40, 40);
-            this.poS_Item51.TabIndex = 60;
-            this.poS_Item51.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
-            // 
             // cms_PosItem
             // 
             this.cms_PosItem.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -5110,6 +4804,1472 @@
             this.tsm_SetModuleCharge.Text = "Set Charge";
             this.tsm_SetModuleCharge.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tsm_SetModuleCharge_DropDownItemClicked);
             this.tsm_SetModuleCharge.Click += new System.EventHandler(this.tsm_SetModuleCharge_Click);
+            // 
+            // tp_POSMaintenance
+            // 
+            this.tp_POSMaintenance.Controls.Add(this.b_SetSelectedFull);
+            this.tp_POSMaintenance.Controls.Add(this.label5);
+            this.tp_POSMaintenance.Controls.Add(this.b_CopySelected);
+            this.tp_POSMaintenance.Controls.Add(this.b_CopyAllPos);
+            this.tp_POSMaintenance.Controls.Add(this.cb_FactChartTotal);
+            this.tp_POSMaintenance.Controls.Add(this.cb_UseStrontTotals);
+            this.tp_POSMaintenance.Controls.Add(this.gb_AllPos);
+            this.tp_POSMaintenance.Controls.Add(this.gb_SelPos);
+            this.tp_POSMaintenance.Controls.Add(this.dg_TowerFuelList);
+            this.tp_POSMaintenance.Controls.Add(this.b_ApplyIntervalPeriod);
+            this.tp_POSMaintenance.Controls.Add(this.label7);
+            this.tp_POSMaintenance.Controls.Add(this.label6);
+            this.tp_POSMaintenance.Controls.Add(this.nud_PeriodValue);
+            this.tp_POSMaintenance.Controls.Add(this.tscb_TimePeriod);
+            this.tp_POSMaintenance.Controls.Add(this.label2);
+            this.tp_POSMaintenance.Location = new System.Drawing.Point(4, 25);
+            this.tp_POSMaintenance.Name = "tp_POSMaintenance";
+            this.tp_POSMaintenance.Size = new System.Drawing.Size(1001, 703);
+            this.tp_POSMaintenance.TabIndex = 2;
+            this.tp_POSMaintenance.Text = "POS Maintenance";
+            this.tp_POSMaintenance.UseVisualStyleBackColor = true;
+            // 
+            // b_SetSelectedFull
+            // 
+            this.b_SetSelectedFull.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.b_SetSelectedFull.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.b_SetSelectedFull.ForeColor = System.Drawing.Color.Cyan;
+            this.b_SetSelectedFull.Location = new System.Drawing.Point(190, 2);
+            this.b_SetSelectedFull.Name = "b_SetSelectedFull";
+            this.b_SetSelectedFull.Size = new System.Drawing.Size(60, 35);
+            this.b_SetSelectedFull.TabIndex = 182;
+            this.b_SetSelectedFull.Text = "Mark Full";
+            this.b_SetSelectedFull.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_SetSelectedFull, "Set The Selected Tower To Full By Calculated Values");
+            this.b_SetSelectedFull.UseVisualStyleBackColor = true;
+            this.b_SetSelectedFull.Click += new System.EventHandler(this.b_SetSelectedFull_Click);
+            // 
+            // label5
+            // 
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label5.ForeColor = System.Drawing.Color.Blue;
+            this.label5.Location = new System.Drawing.Point(358, 7);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(180, 42);
+            this.label5.TabIndex = 181;
+            this.label5.Text = "The \'Fill\' interval will CAP each POS to the maximum fuel it can hold. The other " +
+                "intervals will not do this.";
+            // 
+            // b_CopySelected
+            // 
+            this.b_CopySelected.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Fitting;
+            this.b_CopySelected.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.b_CopySelected.ForeColor = System.Drawing.Color.Cyan;
+            this.b_CopySelected.Location = new System.Drawing.Point(8, 2);
+            this.b_CopySelected.Name = "b_CopySelected";
+            this.b_CopySelected.Size = new System.Drawing.Size(60, 35);
+            this.b_CopySelected.TabIndex = 180;
+            this.b_CopySelected.Text = "Copy Selected";
+            this.b_CopySelected.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_CopySelected, "Copy Selected POS Fill Data to the Clipboard");
+            this.b_CopySelected.UseVisualStyleBackColor = true;
+            this.b_CopySelected.Click += new System.EventHandler(this.b_CopySelected_Click);
+            // 
+            // b_CopyAllPos
+            // 
+            this.b_CopyAllPos.BackColor = System.Drawing.Color.Transparent;
+            this.b_CopyAllPos.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Delete;
+            this.b_CopyAllPos.ForeColor = System.Drawing.Color.Cyan;
+            this.b_CopyAllPos.Location = new System.Drawing.Point(99, 2);
+            this.b_CopyAllPos.Name = "b_CopyAllPos";
+            this.b_CopyAllPos.Size = new System.Drawing.Size(60, 35);
+            this.b_CopyAllPos.TabIndex = 179;
+            this.b_CopyAllPos.Text = "Copy All";
+            this.b_CopyAllPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tt_InfoTips.SetToolTip(this.b_CopyAllPos, "Copy All POS Fill Data to the Clipboard");
+            this.b_CopyAllPos.UseVisualStyleBackColor = false;
+            this.b_CopyAllPos.Click += new System.EventHandler(this.b_CopyAllPos_Click);
+            // 
+            // cb_FactChartTotal
+            // 
+            this.cb_FactChartTotal.AutoSize = true;
+            this.cb_FactChartTotal.Checked = true;
+            this.cb_FactChartTotal.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_FactChartTotal.Location = new System.Drawing.Point(798, 26);
+            this.cb_FactChartTotal.Name = "cb_FactChartTotal";
+            this.cb_FactChartTotal.Size = new System.Drawing.Size(146, 17);
+            this.cb_FactChartTotal.TabIndex = 178;
+            this.cb_FactChartTotal.Text = "Include Charters in Totals";
+            this.cb_FactChartTotal.UseVisualStyleBackColor = true;
+            this.cb_FactChartTotal.CheckedChanged += new System.EventHandler(this.cb_FactChartTotal_CheckedChanged);
+            // 
+            // cb_UseStrontTotals
+            // 
+            this.cb_UseStrontTotals.AutoSize = true;
+            this.cb_UseStrontTotals.Checked = true;
+            this.cb_UseStrontTotals.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_UseStrontTotals.Location = new System.Drawing.Point(798, 10);
+            this.cb_UseStrontTotals.Name = "cb_UseStrontTotals";
+            this.cb_UseStrontTotals.Size = new System.Drawing.Size(135, 17);
+            this.cb_UseStrontTotals.TabIndex = 177;
+            this.cb_UseStrontTotals.Text = "Include Stront in Totals";
+            this.cb_UseStrontTotals.UseVisualStyleBackColor = true;
+            this.cb_UseStrontTotals.CheckedChanged += new System.EventHandler(this.cb_UseStrontTotals_CheckedChanged);
+            // 
+            // gb_AllPos
+            // 
+            this.gb_AllPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.gb_AllPos.Controls.Add(this.dg_TotalFuel);
+            this.gb_AllPos.ForeColor = System.Drawing.Color.Blue;
+            this.gb_AllPos.Location = new System.Drawing.Point(501, 451);
+            this.gb_AllPos.Name = "gb_AllPos";
+            this.gb_AllPos.Size = new System.Drawing.Size(497, 250);
+            this.gb_AllPos.TabIndex = 176;
+            this.gb_AllPos.TabStop = false;
+            this.gb_AllPos.Text = "All POS";
+            // 
+            // dg_TotalFuel
+            // 
+            this.dg_TotalFuel.AllowUserToAddRows = false;
+            this.dg_TotalFuel.AllowUserToDeleteRows = false;
+            this.dg_TotalFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_TotalFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FuelName,
+            this.FuelAmount,
+            this.FuelVolume,
+            this.FuelCost});
+            this.dg_TotalFuel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dg_TotalFuel.Location = new System.Drawing.Point(3, 16);
+            this.dg_TotalFuel.Name = "dg_TotalFuel";
+            this.dg_TotalFuel.RowHeadersVisible = false;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle20;
+            this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_TotalFuel.Size = new System.Drawing.Size(491, 231);
+            this.dg_TotalFuel.TabIndex = 0;
+            // 
+            // FuelName
+            // 
+            this.FuelName.HeaderText = "Fuel";
+            this.FuelName.Name = "FuelName";
+            this.FuelName.ReadOnly = true;
+            this.FuelName.Width = 145;
+            // 
+            // FuelAmount
+            // 
+            this.FuelAmount.HeaderText = "Amount";
+            this.FuelAmount.Name = "FuelAmount";
+            this.FuelAmount.ReadOnly = true;
+            // 
+            // FuelVolume
+            // 
+            this.FuelVolume.HeaderText = "Volume";
+            this.FuelVolume.Name = "FuelVolume";
+            this.FuelVolume.ReadOnly = true;
+            // 
+            // FuelCost
+            // 
+            this.FuelCost.HeaderText = "Cost";
+            this.FuelCost.Name = "FuelCost";
+            this.FuelCost.ReadOnly = true;
+            this.FuelCost.Width = 125;
+            // 
+            // gb_SelPos
+            // 
+            this.gb_SelPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.gb_SelPos.Controls.Add(this.dg_SelectedFuel);
+            this.gb_SelPos.ForeColor = System.Drawing.Color.Blue;
+            this.gb_SelPos.Location = new System.Drawing.Point(0, 451);
+            this.gb_SelPos.Name = "gb_SelPos";
+            this.gb_SelPos.Size = new System.Drawing.Size(497, 250);
+            this.gb_SelPos.TabIndex = 175;
+            this.gb_SelPos.TabStop = false;
+            this.gb_SelPos.Text = "Selected POS";
+            // 
+            // dg_SelectedFuel
+            // 
+            this.dg_SelectedFuel.AllowUserToAddRows = false;
+            this.dg_SelectedFuel.AllowUserToDeleteRows = false;
+            this.dg_SelectedFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_SelectedFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SelFuelType,
+            this.SelFuelAmount,
+            this.SelFuelVol,
+            this.SelFuelCost});
+            this.dg_SelectedFuel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dg_SelectedFuel.Location = new System.Drawing.Point(3, 16);
+            this.dg_SelectedFuel.Name = "dg_SelectedFuel";
+            this.dg_SelectedFuel.RowHeadersVisible = false;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle21;
+            this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_SelectedFuel.Size = new System.Drawing.Size(491, 231);
+            this.dg_SelectedFuel.TabIndex = 1;
+            // 
+            // SelFuelType
+            // 
+            this.SelFuelType.HeaderText = "Type";
+            this.SelFuelType.Name = "SelFuelType";
+            this.SelFuelType.ReadOnly = true;
+            this.SelFuelType.Width = 145;
+            // 
+            // SelFuelAmount
+            // 
+            this.SelFuelAmount.HeaderText = "Amount";
+            this.SelFuelAmount.Name = "SelFuelAmount";
+            this.SelFuelAmount.ReadOnly = true;
+            // 
+            // SelFuelVol
+            // 
+            this.SelFuelVol.HeaderText = "Volume";
+            this.SelFuelVol.Name = "SelFuelVol";
+            this.SelFuelVol.ReadOnly = true;
+            // 
+            // SelFuelCost
+            // 
+            this.SelFuelCost.HeaderText = "Cost";
+            this.SelFuelCost.Name = "SelFuelCost";
+            this.SelFuelCost.ReadOnly = true;
+            this.SelFuelCost.Width = 125;
+            // 
+            // dg_TowerFuelList
+            // 
+            this.dg_TowerFuelList.AllowUserToAddRows = false;
+            this.dg_TowerFuelList.AllowUserToDeleteRows = false;
+            this.dg_TowerFuelList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_TowerFuelList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg_TowerFuelList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
+            this.dg_TowerFuelList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_TowerFuelList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FName,
+            this.FLocation,
+            this.EnrUr,
+            this.Oxygen,
+            this.MechP,
+            this.Coolant,
+            this.Robot,
+            this.Isotope,
+            this.HvyWater,
+            this.LiqOz,
+            this.Charter,
+            this.Stront});
+            this.dg_TowerFuelList.Location = new System.Drawing.Point(3, 54);
+            this.dg_TowerFuelList.Name = "dg_TowerFuelList";
+            this.dg_TowerFuelList.ReadOnly = true;
+            this.dg_TowerFuelList.RowHeadersVisible = false;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dg_TowerFuelList.RowsDefaultCellStyle = dataGridViewCellStyle23;
+            this.dg_TowerFuelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg_TowerFuelList.Size = new System.Drawing.Size(996, 397);
+            this.dg_TowerFuelList.TabIndex = 174;
+            this.dg_TowerFuelList.SelectionChanged += new System.EventHandler(this.dg_TowerFuelList_SelectionChanged);
+            // 
+            // FName
+            // 
+            this.FName.HeaderText = "Name";
+            this.FName.Name = "FName";
+            this.FName.ReadOnly = true;
+            this.FName.Width = 60;
+            // 
+            // FLocation
+            // 
+            this.FLocation.HeaderText = "Location";
+            this.FLocation.Name = "FLocation";
+            this.FLocation.ReadOnly = true;
+            this.FLocation.Width = 73;
+            // 
+            // EnrUr
+            // 
+            this.EnrUr.HeaderText = "Enr. Ur.";
+            this.EnrUr.Name = "EnrUr";
+            this.EnrUr.ReadOnly = true;
+            this.EnrUr.Width = 68;
+            // 
+            // Oxygen
+            // 
+            this.Oxygen.HeaderText = "Oxygen";
+            this.Oxygen.Name = "Oxygen";
+            this.Oxygen.ReadOnly = true;
+            this.Oxygen.Width = 68;
+            // 
+            // MechP
+            // 
+            this.MechP.HeaderText = "Mech Pts";
+            this.MechP.Name = "MechP";
+            this.MechP.ReadOnly = true;
+            this.MechP.Width = 77;
+            // 
+            // Coolant
+            // 
+            this.Coolant.HeaderText = "Coolant";
+            this.Coolant.Name = "Coolant";
+            this.Coolant.ReadOnly = true;
+            this.Coolant.Width = 68;
+            // 
+            // Robot
+            // 
+            this.Robot.HeaderText = "Robotics";
+            this.Robot.Name = "Robot";
+            this.Robot.ReadOnly = true;
+            this.Robot.Width = 74;
+            // 
+            // Isotope
+            // 
+            this.Isotope.HeaderText = "Isotopes";
+            this.Isotope.Name = "Isotope";
+            this.Isotope.ReadOnly = true;
+            this.Isotope.Width = 72;
+            // 
+            // HvyWater
+            // 
+            this.HvyWater.HeaderText = "Hvy. Water";
+            this.HvyWater.Name = "HvyWater";
+            this.HvyWater.ReadOnly = true;
+            this.HvyWater.Width = 86;
+            // 
+            // LiqOz
+            // 
+            this.LiqOz.HeaderText = "Liq Ozone";
+            this.LiqOz.Name = "LiqOz";
+            this.LiqOz.ReadOnly = true;
+            this.LiqOz.Width = 80;
+            // 
+            // Charter
+            // 
+            this.Charter.HeaderText = "Charters";
+            this.Charter.Name = "Charter";
+            this.Charter.ReadOnly = true;
+            this.Charter.Width = 71;
+            // 
+            // Stront
+            // 
+            this.Stront.HeaderText = "Strontium";
+            this.Stront.Name = "Stront";
+            this.Stront.ReadOnly = true;
+            this.Stront.Width = 76;
+            // 
+            // b_ApplyIntervalPeriod
+            // 
+            this.b_ApplyIntervalPeriod.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
+            this.b_ApplyIntervalPeriod.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.b_ApplyIntervalPeriod.ForeColor = System.Drawing.Color.Cyan;
+            this.b_ApplyIntervalPeriod.Location = new System.Drawing.Point(733, 5);
+            this.b_ApplyIntervalPeriod.Name = "b_ApplyIntervalPeriod";
+            this.b_ApplyIntervalPeriod.Size = new System.Drawing.Size(59, 45);
+            this.b_ApplyIntervalPeriod.TabIndex = 173;
+            this.b_ApplyIntervalPeriod.Text = "Apply";
+            this.b_ApplyIntervalPeriod.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.b_ApplyIntervalPeriod.UseVisualStyleBackColor = true;
+            this.b_ApplyIntervalPeriod.Click += new System.EventHandler(this.ApplyFillData);
+            // 
+            // label7
+            // 
+            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label7.ForeColor = System.Drawing.Color.Black;
+            this.label7.Location = new System.Drawing.Point(546, 30);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(61, 18);
+            this.label7.TabIndex = 172;
+            this.label7.Text = "Period";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label6.ForeColor = System.Drawing.Color.Black;
+            this.label6.Location = new System.Drawing.Point(546, 7);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(61, 18);
+            this.label6.TabIndex = 171;
+            this.label6.Text = "Interval";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nud_PeriodValue
+            // 
+            this.nud_PeriodValue.Location = new System.Drawing.Point(609, 29);
+            this.nud_PeriodValue.Name = "nud_PeriodValue";
+            this.nud_PeriodValue.Size = new System.Drawing.Size(121, 20);
+            this.nud_PeriodValue.TabIndex = 170;
+            // 
+            // tscb_TimePeriod
+            // 
+            this.tscb_TimePeriod.FormattingEnabled = true;
+            this.tscb_TimePeriod.Items.AddRange(new object[] {
+            "Hours",
+            "Days",
+            "Weeks",
+            "Months",
+            "Fill"});
+            this.tscb_TimePeriod.Location = new System.Drawing.Point(609, 6);
+            this.tscb_TimePeriod.Name = "tscb_TimePeriod";
+            this.tscb_TimePeriod.Size = new System.Drawing.Size(121, 21);
+            this.tscb_TimePeriod.TabIndex = 169;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 37);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(354, 16);
+            this.label2.TabIndex = 164;
+            this.label2.Text = "Monitored Towers - Fuel Needed to Fill the Bunker";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // tb_PMConfig
+            // 
+            this.tb_PMConfig.Controls.Add(this.groupBox2);
+            this.tb_PMConfig.Controls.Add(this.gb_PosDesignShow);
+            this.tb_PMConfig.Controls.Add(this.gb_MonPosCol);
+            this.tb_PMConfig.Location = new System.Drawing.Point(4, 25);
+            this.tb_PMConfig.Name = "tb_PMConfig";
+            this.tb_PMConfig.Size = new System.Drawing.Size(1001, 703);
+            this.tb_PMConfig.TabIndex = 3;
+            this.tb_PMConfig.Text = "Configuration";
+            this.tb_PMConfig.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(220, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(128, 44);
+            this.label1.TabIndex = 177;
+            this.label1.Text = "** A value of \'0\' means the default standard fuel cost will be used.";
+            // 
+            // nud_O2_FC
+            // 
+            this.nud_O2_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_O2_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_O2_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_O2_FC.Location = new System.Drawing.Point(45, 302);
+            this.nud_O2_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_O2_FC.Name = "nud_O2_FC";
+            this.nud_O2_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_O2_FC.TabIndex = 163;
+            this.nud_O2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_O2_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_O2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_H2_FC
+            // 
+            this.nud_H2_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_H2_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_H2_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_H2_FC.Location = new System.Drawing.Point(45, 267);
+            this.nud_H2_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_H2_FC.Name = "nud_H2_FC";
+            this.nud_H2_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_H2_FC.TabIndex = 162;
+            this.nud_H2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_H2_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_H2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_N2_FC
+            // 
+            this.nud_N2_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_N2_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_N2_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_N2_FC.Location = new System.Drawing.Point(45, 197);
+            this.nud_N2_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_N2_FC.Name = "nud_N2_FC";
+            this.nud_N2_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_N2_FC.TabIndex = 161;
+            this.nud_N2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_N2_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_N2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_ST_FC
+            // 
+            this.nud_ST_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_ST_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_ST_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_ST_FC.Location = new System.Drawing.Point(45, 442);
+            this.nud_ST_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_ST_FC.Name = "nud_ST_FC";
+            this.nud_ST_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_ST_FC.TabIndex = 159;
+            this.nud_ST_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_ST_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_ST_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_CH_FC
+            // 
+            this.nud_CH_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_CH_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_CH_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_CH_FC.Location = new System.Drawing.Point(45, 407);
+            this.nud_CH_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_CH_FC.Name = "nud_CH_FC";
+            this.nud_CH_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_CH_FC.TabIndex = 158;
+            this.nud_CH_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_CH_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_CH_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_LO_FC
+            // 
+            this.nud_LO_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_LO_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_LO_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_LO_FC.Location = new System.Drawing.Point(45, 372);
+            this.nud_LO_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_LO_FC.Name = "nud_LO_FC";
+            this.nud_LO_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_LO_FC.TabIndex = 157;
+            this.nud_LO_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_LO_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_LO_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_HW_FC
+            // 
+            this.nud_HW_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_HW_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_HW_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_HW_FC.Location = new System.Drawing.Point(45, 337);
+            this.nud_HW_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_HW_FC.Name = "nud_HW_FC";
+            this.nud_HW_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_HW_FC.TabIndex = 156;
+            this.nud_HW_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_HW_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_HW_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_HE_FC
+            // 
+            this.nud_HE_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_HE_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_HE_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_HE_FC.Location = new System.Drawing.Point(45, 232);
+            this.nud_HE_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_HE_FC.Name = "nud_HE_FC";
+            this.nud_HE_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_HE_FC.TabIndex = 155;
+            this.nud_HE_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_HE_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_HE_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_RB_FC
+            // 
+            this.nud_RB_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_RB_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_RB_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_RB_FC.Location = new System.Drawing.Point(45, 162);
+            this.nud_RB_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_RB_FC.Name = "nud_RB_FC";
+            this.nud_RB_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_RB_FC.TabIndex = 154;
+            this.nud_RB_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_RB_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_RB_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_CL_FC
+            // 
+            this.nud_CL_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_CL_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_CL_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_CL_FC.Location = new System.Drawing.Point(45, 127);
+            this.nud_CL_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_CL_FC.Name = "nud_CL_FC";
+            this.nud_CL_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_CL_FC.TabIndex = 153;
+            this.nud_CL_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_CL_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_CL_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_MP_FC
+            // 
+            this.nud_MP_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_MP_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_MP_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_MP_FC.Location = new System.Drawing.Point(45, 92);
+            this.nud_MP_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_MP_FC.Name = "nud_MP_FC";
+            this.nud_MP_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_MP_FC.TabIndex = 152;
+            this.nud_MP_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_MP_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_MP_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_OX_FC
+            // 
+            this.nud_OX_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_OX_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_OX_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_OX_FC.Location = new System.Drawing.Point(45, 57);
+            this.nud_OX_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_OX_FC.Name = "nud_OX_FC";
+            this.nud_OX_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_OX_FC.TabIndex = 151;
+            this.nud_OX_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_OX_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_OX_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // nud_ER_FC
+            // 
+            this.nud_ER_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_ER_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_ER_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_ER_FC.Location = new System.Drawing.Point(45, 22);
+            this.nud_ER_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_ER_FC.Name = "nud_ER_FC";
+            this.nud_ER_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_ER_FC.TabIndex = 150;
+            this.nud_ER_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_ER_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_ER_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // pictureBox36
+            // 
+            this.pictureBox36.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.OxIso;
+            this.pictureBox36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox36.Location = new System.Drawing.Point(8, 295);
+            this.pictureBox36.Name = "pictureBox36";
+            this.pictureBox36.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox36.TabIndex = 176;
+            this.pictureBox36.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox36, "Oxygen Isotopes");
+            // 
+            // pictureBox42
+            // 
+            this.pictureBox42.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.H2Iso;
+            this.pictureBox42.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox42.Location = new System.Drawing.Point(8, 260);
+            this.pictureBox42.Name = "pictureBox42";
+            this.pictureBox42.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox42.TabIndex = 175;
+            this.pictureBox42.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox42, "Hydrogen Isotopes");
+            // 
+            // pictureBox43
+            // 
+            this.pictureBox43.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HeIso;
+            this.pictureBox43.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox43.Location = new System.Drawing.Point(8, 225);
+            this.pictureBox43.Name = "pictureBox43";
+            this.pictureBox43.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox43.TabIndex = 174;
+            this.pictureBox43.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox43, "Helium Isotopes");
+            // 
+            // pictureBox44
+            // 
+            this.pictureBox44.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.NitgIso;
+            this.pictureBox44.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox44.Location = new System.Drawing.Point(8, 190);
+            this.pictureBox44.Name = "pictureBox44";
+            this.pictureBox44.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox44.TabIndex = 173;
+            this.pictureBox44.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox44, "Nitrogen Isotopes");
+            // 
+            // pictureBox11
+            // 
+            this.pictureBox11.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
+            this.pictureBox11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox11.Location = new System.Drawing.Point(8, 435);
+            this.pictureBox11.Name = "pictureBox11";
+            this.pictureBox11.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox11.TabIndex = 172;
+            this.pictureBox11.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox11, "Strontium Clathrates");
+            // 
+            // pictureBox33
+            // 
+            this.pictureBox33.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Charter;
+            this.pictureBox33.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox33.Location = new System.Drawing.Point(8, 400);
+            this.pictureBox33.Name = "pictureBox33";
+            this.pictureBox33.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox33.TabIndex = 171;
+            this.pictureBox33.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox33, "Faction Charters");
+            // 
+            // pictureBox34
+            // 
+            this.pictureBox34.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.LiqOzone;
+            this.pictureBox34.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox34.Location = new System.Drawing.Point(8, 365);
+            this.pictureBox34.Name = "pictureBox34";
+            this.pictureBox34.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox34.TabIndex = 170;
+            this.pictureBox34.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox34, "Liquid Ozone");
+            // 
+            // pictureBox35
+            // 
+            this.pictureBox35.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HvyWater;
+            this.pictureBox35.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox35.Location = new System.Drawing.Point(8, 330);
+            this.pictureBox35.Name = "pictureBox35";
+            this.pictureBox35.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox35.TabIndex = 169;
+            this.pictureBox35.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox35, "Heavy Water");
+            // 
+            // pictureBox37
+            // 
+            this.pictureBox37.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Robotics;
+            this.pictureBox37.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox37.Location = new System.Drawing.Point(8, 155);
+            this.pictureBox37.Name = "pictureBox37";
+            this.pictureBox37.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox37.TabIndex = 168;
+            this.pictureBox37.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox37, "Robotics");
+            // 
+            // pictureBox38
+            // 
+            this.pictureBox38.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Coolant;
+            this.pictureBox38.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox38.Location = new System.Drawing.Point(8, 120);
+            this.pictureBox38.Name = "pictureBox38";
+            this.pictureBox38.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox38.TabIndex = 167;
+            this.pictureBox38.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox38, "Coolant");
+            // 
+            // pictureBox39
+            // 
+            this.pictureBox39.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.MechParts;
+            this.pictureBox39.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox39.Location = new System.Drawing.Point(8, 85);
+            this.pictureBox39.Name = "pictureBox39";
+            this.pictureBox39.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox39.TabIndex = 166;
+            this.pictureBox39.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox39, "Mechanical Parts");
+            // 
+            // pictureBox40
+            // 
+            this.pictureBox40.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Oxygen;
+            this.pictureBox40.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox40.Location = new System.Drawing.Point(8, 50);
+            this.pictureBox40.Name = "pictureBox40";
+            this.pictureBox40.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox40.TabIndex = 165;
+            this.pictureBox40.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox40, "Oxygen");
+            // 
+            // pictureBox41
+            // 
+            this.pictureBox41.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.enrUran;
+            this.pictureBox41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox41.Location = new System.Drawing.Point(8, 15);
+            this.pictureBox41.Name = "pictureBox41";
+            this.pictureBox41.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox41.TabIndex = 164;
+            this.pictureBox41.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox41, "Enriched Uranium");
+            // 
+            // gb_PosDesignShow
+            // 
+            this.gb_PosDesignShow.Controls.Add(this.checkBox44);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox43);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox42);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox41);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox40);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox39);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox38);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox37);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox36);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox35);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox34);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox33);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox32);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox31);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox30);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox29);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox28);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox27);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox26);
+            this.gb_PosDesignShow.Controls.Add(this.checkBox25);
+            this.gb_PosDesignShow.ForeColor = System.Drawing.Color.Blue;
+            this.gb_PosDesignShow.Location = new System.Drawing.Point(363, 3);
+            this.gb_PosDesignShow.Name = "gb_PosDesignShow";
+            this.gb_PosDesignShow.Size = new System.Drawing.Size(354, 219);
+            this.gb_PosDesignShow.TabIndex = 1;
+            this.gb_PosDesignShow.TabStop = false;
+            this.gb_PosDesignShow.Text = "Design POS - Columns to Show";
+            // 
+            // checkBox44
+            // 
+            this.checkBox44.AutoSize = true;
+            this.checkBox44.Location = new System.Drawing.Point(168, 163);
+            this.checkBox44.Name = "checkBox44";
+            this.checkBox44.Size = new System.Drawing.Size(86, 17);
+            this.checkBox44.TabIndex = 32;
+            this.checkBox44.Text = "checkBox44";
+            this.checkBox44.UseVisualStyleBackColor = true;
+            this.checkBox44.Visible = false;
+            this.checkBox44.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox43
+            // 
+            this.checkBox43.AutoSize = true;
+            this.checkBox43.Location = new System.Drawing.Point(168, 147);
+            this.checkBox43.Name = "checkBox43";
+            this.checkBox43.Size = new System.Drawing.Size(86, 17);
+            this.checkBox43.TabIndex = 31;
+            this.checkBox43.Text = "checkBox43";
+            this.checkBox43.UseVisualStyleBackColor = true;
+            this.checkBox43.Visible = false;
+            this.checkBox43.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox42
+            // 
+            this.checkBox42.AutoSize = true;
+            this.checkBox42.Location = new System.Drawing.Point(168, 131);
+            this.checkBox42.Name = "checkBox42";
+            this.checkBox42.Size = new System.Drawing.Size(86, 17);
+            this.checkBox42.TabIndex = 30;
+            this.checkBox42.Text = "checkBox42";
+            this.checkBox42.UseVisualStyleBackColor = true;
+            this.checkBox42.Visible = false;
+            this.checkBox42.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox41
+            // 
+            this.checkBox41.AutoSize = true;
+            this.checkBox41.Location = new System.Drawing.Point(168, 115);
+            this.checkBox41.Name = "checkBox41";
+            this.checkBox41.Size = new System.Drawing.Size(86, 17);
+            this.checkBox41.TabIndex = 29;
+            this.checkBox41.Text = "checkBox41";
+            this.checkBox41.UseVisualStyleBackColor = true;
+            this.checkBox41.Visible = false;
+            this.checkBox41.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox40
+            // 
+            this.checkBox40.AutoSize = true;
+            this.checkBox40.Location = new System.Drawing.Point(168, 99);
+            this.checkBox40.Name = "checkBox40";
+            this.checkBox40.Size = new System.Drawing.Size(86, 17);
+            this.checkBox40.TabIndex = 28;
+            this.checkBox40.Text = "checkBox40";
+            this.checkBox40.UseVisualStyleBackColor = true;
+            this.checkBox40.Visible = false;
+            this.checkBox40.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox39
+            // 
+            this.checkBox39.AutoSize = true;
+            this.checkBox39.Location = new System.Drawing.Point(168, 83);
+            this.checkBox39.Name = "checkBox39";
+            this.checkBox39.Size = new System.Drawing.Size(86, 17);
+            this.checkBox39.TabIndex = 27;
+            this.checkBox39.Text = "checkBox39";
+            this.checkBox39.UseVisualStyleBackColor = true;
+            this.checkBox39.Visible = false;
+            this.checkBox39.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox38
+            // 
+            this.checkBox38.AutoSize = true;
+            this.checkBox38.Location = new System.Drawing.Point(168, 67);
+            this.checkBox38.Name = "checkBox38";
+            this.checkBox38.Size = new System.Drawing.Size(67, 17);
+            this.checkBox38.TabIndex = 26;
+            this.checkBox38.Text = "Capacity";
+            this.checkBox38.UseVisualStyleBackColor = true;
+            this.checkBox38.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox37
+            // 
+            this.checkBox37.AutoSize = true;
+            this.checkBox37.Location = new System.Drawing.Point(168, 51);
+            this.checkBox37.Name = "checkBox37";
+            this.checkBox37.Size = new System.Drawing.Size(47, 17);
+            this.checkBox37.TabIndex = 25;
+            this.checkBox37.Text = "Cost";
+            this.checkBox37.UseVisualStyleBackColor = true;
+            this.checkBox37.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox36
+            // 
+            this.checkBox36.AutoSize = true;
+            this.checkBox36.Location = new System.Drawing.Point(168, 35);
+            this.checkBox36.Name = "checkBox36";
+            this.checkBox36.Size = new System.Drawing.Size(60, 17);
+            this.checkBox36.TabIndex = 24;
+            this.checkBox36.Text = "Charge";
+            this.checkBox36.UseVisualStyleBackColor = true;
+            this.checkBox36.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox35
+            // 
+            this.checkBox35.AutoSize = true;
+            this.checkBox35.Location = new System.Drawing.Point(168, 19);
+            this.checkBox35.Name = "checkBox35";
+            this.checkBox35.Size = new System.Drawing.Size(100, 17);
+            this.checkBox35.TabIndex = 23;
+            this.checkBox35.Text = "Selection Delay";
+            this.checkBox35.UseVisualStyleBackColor = true;
+            this.checkBox35.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox34
+            // 
+            this.checkBox34.AutoSize = true;
+            this.checkBox34.Location = new System.Drawing.Point(6, 163);
+            this.checkBox34.Name = "checkBox34";
+            this.checkBox34.Size = new System.Drawing.Size(102, 17);
+            this.checkBox34.TabIndex = 22;
+            this.checkBox34.Text = "Proximity Range";
+            this.checkBox34.UseVisualStyleBackColor = true;
+            this.checkBox34.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox33
+            // 
+            this.checkBox33.AutoSize = true;
+            this.checkBox33.Location = new System.Drawing.Point(6, 147);
+            this.checkBox33.Name = "checkBox33";
+            this.checkBox33.Size = new System.Drawing.Size(68, 17);
+            this.checkBox33.TabIndex = 21;
+            this.checkBox33.Text = "Tracking";
+            this.checkBox33.UseVisualStyleBackColor = true;
+            this.checkBox33.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox32
+            // 
+            this.checkBox32.AutoSize = true;
+            this.checkBox32.Location = new System.Drawing.Point(6, 131);
+            this.checkBox32.Name = "checkBox32";
+            this.checkBox32.Size = new System.Drawing.Size(48, 17);
+            this.checkBox32.TabIndex = 20;
+            this.checkBox32.Text = "DPS";
+            this.checkBox32.UseVisualStyleBackColor = true;
+            this.checkBox32.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox31
+            // 
+            this.checkBox31.AutoSize = true;
+            this.checkBox31.Location = new System.Drawing.Point(6, 115);
+            this.checkBox31.Name = "checkBox31";
+            this.checkBox31.Size = new System.Drawing.Size(81, 17);
+            this.checkBox31.TabIndex = 19;
+            this.checkBox31.Text = "Rate of Fire";
+            this.checkBox31.UseVisualStyleBackColor = true;
+            this.checkBox31.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox30
+            // 
+            this.checkBox30.AutoSize = true;
+            this.checkBox30.Location = new System.Drawing.Point(6, 99);
+            this.checkBox30.Name = "checkBox30";
+            this.checkBox30.Size = new System.Drawing.Size(66, 17);
+            this.checkBox30.TabIndex = 18;
+            this.checkBox30.Text = "Damage";
+            this.checkBox30.UseVisualStyleBackColor = true;
+            this.checkBox30.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox29
+            // 
+            this.checkBox29.AutoSize = true;
+            this.checkBox29.Location = new System.Drawing.Point(6, 83);
+            this.checkBox29.Name = "checkBox29";
+            this.checkBox29.Size = new System.Drawing.Size(59, 17);
+            this.checkBox29.TabIndex = 17;
+            this.checkBox29.Text = "Fall-Off";
+            this.checkBox29.UseVisualStyleBackColor = true;
+            this.checkBox29.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox28
+            // 
+            this.checkBox28.AutoSize = true;
+            this.checkBox28.Location = new System.Drawing.Point(6, 67);
+            this.checkBox28.Name = "checkBox28";
+            this.checkBox28.Size = new System.Drawing.Size(61, 17);
+            this.checkBox28.TabIndex = 16;
+            this.checkBox28.Text = "Optimal";
+            this.checkBox28.UseVisualStyleBackColor = true;
+            this.checkBox28.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox27
+            // 
+            this.checkBox27.AutoSize = true;
+            this.checkBox27.Location = new System.Drawing.Point(6, 51);
+            this.checkBox27.Name = "checkBox27";
+            this.checkBox27.Size = new System.Drawing.Size(51, 17);
+            this.checkBox27.TabIndex = 15;
+            this.checkBox27.Text = "State";
+            this.checkBox27.UseVisualStyleBackColor = true;
+            this.checkBox27.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox26
+            // 
+            this.checkBox26.AutoSize = true;
+            this.checkBox26.Location = new System.Drawing.Point(6, 35);
+            this.checkBox26.Name = "checkBox26";
+            this.checkBox26.Size = new System.Drawing.Size(65, 17);
+            this.checkBox26.TabIndex = 14;
+            this.checkBox26.Text = "Quantity";
+            this.checkBox26.UseVisualStyleBackColor = true;
+            this.checkBox26.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox25
+            // 
+            this.checkBox25.AutoSize = true;
+            this.checkBox25.Location = new System.Drawing.Point(6, 19);
+            this.checkBox25.Name = "checkBox25";
+            this.checkBox25.Size = new System.Drawing.Size(92, 17);
+            this.checkBox25.TabIndex = 13;
+            this.checkBox25.Text = "Module Name";
+            this.checkBox25.UseVisualStyleBackColor = true;
+            this.checkBox25.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // gb_MonPosCol
+            // 
+            this.gb_MonPosCol.Controls.Add(this.checkBox13);
+            this.gb_MonPosCol.Controls.Add(this.checkBox14);
+            this.gb_MonPosCol.Controls.Add(this.checkBox15);
+            this.gb_MonPosCol.Controls.Add(this.checkBox16);
+            this.gb_MonPosCol.Controls.Add(this.checkBox17);
+            this.gb_MonPosCol.Controls.Add(this.checkBox18);
+            this.gb_MonPosCol.Controls.Add(this.checkBox19);
+            this.gb_MonPosCol.Controls.Add(this.checkBox20);
+            this.gb_MonPosCol.Controls.Add(this.checkBox21);
+            this.gb_MonPosCol.Controls.Add(this.checkBox22);
+            this.gb_MonPosCol.Controls.Add(this.checkBox23);
+            this.gb_MonPosCol.Controls.Add(this.checkBox24);
+            this.gb_MonPosCol.Controls.Add(this.checkBox12);
+            this.gb_MonPosCol.Controls.Add(this.checkBox11);
+            this.gb_MonPosCol.Controls.Add(this.checkBox10);
+            this.gb_MonPosCol.Controls.Add(this.checkBox9);
+            this.gb_MonPosCol.Controls.Add(this.checkBox8);
+            this.gb_MonPosCol.Controls.Add(this.checkBox7);
+            this.gb_MonPosCol.Controls.Add(this.checkBox6);
+            this.gb_MonPosCol.Controls.Add(this.checkBox5);
+            this.gb_MonPosCol.Controls.Add(this.checkBox4);
+            this.gb_MonPosCol.Controls.Add(this.checkBox3);
+            this.gb_MonPosCol.Controls.Add(this.checkBox2);
+            this.gb_MonPosCol.Controls.Add(this.checkBox1);
+            this.gb_MonPosCol.ForeColor = System.Drawing.Color.Blue;
+            this.gb_MonPosCol.Location = new System.Drawing.Point(0, 3);
+            this.gb_MonPosCol.Name = "gb_MonPosCol";
+            this.gb_MonPosCol.Size = new System.Drawing.Size(354, 219);
+            this.gb_MonPosCol.TabIndex = 0;
+            this.gb_MonPosCol.TabStop = false;
+            this.gb_MonPosCol.Text = "Monitored POS - Columns to Show";
+            // 
+            // checkBox13
+            // 
+            this.checkBox13.AutoSize = true;
+            this.checkBox13.Location = new System.Drawing.Point(183, 19);
+            this.checkBox13.Name = "checkBox13";
+            this.checkBox13.Size = new System.Drawing.Size(68, 17);
+            this.checkBox13.TabIndex = 23;
+            this.checkBox13.Text = "Robotics";
+            this.checkBox13.UseVisualStyleBackColor = true;
+            this.checkBox13.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox14
+            // 
+            this.checkBox14.AutoSize = true;
+            this.checkBox14.Location = new System.Drawing.Point(183, 35);
+            this.checkBox14.Name = "checkBox14";
+            this.checkBox14.Size = new System.Drawing.Size(66, 17);
+            this.checkBox14.TabIndex = 22;
+            this.checkBox14.Text = "Isotopes";
+            this.checkBox14.UseVisualStyleBackColor = true;
+            this.checkBox14.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox15
+            // 
+            this.checkBox15.AutoSize = true;
+            this.checkBox15.Location = new System.Drawing.Point(183, 51);
+            this.checkBox15.Name = "checkBox15";
+            this.checkBox15.Size = new System.Drawing.Size(89, 17);
+            this.checkBox15.TabIndex = 21;
+            this.checkBox15.Text = "Heavy Water";
+            this.checkBox15.UseVisualStyleBackColor = true;
+            this.checkBox15.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox16
+            // 
+            this.checkBox16.AutoSize = true;
+            this.checkBox16.Location = new System.Drawing.Point(183, 67);
+            this.checkBox16.Name = "checkBox16";
+            this.checkBox16.Size = new System.Drawing.Size(88, 17);
+            this.checkBox16.TabIndex = 20;
+            this.checkBox16.Text = "Liquid Ozone";
+            this.checkBox16.UseVisualStyleBackColor = true;
+            this.checkBox16.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox17
+            // 
+            this.checkBox17.AutoSize = true;
+            this.checkBox17.Location = new System.Drawing.Point(183, 83);
+            this.checkBox17.Name = "checkBox17";
+            this.checkBox17.Size = new System.Drawing.Size(65, 17);
+            this.checkBox17.TabIndex = 19;
+            this.checkBox17.Text = "Charters";
+            this.checkBox17.UseVisualStyleBackColor = true;
+            this.checkBox17.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox18
+            // 
+            this.checkBox18.AutoSize = true;
+            this.checkBox18.Location = new System.Drawing.Point(183, 99);
+            this.checkBox18.Name = "checkBox18";
+            this.checkBox18.Size = new System.Drawing.Size(70, 17);
+            this.checkBox18.TabIndex = 18;
+            this.checkBox18.Text = "Strontium";
+            this.checkBox18.UseVisualStyleBackColor = true;
+            this.checkBox18.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox19
+            // 
+            this.checkBox19.AutoSize = true;
+            this.checkBox19.Location = new System.Drawing.Point(183, 115);
+            this.checkBox19.Name = "checkBox19";
+            this.checkBox19.Size = new System.Drawing.Size(134, 17);
+            this.checkBox19.TabIndex = 17;
+            this.checkBox19.Text = "Use Charters Selection";
+            this.checkBox19.UseVisualStyleBackColor = true;
+            this.checkBox19.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox20
+            // 
+            this.checkBox20.AutoSize = true;
+            this.checkBox20.Location = new System.Drawing.Point(183, 131);
+            this.checkBox20.Name = "checkBox20";
+            this.checkBox20.Size = new System.Drawing.Size(86, 17);
+            this.checkBox20.TabIndex = 16;
+            this.checkBox20.Text = "checkBox20";
+            this.checkBox20.UseVisualStyleBackColor = true;
+            this.checkBox20.Visible = false;
+            this.checkBox20.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox21
+            // 
+            this.checkBox21.AutoSize = true;
+            this.checkBox21.Location = new System.Drawing.Point(183, 147);
+            this.checkBox21.Name = "checkBox21";
+            this.checkBox21.Size = new System.Drawing.Size(86, 17);
+            this.checkBox21.TabIndex = 15;
+            this.checkBox21.Text = "checkBox21";
+            this.checkBox21.UseVisualStyleBackColor = true;
+            this.checkBox21.Visible = false;
+            this.checkBox21.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox22
+            // 
+            this.checkBox22.AutoSize = true;
+            this.checkBox22.Location = new System.Drawing.Point(183, 163);
+            this.checkBox22.Name = "checkBox22";
+            this.checkBox22.Size = new System.Drawing.Size(86, 17);
+            this.checkBox22.TabIndex = 14;
+            this.checkBox22.Text = "checkBox22";
+            this.checkBox22.UseVisualStyleBackColor = true;
+            this.checkBox22.Visible = false;
+            this.checkBox22.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox23
+            // 
+            this.checkBox23.AutoSize = true;
+            this.checkBox23.Location = new System.Drawing.Point(183, 179);
+            this.checkBox23.Name = "checkBox23";
+            this.checkBox23.Size = new System.Drawing.Size(86, 17);
+            this.checkBox23.TabIndex = 13;
+            this.checkBox23.Text = "checkBox23";
+            this.checkBox23.UseVisualStyleBackColor = true;
+            this.checkBox23.Visible = false;
+            this.checkBox23.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox24
+            // 
+            this.checkBox24.AutoSize = true;
+            this.checkBox24.Location = new System.Drawing.Point(183, 195);
+            this.checkBox24.Name = "checkBox24";
+            this.checkBox24.Size = new System.Drawing.Size(86, 17);
+            this.checkBox24.TabIndex = 12;
+            this.checkBox24.Text = "checkBox24";
+            this.checkBox24.UseVisualStyleBackColor = true;
+            this.checkBox24.Visible = false;
+            this.checkBox24.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox12
+            // 
+            this.checkBox12.AutoSize = true;
+            this.checkBox12.Location = new System.Drawing.Point(6, 195);
+            this.checkBox12.Name = "checkBox12";
+            this.checkBox12.Size = new System.Drawing.Size(62, 17);
+            this.checkBox12.TabIndex = 11;
+            this.checkBox12.Text = "Coolant";
+            this.checkBox12.UseVisualStyleBackColor = true;
+            this.checkBox12.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox11
+            // 
+            this.checkBox11.AutoSize = true;
+            this.checkBox11.Location = new System.Drawing.Point(6, 179);
+            this.checkBox11.Name = "checkBox11";
+            this.checkBox11.Size = new System.Drawing.Size(108, 17);
+            this.checkBox11.TabIndex = 10;
+            this.checkBox11.Text = "Mechanical Parts";
+            this.checkBox11.UseVisualStyleBackColor = true;
+            this.checkBox11.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox10
+            // 
+            this.checkBox10.AutoSize = true;
+            this.checkBox10.Location = new System.Drawing.Point(6, 163);
+            this.checkBox10.Name = "checkBox10";
+            this.checkBox10.Size = new System.Drawing.Size(62, 17);
+            this.checkBox10.TabIndex = 9;
+            this.checkBox10.Text = "Oxygen";
+            this.checkBox10.UseVisualStyleBackColor = true;
+            this.checkBox10.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox9
+            // 
+            this.checkBox9.AutoSize = true;
+            this.checkBox9.Location = new System.Drawing.Point(6, 147);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(110, 17);
+            this.checkBox9.TabIndex = 8;
+            this.checkBox9.Text = "Enriched Uranium";
+            this.checkBox9.UseVisualStyleBackColor = true;
+            this.checkBox9.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox8
+            // 
+            this.checkBox8.AutoSize = true;
+            this.checkBox8.Location = new System.Drawing.Point(6, 131);
+            this.checkBox8.Name = "checkBox8";
+            this.checkBox8.Size = new System.Drawing.Size(90, 17);
+            this.checkBox8.TabIndex = 7;
+            this.checkBox8.Text = "Power Usage";
+            this.checkBox8.UseVisualStyleBackColor = true;
+            this.checkBox8.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox7
+            // 
+            this.checkBox7.AutoSize = true;
+            this.checkBox7.Location = new System.Drawing.Point(6, 115);
+            this.checkBox7.Name = "checkBox7";
+            this.checkBox7.Size = new System.Drawing.Size(82, 17);
+            this.checkBox7.TabIndex = 6;
+            this.checkBox7.Text = "CPU Usage";
+            this.checkBox7.UseVisualStyleBackColor = true;
+            this.checkBox7.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Location = new System.Drawing.Point(6, 99);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(103, 17);
+            this.checkBox6.TabIndex = 5;
+            this.checkBox6.Text = "API Cache Time";
+            this.checkBox6.UseVisualStyleBackColor = true;
+            this.checkBox6.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(6, 83);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(99, 17);
+            this.checkBox5.TabIndex = 4;
+            this.checkBox5.Text = "Tower API Link";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(6, 67);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(89, 17);
+            this.checkBox4.TabIndex = 3;
+            this.checkBox4.Text = "Tower Status";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(6, 51);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(98, 17);
+            this.checkBox3.TabIndex = 2;
+            this.checkBox3.Text = "Reinforce Time";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(6, 35);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(95, 17);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "Fuel Run Time";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(6, 19);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(79, 17);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "POS Name";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Click += new System.EventHandler(this.DGColumnCBStateChange);
+            // 
+            // il_system
+            // 
+            this.il_system.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("il_system.ImageStream")));
+            this.il_system.TransparentColor = System.Drawing.Color.Transparent;
+            this.il_system.Images.SetKeyName(0, "enrUran.png");
+            this.il_system.Images.SetKeyName(1, "Oxygen.png");
+            this.il_system.Images.SetKeyName(2, "MechParts.png");
+            this.il_system.Images.SetKeyName(3, "Coolant.png");
+            this.il_system.Images.SetKeyName(4, "Robotics.png");
+            this.il_system.Images.SetKeyName(5, "NitgIso.png");
+            this.il_system.Images.SetKeyName(6, "HeIso.png");
+            this.il_system.Images.SetKeyName(7, "H2Iso.png");
+            this.il_system.Images.SetKeyName(8, "OxIso.png");
+            this.il_system.Images.SetKeyName(9, "HvyWater.png");
+            this.il_system.Images.SetKeyName(10, "LiqOzone.png");
+            this.il_system.Images.SetKeyName(11, "Charter.png");
+            this.il_system.Images.SetKeyName(12, "Strontium.png");
+            this.il_system.Images.SetKeyName(13, "fuel_cost.png");
+            this.il_system.Images.SetKeyName(14, "fuel_stront_cost.png");
+            // 
+            // il_FetchList
+            // 
+            this.il_FetchList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.il_FetchList.ImageSize = new System.Drawing.Size(50, 50);
+            this.il_FetchList.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // t_MonitorUpdate
+            // 
+            this.t_MonitorUpdate.Interval = 60000;
+            this.t_MonitorUpdate.Tick += new System.EventHandler(this.UdateMonitorInformation);
+            // 
+            // tt_InfoTips
+            // 
+            this.tt_InfoTips.IsBalloon = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.pictureBox41);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.pictureBox40);
+            this.groupBox2.Controls.Add(this.nud_O2_FC);
+            this.groupBox2.Controls.Add(this.pictureBox39);
+            this.groupBox2.Controls.Add(this.nud_H2_FC);
+            this.groupBox2.Controls.Add(this.pictureBox38);
+            this.groupBox2.Controls.Add(this.nud_N2_FC);
+            this.groupBox2.Controls.Add(this.pictureBox37);
+            this.groupBox2.Controls.Add(this.pictureBox35);
+            this.groupBox2.Controls.Add(this.nud_ST_FC);
+            this.groupBox2.Controls.Add(this.pictureBox34);
+            this.groupBox2.Controls.Add(this.nud_CH_FC);
+            this.groupBox2.Controls.Add(this.pictureBox33);
+            this.groupBox2.Controls.Add(this.nud_LO_FC);
+            this.groupBox2.Controls.Add(this.pictureBox11);
+            this.groupBox2.Controls.Add(this.nud_HW_FC);
+            this.groupBox2.Controls.Add(this.pictureBox44);
+            this.groupBox2.Controls.Add(this.nud_HE_FC);
+            this.groupBox2.Controls.Add(this.pictureBox43);
+            this.groupBox2.Controls.Add(this.nud_RB_FC);
+            this.groupBox2.Controls.Add(this.pictureBox42);
+            this.groupBox2.Controls.Add(this.nud_CL_FC);
+            this.groupBox2.Controls.Add(this.pictureBox36);
+            this.groupBox2.Controls.Add(this.nud_MP_FC);
+            this.groupBox2.Controls.Add(this.nud_ER_FC);
+            this.groupBox2.Controls.Add(this.nud_OX_FC);
+            this.groupBox2.ForeColor = System.Drawing.Color.Blue;
+            this.groupBox2.Location = new System.Drawing.Point(0, 222);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(354, 481);
+            this.groupBox2.TabIndex = 178;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Set Fuel Costs";
+            // 
+            // poS_Item51
+            // 
+            this.poS_Item51.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.poS_Item51.BackColor = System.Drawing.Color.Transparent;
+            this.poS_Item51.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.poS_Item51.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.poS_Item51.ContextMenuStrip = this.cms_PosItem;
+            this.poS_Item51.DfltBackgroundColor = System.Drawing.Color.Transparent;
+            this.poS_Item51.ItemNumber = 0;
+            this.poS_Item51.ItemTypeKey = EveHQ.PosManager.PoS_Item.TypeKeyEnum.Outer;
+            this.poS_Item51.Location = new System.Drawing.Point(493, 231);
+            this.poS_Item51.Name = "poS_Item51";
+            this.poS_Item51.OfflineColor = System.Drawing.Color.Red;
+            this.poS_Item51.OnlineColor = System.Drawing.Color.Lime;
+            this.poS_Item51.QuantityColor = System.Drawing.Color.Blue;
+            this.poS_Item51.QuantityColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.poS_Item51.Size = new System.Drawing.Size(40, 40);
+            this.poS_Item51.TabIndex = 60;
+            this.poS_Item51.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
             // 
             // poS_Item52
             // 
@@ -6078,459 +7238,6 @@
             this.pi_Tower.TabIndex = 0;
             this.pi_Tower.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
             // 
-            // tp_POSMaintenance
-            // 
-            this.tp_POSMaintenance.Controls.Add(this.b_SetSelectedFull);
-            this.tp_POSMaintenance.Controls.Add(this.label5);
-            this.tp_POSMaintenance.Controls.Add(this.b_CopySelected);
-            this.tp_POSMaintenance.Controls.Add(this.b_CopyAllPos);
-            this.tp_POSMaintenance.Controls.Add(this.cb_FactChartTotal);
-            this.tp_POSMaintenance.Controls.Add(this.cb_UseStrontTotals);
-            this.tp_POSMaintenance.Controls.Add(this.gb_AllPos);
-            this.tp_POSMaintenance.Controls.Add(this.gb_SelPos);
-            this.tp_POSMaintenance.Controls.Add(this.dg_TowerFuelList);
-            this.tp_POSMaintenance.Controls.Add(this.b_ApplyIntervalPeriod);
-            this.tp_POSMaintenance.Controls.Add(this.label7);
-            this.tp_POSMaintenance.Controls.Add(this.label6);
-            this.tp_POSMaintenance.Controls.Add(this.nud_PeriodValue);
-            this.tp_POSMaintenance.Controls.Add(this.tscb_TimePeriod);
-            this.tp_POSMaintenance.Controls.Add(this.label2);
-            this.tp_POSMaintenance.Location = new System.Drawing.Point(4, 25);
-            this.tp_POSMaintenance.Name = "tp_POSMaintenance";
-            this.tp_POSMaintenance.Size = new System.Drawing.Size(1001, 703);
-            this.tp_POSMaintenance.TabIndex = 2;
-            this.tp_POSMaintenance.Text = "POS Maintenance";
-            this.tp_POSMaintenance.UseVisualStyleBackColor = true;
-            // 
-            // b_SetSelectedFull
-            // 
-            this.b_SetSelectedFull.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
-            this.b_SetSelectedFull.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_SetSelectedFull.ForeColor = System.Drawing.Color.Cyan;
-            this.b_SetSelectedFull.Location = new System.Drawing.Point(190, 2);
-            this.b_SetSelectedFull.Name = "b_SetSelectedFull";
-            this.b_SetSelectedFull.Size = new System.Drawing.Size(60, 35);
-            this.b_SetSelectedFull.TabIndex = 182;
-            this.b_SetSelectedFull.Text = "Mark Full";
-            this.b_SetSelectedFull.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_SetSelectedFull, "Set The Selected Tower To Full By Calculated Values");
-            this.b_SetSelectedFull.UseVisualStyleBackColor = true;
-            this.b_SetSelectedFull.Click += new System.EventHandler(this.b_SetSelectedFull_Click);
-            // 
-            // label5
-            // 
-            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label5.ForeColor = System.Drawing.Color.Blue;
-            this.label5.Location = new System.Drawing.Point(358, 7);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(180, 42);
-            this.label5.TabIndex = 181;
-            this.label5.Text = "The \'Fill\' interval will CAP each POS to the maximum fuel it can hold. The other " +
-                "intervals will not do this.";
-            // 
-            // b_CopySelected
-            // 
-            this.b_CopySelected.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Fitting;
-            this.b_CopySelected.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_CopySelected.ForeColor = System.Drawing.Color.Cyan;
-            this.b_CopySelected.Location = new System.Drawing.Point(8, 2);
-            this.b_CopySelected.Name = "b_CopySelected";
-            this.b_CopySelected.Size = new System.Drawing.Size(60, 35);
-            this.b_CopySelected.TabIndex = 180;
-            this.b_CopySelected.Text = "Copy Selected";
-            this.b_CopySelected.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_CopySelected, "Copy Selected POS Fill Data to the Clipboard");
-            this.b_CopySelected.UseVisualStyleBackColor = true;
-            this.b_CopySelected.Click += new System.EventHandler(this.b_CopySelected_Click);
-            // 
-            // b_CopyAllPos
-            // 
-            this.b_CopyAllPos.BackColor = System.Drawing.Color.Transparent;
-            this.b_CopyAllPos.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Delete;
-            this.b_CopyAllPos.ForeColor = System.Drawing.Color.Cyan;
-            this.b_CopyAllPos.Location = new System.Drawing.Point(99, 2);
-            this.b_CopyAllPos.Name = "b_CopyAllPos";
-            this.b_CopyAllPos.Size = new System.Drawing.Size(60, 35);
-            this.b_CopyAllPos.TabIndex = 179;
-            this.b_CopyAllPos.Text = "Copy All";
-            this.b_CopyAllPos.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.tt_InfoTips.SetToolTip(this.b_CopyAllPos, "Copy All POS Fill Data to the Clipboard");
-            this.b_CopyAllPos.UseVisualStyleBackColor = false;
-            this.b_CopyAllPos.Click += new System.EventHandler(this.b_CopyAllPos_Click);
-            // 
-            // cb_FactChartTotal
-            // 
-            this.cb_FactChartTotal.AutoSize = true;
-            this.cb_FactChartTotal.Checked = true;
-            this.cb_FactChartTotal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_FactChartTotal.Location = new System.Drawing.Point(798, 26);
-            this.cb_FactChartTotal.Name = "cb_FactChartTotal";
-            this.cb_FactChartTotal.Size = new System.Drawing.Size(146, 17);
-            this.cb_FactChartTotal.TabIndex = 178;
-            this.cb_FactChartTotal.Text = "Include Charters in Totals";
-            this.cb_FactChartTotal.UseVisualStyleBackColor = true;
-            this.cb_FactChartTotal.CheckedChanged += new System.EventHandler(this.cb_FactChartTotal_CheckedChanged);
-            // 
-            // cb_UseStrontTotals
-            // 
-            this.cb_UseStrontTotals.AutoSize = true;
-            this.cb_UseStrontTotals.Checked = true;
-            this.cb_UseStrontTotals.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_UseStrontTotals.Location = new System.Drawing.Point(798, 10);
-            this.cb_UseStrontTotals.Name = "cb_UseStrontTotals";
-            this.cb_UseStrontTotals.Size = new System.Drawing.Size(135, 17);
-            this.cb_UseStrontTotals.TabIndex = 177;
-            this.cb_UseStrontTotals.Text = "Include Stront in Totals";
-            this.cb_UseStrontTotals.UseVisualStyleBackColor = true;
-            this.cb_UseStrontTotals.CheckedChanged += new System.EventHandler(this.cb_UseStrontTotals_CheckedChanged);
-            // 
-            // gb_AllPos
-            // 
-            this.gb_AllPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.gb_AllPos.Controls.Add(this.dg_TotalFuel);
-            this.gb_AllPos.ForeColor = System.Drawing.Color.Blue;
-            this.gb_AllPos.Location = new System.Drawing.Point(501, 451);
-            this.gb_AllPos.Name = "gb_AllPos";
-            this.gb_AllPos.Size = new System.Drawing.Size(497, 250);
-            this.gb_AllPos.TabIndex = 176;
-            this.gb_AllPos.TabStop = false;
-            this.gb_AllPos.Text = "All POS";
-            // 
-            // dg_TotalFuel
-            // 
-            this.dg_TotalFuel.AllowUserToAddRows = false;
-            this.dg_TotalFuel.AllowUserToDeleteRows = false;
-            this.dg_TotalFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_TotalFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FuelName,
-            this.FuelAmount,
-            this.FuelVolume,
-            this.FuelCost});
-            this.dg_TotalFuel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dg_TotalFuel.Location = new System.Drawing.Point(3, 16);
-            this.dg_TotalFuel.Name = "dg_TotalFuel";
-            this.dg_TotalFuel.RowHeadersVisible = false;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle11;
-            this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TotalFuel.Size = new System.Drawing.Size(491, 231);
-            this.dg_TotalFuel.TabIndex = 0;
-            // 
-            // FuelName
-            // 
-            this.FuelName.HeaderText = "Fuel";
-            this.FuelName.Name = "FuelName";
-            this.FuelName.ReadOnly = true;
-            this.FuelName.Width = 145;
-            // 
-            // FuelAmount
-            // 
-            this.FuelAmount.HeaderText = "Amount";
-            this.FuelAmount.Name = "FuelAmount";
-            this.FuelAmount.ReadOnly = true;
-            // 
-            // FuelVolume
-            // 
-            this.FuelVolume.HeaderText = "Volume";
-            this.FuelVolume.Name = "FuelVolume";
-            this.FuelVolume.ReadOnly = true;
-            // 
-            // FuelCost
-            // 
-            this.FuelCost.HeaderText = "Cost";
-            this.FuelCost.Name = "FuelCost";
-            this.FuelCost.ReadOnly = true;
-            this.FuelCost.Width = 125;
-            // 
-            // gb_SelPos
-            // 
-            this.gb_SelPos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.gb_SelPos.Controls.Add(this.dg_SelectedFuel);
-            this.gb_SelPos.ForeColor = System.Drawing.Color.Blue;
-            this.gb_SelPos.Location = new System.Drawing.Point(0, 451);
-            this.gb_SelPos.Name = "gb_SelPos";
-            this.gb_SelPos.Size = new System.Drawing.Size(497, 250);
-            this.gb_SelPos.TabIndex = 175;
-            this.gb_SelPos.TabStop = false;
-            this.gb_SelPos.Text = "Selected POS";
-            // 
-            // dg_SelectedFuel
-            // 
-            this.dg_SelectedFuel.AllowUserToAddRows = false;
-            this.dg_SelectedFuel.AllowUserToDeleteRows = false;
-            this.dg_SelectedFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_SelectedFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.SelFuelType,
-            this.SelFuelAmount,
-            this.SelFuelVol,
-            this.SelFuelCost});
-            this.dg_SelectedFuel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dg_SelectedFuel.Location = new System.Drawing.Point(3, 16);
-            this.dg_SelectedFuel.Name = "dg_SelectedFuel";
-            this.dg_SelectedFuel.RowHeadersVisible = false;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle12;
-            this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_SelectedFuel.Size = new System.Drawing.Size(491, 231);
-            this.dg_SelectedFuel.TabIndex = 1;
-            // 
-            // SelFuelType
-            // 
-            this.SelFuelType.HeaderText = "Type";
-            this.SelFuelType.Name = "SelFuelType";
-            this.SelFuelType.ReadOnly = true;
-            this.SelFuelType.Width = 145;
-            // 
-            // SelFuelAmount
-            // 
-            this.SelFuelAmount.HeaderText = "Amount";
-            this.SelFuelAmount.Name = "SelFuelAmount";
-            this.SelFuelAmount.ReadOnly = true;
-            // 
-            // SelFuelVol
-            // 
-            this.SelFuelVol.HeaderText = "Volume";
-            this.SelFuelVol.Name = "SelFuelVol";
-            this.SelFuelVol.ReadOnly = true;
-            // 
-            // SelFuelCost
-            // 
-            this.SelFuelCost.HeaderText = "Cost";
-            this.SelFuelCost.Name = "SelFuelCost";
-            this.SelFuelCost.ReadOnly = true;
-            this.SelFuelCost.Width = 125;
-            // 
-            // dg_TowerFuelList
-            // 
-            this.dg_TowerFuelList.AllowUserToAddRows = false;
-            this.dg_TowerFuelList.AllowUserToDeleteRows = false;
-            this.dg_TowerFuelList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.dg_TowerFuelList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg_TowerFuelList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
-            this.dg_TowerFuelList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_TowerFuelList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FName,
-            this.FLocation,
-            this.EnrUr,
-            this.Oxygen,
-            this.MechP,
-            this.Coolant,
-            this.Robot,
-            this.Isotope,
-            this.HvyWater,
-            this.LiqOz,
-            this.Charter,
-            this.Stront});
-            this.dg_TowerFuelList.Location = new System.Drawing.Point(3, 54);
-            this.dg_TowerFuelList.Name = "dg_TowerFuelList";
-            this.dg_TowerFuelList.ReadOnly = true;
-            this.dg_TowerFuelList.RowHeadersVisible = false;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dg_TowerFuelList.RowsDefaultCellStyle = dataGridViewCellStyle14;
-            this.dg_TowerFuelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TowerFuelList.Size = new System.Drawing.Size(996, 397);
-            this.dg_TowerFuelList.TabIndex = 174;
-            this.dg_TowerFuelList.SelectionChanged += new System.EventHandler(this.dg_TowerFuelList_SelectionChanged);
-            // 
-            // FName
-            // 
-            this.FName.HeaderText = "Name";
-            this.FName.Name = "FName";
-            this.FName.ReadOnly = true;
-            this.FName.Width = 60;
-            // 
-            // FLocation
-            // 
-            this.FLocation.HeaderText = "Location";
-            this.FLocation.Name = "FLocation";
-            this.FLocation.ReadOnly = true;
-            this.FLocation.Width = 73;
-            // 
-            // EnrUr
-            // 
-            this.EnrUr.HeaderText = "Enr. Ur.";
-            this.EnrUr.Name = "EnrUr";
-            this.EnrUr.ReadOnly = true;
-            this.EnrUr.Width = 68;
-            // 
-            // Oxygen
-            // 
-            this.Oxygen.HeaderText = "Oxygen";
-            this.Oxygen.Name = "Oxygen";
-            this.Oxygen.ReadOnly = true;
-            this.Oxygen.Width = 68;
-            // 
-            // MechP
-            // 
-            this.MechP.HeaderText = "Mech Pts";
-            this.MechP.Name = "MechP";
-            this.MechP.ReadOnly = true;
-            this.MechP.Width = 77;
-            // 
-            // Coolant
-            // 
-            this.Coolant.HeaderText = "Coolant";
-            this.Coolant.Name = "Coolant";
-            this.Coolant.ReadOnly = true;
-            this.Coolant.Width = 68;
-            // 
-            // Robot
-            // 
-            this.Robot.HeaderText = "Robotics";
-            this.Robot.Name = "Robot";
-            this.Robot.ReadOnly = true;
-            this.Robot.Width = 74;
-            // 
-            // Isotope
-            // 
-            this.Isotope.HeaderText = "Isotopes";
-            this.Isotope.Name = "Isotope";
-            this.Isotope.ReadOnly = true;
-            this.Isotope.Width = 72;
-            // 
-            // HvyWater
-            // 
-            this.HvyWater.HeaderText = "Hvy. Water";
-            this.HvyWater.Name = "HvyWater";
-            this.HvyWater.ReadOnly = true;
-            this.HvyWater.Width = 86;
-            // 
-            // LiqOz
-            // 
-            this.LiqOz.HeaderText = "Liq Ozone";
-            this.LiqOz.Name = "LiqOz";
-            this.LiqOz.ReadOnly = true;
-            this.LiqOz.Width = 80;
-            // 
-            // Charter
-            // 
-            this.Charter.HeaderText = "Charters";
-            this.Charter.Name = "Charter";
-            this.Charter.ReadOnly = true;
-            this.Charter.Width = 71;
-            // 
-            // Stront
-            // 
-            this.Stront.HeaderText = "Strontium";
-            this.Stront.Name = "Stront";
-            this.Stront.ReadOnly = true;
-            this.Stront.Width = 76;
-            // 
-            // b_ApplyIntervalPeriod
-            // 
-            this.b_ApplyIntervalPeriod.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Repair;
-            this.b_ApplyIntervalPeriod.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.b_ApplyIntervalPeriod.ForeColor = System.Drawing.Color.Cyan;
-            this.b_ApplyIntervalPeriod.Location = new System.Drawing.Point(733, 5);
-            this.b_ApplyIntervalPeriod.Name = "b_ApplyIntervalPeriod";
-            this.b_ApplyIntervalPeriod.Size = new System.Drawing.Size(59, 45);
-            this.b_ApplyIntervalPeriod.TabIndex = 173;
-            this.b_ApplyIntervalPeriod.Text = "Apply";
-            this.b_ApplyIntervalPeriod.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.b_ApplyIntervalPeriod.UseVisualStyleBackColor = true;
-            this.b_ApplyIntervalPeriod.Click += new System.EventHandler(this.ApplyFillData);
-            // 
-            // label7
-            // 
-            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(546, 30);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(61, 18);
-            this.label7.TabIndex = 172;
-            this.label7.Text = "Period";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label6
-            // 
-            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(546, 7);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(61, 18);
-            this.label6.TabIndex = 171;
-            this.label6.Text = "Interval";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // nud_PeriodValue
-            // 
-            this.nud_PeriodValue.Location = new System.Drawing.Point(609, 29);
-            this.nud_PeriodValue.Name = "nud_PeriodValue";
-            this.nud_PeriodValue.Size = new System.Drawing.Size(121, 20);
-            this.nud_PeriodValue.TabIndex = 170;
-            // 
-            // tscb_TimePeriod
-            // 
-            this.tscb_TimePeriod.FormattingEnabled = true;
-            this.tscb_TimePeriod.Items.AddRange(new object[] {
-            "Hours",
-            "Days",
-            "Weeks",
-            "Months",
-            "Fill"});
-            this.tscb_TimePeriod.Location = new System.Drawing.Point(609, 6);
-            this.tscb_TimePeriod.Name = "tscb_TimePeriod";
-            this.tscb_TimePeriod.Size = new System.Drawing.Size(121, 21);
-            this.tscb_TimePeriod.TabIndex = 169;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 37);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(354, 16);
-            this.label2.TabIndex = 164;
-            this.label2.Text = "Monitored Towers - Fuel Needed to Fill the Bunker";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // il_system
-            // 
-            this.il_system.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("il_system.ImageStream")));
-            this.il_system.TransparentColor = System.Drawing.Color.Transparent;
-            this.il_system.Images.SetKeyName(0, "enrUran.png");
-            this.il_system.Images.SetKeyName(1, "Oxygen.png");
-            this.il_system.Images.SetKeyName(2, "MechParts.png");
-            this.il_system.Images.SetKeyName(3, "Coolant.png");
-            this.il_system.Images.SetKeyName(4, "Robotics.png");
-            this.il_system.Images.SetKeyName(5, "NitgIso.png");
-            this.il_system.Images.SetKeyName(6, "HeIso.png");
-            this.il_system.Images.SetKeyName(7, "H2Iso.png");
-            this.il_system.Images.SetKeyName(8, "OxIso.png");
-            this.il_system.Images.SetKeyName(9, "HvyWater.png");
-            this.il_system.Images.SetKeyName(10, "LiqOzone.png");
-            this.il_system.Images.SetKeyName(11, "Charter.png");
-            this.il_system.Images.SetKeyName(12, "Strontium.png");
-            this.il_system.Images.SetKeyName(13, "fuel_cost.png");
-            this.il_system.Images.SetKeyName(14, "fuel_stront_cost.png");
-            // 
-            // il_FetchList
-            // 
-            this.il_FetchList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.il_FetchList.ImageSize = new System.Drawing.Size(50, 50);
-            this.il_FetchList.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // t_MonitorUpdate
-            // 
-            this.t_MonitorUpdate.Interval = 60000;
-            this.t_MonitorUpdate.Tick += new System.EventHandler(this.UdateMonitorInformation);
-            // 
-            // tt_InfoTips
-            // 
-            this.tt_InfoTips.IsBalloon = true;
-            // 
             // PoSManMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -6622,7 +7329,28 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox30)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox31)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox32)).EndInit();
-            this.tp_SetFuelCost.ResumeLayout(false);
+            this.p_Select.ResumeLayout(false);
+            this.p_Top.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
+            this.p_Tower.ResumeLayout(false);
+            this.cms_PosItem.ResumeLayout(false);
+            this.tp_POSMaintenance.ResumeLayout(false);
+            this.tp_POSMaintenance.PerformLayout();
+            this.gb_AllPos.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).EndInit();
+            this.gb_SelPos.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).EndInit();
+            this.tb_PMConfig.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nud_O2_FC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_H2_FC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_N2_FC)).EndInit();
@@ -6649,27 +7377,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox39)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox40)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox41)).EndInit();
-            this.p_Select.ResumeLayout(false);
-            this.p_Top.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
-            this.p_Tower.ResumeLayout(false);
-            this.cms_PosItem.ResumeLayout(false);
-            this.tp_POSMaintenance.ResumeLayout(false);
-            this.tp_POSMaintenance.PerformLayout();
-            this.gb_AllPos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TotalFuel)).EndInit();
-            this.gb_SelPos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dg_SelectedFuel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).EndInit();
+            this.gb_PosDesignShow.ResumeLayout(false);
+            this.gb_PosDesignShow.PerformLayout();
+            this.gb_MonPosCol.ResumeLayout(false);
+            this.gb_MonPosCol.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -6849,38 +7561,10 @@
         private System.Windows.Forms.Label l_AnchorTime;
         private System.Windows.Forms.Label l_SetupTime;
         private System.Windows.Forms.Label l_SI_Cost;
-        private System.Windows.Forms.TabPage tp_SetFuelCost;
-        private System.Windows.Forms.Button b_SaveFuelCosts;
-        private System.Windows.Forms.NumericUpDown nud_ST_FC;
-        private System.Windows.Forms.NumericUpDown nud_CH_FC;
-        private System.Windows.Forms.NumericUpDown nud_LO_FC;
-        private System.Windows.Forms.NumericUpDown nud_HW_FC;
-        private System.Windows.Forms.NumericUpDown nud_HE_FC;
-        private System.Windows.Forms.NumericUpDown nud_RB_FC;
-        private System.Windows.Forms.NumericUpDown nud_CL_FC;
-        private System.Windows.Forms.NumericUpDown nud_MP_FC;
-        private System.Windows.Forms.NumericUpDown nud_OX_FC;
-        private System.Windows.Forms.NumericUpDown nud_ER_FC;
-        private System.Windows.Forms.NumericUpDown nud_O2_FC;
-        private System.Windows.Forms.NumericUpDown nud_H2_FC;
-        private System.Windows.Forms.NumericUpDown nud_N2_FC;
         private System.Windows.Forms.ToolTip tt_InfoTips;
         private System.Windows.Forms.ToolStripMenuItem tsm_SetModuleCharge;
         private System.Windows.Forms.TabPage tp_PosStats;
         private System.Windows.Forms.DataGridView dg_PosMods;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Module;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn State;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Optimal;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Falloff;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Damage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ROF;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DPS;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Tracking;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProxRange;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Switch;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Charge;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Cost;
         private System.Windows.Forms.Label l_Total_UnAnchor_T;
         private System.Windows.Forms.Label label88;
         private System.Windows.Forms.ComboBox cb_DamageProfile;
@@ -6933,26 +7617,12 @@
         private System.Windows.Forms.PictureBox pb_Charter;
         private System.Windows.Forms.PictureBox pb_LiqOzone;
         private System.Windows.Forms.Label l_IsotopeType;
-        private System.Windows.Forms.PictureBox pictureBox36;
-        private System.Windows.Forms.PictureBox pictureBox42;
-        private System.Windows.Forms.PictureBox pictureBox43;
-        private System.Windows.Forms.PictureBox pictureBox44;
-        private System.Windows.Forms.PictureBox pictureBox11;
-        private System.Windows.Forms.PictureBox pictureBox33;
-        private System.Windows.Forms.PictureBox pictureBox34;
-        private System.Windows.Forms.PictureBox pictureBox35;
-        private System.Windows.Forms.PictureBox pictureBox37;
-        private System.Windows.Forms.PictureBox pictureBox38;
-        private System.Windows.Forms.PictureBox pictureBox39;
-        private System.Windows.Forms.PictureBox pictureBox40;
-        private System.Windows.Forms.PictureBox pictureBox41;
         private System.Windows.Forms.PictureBox pictureBox46;
         private System.Windows.Forms.PictureBox pictureBox45;
         private System.Windows.Forms.PictureBox pictureBox47;
         private System.Windows.Forms.Label l_PoS_DPS;
         private System.Windows.Forms.Label l_PoS_Tank;
         private System.Windows.Forms.Label l_PoS_EHP;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button b_NewPos;
         private System.Windows.Forms.Button b_RenamePos;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -7071,6 +7741,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SelFuelVol;
         private System.Windows.Forms.DataGridViewTextBoxColumn SelFuelCost;
         private System.Windows.Forms.CheckBox cb_FactChartTotal;
+        private System.Windows.Forms.Button b_CopySelected;
+        private System.Windows.Forms.Button b_CopyAllPos;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cb_CorpName;
+        private System.Windows.Forms.ComboBox cb_systemMoon;
+        private System.Windows.Forms.Button b_SetSelectedFull;
         private System.Windows.Forms.DataGridViewTextBoxColumn dg_POSName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dg_RunTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn dg_ReinfTime;
@@ -7090,11 +7766,99 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Chrt;
         private System.Windows.Forms.DataGridViewTextBoxColumn Strn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn IgnoreCharters;
-        private System.Windows.Forms.Button b_CopySelected;
-        private System.Windows.Forms.Button b_CopyAllPos;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox cb_CorpName;
-        private System.Windows.Forms.ComboBox cb_systemMoon;
-        private System.Windows.Forms.Button b_SetSelectedFull;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenFuel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenStront;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenCPU;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenPower;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HiddenIso;
+        private System.Windows.Forms.TabPage tb_PMConfig;
+        private System.Windows.Forms.GroupBox gb_PosDesignShow;
+        private System.Windows.Forms.GroupBox gb_MonPosCol;
+        private System.Windows.Forms.CheckBox checkBox13;
+        private System.Windows.Forms.CheckBox checkBox14;
+        private System.Windows.Forms.CheckBox checkBox15;
+        private System.Windows.Forms.CheckBox checkBox16;
+        private System.Windows.Forms.CheckBox checkBox17;
+        private System.Windows.Forms.CheckBox checkBox18;
+        private System.Windows.Forms.CheckBox checkBox19;
+        private System.Windows.Forms.CheckBox checkBox20;
+        private System.Windows.Forms.CheckBox checkBox21;
+        private System.Windows.Forms.CheckBox checkBox22;
+        private System.Windows.Forms.CheckBox checkBox23;
+        private System.Windows.Forms.CheckBox checkBox24;
+        private System.Windows.Forms.CheckBox checkBox12;
+        private System.Windows.Forms.CheckBox checkBox11;
+        private System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox checkBox7;
+        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Module;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn State;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Optimal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Falloff;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Damage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ROF;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DPS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Tracking;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProxRange;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Switch;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Charge;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cost;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cap;
+        private System.Windows.Forms.CheckBox checkBox44;
+        private System.Windows.Forms.CheckBox checkBox43;
+        private System.Windows.Forms.CheckBox checkBox42;
+        private System.Windows.Forms.CheckBox checkBox41;
+        private System.Windows.Forms.CheckBox checkBox40;
+        private System.Windows.Forms.CheckBox checkBox39;
+        private System.Windows.Forms.CheckBox checkBox38;
+        private System.Windows.Forms.CheckBox checkBox37;
+        private System.Windows.Forms.CheckBox checkBox36;
+        private System.Windows.Forms.CheckBox checkBox35;
+        private System.Windows.Forms.CheckBox checkBox34;
+        private System.Windows.Forms.CheckBox checkBox33;
+        private System.Windows.Forms.CheckBox checkBox32;
+        private System.Windows.Forms.CheckBox checkBox31;
+        private System.Windows.Forms.CheckBox checkBox30;
+        private System.Windows.Forms.CheckBox checkBox29;
+        private System.Windows.Forms.CheckBox checkBox28;
+        private System.Windows.Forms.CheckBox checkBox27;
+        private System.Windows.Forms.CheckBox checkBox26;
+        private System.Windows.Forms.CheckBox checkBox25;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown nud_O2_FC;
+        private System.Windows.Forms.NumericUpDown nud_H2_FC;
+        private System.Windows.Forms.NumericUpDown nud_N2_FC;
+        private System.Windows.Forms.NumericUpDown nud_ST_FC;
+        private System.Windows.Forms.NumericUpDown nud_CH_FC;
+        private System.Windows.Forms.NumericUpDown nud_LO_FC;
+        private System.Windows.Forms.NumericUpDown nud_HW_FC;
+        private System.Windows.Forms.NumericUpDown nud_HE_FC;
+        private System.Windows.Forms.NumericUpDown nud_RB_FC;
+        private System.Windows.Forms.NumericUpDown nud_CL_FC;
+        private System.Windows.Forms.NumericUpDown nud_MP_FC;
+        private System.Windows.Forms.NumericUpDown nud_OX_FC;
+        private System.Windows.Forms.NumericUpDown nud_ER_FC;
+        private System.Windows.Forms.PictureBox pictureBox36;
+        private System.Windows.Forms.PictureBox pictureBox42;
+        private System.Windows.Forms.PictureBox pictureBox43;
+        private System.Windows.Forms.PictureBox pictureBox44;
+        private System.Windows.Forms.PictureBox pictureBox11;
+        private System.Windows.Forms.PictureBox pictureBox33;
+        private System.Windows.Forms.PictureBox pictureBox34;
+        private System.Windows.Forms.PictureBox pictureBox35;
+        private System.Windows.Forms.PictureBox pictureBox37;
+        private System.Windows.Forms.PictureBox pictureBox38;
+        private System.Windows.Forms.PictureBox pictureBox39;
+        private System.Windows.Forms.PictureBox pictureBox40;
+        private System.Windows.Forms.PictureBox pictureBox41;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }

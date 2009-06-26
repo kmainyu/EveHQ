@@ -39,13 +39,15 @@ namespace EveHQ.PosManager
         FuelBay tt = null;
         bool load = false;
         bool update = false;
+        bool timeCheck = false;
         bool PosChanged = false;
         private int Mon_dg_indx = 0;
         private int Fil_dg_indx = 0;
         private string Mon_dg_Pos = "";
         private string selName, AllPosFillText, SelPosFillText;
         public string CurrentName = "", NewName = "";
-        enum MonDG {Name, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC };
+        bool[] monDGVs = {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true , true, true, true, true, false, false, false, false, false};
+        enum MonDG {Name, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC, fHrs, sHrs, hCPU, hPow, hIso };
         enum dgPM {Name, Qty, State, Opt, fOff, dmg, rof, dps, trk, prox, swDly, Chg, cost };
         enum fillDG { Name, Loc, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt };
         enum fuelDG { type, amount, vol, cost };
@@ -59,6 +61,7 @@ namespace EveHQ.PosManager
         
         private void frmMainForm_Load(object sender, EventArgs e)
         {
+            int dgCol;
             load = true;
 
             Config.LoadConfiguration();     // Load PoS Manager Configuration Information
@@ -127,7 +130,6 @@ namespace EveHQ.PosManager
             tscb_TimePeriod.SelectedIndex = (int)Config.data.maintTP;
             nud_PeriodValue.Value = Config.data.maintPV;
 
-
             if (Mon_dg_indx >= 0)
             {
                 dg_MonitoredTowers.CurrentCell = dg_MonitoredTowers.Rows[Mon_dg_indx].Cells[(int)MonDG.Name];
@@ -136,18 +138,74 @@ namespace EveHQ.PosManager
                 load = false;
                 dg_MonitoredTowers_SelectionChanged(o, ea);
             }
+
+            if ((Config.data.dgMonBool == null) || (Config.data.dgMonBool.Count < 19))
+            {
+                Config.data.dgMonBool = new ArrayList();
+
+                for (int x = 0; x < 19; x++)
+                    Config.data.dgMonBool.Add(true);
+
+                Config.SaveConfiguration();
+            }
+            else
+            {
+                dgCol = 0;
+                foreach (bool dgcs in Config.data.dgMonBool)
+                {
+                    if (dgCol <= dg_MonitoredTowers.Columns.Count)
+                    {
+                        dg_MonitoredTowers.Columns[dgCol].Visible = dgcs;
+                        dgCol++;
+                    }
+                }
+            }
+
+            if ((Config.data.dgDesBool == null) || (Config.data.dgDesBool.Count < 14))
+            {
+                Config.data.dgDesBool = new ArrayList();
+
+                for (int x = 0; x < 14; x++)
+                    Config.data.dgDesBool.Add(true);
+
+                Config.SaveConfiguration();
+            }
+            else
+            {
+                dgCol = 0;
+                foreach (bool dgcs in Config.data.dgDesBool)
+                {
+                    if (dgCol <= dg_PosMods.Columns.Count)
+                    {
+                        dg_PosMods.Columns[dgCol].Visible = dgcs;
+                        dgCol++;
+                    }
+                }
+            }
+
             load = false;
         }
 
         private void tb_PosManager_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int colCt = 1;
+            bool colSt = false;
+            DataGridViewColumn dgvc;
+            string cName;
+
             if (selName == null)
                 selName = "New POS";
+
 
             if (tb_PosManager.SelectedIndex == 1)
             {
                 if (cb_PoSName.Items.Contains(selName))
                     cb_PoSName.SelectedItem = selName;
+                SaveConfiguration();
+            }
+            else if (tb_PosManager.SelectedIndex == 0)
+            {
+                SaveConfiguration();
             }
             else if (tb_PosManager.SelectedIndex == 2)
             {
@@ -159,6 +217,37 @@ namespace EveHQ.PosManager
                     EventArgs ea = new EventArgs();
                     dg_TowerFuelList_SelectionChanged(o, ea);
                 }
+                SaveConfiguration();
+            }
+            else if (tb_PosManager.SelectedIndex == 3)
+            {
+                // Config Page - Fill in Checkbox States vs. Datagrid states
+                foreach (CheckBox cb in gb_MonPosCol.Controls)
+                {
+                    cName = cb.Name;
+                    colCt = Convert.ToInt32(cName.Replace("checkBox", ""));
+                    if (colCt < 20)
+                    {
+                        dgvc = dg_MonitoredTowers.Columns[colCt - 1];
+                        colSt = dgvc.Visible;
+                        cb.Checked = colSt;
+                    }
+                }
+
+                foreach (CheckBox cb in gb_PosDesignShow.Controls)
+                {
+                    cName = cb.Name;
+                    colCt = Convert.ToInt32(cName.Replace("checkBox", ""));
+                    colCt -= 24;
+                    if (colCt < 15)
+                    {
+                        dgvc = dg_PosMods.Columns[colCt - 1];
+                        colSt = dgvc.Visible;
+                        cb.Checked = colSt;
+                    }
+                }
+
+                PopulateFuelConfigDisplay();
             }
         }
 
@@ -221,53 +310,59 @@ namespace EveHQ.PosManager
             string retVal = "", week = "", day = "", hour = "";
             int days = 0, weeks = 0;
 
-            if (index == 2)
-                hours = hours * (24 * 7);
-            else if (index == 1)
-                hours = hours * 24;
-
-            if (index >= 2)
+            if (hours >= 999999)
             {
-                weeks = Convert.ToInt32(Math.Truncate(hours / (24 * 7)));
-                if (weeks > 0)
-                {
-                    week = weeks + " Wk";
-                    hours = hours - (weeks * (24 * 7));
-                }
+                retVal = "Infinite";
             }
-
-            if (index >= 1)
+            else
             {
-                days = Convert.ToInt32(Math.Truncate(hours / 24));
+                if (index == 2)
+                    hours = hours * (24 * 7);
+                else if (index == 1)
+                    hours = hours * 24;
+
+                if (index >= 2)
+                {
+                    weeks = Convert.ToInt32(Math.Truncate(hours / (24 * 7)));
+                    if (weeks > 0)
+                    {
+                        week = weeks + " Wk";
+                        hours = hours - (weeks * (24 * 7));
+                    }
+                }
+
+                if (index >= 1)
+                {
+                    days = Convert.ToInt32(Math.Truncate(hours / 24));
+                    if (days > 0)
+                    {
+                        day = days + " Dy";
+                        hours = hours - (days * 24);
+                    }
+                }
+
+                if (hours > 0)
+                    hour = hours + " Hr";
+
+                if (weeks > 0)
+                    retVal = week;
+
                 if (days > 0)
                 {
-                    day = days + " Dy";
-                    hours = hours - (days * 24);
+                    if (retVal.Length > 0)
+                        retVal += ", " + day;
+                    else
+                        retVal = day;
+                }
+
+                if (hours >= 1)
+                {
+                    if (retVal.Length > 0)
+                        retVal += ", " + hour;
+                    else
+                        retVal = hour;
                 }
             }
-
-            if (hours > 0)
-                hour = hours + " Hr";
-
-            if (weeks > 0)
-                retVal = week;
-
-            if (days > 0)
-            {
-                if (retVal.Length > 0)
-                    retVal += ", " + day;
-                else
-                    retVal = day;
-            }
-
-            if (hours >= 1)
-            {
-                if (retVal.Length > 0)
-                    retVal += ", " + hour;
-                else
-                    retVal = hour;
-            }
-
             return retVal;
         }
 
@@ -278,23 +373,29 @@ namespace EveHQ.PosManager
 
             hours = Math.Floor(hours);
 
-            days = Convert.ToInt32(Math.Truncate(hours / 24));
-
-            if (days > 0)
+            if (hours >= 999999)
             {
-                retVal = String.Format("{0:0}", days) + " Days";
-                hours = hours - (days * 24);
+                retVal = "Infinite";
             }
+            else
+            {
+                days = Convert.ToInt32(Math.Truncate(hours / 24));
 
-            if ((days > 0) && (hours > 0))
-                retVal += ", ";
+                if (days > 0)
+                {
+                    retVal = String.Format("{0:0}", days) + " Days";
+                    hours = hours - (days * 24);
+                }
 
-            if (hours > 0)
-                retVal += String.Format("{0:0}", hours) + " Hrs";
+                if ((days > 0) && (hours > 0))
+                    retVal += ", ";
 
-            if ((days <= 0) && (hours <= 0))
-                retVal = "Zero - Shutdown";
+                if (hours > 0)
+                    retVal += String.Format("{0:0}", hours) + " Hrs";
 
+                if ((days <= 0) && (hours <= 0))
+                    retVal = "Zero - Shutdown";
+            }
             return retVal;
         }
 
@@ -304,33 +405,39 @@ namespace EveHQ.PosManager
             int hours, mins;
 
             hours = Convert.ToInt32(Math.Truncate(secs / 3600));
-
-            if (hours > 0)
+            if (hours >= 999999)
             {
-                retVal = String.Format("{0:0}", hours) + " h";
-                secs = secs - (hours * 3600);
+                retVal = "Infinite";
             }
-
-            mins = Convert.ToInt32(Math.Truncate(secs / 60));
-
-            if (mins > 0)
+            else
             {
-                if(hours > 0)
-                    retVal += ", " + String.Format("{0:0}", mins) + " m";
-                else
-                    retVal = String.Format("{0:0}", mins) + " m";
 
-                secs = secs - (mins * 60);
+                if (hours > 0)
+                {
+                    retVal = String.Format("{0:0}", hours) + " h";
+                    secs = secs - (hours * 3600);
+                }
+
+                mins = Convert.ToInt32(Math.Truncate(secs / 60));
+
+                if (mins > 0)
+                {
+                    if (hours > 0)
+                        retVal += ", " + String.Format("{0:0}", mins) + " m";
+                    else
+                        retVal = String.Format("{0:0}", mins) + " m";
+
+                    secs = secs - (mins * 60);
+                }
+
+                if (secs >= 1)
+                {
+                    if ((hours > 0) || (mins > 0))
+                        retVal += ", " + String.Format("{0:0}", secs) + " s";
+                    else
+                        retVal = String.Format("{0:0}", secs) + " s";
+                }
             }
-
-            if (secs >= 1)
-            {
-                if ((hours > 0) || (mins > 0))
-                    retVal += ", " + String.Format("{0:0}", secs) + " s";
-                else
-                    retVal = String.Format("{0:0}", secs) + " s";
-            }
-
             return retVal;
         }
 
@@ -1732,6 +1839,9 @@ namespace EveHQ.PosManager
             if (e.Button == MouseButtons.Right)
                 return;
 
+            if(e.Button == MouseButtons.Middle)
+                Mouse_Online_Offline_Click(sender, e);
+
             srcName = pi.contName;
             DDE = DoDragDrop(pi, DragDropEffects.Copy);
 
@@ -2111,8 +2221,12 @@ namespace EveHQ.PosManager
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Name].Value = line;
                     line = ConvertHoursToTextDisplay(p.PosTower.F_RunTime);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.FuelR].Value = line;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.fHrs].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.fHrs].Value = p.PosTower.F_RunTime;
                     line = ConvertHoursToTextDisplay(p.PosTower.Fuel.Strontium.RunTime);
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.StrontR].Value = line;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.sHrs].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.sHrs].Value = p.PosTower.Fuel.Strontium.RunTime;
 
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Value = p.PosTower.State;
 
@@ -2152,27 +2266,64 @@ namespace EveHQ.PosManager
 
 
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.CPU].Value = String.Format("{0:#,0.#}", p.PosTower.CPU_Used) + " / " + String.Format("{0:#,0.#}", p.PosTower.CPU);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hCPU].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hCPU].Value = p.PosTower.CPU_Used;
+
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Power].Value = String.Format("{0:#,0.#}", p.PosTower.Power_Used) + " / " + String.Format("{0:#,0.#}", p.PosTower.Power);
-                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.EnrUr].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.EnrUran.Qty);
-                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Oxy].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.Oxygen.Qty);
-                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.McP].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.MechPart.Qty);
-                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cool].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.Coolant.Qty);
-                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Rbt].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.Robotics.Qty);
-                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.HvW].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.HvyWater.Qty);
-                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.LqO].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.LiqOzone.Qty);
-                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cht].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.Charters.Qty);
-                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Strt].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.Strontium.Qty);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hPow].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hPow].Value = p.PosTower.Power_Used;
+
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.EnrUr].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Oxy].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.McP].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cool].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Rbt].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.HvW].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.LqO].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cht].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Strt].ValueType = typeof(decimal);
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Iso].ValueType = typeof(decimal);
+
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.EnrUr].Value = p.PosTower.Fuel.EnrUran.Qty;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Oxy].Value = p.PosTower.Fuel.Oxygen.Qty;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.McP].Value = p.PosTower.Fuel.MechPart.Qty;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cool].Value = p.PosTower.Fuel.Coolant.Qty;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Rbt].Value = p.PosTower.Fuel.Robotics.Qty;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.HvW].Value = p.PosTower.Fuel.HvyWater.Qty;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.LqO].Value = p.PosTower.Fuel.LiqOzone.Qty;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cht].Value = p.PosTower.Fuel.Charters.Qty;
+                    dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Strt].Value = p.PosTower.Fuel.Strontium.Qty;
 
                     if (p.PosTower.Fuel.HeIso.PeriodQty > 0)
+                    {
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Iso].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.HeIso.Qty) + " He";
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hIso].ValueType = typeof(decimal);
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hIso].Value = p.PosTower.Fuel.HeIso.Qty;
+                    }
                     else if (p.PosTower.Fuel.H2Iso.PeriodQty > 0)
+                    {
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Iso].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.H2Iso.Qty) + " H2";
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hIso].ValueType = typeof(decimal);
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hIso].Value = p.PosTower.Fuel.H2Iso.Qty;
+                    }
                     else if (p.PosTower.Fuel.N2Iso.PeriodQty > 0)
+                    {
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Iso].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.N2Iso.Qty) + " N2";
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hIso].ValueType = typeof(decimal);
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hIso].Value = p.PosTower.Fuel.N2Iso.Qty;
+                    }
                     else if (p.PosTower.Fuel.O2Iso.PeriodQty > 0)
+                    {
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Iso].Value = String.Format("{0:#,0.#}", p.PosTower.Fuel.O2Iso.Qty) + " O2";
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hIso].ValueType = typeof(decimal);
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hIso].Value = p.PosTower.Fuel.O2Iso.Qty;
+                    }
                     else
+                    {
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Iso].Value = String.Format("{0:#,0.#}", 0) + " ??";
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hIso].ValueType = typeof(decimal);
+                        dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.hIso].Value = 0;
+                    }
 
                     if (p.PosTower.State == "Online")
                     {
@@ -2260,6 +2411,9 @@ namespace EveHQ.PosManager
             decimal qty;
             string posItm, posName;
 
+            if (dg_MonitoredTowers.CurrentRow == null)
+                return;
+
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
             {
                 selName = dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value.ToString();
@@ -2325,7 +2479,7 @@ namespace EveHQ.PosManager
             decimal bay_p;
             decimal sov_mod, increment;
 
-            if (load)
+            if ((load) || (timeCheck))
                 return;
 
             if (dg_MonitoredTowers.CurrentRow.Cells[(int)MonDG.Name].Value != null)
@@ -2622,7 +2776,19 @@ namespace EveHQ.PosManager
 
         private void UdateMonitorInformation(object sender, EventArgs e)
         {
+            timeCheck = true; 
+            
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            PopulateMonitoredPoSDisplay();
+            if (Mon_dg_indx >= 0)
+            {
+                dg_MonitoredTowers.CurrentCell = dg_MonitoredTowers.Rows[Mon_dg_indx].Cells[(int)MonDG.Name];
+                Object o = new Object();
+                EventArgs ea = new EventArgs();
+                dg_MonitoredTowers_SelectionChanged(o, ea);
+            }
+            timeCheck = false;
+            //UpdateTowerMonitorDisplay();
         }
 
         private void UpdateMonitoredTowerState(string state)
@@ -2842,6 +3008,55 @@ namespace EveHQ.PosManager
             }
             if (!load)
                 PosChanged = true;
+            CalculatePOSData();
+        }
+
+        private void Mouse_Online_Offline_Click(object sender, MouseEventArgs e)
+        {
+            bool online = false;
+
+            api = (PoS_Item)sender;
+
+            if (api.typeID == 0)
+                return;
+
+            if (api.TypeKey == EveHQ.PosManager.PoS_Item.TypeKeyEnum.Tower)
+            {
+                if (Design.PosTower.State == "Online")
+                    Design.PosTower.State = "Offline";
+                else
+                {
+                    online = true;
+                    Design.PosTower.State = "Online";
+                }
+            }
+            else
+            {
+                foreach (Module m in Design.Modules)
+                {
+                    if ((m.typeID == api.typeID) && (api.contName == m.Location))
+                    {
+                        if (m.State == "Online")
+                            m.State = "Offline";
+                        else
+                        {
+                            online = true;
+                            m.State = "Online";
+                        }
+                    }
+                }
+            }
+
+            if (online)
+                api.onOff = Color.Green;
+            else
+                api.onOff = Color.Red;
+
+            api.UpdateItemState();
+
+            if (!load)
+                PosChanged = true;
+
             CalculatePOSData();
         }
 
@@ -3685,12 +3900,37 @@ namespace EveHQ.PosManager
 
 #region Configuration Stuff
 
-        private void tc_StatFuel_SelectedIndexChanged(object sender, EventArgs e)
+        private void DGColumnCBStateChange(object sender, EventArgs e)
         {
-            if (tc_StatFuel.SelectedIndex == (tc_StatFuel.TabPages.Count -1))
+            int colCt = 1;
+            DataGridViewColumn dgvc;
+            CheckBox cb;
+            string cName;
+
+            // Configuration Change for Combo-Box
+            cb = (CheckBox)sender;
+
+            cName = cb.Name;
+            colCt = Convert.ToInt32(cName.Replace("checkBox", ""));
+
+            if (colCt < 20)
             {
-                PopulateFuelConfigDisplay();
+                dgvc = dg_MonitoredTowers.Columns[colCt - 1];
+                dgvc.Visible = cb.Checked;
+                Config.data.dgMonBool[colCt-1] = cb.Checked;
             }
+            else
+            {
+                colCt -= 24;
+                if (colCt < 15)
+                {
+                    dgvc = dg_PosMods.Columns[colCt - 1];
+                    dgvc.Visible = cb.Checked;
+                    Config.data.dgDesBool[colCt-1] = cb.Checked;
+                }
+            }
+
+            SaveConfiguration();
         }
 
         private void PopulateFuelConfigDisplay()
@@ -3710,7 +3950,7 @@ namespace EveHQ.PosManager
             nud_ST_FC.Value = Config.data.FuelCosts.Strontium.Cost;
         }
 
-        private void b_SaveFuelCosts_Click(object sender, EventArgs e)
+        private void SaveConfiguration()
         {
             Config.data.FuelCosts.EnrUran.Cost = nud_ER_FC.Value;
             Config.data.FuelCosts.Oxygen.Cost = nud_OX_FC.Value;
@@ -3738,11 +3978,83 @@ namespace EveHQ.PosManager
 
             Config.data.SortedColumnIndex = e.ColumnIndex;
 
-            Config.data.MonSortOrder = dgv.SortOrder;
+            if ((e.ColumnIndex == (int)MonDG.FuelR) && (dgv.Columns[(int)MonDG.FuelR].SortMode == DataGridViewColumnSortMode.Programmatic))
+            {
+                // Sort on hidden fuel hours column
+                if (Config.data.MonSortOrder == SortOrder.Descending)
+                {
+                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.fHrs], ListSortDirection.Ascending);
+                }
+                else
+                {
+                    Config.data.MonSortOrder = SortOrder.Descending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.fHrs], ListSortDirection.Descending);
+                }
+            }
+            else if ((e.ColumnIndex == (int)MonDG.CPU) && (dgv.Columns[(int)MonDG.CPU].SortMode == DataGridViewColumnSortMode.Programmatic))
+            {
+                if (Config.data.MonSortOrder == SortOrder.Descending)
+                {
+                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hCPU], ListSortDirection.Ascending);
+                }
+                else
+                {
+                    Config.data.MonSortOrder = SortOrder.Descending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hCPU], ListSortDirection.Descending);
+                }
+            }
+            else if ((e.ColumnIndex == (int)MonDG.Power) && (dgv.Columns[(int)MonDG.Power].SortMode == DataGridViewColumnSortMode.Programmatic))
+            {
+                if (Config.data.MonSortOrder == SortOrder.Descending)
+                {
+                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hPow], ListSortDirection.Ascending);
+                }
+                else
+                {
+                    Config.data.MonSortOrder = SortOrder.Descending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hPow], ListSortDirection.Descending);
+                }
+            }
+            else if ((e.ColumnIndex == (int)MonDG.StrontR) && (dgv.Columns[(int)MonDG.StrontR].SortMode == DataGridViewColumnSortMode.Programmatic))
+            {
+                // Sort on hidden stront hours column
+                if (Config.data.MonSortOrder == SortOrder.Descending)
+                {
+                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.sHrs], ListSortDirection.Ascending);
+                }
+                else
+                {
+                    Config.data.MonSortOrder = SortOrder.Descending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.sHrs], ListSortDirection.Descending);
+                }
+            }
+            else if ((e.ColumnIndex == (int)MonDG.Iso) && (dgv.Columns[(int)MonDG.Iso].SortMode == DataGridViewColumnSortMode.Programmatic))
+            {
+                // Sort on hidden stront hours column
+                if (Config.data.MonSortOrder == SortOrder.Descending)
+                {
+                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hIso], ListSortDirection.Ascending);
+                }
+                else
+                {
+                    Config.data.MonSortOrder = SortOrder.Descending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hIso], ListSortDirection.Descending);
+                }
+            }
+            else
+            {
+                Config.data.MonSortOrder = dgv.SortOrder;
+            }
 
             Config.SaveConfiguration();
         }
         
+
 #endregion
 
 
@@ -3756,8 +4068,8 @@ namespace EveHQ.PosManager
 
 #endregion
 
-    
-     }
+ 
+    }
 
 
 }
