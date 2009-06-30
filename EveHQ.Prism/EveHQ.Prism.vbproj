@@ -56,52 +56,78 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssetItem.vb" />
-    <Compile Include="frmAssetItemName.Designer.vb">
+    <Compile Include="Classes\AssemblyArray.vb" />
+    <Compile Include="Classes\AssetItem.vb" />
+    <Compile Include="Classes\Blueprint.vb" />
+    <Compile Include="Forms\frmAddCustomBP.Designer.vb">
+      <DependentUpon>frmAddCustomBP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAddCustomBP.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAssetItemName.Designer.vb">
       <DependentUpon>frmAssetItemName.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmAssetItemName.vb">
+    <Compile Include="Forms\frmAssetItemName.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSelectItem.Designer.vb">
+    <Compile Include="Forms\frmBPCalculator.Designer.vb">
+      <DependentUpon>frmBPCalculator.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmBPCalculator.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmBPOreCalculator.Designer.vb">
+      <DependentUpon>frmBPOreCalculator.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmBPOreCalculator.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmEditBPDetails.Designer.vb">
+      <DependentUpon>frmEditBPDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmEditBPDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSelectItem.Designer.vb">
       <DependentUpon>frmSelectItem.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSelectItem.vb">
+    <Compile Include="Forms\frmSelectItem.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddInvestment.Designer.vb">
+    <Compile Include="Forms\frmAddInvestment.Designer.vb">
       <DependentUpon>frmAddInvestment.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmAddInvestment.vb">
+    <Compile Include="Forms\frmAddInvestment.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddTransaction.Designer.vb">
+    <Compile Include="Forms\frmAddTransaction.Designer.vb">
       <DependentUpon>frmAddTransaction.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmAddTransaction.vb">
+    <Compile Include="Forms\frmAddTransaction.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPrism.Designer.vb">
+    <Compile Include="Forms\frmPrism.Designer.vb">
       <DependentUpon>frmPrism.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmPrism.vb">
+    <Compile Include="Forms\frmPrism.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmModifyPrice.Designer.vb">
+    <Compile Include="Forms\frmModifyPrice.Designer.vb">
       <DependentUpon>frmModifyPrice.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmModifyPrice.vb">
+    <Compile Include="Forms\frmModifyPrice.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSelectQuantity.Designer.vb">
+    <Compile Include="Forms\frmSelectQuantity.Designer.vb">
       <DependentUpon>frmSelectQuantity.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSelectQuantity.vb">
+    <Compile Include="Forms\frmSelectQuantity.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Investment.vb" />
-    <Compile Include="Location.vb" />
-    <Compile Include="MarketOrder.vb" />
+    <Compile Include="Classes\Investment.vb" />
+    <Compile Include="Classes\Location.vb" />
+    <Compile Include="Classes\MarketOrder.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -117,33 +143,46 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PlugInData.vb" />
-    <Compile Include="SolarSystem.vb" />
+    <Compile Include="Classes\PlugInData.vb" />
+    <Compile Include="Classes\PrismSettings.vb" />
+    <Compile Include="Classes\SolarSystem.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="frmAssetItemName.resx">
+    <EmbeddedResource Include="Forms\frmAddCustomBP.resx">
+      <DependentUpon>frmAddCustomBP.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAssetItemName.resx">
       <DependentUpon>frmAssetItemName.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSelectItem.resx">
+    <EmbeddedResource Include="Forms\frmBPCalculator.resx">
+      <DependentUpon>frmBPCalculator.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBPOreCalculator.resx">
+      <DependentUpon>frmBPOreCalculator.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmEditBPDetails.resx">
+      <DependentUpon>frmEditBPDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSelectItem.resx">
       <DependentUpon>frmSelectItem.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddInvestment.resx">
+    <EmbeddedResource Include="Forms\frmAddInvestment.resx">
       <DependentUpon>frmAddInvestment.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddTransaction.resx">
+    <EmbeddedResource Include="Forms\frmAddTransaction.resx">
       <DependentUpon>frmAddTransaction.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPrism.resx">
+    <EmbeddedResource Include="Forms\frmPrism.resx">
       <DependentUpon>frmPrism.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmModifyPrice.resx">
+    <EmbeddedResource Include="Forms\frmModifyPrice.resx">
       <DependentUpon>frmModifyPrice.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSelectQuantity.resx">
+    <EmbeddedResource Include="Forms\frmSelectQuantity.resx">
       <DependentUpon>frmSelectQuantity.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">

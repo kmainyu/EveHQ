@@ -2,6 +2,8 @@
 Imports System.Xml
 Imports System.Reflection
 Imports System.Text
+Imports System.IO
+Imports System.Runtime.Serialization.Formatters.Binary
 
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
@@ -14,6 +16,12 @@ Public Class PlugInData
     Public Shared Corps As New SortedList
     Public Shared PackedVolumes As New SortedList
     Public Shared AssetItemNames As New SortedList(Of String, String)
+    Public Shared Blueprints As New SortedList(Of String, Blueprint)
+    Public Shared AssemblyArrays As New SortedList(Of String, AssemblyArray)
+    Public Shared BlueprintAssets As New SortedList(Of String, SortedList(Of String, BlueprintAsset))
+    Public Shared CorpList As New SortedList
+    Public Shared CorpReps As New ArrayList
+    Public Shared CategoryNames As New SortedList(Of String, String)
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -67,12 +75,29 @@ Public Class PlugInData
         If Me.CheckVersion = False Then
             Return False
         Else
+            ' Setup the Prism Folder
+            If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
+                PrismSettings.PrismFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "Prism")
+            Else
+                PrismSettings.PrismFolder = Path.Combine(Application.StartupPath, "Prism")
+            End If
+            If My.Computer.FileSystem.DirectoryExists(PrismSettings.PrismFolder) = False Then
+                My.Computer.FileSystem.CreateDirectory(PrismSettings.PrismFolder)
+            End If
             Call Me.CheckDatabaseTables()
             Call Me.LoadItemFlags()
             Call Me.LoadActivities()
             Call Me.LoadStatuses()
             Call Me.LoadPackedVolumes()
             Call Me.LoadAssetItemNames()
+            If Blueprint.LoadBluePrintData = False Then
+                Return False
+                Exit Function
+            End If
+            If AssemblyArray.LoadAssemblyArrayData = False Then
+                Return False
+                Exit Function
+            End If
             If Me.LoadRefTypes = False Then
                 Return False
                 Exit Function
@@ -90,6 +115,7 @@ Public Class PlugInData
                 Exit Function
             End If
             Call Me.CheckForConqXMLFile()
+            Call Me.LoadOwnerBlueprints()
             Return True
         End If
     End Function
@@ -163,7 +189,7 @@ Public Class PlugInData
         Activities.Add("1", "Manufacturing")
         Activities.Add("2", "Research Tech")
         Activities.Add("3", "Research PE")
-        Activities.Add("4", "Reserach ME")
+        Activities.Add("4", "Research ME")
         Activities.Add("5", "Copying")
         Activities.Add("6", "Recycling")
         Activities.Add("7", "Reverse Eng.")
@@ -490,6 +516,14 @@ Public Class PlugInData
         End If
 
     End Function
+    Private Sub LoadOwnerBlueprints()
+        If My.Computer.FileSystem.FileExists(Path.Combine(PrismSettings.PrismFolder, "OwnerBlueprints.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(PrismSettings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Open)
+            Dim f As BinaryFormatter = New BinaryFormatter
+            PlugInData.BlueprintAssets = CType(f.Deserialize(s), SortedList(Of String, SortedList(Of String, BlueprintAsset)))
+            s.Close()
+        End If
+    End Sub
 #End Region
 
 End Class

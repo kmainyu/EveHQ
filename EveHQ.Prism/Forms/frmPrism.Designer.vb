@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.ctxAssets = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
@@ -65,6 +65,7 @@ Partial Class frmPrism
         Me.colTransAPI = New System.Windows.Forms.ColumnHeader
         Me.colCorpSheetAPI = New System.Windows.Forms.ColumnHeader
         Me.tabAssets = New System.Windows.Forms.TabPage
+        Me.chkExcludeOrders = New System.Windows.Forms.CheckBox
         Me.btnFilters = New System.Windows.Forms.Button
         Me.btnRefreshAssets = New System.Windows.Forms.Button
         Me.txtMinSystemValue = New System.Windows.Forms.TextBox
@@ -235,6 +236,7 @@ Partial Class frmPrism
         Me.clvJobs = New DotNetLib.Windows.Forms.ContainerListView
         Me.colJobsItem = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colJobsActivity = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colJobRuns = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colJobsInstaller = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colJobsLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colJobsEndTime = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -303,6 +305,44 @@ Partial Class frmPrism
         Me.colReceive = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colMatPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colMatTotal = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.tabBPManager = New System.Windows.Forms.TabPage
+        Me.cboTypeFilter = New System.Windows.Forms.ComboBox
+        Me.lblTypeFilter = New System.Windows.Forms.Label
+        Me.cboTechFilter = New System.Windows.Forms.ComboBox
+        Me.lblTechFilter = New System.Windows.Forms.Label
+        Me.lblUserBP = New System.Windows.Forms.Label
+        Me.pbUserBP = New System.Windows.Forms.PictureBox
+        Me.btnAddCustomBP = New System.Windows.Forms.Button
+        Me.lblExhausted = New System.Windows.Forms.Label
+        Me.pbExhausted = New System.Windows.Forms.PictureBox
+        Me.lblUnknown = New System.Windows.Forms.Label
+        Me.pbUnknown = New System.Windows.Forms.PictureBox
+        Me.lblMissing = New System.Windows.Forms.Label
+        Me.pbMissing = New System.Windows.Forms.PictureBox
+        Me.lblBPC = New System.Windows.Forms.Label
+        Me.pbBPC = New System.Windows.Forms.PictureBox
+        Me.lblBPO = New System.Windows.Forms.Label
+        Me.pbBPO = New System.Windows.Forms.PictureBox
+        Me.btnResetBPSearch = New System.Windows.Forms.Button
+        Me.txtBPSearch = New System.Windows.Forms.TextBox
+        Me.lblBPSearch = New System.Windows.Forms.Label
+        Me.btnGetBPJobInfo = New System.Windows.Forms.Button
+        Me.btnUpdateBPsFromAssets = New System.Windows.Forms.Button
+        Me.btnBPCalc = New System.Windows.Forms.Button
+        Me.chkShowOwnedBPs = New System.Windows.Forms.CheckBox
+        Me.clvBlueprints = New DotNetLib.Windows.Forms.ContainerListView
+        Me.colBPManBlueprint = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBPManLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBPManagerTechLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBPManME = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBPManPE = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBPManRuns = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBPManStatus = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.ctxBPManager = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuSendToBPCalc = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuAmendBPDetails = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuRemoveCustomBP = New System.Windows.Forms.ToolStripMenuItem
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
         Me.tssLabelTotalAssetsLabel = New System.Windows.Forms.ToolStripStatusLabel
         Me.tssLabelTotalAssets = New System.Windows.Forms.ToolStripStatusLabel
@@ -316,20 +356,22 @@ Partial Class frmPrism
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbAssets = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
-        Me.tsbInvestments = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
-        Me.tsbRigBuilder = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
-        Me.tsbOrders = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbTransactions = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator
-        Me.tsbJournal = New System.Windows.Forms.ToolStripButton
+        Me.tsbInvestments = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
+        Me.tsbBPManager = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
+        Me.tsbRigBuilder = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
+        Me.tsbOrders = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
-        Me.tsbJobs = New System.Windows.Forms.ToolStripButton
+        Me.tsbJournal = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator
-        Me.tsbRecycle = New System.Windows.Forms.ToolStripButton
+        Me.tsbJobs = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator
+        Me.tsbRecycle = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator
         Me.tsbReports = New System.Windows.Forms.ToolStripSplitButton
         Me.mnuLocation = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAssetLists = New System.Windows.Forms.ToolStripMenuItem
@@ -355,7 +397,10 @@ Partial Class frmPrism
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
-        Me.chkExcludeOrders = New System.Windows.Forms.CheckBox
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.cboCategoryFilter = New System.Windows.Forms.ComboBox
+        Me.lblBPCatFilter = New System.Windows.Forms.Label
+        Me.colBPManSpecLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -389,6 +434,14 @@ Partial Class frmPrism
         Me.ctxRecycleItems.SuspendLayout()
         Me.ctxRecycleItem.SuspendLayout()
         Me.tabTotals.SuspendLayout()
+        Me.tabBPManager.SuspendLayout()
+        CType(Me.pbUserBP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbExhausted, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbUnknown, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbMissing, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbBPC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbBPO, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ctxBPManager.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -554,9 +607,6 @@ Partial Class frmPrism
         '
         'tabPrism
         '
-        Me.tabPrism.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tabPrism.ContextMenuStrip = Me.ctxTabPrism
         Me.tabPrism.Controls.Add(Me.tabAPIStatus)
         Me.tabPrism.Controls.Add(Me.tabAssets)
@@ -568,10 +618,12 @@ Partial Class frmPrism
         Me.tabPrism.Controls.Add(Me.tabJournal)
         Me.tabPrism.Controls.Add(Me.tabJobs)
         Me.tabPrism.Controls.Add(Me.tabRecycle)
-        Me.tabPrism.Location = New System.Drawing.Point(0, 28)
+        Me.tabPrism.Controls.Add(Me.tabBPManager)
+        Me.tabPrism.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tabPrism.Location = New System.Drawing.Point(0, 25)
         Me.tabPrism.Name = "tabPrism"
         Me.tabPrism.SelectedIndex = 0
-        Me.tabPrism.Size = New System.Drawing.Size(1144, 567)
+        Me.tabPrism.Size = New System.Drawing.Size(1144, 573)
         Me.tabPrism.TabIndex = 14
         '
         'ctxTabPrism
@@ -593,7 +645,7 @@ Partial Class frmPrism
         Me.tabAPIStatus.Location = New System.Drawing.Point(4, 22)
         Me.tabAPIStatus.Name = "tabAPIStatus"
         Me.tabAPIStatus.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabAPIStatus.Size = New System.Drawing.Size(1136, 541)
+        Me.tabAPIStatus.Size = New System.Drawing.Size(1136, 547)
         Me.tabAPIStatus.TabIndex = 1
         Me.tabAPIStatus.Text = "API Status"
         Me.tabAPIStatus.UseVisualStyleBackColor = True
@@ -696,10 +748,20 @@ Partial Class frmPrism
         Me.tabAssets.Location = New System.Drawing.Point(4, 22)
         Me.tabAssets.Name = "tabAssets"
         Me.tabAssets.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabAssets.Size = New System.Drawing.Size(1136, 541)
+        Me.tabAssets.Size = New System.Drawing.Size(1136, 547)
         Me.tabAssets.TabIndex = 0
         Me.tabAssets.Text = "Assets"
         Me.tabAssets.UseVisualStyleBackColor = True
+        '
+        'chkExcludeOrders
+        '
+        Me.chkExcludeOrders.AutoSize = True
+        Me.chkExcludeOrders.Location = New System.Drawing.Point(724, 59)
+        Me.chkExcludeOrders.Name = "chkExcludeOrders"
+        Me.chkExcludeOrders.Size = New System.Drawing.Size(99, 17)
+        Me.chkExcludeOrders.TabIndex = 29
+        Me.chkExcludeOrders.Text = "Exclude Orders"
+        Me.chkExcludeOrders.UseVisualStyleBackColor = True
         '
         'btnFilters
         '
@@ -934,7 +996,7 @@ Partial Class frmPrism
         Me.tabAssetFilters.Controls.Add(Me.tvwFilter)
         Me.tabAssetFilters.Location = New System.Drawing.Point(4, 22)
         Me.tabAssetFilters.Name = "tabAssetFilters"
-        Me.tabAssetFilters.Size = New System.Drawing.Size(1136, 541)
+        Me.tabAssetFilters.Size = New System.Drawing.Size(1136, 547)
         Me.tabAssetFilters.TabIndex = 2
         Me.tabAssetFilters.Text = "Asset Filters"
         Me.tabAssetFilters.UseVisualStyleBackColor = True
@@ -995,11 +1057,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup1.Header = "Corporation"
-        ListViewGroup1.Name = "grpCorporation"
-        ListViewGroup2.Header = "Personal"
-        ListViewGroup2.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup3.Header = "Corporation"
+        ListViewGroup3.Name = "grpCorporation"
+        ListViewGroup4.Header = "Personal"
+        ListViewGroup4.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -1040,7 +1102,7 @@ Partial Class frmPrism
         Me.tabInvestments.Controls.Add(Me.lvwInvestments)
         Me.tabInvestments.Location = New System.Drawing.Point(4, 22)
         Me.tabInvestments.Name = "tabInvestments"
-        Me.tabInvestments.Size = New System.Drawing.Size(1136, 541)
+        Me.tabInvestments.Size = New System.Drawing.Size(1136, 547)
         Me.tabInvestments.TabIndex = 3
         Me.tabInvestments.Text = "Investments"
         Me.tabInvestments.UseVisualStyleBackColor = True
@@ -1277,7 +1339,7 @@ Partial Class frmPrism
         Me.tabRigBuilder.Controls.Add(Me.scRigBuilder)
         Me.tabRigBuilder.Location = New System.Drawing.Point(4, 22)
         Me.tabRigBuilder.Name = "tabRigBuilder"
-        Me.tabRigBuilder.Size = New System.Drawing.Size(1136, 541)
+        Me.tabRigBuilder.Size = New System.Drawing.Size(1136, 547)
         Me.tabRigBuilder.TabIndex = 4
         Me.tabRigBuilder.Text = "Rig Builder"
         Me.tabRigBuilder.UseVisualStyleBackColor = True
@@ -1308,8 +1370,8 @@ Partial Class frmPrism
         Me.scRigBuilder.Panel2.Controls.Add(Me.lblTotalRigSalePrice)
         Me.scRigBuilder.Panel2.Controls.Add(Me.lblRigBuildList)
         Me.scRigBuilder.Panel2.Controls.Add(Me.lvwRigBuildList)
-        Me.scRigBuilder.Size = New System.Drawing.Size(1136, 541)
-        Me.scRigBuilder.SplitterDistance = 298
+        Me.scRigBuilder.Size = New System.Drawing.Size(1136, 547)
+        Me.scRigBuilder.SplitterDistance = 301
         Me.scRigBuilder.TabIndex = 46
         '
         'lvwRigs
@@ -1725,7 +1787,7 @@ Partial Class frmPrism
         Me.tabOrders.Controls.Add(Me.panelOrderInfo)
         Me.tabOrders.Location = New System.Drawing.Point(4, 22)
         Me.tabOrders.Name = "tabOrders"
-        Me.tabOrders.Size = New System.Drawing.Size(1136, 541)
+        Me.tabOrders.Size = New System.Drawing.Size(1136, 547)
         Me.tabOrders.TabIndex = 5
         Me.tabOrders.Text = "Market Orders"
         Me.tabOrders.UseVisualStyleBackColor = True
@@ -1747,8 +1809,8 @@ Partial Class frmPrism
         '
         Me.scMarketOrders.Panel2.Controls.Add(Me.clvBuyOrders)
         Me.scMarketOrders.Panel2.Controls.Add(Me.lblBuyOrders)
-        Me.scMarketOrders.Size = New System.Drawing.Size(1136, 446)
-        Me.scMarketOrders.SplitterDistance = 242
+        Me.scMarketOrders.Size = New System.Drawing.Size(1136, 452)
+        Me.scMarketOrders.SplitterDistance = 245
         Me.scMarketOrders.TabIndex = 28
         '
         'clvSellOrders
@@ -1934,7 +1996,7 @@ Partial Class frmPrism
         Me.panelOrderInfo.Controls.Add(Me.lblEscrowLbl)
         Me.panelOrderInfo.Controls.Add(Me.lblOrdersLbl)
         Me.panelOrderInfo.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.panelOrderInfo.Location = New System.Drawing.Point(0, 446)
+        Me.panelOrderInfo.Location = New System.Drawing.Point(0, 452)
         Me.panelOrderInfo.Name = "panelOrderInfo"
         Me.panelOrderInfo.Size = New System.Drawing.Size(1136, 95)
         Me.panelOrderInfo.TabIndex = 27
@@ -1942,7 +2004,7 @@ Partial Class frmPrism
         'btnExportOrders
         '
         Me.btnExportOrders.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportOrders.Location = New System.Drawing.Point(1053, 6)
+        Me.btnExportOrders.Location = New System.Drawing.Point(1375, 6)
         Me.btnExportOrders.Name = "btnExportOrders"
         Me.btnExportOrders.Size = New System.Drawing.Size(75, 23)
         Me.btnExportOrders.TabIndex = 43
@@ -2177,7 +2239,7 @@ Partial Class frmPrism
         Me.tabTransactions.Controls.Add(Me.clvTransactions)
         Me.tabTransactions.Location = New System.Drawing.Point(4, 22)
         Me.tabTransactions.Name = "tabTransactions"
-        Me.tabTransactions.Size = New System.Drawing.Size(1136, 541)
+        Me.tabTransactions.Size = New System.Drawing.Size(1136, 547)
         Me.tabTransactions.TabIndex = 6
         Me.tabTransactions.Text = "Transactions"
         Me.tabTransactions.UseVisualStyleBackColor = True
@@ -2298,7 +2360,7 @@ Partial Class frmPrism
         Me.tabJournal.Controls.Add(Me.clvJournal)
         Me.tabJournal.Location = New System.Drawing.Point(4, 22)
         Me.tabJournal.Name = "tabJournal"
-        Me.tabJournal.Size = New System.Drawing.Size(1136, 541)
+        Me.tabJournal.Size = New System.Drawing.Size(1136, 547)
         Me.tabJournal.TabIndex = 7
         Me.tabJournal.Text = "Journal"
         Me.tabJournal.UseVisualStyleBackColor = True
@@ -2401,7 +2463,7 @@ Partial Class frmPrism
         Me.tabJobs.Controls.Add(Me.clvJobs)
         Me.tabJobs.Location = New System.Drawing.Point(4, 22)
         Me.tabJobs.Name = "tabJobs"
-        Me.tabJobs.Size = New System.Drawing.Size(1136, 541)
+        Me.tabJobs.Size = New System.Drawing.Size(1136, 547)
         Me.tabJobs.TabIndex = 8
         Me.tabJobs.Text = "Jobs"
         Me.tabJobs.UseVisualStyleBackColor = True
@@ -2439,7 +2501,7 @@ Partial Class frmPrism
         Me.clvJobs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.clvJobs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colJobsItem, Me.colJobsActivity, Me.colJobsInstaller, Me.colJobsLocation, Me.colJobsEndTime, Me.colJobsStatus})
+        Me.clvJobs.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colJobsItem, Me.colJobsActivity, Me.colJobRuns, Me.colJobsInstaller, Me.colJobsLocation, Me.colJobsEndTime, Me.colJobsStatus})
         Me.clvJobs.ColumnSortColor = System.Drawing.Color.Lavender
         Me.clvJobs.DefaultItemHeight = 16
         Me.clvJobs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2466,10 +2528,19 @@ Partial Class frmPrism
         Me.colJobsActivity.Text = "Activity"
         Me.colJobsActivity.Width = 100
         '
+        'colJobRuns
+        '
+        Me.colJobRuns.CustomSortTag = Nothing
+        Me.colJobRuns.DisplayIndex = 2
+        Me.colJobRuns.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Double]
+        Me.colJobRuns.Tag = Nothing
+        Me.colJobRuns.Text = "Runs"
+        '
         'colJobsInstaller
         '
         Me.colJobsInstaller.CustomSortTag = Nothing
-        Me.colJobsInstaller.DisplayIndex = 2
+        Me.colJobsInstaller.DisplayIndex = 3
+        Me.colJobsInstaller.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.colJobsInstaller.Tag = Nothing
         Me.colJobsInstaller.Text = "Installer"
         Me.colJobsInstaller.Width = 120
@@ -2477,7 +2548,7 @@ Partial Class frmPrism
         'colJobsLocation
         '
         Me.colJobsLocation.CustomSortTag = Nothing
-        Me.colJobsLocation.DisplayIndex = 3
+        Me.colJobsLocation.DisplayIndex = 4
         Me.colJobsLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.colJobsLocation.Tag = Nothing
         Me.colJobsLocation.Text = "Location"
@@ -2486,7 +2557,7 @@ Partial Class frmPrism
         'colJobsEndTime
         '
         Me.colJobsEndTime.CustomSortTag = Nothing
-        Me.colJobsEndTime.DisplayIndex = 4
+        Me.colJobsEndTime.DisplayIndex = 5
         Me.colJobsEndTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Date]
         Me.colJobsEndTime.Tag = Nothing
         Me.colJobsEndTime.Text = "End Time"
@@ -2495,7 +2566,7 @@ Partial Class frmPrism
         'colJobsStatus
         '
         Me.colJobsStatus.CustomSortTag = Nothing
-        Me.colJobsStatus.DisplayIndex = 5
+        Me.colJobsStatus.DisplayIndex = 6
         Me.colJobsStatus.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
         Me.colJobsStatus.Tag = Nothing
         Me.colJobsStatus.Text = "Status"
@@ -2540,7 +2611,7 @@ Partial Class frmPrism
         Me.tabRecycle.Controls.Add(Me.TabControl1)
         Me.tabRecycle.Location = New System.Drawing.Point(4, 22)
         Me.tabRecycle.Name = "tabRecycle"
-        Me.tabRecycle.Size = New System.Drawing.Size(1136, 541)
+        Me.tabRecycle.Size = New System.Drawing.Size(1136, 547)
         Me.tabRecycle.TabIndex = 9
         Me.tabRecycle.Text = "Recycler"
         Me.tabRecycle.UseVisualStyleBackColor = True
@@ -3132,6 +3203,397 @@ Partial Class frmPrism
         Me.colMatTotal.Tag = Nothing
         Me.colMatTotal.Text = "Total"
         '
+        'tabBPManager
+        '
+        Me.tabBPManager.Controls.Add(Me.cboCategoryFilter)
+        Me.tabBPManager.Controls.Add(Me.lblBPCatFilter)
+        Me.tabBPManager.Controls.Add(Me.cboTypeFilter)
+        Me.tabBPManager.Controls.Add(Me.lblTypeFilter)
+        Me.tabBPManager.Controls.Add(Me.cboTechFilter)
+        Me.tabBPManager.Controls.Add(Me.lblTechFilter)
+        Me.tabBPManager.Controls.Add(Me.lblUserBP)
+        Me.tabBPManager.Controls.Add(Me.pbUserBP)
+        Me.tabBPManager.Controls.Add(Me.btnAddCustomBP)
+        Me.tabBPManager.Controls.Add(Me.lblExhausted)
+        Me.tabBPManager.Controls.Add(Me.pbExhausted)
+        Me.tabBPManager.Controls.Add(Me.lblUnknown)
+        Me.tabBPManager.Controls.Add(Me.pbUnknown)
+        Me.tabBPManager.Controls.Add(Me.lblMissing)
+        Me.tabBPManager.Controls.Add(Me.pbMissing)
+        Me.tabBPManager.Controls.Add(Me.lblBPC)
+        Me.tabBPManager.Controls.Add(Me.pbBPC)
+        Me.tabBPManager.Controls.Add(Me.lblBPO)
+        Me.tabBPManager.Controls.Add(Me.pbBPO)
+        Me.tabBPManager.Controls.Add(Me.btnResetBPSearch)
+        Me.tabBPManager.Controls.Add(Me.txtBPSearch)
+        Me.tabBPManager.Controls.Add(Me.lblBPSearch)
+        Me.tabBPManager.Controls.Add(Me.btnGetBPJobInfo)
+        Me.tabBPManager.Controls.Add(Me.btnUpdateBPsFromAssets)
+        Me.tabBPManager.Controls.Add(Me.btnBPCalc)
+        Me.tabBPManager.Controls.Add(Me.chkShowOwnedBPs)
+        Me.tabBPManager.Controls.Add(Me.clvBlueprints)
+        Me.tabBPManager.Location = New System.Drawing.Point(4, 22)
+        Me.tabBPManager.Name = "tabBPManager"
+        Me.tabBPManager.Size = New System.Drawing.Size(1136, 547)
+        Me.tabBPManager.TabIndex = 10
+        Me.tabBPManager.Text = "BP Manager"
+        Me.tabBPManager.UseVisualStyleBackColor = True
+        '
+        'cboTypeFilter
+        '
+        Me.cboTypeFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboTypeFilter.FormattingEnabled = True
+        Me.cboTypeFilter.Items.AddRange(New Object() {"All", "Unknown", "BPO", "BPC", "Custom"})
+        Me.cboTypeFilter.Location = New System.Drawing.Point(373, 10)
+        Me.cboTypeFilter.Name = "cboTypeFilter"
+        Me.cboTypeFilter.Size = New System.Drawing.Size(80, 21)
+        Me.cboTypeFilter.TabIndex = 51
+        '
+        'lblTypeFilter
+        '
+        Me.lblTypeFilter.AutoSize = True
+        Me.lblTypeFilter.Location = New System.Drawing.Point(305, 12)
+        Me.lblTypeFilter.Name = "lblTypeFilter"
+        Me.lblTypeFilter.Size = New System.Drawing.Size(62, 13)
+        Me.lblTypeFilter.TabIndex = 50
+        Me.lblTypeFilter.Text = "Type Filter:"
+        '
+        'cboTechFilter
+        '
+        Me.cboTechFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboTechFilter.FormattingEnabled = True
+        Me.cboTechFilter.Items.AddRange(New Object() {"All", "1", "2", "3"})
+        Me.cboTechFilter.Location = New System.Drawing.Point(230, 9)
+        Me.cboTechFilter.Name = "cboTechFilter"
+        Me.cboTechFilter.Size = New System.Drawing.Size(50, 21)
+        Me.cboTechFilter.TabIndex = 49
+        '
+        'lblTechFilter
+        '
+        Me.lblTechFilter.AutoSize = True
+        Me.lblTechFilter.Location = New System.Drawing.Point(163, 12)
+        Me.lblTechFilter.Name = "lblTechFilter"
+        Me.lblTechFilter.Size = New System.Drawing.Size(61, 13)
+        Me.lblTechFilter.TabIndex = 48
+        Me.lblTechFilter.Text = "Tech Filter:"
+        '
+        'lblUserBP
+        '
+        Me.lblUserBP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblUserBP.AutoSize = True
+        Me.lblUserBP.Location = New System.Drawing.Point(1070, 458)
+        Me.lblUserBP.Name = "lblUserBP"
+        Me.lblUserBP.Size = New System.Drawing.Size(43, 13)
+        Me.lblUserBP.TabIndex = 47
+        Me.lblUserBP.Text = "Custom"
+        '
+        'pbUserBP
+        '
+        Me.pbUserBP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pbUserBP.BackColor = System.Drawing.Color.Yellow
+        Me.pbUserBP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pbUserBP.Location = New System.Drawing.Point(1048, 458)
+        Me.pbUserBP.Name = "pbUserBP"
+        Me.pbUserBP.Size = New System.Drawing.Size(16, 16)
+        Me.pbUserBP.TabIndex = 46
+        Me.pbUserBP.TabStop = False
+        '
+        'btnAddCustomBP
+        '
+        Me.btnAddCustomBP.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAddCustomBP.Location = New System.Drawing.Point(1048, 172)
+        Me.btnAddCustomBP.Name = "btnAddCustomBP"
+        Me.btnAddCustomBP.Size = New System.Drawing.Size(80, 40)
+        Me.btnAddCustomBP.TabIndex = 45
+        Me.btnAddCustomBP.Text = "Add Custom Blueprint"
+        Me.ToolTip1.SetToolTip(Me.btnAddCustomBP, "Add a custom defined blueprint for theoretical work")
+        Me.btnAddCustomBP.UseVisualStyleBackColor = True
+        '
+        'lblExhausted
+        '
+        Me.lblExhausted.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblExhausted.AutoSize = True
+        Me.lblExhausted.Location = New System.Drawing.Point(1070, 502)
+        Me.lblExhausted.Name = "lblExhausted"
+        Me.lblExhausted.Size = New System.Drawing.Size(58, 13)
+        Me.lblExhausted.TabIndex = 44
+        Me.lblExhausted.Text = "Exhausted"
+        '
+        'pbExhausted
+        '
+        Me.pbExhausted.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pbExhausted.BackColor = System.Drawing.Color.Orange
+        Me.pbExhausted.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pbExhausted.Location = New System.Drawing.Point(1048, 502)
+        Me.pbExhausted.Name = "pbExhausted"
+        Me.pbExhausted.Size = New System.Drawing.Size(16, 16)
+        Me.pbExhausted.TabIndex = 43
+        Me.pbExhausted.TabStop = False
+        '
+        'lblUnknown
+        '
+        Me.lblUnknown.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblUnknown.AutoSize = True
+        Me.lblUnknown.Location = New System.Drawing.Point(1070, 524)
+        Me.lblUnknown.Name = "lblUnknown"
+        Me.lblUnknown.Size = New System.Drawing.Size(51, 13)
+        Me.lblUnknown.TabIndex = 42
+        Me.lblUnknown.Text = "Unknown"
+        '
+        'pbUnknown
+        '
+        Me.pbUnknown.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pbUnknown.BackColor = System.Drawing.Color.LightGray
+        Me.pbUnknown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pbUnknown.Location = New System.Drawing.Point(1048, 524)
+        Me.pbUnknown.Name = "pbUnknown"
+        Me.pbUnknown.Size = New System.Drawing.Size(16, 16)
+        Me.pbUnknown.TabIndex = 41
+        Me.pbUnknown.TabStop = False
+        '
+        'lblMissing
+        '
+        Me.lblMissing.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblMissing.AutoSize = True
+        Me.lblMissing.Location = New System.Drawing.Point(1070, 480)
+        Me.lblMissing.Name = "lblMissing"
+        Me.lblMissing.Size = New System.Drawing.Size(41, 13)
+        Me.lblMissing.TabIndex = 40
+        Me.lblMissing.Text = "Missing"
+        '
+        'pbMissing
+        '
+        Me.pbMissing.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pbMissing.BackColor = System.Drawing.Color.LightCoral
+        Me.pbMissing.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pbMissing.Location = New System.Drawing.Point(1048, 480)
+        Me.pbMissing.Name = "pbMissing"
+        Me.pbMissing.Size = New System.Drawing.Size(16, 16)
+        Me.pbMissing.TabIndex = 39
+        Me.pbMissing.TabStop = False
+        '
+        'lblBPC
+        '
+        Me.lblBPC.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblBPC.AutoSize = True
+        Me.lblBPC.Location = New System.Drawing.Point(1070, 436)
+        Me.lblBPC.Name = "lblBPC"
+        Me.lblBPC.Size = New System.Drawing.Size(26, 13)
+        Me.lblBPC.TabIndex = 38
+        Me.lblBPC.Text = "BPC"
+        '
+        'pbBPC
+        '
+        Me.pbBPC.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pbBPC.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.pbBPC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pbBPC.Location = New System.Drawing.Point(1048, 436)
+        Me.pbBPC.Name = "pbBPC"
+        Me.pbBPC.Size = New System.Drawing.Size(16, 16)
+        Me.pbBPC.TabIndex = 37
+        Me.pbBPC.TabStop = False
+        '
+        'lblBPO
+        '
+        Me.lblBPO.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblBPO.AutoSize = True
+        Me.lblBPO.Location = New System.Drawing.Point(1070, 414)
+        Me.lblBPO.Name = "lblBPO"
+        Me.lblBPO.Size = New System.Drawing.Size(27, 13)
+        Me.lblBPO.TabIndex = 36
+        Me.lblBPO.Text = "BPO"
+        '
+        'pbBPO
+        '
+        Me.pbBPO.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pbBPO.BackColor = System.Drawing.Color.LightGreen
+        Me.pbBPO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pbBPO.Location = New System.Drawing.Point(1048, 414)
+        Me.pbBPO.Name = "pbBPO"
+        Me.pbBPO.Size = New System.Drawing.Size(16, 16)
+        Me.pbBPO.TabIndex = 35
+        Me.pbBPO.TabStop = False
+        '
+        'btnResetBPSearch
+        '
+        Me.btnResetBPSearch.Location = New System.Drawing.Point(887, 9)
+        Me.btnResetBPSearch.Name = "btnResetBPSearch"
+        Me.btnResetBPSearch.Size = New System.Drawing.Size(50, 21)
+        Me.btnResetBPSearch.TabIndex = 34
+        Me.btnResetBPSearch.Text = "Reset"
+        Me.btnResetBPSearch.UseVisualStyleBackColor = True
+        '
+        'txtBPSearch
+        '
+        Me.txtBPSearch.Location = New System.Drawing.Point(766, 9)
+        Me.txtBPSearch.Name = "txtBPSearch"
+        Me.txtBPSearch.Size = New System.Drawing.Size(115, 21)
+        Me.txtBPSearch.TabIndex = 33
+        '
+        'lblBPSearch
+        '
+        Me.lblBPSearch.AutoSize = True
+        Me.lblBPSearch.Location = New System.Drawing.Point(716, 12)
+        Me.lblBPSearch.Name = "lblBPSearch"
+        Me.lblBPSearch.Size = New System.Drawing.Size(44, 13)
+        Me.lblBPSearch.TabIndex = 32
+        Me.lblBPSearch.Text = "Search:"
+        '
+        'btnGetBPJobInfo
+        '
+        Me.btnGetBPJobInfo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnGetBPJobInfo.Location = New System.Drawing.Point(1048, 126)
+        Me.btnGetBPJobInfo.Name = "btnGetBPJobInfo"
+        Me.btnGetBPJobInfo.Size = New System.Drawing.Size(80, 40)
+        Me.btnGetBPJobInfo.TabIndex = 31
+        Me.btnGetBPJobInfo.Text = "Get BP Info From Jobs"
+        Me.ToolTip1.SetToolTip(Me.btnGetBPJobInfo, "Imports Blueprint details from the Assets API")
+        Me.btnGetBPJobInfo.UseVisualStyleBackColor = True
+        '
+        'btnUpdateBPsFromAssets
+        '
+        Me.btnUpdateBPsFromAssets.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdateBPsFromAssets.Location = New System.Drawing.Point(1048, 80)
+        Me.btnUpdateBPsFromAssets.Name = "btnUpdateBPsFromAssets"
+        Me.btnUpdateBPsFromAssets.Size = New System.Drawing.Size(80, 40)
+        Me.btnUpdateBPsFromAssets.TabIndex = 30
+        Me.btnUpdateBPsFromAssets.Text = "Update BPs From Assets"
+        Me.ToolTip1.SetToolTip(Me.btnUpdateBPsFromAssets, "Imports Blueprint details from the Assets API")
+        Me.btnUpdateBPsFromAssets.UseVisualStyleBackColor = True
+        '
+        'btnBPCalc
+        '
+        Me.btnBPCalc.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnBPCalc.Location = New System.Drawing.Point(1048, 34)
+        Me.btnBPCalc.Name = "btnBPCalc"
+        Me.btnBPCalc.Size = New System.Drawing.Size(80, 40)
+        Me.btnBPCalc.TabIndex = 28
+        Me.btnBPCalc.Text = "Blueprint Calculator"
+        Me.ToolTip1.SetToolTip(Me.btnBPCalc, "Starts the Blueprint production and research calculator")
+        Me.btnBPCalc.UseVisualStyleBackColor = True
+        '
+        'chkShowOwnedBPs
+        '
+        Me.chkShowOwnedBPs.AutoSize = True
+        Me.chkShowOwnedBPs.Checked = True
+        Me.chkShowOwnedBPs.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkShowOwnedBPs.Location = New System.Drawing.Point(8, 11)
+        Me.chkShowOwnedBPs.Name = "chkShowOwnedBPs"
+        Me.chkShowOwnedBPs.Size = New System.Drawing.Size(134, 17)
+        Me.chkShowOwnedBPs.TabIndex = 27
+        Me.chkShowOwnedBPs.Text = "Only Show Owned BPs"
+        Me.chkShowOwnedBPs.UseVisualStyleBackColor = True
+        '
+        'clvBlueprints
+        '
+        Me.clvBlueprints.AllowMultiSelect = True
+        Me.clvBlueprints.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.clvBlueprints.Columns.AddRange(New DotNetLib.Windows.Forms.ContainerListViewColumnHeader() {Me.colBPManBlueprint, Me.colBPManLocation, Me.colBPManSpecLocation, Me.colBPManagerTechLevel, Me.colBPManME, Me.colBPManPE, Me.colBPManRuns, Me.colBPManStatus})
+        Me.clvBlueprints.DefaultItemHeight = 20
+        Me.clvBlueprints.ItemContextMenu = Me.ctxBPManager
+        Me.clvBlueprints.Location = New System.Drawing.Point(0, 34)
+        Me.clvBlueprints.Name = "clvBlueprints"
+        Me.clvBlueprints.Size = New System.Drawing.Size(1042, 513)
+        Me.clvBlueprints.TabIndex = 26
+        '
+        'colBPManBlueprint
+        '
+        Me.colBPManBlueprint.CustomSortTag = Nothing
+        Me.colBPManBlueprint.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colBPManBlueprint.Tag = Nothing
+        Me.colBPManBlueprint.Text = "Blueprint"
+        Me.colBPManBlueprint.Width = 300
+        '
+        'colBPManLocation
+        '
+        Me.colBPManLocation.CustomSortTag = Nothing
+        Me.colBPManLocation.DisplayIndex = 1
+        Me.colBPManLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colBPManLocation.Tag = Nothing
+        Me.colBPManLocation.Text = "Location"
+        Me.colBPManLocation.Width = 300
+        '
+        'colBPManagerTechLevel
+        '
+        Me.colBPManagerTechLevel.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colBPManagerTechLevel.CustomSortTag = Nothing
+        Me.colBPManagerTechLevel.DisplayIndex = 3
+        Me.colBPManagerTechLevel.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.colBPManagerTechLevel.Tag = Nothing
+        Me.colBPManagerTechLevel.Text = "Tech"
+        Me.colBPManagerTechLevel.Width = 60
+        '
+        'colBPManME
+        '
+        Me.colBPManME.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colBPManME.CustomSortTag = Nothing
+        Me.colBPManME.DisplayIndex = 4
+        Me.colBPManME.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.colBPManME.Tag = Nothing
+        Me.colBPManME.Text = "ME"
+        Me.colBPManME.Width = 60
+        '
+        'colBPManPE
+        '
+        Me.colBPManPE.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colBPManPE.CustomSortTag = Nothing
+        Me.colBPManPE.DisplayIndex = 5
+        Me.colBPManPE.SortDataType = DotNetLib.Windows.Forms.SortDataType.[Integer]
+        Me.colBPManPE.Tag = Nothing
+        Me.colBPManPE.Text = "PE"
+        Me.colBPManPE.Width = 60
+        '
+        'colBPManRuns
+        '
+        Me.colBPManRuns.ContentAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.colBPManRuns.CustomSortTag = Nothing
+        Me.colBPManRuns.DisplayIndex = 6
+        Me.colBPManRuns.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colBPManRuns.Tag = Nothing
+        Me.colBPManRuns.Text = "Runs"
+        Me.colBPManRuns.Width = 75
+        '
+        'colBPManStatus
+        '
+        Me.colBPManStatus.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.colBPManStatus.CustomSortTag = Nothing
+        Me.colBPManStatus.DisplayIndex = 7
+        Me.colBPManStatus.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
+        Me.colBPManStatus.Tag = Nothing
+        Me.colBPManStatus.Text = "Status"
+        Me.colBPManStatus.Width = 100
+        '
+        'ctxBPManager
+        '
+        Me.ctxBPManager.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSendToBPCalc, Me.ToolStripMenuItem4, Me.mnuAmendBPDetails, Me.mnuRemoveCustomBP})
+        Me.ctxBPManager.Name = "ctxBPManager"
+        Me.ctxBPManager.Size = New System.Drawing.Size(223, 76)
+        '
+        'mnuSendToBPCalc
+        '
+        Me.mnuSendToBPCalc.Name = "mnuSendToBPCalc"
+        Me.mnuSendToBPCalc.Size = New System.Drawing.Size(222, 22)
+        Me.mnuSendToBPCalc.Text = "Send to Blueprint Calculator"
+        '
+        'ToolStripMenuItem4
+        '
+        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(219, 6)
+        '
+        'mnuAmendBPDetails
+        '
+        Me.mnuAmendBPDetails.Name = "mnuAmendBPDetails"
+        Me.mnuAmendBPDetails.Size = New System.Drawing.Size(222, 22)
+        Me.mnuAmendBPDetails.Text = "Amend Blueprint Details"
+        '
+        'mnuRemoveCustomBP
+        '
+        Me.mnuRemoveCustomBP.Name = "mnuRemoveCustomBP"
+        Me.mnuRemoveCustomBP.Size = New System.Drawing.Size(222, 22)
+        Me.mnuRemoveCustomBP.Text = "Remove Custom Blueprint"
+        '
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tssLabelTotalAssetsLabel, Me.tssLabelTotalAssets, Me.tssLabelSelectedAssetsLabel, Me.tssLabelSelectedAssets})
@@ -3173,7 +3635,7 @@ Partial Class frmPrism
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbDownloadData, Me.ToolStripSeparator1, Me.lblOwner, Me.cboOwner, Me.ToolStripSeparator2, Me.tsbAssets, Me.ToolStripSeparator3, Me.tsbInvestments, Me.ToolStripSeparator4, Me.tsbRigBuilder, Me.ToolStripSeparator5, Me.tsbOrders, Me.ToolStripSeparator6, Me.tsbTransactions, Me.ToolStripSeparator7, Me.tsbJournal, Me.ToolStripSeparator8, Me.tsbJobs, Me.ToolStripSeparator9, Me.tsbRecycle, Me.ToolStripSeparator10, Me.tsbReports})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbDownloadData, Me.ToolStripSeparator1, Me.lblOwner, Me.cboOwner, Me.ToolStripSeparator2, Me.tsbAssets, Me.ToolStripSeparator3, Me.tsbTransactions, Me.ToolStripSeparator7, Me.tsbInvestments, Me.ToolStripSeparator4, Me.tsbBPManager, Me.ToolStripSeparator5, Me.tsbRigBuilder, Me.ToolStripSeparator6, Me.tsbOrders, Me.ToolStripSeparator8, Me.tsbJournal, Me.ToolStripSeparator9, Me.tsbJobs, Me.ToolStripSeparator10, Me.tsbRecycle, Me.ToolStripSeparator11, Me.tsbReports})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1144, 25)
@@ -3228,51 +3690,6 @@ Partial Class frmPrism
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
         Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
         '
-        'tsbInvestments
-        '
-        Me.tsbInvestments.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbInvestments.Image = CType(resources.GetObject("tsbInvestments.Image"), System.Drawing.Image)
-        Me.tsbInvestments.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbInvestments.Name = "tsbInvestments"
-        Me.tsbInvestments.Size = New System.Drawing.Size(75, 22)
-        Me.tsbInvestments.Text = "Investments"
-        Me.tsbInvestments.ToolTipText = "Displays investments"
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbRigBuilder
-        '
-        Me.tsbRigBuilder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbRigBuilder.Image = CType(resources.GetObject("tsbRigBuilder.Image"), System.Drawing.Image)
-        Me.tsbRigBuilder.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbRigBuilder.Name = "tsbRigBuilder"
-        Me.tsbRigBuilder.Size = New System.Drawing.Size(68, 22)
-        Me.tsbRigBuilder.Text = "Rig Builder"
-        Me.tsbRigBuilder.ToolTipText = "Displays the rig builder"
-        '
-        'ToolStripSeparator5
-        '
-        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 25)
-        '
-        'tsbOrders
-        '
-        Me.tsbOrders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.tsbOrders.Image = CType(resources.GetObject("tsbOrders.Image"), System.Drawing.Image)
-        Me.tsbOrders.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbOrders.Name = "tsbOrders"
-        Me.tsbOrders.Size = New System.Drawing.Size(46, 22)
-        Me.tsbOrders.Text = "Orders"
-        Me.tsbOrders.ToolTipText = "Displays the market orders"
-        '
-        'ToolStripSeparator6
-        '
-        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 25)
-        '
         'tsbTransactions
         '
         Me.tsbTransactions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -3288,6 +3705,66 @@ Partial Class frmPrism
         Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
         Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 25)
         '
+        'tsbInvestments
+        '
+        Me.tsbInvestments.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbInvestments.Image = CType(resources.GetObject("tsbInvestments.Image"), System.Drawing.Image)
+        Me.tsbInvestments.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbInvestments.Name = "tsbInvestments"
+        Me.tsbInvestments.Size = New System.Drawing.Size(75, 22)
+        Me.tsbInvestments.Text = "Investments"
+        Me.tsbInvestments.ToolTipText = "Displays investments"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbBPManager
+        '
+        Me.tsbBPManager.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbBPManager.Image = CType(resources.GetObject("tsbBPManager.Image"), System.Drawing.Image)
+        Me.tsbBPManager.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbBPManager.Name = "tsbBPManager"
+        Me.tsbBPManager.Size = New System.Drawing.Size(75, 22)
+        Me.tsbBPManager.Text = "BP Manager"
+        Me.tsbBPManager.ToolTipText = "Display the BP Manager"
+        '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbRigBuilder
+        '
+        Me.tsbRigBuilder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbRigBuilder.Image = CType(resources.GetObject("tsbRigBuilder.Image"), System.Drawing.Image)
+        Me.tsbRigBuilder.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbRigBuilder.Name = "tsbRigBuilder"
+        Me.tsbRigBuilder.Size = New System.Drawing.Size(68, 22)
+        Me.tsbRigBuilder.Text = "Rig Builder"
+        Me.tsbRigBuilder.ToolTipText = "Displays the rig builder"
+        '
+        'ToolStripSeparator6
+        '
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 25)
+        '
+        'tsbOrders
+        '
+        Me.tsbOrders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.tsbOrders.Image = CType(resources.GetObject("tsbOrders.Image"), System.Drawing.Image)
+        Me.tsbOrders.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbOrders.Name = "tsbOrders"
+        Me.tsbOrders.Size = New System.Drawing.Size(46, 22)
+        Me.tsbOrders.Text = "Orders"
+        Me.tsbOrders.ToolTipText = "Displays the market orders"
+        '
+        'ToolStripSeparator8
+        '
+        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
+        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 25)
+        '
         'tsbJournal
         '
         Me.tsbJournal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -3298,10 +3775,10 @@ Partial Class frmPrism
         Me.tsbJournal.Text = "Journal"
         Me.tsbJournal.ToolTipText = "Displays the wallet journal"
         '
-        'ToolStripSeparator8
+        'ToolStripSeparator9
         '
-        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
+        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 25)
         '
         'tsbJobs
         '
@@ -3313,10 +3790,10 @@ Partial Class frmPrism
         Me.tsbJobs.Text = "Jobs"
         Me.tsbJobs.ToolTipText = "Displays the Blueprint jobs"
         '
-        'ToolStripSeparator9
+        'ToolStripSeparator10
         '
-        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
-        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
+        Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 25)
         '
         'tsbRecycle
         '
@@ -3328,10 +3805,10 @@ Partial Class frmPrism
         Me.tsbRecycle.Text = "Recycler"
         Me.tsbRecycle.ToolTipText = "Displays the Recycler tab"
         '
-        'ToolStripSeparator10
+        'ToolStripSeparator11
         '
-        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
-        Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripSeparator11.Name = "ToolStripSeparator11"
+        Me.ToolStripSeparator11.Size = New System.Drawing.Size(6, 25)
         '
         'tsbReports
         '
@@ -3487,24 +3964,41 @@ Partial Class frmPrism
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
         '
-        'chkExcludeOrders
+        'cboCategoryFilter
         '
-        Me.chkExcludeOrders.AutoSize = True
-        Me.chkExcludeOrders.Location = New System.Drawing.Point(724, 59)
-        Me.chkExcludeOrders.Name = "chkExcludeOrders"
-        Me.chkExcludeOrders.Size = New System.Drawing.Size(99, 17)
-        Me.chkExcludeOrders.TabIndex = 29
-        Me.chkExcludeOrders.Text = "Exclude Orders"
-        Me.chkExcludeOrders.UseVisualStyleBackColor = True
+        Me.cboCategoryFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboCategoryFilter.FormattingEnabled = True
+        Me.cboCategoryFilter.Items.AddRange(New Object() {"All", "Unknown", "BPO", "BPC", "Custom"})
+        Me.cboCategoryFilter.Location = New System.Drawing.Point(557, 9)
+        Me.cboCategoryFilter.Name = "cboCategoryFilter"
+        Me.cboCategoryFilter.Size = New System.Drawing.Size(100, 21)
+        Me.cboCategoryFilter.TabIndex = 53
+        '
+        'lblBPCatFilter
+        '
+        Me.lblBPCatFilter.AutoSize = True
+        Me.lblBPCatFilter.Location = New System.Drawing.Point(468, 12)
+        Me.lblBPCatFilter.Name = "lblBPCatFilter"
+        Me.lblBPCatFilter.Size = New System.Drawing.Size(83, 13)
+        Me.lblBPCatFilter.TabIndex = 52
+        Me.lblBPCatFilter.Text = "Category Filter:"
+        '
+        'colBPManSpecLocation
+        '
+        Me.colBPManSpecLocation.CustomSortTag = Nothing
+        Me.colBPManSpecLocation.DisplayIndex = 2
+        Me.colBPManSpecLocation.Tag = Nothing
+        Me.colBPManSpecLocation.Text = "Specific Location"
+        Me.colBPManSpecLocation.Width = 200
         '
         'frmPrism
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1144, 620)
+        Me.Controls.Add(Me.tabPrism)
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.StatusStrip1)
-        Me.Controls.Add(Me.tabPrism)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmPrism"
@@ -3556,6 +4050,15 @@ Partial Class frmPrism
         Me.ctxRecycleItems.ResumeLayout(False)
         Me.ctxRecycleItem.ResumeLayout(False)
         Me.tabTotals.ResumeLayout(False)
+        Me.tabBPManager.ResumeLayout(False)
+        Me.tabBPManager.PerformLayout()
+        CType(Me.pbUserBP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbExhausted, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbUnknown, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbMissing, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbBPC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbBPO, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ctxBPManager.ResumeLayout(False)
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
@@ -3758,17 +4261,17 @@ Partial Class frmPrism
     Friend WithEvents tsbInvestments As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents tsbRigBuilder As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents tsbOrders As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents tsbTransactions As System.Windows.Forms.ToolStripButton
+    Friend WithEvents tsbOrders As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator7 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents tsbJournal As System.Windows.Forms.ToolStripButton
+    Friend WithEvents tsbTransactions As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents tsbJournal As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator9 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ctxTabPrism As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuClosePrismTab As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tsbJobs As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator9 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator10 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents tabJobs As System.Windows.Forms.TabPage
     Friend WithEvents clvJobs As DotNetLib.Windows.Forms.ContainerListView
     Friend WithEvents colJobsItem As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -3822,7 +4325,7 @@ Partial Class frmPrism
     Friend WithEvents cboRecyclePilots As System.Windows.Forms.ComboBox
     Friend WithEvents lblPilot As System.Windows.Forms.Label
     Friend WithEvents tsbRecycle As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator10 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator11 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ctxRecycleItem As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuAlterRecycleQuantity As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
@@ -3894,4 +4397,49 @@ Partial Class frmPrism
     Friend WithEvents ContainerListViewColumnHeader16 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents ContainerListViewColumnHeader17 As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
     Friend WithEvents chkExcludeOrders As System.Windows.Forms.CheckBox
+    Friend WithEvents tsbBPManager As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents tabBPManager As System.Windows.Forms.TabPage
+    Friend WithEvents clvBlueprints As DotNetLib.Windows.Forms.ContainerListView
+    Friend WithEvents colBPManBlueprint As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colBPManLocation As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colBPManME As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colBPManPE As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colBPManRuns As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents chkShowOwnedBPs As System.Windows.Forms.CheckBox
+    Friend WithEvents colBPManagerTechLevel As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colBPManStatus As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents btnBPCalc As System.Windows.Forms.Button
+    Friend WithEvents btnUpdateBPsFromAssets As System.Windows.Forms.Button
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents btnGetBPJobInfo As System.Windows.Forms.Button
+    Friend WithEvents ctxBPManager As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents mnuSendToBPCalc As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents mnuAmendBPDetails As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents lblBPSearch As System.Windows.Forms.Label
+    Friend WithEvents txtBPSearch As System.Windows.Forms.TextBox
+    Friend WithEvents btnResetBPSearch As System.Windows.Forms.Button
+    Friend WithEvents colJobRuns As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents lblUnknown As System.Windows.Forms.Label
+    Friend WithEvents pbUnknown As System.Windows.Forms.PictureBox
+    Friend WithEvents lblMissing As System.Windows.Forms.Label
+    Friend WithEvents pbMissing As System.Windows.Forms.PictureBox
+    Friend WithEvents lblBPC As System.Windows.Forms.Label
+    Friend WithEvents pbBPC As System.Windows.Forms.PictureBox
+    Friend WithEvents lblBPO As System.Windows.Forms.Label
+    Friend WithEvents pbBPO As System.Windows.Forms.PictureBox
+    Friend WithEvents lblExhausted As System.Windows.Forms.Label
+    Friend WithEvents pbExhausted As System.Windows.Forms.PictureBox
+    Friend WithEvents btnAddCustomBP As System.Windows.Forms.Button
+    Friend WithEvents lblUserBP As System.Windows.Forms.Label
+    Friend WithEvents pbUserBP As System.Windows.Forms.PictureBox
+    Friend WithEvents mnuRemoveCustomBP As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents cboTechFilter As System.Windows.Forms.ComboBox
+    Friend WithEvents lblTechFilter As System.Windows.Forms.Label
+    Friend WithEvents cboTypeFilter As System.Windows.Forms.ComboBox
+    Friend WithEvents lblTypeFilter As System.Windows.Forms.Label
+    Friend WithEvents cboCategoryFilter As System.Windows.Forms.ComboBox
+    Friend WithEvents lblBPCatFilter As System.Windows.Forms.Label
+    Friend WithEvents colBPManSpecLocation As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
 End Class

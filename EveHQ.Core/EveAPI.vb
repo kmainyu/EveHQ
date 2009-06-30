@@ -387,6 +387,7 @@ Public Class EveAPI
             End If
         Catch ex As Exception
             ' Something happened so let's return nothing and let the calling routine handle it
+            Windows.Forms.MessageBox.Show(ex.Message, "EveHQ.EveAPI.GetXML Error", Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Information)
             Return Nothing
         End Try
     End Function

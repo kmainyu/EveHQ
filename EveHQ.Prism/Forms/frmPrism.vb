@@ -33,6 +33,7 @@ Public Class frmPrism
 
 #Region "Class Wide Variables"
 
+    Dim startup As Boolean = True
     Dim filters As New ArrayList
     Dim catFilters As New ArrayList
     Dim groupFilters As New ArrayList
@@ -63,10 +64,6 @@ Public Class frmPrism
     Dim RigBuildData As New SortedList
     Dim SalvageList As New SortedList
 
-    ' Corp API Representatives & Lists
-    Dim CorpList As New SortedList
-    Dim CorpReps As New ArrayList
-
     ' Recycling Variables
     Dim RecyclerAssetList As New SortedList
     Dim RecyclerAssetOwner As String = ""
@@ -88,22 +85,26 @@ Public Class frmPrism
 #End Region
 
 #Region "Form Initialisation Routines"
+
     Private Sub frmPrism_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         XMLDelegate = New CheckXMLDelegate(AddressOf CheckXML)
+
+        startup = True
 
         ' Build a corp list
         Call Me.BuildCorpList()
 
         ' Set the Corp Reps to Default
-        CorpReps.Clear()
+        PlugInData.CorpReps.Clear()
         For API As Integer = 0 To 6
-            CorpReps.Add(New SortedList)
+            PlugInData.CorpReps.Add(New SortedList)
         Next
 
         ' Remove excess tabs
         tabPrism.TabPages.Remove(tabAssets)
         tabPrism.TabPages.Remove(tabAssetFilters)
         tabPrism.TabPages.Remove(tabInvestments)
+        tabPrism.TabPages.Remove(tabBPManager)
         tabPrism.TabPages.Remove(tabRigBuilder)
         tabPrism.TabPages.Remove(tabOrders)
         tabPrism.TabPages.Remove(tabTransactions)
@@ -129,13 +130,14 @@ Public Class frmPrism
         End If
         ' Set the recycling mode
         cboRefineMode.SelectedIndex = 0
+        startup = False
 
     End Sub
     Private Sub BuildCorpList()
-        CorpList.Clear()
+        PlugInData.CorpList.Clear()
         For Each selpilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            If CorpList.ContainsKey(selpilot.Corp) = False Then
-                CorpList.Add(selpilot.Corp, selpilot.CorpID)
+            If PlugInData.CorpList.ContainsKey(selpilot.Corp) = False Then
+                PlugInData.CorpList.Add(selpilot.Corp, selpilot.CorpID)
             End If
         Next
     End Sub
@@ -289,6 +291,18 @@ Public Class frmPrism
 
 #End Region
 
+#Region "Form Closing Routines"
+
+    Private Sub frmPrism_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        ' Save the current blueprints
+        Dim s As New FileStream(Path.Combine(PrismSettings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, PlugInData.BlueprintAssets)
+        s.Flush()
+        s.Close()
+    End Sub
+#End Region
+
 #Region "Enumerators"
     Private Enum AssetColumn
         Name = 0
@@ -336,7 +350,7 @@ Public Class frmPrism
         Dim APIOwner As ListViewItem = lvwCurrentAPIs.Items(Owner)
         If APIOwner IsNot Nothing Then
             ' Get the corp reps
-            Dim CorpRep As SortedList = CType(CorpReps(Pos - 2), Collections.SortedList)
+            Dim CorpRep As SortedList = CType(PlugInData.CorpReps(Pos - 2), Collections.SortedList)
             If apiXML IsNot Nothing Then
                 ' If we already have a corp rep, no sense in getting a new one!
                 If CorpRep.ContainsKey(Owner) = False Then
@@ -725,12 +739,12 @@ Public Class frmPrism
             Dim owner As String = cPilot.Text
             Dim IsCorp As Boolean = False
             ' See if this owner is a corp
-            If CorpList.ContainsKey(owner) = True Then
+            If PlugInData.CorpList.ContainsKey(owner) = True Then
                 IsCorp = True
                 ' See if we have a representative
-                Dim CorpRep As SortedList = CType(CorpReps(6), Collections.SortedList)
-                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                Dim CorpRep As SortedList = CType(PlugInData.CorpReps(6), Collections.SortedList)
+                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
                 Else
                     owner = ""
                 End If
@@ -779,12 +793,12 @@ Public Class frmPrism
             Dim rep As String = ""
             Dim IsCorp As Boolean = False
             ' See if this owner is a corp
-            If CorpList.ContainsKey(owner) = True Then
+            If PlugInData.CorpList.ContainsKey(owner) = True Then
                 IsCorp = True
                 ' See if we have a representative
-                Dim CorpRep As SortedList = CType(CorpReps(0), Collections.SortedList)
-                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                    rep = CStr(CorpRep(CStr(CorpList(owner))))
+                Dim CorpRep As SortedList = CType(PlugInData.CorpReps(0), Collections.SortedList)
+                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                    rep = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
                 Else
                     rep = ""
                 End If
@@ -1128,12 +1142,12 @@ Public Class frmPrism
             ' Get the owner we will use
             Dim owner As String = cPilot.Text
             ' See if this owner is a corp
-            If CorpList.ContainsKey(owner) = True Then
+            If PlugInData.CorpList.ContainsKey(owner) = True Then
                 IsCorp = True
                 ' See if we have a representative
-                Dim CorpRep As SortedList = CType(CorpReps(1), Collections.SortedList)
-                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                Dim CorpRep As SortedList = CType(PlugInData.CorpReps(1), Collections.SortedList)
+                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
                 Else
                     owner = ""
                 End If
@@ -1667,6 +1681,19 @@ Public Class frmPrism
         End If
         ' Update the Jobs
         Call Me.ParseIndustryJobs()
+        ' Build BP Manager lists and set index
+        cboCategoryFilter.BeginUpdate()
+        cboCategoryFilter.Items.Clear()
+        cboCategoryFilter.Items.Add("All")
+        For Each cat As String In PlugInData.CategoryNames.Keys
+            cboCategoryFilter.Items.Add(cat)
+        Next
+        cboCategoryFilter.EndUpdate()
+        cboTechFilter.SelectedIndex = 0
+        cboTypeFilter.SelectedIndex = 0
+        cboCategoryFilter.SelectedIndex = 0
+        ' Update the BP Manager List
+        Call Me.UpdateBPList()
     End Sub
     Private Sub FilterSystemValue()
         Dim minValue As Double
@@ -2809,12 +2836,12 @@ Public Class frmPrism
 
             Dim IsCorp As Boolean = False
             ' See if this owner is a corp
-            If CorpList.ContainsKey(owner) = True Then
+            If PlugInData.CorpList.ContainsKey(owner) = True Then
                 IsCorp = True
                 ' See if we have a representative
-                Dim CorpRep As SortedList = CType(CorpReps(2), Collections.SortedList)
-                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                Dim CorpRep As SortedList = CType(PlugInData.CorpReps(2), Collections.SortedList)
+                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
                 Else
                     owner = ""
                 End If
@@ -2995,9 +3022,9 @@ Public Class frmPrism
         ProcessXMLCount = 0
 
         ' Set the Corp Reps to Default
-        CorpReps.Clear()
+        PlugInData.CorpReps.Clear()
         For API As Integer = 0 To 6
-            CorpReps.Add(New SortedList)
+            PlugInData.CorpReps.Add(New SortedList)
         Next
         ' Flick to the API Status tab
         tabPrism.SelectTab(tabAPIStatus)
@@ -3275,6 +3302,14 @@ Public Class frmPrism
             tabPrism.SelectedTab = tabInvestments
         End If
     End Sub
+    Private Sub tsbBPManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbBPManager.Click
+        If tabPrism.TabPages.Contains(tabBPManager) = False Then
+            tabPrism.TabPages.Add(tabBPManager)
+            tabPrism.SelectedTab = tabBPManager
+        Else
+            tabPrism.SelectedTab = tabBPManager
+        End If
+    End Sub
     Private Sub tsbRigBuilder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsbRigBuilder.Click
         If tabPrism.TabPages.Contains(tabRigBuilder) = False Then
             tabPrism.TabPages.Add(tabRigBuilder)
@@ -3391,12 +3426,12 @@ Public Class frmPrism
             ' Get the owner we will use
             Dim owner As String = cboOwner.SelectedItem.ToString()
             ' See if this owner is a corp
-            If CorpList.ContainsKey(owner) = True Then
+            If PlugInData.CorpList.ContainsKey(owner) = True Then
                 IsCorp = True
                 ' See if we have a representative
-                Dim CorpRep As SortedList = CType(CorpReps(0), Collections.SortedList)
-                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                Dim CorpRep As SortedList = CType(PlugInData.CorpReps(0), Collections.SortedList)
+                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
                 Else
                     owner = ""
                 End If
@@ -3803,20 +3838,20 @@ Public Class frmPrism
 #End Region
 
 #Region "Market Orders Routines"
-    
+
     Private Function ParseMarketOrders(ByVal owner As String) As MarketOrdersCollection
 
         Dim newOrderCollection As New MarketOrdersCollection
 
         Dim IsCorp As Boolean = False
         ' See if this owner is a corp
-        If CorpList.ContainsKey(owner) = True Then
+        If PlugInData.CorpList.ContainsKey(owner) = True Then
             IsCorp = True
             ' See if we have a representative
-            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            Dim CorpRep As SortedList = CType(PlugInData.CorpReps(4), Collections.SortedList)
             If CorpRep IsNot Nothing Then
-                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
                 Else
                     owner = ""
                 End If
@@ -3877,13 +3912,13 @@ Public Class frmPrism
         Dim owner As String = cboOwner.SelectedItem.ToString
         Dim IsCorp As Boolean = False
         ' See if this owner is a corp
-        If CorpList.ContainsKey(owner) = True Then
+        If PlugInData.CorpList.ContainsKey(owner) = True Then
             IsCorp = True
             ' See if we have a representative
-            Dim CorpRep As SortedList = CType(CorpReps(4), Collections.SortedList)
+            Dim CorpRep As SortedList = CType(PlugInData.CorpReps(4), Collections.SortedList)
             If CorpRep IsNot Nothing Then
-                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
                 Else
                     owner = ""
                 End If
@@ -4075,14 +4110,14 @@ Public Class frmPrism
         ' Get the owner we will use
         Dim owner As String = cboOwner.SelectedItem.ToString()
         ' See if this owner is a corp
-        If CorpList.ContainsKey(owner) = True Then
+        If PlugInData.CorpList.ContainsKey(owner) = True Then
             IsCorp = True
             cboWalletTransDivision.Enabled = True
             ' See if we have a representative
-            Dim CorpRep As SortedList = CType(CorpReps(5), Collections.SortedList)
+            Dim CorpRep As SortedList = CType(PlugInData.CorpReps(5), Collections.SortedList)
             If CorpRep IsNot Nothing Then
-                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
                 Else
                     owner = ""
                 End If
@@ -4158,14 +4193,14 @@ Public Class frmPrism
         ' Get the owner we will use
         Dim owner As String = cboOwner.SelectedItem.ToString()
         ' See if this owner is a corp
-        If CorpList.ContainsKey(owner) = True Then
+        If PlugInData.CorpList.ContainsKey(owner) = True Then
             IsCorp = True
             cboWalletJournalDivision.Enabled = True
             ' See if we have a representative
-            Dim CorpRep As SortedList = CType(CorpReps(3), Collections.SortedList)
+            Dim CorpRep As SortedList = CType(PlugInData.CorpReps(3), Collections.SortedList)
             If CorpRep IsNot Nothing Then
-                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
                 Else
                     owner = ""
                 End If
@@ -4444,14 +4479,14 @@ Public Class frmPrism
     Private Sub UpdateWalletDivisions()
         Dim owner As String = cboOwner.SelectedItem.ToString()
         Dim IsCorp As Boolean = False
-        If CorpList.ContainsKey(owner) = True Then
+        If PlugInData.CorpList.ContainsKey(owner) = True Then
             IsCorp = True
             cboWalletTransDivision.Enabled = True
             cboWalletJournalDivision.Enabled = True
             ' See if we have a representative
-            Dim CorpRep As SortedList = CType(CorpReps(6), Collections.SortedList)
-            If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                owner = CStr(CorpRep(CStr(CorpList(owner))))
+            Dim CorpRep As SortedList = CType(PlugInData.CorpReps(6), Collections.SortedList)
+            If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
             Else
                 owner = ""
             End If
@@ -4520,13 +4555,13 @@ Public Class frmPrism
         ' Get the owner we will use
         Dim owner As String = cboOwner.SelectedItem.ToString()
         ' See if this owner is a corp
-        If CorpList.ContainsKey(owner) = True Then
+        If PlugInData.CorpList.ContainsKey(owner) = True Then
             IsCorp = True
             ' See if we have a representative
-            Dim CorpRep As SortedList = CType(CorpReps(2), Collections.SortedList)
+            Dim CorpRep As SortedList = CType(PlugInData.CorpReps(2), Collections.SortedList)
             If CorpRep IsNot Nothing Then
-                If CorpRep.ContainsKey(CStr(CorpList(owner))) = True Then
-                    owner = CStr(CorpRep(CStr(CorpList(owner))))
+                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
                 Else
                     owner = ""
                 End If
@@ -4616,30 +4651,31 @@ Public Class frmPrism
                         End If
                         clvJobs.Items.Add(transItem)
                         transItem.SubItems(1).Text = PlugInData.Activities(Tran.Attributes.GetNamedItem("activityID").Value)
+                        transItem.SubItems(2).Text = Tran.Attributes.GetNamedItem("runs").Value
 
-                        transItem.SubItems(2).Text = installerName
+                        transItem.SubItems(3).Text = installerName
                         locationID = Tran.Attributes.GetNamedItem("installedItemLocationID").Value
                         If PlugInData.stations.ContainsKey(locationID) = True Then
-                            transItem.SubItems(3).Text = CType(PlugInData.stations(locationID), Station).stationName
+                            transItem.SubItems(4).Text = CType(PlugInData.stations(locationID), Station).stationName
                         Else
                             If PlugInData.stations.ContainsKey(Tran.Attributes.GetNamedItem("outputLocationID").Value) = True Then
-                                transItem.SubItems(3).Text = CType(PlugInData.stations(Tran.Attributes.GetNamedItem("outputLocationID").Value), Station).stationName
+                                transItem.SubItems(4).Text = CType(PlugInData.stations(Tran.Attributes.GetNamedItem("outputLocationID").Value), Station).stationName
                             Else
-                                transItem.SubItems(3).Text = "POS in " & CType(PlugInData.stations(Tran.Attributes.GetNamedItem("installedInSolarSystemID").Value), SolarSystem).Name
+                                transItem.SubItems(4).Text = "POS in " & CType(PlugInData.stations(Tran.Attributes.GetNamedItem("installedInSolarSystemID").Value), SolarSystem).Name
                             End If
                         End If
                         transDate = DateTime.ParseExact(Tran.Attributes.GetNamedItem("endProductionTime").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
-                        transItem.SubItems(4).Text = FormatDateTime(transDate, DateFormat.GeneralDate)
+                        transItem.SubItems(5).Text = FormatDateTime(transDate, DateFormat.GeneralDate)
                         completed = Tran.Attributes.GetNamedItem("completed").Value
                         If completed = "0" Then
                             If transDate < DateTime.Now.ToUniversalTime Then
-                                transItem.SubItems(5).Text = "Finished but not Delivered"
+                                transItem.SubItems(6).Text = "Finished but not Delivered"
                             Else
-                                transItem.SubItems(5).Text = "In Progress"
+                                transItem.SubItems(6).Text = "In Progress"
                             End If
 
                         Else
-                            transItem.SubItems(5).Text = PlugInData.Statuses(Tran.Attributes.GetNamedItem("completedStatus").Value)
+                            transItem.SubItems(6).Text = PlugInData.Statuses(Tran.Attributes.GetNamedItem("completedStatus").Value)
                         End If
                     End If
                 Next
@@ -5295,6 +5331,603 @@ Public Class frmPrism
 
 #End Region
 
+#Region "BPManager Routines"
 
+    Private Sub btnBPCalc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBPCalc.Click
+        Call Me.OpenBPCalculator()
+    End Sub
+
+    Private Sub chkShowOwnedBPs_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowOwnedBPs.CheckedChanged
+        Call Me.UpdateBPList()
+    End Sub
+
+    Private Sub UpdateBPList()
+        ' Check if we are showing the full list or the owners list
+        If chkShowOwnedBPs.Checked = False Then
+            Dim search As String = txtBPSearch.Text
+            ' Show the full BP list
+            clvBlueprints.BeginUpdate()
+            clvBlueprints.Items.Clear()
+            Dim matchCat As Boolean = False
+            For Each BP As Blueprint In PlugInData.Blueprints.Values
+                If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = BP.TechLevel) Then
+                    matchCat = False
+                    If cboCategoryFilter.SelectedIndex = 0 Then
+                        matchCat = True
+                    Else
+                        If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
+                            If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(CType(EveHQ.Core.HQ.itemData(BP.ProductID.ToString), EveHQ.Core.EveItem).Category) Then
+                                matchCat = True
+                            End If
+                        End If
+                    End If
+                    If matchCat = True Then
+                        If search = "" Or BP.Name.ToLower.Contains(search.ToLower) Then
+                            Dim newBPItem As New ContainerListViewItem
+                            newBPItem.Text = BP.Name
+                            clvBlueprints.Items.Add(newBPItem)
+                            newBPItem.SubItems(1).Text = "n/a"
+                            newBPItem.SubItems(2).Text = "n/a"
+                            newBPItem.SubItems(3).Text = BP.TechLevel.ToString
+                            newBPItem.SubItems(4).Text = "0"
+                            newBPItem.SubItems(5).Text = "0"
+                            newBPItem.SubItems(6).Text = "Infinite"
+                            newBPItem.SubItems(7).Text = "n/a"
+                        End If
+                    End If
+                End If
+            Next
+            clvBlueprints.Sort(0, False, False)
+            clvBlueprints.EndUpdate()
+        Else
+            ' Show the owned BP list
+            Call Me.UpdateOwnerBPList()
+        End If
+    End Sub
+
+    Private Sub UpdateOwnerBPList()
+        Dim search As String = txtBPSearch.Text
+        ' Establish the owner
+        If cboOwner.SelectedItem IsNot Nothing Then
+            Dim owner As String = cboOwner.SelectedItem.ToString()
+
+            clvBlueprints.BeginUpdate()
+            clvBlueprints.Items.Clear()
+            If owner <> "" Then
+                ' Fetch the ownerBPs if it exists
+                Dim ownerBPs As New SortedList(Of String, BlueprintAsset)
+                If PlugInData.BlueprintAssets.ContainsKey(owner) = True Then
+                    ownerBPs = PlugInData.BlueprintAssets(owner)
+                End If
+                Dim BPData As New Blueprint
+                Dim matchCat As Boolean = False
+                For Each BP As BlueprintAsset In ownerBPs.Values
+                    BPData = PlugInData.Blueprints(BP.TypeID)
+                    If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = BPData.TechLevel) Then
+                        If cboTypeFilter.SelectedIndex = 0 Or (cboTypeFilter.SelectedIndex = BP.BPType + 1) Then
+                            matchCat = False
+                            If cboCategoryFilter.SelectedIndex = 0 Then
+                                matchCat = True
+                            Else
+                                If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
+                                    If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(CType(EveHQ.Core.HQ.itemData(BPData.ProductID.ToString), EveHQ.Core.EveItem).Category) Then
+                                        matchCat = True
+                                    End If
+                                End If
+                            End If
+                            If matchCat = True Then
+                                If search = "" Or BPData.Name.ToLower.Contains(search.ToLower) Then
+                                    Dim newBPItem As New ContainerListViewItem
+                                    newBPItem.Text = BPData.Name
+                                    newBPItem.Tag = BP.AssetID
+                                    clvBlueprints.Items.Add(newBPItem)
+
+                                    newBPItem.SubItems(3).Text = BPData.TechLevel.ToString
+                                    newBPItem.SubItems(4).Text = FormatNumber(BP.MELevel, 0)
+                                    newBPItem.SubItems(5).Text = FormatNumber(BP.PELevel, 0)
+                                    Select Case BP.BPType
+                                        Case BPType.Unknown  ' Undetermined
+                                            newBPItem.SubItems(1).Text = Me.GetLocationNameFromID(BP.LocationID)
+                                            newBPItem.SubItems(2).Text = BP.LocationDetails
+                                            newBPItem.SubItems(6).Text = "Unknown"
+                                            newBPItem.SubItems(6).Tag = BP.Runs
+                                            newBPItem.BackColor = Drawing.Color.LightGray
+                                        Case BPType.BPO  ' BPO
+                                            newBPItem.SubItems(1).Text = Me.GetLocationNameFromID(BP.LocationID)
+                                            newBPItem.SubItems(2).Text = BP.LocationDetails
+                                            newBPItem.SubItems(6).Text = "BPO"
+                                            newBPItem.SubItems(6).Tag = 1000000
+                                            newBPItem.BackColor = Drawing.Color.LightGreen
+                                        Case BPType.BPC  ' BPC
+                                            newBPItem.SubItems(1).Text = Me.GetLocationNameFromID(BP.LocationID)
+                                            newBPItem.SubItems(2).Text = BP.LocationDetails
+                                            newBPItem.SubItems(6).Text = FormatNumber(BP.Runs, 0)
+                                            newBPItem.SubItems(6).Tag = BP.Runs
+                                            newBPItem.BackColor = Drawing.Color.LightSteelBlue
+                                        Case BPType.User
+                                            newBPItem.SubItems(1).Text = owner & "'s Secret BP Stash"
+                                            newBPItem.SubItems(2).Text = owner & "'s Secret BP Stash"
+                                            newBPItem.SubItems(6).Text = "BPO"
+                                            newBPItem.SubItems(6).Tag = 1000000
+                                            newBPItem.BackColor = Drawing.Color.Yellow
+                                    End Select
+                                    newBPItem.SubItems(7).Text = [Enum].GetName(GetType(BPStatus), BP.Status)
+                                    newBPItem.SubItems(7).Tag = BP.Status
+                                    Select Case BP.Status
+                                        Case BPStatus.Missing
+                                            newBPItem.BackColor = Drawing.Color.LightCoral
+                                        Case BPStatus.Exhausted
+                                            newBPItem.BackColor = Drawing.Color.Orange
+                                    End Select
+                                End If
+                            End If
+                        End If
+                    End If
+                Next
+            End If
+            clvBlueprints.Sort(0, False, False)
+            clvBlueprints.EndUpdate()
+        End If
+    End Sub
+
+    Private Sub btnUpdateBPsFromAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateBPsFromAssets.Click
+        ' Establish the owner
+        Dim IsCorp As Boolean = False
+        ' Get the owner we will use
+        Dim owner As String = cboOwner.SelectedItem.ToString()
+
+        ' Fetch the ownerBPs if it exists
+        Dim ownerBPs As New SortedList(Of String, BlueprintAsset)
+        If PlugInData.BlueprintAssets.ContainsKey(owner) = True Then
+            ownerBPs = PlugInData.BlueprintAssets(owner)
+        Else
+            PlugInData.BlueprintAssets.Add(owner, ownerBPs)
+        End If
+
+        ' See if this owner is a corp
+        If PlugInData.CorpList.ContainsKey(owner) = True Then
+            IsCorp = True
+            ' See if we have a representative
+            Dim CorpRep As SortedList = CType(PlugInData.CorpReps(0), Collections.SortedList)
+            If CorpRep IsNot Nothing Then
+                If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
+                    owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
+                Else
+                    owner = ""
+                End If
+            Else
+                owner = ""
+            End If
+        End If
+
+        If owner <> "" Then
+            ' Parse the Assets XML
+            Dim assetXML As New XmlDocument
+            Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(owner), Core.Pilot)
+            Dim accountName As String = selPilot.Account
+            Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+            If IsCorp = True Then
+                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsCorp, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+            Else
+                assetXML = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.AssetsChar, pilotAccount, selPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnCacheOnly)
+            End If
+            If assetXML IsNot Nothing Then
+                Dim Assets As New SortedList(Of String, BlueprintAsset)
+                Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")
+                If locList.Count > 0 Then
+                    ' Define what we want to obtain
+                    Dim categories, groups, types As New ArrayList
+                    categories.Add(9) ' Blueprints
+                    For Each loc As XmlNode In locList
+                        Dim locationID As String = loc.Attributes.GetNamedItem("locationID").Value
+                        Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
+                        Dim locationDetails As String = PlugInData.itemFlags(flagID).ToString
+
+                        ' Check the asset
+                        Dim ItemData As New EveHQ.Core.EveItem
+                        Dim AssetID As String = ""
+                        Dim itemID As String = ""
+                        AssetID = loc.Attributes.GetNamedItem("itemID").Value
+                        itemID = loc.Attributes.GetNamedItem("typeID").Value
+                        If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
+                            ItemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                            If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
+                                Dim newBP As New BlueprintAsset
+                                newBP.AssetID = AssetID
+                                newBP.LocationID = locationID
+                                If IsCorp = True Then
+                                    Dim accountID As Integer = flagID + 885
+                                    If accountID = 889 Then accountID = 1000
+                                    If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
+                                        locationDetails = CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
+                                    End If
+                                End If
+                                newBP.LocationDetails = locationDetails
+                                newBP.TypeID = itemID
+                                newBP.Status = BPStatus.Present
+                                newBP.MELevel = 0
+                                newBP.PELevel = 0
+                                newBP.Runs = -1
+                                newBP.Notes = ""
+                                Assets.Add(AssetID, newBP)
+                            End If
+                        End If
+
+                        ' Get the location name
+                        If loc.ChildNodes.Count > 0 Then
+                            Call GetAssetFromNode(loc, categories, groups, types, Assets, locationID, locationDetails, selPilot, IsCorp)
+                        End If
+                    Next
+                End If
+                If Assets.Count > 0 Then
+                    ' Mark all of our existing blueprints as missing
+                    For Each ownerBP As BlueprintAsset In ownerBPs.Values
+                        If ownerBP.BPType <> BPType.User Then
+                            ownerBP.Status = BPStatus.Missing
+                        Else
+                            ownerBP.Status = BPStatus.Present
+                        End If
+                    Next
+                    ' Should have our list of assets now so let's compare them
+                    Dim item As New EveHQ.Core.EveItem
+                    For Each assetID As String In Assets.Keys
+                        ' See if the assetID already exists for the owner
+                        If ownerBPs.ContainsKey(assetID) = True Then
+                            ' We have it so set the status to present
+                            ownerBPs(assetID).Status = BPStatus.Present
+                            ' Update the location
+                            ownerBPs(assetID).LocationID = Assets(assetID).LocationID
+                            ownerBPs(assetID).LocationDetails = Assets(assetID).LocationDetails
+                        Else
+                            ' Not present in the existing list so let's add it in
+                            ownerBPs.Add(assetID, Assets(assetID))
+                        End If
+                    Next
+                End If
+            End If
+            ' Update the owner list if the option requires it
+            If chkShowOwnedBPs.Checked = True Then
+                Call Me.UpdateOwnerBPList()
+            End If
+        End If
+    End Sub
+    Private Function GetLocationNameFromID(ByVal locID As String) As String
+        If CDbl(locID) >= 66000000 Then
+            If CDbl(locID) < 66014933 Then
+                locID = (CDbl(locID) - 6000001).ToString
+            Else
+                locID = (CDbl(locID) - 6000000).ToString
+            End If
+        End If
+        Dim newLocation As Prism.Station
+        If CDbl(locID) >= 61000000 And CDbl(locID) <= 61999999 Then
+            If PlugInData.stations.Contains(locID) = True Then
+                ' Known Outpost
+                newLocation = CType(PlugInData.stations(locID), Prism.Station)
+                Return newLocation.stationName
+            Else
+                ' Unknown outpost!
+                newLocation = New Prism.Station
+                newLocation.stationID = CLng(locID)
+                newLocation.stationName = "Unknown Outpost"
+                newLocation.systemID = 0
+                newLocation.constID = 0
+                newLocation.regionID = 0
+                Return newLocation.stationName
+            End If
+        Else
+            If CDbl(locID) < 60000000 Then
+                Dim newSystem As SolarSystem = CType(PlugInData.stations(locID), SolarSystem)
+                Return newSystem.Name
+            Else
+                newLocation = CType(PlugInData.stations(locID), Prism.Station)
+                If newLocation IsNot Nothing Then
+                    Return newLocation.stationName
+                Else
+                    ' Unknown system/station!
+                    newLocation = New Prism.Station
+                    newLocation.stationID = CLng(locID)
+                    newLocation.stationName = "Unknown Location"
+                    newLocation.systemID = 0
+                    newLocation.constID = 0
+                    newLocation.regionID = 0
+                    Return newLocation.stationName
+                End If
+            End If
+        End If
+    End Function
+    Private Sub GetAssetFromNode(ByVal loc As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef Assets As SortedList(Of String, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal selPilot As EveHQ.Core.Pilot, ByVal IsCorp As Boolean)
+        Dim itemList As XmlNodeList = loc.ChildNodes(0).ChildNodes
+        Dim ItemData As New EveHQ.Core.EveItem
+        Dim AssetID As String = ""
+        Dim itemID As String = ""
+        Dim flagID As Integer = 0
+        Dim flagName As String = ""
+        Dim containerID As String = loc.Attributes.GetNamedItem("itemID").Value
+        Dim containerType As String = loc.Attributes.GetNamedItem("typeID").Value
+        For Each item As XmlNode In itemList
+            AssetID = item.Attributes.GetNamedItem("itemID").Value
+            itemID = item.Attributes.GetNamedItem("typeID").Value
+            flagID = CInt(item.Attributes.GetNamedItem("flag").Value)
+            If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
+                ItemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                If PlugInData.AssetItemNames.ContainsKey(containerID) = True Then
+                    flagName = locationDetails & "/" & PlugInData.AssetItemNames(containerID)
+                Else
+                    flagName = locationDetails & "/" & CType(EveHQ.Core.HQ.itemData(containerType), EveHQ.Core.EveItem).Name
+                End If
+                If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
+                    Dim newBP As New BlueprintAsset
+                    newBP.AssetID = AssetID
+                    newBP.LocationID = locationID
+                    If IsCorp = True And CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Group <> 16 Then
+                        Dim accountID As Integer = flagID + 885
+                        If accountID = 889 Then accountID = 1000
+                        If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then
+                            flagName = locationDetails & "/" & CStr(divisions.Item(selPilot.CorpID & "_" & accountID.ToString))
+                        End If
+                    End If
+                    newBP.LocationDetails = flagName
+                    newBP.TypeID = itemID
+                    newBP.Status = BPStatus.Present
+                    newBP.MELevel = 0
+                    newBP.PELevel = 0
+                    newBP.Runs = -1
+                    newBP.Notes = ""
+                    Assets.Add(AssetID, newBP)
+                End If
+            End If
+            ' Check child items if they exist
+            If item.ChildNodes.Count > 0 Then
+                Call GetAssetFromNode(item, categories, groups, types, Assets, locationID, flagname, selPilot, IsCorp)
+            End If
+        Next
+    End Sub
+
+    Private Sub btnGetBPJobInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetBPJobInfo.Click
+        ' Get the owner BPs
+        Dim ownerBPs As New SortedList(Of String, BlueprintAsset)
+        If cboOwner.SelectedItem IsNot Nothing Then
+            Dim owner As String = cboOwner.SelectedItem.ToString()
+            ' Fetch the ownerBPs if it exists
+            If PlugInData.BlueprintAssets.ContainsKey(owner) = True Then
+                ownerBPs = PlugInData.BlueprintAssets(owner)
+            End If
+        End If
+
+        ' We are going to scan the whole of the Jobs API to try and find relevant IDs - no sense dicking around here, we need info!!
+        Dim cacheFolder As String = EveHQ.Core.HQ.cacheFolder
+        For Each cacheFile As String In My.Computer.FileSystem.GetFiles(cacheFolder, FileIO.SearchOption.SearchTopLevelOnly, "EVEHQAPI_Industry*")
+            ' Load up the XML
+            Dim jobXML As New XmlDocument
+            jobXML.Load(cacheFile)
+            ' Get the Node List
+            Dim jobs As XmlNodeList = jobXML.SelectNodes("/eveapi/result/rowset/row")
+            For Each job As XmlNode In jobs
+                Dim assetID As String = job.Attributes.GetNamedItem("installedItemID").Value
+                If ownerBPs.ContainsKey(assetID) = True Then
+                    ' Fetch the current BP Data
+                    Dim cBPInfo As BlueprintAsset = ownerBPs(assetID)
+                    Select Case CInt(job.Attributes.GetNamedItem("activityID").Value)
+                        Case 1 ' Manufacturing
+                            Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
+                            ' Check if the MELevel is greater than what we have
+                            If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
+                                cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
+                            End If
+                            ' Check if the PELevel is greater than what we have
+                            If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
+                                cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
+                            End If
+                            ' Check if the Runs remaining are less than what we have
+                            Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
+                            If initialRuns <> -1 Then
+                                cBPInfo.BPType = BPType.BPC
+                                If initialRuns - Runs < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
+                                    cBPInfo.Runs = initialRuns - Runs
+                                End If
+                                If cBPInfo.Runs = 0 Then
+                                    cBPInfo.Status = BPStatus.Exhausted
+                                End If
+                            Else
+                                cBPInfo.BPType = BPType.BPO
+                            End If
+                        Case 3 ' PE Research
+                            Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
+                            ' Check if the MELevel is greater than what we have
+                            If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
+                                cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
+                            End If
+                            ' Check if the PELevel is greater than what we have
+                            If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) + Runs > cBPInfo.PELevel Then
+                                cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) + Runs
+                            End If
+                            ' Check if the Runs remaining are less than what we have
+                            Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
+                            If initialRuns <> -1 Then
+                                cBPInfo.BPType = BPType.BPC
+                                If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
+                                    cBPInfo.Runs = initialRuns
+                                End If
+                                If cBPInfo.Runs = 0 Then
+                                    cBPInfo.Status = BPStatus.Exhausted
+                                End If
+                            Else
+                                cBPInfo.BPType = BPType.BPO
+                            End If
+                        Case 4 ' ME Research
+                            Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
+                            ' Check if the MELevel is greater than what we have
+                            If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) + Runs > cBPInfo.MELevel Then
+                                cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) + Runs
+                            End If
+                            ' Check if the PELevel is greater than what we have
+                            If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
+                                cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
+                            End If
+                            ' Check if the Runs remaining are less than what we have
+                            Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
+                            If initialRuns <> -1 Then
+                                cBPInfo.BPType = BPType.BPC
+                                If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
+                                    cBPInfo.Runs = initialRuns
+                                End If
+                                If cBPInfo.Runs = 0 Then
+                                    cBPInfo.Status = BPStatus.Exhausted
+                                End If
+                            Else
+                                cBPInfo.BPType = BPType.BPO
+                            End If
+                        Case 5 ' Copying
+                            Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
+                            ' Check if the MELevel is greater than what we have
+                            If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
+                                cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
+                            End If
+                            ' Check if the PELevel is greater than what we have
+                            If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
+                                cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
+                            End If
+                            ' Check if the Runs remaining are less than what we have
+                            Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
+                            If initialRuns <> -1 Then
+                                cBPInfo.BPType = BPType.BPC
+                                If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
+                                    cBPInfo.Runs = initialRuns
+                                End If
+                                If cBPInfo.Runs = 0 Then
+                                    cBPInfo.Status = BPStatus.Exhausted
+                                End If
+                            Else
+                                cBPInfo.BPType = BPType.BPO
+                            End If
+                    End Select
+                End If
+            Next
+        Next
+
+        ' Update the owner list if the option requires it
+        If chkShowOwnedBPs.Checked = True Then
+            Call Me.UpdateOwnerBPList()
+        End If
+    End Sub
+
+    Private Sub ctxBPManager_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxBPManager.Opening
+        If clvBlueprints.SelectedItems.Count = 1 Then
+            mnuSendToBPCalc.Enabled = True
+            ' Get the blueprint info
+            If chkShowOwnedBPs.Checked = True Then
+                Dim assetID As String = CStr(clvBlueprints.SelectedItems(0).Tag)
+                Dim BPOwner As String = cboOwner.SelectedItem.ToString
+                Dim asset As BlueprintAsset = PlugInData.BlueprintAssets(BPOwner).Item(assetID)
+                If asset.AssetID = asset.TypeID Then
+                    ' Custom BP
+                    mnuRemoveCustomBP.Enabled = True
+                Else
+                    mnuRemoveCustomBP.Enabled = False
+                End If
+            Else
+                mnuRemoveCustomBP.Enabled = False
+            End If
+        Else
+            mnuSendToBPCalc.Enabled = False
+            mnuRemoveCustomBP.Enabled = False
+        End If
+            mnuAmendBPDetails.Enabled = chkShowOwnedBPs.Checked
+    End Sub
+
+    Private Sub mnuSendToBPCalc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSendToBPCalc.Click
+        Call Me.OpenBPCalculator()
+    End Sub
+
+    Private Sub OpenBPCalculator()
+        Dim BPName As String = ""
+        Dim BPID As String = ""
+        If clvBlueprints.SelectedItems.Count = 1 Then
+            BPName = clvBlueprints.SelectedItems(0).Text
+            If clvBlueprints.SelectedItems(0).Tag IsNot Nothing Then
+                BPID = clvBlueprints.SelectedItems(0).Tag.ToString
+            End If
+        End If
+        Dim BPCalc As New frmBPCalculator
+        ' Check for a selected BP on the BPManager form
+        If BPName <> "" Then
+            BPCalc.BPName = BPName
+        End If
+        If cboOwner.SelectedItem IsNot Nothing Then
+            BPCalc.BPOwnerName = cboOwner.SelectedItem.ToString
+        End If
+        BPCalc.UsingOwnedBPs = chkShowOwnedBPs.Checked
+        If chkShowOwnedBPs.Checked = True Then
+            BPCalc.OwnedBPID = BPID
+        End If
+        BPCalc.Show()
+    End Sub
+
+    Private Sub mnuAmendBPDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAmendBPDetails.Click
+        Call Me.EditBlueprintDetails()
+    End Sub
+
+    Private Sub EditBlueprintDetails()
+        Dim BPForm As New frmEditBPDetails
+        BPForm.OwnerName = cboOwner.SelectedItem.ToString
+        Dim BPs As New ArrayList
+        For Each selItem As ContainerListViewItem In clvBlueprints.SelectedItems
+            BPs.Add(selItem.Tag.ToString)
+        Next
+        BPForm.AssetIDs = BPs
+        BPForm.ShowDialog()
+        Call Me.UpdateBPList()
+    End Sub
+
+    Private Sub txtBPSearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtBPSearch.TextChanged
+        Call Me.UpdateBPList()
+    End Sub
+
+    Private Sub btnResetBPSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetBPSearch.Click
+        txtBPSearch.Text = ""
+    End Sub
+
+    Private Sub btnAddCustomBP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddCustomBP.Click
+        Dim BPForm As New frmAddCustomBP
+        BPForm.BPOwner = cboOwner.SelectedItem.ToString
+        BPForm.ShowDialog()
+        If BPForm.DialogResult = Windows.Forms.DialogResult.OK Then
+            Call Me.UpdateBPList()
+        End If
+    End Sub
+
+    Private Sub mnuRemoveCustomBP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveCustomBP.Click
+        ' Remove the custom BP from the assets
+        Dim assetID As String = CStr(clvBlueprints.SelectedItems(0).Tag)
+        Dim BPOwner As String = cboOwner.SelectedItem.ToString
+        If PlugInData.BlueprintAssets(BPOwner).ContainsKey(assetID) = True Then
+            PlugInData.BlueprintAssets(BPOwner).Remove(assetID)
+            Call Me.UpdateBPList()
+        End If
+    End Sub
+
+    Private Sub cboTechFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboTechFilter.SelectedIndexChanged
+        If startup = False Then
+            Call UpdateBPList()
+        End If
+    End Sub
+
+    Private Sub cboTypeFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboTypeFilter.SelectedIndexChanged
+        If startup = False Then
+            Call UpdateBPList()
+        End If
+    End Sub
+
+    Private Sub cboCategoryFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboCategoryFilter.SelectedIndexChanged
+        If startup = False Then
+            Call UpdateBPList()
+        End If
+    End Sub
+
+#End Region
+
+    
+    
 End Class
 
