@@ -502,6 +502,8 @@ Public Class frmHQF
         Next
 
         ' Add the tab if it's not available
+        If tabShipPreview IsNot Nothing Then
+        End If
         If tabHQF.TabPages.Contains(tabShipPreview) = False Then
             tabHQF.TabPages.Add(tabShipPreview)
         End If
@@ -1511,7 +1513,9 @@ Public Class frmHQF
         Fittings.FittingTabList.Remove(tp.Text)
         ShipLists.fittedShipList.Remove(tp.Text)
         tabHQF.TabPages.Remove(tp)
-        tp.Dispose()
+        If tp.Text.EndsWith("Ship Preview") = False Then
+            tp.Dispose()
+        End If
         If Fittings.FittingTabList.Count = 0 Then
             currentShipInfo = Nothing
             currentShipSlot = Nothing
