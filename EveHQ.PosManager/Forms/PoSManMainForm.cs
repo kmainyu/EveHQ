@@ -41,14 +41,14 @@ namespace EveHQ.PosManager
         bool update = false;
         bool timeCheck = false;
         bool PosChanged = false;
+        bool UpdateTower = true;
         private int Mon_dg_indx = 0;
         private int Fil_dg_indx = 0;
         private string Mon_dg_Pos = "";
         private string selName, AllPosFillText, SelPosFillText;
         public string CurrentName = "", NewName = "";
-        bool[] monDGVs = {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true , true, true, true, true, false, false, false, false, false};
         enum MonDG {Name, FuelR, StrontR, State, Link, Cache, CPU, Power, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt, useC, fHrs, sHrs, hCPU, hPow, hIso };
-        enum dgPM {Name, Qty, State, Opt, fOff, dmg, rof, dps, trk, prox, swDly, Chg, cost };
+        enum dgPM {Name, Qty, State, Opt, fOff, dmg, rof, dps, trk, prox, swDly, Chg, cost, Cap };
         enum fillDG { Name, Loc, EnrUr, Oxy, McP, Cool, Rbt, Iso, HvW, LqO, Cht, Strt };
         enum fuelDG { type, amount, vol, cost };
     
@@ -115,7 +115,7 @@ namespace EveHQ.PosManager
                 // Find index to selected POS
                 for (int x = 0; x < dg_MonitoredTowers.Rows.Count; x++)
                 {
-                    if (Mon_dg_Pos == dg_MonitoredTowers.Rows[x].Cells[(int)MonDG.Name].Value.ToString())
+                    if (dg_MonitoredTowers.Rows[x].Cells[(int)MonDG.Name].Value.ToString().Contains(Mon_dg_Pos))
                     {
                         Mon_dg_indx = x;
                         break;
@@ -137,6 +137,7 @@ namespace EveHQ.PosManager
                 EventArgs ea = new EventArgs();
                 load = false;
                 dg_MonitoredTowers_SelectionChanged(o, ea);
+                load = true;
             }
 
             if ((Config.data.dgMonBool == null) || (Config.data.dgMonBool.Count < 19))
@@ -182,6 +183,8 @@ namespace EveHQ.PosManager
                     }
                 }
             }
+
+            SortMonitorDataGridByColumn(dg_MonitoredTowers, Config.data.SortedColumnIndex);
 
             load = false;
         }
@@ -260,16 +263,7 @@ namespace EveHQ.PosManager
 
                 if (dr == DialogResult.Yes)
                 {
-                    foreach (POS pl in POSList.Designs)
-                    {
-                        if (pl.Name == Design.Name)
-                        {
-                            // Existing PoS being edited, need to overwrite it or something
-                            POSList.Designs.Remove(pl);
-                            break;
-                        }
-                    }
-                    POSList.Designs.Add(new POS(Design));
+                    POSList.UpdateListDesign(Design);
                     POSList.SaveDesignListing();
                     PosChanged = false;
                 }
@@ -685,6 +679,7 @@ namespace EveHQ.PosManager
                 dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.swDly].Value = "NA";
                 dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Chg].Value = "NA";
                 dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.cost].Value = String.Format("{0:#,0.#}", Design.PosTower.Cost) + " isk";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Cap].Value = String.Format("{0:#,0.#}", Design.PosTower.Capacity) + " m3";
             }
             else
             {
@@ -701,6 +696,7 @@ namespace EveHQ.PosManager
                 dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.swDly].Value = "NA";
                 dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Chg].Value = "NA";
                 dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.cost].Value = String.Format("{0:#,0.#}", 0) + " isk";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Cap].Value = String.Format("{0:#,0.#}", 0) + " m3";
             }
 
             foreach (Module PMD in Design.Modules)
@@ -724,8 +720,9 @@ namespace EveHQ.PosManager
                 dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.swDly].Value = String.Format("{0:#,0.#}", GetSwitchDelayTime(PMD)) + "s";
                 dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Chg].Value = PMD.Charge;
                 dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.cost].Value = String.Format("{0:#,0.#}", PMD.Cost) + " isk";
+                dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.Cap].Value = String.Format("{0:#,0.#}", PMD.Capacity) + " m3";
 
-
+               
                 if (PMD.State == "Online")
                 {
                     dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Style.BackColor = Color.LawnGreen;
@@ -743,6 +740,15 @@ namespace EveHQ.PosManager
                         if ((PMD.Bonuses.ThermalDmgRes > 0) && (PMD.Bonuses.ThermalDmgRes < 1))
                             THM.Add(1 - PMD.Bonuses.ThermalDmgRes);
                     }
+
+                    if (PMD.Name.Contains("Energy Neut"))
+                    {
+                    }
+                    else
+                    {
+                        total_damage += dmg;
+                        total_dps += dps;
+                    }
                 }
                 else if (PMD.State == "Offline")
                 {
@@ -752,9 +758,6 @@ namespace EveHQ.PosManager
                 {
                     dg_PosMods.Rows[dg_ind].Cells[(int)dgPM.State].Style.BackColor = Color.LightCoral;
                 }
-
-                total_damage += dmg;
-                total_dps += dps;
             }
 
             Design.PosTower.CPU_Used = cpu_used;
@@ -1913,18 +1916,7 @@ namespace EveHQ.PosManager
 
                 if (dr == DialogResult.Yes)
                 {
-                    foreach (POS pl in POSList.Designs)
-                    {
-                        if (pl.Name == Design.Name)
-                        {
-                            // Existing PoS being edited, need to overwrite it or something
-                            POSList.Designs.Remove(pl);
-                            break;
-                        }
-                    }
-
-                    POSList.Designs.Add(new POS(Design));
-
+                    POSList.UpdateListDesign(Design);
                     POSList.SaveDesignListing();
                     BuildPOSListForMonitoring();
                     POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
@@ -2204,18 +2196,34 @@ namespace EveHQ.PosManager
         private void PopulateMonitoredPoSDisplay()
         {
             API_Data apid;
-            int dg_ind;
+            int dg_ind, ind_ct;
             string line, cache;
             DateTime now, cTim;
 
-            dg_MonitoredTowers.Rows.Clear();
+            // dg_MonitoredTowers.Rows.Clear();
 
             foreach (POS p in POSList.Designs)
             {
                 if (p.Monitored)
                 {
-                    // Add data to DG
-                    dg_ind = dg_MonitoredTowers.Rows.Add();
+                    dg_ind = -1;
+                    ind_ct = 0;
+                    foreach(DataGridViewRow dr in dg_MonitoredTowers.Rows)
+                    {
+                        if (dr.Cells[(int)MonDG.Name].Value.ToString().Contains(p.Name))
+                        {
+                            dg_ind = ind_ct;
+                            break;
+                        }
+
+                        ind_ct++;
+                    }
+
+                    if (dg_ind < 0)
+                    {
+                        // Did not find the tower in the existing list, so Add new row data to DG
+                        dg_ind = dg_MonitoredTowers.Rows.Add();
+                    }
 
                     line = p.Name + " < " + p.System + " >[" + p.SovLevel + "]{" + p.Moon + "}";
                     dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Name].Value = line;
@@ -2380,7 +2388,7 @@ namespace EveHQ.PosManager
                 // Find index to selected POS
                 for (int x = 0; x < dg_MonitoredTowers.Rows.Count; x++)
                 {
-                    if (Mon_dg_Pos == dg_MonitoredTowers.Rows[x].Cells[(int)MonDG.Name].Value.ToString())
+                    if (dg_MonitoredTowers.Rows[x].Cells[(int)MonDG.Name].Value.ToString().Contains(Mon_dg_Pos))
                     {
                         Mon_dg_indx = x;
                         break;
@@ -2398,12 +2406,82 @@ namespace EveHQ.PosManager
                 EventArgs ea = new EventArgs();
                 dg_MonitoredTowers_SelectionChanged(o, ea);
             }
+        }
 
-            if (Config.data.MonSortOrder == SortOrder.Ascending)
-                dg_MonitoredTowers.Sort(dg_MonitoredTowers.Columns[Config.data.SortedColumnIndex], System.ComponentModel.ListSortDirection.Ascending);
-            else if (Config.data.MonSortOrder == SortOrder.Descending)
-                dg_MonitoredTowers.Sort(dg_MonitoredTowers.Columns[Config.data.SortedColumnIndex], System.ComponentModel.ListSortDirection.Descending);
-
+        private void SortMonitorDataGridByColumn(DataGridView dgv, int ColIndex)
+        {
+            if ((ColIndex == (int)MonDG.FuelR) && (dgv.Columns[(int)MonDG.FuelR].SortMode == DataGridViewColumnSortMode.Programmatic))
+            {
+                // Sort on hidden fuel hours column
+                if (Config.data.MonSortOrder == SortOrder.Descending)
+                {
+                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.fHrs], ListSortDirection.Ascending);
+                }
+                else
+                {
+                    Config.data.MonSortOrder = SortOrder.Descending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.fHrs], ListSortDirection.Descending);
+                }
+            }
+            else if ((ColIndex == (int)MonDG.CPU) && (dgv.Columns[(int)MonDG.CPU].SortMode == DataGridViewColumnSortMode.Programmatic))
+            {
+                if (Config.data.MonSortOrder == SortOrder.Descending)
+                {
+                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hCPU], ListSortDirection.Ascending);
+                }
+                else
+                {
+                    Config.data.MonSortOrder = SortOrder.Descending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hCPU], ListSortDirection.Descending);
+                }
+            }
+            else if ((ColIndex == (int)MonDG.Power) && (dgv.Columns[(int)MonDG.Power].SortMode == DataGridViewColumnSortMode.Programmatic))
+            {
+                if (Config.data.MonSortOrder == SortOrder.Descending)
+                {
+                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hPow], ListSortDirection.Ascending);
+                }
+                else
+                {
+                    Config.data.MonSortOrder = SortOrder.Descending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hPow], ListSortDirection.Descending);
+                }
+            }
+            else if ((ColIndex == (int)MonDG.StrontR) && (dgv.Columns[(int)MonDG.StrontR].SortMode == DataGridViewColumnSortMode.Programmatic))
+            {
+                // Sort on hidden stront hours column
+                if (Config.data.MonSortOrder == SortOrder.Descending)
+                {
+                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.sHrs], ListSortDirection.Ascending);
+                }
+                else
+                {
+                    Config.data.MonSortOrder = SortOrder.Descending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.sHrs], ListSortDirection.Descending);
+                }
+            }
+            else if ((ColIndex == (int)MonDG.Iso) && (dgv.Columns[(int)MonDG.Iso].SortMode == DataGridViewColumnSortMode.Programmatic))
+            {
+                // Sort on hidden stront hours column
+                if (Config.data.MonSortOrder == SortOrder.Descending)
+                {
+                    Config.data.MonSortOrder = SortOrder.Ascending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hIso], ListSortDirection.Ascending);
+                }
+                else
+                {
+                    Config.data.MonSortOrder = SortOrder.Descending;
+                    dgv.Sort(dgv.Columns[(int)MonDG.hIso], ListSortDirection.Descending);
+                }
+            }
+            else
+            {
+                Config.data.MonSortOrder = dgv.SortOrder;
+            }
         }
 
         private void dg_MonitoredTowers_SelectionChanged(object sender, EventArgs e)
@@ -2420,6 +2498,10 @@ namespace EveHQ.PosManager
                 posName = selName.Substring(0, selName.IndexOf(" <"));
                 selName = posName;
                 Mon_dg_Pos = posName;
+                
+                if (Mon_dg_indx == dg_MonitoredTowers.CurrentRow.Index)
+                    return;
+
                 Mon_dg_indx = dg_MonitoredTowers.CurrentRow.Index;
                
                 foreach (POS pl in POSList.Designs)
@@ -2431,7 +2513,9 @@ namespace EveHQ.PosManager
                         // 2. Calculate and Display Bay usage (percentage on bars)
                         // 3. Display PoS module listing in listbox
                         // 4. Display PoS modules on picture screen section
+
                         lb_PoSModuleList.Items.Clear();
+                        UpdateTower = false;
 
                         foreach (Module m in pl.Modules)
                         {
@@ -2461,6 +2545,7 @@ namespace EveHQ.PosManager
                         if (pl.PosTower.Fuel.N2Iso.PeriodQty > 0)
                             nud_Isotope.Value = pl.PosTower.Fuel.N2Iso.Qty;
 
+                        UpdateTower = true;
                         UpdateTowerMonitorDisplay();
                     }
                 }
@@ -2787,8 +2872,8 @@ namespace EveHQ.PosManager
                 EventArgs ea = new EventArgs();
                 dg_MonitoredTowers_SelectionChanged(o, ea);
             }
+
             timeCheck = false;
-            //UpdateTowerMonitorDisplay();
         }
 
         private void UpdateMonitoredTowerState(string state)
@@ -2928,20 +3013,10 @@ namespace EveHQ.PosManager
                 }
             }
 
-            foreach (POS pl in POSList.Designs)
-            {
-                if (pl.Name == cb_PoSName.Text)
-                {
-                    // Existing PoS being edited, need to overwrite it or something
-                    POSList.Designs.Remove(pl);
-                    break;
-                }
-            }
-
             pli = new POS(Design);
             pli.Name = CurrentName;
 
-            POSList.Designs.Add(pli);
+            POSList.UpdateListDesign(pli);
 
             cb_PoSName.Items.Clear();
             foreach (POS pl in POSList.Designs)
@@ -2951,9 +3026,10 @@ namespace EveHQ.PosManager
 
             POSList.SaveDesignListing();
             PosChanged = false;
+
             BuildPOSListForMonitoring();
-            PopulateMonitoredPoSDisplay();
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            PopulateMonitoredPoSDisplay();
             cb_PoSName.Text = pli.Name;
         }
 
@@ -3099,17 +3175,7 @@ namespace EveHQ.PosManager
 
                 if (dr == DialogResult.Yes)
                 {
-                    foreach (POS pl in POSList.Designs)
-                    {
-                        if (pl.Name == Design.Name)
-                        {
-                            // Existing PoS has been edited, need to overwrite it or something
-                            POSList.Designs.Remove(pl);
-                            break;
-                        }
-                    }
-
-                    POSList.AddDesignToList(new POS(Design));
+                    POSList.UpdateListDesign(Design);
                 }
             }
 
@@ -3149,21 +3215,11 @@ namespace EveHQ.PosManager
             if (CurrentName.Equals(NewName))
                 return;
 
-            foreach (POS pl in POSList.Designs)
-            {
-                if (pl.Name == CurrentName)
-                {
-                    // Existing PoS has been edited, need to overwrite it or something
-                    POSList.Designs.Remove(pl);
-                    break;
-                }
-            }
-
             Design.Name = NewName;
             CurrentName = NewName;
             NewName = "";
             this.Focus();
-            POSList.AddDesignToList(Design);
+            POSList.UpdateListDesign(Design);
             POSList.SaveDesignListing();
             BuildPOSListForMonitoring();
             cb_PoSName.Items.Clear();
@@ -3251,7 +3307,7 @@ namespace EveHQ.PosManager
             {
                 if (pl.Name == cb_PoSName.Text)
                 {
-                    // Existing PoS being edited, need to overwrite it or something
+                    // Existing PoS being removed
                     POSList.Designs.Remove(pl);
                     break;
                 }
@@ -3575,7 +3631,7 @@ namespace EveHQ.PosManager
                 dgi = dg_TowerFuelList.Rows.Add();
 
                 dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Name].Value = p.Name;
-                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Loc].Value = p.System;
+                dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.Loc].Value = p.Moon;
 
                 dg_TowerFuelList.Rows[dgi].Cells[(int)fillDG.EnrUr].Value = String.Format("{0:#,0.#}",p.PosTower.T_Fuel.EnrUran.Qty);
                 tt.EnrUran.Qty += p.PosTower.T_Fuel.EnrUran.Qty;
@@ -3720,7 +3776,7 @@ namespace EveHQ.PosManager
 
         private void MonitoredFuelChange(object sender, EventArgs e)
         {
-            if (!update)
+            if ((!update) && (UpdateTower))
                 UpdateTowerMonitorDisplay();
         }
 
@@ -3978,78 +4034,7 @@ namespace EveHQ.PosManager
 
             Config.data.SortedColumnIndex = e.ColumnIndex;
 
-            if ((e.ColumnIndex == (int)MonDG.FuelR) && (dgv.Columns[(int)MonDG.FuelR].SortMode == DataGridViewColumnSortMode.Programmatic))
-            {
-                // Sort on hidden fuel hours column
-                if (Config.data.MonSortOrder == SortOrder.Descending)
-                {
-                    Config.data.MonSortOrder = SortOrder.Ascending;
-                    dgv.Sort(dgv.Columns[(int)MonDG.fHrs], ListSortDirection.Ascending);
-                }
-                else
-                {
-                    Config.data.MonSortOrder = SortOrder.Descending;
-                    dgv.Sort(dgv.Columns[(int)MonDG.fHrs], ListSortDirection.Descending);
-                }
-            }
-            else if ((e.ColumnIndex == (int)MonDG.CPU) && (dgv.Columns[(int)MonDG.CPU].SortMode == DataGridViewColumnSortMode.Programmatic))
-            {
-                if (Config.data.MonSortOrder == SortOrder.Descending)
-                {
-                    Config.data.MonSortOrder = SortOrder.Ascending;
-                    dgv.Sort(dgv.Columns[(int)MonDG.hCPU], ListSortDirection.Ascending);
-                }
-                else
-                {
-                    Config.data.MonSortOrder = SortOrder.Descending;
-                    dgv.Sort(dgv.Columns[(int)MonDG.hCPU], ListSortDirection.Descending);
-                }
-            }
-            else if ((e.ColumnIndex == (int)MonDG.Power) && (dgv.Columns[(int)MonDG.Power].SortMode == DataGridViewColumnSortMode.Programmatic))
-            {
-                if (Config.data.MonSortOrder == SortOrder.Descending)
-                {
-                    Config.data.MonSortOrder = SortOrder.Ascending;
-                    dgv.Sort(dgv.Columns[(int)MonDG.hPow], ListSortDirection.Ascending);
-                }
-                else
-                {
-                    Config.data.MonSortOrder = SortOrder.Descending;
-                    dgv.Sort(dgv.Columns[(int)MonDG.hPow], ListSortDirection.Descending);
-                }
-            }
-            else if ((e.ColumnIndex == (int)MonDG.StrontR) && (dgv.Columns[(int)MonDG.StrontR].SortMode == DataGridViewColumnSortMode.Programmatic))
-            {
-                // Sort on hidden stront hours column
-                if (Config.data.MonSortOrder == SortOrder.Descending)
-                {
-                    Config.data.MonSortOrder = SortOrder.Ascending;
-                    dgv.Sort(dgv.Columns[(int)MonDG.sHrs], ListSortDirection.Ascending);
-                }
-                else
-                {
-                    Config.data.MonSortOrder = SortOrder.Descending;
-                    dgv.Sort(dgv.Columns[(int)MonDG.sHrs], ListSortDirection.Descending);
-                }
-            }
-            else if ((e.ColumnIndex == (int)MonDG.Iso) && (dgv.Columns[(int)MonDG.Iso].SortMode == DataGridViewColumnSortMode.Programmatic))
-            {
-                // Sort on hidden stront hours column
-                if (Config.data.MonSortOrder == SortOrder.Descending)
-                {
-                    Config.data.MonSortOrder = SortOrder.Ascending;
-                    dgv.Sort(dgv.Columns[(int)MonDG.hIso], ListSortDirection.Ascending);
-                }
-                else
-                {
-                    Config.data.MonSortOrder = SortOrder.Descending;
-                    dgv.Sort(dgv.Columns[(int)MonDG.hIso], ListSortDirection.Descending);
-                }
-            }
-            else
-            {
-                Config.data.MonSortOrder = dgv.SortOrder;
-            }
+            SortMonitorDataGridByColumn(dgv, Config.data.SortedColumnIndex);
 
             Config.SaveConfiguration();
         }

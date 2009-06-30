@@ -132,29 +132,50 @@ namespace EveHQ.PosManager
             UseChart = false;
         }
 
-        public POS CopyPOSData()
+        //public POS CopyPOSData()
+        //{
+        //    POS p = new POS();
+
+        //    p.PosTower = new Tower(PosTower);
+        //    p.Name = Name;
+        //    p.System = System;
+        //    p.CorpName = CorpName;
+        //    p.Moon = Moon;
+        //    p.itemID = itemID;
+        //    p.locID = locID;
+        //    p.corpID = corpID;
+        //    p.SovLevel = SovLevel;
+        //    p.Modules = new ArrayList(Modules);
+        //    p.Monitored = Monitored;
+        //    p.Fuel_TS = Fuel_TS;
+        //    p.Stront_TS = Stront_TS;
+        //    p.API_TS = API_TS;
+        //    p.Extra = new ArrayList(Extra);
+        //    p.FillCheck = FillCheck;
+        //    p.UseChart = UseChart;
+
+        //    return p;
+        //}
+
+        public void CopyPOSData(POS p)
         {
-            POS p = new POS();
-
-            p.PosTower = new Tower(PosTower);
-            p.Name = Name;
-            p.System = System;
-            p.CorpName = CorpName;
-            p.Moon = Moon;
-            p.itemID = itemID;
-            p.locID = locID;
-            p.corpID = corpID;
-            p.SovLevel = SovLevel;
-            p.Modules = new ArrayList(Modules);
-            p.Monitored = Monitored;
-            p.Fuel_TS = Fuel_TS;
-            p.Stront_TS = Stront_TS;
-            p.API_TS = API_TS;
-            p.Extra = new ArrayList(Extra);
-            p.FillCheck = FillCheck;
-            p.UseChart = UseChart;
-
-            return p;
+            PosTower = new Tower(p.PosTower);
+            Name = p.Name;
+            System = p.System;
+            CorpName = p.CorpName;
+            Moon = p.Moon;
+            itemID = p.itemID;
+            locID = p.locID;
+            corpID = p.corpID;
+            SovLevel = p.SovLevel;
+            Modules = new ArrayList(p.Modules);
+            Monitored = p.Monitored;
+            Fuel_TS = p.Fuel_TS;
+            Stront_TS = p.Stront_TS;
+            API_TS = p.API_TS;
+            Extra = new ArrayList(p.Extra);
+            FillCheck = p.FillCheck;
+            UseChart = p.UseChart;
         }
 
         public void RemoveModuleFromPOS(int rowIndex)

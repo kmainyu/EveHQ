@@ -379,18 +379,6 @@
             this.SelFuelVol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SelFuelCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dg_TowerFuelList = new System.Windows.Forms.DataGridView();
-            this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EnrUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Oxygen = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MechP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Coolant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Robot = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Isotope = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HvyWater = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LiqOz = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Charter = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Stront = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.b_ApplyIntervalPeriod = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -398,33 +386,34 @@
             this.tscb_TimePeriod = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tb_PMConfig = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nud_O2_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_H2_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_N2_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_ST_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_CH_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_LO_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_HW_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_HE_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_RB_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_CL_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_MP_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_OX_FC = new System.Windows.Forms.NumericUpDown();
-            this.nud_ER_FC = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox36 = new System.Windows.Forms.PictureBox();
-            this.pictureBox42 = new System.Windows.Forms.PictureBox();
-            this.pictureBox43 = new System.Windows.Forms.PictureBox();
-            this.pictureBox44 = new System.Windows.Forms.PictureBox();
-            this.pictureBox11 = new System.Windows.Forms.PictureBox();
-            this.pictureBox33 = new System.Windows.Forms.PictureBox();
-            this.pictureBox34 = new System.Windows.Forms.PictureBox();
-            this.pictureBox35 = new System.Windows.Forms.PictureBox();
-            this.pictureBox37 = new System.Windows.Forms.PictureBox();
-            this.pictureBox38 = new System.Windows.Forms.PictureBox();
-            this.pictureBox39 = new System.Windows.Forms.PictureBox();
-            this.pictureBox40 = new System.Windows.Forms.PictureBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox41 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox40 = new System.Windows.Forms.PictureBox();
+            this.nud_O2_FC = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox39 = new System.Windows.Forms.PictureBox();
+            this.nud_H2_FC = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox38 = new System.Windows.Forms.PictureBox();
+            this.nud_N2_FC = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox37 = new System.Windows.Forms.PictureBox();
+            this.pictureBox35 = new System.Windows.Forms.PictureBox();
+            this.nud_ST_FC = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox34 = new System.Windows.Forms.PictureBox();
+            this.nud_CH_FC = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox33 = new System.Windows.Forms.PictureBox();
+            this.nud_LO_FC = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox11 = new System.Windows.Forms.PictureBox();
+            this.nud_HW_FC = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox44 = new System.Windows.Forms.PictureBox();
+            this.nud_HE_FC = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox43 = new System.Windows.Forms.PictureBox();
+            this.nud_RB_FC = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox42 = new System.Windows.Forms.PictureBox();
+            this.nud_CL_FC = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox36 = new System.Windows.Forms.PictureBox();
+            this.nud_MP_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_ER_FC = new System.Windows.Forms.NumericUpDown();
+            this.nud_OX_FC = new System.Windows.Forms.NumericUpDown();
             this.gb_PosDesignShow = new System.Windows.Forms.GroupBox();
             this.checkBox44 = new System.Windows.Forms.CheckBox();
             this.checkBox43 = new System.Windows.Forms.CheckBox();
@@ -475,7 +464,6 @@
             this.il_FetchList = new System.Windows.Forms.ImageList(this.components);
             this.t_MonitorUpdate = new System.Windows.Forms.Timer(this.components);
             this.tt_InfoTips = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.poS_Item51 = new EveHQ.PosManager.PoS_Item();
             this.poS_Item52 = new EveHQ.PosManager.PoS_Item();
             this.poS_Item49 = new EveHQ.PosManager.PoS_Item();
@@ -525,6 +513,18 @@
             this.poS_Item2 = new EveHQ.PosManager.PoS_Item();
             this.poS_Item1 = new EveHQ.PosManager.PoS_Item();
             this.pi_Tower = new EveHQ.PosManager.PoS_Item();
+            this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EnrUr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Oxygen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MechP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Coolant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Robot = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Isotope = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HvyWater = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LiqOz = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Charter = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Stront = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tb_PosManager.SuspendLayout();
             this.tp_POSMonitor.SuspendLayout();
             this.ts_MonitorControl.SuspendLayout();
@@ -619,35 +619,35 @@
             ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).BeginInit();
             this.tb_PMConfig.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_O2_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_H2_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_N2_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ST_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_CH_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_LO_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_HW_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_HE_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_RB_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_CL_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_MP_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_OX_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ER_FC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox36)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox42)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox43)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox44)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox33)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox34)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox35)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox37)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox38)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox39)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox40)).BeginInit();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox41)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox40)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_O2_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox39)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_H2_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox38)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_N2_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox37)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox35)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_ST_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox34)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_CH_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox33)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_LO_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_HW_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox44)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_HE_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox43)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_RB_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox42)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_CL_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox36)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_MP_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_ER_FC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_OX_FC)).BeginInit();
             this.gb_PosDesignShow.SuspendLayout();
             this.gb_MonPosCol.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tb_PosManager
@@ -2321,6 +2321,8 @@
             this.dg_PosMods.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_PosMods.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dg_PosMods.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2346,11 +2348,11 @@
             this.Cost,
             this.Cap});
             dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle18.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Gold;
             dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dg_PosMods.DefaultCellStyle = dataGridViewCellStyle18;
             this.dg_PosMods.Location = new System.Drawing.Point(307, 559);
@@ -4686,27 +4688,27 @@
             this.quantityToolStripMenuItem,
             this.tsm_SetModuleCharge});
             this.cms_PosItem.Name = "cms_PosItem";
-            this.cms_PosItem.Size = new System.Drawing.Size(142, 114);
+            this.cms_PosItem.Size = new System.Drawing.Size(146, 114);
             this.cms_PosItem.Opening += new System.ComponentModel.CancelEventHandler(this.cms_PosItem_Opening);
             // 
             // tsm_Online
             // 
             this.tsm_Online.Name = "tsm_Online";
-            this.tsm_Online.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Online.Size = new System.Drawing.Size(145, 22);
             this.tsm_Online.Text = "Place Online";
             this.tsm_Online.Click += new System.EventHandler(this.tsm_Online_Click);
             // 
             // tsm_Offline
             // 
             this.tsm_Offline.Name = "tsm_Offline";
-            this.tsm_Offline.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Offline.Size = new System.Drawing.Size(145, 22);
             this.tsm_Offline.Text = "Place Offline";
             this.tsm_Offline.Click += new System.EventHandler(this.tsm_Offline_Click);
             // 
             // tsm_Remove
             // 
             this.tsm_Remove.Name = "tsm_Remove";
-            this.tsm_Remove.Size = new System.Drawing.Size(141, 22);
+            this.tsm_Remove.Size = new System.Drawing.Size(145, 22);
             this.tsm_Remove.Text = "Remove";
             this.tsm_Remove.Click += new System.EventHandler(this.tsm_Remove_Click);
             // 
@@ -4724,83 +4726,83 @@
             this.tsm_Qty_9,
             this.tsm_Qty_10});
             this.quantityToolStripMenuItem.Name = "quantityToolStripMenuItem";
-            this.quantityToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.quantityToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.quantityToolStripMenuItem.Text = "Quantity";
             // 
             // tsm_Qty_1
             // 
             this.tsm_Qty_1.Name = "tsm_Qty_1";
-            this.tsm_Qty_1.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_1.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_1.Text = "1";
             this.tsm_Qty_1.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_2
             // 
             this.tsm_Qty_2.Name = "tsm_Qty_2";
-            this.tsm_Qty_2.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_2.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_2.Text = "2";
             this.tsm_Qty_2.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_3
             // 
             this.tsm_Qty_3.Name = "tsm_Qty_3";
-            this.tsm_Qty_3.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_3.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_3.Text = "3";
             this.tsm_Qty_3.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_4
             // 
             this.tsm_Qty_4.Name = "tsm_Qty_4";
-            this.tsm_Qty_4.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_4.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_4.Text = "4";
             this.tsm_Qty_4.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_5
             // 
             this.tsm_Qty_5.Name = "tsm_Qty_5";
-            this.tsm_Qty_5.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_5.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_5.Text = "5";
             this.tsm_Qty_5.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_6
             // 
             this.tsm_Qty_6.Name = "tsm_Qty_6";
-            this.tsm_Qty_6.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_6.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_6.Text = "6";
             this.tsm_Qty_6.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_7
             // 
             this.tsm_Qty_7.Name = "tsm_Qty_7";
-            this.tsm_Qty_7.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_7.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_7.Text = "7";
             this.tsm_Qty_7.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_8
             // 
             this.tsm_Qty_8.Name = "tsm_Qty_8";
-            this.tsm_Qty_8.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_8.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_8.Text = "8";
             this.tsm_Qty_8.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_9
             // 
             this.tsm_Qty_9.Name = "tsm_Qty_9";
-            this.tsm_Qty_9.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_9.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_9.Text = "9";
             this.tsm_Qty_9.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_10
             // 
             this.tsm_Qty_10.Name = "tsm_Qty_10";
-            this.tsm_Qty_10.Size = new System.Drawing.Size(86, 22);
+            this.tsm_Qty_10.Size = new System.Drawing.Size(97, 22);
             this.tsm_Qty_10.Text = "10";
             this.tsm_Qty_10.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_SetModuleCharge
             // 
             this.tsm_SetModuleCharge.Name = "tsm_SetModuleCharge";
-            this.tsm_SetModuleCharge.Size = new System.Drawing.Size(141, 22);
+            this.tsm_SetModuleCharge.Size = new System.Drawing.Size(145, 22);
             this.tsm_SetModuleCharge.Text = "Set Charge";
             this.tsm_SetModuleCharge.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tsm_SetModuleCharge_DropDownItemClicked);
             this.tsm_SetModuleCharge.Click += new System.EventHandler(this.tsm_SetModuleCharge_Click);
@@ -4928,6 +4930,9 @@
             // 
             this.dg_TotalFuel.AllowUserToAddRows = false;
             this.dg_TotalFuel.AllowUserToDeleteRows = false;
+            this.dg_TotalFuel.AllowUserToResizeRows = false;
+            this.dg_TotalFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dg_TotalFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dg_TotalFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg_TotalFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FuelName,
@@ -4936,9 +4941,14 @@
             this.FuelCost});
             this.dg_TotalFuel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dg_TotalFuel.Location = new System.Drawing.Point(3, 16);
+            this.dg_TotalFuel.MultiSelect = false;
             this.dg_TotalFuel.Name = "dg_TotalFuel";
             this.dg_TotalFuel.RowHeadersVisible = false;
             dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.Gold;
             this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle20;
             this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg_TotalFuel.Size = new System.Drawing.Size(491, 231);
@@ -4987,6 +4997,9 @@
             // 
             this.dg_SelectedFuel.AllowUserToAddRows = false;
             this.dg_SelectedFuel.AllowUserToDeleteRows = false;
+            this.dg_SelectedFuel.AllowUserToResizeRows = false;
+            this.dg_SelectedFuel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dg_SelectedFuel.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dg_SelectedFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg_SelectedFuel.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SelFuelType,
@@ -4995,9 +5008,14 @@
             this.SelFuelCost});
             this.dg_SelectedFuel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dg_SelectedFuel.Location = new System.Drawing.Point(3, 16);
+            this.dg_SelectedFuel.MultiSelect = false;
             this.dg_SelectedFuel.Name = "dg_SelectedFuel";
             this.dg_SelectedFuel.RowHeadersVisible = false;
             dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle21.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.Color.Gold;
             this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle21;
             this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg_SelectedFuel.Size = new System.Drawing.Size(491, 231);
@@ -5033,13 +5051,16 @@
             // 
             this.dg_TowerFuelList.AllowUserToAddRows = false;
             this.dg_TowerFuelList.AllowUserToDeleteRows = false;
+            this.dg_TowerFuelList.AllowUserToResizeRows = false;
             this.dg_TowerFuelList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.dg_TowerFuelList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dg_TowerFuelList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dg_TowerFuelList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle22.ForeColor = System.Drawing.Color.Blue;
             dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -5059,99 +5080,20 @@
             this.Charter,
             this.Stront});
             this.dg_TowerFuelList.Location = new System.Drawing.Point(3, 54);
+            this.dg_TowerFuelList.MultiSelect = false;
             this.dg_TowerFuelList.Name = "dg_TowerFuelList";
             this.dg_TowerFuelList.ReadOnly = true;
             this.dg_TowerFuelList.RowHeadersVisible = false;
             dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle23.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.Gold;
             this.dg_TowerFuelList.RowsDefaultCellStyle = dataGridViewCellStyle23;
             this.dg_TowerFuelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg_TowerFuelList.Size = new System.Drawing.Size(996, 397);
             this.dg_TowerFuelList.TabIndex = 174;
             this.dg_TowerFuelList.SelectionChanged += new System.EventHandler(this.dg_TowerFuelList_SelectionChanged);
-            // 
-            // FName
-            // 
-            this.FName.HeaderText = "Name";
-            this.FName.Name = "FName";
-            this.FName.ReadOnly = true;
-            this.FName.Width = 60;
-            // 
-            // FLocation
-            // 
-            this.FLocation.HeaderText = "Location";
-            this.FLocation.Name = "FLocation";
-            this.FLocation.ReadOnly = true;
-            this.FLocation.Width = 73;
-            // 
-            // EnrUr
-            // 
-            this.EnrUr.HeaderText = "Enr. Ur.";
-            this.EnrUr.Name = "EnrUr";
-            this.EnrUr.ReadOnly = true;
-            this.EnrUr.Width = 68;
-            // 
-            // Oxygen
-            // 
-            this.Oxygen.HeaderText = "Oxygen";
-            this.Oxygen.Name = "Oxygen";
-            this.Oxygen.ReadOnly = true;
-            this.Oxygen.Width = 68;
-            // 
-            // MechP
-            // 
-            this.MechP.HeaderText = "Mech Pts";
-            this.MechP.Name = "MechP";
-            this.MechP.ReadOnly = true;
-            this.MechP.Width = 77;
-            // 
-            // Coolant
-            // 
-            this.Coolant.HeaderText = "Coolant";
-            this.Coolant.Name = "Coolant";
-            this.Coolant.ReadOnly = true;
-            this.Coolant.Width = 68;
-            // 
-            // Robot
-            // 
-            this.Robot.HeaderText = "Robotics";
-            this.Robot.Name = "Robot";
-            this.Robot.ReadOnly = true;
-            this.Robot.Width = 74;
-            // 
-            // Isotope
-            // 
-            this.Isotope.HeaderText = "Isotopes";
-            this.Isotope.Name = "Isotope";
-            this.Isotope.ReadOnly = true;
-            this.Isotope.Width = 72;
-            // 
-            // HvyWater
-            // 
-            this.HvyWater.HeaderText = "Hvy. Water";
-            this.HvyWater.Name = "HvyWater";
-            this.HvyWater.ReadOnly = true;
-            this.HvyWater.Width = 86;
-            // 
-            // LiqOz
-            // 
-            this.LiqOz.HeaderText = "Liq Ozone";
-            this.LiqOz.Name = "LiqOz";
-            this.LiqOz.ReadOnly = true;
-            this.LiqOz.Width = 80;
-            // 
-            // Charter
-            // 
-            this.Charter.HeaderText = "Charters";
-            this.Charter.Name = "Charter";
-            this.Charter.ReadOnly = true;
-            this.Charter.Width = 71;
-            // 
-            // Stront
-            // 
-            this.Stront.HeaderText = "Strontium";
-            this.Stront.Name = "Stront";
-            this.Stront.ReadOnly = true;
-            this.Stront.Width = 76;
             // 
             // b_ApplyIntervalPeriod
             // 
@@ -5235,6 +5177,54 @@
             this.tb_PMConfig.Text = "Configuration";
             this.tb_PMConfig.UseVisualStyleBackColor = true;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.pictureBox41);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.pictureBox40);
+            this.groupBox2.Controls.Add(this.nud_O2_FC);
+            this.groupBox2.Controls.Add(this.pictureBox39);
+            this.groupBox2.Controls.Add(this.nud_H2_FC);
+            this.groupBox2.Controls.Add(this.pictureBox38);
+            this.groupBox2.Controls.Add(this.nud_N2_FC);
+            this.groupBox2.Controls.Add(this.pictureBox37);
+            this.groupBox2.Controls.Add(this.pictureBox35);
+            this.groupBox2.Controls.Add(this.nud_ST_FC);
+            this.groupBox2.Controls.Add(this.pictureBox34);
+            this.groupBox2.Controls.Add(this.nud_CH_FC);
+            this.groupBox2.Controls.Add(this.pictureBox33);
+            this.groupBox2.Controls.Add(this.nud_LO_FC);
+            this.groupBox2.Controls.Add(this.pictureBox11);
+            this.groupBox2.Controls.Add(this.nud_HW_FC);
+            this.groupBox2.Controls.Add(this.pictureBox44);
+            this.groupBox2.Controls.Add(this.nud_HE_FC);
+            this.groupBox2.Controls.Add(this.pictureBox43);
+            this.groupBox2.Controls.Add(this.nud_RB_FC);
+            this.groupBox2.Controls.Add(this.pictureBox42);
+            this.groupBox2.Controls.Add(this.nud_CL_FC);
+            this.groupBox2.Controls.Add(this.pictureBox36);
+            this.groupBox2.Controls.Add(this.nud_MP_FC);
+            this.groupBox2.Controls.Add(this.nud_ER_FC);
+            this.groupBox2.Controls.Add(this.nud_OX_FC);
+            this.groupBox2.ForeColor = System.Drawing.Color.Blue;
+            this.groupBox2.Location = new System.Drawing.Point(0, 222);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(354, 481);
+            this.groupBox2.TabIndex = 178;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Set Fuel Costs";
+            // 
+            // pictureBox41
+            // 
+            this.pictureBox41.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.enrUran;
+            this.pictureBox41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox41.Location = new System.Drawing.Point(8, 15);
+            this.pictureBox41.Name = "pictureBox41";
+            this.pictureBox41.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox41.TabIndex = 164;
+            this.pictureBox41.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox41, "Enriched Uranium");
+            // 
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(220, 15);
@@ -5242,6 +5232,17 @@
             this.label1.Size = new System.Drawing.Size(128, 44);
             this.label1.TabIndex = 177;
             this.label1.Text = "** A value of \'0\' means the default standard fuel cost will be used.";
+            // 
+            // pictureBox40
+            // 
+            this.pictureBox40.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Oxygen;
+            this.pictureBox40.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox40.Location = new System.Drawing.Point(8, 50);
+            this.pictureBox40.Name = "pictureBox40";
+            this.pictureBox40.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox40.TabIndex = 165;
+            this.pictureBox40.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox40, "Oxygen");
             // 
             // nud_O2_FC
             // 
@@ -5261,6 +5262,17 @@
             this.nud_O2_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_O2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
             // 
+            // pictureBox39
+            // 
+            this.pictureBox39.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.MechParts;
+            this.pictureBox39.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox39.Location = new System.Drawing.Point(8, 85);
+            this.pictureBox39.Name = "pictureBox39";
+            this.pictureBox39.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox39.TabIndex = 166;
+            this.pictureBox39.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox39, "Mechanical Parts");
+            // 
             // nud_H2_FC
             // 
             this.nud_H2_FC.BackColor = System.Drawing.SystemColors.Control;
@@ -5278,6 +5290,17 @@
             this.nud_H2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_H2_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_H2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // pictureBox38
+            // 
+            this.pictureBox38.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Coolant;
+            this.pictureBox38.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox38.Location = new System.Drawing.Point(8, 120);
+            this.pictureBox38.Name = "pictureBox38";
+            this.pictureBox38.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox38.TabIndex = 167;
+            this.pictureBox38.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox38, "Coolant");
             // 
             // nud_N2_FC
             // 
@@ -5297,6 +5320,28 @@
             this.nud_N2_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_N2_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
             // 
+            // pictureBox37
+            // 
+            this.pictureBox37.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Robotics;
+            this.pictureBox37.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox37.Location = new System.Drawing.Point(8, 155);
+            this.pictureBox37.Name = "pictureBox37";
+            this.pictureBox37.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox37.TabIndex = 168;
+            this.pictureBox37.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox37, "Robotics");
+            // 
+            // pictureBox35
+            // 
+            this.pictureBox35.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HvyWater;
+            this.pictureBox35.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox35.Location = new System.Drawing.Point(8, 330);
+            this.pictureBox35.Name = "pictureBox35";
+            this.pictureBox35.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox35.TabIndex = 169;
+            this.pictureBox35.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox35, "Heavy Water");
+            // 
             // nud_ST_FC
             // 
             this.nud_ST_FC.BackColor = System.Drawing.SystemColors.Control;
@@ -5314,6 +5359,17 @@
             this.nud_ST_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_ST_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_ST_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // pictureBox34
+            // 
+            this.pictureBox34.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.LiqOzone;
+            this.pictureBox34.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox34.Location = new System.Drawing.Point(8, 365);
+            this.pictureBox34.Name = "pictureBox34";
+            this.pictureBox34.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox34.TabIndex = 170;
+            this.pictureBox34.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox34, "Liquid Ozone");
             // 
             // nud_CH_FC
             // 
@@ -5333,6 +5389,17 @@
             this.nud_CH_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_CH_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
             // 
+            // pictureBox33
+            // 
+            this.pictureBox33.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Charter;
+            this.pictureBox33.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox33.Location = new System.Drawing.Point(8, 400);
+            this.pictureBox33.Name = "pictureBox33";
+            this.pictureBox33.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox33.TabIndex = 171;
+            this.pictureBox33.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox33, "Faction Charters");
+            // 
             // nud_LO_FC
             // 
             this.nud_LO_FC.BackColor = System.Drawing.SystemColors.Control;
@@ -5350,6 +5417,17 @@
             this.nud_LO_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_LO_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_LO_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // pictureBox11
+            // 
+            this.pictureBox11.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
+            this.pictureBox11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox11.Location = new System.Drawing.Point(8, 435);
+            this.pictureBox11.Name = "pictureBox11";
+            this.pictureBox11.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox11.TabIndex = 172;
+            this.pictureBox11.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox11, "Strontium Clathrates");
             // 
             // nud_HW_FC
             // 
@@ -5369,6 +5447,17 @@
             this.nud_HW_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_HW_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
             // 
+            // pictureBox44
+            // 
+            this.pictureBox44.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.NitgIso;
+            this.pictureBox44.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox44.Location = new System.Drawing.Point(8, 190);
+            this.pictureBox44.Name = "pictureBox44";
+            this.pictureBox44.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox44.TabIndex = 173;
+            this.pictureBox44.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox44, "Nitrogen Isotopes");
+            // 
             // nud_HE_FC
             // 
             this.nud_HE_FC.BackColor = System.Drawing.SystemColors.Control;
@@ -5386,6 +5475,17 @@
             this.nud_HE_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_HE_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_HE_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // pictureBox43
+            // 
+            this.pictureBox43.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HeIso;
+            this.pictureBox43.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox43.Location = new System.Drawing.Point(8, 225);
+            this.pictureBox43.Name = "pictureBox43";
+            this.pictureBox43.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox43.TabIndex = 174;
+            this.pictureBox43.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox43, "Helium Isotopes");
             // 
             // nud_RB_FC
             // 
@@ -5405,6 +5505,17 @@
             this.nud_RB_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_RB_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
             // 
+            // pictureBox42
+            // 
+            this.pictureBox42.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.H2Iso;
+            this.pictureBox42.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox42.Location = new System.Drawing.Point(8, 260);
+            this.pictureBox42.Name = "pictureBox42";
+            this.pictureBox42.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox42.TabIndex = 175;
+            this.pictureBox42.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox42, "Hydrogen Isotopes");
+            // 
             // nud_CL_FC
             // 
             this.nud_CL_FC.BackColor = System.Drawing.SystemColors.Control;
@@ -5422,6 +5533,17 @@
             this.nud_CL_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_CL_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_CL_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
+            // 
+            // pictureBox36
+            // 
+            this.pictureBox36.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.OxIso;
+            this.pictureBox36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox36.Location = new System.Drawing.Point(8, 295);
+            this.pictureBox36.Name = "pictureBox36";
+            this.pictureBox36.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox36.TabIndex = 176;
+            this.pictureBox36.TabStop = false;
+            this.tt_InfoTips.SetToolTip(this.pictureBox36, "Oxygen Isotopes");
             // 
             // nud_MP_FC
             // 
@@ -5441,24 +5563,6 @@
             this.nud_MP_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_MP_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
             // 
-            // nud_OX_FC
-            // 
-            this.nud_OX_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_OX_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nud_OX_FC.ForeColor = System.Drawing.Color.Black;
-            this.nud_OX_FC.Location = new System.Drawing.Point(45, 57);
-            this.nud_OX_FC.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nud_OX_FC.Name = "nud_OX_FC";
-            this.nud_OX_FC.Size = new System.Drawing.Size(110, 20);
-            this.nud_OX_FC.TabIndex = 151;
-            this.nud_OX_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nud_OX_FC.ThousandsSeparator = true;
-            this.tt_InfoTips.SetToolTip(this.nud_OX_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
-            // 
             // nud_ER_FC
             // 
             this.nud_ER_FC.BackColor = System.Drawing.SystemColors.Control;
@@ -5477,148 +5581,23 @@
             this.nud_ER_FC.ThousandsSeparator = true;
             this.tt_InfoTips.SetToolTip(this.nud_ER_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
             // 
-            // pictureBox36
+            // nud_OX_FC
             // 
-            this.pictureBox36.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.OxIso;
-            this.pictureBox36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox36.Location = new System.Drawing.Point(8, 295);
-            this.pictureBox36.Name = "pictureBox36";
-            this.pictureBox36.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox36.TabIndex = 176;
-            this.pictureBox36.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox36, "Oxygen Isotopes");
-            // 
-            // pictureBox42
-            // 
-            this.pictureBox42.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.H2Iso;
-            this.pictureBox42.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox42.Location = new System.Drawing.Point(8, 260);
-            this.pictureBox42.Name = "pictureBox42";
-            this.pictureBox42.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox42.TabIndex = 175;
-            this.pictureBox42.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox42, "Hydrogen Isotopes");
-            // 
-            // pictureBox43
-            // 
-            this.pictureBox43.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HeIso;
-            this.pictureBox43.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox43.Location = new System.Drawing.Point(8, 225);
-            this.pictureBox43.Name = "pictureBox43";
-            this.pictureBox43.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox43.TabIndex = 174;
-            this.pictureBox43.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox43, "Helium Isotopes");
-            // 
-            // pictureBox44
-            // 
-            this.pictureBox44.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.NitgIso;
-            this.pictureBox44.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox44.Location = new System.Drawing.Point(8, 190);
-            this.pictureBox44.Name = "pictureBox44";
-            this.pictureBox44.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox44.TabIndex = 173;
-            this.pictureBox44.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox44, "Nitrogen Isotopes");
-            // 
-            // pictureBox11
-            // 
-            this.pictureBox11.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Strontium;
-            this.pictureBox11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox11.Location = new System.Drawing.Point(8, 435);
-            this.pictureBox11.Name = "pictureBox11";
-            this.pictureBox11.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox11.TabIndex = 172;
-            this.pictureBox11.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox11, "Strontium Clathrates");
-            // 
-            // pictureBox33
-            // 
-            this.pictureBox33.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Charter;
-            this.pictureBox33.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox33.Location = new System.Drawing.Point(8, 400);
-            this.pictureBox33.Name = "pictureBox33";
-            this.pictureBox33.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox33.TabIndex = 171;
-            this.pictureBox33.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox33, "Faction Charters");
-            // 
-            // pictureBox34
-            // 
-            this.pictureBox34.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.LiqOzone;
-            this.pictureBox34.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox34.Location = new System.Drawing.Point(8, 365);
-            this.pictureBox34.Name = "pictureBox34";
-            this.pictureBox34.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox34.TabIndex = 170;
-            this.pictureBox34.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox34, "Liquid Ozone");
-            // 
-            // pictureBox35
-            // 
-            this.pictureBox35.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.HvyWater;
-            this.pictureBox35.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox35.Location = new System.Drawing.Point(8, 330);
-            this.pictureBox35.Name = "pictureBox35";
-            this.pictureBox35.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox35.TabIndex = 169;
-            this.pictureBox35.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox35, "Heavy Water");
-            // 
-            // pictureBox37
-            // 
-            this.pictureBox37.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Robotics;
-            this.pictureBox37.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox37.Location = new System.Drawing.Point(8, 155);
-            this.pictureBox37.Name = "pictureBox37";
-            this.pictureBox37.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox37.TabIndex = 168;
-            this.pictureBox37.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox37, "Robotics");
-            // 
-            // pictureBox38
-            // 
-            this.pictureBox38.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Coolant;
-            this.pictureBox38.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox38.Location = new System.Drawing.Point(8, 120);
-            this.pictureBox38.Name = "pictureBox38";
-            this.pictureBox38.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox38.TabIndex = 167;
-            this.pictureBox38.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox38, "Coolant");
-            // 
-            // pictureBox39
-            // 
-            this.pictureBox39.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.MechParts;
-            this.pictureBox39.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox39.Location = new System.Drawing.Point(8, 85);
-            this.pictureBox39.Name = "pictureBox39";
-            this.pictureBox39.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox39.TabIndex = 166;
-            this.pictureBox39.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox39, "Mechanical Parts");
-            // 
-            // pictureBox40
-            // 
-            this.pictureBox40.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.Oxygen;
-            this.pictureBox40.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox40.Location = new System.Drawing.Point(8, 50);
-            this.pictureBox40.Name = "pictureBox40";
-            this.pictureBox40.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox40.TabIndex = 165;
-            this.pictureBox40.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox40, "Oxygen");
-            // 
-            // pictureBox41
-            // 
-            this.pictureBox41.BackgroundImage = global::EveHQ.PosManager.Properties.Resources.enrUran;
-            this.pictureBox41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox41.Location = new System.Drawing.Point(8, 15);
-            this.pictureBox41.Name = "pictureBox41";
-            this.pictureBox41.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox41.TabIndex = 164;
-            this.pictureBox41.TabStop = false;
-            this.tt_InfoTips.SetToolTip(this.pictureBox41, "Enriched Uranium");
+            this.nud_OX_FC.BackColor = System.Drawing.SystemColors.Control;
+            this.nud_OX_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_OX_FC.ForeColor = System.Drawing.Color.Black;
+            this.nud_OX_FC.Location = new System.Drawing.Point(45, 57);
+            this.nud_OX_FC.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nud_OX_FC.Name = "nud_OX_FC";
+            this.nud_OX_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_OX_FC.TabIndex = 151;
+            this.nud_OX_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nud_OX_FC.ThousandsSeparator = true;
+            this.tt_InfoTips.SetToolTip(this.nud_OX_FC, "Set to Zero to use Default Data Dump Values. Non-Zero overrides the Default.");
             // 
             // gb_PosDesignShow
             // 
@@ -6181,23 +6160,9 @@
             // 
             // il_system
             // 
-            this.il_system.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("il_system.ImageStream")));
+            this.il_system.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.il_system.ImageSize = new System.Drawing.Size(16, 16);
             this.il_system.TransparentColor = System.Drawing.Color.Transparent;
-            this.il_system.Images.SetKeyName(0, "enrUran.png");
-            this.il_system.Images.SetKeyName(1, "Oxygen.png");
-            this.il_system.Images.SetKeyName(2, "MechParts.png");
-            this.il_system.Images.SetKeyName(3, "Coolant.png");
-            this.il_system.Images.SetKeyName(4, "Robotics.png");
-            this.il_system.Images.SetKeyName(5, "NitgIso.png");
-            this.il_system.Images.SetKeyName(6, "HeIso.png");
-            this.il_system.Images.SetKeyName(7, "H2Iso.png");
-            this.il_system.Images.SetKeyName(8, "OxIso.png");
-            this.il_system.Images.SetKeyName(9, "HvyWater.png");
-            this.il_system.Images.SetKeyName(10, "LiqOzone.png");
-            this.il_system.Images.SetKeyName(11, "Charter.png");
-            this.il_system.Images.SetKeyName(12, "Strontium.png");
-            this.il_system.Images.SetKeyName(13, "fuel_cost.png");
-            this.il_system.Images.SetKeyName(14, "fuel_stront_cost.png");
             // 
             // il_FetchList
             // 
@@ -6213,43 +6178,6 @@
             // tt_InfoTips
             // 
             this.tt_InfoTips.IsBalloon = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.pictureBox41);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.pictureBox40);
-            this.groupBox2.Controls.Add(this.nud_O2_FC);
-            this.groupBox2.Controls.Add(this.pictureBox39);
-            this.groupBox2.Controls.Add(this.nud_H2_FC);
-            this.groupBox2.Controls.Add(this.pictureBox38);
-            this.groupBox2.Controls.Add(this.nud_N2_FC);
-            this.groupBox2.Controls.Add(this.pictureBox37);
-            this.groupBox2.Controls.Add(this.pictureBox35);
-            this.groupBox2.Controls.Add(this.nud_ST_FC);
-            this.groupBox2.Controls.Add(this.pictureBox34);
-            this.groupBox2.Controls.Add(this.nud_CH_FC);
-            this.groupBox2.Controls.Add(this.pictureBox33);
-            this.groupBox2.Controls.Add(this.nud_LO_FC);
-            this.groupBox2.Controls.Add(this.pictureBox11);
-            this.groupBox2.Controls.Add(this.nud_HW_FC);
-            this.groupBox2.Controls.Add(this.pictureBox44);
-            this.groupBox2.Controls.Add(this.nud_HE_FC);
-            this.groupBox2.Controls.Add(this.pictureBox43);
-            this.groupBox2.Controls.Add(this.nud_RB_FC);
-            this.groupBox2.Controls.Add(this.pictureBox42);
-            this.groupBox2.Controls.Add(this.nud_CL_FC);
-            this.groupBox2.Controls.Add(this.pictureBox36);
-            this.groupBox2.Controls.Add(this.nud_MP_FC);
-            this.groupBox2.Controls.Add(this.nud_ER_FC);
-            this.groupBox2.Controls.Add(this.nud_OX_FC);
-            this.groupBox2.ForeColor = System.Drawing.Color.Blue;
-            this.groupBox2.Location = new System.Drawing.Point(0, 222);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(354, 481);
-            this.groupBox2.TabIndex = 178;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Set Fuel Costs";
             // 
             // poS_Item51
             // 
@@ -7238,6 +7166,90 @@
             this.pi_Tower.TabIndex = 0;
             this.pi_Tower.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PoS_Item_MouseDown);
             // 
+            // FName
+            // 
+            this.FName.HeaderText = "Name";
+            this.FName.Name = "FName";
+            this.FName.ReadOnly = true;
+            this.FName.Width = 60;
+            // 
+            // FLocation
+            // 
+            this.FLocation.HeaderText = "Location";
+            this.FLocation.Name = "FLocation";
+            this.FLocation.ReadOnly = true;
+            this.FLocation.Width = 73;
+            // 
+            // EnrUr
+            // 
+            this.EnrUr.HeaderText = "Enr. Ur.";
+            this.EnrUr.Name = "EnrUr";
+            this.EnrUr.ReadOnly = true;
+            this.EnrUr.Width = 68;
+            // 
+            // Oxygen
+            // 
+            this.Oxygen.HeaderText = "Oxygen";
+            this.Oxygen.Name = "Oxygen";
+            this.Oxygen.ReadOnly = true;
+            this.Oxygen.Width = 68;
+            // 
+            // MechP
+            // 
+            this.MechP.HeaderText = "Mech Pts";
+            this.MechP.Name = "MechP";
+            this.MechP.ReadOnly = true;
+            this.MechP.Width = 77;
+            // 
+            // Coolant
+            // 
+            this.Coolant.HeaderText = "Coolant";
+            this.Coolant.Name = "Coolant";
+            this.Coolant.ReadOnly = true;
+            this.Coolant.Width = 68;
+            // 
+            // Robot
+            // 
+            this.Robot.HeaderText = "Robotics";
+            this.Robot.Name = "Robot";
+            this.Robot.ReadOnly = true;
+            this.Robot.Width = 74;
+            // 
+            // Isotope
+            // 
+            this.Isotope.HeaderText = "Isotopes";
+            this.Isotope.Name = "Isotope";
+            this.Isotope.ReadOnly = true;
+            this.Isotope.Width = 72;
+            // 
+            // HvyWater
+            // 
+            this.HvyWater.HeaderText = "Hvy. Water";
+            this.HvyWater.Name = "HvyWater";
+            this.HvyWater.ReadOnly = true;
+            this.HvyWater.Width = 86;
+            // 
+            // LiqOz
+            // 
+            this.LiqOz.HeaderText = "Liq Ozone";
+            this.LiqOz.Name = "LiqOz";
+            this.LiqOz.ReadOnly = true;
+            this.LiqOz.Width = 80;
+            // 
+            // Charter
+            // 
+            this.Charter.HeaderText = "Charters";
+            this.Charter.Name = "Charter";
+            this.Charter.ReadOnly = true;
+            this.Charter.Width = 71;
+            // 
+            // Stront
+            // 
+            this.Stront.HeaderText = "Strontium";
+            this.Stront.Name = "Stront";
+            this.Stront.ReadOnly = true;
+            this.Stront.Width = 76;
+            // 
             // PoSManMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -7351,37 +7363,37 @@
             ((System.ComponentModel.ISupportInitialize)(this.dg_TowerFuelList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_PeriodValue)).EndInit();
             this.tb_PMConfig.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.nud_O2_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_H2_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_N2_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ST_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_CH_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_LO_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_HW_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_HE_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_RB_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_CL_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_MP_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_OX_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ER_FC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox36)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox42)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox43)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox44)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox33)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox34)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox35)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox37)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox38)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox39)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox40)).EndInit();
+            this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox41)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox40)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_O2_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox39)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_H2_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox38)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_N2_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox37)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox35)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_ST_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox34)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_CH_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox33)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_LO_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_HW_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox44)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_HE_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox43)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_RB_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox42)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_CL_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox36)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_MP_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_ER_FC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_OX_FC)).EndInit();
             this.gb_PosDesignShow.ResumeLayout(false);
             this.gb_PosDesignShow.PerformLayout();
             this.gb_MonPosCol.ResumeLayout(false);
             this.gb_MonPosCol.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -7717,18 +7729,6 @@
         private System.Windows.Forms.DataGridView dg_TowerFuelList;
         private System.Windows.Forms.GroupBox gb_AllPos;
         private System.Windows.Forms.GroupBox gb_SelPos;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FLocation;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EnrUr;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Oxygen;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MechP;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Coolant;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Robot;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Isotope;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HvyWater;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LiqOz;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Charter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Stront;
         private System.Windows.Forms.DataGridView dg_TotalFuel;
         private System.Windows.Forms.DataGridView dg_SelectedFuel;
         private System.Windows.Forms.CheckBox cb_UseStrontTotals;
@@ -7860,5 +7860,17 @@
         private System.Windows.Forms.PictureBox pictureBox40;
         private System.Windows.Forms.PictureBox pictureBox41;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FLocation;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EnrUr;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Oxygen;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MechP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Coolant;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Robot;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Isotope;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HvyWater;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LiqOz;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Charter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Stront;
     }
 }

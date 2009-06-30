@@ -126,21 +126,36 @@ namespace EveHQ.PosManager
             }
         }
 
-        public void UpdateListDesign(POS des)
+        public void RemoveDesignFromList(string desName)
         {
             int ind = 0;
 
             foreach (POS p in Designs)
             {
-                if (p.Name == des.Name)
+                if (p.Name == desName)
                 {
                     Designs.RemoveAt(ind);
                     break;
                 }
                 ind++;
             }
+        }
 
-            AddDesignToList(des);
+        public void UpdateListDesign(POS des)
+        {
+            //int ind = 0;
+
+            foreach (POS p in Designs)
+            {
+                if (p.Name == des.Name)
+                {
+                    p.CopyPOSData(des);
+                    break;
+                }
+                //ind++;
+            }
+
+            //AddDesignToList(des);
         }
 
         public void CalculatePOSFuelRunTimes(API_List APIL, FuelBay fb)
