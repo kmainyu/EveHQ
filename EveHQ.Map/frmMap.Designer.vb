@@ -200,10 +200,12 @@ Partial Class frmMap
         Me.lblRegionMain = New System.Windows.Forms.Label
         Me.cboConst = New System.Windows.Forms.ComboBox
         Me.cboRegion = New System.Windows.Forms.ComboBox
-        Me.btnExclude = New EveHQ.Map.SplitButton
         Me.tsMap = New System.Windows.Forms.ToolStrip
         Me.tsUpdateData = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+        Me.lgagsdiv = New System.Windows.Forms.ColumnHeader
+        Me.lgagsreqstanding = New System.Windows.Forms.ColumnHeader
+        Me.btnExclude = New EveHQ.Map.SplitButton
         Me.gbSystemInfo.SuspendLayout()
         Me.tabMap.SuspendLayout()
         CType(Me.pbMap, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1155,10 +1157,10 @@ Partial Class frmMap
         Me.lvagnts.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8})
         Me.lvagnts.FullRowSelect = True
         Me.lvagnts.GridLines = True
-        Me.lvagnts.Location = New System.Drawing.Point(3, 280)
+        Me.lvagnts.Location = New System.Drawing.Point(6, 280)
         Me.lvagnts.MultiSelect = False
         Me.lvagnts.Name = "lvagnts"
-        Me.lvagnts.Size = New System.Drawing.Size(651, 447)
+        Me.lvagnts.Size = New System.Drawing.Size(651, 300)
         Me.lvagnts.TabIndex = 100
         Me.lvagnts.UseCompatibleStateImageBehavior = False
         Me.lvagnts.View = System.Windows.Forms.View.Details
@@ -1283,10 +1285,10 @@ Partial Class frmMap
         Me.lvsts.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.costssec, Me.costsname, Me.costscorp, Me.costsfact, Me.costsdist, Me.costsreg, Me.costsconst, Me.costssys})
         Me.lvsts.FullRowSelect = True
         Me.lvsts.GridLines = True
-        Me.lvsts.Location = New System.Drawing.Point(3, 162)
+        Me.lvsts.Location = New System.Drawing.Point(0, 122)
         Me.lvsts.MultiSelect = False
         Me.lvsts.Name = "lvsts"
-        Me.lvsts.Size = New System.Drawing.Size(651, 577)
+        Me.lvsts.Size = New System.Drawing.Size(651, 458)
         Me.lvsts.TabIndex = 124
         Me.lvsts.UseCompatibleStateImageBehavior = False
         Me.lvsts.View = System.Windows.Forms.View.Details
@@ -1664,14 +1666,14 @@ Partial Class frmMap
         Me.lvwAgents.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwAgents.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.coagsname, Me.lgagscorp, Me.lgagsfact, Me.lgagslev, Me.lgagsqual, Me.lgagsdist, Me.lgagssec, Me.lgagsreg, Me.lgagsconst, Me.lgagssys, Me.lgagsstat, Me.lgagstype})
+        Me.lvwAgents.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.coagsname, Me.lgagscorp, Me.lgagsfact, Me.lgagsdiv, Me.lgagslev, Me.lgagsqual, Me.lgagsreqstanding, Me.lgagsdist, Me.lgagssec, Me.lgagsreg, Me.lgagsconst, Me.lgagssys, Me.lgagsstat, Me.lgagstype})
         Me.lvwAgents.FullRowSelect = True
         Me.lvwAgents.GridLines = True
         Me.lvwAgents.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.lvwAgents.Location = New System.Drawing.Point(3, 197)
         Me.lvwAgents.MultiSelect = False
         Me.lvwAgents.Name = "lvwAgents"
-        Me.lvwAgents.Size = New System.Drawing.Size(651, 955)
+        Me.lvwAgents.Size = New System.Drawing.Size(651, 383)
         Me.lvwAgents.TabIndex = 125
         Me.lvwAgents.UseCompatibleStateImageBehavior = False
         Me.lvwAgents.View = System.Windows.Forms.View.Details
@@ -1890,19 +1892,6 @@ Partial Class frmMap
         Me.cboRegion.Sorted = True
         Me.cboRegion.TabIndex = 77
         '
-        'btnExclude
-        '
-        Me.btnExclude.AutoSize = True
-        Me.btnExclude.ContextMenuStrip = Me.ctxExclude
-        Me.btnExclude.Location = New System.Drawing.Point(121, 125)
-        Me.btnExclude.Name = "btnExclude"
-        Me.btnExclude.Size = New System.Drawing.Size(64, 40)
-        Me.btnExclude.SplitMenu = Me.ctxExclude
-        Me.btnExclude.TabIndex = 67
-        Me.btnExclude.Text = "Exclude"
-        Me.btnExclude.UseCompatibleTextRendering = True
-        Me.btnExclude.UseVisualStyleBackColor = True
-        '
         'tsMap
         '
         Me.tsMap.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsUpdateData, Me.ToolStripSeparator1})
@@ -1925,6 +1914,29 @@ Partial Class frmMap
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        '
+        'lgagsdiv
+        '
+        Me.lgagsdiv.Text = "Division"
+        Me.lgagsdiv.Width = 100
+        '
+        'lgagsreqstanding
+        '
+        Me.lgagsreqstanding.Text = "Req Std"
+        Me.lgagsreqstanding.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'btnExclude
+        '
+        Me.btnExclude.AutoSize = True
+        Me.btnExclude.ContextMenuStrip = Me.ctxExclude
+        Me.btnExclude.Location = New System.Drawing.Point(121, 125)
+        Me.btnExclude.Name = "btnExclude"
+        Me.btnExclude.Size = New System.Drawing.Size(64, 40)
+        Me.btnExclude.SplitMenu = Me.ctxExclude
+        Me.btnExclude.TabIndex = 67
+        Me.btnExclude.Text = "Exclude"
+        Me.btnExclude.UseCompatibleTextRendering = True
+        Me.btnExclude.UseVisualStyleBackColor = True
         '
         'frmMap
         '
@@ -2165,4 +2177,6 @@ Partial Class frmMap
     Friend WithEvents tsMap As System.Windows.Forms.ToolStrip
     Friend WithEvents tsUpdateData As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents lgagsdiv As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lgagsreqstanding As System.Windows.Forms.ColumnHeader
 End Class

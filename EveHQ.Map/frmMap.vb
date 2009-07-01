@@ -230,7 +230,7 @@ Public Class frmMap
 
     Private Sub LoadJF()
         Dim CBF As Double = Me.CurrentBaseFuel
-        Me.lblJF.Text = "Jump Frieghters:"
+        Me.lblJF.Text = "Jump Freighters:"
         Dim JF As Integer = Me.cboJF.SelectedIndex
         Dim JFC As Integer = Me.cboJFC.SelectedIndex
         Me.cboJF.Items.Clear()
@@ -2296,8 +2296,10 @@ Public Class frmMap
                 newAgent.Text = cAgent.agentName
                 newAgent.SubItems.Add(agentCorp.CorpName)
                 newAgent.SubItems.Add(agentFaction.factionName) ' faction name
+                newAgent.SubItems.Add(CType(PlugInData.NPCDivID(cAgent.divisionID), NPCDiv).divisionName) ' division name
                 newAgent.SubItems.Add(cAgent.Level.ToString) 'lvl
                 newAgent.SubItems.Add(cAgent.Quality.ToString) 'quality
+                newAgent.SubItems.Add((((cAgent.Level - 1) * 2) + (cAgent.Quality / 20)).ToString) ' Req standing
                 ' Get the distance
                 Dim route As ArrayList = myRoute.GetPath(startSys, agentSystem, False)
                 If route IsNot Nothing Then
