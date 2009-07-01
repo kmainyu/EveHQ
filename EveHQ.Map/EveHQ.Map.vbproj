@@ -57,12 +57,12 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agent.vb" />
-    <Compile Include="Alliance.vb" />
-    <Compile Include="ConqStat.vb" />
-    <Compile Include="Constellation.vb" />
-    <Compile Include="Dijkstra.vb" />
-    <Compile Include="Faction.vb" />
+    <Compile Include="Classes\Agent.vb" />
+    <Compile Include="Classes\Alliance.vb" />
+    <Compile Include="Classes\ConqStat.vb" />
+    <Compile Include="Classes\Constellation.vb" />
+    <Compile Include="Classes\Dijkstra.vb" />
+    <Compile Include="Classes\Faction.vb" />
     <Compile Include="frmMap.Designer.vb">
       <DependentUpon>frmMap.vb</DependentUpon>
     </Compile>
@@ -84,19 +84,19 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="NPCCorp.vb" />
-    <Compile Include="NPCDiv.vb" />
-    <Compile Include="Operation.vb" />
-    <Compile Include="PlugInData.vb" />
-    <Compile Include="Region.vb" />
-    <Compile Include="Route.vb" />
-    <Compile Include="Service.vb" />
-    <Compile Include="SolarSystem.vb" />
+    <Compile Include="Classes\NPCCorp.vb" />
+    <Compile Include="Classes\NPCDiv.vb" />
+    <Compile Include="Classes\Operation.vb" />
+    <Compile Include="Classes\PlugInData.vb" />
+    <Compile Include="Classes\Region.vb" />
+    <Compile Include="Classes\Route.vb" />
+    <Compile Include="Classes\Service.vb" />
+    <Compile Include="Classes\SolarSystem.vb" />
     <Compile Include="SplitButton.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Station.vb" />
-    <Compile Include="StType.vb" />
+    <Compile Include="Classes\Station.vb" />
+    <Compile Include="Classes\StType.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmMap.resx">

@@ -278,7 +278,7 @@ Partial Class frmMap
         Me.gbSystemInfo.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gbSystemInfo.Location = New System.Drawing.Point(0, 0)
         Me.gbSystemInfo.Name = "gbSystemInfo"
-        Me.gbSystemInfo.Size = New System.Drawing.Size(239, 355)
+        Me.gbSystemInfo.Size = New System.Drawing.Size(239, 396)
         Me.gbSystemInfo.TabIndex = 2
         Me.gbSystemInfo.TabStop = False
         Me.gbSystemInfo.Text = "System Information"
@@ -744,7 +744,7 @@ Partial Class frmMap
         Me.tabRoute.Location = New System.Drawing.Point(4, 22)
         Me.tabRoute.Name = "tabRoute"
         Me.tabRoute.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabRoute.Size = New System.Drawing.Size(657, 956)
+        Me.tabRoute.Size = New System.Drawing.Size(657, 584)
         Me.tabRoute.TabIndex = 1
         Me.tabRoute.Text = "Route Calculator"
         Me.tabRoute.UseVisualStyleBackColor = True
@@ -935,9 +935,9 @@ Partial Class frmMap
         Me.lvwRoute.ContextMenuStrip = Me.ctxRoute
         Me.lvwRoute.FullRowSelect = True
         Me.lvwRoute.GridLines = True
-        Me.lvwRoute.Location = New System.Drawing.Point(6, 215)
+        Me.lvwRoute.Location = New System.Drawing.Point(6, 212)
         Me.lvwRoute.Name = "lvwRoute"
-        Me.lvwRoute.Size = New System.Drawing.Size(645, 883)
+        Me.lvwRoute.Size = New System.Drawing.Size(645, 366)
         Me.lvwRoute.TabIndex = 58
         Me.lvwRoute.UseCompatibleStateImageBehavior = False
         Me.lvwRoute.View = System.Windows.Forms.View.Details
@@ -1124,7 +1124,7 @@ Partial Class frmMap
         Me.tabStations.Controls.Add(Me.lblStationCorp)
         Me.tabStations.Location = New System.Drawing.Point(4, 22)
         Me.tabStations.Name = "tabStations"
-        Me.tabStations.Size = New System.Drawing.Size(657, 543)
+        Me.tabStations.Size = New System.Drawing.Size(657, 584)
         Me.tabStations.TabIndex = 3
         Me.tabStations.Text = "Stations"
         Me.tabStations.UseVisualStyleBackColor = True
@@ -1269,7 +1269,7 @@ Partial Class frmMap
         Me.tabStationSearch.Controls.Add(Me.cbstssys)
         Me.tabStationSearch.Location = New System.Drawing.Point(4, 22)
         Me.tabStationSearch.Name = "tabStationSearch"
-        Me.tabStationSearch.Size = New System.Drawing.Size(657, 543)
+        Me.tabStationSearch.Size = New System.Drawing.Size(657, 584)
         Me.tabStationSearch.TabIndex = 4
         Me.tabStationSearch.Text = "Station Search"
         Me.tabStationSearch.UseVisualStyleBackColor = True
@@ -1460,7 +1460,7 @@ Partial Class frmMap
         Me.tabAgentSearch.Controls.Add(Me.lvwAgents)
         Me.tabAgentSearch.Location = New System.Drawing.Point(4, 22)
         Me.tabAgentSearch.Name = "tabAgentSearch"
-        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 956)
+        Me.tabAgentSearch.Size = New System.Drawing.Size(657, 584)
         Me.tabAgentSearch.TabIndex = 5
         Me.tabAgentSearch.Text = "Agent Search"
         Me.tabAgentSearch.UseVisualStyleBackColor = True
@@ -1810,7 +1810,7 @@ Partial Class frmMap
         Me.tabSystem.Controls.Add(Me.gbSystemInfo)
         Me.tabSystem.Location = New System.Drawing.Point(4, 22)
         Me.tabSystem.Name = "tabSystem"
-        Me.tabSystem.Size = New System.Drawing.Size(239, 355)
+        Me.tabSystem.Size = New System.Drawing.Size(239, 396)
         Me.tabSystem.TabIndex = 2
         Me.tabSystem.Text = "System Info"
         Me.tabSystem.UseVisualStyleBackColor = True

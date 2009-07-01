@@ -756,6 +756,8 @@ Public Class ShipSlotControl
                 Else
                     mods.Add(cMod)
                 End If
+            Else
+                mods.Add(cMod)
             End If
         Next
         ' Recreate the current fit
