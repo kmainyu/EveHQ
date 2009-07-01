@@ -83,6 +83,7 @@ Namespace My
             If result = DialogResult.Ignore Then
                 e.ExitApplication = False
             Else
+                Call frmEveHQ.ShutdownRoutine()
                 e.ExitApplication = True
             End If
         End Sub

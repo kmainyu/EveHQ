@@ -589,6 +589,7 @@ Public Class frmEveHQ
         EveStatusIcon.Visible = False : iconEveHQMLW.Visible = False
         EveStatusIcon.Icon = Nothing : iconEveHQMLW.Icon = Nothing
         EveStatusIcon.Dispose() : iconEveHQMLW.Dispose()
+        'MessageBox.Show("Shutdown Routine is complete. Smell ya later!", "Shut Down Complete!", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End
 
     End Sub
