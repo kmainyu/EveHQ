@@ -84,7 +84,7 @@ Public Class PlugInData
                     ModuleLists.moduleList = CType(f.Deserialize(s), SortedList)
                     s.Close()
                     For Each cMod As ShipModule In ModuleLists.moduleList.Values
-                        ModuleLists.moduleListName.Add(cMod.Name, cMod.ID)
+                        ModuleLists.moduleListName.Add(cMod.Name.Trim, cMod.ID)
                         If cMod.IsCharge = True Then
                             If Charges.ChargeGroups.Contains(cMod.MarketGroup) = False Then
                                 Charges.ChargeGroups.Add(cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
@@ -748,7 +748,7 @@ Public Class PlugInData
             For Each row As DataRow In PlugInData.moduleData.Tables(0).Rows
                 Dim newModule As New ShipModule
                 newModule.ID = row.Item("typeID").ToString
-                newModule.Name = row.Item("typeName").ToString
+                newModule.Name = row.Item("typeName").ToString.Trim
                 newModule.Description = row.Item("description").ToString
                 newModule.DatabaseGroup = row.Item("groupID").ToString
                 newModule.DatabaseCategory = row.Item("categoryID").ToString

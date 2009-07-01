@@ -579,6 +579,7 @@ Public Class ShipSlotControl
         Next
     End Sub
     Private Sub UpdateShipDataFromFittingList()
+        Call Me.ReorderModules()
         Dim currentFitList As ArrayList = CType(currentFit.Clone, ArrayList)
         For Each shipMod As String In currentFitList
             If shipMod IsNot Nothing Then
@@ -668,6 +669,7 @@ Public Class ShipSlotControl
             End If
         Next
     End Sub
+
     Private Sub UpdateFittingListFromShipData()
         currentFit.Clear()
         Dim state As Integer
@@ -743,6 +745,29 @@ Public Class ShipSlotControl
             currentFit.Add(sBI.ShipType.Name & ", " & sBI.Quantity)
         Next
 
+    End Sub
+
+    Private Sub ReorderModules()
+        Dim subs, mods As New ArrayList
+        For Each cMod As String In currentFit
+            If ModuleLists.moduleListName.ContainsKey(cMod) = True Then
+                If CType(ModuleLists.moduleList(ModuleLists.moduleListName(cMod)), ShipModule).SlotType = 16 Then
+                    subs.Add(cMod)
+                Else
+                    mods.Add(cMod)
+                End If
+            End If
+        Next
+        ' Recreate the current fit
+        currentFit.Clear()
+        For Each cmod As String In subs
+            currentFit.Add(cmod)
+        Next
+        For Each cmod As String In mods
+            currentFit.Add(cmod)
+        Next
+        subs.Clear()
+        mods.Clear()
     End Sub
 
 #End Region
