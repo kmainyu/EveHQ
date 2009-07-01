@@ -10,6 +10,8 @@ Public Class frmEFTImport
         ' Check for a valid directory
         If My.Computer.FileSystem.DirectoryExists(txtStartDir.Text) = True Then
             cfgFiles.Clear()
+            btnBrowse.Enabled = False
+            btnScan.Enabled = False
             Dim dirInfo As New DirectoryInfo(startDir)
             ListFiles(dirInfo)
             ' Search through the list of files and see if they contain valid data
@@ -54,6 +56,8 @@ Public Class frmEFTImport
         Else
             MessageBox.Show("Start Directory is not valid, please try again.", "Directory Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
+        btnBrowse.Enabled = True
+        btnScan.Enabled = True
     End Sub
 
     Private Sub ListFiles(ByVal dirInfo As DirectoryInfo)
