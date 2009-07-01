@@ -1952,14 +1952,18 @@ Public Class frmHQF
             If fittingNode.ParentItem IsNot Nothing Then
                 Dim shipName As String = fittingNode.ParentItem.Text
                 Dim shipFit As String = fittingNode.ParentItem.Text & ", " & fittingNode.Text
-                ' Create the tab and display
-                If Fittings.FittingTabList.Contains(shipFit) = False Then
-                    Call Me.CreateFittingTabPage(shipFit)
-                    tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
-                    If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
-                    currentShipSlot.UpdateEverything()
+                If Fittings.FittingList.Contains(shipFit) = True Then
+                    ' Create the tab and display
+                    If Fittings.FittingTabList.Contains(shipFit) = False Then
+                        Call Me.CreateFittingTabPage(shipFit)
+                        tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+                        If tabHQF.SelectedIndex = 0 Then Call Me.UpdateSelectedTab()
+                        currentShipSlot.UpdateEverything()
+                    Else
+                        tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+                    End If
                 Else
-                    tabHQF.SelectedTab = tabHQF.TabPages(shipFit)
+                    'MessageBox.Show("Can't load the '" & shipFit & "' fitting as it's not there!!", "Error locating fitting details", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
             End If
         Else
