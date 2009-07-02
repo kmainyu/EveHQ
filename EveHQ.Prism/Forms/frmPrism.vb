@@ -1655,6 +1655,7 @@ Public Class frmPrism
         Call Me.UpdatePrismInfo()
     End Sub
     Private Sub UpdatePrismInfo()
+        startup = True
         ' Automatically set the filters to just agree to this pilot
         For Each Owner As ListViewItem In lvwCharFilter.Items
             If Owner.Text = cboOwner.SelectedItem.ToString Then
@@ -1694,6 +1695,7 @@ Public Class frmPrism
         cboCategoryFilter.SelectedIndex = 0
         ' Update the BP Manager List
         Call Me.UpdateBPList()
+        startup = False
     End Sub
     Private Sub FilterSystemValue()
         Dim minValue As Double
@@ -5822,11 +5824,15 @@ Public Class frmPrism
                 Dim asset As BlueprintAsset = PlugInData.BlueprintAssets(BPOwner).Item(assetID)
                 If asset.AssetID = asset.TypeID Then
                     ' Custom BP
+                    mnuRemoveCustomBP.Text = "Remove Custom Blueprint"
                     mnuRemoveCustomBP.Enabled = True
                 Else
-                    mnuRemoveCustomBP.Enabled = False
+                    ' Standard BP
+                    mnuRemoveCustomBP.Text = "Remove Blueprint"
+                    mnuRemoveCustomBP.Enabled = True
                 End If
             Else
+                mnuRemoveCustomBP.Text = "Remove Blueprint"
                 mnuRemoveCustomBP.Enabled = False
             End If
         Else
