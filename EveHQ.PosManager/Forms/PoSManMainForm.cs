@@ -2338,25 +2338,54 @@ namespace EveHQ.PosManager
                         dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.State].Style.BackColor = Color.LawnGreen;
                         if (p.PosTower.F_RunTime < 24)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.FuelR].Style.BackColor = Color.Red;
+                        else
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.FuelR].Style.BackColor = Color.Gainsboro;
+
                         if (p.PosTower.Fuel.EnrUran.RunTime < 24)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.EnrUr].Style.BackColor = Color.Red;
+                        else
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.EnrUr].Style.BackColor = Color.Gainsboro;
+
                         if (p.PosTower.Fuel.Oxygen.RunTime < 24)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Oxy].Style.BackColor = Color.Red;
+                        else
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Oxy].Style.BackColor = Color.Gainsboro;
+
                         if (p.PosTower.Fuel.MechPart.RunTime < 24)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.McP].Style.BackColor = Color.Red;
+                        else
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.McP].Style.BackColor = Color.Gainsboro;
+
                         if (p.PosTower.Fuel.Coolant.RunTime < 24)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cool].Style.BackColor = Color.Red;
+                        else
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cool].Style.BackColor = Color.Gainsboro;
+
                         if (p.PosTower.Fuel.Robotics.RunTime < 24)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Rbt].Style.BackColor = Color.Red;
+                        else
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Rbt].Style.BackColor = Color.Gainsboro;
+                            
                         if (p.PosTower.Fuel.HvyWater.RunTime < 24)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.HvW].Style.BackColor = Color.Red;
+                        else
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.HvW].Style.BackColor = Color.Gainsboro;
+
                         if (p.PosTower.Fuel.LiqOzone.RunTime < 24)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.LqO].Style.BackColor = Color.Red;
+                        else
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.LqO].Style.BackColor = Color.Gainsboro;
+
                         if (p.UseChart)
                             if (p.PosTower.Fuel.Charters.RunTime < 24)
                                 dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cht].Style.BackColor = Color.Red;
+                            else
+                                dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Cht].Style.BackColor = Color.Gainsboro;
+
                         if (p.PosTower.Fuel.Strontium.RunTime < 4)
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Strt].Style.BackColor = Color.Red;
+                        else
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Strt].Style.BackColor = Color.Gainsboro;
 
                         if ((p.PosTower.Fuel.HeIso.PeriodQty > 0) && (p.PosTower.Fuel.HeIso.RunTime < 24))
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Iso].Style.BackColor = Color.Red;
@@ -2366,6 +2395,9 @@ namespace EveHQ.PosManager
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Iso].Style.BackColor = Color.Red;
                         else if ((p.PosTower.Fuel.O2Iso.PeriodQty > 0) && (p.PosTower.Fuel.O2Iso.RunTime < 24))
                             dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Iso].Style.BackColor = Color.Red;
+                        else
+                            dg_MonitoredTowers.Rows[dg_ind].Cells[(int)MonDG.Iso].Style.BackColor = Color.Gainsboro;
+
                     }
                     else if (p.PosTower.State == "Offline")
                     {
@@ -3372,39 +3404,30 @@ namespace EveHQ.PosManager
                     {
                         // Enr Uranium
                         pl.PosTower.Fuel.EnrUran.Qty = pl.PosTower.A_Fuel.EnrUran.Qty;
-                        nud_EnrUran.Value = 0;
 
                         // Oxygen
                         pl.PosTower.Fuel.Oxygen.Qty = pl.PosTower.A_Fuel.Oxygen.Qty;
-                        nud_Oxy.Value = 0;
 
                         // Mechanical Parts
                         pl.PosTower.Fuel.MechPart.Qty = pl.PosTower.A_Fuel.MechPart.Qty;
-                        nud_MechPart.Value = 0;
 
                         // Coolant
                         pl.PosTower.Fuel.Coolant.Qty = pl.PosTower.A_Fuel.Coolant.Qty;
-                        nud_Coolant.Value = 0;
 
                         // Robotics
                         pl.PosTower.Fuel.Robotics.Qty = pl.PosTower.A_Fuel.Robotics.Qty;
-                        nud_Robotic.Value = 0;
 
                         // Faction Charters
                         pl.PosTower.Fuel.Charters.Qty = pl.PosTower.A_Fuel.Charters.Qty;
-                        nud_Charter.Value = 0;
 
                         // Strontium
                         pl.PosTower.Fuel.Strontium.Qty = pl.PosTower.A_Fuel.Strontium.Qty;
-                        nud_Stront.Value = 0;
 
                         // Heavy Water
                         pl.PosTower.Fuel.HvyWater.Qty = pl.PosTower.A_Fuel.HvyWater.Qty;
-                        nud_HvyWtr.Value = 0;
 
                         // Liquid Ozone
                         pl.PosTower.Fuel.LiqOzone.Qty = pl.PosTower.A_Fuel.LiqOzone.Qty;
-                        nud_LiqOzn.Value = 0;
 
                         // Isotope
                         if (pl.PosTower.Fuel.HeIso.PeriodQty > 0)
@@ -3416,7 +3439,6 @@ namespace EveHQ.PosManager
                         if (pl.PosTower.Fuel.O2Iso.PeriodQty > 0)
                             pl.PosTower.Fuel.O2Iso.Qty = pl.PosTower.A_Fuel.O2Iso.Qty;
                         
-                        nud_Isotope.Value = 0;
                     }
                 }
             }
@@ -3426,9 +3448,9 @@ namespace EveHQ.PosManager
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             POSList.LoadDesignListing();
             BuildPOSListForMonitoring();
-            UpdateTowerMonitorDisplay();
             PopulateMonitoredPoSDisplay();
-        }
+            UpdateTowerMonitorDisplay();
+         }
 
         private void b_EnterReinf_Click(object sender, EventArgs e)
         {
