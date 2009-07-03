@@ -209,6 +209,7 @@ namespace EveHQ.PosManager
             else if (tb_PosManager.SelectedIndex == 0)
             {
                 SaveConfiguration();
+                PopulateMonitoredPoSDisplay();
             }
             else if (tb_PosManager.SelectedIndex == 2)
             {
@@ -2442,6 +2443,14 @@ namespace EveHQ.PosManager
 
         private void SortMonitorDataGridByColumn(DataGridView dgv, int ColIndex)
         {
+            if (load)
+            {
+                 if (Config.data.MonSortOrder == SortOrder.Descending)
+                     Config.data.MonSortOrder = SortOrder.Ascending;
+                 else
+                     Config.data.MonSortOrder = SortOrder.Descending;
+            }
+
             if ((ColIndex == (int)MonDG.FuelR) && (dgv.Columns[(int)MonDG.FuelR].SortMode == DataGridViewColumnSortMode.Programmatic))
             {
                 // Sort on hidden fuel hours column
@@ -3386,10 +3395,10 @@ namespace EveHQ.PosManager
             mlist_sel.myData = this;
             mlist_sel.ShowDialog();
 
-            POSList.SaveDesignListing();
             BuildPOSListForMonitoring();
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
+            POSList.SaveDesignListing();
         }
 
         private void b_FuelUpdate_Click(object sender, EventArgs e)
@@ -3446,7 +3455,7 @@ namespace EveHQ.PosManager
             update = false;
 
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
-            POSList.LoadDesignListing();
+            POSList.SaveDesignListing();
             BuildPOSListForMonitoring();
             PopulateMonitoredPoSDisplay();
             UpdateTowerMonitorDisplay();
