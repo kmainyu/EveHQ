@@ -2808,7 +2808,7 @@ Public Class frmPrism
                     Case "Drone Bay"
                         ' Ignore as we will be adding them later
                         '    list.AppendLine(modData(1) & ", " & modData(2) & "i")
-                    Case "Cargo Bay"
+                    Case "Cargo"
                         If modData(3) = "8" Then
                             list.AppendLine(modData(1) & ", " & modData(2))
                         End If
