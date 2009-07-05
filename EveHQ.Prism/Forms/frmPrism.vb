@@ -4344,13 +4344,13 @@ Public Class frmPrism
             Case 25 'Agent Miscellaneous
                 desc = "Agent Miscellaneous" & misc
             Case 26 'Miscellaneous Payment To Agent
-                desc = "Miscellaneous Payment To Agent" & misc
+                desc = "Miscellaneous Payment To Agent " & misc
             Case 27 'Agent Location Services
                 desc = "Agent Location Service" & misc
             Case 28 'Agent Donation
-                desc = "Agent Donation" & misc
+                desc = "Agent Donation " & misc
             Case 29 'Agent Security Services
-                desc = "Agent Security Services" & misc
+                desc = "Agent Security Services " & misc
             Case 30 'Agent Mission Collateral Paid
                 desc = "Agent Mission Collateral Paid " & misc
             Case 31 'Agent Mission Collateral Refunded
@@ -4367,11 +4367,21 @@ Public Class frmPrism
             Case 36 'CSPAOfflineRefund
                 desc = "CSPA Offline Refund " & misc
             Case 37 'Corp Account Withdraw
-                desc = misc
+                desc = argName1 & " transferred cash from " & owner1 & "'s corporate account to " & owner2 & "'s account"
             Case 38 'Corporation Dividend Payment
-                desc = misc
+                If owner1 = "" Then
+                    ' Receiving Dividend
+                    desc = "Dividend received from " & argName1
+                Else
+                    ' Paying Dividend
+                    desc = "Dividend payment made by " & owner1
+                End If
             Case 39 'Corporation Registration Fee
-                desc = misc
+                If owner1 = "CONCORD" Then
+                    desc = owner1 & " refunded corporation registration fee"
+                Else
+                    desc = owner1 & " paid corporation registration fee"
+                End If
             Case 40 'Corporation Logo Change Cost
                 desc = misc
             Case 41 'Release Of Impounded Property
@@ -4385,15 +4395,15 @@ Public Class frmPrism
             Case 45 'Corporation Liquidation
                 desc = misc
             Case 46 'Broker fee
-                desc = "Brokers Fee authorized by " & owner1
+                desc = "Brokers fee authorized by " & owner1
             Case 47 'Corporation Bulk Payment
                 desc = misc
             Case 48 'Alliance Registration Fee
-                desc = misc
+                desc = "Alliance registration fee paid to " & owner2
             Case 49 'War Fee
                 desc = misc
             Case 50 'Alliance Maintainance Fee
-                desc = misc
+                desc = "Alliance maintenance fee paid for membership in " & argName1
             Case 51 'Contraband Fine 
                 desc = misc
             Case 52 'Clone Transfer
@@ -4405,7 +4415,7 @@ Public Class frmPrism
             Case 55 'Jump Clone Installation Fee
                 desc = "Jump Clone Installation Fee " & misc
             Case 56 ' Manufacturing
-                desc = "Manufacturing job fee between " & owner1 & " and " & owner2 & "(Job ID:" & argName1 & ")"
+                desc = "Manufacturing job fee between " & owner1 & " and " & owner2 & " (Job ID:" & argName1 & ")"
             Case 57 'Researching Technology
                 desc = misc
             Case 58 'Researching Time Productivity
@@ -4435,29 +4445,29 @@ Public Class frmPrism
             Case 70 'Contract Collateral Payout
                 desc = misc
             Case 71 'Contract Price
-                desc = owner1 & " accepted a contract from " & owner2
+                desc = owner1 & " accepted a contract from " & owner2 & " (Contract ID: " & argName1 & ")"
             Case 72 'Contract Brokers Fee
-                desc = "Contract Brokers Fee"
+                desc = "Contract Brokers Fee (Contract ID: " & argName1 & ")"
             Case 73 'Contract Sales Tax
-                desc = "Contract Sales Tax" & misc
+                desc = "Contract Sales Tax (Contract ID: " & argName1 & ")"
             Case 74 'Contract Deposit
-                desc = "Contract Deposit"
+                desc = "Contract Deposit (Contract ID: " & argName1 & ")"
             Case 75 'Contract Deposit Sales Tax
                 desc = misc
             Case 76 'Secure EVE Time Code Exchange
                 desc = misc
             Case 77 'Contract Auction Bid (corp)
-                desc = owner1 & " bid on a contract auction for the corp (ref:" & argName1 & ")"
+                desc = owner1 & " bid on a contract auction for the corp (Ref:" & argName1 & ")"
             Case 78 'Contract Collateral Deposited (corp)
                 desc = misc
             Case 79 'Contract Price Payment (corp)
-                desc = misc
+                desc = owner1 & " accepted a contract from " & owner2 & " (Contract ID: " & argName1 & ")"
             Case 80 'Contract Brokers Fee (corp)
-                desc = misc
+                desc = "Corporation Contract Brokers Fee (Contract ID: " & argName1 & ")"
             Case 81 'Contract Deposit (corp)
-                desc = misc
+                desc = "Corporation Contract Deposit (Contract ID: " & argName1 & ")"
             Case 82 'Contract Deposit Refund
-                desc = "Contract Deposit Refund"
+                desc = "Contract Deposit Refund  (Contract ID: " & argName1 & ")"
             Case 83 'Contract Reward Deposited
                 desc = misc
             Case 84 'Contract Reward Deposited (corp)
