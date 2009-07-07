@@ -35,10 +35,9 @@ Public Class frmSplash
         lblDate.Text = My.Application.Info.Trademark
 
         ' Set the image for the splash screen
-        Dim r As New Random
-        Dim img As Integer = r.Next(1, 6)
-        'Panel1.BackgroundImage = My.Resources.Splashv4
-        Panel1.BackgroundImage = CType(My.Resources.ResourceManager.GetObject("Splashv" & img.ToString), Image)
+        'Dim r As New Random
+        'Dim img As Integer = r.Next(1, 6)
+        'Panel1.BackgroundImage = CType(My.Resources.ResourceManager.GetObject("Splashv" & img.ToString), Image)
 
         ' Check for any commandline parameters that we need to account for
         For Each param As String In System.Environment.GetCommandLineArgs

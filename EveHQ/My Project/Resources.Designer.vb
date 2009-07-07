@@ -191,14 +191,15 @@ Namespace My.Resources
         '''  Looks up a localized string similar to EveHQ - Version History
         '''-----------------------
         '''
-        '''1.8.5.420 (11/03/2009)
+        '''1.11.3.616 (16/06/2009)
         '''---------
-        '''New Features:
-        '''- Prism: Introducing the new Industry plug-in containing various viewers for wallet, orders and jobs
-        '''- Recycling: Added recycling information into the Prism plug-in
-        '''- Certificates: Added a certificate viewer to the Pilot Info screen together with a new Certificate Details form
-        '''- Certificate Planning: Now you are able to make skill queues to fulfil your certificate targets
-        '''- User Database: A new database [rest of string was truncated]&quot;;.
+        '''Fixes and Improvements:
+        '''- Core: Added setting for altering the CSV separator character
+        '''- Core: Fixed errors caused by blank Eve Folder names
+        '''- Prism: Improved code handling the selected asset volumes/values
+        '''- Prism: CSV Exports now use the user selected separator character
+        '''- Prism: Numeric values are now published to CSV in their raw unformatted state
+        '''- Prism: Corrected volume amounts only showing values for a sing [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property History() As String
             Get
@@ -328,34 +329,6 @@ Namespace My.Resources
         Friend ReadOnly Property Splashv1() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Splashv1", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property Splashv2() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("Splashv2", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property Splashv3() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("Splashv3", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property Splashv4() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("Splashv4", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property Splashv5() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("Splashv5", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

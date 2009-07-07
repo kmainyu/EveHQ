@@ -527,9 +527,6 @@
     <None Include="Resources\icon09_09_grey.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Splashv4.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\EveHQ_IGB.png" />
   </ItemGroup>
   <ItemGroup>
@@ -581,9 +578,6 @@
     <None Include="Resources\doh3.wav" />
     <None Include="Resources\Errors.txt" />
     <None Include="Resources\Splashv1.jpg" />
-    <None Include="Resources\Splashv2.jpg" />
-    <None Include="Resources\Splashv3.jpg" />
-    <None Include="Resources\Splashv5.jpg" />
     <Content Include="_latest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
