@@ -846,79 +846,81 @@ Public Class frmTraining
         End If
     End Sub
     Public Sub UpdateTraining()
-        'If displayPilot.Training = True And EveHQ.Core.HQ.EveHQSettings.OmitCurrentSkill = False Then
-        If displayPilot.Training = True Then
-            If Me.tabQueues.TabPages.Count > 1 Then
-                For Each tp As TabPage In Me.tabQueues.TabPages
-                    If tp.Name <> "tabSummary" Then
-                        Dim cLabel As Label = CType(Me.tabQueues.TabPages(tp.Name).Controls("T" & tp.Name), Label)
-                        Dim cLVW As EveHQ.DragAndDropListView = CType(Me.tabQueues.TabPages(tp.Name).Controls("Q" & tp.Name), EveHQ.DragAndDropListView)
-                        If cLVW.IncludeCurrentTraining = True Then
-                            If cLVW.Items.Count > 0 Then
-                                Dim myCurSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
-                                Dim clevel As Integer = displayPilot.TrainingSkillLevel
-                                Dim cTime As Double = displayPilot.TrainingCurrentTime
-                                Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
-                                Dim endtime As Date = displayPilot.TrainingEndTime
-                                Dim percent As Integer = 0
-                                percent = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
-
-                                cLVW.Items(cLVW.Tag.ToString).SubItems(4).Text = CStr(percent)
-                                cLVW.Items(cLVW.Tag.ToString).SubItems(5).Tag = cTime
-                                cLVW.Items(cLVW.Tag.ToString).SubItems(5).Text = strTime
-
-                                ' Calculate total time
+        ' Only perform this if the form isn't starting
+        If startup = False Then
+            If displayPilot.Training = True Then
+                If Me.tabQueues.TabPages.Count > 1 Then
+                    For Each tp As TabPage In Me.tabQueues.TabPages
+                        If tp.Name <> "tabSummary" Then
+                            Dim cLabel As Label = CType(Me.tabQueues.TabPages(tp.Name).Controls("T" & tp.Name), Label)
+                            Dim cLVW As EveHQ.DragAndDropListView = CType(Me.tabQueues.TabPages(tp.Name).Controls("Q" & tp.Name), EveHQ.DragAndDropListView)
+                            If cLVW.IncludeCurrentTraining = True Then
                                 If cLVW.Items.Count > 0 Then
-                                    Dim totalTime As Double = 0
-                                    For count As Integer = 0 To cLVW.Items.Count - 1
-                                        totalTime += CLng(cLVW.Items(count).SubItems(5).Tag)
-                                    Next
-                                    cLabel.Tag = totalTime.ToString
-                                    cLabel.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
+                                    Dim myCurSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
+                                    Dim clevel As Integer = displayPilot.TrainingSkillLevel
+                                    Dim cTime As Double = displayPilot.TrainingCurrentTime
+                                    Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
+                                    Dim endtime As Date = displayPilot.TrainingEndTime
+                                    Dim percent As Integer = 0
+                                    percent = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
+
+                                    cLVW.Items(cLVW.Tag.ToString).SubItems(4).Text = CStr(percent)
+                                    cLVW.Items(cLVW.Tag.ToString).SubItems(5).Tag = cTime
+                                    cLVW.Items(cLVW.Tag.ToString).SubItems(5).Text = strTime
+
+                                    ' Calculate total time
+                                    If cLVW.Items.Count > 0 Then
+                                        Dim totalTime As Double = 0
+                                        For count As Integer = 0 To cLVW.Items.Count - 1
+                                            totalTime += CLng(cLVW.Items(count).SubItems(5).Tag)
+                                        Next
+                                        cLabel.Tag = totalTime.ToString
+                                        cLabel.Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
+                                    End If
                                 End If
                             End If
                         End If
-                    End If
+                    Next
+                End If
+                Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(displayPilot.TrainingSkillName), Core.EveSkill)
+                If displayPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = displayPilot.TrainingSkillName Then
+                    lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
+                    Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
+                    lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + displayPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                    Dim totalTime As Long = 0
+                    For toLevel As Integer = 1 To 5
+                        Select Case toLevel
+                            Case displayPilot.TrainingSkillLevel
+                                totalTime += displayPilot.TrainingCurrentTime
+                            Case Is > displayPilot.TrainingSkillLevel
+                                totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, toLevel, toLevel - 1, , TrainingBonus))
+                        End Select
+                        lvwTimes.Items(toLevel - 1).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
+                    Next
+                End If
+                ' Update the queue summary data
+                For Each newQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
+                    Try
+                        Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
+                        lvQueues.Items(newQ.Name).SubItems(2).Tag = tTime
+                        lvQueues.Items(newQ.Name).SubItems(2).Text = (EveHQ.Core.SkillFunctions.TimeToString(tTime))
+                        Dim qTime As Double = tTime
+                        If newQ.IncCurrentTraining = True Then
+                            qTime = tTime - displayPilot.TrainingCurrentTime
+                        End If
+                        lvQueues.Items(newQ.Name).SubItems(3).Tag = qTime
+                        lvQueues.Items(newQ.Name).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(qTime)
+                        Dim eTime As Date = Now.AddSeconds(tTime)
+                        lvQueues.Items(newQ.Name).SubItems(4).Text = (Format(eTime, "ddd") & " " & FormatDateTime(eTime, DateFormat.GeneralDate))
+                    Catch e As Exception
+                        ' Error will most likely be if a skill queue is in the process of deletion.
+                    End Try
                 Next
-            End If
-            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(displayPilot.TrainingSkillName), Core.EveSkill)
-            If displayPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = displayPilot.TrainingSkillName Then
-                lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
-                Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
-                lvwDetails.Items(7).SubItems(1).Text = FormatNumber(mySkill.SP + displayPilot.TrainingCurrentSP, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
-                Dim totalTime As Long = 0
-                For toLevel As Integer = 1 To 5
-                    Select Case toLevel
-                        Case displayPilot.TrainingSkillLevel
-                            totalTime += displayPilot.TrainingCurrentTime
-                        Case Is > displayPilot.TrainingSkillLevel
-                            totalTime = CLng(totalTime + EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, toLevel, toLevel - 1, , TrainingBonus))
-                    End Select
-                    lvwTimes.Items(toLevel - 1).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(totalTime)
-                Next
-            End If
-            ' Update the queue summary data
-            For Each newQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
-                Try
-                    Dim tTime As Double = CDbl(Me.tabQueues.TabPages(newQ.Name).Controls("T" & newQ.Name).Tag)
-                    lvQueues.Items(newQ.Name).SubItems(2).Tag = tTime
-                    lvQueues.Items(newQ.Name).SubItems(2).Text = (EveHQ.Core.SkillFunctions.TimeToString(tTime))
-                    Dim qTime As Double = tTime
-                    If newQ.IncCurrentTraining = True Then
-                        qTime = tTime - displayPilot.TrainingCurrentTime
-                    End If
-                    lvQueues.Items(newQ.Name).SubItems(3).Tag = qTime
-                    lvQueues.Items(newQ.Name).SubItems(3).Text = EveHQ.Core.SkillFunctions.TimeToString(qTime)
-                    Dim eTime As Date = Now.AddSeconds(tTime)
-                    lvQueues.Items(newQ.Name).SubItems(4).Text = (Format(eTime, "ddd") & " " & FormatDateTime(eTime, DateFormat.GeneralDate))
-                Catch e As Exception
-                    ' Error will most likely be if a skill queue is in the process of deletion.
-                End Try
-            Next
-            If Me.selQTime > 0 Then
-                lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + displayPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
-            Else
-                lblTotalQueueTime.Text = "No Queue Selected"
+                If Me.selQTime > 0 Then
+                    lblTotalQueueTime.Text = "Selected Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime + displayPilot.TrainingCurrentTime) & " (" & EveHQ.Core.SkillFunctions.TimeToString(Me.selQTime) & ")"
+                Else
+                    lblTotalQueueTime.Text = "No Queue Selected"
+                End If
             End If
         End If
 
