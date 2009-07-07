@@ -2048,7 +2048,7 @@ Public Class EveHQSettingsFunctions
         Next
     End Sub
 
-    Private Shared Sub ResetColumns()
+    Public Shared Sub ResetColumns()
         EveHQ.Core.HQ.EveHQSettings.QColumns(0, 0) = "Name" : EveHQ.Core.HQ.EveHQSettings.QColumns(0, 1) = CStr(True)
         EveHQ.Core.HQ.EveHQSettings.QColumns(1, 0) = "Curr" : EveHQ.Core.HQ.EveHQSettings.QColumns(1, 1) = CStr(True)
         EveHQ.Core.HQ.EveHQSettings.QColumns(2, 0) = "From" : EveHQ.Core.HQ.EveHQSettings.QColumns(2, 1) = CStr(True)

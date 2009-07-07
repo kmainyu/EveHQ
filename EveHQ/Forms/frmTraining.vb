@@ -255,33 +255,39 @@ Public Class frmTraining
         ' Now find the other ones
         For a As Integer = 6 To 16
             If CBool(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1)) = True Then
-                Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
-                    Case "Date"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Date Completed", 150, HorizontalAlignment.Left, "")
-                    Case "Rank"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Rank", 60, HorizontalAlignment.Center, "")
-                    Case "PAtt"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Pri Attr", 60, HorizontalAlignment.Center, "")
-                    Case "SAtt"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Sec Attr", 60, HorizontalAlignment.Center, "")
-                    Case "SPRH"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /hour", 60, HorizontalAlignment.Center, "")
-                    Case "SPRD"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /day", 60, HorizontalAlignment.Center, "")
-                    Case "SPRW"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /week", 60, HorizontalAlignment.Center, "")
-                    Case "SPRM"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /mnth", 60, HorizontalAlignment.Center, "")
-                    Case "SPRY"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /year", 60, HorizontalAlignment.Center, "")
-                    Case "SPAd"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP Added", 100, HorizontalAlignment.Center, "")
-                    Case "SPTo"
-                        lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP @ End", 100, HorizontalAlignment.Center, "")
-                End Select
+                If EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0) IsNot Nothing Then
+                    Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
+                        Case "Date"
+                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Date Completed", 150, HorizontalAlignment.Left, "")
+                        Case "Rank"
+                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Rank", 60, HorizontalAlignment.Center, "")
+                        Case "PAtt"
+                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Pri Attr", 60, HorizontalAlignment.Center, "")
+                        Case "SAtt"
+                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Sec Attr", 60, HorizontalAlignment.Center, "")
+                        Case "SPRH"
+                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /hour", 60, HorizontalAlignment.Center, "")
+                        Case "SPRD"
+                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /day", 60, HorizontalAlignment.Center, "")
+                        Case "SPRW"
+                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /week", 60, HorizontalAlignment.Center, "")
+                        Case "SPRM"
+                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /mnth", 60, HorizontalAlignment.Center, "")
+                        Case "SPRY"
+                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP /year", 60, HorizontalAlignment.Center, "")
+                        Case "SPAd"
+                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP Added", 100, HorizontalAlignment.Center, "")
+                        Case "SPTo"
+                            lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "SP @ End", 100, HorizontalAlignment.Center, "")
+                    End Select
+                End If
+            Else
+                ' Reset the columns and attempt a redraw
+                Call EveHQ.Core.EveHQSettingsFunctions.ResetColumns()
+                Call Me.DrawColumns(lv)
+                Exit For
             End If
         Next
-
     End Sub
     Public Sub RefreshAllTrainingQueues()
         For Each newQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
