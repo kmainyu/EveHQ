@@ -114,6 +114,7 @@ Public Class frmSkillDetails
     End Sub
 
     Private Sub PrepareTree(ByVal skillID As String)
+        tvwReqs.BeginUpdate()
         tvwReqs.Nodes.Clear()
 
         Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
@@ -174,6 +175,7 @@ Public Class frmSkillDetails
             Next
         End If
         tvwReqs.ExpandAll()
+        tvwReqs.EndUpdate()
     End Sub
     Private Sub AddPreReqsToTree(ByVal newSkill As EveHQ.Core.EveSkill, ByVal curLevel As Integer, ByVal curNode As TreeNode)
         Dim skillTrained As Boolean = False
@@ -221,6 +223,7 @@ Public Class frmSkillDetails
         End If
     End Sub
     Private Sub PrepareDepends(ByVal skillID As String)
+        lvwDepend.BeginUpdate()
         lvwDepend.Items.Clear()
         Dim catID As String = ""
         Dim itemID As Integer = 0
@@ -320,6 +323,7 @@ Public Class frmSkillDetails
                 Next
             End If
         Next
+        lvwDepend.EndUpdate()
     End Sub
 
     Private Sub PrepareDescription(ByVal skillID As String)
@@ -330,6 +334,7 @@ Public Class frmSkillDetails
     End Sub
 
     Private Sub PrepareSPs(ByVal skillID As String)
+        lvwSPs.BeginUpdate()
         lvwSPs.Items.Clear()
         Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
         cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
@@ -343,9 +348,11 @@ Public Class frmSkillDetails
             lastSP = SP
             lvwSPs.Items.Add(newGroup)
         Next
+        lvwSPs.EndUpdate()
     End Sub
 
     Private Sub PrepareTimes(ByVal skillID As String)
+        lvwTimes.BeginUpdate()
         lvwTimes.Items.Clear()
 
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
@@ -372,6 +379,7 @@ Public Class frmSkillDetails
                 lvwTimes.Items.Add(newGroup)
             Next
         End If
+        lvwTimes.EndUpdate()
     End Sub
 
     Private Sub tvwReqs_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tvwReqs.MouseMove

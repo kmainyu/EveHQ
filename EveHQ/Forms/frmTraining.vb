@@ -1286,6 +1286,7 @@ Public Class frmTraining
 
     End Sub
     Private Sub PrepareTree(ByVal skillID As String)
+        tvwReqs.BeginUpdate()
         tvwReqs.Nodes.Clear()
 
         Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
@@ -1346,6 +1347,7 @@ Public Class frmTraining
             Next
         End If
         tvwReqs.ExpandAll()
+        tvwReqs.EndUpdate()
     End Sub
     Private Sub AddPreReqsToTree(ByVal newSkill As EveHQ.Core.EveSkill, ByVal curLevel As Integer, ByVal curNode As TreeNode)
         Dim skillTrained As Boolean = False
@@ -1393,10 +1395,13 @@ Public Class frmTraining
         End If
     End Sub
     Private Sub PrepareDepends(ByVal skillID As String)
+        lvwDepend.BeginUpdate()
         lvwDepend.Items.Clear()
         Dim catID As String = ""
         Dim itemID As Integer = 0
         Dim skillName As String = ""
+        Dim certName As String = ""
+        Dim certGrade As String = ""
         Dim itemData(1) As String
         Dim skillData(1) As String
         For lvl As Integer = 1 To 5
@@ -1434,7 +1439,61 @@ Public Class frmTraining
                     lvwDepend.Items.Add(newItem)
                 Next
             End If
+            ' Add the certificate unlocks
+            If EveHQ.Core.HQ.CertUnlockSkills.ContainsKey(skillID & "." & CStr(lvl)) = True Then
+                Dim certUnlocked As ArrayList = CType(EveHQ.Core.HQ.CertUnlockSkills(skillID & "." & CStr(lvl)), ArrayList)
+                For Each item As String In certUnlocked
+                    Dim newItem As New ListViewItem
+                    newItem.Group = lvwDepend.Groups("CatCerts")
+                    Dim cert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(item), Core.Certificate)
+                    certName = CType(EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+                    Select Case cert.Grade
+                        Case 1
+                            certGrade = "Basic"
+                        Case 2
+                            certGrade = "Standard"
+                        Case 3
+                            certGrade = "Improved"
+                        Case 4
+                            certGrade = "Advanced"
+                        Case 5
+                            certGrade = "Elite"
+                    End Select
+                    For Each reqCertID As String In cert.RequiredCerts.Keys
+                        Dim reqCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(reqCertID), Core.Certificate)
+                        If reqCert.ID.ToString <> item Then
+                            newItem.ToolTipText &= CType(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString), EveHQ.Core.CertificateClass).Name
+                            Select Case reqCert.Grade
+                                Case 1
+                                    newItem.ToolTipText &= " (Basic), "
+                                Case 2
+                                    newItem.ToolTipText &= " (Standard), "
+                                Case 3
+                                    newItem.ToolTipText &= " (Improved), "
+                                Case 4
+                                    newItem.ToolTipText &= " (Advanced), "
+                                Case 5
+                                    newItem.ToolTipText &= " (Elite), "
+                            End Select
+                        End If
+                    Next
+                    If newItem.ToolTipText <> "" Then
+                        newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
+                        newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
+                    End If
+                    If displayPilot.Certificates.Contains(cert.ID.ToString) = True Then
+                        newItem.ForeColor = Color.Green
+                    Else
+                        newItem.ForeColor = Color.Red
+                    End If
+                    newItem.Text = certName & " (" & certGrade & ")"
+                    newItem.Name = item
+                    newItem.SubItems.Add("Level " & lvl)
+                    lvwDepend.Items.Add(newItem)
+                Next
+            End If
         Next
+        lvwDepend.EndUpdate()
     End Sub
     Private Sub PrepareDescription(ByVal skillID As String)
         Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
@@ -1443,6 +1502,7 @@ Public Class frmTraining
 
     End Sub
     Private Sub PrepareSPs(ByVal skillID As String)
+        lvwSPs.BeginUpdate()
         lvwSPs.Items.Clear()
         Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
         cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
@@ -1456,8 +1516,10 @@ Public Class frmTraining
             lastSP = SP
             lvwSPs.Items.Add(newGroup)
         Next
+        lvwSPs.EndUpdate()
     End Sub
     Private Sub PrepareTimes(ByVal skillID As String)
+        lvwTimes.BeginUpdate()
         lvwTimes.Items.Clear()
 
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
@@ -1484,6 +1546,7 @@ Public Class frmTraining
                 lvwTimes.Items.Add(newGroup)
             Next
         End If
+        lvwTimes.EndUpdate()
     End Sub
     Private Sub tvwReqs_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tvwReqs.MouseMove
         Dim tn As TreeNode = tvwReqs.GetNodeAt(e.X, e.Y)

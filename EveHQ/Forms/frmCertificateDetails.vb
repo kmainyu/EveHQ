@@ -37,7 +37,6 @@
 
     Private Sub PrepareCerts(ByVal certID As String)
         Dim cCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
-        lvwCerts.Items.Clear()
         Dim cRCert As EveHQ.Core.Certificate
         Dim newCert As New ListViewItem
         lvwCerts.BeginUpdate()
@@ -60,7 +59,7 @@
 
     Private Sub PrepareTree(ByVal certID As String)
         Dim cCert As EveHQ.Core.Certificate = CType(EveHQ.Core.HQ.Certificates(certID), Core.Certificate)
-
+        tvwReqs.BeginUpdate()
         tvwReqs.Nodes.Clear()
 
         For Each skillID As String In cCert.RequiredSkills.Keys
@@ -134,6 +133,7 @@
             End If
         Next
         tvwReqs.ExpandAll()
+        tvwReqs.EndUpdate()
     End Sub
 
     Private Sub AddPreReqsToTree(ByVal newSkill As EveHQ.Core.EveSkill, ByVal curLevel As Integer, ByVal curNode As TreeNode)
@@ -184,6 +184,7 @@
 
     Private Sub PrepareDepends(ByVal certID As String)
         ' Add the certificate unlocks
+        lvwDepend.BeginUpdate()
         lvwDepend.Items.Clear()
         Dim certUnlocks As ArrayList = CType(EveHQ.Core.HQ.CertUnlockCerts(certID), ArrayList)
         If certUnlocks IsNot Nothing Then
@@ -217,6 +218,7 @@
                 lvwDepend.Items.Add(newItem)
             Next
         End If
+        lvwDepend.EndUpdate()
     End Sub
 
     Private Sub ctxSkills_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxSkills.Opening

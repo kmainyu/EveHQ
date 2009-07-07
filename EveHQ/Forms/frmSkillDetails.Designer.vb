@@ -28,13 +28,14 @@ Partial Class frmSkillDetails
         Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Charges", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Blueprints", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Skills", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Drones", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Implants", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mobile Disruptors", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("POS Equipment", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Certificates", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Pilot Specific", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Commodities", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Drones", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Implants", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mobile Disruptors", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("POS Equipment", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Certificates", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Pilot Specific", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Name", ""}, -1)
         Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Rank", ""}, -1)
         Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Group", ""}, -1)
@@ -71,12 +72,12 @@ Partial Class frmSkillDetails
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.TabPage4 = New System.Windows.Forms.TabPage
+        Me.SkillToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.lvwTimes = New EveHQ.ListViewNoFlicker
         Me.ToLevel = New System.Windows.Forms.ColumnHeader
         Me.Standard = New System.Windows.Forms.ColumnHeader
         Me.Current = New System.Windows.Forms.ColumnHeader
         Me.Cumulative = New System.Windows.Forms.ColumnHeader
-        Me.SkillToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.lvwDetails = New EveHQ.ListViewNoFlicker
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
@@ -107,24 +108,24 @@ Partial Class frmSkillDetails
         Me.ctxReqs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxReqs.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator2, Me.mnuViewSkillDetails})
         Me.ctxReqs.Name = "ctxDepend"
-        Me.ctxReqs.Size = New System.Drawing.Size(133, 54)
+        Me.ctxReqs.Size = New System.Drawing.Size(144, 54)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(132, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(143, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(129, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(140, 6)
         '
         'mnuViewSkillDetails
         '
         Me.mnuViewSkillDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewSkillDetails.Name = "mnuViewSkillDetails"
-        Me.mnuViewSkillDetails.Size = New System.Drawing.Size(132, 22)
+        Me.mnuViewSkillDetails.Size = New System.Drawing.Size(143, 22)
         Me.mnuViewSkillDetails.Text = "View Details"
         '
         'ctxDepend
@@ -132,38 +133,38 @@ Partial Class frmSkillDetails
         Me.ctxDepend.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxDepend.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripSeparator1, Me.mnuViewItemDetails, Me.mnuViewCertDetails, Me.mnuViewItemDetailsInIB})
         Me.ctxDepend.Name = "ctxDepend"
-        Me.ctxDepend.Size = New System.Drawing.Size(212, 98)
+        Me.ctxDepend.Size = New System.Drawing.Size(223, 98)
         '
         'mnuItemName
         '
         Me.mnuItemName.Name = "mnuItemName"
-        Me.mnuItemName.Size = New System.Drawing.Size(211, 22)
+        Me.mnuItemName.Size = New System.Drawing.Size(222, 22)
         Me.mnuItemName.Text = "Item Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(208, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(219, 6)
         '
         'mnuViewItemDetails
         '
         Me.mnuViewItemDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewItemDetails.Name = "mnuViewItemDetails"
-        Me.mnuViewItemDetails.Size = New System.Drawing.Size(211, 22)
+        Me.mnuViewItemDetails.Size = New System.Drawing.Size(222, 22)
         Me.mnuViewItemDetails.Text = "View Details"
         '
         'mnuViewCertDetails
         '
         Me.mnuViewCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
-        Me.mnuViewCertDetails.Size = New System.Drawing.Size(211, 22)
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(222, 22)
         Me.mnuViewCertDetails.Text = "View Certificate Details"
         '
         'mnuViewItemDetailsInIB
         '
         Me.mnuViewItemDetailsInIB.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewItemDetailsInIB.Name = "mnuViewItemDetailsInIB"
-        Me.mnuViewItemDetailsInIB.Size = New System.Drawing.Size(211, 22)
+        Me.mnuViewItemDetailsInIB.Size = New System.Drawing.Size(222, 22)
         Me.mnuViewItemDetailsInIB.Text = "View Details In Item Browser"
         '
         'TabControl1
@@ -246,17 +247,19 @@ Partial Class frmSkillDetails
         ListViewGroup7.Name = "Cat9"
         ListViewGroup8.Header = "Skills"
         ListViewGroup8.Name = "Cat16"
-        ListViewGroup9.Header = "Drones"
-        ListViewGroup9.Name = "Cat18"
-        ListViewGroup10.Header = "Implants"
-        ListViewGroup10.Name = "Cat20"
-        ListViewGroup11.Header = "Mobile Disruptors"
-        ListViewGroup11.Name = "Cat22"
-        ListViewGroup12.Header = "POS Equipment"
-        ListViewGroup12.Name = "Cat23"
-        ListViewGroup13.Header = "Certificates"
-        ListViewGroup13.Name = "CatCerts"
-        Me.lvwDepend.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8, ListViewGroup9, ListViewGroup10, ListViewGroup11, ListViewGroup12, ListViewGroup13})
+        ListViewGroup9.Header = "Commodities"
+        ListViewGroup9.Name = "Cat17"
+        ListViewGroup10.Header = "Drones"
+        ListViewGroup10.Name = "Cat18"
+        ListViewGroup11.Header = "Implants"
+        ListViewGroup11.Name = "Cat20"
+        ListViewGroup12.Header = "Mobile Disruptors"
+        ListViewGroup12.Name = "Cat22"
+        ListViewGroup13.Header = "POS Equipment"
+        ListViewGroup13.Name = "Cat23"
+        ListViewGroup14.Header = "Certificates"
+        ListViewGroup14.Name = "CatCerts"
+        Me.lvwDepend.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5, ListViewGroup6, ListViewGroup7, ListViewGroup8, ListViewGroup9, ListViewGroup10, ListViewGroup11, ListViewGroup12, ListViewGroup13, ListViewGroup14})
         Me.lvwDepend.Location = New System.Drawing.Point(3, 3)
         Me.lvwDepend.Name = "lvwDepend"
         Me.lvwDepend.ShowItemToolTips = True
@@ -362,22 +365,22 @@ Partial Class frmSkillDetails
         Me.lvwDetails.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lvwDetails.FullRowSelect = True
         Me.lvwDetails.GridLines = True
-        ListViewGroup14.Header = "General"
-        ListViewGroup14.Name = "General"
-        ListViewGroup15.Header = "Pilot Specific"
-        ListViewGroup15.Name = "Specific"
-        Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup14, ListViewGroup15})
+        ListViewGroup15.Header = "General"
+        ListViewGroup15.Name = "General"
+        ListViewGroup16.Header = "Pilot Specific"
+        ListViewGroup16.Name = "Specific"
+        Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
         Me.lvwDetails.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem1.Group = ListViewGroup14
-        ListViewItem2.Group = ListViewGroup14
-        ListViewItem3.Group = ListViewGroup14
-        ListViewItem4.Group = ListViewGroup14
-        ListViewItem5.Group = ListViewGroup14
-        ListViewItem6.Group = ListViewGroup14
-        ListViewItem7.Group = ListViewGroup15
-        ListViewItem8.Group = ListViewGroup15
-        ListViewItem9.Group = ListViewGroup15
-        ListViewItem10.Group = ListViewGroup15
+        ListViewItem1.Group = ListViewGroup15
+        ListViewItem2.Group = ListViewGroup15
+        ListViewItem3.Group = ListViewGroup15
+        ListViewItem4.Group = ListViewGroup15
+        ListViewItem5.Group = ListViewGroup15
+        ListViewItem6.Group = ListViewGroup15
+        ListViewItem7.Group = ListViewGroup16
+        ListViewItem8.Group = ListViewGroup16
+        ListViewItem9.Group = ListViewGroup16
+        ListViewItem10.Group = ListViewGroup16
         Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10})
         Me.lvwDetails.Location = New System.Drawing.Point(12, 12)
         Me.lvwDetails.MultiSelect = False
