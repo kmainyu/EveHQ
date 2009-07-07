@@ -2233,6 +2233,11 @@ Public Class EveHQSettingsFunctions
             Exit Function
         End If
 
+        ' Check QColumns!
+        If EveHQ.Core.HQ.EveHQSettings.QColumns(0, 0) Is Nothing Then
+            Call ResetColumns()
+        End If
+
         Return True
 
     End Function
