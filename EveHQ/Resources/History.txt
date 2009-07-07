@@ -1,6 +1,65 @@
 EveHQ - Version History
 -----------------------
 
+1.12.0.700 (08/07/2009)
+----------
+Major Changes:
+- New Plug-in: POS Manager - design and manage your POS
+- BP Manager: Prism gets a manager for your blueprints
+- BP Calculator: Used hand in hand with the BP Manager for checking blueprint materials
+- Database upgraded to Apocrypha 1.3.1
+
+Fixes and Improvements:
+- Core: Fixed crash with email notifications picking up the incorrect data in the Eve skill queue
+- Core: Fixed crash in market log view where no item was selected
+- Core: Improved shut down notification messages to indicate friendly account names if available
+- Core: Fixed the shutdown issue where plugin and core data isn't saved
+- Core: Fixed Faction Prices feed not being parsed after download
+- Core: Fixed potential crash in the training form when setting a primary skill queue
+- Core: Increased the maximum early skill training notification time from 15m to 30m
+- Core: Fixed issue with certain lists not clearing items correctly
+- Core: Fixed scrollbar appearance issue with listviews
+- Core: Unhandled Exceptions now provide OS, .Net and EveHQ file information
+- Core: Failed cached XML loading will result in an attempt to retrieve a new XML from the web
+- Core: Exiting from an exception now performs a correct shutdown if not continuing
+- Core: Training Form now shows certificates in dependencies
+- Core: Commodities in dependencies no show in the correct group
+- Core: Updating of the skill and certificate information in various places has been improved
+- Core: Queue Summary update checks for form startup before attempting to update
+- Core: Updated certificate data
+- Core: Updated credits (finally!)
+- CorpHQ: Fixed location of TQ cache
+- CorpHQ: Improved error message on being unable to find the cache folder
+- CorpHQ: Disabled continual notifications when there is no agent/corp to match a standing ID
+- CorpHQ: Standings export now uses the global CSV separator character
+- DC: Updated version number for database
+- HQF: Fixed issue with EFT import with drones
+- HQF: Fixed agility bonuses on Jump Freighters
+- HQF: Fixed agility bonus on Sin
+- HQF: Fixed agility bonuses on the T3 propulsion modules
+- HQF: Added Command Processor effect
+- HQF: Corrected logic in determining group restrictions
+- HQF: Fixed crash with disposed Ship Preview tab
+- HQF: Fixed crash caused by attempt to open a fitting that did not exist
+- HQF: Disabled EFT Import buttons during scan for EFT fittings
+- HQF: Reworked fitting code to allow subsystems to be applied before other modules
+- HQF: Removed CPU roles for ships which now have fitting restrictions
+- Item Browser: Fixed stack overflow when viewing items with GM skills
+- Map: Fixed docking of route listview
+- Map: Fixed typo of "Jump Freighters"
+- Map: Added agent division name into the agent search
+- Map: Added agent required standing into the agent search
+- Map: Fixed docking of additional map controls
+- Prism: Fixed parsing of market orders for various cultures
+- Prism: Fixed Job Installer column sorting
+- Prism: Fixed error in volumes displayed by the asset selection label
+- Prism: Replaced flag loading routine with a query to the database to get the latest info
+- Prism: Default refine mode and refine pilot selected on startup
+- Prism: Fixed crash updating Prism info when altering owner
+- Prism: Updated some of the descriptions for the Wallet Journal
+- Prism: Fixed error in parsing ships within Prism for copying to HQF
+
+
 1.11.3.616 (16/06/2009)
 ---------
 Fixes and Improvements:
