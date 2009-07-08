@@ -1,7 +1,7 @@
 EveHQ - Version History
 -----------------------
 
-1.12.0.700 (08/07/2009)
+1.12.0.705 (08/07/2009)
 ----------
 Major Changes:
 - New Plug-in: POS Manager - design and manage your POS

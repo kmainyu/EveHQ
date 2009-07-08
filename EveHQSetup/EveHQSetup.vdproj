@@ -40,19 +40,19 @@
         "Entry"
         {
         "MsmKey" = "8:_3B004DA2C1E91BA77392D2AC2A463B34"
-        "OwnerKey" = "8:_F62F3278A9374C23BC3EE0B310A1BBB2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3B004DA2C1E91BA77392D2AC2A463B34"
-        "OwnerKey" = "8:_F11AB05A937149D88CA00E92CF6AF80C"
+        "OwnerKey" = "8:_8F96399B30F6411FBFB7A22E92C35BEC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_3B004DA2C1E91BA77392D2AC2A463B34"
         "OwnerKey" = "8:_F5C3A3E0189842F09E8C917B2B37561B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3B004DA2C1E91BA77392D2AC2A463B34"
+        "OwnerKey" = "8:_F11AB05A937149D88CA00E92CF6AF80C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -118,19 +118,19 @@
         "Entry"
         {
         "MsmKey" = "8:_54AC72E42E031915541FF680E7F3A341"
-        "OwnerKey" = "8:_F62F3278A9374C23BC3EE0B310A1BBB2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_54AC72E42E031915541FF680E7F3A341"
-        "OwnerKey" = "8:_F11AB05A937149D88CA00E92CF6AF80C"
+        "OwnerKey" = "8:_8F96399B30F6411FBFB7A22E92C35BEC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_54AC72E42E031915541FF680E7F3A341"
         "OwnerKey" = "8:_F5C3A3E0189842F09E8C917B2B37561B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_54AC72E42E031915541FF680E7F3A341"
+        "OwnerKey" = "8:_F11AB05A937149D88CA00E92CF6AF80C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -177,6 +177,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8F96399B30F6411FBFB7A22E92C35BEC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9BEB4C17D6564F52A704E8C5B3F531AE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -190,19 +196,19 @@
         "Entry"
         {
         "MsmKey" = "8:_9E0CECDE34AB9B7D9B953AAED12EEF9E"
-        "OwnerKey" = "8:_F62F3278A9374C23BC3EE0B310A1BBB2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9E0CECDE34AB9B7D9B953AAED12EEF9E"
-        "OwnerKey" = "8:_F11AB05A937149D88CA00E92CF6AF80C"
+        "OwnerKey" = "8:_8F96399B30F6411FBFB7A22E92C35BEC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_9E0CECDE34AB9B7D9B953AAED12EEF9E"
         "OwnerKey" = "8:_F5C3A3E0189842F09E8C917B2B37561B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9E0CECDE34AB9B7D9B953AAED12EEF9E"
+        "OwnerKey" = "8:_F11AB05A937149D88CA00E92CF6AF80C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -261,12 +267,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F62F3278A9374C23BC3EE0B310A1BBB2"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F5C3A3E0189842F09E8C917B2B37561B"
         "MsmSig" = "8:_UNDEFINED"
@@ -274,7 +274,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F62F3278A9374C23BC3EE0B310A1BBB2"
+        "OwnerKey" = "8:_8F96399B30F6411FBFB7A22E92C35BEC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -471,7 +471,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=1.12.0.700, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=1.12.0.705, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_3B004DA2C1E91BA77392D2AC2A463B34"
@@ -573,7 +573,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=1.12.0.700, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=1.12.0.705, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_9E0CECDE34AB9B7D9B953AAED12EEF9E"
@@ -668,7 +668,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EveHQ"
         "ProductCode" = "8:{6A371F7A-82BC-4BD2-A0AF-400AE10E64B1}"
-        "PackageCode" = "8:{193A0F45-F6B6-476A-B287-E0C779DE06B9}"
+        "PackageCode" = "8:{F1E20720-3CFA-45D8-B125-84A02A7519F2}"
         "UpgradeCode" = "8:{5EBB0328-70C2-4A58-A4AC-225419B25E51}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -1494,6 +1494,34 @@
                 {
                 }
             }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_8F96399B30F6411FBFB7A22E92C35BEC"
+            {
+            "SourcePath" = "8:..\\EveHQ.CorpHQ\\obj\\Debug\\EveHQ.CorpHQ.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_100E614210DC43C68E5140647F446FA1"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{E29DFE8F-5530-4320-A14D-5A08F5816ADE}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9BEB4C17D6564F52A704E8C5B3F531AE"
             {
             "SourcePath" = "8:..\\EveHQ.HQF\\obj\\Debug\\EveHQ.HQF.dll"
@@ -1545,6 +1573,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{5E8ED6B1-E477-45FD-B117-922326741282}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BB005CD82C3C42039588125C9D39A722"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_100E614210DC43C68E5140647F446FA1"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Symbols"
+            "OutputProjectGuid" = "8:{52141196-08FD-4E6D-A454-13618A5BED45}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -1685,34 +1741,6 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{366925AB-54F3-4D36-B05C-E98DBE8DA595}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F62F3278A9374C23BC3EE0B310A1BBB2"
-            {
-            "SourcePath" = "8:..\\EveHQ.PosManager\\obj\\Debug\\EveHQ.PosManager.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_100E614210DC43C68E5140647F446FA1"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{52141196-08FD-4E6D-A454-13618A5BED45}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
