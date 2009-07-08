@@ -123,9 +123,15 @@ Public Class frmMap
         Me.cboRouteMode.Text = Me.cboRouteMode.Items.Item(0).ToString
         Me.cboSystem.Text = Me.cboSystem.Items.Item(0).ToString
         Me.cboShips.SelectedIndex = 0
-        cboJDC.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration))
-        cboJFC.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation))
-        cboJF.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters))
+        If csPilot IsNot Nothing Then
+            cboJDC.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration))
+            cboJFC.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation))
+            cboJF.SelectedIndex = CInt(csPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters))
+        Else
+            cboJDC.SelectedIndex = 0
+            cboJFC.SelectedIndex = 0
+            cboJF.SelectedIndex = 0
+        End If
         Me.BringToFront()
         bHaveMouse = False
         bHaveScan = False

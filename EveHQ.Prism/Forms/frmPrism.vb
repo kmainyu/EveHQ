@@ -122,10 +122,16 @@ Public Class frmPrism
         If cboRecyclePilots.Items.Contains(RecyclerAssetOwner) Then
             cboRecyclePilots.SelectedItem = RecyclerAssetOwner
         Else
-            If cboRecyclePilots.Items.Contains(cboOwner.SelectedItem.ToString) Then
-                cboRecyclePilots.SelectedItem = cboOwner.SelectedItem.ToString
+            If cboOwner.SelectedItem IsNot Nothing Then
+                If cboRecyclePilots.Items.Contains(cboOwner.SelectedItem.ToString) Then
+                    cboRecyclePilots.SelectedItem = cboOwner.SelectedItem.ToString
+                Else
+                    cboRecyclePilots.SelectedIndex = 0
+                End If
             Else
-                cboRecyclePilots.SelectedIndex = 0
+                If cboRecyclePilots.Items.Count > 0 Then
+                    cboRecyclePilots.SelectedIndex = 0
+                End If
             End If
         End If
         ' Set the recycling mode
@@ -5066,11 +5072,13 @@ Public Class frmPrism
         Else
             BaseYield = StationYield
         End If
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
-        lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
-        lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
-        Call Me.RecalcRecycling()
+        If cboRecyclePilots.SelectedItem IsNot Nothing Then
+            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+            lblBaseYield.Text = FormatNumber(BaseYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+            lblNetYield.Text = FormatNumber(NetYield * 100, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%"
+            Call Me.RecalcRecycling()
+        End If
     End Sub
 
     Private Sub nudBaseYield_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudBaseYield.ValueChanged

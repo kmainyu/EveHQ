@@ -573,7 +573,9 @@ Public Class frmItemBrowser
                 picBP.Visible = True
                 BPWF = EveHQ.Core.DataFunctions.GetBPWF(bpTypeID)
                 BPWFM = ((1 / BPWF) / (1 + nudMELevel.Value))
-                BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                If displayPilot IsNot Nothing Then
+                    BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                End If
             Else
                 picBP.Visible = False
             End If
@@ -1220,38 +1222,55 @@ Public Class frmItemBrowser
         tvwReqs.Nodes.Clear()
         Dim skillsRequired As Boolean = False
 
-        For Each skillID As String In itemSkills.Keys
-            skillsRequired = True
+        If displayPilot IsNot Nothing Then
+            For Each skillID As String In itemSkills.Keys
+                skillsRequired = True
 
-            Dim level As Integer = 1
-            Dim pointer(20) As Integer
-            Dim parent(20) As Integer
-            Dim skillName(20) As String
-            Dim skillLevel(20) As String
-            pointer(level) = 1
-            parent(level) = skillID
+                Dim level As Integer = 1
+                Dim pointer(20) As Integer
+                Dim parent(20) As Integer
+                Dim skillName(20) As String
+                Dim skillLevel(20) As String
+                pointer(level) = 1
+                parent(level) = skillID
 
-            Dim strTree As String = ""
-            Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
-            Dim curSkill As Integer = CInt(skillID)
-            Dim curLevel As Integer = itemSkills(skillID)
-            Dim counter As Integer = 0
-            Dim curNode As TreeNode = New TreeNode
-            curNode.Text = cSkill.Name & " (Level " & curLevel & ")"
+                Dim strTree As String = ""
+                Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
+                Dim curSkill As Integer = CInt(skillID)
+                Dim curLevel As Integer = itemSkills(skillID)
+                Dim counter As Integer = 0
+                Dim curNode As TreeNode = New TreeNode
+                curNode.Text = cSkill.Name & " (Level " & curLevel & ")"
 
-            ' Write the skill we are querying as the first (parent) node
-            Dim skillTrained As Boolean = False
-            Dim myLevel As Integer = 0
-            skillTrained = False
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
-                If displayPilot.PilotSkills.Contains(cSkill.Name) Then
-                    Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                    mySkill = displayPilot.PilotSkills(cSkill.Name)
-                    myLevel = CInt(mySkill.Level)
-                    If myLevel >= curLevel Then skillTrained = True
-                    If skillTrained = True Then
-                        curNode.ForeColor = Color.LimeGreen
-                        curNode.ToolTipText = "Already Trained"
+                ' Write the skill we are querying as the first (parent) node
+                Dim skillTrained As Boolean = False
+                Dim myLevel As Integer = 0
+                skillTrained = False
+                If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+                    If displayPilot.PilotSkills.Contains(cSkill.Name) Then
+                        Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                        mySkill = displayPilot.PilotSkills(cSkill.Name)
+                        myLevel = CInt(mySkill.Level)
+                        If myLevel >= curLevel Then skillTrained = True
+                        If skillTrained = True Then
+                            curNode.ForeColor = Color.LimeGreen
+                            curNode.ToolTipText = "Already Trained"
+                        Else
+                            Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
+                            If planLevel = 0 Then
+                                curNode.ForeColor = Color.Red
+                                curNode.ToolTipText = "Not trained & no planned training"
+                            Else
+                                curNode.ToolTipText = "Planned training to Level " & planLevel
+                                If planLevel >= curLevel Then
+                                    curNode.ForeColor = Color.Blue
+                                Else
+                                    curNode.ForeColor = Color.Orange
+                                End If
+                            End If
+                            skillsNeeded.Add(cSkill.Name & curLevel)
+                            ItemUsable = False
+                        End If
                     Else
                         Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
                         If planLevel = 0 Then
@@ -1268,99 +1287,89 @@ Public Class frmItemBrowser
                         skillsNeeded.Add(cSkill.Name & curLevel)
                         ItemUsable = False
                     End If
-                Else
-                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
-                    If planLevel = 0 Then
-                        curNode.ForeColor = Color.Red
-                        curNode.ToolTipText = "Not trained & no planned training"
-                    Else
-                        curNode.ToolTipText = "Planned training to Level " & planLevel
-                        If planLevel >= curLevel Then
-                            curNode.ForeColor = Color.Blue
-                        Else
-                            curNode.ForeColor = Color.Orange
-                        End If
-                    End If
-                    skillsNeeded.Add(cSkill.Name & curLevel)
-                    ItemUsable = False
                 End If
-            End If
-            tvwReqs.Nodes.Add(curNode)
+                tvwReqs.Nodes.Add(curNode)
 
-            If cSkill.PreReqSkills.Count > 0 Then
-                Dim subSkill As EveHQ.Core.EveSkill
-                For Each subSkillID As String In cSkill.PreReqSkills.Keys
-                    subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
-                    Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode, ItemUsable)
-                Next
-            End If
-        Next
+                If cSkill.PreReqSkills.Count > 0 Then
+                    Dim subSkill As EveHQ.Core.EveSkill
+                    For Each subSkillID As String In cSkill.PreReqSkills.Keys
+                        subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                        Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode, ItemUsable)
+                    Next
+                End If
+            Next
 
-        If skillsRequired = True Then
-            tvwReqs.ExpandAll()
-            If Me.tabItem.TabPages.Contains(Me.tabSkills) = False Then
-                Me.tabItem.TabPages.Add(Me.tabSkills)
-            End If
-            If displayPilot.Name <> "" Then
-                If ItemUsable = True Then
-                    lblUsable.Text = displayPilot.Name & " has the skills to use this item."
+            If skillsRequired = True Then
+                tvwReqs.ExpandAll()
+                If Me.tabItem.TabPages.Contains(Me.tabSkills) = False Then
+                    Me.tabItem.TabPages.Add(Me.tabSkills)
+                End If
+                If displayPilot.Name <> "" Then
+                    If ItemUsable = True Then
+                        lblUsable.Text = displayPilot.Name & " has the skills to use this item."
+                        lblUsableTime.Text = ""
+                        btnAddSkills.Enabled = False
+                        btnViewSkills.Enabled = False
+                    Else
+                        Dim usableTime As Long = 0
+                        Dim skillNo As Integer = 0
+                        If skillsNeeded.Count > 1 Then
+                            Do
+                                Dim skill As String = skillsNeeded(skillNo)
+                                Dim skillName As String = skill.Substring(0, skill.Length - 1)
+                                Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
+                                Dim highestLevel As Integer = 0
+                                Dim skillno2 As Integer = skillNo + 1
+                                Do
+                                    If skillno2 < skillsNeeded.Count Then
+                                        Dim skill2 As String = skillsNeeded(skillno2)
+                                        Dim skillName2 As String = skill2.Substring(0, skill2.Length - 1)
+                                        Dim skillLvl2 As Integer = CInt(skill2.Substring(skill2.Length - 1, 1))
+                                        If skillName = skillName2 Then
+                                            If skillLvl >= skillLvl2 Then
+                                                skillsNeeded.RemoveAt(skillno2)
+                                            Else
+                                                skillsNeeded.RemoveAt(skillNo)
+                                                skillNo = -1 : skillno2 = 0
+                                                Exit Do
+                                            End If
+                                        Else
+                                            skillno2 += 1
+                                        End If
+                                    End If
+                                Loop Until skillno2 >= skillsNeeded.Count
+                                skillNo += 1
+                            Loop Until skillNo >= skillsNeeded.Count - 1
+                        End If
+                        skillsNeeded.Reverse()
+                        For Each skill As String In skillsNeeded
+                            Dim skillName As String = skill.Substring(0, skill.Length - 1)
+                            Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
+                            Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(skillName)
+                            usableTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, skillLvl)
+                        Next
+                        lblUsable.Text = displayPilot.Name & " doesn't have the skills to use this item."
+                        lblUsableTime.Text = "Training Time: " & EveHQ.Core.SkillFunctions.TimeToString(usableTime)
+                        btnAddSkills.Enabled = True
+                        btnViewSkills.Enabled = True
+                    End If
+                Else
+                    lblUsable.Text = "No pilot selected to calculate skill time."
                     lblUsableTime.Text = ""
                     btnAddSkills.Enabled = False
                     btnViewSkills.Enabled = False
-                Else
-                    Dim usableTime As Long = 0
-                    Dim skillNo As Integer = 0
-                    If skillsNeeded.Count > 1 Then
-                        Do
-                            Dim skill As String = skillsNeeded(skillNo)
-                            Dim skillName As String = skill.Substring(0, skill.Length - 1)
-                            Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                            Dim highestLevel As Integer = 0
-                            Dim skillno2 As Integer = skillNo + 1
-                            Do
-                                If skillno2 < skillsNeeded.Count Then
-                                    Dim skill2 As String = skillsNeeded(skillno2)
-                                    Dim skillName2 As String = skill2.Substring(0, skill2.Length - 1)
-                                    Dim skillLvl2 As Integer = CInt(skill2.Substring(skill2.Length - 1, 1))
-                                    If skillName = skillName2 Then
-                                        If skillLvl >= skillLvl2 Then
-                                            skillsNeeded.RemoveAt(skillno2)
-                                        Else
-                                            skillsNeeded.RemoveAt(skillNo)
-                                            skillNo = -1 : skillno2 = 0
-                                            Exit Do
-                                        End If
-                                    Else
-                                        skillno2 += 1
-                                    End If
-                                End If
-                            Loop Until skillno2 >= skillsNeeded.Count
-                            skillNo += 1
-                        Loop Until skillNo >= skillsNeeded.Count - 1
-                    End If
-                    skillsNeeded.Reverse()
-                    For Each skill As String In skillsNeeded
-                        Dim skillName As String = skill.Substring(0, skill.Length - 1)
-                        Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                        Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(skillName)
-                        usableTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, skillLvl)
-                    Next
-                    lblUsable.Text = displayPilot.Name & " doesn't have the skills to use this item."
-                    lblUsableTime.Text = "Training Time: " & EveHQ.Core.SkillFunctions.TimeToString(usableTime)
-                    btnAddSkills.Enabled = True
-                    btnViewSkills.Enabled = True
                 End If
             Else
-                lblUsable.Text = "No pilot selected to calculate skill time."
+                If Me.tabItem.TabPages.Contains(Me.tabSkills) = True Then
+                    Me.tabItem.TabPages.Remove(Me.tabSkills)
+                End If
+                lblUsable.Text = "No skills required for this item."
                 lblUsableTime.Text = ""
                 btnAddSkills.Enabled = False
                 btnViewSkills.Enabled = False
             End If
         Else
-            If Me.tabItem.TabPages.Contains(Me.tabSkills) = True Then
-                Me.tabItem.TabPages.Remove(Me.tabSkills)
-            End If
-            lblUsable.Text = "No skills required for this item."
+            lblUsable.Text = "No pilots loaded to calculate skill time."
             lblUsableTime.Text = ""
             btnAddSkills.Enabled = False
             btnViewSkills.Enabled = False

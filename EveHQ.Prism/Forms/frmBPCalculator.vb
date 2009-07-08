@@ -91,7 +91,9 @@ Public Class frmBPCalculator
         If cboPilot.Items.Contains(BPOwnerName) Then
             cboPilot.SelectedItem = BPOwnerName
         Else
-            cboPilot.SelectedIndex = 0
+            If cboPilot.Items.Count > 0 Then
+                cboPilot.SelectedIndex = 0
+            End If
         End If
 
         ' Update the list of Blueprints
