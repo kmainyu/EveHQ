@@ -868,8 +868,8 @@ Public Class frmSettings
 
     Private Sub UpdateTrainingQueueOptions()
         ' Add the Queue columns
-        Me.clbColumns.Items.Clear()
         If Me.clbColumns.Items.Count > 0 Then
+            Me.clbColumns.Items.Clear()
             For a As Integer = 0 To 16
                 Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
                     Case "Name"

@@ -1467,9 +1467,9 @@ Partial Public Class frmSettings
         Me.gbTrainingQueue.Controls.Add(Me.lblSkillQueueColours)
         Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
         Me.gbTrainingQueue.Controls.Add(Me.clbColumns)
-        Me.gbTrainingQueue.Location = New System.Drawing.Point(645, 208)
+        Me.gbTrainingQueue.Location = New System.Drawing.Point(194, 12)
         Me.gbTrainingQueue.Name = "gbTrainingQueue"
-        Me.gbTrainingQueue.Size = New System.Drawing.Size(110, 31)
+        Me.gbTrainingQueue.Size = New System.Drawing.Size(693, 504)
         Me.gbTrainingQueue.TabIndex = 3
         Me.gbTrainingQueue.TabStop = False
         Me.gbTrainingQueue.Text = "Training Queue"
@@ -2355,9 +2355,9 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.lblShutdownNotifyPeriod)
         Me.gbNotifications.Controls.Add(Me.chkShutdownNotify)
-        Me.gbNotifications.Location = New System.Drawing.Point(194, 12)
+        Me.gbNotifications.Location = New System.Drawing.Point(641, 310)
         Me.gbNotifications.Name = "gbNotifications"
-        Me.gbNotifications.Size = New System.Drawing.Size(696, 497)
+        Me.gbNotifications.Size = New System.Drawing.Size(110, 28)
         Me.gbNotifications.TabIndex = 20
         Me.gbNotifications.TabStop = False
         Me.gbNotifications.Text = "Notifications"
@@ -3082,11 +3082,11 @@ Partial Public Class frmSettings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(899, 524)
-        Me.Controls.Add(Me.gbNotifications)
+        Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbGeneral)
+        Me.Controls.Add(Me.gbNotifications)
         Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbEveServer)
-        Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)

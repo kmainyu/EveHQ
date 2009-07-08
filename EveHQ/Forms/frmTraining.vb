@@ -254,8 +254,8 @@ Public Class frmTraining
         lv.Columns.Add("Trai", "Training Time", 100, HorizontalAlignment.Left, "")
         ' Now find the other ones
         For a As Integer = 6 To 16
-            If CBool(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1)) = True Then
-                If EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0) IsNot Nothing Then
+            If EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0) IsNot Nothing Then
+                If CBool(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 1)) = True Then
                     Select Case EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0)
                         Case "Date"
                             lv.Columns.Add(EveHQ.Core.HQ.EveHQSettings.QColumns(a, 0), "Date Completed", 150, HorizontalAlignment.Left, "")
