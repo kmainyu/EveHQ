@@ -253,12 +253,14 @@ Public Class BlueprintSelection
                     If EveHQ.Core.HQ.itemList.ContainsKey(BPName) = True Then
                         Dim BPID As String = CStr(EveHQ.Core.HQ.itemList(BPName))
                         ' Search BPs
-                        For Each BPAsset As BlueprintAsset In PlugInData.BlueprintAssets(BPOwner).Values
-                            If BPAsset.TypeID = BPID Then
-                                subBP = BPAsset
-                                Exit For
-                            End If
-                        Next
+                        If PlugInData.BlueprintAssets.ContainsKey(BPOwner) = True Then
+                            For Each BPAsset As BlueprintAsset In PlugInData.BlueprintAssets(BPOwner).Values
+                                If BPAsset.TypeID = BPID Then
+                                    subBP = BPAsset
+                                    Exit For
+                                End If
+                            Next
+                        End If
                     End If
                 End If
 

@@ -114,6 +114,7 @@ Partial Class frmBPCalculator
         Me.lblResearchSkill = New System.Windows.Forms.Label
         Me.tabBPResources = New System.Windows.Forms.TabControl
         Me.tabBPResourcesRequired = New System.Windows.Forms.TabPage
+        Me.chkUseStandardBPCosting = New System.Windows.Forms.CheckBox
         Me.chkShowSkills = New System.Windows.Forms.CheckBox
         Me.clvResources = New DotNetLib.Windows.Forms.ContainerListView
         Me.colBPResMaterials = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -133,7 +134,6 @@ Partial Class frmBPCalculator
         Me.colBPOResSurplus = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.lblMaxUnits = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.chkUseStandardBPCosting = New System.Windows.Forms.CheckBox
         Me.gbBPOSelection.SuspendLayout()
         CType(Me.pbBP, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbProdLocation.SuspendLayout()
@@ -883,7 +883,7 @@ Partial Class frmBPCalculator
         'btnOreCalculator
         '
         Me.btnOreCalculator.Enabled = False
-        Me.btnOreCalculator.Location = New System.Drawing.Point(621, 6)
+        Me.btnOreCalculator.Location = New System.Drawing.Point(671, 6)
         Me.btnOreCalculator.Name = "btnOreCalculator"
         Me.btnOreCalculator.Size = New System.Drawing.Size(125, 23)
         Me.btnOreCalculator.TabIndex = 3
@@ -1148,6 +1148,17 @@ Partial Class frmBPCalculator
         Me.tabBPResourcesRequired.Text = "Production Resources"
         Me.tabBPResourcesRequired.UseVisualStyleBackColor = True
         '
+        'chkUseStandardBPCosting
+        '
+        Me.chkUseStandardBPCosting.AutoSize = True
+        Me.chkUseStandardBPCosting.Location = New System.Drawing.Point(135, 10)
+        Me.chkUseStandardBPCosting.Name = "chkUseStandardBPCosting"
+        Me.chkUseStandardBPCosting.Size = New System.Drawing.Size(130, 17)
+        Me.chkUseStandardBPCosting.TabIndex = 6
+        Me.chkUseStandardBPCosting.Tag = ""
+        Me.chkUseStandardBPCosting.Text = "Use Standard Costing"
+        Me.chkUseStandardBPCosting.UseVisualStyleBackColor = True
+        '
         'chkShowSkills
         '
         Me.chkShowSkills.AutoSize = True
@@ -1247,7 +1258,7 @@ Partial Class frmBPCalculator
         Me.tabBPResourcesOwned.Location = New System.Drawing.Point(4, 22)
         Me.tabBPResourcesOwned.Name = "tabBPResourcesOwned"
         Me.tabBPResourcesOwned.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabBPResourcesOwned.Size = New System.Drawing.Size(752, 270)
+        Me.tabBPResourcesOwned.Size = New System.Drawing.Size(802, 265)
         Me.tabBPResourcesOwned.TabIndex = 1
         Me.tabBPResourcesOwned.Text = "Resources Owned"
         Me.tabBPResourcesOwned.UseVisualStyleBackColor = True
@@ -1280,7 +1291,7 @@ Partial Class frmBPCalculator
         Me.clvOwnedResources.DefaultItemHeight = 20
         Me.clvOwnedResources.Location = New System.Drawing.Point(3, 33)
         Me.clvOwnedResources.Name = "clvOwnedResources"
-        Me.clvOwnedResources.Size = New System.Drawing.Size(746, 231)
+        Me.clvOwnedResources.Size = New System.Drawing.Size(793, 231)
         Me.clvOwnedResources.TabIndex = 6
         '
         'colBPOResMaterial
@@ -1329,17 +1340,6 @@ Partial Class frmBPCalculator
         Me.lblMaxUnits.Size = New System.Drawing.Size(138, 13)
         Me.lblMaxUnits.TabIndex = 5
         Me.lblMaxUnits.Text = "Maximum Producable Units:"
-        '
-        'chkUseStandardBPCosting
-        '
-        Me.chkUseStandardBPCosting.AutoSize = True
-        Me.chkUseStandardBPCosting.Location = New System.Drawing.Point(135, 10)
-        Me.chkUseStandardBPCosting.Name = "chkUseStandardBPCosting"
-        Me.chkUseStandardBPCosting.Size = New System.Drawing.Size(130, 17)
-        Me.chkUseStandardBPCosting.TabIndex = 6
-        Me.chkUseStandardBPCosting.Tag = ""
-        Me.chkUseStandardBPCosting.Text = "Use Standard Costing"
-        Me.chkUseStandardBPCosting.UseVisualStyleBackColor = True
         '
         'frmBPCalculator
         '

@@ -32,7 +32,7 @@ Fixes and Improvements:
 - CorpHQ: Improved error message on being unable to find the cache folder
 - CorpHQ: Disabled continual notifications when there is no agent/corp to match a standing ID
 - CorpHQ: Standings export now uses the global CSV separator character
-- DC: Updated version number for database
+- Data Converter: Updated version number for database
 - HQF: Fixed issue with EFT import with drones
 - HQF: Fixed agility bonuses on Jump Freighters
 - HQF: Fixed agility bonus on Sin

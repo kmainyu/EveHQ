@@ -636,29 +636,31 @@ Public Class frmBPCalculator
         Dim reqd, owned, surplus As Long
         For Each itemID As String In groupResources.Keys
             reqd = groupResources(itemID)
-            ItemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
-            Dim newORes As New ContainerListViewItem(ItemData.Name)
-            If ownedResources.ContainsKey(itemID) = True Then
-                owned = ownedResources(itemID)
-                If maxProducableUnits = -1 Then
-                    maxProducableUnits = CLng(Int(owned / reqd))
+            If reqd > 0 Then
+                ItemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                Dim newORes As New ContainerListViewItem(ItemData.Name)
+                If ownedResources.ContainsKey(itemID) = True Then
+                    owned = ownedResources(itemID)
+                    If maxProducableUnits = -1 Then
+                        maxProducableUnits = CLng(Int(owned / reqd))
+                    Else
+                        maxProducableUnits = Math.Min(maxProducableUnits, CLng(Int(owned / reqd)))
+                    End If
                 Else
-                    maxProducableUnits = Math.Min(maxProducableUnits, CLng(Int(owned / reqd)))
+                    owned = 0
+                    maxProducableUnits = 0
                 End If
-            Else
-                owned = 0
-                maxProducableUnits = 0
-            End If
-            surplus = owned - reqd
-            clvOwnedResources.Items.Add(newORes)
-            newORes.SubItems(1).Text = FormatNumber(reqd, 0)
-            newORes.SubItems(2).Text = FormatNumber(owned, 0)
-            newORes.SubItems(3).Text = FormatNumber(surplus, 0)
-            newORes.SubItems(3).Tag = surplus
-            If surplus < 0 Then
-                newORes.SubItems(3).ForeColor = Drawing.Color.Red
-            Else
-                newORes.SubItems(3).ForeColor = Drawing.Color.Green
+                surplus = owned - reqd
+                clvOwnedResources.Items.Add(newORes)
+                newORes.SubItems(1).Text = FormatNumber(reqd, 0)
+                newORes.SubItems(2).Text = FormatNumber(owned, 0)
+                newORes.SubItems(3).Text = FormatNumber(surplus, 0)
+                newORes.SubItems(3).Tag = surplus
+                If surplus < 0 Then
+                    newORes.SubItems(3).ForeColor = Drawing.Color.Red
+                Else
+                    newORes.SubItems(3).ForeColor = Drawing.Color.Green
+                End If
             End If
         Next
 
