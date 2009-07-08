@@ -2377,8 +2377,11 @@ Public Class frmTraining
             Else
                 suggestedQueues(ActQueue.Name) = sugQueue
             End If
-            Me.Invoke(SetSuggUIResult, New Object() {ActQueue.Name, ActQueue.QueueTime, sugQueue.QueueTime})
-            'End If
+            Try
+                Me.Invoke(SetSuggUIResult, New Object() {ActQueue.Name, ActQueue.QueueTime, sugQueue.QueueTime})
+            Catch
+                ' Window most likely closed during the suggestion calculation
+            End Try
         Else
             ' Pilot changed before thread processing began therefore disregard the queue routine entirely
         End If
