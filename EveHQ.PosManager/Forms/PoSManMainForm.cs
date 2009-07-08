@@ -130,16 +130,6 @@ namespace EveHQ.PosManager
             tscb_TimePeriod.SelectedIndex = (int)Config.data.maintTP;
             nud_PeriodValue.Value = Config.data.maintPV;
 
-            if (Mon_dg_indx >= 0)
-            {
-                dg_MonitoredTowers.CurrentCell = dg_MonitoredTowers.Rows[Mon_dg_indx].Cells[(int)MonDG.Name];
-                Object o = new Object();
-                EventArgs ea = new EventArgs();
-                load = false;
-                dg_MonitoredTowers_SelectionChanged(o, ea);
-                load = true;
-            }
-
             if ((Config.data.dgMonBool == null) || (Config.data.dgMonBool.Count < 19))
             {
                 Config.data.dgMonBool = new ArrayList();
@@ -185,6 +175,17 @@ namespace EveHQ.PosManager
             }
 
             SortMonitorDataGridByColumn(dg_MonitoredTowers, Config.data.SortedColumnIndex);
+
+            if (Mon_dg_indx >= 0)
+            {
+                dg_MonitoredTowers.CurrentCell = dg_MonitoredTowers.Rows[Mon_dg_indx].Cells[(int)MonDG.Name];
+                Object o = new Object();
+                EventArgs ea = new EventArgs();
+                load = false;
+                Mon_dg_indx = -1;
+                dg_MonitoredTowers_SelectionChanged(o, ea);
+                load = true;
+            }
 
             load = false;
         }
@@ -3256,11 +3257,12 @@ namespace EveHQ.PosManager
             if (CurrentName.Equals(NewName))
                 return;
 
+            POSList.RemoveDesignFromList(CurrentName);
             Design.Name = NewName;
             CurrentName = NewName;
             NewName = "";
             this.Focus();
-            POSList.UpdateListDesign(Design);
+            POSList.AddDesignToList(Design);
             POSList.SaveDesignListing();
             BuildPOSListForMonitoring();
             cb_PoSName.Items.Clear();
@@ -3395,6 +3397,7 @@ namespace EveHQ.PosManager
             mlist_sel.myData = this;
             mlist_sel.ShowDialog();
 
+            dg_MonitoredTowers.Rows.Clear();
             BuildPOSListForMonitoring();
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
             PopulateMonitoredPoSDisplay();
