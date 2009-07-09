@@ -93,7 +93,15 @@ Partial Class frmDataConvert
         Me.btnStartImport = New System.Windows.Forms.Button
         Me.txtImportSource = New System.Windows.Forms.TextBox
         Me.btnImportSource = New System.Windows.Forms.Button
+        Me.TabPage6 = New System.Windows.Forms.TabPage
+        Me.panelZip = New System.Windows.Forms.Panel
+        Me.btnBrowse = New System.Windows.Forms.Button
+        Me.txtSourceDir = New System.Windows.Forms.TextBox
+        Me.btnZipIt = New System.Windows.Forms.Button
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog
+        Me.txtZipFile = New System.Windows.Forms.TextBox
+        Me.lblSourceDir = New System.Windows.Forms.Label
+        Me.lblZipFile = New System.Windows.Forms.Label
         Me.grpMSSQL.SuspendLayout()
         Me.grpMySQL.SuspendLayout()
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -108,6 +116,8 @@ Partial Class frmDataConvert
         Me.panelCerts.SuspendLayout()
         Me.TabPage5.SuspendLayout()
         Me.panelImport.SuspendLayout()
+        Me.TabPage6.SuspendLayout()
+        Me.panelZip.SuspendLayout()
         Me.SuspendLayout()
         '
         'cboConvertType
@@ -472,6 +482,7 @@ Partial Class frmDataConvert
         Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Controls.Add(Me.TabPage5)
+        Me.TabControl1.Controls.Add(Me.TabPage6)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -789,9 +800,84 @@ Partial Class frmDataConvert
         Me.btnImportSource.Text = "..."
         Me.btnImportSource.UseVisualStyleBackColor = True
         '
+        'TabPage6
+        '
+        Me.TabPage6.Controls.Add(Me.panelZip)
+        Me.TabPage6.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage6.Name = "TabPage6"
+        Me.TabPage6.Size = New System.Drawing.Size(646, 437)
+        Me.TabPage6.TabIndex = 5
+        Me.TabPage6.Text = "Zip"
+        Me.TabPage6.UseVisualStyleBackColor = True
+        '
+        'panelZip
+        '
+        Me.panelZip.BackColor = System.Drawing.SystemColors.Control
+        Me.panelZip.Controls.Add(Me.lblZipFile)
+        Me.panelZip.Controls.Add(Me.lblSourceDir)
+        Me.panelZip.Controls.Add(Me.txtZipFile)
+        Me.panelZip.Controls.Add(Me.btnBrowse)
+        Me.panelZip.Controls.Add(Me.txtSourceDir)
+        Me.panelZip.Controls.Add(Me.btnZipIt)
+        Me.panelZip.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelZip.Location = New System.Drawing.Point(0, 0)
+        Me.panelZip.Name = "panelZip"
+        Me.panelZip.Size = New System.Drawing.Size(646, 437)
+        Me.panelZip.TabIndex = 0
+        '
+        'btnBrowse
+        '
+        Me.btnBrowse.Location = New System.Drawing.Point(544, 26)
+        Me.btnBrowse.Name = "btnBrowse"
+        Me.btnBrowse.Size = New System.Drawing.Size(75, 23)
+        Me.btnBrowse.TabIndex = 2
+        Me.btnBrowse.Text = "Browse"
+        Me.btnBrowse.UseVisualStyleBackColor = True
+        '
+        'txtSourceDir
+        '
+        Me.txtSourceDir.Location = New System.Drawing.Point(74, 28)
+        Me.txtSourceDir.Name = "txtSourceDir"
+        Me.txtSourceDir.Size = New System.Drawing.Size(464, 20)
+        Me.txtSourceDir.TabIndex = 1
+        '
+        'btnZipIt
+        '
+        Me.btnZipIt.Location = New System.Drawing.Point(544, 52)
+        Me.btnZipIt.Name = "btnZipIt"
+        Me.btnZipIt.Size = New System.Drawing.Size(75, 23)
+        Me.btnZipIt.TabIndex = 0
+        Me.btnZipIt.Text = "Zip It !!"
+        Me.btnZipIt.UseVisualStyleBackColor = True
+        '
         'ofd1
         '
         Me.ofd1.FileName = "OpenFileDialog1"
+        '
+        'txtZipFile
+        '
+        Me.txtZipFile.Location = New System.Drawing.Point(74, 54)
+        Me.txtZipFile.Name = "txtZipFile"
+        Me.txtZipFile.Size = New System.Drawing.Size(464, 20)
+        Me.txtZipFile.TabIndex = 3
+        '
+        'lblSourceDir
+        '
+        Me.lblSourceDir.AutoSize = True
+        Me.lblSourceDir.Location = New System.Drawing.Point(8, 31)
+        Me.lblSourceDir.Name = "lblSourceDir"
+        Me.lblSourceDir.Size = New System.Drawing.Size(60, 13)
+        Me.lblSourceDir.TabIndex = 4
+        Me.lblSourceDir.Text = "Source Dir:"
+        '
+        'lblZipFile
+        '
+        Me.lblZipFile.AutoSize = True
+        Me.lblZipFile.Location = New System.Drawing.Point(8, 57)
+        Me.lblZipFile.Name = "lblZipFile"
+        Me.lblZipFile.Size = New System.Drawing.Size(44, 13)
+        Me.lblZipFile.TabIndex = 5
+        Me.lblZipFile.Text = "Zip File:"
         '
         'frmDataConvert
         '
@@ -824,6 +910,9 @@ Partial Class frmDataConvert
         Me.TabPage5.ResumeLayout(False)
         Me.panelImport.ResumeLayout(False)
         Me.panelImport.PerformLayout()
+        Me.TabPage6.ResumeLayout(False)
+        Me.panelZip.ResumeLayout(False)
+        Me.panelZip.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -898,4 +987,12 @@ Partial Class frmDataConvert
     Friend WithEvents txtImportSource As System.Windows.Forms.TextBox
     Friend WithEvents btnImportSource As System.Windows.Forms.Button
     Friend WithEvents btnStartImport As System.Windows.Forms.Button
+    Friend WithEvents TabPage6 As System.Windows.Forms.TabPage
+    Friend WithEvents panelZip As System.Windows.Forms.Panel
+    Friend WithEvents btnZipIt As System.Windows.Forms.Button
+    Friend WithEvents btnBrowse As System.Windows.Forms.Button
+    Friend WithEvents txtSourceDir As System.Windows.Forms.TextBox
+    Friend WithEvents lblZipFile As System.Windows.Forms.Label
+    Friend WithEvents lblSourceDir As System.Windows.Forms.Label
+    Friend WithEvents txtZipFile As System.Windows.Forms.TextBox
 End Class

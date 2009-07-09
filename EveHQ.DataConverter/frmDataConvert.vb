@@ -28,6 +28,8 @@ Imports System.IO.Compression
 Imports System.Text
 Imports System.Xml
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports ICSharpCode.SharpZipLib.Core
+Imports ICSharpCode.SharpZipLib.Zip
 
 Public Class frmDataConvert
 
@@ -1680,5 +1682,71 @@ Public Class frmDataConvert
                 End Select
             Next
         End If
+    End Sub
+
+
+    Private Sub BtnBrowseForFolderClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBrowse.Click
+        If fbd1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            txtSourceDir.Text = fbd1.SelectedPath
+        End If
+    End Sub
+
+    Private Sub BtnZipItClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnZipIt.Click
+        Dim sourceDir As String = txtSourceDir.Text.Trim()
+
+        ' Simple sanity checks
+        If sourceDir.Length = 0 Then
+            MessageBox.Show("Please specify a directory")
+            Return
+        Else
+            If Not Directory.Exists(sourceDir) Then
+                MessageBox.Show(sourceDir, "Directory not found")
+                Return
+            End If
+        End If
+
+        Dim targetName As String = txtZipFile.Text.Trim()
+        If targetName.Length = 0 Then
+            MessageBox.Show("No name specified", "Zip file name error")
+            Return
+        End If
+
+        ' Method1:
+        Dim myZipper As New FastZip
+        myZipper.CreateZip("c:\EveHQBackup2.zip", txtSourceDir.Text, True, "")
+
+        ' Method2:
+        Dim strmZipOutputStream As ZipOutputStream
+        strmZipOutputStream = New ZipOutputStream(File.Create(targetName))
+        REM Compression Level: 0-9
+        REM 0: no(Compression)
+        REM 9: maximum compression
+        strmZipOutputStream.SetLevel(5)
+        Call ZipDirectory(strmZipOutputStream, sourceDir)
+        strmZipOutputStream.Finish()
+        strmZipOutputStream.Close()
+
+        MessageBox.Show("Operation complete")
+    End Sub
+
+    Private Sub ZipDirectory(ByRef strmZipOutputStream As ZipOutputStream, ByVal sourceDir As String)
+        Dim zipDirNames As String() = Directory.GetDirectories(sourceDir)
+        For Each strDir As String In zipDirNames
+            Call Me.ZipDirectory(strmZipOutputStream, strDir)
+        Next
+        Dim zipFileNames() As String = Directory.GetFiles(sourceDir)
+        For Each strFile As String In zipFileNames
+            Dim strmFile As FileStream = File.OpenRead(strFile)
+            Dim abyBuffer(strmFile.Length - 1) As Byte
+
+            strmFile.Read(abyBuffer, 0, abyBuffer.Length)
+            Dim objZipEntry As ZipEntry = New ZipEntry(strFile)
+
+            objZipEntry.DateTime = DateTime.Now
+            objZipEntry.Size = strmFile.Length
+            strmFile.Close()
+            strmZipOutputStream.PutNextEntry(objZipEntry)
+            strmZipOutputStream.Write(abyBuffer, 0, abyBuffer.Length)
+        Next
     End Sub
 End Class
