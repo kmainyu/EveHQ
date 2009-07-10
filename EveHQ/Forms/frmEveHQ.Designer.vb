@@ -146,6 +146,7 @@ Partial Public Class frmEveHQ
         Me.tmrMemory = New System.Windows.Forms.Timer(Me.components)
         Me.ssTraining = New System.Windows.Forms.StatusStrip
         Me.panelTrainingStatus = New System.Windows.Forms.Panel
+        Me.mnuUpdateNow = New System.Windows.Forms.ToolStripMenuItem
         Me.EveHQToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -684,7 +685,7 @@ Partial Public Class frmEveHQ
         '
         'mnuHelp
         '
-        Me.mnuHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuHelpCheckUpdates, Me.VersionHistoryToolStripMenuItem, Me.ToolStripSeparator1, Me.mnuHelpAbout})
+        Me.mnuHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuHelpCheckUpdates, Me.mnuUpdateNow, Me.VersionHistoryToolStripMenuItem, Me.ToolStripSeparator1, Me.mnuHelpAbout})
         Me.mnuHelp.Name = "mnuHelp"
         Me.mnuHelp.Size = New System.Drawing.Size(44, 20)
         Me.mnuHelp.Text = "&Help"
@@ -989,6 +990,13 @@ Partial Public Class frmEveHQ
         Me.panelTrainingStatus.Size = New System.Drawing.Size(996, 26)
         Me.panelTrainingStatus.TabIndex = 20
         '
+        'mnuUpdateNow
+        '
+        Me.mnuUpdateNow.Enabled = False
+        Me.mnuUpdateNow.Name = "mnuUpdateNow"
+        Me.mnuUpdateNow.Size = New System.Drawing.Size(171, 22)
+        Me.mnuUpdateNow.Text = "Update EveHQ"
+        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1143,5 +1151,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents ssTraining As System.Windows.Forms.StatusStrip
     Friend WithEvents panelTrainingStatus As System.Windows.Forms.Panel
     Friend WithEvents DashboardToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuUpdateNow As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -309,10 +309,24 @@ Public Class frmEveHQ
                 e.Cancel = True
                 Exit Sub
             Else
-                Call Me.ShutdownRoutine()
+                ' Check if there are updates available
+                If EveHQ.Core.HQ.AppUpdateAvailable = True Then
+                    Dim msg As String = "There are pending updates available - these will be installed now."
+                    MessageBox.Show(msg, "Update Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Call Me.UpdateNow()
+                Else
+                    Call Me.ShutdownRoutine()
+                End If
             End If
         Else
-            Call Me.ShutdownRoutine()
+            ' Check if there are updates available
+            If EveHQ.Core.HQ.AppUpdateAvailable = True Then
+                Dim msg As String = "There are pending updates available - these will be installed now."
+                MessageBox.Show(msg, "Update Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Call Me.UpdateNow()
+            Else
+                Call Me.ShutdownRoutine()
+            End If
         End If
     End Sub
     Private Sub frmEveHQ_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -2328,40 +2342,7 @@ Public Class frmEveHQ
                 CurrentComponents.Add("LgLcd.dll", "Not Present")
                 msg &= "LgLcd.dll (Not Present)" & ControlChars.CrLf
             End If
-            ' Try and add the database version (if using Access)
-            Dim DBData As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/database")
-            Dim localDBVersion As String = ""
-            Dim remoteDBVersion As String = ""
-            If DBData.Count > 0 Then
-                remoteDBVersion = DBData(0).ChildNodes(0).InnerText
-            End If
-            If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
-                Dim databaseData As Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM EveHQVersion;")
-                If databaseData IsNot Nothing Then
-                    If databaseData.Tables(0).Rows.Count > 0 Then
-                        localDBVersion = databaseData.Tables(0).Rows(0).Item("Version").ToString
-                        If IsUpdateAvailable(localDBVersion, remoteDBVersion) = True Then
-                            DatabaseUpgradeAvailable = True
-                        Else
-                            DatabaseUpgradeAvailable = False
-                        End If
-                    Else
-                        If remoteDBVersion <> "" Then
-                            DatabaseUpgradeAvailable = True
-                        Else
-                            DatabaseUpgradeAvailable = False
-                        End If
-                    End If
-                Else
-                    If remoteDBVersion <> "" Then
-                        DatabaseUpgradeAvailable = True
-                    Else
-                        DatabaseUpgradeAvailable = False
-                    End If
-                End If
-            Else
-                DatabaseUpgradeAvailable = False
-            End If
+            
             ' Try parsing the update file 
             Try
                 Dim updateDetails As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/lastUpdated")
@@ -2473,8 +2454,35 @@ Public Class frmEveHQ
         Dim myUpdater As New frmUpdater
         myUpdater.ShowDialog()
     End Sub
+    Private Sub mnuUpdateNow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuUpdateNow.Click
+        Call Me.UpdateNow()
+        Me.Close()
+    End Sub
+    Private Sub UpdateNow()
+        Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
+        startInfo.UseShellExecute = True
+        startInfo.WorkingDirectory = Environment.CurrentDirectory
+        startInfo.FileName = EveHQ.Core.HQ.appFolder & "\EveHQPatcher.exe"
+        Dim args As String = " /App;" & EveHQ.Core.HQ.appFolder
+        If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
+            args &= " /Local;True"
+        Else
+            args &= " /Local;False"
+        End If
+        If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
+            args &= " /DB;" & EveHQ.Core.HQ.EveHQSettings.DBFilename
+        Else
+            args &= " /DB;None"
+        End If
+        startInfo.Arguments = args
+        startInfo.Verb = "runas"
+        Process.Start(startInfo)
+        EveHQ.Core.HQ.StartShutdownEveHQ = True
+        Me.Close()
+    End Sub
 #End Region
 
 
+   
 End Class
 

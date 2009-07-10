@@ -172,7 +172,7 @@ Public Class G15LCD
             If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
                 screen.DrawImage(My.Resources.refresh, 144, 27, 16, 16)
             End If
-            If EveHQ.Core.HQ.UpdateAvailable = True Then
+            If EveHQ.Core.HQ.APIUpdateAvailable = True Then
                 screen.DrawString("(U)", lcdFont, Brushes.White, 128, 32, strformat)
             End If
             'Draw to the LCD bitmap
@@ -206,7 +206,7 @@ Public Class G15LCD
             If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True Then
                 screen.DrawImage(My.Resources.refresh, 144, 27, 16, 16)
             End If
-            If EveHQ.Core.HQ.UpdateAvailable = True Then
+            If EveHQ.Core.HQ.APIUpdateAvailable = True Then
                 screen.DrawString("(U)", lcdFont, Brushes.White, 128, 32, strformat)
             End If
             'Draw to the LCD bitmap

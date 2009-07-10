@@ -16,7 +16,8 @@ Public Class frmUpdater
     Dim filesRequired As New SortedList
     Dim filesComplete As New SortedList
     Dim filesTried As Integer = 0
-    Dim DatabaseUpgradeAvailable As Boolean = False
+    Dim updateFolder As String = ""
+    Dim updateRequired As Boolean = False
     Public startupTest As Boolean = False
 
     Private Sub frmUpdater_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -80,27 +81,18 @@ Public Class frmUpdater
             btnRecheckUpdates.Enabled = True
             Exit Sub
         Else
-            Dim UpdateRequired As Boolean = False
+            updateRequired = False
             ' Get a current list of components
             lblUpdateStatus.Text = "Status: Checking current components..."
             clvUpdates.Items.Clear()
             CurrentComponents.Clear()
             pbControls.Clear()
-            Dim msg As String = ""
             For Each myAssembly As AssemblyName In Assembly.GetExecutingAssembly().GetReferencedAssemblies()
                 If CurrentComponents.Contains(myAssembly.Name & ".dll") = False Then
-                    CurrentComponents.Add(myAssembly.Name & ".dll", myAssembly.Version.ToString)
-                    msg &= myAssembly.Name & ".dll (" & myAssembly.Version.ToString & ")" & ControlChars.CrLf
-                End If
-                If myAssembly.Name = "EveHQ.Core" Or myAssembly.Name = "EveHQ.CoreControls" Then
-                    ' Check the references for these
-                    Dim subAssembly As Assembly = Assembly.ReflectionOnlyLoad(myAssembly.Name)
-                    For Each subAssemblyName As AssemblyName In subAssembly.GetReferencedAssemblies
-                        If CurrentComponents.Contains(subAssemblyName.Name & ".dll") = False Then
-                            CurrentComponents.Add(subAssemblyName.Name & ".dll", subAssemblyName.Version.ToString)
-                            msg &= subAssemblyName.Name & ".dll (" & subAssemblyName.Version.ToString & ")" & ControlChars.CrLf
-                        End If
-                    Next
+                    If myAssembly.Name.StartsWith("EveHQ") Then
+                        CurrentComponents.Add(myAssembly.Name & ".dll", myAssembly.Version.ToString)
+                        CurrentComponents.Add(myAssembly.Name & ".pdb", myAssembly.Version.ToString)
+                    End If
                 End If
             Next
             ' Add to that a list of the plug-ins used
@@ -108,64 +100,42 @@ Public Class frmUpdater
                 If myPlugIn.ShortFileName IsNot Nothing Then
                     If CurrentComponents.Contains(myPlugIn.ShortFileName) = False Then
                         CurrentComponents.Add(myPlugIn.ShortFileName, myPlugIn.Version)
-                        msg &= myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")" & ControlChars.CrLf
+                        CurrentComponents.Add(System.IO.Path.GetFileNameWithoutExtension(myPlugIn.FileName) & ".pdb", myPlugIn.Version)
                     End If
                 End If
             Next
             ' Add the current executable!
             CurrentComponents.Add("EveHQ.exe", My.Application.Info.Version.ToString)
-            msg &= "EveHQ.exe (" & My.Application.Info.Version.ToString & ")" & ControlChars.CrLf
+            CurrentComponents.Add("EveHQ.pdb", My.Application.Info.Version.ToString)
             ' Add the EveHQPatcher if available?
             If My.Computer.FileSystem.FileExists(Path.Combine(Application.StartupPath, "EveHQPatcher.exe")) = True Then
                 Dim myAssembly As Assembly = Assembly.ReflectionOnlyLoadFrom(Path.Combine(Application.StartupPath, "EveHQPatcher.exe"))
                 CurrentComponents.Add("EveHQPatcher.exe", myAssembly.GetName.Version.ToString)
-                msg &= "EveHQPatcher.exe (" & myAssembly.GetName.Version.ToString & ")" & ControlChars.CrLf
+                CurrentComponents.Add("EveHQPatcher.pdb", myAssembly.GetName.Version.ToString)
             Else
                 CurrentComponents.Add("EveHQPatcher.exe", "Not Present")
-                msg &= "EveHQPatcher.exe (Not Present)" & ControlChars.CrLf
+                CurrentComponents.Add("EveHQPatcher.pdb", "Not Present")
             End If
             ' Add the LgLcd.dll - unique as not a .Net assembly
             If My.Computer.FileSystem.FileExists(Path.Combine(Application.StartupPath, "LgLcd.dll")) = True Then
                 CurrentComponents.Add("LgLcd.dll", "Any")
-                msg &= "LgLcd.dll (Any)" & ControlChars.CrLf
             Else
                 CurrentComponents.Add("LgLcd.dll", "Not Present")
-                msg &= "LgLcd.dll (Not Present)" & ControlChars.CrLf
             End If
             ' Try and add the database version (if using Access)
-            Dim DBData As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/database")
-            Dim localDBVersion As String = ""
-            Dim remoteDBVersion As String = ""
-            If DBData.Count > 0 Then
-                remoteDBVersion = DBData(0).ChildNodes(0).InnerText
-            End If
             If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
                 Dim databaseData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM EveHQVersion;")
                 If databaseData IsNot Nothing Then
                     If databaseData.Tables(0).Rows.Count > 0 Then
-                        localDBVersion = databaseData.Tables(0).Rows(0).Item("Version").ToString
-                        If IsUpdateAvailable(localDBVersion, remoteDBVersion) = True Then
-                            DatabaseUpgradeAvailable = True
-                        Else
-                            DatabaseUpgradeAvailable = False
-                        End If
+                        CurrentComponents.Add("EveHQ.mdb.zip", databaseData.Tables(0).Rows(0).Item("Version").ToString)
                     Else
-                        If remoteDBVersion <> "" Then
-                            DatabaseUpgradeAvailable = True
-                        Else
-                            DatabaseUpgradeAvailable = False
-                        End If
+                        CurrentComponents.Add("EveHQ.mdb.zip", "1.0.0.0")
                     End If
                 Else
-                    If remoteDBVersion <> "" Then
-                        DatabaseUpgradeAvailable = True
-                    Else
-                        DatabaseUpgradeAvailable = False
-                    End If
+                    CurrentComponents.Add("EveHQ.mdb.zip", "1.0.0.0")
                 End If
-            Else
-                DatabaseUpgradeAvailable = False
             End If
+
             ' Try parsing the update file 
             lblUpdateStatus.Text = "Status: Parsing update file..."
             Try
@@ -173,94 +143,93 @@ Public Class frmUpdater
                 Dim lastUpdate As String = updateDetails(0).InnerText
                 Dim requiredFiles As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/files/file")
                 For Each updateFile As XmlNode In requiredFiles
-                    Dim newFile As New ContainerListViewItem
-                    newFile.Text = updateFile.ChildNodes(0).InnerText
-                    clvUpdates.Items.Add(newFile)
-                    newFile.SubItems(1).Text = updateFile.ChildNodes(1).InnerText
-                    If CurrentComponents.Contains(updateFile.ChildNodes(0).InnerText) = True Then
-                        newFile.SubItems(2).Text = CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText))
-                    End If
-                    newFile.SubItems(3).Text = updateFile.ChildNodes(2).InnerText
-                    ' Check if the plug-in is available
-                    If CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)) IsNot Nothing Then
-                        ' Check which is the later version
-                        If IsUpdateAvailable(CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)), updateFile.ChildNodes(2).InnerText) = True Then
-                            newFile.ForeColor = Color.Red
-                            Dim chkDownload As New CheckBox
-                            chkDownload.Name = newFile.Text
-                            chkDownload.Size = New Size(14, 14)
-                            If newFile.SubItems(1).Text = "Required" Then
-                                chkDownload.Enabled = False
-                            Else
-                                chkDownload.Enabled = True
-                            End If
-                            chkDownload.Checked = True
-                            newFile.SubItems(4).ItemControl = chkDownload
-                            newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-                            Dim pbProgress As New ProgressBar
-                            pbProgress.Name = newFile.Text
-                            pbProgress.Width = 150
-                            pbProgress.Height = 16
-                            newFile.SubItems(5).ItemControl = pbProgress
-                            'newFile.SubItems(5).Text = "0%"
-                            pbControls.Add(newFile.Text, pbProgress)
-                            UpdateRequired = True
-                        Else
-                            Dim chkDownload As New CheckBox
-                            chkDownload.Name = newFile.Text
-                            chkDownload.Size = New Size(14, 14)
-                            chkDownload.Enabled = False
-                            chkDownload.Checked = False
-                            newFile.SubItems(4).ItemControl = chkDownload
-                            newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-                            newFile.ForeColor = Color.LimeGreen
-                            newFile.SubItems(5).Text = "Update Not Required"
-                        End If
-                    Else
-                        newFile.SubItems(2).Text = "New!!"
-                        newFile.ForeColor = Color.Red
-                        Dim chkDownload As New CheckBox
-                        chkDownload.Name = newFile.Text
-                        chkDownload.Size = New Size(14, 14)
-                        chkDownload.Enabled = True
-                        chkDownload.Checked = True
-                        newFile.SubItems(4).ItemControl = chkDownload
-                        newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-                        Dim pbProgress As New ProgressBar
-                        pbProgress.Name = newFile.Text
-                        pbProgress.Width = 150
-                        pbProgress.Height = 16
-                        newFile.SubItems(5).ItemControl = pbProgress
-                        'newFile.SubItems(5).Text = "0%"
-                        pbControls.Add(newFile.Text, pbProgress)
-                        UpdateRequired = True
-                    End If
+                    Call AddUpdateToList(updateFile)
                 Next
                 If UpdateRequired = True Then
                     lblUpdateStatus.Text = "Status: Awaiting User Action..."
                     btnStartUpdate.Enabled = True
                 Else
-                    If DatabaseUpgradeAvailable = True Then
-                        lblUpdateStatus.Text = "Status: No Updates Required (Database Available)"
-                    Else
-                        lblUpdateStatus.Text = "Status: No Updates Required!"
-                        If startupTest = True Then
-                            Me.Close()
-                        End If
+                    lblUpdateStatus.Text = "Status: No Updates Required!"
+                    If startupTest = True Then
+                        Me.Close()
                     End If
                     btnRecheckUpdates.Enabled = True
-                End If
-                ' Report if there is a database upgrade available
-                If DatabaseUpgradeAvailable = True Then
-                    Dim DBMsg As String = "There is a new version of the Access database available for download." & ControlChars.CrLf & ControlChars.CrLf
-                    DBMsg &= "It is recommended that you upgrade your database as soon as possible so as to include all the latest changes from Eve patches and to maximise compatability with EveHQ." & ControlChars.CrLf & ControlChars.CrLf
-                    DBMsg &= "Please visit the EveHQ website to obtain this newer version."
-                    MessageBox.Show(DBMsg, "Database Upgrade Available", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
             Catch ex As Exception
                 Dim ErrMsg As String = ex.Message & ControlChars.CrLf & ControlChars.CrLf
                 MessageBox.Show(ErrMsg, "Error Parsing Update File", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
+        End If
+    End Sub
+
+    Private Sub AddUpdateToList(ByVal updateFile As XmlNode)
+        Dim newFile As New ContainerListViewItem
+        newFile.Text = updateFile.ChildNodes(0).InnerText
+        clvUpdates.Items.Add(newFile)
+        newFile.SubItems(1).Text = updateFile.ChildNodes(1).InnerText
+        If CurrentComponents.Contains(updateFile.ChildNodes(0).InnerText) = True Then
+            newFile.SubItems(2).Text = CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText))
+        End If
+        newFile.SubItems(3).Text = updateFile.ChildNodes(2).InnerText
+        ' Check if the plug-in is available
+        If CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)) IsNot Nothing Then
+            ' Check which is the later version
+            If IsUpdateAvailable(CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)), updateFile.ChildNodes(2).InnerText) = True Then
+                newFile.ForeColor = Color.Red
+                Dim chkDownload As New CheckBox
+                chkDownload.Name = newFile.Text
+                chkDownload.Size = New Size(14, 14)
+                If newFile.SubItems(1).Text = "Required" Then
+                    chkDownload.Enabled = False
+                Else
+                    chkDownload.Enabled = True
+                End If
+                chkDownload.Checked = True
+                newFile.SubItems(4).ItemControl = chkDownload
+                newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
+                Dim pbProgress As New ProgressBar
+                pbProgress.Name = newFile.Text
+                pbProgress.Width = 150
+                pbProgress.Height = 16
+                newFile.SubItems(5).ItemControl = pbProgress
+                'newFile.SubItems(5).Text = "0%"
+                pbControls.Add(newFile.Text, pbProgress)
+                UpdateRequired = True
+            Else
+                Dim chkDownload As New CheckBox
+                chkDownload.Name = newFile.Text
+                chkDownload.Size = New Size(14, 14)
+                chkDownload.Enabled = False
+                chkDownload.Checked = False
+                newFile.SubItems(4).ItemControl = chkDownload
+                newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
+                newFile.ForeColor = Color.LimeGreen
+                newFile.SubItems(5).Text = "Update Not Required"
+            End If
+        Else
+            newFile.SubItems(2).Text = "New!!"
+            newFile.ForeColor = Color.Red
+            Dim chkDownload As New CheckBox
+            chkDownload.Name = newFile.Text
+            chkDownload.Size = New Size(14, 14)
+            chkDownload.Enabled = True
+            chkDownload.Checked = True
+            newFile.SubItems(4).ItemControl = chkDownload
+            newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
+            Dim pbProgress As New ProgressBar
+            pbProgress.Name = newFile.Text
+            pbProgress.Width = 150
+            pbProgress.Height = 16
+            newFile.SubItems(5).ItemControl = pbProgress
+            'newFile.SubItems(5).Text = "0%"
+            pbControls.Add(newFile.Text, pbProgress)
+            UpdateRequired = True
+        End If
+        If updateFile.ChildNodes(3).InnerText = "True" Then
+            ' Add a pdb file reference
+            updateFile.ChildNodes(3).InnerText = "False"
+            updateFile.ChildNodes(0).InnerText = newFile.Text.Remove(newFile.Text.Length - 4, 4) & ".pdb"
+            Call Me.AddUpdateToList(updateFile)
         End If
     End Sub
 
@@ -317,6 +286,21 @@ Public Class frmUpdater
             End If
         Next
 
+        ' Check for existence of updates folder
+        If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
+            updateFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "Updates")
+        Else
+            updateFolder = Path.Combine(Application.StartupPath, "Updates")
+        End If
+        If My.Computer.FileSystem.DirectoryExists(updateFolder) = False Then
+            ' Create the cache folder if it doesn't exist
+            My.Computer.FileSystem.CreateDirectory(updateFolder)
+        Else
+            ' Clear the existing contents and recreate
+            My.Computer.FileSystem.DeleteDirectory(updateFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            My.Computer.FileSystem.CreateDirectory(updateFolder)
+        End If
+
         lblUpdateStatus.Text = "Status: Downloading updates..."
         For Each reqFile As String In filesRequired.Keys
             Dim updateWorker As New System.ComponentModel.BackgroundWorker
@@ -341,10 +325,10 @@ Public Class frmUpdater
             Dim FI As New FileInfo(FileNeeded)
             pdbFile = FI.Name.TrimEnd(FI.Extension.ToCharArray) & ".pdb"
             httpURI = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & pdbFile
-            localFile = Path.Combine(My.Application.Info.DirectoryPath, pdbFile & ".upd")
+            localFile = Path.Combine(updateFolder, pdbFile)
         Else
             httpURI = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
-            localFile = Path.Combine(My.Application.Info.DirectoryPath, FileNeeded & ".upd")
+            localFile = Path.Combine(updateFolder, FileNeeded)
         End If
         ' Work out the debug file name to get
 
@@ -374,7 +358,7 @@ Public Class frmUpdater
                 Using responseStream As IO.Stream = response.GetResponseStream
                     'loop to read & write to file
                     Using fs As New IO.FileStream(localFile, IO.FileMode.Create)
-                        Dim buffer(4095) As Byte
+                        Dim buffer(16383) As Byte
                         Dim read As Integer = 0
                         Dim totalBytes As Long = 0
                         Dim percent As Integer = 0
@@ -412,20 +396,9 @@ Public Class frmUpdater
 
     End Function
 
-    Private Function DownloadFile2(ByVal worker As System.ComponentModel.BackgroundWorker, ByVal FileNeeded As String) As Boolean
-
-        Dim percent As Integer = 0
-        For a As Integer = 1 To 100000
-            percent = CInt(a / 1000)
-            worker.ReportProgress(percent, FileNeeded)
-        Next
-
-    End Function
-
     Private Sub UpdateWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim reqfile As String = CStr(e.Argument)
         Call DownloadFile(CType(sender, System.ComponentModel.BackgroundWorker), reqfile, False)
-        Call DownloadFile(CType(sender, System.ComponentModel.BackgroundWorker), reqfile, True) ' For PDB file
     End Sub
 
     Private Sub UpdateWorker_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs)
@@ -447,19 +420,35 @@ Public Class frmUpdater
                 End If
             End If
         Next
-        'If filesTried = filesRequired.Count Then
-        'If filesComplete.Count = filesRequired.Count Then
-        If filesTried = filesRequired.Count * 2 Then ' Use for when we activate the PDB downloads
-            If filesComplete.Count = filesRequired.Count * 2 Then ' Use for when we activate the PDB downloads
-                lblUpdateStatus.Text = "Updating Files..."
-                Call UpdateEveHQ()
-                lblUpdateStatus.Text = "Status: Update Complete!"
-                Dim msg As String = "All Updates Completed! EveHQ needs to be restarted to use the new updates." & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Would you like to close EveHQ now?"
-                Dim result As Integer = MessageBox.Show(msg, "Update Complete!", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If result = DialogResult.No Then
+        If filesTried = filesRequired.Count Then
+            If filesComplete.Count = filesRequired.Count Then
+                lblUpdateStatus.Text = "Status: Download complete!"
+                ' Ask the user if they want to update now
+                Dim msg As String = "The download process is complete. Would you like to close and update EveHQ now?"
+                If MessageBox.Show(msg, "Update Now?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
+                    ' Activate the update menu
+                    EveHQ.Core.HQ.AppUpdateAvailable = True
+                    frmEveHQ.mnuUpdateNow.Enabled = True
                     Me.Close()
                 Else
+                    Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
+                    startInfo.UseShellExecute = True
+                    startInfo.WorkingDirectory = Environment.CurrentDirectory
+                    startInfo.FileName = EveHQ.Core.HQ.appFolder & "\EveHQPatcher.exe"
+                    Dim args As String = " /App;" & EveHQ.Core.HQ.appFolder
+                    If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
+                        args &= " /Local;True"
+                    Else
+                        args &= " /Local;False"
+                    End If
+                    If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
+                        args &= " /DB;" & EveHQ.Core.HQ.EveHQSettings.DBFilename
+                    Else
+                        args &= " /DB;None"
+                    End If
+                    startInfo.Arguments = args
+                    startInfo.Verb = "runas"
+                    Process.Start(startInfo)
                     EveHQ.Core.HQ.StartShutdownEveHQ = True
                     Me.Close()
                 End If

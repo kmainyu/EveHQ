@@ -75,7 +75,8 @@ Public Class HQ
     Public Shared BasePriceList As New SortedList
     Public Shared MarketPriceList As New SortedList
     Public Shared CustomPriceList As New SortedList
-    Public Shared UpdateAvailable As Boolean = False
+    Public Shared APIUpdateAvailable As Boolean = False
+    Public Shared AppUpdateAvailable As Boolean = False
     Public Shared CertificateCategories As New SortedList
     Public Shared CertificateClasses As New SortedList
     Public Shared Certificates As New SortedList
