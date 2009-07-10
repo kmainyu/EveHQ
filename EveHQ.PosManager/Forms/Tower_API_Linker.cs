@@ -67,6 +67,13 @@ namespace EveHQ.PosManager
             pos = tv_PoSList.SelectedNode;
             api = tv_APIList.SelectedNode;
 
+            if ((pos == null) || (api == null))
+            {
+                // Pop Up dialog stating they must select a Tower, not a Location / system
+                MessageBox.Show("You Must Select BOTH a Tower, AND a System Location.", "Select Error", MessageBoxButtons.OK);
+                return;
+            }
+
             if ((api.Parent != null) && (api.Parent.Tag.ToString() != "LOC") && (api.Parent.Tag.ToString() != "CORP"))
                 api = api.Parent;
 
