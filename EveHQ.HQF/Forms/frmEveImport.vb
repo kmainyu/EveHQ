@@ -324,7 +324,7 @@ Public Class frmEveImport
         Dim fitName As String = cLoadout.Text
         Dim fileName As String = cLoadout.Tag.ToString
         Dim shipName As String = cLoadout.ParentItem.Text
-        currentShip = CType(ShipLists.shipList(shipName), Ship)
+        currentShip = CType(ShipLists.shipList(shipName), Ship).Clone
         Dim moduleList As New SortedList
         Dim droneList As New SortedList
         ' Open the file and load the XML
@@ -342,7 +342,11 @@ Public Class frmEveImport
                             moduleList.Add(modNode.Attributes("slot").Value, ", " & fModule.Name)
                         Else
                             If fModule.IsDrone = True Then
-                                droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
+                                If droneList.ContainsKey(fModule.Name) = False Then
+                                    droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
+                                Else
+                                    droneList(fModule.Name) = CInt(droneList(fModule.Name)) + CInt(modNode.Attributes("qty").Value)
+                                End If
                             Else
                                 moduleList.Add(modNode.Attributes("slot").Value, fModule.Name)
                             End If
@@ -352,14 +356,18 @@ Public Class frmEveImport
                             moduleList(modNode.Attributes("slot").Value) = CStr(moduleList(modNode.Attributes("slot").Value)) & ", " & fModule.Name
                         Else
                             If fModule.IsDrone = True Then
-                                droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
+                                If droneList.ContainsKey(fModule.Name) = False Then
+                                    droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
+                                Else
+                                    droneList(fModule.Name) = CInt(droneList(fModule.Name)) + CInt(modNode.Attributes("qty").Value)
+                                End If
                             Else
                                 moduleList(modNode.Attributes("slot").Value) = fModule.Name & ", " & CStr(moduleList(modNode.Attributes("slot").Value))
                             End If
                         End If
                     End If
                 Next
-                currentFit.Clear()
+                currentFit = New ArrayList
                 Call ClearShipSlots()
                 For Each fittedMod As String In moduleList.Values
                     currentFit.Add(fittedMod)
