@@ -30,11 +30,11 @@ Partial Class frmUpdater
         Me.colFunction = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colVersion = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colAvailable = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colDownload = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colProgress = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.btnStartUpdate = New System.Windows.Forms.Button
         Me.tmrUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.btnRecheckUpdates = New System.Windows.Forms.Button
-        Me.colDownload = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.SuspendLayout()
         '
         'lblUpdateStatus
@@ -90,6 +90,15 @@ Partial Class frmUpdater
         Me.colAvailable.Tag = Nothing
         Me.colAvailable.Text = "Available"
         '
+        'colDownload
+        '
+        Me.colDownload.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.colDownload.CustomSortTag = Nothing
+        Me.colDownload.DisplayIndex = 4
+        Me.colDownload.Tag = Nothing
+        Me.colDownload.Text = "Download?"
+        Me.colDownload.Width = 70
+        '
         'colProgress
         '
         Me.colProgress.CustomSortTag = Nothing
@@ -111,7 +120,6 @@ Partial Class frmUpdater
         '
         'tmrUpdate
         '
-        Me.tmrUpdate.Enabled = True
         '
         'btnRecheckUpdates
         '
@@ -123,15 +131,6 @@ Partial Class frmUpdater
         Me.btnRecheckUpdates.TabIndex = 6
         Me.btnRecheckUpdates.Text = "Check Updates"
         Me.btnRecheckUpdates.UseVisualStyleBackColor = True
-        '
-        'colDownload
-        '
-        Me.colDownload.ContentAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.colDownload.CustomSortTag = Nothing
-        Me.colDownload.DisplayIndex = 4
-        Me.colDownload.Tag = Nothing
-        Me.colDownload.Text = "Download?"
-        Me.colDownload.Width = 70
         '
         'frmUpdater
         '
@@ -146,7 +145,6 @@ Partial Class frmUpdater
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
-        Me.MinimizeBox = False
         Me.Name = "frmUpdater"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "EveHQ Updater"

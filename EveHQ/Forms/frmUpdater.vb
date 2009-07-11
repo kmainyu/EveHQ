@@ -19,9 +19,12 @@ Public Class frmUpdater
     Dim updateFolder As String = ""
     Dim updateRequired As Boolean = False
     Public startupTest As Boolean = False
+    Dim PatcherLocation As String = EveHQ.Core.HQ.appDataFolder
 
     Private Sub frmUpdater_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        tmrUpdate.Interval = 100
         tmrUpdate.Enabled = True
+        tmrUpdate.Start()
     End Sub
 
     Private Function FetchUpdateXML() As XmlDocument
@@ -30,7 +33,7 @@ Public Class frmUpdater
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
         Dim UpdateServer As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL
-        Dim remoteURL As String = UpdateServer & "/_latest.xml"
+        Dim remoteURL As String = UpdateServer & "/_updates.xml"
         Dim webdata As String = ""
         Dim UpdateXML As New XmlDocument
         Try
@@ -107,15 +110,6 @@ Public Class frmUpdater
             ' Add the current executable!
             CurrentComponents.Add("EveHQ.exe", My.Application.Info.Version.ToString)
             CurrentComponents.Add("EveHQ.pdb", My.Application.Info.Version.ToString)
-            ' Add the EveHQPatcher if available?
-            If My.Computer.FileSystem.FileExists(Path.Combine(Application.StartupPath, "EveHQPatcher.exe")) = True Then
-                Dim myAssembly As Assembly = Assembly.ReflectionOnlyLoadFrom(Path.Combine(Application.StartupPath, "EveHQPatcher.exe"))
-                CurrentComponents.Add("EveHQPatcher.exe", myAssembly.GetName.Version.ToString)
-                CurrentComponents.Add("EveHQPatcher.pdb", myAssembly.GetName.Version.ToString)
-            Else
-                CurrentComponents.Add("EveHQPatcher.exe", "Not Present")
-                CurrentComponents.Add("EveHQPatcher.pdb", "Not Present")
-            End If
             ' Add the LgLcd.dll - unique as not a .Net assembly
             If My.Computer.FileSystem.FileExists(Path.Combine(Application.StartupPath, "LgLcd.dll")) = True Then
                 CurrentComponents.Add("LgLcd.dll", "Any")
@@ -431,10 +425,27 @@ Public Class frmUpdater
                     frmEveHQ.mnuUpdateNow.Enabled = True
                     Me.Close()
                 Else
+                    ' Try and download patchfile
+                    Dim patcherFile As String = Path.Combine(PatcherLocation, "EveHQPatcher.exe")
+                    Try
+                        lblUpdateStatus.Text = "Status: Fetching Patcher File!"
+                        Call Me.DownloadPatcherFile("EveHQPatcher.exe")
+                        ' Copy the CoreControls.dll file to the same location
+                        Dim oldCCfile As String = Path.Combine(EveHQ.Core.HQ.appFolder, "EveHQ.CoreControls.dll")
+                        Dim newCCfile As String = Path.Combine(PatcherLocation, "EveHQ.CoreControls.dll")
+                        My.Computer.FileSystem.CopyFile(oldCCfile, newCCfile, True)
+                        'MessageBox.Show("Patcher Deployment Successful!", "Patcher Deployment Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        tmrUpdate.Enabled = True
+                    Catch Excep As System.Runtime.InteropServices.COMException
+                        Dim errMsg As String = "Unable to copy Patcher to " & ControlChars.CrLf & ControlChars.CrLf & patcherFile & ControlChars.CrLf & ControlChars.CrLf
+                        errMsg &= "Please make sure this file is in the EveHQ program directory before continuing."
+                        MessageBox.Show(errMsg, "Error Copying Patcher", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Exit Sub
+                    End Try
                     Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
                     startInfo.UseShellExecute = True
                     startInfo.WorkingDirectory = Environment.CurrentDirectory
-                    startInfo.FileName = EveHQ.Core.HQ.appFolder & "\EveHQPatcher.exe"
+                    startInfo.FileName = patcherFile
                     Dim args As String = " /App;" & EveHQ.Core.HQ.appFolder
                     If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
                         args &= " /Local;True"
@@ -750,5 +761,70 @@ Public Class frmUpdater
     '    Next
     '    Return requiresUpdate
     'End Function
+
+    Private Function DownloadPatcherFile(ByVal FileNeeded As String) As Boolean
+
+        ' Set a default policy level for the "http:" and "https" schemes.
+        Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
+
+        Dim httpURI As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
+        Dim localFile As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, FileNeeded)
+
+        ' Create the request to access the server and set credentials
+        ServicePointManager.DefaultConnectionLimit = 10
+        ServicePointManager.Expect100Continue = False
+        Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(httpURI))
+        Dim request As HttpWebRequest = CType(HttpWebRequest.Create(httpURI), HttpWebRequest)
+        request.CachePolicy = policy
+        ' Setup proxy server (if required)
+        If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
+            Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
+            If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
+                EveHQProxy.UseDefaultCredentials = True
+            Else
+                EveHQProxy.UseDefaultCredentials = False
+                EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
+            End If
+            request.Proxy = EveHQProxy
+        End If
+        request.CachePolicy = policy
+        request.Method = WebRequestMethods.File.DownloadFile
+        request.Timeout = 900000
+        Try
+            Using response As HttpWebResponse = CType(request.GetResponse, HttpWebResponse)
+                Dim filesize As Long = CLng(response.ContentLength)
+                Using responseStream As IO.Stream = response.GetResponseStream
+                    'loop to read & write to file
+                    Using fs As New IO.FileStream(localFile, IO.FileMode.Create)
+                        Dim buffer(16383) As Byte
+                        Dim read As Integer = 0
+                        Dim totalBytes As Long = 0
+                        Dim percent As Integer = 0
+                        Do
+                            read = responseStream.Read(buffer, 0, buffer.Length)
+                            fs.Write(buffer, 0, read)
+                            totalBytes += read
+                            percent = CInt(totalBytes / filesize * 100)
+                        Loop Until read = 0 'see Note(1)
+                        responseStream.Close()
+                        fs.Flush()
+                        fs.Close()
+                    End Using
+                    responseStream.Close()
+                End Using
+                response.Close()
+            End Using
+            Return True
+        Catch e As WebException
+            Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
+            errMsg &= "Status: " & e.Status & ControlChars.CrLf
+            errMsg &= "Message: " & e.Message & ControlChars.CrLf
+            MessageBox.Show(errMsg, "Error Downloading Patcher File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return False
+        End Try
+
+    End Function
+
+    
 End Class
 

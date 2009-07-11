@@ -151,6 +151,13 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
+      <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
+      <Name>EveHQ.CoreControls</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

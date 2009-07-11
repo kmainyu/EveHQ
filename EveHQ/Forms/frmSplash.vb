@@ -20,6 +20,7 @@
 Imports System.Reflection
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports ICSharpCode.SharpZipLib.Zip
 
 Public Class frmSplash
 

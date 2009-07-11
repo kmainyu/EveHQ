@@ -571,6 +571,7 @@
     <None Include="Resources\level5_act.gif" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Debug\EveHQPatcher.exe" />
     <Content Include="license.txt" />
     <None Include="Resources\CertificateCategories.bin" />
     <None Include="Resources\CertificateClasses.bin" />
@@ -579,6 +580,7 @@
     <None Include="Resources\Errors.txt" />
     <None Include="Resources\Splashv1.jpg" />
     <Content Include="_latest.xml" />
+    <Content Include="_updates.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>

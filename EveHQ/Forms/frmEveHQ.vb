@@ -1411,8 +1411,7 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub mnuHelpCheckUpdates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuHelpCheckUpdates.Click
-        Dim myUpdater As New frmUpdater
-        myUpdater.ShowDialog()
+        Call Me.ShowUpdateForm()
     End Sub
 
     Private Sub VersionHistoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VersionHistoryToolStripMenuItem.Click
@@ -2299,18 +2298,10 @@ Public Class frmEveHQ
             Dim msg As String = ""
             For Each myAssembly As AssemblyName In Assembly.GetExecutingAssembly().GetReferencedAssemblies()
                 If CurrentComponents.Contains(myAssembly.Name & ".dll") = False Then
-                    CurrentComponents.Add(myAssembly.Name & ".dll", myAssembly.Version.ToString)
-                    msg &= myAssembly.Name & ".dll (" & myAssembly.Version.ToString & ")" & ControlChars.CrLf
-                End If
-                If myAssembly.Name = "EveHQ.Core" Or myAssembly.Name = "EveHQ.CoreControls" Then
-                    ' Check the references for these
-                    Dim subAssembly As Assembly = Assembly.ReflectionOnlyLoad(myAssembly.Name)
-                    For Each subAssemblyName As AssemblyName In subAssembly.GetReferencedAssemblies
-                        If CurrentComponents.Contains(subAssemblyName.Name & ".dll") = False Then
-                            CurrentComponents.Add(subAssemblyName.Name & ".dll", subAssemblyName.Version.ToString)
-                            msg &= subAssemblyName.Name & ".dll (" & subAssemblyName.Version.ToString & ")" & ControlChars.CrLf
-                        End If
-                    Next
+                    If myAssembly.Name.StartsWith("EveHQ") Then
+                        CurrentComponents.Add(myAssembly.Name & ".dll", myAssembly.Version.ToString)
+                        CurrentComponents.Add(myAssembly.Name & ".pdb", myAssembly.Version.ToString)
+                    End If
                 End If
             Next
             ' Add to that a list of the plug-ins used
@@ -2318,29 +2309,31 @@ Public Class frmEveHQ
                 If myPlugIn.ShortFileName IsNot Nothing Then
                     If CurrentComponents.Contains(myPlugIn.ShortFileName) = False Then
                         CurrentComponents.Add(myPlugIn.ShortFileName, myPlugIn.Version)
-                        msg &= myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")" & ControlChars.CrLf
+                        CurrentComponents.Add(System.IO.Path.GetFileNameWithoutExtension(myPlugIn.FileName) & ".pdb", myPlugIn.Version)
                     End If
                 End If
             Next
             ' Add the current executable!
             CurrentComponents.Add("EveHQ.exe", My.Application.Info.Version.ToString)
-            msg &= "EveHQ.exe (" & My.Application.Info.Version.ToString & ")" & ControlChars.CrLf
-            ' Add the EveHQPatcher if available?
-            If My.Computer.FileSystem.FileExists(Path.Combine(Application.StartupPath, "EveHQPatcher.exe")) = True Then
-                Dim myAssembly As Assembly = Assembly.ReflectionOnlyLoadFrom(Path.Combine(Application.StartupPath, "EveHQPatcher.exe"))
-                CurrentComponents.Add("EveHQPatcher.exe", myAssembly.GetName.Version.ToString)
-                msg &= "EveHQPatcher.exe (" & myAssembly.GetName.Version.ToString & ")" & ControlChars.CrLf
-            Else
-                CurrentComponents.Add("EveHQPatcher.exe", "Not Present")
-                msg &= "EveHQPatcher.exe (Not Present)" & ControlChars.CrLf
-            End If
+            CurrentComponents.Add("EveHQ.pdb", My.Application.Info.Version.ToString)
             ' Add the LgLcd.dll - unique as not a .Net assembly
             If My.Computer.FileSystem.FileExists(Path.Combine(Application.StartupPath, "LgLcd.dll")) = True Then
                 CurrentComponents.Add("LgLcd.dll", "Any")
-                msg &= "LgLcd.dll (Any)" & ControlChars.CrLf
             Else
                 CurrentComponents.Add("LgLcd.dll", "Not Present")
-                msg &= "LgLcd.dll (Not Present)" & ControlChars.CrLf
+            End If
+            ' Try and add the database version (if using Access)
+            If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
+                Dim databaseData As Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM EveHQVersion;")
+                If databaseData IsNot Nothing Then
+                    If databaseData.Tables(0).Rows.Count > 0 Then
+                        CurrentComponents.Add("EveHQ.mdb.zip", databaseData.Tables(0).Rows(0).Item("Version").ToString)
+                    Else
+                        CurrentComponents.Add("EveHQ.mdb.zip", "1.0.0.0")
+                    End If
+                Else
+                    CurrentComponents.Add("EveHQ.mdb.zip", "1.0.0.0")
+                End If
             End If
             
             ' Try parsing the update file 
@@ -2365,26 +2358,16 @@ Public Class frmEveHQ
                     If reply = DialogResult.No Then
                         Exit Sub
                     Else
-                        Dim myUpdater As New frmUpdater
-                        myUpdater.ShowDialog()
-                    End If
-                Else
-                    If DatabaseUpgradeAvailable = True Then
-                        mnuUpdate.Enabled = True
-                        Dim reply As Integer = MessageBox.Show("There are updates available. Would you like to update EveHQ now?", "Update EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                        If reply = DialogResult.No Then
-                            Exit Sub
-                        Else
-                            Dim myUpdater As New frmUpdater
-                            myUpdater.ShowDialog()
-                        End If
-                    Else
-                        mnuUpdate.Enabled = False
+                        Me.Invoke(New MethodInvoker(AddressOf Me.ShowUpdateForm))
                     End If
                 End If
             Catch ex As Exception
             End Try
         End If
+    End Sub
+    Private Sub ShowUpdateForm()
+        Dim myUpdater As New frmUpdater
+        myUpdater.Show()
     End Sub
     Private Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
         If localVer = "Not Used" Then
@@ -2415,7 +2398,7 @@ Public Class frmEveHQ
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
         Dim UpdateServer As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL
-        Dim remoteURL As String = UpdateServer & "/_latest.xml"
+        Dim remoteURL As String = UpdateServer & "/_updates.xml"
         Dim webdata As String = ""
         Dim UpdateXML As New XmlDocument
         Try

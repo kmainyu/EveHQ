@@ -21,12 +21,14 @@ Imports System.Net
 Imports System.IO
 Imports System.Net.Sockets
 Imports System.Threading
+Imports ICSharpCode.SharpZipLib.Zip
 
 Public Class frmPatcher
 
     Dim isLocal As Boolean = False
     Dim DBFileName As String = ""
     Dim EveHQFolder As String = ""
+    Dim updateFolder As String = ""
 
     Private Sub tmrDownload_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrDownload.Tick
         lblCurrentStatus.Text = "Waiting for EveHQ Shutdown..."
@@ -37,7 +39,10 @@ Public Class frmPatcher
         Me.Refresh()
         Call KillEveHQ()
         Call UpdateEveHQ()
-        Call StartEveHQ()
+        Dim msg As String = "The EveHQ update is complete. Would you like to start EveHQ now?"
+        If MessageBox.Show(msg, "Start EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+            Call StartEveHQ()
+        End If
         End
     End Sub
 
@@ -60,7 +65,6 @@ Public Class frmPatcher
 
         lblCurrentStatus.Text = "Updating Files..."
         lblCurrentStatus.Refresh()
-        Dim updateFolder As String = ""
 
         If isLocal = False Then
             updateFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ")
@@ -87,11 +91,37 @@ Public Class frmPatcher
             End Try
         Next
 
+        ' Check for a database upgrade
+        lblCurrentStatus.Text = "Checking for database upgrade..."
+        Me.Refresh()
+        ' See if we have the EveHQ.mdb.zip file
+        Dim DBZipLocation As String = Path.Combine(updateFolder, "EveHQ.mdb.zip")
+        If My.Computer.FileSystem.FileExists(DBZipLocation) = True Then
+            ' We have the file, let's try extracting it
+            lblCurrentStatus.Text = "Extracting new database..."
+            Me.Refresh()
+            Try
+                Dim unzip As FastZip = New FastZip()
+                unzip.ExtractZip(DBZipLocation, updateFolder, "")
+                ' See if we have the EveHQ.mdb file
+                Dim DBLocation As String = Path.Combine(updateFolder, "EveHQ.mdb")
+                If My.Computer.FileSystem.FileExists(DBLocation) = True Then
+                    ' Copy to existing DB Location
+                    lblCurrentStatus.Text = "Copying new database..."
+                    Me.Refresh()
+                    My.Computer.FileSystem.CopyFile(DBLocation, DBFileName, True)
+                End If
+            Catch ex As Exception
+                ' Failed extraction
+                Exit Function
+            End Try
+        End If
+
     End Function
 
     Private Function StartEveHQ() As Boolean
         Try
-            Process.Start(Path.Combine(My.Application.Info.DirectoryPath, "EveHQ.exe"))
+            Process.Start(Path.Combine(EveHQFolder, "EveHQ.exe"))
             Return True
         Catch e As Exception
             Return False
@@ -127,4 +157,5 @@ Public Class frmPatcher
             End If
         Next
     End Sub
+
 End Class

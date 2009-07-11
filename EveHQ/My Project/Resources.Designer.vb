@@ -191,15 +191,17 @@ Namespace My.Resources
         '''  Looks up a localized string similar to EveHQ - Version History
         '''-----------------------
         '''
-        '''1.11.3.616 (16/06/2009)
-        '''---------
+        '''1.12.0.705 (08/07/2009)
+        '''----------
+        '''Major Changes:
+        '''- New Plug-in: POS Manager - design and manage your POS
+        '''- BP Manager: Prism gets a manager for your blueprints
+        '''- BP Calculator: Used hand in hand with the BP Manager for checking blueprint materials
+        '''- Database upgraded to Apocrypha 1.3.1
+        '''
         '''Fixes and Improvements:
-        '''- Core: Added setting for altering the CSV separator character
-        '''- Core: Fixed errors caused by blank Eve Folder names
-        '''- Prism: Improved code handling the selected asset volumes/values
-        '''- Prism: CSV Exports now use the user selected separator character
-        '''- Prism: Numeric values are now published to CSV in their raw unformatted state
-        '''- Prism: Corrected volume amounts only showing values for a sing [rest of string was truncated]&quot;;.
+        '''- Core: Fixed crash with email notifications picking up the incorrect data in the Eve skill queue
+        '''- Core: Fixed crash in market log view  [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property History() As String
             Get
