@@ -446,19 +446,22 @@ Public Class frmUpdater
                     startInfo.UseShellExecute = True
                     startInfo.WorkingDirectory = Environment.CurrentDirectory
                     startInfo.FileName = patcherFile
-                    Dim args As String = " /App;" & EveHQ.Core.HQ.appFolder
+                    Dim args As String = " /App;" & ControlChars.Quote & EveHQ.Core.HQ.appFolder & ControlChars.Quote
                     If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
                         args &= " /Local;True"
                     Else
                         args &= " /Local;False"
                     End If
                     If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
-                        args &= " /DB;" & EveHQ.Core.HQ.EveHQSettings.DBFilename
+                        args &= " /DB;" & ControlChars.Quote & EveHQ.Core.HQ.EveHQSettings.DBFilename & ControlChars.Quote
                     Else
                         args &= " /DB;None"
                     End If
                     startInfo.Arguments = args
-                    startInfo.Verb = "runas"
+                    Dim osInfo As OperatingSystem = System.Environment.OSVersion
+                    If osInfo.Version.Major > 5 Then
+                        startInfo.Verb = "runas"
+                    End If
                     Process.Start(startInfo)
                     EveHQ.Core.HQ.StartShutdownEveHQ = True
                     Me.Close()

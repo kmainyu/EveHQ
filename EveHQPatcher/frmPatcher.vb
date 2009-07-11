@@ -136,7 +136,7 @@ Public Class frmPatcher
             End If
             If param.StartsWith("/App") Then
                 Dim paramData As String() = param.Split(CChar(";"))
-                EveHQFolder = paramData(1)
+                EveHQFolder = paramData(1).TrimStart(CChar(ControlChars.Quote)).TrimEnd(CChar(ControlChars.Quote))
                 lblEveHQLocation.Text = "EveHQ Location: " & EveHQFolder
             End If
             If param.StartsWith("/Local") Then
@@ -151,7 +151,7 @@ Public Class frmPatcher
             If param.StartsWith("/DB") Then
                 Dim paramData As String() = param.Split(CChar(";"))
                 If paramData(1) <> "None" Then
-                    DBFileName = paramData(1)
+                    DBFileName = paramData(1).TrimStart(CChar(ControlChars.Quote)).TrimEnd(CChar(ControlChars.Quote))
                 End If
                 lblDatabaseLocation.Text = "Database Location: " & paramData(1)
             End If
