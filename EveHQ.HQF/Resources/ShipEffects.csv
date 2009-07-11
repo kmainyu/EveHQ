@@ -523,10 +523,6 @@
 11961,1,22761,51,2,511;510;771,0,1,0,-5,15,"Assault, Heavy, Heavy Assault Launcher ROF"
 # Hulk,,,,,,,,,,,
 22544,1,17940,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
-22544,1,17940,271,1,22544,0,1,2,7.5,15,Shield EM Resistance
-22544,1,17940,272,1,22544,0,1,2,7.5,15,Shield Explosive Resistance
-22544,1,17940,273,1,22544,0,1,2,7.5,15,Shield Kinetic Resistance
-22544,1,17940,274,1,22544,0,1,2,7.5,15,Shield Thermal Resistance
 22544,1,22551,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
 22544,1,22551,73,4,1038,0,1,0,-3,15,Ice Harvester Duration
 # Hurricane,,,,,,,,,,,
@@ -638,10 +634,6 @@
 17738,1,3336,160,4,576;579,0,1,0,7.5,15,Large Projectile Turret Tracking
 # Mackinaw,,,,,,,,,,,
 22548,1,17940,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
-22548,1,17940,271,1,22548,0,1,2,7.5,15,Shield EM Resistance
-22548,1,17940,272,1,22548,0,1,2,7.5,15,Shield Explosive Resistance
-22548,1,17940,273,1,22548,0,1,2,7.5,15,Shield Kinetic Resistance
-22548,1,17940,274,1,22548,0,1,2,7.5,15,Shield Thermal Resistance
 22548,1,22551,73,4,1038,0,1,0,-5,15,Ice Harvester Duration
 22548,0,0,77,4,1038,0,0,0,100,15,Ice Harvester Yield
 22548,0,0,73,4,1038,0,0,0,25,15,Ice Harvester Duration
@@ -1068,10 +1060,6 @@
 22430,0,0,560,2,11577,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Skiff,,,,,,,,,,,
 22546,1,17940,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
-22546,1,17940,271,1,22546,0,1,2,7.5,15,Shield EM Resistance
-22546,1,17940,272,1,22546,0,1,2,7.5,15,Shield Explosive Resistance
-22546,1,17940,273,1,22546,0,1,2,7.5,15,Shield Kinetic Resistance
-22546,1,17940,274,1,22546,0,1,2,7.5,15,Shield Thermal Resistance
 22546,1,22551,782,2,663,0,1,0,60,15,Mercoxit Mining Crystal Yield Bonus
 22546,1,22551,73,4,1038,0,1,0,-3,15,Ice Harvester Duration
 # Slasher,,,,,,,,,,,
