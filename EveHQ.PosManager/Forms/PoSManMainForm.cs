@@ -3272,6 +3272,7 @@ namespace EveHQ.PosManager
             }
             cb_PoSName.SelectedItem = CurrentName;
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            dg_MonitoredTowers.Rows.Clear();
             PopulateMonitoredPoSDisplay();
             PosChanged = false;
         }
@@ -3306,6 +3307,7 @@ namespace EveHQ.PosManager
             }
             cb_PoSName.SelectedItem = CurrentName;
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            dg_MonitoredTowers.Rows.Clear();
             PopulateMonitoredPoSDisplay();
             PosChanged = false;
         }
@@ -3388,6 +3390,7 @@ namespace EveHQ.PosManager
             PosChanged = false;
             BuildPOSListForMonitoring();
             POSList.CalculatePOSFuelRunTimes(API_D, Config.data.FuelCosts);
+            dg_MonitoredTowers.Rows.Clear();
             PopulateMonitoredPoSDisplay();
         }
 
