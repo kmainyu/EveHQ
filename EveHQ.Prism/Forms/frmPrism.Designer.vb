@@ -23,8 +23,8 @@ Partial Class frmPrism
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Corporation", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Personal", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrism))
         Me.ctxAssets = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuItemName = New System.Windows.Forms.ToolStripMenuItem
@@ -306,6 +306,8 @@ Partial Class frmPrism
         Me.colMatPrice = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colMatTotal = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.tabBPManager = New System.Windows.Forms.TabPage
+        Me.cboCategoryFilter = New System.Windows.Forms.ComboBox
+        Me.lblBPCatFilter = New System.Windows.Forms.Label
         Me.cboTypeFilter = New System.Windows.Forms.ComboBox
         Me.lblTypeFilter = New System.Windows.Forms.Label
         Me.cboTechFilter = New System.Windows.Forms.ComboBox
@@ -333,6 +335,7 @@ Partial Class frmPrism
         Me.clvBlueprints = New DotNetLib.Windows.Forms.ContainerListView
         Me.colBPManBlueprint = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colBPManLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+        Me.colBPManSpecLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colBPManagerTechLevel = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colBPManME = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.colBPManPE = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
@@ -398,9 +401,6 @@ Partial Class frmPrism
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.cboCategoryFilter = New System.Windows.Forms.ComboBox
-        Me.lblBPCatFilter = New System.Windows.Forms.Label
-        Me.colBPManSpecLocation = New DotNetLib.Windows.Forms.ContainerListViewColumnHeader
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -1057,11 +1057,11 @@ Partial Class frmPrism
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvwCharFilter.CheckBoxes = True
         Me.lvwCharFilter.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colOwnerName})
-        ListViewGroup3.Header = "Corporation"
-        ListViewGroup3.Name = "grpCorporation"
-        ListViewGroup4.Header = "Personal"
-        ListViewGroup4.Name = "grpPersonal"
-        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Corporation"
+        ListViewGroup1.Name = "grpCorporation"
+        ListViewGroup2.Header = "Personal"
+        ListViewGroup2.Name = "grpPersonal"
+        Me.lvwCharFilter.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvwCharFilter.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
         Me.lvwCharFilter.Location = New System.Drawing.Point(32, 31)
         Me.lvwCharFilter.Name = "lvwCharFilter"
@@ -3239,6 +3239,25 @@ Partial Class frmPrism
         Me.tabBPManager.Text = "BP Manager"
         Me.tabBPManager.UseVisualStyleBackColor = True
         '
+        'cboCategoryFilter
+        '
+        Me.cboCategoryFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboCategoryFilter.FormattingEnabled = True
+        Me.cboCategoryFilter.Items.AddRange(New Object() {"All", "Unknown", "BPO", "BPC", "Custom"})
+        Me.cboCategoryFilter.Location = New System.Drawing.Point(557, 9)
+        Me.cboCategoryFilter.Name = "cboCategoryFilter"
+        Me.cboCategoryFilter.Size = New System.Drawing.Size(100, 21)
+        Me.cboCategoryFilter.TabIndex = 53
+        '
+        'lblBPCatFilter
+        '
+        Me.lblBPCatFilter.AutoSize = True
+        Me.lblBPCatFilter.Location = New System.Drawing.Point(468, 12)
+        Me.lblBPCatFilter.Name = "lblBPCatFilter"
+        Me.lblBPCatFilter.Size = New System.Drawing.Size(83, 13)
+        Me.lblBPCatFilter.TabIndex = 52
+        Me.lblBPCatFilter.Text = "Category Filter:"
+        '
         'cboTypeFilter
         '
         Me.cboTypeFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -3514,6 +3533,15 @@ Partial Class frmPrism
         Me.colBPManLocation.Tag = Nothing
         Me.colBPManLocation.Text = "Location"
         Me.colBPManLocation.Width = 300
+        '
+        'colBPManSpecLocation
+        '
+        Me.colBPManSpecLocation.CustomSortTag = Nothing
+        Me.colBPManSpecLocation.DisplayIndex = 2
+        Me.colBPManSpecLocation.SortDataType = DotNetLib.Windows.Forms.SortDataType.[String]
+        Me.colBPManSpecLocation.Tag = Nothing
+        Me.colBPManSpecLocation.Text = "Specific Location"
+        Me.colBPManSpecLocation.Width = 200
         '
         'colBPManagerTechLevel
         '
@@ -3963,33 +3991,6 @@ Partial Class frmPrism
         Me.ColumnHeader12.Text = "Expires In"
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
-        '
-        'cboCategoryFilter
-        '
-        Me.cboCategoryFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboCategoryFilter.FormattingEnabled = True
-        Me.cboCategoryFilter.Items.AddRange(New Object() {"All", "Unknown", "BPO", "BPC", "Custom"})
-        Me.cboCategoryFilter.Location = New System.Drawing.Point(557, 9)
-        Me.cboCategoryFilter.Name = "cboCategoryFilter"
-        Me.cboCategoryFilter.Size = New System.Drawing.Size(100, 21)
-        Me.cboCategoryFilter.TabIndex = 53
-        '
-        'lblBPCatFilter
-        '
-        Me.lblBPCatFilter.AutoSize = True
-        Me.lblBPCatFilter.Location = New System.Drawing.Point(468, 12)
-        Me.lblBPCatFilter.Name = "lblBPCatFilter"
-        Me.lblBPCatFilter.Size = New System.Drawing.Size(83, 13)
-        Me.lblBPCatFilter.TabIndex = 52
-        Me.lblBPCatFilter.Text = "Category Filter:"
-        '
-        'colBPManSpecLocation
-        '
-        Me.colBPManSpecLocation.CustomSortTag = Nothing
-        Me.colBPManSpecLocation.DisplayIndex = 2
-        Me.colBPManSpecLocation.Tag = Nothing
-        Me.colBPManSpecLocation.Text = "Specific Location"
-        Me.colBPManSpecLocation.Width = 200
         '
         'frmPrism
         '

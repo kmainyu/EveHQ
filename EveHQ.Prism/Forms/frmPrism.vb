@@ -5420,9 +5420,11 @@ Public Class frmPrism
                     ownerBPs = PlugInData.BlueprintAssets(owner)
                 End If
                 Dim BPData As New Blueprint
+                Dim LocationName As String = ""
                 Dim matchCat As Boolean = False
                 For Each BP As BlueprintAsset In ownerBPs.Values
                     BPData = PlugInData.Blueprints(BP.TypeID)
+                    LocationName = Me.GetLocationNameFromID(BP.LocationID)
                     If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = BPData.TechLevel) Then
                         If cboTypeFilter.SelectedIndex = 0 Or (cboTypeFilter.SelectedIndex = BP.BPType + 1) Then
                             matchCat = False
@@ -5436,7 +5438,7 @@ Public Class frmPrism
                                 End If
                             End If
                             If matchCat = True Then
-                                If search = "" Or BPData.Name.ToLower.Contains(search.ToLower) Then
+                                If search = "" Or BPData.Name.ToLower.Contains(search.ToLower) Or BP.LocationDetails.ToLower.Contains(search.ToLower) Or LocationName.ToLower.Contains(search.ToLower) Then
                                     Dim newBPItem As New ContainerListViewItem
                                     newBPItem.Text = BPData.Name
                                     newBPItem.Tag = BP.AssetID
@@ -5447,19 +5449,19 @@ Public Class frmPrism
                                     newBPItem.SubItems(5).Text = FormatNumber(BP.PELevel, 0)
                                     Select Case BP.BPType
                                         Case BPType.Unknown  ' Undetermined
-                                            newBPItem.SubItems(1).Text = Me.GetLocationNameFromID(BP.LocationID)
+                                            newBPItem.SubItems(1).Text = LocationName
                                             newBPItem.SubItems(2).Text = BP.LocationDetails
                                             newBPItem.SubItems(6).Text = "Unknown"
                                             newBPItem.SubItems(6).Tag = BP.Runs
                                             newBPItem.BackColor = Drawing.Color.LightGray
                                         Case BPType.BPO  ' BPO
-                                            newBPItem.SubItems(1).Text = Me.GetLocationNameFromID(BP.LocationID)
+                                            newBPItem.SubItems(1).Text = LocationName
                                             newBPItem.SubItems(2).Text = BP.LocationDetails
                                             newBPItem.SubItems(6).Text = "BPO"
                                             newBPItem.SubItems(6).Tag = 1000000
                                             newBPItem.BackColor = Drawing.Color.LightGreen
                                         Case BPType.BPC  ' BPC
-                                            newBPItem.SubItems(1).Text = Me.GetLocationNameFromID(BP.LocationID)
+                                            newBPItem.SubItems(1).Text = LocationName
                                             newBPItem.SubItems(2).Text = BP.LocationDetails
                                             newBPItem.SubItems(6).Text = FormatNumber(BP.Runs, 0)
                                             newBPItem.SubItems(6).Tag = BP.Runs
