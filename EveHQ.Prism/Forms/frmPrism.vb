@@ -2651,53 +2651,57 @@ Public Class frmPrism
     Private Sub ctxAssets_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxAssets.Opening
         If tlvAssets.SelectedItems.Count > 0 Then
             If tlvAssets.SelectedItems.Count = 1 Then
-                Dim itemName As String = tlvAssets.SelectedItems(0).SubItems(0).Tag.ToString
-                Dim itemText As String = tlvAssets.SelectedItems(0).Text
-                Dim itemID As String = tlvAssets.SelectedItems(0).Tag.ToString
-                If itemName <> "Cash Balances" And itemName <> "Investments" Then
-                    If EveHQ.Core.HQ.itemList.Contains(itemName) = True And itemName <> "Office" And tlvAssets.SelectedItems(0).SubItems(AssetColumn.Quantity).Text <> "" Then
-                        mnuItemName.Text = itemName
-                        mnuItemName.Tag = EveHQ.Core.HQ.itemList(itemName)
-                        mnuAddCustomName.Visible = True
-                        mnuViewInIB.Visible = True
-                        mnuModifyPrice.Visible = True
-                        mnuToolSep.Visible = True
-                        mnuRecycleItem.Enabled = True
-                        If tlvAssets.SelectedItems(0).SubItems(AssetColumn.Category).Text = "Ship" Then
-                            mnuViewInHQF.Visible = True
+                If tlvAssets.SelectedItems(0).SubItems(0).Tag IsNot Nothing Then
+                    Dim itemName As String = tlvAssets.SelectedItems(0).SubItems(0).Tag.ToString
+                    Dim itemText As String = tlvAssets.SelectedItems(0).Text
+                    Dim itemID As String = tlvAssets.SelectedItems(0).Tag.ToString
+                    If itemName <> "Cash Balances" And itemName <> "Investments" Then
+                        If EveHQ.Core.HQ.itemList.Contains(itemName) = True And itemName <> "Office" And tlvAssets.SelectedItems(0).SubItems(AssetColumn.Quantity).Text <> "" Then
+                            mnuItemName.Text = itemName
+                            mnuItemName.Tag = EveHQ.Core.HQ.itemList(itemName)
+                            mnuAddCustomName.Visible = True
+                            mnuViewInIB.Visible = True
+                            mnuModifyPrice.Visible = True
+                            mnuToolSep.Visible = True
+                            mnuRecycleItem.Enabled = True
+                            If tlvAssets.SelectedItems(0).SubItems(AssetColumn.Category).Text = "Ship" Then
+                                mnuViewInHQF.Visible = True
+                            Else
+                                mnuViewInHQF.Visible = False
+                            End If
+                            If tlvAssets.SelectedItems(0).Items.Count > 0 Then
+                                mnuRecycleContained.Enabled = True
+                                mnuRecycleAll.Enabled = True
+                            Else
+                                mnuRecycleContained.Enabled = False
+                                mnuRecycleAll.Enabled = False
+                            End If
+                            If PlugInData.AssetItemNames.ContainsKey(itemID) = True Then
+                                mnuAddCustomName.Text = "Edit Custom Name"
+                                mnuRemoveCustomName.Visible = True
+                            Else
+                                mnuAddCustomName.Text = "Add Custom Name"
+                                mnuRemoveCustomName.Visible = False
+                            End If
+                            mnuAddCustomName.Tag = itemID
                         Else
-                            mnuViewInHQF.Visible = False
-                        End If
-                        If tlvAssets.SelectedItems(0).Items.Count > 0 Then
-                            mnuRecycleContained.Enabled = True
-                            mnuRecycleAll.Enabled = True
-                        Else
-                            mnuRecycleContained.Enabled = False
-                            mnuRecycleAll.Enabled = False
-                        End If
-                        If PlugInData.AssetItemNames.ContainsKey(itemID) = True Then
-                            mnuAddCustomName.Text = "Edit Custom Name"
-                            mnuRemoveCustomName.Visible = True
-                        Else
-                            mnuAddCustomName.Text = "Add Custom Name"
+                            mnuItemName.Text = itemName
+                            mnuAddCustomName.Visible = False
                             mnuRemoveCustomName.Visible = False
+                            mnuViewInIB.Visible = False
+                            mnuViewInHQF.Visible = False
+                            mnuModifyPrice.Visible = False
+                            mnuToolSep.Visible = False
+                            If tlvAssets.SelectedItems(0).Items.Count > 0 Then
+                                mnuRecycleItem.Enabled = False
+                                mnuRecycleContained.Enabled = True
+                                mnuRecycleAll.Enabled = False
+                            Else
+                                e.Cancel = True
+                            End If
                         End If
-                        mnuAddCustomName.Tag = itemID
                     Else
-                        mnuItemName.Text = itemName
-                        mnuAddCustomName.Visible = False
-                        mnuRemoveCustomName.Visible = False
-                        mnuViewInIB.Visible = False
-                        mnuViewInHQF.Visible = False
-                        mnuModifyPrice.Visible = False
-                        mnuToolSep.Visible = False
-                        If tlvAssets.SelectedItems(0).Items.Count > 0 Then
-                            mnuRecycleItem.Enabled = False
-                            mnuRecycleContained.Enabled = True
-                            mnuRecycleAll.Enabled = False
-                        Else
-                            e.Cancel = True
-                        End If
+                        e.Cancel = True
                     End If
                 Else
                     e.Cancel = True
