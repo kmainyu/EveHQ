@@ -1,32 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQUpdate>
-  <lastUpdated>16/06/2009 21:00:00</lastUpdated>
+  <lastUpdated>11/07/2009 17:00:00</lastUpdated>
   <files>
     <file>
       <name>EveHQ.exe</name>
       <type>Required</type>
-      <version>1.12.0.710</version>
+      <version>1.12.0.711</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Executable</description>
     </file>
     <file>
       <name>EveHQ.Core.dll</name>
       <type>Required</type>
-      <version>1.12.0.710</version>
+      <version>1.12.0.711</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Core Library</description>
     </file>
     <file>
       <name>EveHQ.CoreControls.dll</name>
       <type>Required</type>
-      <version>1.12.0.710</version>
+      <version>1.12.0.711</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Controls Library</description>
     </file>
     <file>
       <name>EveHQ.mdb.zip</name>
       <type>Required</type>
-      <version>1.12.1.0</version>
+      <version>1.12.0.0</version>
       <hasDebug>False</hasDebug>
       <description>EveHQ Access Database</description>
     </file>
