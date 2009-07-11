@@ -2442,27 +2442,110 @@ Public Class frmEveHQ
         Me.Close()
     End Sub
     Private Sub UpdateNow()
+        ' Try and download patchfile
+        Dim PatcherLocation As String = EveHQ.Core.HQ.appDataFolder
+
+        Dim patcherFile As String = Path.Combine(PatcherLocation, "EveHQPatcher.exe")
+        Try
+            Call Me.DownloadPatcherFile("EveHQPatcher.exe")
+            ' Copy the CoreControls.dll file to the same location
+            Dim oldCCfile As String = Path.Combine(EveHQ.Core.HQ.appFolder, "EveHQ.CoreControls.dll")
+            Dim newCCfile As String = Path.Combine(PatcherLocation, "EveHQ.CoreControls.dll")
+            My.Computer.FileSystem.CopyFile(oldCCfile, newCCfile, True)
+            'MessageBox.Show("Patcher Deployment Successful!", "Patcher Deployment Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch Excep As System.Runtime.InteropServices.COMException
+            Dim errMsg As String = "Unable to copy Patcher to " & ControlChars.CrLf & ControlChars.CrLf & patcherFile & ControlChars.CrLf & ControlChars.CrLf
+            errMsg &= "Please make sure this file is in the EveHQ program directory before continuing."
+            MessageBox.Show(errMsg, "Error Copying Patcher", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End Try
         Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
         startInfo.UseShellExecute = True
         startInfo.WorkingDirectory = Environment.CurrentDirectory
-        startInfo.FileName = EveHQ.Core.HQ.appFolder & "\EveHQPatcher.exe"
-        Dim args As String = " /App;" & EveHQ.Core.HQ.appFolder
+        startInfo.FileName = patcherFile
+        Dim args As String = " /App;" & ControlChars.Quote & EveHQ.Core.HQ.appFolder & ControlChars.Quote
         If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
             args &= " /Local;True"
         Else
             args &= " /Local;False"
         End If
         If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
-            args &= " /DB;" & EveHQ.Core.HQ.EveHQSettings.DBFilename
+            args &= " /DB;" & ControlChars.Quote & EveHQ.Core.HQ.EveHQSettings.DBFilename & ControlChars.Quote
         Else
             args &= " /DB;None"
         End If
         startInfo.Arguments = args
-        startInfo.Verb = "runas"
+        Dim osInfo As OperatingSystem = System.Environment.OSVersion
+        If osInfo.Version.Major > 5 Then
+            startInfo.Verb = "runas"
+        End If
         Process.Start(startInfo)
         EveHQ.Core.HQ.StartShutdownEveHQ = True
         Me.Close()
     End Sub
+
+    Private Function DownloadPatcherFile(ByVal FileNeeded As String) As Boolean
+
+        ' Set a default policy level for the "http:" and "https" schemes.
+        Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
+
+        Dim httpURI As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
+        Dim localFile As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, FileNeeded)
+
+        ' Create the request to access the server and set credentials
+        ServicePointManager.DefaultConnectionLimit = 10
+        ServicePointManager.Expect100Continue = False
+        Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(httpURI))
+        Dim request As HttpWebRequest = CType(HttpWebRequest.Create(httpURI), HttpWebRequest)
+        request.CachePolicy = policy
+        ' Setup proxy server (if required)
+        If EveHQ.Core.HQ.EveHQSettings.ProxyRequired = True Then
+            Dim EveHQProxy As New WebProxy(EveHQ.Core.HQ.EveHQSettings.ProxyServer)
+            If EveHQ.Core.HQ.EveHQSettings.ProxyUseDefault = True Then
+                EveHQProxy.UseDefaultCredentials = True
+            Else
+                EveHQProxy.UseDefaultCredentials = False
+                EveHQProxy.Credentials = New System.Net.NetworkCredential(EveHQ.Core.HQ.EveHQSettings.ProxyUsername, EveHQ.Core.HQ.EveHQSettings.ProxyPassword)
+            End If
+            request.Proxy = EveHQProxy
+        End If
+        request.CachePolicy = policy
+        request.Method = WebRequestMethods.File.DownloadFile
+        request.Timeout = 900000
+        Try
+            Using response As HttpWebResponse = CType(request.GetResponse, HttpWebResponse)
+                Dim filesize As Long = CLng(response.ContentLength)
+                Using responseStream As IO.Stream = response.GetResponseStream
+                    'loop to read & write to file
+                    Using fs As New IO.FileStream(localFile, IO.FileMode.Create)
+                        Dim buffer(16383) As Byte
+                        Dim read As Integer = 0
+                        Dim totalBytes As Long = 0
+                        Dim percent As Integer = 0
+                        Do
+                            read = responseStream.Read(buffer, 0, buffer.Length)
+                            fs.Write(buffer, 0, read)
+                            totalBytes += read
+                            percent = CInt(totalBytes / filesize * 100)
+                        Loop Until read = 0 'see Note(1)
+                        responseStream.Close()
+                        fs.Flush()
+                        fs.Close()
+                    End Using
+                    responseStream.Close()
+                End Using
+                response.Close()
+            End Using
+            Return True
+        Catch e As WebException
+            Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
+            errMsg &= "Status: " & e.Status & ControlChars.CrLf
+            errMsg &= "Message: " & e.Message & ControlChars.CrLf
+            MessageBox.Show(errMsg, "Error Downloading Patcher File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return False
+        End Try
+
+    End Function
 #End Region
 
 
