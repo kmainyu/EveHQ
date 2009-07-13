@@ -637,7 +637,7 @@ Public Class frmUpdater
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
         Dim httpURI As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL & "/" & FileNeeded
-        Dim localFile As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, FileNeeded)
+        Dim localFile As String = Path.Combine(PatcherLocation, FileNeeded)
 
         ' Create the request to access the server and set credentials
         ServicePointManager.DefaultConnectionLimit = 10
