@@ -121,7 +121,14 @@ Public Class frmPatcher
 
     Private Function StartEveHQ() As Boolean
         Try
-            Process.Start(Path.Combine(EveHQFolder, "EveHQ.exe"))
+            Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
+            startInfo.UseShellExecute = True
+            startInfo.WorkingDirectory = Environment.CurrentDirectory
+            startInfo.FileName = Path.Combine(EveHQFolder, "EveHQ.exe")
+            If isLocal = True Then
+                startInfo.Arguments = " /local"
+            End If
+            Process.Start(startInfo)
             Return True
         Catch e As Exception
             Return False

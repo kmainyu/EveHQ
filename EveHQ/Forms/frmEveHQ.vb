@@ -861,7 +861,10 @@ Public Class frmEveHQ
     End Sub
 
     Public Sub QueryMyEveServer()
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf StartCharacterAPIThread)
+    End Sub
 
+    Public Sub StartCharacterAPIThread(ByVal state As Object)
         Dim curSelPilot As String = ""
 
         ' If we have accounts to query then get the data for them
@@ -871,7 +874,6 @@ Public Class frmEveHQ
         Else
             tsAPIStatus.Text = "API Status: Fetching Character Data..."
             EveHQStatusStrip.Refresh()
-            Me.Cursor = Cursors.WaitCursor
             ' Clear the current list of pilots
             EveHQ.Core.HQ.TPilots.Clear()
             EveHQ.Core.HQ.APIResults.Clear()
@@ -880,10 +882,9 @@ Public Class frmEveHQ
             For Each CurrentAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
                 tsAPIStatus.Text = "API Status: Updating Account '" & CurrentAccount.FriendlyName & "' (ID=" & CurrentAccount.userID & ")..."
                 EveHQStatusStrip.Refresh()
-                EveHQ.Core.PilotParseFunctions.GetCharactersInAccount(CurrentAccount)
+                Call EveHQ.Core.PilotParseFunctions.GetCharactersInAccount(CurrentAccount)
             Next
             Call EveHQ.Core.PilotParseFunctions.CopyTempPilotsToMain()
-            Me.Cursor = Cursors.Default
         End If
 
         ' Determine API responses and display appropriate message
@@ -914,9 +915,8 @@ Public Class frmEveHQ
 
         ' Update if we have retrieved new data
         If ContainsNew = True Then
-            Call UpdatePilotInfo()
+            Me.Invoke(New MethodInvoker(AddressOf UpdatePilotInfo))
         End If
-
     End Sub
 
     Public Sub UpdatePilotInfo(Optional ByVal startUp As Boolean = False)

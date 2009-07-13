@@ -354,14 +354,14 @@ Public Class PilotParseFunctions
 
 #Region "Eve API Retrieval Methods"
 
-    Public Shared Function GetCharactersInAccount(ByVal cAccount As EveAccount) As Integer
+    Public Shared Sub GetCharactersInAccount(ByVal caccount As EveAccount)
 
         ' Fetch the characters on account XML file
-        Dim accountXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Characters, cAccount, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
+        Dim accountXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.Characters, caccount, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
         If EveHQ.Core.EveAPI.LastAPIResult = EveAPI.APIResults.CCPError Then
-            EveHQ.Core.HQ.APIResults.Add(cAccount.userID.ToString, -EveAPI.LastAPIError)
+            EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, -EveAPI.LastAPIError)
         Else
-            EveHQ.Core.HQ.APIResults.Add(cAccount.userID.ToString, EveAPI.LastAPIResult)
+            EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, EveAPI.LastAPIResult)
         End If
 
         If EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedActual Or EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedCached Or EveAPI.LastAPIResult = EveAPI.APIResults.ReturnedNew Then
@@ -374,7 +374,7 @@ Public Class PilotParseFunctions
                 ' Get the list of characters and the character IDs
                 charlist = accountXML.SelectNodes("/eveapi/result/rowset/row")
                 ' Clear the current characters on the account
-                cAccount.Characters = New ArrayList
+                caccount.Characters = New ArrayList
                 For Each toon In charlist
                     curr_toon += 1
                     ' Add the pilot details into the collection
@@ -382,17 +382,17 @@ Public Class PilotParseFunctions
                     newPilot.Name = toon.Attributes.GetNamedItem("name").Value
                     newPilot.ID = toon.Attributes.GetNamedItem("characterID").Value
                     newPilot.AccountPosition = CStr(curr_toon)
-                    newPilot.Account = cAccount.userID
+                    newPilot.Account = caccount.userID
                     EveHQ.Core.HQ.TPilots.Add(newPilot, newPilot.Name)
-                    cAccount.Characters.Add(newPilot.Name)
-                    Call GetCharacterXMLs(cAccount, newPilot)
+                    caccount.Characters.Add(newPilot.Name)
+                    Call GetCharacterXMLs(caccount, newPilot)
                 Next
 
                 ' Check if we have any old pilots that the account does not have anymore
                 Dim oldPilots As String = ""
                 Dim oldPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
                 For Each oldPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-                    If oldPilot.Account = cAccount.userID Then
+                    If oldPilot.Account = caccount.userID Then
                         Dim validPilot As Boolean = False
                         For Each toon In charlist
                             If toon.Attributes.GetNamedItem("name").Value = oldPilot.Name Then
@@ -410,7 +410,7 @@ Public Class PilotParseFunctions
                 oldPilots = oldPilots.Trim(CChar(","))
                 If oldPilots <> "" Then
                     Dim msg As String = ""
-                    msg &= "You have pilots registered in EveHQ that were previously assigned to account '" & cAccount.userID & "'" & ControlChars.CrLf
+                    msg &= "You have pilots registered in EveHQ that were previously assigned to account '" & caccount.userID & "'" & ControlChars.CrLf
                     msg &= "but are no longer part of that account. The following pilots have been converted to manual pilots:" & ControlChars.CrLf & ControlChars.CrLf
                     Dim olderPilots() As String = oldPilots.Split(CChar(","))
                     Dim dPilot As String = ""
@@ -422,9 +422,8 @@ Public Class PilotParseFunctions
 
             End If
         End If
-        Return EveAPI.LastAPIResult
 
-    End Function
+    End Sub
     Private Shared Sub GetCharacterXMLs(ByVal cAccount As EveAccount, ByVal cPilot As EveHQ.Core.Pilot)
 
         Dim cXML As XmlDocument = EveHQ.Core.EveAPI.GetAPIXML(EveHQ.Core.EveAPI.APIRequest.CharacterSheet, cAccount, cPilot.ID, EveHQ.Core.EveAPI.APIReturnMethod.ReturnStandard)
