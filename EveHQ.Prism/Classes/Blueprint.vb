@@ -249,7 +249,7 @@ Public Class BlueprintSelection
                 ' Check if we have component iteration active
                 If ComponentIteration = True Then
                     ' Check for a blueprint
-                    Dim BPName As String = resource.TypeName & " Blueprint"
+                    Dim BPName As String = (StrConv(resource.TypeName, VbStrConv.ProperCase) & " Blueprint")
                     If EveHQ.Core.HQ.itemList.ContainsKey(BPName) = True Then
                         Dim BPID As String = CStr(EveHQ.Core.HQ.itemList(BPName))
                         ' Search BPs

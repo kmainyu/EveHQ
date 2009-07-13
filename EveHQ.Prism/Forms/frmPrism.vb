@@ -2929,24 +2929,26 @@ Public Class frmPrism
                     Dim catID As String = ""
                     Dim modList As XmlNodeList
                     Dim mods As XmlNode
-                    modList = subLoc.ChildNodes(0).ChildNodes
-                    For Each mods In modList
-                        Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
-                        Dim itemName As String = ""
-                        If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                            Dim itemData As EveHQ.Core.EveItem = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
-                            itemName = itemData.Name
-                            groupID = itemData.Group.ToString
-                            catID = itemData.Category.ToString
-                            Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
-                            Dim flagName As String = PlugInData.itemFlags(flagID).ToString
-                            Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
-                            HQFShip.Add(flagName & "," & itemName & "," & quantity & "," & catID)
-                        Else
-                            ' Can't find the item in the database
-                            itemName = "ItemID: " & itemID.ToString
-                        End If
-                    Next
+                    If subLoc.HasChildNodes = True Then
+                        modList = subLoc.ChildNodes(0).ChildNodes
+                        For Each mods In modList
+                            Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
+                            Dim itemName As String = ""
+                            If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
+                                Dim itemData As EveHQ.Core.EveItem = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                                itemName = itemData.Name
+                                groupID = itemData.Group.ToString
+                                catID = itemData.Category.ToString
+                                Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
+                                Dim flagName As String = PlugInData.itemFlags(flagID).ToString
+                                Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
+                                HQFShip.Add(flagName & "," & itemName & "," & quantity & "," & catID)
+                            Else
+                                ' Can't find the item in the database
+                                itemName = "ItemID: " & itemID.ToString
+                            End If
+                        Next
+                    End If
                     Exit Sub
                 Else
                     ' Check if this row has child nodes and repeat
@@ -5427,6 +5429,8 @@ Public Class frmPrism
                 Dim LocationName As String = ""
                 Dim matchCat As Boolean = False
                 For Each BP As BlueprintAsset In ownerBPs.Values
+                    If BP.LocationDetails Is Nothing Then BP.LocationDetails = "" ' Resets details
+                    If BP.LocationID Is Nothing Then BP.LocationID = "0" ' Resets details
                     BPData = PlugInData.Blueprints(BP.TypeID)
                     LocationName = Me.GetLocationNameFromID(BP.LocationID)
                     If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = BPData.TechLevel) Then
@@ -5643,8 +5647,12 @@ Public Class frmPrism
             End If
         Else
             If CDbl(locID) < 60000000 Then
-                Dim newSystem As SolarSystem = CType(PlugInData.stations(locID), SolarSystem)
-                Return newSystem.Name
+                If PlugInData.stations.Contains(locID) Then
+                    Dim newSystem As SolarSystem = CType(PlugInData.stations(locID), SolarSystem)
+                    Return newSystem.Name
+                Else
+                    Return "Unknown Location"
+                End If
             Else
                 newLocation = CType(PlugInData.stations(locID), Prism.Station)
                 If newLocation IsNot Nothing Then
@@ -5660,7 +5668,7 @@ Public Class frmPrism
                     Return newLocation.stationName
                 End If
             End If
-        End If
+            End If
     End Function
     Private Sub GetAssetFromNode(ByVal loc As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef Assets As SortedList(Of String, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal selPilot As EveHQ.Core.Pilot, ByVal IsCorp As Boolean)
         Dim itemList As XmlNodeList = loc.ChildNodes(0).ChildNodes
@@ -5955,9 +5963,12 @@ Public Class frmPrism
         End If
     End Sub
 
+    Private Sub clvBlueprints_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles clvBlueprints.DoubleClick
+        Call Me.OpenBPCalculator()
+    End Sub
+
 #End Region
 
-    
-    
+   
 End Class
 
