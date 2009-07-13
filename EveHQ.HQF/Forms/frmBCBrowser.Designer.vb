@@ -27,6 +27,7 @@ Partial Class frmBCBrowser
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Mid Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Low Slots", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Rig Slots", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Subsystems", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBCBrowser))
         Me.lblShipType = New System.Windows.Forms.Label
         Me.pbShip = New System.Windows.Forms.PictureBox
@@ -52,12 +53,16 @@ Partial Class frmBCBrowser
         Me.lblLoadoutDate = New System.Windows.Forms.Label
         Me.lblLoadoutTopic = New System.Windows.Forms.LinkLabel
         Me.gbStatistics = New System.Windows.Forms.GroupBox
+        Me.lblPG = New System.Windows.Forms.Label
         Me.lblOptimalRange = New System.Windows.Forms.Label
         Me.lblOptimalRangeLbl = New System.Windows.Forms.Label
         Me.lblMaxRange = New System.Windows.Forms.Label
+        Me.lblPGLbl = New System.Windows.Forms.Label
         Me.LblMaxRangeLbl = New System.Windows.Forms.Label
+        Me.lblCPU = New System.Windows.Forms.Label
         Me.lblVelocity = New System.Windows.Forms.Label
         Me.lblVelocityLbl = New System.Windows.Forms.Label
+        Me.lblCPULbl = New System.Windows.Forms.Label
         Me.lblCapacitor = New System.Windows.Forms.Label
         Me.lblCapLbl = New System.Windows.Forms.Label
         Me.lblArmorResists = New System.Windows.Forms.Label
@@ -78,10 +83,6 @@ Partial Class frmBCBrowser
         Me.lblPilot = New System.Windows.Forms.Label
         Me.btnImport = New System.Windows.Forms.Button
         Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
-        Me.lblCPULbl = New System.Windows.Forms.Label
-        Me.lblCPU = New System.Windows.Forms.Label
-        Me.lblPGLbl = New System.Windows.Forms.Label
-        Me.lblPG = New System.Windows.Forms.Label
         CType(Me.pbShip, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxLoadout.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -161,18 +162,18 @@ Partial Class frmBCBrowser
         '
         Me.ctxLoadout.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuViewLoadout, Me.mnuCopyURL})
         Me.ctxLoadout.Name = "ctxLoadout"
-        Me.ctxLoadout.Size = New System.Drawing.Size(236, 48)
+        Me.ctxLoadout.Size = New System.Drawing.Size(243, 48)
         '
         'mnuViewLoadout
         '
         Me.mnuViewLoadout.Name = "mnuViewLoadout"
-        Me.mnuViewLoadout.Size = New System.Drawing.Size(235, 22)
+        Me.mnuViewLoadout.Size = New System.Drawing.Size(242, 22)
         Me.mnuViewLoadout.Text = "View Loadout"
         '
         'mnuCopyURL
         '
         Me.mnuCopyURL.Name = "mnuCopyURL"
-        Me.mnuCopyURL.Size = New System.Drawing.Size(235, 22)
+        Me.mnuCopyURL.Size = New System.Drawing.Size(242, 22)
         Me.mnuCopyURL.Text = "Copy Loadout URL to Clipboard"
         '
         'StatusStrip1
@@ -338,6 +339,15 @@ Partial Class frmBCBrowser
         Me.gbStatistics.Text = "Statistics"
         Me.gbStatistics.Visible = False
         '
+        'lblPG
+        '
+        Me.lblPG.AutoSize = True
+        Me.lblPG.Location = New System.Drawing.Point(278, 56)
+        Me.lblPG.Name = "lblPG"
+        Me.lblPG.Size = New System.Drawing.Size(13, 13)
+        Me.lblPG.TabIndex = 27
+        Me.lblPG.Text = "0"
+        '
         'lblOptimalRange
         '
         Me.lblOptimalRange.AutoSize = True
@@ -365,6 +375,15 @@ Partial Class frmBCBrowser
         Me.lblMaxRange.TabIndex = 21
         Me.lblMaxRange.Text = "0"
         '
+        'lblPGLbl
+        '
+        Me.lblPGLbl.AutoSize = True
+        Me.lblPGLbl.Location = New System.Drawing.Point(191, 56)
+        Me.lblPGLbl.Name = "lblPGLbl"
+        Me.lblPGLbl.Size = New System.Drawing.Size(59, 13)
+        Me.lblPGLbl.TabIndex = 26
+        Me.lblPGLbl.Text = "Powergrid:"
+        '
         'LblMaxRangeLbl
         '
         Me.LblMaxRangeLbl.AutoSize = True
@@ -373,6 +392,15 @@ Partial Class frmBCBrowser
         Me.LblMaxRangeLbl.Size = New System.Drawing.Size(77, 13)
         Me.LblMaxRangeLbl.TabIndex = 20
         Me.LblMaxRangeLbl.Text = "Target Range:"
+        '
+        'lblCPU
+        '
+        Me.lblCPU.AutoSize = True
+        Me.lblCPU.Location = New System.Drawing.Point(93, 57)
+        Me.lblCPU.Name = "lblCPU"
+        Me.lblCPU.Size = New System.Drawing.Size(13, 13)
+        Me.lblCPU.TabIndex = 25
+        Me.lblCPU.Text = "0"
         '
         'lblVelocity
         '
@@ -391,6 +419,15 @@ Partial Class frmBCBrowser
         Me.lblVelocityLbl.Size = New System.Drawing.Size(48, 13)
         Me.lblVelocityLbl.TabIndex = 18
         Me.lblVelocityLbl.Text = "Velocity:"
+        '
+        'lblCPULbl
+        '
+        Me.lblCPULbl.AutoSize = True
+        Me.lblCPULbl.Location = New System.Drawing.Point(6, 56)
+        Me.lblCPULbl.Name = "lblCPULbl"
+        Me.lblCPULbl.Size = New System.Drawing.Size(31, 13)
+        Me.lblCPULbl.TabIndex = 24
+        Me.lblCPULbl.Text = "CPU:"
         '
         'lblCapacitor
         '
@@ -577,7 +614,9 @@ Partial Class frmBCBrowser
         ListViewGroup3.Name = "lvwgLowSlots"
         ListViewGroup4.Header = "Rig Slots"
         ListViewGroup4.Name = "lvwgRigSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4})
+        ListViewGroup5.Header = "Subsystems"
+        ListViewGroup5.Name = "lvwgSubSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5})
         Me.lvwSlots.Location = New System.Drawing.Point(509, 147)
         Me.lvwSlots.Name = "lvwSlots"
         Me.lvwSlots.Size = New System.Drawing.Size(395, 463)
@@ -585,42 +624,6 @@ Partial Class frmBCBrowser
         Me.lvwSlots.Tag = ""
         Me.lvwSlots.UseCompatibleStateImageBehavior = False
         Me.lvwSlots.View = System.Windows.Forms.View.Details
-        '
-        'lblCPULbl
-        '
-        Me.lblCPULbl.AutoSize = True
-        Me.lblCPULbl.Location = New System.Drawing.Point(6, 56)
-        Me.lblCPULbl.Name = "lblCPULbl"
-        Me.lblCPULbl.Size = New System.Drawing.Size(31, 13)
-        Me.lblCPULbl.TabIndex = 24
-        Me.lblCPULbl.Text = "CPU:"
-        '
-        'lblCPU
-        '
-        Me.lblCPU.AutoSize = True
-        Me.lblCPU.Location = New System.Drawing.Point(93, 57)
-        Me.lblCPU.Name = "lblCPU"
-        Me.lblCPU.Size = New System.Drawing.Size(13, 13)
-        Me.lblCPU.TabIndex = 25
-        Me.lblCPU.Text = "0"
-        '
-        'lblPGLbl
-        '
-        Me.lblPGLbl.AutoSize = True
-        Me.lblPGLbl.Location = New System.Drawing.Point(191, 56)
-        Me.lblPGLbl.Name = "lblPGLbl"
-        Me.lblPGLbl.Size = New System.Drawing.Size(59, 13)
-        Me.lblPGLbl.TabIndex = 26
-        Me.lblPGLbl.Text = "Powergrid:"
-        '
-        'lblPG
-        '
-        Me.lblPG.AutoSize = True
-        Me.lblPG.Location = New System.Drawing.Point(278, 56)
-        Me.lblPG.Name = "lblPG"
-        Me.lblPG.Size = New System.Drawing.Size(13, 13)
-        Me.lblPG.TabIndex = 27
-        Me.lblPG.Text = "0"
         '
         'frmBCBrowser
         '

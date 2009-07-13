@@ -224,7 +224,7 @@ Public Class frmBCBrowser
             For Each loadout As XmlNode In loadoutList
                 If loadout.InnerText <> "0" Then
                     Select Case loadout.Attributes("type").Value
-                        Case "high", "med", "lo", "rig", "drone"
+                        Case "high", "med", "lo", "rig", "subSystem", "drone"
                             moduleList.Add(loadout.InnerText)
                         Case "ammo"
                             ammoList.Add(loadout.InnerText)
@@ -253,6 +253,7 @@ Public Class frmBCBrowser
                     End If
                 End If
             Next
+            Call Me.ReorderModules()
             lblLoadoutName.Text = LoadoutName : lblLoadoutName.Visible = True : lblLoadoutNameLbl.Visible = True
             lblLoadoutAuthor.Text = LoadoutAuthor : lblLoadoutAuthor.Visible = True : lblLoadoutAuthorLbl.Visible = True
             lblLoadoutScore.Text = LoadoutScore : lblLoadoutScore.Visible = True : lblLoadoutScoreLbl.Visible = True
@@ -329,6 +330,15 @@ Public Class frmBCBrowser
                 newSlot.ForeColor = Color.Black
                 newSlot.Group = lvwSlots.Groups.Item("lvwgRigSlots")
                 Call Me.AddUserColumns(currentShip.RigSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            For slot As Integer = 1 To currentShip.SubSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "16_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgSubSlots")
+                Call Me.AddUserColumns(currentShip.SubSlot(slot), newSlot)
                 lvwSlots.Items.Add(newSlot)
             Next
             lvwSlots.EndUpdate()
@@ -455,6 +465,31 @@ Public Class frmBCBrowser
         ' Lets create the fitting
         Fittings.FittingList.Add(shipName & ", " & fittingName, currentFit)
         HQFEvents.StartUpdateFittingList = True
+    End Sub
+
+    Private Sub ReorderModules()
+        Dim subs, mods As New ArrayList
+        For Each cMod As String In currentFit
+            If ModuleLists.moduleListName.ContainsKey(cMod) = True Then
+                If CType(ModuleLists.moduleList(ModuleLists.moduleListName(cMod)), ShipModule).SlotType = 16 Then
+                    subs.Add(cMod)
+                Else
+                    mods.Add(cMod)
+                End If
+            Else
+                mods.Add(cMod)
+            End If
+        Next
+        ' Recreate the current fit
+        currentFit.Clear()
+        For Each cmod As String In subs
+            currentFit.Add(cmod)
+        Next
+        For Each cmod As String In mods
+            currentFit.Add(cmod)
+        Next
+        subs.Clear()
+        mods.Clear()
     End Sub
 
 #End Region
