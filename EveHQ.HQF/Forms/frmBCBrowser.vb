@@ -376,6 +376,11 @@ Public Class frmBCBrowser
             For slot As Integer = 1 To currentShip.RigSlots
                 currentShip.RigSlot(slot) = Nothing
             Next
+            For slot As Integer = 1 To currentShip.SubSlots
+                currentShip.SubSlot(slot) = Nothing
+            Next
+            currentShip.SlotCollection.Clear()
+            currentShip.FleetSlotCollection.Clear()
             currentShip.DroneBayItems.Clear()
             currentShip.DroneBay_Used = 0
             currentShip.CargoBayItems.Clear()

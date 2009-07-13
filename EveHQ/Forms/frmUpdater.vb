@@ -19,7 +19,7 @@ Public Class frmUpdater
     Dim updateFolder As String = ""
     Dim updateRequired As Boolean = False
     Public startupTest As Boolean = False
-    Dim PatcherLocation As String = EveHQ.Core.HQ.appDataFolder
+    Dim PatcherLocation As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "Updater")
 
     Private Sub frmUpdater_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         tmrUpdate.Interval = 100
@@ -425,6 +425,10 @@ Public Class frmUpdater
                     frmEveHQ.mnuUpdateNow.Enabled = True
                     Me.Close()
                 Else
+                    ' Check for existence of PatcherLocation
+                    If My.Computer.FileSystem.DirectoryExists(PatcherLocation) = False Then
+                        My.Computer.FileSystem.CreateDirectory(PatcherLocation)
+                    End If
                     ' Try and download patchfile
                     Dim patcherFile As String = Path.Combine(PatcherLocation, "EveHQPatcher.exe")
                     Try
