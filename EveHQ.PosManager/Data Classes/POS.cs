@@ -281,6 +281,7 @@ namespace EveHQ.PosManager
 
                 apid = APIL.GetAPIDataMemberForTowerID(itemID);
                 A_In_TimeStamp = Convert.ToDateTime(apid.cacheUntil);
+
                 // Now, while this is accurate, need to remove 24 hours from the time
                 // to make it work correctly
                 A_In_TimeStamp = A_In_TimeStamp.Subtract(TimeSpan.FromHours(24));

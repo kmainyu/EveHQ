@@ -180,7 +180,7 @@ namespace EveHQ.PosManager
             if (Strontium.QtyVol > 0)
                 Strontium.VolForQty = ((Strontium.Qty / Strontium.QtyVol) * Strontium.BaseVol);
             else
-                Strontium.VolForQty = 0;
+                Strontium.VolForQty = ((Strontium.Qty / 3) * Strontium.BaseVol);
 
             StrontUsed = Strontium.VolForQty;
         }
@@ -243,8 +243,10 @@ namespace EveHQ.PosManager
             MechPart.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
             Coolant.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
             Robotics.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
+
             HvyWater.SetFuelQtyForPeriod(sov_mult, cpu_b, cpu_u, period);
             LiqOzone.SetFuelQtyForPeriod(sov_mult, pow_b, pow_u, period);
+
             Charters.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
             N2Iso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
             HeIso.SetFuelQtyForPeriod(sov_mult, 1, 1, period);
@@ -263,7 +265,12 @@ namespace EveHQ.PosManager
             decimal StrVolPer, StrQpp;
 
             StrQpp = Math.Max((Math.Ceiling(Strontium.PeriodQty * sov_mult)),1);
-            StrVolPer = GetVolumeForFuel(StrQpp, Strontium.BaseVol, Strontium.QtyVol);
+
+            if (Strontium.QtyVol > 0)
+                StrVolPer = ((StrQpp / Strontium.QtyVol) * Strontium.BaseVol);
+            else
+                StrVolPer = 3;
+
             maxSP = Math.Floor(StrontCap / StrVolPer);
 
             if (period > maxSP)
@@ -283,8 +290,9 @@ namespace EveHQ.PosManager
             MechPart.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
             Coolant.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
             Robotics.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
-            HvyWater.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
-            LiqOzone.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
+
+            HvyWater.DecrementFuelQtyForPeriod(period, sov_mult, cpu_b, cpu_u);
+            LiqOzone.DecrementFuelQtyForPeriod(period, sov_mult, pow_b, pow_u);
             
             if (useChart)
                 Charters.DecrementFuelQtyForPeriod(period, sov_mult, 1, 1);
