@@ -2851,7 +2851,7 @@ Public Class frmPrism
             If PlugInData.CorpList.ContainsKey(owner) = True Then
                 IsCorp = True
                 ' See if we have a representative
-                Dim CorpRep As SortedList = CType(PlugInData.CorpReps(2), Collections.SortedList)
+                Dim CorpRep As SortedList = CType(PlugInData.CorpReps(0), Collections.SortedList)
                 If CorpRep.ContainsKey(CStr(PlugInData.CorpList(owner))) = True Then
                     owner = CStr(CorpRep(CStr(PlugInData.CorpList(owner))))
                 Else
