@@ -1570,7 +1570,52 @@ Public Class PlugInData
                                 cModule.Affects.Add(AffectingName)
                             End If
                     End Select
+                    ' Add the skill onto the subsystem
+                    If newEffect.IsPerLevel = True Then
+                        If cModule.ID = newEffect.ShipID.ToString Then
+                            AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectingID.ToString)))
+                            AffectingName &= ";Skill;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                            If cModule.Affects.Contains(AffectingName) = False Then
+                                cModule.Affects.Add(AffectingName)
+                            End If
+                        End If
+                    End If
                 Next
+
+                ' Add the skills into the ship
+                'If newEffect.Status < 16 Then
+                '    If AffectingName.Contains(";Skill;") = True Then
+                '        For Each cShip As Ship In ShipLists.shipList.Values
+                '            Select Case newEffect.AffectedType
+                '                Case EffectType.All
+                '                    If newEffect.AffectingID <> 0 Then
+                '                        cShip.Affects.Add(AffectingName)
+                '                    End If
+                '                Case EffectType.Item
+                '                    If newEffect.AffectedID.Contains(cShip.ID) Then
+                '                        cShip.Affects.Add(AffectingName)
+                '                    End If
+                '                Case EffectType.Group
+                '                    If newEffect.AffectedID.Contains(cShip.DatabaseGroup) Then
+                '                        cShip.Affects.Add(AffectingName)
+                '                    End If
+                '                Case EffectType.Category
+                '                    If newEffect.AffectedID.Contains(cShip.DatabaseCategory) Then
+                '                        cShip.Affects.Add(AffectingName)
+                '                    End If
+                '                Case EffectType.MarketGroup
+                '                    If newEffect.AffectedID.Contains(cShip.MarketGroup) Then
+                '                        cShip.Affects.Add(AffectingName)
+                '                    End If
+                '                Case EffectType.Attribute
+                '                    If cShip.Attributes.Contains(newEffect.AffectedID(0).ToString) Then
+                '                        cShip.Affects.Add(AffectingName)
+                '                    End If
+                '            End Select
+                '        Next
+                '    End If
+                'End If
+
             End If
         Next
     End Sub

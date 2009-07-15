@@ -60,6 +60,7 @@ Partial Class ShipSlotControl
         Me.lblSubSlots = New System.Windows.Forms.Label
         Me.pbShipInfo = New System.Windows.Forms.PictureBox
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.tabStorage = New System.Windows.Forms.TabControl
         Me.tabDroneBay = New System.Windows.Forms.TabPage
         Me.panelDrone = New System.Windows.Forms.Panel
@@ -124,7 +125,6 @@ Partial Class ShipSlotControl
         Me.cboWHClass = New System.Windows.Forms.ComboBox
         Me.lblWHEffect = New System.Windows.Forms.Label
         Me.cboWHEffect = New System.Windows.Forms.ComboBox
-        Me.lvwSlots = New EveHQ.HQF.ListViewNoFlicker
         Me.ctxSlots.SuspendLayout()
         Me.ctxBays.SuspendLayout()
         Me.ctxRemoteFittings.SuspendLayout()
@@ -227,13 +227,13 @@ Partial Class ShipSlotControl
         '
         Me.ctxSlots.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowInfoToolStripMenuItem})
         Me.ctxSlots.Name = "ctxSlots"
-        Me.ctxSlots.Size = New System.Drawing.Size(128, 26)
+        Me.ctxSlots.Size = New System.Drawing.Size(135, 26)
         Me.ctxSlots.Tag = " "
         '
         'ShowInfoToolStripMenuItem
         '
         Me.ShowInfoToolStripMenuItem.Name = "ShowInfoToolStripMenuItem"
-        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.ShowInfoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ShowInfoToolStripMenuItem.Text = "Show Info"
         '
         'imgState
@@ -251,65 +251,65 @@ Partial Class ShipSlotControl
         '
         Me.ctxBays.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxRemoveItem, Me.ToolStripMenuItem1, Me.ctxAlterQuantity, Me.ctxSplitBatch, Me.ToolStripMenuItem2, Me.ctxShowBayInfoItem})
         Me.ctxBays.Name = "ctx"
-        Me.ctxBays.Size = New System.Drawing.Size(163, 104)
+        Me.ctxBays.Size = New System.Drawing.Size(167, 104)
         '
         'ctxRemoveItem
         '
         Me.ctxRemoveItem.Name = "ctxRemoveItem"
-        Me.ctxRemoveItem.Size = New System.Drawing.Size(162, 22)
+        Me.ctxRemoveItem.Size = New System.Drawing.Size(166, 22)
         Me.ctxRemoveItem.Text = "Remove Item"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(159, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(163, 6)
         '
         'ctxAlterQuantity
         '
         Me.ctxAlterQuantity.Name = "ctxAlterQuantity"
-        Me.ctxAlterQuantity.Size = New System.Drawing.Size(162, 22)
+        Me.ctxAlterQuantity.Size = New System.Drawing.Size(166, 22)
         Me.ctxAlterQuantity.Text = "Alter Quantity"
         '
         'ctxSplitBatch
         '
         Me.ctxSplitBatch.Name = "ctxSplitBatch"
-        Me.ctxSplitBatch.Size = New System.Drawing.Size(162, 22)
+        Me.ctxSplitBatch.Size = New System.Drawing.Size(166, 22)
         Me.ctxSplitBatch.Text = "Split Batch"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(159, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(163, 6)
         '
         'ctxShowBayInfoItem
         '
         Me.ctxShowBayInfoItem.Name = "ctxShowBayInfoItem"
-        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(162, 22)
+        Me.ctxShowBayInfoItem.Size = New System.Drawing.Size(166, 22)
         Me.ctxShowBayInfoItem.Text = "Show Drone Info"
         '
         'ctxRemoteFittings
         '
         Me.ctxRemoteFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveFittingToolStripMenuItem})
         Me.ctxRemoteFittings.Name = "ctxRemoteFittings"
-        Me.ctxRemoteFittings.Size = New System.Drawing.Size(179, 26)
+        Me.ctxRemoteFittings.Size = New System.Drawing.Size(180, 26)
         '
         'RemoveFittingToolStripMenuItem
         '
         Me.RemoveFittingToolStripMenuItem.Name = "RemoveFittingToolStripMenuItem"
         Me.RemoveFittingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.RemoveFittingToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
         Me.RemoveFittingToolStripMenuItem.Text = "Remove Fitting"
         '
         'ctxRemoteModule
         '
         Me.ctxRemoteModule.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShowRemoteModInfo})
         Me.ctxRemoteModule.Name = "ctxRemoteModule"
-        Me.ctxRemoteModule.Size = New System.Drawing.Size(128, 26)
+        Me.ctxRemoteModule.Size = New System.Drawing.Size(135, 26)
         '
         'mnuShowRemoteModInfo
         '
         Me.mnuShowRemoteModInfo.Name = "mnuShowRemoteModInfo"
-        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(127, 22)
+        Me.mnuShowRemoteModInfo.Size = New System.Drawing.Size(134, 22)
         Me.mnuShowRemoteModInfo.Text = "Show Info"
         '
         'btnToggleStorage
@@ -338,12 +338,12 @@ Partial Class ShipSlotControl
         '
         Me.ctxShipSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAlterRelevantSkills})
         Me.ctxShipSkills.Name = "ctxShipSkills"
-        Me.ctxShipSkills.Size = New System.Drawing.Size(177, 26)
+        Me.ctxShipSkills.Size = New System.Drawing.Size(180, 48)
         '
         'mnuAlterRelevantSkills
         '
         Me.mnuAlterRelevantSkills.Name = "mnuAlterRelevantSkills"
-        Me.mnuAlterRelevantSkills.Size = New System.Drawing.Size(176, 22)
+        Me.mnuAlterRelevantSkills.Size = New System.Drawing.Size(179, 22)
         Me.mnuAlterRelevantSkills.Text = "Alter Relevant Skills"
         '
         'panelFunctions
@@ -407,6 +407,32 @@ Partial Class ShipSlotControl
         Me.SplitContainer1.Size = New System.Drawing.Size(676, 521)
         Me.SplitContainer1.SplitterDistance = 275
         Me.SplitContainer1.TabIndex = 1
+        '
+        'lvwSlots
+        '
+        Me.lvwSlots.AllowDrop = True
+        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
+        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwSlots.FullRowSelect = True
+        ListViewGroup1.Header = "High Slots"
+        ListViewGroup1.Name = "lvwgHighSlots"
+        ListViewGroup2.Header = "Mid Slots"
+        ListViewGroup2.Name = "lvwgMidSlots"
+        ListViewGroup3.Header = "Low Slots"
+        ListViewGroup3.Name = "lvwgLowSlots"
+        ListViewGroup4.Header = "Rig Slots"
+        ListViewGroup4.Name = "lvwgRigSlots"
+        ListViewGroup5.Header = "Subsystem Slots"
+        ListViewGroup5.Name = "lvwgSubSlots"
+        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5})
+        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
+        Me.lvwSlots.Name = "lvwSlots"
+        Me.lvwSlots.Size = New System.Drawing.Size(676, 275)
+        Me.lvwSlots.SmallImageList = Me.imgState
+        Me.lvwSlots.TabIndex = 0
+        Me.lvwSlots.Tag = ""
+        Me.lvwSlots.UseCompatibleStateImageBehavior = False
+        Me.lvwSlots.View = System.Windows.Forms.View.Details
         '
         'tabStorage
         '
@@ -1078,32 +1104,6 @@ Partial Class ShipSlotControl
         Me.cboWHEffect.Name = "cboWHEffect"
         Me.cboWHEffect.Size = New System.Drawing.Size(148, 21)
         Me.cboWHEffect.TabIndex = 10
-        '
-        'lvwSlots
-        '
-        Me.lvwSlots.AllowDrop = True
-        Me.lvwSlots.ContextMenuStrip = Me.ctxSlots
-        Me.lvwSlots.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwSlots.FullRowSelect = True
-        ListViewGroup1.Header = "High Slots"
-        ListViewGroup1.Name = "lvwgHighSlots"
-        ListViewGroup2.Header = "Mid Slots"
-        ListViewGroup2.Name = "lvwgMidSlots"
-        ListViewGroup3.Header = "Low Slots"
-        ListViewGroup3.Name = "lvwgLowSlots"
-        ListViewGroup4.Header = "Rig Slots"
-        ListViewGroup4.Name = "lvwgRigSlots"
-        ListViewGroup5.Header = "Subsystem Slots"
-        ListViewGroup5.Name = "lvwgSubSlots"
-        Me.lvwSlots.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3, ListViewGroup4, ListViewGroup5})
-        Me.lvwSlots.Location = New System.Drawing.Point(0, 0)
-        Me.lvwSlots.Name = "lvwSlots"
-        Me.lvwSlots.Size = New System.Drawing.Size(676, 275)
-        Me.lvwSlots.SmallImageList = Me.imgState
-        Me.lvwSlots.TabIndex = 0
-        Me.lvwSlots.Tag = ""
-        Me.lvwSlots.UseCompatibleStateImageBehavior = False
-        Me.lvwSlots.View = System.Windows.Forms.View.Details
         '
         'ShipSlotControl
         '

@@ -3762,4 +3762,5 @@ Public Class ShipSlotControl
             Call Me.UpdateAllSlotLocations()
         End If
     End Sub
+
 End Class
