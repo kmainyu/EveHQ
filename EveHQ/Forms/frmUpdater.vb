@@ -19,7 +19,8 @@ Public Class frmUpdater
     Dim updateFolder As String = ""
     Dim updateRequired As Boolean = False
     Public startupTest As Boolean = False
-    Dim PatcherLocation As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "Updater")
+    Dim BaseLocation As String = ""
+    Dim PatcherLocation As String = ""
 
     Private Sub frmUpdater_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         tmrUpdate.Interval = 100
@@ -201,23 +202,36 @@ Public Class frmUpdater
                 newFile.SubItems(5).Text = "Update Not Required"
             End If
         Else
-            newFile.SubItems(2).Text = "New!!"
-            newFile.ForeColor = Color.Red
-            Dim chkDownload As New CheckBox
-            chkDownload.Name = newFile.Text
-            chkDownload.Size = New Size(14, 14)
-            chkDownload.Enabled = True
-            chkDownload.Checked = True
-            newFile.SubItems(4).ItemControl = chkDownload
-            newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
-            Dim pbProgress As New ProgressBar
-            pbProgress.Name = newFile.Text
-            pbProgress.Width = 150
-            pbProgress.Height = 16
-            newFile.SubItems(5).ItemControl = pbProgress
-            'newFile.SubItems(5).Text = "0%"
-            pbControls.Add(newFile.Text, pbProgress)
-            UpdateRequired = True
+            If newFile.Text <> "EveHQ.mdb.zip" Or (newFile.Text = "EveHQ.mdb.zip" And EveHQ.Core.HQ.EveHQSettings.DBFormat = 0) Then
+                newFile.SubItems(2).Text = "New!!"
+                newFile.ForeColor = Color.Red
+                Dim chkDownload As New CheckBox
+                chkDownload.Name = newFile.Text
+                chkDownload.Size = New Size(14, 14)
+                chkDownload.Enabled = True
+                chkDownload.Checked = True
+                newFile.SubItems(4).ItemControl = chkDownload
+                newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
+                Dim pbProgress As New ProgressBar
+                pbProgress.Name = newFile.Text
+                pbProgress.Width = 150
+                pbProgress.Height = 16
+                newFile.SubItems(5).ItemControl = pbProgress
+                'newFile.SubItems(5).Text = "0%"
+                pbControls.Add(newFile.Text, pbProgress)
+                updateRequired = True
+            Else
+                newFile.SubItems(2).Text = "Using SQL"
+                Dim chkDownload As New CheckBox
+                chkDownload.Name = newFile.Text
+                chkDownload.Size = New Size(14, 14)
+                chkDownload.Enabled = False
+                chkDownload.Checked = False
+                newFile.SubItems(4).ItemControl = chkDownload
+                newFile.SubItems(4).ControlResizeBehavior = ControlResizeBehavior.None
+                newFile.ForeColor = Color.LimeGreen
+                newFile.SubItems(5).Text = "Update Not Required"
+            End If
         End If
         If updateFile.ChildNodes(3).InnerText = "True" Then
             ' Add a pdb file reference
@@ -280,12 +294,41 @@ Public Class frmUpdater
             End If
         Next
 
-        ' Check for existence of updates folder
+        ' Set Locations
         If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
-            updateFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "Updates")
+            BaseLocation = EveHQ.Core.HQ.appDataFolder
+            PatcherLocation = Path.Combine(BaseLocation, "Updater")
+            updateFolder = Path.Combine(BaseLocation, "Updates")
         Else
-            updateFolder = Path.Combine(Application.StartupPath, "Updates")
+            BaseLocation = Application.StartupPath
+            PatcherLocation = Path.Combine(BaseLocation, "Updater")
+            updateFolder = Path.Combine(BaseLocation, "Updates")
         End If
+
+        ' Check for existence of PatcherLocation
+        If My.Computer.FileSystem.DirectoryExists(PatcherLocation) = False Then
+            My.Computer.FileSystem.CreateDirectory(PatcherLocation)
+        End If
+        ' Check if the CoreControls.dll file can be copied
+        Dim oldCCfile As String = Path.Combine(EveHQ.Core.HQ.appFolder, "EveHQ.CoreControls.dll")
+        Dim newCCfile As String = Path.Combine(PatcherLocation, "EveHQ.CoreControls.dll")
+        Try
+            My.Computer.FileSystem.CopyFile(oldCCfile, newCCfile, True)
+        Catch ex As Exception
+            ' Access restricted therefore use the an AppData folder
+            BaseLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ")
+            PatcherLocation = Path.Combine(BaseLocation, "Updater")
+            updateFolder = Path.Combine(BaseLocation, "Updates")
+            newCCfile = Path.Combine(PatcherLocation, "EveHQ.CoreControls.dll")
+            Try
+                My.Computer.FileSystem.CopyFile(oldCCfile, newCCfile, True)
+            Catch ex2 As Exception
+                ' Double failure - report and exit
+                Dim msg As String = "Unable to copy necessary files for the update process to complete. Please update manually."
+                MessageBox.Show(msg, "Unable to Update", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+        End Try
+
         If My.Computer.FileSystem.DirectoryExists(updateFolder) = False Then
             ' Create the cache folder if it doesn't exist
             My.Computer.FileSystem.CreateDirectory(updateFolder)
@@ -425,19 +468,12 @@ Public Class frmUpdater
                     frmEveHQ.mnuUpdateNow.Enabled = True
                     Me.Close()
                 Else
-                    ' Check for existence of PatcherLocation
-                    If My.Computer.FileSystem.DirectoryExists(PatcherLocation) = False Then
-                        My.Computer.FileSystem.CreateDirectory(PatcherLocation)
-                    End If
+                    
                     ' Try and download patchfile
                     Dim patcherFile As String = Path.Combine(PatcherLocation, "EveHQPatcher.exe")
                     Try
                         lblUpdateStatus.Text = "Status: Fetching Patcher File!"
                         Call Me.DownloadPatcherFile("EveHQPatcher.exe")
-                        ' Copy the CoreControls.dll file to the same location
-                        Dim oldCCfile As String = Path.Combine(EveHQ.Core.HQ.appFolder, "EveHQ.CoreControls.dll")
-                        Dim newCCfile As String = Path.Combine(PatcherLocation, "EveHQ.CoreControls.dll")
-                        My.Computer.FileSystem.CopyFile(oldCCfile, newCCfile, True)
                         'MessageBox.Show("Patcher Deployment Successful!", "Patcher Deployment Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         tmrUpdate.Enabled = True
                     Catch Excep As System.Runtime.InteropServices.COMException
@@ -451,6 +487,7 @@ Public Class frmUpdater
                     startInfo.WorkingDirectory = Environment.CurrentDirectory
                     startInfo.FileName = patcherFile
                     Dim args As String = " /App;" & ControlChars.Quote & EveHQ.Core.HQ.appFolder & ControlChars.Quote
+                    args &= " /Base;" & ControlChars.Quote & BaseLocation & ControlChars.Quote
                     If EveHQ.Core.HQ.IsUsingLocalFolders = True Then
                         args &= " /Local;True"
                     Else
@@ -477,158 +514,9 @@ Public Class frmUpdater
         End If
     End Sub
 
-    Private Function UpdateEveHQ() As Boolean
-        Try
-            Dim oldFile As String = ""
-            For Each newFile As String In My.Computer.FileSystem.GetFiles(Application.StartupPath, FileIO.SearchOption.SearchTopLevelOnly, "*.upd")
-                oldFile = newFile.TrimEnd(".upd".ToCharArray)
-                Dim ofi As New IO.FileInfo(oldFile)
-                Dim nfi As New IO.FileInfo(newFile)
-                ' Check if this is the database upgrade
-                If nfi.Name = "EveHQ.mdb.upd" Then
-                    ' Get the current database file location and rename it
-                    If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBFilename) = True Then
-                        If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHQSettings.DBFilename & ".old") = True Then
-                            My.Computer.FileSystem.DeleteFile(EveHQ.Core.HQ.EveHQSettings.DBFilename & ".old")
-                        End If
-                        My.Computer.FileSystem.RenameFile(EveHQ.Core.HQ.EveHQSettings.DBFilename, EveHQ.Core.HQ.EveHQSettings.DBFilename & ".old")
-                    End If
-                    ' Uncompress the database file
-                    DecompressFile(nfi.Name, EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                Else
-                    ' Not the DB upgrade
-                    If ofi.Exists = True Then
-                        My.Computer.FileSystem.RenameFile(ofi.FullName, ofi.Name & ".old")
-                    End If
-                    ' Copy the new file as the old one
-                    My.Computer.FileSystem.CopyFile(nfi.FullName, ofi.FullName, True)
-                    ' If no errors, then delete the update file
-                    My.Computer.FileSystem.DeleteFile(nfi.FullName)
-                End If
-            Next
-        Catch e As Exception
-            Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
-            errMsg &= "Message: " & e.Message & ControlChars.CrLf
-            MessageBox.Show(errMsg, "Error Updating EveHQ Files", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Try
-    End Function
-
     Private Sub btnRecheckUpdates_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRecheckUpdates.Click
         btnRecheckUpdates.Enabled = False
         Call Me.ShowUpdates()
-    End Sub
-
-    Public Sub CompressFile(ByVal sourceFile As String, ByVal destinationFile As String)
-
-        ' make sure the source file is there
-        If File.Exists(sourceFile) = False Then
-            Throw New FileNotFoundException
-        End If
-
-        ' Create the streams and byte arrays needed
-        Dim buffer As Byte() = Nothing
-        Dim sourceStream As FileStream = Nothing
-        Dim destinationStream As FileStream = Nothing
-        Dim compressedStream As GZipStream = Nothing
-
-        Try
-            ' Read the bytes from the source file into a byte array
-            sourceStream = New FileStream(sourceFile, FileMode.Open, FileAccess.Read, FileShare.Read)
-
-            ' Read the source stream values into the buffer
-            buffer = New Byte(CInt(sourceStream.Length)) {}
-            Dim checkCounter As Integer = sourceStream.Read(buffer, 0, buffer.Length)
-
-            ' Open the FileStream to write to
-            destinationStream = New FileStream(destinationFile, FileMode.OpenOrCreate, FileAccess.Write)
-
-            ' Create a compression stream pointing to the destiantion stream
-            compressedStream = New GZipStream(destinationStream, CompressionMode.Compress, True)
-
-            'Now write the compressed data to the destination file
-            compressedStream.Write(buffer, 0, buffer.Length)
-
-        Catch ex As ApplicationException
-            MessageBox.Show(ex.Message, "An Error occured during compression", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Finally
-            ' Make sure we allways close all streams
-            If Not (sourceStream Is Nothing) Then
-                sourceStream.Close()
-            End If
-            If Not (compressedStream Is Nothing) Then
-                compressedStream.Close()
-            End If
-            If Not (destinationStream Is Nothing) Then
-                destinationStream.Close()
-            End If
-        End Try
-
-    End Sub
-
-    Public Sub DecompressFile(ByVal sourceFile As String, ByVal destinationFile As String)
-
-        ' make sure the source file is there
-        If File.Exists(sourceFile) = False Then
-            Throw New FileNotFoundException
-        End If
-
-        ' Create the streams and byte arrays needed
-        Dim sourceStream As FileStream = Nothing
-        Dim destinationStream As FileStream = Nothing
-        Dim decompressedStream As GZipStream = Nothing
-        Dim quartetBuffer As Byte() = Nothing
-
-        Try
-            ' Read in the compressed source stream
-            sourceStream = New FileStream(sourceFile, FileMode.Open)
-
-            ' Create a compression stream pointing to the destiantion stream
-            decompressedStream = New GZipStream(sourceStream, CompressionMode.Decompress, True)
-
-            ' Read the footer to determine the length of the destiantion file
-            quartetBuffer = New Byte(4) {}
-            Dim position As Integer = CType(sourceStream.Length, Integer) - 4
-            sourceStream.Position = position
-            sourceStream.Read(quartetBuffer, 0, 4)
-            sourceStream.Position = 0
-            Dim checkLength As Integer = BitConverter.ToInt32(quartetBuffer, 0)
-
-            Dim buffer(checkLength + 100) As Byte
-            Dim offset As Integer = 0
-            Dim total As Integer = 0
-
-            ' Read the compressed data into the buffer
-            While True
-                Dim bytesRead As Integer = decompressedStream.Read(buffer, offset, 100)
-                If bytesRead = 0 Then
-                    Exit While
-                End If
-                offset += bytesRead
-                total += bytesRead
-            End While
-
-            ' Now write everything to the destination file
-            destinationStream = New FileStream(destinationFile, FileMode.Create)
-            destinationStream.Write(buffer, 0, total)
-
-            ' and flush everyhting to clean out the buffer
-            destinationStream.Flush()
-
-        Catch ex As ApplicationException
-            MessageBox.Show(ex.Message, "An Error occured during compression", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Finally
-            ' Make sure we allways close all streams
-            If Not (sourceStream Is Nothing) Then
-                sourceStream.Close()
-            End If
-            If Not (decompressedStream Is Nothing) Then
-                decompressedStream.Close()
-            End If
-            If Not (destinationStream Is Nothing) Then
-                destinationStream.Close()
-            End If
-        End Try
-
     End Sub
 
     Private Function DownloadPatcherFile(ByVal FileNeeded As String) As Boolean

@@ -2349,7 +2349,9 @@ Public Class frmEveHQ
                             UpdateRequired = True
                         End If
                     Else
-                        UpdateRequired = True
+                        If updateFile.ChildNodes(0).InnerText <> "EveHQ.mdb.zip" Or (updateFile.ChildNodes(0).InnerText = "EveHQ.mdb.zip" And EveHQ.Core.HQ.EveHQSettings.DBFormat = 0) Then
+                            UpdateRequired = True
+                        End If
                     End If
                 Next
                 If UpdateRequired = True Then

@@ -22,26 +22,39 @@ Imports System.IO
 Imports System.Net.Sockets
 Imports System.Threading
 Imports ICSharpCode.SharpZipLib.Zip
+Imports Microsoft.Win32
+Imports System.Text
+Imports System.Diagnostics
+Imports System.Runtime.InteropServices
+Imports System.Security
+Imports System.Security.AccessControl
+Imports System.Security.Cryptography
 
 Public Class frmPatcher
 
     Dim isLocal As Boolean = False
     Dim DBFileName As String = ""
     Dim EveHQFolder As String = ""
+    Dim BaseLocation As String = ""
     Dim updateFolder As String = ""
 
     Private Sub tmrDownload_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrDownload.Tick
+        tmrDownload.Enabled = False
         lblCurrentStatus.Text = "Waiting for EveHQ Shutdown..."
         Me.Refresh()
-        tmrDownload.Enabled = False
         Me.Refresh()
         lblCurrentStatus.Text = "Confirming EveHQ Shutdown..."
         Me.Refresh()
         Call KillEveHQ()
         Call UpdateEveHQ()
-        Dim msg As String = "The EveHQ update is complete. Would you like to start EveHQ now?"
-        If MessageBox.Show(msg, "Start EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-            Call StartEveHQ()
+        If isLocal = False Then
+            Dim msg As String = "The EveHQ update is complete. Would you like to start EveHQ now?"
+            If MessageBox.Show(msg, "Start EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                Call StartEveHQ()
+            End If
+        Else
+            Dim msg As String = "The EveHQ update is complete. Due to using the /local switch, please restart EveHQ manually."
+            MessageBox.Show(msg, "Manual Restart required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
         End
     End Sub
@@ -66,12 +79,7 @@ Public Class frmPatcher
         lblCurrentStatus.Text = "Updating Files..."
         lblCurrentStatus.Refresh()
 
-        If isLocal = False Then
-            updateFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ")
-            updateFolder = Path.Combine(updateFolder, "Updates")
-        Else
-            updateFolder = Path.Combine(EveHQFolder, "Updates")
-        End If
+        updateFolder = Path.Combine(BaseLocation, "Updates")
 
         Dim oldFile As String = ""
         For Each updateFile As String In My.Computer.FileSystem.GetFiles(updateFolder, FileIO.SearchOption.SearchTopLevelOnly)
@@ -117,13 +125,20 @@ Public Class frmPatcher
             End Try
         End If
 
+        ' Delete All Upgrades
+        Try
+            My.Computer.FileSystem.DeleteDirectory(updateFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+        Catch ex As Exception
+            ' Failed delete - meh, cleanup can occur in the main app if need be
+        End Try
+
     End Function
 
     Private Function StartEveHQ() As Boolean
         Try
             Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
-            startInfo.UseShellExecute = True
-            startInfo.WorkingDirectory = Environment.CurrentDirectory
+            startInfo.UseShellExecute = False
+            startInfo.WorkingDirectory = EveHQFolder
             startInfo.FileName = Path.Combine(EveHQFolder, "EveHQ.exe")
             If isLocal = True Then
                 startInfo.Arguments = " /local"
@@ -145,6 +160,10 @@ Public Class frmPatcher
                 Dim paramData As String() = param.Split(CChar(";"))
                 EveHQFolder = paramData(1).TrimStart(CChar(ControlChars.Quote)).TrimEnd(CChar(ControlChars.Quote))
                 lblEveHQLocation.Text = "EveHQ Location: " & EveHQFolder
+            End If
+            If param.StartsWith("/Base") Then
+                Dim paramData As String() = param.Split(CChar(";"))
+                BaseLocation = paramData(1).TrimStart(CChar(ControlChars.Quote)).TrimEnd(CChar(ControlChars.Quote))
             End If
             If param.StartsWith("/Local") Then
                 Dim paramData As String() = param.Split(CChar(";"))
