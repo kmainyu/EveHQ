@@ -164,6 +164,7 @@ Public Class frmPatcher
             If param.StartsWith("/Base") Then
                 Dim paramData As String() = param.Split(CChar(";"))
                 BaseLocation = paramData(1).TrimStart(CChar(ControlChars.Quote)).TrimEnd(CChar(ControlChars.Quote))
+                lblUpdateLocation.Text = BaseLocation
             End If
             If param.StartsWith("/Local") Then
                 Dim paramData As String() = param.Split(CChar(";"))
