@@ -2347,6 +2347,7 @@ Public Class frmPrism
                 newTrans.SubItems.Add([Enum].GetName(GetType(InvestmentTransactionType), myTransaction.Type))
                 newTrans.SubItems.Add(myTransaction.Quantity.ToString)
                 newTrans.SubItems.Add(myTransaction.UnitValue.ToString)
+                newTrans.SubItems.Add(myTransaction.Notes)
                 lvwTransactions.Items.Add(newTrans)
             Next
             lvwTransactions.EndUpdate()

@@ -47,6 +47,7 @@ End Class
     Public TransDate As Date
     Public Quantity As Double
     Public UnitValue As Double
+    Public Notes As String
 End Class
 
 Public Enum InvestmentType

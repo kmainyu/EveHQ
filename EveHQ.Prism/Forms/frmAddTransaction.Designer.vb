@@ -40,6 +40,8 @@ Partial Class frmAddTransaction
         Me.lblValue = New System.Windows.Forms.Label
         Me.txtCurrentQuantity = New System.Windows.Forms.TextBox
         Me.lblCurrentQuantity = New System.Windows.Forms.Label
+        Me.txtNotes = New System.Windows.Forms.TextBox
+        Me.lblNotes = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'lblTransactionID
@@ -88,7 +90,7 @@ Partial Class frmAddTransaction
         '
         'btnAccept
         '
-        Me.btnAccept.Location = New System.Drawing.Point(363, 206)
+        Me.btnAccept.Location = New System.Drawing.Point(363, 334)
         Me.btnAccept.Name = "btnAccept"
         Me.btnAccept.Size = New System.Drawing.Size(75, 23)
         Me.btnAccept.TabIndex = 4
@@ -98,7 +100,7 @@ Partial Class frmAddTransaction
         'btnCancel
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(444, 206)
+        Me.btnCancel.Location = New System.Drawing.Point(444, 334)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(75, 23)
         Me.btnCancel.TabIndex = 5
@@ -201,13 +203,33 @@ Partial Class frmAddTransaction
         Me.lblCurrentQuantity.TabIndex = 19
         Me.lblCurrentQuantity.Text = "Current Quantity:"
         '
+        'txtNotes
+        '
+        Me.txtNotes.Location = New System.Drawing.Point(115, 198)
+        Me.txtNotes.MaxLength = 512
+        Me.txtNotes.Multiline = True
+        Me.txtNotes.Name = "txtNotes"
+        Me.txtNotes.Size = New System.Drawing.Size(404, 130)
+        Me.txtNotes.TabIndex = 20
+        '
+        'lblNotes
+        '
+        Me.lblNotes.AutoSize = True
+        Me.lblNotes.Location = New System.Drawing.Point(16, 201)
+        Me.lblNotes.Name = "lblNotes"
+        Me.lblNotes.Size = New System.Drawing.Size(38, 13)
+        Me.lblNotes.TabIndex = 21
+        Me.lblNotes.Text = "Notes:"
+        '
         'frmAddTransaction
         '
         Me.AcceptButton = Me.btnAccept
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(531, 239)
+        Me.ClientSize = New System.Drawing.Size(531, 363)
+        Me.Controls.Add(Me.lblNotes)
+        Me.Controls.Add(Me.txtNotes)
         Me.Controls.Add(Me.txtCurrentQuantity)
         Me.Controls.Add(Me.lblCurrentQuantity)
         Me.Controls.Add(Me.txtUnitValue)
@@ -254,4 +276,6 @@ Partial Class frmAddTransaction
     Friend WithEvents lblValue As System.Windows.Forms.Label
     Friend WithEvents txtCurrentQuantity As System.Windows.Forms.TextBox
     Friend WithEvents lblCurrentQuantity As System.Windows.Forms.Label
+    Friend WithEvents txtNotes As System.Windows.Forms.TextBox
+    Friend WithEvents lblNotes As System.Windows.Forms.Label
 End Class

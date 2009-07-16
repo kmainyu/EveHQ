@@ -401,6 +401,7 @@ Partial Class frmPrism
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.colNotes = New System.Windows.Forms.ColumnHeader
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -1189,7 +1190,7 @@ Partial Class frmPrism
         Me.lvwTransactions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lvwTransactions.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colTransID, Me.colTransDate, Me.colTransType, Me.colTransQuantity, Me.colTransValue})
+        Me.lvwTransactions.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colTransID, Me.colTransDate, Me.colTransType, Me.colTransQuantity, Me.colTransValue, Me.colNotes})
         Me.lvwTransactions.FullRowSelect = True
         Me.lvwTransactions.GridLines = True
         Me.lvwTransactions.HideSelection = False
@@ -3992,6 +3993,11 @@ Partial Class frmPrism
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
         '
+        'colNotes
+        '
+        Me.colNotes.Text = "Transaction Notes"
+        Me.colNotes.Width = 500
+        '
         'frmPrism
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4443,4 +4449,5 @@ Partial Class frmPrism
     Friend WithEvents cboCategoryFilter As System.Windows.Forms.ComboBox
     Friend WithEvents lblBPCatFilter As System.Windows.Forms.Label
     Friend WithEvents colBPManSpecLocation As DotNetLib.Windows.Forms.ContainerListViewColumnHeader
+    Friend WithEvents colNotes As System.Windows.Forms.ColumnHeader
 End Class

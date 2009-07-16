@@ -32,6 +32,7 @@ Public Class frmAddTransaction
         Me.cboType.SelectedIndex = cEditTrans.Type
         Me.txtQuantity.Text = CStr(cEditTrans.Quantity)
         Me.txtUnitValue.Text = CStr(cEditTrans.UnitValue)
+        Me.txtNotes.Text = cEditTrans.Notes
         Select Case cEditInv.Type
             Case 0 ' Cash
                 Me.cboType.Items.Remove("Purchase")
@@ -110,6 +111,7 @@ Public Class frmAddTransaction
             newTransaction.Type = CInt(Portfolio.TransactionTypes(cboType.SelectedItem.ToString))
             newTransaction.Quantity = CDbl(txtQuantity.Text)
             newTransaction.UnitValue = CDbl(txtUnitValue.Text)
+            newTransaction.Notes = txtNotes.Text
             ' Add this to the list of transactions
             Portfolio.Transactions.Add(newTransaction.ID, newTransaction)
             ' Add the transaction to the investment
@@ -161,6 +163,7 @@ Public Class frmAddTransaction
             newTransaction.TransDate = CDate(dtpDate.Value)
             newTransaction.Quantity = CDbl(txtQuantity.Text)
             newTransaction.UnitValue = CDbl(txtUnitValue.Text)
+            newTransaction.Notes = txtNotes.Text
             ' Replace the transaction under the investment
             newInvestment.Transactions.Item(newTransaction.ID) = newTransaction
         End If
