@@ -63,7 +63,7 @@ Public Class frmPatcher
 
         Try
             For Each proc As Process In System.Diagnostics.Process.GetProcessesByName("EveHQ")
-                proc.Kill()
+                proc.CloseMainWindow()
                 proc.WaitForExit()
             Next
         Catch ex As Exception
