@@ -2206,7 +2206,7 @@ Public Class frmPrism
                     End If
                     newItem.Name = myInvestment.ID.ToString
                     newItem.Text = myInvestment.ID.ToString
-                    newItem.SubItems.Add(myInvestment.Name)
+                    newItem.SubItems.Add(myInvestment.Name & " (" & [Enum].GetName(GetType(InvestmentType), myInvestment.Type) & ")")
                     newItem.SubItems.Add(myInvestment.Owner)
                     newItem.SubItems.Add(FormatNumber(myInvestment.CurrentQuantity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     newItem.SubItems.Add(FormatNumber(myInvestment.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
@@ -2214,6 +2214,11 @@ Public Class frmPrism
                         newItem.SubItems.Add(FormatNumber(myInvestment.CurrentCost, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     Else
                         newItem.SubItems.Add(FormatNumber(myInvestment.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    End If
+                    If myInvestment.ValueIsCost = True Then
+                        newItem.SubItems.Add(FormatNumber((myInvestment.CurrentCost * myInvestment.CurrentQuantity), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+                    Else
+                        newItem.SubItems.Add(FormatNumber((myInvestment.CurrentValue * myInvestment.CurrentQuantity), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     End If
                     newItem.SubItems.Add(FormatNumber((myInvestment.CurrentValue * myInvestment.CurrentQuantity), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     newItem.SubItems.Add(FormatNumber((myInvestment.CurrentValue * myInvestment.CurrentQuantity) - (myInvestment.CurrentCost * myInvestment.CurrentQuantity), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
@@ -2224,6 +2229,13 @@ Public Class frmPrism
                 End If
             Next
             lvwInvestments.EndUpdate()
+            If lvwInvestments.Items.ContainsKey(InvestmentID) = True Then
+                lvwInvestments.Items(InvestmentID).Selected = True
+            Else
+                lvwTransactions.BeginUpdate()
+                lvwTransactions.Items.Clear()
+                lvwTransactions.EndUpdate()
+            End If
         Catch ice As InvalidCastException
             ' Catch an exception moving over to the new Prism plug-in
             Portfolio.Investments.Clear()
@@ -2299,7 +2311,7 @@ Public Class frmPrism
             NewTransaction.ShowDialog()
             If Portfolio.Transactions.Count <> oldCount Then
                 Call Me.UpdateTransactions()
-                Call Me.UpdateInvestment()
+                Call Me.ListInvestments()
                 Call Me.SaveInvestments()
             End If
         End If
@@ -2321,7 +2333,7 @@ Public Class frmPrism
                 newTrans.Name = CStr(myTransaction.ID)
                 newTrans.Text = CStr(myTransaction.ID)
                 newTrans.SubItems.Add(Format(myTransaction.TransDate, "dd/MM/yyyy HH:mm:ss"))
-                newTrans.SubItems.Add(myTransaction.Type.ToString)
+                newTrans.SubItems.Add([Enum].GetName(GetType(InvestmentTransactionType), myTransaction.Type))
                 newTrans.SubItems.Add(myTransaction.Quantity.ToString)
                 newTrans.SubItems.Add(myTransaction.UnitValue.ToString)
                 lvwTransactions.Items.Add(newTrans)
@@ -2343,7 +2355,7 @@ Public Class frmPrism
 
     Private Sub UpdateInvestment()
         Dim newItem As ListViewItem = lvwInvestments.SelectedItems(0)
-        Dim myInvestment As Investment = CType(Portfolio.Investments(CLng(lvwInvestments.SelectedItems(0).Text)), Investment)
+        Dim myInvestment As Investment = CType(Portfolio.Investments(CLng(InvestmentID)), Investment)
         newItem.SubItems.Add(myInvestment.Name)
         newItem.SubItems.Add(myInvestment.Owner)
         newItem.SubItems(3).Text = (FormatNumber(myInvestment.CurrentQuantity, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
@@ -2353,7 +2365,11 @@ Public Class frmPrism
         Else
             newItem.SubItems(5).Text = (FormatNumber(myInvestment.CurrentValue, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
         End If
-        newItem.SubItems(6).Text = (FormatNumber((myInvestment.CurrentValue * myInvestment.CurrentQuantity), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        If myInvestment.ValueIsCost = True Then
+            newItem.SubItems(6).Text = (FormatNumber((myInvestment.CurrentCost * myInvestment.CurrentQuantity), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        Else
+            newItem.SubItems(6).Text = (FormatNumber((myInvestment.CurrentValue * myInvestment.CurrentQuantity), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
+        End If
         newItem.SubItems(7).Text = (FormatNumber((myInvestment.CurrentValue * myInvestment.CurrentQuantity) - (myInvestment.CurrentCost * myInvestment.CurrentQuantity), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
         newItem.SubItems(8).Text = (FormatNumber(myInvestment.CurrentProfits, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
         newItem.SubItems(9).Text = (FormatNumber(myInvestment.CurrentIncome, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
@@ -2427,7 +2443,7 @@ Public Class frmPrism
             End Select
         Next
         Call Me.SaveInvestments()
-        Call Me.UpdateInvestment()
+        Call Me.ListInvestments()
         MessageBox.Show("Recalculation of Investment Complete!", "Recalculate Investment Result", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
@@ -2435,6 +2451,8 @@ Public Class frmPrism
         Dim passedAudit As Boolean = True
         ' Checks whether the totals of the investment are consistent with the transaction history
         Dim chkInv As New Investment
+        chkInv.Type = inv.Type
+        chkInv.ValueIsCost = inv.ValueIsCost
         ' Go through each transaction and update the investment
         For Each trans As InvestmentTransaction In inv.Transactions.Values
             Select Case trans.Type
@@ -2554,18 +2572,15 @@ Public Class frmPrism
                 Exit Sub
             Else
                 Dim NewTransaction As New frmAddTransaction
-                Dim editTrans As InvestmentTransaction = CType(Portfolio.Transactions(CLng(lvwTransactions.SelectedItems(0).Text)), InvestmentTransaction)
+                NewTransaction.EditFlag = True
+                NewTransaction.EditTrans = CType(Portfolio.Transactions(CLng(lvwTransactions.SelectedItems(0).Text)), InvestmentTransaction)
                 Dim editInv As Investment = CType(Portfolio.Investments(CLng(InvestmentID)), Investment)
-                NewTransaction.txtTransactionID.Text = CStr(editTrans.ID)
-                NewTransaction.txtInvestmentID.Text = CStr(editInv.ID)
-                NewTransaction.txtInvestmentName.Text = editInv.Name
-                NewTransaction.cboType.SelectedIndex = editTrans.Type
-                NewTransaction.txtQuantity.Text = CStr(editTrans.Quantity)
-                NewTransaction.txtUnitValue.Text = CStr(editTrans.UnitValue)
                 NewTransaction.ShowDialog()
-                Me.RecalculateInvestment(editInv)
-                Me.UpdateInvestment()
-                Me.UpdateTransactions()
+                If NewTransaction.DialogResult <> Windows.Forms.DialogResult.Cancel Then
+                    Me.RecalculateInvestment(editInv)
+                    Me.ListInvestments()
+                    Me.UpdateTransactions()
+                End If
             End If
         End If
     End Sub
@@ -2643,6 +2658,9 @@ Public Class frmPrism
         End If
     End Sub
     Private Sub chkViewClosedInvestments_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkViewClosedInvestments.CheckedChanged
+        If chkViewClosedInvestments.Checked = False Then
+            btnReOpenInvestment.Visible = False
+        End If
         Me.ListInvestments()
     End Sub
 #End Region

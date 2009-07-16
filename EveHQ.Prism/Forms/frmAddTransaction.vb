@@ -2,7 +2,53 @@
 
 Public Class frmAddTransaction
 
+    Dim cEditFlag As Boolean = False
+    Public Property EditFlag() As Boolean
+        Get
+            Return cEditFlag
+        End Get
+        Set(ByVal value As Boolean)
+            cEditFlag = value
+        End Set
+    End Property
+
+    Dim cEditInv As Investment
+    Dim cEditTrans As InvestmentTransaction
+    Public Property EditTrans() As InvestmentTransaction
+        Get
+            Return cEditTrans
+        End Get
+        Set(ByVal value As InvestmentTransaction)
+            cEditTrans = value
+            Call Me.UpdateTransactionDetails()
+        End Set
+    End Property
+
+    Private Sub UpdateTransactionDetails()
+        cEditInv = CType(Portfolio.Investments(CLng(cEditTrans.InvestmentID)), Investment)
+        Me.txtTransactionID.Text = CStr(cEditTrans.ID)
+        Me.txtInvestmentID.Text = CStr(cEditInv.ID)
+        Me.txtInvestmentName.Text = cEditInv.Name
+        Me.cboType.SelectedIndex = cEditTrans.Type
+        Me.txtQuantity.Text = CStr(cEditTrans.Quantity)
+        Me.txtUnitValue.Text = CStr(cEditTrans.UnitValue)
+        Select Case cEditInv.Type
+            Case 0 ' Cash
+                Me.cboType.Items.Remove("Purchase")
+                Me.cboType.Items.Remove("Sale")
+                Me.txtQuantity.Visible = False
+                Me.lblQuantity.Visible = False
+            Case 1 ' Shares
+                Me.cboType.Items.Remove("Income (Retained)")
+                Me.cboType.Items.Remove("Cost (Retained)")
+                Me.cboType.Items.Remove("Transfer To Investment")
+                Me.cboType.Items.Remove("Transfer From Investment")
+                Me.txtCurrentQuantity.Text = FormatNumber(cEditInv.CurrentQuantity, 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+        End Select
+    End Sub
+
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+        Me.DialogResult = Windows.Forms.DialogResult.Cancel
         Me.Close()
     End Sub
 
@@ -12,7 +58,7 @@ Public Class frmAddTransaction
             MessageBox.Show("You must enter a valid Transaction Type to continue.", "Error Creating Transaction", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
-        If cboType.SelectedIndex < 2 Then
+        If txtQuantity.Visible = True Then
             If IsNumeric(txtQuantity.Text) = False Then
                 MessageBox.Show("You must enter a valid Transaction Quantity to continue.", "Error Creating Transaction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
@@ -33,9 +79,24 @@ Public Class frmAddTransaction
         ' Can we actually dispose of the quantity we are asking?
         Dim newInvestment As Investment = CType(Portfolio.Investments(CLng(txtInvestmentID.Text)), Investment)
         If cboType.SelectedItem.ToString = "Sale" Then
-            If CDbl(txtQuantity.Text) > newInvestment.CurrentQuantity Then
-                MessageBox.Show("You don't have the quantities to sell this amount. Please revise the transaction", "Error Creating Transaction", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Exit Sub
+            If cEditFlag = False Then
+                If CDbl(txtQuantity.Text) > newInvestment.CurrentQuantity Then
+                    MessageBox.Show("You don't have the quantities to sell this amount. Please revise the transaction", "Error Creating Transaction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+            Else
+                If CDbl(txtQuantity.Text) > newInvestment.CurrentQuantity + cEditTrans.Quantity Then
+                    MessageBox.Show("You don't have the quantities to sell this amount. Please revise the transaction", "Error Creating Transaction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+            End If
+        End If
+        If cboType.SelectedItem.ToString = "Purchase" Then
+            If cEditFlag = True Then
+                If cEditTrans.Quantity - CDbl(txtQuantity.Text) > newInvestment.CurrentQuantity Then
+                    MessageBox.Show("Future transactions result in the quantity being less than zero. Please revise the transaction", "Error Creating Transaction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
             End If
         End If
         ' Save the Investment
@@ -104,6 +165,7 @@ Public Class frmAddTransaction
             newInvestment.Transactions.Item(newTransaction.ID) = newTransaction
         End If
         ' Close the form
+        Me.DialogResult = Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
 
