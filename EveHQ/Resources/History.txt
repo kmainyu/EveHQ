@@ -1,6 +1,43 @@
 EveHQ - Version History
 -----------------------
 
+1.12.1.740 (16/07/2009)
+----------
+Fixes and Improvements:
+- Core: Re-written updater code to include new (friendlier) patching system
+- Core: Character API code now multi-threaded to avoid application "lockups" for slow connections
+- HQF: Fixed shield resist bonuses on Hulk, Mackinaw and Skiff already included in ship attributes
+- HQF: Fixed crash importing Eve fittings where the same drone type is in multiple stacks
+- HQF: Fixed import from Eve Fittings causing duplication of ship fittings
+- HQF: Signature radius for T3 subsystems now absolute not additional to the ship hull
+- HQF: BattleClinic Browser now correctly handles T3 ships and subsystems
+- HQF: Fixed crash with opening fittings with Select Module to Fit option
+- HQF: Subsystems will now display their relevant skills
+- POS: Fixed a crash caused by a divide by zero issue
+- POS: Fixed a problem with Power and CPU fuel use decrement
+- POS: Fixed a display bug in the POS Designer for a very large screen.
+- POS: Fixed a crash caused when the Tower/APITower selection is not correct
+- Prism: Fixed sorting of specific location in BP Manager
+- Prism: BP Manager search now covers the location and specific location
+- Prism: Fixed crash opening context menu when no tag set
+- Prism: Fixed asset parsing error for ships with no modules/drones/cargo
+- Prism: Double-click in BP Manager now opens BPCalc
+- Prism: Certain BPs now included in the production job iteration
+- Prism: Fixed Copy for HQF option for corp assets in certain cases
+- Prism: Investments - Fixed false nil transaction quantity error
+- Prism: Investments - Now possible to edit a sale/purchase transaction quantity which affects the final quantity
+- Prism: Investments - Cancelling the Add Transaction form will no longer force an update of the investments
+- Prism: Investments - Investment names will also show the type of investment
+- Prism: Investments - Investment values are now shown correctly
+- Prism: Investments - Listing all the investments now remembers the last selected investment and updates the transactions
+- Prism: Investments - Transactions now show the transaction type name instead of the transaction type ID
+- Prism: Investments - Auditing investments now takes into account share types
+- Prism: Investments - Unchecking the "View Closed Investments" box now removes the Reopen Investment button
+- Prism: Investments - Fixed column display for investments
+- Prism: Investments - Transaction types now remain correct after editing
+- Prism: Investments - Notes added to investment transactions
+
+
 1.12.0.705 (08/07/2009)
 ----------
 Major Changes:
