@@ -157,7 +157,7 @@ Public Class frmAddTransaction
         Else
             ' We are editing a transaction - will need to recalculate!
             newTransaction = CType(Portfolio.Transactions(CLng(txtTransactionID.Text)), InvestmentTransaction)
-            newTransaction.Type = cboType.SelectedIndex
+            newTransaction.Type = CInt(Portfolio.TransactionTypes(cboType.SelectedItem.ToString))
             newTransaction.TransDate = CDate(dtpDate.Value)
             newTransaction.Quantity = CDbl(txtQuantity.Text)
             newTransaction.UnitValue = CDbl(txtUnitValue.Text)

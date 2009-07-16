@@ -2220,11 +2220,14 @@ Public Class frmPrism
                     Else
                         newItem.SubItems.Add(FormatNumber((myInvestment.CurrentValue * myInvestment.CurrentQuantity), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     End If
-                    newItem.SubItems.Add(FormatNumber((myInvestment.CurrentValue * myInvestment.CurrentQuantity), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     newItem.SubItems.Add(FormatNumber((myInvestment.CurrentValue * myInvestment.CurrentQuantity) - (myInvestment.CurrentCost * myInvestment.CurrentQuantity), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     newItem.SubItems.Add(FormatNumber(myInvestment.CurrentProfits, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
                     newItem.SubItems.Add(FormatNumber(myInvestment.CurrentIncome, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault))
-                    newItem.SubItems.Add(FormatNumber(myInvestment.CurrentIncome / myInvestment.TotalCostsForYield * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%")
+                    If myInvestment.CurrentIncome > 0 Then
+                        newItem.SubItems.Add(FormatNumber(myInvestment.CurrentIncome / myInvestment.TotalCostsForYield * 100, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%")
+                    Else
+                        newItem.SubItems.Add(FormatNumber(0, 4, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & "%")
+                    End If
                     lvwInvestments.Items.Add(newItem)
                 End If
             Next
@@ -2270,12 +2273,20 @@ Public Class frmPrism
                 Dim f As BinaryFormatter = New BinaryFormatter
                 Portfolio.Investments = CType(f.Deserialize(s), SortedList)
                 s.Close()
+                Try
+                    My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.dataFolder, "investments.txt"))
+                Catch ex As Exception
+                End Try
             End If
             If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.dataFolder, "investmentTransactions.txt")) = True Then
                 Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.dataFolder, "investmentTransactions.txt"), FileMode.Open)
                 Dim f As BinaryFormatter = New BinaryFormatter
                 Portfolio.Transactions = CType(f.Deserialize(s), SortedList)
                 s.Close()
+                Try
+                    My.Computer.FileSystem.DeleteFile(Path.Combine(EveHQ.Core.HQ.dataFolder, "investmentTransactions.txt"))
+                Catch ex As Exception
+                End Try
             End If
             Call Me.ListInvestments()
         Catch e As Exception
