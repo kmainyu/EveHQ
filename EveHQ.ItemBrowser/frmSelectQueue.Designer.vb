@@ -74,7 +74,7 @@ Partial Class frmSelectQueue
         Me.radNewQueue.AutoSize = True
         Me.radNewQueue.Location = New System.Drawing.Point(15, 86)
         Me.radNewQueue.Name = "radNewQueue"
-        Me.radNewQueue.Size = New System.Drawing.Size(104, 17)
+        Me.radNewQueue.Size = New System.Drawing.Size(101, 17)
         Me.radNewQueue.TabIndex = 14
         Me.radNewQueue.Text = "New Skill Queue"
         Me.radNewQueue.UseVisualStyleBackColor = True
@@ -85,7 +85,7 @@ Partial Class frmSelectQueue
         Me.radExistingQueue.Checked = True
         Me.radExistingQueue.Location = New System.Drawing.Point(15, 63)
         Me.radExistingQueue.Name = "radExistingQueue"
-        Me.radExistingQueue.Size = New System.Drawing.Size(118, 17)
+        Me.radExistingQueue.Size = New System.Drawing.Size(117, 17)
         Me.radExistingQueue.TabIndex = 15
         Me.radExistingQueue.TabStop = True
         Me.radExistingQueue.Text = "Existing Skill Queue"
@@ -95,7 +95,7 @@ Partial Class frmSelectQueue
         '
         Me.txtQueueName.Location = New System.Drawing.Point(89, 122)
         Me.txtQueueName.Name = "txtQueueName"
-        Me.txtQueueName.Size = New System.Drawing.Size(188, 20)
+        Me.txtQueueName.Size = New System.Drawing.Size(188, 21)
         Me.txtQueueName.TabIndex = 8
         '
         'cboQueueName
@@ -120,6 +120,7 @@ Partial Class frmSelectQueue
         Me.Controls.Add(Me.btnAccept)
         Me.Controls.Add(Me.txtQueueName)
         Me.Controls.Add(Me.lblQueueName)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

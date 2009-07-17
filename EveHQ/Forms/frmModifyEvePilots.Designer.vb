@@ -41,7 +41,7 @@ Partial Class frmModifyEvePilots
         '
         Me.txtPilotName.Location = New System.Drawing.Point(84, 35)
         Me.txtPilotName.Name = "txtPilotName"
-        Me.txtPilotName.Size = New System.Drawing.Size(188, 20)
+        Me.txtPilotName.Size = New System.Drawing.Size(188, 21)
         Me.txtPilotName.TabIndex = 0
         '
         'btnAccept
@@ -76,7 +76,7 @@ Partial Class frmModifyEvePilots
         '
         Me.txtPilotID.Location = New System.Drawing.Point(84, 61)
         Me.txtPilotID.Name = "txtPilotID"
-        Me.txtPilotID.Size = New System.Drawing.Size(188, 20)
+        Me.txtPilotID.Size = New System.Drawing.Size(188, 21)
         Me.txtPilotID.TabIndex = 1
         '
         'Label2
@@ -84,7 +84,7 @@ Partial Class frmModifyEvePilots
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(12, 64)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(44, 13)
+        Me.Label2.Size = New System.Drawing.Size(45, 13)
         Me.Label2.TabIndex = 7
         Me.Label2.Text = "Pilot ID:"
         '
@@ -102,6 +102,7 @@ Partial Class frmModifyEvePilots
         Me.Controls.Add(Me.btnAccept)
         Me.Controls.Add(Me.txtPilotName)
         Me.Controls.Add(Me.lblPilotName)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

@@ -52,16 +52,16 @@ Partial Class frmCorpHQ
         Me.colType = New System.Windows.Forms.ColumnHeader
         Me.colRawValue = New System.Windows.Forms.ColumnHeader
         Me.colActualValue = New System.Windows.Forms.ColumnHeader
+        Me.ctxStandings = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuExtrapolateStandings = New System.Windows.Forms.ToolStripMenuItem
         Me.btExportStandings = New System.Windows.Forms.Button
         Me.btnClearCache = New System.Windows.Forms.Button
         Me.lblTypeFilter = New System.Windows.Forms.Label
         Me.cboFilter = New System.Windows.Forms.ComboBox
         Me.lblPrecision = New System.Windows.Forms.Label
         Me.nudPrecision = New System.Windows.Forms.NumericUpDown
-        Me.ctxStandings = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.mnuExtrapolateStandings = New System.Windows.Forms.ToolStripMenuItem
-        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxStandings.SuspendLayout()
+        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnGetStandings
@@ -90,7 +90,7 @@ Partial Class frmCorpHQ
         Me.lblSelectOwner.Enabled = False
         Me.lblSelectOwner.Location = New System.Drawing.Point(167, 18)
         Me.lblSelectOwner.Name = "lblSelectOwner"
-        Me.lblSelectOwner.Size = New System.Drawing.Size(74, 13)
+        Me.lblSelectOwner.Size = New System.Drawing.Size(75, 13)
         Me.lblSelectOwner.TabIndex = 2
         Me.lblSelectOwner.Text = "Select Owner:"
         '
@@ -140,6 +140,18 @@ Partial Class frmCorpHQ
         Me.colActualValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colActualValue.Width = 150
         '
+        'ctxStandings
+        '
+        Me.ctxStandings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExtrapolateStandings})
+        Me.ctxStandings.Name = "ctxStandings"
+        Me.ctxStandings.Size = New System.Drawing.Size(188, 26)
+        '
+        'mnuExtrapolateStandings
+        '
+        Me.mnuExtrapolateStandings.Name = "mnuExtrapolateStandings"
+        Me.mnuExtrapolateStandings.Size = New System.Drawing.Size(187, 22)
+        Me.mnuExtrapolateStandings.Text = "Extrapolate Standings"
+        '
         'btExportStandings
         '
         Me.btExportStandings.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -166,7 +178,7 @@ Partial Class frmCorpHQ
         Me.lblTypeFilter.Enabled = False
         Me.lblTypeFilter.Location = New System.Drawing.Point(167, 45)
         Me.lblTypeFilter.Name = "lblTypeFilter"
-        Me.lblTypeFilter.Size = New System.Drawing.Size(65, 13)
+        Me.lblTypeFilter.Size = New System.Drawing.Size(67, 13)
         Me.lblTypeFilter.TabIndex = 7
         Me.lblTypeFilter.Text = "Select Filter:"
         '
@@ -188,7 +200,7 @@ Partial Class frmCorpHQ
         Me.lblPrecision.AutoSize = True
         Me.lblPrecision.Location = New System.Drawing.Point(10, 45)
         Me.lblPrecision.Name = "lblPrecision"
-        Me.lblPrecision.Size = New System.Drawing.Size(50, 13)
+        Me.lblPrecision.Size = New System.Drawing.Size(49, 13)
         Me.lblPrecision.TabIndex = 8
         Me.lblPrecision.Text = "Precision"
         '
@@ -197,21 +209,9 @@ Partial Class frmCorpHQ
         Me.nudPrecision.Location = New System.Drawing.Point(66, 43)
         Me.nudPrecision.Maximum = New Decimal(New Integer() {16, 0, 0, 0})
         Me.nudPrecision.Name = "nudPrecision"
-        Me.nudPrecision.Size = New System.Drawing.Size(66, 20)
+        Me.nudPrecision.Size = New System.Drawing.Size(66, 21)
         Me.nudPrecision.TabIndex = 9
         Me.nudPrecision.Value = New Decimal(New Integer() {10, 0, 0, 0})
-        '
-        'ctxStandings
-        '
-        Me.ctxStandings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuExtrapolateStandings})
-        Me.ctxStandings.Name = "ctxStandings"
-        Me.ctxStandings.Size = New System.Drawing.Size(188, 48)
-        '
-        'mnuExtrapolateStandings
-        '
-        Me.mnuExtrapolateStandings.Name = "mnuExtrapolateStandings"
-        Me.mnuExtrapolateStandings.Size = New System.Drawing.Size(187, 22)
-        Me.mnuExtrapolateStandings.Text = "Extrapolate Standings"
         '
         'frmCorpHQ
         '
@@ -228,11 +228,12 @@ Partial Class frmCorpHQ
         Me.Controls.Add(Me.lblSelectOwner)
         Me.Controls.Add(Me.cboOwner)
         Me.Controls.Add(Me.btnGetStandings)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmCorpHQ"
         Me.Text = "CorpHQ"
-        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxStandings.ResumeLayout(False)
+        CType(Me.nudPrecision, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

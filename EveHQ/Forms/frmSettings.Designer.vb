@@ -402,7 +402,7 @@ Partial Public Class frmSettings
         Me.chkDisableAutoConnections.AutoSize = True
         Me.chkDisableAutoConnections.Location = New System.Drawing.Point(24, 149)
         Me.chkDisableAutoConnections.Name = "chkDisableAutoConnections"
-        Me.chkDisableAutoConnections.Size = New System.Drawing.Size(199, 17)
+        Me.chkDisableAutoConnections.Size = New System.Drawing.Size(198, 17)
         Me.chkDisableAutoConnections.TabIndex = 51
         Me.chkDisableAutoConnections.Text = "Disable Automatic Web Connections"
         Me.chkDisableAutoConnections.UseVisualStyleBackColor = True
@@ -412,7 +412,7 @@ Partial Public Class frmSettings
         Me.lblTrainingBarPosition.AutoSize = True
         Me.lblTrainingBarPosition.Location = New System.Drawing.Point(313, 170)
         Me.lblTrainingBarPosition.Name = "lblTrainingBarPosition"
-        Me.lblTrainingBarPosition.Size = New System.Drawing.Size(88, 13)
+        Me.lblTrainingBarPosition.Size = New System.Drawing.Size(89, 13)
         Me.lblTrainingBarPosition.TabIndex = 50
         Me.lblTrainingBarPosition.Text = "Training Position:"
         '
@@ -432,7 +432,7 @@ Partial Public Class frmSettings
         Me.lblToolbarPosition.AutoSize = True
         Me.lblToolbarPosition.Location = New System.Drawing.Point(313, 143)
         Me.lblToolbarPosition.Name = "lblToolbarPosition"
-        Me.lblToolbarPosition.Size = New System.Drawing.Size(86, 13)
+        Me.lblToolbarPosition.Size = New System.Drawing.Size(87, 13)
         Me.lblToolbarPosition.TabIndex = 48
         Me.lblToolbarPosition.Text = "Toolbar Position:"
         '
@@ -452,7 +452,7 @@ Partial Public Class frmSettings
         Me.lblMDITabPosition.AutoSize = True
         Me.lblMDITabPosition.Location = New System.Drawing.Point(313, 116)
         Me.lblMDITabPosition.Name = "lblMDITabPosition"
-        Me.lblMDITabPosition.Size = New System.Drawing.Size(92, 13)
+        Me.lblMDITabPosition.Size = New System.Drawing.Size(91, 13)
         Me.lblMDITabPosition.TabIndex = 46
         Me.lblMDITabPosition.Text = "MDI Tab Position:"
         '
@@ -472,7 +472,7 @@ Partial Public Class frmSettings
         Me.txtErrorRepEmail.Enabled = False
         Me.txtErrorRepEmail.Location = New System.Drawing.Point(144, 317)
         Me.txtErrorRepEmail.Name = "txtErrorRepEmail"
-        Me.txtErrorRepEmail.Size = New System.Drawing.Size(247, 20)
+        Me.txtErrorRepEmail.Size = New System.Drawing.Size(247, 21)
         Me.txtErrorRepEmail.TabIndex = 44
         '
         'lblErrorRepEmail
@@ -481,7 +481,7 @@ Partial Public Class frmSettings
         Me.lblErrorRepEmail.Enabled = False
         Me.lblErrorRepEmail.Location = New System.Drawing.Point(56, 320)
         Me.lblErrorRepEmail.Name = "lblErrorRepEmail"
-        Me.lblErrorRepEmail.Size = New System.Drawing.Size(83, 13)
+        Me.lblErrorRepEmail.Size = New System.Drawing.Size(86, 13)
         Me.lblErrorRepEmail.TabIndex = 43
         Me.lblErrorRepEmail.Text = "Email (Optional):"
         '
@@ -490,7 +490,7 @@ Partial Public Class frmSettings
         Me.txtErrorRepName.Enabled = False
         Me.txtErrorRepName.Location = New System.Drawing.Point(144, 291)
         Me.txtErrorRepName.Name = "txtErrorRepName"
-        Me.txtErrorRepName.Size = New System.Drawing.Size(247, 20)
+        Me.txtErrorRepName.Size = New System.Drawing.Size(247, 21)
         Me.txtErrorRepName.TabIndex = 42
         '
         'lblErrorRepName
@@ -499,7 +499,7 @@ Partial Public Class frmSettings
         Me.lblErrorRepName.Enabled = False
         Me.lblErrorRepName.Location = New System.Drawing.Point(56, 294)
         Me.lblErrorRepName.Name = "lblErrorRepName"
-        Me.lblErrorRepName.Size = New System.Drawing.Size(86, 13)
+        Me.lblErrorRepName.Size = New System.Drawing.Size(89, 13)
         Me.lblErrorRepName.TabIndex = 41
         Me.lblErrorRepName.Text = "Name (Optional):"
         '
@@ -508,7 +508,7 @@ Partial Public Class frmSettings
         Me.chkErrorReporting.AutoSize = True
         Me.chkErrorReporting.Location = New System.Drawing.Point(24, 268)
         Me.chkErrorReporting.Name = "chkErrorReporting"
-        Me.chkErrorReporting.Size = New System.Drawing.Size(184, 17)
+        Me.chkErrorReporting.Size = New System.Drawing.Size(190, 17)
         Me.chkErrorReporting.TabIndex = 40
         Me.chkErrorReporting.Text = "Enable Integrated Error Reporting"
         Me.chkErrorReporting.UseVisualStyleBackColor = True
@@ -517,7 +517,7 @@ Partial Public Class frmSettings
         '
         Me.txtUpdateLocation.Location = New System.Drawing.Point(116, 226)
         Me.txtUpdateLocation.Name = "txtUpdateLocation"
-        Me.txtUpdateLocation.Size = New System.Drawing.Size(449, 20)
+        Me.txtUpdateLocation.Size = New System.Drawing.Size(449, 21)
         Me.txtUpdateLocation.TabIndex = 39
         '
         'lblUpdateLocation
@@ -564,7 +564,7 @@ Partial Public Class frmSettings
         Me.chkEncryptSettings.AutoSize = True
         Me.chkEncryptSettings.Location = New System.Drawing.Point(24, 126)
         Me.chkEncryptSettings.Name = "chkEncryptSettings"
-        Me.chkEncryptSettings.Size = New System.Drawing.Size(122, 17)
+        Me.chkEncryptSettings.Size = New System.Drawing.Size(124, 17)
         Me.chkEncryptSettings.TabIndex = 8
         Me.chkEncryptSettings.Text = "Encrypt Settings File"
         Me.chkEncryptSettings.UseVisualStyleBackColor = True
@@ -584,7 +584,7 @@ Partial Public Class frmSettings
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(313, 62)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(67, 13)
+        Me.Label3.Size = New System.Drawing.Size(69, 13)
         Me.Label3.TabIndex = 6
         Me.Label3.Text = "Default Pilot:"
         '
@@ -604,7 +604,7 @@ Partial Public Class frmSettings
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(313, 35)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(85, 13)
+        Me.Label2.Size = New System.Drawing.Size(87, 13)
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "View on Startup:"
         '
@@ -613,7 +613,7 @@ Partial Public Class frmSettings
         Me.chkAutoMinimise.AutoSize = True
         Me.chkAutoMinimise.Location = New System.Drawing.Point(24, 57)
         Me.chkAutoMinimise.Name = "chkAutoMinimise"
-        Me.chkAutoMinimise.Size = New System.Drawing.Size(166, 17)
+        Me.chkAutoMinimise.Size = New System.Drawing.Size(164, 17)
         Me.chkAutoMinimise.TabIndex = 1
         Me.chkAutoMinimise.Text = "Minimise When EveHQ Starts"
         Me.chkAutoMinimise.UseVisualStyleBackColor = True
@@ -623,7 +623,7 @@ Partial Public Class frmSettings
         Me.chkAutoRun.AutoSize = True
         Me.chkAutoRun.Location = New System.Drawing.Point(24, 103)
         Me.chkAutoRun.Name = "chkAutoRun"
-        Me.chkAutoRun.Size = New System.Drawing.Size(183, 17)
+        Me.chkAutoRun.Size = New System.Drawing.Size(181, 17)
         Me.chkAutoRun.TabIndex = 2
         Me.chkAutoRun.Text = "Run EveHQ on Windows Startup"
         Me.chkAutoRun.UseVisualStyleBackColor = True
@@ -633,7 +633,7 @@ Partial Public Class frmSettings
         Me.chkAutoHide.AutoSize = True
         Me.chkAutoHide.Location = New System.Drawing.Point(24, 34)
         Me.chkAutoHide.Name = "chkAutoHide"
-        Me.chkAutoHide.Size = New System.Drawing.Size(249, 17)
+        Me.chkAutoHide.Size = New System.Drawing.Size(247, 17)
         Me.chkAutoHide.TabIndex = 0
         Me.chkAutoHide.Text = "Hide EveHQ from the Taskbar when Minimising"
         Me.chkAutoHide.UseVisualStyleBackColor = True
@@ -679,7 +679,7 @@ Partial Public Class frmSettings
         Me.lblPilotSkillHighlight.AutoSize = True
         Me.lblPilotSkillHighlight.Location = New System.Drawing.Point(13, 99)
         Me.lblPilotSkillHighlight.Name = "lblPilotSkillHighlight"
-        Me.lblPilotSkillHighlight.Size = New System.Drawing.Size(70, 13)
+        Me.lblPilotSkillHighlight.Size = New System.Drawing.Size(68, 13)
         Me.lblPilotSkillHighlight.TabIndex = 59
         Me.lblPilotSkillHighlight.Text = "Skill Highlight"
         '
@@ -698,7 +698,7 @@ Partial Public Class frmSettings
         Me.lblPilotSkillText.AutoSize = True
         Me.lblPilotSkillText.Location = New System.Drawing.Point(13, 75)
         Me.lblPilotSkillText.Name = "lblPilotSkillText"
-        Me.lblPilotSkillText.Size = New System.Drawing.Size(50, 13)
+        Me.lblPilotSkillText.Size = New System.Drawing.Size(49, 13)
         Me.lblPilotSkillText.TabIndex = 57
         Me.lblPilotSkillText.Text = "Skill Text"
         '
@@ -717,7 +717,7 @@ Partial Public Class frmSettings
         Me.lblPilotGroupText.AutoSize = True
         Me.lblPilotGroupText.Location = New System.Drawing.Point(13, 51)
         Me.lblPilotGroupText.Name = "lblPilotGroupText"
-        Me.lblPilotGroupText.Size = New System.Drawing.Size(60, 13)
+        Me.lblPilotGroupText.Size = New System.Drawing.Size(61, 13)
         Me.lblPilotGroupText.TabIndex = 55
         Me.lblPilotGroupText.Text = "Group Text"
         '
@@ -736,7 +736,7 @@ Partial Public Class frmSettings
         Me.lblPilotGroupBG.AutoSize = True
         Me.lblPilotGroupBG.Location = New System.Drawing.Point(13, 27)
         Me.lblPilotGroupBG.Name = "lblPilotGroupBG"
-        Me.lblPilotGroupBG.Size = New System.Drawing.Size(97, 13)
+        Me.lblPilotGroupBG.Size = New System.Drawing.Size(95, 13)
         Me.lblPilotGroupBG.TabIndex = 53
         Me.lblPilotGroupBG.Text = "Group Background"
         '
@@ -764,7 +764,7 @@ Partial Public Class frmSettings
         Me.lblLevel5Colour.AutoSize = True
         Me.lblLevel5Colour.Location = New System.Drawing.Point(13, 195)
         Me.lblLevel5Colour.Name = "lblLevel5Colour"
-        Me.lblLevel5Colour.Size = New System.Drawing.Size(64, 13)
+        Me.lblLevel5Colour.Size = New System.Drawing.Size(61, 13)
         Me.lblLevel5Colour.TabIndex = 42
         Me.lblLevel5Colour.Text = "Level 5 Skill"
         '
@@ -802,7 +802,7 @@ Partial Public Class frmSettings
         Me.lblPilotCurrentColour.AutoSize = True
         Me.lblPilotCurrentColour.Location = New System.Drawing.Point(13, 147)
         Me.lblPilotCurrentColour.Name = "lblPilotCurrentColour"
-        Me.lblPilotCurrentColour.Size = New System.Drawing.Size(104, 13)
+        Me.lblPilotCurrentColour.Size = New System.Drawing.Size(105, 13)
         Me.lblPilotCurrentColour.TabIndex = 38
         Me.lblPilotCurrentColour.Text = "Current Training Skill"
         '
@@ -821,7 +821,7 @@ Partial Public Class frmSettings
         Me.lblPilotStandardColour.AutoSize = True
         Me.lblPilotStandardColour.Location = New System.Drawing.Point(13, 123)
         Me.lblPilotStandardColour.Name = "lblPilotStandardColour"
-        Me.lblPilotStandardColour.Size = New System.Drawing.Size(72, 13)
+        Me.lblPilotStandardColour.Size = New System.Drawing.Size(71, 13)
         Me.lblPilotStandardColour.TabIndex = 36
         Me.lblPilotStandardColour.Text = "Standard Skill"
         '
@@ -986,7 +986,7 @@ Partial Public Class frmSettings
         Me.chkStartIGBonLoad.AutoSize = True
         Me.chkStartIGBonLoad.Location = New System.Drawing.Point(29, 84)
         Me.chkStartIGBonLoad.Name = "chkStartIGBonLoad"
-        Me.chkStartIGBonLoad.Size = New System.Drawing.Size(157, 17)
+        Me.chkStartIGBonLoad.Size = New System.Drawing.Size(155, 17)
         Me.chkStartIGBonLoad.TabIndex = 2
         Me.chkStartIGBonLoad.Text = "Run IGB on EveHQ Startup"
         Me.chkStartIGBonLoad.UseVisualStyleBackColor = True
@@ -997,7 +997,7 @@ Partial Public Class frmSettings
         Me.nudIGBPort.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
         Me.nudIGBPort.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudIGBPort.Name = "nudIGBPort"
-        Me.nudIGBPort.Size = New System.Drawing.Size(120, 20)
+        Me.nudIGBPort.Size = New System.Drawing.Size(120, 21)
         Me.nudIGBPort.TabIndex = 1
         Me.nudIGBPort.Value = New Decimal(New Integer() {26001, 0, 0, 0})
         '
@@ -1006,7 +1006,7 @@ Partial Public Class frmSettings
         Me.lblIGBPort.AutoSize = True
         Me.lblIGBPort.Location = New System.Drawing.Point(26, 44)
         Me.lblIGBPort.Name = "lblIGBPort"
-        Me.lblIGBPort.Size = New System.Drawing.Size(50, 13)
+        Me.lblIGBPort.Size = New System.Drawing.Size(51, 13)
         Me.lblIGBPort.TabIndex = 0
         Me.lblIGBPort.Text = "IGB Port:"
         '
@@ -1120,7 +1120,7 @@ Partial Public Class frmSettings
         Me.lblFriendlyName4.AutoSize = True
         Me.lblFriendlyName4.Location = New System.Drawing.Point(-208, 72)
         Me.lblFriendlyName4.Name = "lblFriendlyName4"
-        Me.lblFriendlyName4.Size = New System.Drawing.Size(77, 13)
+        Me.lblFriendlyName4.Size = New System.Drawing.Size(79, 13)
         Me.lblFriendlyName4.TabIndex = 15
         Me.lblFriendlyName4.Text = "Friendly Name:"
         '
@@ -1129,7 +1129,7 @@ Partial Public Class frmSettings
         Me.txtFriendlyName4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtFriendlyName4.Location = New System.Drawing.Point(-125, 69)
         Me.txtFriendlyName4.Name = "txtFriendlyName4"
-        Me.txtFriendlyName4.Size = New System.Drawing.Size(150, 20)
+        Me.txtFriendlyName4.Size = New System.Drawing.Size(150, 21)
         Me.txtFriendlyName4.TabIndex = 14
         '
         'lblCacheSize4
@@ -1137,7 +1137,7 @@ Partial Public Class frmSettings
         Me.lblCacheSize4.AutoSize = True
         Me.lblCacheSize4.Location = New System.Drawing.Point(87, 70)
         Me.lblCacheSize4.Name = "lblCacheSize4"
-        Me.lblCacheSize4.Size = New System.Drawing.Size(64, 13)
+        Me.lblCacheSize4.Size = New System.Drawing.Size(63, 13)
         Me.lblCacheSize4.TabIndex = 13
         Me.lblCacheSize4.Text = "Cache Size:"
         Me.lblCacheSize4.Visible = False
@@ -1147,7 +1147,7 @@ Partial Public Class frmSettings
         Me.chkLUA4.AutoSize = True
         Me.chkLUA4.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA4.Name = "chkLUA4"
-        Me.chkLUA4.Size = New System.Drawing.Size(75, 17)
+        Me.chkLUA4.Size = New System.Drawing.Size(73, 17)
         Me.chkLUA4.TabIndex = 12
         Me.chkLUA4.Text = "/LUA Off?"
         Me.chkLUA4.UseVisualStyleBackColor = True
@@ -1208,7 +1208,7 @@ Partial Public Class frmSettings
         Me.lblFriendlyName3.AutoSize = True
         Me.lblFriendlyName3.Location = New System.Drawing.Point(-208, 72)
         Me.lblFriendlyName3.Name = "lblFriendlyName3"
-        Me.lblFriendlyName3.Size = New System.Drawing.Size(77, 13)
+        Me.lblFriendlyName3.Size = New System.Drawing.Size(79, 13)
         Me.lblFriendlyName3.TabIndex = 13
         Me.lblFriendlyName3.Text = "Friendly Name:"
         '
@@ -1217,7 +1217,7 @@ Partial Public Class frmSettings
         Me.txtFriendlyName3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtFriendlyName3.Location = New System.Drawing.Point(-125, 69)
         Me.txtFriendlyName3.Name = "txtFriendlyName3"
-        Me.txtFriendlyName3.Size = New System.Drawing.Size(150, 20)
+        Me.txtFriendlyName3.Size = New System.Drawing.Size(150, 21)
         Me.txtFriendlyName3.TabIndex = 12
         '
         'lblCacheSize3
@@ -1225,7 +1225,7 @@ Partial Public Class frmSettings
         Me.lblCacheSize3.AutoSize = True
         Me.lblCacheSize3.Location = New System.Drawing.Point(87, 70)
         Me.lblCacheSize3.Name = "lblCacheSize3"
-        Me.lblCacheSize3.Size = New System.Drawing.Size(64, 13)
+        Me.lblCacheSize3.Size = New System.Drawing.Size(63, 13)
         Me.lblCacheSize3.TabIndex = 11
         Me.lblCacheSize3.Text = "Cache Size:"
         Me.lblCacheSize3.Visible = False
@@ -1235,7 +1235,7 @@ Partial Public Class frmSettings
         Me.chkLUA3.AutoSize = True
         Me.chkLUA3.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA3.Name = "chkLUA3"
-        Me.chkLUA3.Size = New System.Drawing.Size(75, 17)
+        Me.chkLUA3.Size = New System.Drawing.Size(73, 17)
         Me.chkLUA3.TabIndex = 10
         Me.chkLUA3.Text = "/LUA Off?"
         Me.chkLUA3.UseVisualStyleBackColor = True
@@ -1296,7 +1296,7 @@ Partial Public Class frmSettings
         Me.lblFriendlyName2.AutoSize = True
         Me.lblFriendlyName2.Location = New System.Drawing.Point(-208, 72)
         Me.lblFriendlyName2.Name = "lblFriendlyName2"
-        Me.lblFriendlyName2.Size = New System.Drawing.Size(77, 13)
+        Me.lblFriendlyName2.Size = New System.Drawing.Size(79, 13)
         Me.lblFriendlyName2.TabIndex = 11
         Me.lblFriendlyName2.Text = "Friendly Name:"
         '
@@ -1305,7 +1305,7 @@ Partial Public Class frmSettings
         Me.txtFriendlyName2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtFriendlyName2.Location = New System.Drawing.Point(-125, 69)
         Me.txtFriendlyName2.Name = "txtFriendlyName2"
-        Me.txtFriendlyName2.Size = New System.Drawing.Size(150, 20)
+        Me.txtFriendlyName2.Size = New System.Drawing.Size(150, 21)
         Me.txtFriendlyName2.TabIndex = 10
         '
         'lblCacheSize2
@@ -1313,7 +1313,7 @@ Partial Public Class frmSettings
         Me.lblCacheSize2.AutoSize = True
         Me.lblCacheSize2.Location = New System.Drawing.Point(87, 70)
         Me.lblCacheSize2.Name = "lblCacheSize2"
-        Me.lblCacheSize2.Size = New System.Drawing.Size(64, 13)
+        Me.lblCacheSize2.Size = New System.Drawing.Size(63, 13)
         Me.lblCacheSize2.TabIndex = 9
         Me.lblCacheSize2.Text = "Cache Size:"
         Me.lblCacheSize2.Visible = False
@@ -1323,7 +1323,7 @@ Partial Public Class frmSettings
         Me.chkLUA2.AutoSize = True
         Me.chkLUA2.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA2.Name = "chkLUA2"
-        Me.chkLUA2.Size = New System.Drawing.Size(75, 17)
+        Me.chkLUA2.Size = New System.Drawing.Size(73, 17)
         Me.chkLUA2.TabIndex = 8
         Me.chkLUA2.Text = "/LUA Off?"
         Me.chkLUA2.UseVisualStyleBackColor = True
@@ -1384,7 +1384,7 @@ Partial Public Class frmSettings
         Me.lblFriendlyName1.AutoSize = True
         Me.lblFriendlyName1.Location = New System.Drawing.Point(-208, 72)
         Me.lblFriendlyName1.Name = "lblFriendlyName1"
-        Me.lblFriendlyName1.Size = New System.Drawing.Size(77, 13)
+        Me.lblFriendlyName1.Size = New System.Drawing.Size(79, 13)
         Me.lblFriendlyName1.TabIndex = 9
         Me.lblFriendlyName1.Text = "Friendly Name:"
         '
@@ -1393,7 +1393,7 @@ Partial Public Class frmSettings
         Me.txtFriendlyName1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtFriendlyName1.Location = New System.Drawing.Point(-125, 69)
         Me.txtFriendlyName1.Name = "txtFriendlyName1"
-        Me.txtFriendlyName1.Size = New System.Drawing.Size(150, 20)
+        Me.txtFriendlyName1.Size = New System.Drawing.Size(150, 21)
         Me.txtFriendlyName1.TabIndex = 8
         '
         'lblCacheSize1
@@ -1401,7 +1401,7 @@ Partial Public Class frmSettings
         Me.lblCacheSize1.AutoSize = True
         Me.lblCacheSize1.Location = New System.Drawing.Point(87, 70)
         Me.lblCacheSize1.Name = "lblCacheSize1"
-        Me.lblCacheSize1.Size = New System.Drawing.Size(64, 13)
+        Me.lblCacheSize1.Size = New System.Drawing.Size(63, 13)
         Me.lblCacheSize1.TabIndex = 7
         Me.lblCacheSize1.Text = "Cache Size:"
         Me.lblCacheSize1.Visible = False
@@ -1411,7 +1411,7 @@ Partial Public Class frmSettings
         Me.chkLUA1.AutoSize = True
         Me.chkLUA1.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA1.Name = "chkLUA1"
-        Me.chkLUA1.Size = New System.Drawing.Size(75, 17)
+        Me.chkLUA1.Size = New System.Drawing.Size(73, 17)
         Me.chkLUA1.TabIndex = 6
         Me.chkLUA1.Text = "/LUA Off?"
         Me.chkLUA1.UseVisualStyleBackColor = True
@@ -1480,7 +1480,7 @@ Partial Public Class frmSettings
         Me.chkShowCompletedSkills.AutoSize = True
         Me.chkShowCompletedSkills.Location = New System.Drawing.Point(9, 406)
         Me.chkShowCompletedSkills.Name = "chkShowCompletedSkills"
-        Me.chkShowCompletedSkills.Size = New System.Drawing.Size(194, 17)
+        Me.chkShowCompletedSkills.Size = New System.Drawing.Size(191, 17)
         Me.chkShowCompletedSkills.TabIndex = 33
         Me.chkShowCompletedSkills.Text = "Show completed skills in skill queue"
         Me.chkShowCompletedSkills.UseVisualStyleBackColor = True
@@ -1500,7 +1500,7 @@ Partial Public Class frmSettings
         Me.lblPartiallyTrainedColour.AutoSize = True
         Me.lblPartiallyTrainedColour.Location = New System.Drawing.Point(223, 212)
         Me.lblPartiallyTrainedColour.Name = "lblPartiallyTrainedColour"
-        Me.lblPartiallyTrainedColour.Size = New System.Drawing.Size(82, 13)
+        Me.lblPartiallyTrainedColour.Size = New System.Drawing.Size(84, 13)
         Me.lblPartiallyTrainedColour.TabIndex = 31
         Me.lblPartiallyTrainedColour.Text = "Partially Trained"
         '
@@ -1509,7 +1509,7 @@ Partial Public Class frmSettings
         Me.chkDeleteCompletedSkills.AutoSize = True
         Me.chkDeleteCompletedSkills.Location = New System.Drawing.Point(9, 383)
         Me.chkDeleteCompletedSkills.Name = "chkDeleteCompletedSkills"
-        Me.chkDeleteCompletedSkills.Size = New System.Drawing.Size(258, 17)
+        Me.chkDeleteCompletedSkills.Size = New System.Drawing.Size(262, 17)
         Me.chkDeleteCompletedSkills.TabIndex = 30
         Me.chkDeleteCompletedSkills.Text = "Automatically delete completed skills from queues"
         Me.chkDeleteCompletedSkills.UseVisualStyleBackColor = True
@@ -1548,7 +1548,7 @@ Partial Public Class frmSettings
         Me.lblDowntimeClashColour.AutoSize = True
         Me.lblDowntimeClashColour.Location = New System.Drawing.Point(223, 182)
         Me.lblDowntimeClashColour.Name = "lblDowntimeClashColour"
-        Me.lblDowntimeClashColour.Size = New System.Drawing.Size(107, 13)
+        Me.lblDowntimeClashColour.Size = New System.Drawing.Size(108, 13)
         Me.lblDowntimeClashColour.TabIndex = 26
         Me.lblDowntimeClashColour.Text = "Downtime Clash Text"
         '
@@ -1567,7 +1567,7 @@ Partial Public Class frmSettings
         Me.lblBothPreReqColour.AutoSize = True
         Me.lblBothPreReqColour.Location = New System.Drawing.Point(223, 152)
         Me.lblBothPreReqColour.Name = "lblBothPreReqColour"
-        Me.lblBothPreReqColour.Size = New System.Drawing.Size(62, 13)
+        Me.lblBothPreReqColour.Size = New System.Drawing.Size(61, 13)
         Me.lblBothPreReqColour.TabIndex = 24
         Me.lblBothPreReqColour.Text = "Skill Is Both"
         '
@@ -1596,7 +1596,7 @@ Partial Public Class frmSettings
         Me.lblHasPreReqColour.AutoSize = True
         Me.lblHasPreReqColour.Location = New System.Drawing.Point(223, 122)
         Me.lblHasPreReqColour.Name = "lblHasPreReqColour"
-        Me.lblHasPreReqColour.Size = New System.Drawing.Size(90, 13)
+        Me.lblHasPreReqColour.Size = New System.Drawing.Size(85, 13)
         Me.lblHasPreReqColour.TabIndex = 21
         Me.lblHasPreReqColour.Text = "Skill HAS PreReq"
         '
@@ -1605,7 +1605,7 @@ Partial Public Class frmSettings
         Me.lblIsPreReqColour.AutoSize = True
         Me.lblIsPreReqColour.Location = New System.Drawing.Point(223, 92)
         Me.lblIsPreReqColour.Name = "lblIsPreReqColour"
-        Me.lblIsPreReqColour.Size = New System.Drawing.Size(78, 13)
+        Me.lblIsPreReqColour.Size = New System.Drawing.Size(75, 13)
         Me.lblIsPreReqColour.TabIndex = 20
         Me.lblIsPreReqColour.Text = "Skill IS PreReq"
         '
@@ -1696,7 +1696,7 @@ Partial Public Class frmSettings
         Me.lblMDBFilename2.AutoSize = True
         Me.lblMDBFilename2.Location = New System.Drawing.Point(6, 78)
         Me.lblMDBFilename2.Name = "lblMDBFilename2"
-        Me.lblMDBFilename2.Size = New System.Drawing.Size(87, 13)
+        Me.lblMDBFilename2.Size = New System.Drawing.Size(86, 13)
         Me.lblMDBFilename2.TabIndex = 8
         Me.lblMDBFilename2.Text = "EveHQ DataFile:"
         '
@@ -1705,7 +1705,7 @@ Partial Public Class frmSettings
         Me.chkUseAppDirForDB.AutoSize = True
         Me.chkUseAppDirForDB.Location = New System.Drawing.Point(99, 176)
         Me.chkUseAppDirForDB.Name = "chkUseAppDirForDB"
-        Me.chkUseAppDirForDB.Size = New System.Drawing.Size(247, 17)
+        Me.chkUseAppDirForDB.Size = New System.Drawing.Size(248, 17)
         Me.chkUseAppDirForDB.TabIndex = 7
         Me.chkUseAppDirForDB.Text = "Use EveHQ Application Directory for Database"
         Me.chkUseAppDirForDB.UseVisualStyleBackColor = True
@@ -1724,14 +1724,14 @@ Partial Public Class frmSettings
         Me.txtMDBPassword.Location = New System.Drawing.Point(99, 149)
         Me.txtMDBPassword.Name = "txtMDBPassword"
         Me.txtMDBPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtMDBPassword.Size = New System.Drawing.Size(230, 20)
+        Me.txtMDBPassword.Size = New System.Drawing.Size(230, 21)
         Me.txtMDBPassword.TabIndex = 5
         '
         'txtMDBUsername
         '
         Me.txtMDBUsername.Location = New System.Drawing.Point(99, 123)
         Me.txtMDBUsername.Name = "txtMDBUsername"
-        Me.txtMDBUsername.Size = New System.Drawing.Size(230, 20)
+        Me.txtMDBUsername.Size = New System.Drawing.Size(230, 21)
         Me.txtMDBUsername.TabIndex = 4
         '
         'txtMDBServer
@@ -1747,7 +1747,7 @@ Partial Public Class frmSettings
         Me.lblMDBPassword.AutoSize = True
         Me.lblMDBPassword.Location = New System.Drawing.Point(7, 152)
         Me.lblMDBPassword.Name = "lblMDBPassword"
-        Me.lblMDBPassword.Size = New System.Drawing.Size(56, 13)
+        Me.lblMDBPassword.Size = New System.Drawing.Size(57, 13)
         Me.lblMDBPassword.TabIndex = 2
         Me.lblMDBPassword.Text = "Password:"
         '
@@ -1756,7 +1756,7 @@ Partial Public Class frmSettings
         Me.lblMDBUser.AutoSize = True
         Me.lblMDBUser.Location = New System.Drawing.Point(7, 126)
         Me.lblMDBUser.Name = "lblMDBUser"
-        Me.lblMDBUser.Size = New System.Drawing.Size(32, 13)
+        Me.lblMDBUser.Size = New System.Drawing.Size(33, 13)
         Me.lblMDBUser.TabIndex = 1
         Me.lblMDBUser.Text = "User:"
         '
@@ -1765,7 +1765,7 @@ Partial Public Class frmSettings
         Me.lblMDBFilename.AutoSize = True
         Me.lblMDBFilename.Location = New System.Drawing.Point(6, 30)
         Me.lblMDBFilename.Name = "lblMDBFilename"
-        Me.lblMDBFilename.Size = New System.Drawing.Size(72, 13)
+        Me.lblMDBFilename.Size = New System.Drawing.Size(75, 13)
         Me.lblMDBFilename.TabIndex = 0
         Me.lblMDBFilename.Text = "Item DataFile:"
         '
@@ -1796,7 +1796,7 @@ Partial Public Class frmSettings
         '
         Me.txtMSSQLDatabase2.Location = New System.Drawing.Point(105, 103)
         Me.txtMSSQLDatabase2.Name = "txtMSSQLDatabase2"
-        Me.txtMSSQLDatabase2.Size = New System.Drawing.Size(230, 20)
+        Me.txtMSSQLDatabase2.Size = New System.Drawing.Size(230, 21)
         Me.txtMSSQLDatabase2.TabIndex = 12
         '
         'lblMSSQLDatabase2
@@ -1804,7 +1804,7 @@ Partial Public Class frmSettings
         Me.lblMSSQLDatabase2.AutoSize = True
         Me.lblMSSQLDatabase2.Location = New System.Drawing.Point(5, 106)
         Me.lblMSSQLDatabase2.Name = "lblMSSQLDatabase2"
-        Me.lblMSSQLDatabase2.Size = New System.Drawing.Size(94, 13)
+        Me.lblMSSQLDatabase2.Size = New System.Drawing.Size(93, 13)
         Me.lblMSSQLDatabase2.TabIndex = 11
         Me.lblMSSQLDatabase2.Text = "EveHQ Database:"
         '
@@ -1812,7 +1812,7 @@ Partial Public Class frmSettings
         '
         Me.txtMSSQLDatabase.Location = New System.Drawing.Point(105, 77)
         Me.txtMSSQLDatabase.Name = "txtMSSQLDatabase"
-        Me.txtMSSQLDatabase.Size = New System.Drawing.Size(230, 20)
+        Me.txtMSSQLDatabase.Size = New System.Drawing.Size(230, 21)
         Me.txtMSSQLDatabase.TabIndex = 10
         '
         'lblMSSQLDatabase
@@ -1820,7 +1820,7 @@ Partial Public Class frmSettings
         Me.lblMSSQLDatabase.AutoSize = True
         Me.lblMSSQLDatabase.Location = New System.Drawing.Point(6, 82)
         Me.lblMSSQLDatabase.Name = "lblMSSQLDatabase"
-        Me.lblMSSQLDatabase.Size = New System.Drawing.Size(79, 13)
+        Me.lblMSSQLDatabase.Size = New System.Drawing.Size(82, 13)
         Me.lblMSSQLDatabase.TabIndex = 9
         Me.lblMSSQLDatabase.Text = "Item Database:"
         '
@@ -1829,7 +1829,7 @@ Partial Public Class frmSettings
         Me.lblMSSQLSecurity.AutoSize = True
         Me.lblMSSQLSecurity.Location = New System.Drawing.Point(6, 32)
         Me.lblMSSQLSecurity.Name = "lblMSSQLSecurity"
-        Me.lblMSSQLSecurity.Size = New System.Drawing.Size(45, 13)
+        Me.lblMSSQLSecurity.Size = New System.Drawing.Size(46, 13)
         Me.lblMSSQLSecurity.TabIndex = 8
         Me.lblMSSQLSecurity.Text = "Security"
         '
@@ -1838,7 +1838,7 @@ Partial Public Class frmSettings
         Me.radMSSQLDatabase.AutoSize = True
         Me.radMSSQLDatabase.Location = New System.Drawing.Point(105, 29)
         Me.radMSSQLDatabase.Name = "radMSSQLDatabase"
-        Me.radMSSQLDatabase.Size = New System.Drawing.Size(46, 17)
+        Me.radMSSQLDatabase.Size = New System.Drawing.Size(44, 17)
         Me.radMSSQLDatabase.TabIndex = 7
         Me.radMSSQLDatabase.Text = "SQL"
         Me.radMSSQLDatabase.UseVisualStyleBackColor = True
@@ -1848,7 +1848,7 @@ Partial Public Class frmSettings
         Me.radMSSQLWindows.AutoSize = True
         Me.radMSSQLWindows.Location = New System.Drawing.Point(173, 29)
         Me.radMSSQLWindows.Name = "radMSSQLWindows"
-        Me.radMSSQLWindows.Size = New System.Drawing.Size(69, 17)
+        Me.radMSSQLWindows.Size = New System.Drawing.Size(68, 17)
         Me.radMSSQLWindows.TabIndex = 6
         Me.radMSSQLWindows.Text = "Windows"
         Me.radMSSQLWindows.UseVisualStyleBackColor = True
@@ -1858,21 +1858,21 @@ Partial Public Class frmSettings
         Me.txtMSSQLPassword.Location = New System.Drawing.Point(105, 155)
         Me.txtMSSQLPassword.Name = "txtMSSQLPassword"
         Me.txtMSSQLPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtMSSQLPassword.Size = New System.Drawing.Size(230, 20)
+        Me.txtMSSQLPassword.Size = New System.Drawing.Size(230, 21)
         Me.txtMSSQLPassword.TabIndex = 5
         '
         'txtMSSQLUsername
         '
         Me.txtMSSQLUsername.Location = New System.Drawing.Point(105, 129)
         Me.txtMSSQLUsername.Name = "txtMSSQLUsername"
-        Me.txtMSSQLUsername.Size = New System.Drawing.Size(230, 20)
+        Me.txtMSSQLUsername.Size = New System.Drawing.Size(230, 21)
         Me.txtMSSQLUsername.TabIndex = 4
         '
         'txtMSSQLServer
         '
         Me.txtMSSQLServer.Location = New System.Drawing.Point(105, 51)
         Me.txtMSSQLServer.Name = "txtMSSQLServer"
-        Me.txtMSSQLServer.Size = New System.Drawing.Size(230, 20)
+        Me.txtMSSQLServer.Size = New System.Drawing.Size(230, 21)
         Me.txtMSSQLServer.TabIndex = 3
         '
         'lblMSSQLPassword
@@ -1880,7 +1880,7 @@ Partial Public Class frmSettings
         Me.lblMSSQLPassword.AutoSize = True
         Me.lblMSSQLPassword.Location = New System.Drawing.Point(6, 158)
         Me.lblMSSQLPassword.Name = "lblMSSQLPassword"
-        Me.lblMSSQLPassword.Size = New System.Drawing.Size(56, 13)
+        Me.lblMSSQLPassword.Size = New System.Drawing.Size(57, 13)
         Me.lblMSSQLPassword.TabIndex = 2
         Me.lblMSSQLPassword.Text = "Password:"
         '
@@ -1889,7 +1889,7 @@ Partial Public Class frmSettings
         Me.lblMSSQLUser.AutoSize = True
         Me.lblMSSQLUser.Location = New System.Drawing.Point(6, 132)
         Me.lblMSSQLUser.Name = "lblMSSQLUser"
-        Me.lblMSSQLUser.Size = New System.Drawing.Size(32, 13)
+        Me.lblMSSQLUser.Size = New System.Drawing.Size(33, 13)
         Me.lblMSSQLUser.TabIndex = 1
         Me.lblMSSQLUser.Text = "User:"
         '
@@ -1898,7 +1898,7 @@ Partial Public Class frmSettings
         Me.lblMSSQLServer.AutoSize = True
         Me.lblMSSQLServer.Location = New System.Drawing.Point(6, 56)
         Me.lblMSSQLServer.Name = "lblMSSQLServer"
-        Me.lblMSSQLServer.Size = New System.Drawing.Size(41, 13)
+        Me.lblMSSQLServer.Size = New System.Drawing.Size(43, 13)
         Me.lblMSSQLServer.TabIndex = 0
         Me.lblMSSQLServer.Text = "Server:"
         '
@@ -1906,7 +1906,7 @@ Partial Public Class frmSettings
         '
         Me.nudDBTimeout.Location = New System.Drawing.Point(135, 360)
         Me.nudDBTimeout.Name = "nudDBTimeout"
-        Me.nudDBTimeout.Size = New System.Drawing.Size(50, 20)
+        Me.nudDBTimeout.Size = New System.Drawing.Size(50, 21)
         Me.nudDBTimeout.TabIndex = 40
         '
         'lblDatabaseTimeout
@@ -1914,7 +1914,7 @@ Partial Public Class frmSettings
         Me.lblDatabaseTimeout.AutoSize = True
         Me.lblDatabaseTimeout.Location = New System.Drawing.Point(6, 363)
         Me.lblDatabaseTimeout.Name = "lblDatabaseTimeout"
-        Me.lblDatabaseTimeout.Size = New System.Drawing.Size(123, 13)
+        Me.lblDatabaseTimeout.Size = New System.Drawing.Size(125, 13)
         Me.lblDatabaseTimeout.TabIndex = 39
         Me.lblDatabaseTimeout.Text = "Database Timeout (sec):"
         '
@@ -1942,7 +1942,7 @@ Partial Public Class frmSettings
         Me.lblFormat.AutoSize = True
         Me.lblFormat.Location = New System.Drawing.Point(6, 48)
         Me.lblFormat.Name = "lblFormat"
-        Me.lblFormat.Size = New System.Drawing.Size(91, 13)
+        Me.lblFormat.Size = New System.Drawing.Size(94, 13)
         Me.lblFormat.TabIndex = 33
         Me.lblFormat.Text = "Database Format:"
         '
@@ -1982,7 +1982,7 @@ Partial Public Class frmSettings
         Me.lblProxyPassword.Enabled = False
         Me.lblProxyPassword.Location = New System.Drawing.Point(38, 145)
         Me.lblProxyPassword.Name = "lblProxyPassword"
-        Me.lblProxyPassword.Size = New System.Drawing.Size(56, 13)
+        Me.lblProxyPassword.Size = New System.Drawing.Size(57, 13)
         Me.lblProxyPassword.TabIndex = 9
         Me.lblProxyPassword.Text = "Password:"
         '
@@ -1992,7 +1992,7 @@ Partial Public Class frmSettings
         Me.lblProxyUsername.Enabled = False
         Me.lblProxyUsername.Location = New System.Drawing.Point(36, 119)
         Me.lblProxyUsername.Name = "lblProxyUsername"
-        Me.lblProxyUsername.Size = New System.Drawing.Size(58, 13)
+        Me.lblProxyUsername.Size = New System.Drawing.Size(59, 13)
         Me.lblProxyUsername.TabIndex = 8
         Me.lblProxyUsername.Text = "Username:"
         '
@@ -2001,7 +2001,7 @@ Partial Public Class frmSettings
         Me.txtProxyPassword.Enabled = False
         Me.txtProxyPassword.Location = New System.Drawing.Point(100, 142)
         Me.txtProxyPassword.Name = "txtProxyPassword"
-        Me.txtProxyPassword.Size = New System.Drawing.Size(234, 20)
+        Me.txtProxyPassword.Size = New System.Drawing.Size(234, 21)
         Me.txtProxyPassword.TabIndex = 7
         '
         'txtProxyUsername
@@ -2009,7 +2009,7 @@ Partial Public Class frmSettings
         Me.txtProxyUsername.Enabled = False
         Me.txtProxyUsername.Location = New System.Drawing.Point(100, 116)
         Me.txtProxyUsername.Name = "txtProxyUsername"
-        Me.txtProxyUsername.Size = New System.Drawing.Size(234, 20)
+        Me.txtProxyUsername.Size = New System.Drawing.Size(234, 21)
         Me.txtProxyUsername.TabIndex = 6
         '
         'radUseSpecifiedCreds
@@ -2017,7 +2017,7 @@ Partial Public Class frmSettings
         Me.radUseSpecifiedCreds.AutoSize = True
         Me.radUseSpecifiedCreds.Location = New System.Drawing.Point(27, 93)
         Me.radUseSpecifiedCreds.Name = "radUseSpecifiedCreds"
-        Me.radUseSpecifiedCreds.Size = New System.Drawing.Size(167, 17)
+        Me.radUseSpecifiedCreds.Size = New System.Drawing.Size(170, 17)
         Me.radUseSpecifiedCreds.TabIndex = 5
         Me.radUseSpecifiedCreds.Text = "Use the Following Credentials:"
         Me.radUseSpecifiedCreds.UseVisualStyleBackColor = True
@@ -2027,7 +2027,7 @@ Partial Public Class frmSettings
         Me.lblProxyServer.AutoSize = True
         Me.lblProxyServer.Location = New System.Drawing.Point(24, 33)
         Me.lblProxyServer.Name = "lblProxyServer"
-        Me.lblProxyServer.Size = New System.Drawing.Size(70, 13)
+        Me.lblProxyServer.Size = New System.Drawing.Size(74, 13)
         Me.lblProxyServer.TabIndex = 3
         Me.lblProxyServer.Text = "Proxy Server:"
         '
@@ -2035,7 +2035,7 @@ Partial Public Class frmSettings
         '
         Me.txtProxyServer.Location = New System.Drawing.Point(100, 30)
         Me.txtProxyServer.Name = "txtProxyServer"
-        Me.txtProxyServer.Size = New System.Drawing.Size(234, 20)
+        Me.txtProxyServer.Size = New System.Drawing.Size(234, 21)
         Me.txtProxyServer.TabIndex = 1
         '
         'radUseDefaultCreds
@@ -2044,7 +2044,7 @@ Partial Public Class frmSettings
         Me.radUseDefaultCreds.Checked = True
         Me.radUseDefaultCreds.Location = New System.Drawing.Point(27, 70)
         Me.radUseDefaultCreds.Name = "radUseDefaultCreds"
-        Me.radUseDefaultCreds.Size = New System.Drawing.Size(181, 17)
+        Me.radUseDefaultCreds.Size = New System.Drawing.Size(183, 17)
         Me.radUseDefaultCreds.TabIndex = 0
         Me.radUseDefaultCreds.TabStop = True
         Me.radUseDefaultCreds.Text = "Use Existing Network Credentials"
@@ -2055,7 +2055,7 @@ Partial Public Class frmSettings
         Me.chkUseProxy.AutoSize = True
         Me.chkUseProxy.Location = New System.Drawing.Point(29, 31)
         Me.chkUseProxy.Name = "chkUseProxy"
-        Me.chkUseProxy.Size = New System.Drawing.Size(108, 17)
+        Me.chkUseProxy.Size = New System.Drawing.Size(110, 17)
         Me.chkUseProxy.TabIndex = 0
         Me.chkUseProxy.Text = "Use Proxy Server"
         Me.chkUseProxy.UseVisualStyleBackColor = True
@@ -2098,7 +2098,7 @@ Partial Public Class frmSettings
         '
         Me.txtAPIFileExtension.Location = New System.Drawing.Point(152, 101)
         Me.txtAPIFileExtension.Name = "txtAPIFileExtension"
-        Me.txtAPIFileExtension.Size = New System.Drawing.Size(98, 20)
+        Me.txtAPIFileExtension.Size = New System.Drawing.Size(98, 21)
         Me.txtAPIFileExtension.TabIndex = 28
         '
         'lblAPIFileExtension
@@ -2106,7 +2106,7 @@ Partial Public Class frmSettings
         Me.lblAPIFileExtension.AutoSize = True
         Me.lblAPIFileExtension.Location = New System.Drawing.Point(9, 104)
         Me.lblAPIFileExtension.Name = "lblAPIFileExtension"
-        Me.lblAPIFileExtension.Size = New System.Drawing.Size(93, 13)
+        Me.lblAPIFileExtension.Size = New System.Drawing.Size(96, 13)
         Me.lblAPIFileExtension.TabIndex = 27
         Me.lblAPIFileExtension.Text = "API File Extention:"
         '
@@ -2115,7 +2115,7 @@ Partial Public Class frmSettings
         Me.chkUseCCPBackup.AutoSize = True
         Me.chkUseCCPBackup.Location = New System.Drawing.Point(152, 52)
         Me.chkUseCCPBackup.Name = "chkUseCCPBackup"
-        Me.chkUseCCPBackup.Size = New System.Drawing.Size(177, 17)
+        Me.chkUseCCPBackup.Size = New System.Drawing.Size(173, 17)
         Me.chkUseCCPBackup.TabIndex = 26
         Me.chkUseCCPBackup.Text = "Use CCP API Server as Backup"
         Me.chkUseCCPBackup.UseVisualStyleBackColor = True
@@ -2134,7 +2134,7 @@ Partial Public Class frmSettings
         '
         Me.txtAPIRSServer.Location = New System.Drawing.Point(152, 75)
         Me.txtAPIRSServer.Name = "txtAPIRSServer"
-        Me.txtAPIRSServer.Size = New System.Drawing.Size(332, 20)
+        Me.txtAPIRSServer.Size = New System.Drawing.Size(332, 21)
         Me.txtAPIRSServer.TabIndex = 24
         '
         'lblAPIRSServer
@@ -2142,7 +2142,7 @@ Partial Public Class frmSettings
         Me.lblAPIRSServer.AutoSize = True
         Me.lblAPIRSServer.Location = New System.Drawing.Point(9, 78)
         Me.lblAPIRSServer.Name = "lblAPIRSServer"
-        Me.lblAPIRSServer.Size = New System.Drawing.Size(137, 13)
+        Me.lblAPIRSServer.Size = New System.Drawing.Size(138, 13)
         Me.lblAPIRSServer.TabIndex = 23
         Me.lblAPIRSServer.Text = "APIRS API Server Address:"
         '
@@ -2150,7 +2150,7 @@ Partial Public Class frmSettings
         '
         Me.txtCCPAPIServer.Location = New System.Drawing.Point(152, 26)
         Me.txtCCPAPIServer.Name = "txtCCPAPIServer"
-        Me.txtCCPAPIServer.Size = New System.Drawing.Size(332, 20)
+        Me.txtCCPAPIServer.Size = New System.Drawing.Size(332, 21)
         Me.txtCCPAPIServer.TabIndex = 22
         '
         'lblCCPAPIServer
@@ -2158,7 +2158,7 @@ Partial Public Class frmSettings
         Me.lblCCPAPIServer.AutoSize = True
         Me.lblCCPAPIServer.Location = New System.Drawing.Point(9, 29)
         Me.lblCCPAPIServer.Name = "lblCCPAPIServer"
-        Me.lblCCPAPIServer.Size = New System.Drawing.Size(126, 13)
+        Me.lblCCPAPIServer.Size = New System.Drawing.Size(128, 13)
         Me.lblCCPAPIServer.TabIndex = 21
         Me.lblCCPAPIServer.Text = "CCP API Server Address:"
         '
@@ -2167,7 +2167,7 @@ Partial Public Class frmSettings
         Me.chkAutoAPI.AutoSize = True
         Me.chkAutoAPI.Location = New System.Drawing.Point(12, 130)
         Me.chkAutoAPI.Name = "chkAutoAPI"
-        Me.chkAutoAPI.Size = New System.Drawing.Size(205, 17)
+        Me.chkAutoAPI.Size = New System.Drawing.Size(204, 17)
         Me.chkAutoAPI.TabIndex = 20
         Me.chkAutoAPI.Text = "Automatically Check for XML Updates"
         Me.chkAutoAPI.UseVisualStyleBackColor = True
@@ -2190,7 +2190,7 @@ Partial Public Class frmSettings
         Me.chkAPIRSAutoStart.AutoSize = True
         Me.chkAPIRSAutoStart.Location = New System.Drawing.Point(12, 79)
         Me.chkAPIRSAutoStart.Name = "chkAPIRSAutoStart"
-        Me.chkAPIRSAutoStart.Size = New System.Drawing.Size(182, 17)
+        Me.chkAPIRSAutoStart.Size = New System.Drawing.Size(184, 17)
         Me.chkAPIRSAutoStart.TabIndex = 5
         Me.chkAPIRSAutoStart.Text = "Run API Relay Server on Startup"
         Me.chkAPIRSAutoStart.UseVisualStyleBackColor = True
@@ -2201,7 +2201,7 @@ Partial Public Class frmSettings
         Me.nudAPIRSPort.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
         Me.nudAPIRSPort.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudAPIRSPort.Name = "nudAPIRSPort"
-        Me.nudAPIRSPort.Size = New System.Drawing.Size(90, 20)
+        Me.nudAPIRSPort.Size = New System.Drawing.Size(90, 21)
         Me.nudAPIRSPort.TabIndex = 4
         Me.nudAPIRSPort.Value = New Decimal(New Integer() {26002, 0, 0, 0})
         '
@@ -2210,7 +2210,7 @@ Partial Public Class frmSettings
         Me.lblAPIRSPort.AutoSize = True
         Me.lblAPIRSPort.Location = New System.Drawing.Point(10, 55)
         Me.lblAPIRSPort.Name = "lblAPIRSPort"
-        Me.lblAPIRSPort.Size = New System.Drawing.Size(110, 13)
+        Me.lblAPIRSPort.Size = New System.Drawing.Size(112, 13)
         Me.lblAPIRSPort.TabIndex = 3
         Me.lblAPIRSPort.Text = "API Relay Server Port"
         '
@@ -2219,7 +2219,7 @@ Partial Public Class frmSettings
         Me.chkActivateAPIRS.AutoSize = True
         Me.chkActivateAPIRS.Location = New System.Drawing.Point(13, 30)
         Me.chkActivateAPIRS.Name = "chkActivateAPIRS"
-        Me.chkActivateAPIRS.Size = New System.Drawing.Size(149, 17)
+        Me.chkActivateAPIRS.Size = New System.Drawing.Size(151, 17)
         Me.chkActivateAPIRS.TabIndex = 0
         Me.chkActivateAPIRS.Text = "Activate API Relay Server"
         Me.chkActivateAPIRS.UseVisualStyleBackColor = True
@@ -2229,7 +2229,7 @@ Partial Public Class frmSettings
         Me.chkEnableEveStatus.AutoSize = True
         Me.chkEnableEveStatus.Location = New System.Drawing.Point(19, 31)
         Me.chkEnableEveStatus.Name = "chkEnableEveStatus"
-        Me.chkEnableEveStatus.Size = New System.Drawing.Size(126, 17)
+        Me.chkEnableEveStatus.Size = New System.Drawing.Size(127, 17)
         Me.chkEnableEveStatus.TabIndex = 13
         Me.chkEnableEveStatus.Text = "Enable Server Status"
         Me.chkEnableEveStatus.UseVisualStyleBackColor = True
@@ -2239,7 +2239,7 @@ Partial Public Class frmSettings
         Me.lblCurrentOffset.AutoSize = True
         Me.lblCurrentOffset.Location = New System.Drawing.Point(16, 118)
         Me.lblCurrentOffset.Name = "lblCurrentOffset"
-        Me.lblCurrentOffset.Size = New System.Drawing.Size(75, 13)
+        Me.lblCurrentOffset.Size = New System.Drawing.Size(82, 13)
         Me.lblCurrentOffset.TabIndex = 12
         Me.lblCurrentOffset.Text = "Current Offset:"
         '
@@ -2248,7 +2248,7 @@ Partial Public Class frmSettings
         Me.lblServerOffset.AutoSize = True
         Me.lblServerOffset.Location = New System.Drawing.Point(16, 54)
         Me.lblServerOffset.Name = "lblServerOffset"
-        Me.lblServerOffset.Size = New System.Drawing.Size(147, 13)
+        Me.lblServerOffset.Size = New System.Drawing.Size(153, 13)
         Me.lblServerOffset.TabIndex = 11
         Me.lblServerOffset.Text = "Tranquiity Server Time Offset:"
         '
@@ -2302,7 +2302,7 @@ Partial Public Class frmSettings
         Me.lblPlugInInfo.AutoSize = True
         Me.lblPlugInInfo.Location = New System.Drawing.Point(6, 339)
         Me.lblPlugInInfo.Name = "lblPlugInInfo"
-        Me.lblPlugInInfo.Size = New System.Drawing.Size(323, 13)
+        Me.lblPlugInInfo.Size = New System.Drawing.Size(332, 13)
         Me.lblPlugInInfo.TabIndex = 2
         Me.lblPlugInInfo.Text = "Changes to the PlugIns will not take effect until EveHQ is restarted."
         '
@@ -2311,7 +2311,7 @@ Partial Public Class frmSettings
         Me.lblDetectedPlugIns.AutoSize = True
         Me.lblDetectedPlugIns.Location = New System.Drawing.Point(6, 24)
         Me.lblDetectedPlugIns.Name = "lblDetectedPlugIns"
-        Me.lblDetectedPlugIns.Size = New System.Drawing.Size(78, 13)
+        Me.lblDetectedPlugIns.Size = New System.Drawing.Size(79, 13)
         Me.lblDetectedPlugIns.TabIndex = 1
         Me.lblDetectedPlugIns.Text = "Active PlugIns:"
         '
@@ -2368,7 +2368,7 @@ Partial Public Class frmSettings
         Me.chkNotifyEarly.AutoSize = True
         Me.chkNotifyEarly.Location = New System.Drawing.Point(236, 153)
         Me.chkNotifyEarly.Name = "chkNotifyEarly"
-        Me.chkNotifyEarly.Size = New System.Drawing.Size(115, 17)
+        Me.chkNotifyEarly.Size = New System.Drawing.Size(116, 17)
         Me.chkNotifyEarly.TabIndex = 20
         Me.chkNotifyEarly.Text = "Before skill finishes"
         Me.chkNotifyEarly.UseVisualStyleBackColor = True
@@ -2378,7 +2378,7 @@ Partial Public Class frmSettings
         Me.chkNotifyNow.AutoSize = True
         Me.chkNotifyNow.Location = New System.Drawing.Point(98, 153)
         Me.chkNotifyNow.Name = "chkNotifyNow"
-        Me.chkNotifyNow.Size = New System.Drawing.Size(113, 17)
+        Me.chkNotifyNow.Size = New System.Drawing.Size(112, 17)
         Me.chkNotifyNow.TabIndex = 19
         Me.chkNotifyNow.Text = "When skill finishes"
         Me.chkNotifyNow.UseVisualStyleBackColor = True
@@ -2388,7 +2388,7 @@ Partial Public Class frmSettings
         Me.lblNotifyMe.AutoSize = True
         Me.lblNotifyMe.Location = New System.Drawing.Point(18, 154)
         Me.lblNotifyMe.Name = "lblNotifyMe"
-        Me.lblNotifyMe.Size = New System.Drawing.Size(55, 13)
+        Me.lblNotifyMe.Size = New System.Drawing.Size(57, 13)
         Me.lblNotifyMe.TabIndex = 18
         Me.lblNotifyMe.Text = "Notify Me:"
         '
@@ -2435,7 +2435,7 @@ Partial Public Class frmSettings
         Me.lblNotifyOffset.AutoSize = True
         Me.lblNotifyOffset.Location = New System.Drawing.Point(18, 184)
         Me.lblNotifyOffset.Name = "lblNotifyOffset"
-        Me.lblNotifyOffset.Size = New System.Drawing.Size(120, 13)
+        Me.lblNotifyOffset.Size = New System.Drawing.Size(126, 13)
         Me.lblNotifyOffset.TabIndex = 13
         Me.lblNotifyOffset.Text = "Early Notification Offset:"
         '
@@ -2476,7 +2476,7 @@ Partial Public Class frmSettings
         '
         Me.txtSMTPPort.Location = New System.Drawing.Point(106, 46)
         Me.txtSMTPPort.Name = "txtSMTPPort"
-        Me.txtSMTPPort.Size = New System.Drawing.Size(86, 20)
+        Me.txtSMTPPort.Size = New System.Drawing.Size(86, 21)
         Me.txtSMTPPort.TabIndex = 11
         '
         'lblSMTPPort
@@ -2484,7 +2484,7 @@ Partial Public Class frmSettings
         Me.lblSMTPPort.AutoSize = True
         Me.lblSMTPPort.Location = New System.Drawing.Point(7, 49)
         Me.lblSMTPPort.Name = "lblSMTPPort"
-        Me.lblSMTPPort.Size = New System.Drawing.Size(62, 13)
+        Me.lblSMTPPort.Size = New System.Drawing.Size(60, 13)
         Me.lblSMTPPort.TabIndex = 10
         Me.lblSMTPPort.Text = "SMTP Port:"
         '
@@ -2503,7 +2503,7 @@ Partial Public Class frmSettings
         Me.lblEmailPassword.Enabled = False
         Me.lblEmailPassword.Location = New System.Drawing.Point(7, 150)
         Me.lblEmailPassword.Name = "lblEmailPassword"
-        Me.lblEmailPassword.Size = New System.Drawing.Size(56, 13)
+        Me.lblEmailPassword.Size = New System.Drawing.Size(57, 13)
         Me.lblEmailPassword.TabIndex = 8
         Me.lblEmailPassword.Text = "Password:"
         '
@@ -2512,7 +2512,7 @@ Partial Public Class frmSettings
         Me.txtEmailPassword.Enabled = False
         Me.txtEmailPassword.Location = New System.Drawing.Point(106, 147)
         Me.txtEmailPassword.Name = "txtEmailPassword"
-        Me.txtEmailPassword.Size = New System.Drawing.Size(250, 20)
+        Me.txtEmailPassword.Size = New System.Drawing.Size(250, 21)
         Me.txtEmailPassword.TabIndex = 7
         '
         'txtEmailUsername
@@ -2520,7 +2520,7 @@ Partial Public Class frmSettings
         Me.txtEmailUsername.Enabled = False
         Me.txtEmailUsername.Location = New System.Drawing.Point(106, 121)
         Me.txtEmailUsername.Name = "txtEmailUsername"
-        Me.txtEmailUsername.Size = New System.Drawing.Size(250, 20)
+        Me.txtEmailUsername.Size = New System.Drawing.Size(250, 21)
         Me.txtEmailUsername.TabIndex = 6
         '
         'lblEmailUsername
@@ -2529,7 +2529,7 @@ Partial Public Class frmSettings
         Me.lblEmailUsername.Enabled = False
         Me.lblEmailUsername.Location = New System.Drawing.Point(7, 124)
         Me.lblEmailUsername.Name = "lblEmailUsername"
-        Me.lblEmailUsername.Size = New System.Drawing.Size(58, 13)
+        Me.lblEmailUsername.Size = New System.Drawing.Size(59, 13)
         Me.lblEmailUsername.TabIndex = 5
         Me.lblEmailUsername.Text = "Username:"
         '
@@ -2538,7 +2538,7 @@ Partial Public Class frmSettings
         Me.chkSMTPAuthentication.AutoSize = True
         Me.chkSMTPAuthentication.Location = New System.Drawing.Point(10, 98)
         Me.chkSMTPAuthentication.Name = "chkSMTPAuthentication"
-        Me.chkSMTPAuthentication.Size = New System.Drawing.Size(149, 17)
+        Me.chkSMTPAuthentication.Size = New System.Drawing.Size(146, 17)
         Me.chkSMTPAuthentication.TabIndex = 4
         Me.chkSMTPAuthentication.Text = "Use SMTP Authentication"
         Me.chkSMTPAuthentication.UseVisualStyleBackColor = True
@@ -2548,7 +2548,7 @@ Partial Public Class frmSettings
         Me.lblEMailAddress.AutoSize = True
         Me.lblEMailAddress.Location = New System.Drawing.Point(7, 75)
         Me.lblEMailAddress.Name = "lblEMailAddress"
-        Me.lblEMailAddress.Size = New System.Drawing.Size(80, 13)
+        Me.lblEMailAddress.Size = New System.Drawing.Size(81, 13)
         Me.lblEMailAddress.TabIndex = 3
         Me.lblEMailAddress.Text = "E-Mail Address:"
         '
@@ -2556,14 +2556,14 @@ Partial Public Class frmSettings
         '
         Me.txtEmailAddress.Location = New System.Drawing.Point(106, 72)
         Me.txtEmailAddress.Name = "txtEmailAddress"
-        Me.txtEmailAddress.Size = New System.Drawing.Size(331, 20)
+        Me.txtEmailAddress.Size = New System.Drawing.Size(331, 21)
         Me.txtEmailAddress.TabIndex = 2
         '
         'txtSMTPServer
         '
         Me.txtSMTPServer.Location = New System.Drawing.Point(106, 20)
         Me.txtSMTPServer.Name = "txtSMTPServer"
-        Me.txtSMTPServer.Size = New System.Drawing.Size(331, 20)
+        Me.txtSMTPServer.Size = New System.Drawing.Size(331, 21)
         Me.txtSMTPServer.TabIndex = 1
         '
         'lblSMTPServer
@@ -2571,7 +2571,7 @@ Partial Public Class frmSettings
         Me.lblSMTPServer.AutoSize = True
         Me.lblSMTPServer.Location = New System.Drawing.Point(7, 23)
         Me.lblSMTPServer.Name = "lblSMTPServer"
-        Me.lblSMTPServer.Size = New System.Drawing.Size(74, 13)
+        Me.lblSMTPServer.Size = New System.Drawing.Size(72, 13)
         Me.lblSMTPServer.TabIndex = 0
         Me.lblSMTPServer.Text = "SMTP Server:"
         '
@@ -2580,7 +2580,7 @@ Partial Public Class frmSettings
         Me.chkNotifyEmail.AutoSize = True
         Me.chkNotifyEmail.Location = New System.Drawing.Point(400, 89)
         Me.chkNotifyEmail.Name = "chkNotifyEmail"
-        Me.chkNotifyEmail.Size = New System.Drawing.Size(137, 17)
+        Me.chkNotifyEmail.Size = New System.Drawing.Size(136, 17)
         Me.chkNotifyEmail.TabIndex = 5
         Me.chkNotifyEmail.Text = "Send E-Mail Notifcation"
         Me.chkNotifyEmail.UseVisualStyleBackColor = True
@@ -2590,7 +2590,7 @@ Partial Public Class frmSettings
         Me.chkNotifyDialog.AutoSize = True
         Me.chkNotifyDialog.Location = New System.Drawing.Point(231, 89)
         Me.chkNotifyDialog.Name = "chkNotifyDialog"
-        Me.chkNotifyDialog.Size = New System.Drawing.Size(163, 17)
+        Me.chkNotifyDialog.Size = New System.Drawing.Size(162, 17)
         Me.chkNotifyDialog.TabIndex = 4
         Me.chkNotifyDialog.Text = "Show Dialog Box Notification"
         Me.chkNotifyDialog.UseVisualStyleBackColor = True
@@ -2600,7 +2600,7 @@ Partial Public Class frmSettings
         Me.chkNotifyToolTip.AutoSize = True
         Me.chkNotifyToolTip.Location = New System.Drawing.Point(21, 89)
         Me.chkNotifyToolTip.Name = "chkNotifyToolTip"
-        Me.chkNotifyToolTip.Size = New System.Drawing.Size(204, 17)
+        Me.chkNotifyToolTip.Size = New System.Drawing.Size(205, 17)
         Me.chkNotifyToolTip.TabIndex = 3
         Me.chkNotifyToolTip.Text = "Show System Tray Popup Notification"
         Me.chkNotifyToolTip.UseVisualStyleBackColor = True
@@ -2610,7 +2610,7 @@ Partial Public Class frmSettings
         Me.nudShutdownNotifyPeriod.Location = New System.Drawing.Point(219, 53)
         Me.nudShutdownNotifyPeriod.Maximum = New Decimal(New Integer() {72, 0, 0, 0})
         Me.nudShutdownNotifyPeriod.Name = "nudShutdownNotifyPeriod"
-        Me.nudShutdownNotifyPeriod.Size = New System.Drawing.Size(68, 20)
+        Me.nudShutdownNotifyPeriod.Size = New System.Drawing.Size(68, 21)
         Me.nudShutdownNotifyPeriod.TabIndex = 2
         Me.nudShutdownNotifyPeriod.Value = New Decimal(New Integer() {8, 0, 0, 0})
         '
@@ -2619,7 +2619,7 @@ Partial Public Class frmSettings
         Me.lblShutdownNotifyPeriod.AutoSize = True
         Me.lblShutdownNotifyPeriod.Location = New System.Drawing.Point(71, 55)
         Me.lblShutdownNotifyPeriod.Name = "lblShutdownNotifyPeriod"
-        Me.lblShutdownNotifyPeriod.Size = New System.Drawing.Size(131, 13)
+        Me.lblShutdownNotifyPeriod.Size = New System.Drawing.Size(136, 13)
         Me.lblShutdownNotifyPeriod.TabIndex = 1
         Me.lblShutdownNotifyPeriod.Text = "Notification Period (hours):"
         '
@@ -2628,7 +2628,7 @@ Partial Public Class frmSettings
         Me.chkShutdownNotify.AutoSize = True
         Me.chkShutdownNotify.Location = New System.Drawing.Point(21, 30)
         Me.chkShutdownNotify.Name = "chkShutdownNotify"
-        Me.chkShutdownNotify.Size = New System.Drawing.Size(334, 17)
+        Me.chkShutdownNotify.Size = New System.Drawing.Size(339, 17)
         Me.chkShutdownNotify.TabIndex = 0
         Me.chkShutdownNotify.Text = "Notify of imminent completion of skill training on EveHQ shutdown"
         Me.chkShutdownNotify.UseVisualStyleBackColor = True
@@ -2706,7 +2706,7 @@ Partial Public Class frmSettings
         Me.txtCSVSeparator.MaxLength = 1
         Me.txtCSVSeparator.Name = "txtCSVSeparator"
         Me.txtCSVSeparator.ShortcutsEnabled = False
-        Me.txtCSVSeparator.Size = New System.Drawing.Size(46, 20)
+        Me.txtCSVSeparator.Size = New System.Drawing.Size(46, 21)
         Me.txtCSVSeparator.TabIndex = 40
         '
         'lblCSVSeparatorChar
@@ -2723,7 +2723,7 @@ Partial Public Class frmSettings
         Me.chkDisableVisualStyles.AutoSize = True
         Me.chkDisableVisualStyles.Location = New System.Drawing.Point(19, 305)
         Me.chkDisableVisualStyles.Name = "chkDisableVisualStyles"
-        Me.chkDisableVisualStyles.Size = New System.Drawing.Size(123, 17)
+        Me.chkDisableVisualStyles.Size = New System.Drawing.Size(122, 17)
         Me.chkDisableVisualStyles.TabIndex = 38
         Me.chkDisableVisualStyles.Text = "Disable Visual Styles"
         Me.chkDisableVisualStyles.UseVisualStyleBackColor = True
@@ -2764,7 +2764,7 @@ Partial Public Class frmSettings
         Me.chkClickThroughOverlay.AutoSize = True
         Me.chkClickThroughOverlay.Location = New System.Drawing.Point(10, 365)
         Me.chkClickThroughOverlay.Name = "chkClickThroughOverlay"
-        Me.chkClickThroughOverlay.Size = New System.Drawing.Size(141, 17)
+        Me.chkClickThroughOverlay.Size = New System.Drawing.Size(140, 17)
         Me.chkClickThroughOverlay.TabIndex = 20
         Me.chkClickThroughOverlay.Text = """Click-Through"" Overlay"
         Me.chkClickThroughOverlay.UseVisualStyleBackColor = True
@@ -2783,7 +2783,7 @@ Partial Public Class frmSettings
         Me.lblFontColour.AutoSize = True
         Me.lblFontColour.Location = New System.Drawing.Point(6, 99)
         Me.lblFontColour.Name = "lblFontColour"
-        Me.lblFontColour.Size = New System.Drawing.Size(61, 13)
+        Me.lblFontColour.Size = New System.Drawing.Size(63, 13)
         Me.lblFontColour.TabIndex = 18
         Me.lblFontColour.Text = "Font Colour"
         '
@@ -2792,7 +2792,7 @@ Partial Public Class frmSettings
         Me.chkShowOverlayOnStartup.AutoSize = True
         Me.chkShowOverlayOnStartup.Location = New System.Drawing.Point(10, 342)
         Me.chkShowOverlayOnStartup.Name = "chkShowOverlayOnStartup"
-        Me.chkShowOverlayOnStartup.Size = New System.Drawing.Size(146, 17)
+        Me.chkShowOverlayOnStartup.Size = New System.Drawing.Size(149, 17)
         Me.chkShowOverlayOnStartup.TabIndex = 17
         Me.chkShowOverlayOnStartup.Text = "Show Overlay On Startup"
         Me.chkShowOverlayOnStartup.UseVisualStyleBackColor = True
@@ -2803,7 +2803,7 @@ Partial Public Class frmSettings
         Me.nudOverlayYOffset.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
         Me.nudOverlayYOffset.Minimum = New Decimal(New Integer() {2000, 0, 0, -2147483648})
         Me.nudOverlayYOffset.Name = "nudOverlayYOffset"
-        Me.nudOverlayYOffset.Size = New System.Drawing.Size(57, 20)
+        Me.nudOverlayYOffset.Size = New System.Drawing.Size(57, 21)
         Me.nudOverlayYOffset.TabIndex = 16
         Me.nudOverlayYOffset.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
@@ -2813,7 +2813,7 @@ Partial Public Class frmSettings
         Me.nudOverlayXOffset.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
         Me.nudOverlayXOffset.Minimum = New Decimal(New Integer() {2000, 0, 0, -2147483648})
         Me.nudOverlayXOffset.Name = "nudOverlayXOffset"
-        Me.nudOverlayXOffset.Size = New System.Drawing.Size(57, 20)
+        Me.nudOverlayXOffset.Size = New System.Drawing.Size(57, 21)
         Me.nudOverlayXOffset.TabIndex = 15
         Me.nudOverlayXOffset.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
@@ -2822,7 +2822,7 @@ Partial Public Class frmSettings
         Me.lvlOverlayYOffset.AutoSize = True
         Me.lvlOverlayYOffset.Location = New System.Drawing.Point(183, 258)
         Me.lvlOverlayYOffset.Name = "lvlOverlayYOffset"
-        Me.lvlOverlayYOffset.Size = New System.Drawing.Size(45, 13)
+        Me.lvlOverlayYOffset.Size = New System.Drawing.Size(47, 13)
         Me.lvlOverlayYOffset.TabIndex = 14
         Me.lvlOverlayYOffset.Text = "Y Offset"
         '
@@ -2831,7 +2831,7 @@ Partial Public Class frmSettings
         Me.lblOverlayXOffset.AutoSize = True
         Me.lblOverlayXOffset.Location = New System.Drawing.Point(183, 235)
         Me.lblOverlayXOffset.Name = "lblOverlayXOffset"
-        Me.lblOverlayXOffset.Size = New System.Drawing.Size(45, 13)
+        Me.lblOverlayXOffset.Size = New System.Drawing.Size(47, 13)
         Me.lblOverlayXOffset.TabIndex = 13
         Me.lblOverlayXOffset.Text = "X Offset"
         '
@@ -2840,7 +2840,7 @@ Partial Public Class frmSettings
         Me.lblOverlayOffset.AutoSize = True
         Me.lblOverlayOffset.Location = New System.Drawing.Point(166, 208)
         Me.lblOverlayOffset.Name = "lblOverlayOffset"
-        Me.lblOverlayOffset.Size = New System.Drawing.Size(77, 13)
+        Me.lblOverlayOffset.Size = New System.Drawing.Size(83, 13)
         Me.lblOverlayOffset.TabIndex = 12
         Me.lblOverlayOffset.Text = "Overlay Offset:"
         '
@@ -2850,7 +2850,7 @@ Partial Public Class frmSettings
         Me.radBottomRight.Checked = True
         Me.radBottomRight.Location = New System.Drawing.Point(22, 302)
         Me.radBottomRight.Name = "radBottomRight"
-        Me.radBottomRight.Size = New System.Drawing.Size(86, 17)
+        Me.radBottomRight.Size = New System.Drawing.Size(87, 17)
         Me.radBottomRight.TabIndex = 11
         Me.radBottomRight.TabStop = True
         Me.radBottomRight.Text = "Bottom Right"
@@ -2861,7 +2861,7 @@ Partial Public Class frmSettings
         Me.radBottomLeft.AutoSize = True
         Me.radBottomLeft.Location = New System.Drawing.Point(22, 279)
         Me.radBottomLeft.Name = "radBottomLeft"
-        Me.radBottomLeft.Size = New System.Drawing.Size(79, 17)
+        Me.radBottomLeft.Size = New System.Drawing.Size(81, 17)
         Me.radBottomLeft.TabIndex = 10
         Me.radBottomLeft.Text = "Bottom Left"
         Me.radBottomLeft.UseVisualStyleBackColor = True
@@ -2871,7 +2871,7 @@ Partial Public Class frmSettings
         Me.radTopRight.AutoSize = True
         Me.radTopRight.Location = New System.Drawing.Point(22, 256)
         Me.radTopRight.Name = "radTopRight"
-        Me.radTopRight.Size = New System.Drawing.Size(72, 17)
+        Me.radTopRight.Size = New System.Drawing.Size(71, 17)
         Me.radTopRight.TabIndex = 9
         Me.radTopRight.Text = "Top Right"
         Me.radTopRight.UseVisualStyleBackColor = True
@@ -2881,7 +2881,7 @@ Partial Public Class frmSettings
         Me.lblOverlayPosition.AutoSize = True
         Me.lblOverlayPosition.Location = New System.Drawing.Point(7, 208)
         Me.lblOverlayPosition.Name = "lblOverlayPosition"
-        Me.lblOverlayPosition.Size = New System.Drawing.Size(86, 13)
+        Me.lblOverlayPosition.Size = New System.Drawing.Size(89, 13)
         Me.lblOverlayPosition.TabIndex = 8
         Me.lblOverlayPosition.Text = "Overlay Position:"
         '
@@ -2918,7 +2918,7 @@ Partial Public Class frmSettings
         Me.lblTransparancyValue.AutoSize = True
         Me.lblTransparancyValue.Location = New System.Drawing.Point(369, 162)
         Me.lblTransparancyValue.Name = "lblTransparancyValue"
-        Me.lblTransparancyValue.Size = New System.Drawing.Size(33, 13)
+        Me.lblTransparancyValue.Size = New System.Drawing.Size(36, 13)
         Me.lblTransparancyValue.TabIndex = 4
         Me.lblTransparancyValue.Text = "100%"
         '
@@ -2937,7 +2937,7 @@ Partial Public Class frmSettings
         Me.lblTransparancy.AutoSize = True
         Me.lblTransparancy.Location = New System.Drawing.Point(7, 162)
         Me.lblTransparancy.Name = "lblTransparancy"
-        Me.lblTransparancy.Size = New System.Drawing.Size(72, 13)
+        Me.lblTransparancy.Size = New System.Drawing.Size(73, 13)
         Me.lblTransparancy.TabIndex = 2
         Me.lblTransparancy.Text = "Transparancy"
         '
@@ -2955,7 +2955,7 @@ Partial Public Class frmSettings
         Me.lblBorderColour.AutoSize = True
         Me.lblBorderColour.Location = New System.Drawing.Point(6, 37)
         Me.lblBorderColour.Name = "lblBorderColour"
-        Me.lblBorderColour.Size = New System.Drawing.Size(71, 13)
+        Me.lblBorderColour.Size = New System.Drawing.Size(73, 13)
         Me.lblBorderColour.TabIndex = 0
         Me.lblBorderColour.Text = "Border Colour"
         '
@@ -2978,7 +2978,7 @@ Partial Public Class frmSettings
         Me.nudCycleTime.Location = New System.Drawing.Point(301, 71)
         Me.nudCycleTime.Maximum = New Decimal(New Integer() {60, 0, 0, 0})
         Me.nudCycleTime.Name = "nudCycleTime"
-        Me.nudCycleTime.Size = New System.Drawing.Size(73, 20)
+        Me.nudCycleTime.Size = New System.Drawing.Size(73, 21)
         Me.nudCycleTime.TabIndex = 5
         '
         'lblCycleTime
@@ -2986,7 +2986,7 @@ Partial Public Class frmSettings
         Me.lblCycleTime.AutoSize = True
         Me.lblCycleTime.Location = New System.Drawing.Point(213, 73)
         Me.lblCycleTime.Name = "lblCycleTime"
-        Me.lblCycleTime.Size = New System.Drawing.Size(76, 13)
+        Me.lblCycleTime.Size = New System.Drawing.Size(78, 13)
         Me.lblCycleTime.TabIndex = 4
         Me.lblCycleTime.Text = "Cycle Time (s):"
         '
@@ -3073,7 +3073,7 @@ Partial Public Class frmSettings
         Me.lblTaskbarIconMode.AutoSize = True
         Me.lblTaskbarIconMode.Location = New System.Drawing.Point(16, 38)
         Me.lblTaskbarIconMode.Name = "lblTaskbarIconMode"
-        Me.lblTaskbarIconMode.Size = New System.Drawing.Size(103, 13)
+        Me.lblTaskbarIconMode.Size = New System.Drawing.Size(102, 13)
         Me.lblTaskbarIconMode.TabIndex = 0
         Me.lblTaskbarIconMode.Text = "Taskbar Icon Mode:"
         '
@@ -3100,6 +3100,7 @@ Partial Public Class frmSettings
         Me.Controls.Add(Me.tvwSettings)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.gbFTPAccounts)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False

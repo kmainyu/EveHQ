@@ -247,7 +247,7 @@ Partial Class frmCharCreate
         Me.lblSP.AutoSize = True
         Me.lblSP.Location = New System.Drawing.Point(6, 160)
         Me.lblSP.Name = "lblSP"
-        Me.lblSP.Size = New System.Drawing.Size(77, 13)
+        Me.lblSP.Size = New System.Drawing.Size(76, 13)
         Me.lblSP.TabIndex = 5
         Me.lblSP.Text = "Skillpoints: n/a"
         '
@@ -256,7 +256,7 @@ Partial Class frmCharCreate
         Me.lblMem.AutoSize = True
         Me.lblMem.Location = New System.Drawing.Point(6, 80)
         Me.lblMem.Name = "lblMem"
-        Me.lblMem.Size = New System.Drawing.Size(67, 13)
+        Me.lblMem.Size = New System.Drawing.Size(68, 13)
         Me.lblMem.TabIndex = 4
         Me.lblMem.Text = "Memory: n/a"
         '
@@ -283,7 +283,7 @@ Partial Class frmCharCreate
         Me.lblCha.AutoSize = True
         Me.lblCha.Location = New System.Drawing.Point(6, 30)
         Me.lblCha.Name = "lblCha"
-        Me.lblCha.Size = New System.Drawing.Size(73, 13)
+        Me.lblCha.Size = New System.Drawing.Size(74, 13)
         Me.lblCha.TabIndex = 1
         Me.lblCha.Text = "Charisma: n/a"
         '
@@ -292,7 +292,7 @@ Partial Class frmCharCreate
         Me.lblInt.AutoSize = True
         Me.lblInt.Location = New System.Drawing.Point(6, 55)
         Me.lblInt.Name = "lblInt"
-        Me.lblInt.Size = New System.Drawing.Size(84, 13)
+        Me.lblInt.Size = New System.Drawing.Size(85, 13)
         Me.lblInt.TabIndex = 0
         Me.lblInt.Text = "Intelligence: n/a"
         '
@@ -312,7 +312,7 @@ Partial Class frmCharCreate
         Me.lblStep4.Enabled = False
         Me.lblStep4.Location = New System.Drawing.Point(9, 104)
         Me.lblStep4.Name = "lblStep4"
-        Me.lblStep4.Size = New System.Drawing.Size(114, 13)
+        Me.lblStep4.Size = New System.Drawing.Size(117, 13)
         Me.lblStep4.TabIndex = 20
         Me.lblStep4.Text = "Step 4: Choose Career"
         '
@@ -352,7 +352,7 @@ Partial Class frmCharCreate
         Me.lblStep3.Enabled = False
         Me.lblStep3.Location = New System.Drawing.Point(9, 77)
         Me.lblStep3.Name = "lblStep3"
-        Me.lblStep3.Size = New System.Drawing.Size(124, 13)
+        Me.lblStep3.Size = New System.Drawing.Size(127, 13)
         Me.lblStep3.TabIndex = 16
         Me.lblStep3.Text = "Step 3: Choose Ancestry"
         '
@@ -392,7 +392,7 @@ Partial Class frmCharCreate
         Me.lblStep1.AutoSize = True
         Me.lblStep1.Location = New System.Drawing.Point(9, 23)
         Me.lblStep1.Name = "lblStep1"
-        Me.lblStep1.Size = New System.Drawing.Size(109, 13)
+        Me.lblStep1.Size = New System.Drawing.Size(108, 13)
         Me.lblStep1.TabIndex = 12
         Me.lblStep1.Text = "Step 1: Choose Race"
         '
@@ -518,7 +518,7 @@ Partial Class frmCharCreate
         Me.lblSelectedSkills.AutoSize = True
         Me.lblSelectedSkills.Location = New System.Drawing.Point(216, 32)
         Me.lblSelectedSkills.Name = "lblSelectedSkills"
-        Me.lblSelectedSkills.Size = New System.Drawing.Size(79, 39)
+        Me.lblSelectedSkills.Size = New System.Drawing.Size(77, 39)
         Me.lblSelectedSkills.TabIndex = 3
         Me.lblSelectedSkills.Text = "Selected Skills:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<None>" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
@@ -633,7 +633,7 @@ Partial Class frmCharCreate
         Me.lblMethod.AutoSize = True
         Me.lblMethod.Location = New System.Drawing.Point(619, 280)
         Me.lblMethod.Name = "lblMethod"
-        Me.lblMethod.Size = New System.Drawing.Size(137, 13)
+        Me.lblMethod.Size = New System.Drawing.Size(142, 13)
         Me.lblMethod.TabIndex = 14
         Me.lblMethod.Text = "Attribute Allocation Method:"
         '
@@ -698,7 +698,7 @@ Partial Class frmCharCreate
         Me.lblAvailableGoals.AutoSize = True
         Me.lblAvailableGoals.Location = New System.Drawing.Point(17, 30)
         Me.lblAvailableGoals.Name = "lblAvailableGoals"
-        Me.lblAvailableGoals.Size = New System.Drawing.Size(80, 13)
+        Me.lblAvailableGoals.Size = New System.Drawing.Size(79, 13)
         Me.lblAvailableGoals.TabIndex = 6
         Me.lblAvailableGoals.Text = "Available Skills:"
         '
@@ -763,7 +763,7 @@ Partial Class frmCharCreate
         Me.lblSelectedGoals.AutoSize = True
         Me.lblSelectedGoals.Location = New System.Drawing.Point(279, 30)
         Me.lblSelectedGoals.Name = "lblSelectedGoals"
-        Me.lblSelectedGoals.Size = New System.Drawing.Size(79, 13)
+        Me.lblSelectedGoals.Size = New System.Drawing.Size(77, 13)
         Me.lblSelectedGoals.TabIndex = 4
         Me.lblSelectedGoals.Text = "Selected Skills:"
         '
@@ -956,6 +956,7 @@ Partial Class frmCharCreate
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(969, 683)
         Me.Controls.Add(Me.tabCreation)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmCharCreate"
         Me.Text = "Character Creation Tool"

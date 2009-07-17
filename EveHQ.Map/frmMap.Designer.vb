@@ -174,8 +174,10 @@ Partial Class frmMap
         Me.coagsname = New System.Windows.Forms.ColumnHeader
         Me.lgagscorp = New System.Windows.Forms.ColumnHeader
         Me.lgagsfact = New System.Windows.Forms.ColumnHeader
+        Me.lgagsdiv = New System.Windows.Forms.ColumnHeader
         Me.lgagslev = New System.Windows.Forms.ColumnHeader
         Me.lgagsqual = New System.Windows.Forms.ColumnHeader
+        Me.lgagsreqstanding = New System.Windows.Forms.ColumnHeader
         Me.lgagsdist = New System.Windows.Forms.ColumnHeader
         Me.lgagssec = New System.Windows.Forms.ColumnHeader
         Me.lgagsreg = New System.Windows.Forms.ColumnHeader
@@ -203,8 +205,6 @@ Partial Class frmMap
         Me.tsMap = New System.Windows.Forms.ToolStrip
         Me.tsUpdateData = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
-        Me.lgagsdiv = New System.Windows.Forms.ColumnHeader
-        Me.lgagsreqstanding = New System.Windows.Forms.ColumnHeader
         Me.btnExclude = New EveHQ.Map.SplitButton
         Me.gbSystemInfo.SuspendLayout()
         Me.tabMap.SuspendLayout()
@@ -233,7 +233,7 @@ Partial Class frmMap
         Me.lblSystemMain.AutoSize = True
         Me.lblSystemMain.Location = New System.Drawing.Point(13, 95)
         Me.lblSystemMain.Name = "lblSystemMain"
-        Me.lblSystemMain.Size = New System.Drawing.Size(44, 13)
+        Me.lblSystemMain.Size = New System.Drawing.Size(46, 13)
         Me.lblSystemMain.TabIndex = 0
         Me.lblSystemMain.Text = "System:"
         '
@@ -290,7 +290,7 @@ Partial Class frmMap
         Me.lblStations.AutoSize = True
         Me.lblStations.Location = New System.Drawing.Point(82, 154)
         Me.lblStations.Name = "lblStations"
-        Me.lblStations.Size = New System.Drawing.Size(63, 13)
+        Me.lblStations.Size = New System.Drawing.Size(62, 13)
         Me.lblStations.TabIndex = 52
         Me.lblStations.Text = "Placeholder"
         '
@@ -299,7 +299,7 @@ Partial Class frmMap
         Me.lblIBelts.AutoSize = True
         Me.lblIBelts.Location = New System.Drawing.Point(82, 141)
         Me.lblIBelts.Name = "lblIBelts"
-        Me.lblIBelts.Size = New System.Drawing.Size(63, 13)
+        Me.lblIBelts.Size = New System.Drawing.Size(62, 13)
         Me.lblIBelts.TabIndex = 51
         Me.lblIBelts.Text = "Placeholder"
         '
@@ -308,7 +308,7 @@ Partial Class frmMap
         Me.lblABelts.AutoSize = True
         Me.lblABelts.Location = New System.Drawing.Point(82, 128)
         Me.lblABelts.Name = "lblABelts"
-        Me.lblABelts.Size = New System.Drawing.Size(63, 13)
+        Me.lblABelts.Size = New System.Drawing.Size(62, 13)
         Me.lblABelts.TabIndex = 50
         Me.lblABelts.Text = "Placeholder"
         '
@@ -317,7 +317,7 @@ Partial Class frmMap
         Me.lblMoons.AutoSize = True
         Me.lblMoons.Location = New System.Drawing.Point(82, 115)
         Me.lblMoons.Name = "lblMoons"
-        Me.lblMoons.Size = New System.Drawing.Size(63, 13)
+        Me.lblMoons.Size = New System.Drawing.Size(62, 13)
         Me.lblMoons.TabIndex = 49
         Me.lblMoons.Text = "Placeholder"
         '
@@ -326,7 +326,7 @@ Partial Class frmMap
         Me.lblPlanets.AutoSize = True
         Me.lblPlanets.Location = New System.Drawing.Point(82, 102)
         Me.lblPlanets.Name = "lblPlanets"
-        Me.lblPlanets.Size = New System.Drawing.Size(63, 13)
+        Me.lblPlanets.Size = New System.Drawing.Size(62, 13)
         Me.lblPlanets.TabIndex = 48
         Me.lblPlanets.Text = "Placeholder"
         '
@@ -335,7 +335,7 @@ Partial Class frmMap
         Me.lblStationsLbl.AutoSize = True
         Me.lblStationsLbl.Location = New System.Drawing.Point(10, 154)
         Me.lblStationsLbl.Name = "lblStationsLbl"
-        Me.lblStationsLbl.Size = New System.Drawing.Size(48, 13)
+        Me.lblStationsLbl.Size = New System.Drawing.Size(50, 13)
         Me.lblStationsLbl.TabIndex = 47
         Me.lblStationsLbl.Text = "Stations:"
         '
@@ -344,7 +344,7 @@ Partial Class frmMap
         Me.lblIBeltsLbl.AutoSize = True
         Me.lblIBeltsLbl.Location = New System.Drawing.Point(10, 141)
         Me.lblIBeltsLbl.Name = "lblIBeltsLbl"
-        Me.lblIBeltsLbl.Size = New System.Drawing.Size(51, 13)
+        Me.lblIBeltsLbl.Size = New System.Drawing.Size(52, 13)
         Me.lblIBeltsLbl.TabIndex = 46
         Me.lblIBeltsLbl.Text = "Ice Belts:"
         '
@@ -353,7 +353,7 @@ Partial Class frmMap
         Me.lblABeltsLbl.AutoSize = True
         Me.lblABeltsLbl.Location = New System.Drawing.Point(10, 128)
         Me.lblABeltsLbl.Name = "lblABeltsLbl"
-        Me.lblABeltsLbl.Size = New System.Drawing.Size(33, 13)
+        Me.lblABeltsLbl.Size = New System.Drawing.Size(34, 13)
         Me.lblABeltsLbl.TabIndex = 45
         Me.lblABeltsLbl.Text = "Belts:"
         '
@@ -371,7 +371,7 @@ Partial Class frmMap
         Me.lblPlanetsLbl.AutoSize = True
         Me.lblPlanetsLbl.Location = New System.Drawing.Point(10, 102)
         Me.lblPlanetsLbl.Name = "lblPlanetsLbl"
-        Me.lblPlanetsLbl.Size = New System.Drawing.Size(45, 13)
+        Me.lblPlanetsLbl.Size = New System.Drawing.Size(46, 13)
         Me.lblPlanetsLbl.TabIndex = 43
         Me.lblPlanetsLbl.Text = "Planets:"
         '
@@ -380,7 +380,7 @@ Partial Class frmMap
         Me.lblSovereigntyLevel.AutoSize = True
         Me.lblSovereigntyLevel.Location = New System.Drawing.Point(82, 180)
         Me.lblSovereigntyLevel.Name = "lblSovereigntyLevel"
-        Me.lblSovereigntyLevel.Size = New System.Drawing.Size(63, 13)
+        Me.lblSovereigntyLevel.Size = New System.Drawing.Size(62, 13)
         Me.lblSovereigntyLevel.TabIndex = 41
         Me.lblSovereigntyLevel.Text = "Placeholder"
         '
@@ -389,7 +389,7 @@ Partial Class frmMap
         Me.lblSovereigntyLevellbl.AutoSize = True
         Me.lblSovereigntyLevellbl.Location = New System.Drawing.Point(10, 181)
         Me.lblSovereigntyLevellbl.Name = "lblSovereigntyLevellbl"
-        Me.lblSovereigntyLevellbl.Size = New System.Drawing.Size(58, 13)
+        Me.lblSovereigntyLevellbl.Size = New System.Drawing.Size(57, 13)
         Me.lblSovereigntyLevellbl.TabIndex = 39
         Me.lblSovereigntyLevellbl.Text = "Sov Level:"
         '
@@ -398,7 +398,7 @@ Partial Class frmMap
         Me.lblSovHolder.AutoSize = True
         Me.lblSovHolder.Location = New System.Drawing.Point(82, 167)
         Me.lblSovHolder.Name = "lblSovHolder"
-        Me.lblSovHolder.Size = New System.Drawing.Size(63, 13)
+        Me.lblSovHolder.Size = New System.Drawing.Size(62, 13)
         Me.lblSovHolder.TabIndex = 38
         Me.lblSovHolder.Text = "Placeholder"
         '
@@ -416,7 +416,7 @@ Partial Class frmMap
         Me.lblRegion.AutoSize = True
         Me.lblRegion.Location = New System.Drawing.Point(82, 50)
         Me.lblRegion.Name = "lblRegion"
-        Me.lblRegion.Size = New System.Drawing.Size(63, 13)
+        Me.lblRegion.Size = New System.Drawing.Size(62, 13)
         Me.lblRegion.TabIndex = 22
         Me.lblRegion.Text = "Placeholder"
         '
@@ -434,7 +434,7 @@ Partial Class frmMap
         Me.lblConst.AutoSize = True
         Me.lblConst.Location = New System.Drawing.Point(82, 37)
         Me.lblConst.Name = "lblConst"
-        Me.lblConst.Size = New System.Drawing.Size(63, 13)
+        Me.lblConst.Size = New System.Drawing.Size(62, 13)
         Me.lblConst.TabIndex = 20
         Me.lblConst.Text = "Placeholder"
         '
@@ -443,7 +443,7 @@ Partial Class frmMap
         Me.lblConstlbl.AutoSize = True
         Me.lblConstlbl.Location = New System.Drawing.Point(10, 37)
         Me.lblConstlbl.Name = "lblConstlbl"
-        Me.lblConstlbl.Size = New System.Drawing.Size(70, 13)
+        Me.lblConstlbl.Size = New System.Drawing.Size(73, 13)
         Me.lblConstlbl.TabIndex = 19
         Me.lblConstlbl.Text = "Constellation:"
         '
@@ -452,7 +452,7 @@ Partial Class frmMap
         Me.lblGates.AutoSize = True
         Me.lblGates.Location = New System.Drawing.Point(82, 207)
         Me.lblGates.Name = "lblGates"
-        Me.lblGates.Size = New System.Drawing.Size(63, 13)
+        Me.lblGates.Size = New System.Drawing.Size(62, 13)
         Me.lblGates.TabIndex = 18
         Me.lblGates.Text = "Placeholder"
         '
@@ -461,7 +461,7 @@ Partial Class frmMap
         Me.lblNoGates.AutoSize = True
         Me.lblNoGates.Location = New System.Drawing.Point(82, 194)
         Me.lblNoGates.Name = "lblNoGates"
-        Me.lblNoGates.Size = New System.Drawing.Size(63, 13)
+        Me.lblNoGates.Size = New System.Drawing.Size(62, 13)
         Me.lblNoGates.TabIndex = 17
         Me.lblNoGates.Text = "Placeholder"
         '
@@ -470,7 +470,7 @@ Partial Class frmMap
         Me.lblNoGateslbl.AutoSize = True
         Me.lblNoGateslbl.Location = New System.Drawing.Point(10, 194)
         Me.lblNoGateslbl.Name = "lblNoGateslbl"
-        Me.lblNoGateslbl.Size = New System.Drawing.Size(38, 13)
+        Me.lblNoGateslbl.Size = New System.Drawing.Size(39, 13)
         Me.lblNoGateslbl.TabIndex = 16
         Me.lblNoGateslbl.Text = "Gates:"
         '
@@ -479,7 +479,7 @@ Partial Class frmMap
         Me.lblEveSec.AutoSize = True
         Me.lblEveSec.Location = New System.Drawing.Point(82, 76)
         Me.lblEveSec.Name = "lblEveSec"
-        Me.lblEveSec.Size = New System.Drawing.Size(63, 13)
+        Me.lblEveSec.Size = New System.Drawing.Size(62, 13)
         Me.lblEveSec.TabIndex = 15
         Me.lblEveSec.Text = "Placeholder"
         '
@@ -488,7 +488,7 @@ Partial Class frmMap
         Me.lblEveSeclbl.AutoSize = True
         Me.lblEveSeclbl.Location = New System.Drawing.Point(10, 76)
         Me.lblEveSeclbl.Name = "lblEveSeclbl"
-        Me.lblEveSeclbl.Size = New System.Drawing.Size(70, 13)
+        Me.lblEveSeclbl.Size = New System.Drawing.Size(71, 13)
         Me.lblEveSeclbl.TabIndex = 14
         Me.lblEveSeclbl.Text = "Eve Security:"
         '
@@ -497,7 +497,7 @@ Partial Class frmMap
         Me.lblID.AutoSize = True
         Me.lblID.Location = New System.Drawing.Point(82, 63)
         Me.lblID.Name = "lblID"
-        Me.lblID.Size = New System.Drawing.Size(63, 13)
+        Me.lblID.Size = New System.Drawing.Size(62, 13)
         Me.lblID.TabIndex = 11
         Me.lblID.Text = "Placeholder"
         '
@@ -506,7 +506,7 @@ Partial Class frmMap
         Me.lblIDlbl.AutoSize = True
         Me.lblIDlbl.Location = New System.Drawing.Point(10, 63)
         Me.lblIDlbl.Name = "lblIDlbl"
-        Me.lblIDlbl.Size = New System.Drawing.Size(21, 13)
+        Me.lblIDlbl.Size = New System.Drawing.Size(22, 13)
         Me.lblIDlbl.TabIndex = 10
         Me.lblIDlbl.Text = "ID:"
         '
@@ -515,7 +515,7 @@ Partial Class frmMap
         Me.lblSecurity.AutoSize = True
         Me.lblSecurity.Location = New System.Drawing.Point(82, 89)
         Me.lblSecurity.Name = "lblSecurity"
-        Me.lblSecurity.Size = New System.Drawing.Size(63, 13)
+        Me.lblSecurity.Size = New System.Drawing.Size(62, 13)
         Me.lblSecurity.TabIndex = 3
         Me.lblSecurity.Text = "Placeholder"
         '
@@ -524,7 +524,7 @@ Partial Class frmMap
         Me.lblSecuritylbl.AutoSize = True
         Me.lblSecuritylbl.Location = New System.Drawing.Point(10, 89)
         Me.lblSecuritylbl.Name = "lblSecuritylbl"
-        Me.lblSecuritylbl.Size = New System.Drawing.Size(73, 13)
+        Me.lblSecuritylbl.Size = New System.Drawing.Size(75, 13)
         Me.lblSecuritylbl.TabIndex = 2
         Me.lblSecuritylbl.Text = "True Security:"
         '
@@ -533,7 +533,7 @@ Partial Class frmMap
         Me.lblName.AutoSize = True
         Me.lblName.Location = New System.Drawing.Point(82, 24)
         Me.lblName.Name = "lblName"
-        Me.lblName.Size = New System.Drawing.Size(63, 13)
+        Me.lblName.Size = New System.Drawing.Size(62, 13)
         Me.lblName.TabIndex = 1
         Me.lblName.Text = "Placeholder"
         '
@@ -569,7 +569,7 @@ Partial Class frmMap
         Me.lblEndSystem.AutoSize = True
         Me.lblEndSystem.Location = New System.Drawing.Point(9, 193)
         Me.lblEndSystem.Name = "lblEndSystem"
-        Me.lblEndSystem.Size = New System.Drawing.Size(66, 13)
+        Me.lblEndSystem.Size = New System.Drawing.Size(67, 13)
         Me.lblEndSystem.TabIndex = 65
         Me.lblEndSystem.Text = "End System:"
         '
@@ -578,7 +578,7 @@ Partial Class frmMap
         Me.lblStartSystem.AutoSize = True
         Me.lblStartSystem.Location = New System.Drawing.Point(9, 176)
         Me.lblStartSystem.Name = "lblStartSystem"
-        Me.lblStartSystem.Size = New System.Drawing.Size(69, 13)
+        Me.lblStartSystem.Size = New System.Drawing.Size(73, 13)
         Me.lblStartSystem.TabIndex = 64
         Me.lblStartSystem.Text = "Start System:"
         '
@@ -590,7 +590,7 @@ Partial Class frmMap
         Me.chkAutoCalcRoute.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkAutoCalcRoute.Location = New System.Drawing.Point(5, 587)
         Me.chkAutoCalcRoute.Name = "chkAutoCalcRoute"
-        Me.chkAutoCalcRoute.Size = New System.Drawing.Size(167, 17)
+        Me.chkAutoCalcRoute.Size = New System.Drawing.Size(169, 17)
         Me.chkAutoCalcRoute.TabIndex = 6
         Me.chkAutoCalcRoute.Text = "Automatically Calculate Route"
         Me.chkAutoCalcRoute.UseVisualStyleBackColor = True
@@ -659,7 +659,7 @@ Partial Class frmMap
         Me.lblZoom.AutoSize = True
         Me.lblZoom.Location = New System.Drawing.Point(391, 561)
         Me.lblZoom.Name = "lblZoom"
-        Me.lblZoom.Size = New System.Drawing.Size(81, 13)
+        Me.lblZoom.Size = New System.Drawing.Size(85, 13)
         Me.lblZoom.TabIndex = 22
         Me.lblZoom.Text = "Zoom: 100.00%"
         '
@@ -690,7 +690,7 @@ Partial Class frmMap
         Me.chkRoute.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkRoute.Location = New System.Drawing.Point(110, 560)
         Me.chkRoute.Name = "chkRoute"
-        Me.chkRoute.Size = New System.Drawing.Size(85, 17)
+        Me.chkRoute.Size = New System.Drawing.Size(84, 17)
         Me.chkRoute.TabIndex = 19
         Me.chkRoute.Text = "Show Route"
         Me.chkRoute.UseVisualStyleBackColor = True
@@ -712,7 +712,7 @@ Partial Class frmMap
         Me.nudAccuracy.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.nudAccuracy.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudAccuracy.Name = "nudAccuracy"
-        Me.nudAccuracy.Size = New System.Drawing.Size(38, 20)
+        Me.nudAccuracy.Size = New System.Drawing.Size(38, 21)
         Me.nudAccuracy.TabIndex = 17
         Me.nudAccuracy.Value = New Decimal(New Integer() {3, 0, 0, 0})
         '
@@ -757,7 +757,7 @@ Partial Class frmMap
         Me.lblTotalFuel.AutoSize = True
         Me.lblTotalFuel.Location = New System.Drawing.Point(269, 1117)
         Me.lblTotalFuel.Name = "lblTotalFuel"
-        Me.lblTotalFuel.Size = New System.Drawing.Size(57, 13)
+        Me.lblTotalFuel.Size = New System.Drawing.Size(58, 13)
         Me.lblTotalFuel.TabIndex = 66
         Me.lblTotalFuel.Text = "Total Fuel:"
         '
@@ -767,7 +767,7 @@ Partial Class frmMap
         Me.lblEuclideanDistance.AutoSize = True
         Me.lblEuclideanDistance.Location = New System.Drawing.Point(6, 1117)
         Me.lblEuclideanDistance.Name = "lblEuclideanDistance"
-        Me.lblEuclideanDistance.Size = New System.Drawing.Size(102, 13)
+        Me.lblEuclideanDistance.Size = New System.Drawing.Size(100, 13)
         Me.lblEuclideanDistance.TabIndex = 65
         Me.lblEuclideanDistance.Text = "Euclidean Distance:"
         '
@@ -800,7 +800,7 @@ Partial Class frmMap
         Me.chkOverrideJF.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.chkOverrideJF.Location = New System.Drawing.Point(265, 141)
         Me.chkOverrideJF.Name = "chkOverrideJF"
-        Me.chkOverrideJF.Size = New System.Drawing.Size(80, 17)
+        Me.chkOverrideJF.Size = New System.Drawing.Size(82, 17)
         Me.chkOverrideJF.TabIndex = 68
         Me.chkOverrideJF.Text = "Override JF"
         Me.chkOverrideJF.UseVisualStyleBackColor = True
@@ -810,7 +810,7 @@ Partial Class frmMap
         Me.lblJF.AutoSize = True
         Me.lblJF.Location = New System.Drawing.Point(9, 142)
         Me.lblJF.Name = "lblJF"
-        Me.lblJF.Size = New System.Drawing.Size(81, 13)
+        Me.lblJF.Size = New System.Drawing.Size(84, 13)
         Me.lblJF.TabIndex = 67
         Me.lblJF.Text = "Jump Freighters"
         '
@@ -828,7 +828,7 @@ Partial Class frmMap
         Me.lblPilot.AutoSize = True
         Me.lblPilot.Location = New System.Drawing.Point(9, 35)
         Me.lblPilot.Name = "lblPilot"
-        Me.lblPilot.Size = New System.Drawing.Size(30, 13)
+        Me.lblPilot.Size = New System.Drawing.Size(31, 13)
         Me.lblPilot.TabIndex = 65
         Me.lblPilot.Text = "Pilot:"
         '
@@ -847,7 +847,7 @@ Partial Class frmMap
         Me.chkOverrideJFC.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.chkOverrideJFC.Location = New System.Drawing.Point(265, 114)
         Me.chkOverrideJFC.Name = "chkOverrideJFC"
-        Me.chkOverrideJFC.Size = New System.Drawing.Size(87, 17)
+        Me.chkOverrideJFC.Size = New System.Drawing.Size(89, 17)
         Me.chkOverrideJFC.TabIndex = 63
         Me.chkOverrideJFC.Text = "Override JFC"
         Me.chkOverrideJFC.UseVisualStyleBackColor = True
@@ -858,7 +858,7 @@ Partial Class frmMap
         Me.chkOverrideJDC.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.chkOverrideJDC.Location = New System.Drawing.Point(265, 87)
         Me.chkOverrideJDC.Name = "chkOverrideJDC"
-        Me.chkOverrideJDC.Size = New System.Drawing.Size(89, 17)
+        Me.chkOverrideJDC.Size = New System.Drawing.Size(90, 17)
         Me.chkOverrideJDC.TabIndex = 62
         Me.chkOverrideJDC.Text = "Override JDC"
         Me.chkOverrideJDC.UseVisualStyleBackColor = True
@@ -868,7 +868,7 @@ Partial Class frmMap
         Me.lblJFC.AutoSize = True
         Me.lblJFC.Location = New System.Drawing.Point(9, 115)
         Me.lblJFC.Name = "lblJFC"
-        Me.lblJFC.Size = New System.Drawing.Size(123, 13)
+        Me.lblJFC.Size = New System.Drawing.Size(126, 13)
         Me.lblJFC.TabIndex = 61
         Me.lblJFC.Text = "Jump Fuel Conservation:"
         '
@@ -877,7 +877,7 @@ Partial Class frmMap
         Me.lblJDC.AutoSize = True
         Me.lblJDC.Location = New System.Drawing.Point(9, 88)
         Me.lblJDC.Name = "lblJDC"
-        Me.lblJDC.Size = New System.Drawing.Size(115, 13)
+        Me.lblJDC.Size = New System.Drawing.Size(118, 13)
         Me.lblJDC.TabIndex = 60
         Me.lblJDC.Text = "Jump Drive Calibration:"
         '
@@ -1006,7 +1006,7 @@ Partial Class frmMap
         Me.lblTimeTaken.AutoSize = True
         Me.lblTimeTaken.Location = New System.Drawing.Point(269, 1101)
         Me.lblTimeTaken.Name = "lblTimeTaken"
-        Me.lblTimeTaken.Size = New System.Drawing.Size(67, 13)
+        Me.lblTimeTaken.Size = New System.Drawing.Size(65, 13)
         Me.lblTimeTaken.TabIndex = 57
         Me.lblTimeTaken.Text = "Time Taken:"
         '
@@ -1015,7 +1015,7 @@ Partial Class frmMap
         Me.lblJumps.AutoSize = True
         Me.lblJumps.Location = New System.Drawing.Point(11, 118)
         Me.lblJumps.Name = "lblJumps"
-        Me.lblJumps.Size = New System.Drawing.Size(99, 13)
+        Me.lblJumps.Size = New System.Drawing.Size(98, 13)
         Me.lblJumps.TabIndex = 56
         Me.lblJumps.Text = "Gate/Jump Radius:"
         '
@@ -1043,7 +1043,7 @@ Partial Class frmMap
         Me.nudJumps.Maximum = New Decimal(New Integer() {25, 0, 0, 0})
         Me.nudJumps.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudJumps.Name = "nudJumps"
-        Me.nudJumps.Size = New System.Drawing.Size(84, 20)
+        Me.nudJumps.Size = New System.Drawing.Size(84, 21)
         Me.nudJumps.TabIndex = 50
         Me.nudJumps.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
@@ -1064,7 +1064,7 @@ Partial Class frmMap
         Me.nudMaxSec.Location = New System.Drawing.Point(69, 85)
         Me.nudMaxSec.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudMaxSec.Name = "nudMaxSec"
-        Me.nudMaxSec.Size = New System.Drawing.Size(46, 20)
+        Me.nudMaxSec.Size = New System.Drawing.Size(46, 21)
         Me.nudMaxSec.TabIndex = 45
         Me.nudMaxSec.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
@@ -1075,7 +1075,7 @@ Partial Class frmMap
         Me.nudMinSec.Location = New System.Drawing.Point(69, 57)
         Me.nudMinSec.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudMinSec.Name = "nudMinSec"
-        Me.nudMinSec.Size = New System.Drawing.Size(46, 20)
+        Me.nudMinSec.Size = New System.Drawing.Size(46, 21)
         Me.nudMinSec.TabIndex = 44
         '
         'lblMaxSec
@@ -1083,7 +1083,7 @@ Partial Class frmMap
         Me.lblMaxSec.AutoSize = True
         Me.lblMaxSec.Location = New System.Drawing.Point(14, 87)
         Me.lblMaxSec.Name = "lblMaxSec"
-        Me.lblMaxSec.Size = New System.Drawing.Size(49, 13)
+        Me.lblMaxSec.Size = New System.Drawing.Size(47, 13)
         Me.lblMaxSec.TabIndex = 43
         Me.lblMaxSec.Text = "Max Sec"
         '
@@ -1092,7 +1092,7 @@ Partial Class frmMap
         Me.lblMinSec.AutoSize = True
         Me.lblMinSec.Location = New System.Drawing.Point(14, 59)
         Me.lblMinSec.Name = "lblMinSec"
-        Me.lblMinSec.Size = New System.Drawing.Size(46, 13)
+        Me.lblMinSec.Size = New System.Drawing.Size(43, 13)
         Me.lblMinSec.TabIndex = 42
         Me.lblMinSec.Text = "Min Sec"
         '
@@ -1136,7 +1136,7 @@ Partial Class frmMap
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(15, 14)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(43, 13)
+        Me.Label1.Size = New System.Drawing.Size(45, 13)
         Me.Label1.TabIndex = 92
         Me.Label1.Text = "Station:"
         '
@@ -1206,7 +1206,7 @@ Partial Class frmMap
         Me.lblStationServicesLbl.AutoSize = True
         Me.lblStationServicesLbl.Location = New System.Drawing.Point(15, 97)
         Me.lblStationServicesLbl.Name = "lblStationServicesLbl"
-        Me.lblStationServicesLbl.Size = New System.Drawing.Size(87, 13)
+        Me.lblStationServicesLbl.Size = New System.Drawing.Size(88, 13)
         Me.lblStationServicesLbl.TabIndex = 93
         Me.lblStationServicesLbl.Text = "Station Services:"
         '
@@ -1215,7 +1215,7 @@ Partial Class frmMap
         Me.lblStationServices.AutoSize = True
         Me.lblStationServices.Location = New System.Drawing.Point(109, 98)
         Me.lblStationServices.Name = "lblStationServices"
-        Me.lblStationServices.Size = New System.Drawing.Size(63, 13)
+        Me.lblStationServices.Size = New System.Drawing.Size(62, 13)
         Me.lblStationServices.TabIndex = 94
         Me.lblStationServices.Text = "Placeholder"
         '
@@ -1224,7 +1224,7 @@ Partial Class frmMap
         Me.lblStationFaction.AutoSize = True
         Me.lblStationFaction.Location = New System.Drawing.Point(109, 40)
         Me.lblStationFaction.Name = "lblStationFaction"
-        Me.lblStationFaction.Size = New System.Drawing.Size(65, 13)
+        Me.lblStationFaction.Size = New System.Drawing.Size(63, 13)
         Me.lblStationFaction.TabIndex = 98
         Me.lblStationFaction.Text = "PlaceHolder"
         '
@@ -1233,7 +1233,7 @@ Partial Class frmMap
         Me.lblStationCorpLbl.AutoSize = True
         Me.lblStationCorpLbl.Location = New System.Drawing.Point(15, 55)
         Me.lblStationCorpLbl.Name = "lblStationCorpLbl"
-        Me.lblStationCorpLbl.Size = New System.Drawing.Size(64, 13)
+        Me.lblStationCorpLbl.Size = New System.Drawing.Size(68, 13)
         Me.lblStationCorpLbl.TabIndex = 95
         Me.lblStationCorpLbl.Text = "Corporation:"
         '
@@ -1242,7 +1242,7 @@ Partial Class frmMap
         Me.lblStationFactionLbl.AutoSize = True
         Me.lblStationFactionLbl.Location = New System.Drawing.Point(15, 40)
         Me.lblStationFactionLbl.Name = "lblStationFactionLbl"
-        Me.lblStationFactionLbl.Size = New System.Drawing.Size(45, 13)
+        Me.lblStationFactionLbl.Size = New System.Drawing.Size(46, 13)
         Me.lblStationFactionLbl.TabIndex = 97
         Me.lblStationFactionLbl.Text = "Faction:"
         '
@@ -1251,7 +1251,7 @@ Partial Class frmMap
         Me.lblStationCorp.AutoSize = True
         Me.lblStationCorp.Location = New System.Drawing.Point(109, 55)
         Me.lblStationCorp.Name = "lblStationCorp"
-        Me.lblStationCorp.Size = New System.Drawing.Size(63, 13)
+        Me.lblStationCorp.Size = New System.Drawing.Size(62, 13)
         Me.lblStationCorp.TabIndex = 96
         Me.lblStationCorp.Text = "Placeholder"
         '
@@ -1332,7 +1332,7 @@ Partial Class frmMap
         Me.cbstsins.AutoSize = True
         Me.cbstsins.Location = New System.Drawing.Point(356, 59)
         Me.cbstsins.Name = "cbstsins"
-        Me.cbstsins.Size = New System.Drawing.Size(73, 17)
+        Me.cbstsins.Size = New System.Drawing.Size(74, 17)
         Me.cbstsins.TabIndex = 123
         Me.cbstsins.Text = "Insurance"
         Me.cbstsins.UseVisualStyleBackColor = True
@@ -1342,7 +1342,7 @@ Partial Class frmMap
         Me.cbstslps.AutoSize = True
         Me.cbstslps.Location = New System.Drawing.Point(356, 33)
         Me.cbstslps.Name = "cbstslps"
-        Me.cbstslps.Size = New System.Drawing.Size(119, 17)
+        Me.cbstslps.Size = New System.Drawing.Size(122, 17)
         Me.cbstslps.TabIndex = 122
         Me.cbstslps.Text = "Loyalty Points Store"
         Me.cbstslps.UseVisualStyleBackColor = True
@@ -1352,7 +1352,7 @@ Partial Class frmMap
         Me.cbstsfit.AutoSize = True
         Me.cbstsfit.Location = New System.Drawing.Point(128, 59)
         Me.cbstsfit.Name = "cbstsfit"
-        Me.cbstsfit.Size = New System.Drawing.Size(54, 17)
+        Me.cbstsfit.Size = New System.Drawing.Size(56, 17)
         Me.cbstsfit.TabIndex = 121
         Me.cbstsfit.Text = "Fitting"
         Me.cbstsfit.UseVisualStyleBackColor = True
@@ -1362,7 +1362,7 @@ Partial Class frmMap
         Me.cbstslab.AutoSize = True
         Me.cbstslab.Location = New System.Drawing.Point(238, 59)
         Me.cbstslab.Name = "cbstslab"
-        Me.cbstslab.Size = New System.Drawing.Size(76, 17)
+        Me.cbstslab.Size = New System.Drawing.Size(79, 17)
         Me.cbstslab.TabIndex = 120
         Me.cbstslab.Text = "Laboratory"
         Me.cbstslab.UseVisualStyleBackColor = True
@@ -1372,7 +1372,7 @@ Partial Class frmMap
         Me.cbstsfac.AutoSize = True
         Me.cbstsfac.Location = New System.Drawing.Point(238, 33)
         Me.cbstsfac.Name = "cbstsfac"
-        Me.cbstsfac.Size = New System.Drawing.Size(61, 17)
+        Me.cbstsfac.Size = New System.Drawing.Size(63, 17)
         Me.cbstsfac.TabIndex = 119
         Me.cbstsfac.Text = "Factory"
         Me.cbstsfac.UseVisualStyleBackColor = True
@@ -1402,7 +1402,7 @@ Partial Class frmMap
         Me.cbstsrep.AutoSize = True
         Me.cbstsrep.Location = New System.Drawing.Point(12, 59)
         Me.cbstsrep.Name = "cbstsrep"
-        Me.cbstsrep.Size = New System.Drawing.Size(91, 17)
+        Me.cbstsrep.Size = New System.Drawing.Size(90, 17)
         Me.cbstsrep.TabIndex = 116
         Me.cbstsrep.Text = "Reprocessing"
         Me.cbstsrep.UseVisualStyleBackColor = True
@@ -1412,7 +1412,7 @@ Partial Class frmMap
         Me.cbstsreg.AutoSize = True
         Me.cbstsreg.Location = New System.Drawing.Point(356, 99)
         Me.cbstsreg.Name = "cbstsreg"
-        Me.cbstsreg.Size = New System.Drawing.Size(100, 17)
+        Me.cbstsreg.Size = New System.Drawing.Size(98, 17)
         Me.cbstsreg.TabIndex = 115
         Me.cbstsreg.Text = "Limit To Region"
         Me.cbstsreg.UseVisualStyleBackColor = True
@@ -1422,7 +1422,7 @@ Partial Class frmMap
         Me.cbstsconst.AutoSize = True
         Me.cbstsconst.Location = New System.Drawing.Point(173, 99)
         Me.cbstsconst.Name = "cbstsconst"
-        Me.cbstsconst.Size = New System.Drawing.Size(126, 17)
+        Me.cbstsconst.Size = New System.Drawing.Size(127, 17)
         Me.cbstsconst.TabIndex = 114
         Me.cbstsconst.Text = "Limit To Constellation"
         Me.cbstsconst.UseVisualStyleBackColor = True
@@ -1481,7 +1481,7 @@ Partial Class frmMap
         Me.chkLevel3Agent.AutoSize = True
         Me.chkLevel3Agent.Location = New System.Drawing.Point(247, 108)
         Me.chkLevel3Agent.Name = "chkLevel3Agent"
-        Me.chkLevel3Agent.Size = New System.Drawing.Size(61, 17)
+        Me.chkLevel3Agent.Size = New System.Drawing.Size(60, 17)
         Me.chkLevel3Agent.TabIndex = 144
         Me.chkLevel3Agent.Text = "Level 3"
         Me.chkLevel3Agent.UseVisualStyleBackColor = True
@@ -1491,7 +1491,7 @@ Partial Class frmMap
         Me.chkLevel4Agent.AutoSize = True
         Me.chkLevel4Agent.Location = New System.Drawing.Point(345, 108)
         Me.chkLevel4Agent.Name = "chkLevel4Agent"
-        Me.chkLevel4Agent.Size = New System.Drawing.Size(61, 17)
+        Me.chkLevel4Agent.Size = New System.Drawing.Size(60, 17)
         Me.chkLevel4Agent.TabIndex = 143
         Me.chkLevel4Agent.Text = "Level 4"
         Me.chkLevel4Agent.UseVisualStyleBackColor = True
@@ -1501,7 +1501,7 @@ Partial Class frmMap
         Me.chkLevel1Agent.AutoSize = True
         Me.chkLevel1Agent.Location = New System.Drawing.Point(53, 108)
         Me.chkLevel1Agent.Name = "chkLevel1Agent"
-        Me.chkLevel1Agent.Size = New System.Drawing.Size(61, 17)
+        Me.chkLevel1Agent.Size = New System.Drawing.Size(60, 17)
         Me.chkLevel1Agent.TabIndex = 142
         Me.chkLevel1Agent.Text = "Level 1"
         Me.chkLevel1Agent.UseVisualStyleBackColor = True
@@ -1511,7 +1511,7 @@ Partial Class frmMap
         Me.chkLevel5Agent.AutoSize = True
         Me.chkLevel5Agent.Location = New System.Drawing.Point(441, 108)
         Me.chkLevel5Agent.Name = "chkLevel5Agent"
-        Me.chkLevel5Agent.Size = New System.Drawing.Size(61, 17)
+        Me.chkLevel5Agent.Size = New System.Drawing.Size(60, 17)
         Me.chkLevel5Agent.TabIndex = 141
         Me.chkLevel5Agent.Text = "Level 5"
         Me.chkLevel5Agent.UseVisualStyleBackColor = True
@@ -1521,7 +1521,7 @@ Partial Class frmMap
         Me.chkLevel2Agent.AutoSize = True
         Me.chkLevel2Agent.Location = New System.Drawing.Point(150, 107)
         Me.chkLevel2Agent.Name = "chkLevel2Agent"
-        Me.chkLevel2Agent.Size = New System.Drawing.Size(61, 17)
+        Me.chkLevel2Agent.Size = New System.Drawing.Size(60, 17)
         Me.chkLevel2Agent.TabIndex = 140
         Me.chkLevel2Agent.Text = "Level 2"
         Me.chkLevel2Agent.UseVisualStyleBackColor = True
@@ -1540,7 +1540,7 @@ Partial Class frmMap
         Me.lblagscorp.AutoSize = True
         Me.lblagscorp.Location = New System.Drawing.Point(36, 40)
         Me.lblagscorp.Name = "lblagscorp"
-        Me.lblagscorp.Size = New System.Drawing.Size(64, 13)
+        Me.lblagscorp.Size = New System.Drawing.Size(68, 13)
         Me.lblagscorp.TabIndex = 138
         Me.lblagscorp.Text = "Corporation:"
         '
@@ -1549,7 +1549,7 @@ Partial Class frmMap
         Me.lblagsfact.AutoSize = True
         Me.lblagsfact.Location = New System.Drawing.Point(55, 15)
         Me.lblagsfact.Name = "lblagsfact"
-        Me.lblagsfact.Size = New System.Drawing.Size(45, 13)
+        Me.lblagsfact.Size = New System.Drawing.Size(46, 13)
         Me.lblagsfact.TabIndex = 137
         Me.lblagsfact.Text = "Faction:"
         '
@@ -1585,7 +1585,7 @@ Partial Class frmMap
         Me.chkAgentNullSec.AutoSize = True
         Me.chkAgentNullSec.Location = New System.Drawing.Point(247, 137)
         Me.chkAgentNullSec.Name = "chkAgentNullSec"
-        Me.chkAgentNullSec.Size = New System.Drawing.Size(41, 17)
+        Me.chkAgentNullSec.Size = New System.Drawing.Size(42, 17)
         Me.chkAgentNullSec.TabIndex = 133
         Me.chkAgentNullSec.Text = "0.0"
         Me.chkAgentNullSec.UseVisualStyleBackColor = True
@@ -1595,7 +1595,7 @@ Partial Class frmMap
         Me.chkAgentHighQ.AutoSize = True
         Me.chkAgentHighQ.Location = New System.Drawing.Point(345, 137)
         Me.chkAgentHighQ.Name = "chkAgentHighQ"
-        Me.chkAgentHighQ.Size = New System.Drawing.Size(73, 17)
+        Me.chkAgentHighQ.Size = New System.Drawing.Size(77, 17)
         Me.chkAgentHighQ.TabIndex = 132
         Me.chkAgentHighQ.Text = "Quality >0"
         Me.chkAgentHighQ.UseVisualStyleBackColor = True
@@ -1605,7 +1605,7 @@ Partial Class frmMap
         Me.chkAgentRegion.AutoSize = True
         Me.chkAgentRegion.Location = New System.Drawing.Point(441, 171)
         Me.chkAgentRegion.Name = "chkAgentRegion"
-        Me.chkAgentRegion.Size = New System.Drawing.Size(100, 17)
+        Me.chkAgentRegion.Size = New System.Drawing.Size(98, 17)
         Me.chkAgentRegion.TabIndex = 131
         Me.chkAgentRegion.Text = "Limit To Region"
         Me.chkAgentRegion.UseVisualStyleBackColor = True
@@ -1615,7 +1615,7 @@ Partial Class frmMap
         Me.chkAgentConst.AutoSize = True
         Me.chkAgentConst.Location = New System.Drawing.Point(247, 171)
         Me.chkAgentConst.Name = "chkAgentConst"
-        Me.chkAgentConst.Size = New System.Drawing.Size(126, 17)
+        Me.chkAgentConst.Size = New System.Drawing.Size(127, 17)
         Me.chkAgentConst.TabIndex = 130
         Me.chkAgentConst.Text = "Limit To Constellation"
         Me.chkAgentConst.UseVisualStyleBackColor = True
@@ -1645,7 +1645,7 @@ Partial Class frmMap
         Me.chkAgentLowQ.AutoSize = True
         Me.chkAgentLowQ.Location = New System.Drawing.Point(441, 137)
         Me.chkAgentLowQ.Name = "chkAgentLowQ"
-        Me.chkAgentLowQ.Size = New System.Drawing.Size(73, 17)
+        Me.chkAgentLowQ.Size = New System.Drawing.Size(77, 17)
         Me.chkAgentLowQ.TabIndex = 127
         Me.chkAgentLowQ.Text = "Quality <0"
         Me.chkAgentLowQ.UseVisualStyleBackColor = True
@@ -1655,7 +1655,7 @@ Partial Class frmMap
         Me.chkAgentLowSec.AutoSize = True
         Me.chkAgentLowSec.Location = New System.Drawing.Point(150, 136)
         Me.chkAgentLowSec.Name = "chkAgentLowSec"
-        Me.chkAgentLowSec.Size = New System.Drawing.Size(65, 17)
+        Me.chkAgentLowSec.Size = New System.Drawing.Size(62, 17)
         Me.chkAgentLowSec.TabIndex = 126
         Me.chkAgentLowSec.Text = "LowSec"
         Me.chkAgentLowSec.UseVisualStyleBackColor = True
@@ -1692,6 +1692,11 @@ Partial Class frmMap
         '
         Me.lgagsfact.Text = "Faction"
         '
+        'lgagsdiv
+        '
+        Me.lgagsdiv.Text = "Division"
+        Me.lgagsdiv.Width = 100
+        '
         'lgagslev
         '
         Me.lgagslev.Text = "Level"
@@ -1703,6 +1708,11 @@ Partial Class frmMap
         Me.lgagsqual.Text = "Quality"
         Me.lgagsqual.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.lgagsqual.Width = 52
+        '
+        'lgagsreqstanding
+        '
+        Me.lgagsreqstanding.Text = "Req Std"
+        Me.lgagsreqstanding.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'lgagsdist
         '
@@ -1859,7 +1869,7 @@ Partial Class frmMap
         Me.lblConstMain.AutoSize = True
         Me.lblConstMain.Location = New System.Drawing.Point(13, 68)
         Me.lblConstMain.Name = "lblConstMain"
-        Me.lblConstMain.Size = New System.Drawing.Size(37, 13)
+        Me.lblConstMain.Size = New System.Drawing.Size(39, 13)
         Me.lblConstMain.TabIndex = 80
         Me.lblConstMain.Text = "Const:"
         '
@@ -1894,6 +1904,7 @@ Partial Class frmMap
         '
         'tsMap
         '
+        Me.tsMap.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tsMap.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsUpdateData, Me.ToolStripSeparator1})
         Me.tsMap.Location = New System.Drawing.Point(0, 0)
         Me.tsMap.Name = "tsMap"
@@ -1907,23 +1918,13 @@ Partial Class frmMap
         Me.tsUpdateData.Image = CType(resources.GetObject("tsUpdateData.Image"), System.Drawing.Image)
         Me.tsUpdateData.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsUpdateData.Name = "tsUpdateData"
-        Me.tsUpdateData.Size = New System.Drawing.Size(76, 22)
+        Me.tsUpdateData.Size = New System.Drawing.Size(72, 22)
         Me.tsUpdateData.Text = "Update Data"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'lgagsdiv
-        '
-        Me.lgagsdiv.Text = "Division"
-        Me.lgagsdiv.Width = 100
-        '
-        'lgagsreqstanding
-        '
-        Me.lgagsreqstanding.Text = "Req Std"
-        Me.lgagsreqstanding.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'btnExclude
         '
@@ -1958,6 +1959,7 @@ Partial Class frmMap
         Me.Controls.Add(Me.btnAddStart)
         Me.Controls.Add(Me.cboSystem)
         Me.Controls.Add(Me.lblStartSystem)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMap"
         Me.Text = "EveHQ Map Tool"

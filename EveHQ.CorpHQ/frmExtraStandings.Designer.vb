@@ -54,7 +54,7 @@ Partial Class frmExtraStandings
         Me.lblCurrentStandingLbl.AutoSize = True
         Me.lblCurrentStandingLbl.Location = New System.Drawing.Point(12, 36)
         Me.lblCurrentStandingLbl.Name = "lblCurrentStandingLbl"
-        Me.lblCurrentStandingLbl.Size = New System.Drawing.Size(89, 13)
+        Me.lblCurrentStandingLbl.Size = New System.Drawing.Size(93, 13)
         Me.lblCurrentStandingLbl.TabIndex = 0
         Me.lblCurrentStandingLbl.Text = "Current Standing:"
         '
@@ -63,7 +63,7 @@ Partial Class frmExtraStandings
         Me.lblRequiredStanding.AutoSize = True
         Me.lblRequiredStanding.Location = New System.Drawing.Point(12, 56)
         Me.lblRequiredStanding.Name = "lblRequiredStanding"
-        Me.lblRequiredStanding.Size = New System.Drawing.Size(98, 13)
+        Me.lblRequiredStanding.Size = New System.Drawing.Size(99, 13)
         Me.lblRequiredStanding.TabIndex = 1
         Me.lblRequiredStanding.Text = "Required Standing:"
         '
@@ -73,7 +73,7 @@ Partial Class frmExtraStandings
         Me.nudReqStanding.Location = New System.Drawing.Point(116, 54)
         Me.nudReqStanding.Maximum = New Decimal(New Integer() {9999, 0, 0, 196608})
         Me.nudReqStanding.Name = "nudReqStanding"
-        Me.nudReqStanding.Size = New System.Drawing.Size(73, 20)
+        Me.nudReqStanding.Size = New System.Drawing.Size(73, 21)
         Me.nudReqStanding.TabIndex = 2
         Me.nudReqStanding.Value = New Decimal(New Integer() {9, 0, 0, 0})
         '
@@ -83,7 +83,7 @@ Partial Class frmExtraStandings
         Me.nudMissionGain.Location = New System.Drawing.Point(163, 149)
         Me.nudMissionGain.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
         Me.nudMissionGain.Name = "nudMissionGain"
-        Me.nudMissionGain.Size = New System.Drawing.Size(73, 20)
+        Me.nudMissionGain.Size = New System.Drawing.Size(73, 21)
         Me.nudMissionGain.TabIndex = 4
         Me.nudMissionGain.Value = New Decimal(New Integer() {5, 0, 0, 0})
         '
@@ -92,7 +92,7 @@ Partial Class frmExtraStandings
         Me.lblAvgMission.AutoSize = True
         Me.lblAvgMission.Location = New System.Drawing.Point(49, 151)
         Me.lblAvgMission.Name = "lblAvgMission"
-        Me.lblAvgMission.Size = New System.Drawing.Size(108, 13)
+        Me.lblAvgMission.Size = New System.Drawing.Size(115, 13)
         Me.lblAvgMission.TabIndex = 3
         Me.lblAvgMission.Text = "Average Increase (%)"
         '
@@ -101,7 +101,7 @@ Partial Class frmExtraStandings
         Me.lblCurrentStanding.AutoSize = True
         Me.lblCurrentStanding.Location = New System.Drawing.Point(129, 36)
         Me.lblCurrentStanding.Name = "lblCurrentStanding"
-        Me.lblCurrentStanding.Size = New System.Drawing.Size(28, 13)
+        Me.lblCurrentStanding.Size = New System.Drawing.Size(29, 13)
         Me.lblCurrentStanding.TabIndex = 6
         Me.lblCurrentStanding.Text = "0.00"
         '
@@ -130,7 +130,7 @@ Partial Class frmExtraStandings
         Me.lblMissionGainType.AutoSize = True
         Me.lblMissionGainType.Location = New System.Drawing.Point(12, 111)
         Me.lblMissionGainType.Name = "lblMissionGainType"
-        Me.lblMissionGainType.Size = New System.Drawing.Size(125, 13)
+        Me.lblMissionGainType.Size = New System.Drawing.Size(124, 13)
         Me.lblMissionGainType.TabIndex = 9
         Me.lblMissionGainType.Text = "Mission Gain Calculation:"
         '
@@ -140,7 +140,7 @@ Partial Class frmExtraStandings
         Me.radDirect.Checked = True
         Me.radDirect.Location = New System.Drawing.Point(21, 130)
         Me.radDirect.Name = "radDirect"
-        Me.radDirect.Size = New System.Drawing.Size(92, 17)
+        Me.radDirect.Size = New System.Drawing.Size(95, 17)
         Me.radDirect.TabIndex = 10
         Me.radDirect.TabStop = True
         Me.radDirect.Text = "Input Average"
@@ -151,7 +151,7 @@ Partial Class frmExtraStandings
         Me.radCalculated.AutoSize = True
         Me.radCalculated.Location = New System.Drawing.Point(21, 168)
         Me.radCalculated.Name = "radCalculated"
-        Me.radCalculated.Size = New System.Drawing.Size(118, 17)
+        Me.radCalculated.Size = New System.Drawing.Size(119, 17)
         Me.radCalculated.TabIndex = 11
         Me.radCalculated.Text = "Calculated Average"
         Me.radCalculated.UseVisualStyleBackColor = True
@@ -173,7 +173,7 @@ Partial Class frmExtraStandings
         Me.lblGainAverage.AutoSize = True
         Me.lblGainAverage.Location = New System.Drawing.Point(49, 524)
         Me.lblGainAverage.Name = "lblGainAverage"
-        Me.lblGainAverage.Size = New System.Drawing.Size(50, 13)
+        Me.lblGainAverage.Size = New System.Drawing.Size(52, 13)
         Me.lblGainAverage.TabIndex = 13
         Me.lblGainAverage.Text = "Average:"
         '
@@ -182,7 +182,7 @@ Partial Class frmExtraStandings
         Me.lblStandingProgression.AutoSize = True
         Me.lblStandingProgression.Location = New System.Drawing.Point(256, 20)
         Me.lblStandingProgression.Name = "lblStandingProgression"
-        Me.lblStandingProgression.Size = New System.Drawing.Size(115, 13)
+        Me.lblStandingProgression.Size = New System.Drawing.Size(117, 13)
         Me.lblStandingProgression.TabIndex = 14
         Me.lblStandingProgression.Text = "Standings Progression:"
         '
@@ -227,7 +227,7 @@ Partial Class frmExtraStandings
         Me.chkUseBaseOnly.AutoSize = True
         Me.chkUseBaseOnly.Location = New System.Drawing.Point(69, 80)
         Me.chkUseBaseOnly.Name = "chkUseBaseOnly"
-        Me.chkUseBaseOnly.Size = New System.Drawing.Size(120, 17)
+        Me.chkUseBaseOnly.Size = New System.Drawing.Size(119, 17)
         Me.chkUseBaseOnly.TabIndex = 16
         Me.chkUseBaseOnly.Text = "Use Base standings"
         Me.chkUseBaseOnly.UseVisualStyleBackColor = True
@@ -237,7 +237,7 @@ Partial Class frmExtraStandings
         Me.lblCurrentBaseStanding.AutoSize = True
         Me.lblCurrentBaseStanding.Location = New System.Drawing.Point(129, 20)
         Me.lblCurrentBaseStanding.Name = "lblCurrentBaseStanding"
-        Me.lblCurrentBaseStanding.Size = New System.Drawing.Size(28, 13)
+        Me.lblCurrentBaseStanding.Size = New System.Drawing.Size(29, 13)
         Me.lblCurrentBaseStanding.TabIndex = 18
         Me.lblCurrentBaseStanding.Text = "0.00"
         '
@@ -246,7 +246,7 @@ Partial Class frmExtraStandings
         Me.lblCurrentBaseStandingLbl.AutoSize = True
         Me.lblCurrentBaseStandingLbl.Location = New System.Drawing.Point(12, 20)
         Me.lblCurrentBaseStandingLbl.Name = "lblCurrentBaseStandingLbl"
-        Me.lblCurrentBaseStandingLbl.Size = New System.Drawing.Size(116, 13)
+        Me.lblCurrentBaseStandingLbl.Size = New System.Drawing.Size(119, 13)
         Me.lblCurrentBaseStandingLbl.TabIndex = 17
         Me.lblCurrentBaseStandingLbl.Text = "Current Base Standing:"
         '
@@ -273,6 +273,7 @@ Partial Class frmExtraStandings
         Me.Controls.Add(Me.nudReqStanding)
         Me.Controls.Add(Me.lblRequiredStanding)
         Me.Controls.Add(Me.lblCurrentStandingLbl)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False

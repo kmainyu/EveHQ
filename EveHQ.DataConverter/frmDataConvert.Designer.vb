@@ -95,13 +95,13 @@ Partial Class frmDataConvert
         Me.btnImportSource = New System.Windows.Forms.Button
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.panelZip = New System.Windows.Forms.Panel
+        Me.lblZipFile = New System.Windows.Forms.Label
+        Me.lblSourceDir = New System.Windows.Forms.Label
+        Me.txtZipFile = New System.Windows.Forms.TextBox
         Me.btnBrowse = New System.Windows.Forms.Button
         Me.txtSourceDir = New System.Windows.Forms.TextBox
         Me.btnZipIt = New System.Windows.Forms.Button
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog
-        Me.txtZipFile = New System.Windows.Forms.TextBox
-        Me.lblSourceDir = New System.Windows.Forms.Label
-        Me.lblZipFile = New System.Windows.Forms.Label
         Me.grpMSSQL.SuspendLayout()
         Me.grpMySQL.SuspendLayout()
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -135,7 +135,7 @@ Partial Class frmDataConvert
         Me.lblConvertType.AutoSize = True
         Me.lblConvertType.Location = New System.Drawing.Point(315, 53)
         Me.lblConvertType.Name = "lblConvertType"
-        Me.lblConvertType.Size = New System.Drawing.Size(63, 13)
+        Me.lblConvertType.Size = New System.Drawing.Size(65, 13)
         Me.lblConvertType.TabIndex = 51
         Me.lblConvertType.Text = "Convert To:"
         '
@@ -163,7 +163,7 @@ Partial Class frmDataConvert
         Me.lblMSSQLSecurity.AutoSize = True
         Me.lblMSSQLSecurity.Location = New System.Drawing.Point(6, 32)
         Me.lblMSSQLSecurity.Name = "lblMSSQLSecurity"
-        Me.lblMSSQLSecurity.Size = New System.Drawing.Size(45, 13)
+        Me.lblMSSQLSecurity.Size = New System.Drawing.Size(46, 13)
         Me.lblMSSQLSecurity.TabIndex = 8
         Me.lblMSSQLSecurity.Text = "Security"
         '
@@ -173,7 +173,7 @@ Partial Class frmDataConvert
         Me.radMSSQLDatabase.Checked = True
         Me.radMSSQLDatabase.Location = New System.Drawing.Point(73, 30)
         Me.radMSSQLDatabase.Name = "radMSSQLDatabase"
-        Me.radMSSQLDatabase.Size = New System.Drawing.Size(46, 17)
+        Me.radMSSQLDatabase.Size = New System.Drawing.Size(44, 17)
         Me.radMSSQLDatabase.TabIndex = 7
         Me.radMSSQLDatabase.TabStop = True
         Me.radMSSQLDatabase.Text = "SQL"
@@ -184,7 +184,7 @@ Partial Class frmDataConvert
         Me.radMSSQLWindows.AutoSize = True
         Me.radMSSQLWindows.Location = New System.Drawing.Point(139, 30)
         Me.radMSSQLWindows.Name = "radMSSQLWindows"
-        Me.radMSSQLWindows.Size = New System.Drawing.Size(69, 17)
+        Me.radMSSQLWindows.Size = New System.Drawing.Size(68, 17)
         Me.radMSSQLWindows.TabIndex = 6
         Me.radMSSQLWindows.Text = "Windows"
         Me.radMSSQLWindows.UseVisualStyleBackColor = True
@@ -194,21 +194,21 @@ Partial Class frmDataConvert
         Me.txtMSSQLPassword.Location = New System.Drawing.Point(73, 105)
         Me.txtMSSQLPassword.Name = "txtMSSQLPassword"
         Me.txtMSSQLPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtMSSQLPassword.Size = New System.Drawing.Size(230, 20)
+        Me.txtMSSQLPassword.Size = New System.Drawing.Size(230, 21)
         Me.txtMSSQLPassword.TabIndex = 5
         '
         'txtMSSQLUser
         '
         Me.txtMSSQLUser.Location = New System.Drawing.Point(73, 79)
         Me.txtMSSQLUser.Name = "txtMSSQLUser"
-        Me.txtMSSQLUser.Size = New System.Drawing.Size(230, 20)
+        Me.txtMSSQLUser.Size = New System.Drawing.Size(230, 21)
         Me.txtMSSQLUser.TabIndex = 4
         '
         'txtMSSQLServer
         '
         Me.txtMSSQLServer.Location = New System.Drawing.Point(73, 53)
         Me.txtMSSQLServer.Name = "txtMSSQLServer"
-        Me.txtMSSQLServer.Size = New System.Drawing.Size(230, 20)
+        Me.txtMSSQLServer.Size = New System.Drawing.Size(230, 21)
         Me.txtMSSQLServer.TabIndex = 3
         '
         'lblMSSQLPassword
@@ -216,7 +216,7 @@ Partial Class frmDataConvert
         Me.lblMSSQLPassword.AutoSize = True
         Me.lblMSSQLPassword.Location = New System.Drawing.Point(6, 108)
         Me.lblMSSQLPassword.Name = "lblMSSQLPassword"
-        Me.lblMSSQLPassword.Size = New System.Drawing.Size(56, 13)
+        Me.lblMSSQLPassword.Size = New System.Drawing.Size(57, 13)
         Me.lblMSSQLPassword.TabIndex = 2
         Me.lblMSSQLPassword.Text = "Password:"
         '
@@ -225,7 +225,7 @@ Partial Class frmDataConvert
         Me.lblMSSQLUser.AutoSize = True
         Me.lblMSSQLUser.Location = New System.Drawing.Point(6, 82)
         Me.lblMSSQLUser.Name = "lblMSSQLUser"
-        Me.lblMSSQLUser.Size = New System.Drawing.Size(32, 13)
+        Me.lblMSSQLUser.Size = New System.Drawing.Size(33, 13)
         Me.lblMSSQLUser.TabIndex = 1
         Me.lblMSSQLUser.Text = "User:"
         '
@@ -234,7 +234,7 @@ Partial Class frmDataConvert
         Me.lblMSSQLServer.AutoSize = True
         Me.lblMSSQLServer.Location = New System.Drawing.Point(6, 56)
         Me.lblMSSQLServer.Name = "lblMSSQLServer"
-        Me.lblMSSQLServer.Size = New System.Drawing.Size(41, 13)
+        Me.lblMSSQLServer.Size = New System.Drawing.Size(43, 13)
         Me.lblMSSQLServer.TabIndex = 0
         Me.lblMSSQLServer.Text = "Server:"
         '
@@ -259,21 +259,21 @@ Partial Class frmDataConvert
         Me.txtMySQLPassword.Location = New System.Drawing.Point(73, 79)
         Me.txtMySQLPassword.Name = "txtMySQLPassword"
         Me.txtMySQLPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtMySQLPassword.Size = New System.Drawing.Size(230, 20)
+        Me.txtMySQLPassword.Size = New System.Drawing.Size(230, 21)
         Me.txtMySQLPassword.TabIndex = 5
         '
         'txtMySQLUser
         '
         Me.txtMySQLUser.Location = New System.Drawing.Point(73, 53)
         Me.txtMySQLUser.Name = "txtMySQLUser"
-        Me.txtMySQLUser.Size = New System.Drawing.Size(230, 20)
+        Me.txtMySQLUser.Size = New System.Drawing.Size(230, 21)
         Me.txtMySQLUser.TabIndex = 4
         '
         'txtMySQLServer
         '
         Me.txtMySQLServer.Location = New System.Drawing.Point(73, 27)
         Me.txtMySQLServer.Name = "txtMySQLServer"
-        Me.txtMySQLServer.Size = New System.Drawing.Size(230, 20)
+        Me.txtMySQLServer.Size = New System.Drawing.Size(230, 21)
         Me.txtMySQLServer.TabIndex = 3
         '
         'lblMySQLPassword
@@ -281,7 +281,7 @@ Partial Class frmDataConvert
         Me.lblMySQLPassword.AutoSize = True
         Me.lblMySQLPassword.Location = New System.Drawing.Point(6, 82)
         Me.lblMySQLPassword.Name = "lblMySQLPassword"
-        Me.lblMySQLPassword.Size = New System.Drawing.Size(56, 13)
+        Me.lblMySQLPassword.Size = New System.Drawing.Size(57, 13)
         Me.lblMySQLPassword.TabIndex = 2
         Me.lblMySQLPassword.Text = "Password:"
         '
@@ -290,7 +290,7 @@ Partial Class frmDataConvert
         Me.lblMySQLUser.AutoSize = True
         Me.lblMySQLUser.Location = New System.Drawing.Point(6, 56)
         Me.lblMySQLUser.Name = "lblMySQLUser"
-        Me.lblMySQLUser.Size = New System.Drawing.Size(32, 13)
+        Me.lblMySQLUser.Size = New System.Drawing.Size(33, 13)
         Me.lblMySQLUser.TabIndex = 1
         Me.lblMySQLUser.Text = "User:"
         '
@@ -299,7 +299,7 @@ Partial Class frmDataConvert
         Me.lblMySQLServer.AutoSize = True
         Me.lblMySQLServer.Location = New System.Drawing.Point(6, 30)
         Me.lblMySQLServer.Name = "lblMySQLServer"
-        Me.lblMySQLServer.Size = New System.Drawing.Size(41, 13)
+        Me.lblMySQLServer.Size = New System.Drawing.Size(43, 13)
         Me.lblMySQLServer.TabIndex = 0
         Me.lblMySQLServer.Text = "Server:"
         '
@@ -318,7 +318,7 @@ Partial Class frmDataConvert
         Me.lblConvertTo.AutoSize = True
         Me.lblConvertTo.Location = New System.Drawing.Point(16, 53)
         Me.lblConvertTo.Name = "lblConvertTo"
-        Me.lblConvertTo.Size = New System.Drawing.Size(63, 13)
+        Me.lblConvertTo.Size = New System.Drawing.Size(65, 13)
         Me.lblConvertTo.TabIndex = 47
         Me.lblConvertTo.Text = "Convert To:"
         '
@@ -337,7 +337,7 @@ Partial Class frmDataConvert
         Me.lblProgress.AutoSize = True
         Me.lblProgress.Location = New System.Drawing.Point(13, 341)
         Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(48, 13)
+        Me.lblProgress.Size = New System.Drawing.Size(49, 13)
         Me.lblProgress.TabIndex = 45
         Me.lblProgress.Text = "Progress"
         '
@@ -365,7 +365,7 @@ Partial Class frmDataConvert
         Me.lblFiles.AutoSize = True
         Me.lblFiles.Location = New System.Drawing.Point(107, 251)
         Me.lblFiles.Name = "lblFiles"
-        Me.lblFiles.Size = New System.Drawing.Size(154, 13)
+        Me.lblFiles.Size = New System.Drawing.Size(159, 13)
         Me.lblFiles.TabIndex = 42
         Me.lblFiles.Text = "Number of files in directory: n/a"
         '
@@ -384,7 +384,7 @@ Partial Class frmDataConvert
         Me.txtTarget.Enabled = False
         Me.txtTarget.Location = New System.Drawing.Point(110, 278)
         Me.txtTarget.Name = "txtTarget"
-        Me.txtTarget.Size = New System.Drawing.Size(487, 20)
+        Me.txtTarget.Size = New System.Drawing.Size(487, 21)
         Me.txtTarget.TabIndex = 40
         '
         'lblTarget
@@ -393,7 +393,7 @@ Partial Class frmDataConvert
         Me.lblTarget.Enabled = False
         Me.lblTarget.Location = New System.Drawing.Point(15, 281)
         Me.lblTarget.Name = "lblTarget"
-        Me.lblTarget.Size = New System.Drawing.Size(86, 13)
+        Me.lblTarget.Size = New System.Drawing.Size(90, 13)
         Me.lblTarget.TabIndex = 39
         Me.lblTarget.Text = "Target Directory:"
         '
@@ -410,7 +410,7 @@ Partial Class frmDataConvert
         '
         Me.txtSource.Location = New System.Drawing.Point(110, 228)
         Me.txtSource.Name = "txtSource"
-        Me.txtSource.Size = New System.Drawing.Size(487, 20)
+        Me.txtSource.Size = New System.Drawing.Size(487, 21)
         Me.txtSource.TabIndex = 37
         '
         'lblSource
@@ -418,7 +418,7 @@ Partial Class frmDataConvert
         Me.lblSource.AutoSize = True
         Me.lblSource.Location = New System.Drawing.Point(15, 231)
         Me.lblSource.Name = "lblSource"
-        Me.lblSource.Size = New System.Drawing.Size(89, 13)
+        Me.lblSource.Size = New System.Drawing.Size(91, 13)
         Me.lblSource.TabIndex = 36
         Me.lblSource.Text = "Source Directory:"
         '
@@ -427,7 +427,7 @@ Partial Class frmDataConvert
         Me.lblPurpose.AutoSize = True
         Me.lblPurpose.Location = New System.Drawing.Point(13, 14)
         Me.lblPurpose.Name = "lblPurpose"
-        Me.lblPurpose.Size = New System.Drawing.Size(365, 13)
+        Me.lblPurpose.Size = New System.Drawing.Size(376, 13)
         Me.lblPurpose.TabIndex = 35
         Me.lblPurpose.Text = "Please select the type of data you wish to convert the Eve Data Export files." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
@@ -563,7 +563,7 @@ Partial Class frmDataConvert
         Me.lblCompress.AutoSize = True
         Me.lblCompress.Location = New System.Drawing.Point(5, 10)
         Me.lblCompress.Name = "lblCompress"
-        Me.lblCompress.Size = New System.Drawing.Size(282, 13)
+        Me.lblCompress.Size = New System.Drawing.Size(291, 13)
         Me.lblCompress.TabIndex = 0
         Me.lblCompress.Text = "Please enter the file name of the file you wish to compress:"
         '
@@ -590,7 +590,7 @@ Partial Class frmDataConvert
         Me.lblCompressedFileInfo.AutoSize = True
         Me.lblCompressedFileInfo.Location = New System.Drawing.Point(5, 184)
         Me.lblCompressedFileInfo.Name = "lblCompressedFileInfo"
-        Me.lblCompressedFileInfo.Size = New System.Drawing.Size(108, 13)
+        Me.lblCompressedFileInfo.Size = New System.Drawing.Size(112, 13)
         Me.lblCompressedFileInfo.TabIndex = 43
         Me.lblCompressedFileInfo.Text = "Compressed File Info:"
         '
@@ -598,7 +598,7 @@ Partial Class frmDataConvert
         '
         Me.txtCompressFile.Location = New System.Drawing.Point(8, 39)
         Me.txtCompressFile.Name = "txtCompressFile"
-        Me.txtCompressFile.Size = New System.Drawing.Size(581, 20)
+        Me.txtCompressFile.Size = New System.Drawing.Size(581, 21)
         Me.txtCompressFile.TabIndex = 40
         '
         'lblSourceFileInfo
@@ -606,7 +606,7 @@ Partial Class frmDataConvert
         Me.lblSourceFileInfo.AutoSize = True
         Me.lblSourceFileInfo.Location = New System.Drawing.Point(5, 156)
         Me.lblSourceFileInfo.Name = "lblSourceFileInfo"
-        Me.lblSourceFileInfo.Size = New System.Drawing.Size(84, 13)
+        Me.lblSourceFileInfo.Size = New System.Drawing.Size(86, 13)
         Me.lblSourceFileInfo.TabIndex = 42
         Me.lblSourceFileInfo.Text = "Source File Info:"
         '
@@ -657,7 +657,7 @@ Partial Class frmDataConvert
         '
         Me.txtSQLServer.Location = New System.Drawing.Point(93, 14)
         Me.txtSQLServer.Name = "txtSQLServer"
-        Me.txtSQLServer.Size = New System.Drawing.Size(247, 20)
+        Me.txtSQLServer.Size = New System.Drawing.Size(247, 21)
         Me.txtSQLServer.TabIndex = 8
         Me.txtSQLServer.Text = "localhost"
         '
@@ -675,7 +675,7 @@ Partial Class frmDataConvert
         Me.lblDatabase.AutoSize = True
         Me.lblDatabase.Location = New System.Drawing.Point(22, 43)
         Me.lblDatabase.Name = "lblDatabase"
-        Me.lblDatabase.Size = New System.Drawing.Size(56, 13)
+        Me.lblDatabase.Size = New System.Drawing.Size(57, 13)
         Me.lblDatabase.TabIndex = 9
         Me.lblDatabase.Text = "Database:"
         '
@@ -692,7 +692,7 @@ Partial Class frmDataConvert
         '
         Me.txtDatabase.Location = New System.Drawing.Point(93, 40)
         Me.txtDatabase.Name = "txtDatabase"
-        Me.txtDatabase.Size = New System.Drawing.Size(247, 20)
+        Me.txtDatabase.Size = New System.Drawing.Size(247, 21)
         Me.txtDatabase.TabIndex = 10
         Me.txtDatabase.Text = "EveHQ"
         '
@@ -724,7 +724,7 @@ Partial Class frmDataConvert
         Me.lblCertLocation.AutoSize = True
         Me.lblCertLocation.Location = New System.Drawing.Point(16, 14)
         Me.lblCertLocation.Name = "lblCertLocation"
-        Me.lblCertLocation.Size = New System.Drawing.Size(255, 13)
+        Me.lblCertLocation.Size = New System.Drawing.Size(261, 13)
         Me.lblCertLocation.TabIndex = 45
         Me.lblCertLocation.Text = "Please enter the file name of the Certificates XML file" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
@@ -750,7 +750,7 @@ Partial Class frmDataConvert
         '
         Me.txtCertificates.Location = New System.Drawing.Point(19, 39)
         Me.txtCertificates.Name = "txtCertificates"
-        Me.txtCertificates.Size = New System.Drawing.Size(581, 20)
+        Me.txtCertificates.Size = New System.Drawing.Size(581, 21)
         Me.txtCertificates.TabIndex = 46
         '
         'TabPage5
@@ -788,7 +788,7 @@ Partial Class frmDataConvert
         '
         Me.txtImportSource.Location = New System.Drawing.Point(8, 13)
         Me.txtImportSource.Name = "txtImportSource"
-        Me.txtImportSource.Size = New System.Drawing.Size(552, 20)
+        Me.txtImportSource.Size = New System.Drawing.Size(552, 21)
         Me.txtImportSource.TabIndex = 39
         '
         'btnImportSource
@@ -825,6 +825,31 @@ Partial Class frmDataConvert
         Me.panelZip.Size = New System.Drawing.Size(646, 437)
         Me.panelZip.TabIndex = 0
         '
+        'lblZipFile
+        '
+        Me.lblZipFile.AutoSize = True
+        Me.lblZipFile.Location = New System.Drawing.Point(8, 57)
+        Me.lblZipFile.Name = "lblZipFile"
+        Me.lblZipFile.Size = New System.Drawing.Size(44, 13)
+        Me.lblZipFile.TabIndex = 5
+        Me.lblZipFile.Text = "Zip File:"
+        '
+        'lblSourceDir
+        '
+        Me.lblSourceDir.AutoSize = True
+        Me.lblSourceDir.Location = New System.Drawing.Point(8, 31)
+        Me.lblSourceDir.Name = "lblSourceDir"
+        Me.lblSourceDir.Size = New System.Drawing.Size(60, 13)
+        Me.lblSourceDir.TabIndex = 4
+        Me.lblSourceDir.Text = "Source Dir:"
+        '
+        'txtZipFile
+        '
+        Me.txtZipFile.Location = New System.Drawing.Point(74, 54)
+        Me.txtZipFile.Name = "txtZipFile"
+        Me.txtZipFile.Size = New System.Drawing.Size(464, 21)
+        Me.txtZipFile.TabIndex = 3
+        '
         'btnBrowse
         '
         Me.btnBrowse.Location = New System.Drawing.Point(544, 26)
@@ -838,7 +863,7 @@ Partial Class frmDataConvert
         '
         Me.txtSourceDir.Location = New System.Drawing.Point(74, 28)
         Me.txtSourceDir.Name = "txtSourceDir"
-        Me.txtSourceDir.Size = New System.Drawing.Size(464, 20)
+        Me.txtSourceDir.Size = New System.Drawing.Size(464, 21)
         Me.txtSourceDir.TabIndex = 1
         '
         'btnZipIt
@@ -854,37 +879,13 @@ Partial Class frmDataConvert
         '
         Me.ofd1.FileName = "OpenFileDialog1"
         '
-        'txtZipFile
-        '
-        Me.txtZipFile.Location = New System.Drawing.Point(74, 54)
-        Me.txtZipFile.Name = "txtZipFile"
-        Me.txtZipFile.Size = New System.Drawing.Size(464, 20)
-        Me.txtZipFile.TabIndex = 3
-        '
-        'lblSourceDir
-        '
-        Me.lblSourceDir.AutoSize = True
-        Me.lblSourceDir.Location = New System.Drawing.Point(8, 31)
-        Me.lblSourceDir.Name = "lblSourceDir"
-        Me.lblSourceDir.Size = New System.Drawing.Size(60, 13)
-        Me.lblSourceDir.TabIndex = 4
-        Me.lblSourceDir.Text = "Source Dir:"
-        '
-        'lblZipFile
-        '
-        Me.lblZipFile.AutoSize = True
-        Me.lblZipFile.Location = New System.Drawing.Point(8, 57)
-        Me.lblZipFile.Name = "lblZipFile"
-        Me.lblZipFile.Size = New System.Drawing.Size(44, 13)
-        Me.lblZipFile.TabIndex = 5
-        Me.lblZipFile.Text = "Zip File:"
-        '
         'frmDataConvert
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(654, 463)
         Me.Controls.Add(Me.TabControl1)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmDataConvert"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent

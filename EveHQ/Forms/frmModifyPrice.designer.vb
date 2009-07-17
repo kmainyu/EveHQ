@@ -40,7 +40,7 @@ Partial Class frmModifyPrice
         Me.lblCurrentBasePrice.AutoSize = True
         Me.lblCurrentBasePrice.Location = New System.Drawing.Point(13, 13)
         Me.lblCurrentBasePrice.Name = "lblCurrentBasePrice"
-        Me.lblCurrentBasePrice.Size = New System.Drawing.Size(98, 13)
+        Me.lblCurrentBasePrice.Size = New System.Drawing.Size(100, 13)
         Me.lblCurrentBasePrice.TabIndex = 0
         Me.lblCurrentBasePrice.Text = "Current Base Price:"
         '
@@ -49,7 +49,7 @@ Partial Class frmModifyPrice
         Me.lblCurrentMarketPrice.AutoSize = True
         Me.lblCurrentMarketPrice.Location = New System.Drawing.Point(13, 39)
         Me.lblCurrentMarketPrice.Name = "lblCurrentMarketPrice"
-        Me.lblCurrentMarketPrice.Size = New System.Drawing.Size(107, 13)
+        Me.lblCurrentMarketPrice.Size = New System.Drawing.Size(110, 13)
         Me.lblCurrentMarketPrice.TabIndex = 4
         Me.lblCurrentMarketPrice.Text = "Current Market Price:"
         '
@@ -80,7 +80,7 @@ Partial Class frmModifyPrice
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtNewPrice.Location = New System.Drawing.Point(141, 103)
         Me.txtNewPrice.Name = "txtNewPrice"
-        Me.txtNewPrice.Size = New System.Drawing.Size(287, 20)
+        Me.txtNewPrice.Size = New System.Drawing.Size(287, 21)
         Me.txtNewPrice.TabIndex = 2
         '
         'lblNewPrice
@@ -97,7 +97,7 @@ Partial Class frmModifyPrice
         Me.lblCurrentCustomPrice.AutoSize = True
         Me.lblCurrentCustomPrice.Location = New System.Drawing.Point(13, 65)
         Me.lblCurrentCustomPrice.Name = "lblCurrentCustomPrice"
-        Me.lblCurrentCustomPrice.Size = New System.Drawing.Size(109, 13)
+        Me.lblCurrentCustomPrice.Size = New System.Drawing.Size(113, 13)
         Me.lblCurrentCustomPrice.TabIndex = 19
         Me.lblCurrentCustomPrice.Text = "Current Custom Price:"
         '
@@ -106,7 +106,7 @@ Partial Class frmModifyPrice
         Me.lblCustomPrice.AutoSize = True
         Me.lblCustomPrice.Location = New System.Drawing.Point(138, 65)
         Me.lblCustomPrice.Name = "lblCustomPrice"
-        Me.lblCustomPrice.Size = New System.Drawing.Size(28, 13)
+        Me.lblCustomPrice.Size = New System.Drawing.Size(29, 13)
         Me.lblCustomPrice.TabIndex = 22
         Me.lblCustomPrice.Text = "0.00"
         '
@@ -115,7 +115,7 @@ Partial Class frmModifyPrice
         Me.lblMarketPrice.AutoSize = True
         Me.lblMarketPrice.Location = New System.Drawing.Point(138, 39)
         Me.lblMarketPrice.Name = "lblMarketPrice"
-        Me.lblMarketPrice.Size = New System.Drawing.Size(28, 13)
+        Me.lblMarketPrice.Size = New System.Drawing.Size(29, 13)
         Me.lblMarketPrice.TabIndex = 21
         Me.lblMarketPrice.Text = "0.00"
         '
@@ -124,7 +124,7 @@ Partial Class frmModifyPrice
         Me.lblBasePrice.AutoSize = True
         Me.lblBasePrice.Location = New System.Drawing.Point(138, 13)
         Me.lblBasePrice.Name = "lblBasePrice"
-        Me.lblBasePrice.Size = New System.Drawing.Size(28, 13)
+        Me.lblBasePrice.Size = New System.Drawing.Size(29, 13)
         Me.lblBasePrice.TabIndex = 20
         Me.lblBasePrice.Text = "0.00"
         '
@@ -145,6 +145,7 @@ Partial Class frmModifyPrice
         Me.Controls.Add(Me.btnAccept)
         Me.Controls.Add(Me.lblCurrentMarketPrice)
         Me.Controls.Add(Me.lblCurrentBasePrice)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False

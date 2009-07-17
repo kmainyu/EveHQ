@@ -63,7 +63,7 @@ Partial Class frmConfirmAtts
         Me.lblC.AutoSize = True
         Me.lblC.Location = New System.Drawing.Point(59, 108)
         Me.lblC.Name = "lblC"
-        Me.lblC.Size = New System.Drawing.Size(86, 13)
+        Me.lblC.Size = New System.Drawing.Size(90, 13)
         Me.lblC.TabIndex = 1
         Me.lblC.Text = "Charisma (0 to 0)"
         '
@@ -72,7 +72,7 @@ Partial Class frmConfirmAtts
         Me.lblI.AutoSize = True
         Me.lblI.Location = New System.Drawing.Point(59, 134)
         Me.lblI.Name = "lblI"
-        Me.lblI.Size = New System.Drawing.Size(97, 13)
+        Me.lblI.Size = New System.Drawing.Size(101, 13)
         Me.lblI.TabIndex = 2
         Me.lblI.Text = "Intelligence (0 to 0)"
         '
@@ -81,7 +81,7 @@ Partial Class frmConfirmAtts
         Me.lblM.AutoSize = True
         Me.lblM.Location = New System.Drawing.Point(59, 160)
         Me.lblM.Name = "lblM"
-        Me.lblM.Size = New System.Drawing.Size(80, 13)
+        Me.lblM.Size = New System.Drawing.Size(84, 13)
         Me.lblM.TabIndex = 3
         Me.lblM.Text = "Memory (0 to 0)"
         '
@@ -90,7 +90,7 @@ Partial Class frmConfirmAtts
         Me.lblP.AutoSize = True
         Me.lblP.Location = New System.Drawing.Point(59, 186)
         Me.lblP.Name = "lblP"
-        Me.lblP.Size = New System.Drawing.Size(94, 13)
+        Me.lblP.Size = New System.Drawing.Size(97, 13)
         Me.lblP.TabIndex = 4
         Me.lblP.Text = "Perception (0 to 0)"
         '
@@ -99,7 +99,7 @@ Partial Class frmConfirmAtts
         Me.lblW.AutoSize = True
         Me.lblW.Location = New System.Drawing.Point(59, 212)
         Me.lblW.Name = "lblW"
-        Me.lblW.Size = New System.Drawing.Size(89, 13)
+        Me.lblW.Size = New System.Drawing.Size(92, 13)
         Me.lblW.TabIndex = 5
         Me.lblW.Text = "Willpower (0 to 0)"
         '
@@ -107,35 +107,35 @@ Partial Class frmConfirmAtts
         '
         Me.nudC.Location = New System.Drawing.Point(216, 106)
         Me.nudC.Name = "nudC"
-        Me.nudC.Size = New System.Drawing.Size(70, 20)
+        Me.nudC.Size = New System.Drawing.Size(70, 21)
         Me.nudC.TabIndex = 6
         '
         'nudI
         '
         Me.nudI.Location = New System.Drawing.Point(216, 132)
         Me.nudI.Name = "nudI"
-        Me.nudI.Size = New System.Drawing.Size(70, 20)
+        Me.nudI.Size = New System.Drawing.Size(70, 21)
         Me.nudI.TabIndex = 7
         '
         'nudM
         '
         Me.nudM.Location = New System.Drawing.Point(216, 158)
         Me.nudM.Name = "nudM"
-        Me.nudM.Size = New System.Drawing.Size(70, 20)
+        Me.nudM.Size = New System.Drawing.Size(70, 21)
         Me.nudM.TabIndex = 8
         '
         'nudP
         '
         Me.nudP.Location = New System.Drawing.Point(216, 184)
         Me.nudP.Name = "nudP"
-        Me.nudP.Size = New System.Drawing.Size(70, 20)
+        Me.nudP.Size = New System.Drawing.Size(70, 21)
         Me.nudP.TabIndex = 9
         '
         'nudW
         '
         Me.nudW.Location = New System.Drawing.Point(216, 210)
         Me.nudW.Name = "nudW"
-        Me.nudW.Size = New System.Drawing.Size(70, 20)
+        Me.nudW.Size = New System.Drawing.Size(70, 21)
         Me.nudW.TabIndex = 10
         '
         'btnAccept
@@ -162,7 +162,7 @@ Partial Class frmConfirmAtts
         Me.lblAttributesTotalLabel.AutoSize = True
         Me.lblAttributesTotalLabel.Location = New System.Drawing.Point(59, 238)
         Me.lblAttributesTotalLabel.Name = "lblAttributesTotalLabel"
-        Me.lblAttributesTotalLabel.Size = New System.Drawing.Size(81, 13)
+        Me.lblAttributesTotalLabel.Size = New System.Drawing.Size(86, 13)
         Me.lblAttributesTotalLabel.TabIndex = 13
         Me.lblAttributesTotalLabel.Text = "Attributes Total:"
         '
@@ -180,7 +180,7 @@ Partial Class frmConfirmAtts
         Me.lblCharacterIDLabel.AutoSize = True
         Me.lblCharacterIDLabel.Location = New System.Drawing.Point(62, 285)
         Me.lblCharacterIDLabel.Name = "lblCharacterIDLabel"
-        Me.lblCharacterIDLabel.Size = New System.Drawing.Size(70, 13)
+        Me.lblCharacterIDLabel.Size = New System.Drawing.Size(73, 13)
         Me.lblCharacterIDLabel.TabIndex = 15
         Me.lblCharacterIDLabel.Text = "Character ID:"
         '
@@ -189,7 +189,7 @@ Partial Class frmConfirmAtts
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(62, 309)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(87, 13)
+        Me.Label1.Size = New System.Drawing.Size(89, 13)
         Me.Label1.TabIndex = 16
         Me.Label1.Text = "Character Name:"
         '
@@ -205,7 +205,7 @@ Partial Class frmConfirmAtts
         '
         Me.txtCharName.Location = New System.Drawing.Point(166, 306)
         Me.txtCharName.Name = "txtCharName"
-        Me.txtCharName.Size = New System.Drawing.Size(153, 20)
+        Me.txtCharName.Size = New System.Drawing.Size(153, 21)
         Me.txtCharName.TabIndex = 18
         '
         'frmConfirmAtts
@@ -234,6 +234,7 @@ Partial Class frmConfirmAtts
         Me.Controls.Add(Me.lblI)
         Me.Controls.Add(Me.lblC)
         Me.Controls.Add(Me.lblInfo)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False

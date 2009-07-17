@@ -60,7 +60,7 @@ Partial Class frmAddCustomBP
         Me.nudPELevel.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.nudPELevel.Minimum = New Decimal(New Integer() {10, 0, 0, -2147483648})
         Me.nudPELevel.Name = "nudPELevel"
-        Me.nudPELevel.Size = New System.Drawing.Size(87, 20)
+        Me.nudPELevel.Size = New System.Drawing.Size(87, 21)
         Me.nudPELevel.TabIndex = 40
         Me.nudPELevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -70,7 +70,7 @@ Partial Class frmAddCustomBP
         Me.nudMELevel.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.nudMELevel.Minimum = New Decimal(New Integer() {10, 0, 0, -2147483648})
         Me.nudMELevel.Name = "nudMELevel"
-        Me.nudMELevel.Size = New System.Drawing.Size(87, 20)
+        Me.nudMELevel.Size = New System.Drawing.Size(87, 21)
         Me.nudMELevel.TabIndex = 39
         Me.nudMELevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -79,7 +79,7 @@ Partial Class frmAddCustomBP
         Me.lblPELevel.AutoSize = True
         Me.lblPELevel.Location = New System.Drawing.Point(213, 119)
         Me.lblPELevel.Name = "lblPELevel"
-        Me.lblPELevel.Size = New System.Drawing.Size(53, 13)
+        Me.lblPELevel.Size = New System.Drawing.Size(51, 13)
         Me.lblPELevel.TabIndex = 36
         Me.lblPELevel.Text = "PE Level:"
         '
@@ -88,7 +88,7 @@ Partial Class frmAddCustomBP
         Me.lblMELevel.AutoSize = True
         Me.lblMELevel.Location = New System.Drawing.Point(21, 119)
         Me.lblMELevel.Name = "lblMELevel"
-        Me.lblMELevel.Size = New System.Drawing.Size(55, 13)
+        Me.lblMELevel.Size = New System.Drawing.Size(53, 13)
         Me.lblMELevel.TabIndex = 33
         Me.lblMELevel.Text = "ME Level:"
         '
@@ -124,6 +124,7 @@ Partial Class frmAddCustomBP
         Me.Controls.Add(Me.lblPELevel)
         Me.Controls.Add(Me.lblMELevel)
         Me.Controls.Add(Me.pbBP)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.MaximizeBox = False
         Me.MinimizeBox = False

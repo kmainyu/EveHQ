@@ -87,6 +87,7 @@ Partial Class frmSelectQueuePilot
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnAccept)
         Me.Controls.Add(Me.lblQueueName)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

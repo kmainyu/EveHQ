@@ -46,15 +46,16 @@
             // label1
             // 
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Maroon;
             this.label1.Location = new System.Drawing.Point(3, 3);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(423, 52);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Caution - Adding PoS Towers from the API List can Lead to Duplicate Designs if th" +
-                "e Name is in any way Different. Towers and Designs that are Already Linked will " +
-                "not be Shown.";
+            this.label1.Text = "Caution - Adding PoS Towers from the API List can lead to duplicate designs if th" +
+                "e name is in any way different. Towers and designs that are already linked will " +
+                "not be shown.";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // clb_TowerListing
             // 
@@ -93,7 +94,7 @@
             this.rb_Offline.AutoSize = true;
             this.rb_Offline.Location = new System.Drawing.Point(9, 42);
             this.rb_Offline.Name = "rb_Offline";
-            this.rb_Offline.Size = new System.Drawing.Size(55, 17);
+            this.rb_Offline.Size = new System.Drawing.Size(57, 17);
             this.rb_Offline.TabIndex = 1;
             this.rb_Offline.TabStop = true;
             this.rb_Offline.Text = "Offline";
@@ -125,14 +126,14 @@
             this.cbx_Monitored.AutoSize = true;
             this.cbx_Monitored.Location = new System.Drawing.Point(6, 19);
             this.cbx_Monitored.Name = "cbx_Monitored";
-            this.cbx_Monitored.Size = new System.Drawing.Size(142, 17);
+            this.cbx_Monitored.Size = new System.Drawing.Size(144, 17);
             this.cbx_Monitored.TabIndex = 0;
             this.cbx_Monitored.Text = "Set Towers to Monitored";
             this.cbx_Monitored.UseVisualStyleBackColor = true;
             // 
             // b_Import
             // 
-            this.b_Import.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.b_Import.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.b_Import.Location = new System.Drawing.Point(94, 365);
             this.b_Import.Name = "b_Import";
             this.b_Import.Size = new System.Drawing.Size(87, 37);
@@ -144,7 +145,7 @@
             // b_Cancel
             // 
             this.b_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.b_Cancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.b_Cancel.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.b_Cancel.Location = new System.Drawing.Point(248, 365);
             this.b_Cancel.Name = "b_Cancel";
             this.b_Cancel.Size = new System.Drawing.Size(87, 37);
@@ -166,6 +167,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.clb_TowerListing);
             this.Controls.Add(this.label1);
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;

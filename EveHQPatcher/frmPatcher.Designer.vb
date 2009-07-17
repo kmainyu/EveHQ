@@ -34,7 +34,7 @@ Partial Class frmPatcher
         Me.lblStatus.AutoSize = True
         Me.lblStatus.Location = New System.Drawing.Point(10, 12)
         Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(187, 13)
+        Me.lblStatus.Size = New System.Drawing.Size(189, 13)
         Me.lblStatus.TabIndex = 0
         Me.lblStatus.Text = "Please wait while EveHQ is updated..."
         '
@@ -48,7 +48,7 @@ Partial Class frmPatcher
         Me.lblCurrentStatus.AutoSize = True
         Me.lblCurrentStatus.Location = New System.Drawing.Point(12, 162)
         Me.lblCurrentStatus.Name = "lblCurrentStatus"
-        Me.lblCurrentStatus.Size = New System.Drawing.Size(77, 13)
+        Me.lblCurrentStatus.Size = New System.Drawing.Size(82, 13)
         Me.lblCurrentStatus.TabIndex = 1
         Me.lblCurrentStatus.Text = "Current Status:"
         '
@@ -57,7 +57,7 @@ Partial Class frmPatcher
         Me.lblLocalFolders.AutoSize = True
         Me.lblLocalFolders.Location = New System.Drawing.Point(10, 102)
         Me.lblLocalFolders.Name = "lblLocalFolders"
-        Me.lblLocalFolders.Size = New System.Drawing.Size(106, 13)
+        Me.lblLocalFolders.Size = New System.Drawing.Size(103, 13)
         Me.lblLocalFolders.TabIndex = 2
         Me.lblLocalFolders.Text = "Using Local Folders?"
         '
@@ -75,7 +75,7 @@ Partial Class frmPatcher
         Me.lblEveHQLocation.AutoSize = True
         Me.lblEveHQLocation.Location = New System.Drawing.Point(10, 72)
         Me.lblEveHQLocation.Name = "lblEveHQLocation"
-        Me.lblEveHQLocation.Size = New System.Drawing.Size(89, 13)
+        Me.lblEveHQLocation.Size = New System.Drawing.Size(87, 13)
         Me.lblEveHQLocation.TabIndex = 4
         Me.lblEveHQLocation.Text = "EveHQ Location:"
         '
@@ -99,6 +99,7 @@ Partial Class frmPatcher
         Me.Controls.Add(Me.lblLocalFolders)
         Me.Controls.Add(Me.lblCurrentStatus)
         Me.Controls.Add(Me.lblStatus)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "frmPatcher"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

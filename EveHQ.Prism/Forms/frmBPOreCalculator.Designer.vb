@@ -34,6 +34,9 @@ Partial Class frmBPOreCalculator
         Me.colEOOreUnits = New System.Windows.Forms.ColumnHeader
         Me.colEOOreVolume = New System.Windows.Forms.ColumnHeader
         Me.gbxOreTypes = New System.Windows.Forms.GroupBox
+        Me.chkMercoxit = New System.Windows.Forms.CheckBox
+        Me.chkArkonor = New System.Windows.Forms.CheckBox
+        Me.chkBistot = New System.Windows.Forms.CheckBox
         Me.chkCrokite = New System.Windows.Forms.CheckBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.chkDarkOchre = New System.Windows.Forms.CheckBox
@@ -60,9 +63,6 @@ Partial Class frmBPOreCalculator
         Me.Label3 = New System.Windows.Forms.Label
         Me.btnSaveAndExit = New System.Windows.Forms.Button
         Me.btnCancelAndExit = New System.Windows.Forms.Button
-        Me.chkBistot = New System.Windows.Forms.CheckBox
-        Me.chkArkonor = New System.Windows.Forms.CheckBox
-        Me.chkMercoxit = New System.Windows.Forms.CheckBox
         Me.gbxOreTypes.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -164,12 +164,42 @@ Partial Class frmBPOreCalculator
         Me.gbxOreTypes.TabStop = False
         Me.gbxOreTypes.Text = "Ore types"
         '
+        'chkMercoxit
+        '
+        Me.chkMercoxit.AutoSize = True
+        Me.chkMercoxit.Location = New System.Drawing.Point(267, 109)
+        Me.chkMercoxit.Name = "chkMercoxit"
+        Me.chkMercoxit.Size = New System.Drawing.Size(67, 17)
+        Me.chkMercoxit.TabIndex = 16
+        Me.chkMercoxit.Text = "Mercoxit"
+        Me.chkMercoxit.UseVisualStyleBackColor = True
+        '
+        'chkArkonor
+        '
+        Me.chkArkonor.AutoSize = True
+        Me.chkArkonor.Location = New System.Drawing.Point(267, 86)
+        Me.chkArkonor.Name = "chkArkonor"
+        Me.chkArkonor.Size = New System.Drawing.Size(64, 17)
+        Me.chkArkonor.TabIndex = 15
+        Me.chkArkonor.Text = "Arkonor"
+        Me.chkArkonor.UseVisualStyleBackColor = True
+        '
+        'chkBistot
+        '
+        Me.chkBistot.AutoSize = True
+        Me.chkBistot.Location = New System.Drawing.Point(267, 63)
+        Me.chkBistot.Name = "chkBistot"
+        Me.chkBistot.Size = New System.Drawing.Size(53, 17)
+        Me.chkBistot.TabIndex = 14
+        Me.chkBistot.Text = "Bistot"
+        Me.chkBistot.UseVisualStyleBackColor = True
+        '
         'chkCrokite
         '
         Me.chkCrokite.AutoSize = True
         Me.chkCrokite.Location = New System.Drawing.Point(267, 40)
         Me.chkCrokite.Name = "chkCrokite"
-        Me.chkCrokite.Size = New System.Drawing.Size(59, 17)
+        Me.chkCrokite.Size = New System.Drawing.Size(60, 17)
         Me.chkCrokite.TabIndex = 13
         Me.chkCrokite.Text = "Crokite"
         Me.chkCrokite.UseVisualStyleBackColor = True
@@ -179,7 +209,7 @@ Partial Class frmBPOreCalculator
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(6, 16)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(201, 13)
+        Me.Label1.Size = New System.Drawing.Size(204, 13)
         Me.Label1.TabIndex = 12
         Me.Label1.Text = "Check the ore types you have access to:"
         '
@@ -188,7 +218,7 @@ Partial Class frmBPOreCalculator
         Me.chkDarkOchre.AutoSize = True
         Me.chkDarkOchre.Location = New System.Drawing.Point(180, 109)
         Me.chkDarkOchre.Name = "chkDarkOchre"
-        Me.chkDarkOchre.Size = New System.Drawing.Size(81, 17)
+        Me.chkDarkOchre.Size = New System.Drawing.Size(80, 17)
         Me.chkDarkOchre.TabIndex = 11
         Me.chkDarkOchre.Text = "Dark Ochre"
         Me.chkDarkOchre.UseVisualStyleBackColor = True
@@ -198,7 +228,7 @@ Partial Class frmBPOreCalculator
         Me.chkSpodumain.AutoSize = True
         Me.chkSpodumain.Location = New System.Drawing.Point(180, 86)
         Me.chkSpodumain.Name = "chkSpodumain"
-        Me.chkSpodumain.Size = New System.Drawing.Size(79, 17)
+        Me.chkSpodumain.Size = New System.Drawing.Size(78, 17)
         Me.chkSpodumain.TabIndex = 10
         Me.chkSpodumain.Text = "Spodumain"
         Me.chkSpodumain.UseVisualStyleBackColor = True
@@ -208,7 +238,7 @@ Partial Class frmBPOreCalculator
         Me.chkHerbergite.AutoSize = True
         Me.chkHerbergite.Location = New System.Drawing.Point(180, 63)
         Me.chkHerbergite.Name = "chkHerbergite"
-        Me.chkHerbergite.Size = New System.Drawing.Size(75, 17)
+        Me.chkHerbergite.Size = New System.Drawing.Size(77, 17)
         Me.chkHerbergite.TabIndex = 9
         Me.chkHerbergite.Text = "Herbergite"
         Me.chkHerbergite.UseVisualStyleBackColor = True
@@ -218,7 +248,7 @@ Partial Class frmBPOreCalculator
         Me.chkGneiss.AutoSize = True
         Me.chkGneiss.Location = New System.Drawing.Point(180, 40)
         Me.chkGneiss.Name = "chkGneiss"
-        Me.chkGneiss.Size = New System.Drawing.Size(58, 17)
+        Me.chkGneiss.Size = New System.Drawing.Size(57, 17)
         Me.chkGneiss.TabIndex = 8
         Me.chkGneiss.Text = "Gneiss"
         Me.chkGneiss.UseVisualStyleBackColor = True
@@ -228,7 +258,7 @@ Partial Class frmBPOreCalculator
         Me.chkHemorphite.AutoSize = True
         Me.chkHemorphite.Location = New System.Drawing.Point(93, 109)
         Me.chkHemorphite.Name = "chkHemorphite"
-        Me.chkHemorphite.Size = New System.Drawing.Size(80, 17)
+        Me.chkHemorphite.Size = New System.Drawing.Size(81, 17)
         Me.chkHemorphite.TabIndex = 7
         Me.chkHemorphite.Text = "Hemorphite"
         Me.chkHemorphite.UseVisualStyleBackColor = True
@@ -238,7 +268,7 @@ Partial Class frmBPOreCalculator
         Me.chkJaspet.AutoSize = True
         Me.chkJaspet.Location = New System.Drawing.Point(93, 86)
         Me.chkJaspet.Name = "chkJaspet"
-        Me.chkJaspet.Size = New System.Drawing.Size(57, 17)
+        Me.chkJaspet.Size = New System.Drawing.Size(58, 17)
         Me.chkJaspet.TabIndex = 6
         Me.chkJaspet.Text = "Jaspet"
         Me.chkJaspet.UseVisualStyleBackColor = True
@@ -248,7 +278,7 @@ Partial Class frmBPOreCalculator
         Me.chkKernite.AutoSize = True
         Me.chkKernite.Location = New System.Drawing.Point(93, 63)
         Me.chkKernite.Name = "chkKernite"
-        Me.chkKernite.Size = New System.Drawing.Size(59, 17)
+        Me.chkKernite.Size = New System.Drawing.Size(60, 17)
         Me.chkKernite.TabIndex = 5
         Me.chkKernite.Text = "Kernite"
         Me.chkKernite.UseVisualStyleBackColor = True
@@ -258,7 +288,7 @@ Partial Class frmBPOreCalculator
         Me.chkOmber.AutoSize = True
         Me.chkOmber.Location = New System.Drawing.Point(93, 40)
         Me.chkOmber.Name = "chkOmber"
-        Me.chkOmber.Size = New System.Drawing.Size(57, 17)
+        Me.chkOmber.Size = New System.Drawing.Size(58, 17)
         Me.chkOmber.TabIndex = 4
         Me.chkOmber.Text = "Omber"
         Me.chkOmber.UseVisualStyleBackColor = True
@@ -268,7 +298,7 @@ Partial Class frmBPOreCalculator
         Me.chkPyroxeres.AutoSize = True
         Me.chkPyroxeres.Location = New System.Drawing.Point(6, 109)
         Me.chkPyroxeres.Name = "chkPyroxeres"
-        Me.chkPyroxeres.Size = New System.Drawing.Size(72, 17)
+        Me.chkPyroxeres.Size = New System.Drawing.Size(75, 17)
         Me.chkPyroxeres.TabIndex = 3
         Me.chkPyroxeres.Text = "Pyroxeres"
         Me.chkPyroxeres.UseVisualStyleBackColor = True
@@ -278,7 +308,7 @@ Partial Class frmBPOreCalculator
         Me.chkPlagioclase.AutoSize = True
         Me.chkPlagioclase.Location = New System.Drawing.Point(6, 86)
         Me.chkPlagioclase.Name = "chkPlagioclase"
-        Me.chkPlagioclase.Size = New System.Drawing.Size(80, 17)
+        Me.chkPlagioclase.Size = New System.Drawing.Size(78, 17)
         Me.chkPlagioclase.TabIndex = 2
         Me.chkPlagioclase.Text = "Plagioclase"
         Me.chkPlagioclase.UseVisualStyleBackColor = True
@@ -308,7 +338,7 @@ Partial Class frmBPOreCalculator
         Me.chkMineAll.AutoSize = True
         Me.chkMineAll.Location = New System.Drawing.Point(18, 320)
         Me.chkMineAll.Name = "chkMineAll"
-        Me.chkMineAll.Size = New System.Drawing.Size(309, 17)
+        Me.chkMineAll.Size = New System.Drawing.Size(317, 17)
         Me.chkMineAll.TabIndex = 6
         Me.chkMineAll.Text = "I want to mine all the needed ore, without touching my stock"
         Me.chkMineAll.UseVisualStyleBackColor = True
@@ -351,7 +381,7 @@ Partial Class frmBPOreCalculator
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(355, 289)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(166, 13)
+        Me.Label2.Size = New System.Drawing.Size(174, 13)
         Me.Label2.TabIndex = 8
         Me.Label2.Text = "When I refine the ore I (will) have:"
         '
@@ -360,7 +390,7 @@ Partial Class frmBPOreCalculator
         Me.chkMineExtraOre.AutoSize = True
         Me.chkMineExtraOre.Location = New System.Drawing.Point(18, 150)
         Me.chkMineExtraOre.Name = "chkMineExtraOre"
-        Me.chkMineExtraOre.Size = New System.Drawing.Size(189, 17)
+        Me.chkMineExtraOre.Size = New System.Drawing.Size(192, 17)
         Me.chkMineExtraOre.TabIndex = 9
         Me.chkMineExtraOre.Text = "Tell me how much ore I need extra"
         Me.chkMineExtraOre.UseVisualStyleBackColor = True
@@ -370,7 +400,7 @@ Partial Class frmBPOreCalculator
         Me.lblDurationMining.AutoSize = True
         Me.lblDurationMining.Location = New System.Drawing.Point(15, 354)
         Me.lblDurationMining.Name = "lblDurationMining"
-        Me.lblDurationMining.Size = New System.Drawing.Size(178, 13)
+        Me.lblDurationMining.Size = New System.Drawing.Size(185, 13)
         Me.lblDurationMining.TabIndex = 10
         Me.lblDurationMining.Text = "The extra time you'll need for mining:"
         '
@@ -402,36 +432,6 @@ Partial Class frmBPOreCalculator
         Me.btnCancelAndExit.Text = "Cancel && Exit"
         Me.btnCancelAndExit.UseVisualStyleBackColor = True
         '
-        'chkBistot
-        '
-        Me.chkBistot.AutoSize = True
-        Me.chkBistot.Location = New System.Drawing.Point(267, 63)
-        Me.chkBistot.Name = "chkBistot"
-        Me.chkBistot.Size = New System.Drawing.Size(52, 17)
-        Me.chkBistot.TabIndex = 14
-        Me.chkBistot.Text = "Bistot"
-        Me.chkBistot.UseVisualStyleBackColor = True
-        '
-        'chkArkonor
-        '
-        Me.chkArkonor.AutoSize = True
-        Me.chkArkonor.Location = New System.Drawing.Point(267, 86)
-        Me.chkArkonor.Name = "chkArkonor"
-        Me.chkArkonor.Size = New System.Drawing.Size(63, 17)
-        Me.chkArkonor.TabIndex = 15
-        Me.chkArkonor.Text = "Arkonor"
-        Me.chkArkonor.UseVisualStyleBackColor = True
-        '
-        'chkMercoxit
-        '
-        Me.chkMercoxit.AutoSize = True
-        Me.chkMercoxit.Location = New System.Drawing.Point(267, 109)
-        Me.chkMercoxit.Name = "chkMercoxit"
-        Me.chkMercoxit.Size = New System.Drawing.Size(66, 17)
-        Me.chkMercoxit.TabIndex = 16
-        Me.chkMercoxit.Text = "Mercoxit"
-        Me.chkMercoxit.UseVisualStyleBackColor = True
-        '
         'frmBPOreCalculator
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -448,6 +448,7 @@ Partial Class frmBPOreCalculator
         Me.Controls.Add(Me.chkMineAll)
         Me.Controls.Add(Me.clvExtraOre)
         Me.Controls.Add(Me.clvOwnedOre)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.MaximizeBox = False
         Me.Name = "frmBPOreCalculator"

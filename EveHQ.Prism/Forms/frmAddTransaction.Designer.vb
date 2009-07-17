@@ -49,7 +49,7 @@ Partial Class frmAddTransaction
         Me.lblTransactionID.AutoSize = True
         Me.lblTransactionID.Location = New System.Drawing.Point(13, 13)
         Me.lblTransactionID.Name = "lblTransactionID"
-        Me.lblTransactionID.Size = New System.Drawing.Size(80, 13)
+        Me.lblTransactionID.Size = New System.Drawing.Size(81, 13)
         Me.lblTransactionID.TabIndex = 0
         Me.lblTransactionID.Text = "Transaction ID:"
         '
@@ -58,7 +58,7 @@ Partial Class frmAddTransaction
         Me.lblDate.AutoSize = True
         Me.lblDate.Location = New System.Drawing.Point(295, 111)
         Me.lblDate.Name = "lblDate"
-        Me.lblDate.Size = New System.Drawing.Size(33, 13)
+        Me.lblDate.Size = New System.Drawing.Size(34, 13)
         Me.lblDate.TabIndex = 1
         Me.lblDate.Text = "Date:"
         '
@@ -67,7 +67,7 @@ Partial Class frmAddTransaction
         Me.txtTransactionID.Enabled = False
         Me.txtTransactionID.Location = New System.Drawing.Point(115, 10)
         Me.txtTransactionID.Name = "txtTransactionID"
-        Me.txtTransactionID.Size = New System.Drawing.Size(121, 20)
+        Me.txtTransactionID.Size = New System.Drawing.Size(121, 21)
         Me.txtTransactionID.TabIndex = 5
         Me.txtTransactionID.TabStop = False
         '
@@ -76,7 +76,7 @@ Partial Class frmAddTransaction
         Me.lblInvestmentName.AutoSize = True
         Me.lblInvestmentName.Location = New System.Drawing.Point(13, 39)
         Me.lblInvestmentName.Name = "lblInvestmentName"
-        Me.lblInvestmentName.Size = New System.Drawing.Size(93, 13)
+        Me.lblInvestmentName.Size = New System.Drawing.Size(96, 13)
         Me.lblInvestmentName.TabIndex = 4
         Me.lblInvestmentName.Text = "Investment Name:"
         '
@@ -85,7 +85,7 @@ Partial Class frmAddTransaction
         Me.txtInvestmentName.Enabled = False
         Me.txtInvestmentName.Location = New System.Drawing.Point(115, 36)
         Me.txtInvestmentName.Name = "txtInvestmentName"
-        Me.txtInvestmentName.Size = New System.Drawing.Size(404, 20)
+        Me.txtInvestmentName.Size = New System.Drawing.Size(404, 21)
         Me.txtInvestmentName.TabIndex = 0
         '
         'btnAccept
@@ -114,7 +114,7 @@ Partial Class frmAddTransaction
         Me.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dtpDate.Location = New System.Drawing.Point(334, 108)
         Me.dtpDate.Name = "dtpDate"
-        Me.dtpDate.Size = New System.Drawing.Size(185, 20)
+        Me.dtpDate.Size = New System.Drawing.Size(185, 21)
         Me.dtpDate.TabIndex = 1
         '
         'txtInvestmentID
@@ -122,7 +122,7 @@ Partial Class frmAddTransaction
         Me.txtInvestmentID.Enabled = False
         Me.txtInvestmentID.Location = New System.Drawing.Point(334, 10)
         Me.txtInvestmentID.Name = "txtInvestmentID"
-        Me.txtInvestmentID.Size = New System.Drawing.Size(121, 20)
+        Me.txtInvestmentID.Size = New System.Drawing.Size(121, 21)
         Me.txtInvestmentID.TabIndex = 11
         Me.txtInvestmentID.TabStop = False
         '
@@ -131,7 +131,7 @@ Partial Class frmAddTransaction
         Me.lblInvestmentID.AutoSize = True
         Me.lblInvestmentID.Location = New System.Drawing.Point(252, 13)
         Me.lblInvestmentID.Name = "lblInvestmentID"
-        Me.lblInvestmentID.Size = New System.Drawing.Size(76, 13)
+        Me.lblInvestmentID.Size = New System.Drawing.Size(80, 13)
         Me.lblInvestmentID.TabIndex = 10
         Me.lblInvestmentID.Text = "Investment ID:"
         '
@@ -140,7 +140,7 @@ Partial Class frmAddTransaction
         Me.lblTransactionType.AutoSize = True
         Me.lblTransactionType.Location = New System.Drawing.Point(13, 111)
         Me.lblTransactionType.Name = "lblTransactionType"
-        Me.lblTransactionType.Size = New System.Drawing.Size(93, 13)
+        Me.lblTransactionType.Size = New System.Drawing.Size(94, 13)
         Me.lblTransactionType.TabIndex = 12
         Me.lblTransactionType.Text = "Transaction Type:"
         '
@@ -159,7 +159,7 @@ Partial Class frmAddTransaction
         Me.lblQuantity.AutoSize = True
         Me.lblQuantity.Location = New System.Drawing.Point(279, 160)
         Me.lblQuantity.Name = "lblQuantity"
-        Me.lblQuantity.Size = New System.Drawing.Size(49, 13)
+        Me.lblQuantity.Size = New System.Drawing.Size(53, 13)
         Me.lblQuantity.TabIndex = 14
         Me.lblQuantity.Text = "Quantity:"
         '
@@ -167,14 +167,14 @@ Partial Class frmAddTransaction
         '
         Me.txtQuantity.Location = New System.Drawing.Point(334, 157)
         Me.txtQuantity.Name = "txtQuantity"
-        Me.txtQuantity.Size = New System.Drawing.Size(121, 20)
+        Me.txtQuantity.Size = New System.Drawing.Size(121, 21)
         Me.txtQuantity.TabIndex = 3
         '
         'txtUnitValue
         '
         Me.txtUnitValue.Location = New System.Drawing.Point(115, 157)
         Me.txtUnitValue.Name = "txtUnitValue"
-        Me.txtUnitValue.Size = New System.Drawing.Size(121, 20)
+        Me.txtUnitValue.Size = New System.Drawing.Size(121, 21)
         Me.txtUnitValue.TabIndex = 2
         '
         'lblValue
@@ -191,7 +191,7 @@ Partial Class frmAddTransaction
         Me.txtCurrentQuantity.Enabled = False
         Me.txtCurrentQuantity.Location = New System.Drawing.Point(115, 62)
         Me.txtCurrentQuantity.Name = "txtCurrentQuantity"
-        Me.txtCurrentQuantity.Size = New System.Drawing.Size(121, 20)
+        Me.txtCurrentQuantity.Size = New System.Drawing.Size(121, 21)
         Me.txtCurrentQuantity.TabIndex = 18
         '
         'lblCurrentQuantity
@@ -199,7 +199,7 @@ Partial Class frmAddTransaction
         Me.lblCurrentQuantity.AutoSize = True
         Me.lblCurrentQuantity.Location = New System.Drawing.Point(13, 65)
         Me.lblCurrentQuantity.Name = "lblCurrentQuantity"
-        Me.lblCurrentQuantity.Size = New System.Drawing.Size(86, 13)
+        Me.lblCurrentQuantity.Size = New System.Drawing.Size(93, 13)
         Me.lblCurrentQuantity.TabIndex = 19
         Me.lblCurrentQuantity.Text = "Current Quantity:"
         '
@@ -217,7 +217,7 @@ Partial Class frmAddTransaction
         Me.lblNotes.AutoSize = True
         Me.lblNotes.Location = New System.Drawing.Point(16, 201)
         Me.lblNotes.Name = "lblNotes"
-        Me.lblNotes.Size = New System.Drawing.Size(38, 13)
+        Me.lblNotes.Size = New System.Drawing.Size(39, 13)
         Me.lblNotes.TabIndex = 21
         Me.lblNotes.Text = "Notes:"
         '
@@ -248,6 +248,7 @@ Partial Class frmAddTransaction
         Me.Controls.Add(Me.txtTransactionID)
         Me.Controls.Add(Me.lblDate)
         Me.Controls.Add(Me.lblTransactionID)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.MaximizeBox = False
         Me.MinimizeBox = False

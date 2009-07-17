@@ -61,7 +61,7 @@ Partial Class frmModifyQueues
         '
         Me.txtQueueName.Location = New System.Drawing.Point(91, 47)
         Me.txtQueueName.Name = "txtQueueName"
-        Me.txtQueueName.Size = New System.Drawing.Size(188, 20)
+        Me.txtQueueName.Size = New System.Drawing.Size(188, 21)
         Me.txtQueueName.TabIndex = 8
         '
         'lblQueueName
@@ -85,6 +85,7 @@ Partial Class frmModifyQueues
         Me.Controls.Add(Me.btnAccept)
         Me.Controls.Add(Me.txtQueueName)
         Me.Controls.Add(Me.lblQueueName)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

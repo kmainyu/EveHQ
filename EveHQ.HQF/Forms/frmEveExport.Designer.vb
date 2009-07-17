@@ -38,7 +38,7 @@ Partial Class frmEveExport
         Me.lblDescription.AutoSize = True
         Me.lblDescription.Location = New System.Drawing.Point(12, 9)
         Me.lblDescription.Name = "lblDescription"
-        Me.lblDescription.Size = New System.Drawing.Size(312, 13)
+        Me.lblDescription.Size = New System.Drawing.Size(327, 13)
         Me.lblDescription.TabIndex = 0
         Me.lblDescription.Text = "This feature will export the selected fittings to the following folder:"
         '
@@ -91,7 +91,7 @@ Partial Class frmEveExport
         Me.lblFilename.AutoSize = True
         Me.lblFilename.Location = New System.Drawing.Point(12, 294)
         Me.lblFilename.Name = "lblFilename"
-        Me.lblFilename.Size = New System.Drawing.Size(85, 13)
+        Me.lblFilename.Size = New System.Drawing.Size(88, 13)
         Me.lblFilename.TabIndex = 5
         Me.lblFilename.Text = "Export Filename:"
         '
@@ -100,7 +100,7 @@ Partial Class frmEveExport
         Me.txtFilename.Location = New System.Drawing.Point(103, 291)
         Me.txtFilename.MaxLength = 20
         Me.txtFilename.Name = "txtFilename"
-        Me.txtFilename.Size = New System.Drawing.Size(212, 20)
+        Me.txtFilename.Size = New System.Drawing.Size(212, 21)
         Me.txtFilename.TabIndex = 6
         '
         'frmEveExport
@@ -115,6 +115,7 @@ Partial Class frmEveExport
         Me.Controls.Add(Me.lvwFittings)
         Me.Controls.Add(Me.lblEveFolder)
         Me.Controls.Add(Me.lblDescription)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False

@@ -72,12 +72,12 @@ Partial Class frmSkillDetails
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.TabPage4 = New System.Windows.Forms.TabPage
-        Me.SkillToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.lvwTimes = New EveHQ.ListViewNoFlicker
         Me.ToLevel = New System.Windows.Forms.ColumnHeader
         Me.Standard = New System.Windows.Forms.ColumnHeader
         Me.Current = New System.Windows.Forms.ColumnHeader
         Me.Cumulative = New System.Windows.Forms.ColumnHeader
+        Me.SkillToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.lvwDetails = New EveHQ.ListViewNoFlicker
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
@@ -108,24 +108,24 @@ Partial Class frmSkillDetails
         Me.ctxReqs.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxReqs.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator2, Me.mnuViewSkillDetails})
         Me.ctxReqs.Name = "ctxDepend"
-        Me.ctxReqs.Size = New System.Drawing.Size(144, 54)
+        Me.ctxReqs.Size = New System.Drawing.Size(133, 54)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(143, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(132, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(140, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(129, 6)
         '
         'mnuViewSkillDetails
         '
         Me.mnuViewSkillDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewSkillDetails.Name = "mnuViewSkillDetails"
-        Me.mnuViewSkillDetails.Size = New System.Drawing.Size(143, 22)
+        Me.mnuViewSkillDetails.Size = New System.Drawing.Size(132, 22)
         Me.mnuViewSkillDetails.Text = "View Details"
         '
         'ctxDepend
@@ -133,38 +133,38 @@ Partial Class frmSkillDetails
         Me.ctxDepend.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxDepend.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemName, Me.ToolStripSeparator1, Me.mnuViewItemDetails, Me.mnuViewCertDetails, Me.mnuViewItemDetailsInIB})
         Me.ctxDepend.Name = "ctxDepend"
-        Me.ctxDepend.Size = New System.Drawing.Size(223, 98)
+        Me.ctxDepend.Size = New System.Drawing.Size(212, 98)
         '
         'mnuItemName
         '
         Me.mnuItemName.Name = "mnuItemName"
-        Me.mnuItemName.Size = New System.Drawing.Size(222, 22)
+        Me.mnuItemName.Size = New System.Drawing.Size(211, 22)
         Me.mnuItemName.Text = "Item Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(219, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(208, 6)
         '
         'mnuViewItemDetails
         '
         Me.mnuViewItemDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewItemDetails.Name = "mnuViewItemDetails"
-        Me.mnuViewItemDetails.Size = New System.Drawing.Size(222, 22)
+        Me.mnuViewItemDetails.Size = New System.Drawing.Size(211, 22)
         Me.mnuViewItemDetails.Text = "View Details"
         '
         'mnuViewCertDetails
         '
         Me.mnuViewCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
-        Me.mnuViewCertDetails.Size = New System.Drawing.Size(222, 22)
+        Me.mnuViewCertDetails.Size = New System.Drawing.Size(211, 22)
         Me.mnuViewCertDetails.Text = "View Certificate Details"
         '
         'mnuViewItemDetailsInIB
         '
         Me.mnuViewItemDetailsInIB.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewItemDetailsInIB.Name = "mnuViewItemDetailsInIB"
-        Me.mnuViewItemDetailsInIB.Size = New System.Drawing.Size(222, 22)
+        Me.mnuViewItemDetailsInIB.Size = New System.Drawing.Size(211, 22)
         Me.mnuViewItemDetailsInIB.Text = "View Details In Item Browser"
         '
         'TabControl1
@@ -406,6 +406,7 @@ Partial Class frmSkillDetails
         Me.ClientSize = New System.Drawing.Size(490, 614)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.lvwDetails)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False

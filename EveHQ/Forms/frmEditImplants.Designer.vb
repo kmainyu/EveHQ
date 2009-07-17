@@ -45,15 +45,15 @@ Partial Class frmEditImplants
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Size = New System.Drawing.Size(204, 56)
         Me.lblDescription.TabIndex = 0
-        Me.lblDescription.Text = "Please enter the value of your implants in the boxes below. They will automatical" & _
-            "ly be saved when you exit this screen."
+        Me.lblDescription.Text = "Please enter the value of your implants in the boxes below. They will be saved au" & _
+            "tomatically when you exit this screen."
         '
         'lblC
         '
         Me.lblC.AutoSize = True
         Me.lblC.Location = New System.Drawing.Point(26, 73)
         Me.lblC.Name = "lblC"
-        Me.lblC.Size = New System.Drawing.Size(53, 13)
+        Me.lblC.Size = New System.Drawing.Size(55, 13)
         Me.lblC.TabIndex = 1
         Me.lblC.Text = "Charisma:"
         '
@@ -62,7 +62,7 @@ Partial Class frmEditImplants
         Me.nudC.Location = New System.Drawing.Point(113, 71)
         Me.nudC.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.nudC.Name = "nudC"
-        Me.nudC.Size = New System.Drawing.Size(67, 20)
+        Me.nudC.Size = New System.Drawing.Size(67, 21)
         Me.nudC.TabIndex = 2
         '
         'nudI
@@ -70,7 +70,7 @@ Partial Class frmEditImplants
         Me.nudI.Location = New System.Drawing.Point(113, 97)
         Me.nudI.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.nudI.Name = "nudI"
-        Me.nudI.Size = New System.Drawing.Size(67, 20)
+        Me.nudI.Size = New System.Drawing.Size(67, 21)
         Me.nudI.TabIndex = 4
         '
         'lblI
@@ -78,7 +78,7 @@ Partial Class frmEditImplants
         Me.lblI.AutoSize = True
         Me.lblI.Location = New System.Drawing.Point(26, 99)
         Me.lblI.Name = "lblI"
-        Me.lblI.Size = New System.Drawing.Size(64, 13)
+        Me.lblI.Size = New System.Drawing.Size(66, 13)
         Me.lblI.TabIndex = 3
         Me.lblI.Text = "Intelligence:"
         '
@@ -87,7 +87,7 @@ Partial Class frmEditImplants
         Me.nudM.Location = New System.Drawing.Point(113, 123)
         Me.nudM.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.nudM.Name = "nudM"
-        Me.nudM.Size = New System.Drawing.Size(67, 20)
+        Me.nudM.Size = New System.Drawing.Size(67, 21)
         Me.nudM.TabIndex = 6
         '
         'lblM
@@ -95,7 +95,7 @@ Partial Class frmEditImplants
         Me.lblM.AutoSize = True
         Me.lblM.Location = New System.Drawing.Point(26, 125)
         Me.lblM.Name = "lblM"
-        Me.lblM.Size = New System.Drawing.Size(47, 13)
+        Me.lblM.Size = New System.Drawing.Size(49, 13)
         Me.lblM.TabIndex = 5
         Me.lblM.Text = "Memory:"
         '
@@ -104,7 +104,7 @@ Partial Class frmEditImplants
         Me.nudP.Location = New System.Drawing.Point(113, 149)
         Me.nudP.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.nudP.Name = "nudP"
-        Me.nudP.Size = New System.Drawing.Size(67, 20)
+        Me.nudP.Size = New System.Drawing.Size(67, 21)
         Me.nudP.TabIndex = 8
         '
         'lblP
@@ -112,7 +112,7 @@ Partial Class frmEditImplants
         Me.lblP.AutoSize = True
         Me.lblP.Location = New System.Drawing.Point(26, 151)
         Me.lblP.Name = "lblP"
-        Me.lblP.Size = New System.Drawing.Size(61, 13)
+        Me.lblP.Size = New System.Drawing.Size(62, 13)
         Me.lblP.TabIndex = 7
         Me.lblP.Text = "Perception:"
         '
@@ -121,7 +121,7 @@ Partial Class frmEditImplants
         Me.nudW.Location = New System.Drawing.Point(113, 175)
         Me.nudW.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.nudW.Name = "nudW"
-        Me.nudW.Size = New System.Drawing.Size(67, 20)
+        Me.nudW.Size = New System.Drawing.Size(67, 21)
         Me.nudW.TabIndex = 10
         '
         'lblW
@@ -129,7 +129,7 @@ Partial Class frmEditImplants
         Me.lblW.AutoSize = True
         Me.lblW.Location = New System.Drawing.Point(26, 177)
         Me.lblW.Name = "lblW"
-        Me.lblW.Size = New System.Drawing.Size(56, 13)
+        Me.lblW.Size = New System.Drawing.Size(57, 13)
         Me.lblW.TabIndex = 9
         Me.lblW.Text = "Willpower:"
         '
@@ -159,6 +159,7 @@ Partial Class frmEditImplants
         Me.Controls.Add(Me.nudC)
         Me.Controls.Add(Me.lblC)
         Me.Controls.Add(Me.lblDescription)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False

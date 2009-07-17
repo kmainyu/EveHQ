@@ -25,19 +25,19 @@ Partial Class frmDashboard
         Me.FLP1 = New System.Windows.Forms.FlowLayoutPanel
         Me.AGP1 = New EveHQ.Core.AlphaGradientPanel
         Me.ColorWithAlpha1 = New EveHQ.Core.ColorWithAlpha
+        Me.AGP4 = New EveHQ.Core.AlphaGradientPanel
         Me.ColorWithAlpha2 = New EveHQ.Core.ColorWithAlpha
+        Me.Label4 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
         Me.AGP2 = New EveHQ.Core.AlphaGradientPanel
         Me.Label2 = New System.Windows.Forms.Label
         Me.AGP3 = New EveHQ.Core.AlphaGradientPanel
         Me.Label3 = New System.Windows.Forms.Label
-        Me.AGP4 = New EveHQ.Core.AlphaGradientPanel
-        Me.Label4 = New System.Windows.Forms.Label
         Me.FLP1.SuspendLayout()
         Me.AGP1.SuspendLayout()
+        Me.AGP4.SuspendLayout()
         Me.AGP2.SuspendLayout()
         Me.AGP3.SuspendLayout()
-        Me.AGP4.SuspendLayout()
         Me.SuspendLayout()
         '
         'FLP1
@@ -88,20 +88,58 @@ Partial Class frmDashboard
         '
         Me.ColorWithAlpha1.Alpha = 255
         Me.ColorWithAlpha1.Color = System.Drawing.Color.White
-        Me.ColorWithAlpha1.Parent = Me.AGP4
+        Me.ColorWithAlpha1.Parent = Me.AGP3
+        '
+        'AGP4
+        '
+        Me.AGP4.BackColor = System.Drawing.Color.Transparent
+        Me.AGP4.Border = True
+        Me.AGP4.BorderColor = System.Drawing.Color.DarkGreen
+        Me.AGP4.Colors.Add(Me.ColorWithAlpha1)
+        Me.AGP4.Colors.Add(Me.ColorWithAlpha2)
+        Me.AGP4.ContentPadding = New System.Windows.Forms.Padding(0)
+        Me.AGP4.Controls.Add(Me.Label4)
+        Me.AGP4.CornerRadius = 25
+        Me.AGP4.Corners = EveHQ.Core.Corner.BottomRight
+        Me.AGP4.Gradient = True
+        Me.AGP4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical
+        Me.AGP4.GradientOffset = 1.0!
+        Me.AGP4.GradientSize = New System.Drawing.Size(0, 0)
+        Me.AGP4.GradientWrapMode = System.Drawing.Drawing2D.WrapMode.Tile
+        Me.AGP4.Grayscale = False
+        Me.AGP4.Image = Nothing
+        Me.AGP4.ImageAlpha = 75
+        Me.AGP4.ImagePadding = New System.Windows.Forms.Padding(5)
+        Me.AGP4.ImagePosition = EveHQ.Core.ImagePosition.BottomRight
+        Me.AGP4.ImageSize = New System.Drawing.Size(48, 48)
+        Me.AGP4.Location = New System.Drawing.Point(282, 215)
+        Me.AGP4.Margin = New System.Windows.Forms.Padding(5)
+        Me.AGP4.Name = "AGP4"
+        Me.AGP4.Rounded = True
+        Me.AGP4.Size = New System.Drawing.Size(267, 200)
+        Me.AGP4.TabIndex = 3
         '
         'ColorWithAlpha2
         '
         Me.ColorWithAlpha2.Alpha = 255
         Me.ColorWithAlpha2.Color = System.Drawing.Color.MintCream
-        Me.ColorWithAlpha2.Parent = Me.AGP4
+        Me.ColorWithAlpha2.Parent = Me.AGP3
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(114, 90)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(38, 13)
+        Me.Label4.TabIndex = 0
+        Me.Label4.Text = "Label4"
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(114, 90)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(39, 13)
+        Me.Label1.Size = New System.Drawing.Size(38, 13)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Label1"
         '
@@ -139,7 +177,7 @@ Partial Class frmDashboard
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(114, 90)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(39, 13)
+        Me.Label2.Size = New System.Drawing.Size(38, 13)
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Label2"
         '
@@ -177,47 +215,9 @@ Partial Class frmDashboard
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(114, 90)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(39, 13)
+        Me.Label3.Size = New System.Drawing.Size(38, 13)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Label3"
-        '
-        'AGP4
-        '
-        Me.AGP4.BackColor = System.Drawing.Color.Transparent
-        Me.AGP4.Border = True
-        Me.AGP4.BorderColor = System.Drawing.Color.DarkGreen
-        Me.AGP4.Colors.Add(Me.ColorWithAlpha1)
-        Me.AGP4.Colors.Add(Me.ColorWithAlpha2)
-        Me.AGP4.ContentPadding = New System.Windows.Forms.Padding(0)
-        Me.AGP4.Controls.Add(Me.Label4)
-        Me.AGP4.CornerRadius = 25
-        Me.AGP4.Corners = EveHQ.Core.Corner.BottomRight
-        Me.AGP4.Gradient = True
-        Me.AGP4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical
-        Me.AGP4.GradientOffset = 1.0!
-        Me.AGP4.GradientSize = New System.Drawing.Size(0, 0)
-        Me.AGP4.GradientWrapMode = System.Drawing.Drawing2D.WrapMode.Tile
-        Me.AGP4.Grayscale = False
-        Me.AGP4.Image = Nothing
-        Me.AGP4.ImageAlpha = 75
-        Me.AGP4.ImagePadding = New System.Windows.Forms.Padding(5)
-        Me.AGP4.ImagePosition = EveHQ.Core.ImagePosition.BottomRight
-        Me.AGP4.ImageSize = New System.Drawing.Size(48, 48)
-        Me.AGP4.Location = New System.Drawing.Point(282, 215)
-        Me.AGP4.Margin = New System.Windows.Forms.Padding(5)
-        Me.AGP4.Name = "AGP4"
-        Me.AGP4.Rounded = True
-        Me.AGP4.Size = New System.Drawing.Size(267, 200)
-        Me.AGP4.TabIndex = 3
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(114, 90)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(39, 13)
-        Me.Label4.TabIndex = 0
-        Me.Label4.Text = "Label4"
         '
         'frmDashboard
         '
@@ -225,17 +225,18 @@ Partial Class frmDashboard
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(717, 580)
         Me.Controls.Add(Me.FLP1)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "frmDashboard"
         Me.Text = "EveHQ Dashboard"
         Me.FLP1.ResumeLayout(False)
         Me.AGP1.ResumeLayout(False)
         Me.AGP1.PerformLayout()
+        Me.AGP4.ResumeLayout(False)
+        Me.AGP4.PerformLayout()
         Me.AGP2.ResumeLayout(False)
         Me.AGP2.PerformLayout()
         Me.AGP3.ResumeLayout(False)
         Me.AGP3.PerformLayout()
-        Me.AGP4.ResumeLayout(False)
-        Me.AGP4.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub

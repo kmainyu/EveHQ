@@ -72,7 +72,7 @@ Partial Class frmBackup
         '
         'btnResetBackup
         '
-        Me.btnResetBackup.Location = New System.Drawing.Point(122, 165)
+        Me.btnResetBackup.Location = New System.Drawing.Point(104, 165)
         Me.btnResetBackup.Name = "btnResetBackup"
         Me.btnResetBackup.Size = New System.Drawing.Size(109, 23)
         Me.btnResetBackup.TabIndex = 13
@@ -81,7 +81,7 @@ Partial Class frmBackup
         '
         'btnBackup
         '
-        Me.btnBackup.Location = New System.Drawing.Point(24, 165)
+        Me.btnBackup.Location = New System.Drawing.Point(6, 165)
         Me.btnBackup.Name = "btnBackup"
         Me.btnBackup.Size = New System.Drawing.Size(92, 23)
         Me.btnBackup.TabIndex = 12
@@ -94,7 +94,7 @@ Partial Class frmBackup
         Me.lblNextBackupLbl.Enabled = False
         Me.lblNextBackupLbl.Location = New System.Drawing.Point(75, 134)
         Me.lblNextBackupLbl.Name = "lblNextBackupLbl"
-        Me.lblNextBackupLbl.Size = New System.Drawing.Size(72, 13)
+        Me.lblNextBackupLbl.Size = New System.Drawing.Size(71, 13)
         Me.lblNextBackupLbl.TabIndex = 11
         Me.lblNextBackupLbl.Text = "Next Backup:"
         '
@@ -104,7 +104,7 @@ Partial Class frmBackup
         Me.lblLastBackup.Enabled = False
         Me.lblLastBackup.Location = New System.Drawing.Point(178, 109)
         Me.lblLastBackup.Name = "lblLastBackup"
-        Me.lblLastBackup.Size = New System.Drawing.Size(63, 13)
+        Me.lblLastBackup.Size = New System.Drawing.Size(66, 13)
         Me.lblLastBackup.TabIndex = 10
         Me.lblLastBackup.Text = "<unknown>"
         '
@@ -114,7 +114,7 @@ Partial Class frmBackup
         Me.lblNextBackup.Enabled = False
         Me.lblNextBackup.Location = New System.Drawing.Point(178, 134)
         Me.lblNextBackup.Name = "lblNextBackup"
-        Me.lblNextBackup.Size = New System.Drawing.Size(63, 13)
+        Me.lblNextBackup.Size = New System.Drawing.Size(66, 13)
         Me.lblNextBackup.TabIndex = 9
         Me.lblNextBackup.Text = "<unknown>"
         '
@@ -124,7 +124,7 @@ Partial Class frmBackup
         Me.lblLastBackupLbl.Enabled = False
         Me.lblLastBackupLbl.Location = New System.Drawing.Point(75, 109)
         Me.lblLastBackupLbl.Name = "lblLastBackupLbl"
-        Me.lblLastBackupLbl.Size = New System.Drawing.Size(70, 13)
+        Me.lblLastBackupLbl.Size = New System.Drawing.Size(68, 13)
         Me.lblLastBackupLbl.TabIndex = 8
         Me.lblLastBackupLbl.Text = "Last Backup:"
         '
@@ -134,7 +134,7 @@ Partial Class frmBackup
         Me.lblStartFormat.Enabled = False
         Me.lblStartFormat.Location = New System.Drawing.Point(316, 82)
         Me.lblStartFormat.Name = "lblStartFormat"
-        Me.lblStartFormat.Size = New System.Drawing.Size(158, 13)
+        Me.lblStartFormat.Size = New System.Drawing.Size(164, 13)
         Me.lblStartFormat.TabIndex = 7
         Me.lblStartFormat.Text = "(in ""dd/mm/yyyy hh:mm"" format)"
         '
@@ -146,7 +146,7 @@ Partial Class frmBackup
         Me.dtpStart.Location = New System.Drawing.Point(181, 78)
         Me.dtpStart.Name = "dtpStart"
         Me.dtpStart.ShowUpDown = True
-        Me.dtpStart.Size = New System.Drawing.Size(129, 20)
+        Me.dtpStart.Size = New System.Drawing.Size(129, 21)
         Me.dtpStart.TabIndex = 6
         Me.dtpStart.Tag = "1"
         Me.dtpStart.Value = New Date(2006, 3, 10, 0, 0, 0, 0)
@@ -157,7 +157,7 @@ Partial Class frmBackup
         Me.lblBackupStart.Enabled = False
         Me.lblBackupStart.Location = New System.Drawing.Point(75, 84)
         Me.lblBackupStart.Name = "lblBackupStart"
-        Me.lblBackupStart.Size = New System.Drawing.Size(86, 13)
+        Me.lblBackupStart.Size = New System.Drawing.Size(87, 13)
         Me.lblBackupStart.TabIndex = 4
         Me.lblBackupStart.Text = "Start Date/Time:"
         '
@@ -167,7 +167,7 @@ Partial Class frmBackup
         Me.lblBackupDays.Enabled = False
         Me.lblBackupDays.Location = New System.Drawing.Point(223, 54)
         Me.lblBackupDays.Name = "lblBackupDays"
-        Me.lblBackupDays.Size = New System.Drawing.Size(37, 13)
+        Me.lblBackupDays.Size = New System.Drawing.Size(39, 13)
         Me.lblBackupDays.TabIndex = 3
         Me.lblBackupDays.Text = "(Days)"
         '
@@ -178,7 +178,7 @@ Partial Class frmBackup
         Me.nudDays.Maximum = New Decimal(New Integer() {28, 0, 0, 0})
         Me.nudDays.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudDays.Name = "nudDays"
-        Me.nudDays.Size = New System.Drawing.Size(36, 20)
+        Me.nudDays.Size = New System.Drawing.Size(36, 21)
         Me.nudDays.TabIndex = 2
         Me.nudDays.Tag = "1"
         Me.nudDays.Value = New Decimal(New Integer() {1, 0, 0, 0})
@@ -189,7 +189,7 @@ Partial Class frmBackup
         Me.lblBackupFreq.Enabled = False
         Me.lblBackupFreq.Location = New System.Drawing.Point(75, 54)
         Me.lblBackupFreq.Name = "lblBackupFreq"
-        Me.lblBackupFreq.Size = New System.Drawing.Size(100, 13)
+        Me.lblBackupFreq.Size = New System.Drawing.Size(99, 13)
         Me.lblBackupFreq.TabIndex = 1
         Me.lblBackupFreq.Text = "Backup Frequency:"
         '
@@ -221,7 +221,7 @@ Partial Class frmBackup
         'btnRestore
         '
         Me.btnRestore.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnRestore.Location = New System.Drawing.Point(24, 279)
+        Me.btnRestore.Location = New System.Drawing.Point(5, 279)
         Me.btnRestore.Name = "btnRestore"
         Me.btnRestore.Size = New System.Drawing.Size(92, 23)
         Me.btnRestore.TabIndex = 14
@@ -260,7 +260,7 @@ Partial Class frmBackup
         '
         'btnScan
         '
-        Me.btnScan.Location = New System.Drawing.Point(22, 32)
+        Me.btnScan.Location = New System.Drawing.Point(5, 31)
         Me.btnScan.Name = "btnScan"
         Me.btnScan.Size = New System.Drawing.Size(137, 23)
         Me.btnScan.TabIndex = 12
@@ -274,6 +274,7 @@ Partial Class frmBackup
         Me.ClientSize = New System.Drawing.Size(638, 534)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.gbBackup)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(500, 450)
         Me.Name = "frmBackup"

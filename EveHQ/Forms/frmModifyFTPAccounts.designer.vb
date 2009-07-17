@@ -69,14 +69,14 @@ Partial Class frmModifyFTPAccounts
         '
         Me.txtServer.Location = New System.Drawing.Point(83, 92)
         Me.txtServer.Name = "txtServer"
-        Me.txtServer.Size = New System.Drawing.Size(188, 20)
+        Me.txtServer.Size = New System.Drawing.Size(188, 21)
         Me.txtServer.TabIndex = 1
         '
         'txtFTPName
         '
         Me.txtFTPName.Location = New System.Drawing.Point(83, 66)
         Me.txtFTPName.Name = "txtFTPName"
-        Me.txtFTPName.Size = New System.Drawing.Size(188, 20)
+        Me.txtFTPName.Size = New System.Drawing.Size(188, 21)
         Me.txtFTPName.TabIndex = 0
         '
         'lblServer
@@ -84,7 +84,7 @@ Partial Class frmModifyFTPAccounts
         Me.lblServer.AutoSize = True
         Me.lblServer.Location = New System.Drawing.Point(10, 95)
         Me.lblServer.Name = "lblServer"
-        Me.lblServer.Size = New System.Drawing.Size(41, 13)
+        Me.lblServer.Size = New System.Drawing.Size(43, 13)
         Me.lblServer.TabIndex = 8
         Me.lblServer.Text = "Server:"
         '
@@ -93,7 +93,7 @@ Partial Class frmModifyFTPAccounts
         Me.lvlFTPName.AutoSize = True
         Me.lvlFTPName.Location = New System.Drawing.Point(10, 69)
         Me.lvlFTPName.Name = "lvlFTPName"
-        Me.lvlFTPName.Size = New System.Drawing.Size(61, 13)
+        Me.lvlFTPName.Size = New System.Drawing.Size(59, 13)
         Me.lvlFTPName.TabIndex = 7
         Me.lvlFTPName.Text = "FTP Name:"
         '
@@ -101,7 +101,7 @@ Partial Class frmModifyFTPAccounts
         '
         Me.txtPath.Location = New System.Drawing.Point(83, 144)
         Me.txtPath.Name = "txtPath"
-        Me.txtPath.Size = New System.Drawing.Size(188, 20)
+        Me.txtPath.Size = New System.Drawing.Size(188, 21)
         Me.txtPath.TabIndex = 3
         '
         'lblPath
@@ -109,7 +109,7 @@ Partial Class frmModifyFTPAccounts
         Me.lblPath.AutoSize = True
         Me.lblPath.Location = New System.Drawing.Point(10, 147)
         Me.lblPath.Name = "lblPath"
-        Me.lblPath.Size = New System.Drawing.Size(32, 13)
+        Me.lblPath.Size = New System.Drawing.Size(33, 13)
         Me.lblPath.TabIndex = 15
         Me.lblPath.Text = "Path:"
         '
@@ -118,7 +118,7 @@ Partial Class frmModifyFTPAccounts
         Me.lblPort.AutoSize = True
         Me.lblPort.Location = New System.Drawing.Point(10, 121)
         Me.lblPort.Name = "lblPort"
-        Me.lblPort.Size = New System.Drawing.Size(29, 13)
+        Me.lblPort.Size = New System.Drawing.Size(31, 13)
         Me.lblPort.TabIndex = 14
         Me.lblPort.Text = "Port:"
         '
@@ -127,14 +127,14 @@ Partial Class frmModifyFTPAccounts
         Me.txtPassword.Location = New System.Drawing.Point(83, 196)
         Me.txtPassword.Name = "txtPassword"
         Me.txtPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtPassword.Size = New System.Drawing.Size(188, 20)
+        Me.txtPassword.Size = New System.Drawing.Size(188, 21)
         Me.txtPassword.TabIndex = 5
         '
         'txtUsername
         '
         Me.txtUsername.Location = New System.Drawing.Point(83, 170)
         Me.txtUsername.Name = "txtUsername"
-        Me.txtUsername.Size = New System.Drawing.Size(188, 20)
+        Me.txtUsername.Size = New System.Drawing.Size(188, 21)
         Me.txtUsername.TabIndex = 4
         '
         'lblPassword
@@ -142,7 +142,7 @@ Partial Class frmModifyFTPAccounts
         Me.lblPassword.AutoSize = True
         Me.lblPassword.Location = New System.Drawing.Point(10, 199)
         Me.lblPassword.Name = "lblPassword"
-        Me.lblPassword.Size = New System.Drawing.Size(56, 13)
+        Me.lblPassword.Size = New System.Drawing.Size(57, 13)
         Me.lblPassword.TabIndex = 19
         Me.lblPassword.Text = "Password:"
         '
@@ -151,7 +151,7 @@ Partial Class frmModifyFTPAccounts
         Me.lblUsername.AutoSize = True
         Me.lblUsername.Location = New System.Drawing.Point(10, 173)
         Me.lblUsername.Name = "lblUsername"
-        Me.lblUsername.Size = New System.Drawing.Size(58, 13)
+        Me.lblUsername.Size = New System.Drawing.Size(59, 13)
         Me.lblUsername.TabIndex = 18
         Me.lblUsername.Text = "Username:"
         '
@@ -161,7 +161,7 @@ Partial Class frmModifyFTPAccounts
         Me.txtPort.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
         Me.txtPort.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.txtPort.Name = "txtPort"
-        Me.txtPort.Size = New System.Drawing.Size(107, 20)
+        Me.txtPort.Size = New System.Drawing.Size(107, 21)
         Me.txtPort.TabIndex = 2
         Me.txtPort.ThousandsSeparator = True
         Me.txtPort.Value = New Decimal(New Integer() {21, 0, 0, 0})
@@ -188,6 +188,7 @@ Partial Class frmModifyFTPAccounts
         Me.Controls.Add(Me.txtFTPName)
         Me.Controls.Add(Me.lblServer)
         Me.Controls.Add(Me.lvlFTPName)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

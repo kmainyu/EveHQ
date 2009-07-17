@@ -38,7 +38,7 @@ Partial Class frmModifyEveAccounts
         Me.lblUserID.AutoSize = True
         Me.lblUserID.Location = New System.Drawing.Point(12, 137)
         Me.lblUserID.Name = "lblUserID"
-        Me.lblUserID.Size = New System.Drawing.Size(43, 13)
+        Me.lblUserID.Size = New System.Drawing.Size(44, 13)
         Me.lblUserID.TabIndex = 0
         Me.lblUserID.Text = "UserID:"
         '
@@ -47,7 +47,7 @@ Partial Class frmModifyEveAccounts
         Me.lblAPIKey.AutoSize = True
         Me.lblAPIKey.Location = New System.Drawing.Point(12, 163)
         Me.lblAPIKey.Name = "lblAPIKey"
-        Me.lblAPIKey.Size = New System.Drawing.Size(45, 13)
+        Me.lblAPIKey.Size = New System.Drawing.Size(46, 13)
         Me.lblAPIKey.TabIndex = 1
         Me.lblAPIKey.Text = "APIKey:"
         '
@@ -55,14 +55,14 @@ Partial Class frmModifyEveAccounts
         '
         Me.txtUserID.Location = New System.Drawing.Point(99, 134)
         Me.txtUserID.Name = "txtUserID"
-        Me.txtUserID.Size = New System.Drawing.Size(107, 20)
+        Me.txtUserID.Size = New System.Drawing.Size(107, 21)
         Me.txtUserID.TabIndex = 0
         '
         'txtAPIKey
         '
         Me.txtAPIKey.Location = New System.Drawing.Point(99, 160)
         Me.txtAPIKey.Name = "txtAPIKey"
-        Me.txtAPIKey.Size = New System.Drawing.Size(416, 20)
+        Me.txtAPIKey.Size = New System.Drawing.Size(416, 21)
         Me.txtAPIKey.TabIndex = 1
         '
         'btnAccept
@@ -97,7 +97,7 @@ Partial Class frmModifyEveAccounts
         '
         Me.txtAccountName.Location = New System.Drawing.Point(99, 186)
         Me.txtAccountName.Name = "txtAccountName"
-        Me.txtAccountName.Size = New System.Drawing.Size(107, 20)
+        Me.txtAccountName.Size = New System.Drawing.Size(107, 21)
         Me.txtAccountName.TabIndex = 8
         '
         'lblAccountName
@@ -105,7 +105,7 @@ Partial Class frmModifyEveAccounts
         Me.lblAccountName.AutoSize = True
         Me.lblAccountName.Location = New System.Drawing.Point(12, 189)
         Me.lblAccountName.Name = "lblAccountName"
-        Me.lblAccountName.Size = New System.Drawing.Size(81, 13)
+        Me.lblAccountName.Size = New System.Drawing.Size(80, 13)
         Me.lblAccountName.TabIndex = 7
         Me.lblAccountName.Text = "Account Name:"
         '
@@ -114,7 +114,7 @@ Partial Class frmModifyEveAccounts
         Me.lblGetAPIKey.AutoSize = True
         Me.lblGetAPIKey.Location = New System.Drawing.Point(216, 91)
         Me.lblGetAPIKey.Name = "lblGetAPIKey"
-        Me.lblGetAPIKey.Size = New System.Drawing.Size(220, 13)
+        Me.lblGetAPIKey.Size = New System.Drawing.Size(225, 13)
         Me.lblGetAPIKey.TabIndex = 9
         Me.lblGetAPIKey.TabStop = True
         Me.lblGetAPIKey.Text = "http://myeve.eve-online.com/api/default.asp"
@@ -124,7 +124,7 @@ Partial Class frmModifyEveAccounts
         Me.lblFindAPIKey.AutoSize = True
         Me.lblFindAPIKey.Location = New System.Drawing.Point(12, 91)
         Me.lblFindAPIKey.Name = "lblFindAPIKey"
-        Me.lblFindAPIKey.Size = New System.Drawing.Size(198, 13)
+        Me.lblFindAPIKey.Size = New System.Drawing.Size(202, 13)
         Me.lblFindAPIKey.TabIndex = 10
         Me.lblFindAPIKey.Text = "You can find your userID and APIKey at:"
         '
@@ -146,6 +146,7 @@ Partial Class frmModifyEveAccounts
         Me.Controls.Add(Me.txtUserID)
         Me.Controls.Add(Me.lblAPIKey)
         Me.Controls.Add(Me.lblUserID)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

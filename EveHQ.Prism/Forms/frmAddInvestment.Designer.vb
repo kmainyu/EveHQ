@@ -46,7 +46,7 @@ Partial Class frmAddInvestment
         Me.lblInvestmentID.AutoSize = True
         Me.lblInvestmentID.Location = New System.Drawing.Point(13, 13)
         Me.lblInvestmentID.Name = "lblInvestmentID"
-        Me.lblInvestmentID.Size = New System.Drawing.Size(76, 13)
+        Me.lblInvestmentID.Size = New System.Drawing.Size(80, 13)
         Me.lblInvestmentID.TabIndex = 0
         Me.lblInvestmentID.Text = "Investment ID:"
         '
@@ -55,7 +55,7 @@ Partial Class frmAddInvestment
         Me.lblDateCreated.AutoSize = True
         Me.lblDateCreated.Location = New System.Drawing.Point(228, 13)
         Me.lblDateCreated.Name = "lblDateCreated"
-        Me.lblDateCreated.Size = New System.Drawing.Size(73, 13)
+        Me.lblDateCreated.Size = New System.Drawing.Size(76, 13)
         Me.lblDateCreated.TabIndex = 1
         Me.lblDateCreated.Text = "Date Created:"
         '
@@ -64,7 +64,7 @@ Partial Class frmAddInvestment
         Me.txtInvestmentID.Enabled = False
         Me.txtInvestmentID.Location = New System.Drawing.Point(115, 10)
         Me.txtInvestmentID.Name = "txtInvestmentID"
-        Me.txtInvestmentID.Size = New System.Drawing.Size(84, 20)
+        Me.txtInvestmentID.Size = New System.Drawing.Size(84, 21)
         Me.txtInvestmentID.TabIndex = 5
         Me.txtInvestmentID.TabStop = False
         '
@@ -73,7 +73,7 @@ Partial Class frmAddInvestment
         Me.txtDateCreated.Enabled = False
         Me.txtDateCreated.Location = New System.Drawing.Point(307, 10)
         Me.txtDateCreated.Name = "txtDateCreated"
-        Me.txtDateCreated.Size = New System.Drawing.Size(160, 20)
+        Me.txtDateCreated.Size = New System.Drawing.Size(160, 21)
         Me.txtDateCreated.TabIndex = 6
         Me.txtDateCreated.TabStop = False
         '
@@ -82,7 +82,7 @@ Partial Class frmAddInvestment
         Me.lblInvestmentName.AutoSize = True
         Me.lblInvestmentName.Location = New System.Drawing.Point(13, 57)
         Me.lblInvestmentName.Name = "lblInvestmentName"
-        Me.lblInvestmentName.Size = New System.Drawing.Size(93, 13)
+        Me.lblInvestmentName.Size = New System.Drawing.Size(96, 13)
         Me.lblInvestmentName.TabIndex = 4
         Me.lblInvestmentName.Text = "Investment Name:"
         '
@@ -90,7 +90,7 @@ Partial Class frmAddInvestment
         '
         Me.txtInvestmentName.Location = New System.Drawing.Point(115, 54)
         Me.txtInvestmentName.Name = "txtInvestmentName"
-        Me.txtInvestmentName.Size = New System.Drawing.Size(404, 20)
+        Me.txtInvestmentName.Size = New System.Drawing.Size(404, 21)
         Me.txtInvestmentName.TabIndex = 0
         '
         'lblInvestmentOwner
@@ -98,7 +98,7 @@ Partial Class frmAddInvestment
         Me.lblInvestmentOwner.AutoSize = True
         Me.lblInvestmentOwner.Location = New System.Drawing.Point(13, 110)
         Me.lblInvestmentOwner.Name = "lblInvestmentOwner"
-        Me.lblInvestmentOwner.Size = New System.Drawing.Size(96, 13)
+        Me.lblInvestmentOwner.Size = New System.Drawing.Size(101, 13)
         Me.lblInvestmentOwner.TabIndex = 6
         Me.lblInvestmentOwner.Text = "Investment Owner:"
         '
@@ -117,7 +117,7 @@ Partial Class frmAddInvestment
         Me.lblInvestmentDescription.AutoSize = True
         Me.lblInvestmentDescription.Location = New System.Drawing.Point(13, 142)
         Me.lblInvestmentDescription.Name = "lblInvestmentDescription"
-        Me.lblInvestmentDescription.Size = New System.Drawing.Size(63, 13)
+        Me.lblInvestmentDescription.Size = New System.Drawing.Size(64, 13)
         Me.lblInvestmentDescription.TabIndex = 8
         Me.lblInvestmentDescription.Text = "Description:"
         '
@@ -165,7 +165,7 @@ Partial Class frmAddInvestment
         Me.lblInvestmentType.AutoSize = True
         Me.lblInvestmentType.Location = New System.Drawing.Point(13, 83)
         Me.lblInvestmentType.Name = "lblInvestmentType"
-        Me.lblInvestmentType.Size = New System.Drawing.Size(89, 13)
+        Me.lblInvestmentType.Size = New System.Drawing.Size(93, 13)
         Me.lblInvestmentType.TabIndex = 10
         Me.lblInvestmentType.Text = "Investment Type:"
         '
@@ -174,7 +174,7 @@ Partial Class frmAddInvestment
         Me.chkValueIsCost.AutoSize = True
         Me.chkValueIsCost.Location = New System.Drawing.Point(115, 314)
         Me.chkValueIsCost.Name = "chkValueIsCost"
-        Me.chkValueIsCost.Size = New System.Drawing.Size(144, 17)
+        Me.chkValueIsCost.Size = New System.Drawing.Size(145, 17)
         Me.chkValueIsCost.TabIndex = 4
         Me.chkValueIsCost.Text = "State Valuation at ""Cost"""
         Me.chkValueIsCost.UseVisualStyleBackColor = True
@@ -184,7 +184,7 @@ Partial Class frmAddInvestment
         Me.txtDateClosed.Enabled = False
         Me.txtDateClosed.Location = New System.Drawing.Point(307, 30)
         Me.txtDateClosed.Name = "txtDateClosed"
-        Me.txtDateClosed.Size = New System.Drawing.Size(160, 20)
+        Me.txtDateClosed.Size = New System.Drawing.Size(160, 21)
         Me.txtDateClosed.TabIndex = 12
         Me.txtDateClosed.TabStop = False
         '
@@ -193,7 +193,7 @@ Partial Class frmAddInvestment
         Me.lblDateClosed.AutoSize = True
         Me.lblDateClosed.Location = New System.Drawing.Point(228, 31)
         Me.lblDateClosed.Name = "lblDateClosed"
-        Me.lblDateClosed.Size = New System.Drawing.Size(68, 13)
+        Me.lblDateClosed.Size = New System.Drawing.Size(69, 13)
         Me.lblDateClosed.TabIndex = 11
         Me.lblDateClosed.Text = "Date Closed:"
         '
@@ -221,6 +221,7 @@ Partial Class frmAddInvestment
         Me.Controls.Add(Me.txtInvestmentID)
         Me.Controls.Add(Me.lblDateCreated)
         Me.Controls.Add(Me.lblInvestmentID)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.MaximizeBox = False
         Me.MinimizeBox = False

@@ -112,6 +112,7 @@ Partial Class frmPrism
         Me.colTransType = New System.Windows.Forms.ColumnHeader
         Me.colTransQuantity = New System.Windows.Forms.ColumnHeader
         Me.colTransValue = New System.Windows.Forms.ColumnHeader
+        Me.colNotes = New System.Windows.Forms.ColumnHeader
         Me.btnAddTransaction = New System.Windows.Forms.Button
         Me.btnClearInvestments = New System.Windows.Forms.Button
         Me.btnAddInvestment = New System.Windows.Forms.Button
@@ -401,7 +402,6 @@ Partial Class frmPrism
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.colNotes = New System.Windows.Forms.ColumnHeader
         Me.ctxAssets.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
@@ -1227,6 +1227,11 @@ Partial Class frmPrism
         Me.colTransValue.Text = "Unit Value"
         Me.colTransValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.colTransValue.Width = 100
+        '
+        'colNotes
+        '
+        Me.colNotes.Text = "Transaction Notes"
+        Me.colNotes.Width = 500
         '
         'btnAddTransaction
         '
@@ -3664,6 +3669,7 @@ Partial Class frmPrism
         '
         'ToolStrip1
         '
+        Me.ToolStrip1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbDownloadData, Me.ToolStripSeparator1, Me.lblOwner, Me.cboOwner, Me.ToolStripSeparator2, Me.tsbAssets, Me.ToolStripSeparator3, Me.tsbTransactions, Me.ToolStripSeparator7, Me.tsbInvestments, Me.ToolStripSeparator4, Me.tsbBPManager, Me.ToolStripSeparator5, Me.tsbRigBuilder, Me.ToolStripSeparator6, Me.tsbOrders, Me.ToolStripSeparator8, Me.tsbJournal, Me.ToolStripSeparator9, Me.tsbJobs, Me.ToolStripSeparator10, Me.tsbRecycle, Me.ToolStripSeparator11, Me.tsbReports})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
@@ -3677,7 +3683,7 @@ Partial Class frmPrism
         Me.tsbDownloadData.Image = CType(resources.GetObject("tsbDownloadData.Image"), System.Drawing.Image)
         Me.tsbDownloadData.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbDownloadData.Name = "tsbDownloadData"
-        Me.tsbDownloadData.Size = New System.Drawing.Size(113, 22)
+        Me.tsbDownloadData.Size = New System.Drawing.Size(104, 22)
         Me.tsbDownloadData.Text = "Download API Data"
         '
         'ToolStripSeparator1
@@ -3688,7 +3694,7 @@ Partial Class frmPrism
         'lblOwner
         '
         Me.lblOwner.Name = "lblOwner"
-        Me.lblOwner.Size = New System.Drawing.Size(45, 22)
+        Me.lblOwner.Size = New System.Drawing.Size(43, 22)
         Me.lblOwner.Text = "Owner:"
         '
         'cboOwner
@@ -3710,7 +3716,7 @@ Partial Class frmPrism
         Me.tsbAssets.Image = CType(resources.GetObject("tsbAssets.Image"), System.Drawing.Image)
         Me.tsbAssets.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbAssets.Name = "tsbAssets"
-        Me.tsbAssets.Size = New System.Drawing.Size(44, 22)
+        Me.tsbAssets.Size = New System.Drawing.Size(43, 22)
         Me.tsbAssets.Text = "Assets"
         Me.tsbAssets.ToolTipText = "Displays the Assets tab"
         '
@@ -3725,7 +3731,7 @@ Partial Class frmPrism
         Me.tsbTransactions.Image = CType(resources.GetObject("tsbTransactions.Image"), System.Drawing.Image)
         Me.tsbTransactions.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbTransactions.Name = "tsbTransactions"
-        Me.tsbTransactions.Size = New System.Drawing.Size(78, 22)
+        Me.tsbTransactions.Size = New System.Drawing.Size(72, 22)
         Me.tsbTransactions.Text = "Transactions"
         Me.tsbTransactions.ToolTipText = "Displays the wallet transactions"
         '
@@ -3740,7 +3746,7 @@ Partial Class frmPrism
         Me.tsbInvestments.Image = CType(resources.GetObject("tsbInvestments.Image"), System.Drawing.Image)
         Me.tsbInvestments.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbInvestments.Name = "tsbInvestments"
-        Me.tsbInvestments.Size = New System.Drawing.Size(75, 22)
+        Me.tsbInvestments.Size = New System.Drawing.Size(71, 22)
         Me.tsbInvestments.Text = "Investments"
         Me.tsbInvestments.ToolTipText = "Displays investments"
         '
@@ -3755,7 +3761,7 @@ Partial Class frmPrism
         Me.tsbBPManager.Image = CType(resources.GetObject("tsbBPManager.Image"), System.Drawing.Image)
         Me.tsbBPManager.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbBPManager.Name = "tsbBPManager"
-        Me.tsbBPManager.Size = New System.Drawing.Size(75, 22)
+        Me.tsbBPManager.Size = New System.Drawing.Size(68, 22)
         Me.tsbBPManager.Text = "BP Manager"
         Me.tsbBPManager.ToolTipText = "Display the BP Manager"
         '
@@ -3770,7 +3776,7 @@ Partial Class frmPrism
         Me.tsbRigBuilder.Image = CType(resources.GetObject("tsbRigBuilder.Image"), System.Drawing.Image)
         Me.tsbRigBuilder.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbRigBuilder.Name = "tsbRigBuilder"
-        Me.tsbRigBuilder.Size = New System.Drawing.Size(68, 22)
+        Me.tsbRigBuilder.Size = New System.Drawing.Size(61, 22)
         Me.tsbRigBuilder.Text = "Rig Builder"
         Me.tsbRigBuilder.ToolTipText = "Displays the rig builder"
         '
@@ -3785,7 +3791,7 @@ Partial Class frmPrism
         Me.tsbOrders.Image = CType(resources.GetObject("tsbOrders.Image"), System.Drawing.Image)
         Me.tsbOrders.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbOrders.Name = "tsbOrders"
-        Me.tsbOrders.Size = New System.Drawing.Size(46, 22)
+        Me.tsbOrders.Size = New System.Drawing.Size(44, 22)
         Me.tsbOrders.Text = "Orders"
         Me.tsbOrders.ToolTipText = "Displays the market orders"
         '
@@ -3800,7 +3806,7 @@ Partial Class frmPrism
         Me.tsbJournal.Image = CType(resources.GetObject("tsbJournal.Image"), System.Drawing.Image)
         Me.tsbJournal.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbJournal.Name = "tsbJournal"
-        Me.tsbJournal.Size = New System.Drawing.Size(49, 22)
+        Me.tsbJournal.Size = New System.Drawing.Size(46, 22)
         Me.tsbJournal.Text = "Journal"
         Me.tsbJournal.ToolTipText = "Displays the wallet journal"
         '
@@ -3815,7 +3821,7 @@ Partial Class frmPrism
         Me.tsbJobs.Image = CType(resources.GetObject("tsbJobs.Image"), System.Drawing.Image)
         Me.tsbJobs.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbJobs.Name = "tsbJobs"
-        Me.tsbJobs.Size = New System.Drawing.Size(34, 22)
+        Me.tsbJobs.Size = New System.Drawing.Size(33, 22)
         Me.tsbJobs.Text = "Jobs"
         Me.tsbJobs.ToolTipText = "Displays the Blueprint jobs"
         '
@@ -3830,7 +3836,7 @@ Partial Class frmPrism
         Me.tsbRecycle.Image = CType(resources.GetObject("tsbRecycle.Image"), System.Drawing.Image)
         Me.tsbRecycle.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbRecycle.Name = "tsbRecycle"
-        Me.tsbRecycle.Size = New System.Drawing.Size(55, 22)
+        Me.tsbRecycle.Size = New System.Drawing.Size(52, 22)
         Me.tsbRecycle.Text = "Recycler"
         Me.tsbRecycle.ToolTipText = "Displays the Recycler tab"
         '
@@ -3846,83 +3852,83 @@ Partial Class frmPrism
         Me.tsbReports.Image = CType(resources.GetObject("tsbReports.Image"), System.Drawing.Image)
         Me.tsbReports.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbReports.Name = "tsbReports"
-        Me.tsbReports.Size = New System.Drawing.Size(63, 22)
+        Me.tsbReports.Size = New System.Drawing.Size(61, 22)
         Me.tsbReports.Text = "Reports"
         '
         'mnuLocation
         '
         Me.mnuLocation.Name = "mnuLocation"
-        Me.mnuLocation.Size = New System.Drawing.Size(185, 22)
+        Me.mnuLocation.Size = New System.Drawing.Size(173, 22)
         Me.mnuLocation.Text = "Grouped by Location"
         '
         'mnuAssetLists
         '
         Me.mnuAssetLists.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListName, Me.mnuAssetListQuantity, Me.mnuAssetListPrice, Me.mnuAssetListValue})
         Me.mnuAssetLists.Name = "mnuAssetLists"
-        Me.mnuAssetLists.Size = New System.Drawing.Size(185, 22)
+        Me.mnuAssetLists.Size = New System.Drawing.Size(173, 22)
         Me.mnuAssetLists.Text = "Asset Lists"
         '
         'mnuAssetListName
         '
         Me.mnuAssetListName.Name = "mnuAssetListName"
-        Me.mnuAssetListName.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListName.Size = New System.Drawing.Size(184, 22)
         Me.mnuAssetListName.Text = "Asset List (Name)"
         '
         'mnuAssetListQuantity
         '
         Me.mnuAssetListQuantity.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListQuantityA, Me.mnuAssetListQuantityD})
         Me.mnuAssetListQuantity.Name = "mnuAssetListQuantity"
-        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListQuantity.Size = New System.Drawing.Size(184, 22)
         Me.mnuAssetListQuantity.Text = "Asset List (Quantity)"
         '
         'mnuAssetListQuantityA
         '
         Me.mnuAssetListQuantityA.Name = "mnuAssetListQuantityA"
-        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListQuantityA.Size = New System.Drawing.Size(129, 22)
         Me.mnuAssetListQuantityA.Text = "Ascending"
         '
         'mnuAssetListQuantityD
         '
         Me.mnuAssetListQuantityD.Name = "mnuAssetListQuantityD"
-        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListQuantityD.Size = New System.Drawing.Size(129, 22)
         Me.mnuAssetListQuantityD.Text = "Descending"
         '
         'mnuAssetListPrice
         '
         Me.mnuAssetListPrice.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListPriceA, Me.mnuAssetListPriceD})
         Me.mnuAssetListPrice.Name = "mnuAssetListPrice"
-        Me.mnuAssetListPrice.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListPrice.Size = New System.Drawing.Size(184, 22)
         Me.mnuAssetListPrice.Text = "Asset List (Unit Price)"
         '
         'mnuAssetListPriceA
         '
         Me.mnuAssetListPriceA.Name = "mnuAssetListPriceA"
-        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListPriceA.Size = New System.Drawing.Size(129, 22)
         Me.mnuAssetListPriceA.Text = "Ascending"
         '
         'mnuAssetListPriceD
         '
         Me.mnuAssetListPriceD.Name = "mnuAssetListPriceD"
-        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListPriceD.Size = New System.Drawing.Size(129, 22)
         Me.mnuAssetListPriceD.Text = "Descending"
         '
         'mnuAssetListValue
         '
         Me.mnuAssetListValue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAssetListValueA, Me.mnuAssetListValueD})
         Me.mnuAssetListValue.Name = "mnuAssetListValue"
-        Me.mnuAssetListValue.Size = New System.Drawing.Size(193, 22)
+        Me.mnuAssetListValue.Size = New System.Drawing.Size(184, 22)
         Me.mnuAssetListValue.Text = "Asset List (Total Value)"
         '
         'mnuAssetListValueA
         '
         Me.mnuAssetListValueA.Name = "mnuAssetListValueA"
-        Me.mnuAssetListValueA.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListValueA.Size = New System.Drawing.Size(129, 22)
         Me.mnuAssetListValueA.Text = "Ascending"
         '
         'mnuAssetListValueD
         '
         Me.mnuAssetListValueD.Name = "mnuAssetListValueD"
-        Me.mnuAssetListValueD.Size = New System.Drawing.Size(136, 22)
+        Me.mnuAssetListValueD.Size = New System.Drawing.Size(129, 22)
         Me.mnuAssetListValueD.Text = "Descending"
         '
         'ColumnHeader1
@@ -3992,11 +3998,6 @@ Partial Class frmPrism
         Me.ColumnHeader12.Text = "Expires In"
         Me.ColumnHeader12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.ColumnHeader12.Width = 119
-        '
-        'colNotes
-        '
-        Me.colNotes.Text = "Transaction Notes"
-        Me.colNotes.Width = 500
         '
         'frmPrism
         '

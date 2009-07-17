@@ -300,24 +300,24 @@ Partial Class frmItemBrowser
         Me.ctxSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxSkills.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuViewDetails})
         Me.ctxSkills.Name = "ctxDepend"
-        Me.ctxSkills.Size = New System.Drawing.Size(144, 54)
+        Me.ctxSkills.Size = New System.Drawing.Size(133, 54)
         '
         'mnuSkillName
         '
         Me.mnuSkillName.Name = "mnuSkillName"
-        Me.mnuSkillName.Size = New System.Drawing.Size(143, 22)
+        Me.mnuSkillName.Size = New System.Drawing.Size(132, 22)
         Me.mnuSkillName.Text = "Skill Name"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(140, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(129, 6)
         '
         'mnuViewDetails
         '
         Me.mnuViewDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.mnuViewDetails.Name = "mnuViewDetails"
-        Me.mnuViewDetails.Size = New System.Drawing.Size(143, 22)
+        Me.mnuViewDetails.Size = New System.Drawing.Size(132, 22)
         Me.mnuViewDetails.Text = "View Details"
         '
         'ssData
@@ -330,6 +330,7 @@ Partial Class frmItemBrowser
         '
         'ssLabel
         '
+        Me.ssLabel.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ssLabel.Name = "ssLabel"
         Me.ssLabel.Size = New System.Drawing.Size(91, 17)
         Me.ssLabel.Text = "Awaiting query..."
@@ -337,8 +338,9 @@ Partial Class frmItemBrowser
         'ssDBLocation
         '
         Me.ssDBLocation.DoubleClickEnabled = True
+        Me.ssDBLocation.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ssDBLocation.Name = "ssDBLocation"
-        Me.ssDBLocation.Size = New System.Drawing.Size(869, 17)
+        Me.ssDBLocation.Size = New System.Drawing.Size(838, 17)
         Me.ssDBLocation.Spring = True
         Me.ssDBLocation.Text = "Location:"
         '
@@ -346,6 +348,7 @@ Partial Class frmItemBrowser
         '
         Me.ssLblID.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.ssLblID.DoubleClickEnabled = True
+        Me.ssLblID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ssLblID.Name = "ssLblID"
         Me.ssLblID.Size = New System.Drawing.Size(22, 17)
         Me.ssLblID.Text = "ID:"
@@ -354,7 +357,7 @@ Partial Class frmItemBrowser
         'picBP
         '
         Me.picBP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.picBP.Location = New System.Drawing.Point(544, 7)
+        Me.picBP.Location = New System.Drawing.Point(548, 3)
         Me.picBP.Name = "picBP"
         Me.picBP.Size = New System.Drawing.Size(32, 32)
         Me.picBP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -409,7 +412,7 @@ Partial Class frmItemBrowser
         Me.lblMELevel.AutoSize = True
         Me.lblMELevel.Location = New System.Drawing.Point(7, 275)
         Me.lblMELevel.Name = "lblMELevel"
-        Me.lblMELevel.Size = New System.Drawing.Size(55, 13)
+        Me.lblMELevel.Size = New System.Drawing.Size(53, 13)
         Me.lblMELevel.TabIndex = 4
         Me.lblMELevel.Text = "ME Level:"
         '
@@ -420,7 +423,7 @@ Partial Class frmItemBrowser
         Me.nudMELevel.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.nudMELevel.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
         Me.nudMELevel.Name = "nudMELevel"
-        Me.nudMELevel.Size = New System.Drawing.Size(73, 20)
+        Me.nudMELevel.Size = New System.Drawing.Size(73, 21)
         Me.nudMELevel.TabIndex = 3
         Me.nudMELevel.ThousandsSeparator = True
         '
@@ -818,7 +821,7 @@ Partial Class frmItemBrowser
         Me.chkShowAllColumns.AutoSize = True
         Me.chkShowAllColumns.Location = New System.Drawing.Point(7, 274)
         Me.chkShowAllColumns.Name = "chkShowAllColumns"
-        Me.chkShowAllColumns.Size = New System.Drawing.Size(110, 17)
+        Me.chkShowAllColumns.Size = New System.Drawing.Size(109, 17)
         Me.chkShowAllColumns.TabIndex = 2
         Me.chkShowAllColumns.Text = "Show All Columns"
         Me.chkShowAllColumns.UseVisualStyleBackColor = True
@@ -1051,7 +1054,7 @@ Partial Class frmItemBrowser
         Me.lblMELevelC.AutoSize = True
         Me.lblMELevelC.Location = New System.Drawing.Point(7, 275)
         Me.lblMELevelC.Name = "lblMELevelC"
-        Me.lblMELevelC.Size = New System.Drawing.Size(55, 13)
+        Me.lblMELevelC.Size = New System.Drawing.Size(53, 13)
         Me.lblMELevelC.TabIndex = 4
         Me.lblMELevelC.Text = "ME Level:"
         '
@@ -1061,7 +1064,7 @@ Partial Class frmItemBrowser
         Me.nudMELevelC.Location = New System.Drawing.Point(68, 273)
         Me.nudMELevelC.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.nudMELevelC.Name = "nudMELevelC"
-        Me.nudMELevelC.Size = New System.Drawing.Size(73, 20)
+        Me.nudMELevelC.Size = New System.Drawing.Size(73, 21)
         Me.nudMELevelC.TabIndex = 3
         Me.nudMELevelC.ThousandsSeparator = True
         '
@@ -1509,7 +1512,7 @@ Partial Class frmItemBrowser
         Me.lblUsable.AutoSize = True
         Me.lblUsable.Location = New System.Drawing.Point(545, 132)
         Me.lblUsable.Name = "lblUsable"
-        Me.lblUsable.Size = New System.Drawing.Size(40, 13)
+        Me.lblUsable.Size = New System.Drawing.Size(39, 13)
         Me.lblUsable.TabIndex = 6
         Me.lblUsable.Text = "Usable"
         '
@@ -1547,7 +1550,7 @@ Partial Class frmItemBrowser
         Me.chkBrowseNonPublished.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkBrowseNonPublished.Location = New System.Drawing.Point(4, 466)
         Me.chkBrowseNonPublished.Name = "chkBrowseNonPublished"
-        Me.chkBrowseNonPublished.Size = New System.Drawing.Size(161, 17)
+        Me.chkBrowseNonPublished.Size = New System.Drawing.Size(162, 17)
         Me.chkBrowseNonPublished.TabIndex = 1
         Me.chkBrowseNonPublished.Text = "Include Non-Published Items"
         Me.chkBrowseNonPublished.UseVisualStyleBackColor = True
@@ -1599,7 +1602,7 @@ Partial Class frmItemBrowser
         '
         Me.txtSearch.Location = New System.Drawing.Point(6, 20)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(372, 20)
+        Me.txtSearch.Size = New System.Drawing.Size(372, 21)
         Me.txtSearch.TabIndex = 2
         '
         'lblSearch
@@ -2177,7 +2180,7 @@ Partial Class frmItemBrowser
         Me.sbtnForward.Enabled = False
         Me.sbtnForward.Location = New System.Drawing.Point(477, 12)
         Me.sbtnForward.Name = "sbtnForward"
-        Me.sbtnForward.Size = New System.Drawing.Size(60, 23)
+        Me.sbtnForward.Size = New System.Drawing.Size(62, 23)
         Me.sbtnForward.SplitMenu = Me.ctxForward
         Me.sbtnForward.TabIndex = 11
         Me.sbtnForward.Text = "Forward"
@@ -2200,7 +2203,7 @@ Partial Class frmItemBrowser
         Me.lblPilot.AutoSize = True
         Me.lblPilot.Location = New System.Drawing.Point(596, 17)
         Me.lblPilot.Name = "lblPilot"
-        Me.lblPilot.Size = New System.Drawing.Size(30, 13)
+        Me.lblPilot.Size = New System.Drawing.Size(31, 13)
         Me.lblPilot.TabIndex = 42
         Me.lblPilot.Text = "Pilot:"
         '
@@ -2222,6 +2225,7 @@ Partial Class frmItemBrowser
         Me.Controls.Add(Me.lblUsable)
         Me.Controls.Add(Me.lblItem)
         Me.Controls.Add(Me.picBP)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(760, 530)
         Me.Name = "frmItemBrowser"

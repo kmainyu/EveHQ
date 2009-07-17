@@ -103,6 +103,7 @@ Partial Public Class frmEveHQ
         Me.mnuReportOpenfolder = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuHelp = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuHelpCheckUpdates = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuUpdateNow = New System.Windows.Forms.ToolStripMenuItem
         Me.VersionHistoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
         Me.mnuHelpAbout = New System.Windows.Forms.ToolStripMenuItem
@@ -146,7 +147,6 @@ Partial Public Class frmEveHQ
         Me.tmrMemory = New System.Windows.Forms.Timer(Me.components)
         Me.ssTraining = New System.Windows.Forms.StatusStrip
         Me.panelTrainingStatus = New System.Windows.Forms.Panel
-        Me.mnuUpdateNow = New System.Windows.Forms.ToolStripMenuItem
         Me.EveHQToolStrip.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
@@ -160,12 +160,13 @@ Partial Public Class frmEveHQ
         Me.OptionsToolStripMenuItem.Image = CType(resources.GetObject("OptionsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
         Me.OptionsToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(202, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
         Me.OptionsToolStripMenuItem.Text = "&Settings"
         '
         'EveHQToolStrip
         '
         Me.EveHQToolStrip.Dock = System.Windows.Forms.DockStyle.Left
+        Me.EveHQToolStrip.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.EveHQToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnAddAccount, Me.ToolStripSeparator12, Me.ToolStripSeparator13, Me.tsbRetrieveData, Me.ToolStripSeparator8, Me.tsbPilotInfo, Me.tsbSkillTraining, Me.ToolStripSeparator2, Me.tsbIGB, Me.ToolStripSeparator9})
         Me.EveHQToolStrip.Location = New System.Drawing.Point(0, 24)
         Me.EveHQToolStrip.Name = "EveHQToolStrip"
@@ -260,7 +261,7 @@ Partial Public Class frmEveHQ
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         '
         'FileMenu
@@ -268,11 +269,12 @@ Partial Public Class frmEveHQ
         Me.FileMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitToolStripMenuItem})
         Me.FileMenu.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder
         Me.FileMenu.Name = "FileMenu"
-        Me.FileMenu.Size = New System.Drawing.Size(37, 20)
+        Me.FileMenu.Size = New System.Drawing.Size(36, 20)
         Me.FileMenu.Text = "&File"
         '
         'MenuStrip
         '
+        Me.MenuStrip.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileMenu, Me.ViewMenu, Me.ToolsMenu, Me.mnuModules, Me.mnuReports, Me.mnuHelp, Me.mnuUpdate})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
@@ -284,7 +286,7 @@ Partial Public Class frmEveHQ
         '
         Me.ViewMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PilotInfoToolStripMenuItem, Me.SkillTrainingToolStripMenuItem, Me.TrainingInformationToolStripMenuItem, Me.DashboardToolStripMenuItem})
         Me.ViewMenu.Name = "ViewMenu"
-        Me.ViewMenu.Size = New System.Drawing.Size(44, 20)
+        Me.ViewMenu.Size = New System.Drawing.Size(46, 20)
         Me.ViewMenu.Text = "&View"
         '
         'PilotInfoToolStripMenuItem
@@ -292,7 +294,7 @@ Partial Public Class frmEveHQ
         Me.PilotInfoToolStripMenuItem.Image = CType(resources.GetObject("PilotInfoToolStripMenuItem.Image"), System.Drawing.Image)
         Me.PilotInfoToolStripMenuItem.Name = "PilotInfoToolStripMenuItem"
         Me.PilotInfoToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.PilotInfoToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+        Me.PilotInfoToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.PilotInfoToolStripMenuItem.Text = "Pilot Info"
         '
         'SkillTrainingToolStripMenuItem
@@ -300,7 +302,7 @@ Partial Public Class frmEveHQ
         Me.SkillTrainingToolStripMenuItem.Image = CType(resources.GetObject("SkillTrainingToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SkillTrainingToolStripMenuItem.Name = "SkillTrainingToolStripMenuItem"
         Me.SkillTrainingToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.SkillTrainingToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+        Me.SkillTrainingToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.SkillTrainingToolStripMenuItem.Text = "Skill Training"
         '
         'TrainingInformationToolStripMenuItem
@@ -308,13 +310,13 @@ Partial Public Class frmEveHQ
         Me.TrainingInformationToolStripMenuItem.CheckOnClick = True
         Me.TrainingInformationToolStripMenuItem.Image = CType(resources.GetObject("TrainingInformationToolStripMenuItem.Image"), System.Drawing.Image)
         Me.TrainingInformationToolStripMenuItem.Name = "TrainingInformationToolStripMenuItem"
-        Me.TrainingInformationToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+        Me.TrainingInformationToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.TrainingInformationToolStripMenuItem.Text = "Training Overlay"
         '
         'DashboardToolStripMenuItem
         '
         Me.DashboardToolStripMenuItem.Name = "DashboardToolStripMenuItem"
-        Me.DashboardToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+        Me.DashboardToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.DashboardToolStripMenuItem.Text = "Dashboard"
         Me.DashboardToolStripMenuItem.Visible = False
         '
@@ -329,7 +331,7 @@ Partial Public Class frmEveHQ
         '
         Me.RunIGBToolStripMenuItem.Image = CType(resources.GetObject("RunIGBToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RunIGBToolStripMenuItem.Name = "RunIGBToolStripMenuItem"
-        Me.RunIGBToolStripMenuItem.Size = New System.Drawing.Size(202, 22)
+        Me.RunIGBToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
         Me.RunIGBToolStripMenuItem.Text = "Run IGB"
         '
         'mnuToolsGetAccountInfo
@@ -337,43 +339,43 @@ Partial Public Class frmEveHQ
         Me.mnuToolsGetAccountInfo.Enabled = False
         Me.mnuToolsGetAccountInfo.Image = CType(resources.GetObject("mnuToolsGetAccountInfo.Image"), System.Drawing.Image)
         Me.mnuToolsGetAccountInfo.Name = "mnuToolsGetAccountInfo"
-        Me.mnuToolsGetAccountInfo.Size = New System.Drawing.Size(202, 22)
+        Me.mnuToolsGetAccountInfo.Size = New System.Drawing.Size(209, 22)
         Me.mnuToolsGetAccountInfo.Text = "Retrieve Account Data"
         '
         'mnuBackup
         '
         Me.mnuBackup.Image = CType(resources.GetObject("mnuBackup.Image"), System.Drawing.Image)
         Me.mnuBackup.Name = "mnuBackup"
-        Me.mnuBackup.Size = New System.Drawing.Size(202, 22)
+        Me.mnuBackup.Size = New System.Drawing.Size(209, 22)
         Me.mnuBackup.Text = "Settings Backup/Restore"
         '
         'mnuToolsMarketPrices
         '
         Me.mnuToolsMarketPrices.Name = "mnuToolsMarketPrices"
-        Me.mnuToolsMarketPrices.Size = New System.Drawing.Size(202, 22)
+        Me.mnuToolsMarketPrices.Size = New System.Drawing.Size(209, 22)
         Me.mnuToolsMarketPrices.Text = "Market Prices"
         '
         'mnuInEveUploader
         '
         Me.mnuInEveUploader.Name = "mnuInEveUploader"
-        Me.mnuInEveUploader.Size = New System.Drawing.Size(202, 22)
+        Me.mnuInEveUploader.Size = New System.Drawing.Size(209, 22)
         Me.mnuInEveUploader.Text = "InEve Uploader"
         '
         'mnuToolsAPIChecker
         '
         Me.mnuToolsAPIChecker.Name = "mnuToolsAPIChecker"
-        Me.mnuToolsAPIChecker.Size = New System.Drawing.Size(202, 22)
+        Me.mnuToolsAPIChecker.Size = New System.Drawing.Size(209, 22)
         Me.mnuToolsAPIChecker.Text = "API Checker"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(199, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(206, 6)
         '
         'mnuToolsTriggerError
         '
         Me.mnuToolsTriggerError.Name = "mnuToolsTriggerError"
-        Me.mnuToolsTriggerError.Size = New System.Drawing.Size(202, 22)
+        Me.mnuToolsTriggerError.Size = New System.Drawing.Size(209, 22)
         Me.mnuToolsTriggerError.Text = "Trigger Error"
         Me.mnuToolsTriggerError.Visible = False
         '
@@ -381,37 +383,37 @@ Partial Public Class frmEveHQ
         '
         Me.ClearEveHQCache.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuClearCharacterXML, Me.mnuClearAllXMLCache, Me.ToolStripMenuItem2, Me.mnuClearImageCache})
         Me.ClearEveHQCache.Name = "ClearEveHQCache"
-        Me.ClearEveHQCache.Size = New System.Drawing.Size(202, 22)
+        Me.ClearEveHQCache.Size = New System.Drawing.Size(209, 22)
         Me.ClearEveHQCache.Text = "Clear EveHQ Cache"
         '
         'mnuClearCharacterXML
         '
         Me.mnuClearCharacterXML.Name = "mnuClearCharacterXML"
-        Me.mnuClearCharacterXML.Size = New System.Drawing.Size(218, 22)
+        Me.mnuClearCharacterXML.Size = New System.Drawing.Size(219, 22)
         Me.mnuClearCharacterXML.Text = "Clear Character XML Cache"
         '
         'mnuClearAllXMLCache
         '
         Me.mnuClearAllXMLCache.Name = "mnuClearAllXMLCache"
-        Me.mnuClearAllXMLCache.Size = New System.Drawing.Size(218, 22)
+        Me.mnuClearAllXMLCache.Size = New System.Drawing.Size(219, 22)
         Me.mnuClearAllXMLCache.Text = "Clear All Cached XML Data"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(215, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(216, 6)
         '
         'mnuClearImageCache
         '
         Me.mnuClearImageCache.Name = "mnuClearImageCache"
-        Me.mnuClearImageCache.Size = New System.Drawing.Size(218, 22)
+        Me.mnuClearImageCache.Size = New System.Drawing.Size(219, 22)
         Me.mnuClearImageCache.Text = "Clear Image Cache"
         '
         'mnuModules
         '
         Me.mnuModules.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NoModulesLoadedToolStripMenuItem})
         Me.mnuModules.Name = "mnuModules"
-        Me.mnuModules.Size = New System.Drawing.Size(63, 20)
+        Me.mnuModules.Size = New System.Drawing.Size(62, 20)
         Me.mnuModules.Text = "Plug-Ins"
         '
         'NoModulesLoadedToolStripMenuItem
@@ -425,20 +427,20 @@ Partial Public Class frmEveHQ
         '
         Me.mnuReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsHTML, Me.mnuReportsText, Me.mnuReportsXML, Me.mnuReportsCharts, Me.ToolStripSeparator3, Me.mnuReportOpenfolder})
         Me.mnuReports.Name = "mnuReports"
-        Me.mnuReports.Size = New System.Drawing.Size(109, 20)
+        Me.mnuReports.Size = New System.Drawing.Size(111, 20)
         Me.mnuReports.Text = "Reports && Charts"
         '
         'mnuReportsHTML
         '
         Me.mnuReportsHTML.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuRepCharSummary, Me.mnuReportsHTMLChar, Me.mnuReportAsteroids, Me.mnuReportSPSummary})
         Me.mnuReportsHTML.Name = "mnuReportsHTML"
-        Me.mnuReportsHTML.Size = New System.Drawing.Size(177, 22)
+        Me.mnuReportsHTML.Size = New System.Drawing.Size(182, 22)
         Me.mnuReportsHTML.Text = "HTML Reports"
         '
         'mnuRepCharSummary
         '
         Me.mnuRepCharSummary.Name = "mnuRepCharSummary"
-        Me.mnuRepCharSummary.Size = New System.Drawing.Size(189, 22)
+        Me.mnuRepCharSummary.Size = New System.Drawing.Size(185, 22)
         Me.mnuRepCharSummary.Text = "Character Summary"
         '
         'mnuReportsHTMLChar
@@ -446,7 +448,7 @@ Partial Public Class frmEveHQ
         Me.mnuReportsHTMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsCharCharsheet, Me.mnuReportCharTraintimes, Me.mnuReportTimeToLevel5, Me.mnureportCharSkillLevels, Me.mnuReportTrainingQueue, Me.mnuReportQueueShoppingList, Me.mnuReportSkillsAvailable, Me.mnuReportSkillsNotTrained, Me.mnuReportPartiallyTrainedSkills})
         Me.mnuReportsHTMLChar.Enabled = False
         Me.mnuReportsHTMLChar.Name = "mnuReportsHTMLChar"
-        Me.mnuReportsHTMLChar.Size = New System.Drawing.Size(189, 22)
+        Me.mnuReportsHTMLChar.Size = New System.Drawing.Size(185, 22)
         Me.mnuReportsHTMLChar.Text = "Character"
         '
         'mnuReportsCharCharsheet
@@ -507,45 +509,45 @@ Partial Public Class frmEveHQ
         '
         Me.mnuReportAsteroids.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportAsteroidAlloys, Me.mnuReportAsteroidRocks, Me.mnuReportAsteroidIce})
         Me.mnuReportAsteroids.Name = "mnuReportAsteroids"
-        Me.mnuReportAsteroids.Size = New System.Drawing.Size(189, 22)
+        Me.mnuReportAsteroids.Size = New System.Drawing.Size(185, 22)
         Me.mnuReportAsteroids.Text = "Material Composition"
         '
         'mnuReportAsteroidAlloys
         '
         Me.mnuReportAsteroidAlloys.Name = "mnuReportAsteroidAlloys"
-        Me.mnuReportAsteroidAlloys.Size = New System.Drawing.Size(123, 22)
+        Me.mnuReportAsteroidAlloys.Size = New System.Drawing.Size(124, 22)
         Me.mnuReportAsteroidAlloys.Text = "Alloys"
         '
         'mnuReportAsteroidRocks
         '
         Me.mnuReportAsteroidRocks.Name = "mnuReportAsteroidRocks"
-        Me.mnuReportAsteroidRocks.Size = New System.Drawing.Size(123, 22)
+        Me.mnuReportAsteroidRocks.Size = New System.Drawing.Size(124, 22)
         Me.mnuReportAsteroidRocks.Text = "Asteroids"
         '
         'mnuReportAsteroidIce
         '
         Me.mnuReportAsteroidIce.Name = "mnuReportAsteroidIce"
-        Me.mnuReportAsteroidIce.Size = New System.Drawing.Size(123, 22)
+        Me.mnuReportAsteroidIce.Size = New System.Drawing.Size(124, 22)
         Me.mnuReportAsteroidIce.Text = "Ice"
         '
         'mnuReportSPSummary
         '
         Me.mnuReportSPSummary.Name = "mnuReportSPSummary"
-        Me.mnuReportSPSummary.Size = New System.Drawing.Size(189, 22)
+        Me.mnuReportSPSummary.Size = New System.Drawing.Size(185, 22)
         Me.mnuReportSPSummary.Text = "Skill Level Table"
         '
         'mnuReportsText
         '
         Me.mnuReportsText.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextChar})
         Me.mnuReportsText.Name = "mnuReportsText"
-        Me.mnuReportsText.Size = New System.Drawing.Size(177, 22)
+        Me.mnuReportsText.Size = New System.Drawing.Size(182, 22)
         Me.mnuReportsText.Text = "Text Reports"
         '
         'mnuReportsTextChar
         '
         Me.mnuReportsTextChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsTextCharSheet, Me.mnuReportsTextTrainTimes, Me.mnuReportsTextTimeToLevel5, Me.mnuReportsTextSkillLevels, Me.mnuReportsTextTrainingQueue, Me.mnuReportsTextShoppingList, Me.mnuReportsTextSkillsAvailable, Me.mnuReportsTextSkillsNotTrained, Me.mnuReportsTextPartiallyTrainedSkills})
         Me.mnuReportsTextChar.Name = "mnuReportsTextChar"
-        Me.mnuReportsTextChar.Size = New System.Drawing.Size(125, 22)
+        Me.mnuReportsTextChar.Size = New System.Drawing.Size(126, 22)
         Me.mnuReportsTextChar.Text = "Character"
         '
         'mnuReportsTextCharSheet
@@ -606,64 +608,64 @@ Partial Public Class frmEveHQ
         '
         Me.mnuReportsXML.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsXMLChar})
         Me.mnuReportsXML.Name = "mnuReportsXML"
-        Me.mnuReportsXML.Size = New System.Drawing.Size(177, 22)
+        Me.mnuReportsXML.Size = New System.Drawing.Size(182, 22)
         Me.mnuReportsXML.Text = "XML Reports"
         '
         'mnuReportsXMLChar
         '
         Me.mnuReportsXMLChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportCharXML, Me.mnuReportTrainXML, Me.mnuReportCurrentCharXMLOld, Me.mnuReportCurrentCharXMLNew, Me.mnuReportCurrentTrainingXMLOld, Me.mnuReportECMExport})
         Me.mnuReportsXMLChar.Name = "mnuReportsXMLChar"
-        Me.mnuReportsXMLChar.Size = New System.Drawing.Size(125, 22)
+        Me.mnuReportsXMLChar.Size = New System.Drawing.Size(126, 22)
         Me.mnuReportsXMLChar.Text = "Character"
         '
         'mnuReportCharXML
         '
         Me.mnuReportCharXML.Name = "mnuReportCharXML"
-        Me.mnuReportCharXML.Size = New System.Drawing.Size(258, 22)
+        Me.mnuReportCharXML.Size = New System.Drawing.Size(267, 22)
         Me.mnuReportCharXML.Text = "Character XML"
         '
         'mnuReportTrainXML
         '
         Me.mnuReportTrainXML.Name = "mnuReportTrainXML"
-        Me.mnuReportTrainXML.Size = New System.Drawing.Size(258, 22)
+        Me.mnuReportTrainXML.Size = New System.Drawing.Size(267, 22)
         Me.mnuReportTrainXML.Text = "Training XML"
         '
         'mnuReportCurrentCharXMLOld
         '
         Me.mnuReportCurrentCharXMLOld.Name = "mnuReportCurrentCharXMLOld"
-        Me.mnuReportCurrentCharXMLOld.Size = New System.Drawing.Size(258, 22)
+        Me.mnuReportCurrentCharXMLOld.Size = New System.Drawing.Size(267, 22)
         Me.mnuReportCurrentCharXMLOld.Text = "Current Character XML (Old Style)"
         '
         'mnuReportCurrentCharXMLNew
         '
         Me.mnuReportCurrentCharXMLNew.Name = "mnuReportCurrentCharXMLNew"
-        Me.mnuReportCurrentCharXMLNew.Size = New System.Drawing.Size(258, 22)
+        Me.mnuReportCurrentCharXMLNew.Size = New System.Drawing.Size(267, 22)
         Me.mnuReportCurrentCharXMLNew.Text = "Current Character XML (New Style)"
         '
         'mnuReportCurrentTrainingXMLOld
         '
         Me.mnuReportCurrentTrainingXMLOld.Name = "mnuReportCurrentTrainingXMLOld"
-        Me.mnuReportCurrentTrainingXMLOld.Size = New System.Drawing.Size(258, 22)
+        Me.mnuReportCurrentTrainingXMLOld.Size = New System.Drawing.Size(267, 22)
         Me.mnuReportCurrentTrainingXMLOld.Text = "Current Training XML (Old Style)"
         '
         'mnuReportECMExport
         '
         Me.mnuReportECMExport.Name = "mnuReportECMExport"
-        Me.mnuReportECMExport.Size = New System.Drawing.Size(258, 22)
+        Me.mnuReportECMExport.Size = New System.Drawing.Size(267, 22)
         Me.mnuReportECMExport.Text = "ECM Export"
         '
         'mnuReportsCharts
         '
         Me.mnuReportsCharts.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportsChartsChar})
         Me.mnuReportsCharts.Name = "mnuReportsCharts"
-        Me.mnuReportsCharts.Size = New System.Drawing.Size(177, 22)
+        Me.mnuReportsCharts.Size = New System.Drawing.Size(182, 22)
         Me.mnuReportsCharts.Text = "Charts && Graphs"
         '
         'mnuReportsChartsChar
         '
         Me.mnuReportsChartsChar.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuReportSkillGroupChart})
         Me.mnuReportsChartsChar.Name = "mnuReportsChartsChar"
-        Me.mnuReportsChartsChar.Size = New System.Drawing.Size(125, 22)
+        Me.mnuReportsChartsChar.Size = New System.Drawing.Size(126, 22)
         Me.mnuReportsChartsChar.Text = "Character"
         '
         'mnuReportSkillGroupChart
@@ -675,51 +677,58 @@ Partial Public Class frmEveHQ
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(174, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(179, 6)
         '
         'mnuReportOpenfolder
         '
         Me.mnuReportOpenfolder.Name = "mnuReportOpenfolder"
-        Me.mnuReportOpenfolder.Size = New System.Drawing.Size(177, 22)
+        Me.mnuReportOpenfolder.Size = New System.Drawing.Size(182, 22)
         Me.mnuReportOpenfolder.Text = "Open Report Folder"
         '
         'mnuHelp
         '
         Me.mnuHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuHelpCheckUpdates, Me.mnuUpdateNow, Me.VersionHistoryToolStripMenuItem, Me.ToolStripSeparator1, Me.mnuHelpAbout})
         Me.mnuHelp.Name = "mnuHelp"
-        Me.mnuHelp.Size = New System.Drawing.Size(44, 20)
+        Me.mnuHelp.Size = New System.Drawing.Size(43, 20)
         Me.mnuHelp.Text = "&Help"
         '
         'mnuHelpCheckUpdates
         '
         Me.mnuHelpCheckUpdates.Image = CType(resources.GetObject("mnuHelpCheckUpdates.Image"), System.Drawing.Image)
         Me.mnuHelpCheckUpdates.Name = "mnuHelpCheckUpdates"
-        Me.mnuHelpCheckUpdates.Size = New System.Drawing.Size(171, 22)
+        Me.mnuHelpCheckUpdates.Size = New System.Drawing.Size(175, 22)
         Me.mnuHelpCheckUpdates.Text = "&Check for Updates"
+        '
+        'mnuUpdateNow
+        '
+        Me.mnuUpdateNow.Enabled = False
+        Me.mnuUpdateNow.Name = "mnuUpdateNow"
+        Me.mnuUpdateNow.Size = New System.Drawing.Size(175, 22)
+        Me.mnuUpdateNow.Text = "Update EveHQ"
         '
         'VersionHistoryToolStripMenuItem
         '
         Me.VersionHistoryToolStripMenuItem.Name = "VersionHistoryToolStripMenuItem"
-        Me.VersionHistoryToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
+        Me.VersionHistoryToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.VersionHistoryToolStripMenuItem.Text = "Version History"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(168, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(172, 6)
         '
         'mnuHelpAbout
         '
         Me.mnuHelpAbout.Image = CType(resources.GetObject("mnuHelpAbout.Image"), System.Drawing.Image)
         Me.mnuHelpAbout.Name = "mnuHelpAbout"
-        Me.mnuHelpAbout.Size = New System.Drawing.Size(171, 22)
+        Me.mnuHelpAbout.Size = New System.Drawing.Size(175, 22)
         Me.mnuHelpAbout.Text = "&About..."
         '
         'mnuUpdate
         '
         Me.mnuUpdate.Enabled = False
         Me.mnuUpdate.Name = "mnuUpdate"
-        Me.mnuUpdate.Size = New System.Drawing.Size(57, 20)
+        Me.mnuUpdate.Size = New System.Drawing.Size(59, 20)
         Me.mnuUpdate.Text = "&Update"
         Me.mnuUpdate.Visible = False
         '
@@ -859,6 +868,7 @@ Partial Public Class frmEveHQ
         '
         'EveHQStatusStrip
         '
+        Me.EveHQStatusStrip.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.EveHQStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsTQStatus, Me.tsSisiStatus, Me.tsAPIStatus, Me.tsAPITime})
         Me.EveHQStatusStrip.Location = New System.Drawing.Point(0, 631)
         Me.EveHQStatusStrip.Name = "EveHQStatusStrip"
@@ -990,13 +1000,6 @@ Partial Public Class frmEveHQ
         Me.panelTrainingStatus.Size = New System.Drawing.Size(996, 26)
         Me.panelTrainingStatus.TabIndex = 20
         '
-        'mnuUpdateNow
-        '
-        Me.mnuUpdateNow.Enabled = False
-        Me.mnuUpdateNow.Name = "mnuUpdateNow"
-        Me.mnuUpdateNow.Size = New System.Drawing.Size(171, 22)
-        Me.mnuUpdateNow.Text = "Update EveHQ"
-        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1007,6 +1010,7 @@ Partial Public Class frmEveHQ
         Me.Controls.Add(Me.EveHQToolStrip)
         Me.Controls.Add(Me.EveHQStatusStrip)
         Me.Controls.Add(Me.MenuStrip)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.IsMdiContainer = True
         Me.MainMenuStrip = Me.MenuStrip

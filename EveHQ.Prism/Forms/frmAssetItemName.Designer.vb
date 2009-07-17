@@ -41,7 +41,7 @@ Partial Class frmAssetItemName
         Me.txtAssetItemName.Location = New System.Drawing.Point(15, 56)
         Me.txtAssetItemName.MaxLength = 50
         Me.txtAssetItemName.Name = "txtAssetItemName"
-        Me.txtAssetItemName.Size = New System.Drawing.Size(213, 20)
+        Me.txtAssetItemName.Size = New System.Drawing.Size(213, 21)
         Me.txtAssetItemName.TabIndex = 1
         '
         'btnAccept
@@ -74,6 +74,7 @@ Partial Class frmAssetItemName
         Me.Controls.Add(Me.btnAccept)
         Me.Controls.Add(Me.txtAssetItemName)
         Me.Controls.Add(Me.lblDescription)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False

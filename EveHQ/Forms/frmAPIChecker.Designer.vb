@@ -44,7 +44,7 @@ Partial Class frmAPIChecker
         Me.lblCharacter.Enabled = False
         Me.lblCharacter.Location = New System.Drawing.Point(309, 13)
         Me.lblCharacter.Name = "lblCharacter"
-        Me.lblCharacter.Size = New System.Drawing.Size(56, 13)
+        Me.lblCharacter.Size = New System.Drawing.Size(59, 13)
         Me.lblCharacter.TabIndex = 0
         Me.lblCharacter.Text = "Character:"
         '
@@ -64,7 +64,7 @@ Partial Class frmAPIChecker
         Me.lblAPIMethod.AutoSize = True
         Me.lblAPIMethod.Location = New System.Drawing.Point(13, 13)
         Me.lblAPIMethod.Name = "lblAPIMethod"
-        Me.lblAPIMethod.Size = New System.Drawing.Size(66, 13)
+        Me.lblAPIMethod.Size = New System.Drawing.Size(67, 13)
         Me.lblAPIMethod.TabIndex = 2
         Me.lblAPIMethod.Text = "API Method:"
         '
@@ -105,7 +105,7 @@ Partial Class frmAPIChecker
         Me.lblOtherInfo.Enabled = False
         Me.lblOtherInfo.Location = New System.Drawing.Point(309, 67)
         Me.lblOtherInfo.Name = "lblOtherInfo"
-        Me.lblOtherInfo.Size = New System.Drawing.Size(72, 13)
+        Me.lblOtherInfo.Size = New System.Drawing.Size(74, 13)
         Me.lblOtherInfo.TabIndex = 6
         Me.lblOtherInfo.Text = "Before RefID:"
         '
@@ -114,7 +114,7 @@ Partial Class frmAPIChecker
         Me.txtOtherInfo.Enabled = False
         Me.txtOtherInfo.Location = New System.Drawing.Point(396, 64)
         Me.txtOtherInfo.Name = "txtOtherInfo"
-        Me.txtOtherInfo.Size = New System.Drawing.Size(166, 20)
+        Me.txtOtherInfo.Size = New System.Drawing.Size(166, 21)
         Me.txtOtherInfo.TabIndex = 7
         '
         'wbAPI
@@ -145,7 +145,7 @@ Partial Class frmAPIChecker
         Me.lblCurrentlyViewing.AutoSize = True
         Me.lblCurrentlyViewing.Location = New System.Drawing.Point(9, 104)
         Me.lblCurrentlyViewing.Name = "lblCurrentlyViewing"
-        Me.lblCurrentlyViewing.Size = New System.Drawing.Size(111, 13)
+        Me.lblCurrentlyViewing.Size = New System.Drawing.Size(114, 13)
         Me.lblCurrentlyViewing.TabIndex = 10
         Me.lblCurrentlyViewing.Text = "Currently Viewing: n/a"
         '
@@ -154,7 +154,7 @@ Partial Class frmAPIChecker
         Me.lblFileLocation.AutoSize = True
         Me.lblFileLocation.Location = New System.Drawing.Point(9, 117)
         Me.lblFileLocation.Name = "lblFileLocation"
-        Me.lblFileLocation.Size = New System.Drawing.Size(124, 13)
+        Me.lblFileLocation.Size = New System.Drawing.Size(122, 13)
         Me.lblFileLocation.TabIndex = 11
         Me.lblFileLocation.Text = "Cache File Location: n/a"
         '
@@ -163,7 +163,7 @@ Partial Class frmAPIChecker
         Me.chkReturnCached.AutoSize = True
         Me.chkReturnCached.Location = New System.Drawing.Point(85, 35)
         Me.chkReturnCached.Name = "chkReturnCached"
-        Me.chkReturnCached.Size = New System.Drawing.Size(147, 17)
+        Me.chkReturnCached.Size = New System.Drawing.Size(145, 17)
         Me.chkReturnCached.TabIndex = 12
         Me.chkReturnCached.Text = "Return Cached XML Only"
         Me.chkReturnCached.UseVisualStyleBackColor = True
@@ -186,6 +186,7 @@ Partial Class frmAPIChecker
         Me.Controls.Add(Me.lblAPIMethod)
         Me.Controls.Add(Me.cboCharacter)
         Me.Controls.Add(Me.lblCharacter)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmAPIChecker"

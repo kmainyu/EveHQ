@@ -86,6 +86,7 @@ Partial Class frmToolTrayIconPopup
         Me.ClientSize = New System.Drawing.Size(357, 210)
         Me.ControlBox = False
         Me.Controls.Add(Me.AGP1)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.MinimizeBox = False

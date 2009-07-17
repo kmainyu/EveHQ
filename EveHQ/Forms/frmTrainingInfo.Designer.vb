@@ -95,6 +95,7 @@ Partial Class frmTrainingInfo
         Me.BackColor = System.Drawing.Color.Black
         Me.ClientSize = New System.Drawing.Size(300, 100)
         Me.Controls.Add(Me.Panel1)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "frmTrainingInfo"
         Me.Opacity = 0.5

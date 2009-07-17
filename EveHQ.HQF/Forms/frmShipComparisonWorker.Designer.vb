@@ -54,6 +54,7 @@ Partial Class frmShipComparisonWorker
         Me.ControlBox = False
         Me.Controls.Add(Me.lblGenerating)
         Me.Controls.Add(Me.PictureBox1)
+        Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Name = "frmShipComparisonWorker"
         Me.ShowInTaskbar = False

@@ -29,29 +29,26 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoSManMainForm));
             this.tb_PosManager = new System.Windows.Forms.TabControl();
             this.tp_POSMonitor = new System.Windows.Forms.TabPage();
@@ -717,6 +714,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.ts_MonitorControl.AutoSize = false;
             this.ts_MonitorControl.Dock = System.Windows.Forms.DockStyle.None;
+            this.ts_MonitorControl.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ts_MonitorControl.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.ts_MonitorControl.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsb_ModifyMonList,
@@ -952,11 +950,11 @@
             this.label26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label26.AutoSize = true;
             this.label26.BackColor = System.Drawing.SystemColors.Control;
-            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label26.ForeColor = System.Drawing.Color.Black;
             this.label26.Location = new System.Drawing.Point(5, 30);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(90, 16);
+            this.label26.Size = new System.Drawing.Size(88, 16);
             this.label26.TabIndex = 11;
             this.label26.Text = "Strontium Bay";
             this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -966,11 +964,11 @@
             this.label33.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label33.AutoSize = true;
             this.label33.BackColor = System.Drawing.SystemColors.Control;
-            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label33.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label33.ForeColor = System.Drawing.Color.Black;
             this.label33.Location = new System.Drawing.Point(5, 5);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(61, 16);
+            this.label33.Size = new System.Drawing.Size(56, 16);
             this.label33.TabIndex = 10;
             this.label33.Text = "Fuel Bay";
             this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1775,7 +1773,7 @@
             0,
             -2147483648});
             this.nud_MechPart.Name = "nud_MechPart";
-            this.nud_MechPart.Size = new System.Drawing.Size(103, 20);
+            this.nud_MechPart.Size = new System.Drawing.Size(103, 21);
             this.nud_MechPart.TabIndex = 156;
             this.nud_MechPart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_MechPart.ThousandsSeparator = true;
@@ -1812,7 +1810,7 @@
             0,
             -2147483648});
             this.nud_Stront.Name = "nud_Stront";
-            this.nud_Stront.Size = new System.Drawing.Size(103, 20);
+            this.nud_Stront.Size = new System.Drawing.Size(103, 21);
             this.nud_Stront.TabIndex = 163;
             this.nud_Stront.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_Stront.ThousandsSeparator = true;
@@ -1835,7 +1833,7 @@
             0,
             -2147483648});
             this.nud_Oxy.Name = "nud_Oxy";
-            this.nud_Oxy.Size = new System.Drawing.Size(103, 20);
+            this.nud_Oxy.Size = new System.Drawing.Size(103, 21);
             this.nud_Oxy.TabIndex = 155;
             this.nud_Oxy.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_Oxy.ThousandsSeparator = true;
@@ -1858,7 +1856,7 @@
             0,
             -2147483648});
             this.nud_EnrUran.Name = "nud_EnrUran";
-            this.nud_EnrUran.Size = new System.Drawing.Size(103, 20);
+            this.nud_EnrUran.Size = new System.Drawing.Size(103, 21);
             this.nud_EnrUran.TabIndex = 154;
             this.nud_EnrUran.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_EnrUran.ThousandsSeparator = true;
@@ -1881,7 +1879,7 @@
             0,
             -2147483648});
             this.nud_Charter.Name = "nud_Charter";
-            this.nud_Charter.Size = new System.Drawing.Size(103, 20);
+            this.nud_Charter.Size = new System.Drawing.Size(103, 21);
             this.nud_Charter.TabIndex = 162;
             this.nud_Charter.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_Charter.ThousandsSeparator = true;
@@ -1904,7 +1902,7 @@
             0,
             -2147483648});
             this.nud_Coolant.Name = "nud_Coolant";
-            this.nud_Coolant.Size = new System.Drawing.Size(103, 20);
+            this.nud_Coolant.Size = new System.Drawing.Size(103, 21);
             this.nud_Coolant.TabIndex = 157;
             this.nud_Coolant.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_Coolant.ThousandsSeparator = true;
@@ -1927,7 +1925,7 @@
             0,
             -2147483648});
             this.nud_LiqOzn.Name = "nud_LiqOzn";
-            this.nud_LiqOzn.Size = new System.Drawing.Size(103, 20);
+            this.nud_LiqOzn.Size = new System.Drawing.Size(103, 21);
             this.nud_LiqOzn.TabIndex = 161;
             this.nud_LiqOzn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_LiqOzn.ThousandsSeparator = true;
@@ -1950,7 +1948,7 @@
             0,
             -2147483648});
             this.nud_Robotic.Name = "nud_Robotic";
-            this.nud_Robotic.Size = new System.Drawing.Size(103, 20);
+            this.nud_Robotic.Size = new System.Drawing.Size(103, 21);
             this.nud_Robotic.TabIndex = 158;
             this.nud_Robotic.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_Robotic.ThousandsSeparator = true;
@@ -1973,7 +1971,7 @@
             0,
             -2147483648});
             this.nud_HvyWtr.Name = "nud_HvyWtr";
-            this.nud_HvyWtr.Size = new System.Drawing.Size(103, 20);
+            this.nud_HvyWtr.Size = new System.Drawing.Size(103, 21);
             this.nud_HvyWtr.TabIndex = 160;
             this.nud_HvyWtr.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_HvyWtr.ThousandsSeparator = true;
@@ -1996,7 +1994,7 @@
             0,
             -2147483648});
             this.nud_Isotope.Name = "nud_Isotope";
-            this.nud_Isotope.Size = new System.Drawing.Size(103, 20);
+            this.nud_Isotope.Size = new System.Drawing.Size(103, 21);
             this.nud_Isotope.TabIndex = 159;
             this.nud_Isotope.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_Isotope.ThousandsSeparator = true;
@@ -2013,14 +2011,6 @@
             this.dg_MonitoredTowers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dg_MonitoredTowers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dg_MonitoredTowers.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle24.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg_MonitoredTowers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle24;
             this.dg_MonitoredTowers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dg_MonitoredTowers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dg_POSName,
@@ -2047,32 +2037,32 @@
             this.HiddenCPU,
             this.HiddenPower,
             this.HiddenIso});
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle37.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle37.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg_MonitoredTowers.DefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg_MonitoredTowers.DefaultCellStyle = dataGridViewCellStyle13;
             this.dg_MonitoredTowers.Location = new System.Drawing.Point(1, 37);
             this.dg_MonitoredTowers.MultiSelect = false;
             this.dg_MonitoredTowers.Name = "dg_MonitoredTowers";
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle38.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle38.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle38.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle38.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
-            dataGridViewCellStyle38.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle38.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg_MonitoredTowers.RowHeadersDefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dg_MonitoredTowers.RowHeadersDefaultCellStyle = dataGridViewCellStyle14;
             this.dg_MonitoredTowers.RowHeadersWidth = 20;
             this.dg_MonitoredTowers.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle39.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle39.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle39.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
-            dataGridViewCellStyle39.SelectionForeColor = System.Drawing.Color.Black;
-            this.dg_MonitoredTowers.RowsDefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.Black;
+            this.dg_MonitoredTowers.RowsDefaultCellStyle = dataGridViewCellStyle15;
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.SystemColors.Control;
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dg_MonitoredTowers.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
@@ -2090,18 +2080,18 @@
             this.dg_POSName.HeaderText = "POS Name";
             this.dg_POSName.Name = "dg_POSName";
             this.dg_POSName.ReadOnly = true;
-            this.dg_POSName.Width = 85;
+            this.dg_POSName.Width = 82;
             // 
             // dg_RunTime
             // 
-            dataGridViewCellStyle25.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle25.ForeColor = System.Drawing.Color.Black;
-            this.dg_RunTime.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            this.dg_RunTime.DefaultCellStyle = dataGridViewCellStyle1;
             this.dg_RunTime.HeaderText = "Fuel Run Time";
             this.dg_RunTime.Name = "dg_RunTime";
             this.dg_RunTime.ReadOnly = true;
             this.dg_RunTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.dg_RunTime.Width = 101;
+            this.dg_RunTime.Width = 99;
             // 
             // dg_ReinfTime
             // 
@@ -2109,54 +2099,54 @@
             this.dg_ReinfTime.Name = "dg_ReinfTime";
             this.dg_ReinfTime.ReadOnly = true;
             this.dg_ReinfTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.dg_ReinfTime.Width = 104;
+            this.dg_ReinfTime.Width = 103;
             // 
             // dg_TowerStatus
             // 
             this.dg_TowerStatus.HeaderText = "Tower Status";
             this.dg_TowerStatus.Name = "dg_TowerStatus";
             this.dg_TowerStatus.ReadOnly = true;
-            this.dg_TowerStatus.Width = 95;
+            this.dg_TowerStatus.Width = 96;
             // 
             // dg_Linked
             // 
             this.dg_Linked.HeaderText = "Tower API Link";
             this.dg_Linked.Name = "dg_Linked";
             this.dg_Linked.ReadOnly = true;
-            this.dg_Linked.Width = 105;
+            this.dg_Linked.Width = 103;
             // 
             // APICache
             // 
             this.APICache.HeaderText = "API Cache Time";
             this.APICache.Name = "APICache";
             this.APICache.ReadOnly = true;
-            this.APICache.Width = 109;
+            this.APICache.Width = 107;
             // 
             // CPU
             // 
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CPU.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CPU.DefaultCellStyle = dataGridViewCellStyle2;
             this.CPU.HeaderText = "CPU Usage";
             this.CPU.Name = "CPU";
             this.CPU.ReadOnly = true;
             this.CPU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.CPU.Width = 88;
+            this.CPU.Width = 85;
             // 
             // Power
             // 
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Power.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Power.DefaultCellStyle = dataGridViewCellStyle3;
             this.Power.HeaderText = "Power Usage";
             this.Power.Name = "Power";
             this.Power.ReadOnly = true;
             this.Power.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.Power.Width = 96;
+            this.Power.Width = 95;
             // 
             // EnUr
             // 
-            dataGridViewCellStyle28.Format = "N0";
-            dataGridViewCellStyle28.NullValue = null;
-            this.EnUr.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle4.Format = "N0";
+            dataGridViewCellStyle4.NullValue = null;
+            this.EnUr.DefaultCellStyle = dataGridViewCellStyle4;
             this.EnUr.HeaderText = "Enr Uranium";
             this.EnUr.Name = "EnUr";
             this.EnUr.ReadOnly = true;
@@ -2164,97 +2154,97 @@
             // 
             // Oxyg
             // 
-            dataGridViewCellStyle29.Format = "N0";
-            dataGridViewCellStyle29.NullValue = null;
-            this.Oxyg.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle5.Format = "N0";
+            dataGridViewCellStyle5.NullValue = null;
+            this.Oxyg.DefaultCellStyle = dataGridViewCellStyle5;
             this.Oxyg.HeaderText = "Oxygen";
             this.Oxyg.Name = "Oxyg";
             this.Oxyg.ReadOnly = true;
-            this.Oxyg.Width = 68;
+            this.Oxyg.Width = 70;
             // 
             // McP
             // 
-            dataGridViewCellStyle30.Format = "N0";
-            dataGridViewCellStyle30.NullValue = null;
-            this.McP.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle6.Format = "N0";
+            dataGridViewCellStyle6.NullValue = null;
+            this.McP.DefaultCellStyle = dataGridViewCellStyle6;
             this.McP.HeaderText = "Mech Parts";
             this.McP.Name = "McP";
             this.McP.ReadOnly = true;
-            this.McP.Width = 86;
+            this.McP.Width = 85;
             // 
             // Cool
             // 
             this.Cool.HeaderText = "Coolant";
             this.Cool.Name = "Cool";
             this.Cool.ReadOnly = true;
-            this.Cool.Width = 68;
+            this.Cool.Width = 69;
             // 
             // Robt
             // 
-            dataGridViewCellStyle31.Format = "N0";
-            dataGridViewCellStyle31.NullValue = null;
-            this.Robt.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle7.Format = "N0";
+            dataGridViewCellStyle7.NullValue = null;
+            this.Robt.DefaultCellStyle = dataGridViewCellStyle7;
             this.Robt.HeaderText = "Robotics";
             this.Robt.Name = "Robt";
             this.Robt.ReadOnly = true;
-            this.Robt.Width = 74;
+            this.Robt.Width = 73;
             // 
             // Iso
             // 
-            dataGridViewCellStyle32.Format = "N0";
-            dataGridViewCellStyle32.NullValue = null;
-            this.Iso.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle8.Format = "N0";
+            dataGridViewCellStyle8.NullValue = null;
+            this.Iso.DefaultCellStyle = dataGridViewCellStyle8;
             this.Iso.HeaderText = "Isotopes";
             this.Iso.Name = "Iso";
             this.Iso.ReadOnly = true;
             this.Iso.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.Iso.Width = 72;
+            this.Iso.Width = 74;
             // 
             // HvyW
             // 
-            dataGridViewCellStyle33.Format = "N0";
-            dataGridViewCellStyle33.NullValue = null;
-            this.HvyW.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle9.Format = "N0";
+            dataGridViewCellStyle9.NullValue = null;
+            this.HvyW.DefaultCellStyle = dataGridViewCellStyle9;
             this.HvyW.HeaderText = "Hvy Water";
             this.HvyW.Name = "HvyW";
             this.HvyW.ReadOnly = true;
-            this.HvyW.Width = 83;
+            this.HvyW.Width = 84;
             // 
             // LiqO
             // 
-            dataGridViewCellStyle34.Format = "N0";
-            dataGridViewCellStyle34.NullValue = null;
-            this.LiqO.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle10.Format = "N0";
+            dataGridViewCellStyle10.NullValue = null;
+            this.LiqO.DefaultCellStyle = dataGridViewCellStyle10;
             this.LiqO.HeaderText = "Liq Ozone";
             this.LiqO.Name = "LiqO";
             this.LiqO.ReadOnly = true;
-            this.LiqO.Width = 80;
+            this.LiqO.Width = 79;
             // 
             // Chrt
             // 
-            dataGridViewCellStyle35.Format = "N0";
-            dataGridViewCellStyle35.NullValue = null;
-            this.Chrt.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle11.Format = "N0";
+            dataGridViewCellStyle11.NullValue = null;
+            this.Chrt.DefaultCellStyle = dataGridViewCellStyle11;
             this.Chrt.HeaderText = "Charters";
             this.Chrt.Name = "Chrt";
             this.Chrt.ReadOnly = true;
-            this.Chrt.Width = 71;
+            this.Chrt.Width = 74;
             // 
             // Strn
             // 
-            dataGridViewCellStyle36.Format = "N0";
-            dataGridViewCellStyle36.NullValue = null;
-            this.Strn.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle12.Format = "N0";
+            dataGridViewCellStyle12.NullValue = null;
+            this.Strn.DefaultCellStyle = dataGridViewCellStyle12;
             this.Strn.HeaderText = "Strontium";
             this.Strn.Name = "Strn";
             this.Strn.ReadOnly = true;
-            this.Strn.Width = 76;
+            this.Strn.Width = 78;
             // 
             // IgnoreCharters
             // 
             this.IgnoreCharters.HeaderText = "Use Charters";
             this.IgnoreCharters.Name = "IgnoreCharters";
-            this.IgnoreCharters.Width = 74;
+            this.IgnoreCharters.Width = 76;
             // 
             // HiddenFuel
             // 
@@ -2346,14 +2336,6 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.dg_PosMods.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dg_PosMods.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
-            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle40.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle40.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle40.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle40.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle40.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle40.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg_PosMods.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle40;
             this.dg_PosMods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg_PosMods.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Module,
@@ -2370,26 +2352,18 @@
             this.Charge,
             this.Cost,
             this.Cap});
-            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle41.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle41.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle41.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle41.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle41.SelectionForeColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg_PosMods.DefaultCellStyle = dataGridViewCellStyle41;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg_PosMods.DefaultCellStyle = dataGridViewCellStyle16;
             this.dg_PosMods.Location = new System.Drawing.Point(307, 559);
             this.dg_PosMods.MultiSelect = false;
             this.dg_PosMods.Name = "dg_PosMods";
             this.dg_PosMods.ReadOnly = true;
-            dataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle42.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle42.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle42.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle42.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle42.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle42.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg_PosMods.RowHeadersDefaultCellStyle = dataGridViewCellStyle42;
             this.dg_PosMods.RowHeadersVisible = false;
             this.dg_PosMods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg_PosMods.Size = new System.Drawing.Size(690, 144);
@@ -2561,7 +2535,7 @@
             // l_armor_thm
             // 
             this.l_armor_thm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_armor_thm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_armor_thm.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_armor_thm.ForeColor = System.Drawing.Color.Red;
             this.l_armor_thm.Location = new System.Drawing.Point(251, 149);
             this.l_armor_thm.Name = "l_armor_thm";
@@ -2574,7 +2548,7 @@
             // l_armor_kin
             // 
             this.l_armor_kin.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_armor_kin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_armor_kin.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_armor_kin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.l_armor_kin.Location = new System.Drawing.Point(251, 105);
             this.l_armor_kin.Name = "l_armor_kin";
@@ -2587,7 +2561,7 @@
             // l_armor_exp
             // 
             this.l_armor_exp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_armor_exp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_armor_exp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_armor_exp.ForeColor = System.Drawing.Color.Indigo;
             this.l_armor_exp.Location = new System.Drawing.Point(172, 149);
             this.l_armor_exp.Name = "l_armor_exp";
@@ -2600,7 +2574,7 @@
             // l_armor_emp
             // 
             this.l_armor_emp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_armor_emp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_armor_emp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_armor_emp.ForeColor = System.Drawing.Color.Teal;
             this.l_armor_emp.Location = new System.Drawing.Point(172, 105);
             this.l_armor_emp.Name = "l_armor_emp";
@@ -2613,7 +2587,7 @@
             // l_shield_therm
             // 
             this.l_shield_therm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_shield_therm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_shield_therm.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_shield_therm.ForeColor = System.Drawing.Color.Red;
             this.l_shield_therm.Location = new System.Drawing.Point(251, 136);
             this.l_shield_therm.Name = "l_shield_therm";
@@ -2626,7 +2600,7 @@
             // l_shield_kin
             // 
             this.l_shield_kin.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_shield_kin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_shield_kin.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_shield_kin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.l_shield_kin.Location = new System.Drawing.Point(251, 91);
             this.l_shield_kin.Name = "l_shield_kin";
@@ -2639,7 +2613,7 @@
             // l_shield_exp
             // 
             this.l_shield_exp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_shield_exp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_shield_exp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_shield_exp.ForeColor = System.Drawing.Color.Indigo;
             this.l_shield_exp.Location = new System.Drawing.Point(172, 136);
             this.l_shield_exp.Name = "l_shield_exp";
@@ -2652,7 +2626,7 @@
             // l_shield_em
             // 
             this.l_shield_em.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_shield_em.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_shield_em.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_shield_em.ForeColor = System.Drawing.Color.Teal;
             this.l_shield_em.Location = new System.Drawing.Point(172, 91);
             this.l_shield_em.Name = "l_shield_em";
@@ -2723,7 +2697,7 @@
             // l_SI_Cost
             // 
             this.l_SI_Cost.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_SI_Cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_SI_Cost.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_SI_Cost.ForeColor = System.Drawing.Color.Black;
             this.l_SI_Cost.Location = new System.Drawing.Point(33, 67);
             this.l_SI_Cost.Name = "l_SI_Cost";
@@ -2735,7 +2709,7 @@
             // l_armor_hp
             // 
             this.l_armor_hp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_armor_hp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_armor_hp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_armor_hp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.l_armor_hp.Location = new System.Drawing.Point(33, 127);
             this.l_armor_hp.Name = "l_armor_hp";
@@ -2761,7 +2735,7 @@
             // l_struct_therm
             // 
             this.l_struct_therm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_struct_therm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_struct_therm.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_struct_therm.ForeColor = System.Drawing.Color.Red;
             this.l_struct_therm.Location = new System.Drawing.Point(251, 163);
             this.l_struct_therm.Name = "l_struct_therm";
@@ -2774,7 +2748,7 @@
             // l_struct_kin
             // 
             this.l_struct_kin.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_struct_kin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_struct_kin.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_struct_kin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.l_struct_kin.Location = new System.Drawing.Point(251, 118);
             this.l_struct_kin.Name = "l_struct_kin";
@@ -2787,7 +2761,7 @@
             // l_struct_exp
             // 
             this.l_struct_exp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_struct_exp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_struct_exp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_struct_exp.ForeColor = System.Drawing.Color.Indigo;
             this.l_struct_exp.Location = new System.Drawing.Point(172, 163);
             this.l_struct_exp.Name = "l_struct_exp";
@@ -2800,7 +2774,7 @@
             // l_struct_emp
             // 
             this.l_struct_emp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_struct_emp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_struct_emp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_struct_emp.ForeColor = System.Drawing.Color.Teal;
             this.l_struct_emp.Location = new System.Drawing.Point(172, 118);
             this.l_struct_emp.Name = "l_struct_emp";
@@ -2813,7 +2787,7 @@
             // l_struct_hp
             // 
             this.l_struct_hp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_struct_hp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_struct_hp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_struct_hp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.l_struct_hp.Location = new System.Drawing.Point(33, 156);
             this.l_struct_hp.Name = "l_struct_hp";
@@ -2825,7 +2799,7 @@
             // l_shield_hp
             // 
             this.l_shield_hp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_shield_hp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_shield_hp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_shield_hp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.l_shield_hp.Location = new System.Drawing.Point(33, 98);
             this.l_shield_hp.Name = "l_shield_hp";
@@ -2837,7 +2811,7 @@
             // l_power
             // 
             this.l_power.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_power.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_power.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_power.ForeColor = System.Drawing.Color.Black;
             this.l_power.Location = new System.Drawing.Point(33, 38);
             this.l_power.Name = "l_power";
@@ -2849,7 +2823,7 @@
             // l_cpu
             // 
             this.l_cpu.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_cpu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_cpu.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_cpu.ForeColor = System.Drawing.Color.Black;
             this.l_cpu.Location = new System.Drawing.Point(33, 9);
             this.l_cpu.Name = "l_cpu";
@@ -4214,7 +4188,7 @@
             this.l_TowerATRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerATRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerATRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerATRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerATRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerATRes.ForeColor = System.Drawing.Color.Red;
             this.l_TowerATRes.Location = new System.Drawing.Point(945, 64);
             this.l_TowerATRes.Name = "l_TowerATRes";
@@ -4229,7 +4203,7 @@
             this.l_TowerAKRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerAKRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerAKRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerAKRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerAKRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerAKRes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.l_TowerAKRes.Location = new System.Drawing.Point(945, 17);
             this.l_TowerAKRes.Name = "l_TowerAKRes";
@@ -4244,7 +4218,7 @@
             this.l_TowerSTRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerSTRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerSTRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerSTRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerSTRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerSTRes.ForeColor = System.Drawing.Color.Red;
             this.l_TowerSTRes.Location = new System.Drawing.Point(945, 51);
             this.l_TowerSTRes.Name = "l_TowerSTRes";
@@ -4259,7 +4233,7 @@
             this.l_TowerAExRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerAExRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerAExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerAExRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerAExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerAExRes.ForeColor = System.Drawing.Color.Indigo;
             this.l_TowerAExRes.Location = new System.Drawing.Point(865, 64);
             this.l_TowerAExRes.Name = "l_TowerAExRes";
@@ -4274,7 +4248,7 @@
             this.l_TowerAEmRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerAEmRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerAEmRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerAEmRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerAEmRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerAEmRes.ForeColor = System.Drawing.Color.Teal;
             this.l_TowerAEmRes.Location = new System.Drawing.Point(865, 17);
             this.l_TowerAEmRes.Name = "l_TowerAEmRes";
@@ -4289,7 +4263,7 @@
             this.l_TowerSKRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerSKRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerSKRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerSKRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerSKRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerSKRes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.l_TowerSKRes.Location = new System.Drawing.Point(945, 3);
             this.l_TowerSKRes.Name = "l_TowerSKRes";
@@ -4304,7 +4278,7 @@
             this.l_TowerArmor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerArmor.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerArmor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerArmor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerArmor.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerArmor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.l_TowerArmor.Location = new System.Drawing.Point(725, 41);
             this.l_TowerArmor.Name = "l_TowerArmor";
@@ -4318,7 +4292,7 @@
             this.l_TowerShield.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerShield.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerShield.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerShield.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerShield.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerShield.ForeColor = System.Drawing.Color.Blue;
             this.l_TowerShield.Location = new System.Drawing.Point(725, 10);
             this.l_TowerShield.Name = "l_TowerShield";
@@ -4332,7 +4306,7 @@
             this.l_TowerStTRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerStTRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerStTRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerStTRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerStTRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStTRes.ForeColor = System.Drawing.Color.Red;
             this.l_TowerStTRes.Location = new System.Drawing.Point(945, 78);
             this.l_TowerStTRes.Name = "l_TowerStTRes";
@@ -4347,7 +4321,7 @@
             this.l_TowerStKRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerStKRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerStKRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerStKRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerStKRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStKRes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.l_TowerStKRes.Location = new System.Drawing.Point(945, 31);
             this.l_TowerStKRes.Name = "l_TowerStKRes";
@@ -4362,7 +4336,7 @@
             this.l_TowerSExRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerSExRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerSExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerSExRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerSExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerSExRes.ForeColor = System.Drawing.Color.Indigo;
             this.l_TowerSExRes.Location = new System.Drawing.Point(865, 51);
             this.l_TowerSExRes.Name = "l_TowerSExRes";
@@ -4377,7 +4351,7 @@
             this.l_TowerStExRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerStExRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerStExRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerStExRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerStExRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStExRes.ForeColor = System.Drawing.Color.Indigo;
             this.l_TowerStExRes.Location = new System.Drawing.Point(865, 78);
             this.l_TowerStExRes.Name = "l_TowerStExRes";
@@ -4392,7 +4366,7 @@
             this.l_TowerStEmRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerStEmRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerStEmRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerStEmRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerStEmRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStEmRes.ForeColor = System.Drawing.Color.Teal;
             this.l_TowerStEmRes.Location = new System.Drawing.Point(865, 31);
             this.l_TowerStEmRes.Name = "l_TowerStEmRes";
@@ -4407,7 +4381,7 @@
             this.l_TowerSEmRes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerSEmRes.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerSEmRes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerSEmRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerSEmRes.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerSEmRes.ForeColor = System.Drawing.Color.Teal;
             this.l_TowerSEmRes.Location = new System.Drawing.Point(865, 3);
             this.l_TowerSEmRes.Name = "l_TowerSEmRes";
@@ -4422,7 +4396,7 @@
             this.l_TowerStruct.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.l_TowerStruct.BackColor = System.Drawing.Color.Transparent;
             this.l_TowerStruct.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_TowerStruct.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_TowerStruct.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_TowerStruct.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.l_TowerStruct.Location = new System.Drawing.Point(725, 72);
             this.l_TowerStruct.Name = "l_TowerStruct";
@@ -4434,11 +4408,11 @@
             // label21
             // 
             this.label21.BackColor = System.Drawing.SystemColors.Control;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.Color.Black;
             this.label21.Location = new System.Drawing.Point(-1, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(51, 23);
+            this.label21.Size = new System.Drawing.Size(44, 23);
             this.label21.TabIndex = 13;
             this.label21.Text = "Name";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -4461,7 +4435,7 @@
             this.l_Power_Val.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.l_Power_Val.BackColor = System.Drawing.Color.Transparent;
-            this.l_Power_Val.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_Power_Val.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_Power_Val.Location = new System.Drawing.Point(49, 77);
             this.l_Power_Val.Name = "l_Power_Val";
             this.l_Power_Val.Size = new System.Drawing.Size(367, 16);
@@ -4475,7 +4449,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.l_CPU_Values.BackColor = System.Drawing.Color.Transparent;
             this.l_CPU_Values.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.l_CPU_Values.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_CPU_Values.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_CPU_Values.Location = new System.Drawing.Point(49, 42);
             this.l_CPU_Values.Name = "l_CPU_Values";
             this.l_CPU_Values.Size = new System.Drawing.Size(367, 16);
@@ -4705,27 +4679,27 @@
             this.quantityToolStripMenuItem,
             this.tsm_SetModuleCharge});
             this.cms_PosItem.Name = "cms_PosItem";
-            this.cms_PosItem.Size = new System.Drawing.Size(146, 114);
+            this.cms_PosItem.Size = new System.Drawing.Size(142, 114);
             this.cms_PosItem.Opening += new System.ComponentModel.CancelEventHandler(this.cms_PosItem_Opening);
             // 
             // tsm_Online
             // 
             this.tsm_Online.Name = "tsm_Online";
-            this.tsm_Online.Size = new System.Drawing.Size(145, 22);
+            this.tsm_Online.Size = new System.Drawing.Size(141, 22);
             this.tsm_Online.Text = "Place Online";
             this.tsm_Online.Click += new System.EventHandler(this.tsm_Online_Click);
             // 
             // tsm_Offline
             // 
             this.tsm_Offline.Name = "tsm_Offline";
-            this.tsm_Offline.Size = new System.Drawing.Size(145, 22);
+            this.tsm_Offline.Size = new System.Drawing.Size(141, 22);
             this.tsm_Offline.Text = "Place Offline";
             this.tsm_Offline.Click += new System.EventHandler(this.tsm_Offline_Click);
             // 
             // tsm_Remove
             // 
             this.tsm_Remove.Name = "tsm_Remove";
-            this.tsm_Remove.Size = new System.Drawing.Size(145, 22);
+            this.tsm_Remove.Size = new System.Drawing.Size(141, 22);
             this.tsm_Remove.Text = "Remove";
             this.tsm_Remove.Click += new System.EventHandler(this.tsm_Remove_Click);
             // 
@@ -4743,83 +4717,83 @@
             this.tsm_Qty_9,
             this.tsm_Qty_10});
             this.quantityToolStripMenuItem.Name = "quantityToolStripMenuItem";
-            this.quantityToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.quantityToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.quantityToolStripMenuItem.Text = "Quantity";
             // 
             // tsm_Qty_1
             // 
             this.tsm_Qty_1.Name = "tsm_Qty_1";
-            this.tsm_Qty_1.Size = new System.Drawing.Size(97, 22);
+            this.tsm_Qty_1.Size = new System.Drawing.Size(86, 22);
             this.tsm_Qty_1.Text = "1";
             this.tsm_Qty_1.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_2
             // 
             this.tsm_Qty_2.Name = "tsm_Qty_2";
-            this.tsm_Qty_2.Size = new System.Drawing.Size(97, 22);
+            this.tsm_Qty_2.Size = new System.Drawing.Size(86, 22);
             this.tsm_Qty_2.Text = "2";
             this.tsm_Qty_2.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_3
             // 
             this.tsm_Qty_3.Name = "tsm_Qty_3";
-            this.tsm_Qty_3.Size = new System.Drawing.Size(97, 22);
+            this.tsm_Qty_3.Size = new System.Drawing.Size(86, 22);
             this.tsm_Qty_3.Text = "3";
             this.tsm_Qty_3.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_4
             // 
             this.tsm_Qty_4.Name = "tsm_Qty_4";
-            this.tsm_Qty_4.Size = new System.Drawing.Size(97, 22);
+            this.tsm_Qty_4.Size = new System.Drawing.Size(86, 22);
             this.tsm_Qty_4.Text = "4";
             this.tsm_Qty_4.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_5
             // 
             this.tsm_Qty_5.Name = "tsm_Qty_5";
-            this.tsm_Qty_5.Size = new System.Drawing.Size(97, 22);
+            this.tsm_Qty_5.Size = new System.Drawing.Size(86, 22);
             this.tsm_Qty_5.Text = "5";
             this.tsm_Qty_5.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_6
             // 
             this.tsm_Qty_6.Name = "tsm_Qty_6";
-            this.tsm_Qty_6.Size = new System.Drawing.Size(97, 22);
+            this.tsm_Qty_6.Size = new System.Drawing.Size(86, 22);
             this.tsm_Qty_6.Text = "6";
             this.tsm_Qty_6.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_7
             // 
             this.tsm_Qty_7.Name = "tsm_Qty_7";
-            this.tsm_Qty_7.Size = new System.Drawing.Size(97, 22);
+            this.tsm_Qty_7.Size = new System.Drawing.Size(86, 22);
             this.tsm_Qty_7.Text = "7";
             this.tsm_Qty_7.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_8
             // 
             this.tsm_Qty_8.Name = "tsm_Qty_8";
-            this.tsm_Qty_8.Size = new System.Drawing.Size(97, 22);
+            this.tsm_Qty_8.Size = new System.Drawing.Size(86, 22);
             this.tsm_Qty_8.Text = "8";
             this.tsm_Qty_8.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_9
             // 
             this.tsm_Qty_9.Name = "tsm_Qty_9";
-            this.tsm_Qty_9.Size = new System.Drawing.Size(97, 22);
+            this.tsm_Qty_9.Size = new System.Drawing.Size(86, 22);
             this.tsm_Qty_9.Text = "9";
             this.tsm_Qty_9.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_Qty_10
             // 
             this.tsm_Qty_10.Name = "tsm_Qty_10";
-            this.tsm_Qty_10.Size = new System.Drawing.Size(97, 22);
+            this.tsm_Qty_10.Size = new System.Drawing.Size(86, 22);
             this.tsm_Qty_10.Text = "10";
             this.tsm_Qty_10.Click += new System.EventHandler(this.SetModuleQuantity);
             // 
             // tsm_SetModuleCharge
             // 
             this.tsm_SetModuleCharge.Name = "tsm_SetModuleCharge";
-            this.tsm_SetModuleCharge.Size = new System.Drawing.Size(145, 22);
+            this.tsm_SetModuleCharge.Size = new System.Drawing.Size(141, 22);
             this.tsm_SetModuleCharge.Text = "Set Charge";
             this.tsm_SetModuleCharge.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tsm_SetModuleCharge_DropDownItemClicked);
             this.tsm_SetModuleCharge.Click += new System.EventHandler(this.tsm_SetModuleCharge_Click);
@@ -5878,7 +5852,7 @@
             this.cb_FactChartTotal.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_FactChartTotal.Location = new System.Drawing.Point(798, 26);
             this.cb_FactChartTotal.Name = "cb_FactChartTotal";
-            this.cb_FactChartTotal.Size = new System.Drawing.Size(146, 17);
+            this.cb_FactChartTotal.Size = new System.Drawing.Size(149, 17);
             this.cb_FactChartTotal.TabIndex = 178;
             this.cb_FactChartTotal.Text = "Include Charters in Totals";
             this.cb_FactChartTotal.UseVisualStyleBackColor = true;
@@ -5891,7 +5865,7 @@
             this.cb_UseStrontTotals.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_UseStrontTotals.Location = new System.Drawing.Point(798, 10);
             this.cb_UseStrontTotals.Name = "cb_UseStrontTotals";
-            this.cb_UseStrontTotals.Size = new System.Drawing.Size(135, 17);
+            this.cb_UseStrontTotals.Size = new System.Drawing.Size(137, 17);
             this.cb_UseStrontTotals.TabIndex = 177;
             this.cb_UseStrontTotals.Text = "Include Stront in Totals";
             this.cb_UseStrontTotals.UseVisualStyleBackColor = true;
@@ -5924,18 +5898,18 @@
             this.FuelVolume,
             this.FuelCost});
             this.dg_TotalFuel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dg_TotalFuel.Location = new System.Drawing.Point(3, 16);
+            this.dg_TotalFuel.Location = new System.Drawing.Point(3, 17);
             this.dg_TotalFuel.MultiSelect = false;
             this.dg_TotalFuel.Name = "dg_TotalFuel";
             this.dg_TotalFuel.RowHeadersVisible = false;
-            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle43.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle43.ForeColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle43.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle43.SelectionForeColor = System.Drawing.Color.Gold;
-            this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle43;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Gold;
+            this.dg_TotalFuel.RowsDefaultCellStyle = dataGridViewCellStyle17;
             this.dg_TotalFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_TotalFuel.Size = new System.Drawing.Size(491, 231);
+            this.dg_TotalFuel.Size = new System.Drawing.Size(491, 230);
             this.dg_TotalFuel.TabIndex = 0;
             // 
             // FuelName
@@ -5991,18 +5965,18 @@
             this.SelFuelVol,
             this.SelFuelCost});
             this.dg_SelectedFuel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dg_SelectedFuel.Location = new System.Drawing.Point(3, 16);
+            this.dg_SelectedFuel.Location = new System.Drawing.Point(3, 17);
             this.dg_SelectedFuel.MultiSelect = false;
             this.dg_SelectedFuel.Name = "dg_SelectedFuel";
             this.dg_SelectedFuel.RowHeadersVisible = false;
-            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle44.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle44.ForeColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle44.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle44.SelectionForeColor = System.Drawing.Color.Gold;
-            this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle44;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Gold;
+            this.dg_SelectedFuel.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dg_SelectedFuel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg_SelectedFuel.Size = new System.Drawing.Size(491, 231);
+            this.dg_SelectedFuel.Size = new System.Drawing.Size(491, 230);
             this.dg_SelectedFuel.TabIndex = 1;
             // 
             // SelFuelType
@@ -6041,14 +6015,14 @@
             this.dg_TowerFuelList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dg_TowerFuelList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dg_TowerFuelList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
-            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle45.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle45.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle45.ForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle45.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle45.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle45.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg_TowerFuelList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle45;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg_TowerFuelList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
             this.dg_TowerFuelList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg_TowerFuelList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FName,
@@ -6068,12 +6042,12 @@
             this.dg_TowerFuelList.Name = "dg_TowerFuelList";
             this.dg_TowerFuelList.ReadOnly = true;
             this.dg_TowerFuelList.RowHeadersVisible = false;
-            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle46.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle46.ForeColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle46.SelectionBackColor = System.Drawing.Color.MidnightBlue;
-            dataGridViewCellStyle46.SelectionForeColor = System.Drawing.Color.Gold;
-            this.dg_TowerFuelList.RowsDefaultCellStyle = dataGridViewCellStyle46;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.Gold;
+            this.dg_TowerFuelList.RowsDefaultCellStyle = dataGridViewCellStyle20;
             this.dg_TowerFuelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg_TowerFuelList.Size = new System.Drawing.Size(996, 397);
             this.dg_TowerFuelList.TabIndex = 174;
@@ -6084,84 +6058,84 @@
             this.FName.HeaderText = "Name";
             this.FName.Name = "FName";
             this.FName.ReadOnly = true;
-            this.FName.Width = 60;
+            this.FName.Width = 59;
             // 
             // FLocation
             // 
             this.FLocation.HeaderText = "Location";
             this.FLocation.Name = "FLocation";
             this.FLocation.ReadOnly = true;
-            this.FLocation.Width = 73;
+            this.FLocation.Width = 72;
             // 
             // EnrUr
             // 
             this.EnrUr.HeaderText = "Enr. Ur.";
             this.EnrUr.Name = "EnrUr";
             this.EnrUr.ReadOnly = true;
-            this.EnrUr.Width = 68;
+            this.EnrUr.Width = 70;
             // 
             // Oxygen
             // 
             this.Oxygen.HeaderText = "Oxygen";
             this.Oxygen.Name = "Oxygen";
             this.Oxygen.ReadOnly = true;
-            this.Oxygen.Width = 68;
+            this.Oxygen.Width = 70;
             // 
             // MechP
             // 
             this.MechP.HeaderText = "Mech Pts";
             this.MechP.Name = "MechP";
             this.MechP.ReadOnly = true;
-            this.MechP.Width = 77;
+            this.MechP.Width = 75;
             // 
             // Coolant
             // 
             this.Coolant.HeaderText = "Coolant";
             this.Coolant.Name = "Coolant";
             this.Coolant.ReadOnly = true;
-            this.Coolant.Width = 68;
+            this.Coolant.Width = 69;
             // 
             // Robot
             // 
             this.Robot.HeaderText = "Robotics";
             this.Robot.Name = "Robot";
             this.Robot.ReadOnly = true;
-            this.Robot.Width = 74;
+            this.Robot.Width = 73;
             // 
             // Isotope
             // 
             this.Isotope.HeaderText = "Isotopes";
             this.Isotope.Name = "Isotope";
             this.Isotope.ReadOnly = true;
-            this.Isotope.Width = 72;
+            this.Isotope.Width = 74;
             // 
             // HvyWater
             // 
             this.HvyWater.HeaderText = "Hvy. Water";
             this.HvyWater.Name = "HvyWater";
             this.HvyWater.ReadOnly = true;
-            this.HvyWater.Width = 86;
+            this.HvyWater.Width = 88;
             // 
             // LiqOz
             // 
             this.LiqOz.HeaderText = "Liq Ozone";
             this.LiqOz.Name = "LiqOz";
             this.LiqOz.ReadOnly = true;
-            this.LiqOz.Width = 80;
+            this.LiqOz.Width = 79;
             // 
             // Charter
             // 
             this.Charter.HeaderText = "Charters";
             this.Charter.Name = "Charter";
             this.Charter.ReadOnly = true;
-            this.Charter.Width = 71;
+            this.Charter.Width = 74;
             // 
             // Stront
             // 
             this.Stront.HeaderText = "Strontium";
             this.Stront.Name = "Stront";
             this.Stront.ReadOnly = true;
-            this.Stront.Width = 76;
+            this.Stront.Width = 78;
             // 
             // b_ApplyIntervalPeriod
             // 
@@ -6205,7 +6179,7 @@
             // 
             this.nud_PeriodValue.Location = new System.Drawing.Point(609, 29);
             this.nud_PeriodValue.Name = "nud_PeriodValue";
-            this.nud_PeriodValue.Size = new System.Drawing.Size(121, 20);
+            this.nud_PeriodValue.Size = new System.Drawing.Size(121, 21);
             this.nud_PeriodValue.TabIndex = 170;
             // 
             // tscb_TimePeriod
@@ -6225,10 +6199,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(3, 37);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(354, 16);
+            this.label2.Size = new System.Drawing.Size(328, 16);
             this.label2.TabIndex = 164;
             this.label2.Text = "Monitored Towers - Fuel Needed to Fill the Bunker";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -6315,7 +6289,7 @@
             // nud_O2_FC
             // 
             this.nud_O2_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_O2_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_O2_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_O2_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_O2_FC.Location = new System.Drawing.Point(45, 302);
             this.nud_O2_FC.Maximum = new decimal(new int[] {
@@ -6324,7 +6298,7 @@
             0,
             0});
             this.nud_O2_FC.Name = "nud_O2_FC";
-            this.nud_O2_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_O2_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_O2_FC.TabIndex = 163;
             this.nud_O2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_O2_FC.ThousandsSeparator = true;
@@ -6344,7 +6318,7 @@
             // nud_H2_FC
             // 
             this.nud_H2_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_H2_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_H2_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_H2_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_H2_FC.Location = new System.Drawing.Point(45, 267);
             this.nud_H2_FC.Maximum = new decimal(new int[] {
@@ -6353,7 +6327,7 @@
             0,
             0});
             this.nud_H2_FC.Name = "nud_H2_FC";
-            this.nud_H2_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_H2_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_H2_FC.TabIndex = 162;
             this.nud_H2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_H2_FC.ThousandsSeparator = true;
@@ -6373,7 +6347,7 @@
             // nud_N2_FC
             // 
             this.nud_N2_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_N2_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_N2_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_N2_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_N2_FC.Location = new System.Drawing.Point(45, 197);
             this.nud_N2_FC.Maximum = new decimal(new int[] {
@@ -6382,7 +6356,7 @@
             0,
             0});
             this.nud_N2_FC.Name = "nud_N2_FC";
-            this.nud_N2_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_N2_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_N2_FC.TabIndex = 161;
             this.nud_N2_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_N2_FC.ThousandsSeparator = true;
@@ -6413,7 +6387,7 @@
             // nud_ST_FC
             // 
             this.nud_ST_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_ST_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_ST_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_ST_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_ST_FC.Location = new System.Drawing.Point(45, 442);
             this.nud_ST_FC.Maximum = new decimal(new int[] {
@@ -6422,7 +6396,7 @@
             0,
             0});
             this.nud_ST_FC.Name = "nud_ST_FC";
-            this.nud_ST_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_ST_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_ST_FC.TabIndex = 159;
             this.nud_ST_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_ST_FC.ThousandsSeparator = true;
@@ -6442,7 +6416,7 @@
             // nud_CH_FC
             // 
             this.nud_CH_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_CH_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_CH_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_CH_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_CH_FC.Location = new System.Drawing.Point(45, 407);
             this.nud_CH_FC.Maximum = new decimal(new int[] {
@@ -6451,7 +6425,7 @@
             0,
             0});
             this.nud_CH_FC.Name = "nud_CH_FC";
-            this.nud_CH_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_CH_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_CH_FC.TabIndex = 158;
             this.nud_CH_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_CH_FC.ThousandsSeparator = true;
@@ -6471,7 +6445,7 @@
             // nud_LO_FC
             // 
             this.nud_LO_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_LO_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_LO_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_LO_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_LO_FC.Location = new System.Drawing.Point(45, 372);
             this.nud_LO_FC.Maximum = new decimal(new int[] {
@@ -6480,7 +6454,7 @@
             0,
             0});
             this.nud_LO_FC.Name = "nud_LO_FC";
-            this.nud_LO_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_LO_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_LO_FC.TabIndex = 157;
             this.nud_LO_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_LO_FC.ThousandsSeparator = true;
@@ -6500,7 +6474,7 @@
             // nud_HW_FC
             // 
             this.nud_HW_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_HW_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_HW_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_HW_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_HW_FC.Location = new System.Drawing.Point(45, 337);
             this.nud_HW_FC.Maximum = new decimal(new int[] {
@@ -6509,7 +6483,7 @@
             0,
             0});
             this.nud_HW_FC.Name = "nud_HW_FC";
-            this.nud_HW_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_HW_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_HW_FC.TabIndex = 156;
             this.nud_HW_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_HW_FC.ThousandsSeparator = true;
@@ -6529,7 +6503,7 @@
             // nud_HE_FC
             // 
             this.nud_HE_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_HE_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_HE_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_HE_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_HE_FC.Location = new System.Drawing.Point(45, 232);
             this.nud_HE_FC.Maximum = new decimal(new int[] {
@@ -6538,7 +6512,7 @@
             0,
             0});
             this.nud_HE_FC.Name = "nud_HE_FC";
-            this.nud_HE_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_HE_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_HE_FC.TabIndex = 155;
             this.nud_HE_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_HE_FC.ThousandsSeparator = true;
@@ -6558,7 +6532,7 @@
             // nud_RB_FC
             // 
             this.nud_RB_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_RB_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_RB_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_RB_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_RB_FC.Location = new System.Drawing.Point(45, 162);
             this.nud_RB_FC.Maximum = new decimal(new int[] {
@@ -6567,7 +6541,7 @@
             0,
             0});
             this.nud_RB_FC.Name = "nud_RB_FC";
-            this.nud_RB_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_RB_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_RB_FC.TabIndex = 154;
             this.nud_RB_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_RB_FC.ThousandsSeparator = true;
@@ -6587,7 +6561,7 @@
             // nud_CL_FC
             // 
             this.nud_CL_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_CL_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_CL_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_CL_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_CL_FC.Location = new System.Drawing.Point(45, 127);
             this.nud_CL_FC.Maximum = new decimal(new int[] {
@@ -6596,7 +6570,7 @@
             0,
             0});
             this.nud_CL_FC.Name = "nud_CL_FC";
-            this.nud_CL_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_CL_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_CL_FC.TabIndex = 153;
             this.nud_CL_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_CL_FC.ThousandsSeparator = true;
@@ -6616,7 +6590,7 @@
             // nud_MP_FC
             // 
             this.nud_MP_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_MP_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_MP_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_MP_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_MP_FC.Location = new System.Drawing.Point(45, 92);
             this.nud_MP_FC.Maximum = new decimal(new int[] {
@@ -6625,7 +6599,7 @@
             0,
             0});
             this.nud_MP_FC.Name = "nud_MP_FC";
-            this.nud_MP_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_MP_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_MP_FC.TabIndex = 152;
             this.nud_MP_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_MP_FC.ThousandsSeparator = true;
@@ -6634,7 +6608,7 @@
             // nud_ER_FC
             // 
             this.nud_ER_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_ER_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_ER_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_ER_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_ER_FC.Location = new System.Drawing.Point(45, 22);
             this.nud_ER_FC.Maximum = new decimal(new int[] {
@@ -6643,7 +6617,7 @@
             0,
             0});
             this.nud_ER_FC.Name = "nud_ER_FC";
-            this.nud_ER_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_ER_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_ER_FC.TabIndex = 150;
             this.nud_ER_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_ER_FC.ThousandsSeparator = true;
@@ -6652,7 +6626,7 @@
             // nud_OX_FC
             // 
             this.nud_OX_FC.BackColor = System.Drawing.SystemColors.Control;
-            this.nud_OX_FC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nud_OX_FC.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nud_OX_FC.ForeColor = System.Drawing.Color.Black;
             this.nud_OX_FC.Location = new System.Drawing.Point(45, 57);
             this.nud_OX_FC.Maximum = new decimal(new int[] {
@@ -6661,7 +6635,7 @@
             0,
             0});
             this.nud_OX_FC.Name = "nud_OX_FC";
-            this.nud_OX_FC.Size = new System.Drawing.Size(110, 20);
+            this.nud_OX_FC.Size = new System.Drawing.Size(110, 21);
             this.nud_OX_FC.TabIndex = 151;
             this.nud_OX_FC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nud_OX_FC.ThousandsSeparator = true;
@@ -6702,7 +6676,7 @@
             this.checkBox44.AutoSize = true;
             this.checkBox44.Location = new System.Drawing.Point(168, 163);
             this.checkBox44.Name = "checkBox44";
-            this.checkBox44.Size = new System.Drawing.Size(86, 17);
+            this.checkBox44.Size = new System.Drawing.Size(83, 17);
             this.checkBox44.TabIndex = 32;
             this.checkBox44.Text = "checkBox44";
             this.checkBox44.UseVisualStyleBackColor = true;
@@ -6714,7 +6688,7 @@
             this.checkBox43.AutoSize = true;
             this.checkBox43.Location = new System.Drawing.Point(168, 147);
             this.checkBox43.Name = "checkBox43";
-            this.checkBox43.Size = new System.Drawing.Size(86, 17);
+            this.checkBox43.Size = new System.Drawing.Size(83, 17);
             this.checkBox43.TabIndex = 31;
             this.checkBox43.Text = "checkBox43";
             this.checkBox43.UseVisualStyleBackColor = true;
@@ -6726,7 +6700,7 @@
             this.checkBox42.AutoSize = true;
             this.checkBox42.Location = new System.Drawing.Point(168, 131);
             this.checkBox42.Name = "checkBox42";
-            this.checkBox42.Size = new System.Drawing.Size(86, 17);
+            this.checkBox42.Size = new System.Drawing.Size(83, 17);
             this.checkBox42.TabIndex = 30;
             this.checkBox42.Text = "checkBox42";
             this.checkBox42.UseVisualStyleBackColor = true;
@@ -6738,7 +6712,7 @@
             this.checkBox41.AutoSize = true;
             this.checkBox41.Location = new System.Drawing.Point(168, 115);
             this.checkBox41.Name = "checkBox41";
-            this.checkBox41.Size = new System.Drawing.Size(86, 17);
+            this.checkBox41.Size = new System.Drawing.Size(83, 17);
             this.checkBox41.TabIndex = 29;
             this.checkBox41.Text = "checkBox41";
             this.checkBox41.UseVisualStyleBackColor = true;
@@ -6750,7 +6724,7 @@
             this.checkBox40.AutoSize = true;
             this.checkBox40.Location = new System.Drawing.Point(168, 99);
             this.checkBox40.Name = "checkBox40";
-            this.checkBox40.Size = new System.Drawing.Size(86, 17);
+            this.checkBox40.Size = new System.Drawing.Size(83, 17);
             this.checkBox40.TabIndex = 28;
             this.checkBox40.Text = "checkBox40";
             this.checkBox40.UseVisualStyleBackColor = true;
@@ -6762,7 +6736,7 @@
             this.checkBox39.AutoSize = true;
             this.checkBox39.Location = new System.Drawing.Point(168, 83);
             this.checkBox39.Name = "checkBox39";
-            this.checkBox39.Size = new System.Drawing.Size(86, 17);
+            this.checkBox39.Size = new System.Drawing.Size(83, 17);
             this.checkBox39.TabIndex = 27;
             this.checkBox39.Text = "checkBox39";
             this.checkBox39.UseVisualStyleBackColor = true;
@@ -6774,7 +6748,7 @@
             this.checkBox38.AutoSize = true;
             this.checkBox38.Location = new System.Drawing.Point(168, 67);
             this.checkBox38.Name = "checkBox38";
-            this.checkBox38.Size = new System.Drawing.Size(67, 17);
+            this.checkBox38.Size = new System.Drawing.Size(68, 17);
             this.checkBox38.TabIndex = 26;
             this.checkBox38.Text = "Capacity";
             this.checkBox38.UseVisualStyleBackColor = true;
@@ -6785,7 +6759,7 @@
             this.checkBox37.AutoSize = true;
             this.checkBox37.Location = new System.Drawing.Point(168, 51);
             this.checkBox37.Name = "checkBox37";
-            this.checkBox37.Size = new System.Drawing.Size(47, 17);
+            this.checkBox37.Size = new System.Drawing.Size(48, 17);
             this.checkBox37.TabIndex = 25;
             this.checkBox37.Text = "Cost";
             this.checkBox37.UseVisualStyleBackColor = true;
@@ -6796,7 +6770,7 @@
             this.checkBox36.AutoSize = true;
             this.checkBox36.Location = new System.Drawing.Point(168, 35);
             this.checkBox36.Name = "checkBox36";
-            this.checkBox36.Size = new System.Drawing.Size(60, 17);
+            this.checkBox36.Size = new System.Drawing.Size(61, 17);
             this.checkBox36.TabIndex = 24;
             this.checkBox36.Text = "Charge";
             this.checkBox36.UseVisualStyleBackColor = true;
@@ -6807,7 +6781,7 @@
             this.checkBox35.AutoSize = true;
             this.checkBox35.Location = new System.Drawing.Point(168, 19);
             this.checkBox35.Name = "checkBox35";
-            this.checkBox35.Size = new System.Drawing.Size(100, 17);
+            this.checkBox35.Size = new System.Drawing.Size(99, 17);
             this.checkBox35.TabIndex = 23;
             this.checkBox35.Text = "Selection Delay";
             this.checkBox35.UseVisualStyleBackColor = true;
@@ -6818,7 +6792,7 @@
             this.checkBox34.AutoSize = true;
             this.checkBox34.Location = new System.Drawing.Point(6, 163);
             this.checkBox34.Name = "checkBox34";
-            this.checkBox34.Size = new System.Drawing.Size(102, 17);
+            this.checkBox34.Size = new System.Drawing.Size(104, 17);
             this.checkBox34.TabIndex = 22;
             this.checkBox34.Text = "Proximity Range";
             this.checkBox34.UseVisualStyleBackColor = true;
@@ -6829,7 +6803,7 @@
             this.checkBox33.AutoSize = true;
             this.checkBox33.Location = new System.Drawing.Point(6, 147);
             this.checkBox33.Name = "checkBox33";
-            this.checkBox33.Size = new System.Drawing.Size(68, 17);
+            this.checkBox33.Size = new System.Drawing.Size(66, 17);
             this.checkBox33.TabIndex = 21;
             this.checkBox33.Text = "Tracking";
             this.checkBox33.UseVisualStyleBackColor = true;
@@ -6840,7 +6814,7 @@
             this.checkBox32.AutoSize = true;
             this.checkBox32.Location = new System.Drawing.Point(6, 131);
             this.checkBox32.Name = "checkBox32";
-            this.checkBox32.Size = new System.Drawing.Size(48, 17);
+            this.checkBox32.Size = new System.Drawing.Size(45, 17);
             this.checkBox32.TabIndex = 20;
             this.checkBox32.Text = "DPS";
             this.checkBox32.UseVisualStyleBackColor = true;
@@ -6851,7 +6825,7 @@
             this.checkBox31.AutoSize = true;
             this.checkBox31.Location = new System.Drawing.Point(6, 115);
             this.checkBox31.Name = "checkBox31";
-            this.checkBox31.Size = new System.Drawing.Size(81, 17);
+            this.checkBox31.Size = new System.Drawing.Size(83, 17);
             this.checkBox31.TabIndex = 19;
             this.checkBox31.Text = "Rate of Fire";
             this.checkBox31.UseVisualStyleBackColor = true;
@@ -6862,7 +6836,7 @@
             this.checkBox30.AutoSize = true;
             this.checkBox30.Location = new System.Drawing.Point(6, 99);
             this.checkBox30.Name = "checkBox30";
-            this.checkBox30.Size = new System.Drawing.Size(66, 17);
+            this.checkBox30.Size = new System.Drawing.Size(65, 17);
             this.checkBox30.TabIndex = 18;
             this.checkBox30.Text = "Damage";
             this.checkBox30.UseVisualStyleBackColor = true;
@@ -6873,7 +6847,7 @@
             this.checkBox29.AutoSize = true;
             this.checkBox29.Location = new System.Drawing.Point(6, 83);
             this.checkBox29.Name = "checkBox29";
-            this.checkBox29.Size = new System.Drawing.Size(59, 17);
+            this.checkBox29.Size = new System.Drawing.Size(62, 17);
             this.checkBox29.TabIndex = 17;
             this.checkBox29.Text = "Fall-Off";
             this.checkBox29.UseVisualStyleBackColor = true;
@@ -6884,7 +6858,7 @@
             this.checkBox28.AutoSize = true;
             this.checkBox28.Location = new System.Drawing.Point(6, 67);
             this.checkBox28.Name = "checkBox28";
-            this.checkBox28.Size = new System.Drawing.Size(61, 17);
+            this.checkBox28.Size = new System.Drawing.Size(62, 17);
             this.checkBox28.TabIndex = 16;
             this.checkBox28.Text = "Optimal";
             this.checkBox28.UseVisualStyleBackColor = true;
@@ -6895,7 +6869,7 @@
             this.checkBox27.AutoSize = true;
             this.checkBox27.Location = new System.Drawing.Point(6, 51);
             this.checkBox27.Name = "checkBox27";
-            this.checkBox27.Size = new System.Drawing.Size(51, 17);
+            this.checkBox27.Size = new System.Drawing.Size(52, 17);
             this.checkBox27.TabIndex = 15;
             this.checkBox27.Text = "State";
             this.checkBox27.UseVisualStyleBackColor = true;
@@ -6906,7 +6880,7 @@
             this.checkBox26.AutoSize = true;
             this.checkBox26.Location = new System.Drawing.Point(6, 35);
             this.checkBox26.Name = "checkBox26";
-            this.checkBox26.Size = new System.Drawing.Size(65, 17);
+            this.checkBox26.Size = new System.Drawing.Size(68, 17);
             this.checkBox26.TabIndex = 14;
             this.checkBox26.Text = "Quantity";
             this.checkBox26.UseVisualStyleBackColor = true;
@@ -6917,7 +6891,7 @@
             this.checkBox25.AutoSize = true;
             this.checkBox25.Location = new System.Drawing.Point(6, 19);
             this.checkBox25.Name = "checkBox25";
-            this.checkBox25.Size = new System.Drawing.Size(92, 17);
+            this.checkBox25.Size = new System.Drawing.Size(90, 17);
             this.checkBox25.TabIndex = 13;
             this.checkBox25.Text = "Module Name";
             this.checkBox25.UseVisualStyleBackColor = true;
@@ -6962,7 +6936,7 @@
             this.checkBox13.AutoSize = true;
             this.checkBox13.Location = new System.Drawing.Point(183, 19);
             this.checkBox13.Name = "checkBox13";
-            this.checkBox13.Size = new System.Drawing.Size(68, 17);
+            this.checkBox13.Size = new System.Drawing.Size(67, 17);
             this.checkBox13.TabIndex = 23;
             this.checkBox13.Text = "Robotics";
             this.checkBox13.UseVisualStyleBackColor = true;
@@ -6973,7 +6947,7 @@
             this.checkBox14.AutoSize = true;
             this.checkBox14.Location = new System.Drawing.Point(183, 35);
             this.checkBox14.Name = "checkBox14";
-            this.checkBox14.Size = new System.Drawing.Size(66, 17);
+            this.checkBox14.Size = new System.Drawing.Size(68, 17);
             this.checkBox14.TabIndex = 22;
             this.checkBox14.Text = "Isotopes";
             this.checkBox14.UseVisualStyleBackColor = true;
@@ -6984,7 +6958,7 @@
             this.checkBox15.AutoSize = true;
             this.checkBox15.Location = new System.Drawing.Point(183, 51);
             this.checkBox15.Name = "checkBox15";
-            this.checkBox15.Size = new System.Drawing.Size(89, 17);
+            this.checkBox15.Size = new System.Drawing.Size(90, 17);
             this.checkBox15.TabIndex = 21;
             this.checkBox15.Text = "Heavy Water";
             this.checkBox15.UseVisualStyleBackColor = true;
@@ -6995,7 +6969,7 @@
             this.checkBox16.AutoSize = true;
             this.checkBox16.Location = new System.Drawing.Point(183, 67);
             this.checkBox16.Name = "checkBox16";
-            this.checkBox16.Size = new System.Drawing.Size(88, 17);
+            this.checkBox16.Size = new System.Drawing.Size(87, 17);
             this.checkBox16.TabIndex = 20;
             this.checkBox16.Text = "Liquid Ozone";
             this.checkBox16.UseVisualStyleBackColor = true;
@@ -7006,7 +6980,7 @@
             this.checkBox17.AutoSize = true;
             this.checkBox17.Location = new System.Drawing.Point(183, 83);
             this.checkBox17.Name = "checkBox17";
-            this.checkBox17.Size = new System.Drawing.Size(65, 17);
+            this.checkBox17.Size = new System.Drawing.Size(68, 17);
             this.checkBox17.TabIndex = 19;
             this.checkBox17.Text = "Charters";
             this.checkBox17.UseVisualStyleBackColor = true;
@@ -7017,7 +6991,7 @@
             this.checkBox18.AutoSize = true;
             this.checkBox18.Location = new System.Drawing.Point(183, 99);
             this.checkBox18.Name = "checkBox18";
-            this.checkBox18.Size = new System.Drawing.Size(70, 17);
+            this.checkBox18.Size = new System.Drawing.Size(72, 17);
             this.checkBox18.TabIndex = 18;
             this.checkBox18.Text = "Strontium";
             this.checkBox18.UseVisualStyleBackColor = true;
@@ -7028,7 +7002,7 @@
             this.checkBox19.AutoSize = true;
             this.checkBox19.Location = new System.Drawing.Point(183, 115);
             this.checkBox19.Name = "checkBox19";
-            this.checkBox19.Size = new System.Drawing.Size(134, 17);
+            this.checkBox19.Size = new System.Drawing.Size(135, 17);
             this.checkBox19.TabIndex = 17;
             this.checkBox19.Text = "Use Charters Selection";
             this.checkBox19.UseVisualStyleBackColor = true;
@@ -7039,7 +7013,7 @@
             this.checkBox20.AutoSize = true;
             this.checkBox20.Location = new System.Drawing.Point(183, 131);
             this.checkBox20.Name = "checkBox20";
-            this.checkBox20.Size = new System.Drawing.Size(86, 17);
+            this.checkBox20.Size = new System.Drawing.Size(83, 17);
             this.checkBox20.TabIndex = 16;
             this.checkBox20.Text = "checkBox20";
             this.checkBox20.UseVisualStyleBackColor = true;
@@ -7051,7 +7025,7 @@
             this.checkBox21.AutoSize = true;
             this.checkBox21.Location = new System.Drawing.Point(183, 147);
             this.checkBox21.Name = "checkBox21";
-            this.checkBox21.Size = new System.Drawing.Size(86, 17);
+            this.checkBox21.Size = new System.Drawing.Size(83, 17);
             this.checkBox21.TabIndex = 15;
             this.checkBox21.Text = "checkBox21";
             this.checkBox21.UseVisualStyleBackColor = true;
@@ -7063,7 +7037,7 @@
             this.checkBox22.AutoSize = true;
             this.checkBox22.Location = new System.Drawing.Point(183, 163);
             this.checkBox22.Name = "checkBox22";
-            this.checkBox22.Size = new System.Drawing.Size(86, 17);
+            this.checkBox22.Size = new System.Drawing.Size(83, 17);
             this.checkBox22.TabIndex = 14;
             this.checkBox22.Text = "checkBox22";
             this.checkBox22.UseVisualStyleBackColor = true;
@@ -7075,7 +7049,7 @@
             this.checkBox23.AutoSize = true;
             this.checkBox23.Location = new System.Drawing.Point(183, 179);
             this.checkBox23.Name = "checkBox23";
-            this.checkBox23.Size = new System.Drawing.Size(86, 17);
+            this.checkBox23.Size = new System.Drawing.Size(83, 17);
             this.checkBox23.TabIndex = 13;
             this.checkBox23.Text = "checkBox23";
             this.checkBox23.UseVisualStyleBackColor = true;
@@ -7087,7 +7061,7 @@
             this.checkBox24.AutoSize = true;
             this.checkBox24.Location = new System.Drawing.Point(183, 195);
             this.checkBox24.Name = "checkBox24";
-            this.checkBox24.Size = new System.Drawing.Size(86, 17);
+            this.checkBox24.Size = new System.Drawing.Size(83, 17);
             this.checkBox24.TabIndex = 12;
             this.checkBox24.Text = "checkBox24";
             this.checkBox24.UseVisualStyleBackColor = true;
@@ -7099,7 +7073,7 @@
             this.checkBox12.AutoSize = true;
             this.checkBox12.Location = new System.Drawing.Point(6, 195);
             this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(62, 17);
+            this.checkBox12.Size = new System.Drawing.Size(63, 17);
             this.checkBox12.TabIndex = 11;
             this.checkBox12.Text = "Coolant";
             this.checkBox12.UseVisualStyleBackColor = true;
@@ -7110,7 +7084,7 @@
             this.checkBox11.AutoSize = true;
             this.checkBox11.Location = new System.Drawing.Point(6, 179);
             this.checkBox11.Name = "checkBox11";
-            this.checkBox11.Size = new System.Drawing.Size(108, 17);
+            this.checkBox11.Size = new System.Drawing.Size(106, 17);
             this.checkBox11.TabIndex = 10;
             this.checkBox11.Text = "Mechanical Parts";
             this.checkBox11.UseVisualStyleBackColor = true;
@@ -7121,7 +7095,7 @@
             this.checkBox10.AutoSize = true;
             this.checkBox10.Location = new System.Drawing.Point(6, 163);
             this.checkBox10.Name = "checkBox10";
-            this.checkBox10.Size = new System.Drawing.Size(62, 17);
+            this.checkBox10.Size = new System.Drawing.Size(64, 17);
             this.checkBox10.TabIndex = 9;
             this.checkBox10.Text = "Oxygen";
             this.checkBox10.UseVisualStyleBackColor = true;
@@ -7132,7 +7106,7 @@
             this.checkBox9.AutoSize = true;
             this.checkBox9.Location = new System.Drawing.Point(6, 147);
             this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(110, 17);
+            this.checkBox9.Size = new System.Drawing.Size(109, 17);
             this.checkBox9.TabIndex = 8;
             this.checkBox9.Text = "Enriched Uranium";
             this.checkBox9.UseVisualStyleBackColor = true;
@@ -7143,7 +7117,7 @@
             this.checkBox8.AutoSize = true;
             this.checkBox8.Location = new System.Drawing.Point(6, 131);
             this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(90, 17);
+            this.checkBox8.Size = new System.Drawing.Size(89, 17);
             this.checkBox8.TabIndex = 7;
             this.checkBox8.Text = "Power Usage";
             this.checkBox8.UseVisualStyleBackColor = true;
@@ -7154,7 +7128,7 @@
             this.checkBox7.AutoSize = true;
             this.checkBox7.Location = new System.Drawing.Point(6, 115);
             this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(82, 17);
+            this.checkBox7.Size = new System.Drawing.Size(79, 17);
             this.checkBox7.TabIndex = 6;
             this.checkBox7.Text = "CPU Usage";
             this.checkBox7.UseVisualStyleBackColor = true;
@@ -7165,7 +7139,7 @@
             this.checkBox6.AutoSize = true;
             this.checkBox6.Location = new System.Drawing.Point(6, 99);
             this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(103, 17);
+            this.checkBox6.Size = new System.Drawing.Size(101, 17);
             this.checkBox6.TabIndex = 5;
             this.checkBox6.Text = "API Cache Time";
             this.checkBox6.UseVisualStyleBackColor = true;
@@ -7176,7 +7150,7 @@
             this.checkBox5.AutoSize = true;
             this.checkBox5.Location = new System.Drawing.Point(6, 83);
             this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(99, 17);
+            this.checkBox5.Size = new System.Drawing.Size(97, 17);
             this.checkBox5.TabIndex = 4;
             this.checkBox5.Text = "Tower API Link";
             this.checkBox5.UseVisualStyleBackColor = true;
@@ -7187,7 +7161,7 @@
             this.checkBox4.AutoSize = true;
             this.checkBox4.Location = new System.Drawing.Point(6, 67);
             this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(89, 17);
+            this.checkBox4.Size = new System.Drawing.Size(90, 17);
             this.checkBox4.TabIndex = 3;
             this.checkBox4.Text = "Tower Status";
             this.checkBox4.UseVisualStyleBackColor = true;
@@ -7198,7 +7172,7 @@
             this.checkBox3.AutoSize = true;
             this.checkBox3.Location = new System.Drawing.Point(6, 51);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(98, 17);
+            this.checkBox3.Size = new System.Drawing.Size(97, 17);
             this.checkBox3.TabIndex = 2;
             this.checkBox3.Text = "Reinforce Time";
             this.checkBox3.UseVisualStyleBackColor = true;
@@ -7209,7 +7183,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Location = new System.Drawing.Point(6, 35);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(95, 17);
+            this.checkBox2.Size = new System.Drawing.Size(93, 17);
             this.checkBox2.TabIndex = 1;
             this.checkBox2.Text = "Fuel Run Time";
             this.checkBox2.UseVisualStyleBackColor = true;
@@ -7220,7 +7194,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(6, 19);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(79, 17);
+            this.checkBox1.Size = new System.Drawing.Size(76, 17);
             this.checkBox1.TabIndex = 0;
             this.checkBox1.Text = "POS Name";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -7254,6 +7228,7 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1008, 730);
             this.Controls.Add(this.tb_PosManager);
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PoSManMainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

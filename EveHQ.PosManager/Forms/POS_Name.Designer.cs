@@ -39,37 +39,38 @@
             // l_NameLabel
             // 
             this.l_NameLabel.AutoSize = true;
-            this.l_NameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_NameLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_NameLabel.Location = new System.Drawing.Point(6, 6);
             this.l_NameLabel.Name = "l_NameLabel";
-            this.l_NameLabel.Size = new System.Drawing.Size(48, 16);
+            this.l_NameLabel.Size = new System.Drawing.Size(42, 14);
             this.l_NameLabel.TabIndex = 0;
             this.l_NameLabel.Text = "Name:";
             // 
             // l_CurrentName
             // 
             this.l_CurrentName.AutoSize = true;
-            this.l_CurrentName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_CurrentName.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_CurrentName.Location = new System.Drawing.Point(53, 6);
             this.l_CurrentName.Name = "l_CurrentName";
-            this.l_CurrentName.Size = new System.Drawing.Size(90, 16);
+            this.l_CurrentName.Size = new System.Drawing.Size(83, 14);
             this.l_CurrentName.TabIndex = 1;
             this.l_CurrentName.Text = "Current Name";
             // 
             // tb_NewName
             // 
+            this.tb_NewName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_NewName.Location = new System.Drawing.Point(4, 41);
             this.tb_NewName.Name = "tb_NewName";
-            this.tb_NewName.Size = new System.Drawing.Size(522, 20);
+            this.tb_NewName.Size = new System.Drawing.Size(522, 21);
             this.tb_NewName.TabIndex = 2;
             // 
             // l_EnterName
             // 
             this.l_EnterName.AutoSize = true;
-            this.l_EnterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.l_EnterName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.l_EnterName.Location = new System.Drawing.Point(6, 25);
             this.l_EnterName.Name = "l_EnterName";
-            this.l_EnterName.Size = new System.Drawing.Size(82, 16);
+            this.l_EnterName.Size = new System.Drawing.Size(67, 13);
             this.l_EnterName.TabIndex = 3;
             this.l_EnterName.Text = "Enter Name:";
             // 
@@ -107,6 +108,7 @@
             this.Controls.Add(this.tb_NewName);
             this.Controls.Add(this.l_CurrentName);
             this.Controls.Add(this.l_NameLabel);
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "POS_Name";
