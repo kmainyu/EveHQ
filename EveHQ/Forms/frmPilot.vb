@@ -31,12 +31,14 @@ Public Class frmPilot
     Dim TrainingSkill As ContainerListViewItem
     Dim TrainingGroup As ContainerListViewItem
     Dim displayPilot As New EveHQ.Core.Pilot
+    Dim cDisplayPilotName As String = ""
 
     Public Property DisplayPilotName() As String
         Get
             Return displayPilot.Name
         End Get
         Set(ByVal value As String)
+            cDisplayPilotName = value
             If cboPilots.Items.Contains(value) Then
                 cboPilots.SelectedItem = value
             End If
@@ -66,24 +68,31 @@ Public Class frmPilot
         cboPilots.EndUpdate()
 
         ' Select a pilot
-        If oldPilot = "" Then
-            If cboPilots.Items.Count > 0 Then
-                If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
-                    cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
-                Else
-                    cboPilots.SelectedIndex = 0
-                End If
+        If cDisplayPilotName <> "" Then
+            If cboPilots.Items.Contains(cDisplayPilotName) = True Then
+                cboPilots.SelectedItem = cDisplayPilotName
+            Else
+                cboPilots.SelectedIndex = 0
             End If
         Else
-            If cboPilots.Items.Count > 0 Then
-                If cboPilots.Items.Contains(oldPilot) = True Then
-                    cboPilots.SelectedItem = oldPilot
-                Else
-                    cboPilots.SelectedIndex = 0
+            If oldPilot = "" Then
+                If cboPilots.Items.Count > 0 Then
+                    If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
+                        cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
+                    Else
+                        cboPilots.SelectedIndex = 0
+                    End If
+                End If
+            Else
+                If cboPilots.Items.Count > 0 Then
+                    If cboPilots.Items.Contains(oldPilot) = True Then
+                        cboPilots.SelectedItem = oldPilot
+                    Else
+                        cboPilots.SelectedIndex = 0
+                    End If
                 End If
             End If
         End If
-
     End Sub
 
     Public Sub UpdatePilotInfo()
