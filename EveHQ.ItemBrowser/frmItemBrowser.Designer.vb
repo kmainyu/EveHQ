@@ -340,7 +340,7 @@ Partial Class frmItemBrowser
         Me.ssDBLocation.DoubleClickEnabled = True
         Me.ssDBLocation.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ssDBLocation.Name = "ssDBLocation"
-        Me.ssDBLocation.Size = New System.Drawing.Size(838, 17)
+        Me.ssDBLocation.Size = New System.Drawing.Size(869, 17)
         Me.ssDBLocation.Spring = True
         Me.ssDBLocation.Text = "Location:"
         '
@@ -2142,11 +2142,11 @@ Partial Class frmItemBrowser
         'lblUsableTime
         '
         Me.lblUsableTime.AutoSize = True
-        Me.lblUsableTime.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblUsableTime.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblUsableTime.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
         Me.lblUsableTime.Location = New System.Drawing.Point(545, 150)
         Me.lblUsableTime.Name = "lblUsableTime"
-        Me.lblUsableTime.Size = New System.Drawing.Size(69, 13)
+        Me.lblUsableTime.Size = New System.Drawing.Size(68, 13)
         Me.lblUsableTime.TabIndex = 12
         Me.lblUsableTime.TabStop = True
         Me.lblUsableTime.Text = "Usable Time:"
