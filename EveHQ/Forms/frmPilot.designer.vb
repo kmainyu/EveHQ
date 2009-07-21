@@ -536,7 +536,7 @@ Partial Public Class frmPilot
         Me.colStartTime.SortDataType = DotNetLib.Windows.Forms.SortDataType.Tag
         Me.colStartTime.Tag = Nothing
         Me.colStartTime.Text = "Start Time"
-        Me.colStartTime.Width = 120
+        Me.colStartTime.Width = 150
         '
         'colEndTime
         '
@@ -545,7 +545,7 @@ Partial Public Class frmPilot
         Me.colEndTime.DisplayIndex = 3
         Me.colEndTime.Tag = Nothing
         Me.colEndTime.Text = "End Time"
-        Me.colEndTime.Width = 120
+        Me.colEndTime.Width = 150
         '
         'lblPilot
         '
