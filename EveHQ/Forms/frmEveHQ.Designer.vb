@@ -318,7 +318,6 @@ Partial Public Class frmEveHQ
         Me.DashboardToolStripMenuItem.Name = "DashboardToolStripMenuItem"
         Me.DashboardToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.DashboardToolStripMenuItem.Text = "Dashboard"
-        Me.DashboardToolStripMenuItem.Visible = False
         '
         'ToolsMenu
         '

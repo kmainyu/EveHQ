@@ -91,6 +91,12 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\DBCPilotInfo.Designer.vb">
+      <DependentUpon>DBCPilotInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DBCPilotInfo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Classes\ListViewNoFlicker.Designer.vb">
       <DependentUpon>ListViewNoFlicker.vb</DependentUpon>
     </Compile>
@@ -301,6 +307,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\DBCPilotInfo.resx">
+      <DependentUpon>DBCPilotInfo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Classes\XPander.resx">
       <DependentUpon>XPander.vb</DependentUpon>
       <SubType>Designer</SubType>

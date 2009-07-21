@@ -1,16 +1,31 @@
 ﻿Public Class frmDashboard
 
 #Region "Form Loading Routines"
+
     Private Sub frmDashboard_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        ' Set the Panel colour
+        Me.FLP1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBColor))
+
+        ' Add the controls to the FLP
+        Dim myDBCPilotInfo1 As New DBCPilotInfo
+        myDBCPilotInfo1.PilotName = "Vessper"
+        FLP1.Controls.Add(myDBCPilotInfo1)
+
+        ' Add a handler to the controls
         For Each control As Control In FLP1.Controls
             AddHandler control.MouseDown, AddressOf MyMouseDown
+            For Each subcontrol As Control In control.Controls
+                AddHandler subcontrol.MouseDown, AddressOf MyMouseDown
+            Next
         Next
     End Sub
 #End Region
 
 #Region "Panel Drag/Drop Routines"
+
     Private Sub MyMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs)
         Dim source As Control = CType(sender, Control)
+        source = source.Parent
         source.DoDragDrop(New MyWrapper(source), DragDropEffects.Move)
     End Sub
 

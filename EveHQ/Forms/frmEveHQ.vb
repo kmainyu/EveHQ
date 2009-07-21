@@ -1630,7 +1630,7 @@ Public Class frmEveHQ
         TryCast(TryCast(sender, Form).Tag, TabPage).Dispose()
         TryCast(sender, Form).Dispose()
     End Sub
-    Private Sub OpenPilotInfoForm()
+    Public Sub OpenPilotInfoForm()
         If tabMDI.TabPages.ContainsKey(frmPilot.Text) = False Then
             frmPilot.MdiParent = Me
             frmPilot.Show()
@@ -1638,7 +1638,7 @@ Public Class frmEveHQ
             tabMDI.SelectTab(frmPilot.Text)
         End If
     End Sub
-    Private Sub OpenSkillTrainingForm()
+    Public Sub OpenSkillTrainingForm()
         If tabMDI.TabPages.ContainsKey(frmTraining.Text) = False Then
             frmTraining.MdiParent = Me
             frmTraining.Show()
