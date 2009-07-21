@@ -57,8 +57,7 @@ Public Class frmSkillDetails
 
     Private Sub PrepareDetails(ByVal skillID As String)
 
-        Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
-        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
+        Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
 
         Me.Text = "Skill Details - " & cSkill.Name
         lvwDetails.Groups(1).Header = "Pilot Specific - " & displayPilot.Name
@@ -66,8 +65,8 @@ Public Class frmSkillDetails
         With Me.lvwDetails
             Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
             Dim myGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-            If EveHQ.Core.HQ.SkillGroups.Contains(cSkill.GroupID) = True Then
-                myGroup = CType(EveHQ.Core.HQ.SkillGroups(cSkill.GroupID), Core.SkillGroup)
+            If EveHQ.Core.HQ.SkillGroups.ContainsKey(cSkill.Name) = True Then
+                myGroup = EveHQ.Core.HQ.SkillGroups(cSkill.Name)
             Else
                 myGroup = Nothing
             End If
@@ -117,7 +116,7 @@ Public Class frmSkillDetails
         tvwReqs.BeginUpdate()
         tvwReqs.Nodes.Clear()
 
-        Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
+        Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
         Dim curSkill As Integer = CInt(skillID)
         Dim curLevel As Integer = 0
         Dim counter As Integer = 0
@@ -170,7 +169,7 @@ Public Class frmSkillDetails
         If cSkill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In cSkill.PreReqSkills.Keys
-                subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                 Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
             Next
         End If
@@ -217,7 +216,7 @@ Public Class frmSkillDetails
         If newSkill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In newSkill.PreReqSkills.Keys
-                subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                 Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
             Next
         End If
@@ -226,7 +225,6 @@ Public Class frmSkillDetails
         lvwDepend.BeginUpdate()
         lvwDepend.Items.Clear()
         Dim catID As String = ""
-        Dim itemID As Integer = 0
         Dim skillName As String = ""
         Dim certName As String = ""
         Dim certGrade As String = ""
@@ -235,16 +233,15 @@ Public Class frmSkillDetails
         For lvl As Integer = 1 To 5
             ' Add the skill unlocks
             If EveHQ.Core.HQ.SkillUnlocks.ContainsKey(skillID & "." & CStr(lvl)) = True Then
-                Dim itemUnlocked As ArrayList = CType(EveHQ.Core.HQ.SkillUnlocks(skillID & "." & CStr(lvl)), ArrayList)
+                Dim itemUnlocked As ArrayList = EveHQ.Core.HQ.SkillUnlocks(skillID & "." & CStr(lvl))
                 For Each item As String In itemUnlocked
                     Dim newItem As New ListViewItem
                     itemData = item.Split(CChar("_"))
-                    catID = CStr(EveHQ.Core.HQ.groupCats.Item(itemData(1)))
+                    catID = EveHQ.Core.HQ.groupCats.Item(itemData(1))
                     newItem.Group = lvwDepend.Groups("Cat" & catID)
-                    itemID = EveHQ.Core.HQ.itemList.IndexOfValue(itemData(0))
-                    newItem.Text = EveHQ.Core.HQ.itemList.GetKey(itemID).ToString
+                    newItem.Text = EveHQ.Core.HQ.itemData(itemData(0)).Name
                     newItem.Name = itemData(0)
-                    Dim skillUnlocked As ArrayList = CType(EveHQ.Core.HQ.ItemUnlocks(itemData(0)), ArrayList)
+                    Dim skillUnlocked As ArrayList = EveHQ.Core.HQ.ItemUnlocks(itemData(0))
                     Dim allTrained As Boolean = True
                     For Each skillPair As String In skillUnlocked
                         skillData = skillPair.Split(CChar("."))
@@ -271,7 +268,7 @@ Public Class frmSkillDetails
             End If
             ' Add the certificate unlocks
             If EveHQ.Core.HQ.CertUnlockSkills.ContainsKey(skillID & "." & CStr(lvl)) = True Then
-                Dim certUnlocked As ArrayList = CType(EveHQ.Core.HQ.CertUnlockSkills(skillID & "." & CStr(lvl)), ArrayList)
+                Dim certUnlocked As ArrayList = EveHQ.Core.HQ.CertUnlockSkills(skillID & "." & CStr(lvl))
                 For Each item As String In certUnlocked
                     Dim newItem As New ListViewItem
                     newItem.Group = lvwDepend.Groups("CatCerts")
@@ -327,17 +324,14 @@ Public Class frmSkillDetails
     End Sub
 
     Private Sub PrepareDescription(ByVal skillID As String)
-        Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
-        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
+        Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
         Me.lblDescription.Text = cSkill.Description
-
     End Sub
 
     Private Sub PrepareSPs(ByVal skillID As String)
         lvwSPs.BeginUpdate()
         lvwSPs.Items.Clear()
-        Dim cSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
-        cSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
+        Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
         Dim lastSP As Long = 0
         For toLevel As Integer = 1 To 5
             Dim newGroup As ListViewItem = New ListViewItem
@@ -356,8 +350,7 @@ Public Class frmSkillDetails
         lvwTimes.Items.Clear()
 
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
-            Dim cskill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
-            cskill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
+            Dim cskill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
 
             Dim timeToTrain As Long = 0
 
@@ -454,7 +447,7 @@ Public Class frmSkillDetails
     End Sub
     Public Sub UpdateSkillDetails()
         If displayPilot.Training = True Then
-            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(displayPilot.TrainingSkillName), Core.EveSkill)
+            Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(displayPilot.TrainingSkillName)
             If displayPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = displayPilot.TrainingSkillName Then
                 lvwDetails.Items(8).SubItems(1).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
                 Dim mySkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)

@@ -281,7 +281,7 @@ Public Class frmKMV
             newKM.Name = charKM.killID
             newKM.ToolTipText = "KillID: " & charKM.killID
             newKM.Text = charKM.Victim.charName
-            newKM.SubItems.Add(CType(EveHQ.Core.HQ.itemData(charKM.Victim.shipTypeID), EveHQ.Core.EveItem).Name)
+            newKM.SubItems.Add(EveHQ.Core.HQ.itemData(charKM.Victim.shipTypeID).Name)
             newKM.SubItems.Add(FormatDateTime(charKM.killTime, DateFormat.GeneralDate))
             lvwKillMails.Items.Add(newKM)
         Next
@@ -340,7 +340,7 @@ Public Class frmKMV
         Else
             KMText.AppendLine("Faction: " & selKM.Victim.factionName)
         End If
-        KMText.AppendLine("Destroyed: " & CType(EveHQ.Core.HQ.itemData(selKM.Victim.shipTypeID), EveHQ.Core.EveItem).Name)
+        KMText.AppendLine("Destroyed: " & EveHQ.Core.HQ.itemData(selKM.Victim.shipTypeID).Name)
         KMText.AppendLine("System: " & ss.Name)
         KMText.AppendLine("Security: " & FormatNumber(Math.Max(ss.Security, 0), 1))
         KMText.AppendLine("Damage Taken: " & selKM.Victim.damageTaken.ToString)
@@ -376,13 +376,13 @@ Public Class frmKMV
                 Else
                     KMText.AppendLine("Faction: " & attacker.factionName)
                 End If
-                KMText.AppendLine("Ship: " & CType(EveHQ.Core.HQ.itemData(attacker.shipTypeID), EveHQ.Core.EveItem).Name)
-                KMText.AppendLine("Weapon: " & CType(EveHQ.Core.HQ.itemData(attacker.weaponTypeID), EveHQ.Core.EveItem).Name)
+                KMText.AppendLine("Ship: " & EveHQ.Core.HQ.itemData(attacker.shipTypeID).Name)
+                KMText.AppendLine("Weapon: " & EveHQ.Core.HQ.itemData(attacker.weaponTypeID).Name)
             Else
                 If attacker.corpName = "" Then
-                    KMText.Append("Name: " & CType(EveHQ.Core.HQ.itemData(attacker.shipTypeID), EveHQ.Core.EveItem).Name & " / Unknown")
+                    KMText.Append("Name: " & EveHQ.Core.HQ.itemData(attacker.shipTypeID).Name & " / Unknown")
                 Else
-                    KMText.Append("Name: " & CType(EveHQ.Core.HQ.itemData(attacker.shipTypeID), EveHQ.Core.EveItem).Name & " / " & attacker.corpName)
+                    KMText.Append("Name: " & EveHQ.Core.HQ.itemData(attacker.shipTypeID).Name & " / " & attacker.corpName)
                 End If
                 If attacker.finalBlow = True Then
                     KMText.AppendLine(" (laid the final blow)")
@@ -398,7 +398,7 @@ Public Class frmKMV
         Dim droppedItems, destroyedItems As New ArrayList
         Dim itemName As String = ""
         For Each item As KMItem In selKM.Items
-            itemName = CType(EveHQ.Core.HQ.itemData(item.typeID), EveHQ.Core.EveItem).Name
+            itemName = EveHQ.Core.HQ.itemData(item.typeID).Name
             If item.qtyDestroyed > 0 Then
                 If item.qtyDestroyed = 1 Then
                     If item.flag = 0 Then

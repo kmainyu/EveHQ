@@ -1744,7 +1744,7 @@ Public Class EveHQSettingsFunctions
                             newpilot.Active = CBool(accountSettings.ChildNodes(account).ChildNodes(12).InnerText)
                         Catch
                         Finally
-                            EveHQ.Core.HQ.TPilots.Add(newpilot, newpilot.Name)
+                            EveHQ.Core.HQ.TPilots.Add(newpilot.Name, newpilot)
                         End Try
                     Next
                 End If

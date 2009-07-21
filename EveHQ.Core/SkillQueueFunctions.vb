@@ -82,7 +82,7 @@ Public Class SkillQueueFunctions
         Try
             If qPilot.Training = True And bQueue.IncCurrentTraining = True Then
                 'Dim mypos As Integer = 0
-                Dim mySkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(qPilot.TrainingSkillID), EveHQ.Core.EveSkill)
+                Dim mySkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(qPilot.TrainingSkillID)
                 Dim clevel As Integer = qPilot.TrainingSkillLevel
                 Dim cTime As Double = qPilot.TrainingCurrentTime
                 Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
@@ -211,7 +211,7 @@ Public Class SkillQueueFunctions
                     specSkillID = specSkillName.Substring(0, specSkillName.Length - 2)
                     myTSkill = CType(bQueue.Queue(EveHQ.Core.SkillFunctions.SkillIDToName(specSkillID) & frLvl & toLvl), SkillQueueItem)
                     skillPOS = CInt(skillArray(tagArray(i), 1))
-                    myskill = CType(EveHQ.Core.HQ.SkillListName(myTSkill.Name), EveHQ.Core.EveSkill)
+                    myskill = EveHQ.Core.HQ.SkillListName(myTSkill.Name)
                     fromLevel = myTSkill.FromLevel
                     toLevel = myTSkill.ToLevel
                     Dim myPos As Integer = myTSkill.Pos
@@ -822,7 +822,7 @@ Public Class SkillQueueFunctions
         End If
 
         ' Get initial from and to levels
-        Dim myNewSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(newSkill.Text), EveHQ.Core.EveSkill)
+        Dim myNewSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(newSkill.Text)
         Dim fromLevel As Integer
         ' Get the next skill level to train - account for the skill level of the currently training skill!
         If qPilot.Training = True And qPilot.TrainingSkillName = newSkill.Text Then
@@ -897,7 +897,7 @@ Public Class SkillQueueFunctions
     Public Shared Function AddPreReqSkillToQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal qQueue As EveHQ.Core.SkillQueue, ByVal skillName As String, ByVal fromLevel As Integer, ByVal toLevel As Integer) As EveHQ.Core.SkillQueue
         Dim nQueue As EveHQ.Core.SkillQueue = qQueue
         Dim keyName As String = skillName & fromLevel & toLevel
-        Dim myNewSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListName(skillName), EveHQ.Core.EveSkill)
+        Dim myNewSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(skillName)
 
         ' Check through all the items in the queue and see if we have any that exist
         Dim maxLevel As Integer = 0
@@ -952,7 +952,7 @@ Public Class SkillQueueFunctions
         parent(level) = CInt(skillID)
 
         Dim strTree As String = ""
-        Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), EveHQ.Core.EveSkill)
+        Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
         Dim curSkill As Integer = CInt(skillID)
         Dim curLevel As Integer = 0
         Dim counter As Integer = 0
@@ -965,7 +965,7 @@ Public Class SkillQueueFunctions
         If cSkill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In cSkill.PreReqSkills.Keys
-                subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                 Call GetSkillPreReqs(qPilot, subSkill, cSkill.PreReqSkills(subSkillID), curNode, strReqs)
             Next
         End If
@@ -999,7 +999,7 @@ Public Class SkillQueueFunctions
         If newskill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In newskill.PreReqSkills.Keys
-                subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                 Call GetSkillPreReqs(qPilot, subSkill, newskill.PreReqSkills(subSkillID), curNode, strReqs)
             Next
         End If
@@ -1250,7 +1250,7 @@ Public Class SkillQueueFunctions
 
             For i As Integer = 1 To qQueue.Queue.Count
                 myTSkill = CType(qQueue.Queue(i), SkillQueueItem)
-                myskill = CType(EveHQ.Core.HQ.SkillListName(myTSkill.Name), EveHQ.Core.EveSkill)
+                myskill = EveHQ.Core.HQ.SkillListName(myTSkill.Name)
                 fromLevel = myTSkill.FromLevel
                 toLevel = myTSkill.ToLevel
 

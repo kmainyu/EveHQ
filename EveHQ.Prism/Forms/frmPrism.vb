@@ -152,10 +152,10 @@ Public Class frmPrism
         tvwFilter.BeginUpdate()
         tvwFilter.Nodes.Clear()
         ' Load up the filter with categories
-        For Each cat As String In EveHQ.Core.HQ.itemCats.GetKeyList
+        For Each cat As String In EveHQ.Core.HQ.itemCats.Keys
             newNode = New TreeNode
             newNode.Name = cat
-            newNode.Text = CStr(EveHQ.Core.HQ.itemCats(cat))
+            newNode.Text = EveHQ.Core.HQ.itemCats(cat)
             tvwFilter.Nodes.Add(newNode)
         Next
         ' Load up the filter with groups
@@ -163,7 +163,7 @@ Public Class frmPrism
             newNode = New TreeNode
             newNode.Name = group
             newNode.Text = CStr(EveHQ.Core.HQ.itemGroups(group))
-            tvwFilter.Nodes(EveHQ.Core.HQ.groupCats(newNode.Name).ToString).Nodes.Add(newNode)
+            tvwFilter.Nodes(EveHQ.Core.HQ.groupCats(newNode.Name)).Nodes.Add(newNode)
         Next
         ' Update the filter
         tvwFilter.Sorted = True
@@ -904,21 +904,21 @@ Public Class frmPrism
                             Dim metaLevel As String = ""
                             Dim volume As String = ""
                             If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
-                                itemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                                itemData = EveHQ.Core.HQ.itemData(itemID)
                                 itemName = itemData.Name
                                 groupID = CStr(itemData.Group)
                                 catID = CStr(itemData.Category)
-                                groupName = CStr(EveHQ.Core.HQ.itemGroups(groupID))
-                                catName = CStr(EveHQ.Core.HQ.itemCats(catID))
-                                metaLevel = CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).MetaLevel.ToString
+                                groupName = EveHQ.Core.HQ.itemGroups(groupID)
+                                catName = EveHQ.Core.HQ.itemCats(catID)
+                                metaLevel = EveHQ.Core.HQ.itemData(itemID).MetaLevel.ToString
                                 If PlugInData.PackedVolumes.Contains(groupID) = True Then
                                     If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
                                         volume = FormatNumber(PlugInData.PackedVolumes(groupID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                     Else
-                                        volume = FormatNumber(CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                        volume = FormatNumber(EveHQ.Core.HQ.itemData(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                     End If
                                 Else
-                                    volume = FormatNumber(CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                                    volume = FormatNumber(EveHQ.Core.HQ.itemData(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                                 End If
                             Else
                                 ' Can't find the item in the database
@@ -1040,21 +1040,21 @@ Public Class frmPrism
                 Dim metaLevel As String = ""
                 Dim volume As String = ""
                 If EveHQ.Core.HQ.itemData.ContainsKey(ItemID) Then
-                    ItemData = CType(EveHQ.Core.HQ.itemData(ItemID), Core.EveItem)
+                    ItemData = EveHQ.Core.HQ.itemData(ItemID)
                     itemName = ItemData.Name
                     groupID = CStr(ItemData.Group)
                     catID = CStr(ItemData.Category)
-                    groupName = CStr(EveHQ.Core.HQ.itemGroups(groupID))
-                    catName = CStr(EveHQ.Core.HQ.itemCats(catID))
-                    metaLevel = CType(EveHQ.Core.HQ.itemData(ItemID), EveHQ.Core.EveItem).MetaLevel.ToString
+                    groupName = EveHQ.Core.HQ.itemGroups(groupID)
+                    catName = EveHQ.Core.HQ.itemCats(catID)
+                    metaLevel = EveHQ.Core.HQ.itemData(ItemID).MetaLevel.ToString
                     If PlugInData.PackedVolumes.Contains(groupID) = True Then
                         If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
                             volume = FormatNumber(PlugInData.PackedVolumes(groupID), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                         Else
-                            volume = FormatNumber(CType(EveHQ.Core.HQ.itemData(ItemID), EveHQ.Core.EveItem).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                            volume = FormatNumber(EveHQ.Core.HQ.itemData(ItemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                         End If
                     Else
-                        volume = FormatNumber(CType(EveHQ.Core.HQ.itemData(ItemID), EveHQ.Core.EveItem).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
+                        volume = FormatNumber(EveHQ.Core.HQ.itemData(ItemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value), 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)
                     End If
                 Else
                     ' Can't find the item in the database
@@ -1358,9 +1358,9 @@ Public Class frmPrism
                 If ownerOrder.OrderState = MarketOrderState.Open Then
                     Dim orderNode As New ContainerListViewItem
                     orderNode.Tag = ownerOrder.TypeID
-                    Dim orderItem As EveHQ.Core.EveItem = CType(EveHQ.Core.HQ.itemData(ownerOrder.TypeID.ToString), Core.EveItem)
-                    category = CStr(EveHQ.Core.HQ.itemCats(orderItem.Category.ToString))
-                    group = CStr(EveHQ.Core.HQ.itemGroups(orderItem.Group.ToString))
+                    Dim orderItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(ownerOrder.TypeID.ToString)
+                    category = EveHQ.Core.HQ.itemCats(orderItem.Category.ToString)
+                    group = EveHQ.Core.HQ.itemGroups(orderItem.Group.ToString)
                     ' Check for search criteria
                     If Not ((filters.Count > 0 And catFilters.Contains(category) = False And groupFilters.Contains(group) = False) Or (searchText <> "" And orderItem.Name.ToLower.Contains(searchText.ToLower) = False)) Then
                         orderNode.Text = orderItem.Name
@@ -2053,8 +2053,8 @@ Public Class frmPrism
             If asset.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
                 price = 0
             Else
-                If EveHQ.Core.HQ.itemList.Contains(asset) Then
-                    price = EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(asset)))
+                If EveHQ.Core.HQ.itemList.ContainsKey(asset) Then
+                    price = EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(asset))
                 Else
                     price = 0
                 End If
@@ -2102,8 +2102,8 @@ Public Class frmPrism
             If asset.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
                 cPrice = 0
             Else
-                If EveHQ.Core.HQ.itemList.Contains(asset) Then
-                    cPrice = EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(asset)))
+                If EveHQ.Core.HQ.itemList.ContainsKey(asset) Then
+                    cPrice = EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(asset))
                 Else
                     cPrice = 0
                 End If
@@ -2151,8 +2151,8 @@ Public Class frmPrism
             If cAsset.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
                 price = 0
             Else
-                If EveHQ.Core.HQ.itemList.Contains(cAsset) Then
-                    price = EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(cAsset)))
+                If EveHQ.Core.HQ.itemList.ContainsKey(cAsset) Then
+                    price = EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(cAsset))
                 Else
                     price = 0
                 End If
@@ -2686,7 +2686,7 @@ Public Class frmPrism
                     Dim itemText As String = tlvAssets.SelectedItems(0).Text
                     Dim itemID As String = tlvAssets.SelectedItems(0).Tag.ToString
                     If itemName <> "Cash Balances" And itemName <> "Investments" Then
-                        If EveHQ.Core.HQ.itemList.Contains(itemName) = True And itemName <> "Office" And tlvAssets.SelectedItems(0).SubItems(AssetColumn.Quantity).Text <> "" Then
+                        If EveHQ.Core.HQ.itemList.ContainsKey(itemName) = True And itemName <> "Office" And tlvAssets.SelectedItems(0).SubItems(AssetColumn.Quantity).Text <> "" Then
                             mnuItemName.Text = itemName
                             mnuItemName.Tag = EveHQ.Core.HQ.itemList(itemName)
                             mnuAddCustomName.Visible = True
@@ -2918,7 +2918,7 @@ Public Class frmPrism
                                         Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
                                         Dim itemName As String = ""
                                         If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                                            Dim itemData As EveHQ.Core.EveItem = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                                            Dim itemData As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(itemID)
                                             itemName = itemData.Name
                                             groupID = itemData.Group.ToString
                                             catID = itemData.Category.ToString
@@ -2965,7 +2965,7 @@ Public Class frmPrism
                             Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
                             Dim itemName As String = ""
                             If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                                Dim itemData As EveHQ.Core.EveItem = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                                Dim itemData As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(itemID)
                                 itemName = itemData.Name
                                 groupID = itemData.Group.ToString
                                 catID = itemData.Category.ToString
@@ -3497,13 +3497,12 @@ Public Class frmPrism
                     If locList.Count > 0 Then
                         For Each loc In locList
                             Dim itemID As String = loc.Attributes.GetNamedItem("typeID").Value
-                            If EveHQ.Core.HQ.itemData.Contains(itemID) = True Then
-                                Dim groupID As String = CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Group.ToString
+                            If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
+                                Dim groupID As String = EveHQ.Core.HQ.itemData(itemID).Group.ToString
                                 If CLng(groupID) = 754 Then
 
                                     Dim quantity As Long = CLng(loc.Attributes.GetNamedItem("quantity").Value)
-                                    Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
-                                    Dim itemName As String = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
+                                    Dim itemName As String = EveHQ.Core.HQ.itemData(itemID).Name
                                     If SalvageList.Contains(itemName) = False Then
                                         SalvageList.Add(itemName, quantity)
                                     Else
@@ -3530,12 +3529,11 @@ Public Class frmPrism
         For Each subLoc In subLocList
             Try
                 Dim itemID As String = subLoc.Attributes.GetNamedItem("typeID").Value
-                If EveHQ.Core.HQ.itemData.Contains(itemID) = True Then
-                    Dim groupID As String = CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Group.ToString
+                If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
+                    Dim groupID As String = EveHQ.Core.HQ.itemData(itemID).Group.ToString
                     If CLng(groupID) = 754 Then
                         Dim quantity As Long = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
-                        Dim itemIDX As Integer = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
-                        Dim itemName As String = CStr(EveHQ.Core.HQ.itemList.GetKey(itemIDX))
+                        Dim itemName As String = EveHQ.Core.HQ.itemData(itemID).Name
                         If SalvageList.Contains(itemName) = False Then
                             SalvageList.Add(itemName, quantity)
                         Else
@@ -3591,27 +3589,23 @@ Public Class frmPrism
         strSQL &= " WHERE (((typeActivityMaterials.activityID)=1) AND ((invTypes.groupID)=787) AND ((invTypes.published)=1));"
         Dim rigData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Dim BPID As String = ""
-        Dim BPIDX As Integer = 0
         Dim BPName As String = ""
         Dim SalvageID As String = ""
-        Dim SalvageIDX As Integer = 0
         Dim SalvageName As String = ""
         Dim SalvageQ As Double = 0
         Dim groupID As String = ""
         For Each rigRow As DataRow In rigData.Tables(0).Rows
             BPID = rigRow.Item("invTypes_typeID").ToString
-            BPIDX = EveHQ.Core.HQ.itemList.IndexOfValue(BPID)
-            BPName = CStr(EveHQ.Core.HQ.itemList.GetKey(BPIDX)).TrimEnd(" Blueprint".ToCharArray)
+            BPName = EveHQ.Core.HQ.itemData(BPID).Name.TrimEnd(" Blueprint".ToCharArray)
             ' Add it to the BPList if not already in
             If RigBPData.Contains(BPName) = False Then
                 RigBPData.Add(BPName, New SortedList)
             End If
             ' Read the required type and see if it is salvage (read groupID = 754)
             SalvageID = rigRow.Item("requiredTypeID").ToString
-            groupID = CType(EveHQ.Core.HQ.itemData(SalvageID), EveHQ.Core.EveItem).Group.ToString
+            groupID = EveHQ.Core.HQ.itemData(SalvageID).Group.ToString
             If groupID = "754" Then
-                SalvageIDX = EveHQ.Core.HQ.itemList.IndexOfValue(SalvageID)
-                SalvageName = CStr(EveHQ.Core.HQ.itemList.GetKey(SalvageIDX))
+                SalvageName = EveHQ.Core.HQ.itemData(SalvageID).Name
                 SalvageQ = Math.Round(CDbl(rigRow.Item("quantity")) * BPWF, 0)
                 RigBuildData = CType(RigBPData.Item(BPName), Collections.SortedList)
                 RigBuildData.Add(SalvageName, SalvageQ)
@@ -3655,9 +3649,9 @@ Public Class frmPrism
                 ' Caluclate the build cost
                 For Each material In RigBuildData.Keys
                     ' Get price
-                    buildCost += CInt(RigBuildData(material)) * EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(material)))
+                    buildCost += CInt(RigBuildData(material)) * EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(material))
                 Next
-                rigCost = EveHQ.Core.DataFunctions.GetPrice(CStr(EveHQ.Core.HQ.itemList(BP)))
+                rigCost = EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(BP))
                 Dim lviBP2 As New ContainerListViewItem
                 lviBP2.Text = BP
                 lvwRigs.Items.Add(lviBP2)
@@ -3815,7 +3809,7 @@ Public Class frmPrism
         tempAssetList.Clear()
         For Each asset As ContainerListViewItem In tlvAssets.SelectedItems
             assetName = asset.SubItems(0).Tag.ToString
-            If EveHQ.Core.HQ.itemList.Contains(assetName) = True Then
+            If EveHQ.Core.HQ.itemList.ContainsKey(assetName) = True Then
                 If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(assetName)) = True Then
                     If asset.SubItems(AssetColumn.Quantity).Text <> "" Then
                         If tempAssetList.Contains(asset.Tag.ToString) = False Then
@@ -3849,7 +3843,7 @@ Public Class frmPrism
 
     Private Sub AddItemsToRecycleList(ByVal item As ContainerListViewItem, ByRef assetList As SortedList)
         For Each childItem As ContainerListViewItem In item.Items
-            If EveHQ.Core.HQ.itemList.Contains(childItem.Text) = True Then
+            If EveHQ.Core.HQ.itemList.ContainsKey(childItem.Text) = True Then
                 If assetList.ContainsKey(EveHQ.Core.HQ.itemList(childItem.Text)) = True Then
                     If childItem.SubItems(AssetColumn.Quantity).Text <> "" Then
                         If tempAssetList.Contains(childItem.Tag.ToString) = False Then
@@ -3996,7 +3990,7 @@ Public Class frmPrism
                             Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
                             Dim itemName As String = ""
                             If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                                itemName = CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Name
+                                itemName = EveHQ.Core.HQ.itemData(itemID).Name
                             Else
                                 itemName = "Unknown Item ID:" & itemID
                             End If
@@ -4031,7 +4025,7 @@ Public Class frmPrism
                             Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
                             Dim itemName As String = ""
                             If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                                itemName = CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Name
+                                itemName = EveHQ.Core.HQ.itemData(itemID).Name
                             Else
                                 itemName = "Unknown Item ID:" & itemID
                             End If
@@ -4363,7 +4357,7 @@ Public Class frmPrism
                 If CInt(argName1) > 0 Then
                     Dim itemName As String = ""
                     If EveHQ.Core.HQ.itemData.ContainsKey(argName1) = True Then
-                        itemName = CType(EveHQ.Core.HQ.itemData(argName1), EveHQ.Core.EveItem).Name
+                        itemName = EveHQ.Core.HQ.itemData(argName1).Name
                     Else
                         itemName = "ship"
                     End If
@@ -4699,7 +4693,7 @@ Public Class frmPrism
                         transItem = New ContainerListViewItem
                         transTypeID = Tran.Attributes.GetNamedItem("installedItemTypeID").Value
                         If EveHQ.Core.HQ.itemData.ContainsKey(transTypeID) = True Then
-                            transItem.Text = CType(EveHQ.Core.HQ.itemData(transTypeID), EveHQ.Core.EveItem).Name
+                            transItem.Text = EveHQ.Core.HQ.itemData(transTypeID).Name
                         Else
                             transItem.Text = "Unknown Item ID:" & transTypeID
                         End If
@@ -4876,7 +4870,7 @@ Public Class frmPrism
         Dim RecycleTake As New SortedList
         Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
         For Each asset As String In RecyclerAssetList.Keys
-            itemInfo = CType(EveHQ.Core.HQ.itemData(asset), EveHQ.Core.EveItem)
+            itemInfo = EveHQ.Core.HQ.itemData(asset)
             If itemInfo.Category = 25 Then
                 Select Case itemInfo.Group
                     Case 465 ' Ice
@@ -4945,7 +4939,7 @@ Public Class frmPrism
             recycleTotal = 0
             If matList IsNot Nothing Then ' i.e. it can be refined
                 For Each mat As String In matList.Keys
-                    price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat).ToString), 2)
+                    price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat)), 2)
                     perfect = CLng(matList(mat)) * batches
                     wastage = CLng(perfect * (1 - tempNetYield))
                     quant = CLng(perfect * tempNetYield)
@@ -5016,7 +5010,7 @@ Public Class frmPrism
         clvTotals.Items.Clear()
         If RecycleResults IsNot Nothing Then
             For Each mat As String In RecycleResults.Keys
-                price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat).ToString), 2)
+                price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat)), 2)
                 wastage = CLng(RecycleWaste(mat))
                 taken = CLng(RecycleTake(mat))
                 quant = CLng(RecycleResults(mat))
@@ -5307,7 +5301,7 @@ Public Class frmPrism
         newI.ShowDialog()
         Dim itemName As String = newI.Item
         If itemName IsNot Nothing Then
-            Dim itemID As String = CStr(EveHQ.Core.HQ.itemList(itemName))
+            Dim itemID As String = EveHQ.Core.HQ.itemList(itemName)
             If RecyclerAssetList.ContainsKey(itemID) = False Then
                 RecyclerAssetList.Add(itemID, 1)
             End If
@@ -5412,7 +5406,7 @@ Public Class frmPrism
                         matchCat = True
                     Else
                         If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
-                            If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(CType(EveHQ.Core.HQ.itemData(BP.ProductID.ToString), EveHQ.Core.EveItem).Category) Then
+                            If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(EveHQ.Core.HQ.itemData(BP.ProductID.ToString).Category) Then
                                 matchCat = True
                             End If
                         End If
@@ -5470,7 +5464,7 @@ Public Class frmPrism
                                 matchCat = True
                             Else
                                 If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
-                                    If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(CType(EveHQ.Core.HQ.itemData(BPData.ProductID.ToString), EveHQ.Core.EveItem).Category) Then
+                                    If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(EveHQ.Core.HQ.itemData(BPData.ProductID.ToString).Category) Then
                                         matchCat = True
                                     End If
                                 End If
@@ -5590,7 +5584,7 @@ Public Class frmPrism
                         AssetID = loc.Attributes.GetNamedItem("itemID").Value
                         itemID = loc.Attributes.GetNamedItem("typeID").Value
                         If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
-                            ItemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                            ItemData = EveHQ.Core.HQ.itemData(itemID)
                             If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
                                 Dim newBP As New BlueprintAsset
                                 newBP.AssetID = AssetID
@@ -5714,17 +5708,17 @@ Public Class frmPrism
             itemID = item.Attributes.GetNamedItem("typeID").Value
             flagID = CInt(item.Attributes.GetNamedItem("flag").Value)
             If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
-                ItemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                ItemData = EveHQ.Core.HQ.itemData(itemID)
                 If PlugInData.AssetItemNames.ContainsKey(containerID) = True Then
                     flagName = locationDetails & "/" & PlugInData.AssetItemNames(containerID)
                 Else
-                    flagName = locationDetails & "/" & CType(EveHQ.Core.HQ.itemData(containerType), EveHQ.Core.EveItem).Name
+                    flagName = locationDetails & "/" & EveHQ.Core.HQ.itemData(containerType).Name
                 End If
                 If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
                     Dim newBP As New BlueprintAsset
                     newBP.AssetID = AssetID
                     newBP.LocationID = locationID
-                    If IsCorp = True And CType(EveHQ.Core.HQ.itemData(itemID), EveHQ.Core.EveItem).Group <> 16 Then
+                    If IsCorp = True And EveHQ.Core.HQ.itemData(itemID).Group <> 16 Then
                         Dim accountID As Integer = flagID + 885
                         If accountID = 889 Then accountID = 1000
                         If divisions.ContainsKey(selPilot.CorpID & "_" & accountID.ToString) = True Then

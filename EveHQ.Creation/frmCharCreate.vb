@@ -765,7 +765,7 @@ Public Class frmCharCreate
     Private Sub LoadSkillGroups()
         tvwSkillList.Nodes.Clear()
         Dim newSkillGroup As EveHQ.Core.SkillGroup
-        For Each newSkillGroup In EveHQ.Core.HQ.SkillGroups
+        For Each newSkillGroup In EveHQ.Core.HQ.SkillGroups.Values
             If newSkillGroup.ID <> "505" Then
                 Dim groupNode As TreeNode = New TreeNode
                 groupNode.Name = newSkillGroup.ID
@@ -779,7 +779,7 @@ Public Class frmCharCreate
 
     Private Sub LoadFilteredSkills()
         Dim newSkill As EveHQ.Core.EveSkill
-        For Each newSkill In EveHQ.Core.HQ.SkillListID
+        For Each newSkill In EveHQ.Core.HQ.SkillListID.Values
             Dim gID As String = newSkill.GroupID
             If gID <> "505" Then
                 Dim addSkill As Boolean = False
@@ -795,7 +795,7 @@ Public Class frmCharCreate
     End Sub
 
     Private Sub RemoveEmptyGroups()
-        For Each newSkillGroup As EveHQ.Core.SkillGroup In EveHQ.Core.HQ.SkillGroups
+        For Each newSkillGroup As EveHQ.Core.SkillGroup In EveHQ.Core.HQ.SkillGroups.Values
             If newSkillGroup.ID <> "505" Then
                 Dim groupNode As TreeNode = tvwSkillList.Nodes(newSkillGroup.ID)
                 If groupNode.Nodes.Count = 0 Then
@@ -911,7 +911,7 @@ Public Class frmCharCreate
                 newSkill.Name = skillName
                 newSkill.ID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
                 newSkill.Level = CInt(skillLevel)
-                Dim refSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), Core.EveSkill)
+                Dim refSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(newSkill.ID)
                 newSkill.Rank = refSkill.Rank
                 newSkill.SP = CInt(EveHQ.Core.SkillFunctions.CalculateSPLevel(newSkill.Rank, newSkill.Level))
                 nPilot.PilotSkills.Add(newSkill, newSkill.Name)

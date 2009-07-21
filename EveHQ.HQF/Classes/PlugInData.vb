@@ -521,21 +521,21 @@ Public Class PlugInData
                         ' Map only the skill attributes
                         Select Case CInt(shipRow.Item("attributeID"))
                             Case 182
-                                Dim pSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
+                                Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = pSkill.ID
                                 nSkill.Name = pSkill.Name
                                 pSkillName = pSkill.Name
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
                             Case 183
-                                Dim sSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
+                                Dim sSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = sSkill.ID
                                 nSkill.Name = sSkill.Name
                                 sSkillName = sSkill.Name
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
                             Case 184
-                                Dim tSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
+                                Dim tSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = tSkill.ID
                                 nSkill.Name = tSkill.Name
@@ -1044,21 +1044,21 @@ Public Class PlugInData
                     Case 1087 ' Slot Type For Boosters
                         attMod.BoosterSlot = CInt(attValue)
                     Case 182
-                        Dim pSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
+                        Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                         Dim nSkill As New ItemSkills
                         nSkill.ID = pSkill.ID
                         nSkill.Name = pSkill.Name
                         pSkillName = pSkill.Name
                         attMod.RequiredSkills.Add(nSkill.Name, nSkill)
                     Case 183
-                        Dim sSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
+                        Dim sSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                         Dim nSkill As New ItemSkills
                         nSkill.ID = sSkill.ID
                         nSkill.Name = sSkill.Name
                         sSkillName = sSkill.Name
                         attMod.RequiredSkills.Add(nSkill.Name, nSkill)
                     Case 184
-                        Dim tSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(CStr(attValue)), Core.EveSkill)
+                        Dim tSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                         Dim nSkill As New ItemSkills
                         nSkill.ID = tSkill.ID
                         nSkill.Name = tSkill.Name
@@ -1222,17 +1222,17 @@ Public Class PlugInData
                         AffectingName = "Global;Global;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                     Case EffectType.Item
                         If newEffect.AffectingID > 0 Then
-                            AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectingID.ToString)))
-                            If EveHQ.Core.HQ.SkillListName.Contains(AffectingName) = True Then
+                            AffectingName = EveHQ.Core.HQ.itemData(newEffect.AffectingID.ToString).Name
+                            If EveHQ.Core.HQ.SkillListName.ContainsKey(AffectingName) = True Then
                                 AffectingName &= ";Skill;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                             Else
                                 AffectingName &= ";Item;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                             End If
                         End If
                     Case EffectType.Group
-                        AffectingName = CStr(EveHQ.Core.HQ.itemGroups(newEffect.AffectingID.ToString)) & ";Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                        AffectingName = EveHQ.Core.HQ.itemGroups(newEffect.AffectingID.ToString) & ";Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                     Case EffectType.Category
-                        AffectingName = CStr(EveHQ.Core.HQ.itemCats(newEffect.AffectingID.ToString)) & ";Category;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                        AffectingName = EveHQ.Core.HQ.itemCats(newEffect.AffectingID.ToString) & ";Category;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                     Case EffectType.MarketGroup
                         AffectingName = CStr(HQF.Market.MarketGroupList(newEffect.AffectingID.ToString)) & ";Market Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                 End Select
@@ -1261,7 +1261,7 @@ Public Class PlugInData
                                 cModule.Affects.Add(AffectingName)
                             End If
                         Case EffectType.Skill
-                            If cModule.RequiredSkills.ContainsKey(CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectedID(0).ToString)))) Then
+                            If cModule.RequiredSkills.ContainsKey(EveHQ.Core.HQ.itemData(newEffect.AffectedID(0).ToString).Name) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
                         Case EffectType.Attribute
@@ -1362,7 +1362,7 @@ Public Class PlugInData
                         newEffect.Groups.Add(EffectData(9))
                     End If
 
-                    AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(EffectData(2)))) & ";Implant;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ";"
+                    AffectingName = EveHQ.Core.HQ.itemData(EffectData(2)).Name & ";Implant;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ";"
 
                     For Each cModule As ShipModule In ModuleLists.moduleList.Values
                         Select Case newEffect.AffectedType
@@ -1436,7 +1436,7 @@ Public Class PlugInData
                 newEffect.Status = CInt(EffectData(10))
                 shipEffectClassList.Add(newEffect)
 
-                AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.ShipID.ToString)))
+                AffectingName = EveHQ.Core.HQ.itemData(newEffect.ShipID.ToString).Name
                 If newEffect.IsPerLevel = False Then
                     AffectingName &= ";Ship Role;"
                 Else
@@ -1446,7 +1446,7 @@ Public Class PlugInData
                 If newEffect.IsPerLevel = False Then
                     AffectingName &= ";"
                 Else
-                    AffectingName &= ";" & CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectingID.ToString)))
+                    AffectingName &= ";" & EveHQ.Core.HQ.itemData(newEffect.AffectingID.ToString).Name
                 End If
 
                 ' Add the skills into the ship modules
@@ -1530,7 +1530,7 @@ Public Class PlugInData
                 newEffect.Status = CInt(EffectData(10))
                 shipEffectClassList.Add(newEffect)
 
-                AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.ShipID.ToString)))
+                AffectingName = EveHQ.Core.HQ.itemData(newEffect.ShipID.ToString).Name
                 If newEffect.IsPerLevel = False Then
                     AffectingName &= ";Subsystem Role;"
                 Else
@@ -1540,7 +1540,7 @@ Public Class PlugInData
                 If newEffect.IsPerLevel = False Then
                     AffectingName &= ";"
                 Else
-                    AffectingName &= ";" & CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectingID.ToString)))
+                    AffectingName &= ";" & EveHQ.Core.HQ.itemData(newEffect.AffectingID.ToString).Name
                 End If
 
                 For Each cModule As ShipModule In ModuleLists.moduleList.Values
@@ -1573,7 +1573,7 @@ Public Class PlugInData
                     ' Add the skill onto the subsystem
                     If newEffect.IsPerLevel = True Then
                         If cModule.ID = newEffect.ShipID.ToString Then
-                            AffectingName = CStr(EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(newEffect.AffectingID.ToString)))
+                            AffectingName = EveHQ.Core.HQ.itemData(newEffect.AffectingID.ToString).Name
                             AffectingName &= ";Skill;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                             If cModule.Affects.Contains(AffectingName) = False Then
                                 cModule.Affects.Add(AffectingName)

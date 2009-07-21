@@ -99,11 +99,11 @@ Public Class frmRequiredSkills
 
     Private Sub DisplaySubSkills(ByVal parentSkill As ContainerListViewItem, ByVal pSkillID As String)
         Dim aSkill As EveHQ.Core.PilotSkill
-        Dim pSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(pSkillID), Core.EveSkill)
+        Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(pSkillID)
 
         If pSkill.PreReqSkills.Count > 0 Then
             For Each preReqSkill As String In pSkill.PreReqSkills.Keys
-                If EveHQ.Core.HQ.SkillListID.Contains(preReqSkill) Then
+                If EveHQ.Core.HQ.SkillListID.ContainsKey(preReqSkill) Then
                     Dim newSkill As New ContainerListViewItem
                     parentSkill.Items.Add(newSkill)
                     newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(preReqSkill)

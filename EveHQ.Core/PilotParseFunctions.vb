@@ -143,7 +143,7 @@ Public Class PilotParseFunctions
 
         ' Copy new pilot data
         Dim oldPilot, newPilot As EveHQ.Core.Pilot
-        For Each newPilot In EveHQ.Core.HQ.TPilots
+        For Each newPilot In EveHQ.Core.HQ.TPilots.Values
             For Each oldPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
                 If oldPilot.Name = newPilot.Name Then
                     ' Transfer old information first (stuff that isn't picked up in the XML download)!!
@@ -163,7 +163,7 @@ Public Class PilotParseFunctions
                 End If
             Next
         Next
-        For Each newPilot In EveHQ.Core.HQ.TPilots
+        For Each newPilot In EveHQ.Core.HQ.TPilots.Values
             ' Add the update info first to indicate it has been updated
             ' Check for some attribute that should not be blank or zero!
             If newPilot.SkillPoints <> 0 And newPilot.Corp <> "" Then
@@ -181,7 +181,7 @@ Public Class PilotParseFunctions
     End Sub          'CopyTempPilotsToMain
     Private Shared Sub GetPilotCachedInfo()
         Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        For Each currentPilot In EveHQ.Core.HQ.TPilots
+        For Each currentPilot In EveHQ.Core.HQ.TPilots.Values
             ' Check if the 2 files exist in the cache
             Dim cXML As Boolean = False
             Dim tXML As Boolean = False
@@ -383,7 +383,7 @@ Public Class PilotParseFunctions
                     newPilot.ID = toon.Attributes.GetNamedItem("characterID").Value
                     newPilot.AccountPosition = CStr(curr_toon)
                     newPilot.Account = caccount.userID
-                    EveHQ.Core.HQ.TPilots.Add(newPilot, newPilot.Name)
+                    EveHQ.Core.HQ.TPilots.Add(newPilot.Name, newPilot)
                     caccount.Characters.Add(newPilot.Name)
                     Call GetCharacterXMLs(caccount, newPilot)
                 Next
@@ -642,12 +642,12 @@ Public Class PilotParseFunctions
                         sp = sp + newSkill.SP
 
                         ' Load API Data if we are a skill missing!
-                        If EveHQ.Core.HQ.SkillListID.Contains(newSkill.ID) = False Then
+                        If EveHQ.Core.HQ.SkillListID.ContainsKey(newSkill.ID) = False Then
                             Call EveHQ.Core.SkillFunctions.LoadEveSkillDataFromAPI()
                         End If
 
-                        If EveHQ.Core.HQ.SkillListID.Contains(newSkill.ID) = True Then
-                            Dim thisSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), EveHQ.Core.EveSkill)
+                        If EveHQ.Core.HQ.SkillListID.ContainsKey(newSkill.ID) = True Then
+                            Dim thisSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(newSkill.ID)
                             newSkill.Name = thisSkill.Name
                             newSkill.GroupID = thisSkill.GroupID
                             newSkill.Flag = 0
@@ -680,18 +680,18 @@ Public Class PilotParseFunctions
                             missingSkill.LevelUp(3) = newSkill.LevelUp(3)
                             missingSkill.LevelUp(4) = newSkill.LevelUp(4)
                             missingSkill.LevelUp(5) = newSkill.LevelUp(5)
-                            EveHQ.Core.HQ.SkillListName.Add(missingSkill, missingSkill.Name)
-                            EveHQ.Core.HQ.SkillListID.Add(missingSkill, missingSkill.ID)
+                            EveHQ.Core.HQ.SkillListName.Add(missingSkill.Name, missingSkill)
+                            EveHQ.Core.HQ.SkillListID.Add(missingSkill.ID, missingSkill)
                             missingSkills &= newSkill.Name & ControlChars.CrLf
                             cPilot.PilotSkills.Add(newSkill, newSkill.Name)
                         End If
                         ' Check if the skillID is present but the skillname is different (CCP changing bloody skill names!!!)
-                        If EveHQ.Core.HQ.SkillListID.Contains(newSkill.ID) = True And EveHQ.Core.HQ.SkillListName.Contains(newSkill.Name) = False Then
-                            Dim changeSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(newSkill.ID), EveHQ.Core.EveSkill)
+                        If EveHQ.Core.HQ.SkillListID.ContainsKey(newSkill.ID) = True And EveHQ.Core.HQ.SkillListName.ContainsKey(newSkill.Name) = False Then
+                            Dim changeSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(newSkill.ID)
                             Dim oldName As String = changeSkill.Name
                             changeSkill.Name = newSkill.Name
-                            EveHQ.Core.HQ.SkillListID.Remove(newSkill.ID) : EveHQ.Core.HQ.SkillListID.Add(changeSkill, changeSkill.ID)
-                            EveHQ.Core.HQ.SkillListName.Remove(oldName) : EveHQ.Core.HQ.SkillListName.Add(changeSkill, changeSkill.Name)
+                            EveHQ.Core.HQ.SkillListID.Remove(newSkill.ID) : EveHQ.Core.HQ.SkillListID.Add(changeSkill.ID, changeSkill)
+                            EveHQ.Core.HQ.SkillListName.Remove(oldName) : EveHQ.Core.HQ.SkillListName.Add(changeSkill.Name, changeSkill)
                         End If
                     Next
                     cPilot.SkillPoints = sp
@@ -719,7 +719,7 @@ Public Class PilotParseFunctions
         Dim curPilot As EveHQ.Core.Pilot
         For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             For Each cSkill As EveHQ.Core.PilotSkill In curPilot.PilotSkills
-                If EveHQ.Core.HQ.SkillListID.Contains(cSkill.ID) = False Then
+                If EveHQ.Core.HQ.SkillListID.ContainsKey(cSkill.ID) = False Then
                     Call EveHQ.Core.SkillFunctions.LoadEveSkillDataFromAPI()
                     Exit Sub
                 End If
@@ -729,12 +729,12 @@ Public Class PilotParseFunctions
     Private Shared Sub CheckMissingTrainingSkill(ByRef cPilot As EveHQ.Core.Pilot)
         Dim pilotSkill As New EveHQ.Core.PilotSkill
         ' Check if the main skill list has the skill we are checking for
-        If EveHQ.Core.HQ.SkillListID.Contains(cPilot.TrainingSkillID) = False Then
+        If EveHQ.Core.HQ.SkillListID.ContainsKey(cPilot.TrainingSkillID) = False Then
             Call EveHQ.Core.SkillFunctions.LoadEveSkillDataFromAPI()
         End If
         If cPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(cPilot.TrainingSkillID)) = False Then
             ' The pilot doesn't have this skill so let's add it manually
-            Dim baseSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(cPilot.TrainingSkillID), Core.EveSkill)
+            Dim baseSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(cPilot.TrainingSkillID)
             pilotSkill.ID = baseSkill.ID
             pilotSkill.Name = baseSkill.Name
             pilotSkill.Flag = 0
@@ -785,14 +785,14 @@ Public Class PilotParseFunctions
                 newPilot.AccountPosition = "0"
                 newPilot.Updated = True
                 EveHQ.Core.HQ.TPilots.Clear()
-                EveHQ.Core.HQ.TPilots.Add(newPilot)
+                EveHQ.Core.HQ.TPilots.Add(newPilot.Name, newPilot)
                 pilotXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 If pilotTXML IsNot Nothing Then
                     pilotTXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 End If
 
                 Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-                For Each currentPilot In EveHQ.Core.HQ.TPilots
+                For Each currentPilot In EveHQ.Core.HQ.TPilots.Values
                     Call EveHQ.Core.PilotParseFunctions.ParsePilotSkills(currentPilot, pilotXML)
                     Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot, pilotXML)
                     Call EveHQ.Core.PilotParseFunctions.ParseTrainingXML(currentPilot, pilotTXML)
@@ -879,7 +879,7 @@ Public Class PilotParseFunctions
                 newPilot.Account = ""
                 newPilot.AccountPosition = "0"
                 EveHQ.Core.HQ.TPilots.Clear()
-                EveHQ.Core.HQ.TPilots.Add(newPilot)
+                EveHQ.Core.HQ.TPilots.Add(newPilot.Name, newPilot)
                 pilotXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveHQ.Core.EveAPI.APIRequest.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 If pilotTXML IsNot Nothing Then
                     If pilotTXML.InnerText <> "" Then
@@ -888,7 +888,7 @@ Public Class PilotParseFunctions
                 End If
 
                 Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-                For Each currentPilot In EveHQ.Core.HQ.TPilots
+                For Each currentPilot In EveHQ.Core.HQ.TPilots.Values
                     Call EveHQ.Core.PilotParseFunctions.ParsePilotSkills(currentPilot, pilotXML)
                     Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot, pilotXML)
                     Call EveHQ.Core.PilotParseFunctions.ParseTrainingXML(currentPilot, pilotTXML)

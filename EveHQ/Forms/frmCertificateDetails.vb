@@ -73,7 +73,7 @@
             parent(level) = CInt(skillID)
 
             Dim strTree As String = ""
-            Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
+            Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
             Dim curSkill As Integer = CInt(skillID)
             Dim curLevel As Integer = CInt(cCert.RequiredSkills(skillID))
             Dim counter As Integer = 0
@@ -127,7 +127,7 @@
             If cSkill.PreReqSkills.Count > 0 Then
                 Dim subSkill As EveHQ.Core.EveSkill
                 For Each subSkillID As String In cSkill.PreReqSkills.Keys
-                    subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                    subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                     Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
                 Next
             End If
@@ -176,7 +176,7 @@
         If newSkill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In newSkill.PreReqSkills.Keys
-                subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                 Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
             Next
         End If
@@ -186,7 +186,7 @@
         ' Add the certificate unlocks
         lvwDepend.BeginUpdate()
         lvwDepend.Items.Clear()
-        Dim certUnlocks As ArrayList = CType(EveHQ.Core.HQ.CertUnlockCerts(certID), ArrayList)
+        Dim certUnlocks As ArrayList = EveHQ.Core.HQ.CertUnlockCerts(certID)
         If certUnlocks IsNot Nothing Then
             For Each item As String In certUnlocks
                 Dim itemGrade As String = ""

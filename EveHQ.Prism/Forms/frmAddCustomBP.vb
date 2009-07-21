@@ -59,7 +59,7 @@ Public Class frmAddCustomBP
 
     Private Sub cboBPs_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBPs.SelectedIndexChanged
         ' This is a standard blueprint
-        Dim bpID As String = CStr(EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim))
+        Dim bpID As String = EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim)
         currentBP = New BlueprintAsset
         currentBP.TypeID = bpID
         currentBP.AssetID = bpID

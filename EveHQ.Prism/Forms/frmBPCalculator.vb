@@ -247,7 +247,7 @@ Public Class frmBPCalculator
         If TypeOf (cboBPs.SelectedItem) Is BPAssetComboboxItem Then
             ' This is an owner bluepint!
             Dim selBP As BPAssetComboboxItem = CType(cboBPs.SelectedItem, BPAssetComboboxItem)
-            Dim bpID As String = CStr(EveHQ.Core.HQ.itemList(selBP.Name))
+            Dim bpID As String = EveHQ.Core.HQ.itemList(selBP.Name)
             CurrentBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
             CurrentBP.MELevel = selBP.MELevel
             CurrentBP.PELevel = selBP.PELevel
@@ -257,7 +257,7 @@ Public Class frmBPCalculator
             nudPELevel.Minimum = CurrentBP.PELevel : nudPELevel.Value = CurrentBP.PELevel
         Else
             ' This is a standard blueprint
-            Dim bpID As String = CStr(EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim))
+            Dim bpID As String = EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim)
             CurrentBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
             CurrentBP.MELevel = 0
             CurrentBP.PELevel = 0
@@ -324,7 +324,7 @@ Public Class frmBPCalculator
    
     Private Sub CalculateAssemblyLocations()
         Dim productID As String = CurrentBP.ProductID.ToString
-        Dim product As EveHQ.Core.EveItem = CType(EveHQ.Core.HQ.itemData(productID), Core.EveItem)
+        Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(productID)
         ' Load the Assembly Array Data
         cboPOSArrays.BeginUpdate()
         cboPOSArrays.Items.Clear()
@@ -396,7 +396,7 @@ Public Class frmBPCalculator
     Private Sub CalculateProductionDetails()
         ' Calculate the batch size
         Dim productID As String = CurrentBP.ProductID.ToString
-        Dim product As EveHQ.Core.EveItem = CType(EveHQ.Core.HQ.itemData(productID), Core.EveItem)
+        Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(productID)
         BatchSize = product.PortionSize
         txtBatchSize.Text = FormatNumber(product.PortionSize, 0)
         txtProdQuantity.Text = FormatNumber(product.PortionSize * ProductionRuns, 0)
@@ -639,7 +639,7 @@ Public Class frmBPCalculator
         For Each itemID As String In groupResources.Keys
             reqd = groupResources(itemID)
             If reqd > 0 Then
-                ItemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                ItemData = EveHQ.Core.HQ.itemData(itemID)
                 Dim newORes As New ContainerListViewItem(ItemData.Name)
                 If ownedResources.ContainsKey(itemID) = True Then
                     owned = ownedResources(itemID)
@@ -776,7 +776,7 @@ Public Class frmBPCalculator
         AssetID = item.Attributes.GetNamedItem("itemID").Value
         itemID = item.Attributes.GetNamedItem("typeID").Value
         If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
-            ItemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+            ItemData = EveHQ.Core.HQ.itemData(itemID)
             If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or groupResources.ContainsKey(CStr(ItemData.ID)) Then
                 ' Check if the item is in the list
                 If Assets.ContainsKey(CStr(ItemData.ID)) = False Then

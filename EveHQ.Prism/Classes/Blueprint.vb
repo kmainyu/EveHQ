@@ -45,9 +45,9 @@
                     newBP.MaxProdLimit = CInt(BP.Item("maxProductionLimit"))
                     newBP.Resources = New SortedList(Of String, BlueprintResource)
                     PlugInData.Blueprints.Add(newBP.ID.ToString, newBP)
-                    Dim catID As String = CStr(CType(EveHQ.Core.HQ.itemData(newBP.ProductID.ToString), EveHQ.Core.EveItem).Category)
-                    If PlugInData.CategoryNames.ContainsKey(CStr(EveHQ.Core.HQ.itemCats(catID))) = False Then
-                        PlugInData.CategoryNames.Add(CStr(EveHQ.Core.HQ.itemCats(catID)), catID)
+                    Dim catID As String = CStr(EveHQ.Core.HQ.itemData(newBP.ProductID.ToString).Category)
+                    If PlugInData.CategoryNames.ContainsKey(EveHQ.Core.HQ.itemCats(catID)) = False Then
+                        PlugInData.CategoryNames.Add(EveHQ.Core.HQ.itemCats(catID), catID)
                     End If
                 Next
                 ' Ok so far so let's add the material requirements
@@ -251,7 +251,7 @@ Public Class BlueprintSelection
                     ' Check for a blueprint
                     Dim BPName As String = (StrConv(resource.TypeName, VbStrConv.ProperCase) & " Blueprint")
                     If EveHQ.Core.HQ.itemList.ContainsKey(BPName) = True Then
-                        Dim BPID As String = CStr(EveHQ.Core.HQ.itemList(BPName))
+                        Dim BPID As String = EveHQ.Core.HQ.itemList(BPName)
                         ' Search BPs
                         If PlugInData.BlueprintAssets.ContainsKey(BPOwner) = True Then
                             For Each BPAsset As BlueprintAsset In PlugInData.BlueprintAssets(BPOwner).Values

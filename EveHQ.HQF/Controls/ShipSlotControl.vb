@@ -985,7 +985,7 @@ Public Class ShipSlotControl
         If shipMod.DatabaseCategory = "32" Then
             ' Check for subsystem type restriction
             If CStr(shipMod.Attributes("1380")) <> CStr(currentShip.ID) Then
-                MessageBox.Show("You cannot fit a subsystem module designed for a " & CType(EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes("1380"))), EveHQ.Core.EveItem).Name & " to your " & currentShip.Name & ".", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("You cannot fit a subsystem module designed for a " & EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes("1380"))).Name & " to your " & currentShip.Name & ".", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
             End If
             ' Check for subsystem group restriction

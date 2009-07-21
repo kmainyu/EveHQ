@@ -272,7 +272,7 @@ Public Class frmPilot
                     End If
                     lvTraining.Items(0).SubItems.Add("Yes")
                     lvTraining.Items(1).SubItems.Add(currentSkill.Name & " (Level " & EveHQ.Core.SkillFunctions.Roman(displayPilot.TrainingSkillLevel) & ")")
-                    lvTraining.Items(2).SubItems.Add("Rank " & currentSkill.Rank & " @ " & FormatNumber(EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, CType(EveHQ.Core.HQ.SkillListName(currentSkill.Name), Core.EveSkill)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP/Hr")
+                    lvTraining.Items(2).SubItems.Add("Rank " & currentSkill.Rank & " @ " & FormatNumber(EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, EveHQ.Core.HQ.SkillListName(currentSkill.Name)), 0, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault) & " SP/Hr")
                     Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(displayPilot.TrainingEndTime)
                     lvTraining.Items(3).SubItems.Add(Format(localdate, "ddd") & " " & localdate & " (" & EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime) & ")")
                 Else
@@ -444,7 +444,7 @@ Public Class frmPilot
                     TrainingSkill = newCLVItem
                     TrainingGroup = groupCLV
                 Else
-                    currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, CType(EveHQ.Core.HQ.SkillListID(cSkill.ID), EveHQ.Core.EveSkill), 0, , , TrainingBonus))
+                    currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, EveHQ.Core.HQ.SkillListID(cSkill.ID), 0, , , TrainingBonus))
                     TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(currentTime)
                 End If
                 If currentTime = 0 Then currentTime = 9999999999

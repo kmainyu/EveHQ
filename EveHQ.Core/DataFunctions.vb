@@ -586,7 +586,7 @@ Public Class DataFunctions
                     itemData = EveHQ.Core.DataFunctions.GetData(strSQL)
                     If itemData.Tables(0).Rows.Count > 0 Then
                         For Each itemRow As DataRow In itemData.Tables(0).Rows
-                            newItem = CType(EveHQ.Core.HQ.itemData(CStr(itemRow.Item("typeID"))), EveItem)
+                            newItem = EveHQ.Core.HQ.itemData(CStr(itemRow.Item("typeID")))
                             If IsDBNull(itemRow.Item("valueInt")) = False Then
                                 newItem.MetaLevel = CInt(itemRow.Item("valueInt"))
                             Else
@@ -664,7 +664,7 @@ Public Class DataFunctions
                 iParent = eveData.Tables(0).Rows(item).Item("groupID").ToString.Trim
                 iBasePrice = eveData.Tables(0).Rows(item).Item("basePrice").ToString.Trim
                 iPublished = CBool(eveData.Tables(0).Rows(item).Item("published"))
-                If EveHQ.Core.HQ.itemList.Contains(iKey) = False Then
+                If EveHQ.Core.HQ.itemList.ContainsKey(iKey) = False Then
                     EveHQ.Core.HQ.itemList.Add(iKey, iValue)
                 End If
                 If EveHQ.Core.HQ.BasePriceList.Contains(iValue) = False Then
@@ -771,7 +771,7 @@ Public Class DataFunctions
                     EveHQ.Core.HQ.SkillUnlocks.Add(items(0), itemUnlocked)
                 Else
                     ' Fetch the item and add the new one
-                    itemUnlocked = CType(EveHQ.Core.HQ.SkillUnlocks(items(0)), ArrayList)
+                    itemUnlocked = EveHQ.Core.HQ.SkillUnlocks(items(0))
                     itemUnlocked.Add(items(1) & "_" & items(2))
                 End If
                 If EveHQ.Core.HQ.ItemUnlocks.ContainsKey(items(1)) = False Then
@@ -781,7 +781,7 @@ Public Class DataFunctions
                     EveHQ.Core.HQ.ItemUnlocks.Add(items(1), itemUnlocked)
                 Else
                     ' Fetch the item and add the new one
-                    itemUnlocked = CType(EveHQ.Core.HQ.ItemUnlocks(items(1)), ArrayList)
+                    itemUnlocked = EveHQ.Core.HQ.ItemUnlocks(items(1))
                     itemUnlocked.Add(items(0))
                 End If
             Next
@@ -796,7 +796,7 @@ Public Class DataFunctions
                         EveHQ.Core.HQ.CertUnlockSkills.Add(skillID, certUnlocked)
                     Else
                         ' Fetch the item and add the new one
-                        certUnlocked = CType(EveHQ.Core.HQ.CertUnlockSkills(skillID), ArrayList)
+                        certUnlocked = EveHQ.Core.HQ.CertUnlockSkills(skillID)
                         certUnlocked.Add(cert.ID)
                     End If
                 Next
@@ -808,7 +808,7 @@ Public Class DataFunctions
                         EveHQ.Core.HQ.CertUnlockCerts.Add(certID, certUnlocked)
                     Else
                         ' Fetch the item and add the new one
-                        certUnlocked = CType(EveHQ.Core.HQ.CertUnlockCerts(certID), ArrayList)
+                        certUnlocked = EveHQ.Core.HQ.CertUnlockCerts(certID)
                         certUnlocked.Add(cert.ID)
                     End If
                 Next

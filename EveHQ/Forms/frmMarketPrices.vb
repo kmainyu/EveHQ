@@ -611,7 +611,7 @@ Public Class frmMarketPrices
             For Each item As String In items.Keys
                 count += 1
                 Call CalculateECStats(CType(items(item), ArrayList), 0, orderDate)
-                lblProgress.Text = "Progress: Processing " & EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(item)).ToString & "..."
+                lblProgress.Text = "Progress: Processing " & EveHQ.Core.HQ.itemData(item).Name & "..."
                 currentProgress = count / itemCount * 100
                 Me.Invoke(New MethodInvoker(AddressOf Me.UpdateProgressBar))
             Next
@@ -1097,7 +1097,7 @@ Public Class frmMarketPrices
         Dim price As Double = 0
         If chkShowOnlyCustom.Checked = True Then
             For Each itemID In EveHQ.Core.HQ.CustomPriceList.Keys ' ID
-                itemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                itemData = EveHQ.Core.HQ.itemData(itemID)
                 If itemData.Name.ToLower.Contains(search) = True Then
                     If itemData.Published = True Then
                         lvItem = New ListViewItem
@@ -1123,8 +1123,8 @@ Public Class frmMarketPrices
         Else
             For Each item As String In EveHQ.Core.HQ.itemList.Keys
                 If item.ToLower.Contains(search) = True Then
-                    itemID = CStr(EveHQ.Core.HQ.itemList(item))
-                    itemData = CType(EveHQ.Core.HQ.itemData(itemID), Core.EveItem)
+                    itemID = EveHQ.Core.HQ.itemList(item)
+                    itemData = EveHQ.Core.HQ.itemData(itemID)
                     If itemData.Published = True Then
                         lvItem = New ListViewItem
                         lvItem.Text = itemData.Name

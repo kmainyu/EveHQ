@@ -71,7 +71,7 @@ Public Class Ticker
         scrollTimer.Enabled = True
         Me.DoubleBuffered = True
         r = New Random(Now.Millisecond)
-        lastItem = EveHQ.Core.HQ.itemList.Count
+        lastItem = EveHQ.Core.HQ.itemData.Count
         Call SetupImages()
     End Sub
 
@@ -96,8 +96,8 @@ Public Class Ticker
         Dim strWidth As Integer
         If EveHQ.Core.HQ.itemList.Count > 0 Then
             Do
-                itemName = CStr(EveHQ.Core.HQ.itemList.GetKey(r.Next(1, lastItem)))
-                itemID = CStr(EveHQ.Core.HQ.itemList(itemName))
+                itemID = EveHQ.Core.HQ.itemData.Values(r.Next(1, lastItem)).ID.ToString
+                itemName = EveHQ.Core.HQ.itemData(itemID).Name
                 itemPrice = EveHQ.Core.DataFunctions.GetPrice(itemID)
             Loop Until itemPrice > 0
             imgText = itemName & " - " & FormatNumber(itemPrice, 2, TriState.UseDefault, TriState.UseDefault, TriState.UseDefault)

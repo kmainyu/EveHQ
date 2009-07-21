@@ -72,7 +72,7 @@ Public Class frmShowInfo
     Private Sub PrepareTree(ByVal skillID As String)
         tvwReqs.Nodes.Clear()
 
-        Dim cSkill As EveHQ.Core.EveSkill = CType(EveHQ.Core.HQ.SkillListID(skillID), Core.EveSkill)
+        Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
         Dim curSkill As Integer = CInt(skillID)
         Dim curLevel As Integer = 0
         Dim counter As Integer = 0
@@ -125,7 +125,7 @@ Public Class frmShowInfo
         If cSkill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In cSkill.PreReqSkills.Keys
-                subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                 Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
             Next
         End If
@@ -171,7 +171,7 @@ Public Class frmShowInfo
         If newSkill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In newSkill.PreReqSkills.Keys
-                subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                 Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
             Next
         End If
@@ -271,7 +271,7 @@ Public Class frmShowInfo
                     If cSkill.PreReqSkills.Count > 0 Then
                         Dim subSkill As EveHQ.Core.EveSkill
                         For Each subSkillID As String In cSkill.PreReqSkills.Keys
-                            subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                            subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                             Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
                         Next
                     End If
@@ -357,7 +357,6 @@ Public Class frmShowInfo
         lvwAttributes.BeginUpdate()
         lvwAttributes.Items.Clear()
         Dim attData As New Attribute
-        Dim idx As Integer
         Dim itemData As String = ""
         For Each att As String In itemObject.Attributes.Keys
             Dim newItem As New ListViewItem
@@ -371,8 +370,7 @@ Public Class frmShowInfo
             Select Case attData.UnitName
                 Case "typeID"
                     If stdItem.Attributes.Item(att).ToString <> "0" Then
-                        idx = EveHQ.Core.HQ.itemList.IndexOfValue(stdItem.Attributes.Item(att).ToString)
-                        newItem.SubItems.Add(EveHQ.Core.HQ.itemList.GetKey(idx))
+                        newItem.SubItems.Add(EveHQ.Core.HQ.itemData(stdItem.Attributes.Item(att).ToString).Name)
                     Else
                         newItem.SubItems.Add("n/a")
                     End If
@@ -385,8 +383,7 @@ Public Class frmShowInfo
                 Case "typeID"
                     If itemObject.Attributes.Item(att).ToString <> "0" Then
                         newItem.UseItemStyleForSubItems = False
-                        idx = EveHQ.Core.HQ.itemList.IndexOfValue(itemObject.Attributes.Item(att).ToString)
-                        itemData = EveHQ.Core.HQ.itemList.GetKey(idx)
+                        itemData = EveHQ.Core.HQ.itemData(itemObject.Attributes.Item(att).ToString).Name
                     Else
                         itemData = "n/a"
                         newItem.SubItems.Add("n/a")

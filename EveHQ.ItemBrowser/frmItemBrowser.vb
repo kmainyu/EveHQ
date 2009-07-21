@@ -243,7 +243,7 @@ Public Class frmItemBrowser
             End Select
             ' Adjust for TypeIDs
             If compUnit = "typeID" Then
-                compValue = EveHQ.Core.HQ.itemList.GetKey(EveHQ.Core.HQ.itemList.IndexOfValue(compValue))
+                compValue = EveHQ.Core.HQ.itemData(compValue).Name
                 compUnit = ""
             End If
             ' Check if it's in the attribute list before trying to add it!
@@ -264,15 +264,15 @@ Public Class frmItemBrowser
             Dim skillData(1) As String
             For lvl As Integer = 1 To 5
                 If EveHQ.Core.HQ.SkillUnlocks.ContainsKey(typeID & "." & CStr(lvl)) = True Then
-                    Dim itemUnlocked As ArrayList = CType(EveHQ.Core.HQ.SkillUnlocks(typeID & "." & CStr(lvl)), ArrayList)
+                    Dim itemUnlocked As ArrayList = EveHQ.Core.HQ.SkillUnlocks(typeID & "." & CStr(lvl))
                     For Each item As String In itemUnlocked
                         Dim newItem As New ListViewItem
                         itemData = item.Split(CChar("_"))
                         groupID = itemData(1)
-                        catID = CStr(EveHQ.Core.HQ.groupCats.Item(groupID))
+                        catID = EveHQ.Core.HQ.groupCats.Item(groupID)
                         newItem.Group = lvwDepend.Groups("Cat" & catID)
                         itemID = EveHQ.Core.HQ.itemList.IndexOfValue(itemData(0))
-                        newItem.Text = EveHQ.Core.HQ.itemList.GetKey(itemID).ToString
+                        newItem.Text = EveHQ.Core.HQ.itemData(itemData(0)).Name
                         newItem.Name = newItem.Text
                         Dim skillUnlocked As ArrayList = CType(EveHQ.Core.HQ.ItemUnlocks(itemData(0)), ArrayList)
                         Dim allTrained As Boolean = True
@@ -491,19 +491,19 @@ Public Class frmItemBrowser
         tvwBrowse.BeginUpdate()
         tvwBrowse.Nodes.Clear()
         ' Load up the Browser with categories
-        For Each cat As String In EveHQ.Core.HQ.itemCats.GetKeyList
+        For Each cat As String In EveHQ.Core.HQ.itemCats.Keys
             newNode = New TreeNode
             newNode.Name = cat
             newNode.Text = EveHQ.Core.HQ.itemCats(cat)
             tvwBrowse.Nodes.Add(newNode)
         Next
         ' Load up the Browser with groups
-        For Each group As String In EveHQ.Core.HQ.itemGroups.GetKeyList
+        For Each group As String In EveHQ.Core.HQ.itemGroups.Keys
             newNode = New TreeNode
             newNode.Name = group
             newNode.Text = EveHQ.Core.HQ.itemGroups(group)
             newNode.Nodes.Add("Loading...")
-            tvwBrowse.Nodes(EveHQ.Core.HQ.groupCats(newNode.Name).ToString).Nodes.Add(newNode)
+            tvwBrowse.Nodes(EveHQ.Core.HQ.groupCats(newNode.Name)).Nodes.Add(newNode)
         Next
         ' Update the browser
         tvwBrowse.Sorted = True
@@ -1293,7 +1293,7 @@ Public Class frmItemBrowser
                 If cSkill.PreReqSkills.Count > 0 Then
                     Dim subSkill As EveHQ.Core.EveSkill
                     For Each subSkillID As String In cSkill.PreReqSkills.Keys
-                        subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                        subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                         Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode, ItemUsable)
                     Next
                 End If
@@ -1419,7 +1419,7 @@ Public Class frmItemBrowser
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In newSkill.PreReqSkills.Keys
                 If subSkillID <> newSkill.ID Then
-                    subSkill = CType(EveHQ.Core.HQ.SkillListID(subSkillID), EveHQ.Core.EveSkill)
+                    subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                     Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode, itemUsable)
                 End If
             Next
@@ -1625,7 +1625,7 @@ Public Class frmItemBrowser
         If Len(txtSearch.Text) > 2 Then
             Dim strSearch As String = txtSearch.Text.Trim.ToLower
             Dim results As New SortedList(Of String, String)
-            For Each item As String In EveHQ.Core.HQ.itemList.GetKeyList
+            For Each item As String In EveHQ.Core.HQ.itemList.Keys
                 If item.ToLower.Contains(strSearch) Then
                     results.Add(item, item)
                 End If
@@ -1684,13 +1684,13 @@ Public Class frmItemBrowser
                     For Each item As String In EveHQ.Core.HQ.itemList.Keys
                         newNode = New TreeNode
                         newNode.Text = item ' Name
-                        newNode.Name = CStr(EveHQ.Core.HQ.itemList(item)) ' ID
-                        If e.Name = CType(EveHQ.Core.HQ.itemData(newNode.Name), EveHQ.Core.EveItem).Group.ToString Then
+                        newNode.Name = EveHQ.Core.HQ.itemList(item) ' ID
+                        If e.Name = EveHQ.Core.HQ.itemData(newNode.Name).Group.ToString Then
                             ' Check published flag
                             If Me.nonPublishedFlag = True Then
                                 e.Nodes.Add(newNode)
                             Else
-                                If CType(EveHQ.Core.HQ.itemData(newNode.Name), EveHQ.Core.EveItem).Published = True Then
+                                If EveHQ.Core.HQ.itemData(newNode.Name).Published = True Then
                                     e.Nodes.Add(newNode)
                                 End If
                             End If
@@ -1886,15 +1886,13 @@ Public Class frmItemBrowser
         Dim attID As String = PlugInData.AttributeList.Item(cboAttSearch.SelectedItem)
         eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmTypeAttributes WHERE attributeID=" & attID & ";")
         Dim itemID As String = ""
-        Dim itemIDX As Integer = 0
         Dim itemName As String = ""
         Dim itemValue As Double = 0
         lstAttSearch.Items.Clear()
         lstAttSearch.BeginUpdate()
         For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
             itemID = eveData.Tables(0).Rows(item).Item("typeID")
-            itemIDX = EveHQ.Core.HQ.itemList.IndexOfValue(itemID)
-            itemName = EveHQ.Core.HQ.itemList.GetKey(itemIDX)
+            itemName = EveHQ.Core.HQ.itemData(itemID).Name
             Dim lstItem As New ListViewItem
             lstItem.Text = itemName
             lstItem.Name = itemID

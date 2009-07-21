@@ -24,23 +24,19 @@ Public Class HQ
     Private Declare Auto Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal procHandle As IntPtr, ByVal min As Int32, ByVal max As Int32) As Boolean
 
     Public Shared MainForm As Form
-    Public Shared logonCookie As New System.Net.CookieContainer
-    Public Shared logonSID As String
-    Public Shared TAccounts As Collection = New Collection
-    Public Shared TPilots As Collection = New Collection
+    Public Shared TPilots As New SortedList(Of String, EveHQ.Core.Pilot)
     Public Shared EveHQSettings As New EveSettings
     Public Shared myIGB As New IGB
     Public Shared myAPIRS As New APIRS
     Public Shared myTQServer As EveServer = New EveServer
     Public Shared mySiSiServer As EveServer = New EveServer
-    Public Shared IGBPilot As New EveHQ.Core.Pilot
-    Public Shared SkillListName As Collection = New Collection
-    Public Shared SkillListID As Collection = New Collection
-    Public Shared SkillGroups As Collection = New Collection
-    Public Shared SkillUnlocks As SortedList = New SortedList
-    Public Shared ItemUnlocks As SortedList = New SortedList
-    Public Shared CertUnlockSkills As SortedList = New SortedList
-    Public Shared CertUnlockCerts As SortedList = New SortedList
+    Public Shared SkillListName As New SortedList(Of String, EveHQ.Core.EveSkill)
+    Public Shared SkillListID As New SortedList(Of String, EveHQ.Core.EveSkill)
+    Public Shared SkillGroups As New SortedList(Of String, EveHQ.Core.SkillGroup)
+    Public Shared SkillUnlocks As New SortedList(Of String, ArrayList)
+    Public Shared ItemUnlocks As New SortedList(Of String, ArrayList)
+    Public Shared CertUnlockSkills As New SortedList(Of String, ArrayList)
+    Public Shared CertUnlockCerts As New SortedList(Of String, ArrayList)
     Public Shared IsUsingLocalFolders As Boolean = False
     Public Shared IsSplashFormDisabled As Boolean = False
     Public Shared appDataFolder As String = ""
@@ -55,16 +51,13 @@ Public Class HQ
     Public Shared dataError As String = ""
     Public Shared IGBActive As Boolean = False
     Public Shared APIRSActive As Boolean = False
-    Public Shared TFTPAccounts As Collection = New Collection
-    Public Shared MineralPrices(8) As Double
     Public Shared APIResults As New SortedList
     Public Shared APIErrors As New SortedList
-    Public Shared MaxLogonAttempts As Integer = 3
-    Public Shared itemList As SortedList = New SortedList
-    Public Shared itemData As SortedList = New SortedList
-    Public Shared itemGroups As SortedList = New SortedList
-    Public Shared itemCats As SortedList = New SortedList
-    Public Shared groupCats As SortedList = New SortedList
+    Public Shared itemList As New SortedList(Of String, String)
+    Public Shared itemData As New SortedList(Of String, EveHQ.Core.EveItem)
+    Public Shared itemGroups As New SortedList(Of String, String)
+    Public Shared itemCats As New SortedList(Of String, String)
+    Public Shared groupCats As New SortedList(Of String, String)
     Public Shared LastAutoAPIResult As Boolean = True
     Public Shared NextAutoAPITime As DateTime = Now.AddMinutes(60)
     Public Shared AutoRetryAPITime As DateTime = Now.AddMinutes(5) ' Minimum retry time if an error occurs
