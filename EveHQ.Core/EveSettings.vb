@@ -151,7 +151,70 @@ Imports System.Diagnostics
     Private cDisableAutoWebConnections As Boolean = False
     Private cDisableVisualStyles As Boolean = False
     Private cCSVSeparatorChar As String = ","
+    Private cDBCBorder As Boolean = True
+    Private cDBCCorners As Boolean = True
+    Private cDBCCornerRadius As Integer = 20
+    Private cDBCBorderColor As Long = System.Drawing.Color.Black.ToArgb
+    Private cDBCMainColor1 As Long = System.Drawing.Color.White.ToArgb
+    Private cDBCMainColor2 As Long = System.Drawing.Color.LightSteelBlue.ToArgb
+    Private cDBColor As Long = System.Drawing.Color.LightSteelBlue.ToArgb
 
+    Public Property DBColor() As Long
+        Get
+            Return cDBColor
+        End Get
+        Set(ByVal value As Long)
+            cDBColor = value
+        End Set
+    End Property
+    Public Property DBCMainColor2() As Long
+        Get
+            Return cDBCMainColor2
+        End Get
+        Set(ByVal value As Long)
+            cDBCMainColor2 = value
+        End Set
+    End Property
+    Public Property DBCMainColor1() As Long
+        Get
+            Return cDBCMainColor1
+        End Get
+        Set(ByVal value As Long)
+            cDBCMainColor1 = value
+        End Set
+    End Property
+    Public Property DBCBorderColor() As Long
+        Get
+            Return cDBCBorderColor
+        End Get
+        Set(ByVal value As Long)
+            cDBCBorderColor = value
+        End Set
+    End Property
+    Public Property DBCCornerRadius() As Integer
+        Get
+            Return cDBCCornerRadius
+        End Get
+        Set(ByVal value As Integer)
+            cDBCCornerRadius = value
+        End Set
+    End Property
+    Public Property DBCCorners() As Boolean
+        Get
+            Return cDBCCorners
+        End Get
+        Set(ByVal value As Boolean)
+            cDBCCorners = value
+        End Set
+    End Property
+    Public Property DBCBorder() As Boolean
+        Get
+            Return cDBCBorder
+        End Get
+        Set(ByVal value As Boolean)
+            cDBCBorder = value
+        End Set
+    End Property
     Public Property CSVSeparatorChar() As String
         Get
             If cCSVSeparatorChar Is Nothing Then
@@ -2236,6 +2299,17 @@ Public Class EveHQSettingsFunctions
         ' Check QColumns!
         If EveHQ.Core.HQ.EveHQSettings.QColumns(0, 0) Is Nothing Then
             Call ResetColumns()
+        End If
+
+        ' Check Dashboard colours
+        If EveHQ.Core.HQ.EveHQSettings.DBCMainColor1 = 0 And EveHQ.Core.HQ.EveHQSettings.DBCMainColor2 = 0 Then
+            EveHQ.Core.HQ.EveHQSettings.DBCBorder = True
+            EveHQ.Core.HQ.EveHQSettings.DBCCorners = True
+            EveHQ.Core.HQ.EveHQSettings.DBCCornerRadius = 20
+            EveHQ.Core.HQ.EveHQSettings.DBCBorderColor = System.Drawing.Color.Black.ToArgb
+            EveHQ.Core.HQ.EveHQSettings.DBCMainColor1 = System.Drawing.Color.White.ToArgb
+            EveHQ.Core.HQ.EveHQSettings.DBCMainColor2 = System.Drawing.Color.LightSteelBlue.ToArgb
+            EveHQ.Core.HQ.EveHQSettings.DBColor = System.Drawing.Color.LightSteelBlue.ToArgb
         End If
 
         Return True
