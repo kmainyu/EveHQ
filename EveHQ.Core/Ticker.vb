@@ -113,11 +113,49 @@ Public Class Ticker
         Dim si As New ScrollImage
         si.img = finalImage
         si.imgX = 0
+        si.imgID = itemID
+        si.imgName = itemName
         scrollImages.Enqueue(si)
     End Sub
 
     Private Sub scrollTimer_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles scrollTimer.Tick
         Invalidate()
+    End Sub
+
+    Private Sub Ticker_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDoubleClick
+        ' Get co-ords of click
+        Dim x As Integer = e.X
+        Dim itemID As String = ""
+        For Each si As ScrollImage In scrollImages
+            If x >= si.imgX And x <= si.imgX + si.img.Width Then
+                itemID = si.imgID
+                Exit For
+            End If
+        Next
+        Call LaunchItemBrowser(itemID)
+    End Sub
+
+    Private Sub LaunchItemBrowser(ByVal itemID As String)
+        ' Try to launch the item browser
+        Dim PluginName As String = "EveHQ Item Browser"
+        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
+        If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
+            Dim mainTab As TabControl = CType(EveHQ.Core.HQ.MainForm.Controls("tabMDI"), TabControl)
+            If mainTab.TabPages.ContainsKey(PluginName) = True Then
+                mainTab.SelectTab(PluginName)
+            Else
+                Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
+                plugInForm.MdiParent = EveHQ.Core.HQ.MainForm
+                plugInForm.Show()
+            End If
+            myPlugIn.Instance.GetPlugInData(itemID, 0)
+        Else
+            ' Plug-in is not loaded so best not try to access it!
+            Dim msg As String = ""
+            msg &= "The " & myPlugIn.MainMenuText & " Plug-in is not currently active." & ControlChars.CrLf & ControlChars.CrLf
+            msg &= "Please load the plug-in before proceeding."
+            MessageBox.Show(msg, "Error Starting " & myPlugIn.MainMenuText & " Plug-in!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
     End Sub
 
     Private Sub Ticker_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
@@ -142,6 +180,8 @@ Public Class Ticker
     Private Class ScrollImage
         Public img As Bitmap
         Public imgX As Integer
+        Public imgID As String = ""
+        Public imgName As String = ""
     End Class
 End Class
 

@@ -27,6 +27,7 @@ Partial Class DBCPilotInfo
         Me.AGPPilotInfo = New EveHQ.Core.AlphaGradientPanel
         Me.ColorWithAlpha1 = New EveHQ.Core.ColorWithAlpha
         Me.ColorWithAlpha2 = New EveHQ.Core.ColorWithAlpha
+        Me.lblPilot = New System.Windows.Forms.LinkLabel
         Me.lblTraining = New System.Windows.Forms.LinkLabel
         Me.lblSkillQueueEnd = New System.Windows.Forms.Label
         Me.lblSkillQueueTime = New System.Windows.Forms.Label
@@ -37,7 +38,6 @@ Partial Class DBCPilotInfo
         Me.lblCorp = New System.Windows.Forms.Label
         Me.cboPilot = New System.Windows.Forms.ComboBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lblPilot = New System.Windows.Forms.LinkLabel
         Me.AGPPilotInfo.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -97,6 +97,18 @@ Partial Class DBCPilotInfo
         Me.ColorWithAlpha2.Alpha = 255
         Me.ColorWithAlpha2.Color = System.Drawing.Color.White
         Me.ColorWithAlpha2.Parent = Me.AGPPilotInfo
+        '
+        'lblPilot
+        '
+        Me.lblPilot.AutoSize = True
+        Me.lblPilot.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
+        Me.lblPilot.Location = New System.Drawing.Point(12, 11)
+        Me.lblPilot.Name = "lblPilot"
+        Me.lblPilot.Size = New System.Drawing.Size(31, 13)
+        Me.lblPilot.TabIndex = 12
+        Me.lblPilot.TabStop = True
+        Me.lblPilot.Text = "Pilot:"
+        Me.ToolTip1.SetToolTip(Me.lblPilot, "Click to open pilot information")
         '
         'lblTraining
         '
@@ -175,24 +187,13 @@ Partial Class DBCPilotInfo
         '
         'cboPilot
         '
+        Me.cboPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboPilot.FormattingEnabled = True
         Me.cboPilot.Location = New System.Drawing.Point(49, 8)
         Me.cboPilot.Name = "cboPilot"
         Me.cboPilot.Size = New System.Drawing.Size(229, 21)
         Me.cboPilot.Sorted = True
         Me.cboPilot.TabIndex = 0
-        '
-        'lblPilot
-        '
-        Me.lblPilot.AutoSize = True
-        Me.lblPilot.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
-        Me.lblPilot.Location = New System.Drawing.Point(12, 11)
-        Me.lblPilot.Name = "lblPilot"
-        Me.lblPilot.Size = New System.Drawing.Size(31, 13)
-        Me.lblPilot.TabIndex = 12
-        Me.lblPilot.TabStop = True
-        Me.lblPilot.Text = "Pilot:"
-        Me.ToolTip1.SetToolTip(Me.lblPilot, "Click to open pilot information")
         '
         'DBCPilotInfo
         '

@@ -7,9 +7,11 @@
         Me.FLP1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBColor))
 
         ' Add the controls to the FLP
-        Dim myDBCPilotInfo1 As New DBCPilotInfo
-        myDBCPilotInfo1.PilotName = "Vessper"
-        FLP1.Controls.Add(myDBCPilotInfo1)
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            Dim myDBCPilotInfo1 As New DBCPilotInfo
+            myDBCPilotInfo1.PilotName = cPilot.Name
+            FLP1.Controls.Add(myDBCPilotInfo1)
+        Next
 
         ' Add a handler to the controls
         For Each control As Control In FLP1.Controls
