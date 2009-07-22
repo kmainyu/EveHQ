@@ -38,7 +38,14 @@ Partial Class DBCPilotInfo
         Me.lblCorp = New System.Windows.Forms.Label
         Me.cboPilot = New System.Windows.Forms.ComboBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.pbConfig = New System.Windows.Forms.PictureBox
+        Me.AGPHeader = New EveHQ.Core.AlphaGradientPanel
+        Me.ColorWithAlpha3 = New EveHQ.Core.ColorWithAlpha
+        Me.ColorWithAlpha4 = New EveHQ.Core.ColorWithAlpha
+        Me.lblHeader = New System.Windows.Forms.Label
         Me.AGPPilotInfo.SuspendLayout()
+        CType(Me.pbConfig, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.AGPHeader.SuspendLayout()
         Me.SuspendLayout()
         '
         'tmrSkill
@@ -63,10 +70,8 @@ Partial Class DBCPilotInfo
         Me.AGPPilotInfo.Controls.Add(Me.lblIsk)
         Me.AGPPilotInfo.Controls.Add(Me.lblCorp)
         Me.AGPPilotInfo.Controls.Add(Me.cboPilot)
-        Me.AGPPilotInfo.CornerRadius = 20
-        Me.AGPPilotInfo.Corners = CType((((EveHQ.Core.Corner.TopLeft Or EveHQ.Core.Corner.TopRight) _
-                    Or EveHQ.Core.Corner.BottomLeft) _
-                    Or EveHQ.Core.Corner.BottomRight), EveHQ.Core.Corner)
+        Me.AGPPilotInfo.CornerRadius = 10
+        Me.AGPPilotInfo.Corners = CType((EveHQ.Core.Corner.BottomLeft Or EveHQ.Core.Corner.BottomRight), EveHQ.Core.Corner)
         Me.AGPPilotInfo.Dock = System.Windows.Forms.DockStyle.Fill
         Me.AGPPilotInfo.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.AGPPilotInfo.Gradient = True
@@ -80,10 +85,10 @@ Partial Class DBCPilotInfo
         Me.AGPPilotInfo.ImagePadding = New System.Windows.Forms.Padding(15)
         Me.AGPPilotInfo.ImagePosition = EveHQ.Core.ImagePosition.BottomRight
         Me.AGPPilotInfo.ImageSize = New System.Drawing.Size(128, 128)
-        Me.AGPPilotInfo.Location = New System.Drawing.Point(0, 0)
+        Me.AGPPilotInfo.Location = New System.Drawing.Point(0, 22)
         Me.AGPPilotInfo.Name = "AGPPilotInfo"
         Me.AGPPilotInfo.Rounded = True
-        Me.AGPPilotInfo.Size = New System.Drawing.Size(300, 200)
+        Me.AGPPilotInfo.Size = New System.Drawing.Size(300, 198)
         Me.AGPPilotInfo.TabIndex = 0
         '
         'ColorWithAlpha1
@@ -191,9 +196,74 @@ Partial Class DBCPilotInfo
         Me.cboPilot.FormattingEnabled = True
         Me.cboPilot.Location = New System.Drawing.Point(49, 8)
         Me.cboPilot.Name = "cboPilot"
-        Me.cboPilot.Size = New System.Drawing.Size(229, 21)
+        Me.cboPilot.Size = New System.Drawing.Size(234, 21)
         Me.cboPilot.Sorted = True
         Me.cboPilot.TabIndex = 0
+        '
+        'pbConfig
+        '
+        Me.pbConfig.Image = Global.EveHQ.My.Resources.Resources.info_icon
+        Me.pbConfig.Location = New System.Drawing.Point(275, 1)
+        Me.pbConfig.Name = "pbConfig"
+        Me.pbConfig.Size = New System.Drawing.Size(20, 20)
+        Me.pbConfig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.pbConfig.TabIndex = 13
+        Me.pbConfig.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbConfig, "Click to configure the control")
+        '
+        'AGPHeader
+        '
+        Me.AGPHeader.BackColor = System.Drawing.Color.Transparent
+        Me.AGPHeader.Border = True
+        Me.AGPHeader.BorderColor = System.Drawing.SystemColors.ActiveBorder
+        Me.AGPHeader.Colors.Add(Me.ColorWithAlpha3)
+        Me.AGPHeader.Colors.Add(Me.ColorWithAlpha4)
+        Me.AGPHeader.ContentPadding = New System.Windows.Forms.Padding(0)
+        Me.AGPHeader.Controls.Add(Me.lblHeader)
+        Me.AGPHeader.Controls.Add(Me.pbConfig)
+        Me.AGPHeader.CornerRadius = 10
+        Me.AGPHeader.Corners = CType((EveHQ.Core.Corner.TopLeft Or EveHQ.Core.Corner.TopRight), EveHQ.Core.Corner)
+        Me.AGPHeader.Dock = System.Windows.Forms.DockStyle.Top
+        Me.AGPHeader.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AGPHeader.ForeColor = System.Drawing.Color.White
+        Me.AGPHeader.Gradient = True
+        Me.AGPHeader.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal
+        Me.AGPHeader.GradientOffset = 1.0!
+        Me.AGPHeader.GradientSize = New System.Drawing.Size(0, 0)
+        Me.AGPHeader.GradientWrapMode = System.Drawing.Drawing2D.WrapMode.Tile
+        Me.AGPHeader.Grayscale = False
+        Me.AGPHeader.Image = Nothing
+        Me.AGPHeader.ImageAlpha = 75
+        Me.AGPHeader.ImagePadding = New System.Windows.Forms.Padding(5)
+        Me.AGPHeader.ImagePosition = EveHQ.Core.ImagePosition.BottomRight
+        Me.AGPHeader.ImageSize = New System.Drawing.Size(48, 48)
+        Me.AGPHeader.Location = New System.Drawing.Point(0, 0)
+        Me.AGPHeader.Name = "AGPHeader"
+        Me.AGPHeader.Rounded = True
+        Me.AGPHeader.Size = New System.Drawing.Size(300, 22)
+        Me.AGPHeader.TabIndex = 1
+        '
+        'ColorWithAlpha3
+        '
+        Me.ColorWithAlpha3.Alpha = 255
+        Me.ColorWithAlpha3.Color = System.Drawing.SystemColors.ControlDarkDark
+        Me.ColorWithAlpha3.Parent = Me.AGPHeader
+        '
+        'ColorWithAlpha4
+        '
+        Me.ColorWithAlpha4.Alpha = 255
+        Me.ColorWithAlpha4.Color = System.Drawing.SystemColors.Control
+        Me.ColorWithAlpha4.Parent = Me.AGPHeader
+        '
+        'lblHeader
+        '
+        Me.lblHeader.AutoSize = True
+        Me.lblHeader.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHeader.Location = New System.Drawing.Point(12, 6)
+        Me.lblHeader.Name = "lblHeader"
+        Me.lblHeader.Size = New System.Drawing.Size(103, 13)
+        Me.lblHeader.TabIndex = 13
+        Me.lblHeader.Text = "Pilot Information"
         '
         'DBCPilotInfo
         '
@@ -202,11 +272,15 @@ Partial Class DBCPilotInfo
         Me.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange
         Me.BackColor = System.Drawing.Color.Transparent
         Me.Controls.Add(Me.AGPPilotInfo)
+        Me.Controls.Add(Me.AGPHeader)
         Me.DoubleBuffered = True
         Me.Name = "DBCPilotInfo"
-        Me.Size = New System.Drawing.Size(300, 200)
+        Me.Size = New System.Drawing.Size(300, 220)
         Me.AGPPilotInfo.ResumeLayout(False)
         Me.AGPPilotInfo.PerformLayout()
+        CType(Me.pbConfig, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.AGPHeader.ResumeLayout(False)
+        Me.AGPHeader.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -225,5 +299,10 @@ Partial Class DBCPilotInfo
     Friend WithEvents lblTraining As System.Windows.Forms.LinkLabel
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents lblPilot As System.Windows.Forms.LinkLabel
+    Friend WithEvents pbConfig As System.Windows.Forms.PictureBox
+    Friend WithEvents AGPHeader As EveHQ.Core.AlphaGradientPanel
+    Friend WithEvents ColorWithAlpha3 As EveHQ.Core.ColorWithAlpha
+    Friend WithEvents ColorWithAlpha4 As EveHQ.Core.ColorWithAlpha
+    Friend WithEvents lblHeader As System.Windows.Forms.Label
 
 End Class

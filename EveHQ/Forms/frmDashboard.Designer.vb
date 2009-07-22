@@ -38,7 +38,7 @@ Partial Class frmDashboard
         Me.FLP1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
         Me.FLP1.Location = New System.Drawing.Point(0, 0)
         Me.FLP1.Name = "FLP1"
-        Me.FLP1.Size = New System.Drawing.Size(717, 580)
+        Me.FLP1.Size = New System.Drawing.Size(717, 556)
         Me.FLP1.TabIndex = 0
         '
         'Ticker1
@@ -71,8 +71,8 @@ Partial Class frmDashboard
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(717, 580)
-        Me.Controls.Add(Me.Ticker1)
         Me.Controls.Add(Me.FLP1)
+        Me.Controls.Add(Me.Ticker1)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmDashboard"

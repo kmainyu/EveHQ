@@ -1,21 +1,103 @@
 ﻿Public Class DBCPilotInfo
 
+#Region "Control Variables"
+    Dim cPilot As EveHQ.Core.Pilot
+#End Region
+
 #Region "Control Properties"
 
-    Dim cPilot As EveHQ.Core.Pilot
-    Dim cPilotName As String
-    Public Property PilotName() As String
+    Public ReadOnly Property ControlName() As String
         Get
-            Return cPilotName
+            Return "PilotInfo"
+        End Get
+    End Property
+
+    Dim cDefaultPilotName As String
+    Public Property DefaultPilotName() As String
+        Get
+            Return cDefaultPilotName
         End Get
         Set(ByVal value As String)
-            cPilotName = value
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cPilotName) Then
-                cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cPilotName), Core.Pilot)
+            cDefaultPilotName = value
+            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(DefaultPilotName) Then
+                cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(DefaultPilotName), Core.Pilot)
             End If
-            If cboPilot.Items.Contains(cPilotName) = True Then cboPilot.SelectedItem = cPilotName
+            If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
+            Me.SetConfig("DefaultPilotName", value)
         End Set
     End Property
+
+    Dim cControlWidth As Integer
+    Public Property ControlWidth() As Integer
+        Get
+            Return cControlWidth
+        End Get
+        Set(ByVal value As Integer)
+            cControlWidth = value
+            Me.Width = cControlWidth
+            Me.SetConfig("ControlWidth", value)
+        End Set
+    End Property
+
+    Dim cControlHeight As Integer
+    Public Property ControlHeight() As Integer
+        Get
+            Return cControlHeight
+        End Get
+        Set(ByVal value As Integer)
+            cControlHeight = value
+            Me.Width = cControlHeight
+            Me.SetConfig("ControlHeight", value)
+        End Set
+    End Property
+
+    Dim cControlPosition As Integer
+    Public Property ControlPosition() As Integer
+        Get
+            Return cControlPosition
+        End Get
+        Set(ByVal value As Integer)
+            cControlPosition = value
+            Me.Width = cControlPosition
+            Me.SetConfig("ControlPosition", value)
+        End Set
+    End Property
+
+    Dim cControlConfig As New SortedList(Of String, Object)
+    Public Property ControlConfiguration() As SortedList(Of String, Object)
+        Get
+            Return cControlConfig
+        End Get
+        Set(ByVal value As SortedList(Of String, Object))
+            cControlConfig = value
+            Call Me.ReadFromConfig()
+        End Set
+    End Property
+
+#End Region
+
+#Region "Control Configuration"
+    Private Sub ReadFromConfig()
+        For Each ConfigProperty As String In cControlConfig.Keys
+            Select Case ConfigProperty
+                Case "DefaultPilotName"
+                    Me.DefaultPilotName = CStr(cControlConfig(ConfigProperty))
+                Case "ControlHeight"
+                    Me.ControlHeight = CInt(cControlConfig(ConfigProperty))
+                Case "ControlWidth"
+                    Me.ControlWidth = CInt(cControlConfig(ConfigProperty))
+                Case "ControlPosition"
+                    Me.ControlPosition = CInt(cControlConfig(ConfigProperty))
+            End Select
+        Next
+    End Sub
+    Private Sub SetConfig(ByVal ConfigProperty As String, ByVal ConfigData As Object)
+        If cControlConfig.ContainsKey(ConfigProperty) = False Then
+            cControlConfig.Add(ConfigProperty, Configdata)
+        Else
+            cControlConfig(ConfigProperty) = Configdata
+        End If
+    End Sub
 #End Region
 
     Public Sub New()
@@ -23,10 +105,13 @@
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
 
-        ' Update the AGP with the configured details
+        ' Update the AGPs with the configured details
+        AGPHeader.Border = EveHQ.Core.HQ.EveHQSettings.DBCBorder
+        AGPHeader.BorderColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
+        AGPHeader.CornerRadius = 10
         AGPPilotInfo.Border = EveHQ.Core.HQ.EveHQSettings.DBCBorder
         AGPPilotInfo.BorderColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
-        AGPPilotInfo.CornerRadius = EveHQ.Core.HQ.EveHQSettings.DBCCornerRadius
+        AGPPilotInfo.CornerRadius = 10
         AGPPilotInfo.Colors(0).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor1))
         AGPPilotInfo.Colors(1).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor2))
 

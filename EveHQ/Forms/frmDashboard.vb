@@ -1,4 +1,6 @@
-﻿Public Class frmDashboard
+﻿Imports System.Reflection
+
+Public Class frmDashboard
 
 #Region "Form Loading Routines"
 
@@ -9,7 +11,7 @@
         ' Add the controls to the FLP
         For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
             Dim myDBCPilotInfo1 As New DBCPilotInfo
-            myDBCPilotInfo1.PilotName = cPilot.Name
+            myDBCPilotInfo1.DefaultPilotName = cPilot.Name
             FLP1.Controls.Add(myDBCPilotInfo1)
         Next
 
@@ -49,6 +51,19 @@
             e.Effect = DragDropEffects.None
         End If
     End Sub
+
+    Private Sub FLP1_Layout(ByVal sender As Object, ByVal e As System.Windows.Forms.LayoutEventArgs) Handles FLP1.Layout
+        'MessageBox.Show("Repositioning Child Controls!")
+        Dim msg As String = ""
+        Dim pv As Object
+        For Each c As Control In FLP1.Controls
+            Dim pi As System.Reflection.PropertyInfo = c.GetType().GetProperty("PilotName")
+            pv = pi.GetValue(c, Nothing)
+            msg &= pi.Name & ", " & CStr(pv) & ControlChars.CrLf
+        Next
+        'MessageBox.Show(msg)
+    End Sub
+
 #End Region
 
 End Class
