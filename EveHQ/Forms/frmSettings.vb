@@ -2231,9 +2231,6 @@ Public Class frmSettings
         End If
     End Sub
 
-#End Region
-
-
     Private Sub btnAddWidget_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddWidget.Click
         ' Check we have a selected widget type
         If cboWidgets.SelectedItem IsNot Nothing Then
@@ -2290,4 +2287,27 @@ Public Class frmSettings
             End If
         Next
     End Sub
+
+    Private Sub lvWidgets_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvWidgets.DoubleClick
+        ' Edit a widget
+        If lvWidgets.SelectedItems.Count > 0 Then
+            Dim index As Integer = lvWidgets.SelectedItems(0).Index
+            Dim WidgetName As String = lvWidgets.SelectedItems(0).Text
+            ' Determine the type of control to add
+            Select Case WidgetName
+                Case "Pilot Information"
+                    Dim newWidget As New DBCPilotInfo
+                    newWidget.ControlConfiguration = CType(EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Item(index), SortedList(Of String, Object))
+                    Dim newWidgetConfig As New DBCPilotInfoConfig
+                    newWidgetConfig.DBWidget = newWidget
+                    newWidgetConfig.ShowDialog()
+                    lvWidgets.Items(index).SubItems(1).Text = "Default Pilot: " & CStr(newWidget.ControlConfiguration("DefaultPilotName"))
+            End Select
+            ' Update the dashboard
+            frmDashboard.UpdateWidgets()
+        End If
+    End Sub
+
+#End Region
+
 End Class

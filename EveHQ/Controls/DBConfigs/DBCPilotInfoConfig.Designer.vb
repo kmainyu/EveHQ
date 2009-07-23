@@ -144,4 +144,22 @@ Partial Class DBCPilotInfoConfig
     Friend WithEvents nudHeight As System.Windows.Forms.NumericUpDown
     Friend WithEvents btnAccept As System.Windows.Forms.Button
     Friend WithEvents btnCancel As System.Windows.Forms.Button
+
+    Public Sub New()
+
+        ' This call is required by the Windows Form Designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        ' Load the combo box with the pilot info
+        cboPilots.BeginUpdate()
+        cboPilots.Items.Clear()
+        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            If pilot.Active = True Then
+                cboPilots.Items.Add(pilot.Name)
+            End If
+        Next
+        cboPilots.EndUpdate()
+
+    End Sub
 End Class

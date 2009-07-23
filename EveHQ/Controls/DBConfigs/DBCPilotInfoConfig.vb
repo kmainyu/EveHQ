@@ -33,18 +33,6 @@
         End If
     End Sub
 
-    Private Sub DBCPilotInfoConfig_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' Load the combo box with the pilot info
-        cboPilots.BeginUpdate()
-        cboPilots.Items.Clear()
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            If pilot.Active = True Then
-                cboPilots.Items.Add(pilot.Name)
-            End If
-        Next
-        cboPilots.EndUpdate()
-    End Sub
-
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
         ' Just close the form and do nothing
         Me.Close()
