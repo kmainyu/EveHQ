@@ -2,13 +2,13 @@
 
 #Region "Properties"
 
-    Dim cDBControl As New DBCPilotInfo
-    Public Property DBControl() As DBCPilotInfo
+    Dim cDBWidget As New DBCPilotInfo
+    Public Property DBWidget() As DBCPilotInfo
         Get
-            Return cDBControl
+            Return cDBWidget
         End Get
         Set(ByVal value As DBCPilotInfo)
-            cDBControl = value
+            cDBWidget = value
             Call SetControlInfo()
         End Set
     End Property
@@ -16,16 +16,16 @@
 #End Region
 
     Private Sub SetControlInfo()
-        If cDBControl.ControlWidth < nudWidth.Minimum Then
-            cDBControl.ControlWidth = CInt(nudWidth.Minimum)
+        If cDBWidget.ControlWidth < nudWidth.Minimum Then
+            cDBWidget.ControlWidth = CInt(nudWidth.Minimum)
         End If
-        If cDBControl.ControlHeight < nudHeight.Minimum Then
-            cDBControl.ControlHeight = CInt(nudHeight.Minimum)
+        If cDBWidget.ControlHeight < nudHeight.Minimum Then
+            cDBWidget.ControlHeight = CInt(nudHeight.Minimum)
         End If
-        nudWidth.Value = cDBControl.ControlWidth
-        nudHeight.Value = cDBControl.ControlHeight
-        If cboPilots.Items.Contains(cDBControl.DefaultPilotName) = True Then
-            cboPilots.SelectedItem = cDBControl.DefaultPilotName
+        nudWidth.Value = cDBWidget.ControlWidth
+        nudHeight.Value = cDBWidget.ControlHeight
+        If cboPilots.Items.Contains(cDBWidget.DefaultPilotName) = True Then
+            cboPilots.SelectedItem = cDBWidget.DefaultPilotName
         Else
             If cboPilots.Items.Count > 0 Then
                 cboPilots.SelectedIndex = 0
@@ -52,12 +52,13 @@
 
     Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
         ' Update the control properties
-        cDBControl.ControlWidth = CInt(nudWidth.Value)
-        cDBControl.ControlHeight = CInt(nudHeight.Value)
+        cDBWidget.ControlWidth = CInt(nudWidth.Value)
+        cDBWidget.ControlHeight = CInt(nudHeight.Value)
         If cboPilots.SelectedItem IsNot Nothing Then
-            cDBControl.DefaultPilotName = cboPilots.SelectedItem.ToString
+            cDBWidget.DefaultPilotName = cboPilots.SelectedItem.ToString
         End If
         ' Now close the form
+        Me.DialogResult = Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
 End Class

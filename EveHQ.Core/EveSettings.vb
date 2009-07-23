@@ -157,7 +157,19 @@ Imports System.Diagnostics
     Private cDBCHeadColor1 As Long = System.Drawing.Color.DimGray.ToArgb
     Private cDBCHeadColor2 As Long = System.Drawing.Color.LightGray.ToArgb
     Private cDBColor As Long = System.Drawing.Color.LightSteelBlue.ToArgb
+    Private cDashboardConfiguration As New ArrayList
 
+    Public Property DashboardConfiguration() As ArrayList
+        Get
+            If cDashboardConfiguration Is Nothing Then
+                cDashboardConfiguration = New ArrayList
+            End If
+            Return cDashboardConfiguration
+        End Get
+        Set(ByVal value As ArrayList)
+            cDashboardConfiguration = value
+        End Set
+    End Property
     Public Property DBColor() As Long
         Get
             Return cDBColor

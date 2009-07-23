@@ -2144,6 +2144,7 @@ Public Class frmSettings
     Private Sub UpdateDashboardOptions()
         ' Update the dashboard colours
         Call Me.UpdateDBColours()
+        Call Me.UpdateWidgets()
     End Sub
 
     Private Sub UpdateDBColours()
@@ -2153,6 +2154,21 @@ Public Class frmSettings
         pbWidgetHeader2.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2))
         pbWidgetMain1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor1))
         pbWidgetMain2.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor2))
+    End Sub
+
+    Private Sub UpdateWidgets()
+        lvWidgets.BeginUpdate()
+        lvWidgets.Items.Clear()
+        For Each config As SortedList(Of String, Object) In EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration
+            Dim newWidgetLVI As New ListViewItem
+            newWidgetLVI.Text = CStr(config("ControlName"))
+            Select Case CStr(config("ControlName"))
+                Case "Pilot Information"
+                    newWidgetLVI.SubItems.Add("Default Pilot: " & CStr(config("DefaultPilotName")))
+            End Select
+            lvWidgets.Items.Add(newWidgetLVI)
+        Next
+        lvWidgets.EndUpdate()
     End Sub
 
     Private Sub btnResetDBColors_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetDBColors.Click
@@ -2218,4 +2234,60 @@ Public Class frmSettings
 #End Region
 
 
+    Private Sub btnAddWidget_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddWidget.Click
+        ' Check we have a selected widget type
+        If cboWidgets.SelectedItem IsNot Nothing Then
+            Dim WidgetName As String = cboWidgets.SelectedItem.ToString
+            ' Determine the type of control to add
+            Select Case WidgetName
+                Case "Pilot Information"
+                    Dim newWidget As New DBCPilotInfo
+                    Dim newWidgetConfig As New DBCPilotInfoConfig
+                    newWidgetConfig.DBWidget = newWidget
+                    newWidgetConfig.ShowDialog()
+                    If newWidgetConfig.DialogResult = Windows.Forms.DialogResult.OK Then
+                        ' Save the Widget
+                        newWidget.ControlPosition = EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Count
+                        EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Add(newWidget.ControlConfiguration)
+                        Call Me.UpdateWidgets()
+                        ' Update the dashboard
+                        frmDashboard.UpdateWidgets()
+                    Else
+                        ' Process Aborted
+                        MessageBox.Show("Widget configuration aborted - information not saved.", "Addition Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+            End Select
+        Else
+            ' Need a widget type before proceeding
+            MessageBox.Show("Please select a Widget type before proceeding.", "Widget Type Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+    End Sub
+
+    Private Sub btnRemoveWidget_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRemoveWidget.Click
+        ' Check for an item selection
+        If lvWidgets.SelectedItems.Count > 0 Then
+            Dim index As Integer = lvWidgets.SelectedItems(0).Index
+            EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.RemoveAt(index)
+            lvWidgets.SelectedItems(0).Remove()
+            Call ReorderWidgets()
+            ' Update the dashboard
+            frmDashboard.UpdateWidgets()
+        Else
+            MessageBox.Show("Please select a Widget to remove before proceeding.", "Widget Selection Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+    End Sub
+
+    Private Sub ReorderWidgets()
+        Dim index As Integer = 0
+        For Each config As SortedList(Of String, Object) In EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration
+            If config.ContainsKey("ControlPosition") = True Then
+                config("ControlPosition") = index
+                index += 1
+            Else
+                config.Add("ControlPosition", index)
+            End If
+        Next
+    End Sub
 End Class

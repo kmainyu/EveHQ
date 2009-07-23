@@ -9,11 +9,27 @@ Public Class frmDashboard
         Me.FLP1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBColor))
 
         ' Add the controls to the FLP
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
-            Dim myDBCPilotInfo1 As New DBCPilotInfo
-            myDBCPilotInfo1.DefaultPilotName = cPilot.Name
-            FLP1.Controls.Add(myDBCPilotInfo1)
+        Call Me.UpdateWidgets()
+        
+    End Sub
+#End Region
+
+#Region "Widget Update Routines"
+
+    Public Sub UpdateWidgets()
+
+        FLP1.Controls.Clear()
+        FLP1.SuspendLayout()
+        For Each config As SortedList(Of String, Object) In EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration
+            Dim WidgetName As String = CStr(config("ControlName"))
+            Select Case WidgetName
+                Case "Pilot Information"
+                    Dim newWidget As New DBCPilotInfo
+                    newWidget.ControlConfiguration = config
+                    FLP1.Controls.Add(newWidget)
+            End Select
         Next
+        FLP1.ResumeLayout()
 
         ' Add a handler to the controls
         For Each control As Control In FLP1.Controls
@@ -22,10 +38,8 @@ Public Class frmDashboard
                 AddHandler subcontrol.MouseDown, AddressOf MyMouseDown
             Next
         Next
-    End Sub
-#End Region
 
-#Region "Widget Update Routines"
+    End Sub
     Public Sub UpdateDashboardColours()
         Me.FLP1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBColor))
         For Each c As Control In FLP1.Controls
@@ -63,15 +77,20 @@ Public Class frmDashboard
     End Sub
 
     Private Sub FLP1_Layout(ByVal sender As Object, ByVal e As System.Windows.Forms.LayoutEventArgs) Handles FLP1.Layout
-        'MessageBox.Show("Repositioning Child Controls!")
-        Dim msg As String = ""
-        Dim pv As Object
+        Dim index As Integer = 0
         For Each c As Control In FLP1.Controls
-            Dim pi As System.Reflection.PropertyInfo = c.GetType().GetProperty("DefaultPilotName")
-            pv = pi.GetValue(c, Nothing)
-            msg &= pi.Name & ", " & CStr(pv) & ControlChars.CrLf
+            Dim pi As System.Reflection.PropertyInfo = c.GetType().GetProperty("ControlPosition")
+            pi.SetValue(c, index, Nothing)
         Next
-        'MessageBox.Show(msg)
+
+        ' If we have a matching count then update the ControlConfiguration details
+        If FLP1.Controls.Count = EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Count Then
+            EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Clear()
+            For Each c As Control In FLP1.Controls
+                Dim pi As System.Reflection.PropertyInfo = c.GetType().GetProperty("ControlConfiguration")
+                EveHQ.Core.HQ.EveHQSettings.DashboardConfiguration.Add(pi.GetValue(c, Nothing))
+            Next
+        End If
     End Sub
 
 #End Region

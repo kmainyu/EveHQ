@@ -2,17 +2,18 @@
 
 #Region "Control Variables"
     Dim cPilot As EveHQ.Core.Pilot
+    Dim ReadConfig As Boolean = False
 #End Region
 
 #Region "Control Properties"
 
     Public ReadOnly Property ControlName() As String
         Get
-            Return "PilotInfo"
+            Return "Pilot Information"
         End Get
     End Property
 
-    Dim cDefaultPilotName As String
+    Dim cDefaultPilotName As String = ""
     Public Property DefaultPilotName() As String
         Get
             Return cDefaultPilotName
@@ -23,11 +24,13 @@
                 cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(DefaultPilotName), Core.Pilot)
             End If
             If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
-            Me.SetConfig("DefaultPilotName", value)
+            If ReadConfig = False Then
+                Me.SetConfig("DefaultPilotName", value)
+            End If
         End Set
     End Property
 
-    Dim cControlWidth As Integer
+    Dim cControlWidth As Integer = 300
     Public Property ControlWidth() As Integer
         Get
             Return cControlWidth
@@ -35,11 +38,13 @@
         Set(ByVal value As Integer)
             cControlWidth = value
             Me.Width = cControlWidth
-            Me.SetConfig("ControlWidth", value)
+            If ReadConfig = False Then
+                Me.SetConfig("ControlWidth", value)
+            End If
         End Set
     End Property
 
-    Dim cControlHeight As Integer
+    Dim cControlHeight As Integer = 220
     Public Property ControlHeight() As Integer
         Get
             Return cControlHeight
@@ -47,7 +52,9 @@
         Set(ByVal value As Integer)
             cControlHeight = value
             Me.Height = cControlHeight
-            Me.SetConfig("ControlHeight", value)
+            If ReadConfig = False Then
+                Me.SetConfig("ControlHeight", value)
+            End If
         End Set
     End Property
 
@@ -58,13 +65,17 @@
         End Get
         Set(ByVal value As Integer)
             cControlPosition = value
-            Me.SetConfig("ControlPosition", value)
+            If ReadConfig = False Then
+                Me.SetConfig("ControlPosition", value)
+            End If
         End Set
     End Property
 
     Dim cControlConfig As New SortedList(Of String, Object)
     Public Property ControlConfiguration() As SortedList(Of String, Object)
         Get
+            ' Check for ControlName
+            Call Me.SetConfig("ControlName", ControlName)
             Return cControlConfig
         End Get
         Set(ByVal value As SortedList(Of String, Object))
@@ -77,21 +88,14 @@
 
 #Region "Control Configuration"
     Private Sub ReadFromConfig()
+        ReadConfig = True
         For Each ConfigProperty As String In cControlConfig.Keys
             Dim pi As System.Reflection.PropertyInfo = Me.GetType().GetProperty(ConfigProperty)
-            'pi.SetValue(Me, CType(cControlConfig(ConfigProperty), Object), Nothing)
-            pi.SetValue(Me, Convert.ChangeType(cControlConfig(ConfigProperty), pi.PropertyType, Globalization.CultureInfo.InvariantCulture), Nothing)
-            'Select Case ConfigProperty
-            '    Case "DefaultPilotName"
-            '        Me.DefaultPilotName = CStr(cControlConfig(ConfigProperty))
-            '    Case "ControlHeight"
-            '        Me.ControlHeight = CInt(cControlConfig(ConfigProperty))
-            '    Case "ControlWidth"
-            '        Me.ControlWidth = CInt(cControlConfig(ConfigProperty))
-            '    Case "ControlPosition"
-            '        Me.ControlPosition = CInt(cControlConfig(ConfigProperty))
-            'End Select
+            If ConfigProperty <> "ControlName" Then
+                pi.SetValue(Me, Convert.ChangeType(cControlConfig(ConfigProperty), pi.PropertyType, Globalization.CultureInfo.InvariantCulture), Nothing)
+            End If
         Next
+        ReadConfig = False
     End Sub
     Private Sub SetConfig(ByVal ConfigProperty As String, ByVal ConfigData As Object)
         If cControlConfig.ContainsKey(ConfigProperty) = False Then
@@ -230,7 +234,7 @@
     Private Sub pbConfig_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pbConfig.MouseDoubleClick
         ' Initialise the configuration form
         Dim newConfigForm As New DBCPilotInfoConfig
-        newConfigForm.DBControl = Me
+        newConfigForm.DBWidget = Me
         newConfigForm.ShowDialog()
     End Sub
 
