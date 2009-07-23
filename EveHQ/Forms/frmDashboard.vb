@@ -25,6 +25,16 @@ Public Class frmDashboard
     End Sub
 #End Region
 
+#Region "Widget Update Routines"
+    Public Sub UpdateDashboardColours()
+        Me.FLP1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBColor))
+        For Each c As Control In FLP1.Controls
+            Dim mi As System.Reflection.MethodInfo = c.GetType().GetMethod("UpdateColours")
+            mi.Invoke(c, Nothing)
+        Next
+    End Sub
+#End Region
+
 #Region "Panel Drag/Drop Routines"
 
     Private Sub MyMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs)

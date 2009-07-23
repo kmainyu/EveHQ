@@ -307,6 +307,20 @@ Partial Public Class frmSettings
         Me.cboTaskbarIconMode = New System.Windows.Forms.ComboBox
         Me.lblTaskbarIconMode = New System.Windows.Forms.Label
         Me.gbDashboard = New System.Windows.Forms.GroupBox
+        Me.gbDashboardColours = New System.Windows.Forms.GroupBox
+        Me.pbWidgetHeader2 = New System.Windows.Forms.PictureBox
+        Me.lblWidgetHeader2 = New System.Windows.Forms.Label
+        Me.pbWidgetHeader1 = New System.Windows.Forms.PictureBox
+        Me.lblWidgetHeader1 = New System.Windows.Forms.Label
+        Me.pbWidgetBorder = New System.Windows.Forms.PictureBox
+        Me.lblWidgetBorder = New System.Windows.Forms.Label
+        Me.pbDBColor = New System.Windows.Forms.PictureBox
+        Me.lblDBColor = New System.Windows.Forms.Label
+        Me.btnResetDBColors = New System.Windows.Forms.Button
+        Me.pbWidgetMain2 = New System.Windows.Forms.PictureBox
+        Me.lblWidgetMain2 = New System.Windows.Forms.Label
+        Me.pbWidgetMain1 = New System.Windows.Forms.PictureBox
+        Me.lblWidgetMain1 = New System.Windows.Forms.Label
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -362,6 +376,14 @@ Partial Public Class frmSettings
         CType(Me.nudCycleTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxPrices.SuspendLayout()
         Me.gbTaskbarIcon.SuspendLayout()
+        Me.gbDashboard.SuspendLayout()
+        Me.gbDashboardColours.SuspendLayout()
+        CType(Me.pbWidgetHeader2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbWidgetHeader1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbWidgetBorder, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbDBColor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbWidgetMain2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbWidgetMain1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -2070,7 +2092,7 @@ Partial Public Class frmSettings
         Me.gbEveServer.Controls.Add(Me.lblCurrentOffset)
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.trackServerOffset)
-        Me.gbEveServer.Location = New System.Drawing.Point(213, 106)
+        Me.gbEveServer.Location = New System.Drawing.Point(213, 140)
         Me.gbEveServer.Name = "gbEveServer"
         Me.gbEveServer.Size = New System.Drawing.Size(138, 37)
         Me.gbEveServer.TabIndex = 2
@@ -2696,9 +2718,9 @@ Partial Public Class frmSettings
         Me.gbColours.Controls.Add(Me.lblCSVSeparatorChar)
         Me.gbColours.Controls.Add(Me.chkDisableVisualStyles)
         Me.gbColours.Controls.Add(Me.gbPilotScreenColours)
-        Me.gbColours.Location = New System.Drawing.Point(479, 407)
+        Me.gbColours.Location = New System.Drawing.Point(398, 378)
         Me.gbColours.Name = "gbColours"
-        Me.gbColours.Size = New System.Drawing.Size(74, 31)
+        Me.gbColours.Size = New System.Drawing.Size(182, 128)
         Me.gbColours.TabIndex = 28
         Me.gbColours.TabStop = False
         Me.gbColours.Text = "Colours"
@@ -3083,13 +3105,159 @@ Partial Public Class frmSettings
         '
         'gbDashboard
         '
+        Me.gbDashboard.Controls.Add(Me.gbDashboardColours)
         Me.gbDashboard.Location = New System.Drawing.Point(194, 12)
         Me.gbDashboard.Name = "gbDashboard"
-        Me.gbDashboard.Size = New System.Drawing.Size(693, 500)
+        Me.gbDashboard.Size = New System.Drawing.Size(696, 504)
         Me.gbDashboard.TabIndex = 33
         Me.gbDashboard.TabStop = False
         Me.gbDashboard.Text = "Dashboard"
         Me.gbDashboard.Visible = False
+        '
+        'gbDashboardColours
+        '
+        Me.gbDashboardColours.Controls.Add(Me.pbWidgetHeader2)
+        Me.gbDashboardColours.Controls.Add(Me.lblWidgetHeader2)
+        Me.gbDashboardColours.Controls.Add(Me.pbWidgetHeader1)
+        Me.gbDashboardColours.Controls.Add(Me.lblWidgetHeader1)
+        Me.gbDashboardColours.Controls.Add(Me.pbWidgetBorder)
+        Me.gbDashboardColours.Controls.Add(Me.lblWidgetBorder)
+        Me.gbDashboardColours.Controls.Add(Me.pbDBColor)
+        Me.gbDashboardColours.Controls.Add(Me.lblDBColor)
+        Me.gbDashboardColours.Controls.Add(Me.btnResetDBColors)
+        Me.gbDashboardColours.Controls.Add(Me.pbWidgetMain2)
+        Me.gbDashboardColours.Controls.Add(Me.lblWidgetMain2)
+        Me.gbDashboardColours.Controls.Add(Me.pbWidgetMain1)
+        Me.gbDashboardColours.Controls.Add(Me.lblWidgetMain1)
+        Me.gbDashboardColours.Location = New System.Drawing.Point(17, 27)
+        Me.gbDashboardColours.Name = "gbDashboardColours"
+        Me.gbDashboardColours.Size = New System.Drawing.Size(215, 226)
+        Me.gbDashboardColours.TabIndex = 38
+        Me.gbDashboardColours.TabStop = False
+        Me.gbDashboardColours.Text = "Dashboard Colours"
+        '
+        'pbWidgetHeader2
+        '
+        Me.pbWidgetHeader2.BackColor = System.Drawing.Color.LightGray
+        Me.pbWidgetHeader2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbWidgetHeader2.Location = New System.Drawing.Point(159, 96)
+        Me.pbWidgetHeader2.Name = "pbWidgetHeader2"
+        Me.pbWidgetHeader2.Size = New System.Drawing.Size(24, 24)
+        Me.pbWidgetHeader2.TabIndex = 60
+        Me.pbWidgetHeader2.TabStop = False
+        '
+        'lblWidgetHeader2
+        '
+        Me.lblWidgetHeader2.AutoSize = True
+        Me.lblWidgetHeader2.Location = New System.Drawing.Point(13, 99)
+        Me.lblWidgetHeader2.Name = "lblWidgetHeader2"
+        Me.lblWidgetHeader2.Size = New System.Drawing.Size(88, 13)
+        Me.lblWidgetHeader2.TabIndex = 59
+        Me.lblWidgetHeader2.Text = "Widget Header 2"
+        '
+        'pbWidgetHeader1
+        '
+        Me.pbWidgetHeader1.BackColor = System.Drawing.Color.DimGray
+        Me.pbWidgetHeader1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbWidgetHeader1.Location = New System.Drawing.Point(159, 72)
+        Me.pbWidgetHeader1.Name = "pbWidgetHeader1"
+        Me.pbWidgetHeader1.Size = New System.Drawing.Size(24, 24)
+        Me.pbWidgetHeader1.TabIndex = 58
+        Me.pbWidgetHeader1.TabStop = False
+        '
+        'lblWidgetHeader1
+        '
+        Me.lblWidgetHeader1.AutoSize = True
+        Me.lblWidgetHeader1.Location = New System.Drawing.Point(13, 75)
+        Me.lblWidgetHeader1.Name = "lblWidgetHeader1"
+        Me.lblWidgetHeader1.Size = New System.Drawing.Size(88, 13)
+        Me.lblWidgetHeader1.TabIndex = 57
+        Me.lblWidgetHeader1.Text = "Widget Header 1"
+        '
+        'pbWidgetBorder
+        '
+        Me.pbWidgetBorder.BackColor = System.Drawing.Color.Black
+        Me.pbWidgetBorder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbWidgetBorder.Location = New System.Drawing.Point(159, 48)
+        Me.pbWidgetBorder.Name = "pbWidgetBorder"
+        Me.pbWidgetBorder.Size = New System.Drawing.Size(24, 24)
+        Me.pbWidgetBorder.TabIndex = 56
+        Me.pbWidgetBorder.TabStop = False
+        '
+        'lblWidgetBorder
+        '
+        Me.lblWidgetBorder.AutoSize = True
+        Me.lblWidgetBorder.Location = New System.Drawing.Point(13, 51)
+        Me.lblWidgetBorder.Name = "lblWidgetBorder"
+        Me.lblWidgetBorder.Size = New System.Drawing.Size(76, 13)
+        Me.lblWidgetBorder.TabIndex = 55
+        Me.lblWidgetBorder.Text = "Widget Border"
+        '
+        'pbDBColor
+        '
+        Me.pbDBColor.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.pbDBColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbDBColor.Location = New System.Drawing.Point(159, 24)
+        Me.pbDBColor.Name = "pbDBColor"
+        Me.pbDBColor.Size = New System.Drawing.Size(24, 24)
+        Me.pbDBColor.TabIndex = 54
+        Me.pbDBColor.TabStop = False
+        '
+        'lblDBColor
+        '
+        Me.lblDBColor.AutoSize = True
+        Me.lblDBColor.Location = New System.Drawing.Point(13, 27)
+        Me.lblDBColor.Name = "lblDBColor"
+        Me.lblDBColor.Size = New System.Drawing.Size(118, 13)
+        Me.lblDBColor.TabIndex = 53
+        Me.lblDBColor.Text = "Dashboard Background"
+        '
+        'btnResetDBColors
+        '
+        Me.btnResetDBColors.Location = New System.Drawing.Point(38, 190)
+        Me.btnResetDBColors.Name = "btnResetDBColors"
+        Me.btnResetDBColors.Size = New System.Drawing.Size(145, 23)
+        Me.btnResetDBColors.TabIndex = 52
+        Me.btnResetDBColors.Text = "Reset To Defaults"
+        Me.btnResetDBColors.UseVisualStyleBackColor = True
+        '
+        'pbWidgetMain2
+        '
+        Me.pbWidgetMain2.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.pbWidgetMain2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbWidgetMain2.Location = New System.Drawing.Point(159, 144)
+        Me.pbWidgetMain2.Name = "pbWidgetMain2"
+        Me.pbWidgetMain2.Size = New System.Drawing.Size(24, 24)
+        Me.pbWidgetMain2.TabIndex = 39
+        Me.pbWidgetMain2.TabStop = False
+        '
+        'lblWidgetMain2
+        '
+        Me.lblWidgetMain2.AutoSize = True
+        Me.lblWidgetMain2.Location = New System.Drawing.Point(13, 147)
+        Me.lblWidgetMain2.Name = "lblWidgetMain2"
+        Me.lblWidgetMain2.Size = New System.Drawing.Size(75, 13)
+        Me.lblWidgetMain2.TabIndex = 38
+        Me.lblWidgetMain2.Text = "Widget Main 2"
+        '
+        'pbWidgetMain1
+        '
+        Me.pbWidgetMain1.BackColor = System.Drawing.Color.White
+        Me.pbWidgetMain1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pbWidgetMain1.Location = New System.Drawing.Point(159, 120)
+        Me.pbWidgetMain1.Name = "pbWidgetMain1"
+        Me.pbWidgetMain1.Size = New System.Drawing.Size(24, 24)
+        Me.pbWidgetMain1.TabIndex = 37
+        Me.pbWidgetMain1.TabStop = False
+        '
+        'lblWidgetMain1
+        '
+        Me.lblWidgetMain1.AutoSize = True
+        Me.lblWidgetMain1.Location = New System.Drawing.Point(13, 123)
+        Me.lblWidgetMain1.Name = "lblWidgetMain1"
+        Me.lblWidgetMain1.Size = New System.Drawing.Size(75, 13)
+        Me.lblWidgetMain1.TabIndex = 36
+        Me.lblWidgetMain1.Text = "Widget Main 1"
         '
         'frmSettings
         '
@@ -3100,9 +3268,9 @@ Partial Public Class frmSettings
         Me.Controls.Add(Me.gbGeneral)
         Me.Controls.Add(Me.gbTrainingQueue)
         Me.Controls.Add(Me.gbNotifications)
+        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbColours)
         Me.Controls.Add(Me.gbEveServer)
-        Me.Controls.Add(Me.gbDatabaseFormat)
         Me.Controls.Add(Me.gbG15)
         Me.Controls.Add(Me.gbTrainingOverlay)
         Me.Controls.Add(Me.gbTaskbarIcon)
@@ -3202,6 +3370,15 @@ Partial Public Class frmSettings
         Me.ctxPrices.ResumeLayout(False)
         Me.gbTaskbarIcon.ResumeLayout(False)
         Me.gbTaskbarIcon.PerformLayout()
+        Me.gbDashboard.ResumeLayout(False)
+        Me.gbDashboardColours.ResumeLayout(False)
+        Me.gbDashboardColours.PerformLayout()
+        CType(Me.pbWidgetHeader2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbWidgetHeader1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbWidgetBorder, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbDBColor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbWidgetMain2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbWidgetMain1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -3474,4 +3651,18 @@ Partial Public Class frmSettings
     Friend WithEvents lblCSVSeparatorChar As System.Windows.Forms.Label
     Friend WithEvents txtCSVSeparator As System.Windows.Forms.TextBox
     Friend WithEvents gbDashboard As System.Windows.Forms.GroupBox
+    Friend WithEvents gbDashboardColours As System.Windows.Forms.GroupBox
+    Friend WithEvents pbWidgetHeader2 As System.Windows.Forms.PictureBox
+    Friend WithEvents lblWidgetHeader2 As System.Windows.Forms.Label
+    Friend WithEvents pbWidgetHeader1 As System.Windows.Forms.PictureBox
+    Friend WithEvents lblWidgetHeader1 As System.Windows.Forms.Label
+    Friend WithEvents pbWidgetBorder As System.Windows.Forms.PictureBox
+    Friend WithEvents lblWidgetBorder As System.Windows.Forms.Label
+    Friend WithEvents pbDBColor As System.Windows.Forms.PictureBox
+    Friend WithEvents lblDBColor As System.Windows.Forms.Label
+    Friend WithEvents btnResetDBColors As System.Windows.Forms.Button
+    Friend WithEvents pbWidgetMain2 As System.Windows.Forms.PictureBox
+    Friend WithEvents lblWidgetMain2 As System.Windows.Forms.Label
+    Friend WithEvents pbWidgetMain1 As System.Windows.Forms.PictureBox
+    Friend WithEvents lblWidgetMain1 As System.Windows.Forms.Label
 End Class

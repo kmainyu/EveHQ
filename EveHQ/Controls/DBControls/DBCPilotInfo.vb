@@ -129,6 +129,17 @@
 
     End Sub
 
+    Public Sub UpdateColours()
+        AGPHeader.BorderColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
+        AGPHeader.CornerRadius = 10
+        AGPPilotInfo.BorderColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
+        AGPPilotInfo.CornerRadius = 10
+        AGPPilotInfo.Colors(0).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor1))
+        AGPPilotInfo.Colors(1).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor2))
+        AGPHeader.Colors(0).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1))
+        AGPHeader.Colors(1).Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2))
+    End Sub
+
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
         If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
             cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)

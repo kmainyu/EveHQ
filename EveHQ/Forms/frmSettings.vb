@@ -63,6 +63,7 @@ Public Class frmSettings
         Call Me.UpdateG15Options()
         Call Me.UpdateDatabaseSettings()
         Call Me.UpdateTaskBarIconOptions()
+        Call Me.UpdateDashboardOptions()
 
         ' Set the flag to indicate end of the startup
         startup = False
@@ -2139,7 +2140,82 @@ Public Class frmSettings
 
 #End Region
 
-    
-    
-    
+#Region "Dashboard Options"
+    Private Sub UpdateDashboardOptions()
+        ' Update the dashboard colours
+        Call Me.UpdateDBColours()
+    End Sub
+
+    Private Sub UpdateDBColours()
+        pbDBColor.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBColor))
+        pbWidgetBorder.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
+        pbWidgetHeader1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1))
+        pbWidgetHeader2.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2))
+        pbWidgetMain1.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor1))
+        pbWidgetMain2.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor2))
+    End Sub
+
+    Private Sub btnResetDBColors_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetDBColors.Click
+        ' Resets the panel colours to the default values
+        EveHQ.Core.HQ.EveHQSettings.DBColor = System.Drawing.Color.LightSteelBlue.ToArgb
+        EveHQ.Core.HQ.EveHQSettings.DBCBorderColor = System.Drawing.Color.Black.ToArgb
+        EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1 = System.Drawing.Color.DimGray.ToArgb
+        EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2 = System.Drawing.Color.LightGray.ToArgb
+        EveHQ.Core.HQ.EveHQSettings.DBCMainColor1 = System.Drawing.Color.White.ToArgb
+        EveHQ.Core.HQ.EveHQSettings.DBCMainColor2 = System.Drawing.Color.LightSteelBlue.ToArgb
+        ' Update the dashboard
+        frmDashboard.UpdateDashboardColours()
+        ' Update the DB Colours
+        Call Me.UpdateDBColours()
+    End Sub
+
+    Private Sub pbDBColor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pbDBColor.Click, pbWidgetBorder.Click, pbWidgetHeader1.Click, pbWidgetHeader2.Click, pbWidgetMain1.Click, pbWidgetMain2.Click
+        Dim thisPB As PictureBox = CType(sender, PictureBox)
+        Dim dlgResult As Integer = 0
+        With cd1
+            .AllowFullOpen = True
+            .AnyColor = True
+            .FullOpen = True
+            Select Case thisPB.Name
+                Case "pbDBColor"
+                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBColor))
+                Case "pbWidgetBorder"
+                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCBorderColor))
+                Case "pbWidgetHeader1"
+                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1))
+                Case "pbWidgetHeader2"
+                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2))
+                Case "pbWidgetMain1"
+                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor1))
+                Case "pbWidgetMain2"
+                    .Color = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DBCMainColor2))
+            End Select
+            dlgResult = .ShowDialog()
+        End With
+        If dlgResult = Windows.Forms.DialogResult.Cancel Then
+            Exit Sub
+        Else
+            thisPB.BackColor = cd1.Color
+            Select Case thisPB.Name
+                Case "pbDBColor"
+                    EveHQ.Core.HQ.EveHQSettings.DBColor = cd1.Color.ToArgb
+                Case "pbWidgetBorder"
+                    EveHQ.Core.HQ.EveHQSettings.DBCBorderColor = cd1.Color.ToArgb
+                Case "pbWidgetHeader1"
+                    EveHQ.Core.HQ.EveHQSettings.DBCHeadColor1 = cd1.Color.ToArgb
+                Case "pbWidgetHeader2"
+                    EveHQ.Core.HQ.EveHQSettings.DBCHeadColor2 = cd1.Color.ToArgb
+                Case "pbWidgetMain1"
+                    EveHQ.Core.HQ.EveHQSettings.DBCMainColor1 = cd1.Color.ToArgb
+                Case "pbWidgetMain2"
+                    EveHQ.Core.HQ.EveHQSettings.DBCMainColor2 = cd1.Color.ToArgb
+            End Select
+            ' Update the dashboard
+            frmDashboard.UpdateDashboardColours()
+        End If
+    End Sub
+
+#End Region
+
+
 End Class
