@@ -210,7 +210,7 @@ Partial Class DBCPilotInfo
         Me.pbConfig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.pbConfig.TabIndex = 13
         Me.pbConfig.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbConfig, "Click to configure the control")
+        Me.ToolTip1.SetToolTip(Me.pbConfig, "Double-click to configure the control")
         '
         'AGPHeader
         '
